@@ -65,7 +65,7 @@ export class CdkTramitacaoAutocompleteComponent implements OnInit {
                         this._changeDetectorRef.markForCheck();
                         const filterParam = {
                             ...this.pagination.filter,
-                            'observacao': `like:${value}%`
+                            ...termFilter
                         };
                         return this._tramitacaoService.query(
                             JSON.stringify(filterParam),

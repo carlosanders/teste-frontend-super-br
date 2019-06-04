@@ -65,7 +65,7 @@ export class CdkCargoAutocompleteComponent implements OnInit {
                         this._changeDetectorRef.markForCheck();
                         const filterParam = {
                             ...this.pagination.filter,
-                            'nome': `like:${value}%`
+                            ...termFilter
                         };
                         return this._cargoService.query(
                             JSON.stringify(filterParam),

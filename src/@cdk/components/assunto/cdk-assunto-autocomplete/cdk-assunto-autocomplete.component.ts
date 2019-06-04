@@ -65,7 +65,7 @@ export class CdkAssuntoAutocompleteComponent implements OnInit {
                         this._changeDetectorRef.markForCheck();
                         const filterParam = {
                             ...this.pagination.filter,
-                            'assuntoAdministrativo.nome': `like:${value}%`
+                            ...termFilter
                         };
                         return this._assuntoService.query(
                             JSON.stringify(filterParam),

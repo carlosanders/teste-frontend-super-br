@@ -65,7 +65,7 @@ export class CdkModalidadeTipoInibidorAutocompleteComponent implements OnInit {
                         this._changeDetectorRef.markForCheck();
                         const filterParam = {
                             ...this.pagination.filter,
-                            'valor': `like:${value}%`
+                            ...termFilter
                         };
                         return this._modalidadeTipoInibidorService.query(
                             JSON.stringify(filterParam),

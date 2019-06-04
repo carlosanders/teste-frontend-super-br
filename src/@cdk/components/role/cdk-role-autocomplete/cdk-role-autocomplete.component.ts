@@ -65,7 +65,7 @@ export class CdkRoleAutocompleteComponent implements OnInit {
                         this._changeDetectorRef.markForCheck();
                         const filterParam = {
                             ...this.pagination.filter,
-                            'name': `like:${value}%`
+                            ...termFilter
                         };
                         return this._roleService.query(
                             JSON.stringify(filterParam),

@@ -68,7 +68,7 @@ export class CdkEtiquetaAutocompleteComponent implements OnInit {
                         this._changeDetectorRef.markForCheck();
                         const filterParam = {
                             ...this.pagination.filter,
-                            'nome': `like:${value}%`
+                            ...termFilter
                         };
                         return this._etiquetaService.query(
                             JSON.stringify(filterParam),

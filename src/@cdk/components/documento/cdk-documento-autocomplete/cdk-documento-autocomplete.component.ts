@@ -60,13 +60,12 @@ export class CdkDocumentoAutocompleteComponent implements OnInit {
                             'tipoDocumento.nome': `like:%${bit}%`
                         };
                     });
-
                     if (typeof value === 'string') {
                         this.documentoListIsLoading = true;
                         this._changeDetectorRef.markForCheck();
                         const filterParam = {
                             ...this.pagination.filter,
-                            'tipoDocumento.nome': `like:${value}%`
+                            ...termFilter
                         };
                         return this._documentoService.query(
                             JSON.stringify(filterParam),

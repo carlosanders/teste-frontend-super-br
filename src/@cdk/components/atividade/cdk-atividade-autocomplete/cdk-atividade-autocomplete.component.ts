@@ -65,7 +65,7 @@ export class CdkAtividadeAutocompleteComponent implements OnInit {
                         this._changeDetectorRef.markForCheck();
                         const filterParam = {
                             ...this.pagination.filter,
-                            'especieAtividade.nome': `like:${value}%`
+                            ...termFilter
                         };
                         return this._atividadeService.query(
                             JSON.stringify(filterParam),

@@ -65,7 +65,7 @@ export class CdkGeneroProcessoAutocompleteComponent implements OnInit {
                         this._changeDetectorRef.markForCheck();
                         const filterParam = {
                             ...this.pagination.filter,
-                            'nome': `like:${value}%`
+                            ...termFilter
                         };
                         return this._generoProcessoService.query(
                             JSON.stringify(filterParam),

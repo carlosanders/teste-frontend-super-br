@@ -65,7 +65,7 @@ export class CdkVolumeAutocompleteComponent implements OnInit {
                         this._changeDetectorRef.markForCheck();
                         const filterParam = {
                             ...this.pagination.filter,
-                            'numeracaoSequencial': `like:${value}%`
+                            ...termFilter
                         };
                         return this._volumeService.query(
                             JSON.stringify(filterParam),

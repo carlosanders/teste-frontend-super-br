@@ -65,7 +65,7 @@ export class CdkVinculacaoProcessoAutocompleteComponent implements OnInit {
                         this._changeDetectorRef.markForCheck();
                         const filterParam = {
                             ...this.pagination.filter,
-                            'processo.NUP': `like:${value}%`
+                            ...termFilter
                         };
                         return this._vinculacaoProcessoService.query(
                             JSON.stringify(filterParam),

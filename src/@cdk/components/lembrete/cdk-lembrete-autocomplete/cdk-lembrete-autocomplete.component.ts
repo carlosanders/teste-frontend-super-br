@@ -65,7 +65,7 @@ export class CdkLembreteAutocompleteComponent implements OnInit {
                         this._changeDetectorRef.markForCheck();
                         const filterParam = {
                             ...this.pagination.filter,
-                            'conteudo': `like:${value}%`
+                            ...termFilter
                         };
                         return this._lembreteService.query(
                             JSON.stringify(filterParam),

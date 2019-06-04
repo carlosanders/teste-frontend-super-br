@@ -65,7 +65,7 @@ export class CdkGeneroDocumentoAvulsoAutocompleteComponent implements OnInit {
                         this._changeDetectorRef.markForCheck();
                         const filterParam = {
                             ...this.pagination.filter,
-                            'nome': `like:${value}%`
+                            ...termFilter
                         };
                         return this._generoDocumentoAvulsoService.query(
                             JSON.stringify(filterParam),

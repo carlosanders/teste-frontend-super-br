@@ -65,7 +65,7 @@ export class CdkVinculacaoModeloAutocompleteComponent implements OnInit {
                         this._changeDetectorRef.markForCheck();
                         const filterParam = {
                             ...this.pagination.filter,
-                            'modelo.nome': `like:${value}%`
+                            ...termFilter
                         };
                         return this._vinculacaoModeloService.query(
                             JSON.stringify(filterParam),

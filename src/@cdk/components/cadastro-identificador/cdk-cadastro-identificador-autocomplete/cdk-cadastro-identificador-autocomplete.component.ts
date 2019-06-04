@@ -65,7 +65,7 @@ export class CdkCadastroIdentificadorAutocompleteComponent implements OnInit {
                         this._changeDetectorRef.markForCheck();
                         const filterParam = {
                             ...this.pagination.filter,
-                            'numero': `like:${value}%`
+                            ...termFilter
                         };
                         return this._cadastroIdentificadorService.query(
                             JSON.stringify(filterParam),

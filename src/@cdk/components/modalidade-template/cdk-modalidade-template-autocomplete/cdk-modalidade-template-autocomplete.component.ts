@@ -65,7 +65,7 @@ export class CdkModalidadeTemplateAutocompleteComponent implements OnInit {
                         this._changeDetectorRef.markForCheck();
                         const filterParam = {
                             ...this.pagination.filter,
-                            'nome': `like:${value}%`
+                            ...termFilter
                         };
                         return this._modalidadeTemplateService.query(
                             JSON.stringify(filterParam),

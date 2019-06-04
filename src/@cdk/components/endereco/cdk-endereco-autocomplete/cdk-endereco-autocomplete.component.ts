@@ -65,7 +65,7 @@ export class CdkEnderecoAutocompleteComponent implements OnInit {
                         this._changeDetectorRef.markForCheck();
                         const filterParam = {
                             ...this.pagination.filter,
-                            'logradouro': `like:${value}%`
+                            ...termFilter
                         };
                         return this._enderecoService.query(
                             JSON.stringify(filterParam),

@@ -65,7 +65,7 @@ export class CdkRelevanciaAutocompleteComponent implements OnInit {
                         this._changeDetectorRef.markForCheck();
                         const filterParam = {
                             ...this.pagination.filter,
-                            'processo.NUP': `like:${value}%`
+                            ...termFilter
                         };
                         return this._relevanciaService.query(
                             JSON.stringify(filterParam),

@@ -65,7 +65,7 @@ export class CdkDocumentoIdentificadorAutocompleteComponent implements OnInit {
                         this._changeDetectorRef.markForCheck();
                         const filterParam = {
                             ...this.pagination.filter,
-                            'modalidadeDocumentoIdentificador.valor': `like:${value}%`
+                            ...termFilter
                         };
                         return this._documentoIdentificadorService.query(
                             JSON.stringify(filterParam),

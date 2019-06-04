@@ -65,7 +65,7 @@ export class CdkAreaTrabalhoAutocompleteComponent implements OnInit {
                         this._changeDetectorRef.markForCheck();
                         const filterParam = {
                             ...this.pagination.filter,
-                            'usuario.nome': `like:${value}%`
+                            ...termFilter
                         };
                         return this._areaTrabalhoService.query(
                             JSON.stringify(filterParam),

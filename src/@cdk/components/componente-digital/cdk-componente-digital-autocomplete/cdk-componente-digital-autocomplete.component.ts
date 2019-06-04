@@ -65,7 +65,7 @@ export class CdkComponenteDigitalAutocompleteComponent implements OnInit {
                         this._changeDetectorRef.markForCheck();
                         const filterParam = {
                             ...this.pagination.filter,
-                            'fileName': `like:${value}%`
+                            ...termFilter
                         };
                         return this._componenteDigitalService.query(
                             JSON.stringify(filterParam),
