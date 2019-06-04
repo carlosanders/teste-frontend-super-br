@@ -30,7 +30,7 @@ export class CdkNotificacaoGridComponent implements AfterViewInit, OnInit, OnCha
     loading = false;
 
     @Input()
-    notificacaos: Notificacao[];
+    notificacoes: Notificacao[];
 
     @Input()
     total = 0;
@@ -91,11 +91,11 @@ export class CdkNotificacaoGridComponent implements AfterViewInit, OnInit, OnCha
         private _changeDetectorRef: ChangeDetectorRef
     ) {
         this.gridFilter = {};
-        this.notificacaos = [];
+        this.notificacoes = [];
     }
 
     ngOnChanges(): void {
-        this.dataSource = new NotificacaoDataSource(of(this.notificacaos));
+        this.dataSource = new NotificacaoDataSource(of(this.notificacoes));
         this.paginator.length = this.total;
     }
 
@@ -107,7 +107,7 @@ export class CdkNotificacaoGridComponent implements AfterViewInit, OnInit, OnCha
 
         this.paginator.pageSize = this.pageSize;
 
-        this.dataSource = new NotificacaoDataSource(of(this.notificacaos));
+        this.dataSource = new NotificacaoDataSource(of(this.notificacoes));
     }
 
     ngAfterViewInit(): void {
@@ -151,8 +151,8 @@ export class CdkNotificacaoGridComponent implements AfterViewInit, OnInit, OnCha
         this.delete.emit(notificacaoId);
     }
 
-    deleteNotificacaos(notificacaosId): void {
-        notificacaosId.forEach(notificacaoId => this.deleteNotificacao(notificacaoId));
+    deleteNotificacoes(notificacoesId): void {
+        notificacoesId.forEach(notificacaoId => this.deleteNotificacao(notificacaoId));
     }
 
     /**
@@ -174,7 +174,7 @@ export class CdkNotificacaoGridComponent implements AfterViewInit, OnInit, OnCha
      * Select all
      */
     selectAll(): void {
-        const arr = Object.keys(this.notificacaos).map(k => this.notificacaos[k]);
+        const arr = Object.keys(this.notificacoes).map(k => this.notificacoes[k]);
         this.selectedIds = arr.map(notificacao => notificacao.id);
         this.recompute();
     }
@@ -200,7 +200,7 @@ export class CdkNotificacaoGridComponent implements AfterViewInit, OnInit, OnCha
 
     recompute(): void {
         this.hasSelected = this.selectedIds.length > 0;
-        this.isIndeterminate = (this.selectedIds.length !== this.notificacaos.length && this.selectedIds.length > 0);
+        this.isIndeterminate = (this.selectedIds.length !== this.notificacoes.length && this.selectedIds.length > 0);
     }
 
     setGridFilter(gridFilter): void {

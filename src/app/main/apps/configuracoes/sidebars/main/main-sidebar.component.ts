@@ -27,9 +27,9 @@ export class ConfiguracoesMainSidebarComponent implements OnInit, OnDestroy {
                 'link': 'perfil'
             },
             {
-                'nome': 'Interface',
-                'icon': 'desktop_windows',
-                'link': 'interface'
+                'nome': 'Segurança',
+                'icon': 'security',
+                'link': 'seguranca'
             },
             {
                 'nome': 'Lotações',
@@ -37,9 +37,19 @@ export class ConfiguracoesMainSidebarComponent implements OnInit, OnDestroy {
                 'link': 'lotacoes'
             },
             {
+                'nome': 'Analistas',
+                'icon': 'group',
+                'link': 'analistas'
+            },
+            {
                 'nome': 'Modelos',
                 'icon': 'file_copy',
                 'link': 'modelos'
+            },
+            {
+                'nome': 'Repositórios',
+                'icon': 'add_comment',
+                'link': 'repositorios'
             },
             {
                 'nome': 'Pastas',
@@ -49,7 +59,7 @@ export class ConfiguracoesMainSidebarComponent implements OnInit, OnDestroy {
             {
                 'nome': 'Etiquetas',
                 'icon': 'label',
-                'link': 'etiqueta'
+                'link': 'etiquetas'
             }
         ];
     }

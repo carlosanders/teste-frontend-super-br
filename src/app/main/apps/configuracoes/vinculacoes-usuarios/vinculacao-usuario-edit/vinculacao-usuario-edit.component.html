@@ -1,0 +1,7 @@
+<cdk-vinculacao-usuario-form
+        [vinculacaoUsuario]="vinculacaoUsuario"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        [usuarioVinculadoPagination]="usuarioVinculadoPagination"
+        (save)="submit($event)">
+</cdk-vinculacao-usuario-form>

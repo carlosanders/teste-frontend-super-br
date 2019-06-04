@@ -1,0 +1,7 @@
+<cdk-repositorio-form
+        [repositorio]="repositorio"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        [modalidadeRepositorioPagination]="modalidadeRepositorioPagination"
+        (save)="submit($event)">
+</cdk-repositorio-form>

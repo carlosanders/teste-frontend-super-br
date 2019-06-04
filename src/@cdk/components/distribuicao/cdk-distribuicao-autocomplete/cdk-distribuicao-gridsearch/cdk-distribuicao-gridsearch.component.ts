@@ -34,7 +34,7 @@ export class CdkDistribuicaoGridsearchComponent {
     @Output()
     cancel = new EventEmitter();
 
-    distribuicaos: Distribuicao[];
+    distribuicoes: Distribuicao[];
 
     total = 0;
 
@@ -70,7 +70,7 @@ export class CdkDistribuicaoGridsearchComponent {
                 finalize(() => this.loading = false),
                 catchError(() => of([]))
             ).subscribe(response => {
-            this.distribuicaos = response['entities'];
+            this.distribuicoes = response['entities'];
             this.total = response['total'];
             this._changeDetectorRef.markForCheck();
         });

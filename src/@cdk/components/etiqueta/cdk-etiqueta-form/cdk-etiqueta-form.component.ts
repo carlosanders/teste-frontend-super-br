@@ -10,6 +10,8 @@ import {
 import { fuseAnimations } from '@fuse/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { Etiqueta } from '@cdk/models/etiqueta.model';
+import {Pagination} from '@cdk/models/pagination';
+import {ModalidadeEtiqueta} from '@cdk/models/modalidade-etiqueta.model';
 
 @Component({
     selector: 'cdk-etiqueta-form',
@@ -37,6 +39,9 @@ export class CdkEtiquetaFormComponent implements OnChanges, OnDestroy {
 
     activeCard = 'form';
 
+    @Input()
+    modalidadeEtiquetaPagination: Pagination;
+
     /**
      * Constructor
      */
@@ -49,8 +54,10 @@ export class CdkEtiquetaFormComponent implements OnChanges, OnDestroy {
             'id': [null],
             'ativo': [null],
             'nome': [null, [Validators.required]],
-            'conteudo': [null, [Validators.required]]
+            'modalidadeEtiqueta': [null, [Validators.required]],
         });
+
+        this.modalidadeEtiquetaPagination = new Pagination();
 
     }
 
@@ -90,6 +97,23 @@ export class CdkEtiquetaFormComponent implements OnChanges, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
+
+    checkModalidadeEtiqueta(): void {
+        const value = this.form.get('modalidadeEtiqueta').value;
+        if (!value || typeof value !== 'object') {
+            this.form.get('modalidadeEtiqueta').setValue(null);
+        }
+    }
+
+    selectModalidadeEtiqueta(modalidadeetiqueta: ModalidadeEtiqueta): void {
+        this.form.get('modalidadeEtiqueta').setValue(modalidadeetiqueta);
+        this.activeCard = 'form';
+    }
+
+    showModalidadeEtiquetaGrid(): void {
+        this.activeCard = 'modalidade-etiqueta-gridsearch';
+    }
+
     submit(): void {
         if (this.form.valid) {
             this.save.emit(this.form.value);

@@ -30,7 +30,7 @@ export class CdkModalidadeNotificacaoGridComponent implements AfterViewInit, OnI
     loading = false;
 
     @Input()
-    modalidadenotificacaos: ModalidadeNotificacao[];
+    modalidadenotificacoes: ModalidadeNotificacao[];
 
     @Input()
     total = 0;
@@ -90,11 +90,11 @@ export class CdkModalidadeNotificacaoGridComponent implements AfterViewInit, OnI
         private _changeDetectorRef: ChangeDetectorRef
     ) {
         this.gridFilter = {};
-        this.modalidadenotificacaos = [];
+        this.modalidadenotificacoes = [];
     }
 
     ngOnChanges(): void {
-        this.dataSource = new ModalidadeNotificacaoDataSource(of(this.modalidadenotificacaos));
+        this.dataSource = new ModalidadeNotificacaoDataSource(of(this.modalidadenotificacoes));
         this.paginator.length = this.total;
     }
 
@@ -106,7 +106,7 @@ export class CdkModalidadeNotificacaoGridComponent implements AfterViewInit, OnI
 
         this.paginator.pageSize = this.pageSize;
 
-        this.dataSource = new ModalidadeNotificacaoDataSource(of(this.modalidadenotificacaos));
+        this.dataSource = new ModalidadeNotificacaoDataSource(of(this.modalidadenotificacoes));
     }
 
     ngAfterViewInit(): void {
@@ -150,8 +150,8 @@ export class CdkModalidadeNotificacaoGridComponent implements AfterViewInit, OnI
         this.delete.emit(modalidadenotificacaoId);
     }
 
-    deleteModalidadeNotificacaos(modalidadenotificacaosId): void {
-        modalidadenotificacaosId.forEach(modalidadenotificacaoId => this.deleteModalidadeNotificacao(modalidadenotificacaoId));
+    deleteModalidadeNotificacoes(modalidadenotificacoesId): void {
+        modalidadenotificacoesId.forEach(modalidadenotificacaoId => this.deleteModalidadeNotificacao(modalidadenotificacaoId));
     }
 
     /**
@@ -173,7 +173,7 @@ export class CdkModalidadeNotificacaoGridComponent implements AfterViewInit, OnI
      * Select all
      */
     selectAll(): void {
-        const arr = Object.keys(this.modalidadenotificacaos).map(k => this.modalidadenotificacaos[k]);
+        const arr = Object.keys(this.modalidadenotificacoes).map(k => this.modalidadenotificacoes[k]);
         this.selectedIds = arr.map(modalidadenotificacao => modalidadenotificacao.id);
         this.recompute();
     }
@@ -199,7 +199,7 @@ export class CdkModalidadeNotificacaoGridComponent implements AfterViewInit, OnI
 
     recompute (): void {
         this.hasSelected = this.selectedIds.length > 0;
-        this.isIndeterminate = (this.selectedIds.length !== this.modalidadenotificacaos.length && this.selectedIds.length > 0);
+        this.isIndeterminate = (this.selectedIds.length !== this.modalidadenotificacoes.length && this.selectedIds.length > 0);
     }
 
     setGridFilter (gridFilter): void {

@@ -34,7 +34,7 @@ export class CdkModalidadeNotificacaoGridsearchComponent {
     @Output()
     cancel = new EventEmitter();
 
-    modalidadenotificacaos: ModalidadeNotificacao[];
+    modalidadenotificacoes: ModalidadeNotificacao[];
 
     total = 0;
 
@@ -70,7 +70,7 @@ export class CdkModalidadeNotificacaoGridsearchComponent {
                 finalize(() => this.loading = false),
                 catchError(() => of([]))
             ).subscribe(response => {
-                this.modalidadenotificacaos = response['entities'];
+                this.modalidadenotificacoes = response['entities'];
                 this.total = response['total'];
                 this._changeDetectorRef.markForCheck();
             });

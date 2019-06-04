@@ -30,7 +30,7 @@ export class CdkDistribuicaoGridComponent implements AfterViewInit, OnInit, OnCh
     loading = false;
 
     @Input()
-    distribuicaos: Distribuicao[];
+    distribuicoes: Distribuicao[];
 
     @Input()
     total = 0;
@@ -92,11 +92,11 @@ export class CdkDistribuicaoGridComponent implements AfterViewInit, OnInit, OnCh
         private _changeDetectorRef: ChangeDetectorRef
     ) {
         this.gridFilter = {};
-        this.distribuicaos = [];
+        this.distribuicoes = [];
     }
 
     ngOnChanges(): void {
-        this.dataSource = new DistribuicaoDataSource(of(this.distribuicaos));
+        this.dataSource = new DistribuicaoDataSource(of(this.distribuicoes));
         this.paginator.length = this.total;
     }
 
@@ -108,7 +108,7 @@ export class CdkDistribuicaoGridComponent implements AfterViewInit, OnInit, OnCh
 
         this.paginator.pageSize = this.pageSize;
 
-        this.dataSource = new DistribuicaoDataSource(of(this.distribuicaos));
+        this.dataSource = new DistribuicaoDataSource(of(this.distribuicoes));
     }
 
     ngAfterViewInit(): void {
@@ -152,8 +152,8 @@ export class CdkDistribuicaoGridComponent implements AfterViewInit, OnInit, OnCh
         this.delete.emit(distribuicaoId);
     }
 
-    deleteDistribuicaos(distribuicaosId): void {
-        distribuicaosId.forEach(distribuicaoId => this.deleteDistribuicao(distribuicaoId));
+    deleteDistribuicoes(distribuicoesId): void {
+        distribuicoesId.forEach(distribuicaoId => this.deleteDistribuicao(distribuicaoId));
     }
 
     /**
@@ -175,7 +175,7 @@ export class CdkDistribuicaoGridComponent implements AfterViewInit, OnInit, OnCh
      * Select all
      */
     selectAll(): void {
-        const arr = Object.keys(this.distribuicaos).map(k => this.distribuicaos[k]);
+        const arr = Object.keys(this.distribuicoes).map(k => this.distribuicoes[k]);
         this.selectedIds = arr.map(distribuicao => distribuicao.id);
         this.recompute();
     }
@@ -201,7 +201,7 @@ export class CdkDistribuicaoGridComponent implements AfterViewInit, OnInit, OnCh
 
     recompute(): void {
         this.hasSelected = this.selectedIds.length > 0;
-        this.isIndeterminate = (this.selectedIds.length !== this.distribuicaos.length && this.selectedIds.length > 0);
+        this.isIndeterminate = (this.selectedIds.length !== this.distribuicoes.length && this.selectedIds.length > 0);
     }
 
     setGridFilter(gridFilter): void {
