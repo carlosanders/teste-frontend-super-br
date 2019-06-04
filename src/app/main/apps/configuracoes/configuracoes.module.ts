@@ -30,6 +30,10 @@ const routes: Routes = [
                 loadChildren: './lotacoes/lotacoes.module#LotacoesModule'
             },
             {
+                path       : 'notificacoes',
+                loadChildren: './notificacoes/notificacoes.module#NotificacoesModule'
+            },
+            {
                 path       : 'analistas',
                 loadChildren: './vinculacoes-usuarios/vinculacoes-usuarios.module#VinculacoesUsuariosModule'
             },

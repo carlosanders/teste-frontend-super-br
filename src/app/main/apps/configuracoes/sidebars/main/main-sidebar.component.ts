@@ -52,6 +52,11 @@ export class ConfiguracoesMainSidebarComponent implements OnInit, OnDestroy {
                 'link': 'repositorios'
             },
             {
+                'nome': 'Notificações',
+                'icon': 'notifications',
+                'link': 'notificacoes'
+            },
+            {
                 'nome': 'Pastas',
                 'icon': 'folder',
                 'link': 'pastas'
