@@ -30,7 +30,7 @@ export class CdkModalidadeDestinacaoGridComponent implements AfterViewInit, OnIn
     loading = false;
 
     @Input()
-    modalidadedestinacaos: ModalidadeDestinacao[];
+    modalidadedestinacoes: ModalidadeDestinacao[];
 
     @Input()
     total = 0;
@@ -90,11 +90,11 @@ export class CdkModalidadeDestinacaoGridComponent implements AfterViewInit, OnIn
         private _changeDetectorRef: ChangeDetectorRef
     ) {
         this.gridFilter = {};
-        this.modalidadedestinacaos = [];
+        this.modalidadedestinacoes = [];
     }
 
     ngOnChanges(): void {
-        this.dataSource = new ModalidadeDestinacaoDataSource(of(this.modalidadedestinacaos));
+        this.dataSource = new ModalidadeDestinacaoDataSource(of(this.modalidadedestinacoes));
         this.paginator.length = this.total;
     }
 
@@ -106,7 +106,7 @@ export class CdkModalidadeDestinacaoGridComponent implements AfterViewInit, OnIn
 
         this.paginator.pageSize = this.pageSize;
 
-        this.dataSource = new ModalidadeDestinacaoDataSource(of(this.modalidadedestinacaos));
+        this.dataSource = new ModalidadeDestinacaoDataSource(of(this.modalidadedestinacoes));
     }
 
     ngAfterViewInit(): void {
@@ -150,8 +150,8 @@ export class CdkModalidadeDestinacaoGridComponent implements AfterViewInit, OnIn
         this.delete.emit(modalidadedestinacaoId);
     }
 
-    deleteModalidadeDestinacaos(modalidadedestinacaosId): void {
-        modalidadedestinacaosId.forEach(modalidadedestinacaoId => this.deleteModalidadeDestinacao(modalidadedestinacaoId));
+    deleteModalidadeDestinacoes(modalidadedestinacoesId): void {
+        modalidadedestinacoesId.forEach(modalidadedestinacaoId => this.deleteModalidadeDestinacao(modalidadedestinacaoId));
     }
 
     /**
@@ -173,7 +173,7 @@ export class CdkModalidadeDestinacaoGridComponent implements AfterViewInit, OnIn
      * Select all
      */
     selectAll(): void {
-        const arr = Object.keys(this.modalidadedestinacaos).map(k => this.modalidadedestinacaos[k]);
+        const arr = Object.keys(this.modalidadedestinacoes).map(k => this.modalidadedestinacoes[k]);
         this.selectedIds = arr.map(modalidadedestinacao => modalidadedestinacao.id);
         this.recompute();
     }
@@ -199,7 +199,7 @@ export class CdkModalidadeDestinacaoGridComponent implements AfterViewInit, OnIn
 
     recompute (): void {
         this.hasSelected = this.selectedIds.length > 0;
-        this.isIndeterminate = (this.selectedIds.length !== this.modalidadedestinacaos.length && this.selectedIds.length > 0);
+        this.isIndeterminate = (this.selectedIds.length !== this.modalidadedestinacoes.length && this.selectedIds.length > 0);
     }
 
     setGridFilter (gridFilter): void {

@@ -34,7 +34,7 @@ export class CdkModalidadeDestinacaoGridsearchComponent {
     @Output()
     cancel = new EventEmitter();
 
-    modalidadedestinacaos: ModalidadeDestinacao[];
+    modalidadedestinacoes: ModalidadeDestinacao[];
 
     total = 0;
 
@@ -70,7 +70,7 @@ export class CdkModalidadeDestinacaoGridsearchComponent {
                 finalize(() => this.loading = false),
                 catchError(() => of([]))
             ).subscribe(response => {
-                this.modalidadedestinacaos = response['entities'];
+                this.modalidadedestinacoes = response['entities'];
                 this.total = response['total'];
                 this._changeDetectorRef.markForCheck();
             });

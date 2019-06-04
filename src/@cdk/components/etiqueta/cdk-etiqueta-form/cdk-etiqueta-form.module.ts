@@ -13,6 +13,8 @@ import {
 
 import { FuseSharedModule } from '@fuse/shared.module';
 import { CdkEtiquetaFormComponent } from './cdk-etiqueta-form.component';
+import {CdkModalidadeEtiquetaAutocompleteModule} from '../../modalidade-etiqueta/cdk-modalidade-etiqueta-autocomplete/cdk-modalidade-etiqueta-autocomplete.module';
+import {CdkModalidadeEtiquetaGridsearchModule} from '../../modalidade-etiqueta/cdk-modalidade-etiqueta-autocomplete/cdk-modalidade-etiqueta-gridsearch/cdk-modalidade-etiqueta-gridsearch.module';
 
 @NgModule({
     declarations: [
@@ -28,6 +30,9 @@ import { CdkEtiquetaFormComponent } from './cdk-etiqueta-form.component';
         MatInputModule,
         MatProgressSpinnerModule,
         MatDatepickerModule,
+
+        CdkModalidadeEtiquetaAutocompleteModule,
+        CdkModalidadeEtiquetaGridsearchModule,
 
         FuseSharedModule,
     ],

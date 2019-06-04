@@ -1,0 +1,6 @@
+<cdk-perfil-form
+        [colaborador]="colaborador"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        (save)="submit($event)">
+</cdk-perfil-form>

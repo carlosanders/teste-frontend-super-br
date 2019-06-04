@@ -18,8 +18,23 @@
 
         <mat-form-field fxFlex="100">
             <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Conteúdo" formControlName="conteudo" required>
+                <input matInput placeholder="Modalidade"
+                       formControlName="modalidadeEtiqueta"
+                       [matAutocomplete]="modalidadeetiqueta.autocomplete"
+                       (blur)="checkModalidadeEtiqueta()">
             </div>
+            <cdk-modalidade-etiqueta-autocomplete
+                #modalidadeetiqueta="modalidadeEtiquetaAutocomplete"
+                [control]="form.get('modalidadeEtiqueta')"
+                [pagination]="modalidadeEtiquetaPagination">
+            </cdk-modalidade-etiqueta-autocomplete>
+            <button matSuffix mat-button mat-icon-button
+                    (click)="showModalidadeEtiquetaGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('modalidadeEtiqueta').hasError('formError')">
+                {{form.get('modalidadeEtiqueta').errors.formError}}
+            </mat-error>
         </mat-form-field>
 
     </div>
@@ -39,3 +54,10 @@
         <mat-spinner color="accent" diameter="24"></mat-spinner>
     </div>
 </form>
+
+<cdk-modalidade-etiqueta-gridsearch
+        fxFlex="1 0 auto"
+        *ngIf="activeCard === 'modalidade-etiqueta-gridsearch'"
+        (selected)="selectModalidadeEtiqueta($event)"
+        (cancel)="cancel()">
+</cdk-modalidade-etiqueta-gridsearch>
