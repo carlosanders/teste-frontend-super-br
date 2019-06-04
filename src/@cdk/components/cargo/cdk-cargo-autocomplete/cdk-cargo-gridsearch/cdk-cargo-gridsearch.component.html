@@ -1,0 +1,9 @@
+<cdk-cargo-grid
+        [loading]="loading"
+        [cargos]="cargos"
+        [total]="total"
+        [actions]="['select', 'cancel']"
+        (select)="select($event)"
+        (cancel)="doCancel()"
+        (reload)="reload($event)">
+</cdk-cargo-grid>

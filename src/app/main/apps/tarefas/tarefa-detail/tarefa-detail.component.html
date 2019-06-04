@@ -1,0 +1,88 @@
+<div id="tarefa-detail" class="page-layout simple">
+
+    <div *ngIf="(tarefa$ | async)" fxFlex fxLayout="column">
+
+        <div class="tarefa-header">
+
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <div>
+                    <button *ngIf="(maximizado$ | async)" mat-icon-button (click)="deselectCurrentTarefa()">
+                        <mat-icon class="secondary-text">arrow_back</mat-icon>
+                    </button>
+
+                    <button *ngIf="!(maximizado$ | async)" mat-icon-button (click)="doToggleMaximizado()">
+                        <mat-icon class="secondary-text">zoom_out_map</mat-icon>
+                    </button>
+                </div>
+
+                {{(tarefa$ | async).especieTarefa.nome}}
+                NO NUP {{(tarefa$ | async).processo.NUP | formatNup}}
+                ATÉ {{(tarefa$ | async).dataHoraFinalPrazo | date: 'dd/MM/yyyy'}}
+
+                <div class="actions" fxLayout="row" fxLayoutAlign="start center">
+
+                    <button mat-icon-button aria-label="Visualizar Processo" matTooltip="Ler Processo"
+                            [routerLink]="['processo', (tarefa$ | async).processo.id]"
+                            [routerLinkActive]="['active', 'accent']">
+                        <mat-icon class="black-fg">book</mat-icon>
+                    </button>
+
+                    <button mat-icon-button aria-label="Movimentar" matTooltip="Movimentar"
+                            [routerLink]="'atividades/criar'"
+                            [routerLinkActive]="['active', 'accent']">
+                        <mat-icon class="black-fg">send</mat-icon>
+                    </button>
+
+                    <button mat-icon-button aria-label="Editar Tarefa" matTooltip="Editar Tarefa"
+                            [routerLink]="'editar'"
+                            [routerLinkActive]="['active', 'accent']">
+                        <mat-icon class="black-fg">edit</mat-icon>
+                    </button>
+
+                    <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="Mais Ferramentas"
+                            (click)="$event.stopPropagation()"
+                            fxHide.xs>
+                        <mat-icon class="secondary-text">more_vert</mat-icon>
+                    </button>
+
+                    <mat-menu #moreMenu="matMenu">
+
+                        <button mat-menu-item aria-label="toggle done"
+                                [routerLink]="['processo', (tarefa$ | async).processo.id, 'editar']">
+                            <ng-container>
+                                <mat-icon>edit</mat-icon>
+                                <span>Editar Processo</span>
+                            </ng-container>
+                        </button>
+
+                        <button mat-menu-item aria-label="toggle done">
+                            <ng-container>
+                                <mat-icon>check_box</mat-icon>
+                                <span>Criar Tarefa</span>
+                            </ng-container>
+                        </button>
+
+                        <button mat-menu-item aria-label="Compartilhar"
+                                [routerLink]="'compartilhamentos/criar'">
+                            <ng-container>
+                                <mat-icon>share</mat-icon>
+                                <span>Compartilhar</span>
+                            </ng-container>
+                        </button>
+
+                    </mat-menu>
+                </div>
+            </div>
+
+            <cdk-vinculacao-etiqueta-chips class="mr-24 ml-24"
+                                           [vinculacoesEtiquetas]="(tarefa$ | async).vinculacoesEtiquetas"
+                                           (create)="onEtiquetaCreate($event)"
+                                           (delete)="onEtiquetaDelete($event)"></cdk-vinculacao-etiqueta-chips>
+
+        </div>
+
+        <div class="tarefa-content" fusePerfectScrollbar>
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,14 @@
+cdk-documento-avulso-form {
+
+  .form-card {
+    border-radius: 8px;
+  }
+
+  .form-errors-model {
+    flex: 1;
+
+    code {
+      background: none !important;
+    }
+  }
+}

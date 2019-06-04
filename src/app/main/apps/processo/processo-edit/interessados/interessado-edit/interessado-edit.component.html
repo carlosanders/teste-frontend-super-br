@@ -1,0 +1,6 @@
+<cdk-interessado-form
+        [interessado]="interessado"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        (save)="submit($event)">
+</cdk-interessado-form>

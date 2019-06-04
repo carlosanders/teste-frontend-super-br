@@ -1,0 +1,9 @@
+<mat-autocomplete [displayWith]="displayTemplateFn">
+    <mat-option *ngFor="let template of templateList"
+                [value]="template">
+        <span [innerHTML]="displayTemplateFn(template) | highlightOption: this.control.value"></span>
+    </mat-option>
+    <mat-option *ngIf="templateListIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>

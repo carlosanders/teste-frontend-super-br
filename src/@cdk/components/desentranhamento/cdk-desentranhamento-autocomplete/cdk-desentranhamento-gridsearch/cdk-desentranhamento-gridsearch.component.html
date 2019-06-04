@@ -1,0 +1,9 @@
+d<cdk-desentranhamento-grid
+        [loading]="loading"
+        [desentranhamentos]="desentranhamentos"
+        [total]="total"
+        [actions]="['select', 'cancel']"
+        (select)="select($event)"
+        (cancel)="doCancel()"
+        (reload)="reload($event)">
+</cdk-desentranhamento-grid>

@@ -1,0 +1,9 @@
+<mat-autocomplete [displayWith]="displayAfastamentoFn">
+    <mat-option *ngFor="let afastamento of afastamentoList"
+                [value]="afastamento">
+        <span [innerHTML]="displayAfastamentoFn(afastamento) | highlightOption: this.control.value"></span>
+    </mat-option>
+    <mat-option *ngIf="afastamentoListIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>

@@ -1,0 +1,9 @@
+<mat-autocomplete [displayWith]="displayPessoaFn">
+    <mat-option *ngFor="let pessoa of pessoaList"
+                [value]="pessoa">
+        <span [innerHTML]="displayPessoaFn(pessoa) | highlightOption: this.control.value"></span>
+    </mat-option>
+    <mat-option *ngIf="pessoaListIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>

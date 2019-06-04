@@ -1,0 +1,245 @@
+<form *ngIf="activeCard === 'form'" class="p-16" fxLayoutGap="36px"
+      fxLayout="column"
+      fxLayoutAlign="start"
+      fxFlex="1 0 auto" name="form" [formGroup]="form" (submit)="submit()">
+
+    <div fxFlex="1 0 auto" fxLayout="column">
+
+        <mat-slide-toggle formControlName="urgente"
+                      class="mr-16 mb-16" fxFlex="0 1 auto">
+            Urgente
+        </mat-slide-toggle>
+
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Processo"
+                       formControlName="processo"
+                       [matAutocomplete]="processo.autocomplete" required
+                       (blur)="checkProcesso()">
+            </div>
+            <cdk-processo-autocomplete
+                #processo="processoAutocomplete"
+                [control]="form.get('processo')"
+                [pagination]="processoPagination">
+            </cdk-processo-autocomplete>
+            <button *ngIf="form.get('processo').enabled" matSuffix mat-button mat-icon-button
+                    (click)="showProcessoGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('processo').hasError('formError')">
+                {{form.get('processo').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Espécie de Tarefa"
+                       formControlName="especieTarefa"
+                       [matAutocomplete]="especieTarefa.autocomplete" required
+                       (blur)="checkEspecieTarefa()">
+            </div>
+            <cdk-especie-tarefa-autocomplete
+                #especieTarefa="especieTarefaAutocomplete"
+                [control]="form.get('especieTarefa')"
+                [pagination]="especieTarefaPagination">
+            </cdk-especie-tarefa-autocomplete>
+            <button matSuffix mat-button mat-icon-button
+                    (click)="showEspecieTarefaGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('especieTarefa').hasError('formError')">
+                {{form.get('especieTarefa').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-slide-toggle formControlName="distribuicaoAutomatica"
+                      class="mr-16 mb-16" fxFlex="0 1 auto">
+            Distribuição Automática
+        </mat-slide-toggle>
+
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Unidade Responsável"
+                       formControlName="unidadeResponsavel"
+                       [matAutocomplete]="unidadeResponsavel.autocomplete" required
+                       (blur)="checkUnidadeResponsavel()">
+                <mat-option *ngIf="unidadeResponsavelListIsLoading">
+                    <mat-spinner diameter="16"></mat-spinner>
+                </mat-option>
+            </div>
+            <cdk-setor-autocomplete
+                #unidadeResponsavel="setorAutocomplete"
+                [control]="form.get('unidadeResponsavel')"
+                [pagination]="unidadeResponsavelPagination">
+            </cdk-setor-autocomplete>
+            <button matSuffix mat-button mat-icon-button
+                    (click)="showUnidadeResponsavelGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('unidadeResponsavel').hasError('formError')">
+                {{form.get('unidadeResponsavel').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100" *ngIf="!form.get('setorResponsavel').disabled">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Setor Responsável"
+                       formControlName="setorResponsavel"
+                       [matAutocomplete]="setor.autocomplete" required
+                       (blur)="checkSetorResponsavel()">
+                <mat-option *ngIf="setorResponsavelListIsLoading">
+                    <mat-spinner diameter="16"></mat-spinner>
+                </mat-option>
+            </div>
+            <cdk-setor-autocomplete
+                #setor="setorAutocomplete"
+                [control]="form.get('setorResponsavel')"
+                [pagination]="setorResponsavelPagination">
+            </cdk-setor-autocomplete>
+            <button *ngIf="form.get('setorResponsavel').enabled" matSuffix mat-button mat-icon-button
+                    (click)="showSetorResponsavelGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('setorResponsavel').hasError('formError')">
+                {{form.get('setorResponsavel').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100" *ngIf="!form.get('usuarioResponsavel').disabled">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Usuário Responsável"
+                       formControlName="usuarioResponsavel"
+                       [matAutocomplete]="usuario.autocomplete" required
+                       (blur)="checkUsuarioResponsavel()">
+            </div>
+            <cdk-usuario-autocomplete
+                #usuario="usuarioAutocomplete"
+                [control]="form.get('usuarioResponsavel')"
+                [pagination]="usuarioResponsavelPagination">
+            </cdk-usuario-autocomplete>
+            <button *ngIf="form.get('usuarioResponsavel').enabled" matSuffix mat-button mat-icon-button
+                    (click)="showUsuarioGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('usuarioResponsavel').hasError('formError')">
+                {{form.get('usuarioResponsavel').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
+        <div class="dates" fxLayout="row">
+            <mat-form-field class="mr-sm-12" fxFlex>
+                <mat-label>Início do Prazo</mat-label>
+                <input matInput formControlName="dataHoraInicioPrazo" [matDatetimepicker]="dataHoraInicioPrazo"
+                       required>
+                <mat-datetimepicker-toggle matSuffix [for]="dataHoraInicioPrazo"></mat-datetimepicker-toggle>
+                <mat-datetimepicker #dataHoraInicioPrazo type="datetime" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
+            </mat-form-field>
+
+            <mat-form-field class="mr-sm-12" fxFlex>
+                <mat-label>Final do Prazo</mat-label>
+                <input matInput formControlName="dataHoraFinalPrazo" [matDatetimepicker]="dataHoraFinalPrazo"
+                       required>
+                <mat-datetimepicker-toggle matSuffix [for]="dataHoraFinalPrazo"></mat-datetimepicker-toggle>
+                <mat-datetimepicker #dataHoraFinalPrazo type="datetime" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
+            </mat-form-field>
+
+        </div>
+
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Setor Origem"
+                       formControlName="setorOrigem"
+                       [matAutocomplete]="setorOrigem.autocomplete" required
+                       (blur)="checkSetorOrigem()">
+                <mat-option *ngIf="setorOrigemListIsLoading">
+                    <mat-spinner diameter="16"></mat-spinner>
+                </mat-option>
+            </div>
+            <cdk-setor-autocomplete
+                #setorOrigem="setorAutocomplete"
+                [control]="form.get('setorOrigem')"
+                [pagination]="setorOrigemPagination">
+            </cdk-setor-autocomplete>
+            <button matSuffix mat-button mat-icon-button
+                    (click)="showSetorOrigemGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('setorOrigem').hasError('formError')">
+                {{form.get('setorOrigem').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="mr-16" fxFlex="1 0 auto">
+            <textarea formControlName="observacao"
+                      matInput placeholder="Observação" upperCase></textarea>
+            <mat-error *ngIf="form.get('observacao').hasError('formError')">
+                {{form.get('observacao').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
+    </div>
+
+    <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+
+    <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-8 mb-8" fxFlex
+         fxLayoutAlign="center center">
+        <button type="submit" mat-raised-button color="accent" class="mr-sm-12"
+                [disabled]="form.invalid">
+            SALVAR
+        </button>
+    </div>
+
+    <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+         fxLayoutAlign="center center">
+        <mat-spinner color="accent" diameter="24"></mat-spinner>
+    </div>
+</form>
+
+<cdk-processo-gridsearch
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'processo-gridsearch'"
+    [filter]="processoPagination.filter"
+    (selected)="selectProcesso($event)"
+    (cancel)="cancel()">
+</cdk-processo-gridsearch>
+
+<cdk-especie-tarefa-gridsearch
+        fxFlex="1 0 auto"
+        *ngIf="activeCard === 'especie-tarefa-gridsearch'"
+        [filter]="especieTarefaPagination.filter"
+        (selected)="selectEspecieTarefa($event)"
+        (cancel)="cancel()">
+</cdk-especie-tarefa-gridsearch>
+
+<cdk-setor-gridsearch
+        fxFlex="1 0 auto"
+        *ngIf="activeCard === 'unidade-gridsearch'"
+        [filter]="unidadeResponsavelPagination.filter"
+        (selected)="selectUnidadeResponsavel($event)"
+        (cancel)="cancel()">
+</cdk-setor-gridsearch>
+
+<cdk-setor-gridsearch
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'setor-gridsearch'"
+    [filter]="setorResponsavelPagination.filter"
+    (selected)="selectSetorResponsavel($event)"
+    (cancel)="cancel()">
+</cdk-setor-gridsearch>
+
+<cdk-usuario-gridsearch
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'usuario-gridsearch'"
+    [filter]="usuarioResponsavelPagination.filter"
+    (selected)="selectUsuario($event)"
+    [filter] = "setorFilter"
+    (cancel)="cancel()">
+</cdk-usuario-gridsearch>
+
+<cdk-setor-gridsearch
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'setor-origem-gridsearch'"
+    [filter]="setorOrigemPagination.filter"
+    (selected)="selectSetorOrigem($event)"
+    (cancel)="cancel()">
+</cdk-setor-gridsearch>

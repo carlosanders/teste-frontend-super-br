@@ -1,0 +1,127 @@
+<form *ngIf="activeCard === 'form'" class="" fxLayoutGap="36px"
+      fxLayout="column"
+      fxLayoutAlign="start"
+      fxFlex="1 0 auto" name="form" [formGroup]="form" (submit)="submit()">
+
+    <div fxFlex="1 0 auto" fxLayout="column" class="div-form">
+
+        <mat-slide-toggle formControlName="encerraTarefa"
+                      class="mr-16 mb-16" fxFlex="0 1 auto">
+            Encerra Tarefa
+        </mat-slide-toggle>
+
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Espécie de Atividade"
+                       formControlName="especieAtividade"
+                       [matAutocomplete]="especieAtividade.autocomplete" required
+                       (blur)="checkEspecieAtividade()">
+            </div>
+            <cdk-especie-atividade-autocomplete
+                #especieAtividade="especieAtividadeAutocomplete"
+                [control]="form.get('especieAtividade')"
+                [pagination]="especieAtividadePagination">
+            </cdk-especie-atividade-autocomplete>
+            <button matSuffix mat-button mat-icon-button
+                    (click)="showEspecieAtividadeGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('especieAtividade').hasError('formError')">
+                {{form.get('especieAtividade').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="mr-sm-12" fxFlex>
+            <mat-label>Data/Hora</mat-label>
+            <input matInput formControlName="dataHoraConclusao" [matDatetimepicker]="dataHoraConclusao"
+                   required>
+            <mat-datetimepicker-toggle matSuffix [for]="dataHoraConclusao"></mat-datetimepicker-toggle>
+            <mat-datetimepicker #dataHoraConclusao type="datetime" openOnFocus="true"
+                                timeInterval="5"></mat-datetimepicker>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Usuário Responsável pela Atividade"
+                       formControlName="usuario"
+                       [matAutocomplete]="usuario.autocomplete" required
+                       (blur)="checkUsuario()">
+            </div>
+            <cdk-usuario-autocomplete
+                #usuario="usuarioAutocomplete"
+                [control]="form.get('usuario')"
+                [pagination]="usuarioPagination">
+            </cdk-usuario-autocomplete>
+            <button matSuffix mat-button mat-icon-button
+                    (click)="showUsuarioGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('usuario').hasError('formError')">
+                {{form.get('usuario').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Setor Responsável pela Atividade"
+                       formControlName="setor"
+                       [matAutocomplete]="setor.autocomplete" required
+                       (blur)="checkSetor()">
+            </div>
+            <cdk-setor-autocomplete
+                #setor="setorAutocomplete"
+                [control]="form.get('setor')"
+                [pagination]="setorPagination">>
+            </cdk-setor-autocomplete>
+            <button matSuffix mat-button mat-icon-button
+                    (click)="showSetorGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('setor').hasError('formError')">
+                {{form.get('setor').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="mr-16 mb-16" fxFlex="0 1 auto">
+            <textarea formControlName="observacao"
+                      matInput placeholder="Observação" upperCase></textarea>
+        </mat-form-field>
+
+    </div>
+
+    <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+
+    <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-8 mb-16" fxFlex
+         fxLayoutAlign="center center">
+        <button type="submit" mat-raised-button color="accent" class="mr-sm-12"
+                [disabled]="form.invalid">
+            SALVAR
+        </button>
+    </div>
+
+    <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+         fxLayoutAlign="center center">
+        <mat-spinner color="accent" diameter="24"></mat-spinner>
+    </div>
+</form>
+
+<cdk-especie-atividade-gridsearch
+        fxFlex="1 0 auto"
+        *ngIf="activeCard === 'especie-atividade-gridsearch'"
+        (selected)="selectEspecieAtividade($event)"
+        (cancel)="cancel()">
+</cdk-especie-atividade-gridsearch>
+
+<cdk-usuario-gridsearch
+        fxFlex="1 0 auto"
+        *ngIf="activeCard === 'usuario-gridsearch'"
+        (selected)="selectUsuario($event)"
+        (cancel)="cancel()">
+</cdk-usuario-gridsearch>
+
+<cdk-setor-gridsearch
+        fxFlex="1 0 auto"
+        *ngIf="activeCard === 'setor-gridsearch'"
+        (selected)="selectSetor($event)"
+        (cancel)="cancel()">
+</cdk-setor-gridsearch>

@@ -1,0 +1,37 @@
+@mixin pesquisa-theme($theme) {
+
+    $background: map-get($theme, background);
+    $foreground: map-get($theme, foreground);
+    $accent: map-get($theme, accent);
+    $is-dark: map-get($theme, is-dark);
+
+    pesquisa {
+
+        .center {
+
+            .header {
+                height: 60px !important;
+                min-height: 60px !important;
+                max-height: 60px !important;
+
+                .title {
+                    color: white;
+                    font-size: 24px;
+                }
+
+            }
+
+            .content-card {
+
+                .content {
+                    @if ($is-dark) {
+                        background: #353535;
+                    } @else {
+                        background:map-get($foreground, card);
+                    }
+
+                }
+            }
+        }
+    }
+}

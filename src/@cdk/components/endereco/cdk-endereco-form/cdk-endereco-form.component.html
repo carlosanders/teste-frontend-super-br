@@ -1,0 +1,127 @@
+<form *ngIf="activeCard === 'form'" class="p-24 mr-24" fxLayoutGap="36px"
+      fxLayout="column"
+      fxLayoutAlign="start"
+      fxFlex="1 0 auto" name="form" [formGroup]="form" (submit)="submit()">
+
+    <div fxFlex="1 0 auto" fxLayout="column" class="div-form">
+
+        <mat-checkbox formControlName="principal"
+                      class="mr-16 mb-16" fxFlex="0 1 auto">
+            Principal
+        </mat-checkbox>
+
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Município"
+                       formControlName="municipio"
+                       [matAutocomplete]="municipio.autocomplete"
+                       (blur)="checkMunicipio()"
+                       required>
+            </div>
+            <cdk-municipio-autocomplete
+                #municipio="municipioAutocomplete"
+                [control]="form.get('municipio')"
+                [pagination]="municipioPagination">
+            </cdk-municipio-autocomplete>
+            <button matSuffix mat-button mat-icon-button
+                    (click)="showMunicipioGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('municipio').hasError('formError')">
+                {{form.get('municipio').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="País"
+                       formControlName="pais"
+                       [matAutocomplete]="pais.autocomplete"
+                       (blur)="checkPais()"
+                       required>
+            </div>
+            <cdk-pais-autocomplete
+                #pais="paisAutocomplete"
+                [control]="form.get('pais')"
+                [pagination]="paisPagination">
+            </cdk-pais-autocomplete>
+            <button matSuffix mat-button mat-icon-button
+                    (click)="showPaisGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('pais').hasError('formError')">
+                {{form.get('pais').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+            <mat-label>Logradouro</mat-label>
+            <input matInput #logradouro
+                   name="logradouro"
+                   formControlName="logradouro"
+                   maxlength="255">
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+            <mat-label>CEP</mat-label>
+            <input matInput #cep
+                   name="cep"
+                   formControlName="cep"
+                   maxlength="255">
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+            <mat-label>Complemento</mat-label>
+            <input matInput #complemento
+                   name="complemento"
+                   formControlName="complemento"
+                   maxlength="255">
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+            <mat-label>Número</mat-label>
+            <input matInput #numero
+                   name="numero"
+                   formControlName="numero"
+                   maxlength="255">
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+            <mat-label>Bairro</mat-label>
+            <input matInput #bairro
+                   name="bairro"
+                   formControlName="bairro"
+                   maxlength="255">
+        </mat-form-field>
+
+    </div>
+
+    <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+
+    <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+         fxLayoutAlign="center center">
+        <button mat-raised-button color="accent" class="mr-sm-12"
+                [disabled]="form.invalid">
+            SALVAR
+        </button>
+    </div>
+
+    <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+         fxLayoutAlign="center center">
+        <mat-spinner color="accent" diameter="24"></mat-spinner>
+    </div>
+</form>
+
+<cdk-municipio-gridsearch
+        fxFlex="1 0 auto"
+        *ngIf="activeCard === 'municipio-gridsearch'"
+        (selected)="selectMunicipio($event)"
+        (cancel)="cancel()">
+</cdk-municipio-gridsearch>
+
+<cdk-pais-gridsearch
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'pais-gridsearch'"
+    (selected)="selectPais($event)"
+    (cancel)="cancel()">
+</cdk-pais-gridsearch>

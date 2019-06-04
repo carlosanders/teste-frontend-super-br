@@ -1,0 +1,9 @@
+<mat-autocomplete [displayWith]="displayEnderecoFn">
+    <mat-option *ngFor="let endereco of enderecoList"
+                [value]="endereco">
+        <span [innerHTML]="displayEnderecoFn(endereco) | highlightOption: this.control.value"></span>
+    </mat-option>
+    <mat-option *ngIf="enderecoListIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>

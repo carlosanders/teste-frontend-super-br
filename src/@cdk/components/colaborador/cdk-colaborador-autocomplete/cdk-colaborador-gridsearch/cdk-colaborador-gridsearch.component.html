@@ -1,0 +1,9 @@
+<cdk-colaborador-grid
+        [loading]="loading"
+        [colaboradors]="colaboradors"
+        [total]="total"
+        [actions]="['select', 'cancel']"
+        (select)="select($event)"
+        (cancel)="doCancel()"
+        (reload)="reload($event)">
+</cdk-colaborador-grid>

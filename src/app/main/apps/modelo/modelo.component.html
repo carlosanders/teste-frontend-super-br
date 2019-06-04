@@ -1,0 +1,9 @@
+<cdk-modelo-grid
+        [loading]="(loading$ | async)"
+        [modelos]="(modelos$ | async)"
+        [total]="(pagination$ | async)?.total"
+        [mode]="'search'"
+        [actions]="['select']"
+        (select)="doSelect($event)"
+        (reload)="reload($event)">
+</cdk-modelo-grid>

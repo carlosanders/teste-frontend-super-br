@@ -1,0 +1,8 @@
+<cdk-processo-form
+        [processo]="processo"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        [especieProcessoPagination]="especieProcessoPagination"
+        [setorAtualPagination]="setorAtualPagination"
+        (save)="submit($event)">
+</cdk-processo-form>

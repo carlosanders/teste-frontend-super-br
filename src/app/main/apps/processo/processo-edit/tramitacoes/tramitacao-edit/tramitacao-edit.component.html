@@ -1,0 +1,6 @@
+<cdk-tramitacao-form
+        [tramitacao]="tramitacao"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        (save)="submit($event)">
+</cdk-tramitacao-form>

@@ -1,0 +1,9 @@
+d<cdk-repositorio-grid
+        [loading]="loading"
+        [repositorios]="repositorios"
+        [total]="total"
+        [actions]="['select', 'cancel']"
+        (select)="select($event)"
+        (cancel)="doCancel()"
+        (reload)="reload($event)">
+</cdk-repositorio-grid>

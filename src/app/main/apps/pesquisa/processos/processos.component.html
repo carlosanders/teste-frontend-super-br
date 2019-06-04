@@ -1,0 +1,9 @@
+<cdk-processo-grid
+        [loading]="(loading$ | async)"
+        [processos]="(processos$ | async)"
+        [total]="(pagination$ | async)?.total"
+        [mode]="'search'"
+        [actions]="['edit']"
+        (reload)="reload($event)"
+        (edit)="edit($event)">
+</cdk-processo-grid>

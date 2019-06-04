@@ -1,0 +1,9 @@
+<cdk-modalidade-vinculacao-processo-grid
+        [loading]="loading"
+        [modalidadevinculacaoProcessos]="modalidadevinculacaoProcessos"
+        [total]="total"
+        [actions]="['select', 'cancel']"
+        (select)="select($event)"
+        (cancel)="doCancel()"
+        (reload)="reload($event)">
+</cdk-modalidade-vinculacao-processo-grid>

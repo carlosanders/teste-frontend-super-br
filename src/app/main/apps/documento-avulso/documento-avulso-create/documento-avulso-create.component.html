@@ -1,0 +1,7 @@
+<cdk-documento-avulso-form
+        [documentoAvulso]="documentoAvulso"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        [especieDocumentoAvulsoPagination]="especieDocumentoAvulsoPagination"
+        (save)="submit($event)">
+</cdk-documento-avulso-form>

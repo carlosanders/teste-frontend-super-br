@@ -1,0 +1,9 @@
+<cdk-vinculacao-etiqueta-grid
+        [loading]="loading"
+        [vinculacaoEtiquetas]="vinculacaoEtiquetas"
+        [total]="total"
+        [actions]="['select', 'cancel']"
+        (select)="select($event)"
+        (cancel)="doCancel()"
+        (reload)="reload($event)">
+</cdk-vinculacao-etiqueta-grid>

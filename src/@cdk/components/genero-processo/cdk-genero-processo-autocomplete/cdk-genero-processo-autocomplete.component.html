@@ -1,0 +1,9 @@
+<mat-autocomplete [displayWith]="displayGeneroProcessoFn">
+    <mat-option *ngFor="let generoProcesso of generoProcessoList"
+                [value]="generoProcesso">
+        <span [innerHTML]="displayGeneroProcessoFn(generoProcesso) | highlightOption: this.control.value"></span>
+    </mat-option>
+    <mat-option *ngIf="generoProcessoListIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>

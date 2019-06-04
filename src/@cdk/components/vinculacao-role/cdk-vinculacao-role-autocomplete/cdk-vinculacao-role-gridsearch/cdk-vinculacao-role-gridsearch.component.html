@@ -1,0 +1,9 @@
+<cdk-vinculacao-role-grid
+        [loading]="loading"
+        [vinculacaoRoles]="vinculacaoRoles"
+        [total]="total"
+        [actions]="['select', 'cancel']"
+        (select)="select($event)"
+        (cancel)="doCancel()"
+        (reload)="reload($event)">
+</cdk-vinculacao-role-grid>

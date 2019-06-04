@@ -1,0 +1,9 @@
+<mat-autocomplete [displayWith]="displayCargoFn">
+    <mat-option *ngFor="let cargo of cargoList"
+                [value]="cargo">
+        <span [innerHTML]="displayCargoFn(cargo) | highlightOption: this.control.value"></span>
+    </mat-option>
+    <mat-option *ngIf="cargoListIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>

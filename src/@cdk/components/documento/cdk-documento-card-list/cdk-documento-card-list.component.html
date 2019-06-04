@@ -1,0 +1,11 @@
+<cdk-documento-card class="mr-8 mb-8"
+                    *ngFor="let documento of documentos"
+                    [documento]="documento"
+                    [selected]="selectedIds.indexOf(documento.id) > -1"
+                    [deleting]="deletingId.indexOf(documento.id) > -1"
+                    [assinando]="assinandoId.indexOf(documento.id) > -1"
+                    (delete)="doDelete($event)"
+                    (assinatura)="doAssinatura($event)"
+                    (clicked)="onClick($event)"
+                    (changedSelected)="toggleInSelected($event)">
+</cdk-documento-card>

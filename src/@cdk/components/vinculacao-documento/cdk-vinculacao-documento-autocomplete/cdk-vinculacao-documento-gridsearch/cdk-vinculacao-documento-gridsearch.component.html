@@ -1,0 +1,9 @@
+<cdk-vinculacao-documento-grid
+        [loading]="loading"
+        [vinculacaoDocumentos]="vinculacaoDocumentos"
+        [total]="total"
+        [actions]="['select', 'cancel']"
+        (select)="select($event)"
+        (cancel)="doCancel()"
+        (reload)="reload($event)">
+</cdk-vinculacao-documento-grid>

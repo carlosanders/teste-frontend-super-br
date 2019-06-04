@@ -1,0 +1,137 @@
+<div id="painel" class="page-layout simple left-sidebar inner-scroll" fxLayout="row">
+
+    <!-- CENTER -->
+    <div class="center" fusePerfectScrollbar>
+
+        <!-- HEADER -->
+        <div class="header accent p-24 pb-0" fxLayout="column" fxLayoutAlign="space-between">
+
+            <div fxLayout="row" fxLayoutAlign="space-between start">
+
+                <span class="mat-display-1 my-0 my-sm-24 welcome-message"
+                      [@animate]="{value:'*',params:{x:'50px'}}">Bem-vindo, {{(_profile.usuario.nome.split(' ')[0]).toLowerCase()}}
+                </span>
+
+            </div>
+
+        </div>
+        <!-- / HEADER -->
+
+        <!-- CONTENT -->
+        <div class="content">
+
+            <div class="widget-group p-12" fxLayout="row wrap" fxFlex="100" *fuseIfOnDom
+                 [@animateStagger]="{value:'50'}">
+
+                <!-- WIDGET Tarefa -->
+                <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
+                             fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="25">
+
+                    <!-- Front -->
+                    <div class="fuse-widget-front">
+                        <div class="pl-16 pr-8 py-16 h-52" fxLayout="row"
+                             fxLayoutAlign="end center">
+                            <button mat-icon-button fuseWidgetToggle aria-label="more">
+                                <mat-icon>more_vert</mat-icon>
+                            </button>
+                        </div>
+
+                        <div class="pt-8 pb-32" fxLayout="column" fxLayoutAlign="center center">
+                            <mat-spinner *ngIf="tarefasCount === null" diameter="72"></mat-spinner>
+                            <div *ngIf="tarefasCount !== null" class="light-blue-fg font-size-72 line-height-72">
+                                {{tarefasCount}}
+                            </div>
+                            <div class="h3 secondary-text font-weight-500">
+                                Tarefas Administrativas
+                            </div>
+                        </div>
+
+                        <div class="p-16 border-top" fxLayout="row" fxLayoutAlign="start center">
+                               <span class="h4 secondary-text text-truncate">
+                                   Vencidas:
+                               </span>
+                            <mat-spinner class="ml-8" *ngIf="tarefasVencidasCount === null" diameter="15"></mat-spinner>
+                            <span *ngIf="tarefasVencidasCount !== null" class="h4 ml-8 warn-500-fg">
+                                       {{tarefasVencidasCount}}
+                            </span>
+                        </div>
+                    </div>
+                    <!-- / Front -->
+
+                    <!-- Back -->
+                    <div class="fuse-widget-back p-16 pt-32">
+                        <button mat-icon-button fuseWidgetToggle class="fuse-widget-flip-button"
+                                aria-label="Flip widget">
+                            <mat-icon class="s-16">close</mat-icon>
+                        </button>
+
+                        <div>
+                            Informa a quantidade de tarefas
+                        </div>
+                    </div>
+                    <!-- / Back -->
+
+                </fuse-widget>
+                <!-- / WIDGET 1 -->
+
+                <!-- WIDGET Documento Avulso -->
+                <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
+                             fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="25">
+
+                    <!-- Front -->
+                    <div class="fuse-widget-front">
+                        <div class="pl-16 pr-8 py-16 h-52" fxLayout="row"
+                             fxLayoutAlign="end center">
+                            <button mat-icon-button fuseWidgetToggle aria-label="more">
+                                <mat-icon>more_vert</mat-icon>
+                            </button>
+                        </div>
+
+                        <div class="pt-8 pb-32" fxLayout="column" fxLayoutAlign="center center">
+                            <mat-spinner *ngIf="documentosAvulsosCount === null" diameter="72"></mat-spinner>
+                            <div *ngIf="documentosAvulsosCount !== null" class="light-blue-fg font-size-72 line-height-72">
+                                {{documentosAvulsosCount}}
+                            </div>
+                            <div class="h3 secondary-text font-weight-500">
+                                Ofícios Pendentes
+                            </div>
+                        </div>
+
+                        <div class="p-16 border-top" fxLayout="row" fxLayoutAlign="start center">
+                               <span class="h4 secondary-text text-truncate">
+                                   Vencidos:
+                               </span>
+                            <mat-spinner class="ml-8" *ngIf="documentosAvulsosVencidosCount === null" diameter="15"></mat-spinner>
+                            <span *ngIf="documentosAvulsosVencidosCount !== null" class="h4 ml-8 warn-500-fg">
+                                       {{documentosAvulsosVencidosCount}}
+                            </span>
+                        </div>
+                    </div>
+                    <!-- / Front -->
+
+                    <!-- Back -->
+                    <div class="fuse-widget-back p-16 pt-32">
+                        <button mat-icon-button fuseWidgetToggle class="fuse-widget-flip-button"
+                                aria-label="Flip widget">
+                            <mat-icon class="s-16">close</mat-icon>
+                        </button>
+
+                        <div>
+                            Informa a quantidade de ofícios
+                        </div>
+                    </div>
+                    <!-- / Back -->
+
+                </fuse-widget>
+                <!-- / WIDGET 1 -->
+
+            </div>
+            <!-- / WIDGET GROUP -->
+
+
+        </div>
+        <!-- / CONTENT -->
+
+    </div>
+    <!-- / CENTER -->
+</div>

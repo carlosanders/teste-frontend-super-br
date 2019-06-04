@@ -1,0 +1,81 @@
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    OnInit,
+    ViewEncapsulation
+} from '@angular/core';
+import {Observable} from 'rxjs';
+
+import {fuseAnimations} from '@fuse/animations';
+import {Interessado} from '@cdk/models/interessado.model';
+import {Router} from '@angular/router';
+import {select, Store} from '@ngrx/store';
+import * as fromStore from 'app/main/apps/processo/processo-edit/interessados/interessado-list/store';
+import {getRouterState} from '../../../../../../store/reducers';
+
+@Component({
+    selector: 'interessado-list',
+    templateUrl: './interessado-list.component.html',
+    styleUrls: ['./interessado-list.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    animations: fuseAnimations
+})
+export class InteressadoListComponent implements OnInit {
+
+    routerState: any;
+    interessados$: Observable<Interessado[]>;
+    loading$: Observable<boolean>;
+    pagination$: Observable<any>;
+    pagination: any;
+    deletingIds$: Observable<any>;
+    deletedIds$: Observable<any>;
+
+    /**
+     * @param _changeDetectorRef
+     * @param _router
+     * @param _store
+     */
+    constructor(
+        private _changeDetectorRef: ChangeDetectorRef,
+        private _router: Router,
+        private _store: Store<fromStore.InteressadoListAppState>,
+    ) {
+        this.interessados$ = this._store.pipe(select(fromStore.getInteressadoList));
+        this.pagination$ = this._store.pipe(select(fromStore.getPagination));
+        this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
+        this.deletingIds$ = this._store.pipe(select(fromStore.getDeletingIds));
+        this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedIds));
+
+        this._store
+            .pipe(select(getRouterState))
+            .subscribe(routerState => {
+                if (routerState) {
+                    this.routerState = routerState.state;
+                }
+            });
+    }
+
+    ngOnInit(): void {
+        this.pagination$.subscribe(pagination => {
+            this.pagination = pagination;
+        });
+    }
+
+    reload (params): void {
+        this._store.dispatch(new fromStore.GetInteressados({
+            ...this.pagination,
+            gridFilter: params.gridFilter
+        }));
+    }
+
+    edit(interessadoId: number): void {
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + interessadoId]);
+    }
+
+    delete(interessadoId: number): void {
+        this._store.dispatch(new fromStore.DeleteInteressado(interessadoId));
+    }
+
+}

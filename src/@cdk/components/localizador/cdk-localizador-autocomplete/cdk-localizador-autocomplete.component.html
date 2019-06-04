@@ -1,0 +1,9 @@
+<mat-autocomplete [displayWith]="displayLocalizadorFn">
+    <mat-option *ngFor="let localizador of localizadorList"
+                [value]="localizador">
+        <span [innerHTML]="displayLocalizadorFn(localizador) | highlightOption: this.control.value"></span>
+    </mat-option>
+    <mat-option *ngIf="localizadorListIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>

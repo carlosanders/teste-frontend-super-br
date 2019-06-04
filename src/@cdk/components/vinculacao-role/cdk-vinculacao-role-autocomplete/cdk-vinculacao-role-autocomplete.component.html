@@ -1,0 +1,9 @@
+<mat-autocomplete [displayWith]="displayVinculacaoRoleFn">
+    <mat-option *ngFor="let vinculacaoRole of vinculacaoRoleList"
+                [value]="vinculacaoRole">
+        <span [innerHTML]="displayVinculacaoRoleFn(vinculacaoRole) | highlightOption: this.control.value"></span>
+    </mat-option>
+    <mat-option *ngIf="vinculacaoRoleListIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>

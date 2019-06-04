@@ -1,0 +1,19 @@
+<form class="p-24 mb-8" fxLayoutGap="16px" fxLayout="column" fxLayoutAlign="start"
+      fxFlex="1 0 auto" name="form" [formGroup]="form">
+
+    <div fxFlex="1 0 auto" fxLayout="column">
+
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Tipo de Documento"
+                       formControlName="tipoDocumento"
+                       [matAutocomplete]="tipoDocumento.autocomplete">
+            </div>
+            <cdk-tipo-documento-autocomplete
+                #tipoDocumento="tipoDocumentoAutocomplete"
+                [control]="form.get('tipoDocumento')">
+            </cdk-tipo-documento-autocomplete>
+        </mat-form-field>
+
+    </div>
+</form>

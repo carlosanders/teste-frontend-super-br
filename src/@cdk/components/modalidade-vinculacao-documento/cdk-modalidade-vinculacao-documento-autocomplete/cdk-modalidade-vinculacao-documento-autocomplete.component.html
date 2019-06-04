@@ -1,0 +1,9 @@
+<mat-autocomplete [displayWith]="displayModalidadeVinculacaoDocumentoFn">
+    <mat-option *ngFor="let modalidadeVinculacaoDocumento of modalidadeVinculacaoDocumentoList"
+                [value]="modalidadeVinculacaoDocumento">
+        <span [innerHTML]="displayModalidadeVinculacaoDocumentoFn(modalidadeVinculacaoDocumento) | highlightOption: this.control.value"></span>
+    </mat-option>
+    <mat-option *ngIf="modalidadeVinculacaoDocumentoListIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>

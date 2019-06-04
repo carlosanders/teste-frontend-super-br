@@ -1,0 +1,70 @@
+@import "src/@fuse/scss/fuse";
+
+tarefas {
+
+  .center {
+
+    .header {
+
+      .search-wrapper {
+        border-radius: 28px;
+        overflow: hidden;
+        @include mat-elevation(1);
+
+        .sidebar-toggle {
+          margin: 0 0 0 6px;
+          width: 56px;
+          height: 56px;
+          border-radius: 0;
+          border-right: 1px solid;
+        }
+
+        .search {
+          width: 100%;
+          height: 56px;
+          line-height: 56px;
+          padding: 0 18px;
+
+          cdk-etiqueta-chips {
+            width: 100%;
+            margin-left: 16px;
+            margin-right: 16px;
+          }
+        }
+      }
+
+      &.current-tarefa-selected {
+        .search-wrapper {
+          display: none !important;
+        }
+      }
+
+    }
+
+    .content-card {
+
+      .toolbar {
+
+        .toolbar-separator {
+          height: 32px;
+          width: 1px;
+          margin: 0 12px;
+        }
+
+        .tarefa-list-control {
+          margin-left: auto;
+        }
+      }
+
+      .tarefa-list {
+        border-right: 1px solid;
+      }
+
+      .tarefa-details {
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+}
+

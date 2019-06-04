@@ -1,0 +1,9 @@
+<mat-autocomplete [displayWith]="displayCadastroIdentificadorFn">
+    <mat-option *ngFor="let cadastroIdentificador of cadastroIdentificadorList"
+                [value]="cadastroIdentificador">
+        <span [innerHTML]="displayCadastroIdentificadorFn(cadastroIdentificador) | highlightOption: this.control.value"></span>
+    </mat-option>
+    <mat-option *ngIf="cadastroIdentificadorListIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>

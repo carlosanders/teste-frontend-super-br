@@ -1,0 +1,111 @@
+<form *ngIf="activeCard === 'form'" class="p-16" fxLayoutGap="36px"
+      fxLayout="column"
+      fxLayoutAlign="start"
+      fxFlex="1 0 auto" name="form" [formGroup]="form" (submit)="submit()">
+
+    <div fxFlex="1 0 auto" fxLayout="column">
+
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Documento"
+                       formControlName="documento"
+                       [matAutocomplete]="documento.autocomplete" required
+                       (blur)="checkDocumento()">
+            </div>
+            <cdk-documento-autocomplete
+                #documento="documentoAutocomplete"
+                [control]="form.get('documento')"
+                [pagination]="documentoPagination">
+            </cdk-documento-autocomplete>
+            <button *ngIf="form.get('documento').enabled" matSuffix mat-button mat-icon-button
+                    (click)="showDocumentoGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('documento').hasError('formError')">
+                {{form.get('documento').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Documento Vinculado"
+                       formControlName="documentoVinculado"
+                       [matAutocomplete]="documentoVinculado.autocomplete" required
+                       (blur)="checkDocumentoVinculado()">
+            </div>
+            <cdk-documento-vinculado-autocomplete
+                #documentoVinculado="documentoVinculadoAutocomplete"
+                [control]="form.get('documentoVinculado')"
+                [pagination]="documentoVinculadoPagination">
+            </cdk-documento-vinculado-autocomplete>
+            <button *ngIf="form.get('documentoVinculado').enabled" matSuffix mat-button mat-icon-button
+                    (click)="showDocumentoVinculadoGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('documentoVinculado').hasError('formError')">
+                {{form.get('documentoVinculado').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Modalidade da Vinculação do Documento"
+                       formControlName="modalidadeVinculacaoDocumento"
+                       [matAutocomplete]="modalidadeVinculacaoDocumento.autocomplete" required
+                       (blur)="checkModalidadeVinculacaoDocumento()">
+            </div>
+            <cdk-modalidade-vinculacao-documento-autocomplete
+                #modalidadeVinculacaoDocumento="modalidadeVinculacaoDocumentoAutocomplete"
+                [control]="form.get('modalidadeVinculacaoDocumento')"
+                [pagination]="modalidadeVinculacaoDocumentoPagination">
+            </cdk-modalidade-vinculacao-documento-autocomplete>
+            <button *ngIf="form.get('modalidadeVinculacaoDocumento').enabled" matSuffix mat-button mat-icon-button
+                    (click)="showModalidadeVinculacaoDocumentoGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('modalidadeVinculacaoDocumento').hasError('formError')">
+                {{form.get('modalidadeVinculacaoDocumento').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
+    </div>
+
+    <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+
+    <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+         fxLayoutAlign="center center">
+        <button mat-raised-button color="accent" class="mr-sm-12"
+                [disabled]="form.invalid">
+            SALVAR
+        </button>
+    </div>
+
+    <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+         fxLayoutAlign="center center">
+        <mat-spinner color="accent" diameter="24"></mat-spinner>
+    </div>
+</form>
+
+<cdk-documento-gridsearch
+        fxFlex="1 0 auto"
+        *ngIf="activeCard === 'documento-gridsearch'"
+        [filter]="documentoPagination.filter"
+        (selected)="selectDocumento($event)"
+        (cancel)="cancel()">
+</cdk-documento-gridsearch>
+
+<cdk-documento-vinculado-gridsearch
+        fxFlex="1 0 auto"
+        *ngIf="activeCard === 'documento-vinculado-gridsearch'"
+        [filter]="documentoVinculadoPagination.filter"
+        (selected)="selectDocumentoVinculado($event)"
+        (cancel)="cancel()">
+</cdk-documento-vinculado-gridsearch>
+
+<cdk-modalidade-vinculacao-documento-gridsearch
+        fxFlex="1 0 auto"
+        *ngIf="activeCard === 'modalidade-vinculacao-documento-gridsearch'"
+        [filter]="modalidadeVinculacaoDocumentoPagination.filter"
+        (selected)="selectModalidadeVinculacaoDocumento($event)"
+        (cancel)="cancel()">
+</cdk-modalidade-vinculacao-documento-gridsearch>

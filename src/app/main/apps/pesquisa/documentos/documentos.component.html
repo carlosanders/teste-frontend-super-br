@@ -1,0 +1,9 @@
+<cdk-documento-grid
+        [loading]="(loading$ | async)"
+        [documentos]="(documentos$ | async)"
+        [total]="(pagination$ | async)?.total"
+        [mode]="'search'"
+        [actions]="['edit']"
+        (reload)="reload($event)"
+        (edit)="edit($event)">
+</cdk-documento-grid>

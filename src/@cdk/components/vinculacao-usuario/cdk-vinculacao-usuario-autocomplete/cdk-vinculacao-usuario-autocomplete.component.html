@@ -1,0 +1,9 @@
+<mat-autocomplete [displayWith]="displayVinculacaoUsuarioFn">
+    <mat-option *ngFor="let vinculacaoUsuario of vinculacaoUsuarioList"
+                [value]="vinculacaoUsuario">
+        <span [innerHTML]="displayVinculacaoUsuarioFn(vinculacaoUsuario) | highlightOption: this.control.value"></span>
+    </mat-option>
+    <mat-option *ngIf="vinculacaoUsuarioListIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>

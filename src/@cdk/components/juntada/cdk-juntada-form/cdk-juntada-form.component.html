@@ -1,0 +1,226 @@
+<form *ngIf="activeCard === 'form'" class="p-24 mr-24" fxLayoutGap="16px"
+      fxLayout="column"
+      fxLayoutAlign="start"
+      fxFlex="1 0 auto" name="form" [formGroup]="form" (submit)="submit()">
+
+    <div fxFlex="1 0 auto" fxLayout="column">
+
+        <mat-slide-toggle formControlName="ativo"
+                          class="mr-16 mb-16" fxFlex="0 1 auto">
+            Ativo
+        </mat-slide-toggle>
+
+        <mat-form-field fxFlex="100">
+            <mat-label>Numeração Sequencial</mat-label>
+            <input matInput #numeracaoSequencial
+                   name="numeracaoSequencial"
+                   formControlName="numeracaoSequencial">
+            <mat-hint align="end">{{numeracaoSequencial.value.length}} / 255</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Documento"
+                       formControlName="documento"
+                       [matAutocomplete]="documento.autocomplete" required
+                       (blur)="checkDocumento()">
+            </div>
+            <cdk-documento-autocomplete
+                #documento="documentoAutocomplete"
+                [control]="form.get('documento')"
+                [pagination]="documentoPagination">
+            </cdk-documento-autocomplete>
+            <button matSuffix mat-button mat-icon-button
+                    (click)="showDocumentoGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('documento').hasError('formError')">
+                {{form.get('documento').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+            <mat-label>Descrição</mat-label>
+            <input matInput #descricao
+                   name="descricao"
+                   formControlName="descricao"
+                   maxlength="255" upperCase>
+            <mat-hint align="end">{{descricao.value.length}} / 255</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Origem de Dados"
+                       formControlName="origemDados"
+                       [matAutocomplete]="origemDados.autocomplete" required
+                       (blur)="checkOrigemDados()">
+            </div>
+            <cdk-origem-dados-autocomplete
+                #origemDados="origemDadosAutocomplete"
+                [control]="form.get('origemDados')"
+                [pagination]="origemDadosPagination">
+            </cdk-origem-dados-autocomplete>
+            <button matSuffix mat-button mat-icon-button
+                    (click)="showOrigemDadosGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('origemDados').hasError('formError')">
+                {{form.get('origemDados').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Volume"
+                       formControlName="volume"
+                       [matAutocomplete]="volume.autocomplete" required
+                       (blur)="checkVolume()">
+            </div>
+            <cdk-volume-autocomplete
+                #volume="volumeAutocomplete"
+                [control]="form.get('volume')"
+                [pagination]="volumePagination">
+            </cdk-volume-autocomplete>
+            <button matSuffix mat-button mat-icon-button
+                    (click)="showVolumeGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('volume').hasError('formError')">
+                {{form.get('volume').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Documento Avulso"
+                       formControlName="documentoAvulso"
+                       [matAutocomplete]="documentoAvulso.autocomplete" required
+                       (blur)="checkDocumentoAvulso()">
+            </div>
+            <cdk-documento-avulso-autocomplete
+                #documentoAvulso="documentoAvulsoAutocomplete"
+                [control]="form.get('documentoAvulso')"
+                [pagination]="documentoAvulsoPagination">
+            </cdk-documento-avulso-autocomplete>
+            <button matSuffix mat-button mat-icon-button
+                    (click)="showDocumentoAvulsoGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('documentoAvulso').hasError('formError')">
+                {{form.get('documentoAvulso').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Atividade"
+                       formControlName="atividade"
+                       [matAutocomplete]="atividade.autocomplete" required
+                       (blur)="checkAtividade()">
+            </div>
+            <cdk-atividade-autocomplete
+                #atividade="atividadeAutocomplete"
+                [control]="form.get('atividade')"
+                [pagination]="atividadePagination">
+            </cdk-atividade-autocomplete>
+            <button matSuffix mat-button mat-icon-button
+                    (click)="showAtividadeGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('atividade').hasError('formError')">
+                {{form.get('atividade').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Tarefa"
+                       formControlName="tarefa"
+                       [matAutocomplete]="tarefa.autocomplete" required
+                       (blur)="checkTarefa()">
+            </div>
+            <cdk-tarefa-autocomplete
+                #tarefa="tarefaAutocomplete"
+                [control]="form.get('tarefa')"
+                [pagination]="tarefaPagination">
+            </cdk-tarefa-autocomplete>
+            <button matSuffix mat-button mat-icon-button
+                    (click)="showTarefaGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('tarefa').hasError('formError')">
+                {{form.get('tarefa').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
+    </div>
+
+    <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+
+    <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+         fxLayoutAlign="center center">
+        <button mat-raised-button color="accent" class="mr-sm-12"
+                [disabled]="form.invalid">
+            SALVAR
+        </button>
+    </div>
+
+    <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+         fxLayoutAlign="center center">
+        <mat-spinner color="accent" diameter="24"></mat-spinner>
+    </div>
+</form>
+
+<cdk-documento-gridsearch
+        fxFlex="1 0 auto"
+        *ngIf="activeCard === 'documento-gridsearch'"
+        [filter]="documentoPagination.filter"
+        (selected)="selectDocumento($event)"
+        (cancel)="cancel()">
+</cdk-documento-gridsearch>
+
+<cdk-origem-dados-gridsearch
+        fxFlex="1 0 auto"
+        *ngIf="activeCard === 'origem-dados-gridsearch'"
+        [filter]="origemDadosPagination.filter"
+        (selected)="selectOrigemDados($event)"
+        (cancel)="cancel()">
+</cdk-origem-dados-gridsearch>
+
+<cdk-volume-gridsearch
+        fxFlex="1 0 auto"
+        *ngIf="activeCard === 'volume-gridsearch'"
+        [filter]="volumePagination.filter"
+        (selected)="selectVolume($event)"
+        (cancel)="cancel()">
+</cdk-volume-gridsearch>
+
+<cdk-documento-avulso-gridsearch
+        fxFlex="1 0 auto"
+        *ngIf="activeCard === 'documento-avulso-gridsearch'"
+        [filter]="documentoAvulsoPagination.filter"
+        (selected)="selectDocumentoAvulso($event)"
+        (cancel)="cancel()">
+</cdk-documento-avulso-gridsearch>
+
+<cdk-atividade-gridsearch
+        fxFlex="1 0 auto"
+        *ngIf="activeCard === 'atividade-gridsearch'"
+        [filter]="atividadePagination.filter"
+        (selected)="selectAtividade($event)"
+        (cancel)="cancel()">
+</cdk-atividade-gridsearch>
+
+<cdk-tarefa-gridsearch
+        fxFlex="1 0 auto"
+        *ngIf="activeCard === 'tarefa-gridsearch'"
+        [filter]="tarefaPagination.filter"
+        (selected)="selectTarefa($event)"
+        (cancel)="cancel()">
+</cdk-tarefa-gridsearch>
+
+
+
+
+
+

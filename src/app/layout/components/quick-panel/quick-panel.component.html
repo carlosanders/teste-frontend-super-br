@@ -1,0 +1,52 @@
+<div fxLayout="column" fxFlex fusePerfectScrollbar>
+
+    <mat-list class="date" cdkFocusRegionStart>
+
+        <h3 matSubheader cdkFocusInit>
+            <span>Hoje</span>
+        </h3>
+
+        <div class="secondary-text mat-display-1 mb-0 p-16">
+            <div class="mb-12">
+                {{date | date:'EEEE'}}
+            </div>
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <span> {{date | date:'d'}} de {{date | date:'MMMM'}}</span>
+            </div>
+        </div>
+    </mat-list>
+
+    <mat-divider cdkFocusRegionEnd></mat-divider>
+
+    <mat-list>
+        <h3 matSubheader>
+            <span>Últimas Operações</span>
+        </h3>
+
+        <mat-list-item *ngFor="let operacao of operacoes">
+            <h3 matLine>{{operacao.type}}</h3>
+            <p matLine class="secondary-text">{{operacao.content}}</p>
+            <p matLine class="secondary-text">{{operacao.dateTime}}</p>
+        </mat-list-item>
+
+        <mat-list-item *ngIf="!operacoes.length">
+            <p matLine class="secondary-text">Não há operações ainda!</p>
+        </mat-list-item>
+    </mat-list>
+
+    <mat-divider></mat-divider>
+
+    <mat-list>
+        <h3 matSubheader>
+            <span>Configurações Rápidas</span>
+        </h3>
+
+        <mat-list-item>
+            <mat-slide-toggle fxFlex class="mat-primary" [(ngModel)]="settings.notify" aria-label="Notifications"
+                              labelPosition="before">
+                <h3>Notificações</h3>
+            </mat-slide-toggle>
+        </mat-list-item>
+    </mat-list>
+
+</div>

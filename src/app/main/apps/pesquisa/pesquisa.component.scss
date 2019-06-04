@@ -1,0 +1,21 @@
+pesquisa {
+
+  width: 100%;
+
+  .sidebar {
+
+    &:not(.locked-open) {
+      background: white;
+    }
+  }
+
+  .center {
+
+    width: 100%;
+
+    .content-card {
+      flex: 1 0 100%;
+    }
+  }
+}
+

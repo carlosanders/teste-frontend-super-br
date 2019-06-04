@@ -1,0 +1,9 @@
+<cdk-genero-documento-avulso-grid
+        [loading]="loading"
+        [generoDocumentoAvulsos]="generoDocumentoAvulsos"
+        [total]="total"
+        [actions]="['select', 'cancel']"
+        (select)="select($event)"
+        (cancel)="doCancel()"
+        (reload)="reload($event)">
+</cdk-genero-documento-avulso-grid>

@@ -1,0 +1,9 @@
+<cdk-modelo-grid
+        [loading]="loading"
+        [modelos]="modelos"
+        [total]="total"
+        [actions]="['select', 'cancel']"
+        (select)="select($event)"
+        (cancel)="doCancel()"
+        (reload)="reload($event)">
+</cdk-modelo-grid>

@@ -1,0 +1,127 @@
+@mixin processo-theme($theme) {
+
+    $background: map-get($theme, background);
+    $foreground: map-get($theme, foreground);
+    $accent: map-get($theme, accent);
+    $is-dark: map-get($theme, is-dark);
+
+    // Processo
+    processo {
+
+        .center {
+
+            .header {
+                height: 60px !important;
+                min-height: 60px !important;
+                max-height: 60px !important;
+
+                .title {
+                    color: white;
+                    font-size: 24px;
+                }
+
+            }
+
+            .content-card {
+
+                .content {
+
+                    background: map-get($background, card);
+                }
+            }
+        }
+    }
+
+
+    processo-view {
+
+        .sidebar {
+
+            .juntadas {
+
+                .juntada {
+                    color: map-get($foreground, secondary-text);
+
+                    &.current {
+                        @if ($is-dark) {
+                            background: map-get($background, app-bar);
+                            color: map-get($foreground, text);
+                        } @else {
+                            background: map-get($accent, 50);
+                            color: map-get($accent, '50-contrast');
+                        }
+
+                        .index {
+
+                            span {
+                                @if ($is-dark) {
+                                    background: map-get($background, app-bar);
+                                    border-color: map-get($accent, default);
+                                } @else {
+                                    background: map-get($background, background);
+                                    border-color: map-get($accent, default);
+                                }
+                            }
+                        }
+                    }
+
+                    &.completed {
+                        color: map-get($foreground, text);
+
+                        .index {
+
+                            span {
+                                border-color: map-get($accent, default);
+                            }
+
+                            &:after {
+                                border-left-color: map-get($accent, default);
+                            }
+                        }
+
+                        + .juntada {
+
+                            .index {
+
+                                &:before {
+                                    border-left-color: map-get($accent, default);
+                                }
+                            }
+                        }
+                    }
+
+                    .index {
+
+                        &:before,
+                        &:after {
+                            border-left-color: map-get($foreground, divider);
+                        }
+
+                        span {
+                            background: map-get($background, background);
+                            border-color: map-get($foreground, divider);
+                        }
+                    }
+                }
+            }
+        }
+
+        .center {
+
+            .content {
+                @if ($is-dark) {
+                    background: #353535;
+                } @else {
+                    background: mat-color($mat-grey, 200);
+                }
+
+                .processo-view-juntada {
+
+                    .processo-view-juntada-content {
+                        background: map-get($background, card);
+                    }
+                }
+            }
+        }
+    }
+}

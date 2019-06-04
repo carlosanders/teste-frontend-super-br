@@ -1,0 +1,9 @@
+<mat-autocomplete [displayWith]="displayHistoricoFn">
+    <mat-option *ngFor="let historico of historicoList"
+                [value]="historico">
+        <span [innerHTML]="displayHistoricoFn(historico) | highlightOption: this.control.value"></span>
+    </mat-option>
+    <mat-option *ngIf="historicoListIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>

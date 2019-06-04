@@ -1,0 +1,9 @@
+<mat-autocomplete [displayWith]="displayEtiquetaFn" (optionSelected)="onSelected($event)">
+    <mat-option *ngFor="let etiqueta of etiquetaList"
+                [value]="etiqueta">
+        <span [innerHTML]="displayEtiquetaFn(etiqueta) | highlightOption: this.control.value"></span>
+    </mat-option>
+    <mat-option *ngIf="etiquetaListIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>

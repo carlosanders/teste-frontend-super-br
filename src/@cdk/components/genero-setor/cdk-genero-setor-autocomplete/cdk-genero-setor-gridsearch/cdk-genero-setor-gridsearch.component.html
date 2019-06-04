@@ -1,0 +1,9 @@
+<cdk-genero-setor-grid
+        [loading]="loading"
+        [generoSetors]="generoSetors"
+        [total]="total"
+        [actions]="['select', 'cancel']"
+        (select)="select($event)"
+        (cancel)="doCancel()"
+        (reload)="reload($event)">
+</cdk-genero-setor-grid>

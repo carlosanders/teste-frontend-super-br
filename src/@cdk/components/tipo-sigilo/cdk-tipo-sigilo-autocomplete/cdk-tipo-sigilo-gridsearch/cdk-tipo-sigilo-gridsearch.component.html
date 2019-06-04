@@ -1,0 +1,9 @@
+<cdk-tipo-sigilo-grid
+        [loading]="loading"
+        [tipoSigilos]="tipoSigilos"
+        [total]="total"
+        [actions]="['select', 'cancel']"
+        (select)="select($event)"
+        (cancel)="doCancel()"
+        (reload)="reload($event)">
+</cdk-tipo-sigilo-grid>

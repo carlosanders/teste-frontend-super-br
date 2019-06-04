@@ -1,0 +1,9 @@
+<mat-autocomplete [displayWith]="displayLembreteFn">
+    <mat-option *ngFor="let lembrete of lembreteList"
+                [value]="lembrete">
+        <span [innerHTML]="displayLembreteFn(lembrete) | highlightOption: this.control.value"></span>
+    </mat-option>
+    <mat-option *ngIf="lembreteListIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>

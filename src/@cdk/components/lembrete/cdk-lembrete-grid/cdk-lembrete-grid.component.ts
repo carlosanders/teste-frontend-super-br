@@ -1,0 +1,218 @@
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    OnInit, ViewChild, AfterViewInit,
+    ViewEncapsulation, Input, OnChanges, Output, EventEmitter
+} from '@angular/core';
+import {merge, of} from 'rxjs';
+
+import {fuseAnimations} from '@fuse/animations';
+
+import {MatPaginator, MatSort} from '@angular/material';
+
+import {tap} from 'rxjs/operators';
+
+import {Lembrete} from '@cdk/models/lembrete.model';
+import {LembreteDataSource} from '@cdk/data-sources/lembrete-data-source';
+
+@Component({
+    selector: 'cdk-lembrete-grid',
+    templateUrl: './cdk-lembrete-grid.component.html',
+    styleUrls: ['./cdk-lembrete-grid.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    animations: fuseAnimations
+})
+export class CdkLembreteGridComponent implements AfterViewInit, OnInit, OnChanges {
+
+    @Input()
+    loading = false;
+
+    @Input()
+    lembretes: Lembrete[];
+
+    @Input()
+    total = 0;
+
+    @Input()
+    displayedColumns: string[] = ['select', 'id', 'processo.NUP', 'conteudo', 'actions'];
+
+    @Input()
+    deletingIds: number[] = [];
+
+    @Input()
+    deletedIds: number[] = [];
+
+    @Input()
+    pageSize = 5;
+
+    @Input()
+    actions: string[] = ['edit', 'delete', 'select'];
+
+    @ViewChild(MatPaginator)
+    paginator: MatPaginator;
+
+    @ViewChild(MatSort)
+    sort: MatSort;
+
+    @Output()
+    reload = new EventEmitter<any>();
+
+    @Output()
+    cancel = new EventEmitter<any>();
+
+    @Output()
+    edit = new EventEmitter<number>();
+
+    @Output()
+    delete = new EventEmitter<number>();
+
+    @Output()
+    select = new EventEmitter<Lembrete>();
+
+    @Output()
+    selectedIds: number[] = [];
+
+    dataSource: LembreteDataSource;
+
+    showFilter = false;
+
+    gridFilter: any;
+
+    hasSelected = false;
+    isIndeterminate = false;
+
+    /**
+     * @param _changeDetectorRef
+     */
+    constructor(
+        private _changeDetectorRef: ChangeDetectorRef
+    ) {
+        this.gridFilter = {};
+        this.lembretes = [];
+    }
+
+    ngOnChanges(): void {
+        this.dataSource = new LembreteDataSource(of(this.lembretes));
+        this.paginator.length = this.total;
+    }
+
+    ngOnInit(): void {
+
+        this.paginator._intl.itemsPerPageLabel = 'Registros por página';
+        this.paginator._intl.nextPageLabel = 'Seguinte';
+        this.paginator._intl.previousPageLabel = 'Anterior';
+
+        this.paginator.pageSize = this.pageSize;
+
+        this.dataSource = new LembreteDataSource(of(this.lembretes));
+    }
+
+    ngAfterViewInit(): void {
+        // reset the paginator after sorting
+        this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
+
+        merge(
+            this.sort.sortChange,
+            this.paginator.page
+        ).pipe(
+            tap(() => this.loadPage())
+        ).subscribe();
+    }
+
+    toggleFilter(): void {
+        this.showFilter = !this.showFilter;
+        if (!this.showFilter) {
+            this.gridFilter = {};
+            this.setGridFilter(this.gridFilter);
+        }
+    }
+
+    loadPage(): void {
+        this.reload.emit({
+            gridFilter: this.gridFilter,
+            limit: this.paginator.pageSize,
+            offset: (this.paginator.pageSize * this.paginator.pageIndex),
+            sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {}
+        });
+    }
+
+    editLembrete(lembreteId): void {
+        this.edit.emit(lembreteId);
+    }
+
+    selectLembrete(lembrete: Lembrete): void {
+        this.select.emit(lembrete);
+    }
+
+    deleteLembrete(lembreteId): void {
+        this.delete.emit(lembreteId);
+    }
+
+    deleteLembretes(lembretesId): void {
+        lembretesId.forEach(lembreteId => this.deleteLembrete(lembreteId));
+    }
+
+    /**
+     * Toggle select all
+     *
+     * @param ev
+     */
+    toggleSelectAll(ev): void {
+        ev.preventDefault();
+
+        if (this.selectedIds.length && this.selectedIds.length > 0) {
+            this.deselectAll();
+        } else {
+            this.selectAll();
+        }
+    }
+
+    /**
+     * Select all
+     */
+    selectAll(): void {
+        const arr = Object.keys(this.lembretes).map(k => this.lembretes[k]);
+        this.selectedIds = arr.map(lembrete => lembrete.id);
+        this.recompute();
+    }
+
+    /**
+     * Deselect all tarefas
+     */
+    deselectAll(): void {
+        this.selectedIds = [];
+        this.recompute();
+    }
+
+    toggleInSelected(lembreteId): void {
+        const selectedLembreteIds = [...this.selectedIds];
+
+        if (selectedLembreteIds.find(id => id === lembreteId) !== undefined) {
+            this.selectedIds = selectedLembreteIds.filter(id => id !== lembreteId);
+        } else {
+            this.selectedIds = [...selectedLembreteIds, lembreteId];
+        }
+        this.recompute();
+    }
+
+    recompute(): void {
+        this.hasSelected = this.selectedIds.length > 0;
+        this.isIndeterminate = (this.selectedIds.length !== this.lembretes.length && this.selectedIds.length > 0);
+    }
+
+    setGridFilter(gridFilter): void {
+        this.gridFilter = {
+            ...this.gridFilter,
+            ...gridFilter
+        };
+
+        this.paginator.pageIndex = 0;
+        this.loadPage();
+    }
+
+    doCancel(): void {
+        this.cancel.emit();
+    }
+}

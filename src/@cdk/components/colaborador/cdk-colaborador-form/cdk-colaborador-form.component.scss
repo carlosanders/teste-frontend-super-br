@@ -1,0 +1,33 @@
+cdk-colaborador-form {
+
+    .div-form{
+        width: 350px;
+    }
+
+    .form-card {
+      border-radius: 8px;
+    }
+
+    .form-errors-model {
+      flex: 1;
+
+      code {
+        background: none !important;
+      }
+    }
+
+    .prazoGuarda {
+        display: flex;
+        align-content: center;
+        align-items: center;
+        height: auto;
+        padding: 5px;
+    }
+
+    .prazoGuardaCampo {
+
+
+    }
+
+
+}

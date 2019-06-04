@@ -1,0 +1,9 @@
+<mat-autocomplete [displayWith]="displayDistribuicaoFn">
+    <mat-option *ngFor="let distribuicao of distribuicaoList"
+                [value]="distribuicao">
+        <span [innerHTML]="displayDistribuicaoFn(distribuicao) | highlightOption: this.control.value"></span>
+    </mat-option>
+    <mat-option *ngIf="distribuicaoListIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>

@@ -1,0 +1,9 @@
+d<cdk-documento-grid
+        [loading]="loading"
+        [documentos]="documentos"
+        [total]="total"
+        [actions]="['select', 'cancel']"
+        (select)="select($event)"
+        (cancel)="doCancel()"
+        (reload)="reload($event)">
+</cdk-documento-grid>

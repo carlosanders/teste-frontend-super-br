@@ -1,0 +1,7 @@
+<cdk-sigilo-form
+        [sigilo]="sigilo"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        [tipoSigiloPagination]="tipoSigiloPagination"
+        (save)="submit($event)">
+</cdk-sigilo-form>

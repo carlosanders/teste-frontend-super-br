@@ -1,0 +1,9 @@
+<mat-autocomplete [displayWith]="displayJuntadaFn">
+    <mat-option *ngFor="let juntada of juntadaList"
+                [value]="juntada">
+        <span [innerHTML]="displayJuntadaFn(juntada) | highlightOption: this.control.value"></span>
+    </mat-option>
+    <mat-option *ngIf="juntadaListIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>

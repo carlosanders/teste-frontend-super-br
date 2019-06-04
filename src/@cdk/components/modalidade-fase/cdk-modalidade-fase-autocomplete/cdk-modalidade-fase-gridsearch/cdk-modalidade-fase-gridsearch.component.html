@@ -1,0 +1,9 @@
+<cdk-modalidade-fase-grid
+        [loading]="loading"
+        [modalidadefases]="modalidadefases"
+        [total]="total"
+        [actions]="['select', 'cancel']"
+        (select)="select($event)"
+        (cancel)="doCancel()"
+        (reload)="reload($event)">
+</cdk-modalidade-fase-grid>

@@ -1,0 +1,142 @@
+<!-- CONTENT HEADER -->
+<div class="header" fxLayout="column">
+
+    <div class="filters" *ngIf="showFilter">
+        <cdk-lembrete-grid-filter (selected)="setGridFilter($event)"></cdk-lembrete-grid-filter>
+    </div>
+</div>
+<!-- / CONTENT HEADER -->
+
+<!-- CONTENT -->
+<div class="content" fxLayoutAlign="center start">
+
+    <div class="mb-16 p-16" fxFlex="1 0 auto" fxLayout="column" fxLayoutAlign="center center">
+
+        <div class="actions m-8" fxFlex fxLayout="row" fxLayoutAlign="end center">
+
+            <button mat-icon-button *ngIf="actions.indexOf('cancel') > -1"
+                    (click)="doCancel()"
+                    aria-label="cancelar"
+                    matTooltip="Cancelar">
+                <mat-icon>cancel</mat-icon>
+            </button>
+
+            <button mat-icon-button *ngIf="selectedIds.length > 1 && actions.indexOf('delete') > -1"
+                    (click)="deleteLembretes(selectedIds)"
+                    aria-label="remover"
+                    matTooltip="Remover">
+                <mat-icon>delete</mat-icon>
+            </button>
+
+            <button class="refresh" mat-icon-button
+                    (click)="loadPage()"
+                    aria-label="recarregar"
+                    matTooltip="Recarregar">
+                <mat-icon>refresh</mat-icon>
+            </button>
+
+            <button class="toggle-filter" mat-icon-button
+                    (click)="toggleFilter()"
+                    aria-label="filtrar"
+                    matTooltip="Filtrar">
+                <mat-icon>filter_list</mat-icon>
+            </button>
+        </div>
+
+        <div class="spinner-container" *ngIf="loading">
+            <mat-spinner diameter="32"></mat-spinner>
+        </div>
+
+        <table mat-table [dataSource]="dataSource" matSort [hidden]="loading">
+
+            <!-- Selection Column -->
+            <ng-container matColumnDef="select">
+                <th mat-header-cell *matHeaderCellDef fxFlex="10" fxLayoutAlign="start center">
+                    <mat-checkbox (click)="toggleSelectAll($event)"
+                                  [checked]="hasSelected"
+                                  [indeterminate]="isIndeterminate">
+                    </mat-checkbox>
+                </th>
+                <td mat-cell *matCellDef="let lembrete" fxFlex="10" fxLayoutAlign="start center">
+                    <mat-checkbox [checked]="selectedIds.indexOf(lembrete.id) > -1"
+                                  (change)="toggleInSelected(lembrete.id)"
+                                  (click)="$event.stopPropagation();"
+                                  [disabled]="deletedIds?.indexOf(lembrete.id) > -1">
+                    </mat-checkbox>
+                </td>
+            </ng-container>
+
+            <!-- Id Column -->
+            <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10" fxLayoutAlign="start center"> Id
+                </th>
+                <td mat-cell *matCellDef="let lembrete" fxFlex="10" fxLayoutAlign="start center"
+                    [ngClass]="{'deleted':deletedIds?.indexOf(lembrete.id) > -1}"> {{lembrete.id}} </td>
+            </ng-container>
+
+            <!-- Processo Column -->
+            <ng-container matColumnDef="processo.NUP">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="100" fxLayoutAlign="start center">
+                    Processo
+                </th>
+                <td mat-cell *matCellDef="let lembrete" fxFlex="100" fxLayoutAlign="start center"
+                    [ngClass]="{'deleted':deletedIds?.indexOf(lembrete.id) > -1}"> {{lembrete.processo.NUP}} </td>
+            </ng-container>
+
+            <!-- Conteudo Column -->
+            <ng-container matColumnDef="conteudo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
+                    Conteúdo
+                </th>
+                <td mat-cell *matCellDef="let lembrete" fxFlex="30" fxLayoutAlign="start center"
+                    [ngClass]="{'deleted':deletedIds?.indexOf(lembrete.id) > -1}"> {{lembrete.conteudo}} </td>
+            </ng-container>
+
+            <!-- Actions Column -->
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef fxFlex="10"></th>
+                <td mat-cell *matCellDef="let lembrete" fxFlex="10" fxLayoutAlign="start center">
+
+                    <button mat-icon-button
+                            *ngIf="actions.indexOf('select') > -1"
+                            (click)="selectLembrete(lembrete)"
+                            aria-label="selecionar"
+                            matTooltip="Selecionar">
+                        <mat-icon>keyboard_return</mat-icon>
+                    </button>
+
+                    <button mat-icon-button
+                            *ngIf="actions.indexOf('edit') > -1"
+                            [disabled]="deletedIds?.indexOf(lembrete.id) > -1"
+                            (click)="editLembrete(lembrete.id)"
+                            aria-label="editar"
+                            matTooltip="Editar">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+
+
+                    <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(lembrete.id) > -1">
+                        <mat-spinner diameter="24"></mat-spinner>
+                    </div>
+
+                    <button mat-icon-button
+                            *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(lembrete.id) === -1"
+                            [disabled]="deletedIds?.indexOf(lembrete.id) > -1"
+                            (click)="deleteLembrete(lembrete.id)"
+                            aria-label="remover"
+                            matTooltip="Remover">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let lembrete; columns: displayedColumns;">
+            </tr>
+        </table>
+
+        <mat-paginator [pageSizeOptions]="[5, 10]"></mat-paginator>
+
+    </div>
+
+</div>

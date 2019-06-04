@@ -1,0 +1,94 @@
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component, Input,
+    OnInit, ViewChild,
+    ViewEncapsulation
+} from '@angular/core';
+
+import {fuseAnimations} from '@fuse/animations';
+import {ModalidadeAlvoInibidor} from '@cdk/models/modalidade-alvo-inibidor.model';
+import {ModalidadeAlvoInibidorService} from '@cdk/services/modalidade-alvo-inibidor.service';
+import {FormControl} from '@angular/forms';
+import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
+import {of} from 'rxjs';
+import {MatAutocomplete} from '@angular/material';
+import {Pagination} from '../../../models/pagination';
+
+@Component({
+    selector: 'cdk-modalidade-alvo-inibidor-autocomplete',
+    templateUrl: './cdk-modalidade-alvo-inibidor-autocomplete.component.html',
+    styleUrls: ['./cdk-modalidade-alvo-inibidor-autocomplete.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    animations: fuseAnimations,
+    exportAs: 'modalidadeAlvoInibidorAutocomplete',
+})
+export class CdkModalidadeAlvoInibidorAutocompleteComponent implements OnInit {
+
+    @Input()
+    pagination: Pagination;
+
+    @Input()
+    control: FormControl;
+
+    modalidadealvoInibidorList: ModalidadeAlvoInibidor[];
+    modalidadealvoInibidorListIsLoading: boolean;
+
+    @ViewChild(MatAutocomplete) autocomplete: MatAutocomplete;
+
+    constructor(
+        private _changeDetectorRef: ChangeDetectorRef,
+        private _modalidadeAlvoInibidorService: ModalidadeAlvoInibidorService
+    ) {
+        this.modalidadealvoInibidorList = [];
+        this.modalidadealvoInibidorListIsLoading = false;
+
+        this.pagination = new Pagination();
+    }
+
+    ngOnInit(): void {
+        this.control.valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            filter(term => !!term && term.length >= 2),
+            switchMap((value) => {
+                    let termFilter = {};
+                    value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                        termFilter = {
+                            ...termFilter,
+                            'valor': `like:%${bit}%`
+                        };
+                    });
+                    if (typeof value === 'string') {
+                        this.modalidadealvoInibidorListIsLoading = true;
+                        this._changeDetectorRef.markForCheck();
+                        const filterParam = {
+                            ...this.pagination.filter,
+                            'valor': `like:${value}%`
+                        };
+                        return this._modalidadeAlvoInibidorService.query(
+                            JSON.stringify(filterParam),
+                            this.pagination.limit,
+                            this.pagination.offset,
+                            JSON.stringify(this.pagination.sort),
+                            JSON.stringify(this.pagination.populate))
+                            .pipe(
+                                finalize(() => this.modalidadealvoInibidorListIsLoading = false),
+                                catchError(() => of([]))
+                            );
+                    } else {
+                        return of([]);
+                    }
+                }
+            )
+        ).subscribe(response => {
+            this.modalidadealvoInibidorList = response['entities'];
+            this._changeDetectorRef.markForCheck();
+        });
+    }
+
+    displayModalidadeAlvoInibidorFn(modalidadealvoInibidor): string {
+        return modalidadealvoInibidor ? modalidadealvoInibidor.valor : null;
+    }
+}

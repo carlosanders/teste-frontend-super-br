@@ -1,0 +1,16 @@
+<form class="p-24 mb-16" fxLayoutGap="16px" fxLayout="column" fxLayoutAlign="start"
+      fxFlex="1 0 auto" name="form" [formGroup]="form">
+
+    <div fxFlex="1 0 auto" fxLayout="column">
+
+        <mat-form-field fxFlex="100">
+            <mat-label>Nome</mat-label>
+            <input matInput #nome
+                   name="nome"
+                   formControlName="nome"
+                   maxlength="255">
+            <mat-hint align="end">{{nome.value.length}} / 255</mat-hint>
+        </mat-form-field>
+
+    </div>
+</form>

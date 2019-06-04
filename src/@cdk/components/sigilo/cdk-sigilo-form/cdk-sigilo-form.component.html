@@ -1,0 +1,237 @@
+<form *ngIf="activeCard === 'form'" class="p-16" fxLayoutGap="36px"
+      fxLayout="column"
+      fxLayoutAlign="start"
+      fxFlex="1 0 auto" name="form" [formGroup]="form" (submit)="submit()">
+
+    <div fxFlex="1 0 auto" fxLayout="column">
+
+        <mat-slide-toggle formControlName="desclassificado" class="mr-16 mb-16" fxFlex="0 1 auto">
+            Desclassificado
+        </mat-slide-toggle>
+
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Processo"
+                       formControlName="processo"
+                       [matAutocomplete]="processo.autocomplete" required
+                       (blur)="checkProcesso()">
+            </div>
+            <cdk-processo-autocomplete
+                #processo="processoAutocomplete"
+                [control]="form.get('processo')"
+                [pagination]="processoPagination">
+            </cdk-processo-autocomplete>
+            <button *ngIf="form.get('processo').enabled" matSuffix mat-button mat-icon-button
+                    (click)="showProcessoGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('processo').hasError('formError')">
+                {{form.get('processo').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+            <mat-label>Código de Indexação</mat-label>
+            <input matInput #codigoIndexacao
+                   name="codigoIndexacao"
+                   formControlName="codigoIndexacao"
+                   maxlength="255" upperCase>
+            <mat-hint align="end">{{codigoIndexacao.value.length}} / 255</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+            <mat-label>Fundamento Legal</mat-label>
+            <input matInput #fundamentoLegal
+                   name="fundamentoLegal"
+                   formControlName="fundamentoLegal"
+                   maxlength="255" upperCase>
+            <mat-hint align="end">{{fundamentoLegal.value.length}} / 255</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+            <mat-label>Razões da Classificacao do Sigilo</mat-label>
+            <input matInput #razoesClassificacaoSigilo
+                   name="razoesClassificacaoSigilo"
+                   formControlName="razoesClassificacaoSigilo"
+                   maxlength="255" upperCase>
+            <mat-hint align="end">{{razoesClassificacaoSigilo.value.length}} / 255</mat-hint>
+        </mat-form-field>
+
+        <div class="dates" fxFlexFill fxLayout="column" fxLayout.gt-xs="row">
+            <mat-form-field appearance="outline" class="mr-sm-12" fxFlex>
+                <mat-label>Data da Validade do Sigilo</mat-label>
+                <input matInput [matDatepicker]="dataHoraValidadeSigilo" placeholder="Data da Validade do Sigilo"
+                       formControlName="dataHoraValidadeSigilo">
+                <mat-datepicker-toggle matSuffix [for]="dataHoraValidadeSigilo"></mat-datepicker-toggle>
+                <mat-datepicker #dataHoraValidadeSigilo></mat-datepicker>
+            </mat-form-field>
+        </div>
+
+        <div class="dates" fxFlexFill fxLayout="column" fxLayout.gt-xs="row">
+            <mat-form-field appearance="outline" class="mr-sm-12" fxFlex>
+                <mat-label>Data da Expiração do Sigilo</mat-label>
+                <input matInput [matDatepicker]="dataHoraExpiracao" placeholder="Data da Expiração do Sigilo"
+                       formControlName="dataHoraExpiracao">
+                <mat-datepicker-toggle matSuffix [for]="dataHoraExpiracao"></mat-datepicker-toggle>
+                <mat-datepicker #dataHoraExpiracao></mat-datepicker>
+            </mat-form-field>
+        </div>
+
+        <mat-form-field fxFlex="100">
+            <mat-label>Nivel de Acesso</mat-label>
+            <input matInput #nivelAcesso
+                   name="nivelAcesso"
+                   formControlName="nivelAcesso"
+                   maxlength="255" upperCase>
+            <mat-hint align="end">{{nivelAcesso.value.length}} / 255</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Modalidade da Categoria do Sigilo"
+                       formControlName="modalidadeCategoriaSigilo"
+                       [matAutocomplete]="modalidadeCategoriaSigilo.autocomplete" required
+                       (blur)="checkModalidadeCategoriaSigilo()">
+            </div>
+            <cdk-modalidade-categoria-sigilo-autocomplete
+                #modalidadeCategoriaSigilo="modalidadeCategoriaSigiloAutocomplete"
+                [control]="form.get('modalidadeCategoriaSigilo')"
+                [pagination]="modalidadeCategoriaSigiloPagination">
+            </cdk-modalidade-categoria-sigilo-autocomplete>
+            <button *ngIf="form.get('modalidadeCategoriaSigilo').enabled" matSuffix mat-button mat-icon-button
+                    (click)="showModalidadeCategoriaSigiloGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('modalidadeCategoriaSigilo').hasError('formError')">
+                {{form.get('modalidadeCategoriaSigilo').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Tipo do Sigilo"
+                       formControlName="tipoSigilo"
+                       [matAutocomplete]="tipoSigilo.autocomplete" required
+                       (blur)="checkTipoSigilo()">
+            </div>
+            <cdk-tipo-sigilo-autocomplete
+                #tipoSigilo="tipoSigiloAutocomplete"
+                [control]="form.get('tipoSigilo')"
+                [pagination]="tipoSigiloPagination">
+            </cdk-tipo-sigilo-autocomplete>
+            <button *ngIf="form.get('tipoSigilo').enabled" matSuffix mat-button mat-icon-button
+                    (click)="showTipoSigiloGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('tipoSigilo').hasError('formError')">
+                {{form.get('tipoSigilo').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Documento"
+                       formControlName="documento"
+                       [matAutocomplete]="documento.autocomplete" required
+                       (blur)="checkDocumento()">
+            </div>
+            <cdk-documento-autocomplete
+                #documento="documentoAutocomplete"
+                [control]="form.get('documento')"
+                [pagination]="documentoPagination">
+            </cdk-documento-autocomplete>
+            <button *ngIf="form.get('documento').enabled" matSuffix mat-button mat-icon-button
+                    (click)="showDocumentoGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('documento').hasError('formError')">
+                {{form.get('documento').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Origem de Dados"
+                       formControlName="origemDados"
+                       [matAutocomplete]="origemDados.autocomplete" required
+                       (blur)="checkOrigemDados()">
+            </div>
+            <cdk-origem-dados-autocomplete
+                #origemDados="origemDadosAutocomplete"
+                [control]="form.get('origemDados')"
+                [pagination]="origemDadosPagination">
+            </cdk-origem-dados-autocomplete>
+            <button *ngIf="form.get('origemDados').enabled" matSuffix mat-button mat-icon-button
+                    (click)="showOrigemDadosGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('origemDados').hasError('formError')">
+                {{form.get('origemDados').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="mr-16" fxFlex="1 0 auto">
+            <textarea formControlName="observacao"
+                      matInput placeholder="Observação" upperCase></textarea>
+            <mat-error *ngIf="form.get('observacao').hasError('formError')">
+                {{form.get('observacao').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
+    </div>
+
+    <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+
+    <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+         fxLayoutAlign="center center">
+        <button mat-raised-button color="accent" class="mr-sm-12"
+                [disabled]="form.invalid">
+            SALVAR
+        </button>
+    </div>
+
+    <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+         fxLayoutAlign="center center">
+        <mat-spinner color="accent" diameter="24"></mat-spinner>
+    </div>
+</form>
+
+<cdk-processo-gridsearch
+        fxFlex="1 0 auto"
+        *ngIf="activeCard === 'processo-gridsearch'"
+        [filter]="processoPagination.filter"
+        (selected)="selectProcesso($event)"
+        (cancel)="cancel()">
+</cdk-processo-gridsearch>
+
+<cdk-modalidade-categoria-sigilo-gridsearch
+        fxFlex="1 0 auto"
+        *ngIf="activeCard === 'modalidade-categoria-sigilo-gridsearch'"
+        [filter]="modalidadeCategoriaSigiloPagination.filter"
+        (selected)="selectModalidadeCategoriaSigilo($event)"
+        (cancel)="cancel()">
+</cdk-modalidade-categoria-sigilo-gridsearch>
+
+<cdk-tipo-sigilo-gridsearch
+        fxFlex="1 0 auto"
+        *ngIf="activeCard === 'tipo-sigilo-gridsearch'"
+        [filter]="tipoSigiloPagination.filter"
+        (selected)="selectTipoSigilo($event)"
+        (cancel)="cancel()">
+</cdk-tipo-sigilo-gridsearch>
+
+<cdk-documento-gridsearch
+        fxFlex="1 0 auto"
+        *ngIf="activeCard === 'documento-gridsearch'"
+        [filter]="documentoPagination.filter"
+        (selected)="selectDocumento($event)"
+        (cancel)="cancel()">
+</cdk-documento-gridsearch>
+
+<cdk-origem-dados-gridsearch
+        fxFlex="1 0 auto"
+        *ngIf="activeCard === 'origem-dados-gridsearch'"
+        [filter]="origemDadosPagination.filter"
+        (selected)="selectOrigemDados($event)"
+        (cancel)="cancel()">
+</cdk-origem-dados-gridsearch>

@@ -1,0 +1,13 @@
+<cdk-pessoa-grid
+        [loading]="(loading$ | async)"
+        [pessoas]="(pessoas$ | async)"
+        [total]="(pagination$ | async)?.total"
+        [pageSize]="(pagination$ | async)?.limit"
+        [deletingIds]="(deletingIds$ | async)"
+        [deletedIds]="(deletedIds$ | async)"
+        [actions]="['edit', 'delete']"
+        (reload)="reload($event)"
+        [mode]="'search'"
+        (edit)="edit($event)"
+        (delete)="delete($event)">
+</cdk-pessoa-grid>

@@ -1,0 +1,9 @@
+<mat-autocomplete [displayWith]="displayDesentranhamentoFn">
+    <mat-option *ngFor="let desentranhamento of desentranhamentoList"
+                [value]="desentranhamento">
+        <span [innerHTML]="displayDesentranhamentoFn(desentranhamento) | highlightOption: this.control.value"></span>
+    </mat-option>
+    <mat-option *ngIf="desentranhamentoListIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>

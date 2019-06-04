@@ -1,0 +1,9 @@
+<mat-autocomplete [displayWith]="displayTarefaFn">
+    <mat-option *ngFor="let tarefa of tarefaList"
+                [value]="tarefa">
+        <span [innerHTML]="displayTarefaFn(tarefa) | highlightOption: this.control.value"></span>
+    </mat-option>
+    <mat-option *ngIf="tarefaListIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>

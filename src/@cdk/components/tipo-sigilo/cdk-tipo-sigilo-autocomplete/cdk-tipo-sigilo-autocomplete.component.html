@@ -1,0 +1,9 @@
+<mat-autocomplete [displayWith]="displayTipoSigiloFn">
+    <mat-option *ngFor="let tipoSigilo of tipoSigiloList"
+                [value]="tipoSigilo">
+        <span [innerHTML]="displayTipoSigiloFn(tipoSigilo) | highlightOption: this.control.value"></span>
+    </mat-option>
+    <mat-option *ngIf="tipoSigiloListIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>

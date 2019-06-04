@@ -1,0 +1,9 @@
+<mat-autocomplete [displayWith]="displayDocumentoIdentificadorFn">
+    <mat-option *ngFor="let documentoIdentificador of documentoIdentificadorList"
+                [value]="documentoIdentificador">
+        <span [innerHTML]="displayDocumentoIdentificadorFn(documentoIdentificador) | highlightOption: this.control.value"></span>
+    </mat-option>
+    <mat-option *ngIf="documentoIdentificadorListIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>

@@ -1,0 +1,9 @@
+<mat-autocomplete [displayWith]="displayComponenteDigitalFn">
+    <mat-option *ngFor="let componenteDigital of componenteDigitalList"
+                [value]="componenteDigital">
+        <span [innerHTML]="displayComponenteDigitalFn(componenteDigital) | highlightOption: this.control.value"></span>
+    </mat-option>
+    <mat-option *ngIf="componenteDigitalListIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>

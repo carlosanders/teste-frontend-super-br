@@ -1,0 +1,9 @@
+<mat-autocomplete [displayWith]="displayTramitacaoFn">
+    <mat-option *ngFor="let tramitacao of tramitacaoList"
+                [value]="tramitacao">
+        <span [innerHTML]="displayTramitacaoFn(tramitacao) | highlightOption: this.control.value"></span>
+    </mat-option>
+    <mat-option *ngIf="tramitacaoListIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>

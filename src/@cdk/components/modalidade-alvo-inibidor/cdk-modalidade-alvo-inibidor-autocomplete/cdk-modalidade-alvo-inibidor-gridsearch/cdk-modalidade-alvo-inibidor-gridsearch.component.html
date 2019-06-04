@@ -1,0 +1,9 @@
+<cdk-modalidade-alvo-inibidor-grid
+        [loading]="loading"
+        [modalidadealvoInibidors]="modalidadealvoInibidors"
+        [total]="total"
+        [actions]="['select', 'cancel']"
+        (select)="select($event)"
+        (cancel)="doCancel()"
+        (reload)="reload($event)">
+</cdk-modalidade-alvo-inibidor-grid>

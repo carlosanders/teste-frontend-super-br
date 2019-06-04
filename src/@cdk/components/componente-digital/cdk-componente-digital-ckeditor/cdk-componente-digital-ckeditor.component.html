@@ -1,0 +1,28 @@
+<div fxFlex fxLayout="column">
+
+    <!-- HEADER -->
+    <div>
+
+        <div fxLayout="row" fxLayoutAlign="start center">
+
+            <div class="actions" fxLayout="row" fxLayoutAlign="start center">
+
+                <button mat-icon-button aria-label="Salvar" matTooltip="Salvar" (click)="doSave()">
+                    <mat-icon class="black-fg">save</mat-icon>
+                </button>
+
+                <button mat-icon-button aria-label="Converter em PDF" matTooltip="Salvar">
+                    <mat-icon class="black-fg">picture_as_pdf</mat-icon>
+                </button>
+
+                <button mat-icon-button aria-label="Assinar" matTooltip="Salvar">
+                    <mat-icon class="black-fg">lock</mat-icon>
+                </button>
+
+            </div>
+        </div>
+    </div>
+    <!-- / HEADER -->
+
+    <ckeditor *ngIf="src" fxFlex [config]="config" [editor]="Editor" [data]="src" (ready)="onReady($event)" (change)="onChange($event)"></ckeditor>
+</div>

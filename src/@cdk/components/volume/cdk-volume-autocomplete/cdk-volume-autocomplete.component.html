@@ -1,0 +1,9 @@
+<mat-autocomplete [displayWith]="displayVolumeFn">
+    <mat-option *ngFor="let volume of volumeList"
+                [value]="volume">
+        <span [innerHTML]="displayVolumeFn(volume) | highlightOption: this.control.value"></span>
+    </mat-option>
+    <mat-option *ngIf="volumeListIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>

@@ -1,0 +1,9 @@
+d<cdk-afastamento-grid
+        [loading]="loading"
+        [afastamentos]="afastamentos"
+        [total]="total"
+        [actions]="['select', 'cancel']"
+        (select)="select($event)"
+        (cancel)="doCancel()"
+        (reload)="reload($event)">
+</cdk-afastamento-grid>

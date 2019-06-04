@@ -1,0 +1,9 @@
+<mat-autocomplete [displayWith]="displayPaisFn">
+    <mat-option *ngFor="let pais of paisList"
+                [value]="pais">
+        <span [innerHTML]="displayPaisFn(pais) | highlightOption: this.control.value"></span>
+    </mat-option>
+    <mat-option *ngIf="paisListIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>

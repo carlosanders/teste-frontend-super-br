@@ -1,0 +1,6 @@
+<cdk-pessoa-form
+        [pessoa]="pessoa"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        (save)="submit($event)">
+</cdk-pessoa-form>

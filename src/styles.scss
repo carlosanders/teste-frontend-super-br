@@ -1,0 +1,38 @@
+// Import Fuse core library
+@import "@fuse/scss/core";
+
+// Import app.theme.scss
+@import "app/app.theme";
+
+content {
+  &.full-screen {
+    z-index: 1001;
+  }
+}
+
+mwlResizable {
+  box-sizing: border-box; // required for the enableGhostResize option to work
+}
+
+.danger-snackbar {
+  background: #ff4444 !important;
+}
+
+.mat-datetimepicker-calendar-body-selected {
+  background-color: #039BE5;
+}
+
+.mat-datetimepicker-calendar {
+  width: 350px !important;
+  height: 355px !important;
+}
+
+.mat-datetimepicker-calendar-header{
+  width: 0px !important;
+  min-width: 0px !important;
+  padding: 0px !important;
+}
+
+.mat-datetimepicker-calendar-content {
+  width: 100% !important;
+}

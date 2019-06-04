@@ -1,0 +1,9 @@
+<mat-autocomplete [displayWith]="displayEspecieSetorFn">
+    <mat-option *ngFor="let especieSetor of especieSetorList"
+                [value]="especieSetor">
+        <span [innerHTML]="displayEspecieSetorFn(especieSetor) | highlightOption: this.control.value"></span>
+    </mat-option>
+    <mat-option *ngIf="especieSetorListIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>

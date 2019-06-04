@@ -1,0 +1,223 @@
+<!-- CONTENT HEADER -->
+<div class="header" fxLayout="column">
+
+    <div class="filters" *ngIf="showFilter">
+        <cdk-sigilo-grid-filter (selected)="setGridFilter($event)"></cdk-sigilo-grid-filter>
+    </div>
+</div>
+<!-- / CONTENT HEADER -->
+
+<!-- CONTENT -->
+<div class="content" fxLayoutAlign="center start">
+
+    <div class="mb-16 p-16" fxFlex="1 0 auto" fxLayout="column" fxLayoutAlign="center center">
+
+        <div class="actions m-8" fxFlex fxLayout="row" fxLayoutAlign="end center">
+
+            <button mat-icon-button *ngIf="actions.indexOf('cancel') > -1"
+                    (click)="doCancel()"
+                    aria-label="cancelar"
+                    matTooltip="Cancelar">
+                <mat-icon>cancel</mat-icon>
+            </button>
+
+            <button mat-icon-button *ngIf="selectedIds.length > 1 && actions.indexOf('delete') > -1"
+                    (click)="deleteSigilos(selectedIds)"
+                    aria-label="remover"
+                    matTooltip="Remover">
+                <mat-icon>delete</mat-icon>
+            </button>
+
+            <button class="refresh" mat-icon-button
+                    (click)="loadPage()"
+                    aria-label="recarregar"
+                    matTooltip="Recarregar">
+                <mat-icon>refresh</mat-icon>
+            </button>
+
+            <button class="toggle-filter" mat-icon-button
+                    (click)="toggleFilter()"
+                    aria-label="filtrar"
+                    matTooltip="Filtrar">
+                <mat-icon>filter_list</mat-icon>
+            </button>
+        </div>
+
+        <div class="spinner-container" *ngIf="loading">
+            <mat-spinner diameter="32"></mat-spinner>
+        </div>
+
+        <table mat-table [dataSource]="dataSource" matSort [hidden]="loading">
+
+            <!-- Selection Column -->
+            <ng-container matColumnDef="select">
+                <th mat-header-cell *matHeaderCellDef fxFlex="10" fxLayoutAlign="start center">
+                    <mat-checkbox (click)="toggleSelectAll($event)"
+                                  [checked]="hasSelected"
+                                  [indeterminate]="isIndeterminate">
+                    </mat-checkbox>
+                </th>
+                <td mat-cell *matCellDef="let sigilo" fxFlex="10" fxLayoutAlign="start center">
+                    <mat-checkbox [checked]="selectedIds.indexOf(sigilo.id) > -1"
+                                  (change)="toggleInSelected(sigilo.id)"
+                                  (click)="$event.stopPropagation();"
+                                  [disabled]="deletedIds?.indexOf(sigilo.id) > -1">
+                    </mat-checkbox>
+                </td>
+            </ng-container>
+
+            <!-- Id Column -->
+            <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10" fxLayoutAlign="start center"> Id
+                </th>
+                <td mat-cell *matCellDef="let sigilo" fxFlex="10" fxLayoutAlign="start center"
+                    [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.id}} </td>
+            </ng-container>
+
+            <!-- Desclassificado Column -->
+            <ng-container matColumnDef="desclassificado">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="100" fxLayoutAlign="start center">
+                    Desclassificado
+                </th>
+                <td mat-cell *matCellDef="let sigilo" fxFlex="100" fxLayoutAlign="start center"
+                    [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.desclassificado}} </td>
+            </ng-container>
+
+            <!-- Observacao Column -->
+            <ng-container matColumnDef="observacao">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
+                    Observacao
+                </th>
+                <td mat-cell *matCellDef="let sigilo" fxFlex="30" fxLayoutAlign="start center"
+                    [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.observacao}} </td>
+            </ng-container>
+
+            <!-- FundamentoLegal Column -->
+            <ng-container matColumnDef="fundamentoLegal">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
+                    Fundamento Legal
+                </th>
+                <td mat-cell *matCellDef="let sigilo" fxFlex="30" fxLayoutAlign="start center"
+                    [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.fundamentoLegal}} </td>
+            </ng-container>
+
+            <!-- RazoesClassificacaoSigilo Column -->
+            <ng-container matColumnDef="razoesClassificacaoSigilo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
+                    Razoes de Classificacao do Sigilo
+                </th>
+                <td mat-cell *matCellDef="let sigilo" fxFlex="30" fxLayoutAlign="start center"
+                    [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.razoesClassificacaoSigilo}} </td>
+            </ng-container>
+
+            <!-- DataHoraValidadeSigilo Column -->
+            <ng-container matColumnDef="dataHoraValidadeSigilo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
+                    Data de Validade do Sigilo
+                </th>
+                <td mat-cell *matCellDef="let sigilo" fxFlex="30" fxLayoutAlign="start center"
+                    [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.dataHoraValidadeSigilo}} </td>
+            </ng-container>
+
+            <!-- DataHoraExpiracao Column -->
+            <ng-container matColumnDef="dataHoraExpiracao">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
+                    Data de Expiração
+                </th>
+                <td mat-cell *matCellDef="let sigilo" fxFlex="30" fxLayoutAlign="start center"
+                    [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.dataHoraExpiracao}} </td>
+            </ng-container>
+
+            <!-- TipoSigilo Column -->
+            <ng-container matColumnDef="tipoSigilo.nome">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
+                    Tipo do Sigilo
+                </th>
+                <td mat-cell *matCellDef="let sigilo" fxFlex="30" fxLayoutAlign="start center"
+                    [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.tipoSigilo.nome}} </td>
+            </ng-container>
+
+            <!-- Processo.NUP Column -->
+            <ng-container matColumnDef="processo.NUP">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
+                    NUP
+                </th>
+                <td mat-cell *matCellDef="let sigilo" fxFlex="30" fxLayoutAlign="start center"
+                    [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.processo.NUP}} </td>
+            </ng-container>
+
+            <!-- Modalidade do Sigilo Column -->
+            <ng-container matColumnDef="modalidadeCategoriaSigilo.valor">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
+                    Modalidade do Sigilo
+                </th>
+                <td mat-cell *matCellDef="let sigilo" fxFlex="30" fxLayoutAlign="start center"
+                    [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.modalidadeCategoriaSigilo.valor}} </td>
+            </ng-container>
+
+            <!-- Documento Column -->
+            <ng-container matColumnDef="documento.descricaoOutros">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
+                    Documento
+                </th>
+                <td mat-cell *matCellDef="let sigilo" fxFlex="30" fxLayoutAlign="start center"
+                    [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.documento.descricaoOutros}} </td>
+            </ng-container>
+
+            <!-- OrigemDados Column -->
+            <ng-container matColumnDef="origemDados.servico">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
+                    Origem de Dados
+                </th>
+                <td mat-cell *matCellDef="let sigilo" fxFlex="30" fxLayoutAlign="start center"
+                    [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.origemDados.servico}} </td>
+            </ng-container>
+
+            <!-- Actions Column -->
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef fxFlex="10"></th>
+                <td mat-cell *matCellDef="let sigilo" fxFlex="10" fxLayoutAlign="start center">
+
+                    <button mat-icon-button
+                            *ngIf="actions.indexOf('select') > -1"
+                            (click)="selectSigilo(sigilo)"
+                            aria-label="selecionar"
+                            matTooltip="Selecionar">
+                        <mat-icon>keyboard_return</mat-icon>
+                    </button>
+
+                    <button mat-icon-button
+                            *ngIf="actions.indexOf('edit') > -1"
+                            [disabled]="deletedIds?.indexOf(sigilo.id) > -1"
+                            (click)="editSigilo(sigilo.id)"
+                            aria-label="editar"
+                            matTooltip="Editar">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+
+
+                    <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(sigilo.id) > -1">
+                        <mat-spinner diameter="24"></mat-spinner>
+                    </div>
+
+                    <button mat-icon-button
+                            *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(sigilo.id) === -1"
+                            [disabled]="deletedIds?.indexOf(sigilo.id) > -1"
+                            (click)="deleteSigilo(sigilo.id)"
+                            aria-label="remover"
+                            matTooltip="Remover">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let sigilo; columns: displayedColumns;">
+            </tr>
+        </table>
+
+        <mat-paginator [pageSizeOptions]="[5, 10]"></mat-paginator>
+
+    </div>
+
+</div>

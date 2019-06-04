@@ -1,0 +1,9 @@
+<cdk-modalidade-destinacao-grid
+        [loading]="loading"
+        [modalidadedestinacaos]="modalidadedestinacaos"
+        [total]="total"
+        [actions]="['select', 'cancel']"
+        (select)="select($event)"
+        (cancel)="doCancel()"
+        (reload)="reload($event)">
+</cdk-modalidade-destinacao-grid>

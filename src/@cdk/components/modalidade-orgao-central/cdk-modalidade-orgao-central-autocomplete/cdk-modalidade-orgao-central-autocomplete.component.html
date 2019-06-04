@@ -1,0 +1,9 @@
+<mat-autocomplete [displayWith]="displayModalidadeOrgaoCentralFn">
+    <mat-option *ngFor="let modalidadeOrgaoCentral of modalidadeOrgaoCentralList"
+                [value]="modalidadeOrgaoCentral">
+        <span [innerHTML]="displayModalidadeOrgaoCentralFn(modalidadeOrgaoCentral) | highlightOption: this.control.value"></span>
+    </mat-option>
+    <mat-option *ngIf="modalidadeOrgaoCentralListIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>

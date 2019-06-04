@@ -1,0 +1,184 @@
+import * as moment from 'moment';
+import {Type, Transform, Exclude} from 'class-transformer';
+
+import {Usuario} from '@cdk/models/usuario.model';
+import {ModalidadeAlvoInibidor} from '@cdk/models/modalidade-alvo-inibidor.model';
+import {ModalidadeTipoInibidor} from '@cdk/models/modalidade-tipo-inibidor.model';
+import {Modelo} from '@cdk/models/modelo.model';
+import {Documento} from '@cdk/models/documento.model';
+import {OrigemDados} from '@cdk/models/origem-dados.model';
+
+import {Subscription} from 'rxjs/Subscription';
+import {Processo} from './processo.model';
+import {Tarefa} from './tarefa.model';
+
+export class ComponenteDigital {
+
+    @Exclude({toPlainOnly: true})
+    id?: number;
+
+    @Exclude({toPlainOnly: true})
+    uuid?: string;
+
+    editavel: boolean;
+
+    @Exclude({toPlainOnly: true})
+    assinado: boolean;
+
+    fileName: string;
+
+    numeracaoSequencial: number;
+
+    conteudo: string;
+
+    tamanho: number;
+
+    nivelComposicao: number;
+
+    softwareCriacao?: string;
+
+    chaveInibidor?: string;
+
+    versaoSoftwareCriacao?: string;
+
+    mimetype: string;
+
+    extensao: string;
+
+    hash: string;
+
+    usernameLockEdicao: string;
+
+    @Transform(value => value ? value.format() : null, {toPlainOnly: true})
+    @Transform(value => value ? moment(value) : null, {toClassOnly: true})
+    dataHoraSoftwareCriacao?: Date;
+
+    @Transform(value => value ? value.format() : null, {toPlainOnly: true})
+    @Transform(value => value ? moment(value) : null, {toClassOnly: true})
+    dataHoraLockEdicao?: Date;
+
+    @Type(() => ModalidadeAlvoInibidor)
+    @Transform(value => value ? value.id : null, {toPlainOnly: true})
+    modalidadeAlvoInibidor?: ModalidadeAlvoInibidor;
+
+    @Type(() => ModalidadeTipoInibidor)
+    @Transform(value => value ? value.id : null, {toPlainOnly: true})
+    modalidadeTipoInibidor?: ModalidadeTipoInibidor;
+
+    @Type(() => Modelo)
+    @Transform(value => value ? value.id : null, {toPlainOnly: true})
+    modelo?: Modelo;
+
+    @Type(() => Documento)
+    @Transform(value => value ? value.id : null, {toPlainOnly: true})
+    documento: Documento;
+
+    @Type(() => Processo)
+    @Transform(value => value ? value.id : null, {toPlainOnly: true})
+    processoOrigem?: Processo;
+
+    @Type(() => Documento)
+    @Transform(value => value ? value.id : null, {toPlainOnly: true})
+    documentoOrigem?: Documento;
+
+    @Type(() => Tarefa)
+    @Transform(value => value ? value.id : null, {toPlainOnly: true})
+    tarefaOrigem?: Tarefa;
+
+    @Exclude({toPlainOnly: true})
+    @Type(() => OrigemDados)
+    @Transform(value => value ? value.id : null, {toPlainOnly: true})
+    origemDados?: OrigemDados;
+
+    @Exclude({toPlainOnly: true})
+    @Type(() => Usuario)
+    @Transform(value => value ? value.id : null, {toPlainOnly: true})
+    criadoPor?: Usuario;
+
+    @Exclude({toPlainOnly: true})
+    @Transform(value => value ? value.format() : null, {toPlainOnly: true})
+    @Transform(value => value ? moment(value) : null, {toClassOnly: true})
+    criadoEm?: Date;
+
+    @Exclude({toPlainOnly: true})
+    @Type(() => Usuario)
+    @Transform(value => value ? value.id : null, {toPlainOnly: true})
+    atualizadoPor?: Usuario;
+
+    @Exclude({toPlainOnly: true})
+    @Transform(value => value ? value.format() : null, {toPlainOnly: true})
+    @Transform(value => value ? moment(value) : null, {toClassOnly: true})
+    atualizadoEm?: Date;
+
+    @Exclude({toPlainOnly: true})
+    @Type(() => Usuario)
+    @Transform(value => value ? value.id : null, {toPlainOnly: true})
+    apagadoPor?: Usuario;
+
+    @Exclude({toPlainOnly: true})
+    @Transform(value => value ? value.format() : null, {toPlainOnly: true})
+    @Transform(value => value ? moment(value) : null, {toClassOnly: true})
+    apagadoEm?: Date;
+
+    @Exclude()
+    file: File;
+    @Exclude()
+    state: string;
+    @Exclude()
+    inProgress: boolean;
+    @Exclude()
+    progress: number;
+    @Exclude()
+    canRetry: boolean;
+    @Exclude()
+    canCancel: boolean;
+    @Exclude()
+    complete: boolean;
+    @Exclude()
+    sub?: Subscription;
+
+    constructor() {
+        this.id = null;
+        this.uuid = null;
+        this.fileName = null;
+        this.hash = null;
+        this.numeracaoSequencial = null;
+        this.conteudo = null;
+        this.tamanho = null;
+        this.nivelComposicao = null;
+        this.softwareCriacao = null;
+        this.chaveInibidor = null;
+        this.dataHoraSoftwareCriacao = null;
+        this.versaoSoftwareCriacao = null;
+        this.mimetype = null;
+        this.dataHoraLockEdicao = null;
+        this.usernameLockEdicao = null;
+        this.extensao = null;
+        this.processoOrigem = null;
+        this.documentoOrigem = null;
+        this.tarefaOrigem = null;
+        this.editavel = null;
+        this.assinado = null;
+        this.modalidadeAlvoInibidor = null;
+        this.modalidadeTipoInibidor = null;
+        this.modelo = null;
+        this.documento = null;
+        this.origemDados = null;
+        this.origemDados = null;
+        this.criadoPor = null;
+        this.criadoEm = null;
+        this.atualizadoPor = null;
+        this.atualizadoEm = null;
+        this.apagadoPor = null;
+        this.apagadoEm = null;
+
+        this.file = null;
+        this.state = null;
+        this.inProgress = null;
+        this.progress = null;
+        this.canRetry = null;
+        this.canCancel = null;
+        this.sub = null;
+        this.complete = null;
+    }
+}

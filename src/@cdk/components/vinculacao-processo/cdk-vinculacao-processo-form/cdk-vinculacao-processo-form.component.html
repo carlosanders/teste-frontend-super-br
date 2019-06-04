@@ -1,0 +1,119 @@
+<form *ngIf="activeCard === 'form'" class="p-16" fxLayoutGap="36px"
+      fxLayout="column"
+      fxLayoutAlign="start"
+      fxFlex="1 0 auto" name="form" [formGroup]="form" (submit)="submit()">
+
+    <div fxFlex="1 0 auto" fxLayout="column">
+
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Processo"
+                       formControlName="processo"
+                       [matAutocomplete]="processo.autocomplete" required
+                       (blur)="checkProcesso()">
+            </div>
+            <cdk-processo-autocomplete
+                #processo="processoAutocomplete"
+                [control]="form.get('processo')"
+                [pagination]="processoPagination">
+            </cdk-processo-autocomplete>
+            <button *ngIf="form.get('processo').enabled" matSuffix mat-button mat-icon-button
+                    (click)="showProcessoGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('processo').hasError('formError')">
+                {{form.get('processo').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Processo Vinculado"
+                       formControlName="processoVinculado"
+                       [matAutocomplete]="processoVinculado.autocomplete" required
+                       (blur)="checkProcessoVinculado()">
+            </div>
+            <cdk-processo-vinculado-autocomplete
+                #processoVinculado="processoVinculadoAutocomplete"
+                [control]="form.get('processoVinculado')"
+                [pagination]="processoVinculadoPagination">
+            </cdk-processo-vinculado-autocomplete>
+            <button *ngIf="form.get('processoVinculado').enabled" matSuffix mat-button mat-icon-button
+                    (click)="showProcessoVinculadoGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('processoVinculado').hasError('formError')">
+                {{form.get('processoVinculado').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Modalidade da Vinculação do Processo"
+                       formControlName="modalidadeVinculacaoProcesso"
+                       [matAutocomplete]="modalidadeVinculacaoProcesso.autocomplete" required
+                       (blur)="checkModalidadeVinculacaoProcesso()">
+            </div>
+            <cdk-modalidade-vinculacao-processo-autocomplete
+                #modalidadeVinculacaoProcesso="modalidadeVinculacaoProcessoAutocomplete"
+                [control]="form.get('modalidadeVinculacaoProcesso')"
+                [pagination]="modalidadeVinculacaoProcessoPagination">
+            </cdk-modalidade-vinculacao-processo-autocomplete>
+            <button *ngIf="form.get('modalidadeVinculacaoProcesso').enabled" matSuffix mat-button mat-icon-button
+                    (click)="showModalidadeVinculacaoProcessoGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('modalidadeVinculacaoProcesso').hasError('formError')">
+                {{form.get('modalidadeVinculacaoProcesso').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="mr-16" fxFlex="1 0 auto">
+            <textarea formControlName="observacao"
+                      matInput placeholder="Observação" upperCase></textarea>
+            <mat-error *ngIf="form.get('observacao').hasError('formError')">
+                {{form.get('observacao').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
+    </div>
+
+    <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+
+    <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+         fxLayoutAlign="center center">
+        <button mat-raised-button color="accent" class="mr-sm-12"
+                [disabled]="form.invalid">
+            SALVAR
+        </button>
+    </div>
+
+    <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+         fxLayoutAlign="center center">
+        <mat-spinner color="accent" diameter="24"></mat-spinner>
+    </div>
+</form>
+
+<cdk-processo-gridsearch
+        fxFlex="1 0 auto"
+        *ngIf="activeCard === 'processo-gridsearch'"
+        [filter]="processoPagination.filter"
+        (selected)="selectProcesso($event)"
+        (cancel)="cancel()">
+</cdk-processo-gridsearch>
+
+<cdk-processo-vinculado-gridsearch
+        fxFlex="1 0 auto"
+        *ngIf="activeCard === 'processo-vinculado-gridsearch'"
+        [filter]="processoVinculadoPagination.filter"
+        (selected)="selectProcessoVinculado($event)"
+        (cancel)="cancel()">
+</cdk-processo-vinculado-gridsearch>
+
+<cdk-modalidade-vinculacao-processo-gridsearch
+        fxFlex="1 0 auto"
+        *ngIf="activeCard === 'modalidade-vinculacao-processo-gridsearch'"
+        [filter]="modalidadeVinculacaoProcessoPagination.filter"
+        (selected)="selectModalidadeVinculacaoProcesso($event)"
+        (cancel)="cancel()">
+</cdk-modalidade-vinculacao-processo-gridsearch>

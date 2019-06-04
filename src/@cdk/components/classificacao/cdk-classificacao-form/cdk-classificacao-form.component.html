@@ -1,0 +1,180 @@
+<form *ngIf="activeCard === 'form'" class="p-24 mr-24" fxLayoutGap="36px"
+      fxLayout="column"
+      fxLayoutAlign="start"
+      fxFlex="1 0 auto" name="form" [formGroup]="form" (submit)="submit()">
+
+    <div fxFlex="1 0 auto" fxLayout="column" class="div-form">
+
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Código" formControlName="codigo" required>
+            </div>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Nome" formControlName="nome" required>
+            </div>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Destinação"
+                       formControlName="modalidadeDestinacao"
+                       [matAutocomplete]="modalidadeDestinacao.autocomplete"
+                       (blur)="checkModalidadeDestinacao()"
+                       required>
+            </div>
+            <cdk-modalidade-destinacao-autocomplete
+                #modalidadeDestinacao="modalidadeDestinacaoAutocomplete"
+                [control]="form.get('modalidadeDestinacao')"
+                [pagination]="modalidadeDestinacaoPagination">
+            </cdk-modalidade-destinacao-autocomplete>
+            <button matSuffix mat-button mat-icon-button
+                    (click)="showModalidadeDestinacaoGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('modalidadeDestinacao').hasError('formError')">
+                {{form.get('modalidadeDestinacao').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Classificação Pai"
+                       formControlName="parent"
+                       [matAutocomplete]="classificacao.autocomplete"
+                       (blur)="checkClassificacao()"
+                       required>
+            </div>
+            <cdk-classificacao-autocomplete
+                #classificacao="classificacaoAutocomplete"
+                [control]="form.get('parent')"
+                [pagination]="classificacaoPagination">>
+            </cdk-classificacao-autocomplete>
+            <button matSuffix mat-button mat-icon-button
+                    (click)="showClassificacaoGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('parent').hasError('formError')">
+                {{form.get('parent').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
+        <div class="dates" fxFlexFill fxLayout="column" fxLayout.gt-xs="row">
+
+            <mat-checkbox formControlName="ativo"
+                          class="mr-16 mb-16" fxFlex="0 1 auto">
+                Ativo
+            </mat-checkbox>
+
+            <mat-checkbox formControlName="permissaoUso"
+                          class="mr-16 mb-16" fxFlex="0 1 auto">
+                Permissão Uso
+            </mat-checkbox>
+
+        </div>
+
+        <mat-expansion-panel [expanded]="true" hideToggle>
+
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Prazo de Guarda Fase Corrente
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <section class="prazoGuarda">
+                <mat-form-field>
+                    <input matInput type="number" class="prazoGuardaCampo"
+                           formControlName="prazoGuardaFaseCorrenteDia" placeholder="Dia(s)">
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput type="number" class="prazoGuardaCampo"
+                           formControlName="prazoGuardaFaseCorrenteMes" placeholder="Mês(es)">
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput type="number" class="prazoGuardaCampo"
+                           formControlName="prazoGuardaFaseCorrenteAno" placeholder="Ano(s)">
+                </mat-form-field>
+
+            </section>
+            <p>
+                <mat-form-field fxFlex="100">
+                    <div fxLayout="row" fxLayoutAlign="start center">
+                        <input matInput placeholder="Evento" formControlName="prazoGuardaFaseCorrenteEvento">
+                    </div>
+                </mat-form-field>
+            </p>
+
+        </mat-expansion-panel>
+
+        <br />
+
+        <mat-expansion-panel [expanded]="true" hideToggle>
+
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Prazo de Guarda Fase Intermediária
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <section class="prazoGuarda">
+                <mat-form-field>
+                    <input matInput type="number" class="prazoGuardaCampo"
+                           formControlName="prazoGuardaFaseIntermediariaDia" placeholder="Dia(s)">
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput type="number" class="prazoGuardaCampo"
+                           formControlName="prazoGuardaFaseIntermediariaMes" placeholder="Mês(es)">
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput type="number" class="prazoGuardaCampo"
+                           formControlName="prazoGuardaFaseIntermediariaAno" placeholder="Ano(s)">
+                </mat-form-field>
+            </section>
+            <p>
+                <mat-form-field fxFlex="100">
+                    <div fxLayout="row" fxLayoutAlign="start center">
+                        <input matInput placeholder="Evento" formControlName="prazoGuardaFaseIntermediariaEvento">
+                    </div>
+                </mat-form-field>
+            </p>
+
+        </mat-expansion-panel>
+
+        <mat-form-field class="mr-16 mb-16" fxFlex="0 1 auto">
+            <textarea formControlName="observacao"
+                      matInput placeholder="Observação"></textarea>
+        </mat-form-field>
+
+
+    </div>
+
+    <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+
+    <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+         fxLayoutAlign="center center">
+        <button mat-raised-button color="accent" class="mr-sm-12"
+                [disabled]="form.invalid">
+            SALVAR
+        </button>
+    </div>
+
+    <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+         fxLayoutAlign="center center">
+        <mat-spinner color="accent" diameter="24"></mat-spinner>
+    </div>
+</form>
+
+<cdk-modalidade-destinacao-gridsearch
+        fxFlex="1 0 auto"
+        *ngIf="activeCard === 'modalidade-destinacao-gridsearch'"
+        (selected)="selectModalidadeDestinacao($event)"
+        (cancel)="cancel()">
+</cdk-modalidade-destinacao-gridsearch>
+
+<cdk-classificacao-gridsearch
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'classificacao-gridsearch'"
+    (selected)="selectClassificacao($event)"
+    (cancel)="cancel()">
+</cdk-classificacao-gridsearch>

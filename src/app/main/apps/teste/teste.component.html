@@ -1,0 +1,34 @@
+<div fxLayout="column" fxFlex="100">
+
+    <!-- CONTENT HEADER -->
+    <div class="header" fxLayout="column">
+
+        <div class="actions mt-16 ml-24 mr-16" fxLayout="row" fxLayoutAlign="start center">
+            <button mat-raised-button
+                    class="mat-accent"
+                    (click)="createTarefa()"
+                    aria-label="novo"
+                    matTooltip="Novo">
+                Novo
+            </button>
+        </div>
+    </div>
+    <!-- / CONTENT HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content p-24">
+
+        <cdk-tarefa-list fxFlex="100"
+            [loading]="(loading$ | async)"
+            [tarefas]="(tarefas$ | async)"
+            [total]="(total$ | async)"
+            [deletingIds]="(deletingIds$ | async)"
+            [deletedIds]="(deletedIds$ | async)"
+            [actions]="['edit', 'delete']"
+            (reload)="reload($event)"
+            (edit)="editTarefa($event)"
+            (delete)="deleteTarefa($event)">
+        </cdk-tarefa-list>
+
+    </div>
+</div>

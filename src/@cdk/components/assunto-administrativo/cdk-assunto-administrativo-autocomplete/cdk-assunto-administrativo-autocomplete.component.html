@@ -1,0 +1,16 @@
+<mat-autocomplete [displayWith]="displayAssuntoAdministrativoFn">
+    <mat-option [ngClass]="{'multiline':assuntoAdministrativo.parent}"
+                *ngFor="let assuntoAdministrativo of assuntoAdministrativoList"
+                [value]="assuntoAdministrativo">
+        <div *ngIf="assuntoAdministrativo.parent">{{ assuntoAdministrativo.parent.nome }}</div>
+        <div [ngClass]="{'strong':assuntoAdministrativo.parent}">
+            <span *ngIf="assuntoAdministrativo.parent">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </span>
+            {{ assuntoAdministrativo.nome }} ({{ assuntoAdministrativo.id}})
+        </div>
+    </mat-option>
+    <mat-option *ngIf="assuntoAdministrativoListIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>

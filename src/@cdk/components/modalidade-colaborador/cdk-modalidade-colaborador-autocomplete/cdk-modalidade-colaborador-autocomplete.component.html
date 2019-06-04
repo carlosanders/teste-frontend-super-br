@@ -1,0 +1,9 @@
+<mat-autocomplete [displayWith]="displayModalidadeColaboradorFn">
+    <mat-option *ngFor="let modalidadeColaborador of modalidadeColaboradorList"
+                [value]="modalidadeColaborador">
+        <span [innerHTML]="displayModalidadeColaboradorFn(modalidadeColaborador) | highlightOption: this.control.value"></span>
+    </mat-option>
+    <mat-option *ngIf="modalidadeColaboradorListIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>

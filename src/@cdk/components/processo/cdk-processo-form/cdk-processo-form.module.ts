@@ -1,0 +1,71 @@
+import {NgModule} from '@angular/core';
+import {
+    MatButtonModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    MatCheckboxModule,
+    MatProgressSpinnerModule,
+    MatAutocompleteModule, MatDatepickerModule
+} from '@angular/material';
+
+import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkProcessoFormComponent} from './cdk-processo-form.component';
+import {CdkEspecieProcessoAutocompleteModule} from '@cdk/components/especie-processo/cdk-especie-processo-autocomplete/cdk-especie-processo-autocomplete.module';
+import {CdkEspecieProcessoGridsearchModule} from '@cdk/components/especie-processo/cdk-especie-processo-autocomplete/cdk-especie-processo-gridsearch/cdk-especie-processo-gridsearch.module';
+import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
+import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
+import {CdkModalidadeFaseAutocompleteModule} from '@cdk/components/modalidade-fase/cdk-modalidade-fase-autocomplete/cdk-modalidade-fase-autocomplete.module';
+import {CdkModalidadeFaseGridsearchModule} from '@cdk/components/modalidade-fase/cdk-modalidade-fase-autocomplete/cdk-modalidade-fase-gridsearch/cdk-modalidade-fase-gridsearch.module';
+import {CdkModalidadeMeioAutocompleteModule} from '@cdk/components/modalidade-meio/cdk-modalidade-meio-autocomplete/cdk-modalidade-meio-autocomplete.module';
+import {CdkModalidadeMeioGridsearchModule} from '@cdk/components/modalidade-meio/cdk-modalidade-meio-autocomplete/cdk-modalidade-meio-gridsearch/cdk-modalidade-meio-gridsearch.module';
+import {CdkClassificacaoAutocompleteModule} from '@cdk/components/classificacao/cdk-classificacao-autocomplete/cdk-classificacao-autocomplete.module';
+import {CdkClassificacaoGridsearchModule} from '@cdk/components/classificacao/cdk-classificacao-autocomplete/cdk-classificacao-gridsearch/cdk-classificacao-gridsearch.module';
+import {CdkSetorAutocompleteModule} from '@cdk/components/setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
+import {CdkSetorGridsearchModule} from '@cdk/components/setor/cdk-setor-autocomplete/cdk-setor-gridsearch/cdk-setor-gridsearch.module';
+import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
+import {CdkPessoaGridsearchModule} from '../../pessoa/cdk-pessoa-autocomplete/cdk-pessoa-gridsearch/cdk-pessoa-gridsearch.module';
+import {CdkPessoaAutocompleteModule} from '../../pessoa/cdk-pessoa-autocomplete/cdk-pessoa-autocomplete.module';
+
+@NgModule({
+    declarations: [
+        CdkProcessoFormComponent,
+    ],
+    imports: [
+
+        MatAutocompleteModule,
+        MatButtonModule,
+        MatFormFieldModule,
+        MatIconModule,
+        MatCheckboxModule,
+        MatInputModule,
+        MatProgressSpinnerModule,
+        MatDatepickerModule,
+        MatDatetimepickerModule,
+        MatNativeDatetimeModule,
+        MatMomentDatetimeModule,
+
+        NgxUpperCaseDirectiveModule,
+
+        CdkEspecieProcessoAutocompleteModule,
+        CdkEspecieProcessoGridsearchModule,
+        CdkModalidadeFaseAutocompleteModule,
+        CdkModalidadeFaseGridsearchModule,
+        CdkModalidadeMeioAutocompleteModule,
+        CdkModalidadeMeioGridsearchModule,
+        CdkClassificacaoAutocompleteModule,
+        CdkClassificacaoGridsearchModule,
+        CdkSetorAutocompleteModule,
+        CdkSetorGridsearchModule,
+        CdkPessoaGridsearchModule,
+        CdkPessoaAutocompleteModule,
+
+        FuseSharedModule,
+    ],
+    providers: [],
+    exports: [
+        CdkProcessoFormComponent
+    ]
+})
+export class CdkProcessoFormModule {
+}

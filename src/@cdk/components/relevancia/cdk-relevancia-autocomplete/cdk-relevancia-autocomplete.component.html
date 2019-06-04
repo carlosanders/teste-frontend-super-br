@@ -1,0 +1,9 @@
+<mat-autocomplete [displayWith]="displayRelevanciaFn">
+    <mat-option *ngFor="let relevancia of relevanciaList"
+                [value]="relevancia">
+        <span [innerHTML]="displayRelevanciaFn(relevancia) | highlightOption: this.control.value"></span>
+    </mat-option>
+    <mat-option *ngIf="relevanciaListIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>

@@ -1,0 +1,9 @@
+<cdk-assunto-administrativo-grid
+        [loading]="loading"
+        [assuntosAdministrativos]="assuntosAdministrativos"
+        [total]="total"
+        [actions]="['select', 'cancel']"
+        (select)="select($event)"
+        (cancel)="doCancel()"
+        (reload)="reload($event)">
+</cdk-assunto-administrativo-grid>

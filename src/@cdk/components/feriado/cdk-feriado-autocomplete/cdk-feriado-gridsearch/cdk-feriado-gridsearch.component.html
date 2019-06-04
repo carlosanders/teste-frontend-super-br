@@ -1,0 +1,9 @@
+d<cdk-feriado-grid
+        [loading]="loading"
+        [feriados]="feriados"
+        [total]="total"
+        [actions]="['select', 'cancel']"
+        (select)="select($event)"
+        (cancel)="doCancel()"
+        (reload)="reload($event)">
+</cdk-feriado-grid>

@@ -1,0 +1,9 @@
+<cdk-modalidade-documento-identificador-grid
+        [loading]="loading"
+        [modalidadedocumentoIdentificadors]="modalidadedocumentoIdentificadors"
+        [total]="total"
+        [actions]="['select', 'cancel']"
+        (select)="select($event)"
+        (cancel)="doCancel()"
+        (reload)="reload($event)">
+</cdk-modalidade-documento-identificador-grid>

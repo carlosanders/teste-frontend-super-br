@@ -1,0 +1,82 @@
+<div id="processo-view" class="page-layout simple left-sidebar inner-scroll">
+
+    <!-- SIDEBAR -->
+    <fuse-sidebar class="sidebar" name="juntadas-left-sidebar-1" position="left" lockedOpen="gt-md">
+
+        <!-- SIDEBAR CONTENT -->
+        <div class="content" fusePerfectScrollbar>
+            <processo-view-main-sidebar [@animate]="{value:'*'}"></processo-view-main-sidebar>
+        </div>
+        <!-- / SIDEBAR CONTENT -->
+
+    </fuse-sidebar>
+    <!-- / SIDEBAR -->
+
+    <!-- CENTER -->
+    <div class="center">
+
+        <!-- HEADER -->
+        <div class="header accent p-16" fxLayout="row" fxLayoutAlign="start center">
+
+            <button mat-icon-button class="sidebar-toggle mr-16" fxHide.gt-md
+                    (click)="toggleSidebar('juntadas-left-sidebar-1')">
+                <mat-icon>menu</mat-icon>
+            </button>
+
+            <div class="juntada-navigation">
+
+                <button mat-mini-fab class="previous mat-accent fuse-white-fg"
+                        (click)="gotoPreviousStep()"
+                        [disabled]="currentStep.step === 0 && currentStep.subStep === 0">
+                    <mat-icon>chevron_left</mat-icon>
+                </button>
+
+                <div>
+                    <h3 *ngIf="!loading">{{fileName}}</h3>
+                </div>
+
+                <button mat-mini-fab class="next mat-accent fuse-white-fg"
+                        (click)="gotoNextStep()"
+                        [disabled]="currentStep.step === totalSteps - 1 && currentStep.subStep === index[currentStep.step].length - 1">
+                    <mat-icon>chevron_right</mat-icon>
+                </button>
+
+            </div>
+
+
+        </div>
+        <!-- / HEADER -->
+
+        <!-- CONTENT -->
+        <div class="content">
+
+            <div class="processo-view-juntada" fusePerfectScrollbar>
+
+                <div fxLayout="column" fxFlex
+                     fxLayoutAlign="center center">
+                    <mat-spinner *ngIf="loading" diameter="24"></mat-spinner>
+                </div>
+
+                <div *ngIf="!loading && (juntadas)?.length === 0" fxLayout="column"
+                     fxLayoutAlign="center center" fxFlexFill>
+                    <span class="no-juntadas-text hint-text"> Não há documentos juntados</span>
+                </div>
+
+                <div *ngIf="!loading" class="processo-view-juntada-content">
+                    <iframe id="iframe-juntadas"
+                            frameborder="0"
+                            [src]="src">
+                    </iframe>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- / CONTENT -->
+
+    </div>
+    <!-- / CENTER -->
+
+</div>

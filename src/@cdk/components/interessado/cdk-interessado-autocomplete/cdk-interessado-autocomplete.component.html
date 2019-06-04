@@ -1,0 +1,9 @@
+<mat-autocomplete [displayWith]="displayInteressadoFn">
+    <mat-option *ngFor="let interessado of interessadoList"
+                [value]="interessado">
+        <span [innerHTML]="displayInteressadoFn(interessado) | highlightOption: this.control.value"></span>
+    </mat-option>
+    <mat-option *ngIf="interessadoListIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>

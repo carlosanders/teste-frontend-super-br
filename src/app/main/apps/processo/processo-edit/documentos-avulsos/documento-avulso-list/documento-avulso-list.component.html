@@ -1,0 +1,11 @@
+<cdk-documento-avulso-grid
+        [loading]="(loading$ | async)"
+        [documentosAvulsos]="(documentosAvulsos$ | async)"
+        [total]="(pagination$ | async)?.total"
+        [deletingIds]="(deletingIds$ | async)"
+        [deletedIds]="(deletedIds$ | async)"
+        [actions]="['edit', 'delete']"
+        (reload)="reload($event)"
+        (edit)="edit($event)"
+        (delete)="delete($event)">
+</cdk-documento-avulso-grid>

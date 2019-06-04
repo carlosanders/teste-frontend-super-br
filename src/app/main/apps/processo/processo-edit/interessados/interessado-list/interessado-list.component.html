@@ -1,0 +1,11 @@
+<cdk-interessado-grid
+        [loading]="(loading$ | async)"
+        [interessados]="(interessados$ | async)"
+        [total]="(pagination$ | async)?.total"
+        [deletingIds]="(deletingIds$ | async)"
+        [deletedIds]="(deletedIds$ | async)"
+        [actions]="['edit', 'delete']"
+        (reload)="reload($event)"
+        (edit)="edit($event)"
+        (delete)="delete($event)">
+</cdk-interessado-grid>

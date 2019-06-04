@@ -1,0 +1,9 @@
+<mat-autocomplete [displayWith]="displayModalidadeAlvoInibidorFn">
+    <mat-option *ngFor="let modalidadealvoInibidor of modalidadealvoInibidorList"
+                [value]="modalidadealvoInibidor">
+        <span [innerHTML]="displayModalidadeAlvoInibidorFn(modalidadealvoInibidor) | highlightOption: this.control.value"></span>
+    </mat-option>
+    <mat-option *ngIf="modalidadealvoInibidorListIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>

@@ -1,0 +1,19 @@
+@import 'src/@fuse/scss/fuse';
+
+cdk-documento-card {
+
+  border: 1px solid rgba(0, 0, 0, 0.12);
+
+  .more-vert {
+    height: 44px;
+  }
+
+  .file {
+    cursor: pointer;
+    border-right: 1px solid rgba(0, 0, 0, 0.12);;
+  }
+
+  .space {
+    height: 4px;
+  }
+}

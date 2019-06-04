@@ -1,0 +1,9 @@
+<mat-autocomplete [displayWith]="displayCompartilhamentoFn">
+    <mat-option *ngFor="let compartilhamento of compartilhamentoList"
+                [value]="compartilhamento">
+        <span [innerHTML]="displayCompartilhamentoFn(compartilhamento) | highlightOption: this.control.value"></span>
+    </mat-option>
+    <mat-option *ngIf="compartilhamentoListIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>

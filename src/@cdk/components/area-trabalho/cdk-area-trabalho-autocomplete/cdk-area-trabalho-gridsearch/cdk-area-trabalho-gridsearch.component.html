@@ -1,0 +1,9 @@
+<cdk-area-trabalho-grid
+        [loading]="loading"
+        [areaTrabalhos]="areaTrabalhos"
+        [total]="total"
+        [actions]="['select', 'cancel']"
+        (select)="select($event)"
+        (cancel)="doCancel()"
+        (reload)="reload($event)">
+</cdk-area-trabalho-grid>

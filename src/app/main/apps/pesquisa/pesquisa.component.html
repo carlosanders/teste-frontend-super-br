@@ -1,0 +1,44 @@
+<div id="pesquisa" class="page-layout carded left-sidebar inner-scroll">
+
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+
+    <!-- SIDEBAR -->
+    <fuse-sidebar class="sidebar" name="pesquisa-main-sidebar" position="left" lockedOpen="gt-sm">
+
+        <!-- SIDEBAR CONTENT -->
+        <div class="content" fusePerfectScrollbar>
+            <pesquisa-main-sidebar [@animate]="{value:'*'}"></pesquisa-main-sidebar>
+        </div>
+        <!-- / SIDEBAR CONTENT -->
+
+    </fuse-sidebar>
+    <!-- / SIDEBAR -->
+
+    <!-- CENTER -->
+    <div class="center">
+
+        <!-- CONTENT HEADER -->
+        <div class="header" fxLayout="row" fxLayoutAlign="start center">
+            <div class="sidebar-toggle">
+                <button mat-icon-button
+                        (click)="toggleSidebar('pesquisa-main-sidebar')" fxHide.gt-sm>
+                    <mat-icon>menu</mat-icon>
+                </button>
+            </div>
+        </div>
+        <!-- / CONTENT HEADER -->
+
+        <!-- CONTENT CARD -->
+        <div class="content-card">
+
+            <router-outlet></router-outlet>
+
+        </div>
+        <!-- / CONTENT CARD -->
+
+    </div>
+    <!-- / CENTER -->
+
+</div>

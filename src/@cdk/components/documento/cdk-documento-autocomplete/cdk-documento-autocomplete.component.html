@@ -1,0 +1,9 @@
+<mat-autocomplete [displayWith]="displayDocumentoFn">
+    <mat-option *ngFor="let documento of documentoList"
+                [value]="documento">
+        <span [innerHTML]="displayDocumentoFn(documento) | highlightOption: this.control.value"></span>
+    </mat-option>
+    <mat-option *ngIf="documentoListIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>

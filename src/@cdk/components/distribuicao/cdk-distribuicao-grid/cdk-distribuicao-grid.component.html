@@ -1,0 +1,223 @@
+<!-- CONTENT HEADER -->
+<div class="header" fxLayout="column">
+
+    <div class="filters" *ngIf="showFilter">
+        <cdk-distribuicao-grid-filter (selected)="setGridFilter($event)"></cdk-distribuicao-grid-filter>
+    </div>
+</div>
+<!-- / CONTENT HEADER -->
+
+<!-- CONTENT -->
+<div class="content" fxLayoutAlign="center start">
+
+    <div class="mb-16 p-16" fxFlex="1 0 auto" fxLayout="column" fxLayoutAlign="center center">
+
+        <div class="actions m-8" fxFlex fxLayout="row" fxLayoutAlign="end center">
+
+            <button mat-icon-button *ngIf="actions.indexOf('cancel') > -1"
+                    (click)="doCancel()"
+                    aria-label="cancelar"
+                    matTooltip="Cancelar">
+                <mat-icon>cancel</mat-icon>
+            </button>
+
+            <button mat-icon-button *ngIf="selectedIds.length > 1 && actions.indexOf('delete') > -1"
+                    (click)="deleteDistribuicaos(selectedIds)"
+                    aria-label="remover"
+                    matTooltip="Remover">
+                <mat-icon>delete</mat-icon>
+            </button>
+
+            <button class="refresh" mat-icon-button
+                    (click)="loadPage()"
+                    aria-label="recarregar"
+                    matTooltip="Recarregar">
+                <mat-icon>refresh</mat-icon>
+            </button>
+
+            <button class="toggle-filter" mat-icon-button
+                    (click)="toggleFilter()"
+                    aria-label="filtrar"
+                    matTooltip="Filtrar">
+                <mat-icon>filter_list</mat-icon>
+            </button>
+        </div>
+
+        <div class="spinner-container" *ngIf="loading">
+            <mat-spinner diameter="32"></mat-spinner>
+        </div>
+
+        <table mat-table [dataSource]="dataSource" matSort [hidden]="loading">
+
+            <!-- Selection Column -->
+            <ng-container matColumnDef="select">
+                <th mat-header-cell *matHeaderCellDef fxFlex="10" fxLayoutAlign="start center">
+                    <mat-checkbox (click)="toggleSelectAll($event)"
+                                  [checked]="hasSelected"
+                                  [indeterminate]="isIndeterminate">
+                    </mat-checkbox>
+                </th>
+                <td mat-cell *matCellDef="let distribuicao" fxFlex="10" fxLayoutAlign="start center">
+                    <mat-checkbox [checked]="selectedIds.indexOf(distribuicao.id) > -1"
+                                  (change)="toggleInSelected(distribuicao.id)"
+                                  (click)="$event.stopPropagation();"
+                                  [disabled]="deletedIds?.indexOf(distribuicao.id) > -1">
+                    </mat-checkbox>
+                </td>
+            </ng-container>
+
+            <!-- Id Column -->
+            <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10" fxLayoutAlign="start center"> Id
+                </th>
+                <td mat-cell *matCellDef="let distribuicao" fxFlex="10" fxLayoutAlign="start center"
+                    [ngClass]="{'deleted':deletedIds?.indexOf(distribuicao.id) > -1}"> {{distribuicao.id}} </td>
+            </ng-container>
+
+            <!-- Tarefa Column -->
+            <ng-container matColumnDef="tarefa.especieTarefa.nome">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="100" fxLayoutAlign="start center">
+                    Tarefa
+                </th>
+                <td mat-cell *matCellDef="let distribuicao" fxFlex="100" fxLayoutAlign="start center"
+                    [ngClass]="{'deleted':deletedIds?.indexOf(distribuicao.id) > -1}"> {{distribuicao.tarefa.especieTarefa.nome}} </td>
+            </ng-container>
+
+            <!-- Documento Column -->
+            <ng-container matColumnDef="documentoAvulso.descricaoOutros">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
+                    Documento
+                </th>
+                <td mat-cell *matCellDef="let distribuicao" fxFlex="30" fxLayoutAlign="start center"
+                    [ngClass]="{'deleted':deletedIds?.indexOf(distribuicao.id) > -1}"> {{distribuicao.documentoAvulso.descricaoOutros}} </td>
+            </ng-container>
+
+            <!-- Data Column -->
+            <ng-container matColumnDef="dataHoraFinalPrazo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
+                    Data Final
+                </th>
+                <td mat-cell *matCellDef="let distribuicao" fxFlex="30" fxLayoutAlign="start center"
+                    [ngClass]="{'deleted':deletedIds?.indexOf(distribuicao.id) > -1}"> {{distribuicao.dataHoraFinalPrazo}} </td>
+            </ng-container>
+
+            <!-- Usuario Column -->
+            <ng-container matColumnDef="usuarioAnterior.nome">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
+                    Usuário
+                </th>
+                <td mat-cell *matCellDef="let distribuicao" fxFlex="30" fxLayoutAlign="start center"
+                    [ngClass]="{'deleted':deletedIds?.indexOf(distribuicao.id) > -1}"> {{distribuicao.usuarioAnterior.nome}} </td>
+            </ng-container>
+
+            <!-- Usuario Column -->
+            <ng-container matColumnDef="usuarioPosterior.nome">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
+                    Usuário
+                </th>
+                <td mat-cell *matCellDef="let distribuicao" fxFlex="30" fxLayoutAlign="start center"
+                    [ngClass]="{'deleted':deletedIds?.indexOf(distribuicao.id) > -1}"> {{distribuicao.usuarioPosterior.nome}} </td>
+            </ng-container>
+
+            <!-- Setor Column -->
+            <ng-container matColumnDef="setorAnterior.nome">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
+                    Setor
+                </th>
+                <td mat-cell *matCellDef="let distribuicao" fxFlex="30" fxLayoutAlign="start center"
+                    [ngClass]="{'deleted':deletedIds?.indexOf(distribuicao.id) > -1}"> {{distribuicao.setorAnterior.nome}} </td>
+            </ng-container>
+
+            <!-- DistribuicaoAutomatica Column -->
+            <ng-container matColumnDef="distribuicaoAutomatica">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
+                    Distribuição Automática
+                </th>
+                <td mat-cell *matCellDef="let distribuicao" fxFlex="30" fxLayoutAlign="start center"
+                    [ngClass]="{'deleted':deletedIds?.indexOf(distribuicao.id) > -1}"> {{distribuicao.distribuicaoAutomatica}} </td>
+            </ng-container>
+
+            <!-- LivreBalanceamento Column -->
+            <ng-container matColumnDef="livreBalanceamento">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
+                    Livre Balanceamento
+                </th>
+                <td mat-cell *matCellDef="let distribuicao" fxFlex="30" fxLayoutAlign="start center"
+                    [ngClass]="{'deleted':deletedIds?.indexOf(distribuicao.id) > -1}"> {{distribuicao.livreBalanceamento}} </td>
+            </ng-container>
+
+            <!-- AuditoriaDistribuicao Column -->
+            <ng-container matColumnDef="auditoriaDistribuicao">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
+                    Auditoria da Distribuicao
+                </th>
+                <td mat-cell *matCellDef="let distribuicao" fxFlex="30" fxLayoutAlign="start center"
+                    [ngClass]="{'deleted':deletedIds?.indexOf(distribuicao.id) > -1}"> {{distribuicao.auditoriaDistribuicao}} </td>
+            </ng-container>
+
+            <!-- Setor Column -->
+            <ng-container matColumnDef="setorPosterior.nome">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
+                    Setor
+                </th>
+                <td mat-cell *matCellDef="let distribuicao" fxFlex="30" fxLayoutAlign="start center"
+                    [ngClass]="{'deleted':deletedIds?.indexOf(distribuicao.id) > -1}"> {{distribuicao.setorPosterior.nome}} </td>
+            </ng-container>
+
+            <!-- TipoDistribuicao Column -->
+            <ng-container matColumnDef="tipoDistribuicao">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
+                    Tipo da Distribuição
+                </th>
+                <td mat-cell *matCellDef="let distribuicao" fxFlex="30" fxLayoutAlign="start center"
+                    [ngClass]="{'deleted':deletedIds?.indexOf(distribuicao.id) > -1}"> {{distribuicao.tipoDistribuicao}} </td>
+            </ng-container>
+
+            <!-- Actions Column -->
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef fxFlex="10"></th>
+                <td mat-cell *matCellDef="let distribuicao" fxFlex="10" fxLayoutAlign="start center">
+
+                    <button mat-icon-button
+                            *ngIf="actions.indexOf('select') > -1"
+                            (click)="selectDistribuicao(distribuicao)"
+                            aria-label="selecionar"
+                            matTooltip="Selecionar">
+                        <mat-icon>keyboard_return</mat-icon>
+                    </button>
+
+                    <button mat-icon-button
+                            *ngIf="actions.indexOf('edit') > -1"
+                            [disabled]="deletedIds?.indexOf(distribuicao.id) > -1"
+                            (click)="editDistribuicao(distribuicao.id)"
+                            aria-label="editar"
+                            matTooltip="Editar">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+
+
+                    <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(distribuicao.id) > -1">
+                        <mat-spinner diameter="24"></mat-spinner>
+                    </div>
+
+                    <button mat-icon-button
+                            *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(distribuicao.id) === -1"
+                            [disabled]="deletedIds?.indexOf(distribuicao.id) > -1"
+                            (click)="deleteDistribuicao(distribuicao.id)"
+                            aria-label="remover"
+                            matTooltip="Remover">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let distribuicao; columns: displayedColumns;">
+            </tr>
+        </table>
+
+        <mat-paginator [pageSizeOptions]="[5, 10]"></mat-paginator>
+
+    </div>
+
+</div>

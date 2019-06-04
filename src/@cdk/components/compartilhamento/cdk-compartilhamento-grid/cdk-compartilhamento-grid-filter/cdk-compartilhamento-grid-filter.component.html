@@ -1,0 +1,19 @@
+<form class="p-24 mb-8" fxLayoutGap="16px" fxLayout="column" fxLayoutAlign="start"
+      fxFlex="1 0 auto" name="form" [formGroup]="form">
+
+    <div fxFlex="1 0 auto" fxLayout="column">
+
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Compartilhamento"
+                       formControlName="usuario"
+                       [matAutocomplete]="usuario.autocomplete">
+            </div>
+            <cdk-usuario-autocomplete
+                #usuario="usuarioAutocomplete"
+                [control]="form.get('usuario')">
+            </cdk-usuario-autocomplete>
+        </mat-form-field>
+
+    </div>
+</form>

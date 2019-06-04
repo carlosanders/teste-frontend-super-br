@@ -1,0 +1,9 @@
+<cdk-modalidade-etiqueta-grid
+        [loading]="loading"
+        [modalidadeetiquetas]="modalidadeetiquetas"
+        [total]="total"
+        [actions]="['select', 'cancel']"
+        (select)="select($event)"
+        (cancel)="doCancel()"
+        (reload)="reload($event)">
+</cdk-modalidade-etiqueta-grid>

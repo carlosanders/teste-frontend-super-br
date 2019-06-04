@@ -1,0 +1,9 @@
+d<cdk-relevancia-grid
+        [loading]="loading"
+        [relevancias]="relevancias"
+        [total]="total"
+        [actions]="['select', 'cancel']"
+        (select)="select($event)"
+        (cancel)="doCancel()"
+        (reload)="reload($event)">
+</cdk-relevancia-grid>

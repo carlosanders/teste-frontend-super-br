@@ -1,0 +1,9 @@
+<cdk-processo-grid
+        [loading]="loading"
+        [processos]="processos"
+        [total]="total"
+        [actions]="['select', 'cancel']"
+        (select)="select($event)"
+        (cancel)="doCancel()"
+        (reload)="reload($event)">
+</cdk-processo-grid>

@@ -1,0 +1,9 @@
+<mat-autocomplete [displayWith]="displayAreaTrabalhoFn">
+    <mat-option *ngFor="let areaTrabalho of areaTrabalhoList"
+                [value]="areaTrabalho">
+        <span [innerHTML]="displayAreaTrabalhoFn(areaTrabalho) | highlightOption: this.control.value"></span>
+    </mat-option>
+    <mat-option *ngIf="areaTrabalhoListIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>

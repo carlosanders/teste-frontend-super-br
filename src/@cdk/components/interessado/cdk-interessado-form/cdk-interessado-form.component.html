@@ -1,0 +1,94 @@
+<form *ngIf="activeCard === 'form'" class="p-24 mr-24" fxLayoutGap="36px"
+      fxLayout="column"
+      fxLayoutAlign="start"
+      fxFlex="1 0 auto" name="form" [formGroup]="form" (submit)="submit()">
+
+    <div fxFlex="1 0 auto" fxLayout="column" class="div-form">
+
+        <mat-radio-group class="mr-16 mb-16" fxFlex="0 1 auto">
+            <mat-radio-button
+                  #radioNome
+                  value="nome"
+                  (click)="selectParam(radioNome.value)" checked>Nome</mat-radio-button>
+            <mat-radio-button class="ml-8"
+                #radioCpf
+                 value="numeroDocumentoPrincipal"
+                (click)="selectParam(radioCpf.value)">CPF/CNPJ</mat-radio-button>
+        </mat-radio-group>
+
+        <mat-form-field class="mr-16 mb-16" fxFlex="0 1 auto">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="{{textoPesquisa}}"
+                       formControlName="pessoa"
+                       [matAutocomplete]="pessoa.autocomplete"
+                       (blur)="checkPessoa()"
+                       autofocus required>
+            </div>
+            <cdk-pessoa-autocomplete
+                #pessoa="pessoaAutocomplete"
+                [queryParam]="params"
+                [control]="form.get('pessoa')"
+                [pagination]="pessoaPagination">
+            </cdk-pessoa-autocomplete>
+            <button matSuffix mat-button mat-icon-button
+                    (click)="showPessoaGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('pessoa').hasError('formError')">
+                {{form.get('pessoa').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="mr-16 mb-16" fxFlex="0 1 auto">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Modalidade"
+                       formControlName="modalidadeInteressado"
+                       [matAutocomplete]="modalidadeInteressado.autocomplete"
+                       (blur)="checkModalidadeInteressado()"
+                       required>
+            </div>
+            <cdk-modalidade-interessado-autocomplete
+                #modalidadeInteressado="modalidadeInteressadoAutocomplete"
+                [control]="form.get('modalidadeInteressado')"
+                [pagination]="modalidadeInteressadoPagination">
+            </cdk-modalidade-interessado-autocomplete>
+            <button matSuffix mat-button mat-icon-button
+                    (click)="showModalidadeInteressadoGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('modalidadeInteressado').hasError('formError')">
+                {{form.get('modalidadeInteressado').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
+    </div>
+
+    <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+
+    <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+         fxLayoutAlign="center center">
+        <button mat-raised-button color="accent" class="mr-sm-12"
+                [disabled]="form.invalid">
+            SALVAR
+        </button>
+    </div>
+
+    <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+         fxLayoutAlign="center center">
+        <mat-spinner color="accent" diameter="24"></mat-spinner>
+    </div>
+</form>
+
+<cdk-pessoa-gridsearch
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'pessoa-gridsearch'"
+    (selected)="selectPessoa($event)"
+    (cancel)="cancel()">
+</cdk-pessoa-gridsearch>
+
+<cdk-modalidade-interessado-gridsearch
+        fxFlex="1 0 auto"
+        *ngIf="activeCard === 'modalidade-interessado-gridsearch'"
+        (selected)="selectModalidadeInteressado($event)"
+        (cancel)="cancel()">
+</cdk-modalidade-interessado-gridsearch>

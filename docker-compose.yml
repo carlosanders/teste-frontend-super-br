@@ -1,0 +1,12 @@
+version: '3'
+services:
+    angular:
+        build:
+            context: .
+            dockerfile: ./DockerFile_SUPP
+        ports:
+            - 4200:4200
+        volumes:
+            - '.:/app'
+        tty: true
+        command: tail -f /dev/null

@@ -1,0 +1,9 @@
+<cdk-vinculacao-modelo-grid
+        [loading]="loading"
+        [vinculacaoModelos]="vinculacaoModelos"
+        [total]="total"
+        [actions]="['select', 'cancel']"
+        (select)="select($event)"
+        (cancel)="doCancel()"
+        (reload)="reload($event)">
+</cdk-vinculacao-modelo-grid>

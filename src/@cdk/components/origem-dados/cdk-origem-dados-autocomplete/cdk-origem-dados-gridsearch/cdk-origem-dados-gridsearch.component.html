@@ -1,0 +1,9 @@
+<cdk-origem-dados-grid
+        [loading]="loading"
+        [origemDadoss]="origemDadoss"
+        [total]="total"
+        [actions]="['select', 'cancel']"
+        (select)="select($event)"
+        (cancel)="doCancel()"
+        (reload)="reload($event)">
+</cdk-origem-dados-grid>

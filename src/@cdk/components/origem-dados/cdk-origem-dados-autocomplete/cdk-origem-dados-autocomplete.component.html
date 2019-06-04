@@ -1,0 +1,9 @@
+<mat-autocomplete [displayWith]="displayOrigemDadosFn">
+    <mat-option *ngFor="let origemDados of origemDadosList"
+                [value]="origemDados">
+        <span [innerHTML]="displayOrigemDadosFn(origemDados) | highlightOption: this.control.value"></span>
+    </mat-option>
+    <mat-option *ngIf="origemDadosListIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>

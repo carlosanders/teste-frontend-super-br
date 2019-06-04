@@ -1,0 +1,48 @@
+<div class="full-screen page-layout carded left-sidebar inner-scroll" fxLayout="column">
+
+    <div class="header p-8" fxLayout="row" fxLayoutAlign="end center">
+
+        <button class="close mr-8" mat-icon-button
+                (click)="back()"
+                aria-label="fechar"
+                matTooltip="Fechar">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+
+    <!-- CENTER -->
+    <div class="center">
+
+        <div class="content" fxLayout="column">
+            <div *ngIf="(documento$ | async)?.componentesDigitais.length > 1" class="header accent p-16" fxLayout="row"
+                 fxLayoutAlign="start center">
+
+                <div class="componentes-digitais-navigation">
+
+                    <button mat-mini-fab class="previous mat-accent fuse-white-fg"
+                            (click)="gotoPreviousStep()"
+                            [disabled]="(currentComponenteDigital$ | async)?.numeracaoSequencial <= 1">
+                        <mat-icon>chevron_left</mat-icon>
+                    </button>
+
+                    <div>
+                        <h3>{{(currentComponenteDigital$ | async)?.fileName}}
+                            ({{(currentComponenteDigital$ | async)?.numeracaoSequencial}}
+                            /{{(documento$ | async).componentesDigitais.length}})</h3>
+                    </div>
+
+                    <button mat-mini-fab class="next mat-accent fuse-white-fg"
+                            (click)="gotoNextStep()"
+                            [disabled]="(currentComponenteDigital$ | async)?.numeracaoSequencial >= (documento$ | async).componentesDigitais.length">
+                        <mat-icon>chevron_right</mat-icon>
+                    </button>
+                </div>
+            </div>
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>
+
+
+
+

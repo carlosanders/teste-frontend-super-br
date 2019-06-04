@@ -1,0 +1,9 @@
+<cdk-modalidade-folder-grid
+        [loading]="loading"
+        [modalidadefolders]="modalidadefolders"
+        [total]="total"
+        [actions]="['select', 'cancel']"
+        (select)="select($event)"
+        (cancel)="doCancel()"
+        (reload)="reload($event)">
+</cdk-modalidade-folder-grid>

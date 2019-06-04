@@ -1,0 +1,9 @@
+<cdk-usuario-grid
+        [loading]="loading"
+        [usuarios]="usuarios"
+        [total]="total"
+        [actions]="['select', 'cancel']"
+        (select)="select($event)"
+        (cancel)="doCancel()"
+        (reload)="reload($event)">
+</cdk-usuario-grid>

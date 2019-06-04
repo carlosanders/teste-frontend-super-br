@@ -1,0 +1,9 @@
+d<cdk-notificacao-grid
+        [loading]="loading"
+        [notificacaos]="notificacaos"
+        [total]="total"
+        [actions]="['select', 'cancel']"
+        (select)="select($event)"
+        (cancel)="doCancel()"
+        (reload)="reload($event)">
+</cdk-notificacao-grid>

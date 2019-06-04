@@ -1,0 +1,9 @@
+d<cdk-tramitacao-grid
+        [loading]="loading"
+        [tramitacoes]="tramitacoes"
+        [total]="total"
+        [actions]="['select', 'cancel']"
+        (select)="select($event)"
+        (cancel)="doCancel()"
+        (reload)="reload($event)">
+</cdk-tramitacao-grid>

@@ -1,0 +1,9 @@
+<mat-autocomplete [displayWith]="displayModalidadeNotificacaoFn">
+    <mat-option *ngFor="let modalidadeNotificacao of modalidadeNotificacaoList"
+                [value]="modalidadeNotificacao">
+        <span [innerHTML]="displayModalidadeNotificacaoFn(modalidadeNotificacao) | highlightOption: this.control.value"></span>
+    </mat-option>
+    <mat-option *ngIf="modalidadeNotificacaoListIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>

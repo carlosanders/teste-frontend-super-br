@@ -1,0 +1,9 @@
+<mat-autocomplete [displayWith]="displayMunicipioFn">
+    <mat-option *ngFor="let municipio of municipioList"
+                [value]="municipio">
+        <span [innerHTML]="displayMunicipioFn(municipio) | highlightOption: this.control.value"></span>
+    </mat-option>
+    <mat-option *ngIf="municipioListIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>

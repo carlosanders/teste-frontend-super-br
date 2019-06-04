@@ -1,0 +1,54 @@
+<div fxLayout="row" fxLayoutAlign="start center">
+
+    <mat-checkbox *ngIf="!documento.documentoAvulsoRemessa"
+                  class="mr-8 ml-8 select" [checked]="selected"
+                  (change)="toggleInSelected(documento.id)"
+                  (click)="$event.stopPropagation();">
+    </mat-checkbox>
+
+    <div class="p-8 file" fxLayout="column" (click)="onClick(documento)"
+         [ngClass]="{'light-blue-100':!documento.documentoAvulsoRemessa, 'light-green-100':documento.documentoAvulsoRemessa}">
+
+        <div fxLayout="row" fxLayoutAlign="start center">
+            <mat-icon *ngIf="!documento.documentoAvulsoRemessa" class="ml-8 mr-8">picture_as_pdf</mat-icon>
+            <mat-icon *ngIf="documento.documentoAvulsoRemessa" class="ml-8 mr-8">mail</mat-icon>
+            <div class="mr-8">{{documento.tipoDocumento?.sigla || 'OUT'}}</div>
+        </div>
+
+        <div class="space" fxLayout="row" fxLayoutAlign="start center">
+        </div>
+
+    </div>
+
+    <div class="more-vert"
+         [ngClass]="{'light-blue-100':!documento.documentoAvulsoRemessa, 'light-green-100':documento.documentoAvulsoRemessa}">
+        <button *ngIf="!deleting && !assinando" mat-icon-button [matMenuTriggerFor]="card20Menu" aria-label="more">
+            <mat-icon>expand_more</mat-icon>
+        </button>
+
+        <div *ngIf="deleting || assinando" class="spinner-container m-8">
+            <mat-spinner diameter="24"></mat-spinner>
+        </div>
+
+        <mat-menu #card20Menu="matMenu">
+            <button fxLayout="row" fxLayoutAlign="start center" (click)="doDelete(documento.id)" mat-menu-item>
+                <mat-icon color="accent">delete</mat-icon>
+                <span>Remover</span>
+            </button>
+            <button fxLayout="row" fxLayoutAlign="start center" (click)="doAssinatura(documento.id)" mat-menu-item>
+                <mat-icon color="accent">lock</mat-icon>
+                <span>Assinar</span>
+            </button>
+        </mat-menu>
+    </div>
+
+    <div class="card-divider full-width"></div>
+
+    <div class="p-8" fxLayout="row" fxLayoutAlign="end center" fxHide>
+
+        <button mat-button color="accent">
+            <mat-icon class="secondary-text">delete</mat-icon>
+        </button>
+    </div>
+
+</div>
