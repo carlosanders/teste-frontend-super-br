@@ -69,7 +69,7 @@ export class CdkPessoaAutocompleteComponent implements OnInit {
                         this._changeDetectorRef.markForCheck();
                         const filterParam = {
                             ...this.pagination.filter,
-                            'nome': `like:${value}%`
+                            ...termFilter
                         };
                         return this._pessoaService.search(
                             JSON.stringify(filterParam),

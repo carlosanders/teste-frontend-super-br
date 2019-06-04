@@ -65,7 +65,7 @@ export class CdkJuntadaAutocompleteComponent implements OnInit {
                         this._changeDetectorRef.markForCheck();
                         const filterParam = {
                             ...this.pagination.filter,
-                            'descricao': `like:${value}%`
+                            ...termFilter
                         };
                         return this._juntadaService.query(
                             JSON.stringify(filterParam),

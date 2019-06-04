@@ -65,7 +65,7 @@ export class CdkColaboradorAutocompleteComponent implements OnInit {
                         this._changeDetectorRef.markForCheck();
                         const filterParam = {
                             ...this.pagination.filter,
-                            'nome': `like:${value}%`
+                            ...termFilter
                         };
                         return this._colaboradorService.query(
                             JSON.stringify(filterParam),

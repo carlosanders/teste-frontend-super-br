@@ -65,7 +65,7 @@ export class CdkSigiloAutocompleteComponent implements OnInit {
                         this._changeDetectorRef.markForCheck();
                         const filterParam = {
                             ...this.pagination.filter,
-                            'desclassificado': `like:${value}%`
+                            ...termFilter
                         };
                         return this._sigiloService.query(
                             JSON.stringify(filterParam),

@@ -65,7 +65,7 @@ export class CdkDistribuicaoAutocompleteComponent implements OnInit {
                         this._changeDetectorRef.markForCheck();
                         const filterParam = {
                             ...this.pagination.filter,
-                            'tarefa.especieTarefa.nome': `like:${value}%`
+                            ...termFilter
                         };
                         return this._distribuicaoService.query(
                             JSON.stringify(filterParam),

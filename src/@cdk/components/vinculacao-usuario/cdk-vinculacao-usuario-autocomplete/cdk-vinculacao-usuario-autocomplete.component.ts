@@ -65,7 +65,7 @@ export class CdkVinculacaoUsuarioAutocompleteComponent implements OnInit {
                         this._changeDetectorRef.markForCheck();
                         const filterParam = {
                             ...this.pagination.filter,
-                            'usuario.nome': `like:${value}%`
+                            ...termFilter
                         };
                         return this._vinculacaoUsuarioService.query(
                             JSON.stringify(filterParam),

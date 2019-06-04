@@ -65,7 +65,7 @@ export class CdkGeneroTarefaAutocompleteComponent implements OnInit {
                         this._changeDetectorRef.markForCheck();
                         const filterParam = {
                             ...this.pagination.filter,
-                            'nome': `like:${value}%`
+                            ...termFilter
                         };
                         return this._generoTarefaService.query(
                             JSON.stringify(filterParam),

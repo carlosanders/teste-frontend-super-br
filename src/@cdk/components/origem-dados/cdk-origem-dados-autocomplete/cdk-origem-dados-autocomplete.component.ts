@@ -65,7 +65,7 @@ export class CdkOrigemDadosAutocompleteComponent implements OnInit {
                         this._changeDetectorRef.markForCheck();
                         const filterParam = {
                             ...this.pagination.filter,
-                            'servico': `like:${value}%`
+                            ...termFilter
                         };
                         return this._origemDadosService.query(
                             JSON.stringify(filterParam),

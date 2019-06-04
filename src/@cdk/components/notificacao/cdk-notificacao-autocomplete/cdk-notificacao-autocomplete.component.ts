@@ -65,7 +65,7 @@ export class CdkNotificacaoAutocompleteComponent implements OnInit {
                         this._changeDetectorRef.markForCheck();
                         const filterParam = {
                             ...this.pagination.filter,
-                            'remetente.nome': `like:${value}%`
+                            ...termFilter
                         };
                         return this._notificacaoService.query(
                             JSON.stringify(filterParam),

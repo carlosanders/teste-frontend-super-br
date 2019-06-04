@@ -65,7 +65,7 @@ export class CdkRepresentanteAutocompleteComponent implements OnInit {
                         this._changeDetectorRef.markForCheck();
                         const filterParam = {
                             ...this.pagination.filter,
-                            'nome': `like:${value}%`
+                            ...termFilter
                         };
                         return this._representanteService.query(
                             JSON.stringify(filterParam),

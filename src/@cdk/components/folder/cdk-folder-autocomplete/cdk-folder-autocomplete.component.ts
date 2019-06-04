@@ -65,7 +65,7 @@ export class CdkFolderAutocompleteComponent implements OnInit {
                         this._changeDetectorRef.markForCheck();
                         const filterParam = {
                             ...this.pagination.filter,
-                            'nome': `like:${value}%`
+                            ...termFilter
                         };
                         return this._folderService.query(
                             JSON.stringify(filterParam),

@@ -65,7 +65,7 @@ export class CdkHistoricoAutocompleteComponent implements OnInit {
                         this._changeDetectorRef.markForCheck();
                         const filterParam = {
                             ...this.pagination.filter,
-                            'descricao': `like:${value}%`
+                            ...termFilter
                         };
                         return this._historicoService.query(
                             JSON.stringify(filterParam),

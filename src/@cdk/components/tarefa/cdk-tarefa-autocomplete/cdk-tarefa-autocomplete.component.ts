@@ -65,7 +65,7 @@ export class CdkTarefaAutocompleteComponent implements OnInit {
                         this._changeDetectorRef.markForCheck();
                         const filterParam = {
                             ...this.pagination.filter,
-                            'processo.nup': `like:${value}%`
+                            ...termFilter
                         };
                         return this._tarefaService.query(
                             JSON.stringify(filterParam),

@@ -65,7 +65,7 @@ export class CdkTemplateAutocompleteComponent implements OnInit {
                         this._changeDetectorRef.markForCheck();
                         const filterParam = {
                             ...this.pagination.filter,
-                            'nome': `like:${value}%`
+                            ...termFilter
                         };
                         return this._templateService.query(
                             JSON.stringify(filterParam),

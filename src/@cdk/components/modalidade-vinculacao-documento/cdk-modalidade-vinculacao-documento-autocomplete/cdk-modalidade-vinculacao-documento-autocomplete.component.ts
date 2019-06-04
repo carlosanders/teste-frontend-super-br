@@ -65,7 +65,7 @@ export class CdkModalidadeVinculacaoDocumentoAutocompleteComponent implements On
                         this._changeDetectorRef.markForCheck();
                         const filterParam = {
                             ...this.pagination.filter,
-                            'valor': `like:${value}%`
+                            ...termFilter
                         };
                         return this._modalidadeVinculacaoDocumentoService.query(
                             JSON.stringify(filterParam),

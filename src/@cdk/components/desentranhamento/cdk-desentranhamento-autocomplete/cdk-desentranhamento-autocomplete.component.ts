@@ -65,7 +65,7 @@ export class CdkDesentranhamentoAutocompleteComponent implements OnInit {
                         this._changeDetectorRef.markForCheck();
                         const filterParam = {
                             ...this.pagination.filter,
-                            'juntada.descricao': `like:${value}%`
+                            ...termFilter
                         };
                         return this._desentranhamentoService.query(
                             JSON.stringify(filterParam),

@@ -65,7 +65,7 @@ export class CdkTransicaoAutocompleteComponent implements OnInit {
                         this._changeDetectorRef.markForCheck();
                         const filterParam = {
                             ...this.pagination.filter,
-                            'modalidadeTransicao.valor': `like:${value}%`
+                            ...termFilter
                         };
                         return this._transicaoService.query(
                             JSON.stringify(filterParam),

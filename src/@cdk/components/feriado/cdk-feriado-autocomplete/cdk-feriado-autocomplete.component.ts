@@ -65,7 +65,7 @@ export class CdkFeriadoAutocompleteComponent implements OnInit {
                         this._changeDetectorRef.markForCheck();
                         const filterParam = {
                             ...this.pagination.filter,
-                            'nome': `like:${value}%`
+                            ...termFilter
                         };
                         return this._feriadoService.query(
                             JSON.stringify(filterParam),

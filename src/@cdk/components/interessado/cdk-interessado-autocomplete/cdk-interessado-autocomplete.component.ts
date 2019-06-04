@@ -65,7 +65,7 @@ export class CdkInteressadoAutocompleteComponent implements OnInit {
                         this._changeDetectorRef.markForCheck();
                         const filterParam = {
                             ...this.pagination.filter,
-                            'pessoa.nome': `like:${value}%`
+                            ...termFilter
                         };
                         return this._interessadoService.query(
                             JSON.stringify(filterParam),
