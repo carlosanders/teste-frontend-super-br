@@ -1,0 +1,11 @@
+<cdk-notificacao-grid
+        [loading]="(loading$ | async)"
+        [notificacoes]="(notificacoes$ | async)"
+        [total]="(pagination$ | async)?.total"
+        [deletingIds]="(deletingIds$ | async)"
+        [deletedIds]="(deletedIds$ | async)"
+        [actions]="[]"
+        (reload)="reload($event)"
+        (edit)="edit($event)"
+        (delete)="delete($event)">
+</cdk-notificacao-grid>

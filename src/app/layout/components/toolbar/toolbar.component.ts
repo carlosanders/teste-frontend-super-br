@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import {of, Subject} from 'rxjs';
+import {catchError, takeUntil} from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 import * as _ from 'lodash';
 
@@ -9,6 +9,9 @@ import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 
 import { navigation } from 'app/navigation/navigation';
 import {Router} from '@angular/router';
+import {LoginService} from 'app/main/auth/login/login.service';
+import {Colaborador} from '@cdk/models/colaborador.model';
+import {NotificacaoService} from '@cdk/services/notificacao.service';
 
 @Component({
     selector     : 'toolbar',
@@ -26,21 +29,28 @@ export class ToolbarComponent implements OnInit, OnDestroy
     navigation: any;
     selectedLanguage: any;
     userStatusOptions: any[];
+    userProfile: Colaborador;
+
+    notificacoesCount: number;
 
     // Private
     private _unsubscribeAll: Subject<any>;
 
     /**
-     * Constructor
      *
-     * @param {FuseConfigService} _fuseConfigService
-     * @param {FuseSidebarService} _fuseSidebarService
-     * @param {TranslateService} _translateService
+     * @param _fuseConfigService
+     * @param _fuseSidebarService
+     * @param _translateService
+     * @param _loginService
+     * @param _notificacaoService
+     * @param _router
      */
     constructor(
         private _fuseConfigService: FuseConfigService,
         private _fuseSidebarService: FuseSidebarService,
         private _translateService: TranslateService,
+        private _loginService: LoginService,
+        private _notificacaoService: NotificacaoService,
         private _router: Router
     )
     {
@@ -86,6 +96,8 @@ export class ToolbarComponent implements OnInit, OnDestroy
             }
         ];
 
+        this.userProfile = this._loginService.getUserProfile();
+
         this.navigation = navigation;
 
         // Set the private defaults
@@ -112,6 +124,14 @@ export class ToolbarComponent implements OnInit, OnDestroy
 
         // Set the selected language from default languages
         this.selectedLanguage = _.find(this.languages, {'id': this._translateService.currentLang});
+
+        this._notificacaoService.count(
+            `{"destinatario.id": "eq:${this.userProfile.usuario.id}", "dataHoraLeitura": "isNull"}`)
+            .pipe(
+                catchError(() => of([]))
+            ).subscribe(
+            value => this.notificacoesCount = value
+        );
     }
 
     /**
