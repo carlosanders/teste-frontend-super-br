@@ -2,8 +2,8 @@ import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
-import {catchError, mergeMap, switchMap} from 'rxjs/operators';
+import {Observable, of} from 'rxjs';
+import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as DocumentoAvulsoListActions from '../actions';
@@ -80,15 +80,14 @@ export class DocumentoAvulsoListEffect {
         this._actions
             .pipe(
                 ofType<DocumentoAvulsoListActions.DeleteDocumentoAvulso>(DocumentoAvulsoListActions.DELETE_DOCUMENTO_AVULSO),
-                mergeMap((action) => this._documentoAvulsoService.destroy(action.payload)),
-                mergeMap((response) => [
-                    // new RemoveData({id: response.id, schema: documentoAvulsoSchema}),
-                    new DocumentoAvulsoListActions.DeleteDocumentoAvulsoSuccess(response.id)
-                ]),
-                catchError((err, caught) => {
-                    console.log (err);
-                    this._store.dispatch(new DocumentoAvulsoListActions.DeleteDocumentoAvulsoFailed(err));
-                    return caught;
+                mergeMap((action) => {
+                    return this._documentoAvulsoService.destroy(action.payload).pipe(
+                        map((response) => new DocumentoAvulsoListActions.DeleteDocumentoAvulsoSuccess(response.id)),
+                        catchError((err) => {
+                            console.log(err);
+                            return of(new DocumentoAvulsoListActions.DeleteDocumentoAvulsoFailed(action.payload));
+                        })
+                    );
                 })
             );
 }

@@ -86,7 +86,7 @@ export class DocumentosVinculadosEffect {
                     })
                 ]),
                 catchError((err, caught) => {
-                    console.log (err);
+                    console.log(err);
                     this._store.dispatch(new DocumentosVinculadosActions.GetDocumentosVinculadosFailed(err));
                     return caught;
                 })
@@ -101,20 +101,17 @@ export class DocumentosVinculadosEffect {
         this._actions
             .pipe(
                 ofType<DocumentosVinculadosActions.DeleteDocumentoVinculado>(DocumentosVinculadosActions.DELETE_DOCUMENTO_VINCULADO),
+
                 mergeMap((action) => {
-                        return this._documentoService.destroy(action.payload)
-                            .pipe(
-                                map(() => {
-                                    return new DocumentosVinculadosActions.DeleteDocumentoVinculadoSuccess(action.payload);
-                                }),
-                                catchError((err, caught) => {
-                                    console.log(err);
-                                    this._store.dispatch(new DocumentosVinculadosActions.DeleteDocumentoVinculadoFailed(err));
-                                    return caught;
-                                })
-                            );
-                    }
-                ));
+                    return this._documentoService.destroy(action.payload).pipe(
+                        map((response) => new DocumentosVinculadosActions.DeleteDocumentoVinculadoSuccess(response.id)),
+                        catchError((err) => {
+                            console.log(err);
+                            return of(new DocumentosVinculadosActions.DeleteDocumentoVinculadoFailed(action.payload));
+                        })
+                    );
+                })
+            );
 
     /**
      * Delete Documento Vinculado

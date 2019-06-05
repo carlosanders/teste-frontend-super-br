@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, tap, switchMap} from 'rxjs/operators';
 
 import * as DocumentoAvulsoEditActions from '../actions/documento-avulso-edit.actions';
@@ -14,6 +14,7 @@ import {DocumentoAvulso} from '@cdk/models/documento-avulso.model';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
 export class DocumentoAvulsoEditEffect {
@@ -84,16 +85,21 @@ export class DocumentoAvulsoEditEffect {
                         mergeMap((response: DocumentoAvulso) => [
                             new DocumentoAvulsoEditActions.SaveDocumentoAvulsoSuccess(),
                             new DocumentoAvulsoListActions.ReloadDocumentosAvulsos(),
-                            new AddData<DocumentoAvulso>({data: [response], schema: documentoAvulsoSchema})
-                        ])
+                            new AddData<DocumentoAvulso>({data: [response], schema: documentoAvulsoSchema}),
+                            new OperacoesActions.Resultado({
+                                type: 'documentoAvulso',
+                                content: `Documento Avulso id ${response.id} criada com sucesso!`,
+                                dateTime: response.criadoEm
+                            })
+                        ]),
+                        catchError((err) => {
+                            console.log (err);
+                            return of(new DocumentoAvulsoEditActions.SaveDocumentoAvulsoFailed(err));
+                        })
                     );
-                }),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new DocumentoAvulsoEditActions.SaveDocumentoAvulsoFailed(err));
-                    return caught;
                 })
             );
+
 
     /**
      * Save DocumentoAvulso Success

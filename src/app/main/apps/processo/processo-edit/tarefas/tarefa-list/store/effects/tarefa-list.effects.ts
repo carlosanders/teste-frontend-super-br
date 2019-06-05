@@ -2,8 +2,8 @@ import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
-import {catchError, mergeMap, switchMap} from 'rxjs/operators';
+import {Observable, of} from 'rxjs';
+import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as TarefaListActions from '../actions';
@@ -64,11 +64,10 @@ export class TarefaListEffect {
                     })
                 ]),
                 catchError((err, caught) => {
-                    console.log (err);
+                    console.log(err);
                     this._store.dispatch(new TarefaListActions.GetTarefasFailed(err));
                     return caught;
                 })
-
             );
 
     /**
@@ -80,15 +79,15 @@ export class TarefaListEffect {
         this._actions
             .pipe(
                 ofType<TarefaListActions.DeleteTarefa>(TarefaListActions.DELETE_TAREFA),
-                mergeMap((action) => this._tarefaService.destroy(action.payload)),
-                mergeMap((response) => [
-                    // new RemoveData({id: response.id, schema: tarefaSchema}),
-                    new TarefaListActions.DeleteTarefaSuccess(response.id)
-                ]),
-                catchError((err, caught) => {
-                    console.log (err);
-                    this._store.dispatch(new TarefaListActions.DeleteTarefaFailed(err));
-                    return caught;
+                mergeMap((action) => {
+                    return this._tarefaService.destroy(action.payload).pipe(
+                        map((response) => new TarefaListActions.DeleteTarefaSuccess(response.id)),
+                        catchError((err) => {
+                            console.log(err);
+                            return of(new TarefaListActions.DeleteTarefaFailed(action.payload));
+                        })
+                    );
                 })
             );
+
 }

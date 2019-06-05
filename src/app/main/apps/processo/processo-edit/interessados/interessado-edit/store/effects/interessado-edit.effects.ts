@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, tap, switchMap, withLatestFrom, map} from 'rxjs/operators';
 
 import * as InteressadoEditActions from 'app/main/apps/processo/processo-edit/interessados/interessado-edit/store/actions/interessado-edit.actions';
@@ -14,7 +14,7 @@ import {Interessado} from '@cdk/models/interessado.model';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
-import {getProcesso} from '../../../../../store/selectors';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
 export class InteressadoEditEffect {
@@ -85,16 +85,21 @@ export class InteressadoEditEffect {
                         mergeMap((response: Interessado) => [
                             new InteressadoEditActions.SaveInteressadoSuccess(),
                             new InteressadoListActions.ReloadInteressados(),
-                            new AddData<Interessado>({data: [response], schema: interessadoSchema})
-                        ])
+                            new AddData<Interessado>({data: [response], schema: interessadoSchema}),
+                            new OperacoesActions.Resultado({
+                                type: 'interessado',
+                                content: `Interessado id ${response.id} criada com sucesso!`,
+                                dateTime: response.criadoEm
+                            })
+                        ]),
+                        catchError((err) => {
+                            console.log (err);
+                            return of(new InteressadoEditActions.SaveInteressadoFailed(err));
+                        })
                     );
-                }),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new InteressadoEditActions.SaveInteressadoFailed(err));
-                    return caught;
                 })
             );
+
 
     /**
      * Save Interessado Success

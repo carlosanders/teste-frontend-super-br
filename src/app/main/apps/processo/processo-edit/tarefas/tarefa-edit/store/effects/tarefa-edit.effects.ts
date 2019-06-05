@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, tap, switchMap} from 'rxjs/operators';
 
 import * as TarefaEditActions from '../actions/tarefa-edit.actions';
@@ -14,6 +14,7 @@ import {Tarefa} from '@cdk/models/tarefa.model';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
 export class TarefaEditEffect {
@@ -84,14 +85,18 @@ export class TarefaEditEffect {
                         mergeMap((response: Tarefa) => [
                             new TarefaEditActions.SaveTarefaSuccess(),
                             new TarefaListActions.ReloadTarefas(),
-                            new AddData<Tarefa>({data: [response], schema: tarefaSchema})
-                        ])
+                            new AddData<Tarefa>({data: [response], schema: tarefaSchema}),
+                            new OperacoesActions.Resultado({
+                                type: 'tarefa',
+                                content: `Tarefa id ${response.id} criada com sucesso!`,
+                                dateTime: response.criadoEm
+                            })
+                        ]),
+                        catchError((err) => {
+                            console.log (err);
+                            return of(new TarefaEditActions.SaveTarefaFailed(err));
+                        })
                     );
-                }),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new TarefaEditActions.SaveTarefaFailed(err));
-                    return caught;
                 })
             );
 

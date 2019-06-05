@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, tap, switchMap} from 'rxjs/operators';
 
 import * as CompartilhamentoCreateActions from '../actions/compartilhamento-create.actions';
@@ -13,6 +13,7 @@ import {Compartilhamento} from '@cdk/models/compartilhamento.model';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
 export class CompartilhamentoCreateEffect {
@@ -46,16 +47,21 @@ export class CompartilhamentoCreateEffect {
                     return this._compartilhamentoService.save(action.payload).pipe(
                         mergeMap((response: Compartilhamento) => [
                             new CompartilhamentoCreateActions.SaveCompartilhamentoSuccess(),
-                            new AddData<Compartilhamento>({data: [response], schema: compartilhamentoSchema})
-                        ])
+                            new AddData<Compartilhamento>({data: [response], schema: compartilhamentoSchema}),
+                            new OperacoesActions.Resultado({
+                                type: 'compartilhamento',
+                                content: `Compartilhamento id ${response.id} criada com sucesso!`,
+                                dateTime: response.criadoEm
+                            })
+                        ]),
+                        catchError((err) => {
+                            console.log (err);
+                            return of(new CompartilhamentoCreateActions.SaveCompartilhamentoFailed(err));
+                        })
                     );
-                }),
-                catchError((err, caught) => {
-                    console.log (err);
-                    this._store.dispatch(new CompartilhamentoCreateActions.SaveCompartilhamentoFailed(err));
-                    return caught;
                 })
             );
+
 
     /**
      * Save Compartilhamento Success

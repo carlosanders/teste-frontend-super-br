@@ -2,8 +2,8 @@ import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
-import {catchError, mergeMap, switchMap} from 'rxjs/operators';
+import {Observable, of} from 'rxjs';
+import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as TramitacaoListActions from '../actions';
@@ -64,11 +64,10 @@ export class TramitacaoListEffect {
                     })
                 ]),
                 catchError((err, caught) => {
-                    console.log (err);
+                    console.log(err);
                     this._store.dispatch(new TramitacaoListActions.GetTramitacoesFailed(err));
                     return caught;
                 })
-
             );
 
     /**
@@ -80,15 +79,14 @@ export class TramitacaoListEffect {
         this._actions
             .pipe(
                 ofType<TramitacaoListActions.DeleteTramitacao>(TramitacaoListActions.DELETE_TRAMITACAO),
-                mergeMap((action) => this._tramitacaoService.destroy(action.payload)),
-                mergeMap((response) => [
-                    // new RemoveData({id: response.id, schema: tramitacaoSchema}),
-                    new TramitacaoListActions.DeleteTramitacaoSuccess(response.id)
-                ]),
-                catchError((err, caught) => {
-                    console.log (err);
-                    this._store.dispatch(new TramitacaoListActions.DeleteTramitacaoFailed(err));
-                    return caught;
+                mergeMap((action) => {
+                    return this._tramitacaoService.destroy(action.payload).pipe(
+                        map((response) => new TramitacaoListActions.DeleteTramitacaoSuccess(response.id)),
+                        catchError((err) => {
+                            console.log(err);
+                            return of(new TramitacaoListActions.DeleteTramitacaoFailed(action.payload));
+                        })
+                    );
                 })
             );
 }

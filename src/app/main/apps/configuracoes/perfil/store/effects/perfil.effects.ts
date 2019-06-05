@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, switchMap} from 'rxjs/operators';
 
 import * as ProfileActions from '../actions/perfil.actions';
@@ -10,6 +10,7 @@ import {ColaboradorService} from '@cdk/services/colaborador.service';
 import {Colaborador} from '@cdk/models/colaborador.model';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
 export class ProfileEffect {
@@ -41,14 +42,17 @@ export class ProfileEffect {
                 switchMap((action) => {
                     return this._colaboradorService.save(action.payload).pipe(
                         mergeMap((response: Colaborador) => [
-                            new ProfileActions.SaveProfileSuccess()
-                        ])
+                            new ProfileActions.SaveProfileSuccess(),  new OperacoesActions.Resultado({
+                                type: 'profile',
+                                content: `Profile id ${response.id} criada com sucesso!`,
+                                dateTime: response.criadoEm
+                            })
+                        ]),
+                        catchError((err) => {
+                            console.log (err);
+                            return of(new ProfileActions.SaveProfileFailed(err));
+                        })
                     );
-                }),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new ProfileActions.SaveProfileFailed(err));
-                    return caught;
                 })
             );
 }

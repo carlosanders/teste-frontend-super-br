@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, tap, switchMap} from 'rxjs/operators';
 
 import * as TransicaoEditActions from '../actions/transicao-edit.actions';
@@ -14,6 +14,7 @@ import {Transicao} from '@cdk/models/transicao.model';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
 export class TransicaoEditEffect {
@@ -84,14 +85,18 @@ export class TransicaoEditEffect {
                         mergeMap((response: Transicao) => [
                             new TransicaoEditActions.SaveTransicaoSuccess(),
                             new TransicaoListActions.ReloadTransicoes(),
-                            new AddData<Transicao>({data: [response], schema: transicaoSchema})
-                        ])
+                            new AddData<Transicao>({data: [response], schema: transicaoSchema}),
+                            new OperacoesActions.Resultado({
+                                type: 'transicao',
+                                content: `Transição id ${response.id} criada com sucesso!`,
+                                dateTime: response.criadoEm
+                            })
+                        ]),
+                        catchError((err) => {
+                            console.log (err);
+                            return of(new TransicaoEditActions.SaveTransicaoFailed(err));
+                        })
                     );
-                }),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new TransicaoEditActions.SaveTransicaoFailed(err));
-                    return caught;
                 })
             );
 

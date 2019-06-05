@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, tap, switchMap} from 'rxjs/operators';
 
 import * as DadosBasicosActions from '../actions/dados-basicos.actions';
@@ -13,6 +13,7 @@ import {Processo} from '@cdk/models/processo.model';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
 export class DadosBasicosEffect {
@@ -46,16 +47,21 @@ export class DadosBasicosEffect {
                     return this._processoService.save(action.payload).pipe(
                         mergeMap((response: Processo) => [
                             new DadosBasicosActions.SaveProcessoSuccess(response),
-                            new AddData<Processo>({data: [response], schema: processoSchema})
-                        ])
+                            new AddData<Processo>({data: [response], schema: processoSchema}),
+                            new OperacoesActions.Resultado({
+                                type: 'processo',
+                                content: `Processo id ${response.id} criada com sucesso!`,
+                                dateTime: response.criadoEm
+                            })
+                        ]),
+                        catchError((err) => {
+                            console.log (err);
+                            return of(new DadosBasicosActions.SaveProcessoFailed(err));
+                        })
                     );
-                }),
-                catchError((err, caught) => {
-                    console.log (caught);
-                    this._store.dispatch(new DadosBasicosActions.SaveProcessoFailed(err));
-                    return caught;
                 })
             );
+
 
     /**
      * Save Processo Success
