@@ -20,6 +20,7 @@ import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
 import {DocumentoService} from '@cdk/services/documento.service';
 import {Tarefa} from '@cdk/models/tarefa.model';
 import {Documento} from '@cdk/models/documento.model';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
 export class TarefaDetailEffect {
@@ -91,7 +92,7 @@ export class TarefaDetailEffect {
     /**
      * Deselect Tarefa Action
      */
-    @Effect({ dispatch: false })
+    @Effect({dispatch: false})
     deselectTarefaAction =
         this._actions
             .pipe(
@@ -127,17 +128,13 @@ export class TarefaDetailEffect {
             .pipe(
                 ofType<TarefaDetailActions.DeleteTarefa>(TarefaDetailActions.DELETE_TAREFA),
                 mergeMap((action) => {
-                        return this._tarefaService.destroy(action.payload)
-                            .pipe(
-                                map(() => {
-                                    return new TarefaDetailActions.DeleteTarefaSuccess(action.payload);
-                                }),
-                                catchError((err, caught) => {
-                                    console.log(err);
-                                    this._store.dispatch(new TarefaDetailActions.DeleteTarefaFailed(err));
-                                    return caught;
-                                })
-                            );
+                        return this._tarefaService.destroy(action.payload).pipe(
+                            map((response) => new TarefaDetailActions.DeleteTarefaSuccess(response.id)),
+                            catchError((err) => {
+                                console.log(err);
+                                return of(new TarefaDetailActions.DeleteTarefaFailed(action.payload));
+                            })
+                        );
                     }
                 ));
 
@@ -154,13 +151,17 @@ export class TarefaDetailEffect {
                     return this._tarefaService.save(action.payload).pipe(
                         mergeMap((response: Tarefa) => [
                             new TarefaDetailActions.SaveTarefaSuccess(),
-                            new AddData<Tarefa>({data: [response], schema: tarefaSchema})
-                        ])
+                            new AddData<Tarefa>({data: [response], schema: tarefaSchema}), new OperacoesActions.Resultado({
+                                type: 'tarefa',
+                                content: `Tarefa id ${response.id} criada com sucesso!`,
+                                dateTime: response.criadoEm
+                            })
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            return of(new TarefaDetailActions.SaveTarefaFailed(err));
+                        })
                     );
-                }),
-                catchError((err, caught) => {
-                    this._store.dispatch(new TarefaDetailActions.SaveTarefaFailed(err));
-                    return caught;
                 })
             );
 
@@ -185,16 +186,21 @@ export class TarefaDetailEffect {
                                 childSchema: vinculacaoEtiquetaSchema,
                                 parentSchema: tarefaSchema,
                                 parentId: action.payload.tarefa.id
+                            }),
+                            new OperacoesActions.Resultado({
+                                type: 'tarefa',
+                                content: `Tarefa id ${response.id} criada com sucesso!`,
+                                dateTime: response.criadoEm
                             })
                         ]),
-                        catchError((err, caught) => {
+                        catchError((err) => {
                             console.log(err);
-                            this._store.dispatch(new TarefaDetailActions.CreateVinculacaoEtiquetaFailed(err));
-                            return caught;
+                            return of(new TarefaDetailActions.SaveTarefaFailed(err));
                         })
                     );
                 })
             );
+
 
     /**
      * Delete Vinculacao Etiqueta
@@ -206,22 +212,20 @@ export class TarefaDetailEffect {
             .pipe(
                 ofType<TarefaDetailActions.DeleteVinculacaoEtiqueta>(TarefaDetailActions.DELETE_VINCULACAO_ETIQUETA),
                 concatMap((action) => {
-                        return this._vinculacaoEtiquetaService.destroy(action.payload.vinculacaoEtiquetaId)
-                            .pipe(
-                                mergeMap(() => [
-                                    new RemoveChildData({
-                                        id: action.payload.vinculacaoEtiquetaId,
-                                        childSchema: vinculacaoEtiquetaSchema,
-                                        parentSchema: tarefaSchema,
-                                        parentId: action.payload.tarefaId
-                                    })
-                                ]),
-                                catchError((err, caught) => {
-                                    console.log(err);
-                                    this._store.dispatch(new TarefaDetailActions.DeleteVinculacaoEtiquetaFailed(err));
-                                    return caught;
+                        return this._tarefaService.destroy(action.payload).pipe(
+                            mergeMap(() => [
+                                new RemoveChildData({
+                                    id: action.payload.vinculacaoEtiquetaId,
+                                    childSchema: vinculacaoEtiquetaSchema,
+                                    parentSchema: tarefaSchema,
+                                    parentId: action.payload.tarefaId
                                 })
-                            );
+                            ]),
+                            catchError((err) => {
+                                console.log(err);
+                                return of(new TarefaDetailActions.DeleteVinculacaoEtiquetaFailed(action.payload));
+                            })
+                        );
                     }
                 ));
 

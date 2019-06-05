@@ -18,6 +18,7 @@ import {Documento} from '@cdk/models/documento.model';
 import {Router} from '@angular/router';
 import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
 import {DocumentoAvulso} from '@cdk/models/documento-avulso.model';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
 export class DocumentoEffect {
@@ -133,14 +134,18 @@ export class DocumentoEffect {
                     return this._documentoService.save(action.payload).pipe(
                         mergeMap((response: Documento) => [
                             new DocumentoActions.SaveDocumentoSuccess(),
-                            new AddData<Documento>({data: [response], schema: documentoSchema})
-                        ])
+                            new AddData<Documento>({data: [response], schema: documentoSchema}),
+                            new OperacoesActions.Resultado({
+                                type: 'documento',
+                                content: `Documento id ${response.id} criada com sucesso!`,
+                                dateTime: response.criadoEm
+                            })
+                        ]),
+                        catchError((err) => {
+                            console.log (err);
+                            return of(new DocumentoActions.SaveDocumentoFailed(err));
+                        })
                     );
-                }),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new DocumentoActions.SaveDocumentoFailed(err));
-                    return caught;
                 })
             );
 
@@ -157,14 +162,18 @@ export class DocumentoEffect {
                     return this._documentoAvulsoService.save(action.payload).pipe(
                         mergeMap((response: DocumentoAvulso) => [
                             new DocumentoActions.SaveDocumentoAvulsoSuccess(),
-                            new AddData<DocumentoAvulso>({data: [response], schema: documentoAvulsoSchema})
-                        ])
+                            new AddData<DocumentoAvulso>({data: [response], schema: documentoAvulsoSchema}),
+                            new OperacoesActions.Resultado({
+                                type: 'documento',
+                                content: `Documento id ${response.id} criada com sucesso!`,
+                                dateTime: response.criadoEm
+                            })
+                        ]),
+                        catchError((err) => {
+                            console.log (err);
+                            return of(new DocumentoActions.SaveDocumentoFailed(err));
+                        })
                     );
-                }),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new DocumentoActions.SaveDocumentoAvulsoFailed(err));
-                    return caught;
                 })
             );
 

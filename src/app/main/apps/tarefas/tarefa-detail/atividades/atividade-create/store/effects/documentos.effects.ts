@@ -86,7 +86,7 @@ export class AtividadeCreateDocumentosEffect {
                     })
                 ]),
                 catchError((err, caught) => {
-                    console.log (err);
+                    console.log(err);
                     this._store.dispatch(new AtividadeCreateDocumentosActions.GetDocumentosFailed(err));
                     return caught;
                 })
@@ -102,17 +102,13 @@ export class AtividadeCreateDocumentosEffect {
             .pipe(
                 ofType<AtividadeCreateDocumentosActions.DeleteDocumento>(AtividadeCreateDocumentosActions.DELETE_DOCUMENTO),
                 mergeMap((action) => {
-                        return this._documentoService.destroy(action.payload)
-                            .pipe(
-                                map(() => {
-                                    return new AtividadeCreateDocumentosActions.DeleteDocumentoSuccess(action.payload);
-                                }),
-                                catchError((err, caught) => {
-                                    console.log(err);
-                                    this._store.dispatch(new AtividadeCreateDocumentosActions.DeleteDocumentoFailed(err));
-                                    return caught;
-                                })
-                            );
+                        return this._documentoService.destroy(action.payload).pipe(
+                            map((response) => new AtividadeCreateDocumentosActions.DeleteDocumentoSuccess(response.id)),
+                            catchError((err) => {
+                                console.log(err);
+                                return of(new AtividadeCreateDocumentosActions.DeleteDocumentoFailed(action.payload));
+                            })
+                        );
                     }
                 ));
 

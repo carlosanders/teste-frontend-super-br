@@ -2,8 +2,8 @@ import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
-import {catchError, mergeMap, switchMap} from 'rxjs/operators';
+import {Observable, of} from 'rxjs';
+import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as PessoaListActions from 'app/main/apps/pessoa/pessoa-list/store/actions';
@@ -60,11 +60,10 @@ export class PessoaListEffect {
                     })
                 ]),
                 catchError((err, caught) => {
-                    console.log (err);
+                    console.log(err);
                     this._store.dispatch(new PessoaListActions.GetPessoasFailed(err));
                     return caught;
                 })
-
             );
 
     /**
@@ -76,15 +75,14 @@ export class PessoaListEffect {
         this._actions
             .pipe(
                 ofType<PessoaListActions.DeletePessoa>(PessoaListActions.DELETE_PESSOA),
-                mergeMap((action) => this._pessoaService.destroy(action.payload)),
-                mergeMap((response) => [
-                    // new RemoveData({id: response.id, schema: pessoaSchema}),
-                    new PessoaListActions.DeletePessoaSuccess(response.id)
-                ]),
-                catchError((err, caught) => {
-                    console.log (err);
-                    this._store.dispatch(new PessoaListActions.DeletePessoaFailed(err));
-                    return caught;
+                mergeMap((action) => {
+                    return this._pessoaService.destroy(action.payload).pipe(
+                        map((response) => new PessoaListActions.DeletePessoaSuccess(response.id)),
+                        catchError((err) => {
+                            console.log(err);
+                            return of(new PessoaListActions.DeletePessoaFailed(action.payload));
+                        })
+                    );
                 })
             );
 }

@@ -12,6 +12,7 @@ import {UpdateData} from '@cdk/ngrx-normalizr';
 import {ComponenteDigital} from '@cdk/models/componente-digital.model';
 import {componenteDigital as componenteDigitalSchema} from '@cdk/normalizr/componente-digital.schema';
 import {Router} from '@angular/router';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
 export class ComponenteDigitalEffect {
@@ -89,14 +90,19 @@ export class ComponenteDigitalEffect {
                     return this._componenteDigitalService.save(action.payload).pipe(
                         mergeMap((response: ComponenteDigital) => [
                             new ComponenteDigitalActions.SaveComponenteDigitalSuccess(response),
-                            new UpdateData<ComponenteDigital>({id: response.id, schema: componenteDigitalSchema, changes: {conteudo: response.conteudo}})
-                        ])
+                            new UpdateData<ComponenteDigital>({id: response.id, schema: componenteDigitalSchema, changes: {conteudo: response.conteudo}}),
+                            new OperacoesActions.Resultado({
+                                type: 'componenteDigital',
+                                content: `Componente Digital id ${response.id} criada com sucesso!`,
+                                dateTime: response.criadoEm
+                            })
+                        ]),
+                        catchError((err) => {
+                            console.log (err);
+                            return of(new ComponenteDigitalActions.SaveComponenteDigitalFailed(err));
+                        })
                     );
-                }),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new ComponenteDigitalActions.SaveComponenteDigitalFailed(err));
-                    return caught;
                 })
             );
+
 }

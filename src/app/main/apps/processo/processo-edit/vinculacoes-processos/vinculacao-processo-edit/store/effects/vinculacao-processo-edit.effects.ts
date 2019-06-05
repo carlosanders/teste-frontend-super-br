@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, tap, switchMap} from 'rxjs/operators';
 
 import * as VinculacaoProcessoEditActions from '../actions/vinculacao-processo-edit.actions';
@@ -14,6 +14,7 @@ import {VinculacaoProcesso} from '@cdk/models/vinculacao-processo.model';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
 export class VinculacaoProcessoEditEffect {
@@ -84,17 +85,20 @@ export class VinculacaoProcessoEditEffect {
                         mergeMap((response: VinculacaoProcesso) => [
                             new VinculacaoProcessoEditActions.SaveVinculacaoProcessoSuccess(),
                             new VinculacaoProcessoListActions.ReloadVinculacoesProcessos(),
-                            new AddData<VinculacaoProcesso>({data: [response], schema: vinculacaoProcessoSchema})
-                        ])
+                            new AddData<VinculacaoProcesso>({data: [response], schema: vinculacaoProcessoSchema}),
+                            new OperacoesActions.Resultado({
+                                type: 'vinculacaoProcesso',
+                                content: `Vinculação do Processo id ${response.id} criada com sucesso!`,
+                                dateTime: response.criadoEm
+                            })
+                        ]),
+                        catchError((err) => {
+                            console.log (err);
+                            return of(new VinculacaoProcessoEditActions.SaveVinculacaoProcessoFailed(err));
+                        })
                     );
-                }),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new VinculacaoProcessoEditActions.SaveVinculacaoProcessoFailed(err));
-                    return caught;
                 })
             );
-
     /**
      * Save VinculacaoProcesso Success
      */

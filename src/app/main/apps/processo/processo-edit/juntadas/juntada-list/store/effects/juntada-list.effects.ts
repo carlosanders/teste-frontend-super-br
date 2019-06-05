@@ -2,8 +2,8 @@ import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
-import {catchError, mergeMap, switchMap} from 'rxjs/operators';
+import {Observable, of} from 'rxjs';
+import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as JuntadaListActions from 'app/main/apps/processo/processo-edit/juntadas/juntada-list/store/actions';
@@ -64,11 +64,10 @@ export class JuntadaListEffect {
                     })
                 ]),
                 catchError((err, caught) => {
-                    console.log (err);
+                    console.log(err);
                     this._store.dispatch(new JuntadaListActions.GetJuntadasFailed(err));
                     return caught;
                 })
-
             );
 
     /**
@@ -80,15 +79,14 @@ export class JuntadaListEffect {
         this._actions
             .pipe(
                 ofType<JuntadaListActions.DeleteJuntada>(JuntadaListActions.DELETE_JUNTADA),
-                mergeMap((action) => this._juntadaService.destroy(action.payload)),
-                mergeMap((response) => [
-                    // new RemoveData({id: response.id, schema: juntadaSchema}),
-                    new JuntadaListActions.DeleteJuntadaSuccess(response.id)
-                ]),
-                catchError((err, caught) => {
-                    console.log (err);
-                    this._store.dispatch(new JuntadaListActions.DeleteJuntadaFailed(err));
-                    return caught;
+                mergeMap((action) => {
+                    return this._juntadaService.destroy(action.payload).pipe(
+                        map((response) => new JuntadaListActions.DeleteJuntadaSuccess(response.id)),
+                        catchError((err) => {
+                            console.log(err);
+                            return of(new JuntadaListActions.DeleteJuntadaFailed(action.payload));
+                        })
+                    );
                 })
             );
 }

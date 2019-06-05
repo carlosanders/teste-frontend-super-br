@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, tap, switchMap} from 'rxjs/operators';
 
 import * as PessoaEditActions from '../actions/pessoa-edit.actions';
@@ -14,6 +14,7 @@ import {Pessoa} from '@cdk/models/pessoa.model';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
 export class PessoaEditEffect {
@@ -84,14 +85,18 @@ export class PessoaEditEffect {
                         mergeMap((response: Pessoa) => [
                             new PessoaEditActions.SavePessoaSuccess(),
                             new PessoaListActions.ReloadPessoas(),
-                            new AddData<Pessoa>({data: [response], schema: pessoaSchema})
-                        ])
+                            new AddData<Pessoa>({data: [response], schema: pessoaSchema}),
+                            new OperacoesActions.Resultado({
+                                type: 'pessoa',
+                                content: `Pessoa id ${response.id} criada com sucesso!`,
+                                dateTime: response.criadoEm
+                            })
+                        ]),
+                        catchError((err) => {
+                            console.log (err);
+                            return of(new PessoaEditActions.SavePessoaFailed(err));
+                        })
                     );
-                }),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new PessoaEditActions.SavePessoaFailed(err));
-                    return caught;
                 })
             );
 

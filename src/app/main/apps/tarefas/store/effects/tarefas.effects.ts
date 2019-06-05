@@ -31,12 +31,11 @@ export class TarefasEffect {
         this._store
             .pipe(
                 select(getRouterState),
-                
             ).subscribe(routerState => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+            if (routerState) {
+                this.routerState = routerState.state;
+            }
+        });
     }
 
     /**
@@ -121,19 +120,15 @@ export class TarefasEffect {
             .pipe(
                 ofType<TarefasActions.DeleteTarefa>(TarefasActions.DELETE_TAREFA),
                 mergeMap((action) => {
-                        return this._tarefaService.destroy(action.payload)
-                            .pipe(
-                                map(() => {
-                                    return new TarefasActions.DeleteTarefaSuccess(action.payload);
-                                }),
-                                catchError((err, caught) => {
-                                    console.log(err);
-                                    this._store.dispatch(new TarefasActions.DeleteTarefaFailed(err));
-                                    return caught;
-                                })
-                            );
-                    }
-                ));
+                    return this._tarefaService.destroy(action.payload).pipe(
+                        map((response) => new TarefasActions.DeleteTarefaSuccess(response.id)),
+                        catchError((err) => {
+                            console.log(err);
+                            return of(new TarefasActions.DeleteTarefaFailed(action.payload));
+                        })
+                    );
+                })
+            );
 
     /**
      * Set Folder on Selected Tarefas

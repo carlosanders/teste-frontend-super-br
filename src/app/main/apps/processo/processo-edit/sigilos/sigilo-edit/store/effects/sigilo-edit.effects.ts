@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, tap, switchMap} from 'rxjs/operators';
 
 import * as SigiloEditActions from '../actions/sigilo-edit.actions';
@@ -14,6 +14,7 @@ import {Sigilo} from '@cdk/models/sigilo.model';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
 export class SigiloEditEffect {
@@ -84,14 +85,18 @@ export class SigiloEditEffect {
                         mergeMap((response: Sigilo) => [
                             new SigiloEditActions.SaveSigiloSuccess(),
                             new SigiloListActions.ReloadSigilos(),
-                            new AddData<Sigilo>({data: [response], schema: sigiloSchema})
-                        ])
+                            new AddData<Sigilo>({data: [response], schema: sigiloSchema}),
+                            new OperacoesActions.Resultado({
+                                type: 'sigilo',
+                                content: `Sigilo id ${response.id} criada com sucesso!`,
+                                dateTime: response.criadoEm
+                            })
+                        ]),
+                        catchError((err) => {
+                            console.log (err);
+                            return of(new SigiloEditActions.SaveSigiloFailed(err));
+                        })
                     );
-                }),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new SigiloEditActions.SaveSigiloFailed(err));
-                    return caught;
                 })
             );
 

@@ -2,8 +2,8 @@ import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
-import {catchError, mergeMap, switchMap} from 'rxjs/operators';
+import {Observable, of} from 'rxjs';
+import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as VinculacaoProcessoListActions from '../actions';
@@ -64,11 +64,10 @@ export class VinculacaoProcessoListEffect {
                     })
                 ]),
                 catchError((err, caught) => {
-                    console.log (err);
+                    console.log(err);
                     this._store.dispatch(new VinculacaoProcessoListActions.GetVinculacoesProcessosFailed(err));
                     return caught;
                 })
-
             );
 
     /**
@@ -80,15 +79,14 @@ export class VinculacaoProcessoListEffect {
         this._actions
             .pipe(
                 ofType<VinculacaoProcessoListActions.DeleteVinculacaoProcesso>(VinculacaoProcessoListActions.DELETE_VINCULACAO_PROCESSO),
-                mergeMap((action) => this._vinculacaoProcessoService.destroy(action.payload)),
-                mergeMap((response) => [
-                    // new RemoveData({id: response.id, schema: vinculacaoProcessoSchema}),
-                    new VinculacaoProcessoListActions.DeleteVinculacaoProcessoSuccess(response.id)
-                ]),
-                catchError((err, caught) => {
-                    console.log (err);
-                    this._store.dispatch(new VinculacaoProcessoListActions.DeleteVinculacaoProcessoFailed(err));
-                    return caught;
+                mergeMap((action) => {
+                    return this._vinculacaoProcessoService.destroy(action.payload).pipe(
+                        map((response) => new VinculacaoProcessoListActions.DeleteVinculacaoProcessoSuccess(response.id)),
+                        catchError((err) => {
+                            console.log(err);
+                            return of(new VinculacaoProcessoListActions.DeleteVinculacaoProcessoFailed(action.payload));
+                        })
+                    );
                 })
             );
 }

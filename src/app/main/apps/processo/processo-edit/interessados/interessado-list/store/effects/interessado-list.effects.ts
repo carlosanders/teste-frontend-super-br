@@ -2,8 +2,8 @@ import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
-import {catchError, mergeMap, switchMap} from 'rxjs/operators';
+import {Observable, of} from 'rxjs';
+import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as InteressadoListActions from 'app/main/apps/processo/processo-edit/interessados/interessado-list/store/actions';
@@ -64,11 +64,10 @@ export class InteressadoListEffect {
                     })
                 ]),
                 catchError((err, caught) => {
-                    console.log (err);
+                    console.log(err);
                     this._store.dispatch(new InteressadoListActions.GetInteressadosFailed(err));
                     return caught;
                 })
-
             );
 
     /**
@@ -80,15 +79,14 @@ export class InteressadoListEffect {
         this._actions
             .pipe(
                 ofType<InteressadoListActions.DeleteInteressado>(InteressadoListActions.DELETE_INTERESSADO),
-                mergeMap((action) => this._interessadoService.destroy(action.payload)),
-                mergeMap((response) => [
-                    // new RemoveData({id: response.id, schema: interessadoSchema}),
-                    new InteressadoListActions.DeleteInteressadoSuccess(response.id)
-                ]),
-                catchError((err, caught) => {
-                    console.log (err);
-                    this._store.dispatch(new InteressadoListActions.DeleteInteressadoFailed(err));
-                    return caught;
+                mergeMap((action) => {
+                    return this._interessadoService.destroy(action.payload).pipe(
+                        map((response) => new InteressadoListActions.DeleteInteressadoSuccess(response.id)),
+                        catchError((err) => {
+                            console.log(err);
+                            return of(new InteressadoListActions.DeleteInteressadoFailed(action.payload));
+                        })
+                    );
                 })
             );
 }

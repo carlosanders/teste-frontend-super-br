@@ -95,7 +95,6 @@ export class TesteEffect {
                 })
             );
 
-
     /**
      * Delete Teste
      * @type {Observable<any>}
@@ -106,19 +105,15 @@ export class TesteEffect {
             .pipe(
                 ofType<TesteActions.DeleteTeste>(TesteActions.DELETE_TESTE),
                 mergeMap((action) => {
-                        return this._testeService.destroy(action.payload)
-                            .pipe(
-                                map(() => {
-                                    return new TesteActions.DeleteTesteSuccess(action.payload);
-                                }),
-                                catchError((err, caught) => {
-                                    console.log(err);
-                                    this._store.dispatch(new TesteActions.DeleteTesteFailed(err));
-                                    return caught;
-                                })
-                            );
-                    }
-                ));
+                    return this._testeService.destroy(action.payload).pipe(
+                        map((response) => new TesteActions.DeleteTesteSuccess(response.id)),
+                        catchError((err) => {
+                            console.log(err);
+                            return of(new TesteActions.DeleteTesteFailed(action.payload));
+                        })
+                    );
+                })
+            );
 
     /**
      * Save Teste
