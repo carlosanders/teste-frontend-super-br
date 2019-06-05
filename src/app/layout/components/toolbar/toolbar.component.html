@@ -52,7 +52,8 @@
 
             <button mat-icon-button
                     class="quick-panel-toggle-button"
-                    aria-label="Notificações">
+                    aria-label="Notificações"
+                    (click)="goNotificacoes()">
                 <mat-icon [matBadge]="notificacoesCount" matBadgePosition="above after" matBadgeColor="warn" class="secondary-text">
                     notifications
                 </mat-icon>

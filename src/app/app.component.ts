@@ -13,6 +13,11 @@ import {FuseTranslationLoaderService} from '@fuse/services/translation-loader.se
 
 import {navigation} from 'app/navigation/navigation';
 import {locale as navigationEnglish} from 'app/navigation/i18n/en';
+import {environment} from '../environments/environment';
+import {Store} from '@ngrx/store';
+import {State} from 'app/store/reducers';
+import {EventSourcePolyfill} from 'event-source-polyfill';
+import * as fromStore from 'app/store';
 
 @Component({
     selector: 'app',
@@ -29,6 +34,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private _profile: any;
 
     /**
+     *
      * @param document
      * @param _fuseConfigService
      * @param _fuseNavigationService
@@ -37,6 +43,7 @@ export class AppComponent implements OnInit, OnDestroy {
      * @param _fuseTranslationLoaderService
      * @param _translateService
      * @param _platform
+     * @param _store
      */
     constructor(
         @Inject(DOCUMENT) private document: any,
@@ -46,7 +53,8 @@ export class AppComponent implements OnInit, OnDestroy {
         private _fuseSplashScreenService: FuseSplashScreenService,
         private _fuseTranslationLoaderService: FuseTranslationLoaderService,
         private _translateService: TranslateService,
-        private _platform: Platform
+        private _platform: Platform,
+        private _store: Store<State>
     ) {
         // Get default navigation
         this.navigation = navigation;
@@ -142,6 +150,26 @@ export class AppComponent implements OnInit, OnDestroy {
 
                 this.document.body.classList.add(this.fuseConfig.colorTheme);
             });
+
+
+        if (localStorage.getItem('userProfile')) {
+            const userProfile = JSON.parse(localStorage.getItem('userProfile'));
+            const EventSource = EventSourcePolyfill;
+            const es = new EventSource(environment.mercure_hub + '?topic=' + userProfile.usuario.username,
+                {
+                    headers: {
+                        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtZXJjdXJlIjp7InB1Ymxpc2giOltdfX0.R2VYhXy7uBsCqiXb9TRhEccaAiidwkZm_1sQP0JPutw'
+                    }
+                }
+            );
+            es.onmessage = e => {
+                const message = JSON.parse(e.data);
+                this._store.dispatch(new fromStore.Message({
+                    type: Object.keys(message)[0],
+                    content: Object.values(message)[0]
+                }));
+            };
+        }
     }
 
     /**
