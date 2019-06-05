@@ -1,0 +1,7 @@
+<cdk-folder-form
+        [folder]="folder"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        [modalidadeFolderPagination]="modalidadeFolderPagination"
+        (save)="submit($event)">
+</cdk-folder-form>

@@ -84,8 +84,10 @@ export class DocumentoAvulsoListEffect {
                     return this._documentoAvulsoService.destroy(action.payload).pipe(
                         map((response) => new DocumentoAvulsoListActions.DeleteDocumentoAvulsoSuccess(response.id)),
                         catchError((err) => {
-                            console.log (err);
+                            console.log(err);
                             return of(new DocumentoAvulsoListActions.DeleteDocumentoAvulsoFailed(action.payload));
+                        })
+                    );
                 })
             );
 }

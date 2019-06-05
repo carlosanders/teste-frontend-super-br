@@ -101,15 +101,6 @@
                     [ngClass]="{'deleted':deletedIds?.indexOf(folder.id) > -1}"> {{folder.modalidadeFolder.valor}} </td>
             </ng-container>
 
-            <!-- Usuario Column -->
-            <ng-container matColumnDef="usuario.nome">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
-                    Usuário
-                </th>
-                <td mat-cell *matCellDef="let folder" fxFlex="30" fxLayoutAlign="start center"
-                    [ngClass]="{'deleted':deletedIds?.indexOf(folder.id) > -1}"> {{folder.usuario.nome}} </td>
-            </ng-container>
-
             <!-- Actions Column -->
             <ng-container matColumnDef="actions">
                 <th mat-header-cell *matHeaderCellDef fxFlex="10"></th>

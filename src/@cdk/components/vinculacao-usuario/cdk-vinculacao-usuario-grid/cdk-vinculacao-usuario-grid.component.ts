@@ -30,13 +30,13 @@ export class CdkVinculacaoUsuarioGridComponent implements AfterViewInit, OnInit,
     loading = false;
 
     @Input()
-    vinculacaoUsuarios: VinculacaoUsuario[];
+    vinculacoesUsuarios: VinculacaoUsuario[];
 
     @Input()
     total = 0;
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'usuario.nome', 'usuarioVinculado.nome', 'encerraTarefa', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'usuarioVinculado.nome', 'encerraTarefa', 'actions'];
 
     @Input()
     deletingIds: number[] = [];
@@ -90,11 +90,11 @@ export class CdkVinculacaoUsuarioGridComponent implements AfterViewInit, OnInit,
         private _changeDetectorRef: ChangeDetectorRef
     ) {
         this.gridFilter = {};
-        this.vinculacaoUsuarios = [];
+        this.vinculacoesUsuarios = [];
     }
 
     ngOnChanges(): void {
-        this.dataSource = new VinculacaoUsuarioDataSource(of(this.vinculacaoUsuarios));
+        this.dataSource = new VinculacaoUsuarioDataSource(of(this.vinculacoesUsuarios));
         this.paginator.length = this.total;
     }
 
@@ -106,7 +106,7 @@ export class CdkVinculacaoUsuarioGridComponent implements AfterViewInit, OnInit,
 
         this.paginator.pageSize = this.pageSize;
 
-        this.dataSource = new VinculacaoUsuarioDataSource(of(this.vinculacaoUsuarios));
+        this.dataSource = new VinculacaoUsuarioDataSource(of(this.vinculacoesUsuarios));
     }
 
     ngAfterViewInit(): void {
@@ -150,8 +150,8 @@ export class CdkVinculacaoUsuarioGridComponent implements AfterViewInit, OnInit,
         this.delete.emit(vinculacaoUsuarioId);
     }
 
-    deleteVinculacaoUsuarios(vinculacaoUsuariosId): void {
-        vinculacaoUsuariosId.forEach(vinculacaoUsuarioId => this.deleteVinculacaoUsuario(vinculacaoUsuarioId));
+    deleteVinculacaoUsuarios(vinculacoesUsuariosId): void {
+        vinculacoesUsuariosId.forEach(vinculacaoUsuarioId => this.deleteVinculacaoUsuario(vinculacaoUsuarioId));
     }
 
     /**
@@ -173,7 +173,7 @@ export class CdkVinculacaoUsuarioGridComponent implements AfterViewInit, OnInit,
      * Select all
      */
     selectAll(): void {
-        const arr = Object.keys(this.vinculacaoUsuarios).map(k => this.vinculacaoUsuarios[k]);
+        const arr = Object.keys(this.vinculacoesUsuarios).map(k => this.vinculacoesUsuarios[k]);
         this.selectedIds = arr.map(vinculacaoUsuario => vinculacaoUsuario.id);
         this.recompute();
     }
@@ -199,7 +199,7 @@ export class CdkVinculacaoUsuarioGridComponent implements AfterViewInit, OnInit,
 
     recompute(): void {
         this.hasSelected = this.selectedIds.length > 0;
-        this.isIndeterminate = (this.selectedIds.length !== this.vinculacaoUsuarios.length && this.selectedIds.length > 0);
+        this.isIndeterminate = (this.selectedIds.length !== this.vinculacoesUsuarios.length && this.selectedIds.length > 0);
     }
 
     setGridFilter(gridFilter): void {

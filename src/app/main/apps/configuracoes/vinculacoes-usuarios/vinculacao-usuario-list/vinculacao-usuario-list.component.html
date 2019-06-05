@@ -1,0 +1,11 @@
+<cdk-vinculacao-usuario-grid
+        [loading]="(loading$ | async)"
+        [vinculacoesUsuarios]="(vinculacoesUsuarios$ | async)"
+        [total]="(pagination$ | async)?.total"
+        [deletingIds]="(deletingIds$ | async)"
+        [deletedIds]="(deletedIds$ | async)"
+        [actions]="['edit', 'delete']"
+        (reload)="reload($event)"
+        (edit)="edit($event)"
+        (delete)="delete($event)">
+</cdk-vinculacao-usuario-grid>

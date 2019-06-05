@@ -1,0 +1,6 @@
+<cdk-seguranca-form
+        [usuario]="usuario"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        (save)="submit($event)">
+</cdk-seguranca-form>

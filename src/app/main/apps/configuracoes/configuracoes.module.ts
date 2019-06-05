@@ -19,7 +19,39 @@ const routes: Routes = [
         children: [
             {
                 path       : 'perfil',
-                loadChildren: './profile/profile.module#ProfileModule'
+                loadChildren: './perfil/perfil.module#PerfilModule'
+            },
+            {
+                path       : 'seguranca',
+                loadChildren: './seguranca/seguranca.module#SegurancaModule'
+            },
+            {
+                path       : 'lotacoes',
+                loadChildren: './lotacoes/lotacoes.module#LotacoesModule'
+            },
+            {
+                path       : 'notificacoes',
+                loadChildren: './notificacoes/notificacoes.module#NotificacoesModule'
+            },
+            {
+                path       : 'analistas',
+                loadChildren: './vinculacoes-usuarios/vinculacoes-usuarios.module#VinculacoesUsuariosModule'
+            },
+            {
+                path       : 'modelos',
+                loadChildren: './modelos/modelos.module#ModelosModule'
+            },
+            {
+                path       : 'repositorios',
+                loadChildren: './repositorios/repositorios.module#RepositoriosModule'
+            },
+            {
+                path       : 'etiquetas',
+                loadChildren: './etiquetas/etiquetas.module#EtiquetasModule'
+            },
+            {
+                path       : 'pastas',
+                loadChildren: './folders/folders.module#FoldersModule'
             }
         ]
     },

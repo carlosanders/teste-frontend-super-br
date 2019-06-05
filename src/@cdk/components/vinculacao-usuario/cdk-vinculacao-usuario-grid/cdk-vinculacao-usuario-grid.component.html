@@ -75,21 +75,24 @@
             </ng-container>
 
             <!-- Usuario Column -->
-            <ng-container matColumnDef="usuario.nome">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
-                    Usuário
-                </th>
-                <td mat-cell *matCellDef="let vinculacaoModelo" fxFlex="30" fxLayoutAlign="start center"
-                    [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoModelo.id) > -1}"> {{vinculacaoModelo.usuario.nome}} </td>
-            </ng-container>
-
-            <!-- Usuario Column -->
             <ng-container matColumnDef="usuarioVinculado.nome">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
                     Usuário Vinculado
                 </th>
                 <td mat-cell *matCellDef="let vinculacaoModelo" fxFlex="30" fxLayoutAlign="start center"
                     [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoModelo.id) > -1}"> {{vinculacaoModelo.usuarioVinculado.nome}} </td>
+            </ng-container>
+
+            <!-- Encerra Tarefa Column -->
+            <ng-container matColumnDef="encerraTarefa">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="15" fxLayoutAlign="start center">
+                    Encerra Tarefas
+                </th>
+                <td mat-cell *matCellDef="let assunto" fxFlex="15" fxLayoutAlign="start center">
+                    <mat-checkbox
+                            [disabled]="true"
+                            [checked]="vinculacaoUsuario.encerraTarefa"></mat-checkbox>
+                </td>
             </ng-container>
 
             <!-- Actions Column -->

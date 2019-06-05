@@ -34,7 +34,7 @@ export class CdkModalidadeTransicaoGridsearchComponent {
     @Output()
     cancel = new EventEmitter();
 
-    modalidadetransicaos: ModalidadeTransicao[];
+    modalidadetransicoes: ModalidadeTransicao[];
 
     total = 0;
 
@@ -70,7 +70,7 @@ export class CdkModalidadeTransicaoGridsearchComponent {
                 finalize(() => this.loading = false),
                 catchError(() => of([]))
             ).subscribe(response => {
-                this.modalidadetransicaos = response['entities'];
+                this.modalidadetransicoes = response['entities'];
                 this.total = response['total'];
                 this._changeDetectorRef.markForCheck();
             });

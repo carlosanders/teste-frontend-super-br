@@ -1,0 +1,53 @@
+import {createSelector} from '@ngrx/store';
+import {
+    getFolderListAppState,
+    FolderListAppState,
+    FolderListState
+} from '../reducers';
+
+import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
+import {folder as folderSchema} from '@cdk/normalizr/folder.schema';
+import {Folder} from '@cdk/models/folder.model';
+
+const schemaSelectors = createSchemaSelectors<Folder>(folderSchema);
+
+export const getFolderListState = createSelector(
+    getFolderListAppState,
+    (state: FolderListAppState) => state.folderList
+);
+
+export const getFolderListIds = createSelector(
+    getFolderListState,
+    (state: FolderListState) => state.entitiesId
+);
+
+export const getFolderList = createSelector(
+    schemaSelectors.getNormalizedEntities,
+    getFolderListIds,
+    schemaSelectors.entitiesProjector
+);
+
+export const getPagination = createSelector(
+    getFolderListState,
+    (state: FolderListState) => state.pagination
+);
+
+export const getFolderListLoaded = createSelector(
+    getFolderListState,
+    (state: FolderListState) => state.loaded
+);
+
+export const getIsLoading = createSelector(
+    getFolderListState,
+    (state: FolderListState) => state.loading
+);
+
+export const getDeletingIds = createSelector(
+    getFolderListState,
+    (state: FolderListState) => state.deletingIds
+);
+
+export const getDeletedIds = createSelector(
+    getFolderListState,
+    (state: FolderListState) => state.deletedIds
+);
