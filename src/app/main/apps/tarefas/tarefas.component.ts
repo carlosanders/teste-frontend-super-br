@@ -106,8 +106,6 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.maximizado$ = this._store.pipe(select(fromStore.getMaximizado));
         this.deletingIds$ = this._store.pipe(select(fromStore.getDeletingTarefaIds));
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedTarefaIds));
-
-
     }
 
     // -----------------------------------------------------------------------------------------------------

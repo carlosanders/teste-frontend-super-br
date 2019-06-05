@@ -5,7 +5,7 @@
         <mat-icon class="logo-icon s-24" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
             check_box
         </mat-icon>
-        <span class="logo-text ml-8 s-24" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">Tarefas</span>
+        <span class="logo-text ml-8 s-24" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">{{mode}}</span>
     </div>
 </div>
 <!-- / SIDEBAR HEADER -->
@@ -22,7 +22,7 @@
         </button>
     </div>
 
-    <div class="nav material2">
+    <div class="nav material2" [hidden]="mode !== 'Tarefas'">
 
         <div class="nav-subheader">{{ 'TAREFA.FOLDERS' | translate }}</div>
 

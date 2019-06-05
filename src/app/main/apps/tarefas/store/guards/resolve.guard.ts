@@ -97,21 +97,7 @@ export class ResolveGuard implements CanActivate {
             select(getTarefasLoaded),
             tap((loaded: any) => {
 
-                let folderFilter = 'isNull';
-
-                const routeParams = of('folderHandle');
-                routeParams.subscribe(param => {
-                    if (this.routerState.params[param] !== 'entrada') {
-                        folderFilter = `eq:${this.routerState.params[param]}`;
-                    }
-                });
-
                 const params = {
-                    filter: {
-                        'usuarioResponsavel.id': 'eq:' + this._profile.usuario.id,
-                        'dataHoraConclusaoPrazo': 'isNull'
-                    },
-                    folderFilter: {'folder.nome': folderFilter},
                     listFilter: {},
                     etiquetaFilter: {},
                     limit: 10,
@@ -132,6 +118,31 @@ export class ResolveGuard implements CanActivate {
                         'vinculacoesEtiquetas.etiqueta'
                     ]
                 };
+
+                const routeParams = of('folderHandle');
+                routeParams.subscribe(param => {
+                    let tarefaFilter = {};
+                    if (this.routerState.params[param] === 'compartilhadas') {
+                        tarefaFilter = {
+                            'compartilhamentos.usuario.id': 'eq:' + this._profile.usuario.id,
+                            'dataHoraConclusaoPrazo': 'isNull'
+                        };
+                    } else {
+                        tarefaFilter = {
+                            'usuarioResponsavel.id': 'eq:' + this._profile.usuario.id,
+                            'dataHoraConclusaoPrazo': 'isNull'
+                        };
+                        let folderFilter = 'isNull';
+                        if (this.routerState.params[param] !== 'entrada') {
+                            folderFilter = `eq:${this.routerState.params[param]}`;
+                        }
+                        params['folderFilter'] = {
+                            folder: folderFilter
+                        };
+                    }
+
+                    params['filter'] = tarefaFilter;
+                });
 
                 if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
                     this._store.dispatch(new fromStore.GetTarefas(params));

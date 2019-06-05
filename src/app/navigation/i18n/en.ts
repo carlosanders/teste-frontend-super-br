@@ -8,7 +8,12 @@ export const locale = {
             },
             'TAREFA'        : {
                 'TITLE': 'Tarefas',
-                'BADGE': '8'
+                'MINHASTAREFAS': {
+                    'TITLE': 'Minhas Tarefas'
+                },
+                'COMPARTILHADASCOMIGO': {
+                    'TITLE': 'Compartilhadas'
+                }
             },
             'PROCESSO'        : {
                 'TITLE': 'Processos',

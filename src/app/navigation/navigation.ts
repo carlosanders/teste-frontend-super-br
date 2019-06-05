@@ -19,15 +19,36 @@ export const navigation: FuseNavigation[] = [
                 id: 'tarefas',
                 title: 'Tarefas',
                 translate: 'NAV.TAREFA.TITLE',
-                type: 'item',
+                type: 'collapsable',
                 icon: 'check_box',
-                url: '/apps/tarefas/entrada',
-                badge: {
-                    title: '13',
-                    translate: 'NAV.TAREFA.BADGE',
-                    bg: '#EC0C8E',
-                    fg: '#FFFFFF'
-                }
+                children: [
+                    {
+                        id: 'minhasTarefas',
+                        title: 'Minhas Tarefas',
+                        translate: 'NAV.TAREFA.MINHASTAREFAS.TITLE',
+                        type: 'item',
+                        icon: 'person',
+                        url: '/apps/tarefas/entrada',
+                        badge: {
+                            title: '13',
+                            bg: '#EC0C8E',
+                            fg: '#FFFFFF'
+                        }
+                    },
+                    {
+                        id: 'compartilhadasComigo',
+                        title: 'Compartilhadas',
+                        translate: 'NAV.TAREFA.COMPARTILHADASCOMIGO.TITLE',
+                        type: 'item',
+                        icon: 'share',
+                        url: '/apps/tarefas/compartilhadas',
+                        badge: {
+                            title: '5',
+                            bg: '#EC0C8E',
+                            fg: '#FFFFFF'
+                        }
+                    }
+                ]
             },
             {
                 id: 'processo',
