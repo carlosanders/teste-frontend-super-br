@@ -16,6 +16,8 @@ import {TarefaService} from '@cdk/services/tarefa.service';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Router} from '@angular/router';
 import {plainToClass} from 'class-transformer';
+import * as DocumentoAvulsoCreateActions from '../../../documento-avulso/documento-avulso-create/store/actions/documento-avulso-create.actions';
+import * as OperacoesActions from '../../../../../store/actions/operacoes.actions';
 
 @Injectable()
 export class TarefasEffect {
@@ -142,15 +144,20 @@ export class TarefasEffect {
                 concatMap((action) => {
                     const tarefa = plainToClass(Tarefa, <Tarefa>action.payload.tarefa);
                     tarefa.folder = action.payload.folder;
-                    return this._tarefaService.save(tarefa);
-                }),
-                map((response: any) => {
-                    return new TarefasActions.SetFolderOnSelectedTarefasSuccess(response);
-                }),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new TarefasActions.SetFolderOnSelectedTarefasFailed(err));
-                    return caught;
+                    return this._tarefaService.save(tarefa).pipe(
+                        map((response: any) => [
+                            new TarefasActions.SetFolderOnSelectedTarefasSuccess(response),
+                            new OperacoesActions.Resultado({
+                                type: 'documentoAvulso',
+                                content: `Documento id ${response.id} criada com sucesso!`,
+                                dateTime: response.criadoEm
+                            })
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            return of(new TarefasActions.SetFolderOnSelectedTarefasFailed(err));
+                        })
+                    );
                 })
             );
 }
