@@ -31,7 +31,19 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
 
     @Input()
     config = {
-        language: 'pt-br'
+        language: 'pt-br',
+        heading: {
+            options: [
+                {model: 'paragrafo', view: 'p', title: 'Parágrafo', class: ''},
+                {model: 'paragrafonumerado', view: {name: 'p', classes: 'numerado'}, title: 'Parágrafo Numerado', class: ''},
+                {model: 'citacao', view: 'blockquote', title: 'Citação', class: ''},
+                {model: 'titulo', view: 'h1', title: 'Título', class: ''},
+                {model: 'subtitulo', view: 'h2', title: 'Subtítulo', class: ''},
+            ]
+        },
+        alignment: {
+            options: [ 'left', 'right', 'center', 'justify' ]
+        }
     };
 
     @Output()
