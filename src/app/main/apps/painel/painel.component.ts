@@ -7,6 +7,9 @@ import { of } from 'rxjs';
 import * as moment from 'moment';
 import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
 import {LoginService} from '../../auth/login/login.service';
+import {HistoricoService} from '@cdk/services/historico.service';
+import {Historico} from '@cdk/models/historico.model';
+import {TramitacaoService} from '@cdk/services/tramitacao.service';
 
 @Component({
     selector     : 'painel',
@@ -26,21 +29,21 @@ export class PainelComponent implements OnInit
     documentosAvulsosCount: number;
     documentosAvulsosVencidosCount: number;
 
+    tramitacoesCount: number;
+
+    historicos: Historico[];
+
     /**
      * Constructor
      */
     constructor(
         private _tarefaService: TarefaService,
         private _documentoAvulsoService: DocumentoAvulsoService,
+        private _tramitacaoService: TramitacaoService,
+        private _historicoService: HistoricoService,
         private _loginService: LoginService
     )
     {
-        this.tarefasCount = null;
-        this.tarefasVencidasCount = null;
-
-        this.documentosAvulsosCount = null;
-        this.documentosAvulsosVencidosCount = null;
-
         this._profile = _loginService.getUserProfile();
     }
 
@@ -54,7 +57,7 @@ export class PainelComponent implements OnInit
     ngOnInit(): void
     {
         this._tarefaService.count(
-            `{"usuarioResponsavel.id": "eq:2", "dataHoraConclusaoPrazo": "isNull"}`)
+            `{"usuarioResponsavel.id": "eq:${this._profile.usuario.id}", "dataHoraConclusaoPrazo": "isNull"}`)
             .pipe(
                 catchError(() => of([]))
             ).subscribe(
@@ -62,7 +65,7 @@ export class PainelComponent implements OnInit
             );
 
         this._tarefaService.count(
-            `{"usuarioResponsavel.id": "eq:2", "dataHoraConclusaoPrazo": "isNull", "dataHoraFinalPrazo": "lt:${moment().format('YYYY-MM-DDTHH:mm:ss')}"}`)
+            `{"usuarioResponsavel.id": "eq:${this._profile.usuario.id}", "dataHoraConclusaoPrazo": "isNull", "dataHoraFinalPrazo": "lt:${moment().format('YYYY-MM-DDTHH:mm:ss')}"}`)
             .pipe(
                 catchError(() => of([]))
             ).subscribe(
@@ -70,7 +73,7 @@ export class PainelComponent implements OnInit
         );
 
         this._documentoAvulsoService.count(
-            `{"usuarioResponsavel.id": "eq:2", "dataHoraResposta": "isNull"}`)
+            `{"usuarioResponsavel.id": "eq:${this._profile.usuario.id}", "dataHoraResposta": "isNull"}`)
             .pipe(
                 catchError(() => of([]))
             ).subscribe(
@@ -78,11 +81,31 @@ export class PainelComponent implements OnInit
         );
 
         this._documentoAvulsoService.count(
-            `{"usuarioResponsavel.id": "eq:2", "dataHoraResposta": "isNull", "dataHoraFinalPrazo": "lt:${moment().format('YYYY-MM-DDTHH:mm:ss')}"}`)
+            `{"usuarioResponsavel.id": "eq:${this._profile.usuario.id}", "dataHoraResposta": "isNull", "dataHoraFinalPrazo": "lt:${moment().format('YYYY-MM-DDTHH:mm:ss')}"}`)
             .pipe(
                 catchError(() => of([]))
             ).subscribe(
             value => this.documentosAvulsosVencidosCount = value
+        );
+
+        this._tramitacaoService.count(
+            `{"setorDestino.id": "in:${this._profile.lotacoes.map(lotacao => lotacao.setor.id).join(',')}", "dataHoraRecebimento": "isNull"}`)
+            .pipe(
+                catchError(() => of([]))
+            ).subscribe(
+            value => this.tramitacoesCount = value
+        );
+
+        this._historicoService.query(
+            `{"criadoPor.id": "eq:${this._profile.usuario.id}", "criadoEm": "gt:${moment().subtract(10, 'days').format('YYYY-MM-DDTHH:mm:ss')}"}`,
+            5,
+            0,
+            '{}',
+            '["populateAll"]')
+            .pipe(
+                catchError(() => of([]))
+            ).subscribe(
+            value => this.historicos = value['entities']
         );
 
     }
