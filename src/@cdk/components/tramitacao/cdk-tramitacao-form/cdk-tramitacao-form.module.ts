@@ -7,7 +7,7 @@ import {
     MatCheckboxModule,
     MatProgressSpinnerModule,
     MatAutocompleteModule,
-    MatDatepickerModule
+    MatDatepickerModule, MatSlideToggleModule
 
 } from '@angular/material';
 
@@ -40,6 +40,7 @@ import {SetorService} from '../../../services/setor.service';
         MatInputModule,
         MatProgressSpinnerModule,
         MatDatepickerModule,
+        MatSlideToggleModule,
 
         CdkProcessoAutocompleteModule,
         CdkProcessoGridsearchModule,

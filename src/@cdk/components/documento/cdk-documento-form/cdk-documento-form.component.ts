@@ -7,11 +7,15 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import { fuseAnimations } from '@fuse/animations';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { Documento } from '@cdk/models/documento.model';
-import { TipoDocumento } from '@cdk/models/tipo-documento.model';
+import {fuseAnimations} from '@fuse/animations';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Documento} from '@cdk/models/documento.model';
+import {TipoDocumento} from '@cdk/models/tipo-documento.model';
 import {Pagination} from '../../../models/pagination';
+import {Processo} from '../../../models/processo.model';
+import {Pessoa} from '../../../models/pessoa.model';
+import {Setor} from '../../../models/setor.model';
+import {ComponenteDigital} from '../../../models/componente-digital.model';
 
 @Component({
     selector: 'cdk-documento-form',
@@ -35,6 +39,18 @@ export class CdkDocumentoFormComponent implements OnChanges, OnDestroy {
     @Input()
     tipoDocumentoPagination: Pagination;
 
+    @Input()
+    processoPagination: Pagination;
+
+    @Input()
+    setorOrigemPagination: Pagination;
+
+    @Input()
+    procedenciaPagination: Pagination;
+
+    @Input()
+    componenteDigitalPagination: Pagination;
+
     @Output()
     save = new EventEmitter<Documento>();
 
@@ -52,11 +68,43 @@ export class CdkDocumentoFormComponent implements OnChanges, OnDestroy {
 
         this.form = this._formBuilder.group({
             'id': [null],
+            'principal': [null], // ?
+
+            // Bloco?
             'processo': [null],
-            'principal': [null],
-            'tipoDocumento': [null]
+            'tipoDocumento': [null],
+            'outroNumero': [null],
+            'copia': [null], // Status
+            'numeroFolhas': [null],
+            // Restrição acesso visibilidade_restrita
+            // Modelo
+            'autor': [null],
+            'redator': [null],
+            'procedencia': [null],
+            'localizadorOriginal': [null], // 'localProducao': [null], ?
+            'dataHoraProducao': [null, [Validators.required]],
+            'setorOrigem': [null],
+            'observacao': [null],
+            /*
+            'processoOrigem': [null],
+            'descricaoOutros': [null],
+            'semEfeito': [null],
+            'tarefaOrigem': [null],
+            'origemDados': [null],
+            'documentoAvulsoRemessa': [null],
+
+            'vinculacoesDocumentos': [null],
+            ABAS
+            'vinculacoesDocumentos': [null], ou 'vinculacaoDocumentoPrincipal': [null],
+            */
+
+            'componentesDigitais': [null], // Outra aba
         });
+        this.processoPagination = new Pagination();
         this.tipoDocumentoPagination = new Pagination();
+        this.setorOrigemPagination = new Pagination();
+        this.procedenciaPagination = new Pagination();
+        this.componenteDigitalPagination = new Pagination();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -110,6 +158,10 @@ export class CdkDocumentoFormComponent implements OnChanges, OnDestroy {
         }
     }
 
+    selectCopiaParam(valor: String): void {
+        this.form.get('copia').setValue(valor);
+    }
+
     checkTipoDocumento(): void {
         const value = this.form.get('tipoDocumento').value;
         if (!value || typeof value !== 'object') {
@@ -124,6 +176,70 @@ export class CdkDocumentoFormComponent implements OnChanges, OnDestroy {
 
     showTipoDocumentoGrid(): void {
         this.activeCard = 'tipo-documento-gridsearch';
+    }
+
+    checkProcesso(): void {
+        const value = this.form.get('processo').value;
+        if (!value || typeof value !== 'object') {
+            this.form.get('processo').setValue(null);
+        }
+    }
+
+    selectProcesso(processo: Processo): void {
+        this.form.get('processo').setValue(processo);
+        this.activeCard = 'form';
+    }
+
+    showProcessoGrid(): void {
+        this.activeCard = 'processo-gridsearch';
+    }
+
+    checkProcedencia(): void {
+        const value = this.form.get('procedencia').value;
+        if (!value || typeof value !== 'object') {
+            this.form.get('procedencia').setValue(null);
+        }
+    }
+
+    selectProcedencia(procedencia: Pessoa): void {
+        this.form.get('procedencia').setValue(procedencia);
+        this.activeCard = 'form';
+    }
+
+    showProcedenciaGrid(): void {
+        this.activeCard = 'procedencia-gridsearch';
+    }
+
+    checkSetorOrigem(): void {
+        const value = this.form.get('setorOrigem').value;
+        if (!value || typeof value !== 'object') {
+            this.form.get('setorOrigem').setValue(null);
+        }
+    }
+
+    selectSetorOrigem(setorOrigem: Setor): void {
+        this.form.get('setorOrigem').setValue(setorOrigem);
+        this.activeCard = 'form';
+    }
+
+    showSetorOrigemGrid(): void {
+        this.activeCard = 'setor-origem-gridsearch';
+    }
+
+    checkComponenteDigital(): void {
+        const value = this.form.get('componenteDigital').value;
+        if (!value || typeof value !== 'object') {
+            this.form.get('componenteDigital').setValue(null);
+        }
+    }
+
+    selectComponenteDigital(componenteDigital: ComponenteDigital): void {
+        this.form.get('componenteDigital').setValue(componenteDigital);
+        this.activeCard = 'form';
+    }
+
+    showComponenteDigitalGrid(): void {
+        this.activeCard = 'componente-digital-gridsearch';
     }
 
     cancel(): void {
