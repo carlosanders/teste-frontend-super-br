@@ -1,0 +1,33 @@
+<div class="historico-timeline" fxFlex="100" fxLayout="row wrap">
+
+    <div class="timeline-sidebar" fxLayout="column" fxFlex="100">
+
+        <div class="processo-box latest-activity" fxLayout="column">
+
+            <header class="accent" fxLayout="row" fxLayoutAlign="space-between center">
+                <div class="title">Histórico</div>
+                <div class="more secondary-text">Últimos dias</div>
+            </header>
+
+            <div class="content" fxLayout="row wrap">
+                <div class="activities">
+                    <div class="activity" fxLayout="row" fxLayoutAlign="start start"
+                         *ngFor="let historico of historicos">
+                        <mat-icon>book</mat-icon>
+                        <div fxLayout="column">
+                            <div>
+                                <span class="username">{{historico.processo.NUP}}</span>
+                            </div>
+                            <div>
+                                <span class="message"> {{historico.descricao}}</span>
+                            </div>
+                            <span class="time secondary-text">{{historico.criadoEm | date: 'dd/MM/yyyy HH:mm'}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+

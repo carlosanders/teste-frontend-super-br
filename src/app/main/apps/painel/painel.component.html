@@ -9,7 +9,7 @@
             <div fxLayout="row" fxLayoutAlign="space-between start">
 
                 <span class="mat-display-1 my-0 my-sm-24 welcome-message"
-                      [@animate]="{value:'*',params:{x:'50px'}}">Bem-vindo, {{(_profile.usuario.nome.split(' ')[0]).toLowerCase()}}
+                      [@animate]="{value:'*',params:{x:'50px'}}">Bem-vindo, {{(_profile.usuario.nome.split(' ')[0]).charAt(0) + (_profile.usuario.nome.split(' ')[0]).slice(1).toLowerCase()}}
                 </span>
 
             </div>
@@ -18,9 +18,9 @@
         <!-- / HEADER -->
 
         <!-- CONTENT -->
-        <div class="content">
+        <div class="content" fxLayout="column">
 
-            <div class="widget-group p-12" fxLayout="row wrap" fxFlex="100" *fuseIfOnDom
+            <div class="widget-group p-12" fxLayout="row wrap" fxLayoutAlign="space-between start" fxFlex="100" *fuseIfOnDom
                  [@animateStagger]="{value:'50'}">
 
                 <!-- WIDGET Tarefa -->
@@ -125,9 +125,57 @@
                 </fuse-widget>
                 <!-- / WIDGET 1 -->
 
+                <!-- WIDGET Tramitação -->
+                <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
+                             fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="25">
+
+                    <!-- Front -->
+                    <div class="fuse-widget-front">
+                        <div class="pl-16 pr-8 py-16 h-52" fxLayout="row"
+                             fxLayoutAlign="end center">
+                            <button mat-icon-button fuseWidgetToggle aria-label="more">
+                                <mat-icon>more_vert</mat-icon>
+                            </button>
+                        </div>
+
+                        <div class="pt-8 pb-32" fxLayout="column" fxLayoutAlign="center center">
+                            <mat-spinner *ngIf="tramitacoesCount === null" diameter="72"></mat-spinner>
+                            <div *ngIf="tramitacoesCount !== null" class="light-blue-fg font-size-72 line-height-72">
+                                {{tramitacoesCount}}
+                            </div>
+                            <div class="h3 secondary-text font-weight-500">
+                                Tramitações Pendentes
+                            </div>
+                        </div>
+
+                        <div class="p-16 border-top" fxLayout="row" fxLayoutAlign="start center">
+                               <span class="h4 secondary-text text-truncate">
+                                   Autos físicos em trâmite para minha unidade
+                               </span>
+                        </div>
+                    </div>
+                    <!-- / Front -->
+
+                    <!-- Back -->
+                    <div class="fuse-widget-back p-16 pt-32">
+                        <button mat-icon-button fuseWidgetToggle class="fuse-widget-flip-button"
+                                aria-label="Flip widget">
+                            <mat-icon class="s-16">close</mat-icon>
+                        </button>
+
+                        <div>
+                            Informa a quantidade de ofícios
+                        </div>
+                    </div>
+                    <!-- / Back -->
+
+                </fuse-widget>
+                <!-- / WIDGET 1 -->
+
+                <cdk-historico-timeline [historicos]="historicos"></cdk-historico-timeline>
+
             </div>
             <!-- / WIDGET GROUP -->
-
 
         </div>
         <!-- / CONTENT -->

@@ -1,0 +1,96 @@
+@import "src/@fuse/scss/fuse";
+
+cdk-historico-timeline {
+
+  width: 400px;
+  height: 800px;
+
+  .historico-timeline {
+
+    mat-divider {
+      border-top-width: 1px;
+      border-top-style: solid;
+      margin: 32px 0;
+    }
+
+
+    .timeline-sidebar {
+      padding-left: 12px;
+
+      @include media-breakpoint('lt-md') {
+        padding: 32px 0 0 0;
+      }
+
+      .latest-activity {
+
+        .content {
+
+          .activities {
+
+            .activity {
+              padding: 16px 0;
+
+              .avatar {
+                margin-right: 16px;
+              }
+
+              .username {
+                font-weight: 600;
+              }
+
+              .message {
+                font-weight: 600;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // Profile boxes
+  .processo-box {
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 16px;
+    @include mat-elevation(2);
+
+    header {
+      padding: 16px;
+
+      .title {
+        font-size: 17px;
+      }
+
+      .more {
+        cursor: pointer;
+      }
+    }
+
+    .content {
+      padding: 16px;
+    }
+
+    footer {
+      padding: 8px;
+      border-top: 1px solid;
+    }
+
+    &.info-box {
+
+      .info-line {
+        margin-bottom: 24px;
+
+        .title {
+          font-size: 15px;
+          font-weight: 600;
+          padding-bottom: 4px;
+        }
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+}

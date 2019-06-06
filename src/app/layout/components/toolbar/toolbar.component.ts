@@ -127,27 +127,30 @@ export class ToolbarComponent implements OnInit, OnDestroy {
         // Set the selected language from default languages
         this.selectedLanguage = _.find(this.languages, {'id': this._translateService.currentLang});
 
-        this._notificacaoService.count(
-            `{"destinatario.id": "eq:${this.userProfile.usuario.id}", "dataHoraLeitura": "isNull"}`)
-            .pipe(
-                catchError(() => of([]))
-            ).subscribe(
-            value => this.notificacoesCount = value
-        );
+        if (this.userProfile) {
+            this._notificacaoService.count(
+                `{"destinatario.id": "eq:${this.userProfile.usuario.id}", "dataHoraLeitura": "isNull"}`)
+                .pipe(
+                    catchError(() => of([]))
+                ).subscribe(
+                value => this.notificacoesCount = value
+            );
 
-        this._store
-            .pipe(
-                select(getMercureState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe(message => {
-            if (message && message.type === 'notificacao') {
-                switch (message.content.action) {
-                    case 'count':
-                        this.notificacoesCount = message.content.count;
-                        break;
+            this._store
+                .pipe(
+                    select(getMercureState),
+                    takeUntil(this._unsubscribeAll)
+                ).subscribe(message => {
+                if (message && message.type === 'notificacao') {
+                    switch (message.content.action) {
+                        case 'count':
+                            this.notificacoesCount = message.content.count;
+                            break;
+                    }
                 }
-            }
-        });
+            });
+        }
+
     }
 
     /**
