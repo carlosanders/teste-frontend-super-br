@@ -7,11 +7,15 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import { fuseAnimations } from '@fuse/animations';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { Documento } from '@cdk/models/documento.model';
-import { TipoDocumento } from '@cdk/models/tipo-documento.model';
-import {Pagination} from '../../../models/pagination';
+import {fuseAnimations} from '@fuse/animations';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Documento} from '@cdk/models/documento.model';
+import {TipoDocumento} from '@cdk/models/tipo-documento.model';
+import {Pagination} from '@cdk/models/pagination';
+import {Processo} from '@cdk/models/processo.model';
+import {Pessoa} from '@cdk/models/pessoa.model';
+import {Setor} from '@cdk/models/setor.model';
+import {Tarefa} from '@cdk/models/tarefa.model';
 
 @Component({
     selector: 'cdk-documento-form',
@@ -35,6 +39,18 @@ export class CdkDocumentoFormComponent implements OnChanges, OnDestroy {
     @Input()
     tipoDocumentoPagination: Pagination;
 
+    @Input()
+    processoPagination: Pagination;
+
+    @Input()
+    setorOrigemPagination: Pagination;
+
+    @Input()
+    procedenciaPagination: Pagination;
+
+    @Input()
+    tarefaOrigemPagination: Pagination;
+
     @Output()
     save = new EventEmitter<Documento>();
 
@@ -47,16 +63,30 @@ export class CdkDocumentoFormComponent implements OnChanges, OnDestroy {
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _formBuilder: FormBuilder
+        private _formBuilder: FormBuilder 
     ) {
 
         this.form = this._formBuilder.group({
             'id': [null],
             'processo': [null],
-            'principal': [null],
-            'tipoDocumento': [null]
+            'tipoDocumento': [null],
+            'outroNumero': [null],
+            'copia': [null],
+            'numeroFolhas': [null],
+            'tarefaOrigem': [null],
+            'autor': [null],
+            'redator': [null],
+            'procedencia': [null],
+            'localizadorOriginal': [null],
+            'dataHoraProducao': [null, [Validators.required]],
+            'setorOrigem': [null],
+            'observacao': [null],
         });
+        this.processoPagination = new Pagination();
         this.tipoDocumentoPagination = new Pagination();
+        this.setorOrigemPagination = new Pagination();
+        this.procedenciaPagination = new Pagination();
+        this.tarefaOrigemPagination = new Pagination();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -110,6 +140,10 @@ export class CdkDocumentoFormComponent implements OnChanges, OnDestroy {
         }
     }
 
+    selectCopiaParam(valor: String): void {
+        this.form.get('copia').setValue(valor);
+    }
+
     checkTipoDocumento(): void {
         const value = this.form.get('tipoDocumento').value;
         if (!value || typeof value !== 'object') {
@@ -124,6 +158,70 @@ export class CdkDocumentoFormComponent implements OnChanges, OnDestroy {
 
     showTipoDocumentoGrid(): void {
         this.activeCard = 'tipo-documento-gridsearch';
+    }
+
+    checkProcesso(): void {
+        const value = this.form.get('processo').value;
+        if (!value || typeof value !== 'object') {
+            this.form.get('processo').setValue(null);
+        }
+    }
+
+    selectProcesso(processo: Processo): void {
+        this.form.get('processo').setValue(processo);
+        this.activeCard = 'form';
+    }
+
+    showProcessoGrid(): void {
+        this.activeCard = 'processo-gridsearch';
+    }
+
+    checkProcedencia(): void {
+        const value = this.form.get('procedencia').value;
+        if (!value || typeof value !== 'object') {
+            this.form.get('procedencia').setValue(null);
+        }
+    }
+
+    selectProcedencia(procedencia: Pessoa): void {
+        this.form.get('procedencia').setValue(procedencia);
+        this.activeCard = 'form';
+    }
+
+    showProcedenciaGrid(): void {
+        this.activeCard = 'procedencia-gridsearch';
+    }
+
+    checkSetorOrigem(): void {
+        const value = this.form.get('setorOrigem').value;
+        if (!value || typeof value !== 'object') {
+            this.form.get('setorOrigem').setValue(null);
+        }
+    }
+
+    selectSetorOrigem(setorOrigem: Setor): void {
+        this.form.get('setorOrigem').setValue(setorOrigem);
+        this.activeCard = 'form';
+    }
+
+    showSetorOrigemGrid(): void {
+        this.activeCard = 'setor-origem-gridsearch';
+    }
+
+    checkTarefaOrigem(): void {
+        const value = this.form.get('tarefaOrigem').value;
+        if (!value || typeof value !== 'object') {
+            this.form.get('tarefaOrigem').setValue(null);
+        }
+    }
+
+    selectTarefaOrigem(tarefaOrigem: Tarefa): void {
+        this.form.get('tarefaOrigem').setValue(tarefaOrigem);
+        this.activeCard = 'form';
+    }
+
+    showTarefaOrigemGrid(): void {
+        this.activeCard = 'tarefa-origem-gridsearch';
     }
 
     cancel(): void {
