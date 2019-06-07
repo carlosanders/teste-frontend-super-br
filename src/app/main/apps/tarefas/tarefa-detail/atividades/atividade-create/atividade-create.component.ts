@@ -192,7 +192,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy {
         );
 
         atividade.tarefa = this.tarefa;
-        atividade.documentos = this.selectedDocumentos;
+        atividade.documentos = this.documentos;
 
         this._store.dispatch(new fromStore.SaveAtividade(atividade));
     }

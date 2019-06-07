@@ -51,6 +51,10 @@ const routes: Routes = [
                 loadChildren: 'app/main/apps/documento-avulso/documento-avulso-create/documento-avulso-create.module#DocumentoAvulsoCreateModule',
             },
             {
+                path: 'encaminhamento',
+                loadChildren: './encaminhamento/encaminhamento.module#EncaminhamentoModule',
+            },
+            {
                 path: '**',
                 redirectTo: 'editar'
             }
