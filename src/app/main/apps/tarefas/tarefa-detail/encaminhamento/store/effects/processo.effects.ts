@@ -4,24 +4,24 @@ import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, tap, switchMap} from 'rxjs/operators';
 
-import * as AtividadeCreateActions from '../actions/atividade-create.actions';
+import * as ProcessoActions from '../actions/processo.actions';
 
-import {AtividadeService} from '@cdk/services/atividade.service';
+import {ProcessoService} from '@cdk/services/processo.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {atividade as atividadeSchema} from '@cdk/normalizr/atividade.schema';
-import {Atividade} from '@cdk/models/atividade.model';
+import {processo as processoSchema} from '@cdk/normalizr/processo.schema';
+import {Processo} from '@cdk/models/processo.model';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
-export class AtividadeCreateEffect {
+export class ProcessoEffect {
     routerState: any;
 
     constructor(
         private _actions: Actions,
-        private _atividadeService: AtividadeService,
+        private _processoService: ProcessoService,
         private _store: Store<State>,
         private _router: Router
     ) {
@@ -35,44 +35,44 @@ export class AtividadeCreateEffect {
     }
 
     /**
-     * Save Atividade
+     * Save Processo
      * @type {Observable<any>}
      */
     @Effect()
-    saveAtividade: any =
+    saveProcesso: any =
         this._actions
             .pipe(
-                ofType<AtividadeCreateActions.SaveAtividade>(AtividadeCreateActions.SAVE_ATIVIDADE),
+                ofType<ProcessoActions.SaveProcesso>(ProcessoActions.SAVE_PROCESSO),
                 switchMap((action) => {
-                    return this._atividadeService.save(action.payload).pipe(
-                        mergeMap((response: Atividade) => [
-                            new AtividadeCreateActions.SaveAtividadeSuccess(),
-                            new AddData<Atividade>({data: [response], schema: atividadeSchema}),
+                    return this._processoService.arquivar(action.payload).pipe(
+                        mergeMap((response: Processo) => [
+                            new ProcessoActions.SaveProcessoSuccess(response),
+                            new AddData<Processo>({data: [response], schema: processoSchema}),
                             new OperacoesActions.Resultado({
-                                type: 'atividade',
-                                content: `Atividade id ${response.id} criada com sucesso!`,
+                                type: 'processo',
+                                content: `Processo id ${response.id} arquivado com sucesso!`,
                                 dateTime: response.criadoEm
                             })
                         ]),
                         catchError((err) => {
                             console.log (err);
-                            return of(new AtividadeCreateActions.SaveAtividadeFailed(err));
+                            return of(new ProcessoActions.SaveProcessoFailed(err));
                         })
                     );
                 })
             );
 
+
     /**
-     * Save Atividade Success
+     * Save Processo Success
      */
     @Effect({ dispatch: false })
-    saveAtividadeSuccess: any =
+    saveProcessoSuccess: any =
         this._actions
             .pipe(
-                ofType<AtividadeCreateActions.SaveAtividadeSuccess>(AtividadeCreateActions.SAVE_ATIVIDADE_SUCCESS),
+                ofType<ProcessoActions.SaveProcessoSuccess>(ProcessoActions.SAVE_PROCESSO_SUCCESS),
                 tap(() => {
-                    this._router.navigate([this.routerState.url.split('/atividades/criar')[0] + '/encaminhamento']).then();
+                    this._router.navigate(['apps/tarefas/entrada']).then();
                 })
             );
-
 }

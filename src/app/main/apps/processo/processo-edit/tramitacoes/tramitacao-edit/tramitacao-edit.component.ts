@@ -66,6 +66,7 @@ export class TramitacaoEditComponent implements OnInit, OnDestroy {
         if (!this.tramitacao) {
             this.tramitacao = new Tramitacao();
             this.tramitacao.processo = this.processo;
+            this.tramitacao.setorOrigem = this.processo.setorAtual;
         }
     }
 

@@ -31,6 +31,10 @@ const routes: Routes = [
                 loadChildren: './tarefa-edit/tarefa-edit.module#TarefaEditModule'
             },
             {
+                path: 'criar',
+                loadChildren: '../tarefa-create/tarefa-create.module#TarefaCreateModule'
+            },
+            {
                 path: 'atividades',
                 loadChildren: './atividades/atividades.module#AtividadesModule'
             },

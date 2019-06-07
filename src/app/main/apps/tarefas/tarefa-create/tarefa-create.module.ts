@@ -23,11 +23,18 @@ import {RouterModule, Routes} from '@angular/router';
 import {CdkTarefaFormModule} from '@cdk/components/tarefa/cdk-tarefa-form/cdk-tarefa-form.module';
 import {TarefaCreateStoreModule} from './store/store.module';
 import {TarefaService} from '@cdk/services/tarefa.service';
+import * as fromGuards from './store/guards';
+import {ProcessoService} from '@cdk/services/processo.service';
 
 const routes: Routes = [
     {
         path: '',
         component: TarefaCreateComponent
+    },
+    {
+        path: ':processoHandle',
+        component: TarefaCreateComponent,
+        canActivate: [fromGuards.ResolveGuard]
     }
 ];
 
@@ -63,7 +70,9 @@ const routes: Routes = [
         FuseSidebarModule,
     ],
     providers: [
-        TarefaService
+        TarefaService,
+        ProcessoService,
+        fromGuards.ResolveGuard
     ]
 })
 export class TarefaCreateModule {

@@ -20,6 +20,8 @@ import {FuseSidebarModule} from '@fuse/components';
 
 import {EncaminhamentoComponent} from './encaminhamento.component';
 import {RouterModule, Routes} from '@angular/router';
+import {EncaminhamentoStoreModule} from './store/store.module';
+import {CdkEncaminhamentoFormModule} from '@cdk/components/tarefa/cdk-encaminhamento-form/cdk-encaminhamento-form.module';
 
 const routes: Routes = [
     {
@@ -49,9 +51,12 @@ const routes: Routes = [
         MatProgressSpinnerModule,
         MatDatepickerModule,
         MatTooltipModule,
-        MatRadioModule,
+
+        CdkEncaminhamentoFormModule,
 
         TranslateModule,
+
+        EncaminhamentoStoreModule,
 
         FuseSharedModule,
         FuseSidebarModule,

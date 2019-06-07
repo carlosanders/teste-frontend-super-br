@@ -2,8 +2,8 @@ import { StoreModule } from '@ngrx/store';
 import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 
-import {reducers, TarefaCreateState} from 'app/main/apps/tarefas/tarefa-create/store/reducers';
-import { effects } from 'app/main/apps/tarefas/tarefa-create/store/effects';
+import {reducers } from './reducers';
+import { effects } from './effects';
 
 @NgModule({
     imports  : [

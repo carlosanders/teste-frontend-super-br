@@ -7,10 +7,14 @@ import {
 } from '@angular/core';
 
 import {fuseAnimations} from '@fuse/animations';
-import {FormBuilder, FormGroup} from '@angular/forms';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
-import {getRouterState, State} from 'app/store/reducers';
+import {getRouterState} from 'app/store/reducers';
+import * as fromTarefaDetailStore from '../store';
+import * as fromStore from './store';
+import {Observable, Subject} from 'rxjs';
+import {Tarefa} from '@cdk/models/tarefa.model';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'encaminhamento',
@@ -22,31 +26,31 @@ import {getRouterState, State} from 'app/store/reducers';
 })
 export class EncaminhamentoComponent implements OnInit, OnDestroy {
 
-    form: FormGroup;
+    private _unsubscribeAll: Subject<any> = new Subject();
+
     routerState: any;
 
+    isSaving$: Observable<boolean>;
+    errors$: Observable<any>;
+
+    tarefa$: Observable<Tarefa>;
+    tarefa: Tarefa;
+
     /**
-     * Constructor
+     *
+     * @param _changeDetectorRef
+     * @param _store
+     * @param _router
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _formBuilder: FormBuilder,
-        private _store: Store<State>,
+        private _store: Store<fromStore.EncaminhamentoAppState>,
         private _router: Router
     ) {
 
-        this.form = this._formBuilder.group({
-            options: ['criar_tarefa']
-        });
-
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe(routerState => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
-
+        this.tarefa$ = this._store.pipe(select(fromTarefaDetailStore.getTarefa));
+        this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
+        this.errors$ = this._store.pipe(select(fromStore.getErrors));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -54,27 +58,46 @@ export class EncaminhamentoComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
 
     ngOnInit(): void {
-
+        this._store.pipe(
+            select(getRouterState),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(routerState => {
+            if (routerState) {
+                this.routerState = routerState.state;
+            }
+        });
+        this.tarefa$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(tarefa => {
+            this.tarefa = tarefa;
+        });
     }
     /**
      * On destroy
      */
     ngOnDestroy(): void {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
-    submit(): void {
-        if (this.form.get('options').value === 'criar_tarefa') {
-            this._router.navigate(['apps/tarefas/entrada/criar']).then();
+    submit(values): void {
+        if (values.options === 'criar_tarefa') {
+            this._router.navigate([
+                this.routerState.url.split('/encaminhamento')[0] + '/criar/' + this.tarefa.processo.id
+            ]).then();
 
         }
-        if (this.form.get('options').value === 'arquivar') {
-
+        if (values.options === 'arquivar') {
+            this._store.dispatch(new fromStore.SaveProcesso(this.tarefa.processo));
         }
-        if (this.form.get('options').value === 'remeter') {
-
+        if (values.options === 'remeter') {
+            this._router.navigate([
+                'apps/processo/' + this.tarefa.processo.id + '/editar/tramitacoes/editar/criar'
+            ]).then();
         }
     }
 
