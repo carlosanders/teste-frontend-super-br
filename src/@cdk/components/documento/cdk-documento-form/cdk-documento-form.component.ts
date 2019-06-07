@@ -16,6 +16,7 @@ import {Processo} from '../../../models/processo.model';
 import {Pessoa} from '../../../models/pessoa.model';
 import {Setor} from '../../../models/setor.model';
 import {ComponenteDigital} from '../../../models/componente-digital.model';
+import {Tarefa} from '../../../models/tarefa.model';
 
 @Component({
     selector: 'cdk-documento-form',
@@ -49,7 +50,7 @@ export class CdkDocumentoFormComponent implements OnChanges, OnDestroy {
     procedenciaPagination: Pagination;
 
     @Input()
-    componenteDigitalPagination: Pagination;
+    tarefaOrigemPagination: Pagination;
 
     @Output()
     save = new EventEmitter<Documento>();
@@ -70,14 +71,12 @@ export class CdkDocumentoFormComponent implements OnChanges, OnDestroy {
             'id': [null],
             'principal': [null], // ?
 
-            // Bloco?
             'processo': [null],
             'tipoDocumento': [null],
             'outroNumero': [null],
             'copia': [null], // Status
             'numeroFolhas': [null],
-            // Restrição acesso visibilidade_restrita
-            // Modelo
+            'tarefaOrigem': [null],
             'autor': [null],
             'redator': [null],
             'procedencia': [null],
@@ -89,7 +88,7 @@ export class CdkDocumentoFormComponent implements OnChanges, OnDestroy {
             'processoOrigem': [null],
             'descricaoOutros': [null],
             'semEfeito': [null],
-            'tarefaOrigem': [null],
+
             'origemDados': [null],
             'documentoAvulsoRemessa': [null],
 
@@ -98,13 +97,13 @@ export class CdkDocumentoFormComponent implements OnChanges, OnDestroy {
             'vinculacoesDocumentos': [null], ou 'vinculacaoDocumentoPrincipal': [null],
             */
 
-            'componentesDigitais': [null], // Outra aba
+            // 'componentesDigitais': [null], // Outra aba
         });
         this.processoPagination = new Pagination();
         this.tipoDocumentoPagination = new Pagination();
         this.setorOrigemPagination = new Pagination();
         this.procedenciaPagination = new Pagination();
-        this.componenteDigitalPagination = new Pagination();
+        this.tarefaOrigemPagination = new Pagination();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -226,20 +225,20 @@ export class CdkDocumentoFormComponent implements OnChanges, OnDestroy {
         this.activeCard = 'setor-origem-gridsearch';
     }
 
-    checkComponenteDigital(): void {
-        const value = this.form.get('componenteDigital').value;
+    checkTarefaOrigem(): void {
+        const value = this.form.get('tarefaOrigem').value;
         if (!value || typeof value !== 'object') {
-            this.form.get('componenteDigital').setValue(null);
+            this.form.get('tarefaOrigem').setValue(null);
         }
     }
 
-    selectComponenteDigital(componenteDigital: ComponenteDigital): void {
-        this.form.get('componenteDigital').setValue(componenteDigital);
+    selectTarefaOrigem(tarefaOrigem: Tarefa): void {
+        this.form.get('tarefaOrigem').setValue(tarefaOrigem);
         this.activeCard = 'form';
     }
 
-    showComponenteDigitalGrid(): void {
-        this.activeCard = 'componente-digital-gridsearch';
+    showTarefaOrigemGrid(): void {
+        this.activeCard = 'tarefa-origem-gridsearch';
     }
 
     cancel(): void {

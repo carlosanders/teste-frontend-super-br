@@ -25,9 +25,8 @@ import {CdkPessoaAutocompleteModule} from '../../pessoa/cdk-pessoa-autocomplete/
 import {CdkPessoaGridsearchModule} from '../../pessoa/cdk-pessoa-autocomplete/cdk-pessoa-gridsearch/cdk-pessoa-gridsearch.module';
 import {CdkProcessoAutocompleteModule} from '../../processo/cdk-processo-autocomplete/cdk-processo-autocomplete.module';
 import {CdkProcessoGridsearchModule} from '../../processo/cdk-processo-autocomplete/cdk-processo-gridsearch/cdk-processo-gridsearch.module';
-import {CdkComponenteDigitalGridModule} from '../../componente-digital/cdk-componente-digital-grid/cdk-componente-digital-grid.module';
-import {CdkComponenteDigitalGridsearchModule} from '../../componente-digital/cdk-componente-digital-autocomplete/cdk-componente-digital-gridsearch/cdk-componente-digital-gridsearch.module';
-import {CdkComponenteDigitalAutocompleteModule} from '../../componente-digital/cdk-componente-digital-autocomplete/cdk-componente-digital-autocomplete.module';
+import {CdkTarefaGridsearchModule} from '../../tarefa/cdk-tarefa-autocomplete/cdk-tarefa-gridsearch/cdk-tarefa-gridsearch.module';
+import {CdkTarefaAutocompleteModule} from '../../tarefa/cdk-tarefa-autocomplete/cdk-tarefa-autocomplete.module';
 
 @NgModule({
     declarations: [
@@ -57,9 +56,8 @@ import {CdkComponenteDigitalAutocompleteModule} from '../../componente-digital/c
         CdkProcessoGridsearchModule,
         CdkPessoaAutocompleteModule,
         CdkPessoaGridsearchModule,
-        CdkComponenteDigitalAutocompleteModule,
-        CdkComponenteDigitalGridsearchModule,
-        CdkComponenteDigitalGridModule,
+        CdkTarefaAutocompleteModule,
+        CdkTarefaGridsearchModule,
 
         FuseSharedModule,
     ],
