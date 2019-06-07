@@ -11,12 +11,11 @@ import {fuseAnimations} from '@fuse/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Documento} from '@cdk/models/documento.model';
 import {TipoDocumento} from '@cdk/models/tipo-documento.model';
-import {Pagination} from '../../../models/pagination';
-import {Processo} from '../../../models/processo.model';
-import {Pessoa} from '../../../models/pessoa.model';
-import {Setor} from '../../../models/setor.model';
-import {ComponenteDigital} from '../../../models/componente-digital.model';
-import {Tarefa} from '../../../models/tarefa.model';
+import {Pagination} from '@cdk/models/pagination';
+import {Processo} from '@cdk/models/processo.model';
+import {Pessoa} from '@cdk/models/pessoa.model';
+import {Setor} from '@cdk/models/setor.model';
+import {Tarefa} from '@cdk/models/tarefa.model';
 
 @Component({
     selector: 'cdk-documento-form',
@@ -69,35 +68,19 @@ export class CdkDocumentoFormComponent implements OnChanges, OnDestroy {
 
         this.form = this._formBuilder.group({
             'id': [null],
-            'principal': [null], // ?
-
             'processo': [null],
             'tipoDocumento': [null],
             'outroNumero': [null],
-            'copia': [null], // Status
+            'copia': [null],
             'numeroFolhas': [null],
             'tarefaOrigem': [null],
             'autor': [null],
             'redator': [null],
             'procedencia': [null],
-            'localizadorOriginal': [null], // 'localProducao': [null], ?
+            'localizadorOriginal': [null],
             'dataHoraProducao': [null, [Validators.required]],
             'setorOrigem': [null],
             'observacao': [null],
-            /*
-            'processoOrigem': [null],
-            'descricaoOutros': [null],
-            'semEfeito': [null],
-
-            'origemDados': [null],
-            'documentoAvulsoRemessa': [null],
-
-            'vinculacoesDocumentos': [null],
-            ABAS
-            'vinculacoesDocumentos': [null], ou 'vinculacaoDocumentoPrincipal': [null],
-            */
-
-            // 'componentesDigitais': [null], // Outra aba
         });
         this.processoPagination = new Pagination();
         this.tipoDocumentoPagination = new Pagination();
