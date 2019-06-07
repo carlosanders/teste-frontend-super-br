@@ -31,6 +31,10 @@ const routes: Routes = [
                 loadChildren: './tarefa-edit/tarefa-edit.module#TarefaEditModule'
             },
             {
+                path: 'criar',
+                loadChildren: '../tarefa-create/tarefa-create.module#TarefaCreateModule'
+            },
+            {
                 path: 'atividades',
                 loadChildren: './atividades/atividades.module#AtividadesModule'
             },
@@ -49,6 +53,10 @@ const routes: Routes = [
             {
                 path: 'oficio',
                 loadChildren: 'app/main/apps/documento-avulso/documento-avulso-create/documento-avulso-create.module#DocumentoAvulsoCreateModule',
+            },
+            {
+                path: 'encaminhamento',
+                loadChildren: './encaminhamento/encaminhamento.module#EncaminhamentoModule',
             },
             {
                 path: '**',

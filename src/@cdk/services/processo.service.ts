@@ -1,16 +1,18 @@
 import {Injectable} from '@angular/core';
-import {HttpParams} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Processo} from '@cdk/models/processo.model';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
 import {PaginatedResponse} from '@cdk/models/paginated.response';
+import {environment} from '../../environments/environment';
 
 @Injectable()
 export class ProcessoService {
 
     constructor(
-        private modelService: ModelService
+        private modelService: ModelService,
+        private http: HttpClient
     ) {
     }
 
@@ -54,6 +56,17 @@ export class ProcessoService {
                     return Object.assign(new Processo(), {...processo, ...response});
                 });
         }
+    }
+
+    arquivar(processo: Processo): Observable<Processo> {
+        return this.http.patch(
+            `${environment.api_url}${'processo'}/${processo.id}/${'arquivar'}` + environment.xdebug,
+            JSON.stringify(classToPlain(processo))
+        ).map(response => {
+            response = plainToClass(Processo, response);
+            Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+            return Object.assign(new Processo(), {...processo, ...response});
+        });
     }
 
     destroy(id: number): Observable<Processo> {

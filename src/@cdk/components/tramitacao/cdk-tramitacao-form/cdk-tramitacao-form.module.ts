@@ -7,7 +7,7 @@ import {
     MatCheckboxModule,
     MatProgressSpinnerModule,
     MatAutocompleteModule,
-    MatDatepickerModule
+    MatDatepickerModule, MatSlideToggleModule
 
 } from '@angular/material';
 
@@ -20,9 +20,6 @@ import {CdkPessoaAutocompleteModule} from '../../pessoa/cdk-pessoa-autocomplete/
 import {CdkPessoaGridsearchModule} from '../../pessoa/cdk-pessoa-autocomplete/cdk-pessoa-gridsearch/cdk-pessoa-gridsearch.module';
 import {CdkSetorAutocompleteModule} from '../../setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
 import {CdkSetorGridsearchModule} from '../../setor/cdk-setor-autocomplete/cdk-setor-gridsearch/cdk-setor-gridsearch.module';
-import {CdkUsuarioAutocompleteModule} from '../../usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
-import {CdkUsuarioGridsearchModule} from '../../usuario/cdk-usuario-autocomplete/cdk-usuario-gridsearch/cdk-usuario-gridsearch.module';
-import {UsuarioService} from '../../../services/usuario.service';
 import {PessoaService} from '../../../services/pessoa.service';
 import {SetorService} from '../../../services/setor.service';
 
@@ -40,11 +37,10 @@ import {SetorService} from '../../../services/setor.service';
         MatInputModule,
         MatProgressSpinnerModule,
         MatDatepickerModule,
+        MatSlideToggleModule,
 
         CdkProcessoAutocompleteModule,
         CdkProcessoGridsearchModule,
-        CdkUsuarioAutocompleteModule,
-        CdkUsuarioGridsearchModule,
         CdkPessoaAutocompleteModule,
         CdkPessoaGridsearchModule,
         CdkSetorAutocompleteModule,
@@ -53,7 +49,6 @@ import {SetorService} from '../../../services/setor.service';
         FuseSharedModule,
     ],
     providers: [
-        UsuarioService,
         ProcessoService,
         PessoaService,
         SetorService

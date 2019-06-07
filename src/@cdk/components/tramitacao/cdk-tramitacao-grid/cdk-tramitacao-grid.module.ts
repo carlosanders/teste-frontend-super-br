@@ -13,7 +13,6 @@ import {
 import {FuseSharedModule} from '@fuse/shared.module';
 import {TramitacaoService} from '@cdk/services/tramitacao.service';
 import {CdkTramitacaoGridComponent} from './cdk-tramitacao-grid.component';
-import {CdkTramitacaoAutocompleteModule} from '@cdk/components/tramitacao/cdk-tramitacao-autocomplete/cdk-tramitacao-autocomplete.module';
 import {CdkTramitacaoGridFilterModule} from './cdk-tramitacao-grid-filter/cdk-tramitacao-grid-filter.module';
 
 @NgModule({
@@ -29,7 +28,6 @@ import {CdkTramitacaoGridFilterModule} from './cdk-tramitacao-grid-filter/cdk-tr
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
-        CdkTramitacaoAutocompleteModule,
         FuseSharedModule,
         CdkTramitacaoGridFilterModule
     ],

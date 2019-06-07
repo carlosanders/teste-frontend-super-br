@@ -11,36 +11,28 @@ import {
     MatSelectModule,
     MatToolbarModule,
     MatDatepickerModule,
-    MatProgressSpinnerModule, MatTooltipModule
+    MatProgressSpinnerModule, MatTooltipModule, MatRadioModule
 } from '@angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 
 import {FuseSharedModule} from '@fuse/shared.module';
 import {FuseSidebarModule} from '@fuse/components';
 
-import {TarefaCreateComponent} from './tarefa-create.component';
+import {EncaminhamentoComponent} from './encaminhamento.component';
 import {RouterModule, Routes} from '@angular/router';
-import {CdkTarefaFormModule} from '@cdk/components/tarefa/cdk-tarefa-form/cdk-tarefa-form.module';
-import {TarefaCreateStoreModule} from './store/store.module';
-import {TarefaService} from '@cdk/services/tarefa.service';
-import * as fromGuards from './store/guards';
-import {ProcessoService} from '@cdk/services/processo.service';
+import {EncaminhamentoStoreModule} from './store/store.module';
+import {CdkEncaminhamentoFormModule} from '@cdk/components/tarefa/cdk-encaminhamento-form/cdk-encaminhamento-form.module';
 
 const routes: Routes = [
     {
         path: '',
-        component: TarefaCreateComponent
-    },
-    {
-        path: ':processoHandle',
-        component: TarefaCreateComponent,
-        canActivate: [fromGuards.ResolveGuard]
+        component: EncaminhamentoComponent
     }
 ];
 
 @NgModule({
     declarations: [
-        TarefaCreateComponent
+        EncaminhamentoComponent
     ],
     imports: [
 
@@ -60,20 +52,17 @@ const routes: Routes = [
         MatDatepickerModule,
         MatTooltipModule,
 
-        CdkTarefaFormModule,
-
-        TarefaCreateStoreModule,
+        CdkEncaminhamentoFormModule,
 
         TranslateModule,
+
+        EncaminhamentoStoreModule,
 
         FuseSharedModule,
         FuseSidebarModule,
     ],
     providers: [
-        TarefaService,
-        ProcessoService,
-        fromGuards.ResolveGuard
     ]
 })
-export class TarefaCreateModule {
+export class EncaminhamentoModule {
 }

@@ -12,9 +12,8 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Tramitacao} from '@cdk/models/tramitacao.model';
 import {Pagination} from '../../../models/pagination';
 import {Processo} from '@cdk/models/processo.model';
-import {Usuario} from '@cdk/models/usuario.model';
-import {Setor} from '../../../models/setor.model';
-import {Pessoa} from '../../../models/pessoa.model';
+import {Setor} from '@cdk/models/setor.model';
+import {Pessoa} from '@cdk/models/pessoa.model';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 
@@ -48,9 +47,6 @@ export class CdkTramitacaoFormComponent implements OnChanges, OnDestroy, OnInit 
     processoPagination: Pagination;
 
     @Input()
-    usuarioRecebimentoPagination: Pagination;
-
-    @Input()
     setorOrigemPagination: Pagination;
 
     @Input()
@@ -75,10 +71,9 @@ export class CdkTramitacaoFormComponent implements OnChanges, OnDestroy, OnInit 
 
         this.form = this._formBuilder.group({
             'id': [null],
+            'externa': [null],
             'processo': [null],
             'urgente': [null],
-            'dataHoraRecebimento': [null, [Validators.required]],
-            'usuarioRecebimento': [null],
             'setorOrigem': [null, [Validators.required]],
             'setorDestino': [null, [Validators.required]],
             'pessoaDestino': [null, [Validators.required]],
@@ -86,7 +81,6 @@ export class CdkTramitacaoFormComponent implements OnChanges, OnDestroy, OnInit 
         });
 
         this.processoPagination = new Pagination();
-        this.usuarioRecebimentoPagination = new Pagination();
         this.setorOrigemPagination = new Pagination();
         this.setorDestinoPagination = new Pagination();
         this.pessoaDestinoPagination = new Pagination();
@@ -185,18 +179,6 @@ export class CdkTramitacaoFormComponent implements OnChanges, OnDestroy, OnInit 
 
     showProcessoGrid(): void {
         this.activeCard = 'processo-gridsearch';
-    }
-
-    checkUsuarioRecebimento(): void {
-        const value = this.form.get('usuarioRecebimento').value;
-        if (!value || typeof value !== 'object') {
-            this.form.get('usuarioRecebimento').setValue(null);
-        }
-    }
-
-    selectUsuario(usuario: Usuario): void {
-        this.form.get('usuarioRecebimento').setValue(usuario);
-        this.activeCard = 'form';
     }
 
     showUsuarioGrid(): void {

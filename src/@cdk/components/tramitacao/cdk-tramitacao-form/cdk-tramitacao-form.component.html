@@ -1,7 +1,7 @@
 <form *ngIf="activeCard === 'form'" class="p-16" fxLayoutGap="36px"
       fxLayout="column"
       fxLayoutAlign="start"
-      fxFlex="1 0 auto" name="form" [formGroup]="form" (submit)="submit()">
+      name="form" [formGroup]="form" (submit)="submit()">
 
     <div fxFlex="1 0 auto" fxLayout="column">
 
@@ -30,37 +30,6 @@
             </mat-error>
         </mat-form-field>
 
-        <div class="dates" fxFlexFill fxLayout="column" fxLayout.gt-xs="row">
-            <mat-form-field appearance="outline" class="mr-sm-12" fxFlex>
-                <mat-label>Data de Recebimento</mat-label>
-                <input matInput [matDatepicker]="dataHoraRecebimento" placeholder="Data do Recebimento"
-                       formControlName="dataHoraRecebimento">
-                <mat-datepicker-toggle matSuffix [for]="dataHoraRecebimento"></mat-datepicker-toggle>
-                <mat-datepicker #dataHoraRecebimento></mat-datepicker>
-            </mat-form-field>
-        </div>
-
-        <mat-form-field fxFlex="100" *ngIf="!form.get('usuarioRecebimento').disabled">
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Usuário que Recebeu"
-                       formControlName="usuarioRecebimento"
-                       [matAutocomplete]="usuario.autocomplete" required
-                       (blur)="checkUsuarioRecebimento()">
-            </div>
-            <cdk-usuario-autocomplete
-                #usuario="usuarioAutocomplete"
-                [control]="form.get('usuarioRecebimento')"
-                [pagination]="usuarioRecebimentoPagination">
-            </cdk-usuario-autocomplete>
-            <button *ngIf="form.get('usuarioRecebimento').enabled" matSuffix mat-button mat-icon-button
-                    (click)="showUsuarioGrid()">
-                <mat-icon matTooltip="Procurar">search</mat-icon>
-            </button>
-            <mat-error *ngIf="form.get('usuarioRecebimento').hasError('formError')">
-                {{form.get('usuarioRecebimento').errors.formError}}
-            </mat-error>
-        </mat-form-field>
-
         <mat-form-field fxFlex="100">
             <div fxLayout="row" fxLayoutAlign="start center">
                 <input matInput placeholder="Setor de Origem"
@@ -71,11 +40,11 @@
                     <mat-spinner diameter="16"></mat-spinner>
                 </mat-option>
             </div>
-            <cdk-setor-origem-autocomplete
+            <cdk-setor-autocomplete
                 #setorOrigem="setorAutocomplete"
                 [control]="form.get('setorOrigem')"
                 [pagination]="setorOrigemPagination">
-            </cdk-setor-origem-autocomplete>
+            </cdk-setor-autocomplete>
             <button matSuffix mat-button mat-icon-button
                     (click)="showSetorOrigemGrid()">
                 <mat-icon matTooltip="Procurar">search</mat-icon>
@@ -95,11 +64,11 @@
                     <mat-spinner diameter="16"></mat-spinner>
                 </mat-option>
             </div>
-            <cdk-setor-destino-autocomplete
+            <cdk-setor-autocomplete
                 #setorDestino="setorAutocomplete"
                 [control]="form.get('setorDestino')"
                 [pagination]="setorDestinoPagination">
-            </cdk-setor-destino-autocomplete>
+            </cdk-setor-autocomplete>
             <button matSuffix mat-button mat-icon-button
                     (click)="showSetorDestinoGrid()">
                 <mat-icon matTooltip="Procurar">search</mat-icon>
@@ -165,29 +134,21 @@
         (cancel)="cancel()">
 </cdk-processo-gridsearch>
 
-<cdk-usuario-gridsearch
-        fxFlex="1 0 auto"
-        *ngIf="activeCard === 'usuario-gridsearch'"
-        [filter]="usuarioRecebimentoPagination.filter"
-        (selected)="selectUsuario($event)"
-        (cancel)="cancel()">
-</cdk-usuario-gridsearch>
-
-<cdk-setor-origem-gridsearch
+<cdk-setor-gridsearch
         fxFlex="1 0 auto"
         *ngIf="activeCard === 'setor-origem-gridsearch'"
         [filter]="setorOrigemPagination.filter"
         (selected)="selectSetorOrigem($event)"
         (cancel)="cancel()">
-</cdk-setor-origem-gridsearch>
+</cdk-setor-gridsearch>
 
-<cdk-setor-destino-gridsearch
+<cdk-setor-gridsearch
         fxFlex="1 0 auto"
         *ngIf="activeCard === 'setor-destino-gridsearch'"
         [filter]="setorDestinoPagination.filter"
         (selected)="selectSetorDestino($event)"
         (cancel)="cancel()">
-</cdk-setor-destino-gridsearch>
+</cdk-setor-gridsearch>
 
 <cdk-pessoa-gridsearch
         fxFlex="1 0 auto"

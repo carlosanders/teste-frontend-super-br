@@ -55,7 +55,7 @@
                      [infiniteScrollThrottle]="50"
                      (scrolled)="onScroll()">
                     <cdk-tarefa-list [loading]="(loading$ | async)"
-                                     [tarefas]="(tarefas$ | async)"
+                                     [tarefas]="tarefas"
                                      [deletingIds]="(deletingIds$ | async)"
                                      [deletedIds]="(deletedIds$ | async)"
                                      [folders]="(folders$ | async)"
