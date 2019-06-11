@@ -255,7 +255,9 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     selectEspecieTarefa(especieTarefa: EspecieTarefa): void {
-        this.form.get('especieTarefa').setValue(especieTarefa);
+        if (especieTarefa) {
+            this.form.get('especieTarefa').setValue(especieTarefa);
+        }
         this.activeCard = 'form';
     }
 
