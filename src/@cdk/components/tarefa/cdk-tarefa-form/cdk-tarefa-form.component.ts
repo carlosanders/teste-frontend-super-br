@@ -273,7 +273,9 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     selectUsuario(usuario: Usuario): void {
-        this.form.get('usuarioResponsavel').setValue(usuario);
+        if (usuario) {
+            this.form.get('usuarioResponsavel').setValue(usuario);
+        }
         this.activeCard = 'form';
     }
 
@@ -289,7 +291,9 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     selectProcesso(processo: Processo): void {
-        this.form.get('processo').setValue(processo);
+        if (processo) {
+            this.form.get('processo').setValue(processo);
+        }
         this.activeCard = 'form';
     }
 
@@ -298,7 +302,9 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     selectUnidadeResponsavel(setor: Setor): void {
-        this.form.get('unidadeResponsavel').setValue(setor);
+        if (setor) {
+            this.form.get('unidadeResponsavel').setValue(setor);
+        }
         this.activeCard = 'form';
     }
 
@@ -314,7 +320,9 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     selectSetorResponsavel(setor: Setor): void {
-        this.form.get('setorResponsavel').setValue(setor);
+        if (setor) {
+            this.form.get('setorResponsavel').setValue(setor);
+        }
         this.activeCard = 'form';
     }
 
@@ -341,7 +349,9 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     selectSetorOrigem(setor: Setor): void {
-        this.form.get('setorOrigem').setValue(setor);
+        if (setor) {
+            this.form.get('setorOrigem').setValue(setor);
+        }
         this.activeCard = 'form';
     }
 

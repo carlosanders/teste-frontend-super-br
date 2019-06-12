@@ -175,7 +175,9 @@ export class CdkPessoaFormComponent implements OnChanges, OnDestroy {
     }
 
     selectModalidadeQualificacaoPessoa(modalidadeQualificacaoPessoa: ModalidadeQualificacaoPessoa): void {
-        this.form.get('modalidadeQualificacaoPessoa').setValue(modalidadeQualificacaoPessoa);
+        if (modalidadeQualificacaoPessoa) {
+            this.form.get('modalidadeQualificacaoPessoa').setValue(modalidadeQualificacaoPessoa);
+        }
         this.activeCard = 'form';
     }
 
@@ -184,7 +186,9 @@ export class CdkPessoaFormComponent implements OnChanges, OnDestroy {
     }
 
     selectModalidadeGeneroPessoa(modalidadeGeneroPessoa: ModalidadeGeneroPessoa): void {
-        this.form.get('modalidadeGeneroPessoa').setValue(modalidadeGeneroPessoa);
+        if (modalidadeGeneroPessoa) {
+            this.form.get('modalidadeGeneroPessoa').setValue(modalidadeGeneroPessoa);
+        }
         this.activeCard = 'form';
     }
 
@@ -193,7 +197,9 @@ export class CdkPessoaFormComponent implements OnChanges, OnDestroy {
     }
 
     selectPais(pais: Pais): void {
-        this.form.get('nacionalidade').setValue(pais);
+        if (pais) {
+            this.form.get('nacionalidade').setValue(pais);
+        }
         this.activeCard = 'form';
     }
 
@@ -202,7 +208,9 @@ export class CdkPessoaFormComponent implements OnChanges, OnDestroy {
     }
 
     selectMunicipio(municipio: Municipio): void {
-        this.form.get('naturalidade').setValue(municipio);
+        if (municipio) {
+            this.form.get('naturalidade').setValue(municipio);
+        }
         this.activeCard = 'form';
     }
 

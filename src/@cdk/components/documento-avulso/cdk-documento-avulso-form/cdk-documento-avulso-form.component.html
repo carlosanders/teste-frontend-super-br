@@ -6,7 +6,7 @@
     <div fxFlex="1 0 auto" fxLayout="column">
 
         <mat-slide-toggle formControlName="urgente"
-                      class="mr-16 mb-16" fxFlex="0 1 auto">
+                          class="mr-16 mb-16" fxFlex="0 1 auto">
             Urgente
         </mat-slide-toggle>
 
@@ -74,7 +74,7 @@
         </mat-form-field>
 
         <mat-slide-toggle formControlName="externa"
-                      class="mr-16 mb-16" fxFlex="0 1 auto">
+                          class="mr-16 mb-16" fxFlex="0 1 auto">
             Destinário Externo
         </mat-slide-toggle>
 
@@ -127,7 +127,8 @@
                 <input matInput formControlName="dataHoraInicioPrazo" [matDatetimepicker]="dataHoraInicioPrazo"
                        required>
                 <mat-datetimepicker-toggle matSuffix [for]="dataHoraInicioPrazo"></mat-datetimepicker-toggle>
-                <mat-datetimepicker #dataHoraInicioPrazo type="datetime" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
+                <mat-datetimepicker #dataHoraInicioPrazo type="datetime" openOnFocus="true"
+                                    timeInterval="5"></mat-datetimepicker>
             </mat-form-field>
 
             <mat-form-field class="mr-sm-12" fxFlex>
@@ -135,7 +136,8 @@
                 <input matInput formControlName="dataHoraFinalPrazo" [matDatetimepicker]="dataHoraFinalPrazo"
                        required>
                 <mat-datetimepicker-toggle matSuffix [for]="dataHoraFinalPrazo"></mat-datetimepicker-toggle>
-                <mat-datetimepicker #dataHoraFinalPrazo type="datetime" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
+                <mat-datetimepicker #dataHoraFinalPrazo type="datetime" openOnFocus="true"
+                                    timeInterval="5"></mat-datetimepicker>
             </mat-form-field>
 
         </div>
@@ -167,17 +169,17 @@
 </form>
 
 <cdk-processo-gridsearch
-    fxFlex="1 0 auto"
-    *ngIf="activeCard === 'processo-gridsearch'"
-    [filter]="processoPagination.filter"
-    (selected)="selectProcesso($event)"
-    (cancel)="cancel()">
+        fxFlex="1 0 auto"
+        *ngIf="activeCard === 'processo-gridsearch'"
+        [pagination]="processoPagination.filter"
+        (selected)="selectProcesso($event)"
+        (cancel)="cancel()">
 </cdk-processo-gridsearch>
 
 <cdk-modelo-gridsearch
         fxFlex="1 0 auto"
         *ngIf="activeCard === 'modelo-gridsearch'"
-        [filter]="modeloPagination.filter"
+        [pagination]="modeloPagination.filter"
         (selected)="selectModelo($event)"
         (cancel)="cancel()">
 </cdk-modelo-gridsearch>
@@ -185,7 +187,7 @@
 <cdk-especie-documento-avulso-gridsearch
         fxFlex="1 0 auto"
         *ngIf="activeCard === 'especie-documento-avulso-gridsearch'"
-        [filter]="especieDocumentoAvulsoPagination.filter"
+        [pagination]="especieDocumentoAvulsoPagination.filter"
         (selected)="selectEspecieDocumentoAvulso($event)"
         (cancel)="cancel()">
 </cdk-especie-documento-avulso-gridsearch>
@@ -193,7 +195,7 @@
 <cdk-setor-gridsearch
         fxFlex="1 0 auto"
         *ngIf="activeCard === 'setor-destino-gridsearch'"
-        [filter]="setorDestinoPagination.filter"
+        [pagination]="setorDestinoPagination.filter"
         (selected)="selectSetorDestino($event)"
         (cancel)="cancel()">
 </cdk-setor-gridsearch>
@@ -201,7 +203,7 @@
 <cdk-pessoa-gridsearch
         fxFlex="1 0 auto"
         *ngIf="activeCard === 'pessoa-destino-gridsearch'"
-        [filter]="pessoaDestinoPagination.filter"
+        [pagination]="pessoaDestinoPagination.filter"
         (selected)="selectPessoaDestino($event)"
         (cancel)="cancel()">
 </cdk-pessoa-gridsearch>

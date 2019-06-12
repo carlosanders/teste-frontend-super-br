@@ -52,7 +52,7 @@
 <cdk-usuario-gridsearch
         fxFlex="1 0 auto"
         *ngIf="activeCard === 'usuario-vinculado-gridsearch'"
-        [filter]="usuarioVinculadoPagination.filter"
+        [pagination]="usuarioVinculadoPagination.filter"
         (selected)="selectUsuarioVinculado($event)"
         (cancel)="cancel()">
 </cdk-usuario-gridsearch>

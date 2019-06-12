@@ -106,7 +106,9 @@ export class CdkModeloFormComponent implements OnChanges, OnDestroy {
     }
 
     selectTemplate(template: Template): void {
-        this.form.get('template').setValue(template);
+        if (template) {
+            this.form.get('template').setValue(template);
+        }
         this.activeCard = 'form';
     }
 

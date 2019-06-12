@@ -122,7 +122,9 @@ export class CdkAfastamentoFormComponent implements OnChanges, OnDestroy {
     }
 
     selectModalidadeAfastamento(modalidadeafastamento: ModalidadeAfastamento): void {
-        this.form.get('modalidadeAfastamento').setValue(modalidadeafastamento);
+        if (modalidadeafastamento) {
+            this.form.get('modalidadeAfastamento').setValue(modalidadeafastamento);
+        }
         this.activeCard = 'form';
     }
 

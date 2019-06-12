@@ -6,7 +6,7 @@
     <div fxFlex="1 0 auto" fxLayout="column">
 
         <mat-slide-toggle formControlName="urgente"
-                      class="mr-16 mb-16" fxFlex="0 1 auto">
+                          class="mr-16 mb-16" fxFlex="0 1 auto">
             Urgente
         </mat-slide-toggle>
 
@@ -53,7 +53,7 @@
         </mat-form-field>
 
         <mat-slide-toggle formControlName="distribuicaoAutomatica"
-                      class="mr-16 mb-16" fxFlex="0 1 auto">
+                          class="mr-16 mb-16" fxFlex="0 1 auto">
             Distribuição Automática
         </mat-slide-toggle>
 
@@ -132,7 +132,8 @@
                 <input matInput formControlName="dataHoraInicioPrazo" [matDatetimepicker]="dataHoraInicioPrazo"
                        required>
                 <mat-datetimepicker-toggle matSuffix [for]="dataHoraInicioPrazo"></mat-datetimepicker-toggle>
-                <mat-datetimepicker #dataHoraInicioPrazo type="datetime" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
+                <mat-datetimepicker #dataHoraInicioPrazo type="datetime" openOnFocus="true"
+                                    timeInterval="5"></mat-datetimepicker>
             </mat-form-field>
 
             <mat-form-field class="mr-sm-12" fxFlex>
@@ -140,7 +141,8 @@
                 <input matInput formControlName="dataHoraFinalPrazo" [matDatetimepicker]="dataHoraFinalPrazo"
                        required>
                 <mat-datetimepicker-toggle matSuffix [for]="dataHoraFinalPrazo"></mat-datetimepicker-toggle>
-                <mat-datetimepicker #dataHoraFinalPrazo type="datetime" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
+                <mat-datetimepicker #dataHoraFinalPrazo type="datetime" openOnFocus="true"
+                                    timeInterval="5"></mat-datetimepicker>
             </mat-form-field>
 
         </div>
@@ -196,11 +198,11 @@
 </form>
 
 <cdk-processo-gridsearch
-    fxFlex="1 0 auto"
-    *ngIf="activeCard === 'processo-gridsearch'"
-    [filter]="processoPagination.filter"
-    (selected)="selectProcesso($event)"
-    (cancel)="cancel()">
+        fxFlex="1 0 auto"
+        *ngIf="activeCard === 'processo-gridsearch'"
+        [pagination]="processoPagination.filter"
+        (selected)="selectProcesso($event)"
+        (cancel)="cancel()">
 </cdk-processo-gridsearch>
 
 <cdk-especie-tarefa-gridsearch
@@ -214,32 +216,32 @@
 <cdk-setor-gridsearch
         fxFlex="1 0 auto"
         *ngIf="activeCard === 'unidade-gridsearch'"
-        [filter]="unidadeResponsavelPagination.filter"
+        [pagination]="unidadeResponsavelPagination.filter"
         (selected)="selectUnidadeResponsavel($event)"
         (cancel)="cancel()">
 </cdk-setor-gridsearch>
 
 <cdk-setor-gridsearch
-    fxFlex="1 0 auto"
-    *ngIf="activeCard === 'setor-gridsearch'"
-    [filter]="setorResponsavelPagination.filter"
-    (selected)="selectSetorResponsavel($event)"
-    (cancel)="cancel()">
+        fxFlex="1 0 auto"
+        *ngIf="activeCard === 'setor-gridsearch'"
+        [pagination]="setorResponsavelPagination.filter"
+        (selected)="selectSetorResponsavel($event)"
+        (cancel)="cancel()">
 </cdk-setor-gridsearch>
 
 <cdk-usuario-gridsearch
-    fxFlex="1 0 auto"
-    *ngIf="activeCard === 'usuario-gridsearch'"
-    [filter]="usuarioResponsavelPagination.filter"
-    (selected)="selectUsuario($event)"
-    [filter] = "setorFilter"
-    (cancel)="cancel()">
+        fxFlex="1 0 auto"
+        *ngIf="activeCard === 'usuario-gridsearch'"
+        [pagination]="usuarioResponsavelPagination.filter"
+        (selected)="selectUsuario($event)"
+        [filter]="setorFilter"
+        (cancel)="cancel()">
 </cdk-usuario-gridsearch>
 
 <cdk-setor-gridsearch
-    fxFlex="1 0 auto"
-    *ngIf="activeCard === 'setor-origem-gridsearch'"
-    [filter]="setorOrigemPagination.filter"
-    (selected)="selectSetorOrigem($event)"
-    (cancel)="cancel()">
+        fxFlex="1 0 auto"
+        *ngIf="activeCard === 'setor-origem-gridsearch'"
+        [pagination]="setorOrigemPagination.filter"
+        (selected)="selectSetorOrigem($event)"
+        (cancel)="cancel()">
 </cdk-setor-gridsearch>

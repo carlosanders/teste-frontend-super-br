@@ -4,13 +4,17 @@ import {
     Component,
     Input,
     Output,
-    ViewEncapsulation, EventEmitter
+    ViewEncapsulation,
+    EventEmitter,
+    OnInit
 } from '@angular/core';
 import {of} from 'rxjs';
 
 import {fuseAnimations} from '@fuse/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
+
+import {Pagination} from '@cdk/models/pagination';
 
 import {EspecieProcessoService} from '@cdk/services/especie-processo.service';
 import {EspecieProcesso} from '@cdk/models/especie-processo.model';
@@ -23,10 +27,10 @@ import {EspecieProcesso} from '@cdk/models/especie-processo.model';
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
 })
-export class CdkEspecieProcessoGridsearchComponent {
+export class CdkEspecieProcessoGridsearchComponent implements OnInit {
 
     @Input()
-    filter = {};
+    pagination: Pagination;
 
     @Output()
     selected = new EventEmitter();
@@ -50,24 +54,24 @@ export class CdkEspecieProcessoGridsearchComponent {
         private _especieProcessoService: EspecieProcessoService
     ) {
         this.loading = false;
+        this.pagination = new Pagination();
+    }
+
+    ngOnInit(): void {
+        this.load(this.pagination);
     }
 
     load(params): void {
 
-        params.filter = JSON.stringify(params.filter);
-        params.sort = JSON.stringify(params.sort);
-        params.populate = JSON.stringify(params.populate);
-
         this.loading = true;
 
         this._especieProcessoService.query(
-            params.filter,
+            JSON.stringify(params.filter),
             params.limit,
             params.offset,
-            params.sort,
-            params.populate)
-            .pipe(
-                finalize(() => this.loading = false),
+            JSON.stringify(params.sort),
+            JSON.stringify(params.populate))
+            .pipe(finalize(() => this.loading = false),
                 catchError(() => of([]))
             ).subscribe(response => {
                 this.especieProcessos = response['entities'];
@@ -78,12 +82,16 @@ export class CdkEspecieProcessoGridsearchComponent {
 
     reload (params): void {
         params = {
-            ...params,
+            ...this.pagination,
             filter: {
-                ...params.gridFilter,
-                ...this.filter
+                ...this.pagination.filter,
+                ...params.gridFilter
             },
-            populate: ['populateAll']
+            sort: params.sort,
+            populate: [
+                ...this.pagination.populate,
+                ...params.populate
+            ]
         };
         this.load (params);
     }

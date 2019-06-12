@@ -89,7 +89,7 @@
 <cdk-documento-gridsearch
         fxFlex="1 0 auto"
         *ngIf="activeCard === 'documento-gridsearch'"
-        [filter]="documentoPagination.filter"
+        [pagination]="documentoPagination.filter"
         (selected)="selectDocumento($event)"
         (cancel)="cancel()">
 </cdk-documento-gridsearch>
@@ -97,7 +97,7 @@
 <cdk-documento-vinculado-gridsearch
         fxFlex="1 0 auto"
         *ngIf="activeCard === 'documento-vinculado-gridsearch'"
-        [filter]="documentoVinculadoPagination.filter"
+        [pagination]="documentoVinculadoPagination.filter"
         (selected)="selectDocumentoVinculado($event)"
         (cancel)="cancel()">
 </cdk-documento-vinculado-gridsearch>
@@ -105,7 +105,7 @@
 <cdk-modalidade-vinculacao-documento-gridsearch
         fxFlex="1 0 auto"
         *ngIf="activeCard === 'modalidade-vinculacao-documento-gridsearch'"
-        [filter]="modalidadeVinculacaoDocumentoPagination.filter"
+        [pagination]="modalidadeVinculacaoDocumentoPagination.filter"
         (selected)="selectModalidadeVinculacaoDocumento($event)"
         (cancel)="cancel()">
 </cdk-modalidade-vinculacao-documento-gridsearch>

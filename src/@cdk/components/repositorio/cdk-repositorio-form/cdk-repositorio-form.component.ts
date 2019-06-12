@@ -106,7 +106,9 @@ export class CdkRepositorioFormComponent implements OnChanges, OnDestroy {
     }
 
     selectModalidadeRepositorio(modalidadeRepositorio: ModalidadeRepositorio): void {
-        this.form.get('modalidadeRepositorio').setValue(modalidadeRepositorio);
+        if (modalidadeRepositorio) {
+            this.form.get('modalidadeRepositorio').setValue(modalidadeRepositorio);
+        }
         this.activeCard = 'form';
     }
 

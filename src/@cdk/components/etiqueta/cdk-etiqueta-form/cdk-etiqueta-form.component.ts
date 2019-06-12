@@ -106,7 +106,9 @@ export class CdkEtiquetaFormComponent implements OnChanges, OnDestroy {
     }
 
     selectModalidadeEtiqueta(modalidadeetiqueta: ModalidadeEtiqueta): void {
-        this.form.get('modalidadeEtiqueta').setValue(modalidadeetiqueta);
+        if (modalidadeetiqueta) {
+            this.form.get('modalidadeEtiqueta').setValue(modalidadeetiqueta);
+        }
         this.activeCard = 'form';
     }
 
