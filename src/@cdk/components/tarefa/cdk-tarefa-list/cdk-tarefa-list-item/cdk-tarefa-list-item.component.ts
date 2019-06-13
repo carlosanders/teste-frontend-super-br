@@ -39,7 +39,19 @@ export class CdkTarefaListItemComponent implements OnInit {
     createDocumentoAvulso = new EventEmitter<number>();
 
     @Output()
-    etiquetar = new EventEmitter<number>();
+    createTarefa = new EventEmitter<any>();
+
+    @Output()
+    movimentar = new EventEmitter<number>();
+
+    @Output()
+    editProcesso = new EventEmitter<any>();
+
+    @Output()
+    editTarefa = new EventEmitter<number>();
+
+    @Output()
+    toggleUrgente = new EventEmitter<Tarefa>();
 
     draggable = {
         // note that data is handled with JSON.stringify/JSON.parse
@@ -65,11 +77,35 @@ export class CdkTarefaListItemComponent implements OnInit {
         this.delete.emit(this.tarefa.id);
     }
 
+    doMovimentar(): void {
+        this.movimentar.emit(this.tarefa.id);
+    }
+
+    doCompartilhar(): void {
+        this.compartilhar.emit(this.tarefa.id);
+    }
+
     doCreateDocumentoAvulso(): void {
         this.createDocumentoAvulso.emit(this.tarefa.id);
     }
 
+    doCreateTarefa(): void {
+        this.createTarefa.emit({tarefaId: this.tarefa.id, processoId: this.tarefa.processo.id});
+    }
+
+    doEditTarefa(): void {
+        this.editTarefa.emit(this.tarefa.id);
+    }
+
+    doEditProcesso(): void {
+        this.editProcesso.emit({tarefaId: this.tarefa.id, processoId: this.tarefa.processo.id});
+    }
+
     onSelectedChange(): void {
         this.toggleInSelectedTarefas.emit(this.tarefa.id);
+    }
+
+    doToggleUrgente(): void {
+        this.toggleUrgente.emit(this.tarefa);
     }
 }

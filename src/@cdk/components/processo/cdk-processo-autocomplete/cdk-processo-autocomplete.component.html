@@ -1,5 +1,5 @@
 <mat-autocomplete [displayWith]="displayProcessoFn">
-    <mat-option *ngFor="let displayProcessoFn of processoList"
+    <mat-option *ngFor="let processo of processoList"
                 [value]="processo">
         <span [innerHTML]="displayProcessoFn(processo) | highlightOption: this.control.value"></span>
     </mat-option>

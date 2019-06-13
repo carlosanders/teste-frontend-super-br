@@ -9,33 +9,33 @@ import {
 import {fuseAnimations} from '@fuse/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {Compartilhamento} from '@cdk/models/compartilhamento.model';
+import {Tarefa} from '@cdk/models/tarefa.model';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Tarefa} from '@cdk/models/tarefa.model';
 import {getSelectedTarefas} from '../store/selectors';
 import {getOperacoesState, getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {filter, takeUntil} from 'rxjs/operators';
+import * as moment from 'moment';
 
 @Component({
-    selector: 'compartilhamento-create',
-    templateUrl: './compartilhamento-create.component.html',
-    styleUrls: ['./compartilhamento-create.component.scss'],
+    selector: 'tarefa-create',
+    templateUrl: './tarefa-create.component.html',
+    styleUrls: ['./tarefa-create.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
 })
-export class CompartilhamentoCreateComponent implements OnInit, OnDestroy {
+export class TarefaCreateComponent implements OnInit, OnDestroy {
 
     private _unsubscribeAll: Subject<any> = new Subject();
 
     tarefas$: Observable<Tarefa[]>;
     tarefas: Tarefa[];
 
-    compartilhamento: Compartilhamento;
+    tarefa: Tarefa;
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
 
@@ -53,7 +53,7 @@ export class CompartilhamentoCreateComponent implements OnInit, OnDestroy {
      * @param _changeDetectorRef
      */
     constructor(
-        private _store: Store<fromStore.CompartilhamentoCreateAppState>,
+        private _store: Store<fromStore.TarefaCreateAppState>,
         private _loginService: LoginService,
         private _router: Router,
         private _changeDetectorRef: ChangeDetectorRef
@@ -78,7 +78,7 @@ export class CompartilhamentoCreateComponent implements OnInit, OnDestroy {
             .pipe(
                 select(getOperacoesState),
                 takeUntil(this._unsubscribeAll),
-                filter(op => !!op && !!op.content && op.type === 'compartilhamento')
+                filter(op => !!op && !!op.content && op.type === 'tarefa')
             )
             .subscribe(
                 operacao => {
@@ -97,6 +97,12 @@ export class CompartilhamentoCreateComponent implements OnInit, OnDestroy {
                 this.operacoes = [];
             }
         });
+
+        this.tarefa = new Tarefa();
+        this.tarefa.unidadeResponsavel = this._profile.lotacoes[0].setor.unidade;
+        this.tarefa.dataHoraInicioPrazo = moment();
+        this.tarefa.dataHoraFinalPrazo = moment().add(5, 'days').set({ 'hour' : 20, 'minute' : 0, 'second' : 0 });
+        this.tarefa.setorOrigem = this._profile.lotacoes[0].setor;
     }
 
     ngOnDestroy(): void {
@@ -113,18 +119,18 @@ export class CompartilhamentoCreateComponent implements OnInit, OnDestroy {
 
         this.operacoes = [];
 
-        this.tarefas.forEach(tarefa => {
-            const compartilhamento = new Compartilhamento();
+        this.tarefas.forEach(tarefaBloco => {
+            const tarefa = new Tarefa();
 
             Object.entries(values).forEach(
                 ([key, value]) => {
-                    compartilhamento[key] = value;
+                    tarefa[key] = value;
                 }
             );
 
-            compartilhamento.tarefa = tarefa;
+            tarefa.processo = tarefaBloco.processo;
 
-            this._store.dispatch(new fromStore.SaveCompartilhamento(compartilhamento));
+            this._store.dispatch(new fromStore.SaveTarefa(tarefa));
         });
     }
 }

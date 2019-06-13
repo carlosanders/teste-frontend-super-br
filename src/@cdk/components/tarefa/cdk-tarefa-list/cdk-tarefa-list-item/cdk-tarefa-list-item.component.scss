@@ -11,6 +11,10 @@ cdk-tarefa-list-item {
 
     .info {
 
+        &.nao-lido {
+            font-weight: bold;
+        }
+
         margin: 0 16px 0 8px;
 
         .title {
@@ -25,9 +29,6 @@ cdk-tarefa-list-item {
 
         .body {
             margin-top: 6px;
-            .bold {
-                font-weight: 600;
-            }
         }
 
         .etiquetas {

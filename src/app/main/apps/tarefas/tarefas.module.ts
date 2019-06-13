@@ -56,8 +56,12 @@ const routes: Routes = [
                 canActivate: [fromGuards.ResolveGuard]
             },
             {
-                path: 'compartilhamento-create-bloco',
+                path: 'compartilhamento-bloco',
                 loadChildren: './compartilhamento-create-bloco/compartilhamento-create-bloco.module#CompartilhamentoCreateBlocoModule',
+            },
+            {
+                path: 'tarefa-bloco',
+                loadChildren: './tarefa-create-bloco/tarefa-create-bloco.module#TarefaCreateBlocoModule',
             }
         ],
         canActivate: [fromGuards.ResolveGuard]

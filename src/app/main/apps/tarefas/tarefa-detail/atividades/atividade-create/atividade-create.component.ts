@@ -49,9 +49,11 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy {
     cdkUpload;
 
     documentos$: Observable<Documento[]>;
-    documentos: Documento[];
+    minutas: Documento[] = [];
+    oficios: Documento[] = [];
     selectedDocumentos$: Observable<Documento[]>;
-    selectedDocumentos: Documento[];
+    selectedMinutas: Documento[] = [];
+    selectedOficios: Documento[] = [];
     deletingDocumentosId$: Observable<number[]>;
     assinandoDocumentosId$: Observable<number[]>;
     assinandoDocumentosId: number[] = [];
@@ -140,7 +142,8 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy {
         this.selectedDocumentos$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(selectedDocumentos => {
-            this.selectedDocumentos = selectedDocumentos;
+            this.selectedMinutas = selectedDocumentos.filter(documento => !documento.documentoAvulsoRemessa);
+            this.selectedOficios = selectedDocumentos.filter(documento => documento.documentoAvulsoRemessa);
         });
 
         this.documentos$.pipe(
@@ -148,7 +151,8 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy {
             takeUntil(this._unsubscribeAll)
         ).subscribe(
             documentos => {
-                this.documentos = documentos;
+                this.minutas = documentos.filter(documento => !documento.documentoAvulsoRemessa);
+                this.oficios = documentos.filter(documento => documento.documentoAvulsoRemessa);
                 this._changeDetectorRef.markForCheck();
             }
         );
@@ -192,7 +196,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy {
         );
 
         atividade.tarefa = this.tarefa;
-        atividade.documentos = this.documentos;
+        atividade.documentos = this.minutas;
 
         this._store.dispatch(new fromStore.SaveAtividade(atividade));
     }

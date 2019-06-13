@@ -26,7 +26,7 @@ export class SaveCompartilhamentoSuccess implements Action
 {
     readonly type = SAVE_COMPARTILHAMENTO_SUCCESS;
 
-    constructor()
+    constructor(public payload: any)
     {
     }
 }

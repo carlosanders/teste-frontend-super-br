@@ -8,7 +8,7 @@ export const getCompartilhamentoCreateState = createSelector(
 
 export const getIsSaving = createSelector(
     getCompartilhamentoCreateState,
-    (state: CompartilhamentoCreateState) => state.saving
+    (state: CompartilhamentoCreateState) => state.savingTarefasId.length > 0
 );
 
 export const getErrors = createSelector(

@@ -16,7 +16,15 @@ export const DELETE_TAREFA_FAILED = '[TAREFAS] DELETE TAREFA FAILED';
 
 export const CHANGE_SELECTED_TAREFAS = '[TAREFAS] CHANGE SELECTED TAREFAS';
 
-export const TOGGLE_MAXIMIZADO = '[TAREFAS] TOGGLE_MAXIMIZADO';
+export const TOGGLE_MAXIMIZADO = '[TAREFAS] TOGGLE MAXIMIZADO';
+
+export const TOGGLE_LIDA_TAREFA = '[TAREFAS] TOGGLE LIDA TAREFA';
+export const TOGGLE_LIDA_TAREFA_SUCCESS = '[TAREFAS] TOGGLE LIDA TAREFA SUCCESS';
+export const TOGGLE_LIDA_TAREFA_FAILED = '[TAREFAS] TOGGLE LIDA TAREFA FAILED';
+
+export const TOGGLE_URGENTE_TAREFA = '[TAREFAS] TOGGLE URGENTE TAREFA';
+export const TOGGLE_URGENTE_TAREFA_SUCCESS = '[TAREFAS] TOGGLE URGENTE TAREFA SUCCESS';
+export const TOGGLE_URGENTE_TAREFA_FAILED = '[TAREFAS] TOGGLE URGENTE TAREFA FAILED';
 
 export const SET_FOLDER_ON_SELECTED_TAREFAS = '[TAREFAS] SET FOLDER ON SELECTED TAREFAS';
 export const SET_FOLDER_ON_SELECTED_TAREFAS_SUCCESS = '[TAREFAS] SET FOLDER ON SELECTED TAREFAS SUCCESS';
@@ -217,6 +225,78 @@ export class SaveTarefaFailed implements Action
 }
 
 /**
+ * Toggle Lida Tarefa
+ */
+export class ToggleLidaTarefa implements Action
+{
+    readonly type = TOGGLE_LIDA_TAREFA;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Toggle Lida Tarefa Success
+ */
+export class ToggleLidaTarefaSuccess implements Action
+{
+    readonly type = TOGGLE_LIDA_TAREFA_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Toggle Lida Tarefa Failed
+ */
+export class ToggleLidaTarefaFailed implements Action
+{
+    readonly type = TOGGLE_LIDA_TAREFA_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Toggle Urgente Tarefa
+ */
+export class ToggleUrgenteTarefa implements Action
+{
+    readonly type = TOGGLE_URGENTE_TAREFA;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Toggle Urgente Tarefa Success
+ */
+export class ToggleUrgenteTarefaSuccess implements Action
+{
+    readonly type = TOGGLE_URGENTE_TAREFA_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Toggle Urgente Tarefa Failed
+ */
+export class ToggleUrgenteTarefaFailed implements Action
+{
+    readonly type = TOGGLE_URGENTE_TAREFA_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
  * Delete Vinculacao Etiqueta
  */
 export class DeleteVinculacaoEtiqueta implements Action
@@ -318,6 +398,12 @@ export type TarefasActionsAll
     | SaveTarefa
     | SaveTarefaSuccess
     | SaveTarefaFailed
+    | ToggleLidaTarefa
+    | ToggleLidaTarefaSuccess
+    | ToggleLidaTarefaFailed
+    | ToggleUrgenteTarefa
+    | ToggleUrgenteTarefaSuccess
+    | ToggleUrgenteTarefaFailed
     | CreateVinculacaoEtiqueta
     | CreateVinculacaoEtiquetaSuccess
     | CreateVinculacaoEtiquetaFailed

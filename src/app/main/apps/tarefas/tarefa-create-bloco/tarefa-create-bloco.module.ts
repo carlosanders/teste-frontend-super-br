@@ -18,23 +18,23 @@ import {TranslateModule} from '@ngx-translate/core';
 import {FuseSharedModule} from '@fuse/shared.module';
 import {FuseSidebarModule} from '@fuse/components';
 
-import {CompartilhamentoCreateComponent} from './compartilhamento-create.component';
+import {TarefaCreateComponent} from './tarefa-create.component';
 import {RouterModule, Routes} from '@angular/router';
-import {CdkCompartilhamentoFormModule} from '@cdk/components/compartilhamento/cdk-compartilhamento-form/cdk-compartilhamento-form.module';
-import {CompartilhamentoCreateBlocoStoreModule} from './store/store.module';
-import {CompartilhamentoService} from '@cdk/services/compartilhamento.service';
+import {CdkTarefaFormModule} from '@cdk/components/tarefa/cdk-tarefa-form/cdk-tarefa-form.module';
+import {TarefaCreateBlocoStoreModule} from './store/store.module';
+import {TarefaService} from '@cdk/services/tarefa.service';
 import {LoginService} from 'app/main/auth/login/login.service';
 
 const routes: Routes = [
     {
         path: '',
-        component: CompartilhamentoCreateComponent
+        component: TarefaCreateComponent
     }
 ];
 
 @NgModule({
     declarations: [
-        CompartilhamentoCreateComponent
+        TarefaCreateComponent
     ],
     imports: [
 
@@ -55,9 +55,9 @@ const routes: Routes = [
         MatTooltipModule,
         MatListModule,
 
-        CdkCompartilhamentoFormModule,
+        CdkTarefaFormModule,
 
-        CompartilhamentoCreateBlocoStoreModule,
+        TarefaCreateBlocoStoreModule,
 
         TranslateModule,
 
@@ -65,9 +65,9 @@ const routes: Routes = [
         FuseSidebarModule,
     ],
     providers: [
-        CompartilhamentoService,
+        TarefaService,
         LoginService,
     ]
 })
-export class CompartilhamentoCreateBlocoModule {
+export class TarefaCreateBlocoModule {
 }

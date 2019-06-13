@@ -1,13 +1,12 @@
 <div fxLayout="row" fxLayoutAlign="start center">
 
-    <mat-checkbox *ngIf="!documento.documentoAvulsoRemessa"
-                  class="mr-8 ml-8 select" [checked]="selected"
+    <mat-checkbox class="mr-8 ml-8 select" [checked]="selected"
                   (change)="toggleInSelected(documento.id)"
                   (click)="$event.stopPropagation();">
     </mat-checkbox>
 
     <div class="p-8 file" fxLayout="column" (click)="onClick(documento)"
-         [ngClass]="{'light-blue-100':!documento.documentoAvulsoRemessa, 'light-green-100':documento.documentoAvulsoRemessa}">
+         [ngClass]="{'light-blue-100':!documento.documentoAvulsoRemessa, 'light-yellow-100':documento.documentoAvulsoRemessa}">
 
         <div fxLayout="row" fxLayoutAlign="start center">
             <mat-icon *ngIf="!documento.documentoAvulsoRemessa" class="ml-8 mr-8">picture_as_pdf</mat-icon>
@@ -21,7 +20,7 @@
     </div>
 
     <div class="more-vert"
-         [ngClass]="{'light-blue-100':!documento.documentoAvulsoRemessa, 'light-green-100':documento.documentoAvulsoRemessa}">
+         [ngClass]="{'light-blue-100':!documento.documentoAvulsoRemessa, 'light-yellow-100':documento.documentoAvulsoRemessa}">
         <button *ngIf="!deleting && !assinando" mat-icon-button [matMenuTriggerFor]="card20Menu" aria-label="more">
             <mat-icon>expand_more</mat-icon>
         </button>

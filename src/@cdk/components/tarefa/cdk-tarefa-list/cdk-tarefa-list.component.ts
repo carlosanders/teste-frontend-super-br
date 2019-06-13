@@ -45,16 +45,7 @@ export class CdkTarefaListComponent implements AfterViewInit, OnInit, OnChanges 
     actions: string[] = ['edit', 'delete', 'select'];
 
     @Output()
-    toggleInSelectedTarefas = new EventEmitter();
-
-    @Output()
-    selectedTarefa = new EventEmitter();
-
-    @Output()
     reload = new EventEmitter<any>();
-
-    @Output()
-    edit = new EventEmitter<number>();
 
     @Output()
     delete = new EventEmitter<number>();
@@ -66,19 +57,48 @@ export class CdkTarefaListComponent implements AfterViewInit, OnInit, OnChanges 
     select = new EventEmitter<Tarefa>();
 
     @Output()
-    cancel = new EventEmitter<any>();
+    compartilhar = new EventEmitter<number>();
 
     @Output()
     createDocumentoAvulso = new EventEmitter<number>();
 
     @Output()
-    compartilhar = new EventEmitter<number>();
+    createTarefa = new EventEmitter<any>();
+
+    @Output()
+    movimentar = new EventEmitter<number>();
+
+    @Output()
+    editProcesso = new EventEmitter<any>();
+
+    @Output()
+    editTarefa = new EventEmitter<number>();
+
+    @Output()
+    toggleUrgente = new EventEmitter<Tarefa>();
+
+    @Output()
+    compartilharBloco = new EventEmitter<any>();
+
+    @Output()
+    createTarefaBloco = new EventEmitter<any>();
+
+    @Output()
+    createDocumentoAvulsoBloco = new EventEmitter<any>();
+
+    @Output()
+    editTarefaBloco = new EventEmitter<any>();
+
+    @Output()
+    movimentarBloco = new EventEmitter<any>();
+
+    @Output()
+    etiquetarBloco = new EventEmitter<any>();
 
     listFilter: {} = {};
     listSort: {} = {};
 
     isIndeterminate = false;
-
 
     /**
      * Constructor
@@ -121,12 +141,16 @@ export class CdkTarefaListComponent implements AfterViewInit, OnInit, OnChanges 
         this.select.emit(tarefa);
     }
 
-    deleteTarefa(tarefaId): void {
+    doToggleUrgente(tarefa: Tarefa): void {
+        this.toggleUrgente.emit(tarefa);
+    }
+
+    doDeleteTarefa(tarefaId): void {
         this.delete.emit(tarefaId);
     }
 
-    deleteTarefas(): void {
-        this.selectedIds.forEach(tarefaId => this.deleteTarefa(tarefaId));
+    doDeleteTarefaBloco(): void {
+        this.selectedIds.forEach(tarefaId => this.doDeleteTarefa(tarefaId));
     }
 
     setFolder(folder): void {
@@ -186,26 +210,56 @@ export class CdkTarefaListComponent implements AfterViewInit, OnInit, OnChanges 
         this.loadPage();
     }
 
-    doCancel(): void {
-        this.cancel.emit();
+    doMovimentar(tarefaId): void {
+        this.movimentar.emit(tarefaId);
     }
 
-    doCreateDocumentosAvulsos(): void {
-        this.selectedIds.forEach(tarefaId => this.doCreateDocumentoAvulso(tarefaId));
+    doMovimentarBloco(): void {
+        this.movimentarBloco.emit();
     }
 
-    doCompartilhar(): void {
-        this.compartilhar.emit();
+    doCompartilhar(tarefaId): void {
+        this.compartilhar.emit(tarefaId);
+    }
+
+    doCompartilharBloco(): void {
+        this.compartilharBloco.emit();
     }
 
     doCreateDocumentoAvulso(tarefaId): void {
         this.createDocumentoAvulso.emit(tarefaId);
     }
 
+    doCreateDocumentoAvulsoBloco(): void {
+        this.createDocumentoAvulsoBloco.emit();
+    }
+
+    doCreateTarefa(params): void {
+        this.createTarefa.emit(params);
+    }
+
+    doCreateTarefaBloco(): void {
+        this.createTarefaBloco.emit();
+    }
+
+    doEditTarefa(tarefaId): void {
+        this.editTarefa.emit(tarefaId);
+    }
+
+    doEditTarefaBloco(): void {
+        this.editTarefaBloco.emit();
+    }
+
+    doEditProcesso(params): void {
+        this.editProcesso.emit(params);
+    }
+
+    doEtiquetarBloco(): void {
+        this.etiquetarBloco.emit();
+    }
+
     /**
      * Toggle the sidebar
-     *
-     * @param name
      */
     toggleSidebar(): void {
         this._fuseSidebarService.getSidebar('cdk-tarefa-list-main-sidebar').toggleOpen();

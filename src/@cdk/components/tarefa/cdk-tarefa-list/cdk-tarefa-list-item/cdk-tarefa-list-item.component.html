@@ -6,7 +6,7 @@
 
     <div fxLayout="row" fxLayoutAlign="start center" fxFlex>
 
-        <div class="info" fxFlex>
+        <div class="info" fxFlex [ngClass]="{'nao-lido': !tarefa.dataHoraLeitura}">
 
             <div class="title">
                 <span class="text-truncate">PROCESSO {{tarefa.processo.NUP | formatNup}}</span>
@@ -17,7 +17,7 @@
             </div>
 
             <div class="body mt-4">
-                <div class="bold">
+                <div>
                     {{tarefa.especieTarefa.nome}}
                 </div>
 
@@ -43,7 +43,7 @@
 
         <div class="actions" fxLayout="row" fxLayoutAlign="start center">
 
-            <button mat-icon-button (click)="toggleUrgente()"
+            <button mat-icon-button (click)="doToggleUrgente()"
                     aria-label="Toggle important" fxHide.xs>
                 <mat-icon class="red-fg" *ngIf="tarefa.urgente">error</mat-icon>
                 <mat-icon class="secondary-text" *ngIf="!tarefa.urgente">error_outline</mat-icon>
@@ -68,6 +68,30 @@
                     </ng-container>
                 </button>
 
+                <button mat-menu-item aria-label="movimentar"
+                        (click)="doMovimentar()">
+                    <ng-container>
+                        <mat-icon>send</mat-icon>
+                        <span>Movimentar</span>
+                    </ng-container>
+                </button>
+
+                <button mat-menu-item aria-label="editar tarefa"
+                        (click)="doEditTarefa()">
+                    <ng-container>
+                        <mat-icon>edit</mat-icon>
+                        <span>Editar Tarefa</span>
+                    </ng-container>
+                </button>
+
+                <button mat-menu-item aria-label="editar processo"
+                        (click)="doEditProcesso()">
+                    <ng-container>
+                        <mat-icon>book</mat-icon>
+                        <span>Editar Processo</span>
+                    </ng-container>
+                </button>
+
                 <button mat-menu-item aria-label="criar tarefa"
                         (click)="doCreateTarefa()">
                     <ng-container>
@@ -80,15 +104,7 @@
                         (click)="doCreateDocumentoAvulso()">
                     <ng-container>
                         <mat-icon>mail</mat-icon>
-                        <span>Enviar Ofício</span>
-                    </ng-container>
-                </button>
-
-                <button mat-menu-item aria-label="etiquetar"
-                        (click)="doEtiquetar()">
-                    <ng-container>
-                        <mat-icon>label</mat-icon>
-                        <span>Etiquetar</span>
+                        <span>Criar Ofício</span>
                     </ng-container>
                 </button>
 

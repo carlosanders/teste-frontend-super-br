@@ -11,7 +11,7 @@ import {
     MatSelectModule,
     MatToolbarModule,
     MatDatepickerModule,
-    MatProgressSpinnerModule, MatTooltipModule
+    MatProgressSpinnerModule, MatTooltipModule, MatTableModule, MatBadgeModule, MatTabsModule
 } from '@angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 
@@ -67,6 +67,8 @@ const routes: Routes = [
         MatProgressSpinnerModule,
         MatDatepickerModule,
         MatTooltipModule,
+        MatTabsModule,
+        MatBadgeModule,
 
         CdkComponenteDigitalCardListModule,
         CdkDocumentoCardListModule,

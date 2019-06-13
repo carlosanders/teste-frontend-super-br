@@ -4,12 +4,12 @@ import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, tap} from 'rxjs/operators';
 
-import * as CompartilhamentoCreateActions from '../actions/compartilhamento-create.actions';
+import * as TarefaCreateActions from '../actions/tarefa-create.actions';
 
-import {CompartilhamentoService} from '@cdk/services/compartilhamento.service';
+import {TarefaService} from '@cdk/services/tarefa.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {compartilhamento as compartilhamentoSchema} from '@cdk/normalizr/compartilhamento.schema';
-import {Compartilhamento} from '@cdk/models/compartilhamento.model';
+import {tarefa as tarefaSchema} from '@cdk/normalizr/tarefa.schema';
+import {Tarefa} from '@cdk/models/tarefa.model';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
@@ -17,12 +17,12 @@ import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import * as moment from 'moment';
 
 @Injectable()
-export class CompartilhamentoCreateEffect {
+export class TarefaCreateEffect {
     routerState: any;
 
     constructor(
         private _actions: Actions,
-        private _compartilhamentoService: CompartilhamentoService,
+        private _tarefaService: TarefaService,
         private _store: Store<State>,
         private _router: Router
     ) {
@@ -37,22 +37,22 @@ export class CompartilhamentoCreateEffect {
     }
 
     /**
-     * Save Compartilhamento
+     * Save Tarefa
      * @type {Observable<any>}
      */
     @Effect()
-    saveCompartilhamento: any =
+    saveTarefa: any =
         this._actions
             .pipe(
-                ofType<CompartilhamentoCreateActions.SaveCompartilhamento>(CompartilhamentoCreateActions.SAVE_COMPARTILHAMENTO),
+                ofType<TarefaCreateActions.SaveTarefa>(TarefaCreateActions.SAVE_TAREFA),
                 mergeMap((action) => {
-                    return this._compartilhamentoService.save(action.payload).pipe(
-                        mergeMap((response: Compartilhamento) => [
-                            new CompartilhamentoCreateActions.SaveCompartilhamentoSuccess(action.payload),
-                            new AddData<Compartilhamento>({data: [response], schema: compartilhamentoSchema}),
+                    return this._tarefaService.save(action.payload).pipe(
+                        mergeMap((response: Tarefa) => [
+                            new TarefaCreateActions.SaveTarefaSuccess(action.payload),
+                            new AddData<Tarefa>({data: [response], schema: tarefaSchema}),
                             new OperacoesActions.Resultado({
-                                type: 'compartilhamento',
-                                content: `Compartilhamento na tarefa id ${action.payload.tarefa.id} criado com sucesso!`,
+                                type: 'tarefa',
+                                content: `Tarefa no processo ${action.payload.processo.NUP} criado com sucesso!`,
                                 success: true,
                                 dateTime: response.criadoEm
                             })
@@ -60,12 +60,12 @@ export class CompartilhamentoCreateEffect {
                         catchError((err) => {
                             console.log (err);
                             this._store.dispatch(new OperacoesActions.Resultado({
-                                type: 'compartilhamento',
-                                content: `Houve erro no compartilhamento na tarefa id ${action.payload.tarefa.id}! ${err.error.message}`,
+                                type: 'tarefa',
+                                content: `Houve erro no tarefa no processo ${action.payload.processo.NUP}! ${err.error.message}`,
                                 success: false,
                                 dateTime: moment()
                             }));
-                            return of(new CompartilhamentoCreateActions.SaveCompartilhamentoFailed(action.payload));
+                            return of(new TarefaCreateActions.SaveTarefaFailed(action.payload));
                         })
                     );
                 })
