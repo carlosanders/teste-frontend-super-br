@@ -19,7 +19,6 @@ import {Colaborador} from '@cdk/models/colaborador.model';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Processo} from '@cdk/models/processo.model';
 import {takeUntil} from 'rxjs/operators';
-import {processo} from '@cdk/normalizr/processo.schema';
 
 @Component({
     selector: 'tarefa-create',

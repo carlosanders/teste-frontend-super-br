@@ -16,9 +16,9 @@ import * as fromStore from './store';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Tarefa} from '@cdk/models/tarefa.model';
 import {getSelectedTarefas} from '../store/selectors';
-import {getRouterState} from 'app/store/reducers';
+import {getOperacoesState, getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'compartilhamento-create',
@@ -38,6 +38,8 @@ export class CompartilhamentoCreateComponent implements OnInit, OnDestroy {
     compartilhamento: Compartilhamento;
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
+
+    operacoes: any[] = [];
 
     private _profile: any;
 
@@ -74,11 +76,25 @@ export class CompartilhamentoCreateComponent implements OnInit, OnDestroy {
 
         this._store
             .pipe(
+                select(getOperacoesState),
+                takeUntil(this._unsubscribeAll),
+                filter(op => !!op && !!op.content && op.type === 'compartilhamento')
+            )
+            .subscribe(
+                operacao => {
+                    this.operacoes.push(operacao);
+                    this._changeDetectorRef.markForCheck();
+                }
+            );
+
+        this._store
+            .pipe(
                 select(getRouterState),
                 takeUntil(this._unsubscribeAll)
             ).subscribe(routerState => {
             if (routerState) {
                 this.routerState = routerState.state;
+                this.operacoes = [];
             }
         });
     }
@@ -95,6 +111,8 @@ export class CompartilhamentoCreateComponent implements OnInit, OnDestroy {
 
     submit(values): void {
 
+        this.operacoes = [];
+
         this.tarefas.forEach(tarefa => {
             const compartilhamento = new Compartilhamento();
 
@@ -103,6 +121,8 @@ export class CompartilhamentoCreateComponent implements OnInit, OnDestroy {
                     compartilhamento[key] = value;
                 }
             );
+
+            compartilhamento.tarefa = tarefa;
 
             this._store.dispatch(new fromStore.SaveCompartilhamento(compartilhamento));
         });

@@ -189,7 +189,7 @@ export class TarefaDetailEffect {
                             }),
                             new OperacoesActions.Resultado({
                                 type: 'tarefa',
-                                content: `Tarefa id ${response.id} criada com sucesso!`,
+                                content: `Tarefa id ${response.id} etiquetada com sucesso!`,
                                 dateTime: response.criadoEm
                             })
                         ]),
@@ -212,7 +212,7 @@ export class TarefaDetailEffect {
             .pipe(
                 ofType<TarefaDetailActions.DeleteVinculacaoEtiqueta>(TarefaDetailActions.DELETE_VINCULACAO_ETIQUETA),
                 concatMap((action) => {
-                        return this._tarefaService.destroy(action.payload).pipe(
+                        return this._vinculacaoEtiquetaService.destroy(action.payload.vinculacaoEtiquetaId).pipe(
                             mergeMap(() => [
                                 new RemoveChildData({
                                     id: action.payload.vinculacaoEtiquetaId,

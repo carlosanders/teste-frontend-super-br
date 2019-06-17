@@ -52,6 +52,9 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     @Input()
     config: any;
 
+    @Input()
+    valid = true;
+
     @Output()
     save = new EventEmitter<Tarefa>();
 
@@ -73,6 +76,19 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     @Input()
     setorOrigemPagination: Pagination;
 
+    @Input()
+    mode = 'regular';
+
+    @Input()
+    blocoEdit = {
+        blocoEditEspecie: false,
+        blocoEditDistribuicao: false,
+        blocoEditInicioPrazo: false,
+        blocoEditFinalPrazo: false,
+        blocoEditUrgente: false,
+        blocoEditObservacao: false
+    };
+
     form: FormGroup;
 
     activeCard = 'form';
@@ -85,6 +101,8 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
     setorFilter: any;
 
+    processos: Processo[] = [];
+
     /**
      * Constructor
      */
@@ -95,6 +113,8 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
         this.form = this._formBuilder.group({
             'id': [null],
+            'blocoProcessos': [null],
+            'processos': [null],
             'processo': [null],
             'urgente': [null],
             'especieTarefa': [null, [Validators.required]],
@@ -109,6 +129,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         });
 
         this.processoPagination = new Pagination();
+        this.processoPagination.populate = ['setorAtual'];
         this.especieTarefaPagination = new Pagination();
         this.unidadeResponsavelPagination = new Pagination();
         this.unidadeResponsavelPagination.filter = {'parent': 'isNull'};
@@ -150,6 +171,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                     } else {
                         this.form.get('usuarioResponsavel').enable();
                     }
+                    this._changeDetectorRef.markForCheck();
                     return of([]);
                 }
             )
@@ -178,7 +200,20 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                     if (value && typeof value === 'object') {
                         this.form.get('usuarioResponsavel').enable();
                         this.form.get('usuarioResponsavel').reset();
-                        this.usuarioResponsavelPagination.filter['colaborador.lotacoes.setor.id']  = `eq:${value.id}`;
+                        this.usuarioResponsavelPagination.filter['colaborador.lotacoes.setor.id'] = `eq:${value.id}`;
+                    }
+                    return of([]);
+                }
+            )
+        ).subscribe();
+
+        this.form.get('processo').valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((value) => {
+                    if (value && typeof value === 'object' && this.form.get('blocoProcessos').value) {
+                        this.processos.push(value);
+                        this._changeDetectorRef.markForCheck();
                     }
                     return of([]);
                 }
@@ -243,6 +278,9 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
     submit(): void {
         if (this.form.valid) {
+            if (this.form.get('blocoProcessos').value) {
+                this.form.get('processos').setValue(this.processos);
+            }
             this.save.emit(this.form.value);
         }
     }
@@ -252,6 +290,11 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         if (!value || typeof value !== 'object') {
             this.form.get('especieTarefa').setValue(null);
         }
+    }
+
+    deleteProcessos(processoId): void {
+        this.processos = this.processos.filter(processo => processo.id !== processoId);
+        this._changeDetectorRef.markForCheck();
     }
 
     selectEspecieTarefa(especieTarefa: EspecieTarefa): void {

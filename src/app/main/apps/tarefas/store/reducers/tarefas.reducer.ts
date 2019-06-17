@@ -17,6 +17,7 @@ export interface TarefasState {
     loading: boolean;
     loaded: any;
     deletingTarefaIds: number[];
+    togglingLidaTarefaIds: number[];
     currentTarefaId: number;
     deletedTarefaIds: number[];
     selectedTarefaIds: number[];
@@ -39,6 +40,7 @@ export const TarefasInitialState: TarefasState = {
     loading: false,
     loaded: false,
     deletingTarefaIds: [],
+    togglingLidaTarefaIds: [],
     deletedTarefaIds: [],
     selectedTarefaIds: [],
     currentTarefaId: null,
@@ -131,6 +133,34 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
                 selectedTarefaIds: selectedTarefaIds,
                 deletingTarefaIds: state.deletingTarefaIds.filter(id => id !== action.payload),
                 deletedTarefaIds: [...state.deletedTarefaIds, action.payload]
+            };
+        }
+
+        case TarefasActions.DELETE_TAREFA_FAILED: {
+            return {
+                ...state,
+                deletingTarefaIds: state.deletingTarefaIds.filter(id => id !== action.payload)
+            };
+        }
+
+        case TarefasActions.TOGGLE_LIDA_TAREFA: {
+            return {
+                ...state,
+                togglingLidaTarefaIds: [...state.togglingLidaTarefaIds, action.payload]
+            };
+        }
+
+        case TarefasActions.TOGGLE_LIDA_TAREFA_SUCCESS: {
+            return {
+                ...state,
+                togglingLidaTarefaIds: state.togglingLidaTarefaIds.filter(id => id !== action.payload)
+            };
+        }
+
+        case TarefasActions.TOGGLE_LIDA_TAREFA_FAILED: {
+            return {
+                ...state,
+                togglingLidaTarefaIds: state.togglingLidaTarefaIds.filter(id => id !== action.payload)
             };
         }
 

@@ -1,16 +1,18 @@
 import {Injectable} from '@angular/core';
-import {HttpParams} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Tarefa} from '@cdk/models/tarefa.model';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
 import {PaginatedResponse} from '@cdk/models/paginated.response';
+import {environment} from '../../environments/environment';
 
 @Injectable()
 export class TarefaService {
 
     constructor(
-        private modelService: ModelService
+        private modelService: ModelService,
+        private http: HttpClient
     ) {
     }
 
@@ -58,5 +60,27 @@ export class TarefaService {
 
     destroy(id: number): Observable<Tarefa> {
         return this.modelService.delete('tarefa', id);
+    }
+
+    toggleLida(tarefa: Tarefa): Observable<Tarefa> {
+        return this.http.patch(
+            `${environment.api_url}${'tarefa'}/${tarefa.id}/${'toggle_lida'}` + environment.xdebug,
+            JSON.stringify(classToPlain(tarefa))
+        ).map(response => {
+            response = plainToClass(Tarefa, response);
+            Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+            return Object.assign(new Tarefa(), {...tarefa, ...response});
+        });
+    }
+
+    patch(tarefa: Tarefa, changes: any): Observable<Tarefa> {
+        return this.http.patch(
+            `${environment.api_url}${'tarefa'}/${tarefa.id}` + environment.xdebug,
+            JSON.stringify(changes)
+        ).map(response => {
+            response = plainToClass(Tarefa, response);
+            Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+            return Object.assign(new Tarefa(), {...tarefa, ...response});
+        });
     }
 }

@@ -47,7 +47,7 @@
         <mat-menu #moreMenu="matMenu">
 
             <button mat-menu-item aria-label="remover"
-                    (click)="deleteTarefas()">
+                    (click)="doDeleteTarefaBloco()">
                 <ng-container>
                     <mat-icon>delete</mat-icon>
                     <span>Remover</span>
@@ -55,23 +55,39 @@
             </button>
 
             <button mat-menu-item aria-label="criar tarefa"
-                    (click)="doCreateTarefa()">
+                    (click)="doCreateTarefaBloco()">
                 <ng-container>
                     <mat-icon>check_box</mat-icon>
                     <span>Criar Tarefa</span>
                 </ng-container>
             </button>
 
-            <button mat-menu-item aria-label="enviar ofício"
-                    (click)="doCreateDocumentosAvulsos()">
+            <button mat-menu-item aria-label="criar ofício"
+                    (click)="doCreateDocumentoAvulsoBloco()">
                 <ng-container>
                     <mat-icon>mail</mat-icon>
-                    <span>Enviar Ofício</span>
+                    <span>Criar Ofício</span>
+                </ng-container>
+            </button>
+
+            <button mat-menu-item aria-label="editar tarefa"
+                    (click)="doEditTarefaBloco()">
+                <ng-container>
+                    <mat-icon>edit</mat-icon>
+                    <span>Editar</span>
+                </ng-container>
+            </button>
+
+            <button mat-menu-item aria-label="movimentar"
+                    (click)="doMovimentarBloco()">
+                <ng-container>
+                    <mat-icon>send</mat-icon>
+                    <span>Movimentar</span>
                 </ng-container>
             </button>
 
             <button mat-menu-item aria-label="etiquetar"
-                    (click)="doEtiquetar()">
+                    (click)="doEtiquetarBloco()">
                 <ng-container>
                     <mat-icon>label</mat-icon>
                     <span>Etiquetar</span>
@@ -79,7 +95,7 @@
             </button>
 
             <button mat-menu-item aria-label="compartilhar"
-                    (click)="doCompartilhar()">
+                    (click)="doCompartilharBloco()">
                 <ng-container>
                     <mat-icon>share</mat-icon>
                     <span>Compartilhar</span>
@@ -124,8 +140,14 @@
                           [selected]="selectedIds.length > 0 && selectedIds.indexOf(tarefa.id) > -1"
                           [deleting]="deletingIds.length > 0 && deletingIds.indexOf(tarefa.id) > -1"
                           (toggleInSelectedTarefas)="toggleInSelected($event)"
-                          (delete)="deleteTarefa($event)"
+                          (delete)="doDeleteTarefa($event)"
+                          (movimentar)="doMovimentar($event)"
+                          (compartilhar)="doCompartilhar($event)"
+                          (toggleUrgente)="doToggleUrgente($event)"
                           (createDocumentoAvulso)="doCreateDocumentoAvulso($event)"
+                          (createTarefa)="doCreateTarefa($event)"
+                          (editTarefa)="doEditTarefa($event)"
+                          (editProcesso)="doEditProcesso($event)"
                           [ngClass]="{'selected':tarefa.id === currentTarefaId}"
                           [@animate]="{value:'*',params:{y:'100%'}}">
     </cdk-tarefa-list-item>

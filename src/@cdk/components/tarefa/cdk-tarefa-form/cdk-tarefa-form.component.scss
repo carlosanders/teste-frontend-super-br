@@ -1,4 +1,10 @@
+@import "src/@fuse/scss/fuse";
+
 cdk-tarefa-form {
+
+  .bloco-processos {
+    @include mat-elevation(1);
+  }
 
   .form-card {
     border-radius: 8px;

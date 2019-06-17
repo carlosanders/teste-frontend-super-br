@@ -30,6 +30,7 @@ import {ProcessoService} from '../../../services/processo.service';
 import {CdkSetorAutocompleteModule} from '../../setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
 import {CdkSetorGridsearchModule} from '../../setor/cdk-setor-autocomplete/cdk-setor-gridsearch/cdk-setor-gridsearch.module';
 import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
+import {CdkProcessoGridModule} from '../../processo/cdk-processo-grid/cdk-processo-grid.module';
 
 @NgModule({
     declarations: [
@@ -60,6 +61,8 @@ import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
         CdkProcessoGridsearchModule,
         CdkSetorAutocompleteModule,
         CdkSetorGridsearchModule,
+
+        CdkProcessoGridModule,
 
         FuseSharedModule,
     ],
