@@ -155,7 +155,9 @@ export class CdkSigiloFormComponent implements OnChanges, OnDestroy, OnInit {
     }
 
     selectProcesso(processo: Processo): void {
-        this.form.get('processo').setValue(processo);
+        if (processo) {
+            this.form.get('processo').setValue(processo);
+        }
         this.activeCard = 'form';
     }
 
@@ -171,7 +173,9 @@ export class CdkSigiloFormComponent implements OnChanges, OnDestroy, OnInit {
     }
 
     selectModalidadeCategoriaSigilo(modalidadeCategoriaSigilo: ModalidadeCategoriaSigilo): void {
-        this.form.get('modalidadeCategoriaSigilo').setValue(modalidadeCategoriaSigilo);
+        if (modalidadeCategoriaSigilo) {
+            this.form.get('modalidadeCategoriaSigilo').setValue(modalidadeCategoriaSigilo);
+        }
         this.activeCard = 'form';
     }
 
@@ -191,7 +195,9 @@ export class CdkSigiloFormComponent implements OnChanges, OnDestroy, OnInit {
     }
 
     selectDocumento(documento: Documento): void {
-        this.form.get('documento').setValue(documento);
+        if (documento) {
+            this.form.get('documento').setValue(documento);
+        }
         this.activeCard = 'form';
     }
 
@@ -207,7 +213,9 @@ export class CdkSigiloFormComponent implements OnChanges, OnDestroy, OnInit {
     }
 
     selectTipoSigilo(tipoSigilo: TipoSigilo): void {
-        this.form.get('tipoSigilo').setValue(tipoSigilo);
+        if (tipoSigilo) {
+            this.form.get('tipoSigilo').setValue(tipoSigilo);
+        }
         this.activeCard = 'form';
     }
 
@@ -223,7 +231,9 @@ export class CdkSigiloFormComponent implements OnChanges, OnDestroy, OnInit {
     }
 
     selectOrigemDados(origemDados: OrigemDados): void {
-        this.form.get('origemDados').setValue(origemDados);
+        if (origemDados) {
+            this.form.get('origemDados').setValue(origemDados);
+        }
         this.activeCard = 'form';
     }
 

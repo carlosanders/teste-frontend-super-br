@@ -199,7 +199,7 @@
 <cdk-processo-gridsearch
         fxFlex="1 0 auto"
         *ngIf="activeCard === 'processo-gridsearch'"
-        [filter]="processoPagination.filter"
+        [pagination]="processoPagination.filter"
         (selected)="selectProcesso($event)"
         (cancel)="cancel()">
 </cdk-processo-gridsearch>
@@ -207,7 +207,7 @@
 <cdk-modalidade-categoria-sigilo-gridsearch
         fxFlex="1 0 auto"
         *ngIf="activeCard === 'modalidade-categoria-sigilo-gridsearch'"
-        [filter]="modalidadeCategoriaSigiloPagination.filter"
+        [pagination]="modalidadeCategoriaSigiloPagination.filter"
         (selected)="selectModalidadeCategoriaSigilo($event)"
         (cancel)="cancel()">
 </cdk-modalidade-categoria-sigilo-gridsearch>
@@ -215,7 +215,7 @@
 <cdk-tipo-sigilo-gridsearch
         fxFlex="1 0 auto"
         *ngIf="activeCard === 'tipo-sigilo-gridsearch'"
-        [filter]="tipoSigiloPagination.filter"
+        [pagination]="tipoSigiloPagination.filter"
         (selected)="selectTipoSigilo($event)"
         (cancel)="cancel()">
 </cdk-tipo-sigilo-gridsearch>
@@ -223,7 +223,7 @@
 <cdk-documento-gridsearch
         fxFlex="1 0 auto"
         *ngIf="activeCard === 'documento-gridsearch'"
-        [filter]="documentoPagination.filter"
+        [pagination]="documentoPagination.filter"
         (selected)="selectDocumento($event)"
         (cancel)="cancel()">
 </cdk-documento-gridsearch>
@@ -231,7 +231,7 @@
 <cdk-origem-dados-gridsearch
         fxFlex="1 0 auto"
         *ngIf="activeCard === 'origem-dados-gridsearch'"
-        [filter]="origemDadosPagination.filter"
+        [pagination]="origemDadosPagination.filter"
         (selected)="selectOrigemDados($event)"
         (cancel)="cancel()">
 </cdk-origem-dados-gridsearch>

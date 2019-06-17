@@ -126,7 +126,9 @@ export class CdkDocumentoIdentificadorFormComponent implements OnChanges, OnDest
     }
 
     selectModalidadeDocumentoIdentificador(documentoIdentificador: ModalidadeDocumentoIdentificador): void {
-        this.form.get('modalidadeDocumentoIdentificador').setValue(documentoIdentificador);
+        if (documentoIdentificador) {
+            this.form.get('documentoIdentificador').setValue(documentoIdentificador);
+        }
         this.activeCard = 'form';
     }
 

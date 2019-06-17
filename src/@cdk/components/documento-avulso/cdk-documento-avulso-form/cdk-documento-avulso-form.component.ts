@@ -204,7 +204,9 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
     }
 
     selectEspecieDocumentoAvulso(especieDocumentoAvulso: EspecieDocumentoAvulso): void {
-        this.form.get('especieDocumentoAvulso').setValue(especieDocumentoAvulso);
+        if (especieDocumentoAvulso) {
+            this.form.get('especieDocumentoAvulso').setValue(especieDocumentoAvulso);
+        }
         this.activeCard = 'form';
     }
 
@@ -221,7 +223,9 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
     }
 
     selectProcesso(processo: Processo): void {
-        this.form.get('processo').setValue(processo);
+        if (processo) {
+            this.form.get('processo').setValue(processo);
+        }
         this.activeCard = 'form';
     }
 
@@ -237,7 +241,9 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
     }
 
     selectPessoaDestino(pessoaDestino: Pessoa): void {
-        this.form.get('pessoaDestino').setValue(pessoaDestino);
+        if (pessoaDestino) {
+            this.form.get('pessoaDestino').setValue(pessoaDestino);
+        }
         this.activeCard = 'form';
     }
 
@@ -253,7 +259,9 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
     }
 
     selectSetorDestino(setorDestino: Setor): void {
-        this.form.get('setorDestino').setValue(setorDestino);
+        if (setorDestino) {
+            this.form.get('setorDestino').setValue(setorDestino);
+        }
         this.activeCard = 'form';
     }
 
@@ -269,7 +277,9 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
     }
 
     selectModelo(modelo: Modelo): void {
-        this.form.get('modelo').setValue(modelo);
+        if (modelo) {
+            this.form.get('modelo').setValue(modelo);
+        }
         this.activeCard = 'form';
     }
 

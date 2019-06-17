@@ -173,7 +173,9 @@ export class CdkTramitacaoFormComponent implements OnChanges, OnDestroy, OnInit 
     }
 
     selectProcesso(processo: Processo): void {
-        this.form.get('processo').setValue(processo);
+        if (processo) {
+            this.form.get('processo').setValue(processo);
+        }
         this.activeCard = 'form';
     }
 
@@ -197,7 +199,9 @@ export class CdkTramitacaoFormComponent implements OnChanges, OnDestroy, OnInit 
     }
 
     selectSetorOrigem(setor: Setor): void {
-        this.form.get('setorOrigem').setValue(setor);
+        if (setor) {
+            this.form.get('setorOrigem').setValue(setor);
+        }
         this.activeCard = 'form';
     }
 
@@ -213,7 +217,9 @@ export class CdkTramitacaoFormComponent implements OnChanges, OnDestroy, OnInit 
     }
 
     selectSetorDestino(setor: Setor): void {
-        this.form.get('setorDestino').setValue(setor);
+        if (setor) {
+            this.form.get('setorDestino').setValue(setor);
+        }
         this.activeCard = 'form';
     }
 
@@ -225,7 +231,9 @@ export class CdkTramitacaoFormComponent implements OnChanges, OnDestroy, OnInit 
     }
 
     selectPessoaDestino(pessoaDestino: Pessoa): void {
-        this.form.get('pessoaDestino').setValue(pessoaDestino);
+        if (pessoaDestino) {
+            this.form.get('pessoaDestino').setValue(pessoaDestino);
+        }
         this.activeCard = 'form';
     }
 

@@ -136,7 +136,9 @@ export class CdkVinculacaoProcessoFormComponent implements OnChanges, OnDestroy,
     }
 
     selectProcesso(processo: Processo): void {
-        this.form.get('processo').setValue(processo);
+        if (processo) {
+            this.form.get('processo').setValue(processo);
+        }
         this.activeCard = 'form';
     }
 
@@ -152,7 +154,9 @@ export class CdkVinculacaoProcessoFormComponent implements OnChanges, OnDestroy,
     }
 
     selectProcessoVinculado(processoVinculado: Processo): void {
-        this.form.get('processoVinculado').setValue(processoVinculado);
+        if (processoVinculado) {
+            this.form.get('processoVinculado').setValue(processoVinculado);
+        }
         this.activeCard = 'form';
     }
 
@@ -168,7 +172,9 @@ export class CdkVinculacaoProcessoFormComponent implements OnChanges, OnDestroy,
     }
 
     selectModalidadeVinculacaoProcesso(modalidadeVinculacaoProcesso: ModalidadeVinculacaoProcesso): void {
-        this.form.get('modalidadeVinculacaoProcesso').setValue(modalidadeVinculacaoProcesso);
+        if (modalidadeVinculacaoProcesso) {
+            this.form.get('modalidadeVinculacaoProcesso').setValue(modalidadeVinculacaoProcesso);
+        }
         this.activeCard = 'form';
     }
 

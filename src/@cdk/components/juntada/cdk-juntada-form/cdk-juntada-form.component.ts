@@ -163,7 +163,9 @@ export class CdkJuntadaFormComponent implements OnChanges, OnDestroy, OnInit {
     }
 
     selectDocumento(documento: Documento): void {
-        this.form.get('documento').setValue(documento);
+        if (documento) {
+            this.form.get('documento').setValue(documento);
+        }
         this.activeCard = 'form';
     }
 
@@ -179,7 +181,9 @@ export class CdkJuntadaFormComponent implements OnChanges, OnDestroy, OnInit {
     }
 
     selectOrigemDados(origemDados: OrigemDados): void {
-        this.form.get('origemDados').setValue(origemDados);
+        if (origemDados) {
+            this.form.get('origemDados').setValue(origemDados);
+        }
         this.activeCard = 'form';
     }
 
@@ -199,7 +203,9 @@ export class CdkJuntadaFormComponent implements OnChanges, OnDestroy, OnInit {
     }
 
     selectVolume(volume: Volume): void {
-        this.form.get('volume').setValue(volume);
+        if (volume) {
+            this.form.get('volume').setValue(volume);
+        }
         this.activeCard = 'form';
     }
 
@@ -215,7 +221,9 @@ export class CdkJuntadaFormComponent implements OnChanges, OnDestroy, OnInit {
     }
 
     selectDocumentoAvulso(documentoAvulso: DocumentoAvulso): void {
-        this.form.get('documentoAvulso').setValue(documentoAvulso);
+        if (documentoAvulso) {
+            this.form.get('documentoAvulso').setValue(documentoAvulso);
+        }
         this.activeCard = 'form';
     }
 
@@ -227,7 +235,9 @@ export class CdkJuntadaFormComponent implements OnChanges, OnDestroy, OnInit {
     }
 
     selectAtividade(atividade: Atividade): void {
-        this.form.get('atividade').setValue(atividade);
+        if (atividade) {
+            this.form.get('atividade').setValue(atividade);
+        }
         this.activeCard = 'form';
     }
 
@@ -243,7 +253,9 @@ export class CdkJuntadaFormComponent implements OnChanges, OnDestroy, OnInit {
     }
 
     selectTarefa(tarefa: Tarefa): void {
-        this.form.get('tarefa').setValue(tarefa);
+        if (tarefa) {
+            this.form.get('tarefa').setValue(tarefa);
+        }
         this.activeCard = 'form';
     }
 

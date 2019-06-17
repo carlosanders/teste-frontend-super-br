@@ -4,13 +4,17 @@ import {
     Component,
     Input,
     Output,
-    ViewEncapsulation, EventEmitter
+    ViewEncapsulation,
+    EventEmitter,
+    OnInit
 } from '@angular/core';
 import {of} from 'rxjs';
 
 import {fuseAnimations} from '@fuse/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
+
+import {Pagination} from '@cdk/models/pagination';
 
 import {EspecieAtividadeService} from '@cdk/services/especie-atividade.service';
 import {EspecieAtividade} from '@cdk/models/especie-atividade.model';
@@ -23,10 +27,10 @@ import {EspecieAtividade} from '@cdk/models/especie-atividade.model';
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
 })
-export class CdkEspecieAtividadeGridsearchComponent {
+export class CdkEspecieAtividadeGridsearchComponent implements OnInit {
 
     @Input()
-    filter = {};
+    pagination: Pagination;
 
     @Output()
     selected = new EventEmitter();
@@ -50,24 +54,24 @@ export class CdkEspecieAtividadeGridsearchComponent {
         private _especieAtividadeService: EspecieAtividadeService
     ) {
         this.loading = false;
+        this.pagination = new Pagination();
+    }
+
+    ngOnInit(): void {
+        this.load(this.pagination);
     }
 
     load(params): void {
 
-        params.filter = JSON.stringify(params.filter);
-        params.sort = JSON.stringify(params.sort);
-        params.populate = JSON.stringify(params.populate);
-
         this.loading = true;
 
         this._especieAtividadeService.query(
-            params.filter,
+            JSON.stringify(params.filter),
             params.limit,
             params.offset,
-            params.sort,
-            params.populate)
-            .pipe(
-                finalize(() => this.loading = false),
+            JSON.stringify(params.sort),
+            JSON.stringify(params.populate))
+            .pipe(finalize(() => this.loading = false),
                 catchError(() => of([]))
             ).subscribe(response => {
                 this.especieAtividades = response['entities'];
@@ -78,12 +82,16 @@ export class CdkEspecieAtividadeGridsearchComponent {
 
     reload (params): void {
         params = {
-            ...params,
+            ...this.pagination,
             filter: {
-                ...params.gridFilter,
-                ...this.filter
+                ...this.pagination.filter,
+                ...params.gridFilter
             },
-            populate: ['populateAll']
+            sort: params.sort,
+            populate: [
+                ...this.pagination.populate,
+                ...params.populate
+            ]
         };
         this.load (params);
     }

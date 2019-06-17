@@ -125,7 +125,9 @@ export class CdkVinculacaoUsuarioFormComponent implements OnChanges, OnDestroy, 
     }
 
     selectUsuarioVinculado(usuarioVinculado: Usuario): void {
-        this.form.get('usuarioVinculado').setValue(usuarioVinculado);
+        if (usuarioVinculado) {
+            this.form.get('usuarioVinculado').setValue(usuarioVinculado);
+        }
         this.activeCard = 'form';
     }
 
