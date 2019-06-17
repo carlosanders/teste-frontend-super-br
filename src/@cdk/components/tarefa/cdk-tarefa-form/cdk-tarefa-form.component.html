@@ -40,7 +40,7 @@
             </cdk-processo-grid>
         </div>
 
-        <mat-form-field fxFlex="100">
+        <mat-form-field fxFlex="100" *ngIf="mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditEspecie">
             <div fxLayout="row" fxLayoutAlign="start center">
                 <input matInput placeholder="Espécie de Tarefa"
                        formControlName="especieTarefa"
@@ -61,12 +61,12 @@
             </mat-error>
         </mat-form-field>
 
-        <mat-slide-toggle formControlName="distribuicaoAutomatica"
+        <mat-slide-toggle formControlName="distribuicaoAutomatica" *ngIf="mode === 'regular' || blocoEdit.blocoEditDistribuicao"
                       class="mr-16 mb-16" fxFlex="0 1 auto">
             Distribuição Automática
         </mat-slide-toggle>
 
-        <mat-form-field fxFlex="100">
+        <mat-form-field fxFlex="100" *ngIf="mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditDistribuicao">
             <div fxLayout="row" fxLayoutAlign="start center">
                 <input matInput placeholder="Unidade Responsável"
                        formControlName="unidadeResponsavel"
@@ -90,7 +90,7 @@
             </mat-error>
         </mat-form-field>
 
-        <mat-form-field fxFlex="100" *ngIf="!form.get('setorResponsavel').disabled">
+        <mat-form-field fxFlex="100" *ngIf="!form.get('setorResponsavel').disabled && (mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditDistribuicao)">
             <div fxLayout="row" fxLayoutAlign="start center">
                 <input matInput placeholder="Setor Responsável"
                        formControlName="setorResponsavel"
@@ -114,7 +114,7 @@
             </mat-error>
         </mat-form-field>
 
-        <mat-form-field fxFlex="100" *ngIf="!form.get('usuarioResponsavel').disabled">
+        <mat-form-field fxFlex="100" *ngIf="!form.get('usuarioResponsavel').disabled && (mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditDistribuicao)">
             <div fxLayout="row" fxLayoutAlign="start center">
                 <input matInput placeholder="Usuário Responsável"
                        formControlName="usuarioResponsavel"
@@ -135,13 +135,13 @@
             </mat-error>
         </mat-form-field>
 
-        <mat-slide-toggle formControlName="urgente"
+        <mat-slide-toggle formControlName="urgente" *ngIf="mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditUrgente"
                           class="mr-16 mb-16" fxFlex="0 1 auto">
             Urgente
         </mat-slide-toggle>
 
-        <div class="dates" fxLayout="row">
-            <mat-form-field class="mr-sm-12" fxFlex>
+        <div class="dates" fxLayout="row" *ngIf="mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditInicioPrazo || blocoEdit.blocoEditFinalPrazo">
+            <mat-form-field class="mr-sm-12" fxFlex *ngIf="mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditInicioPrazo">
                 <mat-label>Início do Prazo</mat-label>
                 <input matInput formControlName="dataHoraInicioPrazo" [matDatetimepicker]="dataHoraInicioPrazo"
                        required>
@@ -149,7 +149,7 @@
                 <mat-datetimepicker #dataHoraInicioPrazo type="datetime" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
             </mat-form-field>
 
-            <mat-form-field class="mr-sm-12" fxFlex>
+            <mat-form-field class="mr-sm-12" fxFlex *ngIf="mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditFinalPrazo">
                 <mat-label>Final do Prazo</mat-label>
                 <input matInput formControlName="dataHoraFinalPrazo" [matDatetimepicker]="dataHoraFinalPrazo"
                        required>
@@ -159,7 +159,7 @@
 
         </div>
 
-        <mat-form-field fxFlex="100">
+        <mat-form-field fxFlex="100" *ngIf="mode === 'regular' || mode === 'bloco-create' || mode === 'bloco'">
             <div fxLayout="row" fxLayoutAlign="start center">
                 <input matInput placeholder="Setor Origem"
                        formControlName="setorOrigem"
@@ -183,7 +183,7 @@
             </mat-error>
         </mat-form-field>
 
-        <mat-form-field class="mr-16" fxFlex="1 0 auto">
+        <mat-form-field class="mr-16" fxFlex="1 0 auto" *ngIf="mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditObservacao">
             <textarea formControlName="observacao"
                       matInput placeholder="Observação" upperCase></textarea>
             <mat-error *ngIf="form.get('observacao').hasError('formError')">

@@ -21,8 +21,6 @@ import {CdkUsuarioGridsearchModule} from '../../usuario/cdk-usuario-autocomplete
 import {UsuarioService} from '../../../services/usuario.service';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
-import {CdkSetorAutocompleteModule} from '../../setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
-import {CdkSetorGridsearchModule} from '../../setor/cdk-setor-autocomplete/cdk-setor-gridsearch/cdk-setor-gridsearch.module';
 import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
 
 @NgModule({
@@ -48,8 +46,6 @@ import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
         CdkEspecieAtividadeGridsearchModule,
         CdkUsuarioAutocompleteModule,
         CdkUsuarioGridsearchModule,
-        CdkSetorAutocompleteModule,
-        CdkSetorGridsearchModule,
 
         NgxUpperCaseDirectiveModule,
 

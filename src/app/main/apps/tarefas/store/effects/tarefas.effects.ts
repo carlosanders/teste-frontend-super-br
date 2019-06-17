@@ -164,7 +164,9 @@ export class TarefasEffect {
             .pipe(
                 ofType<TarefasActions.ToggleUrgenteTarefa>(TarefasActions.TOGGLE_URGENTE_TAREFA),
                 mergeMap((action) => {
-                    return this._tarefaService.toggleUrgente(action.payload).pipe(
+                    return this._tarefaService.patch(action.payload, {
+                        urgente: !action.payload.urgente
+                    }).pipe(
                         mergeMap((response) => [
                             new TarefasActions.ToggleUrgenteTarefaSuccess(response.id),
                             new UpdateData<Tarefa>({id: response.id, schema: tarefaSchema, changes: {urgente: response.urgente}})

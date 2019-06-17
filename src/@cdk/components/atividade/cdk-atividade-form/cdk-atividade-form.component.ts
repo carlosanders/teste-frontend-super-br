@@ -12,7 +12,6 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { Atividade } from '@cdk/models/atividade.model';
 import { EspecieAtividade } from '@cdk/models/especie-atividade.model';
 import {Usuario} from '@cdk/models/usuario.model';
-import {Setor} from '@cdk/models/setor.model';
 import {MAT_DATETIME_FORMATS} from '@mat-datetimepicker/core';
 import {Pagination} from '../../../models/pagination';
 
@@ -44,6 +43,9 @@ export class CdkAtividadeFormComponent implements OnChanges, OnDestroy {
     saving: boolean;
 
     @Input()
+    valid = true;
+
+    @Input()
     errors: any;
 
     @Output()
@@ -54,9 +56,6 @@ export class CdkAtividadeFormComponent implements OnChanges, OnDestroy {
 
     @Input()
     usuarioPagination: Pagination;
-
-    @Input()
-    setorPagination: Pagination;
 
     form: FormGroup;
 
@@ -76,14 +75,12 @@ export class CdkAtividadeFormComponent implements OnChanges, OnDestroy {
             'especieAtividade': [null, [Validators.required]],
             'dataHoraConclusao': [null, [Validators.required]],
             'usuario': [null, [Validators.required]],
-            'setor': [null, [Validators.required]],
             'observacao': [null],
             'documento': [null],
             'tarefa': [null]
         });
         this.especieAtividadePagination = new Pagination();
         this.usuarioPagination = new Pagination();
-        this.setorPagination = new Pagination();
 
 
     }
@@ -169,22 +166,6 @@ export class CdkAtividadeFormComponent implements OnChanges, OnDestroy {
 
     showUsuarioGrid(): void {
         this.activeCard = 'usuario-gridsearch';
-    }
-
-    checkSetor(): void {
-        const value = this.form.get('setor').value;
-        if (!value || typeof value !== 'object') {
-            this.form.get('setor').setValue(null);
-        }
-    }
-
-    selectSetor(setor: Setor): void {
-        this.form.get('setor').setValue(setor);
-        this.activeCard = 'form';
-    }
-
-    showSetorGrid(): void {
-        this.activeCard = 'setor-gridsearch';
     }
 
     cancel(): void {

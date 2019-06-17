@@ -73,12 +73,10 @@ export class TarefaService {
         });
     }
 
-    toggleUrgente(tarefa: Tarefa): Observable<Tarefa> {
+    patch(tarefa: Tarefa, changes: any): Observable<Tarefa> {
         return this.http.patch(
             `${environment.api_url}${'tarefa'}/${tarefa.id}` + environment.xdebug,
-            JSON.stringify({
-                urgente: !tarefa.urgente
-            })
+            JSON.stringify(changes)
         ).map(response => {
             response = plainToClass(Tarefa, response);
             Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);

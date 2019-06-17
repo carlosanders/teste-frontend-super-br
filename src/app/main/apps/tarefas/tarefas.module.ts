@@ -60,8 +60,24 @@ const routes: Routes = [
                 loadChildren: './compartilhamento-create-bloco/compartilhamento-create-bloco.module#CompartilhamentoCreateBlocoModule',
             },
             {
+                path: 'atividade-bloco',
+                loadChildren: './atividade-create-bloco/atividade-create-bloco.module#AtividadeCreateBlocoModule',
+            },
+            {
+                path: 'vinculacao-etiqueta-bloco',
+                loadChildren: './vinculacao-etiqueta-create-bloco/vinculacao-etiqueta-create-bloco.module#VinculacaoEtiquetaCreateBlocoModule',
+            },
+            {
                 path: 'tarefa-bloco',
                 loadChildren: './tarefa-create-bloco/tarefa-create-bloco.module#TarefaCreateBlocoModule',
+            },
+            {
+                path: 'tarefa-edit-bloco',
+                loadChildren: './tarefa-edit-bloco/tarefa-edit-bloco.module#TarefaEditBlocoModule',
+            },
+            {
+                path: 'documento-avulso-bloco',
+                loadChildren: './documento-avulso-create-bloco/documento-avulso-create-bloco.module#DocumentoAvulsoCreateBlocoModule',
             }
         ],
         canActivate: [fromGuards.ResolveGuard]

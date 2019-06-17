@@ -54,6 +54,12 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
     @Input()
     config: any;
 
+    @Input()
+    mode = 'regular';
+
+    @Input()
+    valid = true;
+
     @Output()
     save = new EventEmitter<DocumentoAvulso>();
 
@@ -85,7 +91,7 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
 
     activeCard = 'form';
 
-    setorFilter: any;
+    processos: Processo[] = [];
 
     /**
      * Constructor
@@ -97,6 +103,8 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
 
         this.form = this._formBuilder.group({
             'id': [null],
+            'blocoProcessos': [null],
+            'processos': [null],
             'processo': [null],
             'tarefaOrigem': [null],
             'urgente': [null],
@@ -147,6 +155,18 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
             )
         ).subscribe();
 
+        this.form.get('processo').valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((value) => {
+                    if (value && typeof value === 'object' && this.form.get('blocoProcessos').value) {
+                        this.processos.push(value);
+                        this._changeDetectorRef.markForCheck();
+                    }
+                    return of([]);
+                }
+            )
+        ).subscribe();
     }
 
     /**
@@ -192,8 +212,16 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
     // -----------------------------------------------------------------------------------------------------
     submit(): void {
         if (this.form.valid) {
+            if (this.form.get('blocoProcessos').value) {
+                this.form.get('processos').setValue(this.processos);
+            }
             this.save.emit(this.form.value);
         }
+    }
+
+    deleteProcessos(processoId): void {
+        this.processos = this.processos.filter(processo => processo.id !== processoId);
+        this._changeDetectorRef.markForCheck();
     }
 
     checkEspecieDocumentoAvulso(): void {
