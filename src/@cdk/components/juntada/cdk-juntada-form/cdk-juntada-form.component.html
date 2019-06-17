@@ -174,7 +174,7 @@
 <cdk-documento-gridsearch
         fxFlex="1 0 auto"
         *ngIf="activeCard === 'documento-gridsearch'"
-        [filter]="documentoPagination.filter"
+        [pagination]="documentoPagination.filter"
         (selected)="selectDocumento($event)"
         (cancel)="cancel()">
 </cdk-documento-gridsearch>
@@ -182,7 +182,7 @@
 <cdk-origem-dados-gridsearch
         fxFlex="1 0 auto"
         *ngIf="activeCard === 'origem-dados-gridsearch'"
-        [filter]="origemDadosPagination.filter"
+        [pagination]="origemDadosPagination.filter"
         (selected)="selectOrigemDados($event)"
         (cancel)="cancel()">
 </cdk-origem-dados-gridsearch>
@@ -190,7 +190,7 @@
 <cdk-volume-gridsearch
         fxFlex="1 0 auto"
         *ngIf="activeCard === 'volume-gridsearch'"
-        [filter]="volumePagination.filter"
+        [pagination]="volumePagination.filter"
         (selected)="selectVolume($event)"
         (cancel)="cancel()">
 </cdk-volume-gridsearch>
@@ -198,7 +198,7 @@
 <cdk-documento-avulso-gridsearch
         fxFlex="1 0 auto"
         *ngIf="activeCard === 'documento-avulso-gridsearch'"
-        [filter]="documentoAvulsoPagination.filter"
+        [pagination]="documentoAvulsoPagination.filter"
         (selected)="selectDocumentoAvulso($event)"
         (cancel)="cancel()">
 </cdk-documento-avulso-gridsearch>
@@ -206,7 +206,7 @@
 <cdk-atividade-gridsearch
         fxFlex="1 0 auto"
         *ngIf="activeCard === 'atividade-gridsearch'"
-        [filter]="atividadePagination.filter"
+        [pagination]="atividadePagination.filter"
         (selected)="selectAtividade($event)"
         (cancel)="cancel()">
 </cdk-atividade-gridsearch>
@@ -214,7 +214,7 @@
 <cdk-tarefa-gridsearch
         fxFlex="1 0 auto"
         *ngIf="activeCard === 'tarefa-gridsearch'"
-        [filter]="tarefaPagination.filter"
+        [pagination]="tarefaPagination.filter"
         (selected)="selectTarefa($event)"
         (cancel)="cancel()">
 </cdk-tarefa-gridsearch>

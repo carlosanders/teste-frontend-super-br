@@ -136,7 +136,9 @@ export class CdkEnderecoFormComponent implements OnChanges, OnDestroy {
     }
 
     selectMunicipio(municipio: Municipio): void {
-        this.form.get('municipio').setValue(municipio);
+        if (municipio) {
+            this.form.get('municipio').setValue(municipio);
+        }
         this.activeCard = 'form';
     }
 
@@ -145,7 +147,9 @@ export class CdkEnderecoFormComponent implements OnChanges, OnDestroy {
     }
 
     selectPais(pais: Pais): void {
-        this.form.get('pais').setValue(pais);
+        if (pais) {
+            this.form.get('pais').setValue(pais);
+        }
         this.activeCard = 'form';
     }
 

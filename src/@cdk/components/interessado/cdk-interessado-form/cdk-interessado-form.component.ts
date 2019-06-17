@@ -137,7 +137,9 @@ export class CdkInteressadoFormComponent implements OnChanges, OnDestroy {
     }
 
     selectModalidadeInteressado(modalidadeInteressado: ModalidadeInteressado): void {
-        this.form.get('modalidadeInteressado').setValue(modalidadeInteressado);
+        if (modalidadeInteressado) {
+            this.form.get('modalidadeInteressado').setValue(modalidadeInteressado);
+        }
         this.textoPesquisa = 'Nome';
         this.activeCard = 'form';
     }
@@ -147,7 +149,9 @@ export class CdkInteressadoFormComponent implements OnChanges, OnDestroy {
     }
 
     selectPessoa(pessoa: Pessoa): void {
-        this.form.get('pessoa').setValue(pessoa);
+        if (pessoa) {
+            this.form.get('pessoa').setValue(pessoa);
+        }
         this.textoPesquisa = 'Nome';
         this.activeCard = 'form';
     }

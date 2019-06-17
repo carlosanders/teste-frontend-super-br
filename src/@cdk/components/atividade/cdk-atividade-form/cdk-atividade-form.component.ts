@@ -144,7 +144,9 @@ export class CdkAtividadeFormComponent implements OnChanges, OnDestroy {
     }
 
     selectEspecieAtividade(especieAtividade: EspecieAtividade): void {
-        this.form.get('especieAtividade').setValue(especieAtividade);
+        if (especieAtividade) {
+            this.form.get('especieAtividade').setValue(especieAtividade);
+        }
         this.activeCard = 'form';
     }
 
@@ -160,7 +162,9 @@ export class CdkAtividadeFormComponent implements OnChanges, OnDestroy {
     }
 
     selectUsuario(usuario: Usuario): void {
-        this.form.get('usuario').setValue(usuario);
+        if (usuario) {
+            this.form.get('usuario').setValue(usuario);
+        }
         this.activeCard = 'form';
     }
 

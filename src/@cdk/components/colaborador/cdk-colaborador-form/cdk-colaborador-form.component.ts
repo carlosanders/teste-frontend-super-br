@@ -142,7 +142,9 @@ export class CdkColaboradorFormComponent implements OnChanges, OnDestroy {
     }
 
     selectModalidadeColaborador(modalidadeColaborador: ModalidadeColaborador): void {
-        this.form.get('modalidadeColaborador').setValue(modalidadeColaborador);
+        if (modalidadeColaborador) {
+            this.form.get('modalidadeColaborador').setValue(modalidadeColaborador);
+        }
         this.activeCard = 'form';
     }
 
@@ -151,7 +153,9 @@ export class CdkColaboradorFormComponent implements OnChanges, OnDestroy {
     }
 
     selectCargo(cargo: Cargo): void {
-        this.form.get('cargo').setValue(cargo);
+        if (cargo) {
+            this.form.get('cargo').setValue(cargo);
+        }
         this.activeCard = 'form';
     }
 
@@ -160,7 +164,9 @@ export class CdkColaboradorFormComponent implements OnChanges, OnDestroy {
     }
 
     selectUsuario(usuario: Usuario): void {
-        this.form.get('usuario').setValue(usuario);
+        if (usuario) {
+            this.form.get('usuario').setValue(usuario);
+        }
         this.activeCard = 'form';
     }
 

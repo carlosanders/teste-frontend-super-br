@@ -121,7 +121,9 @@ export class CdkCompartilhamentoFormComponent implements OnChanges, OnDestroy {
     }
 
     selectUsuario(usuario: Usuario): void {
-        this.form.get('usuario').setValue(usuario);
+        if (usuario) {
+            this.form.get('usuario').setValue(usuario);
+        }
         this.activeCard = 'form';
     }
 

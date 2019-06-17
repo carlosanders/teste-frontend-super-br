@@ -98,7 +98,7 @@
 <cdk-processo-gridsearch
         fxFlex="1 0 auto"
         *ngIf="activeCard === 'processo-gridsearch'"
-        [filter]="processoPagination.filter"
+        [pagination]="processoPagination.filter"
         (selected)="selectProcesso($event)"
         (cancel)="cancel()">
 </cdk-processo-gridsearch>
@@ -106,7 +106,7 @@
 <cdk-modalidade-transicao-gridsearch
         fxFlex="1 0 auto"
         *ngIf="activeCard === 'modalidade-transicao-gridsearch'"
-        [filter]="modalidadeTransicaoPagination.filter"
+        [pagination]="modalidadeTransicaoPagination.filter"
         (selected)="selectModalidadeTransicao($event)"
         (cancel)="cancel()">
 </cdk-modalidade-transicao-gridsearch>

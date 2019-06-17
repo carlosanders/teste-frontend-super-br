@@ -132,7 +132,9 @@ export class CdkTransicaoFormComponent implements OnChanges, OnDestroy, OnInit {
     }
 
     selectProcesso(processo: Processo): void {
-        this.form.get('processo').setValue(processo);
+        if (processo) {
+            this.form.get('processo').setValue(processo);
+        }
         this.activeCard = 'form';
     }
 
@@ -152,7 +154,9 @@ export class CdkTransicaoFormComponent implements OnChanges, OnDestroy, OnInit {
     }
 
     selectModalidadeTransicao(modalidadeTransicao: ModalidadeTransicao): void {
-        this.form.get('modalidadeTransicao').setValue(modalidadeTransicao);
+        if (modalidadeTransicao) {
+            this.form.get('modalidadeTransicao').setValue(modalidadeTransicao);
+        }
         this.activeCard = 'form';
     }
 

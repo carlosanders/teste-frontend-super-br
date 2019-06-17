@@ -4,7 +4,7 @@ import {
     Component,
     Input,
     Output,
-    ViewEncapsulation, EventEmitter
+    ViewEncapsulation, EventEmitter, OnInit
 } from '@angular/core';
 import {of} from 'rxjs';
 
@@ -14,6 +14,7 @@ import {catchError, finalize} from 'rxjs/operators';
 
 import {AreaTrabalhoService} from '@cdk/services/area-trabalho.service';
 import {AreaTrabalho} from '@cdk/models/area-trabalho.model';
+import {Pagination} from '@cdk/models/pagination';
 
 @Component({
     selector: 'cdk-area-trabalho-gridsearch',
@@ -23,10 +24,10 @@ import {AreaTrabalho} from '@cdk/models/area-trabalho.model';
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
 })
-export class CdkAreaTrabalhoGridsearchComponent {
+export class CdkAreaTrabalhoGridsearchComponent implements OnInit {
 
     @Input()
-    filter = {};
+    pagination: Pagination;
 
     @Output()
     selected = new EventEmitter();
@@ -50,22 +51,22 @@ export class CdkAreaTrabalhoGridsearchComponent {
         private _areaTrabalhoService: AreaTrabalhoService
     ) {
         this.loading = false;
+        this.pagination = new Pagination();
+    }
+
+    ngOnInit(): void {
+        this.load(this.pagination);
     }
 
     load(params): void {
 
-        params.filter = JSON.stringify(params.filter);
-        params.sort = JSON.stringify(params.sort);
-        params.populate = JSON.stringify(params.populate);
-
         this.loading = true;
-
         this._areaTrabalhoService.query(
-            params.filter,
+            JSON.stringify(params.filter),
             params.limit,
             params.offset,
-            params.sort,
-            params.populate)
+            JSON.stringify(params.sort),
+            JSON.stringify(params.populate))
             .pipe(
                 finalize(() => this.loading = false),
                 catchError(() => of([]))
@@ -76,16 +77,20 @@ export class CdkAreaTrabalhoGridsearchComponent {
         });
     }
 
-    reload(params): void {
+   reload (params): void {
         params = {
-            ...params,
+            ...this.pagination,
             filter: {
-                ...params.gridFilter,
-                ...this.filter
+                ...this.pagination.filter,
+                ...params.gridFilter
             },
-            populate: ['populateAll']
+            sort: params.sort,
+            populate: [
+                ...this.pagination.populate,
+                ...params.populate
+            ]
         };
-        this.load(params);
+        this.load (params);
     }
 
     select(areaTrabalho): void {

@@ -210,17 +210,17 @@
 </form>
 
 <cdk-processo-gridsearch
-    fxFlex="1 0 auto"
-    *ngIf="activeCard === 'processo-gridsearch'"
-    [filter]="processoPagination.filter"
-    (selected)="selectProcesso($event)"
-    (cancel)="cancel()">
+        fxFlex="1 0 auto"
+        *ngIf="activeCard === 'processo-gridsearch'"
+        [pagination]="processoPagination.filter"
+        (selected)="selectProcesso($event)"
+        (cancel)="cancel()">
 </cdk-processo-gridsearch>
 
 <cdk-especie-tarefa-gridsearch
         fxFlex="1 0 auto"
         *ngIf="activeCard === 'especie-tarefa-gridsearch'"
-        [filter]="especieTarefaPagination.filter"
+        [pagination]="especieTarefaPagination"
         (selected)="selectEspecieTarefa($event)"
         (cancel)="cancel()">
 </cdk-especie-tarefa-gridsearch>
@@ -228,32 +228,31 @@
 <cdk-setor-gridsearch
         fxFlex="1 0 auto"
         *ngIf="activeCard === 'unidade-gridsearch'"
-        [filter]="unidadeResponsavelPagination.filter"
+        [pagination]="unidadeResponsavelPagination.filter"
         (selected)="selectUnidadeResponsavel($event)"
         (cancel)="cancel()">
 </cdk-setor-gridsearch>
 
 <cdk-setor-gridsearch
-    fxFlex="1 0 auto"
-    *ngIf="activeCard === 'setor-gridsearch'"
-    [filter]="setorResponsavelPagination.filter"
-    (selected)="selectSetorResponsavel($event)"
-    (cancel)="cancel()">
+        fxFlex="1 0 auto"
+        *ngIf="activeCard === 'setor-gridsearch'"
+        [pagination]="setorResponsavelPagination.filter"
+        (selected)="selectSetorResponsavel($event)"
+        (cancel)="cancel()">
 </cdk-setor-gridsearch>
 
 <cdk-usuario-gridsearch
-    fxFlex="1 0 auto"
-    *ngIf="activeCard === 'usuario-gridsearch'"
-    [filter]="usuarioResponsavelPagination.filter"
-    (selected)="selectUsuario($event)"
-    [filter] = "setorFilter"
-    (cancel)="cancel()">
+        fxFlex="1 0 auto"
+        *ngIf="activeCard === 'usuario-gridsearch'"
+        [pagination]="usuarioResponsavelPagination.filter"
+        (selected)="selectUsuario($event)"
+        (cancel)="cancel()">
 </cdk-usuario-gridsearch>
 
 <cdk-setor-gridsearch
-    fxFlex="1 0 auto"
-    *ngIf="activeCard === 'setor-origem-gridsearch'"
-    [filter]="setorOrigemPagination.filter"
-    (selected)="selectSetorOrigem($event)"
-    (cancel)="cancel()">
+        fxFlex="1 0 auto"
+        *ngIf="activeCard === 'setor-origem-gridsearch'"
+        [pagination]="setorOrigemPagination.filter"
+        (selected)="selectSetorOrigem($event)"
+        (cancel)="cancel()">
 </cdk-setor-gridsearch>
