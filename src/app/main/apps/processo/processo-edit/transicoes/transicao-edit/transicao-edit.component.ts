@@ -49,7 +49,6 @@ export class TransicaoEditComponent implements OnInit, OnDestroy {
         this.processo$ = this._store.pipe(select(getProcesso));
 
         this.modalidadeTransicaoPagination = new Pagination();
-        this.modalidadeTransicaoPagination.populate = ['parent'];
     }
 
     // -----------------------------------------------------------------------------------------------------

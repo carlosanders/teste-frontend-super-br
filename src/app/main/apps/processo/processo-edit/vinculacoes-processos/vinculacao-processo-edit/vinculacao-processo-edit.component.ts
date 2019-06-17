@@ -15,7 +15,6 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {Processo} from '@cdk/models/processo.model';
 import {getProcesso} from '../../../store/selectors';
-import {Pagination} from '@cdk/models/pagination';
 
 @Component({
     selector: 'vinculacao-processo-edit',
@@ -35,8 +34,6 @@ export class VinculacaoProcessoEditComponent implements OnInit, OnDestroy {
     processo$: Observable<Processo>;
     processo: Processo;
 
-    vinculacaoProcessoAdministrativoPagination: Pagination;
-
     /**
      * @param _store
      */
@@ -47,9 +44,6 @@ export class VinculacaoProcessoEditComponent implements OnInit, OnDestroy {
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.vinculacaoProcesso$ = this._store.pipe(select(fromStore.getVinculacaoProcesso));
         this.processo$ = this._store.pipe(select(getProcesso));
-
-        this.vinculacaoProcessoAdministrativoPagination = new Pagination();
-        this.vinculacaoProcessoAdministrativoPagination.populate = ['parent'];
     }
 
     // -----------------------------------------------------------------------------------------------------

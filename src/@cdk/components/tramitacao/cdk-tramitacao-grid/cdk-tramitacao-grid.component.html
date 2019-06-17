@@ -1,7 +1,7 @@
 <!-- CONTENT HEADER -->
-<div class="header" fxLayout="column">
+<div class="header" fxLayout="column" *ngIf="showFilter">
 
-    <div class="filters" *ngIf="showFilter">
+    <div class="filters">
         <cdk-tramitacao-grid-filter (selected)="setGridFilter($event)"></cdk-tramitacao-grid-filter>
     </div>
 </div>
@@ -74,15 +74,6 @@
                     [ngClass]="{'deleted':deletedIds?.indexOf(tramitacao.id) > -1}"> {{tramitacao.id}} </td>
             </ng-container>
 
-            <!-- Observacao Column -->
-            <ng-container matColumnDef="observacao">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="100" fxLayoutAlign="start center">
-                    Observação
-                </th>
-                <td mat-cell *matCellDef="let tramitacao" fxFlex="100" fxLayoutAlign="start center"
-                    [ngClass]="{'deleted':deletedIds?.indexOf(tramitacao.id) > -1}"> {{tramitacao.observacao}} </td>
-            </ng-container>
-
             <!-- Urgente Column -->
             <ng-container matColumnDef="urgente">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
@@ -90,15 +81,6 @@
                 </th>
                 <td mat-cell *matCellDef="let tramitacao" fxFlex="30" fxLayoutAlign="start center"
                     [ngClass]="{'deleted':deletedIds?.indexOf(tramitacao.id) > -1}"> {{tramitacao.urgente}} </td>
-            </ng-container>
-
-            <!-- Processo Column -->
-            <ng-container matColumnDef="processo.descricao">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
-                    Processo
-                </th>
-                <td mat-cell *matCellDef="let tramitacao" fxFlex="30" fxLayoutAlign="start center"
-                    [ngClass]="{'deleted':deletedIds?.indexOf(tramitacao.id) > -1}"> {{tramitacao.processo.descricao}} </td>
             </ng-container>
 
             <!-- SetorOrigem Column -->
@@ -116,16 +98,16 @@
                     Setor de Destino
                 </th>
                 <td mat-cell *matCellDef="let tramitacao" fxFlex="30" fxLayoutAlign="start center"
-                    [ngClass]="{'deleted':deletedIds?.indexOf(tramitacao.id) > -1}"> {{tramitacao.setorDestino.nome}} </td>
+                    [ngClass]="{'deleted':deletedIds?.indexOf(tramitacao.id) > -1}"> {{tramitacao.setorDestino?.nome}} </td>
             </ng-container>
 
             <!-- PessoaDestino Column -->
             <ng-container matColumnDef="pessoaDestino.nome">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
-                    Pessoa de Destino.nome
+                    Pessoa Destinatária
                 </th>
                 <td mat-cell *matCellDef="let tramitacao" fxFlex="30" fxLayoutAlign="start center"
-                    [ngClass]="{'deleted':deletedIds?.indexOf(tramitacao.id) > -1}"> {{tramitacao.pessoaDestino.nome}} </td>
+                    [ngClass]="{'deleted':deletedIds?.indexOf(tramitacao.id) > -1}"> {{tramitacao.pessoaDestino?.nome}} </td>
             </ng-container>
 
             <!-- DataHoraRecebimento Column -->
@@ -140,10 +122,19 @@
             <!-- UsuarioRecebimento Column -->
             <ng-container matColumnDef="usuarioRecebimento.nome">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
-                    Usuario que Recebeu
+                    Usuário Recebimento
                 </th>
                 <td mat-cell *matCellDef="let tramitacao" fxFlex="30" fxLayoutAlign="start center"
-                    [ngClass]="{'deleted':deletedIds?.indexOf(tramitacao.id) > -1}"> {{usuarioRecebimento.nome}} </td>
+                    [ngClass]="{'deleted':deletedIds?.indexOf(tramitacao.id) > -1}"> {{tramitacao.usuarioRecebimento?.nome}} </td>
+            </ng-container>
+
+            <!-- Observacao Column -->
+            <ng-container matColumnDef="observacao">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="100" fxLayoutAlign="start center">
+                    Observação
+                </th>
+                <td mat-cell *matCellDef="let tramitacao" fxFlex="100" fxLayoutAlign="start center"
+                    [ngClass]="{'deleted':deletedIds?.indexOf(tramitacao.id) > -1}"> {{tramitacao.observacao}} </td>
             </ng-container>
 
             <!-- Actions Column -->

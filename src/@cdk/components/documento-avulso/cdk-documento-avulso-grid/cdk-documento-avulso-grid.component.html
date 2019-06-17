@@ -1,7 +1,7 @@
 <!-- CONTENT HEADER -->
-<div class="header" fxLayout="column">
+<div class="header" fxLayout="column" *ngIf="showFilter">
 
-    <div class="filters" *ngIf="showFilter">
+    <div class="filters">
         <cdk-documento-avulso-grid-filter (selected)="setGridFilter($event)"></cdk-documento-avulso-grid-filter>
     </div>
 </div>

@@ -1,7 +1,7 @@
 <!-- CONTENT HEADER -->
-<div class="header" fxLayout="column">
+<div class="header" fxLayout="column" *ngIf="showFilter">
 
-    <div class="filters" *ngIf="showFilter">
+    <div class="filters">
         <cdk-transicao-grid-filter (selected)="setGridFilter($event)"></cdk-transicao-grid-filter>
     </div>
 </div>
@@ -74,15 +74,6 @@
                     [ngClass]="{'deleted':deletedIds?.indexOf(transicao.id) > -1}"> {{transicao.id}} </td>
             </ng-container>
 
-            <!-- Processo Column -->
-            <ng-container matColumnDef="processo">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="100" fxLayoutAlign="start center">
-                    Processo
-                </th>
-                <td mat-cell *matCellDef="let transicao" fxFlex="100" fxLayoutAlign="start center"
-                    [ngClass]="{'deleted':deletedIds?.indexOf(transicao.id) > -1}"> {{transicao.processo}} </td>
-            </ng-container>
-
             <!-- ModalidadeTransicao Column -->
             <ng-container matColumnDef="modalidadeTransicao.valor">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
@@ -90,15 +81,6 @@
                 </th>
                 <td mat-cell *matCellDef="let transicao" fxFlex="30" fxLayoutAlign="start center"
                     [ngClass]="{'deleted':deletedIds?.indexOf(transicao.id) > -1}"> {{transicao.modalidadeTransicao.valor}} </td>
-            </ng-container>
-
-            <!-- Observacao Column -->
-            <ng-container matColumnDef="observacao">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
-                    Observação
-                </th>
-                <td mat-cell *matCellDef="let transicao" fxFlex="30" fxLayoutAlign="start center"
-                    [ngClass]="{'deleted':deletedIds?.indexOf(transicao.id) > -1}"> {{transicao.municipio.nome}} </td>
             </ng-container>
 
             <!-- Metodo Column -->
@@ -117,6 +99,15 @@
                 </th>
                 <td mat-cell *matCellDef="let transicao" fxFlex="30" fxLayoutAlign="start center"
                     [ngClass]="{'deleted':deletedIds?.indexOf(transicao.id) > -1}"> {{transicao.edital}} </td>
+            </ng-container>
+
+            <!-- Observacao Column -->
+            <ng-container matColumnDef="observacao">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
+                    Observação
+                </th>
+                <td mat-cell *matCellDef="let transicao" fxFlex="30" fxLayoutAlign="start center"
+                    [ngClass]="{'deleted':deletedIds?.indexOf(transicao.id) > -1}"> {{transicao.observacao}} </td>
             </ng-container>
 
             <!-- Actions Column -->

@@ -1,7 +1,7 @@
 <!-- CONTENT HEADER -->
-<div class="header" fxLayout="column">
+<div class="header" fxLayout="column" *ngIf="showFilter">
 
-    <div class="filters" *ngIf="showFilter">
+    <div class="filters">
         <cdk-sigilo-grid-filter (selected)="setGridFilter($event)"></cdk-sigilo-grid-filter>
     </div>
 </div>
@@ -74,22 +74,40 @@
                     [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.id}} </td>
             </ng-container>
 
-            <!-- Desclassificado Column -->
-            <ng-container matColumnDef="desclassificado">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="100" fxLayoutAlign="start center">
-                    Desclassificado
-                </th>
-                <td mat-cell *matCellDef="let sigilo" fxFlex="100" fxLayoutAlign="start center"
-                    [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.desclassificado}} </td>
-            </ng-container>
-
-            <!-- Observacao Column -->
-            <ng-container matColumnDef="observacao">
+            <!-- TipoSigilo Column -->
+            <ng-container matColumnDef="tipoSigilo.nome">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
-                    Observacao
+                    Tipo
                 </th>
                 <td mat-cell *matCellDef="let sigilo" fxFlex="30" fxLayoutAlign="start center"
-                    [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.observacao}} </td>
+                    [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.tipoSigilo.nome}} </td>
+            </ng-container>
+
+            <!-- RazoesClassificacaoSigilo Column -->
+            <ng-container matColumnDef="razoesClassificacaoSigilo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
+                    Razões de Classificação
+                </th>
+                <td mat-cell *matCellDef="let sigilo" fxFlex="30" fxLayoutAlign="start center"
+                    [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.razoesClassificacaoSigilo}} </td>
+            </ng-container>
+
+            <!-- DataHoraExpiracao Column -->
+            <ng-container matColumnDef="dataHoraExpiracao">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
+                    Data de Início
+                </th>
+                <td mat-cell *matCellDef="let sigilo" fxFlex="30" fxLayoutAlign="start center"
+                    [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.dataHoraInicioSigilo | date: 'dd/MM/yyyy H:mm'}} </td>
+            </ng-container>
+
+            <!-- DataHoraValidadeSigilo Column -->
+            <ng-container matColumnDef="dataHoraValidadeSigilo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
+                    Data de Validade
+                </th>
+                <td mat-cell *matCellDef="let sigilo" fxFlex="30" fxLayoutAlign="start center"
+                    [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.dataHoraValidadeSigilo | date: 'dd/MM/yyyy H:mm'}} </td>
             </ng-container>
 
             <!-- FundamentoLegal Column -->
@@ -101,67 +119,34 @@
                     [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.fundamentoLegal}} </td>
             </ng-container>
 
-            <!-- RazoesClassificacaoSigilo Column -->
-            <ng-container matColumnDef="razoesClassificacaoSigilo">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
-                    Razoes de Classificacao do Sigilo
-                </th>
-                <td mat-cell *matCellDef="let sigilo" fxFlex="30" fxLayoutAlign="start center"
-                    [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.razoesClassificacaoSigilo}} </td>
-            </ng-container>
-
-            <!-- DataHoraValidadeSigilo Column -->
-            <ng-container matColumnDef="dataHoraValidadeSigilo">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
-                    Data de Validade do Sigilo
-                </th>
-                <td mat-cell *matCellDef="let sigilo" fxFlex="30" fxLayoutAlign="start center"
-                    [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.dataHoraValidadeSigilo}} </td>
-            </ng-container>
-
-            <!-- DataHoraExpiracao Column -->
-            <ng-container matColumnDef="dataHoraExpiracao">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
-                    Data de Expiração
-                </th>
-                <td mat-cell *matCellDef="let sigilo" fxFlex="30" fxLayoutAlign="start center"
-                    [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.dataHoraExpiracao}} </td>
-            </ng-container>
-
-            <!-- TipoSigilo Column -->
-            <ng-container matColumnDef="tipoSigilo.nome">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
-                    Tipo do Sigilo
-                </th>
-                <td mat-cell *matCellDef="let sigilo" fxFlex="30" fxLayoutAlign="start center"
-                    [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.tipoSigilo.nome}} </td>
-            </ng-container>
-
-            <!-- Processo.NUP Column -->
-            <ng-container matColumnDef="processo.NUP">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
-                    NUP
-                </th>
-                <td mat-cell *matCellDef="let sigilo" fxFlex="30" fxLayoutAlign="start center"
-                    [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.processo.NUP}} </td>
-            </ng-container>
-
             <!-- Modalidade do Sigilo Column -->
             <ng-container matColumnDef="modalidadeCategoriaSigilo.valor">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
-                    Modalidade do Sigilo
+                    Categoria
                 </th>
                 <td mat-cell *matCellDef="let sigilo" fxFlex="30" fxLayoutAlign="start center"
                     [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.modalidadeCategoriaSigilo.valor}} </td>
             </ng-container>
 
-            <!-- Documento Column -->
-            <ng-container matColumnDef="documento.descricaoOutros">
+            <!-- Principal Column -->
+            <ng-container matColumnDef="desclassificado">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="15" fxLayoutAlign="start center">
+                    Desclassificado
+                </th>
+                <td mat-cell *matCellDef="let sigilo" fxFlex="15" fxLayoutAlign="start center">
+                    <mat-checkbox
+                            [disabled]="true"
+                            [checked]="sigilo.desclassificado"></mat-checkbox>
+                </td>
+            </ng-container>
+
+            <!-- Observacao Column -->
+            <ng-container matColumnDef="observacao">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
-                    Documento
+                    Observação
                 </th>
                 <td mat-cell *matCellDef="let sigilo" fxFlex="30" fxLayoutAlign="start center"
-                    [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.documento.descricaoOutros}} </td>
+                    [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.observacao}} </td>
             </ng-container>
 
             <!-- OrigemDados Column -->
@@ -170,7 +155,7 @@
                     Origem de Dados
                 </th>
                 <td mat-cell *matCellDef="let sigilo" fxFlex="30" fxLayoutAlign="start center"
-                    [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.origemDados.servico}} </td>
+                    [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.origemDados?.fonteDados}} </td>
             </ng-container>
 
             <!-- Actions Column -->

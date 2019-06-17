@@ -36,7 +36,7 @@ export class CdkTramitacaoGridComponent implements AfterViewInit, OnInit, OnChan
     total = 0;
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'observacao', 'urgente', 'processo.descricao', 'setorOrigem.nome', 'setorDestino.nome',
+    displayedColumns: string[] = ['select', 'id', 'observacao', 'urgente', 'setorOrigem.nome', 'setorDestino.nome',
         'pessoaDestino.nome', 'dataHoraRecebimento', 'usuarioRecebimento.nome', 'actions'];
 
     @Input()
