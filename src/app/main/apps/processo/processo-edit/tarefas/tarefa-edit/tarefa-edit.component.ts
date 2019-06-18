@@ -49,7 +49,6 @@ export class TarefaEditComponent implements OnInit, OnDestroy {
         this.processo$ = this._store.pipe(select(getProcesso));
 
         this.especieTarefaPagination = new Pagination();
-        this.especieTarefaPagination.populate = ['parent'];
     }
 
     // -----------------------------------------------------------------------------------------------------
