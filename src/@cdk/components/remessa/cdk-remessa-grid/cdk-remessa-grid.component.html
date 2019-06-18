@@ -2,7 +2,7 @@
 <div class="header" fxLayout="column" *ngIf="showFilter">
 
     <div class="filters">
-        <cdk-tramitacao-grid-filter (selected)="setGridFilter($event)"></cdk-tramitacao-grid-filter>
+        <cdk-remessa-grid-filter (selected)="setGridFilter($event)"></cdk-remessa-grid-filter>
     </div>
 </div>
 <!-- / CONTENT HEADER -->
@@ -95,13 +95,13 @@
                     [ngClass]="{'deleted':deletedIds?.indexOf(tramitacao.id) > -1}"> {{tramitacao.setorOrigem.nome}} </td>
             </ng-container>
 
-            <!-- SetorDestino Column -->
-            <ng-container matColumnDef="setorDestino.nome">
+            <!-- PessoaDestino Column -->
+            <ng-container matColumnDef="pessoaDestino.nome">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
-                    Setor de Destino
+                    Órgão/Pessoa de Destino
                 </th>
                 <td mat-cell *matCellDef="let tramitacao" fxFlex="30" fxLayoutAlign="start center"
-                    [ngClass]="{'deleted':deletedIds?.indexOf(tramitacao.id) > -1}"> {{tramitacao.setorDestino?.nome}} </td>
+                    [ngClass]="{'deleted':deletedIds?.indexOf(tramitacao.id) > -1}"> {{tramitacao.pessoaDestino?.nome}} </td>
             </ng-container>
 
             <!-- DataHoraRecebimento Column -->

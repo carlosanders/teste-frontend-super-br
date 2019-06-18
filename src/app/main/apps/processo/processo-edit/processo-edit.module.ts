@@ -55,6 +55,10 @@ const routes: Routes = [
                 loadChildren: './tramitacoes/tramitacoes.module#TramitacoesModule'
             },
             {
+                path       : 'remessas',
+                loadChildren: './remessas/remessas.module#RemessasModule'
+            },
+            {
                 path       : 'transicoes',
                 loadChildren: './transicoes/transicoes.module#TransicoesModule'
             },

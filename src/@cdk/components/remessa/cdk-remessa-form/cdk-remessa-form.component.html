@@ -56,25 +56,22 @@
 
         <mat-form-field fxFlex="100">
             <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Setor de Destino"
-                       formControlName="setorDestino"
-                       [matAutocomplete]="setorDestino.autocomplete" required
-                       (blur)="checkSetorDestino()">
-                <mat-option *ngIf="setorDestinoListIsLoading">
-                    <mat-spinner diameter="16"></mat-spinner>
-                </mat-option>
+                <input matInput placeholder="Pessoa"
+                       formControlName="pessoaDestino"
+                       [matAutocomplete]="pessoaDestino.autocomplete" required
+                       (blur)="checkPessoaDestino()">
             </div>
-            <cdk-setor-autocomplete
-                #setorDestino="setorAutocomplete"
-                [control]="form.get('setorDestino')"
-                [pagination]="setorDestinoPagination">
-            </cdk-setor-autocomplete>
+            <cdk-pessoa-autocomplete
+                #pessoaDestino="pessoaAutocomplete"
+                [control]="form.get('pessoaDestino')"
+                [pagination]="pessoaDestinoPagination">
+            </cdk-pessoa-autocomplete>
             <button matSuffix mat-button mat-icon-button
-                    (click)="showSetorDestinoGrid()">
+                    (click)="showPessoaDestinoGrid()">
                 <mat-icon matTooltip="Procurar">search</mat-icon>
             </button>
-            <mat-error *ngIf="form.get('setorDestino').hasError('formError')">
-                {{form.get('setorDestino').errors.formError}}
+            <mat-error *ngIf="form.get('pessoaDestino').hasError('formError')">
+                {{form.get('pessoaDestino').errors.formError}}
             </mat-error>
         </mat-form-field>
 
@@ -120,11 +117,11 @@
         (cancel)="cancel()">
 </cdk-setor-gridsearch>
 
-<cdk-setor-gridsearch
+<cdk-pessoa-gridsearch
         fxFlex="1 0 auto"
-        *ngIf="activeCard === 'setor-destino-gridsearch'"
-        [pagination]="setorDestinoPagination.filter"
-        (selected)="selectSetorDestino($event)"
+        *ngIf="activeCard === 'pessoa-destino-gridsearch'"
+        [pagination]="pessoaDestinoPagination.filter"
+        (selected)="selectPessoaDestino($event)"
         (cancel)="cancel()">
-</cdk-setor-gridsearch>
+</cdk-pessoa-gridsearch>
 

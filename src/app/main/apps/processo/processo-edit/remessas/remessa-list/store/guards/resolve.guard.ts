@@ -6,10 +6,10 @@ import {select, Store} from '@ngrx/store';
 import {Observable, of} from 'rxjs';
 import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
 
-import {TramitacaoListAppState} from '../reducers';
+import {RemessaListAppState} from '../reducers';
 import * as fromStore from '../';
 import {getRouterState} from 'app/store/reducers';
-import {getTramitacaoListLoaded} from '../selectors';
+import {getRemessaListLoaded} from '../selectors';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
@@ -19,10 +19,10 @@ export class ResolveGuard implements CanActivate {
     /**
      * Constructor
      *
-     * @param {Store<TramitacaoListAppState>} _store
+     * @param {Store<RemessaListAppState>} _store
      */
     constructor(
-        private _store: Store<TramitacaoListAppState>
+        private _store: Store<RemessaListAppState>
     ) {
         this._store
             .pipe(select(getRouterState))
@@ -54,7 +54,7 @@ export class ResolveGuard implements CanActivate {
      */
     getTramitacoes(): any {
         return this._store.pipe(
-            select(getTramitacaoListLoaded),
+            select(getRemessaListLoaded),
             tap((loaded: any) => {
                 if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
 
@@ -68,7 +68,7 @@ export class ResolveGuard implements CanActivate {
                     const params = {
                         filter: {
                             'processo.id': processoId,
-                            'setorDestino': 'isNotNull'
+                            'pessoaDestino': 'isNotNull'
                         },
                         gridFilter: {},
                         limit: 10,

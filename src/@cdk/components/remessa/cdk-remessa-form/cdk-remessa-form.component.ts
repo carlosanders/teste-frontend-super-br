@@ -14,18 +14,16 @@ import {Pagination} from '../../../models/pagination';
 import {Processo} from '@cdk/models/processo.model';
 import {Setor} from '@cdk/models/setor.model';
 import {Pessoa} from '@cdk/models/pessoa.model';
-import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
-import {of} from 'rxjs';
 
 @Component({
-    selector: 'cdk-tramitacao-form',
-    templateUrl: './cdk-tramitacao-form.component.html',
-    styleUrls: ['./cdk-tramitacao-form.component.scss'],
+    selector: 'cdk-remessa-form',
+    templateUrl: './cdk-remessa-form.component.html',
+    styleUrls: ['./cdk-remessa-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
 })
-export class CdkTramitacaoFormComponent implements OnChanges, OnDestroy, OnInit {
+export class CdkRemessaFormComponent implements OnChanges, OnDestroy, OnInit {
 
     @Input()
     tramitacao: Tramitacao;
@@ -54,7 +52,10 @@ export class CdkTramitacaoFormComponent implements OnChanges, OnDestroy, OnInit 
 
     setorOrigemListIsLoading: boolean;
 
-    setorDestinoListIsLoading: boolean;
+    @Input()
+    pessoaDestinoPagination: Pagination;
+
+    setorFilter: any;
 
     /**
      * Constructor
@@ -70,13 +71,13 @@ export class CdkTramitacaoFormComponent implements OnChanges, OnDestroy, OnInit 
             'processo': [null],
             'urgente': [null],
             'setorOrigem': [null, [Validators.required]],
-            'setorDestino': [null, [Validators.required]],
+            'pessoaDestino': [null, [Validators.required]],
             'observacao': [null]
         });
 
         this.processoPagination = new Pagination();
         this.setorOrigemPagination = new Pagination();
-        this.setorDestinoPagination = new Pagination();
+        this.pessoaDestinoPagination = new Pagination();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -87,7 +88,6 @@ export class CdkTramitacaoFormComponent implements OnChanges, OnDestroy, OnInit 
      * On init
      */
     ngOnInit(): void {
-
 
     }
 
@@ -178,23 +178,24 @@ export class CdkTramitacaoFormComponent implements OnChanges, OnDestroy, OnInit 
         this.activeCard = 'form';
     }
 
-    checkSetorDestino(): void {
-        const value = this.form.get('setorDestino').value;
+    checkPessoaDestino(): void {
+        const value = this.form.get('pessoaDestino').value;
         if (!value || typeof value !== 'object') {
-            this.form.get('setorDestino').setValue(null);
+            this.form.get('pessoaDestino').setValue(null);
         }
     }
 
-    showSetorDestinoGrid(): void {
-        this.activeCard = 'setor-destino-gridsearch';
-    }
-
-    selectSetorDestino(setor: Setor): void {
-        if (setor) {
-            this.form.get('setorDestino').setValue(setor);
+    selectPessoaDestino(pessoaDestino: Pessoa): void {
+        if (pessoaDestino) {
+            this.form.get('pessoaDestino').setValue(pessoaDestino);
         }
         this.activeCard = 'form';
     }
+
+    showPessoaDestinoGrid(): void {
+        this.activeCard = 'pessoa-destino-gridsearch';
+    }
+
 
     cancel(): void {
         this.activeCard = 'form';

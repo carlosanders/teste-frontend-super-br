@@ -56,6 +56,10 @@ export class ProcessoEditMainSidebarComponent implements OnInit, OnDestroy {
                 'link': 'tramitacoes'
             },
             {
+                'nome': 'Remessas',
+                'link': 'remessas'
+            },
+            {
                 'nome': 'Transições',
                 'link': 'transicoes'
             }

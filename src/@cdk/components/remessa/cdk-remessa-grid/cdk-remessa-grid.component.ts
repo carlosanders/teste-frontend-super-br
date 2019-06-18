@@ -17,14 +17,14 @@ import {Tramitacao} from '@cdk/models/tramitacao.model';
 import {TramitacaoDataSource} from '@cdk/data-sources/tramitacao-data-source';
 
 @Component({
-    selector: 'cdk-tramitacao-grid',
-    templateUrl: './cdk-tramitacao-grid.component.html',
-    styleUrls: ['./cdk-tramitacao-grid.component.scss'],
+    selector: 'cdk-remessa-grid',
+    templateUrl: './cdk-remessa-grid.component.html',
+    styleUrls: ['./cdk-remessa-grid.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
 })
-export class CdkTramitacaoGridComponent implements AfterViewInit, OnInit, OnChanges {
+export class CdkRemessaGridComponent implements AfterViewInit, OnInit, OnChanges {
 
     @Input()
     loading = false;
@@ -36,8 +36,8 @@ export class CdkTramitacaoGridComponent implements AfterViewInit, OnInit, OnChan
     total = 0;
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'observacao', 'urgente', 'setorOrigem.nome', 'setorDestino.nome',
-        'dataHoraRecebimento', 'usuarioRecebimento.nome', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'observacao', 'urgente', 'setorOrigem.nome',
+        'pessoaDestino.nome', 'dataHoraRecebimento', 'usuarioRecebimento.nome', 'actions'];
 
     @Input()
     deletingIds: number[] = [];
