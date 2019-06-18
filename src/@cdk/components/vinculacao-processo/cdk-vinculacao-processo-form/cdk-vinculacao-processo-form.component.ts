@@ -15,7 +15,7 @@ import {Processo} from '@cdk/models/processo.model';
 import {ModalidadeVinculacaoProcesso} from '../../../models/modalidade-vinculacao-processo.model';
 
 @Component({
-    selector: 'cdkvinculacao-processo-form',
+    selector: 'cdk-vinculacao-processo-form',
     templateUrl: './cdk-vinculacao-processo-form.component.html',
     styleUrls: ['./cdk-vinculacao-processo-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -59,9 +59,9 @@ export class CdkVinculacaoProcessoFormComponent implements OnChanges, OnDestroy,
 
         this.form = this._formBuilder.group({
             'id': [null],
-            'processo': [null],
-            'processoVinculado': [null],
-            'modalidadeVinculacaoProcesso': [null],
+            'processo': [null, [Validators.required]],
+            'processoVinculado': [null, [Validators.required]],
+            'modalidadeVinculacaoProcesso': [null, [Validators.required]],
             'observacao': [null]
         });
 

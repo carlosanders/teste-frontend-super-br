@@ -37,7 +37,7 @@ export class CdkSigiloGridComponent implements AfterViewInit, OnInit, OnChanges 
 
     @Input()
     displayedColumns: string[] = ['select', 'id', 'desclassificado', 'observacao', 'fundamentoLegal', 'razoesClassificacaoSigilo', 'dataHoraValidadeSigilo', 'dataHoraExpiracao',
-        'modalidadeCategoriaSigilo.valor', 'tipoSigilo.nome', 'processo.NUP', 'documento.descricaoOutros', 'origemDados.servico', 'actions'];
+        'modalidadeCategoriaSigilo.valor', 'tipoSigilo.nome', 'origemDados.servico', 'actions'];
 
     @Input()
     deletingIds: number[] = [];

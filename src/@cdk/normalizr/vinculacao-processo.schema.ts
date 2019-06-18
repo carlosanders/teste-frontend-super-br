@@ -4,7 +4,6 @@ import {modalidadeVinculacaoProcesso} from './modalidade-vinculacao-processo.sch
 import {usuario} from './usuario.schema';
 
 export const vinculacaoProcesso = new schema.Entity('vinculacaoProcesso', {
-    processo: processo,
     processoVinculado: processo,
     modalidadeVinculacaoProcesso: modalidadeVinculacaoProcesso,
     criadoPor: usuario,

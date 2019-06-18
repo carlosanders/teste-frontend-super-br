@@ -9,8 +9,6 @@ import {tipoSigilo} from './tipo-sigilo.schema';
 export const sigilo = new schema.Entity('sigilo', {
     modalidadeCategoriaSigilo: modalidadeCategoriaSigilo,
     tipoSigilo: tipoSigilo,
-    processo: processo,
-    documento: documento,
     origemDados: origemDados,
     criadoPor: usuario,
     atualizadoPor: usuario,

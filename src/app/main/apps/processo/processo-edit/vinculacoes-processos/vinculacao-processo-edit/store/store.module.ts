@@ -2,7 +2,7 @@ import { StoreModule } from '@ngrx/store';
 import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 
-import {reducers, VinculacaoProcessoEditState} from 'app/main/apps/processo/processo-edit/vinculacoes-processos/vinculacao-processo-edit/store/reducers';
+import {reducers } from 'app/main/apps/processo/processo-edit/vinculacoes-processos/vinculacao-processo-edit/store/reducers';
 import { effects } from 'app/main/apps/processo/processo-edit/vinculacoes-processos/vinculacao-processo-edit/store/effects';
 
 @NgModule({

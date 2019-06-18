@@ -56,11 +56,6 @@ export class CdkTramitacaoFormComponent implements OnChanges, OnDestroy, OnInit 
 
     setorDestinoListIsLoading: boolean;
 
-    @Input()
-    pessoaDestinoPagination: Pagination;
-
-    setorFilter: any;
-
     /**
      * Constructor
      */
@@ -76,14 +71,12 @@ export class CdkTramitacaoFormComponent implements OnChanges, OnDestroy, OnInit 
             'urgente': [null],
             'setorOrigem': [null, [Validators.required]],
             'setorDestino': [null, [Validators.required]],
-            'pessoaDestino': [null, [Validators.required]],
             'observacao': [null]
         });
 
         this.processoPagination = new Pagination();
         this.setorOrigemPagination = new Pagination();
         this.setorDestinoPagination = new Pagination();
-        this.pessoaDestinoPagination = new Pagination();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -95,26 +88,6 @@ export class CdkTramitacaoFormComponent implements OnChanges, OnDestroy, OnInit 
      */
     ngOnInit(): void {
 
-        this.form.get('pessoaDestino').reset();
-        this.form.get('pessoaDestino').disable();
-
-        this.form.get('externa').valueChanges.pipe(
-            debounceTime(300),
-            distinctUntilChanged(),
-            switchMap((value) => {
-                    if (value) {
-                        this.form.get('setorDestino').reset();
-                        this.form.get('setorDestino').disable();
-                        this.form.get('pessoaDestino').enable();
-                    } else {
-                        this.form.get('pessoaDestino').reset();
-                        this.form.get('pessoaDestino').disable();
-                        this.form.get('setorDestino').enable();
-                    }
-                    return of([]);
-                }
-            )
-        ).subscribe();
 
     }
 
@@ -222,25 +195,6 @@ export class CdkTramitacaoFormComponent implements OnChanges, OnDestroy, OnInit 
         }
         this.activeCard = 'form';
     }
-
-    checkPessoaDestino(): void {
-        const value = this.form.get('pessoaDestino').value;
-        if (!value || typeof value !== 'object') {
-            this.form.get('pessoaDestino').setValue(null);
-        }
-    }
-
-    selectPessoaDestino(pessoaDestino: Pessoa): void {
-        if (pessoaDestino) {
-            this.form.get('pessoaDestino').setValue(pessoaDestino);
-        }
-        this.activeCard = 'form';
-    }
-
-    showPessoaDestinoGrid(): void {
-        this.activeCard = 'pessoa-destino-gridsearch';
-    }
-
 
     cancel(): void {
         this.activeCard = 'form';

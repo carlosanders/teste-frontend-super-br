@@ -86,28 +86,6 @@
             </mat-error>
         </mat-form-field>
 
-        <mat-form-field fxFlex="100" *ngIf="form.get('externa').value">
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Pessoa"
-                       formControlName="pessoaDestino"
-                       [matAutocomplete]="pessoaDestino.autocomplete" required
-                       (blur)="checkPessoaDestino()">
-            </div>
-            <cdk-pessoa-autocomplete
-                #pessoaDestino="pessoaAutocomplete"
-                [control]="form.get('pessoaDestino')"
-                [pagination]="pessoaDestinoPagination">
-            </cdk-pessoa-autocomplete>
-            <button matSuffix mat-button mat-icon-button
-                    (click)="showPessoaDestinoGrid()">
-                <mat-icon matTooltip="Procurar">search</mat-icon>
-            </button>
-            <mat-error *ngIf="form.get('pessoaDestino').hasError('formError')">
-                {{form.get('pessoaDestino').errors.formError}}
-            </mat-error>
-        </mat-form-field>
-
-
     </div>
 
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
@@ -149,12 +127,4 @@
         (selected)="selectSetorDestino($event)"
         (cancel)="cancel()">
 </cdk-setor-gridsearch>
-
-<cdk-pessoa-gridsearch
-        fxFlex="1 0 auto"
-        *ngIf="activeCard === 'pessoa-destino-gridsearch'"
-        [pagination]="pessoaDestinoPagination.filter"
-        (selected)="selectPessoaDestino($event)"
-        (cancel)="cancel()">
-</cdk-pessoa-gridsearch>
 

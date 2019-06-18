@@ -32,7 +32,7 @@ export class Sigilo {
 
     @Transform(value => value ? value.format() : null, { toPlainOnly: true })
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
-    dataHoraExpiracao: Date;
+    dataHoraInicioSigilo: Date;
 
     nivelAcesso: number;
 
@@ -95,7 +95,7 @@ export class Sigilo {
         this.codigoIndexacao = null;
         this.fundamentoLegal = null;
         this.razoesClassificacaoSigilo = null;
-        this.dataHoraExpiracao = null;
+        this.dataHoraInicioSigilo = null;
         this.dataHoraValidadeSigilo = null;
         this.nivelAcesso = null;
         this.modalidadeCategoriaSigilo = null;
