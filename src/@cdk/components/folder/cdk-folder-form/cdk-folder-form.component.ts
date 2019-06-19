@@ -106,7 +106,9 @@ export class CdkFolderFormComponent implements OnChanges, OnDestroy {
     }
 
     selectModalidadeFolder(modalidadefolder: ModalidadeFolder): void {
-        this.form.get('modalidadeFolder').setValue(modalidadefolder);
+        if (modalidadefolder) {
+            this.form.get('modalidadeFolder').setValue(modalidadefolder);
+        }
         this.activeCard = 'form';
     }
 

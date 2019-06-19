@@ -142,7 +142,9 @@ export class CdkClassificacaoFormComponent implements OnChanges, OnDestroy {
     }
 
     selectModalidadeDestinacao(modalidadeDestinacao: ModalidadeDestinacao): void {
-        this.form.get('modalidadeDestinacao').setValue(modalidadeDestinacao);
+        if (modalidadeDestinacao) {
+            this.form.get('modalidadeDestinacao').setValue(modalidadeDestinacao);
+        }
         this.activeCard = 'form';
     }
 
@@ -151,7 +153,9 @@ export class CdkClassificacaoFormComponent implements OnChanges, OnDestroy {
     }
 
     selectClassificacao(classificacao: Classificacao): void {
-        this.form.get('parent').setValue(classificacao);
+        if (classificacao) {
+            this.form.get('parent').setValue(classificacao);
+        }
         this.activeCard = 'form';
     }
 

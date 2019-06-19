@@ -35,8 +35,6 @@ export class SigiloEditComponent implements OnInit, OnDestroy {
     processo$: Observable<Processo>;
     processo: Processo;
 
-    tipoSigiloPagination: Pagination;
-
     /**
      * @param _store
      */
@@ -47,9 +45,6 @@ export class SigiloEditComponent implements OnInit, OnDestroy {
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.sigilo$ = this._store.pipe(select(fromStore.getSigilo));
         this.processo$ = this._store.pipe(select(getProcesso));
-
-        this.tipoSigiloPagination = new Pagination();
-        this.tipoSigiloPagination.populate = ['parent'];
     }
 
     // -----------------------------------------------------------------------------------------------------

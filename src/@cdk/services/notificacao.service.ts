@@ -1,16 +1,18 @@
 import {Injectable} from '@angular/core';
-import {HttpParams} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Notificacao} from '@cdk/models/notificacao.model';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
 import {PaginatedResponse} from '@cdk/models/paginated.response';
+import {environment} from '../../environments/environment';
 
 @Injectable()
 export class NotificacaoService {
 
     constructor(
-        private modelService: ModelService
+        private modelService: ModelService,
+        private http: HttpClient
     ) {
     }
 
@@ -58,5 +60,16 @@ export class NotificacaoService {
 
     destroy(id: number): Observable<Notificacao> {
         return this.modelService.delete('notificacao', id);
+    }
+
+    toggleLida(notificacao: Notificacao): Observable<Notificacao> {
+        return this.http.patch(
+            `${environment.api_url}${'notificacao'}/${notificacao.id}/${'toggle_lida'}` + environment.xdebug,
+            JSON.stringify(classToPlain(notificacao))
+        ).map(response => {
+            response = plainToClass(Notificacao, response);
+            Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+            return Object.assign(new Notificacao(), {...notificacao, ...response});
+        });
     }
 }

@@ -5,12 +5,12 @@
 
     <div fxFlex="1 0 auto" fxLayout="column">
 
-        <mat-slide-toggle formControlName="urgente"
-                      class="mr-16 mb-16" fxFlex="0 1 auto">
-            Urgente
+        <mat-slide-toggle *ngIf="!documentoAvulso.id && mode === 'regular'" formControlName="blocoProcessos"
+                          class="mr-16 mb-16" fxFlex="0 1 auto">
+            Bloco de Processos
         </mat-slide-toggle>
 
-        <mat-form-field fxFlex="100">
+        <mat-form-field fxFlex="100" *ngIf="mode === 'regular'">
             <div fxLayout="row" fxLayoutAlign="start center">
                 <input matInput placeholder="Processo"
                        formControlName="processo"
@@ -22,7 +22,7 @@
                 [control]="form.get('processo')"
                 [pagination]="processoPagination">
             </cdk-processo-autocomplete>
-            <button matSuffix mat-button mat-icon-button
+            <button *ngIf="form.get('processo').enabled" matSuffix mat-button mat-icon-button
                     (click)="showProcessoGrid()">
                 <mat-icon matTooltip="Procurar">search</mat-icon>
             </button>
@@ -30,6 +30,15 @@
                 {{form.get('processo').errors.formError}}
             </mat-error>
         </mat-form-field>
+
+        <div *ngIf="form.get('blocoProcessos').value" class="bloco-processos">
+            <cdk-processo-grid
+                    [processos]="processos"
+                    [total]="processos.length"
+                    [actions]="['delete']"
+                    (delete)="deleteProcessos($event)">
+            </cdk-processo-grid>
+        </div>
 
         <mat-form-field fxFlex="100">
             <div fxLayout="row" fxLayoutAlign="start center">
@@ -74,7 +83,7 @@
         </mat-form-field>
 
         <mat-slide-toggle formControlName="externa"
-                      class="mr-16 mb-16" fxFlex="0 1 auto">
+                          class="mr-16 mb-16" fxFlex="0 1 auto">
             Destinário Externo
         </mat-slide-toggle>
 
@@ -120,6 +129,10 @@
             </mat-error>
         </mat-form-field>
 
+        <mat-slide-toggle formControlName="urgente"
+                          class="mr-16 mb-16" fxFlex="0 1 auto">
+            Urgente
+        </mat-slide-toggle>
 
         <div class="dates" fxLayout="row">
             <mat-form-field class="mr-sm-12" fxFlex>
@@ -155,7 +168,7 @@
     <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-8 mb-8" fxFlex
          fxLayoutAlign="center center">
         <button type="submit" mat-raised-button color="accent" class="mr-sm-12"
-                [disabled]="form.invalid">
+                [disabled]="form.invalid || !valid">
             SALVAR
         </button>
     </div>
@@ -167,17 +180,17 @@
 </form>
 
 <cdk-processo-gridsearch
-    fxFlex="1 0 auto"
-    *ngIf="activeCard === 'processo-gridsearch'"
-    [filter]="processoPagination.filter"
-    (selected)="selectProcesso($event)"
-    (cancel)="cancel()">
+        fxFlex="1 0 auto"
+        *ngIf="activeCard === 'processo-gridsearch'"
+        [pagination]="processoPagination.filter"
+        (selected)="selectProcesso($event)"
+        (cancel)="cancel()">
 </cdk-processo-gridsearch>
 
 <cdk-modelo-gridsearch
         fxFlex="1 0 auto"
         *ngIf="activeCard === 'modelo-gridsearch'"
-        [filter]="modeloPagination.filter"
+        [pagination]="modeloPagination.filter"
         (selected)="selectModelo($event)"
         (cancel)="cancel()">
 </cdk-modelo-gridsearch>
@@ -185,7 +198,7 @@
 <cdk-especie-documento-avulso-gridsearch
         fxFlex="1 0 auto"
         *ngIf="activeCard === 'especie-documento-avulso-gridsearch'"
-        [filter]="especieDocumentoAvulsoPagination.filter"
+        [pagination]="especieDocumentoAvulsoPagination.filter"
         (selected)="selectEspecieDocumentoAvulso($event)"
         (cancel)="cancel()">
 </cdk-especie-documento-avulso-gridsearch>
@@ -193,7 +206,7 @@
 <cdk-setor-gridsearch
         fxFlex="1 0 auto"
         *ngIf="activeCard === 'setor-destino-gridsearch'"
-        [filter]="setorDestinoPagination.filter"
+        [pagination]="setorDestinoPagination.filter"
         (selected)="selectSetorDestino($event)"
         (cancel)="cancel()">
 </cdk-setor-gridsearch>
@@ -201,7 +214,7 @@
 <cdk-pessoa-gridsearch
         fxFlex="1 0 auto"
         *ngIf="activeCard === 'pessoa-destino-gridsearch'"
-        [filter]="pessoaDestinoPagination.filter"
+        [pagination]="pessoaDestinoPagination.filter"
         (selected)="selectPessoaDestino($event)"
         (cancel)="cancel()">
 </cdk-pessoa-gridsearch>

@@ -1,7 +1,7 @@
 <!-- CONTENT HEADER -->
-<div class="header" fxLayout="column">
+<div class="header" fxLayout="column" *ngIf="showFilter">
 
-    <div class="filters" *ngIf="showFilter">
+    <div class="filters">
         <cdk-relevancia-grid-filter (selected)="setGridFilter($event)"></cdk-relevancia-grid-filter>
     </div>
 </div>

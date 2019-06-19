@@ -1,15 +1,26 @@
-<div id="compartilhamento">
+<!-- CONTENT -->
+<div class="content p-16" fxLayout="column" fxFlex="100">
 
-    <!-- CONTENT -->
-    <div class="content pr-24 pl-24" fxLayout="column" fxFlex="100">
+    <h2>Compartilhamento em bloco de tarefas</h2>
 
-        <cdk-compartilhamento-form
-                [compartilhamento]="compartilhamento"
-                [valid]="(tarefas$ | async)?.length > 0"
-                [saving]="(isSaving$ | async)"
-                [errors]="(errors$ | async)"
-                (save)="submit($event)">
-        </cdk-compartilhamento-form>
+    <h3>{{(tarefas$ | async)?.length}} tarefa(s) selecionada(s) </h3>
 
-    </div>
+    <cdk-compartilhamento-form
+            [compartilhamento]="compartilhamento"
+            [valid]="(tarefas$ | async)?.length > 0"
+            [saving]="(isSaving$ | async)"
+            (save)="submit($event)">
+    </cdk-compartilhamento-form>
+
+    <mat-list *ngIf="operacoes.length > 0" fxFlex>
+        <h3 matSubheader>
+            <span>Resultado do Bloco</span>
+        </h3>
+
+        <mat-list-item *ngFor="let operacao of operacoes">
+            <p matLine class="mb-4 p-8 secondary-text"
+               [ngClass]="{'light-green-50': operacao.success, 'pink-50': !operacao.success}">{{operacao.content}}</p>
+        </mat-list-item>
+    </mat-list>
+
 </div>

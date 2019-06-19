@@ -152,7 +152,9 @@ export class CdkDocumentoFormComponent implements OnChanges, OnDestroy {
     }
 
     selectTipoDocumento(tipoDocumento: TipoDocumento): void {
-        this.form.get('tipoDocumento').setValue(tipoDocumento);
+        if (tipoDocumento) {
+            this.form.get('tipoDocumento').setValue(tipoDocumento);
+        }
         this.activeCard = 'form';
     }
 

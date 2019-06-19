@@ -6,12 +6,16 @@
 
             <div fxLayout="row" fxLayoutAlign="start center">
                 <div>
-                    <button *ngIf="(maximizado$ | async)" mat-icon-button (click)="deselectCurrentTarefa()">
+                    <button *ngIf="1 === 2" mat-icon-button (click)="deselectCurrentTarefa()">
                         <mat-icon class="secondary-text">arrow_back</mat-icon>
                     </button>
 
                     <button *ngIf="!(maximizado$ | async)" mat-icon-button (click)="doToggleMaximizado()">
                         <mat-icon class="secondary-text">zoom_out_map</mat-icon>
+                    </button>
+
+                    <button *ngIf="(maximizado$ | async)" mat-icon-button (click)="doToggleMaximizado()">
+                        <mat-icon class="secondary-text">subdirectory_arrow_right</mat-icon>
                     </button>
                 </div>
 
@@ -55,7 +59,8 @@
                             </ng-container>
                         </button>
 
-                        <button mat-menu-item aria-label="toggle done">
+                        <button mat-menu-item aria-label="toggle done"
+                                (click)="doCreateTarefa()">
                             <ng-container>
                                 <mat-icon>check_box</mat-icon>
                                 <span>Criar Tarefa</span>

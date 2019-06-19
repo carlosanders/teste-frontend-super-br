@@ -14,6 +14,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
+import * as moment from 'moment';
 
 @Injectable()
 export class CompartilhamentoCreateEffect {
@@ -47,32 +48,26 @@ export class CompartilhamentoCreateEffect {
                 mergeMap((action) => {
                     return this._compartilhamentoService.save(action.payload).pipe(
                         mergeMap((response: Compartilhamento) => [
-                            new CompartilhamentoCreateActions.SaveCompartilhamentoSuccess(),
+                            new CompartilhamentoCreateActions.SaveCompartilhamentoSuccess(action.payload),
                             new AddData<Compartilhamento>({data: [response], schema: compartilhamentoSchema}),
                             new OperacoesActions.Resultado({
                                 type: 'compartilhamento',
-                                content: `Compartilhamento id ${response.id} criada com sucesso!`,
+                                content: `Compartilhamento na tarefa id ${action.payload.tarefa.id} criado com sucesso!`,
+                                success: true,
                                 dateTime: response.criadoEm
                             })
                         ]),
                         catchError((err) => {
                             console.log (err);
-                            return of(new CompartilhamentoCreateActions.SaveCompartilhamentoFailed(err));
+                            this._store.dispatch(new OperacoesActions.Resultado({
+                                type: 'compartilhamento',
+                                content: `Houve erro no compartilhamento na tarefa id ${action.payload.tarefa.id}! ${err.error.message}`,
+                                success: false,
+                                dateTime: moment()
+                            }));
+                            return of(new CompartilhamentoCreateActions.SaveCompartilhamentoFailed(action.payload));
                         })
                     );
-                })
-            );
-
-    /**
-     * Save Compartilhamento Success
-     */
-    @Effect({ dispatch: false })
-    saveCompartilhamentoSuccess: any =
-        this._actions
-            .pipe(
-                ofType<CompartilhamentoCreateActions.SaveCompartilhamentoSuccess>(CompartilhamentoCreateActions.SAVE_COMPARTILHAMENTO_SUCCESS),
-                tap(() => {
-                    this._router.navigate(['apps/tarefas/entrada']).then();
                 })
             );
 

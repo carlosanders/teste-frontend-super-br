@@ -15,7 +15,7 @@ import {Processo} from '@cdk/models/processo.model';
 import {ModalidadeVinculacaoProcesso} from '../../../models/modalidade-vinculacao-processo.model';
 
 @Component({
-    selector: 'cdkvinculacao-processo-form',
+    selector: 'cdk-vinculacao-processo-form',
     templateUrl: './cdk-vinculacao-processo-form.component.html',
     styleUrls: ['./cdk-vinculacao-processo-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -59,9 +59,9 @@ export class CdkVinculacaoProcessoFormComponent implements OnChanges, OnDestroy,
 
         this.form = this._formBuilder.group({
             'id': [null],
-            'processo': [null],
-            'processoVinculado': [null],
-            'modalidadeVinculacaoProcesso': [null],
+            'processo': [null, [Validators.required]],
+            'processoVinculado': [null, [Validators.required]],
+            'modalidadeVinculacaoProcesso': [null, [Validators.required]],
             'observacao': [null]
         });
 
@@ -136,7 +136,9 @@ export class CdkVinculacaoProcessoFormComponent implements OnChanges, OnDestroy,
     }
 
     selectProcesso(processo: Processo): void {
-        this.form.get('processo').setValue(processo);
+        if (processo) {
+            this.form.get('processo').setValue(processo);
+        }
         this.activeCard = 'form';
     }
 
@@ -152,7 +154,9 @@ export class CdkVinculacaoProcessoFormComponent implements OnChanges, OnDestroy,
     }
 
     selectProcessoVinculado(processoVinculado: Processo): void {
-        this.form.get('processoVinculado').setValue(processoVinculado);
+        if (processoVinculado) {
+            this.form.get('processoVinculado').setValue(processoVinculado);
+        }
         this.activeCard = 'form';
     }
 
@@ -168,7 +172,9 @@ export class CdkVinculacaoProcessoFormComponent implements OnChanges, OnDestroy,
     }
 
     selectModalidadeVinculacaoProcesso(modalidadeVinculacaoProcesso: ModalidadeVinculacaoProcesso): void {
-        this.form.get('modalidadeVinculacaoProcesso').setValue(modalidadeVinculacaoProcesso);
+        if (modalidadeVinculacaoProcesso) {
+            this.form.get('modalidadeVinculacaoProcesso').setValue(modalidadeVinculacaoProcesso);
+        }
         this.activeCard = 'form';
     }
 

@@ -11,11 +11,9 @@ import {fuseAnimations} from '@fuse/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Sigilo} from '@cdk/models/sigilo.model';
 import {Pagination} from '../../../models/pagination';
-import {Processo} from '@cdk/models/processo.model';
 import {TipoSigilo} from '../../../models/tipo-sigilo.model';
-import {Documento} from '../../../models/documento.model';
-import {OrigemDados} from '../../../models/origem-dados.model';
 import {ModalidadeCategoriaSigilo} from '../../../models/modalidade-categoria-sigilo.model';
+import {MAT_DATETIME_FORMATS} from '@mat-datetimepicker/core';
 
 @Component({
     selector: 'cdk-sigilo-form',
@@ -23,7 +21,18 @@ import {ModalidadeCategoriaSigilo} from '../../../models/modalidade-categoria-si
     styleUrls: ['./cdk-sigilo-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: fuseAnimations,
+    providers: [
+        {
+            provide: MAT_DATETIME_FORMATS,
+            useValue: {
+                display: {
+                    dateInput: 'L LT',
+                    datetimeInput: 'L LT'
+                }
+            }
+        }
+    ]
 })
 export class CdkSigiloFormComponent implements OnChanges, OnDestroy, OnInit {
 
@@ -52,12 +61,6 @@ export class CdkSigiloFormComponent implements OnChanges, OnDestroy, OnInit {
     @Input()
     tipoSigiloPagination: Pagination;
 
-    @Input()
-    documentoPagination: Pagination;
-
-    @Input()
-    origemDadosPagination: Pagination;
-
     /**
      * Constructor
      */
@@ -69,25 +72,19 @@ export class CdkSigiloFormComponent implements OnChanges, OnDestroy, OnInit {
         this.form = this._formBuilder.group({
             'id': [null],
             'processo': [null],
+            'documento': [null],
             'desclassificado': [null],
-            'codigoIndexacao': [null],
-            'fundamentoLegal': [null],
-            'razoesClassificacaoSigilo': [null],
-            'dataHoraValidadeSigilo': [null, [Validators.required]],
-            'dataHoraExpiracao': [null, [Validators.required]],
-            'nivelAcesso': [null],
-            'modalidadeCategoriaSigilo': [null, [Validators.required]],
+            'fundamentoLegal': [null, [Validators.required]],
+            'razoesClassificacaoSigilo': [null, [Validators.required]],
+            'dataHoraInicioSigilo': [null, [Validators.required]],
+            'modalidadeCategoriaSigilo': [null],
             'tipoSigilo': [null, [Validators.required]],
-            'documento': [null, [Validators.required]],
-            'origemDados': [null, [Validators.required]],
             'observacao': [null]
         });
 
         this.processoPagination = new Pagination();
         this.modalidadeCategoriaSigiloPagination = new Pagination();
         this.tipoSigiloPagination = new Pagination();
-        this.documentoPagination = new Pagination();
-        this.origemDadosPagination = new Pagination();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -147,23 +144,7 @@ export class CdkSigiloFormComponent implements OnChanges, OnDestroy, OnInit {
         }
     }
 
-    checkProcesso(): void {
-        const value = this.form.get('processo').value;
-        if (!value || typeof value !== 'object') {
-            this.form.get('processo').setValue(null);
-        }
-    }
-
-    selectProcesso(processo: Processo): void {
-        this.form.get('processo').setValue(processo);
-        this.activeCard = 'form';
-    }
-
-    showProcessoGrid(): void {
-        this.activeCard = 'processo-gridsearch';
-    }
-
-    checkModalidadeCategoriaSigiloRecebimento(): void {
+    checkModalidadeCategoriaSigilo(): void {
         const value = this.form.get('modalidadeCategoriaSigilo').value;
         if (!value || typeof value !== 'object') {
             this.form.get('modalidadeCategoriaSigilo').setValue(null);
@@ -171,28 +152,14 @@ export class CdkSigiloFormComponent implements OnChanges, OnDestroy, OnInit {
     }
 
     selectModalidadeCategoriaSigilo(modalidadeCategoriaSigilo: ModalidadeCategoriaSigilo): void {
-        this.form.get('modalidadeCategoriaSigilo').setValue(modalidadeCategoriaSigilo);
+        if (modalidadeCategoriaSigilo) {
+            this.form.get('modalidadeCategoriaSigilo').setValue(modalidadeCategoriaSigilo);
+        }
         this.activeCard = 'form';
     }
 
     showModalidadeCategoriaSigiloGrid(): void {
         this.activeCard = 'modalidade-categoria-sigilo-gridsearch';
-    }
-
-    checkDocumento(): void {
-        const value = this.form.get('documento').value;
-        if (!value || typeof value !== 'object') {
-            this.form.get('documento').setValue(null);
-        }
-    }
-
-    showDocumentoGrid(): void {
-        this.activeCard = 'documento-gridsearch';
-    }
-
-    selectDocumento(documento: Documento): void {
-        this.form.get('documento').setValue(documento);
-        this.activeCard = 'form';
     }
 
     checkTipoSigilo(): void {
@@ -207,23 +174,9 @@ export class CdkSigiloFormComponent implements OnChanges, OnDestroy, OnInit {
     }
 
     selectTipoSigilo(tipoSigilo: TipoSigilo): void {
-        this.form.get('tipoSigilo').setValue(tipoSigilo);
-        this.activeCard = 'form';
-    }
-
-    checkOrigemDados(): void {
-        const value = this.form.get('origemDados').value;
-        if (!value || typeof value !== 'object') {
-            this.form.get('origemDados').setValue(null);
+        if (tipoSigilo) {
+            this.form.get('tipoSigilo').setValue(tipoSigilo);
         }
-    }
-
-    showOrigemDadosGrid(): void {
-        this.activeCard = 'origem-dados-gridsearch';
-    }
-
-    selectOrigemDados(origemDados: OrigemDados): void {
-        this.form.get('origemDados').setValue(origemDados);
         this.activeCard = 'form';
     }
 

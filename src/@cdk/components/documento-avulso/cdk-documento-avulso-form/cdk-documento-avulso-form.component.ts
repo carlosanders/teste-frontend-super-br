@@ -54,6 +54,12 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
     @Input()
     config: any;
 
+    @Input()
+    mode = 'regular';
+
+    @Input()
+    valid = true;
+
     @Output()
     save = new EventEmitter<DocumentoAvulso>();
 
@@ -85,7 +91,7 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
 
     activeCard = 'form';
 
-    setorFilter: any;
+    processos: Processo[] = [];
 
     /**
      * Constructor
@@ -97,6 +103,8 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
 
         this.form = this._formBuilder.group({
             'id': [null],
+            'blocoProcessos': [null],
+            'processos': [null],
             'processo': [null],
             'tarefaOrigem': [null],
             'urgente': [null],
@@ -147,6 +155,18 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
             )
         ).subscribe();
 
+        this.form.get('processo').valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((value) => {
+                    if (value && typeof value === 'object' && this.form.get('blocoProcessos').value) {
+                        this.processos.push(value);
+                        this._changeDetectorRef.markForCheck();
+                    }
+                    return of([]);
+                }
+            )
+        ).subscribe();
     }
 
     /**
@@ -192,8 +212,16 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
     // -----------------------------------------------------------------------------------------------------
     submit(): void {
         if (this.form.valid) {
+            if (this.form.get('blocoProcessos').value) {
+                this.form.get('processos').setValue(this.processos);
+            }
             this.save.emit(this.form.value);
         }
+    }
+
+    deleteProcessos(processoId): void {
+        this.processos = this.processos.filter(processo => processo.id !== processoId);
+        this._changeDetectorRef.markForCheck();
     }
 
     checkEspecieDocumentoAvulso(): void {
@@ -204,7 +232,9 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
     }
 
     selectEspecieDocumentoAvulso(especieDocumentoAvulso: EspecieDocumentoAvulso): void {
-        this.form.get('especieDocumentoAvulso').setValue(especieDocumentoAvulso);
+        if (especieDocumentoAvulso) {
+            this.form.get('especieDocumentoAvulso').setValue(especieDocumentoAvulso);
+        }
         this.activeCard = 'form';
     }
 
@@ -221,7 +251,9 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
     }
 
     selectProcesso(processo: Processo): void {
-        this.form.get('processo').setValue(processo);
+        if (processo) {
+            this.form.get('processo').setValue(processo);
+        }
         this.activeCard = 'form';
     }
 
@@ -237,7 +269,9 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
     }
 
     selectPessoaDestino(pessoaDestino: Pessoa): void {
-        this.form.get('pessoaDestino').setValue(pessoaDestino);
+        if (pessoaDestino) {
+            this.form.get('pessoaDestino').setValue(pessoaDestino);
+        }
         this.activeCard = 'form';
     }
 
@@ -253,7 +287,9 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
     }
 
     selectSetorDestino(setorDestino: Setor): void {
-        this.form.get('setorDestino').setValue(setorDestino);
+        if (setorDestino) {
+            this.form.get('setorDestino').setValue(setorDestino);
+        }
         this.activeCard = 'form';
     }
 
@@ -269,7 +305,9 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
     }
 
     selectModelo(modelo: Modelo): void {
-        this.form.get('modelo').setValue(modelo);
+        if (modelo) {
+            this.form.get('modelo').setValue(modelo);
+        }
         this.activeCard = 'form';
     }
 

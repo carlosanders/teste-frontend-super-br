@@ -56,10 +56,10 @@ export class CdkTransicaoFormComponent implements OnChanges, OnDestroy, OnInit {
 
         this.form = this._formBuilder.group({
             'id': [null],
-            'processo': [null],
-            'modalidadeTransicao': [null],
-            'metodo': [null],
-            'edital': [null],
+            'processo': [null, [Validators.required]],
+            'modalidadeTransicao': [null, [Validators.required]],
+            'metodo': [null, [Validators.required]],
+            'edital': [null, [Validators.required]],
             'observacao': [null]
         });
 
@@ -124,22 +124,6 @@ export class CdkTransicaoFormComponent implements OnChanges, OnDestroy, OnInit {
         }
     }
 
-    checkProcesso(): void {
-        const value = this.form.get('processo').value;
-        if (!value || typeof value !== 'object') {
-            this.form.get('processo').setValue(null);
-        }
-    }
-
-    selectProcesso(processo: Processo): void {
-        this.form.get('processo').setValue(processo);
-        this.activeCard = 'form';
-    }
-
-    showProcessoGrid(): void {
-        this.activeCard = 'processo-gridsearch';
-    }
-
     checkModalidadeTransicao(): void {
         const value = this.form.get('modalidadeTransicao').value;
         if (!value || typeof value !== 'object') {
@@ -152,7 +136,9 @@ export class CdkTransicaoFormComponent implements OnChanges, OnDestroy, OnInit {
     }
 
     selectModalidadeTransicao(modalidadeTransicao: ModalidadeTransicao): void {
-        this.form.get('modalidadeTransicao').setValue(modalidadeTransicao);
+        if (modalidadeTransicao) {
+            this.form.get('modalidadeTransicao').setValue(modalidadeTransicao);
+        }
         this.activeCard = 'form';
     }
 

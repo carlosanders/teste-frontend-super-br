@@ -135,7 +135,9 @@ export class CdkVinculacaoDocumentoFormComponent implements OnChanges, OnDestroy
     }
 
     selectDocumento(documento: Documento): void {
-        this.form.get('documento').setValue(documento);
+        if (documento) {
+            this.form.get('documento').setValue(documento);
+        }
         this.activeCard = 'form';
     }
 
@@ -151,7 +153,9 @@ export class CdkVinculacaoDocumentoFormComponent implements OnChanges, OnDestroy
     }
 
     selectDocumentoVinculado(documentoVinculado: Documento): void {
-        this.form.get('documentoVinculado').setValue(documentoVinculado);
+        if (documentoVinculado) {
+            this.form.get('documentoVinculado').setValue(documentoVinculado);
+        }
         this.activeCard = 'form';
     }
 
@@ -167,7 +171,9 @@ export class CdkVinculacaoDocumentoFormComponent implements OnChanges, OnDestroy
     }
 
     selectModalidadeVinculacaoDocumento(modalidadeVinculacaoDocumento: ModalidadeVinculacaoDocumento): void {
-        this.form.get('modalidadeVinculacaoDocumento').setValue(modalidadeVinculacaoDocumento);
+        if (modalidadeVinculacaoDocumento) {
+            this.form.get('modalidadeVinculacaoDocumento').setValue(modalidadeVinculacaoDocumento);
+        }
         this.activeCard = 'form';
     }
 

@@ -4,13 +4,17 @@ import {
     Component,
     Input,
     Output,
-    ViewEncapsulation, EventEmitter
+    ViewEncapsulation,
+    EventEmitter,
+    OnInit
 } from '@angular/core';
 import {of} from 'rxjs';
 
 import {fuseAnimations} from '@fuse/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
+
+import {Pagination} from '@cdk/models/pagination';
 
 import {VolumeService} from '@cdk/services/volume.service';
 import {Volume} from '@cdk/models/volume.model';
@@ -23,10 +27,10 @@ import {Volume} from '@cdk/models/volume.model';
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
 })
-export class CdkVolumeGridsearchComponent {
+export class CdkVolumeGridsearchComponent implements OnInit {
 
     @Input()
-    filter = {};
+    pagination: Pagination;
 
     @Output()
     selected = new EventEmitter();
@@ -50,22 +54,23 @@ export class CdkVolumeGridsearchComponent {
         private _volumeService: VolumeService
     ) {
         this.loading = false;
+        this.pagination = new Pagination();
+    }
+
+    ngOnInit(): void {
+        this.load(this.pagination);
     }
 
     load(params): void {
 
-        params.filter = JSON.stringify(params.filter);
-        params.sort = JSON.stringify(params.sort);
-        params.populate = JSON.stringify(params.populate);
-
         this.loading = true;
 
         this._volumeService.query(
-            params.filter,
+            JSON.stringify(params.filter),
             params.limit,
             params.offset,
-            params.sort,
-            params.populate)
+            JSON.stringify(params.sort),
+            JSON.stringify(params.populate))
             .pipe(
                 finalize(() => this.loading = false),
                 catchError(() => of([]))
@@ -76,16 +81,20 @@ export class CdkVolumeGridsearchComponent {
         });
     }
 
-    reload(params): void {
+   reload (params): void {
         params = {
-            ...params,
+            ...this.pagination,
             filter: {
-                ...params.gridFilter,
-                ...this.filter
+                ...this.pagination.filter,
+                ...params.gridFilter
             },
-            populate: ['populateAll']
+            sort: params.sort,
+            populate: [
+                ...this.pagination.populate,
+                ...params.populate
+            ]
         };
-        this.load(params);
+        this.load (params);
     }
 
     select(volume): void {

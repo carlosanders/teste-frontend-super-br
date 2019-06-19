@@ -7,7 +7,7 @@ import {
     MatCheckboxModule,
     MatProgressSpinnerModule,
     MatAutocompleteModule,
-    MatDatepickerModule
+    MatDatepickerModule, MatSlideToggleModule
 
 } from '@angular/material';
 
@@ -19,6 +19,7 @@ import {ProcessoService} from '../../../services/processo.service';
 import {CdkModalidadeTransicaoAutocompleteModule} from '../../modalidade-transicao/cdk-modalidade-transicao-autocomplete/cdk-modalidade-transicao-autocomplete.module';
 import {CdkModalidadeTransicaoGridsearchModule} from '../../modalidade-transicao/cdk-modalidade-transicao-autocomplete/cdk-modalidade-transicao-gridsearch/cdk-modalidade-transicao-gridsearch.module';
 import {ModalidadeTransicaoService} from '../../../services/modalidade-transicao.service';
+import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
 
 @NgModule({
     declarations: [
@@ -33,6 +34,8 @@ import {ModalidadeTransicaoService} from '../../../services/modalidade-transicao
         MatInputModule,
         MatProgressSpinnerModule,
         MatDatepickerModule,
+
+        NgxUpperCaseDirectiveModule,
 
         CdkProcessoAutocompleteModule,
         CdkProcessoGridsearchModule,

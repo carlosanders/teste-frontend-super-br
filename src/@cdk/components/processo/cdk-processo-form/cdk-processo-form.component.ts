@@ -212,7 +212,9 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     selectEspecieProcesso(especieProcesso: EspecieProcesso): void {
-        this.form.get('especieProcesso').setValue(especieProcesso);
+        if (especieProcesso) {
+            this.form.get('especieProcesso').setValue(especieProcesso);
+        }
         this.activeCard = 'form';
     }
 
@@ -228,7 +230,9 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     selectProcedencia(procedencia: Pessoa): void {
-        this.form.get('procedencia').setValue(procedencia);
+        if (procedencia) {
+            this.form.get('procedencia').setValue(procedencia);
+        }
         this.activeCard = 'form';
     }
 
@@ -244,7 +248,9 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     selectModalidadeFase(modalidadeFase: ModalidadeFase): void {
-        this.form.get('modalidadeFase').setValue(modalidadeFase);
+        if (modalidadeFase) {
+            this.form.get('modalidadeFase').setValue(modalidadeFase);
+        }
         this.activeCard = 'form';
     }
 
@@ -260,7 +266,9 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     selectModalidadeMeio(modalidadeMeio: ModalidadeMeio): void {
-        this.form.get('modalidadeMeio').setValue(modalidadeMeio);
+        if (modalidadeMeio) {
+            this.form.get('modalidadeMeio').setValue(modalidadeMeio);
+        }
         this.activeCard = 'form';
     }
 
@@ -276,7 +284,9 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     selectClassificacao(classificacao: Classificacao): void {
-        this.form.get('classificacao').setValue(classificacao);
+        if (classificacao) {
+            this.form.get('classificacao').setValue(classificacao);
+        }
         this.activeCard = 'form';
     }
 
@@ -292,7 +302,9 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     selectSetor(setor: Setor): void {
-        this.form.get('setorAtual').setValue(setor);
+        if (setor) {
+            this.form.get('setorAtual').setValue(setor);
+        }
         this.activeCard = 'form';
     }
 

@@ -34,6 +34,7 @@ import {CdkModeloAutocompleteModule} from '../../modelo/cdk-modelo-autocomplete/
 import {CdkModeloGridsearchModule} from '../../modelo/cdk-modelo-autocomplete/cdk-modelo-gridsearch/cdk-modelo-gridsearch.module';
 import {CdkPessoaAutocompleteModule} from '../../pessoa/cdk-pessoa-autocomplete/cdk-pessoa-autocomplete.module';
 import {CdkPessoaGridsearchModule} from '../../pessoa/cdk-pessoa-autocomplete/cdk-pessoa-gridsearch/cdk-pessoa-gridsearch.module';
+import {CdkProcessoGridModule} from '../../processo/cdk-processo-grid/cdk-processo-grid.module';
 
 @NgModule({
     declarations: [
@@ -68,6 +69,8 @@ import {CdkPessoaGridsearchModule} from '../../pessoa/cdk-pessoa-autocomplete/cd
         CdkModeloGridsearchModule,
         CdkPessoaAutocompleteModule,
         CdkPessoaGridsearchModule,
+
+        CdkProcessoGridModule,
 
         FuseSharedModule,
     ],

@@ -128,6 +128,10 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
         }
     }
 
+    doCreateTarefa(): void {
+        this._router.navigate([this.routerState.url.split('/tarefa/')[0] + '/criar/' + this.tarefa.processo.id]).then();
+    }
+
     onUploadClick(): void {
         this.cdkUpload.onClick();
     }

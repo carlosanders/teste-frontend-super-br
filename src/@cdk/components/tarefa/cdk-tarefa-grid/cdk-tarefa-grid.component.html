@@ -1,7 +1,7 @@
 <!-- CONTENT HEADER -->
-<div class="header" fxLayout="column">
+<div class="header" fxLayout="column" *ngIf="showFilter">
 
-    <div class="filters" *ngIf="showFilter">
+    <div class="filters">
         <cdk-tarefa-grid-filter (selected)="setGridFilter($event)"></cdk-tarefa-grid-filter>
     </div>
 </div>

@@ -1,4 +1,4 @@
-import {AddData} from '@cdk/ngrx-normalizr';
+import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {tarefa as tarefaSchema} from '@cdk/normalizr/tarefa.schema';
 
 import {Injectable} from '@angular/core';
@@ -6,18 +6,17 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, exhaustMap, concatMap, mergeMap} from 'rxjs/operators';
+import {catchError, map, concatMap, mergeMap, switchMap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
-import * as TarefasActions from 'app/main/apps/tarefas/store/actions/tarefas.actions';
+import * as TarefasActions from '../actions/tarefas.actions';
 
 import {Tarefa} from '@cdk/models/tarefa.model';
 import {TarefaService} from '@cdk/services/tarefa.service';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Router} from '@angular/router';
 import {plainToClass} from 'class-transformer';
-import * as DocumentoAvulsoCreateActions from '../../../documento-avulso/documento-avulso-create/store/actions/documento-avulso-create.actions';
-import * as OperacoesActions from '../../../../../store/actions/operacoes.actions';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
 export class TarefasEffect {
@@ -49,7 +48,7 @@ export class TarefasEffect {
         this._actions
             .pipe(
                 ofType<TarefasActions.GetTarefas>(TarefasActions.GET_TAREFAS),
-                exhaustMap((action) => {
+                switchMap((action) => {
                     return this._tarefaService.query(
                         JSON.stringify({
                             ...action.payload.filter,
@@ -127,6 +126,54 @@ export class TarefasEffect {
                         catchError((err) => {
                             console.log(err);
                             return of(new TarefasActions.DeleteTarefaFailed(action.payload));
+                        })
+                    );
+                })
+            );
+
+    /**
+     * Toggle Lida Tarefa
+     * @type {Observable<any>}
+     */
+    @Effect()
+    toggleLidaTarefa: any =
+        this._actions
+            .pipe(
+                ofType<TarefasActions.ToggleLidaTarefa>(TarefasActions.TOGGLE_LIDA_TAREFA),
+                mergeMap((action) => {
+                    return this._tarefaService.toggleLida(action.payload).pipe(
+                        mergeMap((response) => [
+                            new TarefasActions.ToggleLidaTarefaSuccess(response.id),
+                            new UpdateData<Tarefa>({id: response.id, schema: tarefaSchema, changes: {dataHoraLeitura: response.dataHoraLeitura}})
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            return of(new TarefasActions.ToggleLidaTarefaFailed(action.payload));
+                        })
+                    );
+                })
+            );
+
+    /**
+     * Toggle Urgente Tarefa
+     * @type {Observable<any>}
+     */
+    @Effect()
+    toggleUrgenteTarefa: any =
+        this._actions
+            .pipe(
+                ofType<TarefasActions.ToggleUrgenteTarefa>(TarefasActions.TOGGLE_URGENTE_TAREFA),
+                mergeMap((action) => {
+                    return this._tarefaService.patch(action.payload, {
+                        urgente: !action.payload.urgente
+                    }).pipe(
+                        mergeMap((response) => [
+                            new TarefasActions.ToggleUrgenteTarefaSuccess(response.id),
+                            new UpdateData<Tarefa>({id: response.id, schema: tarefaSchema, changes: {urgente: response.urgente}})
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            return of(new TarefasActions.ToggleUrgenteTarefaFailed(action.payload));
                         })
                     );
                 })

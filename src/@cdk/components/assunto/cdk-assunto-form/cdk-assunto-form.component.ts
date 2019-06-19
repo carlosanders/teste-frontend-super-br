@@ -120,7 +120,9 @@ export class CdkAssuntoFormComponent implements OnChanges, OnDestroy {
     }
     
     selectAssuntoAdministrativo(assuntoAdministrativo: AssuntoAdministrativo): void {
-        this.form.get('assuntoAdministrativo').setValue(assuntoAdministrativo);
+        if (assuntoAdministrativo) {
+            this.form.get('assuntoAdministrativo').setValue(assuntoAdministrativo);
+        }
         this.activeCard = 'form';
     }
 

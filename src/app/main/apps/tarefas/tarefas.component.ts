@@ -227,11 +227,18 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     setCurrentTarefa(tarefa: Tarefa): void {
+        if (!tarefa.dataHoraLeitura) {
+            this._store.dispatch(new fromStore.ToggleLidaTarefa(tarefa));
+        }
         this._store.dispatch(new fromStore.SetCurrentTarefa({tarefaId: tarefa.id, processoId: tarefa.processo.id}));
     }
 
     deleteTarefa(tarefaId: number): void {
         this._store.dispatch(new fromStore.DeleteTarefa(tarefaId));
+    }
+
+    doToggleUrgente(tarefa: Tarefa): void {
+        this._store.dispatch(new fromStore.ToggleUrgenteTarefa(tarefa));
     }
 
     /**
@@ -284,11 +291,51 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.tarefaListOriginalSize = event.rectangle.width;
     }
 
-    createDocumentoAvulso(tarefaId): void {
-        this._router.navigate([this.routerState.url.split('/tarefa/')[0] + '/' + this.routerState.param.tarefaHandle + '/oficio']).then();
+    doCreateDocumentoAvulso(tarefaId): void {
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.folderHandle + '/' + tarefaId + '/oficio']).then();
     }
 
-    compartilhar(tarefaId): void {
-        this._router.navigate([this.routerState.url.split('/tarefa/')[0] + '/compartilhamento-create-bloco']).then();
+    doCreateTarefa(params): void {
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.folderHandle + '/criar/' + params.processoId]).then();
+    }
+
+    doMovimentar(tarefaId): void {
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.folderHandle + '/tarefa/' + tarefaId + '/atividades/criar']).then();
+    }
+
+    doEditTarefa(tarefaId): void {
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.folderHandle + '/tarefa/' + tarefaId + '/editar']).then();
+    }
+
+    doEditProcesso(params): void {
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.folderHandle + '/tarefa/' + params.tarefaId + '/processo/' + params.processoId + '/editar']).then();
+    }
+
+    doCompartilhar(tarefaId): void {
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.folderHandle + '/tarefa/' + tarefaId + '/compartilhamentos/criar']).then();
+    }
+
+    doCompartilharBloco(): void {
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.folderHandle + '/compartilhamento-bloco']).then();
+    }
+
+    doEtiquetarBloco(): void {
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.folderHandle + '/vinculacao-etiqueta-bloco']).then();
+    }
+
+    doMovimentarBloco(): void {
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.folderHandle + '/atividade-bloco']).then();
+    }
+
+    doEditTarefaBloco(): void {
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.folderHandle + '/tarefa-edit-bloco']).then();
+    }
+
+    doCreateTarefaBloco(): void {
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.folderHandle + '/tarefa-bloco']).then();
+    }
+
+    doCreateDocumentoAvulsoBloco(): void {
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.folderHandle + '/documento-avulso-bloco']).then();
     }
 }
