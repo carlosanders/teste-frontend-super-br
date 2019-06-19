@@ -64,7 +64,8 @@ export class CdkEnderecoFormComponent implements OnChanges, OnDestroy {
             'cep': [null],
             'observacao': [null],
             'numero': [null],
-            'complemento': [null]
+            'complemento': [null],
+            'pessoa': [null],
         });
         this.municipioPagination = new Pagination();
         this.paisPagination = new Pagination();

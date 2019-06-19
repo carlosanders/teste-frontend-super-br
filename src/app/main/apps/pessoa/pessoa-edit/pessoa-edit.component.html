@@ -1,6 +1,41 @@
-<cdk-pessoa-form
-        [pessoa]="pessoa"
-        [saving]="(isSaving$ | async)"
-        [errors]="(errors$ | async)"
-        (save)="submit($event)">
-</cdk-pessoa-form>
+<div fxLayout="row" class="page-layout full-width left-sidebar inner-scroll">
+
+    <!-- SIDEBAR -->
+    <fuse-sidebar class="sidebar" name="pessoa-edit-main-sidebar" position="left" lockedOpen="gt-xs">
+
+        <!-- SIDEBAR CONTENT -->
+        <div class="content" fusePerfectScrollbar>
+            <pessoa-edit-main-sidebar [@animate]="{value:'*'}"></pessoa-edit-main-sidebar>
+        </div>
+        <!-- / SIDEBAR CONTENT -->
+
+    </fuse-sidebar>
+    <!-- / SIDEBAR -->
+
+    <!-- CENTER -->
+    <div class="center">
+
+        <!-- CONTENT HEADER -->
+        <div class="header" fxLayout="row" fxLayoutAlign="start center">
+            <div class="sidebar-toggle">
+                <button mat-icon-button
+                        (click)="toggleSidebar('pessoa-edit-main-sidebar')" fxHide.gt-xs>
+                    <mat-icon>menu</mat-icon>
+                </button>
+            </div>
+
+        </div>
+        <!-- / CONTENT HEADER -->
+
+        <!-- CONTENT CARD -->
+        <div class="content-card" fusePerfectScrollbar>
+
+            <router-outlet></router-outlet>
+
+        </div>
+        <!-- / CONTENT CARD -->
+
+    </div>
+    <!-- / CENTER -->
+
+</div>

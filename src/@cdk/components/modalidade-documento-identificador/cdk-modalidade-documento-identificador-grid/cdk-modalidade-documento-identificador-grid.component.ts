@@ -107,6 +107,7 @@ export class CdkModalidadeDocumentoIdentificadorGridComponent implements AfterVi
         this.paginator.pageSize = this.pageSize;
 
         this.dataSource = new ModalidadeDocumentoIdentificadorDataSource(of(this.modalidadedocumentoIdentificadors));
+        this.loadPage();
     }
 
     ngAfterViewInit(): void {

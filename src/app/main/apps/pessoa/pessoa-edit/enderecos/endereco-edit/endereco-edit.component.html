@@ -1,0 +1,6 @@
+<cdk-endereco-form
+        [endereco]="endereco"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        (save)="submit($event)">
+</cdk-endereco-form>

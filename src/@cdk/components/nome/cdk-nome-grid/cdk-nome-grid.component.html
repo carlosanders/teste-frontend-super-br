@@ -75,9 +75,9 @@
             </ng-container>
 
             <!-- Valor Column -->
-            <ng-container matColumnDef="nome">
+            <ng-container matColumnDef="valor">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="100" fxLayoutAlign="start center">
-                    Valor
+                    Outro Nome
                 </th>
                 <td mat-cell *matCellDef="let nome" fxFlex="100" fxLayoutAlign="start center"
                     [ngClass]="{'deleted':deletedIds?.indexOf(nome.id) > -1}"> {{nome.valor}} </td>
@@ -86,19 +86,10 @@
             <!-- Origem do Dado Column -->
             <ng-container matColumnDef="fonteDados.servico">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
-                    Fonte do Dado
+                    Fonte do Dados
                 </th>
                 <td mat-cell *matCellDef="let nome" fxFlex="30" fxLayoutAlign="start center"
-                    [ngClass]="{'deleted':deletedIds?.indexOf(nome.id) > -1}"> {{nome.origemDados.servico}} </td>
-            </ng-container>
-
-            <!-- Pessoa Nome Column -->
-            <ng-container matColumnDef="pessoa.nome">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
-                    Pessoa
-                </th>
-                <td mat-cell *matCellDef="let nome" fxFlex="30" fxLayoutAlign="start center"
-                    [ngClass]="{'deleted':deletedIds?.indexOf(nome.id) > -1}"> {{nome.pessoa.nome}} </td>
+                    [ngClass]="{'deleted':deletedIds?.indexOf(nome.id) > -1}"> {{nome.origemDados?.servico}} </td>
             </ng-container>
 
             <!-- Actions Column -->

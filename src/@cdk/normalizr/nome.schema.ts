@@ -5,7 +5,6 @@ import {origemDados} from './origem-dados.schema';
 
 export const nome = new schema.Entity('nome', {
     origemDados: origemDados,
-    pessoa: pessoa,
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario

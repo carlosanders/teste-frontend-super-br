@@ -11,6 +11,46 @@
         </mat-checkbox>
 
         <mat-form-field fxFlex="100">
+            <mat-label>CEP</mat-label>
+            <input matInput #cep
+                   name="cep"
+                   formControlName="cep"
+                   maxlength="255">
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+            <mat-label>Logradouro</mat-label>
+            <input matInput #logradouro
+                   name="logradouro"
+                   formControlName="logradouro"
+                   maxlength="255">
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+            <mat-label>Número</mat-label>
+            <input matInput #numero
+                   name="numero"
+                   formControlName="numero"
+                   maxlength="255">
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+            <mat-label>Complemento</mat-label>
+            <input matInput #complemento
+                   name="complemento"
+                   formControlName="complemento"
+                   maxlength="255">
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+            <mat-label>Bairro</mat-label>
+            <input matInput #bairro
+                   name="bairro"
+                   formControlName="bairro"
+                   maxlength="255">
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
             <div fxLayout="row" fxLayoutAlign="start center">
                 <input matInput placeholder="Município"
                        formControlName="municipio"
@@ -52,46 +92,6 @@
             <mat-error *ngIf="form.get('pais').hasError('formError')">
                 {{form.get('pais').errors.formError}}
             </mat-error>
-        </mat-form-field>
-
-        <mat-form-field fxFlex="100">
-            <mat-label>Logradouro</mat-label>
-            <input matInput #logradouro
-                   name="logradouro"
-                   formControlName="logradouro"
-                   maxlength="255">
-        </mat-form-field>
-
-        <mat-form-field fxFlex="100">
-            <mat-label>CEP</mat-label>
-            <input matInput #cep
-                   name="cep"
-                   formControlName="cep"
-                   maxlength="255">
-        </mat-form-field>
-
-        <mat-form-field fxFlex="100">
-            <mat-label>Complemento</mat-label>
-            <input matInput #complemento
-                   name="complemento"
-                   formControlName="complemento"
-                   maxlength="255">
-        </mat-form-field>
-
-        <mat-form-field fxFlex="100">
-            <mat-label>Número</mat-label>
-            <input matInput #numero
-                   name="numero"
-                   formControlName="numero"
-                   maxlength="255">
-        </mat-form-field>
-
-        <mat-form-field fxFlex="100">
-            <mat-label>Bairro</mat-label>
-            <input matInput #bairro
-                   name="bairro"
-                   formControlName="bairro"
-                   maxlength="255">
         </mat-form-field>
 
     </div>
