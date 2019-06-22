@@ -107,6 +107,7 @@ export class CdkPaisGridComponent implements AfterViewInit, OnInit, OnChanges {
         this.paginator.pageSize = this.pageSize;
 
         this.dataSource = new PaisDataSource(of(this.paises));
+        this.loadPage();
     }
 
     ngAfterViewInit(): void {

@@ -1,4 +1,3 @@
-<div class="div-form">
 <form *ngIf="activeCard === 'form'" class="p-24 mr-24" fxLayoutGap="16px"
       fxLayout="column"
       fxLayoutAlign="start"
@@ -75,11 +74,10 @@
     </div>
 </form>
 
-    <cdk-modalidade-documento-identificador-gridsearch
-        fxFlex="1 0 auto"
-        *ngIf="activeCard === 'documento-identificador-gridsearch'"
-        (selected)="selectModalidadeDocumentoIdentificador($event)"
-        (cancel)="cancel()">
-    </cdk-modalidade-documento-identificador-gridsearch>
+<cdk-modalidade-documento-identificador-gridsearch
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'documento-identificador-gridsearch'"
+    (selected)="selectModalidadeDocumentoIdentificador($event)"
+    (cancel)="cancel()">
+</cdk-modalidade-documento-identificador-gridsearch>
 
-</div>

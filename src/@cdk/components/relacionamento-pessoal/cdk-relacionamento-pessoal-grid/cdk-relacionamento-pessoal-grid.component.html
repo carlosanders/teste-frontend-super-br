@@ -74,28 +74,19 @@
                     [ngClass]="{'deleted':deletedIds?.indexOf(relacionamentoPessoal.id) > -1}"> {{relacionamentoPessoal.id}} </td>
             </ng-container>
 
-            <!-- Pessoa Column -->
+            <!-- Pessoa Relacionada Column -->
             <ng-container matColumnDef="pessoaRelacionada.nome">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="100" fxLayoutAlign="start center">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
                     Pessoa
                 </th>
-                <td mat-cell *matCellDef="let relacionamentoPessoal" fxFlex="100" fxLayoutAlign="start center"
-                    [ngClass]="{'deleted':deletedIds?.indexOf(relacionamentoPessoal.id) > -1}"> {{relacionamentoPessoal.pessoaRelacionada.nome}} </td>
-            </ng-container>
-
-            <!-- Pessoa Relacionada Column -->
-            <ng-container matColumnDef="descricao">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
-                    Pessoa Relacionada
-                </th>
                 <td mat-cell *matCellDef="let relacionamentoPessoal" fxFlex="30" fxLayoutAlign="start center"
-                    [ngClass]="{'deleted':deletedIds?.indexOf(relacionamentoPessoal.id) > -1}"> {{relacionamentoPessoal.fontePessoal}} </td>
+                    [ngClass]="{'deleted':deletedIds?.indexOf(relacionamentoPessoal.id) > -1}"> {{relacionamentoPessoal.pessoaRelacionada.nome}} </td>
             </ng-container>
 
             <!-- ModalidadeRelacionamentoPessoal Column -->
             <ng-container matColumnDef="modalidadeRelacionamentoPessoal.valor">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
-                    Relacionamento Pessoal
+                    Modalidade
             </th>
                 <td mat-cell *matCellDef="let relacionamentoPessoal" fxFlex="30" fxLayoutAlign="start center"
                 [ngClass]="{'deleted':deletedIds?.indexOf(relacionamentoPessoal.id) > -1}"> {{relacionamentoPessoal.modalidadeRelacionamentoPessoal.valor}} </td>
@@ -104,10 +95,10 @@
             <!-- OrigemDados Column -->
             <ng-container matColumnDef="origemDados.servico">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
-                    Origem de Dados
+                    Origem Dados
                 </th>
                 <td mat-cell *matCellDef="let relacionamentoPessoal" fxFlex="30" fxLayoutAlign="start center"
-                    [ngClass]="{'deleted':deletedIds?.indexOf(relacionamentoPessoal.id) > -1}"> {{relacionamentoPessoal.origemDados.servico}} </td>
+                    [ngClass]="{'deleted':deletedIds?.indexOf(relacionamentoPessoal.id) > -1}"> {{relacionamentoPessoal.origemDados?.servico}} </td>
             </ng-container>
 
             <!-- Actions Column -->

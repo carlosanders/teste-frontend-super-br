@@ -50,7 +50,9 @@ export class PessoaListEffect {
                         action.payload.limit,
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
-                        JSON.stringify(action.payload.populate));
+                        JSON.stringify([
+                            'populateAll'
+                        ]));
                 }),
                 mergeMap((response) => [
                     new AddData<Pessoa>({data: response['entities'], schema: pessoaSchema}),

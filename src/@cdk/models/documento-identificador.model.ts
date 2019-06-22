@@ -18,11 +18,9 @@ export class DocumentoIdentificador {
 
     emissorDocumento: string;
 
-    @Transform(value => value ? value.format() : null, { toPlainOnly: true })
+    @Transform(value => value ? value.format('YYYY-MM-DD') : null, { toPlainOnly: true })
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
     dataEmissao?: Date;
-
-    nome: string;
 
     @Type(() => ModalidadeDocumentoIdentificador)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
@@ -73,7 +71,6 @@ export class DocumentoIdentificador {
         this.codigoDocumento = null;
         this.emissorDocumento = null;
         this.dataEmissao = null;
-        this.nome = null;
         this.modalidadeDocumentoIdentificador = null;
         this.origemDados = null;
         this.pessoa = null;

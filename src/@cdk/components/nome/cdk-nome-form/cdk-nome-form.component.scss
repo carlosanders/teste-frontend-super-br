@@ -1,0 +1,19 @@
+cdk-nome-form {
+
+    .div-form{
+        width: 350px;
+    }
+
+    .form-card {
+      border-radius: 8px;
+    }
+
+    .form-errors-model {
+      flex: 1;
+
+      code {
+        background: none !important;
+      }
+    }
+
+}

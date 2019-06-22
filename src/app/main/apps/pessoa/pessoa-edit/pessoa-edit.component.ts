@@ -1,20 +1,18 @@
 import {
     ChangeDetectionStrategy,
+    ChangeDetectorRef,
     Component,
     OnDestroy,
     OnInit,
     ViewEncapsulation
 } from '@angular/core';
 
+import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 import {fuseAnimations} from '@fuse/animations';
-import {Observable, Subject} from 'rxjs';
-
-import {Pessoa} from '@cdk/models/pessoa.model';
 import {select, Store} from '@ngrx/store';
-
-import * as fromStore from './store';
-import {Pagination} from '@cdk/models/pagination';
-import {takeUntil} from 'rxjs/operators';
+import * as fromStore from './dados-pessoa-edit/store';
+import {Observable} from 'rxjs';
+import {Pessoa} from '../../../../../@cdk/models/pessoa.model';
 
 @Component({
     selector: 'pessoa-edit',
@@ -26,20 +24,20 @@ import {takeUntil} from 'rxjs/operators';
 })
 export class PessoaEditComponent implements OnInit, OnDestroy {
 
-    private _unsubscribeAll: Subject<any> = new Subject();
-
     pessoa$: Observable<Pessoa>;
     pessoa: Pessoa;
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
 
-    pessoaAdministrativoPagination: Pagination;
-
     /**
+     * @param _changeDetectorRef
+     * @param _fuseSidebarService
      * @param _store
      */
     constructor(
-        private _store: Store<fromStore.PessoaEditAppState>
+        private _store: Store<fromStore.DadosPessoaEditAppState>,
+        private _changeDetectorRef: ChangeDetectorRef,
+        private _fuseSidebarService: FuseSidebarService,
     ) {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
@@ -54,43 +52,31 @@ export class PessoaEditComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-
-        this.pessoa$.pipe(
-            takeUntil(this._unsubscribeAll)
-        ).subscribe(
-            pessoa => this.pessoa = pessoa
-        );
-
-        if (!this.pessoa) {
-            this.pessoa = new Pessoa();
-        }
     }
 
     /**
      * On destroy
      */
     ngOnDestroy(): void {
-        // Unsubscribe from all subscriptions
-        this._unsubscribeAll.next();
-        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
-    submit(values): void {
-
-        const pessoa = new Pessoa();
-
-        Object.entries(values).forEach(
-            ([key, value]) => {
-                pessoa[key] = value;
-            }
-        );
-
-        this._store.dispatch(new fromStore.SavePessoa(pessoa));
-
+    /**
+     * Refresh
+     */
+    refresh(): void {
+        this._changeDetectorRef.markForCheck();
     }
 
+    /**
+     * Toggle the sidebar
+     *
+     * @param name
+     */
+    toggleSidebar(name): void {
+        this._fuseSidebarService.getSidebar(name).toggleOpen();
+    }
 }

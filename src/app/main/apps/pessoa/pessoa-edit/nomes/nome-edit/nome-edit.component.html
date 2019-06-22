@@ -1,0 +1,6 @@
+<cdk-nome-form
+        [nome]="nome"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        (save)="submit($event)">
+</cdk-nome-form>

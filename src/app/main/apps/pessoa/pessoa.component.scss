@@ -1,16 +1,20 @@
-#pessoas {
+pessoa {
 
-  .header {
+    width: 100%;
 
-    .actions {
-      .is-active {
-        display: none;
-      }
+    .sidebar {
+
+        &:not(.locked-open) {
+            background: white;
+        }
     }
 
-  }
+    .center {
 
-  .content {
+        width: 100%;
 
-  }
+        .content-card {
+            flex: 1 0 100%;
+        }
+    }
 }

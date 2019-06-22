@@ -10,6 +10,8 @@ import * as fromStore from 'app/main/apps/pessoa/pessoa-list/store';
 import {getRouterState} from '../../../store/reducers';
 import {Router} from '@angular/router';
 
+import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
+
 @Component({
     selector: 'pessoas',
     templateUrl: './pessoa.component.html',
@@ -32,7 +34,8 @@ export class PessoaComponent implements OnInit {
     constructor(
         private _store: Store<fromStore.PessoaListAppState>,
         private _changeDetectorRef: ChangeDetectorRef,
-        private _router: Router
+        private _router: Router,
+        private _fuseSidebarService: FuseSidebarService,
     ) {
         this._store
             .pipe(select(getRouterState))
@@ -56,5 +59,14 @@ export class PessoaComponent implements OnInit {
         if (this.action === 'criar') {
             this._router.navigate([this.routerState.url.replace('criar', 'listar')]).then();
         }
+    }
+
+    /**
+     * Toggle the sidebar
+     *
+     * @param name
+     */
+    toggleSidebar(name): void {
+        this._fuseSidebarService.getSidebar(name).toggleOpen();
     }
 }

@@ -9,7 +9,6 @@ export const endereco = new schema.Entity('endereco', {
     municipio: municipio,
     pais: pais,
     origemDados: origemDados,
-    pessoa: pessoa,
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario
