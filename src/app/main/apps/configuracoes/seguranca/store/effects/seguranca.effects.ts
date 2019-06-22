@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, tap, switchMap} from 'rxjs/operators';
 
 import * as SegurancaActions from '../actions/seguranca.actions';
@@ -11,6 +11,7 @@ import {Usuario} from '@cdk/models/usuario.model';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
 export class SegurancaEffect {
@@ -41,16 +42,19 @@ export class SegurancaEffect {
             .pipe(
                 ofType<SegurancaActions.SaveSeguranca>(SegurancaActions.SAVE_SEGURANCA),
                 switchMap((action) => {
-                    return this._usuarioService.save(action.payload).pipe(
+                    return this._usuarioService.patch(action.payload.usuario, action.payload.changes).pipe(
                         mergeMap((response: Usuario) => [
-                            new SegurancaActions.SaveSegurancaSuccess()
-                        ])
+                            new SegurancaActions.SaveSegurancaSuccess(),  new OperacoesActions.Resultado({
+                                type: 'usuario',
+                                content: `Usuário id ${response.id} editado com sucesso!`,
+                                dateTime: response.criadoEm
+                            })
+                        ]),
+                        catchError((err) => {
+                            console.log (err);
+                            return of(new SegurancaActions.SaveSegurancaFailed(err));
+                        })
                     );
-                }),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new SegurancaActions.SaveSegurancaFailed(err));
-                    return caught;
                 })
             );
 }

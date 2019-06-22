@@ -15,6 +15,8 @@ import { FuseSharedModule } from '@fuse/shared.module';
 import { CdkEtiquetaFormComponent } from './cdk-etiqueta-form.component';
 import {CdkModalidadeEtiquetaAutocompleteModule} from '../../modalidade-etiqueta/cdk-modalidade-etiqueta-autocomplete/cdk-modalidade-etiqueta-autocomplete.module';
 import {CdkModalidadeEtiquetaGridsearchModule} from '../../modalidade-etiqueta/cdk-modalidade-etiqueta-autocomplete/cdk-modalidade-etiqueta-gridsearch/cdk-modalidade-etiqueta-gridsearch.module';
+import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
+import {MccColorPickerModule} from 'material-community-components';
 
 @NgModule({
     declarations: [
@@ -30,6 +32,12 @@ import {CdkModalidadeEtiquetaGridsearchModule} from '../../modalidade-etiqueta/c
         MatInputModule,
         MatProgressSpinnerModule,
         MatDatepickerModule,
+
+        NgxUpperCaseDirectiveModule,
+
+        MccColorPickerModule.forRoot({
+            used_colors: ['#000000', '#123456', '#777666']
+        }),
 
         CdkModalidadeEtiquetaAutocompleteModule,
         CdkModalidadeEtiquetaGridsearchModule,

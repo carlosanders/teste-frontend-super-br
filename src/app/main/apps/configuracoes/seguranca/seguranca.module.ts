@@ -20,7 +20,7 @@ import {FuseSidebarModule} from '@fuse/components';
 
 import {SegurancaComponent} from './seguranca.component';
 import {RouterModule, Routes} from '@angular/router';
-import {CdkSegurancaFormModule} from '@cdk/components/perfil/cdk-seguranca-form/cdk-seguranca-form.module';
+import {CdkSegurancaFormModule} from '@cdk/components/usuario/cdk-seguranca-form/cdk-seguranca-form.module';
 import {SegurancaStoreModule} from './store/store.module';
 import {LoginService} from '../../../auth/login/login.service';
 

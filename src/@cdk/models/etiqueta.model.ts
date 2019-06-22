@@ -14,7 +14,11 @@ export class Etiqueta {
 
     nome: string;
 
+    descricao: string;
+
     corHexadecimal: string;
+
+    ativo: boolean;
 
     @Type(() => ModalidadeEtiqueta)
     @Transform(value => value ? value.id : null, {toPlainOnly: true})
@@ -54,6 +58,8 @@ export class Etiqueta {
         this.id = null;
         this.uuid = null;
         this.nome = null;
+        this.ativo = null;
+        this.descricao = null;
         this.corHexadecimal = null;
         this.modalidadeEtiqueta = null;
         this.criadoPor = null;

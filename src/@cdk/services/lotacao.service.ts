@@ -1,16 +1,18 @@
 import {Injectable} from '@angular/core';
-import {HttpParams} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Lotacao} from '@cdk/models/lotacao.model';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
 import {PaginatedResponse} from '@cdk/models/paginated.response';
+import {environment} from '../../environments/environment';
 
 @Injectable()
 export class LotacaoService {
 
     constructor(
-        private modelService: ModelService
+        private modelService: ModelService,
+        private http: HttpClient
     ) {
     }
 
@@ -58,5 +60,16 @@ export class LotacaoService {
 
     destroy(id: number): Observable<Lotacao> {
         return this.modelService.delete('lotacao', id);
+    }
+
+    patch(lotacao: Lotacao, changes: any): Observable<Lotacao> {
+        return this.http.patch(
+            `${environment.api_url}${'lotacao'}/${lotacao.id}` + environment.xdebug,
+            JSON.stringify(changes)
+        ).map(response => {
+            response = plainToClass(Lotacao, response);
+            Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+            return Object.assign(new Lotacao(), {...lotacao, ...response});
+        });
     }
 }

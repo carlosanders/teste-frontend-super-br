@@ -78,4 +78,8 @@ export class LotacaoListComponent implements OnInit {
         this._store.dispatch(new fromStore.DeleteLotacao(lotacaoId));
     }
 
+    setPrincipal(lotacao: Lotacao): void {
+        this._store.dispatch(new fromStore.SaveLotacao({lotacao: lotacao, changes: {principal: true}}));
+    }
+
 }

@@ -11,6 +11,7 @@ import * as fromStore from '../';
 import {getRouterState} from 'app/store/reducers';
 import {getEtiquetaListLoaded} from '../selectors';
 import {LoginService} from 'app/main/auth/login/login.service';
+import {Usuario} from '@cdk/models/usuario.model';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
@@ -59,10 +60,9 @@ export class ResolveGuard implements CanActivate {
             select(getEtiquetaListLoaded),
             tap((loaded: any) => {
                 if (!loaded) {
-
                     const params = {
                         filter: {
-                            'vinculacoesEtiquetas.usuario.id': this._loginService.getUserProfile().usuario.id
+                            'vinculacoesEtiquetas.usuario.id': 'eq:' + this._loginService.getUserProfile().usuario.id
                         },
                         gridFilter: {},
                         limit: 10,

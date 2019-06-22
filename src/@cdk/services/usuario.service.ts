@@ -1,16 +1,18 @@
 import {Injectable} from '@angular/core';
-import {HttpParams} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Usuario} from '@cdk/models/usuario.model';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
 import {PaginatedResponse} from '@cdk/models/paginated.response';
+import {environment} from '../../environments/environment';
 
 @Injectable()
 export class UsuarioService {
 
     constructor(
-        private modelService: ModelService
+        private modelService: ModelService,
+        private http: HttpClient
     ) {
     }
 
@@ -58,5 +60,16 @@ export class UsuarioService {
 
     destroy(id: number): Observable<Usuario> {
         return this.modelService.delete('usuario', id);
+    }
+
+    patch(usuario: Usuario, changes: any): Observable<Usuario> {
+        return this.http.patch(
+            `${environment.api_url}${'usuario'}/${usuario.id}` + environment.xdebug,
+            JSON.stringify(changes)
+        ).map(response => {
+            response = plainToClass(Usuario, response);
+            Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+            return Object.assign(new Usuario(), {...usuario, ...response});
+        });
     }
 }

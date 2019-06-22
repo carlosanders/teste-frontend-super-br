@@ -36,7 +36,7 @@ export class CdkRepositorioGridComponent implements AfterViewInit, OnInit, OnCha
     total = 0;
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'ativo', 'modalidadeRepositorio.valor', 'documento.descricaoOutros', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'modalidadeRepositorio.valor', 'ativo', 'actions'];
 
     @Input()
     deletingIds: number[] = [];

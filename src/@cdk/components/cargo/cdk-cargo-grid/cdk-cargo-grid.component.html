@@ -79,10 +79,10 @@
                 <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="15" fxLayoutAlign="start center">
                     Ativo
                 </th>
-                <td mat-cell *matCellDef="let ativo" fxFlex="15" fxLayoutAlign="start center">
+                <td mat-cell *matCellDef="let cargo" fxFlex="15" fxLayoutAlign="start center">
                     <mat-checkbox
                         [disabled]="true"
-                        [checked]="ativo"></mat-checkbox>
+                        [checked]="cargo.ativo"></mat-checkbox>
                 </td>
             </ng-container>
 

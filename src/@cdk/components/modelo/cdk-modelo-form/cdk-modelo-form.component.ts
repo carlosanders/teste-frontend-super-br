@@ -54,6 +54,7 @@ export class CdkModeloFormComponent implements OnChanges, OnDestroy {
             'id': [null],
             'ativo': [null],
             'nome': [null, [Validators.required]],
+            'descricao': [null, [Validators.required]],
             'template': [null, [Validators.required]],
         });
 

@@ -53,7 +53,9 @@ export class CdkFolderFormComponent implements OnChanges, OnDestroy {
         this.form = this._formBuilder.group({
             'id': [null],
             'ativo': [null],
+            'usuario': [null],
             'nome': [null, [Validators.required]],
+            'descricao': [null, [Validators.required]],
             'modalidadeFolder': [null, [Validators.required]],
         });
 

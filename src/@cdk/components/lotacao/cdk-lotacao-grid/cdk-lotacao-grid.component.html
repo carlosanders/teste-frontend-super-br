@@ -83,6 +83,19 @@
                     [ngClass]="{'deleted':deletedIds?.indexOf(lotacao.id) > -1}"> {{lotacao.setor.nome}} </td>
             </ng-container>
 
+            <!-- Principal Column -->
+            <ng-container matColumnDef="principal">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="15" fxLayoutAlign="start center">
+                    Principal
+                </th>
+                <td mat-cell *matCellDef="let lotacao" fxFlex="15" fxLayoutAlign="start center">
+                    <mat-checkbox
+                            [disabled]="true"
+                            [checked]="lotacao.principal"></mat-checkbox>
+                </td>
+            </ng-container>
+
+
             <!-- Peso Column -->
             <ng-container matColumnDef="peso">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
@@ -138,6 +151,14 @@
                         <mat-icon>edit</mat-icon>
                     </button>
 
+                    <button mat-icon-button
+                            *ngIf="actions.indexOf('setPrincipal') > -1"
+                            [disabled]="deletedIds?.indexOf(lotacao.id) > -1"
+                            (click)="setPrincipalLotacao(lotacao)"
+                            aria-label="marcar como principal"
+                            matTooltip="Marcar como Principal">
+                        <mat-icon>star_border</mat-icon>
+                    </button>
 
                     <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(lotacao.id) > -1">
                         <mat-spinner diameter="24"></mat-spinner>
