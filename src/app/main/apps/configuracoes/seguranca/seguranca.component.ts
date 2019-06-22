@@ -64,16 +64,9 @@ export class SegurancaComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
 
     submit(values): void {
-
         const usuario = new Usuario();
-
-        Object.entries(values).forEach(
-            ([key, value]) => {
-                usuario[key] = value;
-            }
-        );
-
-        this._store.dispatch(new fromStore.SaveSeguranca(usuario));
+        usuario.id = this.usuario.id;
+        this._store.dispatch(new fromStore.SaveSeguranca({usuario: usuario, changes: values}));
 
     }
 

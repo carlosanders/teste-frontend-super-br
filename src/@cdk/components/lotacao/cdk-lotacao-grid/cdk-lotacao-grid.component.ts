@@ -36,7 +36,7 @@ export class CdkLotacaoGridComponent implements AfterViewInit, OnInit, OnChanges
     total = 0;
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'setor.nome', 'peso', 'distribuidor', 'coordenador', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'setor.nome', 'peso', 'distribuidor', 'coordenador', 'principal', 'actions'];
 
     @Input()
     deletingIds: number[] = [];
@@ -48,7 +48,7 @@ export class CdkLotacaoGridComponent implements AfterViewInit, OnInit, OnChanges
     pageSize = 5;
 
     @Input()
-    actions: string[] = ['edit', 'delete', 'select'];
+    actions: string[] = ['edit', 'delete', 'select', 'setPrincipal'];
 
     @ViewChild(MatPaginator)
     paginator: MatPaginator;
@@ -70,6 +70,9 @@ export class CdkLotacaoGridComponent implements AfterViewInit, OnInit, OnChanges
 
     @Output()
     select = new EventEmitter<Lotacao>();
+
+    @Output()
+    setPrincipal = new EventEmitter<Lotacao>();
 
     @Output()
     selectedIds: number[] = [];
@@ -144,6 +147,10 @@ export class CdkLotacaoGridComponent implements AfterViewInit, OnInit, OnChanges
 
     selectLotacao(lotacao: Lotacao): void {
         this.select.emit(lotacao);
+    }
+
+    setPrincipalLotacao(lotacao: Lotacao): void {
+        this.setPrincipal.emit(lotacao);
     }
 
     deleteLotacao(lotacaoId): void {

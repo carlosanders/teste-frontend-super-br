@@ -1,15 +1,22 @@
 cdk-etiqueta-form {
 
-    .form-card {
-      border-radius: 8px;
-    }
+  .selected-color {
+    height: 25px;
+    width: 25px;
+    border-radius: 50%;
+    display: inline-block;
+  }
 
-    .form-errors-model {
-      flex: 1;
+  .form-card {
+    border-radius: 8px;
+  }
 
-      code {
-        background: none !important;
-      }
+  .form-errors-model {
+    flex: 1;
+
+    code {
+      background: none !important;
     }
+  }
 
 }

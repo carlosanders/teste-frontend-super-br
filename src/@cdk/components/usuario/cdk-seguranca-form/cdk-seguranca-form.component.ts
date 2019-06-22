@@ -8,8 +8,9 @@ import {
 } from '@angular/core';
 
 import {fuseAnimations} from '@fuse/animations';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import {Usuario} from '@cdk/models/usuario.model';
+import {ErrorStateMatcher} from '@angular/material';
 
 @Component({
     selector: 'cdk-seguranca-form',
@@ -22,20 +23,19 @@ import {Usuario} from '@cdk/models/usuario.model';
 export class CdkSegurancaFormComponent implements OnChanges, OnDestroy {
 
     @Input()
-    usuario: Usuario;
-
-    @Input()
     saving: boolean;
 
     @Input()
     errors: any;
 
     @Output()
-    save = new EventEmitter<Usuario>();
+    save = new EventEmitter<any>();
 
     form: FormGroup;
 
     activeCard = 'form';
+
+    matcher = new MyErrorStateMatcher();
 
     /**
      * Constructor
@@ -46,12 +46,9 @@ export class CdkSegurancaFormComponent implements OnChanges, OnDestroy {
     ) {
 
         this.form = this._formBuilder.group({
-            'id': [null],
-            'trocaSenha': [null],
-            'password': [null, [Validators.required]],
-            'password2': [null, [Validators.required]],
-            'assinaturaHTML': [null, [Validators.required]]
-        });
+            'password': ['', [Validators.required, Validators.minLength(8), Validators.maxLength(16)]],
+            'confirmPass': ['']
+        }, {validator: this.checkPasswords });
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -62,13 +59,10 @@ export class CdkSegurancaFormComponent implements OnChanges, OnDestroy {
      * On change
      */
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
-        if (changes['usuario'] && this.usuario && ((!this.usuario.id && !this.form.dirty) || (this.usuario.id !== this.form.get('id').value))) {
-            this.form.patchValue({
-                'id': this.usuario.id,
-                'password': null,
-                'password2': null
-            });
-        }
+        this.form.patchValue({
+            'password': null,
+            'confirmPass': null
+        });
 
         if (this.errors && this.errors.status && this.errors.status === 422) {
             try {
@@ -105,12 +99,31 @@ export class CdkSegurancaFormComponent implements OnChanges, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
     submit(): void {
         if (this.form.valid) {
-            this.save.emit(this.form.value);
+            this.save.emit({
+                    password: this.form.value.password
+                }
+            );
         }
+    }
+
+    checkPasswords(group: FormGroup): any { // here we have the 'passwords' group
+        const pass = group.controls.password.value;
+        const confirmPass = group.controls.confirmPass.value;
+
+        return pass === confirmPass ? null : { notSame: true };
     }
 
     cancel(): void {
         this.activeCard = 'form';
     }
 
+}
+
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+    isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+        const invalidCtrl = !!(control && control.invalid && control.parent.dirty);
+        const invalidParent = !!(control && control.parent && control.parent.invalid && control.parent.dirty);
+
+        return (invalidCtrl || invalidParent);
+    }
 }

@@ -12,13 +12,19 @@
 
         <mat-form-field fxFlex="100">
             <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Nome" formControlName="nome" required>
+                <input matInput placeholder="Nome" formControlName="nome" required upperCase>
             </div>
         </mat-form-field>
 
         <mat-form-field fxFlex="100">
             <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Tipo de Documento"
+                <input matInput placeholder="Descrição" formControlName="descricao" required upperCase>
+            </div>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Modalidade"
                        formControlName="modalidadeRepositorio"
                        [matAutocomplete]="modalidadeRepositorio.autocomplete"
                        (blur)="checkModalidadeRepositorio()">

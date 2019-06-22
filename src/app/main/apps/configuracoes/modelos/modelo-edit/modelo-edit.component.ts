@@ -51,7 +51,7 @@ export class ModeloEditComponent implements OnInit, OnDestroy {
         this.usuario = this._loginService.getUserProfile().usuario;
 
         this.templatePagination = new Pagination();
-        this.templatePagination.populate = ['tipoDocumento'];
+        this.templatePagination.populate = ['documento', 'documento.tipoDocumento'];
     }
 
     // -----------------------------------------------------------------------------------------------------

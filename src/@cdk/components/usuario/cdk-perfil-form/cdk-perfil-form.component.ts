@@ -31,7 +31,7 @@ export class CdkPerfilFormComponent implements OnChanges, OnDestroy {
     errors: any;
 
     @Output()
-    save = new EventEmitter<Colaborador>();
+    save = new EventEmitter<any>();
 
     form: FormGroup;
 
@@ -111,7 +111,10 @@ export class CdkPerfilFormComponent implements OnChanges, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
     submit(): void {
         if (this.form.valid) {
-            this.save.emit(this.form.value);
+            this.save.emit({
+                    assinaturaHTML: this.form.value.assinaturaHTML
+                }
+            );
         }
     }
 

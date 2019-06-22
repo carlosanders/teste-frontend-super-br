@@ -12,21 +12,32 @@
                    name="password"
                    formControlName="password"
                    required
-                   maxlength="255" upperCase>
-            <mat-hint align="end">{{password.value.length}} / 255</mat-hint>
-            <mat-error>Campo obrigatório!</mat-error>
+                   minlength="8"
+                   maxlength="16" upperCase>
+            <mat-hint align="end">{{password.value.length}} / 16</mat-hint>
+            <mat-error *ngIf="form.get('password').hasError('formError')">{{form.get('password').errors.formError}}</mat-error>
+            <mat-error *ngIf="form.get('password').hasError('required')">Campo obrigatório!</mat-error>
+            <mat-error *ngIf="form.get('password').hasError('minlength')">Campo deve ter no mínimo 8 dígitos!</mat-error>
+            <mat-error *ngIf="form.get('password').hasError('maxlength')">Campo deve ter no máximo 16 dígitos!</mat-error>
         </mat-form-field>
 
         <mat-form-field fxFlex="100">
             <mat-label>Repita a nova senha</mat-label>
             <input type="password"
-                   matInput #password2
+                   matInput #confirmPass
                    name="password2"
-                   formControlName="password2"
+                   formControlName="confirmPass"
+                   [errorStateMatcher]="matcher"
                    required
-                   maxlength="255" upperCase>
-            <mat-hint align="end">{{password2.value.length}} / 255</mat-hint>
-            <mat-error>Campo obrigatório!</mat-error>
+                   minlenth="8"
+                   maxlength="16" upperCase>
+            <mat-hint align="end">{{confirmPass.value.length}} / 16</mat-hint>
+            <mat-error *ngIf="form.get('confirmPass').hasError('required')">
+                Campo obrigatório!
+            </mat-error>
+            <mat-error *ngIf="form.hasError('notSame')">
+                Senhas não conferem!
+            </mat-error>
         </mat-form-field>
 
     </div>
