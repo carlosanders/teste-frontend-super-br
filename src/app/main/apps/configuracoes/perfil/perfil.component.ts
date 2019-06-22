@@ -14,6 +14,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {Colaborador} from '@cdk/models/colaborador.model';
 import {LoginService} from '../../../auth/login/login.service';
+import {Usuario} from '../../../../../@cdk/models/usuario.model';
 
 @Component({
     selector: 'perfil',
@@ -64,17 +65,9 @@ export class PerfilComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
 
     submit(values): void {
-
-        const colaborador = new Colaborador();
-
-        Object.entries(values).forEach(
-            ([key, value]) => {
-                colaborador[key] = value;
-            }
-        );
-
-        this._store.dispatch(new fromStore.SaveProfile(colaborador));
-
+        const usuario = new Usuario();
+        usuario.id = this.colaborador.usuario.id;
+        this._store.dispatch(new fromStore.SaveProfile({usuario: usuario, changes: values}));
     }
 
 }

@@ -51,7 +51,6 @@ export class FolderEditComponent implements OnInit, OnDestroy {
         this.usuario = this._loginService.getUserProfile().usuario;
 
         this.modalidadeFolderPagination = new Pagination();
-        this.modalidadeFolderPagination.populate = ['parent'];
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -69,6 +68,7 @@ export class FolderEditComponent implements OnInit, OnDestroy {
 
         if (!this.folder) {
             this.folder = new Folder();
+            this.folder.usuario = this.usuario;
         }
     }
 

@@ -1,0 +1,11 @@
+<cdk-documento-identificador-grid
+        [loading]="(loading$ | async)"
+        [documentoIdentificadors]="(documentoIdentificador$ | async)"
+        [total]="(pagination$ | async)?.total"
+        [deletingIds]="(deletingIds$ | async)"
+        [deletedIds]="(deletedIds$ | async)"
+        [actions]="['edit', 'delete']"
+        (reload)="reload($event)"
+        (edit)="edit($event)"
+        (delete)="delete($event)">
+</cdk-documento-identificador-grid>

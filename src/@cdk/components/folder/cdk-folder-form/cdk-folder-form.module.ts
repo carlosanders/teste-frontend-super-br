@@ -15,6 +15,7 @@ import { FuseSharedModule } from '@fuse/shared.module';
 import { CdkFolderFormComponent } from './cdk-folder-form.component';
 import {CdkModalidadeFolderAutocompleteModule} from '../../modalidade-folder/cdk-modalidade-folder-autocomplete/cdk-modalidade-folder-autocomplete.module';
 import {CdkModalidadeFolderGridsearchModule} from '../../modalidade-folder/cdk-modalidade-folder-autocomplete/cdk-modalidade-folder-gridsearch/cdk-modalidade-folder-gridsearch.module';
+import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
 
 @NgModule({
     declarations: [
@@ -30,6 +31,8 @@ import {CdkModalidadeFolderGridsearchModule} from '../../modalidade-folder/cdk-m
         MatInputModule,
         MatProgressSpinnerModule,
         MatDatepickerModule,
+
+        NgxUpperCaseDirectiveModule,
 
         CdkModalidadeFolderAutocompleteModule,
         CdkModalidadeFolderGridsearchModule,

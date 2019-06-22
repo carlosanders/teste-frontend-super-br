@@ -9,10 +9,11 @@ import {getRouterState, State} from 'app/store/reducers';
 import * as LotacaoListActions from '../actions';
 
 import {LotacaoService} from '@cdk/services/lotacao.service';
-import {AddData} from '@cdk/ngrx-normalizr';
+import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {Lotacao} from '@cdk/models/lotacao.model';
 import {lotacao as lotacaoSchema} from '@cdk/normalizr/lotacao.schema';
 import {LoginService} from 'app/main/auth/login/login.service';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
 export class LotacaoListEffect {
@@ -58,7 +59,7 @@ export class LotacaoListEffect {
                             new LotacaoListActions.GetLotacoesSuccess({
                                 entitiesId: response['entities'].map(lotacao => lotacao.id),
                                 loaded: {
-                                    id: 'usuarioHandle',
+                                    id: 'lotacaoHandle',
                                     value: this._loginService.getUserProfile().usuario.id
                                 },
                                 total: response['total']
@@ -87,6 +88,33 @@ export class LotacaoListEffect {
                         catchError((err) => {
                             console.log(err);
                             return of(new LotacaoListActions.DeleteLotacaoFailed(action.payload));
+                        })
+                    );
+                })
+            );
+
+    /**
+     * Save Lotacao
+     * @type {Observable<any>}
+     */
+    @Effect()
+    saveLotacao: any =
+        this._actions
+            .pipe(
+                ofType<LotacaoListActions.SaveLotacao>(LotacaoListActions.SAVE_LOTACAO),
+                switchMap((action) => {
+                    return this._lotacaoService.patch(action.payload.lotacao, action.payload.changes).pipe(
+                        mergeMap((response: Lotacao) => [
+                            new UpdateData<Lotacao>({id: response.id, schema: lotacaoSchema, changes: {principal: response.principal}}),
+                            new LotacaoListActions.SaveLotacaoSuccess(),  new OperacoesActions.Resultado({
+                                type: 'lotacao',
+                                content: `Lotação id ${response.id} editada com sucesso!`,
+                                dateTime: response.criadoEm
+                            })
+                        ]),
+                        catchError((err) => {
+                            console.log (err);
+                            return of(new LotacaoListActions.SaveLotacaoFailed(err));
                         })
                     );
                 })

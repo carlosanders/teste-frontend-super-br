@@ -6,11 +6,13 @@ import {catchError, mergeMap, switchMap} from 'rxjs/operators';
 
 import * as ProfileActions from '../actions/perfil.actions';
 
-import {ColaboradorService} from '@cdk/services/colaborador.service';
-import {Colaborador} from '@cdk/models/colaborador.model';
+import {UsuarioService} from '@cdk/services/usuario.service';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
+import {Usuario} from '@cdk/models/usuario.model';
+import {UpdateData} from '@cdk/ngrx-normalizr';
+import {usuario as usuarioSchema} from '@cdk/normalizr/usuario.schema';
 
 @Injectable()
 export class ProfileEffect {
@@ -18,7 +20,7 @@ export class ProfileEffect {
 
     constructor(
         private _actions: Actions,
-        private _colaboradorService: ColaboradorService,
+        private _usuarioService: UsuarioService,
         private _store: Store<State>
     ) {
         this._store
@@ -40,11 +42,12 @@ export class ProfileEffect {
             .pipe(
                 ofType<ProfileActions.SaveProfile>(ProfileActions.SAVE_PERFIL),
                 switchMap((action) => {
-                    return this._colaboradorService.save(action.payload).pipe(
-                        mergeMap((response: Colaborador) => [
+                    return this._usuarioService.patch(action.payload.usuario, action.payload.changes).pipe(
+                        mergeMap((response: Usuario) => [
+                            new UpdateData<Usuario>({id: response.id, schema: usuarioSchema, changes: {assinaturaHTML: response.assinaturaHTML}}),
                             new ProfileActions.SaveProfileSuccess(),  new OperacoesActions.Resultado({
-                                type: 'profile',
-                                content: `Profile id ${response.id} criada com sucesso!`,
+                                type: 'usuario',
+                                content: `Usuário id ${response.id} editado com sucesso!`,
                                 dateTime: response.criadoEm
                             })
                         ]),

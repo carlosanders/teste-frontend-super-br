@@ -5,7 +5,6 @@ import {modalidadeRelacionamentoPessoal} from './modalidade-relacionamento-pesso
 import {origemDados} from './origem-dados.schema';
 
 export const relacionamentoPessoal = new schema.Entity('relacionamentoPessoal', {
-    pessoa: pessoa,
     pessoaRelacionada: pessoa,
     modalidadeRelacionamentoPessoal: modalidadeRelacionamentoPessoal,
     origemDados: origemDados,

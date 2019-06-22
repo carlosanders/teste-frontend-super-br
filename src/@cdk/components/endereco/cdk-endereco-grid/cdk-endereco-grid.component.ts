@@ -35,7 +35,7 @@ export class CdkEnderecoGridComponent implements AfterViewInit, OnInit, OnChange
     total = 0;
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'logradouro', 'numero', 'complemento', 'bairro', 'municipio.nome', 'pais.nome', 'principal', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'logradouro', 'municipio.nome', 'municipio.estado.uf', 'principal', 'actions'];
 
     @Input()
     deletingIds: number[] = [];

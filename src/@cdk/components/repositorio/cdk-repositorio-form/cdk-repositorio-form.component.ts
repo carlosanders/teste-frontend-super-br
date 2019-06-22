@@ -54,6 +54,7 @@ export class CdkRepositorioFormComponent implements OnChanges, OnDestroy {
             'id': [null],
             'ativo': [null],
             'nome': [null, [Validators.required]],
+            'descricao': [null, [Validators.required]],
             'modalidadeRepositorio': [null, [Validators.required]],
         });
 

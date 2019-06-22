@@ -56,7 +56,6 @@ export class CdkDocumentoIdentificadorFormComponent implements OnChanges, OnDest
             'codigoDocumento': [null, [Validators.required]],
             'modalidadeDocumentoIdentificador': [null, [Validators.required]],
             'emissorDocumento': [null, [Validators.required]],
-            'origemDados': [null],
             'dataEmissao': [null]
         });
         this.modalidadeDocumentoIdentificadorPagination = new Pagination();

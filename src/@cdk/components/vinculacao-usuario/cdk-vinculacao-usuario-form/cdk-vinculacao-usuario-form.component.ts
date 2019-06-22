@@ -52,6 +52,7 @@ export class CdkVinculacaoUsuarioFormComponent implements OnChanges, OnDestroy, 
 
         this.form = this._formBuilder.group({
             'id': [null],
+            'usuario': [null],
             'usuarioVinculado': [null, [Validators.required]],
             'encerraTarefa': [null]
         });

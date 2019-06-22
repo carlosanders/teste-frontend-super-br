@@ -15,6 +15,7 @@ import { FuseSharedModule } from '@fuse/shared.module';
 import { CdkRepositorioFormComponent } from './cdk-repositorio-form.component';
 import {CdkModalidadeRepositorioAutocompleteModule} from '../../modalidade-repositorio/cdk-modalidade-repositorio-autocomplete/cdk-modalidade-repositorio-autocomplete.module';
 import {CdkModalidadeRepositorioGridsearchModule} from '../../modalidade-repositorio/cdk-modalidade-repositorio-autocomplete/cdk-modalidade-repositorio-gridsearch/cdk-modalidade-repositorio-gridsearch.module';
+import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
 
 @NgModule({
     declarations: [
@@ -30,6 +31,8 @@ import {CdkModalidadeRepositorioGridsearchModule} from '../../modalidade-reposit
         MatInputModule,
         MatProgressSpinnerModule,
         MatDatepickerModule,
+
+        NgxUpperCaseDirectiveModule,
 
         CdkModalidadeRepositorioAutocompleteModule,
         CdkModalidadeRepositorioGridsearchModule,

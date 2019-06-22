@@ -20,9 +20,10 @@ import {FuseSidebarModule} from '@fuse/components';
 
 import {PerfilComponent} from './perfil.component';
 import {RouterModule, Routes} from '@angular/router';
-import {CdkPerfilFormModule} from '@cdk/components/perfil/cdk-perfil-form/cdk-perfil-form.module';
+import {CdkPerfilFormModule} from '@cdk/components/usuario/cdk-perfil-form/cdk-perfil-form.module';
 import {ProfileStoreModule} from './store/store.module';
 import {LoginService} from '../../../auth/login/login.service';
+import {UsuarioService} from '@cdk/services/usuario.service';
 
 
 const routes: Routes = [
@@ -64,7 +65,8 @@ const routes: Routes = [
         FuseSidebarModule,
     ],
     providers: [
-        LoginService
+        LoginService,
+        UsuarioService
     ]
 })
 export class PerfilModule {

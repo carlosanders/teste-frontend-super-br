@@ -51,7 +51,6 @@ export class EtiquetaEditComponent implements OnInit, OnDestroy {
         this.usuario = this._loginService.getUserProfile().usuario;
 
         this.modalidadeEtiquetaPagination = new Pagination();
-        this.modalidadeEtiquetaPagination.populate = ['parent'];
     }
 
     // -----------------------------------------------------------------------------------------------------

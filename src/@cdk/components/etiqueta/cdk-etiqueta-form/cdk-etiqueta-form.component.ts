@@ -42,6 +42,28 @@ export class CdkEtiquetaFormComponent implements OnChanges, OnDestroy {
     @Input()
     modalidadeEtiquetaPagination: Pagination;
 
+    colors: string[] = [
+        '#F44336',
+        '#E91E63',
+        '#9C27B0',
+        '#673AB7',
+        '#3F51B5',
+        '#2196F3',
+        '#03A9F4',
+        '#00BCD4',
+        '#009688',
+        '#4CAF50',
+        '#8BC34A',
+        '#CDDC39',
+        '#FFEB3B',
+        '#FFC107',
+        '#FF9800',
+        '#FF5722',
+        '#795548',
+        '#9E9E9E',
+        '#607D8B'
+    ];
+
     /**
      * Constructor
      */
@@ -54,6 +76,8 @@ export class CdkEtiquetaFormComponent implements OnChanges, OnDestroy {
             'id': [null],
             'ativo': [null],
             'nome': [null, [Validators.required]],
+            'corHexadecimal': [null, [Validators.required]],
+            'descricao': [null, [Validators.required]],
             'modalidadeEtiqueta': [null, [Validators.required]],
         });
 
@@ -71,6 +95,7 @@ export class CdkEtiquetaFormComponent implements OnChanges, OnDestroy {
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
         if (changes['etiqueta'] && this.etiqueta && (!this.etiqueta.id || (this.etiqueta.id !== this.form.get('id').value))) {
             this.form.patchValue({...this.etiqueta});
+            this.form.get('corHexadecimal').setValue('#F44336');
         }
 
         if (this.errors && this.errors.status && this.errors.status === 422) {
@@ -103,6 +128,12 @@ export class CdkEtiquetaFormComponent implements OnChanges, OnDestroy {
         if (!value || typeof value !== 'object') {
             this.form.get('modalidadeEtiqueta').setValue(null);
         }
+    }
+
+    selectColor(cor: any): boolean {
+        this.form.get('corHexadecimal').setValue(cor);
+        this._changeDetectorRef.markForCheck();
+        return false;
     }
 
     selectModalidadeEtiqueta(modalidadeetiqueta: ModalidadeEtiqueta): void {
