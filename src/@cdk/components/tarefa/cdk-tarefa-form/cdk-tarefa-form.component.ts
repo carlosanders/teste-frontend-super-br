@@ -93,14 +93,6 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
     activeCard = 'form';
 
-    unidadeResponsavelListIsLoading: boolean;
-
-    setorResponsavelListIsLoading: boolean;
-
-    setorOrigemListIsLoading: boolean;
-
-    setorFilter: any;
-
     processos: Processo[] = [];
 
     /**

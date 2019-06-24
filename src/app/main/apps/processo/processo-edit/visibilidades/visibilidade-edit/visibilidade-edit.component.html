@@ -1,0 +1,10 @@
+<cdk-visibilidade-form
+        [visibilidade]="visibilidade"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        [unidadeDefault]="_profile.lotacoes[0].setor.unidade"
+        [unidadePagination]="unidadePagination"
+        [setorPagination]="setorPagination"
+        [usuarioPagination]="usuarioPagination"
+        (save)="submit($event)">
+</cdk-visibilidade-form>

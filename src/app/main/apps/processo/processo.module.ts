@@ -31,6 +31,10 @@ const routes: Routes = [
                 path       : 'editar',
                 loadChildren: './processo-edit/processo-edit.module#ProcessoEditModule',
                 canActivate: [fromGuards.ResolveGuard]
+            },
+            {
+                path       : 'acesso-negado',
+                loadChildren: './processo-empty/processo-empty.module#ProcessoEmptyModule'
             }
         ]
     }

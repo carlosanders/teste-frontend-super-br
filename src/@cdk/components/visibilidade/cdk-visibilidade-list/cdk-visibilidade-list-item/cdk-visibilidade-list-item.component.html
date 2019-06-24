@@ -1,0 +1,32 @@
+<div fxLayout="row" fxLayoutAlign="start center">
+
+    <div fxLayout="row" fxLayoutAlign="start center" fxFlex>
+
+        <div class="info" fxFlex>
+
+            <div class="title" fxLayout="row">
+                <span class="text-truncate">{{visibilidade.label}}</span>
+            </div>
+
+            <div class="body mt-4">
+                <div *ngFor="let poder of visibilidade.poderes">
+                    {{poder}}
+                </div>
+            </div>
+
+        </div>
+
+        <div class="actions" fxLayout="row" fxLayoutAlign="start center">
+
+            <div class="spinner-container m-8" *ngIf="deleting">
+                <mat-spinner diameter="24"></mat-spinner>
+            </div>
+
+            <button [disabled]="visibilidade.valor === 'ROLE_USER' || (visibilidade.valor === colaborador.usuario.username && visibilidade.poderes.indexOf('MASTER') > -1) && total > 1" mat-icon-button *ngIf="!deleting" aria-label="remover"
+                    (click)="doDelete()">
+               <mat-icon>delete</mat-icon>
+            </button>
+        </div>
+
+    </div>
+</div>

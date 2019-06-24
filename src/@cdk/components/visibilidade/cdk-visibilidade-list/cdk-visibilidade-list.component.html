@@ -1,0 +1,20 @@
+<div [@animateStagger]="{value:'50'}" fxLayout="column">
+
+    <div fxLayout="column" fxFlex
+         fxLayoutAlign="center center">
+        <mat-spinner class="visibilidade-list-loading" *ngIf="loading" diameter="24"></mat-spinner>
+    </div>
+
+    <cdk-visibilidade-list-item matRipple *ngFor="let visibilidade of visibilidades" [visibilidade]="visibilidade"
+                                [deleting]="deletingIds.length > 0 && deletingIds.indexOf(visibilidade.id) > -1"
+                                [total]="visibilidades.length"
+                                (delete)="doDeleteVisibilidade($event)"
+                                [@animate]="{value:'*',params:{y:'100%'}}">
+    </cdk-visibilidade-list-item>
+
+</div>
+
+<div *ngIf="visibilidades.length === 0 && !loading" fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
+    <span class="no-visibilidades-text hint-text">{{ 'ACESSO LIBERADO' }}</span>
+</div>
+

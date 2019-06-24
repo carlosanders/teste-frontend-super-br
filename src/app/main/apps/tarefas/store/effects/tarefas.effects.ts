@@ -89,9 +89,16 @@ export class TarefasEffect {
             .pipe(
                 ofType<TarefasActions.SetCurrentTarefa>(TarefasActions.SET_CURRENT_TAREFA),
                 map((action) => {
-                    this._router.navigate([
-                        'apps/tarefas/' + this.routerState.params.folderHandle + '/tarefa/' + action.payload.tarefaId + '/processo/' + action.payload.processoId]
-                    ).then();
+                    if (action.payload.acessoNegado) {
+                        this._router.navigate([
+                            'apps/tarefas/' + this.routerState.params.folderHandle + '/tarefa/' + action.payload.tarefaId + '/processo/' + action.payload.processoId + '/acesso-negado']
+                        ).then();
+                    } else {
+                        this._router.navigate([
+                            'apps/tarefas/' + this.routerState.params.folderHandle + '/tarefa/' + action.payload.tarefaId + '/processo/' + action.payload.processoId + '/visualizar']
+                        ).then();
+                    }
+
                     return new TarefasActions.SetCurrentTarefaSuccess();
                 })
             );

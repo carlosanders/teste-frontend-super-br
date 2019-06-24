@@ -230,7 +230,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         if (!tarefa.dataHoraLeitura) {
             this._store.dispatch(new fromStore.ToggleLidaTarefa(tarefa));
         }
-        this._store.dispatch(new fromStore.SetCurrentTarefa({tarefaId: tarefa.id, processoId: tarefa.processo.id}));
+        this._store.dispatch(new fromStore.SetCurrentTarefa({tarefaId: tarefa.id, processoId: tarefa.processo.id, acessoNegado: tarefa.processo.acessoNegado}));
     }
 
     deleteTarefa(tarefaId: number): void {

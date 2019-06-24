@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {ActivatedRouteSnapshot, CanActivate} from '@angular/router';
+import {ActivatedRouteSnapshot, CanActivate, Router} from '@angular/router';
 import {RouterStateSnapshot} from '@angular/router/src/router_state';
 import {select, Store} from '@ngrx/store';
 
@@ -17,12 +17,13 @@ export class ResolveGuard implements CanActivate {
     routerState: any;
 
     /**
-     * Constructor
      *
-     * @param {Store<ProcessoAppState>} _store
+     * @param _store
+     * @param _router
      */
     constructor(
-        private _store: Store<ProcessoAppState>
+        private _store: Store<ProcessoAppState>,
+        private _router: Router
     ) {
         this._store
             .pipe(select(getRouterState))

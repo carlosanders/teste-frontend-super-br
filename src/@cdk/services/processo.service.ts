@@ -6,6 +6,7 @@ import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
 import {PaginatedResponse} from '@cdk/models/paginated.response';
 import {environment} from '../../environments/environment';
+import {Visibilidade} from '../models/visibilidade.model';
 
 @Injectable()
 export class ProcessoService {
@@ -19,6 +20,24 @@ export class ProcessoService {
     get(id: number): Observable<Processo> {
         return this.modelService.getOne('processo', id)
             .map(response => plainToClass(Processo, response)[0]);
+    }
+
+    getVisibilidade(id: number): Observable<any> {
+        return this.http.get(`${environment.api_url}${'processo'}/${id}/visibilidade` + environment.xdebug, { })
+            .map(response => plainToClass(Visibilidade, response));
+    }
+
+    createVisibilidade(processoId: number, visibilidade: Visibilidade): Observable<Visibilidade> {
+        return this.http.put(
+            `${environment.api_url}${'processo'}/${processoId}/${'visibilidade'}` + environment.xdebug,
+            JSON.stringify(visibilidade)
+        ).map(response => plainToClass(Visibilidade, response));
+    }
+
+    destroyVisibilidade(processoId: number, visibilidadeId: number): Observable<any> {
+        return this.http.delete(
+            `${environment.api_url}${'processo'}/${processoId}/${'visibilidade'}/${visibilidadeId}` + environment.xdebug
+        );
     }
 
     query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {

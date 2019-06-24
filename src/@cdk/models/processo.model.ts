@@ -28,6 +28,8 @@ export class Processo {
     semValorEconomico: boolean;
 
     visibilidadeExterna: boolean;
+
+    acessoNegado: boolean;
     
     titulo: string;
 
@@ -134,6 +136,7 @@ export class Processo {
         this.especieProcesso = null;
         this.visibilidadeExterna = null;
         this.dataHoraAbertura = null;
+        this.acessoNegado = null;
         this.dataHoraProximaTransicao = null;
         this.titulo = null;
         this.outroNumero = null;

@@ -21,18 +21,23 @@ const routes: Routes = [
         children: [
             {
                 path       : 'visualizar',
-                loadChildren: 'app/main/apps/processo/processo-view/processo-view.module#ProcessoViewModule'
+                loadChildren: 'app/main/apps/processo/processo-view/processo-view.module#ProcessoViewModule',
+                canActivate: [fromGuards.ResolveGuard]
             },
             {
                 path       : 'editar',
-                loadChildren: 'app/main/apps/processo/processo-edit/processo-edit.module#ProcessoEditModule'
+                loadChildren: 'app/main/apps/processo/processo-edit/processo-edit.module#ProcessoEditModule',
+                canActivate: [fromGuards.ResolveGuard]
+            },
+            {
+                path       : 'acesso-negado',
+                loadChildren: 'app/main/apps/processo/processo-empty/processo-empty.module#ProcessoEmptyModule'
             },
             {
                 path: '**',
                 redirectTo: 'visualizar'
             }
-        ],
-        canActivate: [fromGuards.ResolveGuard]
+        ]
     }
 ];
 
