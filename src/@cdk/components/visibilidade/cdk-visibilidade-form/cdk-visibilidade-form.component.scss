@@ -1,0 +1,21 @@
+@import "src/@fuse/scss/fuse";
+
+cdk-visibilidade-form {
+
+  .form-card {
+    border-radius: 8px;
+  }
+
+  .poderes-rg {
+    @include mat-elevation(1);
+  }
+
+  .form-errors-model {
+    flex: 1;
+
+    code {
+      background: none !important;
+    }
+  }
+
+}

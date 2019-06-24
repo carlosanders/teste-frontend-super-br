@@ -1,0 +1,6 @@
+<cdk-visibilidade-form
+        [visibilidade]="visibilidade"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        (save)="submit($event)">
+</cdk-visibilidade-form>

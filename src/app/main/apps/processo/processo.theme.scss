@@ -124,4 +124,8 @@
             }
         }
     }
+
+    cdk-visibilidade-list-item {
+        border-color: map-get($foreground, divider);
+    }
 }

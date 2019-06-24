@@ -35,6 +35,10 @@ const routes: Routes = [
                 loadChildren: './juntadas/juntadas.module#JuntadasModule'
             },
             {
+                path       : 'acessos',
+                loadChildren: './visibilidades/visibilidades.module#VisibilidadesModule'
+            },
+            {
                 path       : 'vinculacoes-processos',
                 loadChildren: './vinculacoes-processos/vinculacoes-processos.module#VinculacoesProcessosModule'
             },

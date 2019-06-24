@@ -40,6 +40,10 @@ export class ProcessoEditMainSidebarComponent implements OnInit, OnDestroy {
                 'link': 'vinculacoes-processos'
             },
             {
+                'nome': 'Restrições de Acesso',
+                'link': 'acessos'
+            },
+            {
                 'nome': 'Sigilos',
                 'link': 'sigilos'
             },
