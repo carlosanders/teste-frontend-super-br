@@ -20,7 +20,8 @@ export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoAc
                 processoId: null,
                 loaded: {
                     id: 'processoHandle',
-                    value: 'criar'
+                    value: 'criar',
+                    acessoNegado: false
                 },
                 loading: false
             };

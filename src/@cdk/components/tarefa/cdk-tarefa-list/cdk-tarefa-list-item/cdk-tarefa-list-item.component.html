@@ -8,12 +8,16 @@
 
         <div class="info" fxFlex [ngClass]="{'nao-lido': !tarefa.dataHoraLeitura}">
 
-            <div class="title">
-                <span class="text-truncate">PROCESSO {{tarefa.processo.NUP | formatNup}}</span>
+            <div class="title" fxLayout="row">
+                <mat-icon *ngIf="tarefa.processo.acessoNegado" class="red-fg">block</mat-icon> <span class="text-truncate">PROCESSO {{tarefa.processo.NUP | formatNup}}</span>
             </div>
 
-            <div class="subtitle">
+            <div class="subtitle" *ngIf="!tarefa.processo.acessoNegado">
                 <span class="text-truncate">{{tarefa.processo.modalidadeMeio.valor }} {{tarefa.processo.especieProcesso.nome }}</span>
+            </div>
+
+            <div class="subtitle" *ngIf="tarefa.processo.acessoNegado">
+                <span class="text-truncate">Usuário com acesso negado ao processo</span>
             </div>
 
             <div class="body mt-4">

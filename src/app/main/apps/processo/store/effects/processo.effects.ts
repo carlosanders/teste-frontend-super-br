@@ -60,7 +60,8 @@ export class ProcessoEffect {
                     new ProcessoActions.GetProcessoSuccess({
                         loaded: {
                             id: 'processoHandle',
-                            value: this.routerState.params.processoHandle
+                            value: this.routerState.params.processoHandle,
+                            acessoNegado: response['entities'][0].acessoNegado
                         },
                         processoId: response['entities'][0].id
                     })

@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {ActivatedRouteSnapshot, CanActivate} from '@angular/router';
+import {ActivatedRouteSnapshot, CanActivate, Router} from '@angular/router';
 import {RouterStateSnapshot} from '@angular/router/src/router_state';
 import {select, Store} from '@ngrx/store';
 
@@ -17,12 +17,12 @@ export class ResolveGuard implements CanActivate {
     routerState: any;
 
     /**
-     * Constructor
-     *
-     * @param {Store<ProcessoAppState>} _store
+     * @param _store
+     * @param _router
      */
     constructor(
-        private _store: Store<ProcessoAppState>
+        private _store: Store<ProcessoAppState>,
+        private _router: Router
     ) {
         this._store
             .pipe(select(getRouterState))
@@ -56,16 +56,23 @@ export class ResolveGuard implements CanActivate {
         return this._store.pipe(
             select(getProcessoLoaded),
             tap((loaded: any) => {
-                if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
-                    if (this.routerState.params['processoHandle'] === 'criar' ) {
-                        this._store.dispatch(new fromStore.CreateProcesso());
-                    } else {
-                        this._store.dispatch(new fromStore.GetProcesso({
-                            'id': 'eq:' + this.routerState.params['processoHandle']
-                        }));
-                    }
+                if (loaded.acessoNegado) {
+                    this._router.navigate([this.routerState.url.split('/processo')[0] + '/processo/' + this.routerState.params.processoHandle + '/acesso-negado']).then();
+                } else {
+                    if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
 
+
+                        if (this.routerState.params['processoHandle'] === 'criar') {
+                            this._store.dispatch(new fromStore.CreateProcesso());
+                        } else {
+                            this._store.dispatch(new fromStore.GetProcesso({
+                                'id': 'eq:' + this.routerState.params['processoHandle']
+                            }));
+                        }
+
+                    }
                 }
+
             }),
             filter((loaded: any) => {
                 return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
