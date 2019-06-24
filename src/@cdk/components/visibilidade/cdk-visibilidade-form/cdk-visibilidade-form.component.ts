@@ -36,8 +36,14 @@ export class CdkVisibilidadeFormComponent implements OnInit, OnChanges, OnDestro
     errors: any;
 
     @Input()
+    unidadeDefault: Setor;
+
+    @Input()
     usuarioPagination: Pagination;
 
+    @Input()
+    unidadePagination: Pagination;
+    
     @Input()
     setorPagination: Pagination;
 
@@ -58,12 +64,14 @@ export class CdkVisibilidadeFormComponent implements OnInit, OnChanges, OnDestro
        this.form = this._formBuilder.group({
             'id': [null],
             'usuario': [null],
+            'unidade': [null],
             'setor': [null],
             'tipo': [null],
             'poderes': [null]
         });
         this.usuarioPagination = new Pagination();
         this.setorPagination = new Pagination();
+        this.unidadePagination = new Pagination();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -94,6 +102,29 @@ export class CdkVisibilidadeFormComponent implements OnInit, OnChanges, OnDestro
                 }
             )
         ).subscribe();
+
+        this.form.get('unidade').valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((value) => {
+                    if (value && typeof value === 'object') {
+                        this.form.get('setor').enable();
+                        this.form.get('setor').reset();
+                        this.setorPagination.filter['unidade.id'] = `eq:${value.id}`;
+                    }
+                    return of([]);
+                }
+            )
+        ).subscribe();
+
+        if (this.unidadeDefault) {
+            this.form.get('unidade').setValue(this.unidadeDefault);
+            this.form.get('setor').enable();
+        } else {
+            this.form.get('setor').disable();
+            this.form.get('usuario').disable();
+        }
+
     }
 
     /**
@@ -187,6 +218,24 @@ export class CdkVisibilidadeFormComponent implements OnInit, OnChanges, OnDestro
 
     showUsuarioGrid(): void {
         this.activeCard = 'usuario-gridsearch';
+    }
+
+    selectUnidade(setor: Setor): void {
+        if (setor) {
+            this.form.get('unidade').setValue(setor);
+        }
+        this.activeCard = 'form';
+    }
+
+    checkUnidade(): void {
+        const value = this.form.get('unidade').value;
+        if (!value || typeof value !== 'object') {
+            this.form.get('unidade').setValue(null);
+        }
+    }
+
+    showUnidadeGrid(): void {
+        this.activeCard = 'unidade-gridsearch';
     }
 
     checkSetor(): void {

@@ -87,7 +87,7 @@ const getUnvisit = (entities) => {
       return method(schema, input, unvisit);
     }
 
-    if (input === undefined || input === null) {
+    if (input === undefined || input === null || !schema) {
       return input;
     }
 

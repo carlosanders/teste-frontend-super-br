@@ -25,6 +25,7 @@ import {VisibilidadeEditStoreModule} from './store/store.module';
 import {ProcessoService} from '@cdk/services/processo.service';
 
 import * as fromGuards from './store/guards';
+import {LoginService} from '../../../../../auth/login/login.service';
 
 const routes: Routes = [
     {
@@ -67,6 +68,7 @@ const routes: Routes = [
     ],
     providers: [
         ProcessoService,
+        LoginService,
         fromGuards.ResolveGuard
     ]
 })

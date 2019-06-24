@@ -38,6 +38,30 @@
 
         <mat-form-field fxFlex="100" *ngIf="this.form.get('tipo').value === 'setor'">
             <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Unidade Responsável"
+                       formControlName="unidade"
+                       [matAutocomplete]="unidade.autocomplete" required
+                       (blur)="checkUnidade()">
+                <mat-option *ngIf="unidadeListIsLoading">
+                    <mat-spinner diameter="16"></mat-spinner>
+                </mat-option>
+            </div>
+            <cdk-setor-autocomplete
+                #unidade="setorAutocomplete"
+                [control]="form.get('unidade')"
+                [pagination]="unidadePagination">
+            </cdk-setor-autocomplete>
+            <button matSuffix mat-button mat-icon-button
+                    (click)="showUnidadeGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('unidade').hasError('formError')">
+                {{form.get('unidade').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100" *ngIf="this.form.get('tipo').value === 'setor'">
+            <div fxLayout="row" fxLayoutAlign="start center">
                 <input matInput placeholder="Setor"
                        formControlName="setor"
                        required
@@ -97,5 +121,22 @@
         fxFlex="1 0 auto"
         *ngIf="activeCard === 'usuario-gridsearch'"
         (selected)="selectUsuario($event)"
+        [pagination]="usuarioPagination"
         (cancel)="cancel()">
 </cdk-usuario-gridsearch>
+
+<cdk-setor-gridsearch
+        fxFlex="1 0 auto"
+        *ngIf="activeCard === 'unidade-gridsearch'"
+        [pagination]="unidadePagination"
+        (selected)="selectUnidade($event)"
+        (cancel)="cancel()">
+</cdk-setor-gridsearch>
+
+<cdk-setor-gridsearch
+        fxFlex="1 0 auto"
+        *ngIf="activeCard === 'setor-gridsearch'"
+        [pagination]="setorPagination"
+        (selected)="selectSetor($event)"
+        (cancel)="cancel()">
+</cdk-setor-gridsearch>

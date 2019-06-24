@@ -15,6 +15,9 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {Processo} from '@cdk/models/processo.model';
 import {getProcesso} from '../../../store/selectors';
+import {Pagination} from '../../../../../../../@cdk/models/pagination';
+import {LoginService} from '../../../../../auth/login/login.service';
+import {Colaborador} from '../../../../../../../@cdk/models/colaborador.model';
 
 @Component({
     selector: 'visibilidade-edit',
@@ -34,20 +37,41 @@ export class VisibilidadeEditComponent implements OnInit, OnDestroy {
     processo$: Observable<Processo>;
     processo: Processo;
 
+    unidadePagination: Pagination;
+    setorPagination: Pagination;
+    usuarioPagination: Pagination;
+
+    _profile: Colaborador;
+
     /**
      * @param _store
+     * @param _loginService
      */
     constructor(
-        private _store: Store<fromStore.VisibilidadeEditAppState>
+        private _store: Store<fromStore.VisibilidadeEditAppState>,
+        private _loginService: LoginService
     ) {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.visibilidade$ = this._store.pipe(select(fromStore.getVisibilidade));
         this.processo$ = this._store.pipe(select(getProcesso));
+
+        this._profile = _loginService.getUserProfile();
+
+        this.unidadePagination = new Pagination();
+        this.unidadePagination.filter = {'parent': 'isNull'};
+
+        this.setorPagination = new Pagination();
+        this.setorPagination.populate = ['unidade'];
+        this.setorPagination.filter = {'parent': 'isNotNull'};
+
+        this.usuarioPagination = new Pagination();
+        this.usuarioPagination.filter = {'id': `neq:${this._profile.usuario.id}`};
     }
 
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
+
     // -----------------------------------------------------------------------------------------------------
 
     /**
@@ -78,9 +102,7 @@ export class VisibilidadeEditComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
 
     submit(visibilidade): void {
-
         this._store.dispatch(new fromStore.SaveVisibilidade({processoId: this.processo.id, visibilidade: visibilidade}));
-
     }
 
 }
