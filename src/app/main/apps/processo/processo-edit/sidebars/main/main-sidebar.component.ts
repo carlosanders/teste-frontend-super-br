@@ -40,14 +40,6 @@ export class ProcessoEditMainSidebarComponent implements OnInit, OnDestroy {
                 'link': 'vinculacoes-processos'
             },
             {
-                'nome': 'Restrições de Acesso',
-                'link': 'acessos'
-            },
-            {
-                'nome': 'Sigilos',
-                'link': 'sigilos'
-            },
-            {
                 'nome': 'Tarefas',
                 'link': 'tarefas'
             },
@@ -66,6 +58,14 @@ export class ProcessoEditMainSidebarComponent implements OnInit, OnDestroy {
             {
                 'nome': 'Transições',
                 'link': 'transicoes'
+            },
+            {
+                'nome': 'Sigilos',
+                'link': 'sigilos'
+            },
+            {
+                'nome': 'Restrições de Acessos',
+                'link': 'acessos'
             }
         ];
     }

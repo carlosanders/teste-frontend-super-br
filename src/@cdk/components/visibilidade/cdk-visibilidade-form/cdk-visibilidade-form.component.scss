@@ -6,8 +6,26 @@ cdk-visibilidade-form {
     border-radius: 8px;
   }
 
-  .poderes-rg {
+  mat-radio-group {
+
+    &.poderes-rg {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      margin: 15px 0;
+      @include mat-elevation(1);
+    }
+  }
+
+  .target {
     @include mat-elevation(1);
+    padding: 16px;
+    margin: 15px 0;
+  }
+
+  mat-radio-button {
+    margin-right: 5px;
+    margin-bottom: 5px;
   }
 
   .form-errors-model {
