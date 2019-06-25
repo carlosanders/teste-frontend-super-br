@@ -5,7 +5,7 @@ services:
             context: .
             dockerfile: ./DockerFile_SUPP
         ports:
-            - 4200:4200
+            - 80:80
         volumes:
             - '.:/app'
         tty: true
