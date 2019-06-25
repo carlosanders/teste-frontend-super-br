@@ -24,7 +24,7 @@ export class Tarefa {
     @Exclude({toPlainOnly: true})
     redistribuida: boolean;
 
-    @Transform(value => value ? value.format() : null, { toPlainOnly: true })
+    @Transform(value => value ? value.format('YYYY-MM-DDTHH:mm:ss') : null, { toPlainOnly: true })
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
     dataHoraLeitura?: Date;
 

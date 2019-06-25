@@ -76,7 +76,7 @@
 <cdk-processo-gridsearch
         fxFlex="1 0 auto"
         *ngIf="activeCard === 'processo-vinculado-gridsearch'"
-        [pagination]="processoVinculadoPagination.filter"
+        [pagination]="processoVinculadoPagination"
         (selected)="selectProcessoVinculado($event)"
         (cancel)="cancel()">
 </cdk-processo-gridsearch>
@@ -84,7 +84,7 @@
 <cdk-modalidade-vinculacao-processo-gridsearch
         fxFlex="1 0 auto"
         *ngIf="activeCard === 'modalidade-vinculacao-processo-gridsearch'"
-        [pagination]="modalidadeVinculacaoProcessoPagination.filter"
+        [pagination]="modalidadeVinculacaoProcessoPagination"
         (selected)="selectModalidadeVinculacaoProcesso($event)"
         (cancel)="cancel()">
 </cdk-modalidade-vinculacao-processo-gridsearch>
