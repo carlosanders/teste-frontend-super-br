@@ -7,9 +7,7 @@ import {
 } from '@angular/core';
 
 import {fuseAnimations} from '@fuse/animations';
-import * as DocumentEditor from '@ckeditor/ckeditor5-build-decoupled-document';
 import {ComponenteDigital} from '@cdk/models/componente-digital.model';
-import {ChangeEvent} from '@ckeditor/ckeditor5-angular';
 
 @Component({
     selector: 'cdk-componente-digital-ckeditor',
@@ -21,8 +19,6 @@ import {ChangeEvent} from '@ckeditor/ckeditor5-angular';
 })
 export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy, OnChanges {
 
-    public Editor = DocumentEditor;
-
     @Input()
     loading = false;
 
@@ -31,37 +27,64 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
 
     @Input()
     config = {
+        extraPlugins: 'printsemzoom,salvar,fastimage,assinar,paragrafo,paragrafonumerado,citacao,titulo,subtitulo,texttransform,zoom,placeholder,campos,repositorios,footnotes,sourcearea,salvarpdf',
         language: 'pt-br',
-        heading: {
-            options: [
-                {model: 'paragrafo', view: 'p', title: 'Parágrafo', class: ''},
-                {model: 'paragrafonumerado', view: {name: 'p', classes: 'numerado'}, title: 'Parágrafo Numerado', class: ''},
-                {model: 'citacao', view: 'blockquote', title: 'Citação', class: ''},
-                {model: 'titulo', view: 'h1', title: 'Título', class: ''},
-                {model: 'subtitulo', view: 'h2', title: 'Subtítulo', class: ''},
-            ]
-        },
-        alignment: {
-            options: [ 'left', 'right', 'center', 'justify' ]
-        }
+        disableNativeSpellChecker: false,
+        scayt_autoStartup: false,
+        contentsCss: 'http://127.0.0.1:4200/assets/ckeditor/contents.css',
+        allowedContent: 'p(esquerda,centralizado,direita,numerado), p strong, p em, p u, p s, p sub, p sup, ul li, ol li, div[id]{page-break-after}, img[!src],p span{display,color,background-color,font-size}[data-service,data-method,data-options],table[*]{*}, tbody, th, td[*](*){width}, tr[*](*), hr, blockquote, h1, h2, h3, h4, section[*](*),header[*](*),li[*],a[*],cite(*)[*],sup(*)[*]{*},ol{*}[start]',
+        justifyClasses: ['esquerda', 'centralizado', 'direita', ' '],
+        removePlugins: 'elementspath, scayt, divarea',
+        resize_enabled: false,
+
+        width: '100%',
+        height: '100%',
+
+        extraAllowedContent: 'table(*),td{*}(*)[*],col[*](*){*}',
+        startupShowBorders: false,
+        pasteFromWordRemoveStyles: false,
+        pasteFromWordRemoveFontStyles: false,
+
+        toolbar:
+            [
+                {name: 'salvar', items: ['salvar', '-', 'PrintSemZoom']},
+                {name: 'assinar', items: ['assinar']},
+                {name: 'salvarpdf', items: ['salvarpdf']},
+                {name: 'clipboard', items: ['Cut', 'Copy', 'Paste', 'PasteText', '-', 'Undo', 'Redo']},
+                {name: 'editing', items: ['Find', 'Replace', '-', 'SelectAll']},
+                '/',
+                {name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat']},
+                {
+                    name: 'paragraph', items: ['NumberedList', 'BulletedList',
+                        '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']
+                },
+                {name: 'formatacao', items: ['fastimage']},
+                {name: 'styles', items: ['paragrafo', 'paragrafonumerado', 'citacao', 'titulo', 'subtitulo']},
+                {name: 'colors', items: ['TextColor', 'BGColor']},
+                {name: 'insert', items: ['Table', 'SpecialChar', 'PageBreak', 'HorizontalRule', 'Footnotes']},
+                {name: 'texttransform', items: ['TransformTextToUppercase', 'TransformTextToLowercase', 'TransformTextCapitalize']},
+                {name: 'zoom', items: ['Zoom', 'Maximize']},
+                {name: 'templates', items: ['campos', 'repositorios']},
+
+            ],
+
+        keystrokes:
+            [
+                [4456448 + 80, 'paragrafo'], // ALT + P
+                [2228224 + 4456448 + 80, 'paragrafonumerado'], // SHIFT + ALT + P
+
+                [4456448 + 67, 'citacao'], // ALT + C
+
+                [4456448 + 84, 'titulo'], // ALT + T
+                [2228224 + 4456448 + 84, 'subtitulo'] // SHIFT + ALT + T
+
+            ],
     };
 
     @Output()
     save = new EventEmitter<any>();
 
     src: any;
-
-    public onReady(editor): void {
-
-        editor.ui.getEditableElement().parentElement.insertBefore(
-            editor.ui.view.toolbar.element,
-            editor.ui.getEditableElement()
-        );
-    }
-
-    public onChange({editor}: ChangeEvent): void {
-        this.src = editor.getData();
-    }
 
     /**
      *
