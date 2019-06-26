@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 
 import { fuseAnimations } from '@fuse/animations';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { Compartilhamento } from '@cdk/models/compartilhamento.model';
 import { Usuario } from '@cdk/models/usuario.model';
 import {Pagination} from '../../../models/pagination';
@@ -57,7 +57,7 @@ export class CdkCompartilhamentoFormComponent implements OnChanges, OnDestroy {
             'id': [null],
             'processo': [null],
             'tarefa': [null],
-            'usuario': [null]
+            'usuario': [null, [Validators.required]]
         });
         this.usuarioPagination = new Pagination();
     }

@@ -106,9 +106,9 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         this.form = this._formBuilder.group({
             'id': [null],
             'blocoProcessos': [null],
-            'processos': [null],
+            'processos': [null, [Validators.required]],
             'processo': [null],
-            'urgente': [null],
+            'urgente': [null, [Validators.required]],
             'especieTarefa': [null, [Validators.required]],
             'distribuicaoAutomatica': [null],
             'dataHoraInicioPrazo': [null, [Validators.required]],
@@ -117,7 +117,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             'setorResponsavel': [null, [Validators.required]],
             'usuarioResponsavel': [null],
             'setorOrigem': [null, [Validators.required]],
-            'observacao': [null]
+            'observacao': [null, [Validators.maxLength(255)]]
         });
 
         this.processoPagination = new Pagination();

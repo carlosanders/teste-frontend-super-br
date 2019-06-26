@@ -47,11 +47,11 @@ export class CdkPerfilFormComponent implements OnChanges, OnDestroy {
 
         this.form = this._formBuilder.group({
             'id': [null],
-            'username': [null],
-            'nome': [null],
-            'email': [null],
-            'cargo': [null],
-            'modalidadeColaborador': [null],
+            'username': [null, [Validators.required, Validators.maxLength(255)]],
+            'nome': [null, [Validators.required, Validators.maxLength(255)]],
+            'email': [null, [Validators.required, Validators.email, Validators.maxLength(255)]],
+            'cargo': [null, [Validators.required, Validators.maxLength(255)]],
+            'modalidadeColaborador': [null, [Validators.required, Validators.maxLength(255)]],
             'assinaturaHTML': [null, [Validators.required]]
         });
     }

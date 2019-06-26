@@ -69,18 +69,18 @@ export class CdkDocumentoFormComponent implements OnChanges, OnDestroy {
         this.form = this._formBuilder.group({
             'id': [null],
             'processo': [null],
-            'tipoDocumento': [null],
-            'outroNumero': [null],
+            'tipoDocumento': [null, [Validators.required]],
+            'outroNumero': [null, [Validators.maxLength(255)]],
             'copia': [null],
             'numeroFolhas': [null],
             'tarefaOrigem': [null],
-            'autor': [null],
-            'redator': [null],
+            'autor': [null, [Validators.maxLength(255)]],
+            'redator': [null, [Validators.maxLength(255)]],
             'procedencia': [null],
-            'localizadorOriginal': [null],
+            'localizadorOriginal': [null, [Validators.maxLength(255)]],
             'dataHoraProducao': [null, [Validators.required]],
             'setorOrigem': [null],
-            'observacao': [null],
+            'observacao': [null, [Validators.maxLength(255)]],
         });
         this.processoPagination = new Pagination();
         this.tipoDocumentoPagination = new Pagination();

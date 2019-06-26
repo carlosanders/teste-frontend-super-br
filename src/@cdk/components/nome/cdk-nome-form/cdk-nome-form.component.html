@@ -8,7 +8,9 @@
         <input matInput #valor
                name="valor"
                formControlName="valor"
-               maxlength="255">
+               minlength="3"
+               maxlength="255"
+               required>
     </mat-form-field>
 
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>

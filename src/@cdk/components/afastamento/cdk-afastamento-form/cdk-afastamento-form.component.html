@@ -10,7 +10,7 @@
                 <input matInput placeholder="Modalidade"
                        formControlName="modalidadeAfastamento"
                        [matAutocomplete]="modalidadeafastamento.autocomplete"
-                       (blur)="checkModalidadeAfastamento()">
+                       (blur)="checkModalidadeAfastamento()" required>
             </div>
             <cdk-modalidade-afastamento-autocomplete
                 #modalidadeafastamento="modalidadeAfastamentoAutocomplete"
@@ -31,7 +31,7 @@
             <mat-form-field appearance="outline" class="mr-sm-12" fxFlex>
                 <mat-label>Início do Afastamento</mat-label>
                 <input matInput [matDatepicker]="dataInicio" placeholder="Início do Afastamento"
-                       formControlName="dataInicio">
+                       formControlName="dataInicio" required>
                 <mat-datepicker-toggle matSuffix [for]="dataInicio"></mat-datepicker-toggle>
                 <mat-datepicker #dataInicio></mat-datepicker>
             </mat-form-field>
@@ -51,7 +51,7 @@
             <mat-form-field appearance="outline" class="mr-sm-12" fxFlex>
                 <mat-label>Início do Bloqueio</mat-label>
                 <input matInput [matDatepicker]="dataInicioBloqueio" placeholder="Início do Bloqueio"
-                       formControlName="dataInicioBloqueio">
+                       formControlName="dataInicioBloqueio" required>
                 <mat-datepicker-toggle matSuffix [for]="dataInicioBloqueio"></mat-datepicker-toggle>
                 <mat-datepicker #dataInicioBloqueio></mat-datepicker>
             </mat-form-field>
@@ -59,7 +59,7 @@
             <mat-form-field appearance="outline" class="ml-sm-12" fxFlex>
                 <mat-label>Final do Bloqueio</mat-label>
                 <input matInput [matDatepicker]="dataFimBloqueio" placeholder="Final do Bloqueio"
-                       formControlName="dataFimBloqueio">
+                       formControlName="dataFimBloqueio" required>
                 <mat-datepicker-toggle matSuffix [for]="dataFimBloqueio"></mat-datepicker-toggle>
                 <mat-datepicker #dataFimBloqueio></mat-datepicker>
             </mat-form-field>

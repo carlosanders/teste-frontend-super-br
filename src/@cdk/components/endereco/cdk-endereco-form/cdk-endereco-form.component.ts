@@ -56,15 +56,15 @@ export class CdkEnderecoFormComponent implements OnChanges, OnDestroy {
 
         this.form = this._formBuilder.group({
             'id': [null],
-            'principal': [null],
+            'principal': [null, [Validators.required]],
             'municipio': [null, [Validators.required]],
             'pais': [null, [Validators.required]],
-            'logradouro': [null],
-            'bairro': [null],
-            'cep': [null],
-            'observacao': [null],
-            'numero': [null],
-            'complemento': [null],
+            'logradouro': [null, [Validators.maxLength(255)]],
+            'bairro': [null, [Validators.maxLength(255)]],
+            'cep': [null, [Validators.maxLength(8), Validators.pattern('/\\d{8}/')]],
+            'observacao': [null, [Validators.maxLength(255)]],
+            'numero': [null, [Validators.maxLength(255)]],
+            'complemento': [null, [Validators.maxLength(255)]],
             'pessoa': [null],
         });
         this.municipioPagination = new Pagination();

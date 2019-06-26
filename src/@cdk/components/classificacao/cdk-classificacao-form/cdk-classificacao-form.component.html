@@ -7,13 +7,13 @@
 
         <mat-form-field fxFlex="100">
             <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Código" formControlName="codigo" required>
+                <input matInput placeholder="Código" formControlName="codigo" minlength="3" maxlength="25" required>
             </div>
         </mat-form-field>
 
         <mat-form-field fxFlex="100">
             <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Nome" formControlName="nome" required>
+                <input matInput placeholder="Nome" formControlName="nome" maxlength="255" required>
             </div>
         </mat-form-field>
 
@@ -143,7 +143,7 @@
 
         <mat-form-field class="mr-16 mb-16" fxFlex="0 1 auto">
             <textarea formControlName="observacao"
-                      matInput placeholder="Observação"></textarea>
+                      matInput placeholder="Observação" maxlength="255"></textarea>
         </mat-form-field>
 
 

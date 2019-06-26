@@ -88,7 +88,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             'novo': [null, [Validators.required]],
             'especieProcesso': [null, [Validators.required]],
             'visibilidadeExterna': [null],
-            'titulo': [null, [Validators.required, Validators.maxLength(255)]],
+            'titulo': [null, [Validators.required, Validators.required, Validators.maxLength(255)]],
             'descricao': [null, [Validators.maxLength(255)]],
             'outroNumero': [null, [Validators.maxLength(255)]],
             'valorEconomico': [null],

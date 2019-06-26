@@ -6,7 +6,7 @@
     <div fxFlex="1 0 auto" fxLayout="column">
 
         <mat-checkbox formControlName="principal"
-                      class="mr-16 mb-16" fxFlex="0 1 auto">
+                      class="mr-16 mb-16" fxFlex="0 1 auto" required>
             Principal
         </mat-checkbox>
 
@@ -15,7 +15,7 @@
                 <input matInput placeholder="Assunto"
                        formControlName="assuntoAdministrativo"
                        [matAutocomplete]="assuntoAdministrativo.autocomplete"
-                       (blur)="checkAssuntoAdministrativo()">
+                       (blur)="checkAssuntoAdministrativo()" required>
             </div>
             <cdk-assunto-administrativo-autocomplete
                 #assuntoAdministrativo="assuntoAdministrativoAutocomplete"

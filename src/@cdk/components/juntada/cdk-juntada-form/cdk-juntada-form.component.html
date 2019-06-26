@@ -44,7 +44,7 @@
             <input matInput #descricao
                    name="descricao"
                    formControlName="descricao"
-                   maxlength="255" upperCase>
+                   maxlength="4000" upperCase minlength="3" maxlength="255" required>
             <mat-hint align="end">{{descricao.value.length}} / 255</mat-hint>
         </mat-form-field>
 
