@@ -181,8 +181,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
      * @param value
      */
     search(value): void {
-        // Do your search here...
-        console.log(value);
+        this._router.navigate(['apps/pesquisa/processos/' + value]);
     }
 
     goConfiguracoes(): void {

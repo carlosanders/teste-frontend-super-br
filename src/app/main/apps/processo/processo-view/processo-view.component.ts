@@ -11,7 +11,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {DomSanitizer} from '@angular/platform-browser';
-import {filter} from "rxjs/operators";
+import {filter} from 'rxjs/operators';
 
 @Component({
     selector: 'processo-view',
@@ -94,13 +94,12 @@ export class ProcessoViewComponent implements OnInit {
                                 downloadUrl = URL.createObjectURL(blob);
                             this.src = this._sanitizer.bypassSecurityTrustResourceUrl(downloadUrl);
                             this.fileName = binary.src.fileName;
-                            this._changeDetectorRef.markForCheck();
-
                         });
                 } else {
                     this.src = this._sanitizer.bypassSecurityTrustResourceUrl('about:blank');
                 }
                 this.loading = binary.loading;
+                this._changeDetectorRef.markForCheck();
             }
         );
 

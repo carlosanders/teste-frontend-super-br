@@ -2,7 +2,7 @@
         [loading]="(loading$ | async)"
         [processos]="(processos$ | async)"
         [total]="(pagination$ | async)?.total"
-        [mode]="'search'"
+        [mode]="NUPHandle ? 'list' : 'search'"
         [actions]="['edit']"
         (reload)="reload($event)"
         (edit)="edit($event)">
