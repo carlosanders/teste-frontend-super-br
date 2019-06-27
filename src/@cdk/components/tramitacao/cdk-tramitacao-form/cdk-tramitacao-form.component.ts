@@ -67,11 +67,11 @@ export class CdkTramitacaoFormComponent implements OnChanges, OnDestroy, OnInit 
         this.form = this._formBuilder.group({
             'id': [null],
             'externa': [null],
-            'processo': [null],
-            'urgente': [null],
+            'processo': [null, [Validators.required]],
+            'urgente': [null, [Validators.required]],
             'setorOrigem': [null, [Validators.required]],
             'setorDestino': [null, [Validators.required]],
-            'observacao': [null]
+            'observacao': [null, [Validators.maxLength(255)]]
         });
 
         this.processoPagination = new Pagination();

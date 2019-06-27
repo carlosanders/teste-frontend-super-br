@@ -56,8 +56,8 @@ export class CdkClassificacaoFormComponent implements OnChanges, OnDestroy {
 
         this.form = this._formBuilder.group({
             'id': [null],
-            'codigo': [null, [Validators.required]],
-            'nome': [null, [Validators.required]],
+            'codigo': [null, [Validators.required, Validators.minLength(3), Validators.maxLength(25), Validators.pattern('/[A-Z0-9]+/')]],
+            'nome': [null, [Validators.required], Validators.maxLength(255)],
             'modalidadeDestinacao': [null, [Validators.required]],
             'parent': [null],
             'ativo': [null],
@@ -70,7 +70,7 @@ export class CdkClassificacaoFormComponent implements OnChanges, OnDestroy {
             'prazoGuardaFaseIntermediariaMes': [null],
             'prazoGuardaFaseIntermediariaAno': [null],
             'prazoGuardaFaseIntermediariaEvento': [null],
-            'observacao': [null]
+            'observacao': [null, [Validators.maxLength(255)]]
         });
         this.modalidadeDestinacaoPagination = new Pagination();
         this.classificacaoPagination = new Pagination();

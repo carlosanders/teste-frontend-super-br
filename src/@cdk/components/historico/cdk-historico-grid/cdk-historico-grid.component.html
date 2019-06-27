@@ -89,7 +89,7 @@
                     Processo
                 </th>
                 <td mat-cell *matCellDef="let historico" fxFlex="30" fxLayoutAlign="start center"
-                    [ngClass]="{'deleted':deletedIds?.indexOf(historico.id) > -1}"> {{historico.processo.NUP}} </td>
+                    [ngClass]="{'deleted':deletedIds?.indexOf(historico.id) > -1}"> {{historico.processo?.NUP}} </td>
             </ng-container>
 
             <!-- Usuario Column -->
@@ -98,7 +98,7 @@
                     Usuário
                 </th>
                 <td mat-cell *matCellDef="let historico" fxFlex="30" fxLayoutAlign="start center"
-                    [ngClass]="{'deleted':deletedIds?.indexOf(historico.id) > -1}"> {{historico.usuario.nome}} </td>
+                    [ngClass]="{'deleted':deletedIds?.indexOf(historico.id) > -1}"> {{historico.usuario?.nome}} </td>
             </ng-container>
 
             <!-- Actions Column -->

@@ -90,7 +90,7 @@
                     Espécie
                 </th>
                 <td mat-cell *matCellDef="let atividade" fxFlex="100" fxLayoutAlign="start center"
-                    [ngClass]="{'deleted':deletedIds?.indexOf(atividade.id) > -1}"> {{atividade.especieAtividade.nome}} </td>
+                    [ngClass]="{'deleted':deletedIds?.indexOf(atividade.id) > -1}"> {{atividade.especieAtividade?.nome}} </td>
             </ng-container>
 
             <!--  Usuario Column -->
@@ -99,7 +99,7 @@
                     Usuário
                 </th>
                 <td mat-cell *matCellDef="let atividade" fxFlex="100" fxLayoutAlign="start center"
-                    [ngClass]="{'deleted':deletedIds?.indexOf(atividade.id) > -1}"> {{atividade.usuario.nome}} </td>
+                    [ngClass]="{'deleted':deletedIds?.indexOf(atividade.id) > -1}"> {{atividade.usuario?.nome}} </td>
             </ng-container>
 
             <!-- EncerraTarefa Column -->

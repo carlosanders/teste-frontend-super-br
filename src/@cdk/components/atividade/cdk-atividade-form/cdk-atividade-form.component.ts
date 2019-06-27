@@ -75,7 +75,7 @@ export class CdkAtividadeFormComponent implements OnChanges, OnDestroy {
             'especieAtividade': [null, [Validators.required]],
             'dataHoraConclusao': [null, [Validators.required]],
             'usuario': [null, [Validators.required]],
-            'observacao': [null],
+            'observacao': [null, [Validators.maxLength(255)]],
             'documento': [null],
             'tarefa': [null]
         });

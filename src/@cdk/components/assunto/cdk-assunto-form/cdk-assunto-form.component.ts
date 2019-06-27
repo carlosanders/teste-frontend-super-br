@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 
 import {fuseAnimations} from '@fuse/animations';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Assunto} from '@cdk/models/assunto.model';
 import {AssuntoAdministrativo} from '@cdk/models/assunto-administrativo.model';
 import {Pagination} from '@cdk/models/pagination';
@@ -52,9 +52,8 @@ export class CdkAssuntoFormComponent implements OnChanges, OnDestroy {
 
         this.form = this._formBuilder.group({
             'id': [null],
-            'processo': [null],
-            'principal': [null],
-            'assuntoAdministrativo': [null]
+            'principal': [null, [Validators.required]],
+            'assuntoAdministrativo': [null, [Validators.required]]
         });
         
         this.assuntoAdministrativoPagination = new Pagination();

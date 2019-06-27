@@ -49,7 +49,7 @@
 
         <mat-form-field class="mr-16" fxFlex="1 0 auto">
             <textarea formControlName="observacao"
-                      matInput placeholder="Observação" upperCase></textarea>
+                      matInput placeholder="Observação" maxlength="255" upperCase></textarea>
             <mat-error *ngIf="form.get('observacao').hasError('formError')">
                 {{form.get('observacao').errors.formError}}
             </mat-error>

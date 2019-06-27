@@ -31,7 +31,7 @@
                 <input matInput placeholder="Tipo de Documento"
                        formControlName="tipoDocumento"
                        [matAutocomplete]="tipoDocumento.autocomplete"
-                       (blur)="checkTipoDocumento()">
+                       (blur)="checkTipoDocumento()" required>
             </div>
             <cdk-tipo-documento-autocomplete
                 #tipoDocumento="tipoDocumentoAutocomplete"
@@ -55,7 +55,7 @@
                    maxlength="255">
         </mat-form-field>
 
-        <mat-radio-group class="mr-16 mb-16" fxFlex="0 1 auto">
+        <mat-radio-group class="mr-16 mb-16" fxFlex="0 1 auto" required>
             <mat-radio-button #radioOriginal value="0" (click)="selectCopiaParam(radioOriginal.value)" checked>
                 Original
             </mat-radio-button>
@@ -172,7 +172,7 @@
 
         <!-- Observacao Column -->
         <ng-container matColumnDef="observacao">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center" maxlength="255">
                 Observação
             </th>
         </ng-container>

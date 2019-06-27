@@ -80,7 +80,7 @@
                     Documento
                 </th>
                 <td mat-cell *matCellDef="let vinculacaoDocumento" fxFlex="100" fxLayoutAlign="start center"
-                    [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoDocumento.id) > -1}"> {{vinculacaoDocumento.documento.descricaoOutros}} </td>
+                    [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoDocumento.id) > -1}"> {{vinculacaoDocumento.documento?.descricaoOutros}} </td>
             </ng-container>
 
             <!-- DocumentoVinculado Column -->
@@ -89,7 +89,7 @@
                     Documento Vinculado
                 </th>
                 <td mat-cell *matCellDef="let vinculacaoDocumento" fxFlex="30" fxLayoutAlign="start center"
-                    [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoDocumento.id) > -1}"> {{vinculacaoDocumento.documentoVinculado.descricaoOutros}} </td>
+                    [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoDocumento.id) > -1}"> {{vinculacaoDocumento.documentoVinculado?.descricaoOutros}} </td>
             </ng-container>
 
             <!-- ModalidadeVinculacaoDocumento Column -->
@@ -98,7 +98,7 @@
                     Modalidade da Vinculação do Documento
                 </th>
                 <td mat-cell *matCellDef="let vinculacaoDocumento" fxFlex="30" fxLayoutAlign="start center"
-                    [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoDocumento.id) > -1}"> {{vinculacaoDocumento.documentoVinculado.descricaoOutros}} </td>
+                    [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoDocumento.id) > -1}"> {{vinculacaoDocumento.documentoVinculado?.descricaoOutros}} </td>
             </ng-container>
 
             <!-- Actions Column -->

@@ -47,7 +47,7 @@ export class CdkCadastroIdentificadorFormComponent implements OnChanges, OnDestr
 
         this.form = this._formBuilder.group({
             'id': [null],
-            'numero': [null, [Validators.required]],
+            'numero': [null, [Validators.required, Validators.maxLength(14)]],
             'origemDados': [null],
             'pessoa': [null]
         });

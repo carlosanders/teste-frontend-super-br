@@ -59,9 +59,9 @@ export class CdkVinculacaoDocumentoFormComponent implements OnChanges, OnDestroy
 
         this.form = this._formBuilder.group({
             'id': [null],
-            'documento': [null],
-            'documentoVinculado': [null],
-            'modalidadeVinculacaoDocumento': [null]
+            'documento': [null, [Validators.required]],
+            'documentoVinculado': [null, [Validators.required]],
+            'modalidadeVinculacaoDocumento': [null, [Validators.required]]
         });
 
         this.documentoPagination = new Pagination();

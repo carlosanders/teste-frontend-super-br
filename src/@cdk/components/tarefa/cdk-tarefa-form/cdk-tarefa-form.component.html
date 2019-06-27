@@ -146,7 +146,7 @@
                 <input matInput formControlName="dataHoraInicioPrazo" [matDatetimepicker]="dataHoraInicioPrazo"
                        required>
                 <mat-datetimepicker-toggle matSuffix [for]="dataHoraInicioPrazo"></mat-datetimepicker-toggle>
-                <mat-datetimepicker #dataHoraInicioPrazo type="datetime" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
+                <mat-datetimepicker #dataHoraInicioPrazo type="datetime" openOnFocus="true" timeInterval="5" required></mat-datetimepicker>
             </mat-form-field>
 
             <mat-form-field class="mr-sm-12" fxFlex *ngIf="mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditFinalPrazo">
@@ -154,7 +154,7 @@
                 <input matInput formControlName="dataHoraFinalPrazo" [matDatetimepicker]="dataHoraFinalPrazo"
                        required>
                 <mat-datetimepicker-toggle matSuffix [for]="dataHoraFinalPrazo"></mat-datetimepicker-toggle>
-                <mat-datetimepicker #dataHoraFinalPrazo type="datetime" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
+                <mat-datetimepicker #dataHoraFinalPrazo type="datetime" openOnFocus="true" timeInterval="5" required></mat-datetimepicker>
             </mat-form-field>
 
         </div>
@@ -185,7 +185,7 @@
 
         <mat-form-field class="mr-16" fxFlex="1 0 auto" *ngIf="mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditObservacao">
             <textarea formControlName="observacao"
-                      matInput placeholder="Observação" upperCase></textarea>
+                      matInput placeholder="Observação" maxlength="255" upperCase></textarea>
             <mat-error *ngIf="form.get('observacao').hasError('formError')">
                 {{form.get('observacao').errors.formError}}
             </mat-error>

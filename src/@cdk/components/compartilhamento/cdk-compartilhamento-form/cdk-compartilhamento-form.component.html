@@ -10,7 +10,7 @@
                 <input matInput placeholder="Nome do Usuário"
                        formControlName="usuario"
                        [matAutocomplete]="usuario.autocomplete"
-                       (blur)="checkUsuario()">
+                       (blur)="checkUsuario()" required>
             </div>
             <cdk-usuario-autocomplete
                 #usuario="usuarioAutocomplete"

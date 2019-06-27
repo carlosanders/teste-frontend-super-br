@@ -80,7 +80,7 @@
                     Nome
                 </th>
                 <td mat-cell *matCellDef="let compartilhamento" fxFlex="100" fxLayoutAlign="start center"
-                    [ngClass]="{'deleted':deletedIds?.indexOf(compartilhamento.id) > -1}"> {{compartilhamento.usuario.nome}} </td>
+                    [ngClass]="{'deleted':deletedIds?.indexOf(compartilhamento.id) > -1}"> {{compartilhamento.usuario?.nome}} </td>
             </ng-container>
 
             <!-- Actions Column -->
