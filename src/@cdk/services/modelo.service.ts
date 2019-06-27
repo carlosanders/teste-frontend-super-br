@@ -5,6 +5,7 @@ import {Modelo} from '@cdk/models/modelo.model';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
 import {PaginatedResponse} from '@cdk/models/paginated.response';
+import {Pessoa} from '../models/pessoa.model';
 
 @Injectable()
 export class ModeloService {
@@ -29,6 +30,18 @@ export class ModeloService {
 
         return this.modelService.get('modelo', new HttpParams({fromObject: params}))
             .map(response => new PaginatedResponse(plainToClass(Modelo, response['entities']), response['total']));
+    }
+
+    search(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
+        const params = {};
+        params['where'] = filters;
+        params['limit'] = limit;
+        params['offset'] = offset;
+        params['order'] = order;
+        params['populate'] = populate;
+
+        return this.modelService.search('modelo', new HttpParams({fromObject: params}))
+            .map(response => new PaginatedResponse(plainToClass(Pessoa, response['entities']), response['total']));
     }
 
     count(filters: any = {}): Observable<any> {
