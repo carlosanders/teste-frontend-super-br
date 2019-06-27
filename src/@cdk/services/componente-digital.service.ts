@@ -65,4 +65,15 @@ export class ComponenteDigitalService {
     destroy(id: number): Observable<ComponenteDigital> {
         return this.modelService.delete('componente_digital', id);
     }
+
+    patch(componenteDigital: ComponenteDigital, changes: any): Observable<ComponenteDigital> {
+        return this.http.patch(
+            `${environment.api_url}${'componente_digital'}/${componenteDigital.id}` + environment.xdebug,
+            JSON.stringify(changes)
+        ).map(response => {
+            response = plainToClass(ComponenteDigital, response);
+            Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+            return Object.assign(new ComponenteDigital(), {...componenteDigital, ...response});
+        });
+    }
 }

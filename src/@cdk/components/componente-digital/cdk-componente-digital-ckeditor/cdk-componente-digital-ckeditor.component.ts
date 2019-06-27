@@ -27,44 +27,37 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
 
     @Input()
     config = {
-        extraPlugins: 'printsemzoom,salvar,fastimage,assinar,paragrafo,paragrafonumerado,citacao,titulo,subtitulo,texttransform,zoom,placeholder,campos,repositorios,footnotes,sourcearea,salvarpdf',
+        extraPlugins: 'printsemzoom,fastimage,paragrafo,paragrafonumerado,citacao,titulo,subtitulo,texttransform,zoom,footnotes,sourcearea',
         language: 'pt-br',
         disableNativeSpellChecker: false,
         scayt_autoStartup: false,
-        contentsCss: 'http://127.0.0.1:4200/assets/ckeditor/contents.css',
-        allowedContent: 'p(esquerda,centralizado,direita,numerado), p strong, p em, p u, p s, p sub, p sup, ul li, ol li, div[id]{page-break-after}, img[!src],p span{display,color,background-color,font-size}[data-service,data-method,data-options],table[*]{*}, tbody, th, td[*](*){width}, tr[*](*), hr, blockquote, h1, h2, h3, h4, section[*](*),header[*](*),li[*],a[*],cite(*)[*],sup(*)[*]{*},ol{*}[start]',
+        contentsCss: '/assets/ckeditor/contents.css',
         justifyClasses: ['esquerda', 'centralizado', 'direita', ' '],
-        removePlugins: 'elementspath, scayt, divarea',
         resize_enabled: false,
 
         width: '100%',
         height: '100%',
 
-        extraAllowedContent: 'table(*),td{*}(*)[*],col[*](*){*}',
+        extraAllowedContent: 'p(esquerda,centralizado,direita,numerado), p strong, p em, p u, p s, p sub, p sup, ul li, ol li, div[id]{page-break-after}, img[!src],p span{display,color,background-color,font-size}[data-service,data-method,data-options],table[*]{*}, tbody, th, td[*](*){width}, tr[*](*), hr, blockquote, h1, h2, h3, h4, section[*](*),header[*](*),li[*],a[*],cite(*)[*],sup(*)[*]{*},ol{*}[start] table(*),td{*}(*)[*],col[*](*){*}',
         startupShowBorders: false,
         pasteFromWordRemoveStyles: false,
         pasteFromWordRemoveFontStyles: false,
 
         toolbar:
             [
-                {name: 'salvar', items: ['salvar', '-', 'PrintSemZoom']},
-                {name: 'assinar', items: ['assinar']},
-                {name: 'salvarpdf', items: ['salvarpdf']},
+                {name: 'salvar', items: ['saveButton', 'PrintSemZoom']},
                 {name: 'clipboard', items: ['Cut', 'Copy', 'Paste', 'PasteText', '-', 'Undo', 'Redo']},
                 {name: 'editing', items: ['Find', 'Replace', '-', 'SelectAll']},
-                '/',
                 {name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat']},
                 {
                     name: 'paragraph', items: ['NumberedList', 'BulletedList',
                         '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']
                 },
-                {name: 'formatacao', items: ['fastimage']},
                 {name: 'styles', items: ['paragrafo', 'paragrafonumerado', 'citacao', 'titulo', 'subtitulo']},
                 {name: 'colors', items: ['TextColor', 'BGColor']},
                 {name: 'insert', items: ['Table', 'SpecialChar', 'PageBreak', 'HorizontalRule', 'Footnotes']},
                 {name: 'texttransform', items: ['TransformTextToUppercase', 'TransformTextToLowercase', 'TransformTextCapitalize']},
                 {name: 'zoom', items: ['Zoom', 'Maximize']},
-                {name: 'templates', items: ['campos', 'repositorios']},
 
             ],
 
@@ -155,6 +148,62 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
             reader.onload = () => resolve(reader.result);
             reader.onerror = error => reject(error);
             reader.readAsDataURL(blob);
+        });
+    }
+
+    strip_tags(input, allowed = null): any {
+        const nallowed = (((allowed || '') + '').toLowerCase().match(/<[a-z][a-z0-9]*>/g) || []).join('');
+        const tags = /<\/?([a-z][a-z0-9]*)\b[^>]*>/gi,
+            commentsAndPhpTags = /<!--[\s\S]*?-->|<\?(?:php)?[\s\S]*?\?>/gi;
+        return input.replace(commentsAndPhpTags, '').replace(tags, function ($0, $1): any {
+            return nallowed.indexOf('<' + $1.toLowerCase() + '>') > -1 ? $0 : '';
+        });
+    }
+
+    onReady(e): void {
+
+        const me = this;
+
+        e.editor.on('contentDom', function (dom): any {
+
+            e.editor.document.on('keyup', function (event) {
+                if (event.data.getKey() === 13) {
+                    let node = e.editor.getSelection().getStartElement();
+
+                    do {
+                        if (node.getName() === 'p' || node.getName() === 'h1' || node.getName() === 'h2') {
+                            const words = '',
+                                query = '';
+
+                            // renumeracao
+                            if (!me.strip_tags(node.getPrevious().getHtml()) &&
+                                node.getPrevious().getAttribute('class') &&
+                                (node.getPrevious().getAttribute('class').indexOf('numerado') >= 0)) {
+                                node.getPrevious().setAttribute(
+                                    'class',
+                                    node.getPrevious().getAttribute('class').replace('numerado', '')
+                                );
+                            }
+
+                            break;
+                        }
+
+                        if (node.getName() === 'body') {
+                            break;
+                        }
+
+                    } while (node = node.getParent());
+                }
+            });
+
+        });
+
+        e.editor.dataProcessor.writer.setRules('p', {
+            indent: false,
+            breakBeforeOpen: false,
+            breakAfterOpen: false,
+            breakBeforeClose: false,
+            breakAfterClose: false
         });
     }
 
