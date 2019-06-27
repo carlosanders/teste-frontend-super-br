@@ -2,8 +2,8 @@
 
 cdk-historico-timeline {
 
-  width: 400px;
-  height: 800px;
+  min-width: 400px;
+  max-width: 400px;
 
   .historico-timeline {
 
@@ -15,7 +15,6 @@ cdk-historico-timeline {
 
 
     .timeline-sidebar {
-      padding-left: 12px;
 
       @include media-breakpoint('lt-md') {
         padding: 32px 0 0 0;

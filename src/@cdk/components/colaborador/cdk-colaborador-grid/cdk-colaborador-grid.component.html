@@ -80,7 +80,7 @@
                     Nome Usuário
                 </th>
                 <td mat-cell *matCellDef="let colaborador" fxFlex="50" fxLayoutAlign="start center"
-                    [ngClass]="{'deleted':deletedIds?.indexOf(colaborador.id) > -1}"> {{colaborador.usuario.nome}}
+                    [ngClass]="{'deleted':deletedIds?.indexOf(colaborador.id) > -1}"> {{colaborador.usuario?.nome}}
                 </td>
             </ng-container>
 
@@ -90,7 +90,7 @@
                     Cargo
                 </th>
                 <td mat-cell *matCellDef="let colaborador" fxFlex="50" fxLayoutAlign="start center"
-                    [ngClass]="{'deleted':deletedIds?.indexOf(colaborador.id) > -1}"> {{colaborador?.cargo.nome}}
+                    [ngClass]="{'deleted':deletedIds?.indexOf(colaborador.id) > -1}"> {{colaborador?.cargo?.nome}}
                 </td>
             </ng-container>
 

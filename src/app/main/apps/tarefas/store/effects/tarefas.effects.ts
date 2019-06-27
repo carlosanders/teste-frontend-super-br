@@ -196,14 +196,12 @@ export class TarefasEffect {
             .pipe(
                 ofType<TarefasActions.SetFolderOnSelectedTarefas>(TarefasActions.SET_FOLDER_ON_SELECTED_TAREFAS),
                 concatMap((action) => {
-                    const tarefa = plainToClass(Tarefa, <Tarefa>action.payload.tarefa);
-                    tarefa.folder = action.payload.folder;
-                    return this._tarefaService.save(tarefa).pipe(
-                        map((response: any) => [
+                    return this._tarefaService.patch(action.payload.tarefa, {folder: action.payload.folder.id}).pipe(
+                        mergeMap((response: any) => [
                             new TarefasActions.SetFolderOnSelectedTarefasSuccess(response),
                             new OperacoesActions.Resultado({
-                                type: 'documentoAvulso',
-                                content: `Documento id ${response.id} criada com sucesso!`,
+                                type: 'tarefa',
+                                content: `Tarefa id ${response.id} editada com sucesso!`,
                                 dateTime: response.criadoEm
                             })
                         ]),

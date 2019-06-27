@@ -9,24 +9,24 @@
         <div class="info" fxFlex [ngClass]="{'nao-lido': !tarefa.dataHoraLeitura}">
 
             <div class="title" fxLayout="row">
-                <mat-icon *ngIf="tarefa.processo.acessoNegado" class="red-fg">block</mat-icon> <span class="text-truncate">PROCESSO {{tarefa.processo.NUP | formatNup}}</span>
+                <mat-icon *ngIf="tarefa.processo?.acessoNegado" class="red-fg">block</mat-icon> <span class="text-truncate">PROCESSO {{tarefa.processo?.NUP | formatNup}}</span>
             </div>
 
-            <div class="subtitle" *ngIf="!tarefa.processo.acessoNegado">
-                <span class="text-truncate">{{tarefa.processo.modalidadeMeio.valor }} {{tarefa.processo.especieProcesso.nome }}</span>
+            <div class="subtitle" *ngIf="!tarefa.processo?.acessoNegado">
+                <span class="text-truncate">{{tarefa.processo?.modalidadeMeio?.valor }} {{tarefa.processo?.especieProcesso?.nome }}</span>
             </div>
 
-            <div class="subtitle" *ngIf="tarefa.processo.acessoNegado">
+            <div class="subtitle" *ngIf="tarefa.processo?.acessoNegado">
                 <span class="text-truncate">Usuário com acesso negado ao processo</span>
             </div>
 
             <div class="body mt-4">
                 <div>
-                    {{tarefa.especieTarefa.nome}}
+                    {{tarefa.especieTarefa?.nome}}
                 </div>
 
                 <div>
-                    {{tarefa.setorResponsavel.nome}} ({{tarefa.setorResponsavel.unidade.sigla}})
+                    {{tarefa.setorResponsavel?.nome}} ({{tarefa.setorResponsavel?.unidade?.sigla}})
                 </div>
 
                 <div>
@@ -39,8 +39,8 @@
                 <div class="etiqueta" *ngFor="let vinculacaoEtiqueta of tarefa.vinculacoesEtiquetas"
                      fxLayout="row" fxLayoutAlign="start center">
                     <div class="etiqueta-color"
-                         [ngStyle]="{'background-color': (vinculacaoEtiqueta.etiqueta.corHexadecimal)}"></div>
-                    <div class="etiqueta-title">{{vinculacaoEtiqueta.etiqueta.nome}}</div>
+                         [ngStyle]="{'background-color': (vinculacaoEtiqueta.etiqueta?.corHexadecimal)}"></div>
+                    <div class="etiqueta-title">{{vinculacaoEtiqueta.etiqueta?.nome}}</div>
                 </div>
             </div>
         </div>

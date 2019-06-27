@@ -74,12 +74,12 @@ export class CdkSigiloFormComponent implements OnChanges, OnDestroy, OnInit {
             'processo': [null],
             'documento': [null],
             'desclassificado': [null],
-            'fundamentoLegal': [null, [Validators.required]],
-            'razoesClassificacaoSigilo': [null, [Validators.required]],
+            'fundamentoLegal': [null, [Validators.required, Validators.maxLength(255)]],
+            'razoesClassificacaoSigilo': [null, [Validators.required, Validators.maxLength(255)]],
             'dataHoraInicioSigilo': [null, [Validators.required]],
             'modalidadeCategoriaSigilo': [null],
             'tipoSigilo': [null, [Validators.required]],
-            'observacao': [null]
+            'observacao': [null, [Validators.maxLength(255)]]
         });
 
         this.processoPagination = new Pagination();

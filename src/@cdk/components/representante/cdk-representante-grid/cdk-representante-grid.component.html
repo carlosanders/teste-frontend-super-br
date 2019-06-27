@@ -98,7 +98,7 @@
                     Modalidade do Representante
                 </th>
                 <td mat-cell *matCellDef="let representante" fxFlex="30" fxLayoutAlign="start center"
-                    [ngClass]="{'deleted':deletedIds?.indexOf(representante.id) > -1}"> {{representante.modalidadeRepresentante.valor}} </td>
+                    [ngClass]="{'deleted':deletedIds?.indexOf(representante.id) > -1}"> {{representante.modalidadeRepresentante?.valor}} </td>
             </ng-container>
 
             <!-- Interessado Column -->
@@ -107,7 +107,7 @@
                     Interessado
                 </th>
                 <td mat-cell *matCellDef="let representante" fxFlex="30" fxLayoutAlign="start center"
-                    [ngClass]="{'deleted':deletedIds?.indexOf(representante.id) > -1}"> {{representante.interessado.pessoa.nome}} </td>
+                    [ngClass]="{'deleted':deletedIds?.indexOf(representante.id) > -1}"> {{representante.interessado?.pessoa?.nome}} </td>
             </ng-container>
 
             <!-- OrigemDados Column -->
@@ -116,7 +116,7 @@
                     Origem dos Dados
                 </th>
                 <td mat-cell *matCellDef="let representante" fxFlex="30" fxLayoutAlign="start center"
-                    [ngClass]="{'deleted':deletedIds?.indexOf(representante.id) > -1}"> {{representante.origemDados.servico}} </td>
+                    [ngClass]="{'deleted':deletedIds?.indexOf(representante.id) > -1}"> {{representante.origemDados?.servico}} </td>
             </ng-container>
 
             <!-- Actions Column -->

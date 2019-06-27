@@ -87,7 +87,7 @@ export class ComponenteDigitalEffect {
             .pipe(
                 ofType<ComponenteDigitalActions.SaveComponenteDigital>(ComponenteDigitalActions.SAVE_COMPONENTE_DIGITAL),
                 switchMap((action) => {
-                    return this._componenteDigitalService.save(action.payload).pipe(
+                    return this._componenteDigitalService.patch(action.payload.componenteDigital , {conteudo: action.payload.data}).pipe(
                         mergeMap((response: ComponenteDigital) => [
                             new ComponenteDigitalActions.SaveComponenteDigitalSuccess(response),
                             new UpdateData<ComponenteDigital>({id: response.id, schema: componenteDigitalSchema, changes: {conteudo: response.conteudo}}),

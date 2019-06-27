@@ -9,8 +9,8 @@
                     [routerLink]="'editar/criar'"
                     *ngIf="action === 'listar'"
                     aria-label="novo"
-                    matTooltip="Restringir o Acesso">
-                Restringir
+                    matTooltip="Novo">
+                Novo
             </button>
             <button mat-icon-button
                     (click)="goBack()"
@@ -24,7 +24,7 @@
     <!-- / CONTENT HEADER -->
 
     <!-- CONTENT -->
-    <div class="content p-24">
+    <div class="content pl-16 pr-16">
         <router-outlet></router-outlet>
     </div>
 </div>

@@ -104,7 +104,7 @@
 <cdk-processo-gridsearch
         fxFlex="1 0 auto"
         *ngIf="activeCard === 'processo-gridsearch'"
-        [pagination]="processoPagination.filter"
+        [pagination]="processoPagination"
         (selected)="selectProcesso($event)"
         (cancel)="cancel()">
 </cdk-processo-gridsearch>
@@ -112,7 +112,7 @@
 <cdk-setor-gridsearch
         fxFlex="1 0 auto"
         *ngIf="activeCard === 'setor-origem-gridsearch'"
-        [pagination]="setorOrigemPagination.filter"
+        [pagination]="setorOrigemPagination"
         (selected)="selectSetorOrigem($event)"
         (cancel)="cancel()">
 </cdk-setor-gridsearch>
@@ -120,7 +120,7 @@
 <cdk-pessoa-gridsearch
         fxFlex="1 0 auto"
         *ngIf="activeCard === 'pessoa-destino-gridsearch'"
-        [pagination]="pessoaDestinoPagination.filter"
+        [pagination]="pessoaDestinoPagination"
         (selected)="selectPessoaDestino($event)"
         (cancel)="cancel()">
 </cdk-pessoa-gridsearch>

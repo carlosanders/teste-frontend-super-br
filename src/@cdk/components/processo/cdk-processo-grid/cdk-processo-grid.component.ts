@@ -39,7 +39,7 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
     mode = 'list';
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'processo', 'setorAtual', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'processo', 'setorAtual', 'unidade', 'actions'];
 
     @Input()
     deletingIds: number[] = [];

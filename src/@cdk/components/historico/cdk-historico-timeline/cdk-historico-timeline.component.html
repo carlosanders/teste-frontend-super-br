@@ -10,6 +10,7 @@
             </header>
 
             <div class="content" fxLayout="row wrap">
+                <mat-spinner *ngIf="isLoading" style="margin:0 auto;" diameter="72"></mat-spinner>
                 <div class="activities">
                     <div class="activity" fxLayout="row" fxLayoutAlign="start start"
                          *ngFor="let historico of historicos">

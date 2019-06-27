@@ -98,7 +98,7 @@
                     Gênero Processo
                 </th>
                 <td mat-cell *matCellDef="let especieProcesso" fxFlex="30" fxLayoutAlign="start center"
-                    [ngClass]="{'deleted':deletedIds?.indexOf(especieProcesso.id) > -1}"> {{especieProcesso.generoProcesso.nome}} </td>
+                    [ngClass]="{'deleted':deletedIds?.indexOf(especieProcesso.id) > -1}"> {{especieProcesso.generoProcesso?.nome}} </td>
             </ng-container>
 
             <!-- Actions Column -->

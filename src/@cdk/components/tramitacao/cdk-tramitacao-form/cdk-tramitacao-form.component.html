@@ -80,7 +80,7 @@
 
         <mat-form-field class="mr-16" fxFlex="1 0 auto">
             <textarea formControlName="observacao"
-                      matInput placeholder="Observação" upperCase></textarea>
+                      matInput placeholder="Observação" maxlength="255" upperCase></textarea>
             <mat-error *ngIf="form.get('observacao').hasError('formError')">
                 {{form.get('observacao').errors.formError}}
             </mat-error>
@@ -107,7 +107,7 @@
 <cdk-processo-gridsearch
         fxFlex="1 0 auto"
         *ngIf="activeCard === 'processo-gridsearch'"
-        [pagination]="processoPagination.filter"
+        [pagination]="processoPagination"
         (selected)="selectProcesso($event)"
         (cancel)="cancel()">
 </cdk-processo-gridsearch>
@@ -115,7 +115,7 @@
 <cdk-setor-gridsearch
         fxFlex="1 0 auto"
         *ngIf="activeCard === 'setor-origem-gridsearch'"
-        [pagination]="setorOrigemPagination.filter"
+        [pagination]="setorOrigemPagination"
         (selected)="selectSetorOrigem($event)"
         (cancel)="cancel()">
 </cdk-setor-gridsearch>
@@ -123,7 +123,7 @@
 <cdk-setor-gridsearch
         fxFlex="1 0 auto"
         *ngIf="activeCard === 'setor-destino-gridsearch'"
-        [pagination]="setorDestinoPagination.filter"
+        [pagination]="setorDestinoPagination"
         (selected)="selectSetorDestino($event)"
         (cancel)="cancel()">
 </cdk-setor-gridsearch>

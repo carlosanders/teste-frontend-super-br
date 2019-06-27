@@ -63,11 +63,11 @@ export class CdkVisibilidadeFormComponent implements OnInit, OnChanges, OnDestro
     ) {
        this.form = this._formBuilder.group({
             'id': [null],
-            'usuario': [null],
-            'unidade': [null],
-            'setor': [null],
+            'usuario': [null, [Validators.required]],
+            'unidade': [null, [Validators.required]],
+            'setor': [null, [Validators.required]],
             'tipo': [null],
-            'poderes': [null]
+            'poderes': [null, [Validators.required]]
         });
         this.usuarioPagination = new Pagination();
         this.setorPagination = new Pagination();

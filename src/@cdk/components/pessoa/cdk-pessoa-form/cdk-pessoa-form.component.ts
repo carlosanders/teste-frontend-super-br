@@ -7,10 +7,10 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import { fuseAnimations } from '@fuse/animations';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { Pessoa } from '@cdk/models/pessoa.model';
-import { MAT_DATETIME_FORMATS } from '@mat-datetimepicker/core';
+import {fuseAnimations} from '@fuse/animations';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Pessoa} from '@cdk/models/pessoa.model';
+import {MAT_DATETIME_FORMATS} from '@mat-datetimepicker/core';
 import {ModalidadeQualificacaoPessoa} from '@cdk/models/modalidade-qualificacao-pessoa.model';
 import {ModalidadeGeneroPessoa} from '@cdk/models/modalidade-genero-pessoa.model';
 import {Pais} from '@cdk/models/pais.model';
@@ -82,16 +82,17 @@ export class CdkPessoaFormComponent implements OnChanges, OnDestroy {
 
         this.form = this._formBuilder.group({
             'id': [null],
-            'modalidadeQualificacaoPessoa': [null],
-            'nome': [null],
+            'modalidadeQualificacaoPessoa': [null, [Validators.required]],
+            'nome': [null, [Validators.required, Validators.maxLength(255)]],
             'modalidadeGeneroPessoa': [null],
             'dataNascimento': [null],
             'dataObito': [null],
-            'profissao': [null],
-            'contato': [null],
-            'numeroDocumentoPrincipal': [null],
-            'nomeGenitor': [null],
-            'nomeGenitora': [null],
+            'profissao': [null, [Validators.maxLength(255)]],
+            'contato': [null, [Validators.maxLength(255)]],
+            'numeroDocumentoPrincipal': [null, [Validators.maxLength(255),
+                Validators.pattern('([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})')]],
+            'nomeGenitor': [null, [Validators.maxLength(255)]],
+            'nomeGenitora': [null, [Validators.maxLength(255)]],
             'naturalidade': [null],
             'nacionalidade': [null]
         });

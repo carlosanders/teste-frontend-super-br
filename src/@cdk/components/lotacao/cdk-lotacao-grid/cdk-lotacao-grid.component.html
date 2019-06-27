@@ -80,7 +80,7 @@
                     Setor
                 </th>
                 <td mat-cell *matCellDef="let lotacao" fxFlex="30" fxLayoutAlign="start center"
-                    [ngClass]="{'deleted':deletedIds?.indexOf(lotacao.id) > -1}"> {{lotacao.setor.nome}} </td>
+                    [ngClass]="{'deleted':deletedIds?.indexOf(lotacao.id) > -1}"> {{lotacao.setor?.nome}} </td>
             </ng-container>
 
             <!-- Principal Column -->

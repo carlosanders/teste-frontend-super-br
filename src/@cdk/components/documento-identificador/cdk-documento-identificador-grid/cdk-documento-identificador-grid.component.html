@@ -80,7 +80,7 @@
                     Modalidade
                 </th>
                 <td mat-cell *matCellDef="let documentoIdentificador" fxFlex="100" fxLayoutAlign="start center"
-                    [ngClass]="{'deleted':deletedIds?.indexOf(documentoIdentificador.id) > -1}"> {{documentoIdentificador.modalidadeDocumentoIdentificador.valor }}
+                    [ngClass]="{'deleted':deletedIds?.indexOf(documentoIdentificador.id) > -1}"> {{documentoIdentificador.modalidadeDocumentoIdentificador?.valor }}
                 </td>
             </ng-container>
 

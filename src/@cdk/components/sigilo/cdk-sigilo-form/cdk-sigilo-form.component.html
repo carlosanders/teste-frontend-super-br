@@ -81,7 +81,7 @@
 
         <mat-form-field class="mr-16" fxFlex="1 0 auto">
             <textarea formControlName="observacao"
-                      matInput placeholder="Observação" upperCase></textarea>
+                      matInput placeholder="Observação" maxlength="255" upperCase></textarea>
             <mat-error *ngIf="form.get('observacao').hasError('formError')">
                 {{form.get('observacao').errors.formError}}
             </mat-error>
@@ -108,7 +108,7 @@
 <cdk-modalidade-categoria-sigilo-gridsearch
         fxFlex="1 0 auto"
         *ngIf="activeCard === 'modalidade-categoria-sigilo-gridsearch'"
-        [pagination]="modalidadeCategoriaSigiloPagination.filter"
+        [pagination]="modalidadeCategoriaSigiloPagination"
         (selected)="selectModalidadeCategoriaSigilo($event)"
         (cancel)="cancel()">
 </cdk-modalidade-categoria-sigilo-gridsearch>
@@ -116,7 +116,7 @@
 <cdk-tipo-sigilo-gridsearch
         fxFlex="1 0 auto"
         *ngIf="activeCard === 'tipo-sigilo-gridsearch'"
-        [pagination]="tipoSigiloPagination.filter"
+        [pagination]="tipoSigiloPagination"
         (selected)="selectTipoSigilo($event)"
         (cancel)="cancel()">
 </cdk-tipo-sigilo-gridsearch>

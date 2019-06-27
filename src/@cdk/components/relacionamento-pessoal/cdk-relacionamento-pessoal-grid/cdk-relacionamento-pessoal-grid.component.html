@@ -80,7 +80,7 @@
                     Pessoa
                 </th>
                 <td mat-cell *matCellDef="let relacionamentoPessoal" fxFlex="30" fxLayoutAlign="start center"
-                    [ngClass]="{'deleted':deletedIds?.indexOf(relacionamentoPessoal.id) > -1}"> {{relacionamentoPessoal.pessoaRelacionada.nome}} </td>
+                    [ngClass]="{'deleted':deletedIds?.indexOf(relacionamentoPessoal.id) > -1}"> {{relacionamentoPessoal.pessoaRelacionada?.nome}} </td>
             </ng-container>
 
             <!-- ModalidadeRelacionamentoPessoal Column -->
@@ -89,7 +89,7 @@
                     Modalidade
             </th>
                 <td mat-cell *matCellDef="let relacionamentoPessoal" fxFlex="30" fxLayoutAlign="start center"
-                [ngClass]="{'deleted':deletedIds?.indexOf(relacionamentoPessoal.id) > -1}"> {{relacionamentoPessoal.modalidadeRelacionamentoPessoal.valor}} </td>
+                [ngClass]="{'deleted':deletedIds?.indexOf(relacionamentoPessoal.id) > -1}"> {{relacionamentoPessoal.modalidadeRelacionamentoPessoal?.valor}} </td>
             </ng-container>
 
             <!-- OrigemDados Column -->

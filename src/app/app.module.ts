@@ -8,6 +8,7 @@ import {ExtraOptions, RouterModule, Routes} from '@angular/router';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import {MatButtonModule, MatIconModule, MatSnackBarModule} from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
+import { CKEditorModule } from 'ng2-ckeditor';
 import 'hammerjs';
 
 import { FuseModule } from '@fuse/fuse.module';
@@ -80,6 +81,8 @@ const routingConfiguration: ExtraOptions = {
         FuseSharedModule,
         FuseSidebarModule,
         FuseThemeOptionsModule,
+
+        CKEditorModule,
 
         InMemoryWebApiModule.forRoot(FakeDbService, {
             delay             : 0,

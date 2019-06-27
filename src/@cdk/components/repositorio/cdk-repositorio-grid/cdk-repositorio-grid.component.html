@@ -110,7 +110,7 @@
                     Modalidade
                 </th>
                 <td mat-cell *matCellDef="let repositorio" fxFlex="30" fxLayoutAlign="start center"
-                    [ngClass]="{'deleted':deletedIds?.indexOf(repositorio.id) > -1}"> {{repositorio.modalidadeRepositorio.valor}} </td>
+                    [ngClass]="{'deleted':deletedIds?.indexOf(repositorio.id) > -1}"> {{repositorio.modalidadeRepositorio?.valor}} </td>
             </ng-container>
 
             <!-- Actions Column -->

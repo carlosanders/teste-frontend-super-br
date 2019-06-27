@@ -155,7 +155,7 @@
 
         <mat-form-field class="mr-16" fxFlex="1 0 auto">
             <textarea formControlName="observacao"
-                      matInput placeholder="Observação" upperCase></textarea>
+                      matInput placeholder="Observação" upperCase maxlength="255"></textarea>
             <mat-error *ngIf="form.get('observacao').hasError('formError')">
                 {{form.get('observacao').errors.formError}}
             </mat-error>
@@ -182,7 +182,7 @@
 <cdk-processo-gridsearch
         fxFlex="1 0 auto"
         *ngIf="activeCard === 'processo-gridsearch'"
-        [pagination]="processoPagination.filter"
+        [pagination]="processoPagination"
         (selected)="selectProcesso($event)"
         (cancel)="cancel()">
 </cdk-processo-gridsearch>
@@ -190,7 +190,7 @@
 <cdk-modelo-gridsearch
         fxFlex="1 0 auto"
         *ngIf="activeCard === 'modelo-gridsearch'"
-        [pagination]="modeloPagination.filter"
+        [pagination]="modeloPagination"
         (selected)="selectModelo($event)"
         (cancel)="cancel()">
 </cdk-modelo-gridsearch>
@@ -198,7 +198,7 @@
 <cdk-especie-documento-avulso-gridsearch
         fxFlex="1 0 auto"
         *ngIf="activeCard === 'especie-documento-avulso-gridsearch'"
-        [pagination]="especieDocumentoAvulsoPagination.filter"
+        [pagination]="especieDocumentoAvulsoPagination"
         (selected)="selectEspecieDocumentoAvulso($event)"
         (cancel)="cancel()">
 </cdk-especie-documento-avulso-gridsearch>
@@ -206,7 +206,7 @@
 <cdk-setor-gridsearch
         fxFlex="1 0 auto"
         *ngIf="activeCard === 'setor-destino-gridsearch'"
-        [pagination]="setorDestinoPagination.filter"
+        [pagination]="setorDestinoPagination"
         (selected)="selectSetorDestino($event)"
         (cancel)="cancel()">
 </cdk-setor-gridsearch>
@@ -214,7 +214,7 @@
 <cdk-pessoa-gridsearch
         fxFlex="1 0 auto"
         *ngIf="activeCard === 'pessoa-destino-gridsearch'"
-        [pagination]="pessoaDestinoPagination.filter"
+        [pagination]="pessoaDestinoPagination"
         (selected)="selectPessoaDestino($event)"
         (cancel)="cancel()">
 </cdk-pessoa-gridsearch>

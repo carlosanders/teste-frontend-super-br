@@ -11,12 +11,6 @@ import {fuseAnimations} from '@fuse/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Juntada} from '@cdk/models/juntada.model';
 import {Pagination} from '../../../models/pagination';
-import {Processo} from '@cdk/models/processo.model';
-import {Usuario} from '@cdk/models/usuario.model';
-import {Setor} from '../../../models/setor.model';
-import {Pessoa} from '../../../models/pessoa.model';
-import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
-import {of} from 'rxjs';
 import {Documento} from '../../../models/documento.model';
 import {OrigemDados} from '../../../models/origem-dados.model';
 import {DocumentoAvulso} from '../../../models/documento-avulso.model';
@@ -81,7 +75,7 @@ export class CdkJuntadaFormComponent implements OnChanges, OnDestroy, OnInit {
             'ativo': [null],
             'numeracaoSequencial': [null],
             'documento': [null, [Validators.required]],
-            'descricao': [null, [Validators.maxLength(255)]],
+            'descricao': [null, [Validators.required , Validators.minLength(3), Validators.maxLength(4000)]],
             'origemDados': [null, [Validators.required]],
             'volume': [null, [Validators.required]],
             'documentoAvulso': [null, [Validators.required]],

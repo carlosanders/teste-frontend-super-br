@@ -96,7 +96,7 @@
                     Tipo de Documento
                 </th>
                 <td mat-cell *matCellDef="let juntada" fxFlex="30" fxLayoutAlign="start center"
-                    [ngClass]="{'deleted':deletedIds?.indexOf(juntada.id) > -1}"> {{juntada.documento.tipoDocumento.nome}} </td>
+                    [ngClass]="{'deleted':deletedIds?.indexOf(juntada.id) > -1}"> {{juntada.documento.tipoDocumento?.nome}} </td>
             </ng-container>
 
             <!-- Actions Column -->

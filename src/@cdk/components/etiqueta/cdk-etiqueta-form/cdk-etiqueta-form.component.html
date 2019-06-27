@@ -12,13 +12,13 @@
 
         <mat-form-field fxFlex="100">
             <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Nome" formControlName="nome" required upperCase>
+                <input matInput placeholder="Nome" formControlName="nome" maxlength="255" required upperCase>
             </div>
         </mat-form-field>
 
         <mat-form-field fxFlex="100">
             <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Descrição" formControlName="descricao" required upperCase>
+                <input matInput placeholder="Descrição" formControlName="descricao" maxlength="255" required upperCase>
             </div>
         </mat-form-field>
 
@@ -27,7 +27,7 @@
                 <input matInput placeholder="Modalidade"
                        formControlName="modalidadeEtiqueta"
                        [matAutocomplete]="modalidadeetiqueta.autocomplete"
-                       (blur)="checkModalidadeEtiqueta()">
+                       (blur)="checkModalidadeEtiqueta()" required>
             </div>
             <cdk-modalidade-etiqueta-autocomplete
                 #modalidadeetiqueta="modalidadeEtiquetaAutocomplete"
@@ -50,7 +50,7 @@
         <mcc-color-picker [overlay]="false" [hideUsedColors]="true"
                           [hideColorPickerSelector]="true" [hideButtons]="true" (selected)="selectColor($event)">
 
-            <mcc-color-picker-collection [colors]="colors" [hideEmpty]="true" [label]="'Cores'"></mcc-color-picker-collection>
+            <mcc-color-picker-collection [colors]="colors" [hideEmpty]="true" [label]="'Cores'" required></mcc-color-picker-collection>
 
         </mcc-color-picker>
 

@@ -115,7 +115,7 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
             'dataHoraFinalPrazo': [null, [Validators.required]],
             'setorDestino': [null, [Validators.required]],
             'pessoaDestino': [null, [Validators.required]],
-            'observacao': [null]
+            'observacao': [null, [Validators.maxLength(255)]]
         });
 
         this.processoPagination = new Pagination();

@@ -44,7 +44,7 @@
             <input matInput #descricao
                    name="descricao"
                    formControlName="descricao"
-                   maxlength="255" upperCase>
+                   maxlength="4000" upperCase minlength="3" maxlength="255" required>
             <mat-hint align="end">{{descricao.value.length}} / 255</mat-hint>
         </mat-form-field>
 
@@ -174,7 +174,7 @@
 <cdk-documento-gridsearch
         fxFlex="1 0 auto"
         *ngIf="activeCard === 'documento-gridsearch'"
-        [pagination]="documentoPagination.filter"
+        [pagination]="documentoPagination"
         (selected)="selectDocumento($event)"
         (cancel)="cancel()">
 </cdk-documento-gridsearch>
@@ -182,7 +182,7 @@
 <cdk-origem-dados-gridsearch
         fxFlex="1 0 auto"
         *ngIf="activeCard === 'origem-dados-gridsearch'"
-        [pagination]="origemDadosPagination.filter"
+        [pagination]="origemDadosPagination"
         (selected)="selectOrigemDados($event)"
         (cancel)="cancel()">
 </cdk-origem-dados-gridsearch>
@@ -190,7 +190,7 @@
 <cdk-volume-gridsearch
         fxFlex="1 0 auto"
         *ngIf="activeCard === 'volume-gridsearch'"
-        [pagination]="volumePagination.filter"
+        [pagination]="volumePagination"
         (selected)="selectVolume($event)"
         (cancel)="cancel()">
 </cdk-volume-gridsearch>
@@ -198,7 +198,7 @@
 <cdk-documento-avulso-gridsearch
         fxFlex="1 0 auto"
         *ngIf="activeCard === 'documento-avulso-gridsearch'"
-        [pagination]="documentoAvulsoPagination.filter"
+        [pagination]="documentoAvulsoPagination"
         (selected)="selectDocumentoAvulso($event)"
         (cancel)="cancel()">
 </cdk-documento-avulso-gridsearch>
@@ -206,7 +206,7 @@
 <cdk-atividade-gridsearch
         fxFlex="1 0 auto"
         *ngIf="activeCard === 'atividade-gridsearch'"
-        [pagination]="atividadePagination.filter"
+        [pagination]="atividadePagination"
         (selected)="selectAtividade($event)"
         (cancel)="cancel()">
 </cdk-atividade-gridsearch>
@@ -214,7 +214,7 @@
 <cdk-tarefa-gridsearch
         fxFlex="1 0 auto"
         *ngIf="activeCard === 'tarefa-gridsearch'"
-        [pagination]="tarefaPagination.filter"
+        [pagination]="tarefaPagination"
         (selected)="selectTarefa($event)"
         (cancel)="cancel()">
 </cdk-tarefa-gridsearch>

@@ -57,7 +57,7 @@ export class CdkAfastamentoFormComponent implements OnChanges, OnDestroy {
             'dataFim': [null, [Validators.required]],
             'dataInicioBloqueio': [null, [Validators.required]],
             'dataFimBloqueio': [null, [Validators.required]],
-            'colaborador': [null]
+            'colaborador': [null, [Validators.required]]
         });
 
         this.modalidadeAfastamentoPagination = new Pagination();
