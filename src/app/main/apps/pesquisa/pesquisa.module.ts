@@ -22,6 +22,10 @@ const routes: Routes = [
                 loadChildren: './processos/pesquisa-processos.module#PesquisaProcessosModule'
             },
             {
+                path: 'processos/:NUPHandle',
+                loadChildren: './processos/pesquisa-processos.module#PesquisaProcessosModule'
+            },
+            {
                 path: 'documentos',
                 loadChildren: './documentos/pesquisa-documentos.module#PesquisaDocumentosModule'
             },
