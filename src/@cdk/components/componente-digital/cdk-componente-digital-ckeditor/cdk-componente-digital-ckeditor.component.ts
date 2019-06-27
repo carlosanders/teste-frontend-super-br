@@ -27,7 +27,7 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
 
     @Input()
     config = {
-        extraPlugins: 'printsemzoom,fastimage,paragrafo,paragrafonumerado,citacao,titulo,subtitulo,texttransform,zoom,footnotes,sourcearea',
+        extraPlugins: 'printsemzoom,fastimage,paragrafo,paragrafonumerado,citacao,titulo,subtitulo,texttransform,zoom,footnotes,pastebase64,sourcearea,imageresizerowandcolumn',
         language: 'pt-br',
         disableNativeSpellChecker: false,
         scayt_autoStartup: false,
