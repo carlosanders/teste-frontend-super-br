@@ -140,6 +140,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy {
         });
 
         this.selectedDocumentos$.pipe(
+            filter(selectedDocumentos => !!selectedDocumentos),
             takeUntil(this._unsubscribeAll)
         ).subscribe(selectedDocumentos => {
             this.selectedMinutas = selectedDocumentos.filter(documento => !documento.documentoAvulsoRemessa);

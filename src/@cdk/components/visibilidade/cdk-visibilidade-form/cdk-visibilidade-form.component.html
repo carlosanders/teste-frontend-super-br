@@ -5,7 +5,10 @@
 
     <div fxFlex="1 0 auto" fxLayout="column">
 
-        <mat-radio-group class="tipo-rg" formControlName="tipo">
+        <label id="tipo-rg">Quem receberá o acesso</label>
+
+        <div class="target" fxLayout="column">
+        <mat-radio-group class="tipo-rg" formControlName="tipo" aria-labelledby="tipo-rg">
             <mat-radio-button [value]="'usuario'">
                 Usuário
             </mat-radio-button>
@@ -42,9 +45,6 @@
                        formControlName="unidade"
                        [matAutocomplete]="unidade.autocomplete" required
                        (blur)="checkUnidade()">
-                <mat-option *ngIf="unidadeListIsLoading">
-                    <mat-spinner diameter="16"></mat-spinner>
-                </mat-option>
             </div>
             <cdk-setor-autocomplete
                 #unidade="setorAutocomplete"
@@ -81,6 +81,8 @@
                 {{form.get('setor').errors.formError}}
             </mat-error>
         </mat-form-field>
+
+        </div>
 
         <label id="poderes-rg">Selecione os poderes</label>
         <mat-radio-group class="poderes-rg" formControlName="poderes" aria-labelledby="poderes-rg" required>

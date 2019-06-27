@@ -179,6 +179,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                         this.form.get('usuarioResponsavel').reset();
                         this.form.get('usuarioResponsavel').disable();
                         this.setorResponsavelPagination.filter['unidade.id'] = `eq:${value.id}`;
+                        this._changeDetectorRef.markForCheck();
                     }
                     return of([]);
                 }
@@ -193,6 +194,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                         this.form.get('usuarioResponsavel').enable();
                         this.form.get('usuarioResponsavel').reset();
                         this.usuarioResponsavelPagination.filter['colaborador.lotacoes.setor.id'] = `eq:${value.id}`;
+                        this._changeDetectorRef.markForCheck();
                     }
                     return of([]);
                 }

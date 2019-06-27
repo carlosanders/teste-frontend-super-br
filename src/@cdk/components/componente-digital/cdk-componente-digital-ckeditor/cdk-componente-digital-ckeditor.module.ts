@@ -4,7 +4,7 @@ import {FuseSharedModule} from '@fuse/shared.module';
 
 import {TranslateModule} from '@ngx-translate/core';
 import {CdkComponenteDigitalCkeditorComponent} from './cdk-componente-digital-ckeditor.component';
-import {CKEditorModule} from '@ckeditor/ckeditor5-angular';
+import { CKEditorModule } from 'ng2-ckeditor';
 import {MatButtonModule, MatIconModule} from '@angular/material';
 
 const routes: Routes = [
