@@ -33,6 +33,8 @@ export class DadosPessoaEditComponent implements OnInit, OnDestroy {
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
 
+    hidden: any;
+
     /**
      * @param _store
      */
@@ -61,6 +63,10 @@ export class DadosPessoaEditComponent implements OnInit, OnDestroy {
 
         if (!this.pessoa) {
             this.pessoa = new Pessoa();
+        }
+
+        if (this.pessoa.modalidadeQualificacaoPessoa && this.pessoa.modalidadeQualificacaoPessoa.valor !== 'PESSOA FÍSICA'){
+            this.hidden = true;
         }
     }
 

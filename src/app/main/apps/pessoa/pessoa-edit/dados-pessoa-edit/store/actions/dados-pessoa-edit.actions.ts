@@ -66,7 +66,7 @@ export class SavePessoaSuccess implements Action
 {
     readonly type = SAVE_PESSOA_SUCCESS;
 
-    constructor()
+    constructor(public payload: any)
     {
     }
 }

@@ -66,6 +66,12 @@ export class CdkPessoaFormComponent implements OnChanges, OnDestroy {
 
     activeCard = 'form';
 
+    @Input()
+    hidden: any;
+
+    textoDataNascimento = 'Data de Nascimento';
+
+    textoDataObito = 'Data de Óbito';
     /**
      * Constructor
      */
@@ -146,11 +152,60 @@ export class CdkPessoaFormComponent implements OnChanges, OnDestroy {
         }
     }
 
+    validaCampos(campo): void {
+
+        if (campo !== null && typeof campo === 'object' && (campo.valor !== 'PESSOA FÍSICA')){
+
+            this.hidden = true;
+
+            this.form.get('modalidadeGeneroPessoa').reset();
+            this.form.get('modalidadeGeneroPessoa').disable();
+
+            this.form.get('nacionalidade').reset();
+            this.form.get('nacionalidade').disable();
+
+            this.form.get('naturalidade').reset();
+            this.form.get('naturalidade').disable();
+
+            this.form.get('profissao').reset();
+            this.form.get('profissao').disable();
+
+            this.form.get('nomeGenitor').reset();
+            this.form.get('nomeGenitor').disable();
+
+            this.form.get('nomeGenitora').reset();
+            this.form.get('nomeGenitora').disable();
+
+            this.textoDataNascimento = 'Criação';
+            this.textoDataObito = 'Extinção';
+
+        }
+
+        if (campo !== null && typeof campo === 'object' && (campo.valor === 'PESSOA FÍSICA')){
+
+            this.form.get('modalidadeGeneroPessoa').enable();
+            this.form.get('nacionalidade').enable();
+            this.form.get('naturalidade').enable();
+            this.form.get('profissao').enable();
+            this.form.get('nomeGenitor').enable();
+            this.form.get('nomeGenitora').enable();
+
+            this.textoDataNascimento = 'Data de Nascimento';
+            this.textoDataObito = 'Data de Óbito';
+
+            this.hidden = false;
+        }
+    }
+
     checkModalidadeQualificacaoPessoa(): void {
+
         const value = this.form.get('modalidadeQualificacaoPessoa').value;
+
         if (!value || typeof value !== 'object') {
             this.form.get('modalidadeQualificacaoPessoa').setValue(null);
         }
+
+        this.validaCampos(value);
     }
 
     checkModalidadeGeneroPessoa(): void {
@@ -179,6 +234,8 @@ export class CdkPessoaFormComponent implements OnChanges, OnDestroy {
             this.form.get('modalidadeQualificacaoPessoa').setValue(modalidadeQualificacaoPessoa);
         }
         this.activeCard = 'form';
+
+        this.validaCampos(this.form.get('modalidadeQualificacaoPessoa').value);
     }
 
     showModalidadeQualificacaoPessoaGrid(): void {
