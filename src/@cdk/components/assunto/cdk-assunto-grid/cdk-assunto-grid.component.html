@@ -80,7 +80,7 @@
                     Nome
                 </th>
                 <td mat-cell *matCellDef="let assunto" fxFlex="100" fxLayoutAlign="start center"
-                    [ngClass]="{'deleted':deletedIds?.indexOf(assunto.id) > -1}"> {{assunto.assuntoAdministrativo.nome}} </td>
+                    [ngClass]="{'deleted':deletedIds?.indexOf(assunto.id) > -1}"> {{assunto.assuntoAdministrativo?.nome}} </td>
             </ng-container>
 
             <!-- Principal Column -->

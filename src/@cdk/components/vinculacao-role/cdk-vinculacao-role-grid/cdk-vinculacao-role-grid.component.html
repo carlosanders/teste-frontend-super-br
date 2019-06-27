@@ -80,7 +80,7 @@
                     Perfil
                 </th>
                 <td mat-cell *matCellDef="let vinculacaoRole" fxFlex="100" fxLayoutAlign="start center"
-                    [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoRole.id) > -1}"> {{vinculacaoRole.role.name}} </td>
+                    [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoRole.id) > -1}"> {{vinculacaoRole.role?.name}} </td>
             </ng-container>
 
             <!-- Usuario Column -->
@@ -89,7 +89,7 @@
                     Usuário
                 </th>
                 <td mat-cell *matCellDef="let vinculacaoModelo" fxFlex="30" fxLayoutAlign="start center"
-                    [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoModelo.id) > -1}"> {{vinculacaoModelo.usuario.nome}} </td>
+                    [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoModelo.id) > -1}"> {{vinculacaoModelo.usuario?.nome}} </td>
             </ng-container>
 
             <!-- Actions Column -->

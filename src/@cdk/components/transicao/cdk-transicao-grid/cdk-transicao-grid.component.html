@@ -80,7 +80,7 @@
                     Modalidade da Transicao
                 </th>
                 <td mat-cell *matCellDef="let transicao" fxFlex="30" fxLayoutAlign="start center"
-                    [ngClass]="{'deleted':deletedIds?.indexOf(transicao.id) > -1}"> {{transicao.modalidadeTransicao.valor}} </td>
+                    [ngClass]="{'deleted':deletedIds?.indexOf(transicao.id) > -1}"> {{transicao.modalidadeTransicao?.valor}} </td>
             </ng-container>
 
             <!-- Metodo Column -->

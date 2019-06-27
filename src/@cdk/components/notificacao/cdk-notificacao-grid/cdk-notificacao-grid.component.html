@@ -80,7 +80,7 @@
                     Remetente
                 </th>
                 <td mat-cell *matCellDef="let notificacao" fxFlex="100" fxLayoutAlign="start center"
-                    [ngClass]="{'deleted':deletedIds?.indexOf(notificacao.id) > -1}"> {{notificacao.remetente.nome}} </td>
+                    [ngClass]="{'deleted':deletedIds?.indexOf(notificacao.id) > -1}"> {{notificacao.remetente?.nome}} </td>
             </ng-container>
 
             <!-- Nome Destinatario Column -->
@@ -89,7 +89,7 @@
                     Destinatário
                 </th>
                 <td mat-cell *matCellDef="let notificacao" fxFlex="100" fxLayoutAlign="start center"
-                    [ngClass]="{'deleted':deletedIds?.indexOf(notificacao.id) > -1}"> {{notificacao.destinatario.nome}} </td>
+                    [ngClass]="{'deleted':deletedIds?.indexOf(notificacao.id) > -1}"> {{notificacao.destinatario?.nome}} </td>
             </ng-container>
 
             <!-- Modalidade Notificacao Notificacao Column -->
@@ -98,7 +98,7 @@
                     Modalidade
                 </th>
                 <td mat-cell *matCellDef="let notificacao" fxFlex="30" fxLayoutAlign="start center"
-                    [ngClass]="{'deleted':deletedIds?.indexOf(notificacao.id) > -1}"> {{notificacao.modalidadeNotificacao.valor}} </td>
+                    [ngClass]="{'deleted':deletedIds?.indexOf(notificacao.id) > -1}"> {{notificacao.modalidadeNotificacao?.valor}} </td>
             </ng-container>
 
             <!-- DataHoraExpiracao Column -->

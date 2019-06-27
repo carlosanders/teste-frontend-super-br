@@ -120,7 +120,7 @@
                     Modalidade
                 </th>
                 <td mat-cell *matCellDef="let afastamento" fxFlex="100" fxLayoutAlign="start center"
-                    [ngClass]="{'deleted':deletedIds?.indexOf(afastamento.id) > -1}"> {{afastamento.modalidadeAfastamento.valor}} </td>
+                    [ngClass]="{'deleted':deletedIds?.indexOf(afastamento.id) > -1}"> {{afastamento.modalidadeAfastamento?.valor}} </td>
             </ng-container>
 
             <!-- Actions Column -->

@@ -80,7 +80,7 @@
                     Nome
                 </th>
                 <td mat-cell *matCellDef="let documento" fxFlex="100" fxLayoutAlign="start center"
-                    [ngClass]="{'deleted':deletedIds?.indexOf(documento.id) > -1}"> {{documento.tipoDocumento.nome}} </td>
+                    [ngClass]="{'deleted':deletedIds?.indexOf(documento.id) > -1}"> {{documento.tipoDocumento?.nome}} </td>
             </ng-container>
 
             <!-- Espécie Column -->

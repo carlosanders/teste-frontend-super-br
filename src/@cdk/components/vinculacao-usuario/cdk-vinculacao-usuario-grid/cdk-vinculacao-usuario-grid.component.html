@@ -80,7 +80,7 @@
                     Usuário Vinculado
                 </th>
                 <td mat-cell *matCellDef="let vinculacaoModelo" fxFlex="100" fxLayoutAlign="start center"
-                    [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoModelo.id) > -1}"> {{vinculacaoModelo.usuarioVinculado.nome}} </td>
+                    [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoModelo.id) > -1}"> {{vinculacaoModelo.usuarioVinculado?.nome}} </td>
             </ng-container>
 
             <!-- Encerra Tarefa Column -->

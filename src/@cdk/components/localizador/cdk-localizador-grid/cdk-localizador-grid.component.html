@@ -107,7 +107,7 @@
                     Setor
                 </th>
                 <td mat-cell *matCellDef="let localizador" fxFlex="30" fxLayoutAlign="start center"
-                    [ngClass]="{'deleted':deletedIds?.indexOf(localizador.id) > -1}"> {{localizador.setor.nome}} </td>
+                    [ngClass]="{'deleted':deletedIds?.indexOf(localizador.id) > -1}"> {{localizador.setor?.nome}} </td>
             </ng-container>
 
             <!-- Actions Column -->

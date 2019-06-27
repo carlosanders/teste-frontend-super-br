@@ -80,7 +80,7 @@
                     Nome
                 </th>
                 <td mat-cell *matCellDef="let areaTrabalho" fxFlex="100" fxLayoutAlign="start center"
-                    [ngClass]="{'deleted':deletedIds?.indexOf(areaTrabalho.id) > -1}"> {{areaTrabalho.usuario.nome}} </td>
+                    [ngClass]="{'deleted':deletedIds?.indexOf(areaTrabalho.id) > -1}"> {{areaTrabalho.usuario?.nome}} </td>
             </ng-container>
 
             <!-- Dono Column -->

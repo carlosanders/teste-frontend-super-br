@@ -80,7 +80,7 @@
                     Espécie Relevância
                 </th>
                 <td mat-cell *matCellDef="let relevancia" fxFlex="30" fxLayoutAlign="start center"
-                    [ngClass]="{'deleted':deletedIds?.indexOf(relevancia.id) > -1}"> {{relevancia.especieRelevancia.nome}} </td>
+                    [ngClass]="{'deleted':deletedIds?.indexOf(relevancia.id) > -1}"> {{relevancia.especieRelevancia?.nome}} </td>
             </ng-container>
 
             <!-- Observacao Column -->
