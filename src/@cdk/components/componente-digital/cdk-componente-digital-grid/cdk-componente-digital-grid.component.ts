@@ -37,7 +37,10 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
     total = 0;
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'fileName', 'tamanho', 'status', 'actions'];
+    mode = 'list';
+
+    @Input()
+    displayedColumns: string[] = ['select', 'id', 'documento.juntadaAtual.volume.processo.NUP', 'documento.tipoDocumento', 'actions'];
 
     @Input()
     deletingIds: number[] = [];
@@ -66,7 +69,7 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
     reload = new EventEmitter<any>();
 
     @Output()
-    edit = new EventEmitter<number>();
+    edit = new EventEmitter<ComponenteDigital>();
 
     @Output()
     delete = new EventEmitter<number>();
@@ -112,6 +115,10 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
         this.paginator.pageSize = this.pageSize;
 
         this.dataSource = new ComponenteDigitalDataSource(of(this.componentesDigitais));
+
+        if (this.mode === 'search') {
+            this.toggleFilter();
+        }
     }
 
     ngAfterViewInit(): void {
@@ -143,8 +150,8 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
         });
     }
 
-    editComponenteDigital(componenteDigitalId): void {
-        this.edit.emit(componenteDigitalId);
+    editComponenteDigital(ComponenteDigital): void {
+        this.edit.emit(ComponenteDigital);
     }
 
     selectComponenteDigital(componenteDigital: ComponenteDigital): void {

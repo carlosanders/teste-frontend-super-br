@@ -1,9 +1,9 @@
-<cdk-documento-grid
+<cdk-componente-digital-grid
         [loading]="(loading$ | async)"
-        [documentos]="(documentos$ | async)"
+        [componentesDigitais]="(componentesDigitais$ | async)"
         [total]="(pagination$ | async)?.total"
         [mode]="'search'"
         [actions]="['edit']"
         (reload)="reload($event)"
         (edit)="edit($event)">
-</cdk-documento-grid>
+</cdk-componente-digital-grid>
