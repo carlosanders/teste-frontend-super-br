@@ -13,7 +13,7 @@ import {Documento} from '@cdk/models/documento.model';
 import {DocumentoService} from '@cdk/services/documento.service';
 import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
 import {Router} from '@angular/router';
-import {AssinaturaService} from '@cdk/services/assinatura.service';
+import {environment} from 'environments/environment';
 
 @Injectable()
 export class AtividadeCreateDocumentosEffect {
@@ -147,7 +147,7 @@ export class AtividadeCreateDocumentosEffect {
                 ofType<AtividadeCreateDocumentosActions.AssinaDocumentoSuccess>(AtividadeCreateDocumentosActions.ASSINA_DOCUMENTO_SUCCESS),
                 tap((action) => {
 
-                    const url = 'jnlp://127.0.0.1:8000/v1/assinatura/' + action.payload.jwt + '/get_jnlp';
+                    const url = environment.jnlp + 'v1/assinatura/' + action.payload.jwt + '/get_jnlp';
 
                     const ifrm = document.createElement('iframe');
                     ifrm.setAttribute('src', url);
