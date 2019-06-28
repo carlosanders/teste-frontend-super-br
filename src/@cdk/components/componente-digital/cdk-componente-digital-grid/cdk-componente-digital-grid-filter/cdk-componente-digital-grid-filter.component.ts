@@ -31,7 +31,7 @@ export class CdkComponenteDigitalGridFilterComponent implements OnInit {
     ) {
 
         this.form = this._formBuilder.group({
-            'fileName': [null]
+            'conteudo': [null]
         });
 
     }
@@ -44,8 +44,8 @@ export class CdkComponenteDigitalGridFilterComponent implements OnInit {
      * On init
      */
     ngOnInit(): void {
-        this.form.get('fileName').valueChanges.subscribe(value => {
-            this.selected.emit({'fileName': `like:${value}%`});
+        this.form.get('conteudo').valueChanges.subscribe(value => {
+            this.selected.emit({'conteudo': value});
         });
     }
 

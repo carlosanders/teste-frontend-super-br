@@ -27,7 +27,7 @@ const routes: Routes = [
             },
             {
                 path: 'documentos',
-                loadChildren: './documentos/pesquisa-documentos.module#PesquisaDocumentosModule'
+                loadChildren: './componentes-digitais/pesquisa-componentes-digitais.module#PesquisaComponentesDigitaisModule'
             },
             {
                 path: '**',

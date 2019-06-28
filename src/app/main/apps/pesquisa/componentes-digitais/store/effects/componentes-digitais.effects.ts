@@ -6,21 +6,21 @@ import {Observable} from 'rxjs';
 import {catchError, mergeMap, switchMap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
-import * as DocumentosActions from 'app/main/apps/pesquisa/documentos/store/actions';
+import * as ComponentesDigitaisActions from 'app/main/apps/pesquisa/componentes-digitais/store/actions';
 
-import {DocumentoService} from '@cdk/services/documento.service';
+import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {AddData, } from '@cdk/ngrx-normalizr';
-import {Documento} from '@cdk/models/documento.model';
-import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
+import {ComponenteDigital} from '@cdk/models/componente-digital.model';
+import {componenteDigital as componenteDigitalSchema} from '@cdk/normalizr/componente-digital.schema';
 
 @Injectable()
-export class DocumentosEffect {
+export class ComponentesDigitaisEffect {
     
     routerState: any;
 
     constructor(
         private _actions: Actions,
-        private _documentoService: DocumentoService,
+        private _componenteDigitalService: ComponenteDigitalService,
         private _store: Store<State>
     ) {
         this._store
@@ -33,16 +33,16 @@ export class DocumentosEffect {
     }
 
     /**
-     * Get Documentos with router parameters
+     * Get ComponentesDigitais with router parameters
      * @type {Observable<any>}
      */
     @Effect()
-    getDocumentos: any =
+    getComponentesDigitais: any =
         this._actions
             .pipe(
-                ofType<DocumentosActions.GetDocumentos>(DocumentosActions.GET_DOCUMENTOS),
+                ofType<ComponentesDigitaisActions.GetComponentesDigitais>(ComponentesDigitaisActions.GET_COMPONENTES_DIGITAIS),
                 switchMap((action) => {
-                    return this._documentoService.query(
+                    return this._componenteDigitalService.search(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -53,15 +53,15 @@ export class DocumentosEffect {
                         JSON.stringify(action.payload.populate));
                 }),
                 mergeMap((response) => [
-                    new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
-                    new DocumentosActions.GetDocumentosSuccess({
-                        entitiesId: response['entities'].map(documento => documento.id),
+                    new AddData<ComponenteDigital>({data: response['entities'], schema: componenteDigitalSchema}),
+                    new ComponentesDigitaisActions.GetComponentesDigitaisSuccess({
+                        entitiesId: response['entities'].map(componenteDigital => componenteDigital.id),
                         total: response['total']
                     })
                 ]),
                 catchError((err, caught) => {
                     console.log (err);
-                    this._store.dispatch(new DocumentosActions.GetDocumentosFailed(err));
+                    this._store.dispatch(new ComponentesDigitaisActions.GetComponentesDigitaisFailed(err));
                     return caught;
                 })
 

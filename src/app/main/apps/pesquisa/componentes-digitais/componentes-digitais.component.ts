@@ -8,24 +8,24 @@ import {
 import {Observable} from 'rxjs';
 
 import {fuseAnimations} from '@fuse/animations';
-import {Documento} from '@cdk/models/documento.model';
+import {ComponenteDigital} from '@cdk/models/componente-digital.model';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
-import * as fromStore from 'app/main/apps/pesquisa/documentos/store';
-import {getRouterState} from '../../../../store/reducers';
+import * as fromStore from 'app/main/apps/pesquisa/componentes-digitais/store';
+import {getRouterState} from 'app/store/reducers';
 
 @Component({
-    selector: 'documentos',
-    templateUrl: './documentos.component.html',
-    styleUrls: ['./documentos.component.scss'],
+    selector: 'componentes-digitais',
+    templateUrl: './componentes-digitais.component.html',
+    styleUrls: ['./componentes-digitais.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
 })
-export class DocumentosComponent implements OnInit {
+export class ComponentesDigitaisComponent implements OnInit {
 
     routerState: any;
-    documentos$: Observable<Documento[]>;
+    componentesDigitais$: Observable<ComponenteDigital[]>;
     loading$: Observable<boolean>;
     pagination$: Observable<any>;
     pagination: any;
@@ -40,9 +40,9 @@ export class DocumentosComponent implements OnInit {
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
-        private _store: Store<fromStore.DocumentosAppState>,
+        private _store: Store<fromStore.ComponentesDigitaisAppState>,
     ) {
-        this.documentos$ = this._store.pipe(select(fromStore.getDocumentos));
+        this.componentesDigitais$ = this._store.pipe(select(fromStore.getComponentesDigitais));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
 
@@ -61,14 +61,14 @@ export class DocumentosComponent implements OnInit {
         });
     }
 
-    reload (params): void {
-        this._store.dispatch(new fromStore.GetDocumentos({
+    reload(params): void {
+        this._store.dispatch(new fromStore.GetComponentesDigitais({
             ...this.pagination,
             gridFilter: params.gridFilter
         }));
     }
 
-    edit(documentoId: number): void {
-        this._router.navigate(['apps/documento/' + documentoId + '/editar']);
+    edit(componenteDigital: ComponenteDigital): void {
+        this._router.navigate(['apps/documento/' + componenteDigital.documento.id + '/editar']);
     }
 }

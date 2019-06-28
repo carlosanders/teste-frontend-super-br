@@ -15,22 +15,22 @@ import {
 import {TranslateModule} from '@ngx-translate/core';
 
 import {FuseSharedModule} from '@fuse/shared.module';
-import {DocumentoService} from '@cdk/services/documento.service';
+import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {RouterModule, Routes} from '@angular/router';
-import {CdkDocumentoGridModule} from '@cdk/components/documento/cdk-documento-grid/cdk-documento-grid.module';
-import {DocumentosComponent} from './documentos.component';
-import {DocumentosStoreModule} from './store/store.module';
+import {CdkComponenteDigitalGridModule} from '@cdk/components/componente-digital/cdk-componente-digital-grid/cdk-componente-digital-grid.module';
+import {ComponentesDigitaisComponent} from './componentes-digitais.component';
+import {ComponentesDigitaisStoreModule} from './store/store.module';
 
 const routes: Routes = [
     {
         path: '',
-        component: DocumentosComponent
+        component: ComponentesDigitaisComponent
     }
 ];
 
 @NgModule({
     declarations: [
-        DocumentosComponent
+        ComponentesDigitaisComponent
     ],
     imports: [
         RouterModule.forChild(routes),
@@ -47,20 +47,19 @@ const routes: Routes = [
         MatPaginatorModule,
         MatSortModule,
 
-        DocumentosStoreModule,
+        ComponentesDigitaisStoreModule,
 
         TranslateModule,
-
         FuseSharedModule,
 
-        CdkDocumentoGridModule
+        CdkComponenteDigitalGridModule
     ],
     providers: [
-        DocumentoService
+        ComponenteDigitalService
     ],
     exports: [
-        DocumentosComponent
+        ComponentesDigitaisComponent
     ]
 })
-export class PesquisaDocumentosModule {
+export class PesquisaComponentesDigitaisModule {
 }

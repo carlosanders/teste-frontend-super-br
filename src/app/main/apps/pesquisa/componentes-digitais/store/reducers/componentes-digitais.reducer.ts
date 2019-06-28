@@ -1,6 +1,6 @@
-import * as DocumentosActions from 'app/main/apps/pesquisa/documentos/store/actions';
+import * as ComponentesDigitaisActions from 'app/main/apps/pesquisa/componentes-digitais/store/actions';
 
-export interface DocumentosState {
+export interface ComponentesDigitaisState {
     entitiesId: number[];
     pagination: {
         limit: number;
@@ -15,14 +15,14 @@ export interface DocumentosState {
     loaded: any;
 }
 
-export const DocumentosInitialState: DocumentosState = {
+export const ComponentesDigitaisInitialState: ComponentesDigitaisState = {
     entitiesId: [],
     pagination: {
         limit: 5,
         offset: 0,
         filter: {},
         gridFilter: {},
-        populate: ['populateAll'],
+        populate: ['documento', 'documento.tipoDocumento', 'documento.juntadaAtual', 'documento.juntadaAtual.volume', 'documento.juntadaAtual.volume.processo'],
         sort: {},
         total: 0,
     },
@@ -30,10 +30,10 @@ export const DocumentosInitialState: DocumentosState = {
     loaded: false
 };
 
-export function DocumentosReducer(state = DocumentosInitialState, action: DocumentosActions.DocumentosActionsAll): DocumentosState {
+export function ComponentesDigitaisReducer(state = ComponentesDigitaisInitialState, action: ComponentesDigitaisActions.ComponentesDigitaisActionsAll): ComponentesDigitaisState {
     switch (action.type) {
 
-        case DocumentosActions.GET_DOCUMENTOS: {
+        case ComponentesDigitaisActions.GET_COMPONENTES_DIGITAIS: {
             return {
                 ...state,
                 loading: true,
@@ -49,7 +49,7 @@ export function DocumentosReducer(state = DocumentosInitialState, action: Docume
             };
         }
 
-        case DocumentosActions.GET_DOCUMENTOS_SUCCESS: {
+        case ComponentesDigitaisActions.GET_COMPONENTES_DIGITAIS_SUCCESS: {
 
             const loaded = action.payload.loaded;
 
@@ -65,7 +65,7 @@ export function DocumentosReducer(state = DocumentosInitialState, action: Docume
             };
         }
 
-        case DocumentosActions.RELOAD_DOCUMENTOS: {
+        case ComponentesDigitaisActions.RELOAD_COMPONENTES_DIGITAIS: {
             return {
                 ...state,
                 loading: false,
@@ -73,7 +73,7 @@ export function DocumentosReducer(state = DocumentosInitialState, action: Docume
             };
         }
 
-        case DocumentosActions.GET_DOCUMENTOS_FAILED: {
+        case ComponentesDigitaisActions.GET_COMPONENTES_DIGITAIS_FAILED: {
             return {
                 ...state,
                 loading: false,
