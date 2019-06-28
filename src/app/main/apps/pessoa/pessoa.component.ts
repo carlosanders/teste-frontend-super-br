@@ -11,6 +11,9 @@ import {getRouterState} from '../../../store/reducers';
 import {Router} from '@angular/router';
 
 import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
+import {Observable, Subject} from 'rxjs';
+import {Pessoa} from '../../../../@cdk/models/pessoa.model';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'pessoas',
@@ -22,8 +25,12 @@ import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 })
 export class PessoaComponent implements OnInit {
 
+    private _unsubscribeAll: Subject<any> = new Subject();
+
     action = '';
     routerState: any;
+
+    pessoas$: Observable<Pessoa[]>;
 
     /**
      *
@@ -37,13 +44,27 @@ export class PessoaComponent implements OnInit {
         private _router: Router,
         private _fuseSidebarService: FuseSidebarService,
     ) {
+        this.pessoas$ = this._store.pipe(select(fromStore.getPessoaList));
+
         this._store
-            .pipe(select(getRouterState))
-            .subscribe(routerState => {
-                if (routerState) {
-                    this.routerState = routerState.state;
+            .pipe(
+                select(getRouterState),
+                takeUntil(this._unsubscribeAll)
+            ).subscribe(routerState => {
+            if (routerState) {
+                this.routerState = routerState.state;
+                if (this.routerState.url.indexOf('pessoa/listar') > -1) {
+                    this.action = 'listar';
                 }
-            });
+                if (this.routerState.url.indexOf('pessoa/editar') > -1) {
+                    this.action = 'editar';
+                }
+                if (this.routerState.url.indexOf('pessoa/criar') > -1) {
+                    this.action = 'criar';
+                }
+                this._changeDetectorRef.markForCheck();
+            }
+        });
     }
 
     /**

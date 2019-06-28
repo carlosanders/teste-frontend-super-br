@@ -33,6 +33,17 @@
         <!-- CONTENT CARD -->
         <div class="content-card">
 
+            <div class="actions m-16" fxLayout="row" fxLayoutAlign="start center">
+                <button mat-raised-button
+                        class="mat-accent"
+                        [routerLink]="'/apps/pessoa/editar/criar'"
+                        *ngIf="action == 'listar' && (pessoas$ | async)"
+                        aria-label="novo"
+                        matTooltip="Criar Pessoa">
+                    Novo
+                </button>
+            </div>
+
             <router-outlet></router-outlet>
 
         </div>

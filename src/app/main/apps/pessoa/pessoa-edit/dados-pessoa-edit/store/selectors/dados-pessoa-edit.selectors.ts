@@ -13,7 +13,7 @@ export const getDadosPessoaEditState = createSelector(
 
 export const getPessoaId = createSelector(
     getDadosPessoaEditState,
-    (state: DadosPessoaEditState) => state.loaded ? state.loaded.value : null
+    (state: DadosPessoaEditState) => state.loaded && state.loaded.value !== 'criar' ? state.loaded.value : null
 );
 
 export const getPessoa = createSelector(
