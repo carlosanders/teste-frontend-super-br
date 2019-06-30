@@ -73,7 +73,7 @@
                 [control]="form.get('modelo')"
                 [pagination]="modeloPagination">
             </cdk-modelo-autocomplete>
-            <button matSuffix mat-button mat-icon-button
+            <button *ngIf="form.get('modelo').enabled" matSuffix mat-button mat-icon-button
                     (click)="showModeloGrid()">
                 <mat-icon matTooltip="Procurar">search</mat-icon>
             </button>
@@ -99,7 +99,7 @@
                 [control]="form.get('setorDestino')"
                 [pagination]="setorDestinoPagination">
             </cdk-setor-autocomplete>
-            <button matSuffix mat-button mat-icon-button
+            <button *ngIf="form.get('setorDestino').enabled" matSuffix mat-button mat-icon-button
                     (click)="showSetorDestinoGrid()">
                 <mat-icon matTooltip="Procurar">search</mat-icon>
             </button>
@@ -120,7 +120,7 @@
                 [control]="form.get('pessoaDestino')"
                 [pagination]="pessoaDestinoPagination">
             </cdk-pessoa-autocomplete>
-            <button matSuffix mat-button mat-icon-button
+            <button *ngIf="form.get('pessoaDestino').enabled" matSuffix mat-button mat-icon-button
                     (click)="showPessoaDestinoGrid()">
                 <mat-icon matTooltip="Procurar">search</mat-icon>
             </button>

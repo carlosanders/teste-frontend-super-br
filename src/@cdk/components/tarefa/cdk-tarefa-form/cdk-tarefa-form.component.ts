@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 
 import {fuseAnimations} from '@fuse/animations';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, ValidationErrors, Validators} from '@angular/forms';
 import {Tarefa} from '@cdk/models/tarefa.model';
 import {EspecieTarefa} from '@cdk/models/especie-tarefa.model';
 import {Usuario} from '@cdk/models/usuario.model';
@@ -106,9 +106,9 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         this.form = this._formBuilder.group({
             'id': [null],
             'blocoProcessos': [null],
-            'processos': [null, [Validators.required]],
-            'processo': [null],
-            'urgente': [null, [Validators.required]],
+            'processos': [null],
+            'processo': [null, [Validators.required]],
+            'urgente': [null],
             'especieTarefa': [null, [Validators.required]],
             'distribuicaoAutomatica': [null],
             'dataHoraInicioPrazo': [null, [Validators.required]],

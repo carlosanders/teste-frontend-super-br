@@ -1,4 +1,4 @@
-<div class="sidebar-content">
+<div class="sidebar-content" [ngClass]="{'full': routerState.url.indexOf('apps/processo') > -1}">
 
     <div class="card">
 
@@ -10,7 +10,7 @@
         <!-- / SIDEBAR HEADER -->
 
         <!-- SIDEBAR CONTENT -->
-        <div class="content py-16" fusePerfectScrollbar>
+        <div class="content" fusePerfectScrollbar>
 
             <div class="nav material2">
 

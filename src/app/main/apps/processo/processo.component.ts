@@ -18,6 +18,8 @@ import * as fromStore from 'app/main/apps/processo/store';
 
 import {locale as english} from 'app/main/apps/processo/i18n/en';
 import {fuseAnimations} from '@fuse/animations';
+import {getRouterState} from '../../../store/reducers';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'processo',
@@ -31,6 +33,7 @@ export class ProcessoComponent implements OnInit, OnDestroy {
 
     processo$: Observable<Processo>;
     loading$: Observable<boolean>;
+    routerState: any;
 
     /**
      * Constructor
@@ -60,6 +63,14 @@ export class ProcessoComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
+        this._store
+            .pipe(
+                select(getRouterState)
+            ).subscribe(routerState => {
+            if (routerState) {
+                this.routerState = routerState.state;
+            }
+        });
     }
 
     /**

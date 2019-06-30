@@ -97,10 +97,6 @@ export class CdkTarefaListItemComponent implements OnInit {
         this.editTarefa.emit(this.tarefa.id);
     }
 
-    doEditProcesso(): void {
-        this.editProcesso.emit({tarefaId: this.tarefa.id, processoId: this.tarefa.processo.id});
-    }
-
     onSelectedChange(): void {
         this.toggleInSelectedTarefas.emit(this.tarefa.id);
     }

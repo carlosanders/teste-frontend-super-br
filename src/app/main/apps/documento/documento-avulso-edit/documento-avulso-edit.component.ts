@@ -12,7 +12,7 @@ import * as fromStore from '../store';
 import {select, Store} from '@ngrx/store';
 import {Location} from '@angular/common';
 import {DocumentoAvulso} from '@cdk/models/documento-avulso.model';
-import {Documento} from '../../../../../@cdk/models/documento.model';
+import {Documento} from '@cdk/models/documento.model';
 
 @Component({
     selector: 'documento-avulso-edit',

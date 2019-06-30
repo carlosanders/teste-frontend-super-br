@@ -43,6 +43,10 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
         pasteFromWordRemoveStyles: false,
         pasteFromWordRemoveFontStyles: false,
 
+        htmlEncodeOutput: false,
+        entities: false,
+        basicEntities: false,
+
         toolbar:
             [
                 {name: 'salvar', items: ['saveButton', 'PrintSemZoom']},
@@ -113,33 +117,19 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
 
     fetch(): void {
         if (this.componenteDigital && this.componenteDigital.conteudo) {
-            fetch(this.componenteDigital.conteudo)
-                .then(res => res.blob())
-                .then(content => {
-                    const blob = new Blob([content], {type: this.componenteDigital.mimetype});
-                    this.getInnerTextContent(blob).then(conteudo => {
-                        this.src = conteudo;
-                        this._changeDetectorRef.markForCheck();
-                    });
-                });
+            const conteudo = this.b64DecodeUnicode(this.componenteDigital.conteudo.split(';base64,')[1]);
+            this.src = conteudo;
         } else {
             this.src = null;
         }
+        this._changeDetectorRef.markForCheck();
     }
 
-    private getInnerTextContent(blob): any {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onloadend = (e): void => {
-                const target = <FileReader>e.target;
-                const el = document.createElement('html');
-                el.innerHTML = <string>target.result;
-                const body = el.getElementsByTagName('body');
-                resolve(body[0].innerText);
-            };
-            reader.onerror = error => reject(error);
-            reader.readAsBinaryString(blob);
-        });
+    b64DecodeUnicode(str): any {
+        // Going backwards: from bytestream, to percent-encoding, to original string.
+        return decodeURIComponent(atob(str).split('').map(function(c): any {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
     }
 
     private getBase64(blob): any {
@@ -151,7 +141,7 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
         });
     }
 
-    strip_tags(input, allowed = null): any {
+    private strip_tags(input, allowed = null): any {
         const nallowed = (((allowed || '') + '').toLowerCase().match(/<[a-z][a-z0-9]*>/g) || []).join('');
         const tags = /<\/?([a-z][a-z0-9]*)\b[^>]*>/gi,
             commentsAndPhpTags = /<!--[\s\S]*?-->|<\?(?:php)?[\s\S]*?\?>/gi;
@@ -160,7 +150,7 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
         });
     }
 
-    onReady(e): void {
+    private onReady(e): void {
 
         const me = this;
 
