@@ -52,7 +52,8 @@ export class ProcessoEffect {
                         0,
                         JSON.stringify({}),
                         JSON.stringify([
-                            'populateAll'
+                            'populateAll',
+                            'setorAtual.unidade'
                         ]));
                 }),
                 switchMap(response => [

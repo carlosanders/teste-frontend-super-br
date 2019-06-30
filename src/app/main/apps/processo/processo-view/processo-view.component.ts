@@ -85,16 +85,17 @@ export class ProcessoViewComponent implements OnInit {
 
         this.binary$.subscribe(
             binary => {
-                if (binary.src) {
-                    fetch(binary.src.conteudo)
-                        .then(res => res.blob())
-                        .then(content => {
-                            const blob = new Blob([content], {type: binary.src.mimetype}),
-                                URL = window.URL,
-                                downloadUrl = URL.createObjectURL(blob);
-                            this.src = this._sanitizer.bypassSecurityTrustResourceUrl(downloadUrl);
-                            this.fileName = binary.src.fileName;
-                        });
+                if (binary.src && binary.src.conteudo) {
+                    const byteCharacters = atob(binary.src.conteudo.split(';base64,')[1]);
+                    const byteNumbers = new Array(byteCharacters.length);
+                    for (let i = 0; i < byteCharacters.length; i++) {
+                        byteNumbers[i] = byteCharacters.charCodeAt(i);
+                    }
+                    const byteArray = new Uint8Array(byteNumbers);
+                    const blob = new Blob([byteArray], {type: binary.src.mimetype}),
+                        URL = window.URL;
+                    this.src = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
+                    this.fileName = binary.src.fileName;
                 } else {
                     this.src = this._sanitizer.bypassSecurityTrustResourceUrl('about:blank');
                 }

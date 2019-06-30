@@ -9,8 +9,9 @@ import {
 
 import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 import {fuseAnimations} from '@fuse/animations';
-import {Store} from '@ngrx/store';
+import {select, Store} from '@ngrx/store';
 import * as fromStore from '../store';
+import {getRouterState} from '../../../../store/reducers';
 
 @Component({
     selector: 'processo-edit',
@@ -22,7 +23,10 @@ import * as fromStore from '../store';
 })
 export class ProcessoEditComponent implements OnInit, OnDestroy {
 
+    routerState: any;
+
     /**
+     *
      * @param _changeDetectorRef
      * @param _fuseSidebarService
      * @param _store
@@ -30,6 +34,7 @@ export class ProcessoEditComponent implements OnInit, OnDestroy {
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _fuseSidebarService: FuseSidebarService,
+        private _store: Store<fromStore.ProcessoAppState>
     ) {
 
     }
@@ -42,6 +47,14 @@ export class ProcessoEditComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
+        this._store
+            .pipe(
+                select(getRouterState)
+            ).subscribe(routerState => {
+            if (routerState) {
+                this.routerState = routerState.state;
+            }
+        });
     }
 
     /**

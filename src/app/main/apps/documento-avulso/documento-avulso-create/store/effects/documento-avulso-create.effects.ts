@@ -103,7 +103,7 @@ export class DocumentoAvulsoCreateEffect {
                 ofType<DocumentoAvulsoCreateActions.GetDocumentoSuccess>(DocumentoAvulsoCreateActions.GET_DOCUMENTO_SUCCESS),
                 tap((action) => {
                     this._router.navigate([
-                        this.routerState.url.replace('oficio', '/atividades/criar/documento') + '/' + action.payload]
+                        this.routerState.url.replace('oficio', '/atividades/criar/documento') + '/' + action.payload + '/oficio']
                     ).then();
                 })
             );

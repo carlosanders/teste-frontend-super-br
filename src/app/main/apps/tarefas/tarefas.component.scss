@@ -56,13 +56,22 @@ tarefas {
         }
       }
 
-      .tarefa-list {
-        border-right: 1px solid;
-      }
+      .content {
 
-      .tarefa-details {
-        width: 100%;
-        height: 100%;
+        .tarefa-list {
+          border-right: 1px solid;
+
+          cdk-tarefa-list {
+            height: 100%;
+          }
+
+        }
+
+        .tarefa-details {
+          width: 100%;
+          height: 100%;
+        }
+
       }
     }
   }

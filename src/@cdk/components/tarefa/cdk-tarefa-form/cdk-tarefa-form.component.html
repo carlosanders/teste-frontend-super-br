@@ -72,9 +72,6 @@
                        formControlName="unidadeResponsavel"
                        [matAutocomplete]="unidadeResponsavel.autocomplete" required
                        (blur)="checkUnidadeResponsavel()">
-                <mat-option *ngIf="unidadeResponsavelListIsLoading">
-                    <mat-spinner diameter="16"></mat-spinner>
-                </mat-option>
             </div>
             <cdk-setor-autocomplete
                 #unidadeResponsavel="setorAutocomplete"
@@ -96,9 +93,6 @@
                        formControlName="setorResponsavel"
                        [matAutocomplete]="setor.autocomplete" required
                        (blur)="checkSetorResponsavel()">
-                <mat-option *ngIf="setorResponsavelListIsLoading">
-                    <mat-spinner diameter="16"></mat-spinner>
-                </mat-option>
             </div>
             <cdk-setor-autocomplete
                 #setor="setorAutocomplete"
@@ -165,9 +159,6 @@
                        formControlName="setorOrigem"
                        [matAutocomplete]="setorOrigem.autocomplete" required
                        (blur)="checkSetorOrigem()">
-                <mat-option *ngIf="setorOrigemListIsLoading">
-                    <mat-spinner diameter="16"></mat-spinner>
-                </mat-option>
             </div>
             <cdk-setor-autocomplete
                 #setorOrigem="setorAutocomplete"
