@@ -14,6 +14,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
+import {DeleteTarefaSuccess} from '../../../../../store/actions';
 
 @Injectable()
 export class AtividadeCreateEffect {
@@ -46,7 +47,7 @@ export class AtividadeCreateEffect {
                 switchMap((action) => {
                     return this._atividadeService.save(action.payload).pipe(
                         mergeMap((response: Atividade) => [
-                            new AtividadeCreateActions.SaveAtividadeSuccess(),
+                            new AtividadeCreateActions.SaveAtividadeSuccess(action.payload),
                             new AddData<Atividade>({data: [response], schema: atividadeSchema}),
                             new OperacoesActions.Resultado({
                                 type: 'atividade',
@@ -70,7 +71,10 @@ export class AtividadeCreateEffect {
         this._actions
             .pipe(
                 ofType<AtividadeCreateActions.SaveAtividadeSuccess>(AtividadeCreateActions.SAVE_ATIVIDADE_SUCCESS),
-                tap(() => {
+                tap((action) => {
+                    if (action.payload.encerraTarefa) {
+                        this._store.dispatch(new DeleteTarefaSuccess(action.payload.tarefa.id));
+                    }
                     this._router.navigate([this.routerState.url.split('/atividades/criar')[0] + '/encaminhamento']).then();
                 })
             );

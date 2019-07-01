@@ -4,7 +4,7 @@ import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
 import {catchError, mergeMap} from 'rxjs/operators';
 
-import * as TarefaEditActions from '../actions/tarefa-edit.actions';
+import * as TarefaEditBlocoActions from '../actions/tarefa-edit-bloco.actions';
 
 import {TarefaService} from '@cdk/services/tarefa.service';
 import {UpdateData} from '@cdk/ngrx-normalizr';
@@ -16,7 +16,7 @@ import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import * as moment from 'moment';
 
 @Injectable()
-export class TarefaEditEffect {
+export class TarefaEditBlocoEffect {
     routerState: any;
 
     constructor(
@@ -42,12 +42,12 @@ export class TarefaEditEffect {
     saveTarefa: any =
         this._actions
             .pipe(
-                ofType<TarefaEditActions.SaveTarefa>(TarefaEditActions.SAVE_TAREFA),
+                ofType<TarefaEditBlocoActions.SaveTarefa>(TarefaEditBlocoActions.SAVE_TAREFA),
                 mergeMap((action) => {
                     console.log (action.payload.changes);
                     return this._tarefaService.patch(action.payload.tarefa, action.payload.changes).pipe(
                         mergeMap((response: Tarefa) => [
-                            new TarefaEditActions.SaveTarefaSuccess(action.payload),
+                            new TarefaEditBlocoActions.SaveTarefaSuccess(action.payload),
                             new UpdateData<Tarefa>({id: response.id, schema: tarefaSchema, changes: {observacao: response.observacao}}),
                             new OperacoesActions.Resultado({
                                 type: 'tarefa',
@@ -64,7 +64,7 @@ export class TarefaEditEffect {
                                 success: false,
                                 dateTime: moment()
                             }));
-                            return of(new TarefaEditActions.SaveTarefaFailed(action.payload));
+                            return of(new TarefaEditBlocoActions.SaveTarefaFailed(action.payload));
                         })
                     );
                 })

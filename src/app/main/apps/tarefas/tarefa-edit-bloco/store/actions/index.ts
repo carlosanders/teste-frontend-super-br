@@ -1,1 +1,1 @@
-export * from './tarefa-edit.actions';
+export * from './tarefa-edit-bloco.actions';

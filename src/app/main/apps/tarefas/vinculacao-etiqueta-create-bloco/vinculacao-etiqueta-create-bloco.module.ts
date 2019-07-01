@@ -18,7 +18,7 @@ import {TranslateModule} from '@ngx-translate/core';
 import {FuseSharedModule} from '@fuse/shared.module';
 import {FuseSidebarModule} from '@fuse/components';
 
-import {VinculacaoEtiquetaCreateComponent} from './vinculacao-etiqueta-create.component';
+import {VinculacaoEtiquetaCreateBlocoComponent} from './vinculacao-etiqueta-create-bloco.component';
 import {RouterModule, Routes} from '@angular/router';
 import {VinculacaoEtiquetaCreateBlocoStoreModule} from './store/store.module';
 import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
@@ -28,13 +28,13 @@ import {CdkEtiquetaChipsModule} from '@cdk/components/etiqueta/cdk-etiqueta-chip
 const routes: Routes = [
     {
         path: '',
-        component: VinculacaoEtiquetaCreateComponent
+        component: VinculacaoEtiquetaCreateBlocoComponent
     }
 ];
 
 @NgModule({
     declarations: [
-        VinculacaoEtiquetaCreateComponent
+        VinculacaoEtiquetaCreateBlocoComponent
     ],
     imports: [
 

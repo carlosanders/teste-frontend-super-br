@@ -1,42 +1,42 @@
-import * as AtividadeCreateActions from '../actions/atividade-create.actions';
+import * as VinculacaoEtiquetaCreateBlocoActions from '../actions/vinculacao-etiqueta-create-bloco.actions';
 
-export interface AtividadeCreateState {
+export interface VinculacaoEtiquetaCreateBlocoState {
     savingTarefasId: number[];
     errors: any;
 }
 
-export const AtividadeCreateInitialState: AtividadeCreateState = {
+export const VinculacaoEtiquetaCreateInitialState: VinculacaoEtiquetaCreateBlocoState = {
     savingTarefasId: [],
     errors: false
 };
 
-export function AtividadeCreateReducer(
-    state = AtividadeCreateInitialState, action: AtividadeCreateActions.AtividadeCreateActionsAll
-): AtividadeCreateState {
+export function VinculacaoEtiquetaCreateBlocoReducer(
+    state = VinculacaoEtiquetaCreateInitialState, action: VinculacaoEtiquetaCreateBlocoActions.VinculacaoEtiquetaCreateBlocoActionsAll
+): VinculacaoEtiquetaCreateBlocoState {
     switch (action.type) {
 
-        case AtividadeCreateActions.CREATE_ATIVIDADE: {
+        case VinculacaoEtiquetaCreateBlocoActions.CREATE_VINCULACAO_ETIQUETA: {
             return {
                 savingTarefasId: [],
                 errors: false
             };
         }
 
-        case AtividadeCreateActions.SAVE_ATIVIDADE: {
+        case VinculacaoEtiquetaCreateBlocoActions.SAVE_VINCULACAO_ETIQUETA: {
             return {
                 ...state,
                 savingTarefasId: [...state.savingTarefasId, action.payload.tarefa.id]
             };
         }
 
-        case AtividadeCreateActions.SAVE_ATIVIDADE_SUCCESS: {
+        case VinculacaoEtiquetaCreateBlocoActions.SAVE_VINCULACAO_ETIQUETA_SUCCESS: {
             return {
                 ...state,
                 savingTarefasId: state.savingTarefasId.filter(id => id !== action.payload.tarefa.id)
             };
         }
 
-        case AtividadeCreateActions.SAVE_ATIVIDADE_FAILED: {
+        case VinculacaoEtiquetaCreateBlocoActions.SAVE_VINCULACAO_ETIQUETA_FAILED: {
             return {
                 ...state,
                 savingTarefasId: state.savingTarefasId.filter(id => id !== action.payload.tarefa.id),

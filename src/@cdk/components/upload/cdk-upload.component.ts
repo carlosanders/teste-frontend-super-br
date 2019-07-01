@@ -74,7 +74,7 @@ export class CdkUploadComponent implements OnInit {
 
     filesDataSource: MatTableDataSource<FileUploadModel>;
 
-    private files: Array<FileUploadModel> = [];
+    files: Array<FileUploadModel> = [];
 
     constructor(
         private _http: HttpClient,
@@ -126,7 +126,7 @@ export class CdkUploadComponent implements OnInit {
         file.canRetry = false;
     }
 
-    private getBase64(file): any {
+    getBase64(file): any {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
             reader.readAsDataURL(file);
@@ -135,7 +135,7 @@ export class CdkUploadComponent implements OnInit {
         });
     }
 
-    private uploadFile(file: FileUploadModel): void {
+    uploadFile(file: FileUploadModel): void {
 
         /**
          multipart formdata
@@ -204,7 +204,7 @@ export class CdkUploadComponent implements OnInit {
 
     }
 
-    private uploadFiles(): void {
+    uploadFiles(): void {
         const fileUpload = document.getElementById('fileUpload') as HTMLInputElement;
         fileUpload.value = '';
 
@@ -213,7 +213,7 @@ export class CdkUploadComponent implements OnInit {
         });
     }
 
-    private removeFileFromArray(file: FileUploadModel): void {
+    removeFileFromArray(file: FileUploadModel): void {
         const index = this.files.indexOf(file);
         if (index > -1) {
             this.files.splice(index, 1);

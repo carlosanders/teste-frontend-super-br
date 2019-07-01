@@ -1,42 +1,42 @@
-import * as DocumentoAvulsoCreateActions from '../actions/documento-avulso-create.actions';
+import * as DocumentoAvulsoCreateBlocoActions from '../actions/documento-avulso-create-bloco.actions';
 
-export interface DocumentoAvulsoCreateState {
+export interface DocumentoAvulsoCreateBlocoState {
     savingProcessosId: number[];
     errors: any;
 }
 
-export const DocumentoAvulsoCreateInitialState: DocumentoAvulsoCreateState = {
+export const DocumentoAvulsoCreateInitialState: DocumentoAvulsoCreateBlocoState = {
     savingProcessosId: [],
     errors: false
 };
 
-export function DocumentoAvulsoCreateReducer(
-    state = DocumentoAvulsoCreateInitialState, action: DocumentoAvulsoCreateActions.DocumentoAvulsoCreateActionsAll
-): DocumentoAvulsoCreateState {
+export function DocumentoAvulsoCreateBlocoReducer(
+    state = DocumentoAvulsoCreateInitialState, action: DocumentoAvulsoCreateBlocoActions.DocumentoAvulsoCreateBlocoActionsAll
+): DocumentoAvulsoCreateBlocoState {
     switch (action.type) {
 
-        case DocumentoAvulsoCreateActions.CREATE_DOCUMENTO_AVULSO: {
+        case DocumentoAvulsoCreateBlocoActions.CREATE_DOCUMENTO_AVULSO: {
             return {
                 savingProcessosId: [],
                 errors: false
             };
         }
 
-        case DocumentoAvulsoCreateActions.SAVE_DOCUMENTO_AVULSO: {
+        case DocumentoAvulsoCreateBlocoActions.SAVE_DOCUMENTO_AVULSO: {
             return {
                 ...state,
                 savingProcessosId: [...state.savingProcessosId, action.payload.processo.id]
             };
         }
 
-        case DocumentoAvulsoCreateActions.SAVE_DOCUMENTO_AVULSO_SUCCESS: {
+        case DocumentoAvulsoCreateBlocoActions.SAVE_DOCUMENTO_AVULSO_SUCCESS: {
             return {
                 ...state,
                 savingProcessosId: state.savingProcessosId.filter(id => id !== action.payload.processo.id)
             };
         }
 
-        case DocumentoAvulsoCreateActions.SAVE_DOCUMENTO_AVULSO_FAILED: {
+        case DocumentoAvulsoCreateBlocoActions.SAVE_DOCUMENTO_AVULSO_FAILED: {
             return {
                 ...state,
                 savingProcessosId: state.savingProcessosId.filter(id => id !== action.payload.processo.id),

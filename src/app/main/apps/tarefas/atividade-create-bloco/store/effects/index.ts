@@ -1,7 +1,7 @@
-import { AtividadeCreateEffect } from './atividade-create.effects';
+import { AtividadeCreateBlocoEffect } from './atividade-create-bloco.effects';
 
 export const effects = [
-    AtividadeCreateEffect
+    AtividadeCreateBlocoEffect
 ];
 
-export * from './atividade-create.effects';
+export * from './atividade-create-bloco.effects';

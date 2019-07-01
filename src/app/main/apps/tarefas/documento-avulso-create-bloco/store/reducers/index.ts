@@ -1,22 +1,22 @@
 import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { DocumentoAvulsoCreateReducer, DocumentoAvulsoCreateState } from './documento-avulso-create.reducer';
+import { DocumentoAvulsoCreateBlocoReducer, DocumentoAvulsoCreateBlocoState } from './documento-avulso-create-bloco.reducer';
 
-export interface DocumentoAvulsoCreateAppState
+export interface DocumentoAvulsoCreateBlocoAppState
 {
-    documentoAvulsoCreate: DocumentoAvulsoCreateState;
+    documentoAvulsoCreateBloco: DocumentoAvulsoCreateBlocoState;
 }
 
-export const getDocumentoAvulsoCreateAppState = createFeatureSelector<DocumentoAvulsoCreateAppState>(
+export const getDocumentoAvulsoCreateBlocoAppState = createFeatureSelector<DocumentoAvulsoCreateBlocoAppState>(
     'documento-avulso-create-bloco-app'
 );
 
 export const getAppState = createSelector(
-    getDocumentoAvulsoCreateAppState,
-    (state: DocumentoAvulsoCreateAppState) => state
+    getDocumentoAvulsoCreateBlocoAppState,
+    (state: DocumentoAvulsoCreateBlocoAppState) => state
 );
 
-export const reducers: ActionReducerMap<DocumentoAvulsoCreateAppState> = {
-    documentoAvulsoCreate: DocumentoAvulsoCreateReducer
+export const reducers: ActionReducerMap<DocumentoAvulsoCreateBlocoAppState> = {
+    documentoAvulsoCreateBloco: DocumentoAvulsoCreateBlocoReducer
 };
 
-export * from './documento-avulso-create.reducer';
+export * from './documento-avulso-create-bloco.reducer';

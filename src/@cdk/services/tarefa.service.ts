@@ -62,6 +62,17 @@ export class TarefaService {
         return this.modelService.delete('tarefa', id);
     }
 
+    ciencia(tarefa: Tarefa): Observable<Tarefa> {
+        return this.http.patch(
+            `${environment.api_url}${'tarefa'}/${tarefa.id}/${'ciencia'}` + environment.xdebug,
+            JSON.stringify(classToPlain(tarefa))
+        ).map(response => {
+            response = plainToClass(Tarefa, response);
+            Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+            return Object.assign(new Tarefa(), {...tarefa, ...response});
+        });
+    }
+
     toggleLida(tarefa: Tarefa): Observable<Tarefa> {
         return this.http.patch(
             `${environment.api_url}${'tarefa'}/${tarefa.id}/${'toggle_lida'}` + environment.xdebug,

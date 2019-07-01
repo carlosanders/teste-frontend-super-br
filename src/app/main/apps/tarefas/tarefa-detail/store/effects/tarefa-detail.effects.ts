@@ -21,6 +21,7 @@ import {DocumentoService} from '@cdk/services/documento.service';
 import {Tarefa} from '@cdk/models/tarefa.model';
 import {Documento} from '@cdk/models/documento.model';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
+import {DeleteTarefaSuccess} from '../../../store/actions';
 
 @Injectable()
 export class TarefaDetailEffect {
@@ -165,6 +166,46 @@ export class TarefaDetailEffect {
                 })
             );
 
+    /**
+     * Dar Ciencia Tarefa
+     * @type {Observable<any>}
+     */
+    @Effect()
+    darCienciaTarefa: any =
+        this._actions
+            .pipe(
+                ofType<TarefaDetailActions.DarCienciaTarefa>(TarefaDetailActions.DAR_CIENCIA_TAREFA),
+                switchMap((action) => {
+                    return this._tarefaService.ciencia(action.payload).pipe(
+                        mergeMap((response: Tarefa) => [
+                            new TarefaDetailActions.DarCienciaTarefaSuccess(action.payload),
+                            new AddData<Tarefa>({data: [response], schema: tarefaSchema}), new OperacoesActions.Resultado({
+                                type: 'tarefa',
+                                content: `Tarefa id ${response.id} ciência com sucesso!`,
+                                dateTime: response.criadoEm
+                            })
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            return of(new TarefaDetailActions.SaveTarefaFailed(err));
+                        })
+                    );
+                })
+            );
+
+    /**
+     * Dar Ciencia Tarefa Success
+     */
+    @Effect({ dispatch: false })
+    darCienciaTarefaSuccess: any =
+        this._actions
+            .pipe(
+                ofType<TarefaDetailActions.DarCienciaTarefaSuccess>(TarefaDetailActions.DAR_CIENCIA_TAREFA_SUCCESS),
+                tap((action) => {
+                    this._store.dispatch(new DeleteTarefaSuccess(action.payload.id));
+                    this._router.navigate(['apps/tarefas/' + this.routerState.params.folderHandle + '/tarefa/' + this.routerState.params.tarefaHandle + '/encaminhamento']).then();
+                })
+            );
 
     /**
      * Create Vinculacao Etiqueta

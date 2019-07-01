@@ -4,7 +4,7 @@ import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
 import {catchError, mergeMap} from 'rxjs/operators';
 
-import * as VinculacaoEtiquetaCreateActions from '../actions/vinculacao-etiqueta-create.actions';
+import * as VinculacaoEtiquetaCreateBlocoActions from '../actions/vinculacao-etiqueta-create-bloco.actions';
 
 import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
 import {AddChildData} from '@cdk/ngrx-normalizr';
@@ -18,7 +18,7 @@ import * as moment from 'moment';
 import {tarefa as tarefaSchema} from '@cdk/normalizr/tarefa.schema';
 
 @Injectable()
-export class VinculacaoEtiquetaCreateEffect {
+export class VinculacaoEtiquetaCreateBlocoEffect {
     routerState: any;
 
     constructor(
@@ -45,11 +45,11 @@ export class VinculacaoEtiquetaCreateEffect {
     saveEtiqueta: any =
         this._actions
             .pipe(
-                ofType<VinculacaoEtiquetaCreateActions.SaveVinculacaoEtiqueta>(VinculacaoEtiquetaCreateActions.SAVE_VINCULACAO_ETIQUETA),
+                ofType<VinculacaoEtiquetaCreateBlocoActions.SaveVinculacaoEtiqueta>(VinculacaoEtiquetaCreateBlocoActions.SAVE_VINCULACAO_ETIQUETA),
                 mergeMap((action) => {
                     return this._vinculacaoEtiquetaService.save(action.payload).pipe(
                         mergeMap((response: VinculacaoEtiqueta) => [
-                            new VinculacaoEtiquetaCreateActions.SaveVinculacaoEtiquetaSuccess(action.payload),
+                            new VinculacaoEtiquetaCreateBlocoActions.SaveVinculacaoEtiquetaSuccess(action.payload),
                             new AddChildData<VinculacaoEtiqueta>({
                                 data: [{...action.payload, ...response}],
                                 childSchema: vinculacaoEtiquetaSchema,
@@ -71,7 +71,7 @@ export class VinculacaoEtiquetaCreateEffect {
                                 success: false,
                                 dateTime: moment()
                             }));
-                            return of(new VinculacaoEtiquetaCreateActions.SaveVinculacaoEtiquetaFailed(action.payload));
+                            return of(new VinculacaoEtiquetaCreateBlocoActions.SaveVinculacaoEtiquetaFailed(action.payload));
                         })
                     );
                 })

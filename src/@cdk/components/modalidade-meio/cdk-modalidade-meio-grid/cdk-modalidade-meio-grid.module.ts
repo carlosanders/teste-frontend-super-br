@@ -13,13 +13,12 @@ import {
 import { FuseSharedModule } from '@fuse/shared.module';
 import { ModalidadeMeioService } from '@cdk/services/modalidade-meio.service';
 import { CdkModalidadeMeioGridComponent} from './cdk-modalidade-meio-grid.component';
-import { CdkModalidadeMeioGridFilterComponent } from './cdk-modalidade-meio-grid-filter/cdk-modalidade-meio-grid-filter.component';
 import { CdkModalidadeMeioAutocompleteModule } from '@cdk/components/modalidade-meio/cdk-modalidade-meio-autocomplete/cdk-modalidade-meio-autocomplete.module';
+import {CdkModalidadeMeioGridFilterModule} from './cdk-modalidade-meio-grid-filter/cdk-modalidade-meio-grid-filter.module';
 
 @NgModule({
     declarations: [
-        CdkModalidadeMeioGridComponent,
-        CdkModalidadeMeioGridFilterComponent
+        CdkModalidadeMeioGridComponent
     ],
     imports: [
 
@@ -33,6 +32,7 @@ import { CdkModalidadeMeioAutocompleteModule } from '@cdk/components/modalidade-
         MatSortModule,
 
         CdkModalidadeMeioAutocompleteModule,
+        CdkModalidadeMeioGridFilterModule,
 
         FuseSharedModule,
     ],

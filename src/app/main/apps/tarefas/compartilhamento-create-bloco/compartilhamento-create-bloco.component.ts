@@ -22,13 +22,13 @@ import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'compartilhamento-create',
-    templateUrl: './compartilhamento-create.component.html',
-    styleUrls: ['./compartilhamento-create.component.scss'],
+    templateUrl: './compartilhamento-create-bloco.component.html',
+    styleUrls: ['./compartilhamento-create-bloco.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
 })
-export class CompartilhamentoCreateComponent implements OnInit, OnDestroy {
+export class CompartilhamentoCreateBlocoComponent implements OnInit, OnDestroy {
 
     private _unsubscribeAll: Subject<any> = new Subject();
 
@@ -53,7 +53,7 @@ export class CompartilhamentoCreateComponent implements OnInit, OnDestroy {
      * @param _changeDetectorRef
      */
     constructor(
-        private _store: Store<fromStore.CompartilhamentoCreateAppState>,
+        private _store: Store<fromStore.CompartilhamentoCreateBlocoAppState>,
         private _loginService: LoginService,
         private _router: Router,
         private _changeDetectorRef: ChangeDetectorRef

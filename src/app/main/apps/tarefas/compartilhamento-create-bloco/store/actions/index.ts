@@ -1,1 +1,1 @@
-export * from './compartilhamento-create.actions';
+export * from './compartilhamento-create-bloco.actions';

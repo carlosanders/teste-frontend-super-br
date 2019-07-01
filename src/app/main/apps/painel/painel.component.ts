@@ -21,7 +21,7 @@ import {TramitacaoService} from '@cdk/services/tramitacao.service';
 export class PainelComponent implements OnInit
 {
 
-    private _profile: any;
+    _profile: any;
 
     tarefasCount: any = false;
     tarefasVencidasCount: any = false;

@@ -4,7 +4,7 @@ import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, tap, switchMap} from 'rxjs/operators';
 
-import * as TarefaCreateActions from 'app/main/apps/tarefas/tarefa-create/store/actions/tarefa-create.actions';
+import * as TarefaCreateActions from '../actions/tarefa-create.actions';
 
 import {TarefaService} from '@cdk/services/tarefa.service';
 import {AddData} from '@cdk/ngrx-normalizr';

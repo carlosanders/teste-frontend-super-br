@@ -1,7 +1,7 @@
-import { VinculacaoEtiquetaCreateEffect } from './vinculacao-etiqueta-create.effects';
+import { VinculacaoEtiquetaCreateBlocoEffect } from './vinculacao-etiqueta-create-bloco.effects';
 
 export const effects = [
-    VinculacaoEtiquetaCreateEffect
+    VinculacaoEtiquetaCreateBlocoEffect
 ];
 
-export * from './vinculacao-etiqueta-create.effects';
+export * from './vinculacao-etiqueta-create-bloco.effects';

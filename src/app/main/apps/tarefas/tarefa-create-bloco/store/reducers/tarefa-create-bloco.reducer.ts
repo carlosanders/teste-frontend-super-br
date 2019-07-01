@@ -1,42 +1,42 @@
-import * as TarefaCreateActions from '../actions/tarefa-create.actions';
+import * as TarefaCreateBlocoActions from '../actions/tarefa-create-bloco.actions';
 
-export interface TarefaCreateState {
+export interface TarefaCreateBlocoState {
     savingProcessosId: number[];
     errors: any;
 }
 
-export const TarefaCreateInitialState: TarefaCreateState = {
+export const TarefaCreateInitialState: TarefaCreateBlocoState = {
     savingProcessosId: [],
     errors: false
 };
 
-export function TarefaCreateReducer(
-    state = TarefaCreateInitialState, action: TarefaCreateActions.TarefaCreateActionsAll
-): TarefaCreateState {
+export function TarefaCreateBlocoReducer(
+    state = TarefaCreateInitialState, action: TarefaCreateBlocoActions.TarefaCreateBlocoActionsAll
+): TarefaCreateBlocoState {
     switch (action.type) {
 
-        case TarefaCreateActions.CREATE_TAREFA: {
+        case TarefaCreateBlocoActions.CREATE_TAREFA: {
             return {
                 savingProcessosId: [],
                 errors: false
             };
         }
 
-        case TarefaCreateActions.SAVE_TAREFA: {
+        case TarefaCreateBlocoActions.SAVE_TAREFA: {
             return {
                 ...state,
                 savingProcessosId: [...state.savingProcessosId, action.payload.processo.id]
             };
         }
 
-        case TarefaCreateActions.SAVE_TAREFA_SUCCESS: {
+        case TarefaCreateBlocoActions.SAVE_TAREFA_SUCCESS: {
             return {
                 ...state,
                 savingProcessosId: state.savingProcessosId.filter(id => id !== action.payload.processo.id)
             };
         }
 
-        case TarefaCreateActions.SAVE_TAREFA_FAILED: {
+        case TarefaCreateBlocoActions.SAVE_TAREFA_FAILED: {
             return {
                 ...state,
                 savingProcessosId: state.savingProcessosId.filter(id => id !== action.payload.processo.id),

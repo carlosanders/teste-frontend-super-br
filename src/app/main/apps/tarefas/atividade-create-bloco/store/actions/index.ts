@@ -1,1 +1,1 @@
-export * from './atividade-create.actions';
+export * from './atividade-create-bloco.actions';

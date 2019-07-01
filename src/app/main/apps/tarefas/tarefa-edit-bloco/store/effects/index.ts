@@ -1,7 +1,7 @@
-import { TarefaEditEffect } from './tarefa-edit.effects';
+import { TarefaEditBlocoEffect } from './tarefa-edit-bloco.effects';
 
 export const effects = [
-    TarefaEditEffect
+    TarefaEditBlocoEffect
 ];
 
-export * from './tarefa-edit.effects';
+export * from './tarefa-edit-bloco.effects';

@@ -38,7 +38,7 @@ export class CdkVinculacaoProcessoGridsearchComponent implements OnInit {
     @Output()
     cancel = new EventEmitter();
 
-    vinculacaoProcessos: VinculacaoProcesso[];
+    vinculacoesProcessos: VinculacaoProcesso[];
 
     total = 0;
 
@@ -74,7 +74,7 @@ export class CdkVinculacaoProcessoGridsearchComponent implements OnInit {
             .pipe(finalize(() => this.loading = false),
                 catchError(() => of([]))
             ).subscribe(response => {
-            this.vinculacaoProcessos = response['entities'];
+            this.vinculacoesProcessos = response['entities'];
             this.total = response['total'];
             this._changeDetectorRef.markForCheck();
         });

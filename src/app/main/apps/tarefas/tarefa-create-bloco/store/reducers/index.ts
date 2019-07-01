@@ -1,22 +1,22 @@
 import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { TarefaCreateReducer, TarefaCreateState } from './tarefa-create.reducer';
+import { TarefaCreateBlocoReducer, TarefaCreateBlocoState } from './tarefa-create-bloco.reducer';
 
-export interface TarefaCreateAppState
+export interface TarefaCreateBlocoAppState
 {
-    tarefaCreate: TarefaCreateState;
+    tarefaCreateBloco: TarefaCreateBlocoState;
 }
 
-export const getTarefaCreateAppState = createFeatureSelector<TarefaCreateAppState>(
+export const getTarefaCreateBlocoAppState = createFeatureSelector<TarefaCreateBlocoAppState>(
     'tarefa-create-bloco-app'
 );
 
 export const getAppState = createSelector(
-    getTarefaCreateAppState,
-    (state: TarefaCreateAppState) => state
+    getTarefaCreateBlocoAppState,
+    (state: TarefaCreateBlocoAppState) => state
 );
 
-export const reducers: ActionReducerMap<TarefaCreateAppState> = {
-    tarefaCreate: TarefaCreateReducer
+export const reducers: ActionReducerMap<TarefaCreateBlocoAppState> = {
+    tarefaCreateBloco: TarefaCreateBlocoReducer
 };
 
-export * from './tarefa-create.reducer';
+export * from './tarefa-create-bloco.reducer';

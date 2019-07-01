@@ -1,1 +1,1 @@
-export * from './documento-avulso-create.selectors';
+export * from './documento-avulso-create-bloco.selectors';

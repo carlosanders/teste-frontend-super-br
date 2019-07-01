@@ -1,1 +1,1 @@
-export * from './tarefa-edit.selectors';
+export * from './tarefa-edit-bloco.selectors';
