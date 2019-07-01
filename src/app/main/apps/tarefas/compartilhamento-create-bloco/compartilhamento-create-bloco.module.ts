@@ -18,7 +18,7 @@ import {TranslateModule} from '@ngx-translate/core';
 import {FuseSharedModule} from '@fuse/shared.module';
 import {FuseSidebarModule} from '@fuse/components';
 
-import {CompartilhamentoCreateComponent} from './compartilhamento-create.component';
+import {CompartilhamentoCreateBlocoComponent} from './compartilhamento-create-bloco.component';
 import {RouterModule, Routes} from '@angular/router';
 import {CdkCompartilhamentoFormModule} from '@cdk/components/compartilhamento/cdk-compartilhamento-form/cdk-compartilhamento-form.module';
 import {CompartilhamentoCreateBlocoStoreModule} from './store/store.module';
@@ -28,13 +28,13 @@ import {LoginService} from 'app/main/auth/login/login.service';
 const routes: Routes = [
     {
         path: '',
-        component: CompartilhamentoCreateComponent
+        component: CompartilhamentoCreateBlocoComponent
     }
 ];
 
 @NgModule({
     declarations: [
-        CompartilhamentoCreateComponent
+        CompartilhamentoCreateBlocoComponent
     ],
     imports: [
 

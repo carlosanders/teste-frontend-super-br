@@ -38,7 +38,7 @@ export class CdkModalidadeVinculacaoProcessoGridsearchComponent implements OnIni
     @Output()
     cancel = new EventEmitter();
 
-    modalidadevinculacaoProcessos: ModalidadeVinculacaoProcesso[];
+    modalidadevinculacoesProcessos: ModalidadeVinculacaoProcesso[];
 
     total = 0;
 
@@ -74,7 +74,7 @@ export class CdkModalidadeVinculacaoProcessoGridsearchComponent implements OnIni
             .pipe(finalize(() => this.loading = false),
                 catchError(() => of([]))
             ).subscribe(response => {
-                this.modalidadevinculacaoProcessos = response['entities'];
+                this.modalidadevinculacoesProcessos = response['entities'];
                 this.total = response['total'];
                 this._changeDetectorRef.markForCheck();
             });

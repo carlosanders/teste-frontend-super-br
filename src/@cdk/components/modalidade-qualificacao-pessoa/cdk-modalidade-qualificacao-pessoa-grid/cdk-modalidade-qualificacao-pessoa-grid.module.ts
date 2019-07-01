@@ -12,14 +12,13 @@ import {
 
 import { FuseSharedModule } from '@fuse/shared.module';
 import { ModalidadeQualificacaoPessoaService } from '@cdk/services/modalidade-qualificacao-pessoa.service';
-import { CdkModalidadeQualificacaoPessoaGridComponent} from './cdk-modalidade-qualificacao-pessoa-grid.component';
-import { CdkModalidadeQualificacaoPessoaGridFilterComponent } from './cdk-modalidade-qualificacao-pessoa-grid-filter/cdk-modalidade-qualificacao-pessoa-grid-filter.component';
+import { CdkModalidadeQualificacaoPessoaGridComponent} from './cdk-modalidade-qualificacao-pessoa-grid.component'
 import { CdkModalidadeQualificacaoPessoaAutocompleteModule } from '@cdk/components/modalidade-qualificacao-pessoa/cdk-modalidade-qualificacao-pessoa-autocomplete/cdk-modalidade-qualificacao-pessoa-autocomplete.module';
+import {CdkModalidadeQualificacaoPessoaGridFilterModule} from './cdk-modalidade-qualificacao-pessoa-grid-filter/cdk-modalidade-qualificacao-pessoa-grid-filter.module';
 
 @NgModule({
     declarations: [
-        CdkModalidadeQualificacaoPessoaGridComponent,
-        CdkModalidadeQualificacaoPessoaGridFilterComponent
+        CdkModalidadeQualificacaoPessoaGridComponent
     ],
     imports: [
 
@@ -33,6 +32,7 @@ import { CdkModalidadeQualificacaoPessoaAutocompleteModule } from '@cdk/componen
         MatSortModule,
 
         CdkModalidadeQualificacaoPessoaAutocompleteModule,
+        CdkModalidadeQualificacaoPessoaGridFilterModule,
 
         FuseSharedModule,
     ],

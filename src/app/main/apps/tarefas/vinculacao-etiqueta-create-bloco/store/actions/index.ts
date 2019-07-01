@@ -1,1 +1,1 @@
-export * from './vinculacao-etiqueta-create.actions';
+export * from './vinculacao-etiqueta-create-bloco.actions';

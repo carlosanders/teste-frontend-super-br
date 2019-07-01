@@ -1,42 +1,42 @@
-import * as TarefaEditActions from '../actions/tarefa-edit.actions';
+import * as TarefaEditBlocoActions from '../actions/tarefa-edit-bloco.actions';
 
-export interface TarefaEditState {
+export interface TarefaEditBlocoState {
     savingId: number[];
     errors: any;
 }
 
-export const TarefaEditInitialState: TarefaEditState = {
+export const TarefaEditInitialState: TarefaEditBlocoState = {
     savingId: [],
     errors: false
 };
 
-export function TarefaEditReducer(
-    state = TarefaEditInitialState, action: TarefaEditActions.TarefaEditActionsAll
-): TarefaEditState {
+export function TarefaEditBlocoReducer(
+    state = TarefaEditInitialState, action: TarefaEditBlocoActions.TarefaEditBlocoActionsAll
+): TarefaEditBlocoState {
     switch (action.type) {
 
-        case TarefaEditActions.EDIT_TAREFA: {
+        case TarefaEditBlocoActions.EDIT_TAREFA: {
             return {
                 savingId: [],
                 errors: false
             };
         }
 
-        case TarefaEditActions.SAVE_TAREFA: {
+        case TarefaEditBlocoActions.SAVE_TAREFA: {
             return {
                 ...state,
                 savingId: [...state.savingId, action.payload.tarefa.id]
             };
         }
 
-        case TarefaEditActions.SAVE_TAREFA_SUCCESS: {
+        case TarefaEditBlocoActions.SAVE_TAREFA_SUCCESS: {
             return {
                 ...state,
                 savingId: state.savingId.filter(id => id !== action.payload.tarefa.id)
             };
         }
 
-        case TarefaEditActions.SAVE_TAREFA_FAILED: {
+        case TarefaEditBlocoActions.SAVE_TAREFA_FAILED: {
             return {
                 ...state,
                 savingId: state.savingId.filter(id => id !== action.payload.tarefa.id),

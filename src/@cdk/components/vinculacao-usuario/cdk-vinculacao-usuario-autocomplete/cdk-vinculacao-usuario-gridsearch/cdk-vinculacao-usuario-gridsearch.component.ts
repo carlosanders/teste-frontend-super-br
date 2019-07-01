@@ -38,7 +38,7 @@ export class CdkVinculacaoUsuarioGridsearchComponent implements OnInit {
     @Output()
     cancel = new EventEmitter();
 
-    vinculacaoUsuarios: VinculacaoUsuario[];
+    vinculacoesUsuarios: VinculacaoUsuario[];
 
     total = 0;
 
@@ -74,7 +74,7 @@ export class CdkVinculacaoUsuarioGridsearchComponent implements OnInit {
             .pipe(finalize(() => this.loading = false),
                 catchError(() => of([]))
             ).subscribe(response => {
-            this.vinculacaoUsuarios = response['entities'];
+            this.vinculacoesUsuarios = response['entities'];
             this.total = response['total'];
             this._changeDetectorRef.markForCheck();
         });

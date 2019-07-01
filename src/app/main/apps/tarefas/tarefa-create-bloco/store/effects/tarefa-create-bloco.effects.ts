@@ -4,7 +4,7 @@ import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, tap} from 'rxjs/operators';
 
-import * as TarefaCreateActions from '../actions/tarefa-create.actions';
+import * as TarefaCreateBlocoActions from '../actions/tarefa-create-bloco.actions';
 
 import {TarefaService} from '@cdk/services/tarefa.service';
 import {AddData} from '@cdk/ngrx-normalizr';
@@ -17,7 +17,7 @@ import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import * as moment from 'moment';
 
 @Injectable()
-export class TarefaCreateEffect {
+export class TarefaCreateBlocoEffect {
     routerState: any;
 
     constructor(
@@ -44,11 +44,11 @@ export class TarefaCreateEffect {
     saveTarefa: any =
         this._actions
             .pipe(
-                ofType<TarefaCreateActions.SaveTarefa>(TarefaCreateActions.SAVE_TAREFA),
+                ofType<TarefaCreateBlocoActions.SaveTarefa>(TarefaCreateBlocoActions.SAVE_TAREFA),
                 mergeMap((action) => {
                     return this._tarefaService.save(action.payload).pipe(
                         mergeMap((response: Tarefa) => [
-                            new TarefaCreateActions.SaveTarefaSuccess(action.payload),
+                            new TarefaCreateBlocoActions.SaveTarefaSuccess(action.payload),
                             new AddData<Tarefa>({data: [response], schema: tarefaSchema}),
                             new OperacoesActions.Resultado({
                                 type: 'tarefa',
@@ -65,7 +65,7 @@ export class TarefaCreateEffect {
                                 success: false,
                                 dateTime: moment()
                             }));
-                            return of(new TarefaCreateActions.SaveTarefaFailed(action.payload));
+                            return of(new TarefaCreateBlocoActions.SaveTarefaFailed(action.payload));
                         })
                     );
                 })

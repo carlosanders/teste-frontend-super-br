@@ -13,13 +13,12 @@ import {
 import { FuseSharedModule } from '@fuse/shared.module';
 import { SetorService } from '@cdk/services/setor.service';
 import { CdkSetorGridComponent} from './cdk-setor-grid.component';
-import { CdkSetorGridFilterComponent } from './cdk-setor-grid-filter/cdk-setor-grid-filter.component';
 import { CdkSetorAutocompleteModule } from '@cdk/components/setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
+import {CdkSetorGridFilterModule} from './cdk-setor-grid-filter/cdk-setor-grid-filter.module';
 
 @NgModule({
     declarations: [
-        CdkSetorGridComponent,
-        CdkSetorGridFilterComponent
+        CdkSetorGridComponent
     ],
     imports: [
 
@@ -33,6 +32,7 @@ import { CdkSetorAutocompleteModule } from '@cdk/components/setor/cdk-setor-auto
         MatSortModule,
 
         CdkSetorAutocompleteModule,
+        CdkSetorGridFilterModule,
 
         FuseSharedModule,
     ],

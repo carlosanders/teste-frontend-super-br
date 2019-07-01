@@ -137,6 +137,10 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
         }
     }
 
+    doCiencia(): void {
+        this._store.dispatch(new fromStore.DarCienciaTarefa(this.tarefa));
+    }
+
     doCreateTarefa(): void {
         this._router.navigate([this.routerState.url.split('/tarefa/')[0] + '/criar/' + this.tarefa.processo.id]).then();
     }

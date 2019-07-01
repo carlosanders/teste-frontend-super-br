@@ -14,6 +14,10 @@ export const SAVE_TAREFA = '[TAREFA] SAVE TAREFA';
 export const SAVE_TAREFA_SUCCESS = '[TAREFA] SAVE TAREFA SUCCESS';
 export const SAVE_TAREFA_FAILED = '[TAREFA] SAVE TAREFA FAILED';
 
+export const DAR_CIENCIA_TAREFA = '[TAREFA] DAR CIENCIA TAREFA';
+export const DAR_CIENCIA_TAREFA_SUCCESS = '[TAREFA] DAR CIENCIA TAREFA SUCCESS';
+export const DAR_CIENCIA_TAREFA_FAILED = '[TAREFA] DAR CIENCIA TAREFA FAILED';
+
 export const DELETE_TAREFA = '[TAREFA] DELETE TAREFA';
 export const DELETE_TAREFA_SUCCESS = '[TAREFA] DELETE TAREFA SUCCESS';
 export const DELETE_TAREFA_FAILED = '[TAREFA] DELETE TAREFA FAILED';
@@ -122,6 +126,42 @@ export class SaveTarefaSuccess implements Action
 export class SaveTarefaFailed implements Action
 {
     readonly type = SAVE_TAREFA_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Dar Ciencia Tarefa
+ */
+export class DarCienciaTarefa implements Action
+{
+    readonly type = DAR_CIENCIA_TAREFA;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Dar Ciencia Tarefa Success
+ */
+export class DarCienciaTarefaSuccess implements Action
+{
+    readonly type = DAR_CIENCIA_TAREFA_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Dar Ciencia Tarefa Failed
+ */
+export class DarCienciaTarefaFailed implements Action
+{
+    readonly type = DAR_CIENCIA_TAREFA_FAILED;
 
     constructor(public payload: any)
     {
@@ -319,6 +359,9 @@ export type TarefaDetailActionsAll
     | SaveTarefa
     | SaveTarefaSuccess
     | SaveTarefaFailed
+    | DarCienciaTarefa
+    | DarCienciaTarefaSuccess
+    | DarCienciaTarefaFailed
     | DeleteTarefa
     | DeleteTarefaSuccess
     | DeleteTarefaFailed

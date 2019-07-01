@@ -1,42 +1,42 @@
-import * as CompartilhamentoCreateActions from '../actions/compartilhamento-create.actions';
+import * as CompartilhamentoCreateBlocoActions from '../actions/compartilhamento-create-bloco.actions';
 
-export interface CompartilhamentoCreateState {
+export interface CompartilhamentoCreateBlocoState {
     savingTarefasId: number[];
     errors: any;
 }
 
-export const CompartilhamentoCreateInitialState: CompartilhamentoCreateState = {
+export const CompartilhamentoCreateInitialState: CompartilhamentoCreateBlocoState = {
     savingTarefasId: [],
     errors: false
 };
 
-export function CompartilhamentoCreateReducer(
-    state = CompartilhamentoCreateInitialState, action: CompartilhamentoCreateActions.CompartilhamentoCreateActionsAll
-): CompartilhamentoCreateState {
+export function CompartilhamentoCreateBlocoReducer(
+    state = CompartilhamentoCreateInitialState, action: CompartilhamentoCreateBlocoActions.CompartilhamentoCreateBlocoActionsAll
+): CompartilhamentoCreateBlocoState {
     switch (action.type) {
 
-        case CompartilhamentoCreateActions.CREATE_COMPARTILHAMENTO: {
+        case CompartilhamentoCreateBlocoActions.CREATE_COMPARTILHAMENTO: {
             return {
                 savingTarefasId: [],
                 errors: false
             };
         }
 
-        case CompartilhamentoCreateActions.SAVE_COMPARTILHAMENTO: {
+        case CompartilhamentoCreateBlocoActions.SAVE_COMPARTILHAMENTO: {
             return {
                 ...state,
                 savingTarefasId: [...state.savingTarefasId, action.payload.tarefa.id]
             };
         }
 
-        case CompartilhamentoCreateActions.SAVE_COMPARTILHAMENTO_SUCCESS: {
+        case CompartilhamentoCreateBlocoActions.SAVE_COMPARTILHAMENTO_SUCCESS: {
             return {
                 ...state,
                 savingTarefasId: state.savingTarefasId.filter(id => id !== action.payload.tarefa.id)
             };
         }
 
-        case CompartilhamentoCreateActions.SAVE_COMPARTILHAMENTO_FAILED: {
+        case CompartilhamentoCreateBlocoActions.SAVE_COMPARTILHAMENTO_FAILED: {
             return {
                 ...state,
                 savingTarefasId: state.savingTarefasId.filter(id => id !== action.payload.tarefa.id),

@@ -1,7 +1,7 @@
-import { TarefaCreateEffect } from './tarefa-create.effects';
+import { TarefaCreateBlocoEffect } from './tarefa-create-bloco.effects';
 
 export const effects = [
-    TarefaCreateEffect
+    TarefaCreateBlocoEffect
 ];
 
-export * from './tarefa-create.effects';
+export * from './tarefa-create-bloco.effects';

@@ -1,11 +1,11 @@
 import { Action } from '@ngrx/store';
 
-export const CREATE_TAREFA = '[TAREFA CREATE] CREATE TAREFA';
-export const CREATE_TAREFA_SUCCESS = '[TAREFA CREATE] CREATE TAREFA SUCCESS';
+export const EDIT_TAREFA = '[TAREFA EDIT] EDIT TAREFA';
+export const EDIT_TAREFA_SUCCESS = '[TAREFA EDIT] EDIT TAREFA SUCCESS';
 
-export const SAVE_TAREFA = '[TAREFA CREATE] SAVE TAREFA';
-export const SAVE_TAREFA_SUCCESS = '[TAREFA CREATE] SAVE TAREFA SUCCESS';
-export const SAVE_TAREFA_FAILED = '[TAREFA CREATE] SAVE TAREFA FAILED';
+export const SAVE_TAREFA = '[TAREFA EDIT] SAVE TAREFA';
+export const SAVE_TAREFA_SUCCESS = '[TAREFA EDIT] SAVE TAREFA SUCCESS';
+export const SAVE_TAREFA_FAILED = '[TAREFA EDIT] SAVE TAREFA FAILED';
 
 /**
  * Save Tarefa
@@ -44,11 +44,11 @@ export class SaveTarefaFailed implements Action
 }
 
 /**
- * Create Tarefa
+ * Edit Tarefa
  */
-export class CreateTarefa implements Action
+export class EditTarefa implements Action
 {
-    readonly type = CREATE_TAREFA;
+    readonly type = EDIT_TAREFA;
 
     constructor(public payload: any)
     {
@@ -56,20 +56,20 @@ export class CreateTarefa implements Action
 }
 
 /**
- * Create Tarefa Success
+ * Edit Tarefa Success
  */
-export class CreateTarefaSuccess implements Action
+export class EditTarefaSuccess implements Action
 {
-    readonly type = CREATE_TAREFA_SUCCESS;
+    readonly type = EDIT_TAREFA_SUCCESS;
 
     constructor()
     {
     }
 }
 
-export type TarefaCreateActionsAll
-    = CreateTarefa
-    | CreateTarefaSuccess
+export type TarefaEditBlocoActionsAll
+    = EditTarefa
+    | EditTarefaSuccess
     | SaveTarefa
     | SaveTarefaSuccess
     | SaveTarefaFailed;

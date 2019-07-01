@@ -1,1 +1,1 @@
-export * from './vinculacao-etiqueta-create.selectors';
+export * from './vinculacao-etiqueta-create-bloco.selectors';

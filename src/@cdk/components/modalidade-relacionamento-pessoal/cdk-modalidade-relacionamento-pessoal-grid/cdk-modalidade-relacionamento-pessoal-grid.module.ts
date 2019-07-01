@@ -13,13 +13,12 @@ import {
 import { FuseSharedModule } from '@fuse/shared.module';
 import { ModalidadeRelacionamentoPessoalService } from '@cdk/services/modalidade-relacionamento-pessoal.service';
 import { CdkModalidadeRelacionamentoPessoalGridComponent} from './cdk-modalidade-relacionamento-pessoal-grid.component';
-import { CdkModalidadeRelacionamentoPessoalGridFilterComponent } from './cdk-modalidade-relacionamento-pessoal-grid-filter/cdk-modalidade-relacionamento-pessoal-grid-filter.component';
 import { CdkModalidadeRelacionamentoPessoalAutocompleteModule } from '@cdk/components/modalidade-relacionamento-pessoal/cdk-modalidade-relacionamento-pessoal-autocomplete/cdk-modalidade-relacionamento-pessoal-autocomplete.module';
+import {CdkModalidadeRelacionamentoPessoalGridFilterModule} from './cdk-modalidade-relacionamento-pessoal-grid-filter/cdk-modalidade-relacionamento-pessoal-grid-filter.module';
 
 @NgModule({
     declarations: [
-        CdkModalidadeRelacionamentoPessoalGridComponent,
-        CdkModalidadeRelacionamentoPessoalGridFilterComponent
+        CdkModalidadeRelacionamentoPessoalGridComponent
     ],
     imports: [
 
@@ -33,6 +32,7 @@ import { CdkModalidadeRelacionamentoPessoalAutocompleteModule } from '@cdk/compo
         MatSortModule,
 
         CdkModalidadeRelacionamentoPessoalAutocompleteModule,
+        CdkModalidadeRelacionamentoPessoalGridFilterModule,
 
         FuseSharedModule,
     ],

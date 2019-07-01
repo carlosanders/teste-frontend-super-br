@@ -150,7 +150,7 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
         });
     }
 
-    private onReady(e): void {
+    onReady(e): void {
 
         const me = this;
 

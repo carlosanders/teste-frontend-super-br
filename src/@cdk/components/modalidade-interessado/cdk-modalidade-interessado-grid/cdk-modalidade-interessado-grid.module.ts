@@ -13,13 +13,12 @@ import {
 import { FuseSharedModule } from '@fuse/shared.module';
 import { ModalidadeInteressadoService } from '@cdk/services/modalidade-interessado.service';
 import { CdkModalidadeInteressadoGridComponent} from './cdk-modalidade-interessado-grid.component';
-import { CdkModalidadeInteressadoGridFilterComponent } from './cdk-modalidade-interessado-grid-filter/cdk-modalidade-interessado-grid-filter.component';
 import { CdkModalidadeInteressadoAutocompleteModule } from '@cdk/components/modalidade-interessado/cdk-modalidade-interessado-autocomplete/cdk-modalidade-interessado-autocomplete.module';
+import {CdkModalidadeInteressadoGridFilterModule} from './cdk-modalidade-interessado-grid-filter/cdk-modalidade-interessado-grid-filter.module';
 
 @NgModule({
     declarations: [
-        CdkModalidadeInteressadoGridComponent,
-        CdkModalidadeInteressadoGridFilterComponent
+        CdkModalidadeInteressadoGridComponent
     ],
     imports: [
 
@@ -33,6 +32,7 @@ import { CdkModalidadeInteressadoAutocompleteModule } from '@cdk/components/moda
         MatSortModule,
 
         CdkModalidadeInteressadoAutocompleteModule,
+        CdkModalidadeInteressadoGridFilterModule,
 
         FuseSharedModule,
     ],

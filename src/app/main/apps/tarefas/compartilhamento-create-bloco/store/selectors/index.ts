@@ -1,1 +1,1 @@
-export * from './compartilhamento-create.selectors';
+export * from './compartilhamento-create-bloco.selectors';

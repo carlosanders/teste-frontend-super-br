@@ -1,11 +1,11 @@
 import { Action } from '@ngrx/store';
 
-export const CREATE_ATIVIDADE = '[ATIVIDADE CREATE] CREATE ATIVIDADE';
-export const CREATE_ATIVIDADE_SUCCESS = '[ATIVIDADE CREATE] CREATE ATIVIDADE SUCCESS';
+export const CREATE_ATIVIDADE = '[ATIVIDADE CREATE BLOCO] CREATE ATIVIDADE';
+export const CREATE_ATIVIDADE_SUCCESS = '[ATIVIDADE CREATE BLOCO] CREATE ATIVIDADE SUCCESS';
 
-export const SAVE_ATIVIDADE = '[ATIVIDADE CREATE] SAVE ATIVIDADE';
-export const SAVE_ATIVIDADE_SUCCESS = '[ATIVIDADE CREATE] SAVE ATIVIDADE SUCCESS';
-export const SAVE_ATIVIDADE_FAILED = '[ATIVIDADE CREATE] SAVE ATIVIDADE FAILED';
+export const SAVE_ATIVIDADE = '[ATIVIDADE CREATE BLOCO] SAVE ATIVIDADE';
+export const SAVE_ATIVIDADE_SUCCESS = '[ATIVIDADE CREATE BLOCO] SAVE ATIVIDADE SUCCESS';
+export const SAVE_ATIVIDADE_FAILED = '[ATIVIDADE CREATE BLOCO] SAVE ATIVIDADE FAILED';
 
 /**
  * Save Atividade
@@ -67,7 +67,7 @@ export class CreateAtividadeSuccess implements Action
     }
 }
 
-export type AtividadeCreateActionsAll
+export type AtividadeCreateBlocoActionsAll
     = CreateAtividade
     | CreateAtividadeSuccess
     | SaveAtividade

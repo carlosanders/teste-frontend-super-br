@@ -4,7 +4,7 @@ import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, tap} from 'rxjs/operators';
 
-import * as AtividadeCreateActions from '../actions/atividade-create.actions';
+import * as AtividadeCreateBlocoActions from '../actions/atividade-create-bloco.actions';
 
 import {AtividadeService} from '@cdk/services/atividade.service';
 import {AddData} from '@cdk/ngrx-normalizr';
@@ -17,7 +17,7 @@ import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import * as moment from 'moment';
 
 @Injectable()
-export class AtividadeCreateEffect {
+export class AtividadeCreateBlocoEffect {
     routerState: any;
 
     constructor(
@@ -44,11 +44,11 @@ export class AtividadeCreateEffect {
     saveAtividade: any =
         this._actions
             .pipe(
-                ofType<AtividadeCreateActions.SaveAtividade>(AtividadeCreateActions.SAVE_ATIVIDADE),
+                ofType<AtividadeCreateBlocoActions.SaveAtividade>(AtividadeCreateBlocoActions.SAVE_ATIVIDADE),
                 mergeMap((action) => {
                     return this._atividadeService.save(action.payload).pipe(
                         mergeMap((response: Atividade) => [
-                            new AtividadeCreateActions.SaveAtividadeSuccess(action.payload),
+                            new AtividadeCreateBlocoActions.SaveAtividadeSuccess(action.payload),
                             new AddData<Atividade>({data: [response], schema: atividadeSchema}),
                             new OperacoesActions.Resultado({
                                 type: 'atividade',
@@ -65,7 +65,7 @@ export class AtividadeCreateEffect {
                                 success: false,
                                 dateTime: moment()
                             }));
-                            return of(new AtividadeCreateActions.SaveAtividadeFailed(action.payload));
+                            return of(new AtividadeCreateBlocoActions.SaveAtividadeFailed(action.payload));
                         })
                     );
                 })

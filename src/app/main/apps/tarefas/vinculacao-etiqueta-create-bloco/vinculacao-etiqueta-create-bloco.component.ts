@@ -9,33 +9,34 @@ import {
 import {fuseAnimations} from '@fuse/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {Tarefa} from '@cdk/models/tarefa.model';
+import {VinculacaoEtiqueta} from '@cdk/models/vinculacao-etiqueta.model';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
 import {LoginService} from 'app/main/auth/login/login.service';
+import {Tarefa} from '@cdk/models/tarefa.model';
 import {getSelectedTarefas} from '../store/selectors';
 import {getOperacoesState, getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {filter, takeUntil} from 'rxjs/operators';
-import * as moment from 'moment';
+import {Etiqueta} from '@cdk/models/etiqueta.model';
 
 @Component({
-    selector: 'tarefa-create',
-    templateUrl: './tarefa-create.component.html',
-    styleUrls: ['./tarefa-create.component.scss'],
+    selector: 'vinculacao-etiqueta-create',
+    templateUrl: './vinculacao-etiqueta-create-bloco.component.html',
+    styleUrls: ['./vinculacao-etiqueta-create-bloco.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
 })
-export class TarefaCreateComponent implements OnInit, OnDestroy {
+export class VinculacaoEtiquetaCreateBlocoComponent implements OnInit, OnDestroy {
 
     private _unsubscribeAll: Subject<any> = new Subject();
 
     tarefas$: Observable<Tarefa[]>;
     tarefas: Tarefa[];
 
-    tarefa: Tarefa;
+    vinculacaoEtiqueta: VinculacaoEtiqueta;
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
 
@@ -45,6 +46,8 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
 
     routerState: any;
 
+    etiquetas: Etiqueta[] = [];
+
     /**
      *
      * @param _store
@@ -53,7 +56,7 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
      * @param _changeDetectorRef
      */
     constructor(
-        private _store: Store<fromStore.TarefaCreateAppState>,
+        private _store: Store<fromStore.VinculacaoEtiquetaCreateBlocoAppState>,
         private _loginService: LoginService,
         private _router: Router,
         private _changeDetectorRef: ChangeDetectorRef
@@ -78,7 +81,7 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
             .pipe(
                 select(getOperacoesState),
                 takeUntil(this._unsubscribeAll),
-                filter(op => !!op && !!op.content && op.type === 'tarefa')
+                filter(op => !!op && !!op.content && op.type === 'vinculacao_etiqueta')
             )
             .subscribe(
                 operacao => {
@@ -97,12 +100,6 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
                 this.operacoes = [];
             }
         });
-
-        this.tarefa = new Tarefa();
-        this.tarefa.unidadeResponsavel = this._profile.lotacoes[0].setor.unidade;
-        this.tarefa.dataHoraInicioPrazo = moment();
-        this.tarefa.dataHoraFinalPrazo = moment().add(5, 'days').set({ 'hour' : 20, 'minute' : 0, 'second' : 0 });
-        this.tarefa.setorOrigem = this._profile.lotacoes[0].setor;
     }
 
     ngOnDestroy(): void {
@@ -115,22 +112,31 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
-    submit(values): void {
+    addEtiqueta(etiqueta: Etiqueta): void {
+        this.etiquetas.push(etiqueta);
+    }
+
+    deleteEtiqueta(etiqueta: Etiqueta): void {
+        this.etiquetas = this.etiquetas.filter(e => e.id !== etiqueta.id);
+    }
+
+    submit(): void {
 
         this.operacoes = [];
 
-        this.tarefas.forEach(tarefaBloco => {
-            const tarefa = new Tarefa();
+        this.tarefas.forEach(tarefa => {
+            const vinculacaoEtiqueta = new VinculacaoEtiqueta();
 
-            Object.entries(values).forEach(
-                ([key, value]) => {
-                    tarefa[key] = value;
+            Object.entries(this.etiquetas).forEach(
+                ([key, etiqueta]) => {
+                    vinculacaoEtiqueta.etiqueta = etiqueta;
                 }
             );
 
-            tarefa.processo = tarefaBloco.processo;
+            vinculacaoEtiqueta.tarefa = tarefa;
+            vinculacaoEtiqueta.privada = false;
 
-            this._store.dispatch(new fromStore.SaveTarefa(tarefa));
+            this._store.dispatch(new fromStore.SaveVinculacaoEtiqueta(vinculacaoEtiqueta));
         });
     }
 }

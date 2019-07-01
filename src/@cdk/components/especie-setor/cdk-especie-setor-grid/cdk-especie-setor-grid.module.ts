@@ -13,13 +13,12 @@ import {
 import { FuseSharedModule } from '@fuse/shared.module';
 import { EspecieSetorService } from '@cdk/services/especie-setor.service';
 import { CdkEspecieSetorGridComponent} from './cdk-especie-setor-grid.component';
-import { CdkEspecieSetorGridFilterComponent } from './cdk-especie-setor-grid-filter/cdk-especie-setor-grid-filter.component';
 import { CdkEspecieSetorAutocompleteModule } from '@cdk/components/especie-setor/cdk-especie-setor-autocomplete/cdk-especie-setor-autocomplete.module';
+import {CdkEspecieSetorGridFilterModule} from './cdk-especie-setor-grid-filter/cdk-especie-setor-grid-filter.module';
 
 @NgModule({
     declarations: [
-        CdkEspecieSetorGridComponent,
-        CdkEspecieSetorGridFilterComponent
+        CdkEspecieSetorGridComponent
     ],
     imports: [
 
@@ -33,6 +32,7 @@ import { CdkEspecieSetorAutocompleteModule } from '@cdk/components/especie-setor
         MatSortModule,
 
         CdkEspecieSetorAutocompleteModule,
+        CdkEspecieSetorGridFilterModule,
 
         FuseSharedModule,
     ],

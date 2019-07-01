@@ -30,7 +30,7 @@ export class CdkModalidadeVinculacaoProcessoGridComponent implements AfterViewIn
     loading = false;
 
     @Input()
-    modalidadevinculacaoProcessos: ModalidadeVinculacaoProcesso[];
+    modalidadevinculacoesProcessos: ModalidadeVinculacaoProcesso[];
 
     @Input()
     total = 0;
@@ -90,11 +90,11 @@ export class CdkModalidadeVinculacaoProcessoGridComponent implements AfterViewIn
         private _changeDetectorRef: ChangeDetectorRef
     ) {
         this.gridFilter = {};
-        this.modalidadevinculacaoProcessos = [];
+        this.modalidadevinculacoesProcessos = [];
     }
 
     ngOnChanges(): void {
-        this.dataSource = new ModalidadeVinculacaoProcessoDataSource(of(this.modalidadevinculacaoProcessos));
+        this.dataSource = new ModalidadeVinculacaoProcessoDataSource(of(this.modalidadevinculacoesProcessos));
         this.paginator.length = this.total;
     }
 
@@ -106,7 +106,7 @@ export class CdkModalidadeVinculacaoProcessoGridComponent implements AfterViewIn
 
         this.paginator.pageSize = this.pageSize;
 
-        this.dataSource = new ModalidadeVinculacaoProcessoDataSource(of(this.modalidadevinculacaoProcessos));
+        this.dataSource = new ModalidadeVinculacaoProcessoDataSource(of(this.modalidadevinculacoesProcessos));
     }
 
     ngAfterViewInit(): void {
@@ -150,8 +150,8 @@ export class CdkModalidadeVinculacaoProcessoGridComponent implements AfterViewIn
         this.delete.emit(modalidadevinculacaoProcessoId);
     }
 
-    deleteModalidadeVinculacaoProcessos(modalidadevinculacaoProcessosId): void {
-        modalidadevinculacaoProcessosId.forEach(modalidadevinculacaoProcessoId => this.deleteModalidadeVinculacaoProcesso(modalidadevinculacaoProcessoId));
+    deleteModalidadeVinculacaoProcessos(modalidadevinculacoesProcessosId): void {
+        modalidadevinculacoesProcessosId.forEach(modalidadevinculacaoProcessoId => this.deleteModalidadeVinculacaoProcesso(modalidadevinculacaoProcessoId));
     }
 
     /**
@@ -173,7 +173,7 @@ export class CdkModalidadeVinculacaoProcessoGridComponent implements AfterViewIn
      * Select all
      */
     selectAll(): void {
-        const arr = Object.keys(this.modalidadevinculacaoProcessos).map(k => this.modalidadevinculacaoProcessos[k]);
+        const arr = Object.keys(this.modalidadevinculacoesProcessos).map(k => this.modalidadevinculacoesProcessos[k]);
         this.selectedIds = arr.map(modalidadevinculacaoProcesso => modalidadevinculacaoProcesso.id);
         this.recompute();
     }
@@ -199,7 +199,7 @@ export class CdkModalidadeVinculacaoProcessoGridComponent implements AfterViewIn
 
     recompute (): void {
         this.hasSelected = this.selectedIds.length > 0;
-        this.isIndeterminate = (this.selectedIds.length !== this.modalidadevinculacaoProcessos.length && this.selectedIds.length > 0);
+        this.isIndeterminate = (this.selectedIds.length !== this.modalidadevinculacoesProcessos.length && this.selectedIds.length > 0);
     }
 
     setGridFilter (gridFilter): void {

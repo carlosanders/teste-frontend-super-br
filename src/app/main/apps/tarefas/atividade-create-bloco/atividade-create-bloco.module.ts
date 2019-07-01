@@ -18,7 +18,7 @@ import {TranslateModule} from '@ngx-translate/core';
 import {FuseSharedModule} from '@fuse/shared.module';
 import {FuseSidebarModule} from '@fuse/components';
 
-import {AtividadeCreateComponent} from './atividade-create.component';
+import {AtividadeCreateBlocoComponent} from './atividade-create-bloco.component';
 import {RouterModule, Routes} from '@angular/router';
 import {CdkAtividadeFormModule} from '@cdk/components/atividade/cdk-atividade-form/cdk-atividade-form.module';
 import {AtividadeCreateBlocoStoreModule} from './store/store.module';
@@ -28,13 +28,13 @@ import {LoginService} from 'app/main/auth/login/login.service';
 const routes: Routes = [
     {
         path: '',
-        component: AtividadeCreateComponent
+        component: AtividadeCreateBlocoComponent
     }
 ];
 
 @NgModule({
     declarations: [
-        AtividadeCreateComponent
+        AtividadeCreateBlocoComponent
     ],
     imports: [
 

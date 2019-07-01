@@ -63,8 +63,3 @@ export const getDeletedTarefaIds = createSelector(
     getTarefasState,
     (state: TarefasState) => state.deletedTarefaIds
 );
-
-export const getCurrentTarefaId = createSelector(
-    getTarefasState,
-    (state: TarefasState) => state.currentTarefaId ? state.currentTarefaId : null
-);

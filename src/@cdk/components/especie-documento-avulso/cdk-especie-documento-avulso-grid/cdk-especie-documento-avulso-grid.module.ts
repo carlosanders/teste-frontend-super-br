@@ -13,13 +13,12 @@ import {
 import { FuseSharedModule } from '@fuse/shared.module';
 import { EspecieDocumentoAvulsoService } from '@cdk/services/especie-documento-avulso.service';
 import { CdkEspecieDocumentoAvulsoGridComponent} from './cdk-especie-documento-avulso-grid.component';
-import { CdkEspecieDocumentoAvulsoGridFilterComponent } from './cdk-especie-documento-avulso-grid-filter/cdk-especie-documento-avulso-grid-filter.component';
 import { CdkEspecieDocumentoAvulsoAutocompleteModule } from '@cdk/components/especie-documento-avulso/cdk-especie-documento-avulso-autocomplete/cdk-especie-documento-avulso-autocomplete.module';
+import {CdkEspecieDocumentoAvulsoGridFilterModule} from './cdk-especie-documento-avulso-grid-filter/cdk-especie-documento-avulso-grid-filter.module';
 
 @NgModule({
     declarations: [
-        CdkEspecieDocumentoAvulsoGridComponent,
-        CdkEspecieDocumentoAvulsoGridFilterComponent
+        CdkEspecieDocumentoAvulsoGridComponent
     ],
     imports: [
 
@@ -31,6 +30,8 @@ import { CdkEspecieDocumentoAvulsoAutocompleteModule } from '@cdk/components/esp
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
+
+        CdkEspecieDocumentoAvulsoGridFilterModule,
 
         CdkEspecieDocumentoAvulsoAutocompleteModule,
 

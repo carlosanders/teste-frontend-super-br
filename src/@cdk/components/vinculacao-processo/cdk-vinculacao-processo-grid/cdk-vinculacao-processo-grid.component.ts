@@ -150,8 +150,8 @@ export class CdkVinculacaoProcessoGridComponent implements AfterViewInit, OnInit
         this.delete.emit(vinculacaoProcessoId);
     }
 
-    deleteVinculacaoProcessos(vinculacaoProcessosId): void {
-        vinculacaoProcessosId.forEach(vinculacaoProcessoId => this.deleteVinculacaoProcesso(vinculacaoProcessoId));
+    deleteVinculacaoProcessos(vinculacoesProcessosId): void {
+        vinculacoesProcessosId.forEach(vinculacaoProcessoId => this.deleteVinculacaoProcesso(vinculacaoProcessoId));
     }
 
     /**

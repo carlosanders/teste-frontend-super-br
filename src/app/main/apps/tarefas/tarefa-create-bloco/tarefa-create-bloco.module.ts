@@ -18,7 +18,7 @@ import {TranslateModule} from '@ngx-translate/core';
 import {FuseSharedModule} from '@fuse/shared.module';
 import {FuseSidebarModule} from '@fuse/components';
 
-import {TarefaCreateComponent} from './tarefa-create.component';
+import {TarefaCreateBlocoComponent} from './tarefa-create-bloco.component';
 import {RouterModule, Routes} from '@angular/router';
 import {CdkTarefaFormModule} from '@cdk/components/tarefa/cdk-tarefa-form/cdk-tarefa-form.module';
 import {TarefaCreateBlocoStoreModule} from './store/store.module';
@@ -28,13 +28,13 @@ import {LoginService} from 'app/main/auth/login/login.service';
 const routes: Routes = [
     {
         path: '',
-        component: TarefaCreateComponent
+        component: TarefaCreateBlocoComponent
     }
 ];
 
 @NgModule({
     declarations: [
-        TarefaCreateComponent
+        TarefaCreateBlocoComponent
     ],
     imports: [
 

@@ -9,60 +9,53 @@ import {
 import {fuseAnimations} from '@fuse/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {Atividade} from '@cdk/models/atividade.model';
+import {DocumentoAvulso} from '@cdk/models/documento-avulso.model';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
-import {LoginService} from 'app/main/auth/login/login.service';
-import {Tarefa} from '@cdk/models/tarefa.model';
 import {getSelectedTarefas} from '../store/selectors';
 import {getOperacoesState, getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {filter, takeUntil} from 'rxjs/operators';
 import * as moment from 'moment';
+import {Tarefa} from '@cdk/models/tarefa.model';
 
 @Component({
-    selector: 'atividade-create',
-    templateUrl: './atividade-create.component.html',
-    styleUrls: ['./atividade-create.component.scss'],
+    selector: 'documento-avulso-create',
+    templateUrl: './documento-avulso-create-bloco.component.html',
+    styleUrls: ['./documento-avulso-create-bloco.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
 })
-export class AtividadeCreateComponent implements OnInit, OnDestroy {
+export class DocumentoAvulsoCreateBlocoComponent implements OnInit, OnDestroy {
 
     private _unsubscribeAll: Subject<any> = new Subject();
 
     tarefas$: Observable<Tarefa[]>;
     tarefas: Tarefa[];
 
-    atividade: Atividade;
+    documentoAvulso: DocumentoAvulso;
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
 
     operacoes: any[] = [];
 
-    private _profile: any;
-
     routerState: any;
 
     /**
-     *
      * @param _store
-     * @param _loginService
      * @param _router
      * @param _changeDetectorRef
      */
     constructor(
-        private _store: Store<fromStore.AtividadeCreateAppState>,
-        private _loginService: LoginService,
+        private _store: Store<fromStore.DocumentoAvulsoCreateBlocoAppState>,
         private _router: Router,
         private _changeDetectorRef: ChangeDetectorRef
     ) {
         this.tarefas$ = this._store.pipe(select(getSelectedTarefas));
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
-        this._profile = _loginService.getUserProfile();
 
     }
 
@@ -79,7 +72,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy {
             .pipe(
                 select(getOperacoesState),
                 takeUntil(this._unsubscribeAll),
-                filter(op => !!op && !!op.content && op.type === 'atividade')
+                filter(op => !!op && !!op.content && op.type === 'documento_avulso')
             )
             .subscribe(
                 operacao => {
@@ -99,10 +92,9 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy {
             }
         });
 
-        this.atividade = new Atividade();
-        this.atividade.encerraTarefa = true;
-        this.atividade.dataHoraConclusao = moment();
-        this.atividade.usuario = this._profile.usuario;
+        this.documentoAvulso = new DocumentoAvulso();
+        this.documentoAvulso.dataHoraInicioPrazo = moment();
+        this.documentoAvulso.dataHoraFinalPrazo = moment().add(5, 'days').set({'hour': 20, 'minute': 0, 'second': 0});
     }
 
     ngOnDestroy(): void {
@@ -119,18 +111,19 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy {
 
         this.operacoes = [];
 
-        this.tarefas.forEach(tarefa => {
-            const atividade = new Atividade();
+        this.tarefas.forEach(tarefaBloco => {
+            const documentoAvulso = new DocumentoAvulso();
 
             Object.entries(values).forEach(
                 ([key, value]) => {
-                    atividade[key] = value;
+                    documentoAvulso[key] = value;
                 }
             );
 
-            atividade.tarefa = tarefa;
+            documentoAvulso.processo = tarefaBloco.processo;
+            documentoAvulso.tarefaOrigem = tarefaBloco;
 
-            this._store.dispatch(new fromStore.SaveAtividade(atividade));
+            this._store.dispatch(new fromStore.SaveDocumentoAvulso(documentoAvulso));
         });
     }
 }
