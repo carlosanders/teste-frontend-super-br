@@ -29,6 +29,7 @@
                     <mat-icon class="secondary-text">search</mat-icon>
                     <cdk-etiqueta-chips [etiquetas]="etiquetas"
                                         (create)="addEtiqueta($event)"
+                                        [pagination]="vinculacaoEtiquetaPagination"
                                         (delete)="deleteEtiqueta($event)"></cdk-etiqueta-chips>
                 </div>
 
