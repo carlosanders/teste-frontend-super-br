@@ -51,13 +51,13 @@
 
             <!-- Selection Column -->
             <ng-container matColumnDef="select">
-                <th mat-header-cell *matHeaderCellDef fxFlex="10" fxLayoutAlign="start center">
+                <th mat-header-cell *matHeaderCellDef>
                     <mat-checkbox (click)="toggleSelectAll($event)"
                                   [checked]="hasSelected"
                                   [indeterminate]="isIndeterminate">
                     </mat-checkbox>
                 </th>
-                <td mat-cell *matCellDef="let sigilo" fxFlex="10" fxLayoutAlign="start center">
+                <td mat-cell *matCellDef="let sigilo">
                     <mat-checkbox [checked]="selectedIds.indexOf(sigilo.id) > -1"
                                   (change)="toggleInSelected(sigilo.id)"
                                   (click)="$event.stopPropagation();"
@@ -68,72 +68,72 @@
 
             <!-- Id Column -->
             <ng-container matColumnDef="id">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10" fxLayoutAlign="start center"> Id
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Id
                 </th>
-                <td mat-cell *matCellDef="let sigilo" fxFlex="10" fxLayoutAlign="start center"
+                <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Id: '
                     [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.id}} </td>
             </ng-container>
 
             <!-- TipoSigilo Column -->
             <ng-container matColumnDef="tipoSigilo.nome">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     Tipo
                 </th>
-                <td mat-cell *matCellDef="let sigilo" fxFlex="30" fxLayoutAlign="start center"
+                <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Tipo: '
                     [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.tipoSigilo?.nome}} </td>
             </ng-container>
 
             <!-- RazoesClassificacaoSigilo Column -->
             <ng-container matColumnDef="razoesClassificacaoSigilo">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     Razões de Classificação
                 </th>
-                <td mat-cell *matCellDef="let sigilo" fxFlex="30" fxLayoutAlign="start center"
+                <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Razões de Classificação: '
                     [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.razoesClassificacaoSigilo}} </td>
             </ng-container>
 
             <!-- DataHoraExpiracao Column -->
             <ng-container matColumnDef="dataHoraExpiracao">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     Data de Início
                 </th>
-                <td mat-cell *matCellDef="let sigilo" fxFlex="30" fxLayoutAlign="start center"
+                <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Data de Início: '
                     [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.dataHoraInicioSigilo | date: 'dd/MM/yyyy H:mm'}} </td>
             </ng-container>
 
             <!-- DataHoraValidadeSigilo Column -->
             <ng-container matColumnDef="dataHoraValidadeSigilo">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     Data de Validade
                 </th>
-                <td mat-cell *matCellDef="let sigilo" fxFlex="30" fxLayoutAlign="start center"
+                <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Data de Validade: '
                     [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.dataHoraValidadeSigilo | date: 'dd/MM/yyyy H:mm'}} </td>
             </ng-container>
 
             <!-- FundamentoLegal Column -->
             <ng-container matColumnDef="fundamentoLegal">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     Fundamento Legal
                 </th>
-                <td mat-cell *matCellDef="let sigilo" fxFlex="30" fxLayoutAlign="start center"
+                <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Fundamento Legal: '
                     [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.fundamentoLegal}} </td>
             </ng-container>
 
             <!-- Modalidade do Sigilo Column -->
             <ng-container matColumnDef="modalidadeCategoriaSigilo.valor">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     Categoria
                 </th>
-                <td mat-cell *matCellDef="let sigilo" fxFlex="30" fxLayoutAlign="start center"
+                <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Categoria: '
                     [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.modalidadeCategoriaSigilo?.valor}} </td>
             </ng-container>
 
             <!-- Principal Column -->
             <ng-container matColumnDef="desclassificado">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="15" fxLayoutAlign="start center">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     Desclassificado
                 </th>
-                <td mat-cell *matCellDef="let sigilo" fxFlex="15" fxLayoutAlign="start center">
+                <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Desclassificado: '>
                     <mat-checkbox
                             [disabled]="true"
                             [checked]="sigilo.desclassificado"></mat-checkbox>
@@ -142,26 +142,26 @@
 
             <!-- Observacao Column -->
             <ng-container matColumnDef="observacao">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     Observação
                 </th>
-                <td mat-cell *matCellDef="let sigilo" fxFlex="30" fxLayoutAlign="start center"
+                <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Observação: '
                     [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.observacao}} </td>
             </ng-container>
 
             <!-- OrigemDados Column -->
             <ng-container matColumnDef="origemDados.servico">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     Origem de Dados
                 </th>
-                <td mat-cell *matCellDef="let sigilo" fxFlex="30" fxLayoutAlign="start center"
+                <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Origem de Dados: '
                     [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.origemDados?.fonteDados}} </td>
             </ng-container>
 
             <!-- Actions Column -->
             <ng-container matColumnDef="actions">
-                <th mat-header-cell *matHeaderCellDef fxFlex="10"></th>
-                <td mat-cell *matCellDef="let sigilo" fxFlex="10" fxLayoutAlign="start center">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let sigilo">
 
                     <button mat-icon-button
                             *ngIf="actions.indexOf('select') > -1"
@@ -201,7 +201,9 @@
             </tr>
         </table>
 
-        <mat-paginator [pageSizeOptions]="[5, 10]"></mat-paginator>
+        <div fxFlex fxLayout="row" fxLayoutAlign="center center">
+            <mat-paginator [pageSizeOptions]="[5, 10]"></mat-paginator>
+        </div>
 
     </div>
 

@@ -51,13 +51,13 @@
 
             <!-- Selection Column -->
             <ng-container matColumnDef="select">
-                <th mat-header-cell *matHeaderCellDef fxFlex="10" fxLayoutAlign="start center">
+                <th mat-header-cell *matHeaderCellDef>
                     <mat-checkbox (click)="toggleSelectAll($event)"
                                   [checked]="hasSelected"
                                   [indeterminate]="isIndeterminate">
                     </mat-checkbox>
                 </th>
-                <td mat-cell *matCellDef="let tramitacao" fxFlex="10" fxLayoutAlign="start center">
+                <td mat-cell *matCellDef="let tramitacao">
                     <mat-checkbox [checked]="selectedIds.indexOf(tramitacao.id) > -1"
                                   (change)="toggleInSelected(tramitacao.id)"
                                   (click)="$event.stopPropagation();"
@@ -68,18 +68,18 @@
 
             <!-- Id Column -->
             <ng-container matColumnDef="id">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10" fxLayoutAlign="start center"> Id
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Id
                 </th>
-                <td mat-cell *matCellDef="let tramitacao" fxFlex="10" fxLayoutAlign="start center"
+                <td mat-cell *matCellDef="let tramitacao" class='has_label_on_mobile' data-label='Id: '
                     [ngClass]="{'deleted':deletedIds?.indexOf(tramitacao.id) > -1}"> {{tramitacao.id}} </td>
             </ng-container>
 
             <!-- Urgente Column -->
             <ng-container matColumnDef="urgente">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="15" fxLayoutAlign="start center">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     Urgente
                 </th>
-                <td mat-cell *matCellDef="let tramitacao" fxFlex="15" fxLayoutAlign="start center">
+                <td mat-cell *matCellDef="let tramitacao" class='has_label_on_mobile' data-label='Urgente: '>
                     <mat-checkbox
                             [disabled]="true"
                             [checked]="tramitacao.urgente"></mat-checkbox>
@@ -88,53 +88,53 @@
 
             <!-- SetorOrigem Column -->
             <ng-container matColumnDef="setorOrigem.nome">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     Setor de Origem
                 </th>
-                <td mat-cell *matCellDef="let tramitacao" fxFlex="30" fxLayoutAlign="start center"
+                <td mat-cell *matCellDef="let tramitacao" class='has_label_on_mobile' data-label='Setor de Origem: '
                     [ngClass]="{'deleted':deletedIds?.indexOf(tramitacao.id) > -1}"> {{tramitacao.setorOrigem?.nome}} </td>
             </ng-container>
 
             <!-- PessoaDestino Column -->
             <ng-container matColumnDef="pessoaDestino.nome">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     Órgão/Pessoa de Destino
                 </th>
-                <td mat-cell *matCellDef="let tramitacao" fxFlex="30" fxLayoutAlign="start center"
+                <td mat-cell *matCellDef="let tramitacao" class='has_label_on_mobile' data-label='Órgão/Pessoa de Destino: '
                     [ngClass]="{'deleted':deletedIds?.indexOf(tramitacao.id) > -1}"> {{tramitacao.pessoaDestino?.nome}} </td>
             </ng-container>
 
             <!-- DataHoraRecebimento Column -->
             <ng-container matColumnDef="dataHoraRecebimento">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     Data de Recebimento
                 </th>
-                <td mat-cell *matCellDef="let tramitacao" fxFlex="30" fxLayoutAlign="start center"
+                <td mat-cell *matCellDef="let tramitacao" class='has_label_on_mobile' data-label='Data de Recebimento: '
                     [ngClass]="{'deleted':deletedIds?.indexOf(tramitacao.id) > -1}"> {{tramitacao.dataHoraRecebimento}} </td>
             </ng-container>
 
             <!-- UsuarioRecebimento Column -->
             <ng-container matColumnDef="usuarioRecebimento.nome">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     Usuário Recebimento
                 </th>
-                <td mat-cell *matCellDef="let tramitacao" fxFlex="30" fxLayoutAlign="start center"
+                <td mat-cell *matCellDef="let tramitacao" class='has_label_on_mobile' data-label='Usuário Recebimento: '
                     [ngClass]="{'deleted':deletedIds?.indexOf(tramitacao.id) > -1}"> {{tramitacao.usuarioRecebimento?.nome}} </td>
             </ng-container>
 
             <!-- Observacao Column -->
             <ng-container matColumnDef="observacao">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="100" fxLayoutAlign="start center">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     Observação
                 </th>
-                <td mat-cell *matCellDef="let tramitacao" fxFlex="100" fxLayoutAlign="start center"
+                <td mat-cell *matCellDef="let tramitacao" class='has_label_on_mobile' data-label='Observação: '
                     [ngClass]="{'deleted':deletedIds?.indexOf(tramitacao.id) > -1}"> {{tramitacao.observacao}} </td>
             </ng-container>
 
             <!-- Actions Column -->
             <ng-container matColumnDef="actions">
-                <th mat-header-cell *matHeaderCellDef fxFlex="10"></th>
-                <td mat-cell *matCellDef="let tramitacao" fxFlex="10" fxLayoutAlign="start center">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let tramitacao">
 
                     <button mat-icon-button
                             *ngIf="actions.indexOf('select') > -1"
@@ -174,7 +174,9 @@
             </tr>
         </table>
 
-        <mat-paginator [pageSizeOptions]="[5, 10]"></mat-paginator>
+        <div fxFlex fxLayout="row" fxLayoutAlign="center center">
+            <mat-paginator [pageSizeOptions]="[5, 10]"></mat-paginator>
+        </div>
 
     </div>
 
