@@ -1,7 +1,6 @@
 <!-- CONTENT HEADER -->
-<div class="header" fxLayout="column">
-
-    <div class="filters" *ngIf="showFilter">
+<div class="header" fxLayout="column" *ngIf="showFilter">
+    <div class="filters">
         <cdk-componente-digital-grid-filter (selected)="setGridFilter($event)"></cdk-componente-digital-grid-filter>
     </div>
 </div>
@@ -51,13 +50,13 @@
 
             <!-- Selection Column -->
             <ng-container matColumnDef="select">
-                <th mat-header-cell *matHeaderCellDef fxFlex="10" fxLayoutAlign="start center">
+                <th mat-header-cell *matHeaderCellDef>
                     <mat-checkbox (click)="toggleSelectAll($event)"
                                   [checked]="hasSelected"
                                   [indeterminate]="isIndeterminate">
                     </mat-checkbox>
                 </th>
-                <td mat-cell *matCellDef="let componenteDigital" fxFlex="10" fxLayoutAlign="start center">
+                <td mat-cell *matCellDef="let componenteDigital">
                     <mat-checkbox [checked]="selectedIds.indexOf(componenteDigital.id) > -1"
                                   (change)="toggleInSelected(componenteDigital.id)"
                                   (click)="$event.stopPropagation();"
@@ -68,9 +67,9 @@
 
             <!-- Id Column -->
             <ng-container matColumnDef="id">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10" fxLayoutAlign="start center"> Id
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Id
                 </th>
-                <td mat-cell *matCellDef="let componenteDigital" fxFlex="10" fxLayoutAlign="start center"
+                <td mat-cell *matCellDef="let componenteDigital" class='has_label_on_mobile' data-label='Id: '
                     [ngClass]="{'deleted':deletedIds?.indexOf(componenteDigital.id) > -1}">
                     {{componenteDigital.id}}
                 </td>
@@ -78,10 +77,10 @@
 
             <!-- NUP Column -->
             <ng-container matColumnDef="documento.juntadaAtual.volume.processo.NUP">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="100" fxLayoutAlign="start center">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     NUP
                 </th>
-                <td mat-cell *matCellDef="let componenteDigital" fxFlex="100" fxLayoutAlign="start center"
+                <td mat-cell *matCellDef="let componenteDigital" class='has_label_on_mobile' data-label='NUP: '
                     [ngClass]="{'deleted':deletedIds?.indexOf(componenteDigital.id) > -1}">
                     {{componenteDigital.documento?.juntadaAtual?.volume?.processo?.NUP}}
                 </td>
@@ -89,10 +88,10 @@
 
             <!-- TipoDocumento Column -->
             <ng-container matColumnDef="documento.tipoDocumento">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     Tipo de Documento
                 </th>
-                <td mat-cell *matCellDef="let componenteDigital" fxFlex="30" fxLayoutAlign="start center"
+                <td mat-cell *matCellDef="let componenteDigital" class='has_label_on_mobile' data-label='Tipo de Documento: '
                     [ngClass]="{'deleted':deletedIds?.indexOf(componenteDigital.id) > -1}">
                     {{componenteDigital.documento?.tipoDocumento?.nome}}
                 </td>
@@ -100,8 +99,8 @@
 
             <!-- Actions Column -->
             <ng-container matColumnDef="actions">
-                <th mat-header-cell *matHeaderCellDef fxFlex="10"></th>
-                <td mat-cell *matCellDef="let componenteDigital" fxFlex="10" fxLayoutAlign="start center">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let componenteDigital">
 
                     <button mat-icon-button
                             *ngIf="actions.indexOf('select') > -1"

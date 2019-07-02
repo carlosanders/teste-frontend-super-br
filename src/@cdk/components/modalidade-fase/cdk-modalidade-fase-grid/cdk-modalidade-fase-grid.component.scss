@@ -31,25 +31,101 @@ cdk-modalidade-fase-grid {
 
   }
 
-  .content {
+  .mat-column-select {
+    overflow: initial;
+  }
 
-    .actions {
+  table {
+    width: 100%;
+
+    td {
+      &.deleted {
+        text-decoration: line-through;
+      }
+    }
+  }
+
+  .mat-form-field {
+    font-size: 14px;
+    width: 100%;
+  }
+
+  @media screen and (max-width: 960px) {
+    .mat-elevation-z8 {
+      box-shadow: none;
+    }
+
+    .mat-header-row {
+      display: none;
+    }
+
+    tbody {
+      display: block;
       width: 100%;
     }
 
-    .mat-column-select {
-      overflow: initial;
-    }
+    .mat-table {
 
-    table {
-      width: 100%;
+      * {
+        box-sizing: border-box;
+      }
 
-      td {
-        &.deleted {
-          text-decoration: line-through;
+      .mat-row {
+        display: block;
+        overflow: hidden;
+        height: auto;
+        position: relative;
+        clear: both;
+        box-shadow: 0 2px 1px -1px rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 1px 3px 0 rgba(0, 0, 0, .12);
+        border-radius: 3px;
+
+        + .mat-row {
+          margin-top: 24px;
+        }
+      }
+
+      .mat-cell {
+        display: block;
+        width: 100%;
+        padding: 0 16px;
+        margin: 16px 0;
+        border: 0 none;
+
+        &:first-child {
+          padding: 0 48px 0 16px;
+
+          a {
+            font-size: 20px;
+          }
+
+          &:before {
+            display: none;
+          }
+        }
+
+        &.m-card-sub-title {
+          margin-top: -8px;
+          padding: 0 48px 0 16px;
+        }
+      }
+
+      .has_label_on_mobile {
+        &:before {
+          content: attr(data-label);
+          display: inline;
+          font-weight: bold;
         }
       }
     }
 
+    .mat-paginator {
+      margin-top: 24px;
+    }
+  }
+
+  .content {
+    .actions {
+      width: 100%;
+    }
   }
 }

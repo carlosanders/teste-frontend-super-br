@@ -1,7 +1,6 @@
 <!-- CONTENT HEADER -->
-<div class="header" fxLayout="column">
-
-    <div class="filters" *ngIf="showFilter">
+<div class="header" fxLayout="column" *ngIf="showFilter">
+    <div class="filters">
         <cdk-feriado-grid-filter (selected)="setGridFilter($event)"></cdk-feriado-grid-filter>
     </div>
 </div>
@@ -51,13 +50,13 @@
 
             <!-- Selection Column -->
             <ng-container matColumnDef="select">
-                <th mat-header-cell *matHeaderCellDef fxFlex="10" fxLayoutAlign="start center">
+                <th mat-header-cell *matHeaderCellDef>
                     <mat-checkbox (click)="toggleSelectAll($event)"
                                   [checked]="hasSelected"
                                   [indeterminate]="isIndeterminate">
                     </mat-checkbox>
                 </th>
-                <td mat-cell *matCellDef="let feriado" fxFlex="10" fxLayoutAlign="start center">
+                <td mat-cell *matCellDef="let feriado">
                     <mat-checkbox [checked]="selectedIds.indexOf(feriado.id) > -1"
                                   (change)="toggleInSelected(feriado.id)"
                                   (click)="$event.stopPropagation();"
@@ -68,52 +67,52 @@
 
             <!-- Id Column -->
             <ng-container matColumnDef="id">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10" fxLayoutAlign="start center"> Id
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Id
                 </th>
-                <td mat-cell *matCellDef="let feriado" fxFlex="10" fxLayoutAlign="start center"
+                <td mat-cell *matCellDef="let feriado" class='has_label_on_mobile' data-label='Id: '
                     [ngClass]="{'deleted':deletedIds?.indexOf(feriado.id) > -1}"> {{feriado.id}} </td>
             </ng-container>
 
             <!-- Nome Column -->
             <ng-container matColumnDef="nome">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="100" fxLayoutAlign="start center">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     Nome
                 </th>
-                <td mat-cell *matCellDef="let feriado" fxFlex="100" fxLayoutAlign="start center"
+                <td mat-cell *matCellDef="let feriado" class='has_label_on_mobile' data-label='Nome: '
                     [ngClass]="{'deleted':deletedIds?.indexOf(feriado.id) > -1}"> {{feriado.nome}} </td>
             </ng-container>
 
             <!-- Data do Feriado Column -->
             <ng-container matColumnDef="dataFeriado">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     Data do Feriado
                 </th>
-                <td mat-cell *matCellDef="let feriado" fxFlex="30" fxLayoutAlign="start center"
+                <td mat-cell *matCellDef="let feriado" class='has_label_on_mobile' data-label='Data do Feriado: '
                     [ngClass]="{'deleted':deletedIds?.indexOf(feriado.id) > -1}"> {{feriado.dataFeriado}} </td>
             </ng-container>
 
             <!-- Municipio Column -->
             <ng-container matColumnDef="municipio.nome">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     Município
                 </th>
-                <td mat-cell *matCellDef="let feriado" fxFlex="30" fxLayoutAlign="start center"
+                <td mat-cell *matCellDef="let feriado" class='has_label_on_mobile' data-label='Município: '
                     [ngClass]="{'deleted':deletedIds?.indexOf(feriado.id) > -1}"> {{feriado.municipio?.nome}} </td>
             </ng-container>
 
             <!-- Estado Column -->
             <ng-container matColumnDef="estado.nome">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     Estado
                 </th>
-                <td mat-cell *matCellDef="let feriado" fxFlex="30" fxLayoutAlign="start center"
+                <td mat-cell *matCellDef="let feriado" class='has_label_on_mobile' data-label='Estado: '
                     [ngClass]="{'deleted':deletedIds?.indexOf(feriado.id) > -1}"> {{feriado.estado?.nome}} </td>
             </ng-container>
 
             <!-- Actions Column -->
             <ng-container matColumnDef="actions">
-                <th mat-header-cell *matHeaderCellDef fxFlex="10"></th>
-                <td mat-cell *matCellDef="let feriado" fxFlex="10" fxLayoutAlign="start center">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let feriado">
 
                     <button mat-icon-button
                             *ngIf="actions.indexOf('select') > -1"
@@ -153,7 +152,9 @@
             </tr>
         </table>
 
-        <mat-paginator [pageSizeOptions]="[5, 10]"></mat-paginator>
+        <div fxFlex fxLayout="row" fxLayoutAlign="center center">
+            <mat-paginator [pageSizeOptions]="[5, 10]"></mat-paginator>
+        </div>
 
     </div>
 
