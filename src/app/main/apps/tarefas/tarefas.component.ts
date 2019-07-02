@@ -28,6 +28,8 @@ import { fuseAnimations } from '@fuse/animations';
 import { Etiqueta } from '@cdk/models/etiqueta.model';
 import {Router} from '@angular/router';
 import {takeUntil} from 'rxjs/operators';
+import {Pagination} from '../../../../@cdk/models/pagination';
+import {LoginService} from '../../auth/login/login.service';
 
 @Component({
     selector: 'tarefas',
@@ -75,6 +77,10 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     maximizado$: Observable<boolean>;
 
+    vinculacaoEtiquetaPagination: Pagination;
+
+    private _profile: any;
+
     @ViewChild('tarefaListElement', {read: ElementRef}) tarefaListElement: ElementRef;
 
     /**
@@ -84,6 +90,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
      * @param _tarefaService
      * @param _router
      * @param _store
+     * @param _loginService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -92,6 +99,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         private _tarefaService: TarefaService,
         private _router: Router,
         private _store: Store<fromStore.TarefasAppState>,
+        private _loginService: LoginService
     ) {
         // Set the defaults
         this.searchInput = new FormControl('');
@@ -106,6 +114,9 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.maximizado$ = this._store.pipe(select(fromStore.getMaximizado));
         this.deletingIds$ = this._store.pipe(select(fromStore.getDeletingTarefaIds));
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedTarefaIds));
+        this._profile = _loginService.getUserProfile();
+        this.vinculacaoEtiquetaPagination = new Pagination();
+        this.vinculacaoEtiquetaPagination.filter = {'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.usuario.id};
     }
 
     // -----------------------------------------------------------------------------------------------------
