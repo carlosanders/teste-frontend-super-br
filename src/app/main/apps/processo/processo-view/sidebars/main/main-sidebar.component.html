@@ -79,7 +79,7 @@
      [infiniteScrollThrottle]="50"
      (scrolled)="onScroll()">
 
-    <div class="juntada"
+    <div class="juntada" matRipple
          *ngFor="let juntada of (juntadas); let i = index; let last = last; let first = first"
          (click)="gotoStep(i)"
          [ngClass]="{'current': currentStep.step === i, 'completed': currentStep.step > i, 'last': last, 'first': first}">

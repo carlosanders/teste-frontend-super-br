@@ -1,0 +1,9 @@
+<cdk-componente-digital-grid
+        [loading]="(loading$ | async)"
+        [componentesDigitais]="(componentesDigitais$ | async)"
+        [total]="(pagination$ | async)?.total"
+        [mode]="'search'"
+        [actions]="['edit']"
+        (reload)="reload($event)"
+        (edit)="edit($event)">
+</cdk-componente-digital-grid>

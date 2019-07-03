@@ -13,13 +13,12 @@ import {
 import { FuseSharedModule } from '@fuse/shared.module';
 import { EspecieRelevanciaService } from '@cdk/services/especie-relevancia.service';
 import { CdkEspecieRelevanciaGridComponent} from './cdk-especie-relevancia-grid.component';
-import { CdkEspecieRelevanciaGridFilterComponent } from './cdk-especie-relevancia-grid-filter/cdk-especie-relevancia-grid-filter.component';
 import { CdkEspecieRelevanciaAutocompleteModule } from '@cdk/components/especie-relevancia/cdk-especie-relevancia-autocomplete/cdk-especie-relevancia-autocomplete.module';
+import {CdkEspecieRelevanciaGridFilterModule} from './cdk-especie-relevancia-grid-filter/cdk-especie-relevancia-grid-filter.module';
 
 @NgModule({
     declarations: [
-        CdkEspecieRelevanciaGridComponent,
-        CdkEspecieRelevanciaGridFilterComponent
+        CdkEspecieRelevanciaGridComponent
     ],
     imports: [
 
@@ -33,6 +32,7 @@ import { CdkEspecieRelevanciaAutocompleteModule } from '@cdk/components/especie-
         MatSortModule,
 
         CdkEspecieRelevanciaAutocompleteModule,
+        CdkEspecieRelevanciaGridFilterModule,
 
         FuseSharedModule,
     ],

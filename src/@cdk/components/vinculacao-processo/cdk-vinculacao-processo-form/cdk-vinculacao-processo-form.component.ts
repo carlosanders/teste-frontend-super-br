@@ -62,7 +62,7 @@ export class CdkVinculacaoProcessoFormComponent implements OnChanges, OnDestroy,
             'processo': [null, [Validators.required]],
             'processoVinculado': [null, [Validators.required]],
             'modalidadeVinculacaoProcesso': [null, [Validators.required]],
-            'observacao': [null]
+            'observacao': [null, [Validators.maxLength(255)]]
         });
 
         this.processoPagination = new Pagination();

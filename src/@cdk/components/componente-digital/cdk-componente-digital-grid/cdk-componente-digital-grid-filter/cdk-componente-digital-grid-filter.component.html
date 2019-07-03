@@ -4,12 +4,12 @@
     <div fxFlex="1 0 auto" fxLayout="column">
 
         <mat-form-field fxFlex="100">
-            <mat-label>Nome</mat-label>
-            <input matInput #fileName
-                   name="fileName"
-                   formControlName="fileName"
+            <mat-label>Conteúdo</mat-label>
+            <input matInput #conteudo
+                   name="conteudo"
+                   formControlName="conteudo"
                    maxlength="255">
-            <mat-hint align="end">{{fileName.value.length}} / 255</mat-hint>
+            <mat-hint align="end">{{conteudo.value.length}} / 255</mat-hint>
         </mat-form-field>
 
     </div>

@@ -21,17 +21,18 @@ import {TramitacaoService} from '@cdk/services/tramitacao.service';
 export class PainelComponent implements OnInit
 {
 
-    private _profile: any;
+    _profile: any;
 
-    tarefasCount: number;
-    tarefasVencidasCount: number;
+    tarefasCount: any = false;
+    tarefasVencidasCount: any = false;
 
-    documentosAvulsosCount: number;
-    documentosAvulsosVencidosCount: number;
+    documentosAvulsosCount: any = false;
+    documentosAvulsosVencidosCount: any = false;
 
-    tramitacoesCount: number;
+    tramitacoesCount: any = false;
 
     historicos: Historico[];
+    historicoIsLoding = false;
 
     /**
      * Constructor
@@ -96,6 +97,7 @@ export class PainelComponent implements OnInit
             value => this.tramitacoesCount = value
         );
 
+        this.historicoIsLoding = true;
         this._historicoService.query(
             `{"criadoPor.id": "eq:${this._profile.usuario.id}", "criadoEm": "gt:${moment().subtract(10, 'days').format('YYYY-MM-DDTHH:mm:ss')}"}`,
             5,
@@ -103,9 +105,16 @@ export class PainelComponent implements OnInit
             '{}',
             '["populateAll"]')
             .pipe(
-                catchError(() => of([]))
+                catchError(() => {
+                    this.historicoIsLoding = false;
+                        return of([]);
+                    }
+                )
             ).subscribe(
-            value => this.historicos = value['entities']
+            value => {
+                this.historicoIsLoding = false;
+                this.historicos = value['entities'];
+            }
         );
 
     }

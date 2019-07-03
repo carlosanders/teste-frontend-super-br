@@ -1,7 +1,7 @@
-import { DocumentoAvulsoCreateEffect } from './documento-avulso-create.effects';
+import { DocumentoAvulsoCreateBlocoEffect } from './documento-avulso-create-bloco.effects';
 
 export const effects = [
-    DocumentoAvulsoCreateEffect
+    DocumentoAvulsoCreateBlocoEffect
 ];
 
-export * from './documento-avulso-create.effects';
+export * from './documento-avulso-create-bloco.effects';

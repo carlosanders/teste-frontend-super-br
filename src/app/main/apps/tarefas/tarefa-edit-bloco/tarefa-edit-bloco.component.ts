@@ -60,7 +60,7 @@ export class TarefaEditBlocoComponent implements OnInit, OnDestroy {
      * @param _changeDetectorRef
      */
     constructor(
-        private _store: Store<fromStore.TarefaEditAppState>,
+        private _store: Store<fromStore.TarefaEditBlocoAppState>,
         private _loginService: LoginService,
         private _router: Router,
         private _changeDetectorRef: ChangeDetectorRef

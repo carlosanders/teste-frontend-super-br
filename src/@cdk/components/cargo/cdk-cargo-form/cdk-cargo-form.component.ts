@@ -48,8 +48,8 @@ export class CdkCargoFormComponent implements OnChanges, OnDestroy {
         this.form = this._formBuilder.group({
             'id': [null],
             'ativo': [null],
-            'nome': [null, [Validators.required]],
-            'descricao': [null, [Validators.required]]
+            'nome': [null, [Validators.required, Validators.maxLength(255)]],
+            'descricao': [null, [Validators.required, Validators.maxLength(255)]]
         });
 
     }

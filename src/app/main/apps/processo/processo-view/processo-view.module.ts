@@ -3,7 +3,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {
     MatAutocompleteModule,
     MatButtonModule,
-    MatIconModule, MatInputModule, MatMenuModule, MatProgressSpinnerModule
+    MatIconModule, MatInputModule, MatMenuModule, MatProgressSpinnerModule, MatRippleModule
 } from '@angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 
@@ -51,7 +51,8 @@ const routes: Routes = [
         ProcessoViewStoreModule,
 
         FuseSharedModule,
-        FuseSidebarModule
+        FuseSidebarModule,
+        MatRippleModule
     ],
     providers: [
         JuntadaService,

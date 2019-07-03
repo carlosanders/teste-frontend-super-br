@@ -13,13 +13,12 @@ import {
 import { FuseSharedModule } from '@fuse/shared.module';
 import { ModalidadeFolderService } from '@cdk/services/modalidade-folder.service';
 import { CdkModalidadeFolderGridComponent} from './cdk-modalidade-folder-grid.component';
-import { CdkModalidadeFolderGridFilterComponent } from './cdk-modalidade-folder-grid-filter/cdk-modalidade-folder-grid-filter.component';
 import { CdkModalidadeFolderAutocompleteModule } from '@cdk/components/modalidade-folder/cdk-modalidade-folder-autocomplete/cdk-modalidade-folder-autocomplete.module';
+import {CdkModalidadeFolderGridFilterModule} from './cdk-modalidade-folder-grid-filter/cdk-modalidade-folder-grid-filter.module';
 
 @NgModule({
     declarations: [
-        CdkModalidadeFolderGridComponent,
-        CdkModalidadeFolderGridFilterComponent
+        CdkModalidadeFolderGridComponent
     ],
     imports: [
 
@@ -33,6 +32,7 @@ import { CdkModalidadeFolderAutocompleteModule } from '@cdk/components/modalidad
         MatSortModule,
 
         CdkModalidadeFolderAutocompleteModule,
+        CdkModalidadeFolderGridFilterModule,
 
         FuseSharedModule,
     ],

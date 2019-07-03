@@ -26,7 +26,7 @@ export class SaveAtividadeSuccess implements Action
 {
     readonly type = SAVE_ATIVIDADE_SUCCESS;
 
-    constructor()
+    constructor(public payload: any)
     {
     }
 }

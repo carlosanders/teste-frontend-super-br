@@ -6,6 +6,7 @@ import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
 import {PaginatedResponse} from '@cdk/models/paginated.response';
 import {environment} from '../../environments/environment';
+import {Pessoa} from '../models/pessoa.model';
 
 @Injectable()
 export class ComponenteDigitalService {
@@ -37,6 +38,18 @@ export class ComponenteDigitalService {
             .map(response => new PaginatedResponse(plainToClass(ComponenteDigital, response['entities']), response['total']));
     }
 
+    search(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
+        const params = {};
+        params['where'] = filters;
+        params['limit'] = limit;
+        params['offset'] = offset;
+        params['order'] = order;
+        params['populate'] = populate;
+
+        return this.modelService.search('componente_digital', new HttpParams({fromObject: params}))
+            .map(response => new PaginatedResponse(plainToClass(Pessoa, response['entities']), response['total']));
+    }
+
     count(filters: any = {}): Observable<any> {
         const params = {};
         params['where'] = filters;
@@ -64,5 +77,16 @@ export class ComponenteDigitalService {
 
     destroy(id: number): Observable<ComponenteDigital> {
         return this.modelService.delete('componente_digital', id);
+    }
+
+    patch(componenteDigital: ComponenteDigital, changes: any): Observable<ComponenteDigital> {
+        return this.http.patch(
+            `${environment.api_url}${'componente_digital'}/${componenteDigital.id}` + environment.xdebug,
+            JSON.stringify(changes)
+        ).map(response => {
+            response = plainToClass(ComponenteDigital, response);
+            Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+            return Object.assign(new ComponenteDigital(), {...componenteDigital, ...response});
+        });
     }
 }

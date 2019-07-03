@@ -18,7 +18,7 @@ import {TranslateModule} from '@ngx-translate/core';
 import {FuseSharedModule} from '@fuse/shared.module';
 import {FuseSidebarModule} from '@fuse/components';
 
-import {DocumentoAvulsoCreateComponent} from './documento-avulso-create.component';
+import {DocumentoAvulsoCreateBlocoComponent} from './documento-avulso-create-bloco.component';
 import {RouterModule, Routes} from '@angular/router';
 import {CdkDocumentoAvulsoFormModule} from '@cdk/components/documento-avulso/cdk-documento-avulso-form/cdk-documento-avulso-form.module';
 import {DocumentoAvulsoCreateBlocoStoreModule} from './store/store.module';
@@ -28,13 +28,13 @@ import {LoginService} from 'app/main/auth/login/login.service';
 const routes: Routes = [
     {
         path: '',
-        component: DocumentoAvulsoCreateComponent
+        component: DocumentoAvulsoCreateBlocoComponent
     }
 ];
 
 @NgModule({
     declarations: [
-        DocumentoAvulsoCreateComponent
+        DocumentoAvulsoCreateBlocoComponent
     ],
     imports: [
 

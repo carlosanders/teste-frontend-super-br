@@ -7,7 +7,7 @@ import {
     MatCheckboxModule,
     MatProgressSpinnerModule,
     MatAutocompleteModule,
-    MatDatepickerModule
+    MatDatepickerModule, MatSlideToggleModule
 
 } from '@angular/material';
 
@@ -30,6 +30,8 @@ import {CdkDocumentoAutocompleteModule} from '../../documento/cdk-documento-auto
 import {CdkOrigemDadosAutocompleteModule} from '../../origem-dados/cdk-origem-dados-autocomplete/cdk-origem-dados-autocomplete.module';
 import {CdkAtividadeAutocompleteModule} from '../../atividade/cdk-atividade-autocomplete/cdk-atividade-autocomplete.module';
 import {CdkVolumeGridsearchModule} from '../../volume/cdk-volume-autocomplete/cdk-volume-gridsearch/cdk-volume-gridsearch.module';
+import {CdkTarefaAutocompleteModule} from '../../tarefa/cdk-tarefa-autocomplete/cdk-tarefa-autocomplete.module';
+import {CdkTarefaGridsearchModule} from '../../tarefa/cdk-tarefa-autocomplete/cdk-tarefa-gridsearch/cdk-tarefa-gridsearch.module';
 
 @NgModule({
     declarations: [
@@ -45,6 +47,7 @@ import {CdkVolumeGridsearchModule} from '../../volume/cdk-volume-autocomplete/cd
         MatInputModule,
         MatProgressSpinnerModule,
         MatDatepickerModule,
+        MatSlideToggleModule,
 
         CdkDocumentoAutocompleteModule,
         CdkDocumentoGridsearchModule,
@@ -56,6 +59,8 @@ import {CdkVolumeGridsearchModule} from '../../volume/cdk-volume-autocomplete/cd
         CdkDocumentoAvulsoGridsearchModule,
         CdkAtividadeAutocompleteModule,
         CdkAtividadeGridsearchModule,
+        CdkTarefaAutocompleteModule,
+        CdkTarefaGridsearchModule,
 
         FuseSharedModule,
     ],

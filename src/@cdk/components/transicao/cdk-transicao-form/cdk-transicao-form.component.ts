@@ -58,9 +58,9 @@ export class CdkTransicaoFormComponent implements OnChanges, OnDestroy, OnInit {
             'id': [null],
             'processo': [null, [Validators.required]],
             'modalidadeTransicao': [null, [Validators.required]],
-            'metodo': [null, [Validators.required]],
-            'edital': [null, [Validators.required]],
-            'observacao': [null]
+            'metodo': [null, [Validators.required, Validators.maxLength(255)]],
+            'edital': [null, [Validators.required, Validators.maxLength(255)]],
+            'observacao': [null, [Validators.maxLength(255)]]
         });
 
         this.processoPagination = new Pagination();

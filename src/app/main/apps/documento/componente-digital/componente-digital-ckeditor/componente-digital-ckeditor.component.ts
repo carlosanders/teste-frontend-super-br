@@ -62,14 +62,6 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
      * @param data
      */
     save(data: any): void {
-        const cd = new ComponenteDigital();
-        Object.entries(this.componenteDigital).forEach(
-            ([key, value]) => {
-                cd[key] = value;
-            }
-        );
-        cd.conteudo = data;
-        cd.tamanho = data.length;
-        this._store.dispatch(new fromStore.SaveComponenteDigital(cd));
+        this._store.dispatch(new fromStore.SaveComponenteDigital({componenteDigital: this.componenteDigital, data: data}));
     }
 }

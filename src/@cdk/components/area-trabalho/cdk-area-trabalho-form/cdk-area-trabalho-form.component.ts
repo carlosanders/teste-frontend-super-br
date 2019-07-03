@@ -53,7 +53,7 @@ export class CdkAreaTrabalhoFormComponent implements OnChanges, OnDestroy {
             'id': [null],
             'usuario': [null, [Validators.required]],
             'dono': [null, [Validators.required]],
-            'documento': [null]
+            'documento': [null, [Validators.required]]
         });
         this.usuarioPagination = new Pagination();
     }

@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 
 import {fuseAnimations} from '@fuse/animations';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, ValidationErrors, Validators} from '@angular/forms';
 import {Tarefa} from '@cdk/models/tarefa.model';
 import {EspecieTarefa} from '@cdk/models/especie-tarefa.model';
 import {Usuario} from '@cdk/models/usuario.model';
@@ -107,7 +107,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             'id': [null],
             'blocoProcessos': [null],
             'processos': [null],
-            'processo': [null],
+            'processo': [null, [Validators.required]],
             'urgente': [null],
             'especieTarefa': [null, [Validators.required]],
             'distribuicaoAutomatica': [null],
@@ -117,7 +117,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             'setorResponsavel': [null, [Validators.required]],
             'usuarioResponsavel': [null],
             'setorOrigem': [null, [Validators.required]],
-            'observacao': [null]
+            'observacao': [null, [Validators.maxLength(255)]]
         });
 
         this.processoPagination = new Pagination();
@@ -179,6 +179,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                         this.form.get('usuarioResponsavel').reset();
                         this.form.get('usuarioResponsavel').disable();
                         this.setorResponsavelPagination.filter['unidade.id'] = `eq:${value.id}`;
+                        this._changeDetectorRef.markForCheck();
                     }
                     return of([]);
                 }
@@ -193,6 +194,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                         this.form.get('usuarioResponsavel').enable();
                         this.form.get('usuarioResponsavel').reset();
                         this.usuarioResponsavelPagination.filter['colaborador.lotacoes.setor.id'] = `eq:${value.id}`;
+                        this._changeDetectorRef.markForCheck();
                     }
                     return of([]);
                 }

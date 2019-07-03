@@ -115,7 +115,7 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
             'dataHoraFinalPrazo': [null, [Validators.required]],
             'setorDestino': [null, [Validators.required]],
             'pessoaDestino': [null, [Validators.required]],
-            'observacao': [null]
+            'observacao': [null, [Validators.maxLength(255)]]
         });
 
         this.processoPagination = new Pagination();
@@ -173,8 +173,17 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
      * On change
      */
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
+
         if (changes['documentoAvulso'] && this.documentoAvulso && (!this.documentoAvulso.id || (this.documentoAvulso.id !== this.form.get('id').value))) {
             this.form.patchValue({...this.documentoAvulso});
+
+            if (this.documentoAvulso.id) {
+                this.form.get('processo').disable();
+                this.form.get('modelo').disable();
+                this.form.get('pessoaDestino').disable();
+                this.form.get('setorDestino').disable();
+                this.form.get('externa').disable();
+            }
         }
 
         if (this.errors && this.errors.status && (this.errors.status === 400 || this.errors.status === 422)) {

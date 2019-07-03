@@ -46,7 +46,8 @@ export class DocumentoAvulsoCreateComponent implements OnInit, OnDestroy {
     _profile: Colaborador;
 
     especieDocumentoAvulsoPagination: Pagination;
-    setorOrigemPagination: Pagination;
+    setorDestinoPagination: Pagination;
+    modeloPagination: Pagination;
 
     /**
      * @param _store
@@ -63,6 +64,12 @@ export class DocumentoAvulsoCreateComponent implements OnInit, OnDestroy {
 
         this.especieDocumentoAvulsoPagination = new Pagination();
         this.especieDocumentoAvulsoPagination.populate = ['generoDocumentoAvulso'];
+
+        this.setorDestinoPagination = new Pagination();
+        this.setorDestinoPagination.filter = {'parent': 'isNull'};
+
+        this.modeloPagination = new Pagination();
+        this.modeloPagination.filter = {'documento.tipoDocumento.nome': 'eq:OFÍCIO'};
 
         this.processo$ = this._store.pipe(select(fromStore.getProcesso));
         this.tarefa$ = this._store.pipe(select(fromStore.getTarefa));

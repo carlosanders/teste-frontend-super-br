@@ -2,6 +2,10 @@ processo {
 
   width: 100%;
 
+  #processo {
+    height: 100%;
+  }
+
   .sidebar {
 
     &:not(.locked-open) {

@@ -21,6 +21,8 @@ import {ToggleMaximizado} from '../store/actions';
 import {Router} from '@angular/router';
 import {getRouterState} from '../../../../store/reducers';
 import {takeUntil} from 'rxjs/operators';
+import {Pagination} from '../../../../../@cdk/models/pagination';
+import {LoginService} from '../../../auth/login/login.service';
 
 @Component({
     selector: 'tarefa-detail',
@@ -49,21 +51,28 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
 
     maximizado$: Observable<boolean>;
 
+    vinculacaoEtiquetaPagination: Pagination;
+
+    private _profile: any;
+
     /**
-     *
      * @param _changeDetectorRef
      * @param _router
      * @param _store
+     * @param _loginService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
-        private _store: Store<fromStore.TarefaDetailAppState>
+        private _store: Store<fromStore.TarefaDetailAppState>,
+        private _loginService: LoginService
     ) {
+        this._profile = _loginService.getUserProfile();
         this.tarefa$ = this._store.pipe(select(fromStore.getTarefa));
         this.documentos$ = this._store.pipe(select(fromStore.getDocumentos));
         this.maximizado$ = this._store.pipe(select(getMaximizado));
-
+        this.vinculacaoEtiquetaPagination = new Pagination();
+        this.vinculacaoEtiquetaPagination.filter = {'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.usuario.id};
     }
 
     ngOnInit(): void {
@@ -126,6 +135,10 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
                 'tarefaOrigem.id': 'eq:' + this.tarefa.id
             }));
         }
+    }
+
+    doCiencia(): void {
+        this._store.dispatch(new fromStore.DarCienciaTarefa(this.tarefa));
     }
 
     doCreateTarefa(): void {

@@ -6,17 +6,6 @@
     <div fxFlex="1 0 auto" fxLayout="column">
 
         <mat-form-field fxFlex="100">
-            <mat-label>Nome</mat-label>
-            <input matInput #nome
-                   name="nome"
-                   formControlName="nome"
-                   required
-                   maxlength="255">
-            <mat-hint align="end">{{nome.value.length}} / 255</mat-hint>
-            <mat-error>Campo obrigatório!</mat-error>
-        </mat-form-field>
-
-        <mat-form-field fxFlex="100">
             <div fxLayout="row" fxLayoutAlign="start center">
                 <input matInput placeholder="Tipo"
                        formControlName="modalidadeQualificacaoPessoa"
@@ -38,6 +27,17 @@
         </mat-form-field>
 
         <mat-form-field fxFlex="100">
+            <mat-label>Nome</mat-label>
+            <input matInput #nome
+                   name="nome"
+                   formControlName="nome"
+                   required
+                   maxlength="255">
+            <mat-hint align="end">{{nome.value.length}} / 255</mat-hint>
+            <mat-error>Campo obrigatório!</mat-error>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
             <mat-label>CPF/CNPJ</mat-label>
             <input matInput #numeroDocumentoPrincipal
                    name="numeroDocumentoPrincipal"
@@ -46,7 +46,7 @@
             <mat-hint align="end">{{numeroDocumentoPrincipal.value.length}} / 255</mat-hint>
         </mat-form-field>
 
-        <mat-form-field fxFlex="100">
+        <mat-form-field fxFlex="100" ng-hide="modalidadeGeneroPessoa" [fxHide]="hidden">
             <div fxLayout="row" fxLayoutAlign="start center">
                 <input matInput placeholder="Gênero"
                        formControlName="modalidadeGeneroPessoa"
@@ -70,14 +70,14 @@
         <div class="dates" fxLayout="row">
 
             <mat-form-field class="mr-sm-12" fxFlex>
-                <mat-label>Data de Nascimento</mat-label>
+                <mat-label>{{textoDataNascimento}}</mat-label>
                 <input matInput formControlName="dataNascimento" [matDatepicker]="dataNascimento">
                 <mat-datepicker-toggle matSuffix [for]="dataNascimento"></mat-datepicker-toggle>
                 <mat-datepicker #dataNascimento></mat-datepicker>
             </mat-form-field>
 
             <mat-form-field class="mr-sm-12" fxFlex>
-                <mat-label>Data de Óbito</mat-label>
+                <mat-label>{{textoDataObito}}</mat-label>
                 <input matInput formControlName="dataObito" [matDatepicker]="dataObito">
                 <mat-datepicker-toggle matSuffix [for]="dataObito"></mat-datepicker-toggle>
                 <mat-datepicker #dataObito></mat-datepicker>
@@ -85,7 +85,7 @@
 
         </div>
 
-        <div class="dates" fxLayout="row">
+        <div class="dates" fxLayout="row" [fxHide]="hidden">
 
             <mat-form-field class="mr-sm-12" fxFlex>
                 <div fxLayout="row" fxLayoutAlign="start center">
@@ -131,7 +131,7 @@
 
         </div>
 
-        <mat-form-field fxFlex="100">
+        <mat-form-field fxFlex="100" [fxHide]="hidden">
             <mat-label>Profissão</mat-label>
             <input matInput #profissao
                    name="profissao"
@@ -139,7 +139,7 @@
                    maxlength="255">
         </mat-form-field>
 
-        <div class="dates" fxLayout="row">
+        <div class="dates" fxLayout="row" [fxHide]="hidden">
 
             <mat-form-field class="mr-sm-12" fxFlex>
                 <mat-label>Nome Genitor</mat-label>
@@ -161,7 +161,7 @@
 
         <mat-form-field fxFlex="100">
             <textarea formControlName="contato"
-                      matInput placeholder="Contato" upperCase></textarea>
+                      matInput placeholder="Contato" upperCase maxlength="255"></textarea>
         </mat-form-field>
 
     </div>

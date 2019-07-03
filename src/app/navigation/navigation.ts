@@ -28,12 +28,7 @@ export const navigation: FuseNavigation[] = [
                         translate: 'NAV.TAREFA.MINHASTAREFAS.TITLE',
                         type: 'item',
                         icon: 'person',
-                        url: '/apps/tarefas/entrada',
-                        badge: {
-                            title: '13',
-                            bg: '#EC0C8E',
-                            fg: '#FFFFFF'
-                        }
+                        url: '/apps/tarefas/entrada'
                     },
                     {
                         id: 'compartilhadasComigo',
@@ -41,12 +36,7 @@ export const navigation: FuseNavigation[] = [
                         translate: 'NAV.TAREFA.COMPARTILHADASCOMIGO.TITLE',
                         type: 'item',
                         icon: 'share',
-                        url: '/apps/tarefas/compartilhadas',
-                        badge: {
-                            title: '5',
-                            bg: '#EC0C8E',
-                            fg: '#FFFFFF'
-                        }
+                        url: '/apps/tarefas/compartilhadas'
                     }
                 ]
             },

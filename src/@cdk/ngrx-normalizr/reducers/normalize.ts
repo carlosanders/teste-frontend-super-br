@@ -135,7 +135,7 @@ export function normalized(
                                                     }
                                                 };
                                             } else {
-                                                if (typeof p[c][id][key] !== 'object' &&
+                                                if (typeof p[c][id][key] === 'object' &&
                                                     typeof entities[c][id][key] !== 'undefined') {
                                                     p[c] = {
                                                         ...p[c],

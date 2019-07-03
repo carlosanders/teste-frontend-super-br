@@ -12,7 +12,7 @@ import {Processo} from '@cdk/models/processo.model';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from 'app/main/apps/pesquisa/processos/store';
-import {getRouterState} from '../../../../store/reducers';
+import {getRouterState} from 'app/store/reducers';
 
 @Component({
     selector: 'processos',
@@ -31,6 +31,7 @@ export class ProcessosComponent implements OnInit {
     pagination: any;
     deletingIds$: Observable<any>;
     deletedIds$: Observable<any>;
+    NUPHandle: any;
 
     /**
      * @param _changeDetectorRef
@@ -45,20 +46,24 @@ export class ProcessosComponent implements OnInit {
         this.processos$ = this._store.pipe(select(fromStore.getProcessos));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
-
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe(routerState => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
     }
 
     ngOnInit(): void {
         this.pagination$.subscribe(pagination => {
             this.pagination = pagination;
         });
+
+        this._store
+            .pipe(select(getRouterState))
+            .subscribe(routerState => {
+                if (routerState) {
+                    this.routerState = routerState.state;
+                    this.NUPHandle = this.routerState.params.NUPHandle;
+                    if (this.routerState.params.NUPHandle) {
+                        this.reload({gridFilter: {'NUP': 'like:' + this.routerState.params.NUPHandle + '%'}});
+                    }
+                }
+            });
     }
 
     reload (params): void {

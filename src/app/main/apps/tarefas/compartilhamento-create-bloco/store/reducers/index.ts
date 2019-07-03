@@ -1,22 +1,22 @@
 import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { CompartilhamentoCreateReducer, CompartilhamentoCreateState } from './compartilhamento-create.reducer';
+import { CompartilhamentoCreateBlocoReducer, CompartilhamentoCreateBlocoState } from './compartilhamento-create-bloco.reducer';
 
-export interface CompartilhamentoCreateAppState
+export interface CompartilhamentoCreateBlocoAppState
 {
-    compartilhamentoCreate: CompartilhamentoCreateState;
+    compartilhamentoCreateBloco: CompartilhamentoCreateBlocoState;
 }
 
-export const getCompartilhamentoCreateAppState = createFeatureSelector<CompartilhamentoCreateAppState>(
+export const getCompartilhamentoCreateBlocoAppState = createFeatureSelector<CompartilhamentoCreateBlocoAppState>(
     'compartilhamento-create-bloco-app'
 );
 
 export const getAppState = createSelector(
-    getCompartilhamentoCreateAppState,
-    (state: CompartilhamentoCreateAppState) => state
+    getCompartilhamentoCreateBlocoAppState,
+    (state: CompartilhamentoCreateBlocoAppState) => state
 );
 
-export const reducers: ActionReducerMap<CompartilhamentoCreateAppState> = {
-    compartilhamentoCreate: CompartilhamentoCreateReducer
+export const reducers: ActionReducerMap<CompartilhamentoCreateBlocoAppState> = {
+    compartilhamentoCreateBloco: CompartilhamentoCreateBlocoReducer
 };
 
-export * from './compartilhamento-create.reducer';
+export * from './compartilhamento-create-bloco.reducer';

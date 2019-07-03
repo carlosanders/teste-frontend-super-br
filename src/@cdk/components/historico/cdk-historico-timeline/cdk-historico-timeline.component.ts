@@ -16,6 +16,9 @@ export class CdkHistoricoTimelineComponent implements OnInit, OnDestroy
     @Input()
     historicos: Historico[];
 
+    @Input()
+    isLoading: boolean;
+
     /**
      *
      */

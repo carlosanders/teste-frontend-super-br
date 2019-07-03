@@ -13,13 +13,12 @@ import {
 import { FuseSharedModule } from '@fuse/shared.module';
 import { MunicipioService } from '@cdk/services/municipio.service';
 import { CdkMunicipioGridComponent} from './cdk-municipio-grid.component';
-import { CdkMunicipioGridFilterComponent } from './cdk-municipio-grid-filter/cdk-municipio-grid-filter.component';
 import { CdkMunicipioAutocompleteModule } from '@cdk/components/municipio/cdk-municipio-autocomplete/cdk-municipio-autocomplete.module';
+import {CdkMunicipioGridFilterModule} from './cdk-municipio-grid-filter/cdk-municipio-grid-filter.module';
 
 @NgModule({
     declarations: [
-        CdkMunicipioGridComponent,
-        CdkMunicipioGridFilterComponent
+        CdkMunicipioGridComponent
     ],
     imports: [
 
@@ -33,6 +32,7 @@ import { CdkMunicipioAutocompleteModule } from '@cdk/components/municipio/cdk-mu
         MatSortModule,
 
         CdkMunicipioAutocompleteModule,
+        CdkMunicipioGridFilterModule,
 
         FuseSharedModule,
     ],

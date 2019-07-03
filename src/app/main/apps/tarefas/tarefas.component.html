@@ -29,6 +29,7 @@
                     <mat-icon class="secondary-text">search</mat-icon>
                     <cdk-etiqueta-chips [etiquetas]="etiquetas"
                                         (create)="addEtiqueta($event)"
+                                        [pagination]="vinculacaoEtiquetaPagination"
                                         (delete)="deleteEtiqueta($event)"></cdk-etiqueta-chips>
                 </div>
 
@@ -71,7 +72,6 @@
                                      (createDocumentoAvulso)="doCreateDocumentoAvulso($event)"
                                      (createTarefa)="doCreateTarefa($event)"
                                      (movimentar)="doMovimentar($event)"
-                                     (editProcesso)="doEditProcesso($event)"
                                      (editTarefa)="doEditTarefa($event)"
                                      (toggleUrgente)="doToggleUrgente($event)"
                                      (compartilharBloco)="doCompartilharBloco()"

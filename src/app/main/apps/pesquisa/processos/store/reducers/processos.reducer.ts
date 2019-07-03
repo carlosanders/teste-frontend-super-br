@@ -22,7 +22,7 @@ export const ProcessosInitialState: ProcessosState = {
         offset: 0,
         filter: {},
         gridFilter: {},
-        populate: ['populateAll'],
+        populate: ['setorAtual', 'setorAtual.unidade'],
         sort: {},
         total: 0,
     },

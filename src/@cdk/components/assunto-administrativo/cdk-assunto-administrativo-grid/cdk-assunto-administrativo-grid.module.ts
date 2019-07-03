@@ -13,13 +13,12 @@ import {
 import { FuseSharedModule } from '@fuse/shared.module';
 import { AssuntoAdministrativoService } from '@cdk/services/assunto-administrativo.service';
 import { CdkAssuntoAdministrativoGridComponent} from './cdk-assunto-administrativo-grid.component';
-import { CdkAssuntoAdministrativoGridFilterComponent } from './cdk-assunto-administrativo-grid-filter/cdk-assunto-administrativo-grid-filter.component';
 import { CdkAssuntoAdministrativoAutocompleteModule } from '@cdk/components/assunto-administrativo/cdk-assunto-administrativo-autocomplete/cdk-assunto-administrativo-autocomplete.module';
+import {CdkAssuntoAdministrativoGridFilterModule} from './cdk-assunto-administrativo-grid-filter/cdk-assunto-administrativo-grid-filter.module';
 
 @NgModule({
     declarations: [
-        CdkAssuntoAdministrativoGridComponent,
-        CdkAssuntoAdministrativoGridFilterComponent
+        CdkAssuntoAdministrativoGridComponent
     ],
     imports: [
 
@@ -33,6 +32,7 @@ import { CdkAssuntoAdministrativoAutocompleteModule } from '@cdk/components/assu
         MatSortModule,
 
         CdkAssuntoAdministrativoAutocompleteModule,
+        CdkAssuntoAdministrativoGridFilterModule,
 
         FuseSharedModule,
     ],

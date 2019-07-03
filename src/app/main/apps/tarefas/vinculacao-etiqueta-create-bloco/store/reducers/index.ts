@@ -1,22 +1,22 @@
 import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { VinculacaoEtiquetaCreateReducer, VinculacaoEtiquetaCreateState } from './vinculacao-etiqueta-create.reducer';
+import { VinculacaoEtiquetaCreateBlocoReducer, VinculacaoEtiquetaCreateBlocoState } from './vinculacao-etiqueta-create-bloco.reducer';
 
-export interface VinculacaoEtiquetaCreateAppState
+export interface VinculacaoEtiquetaCreateBlocoAppState
 {
-    vinculacaoEtiquetaCreate: VinculacaoEtiquetaCreateState;
+    vinculacaoEtiquetaCreateBloco: VinculacaoEtiquetaCreateBlocoState;
 }
 
-export const getVinculacaoEtiquetaCreateAppState = createFeatureSelector<VinculacaoEtiquetaCreateAppState>(
+export const getVinculacaoEtiquetaCreateBlocoAppState = createFeatureSelector<VinculacaoEtiquetaCreateBlocoAppState>(
     'vinculacao-etiqueta-create-bloco-app'
 );
 
 export const getAppState = createSelector(
-    getVinculacaoEtiquetaCreateAppState,
-    (state: VinculacaoEtiquetaCreateAppState) => state
+    getVinculacaoEtiquetaCreateBlocoAppState,
+    (state: VinculacaoEtiquetaCreateBlocoAppState) => state
 );
 
-export const reducers: ActionReducerMap<VinculacaoEtiquetaCreateAppState> = {
-    vinculacaoEtiquetaCreate: VinculacaoEtiquetaCreateReducer
+export const reducers: ActionReducerMap<VinculacaoEtiquetaCreateBlocoAppState> = {
+    vinculacaoEtiquetaCreateBloco: VinculacaoEtiquetaCreateBlocoReducer
 };
 
-export * from './vinculacao-etiqueta-create.reducer';
+export * from './vinculacao-etiqueta-create-bloco.reducer';

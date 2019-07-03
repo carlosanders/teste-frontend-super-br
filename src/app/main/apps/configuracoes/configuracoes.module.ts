@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {
+    MatButtonModule,
     MatIconModule, MatProgressSpinnerModule
 } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
@@ -70,6 +71,7 @@ const routes: Routes = [
         CommonModule,
         RouterModule.forChild(routes),
 
+        MatButtonModule,
         MatIconModule,
         MatProgressSpinnerModule,
 

@@ -1,5 +1,6 @@
 <cdk-pessoa-form
         [pessoa]="pessoa"
+        [hidden]="hidden"
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
         (save)="submit($event)">

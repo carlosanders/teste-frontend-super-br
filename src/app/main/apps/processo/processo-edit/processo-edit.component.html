@@ -1,7 +1,7 @@
 <div fxLayout="row" class="page-layout full-width left-sidebar inner-scroll">
 
     <!-- SIDEBAR -->
-    <fuse-sidebar class="sidebar" name="processo-edit-main-sidebar" position="left" lockedOpen="gt-xs">
+    <fuse-sidebar class="sidebar" [ngClass]="{'full': routerState.url.indexOf('apps/processo') > -1}" name="processo-edit-main-sidebar" position="left" [lockedOpen]="routerState.url.indexOf('apps/processo') > -1 ? 'gt-md' : 'gt-xl'">
 
         <!-- SIDEBAR CONTENT -->
         <div class="content" fusePerfectScrollbar>
@@ -18,8 +18,13 @@
         <!-- CONTENT HEADER -->
         <div class="header" fxLayout="row" fxLayoutAlign="start center">
             <div class="sidebar-toggle">
-                <button mat-icon-button
-                        (click)="toggleSidebar('processo-edit-main-sidebar')" fxHide.gt-xs>
+                <button mat-icon-button *ngIf="routerState.url.indexOf('apps/processo') > -1"
+                        (click)="toggleSidebar('processo-edit-main-sidebar')" fxHide.gt-md>
+                    <mat-icon>menu</mat-icon>
+                </button>
+
+                <button mat-icon-button *ngIf="routerState.url.indexOf('apps/processo') === -1"
+                        (click)="toggleSidebar('processo-edit-main-sidebar')" fxHide.gt-xl>
                     <mat-icon>menu</mat-icon>
                 </button>
             </div>

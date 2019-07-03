@@ -1,4 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
+import {select, Store} from '@ngrx/store';
+import * as fromStore from '../../../store';
+import {getRouterState} from '../../../../../../store/reducers';
 
 @Component({
     selector: 'processo-edit-main-sidebar',
@@ -8,15 +11,30 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 export class ProcessoEditMainSidebarComponent implements OnInit, OnDestroy {
 
     links: any;
+    routerState: any;
 
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
     // -----------------------------------------------------------------------------------------------------
 
+    constructor(private _store: Store<fromStore.ProcessoAppState>) {
+
+    }
+
+
     /**
      * On init
      */
     ngOnInit(): void {
+
+        this._store
+            .pipe(
+                select(getRouterState)
+            ).subscribe(routerState => {
+            if (routerState) {
+                this.routerState = routerState.state;
+            }
+        });
 
         this.links = [
             {
@@ -40,14 +58,6 @@ export class ProcessoEditMainSidebarComponent implements OnInit, OnDestroy {
                 'link': 'vinculacoes-processos'
             },
             {
-                'nome': 'Restrições de Acesso',
-                'link': 'acessos'
-            },
-            {
-                'nome': 'Sigilos',
-                'link': 'sigilos'
-            },
-            {
                 'nome': 'Tarefas',
                 'link': 'tarefas'
             },
@@ -66,6 +76,14 @@ export class ProcessoEditMainSidebarComponent implements OnInit, OnDestroy {
             {
                 'nome': 'Transições',
                 'link': 'transicoes'
+            },
+            {
+                'nome': 'Sigilos',
+                'link': 'sigilos'
+            },
+            {
+                'nome': 'Restrições de Acessos',
+                'link': 'acessos'
             }
         ];
     }

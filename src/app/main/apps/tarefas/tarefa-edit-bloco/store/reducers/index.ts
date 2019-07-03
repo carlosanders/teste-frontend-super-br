@@ -1,22 +1,22 @@
 import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { TarefaEditReducer, TarefaEditState } from './tarefa-edit.reducer';
+import { TarefaEditBlocoReducer, TarefaEditBlocoState } from './tarefa-edit-bloco.reducer';
 
-export interface TarefaEditAppState
+export interface TarefaEditBlocoAppState
 {
-    tarefaEdit: TarefaEditState;
+    tarefaEditBloco: TarefaEditBlocoState;
 }
 
-export const getTarefaEditAppState = createFeatureSelector<TarefaEditAppState>(
+export const getTarefaEditBlocoAppState = createFeatureSelector<TarefaEditBlocoAppState>(
     'tarefa-edit-bloco-app'
 );
 
 export const getAppState = createSelector(
-    getTarefaEditAppState,
-    (state: TarefaEditAppState) => state
+    getTarefaEditBlocoAppState,
+    (state: TarefaEditBlocoAppState) => state
 );
 
-export const reducers: ActionReducerMap<TarefaEditAppState> = {
-    tarefaEdit: TarefaEditReducer
+export const reducers: ActionReducerMap<TarefaEditBlocoAppState> = {
+    tarefaEditBloco: TarefaEditBlocoReducer
 };
 
-export * from './tarefa-edit.reducer';
+export * from './tarefa-edit-bloco.reducer';

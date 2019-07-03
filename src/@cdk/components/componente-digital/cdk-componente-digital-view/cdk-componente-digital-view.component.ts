@@ -53,17 +53,18 @@ export class CdkComponenteDigitalViewComponent implements OnInit, OnChanges {
 
     fetch(): void {
         if (this.componenteDigital && this.componenteDigital.conteudo) {
-            fetch(this.componenteDigital.conteudo)
-                .then(res => res.blob())
-                .then(content => {
-                    const blob = new Blob([content], {type: this.componenteDigital.mimetype}),
-                        URL = window.URL,
-                        downloadUrl = URL.createObjectURL(blob);
-                    this.src = this._sanitizer.bypassSecurityTrustResourceUrl(downloadUrl);
-                    this._changeDetectorRef.markForCheck();
-                });
+            const byteCharacters = atob(this.componenteDigital.conteudo.split(';base64,')[1]);
+            const byteNumbers = new Array(byteCharacters.length);
+            for (let i = 0; i < byteCharacters.length; i++) {
+                byteNumbers[i] = byteCharacters.charCodeAt(i);
+            }
+            const byteArray = new Uint8Array(byteNumbers);
+            const blob = new Blob([byteArray], {type: this.componenteDigital.mimetype}),
+                URL = window.URL;
+            this.src = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
         } else {
             this.src = this._sanitizer.bypassSecurityTrustResourceUrl('about:blank');
         }
+        this._changeDetectorRef.markForCheck();
     }
 }

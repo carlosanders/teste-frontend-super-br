@@ -53,9 +53,9 @@ export class CdkDocumentoIdentificadorFormComponent implements OnChanges, OnDest
         this.form = this._formBuilder.group({
             'id': [null],
             'pessoa': [null],
-            'codigoDocumento': [null, [Validators.required]],
+            'codigoDocumento': [null, [Validators.required, Validators.maxLength(255)]],
             'modalidadeDocumentoIdentificador': [null, [Validators.required]],
-            'emissorDocumento': [null, [Validators.required]],
+            'emissorDocumento': [null, [Validators.required, Validators.maxLength(255)]],
             'dataEmissao': [null]
         });
         this.modalidadeDocumentoIdentificadorPagination = new Pagination();
@@ -126,7 +126,7 @@ export class CdkDocumentoIdentificadorFormComponent implements OnChanges, OnDest
 
     selectModalidadeDocumentoIdentificador(documentoIdentificador: ModalidadeDocumentoIdentificador): void {
         if (documentoIdentificador) {
-            this.form.get('documentoIdentificador').setValue(documentoIdentificador);
+            this.form.get('modalidadeDocumentoIdentificador').setValue(documentoIdentificador);
         }
         this.activeCard = 'form';
     }

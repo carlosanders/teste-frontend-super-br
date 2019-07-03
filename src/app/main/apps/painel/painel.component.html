@@ -20,162 +20,194 @@
         <!-- CONTENT -->
         <div class="content" fxLayout="column">
 
-            <div class="widget-group p-12" fxLayout="row wrap" fxLayoutAlign="space-between start" fxFlex="100" *fuseIfOnDom
-                 [@animateStagger]="{value:'50'}">
+            <div fxLayout="row wrap" fxLayoutAlign="start start">
 
-                <!-- WIDGET Tarefa -->
-                <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
-                             fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="25">
+                <div class="widget-group p-12" fxLayout="row wrap" fxLayoutAlign="space-between start" fxFlex="75"
+                     *fuseIfOnDom
+                     [@animateStagger]="{value:'50'}">
 
-                    <!-- Front -->
-                    <div class="fuse-widget-front">
-                        <div class="pl-16 pr-8 py-16 h-52" fxLayout="row"
-                             fxLayoutAlign="end center">
-                            <button mat-icon-button fuseWidgetToggle aria-label="more">
-                                <mat-icon>more_vert</mat-icon>
-                            </button>
-                        </div>
+                    <!-- WIDGET Tarefa -->
+                    <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
+                                 fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="30">
 
-                        <div class="pt-8 pb-32" fxLayout="column" fxLayoutAlign="center center">
-                            <mat-spinner *ngIf="tarefasCount === null" diameter="72"></mat-spinner>
-                            <div *ngIf="tarefasCount !== null" class="light-blue-fg font-size-72 line-height-72">
-                                {{tarefasCount}}
+                        <!-- Front -->
+                        <div class="fuse-widget-front">
+                            <div class="pl-16 pr-8 py-16 h-52" fxLayout="row"
+                                 fxLayoutAlign="end center">
                             </div>
-                            <div class="h3 secondary-text font-weight-500">
-                                Tarefas Administrativas
-                            </div>
-                        </div>
 
-                        <div class="p-16 border-top" fxLayout="row" fxLayoutAlign="start center">
-                               <span class="h4 secondary-text text-truncate">
+                            <div class="pt-8 pb-32" fxLayout="column" fxLayoutAlign="center center">
+                                <mat-spinner *ngIf="tarefasCount === false" diameter="72"></mat-spinner>
+                                <div *ngIf="tarefasCount !== false" class="light-blue-fg font-size-72 line-height-72">
+                                    {{tarefasCount}}
+                                </div>
+                                <div class="h3 font-weight-500">
+                                    Tarefas Administrativas
+                                </div>
+                            </div>
+
+                            <div class="p-16 border-top" fxLayout="row" fxLayoutAlign="start center">
+                               <span class="h4 text-truncate">
                                    Vencidas:
                                </span>
-                            <mat-spinner class="ml-8" *ngIf="tarefasVencidasCount === null" diameter="15"></mat-spinner>
-                            <span *ngIf="tarefasVencidasCount !== null" class="h4 ml-8 warn-500-fg">
+                                <mat-spinner class="ml-8" *ngIf="tarefasVencidasCount === false"
+                                             diameter="15"></mat-spinner>
+                                <span *ngIf="tarefasVencidasCount !== false" class="h4 ml-8 warn-500-fg">
                                        {{tarefasVencidasCount}}
                             </span>
+                            </div>
                         </div>
-                    </div>
-                    <!-- / Front -->
+                        <!-- / Front -->
 
-                    <!-- Back -->
-                    <div class="fuse-widget-back p-16 pt-32">
-                        <button mat-icon-button fuseWidgetToggle class="fuse-widget-flip-button"
-                                aria-label="Flip widget">
-                            <mat-icon class="s-16">close</mat-icon>
-                        </button>
-
-                        <div>
-                            Informa a quantidade de tarefas
-                        </div>
-                    </div>
-                    <!-- / Back -->
-
-                </fuse-widget>
-                <!-- / WIDGET 1 -->
-
-                <!-- WIDGET Documento Avulso -->
-                <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
-                             fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="25">
-
-                    <!-- Front -->
-                    <div class="fuse-widget-front">
-                        <div class="pl-16 pr-8 py-16 h-52" fxLayout="row"
-                             fxLayoutAlign="end center">
-                            <button mat-icon-button fuseWidgetToggle aria-label="more">
-                                <mat-icon>more_vert</mat-icon>
+                        <!-- Back -->
+                        <div class="fuse-widget-back p-16 pt-32">
+                            <button mat-icon-button fuseWidgetToggle class="fuse-widget-flip-button"
+                                    aria-label="Flip widget">
+                                <mat-icon class="s-16">close</mat-icon>
                             </button>
-                        </div>
 
-                        <div class="pt-8 pb-32" fxLayout="column" fxLayoutAlign="center center">
-                            <mat-spinner *ngIf="documentosAvulsosCount === null" diameter="72"></mat-spinner>
-                            <div *ngIf="documentosAvulsosCount !== null" class="light-blue-fg font-size-72 line-height-72">
-                                {{documentosAvulsosCount}}
-                            </div>
-                            <div class="h3 secondary-text font-weight-500">
-                                Ofícios Pendentes
+                            <div>
+                                Informa a quantidade de tarefas
                             </div>
                         </div>
+                        <!-- / Back -->
 
-                        <div class="p-16 border-top" fxLayout="row" fxLayoutAlign="start center">
-                               <span class="h4 secondary-text text-truncate">
+                    </fuse-widget>
+                    <!-- / WIDGET 1 -->
+
+                    <!-- WIDGET Documento Avulso -->
+                    <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
+                                 fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="30">
+
+                        <!-- Front -->
+                        <div class="fuse-widget-front">
+                            <div class="pl-16 pr-8 py-16 h-52" fxLayout="row"
+                                 fxLayoutAlign="end center">
+                            </div>
+
+                            <div class="pt-8 pb-32" fxLayout="column" fxLayoutAlign="center center">
+                                <mat-spinner *ngIf="documentosAvulsosCount === false" diameter="72"></mat-spinner>
+                                <div *ngIf="documentosAvulsosCount !== false"
+                                     class="orange-fg font-size-72 line-height-72">
+                                    {{documentosAvulsosCount}}
+                                </div>
+                                <div class="h3 font-weight-500">
+                                    Ofícios Pendentes
+                                </div>
+                            </div>
+
+                            <div class="p-16 border-top" fxLayout="row" fxLayoutAlign="start center">
+                               <span class="h4 text-truncate">
                                    Vencidos:
                                </span>
-                            <mat-spinner class="ml-8" *ngIf="documentosAvulsosVencidosCount === null" diameter="15"></mat-spinner>
-                            <span *ngIf="documentosAvulsosVencidosCount !== null" class="h4 ml-8 warn-500-fg">
+                                <mat-spinner class="ml-8" *ngIf="documentosAvulsosVencidosCount === false"
+                                             diameter="15"></mat-spinner>
+                                <span *ngIf="documentosAvulsosVencidosCount !== false" class="h4 ml-8 warn-500-fg">
                                        {{documentosAvulsosVencidosCount}}
                             </span>
+                            </div>
                         </div>
-                    </div>
-                    <!-- / Front -->
+                        <!-- / Front -->
 
-                    <!-- Back -->
-                    <div class="fuse-widget-back p-16 pt-32">
-                        <button mat-icon-button fuseWidgetToggle class="fuse-widget-flip-button"
-                                aria-label="Flip widget">
-                            <mat-icon class="s-16">close</mat-icon>
-                        </button>
-
-                        <div>
-                            Informa a quantidade de ofícios
-                        </div>
-                    </div>
-                    <!-- / Back -->
-
-                </fuse-widget>
-                <!-- / WIDGET 1 -->
-
-                <!-- WIDGET Tramitação -->
-                <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
-                             fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="25">
-
-                    <!-- Front -->
-                    <div class="fuse-widget-front">
-                        <div class="pl-16 pr-8 py-16 h-52" fxLayout="row"
-                             fxLayoutAlign="end center">
-                            <button mat-icon-button fuseWidgetToggle aria-label="more">
-                                <mat-icon>more_vert</mat-icon>
+                        <!-- Back -->
+                        <div class="fuse-widget-back p-16 pt-32">
+                            <button mat-icon-button fuseWidgetToggle class="fuse-widget-flip-button"
+                                    aria-label="Flip widget">
+                                <mat-icon class="s-16">close</mat-icon>
                             </button>
-                        </div>
 
-                        <div class="pt-8 pb-32" fxLayout="column" fxLayoutAlign="center center">
-                            <mat-spinner *ngIf="tramitacoesCount === null" diameter="72"></mat-spinner>
-                            <div *ngIf="tramitacoesCount !== null" class="light-blue-fg font-size-72 line-height-72">
-                                {{tramitacoesCount}}
-                            </div>
-                            <div class="h3 secondary-text font-weight-500">
-                                Tramitações Pendentes
+                            <div>
+                                Informa a quantidade de ofícios
                             </div>
                         </div>
+                        <!-- / Back -->
 
-                        <div class="p-16 border-top" fxLayout="row" fxLayoutAlign="start center">
-                               <span class="h4 secondary-text text-truncate">
+                    </fuse-widget>
+                    <!-- / WIDGET 1 -->
+
+                    <!-- WIDGET Tramitação -->
+                    <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
+                                 fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="30">
+
+                        <!-- Front -->
+                        <div class="fuse-widget-front">
+                            <div class="pl-16 pr-8 py-16 h-52" fxLayout="row"
+                                 fxLayoutAlign="end center">
+                            </div>
+
+                            <div class="pt-8 pb-32" fxLayout="column" fxLayoutAlign="center center">
+                                <mat-spinner *ngIf="tramitacoesCount === false" diameter="72"></mat-spinner>
+                                <div *ngIf="tramitacoesCount !== false" class="green-fg font-size-72 line-height-72">
+                                    {{tramitacoesCount}}
+                                </div>
+                                <div class="h3 font-weight-500">
+                                    Tramitações Pendentes
+                                </div>
+                            </div>
+
+                            <div class="p-16 border-top" fxLayout="row" fxLayoutAlign="start center">
+                               <span class="h4 text-truncate">
                                    Autos físicos em trâmite para minha unidade
                                </span>
+                            </div>
                         </div>
-                    </div>
-                    <!-- / Front -->
+                        <!-- / Front -->
 
-                    <!-- Back -->
-                    <div class="fuse-widget-back p-16 pt-32">
-                        <button mat-icon-button fuseWidgetToggle class="fuse-widget-flip-button"
-                                aria-label="Flip widget">
-                            <mat-icon class="s-16">close</mat-icon>
-                        </button>
+                        <!-- Back -->
+                        <div class="fuse-widget-back p-16 pt-32">
+                            <button mat-icon-button fuseWidgetToggle class="fuse-widget-flip-button"
+                                    aria-label="Flip widget">
+                                <mat-icon class="s-16">close</mat-icon>
+                            </button>
 
-                        <div>
-                            Informa a quantidade de ofícios
+                            <div>
+                                Informa a quantidade de ofícios
+                            </div>
                         </div>
-                    </div>
-                    <!-- / Back -->
+                        <!-- / Back -->
 
-                </fuse-widget>
-                <!-- / WIDGET 1 -->
+                    </fuse-widget>
+                    <!-- / WIDGET 1 -->
 
-                <cdk-historico-timeline [historicos]="historicos"></cdk-historico-timeline>
+                    <!-- WIDGET Alertas -->
+                    <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
+                                 fxFlex="100">
+
+                        <!-- Front -->
+                        <div class="fuse-widget-front p-16">
+
+                            <div class="pt-8 pb-32" fxLayout="column" fxLayoutAlign="center center">
+                                <div class="h4 font-weight-800">
+                                    Avisos
+                                </div>
+                            </div>
+
+                            <div class="p-8 pb-32" fxLayout="column" fxLayoutAlign="start start">
+                                <div class="h3 font-weight-500">
+                                    Bem-vindo ao SUPP, versão beta 0.0.1!
+                                </div>
+                            </div>
+
+                            <div class="p-8 pb-32" fxLayout="column" fxLayoutAlign="start start">
+                                <div class="h3 font-weight-500">
+                                    Os problemas encontrados devem ser enviados para sapiens@agu.gov.br
+                                </div>
+                            </div>
+                        </div>
+                        <!-- / Front -->
+
+                    </fuse-widget>
+                    <!-- / WIDGET 1 -->
+
+                </div>
+                <!-- / WIDGET GROUP -->
+
+                <div class="p-12" fxFlex="25">
+                    <cdk-historico-timeline class="p-12" [isLoading]="historicoIsLoding"
+                                            [historicos]="historicos"></cdk-historico-timeline>
+                </div>
 
             </div>
-            <!-- / WIDGET GROUP -->
 
         </div>
         <!-- / CONTENT -->

@@ -1,6 +1,7 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {
+    MatButtonModule,
     MatIconModule,
 } from '@angular/material';
 import {TranslateModule} from '@ngx-translate/core';
@@ -22,8 +23,12 @@ const routes: Routes = [
                 loadChildren: './processos/pesquisa-processos.module#PesquisaProcessosModule'
             },
             {
+                path: 'processos/:NUPHandle',
+                loadChildren: './processos/pesquisa-processos.module#PesquisaProcessosModule'
+            },
+            {
                 path: 'documentos',
-                loadChildren: './documentos/pesquisa-documentos.module#PesquisaDocumentosModule'
+                loadChildren: './componentes-digitais/pesquisa-componentes-digitais.module#PesquisaComponentesDigitaisModule'
             },
             {
                 path: '**',
@@ -42,6 +47,7 @@ const routes: Routes = [
         CommonModule,
         RouterModule.forChild(routes),
 
+        MatButtonModule,
         MatIconModule,
 
         TranslateModule,

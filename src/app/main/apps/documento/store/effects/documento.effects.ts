@@ -76,6 +76,11 @@ export class DocumentoEffect {
                             'tipoDocumento',
                             'componentesDigitais', 
                             'documentoAvulsoRemessa',
+                            'documentoAvulsoRemessa.processo',
+                            'documentoAvulsoRemessa.especieDocumentoAvulso',
+                            'documentoAvulsoRemessa.modelo',
+                            'documentoAvulsoRemessa.setorDestino',
+                            'documentoAvulsoRemessa.pessoaDestino',
                             'vinculacaoDocumentoPrincipal',
                             'vinculacaoDocumentoPrincipal.documento',
                             'vinculacoesDocumentos',
@@ -198,6 +203,23 @@ export class DocumentoEffect {
                     console.log(err);
                     this._store.dispatch(new DocumentoActions.RemeterDocumentoAvulsoFailed(err));
                     return caught;
+                })
+            );
+
+    /**
+     * Remeter Documento Avulso Success
+     * @type {Observable<any>}
+     */
+    @Effect({dispatch: false})
+    remeterDocumentoAvulsoSuccess: any =
+        this._actions
+            .pipe(
+                ofType<DocumentoActions.RemeterDocumentoAvulsoSuccess>(DocumentoActions.REMETER_DOCUMENTO_AVULSO_SUCCESS),
+                tap((action) => {
+                    this._router.navigate([
+                            this.routerState.url.split('/documento/')[0]
+                        ]
+                    ).then();
                 })
             );
 

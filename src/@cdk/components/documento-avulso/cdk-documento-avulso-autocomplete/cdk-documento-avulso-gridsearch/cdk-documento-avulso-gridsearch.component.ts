@@ -38,7 +38,7 @@ export class CdkDocumentoAvulsoGridsearchComponent implements OnInit {
     @Output()
     cancel = new EventEmitter();
 
-    documentoAvulsos: DocumentoAvulso[];
+    documentosAvulsos: DocumentoAvulso[];
 
     total = 0;
 
@@ -74,7 +74,7 @@ export class CdkDocumentoAvulsoGridsearchComponent implements OnInit {
             .pipe(finalize(() => this.loading = false),
                 catchError(() => of([]))
             ).subscribe(response => {
-            this.documentoAvulsos = response['entities'];
+            this.documentosAvulsos = response['entities'];
             this.total = response['total'];
             this._changeDetectorRef.markForCheck();
         });

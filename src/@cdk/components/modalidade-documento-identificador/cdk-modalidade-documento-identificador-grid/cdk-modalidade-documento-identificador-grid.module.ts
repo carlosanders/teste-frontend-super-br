@@ -13,13 +13,12 @@ import {
 import { FuseSharedModule } from '@fuse/shared.module';
 import { ModalidadeDocumentoIdentificadorService } from '@cdk/services/modalidade-documento-identificador.service';
 import { CdkModalidadeDocumentoIdentificadorGridComponent} from './cdk-modalidade-documento-identificador-grid.component';
-import { CdkModalidadeDocumentoIdentificadorGridFilterComponent } from './cdk-modalidade-documento-identificador-grid-filter/cdk-modalidade-documento-identificador-grid-filter.component';
 import { CdkModalidadeDocumentoIdentificadorAutocompleteModule } from '@cdk/components/modalidade-documento-identificador/cdk-modalidade-documento-identificador-autocomplete/cdk-modalidade-documento-identificador-autocomplete.module';
+import {CdkModalidadeDocumentoIdentificadorGridFilterModule} from './cdk-modalidade-documento-identificador-grid-filter/cdk-modalidade-documento-identificador-grid-filter.module';
 
 @NgModule({
     declarations: [
-        CdkModalidadeDocumentoIdentificadorGridComponent,
-        CdkModalidadeDocumentoIdentificadorGridFilterComponent
+        CdkModalidadeDocumentoIdentificadorGridComponent
     ],
     imports: [
 
@@ -33,6 +32,7 @@ import { CdkModalidadeDocumentoIdentificadorAutocompleteModule } from '@cdk/comp
         MatSortModule,
 
         CdkModalidadeDocumentoIdentificadorAutocompleteModule,
+        CdkModalidadeDocumentoIdentificadorGridFilterModule,
 
         FuseSharedModule,
     ],

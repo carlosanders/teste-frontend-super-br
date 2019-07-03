@@ -1,1 +1,1 @@
-export * from './atividade-create.selectors';
+export * from './atividade-create-bloco.selectors';

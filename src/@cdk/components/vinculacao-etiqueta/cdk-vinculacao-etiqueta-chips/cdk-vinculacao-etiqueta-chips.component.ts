@@ -5,6 +5,7 @@ import {MatAutocompleteSelectedEvent, MatChipInputEvent, MatAutocomplete} from '
 import {fuseAnimations} from '@fuse/animations';
 import {Etiqueta} from '@cdk/models/etiqueta.model';
 import {VinculacaoEtiqueta} from '@cdk/models/vinculacao-etiqueta.model';
+import {Pagination} from '../../../models/pagination';
 
 @Component({
     selector: 'cdk-vinculacao-etiqueta-chips',
@@ -33,13 +34,16 @@ export class CdkVinculacaoEtiquetaChipsComponent {
     create = new EventEmitter<Etiqueta>();
 
     @Input()
+    pagination: Pagination;
+
+    @Input()
     valid = true;
 
     @ViewChild('etiquetaInput') etiquetaInput: ElementRef<HTMLInputElement>;
     @ViewChild('etiqueta') matAutocomplete: MatAutocomplete;
 
     constructor() {
-
+        this.pagination = new Pagination();
     }
 
     add(event: MatChipInputEvent): void {

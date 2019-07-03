@@ -31,7 +31,8 @@ export class CdkModeloGridFilterComponent implements OnInit {
     ) {
 
         this.form = this._formBuilder.group({
-            'nome': [null]
+            'nome': [null],
+            'conteudo': [null]
         });
 
     }
@@ -46,6 +47,10 @@ export class CdkModeloGridFilterComponent implements OnInit {
     ngOnInit(): void {
         this.form.get('nome').valueChanges.subscribe(value => {
             this.selected.emit({'nome': `like:${value}%`});
+        });
+
+        this.form.get('conteudo').valueChanges.subscribe(value => {
+            this.selected.emit({'documento.componentesDigitais.conteudo': value});
         });
     }
 

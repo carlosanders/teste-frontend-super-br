@@ -1,7 +1,6 @@
 <!-- CONTENT HEADER -->
-<div class="header" fxLayout="column">
-
-    <div class="filters" *ngIf="showFilter">
+<div class="header" fxLayout="column" *ngIf="showFilter">
+    <div class="filters">
         <cdk-pessoa-grid-filter (selected)="setGridFilter($event)"></cdk-pessoa-grid-filter>
     </div>
 </div>
@@ -10,7 +9,7 @@
 <!-- CONTENT -->
 <div class="content" fxLayoutAlign="center start">
 
-    <div class="mb-16 p-16" fxFlex="1 0 auto" fxLayout="column" fxLayoutAlign="center center">
+    <div class="mb-16 p-4" fxFlex="1 0 auto" fxLayout="column" fxLayoutAlign="center center">
 
         <div class="actions m-8" fxFlex fxLayout="row" fxLayoutAlign="end center">
 
@@ -51,13 +50,13 @@
 
             <!-- Selection Column -->
             <ng-container matColumnDef="select">
-                <th mat-header-cell *matHeaderCellDef fxFlex="10" fxLayoutAlign="start center">
+                <th mat-header-cell *matHeaderCellDef>
                     <mat-checkbox (click)="toggleSelectAll($event)"
                                   [checked]="hasSelected"
                                   [indeterminate]="isIndeterminate">
                     </mat-checkbox>
                 </th>
-                <td mat-cell *matCellDef="let pessoa" fxFlex="10" fxLayoutAlign="start center">
+                <td mat-cell *matCellDef="let pessoa">
                     <mat-checkbox [checked]="selectedIds.indexOf(pessoa.id) > -1"
                                   (change)="toggleInSelected(pessoa.id)"
                                   (click)="$event.stopPropagation();"
@@ -68,34 +67,34 @@
 
             <!-- Id Column -->
             <ng-container matColumnDef="id">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10" fxLayoutAlign="start center"> &nbsp;Id
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> &nbsp;Id
                 </th>
-                <td mat-cell *matCellDef="let pessoa" fxFlex="10" fxLayoutAlign="start center"
+                <td mat-cell *matCellDef="let pessoa" class='has_label_on_mobile' data-label='Id: '
                     [ngClass]="{'deleted':deletedIds?.indexOf(pessoa.id) > -1}"> &nbsp;{{pessoa.id}} </td>
             </ng-container>
 
             <!-- Nome Column -->
             <ng-container matColumnDef="nome">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="100" fxLayoutAlign="start center">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     Nome
                 </th>
-                <td mat-cell *matCellDef="let pessoa" fxFlex="100" fxLayoutAlign="start center"
+                <td mat-cell *matCellDef="let pessoa" class='has_label_on_mobile' data-label='Nome: '
                     [ngClass]="{'deleted':deletedIds?.indexOf(pessoa.id) > -1}"> {{pessoa.nome}} </td>
             </ng-container>
 
             <!-- NumeroDocumentoPrincipal Column -->
             <ng-container matColumnDef="numeroDocumentoPrincipal">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     CPF/CNPJ
                 </th>
-                <td mat-cell *matCellDef="let pessoa" fxFlex="30" fxLayoutAlign="start center"
+                <td mat-cell *matCellDef="let pessoa" class='has_label_on_mobile' data-label='CPF/CNPJ: '
                     [ngClass]="{'deleted':deletedIds?.indexOf(pessoa.id) > -1}"> {{pessoa.numeroDocumentoPrincipal}} </td>
             </ng-container>
 
             <!-- Actions Column -->
             <ng-container matColumnDef="actions">
-                <th mat-header-cell *matHeaderCellDef fxFlex="10"></th>
-                <td mat-cell *matCellDef="let pessoa" fxFlex="10" fxLayoutAlign="start center">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let pessoa">
 
                     <button mat-icon-button
                             *ngIf="actions.indexOf('select') > -1"
@@ -134,7 +133,9 @@
             </tr>
         </table>
 
-        <mat-paginator [pageSizeOptions]="[5, 10]"></mat-paginator>
+        <div fxFlex fxLayout="row" fxLayoutAlign="center center">
+            <mat-paginator [pageSizeOptions]="[5, 10]"></mat-paginator>
+        </div>
 
     </div>
 

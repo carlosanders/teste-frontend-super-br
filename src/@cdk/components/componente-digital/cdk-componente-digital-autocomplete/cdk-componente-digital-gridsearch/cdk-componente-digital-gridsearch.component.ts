@@ -38,7 +38,7 @@ export class CdkComponenteDigitalGridsearchComponent implements OnInit {
     @Output()
     cancel = new EventEmitter();
 
-    componenteDigitals: ComponenteDigital[];
+    componentesDigitais: ComponenteDigital[];
 
     total = 0;
 
@@ -74,7 +74,7 @@ export class CdkComponenteDigitalGridsearchComponent implements OnInit {
             .pipe(finalize(() => this.loading = false),
                 catchError(() => of([]))
             ).subscribe(response => {
-            this.componenteDigitals = response['entities'];
+            this.componentesDigitais = response['entities'];
             this.total = response['total'];
             this._changeDetectorRef.markForCheck();
         });

@@ -83,7 +83,7 @@ export class DadosPessoaEditEffect {
                 switchMap((action) => {
                     return this._pessoaService.save(action.payload).pipe(
                         mergeMap((response: Pessoa) => [
-                            new DadosPessoaEditActions.SavePessoaSuccess(),
+                            new DadosPessoaEditActions.SavePessoaSuccess(response),
                             new PessoaListActions.ReloadPessoas(),
                             new AddData<Pessoa>({data: [response], schema: pessoaSchema}),
                             new OperacoesActions.Resultado({
@@ -108,7 +108,8 @@ export class DadosPessoaEditEffect {
         this._actions
             .pipe(
                 ofType<DadosPessoaEditActions.SavePessoaSuccess>(DadosPessoaEditActions.SAVE_PESSOA_SUCCESS),
-                tap(() => {
+                tap((action) => {
+                    this._router.navigate([this.routerState.url.replace('dados-pessoa', 'documentos/listar').replace('criar', action.payload.id)]).then();
                 })
             );
 }

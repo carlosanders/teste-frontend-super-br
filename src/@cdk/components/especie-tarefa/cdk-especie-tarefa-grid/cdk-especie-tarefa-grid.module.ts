@@ -13,13 +13,12 @@ import {
 import { FuseSharedModule } from '@fuse/shared.module';
 import { EspecieTarefaService } from '@cdk/services/especie-tarefa.service';
 import { CdkEspecieTarefaGridComponent} from './cdk-especie-tarefa-grid.component';
-import { CdkEspecieTarefaGridFilterComponent } from './cdk-especie-tarefa-grid-filter/cdk-especie-tarefa-grid-filter.component';
 import { CdkEspecieTarefaAutocompleteModule } from '@cdk/components/especie-tarefa/cdk-especie-tarefa-autocomplete/cdk-especie-tarefa-autocomplete.module';
+import {CdkEspecieTarefaGridFilterModule} from './cdk-especie-tarefa-grid-filter/cdk-especie-tarefa-grid-filter.module';
 
 @NgModule({
     declarations: [
-        CdkEspecieTarefaGridComponent,
-        CdkEspecieTarefaGridFilterComponent
+        CdkEspecieTarefaGridComponent
     ],
     imports: [
 
@@ -33,6 +32,7 @@ import { CdkEspecieTarefaAutocompleteModule } from '@cdk/components/especie-tare
         MatSortModule,
 
         CdkEspecieTarefaAutocompleteModule,
+        CdkEspecieTarefaGridFilterModule,
 
         FuseSharedModule,
     ],

@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit
 
 import {fuseAnimations} from '@fuse/animations';
 import * as fromStore from '../../pessoa-edit/dados-pessoa-edit/store';
-import {Store} from '@ngrx/store';
+
 
 @Component({
     selector: 'pessoa-main-sidebar',
@@ -20,7 +20,6 @@ export class PessoaMainSidebarComponent implements OnInit, OnDestroy {
      * Constructor
      */
     constructor(
-        private _store: Store<fromStore.DadosPessoaEditAppState>
     ) {
 
         this.links = [
@@ -28,12 +27,6 @@ export class PessoaMainSidebarComponent implements OnInit, OnDestroy {
                 'nome': 'Pesquisar',
                 'icon': 'search',
                 'link': 'listar'
-            },
-            {
-                'nome': 'Editar',
-                'icon': 'edit',
-                'link': 'editar',
-                'pessoaHandle': true
             }
         ];
     }
@@ -46,14 +39,6 @@ export class PessoaMainSidebarComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-
-    }
-
-    /**
-     * Compose dialog
-     */
-    create(): void {
-        this._store.dispatch(new fromStore.CreatePessoa());
     }
 
     /**

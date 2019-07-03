@@ -30,14 +30,14 @@
             <div fxLayout="row" fxLayoutAlign="start center">
                 <input matInput placeholder="Documento Vinculado"
                        formControlName="documentoVinculado"
-                       [matAutocomplete]="documentoVinculado.autocomplete" required
+                       [matAutocomplete]="documento.autocomplete" required
                        (blur)="checkDocumentoVinculado()">
             </div>
-            <cdk-documento-vinculado-autocomplete
-                #documentoVinculado="documentoVinculadoAutocomplete"
+            <cdk-documento-autocomplete
+                #documento="documentoAutocomplete"
                 [control]="form.get('documentoVinculado')"
                 [pagination]="documentoVinculadoPagination">
-            </cdk-documento-vinculado-autocomplete>
+            </cdk-documento-autocomplete>
             <button *ngIf="form.get('documentoVinculado').enabled" matSuffix mat-button mat-icon-button
                     (click)="showDocumentoVinculadoGrid()">
                 <mat-icon matTooltip="Procurar">search</mat-icon>
@@ -89,23 +89,23 @@
 <cdk-documento-gridsearch
         fxFlex="1 0 auto"
         *ngIf="activeCard === 'documento-gridsearch'"
-        [pagination]="documentoPagination.filter"
+        [pagination]="documentoPagination"
         (selected)="selectDocumento($event)"
         (cancel)="cancel()">
 </cdk-documento-gridsearch>
 
-<cdk-documento-vinculado-gridsearch
+<cdk-documento-gridsearch
         fxFlex="1 0 auto"
         *ngIf="activeCard === 'documento-vinculado-gridsearch'"
-        [pagination]="documentoVinculadoPagination.filter"
+        [pagination]="documentoVinculadoPagination"
         (selected)="selectDocumentoVinculado($event)"
         (cancel)="cancel()">
-</cdk-documento-vinculado-gridsearch>
+</cdk-documento-gridsearch>
 
 <cdk-modalidade-vinculacao-documento-gridsearch
         fxFlex="1 0 auto"
         *ngIf="activeCard === 'modalidade-vinculacao-documento-gridsearch'"
-        [pagination]="modalidadeVinculacaoDocumentoPagination.filter"
+        [pagination]="modalidadeVinculacaoDocumentoPagination"
         (selected)="selectModalidadeVinculacaoDocumento($event)"
         (cancel)="cancel()">
 </cdk-modalidade-vinculacao-documento-gridsearch>

@@ -1,7 +1,6 @@
 <!-- CONTENT HEADER -->
-<div class="header" fxLayout="column">
-
-    <div class="filters" *ngIf="showFilter">
+<div class="header" fxLayout="column" *ngIf="showFilter">
+    <div class="filters">
         <cdk-modalidade-template-grid-filter (selected)="setGridFilter($event)"></cdk-modalidade-template-grid-filter>
     </div>
 </div>
@@ -51,13 +50,13 @@
 
             <!-- Selection Column -->
             <ng-container matColumnDef="select">
-                <th mat-header-cell *matHeaderCellDef fxFlex="10" fxLayoutAlign="start center">
+                <th mat-header-cell *matHeaderCellDef>
                     <mat-checkbox (click)="toggleSelectAll($event)"
                                   [checked]="hasSelected"
                                   [indeterminate]="isIndeterminate">
                     </mat-checkbox>
                 </th>
-                <td mat-cell *matCellDef="let modalidadetemplate" fxFlex="10" fxLayoutAlign="start center">
+                <td mat-cell *matCellDef="let modalidadetemplate">
                     <mat-checkbox [checked]="selectedIds.indexOf(modalidadetemplate.id) > -1"
                                   (change)="toggleInSelected(modalidadetemplate.id)"
                                   (click)="$event.stopPropagation();"
@@ -68,34 +67,34 @@
 
             <!-- Id Column -->
             <ng-container matColumnDef="id">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10" fxLayoutAlign="start center"> &nbsp; Id
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> &nbsp; Id
                 </th>
-                <td mat-cell *matCellDef="let modalidadetemplate" fxFlex="10" fxLayoutAlign="start center"
+                <td mat-cell *matCellDef="let modalidadetemplate" class='has_label_on_mobile' data-label='Id: '
                     [ngClass]="{'deleted':deletedIds?.indexOf(modalidadetemplate.id) > -1}"> &nbsp;{{modalidadetemplate.id}} </td>
             </ng-container>
 
             <!-- Valor Column -->
             <ng-container matColumnDef="valor">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="100" fxLayoutAlign="start center">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     Valor
                 </th>
-                <td mat-cell *matCellDef="let modalidadetemplate" fxFlex="100" fxLayoutAlign="start center"
+                <td mat-cell *matCellDef="let modalidadetemplate" class='has_label_on_mobile' data-label='Valor: '
                     [ngClass]="{'deleted':deletedIds?.indexOf(modalidadetemplate.id) > -1}"> {{modalidadetemplate.valor}} </td>
             </ng-container>
 
             <!-- Descrição Column -->
             <ng-container matColumnDef="descricao">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="100" fxLayoutAlign="start center">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     Descrição
                 </th>
-                <td mat-cell *matCellDef="let modalidadetemplate" fxFlex="100" fxLayoutAlign="start center"
+                <td mat-cell *matCellDef="let modalidadetemplate" class='has_label_on_mobile' data-label='Descrição: '
                     [ngClass]="{'deleted':deletedIds?.indexOf(modalidadetemplate.id) > -1}"> {{modalidadetemplate.descricao}} </td>
             </ng-container>
 
             <!-- Actions Column -->
             <ng-container matColumnDef="actions">
-                <th mat-header-cell *matHeaderCellDef fxFlex="10"></th>
-                <td mat-cell *matCellDef="let modalidadetemplate" fxFlex="10" fxLayoutAlign="start center">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let modalidadetemplate">
 
                     <button mat-icon-button
                             *ngIf="actions.indexOf('select') > -1"
@@ -134,7 +133,9 @@
             </tr>
         </table>
 
-        <mat-paginator [pageSizeOptions]="[5, 10]"></mat-paginator>
+        <div fxFlex fxLayout="row" fxLayoutAlign="center center">
+            <mat-paginator [pageSizeOptions]="[5, 10]"></mat-paginator>
+        </div>
 
     </div>
 

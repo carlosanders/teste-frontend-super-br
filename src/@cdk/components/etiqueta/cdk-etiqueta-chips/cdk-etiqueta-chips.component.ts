@@ -4,6 +4,7 @@ import {FormControl} from '@angular/forms';
 import {MatAutocompleteSelectedEvent, MatChipInputEvent, MatAutocomplete} from '@angular/material';
 import {fuseAnimations} from '@fuse/animations';
 import {Etiqueta} from '@cdk/models/etiqueta.model';
+import {Pagination} from '../../../models/pagination';
 
 @Component({
     selector: 'cdk-etiqueta-chips',
@@ -25,6 +26,9 @@ export class CdkEtiquetaChipsComponent {
     @Input()
     etiquetas: Etiqueta[] = [];
 
+    @Input()
+    pagination: Pagination;
+
     @Output()
     delete = new EventEmitter<Etiqueta>();
 
@@ -35,7 +39,7 @@ export class CdkEtiquetaChipsComponent {
     @ViewChild('etiqueta') matAutocomplete: MatAutocomplete;
 
     constructor() {
-
+        this.pagination = new Pagination();
     }
 
     remove(etiqueta: Etiqueta): void {

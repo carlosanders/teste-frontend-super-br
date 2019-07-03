@@ -1,1 +1,1 @@
-export * from './documento-avulso-create.actions';
+export * from './documento-avulso-create-bloco.actions';

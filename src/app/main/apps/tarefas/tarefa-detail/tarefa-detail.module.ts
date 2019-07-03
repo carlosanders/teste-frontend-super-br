@@ -20,6 +20,7 @@ import {CdkVinculacaoEtiquetaChipsModule} from '@cdk/components/vinculacao-etiqu
 import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
 import {DocumentoService} from '@cdk/services/documento.service';
 import {PipesModule} from '@cdk/pipes/pipes.module';
+import {LoginService} from '../../../auth/login/login.service';
 
 const routes: Routes = [
     {
@@ -44,7 +45,7 @@ const routes: Routes = [
             },
             {
                 path: 'processo',
-                loadChildren: './processo/tarefa-processo.module#TarefaProcessoModule'
+                loadChildren: 'app/main/apps/processo/processo.module#ProcessoModule'
             },
             {
                 path: 'modelo',
@@ -95,6 +96,7 @@ const routes: Routes = [
     providers: [
         TarefaService,
         VinculacaoEtiquetaService,
+        LoginService,
         DocumentoService,
         fromGuards.ResolveGuard
     ]

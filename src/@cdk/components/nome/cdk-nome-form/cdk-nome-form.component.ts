@@ -53,7 +53,7 @@ export class CdkNomeFormComponent implements OnChanges, OnDestroy {
         this.form = this._formBuilder.group({
             'id': [null],
             'pessoa': [null],
-            'valor': [null, [Validators.required]]
+            'valor': [null, [Validators.required, Validators.minLength(3), Validators.maxLength(255) ]]
         });
         this.pessoaPagination = new Pagination();
     }

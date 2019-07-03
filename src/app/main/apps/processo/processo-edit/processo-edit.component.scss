@@ -1,19 +1,24 @@
+@import "src/@fuse/scss/fuse";
+
 processo-edit {
 
   overflow-y: auto;
 
   .sidebar {
 
-    background: transparent !important;
-    box-shadow: none !important;
-
     &:not(.locked-open) {
       background: white;
     }
 
-    &.locked-open {
-      margin-top: 42px;
+    &.full {
+      background: transparent !important;
+      box-shadow: none !important;
+
+      &.locked-open {
+        margin-top: 42px;
+      }
     }
+
   }
 
   .center {
