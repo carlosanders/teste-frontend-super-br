@@ -29,6 +29,12 @@ const routes: Routes = [
     {
         path: '',
         component: DadosBasicosComponent,
+        children: [
+            {
+                path       : 'pessoa',
+                loadChildren: 'app/main/apps/pessoa/pessoa.module#PessoaModule',
+            }
+        ],
         canActivate: [fromGuards.ResolveGuard]
     }
 ];

@@ -10,15 +10,13 @@ import {
     MatPaginatorModule,
     MatSortModule,
     MatAutocompleteModule,
-    MatExpansionModule
+    MatExpansionModule, MatTooltipModule
 } from '@angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 import {FuseSharedModule} from '@fuse/shared.module';
 import {PessoaComponent} from './pessoa.component';
 import {RouterModule, Routes} from '@angular/router';
 import {PessoaService} from '@cdk/services/pessoa.service';
-import { FuseSidebarModule } from '@fuse/components';
-import { PessoaMainSidebarComponent } from './sidebars/main/main-sidebar.component';
 
 const routes: Routes = [
     {
@@ -44,8 +42,7 @@ const routes: Routes = [
 
 @NgModule({
     declarations: [
-        PessoaComponent,
-        PessoaMainSidebarComponent
+        PessoaComponent
     ],
     imports: [
         RouterModule.forChild(routes),
@@ -61,11 +58,11 @@ const routes: Routes = [
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
+        MatTooltipModule,
 
         TranslateModule,
 
-        FuseSharedModule,
-        FuseSidebarModule
+        FuseSharedModule
     ],
     providers: [
         PessoaService,

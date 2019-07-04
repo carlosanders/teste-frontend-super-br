@@ -65,6 +65,10 @@
                 [pagination]="procedenciaPagination">
             </cdk-pessoa-autocomplete>
             <button matSuffix mat-button mat-icon-button
+                    (click)="doGerirProcedencia()">
+                <mat-icon matTooltip="Procurar">edit</mat-icon>
+            </button>
+            <button matSuffix mat-button mat-icon-button
                     (click)="showProcedenciaGrid()">
                 <mat-icon matTooltip="Procurar">search</mat-icon>
             </button>

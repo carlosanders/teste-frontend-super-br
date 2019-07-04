@@ -7,11 +7,11 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import { fuseAnimations } from '@fuse/animations';
+import {fuseAnimations} from '@fuse/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { Processo } from '@cdk/models/processo.model';
-import { EspecieProcesso } from '@cdk/models/especie-processo.model';
-import { MAT_DATETIME_FORMATS } from '@mat-datetimepicker/core';
+import {Processo} from '@cdk/models/processo.model';
+import {EspecieProcesso} from '@cdk/models/especie-processo.model';
+import {MAT_DATETIME_FORMATS} from '@mat-datetimepicker/core';
 import {ModalidadeFase} from '@cdk/models/modalidade-fase.model';
 import {ModalidadeMeio} from '@cdk/models/modalidade-meio.model';
 import {Classificacao} from '@cdk/models/classificacao.model';
@@ -69,6 +69,9 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
     @Output()
     save = new EventEmitter<Processo>();
+
+    @Output()
+    gerirProcedencia = new EventEmitter();
 
     form: FormGroup;
 
@@ -161,7 +164,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
      * On change
      */
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
-        if (changes['processo'] && this.processo && (!this.processo.id || (this.processo.id !== this.form.get('id').value))) {
+        if (changes['processo'] && this.processo && (!this.processo.id || (this.processo.id !== this.form.get('id').value) || (this.processo.procedencia.id !== this.form.get('procedencia').value.id))) {
             this.form.patchValue({...this.processo});
         }
 
@@ -209,6 +212,10 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
         if (!value || typeof value !== 'object') {
             this.form.get('especieProcesso').setValue(null);
         }
+    }
+
+    doGerirProcedencia(): void {
+        this.gerirProcedencia.emit();
     }
 
     selectEspecieProcesso(especieProcesso: EspecieProcesso): void {

@@ -86,6 +86,7 @@ $typography: mat-typography-config(
 @import "src/app/main/apps/tarefas/tarefas.theme";
 @import "src/app/main/apps/processo/processo.theme";
 @import "src/app/main/apps/documento/documento.theme";
+@import "src/app/main/apps/pessoa/pessoa.theme";
 @import "src/app/main/apps/pesquisa/pesquisa.theme";
 @import "src/app/main/apps/configuracoes/configuracoes.theme";
 @import "src/app/main/apps/teste/teste.theme";
@@ -102,6 +103,7 @@ $typography: mat-typography-config(
     @include painel-theme($theme);
     @include processo-theme($theme);
     @include documento-theme($theme);
+    @include pessoa-theme($theme);
     @include pesquisa-theme($theme);
     @include configuracoes-theme($theme);
     @include teste-theme($theme);

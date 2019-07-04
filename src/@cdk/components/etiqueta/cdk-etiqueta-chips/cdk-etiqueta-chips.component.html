@@ -1,6 +1,7 @@
 <mat-form-field class="cdk-etiqueta-chips-list">
     <mat-chip-list #chipList>
         <mat-chip
+                [ngStyle]="{'background-color': etiqueta.corHexadecimal}"
                 *ngFor="let etiqueta of etiquetas"
                 [selectable]="selectable"
                 [removable]="removable"

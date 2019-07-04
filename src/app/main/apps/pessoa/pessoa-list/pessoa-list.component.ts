@@ -1,8 +1,8 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, OnDestroy,
-    OnInit,
+    Component, EventEmitter, OnDestroy,
+    OnInit, Output,
     ViewEncapsulation
 } from '@angular/core';
 import {Observable, Subject} from 'rxjs';
@@ -12,7 +12,7 @@ import {Pessoa} from '@cdk/models/pessoa.model';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from 'app/main/apps/pessoa/pessoa-list/store';
-import {getRouterState} from '../../../../store/reducers';
+import {getRouterState} from 'app/store/reducers';
 import {takeUntil} from 'rxjs/operators';
 
 @Component({
@@ -34,6 +34,9 @@ export class PessoaListComponent implements OnInit, OnDestroy {
     pagination: any;
     deletingIds$: Observable<any>;
     deletedIds$: Observable<any>;
+
+    @Output()
+    select: EventEmitter<Pessoa> = new EventEmitter();
 
     /**
      * @param _changeDetectorRef
@@ -89,6 +92,10 @@ export class PessoaListComponent implements OnInit, OnDestroy {
 
     delete(pessoaId: number): void {
         this._store.dispatch(new fromStore.DeletePessoa(pessoaId));
+    }
+
+    doSelect(pessoa: Pessoa): void {
+        this.select.emit(pessoa);
     }
 
 }

@@ -5,9 +5,10 @@
         [pageSize]="(pagination$ | async)?.limit"
         [deletingIds]="(deletingIds$ | async)"
         [deletedIds]="(deletedIds$ | async)"
-        [actions]="['edit', 'delete']"
+        [actions]="['edit', 'delete', 'select']"
         (reload)="reload($event)"
         [mode]="'search'"
         (edit)="edit($event)"
+        (select)="doSelect($event)"
         (delete)="delete($event)">
 </cdk-pessoa-grid>
