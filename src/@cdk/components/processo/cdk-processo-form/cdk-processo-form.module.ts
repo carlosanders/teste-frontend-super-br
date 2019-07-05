@@ -6,7 +6,7 @@ import {
     MatInputModule,
     MatCheckboxModule,
     MatProgressSpinnerModule,
-    MatAutocompleteModule, MatDatepickerModule
+    MatAutocompleteModule, MatDatepickerModule, MatTooltipModule
 } from '@angular/material';
 
 import {FuseSharedModule} from '@fuse/shared.module';
@@ -44,6 +44,7 @@ import {CdkPessoaAutocompleteModule} from '../../pessoa/cdk-pessoa-autocomplete/
         MatDatetimepickerModule,
         MatNativeDatetimeModule,
         MatMomentDatetimeModule,
+        MatTooltipModule,
 
         NgxUpperCaseDirectiveModule,
 

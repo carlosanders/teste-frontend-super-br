@@ -16,8 +16,8 @@ import {ModalidadeFase} from '@cdk/models/modalidade-fase.model';
 import {ModalidadeMeio} from '@cdk/models/modalidade-meio.model';
 import {Classificacao} from '@cdk/models/classificacao.model';
 import {Setor} from '@cdk/models/setor.model';
-import {Pagination} from '../../../models/pagination';
-import {Pessoa} from '../../../models/pessoa.model';
+import {Pagination} from '@cdk/models/pagination';
+import {Pessoa} from '@cdk/models/pessoa.model';
 
 @Component({
     selector: 'cdk-processo-form',
@@ -72,6 +72,9 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
     @Output()
     gerirProcedencia = new EventEmitter();
+
+    @Output()
+    editProcedencia = new EventEmitter();
 
     form: FormGroup;
 
@@ -216,6 +219,10 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
     doGerirProcedencia(): void {
         this.gerirProcedencia.emit();
+    }
+
+    doEditProcedencia(): void {
+        this.editProcedencia.emit();
     }
 
     selectEspecieProcesso(especieProcesso: EspecieProcesso): void {

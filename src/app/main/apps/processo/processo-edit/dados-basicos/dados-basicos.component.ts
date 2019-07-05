@@ -19,7 +19,7 @@ import {LoginService} from 'app/main/auth/login/login.service';
 import {getProcesso} from './store/selectors';
 import {Router} from '@angular/router';
 import {getRouterState} from 'app/store/reducers';
-import {Pessoa} from '../../../../../../@cdk/models/pessoa.model';
+import {Pessoa} from '@cdk/models/pessoa.model';
 
 @Component({
     selector: 'dados-basicos',
@@ -132,6 +132,12 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
 
     gerirProcedencia(): void {
         this._router.navigate([this.routerState.url + '/pessoa']).then();
+    }
+
+    editProcedencia(): void {
+        if (this.processo.procedencia) {
+            this._router.navigate([this.routerState.url + '/pessoa/editar/' + this.processo.procedencia.id]).then();
+        }
     }
 
 }
