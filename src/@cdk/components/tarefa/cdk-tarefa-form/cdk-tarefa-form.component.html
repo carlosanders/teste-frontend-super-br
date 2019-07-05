@@ -49,9 +49,14 @@
             </div>
             <cdk-especie-tarefa-autocomplete
                 #especieTarefa="especieTarefaAutocomplete"
+                [especieTarefaList]="especieTarefaList"
                 [control]="form.get('especieTarefa')"
                 [pagination]="especieTarefaPagination">
             </cdk-especie-tarefa-autocomplete>
+            <button matSuffix mat-button mat-icon-button
+                    (click)="showEspecieTarefaList()">
+                <mat-icon matTooltip="Procurar">star</mat-icon>
+            </button>
             <button matSuffix mat-button mat-icon-button
                     (click)="showEspecieTarefaGrid()">
                 <mat-icon matTooltip="Procurar">search</mat-icon>

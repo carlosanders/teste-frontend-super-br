@@ -32,7 +32,9 @@ export class CdkEspecieTarefaAutocompleteComponent implements OnInit {
     @Input()
     control: FormControl;
 
+    @Input()
     especieTarefaList: EspecieTarefa[];
+
     especieTarefaListIsLoading: boolean;
 
     @ViewChild(MatAutocomplete) autocomplete: MatAutocomplete;

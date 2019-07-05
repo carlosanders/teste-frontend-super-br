@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 
 import {fuseAnimations} from '@fuse/animations';
-import {FormBuilder, FormGroup, ValidationErrors, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Tarefa} from '@cdk/models/tarefa.model';
 import {EspecieTarefa} from '@cdk/models/especie-tarefa.model';
 import {Usuario} from '@cdk/models/usuario.model';
@@ -75,6 +75,8 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
     @Input()
     setorOrigemPagination: Pagination;
+
+    especieTarefaList: EspecieTarefa[] = [];
 
     @Input()
     mode = 'regular';
@@ -275,6 +277,31 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             if (this.form.get('blocoProcessos').value) {
                 this.form.get('processos').setValue(this.processos);
             }
+
+            const cdkTarefaForm = localStorage.getItem('cdk-tarefa-form') ? JSON.parse(localStorage.getItem('cdk-tarefa-form')) : {};
+
+            const cdkEspecieTarefaAutocomplete = {
+                [this.form.get('especieTarefa').value.id]: {
+                    'object': JSON.stringify(this.form.get('especieTarefa').value),
+                    'qtdUsos': 1
+                }
+
+            };
+
+            if (cdkTarefaForm.hasOwnProperty('cdk-especie-tarefa-autocomplete') && cdkTarefaForm['cdk-especie-tarefa-autocomplete'].hasOwnProperty(this.form.get('especieTarefa').value.id)) {
+                cdkTarefaForm['cdk-especie-tarefa-autocomplete'][this.form.get('especieTarefa').value.id] = {
+                    ...cdkTarefaForm['cdk-especie-tarefa-autocomplete'][this.form.get('especieTarefa').value.id],
+                    'qtdUsos': cdkTarefaForm['cdk-especie-tarefa-autocomplete'][this.form.get('especieTarefa').value.id]['qtdUsos'] + 1
+                };
+            } else {
+                cdkTarefaForm['cdk-especie-tarefa-autocomplete'] = {
+                    ...cdkTarefaForm['cdk-especie-tarefa-autocomplete'],
+                    ...cdkEspecieTarefaAutocomplete
+                };
+            }
+
+            localStorage.setItem('cdk-tarefa-form', JSON.stringify(cdkTarefaForm));
+
             this.save.emit(this.form.value);
         }
     }
@@ -283,6 +310,30 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         const value = this.form.get('especieTarefa').value;
         if (!value || typeof value !== 'object') {
             this.form.get('especieTarefa').setValue(null);
+        } else {
+
+            const cdkTarefaForm = localStorage.getItem('cdk-tarefa-form') ? JSON.parse(localStorage.getItem('cdk-tarefa-form')) : {};
+
+            const cdkEspecieTarefaAutocomplete = {
+                [this.form.get('especieTarefa').value.id]: {
+                    'object': JSON.stringify(this.form.get('especieTarefa').value),
+                    'qtdUsos': 1
+                }
+            };
+
+            if (cdkTarefaForm.hasOwnProperty('cdk-especie-tarefa-autocomplete') && cdkTarefaForm['cdk-especie-tarefa-autocomplete'].hasOwnProperty(this.form.get('especieTarefa').value.id)) {
+                cdkTarefaForm['cdk-especie-tarefa-autocomplete'][this.form.get('especieTarefa').value.id] = {
+                    ...cdkTarefaForm['cdk-especie-tarefa-autocomplete'][this.form.get('especieTarefa').value.id],
+                    'qtdUsos': cdkTarefaForm['cdk-especie-tarefa-autocomplete'][this.form.get('especieTarefa').value.id]['qtdUsos'] + 1
+                };
+            } else {
+                cdkTarefaForm['cdk-especie-tarefa-autocomplete'] = {
+                    ...cdkTarefaForm['cdk-especie-tarefa-autocomplete'],
+                    ...cdkEspecieTarefaAutocomplete
+                };
+            }
+
+            localStorage.setItem('cdk-tarefa-form', JSON.stringify(cdkTarefaForm));
         }
     }
 
@@ -296,6 +347,23 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             this.form.get('especieTarefa').setValue(especieTarefa);
         }
         this.activeCard = 'form';
+    }
+
+    showEspecieTarefaList(): void {
+        const cdkTarefaForm = localStorage.getItem('cdk-tarefa-form') ? JSON.parse(localStorage.getItem('cdk-tarefa-form')) : {};
+
+        if (cdkTarefaForm.hasOwnProperty('cdk-especie-tarefa-autocomplete')) {
+            const sortable = [];
+            Object.values(cdkTarefaForm['cdk-especie-tarefa-autocomplete']).forEach((obj, i) => {
+                sortable.push([obj['object'], obj['qtdUsos']]);
+                sortable.sort((a, b) => a[1] - b[1]);
+                console.log (sortable);
+                this.especieTarefaList = sortable.slice(5).map(a => JSON.parse(a[0]));
+            });
+        } else {
+            this.especieTarefaList = [];
+        }
+
     }
 
     showEspecieTarefaGrid(): void {
