@@ -7,14 +7,12 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import { fuseAnimations } from '@fuse/animations';
+import {fuseAnimations} from '@fuse/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { Interessado } from '@cdk/models/interessado.model';
-import { ModalidadeInteressado } from '@cdk/models/modalidade-interessado.model';
-import {Pessoa} from '../../../models/pessoa.model';
-import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
-import {of} from 'rxjs';
-import {Pagination} from '../../../models/pagination';
+import {Interessado} from '@cdk/models/interessado.model';
+import {ModalidadeInteressado} from '@cdk/models/modalidade-interessado.model';
+import {Pessoa} from '@cdk/models/pessoa.model';
+import {Pagination} from '@cdk/models/pagination';
 
 @Component({
     selector: 'cdk-interessado-form',
@@ -44,13 +42,18 @@ export class CdkInteressadoFormComponent implements OnChanges, OnDestroy {
     @Output()
     save = new EventEmitter<Interessado>();
 
-    params = 'nome';
-
-    textoPesquisa = 'Nome';
-
     form: FormGroup;
 
     activeCard = 'form';
+
+    @Output()
+    gerirPessoa = new EventEmitter();
+
+    @Output()
+    editPessoa = new EventEmitter<number>();
+
+    @Input()
+    pessoa: Pessoa;
 
     /**
      * Constructor
@@ -61,8 +64,8 @@ export class CdkInteressadoFormComponent implements OnChanges, OnDestroy {
     ) {
 
         this.form = this._formBuilder.group({
+            'id': [null],
             'processo': [null],
-            'numeroDocumentoPrincipal': [null],
             'pessoa': [null, [Validators.required]],
             'modalidadeInteressado': [null, [Validators.required]]
         });
@@ -103,6 +106,10 @@ export class CdkInteressadoFormComponent implements OnChanges, OnDestroy {
             this.form.setErrors(null);
         }
 
+        if (changes['pessoa'] && this.pessoa) {
+            this.form.get('pessoa').setValue(this.pessoa);
+        }
+
         this._changeDetectorRef.markForCheck();
 
     }
@@ -129,6 +136,14 @@ export class CdkInteressadoFormComponent implements OnChanges, OnDestroy {
         }
     }
 
+    doGerirPessoa(): void {
+        this.gerirPessoa.emit();
+    }
+
+    doEditPessoa(): void {
+        this.editPessoa.emit(this.form.get('pessoa').value.id);
+    }
+
     checkModalidadeInteressado(): void {
         const value = this.form.get('modalidadeInteressado').value;
         if (!value || typeof value !== 'object') {
@@ -140,7 +155,6 @@ export class CdkInteressadoFormComponent implements OnChanges, OnDestroy {
         if (modalidadeInteressado) {
             this.form.get('modalidadeInteressado').setValue(modalidadeInteressado);
         }
-        this.textoPesquisa = 'Nome';
         this.activeCard = 'form';
     }
 
@@ -152,29 +166,11 @@ export class CdkInteressadoFormComponent implements OnChanges, OnDestroy {
         if (pessoa) {
             this.form.get('pessoa').setValue(pessoa);
         }
-        this.textoPesquisa = 'Nome';
         this.activeCard = 'form';
-    }
-
-    showPessoaGrid(): void {
-        this.activeCard = 'pessoa-gridsearch';
     }
 
     cancel(): void {
         this.activeCard = 'form';
-    }
-
-    selectParam(param): void {
-
-        if (param === 'numeroDocumentoPrincipal'){
-            this.textoPesquisa = 'CPF/CNPJ';
-        }
-        else {
-            this.textoPesquisa = 'Nome';
-        }
-
-        this.params = param;
-        this.form.get('pessoa').reset();
     }
 
 }

@@ -1,53 +1,35 @@
-<div id="pessoa" class="page-layout carded left-sidebar inner-scroll">
+<div class="full-screen page-layout fullwidth inner-scroll" fxLayout="column">
 
-    <!-- TOP BACKGROUND -->
-    <div class="top-bg accent"></div>
-    <!-- / TOP BACKGROUND -->
+    <div class="header p-8" fxLayout="row" fxLayoutAlign="end center">
 
-    <!-- SIDEBAR -->
-    <fuse-sidebar class="sidebar" name="pessoa-main-sidebar" position="left" lockedOpen="gt-sm">
-
-        <!-- SIDEBAR CONTENT -->
-        <div class="content" fusePerfectScrollbar>
-            <pessoa-main-sidebar [@animate]="{value:'*'}"></pessoa-main-sidebar>
-        </div>
-        <!-- / SIDEBAR CONTENT -->
-
-    </fuse-sidebar>
-    <!-- / SIDEBAR -->
+        <button class="close mr-8" mat-icon-button
+                (click)="back()"
+                aria-label="fechar"
+                matTooltip="Fechar">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
 
     <!-- CENTER -->
     <div class="center">
 
-        <!-- CONTENT HEADER -->
-        <div class="header" fxLayout="row" fxLayoutAlign="start center">
-            <div class="sidebar-toggle">
-                <button mat-icon-button
-                        (click)="toggleSidebar('pessoa-main-sidebar')" fxHide.gt-sm>
-                    <mat-icon>menu</mat-icon>
-                </button>
-            </div>
-        </div>
-        <!-- / CONTENT HEADER -->
-
         <!-- CONTENT CARD -->
-        <div class="content-card">
+        <div class="content" fxLayout="column">
 
-            <div class="actions m-16" fxLayout="row" fxLayoutAlign="start center">
-                <button mat-raised-button
-                        class="mat-accent"
-                        [routerLink]="'/apps/pessoa/editar/criar'"
-                        *ngIf="action == 'listar' && (pessoas$ | async)"
-                        aria-label="novo"
-                        matTooltip="Criar Pessoa">
-                    Novo
-                </button>
-            </div>
+                <div class="actions m-16" fxLayout="row" fxLayoutAlign="start center">
+                    <button mat-raised-button
+                            class="mat-accent"
+                            [routerLink]="'editar/criar'"
+                            *ngIf="action == 'listar' && (pessoas$ | async)"
+                            aria-label="novo"
+                            matTooltip="Criar Pessoa">
+                        Novo
+                    </button>
+                </div>
 
-            <router-outlet></router-outlet>
+                <router-outlet (activate)="onActivate($event)" (deactivate)="onDeactivate($event)"></router-outlet>
 
         </div>
-        <!-- / CONTENT CARD -->
 
     </div>
     <!-- / CENTER -->

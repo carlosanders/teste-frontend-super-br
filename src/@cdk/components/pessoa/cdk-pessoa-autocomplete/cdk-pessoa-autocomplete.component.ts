@@ -13,7 +13,7 @@ import {FormControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@angular/material';
-import {Pagination} from '../../../models/pagination';
+import {Pagination} from '@cdk/models/pagination';
 
 @Component({
     selector: 'cdk-pessoa-autocomplete',
@@ -31,9 +31,6 @@ export class CdkPessoaAutocompleteComponent implements OnInit {
 
     @Input()
     control: FormControl;
-
-    @Input()
-    queryParam = 'nome';
 
     pessoaList: Pessoa[];
     pessoaListIsLoading: boolean;
@@ -61,7 +58,10 @@ export class CdkPessoaAutocompleteComponent implements OnInit {
                     value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
                         termFilter = {
                             ...termFilter,
-                            'nome': `like:%${bit}%`
+                            'orFilter': {
+                                'nome': `like:%${bit}%`,
+                                'numeroDocumentoPrincipal': `like:%${bit}%`
+                            }
                         };
                     });
                     if (typeof value === 'string') {

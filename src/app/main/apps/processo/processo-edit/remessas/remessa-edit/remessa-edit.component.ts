@@ -15,6 +15,10 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {Processo} from '@cdk/models/processo.model';
 import {getProcesso} from '../../../store/selectors';
+import {Pessoa} from '@cdk/models/pessoa.model';
+import {LoginService} from '../../../../../auth/login/login.service';
+import {Router} from '@angular/router';
+import {getRouterState} from '../../../../../../store/reducers';
 
 @Component({
     selector: 'remessa-edit',
@@ -34,11 +38,16 @@ export class RemessaEditComponent implements OnInit, OnDestroy {
     processo$: Observable<Processo>;
     processo: Processo;
 
+    routerState: any;
+
+    pessoaDestino: Pessoa;
+
     /**
      * @param _store
      */
     constructor(
-        private _store: Store<fromStore.RemessaEditAppState>
+        private _store: Store<fromStore.RemessaEditAppState>,
+        private _router: Router
     ) {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
@@ -67,6 +76,14 @@ export class RemessaEditComponent implements OnInit, OnDestroy {
             this.tramitacao.processo = this.processo;
             this.tramitacao.setorOrigem = this.processo.setorAtual;
         }
+
+        this._store
+            .pipe(select(getRouterState))
+            .subscribe(routerState => {
+                if (routerState) {
+                    this.routerState = routerState.state;
+                }
+            });
     }
 
     /**
@@ -78,6 +95,29 @@ export class RemessaEditComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
+
+    onActivate(componentReference): void  {
+        if (componentReference.select) {
+            componentReference.select.subscribe((pessoa: Pessoa) => {
+                this.pessoaDestino = pessoa;
+                this._router.navigate([this.routerState.url.split('/pessoa')[0]]).then();
+            });
+        }
+    }
+
+    onDeactivate(componentReference): void  {
+        if (componentReference.select) {
+            componentReference.select.unsubscribe();
+        }
+    }
+
+    gerirPessoaDestino(): void {
+        this._router.navigate([this.routerState.url + '/pessoa']).then();
+    }
+
+    editPessoaDestino(pessoaId: number): void {
+        this._router.navigate([this.routerState.url + '/pessoa/editar/' + pessoaId]).then();
+    }
 
     submit(values): void {
 

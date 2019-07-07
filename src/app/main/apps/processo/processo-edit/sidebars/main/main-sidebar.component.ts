@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from '../../../store';
-import {getRouterState} from '../../../../../../store/reducers';
+import {getRouterState} from 'app/store/reducers';
 
 @Component({
     selector: 'processo-edit-main-sidebar',

@@ -2,5 +2,10 @@
         [tramitacao]="tramitacao"
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
+        (gerirPessoaDestino)="gerirPessoaDestino()"
+        (editPessoaDestino)="editPessoaDestino($event)"
+        [pessoaDestino]="pessoaDestino"
         (save)="submit($event)">
 </cdk-remessa-form>
+
+<router-outlet (activate)="onActivate($event)" (deactivate)="onDeactivate($event)"></router-outlet>

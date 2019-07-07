@@ -1,7 +1,7 @@
 <form *ngIf="activeCard === 'form'" class="p-16" fxLayoutGap="36px"
       fxLayout="column"
       fxLayoutAlign="start"
-      name="form" [formGroup]="form" (submit)="submit()">
+      name="form" [formGroup]="form">
 
     <div fxFlex="1 0 auto" fxLayout="column">
 
@@ -120,9 +120,13 @@
                 [control]="form.get('pessoaDestino')"
                 [pagination]="pessoaDestinoPagination">
             </cdk-pessoa-autocomplete>
-            <button *ngIf="form.get('pessoaDestino').enabled" matSuffix mat-button mat-icon-button
-                    (click)="showPessoaDestinoGrid()">
-                <mat-icon matTooltip="Procurar">search</mat-icon>
+            <button *ngIf="form.get('pessoaDestino').value && form.get('pessoaDestino').value.id" matSuffix mat-button mat-icon-button
+                    (click)="doEditPessoaDestino()">
+                <mat-icon matTooltip="Editar pessoa">edit</mat-icon>
+            </button>
+            <button matSuffix mat-button mat-icon-button
+                    (click)="doGerirPessoaDestino()">
+                <mat-icon matTooltip="Procurar ou incluir pessoa">person_add</mat-icon>
             </button>
             <mat-error *ngIf="form.get('pessoaDestino').hasError('formError')">
                 {{form.get('pessoaDestino').errors.formError}}
@@ -167,7 +171,7 @@
 
     <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-8 mb-8" fxFlex
          fxLayoutAlign="center center">
-        <button type="submit" mat-raised-button color="accent" class="mr-sm-12"
+        <button type="submit" mat-raised-button color="accent" class="mr-sm-12" (click)="submit()"
                 [disabled]="form.invalid || !valid">
             SALVAR
         </button>
@@ -210,11 +214,3 @@
         (selected)="selectSetorDestino($event)"
         (cancel)="cancel()">
 </cdk-setor-gridsearch>
-
-<cdk-pessoa-gridsearch
-        fxFlex="1 0 auto"
-        *ngIf="activeCard === 'pessoa-destino-gridsearch'"
-        [pagination]="pessoaDestinoPagination"
-        (selected)="selectPessoaDestino($event)"
-        (cancel)="cancel()">
-</cdk-pessoa-gridsearch>

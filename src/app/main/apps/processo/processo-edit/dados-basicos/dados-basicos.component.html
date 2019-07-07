@@ -4,5 +4,10 @@
         [errors]="(errors$ | async)"
         [especieProcessoPagination]="especieProcessoPagination"
         [setorAtualPagination]="setorAtualPagination"
+        (gerirProcedencia)="gerirProcedencia()"
+        (editProcedencia)="editProcedencia($event)"
+        [procedencia]="procedencia"
         (save)="submit($event)">
 </cdk-processo-form>
+
+<router-outlet (activate)="onActivate($event)" (deactivate)="onDeactivate($event)"></router-outlet>

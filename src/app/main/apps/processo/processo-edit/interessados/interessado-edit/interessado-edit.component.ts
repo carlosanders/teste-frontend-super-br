@@ -15,7 +15,9 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {Processo} from '@cdk/models/processo.model';
 import {getProcesso} from '../../../store/selectors';
-import {Pagination} from '@cdk/models/pagination';
+import {Pessoa} from '@cdk/models/pessoa.model';
+import {Router} from '@angular/router';
+import {getRouterState} from 'app/store/reducers';
 
 @Component({
     selector: 'interessado-edit',
@@ -35,11 +37,17 @@ export class InteressadoEditComponent implements OnInit, OnDestroy {
     processo$: Observable<Processo>;
     processo: Processo;
 
+    routerState: any;
+
+    pessoa: Pessoa;
+
     /**
      * @param _store
+     * @param _router
      */
     constructor(
-        private _store: Store<fromStore.InteressadoEditAppState>
+        private _store: Store<fromStore.InteressadoEditAppState>,
+        private _router: Router
     ) {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
@@ -67,6 +75,14 @@ export class InteressadoEditComponent implements OnInit, OnDestroy {
             this.interessado = new Interessado();
             this.interessado.processo = this.processo;
         }
+
+        this._store
+            .pipe(select(getRouterState))
+            .subscribe(routerState => {
+                if (routerState) {
+                    this.routerState = routerState.state;
+                }
+            });
     }
 
     /**
@@ -91,6 +107,29 @@ export class InteressadoEditComponent implements OnInit, OnDestroy {
 
         this._store.dispatch(new fromStore.SaveInteressado(interessado));
 
+    }
+
+    onActivate(componentReference): void  {
+        if (componentReference.select) {
+            componentReference.select.subscribe((pessoa: Pessoa) => {
+                this.pessoa = pessoa;
+                this._router.navigate([this.routerState.url.split('/pessoa')[0]]).then();
+            });
+        }
+    }
+
+    onDeactivate(componentReference): void  {
+        if (componentReference.select) {
+            componentReference.select.unsubscribe();
+        }
+    }
+
+    gerirPessoa(): void {
+        this._router.navigate([this.routerState.url + '/pessoa']).then();
+    }
+
+    editPessoa(pessoaId: number): void {
+        this._router.navigate([this.routerState.url + '/pessoa/editar/' + pessoaId]).then();
     }
 
 }

@@ -7,17 +7,17 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import { fuseAnimations } from '@fuse/animations';
+import {fuseAnimations} from '@fuse/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { Processo } from '@cdk/models/processo.model';
-import { EspecieProcesso } from '@cdk/models/especie-processo.model';
-import { MAT_DATETIME_FORMATS } from '@mat-datetimepicker/core';
+import {Processo} from '@cdk/models/processo.model';
+import {EspecieProcesso} from '@cdk/models/especie-processo.model';
+import {MAT_DATETIME_FORMATS} from '@mat-datetimepicker/core';
 import {ModalidadeFase} from '@cdk/models/modalidade-fase.model';
 import {ModalidadeMeio} from '@cdk/models/modalidade-meio.model';
 import {Classificacao} from '@cdk/models/classificacao.model';
 import {Setor} from '@cdk/models/setor.model';
-import {Pagination} from '../../../models/pagination';
-import {Pessoa} from '../../../models/pessoa.model';
+import {Pagination} from '@cdk/models/pagination';
+import {Pessoa} from '@cdk/models/pessoa.model';
 
 @Component({
     selector: 'cdk-processo-form',
@@ -69,6 +69,15 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
     @Output()
     save = new EventEmitter<Processo>();
+
+    @Output()
+    gerirProcedencia = new EventEmitter();
+
+    @Output()
+    editProcedencia = new EventEmitter<number>();
+
+    @Input()
+    procedencia: Pessoa;
 
     form: FormGroup;
 
@@ -185,6 +194,10 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             this.form.setErrors(null);
         }
 
+        if (changes['procedencia'] && this.procedencia) {
+            this.form.get('procedencia').setValue(this.procedencia);
+        }
+
         this._changeDetectorRef.markForCheck();
     }
 
@@ -211,6 +224,14 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
         }
     }
 
+    doGerirProcedencia(): void {
+        this.gerirProcedencia.emit();
+    }
+
+    doEditProcedencia(): void {
+        this.editProcedencia.emit(this.form.get('procedencia').value.id);
+    }
+
     selectEspecieProcesso(especieProcesso: EspecieProcesso): void {
         if (especieProcesso) {
             this.form.get('especieProcesso').setValue(especieProcesso);
@@ -227,17 +248,6 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
         if (!value || typeof value !== 'object') {
             this.form.get('procedencia').setValue(null);
         }
-    }
-
-    selectProcedencia(procedencia: Pessoa): void {
-        if (procedencia) {
-            this.form.get('procedencia').setValue(procedencia);
-        }
-        this.activeCard = 'form';
-    }
-
-    showProcedenciaGrid(): void {
-        this.activeCard = 'procedencia-gridsearch';
     }
 
     checkModalidadeFase(): void {

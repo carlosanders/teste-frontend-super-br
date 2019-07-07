@@ -52,7 +52,8 @@ export class CdkAssuntoFormComponent implements OnChanges, OnDestroy {
 
         this.form = this._formBuilder.group({
             'id': [null],
-            'principal': [null, [Validators.required]],
+            'processo': [null, [Validators.required]],
+            'principal': [null],
             'assuntoAdministrativo': [null, [Validators.required]]
         });
         

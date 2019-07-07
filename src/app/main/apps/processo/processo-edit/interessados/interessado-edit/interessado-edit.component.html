@@ -2,5 +2,10 @@
         [interessado]="interessado"
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
+        (gerirPessoa)="gerirPessoa()"
+        (editPessoa)="editPessoa($event)"
+        [pessoa]="pessoa"
         (save)="submit($event)">
 </cdk-interessado-form>
+
+<router-outlet (activate)="onActivate($event)" (deactivate)="onDeactivate($event)"></router-outlet>

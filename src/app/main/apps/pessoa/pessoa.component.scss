@@ -1,20 +1,23 @@
 pessoa {
-
+    height: 100%;
     width: 100%;
-
-    .sidebar {
-
-        &:not(.locked-open) {
-            background: white;
-        }
-    }
-
-    .center {
-
+    .full-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
         width: 100%;
+        z-index: 1001;
 
-        .content-card {
-            flex: 1 0 100%;
+        .content {
+            height: 100%;
+            width: 100%;
+
+            .header {
+                height: 56px !important;
+                min-height: 56px !important;
+                max-height: 56px !important;
+            }
         }
     }
 }
