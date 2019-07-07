@@ -11,7 +11,7 @@ import {
     MatSlideToggleModule,
     MatRadioModule,
     MatTabsModule,
-    MatTableModule
+    MatTableModule, MatTooltipModule
 } from '@angular/material';
 
 import {FuseSharedModule} from '@fuse/shared.module';
@@ -45,6 +45,7 @@ import {CdkTarefaAutocompleteModule} from '../../tarefa/cdk-tarefa-autocomplete/
         MatRadioModule,
         MatTabsModule,
         MatTableModule,
+        MatTooltipModule,
 
         CdkTipoDocumentoAutocompleteModule,
         CdkTipoDocumentoGridsearchModule,

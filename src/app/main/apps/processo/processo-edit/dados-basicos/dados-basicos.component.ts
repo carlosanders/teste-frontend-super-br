@@ -43,6 +43,8 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
 
     routerState: any;
 
+    procedencia: Pessoa;
+
     /**
      *
      * @param _store
@@ -118,26 +120,26 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
     }
 
     onActivate(componentReference): void  {
-        componentReference.select.subscribe((pessoa: Pessoa) => {
-            const processo = new Processo();
-            processo.procedencia = pessoa;
-            this.processo = processo;
-            this._router.navigate([this.routerState.url.split('/pessoa')[0]]).then();
-        });
+        if (componentReference.select) {
+            componentReference.select.subscribe((pessoa: Pessoa) => {
+                this.procedencia = pessoa;
+                this._router.navigate([this.routerState.url.split('/pessoa')[0]]).then();
+            });
+        }
     }
 
     onDeactivate(componentReference): void  {
-        componentReference.select.unsubscribe();
+        if (componentReference.select) {
+            componentReference.select.unsubscribe();
+        }
     }
 
     gerirProcedencia(): void {
         this._router.navigate([this.routerState.url + '/pessoa']).then();
     }
 
-    editProcedencia(): void {
-        if (this.processo.procedencia) {
-            this._router.navigate([this.routerState.url + '/pessoa/editar/' + this.processo.procedencia.id]).then();
-        }
+    editProcedencia(pessoaId: number): void {
+        this._router.navigate([this.routerState.url + '/pessoa/editar/' + pessoaId]).then();
     }
 
 }

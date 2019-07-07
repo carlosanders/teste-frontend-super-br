@@ -53,10 +53,10 @@ export class LoginEffects {
 
     @Effect({ dispatch: false })
     public Logout: Observable<any> = this.actions.pipe(
-        ofType(LoginActions.LOGOUT),
+        ofType<LoginActions.Logout>(LoginActions.LOGOUT),
         tap(() => {
             this.loginService.removeToken();
-            location.reload(true);
+            this.router.navigateByUrl('/auth/login');
         })
     );
 

@@ -30,6 +30,12 @@ const routes: Routes = [
     {
         path: ':interessadoHandle',
         component: InteressadoEditComponent,
+        children: [
+            {
+                path       : 'pessoa',
+                loadChildren: 'app/main/apps/pessoa/pessoa.module#PessoaModule',
+            }
+        ],
         canActivate: [fromGuards.ResolveGuard]
     }
 ];

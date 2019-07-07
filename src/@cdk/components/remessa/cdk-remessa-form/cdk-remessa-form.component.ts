@@ -55,7 +55,14 @@ export class CdkRemessaFormComponent implements OnChanges, OnDestroy, OnInit {
     @Input()
     pessoaDestinoPagination: Pagination;
 
-    setorFilter: any;
+    @Output()
+    gerirPessoaDestino = new EventEmitter();
+
+    @Output()
+    editPessoaDestino = new EventEmitter<number>();
+
+    @Input()
+    pessoaDestino: Pessoa;
 
     /**
      * Constructor
@@ -118,6 +125,10 @@ export class CdkRemessaFormComponent implements OnChanges, OnDestroy, OnInit {
             });
 
             this.form.setErrors(null);
+        }
+
+        if (changes['pessoaDestino'] && this.pessoaDestino) {
+            this.form.get('pessoaDestino').setValue(this.pessoaDestino);
         }
 
         this._changeDetectorRef.markForCheck();
@@ -192,10 +203,13 @@ export class CdkRemessaFormComponent implements OnChanges, OnDestroy, OnInit {
         this.activeCard = 'form';
     }
 
-    showPessoaDestinoGrid(): void {
-        this.activeCard = 'pessoa-destino-gridsearch';
+    doGerirPessoaDestino(): void {
+        this.gerirPessoaDestino.emit();
     }
 
+    doEditPessoaDestino(): void {
+        this.editPessoaDestino.emit(this.form.get('pessoaDestino').value.id);
+    }
 
     cancel(): void {
         this.activeCard = 'form';

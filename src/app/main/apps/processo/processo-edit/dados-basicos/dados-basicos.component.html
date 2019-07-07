@@ -5,7 +5,8 @@
         [especieProcessoPagination]="especieProcessoPagination"
         [setorAtualPagination]="setorAtualPagination"
         (gerirProcedencia)="gerirProcedencia()"
-        (editProcedencia)="editProcedencia()"
+        (editProcedencia)="editProcedencia($event)"
+        [procedencia]="procedencia"
         (save)="submit($event)">
 </cdk-processo-form>
 

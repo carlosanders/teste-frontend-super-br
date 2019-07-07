@@ -74,7 +74,10 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     gerirProcedencia = new EventEmitter();
 
     @Output()
-    editProcedencia = new EventEmitter();
+    editProcedencia = new EventEmitter<number>();
+
+    @Input()
+    procedencia: Pessoa;
 
     form: FormGroup;
 
@@ -167,7 +170,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
      * On change
      */
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
-        if (changes['processo'] && this.processo && (!this.processo.id || (this.processo.id !== this.form.get('id').value) || (this.processo.procedencia.id !== this.form.get('procedencia').value.id))) {
+        if (changes['processo'] && this.processo && (!this.processo.id || (this.processo.id !== this.form.get('id').value))) {
             this.form.patchValue({...this.processo});
         }
 
@@ -189,6 +192,10 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             });
 
             this.form.setErrors(null);
+        }
+
+        if (changes['procedencia'] && this.procedencia) {
+            this.form.get('procedencia').setValue(this.procedencia);
         }
 
         this._changeDetectorRef.markForCheck();
@@ -222,7 +229,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     doEditProcedencia(): void {
-        this.editProcedencia.emit();
+        this.editProcedencia.emit(this.form.get('procedencia').value.id);
     }
 
     selectEspecieProcesso(especieProcesso: EspecieProcesso): void {
@@ -241,17 +248,6 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
         if (!value || typeof value !== 'object') {
             this.form.get('procedencia').setValue(null);
         }
-    }
-
-    selectProcedencia(procedencia: Pessoa): void {
-        if (procedencia) {
-            this.form.get('procedencia').setValue(procedencia);
-        }
-        this.activeCard = 'form';
-    }
-
-    showProcedenciaGrid(): void {
-        this.activeCard = 'procedencia-gridsearch';
     }
 
     checkModalidadeFase(): void {

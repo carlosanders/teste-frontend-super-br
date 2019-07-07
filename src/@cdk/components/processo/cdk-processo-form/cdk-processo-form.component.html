@@ -64,7 +64,7 @@
                 [control]="form.get('procedencia')"
                 [pagination]="procedenciaPagination">
             </cdk-pessoa-autocomplete>
-            <button *ngIf="form.get('procedencia').value" matSuffix mat-button mat-icon-button
+            <button *ngIf="form.get('procedencia').value && form.get('procedencia').value.id" matSuffix mat-button mat-icon-button
                     (click)="doEditProcedencia()">
                 <mat-icon matTooltip="Editar pessoa">edit</mat-icon>
             </button>
@@ -216,13 +216,6 @@
         (selected)="selectEspecieProcesso($event)"
         (cancel)="cancel()">
 </cdk-especie-processo-gridsearch>
-
-<cdk-pessoa-gridsearch
-        fxFlex="1 0 auto"
-        *ngIf="activeCard === 'procedencia-gridsearch'"
-        (selected)="selectProcedencia($event)"
-        (cancel)="cancel()">
-</cdk-pessoa-gridsearch>
 
 <cdk-modalidade-fase-gridsearch
         fxFlex="1 0 auto"
