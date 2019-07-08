@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 import {AssuntoAdministrativo} from '@cdk/models/assunto-administrativo.model';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
@@ -16,7 +17,9 @@ export class AssuntoAdministrativoService {
 
     get(id: number): Observable<AssuntoAdministrativo> {
         return this.modelService.getOne('assunto_administrativo', id)
-            .map(response => plainToClass(AssuntoAdministrativo, response)[0]);
+            .pipe(
+                map(response => plainToClass(AssuntoAdministrativo, response)[0])
+            );
     }
 
     query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
@@ -28,7 +31,9 @@ export class AssuntoAdministrativoService {
         params['populate'] = populate;
 
         return this.modelService.get('assunto_administrativo', new HttpParams({fromObject: params}))
-            .map(response => new PaginatedResponse(plainToClass(AssuntoAdministrativo, response['entities']), response['total']));
+            .pipe(
+                map(response => new PaginatedResponse(plainToClass(AssuntoAdministrativo, response['entities']), response['total']))
+            );
     }
 
     count(filters: any = {}): Observable<any> {
@@ -41,18 +46,22 @@ export class AssuntoAdministrativoService {
     save(assuntoAdministrativo: AssuntoAdministrativo): Observable<AssuntoAdministrativo> {
         if (assuntoAdministrativo.id) {
             return this.modelService.put('assunto_administrativo', assuntoAdministrativo.id, classToPlain(assuntoAdministrativo))
-                .map(response => {
-                    response = plainToClass(AssuntoAdministrativo, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new AssuntoAdministrativo(), {...assuntoAdministrativo, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(AssuntoAdministrativo, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new AssuntoAdministrativo(), {...assuntoAdministrativo, ...response});
+                    })
+                );
         } else {
             return this.modelService.post('assunto_administrativo', classToPlain(assuntoAdministrativo))
-                .map(response => {
-                    response = plainToClass(AssuntoAdministrativo, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new AssuntoAdministrativo(), {...assuntoAdministrativo, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(AssuntoAdministrativo, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new AssuntoAdministrativo(), {...assuntoAdministrativo, ...response});
+                    })
+                );
         }
     }
 

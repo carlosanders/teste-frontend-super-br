@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 import {Compartilhamento} from '@cdk/models/compartilhamento.model';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
@@ -16,7 +17,9 @@ export class CompartilhamentoService {
 
     get(id: number): Observable<Compartilhamento> {
         return this.modelService.getOne('compartilhamento', id)
-            .map(response => plainToClass(Compartilhamento, response)[0]);
+            .pipe(
+                map(response => plainToClass(Compartilhamento, response)[0])
+            );
     }
 
     query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
@@ -28,7 +31,9 @@ export class CompartilhamentoService {
         params['populate'] = populate;
 
         return this.modelService.get('compartilhamento', new HttpParams({fromObject: params}))
-            .map(response => new PaginatedResponse(plainToClass(Compartilhamento, response['entities']), response['total']));
+            .pipe(
+                map(response => new PaginatedResponse(plainToClass(Compartilhamento, response['entities']), response['total']))
+            );
     }
 
     count(filters: any = {}): Observable<any> {
@@ -41,18 +46,22 @@ export class CompartilhamentoService {
     save(compartilhamento: Compartilhamento): Observable<Compartilhamento> {
         if (compartilhamento.id) {
             return this.modelService.put('compartilhamento', compartilhamento.id, classToPlain(compartilhamento))
-                .map(response => {
-                    response = plainToClass(Compartilhamento, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new Compartilhamento(), {...compartilhamento, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(Compartilhamento, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new Compartilhamento(), {...compartilhamento, ...response});
+                    })
+                );
         } else {
             return this.modelService.post('compartilhamento', classToPlain(compartilhamento))
-                .map(response => {
-                    response = plainToClass(Compartilhamento, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new Compartilhamento(), {...compartilhamento, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(Compartilhamento, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new Compartilhamento(), {...compartilhamento, ...response});
+                    })
+                );
         }
     }
 

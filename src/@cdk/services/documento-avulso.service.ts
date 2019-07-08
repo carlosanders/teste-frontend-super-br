@@ -1,11 +1,12 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 import {DocumentoAvulso} from '@cdk/models/documento-avulso.model';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
 import {PaginatedResponse} from '@cdk/models/paginated.response';
-import {environment} from '../../environments/environment';
+import {environment} from 'environments/environment';
 
 @Injectable()
 export class DocumentoAvulsoService {
@@ -18,7 +19,9 @@ export class DocumentoAvulsoService {
 
     get(id: number): Observable<DocumentoAvulso> {
         return this.modelService.getOne('documento_avulso', id)
-            .map(response => plainToClass(DocumentoAvulso, response)[0]);
+            .pipe(
+                map(response => plainToClass(DocumentoAvulso, response)[0])
+            );
     }
 
     query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
@@ -30,7 +33,9 @@ export class DocumentoAvulsoService {
         params['populate'] = populate;
 
         return this.modelService.get('documento_avulso', new HttpParams({fromObject: params}))
-            .map(response => new PaginatedResponse(plainToClass(DocumentoAvulso, response['entities']), response['total']));
+            .pipe(
+                map(response => new PaginatedResponse(plainToClass(DocumentoAvulso, response['entities']), response['total']))
+            );
     }
 
     count(filters: any = {}): Observable<any> {
@@ -43,18 +48,22 @@ export class DocumentoAvulsoService {
     save(documentoAvulso: DocumentoAvulso): Observable<DocumentoAvulso> {
         if (documentoAvulso.id) {
             return this.modelService.put('documento_avulso', documentoAvulso.id, classToPlain(documentoAvulso))
-                .map(response => {
-                    response = plainToClass(DocumentoAvulso, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new DocumentoAvulso(), {...documentoAvulso, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(DocumentoAvulso, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new DocumentoAvulso(), {...documentoAvulso, ...response});
+                    })
+                );
         } else {
             return this.modelService.post('documento_avulso', classToPlain(documentoAvulso))
-                .map(response => {
-                    response = plainToClass(DocumentoAvulso, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new DocumentoAvulso(), {...documentoAvulso, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(DocumentoAvulso, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new DocumentoAvulso(), {...documentoAvulso, ...response});
+                    })
+                );
         }
     }
 
@@ -62,11 +71,13 @@ export class DocumentoAvulsoService {
         return this.http.patch(
             `${environment.api_url}${'documento_avulso'}/${documentoAvulso.id}/${'remeter'}` + environment.xdebug,
             JSON.stringify(classToPlain(documentoAvulso))
-        ).map(response => {
-            response = plainToClass(DocumentoAvulso, response);
-            Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-            return Object.assign(new DocumentoAvulso(), {...documentoAvulso, ...response});
-        });
+        ).pipe(
+            map(response => {
+                response = plainToClass(DocumentoAvulso, response);
+                Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                return Object.assign(new DocumentoAvulso(), {...documentoAvulso, ...response});
+            })
+        );
     }
 
     destroy(id: number): Observable<DocumentoAvulso> {

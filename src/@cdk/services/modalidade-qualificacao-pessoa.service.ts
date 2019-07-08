@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 import {ModalidadeQualificacaoPessoa} from '@cdk/models/modalidade-qualificacao-pessoa.model';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
@@ -16,7 +17,9 @@ export class ModalidadeQualificacaoPessoaService {
 
     get(id: number): Observable<ModalidadeQualificacaoPessoa> {
         return this.modelService.getOne('modalidade_qualificacao_pessoa', id)
-            .map(response => plainToClass(ModalidadeQualificacaoPessoa, response)[0]);
+            .pipe(
+                map(response => plainToClass(ModalidadeQualificacaoPessoa, response)[0])
+            );
     }
 
     query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
@@ -28,7 +31,9 @@ export class ModalidadeQualificacaoPessoaService {
         params['populate'] = populate;
 
         return this.modelService.get('modalidade_qualificacao_pessoa', new HttpParams({fromObject: params}))
-            .map(response => new PaginatedResponse(plainToClass(ModalidadeQualificacaoPessoa, response['entities']), response['total']));
+            .pipe(
+                map(response => new PaginatedResponse(plainToClass(ModalidadeQualificacaoPessoa, response['entities']), response['total']))
+            );
     }
 
     count(filters: any = {}): Observable<any> {
@@ -41,18 +46,22 @@ export class ModalidadeQualificacaoPessoaService {
     save(modalidadeQualificacaoPessoa: ModalidadeQualificacaoPessoa): Observable<ModalidadeQualificacaoPessoa> {
         if (modalidadeQualificacaoPessoa.id) {
             return this.modelService.put('modalidade_qualificacao_pessoa', modalidadeQualificacaoPessoa.id, classToPlain(modalidadeQualificacaoPessoa))
-                .map(response => {
-                    response = plainToClass(ModalidadeQualificacaoPessoa, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new ModalidadeQualificacaoPessoa(), {...modalidadeQualificacaoPessoa, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(ModalidadeQualificacaoPessoa, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new ModalidadeQualificacaoPessoa(), {...modalidadeQualificacaoPessoa, ...response});
+                    })
+                );
         } else {
             return this.modelService.post('modalidade_qualificacao_pessoa', classToPlain(modalidadeQualificacaoPessoa))
-                .map(response => {
-                    response = plainToClass(ModalidadeQualificacaoPessoa, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new ModalidadeQualificacaoPessoa(), {...modalidadeQualificacaoPessoa, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(ModalidadeQualificacaoPessoa, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new ModalidadeQualificacaoPessoa(), {...modalidadeQualificacaoPessoa, ...response});
+                    })
+                );
         }
     }
 

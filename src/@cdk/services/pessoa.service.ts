@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 import {Pessoa} from '@cdk/models/pessoa.model';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
@@ -16,7 +17,9 @@ export class PessoaService {
 
     get(id: number): Observable<Pessoa> {
         return this.modelService.getOne('pessoa', id)
-            .map(response => plainToClass(Pessoa, response)[0]);
+            .pipe(
+                map(response => plainToClass(Pessoa, response)[0])
+            );
     }
 
     query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
@@ -28,7 +31,9 @@ export class PessoaService {
         params['populate'] = populate;
 
         return this.modelService.get('pessoa', new HttpParams({fromObject: params}))
-            .map(response => new PaginatedResponse(plainToClass(Pessoa, response['entities']), response['total']));
+            .pipe(
+                map(response => new PaginatedResponse(plainToClass(Pessoa, response['entities']), response['total']))
+            );
     }
 
     search(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
@@ -40,7 +45,9 @@ export class PessoaService {
         params['populate'] = populate;
 
         return this.modelService.search('pessoa', new HttpParams({fromObject: params}))
-            .map(response => new PaginatedResponse(plainToClass(Pessoa, response['entities']), response['total']));
+            .pipe(
+                map(response => new PaginatedResponse(plainToClass(Pessoa, response['entities']), response['total']))
+            );
     }
 
     count(filters: any = {}): Observable<any> {
@@ -53,18 +60,22 @@ export class PessoaService {
     save(pessoa: Pessoa): Observable<Pessoa> {
         if (pessoa.id) {
             return this.modelService.put('pessoa', pessoa.id, classToPlain(pessoa))
-                .map(response => {
-                    response = plainToClass(Pessoa, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new Pessoa(), {...pessoa, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(Pessoa, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new Pessoa(), {...pessoa, ...response});
+                    })
+                );
         } else {
             return this.modelService.post('pessoa', classToPlain(pessoa))
-                .map(response => {
-                    response = plainToClass(Pessoa, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new Pessoa(), {...pessoa, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(Pessoa, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new Pessoa(), {...pessoa, ...response});
+                    })
+                );
         }
     }
 

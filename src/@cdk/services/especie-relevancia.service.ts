@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 import {EspecieRelevancia} from '@cdk/models/especie-relevancia.model';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
@@ -16,7 +17,9 @@ export class EspecieRelevanciaService {
 
     get(id: number): Observable<EspecieRelevancia> {
         return this.modelService.getOne('especie_relevancia', id)
-            .map(response => plainToClass(EspecieRelevancia, response)[0]);
+            .pipe(
+                map(response => plainToClass(EspecieRelevancia, response)[0])
+            );
     }
 
     query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
@@ -28,7 +31,9 @@ export class EspecieRelevanciaService {
         params['populate'] = populate;
 
         return this.modelService.get('especie_relevancia', new HttpParams({fromObject: params}))
-            .map(response => new PaginatedResponse(plainToClass(EspecieRelevancia, response['entities']), response['total']));
+            .pipe(
+                map(response => new PaginatedResponse(plainToClass(EspecieRelevancia, response['entities']), response['total']))
+            );
     }
 
     count(filters: any = {}): Observable<any> {
@@ -41,18 +46,22 @@ export class EspecieRelevanciaService {
     save(especieRelevancia: EspecieRelevancia): Observable<EspecieRelevancia> {
         if (especieRelevancia.id) {
             return this.modelService.put('especie_relevancia', especieRelevancia.id, classToPlain(especieRelevancia))
-                .map(response => {
-                    response = plainToClass(EspecieRelevancia, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new EspecieRelevancia(), {...especieRelevancia, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(EspecieRelevancia, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new EspecieRelevancia(), {...especieRelevancia, ...response});
+                    })
+                );
         } else {
             return this.modelService.post('especie_relevancia', classToPlain(especieRelevancia))
-                .map(response => {
-                    response = plainToClass(EspecieRelevancia, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new EspecieRelevancia(), {...especieRelevancia, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(EspecieRelevancia, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new EspecieRelevancia(), {...especieRelevancia, ...response});
+                    })
+                );
         }
     }
 

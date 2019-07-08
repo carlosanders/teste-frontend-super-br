@@ -1,11 +1,12 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 import {Notificacao} from '@cdk/models/notificacao.model';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
 import {PaginatedResponse} from '@cdk/models/paginated.response';
-import {environment} from '../../environments/environment';
+import {environment} from 'environments/environment';
 
 @Injectable()
 export class NotificacaoService {
@@ -18,7 +19,9 @@ export class NotificacaoService {
 
     get(id: number): Observable<Notificacao> {
         return this.modelService.getOne('notificacao', id)
-            .map(response => plainToClass(Notificacao, response)[0]);
+            .pipe(
+                map(response => plainToClass(Notificacao, response)[0])
+            );
     }
 
     query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
@@ -30,7 +33,9 @@ export class NotificacaoService {
         params['populate'] = populate;
 
         return this.modelService.get('notificacao', new HttpParams({fromObject: params}))
-            .map(response => new PaginatedResponse(plainToClass(Notificacao, response['entities']), response['total']));
+            .pipe(
+                map(response => new PaginatedResponse(plainToClass(Notificacao, response['entities']), response['total']))
+            );
     }
 
     count(filters: any = {}): Observable<any> {
@@ -43,18 +48,22 @@ export class NotificacaoService {
     save(notificacao: Notificacao): Observable<Notificacao> {
         if (notificacao.id) {
             return this.modelService.put('notificacao', notificacao.id, classToPlain(notificacao))
-                .map(response => {
-                    response = plainToClass(Notificacao, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new Notificacao(), {...notificacao, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(Notificacao, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new Notificacao(), {...notificacao, ...response});
+                    })
+                );
         } else {
             return this.modelService.post('notificacao', classToPlain(notificacao))
-                .map(response => {
-                    response = plainToClass(Notificacao, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new Notificacao(), {...notificacao, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(Notificacao, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new Notificacao(), {...notificacao, ...response});
+                    })
+                );
         }
     }
 
@@ -66,10 +75,12 @@ export class NotificacaoService {
         return this.http.patch(
             `${environment.api_url}${'notificacao'}/${notificacao.id}/${'toggle_lida'}` + environment.xdebug,
             JSON.stringify(classToPlain(notificacao))
-        ).map(response => {
-            response = plainToClass(Notificacao, response);
-            Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-            return Object.assign(new Notificacao(), {...notificacao, ...response});
-        });
+        ).pipe(
+            map(response => {
+                response = plainToClass(Notificacao, response);
+                Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                return Object.assign(new Notificacao(), {...notificacao, ...response});
+            })
+        );
     }
 }

@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 import {Setor} from '@cdk/models/setor.model';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
@@ -16,7 +17,9 @@ export class SetorService {
 
     get(id: number): Observable<Setor> {
         return this.modelService.getOne('setor', id)
-            .map(response => plainToClass(Setor, response)[0]);
+            .pipe(
+                map(response => plainToClass(Setor, response)[0])
+            );
     }
 
     query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
@@ -28,7 +31,9 @@ export class SetorService {
         params['populate'] = populate;
 
         return this.modelService.get('setor', new HttpParams({fromObject: params}))
-            .map(response => new PaginatedResponse(plainToClass(Setor, response['entities']), response['total']));
+            .pipe(
+                map(response => new PaginatedResponse(plainToClass(Setor, response['entities']), response['total']))
+            );
     }
 
     count(filters: any = {}): Observable<any> {
@@ -41,18 +46,22 @@ export class SetorService {
     save(setor: Setor): Observable<Setor> {
         if (setor.id) {
             return this.modelService.put('setor', setor.id, classToPlain(setor))
-                .map(response => {
-                    response = plainToClass(Setor, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new Setor(), {...setor, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(Setor, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new Setor(), {...setor, ...response});
+                    })
+                );
         } else {
             return this.modelService.post('setor', classToPlain(setor))
-                .map(response => {
-                    response = plainToClass(Setor, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new Setor(), {...setor, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(Setor, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new Setor(), {...setor, ...response});
+                    })
+                );
         }
     }
 

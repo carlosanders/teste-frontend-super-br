@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 import {Historico} from '@cdk/models/historico.model';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
@@ -16,7 +17,9 @@ export class HistoricoService {
 
     get(id: number): Observable<Historico> {
         return this.modelService.getOne('historico', id)
-            .map(response => plainToClass(Historico, response)[0]);
+            .pipe(
+                map(response => plainToClass(Historico, response)[0])
+            );
     }
 
     query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
@@ -28,7 +31,9 @@ export class HistoricoService {
         params['populate'] = populate;
 
         return this.modelService.get('historico', new HttpParams({fromObject: params}))
-            .map(response => new PaginatedResponse(plainToClass(Historico, response['entities']), response['total']));
+            .pipe(
+                map(response => new PaginatedResponse(plainToClass(Historico, response['entities']), response['total']))
+            );
     }
 
     count(filters: any = {}): Observable<any> {
@@ -41,18 +46,22 @@ export class HistoricoService {
     save(historico: Historico): Observable<Historico> {
         if (historico.id) {
             return this.modelService.put('historico', historico.id, classToPlain(historico))
-                .map(response => {
-                    response = plainToClass(Historico, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new Historico(), {...historico, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(Historico, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new Historico(), {...historico, ...response});
+                    })
+                );
         } else {
             return this.modelService.post('historico', classToPlain(historico))
-                .map(response => {
-                    response = plainToClass(Historico, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new Historico(), {...historico, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(Historico, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new Historico(), {...historico, ...response});
+                    })
+                );
         }
     }
 

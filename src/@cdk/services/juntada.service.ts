@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 import {Juntada} from '@cdk/models/juntada.model';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
@@ -16,7 +17,9 @@ export class JuntadaService {
 
     get(id: number): Observable<Juntada> {
         return this.modelService.getOne('juntada', id)
-            .map(response => plainToClass(Juntada, response)[0]);
+            .pipe(
+                map(response => plainToClass(Juntada, response)[0])
+            );
     }
 
     query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
@@ -28,7 +31,9 @@ export class JuntadaService {
         params['populate'] = populate;
 
         return this.modelService.get('juntada', new HttpParams({fromObject: params}))
-            .map(response => new PaginatedResponse(plainToClass(Juntada, response['entities']), response['total']));
+            .pipe(
+                map(response => new PaginatedResponse(plainToClass(Juntada, response['entities']), response['total']))
+            );
     }
 
     count(filters: any = {}): Observable<any> {
@@ -41,18 +46,22 @@ export class JuntadaService {
     save(juntada: Juntada): Observable<Juntada> {
         if (juntada.id) {
             return this.modelService.put('juntada', juntada.id, classToPlain(juntada))
-                .map(response => {
-                    response = plainToClass(Juntada, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new Juntada(), {...juntada, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(Juntada, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new Juntada(), {...juntada, ...response});
+                    })
+                );
         } else {
             return this.modelService.post('juntada', classToPlain(juntada))
-                .map(response => {
-                    response = plainToClass(Juntada, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new Juntada(), {...juntada, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(Juntada, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new Juntada(), {...juntada, ...response});
+                    })
+                );
         }
     }
 
