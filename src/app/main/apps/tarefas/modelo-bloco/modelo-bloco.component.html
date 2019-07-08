@@ -1,0 +1,37 @@
+<!-- CONTENT -->
+<div class="content p-16" fxLayout="column" fxFlex="100">
+
+    <h2>Criação de minutas em bloco de tarefas</h2>
+
+    <h3>{{(tarefas$ | async)?.length}} tarefa(s) selecionada(s) </h3>
+
+    <cdk-modelo-grid *ngIf="(tarefas$ | async)?.length && !(isSaving$ | async)"
+            [loading]="(loading$ | async)"
+            [modelos]="(modelos$ | async)"
+            [total]="(pagination$ | async)?.total"
+            [mode]="'search'"
+            [actions]="['select']"
+            (select)="doSelect($event)"
+            (reload)="reload($event)">
+    </cdk-modelo-grid>
+
+    <div *ngIf="(isSaving$ | async)" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+         fxLayoutAlign="center center">
+        <mat-spinner color="accent" diameter="24"></mat-spinner>
+    </div>
+
+    <mat-list *ngIf="operacoes.length > 0" fxFlex>
+        <h3 matSubheader>
+            <span>Resultado do Bloco</span>
+        </h3>
+
+        <mat-list-item *ngFor="let operacao of operacoes">
+            <p matLine class="mb-4 p-8 secondary-text"
+               [ngClass]="{'light-green-50': operacao.success, 'pink-50': !operacao.success}">{{operacao.content}}</p>
+        </mat-list-item>
+    </mat-list>
+
+</div>
+
+
+
