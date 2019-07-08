@@ -342,6 +342,14 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this._router.navigate(['apps/tarefas/' + this.routerState.params.folderHandle + '/tarefa-bloco']).then();
     }
 
+    doUploadBloco(): void {
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.folderHandle + '/upload-bloco']).then();
+    }
+
+    doEditorBloco(): void {
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.folderHandle + '/modelo-bloco']).then();
+    }
+
     doCreateDocumentoAvulsoBloco(): void {
         this._router.navigate(['apps/tarefas/' + this.routerState.params.folderHandle + '/documento-avulso-bloco']).then();
     }

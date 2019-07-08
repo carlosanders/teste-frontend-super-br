@@ -2,49 +2,48 @@ import {
     ChangeDetectionStrategy, ChangeDetectorRef,
     Component,
     OnDestroy,
-    OnInit,
+    OnInit, ViewChild,
     ViewEncapsulation
 } from '@angular/core';
 
 import {fuseAnimations} from '@fuse/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {Atividade} from '@cdk/models/atividade.model';
 import {select, Store} from '@ngrx/store';
 
-import * as fromStore from './store';
+import * as fromStore from '../store';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Tarefa} from '@cdk/models/tarefa.model';
 import {getSelectedTarefas} from '../store/selectors';
-import {getOperacoesState, getRouterState} from 'app/store/reducers';
+import {getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
-import {filter, takeUntil} from 'rxjs/operators';
-import * as moment from 'moment';
+import {takeUntil} from 'rxjs/operators';
+import {ComponenteDigital} from '../../../../../@cdk/models/componente-digital.model';
 
 @Component({
-    selector: 'atividade-create-bloco',
-    templateUrl: './atividade-create-bloco.component.html',
-    styleUrls: ['./atividade-create-bloco.component.scss'],
+    selector: 'upload-bloco',
+    templateUrl: './upload-bloco.component.html',
+    styleUrls: ['./upload-bloco.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
 })
-export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
+export class UploadBlocoComponent implements OnInit, OnDestroy {
 
     private _unsubscribeAll: Subject<any> = new Subject();
 
     tarefas$: Observable<Tarefa[]>;
-    tarefas: Tarefa[];
-
-    atividade: Atividade;
-    isSaving$: Observable<boolean>;
-    errors$: Observable<any>;
+    tarefasBloco: Tarefa[] = [];
+    tarefaPrincipal: Tarefa;
 
     operacoes: any[] = [];
 
     private _profile: any;
 
     routerState: any;
+
+    @ViewChild('ckdUpload')
+    cdkUpload;
 
     /**
      *
@@ -54,14 +53,12 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
      * @param _changeDetectorRef
      */
     constructor(
-        private _store: Store<fromStore.AtividadeCreateBlocoAppState>,
+        private _store: Store<fromStore.TarefasAppState>,
         private _loginService: LoginService,
         private _router: Router,
         private _changeDetectorRef: ChangeDetectorRef
     ) {
         this.tarefas$ = this._store.pipe(select(getSelectedTarefas));
-        this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
-        this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this._profile = _loginService.getUserProfile();
 
     }
@@ -73,20 +70,12 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.tarefas$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(tarefas => this.tarefas = tarefas);
-
-        this._store
-            .pipe(
-                select(getOperacoesState),
-                takeUntil(this._unsubscribeAll),
-                filter(op => !!op && !!op.content && op.type === 'atividade')
-            )
-            .subscribe(
-                operacao => {
-                    this.operacoes.push(operacao);
-                    this._changeDetectorRef.markForCheck();
-                }
-            );
+        ).subscribe(
+            tarefas => {
+                this.tarefaPrincipal = tarefas[0] ? tarefas[0] : null;
+                this.tarefasBloco = tarefas[1] ? tarefas.filter(t => t.id !== tarefas[0].id) : [];
+                this._changeDetectorRef.markForCheck();
+            });
 
         this._store
             .pipe(
@@ -95,14 +84,8 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
             ).subscribe(routerState => {
             if (routerState) {
                 this.routerState = routerState.state;
-                this.operacoes = [];
             }
         });
-
-        this.atividade = new Atividade();
-        this.atividade.encerraTarefa = true;
-        this.atividade.dataHoraConclusao = moment();
-        this.atividade.usuario = this._profile.usuario;
     }
 
     ngOnDestroy(): void {
@@ -115,22 +98,16 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
-    submit(values): void {
-
+    upload(): void {
         this.operacoes = [];
+        this.cdkUpload.upload();
+    }
 
-        this.tarefas.forEach(tarefa => {
-            const atividade = new Atividade();
-
-            Object.entries(values).forEach(
-                ([key, value]) => {
-                    atividade[key] = value;
-                }
-            );
-
-            atividade.tarefa = tarefa;
-
-            this._store.dispatch(new fromStore.SaveAtividade(atividade));
+    onComplete(componenteDigital: ComponenteDigital): void {
+        this.operacoes.push({
+            type: 'upload',
+            content: `Upload realizado com sucesso!`,
+            success: true
         });
     }
 }

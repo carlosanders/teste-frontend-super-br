@@ -79,6 +79,14 @@ const routes: Routes = [
             {
                 path: 'documento-avulso-bloco',
                 loadChildren: './documento-avulso-create-bloco/documento-avulso-create-bloco.module#DocumentoAvulsoCreateBlocoModule',
+            },
+            {
+                path: 'upload-bloco',
+                loadChildren: './upload-bloco/upload-bloco.module#UploadBlocoModule',
+            },
+            {
+                path: 'modelo-bloco',
+                loadChildren: './modelo-bloco/modelo-bloco.module#ModeloBlocoModule',
             }
         ],
         canActivate: [fromGuards.ResolveGuard]

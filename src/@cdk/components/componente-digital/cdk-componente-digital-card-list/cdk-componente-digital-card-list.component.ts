@@ -37,6 +37,9 @@ export class CdkComponenteDigitalCardListComponent implements OnInit {
     tarefaOrigem: Tarefa;
 
     @Input()
+    tarefaOrigemBloco: Tarefa[];
+
+    @Input()
     documentoOrigem: Documento;
 
     @Input()
@@ -183,6 +186,7 @@ export class CdkComponenteDigitalCardListComponent implements OnInit {
                 componenteDigital.tamanho = file.data.size;
                 componenteDigital.processoOrigem = this.processoOrigem;
                 componenteDigital.tarefaOrigem = this.tarefaOrigem;
+                componenteDigital.tarefaOrigemBloco = this.tarefaOrigemBloco;
                 componenteDigital.documentoOrigem = this.documentoOrigem;
 
                 this.componentesDigitais.push(componenteDigital);
