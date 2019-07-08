@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 import {CadastroIdentificador} from '@cdk/models/cadastro-identificador.model';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
@@ -16,7 +17,9 @@ export class CadastroIdentificadorService {
 
     get(id: number): Observable<CadastroIdentificador> {
         return this.modelService.getOne('cadastro_identificador', id)
-            .map(response => plainToClass(CadastroIdentificador, response)[0]);
+            .pipe(
+                map(response => plainToClass(CadastroIdentificador, response)[0])
+            );
     }
 
     query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
@@ -28,7 +31,9 @@ export class CadastroIdentificadorService {
         params['populate'] = populate;
 
         return this.modelService.get('cadastro_identificador', new HttpParams({fromObject: params}))
-            .map(response => new PaginatedResponse(plainToClass(CadastroIdentificador, response['entities']), response['total']));
+            .pipe(
+                map(response => new PaginatedResponse(plainToClass(CadastroIdentificador, response['entities']), response['total']))
+            );
     }
 
     count(filters: any = {}): Observable<any> {
@@ -41,18 +46,22 @@ export class CadastroIdentificadorService {
     save(cadastroIdentificador: CadastroIdentificador): Observable<CadastroIdentificador> {
         if (cadastroIdentificador.id) {
             return this.modelService.put('cadastro_identificador', cadastroIdentificador.id, classToPlain(cadastroIdentificador))
-                .map(response => {
-                    response = plainToClass(CadastroIdentificador, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new CadastroIdentificador(), {...cadastroIdentificador, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(CadastroIdentificador, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new CadastroIdentificador(), {...cadastroIdentificador, ...response});
+                    })
+                );
         } else {
             return this.modelService.post('cadastro_identificador', classToPlain(cadastroIdentificador))
-                .map(response => {
-                    response = plainToClass(CadastroIdentificador, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new CadastroIdentificador(), {...cadastroIdentificador, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(CadastroIdentificador, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new CadastroIdentificador(), {...cadastroIdentificador, ...response});
+                    })
+                );
         }
     }
 

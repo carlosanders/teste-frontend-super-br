@@ -1,12 +1,13 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 import {ComponenteDigital} from '@cdk/models/componente-digital.model';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
 import {PaginatedResponse} from '@cdk/models/paginated.response';
-import {environment} from '../../environments/environment';
-import {Pessoa} from '../models/pessoa.model';
+import {environment} from 'environments/environment';
+import {Pessoa} from '@cdk/models/pessoa.model';
 
 @Injectable()
 export class ComponenteDigitalService {
@@ -17,13 +18,15 @@ export class ComponenteDigitalService {
     ) {
     }
 
-    download(id: number|string, params: HttpParams = new HttpParams()): Observable<any> {
-        return this.http.get(`${environment.api_url}componente_digital/${id}/download` + environment.xdebug, { params });
+    download(id: number | string, params: HttpParams = new HttpParams()): Observable<any> {
+        return this.http.get(`${environment.api_url}componente_digital/${id}/download` + environment.xdebug, {params});
     }
 
     get(id: number): Observable<ComponenteDigital> {
         return this.modelService.getOne('componente_digital', id)
-            .map(response => plainToClass(ComponenteDigital, response)[0]);
+            .pipe(
+                map(response => plainToClass(ComponenteDigital, response)[0])
+            );
     }
 
     query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
@@ -35,7 +38,9 @@ export class ComponenteDigitalService {
         params['populate'] = populate;
 
         return this.modelService.get('componente_digital', new HttpParams({fromObject: params}))
-            .map(response => new PaginatedResponse(plainToClass(ComponenteDigital, response['entities']), response['total']));
+            .pipe(
+                map(response => new PaginatedResponse(plainToClass(ComponenteDigital, response['entities']), response['total']))
+            );
     }
 
     search(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
@@ -47,7 +52,9 @@ export class ComponenteDigitalService {
         params['populate'] = populate;
 
         return this.modelService.search('componente_digital', new HttpParams({fromObject: params}))
-            .map(response => new PaginatedResponse(plainToClass(Pessoa, response['entities']), response['total']));
+            .pipe(
+                map(response => new PaginatedResponse(plainToClass(Pessoa, response['entities']), response['total']))
+            );
     }
 
     count(filters: any = {}): Observable<any> {
@@ -60,18 +67,22 @@ export class ComponenteDigitalService {
     save(componenteDigital: ComponenteDigital): Observable<ComponenteDigital> {
         if (componenteDigital.id) {
             return this.modelService.put('componente_digital', componenteDigital.id, classToPlain(componenteDigital))
-                .map(response => {
-                    response = plainToClass(ComponenteDigital, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new ComponenteDigital(), {...componenteDigital, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(ComponenteDigital, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new ComponenteDigital(), {...componenteDigital, ...response});
+                    })
+                );
         } else {
             return this.modelService.post('componente_digital', classToPlain(componenteDigital))
-                .map(response => {
-                    response = plainToClass(ComponenteDigital, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new ComponenteDigital(), {...componenteDigital, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(ComponenteDigital, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new ComponenteDigital(), {...componenteDigital, ...response});
+                    })
+                );
         }
     }
 
@@ -83,10 +94,12 @@ export class ComponenteDigitalService {
         return this.http.patch(
             `${environment.api_url}${'componente_digital'}/${componenteDigital.id}` + environment.xdebug,
             JSON.stringify(changes)
-        ).map(response => {
-            response = plainToClass(ComponenteDigital, response);
-            Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-            return Object.assign(new ComponenteDigital(), {...componenteDigital, ...response});
-        });
+        ).pipe(
+            map(response => {
+                response = plainToClass(ComponenteDigital, response);
+                Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                return Object.assign(new ComponenteDigital(), {...componenteDigital, ...response});
+            })
+        );
     }
 }

@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 import {Colaborador} from '@cdk/models/colaborador.model';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
@@ -16,7 +17,9 @@ export class ColaboradorService {
 
     get(id: number): Observable<Colaborador> {
         return this.modelService.getOne('colaborador', id)
-            .map(response => plainToClass(Colaborador, response)[0]);
+            .pipe(
+                map(response => plainToClass(Colaborador, response)[0])
+            );
     }
 
     query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
@@ -28,7 +31,9 @@ export class ColaboradorService {
         params['populate'] = populate;
 
         return this.modelService.get('colaborador', new HttpParams({fromObject: params}))
-            .map(response => new PaginatedResponse(plainToClass(Colaborador, response['entities']), response['total']));
+            .pipe(
+                map(response => new PaginatedResponse(plainToClass(Colaborador, response['entities']), response['total']))
+            );
     }
 
     count(filters: any = {}): Observable<any> {
@@ -41,18 +46,22 @@ export class ColaboradorService {
     save(colaborador: Colaborador): Observable<Colaborador> {
         if (colaborador.id) {
             return this.modelService.put('colaborador', colaborador.id, classToPlain(colaborador))
-                .map(response => {
-                    response = plainToClass(Colaborador, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new Colaborador(), {...colaborador, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(Colaborador, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new Colaborador(), {...colaborador, ...response});
+                    })
+                );
         } else {
             return this.modelService.post('colaborador', classToPlain(colaborador))
-                .map(response => {
-                    response = plainToClass(Colaborador, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new Colaborador(), {...colaborador, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(Colaborador, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new Colaborador(), {...colaborador, ...response});
+                    })
+                );
         }
     }
 

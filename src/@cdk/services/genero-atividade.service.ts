@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 import {GeneroAtividade} from '@cdk/models/genero-atividade.model';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
@@ -16,7 +17,7 @@ export class GeneroAtividadeService {
 
     get(id: number): Observable<GeneroAtividade> {
         return this.modelService.getOne('genero_atividade', id)
-            .map(response => plainToClass(GeneroAtividade, response)[0]);
+            .pipe(response => plainToClass(GeneroAtividade, response)[0]);
     }
 
     query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
@@ -28,7 +29,9 @@ export class GeneroAtividadeService {
         params['populate'] = populate;
 
         return this.modelService.get('genero_atividade', new HttpParams({fromObject: params}))
-            .map(response => new PaginatedResponse(plainToClass(GeneroAtividade, response['entities']), response['total']));
+            .pipe(
+                map(response => new PaginatedResponse(plainToClass(GeneroAtividade, response['entities']), response['total']))
+            );
     }
 
     count(filters: any = {}): Observable<any> {
@@ -41,18 +44,22 @@ export class GeneroAtividadeService {
     save(generoAtividade: GeneroAtividade): Observable<GeneroAtividade> {
         if (generoAtividade.id) {
             return this.modelService.put('genero_atividade', generoAtividade.id, classToPlain(generoAtividade))
-                .map(response => {
-                    response = plainToClass(GeneroAtividade, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new GeneroAtividade(), {...generoAtividade, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(GeneroAtividade, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new GeneroAtividade(), {...generoAtividade, ...response});
+                    })
+                );
         } else {
             return this.modelService.post('genero_atividade', classToPlain(generoAtividade))
-                .map(response => {
-                    response = plainToClass(GeneroAtividade, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new GeneroAtividade(), {...generoAtividade, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(GeneroAtividade, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new GeneroAtividade(), {...generoAtividade, ...response});
+                    })
+                );
         }
     }
 

@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 import {GeneroTarefa} from '@cdk/models/genero-tarefa.model';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
@@ -16,7 +17,9 @@ export class GeneroTarefaService {
 
     get(id: number): Observable<GeneroTarefa> {
         return this.modelService.getOne('genero_tarefa', id)
-            .map(response => plainToClass(GeneroTarefa, response)[0]);
+            .pipe(
+                map(response => plainToClass(GeneroTarefa, response)[0])
+            );
     }
 
     query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
@@ -28,7 +31,9 @@ export class GeneroTarefaService {
         params['populate'] = populate;
 
         return this.modelService.get('genero_tarefa', new HttpParams({fromObject: params}))
-            .map(response => new PaginatedResponse(plainToClass(GeneroTarefa, response['entities']), response['total']));
+            .pipe(
+                map(response => new PaginatedResponse(plainToClass(GeneroTarefa, response['entities']), response['total']))
+            );
     }
 
     count(filters: any = {}): Observable<any> {
@@ -41,18 +46,22 @@ export class GeneroTarefaService {
     save(generoTarefa: GeneroTarefa): Observable<GeneroTarefa> {
         if (generoTarefa.id) {
             return this.modelService.put('genero_tarefa', generoTarefa.id, classToPlain(generoTarefa))
-                .map(response => {
-                    response = plainToClass(GeneroTarefa, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new GeneroTarefa(), {...generoTarefa, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(GeneroTarefa, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new GeneroTarefa(), {...generoTarefa, ...response});
+                    })
+                );
         } else {
             return this.modelService.post('genero_tarefa', classToPlain(generoTarefa))
-                .map(response => {
-                    response = plainToClass(GeneroTarefa, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new GeneroTarefa(), {...generoTarefa, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(GeneroTarefa, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new GeneroTarefa(), {...generoTarefa, ...response});
+                    })
+                );
         }
     }
 

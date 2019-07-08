@@ -1,12 +1,12 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 import {Documento} from '@cdk/models/documento.model';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
 import {PaginatedResponse} from '@cdk/models/paginated.response';
-import {Assinatura} from '../models/assinatura.model';
-import {environment} from '../../environments/environment';
+import {environment} from 'environments/environment';
 
 @Injectable()
 export class DocumentoService {
@@ -19,7 +19,9 @@ export class DocumentoService {
 
     get(id: number): Observable<Documento> {
         return this.modelService.getOne('documento', id)
-            .map(response => plainToClass(Documento, response)[0]);
+            .pipe(
+                map(response => plainToClass(Documento, response)[0])
+            );
     }
 
     query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
@@ -31,7 +33,9 @@ export class DocumentoService {
         params['populate'] = populate;
 
         return this.modelService.get('documento', new HttpParams({fromObject: params}))
-            .map(response => new PaginatedResponse(plainToClass(Documento, response['entities']), response['total']));
+            .pipe(
+                map(response => new PaginatedResponse(plainToClass(Documento, response['entities']), response['total']))
+            );
     }
 
     count(filters: any = {}): Observable<any> {
@@ -44,18 +48,22 @@ export class DocumentoService {
     save(documento: Documento): Observable<Documento> {
         if (documento.id) {
             return this.modelService.put('documento', documento.id, classToPlain(documento))
-                .map(response => {
-                    response = plainToClass(Documento, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new Documento(), {...documento, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(Documento, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new Documento(), {...documento, ...response});
+                    })
+                );
         } else {
             return this.modelService.post('documento', classToPlain(documento))
-                .map(response => {
-                    response = plainToClass(Documento, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new Documento(), {...documento, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(Documento, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new Documento(), {...documento, ...response});
+                    })
+                );
         }
     }
 
@@ -63,7 +71,7 @@ export class DocumentoService {
         const p = {};
         p['documentosId'] = documentosId;
         const params = new HttpParams({fromObject: p});
-        return this.http.get(`${environment.api_url}${'documento'}` + '/prepara_assinatura' + environment.xdebug, { params });
+        return this.http.get(`${environment.api_url}${'documento'}` + '/prepara_assinatura' + environment.xdebug, {params});
     }
 
     destroy(id: number): Observable<Documento> {

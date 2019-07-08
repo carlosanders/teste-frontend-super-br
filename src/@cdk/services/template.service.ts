@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 import {Template} from '@cdk/models/template.model';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
@@ -16,7 +17,9 @@ export class TemplateService {
 
     get(id: number): Observable<Template> {
         return this.modelService.getOne('template', id)
-            .map(response => plainToClass(Template, response)[0]);
+            .pipe(
+                map(response => plainToClass(Template, response)[0])
+            );
     }
 
     query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
@@ -28,7 +31,9 @@ export class TemplateService {
         params['populate'] = populate;
 
         return this.modelService.get('template', new HttpParams({fromObject: params}))
-            .map(response => new PaginatedResponse(plainToClass(Template, response['entities']), response['total']));
+            .pipe(
+                map(response => new PaginatedResponse(plainToClass(Template, response['entities']), response['total']))
+            );
     }
 
     count(filters: any = {}): Observable<any> {
@@ -41,18 +46,22 @@ export class TemplateService {
     save(template: Template): Observable<Template> {
         if (template.id) {
             return this.modelService.put('template', template.id, classToPlain(template))
-                .map(response => {
-                    response = plainToClass(Template, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new Template(), {...template, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(Template, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new Template(), {...template, ...response});
+                    })
+                );
         } else {
             return this.modelService.post('template', classToPlain(template))
-                .map(response => {
-                    response = plainToClass(Template, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new Template(), {...template, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(Template, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new Template(), {...template, ...response});
+                    })
+                );
         }
     }
 

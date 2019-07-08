@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 import {Volume} from '@cdk/models/volume.model';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
@@ -16,7 +17,9 @@ export class VolumeService {
 
     get(id: number): Observable<Volume> {
         return this.modelService.getOne('volume', id)
-            .map(response => plainToClass(Volume, response)[0]);
+            .pipe(
+                map(response => plainToClass(Volume, response)[0])
+            );
     }
 
     query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
@@ -28,7 +31,9 @@ export class VolumeService {
         params['populate'] = populate;
 
         return this.modelService.get('volume', new HttpParams({fromObject: params}))
-            .map(response => new PaginatedResponse(plainToClass(Volume, response['entities']), response['total']));
+            .pipe(
+                map(response => new PaginatedResponse(plainToClass(Volume, response['entities']), response['total']))
+            );
     }
 
     count(filters: any = {}): Observable<any> {
@@ -41,18 +46,22 @@ export class VolumeService {
     save(volume: Volume): Observable<Volume> {
         if (volume.id) {
             return this.modelService.put('volume', volume.id, classToPlain(volume))
-                .map(response => {
-                    response = plainToClass(Volume, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new Volume(), {...volume, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(Volume, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new Volume(), {...volume, ...response});
+                    })
+                );
         } else {
             return this.modelService.post('volume', classToPlain(volume))
-                .map(response => {
-                    response = plainToClass(Volume, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new Volume(), {...volume, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(Volume, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new Volume(), {...volume, ...response});
+                    })
+                );
         }
     }
 

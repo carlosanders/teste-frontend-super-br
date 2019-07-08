@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 import {ModalidadeOrgaoCentral} from '@cdk/models/modalidade-orgao-central.model';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
@@ -16,7 +17,9 @@ export class ModalidadeOrgaoCentralService {
 
     get(id: number): Observable<ModalidadeOrgaoCentral> {
         return this.modelService.getOne('modalidade_orgao_central', id)
-            .map(response => plainToClass(ModalidadeOrgaoCentral, response)[0]);
+            .pipe(
+                map(response => plainToClass(ModalidadeOrgaoCentral, response)[0])
+            );
     }
 
     query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
@@ -28,7 +31,9 @@ export class ModalidadeOrgaoCentralService {
         params['populate'] = populate;
 
         return this.modelService.get('modalidade_orgao_central', new HttpParams({fromObject: params}))
-            .map(response => new PaginatedResponse(plainToClass(ModalidadeOrgaoCentral, response['entities']), response['total']));
+            .pipe(
+                map(response => new PaginatedResponse(plainToClass(ModalidadeOrgaoCentral, response['entities']), response['total']))
+            );
     }
 
     count(filters: any = {}): Observable<any> {
@@ -41,18 +46,22 @@ export class ModalidadeOrgaoCentralService {
     save(modalidadeOrgaoCentral: ModalidadeOrgaoCentral): Observable<ModalidadeOrgaoCentral> {
         if (modalidadeOrgaoCentral.id) {
             return this.modelService.put('modalidade_orgao_central', modalidadeOrgaoCentral.id, classToPlain(modalidadeOrgaoCentral))
-                .map(response => {
-                    response = plainToClass(ModalidadeOrgaoCentral, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new ModalidadeOrgaoCentral(), {...modalidadeOrgaoCentral, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(ModalidadeOrgaoCentral, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new ModalidadeOrgaoCentral(), {...modalidadeOrgaoCentral, ...response});
+                    })
+                );
         } else {
             return this.modelService.post('modalidade_orgao_central', classToPlain(modalidadeOrgaoCentral))
-                .map(response => {
-                    response = plainToClass(ModalidadeOrgaoCentral, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new ModalidadeOrgaoCentral(), {...modalidadeOrgaoCentral, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(ModalidadeOrgaoCentral, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new ModalidadeOrgaoCentral(), {...modalidadeOrgaoCentral, ...response});
+                    })
+                );
         }
     }
 

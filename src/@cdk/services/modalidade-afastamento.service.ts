@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 import {ModalidadeAfastamento} from '@cdk/models/modalidade-afastamento.model';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
@@ -16,7 +17,9 @@ export class ModalidadeAfastamentoService {
 
     get(id: number): Observable<ModalidadeAfastamento> {
         return this.modelService.getOne('modalidade_afastamento', id)
-            .map(response => plainToClass(ModalidadeAfastamento, response)[0]);
+            .pipe(
+                map(response => plainToClass(ModalidadeAfastamento, response)[0])
+            );
     }
 
     query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
@@ -28,7 +31,9 @@ export class ModalidadeAfastamentoService {
         params['populate'] = populate;
 
         return this.modelService.get('modalidade_afastamento', new HttpParams({fromObject: params}))
-            .map(response => new PaginatedResponse(plainToClass(ModalidadeAfastamento, response['entities']), response['total']));
+            .pipe(
+                map(response => new PaginatedResponse(plainToClass(ModalidadeAfastamento, response['entities']), response['total']))
+            );
     }
 
     count(filters: any = {}): Observable<any> {
@@ -41,18 +46,22 @@ export class ModalidadeAfastamentoService {
     save(modalidadeAfastamento: ModalidadeAfastamento): Observable<ModalidadeAfastamento> {
         if (modalidadeAfastamento.id) {
             return this.modelService.put('modalidade_afastamento', modalidadeAfastamento.id, classToPlain(modalidadeAfastamento))
-                .map(response => {
-                    response = plainToClass(ModalidadeAfastamento, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new ModalidadeAfastamento(), {...modalidadeAfastamento, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(ModalidadeAfastamento, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new ModalidadeAfastamento(), {...modalidadeAfastamento, ...response});
+                    })
+                );
         } else {
             return this.modelService.post('modalidade_afastamento', classToPlain(modalidadeAfastamento))
-                .map(response => {
-                    response = plainToClass(ModalidadeAfastamento, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new ModalidadeAfastamento(), {...modalidadeAfastamento, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(ModalidadeAfastamento, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new ModalidadeAfastamento(), {...modalidadeAfastamento, ...response});
+                    })
+                );
         }
     }
 

@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 import {TipoSigilo} from '@cdk/models/tipo-sigilo.model';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
@@ -16,7 +17,9 @@ export class TipoSigiloService {
 
     get(id: number): Observable<TipoSigilo> {
         return this.modelService.getOne('tipo_sigilo', id)
-            .map(response => plainToClass(TipoSigilo, response)[0]);
+            .pipe(
+                map(response => plainToClass(TipoSigilo, response)[0])
+            );
     }
 
     query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
@@ -28,7 +31,9 @@ export class TipoSigiloService {
         params['populate'] = populate;
 
         return this.modelService.get('tipo_sigilo', new HttpParams({fromObject: params}))
-            .map(response => new PaginatedResponse(plainToClass(TipoSigilo, response['entities']), response['total']));
+            .pipe(
+                map(response => new PaginatedResponse(plainToClass(TipoSigilo, response['entities']), response['total']))
+            );
     }
 
     count(filters: any = {}): Observable<any> {
@@ -41,18 +46,22 @@ export class TipoSigiloService {
     save(tipoSigilo: TipoSigilo): Observable<TipoSigilo> {
         if (tipoSigilo.id) {
             return this.modelService.put('tipo_sigilo', tipoSigilo.id, classToPlain(tipoSigilo))
-                .map(response => {
-                    response = plainToClass(TipoSigilo, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new TipoSigilo(), {...tipoSigilo, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(TipoSigilo, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new TipoSigilo(), {...tipoSigilo, ...response});
+                    })
+                );
         } else {
             return this.modelService.post('tipo_sigilo', classToPlain(tipoSigilo))
-                .map(response => {
-                    response = plainToClass(TipoSigilo, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new TipoSigilo(), {...tipoSigilo, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(TipoSigilo, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new TipoSigilo(), {...tipoSigilo, ...response});
+                    })
+                );
         }
     }
 

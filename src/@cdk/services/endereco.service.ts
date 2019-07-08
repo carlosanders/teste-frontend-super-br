@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 import {Endereco} from '@cdk/models/endereco.model';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
@@ -16,7 +17,9 @@ export class EnderecoService {
 
     get(id: number): Observable<Endereco> {
         return this.modelService.getOne('endereco', id)
-            .map(response => plainToClass(Endereco, response)[0]);
+            .pipe(
+                map(response => plainToClass(Endereco, response)[0])
+            );
     }
 
     query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
@@ -28,7 +31,9 @@ export class EnderecoService {
         params['populate'] = populate;
 
         return this.modelService.get('endereco', new HttpParams({fromObject: params}))
-            .map(response => new PaginatedResponse(plainToClass(Endereco, response['entities']), response['total']));
+            .pipe(
+                map(response => new PaginatedResponse(plainToClass(Endereco, response['entities']), response['total']))
+            );
     }
 
     count(filters: any = {}): Observable<any> {
@@ -41,18 +46,22 @@ export class EnderecoService {
     save(endereco: Endereco): Observable<Endereco> {
         if (endereco.id) {
             return this.modelService.put('endereco', endereco.id, classToPlain(endereco))
-                .map(response => {
-                    response = plainToClass(Endereco, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new Endereco(), {...endereco, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(Endereco, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new Endereco(), {...endereco, ...response});
+                    })
+                );
         } else {
             return this.modelService.post('endereco', classToPlain(endereco))
-                .map(response => {
-                    response = plainToClass(Endereco, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new Endereco(), {...endereco, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(Endereco, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new Endereco(), {...endereco, ...response});
+                    })
+                );
         }
     }
 
