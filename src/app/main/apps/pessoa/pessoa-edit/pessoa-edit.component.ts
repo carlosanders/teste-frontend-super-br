@@ -12,7 +12,7 @@ import {fuseAnimations} from '@fuse/animations';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './dados-pessoa-edit/store';
 import {Observable, Subject} from 'rxjs';
-import {Pessoa} from '../../../../../@cdk/models/pessoa.model';
+import {Pessoa} from '@cdk/models/pessoa.model';
 import {getRouterState} from '../../../../store/reducers';
 import {takeUntil} from 'rxjs/operators';
 import {Router} from '@angular/router';

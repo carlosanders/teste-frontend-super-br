@@ -18,7 +18,7 @@ import {getSelectedTarefas} from '../store/selectors';
 import {getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {takeUntil} from 'rxjs/operators';
-import {ComponenteDigital} from '../../../../../@cdk/models/componente-digital.model';
+import {ComponenteDigital} from '@cdk/models/componente-digital.model';
 
 @Component({
     selector: 'upload-bloco',

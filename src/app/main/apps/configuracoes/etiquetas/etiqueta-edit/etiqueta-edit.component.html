@@ -1,7 +1,45 @@
-<cdk-etiqueta-form
-        [etiqueta]="etiqueta"
-        [saving]="(isSaving$ | async)"
-        [errors]="(errors$ | async)"
-        [modalidadeEtiquetaPagination]="modalidadeEtiquetaPagination"
-        (save)="submit($event)">
-</cdk-etiqueta-form>
+<div fxLayout="row" class="page-layout full-width left-sidebar inner-scroll">
+
+    <!-- SIDEBAR -->
+    <fuse-sidebar *ngIf="routerState.params.etiquetaHandle && routerState.params.etiquetaHandle !== 'criar'" class="sidebar" [ngClass]="{'full': routerState.url.indexOf('apps/etiqueta') > -1}" name="etiqueta-edit-main-sidebar" position="left" [lockedOpen]="routerState.url.indexOf('apps/etiqueta') > -1 ? 'gt-md' : 'gt-xl'">
+
+        <!-- SIDEBAR CONTENT -->
+        <div class="content" fusePerfectScrollbar>
+            <etiqueta-edit-main-sidebar [@animate]="{value:'*'}"></etiqueta-edit-main-sidebar>
+        </div>
+        <!-- / SIDEBAR CONTENT -->
+
+    </fuse-sidebar>
+    <!-- / SIDEBAR -->
+
+    <!-- CENTER -->
+    <div class="center">
+
+        <!-- CONTENT HEADER -->
+        <div class="header" fxLayout="row" fxLayoutAlign="start center">
+            <div class="sidebar-toggle">
+                <button mat-icon-button *ngIf="routerState.url.indexOf('apps/etiqueta') > -1 && routerState.params.etiquetaHandle && routerState.params.etiquetaHandle !== 'criar'"
+                        (click)="toggleSidebar('etiqueta-edit-main-sidebar')" fxHide.gt-md>
+                    <mat-icon>menu</mat-icon>
+                </button>
+
+                <button mat-icon-button *ngIf="routerState.url.indexOf('apps/etiqueta') === -1 && routerState.params.etiquetaHandle && routerState.params.etiquetaHandle !== 'criar'"
+                        (click)="toggleSidebar('etiqueta-edit-main-sidebar')" fxHide.gt-xl>
+                    <mat-icon>menu</mat-icon>
+                </button>
+            </div>
+        </div>
+        <!-- / CONTENT HEADER -->
+
+        <!-- CONTENT CARD -->
+        <div class="content-card" fusePerfectScrollbar>
+
+            <router-outlet></router-outlet>
+
+        </div>
+        <!-- / CONTENT CARD -->
+
+    </div>
+    <!-- / CENTER -->
+
+</div>

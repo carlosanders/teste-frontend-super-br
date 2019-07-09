@@ -21,7 +21,7 @@ import {ToggleMaximizado} from '../store/actions';
 import {Router} from '@angular/router';
 import {getRouterState} from '../../../../store/reducers';
 import {takeUntil} from 'rxjs/operators';
-import {Pagination} from '../../../../../@cdk/models/pagination';
+import {Pagination} from '@cdk/models/pagination';
 import {LoginService} from '../../../auth/login/login.service';
 
 @Component({

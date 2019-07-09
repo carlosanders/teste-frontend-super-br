@@ -1,0 +1,39 @@
+@import "src/@fuse/scss/fuse";
+
+cdk-acao-form {
+
+  .form-card {
+    border-radius: 8px;
+  }
+
+  mat-radio-group {
+
+    &.poderes-rg {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      margin: 15px 0;
+      @include mat-elevation(1);
+    }
+  }
+
+  .target {
+    @include mat-elevation(1);
+    padding: 16px;
+    margin: 15px 0;
+  }
+
+  mat-radio-button {
+    margin-right: 5px;
+    margin-bottom: 5px;
+  }
+
+  .form-errors-model {
+    flex: 1;
+
+    code {
+      background: none !important;
+    }
+  }
+
+}

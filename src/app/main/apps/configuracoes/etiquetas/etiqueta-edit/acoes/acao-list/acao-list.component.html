@@ -1,0 +1,9 @@
+<cdk-acao-list
+        [loading]="(loading$ | async)"
+        [acoes]="(acoes$ | async)"
+        [deletingIds]="(deletingIds$ | async)"
+        [deletedIds]="(deletedIds$ | async)"
+        [actions]="['delete']"
+        (reload)="reload($event)"
+        (delete)="delete($event)">
+</cdk-acao-list>

@@ -1,21 +1,17 @@
 import {
     ChangeDetectionStrategy,
+    ChangeDetectorRef,
     Component,
     OnDestroy,
     OnInit,
     ViewEncapsulation
 } from '@angular/core';
 
+import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 import {fuseAnimations} from '@fuse/animations';
-import {Observable} from 'rxjs';
-
-import {Etiqueta} from '@cdk/models/etiqueta.model';
 import {select, Store} from '@ngrx/store';
-
-import * as fromStore from './store';
-import {Pagination} from '@cdk/models/pagination';
-import {Usuario} from '@cdk/models/usuario.model';
-import {LoginService} from 'app/main/auth/login/login.service';
+import * as fromStore from 'app/store';
+import {getRouterState} from 'app/store/reducers';
 
 @Component({
     selector: 'etiqueta-edit',
@@ -27,30 +23,20 @@ import {LoginService} from 'app/main/auth/login/login.service';
 })
 export class EtiquetaEditComponent implements OnInit, OnDestroy {
 
-    etiqueta$: Observable<Etiqueta>;
-    etiqueta: Etiqueta;
-    isSaving$: Observable<boolean>;
-    errors$: Observable<any>;
-
-    usuario: Usuario;
-
-    modalidadeEtiquetaPagination: Pagination;
+    routerState: any;
 
     /**
      *
+     * @param _changeDetectorRef
+     * @param _fuseSidebarService
      * @param _store
-     * @param _loginService
      */
     constructor(
-        private _store: Store<fromStore.EtiquetaEditAppState>,
-        private _loginService: LoginService
+        private _changeDetectorRef: ChangeDetectorRef,
+        private _fuseSidebarService: FuseSidebarService,
+        private _store: Store<fromStore.State>
     ) {
-        this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
-        this.errors$ = this._store.pipe(select(fromStore.getErrors));
-        this.etiqueta$ = this._store.pipe(select(fromStore.getEtiqueta));
-        this.usuario = this._loginService.getUserProfile().usuario;
 
-        this.modalidadeEtiquetaPagination = new Pagination();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -61,14 +47,14 @@ export class EtiquetaEditComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-
-        this.etiqueta$.subscribe(
-            etiqueta => this.etiqueta = etiqueta
-        );
-
-        if (!this.etiqueta) {
-            this.etiqueta = new Etiqueta();
-        }
+        this._store
+            .pipe(
+                select(getRouterState)
+            ).subscribe(routerState => {
+            if (routerState) {
+                this.routerState = routerState.state;
+            }
+        });
     }
 
     /**
@@ -81,18 +67,19 @@ export class EtiquetaEditComponent implements OnInit, OnDestroy {
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
-    submit(values): void {
-
-        const etiqueta = new Etiqueta();
-
-        Object.entries(values).forEach(
-            ([key, value]) => {
-                etiqueta[key] = value;
-            }
-        );
-
-        this._store.dispatch(new fromStore.SaveEtiqueta(etiqueta));
-
+    /**
+     * Refresh
+     */
+    refresh(): void {
+        this._changeDetectorRef.markForCheck();
     }
 
+    /**
+     * Toggle the sidebar
+     *
+     * @param name
+     */
+    toggleSidebar(name): void {
+        this._fuseSidebarService.getSidebar(name).toggleOpen();
+    }
 }
