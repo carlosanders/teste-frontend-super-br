@@ -67,7 +67,7 @@ export class ResolveGuard implements CanActivate {
 
                     const params = {
                         filter: {
-                            'processo.id': processoId,
+                            'processo.id': 'eq:' + processoId,
                             'setorDestino': 'isNotNull'
                         },
                         gridFilter: {},

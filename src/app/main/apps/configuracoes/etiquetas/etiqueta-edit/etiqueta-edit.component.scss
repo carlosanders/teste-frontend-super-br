@@ -6,19 +6,12 @@ etiqueta-edit {
 
   .sidebar {
 
+    background: transparent !important;
+    box-shadow: none !important;
+
     &:not(.locked-open) {
       background: white;
     }
-
-    &.full {
-      background: transparent !important;
-      box-shadow: none !important;
-
-      &.locked-open {
-        margin-top: 42px;
-      }
-    }
-
   }
 
   .center {

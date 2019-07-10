@@ -21,6 +21,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {AcaoListStoreModule} from './store/store.module';
 import * as fromGuards from './store/guards';
 import {CdkAcaoListModule} from '@cdk/components/acao/cdk-acao-list/cdk-acao-list.module';
+import {AcaoService} from '../../../../../../../../@cdk/services/acao.service';
 
 const routes: Routes = [
     {
@@ -59,6 +60,7 @@ const routes: Routes = [
     ],
     providers: [
         EtiquetaService,
+        AcaoService,
         fromGuards.ResolveGuard
     ],
     exports: [

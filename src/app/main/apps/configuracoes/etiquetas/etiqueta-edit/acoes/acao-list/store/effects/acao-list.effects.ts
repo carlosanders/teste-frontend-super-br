@@ -56,7 +56,7 @@ export class AcaoListEffect {
                             new AcaoListActions.GetAcoesSuccess({
                                 entitiesId: response['entities'].map(acao => acao.id),
                                 loaded: {
-                                    id: 'usuarioHandle',
+                                    id: 'etiquetaHandle',
                                     value: this.routerState.params.etiquetaHandle
                                 },
                                 total: response['total']

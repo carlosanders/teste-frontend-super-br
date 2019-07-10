@@ -71,7 +71,7 @@ export class EtiquetaListComponent implements OnInit {
     }
 
     edit(etiquetaId: number): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + etiquetaId]);
+        this._router.navigate(['apps/configuracoes/etiquetas/editar/' + etiquetaId + '/dados-basicos']);
     }
 
     delete(etiquetaId: number): void {

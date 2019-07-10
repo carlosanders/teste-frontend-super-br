@@ -16,6 +16,7 @@ import * as fromStore from './store';
 import {Pagination} from '@cdk/models/pagination';
 import {Usuario} from '@cdk/models/usuario.model';
 import {LoginService} from 'app/main/auth/login/login.service';
+import {getEtiqueta} from '../store/selectors';
 
 @Component({
     selector: 'dados-basicos',
@@ -47,7 +48,7 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
     ) {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
-        this.etiqueta$ = this._store.pipe(select(fromStore.getEtiqueta));
+        this.etiqueta$ = this._store.pipe(select(getEtiqueta));
         this.usuario = this._loginService.getUserProfile().usuario;
 
         this.modalidadeEtiquetaPagination = new Pagination();

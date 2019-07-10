@@ -224,7 +224,6 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     onScroll(): void {
-
         if (this.tarefas.length >= this.pagination.total) {
             return;
         }

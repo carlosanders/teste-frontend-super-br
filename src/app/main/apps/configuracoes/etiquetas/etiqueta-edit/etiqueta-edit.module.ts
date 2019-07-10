@@ -12,10 +12,12 @@ import { FuseSidebarModule } from '@fuse/components';
 import { EtiquetaEditMainSidebarComponent } from './sidebars/main/main-sidebar.component';
 import { EtiquetaEditComponent } from './etiqueta-edit.component';
 import { CommonModule } from '@angular/common';
+import * as fromGuards from './store/guards';
+import {EtiquetaStoreModule} from './store/store.module';
 
 const routes: Routes = [
     {
-        path       : '',
+        path       : ':etiquetaHandle',
         component: EtiquetaEditComponent,
         children: [
             {
@@ -30,7 +32,8 @@ const routes: Routes = [
                 path       : '**',
                 redirectTo: 'dados-basicos'
             }
-        ]
+        ],
+        canActivate: [fromGuards.ResolveGuard]
     }
 ];
 
@@ -49,8 +52,13 @@ const routes: Routes = [
 
         TranslateModule,
 
+        EtiquetaStoreModule,
+
         FuseSharedModule,
         FuseSidebarModule
+    ],
+    providers      : [
+        fromGuards.ResolveGuard
     ]
 })
 export class EtiquetaEditModule

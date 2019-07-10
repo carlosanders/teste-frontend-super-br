@@ -134,10 +134,11 @@ export class ResolveGuard implements CanActivate {
                         };
                         let folderFilter = 'isNull';
                         if (this.routerState.params[param] !== 'entrada') {
-                            folderFilter = `eq:${this.routerState.params[param]}`;
+                            const folderName = this.routerState.params[param];
+                            folderFilter = `eq:${folderName.toUpperCase()}`;
                         }
                         params['folderFilter'] = {
-                            folder: folderFilter
+                            'folder.nome': folderFilter
                         };
                     }
 

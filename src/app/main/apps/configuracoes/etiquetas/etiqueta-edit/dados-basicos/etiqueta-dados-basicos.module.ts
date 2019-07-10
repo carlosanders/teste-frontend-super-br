@@ -24,14 +24,12 @@ import {CdkEtiquetaFormModule} from '@cdk/components/etiqueta/cdk-etiqueta-form/
 import {DadosBasicosStoreModule} from './store/store.module';
 import {EtiquetaService} from '@cdk/services/etiqueta.service';
 
-import * as fromGuards from './store/guards';
 import {LoginService} from 'app/main/auth/login/login.service';
 
 const routes: Routes = [
     {
-        path: ':etiquetaHandle',
-        component: DadosBasicosComponent,
-        canActivate: [fromGuards.ResolveGuard]
+        path: '',
+        component: DadosBasicosComponent
     }
 ];
 
@@ -68,8 +66,7 @@ const routes: Routes = [
     ],
     providers: [
         EtiquetaService,
-        LoginService,
-        fromGuards.ResolveGuard
+        LoginService
     ]
 })
 export class EtiquetaDadosBasicosModule {

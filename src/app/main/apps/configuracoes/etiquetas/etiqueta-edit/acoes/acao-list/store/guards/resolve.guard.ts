@@ -65,7 +65,20 @@ export class ResolveGuard implements CanActivate {
                         etiquetaId = this.routerState.params[param];
                     });
 
-                    this._store.dispatch(new fromStore.GetAcoes(etiquetaId));
+                    const params = {
+                        filter: {
+                            'etiqueta.id': 'eq:' + etiquetaId
+                        },
+                        gridFilter: {},
+                        limit: 10,
+                        offset: 0,
+                        sort: {'criadoEm': 'DESC'},
+                        populate: [
+                            'populateAll'
+                        ]
+                    };
+
+                    this._store.dispatch(new fromStore.GetAcoes(params));
                 }
             }),
             filter((loaded: any) => {
