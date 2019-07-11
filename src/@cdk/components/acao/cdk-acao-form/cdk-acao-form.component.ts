@@ -10,11 +10,10 @@ import {
 import {fuseAnimations} from '@fuse/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Acao} from '@cdk/models/acao.model';
-import {Usuario} from '@cdk/models/usuario.model';
 import {Pagination} from '../../../models/pagination';
-import {Setor} from '../../../models/setor.model';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
+import {Modelo} from '../../../models/modelo.model';
 
 @Component({
     selector: 'cdk-acao-form',
@@ -35,22 +34,13 @@ export class CdkAcaoFormComponent implements OnInit, OnChanges, OnDestroy {
     @Input()
     errors: any;
 
-    @Input()
-    unidadeDefault: Setor;
-
-    @Input()
-    usuarioPagination: Pagination;
-
-    @Input()
-    unidadePagination: Pagination;
-    
-    @Input()
-    setorPagination: Pagination;
-
     @Output()
     save = new EventEmitter<Acao>();
 
     form: FormGroup;
+
+    @Input()
+    modeloPagination: Pagination;
 
     activeCard = 'form';
 
@@ -61,17 +51,15 @@ export class CdkAcaoFormComponent implements OnInit, OnChanges, OnDestroy {
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: FormBuilder
     ) {
-       this.form = this._formBuilder.group({
+        this.form = this._formBuilder.group({
             'id': [null],
-            'usuario': [null, [Validators.required]],
-            'unidade': [null, [Validators.required]],
-            'setor': [null, [Validators.required]],
-            'tipo': [null],
-            'poderes': [null, [Validators.required]]
+            'etiqueta': [null],
+            'trigger': [null, [Validators.required]],
+            'contexto': [null],
+            'modelo': [null, [Validators.required]]
         });
-        this.usuarioPagination = new Pagination();
-        this.setorPagination = new Pagination();
-        this.unidadePagination = new Pagination();
+
+        this.modeloPagination = new Pagination();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -82,48 +70,20 @@ export class CdkAcaoFormComponent implements OnInit, OnChanges, OnDestroy {
      * On change
      */
     ngOnInit(): void {
-        this.form.get('tipo').setValue('usuario');
-        this.form.get('poderes').setValue('master');
-
-        this.form.get('tipo').valueChanges.pipe(
+        this.form.get('trigger').valueChanges.pipe(
             debounceTime(300),
             distinctUntilChanged(),
             switchMap((value) => {
-                    if (value === 'usuario') {
-                        this.form.get('usuario').enable();
-                        this.form.get('setor').disable();
-                    }
-                    if (value === 'setor') {
-                        this.form.get('setor').enable();
-                        this.form.get('usuario').disable();
-                    }
-                this._changeDetectorRef.markForCheck();
-                    return of([]);
-                }
-            )
-        ).subscribe();
-
-        this.form.get('unidade').valueChanges.pipe(
-            debounceTime(300),
-            distinctUntilChanged(),
-            switchMap((value) => {
-                    if (value && typeof value === 'object') {
-                        this.form.get('setor').enable();
-                        this.form.get('setor').reset();
-                        this.setorPagination.filter['unidade.id'] = `eq:${value.id}`;
+                this.form.get('modelo').disable();
+                    switch (value) {
+                        case 'App\\Api\\V1\\Triggers\\VinculacaoEtiqueta\\Trigger0001':
+                            this.form.get('modelo').enable();
+                            break;
                     }
                     return of([]);
                 }
             )
         ).subscribe();
-
-        if (this.unidadeDefault) {
-            this.form.get('unidade').setValue(this.unidadeDefault);
-            this.form.get('setor').enable();
-        } else {
-            this.form.get('setor').disable();
-            this.form.get('usuario').disable();
-        }
 
     }
 
@@ -170,67 +130,27 @@ export class CdkAcaoFormComponent implements OnInit, OnChanges, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
     submit(): void {
         if (this.form.valid) {
-
-            const acao = new Acao();
-
-            this.save.emit(acao);
+            this.save.emit(this.form.value);
         }
     }
 
-    checkUsuario(): void {
-        const value = this.form.get('usuario').value;
+    checkModelo(): void {
+        const value = this.form.get('modelo').value;
         if (!value || typeof value !== 'object') {
-            this.form.get('usuario').setValue(null);
+            this.form.get('modelo').setValue(null);
         }
     }
 
-    selectUsuario(usuario: Usuario): void {
-        if (usuario) {
-            this.form.get('usuario').setValue(usuario);
+    selectModelo(modelo: Modelo): void {
+        if (modelo) {
+            this.form.get('modelo').setValue(modelo);
         }
         this.activeCard = 'form';
     }
 
-    showUsuarioGrid(): void {
-        this.activeCard = 'usuario-gridsearch';
+    showModeloGrid(): void {
+        this.activeCard = 'modelo-gridsearch';
     }
-
-    selectUnidade(setor: Setor): void {
-        if (setor) {
-            this.form.get('unidade').setValue(setor);
-        }
-        this.activeCard = 'form';
-    }
-
-    checkUnidade(): void {
-        const value = this.form.get('unidade').value;
-        if (!value || typeof value !== 'object') {
-            this.form.get('unidade').setValue(null);
-        }
-    }
-
-    showUnidadeGrid(): void {
-        this.activeCard = 'unidade-gridsearch';
-    }
-
-    checkSetor(): void {
-        const value = this.form.get('setor').value;
-        if (!value || typeof value !== 'object') {
-            this.form.get('setor').setValue(null);
-        }
-    }
-
-    selectSetor(setor: Setor): void {
-        if (setor) {
-            this.form.get('setor').setValue(setor);
-        }
-        this.activeCard = 'form';
-    }
-
-    showSetorGrid(): void {
-        this.activeCard = 'setor-gridsearch';
-    }
-
 
     cancel(): void {
         this.activeCard = 'form';

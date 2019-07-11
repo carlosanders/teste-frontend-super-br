@@ -51,10 +51,10 @@ export class AcoesComponent implements OnInit, OnDestroy {
             ).subscribe(routerState => {
             if (routerState) {
                 this.routerState = routerState.state;
-                if (this.routerState.url.indexOf('acessos/listar') > -1) {
+                if (this.routerState.url.indexOf('acoes/listar') > -1) {
                     this.action = 'listar';
                 }
-                if (this.routerState.url.indexOf('acessos/criar') > -1) {
+                if (this.routerState.url.indexOf('acoes/editar/criar') > -1) {
                     this.action = 'criar';
                 }
                 this._changeDetectorRef.markForCheck();

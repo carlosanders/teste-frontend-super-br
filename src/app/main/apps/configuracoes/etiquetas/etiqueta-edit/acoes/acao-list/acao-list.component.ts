@@ -13,6 +13,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
+import {filter} from 'rxjs/operators';
 
 @Component({
     selector: 'acao-list',
@@ -26,6 +27,7 @@ export class AcaoListComponent implements OnInit {
 
     routerState: any;
     acoes$: Observable<Acao[]>;
+    acoes: Acao[] = [];
     loading$: Observable<boolean>;
     deletingIds$: Observable<any>;
     deletedIds$: Observable<any>;
@@ -55,14 +57,19 @@ export class AcaoListComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.acoes$.pipe(
+            filter(acoes => !!acoes)
+        ).subscribe(
+            acoes => this.acoes = acoes
+        );
     }
 
-    reload (params): void {
+    reload(params): void {
         this._store.dispatch(new fromStore.GetAcoes(params));
     }
 
     delete(acaoId: number): void {
-        this._store.dispatch(new fromStore.DeleteAcao({etiquetaId: this.routerState.params.etiquetaHandle, acaoId: acaoId}));
+        this._store.dispatch(new fromStore.DeleteAcao(acaoId));
     }
 
 }

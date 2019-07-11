@@ -14,11 +14,9 @@ import {
 import { FuseSharedModule } from '@fuse/shared.module';
 import { UsuarioService } from '@cdk/services/usuario.service';
 import { CdkAcaoFormComponent } from './cdk-acao-form.component';
-import { CdkUsuarioAutocompleteModule } from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
-import { CdkUsuarioGridsearchModule } from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-gridsearch/cdk-usuario-gridsearch.module';
-import {CdkSetorAutocompleteModule} from '../../setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
-import {CdkSetorGridsearchModule} from '../../setor/cdk-setor-autocomplete/cdk-setor-gridsearch/cdk-setor-gridsearch.module';
 import {SetorService} from '../../../services/setor.service';
+import {CdkModeloAutocompleteModule} from '../../modelo/cdk-modelo-autocomplete/cdk-modelo-autocomplete.module';
+import {CdkModeloGridsearchModule} from '../../modelo/cdk-modelo-autocomplete/cdk-modelo-gridsearch/cdk-modelo-gridsearch.module';
 
 @NgModule({
     declarations: [
@@ -36,11 +34,8 @@ import {SetorService} from '../../../services/setor.service';
         MatDatepickerModule,
         MatRadioModule,
 
-        CdkUsuarioAutocompleteModule,
-        CdkUsuarioGridsearchModule,
-
-        CdkSetorAutocompleteModule,
-        CdkSetorGridsearchModule,
+        CdkModeloAutocompleteModule,
+        CdkModeloGridsearchModule,
 
         FuseSharedModule,
     ],

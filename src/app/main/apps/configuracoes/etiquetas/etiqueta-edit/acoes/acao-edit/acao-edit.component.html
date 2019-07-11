@@ -1,12 +1,8 @@
-<h3>Configuração da restrição de acesso</h3>
+<h3>Configuração da ações da etiqueta</h3>
 
 <cdk-acao-form
         [acao]="acao"
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
-        [unidadeDefault]="_profile.lotacoes[0].setor.unidade"
-        [unidadePagination]="unidadePagination"
-        [setorPagination]="setorPagination"
-        [usuarioPagination]="usuarioPagination"
         (save)="submit($event)">
 </cdk-acao-form>

@@ -17,7 +17,8 @@ import {Etiqueta} from '@cdk/models/etiqueta.model';
 import {Pagination} from '@cdk/models/pagination';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Colaborador} from '@cdk/models/colaborador.model';
-import {getEtiqueta} from '../../dados-basicos/store/selectors';
+import {getEtiqueta} from '../../store/selectors';
+import {Assunto} from '../../../../../../../../@cdk/models/assunto.model';
 
 @Component({
     selector: 'acao-edit',
@@ -88,6 +89,7 @@ export class AcaoEditComponent implements OnInit, OnDestroy {
 
         if (!this.acao) {
             this.acao = new Acao();
+            this.acao.etiqueta = this.etiqueta;
         }
     }
 
@@ -101,8 +103,20 @@ export class AcaoEditComponent implements OnInit, OnDestroy {
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
-    submit(acao): void {
-        this._store.dispatch(new fromStore.SaveAcao({etiquetaId: this.etiqueta.id, acao: acao}));
+    submit(values): void {
+
+        values.contexto = JSON.stringify({modeloId: values.modelo.id});
+        delete values.modelo;
+
+        const acao = new Acao();
+
+        Object.entries(values).forEach(
+            ([key, value]) => {
+                acao[key] = value;
+            }
+        );
+
+        this._store.dispatch(new fromStore.SaveAcao(acao));
     }
 
 }

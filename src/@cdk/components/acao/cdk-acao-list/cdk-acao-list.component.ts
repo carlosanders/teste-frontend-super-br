@@ -16,7 +16,7 @@ export class CdkAcaoListComponent implements AfterViewInit, OnInit, OnChanges {
     loading: boolean;
 
     @Input()
-    acoes: Acao[];
+    acoes: Acao[] = [];
 
     @Input()
     deletingIds: number[] = [];
