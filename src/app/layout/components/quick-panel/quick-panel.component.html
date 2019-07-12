@@ -26,7 +26,7 @@
         <mat-list-item *ngFor="let operacao of operacoes">
             <h3 matLine>{{operacao.type}}</h3>
             <p matLine class="secondary-text">{{operacao.content}}</p>
-            <p matLine class="secondary-text">{{operacao.dateTime}}</p>
+            <p matLine class="secondary-text">{{operacao.dateTime | date: 'dd/MM/yyyy HH:mm:ss'}}</p>
         </mat-list-item>
 
         <mat-list-item *ngIf="!operacoes.length">
@@ -35,18 +35,5 @@
     </mat-list>
 
     <mat-divider></mat-divider>
-
-    <mat-list>
-        <h3 matSubheader>
-            <span>Configurações Rápidas</span>
-        </h3>
-
-        <mat-list-item>
-            <mat-slide-toggle fxFlex class="mat-primary" [(ngModel)]="settings.notify" aria-label="Notifications"
-                              labelPosition="before">
-                <h3>Notificações</h3>
-            </mat-slide-toggle>
-        </mat-list-item>
-    </mat-list>
 
 </div>

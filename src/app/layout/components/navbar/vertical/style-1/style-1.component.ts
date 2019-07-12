@@ -7,6 +7,8 @@ import { FuseConfigService } from '@fuse/services/config.service';
 import { FuseNavigationService } from '@fuse/components/navigation/navigation.service';
 import { FusePerfectScrollbarDirective } from '@fuse/directives/fuse-perfect-scrollbar/fuse-perfect-scrollbar.directive';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
+import {LoginService} from 'app/main/auth/login/login.service';
+import {Colaborador} from '@cdk/models/colaborador.model';
 
 @Component({
     selector     : 'navbar-vertical-style-1',
@@ -19,27 +21,31 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy
     fuseConfig: any;
     navigation: any;
 
+    userProfile: Colaborador;
+
     // Private
     private _fusePerfectScrollbar: FusePerfectScrollbarDirective;
     private _unsubscribeAll: Subject<any>;
 
     /**
-     * Constructor
-     *
-     * @param {FuseConfigService} _fuseConfigService
-     * @param {FuseNavigationService} _fuseNavigationService
-     * @param {FuseSidebarService} _fuseSidebarService
-     * @param {Router} _router
+     * @param _fuseConfigService
+     * @param _fuseNavigationService
+     * @param _fuseSidebarService
+     * @param _loginService
+     * @param _router
      */
     constructor(
         private _fuseConfigService: FuseConfigService,
         private _fuseNavigationService: FuseNavigationService,
         private _fuseSidebarService: FuseSidebarService,
+        private _loginService: LoginService,
         private _router: Router
     )
     {
         // Set the private defaults
         this._unsubscribeAll = new Subject();
+
+        this.userProfile = this._loginService.getUserProfile();
     }
 
     // -----------------------------------------------------------------------------------------------------

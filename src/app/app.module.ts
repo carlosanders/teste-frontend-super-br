@@ -32,6 +32,7 @@ import {ModelModule} from '@cdk/models/model.module';
 
 import {MAT_DATE_LOCALE} from '@angular/material';
 import {ErrorInterceptor} from './main/auth/login/error.interceptor';
+import {LoginStoreModule} from './main/auth/login/store/store.module';
 
 registerLocaleData(localePt, 'pt');
 
@@ -92,6 +93,7 @@ const routingConfiguration: ExtraOptions = {
         // App modules
         LayoutModule,
         AppStoreModule,
+        LoginStoreModule,
         ModelModule
     ],
     providers: [
