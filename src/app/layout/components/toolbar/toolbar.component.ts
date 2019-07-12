@@ -15,6 +15,7 @@ import {NotificacaoService} from '@cdk/services/notificacao.service';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from 'app/store';
 import {getMercureState} from 'app/store';
+import {Logout} from '../../../main/auth/login/store/actions';
 
 @Component({
     selector: 'toolbar',
@@ -190,6 +191,10 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
     goNotificacoes(): void {
         this._router.navigate(['apps/configuracoes/notificacoes']);
+    }
+
+    goLogout(): void {
+        this._store.dispatch(new Logout());
     }
 
     /**
