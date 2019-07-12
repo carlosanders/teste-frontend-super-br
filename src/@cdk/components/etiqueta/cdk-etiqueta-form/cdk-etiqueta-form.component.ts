@@ -95,7 +95,7 @@ export class CdkEtiquetaFormComponent implements OnChanges, OnDestroy {
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
         if (changes['etiqueta'] && this.etiqueta && (!this.etiqueta.id || (this.etiqueta.id !== this.form.get('id').value))) {
             this.form.patchValue({...this.etiqueta});
-            this.form.get('corHexadecimal').setValue('#F44336');
+            // this.form.get('corHexadecimal').setValue('#F44336');
         }
 
         if (this.errors && this.errors.status && this.errors.status === 422) {

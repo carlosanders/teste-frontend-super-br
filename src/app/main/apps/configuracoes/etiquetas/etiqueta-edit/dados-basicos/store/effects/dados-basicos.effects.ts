@@ -4,8 +4,8 @@ import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Observable} from 'rxjs';
 import {catchError, mergeMap, tap, switchMap} from 'rxjs/operators';
 
-import * as EtiquetaEditActions from '../actions/etiqueta-edit.actions';
-import * as EtiquetaListActions from '../../../etiqueta-list/store/actions/etiqueta-list.actions';
+import * as EtiquetaEditActions from '../actions/dados-basicos.actions';
+import * as EtiquetaListActions from '../../../../etiqueta-list/store/actions/etiqueta-list.actions';
 
 import {EtiquetaService} from '@cdk/services/etiqueta.service';
 import {AddData} from '@cdk/ngrx-normalizr';
@@ -35,42 +35,6 @@ export class EtiquetaEditEffect {
                 }
             });
     }
-
-    /**
-     * Get Etiqueta with router parameters
-     * @type {Observable<any>}
-     */
-    @Effect()
-    getEtiqueta: any =
-        this._actions
-            .pipe(
-                ofType<EtiquetaEditActions.GetEtiqueta>(EtiquetaEditActions.GET_ETIQUETA),
-                switchMap((action) => {
-                    return this._etiquetaService.query(
-                        JSON.stringify(action.payload),
-                        1,
-                        0,
-                        JSON.stringify({}),
-                        JSON.stringify([
-                            'populateAll'
-                        ]));
-                }),
-                switchMap(response => [
-                    new AddData<Etiqueta>({data: response['entities'], schema: etiquetaSchema}),
-                    new EtiquetaEditActions.GetEtiquetaSuccess({
-                        loaded: {
-                            id: 'etiquetaHandle',
-                            value: this.routerState.params.etiquetaHandle
-                        },
-                        etiquetaId: response['entities'][0].id
-                    })
-                ]),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new EtiquetaEditActions.GetEtiquetaFailed(err));
-                    return caught;
-                })
-            );
 
     /**
      * Save Etiqueta
@@ -106,7 +70,7 @@ export class EtiquetaEditEffect {
             .pipe(
                 ofType<EtiquetaEditActions.SaveEtiquetaSuccess>(EtiquetaEditActions.SAVE_ETIQUETA_SUCCESS),
                 tap(() => {
-                    this._router.navigate([this.routerState.url.replace(('editar/' + this.routerState.params.etiquetaHandle), 'listar')]).then();
+                    this._router.navigate(['apps/configuracoes/etiquetas/listar/']).then();
                 })
             );
 }

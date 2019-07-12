@@ -1,76 +1,66 @@
-import {NgModule} from '@angular/core';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
 import {
-    MatAutocompleteModule,
     MatButtonModule,
-    MatCheckboxModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
-    MatMenuModule,
-    MatRippleModule,
-    MatSelectModule,
-    MatToolbarModule,
-    MatDatepickerModule,
-    MatProgressSpinnerModule, MatTooltipModule
+    MatIconModule, MatRippleModule
 } from '@angular/material';
-import {TranslateModule} from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 
-import {FuseSharedModule} from '@fuse/shared.module';
-import {FuseSidebarModule} from '@fuse/components';
+import { FuseSharedModule } from '@fuse/shared.module';
+import { FuseSidebarModule } from '@fuse/components';
 
-import {EtiquetaEditComponent} from './etiqueta-edit.component';
-import {RouterModule, Routes} from '@angular/router';
-import {CdkEtiquetaFormModule} from '@cdk/components/etiqueta/cdk-etiqueta-form/cdk-etiqueta-form.module';
-import {EtiquetaEditStoreModule} from './store/store.module';
-import {EtiquetaService} from '@cdk/services/etiqueta.service';
-
+import { EtiquetaEditMainSidebarComponent } from './sidebars/main/main-sidebar.component';
+import { EtiquetaEditComponent } from './etiqueta-edit.component';
+import { CommonModule } from '@angular/common';
 import * as fromGuards from './store/guards';
-import {LoginService} from '../../../../auth/login/login.service';
+import {EtiquetaStoreModule} from './store/store.module';
 
 const routes: Routes = [
     {
-        path: ':etiquetaHandle',
+        path       : ':etiquetaHandle',
         component: EtiquetaEditComponent,
+        children: [
+            {
+                path       : 'dados-basicos',
+                loadChildren: './dados-basicos/etiqueta-dados-basicos.module#EtiquetaDadosBasicosModule'
+            },
+            {
+                path       : 'acoes',
+                loadChildren: './acoes/acoes.module#AcoesModule'
+            },
+            {
+                path       : '**',
+                redirectTo: 'dados-basicos'
+            }
+        ],
         canActivate: [fromGuards.ResolveGuard]
     }
 ];
 
 @NgModule({
-    declarations: [
-        EtiquetaEditComponent
+    declarations   : [
+        EtiquetaEditComponent,
+        EtiquetaEditMainSidebarComponent
     ],
-    imports: [
-
+    imports        : [
+        CommonModule,
         RouterModule.forChild(routes),
 
-        MatButtonModule,
-        MatCheckboxModule,
-        MatFormFieldModule,
-        MatIconModule,
-        MatInputModule,
-        MatMenuModule,
         MatRippleModule,
-        MatSelectModule,
-        MatToolbarModule,
-        MatAutocompleteModule,
-        MatProgressSpinnerModule,
-        MatDatepickerModule,
-        MatTooltipModule,
-
-        CdkEtiquetaFormModule,
-
-        EtiquetaEditStoreModule,
+        MatIconModule,
+        MatButtonModule,
 
         TranslateModule,
 
+        EtiquetaStoreModule,
+
         FuseSharedModule,
-        FuseSidebarModule,
+        FuseSidebarModule
     ],
-    providers: [
-        EtiquetaService,
-        LoginService,
+    providers      : [
         fromGuards.ResolveGuard
     ]
 })
-export class EtiquetaEditModule {
+export class EtiquetaEditModule
+{
 }

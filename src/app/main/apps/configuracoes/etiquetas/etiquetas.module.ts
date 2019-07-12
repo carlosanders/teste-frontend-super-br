@@ -10,7 +10,7 @@ import {
     MatPaginatorModule,
     MatSortModule,
     MatAutocompleteModule,
-    MatExpansionModule
+    MatExpansionModule, MatTooltipModule
 } from '@angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 
@@ -60,6 +60,7 @@ const routes: Routes = [
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
+        MatTooltipModule,
 
         TranslateModule,
 

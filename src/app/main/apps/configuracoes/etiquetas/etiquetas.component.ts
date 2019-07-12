@@ -57,9 +57,6 @@ export class EtiquetasComponent implements OnInit, OnDestroy {
                 if (this.routerState.url.indexOf('etiquetas/editar') > -1) {
                     this.action = 'editar';
                 }
-                if (this.routerState.url.indexOf('etiquetas/criar') > -1) {
-                    this.action = 'criar';
-                }
                 this._changeDetectorRef.markForCheck();
             }
         });
@@ -72,11 +69,6 @@ export class EtiquetasComponent implements OnInit, OnDestroy {
     }
 
     goBack(): void {
-        if (this.action === 'editar') {
-            this._router.navigate([this.routerState.url.replace(('editar/' + this.routerState.params.etiquetaHandle), 'listar')]).then();
-        }
-        if (this.action === 'criar') {
-            this._router.navigate([this.routerState.url.replace('criar', 'listar')]).then();
-        }
+        this._router.navigate(['apps/configuracoes/etiquetas/listar']).then();
     }
 }

@@ -28,7 +28,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { Etiqueta } from '@cdk/models/etiqueta.model';
 import {Router} from '@angular/router';
 import {takeUntil} from 'rxjs/operators';
-import {Pagination} from '../../../../@cdk/models/pagination';
+import {Pagination} from '@cdk/models/pagination';
 import {LoginService} from '../../auth/login/login.service';
 
 @Component({
@@ -224,7 +224,6 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     onScroll(): void {
-
         if (this.tarefas.length >= this.pagination.total) {
             return;
         }

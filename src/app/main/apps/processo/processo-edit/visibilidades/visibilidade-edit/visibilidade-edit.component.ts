@@ -15,9 +15,9 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {Processo} from '@cdk/models/processo.model';
 import {getProcesso} from '../../../store/selectors';
-import {Pagination} from '../../../../../../../@cdk/models/pagination';
-import {LoginService} from '../../../../../auth/login/login.service';
-import {Colaborador} from '../../../../../../../@cdk/models/colaborador.model';
+import {Pagination} from '@cdk/models/pagination';
+import {LoginService} from 'app/main/auth/login/login.service';
+import {Colaborador} from '@cdk/models/colaborador.model';
 
 @Component({
     selector: 'visibilidade-edit',

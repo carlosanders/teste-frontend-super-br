@@ -1,65 +1,65 @@
-import * as EtiquetaEditActions from '../actions/etiqueta-edit.actions';
+import * as AcaoEditActions from '../actions/acao-edit.actions';
 
-export interface EtiquetaEditState {
-    etiquetaId: number;
+export interface AcaoEditState {
+    acaoId: number;
     saving: boolean;
     errors: any;
     loading: boolean;
     loaded: any;
 }
 
-export const EtiquetaEditInitialState: EtiquetaEditState = {
-    etiquetaId: null,
+export const AcaoEditInitialState: AcaoEditState = {
+    acaoId: null,
     saving: false,
     errors: false,
     loading: false,
     loaded: false
 };
 
-export function EtiquetaEditReducer(
-    state = EtiquetaEditInitialState,
-    action: EtiquetaEditActions.EtiquetaEditActionsAll
-): EtiquetaEditState {
+export function AcaoEditReducer(
+    state = AcaoEditInitialState,
+    action: AcaoEditActions.AcaoEditActionsAll
+): AcaoEditState {
     switch (action.type) {
 
-        case EtiquetaEditActions.GET_ETIQUETA: {
+        case AcaoEditActions.GET_ACAO: {
             return {
                 ...state,
-                etiquetaId: null,
+                acaoId: null,
                 loading: true
             };
         }
 
-        case EtiquetaEditActions.GET_ETIQUETA_SUCCESS: {
+        case AcaoEditActions.GET_ACAO_SUCCESS: {
 
             return {
                 ...state,
-                etiquetaId: action.payload.etiquetaId,
+                acaoId: action.payload.acaoId,
                 loaded: action.payload.loaded,
                 loading: false
             };
         }
 
-        case EtiquetaEditActions.CREATE_ETIQUETA: {
+        case AcaoEditActions.CREATE_ACAO: {
             return {
                 ...state,
-                etiquetaId: null,
+                acaoId: null,
                 loaded: {
-                    id: 'etiquetaHandle',
+                    id: 'acaoHandle',
                     value: 'criar'
                 },
                 loading: false
             };
         }
 
-        case EtiquetaEditActions.GET_ETIQUETA_FAILED: {
+        case AcaoEditActions.GET_ACAO_FAILED: {
             return {
                 ...state,
                 loading: false
             };
         }
 
-        case EtiquetaEditActions.SAVE_ETIQUETA: {
+        case AcaoEditActions.SAVE_ACAO: {
             return {
                 ...state,
                 saving: true,
@@ -67,7 +67,7 @@ export function EtiquetaEditReducer(
             };
         }
 
-        case EtiquetaEditActions.SAVE_ETIQUETA_SUCCESS: {
+        case AcaoEditActions.SAVE_ACAO_SUCCESS: {
             return {
                 ...state,
                 saving: false,
@@ -75,7 +75,7 @@ export function EtiquetaEditReducer(
             };
         }
 
-        case EtiquetaEditActions.SAVE_ETIQUETA_FAILED: {
+        case AcaoEditActions.SAVE_ACAO_FAILED: {
             return {
                 ...state,
                 saving: false,

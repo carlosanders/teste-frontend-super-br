@@ -1,0 +1,30 @@
+<div fxLayout="row" fxLayoutAlign="start center">
+
+    <div fxLayout="row" fxLayoutAlign="start center" fxFlex>
+
+        <div class="info" fxFlex>
+
+            <div class="title" fxLayout="row">
+                <span class="text-truncate">{{'Minuta'}}</span>
+            </div>
+
+            <div class="body mt-4">
+                <span class="text-truncate">{{'Gera automaticamente uma minuta na tarefa etiquetada de acordo com o modelo pré-selecionado'}}</span>
+            </div>
+
+        </div>
+
+        <div class="actions" fxLayout="row" fxLayoutAlign="start center">
+
+            <div class="spinner-container m-8" *ngIf="deleting">
+                <mat-spinner diameter="24"></mat-spinner>
+            </div>
+
+            <button mat-icon-button *ngIf="!deleting" aria-label="remover"
+                    (click)="doDelete()">
+               <mat-icon>delete</mat-icon>
+            </button>
+        </div>
+
+    </div>
+</div>

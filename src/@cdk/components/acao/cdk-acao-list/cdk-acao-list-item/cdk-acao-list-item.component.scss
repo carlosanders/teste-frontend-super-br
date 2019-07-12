@@ -1,0 +1,53 @@
+@import 'src/@fuse/scss/fuse';
+
+cdk-acao-list-item {
+
+    display: block;
+    position: relative;
+    padding: 16px 16px 16px 24px;
+    border: 1px solid;
+    text-transform: none;
+    cursor: pointer;
+    flex-shrink: 0;
+
+    .info {
+
+        &.nao-lido {
+            font-weight: bold;
+        }
+
+        margin: 0 16px 0 8px;
+
+        .title {
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .subtitle {
+            font-style: italic;
+            font-size: 12px;
+        }
+
+        .body {
+            margin-top: 6px;
+        }
+
+        .etiquetas {
+            margin-top: 8px;
+
+            .etiqueta {
+                font-size: 11px;
+                border-radius: 4px;
+                margin: 0 4px 0 0;
+                padding: 3px 8px;
+
+                .etiqueta-color {
+                    width: 8px;
+                    height: 8px;
+                    margin-right: 8px;
+                    border-radius: 50%;
+                }
+            }
+        }
+    }
+}

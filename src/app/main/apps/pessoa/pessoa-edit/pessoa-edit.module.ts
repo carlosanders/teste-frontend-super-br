@@ -13,7 +13,7 @@ import { PessoaEditMainSidebarComponent } from './sidebars/main/main-sidebar.com
 import { PessoaEditComponent } from './pessoa-edit.component';
 import { CommonModule } from '@angular/common';
 import * as fromGuards from './dados-pessoa-edit/store/guards';
-import {PessoaService} from '../../../../../@cdk/services/pessoa.service';
+import {PessoaService} from '@cdk/services/pessoa.service';
 
 
 const routes: Routes = [

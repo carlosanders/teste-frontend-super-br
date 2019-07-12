@@ -6,11 +6,11 @@
         <div class="actions m-16" fxLayout="row" fxLayoutAlign="start center">
             <button mat-raised-button
                     class="mat-accent"
-                    [routerLink]="'editar/criar'"
+                    [routerLink]="'editar/criar/dados-basicos'"
                     *ngIf="action === 'listar'"
-                    aria-label="novo"
-                    matTooltip="Novo Etiqueta">
-                Novo
+                    aria-label="nova etiqueta"
+                    matTooltip="Nova Etiqueta">
+                Nova
             </button>
             <button mat-icon-button
                     (click)="goBack()"
