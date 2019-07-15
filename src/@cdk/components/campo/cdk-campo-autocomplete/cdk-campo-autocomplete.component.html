@@ -1,0 +1,9 @@
+<mat-autocomplete [displayWith]="displayCampoFn">
+    <mat-option *ngFor="let campo of campoList"
+                [value]="campo">
+        <span [innerHTML]="displayCampoFn(campo) | highlightOption: this.control.value"></span>
+    </mat-option>
+    <mat-option *ngIf="campoListIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>

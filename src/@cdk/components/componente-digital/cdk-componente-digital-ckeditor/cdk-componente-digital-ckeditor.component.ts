@@ -8,6 +8,7 @@ import {
 
 import {fuseAnimations} from '@fuse/animations';
 import {ComponenteDigital} from '@cdk/models/componente-digital.model';
+import {MatDialog} from '@angular/material';
 
 @Component({
     selector: 'cdk-componente-digital-ckeditor',
@@ -49,7 +50,7 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
 
         toolbar:
             [
-                {name: 'salvar', items: ['saveButton', 'PrintSemZoom']},
+                {name: 'salvar', items: ['saveButton', 'testButton', 'PrintSemZoom']},
                 {name: 'clipboard', items: ['Cut', 'Copy', 'Paste', 'PasteText', '-', 'Undo', 'Redo']},
                 {name: 'editing', items: ['Find', 'Replace', '-', 'SelectAll']},
                 {name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat']},
@@ -87,7 +88,7 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
      *
      * @param _changeDetectorRef
      */
-    constructor(private _changeDetectorRef: ChangeDetectorRef) {
+    constructor(private _changeDetectorRef: ChangeDetectorRef, public dialog: MatDialog) {
 
     }
 
@@ -117,8 +118,7 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
 
     fetch(): void {
         if (this.componenteDigital && this.componenteDigital.conteudo) {
-            const conteudo = this.b64DecodeUnicode(this.componenteDigital.conteudo.split(';base64,')[1]);
-            this.src = conteudo;
+            this.src = this.b64DecodeUnicode(this.componenteDigital.conteudo.split(';base64,')[1]);
         } else {
             this.src = null;
         }
@@ -203,5 +203,13 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
                 this.save.emit(conteudo);
             }
         );
+    }
+
+    doTest(): void {
+        const dialogRef = this.dialog.open(DialogContentExampleDialogComponent);
+
+        dialogRef.afterClosed().subscribe(result => {
+            console.log(`Dialog result: ${result}`);
+        });
     }
 }

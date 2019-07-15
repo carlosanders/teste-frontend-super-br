@@ -1,0 +1,29 @@
+<h1 mat-dialog-title>Inclusão de Campo</h1>
+<div mat-dialog-content>
+    <p>What's your favorite animal?</p>
+    <mat-form-field fxFlex="100">
+        <div fxLayout="row" fxLayoutAlign="start center">
+            <input matInput placeholder="Campo"
+                   formControlName="campo"
+                   [matAutocomplete]="campo.autocomplete"
+                   (blur)="checkCampo()"
+                   required>
+        </div>
+        <cdk-campo-autocomplete
+            #campo="campoAutocomplete"
+            [control]="form.get('campo')"
+            [pagination]="campoPagination">
+        </cdk-campo-autocomplete>
+        <button matSuffix mat-button mat-icon-button
+                (click)="showCampoGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('campo').hasError('formError')">
+            {{form.get('campo').errors.formError}}
+        </mat-error>
+    </mat-form-field>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">No Thanks</button>
+    <button mat-button [mat-dialog-close]="data.animal" cdkFocusInitial>Ok</button>
+</div>

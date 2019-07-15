@@ -5,4 +5,10 @@
                   [icon]="'save'"
                   [label]="'Salvar'">
         </ckbutton>
+        <ckbutton [name]="'testButton'"
+                  [command]="'testCmd'"
+                  (click)="doTest()"
+                  [icon]="'/assets/icons/flags/us.png'"
+                  [label]="'Test'">
+        </ckbutton>
 </ckeditor>
