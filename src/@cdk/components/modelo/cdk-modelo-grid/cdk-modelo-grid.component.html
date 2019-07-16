@@ -126,6 +126,15 @@
                         <mat-icon>edit</mat-icon>
                     </button>
 
+                    <button mat-icon-button
+                            *ngIf="actions.indexOf('editConteudo') > -1"
+                            [disabled]="deletedIds?.indexOf(modelo.id) > -1"
+                            (click)="editConteudoModelo(modelo.documento.componentesDigitais[0].id)"
+                            aria-label="editar conteúdo"
+                            matTooltip="Editar Conteúdo">
+                        <mat-icon>desktop_windows</mat-icon>
+                    </button>
+
                     <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(modelo.id) > -1">
                         <mat-spinner diameter="24"></mat-spinner>
                     </div>

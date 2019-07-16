@@ -74,6 +74,10 @@ export class ModeloListComponent implements OnInit {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/') + modeloId]);
     }
 
+    editConteudo(documentoId: number): void {
+        this._router.navigate([this.routerState.url + '/documento/' + documentoId + '/modelo']).then();
+    }
+
     delete(modeloId: number): void {
         this._store.dispatch(new fromStore.DeleteModelo(modeloId));
     }

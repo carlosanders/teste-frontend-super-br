@@ -7,6 +7,7 @@ import {CdkComponenteDigitalCkeditorComponent} from './cdk-componente-digital-ck
 import { CKEditorModule } from 'ng2-ckeditor';
 import {MatButtonModule, MatDialogModule, MatIconModule} from '@angular/material';
 import {CdkCampoPluginModule} from './cdk-plugins/cdk-campo-plugin/cdk-campo-plugin.module';
+import {CdkRepositorioPluginModule} from './cdk-plugins/cdk-respositorio-plugin/cdk-repositorio-plugin.module';
 
 const routes: Routes = [
     {
@@ -29,6 +30,7 @@ const routes: Routes = [
         CKEditorModule,
 
         CdkCampoPluginModule,
+        CdkRepositorioPluginModule,
 
         TranslateModule,
         FuseSharedModule,

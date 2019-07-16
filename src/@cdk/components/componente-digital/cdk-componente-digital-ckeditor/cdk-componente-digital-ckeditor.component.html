@@ -5,10 +5,16 @@
                   [icon]="'save'"
                   [label]="'Salvar'">
         </ckbutton>
-        <ckbutton [name]="'camposButton'"
-                  [command]="'camposCmd'"
-                  (click)="doCampos()"
+        <ckbutton [name]="'campoButton'"
+                  [command]="'campoCmd'"
+                  (click)="doCampo()"
                   [icon]="'source'"
                   [label]="'Campos'">
+        </ckbutton>
+        <ckbutton [name]="'repositorioButton'"
+                  [command]="'repositorioCmd'"
+                  (click)="doRepositorio()"
+                  [icon]="'/assets/icons/grid.png'"
+                  [label]="'Repositórios'">
         </ckbutton>
 </ckeditor>

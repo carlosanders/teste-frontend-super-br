@@ -27,6 +27,12 @@ const routes: Routes = [
     {
         path: '',
         component: RepositorioListComponent,
+        children: [
+            {
+                path       : 'documento',
+                loadChildren: 'app/main/apps/documento/documento.module#DocumentoModule',
+            }
+        ],
         canActivate: [fromGuards.ResolveGuard]
     }
 ];

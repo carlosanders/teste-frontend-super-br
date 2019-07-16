@@ -11,6 +11,8 @@ import {OrigemDados} from '@cdk/models/origem-dados.model';
 import {ComponenteDigital} from '@cdk/models/componente-digital.model';
 import {VinculacaoDocumento} from '@cdk/models/vinculacao-documento.model';
 import {DocumentoAvulso} from './documento-avulso.model';
+import {Modelo} from './modelo.model';
+import {Repositorio} from './repositorio.model';
 
 export class Documento {
 
@@ -74,6 +76,14 @@ export class Documento {
     documentoAvulsoRemessa?: DocumentoAvulso;
 
     @Exclude({ toPlainOnly: true })
+    @Type(() => Modelo)
+    modelo?: Modelo;
+
+    @Exclude({ toPlainOnly: true })
+    @Type(() => Repositorio)
+    repositorio?: Repositorio;
+
+    @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     criadoPor?: Usuario;
@@ -135,14 +145,16 @@ export class Documento {
         this.setorOrigem = null;
         this.tarefaOrigem = null;
         this.origemDados = null;
+        this.modelo = null;
+        this.repositorio = null;
         this.criadoPor = null;
         this.criadoEm = null;
         this.atualizadoPor = null;
         this.atualizadoEm = null;
         this.apagadoPor = null;
         this.apagadoEm = null;
-        this.componentesDigitais = null;
-        this.vinculacoesDocumentos = null;
+        this.componentesDigitais = [];
+        this.vinculacoesDocumentos = [];
         this.documentoAvulsoRemessa = null;
         this.vinculacaoDocumentoPrincipal = null;
     }

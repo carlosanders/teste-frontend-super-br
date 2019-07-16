@@ -12,6 +12,7 @@ import * as fromStore from '../store';
 import {select, Store} from '@ngrx/store';
 import {ComponenteDigital} from '@cdk/models/componente-digital.model';
 import {takeUntil} from 'rxjs/operators';
+import {getRouterState} from '../../../../../store/reducers';
 
 @Component({
     selector: 'componente-digital-ckeditor',
@@ -27,6 +28,9 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
 
     componenteDigital$: Observable<ComponenteDigital>;
     componenteDigital: ComponenteDigital;
+
+    routerState: any;
+
     /**
      * @param _store
      */
@@ -47,6 +51,16 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
         this.componenteDigital$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(cd => this.componenteDigital = cd);
+
+        this._store
+            .pipe(
+                select(getRouterState),
+                takeUntil(this._unsubscribeAll)
+            ).subscribe(routerState => {
+            if (routerState) {
+                this.routerState = routerState.state;
+            }
+        });
     }
 
     /**

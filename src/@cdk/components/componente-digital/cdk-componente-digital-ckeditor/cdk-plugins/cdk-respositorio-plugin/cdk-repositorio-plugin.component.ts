@@ -13,19 +13,19 @@ import {fuseAnimations} from '@fuse/animations';
 
 import {Pagination} from '@cdk/models/pagination';
 
-import {Campo} from '@cdk/models/campo.model';
+import {Repositorio} from '@cdk/models/repositorio.model';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatDialogRef} from '@angular/material/dialog';
 
 @Component({
-    selector: 'cdk-campo-plugin',
-    templateUrl: './cdk-campo-plugin.component.html',
-    styleUrls: ['./cdk-campo-plugin.component.scss'],
+    selector: 'cdk-repositorio-plugin',
+    templateUrl: './cdk-repositorio-plugin.component.html',
+    styleUrls: ['./cdk-repositorio-plugin.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
 })
-export class CdkCampoPluginComponent implements OnInit {
+export class CdkRepositorioPluginComponent implements OnInit {
 
     @Input()
     pagination: Pagination;
@@ -36,7 +36,7 @@ export class CdkCampoPluginComponent implements OnInit {
     @Output()
     cancel = new EventEmitter();
 
-    campos: Campo[];
+    repositorios: Repositorio[];
 
     total = 0;
 
@@ -52,31 +52,31 @@ export class CdkCampoPluginComponent implements OnInit {
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: FormBuilder,
-        public dialogRef: MatDialogRef<CdkCampoPluginComponent>,
+        public dialogRef: MatDialogRef<CdkRepositorioPluginComponent>,
     ) {
         this.loading = false;
         this.pagination = new Pagination();
 
         this.form = this._formBuilder.group({
-            'campo': [null, [Validators.required]]
+            'repositorio': [null, [Validators.required]]
         });
     }
 
     ngOnInit(): void {
     }
 
-    select(campo): void {
-        this.selected.emit(campo);
+    select(repositorio): void {
+        this.selected.emit(repositorio);
     }
 
     doCancel(): void {
         this.cancel.emit();
     }
 
-    checkCampo(): void {
-        const value = this.form.get('campo').value;
+    checkRepositorio(): void {
+        const value = this.form.get('repositorio').value;
         if (!value || typeof value !== 'object') {
-            this.form.get('campo').setValue(null);
+            this.form.get('repositorio').setValue(null);
         }
     }
 

@@ -1,5 +1,5 @@
 <div fxFlex fxLayout="row">
-    <div fxFlex fxLayout="column" fxFlex="25">
+    <div fxLayout="column" fxFlex="25">
         <!-- HEADER -->
         <div>
         </div>
@@ -79,14 +79,14 @@
 
         <div class="documentos-vinculados" class="mb-16" fxFlex fxLayout="column" *ngIf="activeCard === 'form'">
 
-            <h3 *ngIf="!(documento$ | async)?.vinculacaoDocumentoPrincipal" style="font-weight: bold">Documento Principal</h3>
+            <h3 *ngIf="!(documento$ | async)?.vinculacaoDocumentoPrincipal" style="font-weight: bold">Modelo</h3>
             <h3 *ngIf="(documento$ | async)?.vinculacaoDocumentoPrincipal" style="font-weight: bold">Anexo</h3>
 
-            <cdk-documento-form fxFlex [documento]="(documento$ | async)"
+            <cdk-modelo-form fxFlex [modelo]="(documento$ | async)?.modelo"
                                 [saving]="(isSaving$ | async)"
                                 [errors]="(errors$ | async)"
                                 (save)="submit($event)">
-            </cdk-documento-form>
+            </cdk-modelo-form>
 
         </div>
     </div>
