@@ -6,6 +6,7 @@ import {TranslateModule} from '@ngx-translate/core';
 import {CdkComponenteDigitalCkeditorComponent} from './cdk-componente-digital-ckeditor.component';
 import { CKEditorModule } from 'ng2-ckeditor';
 import {MatButtonModule, MatDialogModule, MatIconModule} from '@angular/material';
+import {CdkCampoPluginModule} from './cdk-plugins/cdk-campo-plugin/cdk-campo-plugin.module';
 
 const routes: Routes = [
     {
@@ -26,6 +27,8 @@ const routes: Routes = [
         MatButtonModule,
 
         CKEditorModule,
+
+        CdkCampoPluginModule,
 
         TranslateModule,
         FuseSharedModule,

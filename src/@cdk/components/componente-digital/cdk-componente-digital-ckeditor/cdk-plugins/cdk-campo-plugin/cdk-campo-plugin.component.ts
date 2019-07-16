@@ -8,21 +8,20 @@ import {
     EventEmitter,
     OnInit
 } from '@angular/core';
-import {of} from 'rxjs';
 
 import {fuseAnimations} from '@fuse/animations';
-
-import {catchError, finalize} from 'rxjs/operators';
 
 import {Pagination} from '@cdk/models/pagination';
 
 import {CampoService} from '@cdk/services/campo.service';
 import {Campo} from '@cdk/models/campo.model';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {MatDialogRef} from '@angular/material/dialog';
 
 @Component({
-    selector: 'cdk-campo-gridsearch',
-    templateUrl: './cdk-campo-gridsearch.component.html',
-    styleUrls: ['./cdk-campo-gridsearch.component.scss'],
+    selector: 'cdk-campo-plugin',
+    templateUrl: './cdk-campo-plugin.component.html',
+    styleUrls: ['./cdk-campo-plugin.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
@@ -44,56 +43,27 @@ export class CdkCampoPluginComponent implements OnInit {
 
     loading: boolean;
 
+    form: FormGroup;
+
     /**
-     *
      * @param _changeDetectorRef
-     * @param _campoService
+     * @param _formBuilder
+     * @param dialogRef
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _campoService: CampoService
+        private _formBuilder: FormBuilder,
+        public dialogRef: MatDialogRef<CdkCampoPluginComponent>,
     ) {
         this.loading = false;
         this.pagination = new Pagination();
+
+        this.form = this._formBuilder.group({
+            'campo': [null, [Validators.required]]
+        });
     }
 
     ngOnInit(): void {
-        this.load(this.pagination);
-    }
-
-    load(params): void {
-
-        this.loading = true;
-
-        this._campoService.query(
-            JSON.stringify(params.filter),
-            params.limit,
-            params.offset,
-            JSON.stringify(params.sort),
-            JSON.stringify(params.populate))
-            .pipe(finalize(() => this.loading = false),
-                catchError(() => of([]))
-            ).subscribe(response => {
-                this.campos = response['entities'];
-                this.total = response['total'];
-                this._changeDetectorRef.markForCheck();
-            });
-    }
-
-    reload (params): void {
-        params = {
-            ...this.pagination,
-            filter: {
-                ...this.pagination.filter,
-                ...params.gridFilter
-            },
-            sort: params.sort,
-            populate: [
-                ...this.pagination.populate,
-                ...params.populate
-            ]
-        };
-        this.load (params);
     }
 
     select(campo): void {
@@ -102,6 +72,13 @@ export class CdkCampoPluginComponent implements OnInit {
 
     doCancel(): void {
         this.cancel.emit();
+    }
+
+    checkCampo(): void {
+        const value = this.form.get('campo').value;
+        if (!value || typeof value !== 'object') {
+            this.form.get('campo').setValue(null);
+        }
     }
 
 }
