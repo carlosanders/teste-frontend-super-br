@@ -66,6 +66,9 @@ export class CdkRepositorioGridComponent implements AfterViewInit, OnInit, OnCha
     edit = new EventEmitter<number>();
 
     @Output()
+    editConteudo = new EventEmitter<number>();
+
+    @Output()
     delete = new EventEmitter<number>();
 
     @Output()
@@ -142,6 +145,10 @@ export class CdkRepositorioGridComponent implements AfterViewInit, OnInit, OnCha
 
     editRepositorio(repositorioId): void {
         this.edit.emit(repositorioId);
+    }
+
+    editConteudoRepositorio(documentoId): void {
+        this.editConteudo.emit(documentoId);
     }
 
     selectRepositorio(repositorio: Repositorio): void {

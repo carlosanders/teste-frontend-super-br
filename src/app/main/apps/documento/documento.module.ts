@@ -13,6 +13,8 @@ import {MatButtonModule, MatIconModule} from '@angular/material';
 import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
 import {FuseSidebarModule} from '@fuse/components';
 import {CdkDocumentoCardListModule} from '@cdk/components/documento/cdk-documento-card-list/cdk-documento-card-list.module';
+import {ModeloService} from '@cdk/services/modelo.service';
+import {RepositorioService} from '@cdk/services/repositorio.service';
 
 const routes: Routes = [
     {
@@ -26,6 +28,14 @@ const routes: Routes = [
             {
                 path       : 'oficio',
                 loadChildren: './documento-avulso-edit/documento-avulso-edit.module#DocumentoAvulsoEditModule',
+            },
+            {
+                path       : 'modelo',
+                loadChildren: './modelo-edit/documento-modelo-edit.module#DocumentoModeloEditModule',
+            },
+            {
+                path       : 'repositorio',
+                loadChildren: './repositorio-edit/documento-repositorio-edit.module#DocumentoRepositorioEditModule',
             },
             {
                 path : '**',
@@ -57,6 +67,8 @@ const routes: Routes = [
     providers: [
         DocumentoService,
         DocumentoAvulsoService,
+        ModeloService,
+        RepositorioService,
         fromGuards.ResolveGuard
     ],
     exports: [

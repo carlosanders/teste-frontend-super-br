@@ -74,6 +74,10 @@ export class RepositorioListComponent implements OnInit {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/') + repositorioId]);
     }
 
+    editConteudo(documentoId: number): void {
+        this._router.navigate([this.routerState.url + '/documento/' + documentoId + '/repositorio']).then();
+    }
+
     delete(repositorioId: number): void {
         this._store.dispatch(new fromStore.DeleteRepositorio(repositorioId));
     }
