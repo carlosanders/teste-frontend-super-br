@@ -1,0 +1,18 @@
+# pulled from ubuntu
+FROM node:10.16.0-alpine
+
+MAINTAINER Leonardo Nobre <leonardo.nobre@agu.gov.br>
+
+RUN npm install npm@latest -g
+
+RUN npm install -g @angular/cli@7.3.9
+
+RUN npm install
+
+RUN npm rebuild node-sass
+
+WORKDIR /app
+
+EXPOSE 4200
+
+ENTRYPOINT ["sh", "/app/docker/dev/docker-entrypoint.sh"]
