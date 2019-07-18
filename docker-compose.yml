@@ -13,6 +13,19 @@ services:
         networks:
             supp_frontend_network:
                 ipv4_address: 192.168.70.10
+    angular-hom:
+        build:
+            context: .
+            dockerfile: ./docker/hom/DockerFile_SUPP
+        ports:
+            - 80:80
+        volumes:
+            - '.:/app'
+        tty: true
+        command: tail -f /dev/null
+        networks:
+            supp_frontend_network:
+                ipv4_address: 192.168.70.12
     angular-prod:
         build:
             context: .

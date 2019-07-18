@@ -25,4 +25,4 @@ COPY --from=build /app/dist /usr/share/nginx/html
 
 EXPOSE 80
 
-CMD ["nginx"]
+ENTRYPOINT ["sh", "/app/docker/hom/docker-entrypoint.sh"]
