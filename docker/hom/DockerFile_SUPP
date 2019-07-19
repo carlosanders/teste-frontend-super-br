@@ -15,7 +15,7 @@ RUN npm rebuild node-sass
 
 COPY . /app
 
-RUN node --max_old_space_size=8192 node_modules/@angular/cli/bin/ng build --prod
+RUN node --max_old_space_size=8192 node_modules/@angular/cli/bin/ng build --configuration staging
 
 FROM nginx:alpine
 
