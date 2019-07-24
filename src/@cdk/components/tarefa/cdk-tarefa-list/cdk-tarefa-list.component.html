@@ -20,13 +20,13 @@
 
         <div class="toolbar-separator" *ngIf="selectedIds.length"></div>
 
-        <div *ngIf="selectedIds.length">
-            {{selectedIds.length}}
+        <div *ngIf="selectedIds?.length">
+            {{selectedIds?.length}}
         </div>
 
-        <div class="toolbar-separator" *ngIf="selectedIds.length && folders.length"></div>
+        <div class="toolbar-separator" *ngIf="selectedIds?.length && folders?.length"></div>
 
-        <button mat-icon-button [matMenuTriggerFor]="folderMenu" *ngIf="selectedIds.length">
+        <button mat-icon-button [matMenuTriggerFor]="folderMenu" *ngIf="selectedIds?.length">
             <mat-icon class="secondary-text">folder</mat-icon>
         </button>
         <mat-menu #folderMenu="matMenu">
@@ -40,7 +40,7 @@
 
         <button mat-icon-button [matMenuTriggerFor]="moreMenu"
                 aria-label="Ferramentas" (click)="$event.stopPropagation()"
-                *ngIf="selectedIds.length > 1">
+                *ngIf="selectedIds?.length > 1">
             <mat-icon class="secondary-text">more_vert</mat-icon>
         </button>
 

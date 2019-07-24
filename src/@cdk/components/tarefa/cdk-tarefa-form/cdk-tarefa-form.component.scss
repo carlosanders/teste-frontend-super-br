@@ -2,6 +2,10 @@
 
 cdk-tarefa-form {
 
+  form {
+    width: 100%;
+  }
+
   .bloco-processos {
     @include mat-elevation(1);
   }
@@ -17,4 +21,20 @@ cdk-tarefa-form {
       background: none !important;
     }
   }
+}
+
+cdk-processo-gridsearch {
+  width: 100%;
+}
+
+cdk-especie-tarefa-gridsearch {
+  width: 100%;
+}
+
+cdk-setor-gridsearch {
+  width: 100%;
+}
+
+cdk-usuario-gridsearch {
+  width: 100%;
 }
