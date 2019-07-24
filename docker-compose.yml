@@ -3,7 +3,7 @@ services:
     angular-dev:
         build:
             context: .
-            dockerfile: ./docker/dev/DockerFile_SUPP
+            dockerfile: ./docker/dev/DockerFile
         ports:
             - 4200:4200
         volumes:
@@ -16,7 +16,7 @@ services:
     angular-hom:
         build:
             context: .
-            dockerfile: ./docker/hom/DockerFile_SUPP
+            dockerfile: ./docker/hom/DockerFile
         ports:
             - 80:80
         volumes:
@@ -29,7 +29,7 @@ services:
     angular-prod:
         build:
             context: .
-            dockerfile: ./docker/prod/DockerFile_SUPP
+            dockerfile: ./docker/prod/DockerFile
         ports:
             - 80:80
         volumes:
