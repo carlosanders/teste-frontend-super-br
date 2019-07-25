@@ -103,7 +103,7 @@ export class ComponenteDigitalEffect {
                 ),
                 switchMap((action) => {
                     return this._documentoService.query(
-                        `{"id": "eq:${action.payload}"}`,
+                        `{"componenteDigital.id": "eq:${action.payload}"}`,
                         1,
                         0,
                         '{}',

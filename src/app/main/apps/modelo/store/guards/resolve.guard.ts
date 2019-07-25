@@ -58,7 +58,7 @@ export class ResolveGuard implements CanActivate {
                 if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
 
                     const params = {
-                        filter: {},
+                        filter: {'modalidadeModelo.valor': 'in'},
                         gridFilter: {},
                         limit: 10,
                         offset: 0,
