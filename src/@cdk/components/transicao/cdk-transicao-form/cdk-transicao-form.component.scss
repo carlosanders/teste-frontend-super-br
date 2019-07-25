@@ -1,15 +1,23 @@
 cdk-transicao-form {
 
-    .form-card {
-      border-radius: 8px;
-    }
+  form {
+    width: 100%;
+  }
 
-    .form-errors-model {
-      flex: 1;
+  .form-card {
+    border-radius: 8px;
+  }
 
-      code {
-        background: none !important;
-      }
+  .form-errors-model {
+    flex: 1;
+
+    code {
+      background: none !important;
     }
+  }
+
+  cdk-modalidade-transicao-gridsearch {
+    width: 100%;
+  }
 
 }

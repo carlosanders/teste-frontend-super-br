@@ -1,15 +1,34 @@
 cdk-pessoa-form {
 
-    .form-card {
-      border-radius: 8px;
+  form {
+    width: 100%;
+  }
+
+  .form-card {
+    border-radius: 8px;
+  }
+
+  .form-errors-model {
+    flex: 1;
+
+    code {
+      background: none !important;
     }
+  }
 
-    .form-errors-model {
-      flex: 1;
+  cdk-modalidade-qualificacao-pessoa-gridsearch {
+    width: 100%;
+  }
 
-      code {
-        background: none !important;
-      }
-    }
+  cdk-modalidade-genero-pessoa-gridsearch {
+    width: 100%;
+  }
 
+  cdk-pais-gridsearch {
+    width: 100%;
+  }
+
+  cdk-municipio-gridsearch {
+    width: 100%;
+  }
 }

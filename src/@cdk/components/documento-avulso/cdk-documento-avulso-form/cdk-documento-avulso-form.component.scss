@@ -1,5 +1,9 @@
 cdk-documento-avulso-form {
 
+  form {
+    width: 100%;
+  }
+
   .form-card {
     border-radius: 8px;
   }
@@ -11,4 +15,21 @@ cdk-documento-avulso-form {
       background: none !important;
     }
   }
+
+  cdk-processo-gridsearch {
+    width: 100%;
+  }
+
+  cdk-modelo-gridsearch {
+    width: 100%;
+  }
+
+  cdk-especie-documento-avulso-gridsearch {
+    width: 100%;
+  }
+
+  cdk-setor-gridsearch {
+    width: 100%;
+  }
+
 }
