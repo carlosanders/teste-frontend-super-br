@@ -1,15 +1,42 @@
 cdk-juntada-form {
 
-    .form-card {
-      border-radius: 8px;
+  form {
+    width: 100%;
+  }
+
+  .form-card {
+    border-radius: 8px;
+  }
+
+  .form-errors-model {
+    flex: 1;
+
+    code {
+      background: none !important;
     }
+  }
 
-    .form-errors-model {
-      flex: 1;
+  cdk-documento-gridsearch {
+    width: 100%;
+  }
 
-      code {
-        background: none !important;
-      }
-    }
+  cdk-origem-dados-gridsearch {
+    width: 100%;
+  }
 
+  cdk-volume-gridsearch {
+    width: 100%;
+  }
+
+  cdk-documento-avulso-gridsearch {
+    width: 100%;
+  }
+
+  cdk-atividade-gridsearch {
+    width: 100%;
+  }
+
+  cdk-tarefa-gridsearch {
+    width: 100%;
+  }
 }

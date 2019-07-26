@@ -1,5 +1,9 @@
 cdk-etiqueta-form {
 
+  form {
+    width: 100%;
+  }
+
   .selected-color {
     height: 25px;
     width: 25px;
@@ -17,6 +21,10 @@ cdk-etiqueta-form {
     code {
       background: none !important;
     }
+  }
+
+  cdk-modalidade-etiqueta-gridsearch {
+    width: 100%;
   }
 
 }

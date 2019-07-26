@@ -2,6 +2,10 @@
 
 cdk-acao-form {
 
+  form {
+    width: 100%;
+  }
+
   .form-card {
     border-radius: 8px;
   }
@@ -34,6 +38,10 @@ cdk-acao-form {
     code {
       background: none !important;
     }
+  }
+
+  cdk-modelo-gridsearch {
+    width: 100%;
   }
 
 }

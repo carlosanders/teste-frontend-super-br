@@ -1,16 +1,27 @@
 cdk-atividade-form {
 
-    .form-card {
-      border-radius: 8px;
+  form {
+    width: 100%;
+  }
+
+  .form-card {
+    border-radius: 8px;
+  }
+
+  .form-errors-model {
+
+    flex: 1;
+
+    code {
+      background: none !important;
     }
+  }
 
-    .form-errors-model {
+  cdk-especie-atividade-gridsearch {
+    width: 100%;
+  }
 
-      flex: 1;
-
-      code {
-        background: none !important;
-      }
-    }
-
+  cdk-usuario-gridsearch {
+    width: 100%;
+  }
 }

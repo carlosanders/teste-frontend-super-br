@@ -1,5 +1,9 @@
 cdk-vinculacao-documento-form {
 
+  form {
+    width: 100%;
+  }
+
   .form-card {
     border-radius: 8px;
   }
@@ -10,6 +14,18 @@ cdk-vinculacao-documento-form {
     code {
       background: none !important;
     }
+  }
+
+  cdk-documento-gridsearch {
+    width: 100%;
+  }
+
+  cdk-documento-gridsearch {
+    width: 100%;
+  }
+
+  cdk-modalidade-vinculacao-documento-gridsearch {
+    width: 100%;
   }
 
 }
