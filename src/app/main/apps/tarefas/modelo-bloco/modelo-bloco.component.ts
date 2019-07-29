@@ -101,7 +101,17 @@ export class ModeloBlocoComponent implements OnInit, OnDestroy  {
     reload (params): void {
         this._store.dispatch(new fromStore.GetModelos({
             ...this.pagination,
-            gridFilter: params.gridFilter
+            filter: {
+                ...this.pagination.filter,
+                ...params.gridFilter
+            },
+            sort: params.sort,
+            limit: params.limit,
+            offset: params.offset,
+            populate: [
+                ...this.pagination.populate,
+                ...params.populate
+            ]
         }));
     }
 

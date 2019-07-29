@@ -120,6 +120,18 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
      * On destroy
      */
     ngOnDestroy(): void {
+        const editor = window['CKEDITOR'];
+        if (editor.instances) {
+            for (const editorInstance in editor.instances) {
+                if (editor.instances.hasOwnProperty(editorInstance) &&
+                    editor.instances[editorInstance]) {
+                    editor.instances[editorInstance].destroy();
+                    editor.instances[editorInstance] = {
+                        destroy: () => true,
+                    };
+                }
+            }
+        }
     }
 
     // -----------------------------------------------------------------------------------------------------
