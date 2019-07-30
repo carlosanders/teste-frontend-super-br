@@ -42,6 +42,10 @@ cdk-etiqueta-grid {
 
     .actions {
       width: 100%;
+
+      .back {
+        margin-right: auto;
+      }
     }
 
     .mat-column-select {

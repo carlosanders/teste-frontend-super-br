@@ -126,6 +126,10 @@ cdk-cadastro-identificador-grid {
   .content {
     .actions {
       width: 100%;
+
+      .back {
+        margin-right: auto;
+      }
     }
   }
 }
