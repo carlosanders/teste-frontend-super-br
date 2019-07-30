@@ -126,6 +126,10 @@ cdk-modalidade-notificacao-grid {
   .content {
     .actions {
       width: 100%;
+
+      .back {
+        margin-right: auto;
+      }
     }
   }
 }

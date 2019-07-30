@@ -88,6 +88,8 @@ export class CdkEspecieRelevanciaGridsearchComponent implements OnInit {
                 ...params.gridFilter
             },
             sort: params.sort,
+            limit: params.limit,
+            offset: params.offset,
             populate: [
                 ...this.pagination.populate,
                 ...params.populate
