@@ -303,7 +303,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     doCreateDocumentoAvulso(tarefaId): void {
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.folderHandle + '/' + tarefaId + '/oficio']).then();
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.folderHandle + '/tarefa/' + tarefaId + '/oficio']).then();
     }
 
     doCreateTarefa(params): void {
