@@ -12,7 +12,9 @@ import * as fromStore from '../store';
 import {Documento} from '@cdk/models/documento.model';
 import {select, Store} from '@ngrx/store';
 import {Location} from '@angular/common';
-import {getMercureState} from 'app/store/reducers';
+import {getMercureState, getRouterState} from 'app/store/reducers';
+import {Router} from '@angular/router';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'documento-edit',
@@ -37,18 +39,25 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
 
     documentoPrincipal: Documento;
 
+    documento: Documento;
+
     activeCard = 'anexos';
 
     @ViewChild('ckdUpload')
     cdkUpload;
 
+    routerState: any;
+
     /**
+     *
      * @param _store
      * @param _location
+     * @param _router
      */
     constructor(
         private _store: Store<fromStore.DocumentoAppState>,
-        private _location: Location
+        private _location: Location,
+        private _router: Router
     ) {
         this.documento$ = this._store.pipe(select(fromStore.getDocumento));
         this.documentosVinculados$ = this._store.pipe(select(fromStore.getDocumentosVinculados));
@@ -107,12 +116,22 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
         });
 
         this.documento$.subscribe(documento => {
-           if (documento && documento.vinculacaoDocumentoPrincipal) {
-               this.documentoPrincipal = documento.vinculacaoDocumentoPrincipal.documento;
-               this.activeCard = 'form';
-           } else {
-               this.activeCard = 'anexos';
-           }
+            this.documento = documento;
+            if (documento && documento.vinculacaoDocumentoPrincipal) {
+                this.documentoPrincipal = documento.vinculacaoDocumentoPrincipal.documento;
+                this.activeCard = 'form';
+            } else {
+                this.activeCard = 'anexos';
+            }
+        });
+
+        this._store
+            .pipe(
+                select(getRouterState)
+            ).subscribe(routerState => {
+            if (routerState) {
+                this.routerState = routerState.state;
+            }
         });
     }
 
@@ -128,6 +147,14 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
 
     upload(): void {
         this.cdkUpload.upload();
+    }
+
+    anexarCopia(): void {
+        this._router.navigate([
+                this.routerState.url.split(this.routerState.params.documentoHandle + '/editar')[0] +
+                this.routerState.params.documentoHandle + '/editar/anexar-copia/' + this.documento.processoOrigem.id + '/visualizar'
+            ]
+        ).then();
     }
 
     changedSelectedDocumentosVinculadosId(selectedIds): void {

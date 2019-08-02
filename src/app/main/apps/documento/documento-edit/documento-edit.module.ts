@@ -20,6 +20,10 @@ const routes: Routes = [
             {
                 path       : 'componente-digital',
                 loadChildren: '../componente-digital/componente-digital.module#ComponenteDigitalModule'
+            },
+            {
+                path       : 'anexar-copia',
+                loadChildren: '../anexar-copia/anexar-copia.module#AnexarCopiaModule'
             }
         ]
     }

@@ -85,6 +85,7 @@ export class DocumentoEffect {
                             'componentesDigitais',
                             'modelo',
                             'modelo.template',
+                            'processoOrigem',
                             'repositorio',
                             'repositorio.modalidadeRepositorio',
                             'documentoAvulsoRemessa',
