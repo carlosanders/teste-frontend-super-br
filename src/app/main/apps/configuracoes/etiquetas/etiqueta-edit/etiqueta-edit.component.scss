@@ -1,7 +1,30 @@
+@import "src/@fuse/scss/fuse";
+
 etiqueta-edit {
 
-    .content {
+  overflow-y: auto;
+
+  .sidebar {
+
+    background: transparent !important;
+    box-shadow: none !important;
+
+    &:not(.locked-open) {
+      background: white;
+    }
+  }
+
+  .center {
+
+    width: 100%;
+
+    .header {
+
+      .actions {
+        margin-left: auto;
+        margin-right: 16px;
+      }
 
     }
-
+  }
 }

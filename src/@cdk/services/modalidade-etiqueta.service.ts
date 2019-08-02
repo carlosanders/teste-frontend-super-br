@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 import {ModalidadeEtiqueta} from '@cdk/models/modalidade-etiqueta.model';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
@@ -16,7 +17,9 @@ export class ModalidadeEtiquetaService {
 
     get(id: number): Observable<ModalidadeEtiqueta> {
         return this.modelService.getOne('modalidade_etiqueta', id)
-            .map(response => plainToClass(ModalidadeEtiqueta, response)[0]);
+            .pipe(
+                map(response => plainToClass(ModalidadeEtiqueta, response)[0])
+            );
     }
 
     query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
@@ -28,7 +31,9 @@ export class ModalidadeEtiquetaService {
         params['populate'] = populate;
 
         return this.modelService.get('modalidade_etiqueta', new HttpParams({fromObject: params}))
-            .map(response => new PaginatedResponse(plainToClass(ModalidadeEtiqueta, response['entities']), response['total']));
+            .pipe(
+                map(response => new PaginatedResponse(plainToClass(ModalidadeEtiqueta, response['entities']), response['total']))
+            );
     }
 
     count(filters: any = {}): Observable<any> {
@@ -41,18 +46,22 @@ export class ModalidadeEtiquetaService {
     save(modalidadeEtiqueta: ModalidadeEtiqueta): Observable<ModalidadeEtiqueta> {
         if (modalidadeEtiqueta.id) {
             return this.modelService.put('modalidade_etiqueta', modalidadeEtiqueta.id, classToPlain(modalidadeEtiqueta))
-                .map(response => {
-                    response = plainToClass(ModalidadeEtiqueta, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new ModalidadeEtiqueta(), {...modalidadeEtiqueta, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(ModalidadeEtiqueta, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new ModalidadeEtiqueta(), {...modalidadeEtiqueta, ...response});
+                    })
+                );
         } else {
             return this.modelService.post('modalidade_etiqueta', classToPlain(modalidadeEtiqueta))
-                .map(response => {
-                    response = plainToClass(ModalidadeEtiqueta, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new ModalidadeEtiqueta(), {...modalidadeEtiqueta, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(ModalidadeEtiqueta, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new ModalidadeEtiqueta(), {...modalidadeEtiqueta, ...response});
+                    })
+                );
         }
     }
 

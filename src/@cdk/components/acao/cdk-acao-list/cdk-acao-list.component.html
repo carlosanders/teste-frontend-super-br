@@ -1,0 +1,20 @@
+<div [@animateStagger]="{value:'50'}" fxLayout="column">
+
+    <div fxLayout="column" fxFlex
+         fxLayoutAlign="center center">
+        <mat-spinner class="acao-list-loading" *ngIf="loading" diameter="24"></mat-spinner>
+    </div>
+
+    <cdk-acao-list-item matRipple *ngFor="let acao of acoes" [acao]="acao"
+                                [deleting]="deletingIds.length > 0 && deletingIds.indexOf(acao.id) > -1"
+                                [total]="acoes.length"
+                                (delete)="doDeleteacao($event)"
+                                [@animate]="{value:'*',params:{y:'100%'}}">
+    </cdk-acao-list-item>
+
+</div>
+
+<div *ngIf="acoes.length === 0 && !loading" fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
+    <span class="no-acoes-text hint-text">{{ 'Nenhuma ação foi criada ainda!' }}</span>
+</div>
+

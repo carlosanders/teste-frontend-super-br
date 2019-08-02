@@ -1,15 +1,39 @@
 cdk-documento-form {
 
-    .form-card {
-      border-radius: 8px;
-    }
+  form {
+    width: 100%;
+  }
 
-    .form-errors-model {
-      flex: 1;
+  .form-card {
+    border-radius: 8px;
+  }
 
-      code {
-        background: none !important;
-      }
+  .form-errors-model {
+    flex: 1;
+
+    code {
+      background: none !important;
     }
+  }
+
+  cdk-tipo-documento-gridsearch {
+    width: 100%;
+  }
+
+  cdk-processo-gridsearch {
+    width: 100%;
+  }
+
+  cdk-setor-gridsearch {
+    width: 100%;
+  }
+
+  cdk-pessoa-gridsearch {
+    width: 100%;
+  }
+
+  cdk-tarefa-gridsearch {
+    width: 100%;
+  }
 
 }

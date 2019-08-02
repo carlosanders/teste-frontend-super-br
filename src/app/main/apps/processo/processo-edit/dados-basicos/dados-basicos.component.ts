@@ -17,6 +17,9 @@ import {Pagination} from '@cdk/models/pagination';
 import {Colaborador} from '@cdk/models/colaborador.model';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {getProcesso} from './store/selectors';
+import {Router} from '@angular/router';
+import {getRouterState} from 'app/store/reducers';
+import {Pessoa} from '@cdk/models/pessoa.model';
 
 @Component({
     selector: 'dados-basicos',
@@ -38,12 +41,19 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
     especieProcessoPagination: Pagination;
     setorAtualPagination: Pagination;
 
+    routerState: any;
+
+    procedencia: Pessoa;
+
     /**
+     *
      * @param _store
+     * @param _router
      * @param _loginService
      */
     constructor(
         private _store: Store<fromStore.DadosBasicosAppState>,
+        private _router: Router,
         private _loginService: LoginService
     ) {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
@@ -76,6 +86,14 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
             this.processo = new Processo();
             this.processo.novo = true;
         }
+
+        this._store
+            .pipe(select(getRouterState))
+            .subscribe(routerState => {
+                if (routerState) {
+                    this.routerState = routerState.state;
+                }
+            });
     }
 
     /**
@@ -99,6 +117,29 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
 
         this._store.dispatch(new fromStore.SaveProcesso(processo));
 
+    }
+
+    onActivate(componentReference): void  {
+        if (componentReference.select) {
+            componentReference.select.subscribe((pessoa: Pessoa) => {
+                this.procedencia = pessoa;
+                this._router.navigate([this.routerState.url.split('/pessoa')[0]]).then();
+            });
+        }
+    }
+
+    onDeactivate(componentReference): void  {
+        if (componentReference.select) {
+            componentReference.select.unsubscribe();
+        }
+    }
+
+    gerirProcedencia(): void {
+        this._router.navigate([this.routerState.url + '/pessoa']).then();
+    }
+
+    editProcedencia(pessoaId: number): void {
+        this._router.navigate([this.routerState.url + '/pessoa/editar/' + pessoaId]).then();
     }
 
 }

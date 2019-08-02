@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 import {ModalidadeRelacionamentoPessoal} from '@cdk/models/modalidade-relacionamento-pessoal.model';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
@@ -16,7 +17,9 @@ export class ModalidadeRelacionamentoPessoalService {
 
     get(id: number): Observable<ModalidadeRelacionamentoPessoal> {
         return this.modelService.getOne('modalidade_relacionamento_pessoal', id)
-            .map(response => plainToClass(ModalidadeRelacionamentoPessoal, response)[0]);
+            .pipe(
+                map(response => plainToClass(ModalidadeRelacionamentoPessoal, response)[0])
+            );
     }
 
     query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
@@ -28,7 +31,9 @@ export class ModalidadeRelacionamentoPessoalService {
         params['populate'] = populate;
 
         return this.modelService.get('modalidade_relacionamento_pessoal', new HttpParams({fromObject: params}))
-            .map(response => new PaginatedResponse(plainToClass(ModalidadeRelacionamentoPessoal, response['entities']), response['total']));
+            .pipe(
+                map(response => new PaginatedResponse(plainToClass(ModalidadeRelacionamentoPessoal, response['entities']), response['total']))
+            );
     }
 
     count(filters: any = {}): Observable<any> {
@@ -41,18 +46,22 @@ export class ModalidadeRelacionamentoPessoalService {
     save(modalidadeRelacionamentoPessoal: ModalidadeRelacionamentoPessoal): Observable<ModalidadeRelacionamentoPessoal> {
         if (modalidadeRelacionamentoPessoal.id) {
             return this.modelService.put('modalidade_relacionamento_pessoal', modalidadeRelacionamentoPessoal.id, classToPlain(modalidadeRelacionamentoPessoal))
-                .map(response => {
-                    response = plainToClass(ModalidadeRelacionamentoPessoal, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new ModalidadeRelacionamentoPessoal(), {...modalidadeRelacionamentoPessoal, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(ModalidadeRelacionamentoPessoal, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new ModalidadeRelacionamentoPessoal(), {...modalidadeRelacionamentoPessoal, ...response});
+                    })
+                );
         } else {
             return this.modelService.post('modalidade_relacionamento_pessoal', classToPlain(modalidadeRelacionamentoPessoal))
-                .map(response => {
-                    response = plainToClass(ModalidadeRelacionamentoPessoal, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new ModalidadeRelacionamentoPessoal(), {...modalidadeRelacionamentoPessoal, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(ModalidadeRelacionamentoPessoal, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new ModalidadeRelacionamentoPessoal(), {...modalidadeRelacionamentoPessoal, ...response});
+                    })
+                );
         }
     }
 

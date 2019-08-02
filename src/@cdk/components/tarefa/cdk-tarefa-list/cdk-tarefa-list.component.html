@@ -20,13 +20,13 @@
 
         <div class="toolbar-separator" *ngIf="selectedIds.length"></div>
 
-        <div *ngIf="selectedIds.length">
-            {{selectedIds.length}}
+        <div *ngIf="selectedIds?.length">
+            {{selectedIds?.length}}
         </div>
 
-        <div class="toolbar-separator" *ngIf="selectedIds.length && folders.length"></div>
+        <div class="toolbar-separator" *ngIf="selectedIds?.length && folders?.length"></div>
 
-        <button mat-icon-button [matMenuTriggerFor]="folderMenu" *ngIf="selectedIds.length">
+        <button mat-icon-button [matMenuTriggerFor]="folderMenu" *ngIf="selectedIds?.length">
             <mat-icon class="secondary-text">folder</mat-icon>
         </button>
         <mat-menu #folderMenu="matMenu">
@@ -40,7 +40,7 @@
 
         <button mat-icon-button [matMenuTriggerFor]="moreMenu"
                 aria-label="Ferramentas" (click)="$event.stopPropagation()"
-                *ngIf="selectedIds.length > 1">
+                *ngIf="selectedIds?.length > 1">
             <mat-icon class="secondary-text">more_vert</mat-icon>
         </button>
 
@@ -85,6 +85,21 @@
                     <span>Movimentar</span>
                 </ng-container>
             </button>
+
+            <button mat-menu-item aria-label="minutas" [matMenuTriggerFor]="selectMenuMinutas">
+                <ng-container>
+                    <mat-icon>attach_file</mat-icon>
+                    <span>Minutas</span>
+                </ng-container>
+            </button>
+            <mat-menu fxHide #selectMenuMinutas="matMenu">
+                <button mat-menu-item (click)="doUploadBloco()">
+                    Upload
+                </button>
+                <button mat-menu-item (click)="doEditorBloco()">
+                    Editor
+                </button>
+            </mat-menu>
 
             <button mat-menu-item aria-label="etiquetar"
                     (click)="doEtiquetarBloco()">

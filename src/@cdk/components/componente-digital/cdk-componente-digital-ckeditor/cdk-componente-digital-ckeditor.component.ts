@@ -8,6 +8,10 @@ import {
 
 import {fuseAnimations} from '@fuse/animations';
 import {ComponenteDigital} from '@cdk/models/componente-digital.model';
+import {MatDialog} from '@angular/material';
+import {CdkCampoPluginComponent} from './cdk-plugins/cdk-campo-plugin/cdk-campo-plugin.component';
+import {filter} from 'rxjs/operators';
+import {CdkRepositorioPluginComponent} from './cdk-plugins/cdk-respositorio-plugin/cdk-repositorio-plugin.component';
 
 @Component({
     selector: 'cdk-componente-digital-ckeditor',
@@ -26,8 +30,14 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
     componenteDigital: ComponenteDigital;
 
     @Input()
+    showModeloButtons = false;
+
+    editor: any;
+
+    @Input()
     config = {
-        extraPlugins: 'printsemzoom,fastimage,paragrafo,paragrafonumerado,citacao,titulo,subtitulo,texttransform,zoom,footnotes,pastebase64,sourcearea,imageresizerowandcolumn',
+        extraPlugins: 'printsemzoom,fastimage,paragrafo,paragrafonumerado,citacao,titulo,subtitulo,texttransform,zoom,footnotes,' +
+            'pastebase64,sourcearea,imageresizerowandcolumn',
         language: 'pt-br',
         disableNativeSpellChecker: false,
         scayt_autoStartup: false,
@@ -38,7 +48,9 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
         width: '100%',
         height: '100%',
 
-        extraAllowedContent: 'p(esquerda,centralizado,direita,numerado), p strong, p em, p u, p s, p sub, p sup, ul li, ol li, div[id]{page-break-after}, img[!src],p span{display,color,background-color,font-size}[data-service,data-method,data-options],table[*]{*}, tbody, th, td[*](*){width}, tr[*](*), hr, blockquote, h1, h2, h3, h4, section[*](*),header[*](*),li[*],a[*],cite(*)[*],sup(*)[*]{*},ol{*}[start] table(*),td{*}(*)[*],col[*](*){*}',
+        allowedContent: 'p(esquerda,centralizado,direita,numerado); p strong; p em; p u; p s; p sub; p sup; ul li; ol li; div[id]{page-break-after}; ' +
+            'img[!src];p span{display,color,background-color}[data-service,data-method,data-options]; table[*]{*}; tbody; th[*](*); td[*](*){width}; ' +
+            'tr[*](*);col[*](*){*}; hr; blockquote; h1; h2; h3; h4; section[*](*); header[*](*);li[*];a[*];cite(*)[*];sup(*)[*]{*};ol{*}[start]',
         startupShowBorders: false,
         pasteFromWordRemoveStyles: false,
         pasteFromWordRemoveFontStyles: false,
@@ -53,15 +65,13 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
                 {name: 'clipboard', items: ['Cut', 'Copy', 'Paste', 'PasteText', '-', 'Undo', 'Redo']},
                 {name: 'editing', items: ['Find', 'Replace', '-', 'SelectAll']},
                 {name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat']},
-                {
-                    name: 'paragraph', items: ['NumberedList', 'BulletedList',
-                        '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']
-                },
+                {name: 'paragraph', items: ['NumberedList', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']},
                 {name: 'styles', items: ['paragrafo', 'paragrafonumerado', 'citacao', 'titulo', 'subtitulo']},
                 {name: 'colors', items: ['TextColor', 'BGColor']},
                 {name: 'insert', items: ['Table', 'SpecialChar', 'PageBreak', 'HorizontalRule', 'Footnotes']},
                 {name: 'texttransform', items: ['TransformTextToUppercase', 'TransformTextToLowercase', 'TransformTextCapitalize']},
                 {name: 'zoom', items: ['Zoom', 'Maximize']},
+                {name: 'modelo', items: ['campoButton', 'repositorioButton']}
 
             ],
 
@@ -86,8 +96,9 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
     /**
      *
      * @param _changeDetectorRef
+     * @param dialog
      */
-    constructor(private _changeDetectorRef: ChangeDetectorRef) {
+    constructor(private _changeDetectorRef: ChangeDetectorRef, public dialog: MatDialog) {
 
     }
 
@@ -109,6 +120,18 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
      * On destroy
      */
     ngOnDestroy(): void {
+        const editor = window['CKEDITOR'];
+        if (editor.instances) {
+            for (const editorInstance in editor.instances) {
+                if (editor.instances.hasOwnProperty(editorInstance) &&
+                    editor.instances[editorInstance]) {
+                    editor.instances[editorInstance].destroy();
+                    editor.instances[editorInstance] = {
+                        destroy: () => true,
+                    };
+                }
+            }
+        }
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -117,8 +140,7 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
 
     fetch(): void {
         if (this.componenteDigital && this.componenteDigital.conteudo) {
-            const conteudo = this.b64DecodeUnicode(this.componenteDigital.conteudo.split(';base64,')[1]);
-            this.src = conteudo;
+            this.src = this.b64DecodeUnicode(this.componenteDigital.conteudo.split(';base64,')[1]);
         } else {
             this.src = null;
         }
@@ -127,7 +149,7 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
 
     b64DecodeUnicode(str): any {
         // Going backwards: from bytestream, to percent-encoding, to original string.
-        return decodeURIComponent(atob(str).split('').map(function(c): any {
+        return decodeURIComponent(atob(str).split('').map(function (c): any {
             return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
         }).join(''));
     }
@@ -152,18 +174,25 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
 
     onReady(e): void {
 
+        this.editor = e.editor;
+
         const me = this;
 
-        e.editor.on('contentDom', function (dom): any {
+        if (!this.showModeloButtons) {
+            const campoButton = <HTMLElement>document.getElementsByClassName('cke_button__campobutton')[0].parentNode;
+            const repositorioButton = <HTMLElement>document.getElementsByClassName('cke_button__repositoriobutton')[0].parentNode;
+            campoButton.style.visibility = 'hidden';
+            repositorioButton.style.visibility = 'hidden';
+        }
 
-            e.editor.document.on('keyup', function (event) {
+        e.editor.on('contentDom', function (): any {
+
+            e.editor.document.on('keyup', function (event: any): any {
                 if (event.data.getKey() === 13) {
                     let node = e.editor.getSelection().getStartElement();
 
                     do {
                         if (node.getName() === 'p' || node.getName() === 'h1' || node.getName() === 'h2') {
-                            const words = '',
-                                query = '';
 
                             // renumeracao
                             if (!me.strip_tags(node.getPrevious().getHtml()) &&
@@ -203,5 +232,26 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
                 this.save.emit(conteudo);
             }
         );
+    }
+
+    doCampo(): void {
+        const dialogRef = this.dialog.open(CdkCampoPluginComponent, {
+            width: '600px'
+        });
+
+        dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe(result => {
+            this.editor.insertHtml(result.html);
+        });
+    }
+
+    doRepositorio(): void {
+        const dialogRef = this.dialog.open(CdkRepositorioPluginComponent, {
+            width: '600px'
+        });
+
+        dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe(result => {
+            const html = '<span data-method="repositorio" data-options="' + result.id + '" data-service="App\Fields\Field\RepositorioField">*' + result.nome + '*</span>';
+            this.editor.insertHtml(html);
+        });
     }
 }

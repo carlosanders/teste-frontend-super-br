@@ -66,12 +66,22 @@ export class EtiquetaListComponent implements OnInit {
     reload (params): void {
         this._store.dispatch(new fromStore.GetEtiquetas({
             ...this.pagination,
-            gridFilter: params.gridFilter
+            filter: {
+                ...this.pagination.filter,
+                ...params.gridFilter
+            },
+            sort: params.sort,
+            limit: params.limit,
+            offset: params.offset,
+            populate: [
+                ...this.pagination.populate,
+                ...params.populate
+            ]
         }));
     }
 
     edit(etiquetaId: number): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + etiquetaId]);
+        this._router.navigate(['apps/configuracoes/etiquetas/editar/' + etiquetaId + '/dados-basicos']);
     }
 
     delete(etiquetaId: number): void {

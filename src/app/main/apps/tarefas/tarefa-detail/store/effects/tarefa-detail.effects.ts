@@ -216,14 +216,15 @@ export class TarefaDetailEffect {
         this._actions
             .pipe(
                 ofType<TarefaDetailActions.CreateVinculacaoEtiqueta>(TarefaDetailActions.CREATE_VINCULACAO_ETIQUETA),
-                concatMap((action) => {
+                mergeMap((action) => {
                     const vinculacaoEtiqueta = new VinculacaoEtiqueta();
                     vinculacaoEtiqueta.tarefa = action.payload.tarefa;
                     vinculacaoEtiqueta.etiqueta = action.payload.etiqueta;
                     return this._vinculacaoEtiquetaService.save(vinculacaoEtiqueta).pipe(
+                        tap((response) => response.tarefa = null),
                         mergeMap((response) => [
                             new AddChildData<VinculacaoEtiqueta>({
-                                data: [{...vinculacaoEtiqueta, ...response}],
+                                data: [response],
                                 childSchema: vinculacaoEtiquetaSchema,
                                 parentSchema: tarefaSchema,
                                 parentId: action.payload.tarefa.id
@@ -252,7 +253,7 @@ export class TarefaDetailEffect {
         this._actions
             .pipe(
                 ofType<TarefaDetailActions.DeleteVinculacaoEtiqueta>(TarefaDetailActions.DELETE_VINCULACAO_ETIQUETA),
-                concatMap((action) => {
+                mergeMap((action) => {
                         return this._vinculacaoEtiquetaService.destroy(action.payload.vinculacaoEtiquetaId).pipe(
                             mergeMap(() => [
                                 new RemoveChildData({
@@ -279,7 +280,7 @@ export class TarefaDetailEffect {
         this._actions
             .pipe(
                 ofType<TarefaDetailActions.GetDocumentos>(TarefaDetailActions.GET_DOCUMENTOS),
-                exhaustMap((action) => {
+                switchMap((action) => {
                     return this._documentoService.query(
                         JSON.stringify(action.payload),
                         25,

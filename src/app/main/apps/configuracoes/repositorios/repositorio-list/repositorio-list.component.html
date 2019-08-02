@@ -4,8 +4,11 @@
         [total]="(pagination$ | async)?.total"
         [deletingIds]="(deletingIds$ | async)"
         [deletedIds]="(deletedIds$ | async)"
-        [actions]="['edit', 'delete']"
+        [actions]="['edit', 'editConteudo', 'delete']"
         (reload)="reload($event)"
         (edit)="edit($event)"
+        (editConteudo)="editConteudo($event)"
         (delete)="delete($event)">
 </cdk-repositorio-grid>
+
+<router-outlet></router-outlet>

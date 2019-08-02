@@ -1,10 +1,8 @@
-import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Observable, Subject} from 'rxjs';
-import {Pessoa} from '../../../../../../../@cdk/models/pessoa.model';
+import {Pessoa} from '@cdk/models/pessoa.model';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from '../../dados-pessoa-edit/store';
-import {FuseSidebarService} from '../../../../../../../@fuse/components/sidebar/sidebar.service';
-import {Router} from '@angular/router';
 
 @Component({
     selector: 'pessoa-edit-main-sidebar',

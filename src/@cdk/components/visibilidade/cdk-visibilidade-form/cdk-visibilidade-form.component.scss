@@ -2,6 +2,10 @@
 
 cdk-visibilidade-form {
 
+  form {
+    width: 100%;
+  }
+
   .form-card {
     border-radius: 8px;
   }
@@ -36,4 +40,15 @@ cdk-visibilidade-form {
     }
   }
 
+  cdk-usuario-gridsearch {
+    width: 100%;
+  }
+
+  cdk-setor-gridsearch {
+    width: 100%;
+  }
+
+  cdk-setor-gridsearch {
+    width: 100%;
+  }
 }

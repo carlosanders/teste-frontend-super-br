@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 import {Localizador} from '@cdk/models/localizador.model';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
@@ -16,7 +17,9 @@ export class LocalizadorService {
 
     get(id: number): Observable<Localizador> {
         return this.modelService.getOne('localizador', id)
-            .map(response => plainToClass(Localizador, response)[0]);
+            .pipe(
+                map(response => plainToClass(Localizador, response)[0])
+            );
     }
 
     query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
@@ -28,7 +31,9 @@ export class LocalizadorService {
         params['populate'] = populate;
 
         return this.modelService.get('localizador', new HttpParams({fromObject: params}))
-            .map(response => new PaginatedResponse(plainToClass(Localizador, response['entities']), response['total']));
+            .pipe(
+                map(response => new PaginatedResponse(plainToClass(Localizador, response['entities']), response['total']))
+            );
     }
 
     count(filters: any = {}): Observable<any> {
@@ -41,18 +46,22 @@ export class LocalizadorService {
     save(localizador: Localizador): Observable<Localizador> {
         if (localizador.id) {
             return this.modelService.put('localizador', localizador.id, classToPlain(localizador))
-                .map(response => {
-                    response = plainToClass(Localizador, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new Localizador(), {...localizador, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(Localizador, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new Localizador(), {...localizador, ...response});
+                    })
+                );
         } else {
             return this.modelService.post('localizador', classToPlain(localizador))
-                .map(response => {
-                    response = plainToClass(Localizador, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new Localizador(), {...localizador, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(Localizador, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new Localizador(), {...localizador, ...response});
+                    })
+                );
         }
     }
 

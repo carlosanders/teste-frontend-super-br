@@ -1,7 +1,7 @@
 <form *ngIf="activeCard === 'form'" class="p-24 mr-24" fxLayoutGap="16px"
       fxLayout="column"
       fxLayoutAlign="start"
-      name="form" [formGroup]="form" (submit)="submit()">
+      name="form" [formGroup]="form">
 
     <div fxFlex="1 0 auto" fxLayout="column">
 
@@ -64,9 +64,13 @@
                 [control]="form.get('procedencia')"
                 [pagination]="procedenciaPagination">
             </cdk-pessoa-autocomplete>
+            <button *ngIf="form.get('procedencia').value && form.get('procedencia').value.id" matSuffix mat-button mat-icon-button
+                    (click)="doEditProcedencia()">
+                <mat-icon matTooltip="Editar pessoa">edit</mat-icon>
+            </button>
             <button matSuffix mat-button mat-icon-button
-                    (click)="showProcedenciaGrid()">
-                <mat-icon matTooltip="Procurar">search</mat-icon>
+                    (click)="doGerirProcedencia()">
+                <mat-icon matTooltip="Procurar ou incluir pessoa">person_add</mat-icon>
             </button>
             <mat-error *ngIf="form.get('procedencia').hasError('formError')">
                 {{form.get('procedencia').errors.formError}}
@@ -195,7 +199,7 @@
     <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
          fxLayoutAlign="center center">
         <button type="submit" mat-raised-button color="accent" class="mr-sm-12"
-                [disabled]="form.invalid">
+                [disabled]="form.invalid" (click)="submit()">
             SALVAR
         </button>
     </div>
@@ -212,13 +216,6 @@
         (selected)="selectEspecieProcesso($event)"
         (cancel)="cancel()">
 </cdk-especie-processo-gridsearch>
-
-<cdk-pessoa-gridsearch
-        fxFlex="1 0 auto"
-        *ngIf="activeCard === 'procedencia-gridsearch'"
-        (selected)="selectProcedencia($event)"
-        (cancel)="cancel()">
-</cdk-pessoa-gridsearch>
 
 <cdk-modalidade-fase-gridsearch
         fxFlex="1 0 auto"

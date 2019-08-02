@@ -1,7 +1,7 @@
-import { EtiquetaEditEffect } from './etiqueta-edit.effects';
+import { EtiquetaEffect } from './etiqueta.effects';
 
 export const effects = [
-    EtiquetaEditEffect
+    EtiquetaEffect
 ];
 
-export * from './etiqueta-edit.effects';
+export * from './etiqueta.effects';

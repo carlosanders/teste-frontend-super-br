@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 import {Folder} from '@cdk/models/folder.model';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
@@ -16,7 +17,9 @@ export class FolderService {
 
     get(id: number): Observable<Folder> {
         return this.modelService.getOne('folder', id)
-            .map(response => plainToClass(Folder, response)[0]);
+            .pipe(
+                map(response => plainToClass(Folder, response)[0])
+            );
     }
 
     query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
@@ -28,7 +31,9 @@ export class FolderService {
         params['populate'] = populate;
 
         return this.modelService.get('folder', new HttpParams({fromObject: params}))
-            .map(response => new PaginatedResponse(plainToClass(Folder, response['entities']), response['total']));
+            .pipe(
+                map(response => new PaginatedResponse(plainToClass(Folder, response['entities']), response['total']))
+            );
     }
 
     count(filters: any = {}): Observable<any> {
@@ -41,18 +46,22 @@ export class FolderService {
     save(folder: Folder): Observable<Folder> {
         if (folder.id) {
             return this.modelService.put('folder', folder.id, classToPlain(folder))
-                .map(response => {
-                    response = plainToClass(Folder, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new Folder(), {...folder, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(Folder, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new Folder(), {...folder, ...response});
+                    })
+                );
         } else {
             return this.modelService.post('folder', classToPlain(folder))
-                .map(response => {
-                    response = plainToClass(Folder, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new Folder(), {...folder, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(Folder, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new Folder(), {...folder, ...response});
+                    })
+                );
         }
     }
 

@@ -22,7 +22,7 @@ import {filter, takeUntil} from 'rxjs/operators';
 import * as moment from 'moment';
 
 @Component({
-    selector: 'atividade-create',
+    selector: 'atividade-create-bloco',
     templateUrl: './atividade-create-bloco.component.html',
     styleUrls: ['./atividade-create-bloco.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,

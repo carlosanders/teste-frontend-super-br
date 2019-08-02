@@ -1,4 +1,5 @@
 <cdk-componente-digital-ckeditor fxFlex="98"
+                                 [showModeloButtons]="routerState.url.indexOf('/modelo/') > -1"
                                  [componenteDigital]="(componenteDigital$ | async)"
                                  (save)="save($event)">
 </cdk-componente-digital-ckeditor>

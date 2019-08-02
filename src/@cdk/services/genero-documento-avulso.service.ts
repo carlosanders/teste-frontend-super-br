@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 import {GeneroDocumentoAvulso} from '@cdk/models/genero-documento-avulso.model';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
@@ -16,7 +17,9 @@ export class GeneroDocumentoAvulsoService {
 
     get(id: number): Observable<GeneroDocumentoAvulso> {
         return this.modelService.getOne('genero_documento_avulso', id)
-            .map(response => plainToClass(GeneroDocumentoAvulso, response)[0]);
+            .pipe(
+                map(response => plainToClass(GeneroDocumentoAvulso, response)[0])
+            );
     }
 
     query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
@@ -28,7 +31,9 @@ export class GeneroDocumentoAvulsoService {
         params['populate'] = populate;
 
         return this.modelService.get('genero_documento_avulso', new HttpParams({fromObject: params}))
-            .map(response => new PaginatedResponse(plainToClass(GeneroDocumentoAvulso, response['entities']), response['total']));
+            .pipe(
+                map(response => new PaginatedResponse(plainToClass(GeneroDocumentoAvulso, response['entities']), response['total']))
+            );
     }
 
     count(filters: any = {}): Observable<any> {
@@ -41,18 +46,22 @@ export class GeneroDocumentoAvulsoService {
     save(generoDocumentoAvulso: GeneroDocumentoAvulso): Observable<GeneroDocumentoAvulso> {
         if (generoDocumentoAvulso.id) {
             return this.modelService.put('genero_documento_avulso', generoDocumentoAvulso.id, classToPlain(generoDocumentoAvulso))
-                .map(response => {
-                    response = plainToClass(GeneroDocumentoAvulso, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new GeneroDocumentoAvulso(), {...generoDocumentoAvulso, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(GeneroDocumentoAvulso, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new GeneroDocumentoAvulso(), {...generoDocumentoAvulso, ...response});
+                    })
+                );
         } else {
             return this.modelService.post('genero_documento_avulso', classToPlain(generoDocumentoAvulso))
-                .map(response => {
-                    response = plainToClass(GeneroDocumentoAvulso, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new GeneroDocumentoAvulso(), {...generoDocumentoAvulso, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(GeneroDocumentoAvulso, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new GeneroDocumentoAvulso(), {...generoDocumentoAvulso, ...response});
+                    })
+                );
         }
     }
 

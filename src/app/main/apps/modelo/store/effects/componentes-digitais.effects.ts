@@ -76,7 +76,7 @@ export class ComponenteDigitalEffect {
                             new AddData<ComponenteDigital>({data: [{...action.payload, ...response}], schema: componenteDigitalSchema}),
                             new OperacoesActions.Resultado({
                                 type: 'componenteDigital',
-                                content: `Componente Digital id ${response.id} criada com sucesso!`,
+                                content: `Componente Digital id ${response.id} criado com sucesso!`,
                                 dateTime: response.criadoEm
                             })
                         ]),
@@ -103,7 +103,7 @@ export class ComponenteDigitalEffect {
                 ),
                 switchMap((action) => {
                     return this._documentoService.query(
-                        `{"id": "eq:${action.payload}"}`,
+                        `{"componentesDigitais.id": "eq:${action.payload}"}`,
                         1,
                         0,
                         '{}',

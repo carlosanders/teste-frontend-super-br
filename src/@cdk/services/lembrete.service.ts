@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 import {Lembrete} from '@cdk/models/lembrete.model';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
@@ -16,7 +17,9 @@ export class LembreteService {
 
     get(id: number): Observable<Lembrete> {
         return this.modelService.getOne('lembrete', id)
-            .map(response => plainToClass(Lembrete, response)[0]);
+            .pipe(
+                map(response => plainToClass(Lembrete, response)[0])
+            );
     }
 
     query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
@@ -28,7 +31,9 @@ export class LembreteService {
         params['populate'] = populate;
 
         return this.modelService.get('lembrete', new HttpParams({fromObject: params}))
-            .map(response => new PaginatedResponse(plainToClass(Lembrete, response['entities']), response['total']));
+            .pipe(
+                map(response => new PaginatedResponse(plainToClass(Lembrete, response['entities']), response['total']))
+            );
     }
 
     count(filters: any = {}): Observable<any> {
@@ -41,18 +46,22 @@ export class LembreteService {
     save(lembrete: Lembrete): Observable<Lembrete> {
         if (lembrete.id) {
             return this.modelService.put('lembrete', lembrete.id, classToPlain(lembrete))
-                .map(response => {
-                    response = plainToClass(Lembrete, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new Lembrete(), {...lembrete, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(Lembrete, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new Lembrete(), {...lembrete, ...response});
+                    })
+                );
         } else {
             return this.modelService.post('lembrete', classToPlain(lembrete))
-                .map(response => {
-                    response = plainToClass(Lembrete, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new Lembrete(), {...lembrete, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(Lembrete, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new Lembrete(), {...lembrete, ...response});
+                    })
+                );
         }
     }
 

@@ -1,9 +1,22 @@
 version: '3'
 services:
-    angular:
+    angular-dev:
         build:
             context: .
-            dockerfile: ./DockerFile_SUPP
+            dockerfile: ./docker/dev/DockerFile
+        ports:
+            - 4200:4200
+        volumes:
+            - '.:/app'
+        tty: true
+        command: tail -f /dev/null
+        networks:
+            supp_frontend_network:
+                ipv4_address: 192.168.70.10
+    angular-hom:
+        build:
+            context: .
+            dockerfile: ./docker/hom/DockerFile
         ports:
             - 80:80
         volumes:
@@ -12,7 +25,20 @@ services:
         command: tail -f /dev/null
         networks:
             supp_frontend_network:
-                ipv4_address: 192.168.70.10
+                ipv4_address: 192.168.70.12
+    angular-prod:
+        build:
+            context: .
+            dockerfile: ./docker/prod/DockerFile
+        ports:
+            - 80:80
+        volumes:
+            - '.:/app'
+        tty: true
+        command: tail -f /dev/null
+        networks:
+            supp_frontend_network:
+                ipv4_address: 192.168.70.11
 
 networks:
     supp_frontend_network:

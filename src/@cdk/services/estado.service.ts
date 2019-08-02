@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 import {Estado} from '@cdk/models/estado.model';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
@@ -16,7 +17,9 @@ export class EstadoService {
 
     get(id: number): Observable<Estado> {
         return this.modelService.getOne('estado', id)
-            .map(response => plainToClass(Estado, response)[0]);
+            .pipe(
+                map(response => plainToClass(Estado, response)[0])
+            );
     }
 
     query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
@@ -28,7 +31,9 @@ export class EstadoService {
         params['populate'] = populate;
 
         return this.modelService.get('estado', new HttpParams({fromObject: params}))
-            .map(response => new PaginatedResponse(plainToClass(Estado, response['entities']), response['total']));
+            .pipe(
+                map(response => new PaginatedResponse(plainToClass(Estado, response['entities']), response['total']))
+            );
     }
 
     count(filters: any = {}): Observable<any> {
@@ -41,18 +46,22 @@ export class EstadoService {
     save(estado: Estado): Observable<Estado> {
         if (estado.id) {
             return this.modelService.put('estado', estado.id, classToPlain(estado))
-                .map(response => {
-                    response = plainToClass(Estado, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new Estado(), {...estado, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(Estado, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new Estado(), {...estado, ...response});
+                    })
+                );
         } else {
             return this.modelService.post('estado', classToPlain(estado))
-                .map(response => {
-                    response = plainToClass(Estado, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new Estado(), {...estado, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(Estado, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new Estado(), {...estado, ...response});
+                    })
+                );
         }
     }
 

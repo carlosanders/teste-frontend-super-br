@@ -18,7 +18,7 @@ export class CdkTarefaListComponent implements AfterViewInit, OnInit, OnChanges 
     loading: boolean;
 
     @Input()
-    tarefas: Tarefa[];
+    tarefas: Tarefa[] = [];
 
     @Input()
     currentTarefaId: number;
@@ -94,6 +94,12 @@ export class CdkTarefaListComponent implements AfterViewInit, OnInit, OnChanges 
 
     @Output()
     etiquetarBloco = new EventEmitter<any>();
+
+    @Output()
+    uploadBloco = new EventEmitter<any>();
+
+    @Output()
+    editorBloco = new EventEmitter<any>();
 
     listFilter: {} = {};
     listSort: {} = {};
@@ -256,6 +262,14 @@ export class CdkTarefaListComponent implements AfterViewInit, OnInit, OnChanges 
 
     doEtiquetarBloco(): void {
         this.etiquetarBloco.emit();
+    }
+
+    doUploadBloco(): void {
+        this.uploadBloco.emit();
+    }
+
+    doEditorBloco(): void {
+        this.editorBloco.emit();
     }
 
     /**

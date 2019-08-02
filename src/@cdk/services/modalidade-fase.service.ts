@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 import {ModalidadeFase} from '@cdk/models/modalidade-fase.model';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
@@ -16,7 +17,9 @@ export class ModalidadeFaseService {
 
     get(id: number): Observable<ModalidadeFase> {
         return this.modelService.getOne('modalidade_fase', id)
-            .map(response => plainToClass(ModalidadeFase, response)[0]);
+            .pipe(
+                map(response => plainToClass(ModalidadeFase, response)[0])
+            );
     }
 
     query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
@@ -28,7 +31,9 @@ export class ModalidadeFaseService {
         params['populate'] = populate;
 
         return this.modelService.get('modalidade_fase', new HttpParams({fromObject: params}))
-            .map(response => new PaginatedResponse(plainToClass(ModalidadeFase, response['entities']), response['total']));
+            .pipe(
+                map(response => new PaginatedResponse(plainToClass(ModalidadeFase, response['entities']), response['total']))
+            );
     }
 
     count(filters: any = {}): Observable<any> {
@@ -41,18 +46,22 @@ export class ModalidadeFaseService {
     save(modalidadeFase: ModalidadeFase): Observable<ModalidadeFase> {
         if (modalidadeFase.id) {
             return this.modelService.put('modalidade_fase', modalidadeFase.id, classToPlain(modalidadeFase))
-                .map(response => {
-                    response = plainToClass(ModalidadeFase, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new ModalidadeFase(), {...modalidadeFase, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(ModalidadeFase, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new ModalidadeFase(), {...modalidadeFase, ...response});
+                    })
+                );
         } else {
             return this.modelService.post('modalidade_fase', classToPlain(modalidadeFase))
-                .map(response => {
-                    response = plainToClass(ModalidadeFase, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new ModalidadeFase(), {...modalidadeFase, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(ModalidadeFase, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new ModalidadeFase(), {...modalidadeFase, ...response});
+                    })
+                );
         }
     }
 

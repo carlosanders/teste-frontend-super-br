@@ -20,6 +20,9 @@ import {LoginService} from '../../../auth/login/login.service';
 import {Processo} from '@cdk/models/processo.model';
 import {Tarefa} from '@cdk/models/tarefa.model';
 import {takeUntil} from 'rxjs/operators';
+import {Pessoa} from '@cdk/models/pessoa.model';
+import {Router} from '@angular/router';
+import {getRouterState} from '../../../../store/reducers';
 
 @Component({
     selector: 'documento-avulso-create',
@@ -49,13 +52,19 @@ export class DocumentoAvulsoCreateComponent implements OnInit, OnDestroy {
     setorDestinoPagination: Pagination;
     modeloPagination: Pagination;
 
+    routerState: any;
+
+    pessoaDestino: Pessoa;
+
     /**
      * @param _store
      * @param _loginService
+     * @param _router
      */
     constructor(
         private _store: Store<fromStore.DocumentoAvulsoCreateAppState>,
-        private _loginService: LoginService
+        private _loginService: LoginService,
+        private _router: Router
     ) {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
@@ -73,8 +82,6 @@ export class DocumentoAvulsoCreateComponent implements OnInit, OnDestroy {
 
         this.processo$ = this._store.pipe(select(fromStore.getProcesso));
         this.tarefa$ = this._store.pipe(select(fromStore.getTarefa));
-
-
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -108,6 +115,14 @@ export class DocumentoAvulsoCreateComponent implements OnInit, OnDestroy {
             this.documentoAvulso.tarefaOrigem = this.tarefa;
             this.documentoAvulso.processo = this.tarefa.processo;
         }
+
+        this._store
+            .pipe(select(getRouterState))
+            .subscribe(routerState => {
+                if (routerState) {
+                    this.routerState = routerState.state;
+                }
+            });
     }
 
     /**
@@ -123,6 +138,29 @@ export class DocumentoAvulsoCreateComponent implements OnInit, OnDestroy {
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
+    onActivate(componentReference): void  {
+        if (componentReference.select) {
+            componentReference.select.subscribe((pessoa: Pessoa) => {
+                this.pessoaDestino = pessoa;
+                this._router.navigate([this.routerState.url.split('/pessoa')[0]]).then();
+            });
+        }
+    }
+
+    onDeactivate(componentReference): void  {
+        if (componentReference.select) {
+            componentReference.select.unsubscribe();
+        }
+    }
+
+    gerirPessoaDestino(): void {
+        this._router.navigate([this.routerState.url + '/pessoa']).then();
+    }
+
+    editPessoaDestino(pessoaId: number): void {
+        this._router.navigate([this.routerState.url + '/pessoa/editar/' + pessoaId]).then();
+    }
+    
     submit(values): void {
 
         const documentoAvulso = new DocumentoAvulso();

@@ -14,7 +14,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {Colaborador} from '@cdk/models/colaborador.model';
 import {LoginService} from '../../../auth/login/login.service';
-import {Usuario} from '../../../../../@cdk/models/usuario.model';
+import {Usuario} from '@cdk/models/usuario.model';
 
 @Component({
     selector: 'perfil',

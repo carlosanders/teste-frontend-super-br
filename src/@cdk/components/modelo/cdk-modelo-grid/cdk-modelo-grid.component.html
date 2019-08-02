@@ -10,15 +10,15 @@
 <!-- CONTENT -->
 <div class="content" fxLayoutAlign="center start">
 
-    <div class="mb-16 p-16" fxFlex="1 0 auto" fxLayout="column" fxLayoutAlign="center center">
+    <div class="mb-16 p-16" fxFlex fxLayout="column" fxLayoutAlign="center center">
 
         <div class="actions m-8" fxFlex fxLayout="row" fxLayoutAlign="end center">
 
-            <button mat-icon-button *ngIf="actions.indexOf('cancel') > -1"
+             <button class="back" mat-icon-button *ngIf="actions.indexOf('cancel') > -1"
                     (click)="doCancel()"
                     aria-label="cancelar"
                     matTooltip="Cancelar">
-                <mat-icon>cancel</mat-icon>
+                <mat-icon>arrow_back</mat-icon>
             </button>
 
             <button mat-icon-button *ngIf="selectedIds.length > 1 && actions.indexOf('delete') > -1"
@@ -124,6 +124,15 @@
                             aria-label="editar"
                             matTooltip="Editar">
                         <mat-icon>edit</mat-icon>
+                    </button>
+
+                    <button mat-icon-button
+                            *ngIf="actions.indexOf('editConteudo') > -1"
+                            [disabled]="deletedIds?.indexOf(modelo.id) > -1"
+                            (click)="editConteudoModelo(modelo.documento.componentesDigitais[0].id)"
+                            aria-label="editar conteúdo"
+                            matTooltip="Editar Conteúdo">
+                        <mat-icon>desktop_windows</mat-icon>
                     </button>
 
                     <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(modelo.id) > -1">

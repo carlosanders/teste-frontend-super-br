@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 import {AreaTrabalho} from '@cdk/models/area-trabalho.model';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
@@ -16,7 +17,9 @@ export class AreaTrabalhoService {
 
     get(id: number): Observable<AreaTrabalho> {
         return this.modelService.getOne('area_trabalho', id)
-            .map(response => plainToClass(AreaTrabalho, response)[0]);
+            .pipe(
+                map(response => plainToClass(AreaTrabalho, response)[0])
+            );
     }
 
     query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
@@ -28,7 +31,9 @@ export class AreaTrabalhoService {
         params['populate'] = populate;
 
         return this.modelService.get('area_trabalho', new HttpParams({fromObject: params}))
-            .map(response => new PaginatedResponse(plainToClass(AreaTrabalho, response['entities']), response['total']));
+            .pipe(
+                map(response => new PaginatedResponse(plainToClass(AreaTrabalho, response['entities']), response['total']))
+            );
     }
 
     count(filters: any = {}): Observable<any> {
@@ -41,18 +46,22 @@ export class AreaTrabalhoService {
     save(areaTrabalho: AreaTrabalho): Observable<AreaTrabalho> {
         if (areaTrabalho.id) {
             return this.modelService.put('area_trabalho', areaTrabalho.id, classToPlain(areaTrabalho))
-                .map(response => {
-                    response = plainToClass(AreaTrabalho, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new AreaTrabalho(), {...areaTrabalho, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(AreaTrabalho, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new AreaTrabalho(), {...areaTrabalho, ...response});
+                    })
+                );
         } else {
             return this.modelService.post('area_trabalho', classToPlain(areaTrabalho))
-                .map(response => {
-                    response = plainToClass(AreaTrabalho, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new AreaTrabalho(), {...areaTrabalho, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(AreaTrabalho, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new AreaTrabalho(), {...areaTrabalho, ...response});
+                    })
+                );
         }
     }
 

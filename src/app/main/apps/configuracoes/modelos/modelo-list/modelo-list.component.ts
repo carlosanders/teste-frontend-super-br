@@ -66,12 +66,26 @@ export class ModeloListComponent implements OnInit {
     reload (params): void {
         this._store.dispatch(new fromStore.GetModelos({
             ...this.pagination,
-            gridFilter: params.gridFilter
+            filter: {
+                ...this.pagination.filter,
+                ...params.gridFilter
+            },
+            sort: params.sort,
+            limit: params.limit,
+            offset: params.offset,
+            populate: [
+                ...this.pagination.populate,
+                ...params.populate
+            ]
         }));
     }
 
     edit(modeloId: number): void {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/') + modeloId]);
+    }
+
+    editConteudo(documentoId: number): void {
+        this._router.navigate([this.routerState.url + '/documento/' + documentoId + '/modelo']).then();
     }
 
     delete(modeloId: number): void {

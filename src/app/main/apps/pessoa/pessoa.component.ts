@@ -1,6 +1,6 @@
 import {
     ChangeDetectionStrategy, ChangeDetectorRef,
-    Component, OnInit,
+    Component, EventEmitter, OnDestroy, OnInit, Output,
     ViewEncapsulation
 } from '@angular/core';
 
@@ -12,18 +12,18 @@ import {Router} from '@angular/router';
 
 import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 import {Observable, Subject} from 'rxjs';
-import {Pessoa} from '../../../../@cdk/models/pessoa.model';
+import {Pessoa} from '@cdk/models/pessoa.model';
 import {takeUntil} from 'rxjs/operators';
 
 @Component({
-    selector: 'pessoas',
+    selector: 'pessoa',
     templateUrl: './pessoa.component.html',
     styleUrls: ['./pessoa.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
 })
-export class PessoaComponent implements OnInit {
+export class PessoaComponent implements OnInit, OnDestroy {
 
     private _unsubscribeAll: Subject<any> = new Subject();
 
@@ -32,11 +32,14 @@ export class PessoaComponent implements OnInit {
 
     pessoas$: Observable<Pessoa[]>;
 
+    @Output()
+    select: EventEmitter<Pessoa> = new EventEmitter();
+
     /**
-     *
      * @param _store
      * @param _changeDetectorRef
      * @param _router
+     * @param _fuseSidebarService
      */
     constructor(
         private _store: Store<fromStore.PessoaListAppState>,
@@ -71,6 +74,27 @@ export class PessoaComponent implements OnInit {
      * On init
      */
     ngOnInit(): void {
+        const content = document.getElementsByTagName('content')[0];
+        content.classList.add('full-screen');
+    }
+
+    /**
+     * On destroy
+     */
+    ngOnDestroy(): void {
+        const content = document.getElementsByTagName('content')[0];
+        content.classList.remove('full-screen');
+
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
+    }
+
+    back(): void {
+        this._router.navigate([
+                this.routerState.url.split('/pessoa/')[0]
+            ]
+        ).then();
     }
 
     goBack(): void {
@@ -82,12 +106,18 @@ export class PessoaComponent implements OnInit {
         }
     }
 
-    /**
-     * Toggle the sidebar
-     *
-     * @param name
-     */
-    toggleSidebar(name): void {
-        this._fuseSidebarService.getSidebar(name).toggleOpen();
+    onActivate(componentReference): void  {
+        if (componentReference.select) {
+            componentReference.select.subscribe((pessoa: Pessoa) => {
+                this.select.emit(pessoa);
+            });
+        }
+
+    }
+
+    onDeactivate(componentReference): void  {
+        if (componentReference.select) {
+            componentReference.select.unsubscribe();
+        }
     }
 }

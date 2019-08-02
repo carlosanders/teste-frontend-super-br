@@ -93,6 +93,15 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
 
     processos: Processo[] = [];
 
+    @Output()
+    gerirPessoaDestino = new EventEmitter();
+
+    @Output()
+    editPessoaDestino = new EventEmitter<number>();
+
+    @Input()
+    pessoaDestino: Pessoa;
+
     /**
      * Constructor
      */
@@ -207,6 +216,10 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
             this.form.setErrors(null);
         }
 
+        if (changes['pessoaDestino'] && this.pessoaDestino) {
+            this.form.get('pessoaDestino').setValue(this.pessoaDestino);
+        }
+
         this._changeDetectorRef.markForCheck();
     }
 
@@ -284,8 +297,12 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
         this.activeCard = 'form';
     }
 
-    showPessoaDestinoGrid(): void {
-        this.activeCard = 'pessoa-destino-gridsearch';
+    doGerirPessoaDestino(): void {
+        this.gerirPessoaDestino.emit();
+    }
+
+    doEditPessoaDestino(): void {
+        this.editPessoaDestino.emit(this.form.get('pessoaDestino').value.id);
     }
 
     checkSetorDestino(): void {

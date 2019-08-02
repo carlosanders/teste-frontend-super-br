@@ -28,7 +28,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { Etiqueta } from '@cdk/models/etiqueta.model';
 import {Router} from '@angular/router';
 import {takeUntil} from 'rxjs/operators';
-import {Pagination} from '../../../../@cdk/models/pagination';
+import {Pagination} from '@cdk/models/pagination';
 import {LoginService} from '../../auth/login/login.service';
 
 @Component({
@@ -224,7 +224,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     onScroll(): void {
-
+        console.log ('oi');
         if (this.tarefas.length >= this.pagination.total) {
             return;
         }
@@ -303,7 +303,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     doCreateDocumentoAvulso(tarefaId): void {
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.folderHandle + '/' + tarefaId + '/oficio']).then();
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.folderHandle + '/tarefa/' + tarefaId + '/oficio']).then();
     }
 
     doCreateTarefa(params): void {
@@ -340,6 +340,14 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     doCreateTarefaBloco(): void {
         this._router.navigate(['apps/tarefas/' + this.routerState.params.folderHandle + '/tarefa-bloco']).then();
+    }
+
+    doUploadBloco(): void {
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.folderHandle + '/upload-bloco']).then();
+    }
+
+    doEditorBloco(): void {
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.folderHandle + '/modelo-bloco']).then();
     }
 
     doCreateDocumentoAvulsoBloco(): void {

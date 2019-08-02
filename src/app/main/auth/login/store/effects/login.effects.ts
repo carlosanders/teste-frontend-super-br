@@ -31,7 +31,11 @@ export class LoginEffects {
                             return new LoginActions.LoginSuccess({token: data.token});
                         })
                         .catch((error) => {
-                            return of(new LoginActions.LoginFailure({ error: error }));
+                            let msg = 'Sistema indisponível, tente mais tarde!';
+                            if (error && error.status && error.status === 401) {
+                                msg = 'Dados incorretos!';
+                            }
+                            return of(new LoginActions.LoginFailure({ error: msg }));
                         });
                     }
                 ));
@@ -53,10 +57,10 @@ export class LoginEffects {
 
     @Effect({ dispatch: false })
     public Logout: Observable<any> = this.actions.pipe(
-        ofType(LoginActions.LOGOUT),
+        ofType<LoginActions.Logout>(LoginActions.LOGOUT),
         tap(() => {
             this.loginService.removeToken();
-            location.reload(true);
+            this.router.navigateByUrl('/auth/login');
         })
     );
 

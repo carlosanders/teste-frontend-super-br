@@ -55,7 +55,7 @@ export class CdkFolderFormComponent implements OnChanges, OnDestroy {
             'ativo': [null],
             'usuario': [null],
             'nome': [null, [Validators.required, Validators.maxLength(255)]],
-            'descricao': [null, [Validators.required], Validators.maxLength(255)],
+            'descricao': [null, [Validators.required, Validators.maxLength(255)]],
             'modalidadeFolder': [null, [Validators.required]],
         });
 

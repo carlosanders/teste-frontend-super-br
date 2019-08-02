@@ -12,6 +12,14 @@ export const SAVE_DOCUMENTO_AVULSO = '[DOCUMENTO] SAVE DOCUMENTO AVULSO';
 export const SAVE_DOCUMENTO_AVULSO_SUCCESS = '[DOCUMENTO] SAVE DOCUMENTO AVULSO SUCCESS';
 export const SAVE_DOCUMENTO_AVULSO_FAILED = '[DOCUMENTO] SAVE DOCUMENTO AVULSO FAILED';
 
+export const SAVE_MODELO = '[MODELO] SAVE MODELO';
+export const SAVE_MODELO_SUCCESS = '[MODELO] SAVE MODELO SUCCESS';
+export const SAVE_MODELO_FAILED = '[MODELO] SAVE MODELO FAILED';
+
+export const SAVE_REPOSITORIO = '[REPOSITORIO] SAVE REPOSITORIO';
+export const SAVE_REPOSITORIO_SUCCESS = '[REPOSITORIO] SAVE REPOSITORIO SUCCESS';
+export const SAVE_REPOSITORIO_FAILED = '[REPOSITORIO] SAVE REPOSITORIO FAILED';
+
 export const REMETER_DOCUMENTO_AVULSO = '[DOCUMENTO] REMETER DOCUMENTO AVULSO';
 export const REMETER_DOCUMENTO_AVULSO_SUCCESS = '[DOCUMENTO] REMETER DOCUMENTO AVULSO SUCCESS';
 export const REMETER_DOCUMENTO_AVULSO_FAILED = '[DOCUMENTO] REMETER DOCUMENTO AVULSO FAILED';
@@ -86,6 +94,78 @@ export class SaveDocumentoSuccess implements Action
 export class SaveDocumentoFailed implements Action
 {
     readonly type = SAVE_DOCUMENTO_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Save Modelo
+ */
+export class SaveModelo implements Action
+{
+    readonly type = SAVE_MODELO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Save Modelo Success
+ */
+export class SaveModeloSuccess implements Action
+{
+    readonly type = SAVE_MODELO_SUCCESS;
+
+    constructor()
+    {
+    }
+}
+
+/**
+ * Save Modelo Failed
+ */
+export class SaveModeloFailed implements Action
+{
+    readonly type = SAVE_MODELO_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Save Repositorio
+ */
+export class SaveRepositorio implements Action
+{
+    readonly type = SAVE_REPOSITORIO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Save Repositorio Success
+ */
+export class SaveRepositorioSuccess implements Action
+{
+    readonly type = SAVE_REPOSITORIO_SUCCESS;
+
+    constructor()
+    {
+    }
+}
+
+/**
+ * Save Repositorio Failed
+ */
+export class SaveRepositorioFailed implements Action
+{
+    readonly type = SAVE_REPOSITORIO_FAILED;
 
     constructor(public payload: any)
     {
@@ -201,6 +281,12 @@ export type DocumentoActionsAll
     | SaveDocumento
     | SaveDocumentoSuccess
     | SaveDocumentoFailed
+    | SaveModelo
+    | SaveModeloSuccess
+    | SaveModeloFailed
+    | SaveRepositorio
+    | SaveRepositorioSuccess
+    | SaveRepositorioFailed
     | SaveDocumentoAvulso
     | SaveDocumentoAvulsoSuccess
     | SaveDocumentoAvulsoFailed

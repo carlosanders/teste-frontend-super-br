@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 import {ModalidadeMeio} from '@cdk/models/modalidade-meio.model';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
@@ -16,7 +17,9 @@ export class ModalidadeMeioService {
 
     get(id: number): Observable<ModalidadeMeio> {
         return this.modelService.getOne('modalidade_meio', id)
-            .map(response => plainToClass(ModalidadeMeio, response)[0]);
+            .pipe(
+                map(response => plainToClass(ModalidadeMeio, response)[0])
+            );
     }
 
     query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
@@ -28,7 +31,9 @@ export class ModalidadeMeioService {
         params['populate'] = populate;
 
         return this.modelService.get('modalidade_meio', new HttpParams({fromObject: params}))
-            .map(response => new PaginatedResponse(plainToClass(ModalidadeMeio, response['entities']), response['total']));
+            .pipe(
+                map(response => new PaginatedResponse(plainToClass(ModalidadeMeio, response['entities']), response['total']))
+            );
     }
 
     count(filters: any = {}): Observable<any> {
@@ -41,18 +46,22 @@ export class ModalidadeMeioService {
     save(modalidadeMeio: ModalidadeMeio): Observable<ModalidadeMeio> {
         if (modalidadeMeio.id) {
             return this.modelService.put('modalidade_meio', modalidadeMeio.id, classToPlain(modalidadeMeio))
-                .map(response => {
-                    response = plainToClass(ModalidadeMeio, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new ModalidadeMeio(), {...modalidadeMeio, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(ModalidadeMeio, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new ModalidadeMeio(), {...modalidadeMeio, ...response});
+                    })
+                );
         } else {
             return this.modelService.post('modalidade_meio', classToPlain(modalidadeMeio))
-                .map(response => {
-                    response = plainToClass(ModalidadeMeio, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new ModalidadeMeio(), {...modalidadeMeio, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(ModalidadeMeio, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new ModalidadeMeio(), {...modalidadeMeio, ...response});
+                    })
+                );
         }
     }
 

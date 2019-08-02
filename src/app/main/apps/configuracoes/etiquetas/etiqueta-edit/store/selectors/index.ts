@@ -1,1 +1,1 @@
-export * from './etiqueta-edit.selectors';
+export * from './etiqueta.selectors';

@@ -7,7 +7,7 @@ import {
     MatCheckboxModule,
     MatProgressSpinnerModule,
     MatAutocompleteModule,
-    MatDatepickerModule, MatSlideToggleModule
+    MatDatepickerModule, MatSlideToggleModule, MatTooltipModule
 
 } from '@angular/material';
 
@@ -33,7 +33,6 @@ import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
 import {CdkModeloAutocompleteModule} from '../../modelo/cdk-modelo-autocomplete/cdk-modelo-autocomplete.module';
 import {CdkModeloGridsearchModule} from '../../modelo/cdk-modelo-autocomplete/cdk-modelo-gridsearch/cdk-modelo-gridsearch.module';
 import {CdkPessoaAutocompleteModule} from '../../pessoa/cdk-pessoa-autocomplete/cdk-pessoa-autocomplete.module';
-import {CdkPessoaGridsearchModule} from '../../pessoa/cdk-pessoa-autocomplete/cdk-pessoa-gridsearch/cdk-pessoa-gridsearch.module';
 import {CdkProcessoGridModule} from '../../processo/cdk-processo-grid/cdk-processo-grid.module';
 
 @NgModule({
@@ -54,6 +53,7 @@ import {CdkProcessoGridModule} from '../../processo/cdk-processo-grid/cdk-proces
         MatNativeDatetimeModule,
         MatMomentDatetimeModule,
         MatSlideToggleModule,
+        MatTooltipModule,
 
         NgxUpperCaseDirectiveModule,
 
@@ -68,7 +68,6 @@ import {CdkProcessoGridModule} from '../../processo/cdk-processo-grid/cdk-proces
         CdkModeloAutocompleteModule,
         CdkModeloGridsearchModule,
         CdkPessoaAutocompleteModule,
-        CdkPessoaGridsearchModule,
 
         CdkProcessoGridModule,
 

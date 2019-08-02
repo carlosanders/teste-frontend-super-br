@@ -13,12 +13,18 @@ import {DocumentoService} from '@cdk/services/documento.service';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
+import {modelo as modeloSchema} from '@cdk/normalizr/modelo.schema';
+import {repositorio as repositorioSchema} from '@cdk/normalizr/repositorio.schema';
 import {documentoAvulso as documentoAvulsoSchema} from '@cdk/normalizr/documento-avulso.schema';
 import {Documento} from '@cdk/models/documento.model';
 import {Router} from '@angular/router';
 import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
 import {DocumentoAvulso} from '@cdk/models/documento-avulso.model';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
+import {Modelo} from '@cdk/models/modelo.model';
+import {ModeloService} from '@cdk/services/modelo.service';
+import {Repositorio} from '@cdk/models/repositorio.model';
+import {RepositorioService} from '@cdk/services/repositorio.service';
 
 @Injectable()
 export class DocumentoEffect {
@@ -28,6 +34,8 @@ export class DocumentoEffect {
     constructor(
         private _actions: Actions,
         private _documentoService: DocumentoService,
+        private _modeloService: ModeloService,
+        private _repositorioService: RepositorioService,
         private _documentoAvulsoService: DocumentoAvulsoService,
         private _loginService: LoginService,
         private _router: Router,
@@ -74,7 +82,11 @@ export class DocumentoEffect {
                         '{"componentesDigitais.numeracaoSequencial": "ASC"}',
                         JSON.stringify([
                             'tipoDocumento',
-                            'componentesDigitais', 
+                            'componentesDigitais',
+                            'modelo',
+                            'modelo.template',
+                            'repositorio',
+                            'repositorio.modalidadeRepositorio',
                             'documentoAvulsoRemessa',
                             'documentoAvulsoRemessa.processo',
                             'documentoAvulsoRemessa.especieDocumentoAvulso',
@@ -170,13 +182,69 @@ export class DocumentoEffect {
                             new AddData<DocumentoAvulso>({data: [response], schema: documentoAvulsoSchema}),
                             new OperacoesActions.Resultado({
                                 type: 'documento',
-                                content: `Documento id ${response.id} criada com sucesso!`,
+                                content: `Documento id ${response.id} editado com sucesso!`,
                                 dateTime: response.criadoEm
                             })
                         ]),
                         catchError((err) => {
                             console.log (err);
                             return of(new DocumentoActions.SaveDocumentoFailed(err));
+                        })
+                    );
+                })
+            );
+
+    /**
+     * Save Documento
+     * @type {Observable<any>}
+     */
+    @Effect()
+    saveModelo: any =
+        this._actions
+            .pipe(
+                ofType<DocumentoActions.SaveModelo>(DocumentoActions.SAVE_MODELO),
+                switchMap((action) => {
+                    return this._modeloService.save(action.payload).pipe(
+                        mergeMap((response: Modelo) => [
+                            new DocumentoActions.SaveModeloSuccess(),
+                            new AddData<Modelo>({data: [response], schema: modeloSchema}),
+                            new OperacoesActions.Resultado({
+                                type: 'modelo',
+                                content: `Modelo id ${response.id} editado com sucesso!`,
+                                dateTime: response.criadoEm
+                            })
+                        ]),
+                        catchError((err) => {
+                            console.log (err);
+                            return of(new DocumentoActions.SaveModeloFailed(err));
+                        })
+                    );
+                })
+            );
+
+    /**
+     * Save Documento
+     * @type {Observable<any>}
+     */
+    @Effect()
+    saveRepositorio: any =
+        this._actions
+            .pipe(
+                ofType<DocumentoActions.SaveRepositorio>(DocumentoActions.SAVE_REPOSITORIO),
+                switchMap((action) => {
+                    return this._repositorioService.save(action.payload).pipe(
+                        mergeMap((response: Repositorio) => [
+                            new DocumentoActions.SaveRepositorioSuccess(),
+                            new AddData<Repositorio>({data: [response], schema: repositorioSchema}),
+                            new OperacoesActions.Resultado({
+                                type: 'modelo',
+                                content: `Repositório id ${response.id} editado com sucesso!`,
+                                dateTime: response.criadoEm
+                            })
+                        ]),
+                        catchError((err) => {
+                            console.log (err);
+                            return of(new DocumentoActions.SaveRepositorioFailed(err));
                         })
                     );
                 })
@@ -215,7 +283,7 @@ export class DocumentoEffect {
         this._actions
             .pipe(
                 ofType<DocumentoActions.RemeterDocumentoAvulsoSuccess>(DocumentoActions.REMETER_DOCUMENTO_AVULSO_SUCCESS),
-                tap((action) => {
+                tap(() => {
                     this._router.navigate([
                             this.routerState.url.split('/documento/')[0]
                         ]

@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 import {ModalidadeTemplate} from '@cdk/models/modalidade-template.model';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
@@ -16,7 +17,9 @@ export class ModalidadeTemplateService {
 
     get(id: number): Observable<ModalidadeTemplate> {
         return this.modelService.getOne('modalidade_template', id)
-            .map(response => plainToClass(ModalidadeTemplate, response)[0]);
+            .pipe(
+                map(response => plainToClass(ModalidadeTemplate, response)[0])
+            );
     }
 
     query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
@@ -28,7 +31,9 @@ export class ModalidadeTemplateService {
         params['populate'] = populate;
 
         return this.modelService.get('modalidade_template', new HttpParams({fromObject: params}))
-            .map(response => new PaginatedResponse(plainToClass(ModalidadeTemplate, response['entities']), response['total']));
+            .pipe(
+                map(response => new PaginatedResponse(plainToClass(ModalidadeTemplate, response['entities']), response['total']))
+            );
     }
 
     count(filters: any = {}): Observable<any> {
@@ -41,18 +46,22 @@ export class ModalidadeTemplateService {
     save(modalidadeTemplate: ModalidadeTemplate): Observable<ModalidadeTemplate> {
         if (modalidadeTemplate.id) {
             return this.modelService.put('modalidade_template', modalidadeTemplate.id, classToPlain(modalidadeTemplate))
-                .map(response => {
-                    response = plainToClass(ModalidadeTemplate, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new ModalidadeTemplate(), {...modalidadeTemplate, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(ModalidadeTemplate, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new ModalidadeTemplate(), {...modalidadeTemplate, ...response});
+                    })
+                );
         } else {
             return this.modelService.post('modalidade_template', classToPlain(modalidadeTemplate))
-                .map(response => {
-                    response = plainToClass(ModalidadeTemplate, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new ModalidadeTemplate(), {...modalidadeTemplate, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(ModalidadeTemplate, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new ModalidadeTemplate(), {...modalidadeTemplate, ...response});
+                    })
+                );
         }
     }
 

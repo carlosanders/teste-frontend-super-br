@@ -29,7 +29,7 @@ export class CdkTarefaGridComponent implements AfterViewInit, OnInit, OnChanges 
     loading = false;
 
     @Input()
-    tarefas: Tarefa[];
+    tarefas: Tarefa[] = [];
 
     @Input()
     total = 0;

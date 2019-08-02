@@ -35,6 +35,10 @@ cdk-especie-setor-grid {
 
     .actions {
       width: 100%;
+
+      .back {
+        margin-right: auto;
+      }
     }
 
     .mat-column-select {

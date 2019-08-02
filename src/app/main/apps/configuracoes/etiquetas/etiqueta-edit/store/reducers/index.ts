@@ -1,22 +1,22 @@
 import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { EtiquetaEditReducer, EtiquetaEditState } from './etiqueta-edit.reducer';
+import { EtiquetaReducer, EtiquetaState } from './etiqueta.reducer';
 
-export interface EtiquetaEditAppState
+export interface EtiquetaAppState
 {
-    etiqueta: EtiquetaEditState;
+    etiqueta: EtiquetaState;
 }
 
-export const getEtiquetaEditAppState = createFeatureSelector<EtiquetaEditAppState>(
-    'etiqueta-edit-app'
+export const getEtiquetaAppState = createFeatureSelector<EtiquetaAppState>(
+    'etiqueta-app'
 );
 
 export const getAppState = createSelector(
-    getEtiquetaEditAppState,
-    (state: EtiquetaEditAppState) => state
+    getEtiquetaAppState,
+    (state: EtiquetaAppState) => state
 );
 
-export const reducers: ActionReducerMap<EtiquetaEditAppState> = {
-    etiqueta: EtiquetaEditReducer
+export const reducers: ActionReducerMap<EtiquetaAppState> = {
+    etiqueta: EtiquetaReducer
 };
 
-export * from './etiqueta-edit.reducer';
+export * from './etiqueta.reducer';

@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 import {ModalidadeRepositorio} from '@cdk/models/modalidade-repositorio.model';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
@@ -16,7 +17,9 @@ export class ModalidadeRepositorioService {
 
     get(id: number): Observable<ModalidadeRepositorio> {
         return this.modelService.getOne('modalidade_repositorio', id)
-            .map(response => plainToClass(ModalidadeRepositorio, response)[0]);
+            .pipe(
+                map(response => plainToClass(ModalidadeRepositorio, response)[0])
+            );
     }
 
     query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
@@ -28,7 +31,9 @@ export class ModalidadeRepositorioService {
         params['populate'] = populate;
 
         return this.modelService.get('modalidade_repositorio', new HttpParams({fromObject: params}))
-            .map(response => new PaginatedResponse(plainToClass(ModalidadeRepositorio, response['entities']), response['total']));
+            .pipe(
+                map(response => new PaginatedResponse(plainToClass(ModalidadeRepositorio, response['entities']), response['total']))
+            );
     }
 
     count(filters: any = {}): Observable<any> {
@@ -41,18 +46,22 @@ export class ModalidadeRepositorioService {
     save(modalidadeRepositorio: ModalidadeRepositorio): Observable<ModalidadeRepositorio> {
         if (modalidadeRepositorio.id) {
             return this.modelService.put('modalidade_repositorio', modalidadeRepositorio.id, classToPlain(modalidadeRepositorio))
-                .map(response => {
-                    response = plainToClass(ModalidadeRepositorio, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new ModalidadeRepositorio(), {...modalidadeRepositorio, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(ModalidadeRepositorio, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new ModalidadeRepositorio(), {...modalidadeRepositorio, ...response});
+                    })
+                );
         } else {
             return this.modelService.post('modalidade_repositorio', classToPlain(modalidadeRepositorio))
-                .map(response => {
-                    response = plainToClass(ModalidadeRepositorio, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new ModalidadeRepositorio(), {...modalidadeRepositorio, ...response});
-                });
+                .pipe(
+                    map(response => {
+                        response = plainToClass(ModalidadeRepositorio, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new ModalidadeRepositorio(), {...modalidadeRepositorio, ...response});
+                    })
+                );
         }
     }
 

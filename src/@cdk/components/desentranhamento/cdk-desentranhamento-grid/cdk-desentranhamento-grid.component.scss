@@ -35,6 +35,10 @@ cdk-desentranhamento-grid {
 
     .actions {
       width: 100%;
+
+      .back {
+        margin-right: auto;
+      }
     }
 
     .mat-column-select {
@@ -113,7 +117,7 @@ cdk-desentranhamento-grid {
           &:before {
             display: none;
           }
-        }.
+        }
 
         &.m-card-sub-title {
           margin-top: -8px;

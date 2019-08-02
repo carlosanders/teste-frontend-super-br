@@ -6,7 +6,7 @@ import {
     MatInputModule,
     MatCheckboxModule,
     MatProgressSpinnerModule,
-    MatAutocompleteModule, MatDatepickerModule
+    MatAutocompleteModule, MatDatepickerModule, MatTooltipModule
 } from '@angular/material';
 
 import {FuseSharedModule} from '@fuse/shared.module';
@@ -24,7 +24,6 @@ import {CdkClassificacaoGridsearchModule} from '@cdk/components/classificacao/cd
 import {CdkSetorAutocompleteModule} from '@cdk/components/setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
 import {CdkSetorGridsearchModule} from '@cdk/components/setor/cdk-setor-autocomplete/cdk-setor-gridsearch/cdk-setor-gridsearch.module';
 import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
-import {CdkPessoaGridsearchModule} from '../../pessoa/cdk-pessoa-autocomplete/cdk-pessoa-gridsearch/cdk-pessoa-gridsearch.module';
 import {CdkPessoaAutocompleteModule} from '../../pessoa/cdk-pessoa-autocomplete/cdk-pessoa-autocomplete.module';
 
 @NgModule({
@@ -44,6 +43,7 @@ import {CdkPessoaAutocompleteModule} from '../../pessoa/cdk-pessoa-autocomplete/
         MatDatetimepickerModule,
         MatNativeDatetimeModule,
         MatMomentDatetimeModule,
+        MatTooltipModule,
 
         NgxUpperCaseDirectiveModule,
 
@@ -57,7 +57,6 @@ import {CdkPessoaAutocompleteModule} from '../../pessoa/cdk-pessoa-autocomplete/
         CdkClassificacaoGridsearchModule,
         CdkSetorAutocompleteModule,
         CdkSetorGridsearchModule,
-        CdkPessoaGridsearchModule,
         CdkPessoaAutocompleteModule,
 
         FuseSharedModule,

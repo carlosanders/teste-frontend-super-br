@@ -1,1 +1,1 @@
-export * from './etiqueta-edit.actions';
+export * from './etiqueta.actions';

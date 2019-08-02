@@ -1,7 +1,40 @@
-<cdk-etiqueta-form
-        [etiqueta]="etiqueta"
-        [saving]="(isSaving$ | async)"
-        [errors]="(errors$ | async)"
-        [modalidadeEtiquetaPagination]="modalidadeEtiquetaPagination"
-        (save)="submit($event)">
-</cdk-etiqueta-form>
+<div fxLayout="row" class="page-layout full-width left-sidebar inner-scroll">
+
+    <!-- SIDEBAR -->
+    <fuse-sidebar *ngIf="routerState.params.etiquetaHandle && routerState.params.etiquetaHandle !== 'criar'" class="sidebar" name="etiqueta-edit-main-sidebar" position="left" [lockedOpen]="'gt-md'">
+
+        <!-- SIDEBAR CONTENT -->
+        <div class="content" fusePerfectScrollbar>
+            <etiqueta-edit-main-sidebar [@animate]="{value:'*'}"></etiqueta-edit-main-sidebar>
+        </div>
+        <!-- / SIDEBAR CONTENT -->
+
+    </fuse-sidebar>
+    <!-- / SIDEBAR -->
+
+    <!-- CENTER -->
+    <div class="center">
+
+        <!-- CONTENT HEADER -->
+        <div class="header" fxLayout="row" fxLayoutAlign="start center" fxHide.gt-md>
+            <div class="sidebar-toggle">
+                <button mat-icon-button
+                        (click)="toggleSidebar('etiqueta-edit-main-sidebar')">
+                    <mat-icon>menu</mat-icon>
+                </button>
+            </div>
+        </div>
+        <!-- / CONTENT HEADER -->
+
+        <!-- CONTENT CARD -->
+        <div class="content-card" fusePerfectScrollbar>
+
+            <router-outlet></router-outlet>
+
+        </div>
+        <!-- / CONTENT CARD -->
+
+    </div>
+    <!-- / CENTER -->
+
+</div>
