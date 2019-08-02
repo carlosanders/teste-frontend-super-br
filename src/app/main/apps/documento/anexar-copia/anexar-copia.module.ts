@@ -5,7 +5,7 @@ import {TranslateModule} from '@ngx-translate/core';
 import {FuseSharedModule} from '@fuse/shared.module';
 import {AnexarCopiaComponent} from './anexar-copia.component';
 import {RouterModule, Routes} from '@angular/router';
-import {MatButtonModule, MatIconModule} from '@angular/material';
+import {MatButtonModule, MatIconModule, MatTooltipModule} from '@angular/material';
 
 const routes: Routes = [
     {
@@ -13,7 +13,7 @@ const routes: Routes = [
         component: AnexarCopiaComponent,
         children: [
             {
-                path: 'visulizar',
+                path: 'visualizar',
                 loadChildren: 'app/main/apps/processo/processo-view/processo-view.module#ProcessoViewModule'
             }
         ]
@@ -31,6 +31,8 @@ const routes: Routes = [
         MatButtonModule,
         TranslateModule,
         FuseSharedModule,
+
+        MatTooltipModule
 
     ],
     providers: [

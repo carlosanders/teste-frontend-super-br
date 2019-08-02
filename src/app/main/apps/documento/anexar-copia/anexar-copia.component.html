@@ -1,3 +1,19 @@
+<div class="actions p-8" fxLayout="row" fxLayoutAlign="start center">
+    <button class="back" mat-icon-button
+            (click)="back()"
+            aria-label="voltar"
+            matTooltip="Voltar">
+        <mat-icon>arrow_back</mat-icon>
+    </button>
+    <button mat-raised-button color="accent" class="anexar-copia mr-sm-12"
+            aria-label="anexar cópia"
+            matTooltip="Anexar Cópia"
+            (click)="anexarCopia()">
+        <mat-icon class="black-fg">file_copy</mat-icon>
+        Anexar Cópia
+    </button>
+</div>
+
 <router-outlet></router-outlet>
 
 
