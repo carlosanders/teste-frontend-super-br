@@ -31,6 +31,8 @@ import {CdkSetorAutocompleteModule} from '../../setor/cdk-setor-autocomplete/cdk
 import {CdkSetorGridsearchModule} from '../../setor/cdk-setor-autocomplete/cdk-setor-gridsearch/cdk-setor-gridsearch.module';
 import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
 import {CdkProcessoGridModule} from '../../processo/cdk-processo-grid/cdk-processo-grid.module';
+import {FavoritoService} from '../../../services/favorito.service';
+import {LoginService} from '../../../../app/main/auth/login/login.service';
 
 @NgModule({
     declarations: [
@@ -69,7 +71,9 @@ import {CdkProcessoGridModule} from '../../processo/cdk-processo-grid/cdk-proces
     providers: [
         EspecieTarefaService,
         UsuarioService,
-        ProcessoService
+        ProcessoService,
+        FavoritoService,
+        LoginService
     ],
     exports: [
         CdkTarefaFormComponent

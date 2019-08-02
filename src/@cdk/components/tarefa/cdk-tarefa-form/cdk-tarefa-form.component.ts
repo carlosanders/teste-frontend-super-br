@@ -15,9 +15,13 @@ import {Usuario} from '@cdk/models/usuario.model';
 import {Processo} from '@cdk/models/processo.model';
 import {MAT_DATETIME_FORMATS} from '@mat-datetimepicker/core';
 import {Setor} from '@cdk/models/setor.model';
-import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
+import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {Pagination} from '@cdk/models/pagination';
+import {Favorito} from '../../../models/favorito.model';
+import {FavoritoService} from '../../../services/favorito.service';
+import * as moment from '../../../../app/main/apps/painel/painel.component';
+import {LoginService} from '../../../../app/main/auth/login/login.service';
 
 @Component({
     selector: 'cdk-tarefa-form',
@@ -78,6 +82,10 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
     especieTarefaList: EspecieTarefa[] = [];
 
+    favoritosList: Favorito[] = [];
+
+    _profile: any;
+
     @Input()
     mode = 'regular';
 
@@ -102,7 +110,9 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _formBuilder: FormBuilder
+        private _formBuilder: FormBuilder,
+        private _favoritoService: FavoritoService,
+        private _loginService: LoginService
     ) {
 
         this.form = this._formBuilder.group({
@@ -131,6 +141,8 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         this.setorResponsavelPagination.filter = {'parent': 'isNotNull'};
         this.usuarioResponsavelPagination = new Pagination();
         this.setorOrigemPagination = new Pagination();
+
+        this._profile = _loginService.getUserProfile();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -278,30 +290,6 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                 this.form.get('processos').setValue(this.processos);
             }
 
-            const cdkTarefaForm = localStorage.getItem('cdk-tarefa-form') ? JSON.parse(localStorage.getItem('cdk-tarefa-form')) : {};
-
-            const cdkEspecieTarefaAutocomplete = {
-                [this.form.get('especieTarefa').value.id]: {
-                    'object': JSON.stringify(this.form.get('especieTarefa').value),
-                    'qtdUsos': 1
-                }
-
-            };
-
-            if (cdkTarefaForm.hasOwnProperty('cdk-especie-tarefa-autocomplete') && cdkTarefaForm['cdk-especie-tarefa-autocomplete'].hasOwnProperty(this.form.get('especieTarefa').value.id)) {
-                cdkTarefaForm['cdk-especie-tarefa-autocomplete'][this.form.get('especieTarefa').value.id] = {
-                    ...cdkTarefaForm['cdk-especie-tarefa-autocomplete'][this.form.get('especieTarefa').value.id],
-                    'qtdUsos': cdkTarefaForm['cdk-especie-tarefa-autocomplete'][this.form.get('especieTarefa').value.id]['qtdUsos'] + 1
-                };
-            } else {
-                cdkTarefaForm['cdk-especie-tarefa-autocomplete'] = {
-                    ...cdkTarefaForm['cdk-especie-tarefa-autocomplete'],
-                    ...cdkEspecieTarefaAutocomplete
-                };
-            }
-
-            localStorage.setItem('cdk-tarefa-form', JSON.stringify(cdkTarefaForm));
-
             this.save.emit(this.form.value);
         }
     }
@@ -310,30 +298,6 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         const value = this.form.get('especieTarefa').value;
         if (!value || typeof value !== 'object') {
             this.form.get('especieTarefa').setValue(null);
-        } else {
-
-            const cdkTarefaForm = localStorage.getItem('cdk-tarefa-form') ? JSON.parse(localStorage.getItem('cdk-tarefa-form')) : {};
-
-            const cdkEspecieTarefaAutocomplete = {
-                [this.form.get('especieTarefa').value.id]: {
-                    'object': JSON.stringify(this.form.get('especieTarefa').value),
-                    'qtdUsos': 1
-                }
-            };
-
-            if (cdkTarefaForm.hasOwnProperty('cdk-especie-tarefa-autocomplete') && cdkTarefaForm['cdk-especie-tarefa-autocomplete'].hasOwnProperty(this.form.get('especieTarefa').value.id)) {
-                cdkTarefaForm['cdk-especie-tarefa-autocomplete'][this.form.get('especieTarefa').value.id] = {
-                    ...cdkTarefaForm['cdk-especie-tarefa-autocomplete'][this.form.get('especieTarefa').value.id],
-                    'qtdUsos': cdkTarefaForm['cdk-especie-tarefa-autocomplete'][this.form.get('especieTarefa').value.id]['qtdUsos'] + 1
-                };
-            } else {
-                cdkTarefaForm['cdk-especie-tarefa-autocomplete'] = {
-                    ...cdkTarefaForm['cdk-especie-tarefa-autocomplete'],
-                    ...cdkEspecieTarefaAutocomplete
-                };
-            }
-
-            localStorage.setItem('cdk-tarefa-form', JSON.stringify(cdkTarefaForm));
         }
     }
 
@@ -350,20 +314,32 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     showEspecieTarefaList(): void {
-        const cdkTarefaForm = localStorage.getItem('cdk-tarefa-form') ? JSON.parse(localStorage.getItem('cdk-tarefa-form')) : {};
 
-        if (cdkTarefaForm.hasOwnProperty('cdk-especie-tarefa-autocomplete')) {
-            const sortable = [];
-            Object.values(cdkTarefaForm['cdk-especie-tarefa-autocomplete']).forEach((obj, i) => {
-                sortable.push([obj['object'], obj['qtdUsos']]);
-                sortable.sort((a, b) => a[1] - b[1]);
-                console.log (sortable);
-                this.especieTarefaList = sortable.slice(5).map(a => JSON.parse(a[0]));
-            });
-        } else {
-            this.especieTarefaList = [];
-        }
+        this._favoritoService.query(
+            `{"usuario.id": "eq:${this._profile.usuario.id}", "especieTarefa": "isNotNull"}`,
+            5,
+            0,
+            '{}',
+            '["populateAll"]')
+            .pipe(
+                catchError(() => {
+                        return of([]);
+                    }
+                )
+            ).subscribe(
+            value => {
 
+                this.especieTarefaList = [];
+                this.favoritosList = value['entities'];
+
+                this.favoritosList.forEach((favorito) => {
+                    const especieTarefa = favorito.especieTarefa;
+                    this.especieTarefaList.push(especieTarefa);
+                });
+
+                this._changeDetectorRef.markForCheck();
+            }
+        );
     }
 
     showEspecieTarefaGrid(): void {
