@@ -106,7 +106,7 @@ export class PessoaComponent implements OnInit, OnDestroy {
         }
     }
 
-    onActivate(componentReference): void  {
+    onActivate(componentReference): void {
         if (componentReference.select) {
             componentReference.select.subscribe((pessoa: Pessoa) => {
                 this.select.emit(pessoa);
@@ -115,7 +115,7 @@ export class PessoaComponent implements OnInit, OnDestroy {
 
     }
 
-    onDeactivate(componentReference): void  {
+    onDeactivate(componentReference): void {
         if (componentReference.select) {
             componentReference.select.unsubscribe();
         }

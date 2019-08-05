@@ -8,13 +8,11 @@
     <button mat-raised-button color="accent" class="anexar-copia mr-sm-12"
             aria-label="anexar cópia"
             matTooltip="Anexar Cópia"
+            [disabled]="!componenteDigital"
             (click)="anexarCopia()">
         <mat-icon class="black-fg">file_copy</mat-icon>
         Anexar Cópia
     </button>
 </div>
 
-<router-outlet></router-outlet>
-
-
-
+<router-outlet (activate)="onActivate($event)" (deactivate)="onDeactivate($event)"></router-outlet>

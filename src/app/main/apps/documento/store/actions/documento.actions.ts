@@ -4,6 +4,8 @@ export const GET_DOCUMENTO = '[DOCUMENTO] GET DOCUMENTO';
 export const GET_DOCUMENTO_SUCCESS = '[DOCUMENTO] GET DOCUMENTO SUCCESS';
 export const GET_DOCUMENTO_FAILED = '[DOCUMENTO] GET DOCUMENTO FAILED';
 
+export const UNLOAD_DOCUMENTO = '[DOCUMENTO] UNLOAD DOCUMENTO';
+
 export const SAVE_DOCUMENTO = '[DOCUMENTO] SAVE DOCUMENTO';
 export const SAVE_DOCUMENTO_SUCCESS = '[DOCUMENTO] SAVE DOCUMENTO SUCCESS';
 export const SAVE_DOCUMENTO_FAILED = '[DOCUMENTO] SAVE DOCUMENTO FAILED';
@@ -60,6 +62,18 @@ export class GetDocumentoFailed implements Action
     readonly type = GET_DOCUMENTO_FAILED;
 
     constructor(public payload: string)
+    {
+    }
+}
+
+/**
+ * Unload Documento
+ */
+export class UnloadDocumento implements Action
+{
+    readonly type = UNLOAD_DOCUMENTO;
+
+    constructor()
     {
     }
 }
@@ -278,6 +292,7 @@ export type DocumentoActionsAll
     = GetDocumento
     | GetDocumentoSuccess
     | GetDocumentoFailed
+    | UnloadDocumento
     | SaveDocumento
     | SaveDocumentoSuccess
     | SaveDocumentoFailed

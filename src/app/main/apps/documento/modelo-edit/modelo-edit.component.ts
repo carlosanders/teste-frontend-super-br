@@ -13,7 +13,7 @@ import {Documento} from '@cdk/models/documento.model';
 import {select, Store} from '@ngrx/store';
 import {Location} from '@angular/common';
 import {getMercureState} from 'app/store/reducers';
-import {Modelo} from '../../../../../@cdk/models/modelo.model';
+import {Modelo} from '@cdk/models/modelo.model';
 
 @Component({
     selector: 'modelo-edit',

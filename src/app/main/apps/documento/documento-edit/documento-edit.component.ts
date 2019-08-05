@@ -14,7 +14,6 @@ import {select, Store} from '@ngrx/store';
 import {Location} from '@angular/common';
 import {getMercureState, getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
-import {takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'documento-edit',

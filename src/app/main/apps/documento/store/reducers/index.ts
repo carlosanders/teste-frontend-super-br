@@ -1,11 +1,13 @@
 import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
 import { DocumentoReducer, DocumentoState } from './documento.reducer';
 import { DocumentosVinculadosReducer, DocumentosVinculadosState } from './documentos-vinculados.reducer';
+import { ComponenteDigitalReducer, ComponenteDigitalState } from './componentes-digitais.reducer';
 
 export interface DocumentoAppState
 {
     documento: DocumentoState;
     documentosVinculados: DocumentosVinculadosState;
+    componentesDigitais: ComponenteDigitalState;
 }
 
 export const getDocumentoAppState = createFeatureSelector<DocumentoAppState>(
@@ -19,8 +21,10 @@ export const getAppState = createSelector(
 
 export const reducers: ActionReducerMap<DocumentoAppState> = {
     documento: DocumentoReducer,
-    documentosVinculados: DocumentosVinculadosReducer
+    documentosVinculados: DocumentosVinculadosReducer,
+    componentesDigitais: ComponenteDigitalReducer
 };
 
 export * from './documento.reducer';
 export * from './documentos-vinculados.reducer';
+export * from './componentes-digitais.reducer';

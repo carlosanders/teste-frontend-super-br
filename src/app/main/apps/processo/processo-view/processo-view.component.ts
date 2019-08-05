@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnInit, QueryList, ViewChildren, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectorRef, Component, EventEmitter, OnInit, Output, QueryList, ViewChildren, ViewEncapsulation} from '@angular/core';
 import {Observable} from 'rxjs';
 
 import {fuseAnimations} from '@fuse/animations';
@@ -12,6 +12,8 @@ import * as fromStore from './store';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {DomSanitizer} from '@angular/platform-browser';
 import {filter} from 'rxjs/operators';
+import {Pessoa} from '../../../../../@cdk/models/pessoa.model';
+import {ComponenteDigital} from '../../../../../@cdk/models/componente-digital.model';
 
 @Component({
     selector: 'processo-view',
@@ -44,6 +46,9 @@ export class ProcessoViewComponent implements OnInit {
 
     src: any;
     loading = false;
+
+    @Output()
+    select: EventEmitter<ComponenteDigital> = new EventEmitter();
 
     /**
      *
@@ -96,6 +101,7 @@ export class ProcessoViewComponent implements OnInit {
                         URL = window.URL;
                     this.src = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
                     this.fileName = binary.src.fileName;
+                    this.select.emit(binary.src);
                 } else {
                     this.src = this._sanitizer.bypassSecurityTrustResourceUrl('about:blank');
                 }
