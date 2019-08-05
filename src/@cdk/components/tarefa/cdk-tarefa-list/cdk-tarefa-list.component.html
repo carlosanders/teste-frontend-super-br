@@ -9,7 +9,7 @@
 <!-- / SIDEBAR -->
 
 
-<div [@animateStagger]="{value:'50'}" fxLayout="column">
+<div fxLayout="column">
 
     <div class="toolbar pt-8 pb-8 pl-16 pr-8" fxFlex fxLayout="row" fxLayoutAlign="start center">
 
@@ -163,8 +163,7 @@
                           (createTarefa)="doCreateTarefa($event)"
                           (editTarefa)="doEditTarefa($event)"
                           (editProcesso)="doEditProcesso($event)"
-                          [ngClass]="{'selected':tarefa.id === currentTarefaId}"
-                          [@animate]="{value:'*',params:{y:'100%'}}">
+                          [ngClass]="{'selected':tarefa.id === currentTarefaId}">
     </cdk-tarefa-list-item>
 
 </div>
