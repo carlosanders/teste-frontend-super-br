@@ -27,7 +27,7 @@ import { ResizeEvent } from 'angular-resizable-element';
 import { fuseAnimations } from '@fuse/animations';
 import { Etiqueta } from '@cdk/models/etiqueta.model';
 import {Router} from '@angular/router';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {Pagination} from '@cdk/models/pagination';
 import {LoginService} from '../../auth/login/login.service';
 
@@ -145,7 +145,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         });
 
         this.tarefas$.pipe(
-            takeUntil(this._unsubscribeAll)
+            takeUntil(this._unsubscribeAll),
+            filter(tarefas => !!tarefas)
         ).subscribe(tarefas => {
             this.tarefas = tarefas;
         });

@@ -85,6 +85,7 @@ export class DocumentoEffect {
                             'componentesDigitais',
                             'modelo',
                             'modelo.template',
+                            'processoOrigem',
                             'repositorio',
                             'repositorio.modalidadeRepositorio',
                             'documentoAvulsoRemessa',
@@ -127,13 +128,15 @@ export class DocumentoEffect {
             .pipe(
                 ofType<DocumentoActions.GetDocumentoSuccess>(DocumentoActions.GET_DOCUMENTO_SUCCESS),
                 tap((action) => {
-                    if (action.payload.currentComponenteDigitalId) {
-                        this._store.dispatch(new DocumentoActions.SetCurrentStep(action.payload.currentComponenteDigitalId));
-                    } else {
-                        this._router.navigate([
-                                this.routerState.url.split('/componente-digital/')[0] + '/componente-digital/0/empty'
-                            ]
-                        ).then();
+                    if (this.routerState.url.indexOf('anexar-copia') === -1) {
+                        if (action.payload.currentComponenteDigitalId) {
+                            this._store.dispatch(new DocumentoActions.SetCurrentStep(action.payload.currentComponenteDigitalId));
+                        } else {
+                            this._router.navigate([
+                                    this.routerState.url.split('/componente-digital/')[0] + '/componente-digital/0/empty'
+                                ]
+                            ).then();
+                        }
                     }
                 })
             );

@@ -115,6 +115,7 @@ export class DocumentoComponent implements OnInit, OnDestroy {
     }
 
     back(): void {
+        this._store.dispatch(new fromStore.UnloadDocumento());
         this._router.navigate([
                 this.routerState.url.split('/documento/')[0]
             ]

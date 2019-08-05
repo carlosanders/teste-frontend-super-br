@@ -32,6 +32,17 @@ export function DocumentoReducer(state = DocumentoInitialState, action: Document
             };
         }
 
+        case DocumentoActions.UNLOAD_DOCUMENTO: {
+            return {
+                documentoId: null,
+                currentComponenteDigitalId: null,
+                loading: false,
+                loaded: false,
+                saving: false,
+                errors: false
+            };
+        }
+
         case DocumentoActions.GET_DOCUMENTO_SUCCESS: {
 
             return {
