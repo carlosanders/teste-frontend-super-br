@@ -1,27 +1,31 @@
 cdk-atividade-form {
 
-  form {
-    width: 100%;
-  }
+    form {
+        width: 100%;
 
-  .form-card {
-    border-radius: 8px;
-  }
-
-  .form-errors-model {
-
-    flex: 1;
-
-    code {
-      background: none !important;
+        .submerter-aprovacao {
+            margin-left: auto;
+        }
     }
-  }
 
-  cdk-especie-atividade-gridsearch {
-    width: 100%;
-  }
+    .form-card {
+        border-radius: 8px;
+    }
 
-  cdk-usuario-gridsearch {
-    width: 100%;
-  }
+    .form-errors-model {
+
+        flex: 1;
+
+        code {
+            background: none !important;
+        }
+    }
+
+    cdk-especie-atividade-gridsearch {
+        width: 100%;
+    }
+
+    cdk-usuario-gridsearch {
+        width: 100%;
+    }
 }
