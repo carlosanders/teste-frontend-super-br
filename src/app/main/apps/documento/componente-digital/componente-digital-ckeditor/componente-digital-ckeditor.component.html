@@ -1,5 +1,12 @@
-<cdk-componente-digital-ckeditor fxFlex="98"
-                                 [showModeloButtons]="routerState.url.indexOf('/modelo/') > -1"
-                                 [componenteDigital]="(componenteDigital$ | async)"
-                                 (save)="save($event)">
-</cdk-componente-digital-ckeditor>
+<div fxLayout="column" fxFlex="100">
+    <div fxLayoutAlign="center">
+        <mat-progress-bar [mode]="'indeterminate'" *ngIf="saving"></mat-progress-bar>
+    </div>
+    <div class="space" *ngIf="!saving" fxLayoutAlign="center">
+    </div>
+    <cdk-componente-digital-ckeditor [showModeloButtons]="routerState.url.indexOf('/modelo/') > -1"
+                                     [componenteDigital]="(componenteDigital$ | async)"
+                                     [errors]="(errors$ | async)"
+                                     (save)="save($event)">
+    </cdk-componente-digital-ckeditor>
+</div>

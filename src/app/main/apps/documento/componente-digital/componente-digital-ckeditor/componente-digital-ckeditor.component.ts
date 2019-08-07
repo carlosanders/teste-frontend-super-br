@@ -1,5 +1,5 @@
 import {
-    ChangeDetectionStrategy,
+    ChangeDetectionStrategy, ChangeDetectorRef,
     Component,
     OnDestroy,
     OnInit,
@@ -29,15 +29,24 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
     componenteDigital$: Observable<ComponenteDigital>;
     componenteDigital: ComponenteDigital;
 
+    saving$: Observable<boolean>;
+    saving = false;
+
+    errors$: Observable<any>;
+
     routerState: any;
 
     /**
+     * @param _changeDetectorRef
      * @param _store
      */
     constructor(
+        private _changeDetectorRef: ChangeDetectorRef,
         private _store: Store<fromStore.ComponenteDigitalAppState>
     ) {
         this.componenteDigital$ = this._store.pipe(select(fromStore.getComponenteDigital));
+        this.saving$ = this._store.pipe(select(fromStore.getIsSaving));
+        this.errors$ = this._store.pipe(select(fromStore.getErrors));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -51,6 +60,13 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
         this.componenteDigital$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(cd => this.componenteDigital = cd);
+
+        this.saving$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(saving => {
+            this.saving = saving;
+            this._changeDetectorRef.markForCheck();
+        });
 
         this._store
             .pipe(
@@ -76,6 +92,6 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
      * @param data
      */
     save(data: any): void {
-        this._store.dispatch(new fromStore.SaveComponenteDigital({componenteDigital: this.componenteDigital, data: data}));
+        this._store.dispatch(new fromStore.SaveComponenteDigital({componenteDigital: this.componenteDigital, data: data.conteudo, hashAntigo: data.hashAntigo}));
     }
 }

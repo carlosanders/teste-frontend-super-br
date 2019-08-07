@@ -7,6 +7,7 @@ import {ComponenteDigitalCkeditorComponent} from './componente-digital-ckeditor.
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {CdkComponenteDigitalCkeditorModule} from '@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-componente-digital-ckeditor.module';
 import {ComponenteDigitalStoreModule} from '../store/store.module';
+import {MatProgressBarModule} from '@angular/material';
 
 const routes: Routes = [
     {
@@ -23,6 +24,7 @@ const routes: Routes = [
         RouterModule.forChild(routes),
 
         CdkComponenteDigitalCkeditorModule,
+        MatProgressBarModule,
 
         ComponenteDigitalStoreModule,
 
