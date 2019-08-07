@@ -1,10 +1,16 @@
 import {
     ChangeDetectionStrategy, ChangeDetectorRef,
-    Component, EventEmitter, Input, OnChanges,
+    Component, ElementRef, EventEmitter, Input, OnChanges,
     OnDestroy,
-    OnInit, Output,
+    OnInit, Output, SimpleChange,
     ViewEncapsulation
 } from '@angular/core';
+
+import {
+    MatSnackBar,
+    MatSnackBarHorizontalPosition,
+    MatSnackBarVerticalPosition
+} from '@angular/material';
 
 import {fuseAnimations} from '@fuse/animations';
 import {ComponenteDigital} from '@cdk/models/componente-digital.model';
@@ -33,6 +39,14 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
     showModeloButtons = false;
 
     editor: any;
+
+    hashAntigo: string;
+
+    @Input()
+    errors: any;
+
+    horizontalPosition: MatSnackBarHorizontalPosition = 'center';
+    verticalPosition: MatSnackBarVerticalPosition = 'top';
 
     @Input()
     config = {
@@ -97,8 +111,11 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
      *
      * @param _changeDetectorRef
      * @param dialog
+     * @param el
+     * @param snackBar
      */
-    constructor(private _changeDetectorRef: ChangeDetectorRef, public dialog: MatDialog) {
+    constructor(private _changeDetectorRef: ChangeDetectorRef, public dialog: MatDialog, private el: ElementRef,
+                private snackBar: MatSnackBar) {
 
     }
 
@@ -112,8 +129,19 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
     ngOnInit(): void {
     }
 
-    ngOnChanges(): void {
-        this.fetch();
+    ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
+
+        if (this.errors && this.errors.status && this.errors.status === 422) {
+            const error = this.errors.error.message || this.errors.statusText;
+            this.snackBar.open(error, null, {
+                duration: 5000,
+                horizontalPosition: this.horizontalPosition,
+                verticalPosition: this.verticalPosition,
+                panelClass: ['danger-snackbar']
+            });
+        } else {
+            this.fetch();
+        }
     }
 
     /**
@@ -141,8 +169,10 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
     fetch(): void {
         if (this.componenteDigital && this.componenteDigital.conteudo) {
             this.src = this.b64DecodeUnicode(this.componenteDigital.conteudo.split(';base64,')[1]);
+            this.hashAntigo = this.componenteDigital.hash;
         } else {
             this.src = null;
+            this.hashAntigo = null;
         }
         this._changeDetectorRef.markForCheck();
     }
@@ -185,6 +215,8 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
             repositorioButton.style.visibility = 'hidden';
         }
 
+        e.editor.resize(e.editor.container.getStyle('width'), (this.el.nativeElement.offsetHeight * 0.95), true);
+
         e.editor.on('contentDom', function (): any {
 
             e.editor.document.on('keyup', function (event: any): any {
@@ -224,14 +256,20 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
             breakBeforeClose: false,
             breakAfterClose: false
         });
+
+        setInterval(function (): any {
+            me.doSave();
+        }, 5 * 60 * 1000);
     }
 
     doSave(): void {
-        this.getBase64(new Blob([this.src], {type: 'text/html'})).then(
-            conteudo => {
-                this.save.emit(conteudo);
-            }
-        );
+        if (this.hashAntigo) {
+            this.getBase64(new Blob([this.src], {type: 'text/html'})).then(
+                conteudo => {
+                    this.save.emit({conteudo: conteudo, hashAntigo: this.hashAntigo});
+                }
+            );
+        }
     }
 
     doCampo(): void {
