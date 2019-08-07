@@ -7,7 +7,7 @@ import {
     MatCheckboxModule,
     MatProgressSpinnerModule,
     MatAutocompleteModule,
-    MatDatepickerModule, MatSlideToggleModule
+    MatDatepickerModule, MatSlideToggleModule, MatTooltipModule
 
 } from '@angular/material';
 
@@ -22,6 +22,8 @@ import {UsuarioService} from '../../../services/usuario.service';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
+import {CdkSetorAutocompleteModule} from '../../setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
+import {CdkSetorGridsearchModule} from '../../setor/cdk-setor-autocomplete/cdk-setor-gridsearch/cdk-setor-gridsearch.module';
 
 @NgModule({
     declarations: [
@@ -41,11 +43,14 @@ import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
         MatNativeDatetimeModule,
         MatMomentDatetimeModule,
         MatSlideToggleModule,
+        MatTooltipModule,
 
         CdkEspecieAtividadeAutocompleteModule,
         CdkEspecieAtividadeGridsearchModule,
         CdkUsuarioAutocompleteModule,
         CdkUsuarioGridsearchModule,
+        CdkSetorAutocompleteModule,
+        CdkSetorGridsearchModule,
 
         NgxUpperCaseDirectiveModule,
 

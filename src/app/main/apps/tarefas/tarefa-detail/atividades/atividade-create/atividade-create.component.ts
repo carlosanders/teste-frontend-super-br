@@ -188,6 +188,8 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy {
 
     submit(values): void {
 
+        delete values.unidadeAprovacao;
+
         const atividade = new Atividade();
 
         Object.entries(values).forEach(
