@@ -15,7 +15,7 @@ import {Documento} from '@cdk/models/documento.model';
 import {ModalidadeVinculacaoDocumento} from '../../../models/modalidade-vinculacao-documento.model';
 
 @Component({
-    selector: 'cdkvinculacao-documento-form',
+    selector: 'cdk-vinculacao-documento-form',
     templateUrl: './cdk-vinculacao-documento-form.component.html',
     styleUrls: ['./cdk-vinculacao-documento-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
