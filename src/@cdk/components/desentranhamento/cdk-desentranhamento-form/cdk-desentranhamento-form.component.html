@@ -1,0 +1,78 @@
+<form *ngIf="activeCard === 'form'" class="p-24 mr-24" fxLayoutGap="16px"
+      fxLayout="column"
+      fxLayoutAlign="start"
+      fxFlex="1 0 auto" name="form" [formGroup]="form" (submit)="submit()">
+
+    <div fxFlex="1 0 auto" fxLayout="column">
+
+        <label id="tipo-rg">Selecione a destinação</label>
+
+        <div class="target" fxLayout="column">
+            <mat-radio-group class="tipo-rg" formControlName="tipo" aria-labelledby="tipo-rg">
+                <mat-radio-button [value]="'processo_existente'">
+                    Processo existente
+                </mat-radio-button>
+                <mat-radio-button [value]="'novo_processo'">
+                    Novo processo
+                </mat-radio-button>
+                <mat-radio-button [value]="'arquivo'">
+                    Arquivo
+                </mat-radio-button>
+            </mat-radio-group>
+        </div>
+
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Processo"
+                       formControlName="processo"
+                       [matAutocomplete]="processo.autocomplete" required
+                       (blur)="checkProcesso()">
+            </div>
+
+            <cdk-processo-autocomplete
+                #processo="processoAutocomplete"
+                [control]="form.get('processo')"
+                [pagination]="processoPagination">
+            </cdk-processo-autocomplete>
+            <button *ngIf="form.get('processo').enabled" matSuffix mat-button mat-icon-button
+                    (click)="showProcessoGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('processo').hasError('formError')">
+                {{form.get('processo').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="mr-16" fxFlex="1 0 auto">
+            <textarea formControlName="observacao"
+                      matInput placeholder="Fundamentação" maxlength="255" upperCase></textarea>
+            <mat-error *ngIf="form.get('observacao').hasError('formError')">
+                {{form.get('observacao').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
+    </div>
+
+    <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+
+    <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+         fxLayoutAlign="center center">
+        <button mat-raised-button color="accent" class="mr-sm-12"
+                [disabled]="form.invalid">
+            SALVAR
+        </button>
+    </div>
+
+    <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+         fxLayoutAlign="center center">
+        <mat-spinner color="accent" diameter="24"></mat-spinner>
+    </div>
+</form>
+
+<cdk-processo-gridsearch
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'processo-gridsearch'"
+    [pagination]="processoPagination"
+    (selected)="selectProcesso($event)"
+    (cancel)="cancel()">
+</cdk-processo-gridsearch>
