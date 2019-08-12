@@ -3,7 +3,7 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as JuntadaListActions from 'app/main/apps/processo/processo-edit/juntadas/juntada-list/store/actions';
@@ -12,6 +12,7 @@ import {JuntadaService} from '@cdk/services/juntada.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Juntada} from '@cdk/models/juntada.model';
 import {juntada as juntadaSchema} from '@cdk/normalizr/juntada.schema';
+import {Router} from '@angular/router';
 
 @Injectable()
 export class JuntadaListEffect {
@@ -21,7 +22,8 @@ export class JuntadaListEffect {
     constructor(
         private _actions: Actions,
         private _juntadaService: JuntadaService,
-        private _store: Store<State>
+        private _store: Store<State>,
+        private _router: Router
     ) {
         this._store
             .pipe(select(getRouterState))
@@ -71,22 +73,16 @@ export class JuntadaListEffect {
             );
 
     /**
-     * Delete Juntada
+     * Desentranhar Juntada
      * @type {Observable<any>}
      */
-    @Effect()
-    deleteJuntada: any =
+    @Effect({dispatch: false})
+    desentranharJuntada: any =
         this._actions
             .pipe(
-                ofType<JuntadaListActions.DeleteJuntada>(JuntadaListActions.DELETE_JUNTADA),
-                mergeMap((action) => {
-                    return this._juntadaService.destroy(action.payload).pipe(
-                        map((response) => new JuntadaListActions.DeleteJuntadaSuccess(response.id)),
-                        catchError((err) => {
-                            console.log(err);
-                            return of(new JuntadaListActions.DeleteJuntadaFailed(action.payload));
-                        })
-                    );
+                ofType<JuntadaListActions.DesentranharJuntada>(JuntadaListActions.DESENTRANHAMENTO_JUNTADA),
+                tap(() => {
+                    this._router.navigate([this.routerState.url.replace('juntadas/listar', 'juntadas/desentranhar')]).then();
                 })
             );
 }

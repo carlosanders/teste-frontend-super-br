@@ -3,7 +3,7 @@ import {
     getJuntadaListAppState,
     JuntadaListAppState,
     JuntadaListState
-} from 'app/main/apps/processo/processo-edit/juntadas/juntada-list/store/reducers';
+} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {juntada as juntadaSchema} from '@cdk/normalizr/juntada.schema';
@@ -42,12 +42,18 @@ export const getIsLoading = createSelector(
     (state: JuntadaListState) => state.loading
 );
 
-export const getDeletingIds = createSelector(
+export const getDesentranhandoIds = createSelector(
     getJuntadaListState,
-    (state: JuntadaListState) => state.deletingIds
+    (state: JuntadaListState) => state.desentranhandoIds
 );
 
-export const getDeletedIds = createSelector(
+export const getDesentranhadoIds = createSelector(
     getJuntadaListState,
-    (state: JuntadaListState) => state.deletedIds
+    (state: JuntadaListState) => state.desentranhadoIds
+);
+
+export const getDesentranhandoJuntadas = createSelector(
+    schemaSelectors.getNormalizedEntities,
+    getDesentranhandoIds,
+    schemaSelectors.entitiesProjector
 );

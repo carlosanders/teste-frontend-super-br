@@ -2,7 +2,7 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component, EventEmitter, Input, OnChanges,
-    OnDestroy,
+    OnDestroy, OnInit,
     Output, SimpleChange,
     ViewEncapsulation
 } from '@angular/core';
@@ -12,6 +12,8 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { Desentranhamento } from '@cdk/models/desentranhamento.model';
 import {Pagination} from '../../../models/pagination';
 import {Processo} from '../../../models/processo.model';
+import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
+import {of} from 'rxjs';
 
 @Component({
     selector: 'cdk-desentranhamento-form',
@@ -21,13 +23,16 @@ import {Processo} from '../../../models/processo.model';
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
 })
-export class CdkDesentranhamentoFormComponent implements OnChanges, OnDestroy {
+export class CdkDesentranhamentoFormComponent implements OnInit, OnChanges, OnDestroy {
 
     @Input()
     desentranhamento: Desentranhamento;
 
     @Input()
     saving: boolean;
+
+    @Input()
+    valid = true;
 
     @Input()
     errors: any;
@@ -40,7 +45,7 @@ export class CdkDesentranhamentoFormComponent implements OnChanges, OnDestroy {
     activeCard = 'form';
 
     @Input()
-    processoPagination: Pagination;
+    processoDestinoPagination: Pagination;
 
     /**
      * Constructor
@@ -53,16 +58,38 @@ export class CdkDesentranhamentoFormComponent implements OnChanges, OnDestroy {
         this.form = this._formBuilder.group({
             'id': [null],
             'tipo': ['processo_existente'],
-            'observacao': [null],
-            'processo': [null],
+            'observacao': [null, [Validators.required]],
+            'processoDestino': [null, [Validators.required]],
         });
 
-        this.processoPagination = new Pagination();
+        this.processoDestinoPagination = new Pagination();
     }
 
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
     // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * On init
+     */
+    ngOnInit(): void {
+        this.form.get('tipo').setValue('processo_existente');
+
+        this.form.get('tipo').valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((value) => {
+                    if (value === 'processo_existente') {
+                        this.form.get('processoDestino').enable();
+                    } else {
+                        this.form.get('processoDestino').disable();
+                    }
+                    this._changeDetectorRef.markForCheck();
+                    return of([]);
+                }
+            )
+        ).subscribe();
+    }
 
     /**
      * On change
@@ -106,21 +133,21 @@ export class CdkDesentranhamentoFormComponent implements OnChanges, OnDestroy {
         this.activeCard = 'form';
     }
 
-    checkProcesso(): void {
-        const value = this.form.get('processo').value;
+    checkProcessoDestino(): void {
+        const value = this.form.get('processoDestino').value;
         if (!value || typeof value !== 'object') {
-            this.form.get('processo').setValue(null);
+            this.form.get('processoDestino').setValue(null);
         }
     }
 
-    selectProcesso(processo: Processo): void {
-        if (processo) {
-            this.form.get('processo').setValue(processo);
+    selectProcesso(processoDestino: Processo): void {
+        if (processoDestino) {
+            this.form.get('processoDestino').setValue(processoDestino);
         }
         this.activeCard = 'form';
     }
 
-    showProcessoGrid(): void {
-        this.activeCard = 'processo-gridsearch';
+    showProcessoDestinoGrid(): void {
+        this.activeCard = 'processo-destino-gridsearch';
     }
 }

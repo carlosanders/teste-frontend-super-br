@@ -60,7 +60,10 @@ export class ProcessosComponent implements OnInit {
                     this.routerState = routerState.state;
                     this.NUPHandle = this.routerState.params.NUPHandle;
                     if (this.routerState.params.NUPHandle) {
-                        this.reload({gridFilter: {'NUP': 'like:' + this.routerState.params.NUPHandle + '%'}});
+                        this.reload({
+                            ...this.pagination,
+                            gridFilter: {'NUP': 'like:' + this.routerState.params.NUPHandle + '%'}
+                        });
                     }
                 }
             });
