@@ -17,6 +17,8 @@ import {Documento} from '@cdk/models/documento.model';
 import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
 import {DocumentoService} from '@cdk/services/documento.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
+import * as fromStore from '../../../tarefas/tarefa-detail/atividades/atividade-create/store';
+import {GetDocumentos} from '../../../tarefas/tarefa-detail/atividades/atividade-create/store';
 
 @Injectable()
 export class ComponenteDigitalEffect {
@@ -70,6 +72,9 @@ export class ComponenteDigitalEffect {
                 ofType<ComponenteDigitalActions.SaveComponenteDigital>(ComponenteDigitalActions.SAVE_COMPONENTE_DIGITAL),
                 switchMap((action) => {
                     return this._componenteDigitalService.save(action.payload).pipe(
+                        tap((response) => {
+                            this._store.dispatch(new GetDocumentos());
+                        }),
                         mergeMap((response: ComponenteDigital) => [
                             new ComponenteDigitalActions.SaveComponenteDigitalSuccess(response),
                             new ComponenteDigitalActions.GetDocumento(response.id),

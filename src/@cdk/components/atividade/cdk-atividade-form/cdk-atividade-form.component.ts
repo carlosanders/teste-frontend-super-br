@@ -2,18 +2,21 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component, EventEmitter, Input, OnChanges,
-    OnDestroy,
+    OnDestroy, OnInit,
     Output, SimpleChange,
     ViewEncapsulation
 } from '@angular/core';
 
-import { fuseAnimations } from '@fuse/animations';
+import {fuseAnimations} from '@fuse/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { Atividade } from '@cdk/models/atividade.model';
-import { EspecieAtividade } from '@cdk/models/especie-atividade.model';
+import {Atividade} from '@cdk/models/atividade.model';
+import {EspecieAtividade} from '@cdk/models/especie-atividade.model';
 import {Usuario} from '@cdk/models/usuario.model';
 import {MAT_DATETIME_FORMATS} from '@mat-datetimepicker/core';
-import {Pagination} from '../../../models/pagination';
+import {Pagination} from '@cdk/models/pagination';
+import {Setor} from '@cdk/models/setor.model';
+import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
+import {of} from 'rxjs';
 
 @Component({
     selector: 'cdk-atividade-form',
@@ -34,7 +37,7 @@ import {Pagination} from '../../../models/pagination';
         }
     ]
 })
-export class CdkAtividadeFormComponent implements OnChanges, OnDestroy {
+export class CdkAtividadeFormComponent implements OnInit, OnChanges, OnDestroy {
 
     @Input()
     atividade: Atividade;
@@ -57,6 +60,18 @@ export class CdkAtividadeFormComponent implements OnChanges, OnDestroy {
     @Input()
     usuarioPagination: Pagination;
 
+    @Input()
+    usuarioAprovacaoPagination: Pagination;
+
+    @Input()
+    setorAprovacaoPagination: Pagination;
+
+    @Input()
+    unidadeAprovacaoPagination: Pagination;
+
+    @Input()
+    autorizaSubmeterAprovacao = false;
+
     form: FormGroup;
 
     activeCard = 'form';
@@ -77,17 +92,90 @@ export class CdkAtividadeFormComponent implements OnChanges, OnDestroy {
             'usuario': [null, [Validators.required]],
             'observacao': [null, [Validators.maxLength(255)]],
             'documento': [null],
-            'tarefa': [null]
+            'submeterAprovacao': [null],
+            'tarefa': [null],
+            'unidadeAprovacao': [null, [Validators.required]],
+            'setorAprovacao': [null, [Validators.required]],
+            'usuarioAprovacao': [null, [Validators.required]]
         });
+
         this.especieAtividadePagination = new Pagination();
         this.usuarioPagination = new Pagination();
-
-
+        this.usuarioAprovacaoPagination = new Pagination();
+        this.unidadeAprovacaoPagination = new Pagination();
+        this.unidadeAprovacaoPagination.filter = {'parent': 'isNull'};
+        this.setorAprovacaoPagination = new Pagination();
+        this.setorAprovacaoPagination.filter = {'parent': 'isNotNull'};
     }
 
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
     // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * On init
+     */
+    ngOnInit(): void {
+
+        this.form.get('submeterAprovacao').setValue(false);
+
+        this.form.get('unidadeAprovacao').disable();
+        this.form.get('setorAprovacao').disable();
+        this.form.get('usuarioAprovacao').disable();
+
+        this.form.get('submeterAprovacao').valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((value) => {
+                    if (value) {
+                        this.form.get('unidadeAprovacao').enable();
+                    } else {
+                        this.form.get('unidadeAprovacao').reset();
+                        this.form.get('unidadeAprovacao').disable();
+                        this.form.get('setorAprovacao').reset();
+                        this.form.get('setorAprovacao').disable();
+                        this.form.get('usuarioAprovacao').reset();
+                        this.form.get('usuarioAprovacao').disable();
+                    }
+                    this._changeDetectorRef.markForCheck();
+                    return of([]);
+                }
+            )
+        ).subscribe();
+
+        this.form.get('unidadeAprovacao').valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((value) => {
+                    if (value && typeof value === 'object') {
+                        this.form.get('setorAprovacao').enable();
+                        this.form.get('setorAprovacao').reset();
+                        this.form.get('usuarioAprovacao').reset();
+                        this.form.get('usuarioAprovacao').disable();
+                        this.setorAprovacaoPagination.filter['unidade.id'] = `eq:${value.id}`;
+                        this._changeDetectorRef.markForCheck();
+                    }
+                    return of([]);
+                }
+            )
+        ).subscribe();
+
+        this.form.get('setorAprovacao').valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((value) => {
+                    if (value && typeof value === 'object') {
+                        this.form.get('usuarioAprovacao').enable();
+                        this.form.get('usuarioAprovacao').reset();
+                        this.usuarioAprovacaoPagination.filter['colaborador.lotacoes.setor.id'] = `eq:${value.id}`;
+                        this._changeDetectorRef.markForCheck();
+                    }
+                    return of([]);
+                }
+            )
+        ).subscribe();
+
+    }
 
     /**
      * On change
@@ -170,6 +258,60 @@ export class CdkAtividadeFormComponent implements OnChanges, OnDestroy {
 
     showUsuarioGrid(): void {
         this.activeCard = 'usuario-gridsearch';
+    }
+
+    checkUsuarioAprovacao(): void {
+        const value = this.form.get('usuarioAprovacao').value;
+        if (!value || typeof value !== 'object') {
+            this.form.get('usuarioAprovacao').setValue(null);
+        }
+    }
+
+    selectUsuarioAprovacao(usuarioAprovacao: Usuario): void {
+        if (usuarioAprovacao) {
+            this.form.get('usuarioAprovacao').setValue(usuarioAprovacao);
+        }
+        this.activeCard = 'form';
+    }
+
+    showUsuarioAprovacaoGrid(): void {
+        this.activeCard = 'usuario-aprovacao-gridsearch';
+    }
+
+    checkSetorAprovacao(): void {
+        const value = this.form.get('setorAprovacao').value;
+        if (!value || typeof value !== 'object') {
+            this.form.get('setorAprovacao').setValue(null);
+        }
+    }
+
+    selectSetorAprovacao(setorAprovacao: Setor): void {
+        if (setorAprovacao) {
+            this.form.get('setorAprovacao').setValue(setorAprovacao);
+        }
+        this.activeCard = 'form';
+    }
+
+    showSetorAprovacaoGrid(): void {
+        this.activeCard = 'setor-aprovacao-gridsearch';
+    }
+
+    selectUnidadeAprovacao(setor: Setor): void {
+        if (setor) {
+            this.form.get('unidadeAprovacao').setValue(setor);
+        }
+        this.activeCard = 'form';
+    }
+
+    checkUnidadeAprovacao(): void {
+        const value = this.form.get('unidadeAprovacao').value;
+        if (!value || typeof value !== 'object') {
+            this.form.get('unidadeAprovacao').setValue(null);
+        }
+    }
+
+    showUnidadeAprovacaoGrid(): void {
+        this.activeCard = 'unidade-aprovacao-gridsearch';
     }
 
     cancel(): void {

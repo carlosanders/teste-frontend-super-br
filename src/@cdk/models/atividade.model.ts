@@ -23,6 +23,8 @@ export class Atividade {
 
     encerraTarefa: boolean;
 
+    submeterAprovacao: boolean;
+
     @Type(() => EspecieAtividade)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     especieAtividade: EspecieAtividade;
@@ -34,6 +36,14 @@ export class Atividade {
     @Type(() => Usuario)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     usuario: Usuario;
+
+    @Type(() => Usuario)
+    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    usuarioAprovacao: Usuario;
+
+    @Type(() => Setor)
+    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    setorAprovacao: Setor;
 
     @Type(() => Tarefa)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
@@ -79,9 +89,12 @@ export class Atividade {
         this.dataHoraConclusao = null;
         this.observacao = null;
         this.encerraTarefa = null;
+        this.submeterAprovacao = null;
         this.especieAtividade = null;
         this.setor = null;
         this.usuario = null;
+        this.usuarioAprovacao = null;
+        this.setorAprovacao = null;
         this.tarefa = null;
         this.documentos = null;
         this.criadoPor = null;

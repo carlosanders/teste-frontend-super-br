@@ -87,10 +87,10 @@ export class ComponenteDigitalEffect {
             .pipe(
                 ofType<ComponenteDigitalActions.SaveComponenteDigital>(ComponenteDigitalActions.SAVE_COMPONENTE_DIGITAL),
                 switchMap((action) => {
-                    return this._componenteDigitalService.patch(action.payload.componenteDigital , {conteudo: action.payload.data}).pipe(
+                    return this._componenteDigitalService.patch(action.payload.componenteDigital , {conteudo: action.payload.data, hashAntigo: action.payload.hashAntigo}).pipe(
                         mergeMap((response: ComponenteDigital) => [
                             new ComponenteDigitalActions.SaveComponenteDigitalSuccess(response),
-                            new UpdateData<ComponenteDigital>({id: response.id, schema: componenteDigitalSchema, changes: {conteudo: response.conteudo}}),
+                            new UpdateData<ComponenteDigital>({id: response.id, schema: componenteDigitalSchema, changes: {conteudo: response.conteudo, hash: response.hash}}),
                             new OperacoesActions.Resultado({
                                 type: 'componenteDigital',
                                 content: `Componente Digital id ${response.id} criada com sucesso!`,
