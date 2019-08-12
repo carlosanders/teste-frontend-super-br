@@ -7,7 +7,7 @@ import {
     MatProgressSpinnerModule,
     MatTableModule,
     MatPaginatorModule,
-    MatSortModule,
+    MatSortModule, MatTooltipModule,
 } from '@angular/material';
 
 import {FuseSharedModule} from '@fuse/shared.module';
@@ -28,6 +28,7 @@ import {CdkJuntadaGridFilterModule} from './cdk-juntada-grid-filter/cdk-juntada-
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
+        MatTooltipModule,
         FuseSharedModule,
         CdkJuntadaGridFilterModule
     ],

@@ -8,6 +8,8 @@ export const SET_CURRENT_STEP = '[JUNTADAS] SET CURRENT STEP';
 export const SET_CURRENT_STEP_SUCCESS = '[JUNTADAS] SET CURRENT STEP SUCCESS';
 export const SET_CURRENT_STEP_FAILED = '[JUNTADAS] SET CURRENT STEP FAILED';
 
+export const UNLOAD_JUNTADAS = '[JUNTADAS] UNLOAD JUNTADAS';
+
 /**
  * Get Juntadas
  */
@@ -74,10 +76,23 @@ export class SetCurrentStepFailed implements Action {
     }
 }
 
+/**
+ * Unload Juntadas
+ */
+export class UnloadJuntadas implements Action
+{
+    readonly type = UNLOAD_JUNTADAS;
+
+    constructor()
+    {
+    }
+}
+
 export type ProcessoViewActionsAll
     = GetJuntadas
     | GetJuntadasSuccess
     | GetJuntadasFailed
     | SetCurrentStep
     | SetCurrentStepSuccess
-    | SetCurrentStepFailed;
+    | SetCurrentStepFailed
+    | UnloadJuntadas;

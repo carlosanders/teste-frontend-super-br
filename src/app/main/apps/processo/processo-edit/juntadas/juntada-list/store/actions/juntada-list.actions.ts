@@ -6,9 +6,9 @@ export const GET_JUNTADAS_FAILED = '[JUNTADA LIST] GET JUNTADAS FAILED';
 
 export const RELOAD_JUNTADAS = '[JUNTADA LIST] RELOAD JUNTADAS';
 
-export const DELETE_JUNTADA = '[JUNTADA LIST] DELETE JUNTADA';
-export const DELETE_JUNTADA_SUCCESS = '[JUNTADA LIST] DELETE JUNTADA SUCCESS';
-export const DELETE_JUNTADA_FAILED = '[JUNTADA LIST] DELETE JUNTADA FAILED';
+export const DESENTRANHAMENTO_JUNTADA = '[JUNTADA LIST] DESENTRANHAMENTO JUNTADA';
+export const DESENTRANHAMENTO_JUNTADA_SUCCESS = '[JUNTADA LIST] DESENTRANHAMENTO JUNTADA SUCCESS';
+export const DESENTRANHAMENTO_JUNTADA_FAILED = '[JUNTADA LIST] DESENTRANHAMENTO JUNTADA FAILED';
 
 /**
  * Get Juntadas
@@ -59,11 +59,11 @@ export class ReloadJuntadas implements Action
 }
 
 /**
- * Delete Juntada
+ * Desentranhar Juntada
  */
-export class DeleteJuntada implements Action
+export class DesentranharJuntada implements Action
 {
-    readonly type = DELETE_JUNTADA;
+    readonly type = DESENTRANHAMENTO_JUNTADA;
 
     constructor(public payload: any)
     {
@@ -71,11 +71,11 @@ export class DeleteJuntada implements Action
 }
 
 /**
- * Delete Juntada Success
+ * Desentranhar Juntada Success
  */
-export class DeleteJuntadaSuccess implements Action
+export class DesentranharJuntadaSuccess implements Action
 {
-    readonly type = DELETE_JUNTADA_SUCCESS;
+    readonly type = DESENTRANHAMENTO_JUNTADA_SUCCESS;
 
     constructor(public payload: any)
     {
@@ -83,11 +83,11 @@ export class DeleteJuntadaSuccess implements Action
 }
 
 /**
- * Delete Juntada Failed
+ * Desentranhar Juntada Failed
  */
-export class DeleteJuntadaFailed implements Action
+export class DesentranharJuntadaFailed implements Action
 {
-    readonly type = DELETE_JUNTADA_FAILED;
+    readonly type = DESENTRANHAMENTO_JUNTADA_FAILED;
 
     constructor(public payload: any)
     {
@@ -99,7 +99,7 @@ export type JuntadaListActionsAll
     | GetJuntadasSuccess
     | GetJuntadasFailed
     | ReloadJuntadas
-    | DeleteJuntada
-    | DeleteJuntadaSuccess
-    | DeleteJuntadaFailed;
+    | DesentranharJuntada
+    | DesentranharJuntadaSuccess
+    | DesentranharJuntadaFailed;
 

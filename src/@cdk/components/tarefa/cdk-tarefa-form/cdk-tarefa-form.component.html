@@ -17,6 +17,7 @@
                        [matAutocomplete]="processo.autocomplete" required
                        (blur)="checkProcesso()">
             </div>
+
             <cdk-processo-autocomplete
                 #processo="processoAutocomplete"
                 [control]="form.get('processo')"
@@ -33,14 +34,15 @@
 
         <div *ngIf="form.get('blocoProcessos').value" class="bloco-processos">
             <cdk-processo-grid
-                    [processos]="processos"
-                    [total]="processos.length"
-                    [actions]="['delete']"
-                    (delete)="deleteProcessos($event)">
+                [processos]="processos"
+                [total]="processos.length"
+                [actions]="['delete']"
+                (delete)="deleteProcessos($event)">
             </cdk-processo-grid>
         </div>
 
-        <mat-form-field fxFlex="100" *ngIf="mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditEspecie">
+        <mat-form-field fxFlex="100"
+                        *ngIf="mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditEspecie">
             <div fxLayout="row" fxLayoutAlign="start center">
                 <input matInput placeholder="Espécie de Tarefa"
                        formControlName="especieTarefa"
@@ -61,12 +63,14 @@
             </mat-error>
         </mat-form-field>
 
-        <mat-slide-toggle formControlName="distribuicaoAutomatica" *ngIf="mode === 'regular' || blocoEdit.blocoEditDistribuicao"
-                      class="mr-16 mb-16" fxFlex="0 1 auto">
+        <mat-slide-toggle formControlName="distribuicaoAutomatica"
+                          *ngIf="mode === 'regular' || blocoEdit.blocoEditDistribuicao"
+                          class="mr-16 mb-16" fxFlex="0 1 auto">
             Distribuição Automática
         </mat-slide-toggle>
 
-        <mat-form-field fxFlex="100" *ngIf="mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditDistribuicao">
+        <mat-form-field fxFlex="100"
+                        *ngIf="mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditDistribuicao">
             <div fxLayout="row" fxLayoutAlign="start center">
                 <input matInput placeholder="Unidade Responsável"
                        formControlName="unidadeResponsavel"
@@ -87,7 +91,8 @@
             </mat-error>
         </mat-form-field>
 
-        <mat-form-field fxFlex="100" *ngIf="!form.get('setorResponsavel').disabled && (mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditDistribuicao)">
+        <mat-form-field fxFlex="100"
+                        *ngIf="!form.get('setorResponsavel').disabled && (mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditDistribuicao)">
             <div fxLayout="row" fxLayoutAlign="start center">
                 <input matInput placeholder="Setor Responsável"
                        formControlName="setorResponsavel"
@@ -108,7 +113,8 @@
             </mat-error>
         </mat-form-field>
 
-        <mat-form-field fxFlex="100" *ngIf="!form.get('usuarioResponsavel').disabled && (mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditDistribuicao)">
+        <mat-form-field fxFlex="100"
+                        *ngIf="!form.get('usuarioResponsavel').disabled && (mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditDistribuicao)">
             <div fxLayout="row" fxLayoutAlign="start center">
                 <input matInput placeholder="Usuário Responsável"
                        formControlName="usuarioResponsavel"
@@ -129,26 +135,32 @@
             </mat-error>
         </mat-form-field>
 
-        <mat-slide-toggle formControlName="urgente" *ngIf="mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditUrgente"
+        <mat-slide-toggle formControlName="urgente"
+                          *ngIf="mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditUrgente"
                           class="mr-16 mb-16" fxFlex="0 1 auto">
             Urgente
         </mat-slide-toggle>
 
-        <div class="dates" fxLayout="row" *ngIf="mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditInicioPrazo || blocoEdit.blocoEditFinalPrazo">
-            <mat-form-field class="mr-sm-12" fxFlex *ngIf="mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditInicioPrazo">
+        <div class="dates" fxLayout="row"
+             *ngIf="mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditInicioPrazo || blocoEdit.blocoEditFinalPrazo">
+            <mat-form-field class="mr-sm-12" fxFlex
+                            *ngIf="mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditInicioPrazo">
                 <mat-label>Início do Prazo</mat-label>
                 <input matInput formControlName="dataHoraInicioPrazo" [matDatetimepicker]="dataHoraInicioPrazo"
                        required>
                 <mat-datetimepicker-toggle matSuffix [for]="dataHoraInicioPrazo"></mat-datetimepicker-toggle>
-                <mat-datetimepicker #dataHoraInicioPrazo type="datetime" openOnFocus="true" timeInterval="5" required></mat-datetimepicker>
+                <mat-datetimepicker #dataHoraInicioPrazo type="datetime" openOnFocus="true" timeInterval="5"
+                                    required></mat-datetimepicker>
             </mat-form-field>
 
-            <mat-form-field class="mr-sm-12" fxFlex *ngIf="mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditFinalPrazo">
+            <mat-form-field class="mr-sm-12" fxFlex
+                            *ngIf="mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditFinalPrazo">
                 <mat-label>Final do Prazo</mat-label>
                 <input matInput formControlName="dataHoraFinalPrazo" [matDatetimepicker]="dataHoraFinalPrazo"
                        required>
                 <mat-datetimepicker-toggle matSuffix [for]="dataHoraFinalPrazo"></mat-datetimepicker-toggle>
-                <mat-datetimepicker #dataHoraFinalPrazo type="datetime" openOnFocus="true" timeInterval="5" required></mat-datetimepicker>
+                <mat-datetimepicker #dataHoraFinalPrazo type="datetime" openOnFocus="true" timeInterval="5"
+                                    required></mat-datetimepicker>
             </mat-form-field>
 
         </div>
@@ -174,7 +186,8 @@
             </mat-error>
         </mat-form-field>
 
-        <mat-form-field class="mr-16" fxFlex="1 0 auto" *ngIf="mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditObservacao">
+        <mat-form-field class="mr-16" fxFlex="1 0 auto"
+                        *ngIf="mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditObservacao">
             <textarea formControlName="observacao"
                       matInput placeholder="Observação" maxlength="255" upperCase></textarea>
             <mat-error *ngIf="form.get('observacao').hasError('formError')">
@@ -201,49 +214,49 @@
 </form>
 
 <cdk-processo-gridsearch
-        fxFlex="1 0 auto"
-        *ngIf="activeCard === 'processo-gridsearch'"
-        [pagination]="processoPagination"
-        (selected)="selectProcesso($event)"
-        (cancel)="cancel()">
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'processo-gridsearch'"
+    [pagination]="processoPagination"
+    (selected)="selectProcesso($event)"
+    (cancel)="cancel()">
 </cdk-processo-gridsearch>
 
 <cdk-especie-tarefa-gridsearch
-        fxFlex="1 0 auto"
-        *ngIf="activeCard === 'especie-tarefa-gridsearch'"
-        [pagination]="especieTarefaPagination"
-        (selected)="selectEspecieTarefa($event)"
-        (cancel)="cancel()">
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'especie-tarefa-gridsearch'"
+    [pagination]="especieTarefaPagination"
+    (selected)="selectEspecieTarefa($event)"
+    (cancel)="cancel()">
 </cdk-especie-tarefa-gridsearch>
 
 <cdk-setor-gridsearch
-        fxFlex="1 0 auto"
-        *ngIf="activeCard === 'unidade-gridsearch'"
-        [pagination]="unidadeResponsavelPagination"
-        (selected)="selectUnidadeResponsavel($event)"
-        (cancel)="cancel()">
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'unidade-gridsearch'"
+    [pagination]="unidadeResponsavelPagination"
+    (selected)="selectUnidadeResponsavel($event)"
+    (cancel)="cancel()">
 </cdk-setor-gridsearch>
 
 <cdk-setor-gridsearch
-        fxFlex="1 0 auto"
-        *ngIf="activeCard === 'setor-gridsearch'"
-        [pagination]="setorResponsavelPagination"
-        (selected)="selectSetorResponsavel($event)"
-        (cancel)="cancel()">
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'setor-gridsearch'"
+    [pagination]="setorResponsavelPagination"
+    (selected)="selectSetorResponsavel($event)"
+    (cancel)="cancel()">
 </cdk-setor-gridsearch>
 
 <cdk-usuario-gridsearch
-        fxFlex="1 0 auto"
-        *ngIf="activeCard === 'usuario-gridsearch'"
-        [pagination]="usuarioResponsavelPagination"
-        (selected)="selectUsuario($event)"
-        (cancel)="cancel()">
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'usuario-gridsearch'"
+    [pagination]="usuarioResponsavelPagination"
+    (selected)="selectUsuario($event)"
+    (cancel)="cancel()">
 </cdk-usuario-gridsearch>
 
 <cdk-setor-gridsearch
-        fxFlex="1 0 auto"
-        *ngIf="activeCard === 'setor-origem-gridsearch'"
-        [pagination]="setorOrigemPagination"
-        (selected)="selectSetorOrigem($event)"
-        (cancel)="cancel()">
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'setor-origem-gridsearch'"
+    [pagination]="setorOrigemPagination"
+    (selected)="selectSetorOrigem($event)"
+    (cancel)="cancel()">
 </cdk-setor-gridsearch>

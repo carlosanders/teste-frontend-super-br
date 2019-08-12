@@ -2,8 +2,8 @@ import { StoreModule } from '@ngrx/store';
 import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 
-import { reducers } from 'app/main/apps/processo/processo-edit/juntadas/juntada-list/store/reducers';
-import { effects } from 'app/main/apps/processo/processo-edit/juntadas/juntada-list/store/effects';
+import { reducers } from './reducers';
+import { effects } from './effects';
 
 @NgModule({
     imports  : [

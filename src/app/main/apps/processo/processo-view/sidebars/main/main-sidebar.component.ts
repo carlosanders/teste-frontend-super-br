@@ -117,8 +117,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
      *
      * @param step
      */
-    gotoStep(step): void {
-        if (this.juntadas[this.currentStep.step] === undefined) {
+    gotoStep(step, ativo): void {
+        if (this.juntadas[this.currentStep.step] === undefined || !ativo) {
             return;
         }
 
