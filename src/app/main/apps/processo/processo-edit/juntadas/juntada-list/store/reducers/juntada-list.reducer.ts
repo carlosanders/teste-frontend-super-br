@@ -13,8 +13,8 @@ export interface JuntadaListState {
     };
     loading: boolean;
     loaded: any;
-    deletingIds: number[];
-    deletedIds: number[];
+    desentranhandoIds: number[];
+    desentranhadoIds: number[];
 }
 
 export const JuntadaListInitialState: JuntadaListState = {
@@ -30,8 +30,8 @@ export const JuntadaListInitialState: JuntadaListState = {
     },
     loading: false,
     loaded: false,
-    deletedIds: [],
-    deletingIds: []
+    desentranhadoIds: [],
+    desentranhandoIds: []
 };
 
 export function JuntadaListReducer(state = JuntadaListInitialState, action: JuntadaListActions.JuntadaListActionsAll): JuntadaListState {
@@ -85,25 +85,25 @@ export function JuntadaListReducer(state = JuntadaListInitialState, action: Junt
             };
         }
 
-        case JuntadaListActions.DELETE_JUNTADA: {
+        case JuntadaListActions.DESENTRANHAMENTO_JUNTADA: {
             return {
                 ...state,
-                deletingIds: [...state.deletingIds, action.payload]
+                desentranhandoIds: action.payload
             };
         }
 
-        case JuntadaListActions.DELETE_JUNTADA_SUCCESS: {
+        case JuntadaListActions.DESENTRANHAMENTO_JUNTADA_SUCCESS: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload),
-                deletedIds: [...state.deletedIds, action.payload]
+                desentranhandoIds: state.desentranhandoIds.filter(id => id !== action.payload),
+                desentranhadoIds: [...state.desentranhadoIds, action.payload]
             };
         }
 
-        case JuntadaListActions.DELETE_JUNTADA_FAILED: {
+        case JuntadaListActions.DESENTRANHAMENTO_JUNTADA_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                desentranhandoIds: state.desentranhandoIds.filter(id => id !== action.payload)
             };
         }
 

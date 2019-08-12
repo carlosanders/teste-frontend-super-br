@@ -29,6 +29,10 @@ const routes: Routes = [
                 loadChildren: './juntada-list/juntada-list.module#JuntadaListModule',
             },
             {
+                path       : 'desentranhar',
+                loadChildren: './desentranhamento-create-bloco/desentranhamento-create-bloco.module#DesentranhamentoCreateBlocoModule',
+            },
+            {
                 path: '**',
                 redirectTo: 'listar'
             }

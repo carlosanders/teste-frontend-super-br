@@ -61,6 +61,9 @@ export class ProcessoViewEffect {
                     new ProcessoViewActions.GetJuntadasSuccess({
                         index: response['entities'].map(
                             juntada => {
+                                if (!juntada.ativo) {
+                                    return [];
+                                }
                                 const componentesDigitaisIds = juntada.documento.componentesDigitais.map(
                                     cd => cd.id
                                 );
@@ -80,7 +83,8 @@ export class ProcessoViewEffect {
                             value: this.routerState.params.processoHandle
                         },
                         total: response['total']
-                    })
+                    }),
+                    new ProcessoViewActions.SetCurrentStep({step: 0, subStep: 0})
                 ]),
                 catchError((err, caught) => {
                     this._store.dispatch(new ProcessoViewActions.GetJuntadasFailed(err));

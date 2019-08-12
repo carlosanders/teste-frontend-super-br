@@ -2,10 +2,7 @@
         [loading]="(loading$ | async)"
         [juntadas]="(juntadas$ | async)"
         [total]="(pagination$ | async)?.total"
-        [deletingIds]="(deletingIds$ | async)"
-        [deletedIds]="(deletedIds$ | async)"
-        [actions]="[]"
+        [actions]="['desentranhar']"
         (reload)="reload($event)"
-        (edit)="edit($event)"
-        (delete)="delete($event)">
+        (desentranha)="desentranhar($event)">
 </cdk-juntada-grid>
