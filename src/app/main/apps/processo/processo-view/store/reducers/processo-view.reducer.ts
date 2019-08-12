@@ -92,6 +92,32 @@ export function ProcessoViewReducer(state = ProcessoViewInitialState, action: Pr
             };
         }
 
+        case ProcessoViewActions.UNLOAD_JUNTADAS: {
+            return {
+                entitiesId: [],
+                pagination: {
+                    limit: 0,
+                    offset: 0,
+                    filter: {},
+                    listFilter: {},
+                    populate: [],
+                    sort: {},
+                    total: 0,
+                },
+                loading: false,
+                loaded: false,
+                currentStep: {
+                    step: 0,
+                    subStep: 0
+                },
+                index: {},
+                binary: {
+                    src: null,
+                    loading: false
+                }
+            };
+        }
+
         case ProcessoViewActions.SET_CURRENT_STEP: {
             return {
                 ...state,

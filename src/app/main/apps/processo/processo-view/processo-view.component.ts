@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, EventEmitter, OnInit, Output, QueryList, ViewChildren, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectorRef, Component, EventEmitter, OnDestroy, OnInit, Output, QueryList, ViewChildren, ViewEncapsulation} from '@angular/core';
 import {Observable} from 'rxjs';
 
 import {fuseAnimations} from '@fuse/animations';
@@ -12,8 +12,7 @@ import * as fromStore from './store';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {DomSanitizer} from '@angular/platform-browser';
 import {filter} from 'rxjs/operators';
-import {Pessoa} from '../../../../../@cdk/models/pessoa.model';
-import {ComponenteDigital} from '../../../../../@cdk/models/componente-digital.model';
+import {ComponenteDigital} from '@cdk/models/componente-digital.model';
 
 @Component({
     selector: 'processo-view',
@@ -22,7 +21,7 @@ import {ComponenteDigital} from '../../../../../@cdk/models/componente-digital.m
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
 })
-export class ProcessoViewComponent implements OnInit {
+export class ProcessoViewComponent implements OnInit, OnDestroy {
 
     binary$: Observable<any>;
 
@@ -115,7 +114,11 @@ export class ProcessoViewComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this._store.dispatch(new fromStore.SetCurrentStep({step: 0, subStep: 0}));
+        // this._store.dispatch(new fromStore.SetCurrentStep({step: 0, subStep: 0}));
+    }
+
+    ngOnDestroy(): void {
+        this._store.dispatch(new fromStore.UnloadJuntadas());
     }
 
     // -----------------------------------------------------------------------------------------------------

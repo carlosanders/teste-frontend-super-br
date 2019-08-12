@@ -48,7 +48,7 @@ export class CdkJuntadaGridComponent implements AfterViewInit, OnInit, OnChanges
     pageSize = 5;
 
     @Input()
-    actions: string[] = ['edit', 'delete', 'select'];
+    actions: string[] = ['edit', 'delete', 'select', 'desentranhar'];
 
     @ViewChild(MatPaginator)
     paginator: MatPaginator;
@@ -67,6 +67,9 @@ export class CdkJuntadaGridComponent implements AfterViewInit, OnInit, OnChanges
 
     @Output()
     delete = new EventEmitter<number>();
+
+    @Output()
+    desentranha = new EventEmitter<number[]>();
 
     @Output()
     select = new EventEmitter<Juntada>();
@@ -152,6 +155,10 @@ export class CdkJuntadaGridComponent implements AfterViewInit, OnInit, OnChanges
 
     deleteJuntadas(juntadasId): void {
         juntadasId.forEach(juntadaId => this.deleteJuntada(juntadaId));
+    }
+
+    desentranhaJuntadas(juntadasId: number[]): void {
+        this.desentranha.emit(juntadasId);
     }
 
     /**

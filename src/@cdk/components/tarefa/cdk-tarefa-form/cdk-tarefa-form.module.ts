@@ -7,7 +7,7 @@ import {
     MatCheckboxModule,
     MatProgressSpinnerModule,
     MatAutocompleteModule,
-    MatDatepickerModule, MatSlideToggleModule
+    MatDatepickerModule, MatSlideToggleModule, MatTooltipModule
 
 } from '@angular/material';
 
@@ -67,6 +67,7 @@ import {LoginService} from '../../../../app/main/auth/login/login.service';
         CdkProcessoGridModule,
 
         FuseSharedModule,
+        MatTooltipModule,
     ],
     providers: [
         EspecieTarefaService,

@@ -13,7 +13,8 @@
             <mat-icon>sort</mat-icon>
         </button>
         <mat-menu fxHide #selectMenu="matMenu">
-            <button mat-menu-item (click)="doSort({'volume.numeracaoSequencial': 'DESC', 'numeracaoSequencial': 'DESC'})">
+            <button mat-menu-item
+                    (click)="doSort({'volume.numeracaoSequencial': 'DESC', 'numeracaoSequencial': 'DESC'})">
                 Decrescente
             </button>
             <button mat-menu-item (click)="doSort({'volume.numeracaoSequencial': 'ASC', 'numeracaoSequencial': 'ASC'})">
@@ -81,25 +82,43 @@
 
     <div class="juntada" matRipple
          *ngFor="let juntada of (juntadas); let i = index; let last = last; let first = first"
-         (click)="gotoStep(i)"
+         (click)="gotoStep(i, juntada.ativo)"
          [ngClass]="{'current': currentStep.step === i, 'completed': currentStep.step > i, 'last': last, 'first': first}">
         <div class="index">
             <span>{{juntada.numeracaoSequencial}}</span>
         </div>
         <div fxFlex fxLayout="column">
-            <div class="descricao">{{juntada.descricao}}</div>
-            <div class="criado-em">{{juntada.criadoEm | date: 'dd/MM/yyyy'}}</div>
-            <div *ngFor="let componenteDigital of (juntada.documento.componentesDigitais); let j = index;" class="tipo-documento" fxLayout="row" fxLayoutAlign="start center">
-                <mat-icon class="s-14">picture_as_pdf</mat-icon>
-                <span class="ml-4" [ngClass]="{'current-tipo-documento': index[currentStep.step][currentStep.subStep] === componenteDigital.id}">{{juntada.documento.tipoDocumento.nome}}</span><div *ngIf="j>0">{{j + 1}}</div>
-                <mat-icon class="ml-4 s-24" *ngIf="index[currentStep.step][currentStep.subStep] === componenteDigital.id">arrow_left</mat-icon>
+            <div *ngIf="!juntada.ativo">
+                <div class="desentranhado">DESENTRANHADO</div>
             </div>
-            <div *ngFor="let vinculacaoDocumento of (juntada.documento.vinculacoesDocumentos); let k = index;" class="tipo-documento" fxLayout="row" fxLayoutAlign="start center">
-                <div *ngFor="let componenteDigital of (vinculacaoDocumento.documentoVinculado.componentesDigitais); let z = index;" class="tipo-documento" fxLayout="row" fxLayoutAlign="start center">
-                    <mat-icon class="ml-16 s-14">attach_file</mat-icon>
-                    <mat-icon class="ml-4 s-14">picture_as_pdf</mat-icon>
-                    <span class="ml-4" [ngClass]="{'current-tipo-documento': index[currentStep.step][currentStep.subStep] === componenteDigital.id}">{{vinculacaoDocumento.documentoVinculado.tipoDocumento.nome}}</span><div *ngIf="z>0">{{z + 1}}</div>
-                    <mat-icon class="ml-4 s-24" *ngIf="index[currentStep.step][currentStep.subStep] === componenteDigital.id">arrow_left</mat-icon>
+            <div *ngIf="juntada.ativo">
+                <div class="descricao">{{juntada.descricao}}</div>
+                <div class="criado-em">{{juntada.criadoEm | date: 'dd/MM/yyyy'}}</div>
+                <div *ngFor="let componenteDigital of (juntada.documento.componentesDigitais); let j = index;"
+                     class="tipo-documento" fxLayout="row" fxLayoutAlign="start center">
+                    <mat-icon class="s-14">picture_as_pdf</mat-icon>
+                    <span class="ml-4"
+                          [ngClass]="{'current-tipo-documento': index[currentStep.step][currentStep.subStep] === componenteDigital.id}">{{juntada.documento.tipoDocumento.nome}}</span>
+                    <div *ngIf="j>0">{{j + 1}}</div>
+                    <mat-icon class="ml-4 s-24"
+                              *ngIf="index[currentStep.step][currentStep.subStep] === componenteDigital.id">arrow_left
+                    </mat-icon>
+                </div>
+                <div *ngFor="let vinculacaoDocumento of (juntada.documento.vinculacoesDocumentos); let k = index;"
+                     class="tipo-documento" fxLayout="row" fxLayoutAlign="start center">
+                    <div
+                        *ngFor="let componenteDigital of (vinculacaoDocumento.documentoVinculado.componentesDigitais); let z = index;"
+                        class="tipo-documento" fxLayout="row" fxLayoutAlign="start center">
+                        <mat-icon class="ml-16 s-14">attach_file</mat-icon>
+                        <mat-icon class="ml-4 s-14">picture_as_pdf</mat-icon>
+                        <span class="ml-4"
+                              [ngClass]="{'current-tipo-documento': index[currentStep.step][currentStep.subStep] === componenteDigital.id}">{{vinculacaoDocumento.documentoVinculado.tipoDocumento.nome}}</span>
+                        <div *ngIf="z>0">{{z + 1}}</div>
+                        <mat-icon class="ml-4 s-24"
+                                  *ngIf="index[currentStep.step][currentStep.subStep] === componenteDigital.id">
+                            arrow_left
+                        </mat-icon>
+                    </div>
                 </div>
             </div>
         </div>

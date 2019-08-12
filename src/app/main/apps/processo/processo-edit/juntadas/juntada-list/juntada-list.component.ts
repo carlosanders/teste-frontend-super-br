@@ -29,8 +29,8 @@ export class JuntadaListComponent implements OnInit {
     loading$: Observable<boolean>;
     pagination$: Observable<any>;
     pagination: any;
-    deletingIds$: Observable<any>;
-    deletedIds$: Observable<any>;
+    desentranhandoIds$: Observable<any>;
+    desentranhadoIds$: Observable<any>;
 
     /**
      * @param _changeDetectorRef
@@ -45,8 +45,8 @@ export class JuntadaListComponent implements OnInit {
         this.juntadas$ = this._store.pipe(select(fromStore.getJuntadaList));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
-        this.deletingIds$ = this._store.pipe(select(fromStore.getDeletingIds));
-        this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedIds));
+        this.desentranhandoIds$ = this._store.pipe(select(fromStore.getDesentranhandoIds));
+        this.desentranhadoIds$ = this._store.pipe(select(fromStore.getDesentranhadoIds));
 
         this._store
             .pipe(select(getRouterState))
@@ -80,12 +80,8 @@ export class JuntadaListComponent implements OnInit {
         }));
     }
 
-    edit(juntadaId: number): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + juntadaId]);
-    }
-
-    delete(juntadaId: number): void {
-        this._store.dispatch(new fromStore.DeleteJuntada(juntadaId));
+    desentranhar(juntadaId: number[]): void {
+        this._store.dispatch(new fromStore.DesentranharJuntada(juntadaId));
     }
 
 }

@@ -79,7 +79,7 @@ export class CdkVisibilidadeFormComponent implements OnInit, OnChanges, OnDestro
     // -----------------------------------------------------------------------------------------------------
 
     /**
-     * On change
+     * On init
      */
     ngOnInit(): void {
         this.form.get('tipo').setValue('usuario');
