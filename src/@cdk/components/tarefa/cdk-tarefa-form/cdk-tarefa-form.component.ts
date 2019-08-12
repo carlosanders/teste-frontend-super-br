@@ -82,6 +82,8 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
     especieTarefaList: EspecieTarefa[] = [];
 
+    especieTarefaListIsLoading: boolean;
+
     favoritosList: Favorito[] = [];
 
     _profile: any;
@@ -315,6 +317,8 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
     showEspecieTarefaList(): void {
 
+        this.especieTarefaListIsLoading = true;
+
         this._favoritoService.query(
             `{"usuario.id": "eq:${this._profile.usuario.id}", "especieTarefa": "isNotNull"}`,
             5,
@@ -337,6 +341,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                     this.especieTarefaList.push(especieTarefa);
                 });
 
+                this.especieTarefaListIsLoading = false;
                 this._changeDetectorRef.markForCheck();
             }
         );

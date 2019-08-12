@@ -3,6 +3,7 @@ import {Type, Transform, Exclude} from 'class-transformer';
 
 import { Usuario } from '@cdk/models/usuario.model';
 import { GeneroAtividade } from '@cdk/models/genero-atividade.model';
+import {Favorito} from './favorito.model';
 
 export class EspecieAtividade {
 
@@ -26,9 +27,13 @@ export class EspecieAtividade {
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     generoAtividade: GeneroAtividade;
 
-    @Exclude({ toPlainOnly: true })
+    @Exclude({toPlainOnly: true})
+    @Type(() => Favorito)
+    favoritos: Favorito[];
+
+    @Exclude({toPlainOnly: true})
     @Type(() => Usuario)
-    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    @Transform(value => value ? value.id : null, {toPlainOnly: true})
     criadoPor?: Usuario;
 
     @Exclude({ toPlainOnly: true })
@@ -69,5 +74,6 @@ export class EspecieAtividade {
         this.atualizadoEm = null;
         this.apagadoPor = null;
         this.apagadoEm = null;
+        this.favoritos = [];
     }
 }

@@ -35,6 +35,7 @@ export class CdkEspecieTarefaAutocompleteComponent implements OnInit {
     @Input()
     especieTarefaList: EspecieTarefa[];
 
+    @Input()
     especieTarefaListIsLoading: boolean;
 
     @ViewChild(MatAutocomplete) autocomplete: MatAutocomplete;

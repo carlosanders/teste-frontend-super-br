@@ -69,6 +69,9 @@ export class CdkEspecieAtividadeGridComponent implements AfterViewInit, OnInit, 
     delete = new EventEmitter<number>();
 
     @Output()
+    favorito = new EventEmitter<number>();
+
+    @Output()
     select = new EventEmitter<EspecieAtividade>();
 
     @Output()
@@ -76,6 +79,7 @@ export class CdkEspecieAtividadeGridComponent implements AfterViewInit, OnInit, 
 
     dataSource: EspecieAtividadeDataSource;
 
+    @Input()
     showFilter = false;
 
     gridFilter: any;
@@ -152,6 +156,10 @@ export class CdkEspecieAtividadeGridComponent implements AfterViewInit, OnInit, 
 
     deleteEspecieAtividades(especieAtividadesId): void {
         especieAtividadesId.forEach(especieAtividadeId => this.deleteEspecieAtividade(especieAtividadeId));
+    }
+
+    salvarFavorito(especieAtividadesId): void {
+        this.favorito.emit(especieAtividadesId);
     }
 
     /**
