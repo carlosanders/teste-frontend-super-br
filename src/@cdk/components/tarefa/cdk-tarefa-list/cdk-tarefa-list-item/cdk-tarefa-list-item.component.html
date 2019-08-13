@@ -9,7 +9,9 @@
         <div class="info" fxFlex [ngClass]="{'nao-lido': !tarefa.dataHoraLeitura}">
 
             <div class="title" fxLayout="row">
-                <mat-icon *ngIf="tarefa.processo?.acessoNegado" class="red-fg">block</mat-icon> <span class="text-truncate">PROCESSO {{tarefa.processo?.NUP | formatNup}}</span>
+                <mat-icon *ngIf="tarefa.processo?.acessoNegado" class="red-fg">block</mat-icon>
+                <mat-icon *ngIf="tarefa.processo?.documentoAvulsoOrigem">mail</mat-icon>
+                <span class="text-truncate">PROCESSO {{tarefa.processo?.NUP | formatNup}}</span>
             </div>
 
             <div class="subtitle" *ngIf="!tarefa.processo?.acessoNegado">
@@ -18,6 +20,11 @@
 
             <div class="subtitle" *ngIf="tarefa.processo?.acessoNegado">
                 <span class="text-truncate">Usuário com acesso negado ao processo</span>
+            </div>
+
+            <div class="subtitle" *ngIf="tarefa.processo?.documentoAvulsoOrigem">
+                <span *ngIf="!tarefa.processo?.documentoAvulsoOrigem?.dataHoraResposta" class="text-truncate">Ofício vinculado pendente de resposta</span>
+                <span *ngIf="tarefa.processo?.documentoAvulsoOrigem?.dataHoraResposta" class="text-truncate">Ofício vinculado respondido em {{tarefa.processo?.documentoAvulsoOrigem?.dataHoraResposta | date: 'dd/MM/yyyy H:mm'}}</span>
             </div>
 
             <div class="body mt-4">

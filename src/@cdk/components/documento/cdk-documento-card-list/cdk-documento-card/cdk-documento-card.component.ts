@@ -35,6 +35,9 @@ export class CdkDocumentoCardComponent implements OnInit {
     delete = new EventEmitter<number>();
 
     @Output()
+    verResposta = new EventEmitter<Documento>();
+
+    @Output()
     assinatura = new EventEmitter<number>();
 
     @Output()
@@ -68,6 +71,10 @@ export class CdkDocumentoCardComponent implements OnInit {
 
     doDelete(documentoId): void {
         this.delete.emit(documentoId);
+    }
+
+    doVerResposta(documento): void {
+        this.verResposta.emit(documento);
     }
 
     doAssinatura(documentoId): void {

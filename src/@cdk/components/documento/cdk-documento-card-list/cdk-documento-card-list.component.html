@@ -5,6 +5,7 @@
                     [deleting]="deletingId.indexOf(documento.id) > -1"
                     [assinando]="assinandoId.indexOf(documento.id) > -1"
                     (delete)="doDelete($event)"
+                    (verResposta)="doVerResposta($event)"
                     (assinatura)="doAssinatura($event)"
                     (clicked)="onClick($event)"
                     (changedSelected)="toggleInSelected($event)">

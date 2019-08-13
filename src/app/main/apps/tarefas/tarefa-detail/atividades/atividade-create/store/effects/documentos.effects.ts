@@ -62,7 +62,8 @@ export class AtividadeCreateDocumentosEffect {
                         sort: {'criadoEm': 'DESC'},
                         populate: [
                             'tipoDocumento',
-                            'documentoAvulsoRemessa'
+                            'documentoAvulsoRemessa',
+                            'documentoAvulsoRemessa.documentoResposta'
                         ]
                     };
 

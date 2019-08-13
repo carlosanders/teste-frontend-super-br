@@ -9,6 +9,7 @@ import {origemDados} from './origem-dados.schema';
 import {componenteDigital} from './componente-digital.schema';
 import {vinculacaoDocumento} from './vinculacao-documento.schema';
 import {vinculacaoDocumentoPrincipal} from './vinculacao-documento-principal.schema';
+import {juntada} from './juntada.schema';
 
 export const documento = new schema.Entity('documento', {
     processoOrigem: processo,
@@ -18,6 +19,7 @@ export const documento = new schema.Entity('documento', {
     tarefaOrigem: tarefa,
     origemDados: origemDados,
     criadoPor: usuario,
+    juntadaAtual: juntada,
     atualizadoPor: usuario,
     apagadoPor: usuario,
     componentesDigitais: [componenteDigital],

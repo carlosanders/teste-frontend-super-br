@@ -87,6 +87,7 @@ export class DocumentoEffect {
                             'modelo.template',
                             'processoOrigem',
                             'repositorio',
+                            'juntadaAtual',
                             'repositorio.modalidadeRepositorio',
                             'documentoAvulsoRemessa',
                             'documentoAvulsoRemessa.processo',
@@ -108,6 +109,7 @@ export class DocumentoEffect {
                             value: this.routerState.params.documentoHandle
                         },
                         documentoId: response['entities'][0].id,
+                        editavel: (response['entities'][0].documentoAvulsoRemessa && !response['entities'][0].documentoAvulsoRemessa.dataHoraRemessa) || !!response['entities'][0].juntadaAtual,
                         currentComponenteDigitalId: response['entities'][0].componentesDigitais[0] ? response['entities'][0].componentesDigitais[0].id : null
                     })
                 ]),
@@ -130,7 +132,7 @@ export class DocumentoEffect {
                 tap((action) => {
                     if (this.routerState.url.indexOf('anexar-copia') === -1) {
                         if (action.payload.currentComponenteDigitalId) {
-                            this._store.dispatch(new DocumentoActions.SetCurrentStep(action.payload.currentComponenteDigitalId));
+                            this._store.dispatch(new DocumentoActions.SetCurrentStep({id: action.payload.currentComponenteDigitalId, editavel: action.payload.editavel}));
                         } else {
                             this._router.navigate([
                                     this.routerState.url.split('/componente-digital/')[0] + '/componente-digital/0/empty'
@@ -162,7 +164,7 @@ export class DocumentoEffect {
                             })
                         ]),
                         catchError((err) => {
-                            console.log (err);
+                            console.log(err);
                             return of(new DocumentoActions.SaveDocumentoFailed(err));
                         })
                     );
@@ -190,7 +192,7 @@ export class DocumentoEffect {
                             })
                         ]),
                         catchError((err) => {
-                            console.log (err);
+                            console.log(err);
                             return of(new DocumentoActions.SaveDocumentoFailed(err));
                         })
                     );
@@ -218,7 +220,7 @@ export class DocumentoEffect {
                             })
                         ]),
                         catchError((err) => {
-                            console.log (err);
+                            console.log(err);
                             return of(new DocumentoActions.SaveModeloFailed(err));
                         })
                     );
@@ -246,7 +248,7 @@ export class DocumentoEffect {
                             })
                         ]),
                         catchError((err) => {
-                            console.log (err);
+                            console.log(err);
                             return of(new DocumentoActions.SaveRepositorioFailed(err));
                         })
                     );
@@ -306,11 +308,11 @@ export class DocumentoEffect {
                 withLatestFrom(this._store.pipe(select(DocumentoSelectors.getCurrentComponenteDigital))),
                 tap(([action, componenteDigital]) => {
                     let type = '/visualizar';
-                    if (componenteDigital.editavel) {
+                    if (action.payload.editavel && componenteDigital.editavel) {
                         type = '/editor/ckeditor';
                     }
                     this._router.navigate([
-                            this.routerState.url.split('/componente-digital/')[0] + '/componente-digital/' + action.payload + type
+                            this.routerState.url.split('/componente-digital/')[0] + '/componente-digital/' + action.payload.id + type
                         ]
                     ).then();
                 })

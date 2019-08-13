@@ -5,85 +5,92 @@
 
     <div fxFlex="1 0 auto" fxLayout="column" class="div-form">
 
-        <div fxLayout="row">
-            <mat-slide-toggle formControlName="encerraTarefa"
-                              class="mr-16 mb-16" fxFlex="0 1 auto">
-                Encerrar a tarefa
-            </mat-slide-toggle>
+        <div *ngIf="temMinutas">
+            <label id="minutas-rg">Selecione a destinação das minutas</label>
+            <mat-radio-group formControlName="destinacaoMinutas" aria-labelledby="minutas-rg" required>
+                <mat-radio-button [value]="'juntar'">
+                    Juntar no processo
+                </mat-radio-button>
+                <mat-radio-button [value]="'submeter_aprovacao'">
+                    Submeter à aprovação
+                </mat-radio-button>
+                <mat-radio-button *ngIf="documentoAvulsoVinculado" [value]="'responder_oficio'">
+                    Responder o ofício
+                </mat-radio-button>
+            </mat-radio-group>
 
-            <mat-slide-toggle formControlName="submeterAprovacao" *ngIf="autorizaSubmeterAprovacao"
-                              class="submerter-aprovacao mr-16 mb-16" fxFlex="0 1 auto">
-                Submeter minuta(s) à aprovação
-            </mat-slide-toggle>
+            <div fxLayout="column" class="p-8 mt-8 mb-8 mat-elevation-z1" *ngIf="form.get('destinacaoMinutas').value === 'submeter_aprovacao'">
 
+                <mat-form-field fxFlex="100">
+                    <div fxLayout="row" fxLayoutAlign="start center">
+                        <input matInput placeholder="Unidade Responsável pela Aprovação"
+                               formControlName="unidadeAprovacao"
+                               [matAutocomplete]="unidadeAprovacao.autocomplete" required
+                               (blur)="checkUnidadeAprovacao()">
+                    </div>
+                    <cdk-setor-autocomplete
+                        #unidadeAprovacao="setorAutocomplete"
+                        [control]="form.get('unidadeAprovacao')"
+                        [pagination]="unidadeAprovacaoPagination">
+                    </cdk-setor-autocomplete>
+                    <button matSuffix mat-button mat-icon-button
+                            (click)="showUnidadeAprovacaoGrid()">
+                        <mat-icon matTooltip="Procurar">search</mat-icon>
+                    </button>
+                    <mat-error *ngIf="form.get('unidadeAprovacao').hasError('formError')">
+                        {{form.get('unidadeAprovacao').errors.formError}}
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field fxFlex="100" *ngIf="!form.get('setorAprovacao').disabled">
+                    <div fxLayout="row" fxLayoutAlign="start center">
+                        <input matInput placeholder="Setor Responsável pela Aprovação"
+                               formControlName="setorAprovacao"
+                               [matAutocomplete]="setorAprovacao.autocomplete" required
+                               (blur)="checkSetorAprovacao()">
+                    </div>
+                    <cdk-setor-autocomplete
+                        #setorAprovacao="setorAutocomplete"
+                        [control]="form.get('setorAprovacao')"
+                        [pagination]="setorAprovacaoPagination">
+                    </cdk-setor-autocomplete>
+                    <button matSuffix mat-button mat-icon-button
+                            (click)="showSetorAprovacaoGrid()">
+                        <mat-icon matTooltip="Procurar">search</mat-icon>
+                    </button>
+                    <mat-error *ngIf="form.get('setorAprovacao').hasError('formError')">
+                        {{form.get('setorAprovacao').errors.formError}}
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field fxFlex="100" *ngIf="!form.get('usuarioAprovacao').disabled">
+                    <div fxLayout="row" fxLayoutAlign="start center">
+                        <input matInput placeholder="Usuário Responsável pela Aprovação"
+                               formControlName="usuarioAprovacao"
+                               [matAutocomplete]="usuarioAprovacao.autocomplete" required
+                               (blur)="checkUsuarioAprovacao()">
+                    </div>
+                    <cdk-usuario-autocomplete
+                        #usuarioAprovacao="usuarioAutocomplete"
+                        [control]="form.get('usuarioAprovacao')"
+                        [pagination]="usuarioAprovacaoPagination">
+                    </cdk-usuario-autocomplete>
+                    <button matSuffix mat-button mat-icon-button
+                            (click)="showUsuarioAprovacaoGrid()">
+                        <mat-icon matTooltip="Procurar">search</mat-icon>
+                    </button>
+                    <mat-error *ngIf="form.get('usuarioAprovacao').hasError('formError')">
+                        {{form.get('usuarioAprovacao').errors.formError}}
+                    </mat-error>
+                </mat-form-field>
+
+            </div>
         </div>
 
-        <div fxLayout="column" class="p-8 mt-8 mb-8 mat-elevation-z1" *ngIf="form.get('submeterAprovacao').value">
-
-            <mat-form-field fxFlex="100">
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Unidade Responsável pela Aprovação"
-                           formControlName="unidadeAprovacao"
-                           [matAutocomplete]="unidadeAprovacao.autocomplete" required
-                           (blur)="checkUnidadeAprovacao()">
-                </div>
-                <cdk-setor-autocomplete
-                    #unidadeAprovacao="setorAutocomplete"
-                    [control]="form.get('unidadeAprovacao')"
-                    [pagination]="unidadeAprovacaoPagination">
-                </cdk-setor-autocomplete>
-                <button matSuffix mat-button mat-icon-button
-                        (click)="showUnidadeAprovacaoGrid()">
-                    <mat-icon matTooltip="Procurar">search</mat-icon>
-                </button>
-                <mat-error *ngIf="form.get('unidadeAprovacao').hasError('formError')">
-                    {{form.get('unidadeAprovacao').errors.formError}}
-                </mat-error>
-            </mat-form-field>
-
-            <mat-form-field fxFlex="100" *ngIf="!form.get('setorAprovacao').disabled">
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Setor Responsável pela Aprovação"
-                           formControlName="setorAprovacao"
-                           [matAutocomplete]="setorAprovacao.autocomplete" required
-                           (blur)="checkSetorAprovacao()">
-                </div>
-                <cdk-setor-autocomplete
-                    #setorAprovacao="setorAutocomplete"
-                    [control]="form.get('setorAprovacao')"
-                    [pagination]="setorAprovacaoPagination">
-                </cdk-setor-autocomplete>
-                <button matSuffix mat-button mat-icon-button
-                        (click)="showSetorAprovacaoGrid()">
-                    <mat-icon matTooltip="Procurar">search</mat-icon>
-                </button>
-                <mat-error *ngIf="form.get('setorAprovacao').hasError('formError')">
-                    {{form.get('setorAprovacao').errors.formError}}
-                </mat-error>
-            </mat-form-field>
-
-            <mat-form-field fxFlex="100" *ngIf="!form.get('usuarioAprovacao').disabled">
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Usuário Responsável pela Aprovação"
-                           formControlName="usuarioAprovacao"
-                           [matAutocomplete]="usuarioAprovacao.autocomplete" required
-                           (blur)="checkUsuarioAprovacao()">
-                </div>
-                <cdk-usuario-autocomplete
-                    #usuarioAprovacao="usuarioAutocomplete"
-                    [control]="form.get('usuarioAprovacao')"
-                    [pagination]="usuarioAprovacaoPagination">
-                </cdk-usuario-autocomplete>
-                <button matSuffix mat-button mat-icon-button
-                        (click)="showUsuarioAprovacaoGrid()">
-                    <mat-icon matTooltip="Procurar">search</mat-icon>
-                </button>
-                <mat-error *ngIf="form.get('usuarioAprovacao').hasError('formError')">
-                    {{form.get('usuarioAprovacao').errors.formError}}
-                </mat-error>
-            </mat-form-field>
-
-        </div>
+        <mat-slide-toggle formControlName="encerraTarefa"
+                          class="mt-16 mr-16 mb-16" fxFlex="0 1 auto">
+            Encerrar a tarefa
+        </mat-slide-toggle>
 
         <mat-form-field fxFlex="100">
             <div fxLayout="row" fxLayoutAlign="start center">

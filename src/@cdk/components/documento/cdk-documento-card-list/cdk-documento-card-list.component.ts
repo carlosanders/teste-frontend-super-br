@@ -31,6 +31,9 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
     @Output()
     clicked = new EventEmitter<number>();
 
+    @Output()
+    verResposta = new EventEmitter<Documento>();
+
     @Input()
     deletingId: number[];
 
@@ -87,7 +90,11 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
         this.assinatura.emit(documentoId);
     }
 
-    onClick(documentoId): void {
-        this.clicked.emit(documentoId);
+    doVerResposta(documento): void {
+        this.verResposta.emit(documento);
+    }
+
+    onClick(documento): void {
+        this.clicked.emit(documento);
     }
 }

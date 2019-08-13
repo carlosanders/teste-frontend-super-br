@@ -1,6 +1,6 @@
 <div fxFlex fxLayout="row">
     <div fxFlexAlign="column" fxFlex="25">
-        <div class="header p-8" fxLayout="row" fxLayoutAlign="start center">
+        <div *ngIf="!this.documento.documentoAvulsoRemessa.dataHoraRemessa" class="header p-8" fxLayout="row" fxLayoutAlign="start center">
             <button mat-raised-button color="accent" class="mr-sm-12"
                     aria-label="remeter ofício"
                     matTooltip="Remeter Ofício"
