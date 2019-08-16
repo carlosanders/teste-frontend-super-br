@@ -1,4 +1,5 @@
 import * as DocumentoAvulsoListActions from '../actions';
+import * as JuntadaListActions from '../../../../juntadas/juntada-list/store/actions';
 
 export interface DocumentoAvulsoListState {
     entitiesId: number[];
@@ -15,6 +16,7 @@ export interface DocumentoAvulsoListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    respondendoIds: number[];
 }
 
 export const DocumentoAvulsoListInitialState: DocumentoAvulsoListState = {
@@ -31,7 +33,8 @@ export const DocumentoAvulsoListInitialState: DocumentoAvulsoListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    respondendoIds: []
 };
 
 export function DocumentoAvulsoListReducer(
@@ -107,6 +110,13 @@ export function DocumentoAvulsoListReducer(
             return {
                 ...state,
                 deletingIds: state.deletingIds.filter(id => id !== action.payload)
+            };
+        }
+
+        case DocumentoAvulsoListActions.RESPONDER_DOCUMENTO_AVULSO: {
+            return {
+                ...state,
+                respondendoIds: action.payload
             };
         }
 

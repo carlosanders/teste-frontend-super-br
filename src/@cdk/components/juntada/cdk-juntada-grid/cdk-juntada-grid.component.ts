@@ -69,7 +69,7 @@ export class CdkJuntadaGridComponent implements AfterViewInit, OnInit, OnChanges
     delete = new EventEmitter<number>();
 
     @Output()
-    desentranha = new EventEmitter<number[]>();
+    desentranhar = new EventEmitter<number[]>();
 
     @Output()
     select = new EventEmitter<Juntada>();
@@ -157,8 +157,8 @@ export class CdkJuntadaGridComponent implements AfterViewInit, OnInit, OnChanges
         juntadasId.forEach(juntadaId => this.deleteJuntada(juntadaId));
     }
 
-    desentranhaJuntadas(juntadasId: number[]): void {
-        this.desentranha.emit(juntadasId);
+    desentranharJuntadas(juntadasId: number[]): void {
+        this.desentranhar.emit(juntadasId);
     }
 
     /**

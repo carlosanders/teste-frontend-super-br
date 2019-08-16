@@ -30,7 +30,6 @@ export class JuntadaListComponent implements OnInit {
     pagination$: Observable<any>;
     pagination: any;
     desentranhandoIds$: Observable<any>;
-    desentranhadoIds$: Observable<any>;
 
     /**
      * @param _changeDetectorRef
@@ -46,7 +45,6 @@ export class JuntadaListComponent implements OnInit {
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
         this.desentranhandoIds$ = this._store.pipe(select(fromStore.getDesentranhandoIds));
-        this.desentranhadoIds$ = this._store.pipe(select(fromStore.getDesentranhadoIds));
 
         this._store
             .pipe(select(getRouterState))

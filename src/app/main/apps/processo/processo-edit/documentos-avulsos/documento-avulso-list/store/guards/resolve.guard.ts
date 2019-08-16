@@ -67,7 +67,8 @@ export class ResolveGuard implements CanActivate {
 
                     const params = {
                         filter: {
-                            'processo.id': processoId
+                            'processo.id': processoId,
+                            'dataHoraRemessa': 'isNotNull'
                         },
                         gridFilter: {},
                         limit: 10,

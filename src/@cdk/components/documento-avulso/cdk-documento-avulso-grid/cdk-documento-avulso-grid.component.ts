@@ -36,7 +36,7 @@ export class CdkDocumentoAvulsoGridComponent implements AfterViewInit, OnInit, O
     total = 0;
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'especieDocumentoAvulso', 'destinatario', 'actions'];
 
     @Input()
     deletingIds: number[] = [];
@@ -73,6 +73,9 @@ export class CdkDocumentoAvulsoGridComponent implements AfterViewInit, OnInit, O
 
     @Output()
     selectedIds: number[] = [];
+
+    @Output()
+    responder = new EventEmitter<number[]>();
 
     dataSource: DocumentoAvulsoDataSource;
 
@@ -152,6 +155,10 @@ export class CdkDocumentoAvulsoGridComponent implements AfterViewInit, OnInit, O
 
     deleteDocumentoAvulsos(documentosAvulsosId): void {
         documentosAvulsosId.forEach(documentoAvulsoId => this.deleteDocumentoAvulso(documentoAvulsoId));
+    }
+
+    responderDocumentosAvulsos(documentosAvulsosId: number[]): void {
+        this.responder.emit(documentosAvulsosId);
     }
 
     /**

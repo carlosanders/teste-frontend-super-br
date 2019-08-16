@@ -51,14 +51,17 @@ export class DocumentosAvulsosComponent implements OnInit, OnDestroy {
             ).subscribe(routerState => {
             if (routerState) {
                 this.routerState = routerState.state;
-                if (this.routerState.url.indexOf('documentos-avulsos/listar') > -1) {
+                if (this.routerState.url.indexOf('oficios/listar') > -1) {
                     this.action = 'listar';
                 }
-                if (this.routerState.url.indexOf('documentos-avulsos/editar') > -1) {
+                if (this.routerState.url.indexOf('oficios/editar') > -1) {
                     this.action = 'editar';
                 }
-                if (this.routerState.url.indexOf('documentos-avulsos/criar') > -1) {
+                if (this.routerState.url.indexOf('oficios/criar') > -1) {
                     this.action = 'criar';
+                }
+                if (this.routerState.url.indexOf('oficios/responder') > -1) {
+                    this.action = 'responder';
                 }
                 this._changeDetectorRef.markForCheck();
             }
@@ -74,6 +77,9 @@ export class DocumentosAvulsosComponent implements OnInit, OnDestroy {
     goBack(): void {
         if (this.action === 'editar') {
             this._router.navigate([this.routerState.url.replace(('editar/' + this.routerState.params.documentoAvulsoHandle), 'listar')]).then();
+        }
+        if (this.action === 'responder') {
+            this._router.navigate([this.routerState.url.replace('responder', 'listar')]).then();
         }
         if (this.action === 'criar') {
             this._router.navigate([this.routerState.url.replace('criar', 'listar')]).then();

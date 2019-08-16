@@ -11,10 +11,10 @@ import {Observable, Subject} from 'rxjs';
 
 import {select, Store} from '@ngrx/store';
 
-import * as fromStore from '../store';
+import * as fromStore from '../documento-avulso-list/store';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Tarefa} from '@cdk/models/tarefa.model';
-import {getSelectedTarefas} from '../store/selectors';
+import {DocumentoAvulso} from '@cdk/models/documento-avulso.model';
+import {getRespodendoDocumentosAvulsos} from '../documento-avulso-list/store/selectors';
 import {getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {takeUntil} from 'rxjs/operators';
@@ -32,9 +32,9 @@ export class UploadBlocoComponent implements OnInit, OnDestroy {
 
     private _unsubscribeAll: Subject<any> = new Subject();
 
-    tarefas$: Observable<Tarefa[]>;
-    tarefasBloco: Tarefa[] = [];
-    tarefaPrincipal: Tarefa;
+    documentosAvulsos$: Observable<DocumentoAvulso[]>;
+    documentosAvulsosBloco: DocumentoAvulso[] = [];
+    documentoAvulsoPrincipal: DocumentoAvulso;
 
     operacoes: any[] = [];
 
@@ -53,12 +53,12 @@ export class UploadBlocoComponent implements OnInit, OnDestroy {
      * @param _changeDetectorRef
      */
     constructor(
-        private _store: Store<fromStore.TarefasAppState>,
+        private _store: Store<fromStore.DocumentoAvulsoListAppState>,
         private _loginService: LoginService,
         private _router: Router,
         private _changeDetectorRef: ChangeDetectorRef
     ) {
-        this.tarefas$ = this._store.pipe(select(getSelectedTarefas));
+        this.documentosAvulsos$ = this._store.pipe(select(getRespodendoDocumentosAvulsos));
         this._profile = _loginService.getUserProfile();
 
     }
@@ -68,12 +68,12 @@ export class UploadBlocoComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
 
     ngOnInit(): void {
-        this.tarefas$.pipe(
+        this.documentosAvulsos$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(
-            tarefas => {
-                this.tarefaPrincipal = tarefas[0] ? tarefas[0] : null;
-                this.tarefasBloco = tarefas[1] ? tarefas.filter(t => t.id !== tarefas[0].id) : [];
+            documentosAvulsos => {
+                this.documentoAvulsoPrincipal = documentosAvulsos[0] ? documentosAvulsos[0] : null;
+                this.documentosAvulsosBloco = documentosAvulsos[1] ? documentosAvulsos.filter(t => t.id !== documentosAvulsos[0].id) : [];
                 this._changeDetectorRef.markForCheck();
             });
 

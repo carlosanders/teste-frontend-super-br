@@ -11,6 +11,7 @@ import {OrigemDados} from '@cdk/models/origem-dados.model';
 import {Subscription} from 'rxjs/Subscription';
 import {Processo} from './processo.model';
 import {Tarefa} from './tarefa.model';
+import {DocumentoAvulso} from './documento-avulso.model';
 
 export class ComponenteDigital {
 
@@ -89,6 +90,14 @@ export class ComponenteDigital {
     @Transform(value => value ? value.map((d) => d.id) : null, { toPlainOnly: true })
     tarefaOrigemBloco?: Tarefa[];
 
+    @Type(() => DocumentoAvulso)
+    @Transform(value => value ? value.id : null, {toPlainOnly: true})
+    documentoAvulsoOrigem?: DocumentoAvulso;
+
+    @Type(() => DocumentoAvulso)
+    @Transform(value => value ? value.map((d) => d.id) : null, { toPlainOnly: true })
+    documentoAvulsoOrigemBloco?: DocumentoAvulso[];
+
     @Exclude({toPlainOnly: true})
     @Type(() => OrigemDados)
     @Transform(value => value ? value.id : null, {toPlainOnly: true})
@@ -161,6 +170,7 @@ export class ComponenteDigital {
         this.processoOrigem = null;
         this.documentoOrigem = null;
         this.tarefaOrigem = null;
+        this.documentoAvulsoOrigem = null;
         this.editavel = null;
         this.assinado = null;
         this.modalidadeAlvoInibidor = null;
