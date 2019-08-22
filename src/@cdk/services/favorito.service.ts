@@ -1,16 +1,19 @@
 import {Injectable} from '@angular/core';
-import {HttpParams} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Favorito} from '@cdk/models/favorito.model';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
 import {PaginatedResponse} from '@cdk/models/paginated.response';
+import {environment} from '../../environments/environment';
+import {map} from 'rxjs/operators';
 
 @Injectable()
 export class FavoritoService {
 
     constructor(
-        private modelService: ModelService
+        private modelService: ModelService,
+        private http: HttpClient
     ) {
     }
 
@@ -58,5 +61,18 @@ export class FavoritoService {
 
     destroy(id: number): Observable<Favorito> {
         return this.modelService.delete('favorito', id);
+    }
+
+    patch(favorito: Favorito, changes: any): Observable<Favorito> {
+        return this.http.patch(
+            `${environment.api_url}${'favorito'}/${favorito.id}` + environment.xdebug,
+            JSON.stringify(changes)
+        ).pipe(
+            map(response => {
+                response = plainToClass(Favorito, response);
+                Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                return Object.assign(new Favorito(), {...favorito, ...response});
+            })
+        );
     }
 }

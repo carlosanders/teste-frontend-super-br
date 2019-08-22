@@ -21,12 +21,20 @@ const routes: Routes = [
         component: FavoritosComponent,
         children: [
             {
-                path       : 'especie-atividade',
-                loadChildren: './especie-atividade-list/especie-atividade-list.module#EspecieAtividadeListModule'
+                path       : 'favorito-especie-atividade',
+                loadChildren: './favorito-especie-atividade-list/favorito-especie-atividade-list.module#FavoritoEspecieAtividadeListModule'
+            },
+            {
+                path       : 'favorito-especie-tarefa',
+                loadChildren: './favorito-especie-tarefa-list/favorito-especie-tarefa-list.module#FavoritoEspecieTarefaListModule'
+            },
+            {
+                path       : 'favorito-setor-responsavel',
+                loadChildren: './favorito-setor-responsavel-list/favorito-setor-responsavel-list.module#FavoritoSetorResponsavelListModule'
             },
             {
                 path       : '**',
-                redirectTo: 'especie-atividade'
+                redirectTo: 'favorito-especie-atividade'
             }
         ]
     }

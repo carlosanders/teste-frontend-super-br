@@ -1,0 +1,20 @@
+<cdk-favorito-form
+    [showEspecieTarefa]="showEspecieTarefa"
+    [saving]="(isSaving$ | async)"
+    [errors]="(errors$ | async)"
+    [templatePagination]="templatePagination"
+    (save)="submit($event)">
+</cdk-favorito-form>
+
+<cdk-favorito-grid
+        [loading]="(loading$ | async)"
+        [favoritos]="(favoritos$ | async)"
+        [total]="(pagination$ | async)?.total"
+        [deletingIds]="(deletingIds$ | async)"
+        [deletedIds]="(deletedIds$ | async)"
+        [actions]="['favorito']"
+        (reload)="reload($event)"
+        (edit)="edit($event)"
+        (delete)="delete($event)"
+        (toggleFavorito)="doToggleFavorito($event)">
+</cdk-favorito-grid>

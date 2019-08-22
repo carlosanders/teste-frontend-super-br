@@ -107,9 +107,15 @@
             </div>
             <cdk-setor-autocomplete
                 #setor="setorAutocomplete"
+                [setorList]="setorResponsavelList"
+                [setorListIsLoading]="setorResponsavelListIsLoading"
                 [control]="form.get('setorResponsavel')"
                 [pagination]="setorResponsavelPagination">
             </cdk-setor-autocomplete>
+            <button matSuffix mat-button mat-icon-button
+                    (click)="showSetorResponsavelList()">
+                <mat-icon matTooltip="Procurar">star</mat-icon>
+            </button>
             <button *ngIf="form.get('setorResponsavel').enabled" matSuffix mat-button mat-icon-button
                     (click)="showSetorResponsavelGrid()">
                 <mat-icon matTooltip="Procurar">search</mat-icon>

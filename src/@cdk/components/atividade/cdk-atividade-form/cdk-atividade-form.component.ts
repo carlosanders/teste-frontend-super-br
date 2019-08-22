@@ -15,8 +15,11 @@ import {Usuario} from '@cdk/models/usuario.model';
 import {MAT_DATETIME_FORMATS} from '@mat-datetimepicker/core';
 import {Pagination} from '@cdk/models/pagination';
 import {Setor} from '@cdk/models/setor.model';
-import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
+import {catchError, debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
+import {Favorito} from '../../../models/favorito.model';
+import {FavoritoService} from '../../../services/favorito.service';
+import {LoginService} from '../../../../app/main/auth/login/login.service';
 
 @Component({
     selector: 'cdk-atividade-form',
@@ -76,12 +79,22 @@ export class CdkAtividadeFormComponent implements OnInit, OnChanges, OnDestroy {
 
     activeCard = 'form';
 
+    especieAtividadeList: EspecieAtividade[] = [];
+
+    especieAtividadeListIsLoading: boolean;
+
+    favoritosList: Favorito[] = [];
+
+    _profile: any;
+
     /**
      * Constructor
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _formBuilder: FormBuilder
+        private _formBuilder: FormBuilder,
+        private _favoritoService: FavoritoService,
+        private _loginService: LoginService
     ) {
 
         this.form = this._formBuilder.group({
@@ -106,6 +119,8 @@ export class CdkAtividadeFormComponent implements OnInit, OnChanges, OnDestroy {
         this.unidadeAprovacaoPagination.filter = {'parent': 'isNull'};
         this.setorAprovacaoPagination = new Pagination();
         this.setorAprovacaoPagination.filter = {'parent': 'isNotNull'};
+
+        this._profile = _loginService.getUserProfile();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -316,6 +331,38 @@ export class CdkAtividadeFormComponent implements OnInit, OnChanges, OnDestroy {
 
     cancel(): void {
         this.activeCard = 'form';
+    }
+
+    showEspecieAtividadeList(): void {
+
+        this.especieAtividadeListIsLoading = true;
+
+        this._favoritoService.query(
+            `{"usuario.id": "eq:${this._profile.usuario.id}", "especieAtividade": "isNotNull"}`,
+            5,
+            0,
+            '{}',
+            '["populateAll"]')
+            .pipe(
+                catchError(() => {
+                        return of([]);
+                    }
+                )
+            ).subscribe(
+            value => {
+
+                this.especieAtividadeList = [];
+                this.favoritosList = value['entities'];
+
+                this.favoritosList.forEach((favorito) => {
+                    const especieAtividade = favorito.especieAtividade;
+                    this.especieAtividadeList.push(especieAtividade);
+                });
+
+                this.especieAtividadeListIsLoading = false;
+                this._changeDetectorRef.markForCheck();
+            }
+        );
     }
 
 }

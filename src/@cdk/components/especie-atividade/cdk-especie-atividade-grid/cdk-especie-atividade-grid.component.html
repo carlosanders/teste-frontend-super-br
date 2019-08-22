@@ -138,10 +138,12 @@
                     <button mat-icon-button
                             *ngIf="actions.indexOf('favorito') > -1 && deletingIds?.indexOf(especieAtividade.id) === -1"
                             [disabled]="deletedIds?.indexOf(especieAtividade.id) > -1"
-                            (click)="salvarFavorito(especieAtividade.id)"
+                            (click)="salvarFavorito(especieAtividade.favoritos[0])"
                             aria-label="favorito"
                             matTooltip="Favorito">
-                        <mat-icon>star_border</mat-icon>
+
+                        <mat-icon class="amber-fg" *ngIf="especieAtividade.favoritos[0]?.prioritario">star</mat-icon>
+                        <mat-icon class="secondary-text" *ngIf="!especieAtividade.favoritos[0]?.prioritario">star_border</mat-icon>
                     </button>
                 </td>
             </ng-container>
@@ -151,9 +153,7 @@
             </tr>
         </table>
 
-        <div fxFlex fxLayout="row" fxLayoutAlign="center center">
-            <mat-paginator [pageSizeOptions]="[5, 10]"></mat-paginator>
-        </div>
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 50, 100]"></mat-paginator>
 
     </div>
 

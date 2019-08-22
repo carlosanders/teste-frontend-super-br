@@ -84,6 +84,10 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
     especieTarefaListIsLoading: boolean;
 
+    setorResponsavelList: Setor[] = [];
+
+    setorResponsavelListIsLoading: boolean;
+
     favoritosList: Favorito[] = [];
 
     _profile: any;
@@ -347,6 +351,38 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         );
     }
 
+    showSetorResponsavelList(): void {
+
+        this.setorResponsavelListIsLoading = true;
+
+        this._favoritoService.query(
+            `{"usuario.id": "eq:${this._profile.usuario.id}", "setorResponsavel": "isNotNull"}`,
+            5,
+            0,
+            '{}',
+            '["setorResponsavel","setorResponsavel.unidade"]')
+            .pipe(
+                catchError(() => {
+                        return of([]);
+                    }
+                )
+            ).subscribe(
+            value => {
+
+                this.setorResponsavelList = [];
+                this.favoritosList = value['entities'];
+
+                this.favoritosList.forEach((favorito) => {
+                    const setorResponsavel = favorito.setorResponsavel;
+                    this.setorResponsavelList.push(setorResponsavel);
+                });
+
+                this.setorResponsavelListIsLoading = false;
+                this._changeDetectorRef.markForCheck();
+            }
+        );
+    }
+
     showEspecieTarefaGrid(): void {
         this.activeCard = 'especie-tarefa-gridsearch';
     }
@@ -417,6 +453,12 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         if (!value || typeof value !== 'object') {
             this.form.get('setorResponsavel').setValue(null);
         }
+
+       /* if (value !== null && typeof value === 'object' ) {
+            if (value.unidade && value.unidade !== this.form.get('unidadeResponsavel').value) {
+                this.form.get('unidadeResponsavel').setValue(value.unidade);
+            }
+        } */
     }
 
     showSetorResponsavelGrid(): void {
