@@ -63,6 +63,7 @@ export class TarefaDetailEffect {
                             'processo',
                             'processo.especieProcesso',
                             'processo.modalidadeMeio',
+                            'processo.documentoAvulsoOrigem',
                             'especieTarefa',
                             'usuarioResponsavel',
                             'setorResponsavel',

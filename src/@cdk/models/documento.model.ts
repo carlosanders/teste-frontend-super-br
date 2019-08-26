@@ -13,6 +13,7 @@ import {VinculacaoDocumento} from '@cdk/models/vinculacao-documento.model';
 import {DocumentoAvulso} from './documento-avulso.model';
 import {Modelo} from './modelo.model';
 import {Repositorio} from './repositorio.model';
+import {Juntada} from './juntada.model';
 
 export class Documento {
 
@@ -65,6 +66,10 @@ export class Documento {
     @Type(() => Tarefa)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     tarefaOrigem?: Tarefa;
+
+    @Type(() => Juntada)
+    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    juntadaAtual?: Juntada;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => OrigemDados)
@@ -146,6 +151,7 @@ export class Documento {
         this.tarefaOrigem = null;
         this.origemDados = null;
         this.modelo = null;
+        this.juntadaAtual = null;
         this.repositorio = null;
         this.criadoPor = null;
         this.criadoEm = null;

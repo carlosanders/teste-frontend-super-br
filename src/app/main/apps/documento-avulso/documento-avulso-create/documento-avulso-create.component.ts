@@ -78,7 +78,7 @@ export class DocumentoAvulsoCreateComponent implements OnInit, OnDestroy {
         this.setorDestinoPagination.filter = {'parent': 'isNull'};
 
         this.modeloPagination = new Pagination();
-        this.modeloPagination.filter = {'documento.tipoDocumento.nome': 'eq:OFÍCIO'};
+        // this.modeloPagination.filter = {'documento.tipoDocumento.nome': 'eq:OFÍCIO'};
 
         this.processo$ = this._store.pipe(select(fromStore.getProcesso));
         this.tarefa$ = this._store.pipe(select(fromStore.getTarefa));

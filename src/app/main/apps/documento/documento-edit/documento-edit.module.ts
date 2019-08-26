@@ -7,7 +7,7 @@ import {DocumentoEditComponent} from './documento-edit.component';
 import {DocumentoService} from '@cdk/services/documento.service';
 import {CdkDocumentoFormModule} from '@cdk/components/documento/cdk-documento-form/cdk-documento-form.module';
 import {DocumentoStoreModule} from '../store/store.module';
-import {MatButtonModule, MatIconModule, MatMenuModule} from '@angular/material';
+import {MatButtonModule, MatIconModule, MatMenuModule, MatTooltipModule} from '@angular/material';
 import {CdkComponenteDigitalCardListModule} from '@cdk/components/componente-digital/cdk-componente-digital-card-list/cdk-componente-digital-card-list.module';
 import {CdkDocumentoCardListModule} from '@cdk/components/documento/cdk-documento-card-list/cdk-documento-card-list.module';
 import {CdkUploadModule} from '@cdk/components/upload/cdk-upload.module';
@@ -50,6 +50,7 @@ const routes: Routes = [
 
         TranslateModule,
         FuseSharedModule,
+        MatTooltipModule,
     ],
     providers: [
         DocumentoService

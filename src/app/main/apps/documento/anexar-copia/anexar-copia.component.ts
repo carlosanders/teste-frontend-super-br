@@ -13,7 +13,7 @@ import * as fromStore from '../store';
 import {Back} from 'app/store';
 import {ComponenteDigital} from '@cdk/models/componente-digital.model';
 import {Observable} from 'rxjs';
-import {Documento} from '../../../../../@cdk/models/documento.model';
+import {Documento} from '@cdk/models/documento.model';
 
 @Component({
     selector: 'anexar-copia',

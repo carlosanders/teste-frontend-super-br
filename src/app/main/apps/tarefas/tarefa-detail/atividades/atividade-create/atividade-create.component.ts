@@ -224,6 +224,11 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy {
         this._store.dispatch(new fromStore.DeleteDocumento(documentoId));
     }
 
+    doVerResposta(documento): void {
+        console.log (documento);
+        this._store.dispatch(new fromStore.ClickedDocumento(documento));
+    }
+
     doAssinatura(documentoId): void {
         this._store.dispatch(new fromStore.AssinaDocumento(documentoId));
     }

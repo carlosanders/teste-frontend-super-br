@@ -3,12 +3,12 @@
     <!-- CONTENT -->
     <div class="content pr-24 pl-24" fxLayout="column" fxFlex="100">
 
-        <div class="documentos" class="mb-16" fxLayout="row">
+        <div class="documentos mb-16" fxLayout="row">
 
             <mat-tab-group fxFlex="100">
                 <mat-tab>
                     <ng-template matTabLabel>
-                        <span [matBadge]="minutas.length.toString()" matBadgeOverlap="false" matBadgeColor="warn">Minutas</span>
+                        <span [matBadge]="minutas.length.toString()" matBadgeOverlap="false" matBadgeColor="warn">Atividade</span>
                     </ng-template>
 
                     <div fxLayout="row">
@@ -50,6 +50,16 @@
                                                           (complete)="onComplete()">
                         </cdk-componente-digital-card-list>
                     </div>
+
+                    <cdk-atividade-form
+                        [atividade]="atividade"
+                        [temMinutas]="!!minutas.length"
+                        [documentoAvulsoVinculado]="(tarefa$ | async)?.processo?.documentoAvulsoOrigem"
+                        [saving]="(isSaving$ | async)"
+                        [errors]="(errors$ | async)"
+                        (save)="submit($event)">
+                    </cdk-atividade-form>
+
                 </mat-tab>
                 <mat-tab fxLayout="row">
                     <ng-template matTabLabel>
@@ -67,6 +77,7 @@
                                                  [deletingId]="(deletingDocumentosId$ | async)"
                                                  [assinandoId]="(assinandoDocumentosId$ | async)"
                                                  (delete)="doDelete($event)"
+                                                 (verResposta)="doVerResposta($event)"
                                                  (assinatura)="doAssinatura($event)"
                                                  (clicked)="onClicked($event)"
                                                  (changedSelectedIds)="changedSelectedIds($event)">
@@ -78,14 +89,6 @@
         </div>
 
         <router-outlet></router-outlet>
-
-        <cdk-atividade-form
-                [atividade]="atividade"
-                [autorizaSubmeterAprovacao]="!!(documentos$ | async)?.length"
-                [saving]="(isSaving$ | async)"
-                [errors]="(errors$ | async)"
-                (save)="submit($event)">
-        </cdk-atividade-form>
 
     </div>
 </div>

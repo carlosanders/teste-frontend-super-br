@@ -17,6 +17,7 @@ import {Pagination} from '@cdk/models/pagination';
 import {Setor} from '@cdk/models/setor.model';
 import {catchError, debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
+import {DocumentoAvulso} from '../../../models/documento-avulso.model';
 import {Favorito} from '../../../models/favorito.model';
 import {FavoritoService} from '../../../services/favorito.service';
 import {LoginService} from '../../../../app/main/auth/login/login.service';
@@ -73,7 +74,10 @@ export class CdkAtividadeFormComponent implements OnInit, OnChanges, OnDestroy {
     unidadeAprovacaoPagination: Pagination;
 
     @Input()
-    autorizaSubmeterAprovacao = false;
+    temMinutas = false;
+
+    @Input()
+    documentoAvulsoVinculado: DocumentoAvulso;
 
     form: FormGroup;
 
@@ -100,12 +104,13 @@ export class CdkAtividadeFormComponent implements OnInit, OnChanges, OnDestroy {
         this.form = this._formBuilder.group({
             'id': [null],
             'encerraTarefa': [null],
+            'destinacaoMinutas': [null],
+            'respostaDocumentoAvulso': [null],
             'especieAtividade': [null, [Validators.required]],
             'dataHoraConclusao': [null, [Validators.required]],
             'usuario': [null, [Validators.required]],
             'observacao': [null, [Validators.maxLength(255)]],
             'documento': [null],
-            'submeterAprovacao': [null],
             'tarefa': [null],
             'unidadeAprovacao': [null, [Validators.required]],
             'setorAprovacao': [null, [Validators.required]],
@@ -132,17 +137,17 @@ export class CdkAtividadeFormComponent implements OnInit, OnChanges, OnDestroy {
      */
     ngOnInit(): void {
 
-        this.form.get('submeterAprovacao').setValue(false);
+        this.form.get('destinacaoMinutas').setValue('juntar');
 
         this.form.get('unidadeAprovacao').disable();
         this.form.get('setorAprovacao').disable();
         this.form.get('usuarioAprovacao').disable();
 
-        this.form.get('submeterAprovacao').valueChanges.pipe(
+        this.form.get('destinacaoMinutas').valueChanges.pipe(
             debounceTime(300),
             distinctUntilChanged(),
             switchMap((value) => {
-                    if (value) {
+                    if (value === 'submeter_aprovacao') {
                         this.form.get('unidadeAprovacao').enable();
                     } else {
                         this.form.get('unidadeAprovacao').reset();

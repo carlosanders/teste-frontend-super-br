@@ -23,7 +23,7 @@ export class Atividade {
 
     encerraTarefa: boolean;
 
-    submeterAprovacao: boolean;
+    destinacaoMinutas: string;
 
     @Type(() => EspecieAtividade)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
@@ -89,7 +89,7 @@ export class Atividade {
         this.dataHoraConclusao = null;
         this.observacao = null;
         this.encerraTarefa = null;
-        this.submeterAprovacao = null;
+        this.destinacaoMinutas = null;
         this.especieAtividade = null;
         this.setor = null;
         this.usuario = null;

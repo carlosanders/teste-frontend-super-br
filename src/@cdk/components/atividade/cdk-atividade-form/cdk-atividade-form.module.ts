@@ -7,7 +7,7 @@ import {
     MatCheckboxModule,
     MatProgressSpinnerModule,
     MatAutocompleteModule,
-    MatDatepickerModule, MatSlideToggleModule, MatTooltipModule
+    MatDatepickerModule, MatSlideToggleModule, MatTooltipModule, MatRadioModule
 
 } from '@angular/material';
 
@@ -44,6 +44,7 @@ import {CdkSetorGridsearchModule} from '../../setor/cdk-setor-autocomplete/cdk-s
         MatMomentDatetimeModule,
         MatSlideToggleModule,
         MatTooltipModule,
+        MatRadioModule,
 
         CdkEspecieAtividadeAutocompleteModule,
         CdkEspecieAtividadeGridsearchModule,

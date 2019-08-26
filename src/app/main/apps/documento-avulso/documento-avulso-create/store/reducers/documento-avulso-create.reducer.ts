@@ -12,7 +12,10 @@ export const DocumentoAvulsoCreateInitialState: DocumentoAvulsoCreateState = {
     loaded: false,
 };
 
-export function DocumentoAvulsoCreateReducer(state = DocumentoAvulsoCreateInitialState, action: DocumentoAvulsoCreateActions.DocumentoAvulsoCreateActionsAll): DocumentoAvulsoCreateState {
+export function DocumentoAvulsoCreateReducer(
+    state = DocumentoAvulsoCreateInitialState,
+    action: DocumentoAvulsoCreateActions.DocumentoAvulsoCreateActionsAll
+): DocumentoAvulsoCreateState {
     switch (action.type) {
 
         case DocumentoAvulsoCreateActions.CREATE_DOCUMENTO_AVULSO: {
