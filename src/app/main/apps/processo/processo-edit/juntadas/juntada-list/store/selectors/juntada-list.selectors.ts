@@ -47,8 +47,19 @@ export const getDesentranhandoIds = createSelector(
     (state: JuntadaListState) => state.desentranhandoIds
 );
 
+export const getCopiandoIds = createSelector(
+    getJuntadaListState,
+    (state: JuntadaListState) => state.copiandoIds
+);
+
 export const getDesentranhandoJuntadas = createSelector(
     schemaSelectors.getNormalizedEntities,
     getDesentranhandoIds,
+    schemaSelectors.entitiesProjector
+);
+
+export const getCopiandoJuntadas = createSelector(
+    schemaSelectors.getNormalizedEntities,
+    getCopiandoIds,
     schemaSelectors.entitiesProjector
 );

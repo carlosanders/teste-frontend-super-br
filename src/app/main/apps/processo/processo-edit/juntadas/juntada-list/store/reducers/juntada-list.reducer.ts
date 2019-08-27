@@ -15,6 +15,8 @@ export interface JuntadaListState {
     loaded: any;
     desentranhandoIds: number[];
     desentranhadoIds: number[];
+    copiandoIds: number[];
+    copiadoIds: number[];
 }
 
 export const JuntadaListInitialState: JuntadaListState = {
@@ -31,7 +33,9 @@ export const JuntadaListInitialState: JuntadaListState = {
     loading: false,
     loaded: false,
     desentranhadoIds: [],
-    desentranhandoIds: []
+    desentranhandoIds: [],
+    copiandoIds: [],
+    copiadoIds: []
 };
 
 export function JuntadaListReducer(state = JuntadaListInitialState, action: JuntadaListActions.JuntadaListActionsAll): JuntadaListState {
@@ -104,6 +108,28 @@ export function JuntadaListReducer(state = JuntadaListInitialState, action: Junt
             return {
                 ...state,
                 desentranhandoIds: state.desentranhandoIds.filter(id => id !== action.payload)
+            };
+        }
+
+        case JuntadaListActions.COPIA_DOCUMENTO_JUNTADA: {
+            return {
+                ...state,
+                copiandoIds: action.payload
+            };
+        }
+
+        case JuntadaListActions.COPIA_DOCUMENTO_JUNTADA_SUCCESS: {
+            return {
+                ...state,
+                copiandoIds: state.copiandoIds.filter(id => id !== action.payload),
+                copiadoIds: [...state.copiadoIds, action.payload]
+            };
+        }
+
+        case JuntadaListActions.COPIA_DOCUMENTO_JUNTADA_FAILED: {
+            return {
+                ...state,
+                copiandoIds: state.copiandoIds.filter(id => id !== action.payload)
             };
         }
 

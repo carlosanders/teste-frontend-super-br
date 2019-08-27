@@ -51,6 +51,10 @@ export class Documento {
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     processoOrigem?: Processo;
 
+    @Type(() => Documento)
+    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    documentoOrigem?: Documento;
+
     @Type(() => Pessoa)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     procedencia?: Pessoa;
@@ -133,14 +137,15 @@ export class Documento {
     constructor() {
         this.id = null;
         this.uuid = null;
-        this.numeroFolhas = null;
+        this.numeroFolhas = 0;
         this.dataHoraProducao = null;
         this.outroNumero = null;
-        this.semEfeito = null;
+        this.semEfeito = false;
         this.localizadorOriginal = null;
         this.localProducao = null;
         this.autor = null;
         this.processoOrigem = null;
+        this.documentoOrigem = null;
         this.redator = null;
         this.procedencia = null;
         this.tipoDocumento = null;
