@@ -18,6 +18,7 @@ import {MatDialog} from '@angular/material';
 import {CdkCampoPluginComponent} from './cdk-plugins/cdk-campo-plugin/cdk-campo-plugin.component';
 import {filter} from 'rxjs/operators';
 import {CdkRepositorioPluginComponent} from './cdk-plugins/cdk-respositorio-plugin/cdk-repositorio-plugin.component';
+import {Endereco} from '../../../models/endereco.model';
 
 @Component({
     selector: 'cdk-componente-digital-ckeditor',
@@ -34,6 +35,15 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
 
     @Input()
     componenteDigital: ComponenteDigital;
+
+    @Input()
+    repositorio: string;
+
+    @Output()
+    clearRepositorio = new EventEmitter<any>();
+
+    @Output()
+    query = new EventEmitter<any>();
 
     @Input()
     showModeloButtons = false;
@@ -108,13 +118,14 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
     src: any;
 
     /**
-     *
      * @param _changeDetectorRef
      * @param dialog
      * @param el
      * @param snackBar
      */
-    constructor(private _changeDetectorRef: ChangeDetectorRef, public dialog: MatDialog, private el: ElementRef,
+    constructor(private _changeDetectorRef: ChangeDetectorRef,
+                public dialog: MatDialog,
+                private el: ElementRef,
                 private snackBar: MatSnackBar) {
 
     }
@@ -130,8 +141,19 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
     }
 
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
+        if (changes['repositorio']) {
+            if (this.editor) {
+                if (this.repositorio) {
+                    const parent = this.editor.document.getBody();
+                    parent.setStyle('cursor', 'progress');
+                } else {
+                    const parent = this.editor.document.getBody();
+                    parent.setStyle('cursor', 'text');
+                }
+            }
+        }
 
-        if (this.errors && this.errors.status && this.errors.status === 422) {
+        if (changes['errors'] && this.errors && this.errors.status && this.errors.status === 422) {
             const error = this.errors.error.message || this.errors.statusText;
             this.snackBar.open(error, null, {
                 duration: 5000,
@@ -139,7 +161,9 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
                 verticalPosition: this.verticalPosition,
                 panelClass: ['danger-snackbar']
             });
-        } else {
+        }
+
+        if (changes['componenteDigital'] && changes['componenteDigital'].firstChange) {
             this.fetch();
         }
     }
@@ -148,6 +172,8 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
      * On destroy
      */
     ngOnDestroy(): void {
+        window.addEventListener('resize', this.resizeFunction);
+
         const editor = window['CKEDITOR'];
         if (editor.instances) {
             for (const editorInstance in editor.instances) {
@@ -202,10 +228,15 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
         });
     }
 
+    private resizeFunction(): void {
+        if (this.editor) {
+            this.editor.resize(this.editor.container.getStyle('width'), (this.el.nativeElement.offsetHeight * 0.95), true);
+        }
+    }
+
     onReady(e): void {
 
         this.editor = e.editor;
-
         const me = this;
 
         if (!this.showModeloButtons) {
@@ -215,9 +246,19 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
             repositorioButton.style.visibility = 'hidden';
         }
 
-        e.editor.resize(e.editor.container.getStyle('width'), (this.el.nativeElement.offsetHeight * 0.95), true);
+        this.resizeFunction();
+
+        window.addEventListener('resize', this.resizeFunction);
 
         e.editor.on('contentDom', function (): any {
+
+            const editable = e.editor.editable();
+            editable.attachListener(editable, 'click', () => {
+                if (me.repositorio) {
+                    e.editor.insertHtml(me.repositorio);
+                    me.clearRepositorio.emit();
+                }
+            });
 
             e.editor.document.on('keyup', function (event: any): any {
                 if (event.data.getKey() === 13) {
@@ -225,6 +266,18 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
 
                     do {
                         if (node.getName() === 'p' || node.getName() === 'h1' || node.getName() === 'h2') {
+
+                            let words = null,
+                                query = null;
+
+                            // inteligencia
+                            if (me.strip_tags(node.getPrevious().getHtml())) {
+                                query = node.getPrevious().getText();
+                                words = query.match(/\b\w+\b/g).length;
+                                if (words && words >= 3) {
+                                    me.query.emit(me.strip_tags(query));
+                                }
+                            }
 
                             // renumeracao
                             if (!me.strip_tags(node.getPrevious().getHtml()) &&
@@ -246,7 +299,6 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
                     } while (node = node.getParent());
                 }
             });
-
         });
 
         e.editor.dataProcessor.writer.setRules('p', {

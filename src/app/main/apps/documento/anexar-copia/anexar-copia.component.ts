@@ -26,10 +26,10 @@ import {Documento} from '@cdk/models/documento.model';
 export class AnexarCopiaComponent implements OnInit, OnDestroy {
 
     componenteDigital: ComponenteDigital;
-
     documento$: Observable<Documento>;
-
     documento: Documento;
+    isSaving$: Observable<boolean>;
+    errors$: Observable<any>;
 
     /**
      * @param _store
@@ -50,6 +50,8 @@ export class AnexarCopiaComponent implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
         this.documento$ = this._store.pipe(select(fromStore.getDocumento));
+        this.isSaving$ = this._store.pipe(select(fromStore.getComponenteDigitalIsSaving));
+        this.errors$ = this._store.pipe(select(fromStore.getComponenteDigitalErrors));
 
         this.documento$.subscribe(documento => {
             this.documento = documento;

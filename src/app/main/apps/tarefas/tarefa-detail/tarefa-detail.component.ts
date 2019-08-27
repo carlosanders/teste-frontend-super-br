@@ -23,6 +23,7 @@ import {getRouterState} from '../../../../store/reducers';
 import {takeUntil} from 'rxjs/operators';
 import {Pagination} from '@cdk/models/pagination';
 import {LoginService} from '../../../auth/login/login.service';
+import {getScreenState} from 'app/store/reducers';
 
 @Component({
     selector: 'tarefa-detail',
@@ -39,6 +40,8 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
     tarefa$: Observable<Tarefa>;
     tarefa: Tarefa;
 
+    screen$: Observable<any>;
+
     documentos$: Observable<Documento[]>;
     documentos: Documento[];
 
@@ -50,10 +53,13 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
     cdkUpload;
 
     maximizado$: Observable<boolean>;
+    maximizado = false;
 
     vinculacaoEtiquetaPagination: Pagination;
 
     private _profile: any;
+
+    private mobileMode = false;
 
     /**
      * @param _changeDetectorRef
@@ -71,6 +77,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
         this.tarefa$ = this._store.pipe(select(fromStore.getTarefa));
         this.documentos$ = this._store.pipe(select(fromStore.getDocumentos));
         this.maximizado$ = this._store.pipe(select(getMaximizado));
+        this.screen$ = this._store.pipe(select(getScreenState));
         this.vinculacaoEtiquetaPagination = new Pagination();
         this.vinculacaoEtiquetaPagination.filter = {'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.usuario.id};
     }
@@ -94,6 +101,22 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
         ).subscribe(
             documentos => this.documentos = documentos
         );
+
+        this.maximizado$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(
+            maximizado => this.maximizado = maximizado
+        );
+
+        this.screen$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(screen => {
+            if (screen.size !== 'desktop') {
+                this.mobileMode = true;
+            } else {
+                this.mobileMode = false;
+            }
+        });
     }
 
     ngOnDestroy(): void {
@@ -115,7 +138,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
      */
     deselectCurrentTarefa(): void {
         this._store.dispatch(new fromStore.DeselectTarefaAction());
-        this.doToggleMaximizado();
+        // this.doToggleMaximizado();
     }
 
     onEtiquetaCreate(etiqueta: Etiqueta): void {

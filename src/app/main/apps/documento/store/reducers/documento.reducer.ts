@@ -93,7 +93,7 @@ export function DocumentoReducer(state = DocumentoInitialState, action: Document
         case DocumentoActions.SET_CURRENT_STEP: {
             return {
                 ...state,
-                currentComponenteDigitalId: action.payload
+                currentComponenteDigitalId: action.payload.id
             };
         }
 

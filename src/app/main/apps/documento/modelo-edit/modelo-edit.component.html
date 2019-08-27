@@ -50,14 +50,6 @@
                         <span>Upload</span>
                     </ng-container>
                 </button>
-
-                <button mat-menu-item aria-label="anexar uma cópia de um documento"
-                        (click)="copia()">
-                    <ng-container>
-                        <mat-icon>file_copy</mat-icon>
-                        <span>Por Cópia</span>
-                    </ng-container>
-                </button>
             </mat-menu>
 
             <cdk-documento-card-list [documentos]="(documentosVinculados$ | async)"
@@ -77,7 +69,7 @@
 
         </div>
 
-        <div class="documentos-vinculados" class="mb-16" fxFlex fxLayout="column" *ngIf="activeCard === 'form'">
+        <div class="documentos-vinculados mb-16" fxFlex fxLayout="column" *ngIf="activeCard === 'form'">
 
             <h3 *ngIf="!(documento$ | async)?.vinculacaoDocumentoPrincipal" style="font-weight: bold">Modelo</h3>
             <h3 *ngIf="(documento$ | async)?.vinculacaoDocumentoPrincipal" style="font-weight: bold">Anexo</h3>

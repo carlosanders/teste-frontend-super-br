@@ -9,7 +9,6 @@ import {
     MatAutocompleteModule,
     MatDatepickerModule,
     MatSlideToggleModule,
-    MatRadioModule,
     MatTabsModule,
     MatTableModule, MatTooltipModule
 } from '@angular/material';
@@ -23,10 +22,8 @@ import {CdkSetorAutocompleteModule} from '../../setor/cdk-setor-autocomplete/cdk
 import {CdkSetorGridsearchModule} from '../../setor/cdk-setor-autocomplete/cdk-setor-gridsearch/cdk-setor-gridsearch.module';
 import {CdkPessoaAutocompleteModule} from '../../pessoa/cdk-pessoa-autocomplete/cdk-pessoa-autocomplete.module';
 import {CdkPessoaGridsearchModule} from '../../pessoa/cdk-pessoa-autocomplete/cdk-pessoa-gridsearch/cdk-pessoa-gridsearch.module';
-import {CdkProcessoAutocompleteModule} from '../../processo/cdk-processo-autocomplete/cdk-processo-autocomplete.module';
-import {CdkProcessoGridsearchModule} from '../../processo/cdk-processo-autocomplete/cdk-processo-gridsearch/cdk-processo-gridsearch.module';
-import {CdkTarefaGridsearchModule} from '../../tarefa/cdk-tarefa-autocomplete/cdk-tarefa-gridsearch/cdk-tarefa-gridsearch.module';
-import {CdkTarefaAutocompleteModule} from '../../tarefa/cdk-tarefa-autocomplete/cdk-tarefa-autocomplete.module';
+import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
+import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 
 @NgModule({
     declarations: [
@@ -41,8 +38,10 @@ import {CdkTarefaAutocompleteModule} from '../../tarefa/cdk-tarefa-autocomplete/
         MatInputModule,
         MatProgressSpinnerModule,
         MatDatepickerModule,
+        MatDatetimepickerModule,
+        MatNativeDatetimeModule,
+        MatMomentDatetimeModule,
         MatSlideToggleModule,
-        MatRadioModule,
         MatTabsModule,
         MatTableModule,
         MatTooltipModule,
@@ -53,13 +52,8 @@ import {CdkTarefaAutocompleteModule} from '../../tarefa/cdk-tarefa-autocomplete/
         CdkSetorGridsearchModule,
         CdkPessoaAutocompleteModule,
         CdkPessoaGridsearchModule,
-        CdkProcessoAutocompleteModule,
-        CdkProcessoGridsearchModule,
         CdkPessoaAutocompleteModule,
         CdkPessoaGridsearchModule,
-        CdkTarefaAutocompleteModule,
-        CdkTarefaGridsearchModule,
-
         FuseSharedModule,
     ],
     providers: [

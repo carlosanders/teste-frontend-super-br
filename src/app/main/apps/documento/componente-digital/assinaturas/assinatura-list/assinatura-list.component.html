@@ -1,0 +1,7 @@
+<cdk-assinatura-grid
+        [loading]="(loading$ | async)"
+        [assinaturas]="(assinaturas$ | async)"
+        [total]="(pagination$ | async)?.total"
+        [actions]="['delete']"
+        (reload)="reload($event)">
+</cdk-assinatura-grid>

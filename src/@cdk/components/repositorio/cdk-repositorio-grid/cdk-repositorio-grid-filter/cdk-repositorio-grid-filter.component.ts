@@ -7,6 +7,7 @@ import {
 
 import {fuseAnimations} from '@fuse/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
+import {filter} from 'rxjs/operators';
 
 @Component({
     selector: 'cdk-repositorio-grid-filter',
@@ -44,7 +45,7 @@ export class CdkRepositorioGridFilterComponent implements OnInit {
      * On init
      */
     ngOnInit(): void {
-        this.form.get('nome').valueChanges.subscribe(value => {
+        this.form.get('nome').valueChanges.pipe(filter(value => !!value)).subscribe(value => {
             this.selected.emit({'nome': `like:${value}%`});
         });
     }

@@ -1,5 +1,5 @@
 import {
-    ChangeDetectionStrategy,
+    ChangeDetectionStrategy, ChangeDetectorRef,
     Component,
     OnDestroy,
     OnInit, ViewChild,
@@ -14,6 +14,11 @@ import {select, Store} from '@ngrx/store';
 import {Location} from '@angular/common';
 import {getMercureState, getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
+import {Repositorio} from '@cdk/models/repositorio.model';
+import {filter} from 'rxjs/operators';
+import {DomSanitizer} from '@angular/platform-browser';
+import {ComponenteDigital} from '@cdk/models/componente-digital.model';
+import {RepositorioService} from '@cdk/services/repositorio.service';
 
 @Component({
     selector: 'documento-edit',
@@ -29,6 +34,16 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
     documentosVinculados$: Observable<Documento[]>;
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
+
+    repositorioIdLoadind$: Observable<number>;
+    repositorioIdLoaded$: Observable<number>;
+
+    componenteDigital$: Observable<ComponenteDigital>;
+
+    repositorios$: Observable<Repositorio[]>;
+    loading$: Observable<boolean>;
+    pagination$: Observable<any>;
+    pagination: any;
 
     selectedDocumentosVinculados$: Observable<Documento[]>;
     deletingDocumentosVinculadosId$: Observable<number[]>;
@@ -48,23 +63,34 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
     routerState: any;
 
     /**
-     *
      * @param _store
      * @param _location
      * @param _router
+     * @param _repositorioService
+     * @param _sanitizer
      */
     constructor(
         private _store: Store<fromStore.DocumentoAppState>,
         private _location: Location,
-        private _router: Router
+        private _router: Router,
+        private _repositorioService: RepositorioService,
+        private _sanitizer: DomSanitizer
     ) {
         this.documento$ = this._store.pipe(select(fromStore.getDocumento));
+        this.componenteDigital$ = this._store.pipe(select(fromStore.getComponenteDigital));
         this.documentosVinculados$ = this._store.pipe(select(fromStore.getDocumentosVinculados));
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.selectedDocumentosVinculados$ = this._store.pipe(select(fromStore.getSelectedDocumentosVinculados));
         this.deletingDocumentosVinculadosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosVinculadosId));
         this.assinandoDocumentosVinculadosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosVinculadosId));
+
+        this.repositorios$ = this._store.pipe(select(fromStore.getRepositorios));
+        this.pagination$ = this._store.pipe(select(fromStore.getRepositoriosPagination));
+        this.loading$ = this._store.pipe(select(fromStore.getRepositoriosIsLoading));
+
+        this.repositorioIdLoadind$ = this._store.pipe(select(fromStore.getComponenteDigitalLoading));
+        this.repositorioIdLoaded$ = this._store.pipe(select(fromStore.getComponenteDigitalLoaded));
 
         this._store
             .pipe(
@@ -114,7 +140,9 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
             this.assinandoDocumentosVinculadosId = assinandoDocumentosVinculadosId;
         });
 
-        this.documento$.subscribe(documento => {
+        this.documento$.pipe(
+            filter(documento => !this.documento || (documento && (documento.id !== this.documento.id)))
+        ).subscribe(documento => {
             this.documento = documento;
             if (documento && documento.vinculacaoDocumentoPrincipal) {
                 this.documentoPrincipal = documento.vinculacaoDocumentoPrincipal.documento;
@@ -132,6 +160,29 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
                 this.routerState = routerState.state;
             }
         });
+
+        this.pagination$.subscribe(pagination => {
+            if (this.pagination && pagination && pagination.ckeditorFilter !== this.pagination.ckeditorFilter && this.activeCard === 'inteligencia') {
+                this.pagination = pagination;
+                this.reload(this.pagination);
+            } else {
+                this.pagination = pagination;
+            }
+        });
+
+        this.componenteDigital$.subscribe(componenteDigital => {
+            if (componenteDigital && componenteDigital.conteudo) {
+                const html = this.b64DecodeUnicode(componenteDigital.conteudo.split(';base64,')[1]);
+                this._store.dispatch(new fromStore.SetRepositorioComponenteDigital(html));
+            }
+        });
+    }
+
+    b64DecodeUnicode(str): any {
+        // Going backwards: from bytestream, to percent-encoding, to original string.
+        return decodeURIComponent(atob(str).split('').map(function (c): any {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
     }
 
     /**
@@ -184,6 +235,10 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
         this.activeCard = 'anexos';
     }
 
+    showInteligencia(): void {
+        this.activeCard = 'inteligencia';
+    }
+
     showForm(): void {
         this.activeCard = 'form';
     }
@@ -199,6 +254,30 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
         );
 
         this._store.dispatch(new fromStore.SaveDocumento(documento));
+    }
+
+    reload(params): void {
+        this._store.dispatch(new fromStore.GetRepositorios({
+            ...this.pagination,
+            filter: {
+                ...this.pagination.filter,
+                ...this.pagination.ckeditorFilter,
+                ...params.gridFilter
+            },
+            sort: params.sort,
+            limit: params.limit,
+            offset: params.offset,
+            populate: [
+                ...this.pagination.populate
+            ]
+        }));
+    }
+
+    doDownload(repositorio: Repositorio): void {
+        this._store.dispatch(new fromStore.DownloadComponenteDigital({
+            componenteDigitalId: repositorio.documento.componentesDigitais[0].id,
+            repositorioId: repositorio.id
+        }));
     }
 
 }

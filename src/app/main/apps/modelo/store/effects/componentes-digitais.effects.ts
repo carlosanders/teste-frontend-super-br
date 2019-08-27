@@ -17,7 +17,6 @@ import {Documento} from '@cdk/models/documento.model';
 import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
 import {DocumentoService} from '@cdk/services/documento.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-import * as fromStore from '../../../tarefas/tarefa-detail/atividades/atividade-create/store';
 import {GetDocumentos} from '../../../tarefas/tarefa-detail/atividades/atividade-create/store';
 
 @Injectable()

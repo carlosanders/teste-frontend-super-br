@@ -16,6 +16,10 @@ const routes: Routes = [
         component: ComponenteDigitalComponent,
         children: [
             {
+                path: 'assinaturas',
+                loadChildren: './assinaturas/assinaturas.module#AssinaturasModule',
+            },
+            {
                 path: 'visualizar',
                 loadChildren: './componente-digital-view/componente-digital-view.module#ComponenteDigitalViewModule',
             },

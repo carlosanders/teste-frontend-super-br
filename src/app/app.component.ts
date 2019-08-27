@@ -2,8 +2,8 @@ import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
 import {Platform} from '@angular/cdk/platform';
 import {TranslateService} from '@ngx-translate/core';
-import {Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
+import {Subject, fromEvent} from 'rxjs';
+import {debounceTime, distinctUntilChanged, map, startWith, takeUntil, tap} from 'rxjs/operators';
 
 import {FuseConfigService} from '@fuse/services/config.service';
 import {FuseNavigationService} from '@fuse/components/navigation/navigation.service';
@@ -18,6 +18,7 @@ import {Store} from '@ngrx/store';
 import {State} from 'app/store/reducers';
 import {EventSourcePolyfill} from 'event-source-polyfill';
 import * as fromStore from 'app/store';
+import {SetScreen} from 'app/store';
 
 @Component({
     selector: 'app',
@@ -27,11 +28,10 @@ import * as fromStore from 'app/store';
 export class AppComponent implements OnInit, OnDestroy {
     fuseConfig: any;
     navigation: any;
+    resize$: any;
 
     // Private
     private _unsubscribeAll: Subject<any>;
-
-    private _profile: any;
 
     /**
      *
@@ -170,6 +170,27 @@ export class AppComponent implements OnInit, OnDestroy {
                 }));
             };
         }
+
+        this.resize$ = fromEvent(window, 'resize')
+            .pipe(
+                debounceTime(200),
+                map(() => window.innerWidth),
+                distinctUntilChanged(),
+                startWith(window.innerWidth),
+                tap(width => {
+                    let payload = 'mobile';
+                    if (width > 425 && width <= 1024) {
+                        payload = 'tablet';
+                    }
+                    if (width > 1024) {
+                        payload = 'desktop';
+                    }
+                    this._store.dispatch(new SetScreen(
+                        payload
+                    ));
+                }),
+            );
+        this.resize$.subscribe();
     }
 
     /**

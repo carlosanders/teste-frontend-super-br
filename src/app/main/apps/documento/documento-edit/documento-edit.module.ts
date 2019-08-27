@@ -11,6 +11,7 @@ import {MatButtonModule, MatIconModule, MatMenuModule, MatTooltipModule} from '@
 import {CdkComponenteDigitalCardListModule} from '@cdk/components/componente-digital/cdk-componente-digital-card-list/cdk-componente-digital-card-list.module';
 import {CdkDocumentoCardListModule} from '@cdk/components/documento/cdk-documento-card-list/cdk-documento-card-list.module';
 import {CdkUploadModule} from '@cdk/components/upload/cdk-upload.module';
+import {CdkRepositorioGridModule} from '@cdk/components/repositorio/cdk-repositorio-grid/cdk-repositorio-grid.module';
 
 const routes: Routes = [
     {
@@ -51,6 +52,7 @@ const routes: Routes = [
         TranslateModule,
         FuseSharedModule,
         MatTooltipModule,
+        CdkRepositorioGridModule,
     ],
     providers: [
         DocumentoService

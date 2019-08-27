@@ -28,6 +28,9 @@ export class ComponenteDigital {
 
     fileName: string;
 
+    @Exclude({toPlainOnly: true})
+    highlights: string;
+
     numeracaoSequencial: number;
 
     conteudo: string;
@@ -158,6 +161,7 @@ export class ComponenteDigital {
         this.numeracaoSequencial = null;
         this.conteudo = null;
         this.tamanho = null;
+        this.highlights = null;
         this.nivelComposicao = null;
         this.softwareCriacao = null;
         this.chaveInibidor = null;

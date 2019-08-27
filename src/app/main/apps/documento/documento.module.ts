@@ -9,12 +9,13 @@ import {RouterModule, Routes} from '@angular/router';
 import {DocumentoStoreModule} from './store/store.module';
 import * as fromGuards from './store/guards';
 import {DocumentoEditModule} from './documento-edit/documento-edit.module';
-import {MatButtonModule, MatIconModule} from '@angular/material';
+import {MatButtonModule, MatIconModule, MatTooltipModule} from '@angular/material';
 import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
 import {FuseSidebarModule} from '@fuse/components';
 import {CdkDocumentoCardListModule} from '@cdk/components/documento/cdk-documento-card-list/cdk-documento-card-list.module';
 import {ModeloService} from '@cdk/services/modelo.service';
 import {RepositorioService} from '@cdk/services/repositorio.service';
+import {ComponenteDigitalService} from '../../../../@cdk/services/componente-digital.service';
 
 const routes: Routes = [
     {
@@ -62,11 +63,13 @@ const routes: Routes = [
 
         CdkDocumentoCardListModule,
 
-        FuseSidebarModule
+        FuseSidebarModule,
+        MatTooltipModule
     ],
     providers: [
         DocumentoService,
         DocumentoAvulsoService,
+        ComponenteDigitalService,
         ModeloService,
         RepositorioService,
         fromGuards.ResolveGuard

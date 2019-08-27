@@ -15,6 +15,9 @@ export class Repositorio {
 
     nome: string;
 
+    @Exclude({toPlainOnly: true})
+    highlights: string;
+
     descricao?: string;
 
     ativo?: boolean;
@@ -63,6 +66,7 @@ export class Repositorio {
         this.nome = null;
         this.descricao = null;
         this.ativo = null;
+        this.highlights = null;
         this.modalidadeRepositorio = null;
         this.documento = null;
         this.criadoPor = null;

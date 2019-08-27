@@ -74,8 +74,7 @@ export class ModeloListComponent implements OnInit {
             limit: params.limit,
             offset: params.offset,
             populate: [
-                ...this.pagination.populate,
-                ...params.populate
+                ...this.pagination.populate
             ]
         }));
     }

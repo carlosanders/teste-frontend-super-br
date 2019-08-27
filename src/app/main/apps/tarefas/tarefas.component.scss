@@ -2,82 +2,105 @@
 
 tarefas {
 
-  .center {
+    .center {
 
-    .header {
-      height: 100px !important;
-      min-height: 100px !important;
-      max-height: 100px !important;
+        .header {
+            height: 100px !important;
+            min-height: 100px !important;
+            max-height: 100px !important;
 
-      .search-wrapper {
-        border-radius: 28px;
-        overflow: hidden;
-        @include mat-elevation(1);
+            .search-wrapper {
+                border-radius: 28px;
+                overflow: hidden;
+                @include mat-elevation(1);
 
-        .sidebar-toggle {
-          margin: 0 0 0 6px;
-          width: 56px;
-          height: 56px;
-          border-radius: 0;
-          border-right: 1px solid;
+                .sidebar-toggle {
+                    margin: 0 0 0 6px;
+                    width: 56px;
+                    height: 56px;
+                    border-radius: 0;
+                    border-right: 1px solid;
+                }
+
+                .search {
+                    width: 100%;
+                    height: 56px;
+                    line-height: 56px;
+                    padding: 0 18px;
+
+                    cdk-etiqueta-chips {
+                        width: 100%;
+                        margin-left: 16px;
+                        margin-right: 16px;
+                    }
+                }
+            }
+
+            &.current-tarefa-selected {
+                .search-wrapper {
+                    display: none !important;
+                }
+            }
+
         }
 
-        .search {
-          width: 100%;
-          height: 56px;
-          line-height: 56px;
-          padding: 0 18px;
+        .content-card {
 
-          cdk-etiqueta-chips {
-            width: 100%;
-            margin-left: 16px;
-            margin-right: 16px;
-          }
+            .toolbar {
+
+                .toolbar-separator {
+                    height: 32px;
+                    width: 1px;
+                    margin: 0 12px;
+                }
+
+                .tarefa-list-control {
+                    margin-left: auto;
+                }
+            }
+
+            .content {
+
+                .tarefa-list {
+                    border-right: 1px solid;
+                    overflow-y: auto;
+
+                    &.mobile-mode {
+
+                        &.current-tarefa {
+                            display: none !important;
+                        }
+
+                        &.no-current-tarefa {
+                            max-width: 100% !important;
+                        }
+
+                    }
+                    cdk-tarefa-list {
+                        min-height: 100%;
+                    }
+
+                }
+
+                .tarefa-detail {
+                    width: 100%;
+                    height: 100%;
+
+                    &.mobile-mode {
+
+                        &.no-current-tarefa {
+                            display: none !important;
+                        }
+
+                        &.current-tarefa {
+                            max-width: 100% !important;
+                        }
+
+                    }
+                }
+
+            }
         }
-      }
-
-      &.current-tarefa-selected {
-        .search-wrapper {
-          display: none !important;
-        }
-      }
-
     }
-
-    .content-card {
-
-      .toolbar {
-
-        .toolbar-separator {
-          height: 32px;
-          width: 1px;
-          margin: 0 12px;
-        }
-
-        .tarefa-list-control {
-          margin-left: auto;
-        }
-      }
-
-      .content {
-
-        .tarefa-list {
-          border-right: 1px solid;
-          overflow-y: auto;
-
-          cdk-tarefa-list {
-            min-height: 100%;
-          }
-
-        }
-
-        .tarefa-details {
-          width: 100%;
-          height: 100%;
-        }
-
-      }
-    }
-  }
 }
 

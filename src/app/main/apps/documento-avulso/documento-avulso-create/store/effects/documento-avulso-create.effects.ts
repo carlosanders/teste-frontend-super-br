@@ -17,6 +17,7 @@ import {Documento} from '@cdk/models/documento.model';
 import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
 import {DocumentoService} from '@cdk/services/documento.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
+import {GetDocumentos} from '../../../../tarefas/tarefa-detail/atividades/atividade-create/store/actions';
 
 @Injectable()
 export class DocumentoAvulsoCreateEffect {
@@ -49,6 +50,9 @@ export class DocumentoAvulsoCreateEffect {
                 ofType<DocumentoAvulsoCreateActions.SaveDocumentoAvulso>(DocumentoAvulsoCreateActions.SAVE_DOCUMENTO_AVULSO),
                 switchMap((action) => {
                     return this._documentoAvulsoService.save(action.payload).pipe(
+                        tap((response) => {
+                            this._store.dispatch(new GetDocumentos());
+                        }),
                         mergeMap((response: DocumentoAvulso) => [
                             new DocumentoAvulsoCreateActions.SaveDocumentoAvulsoSuccess(),
                             new DocumentoAvulsoCreateActions.GetDocumento(response.id),

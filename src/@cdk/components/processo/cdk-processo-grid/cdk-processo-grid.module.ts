@@ -7,7 +7,7 @@ import {
     MatProgressSpinnerModule,
     MatTableModule,
     MatPaginatorModule,
-    MatSortModule,
+    MatSortModule, MatTooltipModule,
 } from '@angular/material';
 
 import { FuseSharedModule } from '@fuse/shared.module';
@@ -35,6 +35,7 @@ import {CdkProcessoGridFilterModule} from './cdk-processo-grid-filter/cdk-proces
         CdkProcessoGridFilterModule,
 
         FuseSharedModule,
+        MatTooltipModule,
     ],
     providers: [
         ProcessoService,

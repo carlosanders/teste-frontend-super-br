@@ -7,7 +7,7 @@ import {
     MatProgressSpinnerModule,
     MatTableModule,
     MatPaginatorModule,
-    MatSortModule,
+    MatSortModule, MatTooltipModule,
 } from '@angular/material';
 
 import { FuseSharedModule } from '@fuse/shared.module';
@@ -15,6 +15,7 @@ import { ModeloService } from '@cdk/services/modelo.service';
 import { CdkModeloGridComponent} from './cdk-modelo-grid.component';
 import { CdkModeloAutocompleteModule } from '@cdk/components/modelo/cdk-modelo-autocomplete/cdk-modelo-autocomplete.module';
 import {CdkModeloGridFilterModule} from './cdk-modelo-grid-filter/cdk-modelo-grid-filter.module';
+import {PipesModule} from '../../../pipes/pipes.module';
 
 @NgModule({
     declarations: [
@@ -35,6 +36,8 @@ import {CdkModeloGridFilterModule} from './cdk-modelo-grid-filter/cdk-modelo-gri
         CdkModeloGridFilterModule,
 
         FuseSharedModule,
+        MatTooltipModule,
+        PipesModule,
     ],
     providers: [
         ModeloService,

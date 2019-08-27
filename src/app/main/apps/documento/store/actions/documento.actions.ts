@@ -10,10 +10,6 @@ export const SAVE_DOCUMENTO = '[DOCUMENTO] SAVE DOCUMENTO';
 export const SAVE_DOCUMENTO_SUCCESS = '[DOCUMENTO] SAVE DOCUMENTO SUCCESS';
 export const SAVE_DOCUMENTO_FAILED = '[DOCUMENTO] SAVE DOCUMENTO FAILED';
 
-export const SAVE_DOCUMENTO_AVULSO = '[DOCUMENTO] SAVE DOCUMENTO AVULSO';
-export const SAVE_DOCUMENTO_AVULSO_SUCCESS = '[DOCUMENTO] SAVE DOCUMENTO AVULSO SUCCESS';
-export const SAVE_DOCUMENTO_AVULSO_FAILED = '[DOCUMENTO] SAVE DOCUMENTO AVULSO FAILED';
-
 export const SAVE_MODELO = '[MODELO] SAVE MODELO';
 export const SAVE_MODELO_SUCCESS = '[MODELO] SAVE MODELO SUCCESS';
 export const SAVE_MODELO_FAILED = '[MODELO] SAVE MODELO FAILED';
@@ -21,10 +17,6 @@ export const SAVE_MODELO_FAILED = '[MODELO] SAVE MODELO FAILED';
 export const SAVE_REPOSITORIO = '[REPOSITORIO] SAVE REPOSITORIO';
 export const SAVE_REPOSITORIO_SUCCESS = '[REPOSITORIO] SAVE REPOSITORIO SUCCESS';
 export const SAVE_REPOSITORIO_FAILED = '[REPOSITORIO] SAVE REPOSITORIO FAILED';
-
-export const REMETER_DOCUMENTO_AVULSO = '[DOCUMENTO] REMETER DOCUMENTO AVULSO';
-export const REMETER_DOCUMENTO_AVULSO_SUCCESS = '[DOCUMENTO] REMETER DOCUMENTO AVULSO SUCCESS';
-export const REMETER_DOCUMENTO_AVULSO_FAILED = '[DOCUMENTO] REMETER DOCUMENTO AVULSO FAILED';
 
 export const SET_CURRENT_STEP = '[DOCUMENTO] SET CURRENT STEP';
 export const SET_CURRENT_STEP_SUCCESS = '[DOCUMENTO] SET CURRENT STEP SUCCESS';
@@ -216,78 +208,6 @@ export class SetCurrentStepFailed implements Action {
     }
 }
 
-/**
- * Save Documento Avulso
- */
-export class SaveDocumentoAvulso implements Action
-{
-    readonly type = SAVE_DOCUMENTO_AVULSO;
-
-    constructor(public payload: any)
-    {
-    }
-}
-
-/**
- * Save Documento Avulso Success
- */
-export class SaveDocumentoAvulsoSuccess implements Action
-{
-    readonly type = SAVE_DOCUMENTO_AVULSO_SUCCESS;
-
-    constructor()
-    {
-    }
-}
-
-/**
- * Save Documento Avulso Failed
- */
-export class SaveDocumentoAvulsoFailed implements Action
-{
-    readonly type = SAVE_DOCUMENTO_AVULSO_FAILED;
-
-    constructor(public payload: any)
-    {
-    }
-}
-
-/**
- * Remeter Documento Avulso
- */
-export class RemeterDocumentoAvulso implements Action
-{
-    readonly type = REMETER_DOCUMENTO_AVULSO;
-
-    constructor(public payload: any)
-    {
-    }
-}
-
-/**
- * Remeter Documento Avulso Success
- */
-export class RemeterDocumentoAvulsoSuccess implements Action
-{
-    readonly type = REMETER_DOCUMENTO_AVULSO_SUCCESS;
-
-    constructor()
-    {
-    }
-}
-
-/**
- * Remeter Documento Avulso Failed
- */
-export class RemeterDocumentoAvulsoFailed implements Action
-{
-    readonly type = REMETER_DOCUMENTO_AVULSO_FAILED;
-
-    constructor(public payload: any)
-    {
-    }
-}
-
 export type DocumentoActionsAll
     = GetDocumento
     | GetDocumentoSuccess
@@ -302,12 +222,6 @@ export type DocumentoActionsAll
     | SaveRepositorio
     | SaveRepositorioSuccess
     | SaveRepositorioFailed
-    | SaveDocumentoAvulso
-    | SaveDocumentoAvulsoSuccess
-    | SaveDocumentoAvulsoFailed
-    | RemeterDocumentoAvulso
-    | RemeterDocumentoAvulsoSuccess
-    | RemeterDocumentoAvulsoFailed
     | SetCurrentStep
     | SetCurrentStepSuccess
     | SetCurrentStepFailed;
