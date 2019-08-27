@@ -33,6 +33,10 @@ const routes: Routes = [
                 loadChildren: './desentranhamento-create-bloco/desentranhamento-create-bloco.module#DesentranhamentoCreateBlocoModule',
             },
             {
+                path       : 'copiar',
+                loadChildren: './documento-copia-create-bloco/documento-copia-create-bloco.module#DocumentoCopiaCreateBlocoModule',
+            },
+            {
                 path: '**',
                 redirectTo: 'listar'
             }
