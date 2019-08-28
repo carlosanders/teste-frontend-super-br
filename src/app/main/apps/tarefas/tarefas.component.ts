@@ -85,7 +85,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     private _profile: any;
 
-    private mobileMode = false;
+    mobileMode = false;
 
     @ViewChild('tarefaListElement', {read: ElementRef}) tarefaListElement: ElementRef;
 

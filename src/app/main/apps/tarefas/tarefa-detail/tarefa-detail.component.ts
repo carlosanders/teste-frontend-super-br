@@ -59,7 +59,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
 
     private _profile: any;
 
-    private mobileMode = false;
+    mobileMode = false;
 
     /**
      * @param _changeDetectorRef
