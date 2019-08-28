@@ -85,7 +85,7 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
 
         toolbar:
             [
-                {name: 'salvar', items: ['saveButton', 'PrintSemZoom']},
+                {name: 'salvar', items: ['saveButton', 'assinarButton', 'pdfButton', 'PrintSemZoom']},
                 {name: 'clipboard', items: ['Cut', 'Copy', 'Paste', 'PasteText', '-', 'Undo', 'Redo']},
                 {name: 'editing', items: ['Find', 'Replace', '-', 'SelectAll']},
                 {name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat']},
@@ -114,6 +114,9 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
 
     @Output()
     save = new EventEmitter<any>();
+
+    @Output()
+    assinar = new EventEmitter<any>();
 
     src: any;
 
@@ -322,6 +325,20 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
                 }
             );
         }
+    }
+
+    doAssinar(): void {
+        if (this.hashAntigo) {
+            this.getBase64(new Blob([this.src], {type: 'text/html'})).then(
+                conteudo => {
+                    this.assinar.emit({conteudo: conteudo, hashAntigo: this.hashAntigo});
+                }
+            );
+        }
+    }
+
+    doPdf(): void {
+        console.log ('pdf');
     }
 
     doCampo(): void {

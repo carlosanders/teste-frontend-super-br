@@ -156,7 +156,7 @@ export class AtividadeCreateDocumentosEffect {
                     ifrm.style.height = '0';
                     ifrm.style.border = '0';
                     document.body.appendChild(ifrm);
-                    setTimeout(() => document.body.removeChild(ifrm), 2000);
+                    setTimeout(() => document.body.removeChild(ifrm), 20000);
                 }));
 
     /**
