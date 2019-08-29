@@ -2,36 +2,42 @@
 
 processo-edit {
 
-  overflow-y: auto;
+    height: 100%;
 
-  .sidebar {
-
-    &:not(.locked-open) {
-      background: white;
+    #processo-edit {
+        height: 100%;
     }
 
-    &.full {
-      background: transparent !important;
-      box-shadow: none !important;
+    overflow-y: auto;
 
-      &.locked-open {
-        margin-top: 42px;
-      }
-    }
+    .sidebar {
 
-  }
+        &:not(.locked-open) {
+            background: white;
+        }
 
-  .center {
+        &.full {
+            background: transparent !important;
+            box-shadow: none !important;
 
-    width: 100%;
-
-    .header {
-
-      .actions {
-        margin-left: auto;
-        margin-right: 16px;
-      }
+            &.locked-open {
+                margin-top: 42px;
+            }
+        }
 
     }
-  }
+
+    .center {
+
+        width: 100%;
+
+        .header {
+
+            .actions {
+                margin-left: auto;
+                margin-right: 16px;
+            }
+
+        }
+    }
 }

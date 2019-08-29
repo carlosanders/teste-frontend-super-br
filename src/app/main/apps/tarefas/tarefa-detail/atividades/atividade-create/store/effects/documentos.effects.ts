@@ -114,7 +114,7 @@ export class AtividadeCreateDocumentosEffect {
                 ));
 
     /**
-     * Delete Documento
+     * Assina Documento
      * @type {Observable<any>}
      */
     @Effect()
@@ -138,7 +138,7 @@ export class AtividadeCreateDocumentosEffect {
                 ));
 
     /**
-     * Delete Documento
+     * Assina Documento Success
      * @type {Observable<any>}
      */
     @Effect({dispatch: false})

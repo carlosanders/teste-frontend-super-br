@@ -18,7 +18,6 @@ import {MatDialog} from '@angular/material';
 import {CdkCampoPluginComponent} from './cdk-plugins/cdk-campo-plugin/cdk-campo-plugin.component';
 import {filter} from 'rxjs/operators';
 import {CdkRepositorioPluginComponent} from './cdk-plugins/cdk-respositorio-plugin/cdk-repositorio-plugin.component';
-import {Endereco} from '../../../models/endereco.model';
 
 @Component({
     selector: 'cdk-componente-digital-ckeditor',
@@ -118,6 +117,8 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
     @Output()
     assinar = new EventEmitter<any>();
 
+    assinando = false;
+
     src: any;
 
     /**
@@ -166,8 +167,21 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
             });
         }
 
-        if (changes['componenteDigital'] && changes['componenteDigital'].firstChange) {
-            this.fetch();
+        if (changes['componenteDigital']) {
+            if (changes['componenteDigital'].firstChange) {
+                this.fetch();
+            }
+
+            if (this.componenteDigital && this.componenteDigital.conteudo) {
+                this.hashAntigo = this.componenteDigital.hash;
+            } else {
+                this.hashAntigo = null;
+            }
+
+            if (this.assinando) {
+                this.assinar.emit();
+                this.assinando = false;
+            }
         }
     }
 
@@ -198,10 +212,8 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
     fetch(): void {
         if (this.componenteDigital && this.componenteDigital.conteudo) {
             this.src = this.b64DecodeUnicode(this.componenteDigital.conteudo.split(';base64,')[1]);
-            this.hashAntigo = this.componenteDigital.hash;
         } else {
             this.src = null;
-            this.hashAntigo = null;
         }
         this._changeDetectorRef.markForCheck();
     }
@@ -328,13 +340,8 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
     }
 
     doAssinar(): void {
-        if (this.hashAntigo) {
-            this.getBase64(new Blob([this.src], {type: 'text/html'})).then(
-                conteudo => {
-                    this.assinar.emit({conteudo: conteudo, hashAntigo: this.hashAntigo});
-                }
-            );
-        }
+        this.assinando = true;
+        this.doSave();
     }
 
     doPdf(): void {

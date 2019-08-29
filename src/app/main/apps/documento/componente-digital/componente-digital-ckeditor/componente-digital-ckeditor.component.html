@@ -10,6 +10,7 @@
                                      [errors]="(errors$ | async)"
                                      (clearRepositorio)="doClearRepositorio()"
                                      (query)="doQuery($event)"
-                                     (save)="save($event)">
+                                     (save)="doSave($event)"
+                                     (assinar)="doAssinar()">
     </cdk-componente-digital-ckeditor>
 </div>

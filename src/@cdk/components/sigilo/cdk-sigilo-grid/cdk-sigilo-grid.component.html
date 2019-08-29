@@ -84,7 +84,7 @@
             </ng-container>
 
             <!-- RazoesClassificacaoSigilo Column -->
-            <ng-container matColumnDef="razoesClassificacaoSigilo">
+            <ng-container *ngIf="displayedColumns.indexOf('razoesClassificacaoSigilo') > -1" matColumnDef="razoesClassificacaoSigilo">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     Razões de Classificação
                 </th>
@@ -111,7 +111,7 @@
             </ng-container>
 
             <!-- FundamentoLegal Column -->
-            <ng-container matColumnDef="fundamentoLegal">
+            <ng-container *ngIf="displayedColumns.indexOf('fundamentoLegal') > -1" matColumnDef="fundamentoLegal">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     Fundamento Legal
                 </th>
@@ -141,7 +141,7 @@
             </ng-container>
 
             <!-- Observacao Column -->
-            <ng-container matColumnDef="observacao">
+            <ng-container *ngIf="displayedColumns.indexOf('observacao') > -1" matColumnDef="observacao">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     Observação
                 </th>
@@ -150,7 +150,7 @@
             </ng-container>
 
             <!-- OrigemDados Column -->
-            <ng-container matColumnDef="origemDados.servico">
+            <ng-container *ngIf="displayedColumns.indexOf('origemDados.servico') > -1" matColumnDef="origemDados.servico" >
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     Origem de Dados
                 </th>

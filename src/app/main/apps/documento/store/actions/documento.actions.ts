@@ -22,6 +22,10 @@ export const SET_CURRENT_STEP = '[DOCUMENTO] SET CURRENT STEP';
 export const SET_CURRENT_STEP_SUCCESS = '[DOCUMENTO] SET CURRENT STEP SUCCESS';
 export const SET_CURRENT_STEP_FAILED = '[DOCUMENTO] SET CURRENT STEP FAILED';
 
+export const ASSINA_DOCUMENTO = '[DOCUMENTO] ASSINA DOCUMENTO';
+export const ASSINA_DOCUMENTO_SUCCESS = '[DOCUMENTO] ASSINA DOCUMENTO SUCCESS';
+export const ASSINA_DOCUMENTO_FAILED = '[DOCUMENTO] ASSINA DOCUMENTO FAILED';
+
 /**
  * Get Documento
  */
@@ -208,6 +212,42 @@ export class SetCurrentStepFailed implements Action {
     }
 }
 
+/**
+ * Assina Documento
+ */
+export class AssinaDocumento implements Action
+{
+    readonly type = ASSINA_DOCUMENTO;
+
+    constructor()
+    {
+    }
+}
+
+/**
+ * Assina Documento Success
+ */
+export class AssinaDocumentoSuccess implements Action
+{
+    readonly type = ASSINA_DOCUMENTO_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Assina Documento Failed
+ */
+export class AssinaDocumentoFailed implements Action
+{
+    readonly type = ASSINA_DOCUMENTO_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 export type DocumentoActionsAll
     = GetDocumento
     | GetDocumentoSuccess
@@ -216,6 +256,9 @@ export type DocumentoActionsAll
     | SaveDocumento
     | SaveDocumentoSuccess
     | SaveDocumentoFailed
+    | AssinaDocumento
+    | AssinaDocumentoSuccess
+    | AssinaDocumentoFailed
     | SaveModelo
     | SaveModeloSuccess
     | SaveModeloFailed

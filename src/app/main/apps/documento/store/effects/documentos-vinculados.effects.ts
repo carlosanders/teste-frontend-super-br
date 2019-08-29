@@ -139,7 +139,7 @@ export class DocumentosVinculadosEffect {
                 ));
 
     /**
-     * Delete Documento Vinculado
+     * Assina Documento Vinculado
      * @type {Observable<any>}
      */
     @Effect({dispatch: false})

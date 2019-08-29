@@ -3,7 +3,7 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as DocumentoActions from '../actions/documento.actions';
@@ -22,6 +22,9 @@ import {Modelo} from '@cdk/models/modelo.model';
 import {ModeloService} from '@cdk/services/modelo.service';
 import {Repositorio} from '@cdk/models/repositorio.model';
 import {RepositorioService} from '@cdk/services/repositorio.service';
+import {environment} from 'environments/environment';
+import * as fromStore from './componentes-digitais.effects';
+import {UnloadDocumento} from '../actions/documento.actions';
 
 @Injectable()
 export class DocumentoEffect {
@@ -250,4 +253,53 @@ export class DocumentoEffect {
                     ).then();
                 })
             );
+
+    /**
+     * Assina Documento
+     * @type {Observable<any>}
+     */
+    @Effect({dispatch: false})
+    assinaDocumento: any =
+        this._actions
+            .pipe(
+                ofType<DocumentoActions.AssinaDocumento>(DocumentoActions.ASSINA_DOCUMENTO),
+                withLatestFrom(this._store.pipe(select(DocumentoSelectors.getDocumentoId))),
+                mergeMap(([action, documentoId]) => {
+                        return this._documentoService.preparaAssinatura(JSON.stringify([parseInt(documentoId, 0)]))
+                            .pipe(
+                                tap((response: any) => {
+                                    const url = environment.jnlp + 'v1/assinatura/' + response.jwt + '/get_jnlp';
+                                    const ifrm = document.createElement('iframe');
+                                    ifrm.setAttribute('src', url);
+                                    ifrm.style.width = '0';
+                                    ifrm.style.height = '0';
+                                    ifrm.style.border = '0';
+                                    document.body.appendChild(ifrm);
+                                    setTimeout(() => document.body.removeChild(ifrm), 20000);
+                                }),
+                                catchError((err, caught) => {
+                                    console.log(err);
+                                    this._store.dispatch(new DocumentoActions.AssinaDocumentoFailed(err));
+                                    return caught;
+                                })
+                            );
+                    }
+                ));
+
+    /**
+     * Assina Documento Success
+     * @type {Observable<any>}
+     */
+    @Effect({dispatch: false})
+    assinaDocumentoSuccess: any =
+        this._actions
+            .pipe(
+                ofType<DocumentoActions.AssinaDocumentoSuccess>(DocumentoActions.ASSINA_DOCUMENTO_SUCCESS),
+                tap((action) => {
+                    this._store.dispatch(new UnloadDocumento());
+                    this._router.navigate([
+                            this.routerState.url.split('/documento/')[0]
+                        ]
+                    ).then();
+                }));
 }
