@@ -15,7 +15,7 @@ import {FuseSidebarModule} from '@fuse/components';
 import {CdkDocumentoCardListModule} from '@cdk/components/documento/cdk-documento-card-list/cdk-documento-card-list.module';
 import {ModeloService} from '@cdk/services/modelo.service';
 import {RepositorioService} from '@cdk/services/repositorio.service';
-import {ComponenteDigitalService} from '../../../../@cdk/services/componente-digital.service';
+import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 
 const routes: Routes = [
     {
