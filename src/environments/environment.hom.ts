@@ -1,4 +1,5 @@
 export const environment = {
+    test: false,
     production: true,
     hmr       : false,
     base_url: 'http://sapiensbeta.agu.gov.br:8000/',
