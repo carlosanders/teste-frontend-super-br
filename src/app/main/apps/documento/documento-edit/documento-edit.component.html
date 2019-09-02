@@ -2,6 +2,12 @@
     <div fxLayout="column" fxFlex="25">
 
         <div class="actions p-16" fxLayout="row" fxLayoutAlign="end center">
+            <button mat-icon-button aria-label="movimentar"
+                    matTooltip="Movimentar" (click)="showAtividade()"
+                    [ngClass]="{'active accent': activeCard === 'atividade'}">
+                <mat-icon class="black-fg">send</mat-icon>
+            </button>
+
             <button *ngIf="!(documento$ | async)?.vinculacaoDocumentoPrincipal" mat-icon-button aria-label="Visualizar Processo"
                     matTooltip="Gerir Anexos" (click)="showAnexos()"
                     [ngClass]="{'active accent': activeCard === 'anexos'}">
@@ -74,6 +80,18 @@
                                               (complete)="onCompleteDocumentoVinculado()">
             </cdk-componente-digital-card-list>
 
+
+        </div>
+
+        <div class="mb-16 pr-16" fxFlex fxLayout="column" *ngIf="activeCard === 'atividade'">
+
+            <cdk-atividade-form
+                [atividade]="atividade"
+                [temMinutas]="true"
+                [saving]="(atividadeIsSaving$ | async)"
+                [errors]="(atividadeErrors$ | async)"
+                (save)="submitAtividade($event)">
+            </cdk-atividade-form>
 
         </div>
 

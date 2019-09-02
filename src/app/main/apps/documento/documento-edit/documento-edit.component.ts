@@ -15,10 +15,14 @@ import {Location} from '@angular/common';
 import {getMercureState, getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {Repositorio} from '@cdk/models/repositorio.model';
-import {filter} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {DomSanitizer} from '@angular/platform-browser';
 import {ComponenteDigital} from '@cdk/models/componente-digital.model';
 import {RepositorioService} from '@cdk/services/repositorio.service';
+import {Atividade} from '@cdk/models/atividade.model';
+import * as moment from 'moment';
+import {Tarefa} from '@cdk/models/tarefa.model';
+import {getTarefa} from '../../tarefas/tarefa-detail/store/selectors';
 
 @Component({
     selector: 'documento-edit',
@@ -34,6 +38,12 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
     documentosVinculados$: Observable<Documento[]>;
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
+
+    tarefa$: Observable<Tarefa>;
+    tarefa: Tarefa;
+
+    atividadeIsSaving$: Observable<boolean>;
+    atividadeErrors$: Observable<any>;
 
     repositorioIdLoadind$: Observable<number>;
     repositorioIdLoaded$: Observable<number>;
@@ -55,12 +65,14 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
 
     documento: Documento;
 
-    activeCard = 'anexos';
+    activeCard = 'atividade';
 
     @ViewChild('ckdUpload')
     cdkUpload;
 
     routerState: any;
+
+    atividade: Atividade;
 
     /**
      * @param _store
@@ -76,11 +88,14 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
         private _repositorioService: RepositorioService,
         private _sanitizer: DomSanitizer
     ) {
+        this.tarefa$ = this._store.pipe(select(getTarefa));
         this.documento$ = this._store.pipe(select(fromStore.getDocumento));
         this.componenteDigital$ = this._store.pipe(select(fromStore.getComponenteDigital));
         this.documentosVinculados$ = this._store.pipe(select(fromStore.getDocumentosVinculados));
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
+        this.atividadeIsSaving$ = this._store.pipe(select(fromStore.getAtividadeIsSaving));
+        this.atividadeErrors$ = this._store.pipe(select(fromStore.getAtividadeErrors));
         this.selectedDocumentosVinculados$ = this._store.pipe(select(fromStore.getSelectedDocumentosVinculados));
         this.deletingDocumentosVinculadosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosVinculadosId));
         this.assinandoDocumentosVinculadosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosVinculadosId));
@@ -126,6 +141,16 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
+        this.atividade = new Atividade();
+        this.atividade.encerraTarefa = true;
+        this.atividade.dataHoraConclusao = moment();
+
+        this.tarefa$.subscribe(tarefa => {
+            this.tarefa = tarefa;
+            this.atividade.usuario = tarefa.usuarioResponsavel;
+            this.atividade.setor = tarefa.setorResponsavel;
+        });
+
         this.assinandoDocumentosVinculadosId$.subscribe(assinandoDocumentosVinculadosId => {
             if (assinandoDocumentosVinculadosId.length > 0) {
                 setInterval(() => {
@@ -148,7 +173,7 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
                 this.documentoPrincipal = documento.vinculacaoDocumentoPrincipal.documento;
                 this.activeCard = 'form';
             } else {
-                this.activeCard = 'anexos';
+                this.activeCard = 'atividade';
             }
         });
 
@@ -231,6 +256,10 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
         this._location.back();
     }
 
+    showAtividade(): void {
+        this.activeCard = 'atividade';
+    }
+
     showAnexos(): void {
         this.activeCard = 'anexos';
     }
@@ -278,6 +307,24 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
             componenteDigitalId: repositorio.documento.componentesDigitais[0].id,
             repositorioId: repositorio.id
         }));
+    }
+
+    submitAtividade(values): void {
+
+        delete values.unidadeAprovacao;
+
+        const atividade = new Atividade();
+
+        Object.entries(values).forEach(
+            ([key, value]) => {
+                atividade[key] = value;
+            }
+        );
+
+        atividade.tarefa = this.tarefa;
+        atividade.documentos = [this.documento];
+
+        this._store.dispatch(new fromStore.SaveAtividade(atividade));
     }
 
 }

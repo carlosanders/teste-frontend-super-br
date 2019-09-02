@@ -4,7 +4,7 @@ import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, tap, switchMap} from 'rxjs/operators';
 
-import * as AtividadeCreateActions from '../actions/atividade-create.actions';
+import * as AtividadeDocumentoActions from '../actions/atividade-documento.actions';
 
 import {AtividadeService} from '@cdk/services/atividade.service';
 import {AddData} from '@cdk/ngrx-normalizr';
@@ -14,11 +14,13 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-import {DeleteTarefaSuccess} from '../../../../../store/actions';
-import * as fromStore from '../index';
+import {DeleteTarefaSuccess} from '../../../tarefas/store/actions';
+import {UnloadDocumento} from '../actions';
+import * as fromStore from '../../../tarefas/tarefa-detail/atividades/atividade-create/store/effects/atividade-create.effects';
+import {GetDocumentos} from '../../../tarefas/tarefa-detail/atividades/atividade-create/store/actions';
 
 @Injectable()
-export class AtividadeCreateEffect {
+export class AtividadeDocumentoEffect {
     routerState: any;
 
     constructor(
@@ -44,11 +46,11 @@ export class AtividadeCreateEffect {
     saveAtividade: any =
         this._actions
             .pipe(
-                ofType<AtividadeCreateActions.SaveAtividade>(AtividadeCreateActions.SAVE_ATIVIDADE),
+                ofType<AtividadeDocumentoActions.SaveAtividade>(AtividadeDocumentoActions.SAVE_ATIVIDADE),
                 switchMap((action) => {
                     return this._atividadeService.save(action.payload).pipe(
                         mergeMap((response: Atividade) => [
-                            new AtividadeCreateActions.SaveAtividadeSuccess(action.payload),
+                            new AtividadeDocumentoActions.SaveAtividadeSuccess(action.payload),
                             new AddData<Atividade>({data: [response], schema: atividadeSchema}),
                             new OperacoesActions.Resultado({
                                 type: 'atividade',
@@ -58,7 +60,7 @@ export class AtividadeCreateEffect {
                         ]),
                         catchError((err) => {
                             console.log (err);
-                            return of(new AtividadeCreateActions.SaveAtividadeFailed(err));
+                            return of(new AtividadeDocumentoActions.SaveAtividadeFailed(err));
                         })
                     );
                 })
@@ -71,13 +73,14 @@ export class AtividadeCreateEffect {
     saveAtividadeSuccess: any =
         this._actions
             .pipe(
-                ofType<AtividadeCreateActions.SaveAtividadeSuccess>(AtividadeCreateActions.SAVE_ATIVIDADE_SUCCESS),
+                ofType<AtividadeDocumentoActions.SaveAtividadeSuccess>(AtividadeDocumentoActions.SAVE_ATIVIDADE_SUCCESS),
                 tap((action) => {
                     if (action.payload.encerraTarefa) {
                         this._store.dispatch(new DeleteTarefaSuccess(action.payload.tarefa.id));
                     } else {
-                        this._store.dispatch(new fromStore.GetDocumentos());
+                        this._store.dispatch(new GetDocumentos());
                     }
+                    this._store.dispatch(new UnloadDocumento());
                     this._router.navigate([this.routerState.url.split('/atividades/criar')[0] + '/encaminhamento']).then();
                 })
             );
