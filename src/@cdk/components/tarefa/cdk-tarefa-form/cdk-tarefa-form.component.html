@@ -14,6 +14,7 @@
             <div fxLayout="row" fxLayoutAlign="start center">
                 <input matInput placeholder="Processo"
                        formControlName="processo"
+                       [readonly]="inputProcesso"
                        [matAutocomplete]="processo.autocomplete" required
                        (blur)="checkProcesso()">
             </div>
@@ -88,6 +89,10 @@
                 [control]="form.get('unidadeResponsavel')"
                 [pagination]="unidadeResponsavelPagination">
             </cdk-setor-autocomplete>
+            <button matSuffix mat-button mat-icon-button *ngIf="tarefa.id"
+                    (click)="showLogEntryGrid('unidadeResponsavel')">
+                <mat-icon matTooltip="Histórico">history</mat-icon>
+            </button>
             <button matSuffix mat-button mat-icon-button
                     (click)="showUnidadeResponsavelGrid()">
                 <mat-icon matTooltip="Procurar">search</mat-icon>
@@ -112,9 +117,13 @@
                 [control]="form.get('setorResponsavel')"
                 [pagination]="setorResponsavelPagination">
             </cdk-setor-autocomplete>
+            <button matSuffix mat-button mat-icon-button *ngIf="tarefa.id"
+                    (click)="showLogEntryGrid('setorResponsavel')">
+                <mat-icon matTooltip="Histórico">history</mat-icon>
+            </button>
             <button matSuffix mat-button mat-icon-button
                     (click)="showSetorResponsavelList()">
-                <mat-icon matTooltip="Procurar">star</mat-icon>
+                <mat-icon matTooltip="Favoritos">star</mat-icon>
             </button>
             <button *ngIf="form.get('setorResponsavel').enabled" matSuffix mat-button mat-icon-button
                     (click)="showSetorResponsavelGrid()">
@@ -138,6 +147,10 @@
                 [control]="form.get('usuarioResponsavel')"
                 [pagination]="usuarioResponsavelPagination">
             </cdk-usuario-autocomplete>
+            <button matSuffix mat-button mat-icon-button *ngIf="tarefa.id"
+                    (click)="showLogEntryGrid('usuarioResponsavel')">
+                <mat-icon matTooltip="Histórico">history</mat-icon>
+            </button>
             <button *ngIf="form.get('usuarioResponsavel').enabled" matSuffix mat-button mat-icon-button
                     (click)="showUsuarioGrid()">
                 <mat-icon matTooltip="Procurar">search</mat-icon>
@@ -160,6 +173,10 @@
                 <mat-label>Início do Prazo</mat-label>
                 <input matInput formControlName="dataHoraInicioPrazo" [matDatetimepicker]="dataHoraInicioPrazo"
                        required>
+                <button matSuffix mat-button mat-icon-button *ngIf="tarefa.id"
+                        (click)="showLogEntryGrid('dataHoraInicioPrazo')">
+                    <mat-icon matTooltip="Histórico">history</mat-icon>
+                </button>
                 <mat-datetimepicker-toggle matSuffix [for]="dataHoraInicioPrazo"></mat-datetimepicker-toggle>
                 <mat-datetimepicker #dataHoraInicioPrazo type="datetime" openOnFocus="true" timeInterval="5"
                                     required></mat-datetimepicker>
@@ -170,6 +187,10 @@
                 <mat-label>Final do Prazo</mat-label>
                 <input matInput formControlName="dataHoraFinalPrazo" [matDatetimepicker]="dataHoraFinalPrazo"
                        required>
+                <button matSuffix mat-button mat-icon-button *ngIf="tarefa.id"
+                        (click)="showLogEntryGrid('dataHoraFinalPrazo')">
+                    <mat-icon matTooltip="Histórico">history</mat-icon>
+                </button>
                 <mat-datetimepicker-toggle matSuffix [for]="dataHoraFinalPrazo"></mat-datetimepicker-toggle>
                 <mat-datetimepicker #dataHoraFinalPrazo type="datetime" openOnFocus="true" timeInterval="5"
                                     required></mat-datetimepicker>
@@ -272,3 +293,10 @@
     (selected)="selectSetorOrigem($event)"
     (cancel)="cancel()">
 </cdk-setor-gridsearch>
+
+<cdk-logentry-gridsearch
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'logentry-gridsearch'"
+    [pagination]="logEntryPaginationTarefa"
+    (cancel)="cancel()">
+</cdk-logentry-gridsearch>

@@ -22,6 +22,7 @@ import {Favorito} from '../../../models/favorito.model';
 import {FavoritoService} from '../../../services/favorito.service';
 import * as moment from '../../../../app/main/apps/painel/painel.component';
 import {LoginService} from '../../../../app/main/auth/login/login.service';
+import {LogEntry} from '../../../models/logentry.model';
 
 @Component({
     selector: 'cdk-tarefa-form',
@@ -80,6 +81,9 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     @Input()
     setorOrigemPagination: Pagination;
 
+    @Input()
+    logEntryPaginationTarefa: Pagination;
+
     especieTarefaList: EspecieTarefa[] = [];
 
     especieTarefaListIsLoading: boolean;
@@ -94,6 +98,8 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
     @Input()
     mode = 'regular';
+
+    inputProcesso: boolean;
 
     @Input()
     blocoEdit = {
@@ -243,9 +249,9 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             this.form.patchValue({...this.tarefa});
 
             if (this.tarefa.id) {
-                this.form.get('processo').disable();
+                this.inputProcesso = true;
             } else {
-                this.form.get('processo').enable();
+                this.inputProcesso = false;
             }
 
             if (!this.tarefa.id && this.tarefa.unidadeResponsavel) {
@@ -327,7 +333,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             `{"usuario.id": "eq:${this._profile.usuario.id}", "especieTarefa": "isNotNull"}`,
             5,
             0,
-            '{}',
+            '{"prioritario": "DESC"}',
             '["populateAll"]')
             .pipe(
                 catchError(() => {
@@ -359,7 +365,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             `{"usuario.id": "eq:${this._profile.usuario.id}", "setorResponsavel": "isNotNull"}`,
             5,
             0,
-            '{}',
+            '{"prioritario": "DESC"}',
             '["setorResponsavel","setorResponsavel.unidade"]')
             .pipe(
                 catchError(() => {
@@ -454,11 +460,11 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             this.form.get('setorResponsavel').setValue(null);
         }
 
-       /* if (value !== null && typeof value === 'object' ) {
+        if (value !== null && typeof value === 'object' ) {
             if (value.unidade && value.unidade !== this.form.get('unidadeResponsavel').value) {
-                this.form.get('unidadeResponsavel').setValue(value.unidade);
+                this.form.get('unidadeResponsavel').setValue(value.unidade, {emitEvent: false});
             }
-        } */
+        }
     }
 
     showSetorResponsavelGrid(): void {
@@ -474,6 +480,14 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
     showSetorOrigemGrid(): void {
         this.activeCard = 'setor-origem-gridsearch';
+    }
+
+    showLogEntryGrid(target: string): void {
+
+        const campo = {'target': target};
+        Object.assign(this.logEntryPaginationTarefa.filter, campo);
+
+        this.activeCard = 'logentry-gridsearch';
     }
 
     selectSetorOrigem(setor: Setor): void {
