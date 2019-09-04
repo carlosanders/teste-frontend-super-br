@@ -10,10 +10,6 @@ export const SAVE_DOCUMENTO = '[DOCUMENTO] SAVE DOCUMENTO';
 export const SAVE_DOCUMENTO_SUCCESS = '[DOCUMENTO] SAVE DOCUMENTO SUCCESS';
 export const SAVE_DOCUMENTO_FAILED = '[DOCUMENTO] SAVE DOCUMENTO FAILED';
 
-export const SAVE_DOCUMENTO_AVULSO = '[DOCUMENTO] SAVE DOCUMENTO AVULSO';
-export const SAVE_DOCUMENTO_AVULSO_SUCCESS = '[DOCUMENTO] SAVE DOCUMENTO AVULSO SUCCESS';
-export const SAVE_DOCUMENTO_AVULSO_FAILED = '[DOCUMENTO] SAVE DOCUMENTO AVULSO FAILED';
-
 export const SAVE_MODELO = '[MODELO] SAVE MODELO';
 export const SAVE_MODELO_SUCCESS = '[MODELO] SAVE MODELO SUCCESS';
 export const SAVE_MODELO_FAILED = '[MODELO] SAVE MODELO FAILED';
@@ -22,13 +18,13 @@ export const SAVE_REPOSITORIO = '[REPOSITORIO] SAVE REPOSITORIO';
 export const SAVE_REPOSITORIO_SUCCESS = '[REPOSITORIO] SAVE REPOSITORIO SUCCESS';
 export const SAVE_REPOSITORIO_FAILED = '[REPOSITORIO] SAVE REPOSITORIO FAILED';
 
-export const REMETER_DOCUMENTO_AVULSO = '[DOCUMENTO] REMETER DOCUMENTO AVULSO';
-export const REMETER_DOCUMENTO_AVULSO_SUCCESS = '[DOCUMENTO] REMETER DOCUMENTO AVULSO SUCCESS';
-export const REMETER_DOCUMENTO_AVULSO_FAILED = '[DOCUMENTO] REMETER DOCUMENTO AVULSO FAILED';
-
 export const SET_CURRENT_STEP = '[DOCUMENTO] SET CURRENT STEP';
 export const SET_CURRENT_STEP_SUCCESS = '[DOCUMENTO] SET CURRENT STEP SUCCESS';
 export const SET_CURRENT_STEP_FAILED = '[DOCUMENTO] SET CURRENT STEP FAILED';
+
+export const ASSINA_DOCUMENTO = '[DOCUMENTO] ASSINA DOCUMENTO';
+export const ASSINA_DOCUMENTO_SUCCESS = '[DOCUMENTO] ASSINA DOCUMENTO SUCCESS';
+export const ASSINA_DOCUMENTO_FAILED = '[DOCUMENTO] ASSINA DOCUMENTO FAILED';
 
 /**
  * Get Documento
@@ -217,23 +213,11 @@ export class SetCurrentStepFailed implements Action {
 }
 
 /**
- * Save Documento Avulso
+ * Assina Documento
  */
-export class SaveDocumentoAvulso implements Action
+export class AssinaDocumento implements Action
 {
-    readonly type = SAVE_DOCUMENTO_AVULSO;
-
-    constructor(public payload: any)
-    {
-    }
-}
-
-/**
- * Save Documento Avulso Success
- */
-export class SaveDocumentoAvulsoSuccess implements Action
-{
-    readonly type = SAVE_DOCUMENTO_AVULSO_SUCCESS;
+    readonly type = ASSINA_DOCUMENTO;
 
     constructor()
     {
@@ -241,11 +225,11 @@ export class SaveDocumentoAvulsoSuccess implements Action
 }
 
 /**
- * Save Documento Avulso Failed
+ * Assina Documento Success
  */
-export class SaveDocumentoAvulsoFailed implements Action
+export class AssinaDocumentoSuccess implements Action
 {
-    readonly type = SAVE_DOCUMENTO_AVULSO_FAILED;
+    readonly type = ASSINA_DOCUMENTO_SUCCESS;
 
     constructor(public payload: any)
     {
@@ -253,35 +237,11 @@ export class SaveDocumentoAvulsoFailed implements Action
 }
 
 /**
- * Remeter Documento Avulso
+ * Assina Documento Failed
  */
-export class RemeterDocumentoAvulso implements Action
+export class AssinaDocumentoFailed implements Action
 {
-    readonly type = REMETER_DOCUMENTO_AVULSO;
-
-    constructor(public payload: any)
-    {
-    }
-}
-
-/**
- * Remeter Documento Avulso Success
- */
-export class RemeterDocumentoAvulsoSuccess implements Action
-{
-    readonly type = REMETER_DOCUMENTO_AVULSO_SUCCESS;
-
-    constructor()
-    {
-    }
-}
-
-/**
- * Remeter Documento Avulso Failed
- */
-export class RemeterDocumentoAvulsoFailed implements Action
-{
-    readonly type = REMETER_DOCUMENTO_AVULSO_FAILED;
+    readonly type = ASSINA_DOCUMENTO_FAILED;
 
     constructor(public payload: any)
     {
@@ -296,18 +256,15 @@ export type DocumentoActionsAll
     | SaveDocumento
     | SaveDocumentoSuccess
     | SaveDocumentoFailed
+    | AssinaDocumento
+    | AssinaDocumentoSuccess
+    | AssinaDocumentoFailed
     | SaveModelo
     | SaveModeloSuccess
     | SaveModeloFailed
     | SaveRepositorio
     | SaveRepositorioSuccess
     | SaveRepositorioFailed
-    | SaveDocumentoAvulso
-    | SaveDocumentoAvulsoSuccess
-    | SaveDocumentoAvulsoFailed
-    | RemeterDocumentoAvulso
-    | RemeterDocumentoAvulsoSuccess
-    | RemeterDocumentoAvulsoFailed
     | SetCurrentStep
     | SetCurrentStepSuccess
     | SetCurrentStepFailed;

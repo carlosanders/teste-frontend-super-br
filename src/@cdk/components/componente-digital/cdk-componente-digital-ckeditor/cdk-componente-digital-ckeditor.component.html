@@ -5,6 +5,18 @@
                   [icon]="'save'"
                   [label]="'Salvar'">
         </ckbutton>
+        <ckbutton [name]="'assinarButton'"
+                  [command]="'assinarCmd'"
+                  (click)="doAssinar()"
+                  [icon]="'/assets/icons/assinar.png'"
+                  [label]="'Assinar'">
+        </ckbutton>
+        <ckbutton [name]="'pdfButton'"
+                  [command]="'pdfCmd'"
+                  (click)="doPdf()"
+                  [icon]="'/assets/icons/pdf.png'"
+                  [label]="'Converter em PDF'">
+        </ckbutton>
         <ckbutton [name]="'campoButton'"
                   [command]="'campoCmd'"
                   (click)="doCampo()"

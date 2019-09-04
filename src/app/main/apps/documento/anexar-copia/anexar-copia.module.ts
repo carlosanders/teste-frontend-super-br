@@ -5,7 +5,7 @@ import {TranslateModule} from '@ngx-translate/core';
 import {FuseSharedModule} from '@fuse/shared.module';
 import {AnexarCopiaComponent} from './anexar-copia.component';
 import {RouterModule, Routes} from '@angular/router';
-import {MatButtonModule, MatIconModule, MatTooltipModule} from '@angular/material';
+import {MatButtonModule, MatIconModule, MatProgressSpinnerModule, MatTooltipModule} from '@angular/material';
 
 const routes: Routes = [
     {
@@ -32,7 +32,8 @@ const routes: Routes = [
         TranslateModule,
         FuseSharedModule,
 
-        MatTooltipModule
+        MatTooltipModule,
+        MatProgressSpinnerModule
 
     ],
     providers: [

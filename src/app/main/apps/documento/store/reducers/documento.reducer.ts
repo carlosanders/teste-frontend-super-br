@@ -7,6 +7,7 @@ export interface DocumentoState {
     loaded: any;
     saving: boolean;
     errors: any;
+    assinandoDocumentoIds: number[];
 }
 
 export const DocumentoInitialState: DocumentoState = {
@@ -15,7 +16,8 @@ export const DocumentoInitialState: DocumentoState = {
     loading: false,
     loaded: false,
     saving: false,
-    errors: false
+    errors: false,
+    assinandoDocumentoIds: []
 };
 
 export function DocumentoReducer(state = DocumentoInitialState, action: DocumentoActions.DocumentoActionsAll): DocumentoState {
@@ -28,7 +30,8 @@ export function DocumentoReducer(state = DocumentoInitialState, action: Document
                 loaded: false,
                 loading: true,
                 saving: false,
-                errors: false
+                errors: false,
+                assinandoDocumentoIds: []
             };
         }
 
@@ -39,7 +42,8 @@ export function DocumentoReducer(state = DocumentoInitialState, action: Document
                 loading: false,
                 loaded: false,
                 saving: false,
-                errors: false
+                errors: false,
+                assinandoDocumentoIds: []
             };
         }
 
@@ -51,7 +55,8 @@ export function DocumentoReducer(state = DocumentoInitialState, action: Document
                 loading: false,
                 loaded: action.payload.loaded,
                 saving: false,
-                errors: false
+                errors: false,
+                assinandoDocumentoIds: []
             };
         }
 
@@ -63,6 +68,7 @@ export function DocumentoReducer(state = DocumentoInitialState, action: Document
                 loaded: false,
                 saving: false,
                 errors: false,
+                assinandoDocumentoIds: []
             };
         }
 
@@ -93,7 +99,28 @@ export function DocumentoReducer(state = DocumentoInitialState, action: Document
         case DocumentoActions.SET_CURRENT_STEP: {
             return {
                 ...state,
-                currentComponenteDigitalId: action.payload
+                currentComponenteDigitalId: action.payload.id
+            };
+        }
+
+        case DocumentoActions.ASSINA_DOCUMENTO: {
+            return {
+                ...state,
+                assinandoDocumentoIds: [...state.assinandoDocumentoIds, state.documentoId]
+            };
+        }
+
+        case DocumentoActions.ASSINA_DOCUMENTO_SUCCESS: {
+            return {
+                ...state,
+                assinandoDocumentoIds: []
+            };
+        }
+
+        case DocumentoActions.ASSINA_DOCUMENTO_FAILED: {
+            return {
+                ...state,
+                assinandoDocumentoIds: []
             };
         }
 

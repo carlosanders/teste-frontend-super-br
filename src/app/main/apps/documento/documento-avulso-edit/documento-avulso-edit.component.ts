@@ -24,10 +24,13 @@ import {Documento} from '@cdk/models/documento.model';
 })
 export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy {
 
-    documento$: Observable<any>;
+    documento$: Observable<Documento>;
     documento: Documento;
     isSaving$: Observable<boolean>;
+    isRemetendo$: Observable<boolean>;
     errors$: Observable<any>;
+
+    acompanharResposta = false;
 
     /**
      * @param _store
@@ -38,8 +41,9 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy {
         private _location: Location
     ) {
         this.documento$ = this._store.pipe(select(fromStore.getDocumento));
-        this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
-        this.errors$ = this._store.pipe(select(fromStore.getErrors));
+        this.isSaving$ = this._store.pipe(select(fromStore.getDocumentoAvulsoIsSaving));
+        this.isRemetendo$ = this._store.pipe(select(fromStore.getDocumentoAvulsoIsRemetendo));
+        this.errors$ = this._store.pipe(select(fromStore.getDocumentoAvulsoErrors));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -65,6 +69,10 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy {
 
     remeterDocumentoAvulso(): void {
         this._store.dispatch(new fromStore.RemeterDocumentoAvulso(this.documento.documentoAvulsoRemessa));
+    }
+
+    toggleEncerramento($event): void {
+        this._store.dispatch(new fromStore.ToggleEncerramentoDocumentoAvulso(this.documento.documentoAvulsoRemessa));
     }
 
     back(): void {

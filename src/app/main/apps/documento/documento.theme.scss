@@ -22,4 +22,11 @@
             border-bottom-color: map-get($foreground, divider);
         }
     }
+
+    documento-edit {
+        .header {
+            background: map-get($background, card);
+            border-bottom-color: map-get($foreground, divider);
+        }
+    }
 }

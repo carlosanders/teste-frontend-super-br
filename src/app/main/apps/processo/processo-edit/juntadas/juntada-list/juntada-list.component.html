@@ -2,7 +2,8 @@
         [loading]="(loading$ | async)"
         [juntadas]="(juntadas$ | async)"
         [total]="(pagination$ | async)?.total"
-        [actions]="['desentranhar']"
+        [actions]="['desentranhar', 'copiar']"
         (reload)="reload($event)"
-        (desentranha)="desentranhar($event)">
+        (copiar)="copiar($event)"
+        (desentranhar)="desentranhar($event)">
 </cdk-juntada-grid>

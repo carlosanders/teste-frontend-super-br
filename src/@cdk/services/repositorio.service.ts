@@ -6,6 +6,7 @@ import {Repositorio} from '@cdk/models/repositorio.model';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
 import {PaginatedResponse} from '@cdk/models/paginated.response';
+import {Pessoa} from '@cdk/models/pessoa.model';
 
 @Injectable()
 export class RepositorioService {
@@ -36,6 +37,20 @@ export class RepositorioService {
             );
     }
 
+    search(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
+        const params = {};
+        params['where'] = filters;
+        params['limit'] = limit;
+        params['offset'] = offset;
+        params['order'] = order;
+        params['populate'] = populate;
+
+        return this.modelService.search('repositorio', new HttpParams({fromObject: params}))
+            .pipe(
+                map(response => new PaginatedResponse(plainToClass(Pessoa, response['entities']), response['total']))
+            );
+    }
+
     count(filters: any = {}): Observable<any> {
         const params = {};
         params['where'] = filters;
@@ -45,6 +60,7 @@ export class RepositorioService {
 
     save(repositorio: Repositorio): Observable<Repositorio> {
         if (repositorio.id) {
+
             return this.modelService.put('repositorio', repositorio.id, classToPlain(repositorio))
                 .pipe(
                     map(response => {

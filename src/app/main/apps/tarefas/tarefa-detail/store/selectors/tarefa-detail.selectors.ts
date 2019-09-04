@@ -45,11 +45,6 @@ export const getErrors = createSelector(
     (state: TarefaDetailState) => state.errors
 );
 
-export const getIsDeleting = createSelector(
-    getTarefaState,
-    (state: TarefaDetailState) => state.deleting
-);
-
 export const getDocumentosId = createSelector(
     getTarefaState,
     (state: TarefaDetailState) => state.documentosId

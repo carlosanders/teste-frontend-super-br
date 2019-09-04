@@ -5,6 +5,8 @@ import {Documento} from '@cdk/models/documento.model';
 import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
 import {ComponenteDigital} from '@cdk/models/componente-digital.model';
 import {componenteDigital as componenteDigitalSchema} from '@cdk/normalizr/componente-digital.schema';
+import {AtividadeCreateDocumentosState} from '../../../tarefas/tarefa-detail/atividades/atividade-create/store/reducers';
+import {getAtividadeCreateDocumentosState} from '../../../tarefas/tarefa-detail/atividades/atividade-create/store/selectors';
 
 const schemaDocumentoSelectors = createSchemaSelectors<Documento>(documentoSchema);
 const schemaComponenteDigitalSelectors = createSchemaSelectors<ComponenteDigital>(componenteDigitalSchema);
@@ -49,6 +51,11 @@ export const getIsLoading = createSelector(
 export const getIsSaving = createSelector(
     getDocumentoState,
     (state: DocumentoState) => state.saving
+);
+
+export const getAssinandoDocumentosId = createSelector(
+    getAtividadeCreateDocumentosState,
+    (state: AtividadeCreateDocumentosState) => state.assinandoDocumentoIds
 );
 
 export const getErrors = createSelector(

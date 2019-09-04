@@ -10,6 +10,10 @@ export const DESENTRANHAMENTO_JUNTADA = '[JUNTADA LIST] DESENTRANHAMENTO JUNTADA
 export const DESENTRANHAMENTO_JUNTADA_SUCCESS = '[JUNTADA LIST] DESENTRANHAMENTO JUNTADA SUCCESS';
 export const DESENTRANHAMENTO_JUNTADA_FAILED = '[JUNTADA LIST] DESENTRANHAMENTO JUNTADA FAILED';
 
+export const COPIA_DOCUMENTO_JUNTADA = '[JUNTADA LIST] COPIA DOCUMENTO JUNTADA';
+export const COPIA_DOCUMENTO_JUNTADA_SUCCESS = '[JUNTADA LIST] COPIA DOCUMENTO JUNTADA SUCCESS';
+export const COPIA_DOCUMENTO_JUNTADA_FAILED = '[JUNTADA LIST] COPIA DOCUMENTO JUNTADA FAILED';
+
 /**
  * Get Juntadas
  */
@@ -94,11 +98,51 @@ export class DesentranharJuntadaFailed implements Action
     }
 }
 
+
+/**
+ * Copiar Documento Juntada
+ */
+export class CopiarDocumentoJuntada implements Action
+{
+    readonly type = COPIA_DOCUMENTO_JUNTADA;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Copiar Documento Juntada Success
+ */
+export class CopiarDocumentoJuntadaSuccess implements Action
+{
+    readonly type = COPIA_DOCUMENTO_JUNTADA_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Copiar Documento Juntada Failed
+ */
+export class CopiarDocumentoJuntadaFailed implements Action
+{
+    readonly type = COPIA_DOCUMENTO_JUNTADA_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 export type JuntadaListActionsAll
     = GetJuntadas
     | GetJuntadasSuccess
     | GetJuntadasFailed
     | ReloadJuntadas
+    | CopiarDocumentoJuntada
+    | CopiarDocumentoJuntadaSuccess
+    | CopiarDocumentoJuntadaFailed
     | DesentranharJuntada
     | DesentranharJuntadaSuccess
     | DesentranharJuntadaFailed;

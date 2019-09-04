@@ -1,11 +1,12 @@
 <div fxFlex fxLayout="row">
-    <div fxFlex fxLayout="column" fxFlex="25">
-        <!-- HEADER -->
-        <div>
-        </div>
-        <!-- / HEADER -->
+    <div fxLayout="column" fxFlex="25">
 
         <div class="actions p-16" fxLayout="row" fxLayoutAlign="end center">
+            <button mat-icon-button aria-label="movimentar"
+                    matTooltip="Movimentar" (click)="showAtividade()"
+                    [ngClass]="{'active accent': activeCard === 'atividade'}">
+                <mat-icon class="black-fg">send</mat-icon>
+            </button>
 
             <button *ngIf="!(documento$ | async)?.vinculacaoDocumentoPrincipal" mat-icon-button aria-label="Visualizar Processo"
                     matTooltip="Gerir Anexos" (click)="showAnexos()"
@@ -13,12 +14,17 @@
                 <mat-icon class="black-fg">attachment</mat-icon>
             </button>
 
-            <button mat-icon-button aria-label="Movimentar"
+            <button mat-icon-button aria-label="editar o documento"
                     matTooltip="Editar o Documento" (click)="showForm()"
                     [ngClass]="{'active accent': activeCard === 'form'}">
                 <mat-icon class="black-fg">edit</mat-icon>
             </button>
 
+            <button mat-icon-button aria-label="inteligência jurídica"
+                    matTooltip="Inteligência Jurídica" (click)="showInteligencia()"
+                    [ngClass]="{'active accent': activeCard === 'inteligencia'}">
+                <mat-icon class="black-fg">gavel</mat-icon>
+            </button>
         </div>
 
         <div *ngIf="(documento$ | async)?.vinculacaoDocumentoPrincipal">
@@ -77,7 +83,19 @@
 
         </div>
 
-        <div class="documentos-vinculados mb-16" fxFlex fxLayout="column" *ngIf="activeCard === 'form'">
+        <div class="mb-16 pr-16" fxFlex fxLayout="column" *ngIf="activeCard === 'atividade'">
+
+            <cdk-atividade-form
+                [atividade]="atividade"
+                [temMinutas]="true"
+                [saving]="(atividadeIsSaving$ | async)"
+                [errors]="(atividadeErrors$ | async)"
+                (save)="submitAtividade($event)">
+            </cdk-atividade-form>
+
+        </div>
+
+        <div class="mb-16" fxFlex fxLayout="column" *ngIf="activeCard === 'form'">
 
             <h3 *ngIf="!(documento$ | async)?.vinculacaoDocumentoPrincipal" style="font-weight: bold">Documento Principal</h3>
             <h3 *ngIf="(documento$ | async)?.vinculacaoDocumentoPrincipal" style="font-weight: bold">Anexo</h3>
@@ -87,6 +105,22 @@
                                 [errors]="(errors$ | async)"
                                 (save)="submit($event)">
             </cdk-documento-form>
+
+        </div>
+
+        <div class="mb-16" fxFlex fxLayout="column" *ngIf="activeCard === 'inteligencia'">
+            <cdk-repositorio-grid
+                [layout]="'vertical'"
+                [loading]="(loading$ | async)"
+                [repositorios]="(repositorios$ | async)"
+                [total]="(pagination$ | async)?.total"
+                [mode]="'search'"
+                [actions]="['download']"
+                (download)="doDownload($event)"
+                [downloadingId]="(repositorioIdLoadind$ | async)"
+                [downloadedId]="(repositorioIdLoaded$ | async)"
+                (reload)="reload($event)">
+            </cdk-repositorio-grid>
 
         </div>
     </div>

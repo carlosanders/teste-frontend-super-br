@@ -16,6 +16,7 @@ import {environment} from 'environments/environment';
 import {Processo} from '../../../models/processo.model';
 import {Tarefa} from '../../../models/tarefa.model';
 import {Documento} from '../../../models/documento.model';
+import {DocumentoAvulso} from '../../../models/documento-avulso.model';
 
 @Component({
     selector: 'cdk-componente-digital-card-list',
@@ -38,6 +39,12 @@ export class CdkComponenteDigitalCardListComponent implements OnInit {
 
     @Input()
     tarefaOrigemBloco: Tarefa[];
+
+    @Input()
+    documentoAvulsoOrigem: DocumentoAvulso;
+
+    @Input()
+    documentoAvulsoOrigemBloco: DocumentoAvulso[];
 
     @Input()
     documentoOrigem: Documento;
@@ -187,6 +194,8 @@ export class CdkComponenteDigitalCardListComponent implements OnInit {
                 componenteDigital.processoOrigem = this.processoOrigem;
                 componenteDigital.tarefaOrigem = this.tarefaOrigem;
                 componenteDigital.tarefaOrigemBloco = this.tarefaOrigemBloco;
+                componenteDigital.documentoAvulsoOrigem = this.documentoAvulsoOrigem;
+                componenteDigital.documentoAvulsoOrigemBloco = this.documentoAvulsoOrigemBloco;
                 componenteDigital.documentoOrigem = this.documentoOrigem;
 
                 this.componentesDigitais.push(componenteDigital);

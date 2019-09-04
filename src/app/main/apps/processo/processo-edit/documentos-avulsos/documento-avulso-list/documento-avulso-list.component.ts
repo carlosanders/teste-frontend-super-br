@@ -88,4 +88,8 @@ export class DocumentoAvulsoListComponent implements OnInit {
         this._store.dispatch(new fromStore.DeleteDocumentoAvulso(documentoAvulsoId));
     }
 
+    responder(documentoAvulsoId: number[]): void {
+        this._store.dispatch(new fromStore.ResponderDocumentoAvulso(documentoAvulsoId));
+    }
+
 }

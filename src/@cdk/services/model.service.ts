@@ -11,18 +11,30 @@ export class ModelService {
     ) {}
 
     getOne(path: string, id: number, params: HttpParams = new HttpParams()): Observable<any> {
+        if (environment.test) {
+            params = null;
+        }
         return this.http.get(`${environment.api_url}${path}/${id}` + environment.xdebug, { params });
     }
 
     get(path: string, params: HttpParams = new HttpParams()): Observable<any> {
+        if (environment.test) {
+            params = null;
+        }
         return this.http.get(`${environment.api_url}${path}` + environment.xdebug, { params });
     }
 
     search(path: string, params: HttpParams = new HttpParams()): Observable<any> {
+        if (environment.test) {
+            params = null;
+        }
         return this.http.get(`${environment.api_url}${path}` + '/search' + environment.xdebug, { params });
     }
 
     count(path: string, params: HttpParams = new HttpParams()): Observable<any> {
+        if (environment.test) {
+            params = null;
+        }
         return this.http.get(`${environment.api_url}${path}/count` + environment.xdebug, { params });
     }
 

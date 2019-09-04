@@ -80,6 +80,19 @@ export class DocumentoAvulsoService {
         );
     }
 
+    toggleEncerramento(documentoAvulso: DocumentoAvulso): Observable<DocumentoAvulso> {
+        return this.http.patch(
+            `${environment.api_url}${'documento_avulso'}/${documentoAvulso.id}/${'toggle_encerramento'}` + environment.xdebug,
+            JSON.stringify(classToPlain(documentoAvulso))
+        ).pipe(
+            map(response => {
+                response = plainToClass(DocumentoAvulso, response);
+                Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                return Object.assign(new DocumentoAvulso(), {...documentoAvulso, ...response});
+            })
+        );
+    }
+
     destroy(id: number): Observable<DocumentoAvulso> {
         return this.modelService.delete('documento_avulso', id);
     }

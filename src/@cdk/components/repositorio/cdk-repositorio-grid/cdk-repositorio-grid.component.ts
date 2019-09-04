@@ -36,7 +36,10 @@ export class CdkRepositorioGridComponent implements AfterViewInit, OnInit, OnCha
     total = 0;
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'modalidadeRepositorio.valor', 'ativo', 'actions'];
+    mode = 'list';
+
+    @Input()
+    displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'highlights', 'modalidadeRepositorio.valor', 'ativo', 'actions'];
 
     @Input()
     deletingIds: number[] = [];
@@ -45,10 +48,19 @@ export class CdkRepositorioGridComponent implements AfterViewInit, OnInit, OnCha
     deletedIds: number[] = [];
 
     @Input()
+    downloadingId: number;
+
+    @Input()
+    downloadedId: number;
+
+    @Input()
     pageSize = 5;
 
     @Input()
     actions: string[] = ['edit', 'delete', 'select'];
+
+    @Input()
+    layout = 'horizontal';
 
     @ViewChild(MatPaginator)
     paginator: MatPaginator;
@@ -73,6 +85,9 @@ export class CdkRepositorioGridComponent implements AfterViewInit, OnInit, OnCha
 
     @Output()
     select = new EventEmitter<Repositorio>();
+
+    @Output()
+    download = new EventEmitter<Repositorio>();
 
     @Output()
     selectedIds: number[] = [];
@@ -111,7 +126,9 @@ export class CdkRepositorioGridComponent implements AfterViewInit, OnInit, OnCha
 
         this.dataSource = new RepositorioDataSource(of(this.repositorios));
 
-        this.loadPage();
+        if (this.mode === 'search') {
+            this.toggleFilter();
+        }
     }
 
     ngAfterViewInit(): void {
@@ -153,6 +170,10 @@ export class CdkRepositorioGridComponent implements AfterViewInit, OnInit, OnCha
 
     selectRepositorio(repositorio: Repositorio): void {
         this.select.emit(repositorio);
+    }
+
+    downloadRepositorio(repositorio: Repositorio): void {
+        this.download.emit(repositorio);
     }
 
     deleteRepositorio(repositorioId): void {

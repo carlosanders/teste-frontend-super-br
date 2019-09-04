@@ -17,7 +17,7 @@ import { FuseTranslationLoaderService } from '@fuse/services/translation-loader.
 import { Tarefa } from '@cdk/models/tarefa.model';
 import { TarefaService } from '@cdk/services/tarefa.service';
 import * as fromStore from 'app/main/apps/tarefas/store';
-import {getRouterState} from 'app/store/reducers';
+import {getRouterState, getScreenState} from 'app/store/reducers';
 
 import { locale as english } from 'app/main/apps/tarefas/i18n/en';
 
@@ -30,6 +30,7 @@ import {Router} from '@angular/router';
 import {filter, takeUntil} from 'rxjs/operators';
 import {Pagination} from '@cdk/models/pagination';
 import {LoginService} from '../../auth/login/login.service';
+import {ToggleMaximizado} from 'app/main/apps/tarefas/store';
 
 @Component({
     selector: 'tarefas',
@@ -66,6 +67,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     selectedTarefas: Tarefa[] = [];
 
+    screen$: Observable<any>;
+
     filter = {};
 
     etiquetas: Etiqueta[] = [];
@@ -76,10 +79,13 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     routerState$: Observable<any>;
 
     maximizado$: Observable<boolean>;
+    maximizado = false;
 
     vinculacaoEtiquetaPagination: Pagination;
 
     private _profile: any;
+
+    mobileMode = false;
 
     @ViewChild('tarefaListElement', {read: ElementRef}) tarefaListElement: ElementRef;
 
@@ -114,6 +120,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.maximizado$ = this._store.pipe(select(fromStore.getMaximizado));
         this.deletingIds$ = this._store.pipe(select(fromStore.getDeletingTarefaIds));
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedTarefaIds));
+        this.screen$ = this._store.pipe(select(getScreenState));
         this._profile = _loginService.getUserProfile();
         this.vinculacaoEtiquetaPagination = new Pagination();
         this.vinculacaoEtiquetaPagination.filter = {'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.usuario.id};
@@ -157,6 +164,12 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             this.pagination = pagination;
         });
 
+        this.maximizado$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(maximizado => {
+            this.maximizado = maximizado;
+        });
+
         this.selectedTarefas$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(selectedTarefas => {
@@ -167,6 +180,19 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             takeUntil(this._unsubscribeAll)
         ).subscribe(selectedIds => {
             this.selectedIds = selectedIds;
+        });
+
+        this.screen$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(screen => {
+            if (screen.size !== 'desktop') {
+                this.mobileMode = true;
+                if (this.maximizado) {
+                    this._store.dispatch(new ToggleMaximizado());
+                }
+            } else {
+                this.mobileMode = false;
+            }
         });
     }
 

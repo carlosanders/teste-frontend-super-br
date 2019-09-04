@@ -9,10 +9,13 @@ import {
 import {fuseAnimations} from '@fuse/animations';
 import {Observable, Subject} from 'rxjs';
 import * as fromStore from '../store';
+import * as fromDocumentoStore from '../../store';
 import {select, Store} from '@ngrx/store';
 import {ComponenteDigital} from '@cdk/models/componente-digital.model';
 import {takeUntil} from 'rxjs/operators';
-import {getRouterState} from '../../../../../store/reducers';
+import {getMercureState, getRouterState} from '../../../../../store/reducers';
+import {getRepositorioComponenteDigital} from '../../store/selectors';
+import {SetQueryRepositorios, SetRepositorioComponenteDigital} from '../../store/actions';
 
 @Component({
     selector: 'componente-digital-ckeditor',
@@ -29,12 +32,19 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
     componenteDigital$: Observable<ComponenteDigital>;
     componenteDigital: ComponenteDigital;
 
+    repositorio$: Observable<string>;
+    repositorio: string;
+
     saving$: Observable<boolean>;
     saving = false;
 
     errors$: Observable<any>;
 
     routerState: any;
+
+    assinandoDocumentosId$: Observable<number[]>;
+    assinandoDocumentosId: number[] = [];
+    javaWebStartOK = false;
 
     /**
      * @param _changeDetectorRef
@@ -47,6 +57,8 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
         this.componenteDigital$ = this._store.pipe(select(fromStore.getComponenteDigital));
         this.saving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
+        this.repositorio$ = this._store.pipe(select(getRepositorioComponenteDigital));
+        this.assinandoDocumentosId$ = this._store.pipe(select(fromDocumentoStore.getAssinandoDocumentosId));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -59,7 +71,9 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.componenteDigital$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(cd => this.componenteDigital = cd);
+        ).subscribe(cd => {
+            this.componenteDigital = cd;
+        });
 
         this.saving$.pipe(
             takeUntil(this._unsubscribeAll)
@@ -77,6 +91,46 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
                 this.routerState = routerState.state;
             }
         });
+
+        this._store
+            .pipe(
+                select(getMercureState),
+                takeUntil(this._unsubscribeAll)
+            ).subscribe(message => {
+            if (message && message.type === 'assinatura') {
+                switch (message.content.action) {
+                    case 'assinatura_iniciada':
+                        this.javaWebStartOK = true;
+                        break;
+                    case 'assinatura_cancelada':
+                        this.javaWebStartOK = false;
+                        this._store.dispatch(new fromDocumentoStore.AssinaDocumentoFailed(message.content.documentoId));
+                        break;
+                    case 'assinatura_erro':
+                        this.javaWebStartOK = false;
+                        this._store.dispatch(new fromDocumentoStore.AssinaDocumentoFailed(message.content.documentoId));
+                        break;
+                    case 'assinatura_finalizada':
+                        this.javaWebStartOK = false;
+                        this._store.dispatch(new fromDocumentoStore.AssinaDocumentoSuccess(message.content.documentoId));
+                        break;
+                }
+            }
+        });
+
+        this.assinandoDocumentosId$.subscribe(assinandoDocumentosId => {
+            if (assinandoDocumentosId.length > 0) {
+                setInterval(() => {
+                    // monitoramento do java
+                    if (!this.javaWebStartOK && (assinandoDocumentosId.length > 0)) {
+                        assinandoDocumentosId.forEach(
+                            documentoId => this._store.dispatch(new fromDocumentoStore.AssinaDocumentoFailed(documentoId))
+                        );
+                    }
+                }, 30000);
+            }
+            this.assinandoDocumentosId = assinandoDocumentosId;
+        });
     }
 
     /**
@@ -88,10 +142,22 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
         this._unsubscribeAll.complete();
     }
 
+    doClearRepositorio(): void {
+        this._store.dispatch(new SetRepositorioComponenteDigital(''));
+    }
+
+    doQuery(query): void {
+        this._store.dispatch(new SetQueryRepositorios({'documento.componentesDigitais.conteudo': query}));
+    }
+
     /**
      * @param data
      */
-    save(data: any): void {
+    doSave(data: any): void {
         this._store.dispatch(new fromStore.SaveComponenteDigital({componenteDigital: this.componenteDigital, data: data.conteudo, hashAntigo: data.hashAntigo}));
+    }
+
+    doAssinar(): void {
+        this._store.dispatch(new fromDocumentoStore.AssinaDocumento());
     }
 }

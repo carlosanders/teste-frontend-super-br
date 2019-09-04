@@ -85,4 +85,18 @@ export class JuntadaListEffect {
                     this._router.navigate([this.routerState.url.replace('juntadas/listar', 'juntadas/desentranhar')]).then();
                 })
             );
+
+    /**
+     * Desentranhar Juntada
+     * @type {Observable<any>}
+     */
+    @Effect({dispatch: false})
+    copiarDocumentoJuntada: any =
+        this._actions
+            .pipe(
+                ofType<JuntadaListActions.CopiarDocumentoJuntada>(JuntadaListActions.COPIA_DOCUMENTO_JUNTADA),
+                tap(() => {
+                    this._router.navigate([this.routerState.url.replace('juntadas/listar', 'juntadas/copiar')]).then();
+                })
+            );
 }

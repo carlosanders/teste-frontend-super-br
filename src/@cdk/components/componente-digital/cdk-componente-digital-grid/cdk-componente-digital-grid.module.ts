@@ -7,19 +7,20 @@ import {
     MatProgressSpinnerModule,
     MatTableModule,
     MatPaginatorModule,
-    MatSortModule, MatProgressBarModule,
+    MatSortModule, MatProgressBarModule, MatTooltipModule,
 } from '@angular/material';
 
 import { FuseSharedModule } from '@fuse/shared.module';
 import { CdkComponenteDigitalGridComponent} from './cdk-componente-digital-grid.component';
 import { CdkComponenteDigitalGridFilterModule} from './cdk-componente-digital-grid-filter/cdk-componente-digital-grid-filter.module';
+import {PipesModule} from '../../../pipes/pipes.module';
 
 @NgModule({
     declarations: [
         CdkComponenteDigitalGridComponent
     ],
     imports: [
-        
+
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,
@@ -33,6 +34,8 @@ import { CdkComponenteDigitalGridFilterModule} from './cdk-componente-digital-gr
         CdkComponenteDigitalGridFilterModule,
 
         FuseSharedModule,
+        MatTooltipModule,
+        PipesModule,
     ],
     providers: [
     ],

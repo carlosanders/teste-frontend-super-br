@@ -51,3 +51,14 @@ export const getDeletedIds = createSelector(
     getDocumentoAvulsoListState,
     (state: DocumentoAvulsoListState) => state.deletedIds
 );
+
+export const getRespondendoIds = createSelector(
+    getDocumentoAvulsoListState,
+    (state: DocumentoAvulsoListState) => state.respondendoIds
+);
+
+export const getRespodendoDocumentosAvulsos = createSelector(
+    schemaSelectors.getNormalizedEntities,
+    getRespondendoIds,
+    schemaSelectors.entitiesProjector
+);

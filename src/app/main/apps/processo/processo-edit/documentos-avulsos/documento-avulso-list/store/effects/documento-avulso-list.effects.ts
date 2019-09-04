@@ -3,7 +3,7 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as DocumentoAvulsoListActions from '../actions';
@@ -12,6 +12,7 @@ import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {DocumentoAvulso} from '@cdk/models/documento-avulso.model';
 import {documentoAvulso as documentoAvulsoSchema} from '@cdk/normalizr/documento-avulso.schema';
+import {Router} from '@angular/router';
 
 @Injectable()
 export class DocumentoAvulsoListEffect {
@@ -21,7 +22,8 @@ export class DocumentoAvulsoListEffect {
     constructor(
         private _actions: Actions,
         private _documentoAvulsoService: DocumentoAvulsoService,
-        private _store: Store<State>
+        private _store: Store<State>,
+        private _router: Router
     ) {
         this._store
             .pipe(select(getRouterState))
@@ -88,6 +90,20 @@ export class DocumentoAvulsoListEffect {
                             return of(new DocumentoAvulsoListActions.DeleteDocumentoAvulsoFailed(action.payload));
                         })
                     );
+                })
+            );
+
+    /**
+     * Responder DocumentoAvulso
+     * @type {Observable<any>}
+     */
+    @Effect({dispatch: false})
+    responderDocumentoAvulso: any =
+        this._actions
+            .pipe(
+                ofType<DocumentoAvulsoListActions.ResponderDocumentoAvulso>(DocumentoAvulsoListActions.RESPONDER_DOCUMENTO_AVULSO),
+                tap(() => {
+                    this._router.navigate([this.routerState.url.replace('oficios/listar', 'oficios/responder')]).then();
                 })
             );
 }

@@ -92,6 +92,15 @@
                     [ngClass]="{'deleted':deletedIds?.indexOf(modelo.id) > -1}"> {{modelo.descricao}} </td>
             </ng-container>
 
+            <!-- highlights Column -->
+            <ng-container matColumnDef="highlights">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Resumo
+                </th>
+                <td mat-cell *matCellDef="let modelo" class='has_label_on_mobile' data-label='Resumo: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(modelo.id) > -1}"> <span [innerHTML]="modelo.highlights | safeHtml"></span> </td>
+            </ng-container>
+
             <!-- Ativo Column -->
             <ng-container matColumnDef="ativo">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>

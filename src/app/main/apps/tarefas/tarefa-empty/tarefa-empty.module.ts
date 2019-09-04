@@ -7,7 +7,7 @@ import {FuseSidebarModule} from '@fuse/components';
 
 import {TarefaEmptyComponent} from './tarefa-empty.component';
 import {RouterModule, Routes} from '@angular/router';
-import {MatIconModule} from '@angular/material';
+import {MatIconModule, MatProgressSpinnerModule} from '@angular/material';
 
 const routes: Routes = [
     {
@@ -30,6 +30,7 @@ const routes: Routes = [
 
         FuseSharedModule,
         FuseSidebarModule,
+        MatProgressSpinnerModule,
     ],
     providers: [
     ]

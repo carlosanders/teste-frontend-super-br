@@ -7,7 +7,7 @@ import {DocumentoAvulsoEditComponent} from './documento-avulso-edit.component';
 import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
 import {DocumentoStoreModule} from '../store/store.module';
 import {CdkDocumentoAvulsoFormModule} from '@cdk/components/documento-avulso/cdk-documento-avulso-form/cdk-documento-avulso-form.module';
-import {MatButtonModule, MatIconModule, MatTooltipModule} from '@angular/material';
+import {MatButtonModule, MatIconModule, MatProgressSpinnerModule, MatSlideToggleModule, MatTooltipModule} from '@angular/material';
 
 const routes: Routes = [
     {
@@ -38,6 +38,8 @@ const routes: Routes = [
         TranslateModule,
         FuseSharedModule,
         MatTooltipModule,
+        MatProgressSpinnerModule,
+        MatSlideToggleModule,
     ],
     providers: [
         DocumentoAvulsoService

@@ -16,6 +16,9 @@ export class Modelo {
 
     nome: string;
 
+    @Exclude({toPlainOnly: true})
+    highlights: string;
+
     descricao?: string;
 
     ativo?: boolean;
@@ -68,6 +71,7 @@ export class Modelo {
         this.nome = null;
         this.descricao = null;
         this.ativo = null;
+        this.highlights = null;
         this.modalidadeModelo = null;
         this.template = null;
         this.documento = null;

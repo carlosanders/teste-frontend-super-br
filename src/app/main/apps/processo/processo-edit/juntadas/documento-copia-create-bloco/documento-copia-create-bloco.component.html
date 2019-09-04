@@ -1,0 +1,26 @@
+<!-- CONTENT -->
+<div class="content p-16" fxLayout="column" fxFlex="100">
+
+    <h2>Cópia em bloco de documentos</h2>
+
+    <h3>{{(juntadas$ | async)?.length}} juntada(s) selecionada(s) </h3>
+
+    <cdk-documento-copia-form
+            [documento]="documento"
+            [valid]="(juntadas$ | async)?.length > 0"
+            [saving]="(isSaving$ | async)"
+            (save)="submit($event)">
+    </cdk-documento-copia-form>
+
+    <mat-list *ngIf="operacoes.length > 0" fxFlex>
+        <h3 matSubheader>
+            <span>Resultado do Bloco</span>
+        </h3>
+
+        <mat-list-item *ngFor="let operacao of operacoes">
+            <p matLine class="mb-4 p-8 secondary-text"
+               [ngClass]="{'light-green-50': operacao.success, 'pink-50': !operacao.success}">{{operacao.content}}</p>
+        </mat-list-item>
+    </mat-list>
+
+</div>

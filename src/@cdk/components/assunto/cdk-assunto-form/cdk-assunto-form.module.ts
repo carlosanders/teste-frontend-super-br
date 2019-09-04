@@ -6,7 +6,7 @@ import {
     MatInputModule,
     MatCheckboxModule,
     MatProgressSpinnerModule,
-    MatAutocompleteModule
+    MatAutocompleteModule, MatTooltipModule
 } from '@angular/material';
 
 import { FuseSharedModule } from '@fuse/shared.module';
@@ -33,6 +33,7 @@ import { CdkAssuntoAdministrativoGridsearchModule } from '@cdk/components/assunt
         CdkAssuntoAdministrativoGridsearchModule,
 
         FuseSharedModule,
+        MatTooltipModule,
     ],
     providers: [
         AssuntoAdministrativoService,

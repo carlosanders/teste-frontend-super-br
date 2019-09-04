@@ -4,7 +4,10 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
+import * as fromStore from 'app/store';
 import {fuseAnimations} from '@fuse/animations';
+import {Observable} from 'rxjs';
+import {select, Store} from '@ngrx/store';
 
 @Component({
     selector: 'tarefa-empty',
@@ -16,4 +19,15 @@ import {fuseAnimations} from '@fuse/animations';
 })
 export class TarefaEmptyComponent {
 
+    screen$: Observable<any>;
+
+    /**
+     *
+     * @param _store
+     */
+    constructor(
+        private _store: Store<fromStore.State>
+    ) {
+        this.screen$ = this._store.pipe(select(fromStore.getScreenState));
+    }
 }

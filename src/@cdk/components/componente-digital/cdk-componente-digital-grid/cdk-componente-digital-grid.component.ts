@@ -11,11 +11,10 @@ import {fuseAnimations} from '@fuse/animations';
 
 import {MatPaginator, MatSort} from '@angular/material';
 
-import {catchError, last, map, tap} from 'rxjs/operators';
+import {tap} from 'rxjs/operators';
 import {ComponenteDigitalDataSource} from '@cdk/data-sources/componente-digital-data-source';
 import {ComponenteDigital} from '@cdk/models/componente-digital.model';
-import {HttpClient, HttpErrorResponse, HttpEventType, HttpRequest} from '@angular/common/http';
-import { environment } from 'environments/environment';
+import {environment} from 'environments/environment';
 
 @Component({
     selector: 'cdk-componente-digital-grid',
@@ -40,7 +39,7 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
     mode = 'list';
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'documento.juntadaAtual.volume.processo.NUP', 'documento.tipoDocumento', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'documento.juntadaAtual.volume.processo.NUP', 'documento.tipoDocumento', 'highlights', 'actions'];
 
     @Input()
     deletingIds: number[] = [];
@@ -209,12 +208,12 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
         this.recompute();
     }
 
-    recompute (): void {
+    recompute(): void {
         this.hasSelected = this.selectedIds.length > 0;
         this.isIndeterminate = (this.selectedIds.length !== this.componentesDigitais.length && this.selectedIds.length > 0);
     }
 
-    setGridFilter (gridFilter): void {
+    setGridFilter(gridFilter): void {
         this.gridFilter = {
             ...this.gridFilter,
             ...gridFilter

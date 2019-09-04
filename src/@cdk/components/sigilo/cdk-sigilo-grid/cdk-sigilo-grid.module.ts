@@ -7,7 +7,7 @@ import {
     MatProgressSpinnerModule,
     MatTableModule,
     MatPaginatorModule,
-    MatSortModule,
+    MatSortModule, MatTooltipModule,
 } from '@angular/material';
 
 import {FuseSharedModule} from '@fuse/shared.module';
@@ -31,7 +31,8 @@ import {CdkSigiloGridFilterModule} from './cdk-sigilo-grid-filter/cdk-sigilo-gri
         MatSortModule,
         CdkSigiloAutocompleteModule,
         FuseSharedModule,
-        CdkSigiloGridFilterModule
+        CdkSigiloGridFilterModule,
+        MatTooltipModule
     ],
     providers: [
         SigiloService,

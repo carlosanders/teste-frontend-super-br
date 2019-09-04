@@ -3,7 +3,7 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as DocumentoActions from '../actions/documento.actions';
@@ -15,16 +15,16 @@ import {AddData} from '@cdk/ngrx-normalizr';
 import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
 import {modelo as modeloSchema} from '@cdk/normalizr/modelo.schema';
 import {repositorio as repositorioSchema} from '@cdk/normalizr/repositorio.schema';
-import {documentoAvulso as documentoAvulsoSchema} from '@cdk/normalizr/documento-avulso.schema';
 import {Documento} from '@cdk/models/documento.model';
 import {Router} from '@angular/router';
-import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
-import {DocumentoAvulso} from '@cdk/models/documento-avulso.model';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {Modelo} from '@cdk/models/modelo.model';
 import {ModeloService} from '@cdk/services/modelo.service';
 import {Repositorio} from '@cdk/models/repositorio.model';
 import {RepositorioService} from '@cdk/services/repositorio.service';
+import {environment} from 'environments/environment';
+import * as fromStore from './componentes-digitais.effects';
+import {UnloadDocumento} from '../actions/documento.actions';
 
 @Injectable()
 export class DocumentoEffect {
@@ -36,7 +36,6 @@ export class DocumentoEffect {
         private _documentoService: DocumentoService,
         private _modeloService: ModeloService,
         private _repositorioService: RepositorioService,
-        private _documentoAvulsoService: DocumentoAvulsoService,
         private _loginService: LoginService,
         private _router: Router,
         private _store: Store<State>
@@ -81,8 +80,11 @@ export class DocumentoEffect {
                         0,
                         '{"componentesDigitais.numeracaoSequencial": "ASC"}',
                         JSON.stringify([
+                            'procedencia',
+                            'setorOrigem',
                             'tipoDocumento',
                             'componentesDigitais',
+                            'componentesDigitais.assinaturas',
                             'modelo',
                             'modelo.template',
                             'processoOrigem',
@@ -109,7 +111,7 @@ export class DocumentoEffect {
                             value: this.routerState.params.documentoHandle
                         },
                         documentoId: response['entities'][0].id,
-                        editavel: (response['entities'][0].documentoAvulsoRemessa && !response['entities'][0].documentoAvulsoRemessa.dataHoraRemessa) || !!response['entities'][0].juntadaAtual,
+                        editavel: (response['entities'][0].documentoAvulsoRemessa && !response['entities'][0].documentoAvulsoRemessa.dataHoraRemessa) || !response['entities'][0].juntadaAtual,
                         currentComponenteDigitalId: response['entities'][0].componentesDigitais[0] ? response['entities'][0].componentesDigitais[0].id : null
                     })
                 ]),
@@ -160,34 +162,6 @@ export class DocumentoEffect {
                             new OperacoesActions.Resultado({
                                 type: 'documento',
                                 content: `Documento id ${response.id} criada com sucesso!`,
-                                dateTime: response.criadoEm
-                            })
-                        ]),
-                        catchError((err) => {
-                            console.log(err);
-                            return of(new DocumentoActions.SaveDocumentoFailed(err));
-                        })
-                    );
-                })
-            );
-
-    /**
-     * Save Documento Avulso
-     * @type {Observable<any>}
-     */
-    @Effect()
-    saveDocumentoAvulso: any =
-        this._actions
-            .pipe(
-                ofType<DocumentoActions.SaveDocumentoAvulso>(DocumentoActions.SAVE_DOCUMENTO_AVULSO),
-                switchMap((action) => {
-                    return this._documentoAvulsoService.save(action.payload).pipe(
-                        mergeMap((response: DocumentoAvulso) => [
-                            new DocumentoActions.SaveDocumentoAvulsoSuccess(),
-                            new AddData<DocumentoAvulso>({data: [response], schema: documentoAvulsoSchema}),
-                            new OperacoesActions.Resultado({
-                                type: 'documento',
-                                content: `Documento id ${response.id} editado com sucesso!`,
                                 dateTime: response.criadoEm
                             })
                         ]),
@@ -256,47 +230,6 @@ export class DocumentoEffect {
             );
 
     /**
-     * Remeter Documento Avulso
-     * @type {Observable<any>}
-     */
-    @Effect()
-    remeterDocumentoAvulso: any =
-        this._actions
-            .pipe(
-                ofType<DocumentoActions.RemeterDocumentoAvulso>(DocumentoActions.REMETER_DOCUMENTO_AVULSO),
-                switchMap((action) => {
-                    return this._documentoAvulsoService.remeter(action.payload).pipe(
-                        mergeMap((response: DocumentoAvulso) => [
-                            new DocumentoActions.RemeterDocumentoAvulsoSuccess(),
-                            new AddData<DocumentoAvulso>({data: [response], schema: documentoAvulsoSchema})
-                        ])
-                    );
-                }),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new DocumentoActions.RemeterDocumentoAvulsoFailed(err));
-                    return caught;
-                })
-            );
-
-    /**
-     * Remeter Documento Avulso Success
-     * @type {Observable<any>}
-     */
-    @Effect({dispatch: false})
-    remeterDocumentoAvulsoSuccess: any =
-        this._actions
-            .pipe(
-                ofType<DocumentoActions.RemeterDocumentoAvulsoSuccess>(DocumentoActions.REMETER_DOCUMENTO_AVULSO_SUCCESS),
-                tap(() => {
-                    this._router.navigate([
-                            this.routerState.url.split('/documento/')[0]
-                        ]
-                    ).then();
-                })
-            );
-
-    /**
      * Get Documento with router parameters
      * @type {Observable<any>}
      */
@@ -308,8 +241,11 @@ export class DocumentoEffect {
                 withLatestFrom(this._store.pipe(select(DocumentoSelectors.getCurrentComponenteDigital))),
                 tap(([action, componenteDigital]) => {
                     let type = '/visualizar';
-                    if (action.payload.editavel && componenteDigital.editavel) {
+                    if (action.payload.editavel && componenteDigital.editavel && !componenteDigital.assinado) {
                         type = '/editor/ckeditor';
+                    }
+                    if (this.routerState.url.indexOf('/assinaturas') > -1) {
+                        type = '/assinaturas';
                     }
                     this._router.navigate([
                             this.routerState.url.split('/componente-digital/')[0] + '/componente-digital/' + action.payload.id + type
@@ -317,4 +253,53 @@ export class DocumentoEffect {
                     ).then();
                 })
             );
+
+    /**
+     * Assina Documento
+     * @type {Observable<any>}
+     */
+    @Effect({dispatch: false})
+    assinaDocumento: any =
+        this._actions
+            .pipe(
+                ofType<DocumentoActions.AssinaDocumento>(DocumentoActions.ASSINA_DOCUMENTO),
+                withLatestFrom(this._store.pipe(select(DocumentoSelectors.getDocumentoId))),
+                mergeMap(([action, documentoId]) => {
+                        return this._documentoService.preparaAssinatura(JSON.stringify([parseInt(documentoId, 0)]))
+                            .pipe(
+                                tap((response: any) => {
+                                    const url = environment.jnlp + 'v1/assinatura/' + response.jwt + '/get_jnlp';
+                                    const ifrm = document.createElement('iframe');
+                                    ifrm.setAttribute('src', url);
+                                    ifrm.style.width = '0';
+                                    ifrm.style.height = '0';
+                                    ifrm.style.border = '0';
+                                    document.body.appendChild(ifrm);
+                                    setTimeout(() => document.body.removeChild(ifrm), 20000);
+                                }),
+                                catchError((err, caught) => {
+                                    console.log(err);
+                                    this._store.dispatch(new DocumentoActions.AssinaDocumentoFailed(err));
+                                    return caught;
+                                })
+                            );
+                    }
+                ));
+
+    /**
+     * Assina Documento Success
+     * @type {Observable<any>}
+     */
+    @Effect({dispatch: false})
+    assinaDocumentoSuccess: any =
+        this._actions
+            .pipe(
+                ofType<DocumentoActions.AssinaDocumentoSuccess>(DocumentoActions.ASSINA_DOCUMENTO_SUCCESS),
+                tap((action) => {
+                    this._store.dispatch(new UnloadDocumento());
+                    this._router.navigate([
+                            this.routerState.url.split('/documento/')[0]
+                        ]
+                    ).then();
+                }));
 }

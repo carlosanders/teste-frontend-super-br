@@ -5,14 +5,23 @@
             matTooltip="Voltar">
         <mat-icon>arrow_back</mat-icon>
     </button>
-    <button mat-raised-button color="accent" class="anexar-copia mr-sm-12"
-            aria-label="anexar cópia"
-            matTooltip="Anexar Cópia"
-            [disabled]="!componenteDigital"
-            (click)="anexarCopia()">
-        <mat-icon class="black-fg">file_copy</mat-icon>
-        Anexar Cópia
-    </button>
+
+    <div *ngIf="!(isSaving$ | async)" class="anexar-copia">
+        <button mat-raised-button color="accent" class="mr-sm-12"
+                aria-label="anexar cópia"
+                matTooltip="Anexar Cópia"
+                [disabled]="!componenteDigital"
+                (click)="anexarCopia()">
+            <mat-icon class="black-fg">file_copy</mat-icon>
+            Anexar Cópia
+        </button>
+    </div>
+
+    <div *ngIf="(isSaving$ | async)" class="anexar-copia mr-sm-12"
+         fxLayoutAlign="start center">
+        <mat-spinner color="accent" diameter="24"></mat-spinner>
+    </div>
+
 </div>
 
 <router-outlet (activate)="onActivate($event)" (deactivate)="onDeactivate($event)"></router-outlet>

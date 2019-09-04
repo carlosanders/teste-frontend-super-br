@@ -6,6 +6,8 @@ export const GET_DOCUMENTOS_AVULSOS_FAILED = '[DOCUMENTO AVULSO LIST] GET DOCUME
 
 export const RELOAD_DOCUMENTOS_AVULSOS = '[DOCUMENTO AVULSO LIST] RELOAD DOCUMENTOS AVULSOS';
 
+export const RESPONDER_DOCUMENTO_AVULSO = '[DOCUMENTO AVULSO LIST] RESPONDER DOCUMENTO AVULSO';
+
 export const DELETE_DOCUMENTO_AVULSO = '[DOCUMENTO AVULSO LIST] DELETE DOCUMENTO AVULSO';
 export const DELETE_DOCUMENTO_AVULSO_SUCCESS = '[DOCUMENTO AVULSO LIST] DELETE DOCUMENTO AVULSO SUCCESS';
 export const DELETE_DOCUMENTO_AVULSO_FAILED = '[DOCUMENTO AVULSO LIST] DELETE DOCUMENTO AVULSO FAILED';
@@ -94,6 +96,18 @@ export class DeleteDocumentoAvulsoFailed implements Action
     }
 }
 
+/**
+ * Responder DocumentoAvulso
+ */
+export class ResponderDocumentoAvulso implements Action
+{
+    readonly type = RESPONDER_DOCUMENTO_AVULSO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 export type DocumentoAvulsoListActionsAll
     = GetDocumentosAvulsos
     | GetDocumentosAvulsosSuccess
@@ -101,5 +115,6 @@ export type DocumentoAvulsoListActionsAll
     | ReloadDocumentosAvulsos
     | DeleteDocumentoAvulso
     | DeleteDocumentoAvulsoSuccess
-    | DeleteDocumentoAvulsoFailed;
+    | DeleteDocumentoAvulsoFailed
+    | ResponderDocumentoAvulso;
 

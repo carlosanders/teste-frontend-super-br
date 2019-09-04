@@ -10,7 +10,7 @@ import {
     MatPaginatorModule,
     MatSortModule,
     MatAutocompleteModule,
-    MatExpansionModule
+    MatExpansionModule, MatTooltipModule
 } from '@angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 
@@ -32,6 +32,10 @@ const routes: Routes = [
             {
                 path       : 'editar',
                 loadChildren: './documento-avulso-edit/processo-documento-avulso-edit.module#ProcessoDocumentoAvulsoEditModule',
+            },
+            {
+                path       : 'responder',
+                loadChildren: './upload-bloco/documento-avulso-upload-bloco.module#DocumentoAvulsoUploadBlocoModule',
             },
             {
                 path: '**',
@@ -64,6 +68,7 @@ const routes: Routes = [
         TranslateModule,
 
         FuseSharedModule,
+        MatTooltipModule,
     ],
     providers: [
         DocumentoAvulsoService,

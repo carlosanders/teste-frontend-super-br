@@ -109,5 +109,6 @@ export class UploadBlocoComponent implements OnInit, OnDestroy {
             content: `Upload realizado com sucesso!`,
             success: true
         });
+        this._changeDetectorRef.markForCheck();
     }
 }

@@ -7,7 +7,7 @@ import {
     MatProgressSpinnerModule,
     MatTableModule,
     MatPaginatorModule,
-    MatSortModule,
+    MatSortModule, MatTooltipModule,
 } from '@angular/material';
 
 import { FuseSharedModule } from '@fuse/shared.module';
@@ -19,7 +19,7 @@ import { CdkCargoGridFilterModule } from './cdk-cargo-grid-filter/cdk-cargo-grid
         CdkCargoGridComponent
     ],
     imports: [
-        
+
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,
@@ -32,6 +32,7 @@ import { CdkCargoGridFilterModule } from './cdk-cargo-grid-filter/cdk-cargo-grid
         CdkCargoGridFilterModule,
 
         FuseSharedModule,
+        MatTooltipModule,
     ],
     providers: [
         

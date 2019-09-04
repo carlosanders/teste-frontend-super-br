@@ -1,4 +1,4 @@
-import { InMemoryDbService } from 'angular-in-memory-web-api';
+import {InMemoryDbService, removeTrailingSlash} from 'angular-in-memory-web-api';
 
 import { ProjectDashboardDb } from 'app/fake-db/dashboard-project';
 import { AnalyticsDashboardDb } from 'app/fake-db/dashboard-analytics';
@@ -25,6 +25,44 @@ export class FakeDbService implements InMemoryDbService
     createDb(): any
     {
         return {
+            /**
+            'historico': {
+                'entities': [
+                    {
+                        'processo': {
+                            'novo': true,
+                            'semValorEconomico': false,
+                            'NUP': '99999000016201928',
+                            'visibilidadeExterna': false,
+                            'acessoNegado': false,
+                            'dataHoraAbertura': '2019-08-19T14:38:15',
+                            'titulo': 'NOTIFICA\u00c7\u00c3O ORIGINADA NO NUP 00400.000002/2019-12',
+                            'chaveAcesso': '12345678',
+                            'id': 6,
+                            'uuid': '789fe94d-de48-4c50-9aee-ebe9ba944143',
+                            'criadoEm': '2019-08-19T14:38:18'
+                        },
+                        'criadoPor': {
+                            'username': 'john-colaborador',
+                            'nome': 'JOHN DOE -colaborador',
+                            'assinaturaHTML': 'John Doe',
+                            'email': 'john.doe-colaborador@test.com',
+                            'enabled': true,
+                            'nivelAcesso': 1,
+                            'vinculacoesRoles': [],
+                            'id': 24,
+                            'uuid': 'd251c724-32c3-44f9-bcef-a3c48c8e3ae9',
+                            'criadoEm': '2019-08-16T18:11:04'
+                        },
+                        'criadoEm': '2019-08-27T17:00:44',
+                        'id': 3,
+                        'uuid': '45aa5e51-3ef3-44d8-9b1a-1128b703fadd',
+                        'descricao': 'ATIVIDADE ID 3 CRIADA NA TAREFA ID 6 NO NUP 00400.000016/2019-28'
+                    }
+                ],
+                'total': 1
+            },*/
+            
             // Dashboards
             'project-dashboard-projects' : ProjectDashboardDb.projects,
             'project-dashboard-widgets'  : ProjectDashboardDb.widgets,

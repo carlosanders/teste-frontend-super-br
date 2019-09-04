@@ -5,7 +5,7 @@ import {FuseSharedModule} from '@fuse/shared.module';
 import {TranslateModule} from '@ngx-translate/core';
 import {DocumentoService} from '@cdk/services/documento.service';
 import {DocumentoStoreModule} from '../store/store.module';
-import {MatButtonModule, MatIconModule, MatMenuModule} from '@angular/material';
+import {MatButtonModule, MatIconModule, MatMenuModule, MatTooltipModule} from '@angular/material';
 import {CdkComponenteDigitalCardListModule} from '@cdk/components/componente-digital/cdk-componente-digital-card-list/cdk-componente-digital-card-list.module';
 import {CdkDocumentoCardListModule} from '@cdk/components/documento/cdk-documento-card-list/cdk-documento-card-list.module';
 import {CdkUploadModule} from '@cdk/components/upload/cdk-upload.module';
@@ -47,6 +47,7 @@ const routes: Routes = [
 
         TranslateModule,
         FuseSharedModule,
+        MatTooltipModule,
     ],
     providers: [
         DocumentoService,

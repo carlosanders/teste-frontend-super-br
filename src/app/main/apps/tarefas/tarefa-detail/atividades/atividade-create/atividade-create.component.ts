@@ -225,7 +225,6 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy {
     }
 
     doVerResposta(documento): void {
-        console.log (documento);
         this._store.dispatch(new fromStore.ClickedDocumento(documento));
     }
 
