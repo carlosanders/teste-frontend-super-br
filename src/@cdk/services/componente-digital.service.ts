@@ -22,6 +22,10 @@ export class ComponenteDigitalService {
         return this.http.get(`${environment.api_url}componente_digital/${id}/download` + environment.xdebug, {params});
     }
 
+    downloadAsPdf(id: number | string, params: HttpParams = new HttpParams()): Observable<any> {
+        return this.http.get(`${environment.api_url}componente_digital/${id}/downloadAsPdf` + environment.xdebug, {params});
+    }
+
     get(id: number): Observable<ComponenteDigital> {
         return this.modelService.getOne('componente_digital', id)
             .pipe(

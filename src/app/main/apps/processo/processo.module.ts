@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {
     MatButtonModule,
-    MatIconModule, MatProgressSpinnerModule
+    MatIconModule, MatProgressSpinnerModule, MatTooltipModule
 } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -50,7 +50,7 @@ const routes: Routes = [
         ProcessoComponent,
         ProcessoMainSidebarComponent
     ],
-    imports        : [
+    imports: [
         CommonModule,
         RouterModule.forChild(routes),
 
@@ -63,7 +63,8 @@ const routes: Routes = [
         ProcessoStoreModule,
 
         FuseSharedModule,
-        FuseSidebarModule
+        FuseSidebarModule,
+        MatTooltipModule
     ],
     providers      : [
         ProcessoService,

@@ -20,6 +20,7 @@ import {locale as english} from 'app/main/apps/processo/i18n/en';
 import {fuseAnimations} from '@fuse/animations';
 import {getRouterState} from '../../../store/reducers';
 import {takeUntil} from 'rxjs/operators';
+import {DownloadAsPdfProcesso} from 'app/main/apps/processo/store';
 
 @Component({
     selector: 'processo',
@@ -97,6 +98,10 @@ export class ProcessoComponent implements OnInit, OnDestroy {
      */
     toggleSidebar(name): void {
         this._fuseSidebarService.getSidebar(name).toggleOpen();
+    }
+
+    downloadAsPdf(): void {
+        this._store.dispatch(new DownloadAsPdfProcesso());
     }
 
 }
