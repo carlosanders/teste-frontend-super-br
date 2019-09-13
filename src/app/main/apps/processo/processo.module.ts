@@ -17,6 +17,9 @@ import { ProcessoComponent } from 'app/main/apps/processo/processo.component';
 import { ProcessoMainSidebarComponent } from './sidebars/main/main-sidebar.component';
 import { ProcessoService } from '@cdk/services/processo.service';
 import { CommonModule } from '@angular/common';
+import {CdkVinculacaoEtiquetaChipsModule} from '@cdk/components/vinculacao-etiqueta/cdk-vinculacao-etiqueta-chips/cdk-vinculacao-etiqueta-chips.module';
+import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
+import {LoginService} from '../../auth/login/login.service';
 
 const routes: Routes = [
     {
@@ -64,10 +67,13 @@ const routes: Routes = [
 
         FuseSharedModule,
         FuseSidebarModule,
-        MatTooltipModule
+        MatTooltipModule,
+        CdkVinculacaoEtiquetaChipsModule
     ],
     providers      : [
         ProcessoService,
+        VinculacaoEtiquetaService,
+        LoginService,
         fromGuards.ResolveGuard
     ]
 })

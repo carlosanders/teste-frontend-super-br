@@ -7,7 +7,7 @@ import {
     MatCheckboxModule,
     MatProgressSpinnerModule,
     MatAutocompleteModule,
-    MatDatepickerModule, MatRadioModule
+    MatDatepickerModule, MatRadioModule, MatTooltipModule
 
 } from '@angular/material';
 
@@ -38,6 +38,7 @@ import {CdkModeloGridsearchModule} from '../../modelo/cdk-modelo-autocomplete/cd
         CdkModeloGridsearchModule,
 
         FuseSharedModule,
+        MatTooltipModule,
     ],
     providers: [
         UsuarioService,

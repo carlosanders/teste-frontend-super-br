@@ -9,6 +9,7 @@ import {modalidadeFase} from './modalidade-fase.schema';
 import {especieProcesso} from './especie-processo.schema';
 import {usuario} from './usuario.schema';
 import {modalidadeMeio} from './modalidade-meio.schema';
+import {vinculacaoEtiqueta} from './vinculacao-etiqueta.schema';
 
 export const processo = new schema.Entity('processo', {
     classificacao: classificacao,
@@ -23,7 +24,8 @@ export const processo = new schema.Entity('processo', {
     especieProcesso: especieProcesso,
     criadoPor: usuario,
     atualizadoPor: usuario,
-    apagadoPor: usuario
+    apagadoPor: usuario,
+    vinculacoesEtiquetas: [vinculacaoEtiqueta]
 });
 
 
