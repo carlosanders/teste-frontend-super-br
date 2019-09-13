@@ -69,6 +69,7 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
 
         if (!this.etiqueta) {
             this.etiqueta = new Etiqueta();
+            this.etiqueta.ativo = true;
         }
     }
 

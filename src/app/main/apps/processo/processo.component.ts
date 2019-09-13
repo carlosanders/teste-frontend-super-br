@@ -13,13 +13,16 @@ import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 import {FuseTranslationLoaderService} from '@fuse/services/translation-loader.service';
 
 import {Processo} from '@cdk/models/processo.model';
-import {ProcessoService} from '@cdk/services/processo.service';
 import * as fromStore from 'app/main/apps/processo/store';
 
 import {locale as english} from 'app/main/apps/processo/i18n/en';
 import {fuseAnimations} from '@fuse/animations';
 import {getRouterState} from '../../../store/reducers';
-import {takeUntil} from 'rxjs/operators';
+import {DownloadAsPdfProcesso} from 'app/main/apps/processo/store';
+import {Etiqueta} from '@cdk/models/etiqueta.model';
+import {VinculacaoEtiqueta} from '@cdk/models/vinculacao-etiqueta.model';
+import {Pagination} from '@cdk/models/pagination';
+import {LoginService} from '../../auth/login/login.service';
 
 @Component({
     selector: 'processo',
@@ -32,27 +35,40 @@ import {takeUntil} from 'rxjs/operators';
 export class ProcessoComponent implements OnInit, OnDestroy {
 
     processo$: Observable<Processo>;
+    processo: Processo;
+
     loading$: Observable<boolean>;
     routerState: any;
 
+    vinculacaoEtiquetaPagination: Pagination;
+
+    private _profile: any;
+
     /**
-     * Constructor
      *
-     * @param {ChangeDetectorRef} _changeDetectorRef
-     * @param {FuseSidebarService} _fuseSidebarService
-     * @param {FuseTranslationLoaderService} _fuseTranslationLoaderService
-     * @param {Store<ProcessoAppState>} _store
+     * @param _changeDetectorRef
+     * @param _fuseSidebarService
+     * @param _fuseTranslationLoaderService
+     * @param _store
+     * @param _loginService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _fuseSidebarService: FuseSidebarService,
         private _fuseTranslationLoaderService: FuseTranslationLoaderService,
-        private _store: Store<fromStore.ProcessoAppState>
+        private _store: Store<fromStore.ProcessoAppState>,
+        private _loginService: LoginService
     ) {
         // Set the defaults
+        this._profile = _loginService.getUserProfile();
         this._fuseTranslationLoaderService.loadTranslations(english);
         this.processo$ = this._store.pipe(select(fromStore.getProcesso));
         this.loading$ = this._store.pipe(select(fromStore.getProcessoIsLoading));
+        this.vinculacaoEtiquetaPagination = new Pagination();
+        this.vinculacaoEtiquetaPagination.filter = {
+            'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.usuario.id,
+            'modalidadeEtiqueta.valor': 'eq:PROCESSO'
+        };
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -70,6 +86,10 @@ export class ProcessoComponent implements OnInit, OnDestroy {
             if (routerState) {
                 this.routerState = routerState.state;
             }
+        });
+
+        this.processo$.subscribe(processo => {
+            this.processo = processo;
         });
     }
 
@@ -99,4 +119,18 @@ export class ProcessoComponent implements OnInit, OnDestroy {
         this._fuseSidebarService.getSidebar(name).toggleOpen();
     }
 
+    downloadAsPdf(): void {
+        this._store.dispatch(new DownloadAsPdfProcesso());
+    }
+
+    onEtiquetaCreate(etiqueta: Etiqueta): void {
+        this._store.dispatch(new fromStore.CreateVinculacaoEtiqueta({processo: this.processo, etiqueta: etiqueta}));
+    }
+
+    onEtiquetaDelete(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
+        this._store.dispatch(new fromStore.DeleteVinculacaoEtiqueta({
+            processoId: this.processo.id,
+            vinculacaoEtiquetaId: vinculacaoEtiqueta.id
+        }));
+    }
 }

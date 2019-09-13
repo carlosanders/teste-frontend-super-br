@@ -25,6 +25,14 @@ export class ProcessoService {
             );
     }
 
+    downloadAsPdf(id: number | string, params: HttpParams = new HttpParams()): Observable<any> {
+        return this.http.get(`${environment.api_url}processo/${id}/downloadAsPdf` + environment.xdebug, {params});
+    }
+
+    downloadAsZip(id: number | string, params: HttpParams = new HttpParams()): Observable<any> {
+        return this.http.get(`${environment.api_url}processo/${id}/downloadAsPdf` + environment.xdebug, {params});
+    }
+
     getVisibilidade(id: number): Observable<any> {
         return this.http.get(`${environment.api_url}${'processo'}/${id}/visibilidade` + environment.xdebug, {})
             .pipe(

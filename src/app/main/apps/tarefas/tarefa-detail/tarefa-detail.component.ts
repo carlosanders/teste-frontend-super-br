@@ -79,7 +79,10 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
         this.maximizado$ = this._store.pipe(select(getMaximizado));
         this.screen$ = this._store.pipe(select(getScreenState));
         this.vinculacaoEtiquetaPagination = new Pagination();
-        this.vinculacaoEtiquetaPagination.filter = {'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.usuario.id};
+        this.vinculacaoEtiquetaPagination.filter = {
+            'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.usuario.id,
+            'modalidadeEtiqueta.valor': 'eq:TAREFA'
+        };
     }
 
     ngOnInit(): void {

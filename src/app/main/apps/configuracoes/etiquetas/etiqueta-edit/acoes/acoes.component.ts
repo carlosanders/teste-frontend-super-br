@@ -70,7 +70,7 @@ export class AcoesComponent implements OnInit, OnDestroy {
 
     goBack(): void {
         if (this.action === 'criar') {
-            this._router.navigate([this.routerState.url.replace('criar', 'listar')]).then();
+            this._router.navigate([this.routerState.url.replace('editar/criar', 'listar')]).then();
         }
     }
 }

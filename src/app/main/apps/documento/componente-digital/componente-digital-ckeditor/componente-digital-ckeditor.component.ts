@@ -160,4 +160,8 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
     doAssinar(): void {
         this._store.dispatch(new fromDocumentoStore.AssinaDocumento());
     }
+
+    doPdf(): void {
+        this._store.dispatch(new fromStore.DownloadAsPdfComponenteDigital());
+    }
 }

@@ -6,6 +6,7 @@
                 [selectable]="selectable"
                 [removable]="removable"
                 (removed)="remove(vinculacaoEtiqueta)">
+            <mat-icon class="icon">perm_identity</mat-icon>
             {{vinculacaoEtiqueta.etiqueta.nome}}
             <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
         </mat-chip>

@@ -117,7 +117,12 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
     @Output()
     assinar = new EventEmitter<any>();
 
+    @Output()
+    pdf = new EventEmitter<any>();
+
     assinando = false;
+
+    gerandoPdf = false;
 
     src: any;
 
@@ -181,6 +186,11 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
             if (this.assinando) {
                 this.assinar.emit();
                 this.assinando = false;
+            }
+
+            if (this.gerandoPdf) {
+                this.pdf.emit();
+                this.gerandoPdf = false;
             }
         }
     }
@@ -345,7 +355,8 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
     }
 
     doPdf(): void {
-        console.log ('pdf');
+        this.gerandoPdf = true;
+        this.doSave();
     }
 
     doCampo(): void {

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {
     MatButtonModule,
-    MatIconModule, MatProgressSpinnerModule
+    MatIconModule, MatProgressSpinnerModule, MatTooltipModule
 } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -17,6 +17,9 @@ import { ProcessoComponent } from 'app/main/apps/processo/processo.component';
 import { ProcessoMainSidebarComponent } from './sidebars/main/main-sidebar.component';
 import { ProcessoService } from '@cdk/services/processo.service';
 import { CommonModule } from '@angular/common';
+import {CdkVinculacaoEtiquetaChipsModule} from '@cdk/components/vinculacao-etiqueta/cdk-vinculacao-etiqueta-chips/cdk-vinculacao-etiqueta-chips.module';
+import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
+import {LoginService} from '../../auth/login/login.service';
 
 const routes: Routes = [
     {
@@ -50,7 +53,7 @@ const routes: Routes = [
         ProcessoComponent,
         ProcessoMainSidebarComponent
     ],
-    imports        : [
+    imports: [
         CommonModule,
         RouterModule.forChild(routes),
 
@@ -63,10 +66,14 @@ const routes: Routes = [
         ProcessoStoreModule,
 
         FuseSharedModule,
-        FuseSidebarModule
+        FuseSidebarModule,
+        MatTooltipModule,
+        CdkVinculacaoEtiquetaChipsModule
     ],
     providers      : [
         ProcessoService,
+        VinculacaoEtiquetaService,
+        LoginService,
         fromGuards.ResolveGuard
     ]
 })

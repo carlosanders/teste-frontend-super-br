@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {
     MatButtonModule,
-    MatIconModule, MatRippleModule
+    MatIconModule, MatRippleModule, MatTooltipModule
 } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -79,7 +79,7 @@ const routes: Routes = [
         ProcessoEditComponent,
         ProcessoEditMainSidebarComponent
     ],
-    imports        : [
+    imports: [
         CommonModule,
         RouterModule.forChild(routes),
 
@@ -90,7 +90,8 @@ const routes: Routes = [
         TranslateModule,
 
         FuseSharedModule,
-        FuseSidebarModule
+        FuseSidebarModule,
+        MatTooltipModule
     ]
 })
 export class ProcessoEditModule

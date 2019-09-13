@@ -12,6 +12,7 @@ import {Classificacao} from '@cdk/models/classificacao.model';
 import {Pessoa} from '@cdk/models/pessoa.model';
 import {Localizador} from '@cdk/models/localizador.model';
 import {OrigemDados} from '@cdk/models/origem-dados.model';
+import {VinculacaoEtiqueta} from './vinculacao-etiqueta.model';
 
 export class Processo {
 
@@ -91,6 +92,10 @@ export class Processo {
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     modalidadeMeio: ModalidadeMeio;
 
+    @Exclude({toPlainOnly: true})
+    @Type(() => VinculacaoEtiqueta)
+    vinculacoesEtiquetas: VinculacaoEtiqueta[];
+
     @Type(() => EspecieProcesso)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     especieProcesso: EspecieProcesso;
@@ -156,5 +161,6 @@ export class Processo {
         this.atualizadoEm = null;
         this.apagadoPor = null;
         this.apagadoEm = null;
+        this.vinculacoesEtiquetas = [];
     }
 }

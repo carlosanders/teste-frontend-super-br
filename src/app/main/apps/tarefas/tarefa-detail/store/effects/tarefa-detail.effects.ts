@@ -238,7 +238,7 @@ export class TarefaDetailEffect {
                         ]),
                         catchError((err) => {
                             console.log(err);
-                            return of(new TarefaDetailActions.SaveTarefaFailed(err));
+                            return of(new TarefaDetailActions.CreateVinculacaoEtiquetaFailed(err));
                         })
                     );
                 })

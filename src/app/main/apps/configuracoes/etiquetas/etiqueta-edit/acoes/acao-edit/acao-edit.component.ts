@@ -18,7 +18,6 @@ import {Pagination} from '@cdk/models/pagination';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Colaborador} from '@cdk/models/colaborador.model';
 import {getEtiqueta} from '../../store/selectors';
-import {Assunto} from '../../../../../../../../@cdk/models/assunto.model';
 
 @Component({
     selector: 'acao-edit',
@@ -105,8 +104,15 @@ export class AcaoEditComponent implements OnInit, OnDestroy {
 
     submit(values): void {
 
-        values.contexto = JSON.stringify({modeloId: values.modelo.id});
-        delete values.modelo;
+        switch (values.trigger) {
+            case 'App\\Api\\V1\\Triggers\\VinculacaoEtiqueta\\Trigger0001':
+                values.contexto = JSON.stringify({modeloId: values.modelo.id});
+                delete values.modelo;
+                break;
+            case 'App\\Api\\V1\\Triggers\\VinculacaoEtiqueta\\Trigger0002':
+                break;
+
+        }
 
         const acao = new Acao();
 

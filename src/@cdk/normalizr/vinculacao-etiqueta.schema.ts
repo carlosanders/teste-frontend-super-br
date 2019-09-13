@@ -8,5 +8,6 @@ export const vinculacaoEtiqueta = new schema.Entity('vinculacaoEtiqueta', {
     tarefa: tarefa,
     criadoPor: usuario,
     atualizadoPor: usuario,
+    usuario: usuario,
     apagadoPor: usuario
 });

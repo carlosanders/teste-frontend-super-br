@@ -5,7 +5,8 @@
     <!-- / TOP BACKGROUND -->
 
     <!-- SIDEBAR -->
-    <fuse-sidebar class="sidebar" name="processo-main-sidebar" position="left" [lockedOpen]="routerState.url.indexOf('apps/processo') > -1 ? 'gt-md' : 'gt-xl'">
+    <fuse-sidebar class="sidebar" name="processo-main-sidebar" position="left"
+                  [lockedOpen]="routerState.url.indexOf('apps/processo') > -1 ? 'gt-md' : 'gt-xl'">
 
         <!-- SIDEBAR CONTENT -->
         <div class="content" fusePerfectScrollbar>
@@ -20,17 +21,34 @@
     <div class="center">
 
         <!-- CONTENT HEADER -->
-        <div class="header" fxLayout="row" fxLayoutAlign="start center">
-            <div class="sidebar-toggle">
-                <button mat-icon-button *ngIf="routerState.url.indexOf('apps/processo') > -1"
-                        (click)="toggleSidebar('processo-main-sidebar')" fxHide.gt-md>
-                    <mat-icon>menu</mat-icon>
-                </button>
-                <button mat-icon-button *ngIf="routerState.url.indexOf('apps/processo') === -1"
-                        (click)="toggleSidebar('processo-main-sidebar')" fxHide.gt-xl>
-                    <mat-icon>menu</mat-icon>
-                </button>
+        <div fxLayout="column">
+
+            <div fxLayout="row" fxLayoutAlign="start center">
+
+                <div class="sidebar-toggle">
+                    <button mat-icon-button *ngIf="routerState.url.indexOf('apps/processo') > -1"
+                            (click)="toggleSidebar('processo-main-sidebar')" fxHide.gt-md>
+                        <mat-icon>menu</mat-icon>
+                    </button>
+                    <button mat-icon-button *ngIf="routerState.url.indexOf('apps/processo') === -1"
+                            (click)="toggleSidebar('processo-main-sidebar')" fxHide.gt-xl>
+                        <mat-icon>menu</mat-icon>
+                    </button>
+                </div>
+
+                <div class="actions">
+                    <button mat-icon-button aria-label="Download" matTooltip="Download"
+                            (click)="downloadAsPdf()">
+                        <mat-icon class="black-fg">cloud_download</mat-icon>
+                    </button>
+                </div>
             </div>
+
+            <cdk-vinculacao-etiqueta-chips class="mr-24 ml-24"
+                                           [vinculacoesEtiquetas]="(processo$ | async)?.vinculacoesEtiquetas"
+                                           (create)="onEtiquetaCreate($event)"
+                                           [pagination]="vinculacaoEtiquetaPagination"
+                                           (delete)="onEtiquetaDelete($event)"></cdk-vinculacao-etiqueta-chips>
         </div>
         <!-- / CONTENT HEADER -->
 

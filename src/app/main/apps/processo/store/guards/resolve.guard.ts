@@ -60,8 +60,6 @@ export class ResolveGuard implements CanActivate {
                     this._router.navigate([this.routerState.url.split('/processo')[0] + '/processo/' + this.routerState.params.processoHandle + '/acesso-negado']).then();
                 } else {
                     if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
-
-
                         if (this.routerState.params['processoHandle'] === 'criar') {
                             this._store.dispatch(new fromStore.CreateProcesso());
                         } else {
@@ -69,10 +67,8 @@ export class ResolveGuard implements CanActivate {
                                 'id': 'eq:' + this.routerState.params['processoHandle']
                             }));
                         }
-
                     }
                 }
-
             }),
             filter((loaded: any) => {
                 return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
