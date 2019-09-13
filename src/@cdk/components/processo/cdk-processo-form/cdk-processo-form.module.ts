@@ -25,6 +25,7 @@ import {CdkSetorAutocompleteModule} from '@cdk/components/setor/cdk-setor-autoco
 import {CdkSetorGridsearchModule} from '@cdk/components/setor/cdk-setor-autocomplete/cdk-setor-gridsearch/cdk-setor-gridsearch.module';
 import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
 import {CdkPessoaAutocompleteModule} from '../../pessoa/cdk-pessoa-autocomplete/cdk-pessoa-autocomplete.module';
+import {CdkLogentryGridsearchModule} from '../../logentry/cdk-logentry-grid/cdk-logentry-gridsearch/cdk-logentry-gridsearch.module';
 
 @NgModule({
     declarations: [
@@ -60,6 +61,7 @@ import {CdkPessoaAutocompleteModule} from '../../pessoa/cdk-pessoa-autocomplete/
         CdkPessoaAutocompleteModule,
 
         FuseSharedModule,
+        CdkLogentryGridsearchModule,
     ],
     providers: [],
     exports: [

@@ -18,7 +18,7 @@ import {FuseSharedModule} from '@fuse/shared.module';
 import {FavoritoSetorResponsavelListComponent} from './favorito-setor-responsavel-list.component';
 import {FavoritoService} from '@cdk/services/favorito.service';
 import {RouterModule, Routes} from '@angular/router';
-import {FavoritoListStoreModule} from './store/store.module';
+import {FavoritoListSetorResponsavelStoreModule} from './store/store.module';
 import * as fromGuards from './store/guards';
 import {CdkFavoritoGridModule} from '@cdk/components/favorito/cdk-favorito-grid/cdk-favorito-grid.module';
 import {CdkFavoritoFormModule} from '@cdk/components/favorito/cdk-favorito-form/cdk-favorito-form.module';
@@ -56,7 +56,7 @@ const routes: Routes = [
 
         CdkFavoritoGridModule,
 
-        FavoritoListStoreModule,
+        FavoritoListSetorResponsavelStoreModule,
     ],
     providers: [
         FavoritoService,

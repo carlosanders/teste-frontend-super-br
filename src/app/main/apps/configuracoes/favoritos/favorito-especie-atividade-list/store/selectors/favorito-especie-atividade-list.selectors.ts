@@ -1,8 +1,8 @@
 import {createSelector} from '@ngrx/store';
 import {
-    getFavoritoListAppState,
-    FavoritoListAppState,
-    FavoritoListState
+    getFavoritoListEspecieAtividadeAppState,
+    FavoritoListEspecieAtividadeAppState,
+    FavoritoListEspecieAtividadeState
 } from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
@@ -11,58 +11,58 @@ import {Favorito} from '@cdk/models/favorito.model';
 
 const schemaSelectors = createSchemaSelectors<Favorito>(favoritoSchema);
 
-export const getFavoritoListState = createSelector(
-    getFavoritoListAppState,
-    (state: FavoritoListAppState) => state.favoritoList
+export const getFavoritoListEspecieAtividadeState = createSelector(
+    getFavoritoListEspecieAtividadeAppState,
+    (state: FavoritoListEspecieAtividadeAppState) => state.FavoritoListEspecieAtividade
 );
 
-export const getFavoritoListIds = createSelector(
-    getFavoritoListState,
-    (state: FavoritoListState) => state.entitiesId
+export const getFavoritoListEspecieAtividadeIds = createSelector(
+    getFavoritoListEspecieAtividadeState,
+    (state: FavoritoListEspecieAtividadeState) => state.entitiesId
 );
 
-export const getFavoritoList = createSelector(
+export const getFavoritoListEspecieAtividade = createSelector(
     schemaSelectors.getNormalizedEntities,
-    getFavoritoListIds,
+    getFavoritoListEspecieAtividadeIds,
     schemaSelectors.entitiesProjector
 );
 
 export const getPagination = createSelector(
-    getFavoritoListState,
-    (state: FavoritoListState) => state.pagination
+    getFavoritoListEspecieAtividadeState,
+    (state: FavoritoListEspecieAtividadeState) => state.pagination
 );
 
-export const getFavoritoListLoaded = createSelector(
-    getFavoritoListState,
-    (state: FavoritoListState) => state.loaded
+export const getFavoritoListEspecieAtividadeLoaded = createSelector(
+    getFavoritoListEspecieAtividadeState,
+    (state: FavoritoListEspecieAtividadeState) => state.loaded
 );
 
 export const getIsLoading = createSelector(
-    getFavoritoListState,
-    (state: FavoritoListState) => state.loading
+    getFavoritoListEspecieAtividadeState,
+    (state: FavoritoListEspecieAtividadeState) => state.loading
 );
 
 export const getDeletingIds = createSelector(
-    getFavoritoListState,
-    (state: FavoritoListState) => state.deletingIds
+    getFavoritoListEspecieAtividadeState,
+    (state: FavoritoListEspecieAtividadeState) => state.deletingIds
 );
 
 export const getDeletedIds = createSelector(
-    getFavoritoListState,
-    (state: FavoritoListState) => state.deletedIds
+    getFavoritoListEspecieAtividadeState,
+    (state: FavoritoListEspecieAtividadeState) => state.deletedIds
 );
 
 export const getIsSaving = createSelector(
-    getFavoritoListState,
-    (state: FavoritoListState) => state.saving
+    getFavoritoListEspecieAtividadeState,
+    (state: FavoritoListEspecieAtividadeState) => state.saving
 );
 
 export const getErrors = createSelector(
-    getFavoritoListState,
-    (state: FavoritoListState) => state.errors
+    getFavoritoListEspecieAtividadeState,
+    (state: FavoritoListEspecieAtividadeState) => state.errors
 );
 
 export const getHasLoaded = createSelector(
-    getFavoritoListState,
-    (state: FavoritoListState) => state.loaded
+    getFavoritoListEspecieAtividadeState,
+    (state: FavoritoListEspecieAtividadeState) => state.loaded
 );

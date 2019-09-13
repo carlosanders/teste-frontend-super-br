@@ -1,22 +1,22 @@
 import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { FavoritoSetorResponsavelListReducer, FavoritoListState } from './favorito-setor-responsavel-list.reducer';
+import { FavoritoSetorResponsavelListReducer, FavoritoListSetorResponsavelState } from './favorito-setor-responsavel-list.reducer';
 
-export interface FavoritoListAppState
+export interface FavoritoListSetorResponsavelAppState
 {
-    favoritoList: FavoritoListState;
+    FavoritoListSetorResponsavel: FavoritoListSetorResponsavelState;
 }
 
-export const getFavoritoListAppState = createFeatureSelector<FavoritoListAppState>(
-    'favorito-list-app'
+export const getFavoritoListSetorResponsavelAppState = createFeatureSelector<FavoritoListSetorResponsavelAppState>(
+    'favorito-list-setor-responsavel-app'
 );
 
 export const getAppState = createSelector(
-    getFavoritoListAppState,
-    (state: FavoritoListAppState) => state
+    getFavoritoListSetorResponsavelAppState,
+    (state: FavoritoListSetorResponsavelAppState) => state
 );
 
-export const reducers: ActionReducerMap<FavoritoListAppState> = {
-    favoritoList: FavoritoSetorResponsavelListReducer
+export const reducers: ActionReducerMap<FavoritoListSetorResponsavelAppState> = {
+    FavoritoListSetorResponsavel: FavoritoSetorResponsavelListReducer
 };
 
 export * from './favorito-setor-responsavel-list.reducer';

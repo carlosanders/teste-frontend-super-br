@@ -15,14 +15,12 @@ import {Usuario} from '@cdk/models/usuario.model';
 import {Processo} from '@cdk/models/processo.model';
 import {MAT_DATETIME_FORMATS} from '@mat-datetimepicker/core';
 import {Setor} from '@cdk/models/setor.model';
-import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
+import {catchError, debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {Pagination} from '@cdk/models/pagination';
 import {Favorito} from '../../../models/favorito.model';
 import {FavoritoService} from '../../../services/favorito.service';
-import * as moment from '../../../../app/main/apps/painel/painel.component';
 import {LoginService} from '../../../../app/main/auth/login/login.service';
-import {LogEntry} from '../../../models/logentry.model';
 
 @Component({
     selector: 'cdk-tarefa-form',
@@ -231,7 +229,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             debounceTime(300),
             distinctUntilChanged(),
             switchMap((value) => {
-                    if (value && typeof value === 'object' && this.form.get('blocoProcessos').value) {
+                    if (this.form.get('blocoProcessos').value && typeof value === 'object' && value) {
                         this.processos.push(value);
                         this._changeDetectorRef.markForCheck();
                     }

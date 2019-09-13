@@ -3,21 +3,24 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
-import * as FavoritoListActions from '../actions';
+import * as FavoritoListEspecieTarefaActions from '../actions';
 
 import {FavoritoService} from '@cdk/services/favorito.service';
 import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {Favorito} from '@cdk/models/favorito.model';
 import {favorito as favoritoSchema} from '@cdk/normalizr/favorito.schema';
 import {LoginService} from 'app/main/auth/login/login.service';
+import {Usuario} from '@cdk/models/usuario.model';
 
 @Injectable()
-export class FavoritoListEffect {
+export class FavoritoListEspecieTarefaEffect {
 
     routerState: any;
+
+    favorito: Favorito;
 
     constructor(
         private _actions: Actions,
@@ -42,7 +45,7 @@ export class FavoritoListEffect {
     getFavoritos: any =
         this._actions
             .pipe(
-                ofType<FavoritoListActions.GetFavoritos>(FavoritoListActions.GET_FAVORITOS),
+                ofType<FavoritoListEspecieTarefaActions.GetFavoritos>(FavoritoListEspecieTarefaActions.GET_FAVORITOS_ESPECIE_TAREFA),
                 switchMap((action) => {
                     return this._favoritoService.query(
                         JSON.stringify({
@@ -55,19 +58,66 @@ export class FavoritoListEffect {
                         JSON.stringify(action.payload.populate)).pipe(
                         mergeMap((response) => [
                             new AddData<Favorito>({data: response['entities'], schema: favoritoSchema}),
-                            new FavoritoListActions.GetFavoritosSuccess({
+                            new FavoritoListEspecieTarefaActions.GetFavoritosSuccess({
                                 entitiesId: response['entities'].map(favorito => favorito.id),
                                 loaded: {
-                                    id: 'usuarioHandle',
-                                    value: this._loginService.getUserProfile().usuario.id
+                                    id: 'favoritoHandle',
+                                    value: response['entities'].map(favorito => favorito)
                                 },
                                 total: response['total']
                             })
                         ]),
                         catchError((err) => {
                             console.log(err);
-                            return of(new FavoritoListActions.GetFavoritosFailed(err));
+                            return of(new FavoritoListEspecieTarefaActions.GetFavoritosFailed(err));
                         })
+                    );
+                })
+            );
+
+    /**
+     * Get Favorito with router parameters
+     * @type {Observable<any>}
+     */
+    @Effect()
+    getFavorito: any =
+        this._actions
+            .pipe(
+                ofType<FavoritoListEspecieTarefaActions.GetFavorito>(FavoritoListEspecieTarefaActions.GET_FAVORITO_ESPECIE_TAREFA),
+                switchMap((action) => {
+
+                    return this._favoritoService.query(
+                        JSON.stringify({
+                            ...action.payload.filter
+                        }),
+                        1,
+                        0,
+                        JSON.stringify({}),
+                        JSON.stringify([
+                            'populateAll'
+                        ])).pipe(
+                            map((resposta) => {
+
+                            this.favorito = new Favorito();
+
+                            if (resposta.entities && resposta.entities.length !== 0) {
+                                this.favorito = resposta['entities'][0];
+                                this.favorito.prioritario = true;
+                            } else {
+                                const usuario = new Usuario();
+                                usuario.id = this._loginService.getUserProfile().usuario.id;
+                                this.favorito.prioritario = true;
+                                this.favorito.qtdUso = 1;
+                                this.favorito.especieTarefa = action.payload.valor.especieTarefa;
+                                this.favorito.usuario = usuario;
+                            }
+                        } ),
+                            map(() => new FavoritoListEspecieTarefaActions.SaveFavorito(this.favorito)),
+                            catchError((err, caught) => {
+                                console.log(err);
+                                this._store.dispatch(new FavoritoListEspecieTarefaActions.GetFavoritoFailed(err));
+                                return caught;
+                            })
                     );
                 })
             );
@@ -80,13 +130,13 @@ export class FavoritoListEffect {
     deleteFavorito: any =
         this._actions
             .pipe(
-                ofType<FavoritoListActions.DeleteFavorito>(FavoritoListActions.DELETE_FAVORITO),
+                ofType<FavoritoListEspecieTarefaActions.DeleteFavorito>(FavoritoListEspecieTarefaActions.DELETE_FAVORITO_ESPECIE_TAREFA),
                 mergeMap((action) => {
                     return this._favoritoService.destroy(action.payload).pipe(
-                        map((response) => new FavoritoListActions.DeleteFavoritoSuccess(response.id)),
+                        map((response) => new FavoritoListEspecieTarefaActions.DeleteFavoritoSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new FavoritoListActions.DeleteFavoritoFailed(action.payload));
+                            return of(new FavoritoListEspecieTarefaActions.DeleteFavoritoFailed(action.payload));
                         })
                     );
                 })
@@ -100,18 +150,18 @@ export class FavoritoListEffect {
     ToggleFavoritoEspecieTarefa: any =
         this._actions
             .pipe(
-                ofType<FavoritoListActions.ToggleFavoritoEspecieTarefa>(FavoritoListActions.TOGGLE_FAVORITO_ESPECIE_TAREFA),
+                ofType<FavoritoListEspecieTarefaActions.ToggleFavoritoEspecieTarefa>(FavoritoListEspecieTarefaActions.TOGGLE_FAVORITO_ESPECIE_TAREFA),
                 mergeMap((action) => {
                     return this._favoritoService.patch(action.payload, {
                         prioritario: !action.payload.prioritario
                     }).pipe(
                         mergeMap((response) => [
-                            new FavoritoListActions.ToggleFavoritoEspecieSuccess(response.id),
+                            new FavoritoListEspecieTarefaActions.ToggleFavoritoEspecieSuccess(response.id),
                             new UpdateData<Favorito>({id: response.id, schema: favoritoSchema, changes: {prioritario: response.prioritario}})
                         ]),
                         catchError((err) => {
                             console.log(err);
-                            return of(new FavoritoListActions.ToggleFavoritoEspecieFailed(action.payload));
+                            return of(new FavoritoListEspecieTarefaActions.ToggleFavoritoEspecieFailed(action.payload));
                         })
                     );
                 })
@@ -125,18 +175,32 @@ export class FavoritoListEffect {
     saveFavorito: any =
         this._actions
             .pipe(
-                ofType<FavoritoListActions.SaveFavorito>(FavoritoListActions.SAVE_FAVORITO),
+                ofType<FavoritoListEspecieTarefaActions.SaveFavorito>(FavoritoListEspecieTarefaActions.SAVE_FAVORITO_ESPECIE_TAREFA),
                 switchMap((action) => {
                     return this._favoritoService.save(action.payload).pipe(
                         mergeMap((response: Favorito) => [
-                            new FavoritoListActions.SaveFavoritoSuccess(),
-                            new AddData<Favorito>({data: [response], schema: favoritoSchema})
+                            new AddData<Favorito>({data: [response], schema: favoritoSchema}),
+                            new FavoritoListEspecieTarefaActions.SaveFavoritoSuccess(),
+                            new FavoritoListEspecieTarefaActions.GetFavoritos({
+                                filter: {
+                                    'especieTarefa': 'isNotNull',
+                                    'prioritario': 'eq:' + 'true',
+                                    'usuario.id': 'eq:' + this._loginService.getUserProfile().usuario.id
+                                },
+                                gridFilter: {},
+                                limit: 5,
+                                offset: 0,
+                                sort: {'criadoEm': 'DESC'},
+                                populate: [
+                                    'especieTarefa'
+                                ]
+                            })
                         ])
                     );
                 }),
                 catchError((err, caught) => {
                     console.log(err);
-                    this._store.dispatch(new FavoritoListActions.SaveFavoritoFailed(err));
+                    this._store.dispatch(new FavoritoListEspecieTarefaActions.SaveFavoritoFailed(err));
                     return caught;
                 })
             );

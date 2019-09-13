@@ -1,7 +1,8 @@
-import * as FavoritoListActions from '../actions';
+import * as FavoritoListEspecieTarefaActions from '../actions';
 
-export interface FavoritoListState {
+export interface FavoritoListEspecieTarefaState {
     entitiesId: number[];
+    favoritoId: number;
     pagination: {
         limit: number;
         offset: number;
@@ -17,11 +18,11 @@ export interface FavoritoListState {
     deletedIds: number[];
     saving: boolean;
     errors: any;
-    favoritoId: number;
 }
 
-export const FavoritoListInitialState: FavoritoListState = {
+export const FavoritoListEspecieTarefaInitialState: FavoritoListEspecieTarefaState = {
     saving: false,
+    favoritoId: null,
     entitiesId: [],
     pagination: {
         limit: 0,
@@ -36,17 +37,16 @@ export const FavoritoListInitialState: FavoritoListState = {
     loaded: false,
     deletedIds: [],
     deletingIds: [],
-    errors: false,
-    favoritoId: null
+    errors: false
 };
 
 export function FavoritoEspecieTarefaListReducer(
-    state = FavoritoListInitialState,
-    action: FavoritoListActions.FavoritoListActionsAll
-): FavoritoListState {
+    state = FavoritoListEspecieTarefaInitialState,
+    action: FavoritoListEspecieTarefaActions.FavoritoListEspecieTarefaActionsAll
+): FavoritoListEspecieTarefaState {
     switch (action.type) {
 
-        case FavoritoListActions.GET_FAVORITOS: {
+        case FavoritoListEspecieTarefaActions.GET_FAVORITOS_ESPECIE_TAREFA: {
             return {
                 ...state,
                 loading: true,
@@ -62,7 +62,7 @@ export function FavoritoEspecieTarefaListReducer(
             };
         }
 
-        case FavoritoListActions.GET_FAVORITOS_SUCCESS: {
+        case FavoritoListEspecieTarefaActions.GET_FAVORITOS_ESPECIE_TAREFA_SUCCESS: {
 
             const loaded = action.payload.loaded;
 
@@ -78,7 +78,7 @@ export function FavoritoEspecieTarefaListReducer(
             };
         }
 
-        case FavoritoListActions.RELOAD_FAVORITOS: {
+        case FavoritoListEspecieTarefaActions.GET_FAVORITOS_ESPECIE_TAREFA_FAILED: {
             return {
                 ...state,
                 loading: false,
@@ -86,7 +86,7 @@ export function FavoritoEspecieTarefaListReducer(
             };
         }
 
-        case FavoritoListActions.GET_FAVORITOS_FAILED: {
+        case FavoritoListEspecieTarefaActions.RELOAD_FAVORITOS_ESPECIE_TAREFA: {
             return {
                 ...state,
                 loading: false,
@@ -94,14 +94,39 @@ export function FavoritoEspecieTarefaListReducer(
             };
         }
 
-        case FavoritoListActions.DELETE_FAVORITO: {
+        case FavoritoListEspecieTarefaActions.GET_FAVORITO_ESPECIE_TAREFA: {
+            return {
+                ...state,
+                favoritoId: null,
+                loading: true
+            };
+        }
+
+        case FavoritoListEspecieTarefaActions.GET_FAVORITO_ESPECIE_TAREFA_SUCCESS: {
+
+            return {
+                ...state,
+                favoritoId: action.payload.favoritoId,
+                loaded: action.payload.loaded,
+                loading: false
+            };
+        }
+
+        case FavoritoListEspecieTarefaActions.GET_FAVORITO_ESPECIE_TAREFA_FAILED: {
+            return {
+                ...state,
+                loading: false
+            };
+        }
+
+        case FavoritoListEspecieTarefaActions.DELETE_FAVORITO_ESPECIE_TAREFA: {
             return {
                 ...state,
                 deletingIds: [...state.deletingIds, action.payload]
             };
         }
 
-        case FavoritoListActions.DELETE_FAVORITO_SUCCESS: {
+        case FavoritoListEspecieTarefaActions.DELETE_FAVORITO_ESPECIE_TAREFA_SUCCESS: {
             return {
                 ...state,
                 deletingIds: state.deletingIds.filter(id => id !== action.payload),
@@ -109,7 +134,7 @@ export function FavoritoEspecieTarefaListReducer(
             };
         }
 
-        case FavoritoListActions.DELETE_FAVORITO_FAILED: {
+        case FavoritoListEspecieTarefaActions.DELETE_FAVORITO_ESPECIE_TAREFA_FAILED: {
             return {
                 ...state,
                 deletingIds: state.deletingIds.filter(id => id !== action.payload)
@@ -117,7 +142,7 @@ export function FavoritoEspecieTarefaListReducer(
         }
 
 
-        case FavoritoListActions.SAVE_FAVORITO: {
+        case FavoritoListEspecieTarefaActions.SAVE_FAVORITO_ESPECIE_TAREFA: {
             return {
                 ...state,
                 saving: true,
@@ -125,7 +150,7 @@ export function FavoritoEspecieTarefaListReducer(
             };
         }
 
-        case FavoritoListActions.SAVE_FAVORITO_SUCCESS: {
+        case FavoritoListEspecieTarefaActions.SAVE_FAVORITO_ESPECIE_TAREFA_SUCCESS: {
             return {
                 ...state,
                 saving: false,
@@ -133,7 +158,7 @@ export function FavoritoEspecieTarefaListReducer(
             };
         }
 
-        case FavoritoListActions.SAVE_FAVORITO_FAILED: {
+        case FavoritoListEspecieTarefaActions.SAVE_FAVORITO_ESPECIE_TAREFA_FAILED: {
             return {
                 ...state,
                 saving: false,

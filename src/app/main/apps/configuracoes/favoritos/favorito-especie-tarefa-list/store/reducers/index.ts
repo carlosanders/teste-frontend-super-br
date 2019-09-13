@@ -1,22 +1,22 @@
 import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { FavoritoEspecieTarefaListReducer, FavoritoListState } from './favorito-especie-tarefa-list.reducer';
+import { FavoritoEspecieTarefaListReducer, FavoritoListEspecieTarefaState } from './favorito-especie-tarefa-list.reducer';
 
-export interface FavoritoListAppState
+export interface FavoritoListEspecieTarefaAppState
 {
-    favoritoList: FavoritoListState;
+    FavoritoListEspecieTarefa: FavoritoListEspecieTarefaState;
 }
 
-export const getFavoritoListAppState = createFeatureSelector<FavoritoListAppState>(
-    'favorito-list-app'
+export const getFavoritoListEspecieTarefaAppState = createFeatureSelector<FavoritoListEspecieTarefaAppState>(
+    'favorito-list-especie-tarefa-app'
 );
 
 export const getAppState = createSelector(
-    getFavoritoListAppState,
-    (state: FavoritoListAppState) => state
+    getFavoritoListEspecieTarefaAppState,
+    (state: FavoritoListEspecieTarefaAppState) => state
 );
 
-export const reducers: ActionReducerMap<FavoritoListAppState> = {
-    favoritoList: FavoritoEspecieTarefaListReducer
+export const reducers: ActionReducerMap<FavoritoListEspecieTarefaAppState> = {
+    FavoritoListEspecieTarefa: FavoritoEspecieTarefaListReducer
 };
 
 export * from './favorito-especie-tarefa-list.reducer';

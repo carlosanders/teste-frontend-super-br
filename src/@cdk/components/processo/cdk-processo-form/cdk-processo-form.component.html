@@ -42,6 +42,10 @@
                 [control]="form.get('modalidadeFase')"
                 [pagination]="modalidadeFasePagination">
             </cdk-modalidade-fase-autocomplete>
+            <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                    (click)="showLogEntryGrid('modalidadeFase')">
+                <mat-icon matTooltip="Histórico">history</mat-icon>
+            </button>
             <button matSuffix mat-button mat-icon-button
                     (click)="showModalidadeFaseGrid()">
                 <mat-icon matTooltip="Procurar">search</mat-icon>
@@ -64,6 +68,10 @@
                 [control]="form.get('procedencia')"
                 [pagination]="procedenciaPagination">
             </cdk-pessoa-autocomplete>
+            <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                    (click)="showLogEntryGrid('procedencia')">
+                <mat-icon matTooltip="Histórico">history</mat-icon>
+            </button>
             <button *ngIf="form.get('procedencia').value && form.get('procedencia').value.id" matSuffix mat-button mat-icon-button
                     (click)="doEditProcedencia()">
                 <mat-icon matTooltip="Editar pessoa">edit</mat-icon>
@@ -90,6 +98,10 @@
                 [control]="form.get('especieProcesso')"
                 [pagination]="especieProcessoPagination">
             </cdk-especie-processo-autocomplete>
+            <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                    (click)="showLogEntryGrid('especieProcesso')">
+                <mat-icon matTooltip="Histórico">history</mat-icon>
+            </button>
             <button matSuffix mat-button mat-icon-button
                     (click)="showEspecieProcessoGrid()">
                 <mat-icon matTooltip="Procurar">search</mat-icon>
@@ -112,6 +124,10 @@
                 [control]="form.get('modalidadeMeio')"
                 [pagination]="modalidadeMeioPagination">
             </cdk-modalidade-meio-autocomplete>
+            <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                    (click)="showLogEntryGrid('modalidadeMeio')">
+                <mat-icon matTooltip="Histórico">history</mat-icon>
+            </button>
             <button matSuffix mat-button mat-icon-button
                     (click)="showModalidadeMeioGrid()">
                 <mat-icon matTooltip="Procurar">search</mat-icon>
@@ -134,6 +150,10 @@
                 [control]="form.get('classificacao')"
                 [pagination]="classificacaoPagination">
             </cdk-classificacao-autocomplete>
+            <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                    (click)="showLogEntryGrid('classificacao')">
+                <mat-icon matTooltip="Histórico">history</mat-icon>
+            </button>
             <button matSuffix mat-button mat-icon-button
                     (click)="showClassificacaoGrid()">
                 <mat-icon matTooltip="Procurar">search</mat-icon>
@@ -152,6 +172,10 @@
                    maxlength="255" upperCase>
             <mat-hint align="end">{{titulo.value.length}} / 255</mat-hint>
             <mat-error>Campo obrigatório!</mat-error>
+            <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                    (click)="showLogEntryGrid('titulo')">
+                <mat-icon matTooltip="Histórico">history</mat-icon>
+            </button>
         </mat-form-field>
 
         <mat-form-field fxFlex="100">
@@ -161,6 +185,10 @@
                    formControlName="descricao"
                    maxlength="255" upperCase>
             <mat-hint align="end">{{descricao.value.length}} / 255</mat-hint>
+            <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                    (click)="showLogEntryGrid('descricao')">
+                <mat-icon matTooltip="Histórico">history</mat-icon>
+            </button>
         </mat-form-field>
 
         <mat-form-field fxFlex="100">
@@ -169,6 +197,10 @@
                    name="outroNumero"
                    formControlName="outroNumero"
                    maxlength="255">
+            <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                    (click)="showLogEntryGrid('outroNumero')">
+                <mat-icon matTooltip="Histórico">history</mat-icon>
+            </button>
         </mat-form-field>
 
         <mat-form-field fxFlex="100">
@@ -184,6 +216,10 @@
                 [control]="form.get('setorAtual')"
                 [pagination]="setorAtualPagination">
             </cdk-setor-autocomplete>
+            <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                    (click)="showLogEntryGrid('setorAtual')">
+                <mat-icon matTooltip="Histórico">history</mat-icon>
+            </button>
             <button matSuffix mat-button mat-icon-button
                     (click)="showSetorGrid()">
                 <mat-icon matTooltip="Procurar">search</mat-icon>
@@ -244,3 +280,10 @@
         (selected)="selectSetor($event)"
         (cancel)="cancel()">
 </cdk-setor-gridsearch>
+
+<cdk-logentry-gridsearch
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'logentry-gridsearch'"
+    [pagination]="logEntryPagination"
+    (cancel)="cancel()">
+</cdk-logentry-gridsearch>

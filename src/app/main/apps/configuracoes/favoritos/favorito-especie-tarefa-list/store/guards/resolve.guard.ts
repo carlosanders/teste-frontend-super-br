@@ -6,10 +6,10 @@ import {select, Store} from '@ngrx/store';
 import {Observable, of} from 'rxjs';
 import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
 
-import {FavoritoListAppState} from '../reducers';
+import {FavoritoListEspecieTarefaAppState} from '../reducers';
 import * as fromStore from '../';
 import {getRouterState} from 'app/store/reducers';
-import {getFavoritoListLoaded} from '../selectors';
+import {getFavoritoListEspecieTarefaLoaded} from '../selectors';
 import {LoginService} from 'app/main/auth/login/login.service';
 
 @Injectable()
@@ -23,7 +23,7 @@ export class ResolveGuard implements CanActivate {
      * @param _loginService
      */
     constructor(
-        private _store: Store<FavoritoListAppState>,
+        private _store: Store<FavoritoListEspecieTarefaAppState>,
         private _loginService: LoginService
     ) {
         this._store
@@ -56,7 +56,7 @@ export class ResolveGuard implements CanActivate {
      */
     getFavoritos(): any {
         return this._store.pipe(
-            select(getFavoritoListLoaded),
+            select(getFavoritoListEspecieTarefaLoaded),
             tap((loaded: any) => {
                 if (!loaded) {
 

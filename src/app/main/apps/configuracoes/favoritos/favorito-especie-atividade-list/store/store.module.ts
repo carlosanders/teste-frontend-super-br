@@ -7,11 +7,11 @@ import { effects } from './effects';
 
 @NgModule({
     imports  : [
-        StoreModule.forFeature('favorito-list-app', reducers),
+        StoreModule.forFeature('favorito-list-especie-atividade-app', reducers),
         EffectsModule.forFeature(effects)
     ],
     providers: []
 })
-export class FavoritoListStoreModule
+export class FavoritoListEspecieAtividadeStoreModule
 {
 }

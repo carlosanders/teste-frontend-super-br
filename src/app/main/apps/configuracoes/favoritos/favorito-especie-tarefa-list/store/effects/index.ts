@@ -1,7 +1,7 @@
-import { FavoritoListEffect } from './favorito-especie-tarefa-list.effects';
+import { FavoritoListEspecieTarefaEffect } from './favorito-especie-tarefa-list.effects';
 
 export const effects = [
-    FavoritoListEffect
+    FavoritoListEspecieTarefaEffect
 ];
 
 export * from './favorito-especie-tarefa-list.effects';

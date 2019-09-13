@@ -79,6 +79,9 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     @Input()
     procedencia: Pessoa;
 
+    @Input()
+    logEntryPagination: Pagination;
+
     form: FormGroup;
 
     activeCard = 'form';
@@ -324,6 +327,14 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
     cancel(): void {
         this.activeCard = 'form';
+    }
+
+    showLogEntryGrid(target: string): void {
+
+        const campo = {'target': target};
+        Object.assign(this.logEntryPagination.filter, campo);
+
+        this.activeCard = 'logentry-gridsearch';
     }
 
 }

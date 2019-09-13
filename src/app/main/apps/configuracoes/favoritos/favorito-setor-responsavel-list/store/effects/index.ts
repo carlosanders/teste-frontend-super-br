@@ -1,7 +1,7 @@
-import { FavoritoListEffect } from './favorito-setor-responsavel-list.effects';
+import { FavoritoListSetorResponsavelEffect } from './favorito-setor-responsavel-list.effects';
 
 export const effects = [
-    FavoritoListEffect
+    FavoritoListSetorResponsavelEffect
 ];
 
 export * from './favorito-setor-responsavel-list.effects';

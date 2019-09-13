@@ -1,7 +1,7 @@
-import { FavoritoListEffect } from './favorito-especie-atividade-list.effects';
+import { FavoritoListEspecieAtividadeEffect } from './favorito-especie-atividade-list.effects';
 
 export const effects = [
-    FavoritoListEffect
+    FavoritoListEspecieAtividadeEffect
 ];
 
 export * from './favorito-especie-atividade-list.effects';

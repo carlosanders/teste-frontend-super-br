@@ -1,29 +1,33 @@
 import { Action } from '@ngrx/store';
 
-export const GET_FAVORITOS = '[FAVORITO LIST] GET FAVORITOS';
-export const GET_FAVORITOS_SUCCESS = '[FAVORITO LIST] GET FAVORITOS SUCCESS';
-export const GET_FAVORITOS_FAILED = '[FAVORITO LIST] GET FAVORITOS FAILED';
+export const GET_FAVORITO_ESPECIE_TAREFA = '[FAVORITO LIST] GET FAVORITO ESPECIE TAREFA';
+export const GET_FAVORITO_ESPECIE_TAREFA_SUCCESS = '[FAVORITO LIST] GET FAVORITO ESPECIE TAREFA SUCCESS';
+export const GET_FAVORITO_ESPECIE_TAREFA_FAILED = '[FAVORITO LIST] GET FAVORITO ESPECIE TAREFA FAILED';
 
-export const RELOAD_FAVORITOS = '[FAVORITO LIST] RELOAD FAVORITOS';
+export const GET_FAVORITOS_ESPECIE_TAREFA = '[FAVORITO LIST] GET FAVORITOS ESPECIE TAREFA';
+export const GET_FAVORITOS_ESPECIE_TAREFA_SUCCESS = '[FAVORITO LIST] GET FAVORITOS ESPECIE TAREFA SUCCESS';
+export const GET_FAVORITOS_ESPECIE_TAREFA_FAILED = '[FAVORITO LIST] GET FAVORITOS ESPECIE TAREFA FAILED';
 
-export const DELETE_FAVORITO = '[FAVORITO LIST] DELETE FAVORITO';
-export const DELETE_FAVORITO_SUCCESS = '[FAVORITO LIST] DELETE FAVORITO SUCCESS';
-export const DELETE_FAVORITO_FAILED = '[FAVORITO LIST] DELETE FAVORITO FAILED';
+export const RELOAD_FAVORITOS_ESPECIE_TAREFA = '[FAVORITO LIST] RELOAD FAVORITOS ESPECIE TAREFA';
 
-export const TOGGLE_FAVORITO_ESPECIE_TAREFA = '[ESPECIE TAREFA LIST] TOGGLE FAVORITO ESPECIE TAREFA';
-export const TOGGLE_FAVORITO_ESPECIE_TAREFA_SUCCESS = '[ESPECIE TAREFA LIST] TOGGLE FAVORITO ESPECIE TAREFA SUCCESS';
-export const TOGGLE_FAVORITO_ESPECIE_TAREFA_FAILED = '[ESPECIE TAREFA LIST] TOGGLE FAVORITO ESPECIE TAREFA FAILED';
+export const DELETE_FAVORITO_ESPECIE_TAREFA = '[FAVORITO LIST] DELETE FAVORITO ESPECIE TAREFA';
+export const DELETE_FAVORITO_ESPECIE_TAREFA_SUCCESS = '[FAVORITO LIST] DELETE FAVORITO ESPECIE TAREFA SUCCESS';
+export const DELETE_FAVORITO_ESPECIE_TAREFA_FAILED = '[FAVORITO LIST] DELETE FAVORITO ESPECIE TAREFA FAILED';
 
-export const SAVE_FAVORITO = '[FAVORITO] SAVE FAVORITO';
-export const SAVE_FAVORITO_SUCCESS = '[FAVORITO] SAVE FAVORITO SUCCESS';
-export const SAVE_FAVORITO_FAILED = '[FAVORITO] SAVE FAVORITO FAILED';
+export const TOGGLE_FAVORITO_ESPECIE_TAREFA = '[FAVORITO LIST] TOGGLE FAVORITO ESPECIE TAREFA';
+export const TOGGLE_FAVORITO_ESPECIE_TAREFA_SUCCESS = '[FAVORITO LIST] TOGGLE FAVORITO ESPECIE TAREFA SUCCESS';
+export const TOGGLE_FAVORITO_ESPECIE_TAREFA_FAILED = '[FAVORITO LIST] TOGGLE FAVORITO ESPECIE TAREFA FAILED';
+
+export const SAVE_FAVORITO_ESPECIE_TAREFA = '[FAVORITO LIST] SAVE FAVORITO ESPECIE TAREFA';
+export const SAVE_FAVORITO_ESPECIE_TAREFA_SUCCESS = '[FAVORITO LIST] SAVE FAVORITO ESPECIE TAREFA SUCCESS';
+export const SAVE_FAVORITO_ESPECIE_TAREFA_FAILED = '[FAVORITO LIST] SAVE FAVORITO ESPECIE TAREFA FAILED';
 
 /**
  * Get Favoritos
  */
 export class GetFavoritos implements Action
 {
-    readonly type = GET_FAVORITOS;
+    readonly type = GET_FAVORITOS_ESPECIE_TAREFA;
 
     constructor(public payload: any)
     {
@@ -35,7 +39,7 @@ export class GetFavoritos implements Action
  */
 export class GetFavoritosSuccess implements Action
 {
-    readonly type = GET_FAVORITOS_SUCCESS;
+    readonly type = GET_FAVORITOS_ESPECIE_TAREFA_SUCCESS;
 
     constructor(public payload: any)
     {
@@ -47,7 +51,44 @@ export class GetFavoritosSuccess implements Action
  */
 export class GetFavoritosFailed implements Action
 {
-    readonly type = GET_FAVORITOS_FAILED;
+    readonly type = GET_FAVORITOS_ESPECIE_TAREFA_FAILED;
+
+    constructor(public payload: string)
+    {
+    }
+}
+
+
+/**
+ * Get Favorito
+ */
+export class GetFavorito implements Action
+{
+    readonly type = GET_FAVORITO_ESPECIE_TAREFA;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Get Favorito Success
+ */
+export class GetFavoritoSuccess implements Action
+{
+    readonly type = GET_FAVORITO_ESPECIE_TAREFA_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Get Favorito Failed
+ */
+export class GetFavoritoFailed implements Action
+{
+    readonly type = GET_FAVORITO_ESPECIE_TAREFA_FAILED;
 
     constructor(public payload: string)
     {
@@ -59,7 +100,7 @@ export class GetFavoritosFailed implements Action
  */
 export class ReloadFavoritos implements Action
 {
-    readonly type = RELOAD_FAVORITOS;
+    readonly type = RELOAD_FAVORITOS_ESPECIE_TAREFA;
 
     constructor()
     {
@@ -71,7 +112,7 @@ export class ReloadFavoritos implements Action
  */
 export class DeleteFavorito implements Action
 {
-    readonly type = DELETE_FAVORITO;
+    readonly type = DELETE_FAVORITO_ESPECIE_TAREFA;
 
     constructor(public payload: any)
     {
@@ -83,7 +124,7 @@ export class DeleteFavorito implements Action
  */
 export class DeleteFavoritoSuccess implements Action
 {
-    readonly type = DELETE_FAVORITO_SUCCESS;
+    readonly type = DELETE_FAVORITO_ESPECIE_TAREFA_SUCCESS;
 
     constructor(public payload: any)
     {
@@ -95,7 +136,7 @@ export class DeleteFavoritoSuccess implements Action
  */
 export class DeleteFavoritoFailed implements Action
 {
-    readonly type = DELETE_FAVORITO_FAILED;
+    readonly type = DELETE_FAVORITO_ESPECIE_TAREFA_FAILED;
 
     constructor(public payload: any)
     {
@@ -144,7 +185,7 @@ export class ToggleFavoritoEspecieTarefa implements Action
  */
 export class SaveFavorito implements Action
 {
-    readonly type = SAVE_FAVORITO;
+    readonly type = SAVE_FAVORITO_ESPECIE_TAREFA;
 
     constructor(public payload: any)
     {
@@ -156,7 +197,7 @@ export class SaveFavorito implements Action
  */
 export class SaveFavoritoSuccess implements Action
 {
-    readonly type = SAVE_FAVORITO_SUCCESS;
+    readonly type = SAVE_FAVORITO_ESPECIE_TAREFA_SUCCESS;
 
     constructor()
     {
@@ -168,14 +209,14 @@ export class SaveFavoritoSuccess implements Action
  */
 export class SaveFavoritoFailed implements Action
 {
-    readonly type = SAVE_FAVORITO_FAILED;
+    readonly type = SAVE_FAVORITO_ESPECIE_TAREFA_FAILED;
 
     constructor(public payload: any)
     {
     }
 }
 
-export type FavoritoListActionsAll
+export type FavoritoListEspecieTarefaActionsAll
     = GetFavoritos
     | GetFavoritosSuccess
     | GetFavoritosFailed
@@ -188,5 +229,8 @@ export type FavoritoListActionsAll
     | ToggleFavoritoEspecieFailed
     | SaveFavorito
     | SaveFavoritoSuccess
-    | SaveFavoritoFailed;
+    | SaveFavoritoFailed
+    | GetFavorito
+    | GetFavoritoSuccess
+    | GetFavoritoFailed;
 
