@@ -102,8 +102,14 @@
             <cdk-especie-atividade-autocomplete
                 #especieAtividade="especieAtividadeAutocomplete"
                 [control]="form.get('especieAtividade')"
+                [especieAtividadeList]="especieAtividadeList"
+                [especieAtividadeListIsLoading]="especieAtividadeListIsLoading"
                 [pagination]="especieAtividadePagination">
             </cdk-especie-atividade-autocomplete>
+            <button matSuffix mat-button mat-icon-button
+                    (click)="showEspecieAtividadeList()">
+                <mat-icon matTooltip="Procurar">star</mat-icon>
+            </button>
             <button matSuffix mat-button mat-icon-button
                     (click)="showEspecieAtividadeGrid()">
                 <mat-icon matTooltip="Procurar">search</mat-icon>

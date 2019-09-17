@@ -32,7 +32,10 @@ export class CdkSetorAutocompleteComponent implements OnInit {
     @Input()
     control: FormControl;
 
+    @Input()
     setorList: Setor[];
+
+    @Input()
     setorListIsLoading: boolean;
 
     @ViewChild(MatAutocomplete) autocomplete: MatAutocomplete;

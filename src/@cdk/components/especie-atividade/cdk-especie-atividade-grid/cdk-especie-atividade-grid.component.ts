@@ -15,6 +15,7 @@ import {tap} from 'rxjs/operators';
 
 import {EspecieAtividade} from '@cdk/models/especie-atividade.model';
 import {EspecieAtividadeDataSource} from '@cdk/data-sources/especie-atividade-data-source';
+import {Favorito} from '../../../models/favorito.model';
 
 @Component({
     selector: 'cdk-especie-atividade-grid',
@@ -69,6 +70,9 @@ export class CdkEspecieAtividadeGridComponent implements AfterViewInit, OnInit, 
     delete = new EventEmitter<number>();
 
     @Output()
+    toggleFavorito = new EventEmitter<Favorito>();
+
+    @Output()
     select = new EventEmitter<EspecieAtividade>();
 
     @Output()
@@ -76,6 +80,7 @@ export class CdkEspecieAtividadeGridComponent implements AfterViewInit, OnInit, 
 
     dataSource: EspecieAtividadeDataSource;
 
+    @Input()
     showFilter = false;
 
     gridFilter: any;
@@ -152,6 +157,10 @@ export class CdkEspecieAtividadeGridComponent implements AfterViewInit, OnInit, 
 
     deleteEspecieAtividades(especieAtividadesId): void {
         especieAtividadesId.forEach(especieAtividadeId => this.deleteEspecieAtividade(especieAtividadeId));
+    }
+
+    salvarFavorito(favorito): void {
+       this.toggleFavorito.emit(favorito);
     }
 
     /**

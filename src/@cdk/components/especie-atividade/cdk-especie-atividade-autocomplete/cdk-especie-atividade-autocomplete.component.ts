@@ -32,7 +32,10 @@ export class CdkEspecieAtividadeAutocompleteComponent implements OnInit {
     @Input()
     control: FormControl;
 
+    @Input()
     especieAtividadeList: EspecieAtividade[];
+
+    @Input()
     especieAtividadeListIsLoading: boolean;
 
     @ViewChild(MatAutocomplete) autocomplete: MatAutocomplete;

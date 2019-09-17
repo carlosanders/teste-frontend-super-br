@@ -45,6 +45,8 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
 
     procedencia: Pessoa;
 
+    logEntryPagination: Pagination;
+
     /**
      *
      * @param _store
@@ -94,6 +96,9 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
                     this.routerState = routerState.state;
                 }
             });
+
+        this.logEntryPagination = new Pagination();
+        this.logEntryPagination.filter = {'entity': 'App\\Entity\\Processo', 'id': + this.processo.id};
     }
 
     /**

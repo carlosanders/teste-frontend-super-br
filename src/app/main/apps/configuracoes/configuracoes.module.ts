@@ -53,6 +53,10 @@ const routes: Routes = [
             {
                 path       : 'pastas',
                 loadChildren: './folders/folders.module#FoldersModule'
+            },
+            {
+                path       : 'favoritos',
+                loadChildren: './favoritos/favoritos.module#FavoritosModule'
             }
         ]
     },
