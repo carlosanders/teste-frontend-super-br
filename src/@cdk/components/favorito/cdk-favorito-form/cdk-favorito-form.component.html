@@ -61,6 +61,32 @@
 
             <mat-form-field fxFlex="100">
                 <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Unidade Responsável"
+                           formControlName="unidadeResponsavel"
+                           [matAutocomplete]="unidadeResponsavel.autocomplete" required
+                           (blur)="checkUnidadeResponsavel()">
+                </div>
+                <cdk-setor-autocomplete
+                    #unidadeResponsavel="setorAutocomplete"
+                    [control]="form.get('unidadeResponsavel')"
+                    [pagination]="unidadeResponsavelPagination">
+                </cdk-setor-autocomplete>
+                <button matSuffix mat-button mat-icon-button
+                        (click)="showUnidadeResponsavelGrid()">
+                    <mat-icon matTooltip="Procurar">search</mat-icon>
+                </button>
+                <mat-error *ngIf="form.get('unidadeResponsavel').hasError('formError')">
+                    {{form.get('unidadeResponsavel').errors.formError}}
+                </mat-error>
+            </mat-form-field>
+
+        </div>
+
+        <div fxLayout="row" class="mt-36 mb-36" fxFlex
+             fxLayoutAlign="center center" *ngIf="showSetorResponsavel">
+
+            <mat-form-field fxFlex="100">
+                <div fxLayout="row" fxLayoutAlign="start center">
                     <input matInput placeholder="Setor Responsável"
                            formControlName="setorResponsavel"
                            [matAutocomplete]="setor.autocomplete" required
@@ -121,5 +147,13 @@
     *ngIf="activeCard === 'setor-gridsearch'"
     [pagination]="templatePagination"
     (selected)="selectSetorResponsavel($event)"
+    (cancel)="cancel()">
+</cdk-setor-gridsearch>
+
+<cdk-setor-gridsearch
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'unidade-gridsearch'"
+    [pagination]="unidadeResponsavelPagination"
+    (selected)="selectUnidadeResponsavel($event)"
     (cancel)="cancel()">
 </cdk-setor-gridsearch>
