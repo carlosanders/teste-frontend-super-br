@@ -8,7 +8,7 @@ const schemaDocumentoSelectors = createSchemaSelectors<Documento>(documentoSchem
 
 export const getAtividadeCreateDocumentosState = createSelector(
     getAtividadeCreateAppState,
-    (state: AtividadeCreateAppState) => state.atividadeCreateDocumentos
+    (state: AtividadeCreateAppState) => state ? state.atividadeCreateDocumentos : null
 );
 
 export const getDocumentosId = createSelector(

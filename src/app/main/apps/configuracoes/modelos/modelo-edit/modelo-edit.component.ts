@@ -69,6 +69,7 @@ export class ModeloEditComponent implements OnInit, OnDestroy {
 
         if (!this.modelo) {
             this.modelo = new Modelo();
+            this.modelo.ativo = true;
         }
     }
 

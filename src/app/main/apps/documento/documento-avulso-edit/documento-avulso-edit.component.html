@@ -14,19 +14,21 @@
              fxLayoutAlign="center center">
             <mat-spinner color="accent" diameter="24"></mat-spinner>
         </div>
-        <div>
-            <mat-slide-toggle [checked]="!!!documento.documentoAvulsoRemessa.dataHoraEncerramento"
-                              (change)="toggleEncerramento($event)"
-                              class="mt-16 mr-16 mb-16">
-                Acompanhar a resposta
-            </mat-slide-toggle>
+        <div *ngIf="!(isRemetendo$ | async)">
+            <div>
+                <mat-slide-toggle [checked]="!!!documento.documentoAvulsoRemessa.dataHoraEncerramento"
+                                  (change)="toggleEncerramento($event)"
+                                  class="mt-16 mr-16 mb-16">
+                    Acompanhar a resposta
+                </mat-slide-toggle>
+            </div>
+            <cdk-documento-avulso-form
+                [documentoAvulso]="(documento$ | async)?.documentoAvulsoRemessa"
+                [saving]="(isSaving$ | async)"
+                [errors]="(errors$ | async)"
+                (save)="submit($event)">
+            </cdk-documento-avulso-form>
         </div>
-        <cdk-documento-avulso-form
-            [documentoAvulso]="(documento$ | async)?.documentoAvulsoRemessa"
-            [saving]="(isSaving$ | async)"
-            [errors]="(errors$ | async)"
-            (save)="submit($event)">
-        </cdk-documento-avulso-form>
     </div>
     <router-outlet></router-outlet>
 </div>

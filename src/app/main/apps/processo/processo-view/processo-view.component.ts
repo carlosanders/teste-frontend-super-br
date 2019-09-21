@@ -46,6 +46,9 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     src: any;
     loading = false;
 
+    pagination$: any;
+    pagination: any;
+
     @Output()
     select: EventEmitter<ComponenteDigital> = new EventEmitter();
 
@@ -71,6 +74,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         this.juntadas$ = this._store.pipe(select(fromStore.getJuntadas));
         this.currentStep$ = this._store.pipe(select(fromStore.getCurrentStep));
         this.index$ = this._store.pipe(select(fromStore.getIndex));
+        this.pagination$ = this._store.pipe(select(fromStore.getPagination));
 
         this.juntadas$.pipe(filter(juntadas => !!juntadas)).subscribe(
             juntadas => {
@@ -107,6 +111,10 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                 this.loading = binary.loading;
                 this._changeDetectorRef.markForCheck();
             }
+        );
+
+        this.pagination$.subscribe(
+            pagination => this.pagination = pagination
         );
 
         this.src = this._sanitizer.bypassSecurityTrustResourceUrl('about:blank');
@@ -193,5 +201,19 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
      */
     toggleSidebar(name): void {
         this._fuseSidebarService.getSidebar(name).toggleOpen();
+    }
+
+    onScroll(): void {
+
+        if (this.juntadas.length >= this.pagination.total) {
+            return;
+        }
+
+        const nparams = {
+            ...this.pagination,
+            limit: this.pagination.limit + this.pagination.limit
+        };
+
+        this._store.dispatch(new fromStore.GetJuntadas(nparams));
     }
 }

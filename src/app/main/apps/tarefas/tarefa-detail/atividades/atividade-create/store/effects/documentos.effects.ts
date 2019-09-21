@@ -54,8 +54,7 @@ export class AtividadeCreateDocumentosEffect {
 
                     const params = {
                         filter: {
-                            'tarefaOrigem.id': tarefaId,
-                            'juntadaAtual': 'isNull'
+                            'tarefaOrigem.id': tarefaId
                         },
                         limit: 10,
                         offset: 0,
@@ -63,7 +62,8 @@ export class AtividadeCreateDocumentosEffect {
                         populate: [
                             'tipoDocumento',
                             'documentoAvulsoRemessa',
-                            'documentoAvulsoRemessa.documentoResposta'
+                            'documentoAvulsoRemessa.documentoResposta',
+                            'juntadaAtual'
                         ]
                     };
 

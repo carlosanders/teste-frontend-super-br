@@ -43,7 +43,7 @@ export class ProcessoViewEffect {
         this._actions
             .pipe(
                 ofType<ProcessoViewActions.GetJuntadas>(ProcessoViewActions.GET_JUNTADAS),
-                exhaustMap((action) => {
+                switchMap((action) => {
                     return this._juntadaService.query(
                         JSON.stringify({
                             ...action.payload.filter,

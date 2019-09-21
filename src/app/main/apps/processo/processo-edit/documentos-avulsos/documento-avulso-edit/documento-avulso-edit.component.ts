@@ -16,6 +16,7 @@ import * as fromStore from './store';
 import {Processo} from '@cdk/models/processo.model';
 import {getProcesso} from '../../../store/selectors';
 import {Pagination} from '@cdk/models/pagination';
+import * as moment from 'moment';
 
 @Component({
     selector: 'documento-avulso-edit',
@@ -71,6 +72,8 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy {
         if (!this.documentoAvulso) {
             this.documentoAvulso = new DocumentoAvulso();
             this.documentoAvulso.processo = this.processo;
+            this.documentoAvulso.dataHoraInicioPrazo = moment();
+            this.documentoAvulso.dataHoraFinalPrazo = moment().add(5, 'days').set({'hour': 20, 'minute': 0, 'second': 0});
         }
     }
 

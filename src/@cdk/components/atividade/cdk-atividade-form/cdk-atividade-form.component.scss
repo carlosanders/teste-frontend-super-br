@@ -34,7 +34,12 @@ cdk-atividade-form {
     mat-radio-group {
         padding: 16px;
         display: flex;
-        flex-direction: row;
+        &.horizontal {
+            flex-direction: row;
+        }
+        &.vertical {
+            flex-direction: column;
+        }
         margin: 15px 0;
         @include mat-elevation(1);
     }

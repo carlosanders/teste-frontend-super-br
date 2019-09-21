@@ -119,7 +119,7 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
         });
 
         this.assinandoDocumentosId$.subscribe(assinandoDocumentosId => {
-            if (assinandoDocumentosId.length > 0) {
+            if (assinandoDocumentosId && assinandoDocumentosId.length > 0) {
                 setInterval(() => {
                     // monitoramento do java
                     if (!this.javaWebStartOK && (assinandoDocumentosId.length > 0)) {
