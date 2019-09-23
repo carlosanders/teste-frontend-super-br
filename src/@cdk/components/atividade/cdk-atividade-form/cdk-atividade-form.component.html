@@ -7,7 +7,7 @@
 
         <div *ngIf="temMinutas">
             <label id="minutas-rg">Selecione a destinação das minutas</label>
-            <mat-radio-group formControlName="destinacaoMinutas" aria-labelledby="minutas-rg" required>
+            <mat-radio-group [ngClass]="{'horizontal': (mode === 'horizontal'), 'vertical': (mode === 'vertical')}" formControlName="destinacaoMinutas" aria-labelledby="minutas-rg" required>
                 <mat-radio-button [value]="'juntar'">
                     Juntar no processo
                 </mat-radio-button>

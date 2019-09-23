@@ -55,7 +55,7 @@ export const getIsSaving = createSelector(
 
 export const getAssinandoDocumentosId = createSelector(
     getAtividadeCreateDocumentosState,
-    (state: AtividadeCreateDocumentosState) => state.assinandoDocumentoIds
+    (state: AtividadeCreateDocumentosState) => state ? state.assinandoDocumentoIds : null
 );
 
 export const getErrors = createSelector(

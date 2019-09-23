@@ -68,6 +68,7 @@ export class RepositorioEditComponent implements OnInit, OnDestroy {
 
         if (!this.repositorio) {
             this.repositorio = new Repositorio();
+            this.repositorio.ativo = true;
         }
     }
 

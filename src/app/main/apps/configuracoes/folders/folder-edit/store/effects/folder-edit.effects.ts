@@ -15,6 +15,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {LoginService} from 'app/main/auth/login/login.service';
+import {GetFolders} from '../../../../../tarefas/store/actions';
 
 @Injectable()
 export class FolderEditEffect {
@@ -86,6 +87,7 @@ export class FolderEditEffect {
                         mergeMap((response: Folder) => [
                             new FolderEditActions.SaveFolderSuccess(),
                             new FolderListActions.ReloadFolders(),
+                            new GetFolders([]),
                             new AddData<Folder>({data: [response], schema: folderSchema})
                         ])
                     );

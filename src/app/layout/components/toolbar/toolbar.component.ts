@@ -182,7 +182,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
      * @param value
      */
     search(value): void {
-        this._router.navigate(['apps/pesquisa/processos/' + value]);
+        this._router.navigate(['apps/pesquisa/processos/' + value.replace(/\D/g, '')]);
     }
 
     goConfiguracoes(): void {

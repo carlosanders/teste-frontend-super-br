@@ -4,7 +4,12 @@
     <fuse-sidebar class="sidebar" name="juntadas-left-sidebar-1" position="left" lockedOpen="gt-md">
 
         <!-- SIDEBAR CONTENT -->
-        <div class="content" fusePerfectScrollbar>
+        <div class="content" infiniteScroll
+             [scrollWindow]="false"
+             [infiniteScrollDistance]="2"
+             [infiniteScrollThrottle]="50"
+             (scrolled)="onScroll()"
+             fusePerfectScrollbar>
             <processo-view-main-sidebar [@animate]="{value:'*'}"></processo-view-main-sidebar>
         </div>
         <!-- / SIDEBAR CONTENT -->

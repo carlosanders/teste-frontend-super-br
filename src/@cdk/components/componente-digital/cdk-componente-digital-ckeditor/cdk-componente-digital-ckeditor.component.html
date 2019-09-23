@@ -5,7 +5,7 @@
                   [icon]="'save'"
                   [label]="'Salvar'">
         </ckbutton>
-        <ckbutton [name]="'assinarButton'"
+        <ckbutton *ngIf="pluginAssinar" [name]="'assinarButton'"
                   [command]="'assinarCmd'"
                   (click)="doAssinar()"
                   [icon]="'/assets/icons/assinar.png'"
