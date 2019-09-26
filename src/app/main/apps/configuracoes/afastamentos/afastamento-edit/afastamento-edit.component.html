@@ -1,0 +1,7 @@
+<cdk-afastamento-form
+        [afastamento]="afastamento"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        [modalidadeAfastamentoPagination]="templatePagination"
+        (save)="submit($event)">
+</cdk-afastamento-form>
