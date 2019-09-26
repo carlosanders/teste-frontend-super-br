@@ -113,9 +113,9 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
     }
 
     /**
-     * Go to step
      *
      * @param step
+     * @param ativo
      */
     gotoStep(step, ativo): void {
         if (this.juntadas[this.currentStep.step] === undefined || !ativo) {
@@ -138,20 +138,6 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
             ...this.pagination,
             listFilter: params.listFilter,
             sort: params.listSort && Object.keys(params.listSort).length ? params.listSort : this.pagination.sort
-        };
-
-        this._store.dispatch(new fromStore.GetJuntadas(nparams));
-    }
-
-    onScroll(): void {
-
-        if (this.juntadas.length >= this.pagination.total) {
-            return;
-        }
-
-        const nparams = {
-            ...this.pagination,
-            limit: this.pagination.limit + this.pagination.limit
         };
 
         this._store.dispatch(new fromStore.GetJuntadas(nparams));

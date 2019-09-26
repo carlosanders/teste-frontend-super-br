@@ -55,6 +55,9 @@ export class CdkAtividadeFormComponent implements OnInit, OnChanges, OnDestroy {
     @Input()
     errors: any;
 
+    @Input()
+    mode = 'horizontal';
+
     @Output()
     save = new EventEmitter<Atividade>();
 

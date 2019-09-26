@@ -38,6 +38,9 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
     @Input()
     repositorio: string;
 
+    @Input()
+    pluginAssinar = true;
+
     @Output()
     clearRepositorio = new EventEmitter<any>();
 

@@ -22,6 +22,7 @@ import {Tarefa} from '@cdk/models/tarefa.model';
 import {Documento} from '@cdk/models/documento.model';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {DeleteTarefaSuccess} from '../../../store/actions';
+import {GetDocumentos} from '../../atividades/atividade-create/store/actions';
 
 @Injectable()
 export class TarefaDetailEffect {
@@ -234,7 +235,8 @@ export class TarefaDetailEffect {
                                 type: 'tarefa',
                                 content: `Tarefa id ${response.id} etiquetada com sucesso!`,
                                 dateTime: response.criadoEm
-                            })
+                            }),
+                            new GetDocumentos()
                         ]),
                         catchError((err) => {
                             console.log(err);

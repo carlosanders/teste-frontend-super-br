@@ -45,7 +45,7 @@ export class CdkProcessoGridFilterComponent implements OnInit {
      */
     ngOnInit(): void {
         this.form.get('processo').valueChanges.subscribe(value => {
-            this.selected.emit({'NUP': `like:${value}%`});
+            this.selected.emit({'NUP': `like:${value.replace(/\D/g, '')}%`});
         });
     }
 
