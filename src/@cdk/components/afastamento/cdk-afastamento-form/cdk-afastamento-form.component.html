@@ -28,18 +28,16 @@
 
         <div class="dates" fxFlexFill fxLayout="column" fxLayout.gt-xs="row">
 
-            <mat-form-field appearance="outline" class="mr-sm-12" fxFlex>
+            <mat-form-field class="mr-sm-12" fxFlex>
                 <mat-label>Início do Afastamento</mat-label>
-                <input matInput [matDatepicker]="dataInicio" placeholder="Início do Afastamento"
-                       formControlName="dataInicio" required>
+                <input matInput formControlName="dataInicio" [matDatepicker]="dataInicio" required>
                 <mat-datepicker-toggle matSuffix [for]="dataInicio"></mat-datepicker-toggle>
                 <mat-datepicker #dataInicio></mat-datepicker>
             </mat-form-field>
 
-            <mat-form-field appearance="outline" class="ml-sm-12" fxFlex>
+            <mat-form-field class="mr-sm-12" fxFlex>
                 <mat-label>Final do Afastamento</mat-label>
-                <input matInput [matDatepicker]="dataFim" placeholder="Final do Afastamento"
-                       formControlName="dataFim">
+                <input matInput formControlName="dataFim" [matDatepicker]="dataFim" required>
                 <mat-datepicker-toggle matSuffix [for]="dataFim"></mat-datepicker-toggle>
                 <mat-datepicker #dataFim></mat-datepicker>
             </mat-form-field>
@@ -48,17 +46,17 @@
 
         <div class="dates" fxFlexFill fxLayout="column" fxLayout.gt-xs="row">
 
-            <mat-form-field appearance="outline" class="mr-sm-12" fxFlex>
+            <mat-form-field class="mr-sm-12" fxFlex>
                 <mat-label>Início do Bloqueio</mat-label>
-                <input matInput [matDatepicker]="dataInicioBloqueio" placeholder="Início do Bloqueio"
+                <input matInput [matDatepicker]="dataInicioBloqueio"
                        formControlName="dataInicioBloqueio" required>
                 <mat-datepicker-toggle matSuffix [for]="dataInicioBloqueio"></mat-datepicker-toggle>
                 <mat-datepicker #dataInicioBloqueio></mat-datepicker>
             </mat-form-field>
 
-            <mat-form-field appearance="outline" class="ml-sm-12" fxFlex>
+            <mat-form-field class="mr-sm-12" fxFlex>
                 <mat-label>Final do Bloqueio</mat-label>
-                <input matInput [matDatepicker]="dataFimBloqueio" placeholder="Final do Bloqueio"
+                <input matInput [matDatepicker]="dataFimBloqueio"
                        formControlName="dataFimBloqueio" required>
                 <mat-datepicker-toggle matSuffix [for]="dataFimBloqueio"></mat-datepicker-toggle>
                 <mat-datepicker #dataFimBloqueio></mat-datepicker>

@@ -1,0 +1,14 @@
+<cdk-afastamento-grid
+        [loading]="(loading$ | async)"
+        [afastamentos]="(afastamentos$ | async)"
+        [total]="(pagination$ | async)?.total"
+        [deletingIds]="(deletingIds$ | async)"
+        [deletedIds]="(deletedIds$ | async)"
+        [actions]="['edit', 'editConteudo', 'delete']"
+        (reload)="reload($event)"
+        (edit)="edit($event)"
+        (editConteudo)="editConteudo($event)"
+        (delete)="delete($event)">
+</cdk-afastamento-grid>
+
+<router-outlet></router-outlet>
