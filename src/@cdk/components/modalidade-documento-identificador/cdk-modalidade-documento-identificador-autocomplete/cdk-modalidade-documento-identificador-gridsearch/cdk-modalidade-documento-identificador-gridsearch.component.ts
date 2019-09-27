@@ -80,7 +80,7 @@ export class CdkModalidadeDocumentoIdentificadorGridsearchComponent implements O
             });
     }
 
-    reload (params): void {
+    reload(params): void {
         params = {
             ...this.pagination,
             filter: {

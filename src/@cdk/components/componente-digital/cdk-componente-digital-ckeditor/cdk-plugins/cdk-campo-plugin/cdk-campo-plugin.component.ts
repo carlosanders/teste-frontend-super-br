@@ -58,7 +58,7 @@ export class CdkCampoPluginComponent implements OnInit {
         this.pagination = new Pagination();
 
         this.form = this._formBuilder.group({
-            'campo': [null, [Validators.required]]
+            campo: [null, [Validators.required]]
         });
     }
 

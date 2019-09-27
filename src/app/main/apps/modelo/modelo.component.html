@@ -4,6 +4,6 @@
         [total]="(pagination$ | async)?.total"
         [mode]="'search'"
         [actions]="['select']"
-        (select)="doSelect($event)"
+        (selected)="doSelect($event)"
         (reload)="reload($event)">
 </cdk-modelo-grid>

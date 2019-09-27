@@ -50,10 +50,10 @@ export class CdkDesentranhamentoGridComponent implements AfterViewInit, OnInit, 
     @Input()
     actions: string[] = ['edit', 'delete', 'select'];
 
-    @ViewChild(MatPaginator)
+    @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
 
-    @ViewChild(MatSort)
+    @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
     @Output()
@@ -69,7 +69,7 @@ export class CdkDesentranhamentoGridComponent implements AfterViewInit, OnInit, 
     delete = new EventEmitter<number>();
 
     @Output()
-    select = new EventEmitter<Desentranhamento>();
+    selected = new EventEmitter<Desentranhamento>();
 
     @Output()
     selectedIds: number[] = [];
@@ -143,7 +143,7 @@ export class CdkDesentranhamentoGridComponent implements AfterViewInit, OnInit, 
     }
 
     selectDesentranhamento(desentranhamento: Desentranhamento): void {
-        this.select.emit(desentranhamento);
+        this.selected.emit(desentranhamento);
     }
 
     deleteDesentranhamento(desentranhamentoId): void {

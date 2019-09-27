@@ -35,7 +35,7 @@ export class CdkSigiloAutocompleteComponent implements OnInit {
     sigiloList: Sigilo[];
     sigiloListIsLoading: boolean;
 
-    @ViewChild(MatAutocomplete) autocomplete: MatAutocomplete;
+    @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,

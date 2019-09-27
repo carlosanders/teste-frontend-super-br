@@ -46,10 +46,10 @@ export class CdkCadastroIdentificadorFormComponent implements OnChanges, OnDestr
     ) {
 
         this.form = this._formBuilder.group({
-            'id': [null],
-            'numero': [null, [Validators.required, Validators.maxLength(14)]],
-            'origemDados': [null],
-            'pessoa': [null]
+            id: [null],
+            numero: [null, [Validators.required, Validators.maxLength(14)]],
+            origemDados: [null],
+            pessoa: [null]
         });
 
     }
@@ -72,10 +72,10 @@ export class CdkCadastroIdentificadorFormComponent implements OnChanges, OnDestr
                 const fields = Object.keys(data || {});
                 fields.forEach((field) => {
                     const control = this.form.get(field);
-                    control.setErrors({'formError': data[field].join(' - ')});
+                    control.setErrors({formError: data[field].join(' - ')});
                 });
             } catch (e) {
-                this.form.setErrors({'rulesError': this.errors.error.message});
+                this.form.setErrors({rulesError: this.errors.error.message});
             }
         }
         this._changeDetectorRef.markForCheck();

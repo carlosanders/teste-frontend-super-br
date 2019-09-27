@@ -56,10 +56,10 @@ export class CdkDesentranhamentoFormComponent implements OnInit, OnChanges, OnDe
     ) {
 
         this.form = this._formBuilder.group({
-            'id': [null],
-            'tipo': ['processo_existente'],
-            'observacao': [null, [Validators.required]],
-            'processoDestino': [null, [Validators.required]],
+            id: [null],
+            tipo: ['processo_existente'],
+            observacao: [null, [Validators.required]],
+            processoDestino: [null, [Validators.required]],
         });
 
         this.processoDestinoPagination = new Pagination();
@@ -105,10 +105,10 @@ export class CdkDesentranhamentoFormComponent implements OnInit, OnChanges, OnDe
                 const fields = Object.keys(data || {});
                 fields.forEach((field) => {
                     const control = this.form.get(field);
-                    control.setErrors({'formError': data[field].join(' - ')});
+                    control.setErrors({formError: data[field].join(' - ')});
                 });
             } catch (e) {
-                this.form.setErrors({'rulesError': this.errors.error.message});
+                this.form.setErrors({rulesError: this.errors.error.message});
             }
         }
         this._changeDetectorRef.markForCheck();

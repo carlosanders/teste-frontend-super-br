@@ -31,7 +31,7 @@ export class CdkLembreteGridFilterComponent implements OnInit {
     ) {
 
         this.form = this._formBuilder.group({
-            'conteudo': [null]
+            conteudo: [null]
         });
 
     }
@@ -45,7 +45,7 @@ export class CdkLembreteGridFilterComponent implements OnInit {
      */
     ngOnInit(): void {
         this.form.get('conteudo').valueChanges.subscribe(value => {
-            this.selected.emit({'conteudo': `like:${value}%`});
+            this.selected.emit({conteudo: `like:${value}%`});
         });
     }
 

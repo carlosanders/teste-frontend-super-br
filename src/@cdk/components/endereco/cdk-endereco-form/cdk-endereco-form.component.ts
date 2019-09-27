@@ -55,17 +55,17 @@ export class CdkEnderecoFormComponent implements OnChanges, OnDestroy {
     ) {
 
         this.form = this._formBuilder.group({
-            'id': [null],
-            'principal': [null, [Validators.required]],
-            'municipio': [null, [Validators.required]],
-            'pais': [null, [Validators.required]],
-            'logradouro': [null, [Validators.maxLength(255)]],
-            'bairro': [null, [Validators.maxLength(255)]],
-            'cep': [null, [Validators.maxLength(8), Validators.pattern('/\\d{8}/')]],
-            'observacao': [null, [Validators.maxLength(255)]],
-            'numero': [null, [Validators.maxLength(255)]],
-            'complemento': [null, [Validators.maxLength(255)]],
-            'pessoa': [null],
+            id: [null],
+            principal: [null, [Validators.required]],
+            municipio: [null, [Validators.required]],
+            pais: [null, [Validators.required]],
+            logradouro: [null, [Validators.maxLength(255)]],
+            bairro: [null, [Validators.maxLength(255)]],
+            cep: [null, [Validators.maxLength(8), Validators.pattern('/\\d{8}/')]],
+            observacao: [null, [Validators.maxLength(255)]],
+            numero: [null, [Validators.maxLength(255)]],
+            complemento: [null, [Validators.maxLength(255)]],
+            pessoa: [null],
         });
         this.municipioPagination = new Pagination();
         this.paisPagination = new Pagination();
@@ -89,10 +89,10 @@ export class CdkEnderecoFormComponent implements OnChanges, OnDestroy {
                 const fields = Object.keys(data || {});
                 fields.forEach((field) => {
                     const control = this.form.get(field);
-                    control.setErrors({'formError': data[field].join(' - ')});
+                    control.setErrors({formError: data[field].join(' - ')});
                 });
             } catch (e) {
-                this.form.setErrors({'rulesError': this.errors.error.message});
+                this.form.setErrors({rulesError: this.errors.error.message});
             }
         }
 

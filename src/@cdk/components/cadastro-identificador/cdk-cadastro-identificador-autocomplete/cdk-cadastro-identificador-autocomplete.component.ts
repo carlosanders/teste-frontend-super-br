@@ -35,7 +35,7 @@ export class CdkCadastroIdentificadorAutocompleteComponent implements OnInit {
     cadastroIdentificadorList: CadastroIdentificador[];
     cadastroIdentificadorListIsLoading: boolean;
 
-    @ViewChild(MatAutocomplete) autocomplete: MatAutocomplete;
+    @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -57,7 +57,7 @@ export class CdkCadastroIdentificadorAutocompleteComponent implements OnInit {
                     value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
                         termFilter = {
                             ...termFilter,
-                            'numero': `like:%${bit}%`
+                            numero: `like:%${bit}%`
                         };
                     });
                     if (typeof value === 'string') {

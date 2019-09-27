@@ -30,6 +30,7 @@
                         "styles": [
                             "src/styles.scss"
                         ],
+                        "aot": true,
                         "scripts": [],
                         "showCircularDependencies": false
                     },

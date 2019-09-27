@@ -49,7 +49,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
 
     accept = 'application/pdf';
 
-    @ViewChild('ckdUpload')
+    @ViewChild('ckdUpload', {static: true})
     cdkUpload;
 
     maximizado$: Observable<boolean>;

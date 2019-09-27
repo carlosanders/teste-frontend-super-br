@@ -49,10 +49,10 @@ export class CdkAssinaturaGridComponent implements AfterViewInit, OnInit, OnChan
     @Input()
     actions: string[] = ['edit', 'delete', 'select'];
 
-    @ViewChild(MatPaginator)
+    @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
 
-    @ViewChild(MatSort)
+    @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
     @Output()
@@ -65,7 +65,7 @@ export class CdkAssinaturaGridComponent implements AfterViewInit, OnInit, OnChan
     delete = new EventEmitter<number>();
 
     @Output()
-    select = new EventEmitter<Assinatura>();
+    selected = new EventEmitter<Assinatura>();
 
     @Output()
     cancel = new EventEmitter<any>();
@@ -141,7 +141,7 @@ export class CdkAssinaturaGridComponent implements AfterViewInit, OnInit, OnChan
     }
 
     selectAssinatura(assinatura: Assinatura): void {
-        this.select.emit(assinatura);
+        this.selected.emit(assinatura);
     }
 
     deleteAssinatura(assinaturaId): void {
@@ -195,12 +195,12 @@ export class CdkAssinaturaGridComponent implements AfterViewInit, OnInit, OnChan
         this.recompute();
     }
 
-    recompute (): void {
+    recompute(): void {
         this.hasSelected = this.selectedIds.length > 0;
         this.isIndeterminate = (this.selectedIds.length !== this.assinaturas.length && this.selectedIds.length > 0);
     }
 
-    setGridFilter (gridFilter): void {
+    setGridFilter(gridFilter): void {
         this.gridFilter = {
             ...this.gridFilter,
             ...gridFilter

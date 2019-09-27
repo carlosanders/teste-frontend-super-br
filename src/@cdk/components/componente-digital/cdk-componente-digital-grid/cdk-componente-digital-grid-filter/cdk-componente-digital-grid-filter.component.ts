@@ -31,7 +31,7 @@ export class CdkComponenteDigitalGridFilterComponent implements OnInit {
     ) {
 
         this.form = this._formBuilder.group({
-            'conteudo': [null]
+            conteudo: [null]
         });
 
     }
@@ -45,7 +45,7 @@ export class CdkComponenteDigitalGridFilterComponent implements OnInit {
      */
     ngOnInit(): void {
         this.form.get('conteudo').valueChanges.subscribe(value => {
-            this.selected.emit({'conteudo': value});
+            this.selected.emit({conteudo: value});
         });
     }
 

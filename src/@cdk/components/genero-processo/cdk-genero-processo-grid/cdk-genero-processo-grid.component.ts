@@ -50,10 +50,10 @@ export class CdkGeneroProcessoGridComponent implements AfterViewInit, OnInit, On
     @Input()
     actions: string[] = ['edit', 'delete', 'select'];
 
-    @ViewChild(MatPaginator)
+    @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
 
-    @ViewChild(MatSort)
+    @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
     @Output()
@@ -69,7 +69,7 @@ export class CdkGeneroProcessoGridComponent implements AfterViewInit, OnInit, On
     delete = new EventEmitter<number>();
 
     @Output()
-    select = new EventEmitter<GeneroProcesso>();
+    selected = new EventEmitter<GeneroProcesso>();
 
     @Output()
     selectedIds: number[] = [];
@@ -143,7 +143,7 @@ export class CdkGeneroProcessoGridComponent implements AfterViewInit, OnInit, On
     }
 
     selectGeneroProcesso(generoProcesso: GeneroProcesso): void {
-        this.select.emit(generoProcesso);
+        this.selected.emit(generoProcesso);
     }
 
     deleteGeneroProcesso(generoProcessoId): void {

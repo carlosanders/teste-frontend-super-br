@@ -50,10 +50,10 @@ export class CdkRoleGridComponent implements AfterViewInit, OnInit, OnChanges {
     @Input()
     actions: string[] = ['edit', 'delete', 'select'];
 
-    @ViewChild(MatPaginator)
+    @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
 
-    @ViewChild(MatSort)
+    @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
     @Output()
@@ -69,7 +69,7 @@ export class CdkRoleGridComponent implements AfterViewInit, OnInit, OnChanges {
     delete = new EventEmitter<number>();
 
     @Output()
-    select = new EventEmitter<Role>();
+    selected = new EventEmitter<Role>();
 
     @Output()
     selectedIds: number[] = [];
@@ -143,7 +143,7 @@ export class CdkRoleGridComponent implements AfterViewInit, OnInit, OnChanges {
     }
 
     selectRole(role: Role): void {
-        this.select.emit(role);
+        this.selected.emit(role);
     }
 
     deleteRole(roleId): void {

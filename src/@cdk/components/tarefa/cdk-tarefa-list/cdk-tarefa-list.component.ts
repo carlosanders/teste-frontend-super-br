@@ -54,7 +54,7 @@ export class CdkTarefaListComponent implements AfterViewInit, OnInit, OnChanges 
     folder = new EventEmitter<any>();
 
     @Output()
-    select = new EventEmitter<Tarefa>();
+    selected = new EventEmitter<Tarefa>();
 
     @Output()
     compartilhar = new EventEmitter<number>();
@@ -144,7 +144,7 @@ export class CdkTarefaListComponent implements AfterViewInit, OnInit, OnChanges 
     }
 
     selectTarefa(tarefa: Tarefa): void {
-        this.select.emit(tarefa);
+        this.selected.emit(tarefa);
     }
 
     doToggleUrgente(tarefa: Tarefa): void {

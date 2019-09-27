@@ -49,10 +49,10 @@ export class CdkAreaTrabalhoGridComponent implements AfterViewInit, OnInit, OnCh
     @Input()
     actions: string[] = ['edit', 'delete', 'select'];
 
-    @ViewChild(MatPaginator)
+    @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
 
-    @ViewChild(MatSort)
+    @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
     @Output()
@@ -65,7 +65,7 @@ export class CdkAreaTrabalhoGridComponent implements AfterViewInit, OnInit, OnCh
     delete = new EventEmitter<number>();
 
     @Output()
-    select = new EventEmitter<AreaTrabalho>();
+    selected = new EventEmitter<AreaTrabalho>();
 
     @Output()
     cancel = new EventEmitter<any>();
@@ -141,7 +141,7 @@ export class CdkAreaTrabalhoGridComponent implements AfterViewInit, OnInit, OnCh
     }
 
     selectAreaTrabalho(areaTrabalho: AreaTrabalho): void {
-        this.select.emit(areaTrabalho);
+        this.selected.emit(areaTrabalho);
     }
 
     deleteAreaTrabalho(areaTrabalhoId): void {
@@ -195,12 +195,12 @@ export class CdkAreaTrabalhoGridComponent implements AfterViewInit, OnInit, OnCh
         this.recompute();
     }
 
-    recompute (): void {
+    recompute(): void {
         this.hasSelected = this.selectedIds.length > 0;
         this.isIndeterminate = (this.selectedIds.length !== this.areaTrabalhos.length && this.selectedIds.length > 0);
     }
 
-    setGridFilter (gridFilter): void {
+    setGridFilter(gridFilter): void {
         this.gridFilter = {
             ...this.gridFilter,
             ...gridFilter

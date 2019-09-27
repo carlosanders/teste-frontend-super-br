@@ -33,7 +33,7 @@ export class CdkAssuntoGridFilterComponent implements OnInit {
     ) {
 
         this.form = this._formBuilder.group({
-            'assuntoAdministrativo': [null]
+            assuntoAdministrativo: [null]
         });
 
     }

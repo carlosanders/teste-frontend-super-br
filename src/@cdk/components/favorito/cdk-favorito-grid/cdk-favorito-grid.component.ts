@@ -50,10 +50,10 @@ export class CdkFavoritoGridComponent implements AfterViewInit, OnInit, OnChange
     @Input()
     actions: string[] = ['edit', 'delete', 'select', 'favorito'];
 
-    @ViewChild(MatPaginator)
+    @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
 
-    @ViewChild(MatSort)
+    @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
     @Output()
@@ -69,7 +69,7 @@ export class CdkFavoritoGridComponent implements AfterViewInit, OnInit, OnChange
     delete = new EventEmitter<number>();
 
     @Output()
-    select = new EventEmitter<Favorito>();
+    selected = new EventEmitter<Favorito>();
 
     @Output()
     setPrincipal = new EventEmitter<Favorito>();
@@ -149,7 +149,7 @@ export class CdkFavoritoGridComponent implements AfterViewInit, OnInit, OnChange
     }
 
     selectFavorito(favorito: Favorito): void {
-        this.select.emit(favorito);
+        this.selected.emit(favorito);
     }
 
     setPrincipalFavorito(favorito: Favorito): void {

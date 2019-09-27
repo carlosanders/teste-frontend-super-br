@@ -56,8 +56,8 @@ export class CdkDocumentoCopiaFormComponent implements OnInit, OnChanges, OnDest
     ) {
 
         this.form = this._formBuilder.group({
-            'id': [null],
-            'processoOrigem': [null, [Validators.required]],
+            id: [null],
+            processoOrigem: [null, [Validators.required]],
         });
 
         this.processoOrigemPagination = new Pagination();
@@ -87,10 +87,10 @@ export class CdkDocumentoCopiaFormComponent implements OnInit, OnChanges, OnDest
                 const fields = Object.keys(data || {});
                 fields.forEach((field) => {
                     const control = this.form.get(field);
-                    control.setErrors({'formError': data[field].join(' - ')});
+                    control.setErrors({formError: data[field].join(' - ')});
                 });
             } catch (e) {
-                this.form.setErrors({'rulesError': this.errors.error.message});
+                this.form.setErrors({rulesError: this.errors.error.message});
             }
         }
         this._changeDetectorRef.markForCheck();

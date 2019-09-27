@@ -35,7 +35,7 @@ export class CdkVinculacaoDocumentoAutocompleteComponent implements OnInit {
     vinculacaoDocumentoList: VinculacaoDocumento[];
     vinculacaoDocumentoListIsLoading: boolean;
 
-    @ViewChild(MatAutocomplete) autocomplete: MatAutocomplete;
+    @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,

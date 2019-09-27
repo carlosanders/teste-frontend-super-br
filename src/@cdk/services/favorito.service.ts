@@ -19,7 +19,9 @@ export class FavoritoService {
 
     get(id: number): Observable<Favorito> {
         return this.modelService.getOne('favorito', id)
-            .map(response => plainToClass(Favorito, response)[0]);
+            .pipe(
+                map(response => plainToClass(Favorito, response)[0])
+            );
     }
 
     query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
@@ -31,7 +33,9 @@ export class FavoritoService {
         params['populate'] = populate;
 
         return this.modelService.get('favorito', new HttpParams({fromObject: params}))
-            .map(response => new PaginatedResponse(plainToClass(Favorito, response['entities']), response['total']));
+            .pipe(
+                map(response => new PaginatedResponse(plainToClass(Favorito, response['entities']), response['total']))
+            );
     }
 
     count(filters: any = {}): Observable<any> {
@@ -44,18 +48,21 @@ export class FavoritoService {
     save(favorito: Favorito): Observable<Favorito> {
         if (favorito.id) {
             return this.modelService.put('favorito', favorito.id, classToPlain(favorito))
-                .map(response => {
-                    response = plainToClass(Favorito, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new Favorito(), {...favorito, ...response});
-                });
+                .pipe(map(
+                    response => {
+                        response = plainToClass(Favorito, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new Favorito(), {...favorito, ...response});
+                    }))
+                ;
         } else {
             return this.modelService.post('favorito', classToPlain(favorito))
-                .map(response => {
-                    response = plainToClass(Favorito, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new Favorito(), {...favorito, ...response});
-                });
+                .pipe(map(
+                    response => {
+                        response = plainToClass(Favorito, response);
+                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        return Object.assign(new Favorito(), {...favorito, ...response});
+                    }));
         }
     }
 

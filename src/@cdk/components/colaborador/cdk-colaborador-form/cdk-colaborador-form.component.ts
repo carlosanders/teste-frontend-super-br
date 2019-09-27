@@ -59,10 +59,10 @@ export class CdkColaboradorFormComponent implements OnChanges, OnDestroy {
     ) {
 
         this.form = this._formBuilder.group({
-            'id': [null],
-            'usuario': [null, [Validators.required]],
-            'modalidadeColaborador': [null, [Validators.required]],
-            'cargo': [null, [Validators.required]]
+            id: [null],
+            usuario: [null, [Validators.required]],
+            modalidadeColaborador: [null, [Validators.required]],
+            cargo: [null, [Validators.required]]
         });
         this.usuarioPagination = new Pagination();
         this.modalidadeColaboradorPagination = new Pagination();
@@ -87,10 +87,10 @@ export class CdkColaboradorFormComponent implements OnChanges, OnDestroy {
                 const fields = Object.keys(data || {});
                 fields.forEach((field) => {
                     const control = this.form.get(field);
-                    control.setErrors({'formError': data[field].join(' - ')});
+                    control.setErrors({formError: data[field].join(' - ')});
                 });
             } catch (e) {
-                this.form.setErrors({'rulesError': this.errors.error.message});
+                this.form.setErrors({rulesError: this.errors.error.message});
             }
         }
 

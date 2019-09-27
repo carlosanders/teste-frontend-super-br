@@ -233,7 +233,7 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
 
     b64DecodeUnicode(str): any {
         // Going backwards: from bytestream, to percent-encoding, to original string.
-        return decodeURIComponent(atob(str).split('').map(function (c): any {
+        return decodeURIComponent(atob(str).split('').map(function(c): any {
             return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
         }).join(''));
     }
@@ -251,7 +251,7 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
         const nallowed = (((allowed || '') + '').toLowerCase().match(/<[a-z][a-z0-9]*>/g) || []).join('');
         const tags = /<\/?([a-z][a-z0-9]*)\b[^>]*>/gi,
             commentsAndPhpTags = /<!--[\s\S]*?-->|<\?(?:php)?[\s\S]*?\?>/gi;
-        return input.replace(commentsAndPhpTags, '').replace(tags, function ($0, $1): any {
+        return input.replace(commentsAndPhpTags, '').replace(tags, function($0, $1): any {
             return nallowed.indexOf('<' + $1.toLowerCase() + '>') > -1 ? $0 : '';
         });
     }
@@ -268,8 +268,8 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
         const me = this;
 
         if (!this.showModeloButtons) {
-            const campoButton = <HTMLElement>document.getElementsByClassName('cke_button__campobutton')[0].parentNode;
-            const repositorioButton = <HTMLElement>document.getElementsByClassName('cke_button__repositoriobutton')[0].parentNode;
+            const campoButton = document.getElementsByClassName('cke_button__campobutton')[0].parentNode as HTMLElement;
+            const repositorioButton = document.getElementsByClassName('cke_button__repositoriobutton')[0].parentNode as HTMLElement;
             campoButton.style.visibility = 'hidden';
             repositorioButton.style.visibility = 'hidden';
         }
@@ -278,7 +278,7 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
 
         window.addEventListener('resize', this.resizeFunction);
 
-        e.editor.on('contentDom', function (): any {
+        e.editor.on('contentDom', function(): any {
 
             const editable = e.editor.editable();
             editable.attachListener(editable, 'click', () => {
@@ -288,7 +288,7 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
                 }
             });
 
-            e.editor.document.on('keyup', function (event: any): any {
+            e.editor.document.on('keyup', function(event: any): any {
                 if (event.data.getKey() === 13) {
                     let node = e.editor.getSelection().getStartElement();
 
@@ -337,7 +337,7 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
             breakAfterClose: false
         });
 
-        setInterval(function (): any {
+        setInterval(function(): any {
             me.doSave();
         }, 5 * 60 * 1000);
     }

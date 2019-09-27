@@ -59,7 +59,7 @@ export class DocumentosVinculadosEffect {
                         },
                         limit: 10,
                         offset: 0,
-                        sort: {'criadoEm': 'DESC'},
+                        sort: {criadoEm: 'DESC'},
                         populate: [
                             'tipoDocumento',
                             'vinculacaoDocumentoPrincipal',
@@ -119,7 +119,7 @@ export class DocumentosVinculadosEffect {
      * @type {Observable<any>}
      */
     @Effect()
-    assinaDocumentoVinculado: Observable<DocumentosVinculadosActions.DocumentosVinculadosActionsAll> =
+    assinaDocumentoVinculado: any =
         this._actions
             .pipe(
                 ofType<DocumentosVinculadosActions.AssinaDocumentoVinculado>(DocumentosVinculadosActions.ASSINA_DOCUMENTO_VINCULADO),

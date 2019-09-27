@@ -105,28 +105,28 @@ export class CdkAtividadeFormComponent implements OnInit, OnChanges, OnDestroy {
     ) {
 
         this.form = this._formBuilder.group({
-            'id': [null],
-            'encerraTarefa': [null],
-            'destinacaoMinutas': [null],
-            'respostaDocumentoAvulso': [null],
-            'especieAtividade': [null, [Validators.required]],
-            'dataHoraConclusao': [null, [Validators.required]],
-            'usuario': [null, [Validators.required]],
-            'observacao': [null, [Validators.maxLength(255)]],
-            'documento': [null],
-            'tarefa': [null],
-            'unidadeAprovacao': [null, [Validators.required]],
-            'setorAprovacao': [null, [Validators.required]],
-            'usuarioAprovacao': [null, [Validators.required]]
+            id: [null],
+            encerraTarefa: [null],
+            destinacaoMinutas: [null],
+            respostaDocumentoAvulso: [null],
+            especieAtividade: [null, [Validators.required]],
+            dataHoraConclusao: [null, [Validators.required]],
+            usuario: [null, [Validators.required]],
+            observacao: [null, [Validators.maxLength(255)]],
+            documento: [null],
+            tarefa: [null],
+            unidadeAprovacao: [null, [Validators.required]],
+            setorAprovacao: [null, [Validators.required]],
+            usuarioAprovacao: [null, [Validators.required]]
         });
 
         this.especieAtividadePagination = new Pagination();
         this.usuarioPagination = new Pagination();
         this.usuarioAprovacaoPagination = new Pagination();
         this.unidadeAprovacaoPagination = new Pagination();
-        this.unidadeAprovacaoPagination.filter = {'parent': 'isNull'};
+        this.unidadeAprovacaoPagination.filter = {parent: 'isNull'};
         this.setorAprovacaoPagination = new Pagination();
-        this.setorAprovacaoPagination.filter = {'parent': 'isNotNull'};
+        this.setorAprovacaoPagination.filter = {parent: 'isNotNull'};
 
         this._profile = _loginService.getUserProfile();
     }
@@ -214,10 +214,10 @@ export class CdkAtividadeFormComponent implements OnInit, OnChanges, OnDestroy {
                 const fields = Object.keys(data || {});
                 fields.forEach((field) => {
                     const control = this.form.get(field);
-                    control.setErrors({'formError': data[field].join(' - ')});
+                    control.setErrors({formError: data[field].join(' - ')});
                 });
             } catch (e) {
-                this.form.setErrors({'rulesError': this.errors.error.message});
+                this.form.setErrors({rulesError: this.errors.error.message});
             }
         }
 

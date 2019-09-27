@@ -306,7 +306,7 @@ export function normalized(
                 [childSchemaKey]: {
                     ...newEntities[childSchemaKey],
                 }
-            }
+            };
             delete newEntities[childSchemaKey][id];
 
             return {

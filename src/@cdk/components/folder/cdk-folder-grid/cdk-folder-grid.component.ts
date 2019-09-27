@@ -50,10 +50,10 @@ export class CdkFolderGridComponent implements AfterViewInit, OnInit, OnChanges 
     @Input()
     actions: string[] = ['edit', 'delete', 'select'];
 
-    @ViewChild(MatPaginator)
+    @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
 
-    @ViewChild(MatSort)
+    @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
     @Output()
@@ -69,7 +69,7 @@ export class CdkFolderGridComponent implements AfterViewInit, OnInit, OnChanges 
     delete = new EventEmitter<number>();
 
     @Output()
-    select = new EventEmitter<Folder>();
+    selected = new EventEmitter<Folder>();
 
     @Output()
     selectedIds: number[] = [];
@@ -143,7 +143,7 @@ export class CdkFolderGridComponent implements AfterViewInit, OnInit, OnChanges 
     }
 
     selectFolder(folder: Folder): void {
-        this.select.emit(folder);
+        this.selected.emit(folder);
     }
 
     deleteFolder(folderId): void {

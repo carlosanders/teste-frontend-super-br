@@ -50,10 +50,10 @@ export class CdkEspecieTarefaGridComponent implements AfterViewInit, OnInit, OnC
     @Input()
     actions: string[] = ['edit', 'delete', 'select'];
 
-    @ViewChild(MatPaginator)
+    @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
 
-    @ViewChild(MatSort)
+    @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
     @Output()
@@ -69,7 +69,7 @@ export class CdkEspecieTarefaGridComponent implements AfterViewInit, OnInit, OnC
     delete = new EventEmitter<number>();
 
     @Output()
-    select = new EventEmitter<EspecieTarefa>();
+    selected = new EventEmitter<EspecieTarefa>();
 
     @Output()
     selectedIds: number[] = [];
@@ -143,7 +143,7 @@ export class CdkEspecieTarefaGridComponent implements AfterViewInit, OnInit, OnC
     }
 
     selectEspecieTarefa(especieTarefa: EspecieTarefa): void {
-        this.select.emit(especieTarefa);
+        this.selected.emit(especieTarefa);
     }
 
     deleteEspecieTarefa(especieTarefaId): void {
@@ -197,12 +197,12 @@ export class CdkEspecieTarefaGridComponent implements AfterViewInit, OnInit, OnC
         this.recompute();
     }
 
-    recompute (): void {
+    recompute(): void {
         this.hasSelected = this.selectedIds.length > 0;
         this.isIndeterminate = (this.selectedIds.length !== this.especieTarefas.length && this.selectedIds.length > 0);
     }
 
-    setGridFilter (gridFilter): void {
+    setGridFilter(gridFilter): void {
         this.gridFilter = {
             ...this.gridFilter,
             ...gridFilter

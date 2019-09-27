@@ -50,10 +50,10 @@ export class CdkLotacaoGridComponent implements AfterViewInit, OnInit, OnChanges
     @Input()
     actions: string[] = ['edit', 'delete', 'select', 'setPrincipal'];
 
-    @ViewChild(MatPaginator)
+    @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
 
-    @ViewChild(MatSort)
+    @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
     @Output()
@@ -69,7 +69,7 @@ export class CdkLotacaoGridComponent implements AfterViewInit, OnInit, OnChanges
     delete = new EventEmitter<number>();
 
     @Output()
-    select = new EventEmitter<Lotacao>();
+    selected = new EventEmitter<Lotacao>();
 
     @Output()
     setPrincipal = new EventEmitter<Lotacao>();
@@ -146,7 +146,7 @@ export class CdkLotacaoGridComponent implements AfterViewInit, OnInit, OnChanges
     }
 
     selectLotacao(lotacao: Lotacao): void {
-        this.select.emit(lotacao);
+        this.selected.emit(lotacao);
     }
 
     setPrincipalLotacao(lotacao: Lotacao): void {

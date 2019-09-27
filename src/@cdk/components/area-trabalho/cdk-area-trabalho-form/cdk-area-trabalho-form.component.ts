@@ -50,12 +50,12 @@ export class CdkAreaTrabalhoFormComponent implements OnChanges, OnDestroy {
         private _formBuilder: FormBuilder
     ) {
        this.form = this._formBuilder.group({
-            'id': [null],
-            'usuario': [null, [Validators.required]],
-            'dono': [null, [Validators.required]],
-            'documento': [null, [Validators.required]]
+            id: [null],
+            usuario: [null, [Validators.required]],
+            dono: [null, [Validators.required]],
+            documento: [null, [Validators.required]]
         });
-        this.usuarioPagination = new Pagination();
+       this.usuarioPagination = new Pagination();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -76,10 +76,10 @@ export class CdkAreaTrabalhoFormComponent implements OnChanges, OnDestroy {
                 const fields = Object.keys(data || {});
                 fields.forEach((field) => {
                     const control = this.form.get(field);
-                    control.setErrors({'formError': data[field].join(' - ')});
+                    control.setErrors({formError: data[field].join(' - ')});
                 });
             } catch (e) {
-                this.form.setErrors({'rulesError': this.errors.error.message});
+                this.form.setErrors({rulesError: this.errors.error.message});
             }
         }
 

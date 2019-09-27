@@ -52,11 +52,11 @@ export class CdkAcaoFormComponent implements OnInit, OnChanges, OnDestroy {
         private _formBuilder: FormBuilder
     ) {
         this.form = this._formBuilder.group({
-            'id': [null],
-            'etiqueta': [null],
-            'trigger': [null, [Validators.required]],
-            'contexto': [null],
-            'modelo': [null, [Validators.required]]
+            id: [null],
+            etiqueta: [null],
+            trigger: [null, [Validators.required]],
+            contexto: [null],
+            modelo: [null, [Validators.required]]
         });
 
         this.modeloPagination = new Pagination();
@@ -75,12 +75,12 @@ export class CdkAcaoFormComponent implements OnInit, OnChanges, OnDestroy {
             distinctUntilChanged(),
             switchMap((value) => {
                 this.form.get('modelo').disable();
-                    switch (value) {
+                switch (value) {
                         case 'App\\Api\\V1\\Triggers\\VinculacaoEtiqueta\\Trigger0001':
                             this.form.get('modelo').enable();
                             break;
                     }
-                    return of([]);
+                return of([]);
                 }
             )
         ).subscribe();
@@ -101,10 +101,10 @@ export class CdkAcaoFormComponent implements OnInit, OnChanges, OnDestroy {
                 const fields = Object.keys(data || {});
                 fields.forEach((field) => {
                     const control = this.form.get(field);
-                    control.setErrors({'formError': data[field].join(' - ')});
+                    control.setErrors({formError: data[field].join(' - ')});
                 });
             } catch (e) {
-                this.form.setErrors({'rulesError': this.errors.error.message});
+                this.form.setErrors({rulesError: this.errors.error.message});
             }
         }
 

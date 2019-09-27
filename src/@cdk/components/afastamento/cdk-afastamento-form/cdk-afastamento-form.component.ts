@@ -51,13 +51,13 @@ export class CdkAfastamentoFormComponent implements OnChanges, OnDestroy {
     ) {
 
         this.form = this._formBuilder.group({
-            'id': [null],
-            'modalidadeAfastamento': [null, [Validators.required]],
-            'dataInicio': [null, [Validators.required]],
-            'dataFim': [null, [Validators.required]],
-            'dataInicioBloqueio': [null, [Validators.required]],
-            'dataFimBloqueio': [null, [Validators.required]],
-            'colaborador': [null, [Validators.required]]
+            id: [null],
+            modalidadeAfastamento: [null, [Validators.required]],
+            dataInicio: [null, [Validators.required]],
+            dataFim: [null, [Validators.required]],
+            dataInicioBloqueio: [null, [Validators.required]],
+            dataFimBloqueio: [null, [Validators.required]],
+            colaborador: [null, [Validators.required]]
         });
 
         this.modalidadeAfastamentoPagination = new Pagination();
@@ -81,10 +81,10 @@ export class CdkAfastamentoFormComponent implements OnChanges, OnDestroy {
                 const fields = Object.keys(data || {});
                 fields.forEach((field) => {
                     const control = this.form.get(field);
-                    control.setErrors({'formError': data[field].join(' - ')});
+                    control.setErrors({formError: data[field].join(' - ')});
                 });
             } catch (e) {
-                this.form.setErrors({'rulesError': this.errors.error.message});
+                this.form.setErrors({rulesError: this.errors.error.message});
             }
         }
 

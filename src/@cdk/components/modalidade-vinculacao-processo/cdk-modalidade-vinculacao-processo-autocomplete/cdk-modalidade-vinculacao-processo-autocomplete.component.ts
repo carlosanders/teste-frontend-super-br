@@ -35,7 +35,7 @@ export class CdkModalidadeVinculacaoProcessoAutocompleteComponent implements OnI
     modalidadeVinculacaoProcessoList: ModalidadeVinculacaoProcesso[];
     modalidadeVinculacaoProcessoListIsLoading: boolean;
 
-    @ViewChild(MatAutocomplete) autocomplete: MatAutocomplete;
+    @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,

@@ -50,10 +50,10 @@ export class CdkModalidadeTipoInibidorGridComponent implements AfterViewInit, On
     @Input()
     actions: string[] = ['edit', 'delete', 'select'];
 
-    @ViewChild(MatPaginator)
+    @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
 
-    @ViewChild(MatSort)
+    @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
     @Output()
@@ -69,7 +69,7 @@ export class CdkModalidadeTipoInibidorGridComponent implements AfterViewInit, On
     delete = new EventEmitter<number>();
 
     @Output()
-    select = new EventEmitter<ModalidadeTipoInibidor>();
+    selected = new EventEmitter<ModalidadeTipoInibidor>();
 
     @Output()
     selectedIds: number[] = [];
@@ -143,7 +143,7 @@ export class CdkModalidadeTipoInibidorGridComponent implements AfterViewInit, On
     }
 
     selectModalidadeTipoInibidor(modalidadetipoInibidor: ModalidadeTipoInibidor): void {
-        this.select.emit(modalidadetipoInibidor);
+        this.selected.emit(modalidadetipoInibidor);
     }
 
     deleteModalidadeTipoInibidor(modalidadetipoInibidorId): void {
@@ -197,12 +197,12 @@ export class CdkModalidadeTipoInibidorGridComponent implements AfterViewInit, On
         this.recompute();
     }
 
-    recompute (): void {
+    recompute(): void {
         this.hasSelected = this.selectedIds.length > 0;
         this.isIndeterminate = (this.selectedIds.length !== this.modalidadetipoInibidors.length && this.selectedIds.length > 0);
     }
 
-    setGridFilter (gridFilter): void {
+    setGridFilter(gridFilter): void {
         this.gridFilter = {
             ...this.gridFilter,
             ...gridFilter

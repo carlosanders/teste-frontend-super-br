@@ -12,8 +12,7 @@ import {
     HttpClient, HttpRequest,
     HttpEventType, HttpErrorResponse
 } from '@angular/common/http';
-import {Subscription} from 'rxjs/Subscription';
-import {of} from 'rxjs/observable/of';
+import {of, Subscription} from 'rxjs';
 import {catchError, last, map, tap} from 'rxjs/operators';
 import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {fuseAnimations} from '@fuse/animations';
@@ -64,10 +63,10 @@ export class CdkUploadComponent implements OnInit {
     @Output()
     complete = new EventEmitter<number>();
 
-    @ViewChild(MatPaginator)
+    @ViewChild(MatPaginator, {static: true})
     filesPaginator: MatPaginator;
 
-    @ViewChild(MatSort)
+    @ViewChild(MatSort, {static: true})
     filesSort: MatSort;
 
     filesDisplayedColumns: string[] = ['fileName', 'fileSize', 'status', 'actions'];

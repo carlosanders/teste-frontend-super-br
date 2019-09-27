@@ -111,20 +111,20 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
     ) {
 
         this.form = this._formBuilder.group({
-            'id': [null],
-            'blocoProcessos': [null],
-            'processos': [null],
-            'processo': [null],
-            'tarefaOrigem': [null],
-            'urgente': [null],
-            'especieDocumentoAvulso': [null, [Validators.required]],
-            'modelo': [null, [Validators.required]],
-            'dataHoraInicioPrazo': [null, [Validators.required]],
-            'externa': [null],
-            'dataHoraFinalPrazo': [null, [Validators.required]],
-            'setorDestino': [null, [Validators.required]],
-            'pessoaDestino': [null, [Validators.required]],
-            'observacao': [null, [Validators.maxLength(255)]]
+            id: [null],
+            blocoProcessos: [null],
+            processos: [null],
+            processo: [null],
+            tarefaOrigem: [null],
+            urgente: [null],
+            especieDocumentoAvulso: [null, [Validators.required]],
+            modelo: [null, [Validators.required]],
+            dataHoraInicioPrazo: [null, [Validators.required]],
+            externa: [null],
+            dataHoraFinalPrazo: [null, [Validators.required]],
+            setorDestino: [null, [Validators.required]],
+            pessoaDestino: [null, [Validators.required]],
+            observacao: [null, [Validators.maxLength(255)]]
         });
 
         this.processoPagination = new Pagination();
@@ -201,10 +201,10 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
                 const fields = Object.keys(data || {});
                 fields.forEach((field) => {
                     const control = this.form.get(field);
-                    control.setErrors({'formError': data[field].join(' - ')});
+                    control.setErrors({formError: data[field].join(' - ')});
                 });
             } catch (e) {
-                this.form.setErrors({'rulesError': this.errors.error.message});
+                this.form.setErrors({rulesError: this.errors.error.message});
             }
         }
 

@@ -50,10 +50,10 @@ export class CdkGeneroTarefaGridComponent implements AfterViewInit, OnInit, OnCh
     @Input()
     actions: string[] = ['edit', 'delete', 'select'];
 
-    @ViewChild(MatPaginator)
+    @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
 
-    @ViewChild(MatSort)
+    @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
     @Output()
@@ -69,7 +69,7 @@ export class CdkGeneroTarefaGridComponent implements AfterViewInit, OnInit, OnCh
     delete = new EventEmitter<number>();
 
     @Output()
-    select = new EventEmitter<GeneroTarefa>();
+    selected = new EventEmitter<GeneroTarefa>();
 
     @Output()
     selectedIds: number[] = [];
@@ -143,7 +143,7 @@ export class CdkGeneroTarefaGridComponent implements AfterViewInit, OnInit, OnCh
     }
 
     selectGeneroTarefa(generoTarefa: GeneroTarefa): void {
-        this.select.emit(generoTarefa);
+        this.selected.emit(generoTarefa);
     }
 
     deleteGeneroTarefa(generoTarefaId): void {

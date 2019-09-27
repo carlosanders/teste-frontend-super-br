@@ -33,7 +33,7 @@ export class CdkDocumentoGridFilterComponent implements OnInit {
     ) {
 
         this.form = this._formBuilder.group({
-            'tipoDocumento': [null]
+            tipoDocumento: [null]
         });
 
     }

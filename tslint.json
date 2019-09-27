@@ -1,5 +1,12 @@
 {
-    "extends": "tslint:recommended",
+    "extends": [
+    "tslint:recommended",
+        "@phenomnomnominal/angular-lazy-routes-fix"
+    ],
+    "//": "either",
+    "no-lazy-module-paths": [true],
+    "//": "or",
+    "no-lazy-module-paths": [true, "async"],
     "rules": {
         "array-type": false,
         "arrow-parens": false,

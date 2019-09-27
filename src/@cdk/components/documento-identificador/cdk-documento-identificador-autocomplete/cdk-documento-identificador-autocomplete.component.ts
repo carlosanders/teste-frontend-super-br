@@ -35,7 +35,7 @@ export class CdkDocumentoIdentificadorAutocompleteComponent implements OnInit {
     documentoIdentificadorList: DocumentoIdentificador[];
     documentoIdentificadorListIsLoading: boolean;
 
-    @ViewChild(MatAutocomplete) autocomplete: MatAutocomplete;
+    @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,

@@ -35,7 +35,7 @@ export class CdkNotificacaoAutocompleteComponent implements OnInit {
     notificacaoList: Notificacao[];
     notificacaoListIsLoading: boolean;
 
-    @ViewChild(MatAutocomplete) autocomplete: MatAutocomplete;
+    @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,

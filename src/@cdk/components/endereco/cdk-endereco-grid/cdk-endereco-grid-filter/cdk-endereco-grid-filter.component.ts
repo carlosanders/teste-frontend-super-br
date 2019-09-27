@@ -31,7 +31,7 @@ export class CdkEnderecoGridFilterComponent implements OnInit {
     ) {
 
         this.form = this._formBuilder.group({
-            'nome': [null]
+            nome: [null]
         });
 
     }

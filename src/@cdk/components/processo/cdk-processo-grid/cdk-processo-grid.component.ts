@@ -53,10 +53,10 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
     @Input()
     actions: string[] = ['edit', 'delete', 'select'];
 
-    @ViewChild(MatPaginator)
+    @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
 
-    @ViewChild(MatSort)
+    @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
     @Output()
@@ -72,7 +72,7 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
     delete = new EventEmitter<number>();
 
     @Output()
-    select = new EventEmitter<Processo>();
+    selected = new EventEmitter<Processo>();
 
     @Output()
     selectedIds: number[] = [];
@@ -150,7 +150,7 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
     }
 
     selectProcesso(processo: Processo): void {
-        this.select.emit(processo);
+        this.selected.emit(processo);
     }
 
     deleteProcesso(processoId): void {
@@ -204,12 +204,12 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
         this.recompute();
     }
 
-    recompute (): void {
+    recompute(): void {
         this.hasSelected = this.selectedIds.length > 0;
         this.isIndeterminate = (this.selectedIds.length !== this.processos.length && this.selectedIds.length > 0);
     }
 
-    setGridFilter (gridFilter): void {
+    setGridFilter(gridFilter): void {
         this.gridFilter = {
             ...this.gridFilter,
             ...gridFilter

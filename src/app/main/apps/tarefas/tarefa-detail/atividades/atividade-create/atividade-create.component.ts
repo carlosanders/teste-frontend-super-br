@@ -45,7 +45,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy {
 
     routerState: any;
 
-    @ViewChild('ckdUpload')
+    @ViewChild('ckdUpload', {static: true})
     cdkUpload;
 
     documentos$: Observable<Documento[]>;

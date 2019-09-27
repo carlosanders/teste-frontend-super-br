@@ -50,10 +50,10 @@ export class CdkVinculacaoProcessoGridComponent implements AfterViewInit, OnInit
     @Input()
     actions: string[] = ['edit', 'delete', 'select'];
 
-    @ViewChild(MatPaginator)
+    @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
 
-    @ViewChild(MatSort)
+    @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
     @Output()
@@ -69,7 +69,7 @@ export class CdkVinculacaoProcessoGridComponent implements AfterViewInit, OnInit
     delete = new EventEmitter<number>();
 
     @Output()
-    select = new EventEmitter<VinculacaoProcesso>();
+    selected = new EventEmitter<VinculacaoProcesso>();
 
     @Output()
     selectedIds: number[] = [];
@@ -143,7 +143,7 @@ export class CdkVinculacaoProcessoGridComponent implements AfterViewInit, OnInit
     }
 
     selectVinculacaoProcesso(vinculacaoProcesso: VinculacaoProcesso): void {
-        this.select.emit(vinculacaoProcesso);
+        this.selected.emit(vinculacaoProcesso);
     }
 
     deleteVinculacaoProcesso(vinculacaoProcessoId): void {

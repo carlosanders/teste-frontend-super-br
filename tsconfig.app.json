@@ -6,6 +6,9 @@
             "node"
         ]
     },
+    "angularCompilerOptions": {
+        "enableIvy": true
+    },
     "include": [
         "src/**/*.ts"
     ],

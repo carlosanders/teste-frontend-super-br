@@ -27,7 +27,7 @@ export class DocumentoUploadComponent implements OnInit, OnDestroy {
 
     accept = 'application/pdf';
 
-    @ViewChild('ckdUpload')
+    @ViewChild('ckdUpload', {static: true})
     cdkUpload;
 
     /**

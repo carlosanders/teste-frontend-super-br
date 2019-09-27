@@ -1,31 +1,31 @@
 export const locale = {
     lang: 'en',
     data: {
-        'NAV': {
-            'APPLICATIONS': 'Aplicações',
-            'PAINEL'        : {
-                'TITLE': 'Painel',
+        NAV: {
+            APPLICATIONS: 'Aplicações',
+            PAINEL        : {
+                TITLE: 'Painel',
             },
-            'TAREFA'        : {
-                'TITLE': 'Tarefas',
-                'MINHASTAREFAS': {
-                    'TITLE': 'Minhas Tarefas'
+            TAREFA        : {
+                TITLE: 'Tarefas',
+                MINHASTAREFAS: {
+                    TITLE: 'Minhas Tarefas'
                 },
-                'COMPARTILHADASCOMIGO': {
-                    'TITLE': 'Compartilhadas'
+                COMPARTILHADASCOMIGO: {
+                    TITLE: 'Compartilhadas'
                 }
             },
-            'PROCESSO'        : {
-                'TITLE': 'Processos',
-                'PROTOCOLO': {
-                    'TITLE': 'Novo'
+            PROCESSO        : {
+                TITLE: 'Processos',
+                PROTOCOLO: {
+                    TITLE: 'Novo'
                 },
-                'PESQUISA'        : {
-                    'TITLE': 'Pesquisa'
+                PESQUISA        : {
+                    TITLE: 'Pesquisa'
                 }
             },
-            'TESTE'        : {
-                'TITLE': 'Teste',
+            TESTE        : {
+                TITLE: 'Teste',
             }
         }
     }

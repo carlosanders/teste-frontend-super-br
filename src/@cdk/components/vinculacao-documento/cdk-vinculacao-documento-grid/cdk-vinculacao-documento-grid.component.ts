@@ -50,10 +50,10 @@ export class CdkVinculacaoDocumentoGridComponent implements AfterViewInit, OnIni
     @Input()
     actions: string[] = ['edit', 'delete', 'select'];
 
-    @ViewChild(MatPaginator)
+    @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
 
-    @ViewChild(MatSort)
+    @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
     @Output()
@@ -69,7 +69,7 @@ export class CdkVinculacaoDocumentoGridComponent implements AfterViewInit, OnIni
     delete = new EventEmitter<number>();
 
     @Output()
-    select = new EventEmitter<VinculacaoDocumento>();
+    selected = new EventEmitter<VinculacaoDocumento>();
 
     @Output()
     selectedIds: number[] = [];
@@ -143,7 +143,7 @@ export class CdkVinculacaoDocumentoGridComponent implements AfterViewInit, OnIni
     }
 
     selectVinculacaoDocumento(vinculacaoDocumento: VinculacaoDocumento): void {
-        this.select.emit(vinculacaoDocumento);
+        this.selected.emit(vinculacaoDocumento);
     }
 
     deleteVinculacaoDocumento(vinculacaoDocumentoId): void {

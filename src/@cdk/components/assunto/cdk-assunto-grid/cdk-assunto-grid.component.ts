@@ -49,10 +49,10 @@ export class CdkAssuntoGridComponent implements AfterViewInit, OnInit, OnChanges
     @Input()
     actions: string[] = ['edit', 'delete', 'select'];
 
-    @ViewChild(MatPaginator)
+    @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
 
-    @ViewChild(MatSort)
+    @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
     @Output()
@@ -65,7 +65,7 @@ export class CdkAssuntoGridComponent implements AfterViewInit, OnInit, OnChanges
     delete = new EventEmitter<number>();
 
     @Output()
-    select = new EventEmitter<Assunto>();
+    selected = new EventEmitter<Assunto>();
 
     @Output()
     cancel = new EventEmitter<any>();
@@ -141,7 +141,7 @@ export class CdkAssuntoGridComponent implements AfterViewInit, OnInit, OnChanges
     }
 
     selectAssunto(assunto: Assunto): void {
-        this.select.emit(assunto);
+        this.selected.emit(assunto);
     }
 
     deleteAssunto(assuntoId): void {
@@ -197,12 +197,12 @@ export class CdkAssuntoGridComponent implements AfterViewInit, OnInit, OnChanges
         this.recompute();
     }
 
-    recompute (): void {
+    recompute(): void {
         this.hasSelected = this.selectedIds.length > 0;
         this.isIndeterminate = (this.selectedIds.length !== this.assuntos.length && this.selectedIds.length > 0);
     }
 
-    setGridFilter (gridFilter): void {
+    setGridFilter(gridFilter): void {
         this.gridFilter = {
             ...this.gridFilter,
             ...gridFilter

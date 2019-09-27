@@ -50,10 +50,10 @@ export class CdkEspecieDocumentoAvulsoGridComponent implements AfterViewInit, On
     @Input()
     actions: string[] = ['edit', 'delete', 'select'];
 
-    @ViewChild(MatPaginator)
+    @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
 
-    @ViewChild(MatSort)
+    @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
     @Output()
@@ -69,7 +69,7 @@ export class CdkEspecieDocumentoAvulsoGridComponent implements AfterViewInit, On
     delete = new EventEmitter<number>();
 
     @Output()
-    select = new EventEmitter<EspecieDocumentoAvulso>();
+    selected = new EventEmitter<EspecieDocumentoAvulso>();
 
     @Output()
     selectedIds: number[] = [];
@@ -143,7 +143,7 @@ export class CdkEspecieDocumentoAvulsoGridComponent implements AfterViewInit, On
     }
 
     selectEspecieDocumentoAvulso(especieDocumentoAvulso: EspecieDocumentoAvulso): void {
-        this.select.emit(especieDocumentoAvulso);
+        this.selected.emit(especieDocumentoAvulso);
     }
 
     deleteEspecieDocumentoAvulso(especieDocumentoAvulsoId): void {
@@ -197,12 +197,12 @@ export class CdkEspecieDocumentoAvulsoGridComponent implements AfterViewInit, On
         this.recompute();
     }
 
-    recompute (): void {
+    recompute(): void {
         this.hasSelected = this.selectedIds.length > 0;
         this.isIndeterminate = (this.selectedIds.length !== this.especieDocumentoAvulsos.length && this.selectedIds.length > 0);
     }
 
-    setGridFilter (gridFilter): void {
+    setGridFilter(gridFilter): void {
         this.gridFilter = {
             ...this.gridFilter,
             ...gridFilter

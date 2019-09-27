@@ -49,10 +49,10 @@ export class CdkEnderecoGridComponent implements AfterViewInit, OnInit, OnChange
     @Input()
     actions: string[] = ['edit', 'delete', 'select'];
 
-    @ViewChild(MatPaginator)
+    @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
 
-    @ViewChild(MatSort)
+    @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
     @Output()
@@ -65,7 +65,7 @@ export class CdkEnderecoGridComponent implements AfterViewInit, OnInit, OnChange
     delete = new EventEmitter<number>();
 
     @Output()
-    select = new EventEmitter<Endereco>();
+    selected = new EventEmitter<Endereco>();
 
     @Output()
     cancel = new EventEmitter<any>();
@@ -141,7 +141,7 @@ export class CdkEnderecoGridComponent implements AfterViewInit, OnInit, OnChange
     }
 
     selectEndereco(endereco: Endereco): void {
-        this.select.emit(endereco);
+        this.selected.emit(endereco);
     }
 
     deleteEndereco(enderecoId): void {
@@ -195,12 +195,12 @@ export class CdkEnderecoGridComponent implements AfterViewInit, OnInit, OnChange
         this.recompute();
     }
 
-    recompute (): void {
+    recompute(): void {
         this.hasSelected = this.selectedIds.length > 0;
         this.isIndeterminate = (this.selectedIds.length !== this.enderecos.length && this.selectedIds.length > 0);
     }
 
-    setGridFilter (gridFilter): void {
+    setGridFilter(gridFilter): void {
         this.gridFilter = {
             ...this.gridFilter,
             ...gridFilter

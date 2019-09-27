@@ -67,10 +67,10 @@ export class CdkFavoritoFormComponent implements OnChanges, OnDestroy {
     ) {
 
         this.form = this._formBuilder.group({
-            'id': [null],
-            'especieAtividade': [null],
-            'especieTarefa': [null],
-            'setorResponsavel': [null]
+            id: [null],
+            especieAtividade: [null],
+            especieTarefa: [null],
+            setorResponsavel: [null]
         });
 
         this.templatePagination = new Pagination();
@@ -95,10 +95,10 @@ export class CdkFavoritoFormComponent implements OnChanges, OnDestroy {
                 const fields = Object.keys(data || {});
                 fields.forEach((field) => {
                     const control = this.form.get(field);
-                    control.setErrors({'formError': data[field].join(' - ')});
+                    control.setErrors({formError: data[field].join(' - ')});
                 });
             } catch (e) {
-                this.form.setErrors({'rulesError': this.errors.error.message});
+                this.form.setErrors({rulesError: this.errors.error.message});
             }
         }
         this._changeDetectorRef.markForCheck();

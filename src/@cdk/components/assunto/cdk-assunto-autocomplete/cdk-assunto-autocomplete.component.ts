@@ -35,7 +35,7 @@ export class CdkAssuntoAutocompleteComponent implements OnInit {
     assuntoList: Assunto[];
     assuntoListIsLoading: boolean;
 
-    @ViewChild(MatAutocomplete) autocomplete: MatAutocomplete;
+    @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,

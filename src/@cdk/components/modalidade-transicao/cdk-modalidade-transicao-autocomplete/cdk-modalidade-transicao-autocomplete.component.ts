@@ -35,7 +35,7 @@ export class CdkModalidadeTransicaoAutocompleteComponent implements OnInit {
     modalidadeTransicaoList: ModalidadeTransicao[];
     modalidadeTransicaoListIsLoading: boolean;
 
-    @ViewChild(MatAutocomplete) autocomplete: MatAutocomplete;
+    @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,

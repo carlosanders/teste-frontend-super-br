@@ -80,7 +80,7 @@ export class CdkModalidadeRelacionamentoPessoalGridsearchComponent implements On
             });
     }
 
-    reload (params): void {
+    reload(params): void {
         params = {
             ...this.pagination,
             filter: {

@@ -80,7 +80,7 @@ export class CdkModalidadeAfastamentoGridsearchComponent implements OnInit {
             });
     }
 
-    reload (params): void {
+    reload(params): void {
         params = {
             ...this.pagination,
             filter: {

@@ -31,7 +31,7 @@ export class CdkCadastroIdentificadorGridFilterComponent implements OnInit {
     ) {
 
         this.form = this._formBuilder.group({
-            'numero': [null]
+            numero: [null]
         });
 
     }
@@ -45,7 +45,7 @@ export class CdkCadastroIdentificadorGridFilterComponent implements OnInit {
      */
     ngOnInit(): void {
         this.form.get('numero').valueChanges.subscribe(value => {
-            this.selected.emit({'numero': `like:${value}%`});
+            this.selected.emit({numero: `like:${value}%`});
         });
     }
 

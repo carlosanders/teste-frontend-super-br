@@ -35,7 +35,7 @@ export class CdkTemplateAutocompleteComponent implements OnInit {
     templateList: Template[];
     templateListIsLoading: boolean;
 
-    @ViewChild(MatAutocomplete) autocomplete: MatAutocomplete;
+    @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,

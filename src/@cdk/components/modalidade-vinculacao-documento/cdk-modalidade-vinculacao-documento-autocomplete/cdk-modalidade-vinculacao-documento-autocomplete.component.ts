@@ -35,7 +35,7 @@ export class CdkModalidadeVinculacaoDocumentoAutocompleteComponent implements On
     modalidadeVinculacaoDocumentoList: ModalidadeVinculacaoDocumento[];
     modalidadeVinculacaoDocumentoListIsLoading: boolean;
 
-    @ViewChild(MatAutocomplete) autocomplete: MatAutocomplete;
+    @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,

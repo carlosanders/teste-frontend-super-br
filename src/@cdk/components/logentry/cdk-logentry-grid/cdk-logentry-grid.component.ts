@@ -50,10 +50,10 @@ export class CdkLogentryGridComponent implements AfterViewInit, OnInit, OnChange
     @Input()
     actions: string[] = ['edit', 'delete', 'select'];
 
-    @ViewChild(MatPaginator)
+    @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
 
-    @ViewChild(MatSort)
+    @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
     @Output()
@@ -69,7 +69,7 @@ export class CdkLogentryGridComponent implements AfterViewInit, OnInit, OnChange
     delete = new EventEmitter<number>();
 
     @Output()
-    select = new EventEmitter<LogEntry>();
+    selected = new EventEmitter<LogEntry>();
 
     @Output()
     selectedIds: number[] = [];
@@ -128,7 +128,7 @@ export class CdkLogentryGridComponent implements AfterViewInit, OnInit, OnChange
     }
 
     selectLogEntry(logEntry: LogEntry): void {
-        this.select.emit(logEntry);
+        this.selected.emit(logEntry);
     }
 
     deleteLogEntry(logEntryId): void {

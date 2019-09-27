@@ -35,7 +35,7 @@ export class CdkCompartilhamentoAutocompleteComponent implements OnInit {
     compartilhamentoList: Compartilhamento[];
     compartilhamentoListIsLoading: boolean;
 
-    @ViewChild(MatAutocomplete) autocomplete: MatAutocomplete;
+    @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,

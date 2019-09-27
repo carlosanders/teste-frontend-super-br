@@ -54,10 +54,10 @@ export class CdkDocumentoGridComponent implements AfterViewInit, OnInit, OnChang
     @Input()
     actions: string[] = ['edit', 'delete', 'select'];
 
-    @ViewChild(MatPaginator)
+    @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
 
-    @ViewChild(MatSort)
+    @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
     @Output()
@@ -70,7 +70,7 @@ export class CdkDocumentoGridComponent implements AfterViewInit, OnInit, OnChang
     delete = new EventEmitter<number>();
 
     @Output()
-    select = new EventEmitter<Documento>();
+    selected = new EventEmitter<Documento>();
 
     @Output()
     cancel = new EventEmitter<any>();
@@ -153,7 +153,7 @@ export class CdkDocumentoGridComponent implements AfterViewInit, OnInit, OnChang
     }
 
     selectDocumento(documento: Documento): void {
-        this.select.emit(documento);
+        this.selected.emit(documento);
     }
 
     deleteDocumento(documentoId): void {
@@ -207,13 +207,13 @@ export class CdkDocumentoGridComponent implements AfterViewInit, OnInit, OnChang
         this.recompute();
     }
 
-    recompute (): void {
+    recompute(): void {
         this.hasSelected = this.selectedIds.length > 0;
         this.isIndeterminate = (this.selectedIds.length !== this.documentos.length && this.selectedIds.length > 0);
         this.changedSelectedIds.emit(this.selectedIds);
     }
 
-    setGridFilter (gridFilter): void {
+    setGridFilter(gridFilter): void {
         this.gridFilter = {
             ...this.gridFilter,
             ...gridFilter

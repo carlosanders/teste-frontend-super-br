@@ -35,7 +35,7 @@ export class CdkRelacionamentoPessoalAutocompleteComponent implements OnInit {
     relacionamentoPessoalList: RelacionamentoPessoal[];
     relacionamentoPessoalListIsLoading: boolean;
 
-    @ViewChild(MatAutocomplete) autocomplete: MatAutocomplete;
+    @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,

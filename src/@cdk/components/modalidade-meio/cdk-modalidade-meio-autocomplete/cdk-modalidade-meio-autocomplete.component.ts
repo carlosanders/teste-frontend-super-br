@@ -35,7 +35,7 @@ export class CdkModalidadeMeioAutocompleteComponent implements OnInit {
     modalidadeMeioList: ModalidadeMeio[];
     modalidadeMeioListIsLoading: boolean;
 
-    @ViewChild(MatAutocomplete) autocomplete: MatAutocomplete;
+    @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -57,7 +57,7 @@ export class CdkModalidadeMeioAutocompleteComponent implements OnInit {
                     value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
                         termFilter = {
                             ...termFilter,
-                            'valor': `like:%${bit}%`
+                            valor: `like:%${bit}%`
                         };
                     });
                     if (typeof value === 'string') {
@@ -89,7 +89,7 @@ export class CdkModalidadeMeioAutocompleteComponent implements OnInit {
     }
 
     displayModalidadeMeioFn(modalidadeMeio): string {
-        let displayed = modalidadeMeio ? modalidadeMeio.valor : '';
+        const displayed = modalidadeMeio ? modalidadeMeio.valor : '';
         return displayed;
     }
 }
