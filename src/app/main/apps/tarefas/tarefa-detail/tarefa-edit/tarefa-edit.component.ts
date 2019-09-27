@@ -60,7 +60,7 @@ export class TarefaEditComponent implements OnInit, OnDestroy {
         this.especieTarefaPagination.populate = ['generoTarefa'];
         this.setorOrigemPagination = new Pagination();
         this.setorOrigemPagination.populate = ['unidade'];
-        this.setorOrigemPagination.filter = {'id': 'in:' + this._profile.lotacoes.map(lotacao => lotacao.setor.id).join(',')};
+        this.setorOrigemPagination.filter = {id: 'in:' + this._profile.lotacoes.map(lotacao => lotacao.setor.id).join(',')};
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -79,7 +79,7 @@ export class TarefaEditComponent implements OnInit, OnDestroy {
             this.tarefa.unidadeResponsavel = tarefa.setorResponsavel.unidade;
 
             this.logEntryPaginationTarefa = new Pagination();
-            this.logEntryPaginationTarefa.filter = {'entity': 'App\\Entity\\Tarefa', 'id': + this.tarefa.id};
+            this.logEntryPaginationTarefa.filter = {entity: 'App\\Entity\\Tarefa', id: + this.tarefa.id};
         });
     }
 

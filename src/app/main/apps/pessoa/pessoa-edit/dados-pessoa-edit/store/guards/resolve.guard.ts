@@ -61,7 +61,7 @@ export class ResolveGuard implements CanActivate {
                         this._store.dispatch(new fromStore.CreatePessoa());
                     } else {
                         this._store.dispatch(new fromStore.GetPessoa({
-                            'id': 'eq:' + this.routerState.params['pessoaHandle']
+                            id: 'eq:' + this.routerState.params['pessoaHandle']
                         }));
                     }
 

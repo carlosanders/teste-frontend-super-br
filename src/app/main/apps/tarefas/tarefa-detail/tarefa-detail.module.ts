@@ -29,35 +29,35 @@ const routes: Routes = [
         children: [
             {
                 path: 'editar',
-                loadChildren: './tarefa-edit/tarefa-edit.module#TarefaEditModule'
+                loadChildren: () => import('./tarefa-edit/tarefa-edit.module').then(m => m.TarefaEditModule)
             },
             {
                 path: 'criar',
-                loadChildren: '../tarefa-create/tarefa-create.module#TarefaCreateModule'
+                loadChildren: () => import('../tarefa-create/tarefa-create.module').then(m => m.TarefaCreateModule)
             },
             {
                 path: 'atividades',
-                loadChildren: './atividades/atividades.module#AtividadesModule'
+                loadChildren: () => import('./atividades/atividades.module').then(m => m.AtividadesModule)
             },
             {
                 path: 'compartilhamentos',
-                loadChildren: './compartilhamentos/compartilhamentos.module#CompartilhamentosModule'
+                loadChildren: () => import('./compartilhamentos/compartilhamentos.module').then(m => m.CompartilhamentosModule)
             },
             {
                 path: 'processo',
-                loadChildren: 'app/main/apps/processo/processo.module#ProcessoModule'
+                loadChildren: () => import('app/main/apps/processo/processo.module').then(m => m.ProcessoModule)
             },
             {
                 path: 'modelo',
-                loadChildren: 'app/main/apps/modelo/modelo.module#ModeloModule',
+                loadChildren: () => import('app/main/apps/modelo/modelo.module').then(m => m.ModeloModule),
             },
             {
                 path: 'oficio',
-                loadChildren: 'app/main/apps/documento-avulso/documento-avulso-create/documento-avulso-create.module#DocumentoAvulsoCreateModule',
+                loadChildren: () => import('app/main/apps/documento-avulso/documento-avulso-create/documento-avulso-create.module').then(m => m.DocumentoAvulsoCreateModule),
             },
             {
                 path: 'encaminhamento',
-                loadChildren: './encaminhamento/encaminhamento.module#EncaminhamentoModule',
+                loadChildren: () => import('./encaminhamento/encaminhamento.module').then(m => m.EncaminhamentoModule),
             },
             {
                 path: '**',

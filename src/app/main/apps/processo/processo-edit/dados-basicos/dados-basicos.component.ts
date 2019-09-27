@@ -68,7 +68,7 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
         this.especieProcessoPagination.populate = ['generoProcesso'];
         this.setorAtualPagination = new Pagination();
         this.setorAtualPagination.populate = ['unidade'];
-        this.setorAtualPagination.filter = {'id': 'in:' + this._profile.lotacoes.map(lotacao => lotacao.setor.id).join(',')};
+        this.setorAtualPagination.filter = {id: 'in:' + this._profile.lotacoes.map(lotacao => lotacao.setor.id).join(',')};
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -98,7 +98,7 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
             });
 
         this.logEntryPagination = new Pagination();
-        this.logEntryPagination.filter = {'entity': 'App\\Entity\\Processo', 'id': + this.processo.id};
+        this.logEntryPagination.filter = {entity: 'App\\Entity\\Processo', id: + this.processo.id};
     }
 
     /**

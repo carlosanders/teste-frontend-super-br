@@ -75,7 +75,7 @@ export class DocumentoAvulsoCreateComponent implements OnInit, OnDestroy {
         this.especieDocumentoAvulsoPagination.populate = ['generoDocumentoAvulso'];
 
         this.setorDestinoPagination = new Pagination();
-        this.setorDestinoPagination.filter = {'parent': 'isNull'};
+        this.setorDestinoPagination.filter = {parent: 'isNull'};
 
         this.modeloPagination = new Pagination();
         // this.modeloPagination.filter = {'documento.tipoDocumento.nome': 'eq:OFÍCIO'};
@@ -105,7 +105,7 @@ export class DocumentoAvulsoCreateComponent implements OnInit, OnDestroy {
 
         this.documentoAvulso = new DocumentoAvulso();
         this.documentoAvulso.dataHoraInicioPrazo = moment();
-        this.documentoAvulso.dataHoraFinalPrazo = moment().add(5, 'days').set({'hour': 20, 'minute': 0, 'second': 0});
+        this.documentoAvulso.dataHoraFinalPrazo = moment().add(5, 'days').set({hour: 20, minute: 0, second: 0});
 
         if (this.processo) {
             this.documentoAvulso.processo = this.processo;

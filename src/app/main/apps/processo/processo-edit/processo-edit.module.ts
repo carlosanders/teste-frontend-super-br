@@ -20,51 +20,51 @@ const routes: Routes = [
         children: [
             {
                 path       : 'dados-basicos',
-                loadChildren: './dados-basicos/dados-basicos.module#DadosBasicosModule'
+                loadChildren: () => import('./dados-basicos/dados-basicos.module').then(m => m.DadosBasicosModule)
             },
             {
                 path       : 'assuntos',
-                loadChildren: './assuntos/assuntos.module#AssuntosModule'
+                loadChildren: () => import('./assuntos/assuntos.module').then(m => m.AssuntosModule)
             },
             {
                 path       : 'interessados',
-                loadChildren: './interessados/interessados.module#InteressadosModule'
+                loadChildren: () => import('./interessados/interessados.module').then(m => m.InteressadosModule)
             },
             {
                 path       : 'juntadas',
-                loadChildren: './juntadas/juntadas.module#JuntadasModule'
+                loadChildren: () => import('./juntadas/juntadas.module').then(m => m.JuntadasModule)
             },
             {
                 path       : 'acessos',
-                loadChildren: './visibilidades/visibilidades.module#VisibilidadesModule'
+                loadChildren: () => import('./visibilidades/visibilidades.module').then(m => m.VisibilidadesModule)
             },
             {
                 path       : 'vinculacoes-processos',
-                loadChildren: './vinculacoes-processos/vinculacoes-processos.module#VinculacoesProcessosModule'
+                loadChildren: () => import('./vinculacoes-processos/vinculacoes-processos.module').then(m => m.VinculacoesProcessosModule)
             },
             {
                 path       : 'sigilos',
-                loadChildren: './sigilos/sigilos.module#SigilosModule'
+                loadChildren: () => import('./sigilos/sigilos.module').then(m => m.SigilosModule)
             },
             {
                 path       : 'tarefas',
-                loadChildren: './tarefas/processo-tarefas.module#ProcessoTarefasModule'
+                loadChildren: () => import('./tarefas/processo-tarefas.module').then(m => m.ProcessoTarefasModule)
             },
             {
                 path       : 'oficios',
-                loadChildren: './documentos-avulsos/processo-documentos-avulsos.module#ProcessoDocumentosAvulsosModule'
+                loadChildren: () => import('./documentos-avulsos/processo-documentos-avulsos.module').then(m => m.ProcessoDocumentosAvulsosModule)
             },
             {
                 path       : 'tramitacoes',
-                loadChildren: './tramitacoes/tramitacoes.module#TramitacoesModule'
+                loadChildren: () => import('./tramitacoes/tramitacoes.module').then(m => m.TramitacoesModule)
             },
             {
                 path       : 'remessas',
-                loadChildren: './remessas/remessas.module#RemessasModule'
+                loadChildren: () => import('./remessas/remessas.module').then(m => m.RemessasModule)
             },
             {
                 path       : 'transicoes',
-                loadChildren: './transicoes/transicoes.module#TransicoesModule'
+                loadChildren: () => import('./transicoes/transicoes.module').then(m => m.TransicoesModule)
             },
             {
                 path       : '**',

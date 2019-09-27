@@ -25,14 +25,14 @@ export class PesquisaMainSidebarComponent
 
         this.links = [
             {
-                'nome': 'Processos',
-                'icon': 'book',
-                'link': 'processos'
+                nome: 'Processos',
+                icon: 'book',
+                link: 'processos'
             },
             {
-                'nome': 'Documentos',
-                'icon': 'insert_drive_file',
-                'link': 'documentos'
+                nome: 'Documentos',
+                icon: 'insert_drive_file',
+                link: 'documentos'
             }
         ];
     }

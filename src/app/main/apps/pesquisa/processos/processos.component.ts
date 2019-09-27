@@ -62,14 +62,14 @@ export class ProcessosComponent implements OnInit {
                     if (this.routerState.params.NUPHandle) {
                         this.reload({
                             ...this.pagination,
-                            gridFilter: {'NUP': 'like:' + this.routerState.params.NUPHandle + '%'}
+                            gridFilter: {NUP: 'like:' + this.routerState.params.NUPHandle + '%'}
                         });
                     }
                 }
             });
     }
 
-    reload (params): void {
+    reload(params): void {
         this._store.dispatch(new fromStore.GetProcessos({
             ...this.pagination,
             filter: {

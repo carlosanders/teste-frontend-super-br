@@ -63,7 +63,7 @@ export class SigiloListComponent implements OnInit {
         });
     }
 
-    reload (params): void {
+    reload(params): void {
         this._store.dispatch(new fromStore.GetSigilos({
             ...this.pagination,
             filter: {

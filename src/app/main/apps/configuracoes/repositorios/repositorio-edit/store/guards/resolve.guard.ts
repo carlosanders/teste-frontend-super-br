@@ -61,7 +61,7 @@ export class ResolveGuard implements CanActivate {
                         this._store.dispatch(new fromStore.CreateRepositorio());
                     } else {
                         this._store.dispatch(new fromStore.GetRepositorio({
-                            'id': 'eq:' + this.routerState.params['repositorioHandle']
+                            id: 'eq:' + this.routerState.params['repositorioHandle']
                         }));
                     }
 

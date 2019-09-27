@@ -61,7 +61,7 @@ export class ResolveGuard implements CanActivate {
                         this._store.dispatch(new fromStore.CreateVisibilidade());
                     } else {
                         this._store.dispatch(new fromStore.GetVisibilidade({
-                            'id': 'eq:' + this.routerState.params['visibilidadeHandle']
+                            id: 'eq:' + this.routerState.params['visibilidadeHandle']
                         }));
                     }
 

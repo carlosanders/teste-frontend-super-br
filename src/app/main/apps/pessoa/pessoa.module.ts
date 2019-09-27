@@ -25,11 +25,11 @@ const routes: Routes = [
         children: [
             {
                 path       : 'listar',
-                loadChildren: './pessoa-list/pessoa-list.module#PessoaListModule',
+                loadChildren: () => import('./pessoa-list/pessoa-list.module').then(m => m.PessoaListModule),
             },
             {
                 path       : 'editar',
-                loadChildren: './pessoa-edit/pessoa-edit.module#PessoaEditModule',
+                loadChildren: () => import('./pessoa-edit/pessoa-edit.module').then(m => m.PessoaEditModule),
             },
             {
                 path: '**',

@@ -27,11 +27,11 @@ const routes: Routes = [
         children: [
             {
                 path       : 'listar',
-                loadChildren: './repositorio-list/repositorio-list.module#RepositorioListModule',
+                loadChildren: () => import('./repositorio-list/repositorio-list.module').then(m => m.RepositorioListModule),
             },
             {
                 path       : 'editar',
-                loadChildren: './repositorio-edit/repositorio-edit.module#RepositorioEditModule',
+                loadChildren: () => import('./repositorio-edit/repositorio-edit.module').then(m => m.RepositorioEditModule),
             },
             {
                 path: '**',

@@ -61,7 +61,7 @@ export class ResolveGuard implements CanActivate {
                         this._store.dispatch(new fromStore.CreateAfastamento());
                     } else {
                         this._store.dispatch(new fromStore.GetAfastamento({
-                            'id': 'eq:' + this.routerState.params['afastamentoHandle']
+                            id: 'eq:' + this.routerState.params['afastamentoHandle']
                         }));
                     }
 

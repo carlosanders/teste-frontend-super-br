@@ -62,16 +62,16 @@ export class CdkVisibilidadeFormComponent implements OnInit, OnChanges, OnDestro
         private _formBuilder: FormBuilder
     ) {
        this.form = this._formBuilder.group({
-            'id': [null],
-            'usuario': [null, [Validators.required]],
-            'unidade': [null, [Validators.required]],
-            'setor': [null, [Validators.required]],
-            'tipo': [null],
-            'poderes': [null, [Validators.required]]
+            id: [null],
+            usuario: [null, [Validators.required]],
+            unidade: [null, [Validators.required]],
+            setor: [null, [Validators.required]],
+            tipo: [null],
+            poderes: [null, [Validators.required]]
         });
-        this.usuarioPagination = new Pagination();
-        this.setorPagination = new Pagination();
-        this.unidadePagination = new Pagination();
+       this.usuarioPagination = new Pagination();
+       this.setorPagination = new Pagination();
+       this.unidadePagination = new Pagination();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -97,7 +97,7 @@ export class CdkVisibilidadeFormComponent implements OnInit, OnChanges, OnDestro
                         this.form.get('setor').enable();
                         this.form.get('usuario').disable();
                     }
-                this._changeDetectorRef.markForCheck();
+                    this._changeDetectorRef.markForCheck();
                     return of([]);
                 }
             )
@@ -141,10 +141,10 @@ export class CdkVisibilidadeFormComponent implements OnInit, OnChanges, OnDestro
                 const fields = Object.keys(data || {});
                 fields.forEach((field) => {
                     const control = this.form.get(field);
-                    control.setErrors({'formError': data[field].join(' - ')});
+                    control.setErrors({formError: data[field].join(' - ')});
                 });
             } catch (e) {
-                this.form.setErrors({'rulesError': this.errors.error.message});
+                this.form.setErrors({rulesError: this.errors.error.message});
             }
         }
 

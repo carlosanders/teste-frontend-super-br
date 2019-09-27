@@ -59,14 +59,14 @@ export class AcaoEditComponent implements OnInit, OnDestroy {
         this._profile = _loginService.getUserProfile();
 
         this.unidadePagination = new Pagination();
-        this.unidadePagination.filter = {'parent': 'isNull'};
+        this.unidadePagination.filter = {parent: 'isNull'};
 
         this.setorPagination = new Pagination();
         this.setorPagination.populate = ['unidade'];
-        this.setorPagination.filter = {'parent': 'isNotNull'};
+        this.setorPagination.filter = {parent: 'isNotNull'};
 
         this.usuarioPagination = new Pagination();
-        this.usuarioPagination.filter = {'id': `neq:${this._profile.usuario.id}`};
+        this.usuarioPagination.filter = {id: `neq:${this._profile.usuario.id}`};
     }
 
     // -----------------------------------------------------------------------------------------------------

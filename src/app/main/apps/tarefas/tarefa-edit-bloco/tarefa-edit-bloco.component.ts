@@ -108,7 +108,7 @@ export class TarefaEditBlocoComponent implements OnInit, OnDestroy {
         this.tarefa = new Tarefa();
         this.tarefa.unidadeResponsavel = this._profile.lotacoes[0].setor.unidade;
         this.tarefa.dataHoraInicioPrazo = moment();
-        this.tarefa.dataHoraFinalPrazo = moment().add(5, 'days').set({ 'hour' : 20, 'minute' : 0, 'second' : 0 });
+        this.tarefa.dataHoraFinalPrazo = moment().add(5, 'days').set({ hour : 20, minute : 0, second : 0 });
     }
 
     ngOnDestroy(): void {
@@ -140,38 +140,38 @@ export class TarefaEditBlocoComponent implements OnInit, OnDestroy {
 
             if (this.blocoEditEspecie) {
                 changes = {
-                    'especieTarefa': tarefa.especieTarefa
+                    especieTarefa: tarefa.especieTarefa
                 };
             }
 
             if (this.blocoEditDistribuicao) {
                 changes = {
-                    'setorResponsavel': tarefa.setorResponsavel,
-                    'usuarioResponsavel': tarefa.usuarioResponsavel
+                    setorResponsavel: tarefa.setorResponsavel,
+                    usuarioResponsavel: tarefa.usuarioResponsavel
                 };
             }
 
             if (this.blocoEditInicioPrazo) {
                 changes = {
-                    'dataHoraInicioPrazo': tarefa.dataHoraInicioPrazo
+                    dataHoraInicioPrazo: tarefa.dataHoraInicioPrazo
                 };
             }
 
             if (this.blocoEditFinalPrazo) {
                 changes = {
-                    'dataHoraFinalPrazo': tarefa.dataHoraFinalPrazo
+                    dataHoraFinalPrazo: tarefa.dataHoraFinalPrazo
                 };
             }
 
             if (this.blocoEditUrgente) {
                 changes = {
-                    'urgente': tarefa.urgente
+                    urgente: tarefa.urgente
                 };
             }
 
             if (this.blocoEditObservacao) {
                 changes = {
-                    'observacao': tarefa.observacao
+                    observacao: tarefa.observacao
                 };
             }
 

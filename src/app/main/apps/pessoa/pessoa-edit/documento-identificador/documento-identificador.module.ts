@@ -26,11 +26,11 @@ const routes: Routes = [
         children: [
             {
                 path       : 'listar',
-                loadChildren: './documento-identificador-list/documento-identificador-list.module#DocumentoIdentificadorListModule',
+                loadChildren: () => import('./documento-identificador-list/documento-identificador-list.module').then(m => m.DocumentoIdentificadorListModule),
             },
             {
                 path       : 'editar',
-                loadChildren: './documento-identificador-edit/documento-identificador-edit.module#DocumentoIdentificadorEditModule',
+                loadChildren: () => import('./documento-identificador-edit/documento-identificador-edit.module').then(m => m.DocumentoIdentificadorEditModule),
             },
             {
                 path: '**',

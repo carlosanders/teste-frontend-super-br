@@ -22,59 +22,59 @@ export class ConfiguracoesMainSidebarComponent implements OnInit, OnDestroy {
 
         this.links = [
             {
-                'nome': 'Perfil',
-                'icon': 'person',
-                'link': 'perfil'
+                nome: 'Perfil',
+                icon: 'person',
+                link: 'perfil'
             },
             {
-                'nome': 'Segurança',
-                'icon': 'security',
-                'link': 'seguranca'
+                nome: 'Segurança',
+                icon: 'security',
+                link: 'seguranca'
             },
             {
-                'nome': 'Afastamentos',
-                'icon': 'event_busy',
-                'link': 'afastamentos'
+                nome: 'Afastamentos',
+                icon: 'event_busy',
+                link: 'afastamentos'
             },
             {
-                'nome': 'Lotações',
-                'icon': 'edit_location',
-                'link': 'lotacoes'
+                nome: 'Lotações',
+                icon: 'edit_location',
+                link: 'lotacoes'
             },
             {
-                'nome': 'Analistas',
-                'icon': 'group',
-                'link': 'analistas'
+                nome: 'Analistas',
+                icon: 'group',
+                link: 'analistas'
             },
             {
-                'nome': 'Modelos',
-                'icon': 'file_copy',
-                'link': 'modelos'
+                nome: 'Modelos',
+                icon: 'file_copy',
+                link: 'modelos'
             },
             {
-                'nome': 'Repositórios',
-                'icon': 'add_comment',
-                'link': 'repositorios'
+                nome: 'Repositórios',
+                icon: 'add_comment',
+                link: 'repositorios'
             },
             {
-                'nome': 'Notificações',
-                'icon': 'notifications',
-                'link': 'notificacoes'
+                nome: 'Notificações',
+                icon: 'notifications',
+                link: 'notificacoes'
             },
             {
-                'nome': 'Pastas',
-                'icon': 'folder',
-                'link': 'pastas'
+                nome: 'Pastas',
+                icon: 'folder',
+                link: 'pastas'
             },
             {
-                'nome': 'Etiquetas',
-                'icon': 'label',
-                'link': 'etiquetas'
+                nome: 'Etiquetas',
+                icon: 'label',
+                link: 'etiquetas'
             },
             {
-                'nome': 'Favoritos',
-                'icon': 'star_border',
-                'link': 'favoritos'
+                nome: 'Favoritos',
+                icon: 'star_border',
+                link: 'favoritos'
             }
         ];
     }

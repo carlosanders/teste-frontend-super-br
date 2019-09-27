@@ -28,17 +28,17 @@ const routes: Routes = [
         children: [
             {
                 path       : 'visualizar',
-                loadChildren: './processo-view/processo-view.module#ProcessoViewModule',
+                loadChildren: () => import('./processo-view/processo-view.module').then(m => m.ProcessoViewModule),
                 canActivate: [fromGuards.ResolveGuard]
             },
             {
                 path       : 'editar',
-                loadChildren: './processo-edit/processo-edit.module#ProcessoEditModule',
+                loadChildren: () => import('./processo-edit/processo-edit.module').then(m => m.ProcessoEditModule),
                 canActivate: [fromGuards.ResolveGuard]
             },
             {
                 path       : 'acesso-negado',
-                loadChildren: './processo-empty/processo-empty.module#ProcessoEmptyModule'
+                loadChildren: () => import('./processo-empty/processo-empty.module').then(m => m.ProcessoEmptyModule)
             },
             {
                 path: '**',

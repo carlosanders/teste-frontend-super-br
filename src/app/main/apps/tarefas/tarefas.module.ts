@@ -45,48 +45,48 @@ const routes: Routes = [
         children: [
             {
                 path: '',
-                loadChildren: './tarefa-empty/tarefa-empty.module#TarefaEmptyModule'
+                loadChildren: () => import('./tarefa-empty/tarefa-empty.module').then(m => m.TarefaEmptyModule)
             },
             {
                 path: 'criar',
-                loadChildren: './tarefa-create/tarefa-create.module#TarefaCreateModule'
+                loadChildren: () => import('./tarefa-create/tarefa-create.module').then(m => m.TarefaCreateModule)
             },
             {
                 path: 'tarefa',
-                loadChildren: './tarefa-detail/tarefa-detail.module#TarefaDetailModule',
+                loadChildren: () => import('./tarefa-detail/tarefa-detail.module').then(m => m.TarefaDetailModule),
                 canActivate: [fromGuards.ResolveGuard]
             },
             {
                 path: 'compartilhamento-bloco',
-                loadChildren: './compartilhamento-create-bloco/compartilhamento-create-bloco.module#CompartilhamentoCreateBlocoModule',
+                loadChildren: () => import('./compartilhamento-create-bloco/compartilhamento-create-bloco.module').then(m => m.CompartilhamentoCreateBlocoModule),
             },
             {
                 path: 'atividade-bloco',
-                loadChildren: './atividade-create-bloco/atividade-create-bloco.module#AtividadeCreateBlocoModule',
+                loadChildren: () => import('./atividade-create-bloco/atividade-create-bloco.module').then(m => m.AtividadeCreateBlocoModule),
             },
             {
                 path: 'vinculacao-etiqueta-bloco',
-                loadChildren: './vinculacao-etiqueta-create-bloco/vinculacao-etiqueta-create-bloco.module#VinculacaoEtiquetaCreateBlocoModule',
+                loadChildren: () => import('./vinculacao-etiqueta-create-bloco/vinculacao-etiqueta-create-bloco.module').then(m => m.VinculacaoEtiquetaCreateBlocoModule),
             },
             {
                 path: 'tarefa-bloco',
-                loadChildren: './tarefa-create-bloco/tarefa-create-bloco.module#TarefaCreateBlocoModule',
+                loadChildren: () => import('./tarefa-create-bloco/tarefa-create-bloco.module').then(m => m.TarefaCreateBlocoModule),
             },
             {
                 path: 'tarefa-edit-bloco',
-                loadChildren: './tarefa-edit-bloco/tarefa-edit-bloco.module#TarefaEditBlocoModule',
+                loadChildren: () => import('./tarefa-edit-bloco/tarefa-edit-bloco.module').then(m => m.TarefaEditBlocoModule),
             },
             {
                 path: 'documento-avulso-bloco',
-                loadChildren: './documento-avulso-create-bloco/documento-avulso-create-bloco.module#DocumentoAvulsoCreateBlocoModule',
+                loadChildren: () => import('./documento-avulso-create-bloco/documento-avulso-create-bloco.module').then(m => m.DocumentoAvulsoCreateBlocoModule),
             },
             {
                 path: 'upload-bloco',
-                loadChildren: './upload-bloco/upload-bloco.module#UploadBlocoModule',
+                loadChildren: () => import('./upload-bloco/upload-bloco.module').then(m => m.UploadBlocoModule),
             },
             {
                 path: 'modelo-bloco',
-                loadChildren: './modelo-bloco/modelo-bloco.module#ModeloBlocoModule',
+                loadChildren: () => import('./modelo-bloco/modelo-bloco.module').then(m => m.ModeloBlocoModule),
             }
         ],
         canActivate: [fromGuards.ResolveGuard]

@@ -65,13 +65,13 @@ export class CdkTramitacaoFormComponent implements OnChanges, OnDestroy, OnInit 
     ) {
 
         this.form = this._formBuilder.group({
-            'id': [null],
-            'externa': [null],
-            'processo': [null, [Validators.required]],
-            'urgente': [null, [Validators.required]],
-            'setorOrigem': [null, [Validators.required]],
-            'setorDestino': [null, [Validators.required]],
-            'observacao': [null, [Validators.maxLength(255)]]
+            id: [null],
+            externa: [null],
+            processo: [null, [Validators.required]],
+            urgente: [null, [Validators.required]],
+            setorOrigem: [null, [Validators.required]],
+            setorDestino: [null, [Validators.required]],
+            observacao: [null, [Validators.maxLength(255)]]
         });
 
         this.processoPagination = new Pagination();
@@ -105,10 +105,10 @@ export class CdkTramitacaoFormComponent implements OnChanges, OnDestroy, OnInit 
                 const fields = Object.keys(data || {});
                 fields.forEach((field) => {
                     const control = this.form.get(field);
-                    control.setErrors({'formError': data[field].join(' - ')});
+                    control.setErrors({formError: data[field].join(' - ')});
                 });
             } catch (e) {
-                this.form.setErrors({'rulesError': this.errors.error.message});
+                this.form.setErrors({rulesError: this.errors.error.message});
             }
         }
 

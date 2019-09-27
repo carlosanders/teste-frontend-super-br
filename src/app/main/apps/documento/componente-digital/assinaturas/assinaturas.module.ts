@@ -26,7 +26,7 @@ const routes: Routes = [
         children: [
             {
                 path       : 'listar',
-                loadChildren: './assinatura-list/assinatura-list.module#AssinaturaListModule',
+                loadChildren: () => import('./assinatura-list/assinatura-list.module').then(m => m.AssinaturaListModule),
             },
             {
                 path: '**',

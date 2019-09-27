@@ -26,7 +26,7 @@ const routes: Routes = [
         children: [
             {
                 path       : 'listar',
-                loadChildren: './notificacao-list/notificacao-list.module#NotificacaoListModule',
+                loadChildren: () => import('./notificacao-list/notificacao-list.module').then(m => m.NotificacaoListModule),
             },
             {
                 path: '**',

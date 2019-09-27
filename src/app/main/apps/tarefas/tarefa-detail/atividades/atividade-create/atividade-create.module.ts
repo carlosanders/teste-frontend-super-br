@@ -38,7 +38,7 @@ const routes: Routes = [
         children: [
             {
                 path       : 'documento',
-                loadChildren: 'app/main/apps/documento/documento.module#DocumentoModule',
+                loadChildren: () => import('app/main/apps/documento/documento.module').then(m => m.DocumentoModule),
             }
         ],
         canActivate: [fromGuards.ResolveGuard]

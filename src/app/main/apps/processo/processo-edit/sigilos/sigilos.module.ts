@@ -27,11 +27,11 @@ const routes: Routes = [
         children: [
             {
                 path       : 'listar',
-                loadChildren: './sigilo-list/sigilo-list.module#SigiloListModule',
+                loadChildren: () => import('./sigilo-list/sigilo-list.module').then(m => m.SigiloListModule),
             },
             {
                 path       : 'editar',
-                loadChildren: './sigilo-edit/sigilo-edit.module#SigiloEditModule',
+                loadChildren: () => import('./sigilo-edit/sigilo-edit.module').then(m => m.SigiloEditModule),
             },
             {
                 path: '**',

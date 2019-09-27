@@ -190,7 +190,7 @@ export class FavoritoListEspecieTarefaEffect {
                                 gridFilter: {},
                                 limit: 5,
                                 offset: 0,
-                                sort: {'criadoEm': 'DESC'},
+                                sort: {criadoEm: 'DESC'},
                                 populate: [
                                     'especieTarefa'
                                 ]

@@ -63,7 +63,7 @@ export class NomeListComponent implements OnInit {
         });
     }
 
-    reload (params): void {
+    reload(params): void {
         this._store.dispatch(new fromStore.GetNomes({
             ...this.pagination,
             filter: {

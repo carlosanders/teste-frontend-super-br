@@ -80,7 +80,7 @@ export class TarefaEditComponent implements OnInit, OnDestroy {
             this.tarefa.processo = this.processo;
             this.tarefa.unidadeResponsavel = this._profile.lotacoes[0].setor.unidade;
             this.tarefa.dataHoraInicioPrazo = moment();
-            this.tarefa.dataHoraFinalPrazo = moment().add(5, 'days').set({ 'hour' : 20, 'minute' : 0, 'second' : 0 });
+            this.tarefa.dataHoraFinalPrazo = moment().add(5, 'days').set({ hour : 20, minute : 0, second : 0 });
             this.tarefa.setorOrigem = this._profile.lotacoes[0].setor;
         }
     }

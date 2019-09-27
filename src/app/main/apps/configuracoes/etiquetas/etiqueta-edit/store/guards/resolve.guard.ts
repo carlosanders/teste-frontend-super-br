@@ -61,7 +61,7 @@ export class ResolveGuard implements CanActivate {
                         this._store.dispatch(new fromStore.CreateEtiqueta());
                     } else {
                         this._store.dispatch(new fromStore.GetEtiqueta({
-                            'id': 'eq:' + this.routerState.params['etiquetaHandle']
+                            id: 'eq:' + this.routerState.params['etiquetaHandle']
                         }));
                     }
                 }

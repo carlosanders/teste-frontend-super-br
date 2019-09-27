@@ -59,7 +59,7 @@ export class AssinaturaListComponent implements OnInit {
         });
     }
 
-    reload (params): void {
+    reload(params): void {
         this._store.dispatch(new fromStore.GetAssinaturas({
             ...this.pagination,
             filter: {

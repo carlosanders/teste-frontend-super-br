@@ -63,7 +63,7 @@ export class VinculacaoUsuarioListComponent implements OnInit {
         });
     }
 
-    reload (params): void {
+    reload(params): void {
         this._store.dispatch(new fromStore.GetVinculacoesUsuarios({
             ...this.pagination,
             filter: {

@@ -63,7 +63,7 @@ export class DocumentoAvulsoListComponent implements OnInit {
         });
     }
 
-    reload (params): void {
+    reload(params): void {
         this._store.dispatch(new fromStore.GetDocumentosAvulsos({
             ...this.pagination,
             filter: {

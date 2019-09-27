@@ -61,7 +61,7 @@ export class ResolveGuard implements CanActivate {
                         this._store.dispatch(new fromStore.CreateEndereco());
                     } else {
                         this._store.dispatch(new fromStore.GetEndereco({
-                            'id': 'eq:' + this.routerState.params['enderecoHandle']
+                            id: 'eq:' + this.routerState.params['enderecoHandle']
                         }));
                     }
 

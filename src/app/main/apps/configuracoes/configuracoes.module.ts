@@ -20,47 +20,47 @@ const routes: Routes = [
         children: [
             {
                 path       : 'perfil',
-                loadChildren: './perfil/perfil.module#PerfilModule'
+                loadChildren: () => import('./perfil/perfil.module').then(m => m.PerfilModule)
             },
             {
                 path       : 'seguranca',
-                loadChildren: './seguranca/seguranca.module#SegurancaModule'
+                loadChildren: () => import('./seguranca/seguranca.module').then(m => m.SegurancaModule)
             },
             {
                 path       : 'afastamentos',
-                loadChildren: './afastamentos/afastamentos.module#AfastamentosModule'
+                loadChildren: () => import('./afastamentos/afastamentos.module').then(m => m.AfastamentosModule)
             },
             {
                 path       : 'lotacoes',
-                loadChildren: './lotacoes/lotacoes.module#LotacoesModule'
+                loadChildren: () => import('./lotacoes/lotacoes.module').then(m => m.LotacoesModule)
             },
             {
                 path       : 'notificacoes',
-                loadChildren: './notificacoes/notificacoes.module#NotificacoesModule'
+                loadChildren: () => import('./notificacoes/notificacoes.module').then(m => m.NotificacoesModule)
             },
             {
                 path       : 'analistas',
-                loadChildren: './vinculacoes-usuarios/vinculacoes-usuarios.module#VinculacoesUsuariosModule'
+                loadChildren: () => import('./vinculacoes-usuarios/vinculacoes-usuarios.module').then(m => m.VinculacoesUsuariosModule)
             },
             {
                 path       : 'modelos',
-                loadChildren: './modelos/modelos.module#ModelosModule'
+                loadChildren: () => import('./modelos/modelos.module').then(m => m.ModelosModule)
             },
             {
                 path       : 'repositorios',
-                loadChildren: './repositorios/repositorios.module#RepositoriosModule'
+                loadChildren: () => import('./repositorios/repositorios.module').then(m => m.RepositoriosModule)
             },
             {
                 path       : 'etiquetas',
-                loadChildren: './etiquetas/etiquetas.module#EtiquetasModule'
+                loadChildren: () => import('./etiquetas/etiquetas.module').then(m => m.EtiquetasModule)
             },
             {
                 path       : 'pastas',
-                loadChildren: './folders/folders.module#FoldersModule'
+                loadChildren: () => import('./folders/folders.module').then(m => m.FoldersModule)
             },
             {
                 path       : 'favoritos',
-                loadChildren: './favoritos/favoritos.module#FavoritosModule'
+                loadChildren: () => import('./favoritos/favoritos.module').then(m => m.FavoritosModule)
             }
         ]
     },

@@ -58,11 +58,11 @@ export class CdkVinculacaoProcessoFormComponent implements OnChanges, OnDestroy,
     ) {
 
         this.form = this._formBuilder.group({
-            'id': [null],
-            'processo': [null, [Validators.required]],
-            'processoVinculado': [null, [Validators.required]],
-            'modalidadeVinculacaoProcesso': [null, [Validators.required]],
-            'observacao': [null, [Validators.maxLength(255)]]
+            id: [null],
+            processo: [null, [Validators.required]],
+            processoVinculado: [null, [Validators.required]],
+            modalidadeVinculacaoProcesso: [null, [Validators.required]],
+            observacao: [null, [Validators.maxLength(255)]]
         });
 
         this.processoPagination = new Pagination();
@@ -95,10 +95,10 @@ export class CdkVinculacaoProcessoFormComponent implements OnChanges, OnDestroy,
                 const fields = Object.keys(data || {});
                 fields.forEach((field) => {
                     const control = this.form.get(field);
-                    control.setErrors({'formError': data[field].join(' - ')});
+                    control.setErrors({formError: data[field].join(' - ')});
                 });
             } catch (e) {
-                this.form.setErrors({'rulesError': this.errors.error.message});
+                this.form.setErrors({rulesError: this.errors.error.message});
             }
         }
 

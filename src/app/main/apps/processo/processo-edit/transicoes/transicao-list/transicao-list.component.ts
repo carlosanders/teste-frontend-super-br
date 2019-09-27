@@ -63,7 +63,7 @@ export class TransicaoListComponent implements OnInit {
         });
     }
 
-    reload (params): void {
+    reload(params): void {
         this._store.dispatch(new fromStore.GetTransicoes({
             ...this.pagination,
             filter: {

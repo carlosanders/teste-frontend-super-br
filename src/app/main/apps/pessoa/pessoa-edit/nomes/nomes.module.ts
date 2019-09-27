@@ -26,11 +26,11 @@ const routes: Routes = [
         children: [
             {
                 path       : 'listar',
-                loadChildren: './nome-list/nome-list.module#NomeListModule',
+                loadChildren: () => import('./nome-list/nome-list.module').then(m => m.NomeListModule),
             },
             {
                 path       : 'editar',
-                loadChildren: './nome-edit/nome-edit.module#NomeEditModule',
+                loadChildren: () => import('./nome-edit/nome-edit.module').then(m => m.NomeEditModule),
             },
             {
                 path: '**',

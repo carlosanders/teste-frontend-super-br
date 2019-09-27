@@ -61,7 +61,7 @@ export class ResolveGuard implements CanActivate {
                         this._store.dispatch(new fromStore.CreateTransicao());
                     } else {
                         this._store.dispatch(new fromStore.GetTransicao({
-                            'id': 'eq:' + this.routerState.params['transicaoHandle']
+                            id: 'eq:' + this.routerState.params['transicaoHandle']
                         }));
                     }
 

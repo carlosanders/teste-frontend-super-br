@@ -27,11 +27,11 @@ const routes: Routes = [
         children: [
             {
                 path       : 'listar',
-                loadChildren: './modelo-list/modelo-list.module#ModeloListModule',
+                loadChildren: () => import('./modelo-list/modelo-list.module').then(m => m.ModeloListModule),
             },
             {
                 path       : 'editar',
-                loadChildren: './modelo-edit/modelo-edit.module#ModeloEditModule',
+                loadChildren: () => import('./modelo-edit/modelo-edit.module').then(m => m.ModeloEditModule),
             },
             {
                 path: '**',

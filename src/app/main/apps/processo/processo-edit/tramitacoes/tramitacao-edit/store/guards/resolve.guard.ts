@@ -61,7 +61,7 @@ export class ResolveGuard implements CanActivate {
                         this._store.dispatch(new fromStore.CreateTramitacao());
                     } else {
                         this._store.dispatch(new fromStore.GetTramitacao({
-                            'id': 'eq:' + this.routerState.params['tramitacaoHandle']
+                            id: 'eq:' + this.routerState.params['tramitacaoHandle']
                         }));
                     }
 

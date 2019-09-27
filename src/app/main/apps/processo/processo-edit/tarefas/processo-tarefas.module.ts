@@ -27,11 +27,11 @@ const routes: Routes = [
         children: [
             {
                 path       : 'listar',
-                loadChildren: './tarefa-list/processo-tarefa-list.module#ProcessoTarefaListModule',
+                loadChildren: () => import('./tarefa-list/processo-tarefa-list.module').then(m => m.ProcessoTarefaListModule),
             },
             {
                 path       : 'editar',
-                loadChildren: './tarefa-edit/processo-tarefa-edit.module#ProcessoTarefaEditModule',
+                loadChildren: () => import('./tarefa-edit/processo-tarefa-edit.module').then(m => m.ProcessoTarefaEditModule),
             },
             {
                 path: '**',

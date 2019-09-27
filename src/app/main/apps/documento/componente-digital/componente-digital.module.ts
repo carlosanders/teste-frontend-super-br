@@ -17,19 +17,19 @@ const routes: Routes = [
         children: [
             {
                 path: 'assinaturas',
-                loadChildren: './assinaturas/assinaturas.module#AssinaturasModule',
+                loadChildren: () => import('./assinaturas/assinaturas.module').then(m => m.AssinaturasModule),
             },
             {
                 path: 'visualizar',
-                loadChildren: './componente-digital-view/componente-digital-view.module#ComponenteDigitalViewModule',
+                loadChildren: () => import('./componente-digital-view/componente-digital-view.module').then(m => m.ComponenteDigitalViewModule),
             },
             {
                 path: 'editor',
-                loadChildren: './componente-digital-ckeditor/componente-digital-ckeditor.module#ComponenteDigitalCkeditorModule',
+                loadChildren: () => import('./componente-digital-ckeditor/componente-digital-ckeditor.module').then(m => m.ComponenteDigitalCkeditorModule),
             },
             {
                 path: 'empty',
-                loadChildren: './componente-digital-empty/componente-digital-empty.module#ComponenteDigitalEmptyModule',
+                loadChildren: () => import('./componente-digital-empty/componente-digital-empty.module').then(m => m.ComponenteDigitalEmptyModule),
             }
         ],
         canActivate: [fromGuards.ResolveGuard]

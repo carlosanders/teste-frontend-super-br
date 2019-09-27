@@ -38,52 +38,52 @@ export class ProcessoEditMainSidebarComponent implements OnInit, OnDestroy {
 
         this.links = [
             {
-                'nome': 'Dados Básicos',
-                'link': 'dados-basicos'
+                nome: 'Dados Básicos',
+                link: 'dados-basicos'
             },
             {
-                'nome': 'Assuntos',
-                'link': 'assuntos'
+                nome: 'Assuntos',
+                link: 'assuntos'
             },
             {
-                'nome': 'Interessados',
-                'link': 'interessados'
+                nome: 'Interessados',
+                link: 'interessados'
             },
             {
-                'nome': 'Juntadas',
-                'link': 'juntadas'
+                nome: 'Juntadas',
+                link: 'juntadas'
             },
             {
-                'nome': 'Vinculações',
-                'link': 'vinculacoes-processos'
+                nome: 'Vinculações',
+                link: 'vinculacoes-processos'
             },
             {
-                'nome': 'Tarefas',
-                'link': 'tarefas'
+                nome: 'Tarefas',
+                link: 'tarefas'
             },
             {
-                'nome': 'Ofícios',
-                'link': 'oficios'
+                nome: 'Ofícios',
+                link: 'oficios'
             },
             {
-                'nome': 'Tramitações',
-                'link': 'tramitacoes'
+                nome: 'Tramitações',
+                link: 'tramitacoes'
             },
             {
-                'nome': 'Remessas',
-                'link': 'remessas'
+                nome: 'Remessas',
+                link: 'remessas'
             },
             {
-                'nome': 'Transições',
-                'link': 'transicoes'
+                nome: 'Transições',
+                link: 'transicoes'
             },
             {
-                'nome': 'Sigilos',
-                'link': 'sigilos'
+                nome: 'Sigilos',
+                link: 'sigilos'
             },
             {
-                'nome': 'Restrições de Acessos',
-                'link': 'acessos'
+                nome: 'Restrições de Acessos',
+                link: 'acessos'
             }
         ];
     }

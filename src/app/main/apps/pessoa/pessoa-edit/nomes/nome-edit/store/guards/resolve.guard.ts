@@ -61,7 +61,7 @@ export class ResolveGuard implements CanActivate {
                         this._store.dispatch(new fromStore.CreateNome());
                     } else {
                         this._store.dispatch(new fromStore.GetNome({
-                            'id': 'eq:' + this.routerState.params['nomeHandle']
+                            id: 'eq:' + this.routerState.params['nomeHandle']
                         }));
                     }
 

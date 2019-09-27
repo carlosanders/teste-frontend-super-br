@@ -38,12 +38,12 @@ export class EtiquetaEditMainSidebarComponent implements OnInit, OnDestroy {
 
         this.links = [
             {
-                'nome': 'Dados Básicos',
-                'link': 'dados-basicos'
+                nome: 'Dados Básicos',
+                link: 'dados-basicos'
             },
             {
-                'nome': 'Ações',
-                'link': 'acoes'
+                nome: 'Ações',
+                link: 'acoes'
             }
         ];
     }

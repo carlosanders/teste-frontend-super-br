@@ -107,7 +107,7 @@ export class PainelComponent implements OnInit
             .pipe(
                 catchError(() => {
                     this.historicoIsLoding = false;
-                        return of([]);
+                    return of([]);
                     }
                 )
             ).subscribe(

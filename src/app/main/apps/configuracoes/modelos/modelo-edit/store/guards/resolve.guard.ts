@@ -61,7 +61,7 @@ export class ResolveGuard implements CanActivate {
                         this._store.dispatch(new fromStore.CreateModelo());
                     } else {
                         this._store.dispatch(new fromStore.GetModelo({
-                            'id': 'eq:' + this.routerState.params['modeloHandle']
+                            id: 'eq:' + this.routerState.params['modeloHandle']
                         }));
                     }
 

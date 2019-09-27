@@ -61,7 +61,7 @@ export class ResolveGuard implements CanActivate {
                         this._store.dispatch(new fromStore.CreateFavorito());
                     } else {
                         this._store.dispatch(new fromStore.GetFavorito({
-                            'id': 'eq:' + this.routerState.params['favoritoHandle']
+                            id: 'eq:' + this.routerState.params['favoritoHandle']
                         }));
                     }
 

@@ -61,7 +61,7 @@ export class ResolveGuard implements CanActivate {
                         this._store.dispatch(new fromStore.CreateDocumentoIdentificador());
                     } else {
                         this._store.dispatch(new fromStore.GetDocumentoIdentificador({
-                            'id': 'eq:' + this.routerState.params['documentoIdentificadorHandle']
+                            id: 'eq:' + this.routerState.params['documentoIdentificadorHandle']
                         }));
                     }
 

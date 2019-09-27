@@ -32,7 +32,7 @@ const routes: Routes = [
         children: [
             {
                 path       : 'pessoa',
-                loadChildren: 'app/main/apps/pessoa/pessoa.module#PessoaModule',
+                loadChildren: () => import('app/main/apps/pessoa/pessoa.module').then(m => m.PessoaModule),
             }
         ],
         canActivate: [fromGuards.ResolveGuard]

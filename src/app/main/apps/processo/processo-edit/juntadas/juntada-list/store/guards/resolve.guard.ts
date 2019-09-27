@@ -72,7 +72,7 @@ export class ResolveGuard implements CanActivate {
                         gridFilter: {},
                         limit: 10,
                         offset: 0,
-                        sort: {'numeracaoSequencial': 'DESC'},
+                        sort: {numeracaoSequencial: 'DESC'},
                         populate: [
                             'documento',
                             'documento.tipoDocumento'

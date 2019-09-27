@@ -14,11 +14,11 @@ const routes: Routes = [
         children: [
             {
                 path: 'criar',
-                loadChildren: './atividade-create/atividade-create.module#AtividadeCreateModule'
+                loadChildren: () => import('./atividade-create/atividade-create.module').then(m => m.AtividadeCreateModule)
             },
             {
                 path: 'listar',
-                loadChildren: './atividade-list/atividade-list.module#AtividadeListModule'
+                loadChildren: () => import('./atividade-list/atividade-list.module').then(m => m.AtividadeListModule)
             }
         ],
     },

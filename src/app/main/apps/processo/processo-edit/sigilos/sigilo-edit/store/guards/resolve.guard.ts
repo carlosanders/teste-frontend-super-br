@@ -61,7 +61,7 @@ export class ResolveGuard implements CanActivate {
                         this._store.dispatch(new fromStore.CreateSigilo());
                     } else {
                         this._store.dispatch(new fromStore.GetSigilo({
-                            'id': 'eq:' + this.routerState.params['sigiloHandle']
+                            id: 'eq:' + this.routerState.params['sigiloHandle']
                         }));
                     }
 

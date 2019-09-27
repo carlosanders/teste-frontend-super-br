@@ -23,27 +23,27 @@ const routes: Routes = [
         children: [
             {
                 path       : 'dados-pessoa',
-                loadChildren: './dados-pessoa-edit/dados-pessoa-edit.module#DadosPessoaEditModule',
+                loadChildren: () => import('./dados-pessoa-edit/dados-pessoa-edit.module').then(m => m.DadosPessoaEditModule),
                 canActivate: [fromGuards.ResolveGuard]
             },
             {
                 path       : 'documentos',
-                loadChildren: './documento-identificador/documento-identificador.module#DocumentoIdentificadorModule',
+                loadChildren: () => import('./documento-identificador/documento-identificador.module').then(m => m.DocumentoIdentificadorModule),
                 canActivate: [fromGuards.ResolveGuard]
             },
             {
                 path       : 'enderecos',
-                loadChildren: './enderecos/enderecos.module#EnderecosModule',
+                loadChildren: () => import('./enderecos/enderecos.module').then(m => m.EnderecosModule),
                 canActivate: [fromGuards.ResolveGuard]
             },
             {
                 path       : 'relacionamentos',
-                loadChildren: './relacionamentos/relacionamento.module#RelacionamentoModule',
+                loadChildren: () => import('./relacionamentos/relacionamento.module').then(m => m.RelacionamentoModule),
                 canActivate: [fromGuards.ResolveGuard]
             },
             {
                 path       : 'nomes',
-                loadChildren: './nomes/nomes.module#NomesModule',
+                loadChildren: () => import('./nomes/nomes.module').then(m => m.NomesModule),
                 canActivate: [fromGuards.ResolveGuard]
             },
             {

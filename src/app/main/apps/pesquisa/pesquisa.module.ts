@@ -20,15 +20,15 @@ const routes: Routes = [
         children: [
             {
                 path: 'processos',
-                loadChildren: './processos/pesquisa-processos.module#PesquisaProcessosModule'
+                loadChildren: () => import('./processos/pesquisa-processos.module').then(m => m.PesquisaProcessosModule)
             },
             {
                 path: 'processos/:NUPHandle',
-                loadChildren: './processos/pesquisa-processos.module#PesquisaProcessosModule'
+                loadChildren: () => import('./processos/pesquisa-processos.module').then(m => m.PesquisaProcessosModule)
             },
             {
                 path: 'documentos',
-                loadChildren: './componentes-digitais/pesquisa-componentes-digitais.module#PesquisaComponentesDigitaisModule'
+                loadChildren: () => import('./componentes-digitais/pesquisa-componentes-digitais.module').then(m => m.PesquisaComponentesDigitaisModule)
             },
             {
                 path: '**',

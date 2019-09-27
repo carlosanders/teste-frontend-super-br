@@ -40,28 +40,28 @@ export class PessoaEditMainSidebarComponent implements OnInit, OnDestroy {
 
         this.links = [
             {
-                'nome': 'Dados Básicos',
-                'link': 'dados-pessoa'
+                nome: 'Dados Básicos',
+                link: 'dados-pessoa'
             },
             {
-                'nome': 'Documentos',
-                'link': 'documentos',
-                'pessoa': true
+                nome: 'Documentos',
+                link: 'documentos',
+                pessoa: true
             },
             {
-                'nome': 'Endereços',
-                'link': 'enderecos',
-                'pessoa': true
+                nome: 'Endereços',
+                link: 'enderecos',
+                pessoa: true
             },
             {
-                'nome': 'Relacionamentos',
-                'link': 'relacionamentos',
-                'pessoa': true
+                nome: 'Relacionamentos',
+                link: 'relacionamentos',
+                pessoa: true
             },
             {
-                'nome': 'Outros Nomes',
-                'link': 'nomes',
-                'pessoa': true
+                nome: 'Outros Nomes',
+                link: 'nomes',
+                pessoa: true
             }
         ];
     }

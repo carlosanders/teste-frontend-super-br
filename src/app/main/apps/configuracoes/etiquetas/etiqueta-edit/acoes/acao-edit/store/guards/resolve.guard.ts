@@ -61,7 +61,7 @@ export class ResolveGuard implements CanActivate {
                         this._store.dispatch(new fromStore.CreateAcao());
                     } else {
                         this._store.dispatch(new fromStore.GetAcao({
-                            'id': 'eq:' + this.routerState.params['acaoHandle']
+                            id: 'eq:' + this.routerState.params['acaoHandle']
                         }));
                     }
 

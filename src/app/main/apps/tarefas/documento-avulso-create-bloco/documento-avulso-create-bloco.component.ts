@@ -94,7 +94,7 @@ export class DocumentoAvulsoCreateBlocoComponent implements OnInit, OnDestroy {
 
         this.documentoAvulso = new DocumentoAvulso();
         this.documentoAvulso.dataHoraInicioPrazo = moment();
-        this.documentoAvulso.dataHoraFinalPrazo = moment().add(5, 'days').set({'hour': 20, 'minute': 0, 'second': 0});
+        this.documentoAvulso.dataHoraFinalPrazo = moment().add(5, 'days').set({hour: 20, minute: 0, second: 0});
     }
 
     ngOnDestroy(): void {

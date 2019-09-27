@@ -61,7 +61,7 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
         this.especieTarefaPagination.populate = ['generoTarefa'];
         this.setorOrigemPagination = new Pagination();
         this.setorOrigemPagination.populate = ['unidade'];
-        this.setorOrigemPagination.filter = {'id': 'in:' + this._profile.lotacoes.map(lotacao => lotacao.setor.id).join(',')};
+        this.setorOrigemPagination.filter = {id: 'in:' + this._profile.lotacoes.map(lotacao => lotacao.setor.id).join(',')};
 
     }
 
@@ -81,7 +81,7 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
         this.tarefa = new Tarefa();
         this.tarefa.unidadeResponsavel = this._profile.lotacoes[0].setor.unidade;
         this.tarefa.dataHoraInicioPrazo = moment();
-        this.tarefa.dataHoraFinalPrazo = moment().add(5, 'days').set({ 'hour' : 20, 'minute' : 0, 'second' : 0 });
+        this.tarefa.dataHoraFinalPrazo = moment().add(5, 'days').set({ hour : 20, minute : 0, second : 0 });
         this.tarefa.setorOrigem = this._profile.lotacoes[0].setor;
 
         if (this.processo) {

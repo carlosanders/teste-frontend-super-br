@@ -61,7 +61,7 @@ export class ResolveGuard implements CanActivate {
                         this._store.dispatch(new fromStore.CreateVinculacaoProcesso());
                     } else {
                         this._store.dispatch(new fromStore.GetVinculacaoProcesso({
-                            'id': 'eq:' + this.routerState.params['vinculacaoProcessoHandle']
+                            id: 'eq:' + this.routerState.params['vinculacaoProcessoHandle']
                         }));
                     }
 
