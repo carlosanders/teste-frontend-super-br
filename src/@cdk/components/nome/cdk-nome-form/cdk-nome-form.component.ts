@@ -51,9 +51,9 @@ export class CdkNomeFormComponent implements OnChanges, OnDestroy {
     ) {
 
         this.form = this._formBuilder.group({
-            'id': [null],
-            'pessoa': [null],
-            'valor': [null, [Validators.required, Validators.minLength(3), Validators.maxLength(255) ]]
+            id: [null],
+            pessoa: [null],
+            valor: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(255) ]]
         });
         this.pessoaPagination = new Pagination();
     }
@@ -77,10 +77,10 @@ export class CdkNomeFormComponent implements OnChanges, OnDestroy {
                 const fields = Object.keys(data || {});
                 fields.forEach((field) => {
                     const control = this.form.get(field);
-                    control.setErrors({'formError': data[field].join(' - ')});
+                    control.setErrors({formError: data[field].join(' - ')});
                 });
             } catch (e) {
-                this.form.setErrors({'rulesError': this.errors.error.message});
+                this.form.setErrors({rulesError: this.errors.error.message});
             }
         }
 

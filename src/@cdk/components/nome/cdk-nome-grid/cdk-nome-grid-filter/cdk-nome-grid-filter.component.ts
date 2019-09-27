@@ -31,7 +31,7 @@ export class CdkNomeGridFilterComponent implements OnInit {
     ) {
 
         this.form = this._formBuilder.group({
-            'valor': [null]
+            valor: [null]
         });
 
     }
@@ -45,7 +45,7 @@ export class CdkNomeGridFilterComponent implements OnInit {
      */
     ngOnInit(): void {
         this.form.get('valor').valueChanges.subscribe(value => {
-            this.selected.emit({'valor': `like:${value}%`});
+            this.selected.emit({valor: `like:${value}%`});
         });
     }
 

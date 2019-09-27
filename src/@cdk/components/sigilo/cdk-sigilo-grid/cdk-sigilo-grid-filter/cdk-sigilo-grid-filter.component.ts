@@ -31,7 +31,7 @@ export class CdkSigiloGridFilterComponent implements OnInit {
     ) {
 
         this.form = this._formBuilder.group({
-            'desclassificado': [null]
+            desclassificado: [null]
         });
 
     }
@@ -45,7 +45,7 @@ export class CdkSigiloGridFilterComponent implements OnInit {
      */
     ngOnInit(): void {
         this.form.get('desclassificado').valueChanges.subscribe(value => {
-            this.selected.emit({'desclassificado': `like:${value}%`});
+            this.selected.emit({desclassificado: `like:${value}%`});
         });
     }
 

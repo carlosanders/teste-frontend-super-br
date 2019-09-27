@@ -57,7 +57,7 @@ export class CdkNomeAutocompleteComponent implements OnInit {
                     value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
                         termFilter = {
                             ...termFilter,
-                            'valor': `like:%${bit}%`
+                            valor: `like:%${bit}%`
                         };
                     });
                     if (typeof value === 'string') {

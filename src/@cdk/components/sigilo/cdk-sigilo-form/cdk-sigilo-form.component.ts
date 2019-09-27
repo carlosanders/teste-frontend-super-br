@@ -70,16 +70,16 @@ export class CdkSigiloFormComponent implements OnChanges, OnDestroy, OnInit {
     ) {
 
         this.form = this._formBuilder.group({
-            'id': [null],
-            'processo': [null],
-            'documento': [null],
-            'desclassificado': [null],
-            'fundamentoLegal': [null, [Validators.required, Validators.maxLength(255)]],
-            'razoesClassificacaoSigilo': [null, [Validators.required, Validators.maxLength(255)]],
-            'dataHoraInicioSigilo': [null, [Validators.required]],
-            'modalidadeCategoriaSigilo': [null],
-            'tipoSigilo': [null, [Validators.required]],
-            'observacao': [null, [Validators.maxLength(255)]]
+            id: [null],
+            processo: [null],
+            documento: [null],
+            desclassificado: [null],
+            fundamentoLegal: [null, [Validators.required, Validators.maxLength(255)]],
+            razoesClassificacaoSigilo: [null, [Validators.required, Validators.maxLength(255)]],
+            dataHoraInicioSigilo: [null, [Validators.required]],
+            modalidadeCategoriaSigilo: [null],
+            tipoSigilo: [null, [Validators.required]],
+            observacao: [null, [Validators.maxLength(255)]]
         });
 
         this.processoPagination = new Pagination();
@@ -111,10 +111,10 @@ export class CdkSigiloFormComponent implements OnChanges, OnDestroy, OnInit {
                 const fields = Object.keys(data || {});
                 fields.forEach((field) => {
                     const control = this.form.get(field);
-                    control.setErrors({'formError': data[field].join(' - ')});
+                    control.setErrors({formError: data[field].join(' - ')});
                 });
             } catch (e) {
-                this.form.setErrors({'rulesError': this.errors.error.message});
+                this.form.setErrors({rulesError: this.errors.error.message});
             }
         }
 

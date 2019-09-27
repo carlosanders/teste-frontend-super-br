@@ -57,7 +57,7 @@ export class CdkRoleAutocompleteComponent implements OnInit {
                     value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
                         termFilter = {
                             ...termFilter,
-                            'name': `like:%${bit}%`
+                            name: `like:%${bit}%`
                         };
                     });
                     if (typeof value === 'string') {

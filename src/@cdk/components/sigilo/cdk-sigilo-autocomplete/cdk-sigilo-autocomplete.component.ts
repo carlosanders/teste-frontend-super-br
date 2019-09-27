@@ -57,7 +57,7 @@ export class CdkSigiloAutocompleteComponent implements OnInit {
                     value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
                         termFilter = {
                             ...termFilter,
-                            'desclassificado': `like:%${bit}%`
+                            desclassificado: `like:%${bit}%`
                         };
                     });
                     if (typeof value === 'string') {
