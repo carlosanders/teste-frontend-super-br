@@ -5,13 +5,11 @@ import {
     OnInit, ViewChild, AfterViewInit,
     ViewEncapsulation, Input, OnChanges, Output, EventEmitter
 } from '@angular/core';
-import {merge, of} from 'rxjs';
+import {of} from 'rxjs';
 
 import {fuseAnimations} from '@fuse/animations';
 
 import {MatPaginator, MatSort} from '@angular/material';
-
-import {tap} from 'rxjs/operators';
 
 import {LogEntry} from '@cdk/models/logentry.model';
 import {LogEntryDataSource} from '@cdk/data-sources/logentry-data-source';

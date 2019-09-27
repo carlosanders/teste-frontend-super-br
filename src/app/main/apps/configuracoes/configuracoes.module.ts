@@ -27,6 +27,10 @@ const routes: Routes = [
                 loadChildren: './seguranca/seguranca.module#SegurancaModule'
             },
             {
+                path       : 'afastamentos',
+                loadChildren: './afastamentos/afastamentos.module#AfastamentosModule'
+            },
+            {
                 path       : 'lotacoes',
                 loadChildren: './lotacoes/lotacoes.module#LotacoesModule'
             },

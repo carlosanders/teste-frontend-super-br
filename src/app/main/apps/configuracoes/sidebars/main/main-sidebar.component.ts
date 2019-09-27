@@ -32,6 +32,11 @@ export class ConfiguracoesMainSidebarComponent implements OnInit, OnDestroy {
                 'link': 'seguranca'
             },
             {
+                'nome': 'Afastamentos',
+                'icon': 'event_busy',
+                'link': 'afastamentos'
+            },
+            {
                 'nome': 'Lotações',
                 'icon': 'edit_location',
                 'link': 'lotacoes'

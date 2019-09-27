@@ -31,7 +31,7 @@ export class CdkModalidadeVinculacaoDocumentoGridFilterComponent implements OnIn
     ) {
 
         this.form = this._formBuilder.group({
-            'valor': [null]
+            valor: [null]
         });
 
     }
@@ -45,7 +45,7 @@ export class CdkModalidadeVinculacaoDocumentoGridFilterComponent implements OnIn
      */
     ngOnInit(): void {
         this.form.get('valor').valueChanges.subscribe(value => {
-            this.selected.emit({'valor': `like:${value}%`});
+            this.selected.emit({valor: `like:${value}%`});
         });
     }
 
