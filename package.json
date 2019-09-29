@@ -14,7 +14,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "bundle-report": "webpack-bundle-analyzer dist/stats.json"
+    "bundle-report": "webpack-bundle-analyzer dist/stats.json",
+    "postinstall": "ivy-ngcc"
   },
   "private": true,
   "dependencies": {
@@ -24,7 +25,7 @@
     "@angular/common": "8.2.8",
     "@angular/compiler": "8.2.8",
     "@angular/core": "8.2.8",
-    "@angular/flex-layout": "8.0.0-beta.26",
+    "@angular/flex-layout": "8.0.0-beta.27",
     "@angular/forms": "8.2.8",
     "@angular/material": "8.1.1",
     "@angular/material-moment-adapter": "8.1.1",
@@ -68,6 +69,7 @@
     "node-sass": "4.12.0",
     "perfect-scrollbar": "1.4.0",
     "prismjs": "1.16.0",
+    "reflect-metadata": "0.1.13",
     "rxjs": "6.5.3",
     "web-animations-js": "2.3.2",
     "zone.js": "0.9.1"

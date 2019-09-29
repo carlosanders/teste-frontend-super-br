@@ -203,19 +203,6 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
      */
     ngOnDestroy(): void {
         window.addEventListener('resize', this.resizeFunction);
-
-        const editor = window['CKEDITOR'];
-        if (editor.instances) {
-            for (const editorInstance in editor.instances) {
-                if (editor.instances.hasOwnProperty(editorInstance) &&
-                    editor.instances[editorInstance]) {
-                    editor.instances[editorInstance].destroy();
-                    editor.instances[editorInstance] = {
-                        destroy: () => true,
-                    };
-                }
-            }
-        }
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -233,7 +220,7 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
 
     b64DecodeUnicode(str): any {
         // Going backwards: from bytestream, to percent-encoding, to original string.
-        return decodeURIComponent(atob(str).split('').map(function(c): any {
+        return decodeURIComponent(atob(str).split('').map((c) => {
             return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
         }).join(''));
     }
@@ -249,15 +236,16 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
 
     private strip_tags(input, allowed = null): any {
         const nallowed = (((allowed || '') + '').toLowerCase().match(/<[a-z][a-z0-9]*>/g) || []).join('');
-        const tags = /<\/?([a-z][a-z0-9]*)\b[^>]*>/gi,
-            commentsAndPhpTags = /<!--[\s\S]*?-->|<\?(?:php)?[\s\S]*?\?>/gi;
-        return input.replace(commentsAndPhpTags, '').replace(tags, function($0, $1): any {
+        const tags = /<\/?([a-z][a-z0-9]*)\b[^>]*>/gi;
+        const commentsAndPhpTags = /<!--[\s\S]*?-->|<\?(?:php)?[\s\S]*?\?>/gi;
+
+        return input.replace(commentsAndPhpTags, '').replace(tags, ($0, $1) => {
             return nallowed.indexOf('<' + $1.toLowerCase() + '>') > -1 ? $0 : '';
         });
     }
 
     private resizeFunction(): void {
-        if (this.editor) {
+        if (this.editor && this.el.nativeElement) {
             this.editor.resize(this.editor.container.getStyle('width'), (this.el.nativeElement.offsetHeight * 0.95), true);
         }
     }
@@ -278,7 +266,7 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
 
         window.addEventListener('resize', this.resizeFunction);
 
-        e.editor.on('contentDom', function(): any {
+        e.editor.on('contentDom', () => {
 
             const editable = e.editor.editable();
             editable.attachListener(editable, 'click', () => {
@@ -288,15 +276,16 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
                 }
             });
 
-            e.editor.document.on('keyup', function(event: any): any {
+            e.editor.document.on('keyup', (event: any) => {
                 if (event.data.getKey() === 13) {
                     let node = e.editor.getSelection().getStartElement();
+                    const ready = false;
 
                     do {
                         if (node.getName() === 'p' || node.getName() === 'h1' || node.getName() === 'h2') {
 
-                            let words = null,
-                                query = null;
+                            let words = null;
+                            let query = null;
 
                             // inteligencia
                             if (me.strip_tags(node.getPrevious().getHtml())) {
@@ -324,7 +313,9 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
                             break;
                         }
 
-                    } while (node = node.getParent());
+                        node = node.getParent();
+
+                    } while (!ready);
                 }
             });
         });
@@ -337,7 +328,7 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
             breakAfterClose: false
         });
 
-        setInterval(function(): any {
+        setInterval(() => {
             me.doSave();
         }, 5 * 60 * 1000);
     }

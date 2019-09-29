@@ -30,9 +30,10 @@
                         "styles": [
                             "src/styles.scss"
                         ],
-                        "aot": true,
+                        "aot": false,
                         "scripts": [],
-                        "showCircularDependencies": false
+                        "showCircularDependencies": false,
+                        "preserveSymlinks": true
                     },
                     "configurations": {
                         "production": {
