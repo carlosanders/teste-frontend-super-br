@@ -144,9 +144,7 @@ export class CdkEspecieTarefaGridComponent implements AfterViewInit, OnInit, OnC
 
         this.dataSource = new EspecieTarefaDataSource(of(this.especieTarefas));
 
-        const defaultValues = [];
-
-        this.columns.setValue(this.allColumns.map(c => c.id));
+        this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
 
         this.columns.valueChanges.pipe(
             debounceTime(300),
