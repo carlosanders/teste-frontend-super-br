@@ -11,10 +11,11 @@ import {fuseAnimations} from '@fuse/animations';
 
 import {MatPaginator, MatSort} from '@angular/material';
 
-import {tap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
 import {EspecieTarefa} from '@cdk/models/especie-tarefa.model';
 import {EspecieTarefaDataSource} from '@cdk/data-sources/especie-tarefa-data-source';
+import {FormControl} from '@angular/forms';
 
 @Component({
     selector: 'cdk-especie-tarefa-grid',
@@ -37,6 +38,41 @@ export class CdkEspecieTarefaGridComponent implements AfterViewInit, OnInit, OnC
 
     @Input()
     displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'genero.nome', 'actions'];
+
+    allColumns: any[] = [
+        {
+            id: 'select',
+            label: '',
+            fixed: true
+        },
+        {
+            id: 'id',
+            label: 'Id',
+            fixed: true
+        },
+        {
+            id: 'nome',
+            label: 'Nome',
+            fixed: true
+        },
+        {
+            id: 'descricao',
+            label: 'Descrição',
+            fixed: false
+        },
+        {
+            id: 'genero.nome',
+            label: 'Gênero Tarefa',
+            fixed: false
+        },
+        {
+            id: 'actions',
+            label: '',
+            fixed: true
+        }
+    ];
+
+    columns = new FormControl();
 
     @Input()
     deletingIds: number[] = [];
@@ -107,6 +143,25 @@ export class CdkEspecieTarefaGridComponent implements AfterViewInit, OnInit, OnC
         this.paginator.pageSize = this.pageSize;
 
         this.dataSource = new EspecieTarefaDataSource(of(this.especieTarefas));
+
+        const defaultValues = [];
+
+        this.columns.setValue(this.allColumns.map(c => c.id));
+
+        this.columns.valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((values) => {
+                this.displayedColumns = [];
+                this.allColumns.forEach(c => {
+                    if (c.fixed || (values.indexOf(c.id) > -1)) {
+                        this.displayedColumns.push(c.id);
+                    }
+                });
+                this._changeDetectorRef.markForCheck();
+                return of([]);
+            })
+        ).subscribe();
     }
 
     ngAfterViewInit(): void {

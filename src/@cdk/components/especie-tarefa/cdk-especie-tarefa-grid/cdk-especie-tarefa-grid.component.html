@@ -27,6 +27,14 @@
                 <mat-icon>delete</mat-icon>
             </button>
 
+            <mat-form-field class="colunas mr-8">
+                <mat-select [formControl]="columns" multiple>
+                    <div *ngFor="let column of allColumns">
+                        <mat-option *ngIf="!column.fixed" [value]="column.id">{{ column.label }}</mat-option>
+                    </div>
+                </mat-select>
+            </mat-form-field>
+
             <button class="refresh" mat-icon-button
                     (click)="loadPage()"
                     aria-label="recarregar"
@@ -66,7 +74,7 @@
             </ng-container>
 
             <!-- Id Column -->
-            <ng-container matColumnDef="id">
+            <ng-container *ngIf="displayedColumns.indexOf('id') > -1" matColumnDef="id">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Id
                 </th>
                 <td mat-cell *matCellDef="let especieTarefa" class='has_label_on_mobile' data-label='Id: '
