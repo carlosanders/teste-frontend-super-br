@@ -62,7 +62,7 @@ export class VisibilidadeEditComponent implements OnInit, OnDestroy {
         this.unidadePagination.filter = {parent: 'isNull'};
 
         this.setorPagination = new Pagination();
-        this.setorPagination.populate = ['unidade'];
+        this.setorPagination.populate = ['unidade', 'parent'];
         this.setorPagination.filter = {parent: 'isNotNull'};
 
         this.usuarioPagination = new Pagination();

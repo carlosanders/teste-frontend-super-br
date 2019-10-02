@@ -59,7 +59,7 @@ export class TarefaEditComponent implements OnInit, OnDestroy {
         this.especieTarefaPagination = new Pagination();
         this.especieTarefaPagination.populate = ['generoTarefa'];
         this.setorOrigemPagination = new Pagination();
-        this.setorOrigemPagination.populate = ['unidade'];
+        this.setorOrigemPagination.populate = ['unidade', 'parent'];
         this.setorOrigemPagination.filter = {id: 'in:' + this._profile.lotacoes.map(lotacao => lotacao.setor.id).join(',')};
     }
 

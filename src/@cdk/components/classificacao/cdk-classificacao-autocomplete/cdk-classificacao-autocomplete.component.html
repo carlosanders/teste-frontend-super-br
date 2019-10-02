@@ -1,7 +1,14 @@
 <mat-autocomplete [displayWith]="displayClassificacaoFn">
-    <mat-option *ngFor="let classificacao of classificacaoList"
+    <mat-option [ngClass]="{'multiline':classificacao.parent}"
+                *ngFor="let classificacao of classificacaoList"
                 [value]="classificacao">
-        <span [innerHTML]="displayClassificacaoFn(classificacao) | highlightOption: this.control.value"></span>
+        <div *ngIf="classificacao.parent">{{ classificacao.parent.nome }}</div>
+        <div [ngClass]="{'strong':classificacao.parent}">
+            <span *ngIf="classificacao.parent">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </span>
+            {{ classificacao.nome }} ({{ classificacao.id}})
+        </div>
     </mat-option>
     <mat-option *ngIf="classificacaoListIsLoading">
         <mat-spinner diameter="16"></mat-spinner>
