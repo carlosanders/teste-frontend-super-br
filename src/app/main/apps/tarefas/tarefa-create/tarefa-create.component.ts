@@ -63,6 +63,7 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
         this.setorOrigemPagination = new Pagination();
         this.setorOrigemPagination.populate = ['unidade', 'parent'];
         this.setorOrigemPagination.filter = {id: 'in:' + this._profile.lotacoes.map(lotacao => lotacao.setor.id).join(',')};
+        this.setorResponsavelPagination = new Pagination();
         this.setorResponsavelPagination.populate = ['unidade', 'parent'];
     }
 
