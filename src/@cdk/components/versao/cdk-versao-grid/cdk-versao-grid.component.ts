@@ -49,10 +49,10 @@ export class CdkVersaoGridComponent implements AfterViewInit, OnInit, OnChanges 
     @Input()
     actions: string[] = ['reverter'];
 
-    @ViewChild(MatPaginator)
+    @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
 
-    @ViewChild(MatSort)
+    @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
     @Output()
