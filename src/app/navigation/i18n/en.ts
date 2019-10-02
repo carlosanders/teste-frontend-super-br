@@ -8,24 +8,24 @@ export const locale = {
             },
             TAREFA        : {
                 TITLE: 'Tarefas',
-                MINHASTAREFAS: {
-                    TITLE: 'Minhas Tarefas'
-                },
-                COMPARTILHADASCOMIGO: {
-                    TITLE: 'Compartilhadas'
+                ADMINISTRATIVAS: {
+                    TITLE: 'Administrativas'
                 }
             },
-            PROCESSO        : {
-                TITLE: 'Processos',
-                PROTOCOLO: {
-                    TITLE: 'Novo'
+            PROTOCOLO        : {
+                TITLE: 'Protocolo',
+                ADMINISTRATIVO: {
+                    TITLE: 'Administrativo'
                 },
-                PESQUISA        : {
-                    TITLE: 'Pesquisa'
-                }
             },
-            TESTE        : {
-                TITLE: 'Teste',
+            PESQUISA        : {
+                TITLE: 'Pesquisa',
+                PROCESSO: {
+                    TITLE: 'Processo'
+                },
+                DOCUMENTO: {
+                    TITLE: 'Documento'
+                },
             }
         }
     }

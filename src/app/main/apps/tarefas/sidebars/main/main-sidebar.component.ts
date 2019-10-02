@@ -82,6 +82,8 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
     }
 
     onDrop($event): void {
-        this._store.dispatch(new fromStore.SetFolderOnSelectedTarefas({tarefa: $event[0].data, folder: $event[1]}));
+        if (this.mode === 'Tarefas') {
+            this._store.dispatch(new fromStore.SetFolderOnSelectedTarefas({tarefa: $event[0].data, folder: $event[1]}));
+        }
     }
 }

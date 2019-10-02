@@ -24,45 +24,54 @@ export const navigation: FuseNavigation[] = [
                 children: [
                     {
                         id: 'minhasTarefas',
-                        title: 'Minhas Tarefas',
-                        translate: 'NAV.TAREFA.MINHASTAREFAS.TITLE',
+                        title: 'Administrativas',
+                        translate: 'NAV.TAREFA.ADMINISTRATIVAS.TITLE',
                         type: 'item',
                         icon: 'person',
                         url: '/apps/tarefas/entrada'
-                    },
-                    {
-                        id: 'compartilhadasComigo',
-                        title: 'Compartilhadas',
-                        translate: 'NAV.TAREFA.COMPARTILHADASCOMIGO.TITLE',
-                        type: 'item',
-                        icon: 'share',
-                        url: '/apps/tarefas/compartilhadas'
                     }
                 ]
             },
             {
-                id: 'processo',
-                title: 'Processos',
-                translate: 'NAV.PROCESSO.TITLE',
+                id: 'protocolo',
+                title: 'Protocolo',
+                translate: 'NAV.PROTOCOLO.TITLE',
                 type: 'collapsable',
                 icon: 'book',
                 children: [
                     {
-                        id: 'protocolo',
-                        title: 'Novo',
-                        translate: 'NAV.PROCESSO.PROTOCOLO.TITLE',
+                        id: 'administrativo',
+                        title: 'Administrativo',
+                        translate: 'NAV.PROTOCOLO.ADMINISTRATIVO.TITLE',
                         type: 'item',
                         icon: 'book',
                         url: '/apps/processo/criar/editar'
+                    }
+                ]
+            },
+            {
+                id: 'pesquisa',
+                title: 'Pesquisa',
+                translate: 'NAV.PESQUISA.TITLE',
+                type: 'collapsable',
+                icon: 'search',
+                children: [
+                    {
+                        id: 'processo',
+                        title: 'Processo',
+                        translate: 'NAV.PESQUISA.PROCESSO.TITLE',
+                        type: 'item',
+                        icon: 'book',
+                        url: '/apps/pesquisa/processos'
                     },
                     {
-                        id: 'pesquisa',
-                        title: 'Pesquisa',
-                        translate: 'NAV.PROCESSO.PESQUISA.TITLE',
+                        id: 'documento',
+                        title: 'Documento',
+                        translate: 'NAV.PESQUISA.DOCUMENTO.TITLE',
                         type: 'item',
-                        icon: 'search',
-                        url: '/apps/pesquisa'
-                    }
+                        icon: 'insert_drive_file',
+                        url: '/apps/pesquisa/documentos'
+                    },
                 ]
             }
         ]
