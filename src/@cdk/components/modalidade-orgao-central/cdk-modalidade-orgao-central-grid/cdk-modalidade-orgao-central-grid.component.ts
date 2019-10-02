@@ -50,10 +50,10 @@ export class CdkModalidadeOrgaoCentralGridComponent implements AfterViewInit, On
     @Input()
     actions: string[] = ['edit', 'delete', 'select'];
 
-    @ViewChild(MatPaginator)
+    @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
 
-    @ViewChild(MatSort)
+    @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
     @Output()
@@ -69,7 +69,7 @@ export class CdkModalidadeOrgaoCentralGridComponent implements AfterViewInit, On
     delete = new EventEmitter<number>();
 
     @Output()
-    select = new EventEmitter<ModalidadeOrgaoCentral>();
+    selected = new EventEmitter<ModalidadeOrgaoCentral>();
 
     @Output()
     selectedIds: number[] = [];
@@ -143,7 +143,7 @@ export class CdkModalidadeOrgaoCentralGridComponent implements AfterViewInit, On
     }
 
     selectModalidadeOrgaoCentral(modalidadeorgaoCentral: ModalidadeOrgaoCentral): void {
-        this.select.emit(modalidadeorgaoCentral);
+        this.selected.emit(modalidadeorgaoCentral);
     }
 
     deleteModalidadeOrgaoCentral(modalidadeorgaoCentralId): void {
@@ -197,12 +197,12 @@ export class CdkModalidadeOrgaoCentralGridComponent implements AfterViewInit, On
         this.recompute();
     }
 
-    recompute (): void {
+    recompute(): void {
         this.hasSelected = this.selectedIds.length > 0;
         this.isIndeterminate = (this.selectedIds.length !== this.modalidadeorgaoCentrals.length && this.selectedIds.length > 0);
     }
 
-    setGridFilter (gridFilter): void {
+    setGridFilter(gridFilter): void {
         this.gridFilter = {
             ...this.gridFilter,
             ...gridFilter

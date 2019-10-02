@@ -11,10 +11,11 @@ import {fuseAnimations} from '@fuse/animations';
 
 import {MatPaginator, MatSort} from '@angular/material';
 
-import {tap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
 import {EspecieTarefa} from '@cdk/models/especie-tarefa.model';
 import {EspecieTarefaDataSource} from '@cdk/data-sources/especie-tarefa-data-source';
+import {FormControl} from '@angular/forms';
 
 @Component({
     selector: 'cdk-especie-tarefa-grid',
@@ -38,6 +39,41 @@ export class CdkEspecieTarefaGridComponent implements AfterViewInit, OnInit, OnC
     @Input()
     displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'genero.nome', 'actions'];
 
+    allColumns: any[] = [
+        {
+            id: 'select',
+            label: '',
+            fixed: true
+        },
+        {
+            id: 'id',
+            label: 'Id',
+            fixed: true
+        },
+        {
+            id: 'nome',
+            label: 'Nome',
+            fixed: true
+        },
+        {
+            id: 'descricao',
+            label: 'Descrição',
+            fixed: false
+        },
+        {
+            id: 'genero.nome',
+            label: 'Gênero Tarefa',
+            fixed: false
+        },
+        {
+            id: 'actions',
+            label: '',
+            fixed: true
+        }
+    ];
+
+    columns = new FormControl();
+
     @Input()
     deletingIds: number[] = [];
 
@@ -50,10 +86,10 @@ export class CdkEspecieTarefaGridComponent implements AfterViewInit, OnInit, OnC
     @Input()
     actions: string[] = ['edit', 'delete', 'select'];
 
-    @ViewChild(MatPaginator)
+    @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
 
-    @ViewChild(MatSort)
+    @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
     @Output()
@@ -69,7 +105,7 @@ export class CdkEspecieTarefaGridComponent implements AfterViewInit, OnInit, OnC
     delete = new EventEmitter<number>();
 
     @Output()
-    select = new EventEmitter<EspecieTarefa>();
+    selected = new EventEmitter<EspecieTarefa>();
 
     @Output()
     selectedIds: number[] = [];
@@ -107,6 +143,23 @@ export class CdkEspecieTarefaGridComponent implements AfterViewInit, OnInit, OnC
         this.paginator.pageSize = this.pageSize;
 
         this.dataSource = new EspecieTarefaDataSource(of(this.especieTarefas));
+
+        this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
+
+        this.columns.valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((values) => {
+                this.displayedColumns = [];
+                this.allColumns.forEach(c => {
+                    if (c.fixed || (values.indexOf(c.id) > -1)) {
+                        this.displayedColumns.push(c.id);
+                    }
+                });
+                this._changeDetectorRef.markForCheck();
+                return of([]);
+            })
+        ).subscribe();
     }
 
     ngAfterViewInit(): void {
@@ -143,7 +196,7 @@ export class CdkEspecieTarefaGridComponent implements AfterViewInit, OnInit, OnC
     }
 
     selectEspecieTarefa(especieTarefa: EspecieTarefa): void {
-        this.select.emit(especieTarefa);
+        this.selected.emit(especieTarefa);
     }
 
     deleteEspecieTarefa(especieTarefaId): void {
@@ -197,12 +250,12 @@ export class CdkEspecieTarefaGridComponent implements AfterViewInit, OnInit, OnC
         this.recompute();
     }
 
-    recompute (): void {
+    recompute(): void {
         this.hasSelected = this.selectedIds.length > 0;
         this.isIndeterminate = (this.selectedIds.length !== this.especieTarefas.length && this.selectedIds.length > 0);
     }
 
-    setGridFilter (gridFilter): void {
+    setGridFilter(gridFilter): void {
         this.gridFilter = {
             ...this.gridFilter,
             ...gridFilter

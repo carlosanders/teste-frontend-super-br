@@ -67,7 +67,7 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
 
     activeCard = 'atividade';
 
-    @ViewChild('ckdUpload')
+    @ViewChild('ckdUpload', {static: true})
     cdkUpload;
 
     routerState: any;
@@ -205,7 +205,7 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
 
     b64DecodeUnicode(str): any {
         // Going backwards: from bytestream, to percent-encoding, to original string.
-        return decodeURIComponent(atob(str).split('').map(function (c): any {
+        return decodeURIComponent(atob(str).split('').map(function(c): any {
             return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
         }).join(''));
     }

@@ -26,11 +26,11 @@ const routes: Routes = [
         children: [
             {
                 path       : 'listar',
-                loadChildren: './remessa-list/remessa-list.module#RemessaListModule',
+                loadChildren: () => import('./remessa-list/remessa-list.module').then(m => m.RemessaListModule),
             },
             {
                 path       : 'editar',
-                loadChildren: './remessa-edit/remessa-edit.module#RemessaEditModule',
+                loadChildren: () => import('./remessa-edit/remessa-edit.module').then(m => m.RemessaEditModule),
             },
             {
                 path: '**',

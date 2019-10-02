@@ -51,12 +51,12 @@ export class CdkDocumentoIdentificadorFormComponent implements OnChanges, OnDest
     ) {
 
         this.form = this._formBuilder.group({
-            'id': [null],
-            'pessoa': [null],
-            'codigoDocumento': [null, [Validators.required, Validators.maxLength(255)]],
-            'modalidadeDocumentoIdentificador': [null, [Validators.required]],
-            'emissorDocumento': [null, [Validators.required, Validators.maxLength(255)]],
-            'dataEmissao': [null]
+            id: [null],
+            pessoa: [null],
+            codigoDocumento: [null, [Validators.required, Validators.maxLength(255)]],
+            modalidadeDocumentoIdentificador: [null, [Validators.required]],
+            emissorDocumento: [null, [Validators.required, Validators.maxLength(255)]],
+            dataEmissao: [null]
         });
         this.modalidadeDocumentoIdentificadorPagination = new Pagination();
     }
@@ -80,10 +80,10 @@ export class CdkDocumentoIdentificadorFormComponent implements OnChanges, OnDest
                 const fields = Object.keys(data || {});
                 fields.forEach((field) => {
                     const control = this.form.get(field);
-                    control.setErrors({'formError': data[field].join(' - ')});
+                    control.setErrors({formError: data[field].join(' - ')});
                 });
             } catch (e) {
-                this.form.setErrors({'rulesError': this.errors.error.message});
+                this.form.setErrors({rulesError: this.errors.error.message});
             }
         }
 

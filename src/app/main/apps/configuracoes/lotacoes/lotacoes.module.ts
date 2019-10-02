@@ -26,7 +26,7 @@ const routes: Routes = [
         children: [
             {
                 path       : 'listar',
-                loadChildren: './lotacao-list/lotacao-list.module#LotacaoListModule',
+                loadChildren: () => import('./lotacao-list/lotacao-list.module').then(m => m.LotacaoListModule),
             },
             {
                 path: '**',

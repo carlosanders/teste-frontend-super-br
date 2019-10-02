@@ -39,12 +39,12 @@ registerLocaleData(localePt, 'pt');
 const appRoutes: Routes = [
     {
         path        : 'apps',
-        loadChildren: './main/apps/apps.module#AppsModule',
+        loadChildren: () => import('./main/apps/apps.module').then(m => m.AppsModule),
         canLoad: [AuthGuard]
     },
     {
         path: 'auth',
-        loadChildren: './main/auth/auth.module#AuthModule'
+        loadChildren: () => import('./main/auth/auth.module').then(m => m.AuthModule)
     },
     {
         path: '**',

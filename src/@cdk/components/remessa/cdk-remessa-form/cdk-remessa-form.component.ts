@@ -73,13 +73,13 @@ export class CdkRemessaFormComponent implements OnChanges, OnDestroy, OnInit {
     ) {
 
         this.form = this._formBuilder.group({
-            'id': [null],
-            'externa': [null],
-            'processo': [null],
-            'urgente': [null],
-            'setorOrigem': [null, [Validators.required]],
-            'pessoaDestino': [null, [Validators.required]],
-            'observacao': [null]
+            id: [null],
+            externa: [null],
+            processo: [null],
+            urgente: [null],
+            setorOrigem: [null, [Validators.required]],
+            pessoaDestino: [null, [Validators.required]],
+            observacao: [null]
         });
 
         this.processoPagination = new Pagination();
@@ -112,10 +112,10 @@ export class CdkRemessaFormComponent implements OnChanges, OnDestroy, OnInit {
                 const fields = Object.keys(data || {});
                 fields.forEach((field) => {
                     const control = this.form.get(field);
-                    control.setErrors({'formError': data[field].join(' - ')});
+                    control.setErrors({formError: data[field].join(' - ')});
                 });
             } catch (e) {
-                this.form.setErrors({'rulesError': this.errors.error.message});
+                this.form.setErrors({rulesError: this.errors.error.message});
             }
         }
 

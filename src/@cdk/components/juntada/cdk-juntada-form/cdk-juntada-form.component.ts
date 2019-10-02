@@ -71,16 +71,16 @@ export class CdkJuntadaFormComponent implements OnChanges, OnDestroy, OnInit {
     ) {
 
         this.form = this._formBuilder.group({
-            'id': [null],
-            'ativo': [null],
-            'numeracaoSequencial': [null],
-            'documento': [null, [Validators.required]],
-            'descricao': [null, [Validators.required , Validators.minLength(3), Validators.maxLength(4000)]],
-            'origemDados': [null, [Validators.required]],
-            'volume': [null, [Validators.required]],
-            'documentoAvulso': [null, [Validators.required]],
-            'atividade': [null, [Validators.required]],
-            'tarefa': [null, [Validators.required]]
+            id: [null],
+            ativo: [null],
+            numeracaoSequencial: [null],
+            documento: [null, [Validators.required]],
+            descricao: [null, [Validators.required , Validators.minLength(3), Validators.maxLength(4000)]],
+            origemDados: [null, [Validators.required]],
+            volume: [null, [Validators.required]],
+            documentoAvulso: [null, [Validators.required]],
+            atividade: [null, [Validators.required]],
+            tarefa: [null, [Validators.required]]
         });
 
         this.documentoPagination = new Pagination();
@@ -116,10 +116,10 @@ export class CdkJuntadaFormComponent implements OnChanges, OnDestroy, OnInit {
                 const fields = Object.keys(data || {});
                 fields.forEach((field) => {
                     const control = this.form.get(field);
-                    control.setErrors({'formError': data[field].join(' - ')});
+                    control.setErrors({formError: data[field].join(' - ')});
                 });
             } catch (e) {
-                this.form.setErrors({'rulesError': this.errors.error.message});
+                this.form.setErrors({rulesError: this.errors.error.message});
             }
         }
 

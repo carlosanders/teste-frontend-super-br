@@ -50,10 +50,10 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
     @Input()
     actions: string[] = ['edit', 'delete', 'select'];
 
-    @ViewChild(MatPaginator)
+    @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
 
-    @ViewChild(MatSort)
+    @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
     @Output()
@@ -69,7 +69,7 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
     delete = new EventEmitter<number>();
 
     @Output()
-    select = new EventEmitter<Usuario>();
+    selected = new EventEmitter<Usuario>();
 
     @Output()
     selectedIds: number[] = [];
@@ -143,7 +143,7 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
     }
 
     selectUsuario(usuario: Usuario): void {
-        this.select.emit(usuario);
+        this.selected.emit(usuario);
     }
 
     deleteUsuario(usuarioId): void {
@@ -197,12 +197,12 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
         this.recompute();
     }
 
-    recompute (): void {
+    recompute(): void {
         this.hasSelected = this.selectedIds.length > 0;
         this.isIndeterminate = (this.selectedIds.length !== this.usuarios.length && this.selectedIds.length > 0);
     }
 
-    setGridFilter (gridFilter): void {
+    setGridFilter(gridFilter): void {
         this.gridFilter = {
             ...this.gridFilter,
             ...gridFilter

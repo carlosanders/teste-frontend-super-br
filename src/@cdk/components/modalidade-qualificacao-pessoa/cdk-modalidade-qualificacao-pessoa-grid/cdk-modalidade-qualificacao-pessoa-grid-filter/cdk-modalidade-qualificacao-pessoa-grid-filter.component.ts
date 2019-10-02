@@ -31,7 +31,7 @@ export class CdkModalidadeQualificacaoPessoaGridFilterComponent implements OnIni
     ) {
 
         this.form = this._formBuilder.group({
-            'valor': [null]
+            valor: [null]
         });
 
     }
@@ -45,7 +45,7 @@ export class CdkModalidadeQualificacaoPessoaGridFilterComponent implements OnIni
      */
     ngOnInit(): void {
         this.form.get('valor').valueChanges.subscribe(value => {
-            this.selected.emit({'valor': `like:${value}%`});
+            this.selected.emit({valor: `like:${value}%`});
         });
     }
 

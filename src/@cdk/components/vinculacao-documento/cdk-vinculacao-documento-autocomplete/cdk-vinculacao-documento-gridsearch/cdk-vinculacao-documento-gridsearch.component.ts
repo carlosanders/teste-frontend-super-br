@@ -80,7 +80,7 @@ export class CdkVinculacaoDocumentoGridsearchComponent implements OnInit {
         });
     }
 
-   reload (params): void {
+   reload(params): void {
         params = {
             ...this.pagination,
             filter: {

@@ -14,7 +14,7 @@ const routes: Routes = [
         children: [
             {
                 path: 'visualizar',
-                loadChildren: 'app/main/apps/processo/processo-view/processo-view.module#ProcessoViewModule'
+                loadChildren: () => import('app/main/apps/processo/processo-view/processo-view.module').then(m => m.ProcessoViewModule)
             }
         ]
     }

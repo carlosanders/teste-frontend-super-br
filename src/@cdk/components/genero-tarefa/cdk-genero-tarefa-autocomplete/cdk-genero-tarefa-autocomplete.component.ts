@@ -35,7 +35,7 @@ export class CdkGeneroTarefaAutocompleteComponent implements OnInit {
     generoTarefaList: GeneroTarefa[];
     generoTarefaListIsLoading: boolean;
 
-    @ViewChild(MatAutocomplete) autocomplete: MatAutocomplete;
+    @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -57,7 +57,7 @@ export class CdkGeneroTarefaAutocompleteComponent implements OnInit {
                     value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
                         termFilter = {
                             ...termFilter,
-                            'nome': `like:%${bit}%`
+                            nome: `like:%${bit}%`
                         };
                     });
                     if (typeof value === 'string') {

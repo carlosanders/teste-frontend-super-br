@@ -46,13 +46,13 @@ export class CdkPerfilFormComponent implements OnChanges, OnDestroy {
     ) {
 
         this.form = this._formBuilder.group({
-            'id': [null],
-            'username': [null, [Validators.required, Validators.maxLength(255)]],
-            'nome': [null, [Validators.required, Validators.maxLength(255)]],
-            'email': [null, [Validators.required, Validators.email, Validators.maxLength(255)]],
-            'cargo': [null, [Validators.required, Validators.maxLength(255)]],
-            'modalidadeColaborador': [null, [Validators.required, Validators.maxLength(255)]],
-            'assinaturaHTML': [null, [Validators.required]]
+            id: [null],
+            username: [null, [Validators.required, Validators.maxLength(255)]],
+            nome: [null, [Validators.required, Validators.maxLength(255)]],
+            email: [null, [Validators.required, Validators.email, Validators.maxLength(255)]],
+            cargo: [null, [Validators.required, Validators.maxLength(255)]],
+            modalidadeColaborador: [null, [Validators.required, Validators.maxLength(255)]],
+            assinaturaHTML: [null, [Validators.required]]
         });
     }
 
@@ -66,13 +66,13 @@ export class CdkPerfilFormComponent implements OnChanges, OnDestroy {
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
         if (changes['colaborador'] && this.colaborador && ((!this.colaborador.id && !this.form.dirty) || (this.colaborador.id !== this.form.get('id').value))) {
             this.form.patchValue({
-                'id': this.colaborador.id,
-                'username': this.colaborador.usuario.username,
-                'nome': this.colaborador.usuario.nome,
-                'email': this.colaborador.usuario.email,
-                'cargo': this.colaborador.cargo.nome,
-                'modalidadeColaborador': this.colaborador.modalidadeColaborador.valor,
-                'assinaturaHTML': this.colaborador.usuario.assinaturaHTML
+                id: this.colaborador.id,
+                username: this.colaborador.usuario.username,
+                nome: this.colaborador.usuario.nome,
+                email: this.colaborador.usuario.email,
+                cargo: this.colaborador.cargo.nome,
+                modalidadeColaborador: this.colaborador.modalidadeColaborador.valor,
+                assinaturaHTML: this.colaborador.usuario.assinaturaHTML
             });
         }
 
@@ -82,10 +82,10 @@ export class CdkPerfilFormComponent implements OnChanges, OnDestroy {
                 const fields = Object.keys(data || {});
                 fields.forEach((field) => {
                     const control = this.form.get(field);
-                    control.setErrors({'formError': data[field].join(' - ')});
+                    control.setErrors({formError: data[field].join(' - ')});
                 });
             } catch (e) {
-                this.form.setErrors({'rulesError': this.errors.error.message});
+                this.form.setErrors({rulesError: this.errors.error.message});
             }
         }
 

@@ -55,12 +55,12 @@ export class CdkTransicaoFormComponent implements OnChanges, OnDestroy, OnInit {
     ) {
 
         this.form = this._formBuilder.group({
-            'id': [null],
-            'processo': [null, [Validators.required]],
-            'modalidadeTransicao': [null, [Validators.required]],
-            'metodo': [null, [Validators.required, Validators.maxLength(255)]],
-            'edital': [null, [Validators.required, Validators.maxLength(255)]],
-            'observacao': [null, [Validators.maxLength(255)]]
+            id: [null],
+            processo: [null, [Validators.required]],
+            modalidadeTransicao: [null, [Validators.required]],
+            metodo: [null, [Validators.required, Validators.maxLength(255)]],
+            edital: [null, [Validators.required, Validators.maxLength(255)]],
+            observacao: [null, [Validators.maxLength(255)]]
         });
 
         this.processoPagination = new Pagination();
@@ -91,10 +91,10 @@ export class CdkTransicaoFormComponent implements OnChanges, OnDestroy, OnInit {
                 const fields = Object.keys(data || {});
                 fields.forEach((field) => {
                     const control = this.form.get(field);
-                    control.setErrors({'formError': data[field].join(' - ')});
+                    control.setErrors({formError: data[field].join(' - ')});
                 });
             } catch (e) {
-                this.form.setErrors({'rulesError': this.errors.error.message});
+                this.form.setErrors({rulesError: this.errors.error.message});
             }
         }
 

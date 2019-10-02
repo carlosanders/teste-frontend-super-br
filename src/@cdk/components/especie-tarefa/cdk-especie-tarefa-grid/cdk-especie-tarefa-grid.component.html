@@ -27,6 +27,14 @@
                 <mat-icon>delete</mat-icon>
             </button>
 
+            <mat-form-field class="colunas mr-8">
+                <mat-select [formControl]="columns" multiple>
+                    <div *ngFor="let column of allColumns">
+                        <mat-option *ngIf="!column.fixed" [value]="column.id">{{ column.label }}</mat-option>
+                    </div>
+                </mat-select>
+            </mat-form-field>
+
             <button class="refresh" mat-icon-button
                     (click)="loadPage()"
                     aria-label="recarregar"
@@ -83,7 +91,7 @@
             </ng-container>
 
             <!-- Descricao Column -->
-            <ng-container matColumnDef="descricao">
+            <ng-container *ngIf="displayedColumns.indexOf('descricao') > -1" matColumnDef="descricao">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     Descrição
                 </th>
@@ -92,7 +100,7 @@
             </ng-container>
 
             <!-- GeneroTarefa Column -->
-            <ng-container matColumnDef="genero.nome">
+            <ng-container *ngIf="displayedColumns.indexOf('genero.nome') > -1" matColumnDef="genero.nome">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     Gênero Tarefa
                 </th>

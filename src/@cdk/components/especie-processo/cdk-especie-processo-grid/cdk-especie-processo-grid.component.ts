@@ -50,10 +50,10 @@ export class CdkEspecieProcessoGridComponent implements AfterViewInit, OnInit, O
     @Input()
     actions: string[] = ['edit', 'delete', 'select'];
 
-    @ViewChild(MatPaginator)
+    @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
 
-    @ViewChild(MatSort)
+    @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
     @Output()
@@ -69,7 +69,7 @@ export class CdkEspecieProcessoGridComponent implements AfterViewInit, OnInit, O
     delete = new EventEmitter<number>();
 
     @Output()
-    select = new EventEmitter<EspecieProcesso>();
+    selected = new EventEmitter<EspecieProcesso>();
 
     @Output()
     selectedIds: number[] = [];
@@ -143,7 +143,7 @@ export class CdkEspecieProcessoGridComponent implements AfterViewInit, OnInit, O
     }
 
     selectEspecieProcesso(especieProcesso: EspecieProcesso): void {
-        this.select.emit(especieProcesso);
+        this.selected.emit(especieProcesso);
     }
 
     deleteEspecieProcesso(especieProcessoId): void {
@@ -197,12 +197,12 @@ export class CdkEspecieProcessoGridComponent implements AfterViewInit, OnInit, O
         this.recompute();
     }
 
-    recompute (): void {
+    recompute(): void {
         this.hasSelected = this.selectedIds.length > 0;
         this.isIndeterminate = (this.selectedIds.length !== this.especieProcessos.length && this.selectedIds.length > 0);
     }
 
-    setGridFilter (gridFilter): void {
+    setGridFilter(gridFilter): void {
         this.gridFilter = {
             ...this.gridFilter,
             ...gridFilter

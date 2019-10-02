@@ -7,7 +7,7 @@ import {
     MatProgressSpinnerModule,
     MatTableModule,
     MatPaginatorModule,
-    MatSortModule,
+    MatSortModule, MatTooltipModule,
 } from '@angular/material';
 
 import { FuseSharedModule } from '@fuse/shared.module';
@@ -21,7 +21,7 @@ import { CdkAssuntoGridFilterModule } from './cdk-assunto-grid-filter/cdk-assunt
         CdkAssuntoGridComponent
     ],
     imports: [
-        
+
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,
@@ -35,6 +35,7 @@ import { CdkAssuntoGridFilterModule } from './cdk-assunto-grid-filter/cdk-assunt
         CdkAssuntoGridFilterModule,
 
         FuseSharedModule,
+        MatTooltipModule,
     ],
     providers: [
         AssuntoAdministrativoService,

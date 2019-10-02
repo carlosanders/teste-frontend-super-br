@@ -63,7 +63,7 @@ export class EtiquetaListComponent implements OnInit {
         });
     }
 
-    reload (params): void {
+    reload(params): void {
         this._store.dispatch(new fromStore.GetEtiquetas({
             ...this.pagination,
             filter: {

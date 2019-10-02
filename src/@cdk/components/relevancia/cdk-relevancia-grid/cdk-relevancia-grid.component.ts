@@ -50,10 +50,10 @@ export class CdkRelevanciaGridComponent implements AfterViewInit, OnInit, OnChan
     @Input()
     actions: string[] = ['edit', 'delete', 'select'];
 
-    @ViewChild(MatPaginator)
+    @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
 
-    @ViewChild(MatSort)
+    @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
     @Output()
@@ -69,7 +69,7 @@ export class CdkRelevanciaGridComponent implements AfterViewInit, OnInit, OnChan
     delete = new EventEmitter<number>();
 
     @Output()
-    select = new EventEmitter<Relevancia>();
+    selected = new EventEmitter<Relevancia>();
 
     @Output()
     selectedIds: number[] = [];
@@ -143,7 +143,7 @@ export class CdkRelevanciaGridComponent implements AfterViewInit, OnInit, OnChan
     }
 
     selectRelevancia(relevancia: Relevancia): void {
-        this.select.emit(relevancia);
+        this.selected.emit(relevancia);
     }
 
     deleteRelevancia(relevanciaId): void {

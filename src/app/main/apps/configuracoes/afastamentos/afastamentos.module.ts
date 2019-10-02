@@ -27,11 +27,11 @@ const routes: Routes = [
         children: [
             {
                 path       : 'listar',
-                loadChildren: './afastamento-list/afastamento-list.module#AfastamentoListModule',
+                loadChildren: () => import('./afastamento-list/afastamento-list.module').then(m => m.AfastamentoListModule),
             },
             {
                 path       : 'editar',
-                loadChildren: './afastamento-edit/afastamento-edit.module#AfastamentoEditModule',
+                loadChildren: () => import('./afastamento-edit/afastamento-edit.module').then(m => m.AfastamentoEditModule),
             },
             {
                 path: '**',

@@ -63,7 +63,7 @@ export class ModeloListComponent implements OnInit {
         });
     }
 
-    reload (params): void {
+    reload(params): void {
         this._store.dispatch(new fromStore.GetModelos({
             ...this.pagination,
             filter: {

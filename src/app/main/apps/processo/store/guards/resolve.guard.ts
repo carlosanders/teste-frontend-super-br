@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {ActivatedRouteSnapshot, CanActivate, Router} from '@angular/router';
-import {RouterStateSnapshot} from '@angular/router/src/router_state';
+import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
+
 import {select, Store} from '@ngrx/store';
 
 import {Observable, of} from 'rxjs';
@@ -64,7 +64,7 @@ export class ResolveGuard implements CanActivate {
                             this._store.dispatch(new fromStore.CreateProcesso());
                         } else {
                             this._store.dispatch(new fromStore.GetProcesso({
-                                'id': 'eq:' + this.routerState.params['processoHandle']
+                                id: 'eq:' + this.routerState.params['processoHandle']
                             }));
                         }
                     }

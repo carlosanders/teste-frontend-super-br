@@ -50,10 +50,10 @@ export class CdkGeneroAtividadeGridComponent implements AfterViewInit, OnInit, O
     @Input()
     actions: string[] = ['edit', 'delete', 'select'];
 
-    @ViewChild(MatPaginator)
+    @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
 
-    @ViewChild(MatSort)
+    @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
     @Output()
@@ -69,7 +69,7 @@ export class CdkGeneroAtividadeGridComponent implements AfterViewInit, OnInit, O
     delete = new EventEmitter<number>();
 
     @Output()
-    select = new EventEmitter<GeneroAtividade>();
+    selected = new EventEmitter<GeneroAtividade>();
 
     @Output()
     selectedIds: number[] = [];
@@ -143,7 +143,7 @@ export class CdkGeneroAtividadeGridComponent implements AfterViewInit, OnInit, O
     }
 
     selectGeneroAtividade(generoAtividade: GeneroAtividade): void {
-        this.select.emit(generoAtividade);
+        this.selected.emit(generoAtividade);
     }
 
     deleteGeneroAtividade(generoAtividadeId): void {

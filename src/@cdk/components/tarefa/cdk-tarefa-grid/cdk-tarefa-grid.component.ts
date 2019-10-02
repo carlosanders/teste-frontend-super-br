@@ -50,10 +50,10 @@ export class CdkTarefaGridComponent implements AfterViewInit, OnInit, OnChanges 
     @Input()
     actions: string[] = ['edit', 'delete', 'select'];
 
-    @ViewChild(MatPaginator)
+    @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
 
-    @ViewChild(MatSort)
+    @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
     @Output()
@@ -66,7 +66,7 @@ export class CdkTarefaGridComponent implements AfterViewInit, OnInit, OnChanges 
     delete = new EventEmitter<number>();
 
     @Output()
-    select = new EventEmitter<Tarefa>();
+    selected = new EventEmitter<Tarefa>();
 
     @Output()
     cancel = new EventEmitter<any>();
@@ -142,7 +142,7 @@ export class CdkTarefaGridComponent implements AfterViewInit, OnInit, OnChanges 
     }
 
     selectTarefa(tarefa: Tarefa): void {
-        this.select.emit(tarefa);
+        this.selected.emit(tarefa);
     }
 
     deleteTarefa(tarefaId): void {
@@ -198,12 +198,12 @@ export class CdkTarefaGridComponent implements AfterViewInit, OnInit, OnChanges 
         this.recompute();
     }
 
-    recompute (): void {
+    recompute(): void {
         this.hasSelected = this.selectedIds.length > 0;
         this.isIndeterminate = (this.selectedIds.length !== this.tarefas.length && this.selectedIds.length > 0);
     }
 
-    setGridFilter (gridFilter): void {
+    setGridFilter(gridFilter): void {
         this.gridFilter = {
             ...this.gridFilter,
             ...gridFilter

@@ -73,12 +73,12 @@ export class CdkEtiquetaFormComponent implements OnChanges, OnDestroy {
     ) {
 
         this.form = this._formBuilder.group({
-            'id': [null],
-            'ativo': [null],
-            'nome': [null, [Validators.required, Validators.maxLength(255)]],
-            'corHexadecimal': [null, [Validators.required]],
-            'descricao': [null, [Validators.required, Validators.maxLength(255)]],
-            'modalidadeEtiqueta': [null, [Validators.required]],
+            id: [null],
+            ativo: [null],
+            nome: [null, [Validators.required, Validators.maxLength(255)]],
+            corHexadecimal: [null, [Validators.required]],
+            descricao: [null, [Validators.required, Validators.maxLength(255)]],
+            modalidadeEtiqueta: [null, [Validators.required]],
         });
 
         this.modalidadeEtiquetaPagination = new Pagination();
@@ -104,10 +104,10 @@ export class CdkEtiquetaFormComponent implements OnChanges, OnDestroy {
                 const fields = Object.keys(data || {});
                 fields.forEach((field) => {
                     const control = this.form.get(field);
-                    control.setErrors({'formError': data[field].join(' - ')});
+                    control.setErrors({formError: data[field].join(' - ')});
                 });
             } catch (e) {
-                this.form.setErrors({'rulesError': this.errors.error.message});
+                this.form.setErrors({rulesError: this.errors.error.message});
             }
         }
         this._changeDetectorRef.markForCheck();

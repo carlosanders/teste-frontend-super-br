@@ -240,7 +240,7 @@ export class DocumentoEffect {
                 ofType<DocumentoActions.SetCurrentStep>(DocumentoActions.SET_CURRENT_STEP),
                 withLatestFrom(this._store.pipe(select(DocumentoSelectors.getCurrentComponenteDigital))),
                 tap(([action, componenteDigital]) => {
-                    let type = '/visualizar';
+                    let type = '/visualizador';
                     if (action.payload.editavel && componenteDigital.editavel && !componenteDigital.assinado) {
                         type = '/editor/ckeditor';
                     }

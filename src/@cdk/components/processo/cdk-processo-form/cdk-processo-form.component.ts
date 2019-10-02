@@ -56,9 +56,6 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     procedenciaPagination: Pagination;
 
     @Input()
-    classificacaoPagination: Pagination;
-
-    @Input()
     modalidadeFasePagination: Pagination;
 
     @Input()
@@ -66,6 +63,9 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
     @Input()
     setorAtualPagination: Pagination;
+
+    @Input()
+    classificacaoPagination: Pagination;
 
     @Output()
     save = new EventEmitter<Processo>();
@@ -95,23 +95,23 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     ) {
 
         this.form = this._formBuilder.group({
-            'id': [null],
-            'NUP': [null, [Validators.required, Validators.maxLength(21)]],
-            'novo': [null, [Validators.required]],
-            'especieProcesso': [null, [Validators.required]],
-            'visibilidadeExterna': [null],
-            'titulo': [null, [Validators.required, Validators.required, Validators.maxLength(255)]],
-            'descricao': [null, [Validators.maxLength(255)]],
-            'outroNumero': [null, [Validators.maxLength(255)]],
-            'valorEconomico': [null],
-            'semValorEconomico': [null],
-            'classificacao': [null, [Validators.required]],
-            'procedencia': [null, [Validators.required]],
-            'localizador': [null],
-            'setorAtual': [null, [Validators.required]],
-            'modalidadeMeio': [null, [Validators.required]],
-            'modalidadeFase': [null],
-            'dataHoraAbertura': [null, [Validators.required]],
+            id: [null],
+            NUP: [null, [Validators.required, Validators.maxLength(21)]],
+            novo: [null, [Validators.required]],
+            especieProcesso: [null, [Validators.required]],
+            visibilidadeExterna: [null],
+            titulo: [null, [Validators.required, Validators.required, Validators.maxLength(255)]],
+            descricao: [null, [Validators.maxLength(255)]],
+            outroNumero: [null, [Validators.maxLength(255)]],
+            valorEconomico: [null],
+            semValorEconomico: [null],
+            classificacao: [null, [Validators.required]],
+            procedencia: [null, [Validators.required]],
+            localizador: [null],
+            setorAtual: [null, [Validators.required]],
+            modalidadeMeio: [null, [Validators.required]],
+            modalidadeFase: [null],
+            dataHoraAbertura: [null, [Validators.required]],
 
         });
 
@@ -166,6 +166,9 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
         }
 
         this.form.get('modalidadeFase').disable();
+
+        console.log (this.classificacaoPagination);
+        console.log (this.setorAtualPagination);
     }
 
 
@@ -182,10 +185,10 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
                 const data = JSON.parse(this.errors.error.message);
                 data.forEach((field) => {
                     const control = this.form.get(field.propertyPath);
-                    control.setErrors({'formError': data.message});
+                    control.setErrors({formError: data.message});
                 });
             } catch (e) {
-                this.form.setErrors({'rulesError': this.errors.error.message});
+                this.form.setErrors({rulesError: this.errors.error.message});
             }
         }
 
@@ -331,7 +334,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
     showLogEntryGrid(target: string): void {
 
-        const campo = {'target': target};
+        const campo = {target: target};
         Object.assign(this.logEntryPagination.filter, campo);
 
         this.activeCard = 'logentry-gridsearch';

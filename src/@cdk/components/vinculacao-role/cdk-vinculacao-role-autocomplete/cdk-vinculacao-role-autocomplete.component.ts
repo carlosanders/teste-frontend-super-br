@@ -35,7 +35,7 @@ export class CdkVinculacaoRoleAutocompleteComponent implements OnInit {
     vinculacaoRoleList: VinculacaoRole[];
     vinculacaoRoleListIsLoading: boolean;
 
-    @ViewChild(MatAutocomplete) autocomplete: MatAutocomplete;
+    @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,

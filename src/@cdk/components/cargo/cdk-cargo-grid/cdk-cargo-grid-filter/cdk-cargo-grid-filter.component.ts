@@ -31,7 +31,7 @@ export class CdkCargoGridFilterComponent implements OnInit {
     ) {
 
         this.form = this._formBuilder.group({
-            'nome': [null]
+            nome: [null]
         });
 
     }
@@ -45,7 +45,7 @@ export class CdkCargoGridFilterComponent implements OnInit {
      */
     ngOnInit(): void {
         this.form.get('nome').valueChanges.subscribe(value => {
-            this.selected.emit({'nome': `like:${value}%`});
+            this.selected.emit({nome: `like:${value}%`});
         });
     }
 

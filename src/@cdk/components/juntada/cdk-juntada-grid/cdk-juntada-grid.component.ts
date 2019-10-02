@@ -50,10 +50,10 @@ export class CdkJuntadaGridComponent implements AfterViewInit, OnInit, OnChanges
     @Input()
     actions: string[] = ['edit', 'delete', 'select', 'desentranhar', 'copiar'];
 
-    @ViewChild(MatPaginator)
+    @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
 
-    @ViewChild(MatSort)
+    @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
     @Output()
@@ -75,7 +75,7 @@ export class CdkJuntadaGridComponent implements AfterViewInit, OnInit, OnChanges
     copiar = new EventEmitter<number[]>();
 
     @Output()
-    select = new EventEmitter<Juntada>();
+    selected = new EventEmitter<Juntada>();
 
     @Output()
     selectedIds: number[] = [];
@@ -149,7 +149,7 @@ export class CdkJuntadaGridComponent implements AfterViewInit, OnInit, OnChanges
     }
 
     selectJuntada(juntada: Juntada): void {
-        this.select.emit(juntada);
+        this.selected.emit(juntada);
     }
 
     deleteJuntada(juntadaId): void {

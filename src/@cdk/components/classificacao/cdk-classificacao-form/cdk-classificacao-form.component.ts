@@ -55,22 +55,22 @@ export class CdkClassificacaoFormComponent implements OnChanges, OnDestroy {
     ) {
 
         this.form = this._formBuilder.group({
-            'id': [null],
-            'codigo': [null, [Validators.required, Validators.minLength(3), Validators.maxLength(25), Validators.pattern('/[A-Z0-9]+/')]],
-            'nome': [null, [Validators.required], Validators.maxLength(255)],
-            'modalidadeDestinacao': [null, [Validators.required]],
-            'parent': [null],
-            'ativo': [null],
-            'permissaoUso': [null],
-            'prazoGuardaFaseCorrenteDia': [null],
-            'prazoGuardaFaseCorrenteMes': [null],
-            'prazoGuardaFaseCorrenteAno': [null],
-            'prazoGuardaFaseCorrenteEvento': [null],
-            'prazoGuardaFaseIntermediariaDia': [null],
-            'prazoGuardaFaseIntermediariaMes': [null],
-            'prazoGuardaFaseIntermediariaAno': [null],
-            'prazoGuardaFaseIntermediariaEvento': [null],
-            'observacao': [null, [Validators.maxLength(255)]]
+            id: [null],
+            codigo: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(25), Validators.pattern('/[A-Z0-9]+/')]],
+            nome: [null, [Validators.required], Validators.maxLength(255)],
+            modalidadeDestinacao: [null, [Validators.required]],
+            parent: [null],
+            ativo: [null],
+            permissaoUso: [null],
+            prazoGuardaFaseCorrenteDia: [null],
+            prazoGuardaFaseCorrenteMes: [null],
+            prazoGuardaFaseCorrenteAno: [null],
+            prazoGuardaFaseCorrenteEvento: [null],
+            prazoGuardaFaseIntermediariaDia: [null],
+            prazoGuardaFaseIntermediariaMes: [null],
+            prazoGuardaFaseIntermediariaAno: [null],
+            prazoGuardaFaseIntermediariaEvento: [null],
+            observacao: [null, [Validators.maxLength(255)]]
         });
         this.modalidadeDestinacaoPagination = new Pagination();
         this.classificacaoPagination = new Pagination();
@@ -94,10 +94,10 @@ export class CdkClassificacaoFormComponent implements OnChanges, OnDestroy {
                 const fields = Object.keys(data || {});
                 fields.forEach((field) => {
                     const control = this.form.get(field);
-                    control.setErrors({'formError': data[field].join(' - ')});
+                    control.setErrors({formError: data[field].join(' - ')});
                 });
             } catch (e) {
-                this.form.setErrors({'rulesError': this.errors.error.message});
+                this.form.setErrors({rulesError: this.errors.error.message});
             }
         }
 

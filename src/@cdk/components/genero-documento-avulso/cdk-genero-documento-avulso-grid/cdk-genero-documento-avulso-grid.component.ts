@@ -50,10 +50,10 @@ export class CdkGeneroDocumentoAvulsoGridComponent implements AfterViewInit, OnI
     @Input()
     actions: string[] = ['edit', 'delete', 'select'];
 
-    @ViewChild(MatPaginator)
+    @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
 
-    @ViewChild(MatSort)
+    @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
     @Output()
@@ -69,7 +69,7 @@ export class CdkGeneroDocumentoAvulsoGridComponent implements AfterViewInit, OnI
     delete = new EventEmitter<number>();
 
     @Output()
-    select = new EventEmitter<GeneroDocumentoAvulso>();
+    selected = new EventEmitter<GeneroDocumentoAvulso>();
 
     @Output()
     selectedIds: number[] = [];
@@ -143,7 +143,7 @@ export class CdkGeneroDocumentoAvulsoGridComponent implements AfterViewInit, OnI
     }
 
     selectGeneroDocumentoAvulso(generoDocumentoAvulso: GeneroDocumentoAvulso): void {
-        this.select.emit(generoDocumentoAvulso);
+        this.selected.emit(generoDocumentoAvulso);
     }
 
     deleteGeneroDocumentoAvulso(generoDocumentoAvulsoId): void {

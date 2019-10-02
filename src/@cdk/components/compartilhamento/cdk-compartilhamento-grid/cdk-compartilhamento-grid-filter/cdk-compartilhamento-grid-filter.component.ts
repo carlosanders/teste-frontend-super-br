@@ -33,7 +33,7 @@ export class CdkCompartilhamentoGridFilterComponent implements OnInit {
     ) {
 
         this.form = this._formBuilder.group({
-            'usuario': [null]
+            usuario: [null]
         });
 
     }

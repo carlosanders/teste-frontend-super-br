@@ -35,7 +35,7 @@ export class CdkVinculacaoUsuarioAutocompleteComponent implements OnInit {
     vinculacaoUsuarioList: VinculacaoUsuario[];
     vinculacaoUsuarioListIsLoading: boolean;
 
-    @ViewChild(MatAutocomplete) autocomplete: MatAutocomplete;
+    @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,

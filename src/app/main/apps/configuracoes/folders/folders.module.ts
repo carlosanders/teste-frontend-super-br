@@ -27,11 +27,11 @@ const routes: Routes = [
         children: [
             {
                 path       : 'listar',
-                loadChildren: './folder-list/folder-list.module#FolderListModule',
+                loadChildren: () => import('./folder-list/folder-list.module').then(m => m.FolderListModule),
             },
             {
                 path       : 'editar',
-                loadChildren: './folder-edit/folder-edit.module#FolderEditModule',
+                loadChildren: () => import('./folder-edit/folder-edit.module').then(m => m.FolderEditModule),
             },
             {
                 path: '**',

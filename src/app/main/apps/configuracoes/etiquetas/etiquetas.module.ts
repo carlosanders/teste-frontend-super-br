@@ -27,11 +27,11 @@ const routes: Routes = [
         children: [
             {
                 path       : 'listar',
-                loadChildren: './etiqueta-list/etiqueta-list.module#EtiquetaListModule',
+                loadChildren: () => import('./etiqueta-list/etiqueta-list.module').then(m => m.EtiquetaListModule),
             },
             {
                 path       : 'editar',
-                loadChildren: './etiqueta-edit/etiqueta-edit.module#EtiquetaEditModule',
+                loadChildren: () => import('./etiqueta-edit/etiqueta-edit.module').then(m => m.EtiquetaEditModule),
             },
             {
                 path: '**',

@@ -20,7 +20,7 @@ const routes: Routes = [
         children: [
             {
                 path       : 'componente-digital',
-                loadChildren: '../componente-digital/componente-digital.module#ComponenteDigitalModule'
+                loadChildren: () => import('../componente-digital/componente-digital.module').then(m => m.ComponenteDigitalModule)
             }
         ]
     }

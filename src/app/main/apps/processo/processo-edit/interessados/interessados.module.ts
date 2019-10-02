@@ -26,11 +26,11 @@ const routes: Routes = [
         children: [
             {
                 path       : 'listar',
-                loadChildren: './interessado-list/interessado-list.module#InteressadoListModule',
+                loadChildren: () => import('./interessado-list/interessado-list.module').then(m => m.InteressadoListModule),
             },
             {
                 path       : 'editar',
-                loadChildren: './interessado-edit/interessado-edit.module#InteressadoEditModule',
+                loadChildren: () => import('./interessado-edit/interessado-edit.module').then(m => m.InteressadoEditModule),
             },
             {
                 path: '**',

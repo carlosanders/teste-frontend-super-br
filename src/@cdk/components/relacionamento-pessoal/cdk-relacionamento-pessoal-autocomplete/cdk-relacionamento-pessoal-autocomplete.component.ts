@@ -35,7 +35,7 @@ export class CdkRelacionamentoPessoalAutocompleteComponent implements OnInit {
     relacionamentoPessoalList: RelacionamentoPessoal[];
     relacionamentoPessoalListIsLoading: boolean;
 
-    @ViewChild(MatAutocomplete) autocomplete: MatAutocomplete;
+    @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -57,7 +57,7 @@ export class CdkRelacionamentoPessoalAutocompleteComponent implements OnInit {
                     value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
                         termFilter = {
                             ...termFilter,
-                            'servico': `like:%${bit}%`
+                            servico: `like:%${bit}%`
                         };
                     });
                     if (typeof value === 'string') {

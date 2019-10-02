@@ -50,10 +50,10 @@ export class CdkRepresentanteGridComponent implements AfterViewInit, OnInit, OnC
     @Input()
     actions: string[] = ['edit', 'delete', 'select'];
 
-    @ViewChild(MatPaginator)
+    @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
 
-    @ViewChild(MatSort)
+    @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
     @Output()
@@ -69,7 +69,7 @@ export class CdkRepresentanteGridComponent implements AfterViewInit, OnInit, OnC
     delete = new EventEmitter<number>();
 
     @Output()
-    select = new EventEmitter<Representante>();
+    selected = new EventEmitter<Representante>();
 
     @Output()
     selectedIds: number[] = [];
@@ -143,7 +143,7 @@ export class CdkRepresentanteGridComponent implements AfterViewInit, OnInit, OnC
     }
 
     selectRepresentante(representante: Representante): void {
-        this.select.emit(representante);
+        this.selected.emit(representante);
     }
 
     deleteRepresentante(representanteId): void {

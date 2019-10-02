@@ -55,10 +55,10 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
     @Input()
     actions: string[] = ['select', 'edit', 'delete', 'cancel', 'retry'];
 
-    @ViewChild(MatPaginator)
+    @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
 
-    @ViewChild(MatSort)
+    @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
     @Output()
@@ -74,7 +74,7 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
     delete = new EventEmitter<number>();
 
     @Output()
-    select = new EventEmitter<ComponenteDigital>();
+    selected = new EventEmitter<ComponenteDigital>();
 
     @Output()
     cancel = new EventEmitter<any>();
@@ -154,7 +154,7 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
     }
 
     selectComponenteDigital(componenteDigital: ComponenteDigital): void {
-        this.select.emit(componenteDigital);
+        this.selected.emit(componenteDigital);
     }
 
     deleteComponenteDigital(componenteDigitalId): void {

@@ -24,19 +24,19 @@ const routes: Routes = [
         children: [
             {
                 path       : 'editar',
-                loadChildren: './documento-edit/documento-edit.module#DocumentoEditModule',
+                loadChildren: () => import('./documento-edit/documento-edit.module').then(m => m.DocumentoEditModule),
             },
             {
                 path       : 'oficio',
-                loadChildren: './documento-avulso-edit/documento-avulso-edit.module#DocumentoAvulsoEditModule',
+                loadChildren: () => import('./documento-avulso-edit/documento-avulso-edit.module').then(m => m.DocumentoAvulsoEditModule),
             },
             {
                 path       : 'modelo',
-                loadChildren: './modelo-edit/documento-modelo-edit.module#DocumentoModeloEditModule',
+                loadChildren: () => import('./modelo-edit/documento-modelo-edit.module').then(m => m.DocumentoModeloEditModule),
             },
             {
                 path       : 'repositorio',
-                loadChildren: './repositorio-edit/documento-repositorio-edit.module#DocumentoRepositorioEditModule',
+                loadChildren: () => import('./repositorio-edit/documento-repositorio-edit.module').then(m => m.DocumentoRepositorioEditModule),
             },
             {
                 path : '**',

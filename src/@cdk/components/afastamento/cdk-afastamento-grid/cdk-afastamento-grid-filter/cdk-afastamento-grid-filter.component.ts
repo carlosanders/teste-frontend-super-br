@@ -31,7 +31,7 @@ export class CdkAfastamentoGridFilterComponent implements OnInit {
     ) {
 
         this.form = this._formBuilder.group({
-            'valor': [null]
+            valor: [null]
         });
 
     }

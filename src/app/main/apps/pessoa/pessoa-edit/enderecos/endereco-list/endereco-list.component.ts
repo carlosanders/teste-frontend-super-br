@@ -63,7 +63,7 @@ export class EnderecoListComponent implements OnInit {
         });
     }
 
-    reload (params): void {
+    reload(params): void {
         this._store.dispatch(new fromStore.GetEnderecos({
             ...this.pagination,
             filter: {

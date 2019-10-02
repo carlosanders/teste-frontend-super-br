@@ -6,35 +6,31 @@ import { FuseSharedModule } from '@fuse/shared.module';
 const routes = [
     {
         path        : 'painel',
-        loadChildren: './painel/painel.module#PainelModule'
+        loadChildren: () => import('./painel/painel.module').then(m => m.PainelModule)
     },
     {
         path        : 'tarefas',
-        loadChildren: './tarefas/tarefas.module#TarefasModule'
+        loadChildren: () => import('./tarefas/tarefas.module').then(m => m.TarefasModule)
     },
     {
         path        : 'processo',
-        loadChildren: './processo/processo.module#ProcessoModule'
+        loadChildren: () => import('./processo/processo.module').then(m => m.ProcessoModule)
     },
     {
         path        : 'documento',
-        loadChildren: './documento/documento.module#DocumentoModule'
+        loadChildren: () => import('./documento/documento.module').then(m => m.DocumentoModule)
     },
     {
         path        : 'pessoa',
-        loadChildren: './pessoa/pessoa.module#PessoaModule'
+        loadChildren: () => import('./pessoa/pessoa.module').then(m => m.PessoaModule)
     },
     {
         path        : 'pesquisa',
-        loadChildren: './pesquisa/pesquisa.module#PesquisaModule'
+        loadChildren: () => import('./pesquisa/pesquisa.module').then(m => m.PesquisaModule)
     },
     {
         path        : 'configuracoes',
-        loadChildren: './configuracoes/configuracoes.module#ConfiguracoesModule'
-    },
-    {
-        path        : 'teste',
-        loadChildren: './teste/teste.module#TesteModule'
+        loadChildren: () => import('./configuracoes/configuracoes.module').then(m => m.ConfiguracoesModule)
     }
 ];
 

@@ -31,7 +31,7 @@ export class CdkRoleGridFilterComponent implements OnInit {
     ) {
 
         this.form = this._formBuilder.group({
-            'name': [null]
+            name: [null]
         });
 
     }
@@ -45,7 +45,7 @@ export class CdkRoleGridFilterComponent implements OnInit {
      */
     ngOnInit(): void {
         this.form.get('name').valueChanges.subscribe(value => {
-            this.selected.emit({'name': `like:${value}%`});
+            this.selected.emit({name: `like:${value}%`});
         });
     }
 

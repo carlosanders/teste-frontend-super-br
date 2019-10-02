@@ -50,10 +50,10 @@ export class CdkGeneroRelevanciaGridComponent implements AfterViewInit, OnInit, 
     @Input()
     actions: string[] = ['edit', 'delete', 'select'];
 
-    @ViewChild(MatPaginator)
+    @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
 
-    @ViewChild(MatSort)
+    @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
     @Output()
@@ -69,7 +69,7 @@ export class CdkGeneroRelevanciaGridComponent implements AfterViewInit, OnInit, 
     delete = new EventEmitter<number>();
 
     @Output()
-    select = new EventEmitter<GeneroRelevancia>();
+    selected = new EventEmitter<GeneroRelevancia>();
 
     @Output()
     selectedIds: number[] = [];
@@ -143,7 +143,7 @@ export class CdkGeneroRelevanciaGridComponent implements AfterViewInit, OnInit, 
     }
 
     selectGeneroRelevancia(generoRelevancia: GeneroRelevancia): void {
-        this.select.emit(generoRelevancia);
+        this.selected.emit(generoRelevancia);
     }
 
     deleteGeneroRelevancia(generoRelevanciaId): void {

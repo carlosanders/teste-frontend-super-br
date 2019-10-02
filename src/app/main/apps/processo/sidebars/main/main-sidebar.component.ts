@@ -34,15 +34,15 @@ export class ProcessoMainSidebarComponent implements OnInit, OnDestroy {
 
         this.links = [
             {
-                'nome': 'Editar',
-                'icon': 'edit',
-                'link': 'editar'
+                nome: 'Editar',
+                icon: 'edit',
+                link: 'editar'
             },
             {
-                'nome': 'Visualizar',
-                'icon': 'library_books',
-                'link': 'visualizar',
-                'processo': true
+                nome: 'Visualizar',
+                icon: 'library_books',
+                link: 'visualizar',
+                processo: true
             }
         ];
     }

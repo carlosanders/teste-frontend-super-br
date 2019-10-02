@@ -26,11 +26,11 @@ const routes: Routes = [
         children: [
             {
                 path       : 'listar',
-                loadChildren: './tramitacao-list/tramitacao-list.module#TramitacaoListModule',
+                loadChildren: () => import('./tramitacao-list/tramitacao-list.module').then(m => m.TramitacaoListModule),
             },
             {
                 path       : 'editar',
-                loadChildren: './tramitacao-edit/tramitacao-edit.module#TramitacaoEditModule',
+                loadChildren: () => import('./tramitacao-edit/tramitacao-edit.module').then(m => m.TramitacaoEditModule),
             },
             {
                 path: '**',

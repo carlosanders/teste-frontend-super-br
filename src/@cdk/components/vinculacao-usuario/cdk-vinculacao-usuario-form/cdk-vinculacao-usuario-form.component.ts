@@ -51,10 +51,10 @@ export class CdkVinculacaoUsuarioFormComponent implements OnChanges, OnDestroy, 
     ) {
 
         this.form = this._formBuilder.group({
-            'id': [null],
-            'usuario': [null],
-            'usuarioVinculado': [null, [Validators.required]],
-            'encerraTarefa': [null]
+            id: [null],
+            usuario: [null],
+            usuarioVinculado: [null, [Validators.required]],
+            encerraTarefa: [null]
         });
 
         this.usuarioVinculadoPagination = new Pagination();
@@ -85,10 +85,10 @@ export class CdkVinculacaoUsuarioFormComponent implements OnChanges, OnDestroy, 
                 const fields = Object.keys(data || {});
                 fields.forEach((field) => {
                     const control = this.form.get(field);
-                    control.setErrors({'formError': data[field].join(' - ')});
+                    control.setErrors({formError: data[field].join(' - ')});
                 });
             } catch (e) {
-                this.form.setErrors({'rulesError': this.errors.error.message});
+                this.form.setErrors({rulesError: this.errors.error.message});
             }
         }
 

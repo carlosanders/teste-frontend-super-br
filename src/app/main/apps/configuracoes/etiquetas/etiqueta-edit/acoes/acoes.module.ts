@@ -26,11 +26,11 @@ const routes: Routes = [
         children: [
             {
                 path       : 'listar',
-                loadChildren: './acao-list/acao-list.module#AcaoListModule',
+                loadChildren: () => import('./acao-list/acao-list.module').then(m => m.AcaoListModule),
             },
             {
                 path       : 'editar',
-                loadChildren: './acao-edit/acao-edit.module#AcaoEditModule',
+                loadChildren: () => import('./acao-edit/acao-edit.module').then(m => m.AcaoEditModule),
             },
             {
                 path: '**',

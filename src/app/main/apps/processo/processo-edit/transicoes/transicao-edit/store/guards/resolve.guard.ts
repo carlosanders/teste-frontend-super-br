@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {ActivatedRouteSnapshot, CanActivate} from '@angular/router';
-import {RouterStateSnapshot} from '@angular/router/src/router_state';
+import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from '@angular/router';
+
 import {select, Store} from '@ngrx/store';
 
 import {Observable, of} from 'rxjs';
@@ -61,7 +61,7 @@ export class ResolveGuard implements CanActivate {
                         this._store.dispatch(new fromStore.CreateTransicao());
                     } else {
                         this._store.dispatch(new fromStore.GetTransicao({
-                            'id': 'eq:' + this.routerState.params['transicaoHandle']
+                            id: 'eq:' + this.routerState.params['transicaoHandle']
                         }));
                     }
 

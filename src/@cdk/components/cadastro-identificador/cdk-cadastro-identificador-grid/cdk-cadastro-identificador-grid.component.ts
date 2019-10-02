@@ -49,10 +49,10 @@ export class CdkCadastroIdentificadorGridComponent implements AfterViewInit, OnI
     @Input()
     actions: string[] = ['edit', 'delete', 'select'];
 
-    @ViewChild(MatPaginator)
+    @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
 
-    @ViewChild(MatSort)
+    @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
     @Output()
@@ -65,7 +65,7 @@ export class CdkCadastroIdentificadorGridComponent implements AfterViewInit, OnI
     delete = new EventEmitter<number>();
 
     @Output()
-    select = new EventEmitter<CadastroIdentificador>();
+    selected = new EventEmitter<CadastroIdentificador>();
 
     @Output()
     cancel = new EventEmitter<any>();
@@ -141,7 +141,7 @@ export class CdkCadastroIdentificadorGridComponent implements AfterViewInit, OnI
     }
 
     selectCadastroIdentificador(cadastroIdentificador: CadastroIdentificador): void {
-        this.select.emit(cadastroIdentificador);
+        this.selected.emit(cadastroIdentificador);
     }
 
     deleteCadastroIdentificador(cadastroIdentificadorId): void {
@@ -195,12 +195,12 @@ export class CdkCadastroIdentificadorGridComponent implements AfterViewInit, OnI
         this.recompute();
     }
 
-    recompute (): void {
+    recompute(): void {
         this.hasSelected = this.selectedIds.length > 0;
         this.isIndeterminate = (this.selectedIds.length !== this.cadastroIdentificadors.length && this.selectedIds.length > 0);
     }
 
-    setGridFilter (gridFilter): void {
+    setGridFilter(gridFilter): void {
         this.gridFilter = {
             ...this.gridFilter,
             ...gridFilter

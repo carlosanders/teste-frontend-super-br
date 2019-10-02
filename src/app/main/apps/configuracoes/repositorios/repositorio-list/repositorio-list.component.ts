@@ -63,7 +63,7 @@ export class RepositorioListComponent implements OnInit {
         });
     }
 
-    reload (params): void {
+    reload(params): void {
         this._store.dispatch(new fromStore.GetRepositorios({
             ...this.pagination,
             filter: {

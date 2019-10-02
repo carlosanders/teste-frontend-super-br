@@ -50,10 +50,10 @@ export class CdkModalidadeVinculacaoProcessoGridComponent implements AfterViewIn
     @Input()
     actions: string[] = ['edit', 'delete', 'select'];
 
-    @ViewChild(MatPaginator)
+    @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
 
-    @ViewChild(MatSort)
+    @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
     @Output()
@@ -69,7 +69,7 @@ export class CdkModalidadeVinculacaoProcessoGridComponent implements AfterViewIn
     delete = new EventEmitter<number>();
 
     @Output()
-    select = new EventEmitter<ModalidadeVinculacaoProcesso>();
+    selected = new EventEmitter<ModalidadeVinculacaoProcesso>();
 
     @Output()
     selectedIds: number[] = [];
@@ -143,7 +143,7 @@ export class CdkModalidadeVinculacaoProcessoGridComponent implements AfterViewIn
     }
 
     selectModalidadeVinculacaoProcesso(modalidadevinculacaoProcesso: ModalidadeVinculacaoProcesso): void {
-        this.select.emit(modalidadevinculacaoProcesso);
+        this.selected.emit(modalidadevinculacaoProcesso);
     }
 
     deleteModalidadeVinculacaoProcesso(modalidadevinculacaoProcessoId): void {
@@ -197,12 +197,12 @@ export class CdkModalidadeVinculacaoProcessoGridComponent implements AfterViewIn
         this.recompute();
     }
 
-    recompute (): void {
+    recompute(): void {
         this.hasSelected = this.selectedIds.length > 0;
         this.isIndeterminate = (this.selectedIds.length !== this.modalidadevinculacoesProcessos.length && this.selectedIds.length > 0);
     }
 
-    setGridFilter (gridFilter): void {
+    setGridFilter(gridFilter): void {
         this.gridFilter = {
             ...this.gridFilter,
             ...gridFilter

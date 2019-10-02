@@ -50,10 +50,10 @@ export class CdkLocalizadorGridComponent implements AfterViewInit, OnInit, OnCha
     @Input()
     actions: string[] = ['edit', 'delete', 'select'];
 
-    @ViewChild(MatPaginator)
+    @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
 
-    @ViewChild(MatSort)
+    @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
     @Output()
@@ -69,7 +69,7 @@ export class CdkLocalizadorGridComponent implements AfterViewInit, OnInit, OnCha
     delete = new EventEmitter<number>();
 
     @Output()
-    select = new EventEmitter<Localizador>();
+    selected = new EventEmitter<Localizador>();
 
     @Output()
     selectedIds: number[] = [];
@@ -143,7 +143,7 @@ export class CdkLocalizadorGridComponent implements AfterViewInit, OnInit, OnCha
     }
 
     selectLocalizador(localizador: Localizador): void {
-        this.select.emit(localizador);
+        this.selected.emit(localizador);
     }
 
     deleteLocalizador(localizadorId): void {

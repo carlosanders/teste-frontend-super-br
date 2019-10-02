@@ -63,18 +63,18 @@ export class CdkDocumentoFormComponent implements OnChanges, OnDestroy {
     ) {
 
         this.form = this._formBuilder.group({
-            'id': [null],
-            'tipoDocumento': [null, [Validators.required]],
-            'outroNumero': [null, [Validators.maxLength(255)]],
-            'copia': [null],
-            'numeroFolhas': [null],
-            'autor': [null, [Validators.maxLength(255)]],
-            'redator': [null, [Validators.maxLength(255)]],
-            'procedencia': [null],
-            'localizadorOriginal': [null, [Validators.maxLength(255)]],
-            'dataHoraProducao': [null],
-            'setorOrigem': [null],
-            'observacao': [null, [Validators.maxLength(255)]],
+            id: [null],
+            tipoDocumento: [null, [Validators.required]],
+            outroNumero: [null, [Validators.maxLength(255)]],
+            copia: [null],
+            numeroFolhas: [null],
+            autor: [null, [Validators.maxLength(255)]],
+            redator: [null, [Validators.maxLength(255)]],
+            procedencia: [null],
+            localizadorOriginal: [null, [Validators.maxLength(255)]],
+            dataHoraProducao: [null],
+            setorOrigem: [null],
+            observacao: [null, [Validators.maxLength(255)]],
         });
         this.processoPagination = new Pagination();
         this.tipoDocumentoPagination = new Pagination();
@@ -100,10 +100,10 @@ export class CdkDocumentoFormComponent implements OnChanges, OnDestroy {
                 const fields = Object.keys(data || {});
                 fields.forEach((field) => {
                     const control = this.form.get(field);
-                    control.setErrors({'formError': data[field].join(' - ')});
+                    control.setErrors({formError: data[field].join(' - ')});
                 });
             } catch (e) {
-                this.form.setErrors({'rulesError': this.errors.error.message});
+                this.form.setErrors({rulesError: this.errors.error.message});
             }
         }
 

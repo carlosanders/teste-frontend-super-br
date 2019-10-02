@@ -62,10 +62,10 @@ export class CdkRepositorioGridComponent implements AfterViewInit, OnInit, OnCha
     @Input()
     layout = 'horizontal';
 
-    @ViewChild(MatPaginator)
+    @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
 
-    @ViewChild(MatSort)
+    @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
     @Output()
@@ -84,7 +84,7 @@ export class CdkRepositorioGridComponent implements AfterViewInit, OnInit, OnCha
     delete = new EventEmitter<number>();
 
     @Output()
-    select = new EventEmitter<Repositorio>();
+    selected = new EventEmitter<Repositorio>();
 
     @Output()
     download = new EventEmitter<Repositorio>();
@@ -169,7 +169,7 @@ export class CdkRepositorioGridComponent implements AfterViewInit, OnInit, OnCha
     }
 
     selectRepositorio(repositorio: Repositorio): void {
-        this.select.emit(repositorio);
+        this.selected.emit(repositorio);
     }
 
     downloadRepositorio(repositorio: Repositorio): void {

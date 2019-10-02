@@ -26,15 +26,15 @@ const routes: Routes = [
         children: [
             {
                 path       : 'listar',
-                loadChildren: './juntada-list/juntada-list.module#JuntadaListModule',
+                loadChildren: () => import('./juntada-list/juntada-list.module').then(m => m.JuntadaListModule),
             },
             {
                 path       : 'desentranhar',
-                loadChildren: './desentranhamento-create-bloco/desentranhamento-create-bloco.module#DesentranhamentoCreateBlocoModule',
+                loadChildren: () => import('./desentranhamento-create-bloco/desentranhamento-create-bloco.module').then(m => m.DesentranhamentoCreateBlocoModule),
             },
             {
                 path       : 'copiar',
-                loadChildren: './documento-copia-create-bloco/documento-copia-create-bloco.module#DocumentoCopiaCreateBlocoModule',
+                loadChildren: () => import('./documento-copia-create-bloco/documento-copia-create-bloco.module').then(m => m.DocumentoCopiaCreateBlocoModule),
             },
             {
                 path: '**',

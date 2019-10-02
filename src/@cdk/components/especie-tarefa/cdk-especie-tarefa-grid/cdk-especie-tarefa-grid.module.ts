@@ -7,7 +7,7 @@ import {
     MatProgressSpinnerModule,
     MatTableModule,
     MatPaginatorModule,
-    MatSortModule,
+    MatSortModule, MatTooltipModule, MatSelectModule,
 } from '@angular/material';
 
 import { FuseSharedModule } from '@fuse/shared.module';
@@ -35,6 +35,8 @@ import {CdkEspecieTarefaGridFilterModule} from './cdk-especie-tarefa-grid-filter
         CdkEspecieTarefaGridFilterModule,
 
         FuseSharedModule,
+        MatTooltipModule,
+        MatSelectModule,
     ],
     providers: [
         EspecieTarefaService,

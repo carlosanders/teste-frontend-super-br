@@ -27,15 +27,15 @@ const routes: Routes = [
         children: [
             {
                 path       : 'listar',
-                loadChildren: './documento-avulso-list/processo-documento-avulso-list.module#ProcessoDocumentoAvulsoListModule',
+                loadChildren: () => import('./documento-avulso-list/processo-documento-avulso-list.module').then(m => m.ProcessoDocumentoAvulsoListModule),
             },
             {
                 path       : 'editar',
-                loadChildren: './documento-avulso-edit/processo-documento-avulso-edit.module#ProcessoDocumentoAvulsoEditModule',
+                loadChildren: () => import('./documento-avulso-edit/processo-documento-avulso-edit.module').then(m => m.ProcessoDocumentoAvulsoEditModule),
             },
             {
                 path       : 'responder',
-                loadChildren: './upload-bloco/documento-avulso-upload-bloco.module#DocumentoAvulsoUploadBlocoModule',
+                loadChildren: () => import('./upload-bloco/documento-avulso-upload-bloco.module').then(m => m.DocumentoAvulsoUploadBlocoModule),
             },
             {
                 path: '**',

@@ -50,10 +50,10 @@ export class CdkNomeGridComponent implements AfterViewInit, OnInit, OnChanges {
     @Input()
     actions: string[] = ['edit', 'delete', 'select'];
 
-    @ViewChild(MatPaginator)
+    @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
 
-    @ViewChild(MatSort)
+    @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
     @Output()
@@ -69,7 +69,7 @@ export class CdkNomeGridComponent implements AfterViewInit, OnInit, OnChanges {
     delete = new EventEmitter<number>();
 
     @Output()
-    select = new EventEmitter<Nome>();
+    selected = new EventEmitter<Nome>();
 
     @Output()
     selectedIds: number[] = [];
@@ -143,7 +143,7 @@ export class CdkNomeGridComponent implements AfterViewInit, OnInit, OnChanges {
     }
 
     selectNome(nome: Nome): void {
-        this.select.emit(nome);
+        this.selected.emit(nome);
     }
 
     deleteNome(nomeId): void {

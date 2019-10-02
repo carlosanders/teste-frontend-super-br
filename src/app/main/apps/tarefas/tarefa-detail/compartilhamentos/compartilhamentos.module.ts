@@ -14,11 +14,11 @@ const routes: Routes = [
         children: [
             {
                 path: 'criar',
-                loadChildren: './compartilhamento-create/compartilhamento-create.module#CompartilhamentoCreateModule'
+                loadChildren: () => import('./compartilhamento-create/compartilhamento-create.module').then(m => m.CompartilhamentoCreateModule)
             },
             {
                 path: 'listar',
-                loadChildren: './compartilhamento-list/compartilhamento-list.module#CompartilhamentoListModule'
+                loadChildren: () => import('./compartilhamento-list/compartilhamento-list.module').then(m => m.CompartilhamentoListModule)
             }
         ],
     },

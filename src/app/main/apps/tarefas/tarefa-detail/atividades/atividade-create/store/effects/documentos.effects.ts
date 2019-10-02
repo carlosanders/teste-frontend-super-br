@@ -58,7 +58,9 @@ export class AtividadeCreateDocumentosEffect {
                         },
                         limit: 10,
                         offset: 0,
-                        sort: {'criadoEm': 'DESC'},
+                        sort: {
+                            criadoEm: 'DESC'
+                        },
                         populate: [
                             'tipoDocumento',
                             'documentoAvulsoRemessa',
@@ -118,7 +120,7 @@ export class AtividadeCreateDocumentosEffect {
      * @type {Observable<any>}
      */
     @Effect()
-    assinaDocumento: Observable<AtividadeCreateDocumentosActions.AtividadeCreateDocumentosActionsAll> =
+    assinaDocumento: any =
         this._actions
             .pipe(
                 ofType<AtividadeCreateDocumentosActions.AssinaDocumento>(AtividadeCreateDocumentosActions.ASSINA_DOCUMENTO),

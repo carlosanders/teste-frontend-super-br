@@ -26,11 +26,11 @@ const routes: Routes = [
         children: [
             {
                 path       : 'listar',
-                loadChildren: './relacionamento-list/relacionamento-list.module#RelacionamentoListModule',
+                loadChildren: () => import('./relacionamento-list/relacionamento-list.module').then(m => m.RelacionamentoListModule),
             },
             {
                 path       : 'editar',
-                loadChildren: './relacionamento-edit/relacionamento-edit.module#RelacionamentoEditModule',
+                loadChildren: () => import('./relacionamento-edit/relacionamento-edit.module').then(m => m.RelacionamentoEditModule),
             },
             {
                 path: '**',

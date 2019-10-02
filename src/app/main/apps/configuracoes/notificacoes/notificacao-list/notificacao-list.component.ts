@@ -63,7 +63,7 @@ export class NotificacaoListComponent implements OnInit {
         });
     }
 
-    reload (params): void {
+    reload(params): void {
         this._store.dispatch(new fromStore.GetNotificacoes({
             ...this.pagination,
             filter: {

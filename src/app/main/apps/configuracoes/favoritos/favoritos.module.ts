@@ -22,15 +22,15 @@ const routes: Routes = [
         children: [
             {
                 path       : 'favorito-especie-atividade',
-                loadChildren: './favorito-especie-atividade-list/favorito-especie-atividade-list.module#FavoritoEspecieAtividadeListModule'
+                loadChildren: () => import('./favorito-especie-atividade-list/favorito-especie-atividade-list.module').then(m => m.FavoritoEspecieAtividadeListModule)
             },
             {
                 path       : 'favorito-especie-tarefa',
-                loadChildren: './favorito-especie-tarefa-list/favorito-especie-tarefa-list.module#FavoritoEspecieTarefaListModule'
+                loadChildren: () => import('./favorito-especie-tarefa-list/favorito-especie-tarefa-list.module').then(m => m.FavoritoEspecieTarefaListModule)
             },
             {
                 path       : 'favorito-setor-responsavel',
-                loadChildren: './favorito-setor-responsavel-list/favorito-setor-responsavel-list.module#FavoritoSetorResponsavelListModule'
+                loadChildren: () => import('./favorito-setor-responsavel-list/favorito-setor-responsavel-list.module').then(m => m.FavoritoSetorResponsavelListModule)
             },
             {
                 path       : '**',

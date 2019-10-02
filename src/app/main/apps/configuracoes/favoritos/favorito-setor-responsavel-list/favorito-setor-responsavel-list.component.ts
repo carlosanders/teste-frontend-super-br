@@ -102,7 +102,7 @@ export class FavoritoSetorResponsavelListComponent implements OnInit, OnDestroy 
         this._unsubscribeAll.complete();
     }
 
-    reload (params): void {
+    reload(params): void {
         this._store.dispatch(new fromStore.GetFavoritos({
             ...this.pagination,
             filter: {

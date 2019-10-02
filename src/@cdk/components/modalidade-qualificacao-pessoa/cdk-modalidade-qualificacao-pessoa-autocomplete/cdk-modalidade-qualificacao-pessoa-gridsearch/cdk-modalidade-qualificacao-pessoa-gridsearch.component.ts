@@ -80,7 +80,7 @@ export class CdkModalidadeQualificacaoPessoaGridsearchComponent implements OnIni
             });
     }
 
-    reload (params): void {
+    reload(params): void {
         params = {
             ...this.pagination,
             filter: {

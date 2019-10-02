@@ -35,7 +35,7 @@ export class CdkAreaTrabalhoAutocompleteComponent implements OnInit {
     areaTrabalhoList: AreaTrabalho[];
     areaTrabalhoListIsLoading: boolean;
 
-    @ViewChild(MatAutocomplete) autocomplete: MatAutocomplete;
+    @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,

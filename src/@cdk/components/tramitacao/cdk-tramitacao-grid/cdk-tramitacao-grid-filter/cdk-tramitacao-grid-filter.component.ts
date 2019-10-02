@@ -31,7 +31,7 @@ export class CdkTramitacaoGridFilterComponent implements OnInit {
     ) {
 
         this.form = this._formBuilder.group({
-            'observacao': [null]
+            observacao: [null]
         });
 
     }
@@ -45,7 +45,7 @@ export class CdkTramitacaoGridFilterComponent implements OnInit {
      */
     ngOnInit(): void {
         this.form.get('observacao').valueChanges.subscribe(value => {
-            this.selected.emit({'observacao': `like:${value}%`});
+            this.selected.emit({observacao: `like:${value}%`});
         });
     }
 

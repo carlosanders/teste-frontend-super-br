@@ -35,8 +35,8 @@ export class CdkEtiquetaChipsComponent {
     @Output()
     create = new EventEmitter<Etiqueta>();
 
-    @ViewChild('etiquetaInput') etiquetaInput: ElementRef<HTMLInputElement>;
-    @ViewChild('etiqueta') matAutocomplete: MatAutocomplete;
+    @ViewChild('etiquetaInput', {static: true}) etiquetaInput: ElementRef<HTMLInputElement>;
+    @ViewChild('etiqueta', {static: true}) matAutocomplete: MatAutocomplete;
 
     constructor() {
         this.pagination = new Pagination();

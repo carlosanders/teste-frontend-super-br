@@ -51,10 +51,10 @@ export class CdkNotificacaoGridComponent implements AfterViewInit, OnInit, OnCha
     @Input()
     actions: string[] = ['edit', 'delete', 'select'];
 
-    @ViewChild(MatPaginator)
+    @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
 
-    @ViewChild(MatSort)
+    @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
     @Output()
@@ -70,7 +70,7 @@ export class CdkNotificacaoGridComponent implements AfterViewInit, OnInit, OnCha
     delete = new EventEmitter<number>();
 
     @Output()
-    select = new EventEmitter<Notificacao>();
+    selected = new EventEmitter<Notificacao>();
 
     @Output()
     selectedIds: number[] = [];
@@ -144,7 +144,7 @@ export class CdkNotificacaoGridComponent implements AfterViewInit, OnInit, OnCha
     }
 
     selectNotificacao(notificacao: Notificacao): void {
-        this.select.emit(notificacao);
+        this.selected.emit(notificacao);
     }
 
     deleteNotificacao(notificacaoId): void {

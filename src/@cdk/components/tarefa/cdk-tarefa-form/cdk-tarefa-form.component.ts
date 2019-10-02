@@ -126,29 +126,29 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     ) {
 
         this.form = this._formBuilder.group({
-            'id': [null],
-            'blocoProcessos': [null],
-            'processos': [null],
-            'processo': [null, [Validators.required]],
-            'urgente': [null],
-            'especieTarefa': [null, [Validators.required]],
-            'distribuicaoAutomatica': [null],
-            'dataHoraInicioPrazo': [null, [Validators.required]],
-            'dataHoraFinalPrazo': [null, [Validators.required]],
-            'unidadeResponsavel': [null, [Validators.required]],
-            'setorResponsavel': [null, [Validators.required]],
-            'usuarioResponsavel': [null],
-            'setorOrigem': [null, [Validators.required]],
-            'observacao': [null, [Validators.maxLength(255)]]
+            id: [null],
+            blocoProcessos: [null],
+            processos: [null],
+            processo: [null, [Validators.required]],
+            urgente: [null],
+            especieTarefa: [null, [Validators.required]],
+            distribuicaoAutomatica: [null],
+            dataHoraInicioPrazo: [null, [Validators.required]],
+            dataHoraFinalPrazo: [null, [Validators.required]],
+            unidadeResponsavel: [null, [Validators.required]],
+            setorResponsavel: [null, [Validators.required]],
+            usuarioResponsavel: [null],
+            setorOrigem: [null, [Validators.required]],
+            observacao: [null, [Validators.maxLength(255)]]
         });
 
         this.processoPagination = new Pagination();
         this.processoPagination.populate = ['setorAtual'];
         this.especieTarefaPagination = new Pagination();
         this.unidadeResponsavelPagination = new Pagination();
-        this.unidadeResponsavelPagination.filter = {'parent': 'isNull'};
+        this.unidadeResponsavelPagination.filter = {parent: 'isNull'};
         this.setorResponsavelPagination = new Pagination();
-        this.setorResponsavelPagination.filter = {'parent': 'isNotNull'};
+        this.setorResponsavelPagination.filter = {parent: 'isNotNull'};
         this.usuarioResponsavelPagination = new Pagination();
         this.setorOrigemPagination = new Pagination();
 
@@ -166,6 +166,8 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
         if (this.form.get('unidadeResponsavel').value) {
             this.form.get('setorResponsavel').enable();
+            this.setorResponsavelPagination.filter['unidade.id'] = `eq:${this.form.get('unidadeResponsavel').value.id}`;
+            this.setorResponsavelPagination.filter['parent'] = `isNotNull`;
         } else {
             this.form.get('setorResponsavel').disable();
             this.form.get('usuarioResponsavel').disable();
@@ -173,6 +175,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
         if (this.form.get('setorResponsavel').value) {
             this.form.get('usuarioResponsavel').enable();
+            this.usuarioResponsavelPagination.filter['colaborador.lotacoes.setor.id'] = `eq:${this.form.get('setorResponsavel').value.id}`;
         } else {
             this.form.get('usuarioResponsavel').disable();
         }
@@ -203,6 +206,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                         this.form.get('usuarioResponsavel').reset();
                         this.form.get('usuarioResponsavel').disable();
                         this.setorResponsavelPagination.filter['unidade.id'] = `eq:${value.id}`;
+                        this.setorResponsavelPagination.filter['parent'] = `isNotNull`;
                         this._changeDetectorRef.markForCheck();
                     }
                     return of([]);
@@ -267,10 +271,10 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                 const fields = Object.keys(data || {});
                 fields.forEach((field) => {
                     const control = this.form.get(field);
-                    control.setErrors({'formError': data[field].join(' - ')});
+                    control.setErrors({formError: data[field].join(' - ')});
                 });
             } catch (e) {
-                this.form.setErrors({'rulesError': this.errors.error.message});
+                this.form.setErrors({rulesError: this.errors.error.message});
             }
         }
 
@@ -482,7 +486,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
     showLogEntryGrid(target: string): void {
 
-        const campo = {'target': target};
+        const campo = {target: target};
         Object.assign(this.logEntryPaginationTarefa.filter, campo);
 
         this.activeCard = 'logentry-gridsearch';

@@ -55,10 +55,10 @@ export class CdkRelacionamentoPessoalFormComponent implements OnChanges, OnDestr
     ) {
 
         this.form = this._formBuilder.group({
-            'id': [null],
-            'pessoa': [null],
-            'pessoaRelacionada': [null, [Validators.required]],
-            'modalidadeRelacionamentoPessoal': [null, [Validators.required]]
+            id: [null],
+            pessoa: [null],
+            pessoaRelacionada: [null, [Validators.required]],
+            modalidadeRelacionamentoPessoal: [null, [Validators.required]]
         });
         this.modalidadeRelacionamentoPessoalPagination = new Pagination();
     }
@@ -82,10 +82,10 @@ export class CdkRelacionamentoPessoalFormComponent implements OnChanges, OnDestr
                 const fields = Object.keys(data || {});
                 fields.forEach((field) => {
                     const control = this.form.get(field);
-                    control.setErrors({'formError': data[field].join(' - ')});
+                    control.setErrors({formError: data[field].join(' - ')});
                 });
             } catch (e) {
-                this.form.setErrors({'rulesError': this.errors.error.message});
+                this.form.setErrors({rulesError: this.errors.error.message});
             }
         }
 

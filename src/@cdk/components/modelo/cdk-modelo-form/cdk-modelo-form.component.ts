@@ -51,11 +51,11 @@ export class CdkModeloFormComponent implements OnChanges, OnDestroy {
     ) {
 
         this.form = this._formBuilder.group({
-            'id': [null],
-            'ativo': [null],
-            'nome': [null, [Validators.required, Validators.maxLength(255)]],
-            'descricao': [null, [Validators.required, Validators.maxLength(255)]],
-            'template': [null, [Validators.required]],
+            id: [null],
+            ativo: [null],
+            nome: [null, [Validators.required, Validators.maxLength(255)]],
+            descricao: [null, [Validators.required, Validators.maxLength(255)]],
+            template: [null, [Validators.required]],
         });
 
         this.templatePagination = new Pagination();
@@ -80,10 +80,10 @@ export class CdkModeloFormComponent implements OnChanges, OnDestroy {
                 const fields = Object.keys(data || {});
                 fields.forEach((field) => {
                     const control = this.form.get(field);
-                    control.setErrors({'formError': data[field].join(' - ')});
+                    control.setErrors({formError: data[field].join(' - ')});
                 });
             } catch (e) {
-                this.form.setErrors({'rulesError': this.errors.error.message});
+                this.form.setErrors({rulesError: this.errors.error.message});
             }
         }
         this._changeDetectorRef.markForCheck();

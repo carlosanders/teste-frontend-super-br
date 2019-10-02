@@ -26,11 +26,11 @@ const routes: Routes = [
         children: [
             {
                 path       : 'listar',
-                loadChildren: './visibilidade-list/visibilidade-list.module#VisibilidadeListModule',
+                loadChildren: () => import('./visibilidade-list/visibilidade-list.module').then(m => m.VisibilidadeListModule),
             },
             {
                 path       : 'editar',
-                loadChildren: './visibilidade-edit/visibilidade-edit.module#VisibilidadeEditModule',
+                loadChildren: () => import('./visibilidade-edit/visibilidade-edit.module').then(m => m.VisibilidadeEditModule),
             },
             {
                 path: '**',

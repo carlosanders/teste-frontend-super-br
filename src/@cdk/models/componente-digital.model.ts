@@ -8,7 +8,7 @@ import {Modelo} from '@cdk/models/modelo.model';
 import {Documento} from '@cdk/models/documento.model';
 import {OrigemDados} from '@cdk/models/origem-dados.model';
 
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 import {Processo} from './processo.model';
 import {Tarefa} from './tarefa.model';
 import {DocumentoAvulso} from './documento-avulso.model';

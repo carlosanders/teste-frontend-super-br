@@ -31,7 +31,7 @@ export class CdkJuntadaGridFilterComponent implements OnInit {
     ) {
 
         this.form = this._formBuilder.group({
-            'descricao': [null]
+            descricao: [null]
         });
 
     }
@@ -45,7 +45,7 @@ export class CdkJuntadaGridFilterComponent implements OnInit {
      */
     ngOnInit(): void {
         this.form.get('descricao').valueChanges.subscribe(value => {
-            this.selected.emit({'descricao': `like:${value}%`});
+            this.selected.emit({descricao: `like:${value}%`});
         });
     }
 

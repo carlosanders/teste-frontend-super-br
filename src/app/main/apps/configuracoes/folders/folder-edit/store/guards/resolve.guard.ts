@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {ActivatedRouteSnapshot, CanActivate} from '@angular/router';
-import {RouterStateSnapshot} from '@angular/router/src/router_state';
+import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from '@angular/router';
+
 import {select, Store} from '@ngrx/store';
 
 import {Observable, of} from 'rxjs';
@@ -61,7 +61,7 @@ export class ResolveGuard implements CanActivate {
                         this._store.dispatch(new fromStore.CreateFolder());
                     } else {
                         this._store.dispatch(new fromStore.GetFolder({
-                            'id': 'eq:' + this.routerState.params['folderHandle']
+                            id: 'eq:' + this.routerState.params['folderHandle']
                         }));
                     }
 

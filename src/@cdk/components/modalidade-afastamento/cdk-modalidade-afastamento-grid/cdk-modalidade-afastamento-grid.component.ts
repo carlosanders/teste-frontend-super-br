@@ -50,10 +50,10 @@ export class CdkModalidadeAfastamentoGridComponent implements AfterViewInit, OnI
     @Input()
     actions: string[] = ['edit', 'delete', 'select'];
 
-    @ViewChild(MatPaginator)
+    @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
 
-    @ViewChild(MatSort)
+    @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
     @Output()
@@ -69,7 +69,7 @@ export class CdkModalidadeAfastamentoGridComponent implements AfterViewInit, OnI
     delete = new EventEmitter<number>();
 
     @Output()
-    select = new EventEmitter<ModalidadeAfastamento>();
+    selected = new EventEmitter<ModalidadeAfastamento>();
 
     @Output()
     selectedIds: number[] = [];
@@ -143,7 +143,7 @@ export class CdkModalidadeAfastamentoGridComponent implements AfterViewInit, OnI
     }
 
     selectModalidadeAfastamento(modalidadeafastamento: ModalidadeAfastamento): void {
-        this.select.emit(modalidadeafastamento);
+        this.selected.emit(modalidadeafastamento);
     }
 
     deleteModalidadeAfastamento(modalidadeafastamentoId): void {
@@ -197,12 +197,12 @@ export class CdkModalidadeAfastamentoGridComponent implements AfterViewInit, OnI
         this.recompute();
     }
 
-    recompute (): void {
+    recompute(): void {
         this.hasSelected = this.selectedIds.length > 0;
         this.isIndeterminate = (this.selectedIds.length !== this.modalidadeafastamentos.length && this.selectedIds.length > 0);
     }
 
-    setGridFilter (gridFilter): void {
+    setGridFilter(gridFilter): void {
         this.gridFilter = {
             ...this.gridFilter,
             ...gridFilter

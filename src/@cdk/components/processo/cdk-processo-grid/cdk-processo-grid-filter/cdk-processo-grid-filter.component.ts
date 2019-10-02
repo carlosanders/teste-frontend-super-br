@@ -31,7 +31,7 @@ export class CdkProcessoGridFilterComponent implements OnInit {
     ) {
 
         this.form = this._formBuilder.group({
-            'processo': [null]
+            processo: [null]
         });
 
     }
@@ -45,7 +45,7 @@ export class CdkProcessoGridFilterComponent implements OnInit {
      */
     ngOnInit(): void {
         this.form.get('processo').valueChanges.subscribe(value => {
-            this.selected.emit({'NUP': `like:${value.replace(/\D/g, '')}%`});
+            this.selected.emit({NUP: `like:${value.replace(/\D/g, '')}%`});
         });
     }
 

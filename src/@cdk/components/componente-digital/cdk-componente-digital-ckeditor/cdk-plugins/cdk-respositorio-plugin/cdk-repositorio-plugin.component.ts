@@ -58,7 +58,7 @@ export class CdkRepositorioPluginComponent implements OnInit {
         this.pagination = new Pagination();
 
         this.form = this._formBuilder.group({
-            'repositorio': [null, [Validators.required]]
+            repositorio: [null, [Validators.required]]
         });
     }
 

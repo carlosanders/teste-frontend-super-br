@@ -81,20 +81,20 @@ export class CdkPessoaFormComponent implements OnChanges, OnDestroy {
     ) {
 
         this.form = this._formBuilder.group({
-            'id': [null],
-            'modalidadeQualificacaoPessoa': [null, [Validators.required]],
-            'nome': [null, [Validators.required, Validators.maxLength(255)]],
-            'modalidadeGeneroPessoa': [null],
-            'dataNascimento': [null],
-            'dataObito': [null],
-            'profissao': [null, [Validators.maxLength(255)]],
-            'contato': [null, [Validators.maxLength(255)]],
-            'numeroDocumentoPrincipal': [null, [Validators.maxLength(255),
+            id: [null],
+            modalidadeQualificacaoPessoa: [null, [Validators.required]],
+            nome: [null, [Validators.required, Validators.maxLength(255)]],
+            modalidadeGeneroPessoa: [null],
+            dataNascimento: [null],
+            dataObito: [null],
+            profissao: [null, [Validators.maxLength(255)]],
+            contato: [null, [Validators.maxLength(255)]],
+            numeroDocumentoPrincipal: [null, [Validators.maxLength(255),
                 Validators.pattern('([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})')]],
-            'nomeGenitor': [null, [Validators.maxLength(255)]],
-            'nomeGenitora': [null, [Validators.maxLength(255)]],
-            'naturalidade': [null],
-            'nacionalidade': [null]
+            nomeGenitor: [null, [Validators.maxLength(255)]],
+            nomeGenitora: [null, [Validators.maxLength(255)]],
+            naturalidade: [null],
+            nacionalidade: [null]
         });
         this.modalidadeQualificacaoPessoaPagination = new Pagination();
         this.modalidadeGeneroPessoaPagination = new Pagination();
@@ -120,10 +120,10 @@ export class CdkPessoaFormComponent implements OnChanges, OnDestroy {
                 const fields = Object.keys(data || {});
                 fields.forEach((field) => {
                     const control = this.form.get(field);
-                    control.setErrors({'formError': data[field].join(' - ')});
+                    control.setErrors({formError: data[field].join(' - ')});
                 });
             } catch (e) {
-                this.form.setErrors({'rulesError': this.errors.error.message});
+                this.form.setErrors({rulesError: this.errors.error.message});
             }
         }
 

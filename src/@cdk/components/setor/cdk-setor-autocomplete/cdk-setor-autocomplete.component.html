@@ -1,7 +1,14 @@
 <mat-autocomplete [displayWith]="displaySetorFn">
-    <mat-option *ngFor="let setor of setorList"
+    <mat-option [ngClass]="{'multiline':setor.parent}"
+                *ngFor="let setor of setorList"
                 [value]="setor">
-        <span [innerHTML]="displaySetorFn(setor) | highlightOption: this.control.value"></span>
+        <div *ngIf="setor.parent">{{ setor.parent.nome }}</div>
+        <div [ngClass]="{'strong':setor.parent}">
+            <span *ngIf="setor.parent">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </span>
+            {{ setor.nome }} ({{ setor.sigla}})
+        </div>
     </mat-option>
     <mat-option *ngIf="setorListIsLoading">
         <mat-spinner diameter="16"></mat-spinner>

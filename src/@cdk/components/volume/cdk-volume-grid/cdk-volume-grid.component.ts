@@ -50,10 +50,10 @@ export class CdkVolumeGridComponent implements AfterViewInit, OnInit, OnChanges 
     @Input()
     actions: string[] = ['edit', 'delete', 'select'];
 
-    @ViewChild(MatPaginator)
+    @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
 
-    @ViewChild(MatSort)
+    @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
     @Output()
@@ -69,7 +69,7 @@ export class CdkVolumeGridComponent implements AfterViewInit, OnInit, OnChanges 
     delete = new EventEmitter<number>();
 
     @Output()
-    select = new EventEmitter<Volume>();
+    selected = new EventEmitter<Volume>();
 
     @Output()
     selectedIds: number[] = [];
@@ -143,7 +143,7 @@ export class CdkVolumeGridComponent implements AfterViewInit, OnInit, OnChanges 
     }
 
     selectVolume(volume: Volume): void {
-        this.select.emit(volume);
+        this.selected.emit(volume);
     }
 
     deleteVolume(volumeId): void {

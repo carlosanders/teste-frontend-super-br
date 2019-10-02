@@ -22,11 +22,11 @@ const routes: Routes = [
         children: [
             {
                 path       : 'dados-basicos',
-                loadChildren: './dados-basicos/etiqueta-dados-basicos.module#EtiquetaDadosBasicosModule'
+                loadChildren: () => import('./dados-basicos/etiqueta-dados-basicos.module').then(m => m.EtiquetaDadosBasicosModule)
             },
             {
                 path       : 'acoes',
-                loadChildren: './acoes/acoes.module#AcoesModule'
+                loadChildren: () => import('./acoes/acoes.module').then(m => m.AcoesModule)
             },
             {
                 path       : '**',

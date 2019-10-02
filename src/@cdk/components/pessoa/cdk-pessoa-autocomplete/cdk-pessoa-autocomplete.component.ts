@@ -35,7 +35,7 @@ export class CdkPessoaAutocompleteComponent implements OnInit {
     pessoaList: Pessoa[];
     pessoaListIsLoading: boolean;
 
-    @ViewChild(MatAutocomplete) autocomplete: MatAutocomplete;
+    @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -58,9 +58,9 @@ export class CdkPessoaAutocompleteComponent implements OnInit {
                     value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
                         termFilter = {
                             ...termFilter,
-                            'orFilter': {
-                                'nome': `like:%${bit}%`,
-                                'numeroDocumentoPrincipal': `like:%${bit}%`
+                            orFilter: {
+                                nome: `like:%${bit}%`,
+                                numeroDocumentoPrincipal: `like:%${bit}%`
                             }
                         };
                     });

@@ -49,10 +49,10 @@ export class CdkInteressadoGridComponent implements AfterViewInit, OnInit, OnCha
     @Input()
     actions: string[] = ['edit', 'delete', 'select'];
 
-    @ViewChild(MatPaginator)
+    @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
 
-    @ViewChild(MatSort)
+    @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
     @Output()
@@ -65,7 +65,7 @@ export class CdkInteressadoGridComponent implements AfterViewInit, OnInit, OnCha
     delete = new EventEmitter<number>();
 
     @Output()
-    select = new EventEmitter<Interessado>();
+    selected = new EventEmitter<Interessado>();
 
     @Output()
     cancel = new EventEmitter<any>();
@@ -141,7 +141,7 @@ export class CdkInteressadoGridComponent implements AfterViewInit, OnInit, OnCha
     }
 
     selectInteressado(interessado: Interessado): void {
-        this.select.emit(interessado);
+        this.selected.emit(interessado);
     }
 
     deleteInteressado(interessadoId): void {
@@ -197,12 +197,12 @@ export class CdkInteressadoGridComponent implements AfterViewInit, OnInit, OnCha
         this.recompute();
     }
 
-    recompute (): void {
+    recompute(): void {
         this.hasSelected = this.selectedIds.length > 0;
         this.isIndeterminate = (this.selectedIds.length !== this.interessados.length && this.selectedIds.length > 0);
     }
 
-    setGridFilter (gridFilter): void {
+    setGridFilter(gridFilter): void {
         this.gridFilter = {
             ...this.gridFilter,
             ...gridFilter

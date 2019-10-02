@@ -465,7 +465,7 @@ export class RemoveData implements Action {
      * @param config
      */
     constructor(config: NormalizeRemoveActionConfig) {
-        let {id, removeChildren, schema} = config;
+        const {id, removeChildren, schema} = config;
         let removeMap: SchemaMap = null;
 
         // cleanup removeChildren object by setting only existing

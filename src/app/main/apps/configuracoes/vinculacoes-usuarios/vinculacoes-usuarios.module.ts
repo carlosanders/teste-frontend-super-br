@@ -27,11 +27,11 @@ const routes: Routes = [
         children: [
             {
                 path       : 'listar',
-                loadChildren: './vinculacao-usuario-list/vinculacao-usuario-list.module#VinculacaoUsuarioListModule',
+                loadChildren: () => import('./vinculacao-usuario-list/vinculacao-usuario-list.module').then(m => m.VinculacaoUsuarioListModule),
             },
             {
                 path       : 'editar',
-                loadChildren: './vinculacao-usuario-edit/vinculacao-usuario-edit.module#VinculacaoUsuarioEditModule',
+                loadChildren: () => import('./vinculacao-usuario-edit/vinculacao-usuario-edit.module').then(m => m.VinculacaoUsuarioEditModule),
             },
             {
                 path: '**',

@@ -50,10 +50,10 @@ export class CdkVinculacaoUsuarioGridComponent implements AfterViewInit, OnInit,
     @Input()
     actions: string[] = ['edit', 'delete', 'select'];
 
-    @ViewChild(MatPaginator)
+    @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
 
-    @ViewChild(MatSort)
+    @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
     @Output()
@@ -69,7 +69,7 @@ export class CdkVinculacaoUsuarioGridComponent implements AfterViewInit, OnInit,
     delete = new EventEmitter<number>();
 
     @Output()
-    select = new EventEmitter<VinculacaoUsuario>();
+    selected = new EventEmitter<VinculacaoUsuario>();
 
     @Output()
     selectedIds: number[] = [];
@@ -143,7 +143,7 @@ export class CdkVinculacaoUsuarioGridComponent implements AfterViewInit, OnInit,
     }
 
     selectVinculacaoUsuario(vinculacaoUsuario: VinculacaoUsuario): void {
-        this.select.emit(vinculacaoUsuario);
+        this.selected.emit(vinculacaoUsuario);
     }
 
     deleteVinculacaoUsuario(vinculacaoUsuarioId): void {

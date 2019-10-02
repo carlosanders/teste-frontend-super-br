@@ -50,10 +50,10 @@ export class CdkTransicaoGridComponent implements AfterViewInit, OnInit, OnChang
     @Input()
     actions: string[] = ['edit', 'delete', 'select'];
 
-    @ViewChild(MatPaginator)
+    @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
 
-    @ViewChild(MatSort)
+    @ViewChild(MatSort, {static: true})
     sort: MatSort;
 
     @Output()
@@ -69,7 +69,7 @@ export class CdkTransicaoGridComponent implements AfterViewInit, OnInit, OnChang
     delete = new EventEmitter<number>();
 
     @Output()
-    select = new EventEmitter<Transicao>();
+    selected = new EventEmitter<Transicao>();
 
     @Output()
     selectedIds: number[] = [];
@@ -143,7 +143,7 @@ export class CdkTransicaoGridComponent implements AfterViewInit, OnInit, OnChang
     }
 
     selectTransicao(transicao: Transicao): void {
-        this.select.emit(transicao);
+        this.selected.emit(transicao);
     }
 
     deleteTransicao(transicaoId): void {
