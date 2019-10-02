@@ -106,4 +106,17 @@ export class ComponenteDigitalService {
             })
         );
     }
+
+    reverter(componenteDigital: ComponenteDigital, changes: any): Observable<ComponenteDigital> {
+        return this.http.patch(
+            `${environment.api_url}${'componente_digital'}/${componenteDigital.id}/reverter` + environment.xdebug,
+            JSON.stringify(changes)
+        ).pipe(
+            map(response => {
+                response = plainToClass(ComponenteDigital, response);
+                Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                return Object.assign(new ComponenteDigital(), {...componenteDigital, ...response});
+            })
+        );
+    }
 }

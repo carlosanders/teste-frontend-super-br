@@ -163,4 +163,32 @@ export class ComponenteDigitalEffect {
                 })
             );
 
+    /**
+     * Revert ComponenteDigital
+     * @type {Observable<any>}
+     */
+    @Effect()
+    revertComponenteDigital: any =
+        this._actions
+            .pipe(
+                ofType<ComponenteDigitalActions.RevertComponenteDigital>(ComponenteDigitalActions.REVERT_COMPONENTE_DIGITAL),
+                switchMap((action) => {
+                    return this._componenteDigitalService.reverter(action.payload.componenteDigital , {hash: action.payload.hash}).pipe(
+                        mergeMap((response: ComponenteDigital) => [
+                            new ComponenteDigitalActions.RevertComponenteDigitalSuccess(response),
+                            new UpdateData<ComponenteDigital>({id: response.id, schema: componenteDigitalSchema, changes: {conteudo: response.conteudo, hash: response.hash}}),
+                            new OperacoesActions.Resultado({
+                                type: 'componenteDigital',
+                                content: `Componente Digital id ${response.id} revertido com sucesso!`,
+                                dateTime: response.atualizadoEm
+                            })
+                        ]),
+                        catchError((err) => {
+                            console.log (err);
+                            return of(new ComponenteDigitalActions.RevertComponenteDigitalFailed(err));
+                        })
+                    );
+                })
+            );
+
 }

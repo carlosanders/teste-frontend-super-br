@@ -12,6 +12,10 @@ export const SAVE_COMPONENTE_DIGITAL = '[COMPONENTE DIGITAL] SAVE COMPONENTE DIG
 export const SAVE_COMPONENTE_DIGITAL_SUCCESS = '[COMPONENTE DIGITAL] SAVE COMPONENTE DIGITAL SUCCESS';
 export const SAVE_COMPONENTE_DIGITAL_FAILED = '[COMPONENTE DIGITAL] SAVE COMPONENTE DIGITAL FAILED';
 
+export const REVERT_COMPONENTE_DIGITAL = '[COMPONENTE DIGITAL] REVERT COMPONENTE DIGITAL';
+export const REVERT_COMPONENTE_DIGITAL_SUCCESS = '[COMPONENTE DIGITAL] REVERT COMPONENTE DIGITAL SUCCESS';
+export const REVERT_COMPONENTE_DIGITAL_FAILED = '[COMPONENTE DIGITAL] REVERT COMPONENTE DIGITAL FAILED';
+
 /**
  * Download ComponenteDigital
  */
@@ -102,6 +106,36 @@ export class SaveComponenteDigitalFailed implements Action {
     }
 }
 
+/**
+ * Revert ComponenteDigital
+ */
+export class RevertComponenteDigital implements Action {
+    readonly type = REVERT_COMPONENTE_DIGITAL;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Revert ComponenteDigital Success
+ */
+export class RevertComponenteDigitalSuccess implements Action {
+    readonly type = REVERT_COMPONENTE_DIGITAL_SUCCESS;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Save ComponenteDigital Failed
+ */
+export class RevertComponenteDigitalFailed implements Action {
+    readonly type = REVERT_COMPONENTE_DIGITAL_FAILED;
+
+    constructor(public payload: any) {
+    }
+}
+
 export type ComponenteDigitalActionsAll
     = DownloadComponenteDigital
     | DownloadComponenteDigitalSuccess
@@ -111,4 +145,7 @@ export type ComponenteDigitalActionsAll
     | DownloadAsPdfComponenteDigitalFailed
     | SaveComponenteDigital
     | SaveComponenteDigitalSuccess
-    | SaveComponenteDigitalFailed;
+    | SaveComponenteDigitalFailed
+    | RevertComponenteDigital
+    | RevertComponenteDigitalSuccess
+    | RevertComponenteDigitalFailed;

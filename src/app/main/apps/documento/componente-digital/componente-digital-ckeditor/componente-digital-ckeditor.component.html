@@ -8,10 +8,13 @@
                                      [componenteDigital]="(componenteDigital$ | async)"
                                      [repositorio]="(repositorio$ | async)"
                                      [pluginAssinar]="false"
+                                     [btVersoes]="btVersoes"
+                                     [logEntryPagination]="logEntryPagination"
                                      [errors]="(errors$ | async)"
                                      (clearRepositorio)="doClearRepositorio()"
                                      (query)="doQuery($event)"
                                      (save)="doSave($event)"
+                                     (reverter)="doRevertComponenteDigital($event)"
                                      (assinar)="doAssinar()"
                                      (pdf)="doPdf()">
     </cdk-componente-digital-ckeditor>

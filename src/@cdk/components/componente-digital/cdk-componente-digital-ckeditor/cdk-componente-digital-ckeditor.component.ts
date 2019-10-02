@@ -18,6 +18,8 @@ import {MatDialog} from '@angular/material';
 import {CdkCampoPluginComponent} from './cdk-plugins/cdk-campo-plugin/cdk-campo-plugin.component';
 import {filter} from 'rxjs/operators';
 import {CdkRepositorioPluginComponent} from './cdk-plugins/cdk-respositorio-plugin/cdk-repositorio-plugin.component';
+import {CdkVersaoPluginComponent} from './cdk-plugins/cdk-versao-plugin/cdk-versao-plugin.component';
+import {Pagination} from '../../../models/pagination';
 
 @Component({
     selector: 'cdk-componente-digital-ckeditor',
@@ -61,6 +63,15 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
     verticalPosition: MatSnackBarVerticalPosition = 'top';
 
     @Input()
+    btVersoes = false;
+
+    @Input()
+    logEntryPagination: Pagination;
+
+    @Output()
+    reverter = new EventEmitter<any>();
+
+    @Input()
     config = {
         extraPlugins: 'printsemzoom,fastimage,paragrafo,paragrafonumerado,citacao,titulo,subtitulo,texttransform,zoom,footnotes,' +
             'pastebase64,sourcearea,imageresizerowandcolumn',
@@ -87,7 +98,7 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
 
         toolbar:
             [
-                {name: 'salvar', items: ['saveButton', 'assinarButton', 'pdfButton', 'PrintSemZoom']},
+                {name: 'salvar', items: ['saveButton', 'assinarButton', 'pdfButton', 'versaoButton', 'PrintSemZoom']},
                 {name: 'clipboard', items: ['Cut', 'Copy', 'Paste', 'PasteText', '-', 'Undo', 'Redo']},
                 {name: 'editing', items: ['Find', 'Replace', '-', 'SelectAll']},
                 {name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat']},
@@ -126,6 +137,8 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
     assinando = false;
 
     gerandoPdf = false;
+
+    revertendo = false;
 
     src: any;
 
@@ -176,9 +189,15 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
         }
 
         if (changes['componenteDigital']) {
-            if (changes['componenteDigital'].firstChange) {
-                this.fetch();
-            }
+             if (changes['componenteDigital'].firstChange) {
+                 this.fetch();
+             }
+
+             if (this.revertendo) {
+                 this.fetch();
+                 this.revertendo = false;
+                 this.dialog.closeAll();
+             }
 
             if (this.componenteDigital && this.componenteDigital.conteudo) {
                 this.hashAntigo = this.componenteDigital.hash;
@@ -274,6 +293,11 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
             repositorioButton.style.visibility = 'hidden';
         }
 
+        if (!this.btVersoes) {
+            const campoVersoes = <HTMLElement>document.getElementsByClassName('cke_button__versaoButton')[0].parentNode;
+            campoVersoes.style.visibility = 'hidden';
+        }
+
         this.resizeFunction();
 
         window.addEventListener('resize', this.resizeFunction);
@@ -365,6 +389,24 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
     doCampo(): void {
         const dialogRef = this.dialog.open(CdkCampoPluginComponent, {
             width: '600px'
+        });
+
+        dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe(result => {
+            this.editor.insertHtml(result.html);
+        });
+    }
+
+    doVersao(): void {
+        const dialogRef = this.dialog.open(CdkVersaoPluginComponent, {
+            width: '600px',
+            data: {
+                logEntryPagination: this.logEntryPagination
+            }
+        });
+
+        dialogRef.componentInstance.reverter.subscribe((revert) => {
+            this.revertendo = true;
+            this.reverter.emit(revert);
         });
 
         dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe(result => {
