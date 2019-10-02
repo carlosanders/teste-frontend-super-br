@@ -2,8 +2,14 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    OnInit, ViewChild, AfterViewInit,
-    ViewEncapsulation, Input, OnChanges, Output, EventEmitter
+    OnInit,
+    ViewChild,
+    AfterViewInit,
+    ViewEncapsulation,
+    Input,
+    OnChanges,
+    Output,
+    EventEmitter
 } from '@angular/core';
 import {merge, of} from 'rxjs';
 
@@ -11,10 +17,11 @@ import {fuseAnimations} from '@fuse/animations';
 
 import {MatPaginator, MatSort} from '@angular/material';
 
-import {tap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
 import {Processo} from '@cdk/models/processo.model';
 import {ProcessoDataSource} from '@cdk/data-sources/processo-data-source';
+import {FormControl} from '@angular/forms';
 
 @Component({
     selector: 'cdk-processo-grid',
@@ -39,7 +46,173 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
     mode = 'list';
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'processo', 'setorAtual', 'unidade', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'NUP', 'setorAtual.nome', 'unidade', 'actions'];
+
+
+    allColumns: any[] = [
+        {
+            id: 'select',
+            label: '',
+            fixed: true
+        },
+        {
+            id: 'id',
+            label: 'Id',
+            fixed: true
+        },
+        {
+            id: 'NUP',
+            label: 'Processo',
+            fixed: true
+        },
+        {
+            id: 'unidade',
+            label: 'Unidade',
+            fixed: true
+        },
+        {
+            id: 'descricao',
+            label: 'Descricao',
+            fixed: true
+        },
+        {
+            id: 'novo',
+            label: 'Novo',
+            fixed: false
+        },
+        {
+            id: 'valorEconomico',
+            label: 'Valor',
+            fixed: false
+        },
+        {
+            id: 'semValorEconomico',
+            label: 'Sem Valor',
+            fixed: false
+        },
+        {
+            id: 'especieProcesso.nome',
+            label: 'Espécie Processo',
+            fixed: false
+        },
+        {
+            id: 'visibilidadeExterna',
+            label: 'Visibilidade Externa',
+            fixed: false
+        },
+        {
+            id: 'dataHoraAbertura',
+            label: 'Data Abertura',
+            fixed: false
+        },
+        {
+            id: 'acessoNegado',
+            label: 'Acesso Negado',
+            fixed: false
+        },
+        {
+            id: 'dataHoraProximaTransicao',
+            label: 'Data Próxima Transição',
+            fixed: false
+        },
+        {
+            id: 'titulo',
+            label: 'Titúlo',
+            fixed: false
+        },
+        {
+            id: 'outroNumero',
+            label: 'Outro Número',
+            fixed: false
+        },
+        {
+            id: 'chaveAcesso',
+            label: 'Chave Acesso',
+            fixed: false
+        },
+        {
+            id: 'modalidadeMeio.valor',
+            label: 'Modalidade Meio',
+            fixed: false
+        },
+        {
+            id: 'modalidadeFase.valor',
+            label: 'Modalidade Fase',
+            fixed: false
+        },
+        {
+            id: 'documentoAvulsoOrigem.setorOrigem.nome',
+            label: 'Documento Avulso Origem',
+            fixed: false
+        },
+        {
+            id: 'classificacao.nome',
+            label: 'Classificação',
+            fixed: false
+        },
+        {
+            id: 'procedencia.nome',
+            label: 'ProcedÊncia',
+            fixed: false
+        },
+        {
+            id: 'localizador.nome',
+            label: 'Localizador',
+            fixed: false
+        },
+        {
+            id: 'setorAtual.nome',
+            label: 'Setor Atual',
+            fixed: false
+        },
+        {
+            id: 'setorInicial.nome',
+            label: 'Setor Inicial',
+            fixed: false
+        },
+        {
+            id: 'origemDados.fonteDados',
+            label: 'Origem Dados',
+            fixed: false
+        },
+        {
+            id: 'criadoPor.nome',
+            label: 'Criado Por',
+            fixed: false
+        },
+        {
+            id: 'criadoEm',
+            label: 'Criado Em',
+            fixed: false
+        },
+        {
+            id: 'atualizadoPor.nome',
+            label: 'Atualizado Por',
+            fixed: false
+        },
+        {
+            id: 'atualizadoEm',
+            label: 'Atualizado Em',
+            fixed: false
+        },
+        {
+            id: 'apagadoPor.nome',
+            label: 'Apagado Por',
+            fixed: false
+        },
+        {
+            id: 'apagadoEm',
+            label: 'Apagado Em',
+            fixed: false
+        },
+        {
+            id: 'actions',
+            label: '',
+            fixed: true
+        }
+    ];
+
+    columns = new FormControl();
 
     @Input()
     deletingIds: number[] = [];
@@ -114,6 +287,23 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
         if (this.mode === 'search') {
             this.toggleFilter();
         }
+
+        this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
+
+        this.columns.valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((values) => {
+                this.displayedColumns = [];
+                this.allColumns.forEach(c => {
+                    if (c.fixed || (values.indexOf(c.id) > -1)) {
+                        this.displayedColumns.push(c.id);
+                    }
+                });
+                this._changeDetectorRef.markForCheck();
+                return of([]);
+            })
+        ).subscribe();
     }
 
     ngAfterViewInit(): void {

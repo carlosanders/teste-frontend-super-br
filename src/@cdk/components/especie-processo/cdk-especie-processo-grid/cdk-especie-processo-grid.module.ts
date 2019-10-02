@@ -8,6 +8,7 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatSelectModule,
 } from '@angular/material';
 
 import { FuseSharedModule } from '@fuse/shared.module';
@@ -21,7 +22,6 @@ import {CdkEspecieProcessoGridFilterModule} from './cdk-especie-processo-grid-fi
         CdkEspecieProcessoGridComponent
     ],
     imports: [
-
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,
@@ -30,6 +30,7 @@ import {CdkEspecieProcessoGridFilterModule} from './cdk-especie-processo-grid-fi
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
+        MatSelectModule,
 
         CdkEspecieProcessoAutocompleteModule,
         CdkEspecieProcessoGridFilterModule,

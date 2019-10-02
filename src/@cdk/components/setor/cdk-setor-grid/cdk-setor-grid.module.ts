@@ -7,7 +7,7 @@ import {
     MatProgressSpinnerModule,
     MatTableModule,
     MatPaginatorModule,
-    MatSortModule,
+    MatSortModule, MatSelectModule,
 } from '@angular/material';
 
 import { FuseSharedModule } from '@fuse/shared.module';
@@ -30,6 +30,7 @@ import {CdkSetorGridFilterModule} from './cdk-setor-grid-filter/cdk-setor-grid-f
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
+        MatSelectModule,
 
         CdkSetorAutocompleteModule,
         CdkSetorGridFilterModule,

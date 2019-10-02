@@ -11,9 +11,10 @@ import {fuseAnimations} from '@fuse/animations';
 
 import {MatPaginator, MatSort} from '@angular/material';
 
-import {tap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 import {ClassificacaoDataSource} from '@cdk/data-sources/classificacao-data-source';
 import {Classificacao} from '@cdk/models/classificacao.model';
+import {FormControl} from "@angular/forms";
 
 @Component({
     selector: 'cdk-classificacao-grid',
@@ -36,6 +37,126 @@ export class CdkClassificacaoGridComponent implements AfterViewInit, OnInit, OnC
 
     @Input()
     displayedColumns: string[] = ['select', 'id', 'codigo', 'nome', 'modalidadeDestinacao.valor', 'parent.nome', 'permissaoUso', 'actions'];
+
+    allColumns: any[] = [
+        {
+            id: 'select',
+            label: '',
+            fixed: true
+        },
+        {
+            id: 'id',
+            label: 'Id',
+            fixed: true
+        },
+        {
+            id: 'nome',
+            label: 'Nome',
+            fixed: true
+        },
+        {
+            id: 'modalidadeDestinacao.valor',
+            label: 'Modalidade Destinação',
+            fixed: false
+        },
+        {
+            id: 'prazoGuardaFaseCorrenteAno',
+            label: 'Prazo Guarda Fase Corrente Ano',
+            fixed: false
+        },
+        {
+            id: 'prazoGuardaFaseCorrenteMes',
+            label: 'Prazo Guarda Fase Corrente Mês',
+            fixed: false
+        },
+        {
+            id: 'prazoGuardaFaseCorrenteDia',
+            label: 'Prazo Guarda Fase Corrente Dia',
+            fixed: false
+        },
+        {
+            id: 'prazoGuardaFaseCorrenteEvento',
+            label: 'Prazo Guarda Fase Corrente Evento',
+            fixed: false
+        },
+        {
+            id: 'prazoGuardaFaseIntermediariaAno',
+            label: 'Prazo Guarda Fase Intermediária Ano',
+            fixed: false
+        },
+        {
+            id: 'prazoGuardaFaseIntermediariaMes',
+            label: 'Prazo Guarda Fase Intermediária Mês',
+            fixed: false
+        },
+        {
+            id: 'prazoGuardaFaseIntermediariaDia',
+            label: 'Prazo Guarda Fase Intermediária Dia',
+            fixed: false
+        },
+        {
+            id: 'prazoGuardaFaseIntermediariaEvento',
+            label: 'Prazo Guarda Fase Intermediária Evento',
+            fixed: false
+        },
+        {
+            id: 'codigo',
+            label: 'Código',
+            fixed: false
+        },
+        {
+            id: 'ativo',
+            label: 'Ativo',
+            fixed: false
+        },
+        {
+            id: 'permissaoUso',
+            label: 'Permissão de Uso',
+            fixed: false
+        },
+        {
+            id: 'observacao',
+            label: 'Observação',
+            fixed: false
+        },
+        {
+            id: 'criadoPor.nome',
+            label: 'Criado Por',
+            fixed: false
+        },
+        {
+            id: 'criadoEm',
+            label: 'Criado Em',
+            fixed: false
+        },
+        {
+            id: 'atualizadoPor.nome',
+            label: 'Atualizado Por',
+            fixed: false
+        },
+        {
+            id: 'atualizadoEm',
+            label: 'Atualizado Em',
+            fixed: false
+        },
+        {
+            id: 'apagadoPor.nome',
+            label: 'Apagado Por',
+            fixed: false
+        },
+        {
+            id: 'apagadoEm',
+            label: 'Apagado Em',
+            fixed: false
+        },
+        {
+            id: 'actions',
+            label: '',
+            fixed: true
+        }
+    ];
+
+    columns = new FormControl();
 
     @Input()
     deletingIds: number[] = [];
@@ -105,6 +226,23 @@ export class CdkClassificacaoGridComponent implements AfterViewInit, OnInit, OnC
         this.paginator.pageSize = this.pageSize;
 
         this.dataSource = new ClassificacaoDataSource(of(this.classificacoes));
+
+        this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
+
+        this.columns.valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((values) => {
+                this.displayedColumns = [];
+                this.allColumns.forEach(c => {
+                    if (c.fixed || (values.indexOf(c.id) > -1)) {
+                        this.displayedColumns.push(c.id);
+                    }
+                });
+                this._changeDetectorRef.markForCheck();
+                return of([]);
+            })
+        ).subscribe();
     }
 
     ngAfterViewInit(): void {
