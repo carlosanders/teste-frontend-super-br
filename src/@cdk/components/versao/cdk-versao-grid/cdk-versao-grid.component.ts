@@ -16,14 +16,14 @@ import {LogEntryDataSource} from '@cdk/data-sources/logentry-data-source';
 import {tap} from 'rxjs/operators';
 
 @Component({
-    selector: 'cdk-logentry-grid',
-    templateUrl: './cdk-logentry-grid.component.html',
-    styleUrls: ['./cdk-logentry-grid.component.scss'],
+    selector: 'cdk-versao-grid',
+    templateUrl: './cdk-versao-grid.component.html',
+    styleUrls: ['./cdk-versao-grid.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
 })
-export class CdkLogentryGridComponent implements AfterViewInit, OnInit, OnChanges {
+export class CdkVersaoGridComponent implements AfterViewInit, OnInit, OnChanges {
 
     @Input()
     loading = false;
@@ -35,7 +35,7 @@ export class CdkLogentryGridComponent implements AfterViewInit, OnInit, OnChange
     total = 0;
 
     @Input()
-    displayedColumns: string[] = ['id', 'loggedAt', 'username', 'valor'];
+    displayedColumns: string[] = ['id', 'loggedAt', 'username', 'actions'];
 
     @Input()
     deletingIds: number[] = [];
@@ -47,7 +47,7 @@ export class CdkLogentryGridComponent implements AfterViewInit, OnInit, OnChange
     pageSize = 5;
 
     @Input()
-    actions: string[] = ['edit', 'delete', 'select'];
+    actions: string[] = ['reverter'];
 
     @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
@@ -62,13 +62,13 @@ export class CdkLogentryGridComponent implements AfterViewInit, OnInit, OnChange
     cancel = new EventEmitter<any>();
 
     @Output()
-    edit = new EventEmitter<number>();
+    reverter = new EventEmitter<number>();
 
     @Output()
     delete = new EventEmitter<number>();
 
     @Output()
-    selected = new EventEmitter<LogEntry>();
+    select = new EventEmitter<LogEntry>();
 
     @Output()
     selectedIds: number[] = [];
@@ -139,20 +139,12 @@ export class CdkLogentryGridComponent implements AfterViewInit, OnInit, OnChange
         });
     }
 
-    editLogEntry(logEntryId): void {
-        this.edit.emit(logEntryId);
-    }
-
-    selectLogEntry(logEntry: LogEntry): void {
-        this.selected.emit(logEntry);
+    reverterLogEntry(valor): void {
+        this.reverter.emit(valor);
     }
 
     deleteLogEntry(logEntryId): void {
         this.delete.emit(logEntryId);
-    }
-
-    deleteLogsentry(logsentryId): void {
-        logsentryId.forEach(logEntryId => this.deleteLogEntry(logEntryId));
     }
 
     /**

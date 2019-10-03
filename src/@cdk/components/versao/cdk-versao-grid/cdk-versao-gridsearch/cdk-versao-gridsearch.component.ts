@@ -20,20 +20,20 @@ import {LogEntryService} from '@cdk/services/logentry.service';
 import {LogEntry} from '@cdk/models/logentry.model';
 
 @Component({
-    selector: 'cdk-logentry-gridsearch',
-    templateUrl: './cdk-logentry-gridsearch.component.html',
-    styleUrls: ['./cdk-logentry-gridsearch.component.scss'],
+    selector: 'cdk-versao-gridsearch',
+    templateUrl: './cdk-versao-gridsearch.component.html',
+    styleUrls: ['./cdk-versao-gridsearch.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
 })
-export class CdkLogentryGridsearchComponent implements OnInit {
+export class CdkVersaoGridsearchComponent implements OnInit {
 
     @Input()
     pagination: Pagination;
 
     @Output()
-    selected = new EventEmitter();
+    reverter = new EventEmitter();
 
     @Output()
     cancel = new EventEmitter();
@@ -83,7 +83,7 @@ export class CdkLogentryGridsearchComponent implements OnInit {
             });
     }
 
-    reload(params): void {
+    reload (params): void {
         params = {
             ...this.pagination,
             filter: {
@@ -93,13 +93,17 @@ export class CdkLogentryGridsearchComponent implements OnInit {
             sort: params.sort,
             limit: params.limit,
             offset: params.offset,
-            populate: this.pagination.populate
+            populate: [
+                ...this.pagination.populate,
+                ...params.populate
+            ]
         };
         this.load (params);
     }
 
-    select(logEntry): void {
-        this.selected.emit(logEntry);
+    revert(params): void {
+        this.loading = true;
+        this.reverter.emit(params);
     }
 
     doCancel(): void {
