@@ -83,7 +83,7 @@ export class CdkVersaoGridsearchComponent implements OnInit {
             });
     }
 
-    reload (params): void {
+    reload(params): void {
         params = {
             ...this.pagination,
             filter: {
@@ -93,10 +93,7 @@ export class CdkVersaoGridsearchComponent implements OnInit {
             sort: params.sort,
             limit: params.limit,
             offset: params.offset,
-            populate: [
-                ...this.pagination.populate,
-                ...params.populate
-            ]
+            populate: this.pagination.populate
         };
         this.load (params);
     }
