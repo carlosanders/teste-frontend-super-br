@@ -71,7 +71,8 @@
     "reflect-metadata": "0.1.13",
     "rxjs": "6.5.3",
     "web-animations-js": "2.3.2",
-    "zone.js": "0.9.1"
+    "zone.js": "0.9.1",
+    "supp-judicial-frontend": "git+ssh://git@gitlab.agu.gov.br:supp-core/supp-judicial-frontend.git#issue-1"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "0.803.6",
