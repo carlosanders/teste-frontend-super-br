@@ -2,7 +2,7 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component, EventEmitter, Input, OnChanges,
-    OnDestroy,
+    OnDestroy, OnInit,
     Output, SimpleChange,
     ViewEncapsulation
 } from '@angular/core';
@@ -14,6 +14,8 @@ import {Pagination} from '@cdk/models/pagination';
 import {EspecieAtividade} from '@cdk/models/especie-atividade.model';
 import {EspecieTarefa} from '../../../models/especie-tarefa.model';
 import {Setor} from '../../../models/setor.model';
+import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
+import {of} from 'rxjs';
 
 @Component({
     selector: 'cdk-favorito-form',
@@ -23,7 +25,7 @@ import {Setor} from '../../../models/setor.model';
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
 })
-export class CdkFavoritoFormComponent implements OnChanges, OnDestroy {
+export class CdkFavoritoFormComponent implements OnChanges, OnDestroy, OnInit {
 
     @Input()
     favorito: Favorito;
@@ -58,6 +60,9 @@ export class CdkFavoritoFormComponent implements OnChanges, OnDestroy {
     @Input()
     showSetorResponsavel: boolean;
 
+    @Input()
+    unidadeResponsavelPagination: Pagination;
+
     /**
      * Constructor
      */
@@ -70,10 +75,13 @@ export class CdkFavoritoFormComponent implements OnChanges, OnDestroy {
             id: [null],
             especieAtividade: [null],
             especieTarefa: [null],
-            setorResponsavel: [null]
+            setorResponsavel: [null],
+            unidadeResponsavel: [null]
         });
 
         this.templatePagination = new Pagination();
+        this.unidadeResponsavelPagination = new Pagination();
+        this.unidadeResponsavelPagination.filter = {parent: 'isNull'};
 
     }
 
@@ -108,6 +116,35 @@ export class CdkFavoritoFormComponent implements OnChanges, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
+    }
+
+    ngOnInit(): void {
+
+        if (this.form.get('setorResponsavel')) {
+            this.form.get('setorResponsavel').disable();
+        }
+
+        if (this.form.get('unidadeResponsavel')) {
+            this.form.get('unidadeResponsavel').valueChanges.pipe(
+                debounceTime(300),
+                distinctUntilChanged(),
+                switchMap((value) => {
+                        if (value && typeof value === 'object') {
+                            this.form.get('setorResponsavel').enable();
+                            this.form.get('setorResponsavel').reset();
+                            this.templatePagination.filter['unidade.id'] = `eq:${value.id}`;
+                            this.templatePagination.filter['parent'] = `isNotNull`;
+                            this._changeDetectorRef.markForCheck();
+                        }
+                        if (value === null) {
+                            this.form.get('setorResponsavel').setValue('');
+                            this.form.get('setorResponsavel').disable();
+                        }
+                        return of([]);
+                    }
+                )
+            ).subscribe();
+        }
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -177,5 +214,24 @@ export class CdkFavoritoFormComponent implements OnChanges, OnDestroy {
     showSetorResponsavelGrid(): void {
         this.activeCard = 'setor-gridsearch';
     }
+
+    selectUnidadeResponsavel(setor: Setor): void {
+        if (setor) {
+            this.form.get('unidadeResponsavel').setValue(setor);
+        }
+        this.activeCard = 'form';
+    }
+
+    checkUnidadeResponsavel(): void {
+        const value = this.form.get('unidadeResponsavel').value;
+        if (!value || typeof value !== 'object') {
+            this.form.get('unidadeResponsavel').setValue(null);
+        }
+    }
+
+    showUnidadeResponsavelGrid(): void {
+        this.activeCard = 'unidade-gridsearch';
+    }
+
 
 }
