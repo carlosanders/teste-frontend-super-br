@@ -3,7 +3,7 @@ d<cdk-historico-grid
         [historicos]="historicos"
         [total]="total"
         [actions]="['select', 'cancel']"
-        (select)="select($event)"
+        (selected)="select($event)"
         (cancel)="doCancel()"
         (reload)="reload($event)">
 </cdk-historico-grid>

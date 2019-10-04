@@ -3,7 +3,7 @@
         [generoTarefas]="generoTarefas"
         [total]="total"
         [actions]="['select', 'cancel']"
-        (select)="select($event)"
+        (selected)="select($event)"
         (cancel)="doCancel()"
         (reload)="reload($event)">
 </cdk-genero-tarefa-grid>

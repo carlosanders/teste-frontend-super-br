@@ -4,7 +4,7 @@
         [displayedColumns]="displayedColumns"
         [total]="total"
         [actions]="['select', 'cancel']"
-        (select)="select($event)"
+        (selected)="select($event)"
         (cancel)="doCancel()"
         (reload)="reload($event)">
 </cdk-especie-atividade-grid>

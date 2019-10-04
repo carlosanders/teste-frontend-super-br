@@ -3,7 +3,7 @@ d<cdk-representante-grid
         [representantes]="representantes"
         [total]="total"
         [actions]="['select', 'cancel']"
-        (select)="select($event)"
+        (selected)="select($event)"
         (cancel)="doCancel()"
         (reload)="reload($event)">
 </cdk-representante-grid>

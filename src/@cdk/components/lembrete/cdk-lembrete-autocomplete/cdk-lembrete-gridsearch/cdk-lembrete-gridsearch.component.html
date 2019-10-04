@@ -3,7 +3,7 @@ d<cdk-lembrete-grid
         [lembretes]="lembretes"
         [total]="total"
         [actions]="['select', 'cancel']"
-        (select)="select($event)"
+        (selected)="select($event)"
         (cancel)="doCancel()"
         (reload)="reload($event)">
 </cdk-lembrete-grid>
