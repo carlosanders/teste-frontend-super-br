@@ -44,7 +44,7 @@ export class FavoritoEditMainSidebarComponent implements OnInit, OnDestroy {
                 link: 'favorito-especie-tarefa'
             },
             {
-                nome: 'Setor Responsável',
+                nome: 'Setor',
                 link: 'favorito-setor-responsavel'
             }
         ];
