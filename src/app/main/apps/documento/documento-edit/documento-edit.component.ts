@@ -67,7 +67,7 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
 
     activeCard = 'atividade';
 
-    @ViewChild('ckdUpload', {static: true})
+    @ViewChild('ckdUpload', {static: false})
     cdkUpload;
 
     routerState: any;

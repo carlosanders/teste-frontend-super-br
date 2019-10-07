@@ -40,7 +40,7 @@ export class ModeloEditComponent implements OnInit, OnDestroy {
 
     activeCard = 'anexos';
 
-    @ViewChild('ckdUpload', {static: true})
+    @ViewChild('ckdUpload', {static: false})
     cdkUpload;
 
     /**
