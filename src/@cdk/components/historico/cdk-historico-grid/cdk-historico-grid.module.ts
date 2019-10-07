@@ -8,6 +8,7 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatSelectModule,
 } from '@angular/material';
 
 import {FuseSharedModule} from '@fuse/shared.module';
@@ -21,6 +22,7 @@ import {CdkHistoricoGridFilterModule} from './cdk-historico-grid-filter/cdk-hist
         CdkHistoricoGridComponent
     ],
     imports: [
+        MatSelectModule,
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,
@@ -29,9 +31,11 @@ import {CdkHistoricoGridFilterModule} from './cdk-historico-grid-filter/cdk-hist
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
+
         CdkHistoricoAutocompleteModule,
+        CdkHistoricoGridFilterModule,
+
         FuseSharedModule,
-        CdkHistoricoGridFilterModule
     ],
     providers: [
         HistoricoService,

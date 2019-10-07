@@ -11,10 +11,11 @@ import {fuseAnimations} from '@fuse/animations';
 
 import {MatPaginator, MatSort} from '@angular/material';
 
-import {tap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 import {ComponenteDigitalDataSource} from '@cdk/data-sources/componente-digital-data-source';
 import {ComponenteDigital} from '@cdk/models/componente-digital.model';
 import {environment} from 'environments/environment';
+import {FormControl} from "@angular/forms";
 
 @Component({
     selector: 'cdk-componente-digital-grid',
@@ -40,6 +41,171 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
 
     @Input()
     displayedColumns: string[] = ['select', 'id', 'documento.juntadaAtual.volume.processo.NUP', 'documento.tipoDocumento', 'highlights', 'actions'];
+
+    allColumns: any[] = [
+        {
+            id: 'select',
+            label: '',
+            fixed: true
+        },
+        {
+            id: 'id',
+            label: 'Id',
+            fixed: true
+        },
+        {
+            id: 'conteudo',
+            label: 'Conteúdo',
+            fixed: false
+        },
+        {
+            id: 'editavel',
+            label: 'Editável',
+            fixed: false
+        },
+        {
+            id: 'assinado',
+            label: 'Assinado',
+            fixed: false
+        },
+        {
+            id: 'fileName',
+            label: 'Arquivo',
+            fixed: false
+        },
+        {
+            id: 'highlights',
+            label: 'Resumo',
+            fixed: false
+        },
+        {
+            id: 'numeracaoSequencial',
+            label: 'Numeração Sequencial',
+            fixed: false
+        },
+        {
+            id: 'tamanho',
+            label: 'Tamanho',
+            fixed: false
+        },
+        {
+            id: 'nivelComposicao',
+            label: 'Nível Composição',
+            fixed: false
+        },
+        {
+            id: 'softwareCriacao',
+            label: 'Software de Criação',
+            fixed: false
+        },
+        {
+            id: 'chaveInibidor',
+            label: 'Chave Inibidor',
+            fixed: false
+        },
+        {
+            id: 'versaoSoftwareCriacao',
+            label: 'Versão do Software de Criação',
+            fixed: false
+        },
+        {
+            id: 'mimetype',
+            label: 'Mimetype',
+            fixed: false
+        },
+        {
+            id: 'extensao',
+            label: 'Extensão',
+            fixed: false
+        },
+        {
+            id: 'usernameLockEdicao',
+            label: 'Username Lock Edição',
+            fixed: false
+        },
+        {
+            id: 'dataHoraSoftwareCriacao',
+            label: 'Data Software Criação',
+            fixed: false
+        },
+        {
+            id: 'dataHoraLockEdicao',
+            label: 'Data Lock Edição',
+            fixed: false
+        },
+        {
+            id: 'modalidadeAlvoInibidor.valor',
+            label: 'Modalidade Alvo Inibidor',
+            fixed: false
+        },
+        {
+            id: 'modalidadeTipoInibidor.valor',
+            label: 'Modalidade Tipo Inibidor',
+            fixed: false
+        },
+        {
+            id: 'modelo.nome',
+            label: 'Modelo',
+            fixed: false
+        },
+        {
+            id: 'documento.juntadaAtual.volume.processo.NUP',
+            label: 'NUP',
+            fixed: false
+        },
+        {
+            id: 'tarefaOrigem.especieTarefa.nome',
+            label: 'Tarefa de Origem',
+            fixed: false
+        },
+        {
+            id: 'documentoAvulsoOrigem.especieDocumentoAvulso.nome',
+            label: 'Documento Avulso Origem',
+            fixed: false
+        },
+        {
+            id: 'origemDados.fonteDados',
+            label: 'Origem dos Dados',
+            fixed: false
+        },
+        {
+            id: 'criadoPor.nome',
+            label: 'Criado Por',
+            fixed: false
+        },
+        {
+            id: 'criadoEm',
+            label: 'Criado Em',
+            fixed: false
+        },
+        {
+            id: 'atualizadoPor.nome',
+            label: 'Atualizado Por',
+            fixed: false
+        },
+        {
+            id: 'atualizadoEm',
+            label: 'Atualizado Em',
+            fixed: false
+        },
+        {
+            id: 'apagadoPor.nome',
+            label: 'Apagado Por',
+            fixed: false
+        },
+        {
+            id: 'apagadoEm',
+            label: 'Apagado Em',
+            fixed: false
+        },
+        {
+            id: 'actions',
+            label: '',
+            fixed: true
+        }
+    ];
+
+    columns = new FormControl();
 
     @Input()
     deletingIds: number[] = [];
@@ -118,6 +284,23 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
         if (this.mode === 'search') {
             this.toggleFilter();
         }
+
+        this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
+
+        this.columns.valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((values) => {
+                this.displayedColumns = [];
+                this.allColumns.forEach(c => {
+                    if (c.fixed || (values.indexOf(c.id) > -1)) {
+                        this.displayedColumns.push(c.id);
+                    }
+                });
+                this._changeDetectorRef.markForCheck();
+                return of([]);
+            })
+        ).subscribe();
     }
 
     ngAfterViewInit(): void {

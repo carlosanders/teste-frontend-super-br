@@ -13,6 +13,8 @@ import {MatPaginator, MatSort} from '@angular/material';
 
 import {LogEntry} from '@cdk/models/logentry.model';
 import {LogEntryDataSource} from '@cdk/data-sources/logentry-data-source';
+import {debounceTime, distinctUntilChanged, switchMap} from "rxjs/operators";
+import {FormControl} from "@angular/forms";
 
 @Component({
     selector: 'cdk-logentry-grid',
@@ -35,6 +37,86 @@ export class CdkLogentryGridComponent implements AfterViewInit, OnInit, OnChange
 
     @Input()
     displayedColumns: string[] = ['id', 'loggedAt', 'username', 'valor'];
+
+    allColumns: any[] = [
+        {
+            id: 'select',
+            label: '',
+            fixed: true
+        },
+        {
+            id: 'id',
+            label: 'Id',
+            fixed: true
+        },
+        {
+            id: 'username',
+            label: 'Usuário',
+            fixed: true
+        },
+        {
+            id: 'loggedAt',
+            label: 'Logado Em',
+            fixed: false
+        },
+        {
+            id: 'valor',
+            label: 'Valor',
+            fixed: false
+        },
+        {
+            id: 'action',
+            label: 'Ação',
+            fixed: false
+        },
+        {
+            id: 'objectClass',
+            label: 'Classe de Objeto',
+            fixed: false
+        },
+        {
+            id: 'data',
+            label: 'Dados',
+            fixed: false
+        },
+        {
+            id: 'criadoPor.nome',
+            label: 'Criado Por',
+            fixed: false
+        },
+        {
+            id: 'criadoEm',
+            label: 'Criado Em',
+            fixed: false
+        },
+        {
+            id: 'atualizadoPor.nome',
+            label: 'Atualizado Por',
+            fixed: false
+        },
+        {
+            id: 'atualizadoEm',
+            label: 'Atualizado Em',
+            fixed: false
+        },
+        {
+            id: 'apagadoPor.nome',
+            label: 'Apagado Por',
+            fixed: false
+        },
+        {
+            id: 'apagadoEm',
+            label: 'Apagado Em',
+            fixed: false
+        },
+        {
+            id: 'actions',
+            label: '',
+            fixed: true
+        }
+    ];
+
+    columns = new FormControl();
 
     @Input()
     deletingIds: number[] = [];
@@ -96,8 +178,25 @@ export class CdkLogentryGridComponent implements AfterViewInit, OnInit, OnChange
     }
 
     ngOnInit(): void {
-
         this.dataSource = new LogEntryDataSource(of(this.logEntrys));
+
+        this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
+
+        this.columns.valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((values) => {
+                this.displayedColumns = [];
+                this.allColumns.forEach(c => {
+                    if (c.fixed || (values.indexOf(c.id) > -1)) {
+                        this.displayedColumns.push(c.id);
+                    }
+                });
+                this._changeDetectorRef.markForCheck();
+                return of([]);
+            })
+        ).subscribe();
+
     }
 
     ngAfterViewInit(): void {

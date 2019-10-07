@@ -11,10 +11,11 @@ import {fuseAnimations} from '@fuse/animations';
 
 import {MatPaginator, MatSort} from '@angular/material';
 
-import {tap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
 import {Tramitacao} from '@cdk/models/tramitacao.model';
 import {TramitacaoDataSource} from '@cdk/data-sources/tramitacao-data-source';
+import {FormControl} from "@angular/forms";
 
 @Component({
     selector: 'cdk-remessa-grid',
@@ -30,7 +31,7 @@ export class CdkRemessaGridComponent implements AfterViewInit, OnInit, OnChanges
     loading = false;
 
     @Input()
-    tramitacoes: Tramitacao[];
+    remessas: Tramitacao[];
 
     @Input()
     total = 0;
@@ -38,6 +39,86 @@ export class CdkRemessaGridComponent implements AfterViewInit, OnInit, OnChanges
     @Input()
     displayedColumns: string[] = ['select', 'id', 'observacao', 'urgente', 'setorOrigem.nome',
         'pessoaDestino.nome', 'dataHoraRecebimento', 'usuarioRecebimento.nome', 'actions'];
+
+    allColumns: any[] = [
+        {
+            id: 'select',
+            label: '',
+            fixed: true
+        },
+        {
+            id: 'id',
+            label: 'Id',
+            fixed: true
+        },
+        {
+            id: 'pessoaDestino.nome',
+            label: 'Pessoa de Destino',
+            fixed: true
+        },
+        {
+            id: 'observacao',
+            label: 'Observação',
+            fixed: false
+        },
+        {
+            id: 'urgente',
+            label: 'Urgente',
+            fixed: false
+        },
+        {
+            id: 'setorOrigem.nome',
+            label: 'setor de Origem',
+            fixed: false
+        },
+        {
+            id: 'dataHoraRecebimento',
+            label: 'Data do Recebimento',
+            fixed: false
+        },
+        {
+            id: 'usuarioRecebimento.nome',
+            label: 'Usuário Recebimento',
+            fixed: false
+        },
+        {
+            id: 'criadoPor.nome',
+            label: 'Criado Por',
+            fixed: false
+        },
+        {
+            id: 'criadoEm',
+            label: 'Criado Em',
+            fixed: false
+        },
+        {
+            id: 'atualizadoPor.nome',
+            label: 'Atualizado Por',
+            fixed: false
+        },
+        {
+            id: 'atualizadoEm',
+            label: 'Atualizado Em',
+            fixed: false
+        },
+        {
+            id: 'apagadoPor.nome',
+            label: 'Apagado Por',
+            fixed: false
+        },
+        {
+            id: 'apagadoEm',
+            label: 'Apagado Em',
+            fixed: false
+        },
+        {
+            id: 'actions',
+            label: '',
+            fixed: true
+        }
+    ];
+
+    columns = new FormControl();
 
     @Input()
     deletingIds: number[] = [];
@@ -91,11 +172,11 @@ export class CdkRemessaGridComponent implements AfterViewInit, OnInit, OnChanges
         private _changeDetectorRef: ChangeDetectorRef
     ) {
         this.gridFilter = {};
-        this.tramitacoes = [];
+        this.remessas = [];
     }
 
     ngOnChanges(): void {
-        this.dataSource = new TramitacaoDataSource(of(this.tramitacoes));
+        this.dataSource = new TramitacaoDataSource(of(this.remessas));
         this.paginator.length = this.total;
     }
 
@@ -107,7 +188,25 @@ export class CdkRemessaGridComponent implements AfterViewInit, OnInit, OnChanges
 
         this.paginator.pageSize = this.pageSize;
 
-        this.dataSource = new TramitacaoDataSource(of(this.tramitacoes));
+        this.dataSource = new TramitacaoDataSource(of(this.remessas));
+
+        this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
+
+        this.columns.valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((values) => {
+                this.displayedColumns = [];
+                this.allColumns.forEach(c => {
+                    if (c.fixed || (values.indexOf(c.id) > -1)) {
+                        this.displayedColumns.push(c.id);
+                    }
+                });
+                this._changeDetectorRef.markForCheck();
+                return of([]);
+            })
+        ).subscribe();
+
     }
 
     ngAfterViewInit(): void {
@@ -174,7 +273,7 @@ export class CdkRemessaGridComponent implements AfterViewInit, OnInit, OnChanges
      * Select all
      */
     selectAll(): void {
-        const arr = Object.keys(this.tramitacoes).map(k => this.tramitacoes[k]);
+        const arr = Object.keys(this.remessas).map(k => this.remessas[k]);
         this.selectedIds = arr.map(tramitacao => tramitacao.id);
         this.recompute();
     }
@@ -200,7 +299,7 @@ export class CdkRemessaGridComponent implements AfterViewInit, OnInit, OnChanges
 
     recompute(): void {
         this.hasSelected = this.selectedIds.length > 0;
-        this.isIndeterminate = (this.selectedIds.length !== this.tramitacoes.length && this.selectedIds.length > 0);
+        this.isIndeterminate = (this.selectedIds.length !== this.remessas.length && this.selectedIds.length > 0);
     }
 
     setGridFilter(gridFilter): void {

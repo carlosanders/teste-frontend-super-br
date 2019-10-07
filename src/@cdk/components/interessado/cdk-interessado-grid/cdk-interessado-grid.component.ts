@@ -11,9 +11,10 @@ import {fuseAnimations} from '@fuse/animations';
 
 import {MatPaginator, MatSort} from '@angular/material';
 
-import {tap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 import {InteressadoDataSource} from '@cdk/data-sources/interessado-data-source';
 import {Interessado} from '@cdk/models/interessado.model';
+import {FormControl} from "@angular/forms";
 
 @Component({
     selector: 'cdk-interessado-grid',
@@ -36,6 +37,81 @@ export class CdkInteressadoGridComponent implements AfterViewInit, OnInit, OnCha
 
     @Input()
     displayedColumns: string[] = ['select', 'id', 'pessoa.nome', 'modalidadeInteressado.valor', 'actions'];
+
+    allColumns: any[] = [
+        {
+            id: 'select',
+            label: '',
+            fixed: true
+        },
+        {
+            id: 'id',
+            label: 'Id',
+            fixed: true
+        },
+        {
+            id: 'pessoa.nome',
+            label: 'Interessado',
+            fixed: true
+        },
+        {
+            id: 'processo.NUP',
+            label: 'NUP',
+            fixed: false
+        },
+        {
+            id: 'pessoa.nome',
+            label: 'Pessoa',
+            fixed: false
+        },
+        {
+            id: 'origemDados.fonteDados',
+            label: 'Origem de Dados',
+            fixed: false
+        },
+        {
+            id: 'modalidadeInteressado.valor',
+            label: 'Modalidade de Interassado',
+            fixed: false
+        },
+        {
+            id: 'criadoPor.nome',
+            label: 'Criado Por',
+            fixed: false
+        },
+        {
+            id: 'criadoEm',
+            label: 'Criado Em',
+            fixed: false
+        },
+        {
+            id: 'atualizadoPor.nome',
+            label: 'Atualizado Por',
+            fixed: false
+        },
+        {
+            id: 'atualizadoEm',
+            label: 'Atualizado Em',
+            fixed: false
+        },
+        {
+            id: 'apagadoPor.nome',
+            label: 'Apagado Por',
+            fixed: false
+        },
+        {
+            id: 'apagadoEm',
+            label: 'Apagado Em',
+            fixed: false
+        },
+        {
+            id: 'actions',
+            label: '',
+            fixed: true
+        }
+    ];
+
+    columns = new FormControl();
 
     @Input()
     deletingIds: number[] = [];
@@ -97,7 +173,6 @@ export class CdkInteressadoGridComponent implements AfterViewInit, OnInit, OnCha
     }
 
     ngOnInit(): void {
-
         this.paginator._intl.itemsPerPageLabel = 'Registros por página';
         this.paginator._intl.nextPageLabel = 'Seguinte';
         this.paginator._intl.previousPageLabel = 'Anterior';
@@ -105,6 +180,23 @@ export class CdkInteressadoGridComponent implements AfterViewInit, OnInit, OnCha
         this.paginator.pageSize = this.pageSize;
 
         this.dataSource = new InteressadoDataSource(of(this.interessados));
+
+        this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
+
+        this.columns.valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((values) => {
+                this.displayedColumns = [];
+                this.allColumns.forEach(c => {
+                    if (c.fixed || (values.indexOf(c.id) > -1)) {
+                        this.displayedColumns.push(c.id);
+                    }
+                });
+                this._changeDetectorRef.markForCheck();
+                return of([]);
+            })
+        ).subscribe();
     }
 
     ngAfterViewInit(): void {

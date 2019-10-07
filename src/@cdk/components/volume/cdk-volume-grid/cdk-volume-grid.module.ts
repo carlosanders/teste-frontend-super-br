@@ -8,6 +8,7 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatSelectModule,
 } from '@angular/material';
 
 import {FuseSharedModule} from '@fuse/shared.module';
@@ -21,6 +22,7 @@ import {CdkVolumeGridFilterModule} from './cdk-volume-grid-filter/cdk-volume-gri
         CdkVolumeGridComponent
     ],
     imports: [
+        MatSelectModule,
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,
@@ -29,9 +31,11 @@ import {CdkVolumeGridFilterModule} from './cdk-volume-grid-filter/cdk-volume-gri
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
+
         CdkVolumeAutocompleteModule,
+        CdkVolumeGridFilterModule,
+
         FuseSharedModule,
-        CdkVolumeGridFilterModule
     ],
     providers: [
         VolumeService,

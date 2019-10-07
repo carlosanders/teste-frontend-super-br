@@ -8,12 +8,13 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatSelectModule,
 } from '@angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
-import { ModalidadeRepresentanteService } from '@cdk/services/modalidade-representante.service';
-import { CdkModalidadeRepresentanteGridComponent} from './cdk-modalidade-representante-grid.component';
-import { CdkModalidadeRepresentanteAutocompleteModule } from '@cdk/components/modalidade-representante/cdk-modalidade-representante-autocomplete/cdk-modalidade-representante-autocomplete.module';
+import {FuseSharedModule} from '@fuse/shared.module';
+import {ModalidadeRepresentanteService} from '@cdk/services/modalidade-representante.service';
+import {CdkModalidadeRepresentanteGridComponent} from './cdk-modalidade-representante-grid.component';
+import {CdkModalidadeRepresentanteAutocompleteModule} from '@cdk/components/modalidade-representante/cdk-modalidade-representante-autocomplete/cdk-modalidade-representante-autocomplete.module';
 import {CdkModalidadeRepresentanteGridFilterModule} from './cdk-modalidade-representante-grid-filter/cdk-modalidade-representante-grid-filter.module';
 
 @NgModule({
@@ -21,7 +22,7 @@ import {CdkModalidadeRepresentanteGridFilterModule} from './cdk-modalidade-repre
         CdkModalidadeRepresentanteGridComponent
     ],
     imports: [
-
+        MatSelectModule,
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,

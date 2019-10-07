@@ -11,10 +11,11 @@ import {fuseAnimations} from '@fuse/animations';
 
 import {MatPaginator, MatSort} from '@angular/material';
 
-import {tap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
 import {GeneroDocumento} from '@cdk/models/genero-documento.model';
 import {GeneroDocumentoDataSource} from '@cdk/data-sources/genero-documento-data-source';
+import {FormControl} from "@angular/forms";
 
 @Component({
     selector: 'cdk-genero-documento-grid',
@@ -37,6 +38,71 @@ export class CdkGeneroDocumentoGridComponent implements AfterViewInit, OnInit, O
 
     @Input()
     displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'actions'];
+
+    allColumns: any[] = [
+        {
+            id: 'select',
+            label: '',
+            fixed: true
+        },
+        {
+            id: 'id',
+            label: 'Id',
+            fixed: true
+        },
+        {
+            id: 'nome',
+            label: 'Nome',
+            fixed: true
+        },
+        {
+            id: 'descricao',
+            label: 'Descrição',
+            fixed: false
+        },
+        {
+            id: 'ativo',
+            label: 'Ativo',
+            fixed: false
+        },
+        {
+            id: 'criadoPor.nome',
+            label: 'Criado Por',
+            fixed: false
+        },
+        {
+            id: 'criadoEm',
+            label: 'Criado Em',
+            fixed: false
+        },
+        {
+            id: 'atualizadoPor.nome',
+            label: 'Atualizado Por',
+            fixed: false
+        },
+        {
+            id: 'atualizadoEm',
+            label: 'Atualizado Em',
+            fixed: false
+        },
+        {
+            id: 'apagadoPor.nome',
+            label: 'Apagado Por',
+            fixed: false
+        },
+        {
+            id: 'apagadoEm',
+            label: 'Apagado Em',
+            fixed: false
+        },
+        {
+            id: 'actions',
+            label: '',
+            fixed: true
+        }
+    ];
+
+    columns = new FormControl();
 
     @Input()
     deletingIds: number[] = [];
@@ -107,6 +173,23 @@ export class CdkGeneroDocumentoGridComponent implements AfterViewInit, OnInit, O
         this.paginator.pageSize = this.pageSize;
 
         this.dataSource = new GeneroDocumentoDataSource(of(this.generoDocumentos));
+
+        this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
+
+        this.columns.valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((values) => {
+                this.displayedColumns = [];
+                this.allColumns.forEach(c => {
+                    if (c.fixed || (values.indexOf(c.id) > -1)) {
+                        this.displayedColumns.push(c.id);
+                    }
+                });
+                this._changeDetectorRef.markForCheck();
+                return of([]);
+            })
+        ).subscribe();
     }
 
     ngAfterViewInit(): void {

@@ -8,6 +8,7 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatSelectModule,
 } from '@angular/material';
 
 import {FuseSharedModule} from '@fuse/shared.module';
@@ -21,6 +22,7 @@ import {CdkGeneroSetorGridFilterModule} from './cdk-genero-setor-grid-filter/cdk
         CdkGeneroSetorGridComponent
     ],
     imports: [
+        MatSelectModule,
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,
@@ -29,9 +31,11 @@ import {CdkGeneroSetorGridFilterModule} from './cdk-genero-setor-grid-filter/cdk
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
+
         CdkGeneroSetorAutocompleteModule,
+        CdkGeneroSetorGridFilterModule,
+
         FuseSharedModule,
-        CdkGeneroSetorGridFilterModule
     ],
     providers: [
         GeneroSetorService,

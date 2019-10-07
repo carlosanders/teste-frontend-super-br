@@ -14,7 +14,7 @@
 
         <div class="actions m-8" fxFlex fxLayout="row" fxLayoutAlign="end center">
 
-             <button class="back" mat-icon-button *ngIf="actions.indexOf('cancel') > -1"
+            <button class="back" mat-icon-button *ngIf="actions.indexOf('cancel') > -1"
                     (click)="doCancel()"
                     aria-label="cancelar"
                     matTooltip="Cancelar">
@@ -42,7 +42,8 @@
                     matTooltip="Recarregar">
                 <mat-icon>refresh</mat-icon>
             </button>
-<button class="toggle-filter" mat-icon-button
+
+            <button class="toggle-filter" mat-icon-button
                     (click)="toggleFilter()"
                     aria-label="filtrar"
                     matTooltip="Filtrar">
@@ -90,42 +91,186 @@
                     [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1}"> {{tarefa.processo?.NUP}} </td>
             </ng-container>
 
-            <!--  Especie Column -->
-            <ng-container matColumnDef="especieTarefa.nome">
+            <!-- PostIt Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('postIt') > -1" matColumnDef="postIt">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Espécie
+                    Post It
                 </th>
-                <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label='Espécie: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1}"> {{tarefa.especieTarefa?.nome}} </td>
+                <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label='Post It: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1}"> {{tarefa.postIt}} </td>
             </ng-container>
 
-            <!-- dataHoraInicioPrazo Column -->
-            <ng-container matColumnDef="dataHoraInicioPrazo">
+            <!-- Urgente Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('urgente') > -1" matColumnDef="urgente">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Início Prazo
+                    Urgente
                 </th>
-                <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label='Início Prazo: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1}"> {{tarefa.dataHoraInicioPrazo | date: 'dd/MM/yyyy H:mm'}}
+                <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label='Urgente: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1}">
+                    <mat-checkbox [disabled]="true" [checked]="tarefa.urgente"></mat-checkbox>
                 </td>
             </ng-container>
 
-            <!-- dataHoraFinalPrazo Column -->
-            <ng-container matColumnDef="dataHoraFinalPrazo">
+            <!-- Observacao Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('observacao') > -1" matColumnDef="observacao">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Final Prazo
+                    Observação
                 </th>
-                <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label='Final Prazo: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1}"> {{tarefa.dataHoraFinalPrazo | date: 'dd/MM/yyyy H:mm'}}
-                </td>
+                <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label='Observação: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1}"> {{tarefa.observacao}} </td>
             </ng-container>
 
-            <!--  Etiqueta Column -->
-            <ng-container matColumnDef="vinculacoesEtiquetas.etiqueta.conteudo">
+            <!-- Redistribuida Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('redistribuida') > -1" matColumnDef="redistribuida">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Etiqueta
+                    Redistribuída
                 </th>
-                <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label='Etiqueta: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1}"> {{tarefa.vinculacoesEtiquetas.etiqueta?.conteudo}} </td>
+                <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label='Redistribuída: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1}"> {{tarefa.redistribuida}} </td>
+            </ng-container>
+
+            <!-- DataHoraLeitura Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('dataHoraLeitura') > -1" matColumnDef="dataHoraLeitura">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Data da Leitura
+                </th>
+                <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label='Data da Leitura: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1}"> {{tarefa.dataHoraLeitura | date: 'dd/MM/yyyy'}} </td>
+            </ng-container>
+
+            <!-- DataHoraInicioPrazo Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('dataHoraInicioPrazo') > -1" matColumnDef="dataHoraInicioPrazo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Data do Início do Prazo
+                </th>
+                <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label='Data do Início do Prazo: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1}"> {{tarefa.dataHoraInicioPrazo | date: 'dd/MM/yyyy'}} </td>
+            </ng-container>
+
+            <!-- DataHoraFinalPrazo Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('dataHoraFinalPrazo') > -1" matColumnDef="dataHoraFinalPrazo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Data do Final do Prazo
+                </th>
+                <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label='Data do Final do Prazo: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1}"> {{tarefa.dataHoraFinalPrazo | date: 'dd/MM/yyyy'}} </td>
+            </ng-container>
+
+            <!-- DataHoraConclusaoPrazo Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('dataHoraConclusaoPrazo') > -1" matColumnDef="dataHoraConclusaoPrazo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Data da Conclusão do Prazo
+                </th>
+                <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label='Data da Conclusão do Prazo: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1}"> {{tarefa.dataHoraConclusaoPrazo | date: 'dd/MM/yyyy'}} </td>
+            </ng-container>
+
+            <!-- EspecieTarefa.nome Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('especieTarefa.nome') > -1" matColumnDef="especieTarefa.nome">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Espécie de Tarefa
+                </th>
+                <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label='Espécie de Tarefa: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1}"> {{tarefa.especieTarefa.nome}} </td>
+            </ng-container>
+
+            <!-- Usuario Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('usuarioResponsavel.nome') > -1" matColumnDef="usuarioResponsavel.nome">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Usuário Responsável
+                </th>
+                <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label='Usuário Responsável: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1}"> {{tarefa.usuarioResponsavel?.nome}} </td>
+            </ng-container>
+
+            <!-- Setor Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('setorOrigem.nome') > -1" matColumnDef="setorOrigem.nome">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Setor de Origem
+                </th>
+                <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label='Setor de Origem: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1}"> {{tarefa.setorOrigem?.nome}} </td>
+            </ng-container>
+
+            <!-- UnidadeResponsavel Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('unidadeResponsavel.nome') > -1" matColumnDef="unidadeResponsavel.nome">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Unidade Responsável
+                </th>
+                <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label='Unidade Responsável: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1}"> {{tarefa.unidadeResponsavel?.nome}} </td>
+            </ng-container>
+
+            <!-- SetorResponsavel Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('setorResponsavel.nome') > -1" matColumnDef="setorResponsavel.nome">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Setor Responsável
+                </th>
+                <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label='Setor Responsável: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1}"> {{tarefa.setorResponsavel?.nome}} </td>
+            </ng-container>
+
+            <!-- UsuarioConclusaoPrazo Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('usuarioConclusaoPrazo.nome') > -1" matColumnDef="usuarioConclusaoPrazo.nome">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Usuário da Conclusao do Prazo
+                </th>
+                <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label='Usuário da Conclusao do Prazo: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1}"> {{tarefa.usuarioConclusaoPrazo.nome}} </td>
+            </ng-container>
+
+            <!-- CriadoPor Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('criadoPor.nome') > -1" matColumnDef="criadoPor.nome">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Criado Por
+                </th>
+                <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label='Criado Por: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1}"> {{tarefa.criadoPor?.nome}} </td>
+            </ng-container>
+
+            <!-- CriadoEm Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('criadoEm') > -1" matColumnDef="criadoEm">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Criado Em
+                </th>
+                <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label='Criado Em: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1}"> {{tarefa.criadoEm | date: 'dd/MM/yyyy'}} </td>
+            </ng-container>
+
+            <!-- AtualizadoPor Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1" matColumnDef="atualizadoPor.nome">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Atualizado Por
+                </th>
+                <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label='Atualizado Por: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1}"> {{tarefa.atualizadoPor?.nome}} </td>
+            </ng-container>
+
+            <!-- AtualizadoEm Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('atualizadoEm') > -1" matColumnDef="atualizadoEm">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Atualizado Em
+                </th>
+                <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label='Atualizado Em: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1}"> {{tarefa.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
+            </ng-container>
+
+            <!-- ApagadoPor Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('apagadoPor.nome') > -1" matColumnDef="apagadoPor.nome">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Apagado Por
+                </th>
+                <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label='Apagado Por: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1}"> {{tarefa.apagadoPor?.nome}} </td>
+            </ng-container>
+
+            <!-- ApagadoEm Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('apagadoEm') > -1" matColumnDef="apagadoEm">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Apagado Em
+                </th>
+                <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label='Apagado Em: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1}"> {{tarefa.apagadoEm | date: 'dd/MM/yyyy'}} </td>
             </ng-container>
 
             <!-- Actions Column -->

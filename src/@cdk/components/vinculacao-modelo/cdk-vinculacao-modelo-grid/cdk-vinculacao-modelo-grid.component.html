@@ -13,7 +13,7 @@
 
         <div class="actions m-8" fxFlex fxLayout="row" fxLayoutAlign="end center">
 
-             <button class="back" mat-icon-button *ngIf="actions.indexOf('cancel') > -1"
+            <button class="back" mat-icon-button *ngIf="actions.indexOf('cancel') > -1"
                     (click)="doCancel()"
                     aria-label="cancelar"
                     matTooltip="Cancelar">
@@ -41,7 +41,8 @@
                     matTooltip="Recarregar">
                 <mat-icon>refresh</mat-icon>
             </button>
-<button class="toggle-filter" mat-icon-button
+
+            <button class="toggle-filter" mat-icon-button
                     (click)="toggleFilter()"
                     aria-label="filtrar"
                     matTooltip="Filtrar">
@@ -90,7 +91,7 @@
             </ng-container>
 
             <!-- EspecieSetor Column -->
-            <ng-container matColumnDef="especieSetor.nome">
+            <ng-container *ngIf="displayedColumns.indexOf('especieSetor.nome') > -1" matColumnDef="especieSetor.nome">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     Espécie do Setor
                 </th>
@@ -99,7 +100,7 @@
             </ng-container>
 
             <!-- Setor Column -->
-            <ng-container matColumnDef="setor.nome">
+            <ng-container *ngIf="displayedColumns.indexOf('setor.nome') > -1" matColumnDef="setor.nome">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     Setor
                 </th>
@@ -108,7 +109,7 @@
             </ng-container>
 
             <!-- Usuario Column -->
-            <ng-container matColumnDef="usuario.nome">
+            <ng-container *ngIf="displayedColumns.indexOf('usuario.nome') > -1" matColumnDef="usuario.nome">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     Usuário
                 </th>

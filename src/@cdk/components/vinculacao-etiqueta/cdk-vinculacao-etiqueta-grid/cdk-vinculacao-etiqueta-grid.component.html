@@ -13,7 +13,7 @@
 
         <div class="actions m-8" fxFlex fxLayout="row" fxLayoutAlign="end center">
 
-             <button class="back" mat-icon-button *ngIf="actions.indexOf('cancel') > -1"
+            <button class="back" mat-icon-button *ngIf="actions.indexOf('cancel') > -1"
                     (click)="doCancel()"
                     aria-label="cancelar"
                     matTooltip="Cancelar">
@@ -41,7 +41,8 @@
                     matTooltip="Recarregar">
                 <mat-icon>refresh</mat-icon>
             </button>
-<button class="toggle-filter" mat-icon-button
+
+            <button class="toggle-filter" mat-icon-button
                     (click)="toggleFilter()"
                     aria-label="filtrar"
                     matTooltip="Filtrar">
@@ -90,7 +91,7 @@
             </ng-container>
 
             <!-- Tarefa Column -->
-            <ng-container matColumnDef="tarefa.especieTarefa.nome">
+            <ng-container *ngIf="displayedColumns.indexOf('tarefa.especieTarefa.nome') > -1" matColumnDef="tarefa.especieTarefa.nome">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     Tarefa
                 </th>
@@ -99,21 +100,113 @@
             </ng-container>
 
             <!-- Documento Column -->
-            <ng-container matColumnDef="documento.descricaoOutros">
+            <ng-container *ngIf="displayedColumns.indexOf('documento.tipoDocumento.nome') > -1" matColumnDef="documento.tipoDocumento.nome">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     Documento
                 </th>
                 <td mat-cell *matCellDef="let vinculacaoEtiqueta" class='has_label_on_mobile' data-label='Documento: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoEtiqueta.id) > -1}"> {{vinculacaoEtiqueta.documento?.descricaoOutros}} </td>
+                    [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoEtiqueta.id) > -1}"> {{vinculacaoEtiqueta.documento?.tipoDocumento?.nome}} </td>
             </ng-container>
 
             <!-- Processo Column -->
-            <ng-container matColumnDef="processo.descricaoOutros.NUP">
+            <ng-container *ngIf="displayedColumns.indexOf('processo.NUP') > -1" matColumnDef="processo.NUP">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     Processo
                 </th>
                 <td mat-cell *matCellDef="let vinculacaoEtiqueta" class='has_label_on_mobile' data-label='Processo: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoEtiqueta.id) > -1}"> {{vinculacaoEtiqueta.processo?.descricaoOutros?.NUP}} </td>
+                    [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoEtiqueta.id) > -1}"> {{vinculacaoEtiqueta.processo?.NUP}} </td>
+            </ng-container>
+
+            <!-- Conteudo Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('conteudo') > -1" matColumnDef="conteudo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Conteúdo
+                </th>
+                <td mat-cell *matCellDef="let vinculacaoEtiqueta" class='has_label_on_mobile' data-label='Conteúdo: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoEtiqueta.id) > -1}"> {{vinculacaoEtiqueta.conteudo}} </td>
+            </ng-container>
+
+            <!-- Privada Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('privada') > -1" matColumnDef="privada">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Privada
+                </th>
+                <td mat-cell *matCellDef="let vinculacaoEtiqueta" class='has_label_on_mobile' data-label='Privada: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoEtiqueta.id) > -1}">
+                    <mat-checkbox [disabled]="true" [checked]="vinculacaoEtiqueta.privada"></mat-checkbox>
+                </td>
+            </ng-container>
+
+            <!-- DataHoraExpiracao Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('dataHoraExpiracao') > -1" matColumnDef="dataHoraExpiracao">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Data Expiração
+                </th>
+                <td mat-cell *matCellDef="let vinculacaoEtiqueta" class='has_label_on_mobile' data-label='Data Expiração: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoEtiqueta.id) > -1}"> {{vinculacaoEtiqueta.dataHoraExpiracao | date: 'dd/MM/yyyy'}} </td>
+            </ng-container>
+
+            <!-- Usuario Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('usuario.nome') > -1" matColumnDef="usuario.nome">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Usuário
+                </th>
+                <td mat-cell *matCellDef="let vinculacaoEtiqueta" class='has_label_on_mobile' data-label='Usuário: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoEtiqueta.id) > -1}"> {{vinculacaoEtiqueta.usuario?.nome}} </td>
+            </ng-container>
+
+            <!-- CriadoPor Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('criadoPor.nome') > -1" matColumnDef="criadoPor.nome">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Criado Por
+                </th>
+                <td mat-cell *matCellDef="let vinculacaoEtiqueta" class='has_label_on_mobile' data-label='Criado Por: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoEtiqueta.id) > -1}"> {{vinculacaoEtiqueta.criadoPor?.nome}} </td>
+            </ng-container>
+
+            <!-- CriadoEm Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('criadoEm') > -1" matColumnDef="criadoEm">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Criado Em
+                </th>
+                <td mat-cell *matCellDef="let vinculacaoEtiqueta" class='has_label_on_mobile' data-label='Criado Em: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoEtiqueta.id) > -1}"> {{vinculacaoEtiqueta.criadoEm | date: 'dd/MM/yyyy'}} </td>
+            </ng-container>
+
+            <!-- AtualizadoPor Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1" matColumnDef="atualizadoPor.nome">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Atualizado Por
+                </th>
+                <td mat-cell *matCellDef="let vinculacaoEtiqueta" class='has_label_on_mobile' data-label='Atualizado Por: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoEtiqueta.id) > -1}"> {{vinculacaoEtiqueta.atualizadoPor?.nome}} </td>
+            </ng-container>
+
+            <!-- AtualizadoEm Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('atualizadoEm') > -1" matColumnDef="atualizadoEm">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Atualizado Em
+                </th>
+                <td mat-cell *matCellDef="let vinculacaoEtiqueta" class='has_label_on_mobile' data-label='Atualizado Em: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoEtiqueta.id) > -1}"> {{vinculacaoEtiqueta.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
+            </ng-container>
+
+            <!-- ApagadoPor Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('apagadoPor.nome') > -1" matColumnDef="apagadoPor.nome">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Apagado Por
+                </th>
+                <td mat-cell *matCellDef="let vinculacaoEtiqueta" class='has_label_on_mobile' data-label='Apagado Por: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoEtiqueta.id) > -1}"> {{vinculacaoEtiqueta.apagadoPor?.nome}} </td>
+            </ng-container>
+
+            <!-- ApagadoEm Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('apagadoEm') > -1" matColumnDef="apagadoEm">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Apagado Em
+                </th>
+                <td mat-cell *matCellDef="let vinculacaoEtiqueta" class='has_label_on_mobile' data-label='Apagado Em: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoEtiqueta.id) > -1}"> {{vinculacaoEtiqueta.apagadoEm | date: 'dd/MM/yyyy'}} </td>
             </ng-container>
 
             <!-- Actions Column -->

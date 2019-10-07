@@ -11,10 +11,11 @@ import {fuseAnimations} from '@fuse/animations';
 
 import {MatPaginator, MatSort} from '@angular/material';
 
-import {tap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
 import {Tramitacao} from '@cdk/models/tramitacao.model';
 import {TramitacaoDataSource} from '@cdk/data-sources/tramitacao-data-source';
+import {FormControl} from "@angular/forms";
 
 @Component({
     selector: 'cdk-tramitacao-grid',
@@ -38,6 +39,91 @@ export class CdkTramitacaoGridComponent implements AfterViewInit, OnInit, OnChan
     @Input()
     displayedColumns: string[] = ['select', 'id', 'observacao', 'urgente', 'setorOrigem.nome', 'setorDestino.nome',
         'dataHoraRecebimento', 'usuarioRecebimento.nome', 'actions'];
+
+    allColumns: any[] = [
+        {
+            id: 'select',
+            label: '',
+            fixed: true
+        },
+        {
+            id: 'processo.NUP',
+            label: 'NUP',
+            fixed: true
+        },
+        {
+            id: 'observacao',
+            label: 'Observação',
+            fixed: true
+        },
+        {
+            id: 'urgente',
+            label: 'urgente',
+            fixed: false
+        },
+        {
+            id: 'setorOrigem.nome',
+            label: 'setorOrigem.nome',
+            fixed: false
+        },
+        {
+            id: 'setorDestino.nome',
+            label: 'setorDestino.nome',
+            fixed: false
+        },
+        {
+            id: 'dataHoraRecebimento',
+            label: 'dataHoraRecebimento',
+            fixed: false
+        },
+        {
+            id: 'usuarioRecebimento.nome',
+            label: 'usuarioRecebimento.nome',
+            fixed: false
+        },
+        {
+            id: 'pessoaDestino.nome',
+            label: 'Pessoa Destino',
+            fixed: false
+        },
+        {
+            id: 'criadoPor.nome',
+            label: 'Criado Por',
+            fixed: false
+        },
+        {
+            id: 'criadoEm',
+            label: 'Criado Em',
+            fixed: false
+        },
+        {
+            id: 'atualizadoPor.nome',
+            label: 'Atualizado Por',
+            fixed: false
+        },
+        {
+            id: 'atualizadoEm',
+            label: 'Atualizado Em',
+            fixed: false
+        },
+        {
+            id: 'apagadoPor.nome',
+            label: 'Apagado Por',
+            fixed: false
+        },
+        {
+            id: 'apagadoEm',
+            label: 'Apagado Em',
+            fixed: false
+        },
+        {
+            id: 'actions',
+            label: '',
+            fixed: true
+        }
+    ];
+
+    columns = new FormControl();
 
     @Input()
     deletingIds: number[] = [];
@@ -100,7 +186,6 @@ export class CdkTramitacaoGridComponent implements AfterViewInit, OnInit, OnChan
     }
 
     ngOnInit(): void {
-
         this.paginator._intl.itemsPerPageLabel = 'Registros por página';
         this.paginator._intl.nextPageLabel = 'Seguinte';
         this.paginator._intl.previousPageLabel = 'Anterior';
@@ -108,6 +193,24 @@ export class CdkTramitacaoGridComponent implements AfterViewInit, OnInit, OnChan
         this.paginator.pageSize = this.pageSize;
 
         this.dataSource = new TramitacaoDataSource(of(this.tramitacoes));
+
+        this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
+
+        this.columns.valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((values) => {
+                this.displayedColumns = [];
+                this.allColumns.forEach(c => {
+                    if (c.fixed || (values.indexOf(c.id) > -1)) {
+                        this.displayedColumns.push(c.id);
+                    }
+                });
+                this._changeDetectorRef.markForCheck();
+                return of([]);
+            })
+        ).subscribe();
+
     }
 
     ngAfterViewInit(): void {

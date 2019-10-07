@@ -8,12 +8,13 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatSelectModule,
 } from '@angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
-import { AssuntoAdministrativoService } from '@cdk/services/assunto-administrativo.service';
-import { CdkAssuntoAdministrativoGridComponent} from './cdk-assunto-administrativo-grid.component';
-import { CdkAssuntoAdministrativoAutocompleteModule } from '@cdk/components/assunto-administrativo/cdk-assunto-administrativo-autocomplete/cdk-assunto-administrativo-autocomplete.module';
+import {FuseSharedModule} from '@fuse/shared.module';
+import {AssuntoAdministrativoService} from '@cdk/services/assunto-administrativo.service';
+import {CdkAssuntoAdministrativoGridComponent} from './cdk-assunto-administrativo-grid.component';
+import {CdkAssuntoAdministrativoAutocompleteModule} from '@cdk/components/assunto-administrativo/cdk-assunto-administrativo-autocomplete/cdk-assunto-administrativo-autocomplete.module';
 import {CdkAssuntoAdministrativoGridFilterModule} from './cdk-assunto-administrativo-grid-filter/cdk-assunto-administrativo-grid-filter.module';
 
 @NgModule({
@@ -21,7 +22,7 @@ import {CdkAssuntoAdministrativoGridFilterModule} from './cdk-assunto-administra
         CdkAssuntoAdministrativoGridComponent
     ],
     imports: [
-
+        MatSelectModule,
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,

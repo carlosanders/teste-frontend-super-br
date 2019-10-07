@@ -8,6 +8,7 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatSelectModule,
 } from '@angular/material';
 
 import {FuseSharedModule} from '@fuse/shared.module';
@@ -20,6 +21,7 @@ import {CdkLogentryGridFilterModule} from './cdk-logentry-grid-filter/cdk-logent
         CdkLogentryGridComponent
     ],
     imports: [
+        MatSelectModule,
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,
@@ -28,8 +30,10 @@ import {CdkLogentryGridFilterModule} from './cdk-logentry-grid-filter/cdk-logent
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
+
+        CdkLogentryGridFilterModule,
+
         FuseSharedModule,
-        CdkLogentryGridFilterModule
     ],
     providers: [
         LogEntryService,

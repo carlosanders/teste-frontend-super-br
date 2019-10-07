@@ -7,7 +7,9 @@ import {
     MatProgressSpinnerModule,
     MatTableModule,
     MatPaginatorModule,
-    MatSortModule, MatTooltipModule,
+    MatSortModule,
+    MatTooltipModule,
+    MatSelectModule,
 } from '@angular/material';
 
 import {FuseSharedModule} from '@fuse/shared.module';
@@ -20,6 +22,7 @@ import {CdkJuntadaGridFilterModule} from './cdk-juntada-grid-filter/cdk-juntada-
         CdkJuntadaGridComponent
     ],
     imports: [
+        MatSelectModule,
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,
@@ -29,8 +32,10 @@ import {CdkJuntadaGridFilterModule} from './cdk-juntada-grid-filter/cdk-juntada-
         MatPaginatorModule,
         MatSortModule,
         MatTooltipModule,
+
+        CdkJuntadaGridFilterModule,
+
         FuseSharedModule,
-        CdkJuntadaGridFilterModule
     ],
     providers: [
         JuntadaService,

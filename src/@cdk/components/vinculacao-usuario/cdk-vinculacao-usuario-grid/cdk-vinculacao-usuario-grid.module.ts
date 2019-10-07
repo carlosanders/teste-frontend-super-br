@@ -8,6 +8,7 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatSelectModule,
 } from '@angular/material';
 
 import {FuseSharedModule} from '@fuse/shared.module';
@@ -21,6 +22,7 @@ import {CdkVinculacaoUsuarioGridFilterModule} from './cdk-vinculacao-usuario-gri
         CdkVinculacaoUsuarioGridComponent
     ],
     imports: [
+        MatSelectModule,
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,
@@ -29,9 +31,11 @@ import {CdkVinculacaoUsuarioGridFilterModule} from './cdk-vinculacao-usuario-gri
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
+
         CdkVinculacaoUsuarioAutocompleteModule,
+        CdkVinculacaoUsuarioGridFilterModule,
+
         FuseSharedModule,
-        CdkVinculacaoUsuarioGridFilterModule
     ],
     providers: [
         VinculacaoUsuarioService,

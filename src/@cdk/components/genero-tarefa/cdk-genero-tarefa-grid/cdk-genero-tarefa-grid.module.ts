@@ -8,6 +8,7 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatSelectModule,
 } from '@angular/material';
 
 import {FuseSharedModule} from '@fuse/shared.module';
@@ -21,6 +22,7 @@ import {CdkGeneroTarefaGridFilterModule} from './cdk-genero-tarefa-grid-filter/c
         CdkGeneroTarefaGridComponent
     ],
     imports: [
+        MatSelectModule,
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,
@@ -29,9 +31,11 @@ import {CdkGeneroTarefaGridFilterModule} from './cdk-genero-tarefa-grid-filter/c
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
+
         CdkGeneroTarefaAutocompleteModule,
+        CdkGeneroTarefaGridFilterModule,
+
         FuseSharedModule,
-        CdkGeneroTarefaGridFilterModule
     ],
     providers: [
         GeneroTarefaService,

@@ -8,6 +8,7 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatSelectModule,
 } from '@angular/material';
 
 import {FuseSharedModule} from '@fuse/shared.module';
@@ -20,6 +21,7 @@ import {CdkLotacaoGridFilterModule} from './cdk-lotacao-grid-filter/cdk-lotacao-
         CdkLotacaoGridComponent
     ],
     imports: [
+        MatSelectModule,
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,
@@ -28,8 +30,10 @@ import {CdkLotacaoGridFilterModule} from './cdk-lotacao-grid-filter/cdk-lotacao-
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
+
+        CdkLotacaoGridFilterModule,
+
         FuseSharedModule,
-        CdkLotacaoGridFilterModule
     ],
     providers: [
         LotacaoService,

@@ -13,7 +13,7 @@
 
         <div class="actions m-8" fxFlex fxLayout="row" fxLayoutAlign="end center">
 
-             <button class="back" mat-icon-button *ngIf="actions.indexOf('cancel') > -1"
+            <button class="back" mat-icon-button *ngIf="actions.indexOf('cancel') > -1"
                     (click)="doCancel()"
                     aria-label="cancelar"
                     matTooltip="Cancelar">
@@ -41,7 +41,8 @@
                     matTooltip="Recarregar">
                 <mat-icon>refresh</mat-icon>
             </button>
-<button class="toggle-filter" mat-icon-button
+
+            <button class="toggle-filter" mat-icon-button
                     (click)="toggleFilter()"
                     aria-label="filtrar"
                     matTooltip="Filtrar">
@@ -268,8 +269,8 @@
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     Criado Por
                 </th>
-                <td mat-cell *matCellDef="let processo" class='has_label_on_mobile' data-label='Criado Por: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(processo.id) > -1}"> {{processo.criadoPor?.nome}} </td>
+                <td mat-cell *matCellDef="let setor" class='has_label_on_mobile' data-label='Criado Por: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1}"> {{setor.criadoPor?.nome}} </td>
             </ng-container>
 
             <!-- CriadoEm Column -->
@@ -277,8 +278,8 @@
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     Criado Em
                 </th>
-                <td mat-cell *matCellDef="let processo" class='has_label_on_mobile' data-label='Criado Em: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(processo.id) > -1}"> {{processo.criadoEm | date: 'dd/MM/yyyy'}} </td>
+                <td mat-cell *matCellDef="let setor" class='has_label_on_mobile' data-label='Criado Em: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1}"> {{setor.criadoEm | date: 'dd/MM/yyyy'}} </td>
             </ng-container>
 
             <!-- AtualizadoPor Column -->
@@ -286,8 +287,8 @@
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     Atualizado Por
                 </th>
-                <td mat-cell *matCellDef="let processo" class='has_label_on_mobile' data-label='Atualizado Por: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(processo.id) > -1}"> {{processo.atualizadoPor?.nome}} </td>
+                <td mat-cell *matCellDef="let setor" class='has_label_on_mobile' data-label='Atualizado Por: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1}"> {{setor.atualizadoPor?.nome}} </td>
             </ng-container>
 
             <!-- AtualizadoEm Column -->
@@ -295,8 +296,8 @@
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     Atualizado Em
                 </th>
-                <td mat-cell *matCellDef="let processo" class='has_label_on_mobile' data-label='Atualizado Em: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(processo.id) > -1}"> {{processo.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
+                <td mat-cell *matCellDef="let setor" class='has_label_on_mobile' data-label='Atualizado Em: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1}"> {{setor.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
             </ng-container>
 
             <!-- ApagadoPor Column -->
@@ -304,8 +305,8 @@
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     Apagado Por
                 </th>
-                <td mat-cell *matCellDef="let processo" class='has_label_on_mobile' data-label='Apagado Por: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(processo.id) > -1}"> {{processo.apagadoPor?.nome}} </td>
+                <td mat-cell *matCellDef="let setor" class='has_label_on_mobile' data-label='Apagado Por: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1}"> {{setor.apagadoPor?.nome}} </td>
             </ng-container>
 
             <!-- ApagadoEm Column -->
@@ -313,8 +314,8 @@
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     Apagado Em
                 </th>
-                <td mat-cell *matCellDef="let processo" class='has_label_on_mobile' data-label='Apagado Em: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(processo.id) > -1}"> {{processo.apagadoEm | date: 'dd/MM/yyyy'}} </td>
+                <td mat-cell *matCellDef="let setor" class='has_label_on_mobile' data-label='Apagado Em: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1}"> {{setor.apagadoEm | date: 'dd/MM/yyyy'}} </td>
             </ng-container>
 
             <!-- Actions Column -->

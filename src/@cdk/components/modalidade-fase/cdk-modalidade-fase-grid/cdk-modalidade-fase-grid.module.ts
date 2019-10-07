@@ -8,6 +8,7 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatSelectModule,
 } from '@angular/material';
 
 import { FuseSharedModule } from '@fuse/shared.module';
@@ -21,7 +22,7 @@ import {CdkModalidadeFaseGridFilterModule} from './cdk-modalidade-fase-grid-filt
         CdkModalidadeFaseGridComponent
     ],
     imports: [
-
+        MatSelectModule,
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,

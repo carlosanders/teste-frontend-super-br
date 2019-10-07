@@ -48,7 +48,6 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
     @Input()
     displayedColumns: string[] = ['select', 'id', 'NUP', 'setorAtual.nome', 'unidade', 'actions'];
 
-
     allColumns: any[] = [
         {
             id: 'select',
@@ -117,7 +116,7 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
         },
         {
             id: 'titulo',
-            label: 'Titúlo',
+            label: 'Título',
             fixed: false
         },
         {
@@ -275,7 +274,6 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
     }
 
     ngOnInit(): void {
-
         this.paginator._intl.itemsPerPageLabel = 'Registros por página';
         this.paginator._intl.nextPageLabel = 'Seguinte';
         this.paginator._intl.previousPageLabel = 'Anterior';

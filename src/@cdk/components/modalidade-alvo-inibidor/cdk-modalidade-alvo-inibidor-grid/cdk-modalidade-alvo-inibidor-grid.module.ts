@@ -8,12 +8,13 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatSelectModule,
 } from '@angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
-import { ModalidadeAlvoInibidorService } from '@cdk/services/modalidade-alvo-inibidor.service';
-import { CdkModalidadeAlvoInibidorGridComponent} from './cdk-modalidade-alvo-inibidor-grid.component';
-import { CdkModalidadeAlvoInibidorAutocompleteModule } from '@cdk/components/modalidade-alvo-inibidor/cdk-modalidade-alvo-inibidor-autocomplete/cdk-modalidade-alvo-inibidor-autocomplete.module';
+import {FuseSharedModule} from '@fuse/shared.module';
+import {ModalidadeAlvoInibidorService} from '@cdk/services/modalidade-alvo-inibidor.service';
+import {CdkModalidadeAlvoInibidorGridComponent} from './cdk-modalidade-alvo-inibidor-grid.component';
+import {CdkModalidadeAlvoInibidorAutocompleteModule} from '@cdk/components/modalidade-alvo-inibidor/cdk-modalidade-alvo-inibidor-autocomplete/cdk-modalidade-alvo-inibidor-autocomplete.module';
 import {CdkModalidadeAlvoInibidorGridFilterModule} from './cdk-modalidade-alvo-inibidor-grid-filter/cdk-modalidade-alvo-inibidor-grid-filter.module';
 
 @NgModule({
@@ -21,7 +22,7 @@ import {CdkModalidadeAlvoInibidorGridFilterModule} from './cdk-modalidade-alvo-i
         CdkModalidadeAlvoInibidorGridComponent
     ],
     imports: [
-
+        MatSelectModule,
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,

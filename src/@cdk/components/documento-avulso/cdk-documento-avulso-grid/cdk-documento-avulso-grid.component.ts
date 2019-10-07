@@ -11,10 +11,11 @@ import {fuseAnimations} from '@fuse/animations';
 
 import {MatPaginator, MatSort} from '@angular/material';
 
-import {tap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
 import {DocumentoAvulso} from '@cdk/models/documento-avulso.model';
 import {DocumentoAvulsoDataSource} from '@cdk/data-sources/documento-avulso-data-source';
+import {FormControl} from "@angular/forms";
 
 @Component({
     selector: 'cdk-documento-avulso-grid',
@@ -36,7 +37,197 @@ export class CdkDocumentoAvulsoGridComponent implements AfterViewInit, OnInit, O
     total = 0;
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'especieDocumentoAvulso', 'destinatario', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'especieDocumentoAvulso.nome', 'destinatario', 'actions'];
+
+    allColumns: any[] = [
+        {
+            id: 'select',
+            label: '',
+            fixed: true
+        },
+        {
+            id: 'id',
+            label: 'Id',
+            fixed: true
+        },
+        {
+            id: 'especieDocumentoAvulso.nome',
+            label: 'Espécie de Documento Avulso',
+            fixed: true
+        },
+        {
+            id: 'setorOrigem.nome',
+            label: 'Setor de Origem',
+            fixed: false
+        },
+        {
+            id: 'observacao',
+            label: 'Observação',
+            fixed: false
+        },
+        {
+            id: 'urgente',
+            label: 'Urgente',
+            fixed: false
+        },
+        {
+            id: 'modelo.nome',
+            label: 'Modelo',
+            fixed: false
+        },
+        {
+            id: 'dataHoraEncerramento',
+            label: 'Data Encerramento',
+            fixed: false
+        },
+        {
+            id: 'dataHoraInicioPrazo',
+            label: 'Data do Início Prazo',
+            fixed: false
+        },
+        {
+            id: 'dataHoraFinalPrazo',
+            label: 'Data do Final do Prazo',
+            fixed: false
+        },
+        {
+            id: 'dataHoraConclusaoPrazo',
+            label: 'Data da Conclusão do Prazo',
+            fixed: false
+        },
+        {
+            id: 'pessoaDestino.nome',
+            label: 'Pessoa de Destino',
+            fixed: false
+        },
+        {
+            id: 'setorDestino.nome',
+            label: 'Setor de Destino',
+            fixed: false
+        },
+        {
+            id: 'dataHoraRemessa',
+            label: 'Data Remessa',
+            fixed: false
+        },
+        {
+            id: 'dataHoraResposta',
+            label: 'Data Resposta',
+            fixed: false
+        },
+        {
+            id: 'dataHoraReiteracao',
+            label: 'Data Reiteração',
+            fixed: false
+        },
+        {
+            id: 'documentoResposta.tipoDocumento.nome',
+            label: 'Documento de Resposta',
+            fixed: false
+        },
+        {
+            id: 'documentoRemessa.tipoDocumento.nome',
+            label: 'Documento de Remessa',
+            fixed: false
+        },
+        {
+            id: 'usuarioResponsavel.nome',
+            label: 'Usuário Responsável',
+            fixed: false
+        },
+        {
+            id: 'usuarioResposta.nome',
+            label: 'Usuário Resposta',
+            fixed: false
+        },
+        {
+            id: 'usuarioRemessa.nome',
+            label: 'Usuário Remessa',
+            fixed: false
+        },
+        {
+            id: 'setorResponsavel.nome',
+            label: 'Setor de Responsável',
+            fixed: false
+        },
+        {
+            id: 'processo.NUP',
+            label: 'NUP',
+            fixed: false
+        },
+        {
+            id: 'documentoAvulsoOrigem.especieDocumentoAvulso.nome',
+            label: 'Documento Avulso de Origem',
+            fixed: false
+        },
+        {
+            id: 'tarefaOrigem.especieTarefa.nome',
+            label: 'Tarefa',
+            fixed: false
+        },
+        {
+            id: 'postIt',
+            label: 'Post It',
+            fixed: false
+        },
+        {
+            id: 'distribuicaoAutomatica',
+            label: 'Distribuição Automática',
+            fixed: false
+        },
+        {
+            id: 'livreBalanceamento',
+            label: 'Livre Balanceamento',
+            fixed: false
+        },
+        {
+            id: 'auditoriaDistribuicao',
+            label: 'Auditoria de Distribuição',
+            fixed: false
+        },
+        {
+            id: 'tipoDistribuicao',
+            label: 'Tipo de Distribuição',
+            fixed: false
+        },
+        {
+            id: 'criadoPor.nome',
+            label: 'Criado Por',
+            fixed: false
+        },
+        {
+            id: 'criadoEm',
+            label: 'Criado Em',
+            fixed: false
+        },
+        {
+            id: 'atualizadoPor.nome',
+            label: 'Atualizado Por',
+            fixed: false
+        },
+        {
+            id: 'atualizadoEm',
+            label: 'Atualizado Em',
+            fixed: false
+        },
+        {
+            id: 'apagadoPor.nome',
+            label: 'Apagado Por',
+            fixed: false
+        },
+        {
+            id: 'apagadoEm',
+            label: 'Apagado Em',
+            fixed: false
+        },
+        {
+            id: 'actions',
+            label: '',
+            fixed: true
+        }
+    ];
+
+    columns = new FormControl();
 
     @Input()
     deletingIds: number[] = [];
@@ -110,6 +301,23 @@ export class CdkDocumentoAvulsoGridComponent implements AfterViewInit, OnInit, O
         this.paginator.pageSize = this.pageSize;
 
         this.dataSource = new DocumentoAvulsoDataSource(of(this.documentosAvulsos));
+
+        this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
+
+        this.columns.valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((values) => {
+                this.displayedColumns = [];
+                this.allColumns.forEach(c => {
+                    if (c.fixed || (values.indexOf(c.id) > -1)) {
+                        this.displayedColumns.push(c.id);
+                    }
+                });
+                this._changeDetectorRef.markForCheck();
+                return of([]);
+            })
+        ).subscribe();
     }
 
     ngAfterViewInit(): void {

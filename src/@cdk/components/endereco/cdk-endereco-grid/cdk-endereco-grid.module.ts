@@ -8,20 +8,21 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatSelectModule,
 } from '@angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
-import { MunicipioService } from '@cdk/services/municipio.service';
-import { CdkMunicipioAutocompleteModule } from '@cdk/components/municipio/cdk-municipio-autocomplete/cdk-municipio-autocomplete.module';
-import { CdkEnderecoGridComponent} from './cdk-endereco-grid.component';
-import { CdkEnderecoGridFilterModule } from './cdk-endereco-grid-filter/cdk-endereco-grid-filter.module';
+import {FuseSharedModule} from '@fuse/shared.module';
+import {MunicipioService} from '@cdk/services/municipio.service';
+import {CdkMunicipioAutocompleteModule} from '@cdk/components/municipio/cdk-municipio-autocomplete/cdk-municipio-autocomplete.module';
+import {CdkEnderecoGridComponent} from './cdk-endereco-grid.component';
+import {CdkEnderecoGridFilterModule} from './cdk-endereco-grid-filter/cdk-endereco-grid-filter.module';
 
 @NgModule({
     declarations: [
         CdkEnderecoGridComponent
     ],
     imports: [
-        
+        MatSelectModule,
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,

@@ -36,7 +36,7 @@ export class CdkClassificacaoGridComponent implements AfterViewInit, OnInit, OnC
     total = 0;
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'codigo', 'nome', 'modalidadeDestinacao.valor', 'parent.nome', 'permissaoUso', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'codigo', 'nome', 'modalidadeDestinacao.valor', 'permissaoUso', 'actions'];
 
     allColumns: any[] = [
         {

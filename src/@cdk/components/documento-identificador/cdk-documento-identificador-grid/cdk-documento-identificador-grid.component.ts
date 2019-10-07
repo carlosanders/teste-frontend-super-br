@@ -11,9 +11,10 @@ import {fuseAnimations} from '@fuse/animations';
 
 import {MatPaginator, MatSort} from '@angular/material';
 
-import {tap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 import {DocumentoIdentificadorDataSource} from '@cdk/data-sources/documento-identificador-data-source';
 import {DocumentoIdentificador} from '@cdk/models/documento-identificador.model';
+import {FormControl} from "@angular/forms";
 
 @Component({
     selector: 'cdk-documento-identificador-grid',
@@ -35,7 +36,88 @@ export class CdkDocumentoIdentificadorGridComponent implements AfterViewInit, On
     total = 0;
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'modalidadeDocumentoIdentificador.valor', 'codigoDocumento', 'emissorDocumento', 'dataEmissao', 'origemDados', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'modalidadeDocumentoIdentificador.valor', 'codigoDocumento', 'emissorDocumento',
+        'dataEmissao', 'origemDados.fonteDados', 'actions'];
+
+    allColumns: any[] = [
+        {
+            id: 'select',
+            label: '',
+            fixed: true
+        },
+        {
+            id: 'id',
+            label: 'Id',
+            fixed: true
+        },
+        {
+            id: 'modalidadeDocumentoIdentificador.valor',
+            label: 'Modalidade do Documento Identificador',
+            fixed: true
+        },
+        {
+            id: 'codigoDocumento',
+            label: 'Código do Documento',
+            fixed: false
+        },
+        {
+            id: 'emissorDocumento',
+            label: 'Emissor do Documento',
+            fixed: false
+        },
+        {
+            id: 'dataEmissao',
+            label: 'Data da Emissão',
+            fixed: false
+        },
+        {
+            id: 'origemDados.fonteDados',
+            label: 'Origem de Dados',
+            fixed: false
+        },
+        {
+            id: 'pessoa.nome',
+            label: 'Pessoa',
+            fixed: false
+        },
+        {
+            id: 'criadoPor.nome',
+            label: 'Criado Por',
+            fixed: false
+        },
+        {
+            id: 'criadoEm',
+            label: 'Criado Em',
+            fixed: false
+        },
+        {
+            id: 'atualizadoPor.nome',
+            label: 'Atualizado Por',
+            fixed: false
+        },
+        {
+            id: 'atualizadoEm',
+            label: 'Atualizado Em',
+            fixed: false
+        },
+        {
+            id: 'apagadoPor.nome',
+            label: 'Apagado Por',
+            fixed: false
+        },
+        {
+            id: 'apagadoEm',
+            label: 'Apagado Em',
+            fixed: false
+        },
+        {
+            id: 'actions',
+            label: '',
+            fixed: true
+        }
+    ];
+
+    columns = new FormControl();
 
     @Input()
     deletingIds: number[] = [];
@@ -105,6 +187,23 @@ export class CdkDocumentoIdentificadorGridComponent implements AfterViewInit, On
         this.paginator.pageSize = this.pageSize;
 
         this.dataSource = new DocumentoIdentificadorDataSource(of(this.documentoIdentificadors));
+
+        this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
+
+        this.columns.valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((values) => {
+                this.displayedColumns = [];
+                this.allColumns.forEach(c => {
+                    if (c.fixed || (values.indexOf(c.id) > -1)) {
+                        this.displayedColumns.push(c.id);
+                    }
+                });
+                this._changeDetectorRef.markForCheck();
+                return of([]);
+            })
+        ).subscribe();
     }
 
     ngAfterViewInit(): void {

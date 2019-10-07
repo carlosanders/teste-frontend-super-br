@@ -11,10 +11,11 @@ import {fuseAnimations} from '@fuse/animations';
 
 import {MatPaginator, MatSort} from '@angular/material';
 
-import {tap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
 import {Sigilo} from '@cdk/models/sigilo.model';
 import {SigiloDataSource} from '@cdk/data-sources/sigilo-data-source';
+import {FormControl} from "@angular/forms";
 
 @Component({
     selector: 'cdk-sigilo-grid',
@@ -38,6 +39,116 @@ export class CdkSigiloGridComponent implements AfterViewInit, OnInit, OnChanges 
     @Input()
     displayedColumns: string[] = ['select', 'id', 'desclassificado', 'dataHoraValidadeSigilo', 'dataHoraExpiracao',
         'modalidadeCategoriaSigilo.valor', 'tipoSigilo.nome',  'actions'];
+
+    allColumns: any[] = [
+        {
+            id: 'select',
+            label: '',
+            fixed: true
+        },
+        {
+            id: 'id',
+            label: 'Id',
+            fixed: true
+        },
+        {
+            id: 'tipoSigilo.nome',
+            label: 'Tipo de Sigilo',
+            fixed: true
+        },
+        {
+            id: 'desclassificado',
+            label: 'Desclassificado',
+            fixed: false
+        },
+        {
+            id: 'observacao',
+            label: 'Observação',
+            fixed: false
+        },
+        {
+            id: 'codigoIndexacao',
+            label: 'Código de Indexacao',
+            fixed: false
+        },
+        {
+            id: 'fundamentoLegal',
+            label: 'Fundamento Legal',
+            fixed: false
+        },
+        {
+            id: 'dataHoraValidadeSigilo',
+            label: 'Data da Validade do Sigilo',
+            fixed: false
+        },
+        {
+            id: 'dataHoraInicioSigilo',
+            label: 'Data do Início do Sigilo',
+            fixed: false
+        },
+        {
+            id: 'nivelAcesso',
+            label: 'Nível de Acesso',
+            fixed: false
+        },
+        {
+            id: 'modalidadeCategoriaSigilo.valor',
+            label: 'Modalidade da Categoria do Sigilo',
+            fixed: false
+        },
+        {
+            id: 'processo.NUP',
+            label: 'NUP',
+            fixed: false
+        },
+        {
+            id: 'documento.tipoDocumento.nome',
+            label: 'Documento',
+            fixed: false
+        },
+        {
+            id: 'origemDados.fonteDados',
+            label: 'Origem de Dados',
+            fixed: false
+        },
+        {
+            id: 'criadoPor.nome',
+            label: 'Criado Por',
+            fixed: false
+        },
+        {
+            id: 'criadoEm',
+            label: 'Criado Em',
+            fixed: false
+        },
+        {
+            id: 'atualizadoPor.nome',
+            label: 'Atualizado Por',
+            fixed: false
+        },
+        {
+            id: 'atualizadoEm',
+            label: 'Atualizado Em',
+            fixed: false
+        },
+        {
+            id: 'apagadoPor.nome',
+            label: 'Apagado Por',
+            fixed: false
+        },
+        {
+            id: 'apagadoEm',
+            label: 'Apagado Em',
+            fixed: false
+        },
+        {
+            id: 'actions',
+            label: '',
+            fixed: true
+        }
+    ];
+
+    columns = new FormControl();
 
     @Input()
     deletingIds: number[] = [];
@@ -100,7 +211,6 @@ export class CdkSigiloGridComponent implements AfterViewInit, OnInit, OnChanges 
     }
 
     ngOnInit(): void {
-
         this.paginator._intl.itemsPerPageLabel = 'Registros por página';
         this.paginator._intl.nextPageLabel = 'Seguinte';
         this.paginator._intl.previousPageLabel = 'Anterior';
@@ -108,6 +218,24 @@ export class CdkSigiloGridComponent implements AfterViewInit, OnInit, OnChanges 
         this.paginator.pageSize = this.pageSize;
 
         this.dataSource = new SigiloDataSource(of(this.sigilos));
+
+        this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
+
+        this.columns.valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((values) => {
+                this.displayedColumns = [];
+                this.allColumns.forEach(c => {
+                    if (c.fixed || (values.indexOf(c.id) > -1)) {
+                        this.displayedColumns.push(c.id);
+                    }
+                });
+                this._changeDetectorRef.markForCheck();
+                return of([]);
+            })
+        ).subscribe();
+
     }
 
     ngAfterViewInit(): void {

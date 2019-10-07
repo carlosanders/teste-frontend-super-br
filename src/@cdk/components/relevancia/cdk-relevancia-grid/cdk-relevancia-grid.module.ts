@@ -8,6 +8,7 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatSelectModule,
 } from '@angular/material';
 
 import {FuseSharedModule} from '@fuse/shared.module';
@@ -21,6 +22,7 @@ import {CdkRelevanciaGridFilterModule} from './cdk-relevancia-grid-filter/cdk-re
         CdkRelevanciaGridComponent
     ],
     imports: [
+        MatSelectModule,
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,
@@ -29,9 +31,11 @@ import {CdkRelevanciaGridFilterModule} from './cdk-relevancia-grid-filter/cdk-re
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
+
         CdkRelevanciaAutocompleteModule,
+        CdkRelevanciaGridFilterModule,
+
         FuseSharedModule,
-        CdkRelevanciaGridFilterModule
     ],
     providers: [
         RelevanciaService,

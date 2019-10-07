@@ -13,7 +13,7 @@
 
         <div class="actions m-8" fxFlex fxLayout="row" fxLayoutAlign="end center">
 
-             <button class="back" mat-icon-button *ngIf="actions.indexOf('cancel') > -1"
+            <button class="back" mat-icon-button *ngIf="actions.indexOf('cancel') > -1"
                     (click)="doCancel()"
                     aria-label="cancelar"
                     matTooltip="Cancelar">
@@ -41,7 +41,8 @@
                     matTooltip="Recarregar">
                 <mat-icon>refresh</mat-icon>
             </button>
-<button class="toggle-filter" mat-icon-button
+            
+            <button class="toggle-filter" mat-icon-button
                     (click)="toggleFilter()"
                     aria-label="filtrar"
                     matTooltip="Filtrar">
@@ -80,15 +81,6 @@
                     [ngClass]="{'deleted':deletedIds?.indexOf(modalidaderepresentante.id) > -1}"> &nbsp;{{modalidaderepresentante.id}} </td>
             </ng-container>
 
-            <!-- Valor Column -->
-            <ng-container matColumnDef="valor">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Valor
-                </th>
-                <td mat-cell *matCellDef="let modalidaderepresentante" class='has_label_on_mobile' data-label='Valor: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(modalidaderepresentante.id) > -1}"> {{modalidaderepresentante.valor}} </td>
-            </ng-container>
-
             <!-- Descrição Column -->
             <ng-container matColumnDef="descricao">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
@@ -96,6 +88,80 @@
                 </th>
                 <td mat-cell *matCellDef="let modalidaderepresentante" class='has_label_on_mobile' data-label='Descrição: '
                     [ngClass]="{'deleted':deletedIds?.indexOf(modalidaderepresentante.id) > -1}"> {{modalidaderepresentante.descricao}} </td>
+            </ng-container>
+
+            <!-- Valor Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('valor') > -1" matColumnDef="valor">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Valor
+                </th>
+                <td mat-cell *matCellDef="let modalidaderepresentante" class='has_label_on_mobile' data-label='Valor: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(modalidaderepresentante.id) > -1}"> {{modalidaderepresentante.valor}} </td>
+            </ng-container>
+
+            <!-- Ativo Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('ativo') > -1" matColumnDef="ativo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Ativo
+                </th>
+                <td mat-cell *matCellDef="let modalidaderepresentante" class='has_label_on_mobile' data-label='Ativo: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(modalidaderepresentante.id) > -1}">
+                    <mat-checkbox [disabled]="true" [checked]="modalidaderepresentante.ativo"></mat-checkbox>
+                </td>
+            </ng-container>
+
+            <!-- CriadoPor Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('criadoPor.nome') > -1" matColumnDef="criadoPor.nome">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Criado Por
+                </th>
+                <td mat-cell *matCellDef="let modalidaderepresentante" class='has_label_on_mobile' data-label='Criado Por: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(modalidaderepresentante.id) > -1}"> {{modalidaderepresentante.criadoPor?.nome}} </td>
+            </ng-container>
+
+            <!-- CriadoEm Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('criadoEm') > -1" matColumnDef="criadoEm">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Criado Em
+                </th>
+                <td mat-cell *matCellDef="let modalidaderepresentante" class='has_label_on_mobile' data-label='Criado Em: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(modalidaderepresentante.id) > -1}"> {{modalidaderepresentante.criadoEm | date: 'dd/MM/yyyy'}} </td>
+            </ng-container>
+
+            <!-- AtualizadoPor Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1" matColumnDef="atualizadoPor.nome">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Atualizado Por
+                </th>
+                <td mat-cell *matCellDef="let modalidaderepresentante" class='has_label_on_mobile' data-label='Atualizado Por: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(modalidaderepresentante.id) > -1}"> {{modalidaderepresentante.atualizadoPor?.nome}} </td>
+            </ng-container>
+
+            <!-- AtualizadoEm Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('atualizadoEm') > -1" matColumnDef="atualizadoEm">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Atualizado Em
+                </th>
+                <td mat-cell *matCellDef="let modalidaderepresentante" class='has_label_on_mobile' data-label='Atualizado Em: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(modalidaderepresentante.id) > -1}"> {{modalidaderepresentante.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
+            </ng-container>
+
+            <!-- ApagadoPor Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('apagadoPor.nome') > -1" matColumnDef="apagadoPor.nome">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Apagado Por
+                </th>
+                <td mat-cell *matCellDef="let modalidaderepresentante" class='has_label_on_mobile' data-label='Apagado Por: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(modalidaderepresentante.id) > -1}"> {{modalidaderepresentante.apagadoPor?.nome}} </td>
+            </ng-container>
+
+            <!-- ApagadoEm Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('apagadoEm') > -1" matColumnDef="apagadoEm">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Apagado Em
+                </th>
+                <td mat-cell *matCellDef="let modalidaderepresentante" class='has_label_on_mobile' data-label='Apagado Em: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(modalidaderepresentante.id) > -1}"> {{modalidaderepresentante.apagadoEm | date: 'dd/MM/yyyy'}} </td>
             </ng-container>
 
             <!-- Actions Column -->

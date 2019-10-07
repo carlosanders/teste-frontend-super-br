@@ -8,6 +8,7 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatSelectModule,
 } from '@angular/material';
 
 import {FuseSharedModule} from '@fuse/shared.module';
@@ -21,6 +22,7 @@ import {CdkOrigemDadosGridFilterModule} from './cdk-origem-dados-grid-filter/cdk
         CdkOrigemDadosGridComponent
     ],
     imports: [
+        MatSelectModule,
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,
@@ -29,9 +31,11 @@ import {CdkOrigemDadosGridFilterModule} from './cdk-origem-dados-grid-filter/cdk
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
+
         CdkOrigemDadosAutocompleteModule,
+        CdkOrigemDadosGridFilterModule,
+
         FuseSharedModule,
-        CdkOrigemDadosGridFilterModule
     ],
     providers: [
         OrigemDadosService,

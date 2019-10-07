@@ -8,6 +8,7 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatSelectModule,
 } from '@angular/material';
 
 import {FuseSharedModule} from '@fuse/shared.module';
@@ -29,9 +30,12 @@ import {CdkRoleGridFilterModule} from './cdk-role-grid-filter/cdk-role-grid-filt
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
+        MatSelectModule,
+
         CdkRoleAutocompleteModule,
+        CdkRoleGridFilterModule,
+
         FuseSharedModule,
-        CdkRoleGridFilterModule
     ],
     providers: [
         RoleService,

@@ -245,7 +245,6 @@ export class CdkSetorGridComponent implements AfterViewInit, OnInit, OnChanges {
     }
 
     ngOnInit(): void {
-
         this.paginator._intl.itemsPerPageLabel = 'Registros por página';
         this.paginator._intl.nextPageLabel = 'Seguinte';
         this.paginator._intl.previousPageLabel = 'Anterior';
