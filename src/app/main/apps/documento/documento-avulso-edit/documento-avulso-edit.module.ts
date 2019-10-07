@@ -7,7 +7,11 @@ import {DocumentoAvulsoEditComponent} from './documento-avulso-edit.component';
 import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
 import {DocumentoStoreModule} from '../store/store.module';
 import {CdkDocumentoAvulsoFormModule} from '@cdk/components/documento-avulso/cdk-documento-avulso-form/cdk-documento-avulso-form.module';
-import {MatButtonModule, MatIconModule, MatProgressSpinnerModule, MatSlideToggleModule, MatTooltipModule} from '@angular/material';
+import {MatButtonModule, MatIconModule, MatMenuModule, MatProgressSpinnerModule, MatSlideToggleModule, MatTooltipModule} from '@angular/material';
+import {CdkDocumentoCardListModule} from '@cdk/components/documento/cdk-documento-card-list/cdk-documento-card-list.module';
+import {CdkComponenteDigitalCardListModule} from '@cdk/components/componente-digital/cdk-componente-digital-card-list/cdk-componente-digital-card-list.module';
+import {CdkRepositorioGridModule} from '@cdk/components/repositorio/cdk-repositorio-grid/cdk-repositorio-grid.module';
+import {CdkUploadModule} from '@cdk/components/upload/cdk-upload.module';
 
 const routes: Routes = [
     {
@@ -40,6 +44,11 @@ const routes: Routes = [
         MatTooltipModule,
         MatProgressSpinnerModule,
         MatSlideToggleModule,
+        MatMenuModule,
+        CdkDocumentoCardListModule,
+        CdkComponenteDigitalCardListModule,
+        CdkRepositorioGridModule,
+        CdkUploadModule,
     ],
     providers: [
         DocumentoAvulsoService
