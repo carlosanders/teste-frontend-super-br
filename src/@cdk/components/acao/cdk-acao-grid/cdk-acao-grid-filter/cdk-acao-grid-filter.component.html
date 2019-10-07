@@ -1,0 +1,16 @@
+<form class="p-24 mb-16" fxLayoutGap="16px" fxLayout="column" fxLayoutAlign="start"
+      name="form" [formGroup]="form">
+
+    <div fxFlex="1 0 auto" fxLayout="column">
+
+        <mat-form-field fxFlex="100">
+            <mat-label>Contexto</mat-label>
+            <input matInput #acao
+                   name="acao"
+                   formControlName="acao"
+                   maxlength="255">
+            <mat-hint align="end">{{acao.value.length}} / 255</mat-hint>
+        </mat-form-field>
+
+    </div>
+</form>

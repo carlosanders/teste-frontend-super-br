@@ -1,0 +1,9 @@
+<cdk-acao-grid
+        [loading]="loading"
+        [acaos]="acaos"
+        [total]="total"
+        [actions]="['select', 'cancel']"
+        (select)="select($event)"
+        (cancel)="doCancel()"
+        (reload)="reload($event)">
+</cdk-acao-grid>

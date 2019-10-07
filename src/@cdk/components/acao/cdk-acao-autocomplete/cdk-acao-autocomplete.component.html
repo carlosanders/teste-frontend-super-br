@@ -1,0 +1,9 @@
+<mat-autocomplete [displayWith]="displayAcaoFn">
+    <mat-option *ngFor="let acao of acaoList"
+                [value]="acao">
+        <span [innerHTML]="displayAcaoFn(acao) | highlightOption: this.control.value"></span>
+    </mat-option>
+    <mat-option *ngIf="acaoListIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>

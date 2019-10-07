@@ -1,0 +1,9 @@
+d<cdk-assinatura-grid
+        [loading]="loading"
+        [assinaturas]="assinaturas"
+        [total]="total"
+        [actions]="['select', 'cancel']"
+        (select)="select($event)"
+        (cancel)="doCancel()"
+        (reload)="reload($event)">
+</cdk-assinatura-grid>
