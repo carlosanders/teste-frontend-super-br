@@ -8,7 +8,7 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
-    MatSelectModule,
+    MatSelectModule, MatTooltipModule,
 } from '@angular/material';
 
 import {FuseSharedModule} from '@fuse/shared.module';
@@ -35,7 +35,8 @@ import {CdkDistribuicaoGridFilterModule} from './cdk-distribuicao-grid-filter/cd
         FuseSharedModule,
 
         CdkDistribuicaoAutocompleteModule,
-        CdkDistribuicaoGridFilterModule
+        CdkDistribuicaoGridFilterModule,
+        MatTooltipModule
     ],
     providers: [
         DistribuicaoService,

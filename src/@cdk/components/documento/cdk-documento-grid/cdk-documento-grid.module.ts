@@ -8,7 +8,7 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
-    MatSelectModule,
+    MatSelectModule, MatTooltipModule,
 } from '@angular/material';
 
 import {FuseSharedModule} from '@fuse/shared.module';
@@ -37,6 +37,7 @@ import {ComponenteDigitalService} from '@cdk/services/componente-digital.service
         CdkDocumentoGridFilterModule,
 
         FuseSharedModule,
+        MatTooltipModule,
     ],
     providers: [
         TipoDocumentoService,

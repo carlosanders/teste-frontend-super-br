@@ -23,6 +23,8 @@ export class CdkEspecieTarefaGridFilterComponent implements OnInit {
 
     form: FormGroup;
 
+    filters: any = {};
+
     /**
      * Constructor
      */
@@ -31,7 +33,8 @@ export class CdkEspecieTarefaGridFilterComponent implements OnInit {
     ) {
 
         this.form = this._formBuilder.group({
-            nome: [null]
+            nome: [null],
+            generoTarefa: [null]
         });
 
     }
@@ -45,7 +48,28 @@ export class CdkEspecieTarefaGridFilterComponent implements OnInit {
      */
     ngOnInit(): void {
         this.form.get('nome').valueChanges.subscribe(value => {
-            this.selected.emit({nome: `like:${value}%`});
+            this.filters = {
+                ...this.filters,
+                nome: `like:${value}%`
+            };
+            this.selected.emit(this.filters);
+        });
+
+        this.form.get('generoTarefa').valueChanges.subscribe(value => {
+            if (typeof value === 'object' && value) {
+                this.filters = {
+                    ...this.filters,
+                    'generoTarefa.id': `eq:${value.id}`
+                };
+                this.selected.emit(this.filters);
+            } else {
+                if (this.filters.hasOwnProperty('generoTarefa.id')) {
+                    delete this.filters['generoTarefa.id'];
+                }
+            }
+            if (!value) {
+                this.selected.emit(this.filters);
+            }
         });
     }
 

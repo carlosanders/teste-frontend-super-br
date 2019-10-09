@@ -13,12 +13,8 @@ import {MatPaginator, MatSort} from '@angular/material';
 
 import {LogEntry} from '@cdk/models/logentry.model';
 import {LogEntryDataSource} from '@cdk/data-sources/logentry-data-source';
-<<<<<<< HEAD
-import {debounceTime, distinctUntilChanged, switchMap} from "rxjs/operators";
-import {FormControl} from "@angular/forms";
-=======
-import {tap} from 'rxjs/operators';
->>>>>>> master
+import {FormControl} from '@angular/forms';
+import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
 @Component({
     selector: 'cdk-logentry-grid',
@@ -183,16 +179,12 @@ export class CdkLogentryGridComponent implements AfterViewInit, OnInit, OnChange
     }
 
     ngOnInit(): void {
-<<<<<<< HEAD
-=======
-
         this.paginator._intl.itemsPerPageLabel = 'Registros por página';
         this.paginator._intl.nextPageLabel = 'Seguinte';
         this.paginator._intl.previousPageLabel = 'Anterior';
 
         this.paginator.pageSize = this.pageSize;
 
->>>>>>> master
         this.dataSource = new LogEntryDataSource(of(this.logEntrys));
 
         this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));

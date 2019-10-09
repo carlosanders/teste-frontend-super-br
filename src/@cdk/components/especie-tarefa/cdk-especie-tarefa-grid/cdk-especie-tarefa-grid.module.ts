@@ -40,7 +40,7 @@ import {CdkEspecieTarefaGridFilterModule} from './cdk-especie-tarefa-grid-filter
         FuseSharedModule,
     ],
     providers: [
-        EspecieTarefaService,
+        EspecieTarefaService
     ],
     exports: [
         CdkEspecieTarefaGridComponent
