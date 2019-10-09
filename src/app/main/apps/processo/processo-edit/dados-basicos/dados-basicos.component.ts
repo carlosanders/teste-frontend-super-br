@@ -40,6 +40,7 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
 
     especieProcessoPagination: Pagination;
     setorAtualPagination: Pagination;
+    classificacaoPagination: Pagination;
 
     routerState: any;
 
@@ -65,10 +66,9 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
         this._profile = this._loginService.getUserProfile();
 
         this.especieProcessoPagination = new Pagination();
-        this.especieProcessoPagination.populate = ['generoProcesso'];
+        this.logEntryPagination = new Pagination();
         this.setorAtualPagination = new Pagination();
-        this.setorAtualPagination.populate = ['unidade'];
-        this.setorAtualPagination.filter = {id: 'in:' + this._profile.lotacoes.map(lotacao => lotacao.setor.id).join(',')};
+        this.classificacaoPagination = new Pagination();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -97,8 +97,11 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
                 }
             });
 
-        this.logEntryPagination = new Pagination();
+        this.classificacaoPagination.populate = ['parent'];
         this.logEntryPagination.filter = {entity: 'App\\Entity\\Processo', id: + this.processo.id};
+        this.especieProcessoPagination.populate = ['generoProcesso'];
+        this.setorAtualPagination.populate = ['unidade', 'parent'];
+        this.setorAtualPagination.filter = {id: 'in:' + this._profile.lotacoes.map(lotacao => lotacao.setor.id).join(',')};
     }
 
     /**

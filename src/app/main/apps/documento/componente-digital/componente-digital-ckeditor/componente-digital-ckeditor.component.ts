@@ -16,6 +16,7 @@ import {takeUntil} from 'rxjs/operators';
 import {getMercureState, getRouterState} from '../../../../../store/reducers';
 import {getRepositorioComponenteDigital} from '../../store/selectors';
 import {SetQueryRepositorios, SetRepositorioComponenteDigital} from '../../store/actions';
+import {Pagination} from '../../../../../../@cdk/models/pagination';
 
 @Component({
     selector: 'componente-digital-ckeditor',
@@ -46,6 +47,9 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
     assinandoDocumentosId: number[] = [];
     javaWebStartOK = false;
 
+    btVersoes = true;
+    logEntryPagination: Pagination;
+
     /**
      * @param _changeDetectorRef
      * @param _store
@@ -73,6 +77,16 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
             takeUntil(this._unsubscribeAll)
         ).subscribe(cd => {
             this.componenteDigital = cd;
+
+            if (!this.componenteDigital.id) {
+                this.btVersoes = false;
+            } else {
+                this.logEntryPagination = new Pagination();
+                this.logEntryPagination.filter = {
+                    'entity': 'App\\Entity\\ComponenteDigital',
+                    'target': 'hash',
+                    'id': + this.componenteDigital.id};
+            }
         });
 
         this.saving$.pipe(
@@ -155,6 +169,13 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
      */
     doSave(data: any): void {
         this._store.dispatch(new fromStore.SaveComponenteDigital({componenteDigital: this.componenteDigital, data: data.conteudo, hashAntigo: data.hashAntigo}));
+    }
+
+    /**
+     * @param data
+     */
+    doRevertComponenteDigital(data: any): void {
+        this._store.dispatch(new fromStore.RevertComponenteDigital({componenteDigital: this.componenteDigital, hash: data.toString() }));
     }
 
     doAssinar(): void {

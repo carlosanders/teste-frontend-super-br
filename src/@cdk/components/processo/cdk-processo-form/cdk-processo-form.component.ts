@@ -56,9 +56,6 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     procedenciaPagination: Pagination;
 
     @Input()
-    classificacaoPagination: Pagination;
-
-    @Input()
     modalidadeFasePagination: Pagination;
 
     @Input()
@@ -66,6 +63,9 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
     @Input()
     setorAtualPagination: Pagination;
+
+    @Input()
+    classificacaoPagination: Pagination;
 
     @Output()
     save = new EventEmitter<Processo>();
@@ -166,6 +166,9 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
         }
 
         this.form.get('modalidadeFase').disable();
+
+        console.log (this.classificacaoPagination);
+        console.log (this.setorAtualPagination);
     }
 
 

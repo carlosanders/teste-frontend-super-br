@@ -1,0 +1,11 @@
+<h1 mat-dialog-title>Versões do documento</h1>
+
+<div mat-dialog-content>
+    <cdk-versao-gridsearch
+        [pagination]="data.logEntryPagination"
+        (reverter)="revert($event)"
+    ></cdk-versao-gridsearch>
+</div>
+<div mat-dialog-actions>
+    <button mat-button mat-dialog-close>Cancelar</button>
+</div>

@@ -77,7 +77,8 @@ export class CdkLogentryGridsearchComponent implements OnInit {
             .pipe(finalize(() => this.loading = false),
                 catchError(() => of([]))
             ).subscribe(response => {
-                this.logEntrys = response;
+                this.logEntrys = response['entities'];
+                this.total = response['total'];
                 this._changeDetectorRef.markForCheck();
             });
     }
@@ -92,10 +93,7 @@ export class CdkLogentryGridsearchComponent implements OnInit {
             sort: params.sort,
             limit: params.limit,
             offset: params.offset,
-            populate: [
-                ...this.pagination.populate,
-                ...params.populate
-            ]
+            populate: this.pagination.populate
         };
         this.load (params);
     }

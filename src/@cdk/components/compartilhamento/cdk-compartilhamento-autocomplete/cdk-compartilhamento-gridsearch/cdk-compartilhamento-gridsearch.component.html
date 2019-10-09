@@ -3,7 +3,7 @@ d<cdk-compartilhamento-grid
         [compartilhamentos]="compartilhamentos"
         [total]="total"
         [actions]="['select', 'cancel']"
-        (select)="select($event)"
+        (selected)="select($event)"
         (cancel)="doCancel()"
         (reload)="reload($event)">
 </cdk-compartilhamento-grid>

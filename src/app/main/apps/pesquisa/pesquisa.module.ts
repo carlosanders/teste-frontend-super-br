@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {
     MatButtonModule,
-    MatIconModule,
+    MatIconModule, MatRippleModule,
 } from '@angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 
@@ -53,7 +53,8 @@ const routes: Routes = [
         TranslateModule,
 
         FuseSharedModule,
-        FuseSidebarModule
+        FuseSidebarModule,
+        MatRippleModule
     ],
     providers: [
     ]

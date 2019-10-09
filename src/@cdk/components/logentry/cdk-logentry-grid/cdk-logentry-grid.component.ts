@@ -5,7 +5,7 @@ import {
     OnInit, ViewChild, AfterViewInit,
     ViewEncapsulation, Input, OnChanges, Output, EventEmitter
 } from '@angular/core';
-import {of} from 'rxjs';
+import {merge, of} from 'rxjs';
 
 import {fuseAnimations} from '@fuse/animations';
 
@@ -13,8 +13,12 @@ import {MatPaginator, MatSort} from '@angular/material';
 
 import {LogEntry} from '@cdk/models/logentry.model';
 import {LogEntryDataSource} from '@cdk/data-sources/logentry-data-source';
+<<<<<<< HEAD
 import {debounceTime, distinctUntilChanged, switchMap} from "rxjs/operators";
 import {FormControl} from "@angular/forms";
+=======
+import {tap} from 'rxjs/operators';
+>>>>>>> master
 
 @Component({
     selector: 'cdk-logentry-grid',
@@ -175,9 +179,20 @@ export class CdkLogentryGridComponent implements AfterViewInit, OnInit, OnChange
 
     ngOnChanges(): void {
         this.dataSource = new LogEntryDataSource(of(this.logEntrys));
+        this.paginator.length = this.total;
     }
 
     ngOnInit(): void {
+<<<<<<< HEAD
+=======
+
+        this.paginator._intl.itemsPerPageLabel = 'Registros por página';
+        this.paginator._intl.nextPageLabel = 'Seguinte';
+        this.paginator._intl.previousPageLabel = 'Anterior';
+
+        this.paginator.pageSize = this.pageSize;
+
+>>>>>>> master
         this.dataSource = new LogEntryDataSource(of(this.logEntrys));
 
         this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
@@ -200,6 +215,16 @@ export class CdkLogentryGridComponent implements AfterViewInit, OnInit, OnChange
     }
 
     ngAfterViewInit(): void {
+
+        // reset the paginator after sorting
+        this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
+
+        merge(
+            this.sort.sortChange,
+            this.paginator.page
+        ).pipe(
+            tap(() => this.loadPage())
+        ).subscribe();
 
     }
 

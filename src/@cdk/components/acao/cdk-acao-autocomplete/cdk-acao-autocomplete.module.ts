@@ -1,11 +1,12 @@
 import {NgModule} from '@angular/core';
 import {
     MatProgressSpinnerModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatSelectModule,
 } from '@angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
-import { AcaoService } from '@cdk/services/acao.service';
+import {FuseSharedModule} from '@fuse/shared.module';
+import {AcaoService} from '@cdk/services/acao.service';
 import {CdkAcaoAutocompleteComponent} from './cdk-acao-autocomplete.component';
 import {PipesModule} from '../../../pipes/pipes.module';
 
@@ -14,7 +15,7 @@ import {PipesModule} from '../../../pipes/pipes.module';
         CdkAcaoAutocompleteComponent,
     ],
     imports: [
-
+        MatSelectModule,
         MatAutocompleteModule,
         MatProgressSpinnerModule,
 
