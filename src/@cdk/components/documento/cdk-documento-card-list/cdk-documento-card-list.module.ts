@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {
     MatButtonModule,
     MatIconModule,
-    MatCardModule,
+    MatCardModule, MatCheckboxModule, MatMenuModule,
 } from '@angular/material';
 
 import { FuseSharedModule } from '@fuse/shared.module';
@@ -22,6 +22,8 @@ import {CdkDocumentoCardModule} from './cdk-documento-card/cdk-documento-card.mo
         CdkDocumentoCardModule,
 
         FuseSharedModule,
+        MatCheckboxModule,
+        MatMenuModule,
     ],
     providers: [
     ],
