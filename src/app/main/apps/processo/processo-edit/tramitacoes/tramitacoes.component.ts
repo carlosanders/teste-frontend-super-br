@@ -51,13 +51,13 @@ export class TramitacoesComponent implements OnInit, OnDestroy {
             ).subscribe(routerState => {
             if (routerState) {
                 this.routerState = routerState.state;
-                if (this.routerState.url.indexOf('tramitacoes/listar') > -1) {
+                if (this.routerState.url.indexOf('remessas/listar') > -1) {
                     this.action = 'listar';
                 }
-                if (this.routerState.url.indexOf('tramitacoes/editar') > -1) {
+                if (this.routerState.url.indexOf('remessas/editar') > -1) {
                     this.action = 'editar';
                 }
-                if (this.routerState.url.indexOf('tramitacoes/criar') > -1) {
+                if (this.routerState.url.indexOf('remessas/criar') > -1) {
                     this.action = 'criar';
                 }
                 this._changeDetectorRef.markForCheck();

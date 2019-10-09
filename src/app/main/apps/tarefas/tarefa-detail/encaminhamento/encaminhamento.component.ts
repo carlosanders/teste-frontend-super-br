@@ -96,7 +96,7 @@ export class EncaminhamentoComponent implements OnInit, OnDestroy {
         }
         if (values.options === 'remeter') {
             this._router.navigate([
-                'apps/processo/' + this.tarefa.processo.id + '/editar/tramitacoes/editar/criar'
+                'apps/processo/' + this.tarefa.processo.id + '/editar/remessas/editar/criar'
             ]).then();
         }
     }

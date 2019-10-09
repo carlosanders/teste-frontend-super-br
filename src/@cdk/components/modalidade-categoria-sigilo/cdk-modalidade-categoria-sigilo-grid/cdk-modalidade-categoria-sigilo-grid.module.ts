@@ -8,12 +8,13 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatSelectModule,
 } from '@angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
-import { ModalidadeCategoriaSigiloService } from '@cdk/services/modalidade-categoria-sigilo.service';
-import { CdkModalidadeCategoriaSigiloGridComponent} from './cdk-modalidade-categoria-sigilo-grid.component';
-import { CdkModalidadeCategoriaSigiloAutocompleteModule } from '@cdk/components/modalidade-categoria-sigilo/cdk-modalidade-categoria-sigilo-autocomplete/cdk-modalidade-categoria-sigilo-autocomplete.module';
+import {FuseSharedModule} from '@fuse/shared.module';
+import {ModalidadeCategoriaSigiloService} from '@cdk/services/modalidade-categoria-sigilo.service';
+import {CdkModalidadeCategoriaSigiloGridComponent} from './cdk-modalidade-categoria-sigilo-grid.component';
+import {CdkModalidadeCategoriaSigiloAutocompleteModule} from '@cdk/components/modalidade-categoria-sigilo/cdk-modalidade-categoria-sigilo-autocomplete/cdk-modalidade-categoria-sigilo-autocomplete.module';
 import {CdkModalidadeCategoriaSigiloGridFilterModule} from './cdk-modalidade-categoria-sigilo-grid-filter/cdk-modalidade-categoria-sigilo-grid-filter.module';
 
 @NgModule({
@@ -21,7 +22,7 @@ import {CdkModalidadeCategoriaSigiloGridFilterModule} from './cdk-modalidade-cat
         CdkModalidadeCategoriaSigiloGridComponent
     ],
     imports: [
-
+        MatSelectModule,
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,

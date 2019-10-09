@@ -11,9 +11,10 @@ import {fuseAnimations} from '@fuse/animations';
 
 import {MatPaginator, MatSort} from '@angular/material';
 
-import {tap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 import {ColaboradorDataSource} from '@cdk/data-sources/colaborador-data-source';
 import {Colaborador} from '@cdk/models/colaborador.model';
+import {FormControl} from "@angular/forms";
 
 @Component({
     selector: 'cdk-colaborador-grid',
@@ -36,6 +37,71 @@ export class CdkColaboradorGridComponent implements AfterViewInit, OnInit, OnCha
 
     @Input()
     displayedColumns: string[] = ['select', 'id', 'usuario.nome', 'cargo.nome', 'modalidadeColaborador.valor', 'actions'];
+
+    allColumns: any[] = [
+        {
+            id: 'select',
+            label: '',
+            fixed: true
+        },
+        {
+            id: 'id',
+            label: 'Id',
+            fixed: true
+        },
+        {
+            id: 'usuario.nome',
+            label: 'Nome',
+            fixed: true
+        },
+        {
+            id: 'cargo.nome',
+            label: 'Cargo',
+            fixed: false
+        },
+        {
+            id: 'modalidadeColaborador.valor',
+            label: 'Modalidade do Colaborador',
+            fixed: false
+        },
+        {
+            id: 'criadoPor.nome',
+            label: 'Criado Por',
+            fixed: false
+        },
+        {
+            id: 'criadoEm',
+            label: 'Criado Em',
+            fixed: false
+        },
+        {
+            id: 'atualizadoPor.nome',
+            label: 'Atualizado Por',
+            fixed: false
+        },
+        {
+            id: 'atualizadoEm',
+            label: 'Atualizado Em',
+            fixed: false
+        },
+        {
+            id: 'apagadoPor.nome',
+            label: 'Apagado Por',
+            fixed: false
+        },
+        {
+            id: 'apagadoEm',
+            label: 'Apagado Em',
+            fixed: false
+        },
+        {
+            id: 'actions',
+            label: '',
+            fixed: true
+        }
+    ];
+
+    columns = new FormControl();
 
     @Input()
     deletingIds: number[] = [];
@@ -105,6 +171,23 @@ export class CdkColaboradorGridComponent implements AfterViewInit, OnInit, OnCha
         this.paginator.pageSize = this.pageSize;
 
         this.dataSource = new ColaboradorDataSource(of(this.colaboradors));
+
+        this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
+
+        this.columns.valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((values) => {
+                this.displayedColumns = [];
+                this.allColumns.forEach(c => {
+                    if (c.fixed || (values.indexOf(c.id) > -1)) {
+                        this.displayedColumns.push(c.id);
+                    }
+                });
+                this._changeDetectorRef.markForCheck();
+                return of([]);
+            })
+        ).subscribe();
     }
 
     ngAfterViewInit(): void {

@@ -30,7 +30,8 @@ export class CdkTarefaListMainSidebarComponent implements OnInit
 
         this.form = this._formBuilder.group({
             processo: [null],
-            especieTarefa: [null]
+            especieTarefa: [null],
+            usuarioResponsavel: [null],
         });
 
     }

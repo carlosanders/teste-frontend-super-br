@@ -11,10 +11,11 @@ import {fuseAnimations} from '@fuse/animations';
 
 import {MatPaginator, MatSort} from '@angular/material';
 
-import {tap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
 import {VinculacaoProcesso} from '@cdk/models/vinculacao-processo.model';
 import {VinculacaoProcessoDataSource} from '@cdk/data-sources/vinculacao-processo-data-source';
+import {FormControl} from "@angular/forms";
 
 @Component({
     selector: 'cdk-vinculacao-processo-grid',
@@ -36,7 +37,78 @@ export class CdkVinculacaoProcessoGridComponent implements AfterViewInit, OnInit
     total = 0;
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'processo.NUP', 'processoVinculado.NUP', 'modalidadeVinculacaoProcesso.valor', 'observacao', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'processo.NUP', 'processoVinculado.NUP', 'modalidadeVinculacaoProcesso.valor',
+        'observacao', 'actions'];
+
+    allColumns: any[] = [
+        {
+            id: 'select',
+            label: '',
+            fixed: true
+        },
+        {
+            id: 'id',
+            label: 'Id',
+            fixed: true
+        },
+        {
+            id: 'processo.NUP',
+            label: 'NUP',
+            fixed: true
+        },
+        {
+            id: 'processoVinculado.NUP',
+            label: 'Processo Vinculado',
+            fixed: false
+        },
+        {
+            id: 'modalidadeVinculacaoProcesso.valor',
+            label: 'Modalidade da Vinculacao do Processo',
+            fixed: false
+        },
+        {
+            id: 'observacao',
+            label: 'Observação',
+            fixed: false
+        },
+        {
+            id: 'criadoPor.nome',
+            label: 'Criado Por',
+            fixed: false
+        },
+        {
+            id: 'criadoEm',
+            label: 'Criado Em',
+            fixed: false
+        },
+        {
+            id: 'atualizadoPor.nome',
+            label: 'Atualizado Por',
+            fixed: false
+        },
+        {
+            id: 'atualizadoEm',
+            label: 'Atualizado Em',
+            fixed: false
+        },
+        {
+            id: 'apagadoPor.nome',
+            label: 'Apagado Por',
+            fixed: false
+        },
+        {
+            id: 'apagadoEm',
+            label: 'Apagado Em',
+            fixed: false
+        },
+        {
+            id: 'actions',
+            label: '',
+            fixed: true
+        }
+    ];
+
+    columns = new FormControl();
 
     @Input()
     deletingIds: number[] = [];
@@ -99,7 +171,6 @@ export class CdkVinculacaoProcessoGridComponent implements AfterViewInit, OnInit
     }
 
     ngOnInit(): void {
-
         this.paginator._intl.itemsPerPageLabel = 'Registros por página';
         this.paginator._intl.nextPageLabel = 'Seguinte';
         this.paginator._intl.previousPageLabel = 'Anterior';
@@ -107,6 +178,23 @@ export class CdkVinculacaoProcessoGridComponent implements AfterViewInit, OnInit
         this.paginator.pageSize = this.pageSize;
 
         this.dataSource = new VinculacaoProcessoDataSource(of(this.vinculacoesProcessos));
+
+        this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
+
+        this.columns.valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((values) => {
+                this.displayedColumns = [];
+                this.allColumns.forEach(c => {
+                    if (c.fixed || (values.indexOf(c.id) > -1)) {
+                        this.displayedColumns.push(c.id);
+                    }
+                });
+                this._changeDetectorRef.markForCheck();
+                return of([]);
+            })
+        ).subscribe();
     }
 
     ngAfterViewInit(): void {

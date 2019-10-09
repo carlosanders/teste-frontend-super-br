@@ -7,7 +7,9 @@ import {
     MatProgressSpinnerModule,
     MatTableModule,
     MatPaginatorModule,
-    MatSortModule, MatTooltipModule,
+    MatSortModule,
+    MatTooltipModule,
+    MatSelectModule,
 } from '@angular/material';
 
 import { FuseSharedModule } from '@fuse/shared.module';
@@ -21,7 +23,7 @@ import { CdkInteressadoGridFilterModule } from './cdk-interessado-grid-filter/cd
         CdkInteressadoGridComponent
     ],
     imports: [
-
+        MatSelectModule,
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,
@@ -30,12 +32,12 @@ import { CdkInteressadoGridFilterModule } from './cdk-interessado-grid-filter/cd
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
+        MatTooltipModule,
 
         CdkModalidadeInteressadoAutocompleteModule,
         CdkInteressadoGridFilterModule,
 
         FuseSharedModule,
-        MatTooltipModule,
     ],
     providers: [
         ModalidadeInteressadoService,

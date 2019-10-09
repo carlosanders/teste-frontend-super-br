@@ -8,6 +8,7 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatSelectModule,
 } from '@angular/material';
 
 import {FuseSharedModule} from '@fuse/shared.module';
@@ -21,6 +22,7 @@ import {CdkRepresentanteGridFilterModule} from './cdk-representante-grid-filter/
         CdkRepresentanteGridComponent
     ],
     imports: [
+        MatSelectModule,
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,
@@ -29,9 +31,11 @@ import {CdkRepresentanteGridFilterModule} from './cdk-representante-grid-filter/
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
+
         CdkRepresentanteAutocompleteModule,
+        CdkRepresentanteGridFilterModule,
+
         FuseSharedModule,
-        CdkRepresentanteGridFilterModule
     ],
     providers: [
         RepresentanteService,

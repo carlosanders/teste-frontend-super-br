@@ -13,7 +13,7 @@
 
         <div class="actions" fxFlex fxLayout="row" fxLayoutAlign="end center">
 
-             <button class="back" mat-icon-button *ngIf="actions.indexOf('cancel') > -1"
+            <button class="back" mat-icon-button *ngIf="actions.indexOf('cancel') > -1"
                     (click)="doCancel()"
                     aria-label="cancelar"
                     matTooltip="Cancelar">
@@ -26,6 +26,14 @@
                     matTooltip="Remover">
                 <mat-icon>delete</mat-icon>
             </button>
+
+            <mat-form-field class="colunas mr-8">
+                <mat-select [formControl]="columns" multiple>
+                    <div *ngFor="let column of allColumns">
+                        <mat-option *ngIf="!column.fixed" [value]="column.id">{{ column.label }}</mat-option>
+                    </div>
+                </mat-select>
+            </mat-form-field>
 
             <button class="refresh" mat-icon-button
                     (click)="loadPage()"
@@ -83,7 +91,7 @@
             </ng-container>
 
             <!-- Descricao Column -->
-            <ng-container matColumnDef="descricao">
+            <ng-container *ngIf="displayedColumns.indexOf('descricao') > -1" matColumnDef="descricao">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     Descrição
                 </th>
@@ -92,7 +100,7 @@
             </ng-container>
 
             <!-- ModalidadeTemplate Column -->
-            <ng-container matColumnDef="modalidadeTemplate.valor">
+            <ng-container *ngIf="displayedColumns.indexOf('modalidadeTemplate.valor') > -1" matColumnDef="modalidadeTemplate.valor">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     Modalidade do Template
                 </th>
@@ -101,7 +109,7 @@
             </ng-container>
 
             <!-- Documento Column -->
-            <ng-container matColumnDef="documento.descricaoOutros">
+            <ng-container *ngIf="displayedColumns.indexOf('documento.descricaoOutros') > -1" matColumnDef="documento.descricaoOutros">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     Documento
                 </th>

@@ -11,9 +11,10 @@ import {fuseAnimations} from '@fuse/animations';
 
 import {MatPaginator, MatSort} from '@angular/material';
 
-import {tap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 import {TarefaDataSource} from '@cdk/data-sources/tarefa-data-source';
 import {Tarefa} from '@cdk/models/tarefa.model';
+import {FormControl} from "@angular/forms";
 
 @Component({
     selector: 'cdk-tarefa-grid',
@@ -35,8 +36,133 @@ export class CdkTarefaGridComponent implements AfterViewInit, OnInit, OnChanges 
     total = 0;
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'processo.nup', 'especieTarefa.nome',
-                                    'dataHoraInicioPrazo', 'dataHoraFinalPrazo', 'vinculacoesEtiquetas.etiqueta.conteudo', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'processo.nup', 'especieTarefa.nome', 'dataHoraInicioPrazo',
+        'dataHoraFinalPrazo', 'vinculacoesEtiquetas.etiqueta.conteudo', 'actions'];
+
+    allColumns: any[] = [
+        {
+            id: 'select',
+            label: '',
+            fixed: true
+        },
+        {
+            id: 'id',
+            label: 'Id',
+            fixed: true
+        },
+        {
+            id: 'processo.nup',
+            label: 'NUP',
+            fixed: true
+        },
+        {
+            id: 'postIt',
+            label: 'Post It',
+            fixed: false
+        },
+        {
+            id: 'urgente',
+            label: 'Urgente',
+            fixed: false
+        },
+        {
+            id: 'observacao',
+            label: 'Observação',
+            fixed: false
+        },
+        {
+            id: 'redistribuida',
+            label: 'Redistribuída',
+            fixed: false
+        },
+        {
+            id: 'dataHoraLeitura',
+            label: 'Data da Leitura',
+            fixed: false
+        },
+        {
+            id: 'dataHoraInicioPrazo',
+            label: 'Data do Início do Prazo',
+            fixed: false
+        },
+        {
+            id: 'dataHoraFinalPrazo',
+            label: 'Data do Final do Prazo',
+            fixed: false
+        },
+        {
+            id: 'dataHoraConclusaoPrazo',
+            label: 'Data da Conclusão do Prazo',
+            fixed: false
+        },
+        {
+            id: 'especieTarefa.nome',
+            label: 'Espécie de Tarefa',
+            fixed: false
+        },
+        {
+            id: 'usuarioResponsavel.nome',
+            label: 'Usuário Responsável',
+            fixed: false
+        },
+        {
+            id: 'setorOrigem.nome',
+            label: 'Setor de Origem',
+            fixed: false
+        },
+        {
+            id: 'unidadeResponsavel.nome',
+            label: 'Unidade Responsável',
+            fixed: false
+        },
+        {
+            id: 'setorResponsavel.nome',
+            label: 'Setor Responsável',
+            fixed: false
+        },
+        {
+            id: 'usuarioConclusaoPrazo.nome',
+            label: 'Usuário da Conclusao do Prazo',
+            fixed: false
+        },
+        {
+            id: 'criadoPor.nome',
+            label: 'Criado Por',
+            fixed: false
+        },
+        {
+            id: 'criadoEm',
+            label: 'Criado Em',
+            fixed: false
+        },
+        {
+            id: 'atualizadoPor.nome',
+            label: 'Atualizado Por',
+            fixed: false
+        },
+        {
+            id: 'atualizadoEm',
+            label: 'Atualizado Em',
+            fixed: false
+        },
+        {
+            id: 'apagadoPor.nome',
+            label: 'Apagado Por',
+            fixed: false
+        },
+        {
+            id: 'apagadoEm',
+            label: 'Apagado Em',
+            fixed: false
+        },
+        {
+            id: 'actions',
+            label: '',
+            fixed: true
+        }
+    ];
+
+    columns = new FormControl();
 
     @Input()
     deletingIds: number[] = [];
@@ -106,6 +232,23 @@ export class CdkTarefaGridComponent implements AfterViewInit, OnInit, OnChanges 
         this.paginator.pageSize = this.pageSize;
 
         this.dataSource = new TarefaDataSource(of(this.tarefas));
+
+        this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
+
+        this.columns.valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((values) => {
+                this.displayedColumns = [];
+                this.allColumns.forEach(c => {
+                    if (c.fixed || (values.indexOf(c.id) > -1)) {
+                        this.displayedColumns.push(c.id);
+                    }
+                });
+                this._changeDetectorRef.markForCheck();
+                return of([]);
+            })
+        ).subscribe();
     }
 
     ngAfterViewInit(): void {

@@ -8,6 +8,7 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatSelectModule,
 } from '@angular/material';
 
 import {FuseSharedModule} from '@fuse/shared.module';
@@ -21,7 +22,7 @@ import {CdkEspecieAtividadeGridFilterModule} from '@cdk/components/especie-ativi
         CdkEspecieAtividadeGridComponent
     ],
     imports: [
-
+        MatSelectModule,
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,

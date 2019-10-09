@@ -8,18 +8,19 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatSelectModule,
 } from '@angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
-import { CdkEtiquetaGridComponent} from './cdk-etiqueta-grid.component';
-import { CdkEtiquetaGridFilterModule } from './cdk-etiqueta-grid-filter/cdk-etiqueta-grid-filter.module';
+import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkEtiquetaGridComponent} from './cdk-etiqueta-grid.component';
+import {CdkEtiquetaGridFilterModule} from './cdk-etiqueta-grid-filter/cdk-etiqueta-grid-filter.module';
 
 @NgModule({
     declarations: [
         CdkEtiquetaGridComponent
     ],
     imports: [
-        
+        MatSelectModule,
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,
@@ -33,9 +34,7 @@ import { CdkEtiquetaGridFilterModule } from './cdk-etiqueta-grid-filter/cdk-etiq
 
         FuseSharedModule,
     ],
-    providers: [
-        
-    ],
+    providers: [],
     exports: [
         CdkEtiquetaGridComponent
     ]

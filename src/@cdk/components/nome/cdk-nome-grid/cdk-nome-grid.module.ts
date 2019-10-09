@@ -8,6 +8,7 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatSelectModule,
 } from '@angular/material';
 
 import {FuseSharedModule} from '@fuse/shared.module';
@@ -21,6 +22,7 @@ import {CdkNomeGridFilterModule} from './cdk-nome-grid-filter/cdk-nome-grid-filt
         CdkNomeGridComponent
     ],
     imports: [
+        MatSelectModule,
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,
@@ -29,9 +31,11 @@ import {CdkNomeGridFilterModule} from './cdk-nome-grid-filter/cdk-nome-grid-filt
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
+
         CdkNomeAutocompleteModule,
+        CdkNomeGridFilterModule,
+
         FuseSharedModule,
-        CdkNomeGridFilterModule
     ],
     providers: [
         NomeService,

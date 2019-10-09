@@ -7,7 +7,9 @@ import {
     MatProgressSpinnerModule,
     MatTableModule,
     MatPaginatorModule,
-    MatSortModule, MatTooltipModule,
+    MatSortModule,
+    MatTooltipModule,
+    MatSelectModule,
 } from '@angular/material';
 
 import {FuseSharedModule} from '@fuse/shared.module';
@@ -21,6 +23,7 @@ import {CdkDocumentoAvulsoGridFilterModule} from './cdk-documento-avulso-grid-fi
         CdkDocumentoAvulsoGridComponent
     ],
     imports: [
+        MatSelectModule,
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,
@@ -29,10 +32,12 @@ import {CdkDocumentoAvulsoGridFilterModule} from './cdk-documento-avulso-grid-fi
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
-        CdkDocumentoAvulsoAutocompleteModule,
+        MatTooltipModule,
+
         FuseSharedModule,
+
+        CdkDocumentoAvulsoAutocompleteModule,
         CdkDocumentoAvulsoGridFilterModule,
-        MatTooltipModule
     ],
     providers: [
         DocumentoAvulsoService,

@@ -11,10 +11,11 @@ import {fuseAnimations} from '@fuse/animations';
 
 import {MatPaginator, MatSort} from '@angular/material';
 
-import {tap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
 import {VinculacaoRole} from '@cdk/models/vinculacao-role.model';
 import {VinculacaoRoleDataSource} from '@cdk/data-sources/vinculacao-role-data-source';
+import {FormControl} from "@angular/forms";
 
 @Component({
     selector: 'cdk-vinculacao-role-grid',
@@ -37,6 +38,66 @@ export class CdkVinculacaoRoleGridComponent implements AfterViewInit, OnInit, On
 
     @Input()
     displayedColumns: string[] = ['select', 'id', 'role.name', 'usuario.nome', 'actions'];
+
+    allColumns: any[] = [
+        {
+            id: 'select',
+            label: '',
+            fixed: true
+        },
+        {
+            id: 'id',
+            label: 'Id',
+            fixed: true
+        },
+        {
+            id: 'role.name',
+            label: 'Papel',
+            fixed: true
+        },
+        {
+            id: 'usuario.nome',
+            label: 'Usuário',
+            fixed: false
+        },
+        {
+            id: 'criadoPor.nome',
+            label: 'Criado Por',
+            fixed: false
+        },
+        {
+            id: 'criadoEm',
+            label: 'Criado Em',
+            fixed: false
+        },
+        {
+            id: 'atualizadoPor.nome',
+            label: 'Atualizado Por',
+            fixed: false
+        },
+        {
+            id: 'atualizadoEm',
+            label: 'Atualizado Em',
+            fixed: false
+        },
+        {
+            id: 'apagadoPor.nome',
+            label: 'Apagado Por',
+            fixed: false
+        },
+        {
+            id: 'apagadoEm',
+            label: 'Apagado Em',
+            fixed: false
+        },
+        {
+            id: 'actions',
+            label: '',
+            fixed: true
+        }
+    ];
+
+    columns = new FormControl();
 
     @Input()
     deletingIds: number[] = [];
@@ -99,7 +160,6 @@ export class CdkVinculacaoRoleGridComponent implements AfterViewInit, OnInit, On
     }
 
     ngOnInit(): void {
-
         this.paginator._intl.itemsPerPageLabel = 'Registros por página';
         this.paginator._intl.nextPageLabel = 'Seguinte';
         this.paginator._intl.previousPageLabel = 'Anterior';
@@ -107,6 +167,23 @@ export class CdkVinculacaoRoleGridComponent implements AfterViewInit, OnInit, On
         this.paginator.pageSize = this.pageSize;
 
         this.dataSource = new VinculacaoRoleDataSource(of(this.vinculacaoRoles));
+
+        this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
+
+        this.columns.valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((values) => {
+                this.displayedColumns = [];
+                this.allColumns.forEach(c => {
+                    if (c.fixed || (values.indexOf(c.id) > -1)) {
+                        this.displayedColumns.push(c.id);
+                    }
+                });
+                this._changeDetectorRef.markForCheck();
+                return of([]);
+            })
+        ).subscribe();
     }
 
     ngAfterViewInit(): void {

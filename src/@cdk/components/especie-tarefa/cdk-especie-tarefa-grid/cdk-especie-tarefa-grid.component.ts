@@ -37,7 +37,7 @@ export class CdkEspecieTarefaGridComponent implements AfterViewInit, OnInit, OnC
     total = 0;
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'genero.nome', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'generoTarefa.nome', 'actions'];
 
     allColumns: any[] = [
         {
@@ -61,8 +61,38 @@ export class CdkEspecieTarefaGridComponent implements AfterViewInit, OnInit, OnC
             fixed: false
         },
         {
-            id: 'genero.nome',
+            id: 'generoTarefa.nome',
             label: 'Gênero Tarefa',
+            fixed: false
+        },
+        {
+            id: 'criadoPor.nome',
+            label: 'Criado Por',
+            fixed: false
+        },
+        {
+            id: 'criadoEm',
+            label: 'Criado Em',
+            fixed: false
+        },
+        {
+            id: 'atualizadoPor.nome',
+            label: 'Atualizado Por',
+            fixed: false
+        },
+        {
+            id: 'atualizadoEm',
+            label: 'Atualizado Em',
+            fixed: false
+        },
+        {
+            id: 'apagadoPor.nome',
+            label: 'Apagado Por',
+            fixed: false
+        },
+        {
+            id: 'apagadoEm',
+            label: 'Apagado Em',
             fixed: false
         },
         {

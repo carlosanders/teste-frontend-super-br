@@ -11,10 +11,11 @@ import {fuseAnimations} from '@fuse/animations';
 
 import {MatPaginator, MatSort} from '@angular/material';
 
-import {tap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
 import {EspecieProcesso} from '@cdk/models/especie-processo.model';
 import {EspecieProcessoDataSource} from '@cdk/data-sources/especie-processo-data-source';
+import {FormControl} from "@angular/forms";
 
 @Component({
     selector: 'cdk-especie-processo-grid',
@@ -36,7 +37,77 @@ export class CdkEspecieProcessoGridComponent implements AfterViewInit, OnInit, O
     total = 0;
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'genero.nome', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'generoProcesso.nome', 'actions'];
+
+    allColumns: any[] = [
+        {
+            id: 'select',
+            label: '',
+            fixed: true
+        },
+        {
+            id: 'id',
+            label: 'Id',
+            fixed: true
+        },
+        {
+            id: 'nome',
+            label: 'Nome',
+            fixed: true
+        },
+        {
+            id: 'descricao',
+            label: 'Descrição',
+            fixed: false
+        },
+        {
+            id: 'ativo',
+            label: 'Ativo',
+            fixed: false
+        },
+        {
+            id: 'generoProcesso.nome',
+            label: 'Gênero Processo',
+            fixed: false
+        },
+        {
+            id: 'criadoPor.nome',
+            label: 'Criado Por',
+            fixed: false
+        },
+        {
+            id: 'criadoEm',
+            label: 'Criado Em',
+            fixed: false
+        },
+        {
+            id: 'atualizadoPor.nome',
+            label: 'Atualizado Por',
+            fixed: false
+        },
+        {
+            id: 'atualizadoEm',
+            label: 'Atualizado Em',
+            fixed: false
+        },
+        {
+            id: 'apagadoPor.nome',
+            label: 'Apagado Por',
+            fixed: false
+        },
+        {
+            id: 'apagadoEm',
+            label: 'Apagado Em',
+            fixed: false
+        },
+        {
+            id: 'actions',
+            label: '',
+            fixed: true
+        }
+    ];
+
+    columns = new FormControl();
 
     @Input()
     deletingIds: number[] = [];
@@ -107,6 +178,23 @@ export class CdkEspecieProcessoGridComponent implements AfterViewInit, OnInit, O
         this.paginator.pageSize = this.pageSize;
 
         this.dataSource = new EspecieProcessoDataSource(of(this.especieProcessos));
+
+        this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
+
+        this.columns.valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((values) => {
+                this.displayedColumns = [];
+                this.allColumns.forEach(c => {
+                    if (c.fixed || (values.indexOf(c.id) > -1)) {
+                        this.displayedColumns.push(c.id);
+                    }
+                });
+                this._changeDetectorRef.markForCheck();
+                return of([]);
+            })
+        ).subscribe();
     }
 
     ngAfterViewInit(): void {

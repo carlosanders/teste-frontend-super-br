@@ -8,6 +8,7 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatSelectModule,
 } from '@angular/material';
 
 import {FuseSharedModule} from '@fuse/shared.module';
@@ -29,9 +30,12 @@ import {CdkGeneroProcessoGridFilterModule} from './cdk-genero-processo-grid-filt
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
+        MatSelectModule,
+
         CdkGeneroProcessoAutocompleteModule,
+        CdkGeneroProcessoGridFilterModule,
+
         FuseSharedModule,
-        CdkGeneroProcessoGridFilterModule
     ],
     providers: [
         GeneroProcessoService,

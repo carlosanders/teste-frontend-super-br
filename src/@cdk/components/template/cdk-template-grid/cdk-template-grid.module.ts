@@ -8,6 +8,7 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatSelectModule,
 } from '@angular/material';
 
 import {FuseSharedModule} from '@fuse/shared.module';
@@ -21,6 +22,7 @@ import {CdkTemplateGridFilterModule} from './cdk-template-grid-filter/cdk-templa
         CdkTemplateGridComponent
     ],
     imports: [
+        MatSelectModule,
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,
@@ -29,9 +31,11 @@ import {CdkTemplateGridFilterModule} from './cdk-template-grid-filter/cdk-templa
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
+
         CdkTemplateAutocompleteModule,
+        CdkTemplateGridFilterModule,
+
         FuseSharedModule,
-        CdkTemplateGridFilterModule
     ],
     providers: [
         TemplateService,

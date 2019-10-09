@@ -8,12 +8,13 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatSelectModule,
 } from '@angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
-import { ModalidadeDocumentoIdentificadorService } from '@cdk/services/modalidade-documento-identificador.service';
-import { CdkModalidadeDocumentoIdentificadorGridComponent} from './cdk-modalidade-documento-identificador-grid.component';
-import { CdkModalidadeDocumentoIdentificadorAutocompleteModule } from '@cdk/components/modalidade-documento-identificador/cdk-modalidade-documento-identificador-autocomplete/cdk-modalidade-documento-identificador-autocomplete.module';
+import {FuseSharedModule} from '@fuse/shared.module';
+import {ModalidadeDocumentoIdentificadorService} from '@cdk/services/modalidade-documento-identificador.service';
+import {CdkModalidadeDocumentoIdentificadorGridComponent} from './cdk-modalidade-documento-identificador-grid.component';
+import {CdkModalidadeDocumentoIdentificadorAutocompleteModule} from '@cdk/components/modalidade-documento-identificador/cdk-modalidade-documento-identificador-autocomplete/cdk-modalidade-documento-identificador-autocomplete.module';
 import {CdkModalidadeDocumentoIdentificadorGridFilterModule} from './cdk-modalidade-documento-identificador-grid-filter/cdk-modalidade-documento-identificador-grid-filter.module';
 
 @NgModule({
@@ -21,7 +22,7 @@ import {CdkModalidadeDocumentoIdentificadorGridFilterModule} from './cdk-modalid
         CdkModalidadeDocumentoIdentificadorGridComponent
     ],
     imports: [
-
+        MatSelectModule,
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,

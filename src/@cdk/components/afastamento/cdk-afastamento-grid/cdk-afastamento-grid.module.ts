@@ -8,20 +8,21 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatSelectModule,
 } from '@angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
-import { ModalidadeAfastamentoService } from '@cdk/services/modalidade-afastamento.service';
-import { CdkModalidadeAfastamentoAutocompleteModule } from '@cdk/components/modalidade-afastamento/cdk-modalidade-afastamento-autocomplete/cdk-modalidade-afastamento-autocomplete.module';
-import { CdkAfastamentoGridComponent} from './cdk-afastamento-grid.component';
-import { CdkAfastamentoGridFilterModule } from './cdk-afastamento-grid-filter/cdk-afastamento-grid-filter.module';
+import {FuseSharedModule} from '@fuse/shared.module';
+import {ModalidadeAfastamentoService} from '@cdk/services/modalidade-afastamento.service';
+import {CdkModalidadeAfastamentoAutocompleteModule} from '@cdk/components/modalidade-afastamento/cdk-modalidade-afastamento-autocomplete/cdk-modalidade-afastamento-autocomplete.module';
+import {CdkAfastamentoGridComponent} from './cdk-afastamento-grid.component';
+import {CdkAfastamentoGridFilterModule} from './cdk-afastamento-grid-filter/cdk-afastamento-grid-filter.module';
 
 @NgModule({
     declarations: [
         CdkAfastamentoGridComponent
     ],
     imports: [
-        
+        MatSelectModule,
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,

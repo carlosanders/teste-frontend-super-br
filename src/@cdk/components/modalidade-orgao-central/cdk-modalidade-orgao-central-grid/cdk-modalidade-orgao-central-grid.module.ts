@@ -8,12 +8,13 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatSelectModule,
 } from '@angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
-import { ModalidadeOrgaoCentralService } from '@cdk/services/modalidade-orgao-central.service';
-import { CdkModalidadeOrgaoCentralGridComponent} from './cdk-modalidade-orgao-central-grid.component';
-import { CdkModalidadeOrgaoCentralAutocompleteModule } from '@cdk/components/modalidade-orgao-central/cdk-modalidade-orgao-central-autocomplete/cdk-modalidade-orgao-central-autocomplete.module';
+import {FuseSharedModule} from '@fuse/shared.module';
+import {ModalidadeOrgaoCentralService} from '@cdk/services/modalidade-orgao-central.service';
+import {CdkModalidadeOrgaoCentralGridComponent} from './cdk-modalidade-orgao-central-grid.component';
+import {CdkModalidadeOrgaoCentralAutocompleteModule} from '@cdk/components/modalidade-orgao-central/cdk-modalidade-orgao-central-autocomplete/cdk-modalidade-orgao-central-autocomplete.module';
 import {CdkModalidadeOrgaoCentralGridFilterModule} from './cdk-modalidade-orgao-central-grid-filter/cdk-modalidade-orgao-central-grid-filter.module';
 
 @NgModule({
@@ -21,7 +22,7 @@ import {CdkModalidadeOrgaoCentralGridFilterModule} from './cdk-modalidade-orgao-
         CdkModalidadeOrgaoCentralGridComponent
     ],
     imports: [
-
+        MatSelectModule,
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,

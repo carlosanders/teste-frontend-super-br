@@ -8,6 +8,7 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatSelectModule,
 } from '@angular/material';
 
 import {FuseSharedModule} from '@fuse/shared.module';
@@ -21,6 +22,7 @@ import {CdkFolderGridFilterModule} from './cdk-folder-grid-filter/cdk-folder-gri
         CdkFolderGridComponent
     ],
     imports: [
+        MatSelectModule,
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,
@@ -29,9 +31,11 @@ import {CdkFolderGridFilterModule} from './cdk-folder-grid-filter/cdk-folder-gri
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
+
         CdkFolderAutocompleteModule,
+        CdkFolderGridFilterModule,
+
         FuseSharedModule,
-        CdkFolderGridFilterModule
     ],
     providers: [
         FolderService,

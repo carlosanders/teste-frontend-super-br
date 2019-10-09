@@ -11,9 +11,10 @@ import {fuseAnimations} from '@fuse/animations';
 
 import {MatPaginator, MatSort} from '@angular/material';
 
-import {tap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 import {AfastamentoDataSource} from '@cdk/data-sources/afastamento-data-source';
 import {Afastamento} from '@cdk/models/afastamento.model';
+import {FormControl} from "@angular/forms";
 
 @Component({
     selector: 'cdk-afastamento-grid',
@@ -35,7 +36,83 @@ export class CdkAfastamentoGridComponent implements AfterViewInit, OnInit, OnCha
     total = 0;
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'dataInicio', 'dataInicioBloqueio', 'dataFim', 'dataFimBloqueio', 'modalidadeAfastamento.valor', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'colaborador.usuario.nome', 'dataInicio', 'dataInicioBloqueio', 'dataFim',
+        'dataFimBloqueio', 'modalidadeAfastamento.valor', 'actions'];
+
+    allColumns: any[] = [
+        {
+            id: 'select',
+            label: '',
+            fixed: true
+        },
+        {
+            id: 'id',
+            label: 'Id',
+            fixed: true
+        },
+        {
+            id: 'colaborador.usuario.nome',
+            label: 'Nome',
+            fixed: true
+        },
+        {
+            id: 'dataInicio',
+            label: 'Data Início',
+            fixed: false
+        },
+        {
+            id: 'dataInicioBloqueio',
+            label: 'Data Início Bloqueio',
+            fixed: false
+        },
+        {
+            id: 'dataFim',
+            label: 'Data Fim',
+            fixed: false
+        },
+        {
+            id: 'dataFimBloqueio',
+            label: 'Data Fim Bloqueio',
+            fixed: false
+        },
+        {
+            id: 'criadoPor.nome',
+            label: 'Criado Por',
+            fixed: false
+        },
+        {
+            id: 'criadoEm',
+            label: 'Criado Em',
+            fixed: false
+        },
+        {
+            id: 'atualizadoPor.nome',
+            label: 'Atualizado Por',
+            fixed: false
+        },
+        {
+            id: 'atualizadoEm',
+            label: 'Atualizado Em',
+            fixed: false
+        },
+        {
+            id: 'apagadoPor.nome',
+            label: 'Apagado Por',
+            fixed: false
+        },
+        {
+            id: 'apagadoEm',
+            label: 'Apagado Em',
+            fixed: false
+        },
+        {
+            id: 'actions',
+            label: '',
+            fixed: true
+        }
+    ];
+
+    columns = new FormControl();
 
     @Input()
     deletingIds: number[] = [];
@@ -105,6 +182,23 @@ export class CdkAfastamentoGridComponent implements AfterViewInit, OnInit, OnCha
         this.paginator.pageSize = this.pageSize;
 
         this.dataSource = new AfastamentoDataSource(of(this.afastamentos));
+
+        this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
+
+        this.columns.valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((values) => {
+                this.displayedColumns = [];
+                this.allColumns.forEach(c => {
+                    if (c.fixed || (values.indexOf(c.id) > -1)) {
+                        this.displayedColumns.push(c.id);
+                    }
+                });
+                this._changeDetectorRef.markForCheck();
+                return of([]);
+            })
+        ).subscribe();
     }
 
     ngAfterViewInit(): void {

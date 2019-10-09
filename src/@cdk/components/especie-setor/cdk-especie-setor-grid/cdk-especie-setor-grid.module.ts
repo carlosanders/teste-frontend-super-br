@@ -8,12 +8,13 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatSelectModule,
 } from '@angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
-import { EspecieSetorService } from '@cdk/services/especie-setor.service';
-import { CdkEspecieSetorGridComponent} from './cdk-especie-setor-grid.component';
-import { CdkEspecieSetorAutocompleteModule } from '@cdk/components/especie-setor/cdk-especie-setor-autocomplete/cdk-especie-setor-autocomplete.module';
+import {FuseSharedModule} from '@fuse/shared.module';
+import {EspecieSetorService} from '@cdk/services/especie-setor.service';
+import {CdkEspecieSetorGridComponent} from './cdk-especie-setor-grid.component';
+import {CdkEspecieSetorAutocompleteModule} from '@cdk/components/especie-setor/cdk-especie-setor-autocomplete/cdk-especie-setor-autocomplete.module';
 import {CdkEspecieSetorGridFilterModule} from './cdk-especie-setor-grid-filter/cdk-especie-setor-grid-filter.module';
 
 @NgModule({
@@ -21,7 +22,7 @@ import {CdkEspecieSetorGridFilterModule} from './cdk-especie-setor-grid-filter/c
         CdkEspecieSetorGridComponent
     ],
     imports: [
-
+        MatSelectModule,
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,

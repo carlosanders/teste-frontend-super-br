@@ -8,12 +8,13 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatSelectModule,
 } from '@angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
-import { EspecieRelevanciaService } from '@cdk/services/especie-relevancia.service';
-import { CdkEspecieRelevanciaGridComponent} from './cdk-especie-relevancia-grid.component';
-import { CdkEspecieRelevanciaAutocompleteModule } from '@cdk/components/especie-relevancia/cdk-especie-relevancia-autocomplete/cdk-especie-relevancia-autocomplete.module';
+import {FuseSharedModule} from '@fuse/shared.module';
+import {EspecieRelevanciaService} from '@cdk/services/especie-relevancia.service';
+import {CdkEspecieRelevanciaGridComponent} from './cdk-especie-relevancia-grid.component';
+import {CdkEspecieRelevanciaAutocompleteModule} from '@cdk/components/especie-relevancia/cdk-especie-relevancia-autocomplete/cdk-especie-relevancia-autocomplete.module';
 import {CdkEspecieRelevanciaGridFilterModule} from './cdk-especie-relevancia-grid-filter/cdk-especie-relevancia-grid-filter.module';
 
 @NgModule({
@@ -21,7 +22,7 @@ import {CdkEspecieRelevanciaGridFilterModule} from './cdk-especie-relevancia-gri
         CdkEspecieRelevanciaGridComponent
     ],
     imports: [
-
+        MatSelectModule,
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,

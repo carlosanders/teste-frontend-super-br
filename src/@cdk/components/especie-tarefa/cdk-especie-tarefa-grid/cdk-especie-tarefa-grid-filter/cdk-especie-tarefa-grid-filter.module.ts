@@ -1,5 +1,6 @@
 import {NgModule} from '@angular/core';
 import {
+    MatAutocompleteModule,
     MatButtonModule,
     MatFormFieldModule,
     MatIconModule,
@@ -9,6 +10,7 @@ import {
 import { FuseSharedModule } from '@fuse/shared.module';
 import { EspecieTarefaService } from '@cdk/services/especie-tarefa.service';
 import { CdkEspecieTarefaGridFilterComponent } from './cdk-especie-tarefa-grid-filter.component';
+import {CdkGeneroTarefaAutocompleteModule} from '../../../genero-tarefa/cdk-genero-tarefa-autocomplete/cdk-genero-tarefa-autocomplete.module';
 
 @NgModule({
     declarations: [
@@ -22,6 +24,8 @@ import { CdkEspecieTarefaGridFilterComponent } from './cdk-especie-tarefa-grid-f
         MatInputModule,
 
         FuseSharedModule,
+        CdkGeneroTarefaAutocompleteModule,
+        MatAutocompleteModule,
     ],
     providers: [
         EspecieTarefaService,

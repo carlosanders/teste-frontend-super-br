@@ -11,10 +11,11 @@ import {fuseAnimations} from '@fuse/animations';
 
 import {MatPaginator, MatSort} from '@angular/material';
 
-import {tap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
 import {VinculacaoRepositorio} from '@cdk/models/vinculacao-repositorio.model';
 import {VinculacaoRepositorioDataSource} from '@cdk/data-sources/vinculacao-repositorio-data-source';
+import {FormControl} from "@angular/forms";
 
 @Component({
     selector: 'cdk-vinculacao-repositorio-grid',
@@ -37,6 +38,76 @@ export class CdkVinculacaoRepositorioGridComponent implements AfterViewInit, OnI
 
     @Input()
     displayedColumns: string[] = ['select', 'id', 'modelo.nome', 'especieSetor.nome', 'setor.nome', 'usuario.nome', 'actions'];
+
+    allColumns: any[] = [
+        {
+            id: 'select',
+            label: '',
+            fixed: true
+        },
+        {
+            id: 'id',
+            label: 'Id',
+            fixed: true
+        },
+        {
+            id: 'modelo.nome',
+            label: 'Modelo',
+            fixed: true
+        },
+        {
+            id: 'especieSetor.nome',
+            label: 'Espécie de Setor',
+            fixed: false
+        },
+        {
+            id: 'setor.nome',
+            label: 'Setor',
+            fixed: false
+        },
+        {
+            id: 'usuario.nome',
+            label: 'Usuário',
+            fixed: false
+        },
+        {
+            id: 'criadoPor.nome',
+            label: 'Criado Por',
+            fixed: false
+        },
+        {
+            id: 'criadoEm',
+            label: 'Criado Em',
+            fixed: false
+        },
+        {
+            id: 'atualizadoPor.nome',
+            label: 'Atualizado Por',
+            fixed: false
+        },
+        {
+            id: 'atualizadoEm',
+            label: 'Atualizado Em',
+            fixed: false
+        },
+        {
+            id: 'apagadoPor.nome',
+            label: 'Apagado Por',
+            fixed: false
+        },
+        {
+            id: 'apagadoEm',
+            label: 'Apagado Em',
+            fixed: false
+        },
+        {
+            id: 'actions',
+            label: '',
+            fixed: true
+        }
+    ];
+
+    columns = new FormControl();
 
     @Input()
     deletingIds: number[] = [];
@@ -99,7 +170,6 @@ export class CdkVinculacaoRepositorioGridComponent implements AfterViewInit, OnI
     }
 
     ngOnInit(): void {
-
         this.paginator._intl.itemsPerPageLabel = 'Registros por página';
         this.paginator._intl.nextPageLabel = 'Seguinte';
         this.paginator._intl.previousPageLabel = 'Anterior';
@@ -107,6 +177,23 @@ export class CdkVinculacaoRepositorioGridComponent implements AfterViewInit, OnI
         this.paginator.pageSize = this.pageSize;
 
         this.dataSource = new VinculacaoRepositorioDataSource(of(this.vinculacaoRepositorios));
+
+        this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
+
+        this.columns.valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((values) => {
+                this.displayedColumns = [];
+                this.allColumns.forEach(c => {
+                    if (c.fixed || (values.indexOf(c.id) > -1)) {
+                        this.displayedColumns.push(c.id);
+                    }
+                });
+                this._changeDetectorRef.markForCheck();
+                return of([]);
+            })
+        ).subscribe();
     }
 
     ngAfterViewInit(): void {

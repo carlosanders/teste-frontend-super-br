@@ -8,6 +8,7 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatSelectModule,
 } from '@angular/material';
 
 import {FuseSharedModule} from '@fuse/shared.module';
@@ -21,6 +22,7 @@ import {CdkTransicaoGridFilterModule} from './cdk-transicao-grid-filter/cdk-tran
         CdkTransicaoGridComponent
     ],
     imports: [
+        MatSelectModule,
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,
@@ -29,9 +31,11 @@ import {CdkTransicaoGridFilterModule} from './cdk-transicao-grid-filter/cdk-tran
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
+
         CdkTransicaoAutocompleteModule,
+        CdkTransicaoGridFilterModule,
+
         FuseSharedModule,
-        CdkTransicaoGridFilterModule
     ],
     providers: [
         TransicaoService,

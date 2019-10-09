@@ -2,6 +2,15 @@
 
 cdk-modalidade-qualificacao-pessoa-grid {
 
+  .colunas {
+    width: 20px !important;
+
+    .mat-select-value {
+      display: none !important;
+    }
+
+  }
+
   .header {
 
     .filters {

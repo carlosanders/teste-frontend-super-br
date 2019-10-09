@@ -11,10 +11,11 @@ import {fuseAnimations} from '@fuse/animations';
 
 import {MatPaginator, MatSort} from '@angular/material';
 
-import {tap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
 import {Lotacao} from '@cdk/models/lotacao.model';
 import {LotacaoDataSource} from '@cdk/data-sources/lotacao-data-source';
+import {FormControl} from "@angular/forms";
 
 @Component({
     selector: 'cdk-lotacao-grid',
@@ -36,7 +37,102 @@ export class CdkLotacaoGridComponent implements AfterViewInit, OnInit, OnChanges
     total = 0;
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'setor.nome', 'peso', 'distribuidor', 'coordenador', 'principal', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'colaborador.usuario.nome', 'setor.nome', 'peso', 'distribuidor', 'coordenador', 'principal', 'actions'];
+
+    allColumns: any[] = [
+        {
+            id: 'select',
+            label: '',
+            fixed: true
+        },
+        {
+            id: 'id',
+            label: 'Id',
+            fixed: true
+        },
+        {
+            id: 'colaborador.usuario.nome',
+            label: 'Colaborador',
+            fixed: true
+        },
+        {
+            id: 'setor.nome',
+            label: 'Setor',
+            fixed: false
+        },
+        {
+            id: 'peso',
+            label: 'Peso',
+            fixed: false
+        },
+        {
+            id: 'principal',
+            label: 'Principal',
+            fixed: false
+        },
+        {
+            id: 'distribuidor',
+            label: 'Distribuidor',
+            fixed: false
+        },
+        {
+            id: 'coordenador',
+            label: 'Coordenador',
+            fixed: false
+        },
+        {
+            id: 'pcu',
+            label: 'PCU',
+            fixed: false
+        },
+        {
+            id: 'digitosDistribuicao',
+            label: 'Digitos Distribuição',
+            fixed: false
+        },
+        {
+            id: 'centenasDistribuicao',
+            label: 'Centenas de Distribuição',
+            fixed: false
+        },
+        {
+            id: 'criadoPor.nome',
+            label: 'Criado Por',
+            fixed: false
+        },
+        {
+            id: 'criadoEm',
+            label: 'Criado Em',
+            fixed: false
+        },
+        {
+            id: 'atualizadoPor.nome',
+            label: 'Atualizado Por',
+            fixed: false
+        },
+        {
+            id: 'atualizadoEm',
+            label: 'Atualizado Em',
+            fixed: false
+        },
+        {
+            id: 'apagadoPor.nome',
+            label: 'Apagado Por',
+            fixed: false
+        },
+        {
+            id: 'apagadoEm',
+            label: 'Apagado Em',
+            fixed: false
+        },
+        {
+            id: 'actions',
+            label: '',
+            fixed: true
+        }
+    ];
+
+    columns = new FormControl();
 
     @Input()
     deletingIds: number[] = [];
@@ -110,6 +206,23 @@ export class CdkLotacaoGridComponent implements AfterViewInit, OnInit, OnChanges
         this.paginator.pageSize = this.pageSize;
 
         this.dataSource = new LotacaoDataSource(of(this.lotacoes));
+
+        this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
+
+        this.columns.valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((values) => {
+                this.displayedColumns = [];
+                this.allColumns.forEach(c => {
+                    if (c.fixed || (values.indexOf(c.id) > -1)) {
+                        this.displayedColumns.push(c.id);
+                    }
+                });
+                this._changeDetectorRef.markForCheck();
+                return of([]);
+            })
+        ).subscribe();
     }
 
     ngAfterViewInit(): void {

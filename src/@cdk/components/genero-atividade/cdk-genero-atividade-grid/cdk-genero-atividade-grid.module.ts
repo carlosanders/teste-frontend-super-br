@@ -8,6 +8,7 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatSelectModule,
 } from '@angular/material';
 
 import {FuseSharedModule} from '@fuse/shared.module';
@@ -21,6 +22,7 @@ import {CdkGeneroAtividadeGridFilterModule} from './cdk-genero-atividade-grid-fi
         CdkGeneroAtividadeGridComponent
     ],
     imports: [
+        MatSelectModule,
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,
@@ -29,9 +31,11 @@ import {CdkGeneroAtividadeGridFilterModule} from './cdk-genero-atividade-grid-fi
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
+
         CdkGeneroAtividadeAutocompleteModule,
+        CdkGeneroAtividadeGridFilterModule,
+
         FuseSharedModule,
-        CdkGeneroAtividadeGridFilterModule
     ],
     providers: [
         GeneroAtividadeService,
