@@ -2,6 +2,15 @@
 
 cdk-feriado-grid {
 
+  .colunas {
+    width: 20px !important;
+
+    .mat-select-value {
+      display: none !important;
+    }
+
+  }
+
   .header {
 
     .filters {

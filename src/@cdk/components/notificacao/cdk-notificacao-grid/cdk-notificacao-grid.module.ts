@@ -8,6 +8,7 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatSelectModule,
 } from '@angular/material';
 
 import {FuseSharedModule} from '@fuse/shared.module';
@@ -21,6 +22,7 @@ import {CdkNotificacaoGridFilterModule} from './cdk-notificacao-grid-filter/cdk-
         CdkNotificacaoGridComponent
     ],
     imports: [
+        MatSelectModule,
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,
@@ -29,9 +31,11 @@ import {CdkNotificacaoGridFilterModule} from './cdk-notificacao-grid-filter/cdk-
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
+
         CdkNotificacaoAutocompleteModule,
+        CdkNotificacaoGridFilterModule,
+
         FuseSharedModule,
-        CdkNotificacaoGridFilterModule
     ],
     providers: [
         NotificacaoService,

@@ -11,9 +11,10 @@ import {fuseAnimations} from '@fuse/animations';
 
 import {MatPaginator, MatSort} from '@angular/material';
 
-import {tap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 import {CompartilhamentoDataSource} from '@cdk/data-sources/compartilhamento-data-source';
 import {Compartilhamento} from '@cdk/models/compartilhamento.model';
+import {FormControl} from "@angular/forms";
 
 @Component({
     selector: 'cdk-compartilhamento-grid',
@@ -36,6 +37,76 @@ export class CdkCompartilhamentoGridComponent implements AfterViewInit, OnInit, 
 
     @Input()
     displayedColumns: string[] = ['select', 'id', 'usuario.nome', 'actions'];
+
+    allColumns: any[] = [
+        {
+            id: 'select',
+            label: '',
+            fixed: true
+        },
+        {
+            id: 'id',
+            label: 'Id',
+            fixed: true
+        },
+        {
+            id: 'usuario.nome',
+            label: 'Nome',
+            fixed: true
+        },
+        {
+            id: 'tarefa.especieTarefa.nome',
+            label: 'Tarefa',
+            fixed: false
+        },
+        {
+            id: 'processo.NUP',
+            label: 'Processo',
+            fixed: false
+        },
+        {
+            id: 'analista',
+            label: 'Analista',
+            fixed: false
+        },
+        {
+            id: 'criadoPor.nome',
+            label: 'Criado Por',
+            fixed: false
+        },
+        {
+            id: 'criadoEm',
+            label: 'Criado Em',
+            fixed: false
+        },
+        {
+            id: 'atualizadoPor.nome',
+            label: 'Atualizado Por',
+            fixed: false
+        },
+        {
+            id: 'atualizadoEm',
+            label: 'Atualizado Em',
+            fixed: false
+        },
+        {
+            id: 'apagadoPor.nome',
+            label: 'Apagado Por',
+            fixed: false
+        },
+        {
+            id: 'apagadoEm',
+            label: 'Apagado Em',
+            fixed: false
+        },
+        {
+            id: 'actions',
+            label: '',
+            fixed: true
+        }
+    ];
+
+    columns = new FormControl();
 
     @Input()
     deletingIds: number[] = [];
@@ -105,6 +176,23 @@ export class CdkCompartilhamentoGridComponent implements AfterViewInit, OnInit, 
         this.paginator.pageSize = this.pageSize;
 
         this.dataSource = new CompartilhamentoDataSource(of(this.compartilhamentos));
+
+        this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
+
+        this.columns.valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((values) => {
+                this.displayedColumns = [];
+                this.allColumns.forEach(c => {
+                    if (c.fixed || (values.indexOf(c.id) > -1)) {
+                        this.displayedColumns.push(c.id);
+                    }
+                });
+                this._changeDetectorRef.markForCheck();
+                return of([]);
+            })
+        ).subscribe();
     }
 
     ngAfterViewInit(): void {

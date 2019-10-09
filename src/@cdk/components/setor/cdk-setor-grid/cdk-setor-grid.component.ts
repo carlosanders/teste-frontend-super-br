@@ -11,10 +11,11 @@ import {fuseAnimations} from '@fuse/animations';
 
 import {MatPaginator, MatSort} from '@angular/material';
 
-import {tap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
 import {Setor} from '@cdk/models/setor.model';
 import {SetorDataSource} from '@cdk/data-sources/setor-data-source';
+import {FormControl} from "@angular/forms";
 
 @Component({
     selector: 'cdk-setor-grid',
@@ -37,6 +38,151 @@ export class CdkSetorGridComponent implements AfterViewInit, OnInit, OnChanges {
 
     @Input()
     displayedColumns: string[] = ['select', 'id', 'nome', 'sigla', 'actions'];
+
+    allColumns: any[] = [
+        {
+            id: 'select',
+            label: '',
+            fixed: true
+        },
+        {
+            id: 'id',
+            label: 'Id',
+            fixed: true
+        },
+        {
+            id: 'nome',
+            label: 'Nome',
+            fixed: true
+        },
+        {
+            id: 'sigla',
+            label: 'Sigla',
+            fixed: false
+        },
+        {
+            id: 'especieSetor.nome',
+            label: 'Espécie Setor',
+            fixed: false
+        },
+        {
+            id: 'generoSetor.nome',
+            label: 'Gênero Setor',
+            fixed: false
+        },
+        {
+            id: 'ativo',
+            label: 'Ativo',
+            fixed: false
+        },
+        {
+            id: 'modalidadeOrgaoCentral.valor',
+            label: 'Modalidade Órgão Central',
+            fixed: false
+        },
+        {
+            id: 'endereco',
+            label: 'Endereço',
+            fixed: false
+        },
+        {
+            id: 'email',
+            label: 'Email',
+            fixed: false
+        },
+        {
+            id: 'unidade.nome',
+            label: 'Unidade',
+            fixed: false
+        },
+        {
+            id: 'unidadePai.nome',
+            label: 'Unidade Pai',
+            fixed: false
+        },
+        {
+            id: 'municipio.nome',
+            label: 'Município',
+            fixed: false
+        },
+        {
+            id: 'prefixoNUP',
+            label: 'Prefixo NUP',
+            fixed: false
+        },
+        {
+            id: 'sequenciaInicialNUP',
+            label: 'Sequência Inicial NUP',
+            fixed: false
+        },
+        {
+            id: 'gerenciamento',
+            label: 'Gerenciamento',
+            fixed: false
+        },
+        {
+            id: 'apenasProtocolo',
+            label: 'Apenas Protocolo',
+            fixed: false
+        },
+        {
+            id: 'numeracaoDocumentoUnidade',
+            label: 'Numeração Documento Unidade',
+            fixed: false
+        },
+        {
+            id: 'apenasDistribuidor',
+            label: 'Apenas Distribuidor',
+            fixed: false
+        },
+        {
+            id: 'distribuicaoCentena',
+            label: 'Distribuição Centena',
+            fixed: false
+        },
+        {
+            id: 'prazoEqualizacao',
+            label: 'Prazo Equalização',
+            fixed: false
+        },
+        {
+            id: 'criadoPor.nome',
+            label: 'Criado Por',
+            fixed: false
+        },
+        {
+            id: 'criadoEm',
+            label: 'Criado Em',
+            fixed: false
+        },
+        {
+            id: 'atualizadoPor.nome',
+            label: 'Atualizado Por',
+            fixed: false
+        },
+        {
+            id: 'atualizadoEm',
+            label: 'Atualizado Em',
+            fixed: false
+        },
+        {
+            id: 'apagadoPor.nome',
+            label: 'Apagado Por',
+            fixed: false
+        },
+        {
+            id: 'apagadoEm',
+            label: 'Apagado Em',
+            fixed: false
+        },
+        {
+            id: 'actions',
+            label: '',
+            fixed: true
+        }
+    ];
+
+    columns = new FormControl();
 
     @Input()
     deletingIds: number[] = [];
@@ -99,7 +245,6 @@ export class CdkSetorGridComponent implements AfterViewInit, OnInit, OnChanges {
     }
 
     ngOnInit(): void {
-
         this.paginator._intl.itemsPerPageLabel = 'Registros por página';
         this.paginator._intl.nextPageLabel = 'Seguinte';
         this.paginator._intl.previousPageLabel = 'Anterior';
@@ -107,6 +252,23 @@ export class CdkSetorGridComponent implements AfterViewInit, OnInit, OnChanges {
         this.paginator.pageSize = this.pageSize;
 
         this.dataSource = new SetorDataSource(of(this.setores));
+
+        this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
+
+        this.columns.valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((values) => {
+                this.displayedColumns = [];
+                this.allColumns.forEach(c => {
+                    if (c.fixed || (values.indexOf(c.id) > -1)) {
+                        this.displayedColumns.push(c.id);
+                    }
+                });
+                this._changeDetectorRef.markForCheck();
+                return of([]);
+            })
+        ).subscribe();
     }
 
     ngAfterViewInit(): void {

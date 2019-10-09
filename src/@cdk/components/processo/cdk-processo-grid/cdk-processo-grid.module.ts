@@ -7,20 +7,24 @@ import {
     MatProgressSpinnerModule,
     MatTableModule,
     MatPaginatorModule,
-    MatSortModule, MatTooltipModule,
+    MatSortModule,
+    MatTooltipModule,
+    MatSelectModule,
 } from '@angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
-import { ProcessoService } from '@cdk/services/processo.service';
-import { CdkProcessoGridComponent} from './cdk-processo-grid.component';
-import { CdkProcessoAutocompleteModule } from '@cdk/components/processo/cdk-processo-autocomplete/cdk-processo-autocomplete.module';
+import {FuseSharedModule} from '@fuse/shared.module';
+import {ProcessoService} from '@cdk/services/processo.service';
+import {CdkProcessoGridComponent} from './cdk-processo-grid.component';
+import {CdkProcessoAutocompleteModule} from '@cdk/components/processo/cdk-processo-autocomplete/cdk-processo-autocomplete.module';
 import {CdkProcessoGridFilterModule} from './cdk-processo-grid-filter/cdk-processo-grid-filter.module';
+import {CommonModule} from "@angular/common";
 
 @NgModule({
     declarations: [
         CdkProcessoGridComponent
     ],
     imports: [
+        CommonModule,
 
         MatButtonModule,
         MatIconModule,
@@ -30,12 +34,13 @@ import {CdkProcessoGridFilterModule} from './cdk-processo-grid-filter/cdk-proces
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
+        MatTooltipModule,
+        MatSelectModule,
 
         CdkProcessoAutocompleteModule,
         CdkProcessoGridFilterModule,
 
         FuseSharedModule,
-        MatTooltipModule,
     ],
     providers: [
         ProcessoService,

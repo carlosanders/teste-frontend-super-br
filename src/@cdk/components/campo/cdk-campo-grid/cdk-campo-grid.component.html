@@ -1,0 +1,215 @@
+<!-- CONTENT HEADER -->
+<div class="header" fxLayout="column" *ngIf="showFilter">
+    <div class="filters">
+        <cdk-campo-grid-filter (selected)="setGridFilter($event)"></cdk-campo-grid-filter>
+    </div>
+</div>
+<!-- / CONTENT HEADER -->
+
+<!-- CONTENT -->
+<div class="content" fxLayoutAlign="center start">
+
+    <div class="mb-16 p-16" fxFlex fxLayout="column" fxLayoutAlign="center center">
+
+        <div class="actions m-8" fxFlex fxLayout="row" fxLayoutAlign="end center">
+
+            <button class="back" mat-icon-button *ngIf="actions.indexOf('cancel') > -1"
+                    (click)="doCancel()"
+                    aria-label="cancelar"
+                    matTooltip="Cancelar">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
+
+            <button mat-icon-button *ngIf="selectedIds.length > 1 && actions.indexOf('delete') > -1"
+                    (click)="deleteCampos(selectedIds)"
+                    aria-label="remover"
+                    matTooltip="Remover">
+                <mat-icon>delete</mat-icon>
+            </button>
+
+            <mat-form-field class="colunas mr-8">
+                <mat-select [formControl]="columns" multiple>
+                    <div *ngFor="let column of allColumns">
+                        <mat-option *ngIf="!column.fixed" [value]="column.id">{{ column.label }}</mat-option>
+                    </div>
+                </mat-select>
+            </mat-form-field>
+
+            <button *ngIf="mode === 'list'" class="refresh" mat-icon-button
+                    (click)="loadPage()"
+                    aria-label="recarregar"
+                    matTooltip="Recarregar">
+                <mat-icon>refresh</mat-icon>
+            </button>
+
+            <button *ngIf="mode === 'list'" class="toggle-filter" mat-icon-button
+                    (click)="toggleFilter()"
+                    aria-label="filtrar"
+                    matTooltip="Filtrar">
+                <mat-icon>filter_list</mat-icon>
+            </button>
+        </div>
+
+        <div class="spinner-container" *ngIf="loading">
+            <mat-spinner diameter="32"></mat-spinner>
+        </div>
+
+        <table mat-table [dataSource]="dataSource" matSort [hidden]="loading">
+
+            <!-- Selection Column -->
+            <ng-container matColumnDef="select">
+                <th mat-header-cell *matHeaderCellDef>
+                    <mat-checkbox (click)="toggleSelectAll($event)"
+                                  [checked]="hasSelected"
+                                  [indeterminate]="isIndeterminate">
+                    </mat-checkbox>
+                </th>
+                <td mat-cell *matCellDef="let campo">
+                    <mat-checkbox [checked]="selectedIds.indexOf(campo.id) > -1"
+                                  (change)="toggleInSelected(campo.id)"
+                                  (click)="$event.stopPropagation();"
+                                  [disabled]="deletedIds?.indexOf(campo.id) > -1">
+                    </mat-checkbox>
+                </td>
+            </ng-container>
+
+            <!-- Id Column -->
+            <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Id
+                </th>
+                <td mat-cell *matCellDef="let campo" class='has_label_on_mobile' data-label='Id: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(campo.id) > -1}"> &nbsp;{{campo.id}} </td>
+            </ng-container>
+
+            <!-- Nome Column -->
+            <ng-container matColumnDef="nome">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Nome
+                </th>
+                <td mat-cell *matCellDef="let campo" class='has_label_on_mobile' data-label='Nome: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(campo.id) > -1}"> {{campo.nome}} </td>
+            </ng-container>
+
+            <!-- Descricao Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('descricao') > -1" matColumnDef="descricao">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Descrição
+                </th>
+                <td mat-cell *matCellDef="let campo" class='has_label_on_mobile' data-label='Descrição: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(campo.id) > -1}"> {{campo.descricao}} </td>
+            </ng-container>
+
+            <!-- HTML Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('html') > -1" matColumnDef="html">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    HTML
+                </th>
+                <td mat-cell *matCellDef="let campo" class='has_label_on_mobile' data-label='HTML: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(campo.id) > -1}"> {{campo.html}} </td>
+            </ng-container>
+
+            <!-- CriadoPor Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('criadoPor.nome') > -1" matColumnDef="criadoPor.nome">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Criado Por
+                </th>
+                <td mat-cell *matCellDef="let campo" class='has_label_on_mobile' data-label='Criado Por: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(campo.id) > -1}"> {{campo.criadoPor?.nome}} </td>
+            </ng-container>
+
+            <!-- CriadoEm Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('criadoEm') > -1" matColumnDef="criadoEm">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Criado Em
+                </th>
+                <td mat-cell *matCellDef="let campo" class='has_label_on_mobile' data-label='Criado Em: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(campo.id) > -1}"> {{campo.criadoEm | date: 'dd/MM/yyyy'}} </td>
+            </ng-container>
+
+            <!-- AtualizadoPor Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1" matColumnDef="atualizadoPor.nome">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Atualizado Por
+                </th>
+                <td mat-cell *matCellDef="let campo" class='has_label_on_mobile' data-label='Atualizado Por: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(campo.id) > -1}"> {{campo.atualizadoPor?.nome}} </td>
+            </ng-container>
+
+            <!-- AtualizadoEm Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('atualizadoEm') > -1" matColumnDef="atualizadoEm">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Atualizado Em
+                </th>
+                <td mat-cell *matCellDef="let campo" class='has_label_on_mobile' data-label='Atualizado Em: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(campo.id) > -1}"> {{campo.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
+            </ng-container>
+
+            <!-- ApagadoPor Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('apagadoPor.nome') > -1" matColumnDef="apagadoPor.nome">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Apagado Por
+                </th>
+                <td mat-cell *matCellDef="let campo" class='has_label_on_mobile' data-label='Apagado Por: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(campo.id) > -1}"> {{campo.apagadoPor?.nome}} </td>
+            </ng-container>
+
+            <!-- ApagadoEm Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('apagadoEm') > -1" matColumnDef="apagadoEm">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Apagado Em
+                </th>
+                <td mat-cell *matCellDef="let campo" class='has_label_on_mobile' data-label='Apagado Em: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(campo.id) > -1}"> {{campo.apagadoEm | date: 'dd/MM/yyyy'}} </td>
+            </ng-container>
+
+            <!-- Actions Column -->
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let campo">
+
+                    <mat-icon *ngIf="campo.acessoNegado" class="red-fg">block</mat-icon>
+
+                    <button mat-icon-button
+                            *ngIf="!campo.acessoNegado && actions.indexOf('select') > -1"
+                            (click)="selectCampo(campo)"
+                            aria-label="selecionar"
+                            matTooltip="Selecionar">
+                        <mat-icon>keyboard_return</mat-icon>
+                    </button>
+
+                    <button mat-icon-button
+                            *ngIf="!campo.acessoNegado && actions.indexOf('edit') > -1"
+                            [disabled]="deletedIds?.indexOf(campo.id) > -1"
+                            (click)="editCampo(campo.id)"
+                            aria-label="editar"
+                            matTooltip="Editar">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+
+                    <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(campo.id) > -1">
+                        <mat-spinner diameter="24"></mat-spinner>
+                    </div>
+
+                    <button mat-icon-button
+                            *ngIf="!campo.acessoNegado && actions.indexOf('delete') > -1 && deletingIds?.indexOf(campo.id) === -1"
+                            [disabled]="deletedIds?.indexOf(campo.id) > -1"
+                            (click)="deleteCampo(campo.id)"
+                            aria-label="remover"
+                            matTooltip="Remover">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let campo; columns: displayedColumns;">
+            </tr>
+        </table>
+
+        <div fxFlex fxLayout="row" fxLayoutAlign="center center">
+            <mat-paginator [pageSizeOptions]="[5, 10]"></mat-paginator>
+        </div>
+
+    </div>
+
+</div>

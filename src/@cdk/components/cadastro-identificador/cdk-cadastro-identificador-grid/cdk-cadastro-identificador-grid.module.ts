@@ -8,18 +8,19 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatSelectModule,
 } from '@angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
-import { CdkCadastroIdentificadorGridComponent} from './cdk-cadastro-identificador-grid.component';
-import { CdkCadastroIdentificadorGridFilterModule } from './cdk-cadastro-identificador-grid-filter/cdk-cadastro-identificador-grid-filter.module';
+import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkCadastroIdentificadorGridComponent} from './cdk-cadastro-identificador-grid.component';
+import {CdkCadastroIdentificadorGridFilterModule} from './cdk-cadastro-identificador-grid-filter/cdk-cadastro-identificador-grid-filter.module';
 
 @NgModule({
     declarations: [
         CdkCadastroIdentificadorGridComponent
     ],
     imports: [
-        
+        MatSelectModule,
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,
@@ -33,9 +34,7 @@ import { CdkCadastroIdentificadorGridFilterModule } from './cdk-cadastro-identif
 
         FuseSharedModule,
     ],
-    providers: [
-        
-    ],
+    providers: [],
     exports: [
         CdkCadastroIdentificadorGridComponent
     ]

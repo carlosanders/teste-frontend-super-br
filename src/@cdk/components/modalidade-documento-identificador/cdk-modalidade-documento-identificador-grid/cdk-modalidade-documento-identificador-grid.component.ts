@@ -11,10 +11,11 @@ import {fuseAnimations} from '@fuse/animations';
 
 import {MatPaginator, MatSort} from '@angular/material';
 
-import {tap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
 import {ModalidadeDocumentoIdentificador} from '@cdk/models/modalidade-documento-identificador.model';
 import {ModalidadeDocumentoIdentificadorDataSource} from '@cdk/data-sources/modalidade-documento-identificador-data-source';
+import {FormControl} from "@angular/forms";
 
 @Component({
     selector: 'cdk-modalidade-documento-identificador-grid',
@@ -37,6 +38,71 @@ export class CdkModalidadeDocumentoIdentificadorGridComponent implements AfterVi
 
     @Input()
     displayedColumns: string[] = ['select', 'id', 'valor', 'descricao', 'actions'];
+
+    allColumns: any[] = [
+        {
+            id: 'select',
+            label: '',
+            fixed: true
+        },
+        {
+            id: 'id',
+            label: 'Id',
+            fixed: true
+        },
+        {
+            id: 'descricao',
+            label: 'Descrição',
+            fixed: true
+        },
+        {
+            id: 'valor',
+            label: 'Valor',
+            fixed: false
+        },
+        {
+            id: 'ativo',
+            label: 'Ativo',
+            fixed: false
+        },
+        {
+            id: 'criadoPor.nome',
+            label: 'Criado Por',
+            fixed: false
+        },
+        {
+            id: 'criadoEm',
+            label: 'Criado Em',
+            fixed: false
+        },
+        {
+            id: 'atualizadoPor.nome',
+            label: 'Atualizado Por',
+            fixed: false
+        },
+        {
+            id: 'atualizadoEm',
+            label: 'Atualizado Em',
+            fixed: false
+        },
+        {
+            id: 'apagadoPor.nome',
+            label: 'Apagado Por',
+            fixed: false
+        },
+        {
+            id: 'apagadoEm',
+            label: 'Apagado Em',
+            fixed: false
+        },
+        {
+            id: 'actions',
+            label: '',
+            fixed: true
+        }
+    ];
+
+    columns = new FormControl();
 
     @Input()
     deletingIds: number[] = [];
@@ -99,7 +165,6 @@ export class CdkModalidadeDocumentoIdentificadorGridComponent implements AfterVi
     }
 
     ngOnInit(): void {
-
         this.paginator._intl.itemsPerPageLabel = 'Registros por página';
         this.paginator._intl.nextPageLabel = 'Seguinte';
         this.paginator._intl.previousPageLabel = 'Anterior';
@@ -108,6 +173,23 @@ export class CdkModalidadeDocumentoIdentificadorGridComponent implements AfterVi
 
         this.dataSource = new ModalidadeDocumentoIdentificadorDataSource(of(this.modalidadedocumentoIdentificadors));
         this.loadPage();
+
+        this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
+
+        this.columns.valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((values) => {
+                this.displayedColumns = [];
+                this.allColumns.forEach(c => {
+                    if (c.fixed || (values.indexOf(c.id) > -1)) {
+                        this.displayedColumns.push(c.id);
+                    }
+                });
+                this._changeDetectorRef.markForCheck();
+                return of([]);
+            })
+        ).subscribe();
     }
 
     ngAfterViewInit(): void {

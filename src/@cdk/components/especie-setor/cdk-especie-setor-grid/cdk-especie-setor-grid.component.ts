@@ -15,6 +15,7 @@ import {tap} from 'rxjs/operators';
 
 import {EspecieSetor} from '@cdk/models/especie-setor.model';
 import {EspecieSetorDataSource} from '@cdk/data-sources/especie-setor-data-source';
+import {FormControl} from "@angular/forms";
 
 @Component({
     selector: 'cdk-especie-setor-grid',
@@ -36,7 +37,77 @@ export class CdkEspecieSetorGridComponent implements AfterViewInit, OnInit, OnCh
     total = 0;
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'genero.nome', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'generoSetor.nome', 'actions'];
+
+    allColumns: any[] = [
+        {
+            id: 'select',
+            label: '',
+            fixed: true
+        },
+        {
+            id: 'id',
+            label: 'Id',
+            fixed: true
+        },
+        {
+            id: 'nome',
+            label: 'Nome',
+            fixed: true
+        },
+        {
+            id: 'descricao',
+            label: 'Descrição',
+            fixed: false
+        },
+        {
+            id: 'ativo',
+            label: 'Ativo',
+            fixed: false
+        },
+        {
+            id: 'generoSetor.nome',
+            label: 'Gênero Setor',
+            fixed: false
+        },
+        {
+            id: 'criadoPor.nome',
+            label: 'Criado Por',
+            fixed: false
+        },
+        {
+            id: 'criadoEm',
+            label: 'Criado Em',
+            fixed: false
+        },
+        {
+            id: 'atualizadoPor.nome',
+            label: 'Atualizado Por',
+            fixed: false
+        },
+        {
+            id: 'atualizadoEm',
+            label: 'Atualizado Em',
+            fixed: false
+        },
+        {
+            id: 'apagadoPor.nome',
+            label: 'Apagado Por',
+            fixed: false
+        },
+        {
+            id: 'apagadoEm',
+            label: 'Apagado Em',
+            fixed: false
+        },
+        {
+            id: 'actions',
+            label: '',
+            fixed: true
+        }
+    ];
+
+    columns = new FormControl();
 
     @Input()
     deletingIds: number[] = [];

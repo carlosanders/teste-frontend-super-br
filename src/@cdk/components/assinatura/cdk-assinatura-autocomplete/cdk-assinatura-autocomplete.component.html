@@ -1,0 +1,9 @@
+<mat-autocomplete [displayWith]="displayAssinaturaFn">
+    <mat-option *ngFor="let assinatura of assinaturaList"
+                [value]="assinatura">
+        <span [innerHTML]="displayAssinaturaFn(assinatura) | highlightOption: this.control.value"></span>
+    </mat-option>
+    <mat-option *ngIf="assinaturaListIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>

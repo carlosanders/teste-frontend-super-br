@@ -8,6 +8,7 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatSelectModule,
 } from '@angular/material';
 
 import {FuseSharedModule} from '@fuse/shared.module';
@@ -21,6 +22,7 @@ import {CdkVinculacaoRoleGridFilterModule} from './cdk-vinculacao-role-grid-filt
         CdkVinculacaoRoleGridComponent
     ],
     imports: [
+        MatSelectModule,
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,
@@ -29,9 +31,11 @@ import {CdkVinculacaoRoleGridFilterModule} from './cdk-vinculacao-role-grid-filt
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
+
         CdkVinculacaoRoleAutocompleteModule,
+        CdkVinculacaoRoleGridFilterModule,
+
         FuseSharedModule,
-        CdkVinculacaoRoleGridFilterModule
     ],
     providers: [
         VinculacaoRoleService,

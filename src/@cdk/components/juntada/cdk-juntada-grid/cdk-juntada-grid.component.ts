@@ -11,10 +11,11 @@ import {fuseAnimations} from '@fuse/animations';
 
 import {MatPaginator, MatSort} from '@angular/material';
 
-import {tap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
 import {Juntada} from '@cdk/models/juntada.model';
 import {JuntadaDataSource} from '@cdk/data-sources/juntada-data-source';
+import {FormControl} from "@angular/forms";
 
 @Component({
     selector: 'cdk-juntada-grid',
@@ -37,6 +38,101 @@ export class CdkJuntadaGridComponent implements AfterViewInit, OnInit, OnChanges
 
     @Input()
     displayedColumns: string[] = ['select', 'id', 'numeracaoSequencial', 'descricao', 'documento.tipoDocumento.nome', 'actions'];
+
+    allColumns: any[] = [
+        {
+            id: 'select',
+            label: '',
+            fixed: true
+        },
+        {
+            id: 'id',
+            label: 'Id',
+            fixed: true
+        },
+        {
+            id: 'descricao',
+            label: 'Descrição',
+            fixed: true
+        },
+        {
+            id: 'numeracaoSequencial',
+            label: 'Numeração Sequencial',
+            fixed: false
+        },
+        {
+            id: 'ativo',
+            label: 'Ativo',
+            fixed: false
+        },
+        {
+            id: 'documento.tipoDocumento.nome',
+            label: 'Tipo Documento',
+            fixed: false
+        },
+        {
+            id: 'origemDados.fonteDados',
+            label: 'Origem de Dados',
+            fixed: false
+        },
+        {
+            id: 'volume.numeracaoSequencial',
+            label: 'Volume',
+            fixed: false
+        },
+        {
+            id: 'documentoAvulso.especieDocumentoAvulso.nome',
+            label: 'Documento Avulso',
+            fixed: false
+        },
+        {
+            id: 'atividade.especieAtividade.nome',
+            label: 'Atividade',
+            fixed: false
+        },
+        {
+            id: 'tarefa.especieTarefa.nome',
+            label: 'Tarefa',
+            fixed: false
+        },
+        {
+            id: 'criadoPor.nome',
+            label: 'Criado Por',
+            fixed: false
+        },
+        {
+            id: 'criadoEm',
+            label: 'Criado Em',
+            fixed: false
+        },
+        {
+            id: 'atualizadoPor.nome',
+            label: 'Atualizado Por',
+            fixed: false
+        },
+        {
+            id: 'atualizadoEm',
+            label: 'Atualizado Em',
+            fixed: false
+        },
+        {
+            id: 'apagadoPor.nome',
+            label: 'Apagado Por',
+            fixed: false
+        },
+        {
+            id: 'apagadoEm',
+            label: 'Apagado Em',
+            fixed: false
+        },
+        {
+            id: 'actions',
+            label: '',
+            fixed: true
+        }
+    ];
+
+    columns = new FormControl();
 
     @Input()
     deletingIds: number[] = [];
@@ -113,6 +209,23 @@ export class CdkJuntadaGridComponent implements AfterViewInit, OnInit, OnChanges
         this.paginator.pageSize = this.pageSize;
 
         this.dataSource = new JuntadaDataSource(of(this.juntadas));
+
+        this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
+
+        this.columns.valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((values) => {
+                this.displayedColumns = [];
+                this.allColumns.forEach(c => {
+                    if (c.fixed || (values.indexOf(c.id) > -1)) {
+                        this.displayedColumns.push(c.id);
+                    }
+                });
+                this._changeDetectorRef.markForCheck();
+                return of([]);
+            })
+        ).subscribe();
     }
 
     ngAfterViewInit(): void {

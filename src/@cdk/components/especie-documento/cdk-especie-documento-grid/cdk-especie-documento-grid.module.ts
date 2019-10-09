@@ -8,6 +8,7 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatSelectModule,
 } from '@angular/material';
 
 import {FuseSharedModule} from '@fuse/shared.module';
@@ -21,7 +22,7 @@ import {CdkEspecieDocumentoGridFilterModule} from '@cdk/components/especie-docum
         CdkEspecieDocumentoGridComponent
     ],
     imports: [
-
+        MatSelectModule,
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,
@@ -32,7 +33,6 @@ import {CdkEspecieDocumentoGridFilterModule} from '@cdk/components/especie-docum
         MatSortModule,
 
         CdkEspecieDocumentoGridFilterModule,
-
         CdkEspecieDocumentoAutocompleteModule,
 
         FuseSharedModule,

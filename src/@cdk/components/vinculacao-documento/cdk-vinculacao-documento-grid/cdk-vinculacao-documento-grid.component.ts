@@ -11,10 +11,11 @@ import {fuseAnimations} from '@fuse/animations';
 
 import {MatPaginator, MatSort} from '@angular/material';
 
-import {tap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
 import {VinculacaoDocumento} from '@cdk/models/vinculacao-documento.model';
 import {VinculacaoDocumentoDataSource} from '@cdk/data-sources/vinculacao-documento-data-source';
+import {FormControl} from "@angular/forms";
 
 @Component({
     selector: 'cdk-vinculacao-documento-grid',
@@ -36,7 +37,68 @@ export class CdkVinculacaoDocumentoGridComponent implements AfterViewInit, OnIni
     total = 0;
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'documento.descricaoOutros', 'documentoVinculado.descricaoOutros', 'modalidadeVinculacaoDocumento.valor', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'documento.tipoDocumento.nome', 'documentoVinculado.tipoDocumento.nome',
+        'modalidadeVinculacaoDocumento.valor', 'actions'];
+
+    allColumns: any[] = [
+        {
+            id: 'select',
+            label: '',
+            fixed: true
+        },
+        {
+            id: 'documento.tipoDocumento.nome',
+            label: 'Documento',
+            fixed: true
+        },
+        {
+            id: 'documentoVinculado.tipoDocumento.nome',
+            label: 'Documento Vinculado',
+            fixed: true
+        },
+        {
+            id: 'modalidadeVinculacaoDocumento.valor',
+            label: 'Modalidaded da Vinculação do Documento',
+            fixed: false
+        },
+        {
+            id: 'criadoPor.nome',
+            label: 'Criado Por',
+            fixed: false
+        },
+        {
+            id: 'criadoEm',
+            label: 'Criado Em',
+            fixed: false
+        },
+        {
+            id: 'atualizadoPor.nome',
+            label: 'Atualizado Por',
+            fixed: false
+        },
+        {
+            id: 'atualizadoEm',
+            label: 'Atualizado Em',
+            fixed: false
+        },
+        {
+            id: 'apagadoPor.nome',
+            label: 'Apagado Por',
+            fixed: false
+        },
+        {
+            id: 'apagadoEm',
+            label: 'Apagado Em',
+            fixed: false
+        },
+        {
+            id: 'actions',
+            label: '',
+            fixed: true
+        }
+    ];
+
+    columns = new FormControl();
 
     @Input()
     deletingIds: number[] = [];
@@ -99,7 +161,6 @@ export class CdkVinculacaoDocumentoGridComponent implements AfterViewInit, OnIni
     }
 
     ngOnInit(): void {
-
         this.paginator._intl.itemsPerPageLabel = 'Registros por página';
         this.paginator._intl.nextPageLabel = 'Seguinte';
         this.paginator._intl.previousPageLabel = 'Anterior';
@@ -107,6 +168,23 @@ export class CdkVinculacaoDocumentoGridComponent implements AfterViewInit, OnIni
         this.paginator.pageSize = this.pageSize;
 
         this.dataSource = new VinculacaoDocumentoDataSource(of(this.vinculacaoDocumentos));
+
+        this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
+
+        this.columns.valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((values) => {
+                this.displayedColumns = [];
+                this.allColumns.forEach(c => {
+                    if (c.fixed || (values.indexOf(c.id) > -1)) {
+                        this.displayedColumns.push(c.id);
+                    }
+                });
+                this._changeDetectorRef.markForCheck();
+                return of([]);
+            })
+        ).subscribe();
     }
 
     ngAfterViewInit(): void {

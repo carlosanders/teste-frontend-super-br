@@ -8,12 +8,13 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatSelectModule,
 } from '@angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
-import { ModalidadeFolderService } from '@cdk/services/modalidade-folder.service';
-import { CdkModalidadeFolderGridComponent} from './cdk-modalidade-folder-grid.component';
-import { CdkModalidadeFolderAutocompleteModule } from '@cdk/components/modalidade-folder/cdk-modalidade-folder-autocomplete/cdk-modalidade-folder-autocomplete.module';
+import {FuseSharedModule} from '@fuse/shared.module';
+import {ModalidadeFolderService} from '@cdk/services/modalidade-folder.service';
+import {CdkModalidadeFolderGridComponent} from './cdk-modalidade-folder-grid.component';
+import {CdkModalidadeFolderAutocompleteModule} from '@cdk/components/modalidade-folder/cdk-modalidade-folder-autocomplete/cdk-modalidade-folder-autocomplete.module';
 import {CdkModalidadeFolderGridFilterModule} from './cdk-modalidade-folder-grid-filter/cdk-modalidade-folder-grid-filter.module';
 
 @NgModule({
@@ -21,7 +22,7 @@ import {CdkModalidadeFolderGridFilterModule} from './cdk-modalidade-folder-grid-
         CdkModalidadeFolderGridComponent
     ],
     imports: [
-
+        MatSelectModule,
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,

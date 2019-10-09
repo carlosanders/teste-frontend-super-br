@@ -11,11 +11,12 @@ import {fuseAnimations} from '@fuse/animations';
 
 import {MatPaginator, MatSort} from '@angular/material';
 
-import {tap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 import {DocumentoDataSource} from '@cdk/data-sources/documento-data-source';
 import {Documento} from '@cdk/models/documento.model';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {ComponenteDigital} from '../../../models/componente-digital.model';
+import {FormControl} from "@angular/forms";
 
 @Component({
     selector: 'cdk-documento-grid',
@@ -40,7 +41,178 @@ export class CdkDocumentoGridComponent implements AfterViewInit, OnInit, OnChang
     mode = 'list';
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'tipoDocumento.nome', 'tipoDocumento.especieDocumento.nome', 'componentesDigitais.extensao', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'tipoDocumento.nome', 'tipoDocumento.especieDocumento.nome',
+        'componentesDigitais.extensao', 'actions'];
+
+    allColumns: any[] = [
+        {
+            id: 'select',
+            label: '',
+            fixed: true
+        },
+        {
+            id: 'id',
+            label: 'Id',
+            fixed: true
+        },
+        {
+            id: 'processoOrigem.NUP',
+            label: 'NUP',
+            fixed: true
+        },
+        {
+            id: 'descricaoOutros',
+            label: 'Descrição Outros',
+            fixed: false
+        },
+        {
+            id: 'numeroFolhas',
+            label: 'Número de Folhas',
+            fixed: false
+        },
+        {
+            id: 'outroNumero',
+            label: 'Outro Número',
+            fixed: false
+        },
+        {
+            id: 'semEfeito',
+            label: 'Sem Efeito',
+            fixed: false
+        },
+        {
+            id: 'redator',
+            label: 'Redator',
+            fixed: false
+        },
+        {
+            id: 'localizadorOriginal',
+            label: 'Localizador Original',
+            fixed: false
+        },
+        {
+            id: 'localProducao',
+            label: 'Local Produção',
+            fixed: false
+        },
+        {
+            id: 'autor',
+            label: 'Autor',
+            fixed: false
+        },
+        {
+            id: 'observacao',
+            label: 'Observação',
+            fixed: false
+        },
+        {
+            id: 'copia',
+            label: 'Cópia',
+            fixed: false
+        },
+        {
+            id: 'dataHoraProducao',
+            label: 'Data Produção',
+            fixed: false
+        },
+        {
+            id: 'documentoOrigem.localizadorOriginal',
+            label: 'Documento de Origem',
+            fixed: false
+        },
+        {
+            id: 'procedencia.nome',
+            label: 'Procedência',
+            fixed: false
+        },
+        {
+            id: 'tipoDocumento.nome',
+            label: 'Nome Documento',
+            fixed: false
+        },
+        {
+            id: 'tipoDocumento.especieDocumento.nome',
+            label: 'Espécie Documento',
+            fixed: false
+        },
+        {
+            id: 'setorOrigem.nome',
+            label: 'Setor de Origem',
+            fixed: false
+        },
+        {
+            id: 'componentesDigitais.extensao',
+            label: 'Componentes Digitais',
+            fixed: false
+        },
+        {
+            id: 'tarefaOrigem.especieTarefa.nome',
+            label: 'Espécie Tarefa',
+            fixed: false
+        },
+        {
+            id: 'juntadaAtual.numeracaoSequencial',
+            label: 'Juntada Atual',
+            fixed: false
+        },
+        {
+            id: 'origemDados.fonteDados',
+            label: 'Origem dos Dados',
+            fixed: false
+        },
+        {
+            id: 'documentoAvulsoRemessa.especieDocumentoAvulso.nome',
+            label: 'Documento Avulso da Remessa',
+            fixed: false
+        },
+        {
+            id: 'modelo.nome',
+            label: 'Modelo',
+            fixed: false
+        },
+        {
+            id: 'repositorio.nome',
+            label: 'Repositório',
+            fixed: false
+        },
+        {
+            id: 'criadoPor.nome',
+            label: 'Criado Por',
+            fixed: false
+        },
+        {
+            id: 'criadoEm',
+            label: 'Criado Em',
+            fixed: false
+        },
+        {
+            id: 'atualizadoPor.nome',
+            label: 'Atualizado Por',
+            fixed: false
+        },
+        {
+            id: 'atualizadoEm',
+            label: 'Atualizado Em',
+            fixed: false
+        },
+        {
+            id: 'apagadoPor.nome',
+            label: 'Apagado Por',
+            fixed: false
+        },
+        {
+            id: 'apagadoEm',
+            label: 'Apagado Em',
+            fixed: false
+        },
+        {
+            id: 'actions',
+            label: '',
+            fixed: true
+        }
+    ];
+
+    columns = new FormControl();
 
     @Input()
     deletingIds: number[] = [];
@@ -105,7 +277,6 @@ export class CdkDocumentoGridComponent implements AfterViewInit, OnInit, OnChang
     }
 
     ngOnInit(): void {
-
         this.paginator._intl.itemsPerPageLabel = 'Registros por página';
         this.paginator._intl.nextPageLabel = 'Seguinte';
         this.paginator._intl.previousPageLabel = 'Anterior';
@@ -117,6 +288,23 @@ export class CdkDocumentoGridComponent implements AfterViewInit, OnInit, OnChang
         if (this.mode === 'search') {
             this.toggleFilter();
         }
+
+        this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
+
+        this.columns.valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((values) => {
+                this.displayedColumns = [];
+                this.allColumns.forEach(c => {
+                    if (c.fixed || (values.indexOf(c.id) > -1)) {
+                        this.displayedColumns.push(c.id);
+                    }
+                });
+                this._changeDetectorRef.markForCheck();
+                return of([]);
+            })
+        ).subscribe();
     }
 
     ngAfterViewInit(): void {

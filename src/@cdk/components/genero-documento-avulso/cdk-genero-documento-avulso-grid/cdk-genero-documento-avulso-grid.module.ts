@@ -8,6 +8,7 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatSelectModule,
 } from '@angular/material';
 
 import {FuseSharedModule} from '@fuse/shared.module';
@@ -29,9 +30,12 @@ import {CdkGeneroDocumentoAvulsoGridFilterModule} from './cdk-genero-documento-a
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
+        MatSelectModule,
+
         CdkGeneroDocumentoAvulsoAutocompleteModule,
+        CdkGeneroDocumentoAvulsoGridFilterModule,
+
         FuseSharedModule,
-        CdkGeneroDocumentoAvulsoGridFilterModule
     ],
     providers: [
         GeneroDocumentoAvulsoService,

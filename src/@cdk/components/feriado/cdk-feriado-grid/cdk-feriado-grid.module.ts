@@ -8,6 +8,7 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatSelectModule,
 } from '@angular/material';
 
 import {FuseSharedModule} from '@fuse/shared.module';
@@ -21,6 +22,7 @@ import {CdkFeriadoGridFilterModule} from './cdk-feriado-grid-filter/cdk-feriado-
         CdkFeriadoGridComponent
     ],
     imports: [
+        MatSelectModule,
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,
@@ -29,9 +31,11 @@ import {CdkFeriadoGridFilterModule} from './cdk-feriado-grid-filter/cdk-feriado-
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
+
         CdkFeriadoAutocompleteModule,
+        CdkFeriadoGridFilterModule,
+
         FuseSharedModule,
-        CdkFeriadoGridFilterModule
     ],
     providers: [
         FeriadoService,

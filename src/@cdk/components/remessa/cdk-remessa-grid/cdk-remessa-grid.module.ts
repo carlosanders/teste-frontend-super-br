@@ -8,6 +8,7 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatSelectModule,
 } from '@angular/material';
 
 import {FuseSharedModule} from '@fuse/shared.module';
@@ -20,6 +21,7 @@ import {CdkRemessaGridFilterModule} from './cdk-remessa-grid-filter/cdk-remessa-
         CdkRemessaGridComponent
     ],
     imports: [
+        MatSelectModule,
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,
@@ -28,8 +30,10 @@ import {CdkRemessaGridFilterModule} from './cdk-remessa-grid-filter/cdk-remessa-
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
+
+        CdkRemessaGridFilterModule,
+
         FuseSharedModule,
-        CdkRemessaGridFilterModule
     ],
     providers: [
         TramitacaoService,

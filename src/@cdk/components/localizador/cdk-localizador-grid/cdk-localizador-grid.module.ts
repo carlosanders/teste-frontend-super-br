@@ -8,6 +8,7 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatSelectModule,
 } from '@angular/material';
 
 import {FuseSharedModule} from '@fuse/shared.module';
@@ -21,6 +22,7 @@ import {CdkLocalizadorGridFilterModule} from './cdk-localizador-grid-filter/cdk-
         CdkLocalizadorGridComponent
     ],
     imports: [
+        MatSelectModule,
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,
@@ -29,9 +31,11 @@ import {CdkLocalizadorGridFilterModule} from './cdk-localizador-grid-filter/cdk-
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
+
         CdkLocalizadorAutocompleteModule,
+        CdkLocalizadorGridFilterModule,
+
         FuseSharedModule,
-        CdkLocalizadorGridFilterModule
     ],
     providers: [
         LocalizadorService,

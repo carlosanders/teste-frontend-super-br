@@ -7,13 +7,15 @@ import {
     MatProgressSpinnerModule,
     MatTableModule,
     MatPaginatorModule,
-    MatSortModule, MatTooltipModule, MatSelectModule,
+    MatSortModule,
+    MatTooltipModule,
+    MatSelectModule,
 } from '@angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
-import { EspecieTarefaService } from '@cdk/services/especie-tarefa.service';
-import { CdkEspecieTarefaGridComponent} from './cdk-especie-tarefa-grid.component';
-import { CdkEspecieTarefaAutocompleteModule } from '@cdk/components/especie-tarefa/cdk-especie-tarefa-autocomplete/cdk-especie-tarefa-autocomplete.module';
+import {FuseSharedModule} from '@fuse/shared.module';
+import {EspecieTarefaService} from '@cdk/services/especie-tarefa.service';
+import {CdkEspecieTarefaGridComponent} from './cdk-especie-tarefa-grid.component';
+import {CdkEspecieTarefaAutocompleteModule} from '@cdk/components/especie-tarefa/cdk-especie-tarefa-autocomplete/cdk-especie-tarefa-autocomplete.module';
 import {CdkEspecieTarefaGridFilterModule} from './cdk-especie-tarefa-grid-filter/cdk-especie-tarefa-grid-filter.module';
 
 @NgModule({
@@ -21,7 +23,6 @@ import {CdkEspecieTarefaGridFilterModule} from './cdk-especie-tarefa-grid-filter
         CdkEspecieTarefaGridComponent
     ],
     imports: [
-
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,
@@ -30,13 +31,13 @@ import {CdkEspecieTarefaGridFilterModule} from './cdk-especie-tarefa-grid-filter
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
+        MatTooltipModule,
+        MatSelectModule,
 
         CdkEspecieTarefaAutocompleteModule,
         CdkEspecieTarefaGridFilterModule,
 
         FuseSharedModule,
-        MatTooltipModule,
-        MatSelectModule,
     ],
     providers: [
         EspecieTarefaService,

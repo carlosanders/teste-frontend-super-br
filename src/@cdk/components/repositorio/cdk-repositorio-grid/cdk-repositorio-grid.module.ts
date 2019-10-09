@@ -7,7 +7,9 @@ import {
     MatProgressSpinnerModule,
     MatTableModule,
     MatPaginatorModule,
-    MatSortModule, MatTooltipModule,
+    MatSortModule,
+    MatTooltipModule,
+    MatSelectModule,
 } from '@angular/material';
 
 import {FuseSharedModule} from '@fuse/shared.module';
@@ -15,7 +17,6 @@ import {RepositorioService} from '@cdk/services/repositorio.service';
 import {CdkRepositorioGridComponent} from './cdk-repositorio-grid.component';
 import {CdkRepositorioAutocompleteModule} from '@cdk/components/repositorio/cdk-repositorio-autocomplete/cdk-repositorio-autocomplete.module';
 import {CdkRepositorioGridFilterModule} from './cdk-repositorio-grid-filter/cdk-repositorio-grid-filter.module';
-import {SafeHtmlPipe} from '../../../pipes/safe-html.pipe';
 import {PipesModule} from '../../../pipes/pipes.module';
 
 @NgModule({
@@ -23,6 +24,7 @@ import {PipesModule} from '../../../pipes/pipes.module';
         CdkRepositorioGridComponent
     ],
     imports: [
+        MatSelectModule,
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,
@@ -31,11 +33,13 @@ import {PipesModule} from '../../../pipes/pipes.module';
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
-        CdkRepositorioAutocompleteModule,
-        FuseSharedModule,
-        CdkRepositorioGridFilterModule,
         MatTooltipModule,
-        PipesModule
+
+        CdkRepositorioAutocompleteModule,
+        CdkRepositorioGridFilterModule,
+
+        PipesModule,
+        FuseSharedModule,
     ],
     providers: [
         RepositorioService,

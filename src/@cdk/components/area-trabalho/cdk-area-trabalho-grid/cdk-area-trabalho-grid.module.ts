@@ -8,20 +8,21 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatSelectModule,
 } from '@angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
-import { UsuarioService } from '@cdk/services/usuario.service';
-import { CdkUsuarioAutocompleteModule } from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
-import { CdkAreaTrabalhoGridComponent} from './cdk-area-trabalho-grid.component';
-import { CdkAreaTrabalhoGridFilterModule } from './cdk-area-trabalho-grid-filter/cdk-area-trabalho-grid-filter.module';
+import {FuseSharedModule} from '@fuse/shared.module';
+import {UsuarioService} from '@cdk/services/usuario.service';
+import {CdkUsuarioAutocompleteModule} from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
+import {CdkAreaTrabalhoGridComponent} from './cdk-area-trabalho-grid.component';
+import {CdkAreaTrabalhoGridFilterModule} from './cdk-area-trabalho-grid-filter/cdk-area-trabalho-grid-filter.module';
 
 @NgModule({
     declarations: [
         CdkAreaTrabalhoGridComponent
     ],
     imports: [
-        
+        MatSelectModule,
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,

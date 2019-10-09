@@ -8,12 +8,13 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatSelectModule,
 } from '@angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
-import { ModalidadeTransicaoService } from '@cdk/services/modalidade-transicao.service';
-import { CdkModalidadeTransicaoGridComponent} from './cdk-modalidade-transicao-grid.component';
-import { CdkModalidadeTransicaoAutocompleteModule } from '@cdk/components/modalidade-transicao/cdk-modalidade-transicao-autocomplete/cdk-modalidade-transicao-autocomplete.module';
+import {FuseSharedModule} from '@fuse/shared.module';
+import {ModalidadeTransicaoService} from '@cdk/services/modalidade-transicao.service';
+import {CdkModalidadeTransicaoGridComponent} from './cdk-modalidade-transicao-grid.component';
+import {CdkModalidadeTransicaoAutocompleteModule} from '@cdk/components/modalidade-transicao/cdk-modalidade-transicao-autocomplete/cdk-modalidade-transicao-autocomplete.module';
 import {CdkModalidadeTransicaoGridFilterModule} from './cdk-modalidade-transicao-grid-filter/cdk-modalidade-transicao-grid-filter.module';
 
 @NgModule({
@@ -21,7 +22,7 @@ import {CdkModalidadeTransicaoGridFilterModule} from './cdk-modalidade-transicao
         CdkModalidadeTransicaoGridComponent
     ],
     imports: [
-
+        MatSelectModule,
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,

@@ -2,6 +2,15 @@
 
 cdk-especie-documento-avulso-grid {
 
+  .colunas {
+    width: 20px !important;
+
+    .mat-select-value {
+      display: none !important;
+    }
+
+  }
+
   .header {
 
     .filters {
@@ -48,9 +57,9 @@ cdk-especie-documento-avulso-grid {
     table {
       width: 100%;
 
-    tr {
+      tr {
         height: auto;
-    }
+      }
 
       td {
         &.deleted {

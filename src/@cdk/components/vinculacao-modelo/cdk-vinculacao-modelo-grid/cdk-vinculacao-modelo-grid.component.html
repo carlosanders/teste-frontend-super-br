@@ -13,7 +13,7 @@
 
         <div class="actions" fxFlex fxLayout="row" fxLayoutAlign="end center">
 
-             <button class="back" mat-icon-button *ngIf="actions.indexOf('cancel') > -1"
+            <button class="back" mat-icon-button *ngIf="actions.indexOf('cancel') > -1"
                     (click)="doCancel()"
                     aria-label="cancelar"
                     matTooltip="Cancelar">
@@ -26,6 +26,14 @@
                     matTooltip="Remover">
                 <mat-icon>delete</mat-icon>
             </button>
+
+            <mat-form-field class="colunas mr-8">
+                <mat-select [formControl]="columns" multiple>
+                    <div *ngFor="let column of allColumns">
+                        <mat-option *ngIf="!column.fixed" [value]="column.id">{{ column.label }}</mat-option>
+                    </div>
+                </mat-select>
+            </mat-form-field>
 
             <button class="refresh" mat-icon-button
                     (click)="loadPage()"
@@ -83,7 +91,7 @@
             </ng-container>
 
             <!-- EspecieSetor Column -->
-            <ng-container matColumnDef="especieSetor.nome">
+            <ng-container *ngIf="displayedColumns.indexOf('especieSetor.nome') > -1" matColumnDef="especieSetor.nome">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     Espécie do Setor
                 </th>
@@ -92,7 +100,7 @@
             </ng-container>
 
             <!-- Setor Column -->
-            <ng-container matColumnDef="setor.nome">
+            <ng-container *ngIf="displayedColumns.indexOf('setor.nome') > -1" matColumnDef="setor.nome">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     Setor
                 </th>
@@ -101,7 +109,7 @@
             </ng-container>
 
             <!-- Usuario Column -->
-            <ng-container matColumnDef="usuario.nome">
+            <ng-container *ngIf="displayedColumns.indexOf('usuario.nome') > -1" matColumnDef="usuario.nome">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     Usuário
                 </th>

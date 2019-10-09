@@ -55,7 +55,7 @@ const routes: Routes = [
                 loadChildren: () => import('./documentos-avulsos/processo-documentos-avulsos.module').then(m => m.ProcessoDocumentosAvulsosModule)
             },
             {
-                path       : 'tramitacoes',
+                path       : 'remessas',
                 loadChildren: () => import('./tramitacoes/tramitacoes.module').then(m => m.TramitacoesModule)
             },
             {

@@ -11,10 +11,11 @@ import {fuseAnimations} from '@fuse/animations';
 
 import {MatPaginator, MatSort} from '@angular/material';
 
-import {tap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
 import {TipoDocumento} from '@cdk/models/tipo-documento.model';
 import {TipoDocumentoDataSource} from '@cdk/data-sources/tipo-documento-data-source';
+import {FormControl} from "@angular/forms";
 
 @Component({
     selector: 'cdk-tipo-documento-grid',
@@ -37,6 +38,81 @@ export class CdkTipoDocumentoGridComponent implements AfterViewInit, OnInit, OnC
 
     @Input()
     displayedColumns: string[] = ['select', 'id', 'nome', 'glossario', 'actions'];
+
+    allColumns: any[] = [
+        {
+            id: 'select',
+            label: '',
+            fixed: true
+        },
+        {
+            id: 'id',
+            label: 'Id',
+            fixed: true
+        },
+        {
+            id: 'nome',
+            label: 'Nome',
+            fixed: true
+        },
+        {
+            id: 'sigla',
+            label: 'Sigla',
+            fixed: false
+        },
+        {
+            id: 'descricao',
+            label: 'Descrição',
+            fixed: false
+        },
+        {
+            id: 'ativo',
+            label: 'Ativo',
+            fixed: false
+        },
+        {
+            id: 'especieDocumento.nome',
+            label: 'Espécie de Documento',
+            fixed: false
+        },
+        {
+            id: 'criadoPor.nome',
+            label: 'Criado Por',
+            fixed: false
+        },
+        {
+            id: 'criadoEm',
+            label: 'Criado Em',
+            fixed: false
+        },
+        {
+            id: 'atualizadoPor.nome',
+            label: 'Atualizado Por',
+            fixed: false
+        },
+        {
+            id: 'atualizadoEm',
+            label: 'Atualizado Em',
+            fixed: false
+        },
+        {
+            id: 'apagadoPor.nome',
+            label: 'Apagado Por',
+            fixed: false
+        },
+        {
+            id: 'apagadoEm',
+            label: 'Apagado Em',
+            fixed: false
+        },
+        {
+            id: 'actions',
+            label: '',
+            fixed: true
+        }
+    ];
+
+    columns = new FormControl();
 
     @Input()
     deletingIds: number[] = [];
@@ -99,7 +175,6 @@ export class CdkTipoDocumentoGridComponent implements AfterViewInit, OnInit, OnC
     }
 
     ngOnInit(): void {
-
         this.paginator._intl.itemsPerPageLabel = 'Registros por página';
         this.paginator._intl.nextPageLabel = 'Seguinte';
         this.paginator._intl.previousPageLabel = 'Anterior';
@@ -107,6 +182,23 @@ export class CdkTipoDocumentoGridComponent implements AfterViewInit, OnInit, OnC
         this.paginator.pageSize = this.pageSize;
 
         this.dataSource = new TipoDocumentoDataSource(of(this.tiposDocumentos));
+
+        this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
+
+        this.columns.valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((values) => {
+                this.displayedColumns = [];
+                this.allColumns.forEach(c => {
+                    if (c.fixed || (values.indexOf(c.id) > -1)) {
+                        this.displayedColumns.push(c.id);
+                    }
+                });
+                this._changeDetectorRef.markForCheck();
+                return of([]);
+            })
+        ).subscribe();
     }
 
     ngAfterViewInit(): void {

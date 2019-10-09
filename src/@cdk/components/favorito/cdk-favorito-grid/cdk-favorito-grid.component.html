@@ -13,7 +13,7 @@
 
         <div class="actions" fxFlex fxLayout="row" fxLayoutAlign="end center">
 
-             <button class="back" mat-icon-button *ngIf="actions.indexOf('cancel') > -1"
+            <button class="back" mat-icon-button *ngIf="actions.indexOf('cancel') > -1"
                     (click)="doCancel()"
                     aria-label="cancelar"
                     matTooltip="Cancelar">
@@ -26,6 +26,14 @@
                     matTooltip="Remover">
                 <mat-icon>delete</mat-icon>
             </button>
+
+            <mat-form-field class="colunas mr-8">
+                <mat-select [formControl]="columns" multiple>
+                    <div *ngFor="let column of allColumns">
+                        <mat-option *ngIf="!column.fixed" [value]="column.id">{{ column.label }}</mat-option>
+                    </div>
+                </mat-select>
+            </mat-form-field>
 
             <button class="refresh" mat-icon-button
                     (click)="loadPage()"
@@ -73,41 +81,114 @@
                     [ngClass]="{'deleted':deletedIds?.indexOf(favorito.id) > -1}"> {{favorito.id}} </td>
             </ng-container>
 
-            <!-- Nome Column -->
-            <ng-container matColumnDef="nome">
+            <!-- EspecieAtividade Column -->
+            <ng-container matColumnDef="especieAtividade.nome">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    <mat-label>
-                        Nome
-                    </mat-label>
+                    Espécie de Atividade
                 </th>
-                <td mat-cell *matCellDef="let favorito" class='has_label_on_mobile' data-label='Nome: '
+                <td mat-cell *matCellDef="let favorito" class='has_label_on_mobile' data-label='Espécie de Atividade: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(favorito.id) > -1}"> {{favorito.especieAtividade?.nome}} </td>
+            </ng-container>
+
+            <!-- SetorResponsavel Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('setorResponsavel.nome') > -1" matColumnDef="setorResponsavel.nome">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Setor Responsável
+                </th>
+                <td mat-cell *matCellDef="let favorito" class='has_label_on_mobile' data-label='Setor Responsável: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(favorito.id) > -1}"> {{favorito.setorResponsavel?.nome}} </td>
+            </ng-container>
+
+            <!-- Usuario Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('usuario.nome') > -1" matColumnDef="usuario.nome">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Usuário
+                </th>
+                <td mat-cell *matCellDef="let favorito" class='has_label_on_mobile' data-label='Usuário: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(favorito.id) > -1}"> {{favorito.usuario?.nome}} </td>
+            </ng-container>
+
+            <!-- EspecieTarefa Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('especieTarefa.nome') > -1" matColumnDef="especieTarefa.nome">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Espécie de Tarefa
+                </th>
+                <td mat-cell *matCellDef="let favorito" class='has_label_on_mobile' data-label='Espécie de Tarefa: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(favorito.id) > -1}"> {{favorito.especieTarefa?.nome}} </td>
+            </ng-container>
+
+            <!-- QtdUso Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('qtdUso') > -1" matColumnDef="qtdUso">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Quantidade de Uso
+                </th>
+                <td mat-cell *matCellDef="let favorito" class='has_label_on_mobile' data-label='Quantidade de Uso: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(favorito.id) > -1}"> {{favorito.qtdUso}} </td>
+            </ng-container>
+
+            <!-- Prioritario Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('prioritario') > -1" matColumnDef="prioritario">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Prioritário
+                </th>
+                <td mat-cell *matCellDef="let favorito" class='has_label_on_mobile' data-label='Prioritário: '
                     [ngClass]="{'deleted':deletedIds?.indexOf(favorito.id) > -1}">
-                    <mat-label *ngIf="favorito.especieAtividade?.nome || favorito.especieTarefa?.nome">
-                        {{favorito.especieAtividade?.nome}}
-                        {{favorito.especieTarefa?.nome}}
-                    </mat-label>
-                    <mat-label *ngIf="favorito.setorResponsavel?.nome">
-                        {{favorito.setorResponsavel?.nome}}
-                    </mat-label>
+                    <mat-checkbox [disabled]="true" [checked]="favorito.prioritario"></mat-checkbox>
                 </td>
             </ng-container>
 
-            <!-- Descricao Column -->
-            <ng-container matColumnDef="descricao">
+            <!-- CriadoPor Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('criadoPor.nome') > -1" matColumnDef="criadoPor.nome">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    <mat-label>
-                        Descrição
-                    </mat-label>
+                    Criado Por
                 </th>
-                <td mat-cell *matCellDef="let favorito" class='has_label_on_mobile' data-label='Descricao: '>
-                    <mat-label *ngIf="favorito.especieAtividade?.nome || favorito.especieTarefa?.nome">
-                        {{favorito.especieAtividade?.descricao}}
-                        {{favorito.especieTarefa?.descricao}}
-                    </mat-label>
-                    <mat-label *ngIf="favorito.setorResponsavel?.nome">
-                        {{favorito.setorResponsavel.unidade?.nome}}
-                    </mat-label>
-                </td>
+                <td mat-cell *matCellDef="let favorito" class='has_label_on_mobile' data-label='Criado Por: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(favorito.id) > -1}"> {{favorito.criadoPor?.nome}} </td>
+            </ng-container>
+
+            <!-- CriadoEm Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('criadoEm') > -1" matColumnDef="criadoEm">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Criado Em
+                </th>
+                <td mat-cell *matCellDef="let favorito" class='has_label_on_mobile' data-label='Criado Em: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(favorito.id) > -1}"> {{favorito.criadoEm | date: 'dd/MM/yyyy'}} </td>
+            </ng-container>
+
+            <!-- AtualizadoPor Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1" matColumnDef="atualizadoPor.nome">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Atualizado Por
+                </th>
+                <td mat-cell *matCellDef="let favorito" class='has_label_on_mobile' data-label='Atualizado Por: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(favorito.id) > -1}"> {{favorito.atualizadoPor?.nome}} </td>
+            </ng-container>
+
+            <!-- AtualizadoEm Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('atualizadoEm') > -1" matColumnDef="atualizadoEm">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Atualizado Em
+                </th>
+                <td mat-cell *matCellDef="let favorito" class='has_label_on_mobile' data-label='Atualizado Em: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(favorito.id) > -1}"> {{favorito.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
+            </ng-container>
+
+            <!-- ApagadoPor Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('apagadoPor.nome') > -1" matColumnDef="apagadoPor.nome">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Apagado Por
+                </th>
+                <td mat-cell *matCellDef="let favorito" class='has_label_on_mobile' data-label='Apagado Por: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(favorito.id) > -1}"> {{favorito.apagadoPor?.nome}} </td>
+            </ng-container>
+
+            <!-- ApagadoEm Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('apagadoEm') > -1" matColumnDef="apagadoEm">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Apagado Em
+                </th>
+                <td mat-cell *matCellDef="let favorito" class='has_label_on_mobile' data-label='Apagado Em: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(favorito.id) > -1}"> {{favorito.apagadoEm | date: 'dd/MM/yyyy'}} </td>
             </ng-container>
 
             <!-- Actions Column -->

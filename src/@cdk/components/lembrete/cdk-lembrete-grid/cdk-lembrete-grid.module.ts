@@ -8,6 +8,7 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatSelectModule,
 } from '@angular/material';
 
 import {FuseSharedModule} from '@fuse/shared.module';
@@ -21,6 +22,7 @@ import {CdkLembreteGridFilterModule} from './cdk-lembrete-grid-filter/cdk-lembre
         CdkLembreteGridComponent
     ],
     imports: [
+        MatSelectModule,
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,
@@ -29,9 +31,11 @@ import {CdkLembreteGridFilterModule} from './cdk-lembrete-grid-filter/cdk-lembre
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
+
         CdkLembreteAutocompleteModule,
+        CdkLembreteGridFilterModule,
+
         FuseSharedModule,
-        CdkLembreteGridFilterModule
     ],
     providers: [
         LembreteService,

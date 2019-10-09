@@ -8,12 +8,13 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatSelectModule,
 } from '@angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
-import { PaisService } from '@cdk/services/pais.service';
-import { CdkPaisGridComponent} from './cdk-pais-grid.component';
-import { CdkPaisAutocompleteModule } from '@cdk/components/pais/cdk-pais-autocomplete/cdk-pais-autocomplete.module';
+import {FuseSharedModule} from '@fuse/shared.module';
+import {PaisService} from '@cdk/services/pais.service';
+import {CdkPaisGridComponent} from './cdk-pais-grid.component';
+import {CdkPaisAutocompleteModule} from '@cdk/components/pais/cdk-pais-autocomplete/cdk-pais-autocomplete.module';
 import {CdkPaisGridFilterModule} from './cdk-pais-grid-filter/cdk-pais-grid-filter.module';
 
 @NgModule({
@@ -21,7 +22,7 @@ import {CdkPaisGridFilterModule} from './cdk-pais-grid-filter/cdk-pais-grid-filt
         CdkPaisGridComponent
     ],
     imports: [
-
+        MatSelectModule,
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,

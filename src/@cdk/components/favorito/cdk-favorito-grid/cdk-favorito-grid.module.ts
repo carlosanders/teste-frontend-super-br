@@ -7,7 +7,9 @@ import {
     MatProgressSpinnerModule,
     MatTableModule,
     MatPaginatorModule,
-    MatSortModule, MatRadioModule
+    MatSortModule,
+    MatRadioModule,
+    MatSelectModule,
 } from '@angular/material';
 
 import {FuseSharedModule} from '@fuse/shared.module';
@@ -20,6 +22,7 @@ import {CdkFavoritoGridFilterModule} from './cdk-favorito-grid-filter/cdk-favori
         CdkFavoritoGridComponent
     ],
     imports: [
+        MatSelectModule,
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,
@@ -28,10 +31,11 @@ import {CdkFavoritoGridFilterModule} from './cdk-favorito-grid-filter/cdk-favori
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
-        FuseSharedModule,
         MatRadioModule,
-        CdkFavoritoGridFilterModule
 
+        CdkFavoritoGridFilterModule,
+
+        FuseSharedModule,
     ],
     providers: [
         FavoritoService,

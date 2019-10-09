@@ -2,6 +2,15 @@
 
 cdk-favorito-grid {
 
+  .colunas {
+    width: 20px !important;
+
+    .mat-select-value {
+      display: none !important;
+    }
+
+  }
+
   .header {
 
     .filters {
@@ -138,7 +147,8 @@ cdk-favorito-grid {
       margin-top: 24px;
     }
   }
-    .mat-radio-button ~ .mat-radio-button {
-        margin-left: 16px;
-    }
+
+  .mat-radio-button ~ .mat-radio-button {
+    margin-left: 16px;
+  }
 }

@@ -2,6 +2,15 @@
 
 cdk-cargo-grid {
 
+  .colunas {
+    width: 20px !important;
+
+    .mat-select-value {
+      display: none !important;
+    }
+
+  }
+
   .header {
 
     .filters {
@@ -124,12 +133,12 @@ cdk-cargo-grid {
   }
 
   .content {
-      .actions {
-          width: 100%;
+    .actions {
+      width: 100%;
 
-          .back {
-              margin-right: auto;
-          }
+      .back {
+        margin-right: auto;
       }
+    }
   }
 }

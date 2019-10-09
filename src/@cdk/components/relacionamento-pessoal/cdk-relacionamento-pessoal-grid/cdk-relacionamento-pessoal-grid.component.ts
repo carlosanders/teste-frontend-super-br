@@ -11,10 +11,11 @@ import {fuseAnimations} from '@fuse/animations';
 
 import {MatPaginator, MatSort} from '@angular/material';
 
-import {tap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
 import {RelacionamentoPessoal} from '@cdk/models/relacionamento-pessoal.model';
 import {RelacionamentoPessoalDataSource} from '@cdk/data-sources/relacionamento-pessoal-data-source';
+import {FormControl} from "@angular/forms";
 
 @Component({
     selector: 'cdk-relacionamento-pessoal-grid',
@@ -36,7 +37,73 @@ export class CdkRelacionamentoPessoalGridComponent implements AfterViewInit, OnI
     total = 0;
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'pessoaRelacionada.nome', 'modalidadeRelacionamentoPessoal.valor', 'origemDados.servico', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'pessoaRelacionada.nome', 'modalidadeRelacionamentoPessoal.valor',
+        'origemDados.servico', 'actions'];
+
+    allColumns: any[] = [
+        {
+            id: 'select',
+            label: '',
+            fixed: true
+        },
+        {
+            id: 'id',
+            label: 'Id',
+            fixed: true
+        },
+        {
+            id: 'pessoaRelacionada.nome',
+            label: 'Pessoa Relacionada',
+            fixed: true
+        },
+        {
+            id: 'modalidadeRelacionamentoPessoal.valor',
+            label: 'Modalidade Relacionamento Pessoal',
+            fixed: false
+        },
+        {
+            id: 'origemDados.fonteDados',
+            label: 'Origem de Dados',
+            fixed: false
+        },
+        {
+            id: 'criadoPor.nome',
+            label: 'Criado Por',
+            fixed: false
+        },
+        {
+            id: 'criadoEm',
+            label: 'Criado Em',
+            fixed: false
+        },
+        {
+            id: 'atualizadoPor.nome',
+            label: 'Atualizado Por',
+            fixed: false
+        },
+        {
+            id: 'atualizadoEm',
+            label: 'Atualizado Em',
+            fixed: false
+        },
+        {
+            id: 'apagadoPor.nome',
+            label: 'Apagado Por',
+            fixed: false
+        },
+        {
+            id: 'apagadoEm',
+            label: 'Apagado Em',
+            fixed: false
+        },
+        {
+            id: 'actions',
+            label: '',
+            fixed: true
+        }
+    ];
+
+    columns = new FormControl();
 
     @Input()
     deletingIds: number[] = [];
@@ -107,6 +174,24 @@ export class CdkRelacionamentoPessoalGridComponent implements AfterViewInit, OnI
         this.paginator.pageSize = this.pageSize;
 
         this.dataSource = new RelacionamentoPessoalDataSource(of(this.relacionamentoPessoals));
+
+        this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
+
+        this.columns.valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((values) => {
+                this.displayedColumns = [];
+                this.allColumns.forEach(c => {
+                    if (c.fixed || (values.indexOf(c.id) > -1)) {
+                        this.displayedColumns.push(c.id);
+                    }
+                });
+                this._changeDetectorRef.markForCheck();
+                return of([]);
+            })
+        ).subscribe();
+
     }
 
     ngAfterViewInit(): void {

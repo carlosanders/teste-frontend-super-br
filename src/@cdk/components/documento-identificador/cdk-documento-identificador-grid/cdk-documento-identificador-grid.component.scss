@@ -2,6 +2,15 @@
 
 cdk-documento-identificador-grid {
 
+  .colunas {
+    width: 20px !important;
+
+    .mat-select-value {
+      display: none !important;
+    }
+
+  }
+
   .header {
 
     .filters {
@@ -48,9 +57,9 @@ cdk-documento-identificador-grid {
     table {
       width: 100%;
 
-        tr {
-            height: auto;
-        }
+      tr {
+        height: auto;
+      }
 
       td {
         &.deleted {

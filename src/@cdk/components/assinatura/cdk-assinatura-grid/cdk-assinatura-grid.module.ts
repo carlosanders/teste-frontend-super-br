@@ -7,19 +7,21 @@ import {
     MatProgressSpinnerModule,
     MatTableModule,
     MatPaginatorModule,
-    MatSortModule, MatTooltipModule,
+    MatSortModule,
+    MatTooltipModule,
+    MatSelectModule,
 } from '@angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
-import { CdkAssinaturaGridComponent} from './cdk-assinatura-grid.component';
-import { CdkAssinaturaGridFilterModule } from './cdk-assinatura-grid-filter/cdk-assinatura-grid-filter.module';
+import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkAssinaturaGridComponent} from './cdk-assinatura-grid.component';
+import {CdkAssinaturaGridFilterModule} from './cdk-assinatura-grid-filter/cdk-assinatura-grid-filter.module';
 
 @NgModule({
     declarations: [
         CdkAssinaturaGridComponent
     ],
     imports: [
-
+        MatSelectModule,
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,
@@ -34,9 +36,7 @@ import { CdkAssinaturaGridFilterModule } from './cdk-assinatura-grid-filter/cdk-
         FuseSharedModule,
         MatTooltipModule,
     ],
-    providers: [
-        
-    ],
+    providers: [],
     exports: [
         CdkAssinaturaGridComponent
     ]

@@ -8,20 +8,21 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatSelectModule,
 } from '@angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
-import { UsuarioService } from '@cdk/services/usuario.service';
-import { CdkUsuarioAutocompleteModule } from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
-import { CdkCompartilhamentoGridComponent} from './cdk-compartilhamento-grid.component';
-import { CdkCompartilhamentoGridFilterModule } from './cdk-compartilhamento-grid-filter/cdk-compartilhamento-grid-filter.module';
+import {FuseSharedModule} from '@fuse/shared.module';
+import {UsuarioService} from '@cdk/services/usuario.service';
+import {CdkUsuarioAutocompleteModule} from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
+import {CdkCompartilhamentoGridComponent} from './cdk-compartilhamento-grid.component';
+import {CdkCompartilhamentoGridFilterModule} from './cdk-compartilhamento-grid-filter/cdk-compartilhamento-grid-filter.module';
 
 @NgModule({
     declarations: [
         CdkCompartilhamentoGridComponent
     ],
     imports: [
-        
+        MatSelectModule,
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,

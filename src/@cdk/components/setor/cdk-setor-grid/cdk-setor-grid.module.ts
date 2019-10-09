@@ -8,12 +8,13 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatSelectModule,
 } from '@angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
-import { SetorService } from '@cdk/services/setor.service';
-import { CdkSetorGridComponent} from './cdk-setor-grid.component';
-import { CdkSetorAutocompleteModule } from '@cdk/components/setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
+import {FuseSharedModule} from '@fuse/shared.module';
+import {SetorService} from '@cdk/services/setor.service';
+import {CdkSetorGridComponent} from './cdk-setor-grid.component';
+import {CdkSetorAutocompleteModule} from '@cdk/components/setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
 import {CdkSetorGridFilterModule} from './cdk-setor-grid-filter/cdk-setor-grid-filter.module';
 
 @NgModule({
@@ -21,7 +22,6 @@ import {CdkSetorGridFilterModule} from './cdk-setor-grid-filter/cdk-setor-grid-f
         CdkSetorGridComponent
     ],
     imports: [
-
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,
@@ -30,6 +30,7 @@ import {CdkSetorGridFilterModule} from './cdk-setor-grid-filter/cdk-setor-grid-f
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
+        MatSelectModule,
 
         CdkSetorAutocompleteModule,
         CdkSetorGridFilterModule,

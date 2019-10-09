@@ -8,6 +8,7 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatSelectModule,
 } from '@angular/material';
 
 import {FuseSharedModule} from '@fuse/shared.module';
@@ -29,9 +30,12 @@ import {CdkGeneroRelevanciaGridFilterModule} from './cdk-genero-relevancia-grid-
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
+        MatSelectModule,
+
         CdkGeneroRelevanciaAutocompleteModule,
+        CdkGeneroRelevanciaGridFilterModule,
+
         FuseSharedModule,
-        CdkGeneroRelevanciaGridFilterModule
     ],
     providers: [
         GeneroRelevanciaService,

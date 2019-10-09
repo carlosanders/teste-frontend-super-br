@@ -7,13 +7,15 @@ import {
     MatProgressSpinnerModule,
     MatTableModule,
     MatPaginatorModule,
-    MatSortModule, MatTooltipModule,
+    MatSortModule,
+    MatTooltipModule,
+    MatSelectModule,
 } from '@angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
-import { ModeloService } from '@cdk/services/modelo.service';
-import { CdkModeloGridComponent} from './cdk-modelo-grid.component';
-import { CdkModeloAutocompleteModule } from '@cdk/components/modelo/cdk-modelo-autocomplete/cdk-modelo-autocomplete.module';
+import {FuseSharedModule} from '@fuse/shared.module';
+import {ModeloService} from '@cdk/services/modelo.service';
+import {CdkModeloGridComponent} from './cdk-modelo-grid.component';
+import {CdkModeloAutocompleteModule} from '@cdk/components/modelo/cdk-modelo-autocomplete/cdk-modelo-autocomplete.module';
 import {CdkModeloGridFilterModule} from './cdk-modelo-grid-filter/cdk-modelo-grid-filter.module';
 import {PipesModule} from '../../../pipes/pipes.module';
 
@@ -22,7 +24,7 @@ import {PipesModule} from '../../../pipes/pipes.module';
         CdkModeloGridComponent
     ],
     imports: [
-
+        MatSelectModule,
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,
@@ -31,12 +33,12 @@ import {PipesModule} from '../../../pipes/pipes.module';
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
+        MatTooltipModule,
 
         CdkModeloAutocompleteModule,
         CdkModeloGridFilterModule,
 
         FuseSharedModule,
-        MatTooltipModule,
         PipesModule,
     ],
     providers: [

@@ -8,12 +8,13 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatSelectModule,
 } from '@angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
-import { ModalidadeEtiquetaService } from '@cdk/services/modalidade-etiqueta.service';
-import { CdkModalidadeEtiquetaGridComponent} from './cdk-modalidade-etiqueta-grid.component';
-import { CdkModalidadeEtiquetaAutocompleteModule } from '@cdk/components/modalidade-etiqueta/cdk-modalidade-etiqueta-autocomplete/cdk-modalidade-etiqueta-autocomplete.module';
+import {FuseSharedModule} from '@fuse/shared.module';
+import {ModalidadeEtiquetaService} from '@cdk/services/modalidade-etiqueta.service';
+import {CdkModalidadeEtiquetaGridComponent} from './cdk-modalidade-etiqueta-grid.component';
+import {CdkModalidadeEtiquetaAutocompleteModule} from '@cdk/components/modalidade-etiqueta/cdk-modalidade-etiqueta-autocomplete/cdk-modalidade-etiqueta-autocomplete.module';
 import {CdkModalidadeEtiquetaGridFilterModule} from './cdk-modalidade-etiqueta-grid-filter/cdk-modalidade-etiqueta-grid-filter.module';
 
 @NgModule({
@@ -21,7 +22,7 @@ import {CdkModalidadeEtiquetaGridFilterModule} from './cdk-modalidade-etiqueta-g
         CdkModalidadeEtiquetaGridComponent
     ],
     imports: [
-
+        MatSelectModule,
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,

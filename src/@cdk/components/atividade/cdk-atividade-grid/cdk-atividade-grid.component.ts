@@ -11,9 +11,10 @@ import {fuseAnimations} from '@fuse/animations';
 
 import {MatPaginator, MatSort} from '@angular/material';
 
-import {tap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 import {AtividadeDataSource} from '@cdk/data-sources/atividade-data-source';
 import {Atividade} from '@cdk/models/atividade.model';
+import {FormControl} from "@angular/forms";
 
 @Component({
     selector: 'cdk-atividade-grid',
@@ -36,6 +37,106 @@ export class CdkAtividadeGridComponent implements AfterViewInit, OnInit, OnChang
 
     @Input()
     displayedColumns: string[] = ['select', 'id', 'dataHoraConclusao', 'especieAtividade.nome', 'usuario.nome', 'encerraTarefa', 'actions'];
+
+    allColumns: any[] = [
+        {
+            id: 'select',
+            label: '',
+            fixed: true
+        },
+        {
+            id: 'id',
+            label: 'Id',
+            fixed: true
+        },
+        {
+            id: 'especieAtividade.nome',
+            label: 'Espécie Atividade',
+            fixed: true
+        },
+        {
+            id: 'dataHoraConclusao',
+            label: 'Data da Conclusão',
+            fixed: false
+        },
+        {
+            id: 'observacao',
+            label: 'Observação',
+            fixed: false
+        },
+        {
+            id: 'encerraTarefa',
+            label: 'Encerrou Tarefa',
+            fixed: false
+        },
+        {
+            id: 'destinacaoMinutas',
+            label: 'Destinação das Minutas',
+            fixed: false
+        },
+        {
+            id: 'setor.nome',
+            label: 'Setor',
+            fixed: false
+        },
+        {
+            id: 'usuario.nome',
+            label: 'Usuário',
+            fixed: false
+        },
+        {
+            id: 'usuarioAprovacao.nome',
+            label: 'Usuário Aprovação',
+            fixed: false
+        },
+        {
+            id: 'setorAprovacao.nome',
+            label: 'Setor da Aprovação',
+            fixed: false
+        },
+        {
+            id: 'tarefa.especieTarefa.nome',
+            label: 'Tarefa',
+            fixed: false
+        },
+        {
+            id: 'criadoPor.nome',
+            label: 'Criado Por',
+            fixed: false
+        },
+        {
+            id: 'criadoEm',
+            label: 'Criado Em',
+            fixed: false
+        },
+        {
+            id: 'atualizadoPor.nome',
+            label: 'Atualizado Por',
+            fixed: false
+        },
+        {
+            id: 'atualizadoEm',
+            label: 'Atualizado Em',
+            fixed: false
+        },
+        {
+            id: 'apagadoPor.nome',
+            label: 'Apagado Por',
+            fixed: false
+        },
+        {
+            id: 'apagadoEm',
+            label: 'Apagado Em',
+            fixed: false
+        },
+        {
+            id: 'actions',
+            label: '',
+            fixed: true
+        }
+    ];
+
+    columns = new FormControl();
 
     @Input()
     deletingIds: number[] = [];
@@ -105,6 +206,24 @@ export class CdkAtividadeGridComponent implements AfterViewInit, OnInit, OnChang
         this.paginator.pageSize = this.pageSize;
 
         this.dataSource = new AtividadeDataSource(of(this.atividades));
+
+        this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
+
+        this.columns.valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((values) => {
+                this.displayedColumns = [];
+                this.allColumns.forEach(c => {
+                    if (c.fixed || (values.indexOf(c.id) > -1)) {
+                        this.displayedColumns.push(c.id);
+                    }
+                });
+                this._changeDetectorRef.markForCheck();
+                return of([]);
+            })
+        ).subscribe();
+
     }
 
     ngAfterViewInit(): void {

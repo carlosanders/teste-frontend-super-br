@@ -8,6 +8,7 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatSelectModule,
 } from '@angular/material';
 
 import {FuseSharedModule} from '@fuse/shared.module';
@@ -21,6 +22,7 @@ import {CdkTipoSigiloGridFilterModule} from './cdk-tipo-sigilo-grid-filter/cdk-t
         CdkTipoSigiloGridComponent
     ],
     imports: [
+        MatSelectModule,
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,
@@ -29,9 +31,11 @@ import {CdkTipoSigiloGridFilterModule} from './cdk-tipo-sigilo-grid-filter/cdk-t
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
+
         CdkTipoSigiloAutocompleteModule,
+        CdkTipoSigiloGridFilterModule,
+
         FuseSharedModule,
-        CdkTipoSigiloGridFilterModule
     ],
     providers: [
         TipoSigiloService,

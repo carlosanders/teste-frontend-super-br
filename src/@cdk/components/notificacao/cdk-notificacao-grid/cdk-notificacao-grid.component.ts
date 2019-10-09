@@ -11,10 +11,11 @@ import {fuseAnimations} from '@fuse/animations';
 
 import {MatPaginator, MatSort} from '@angular/material';
 
-import {tap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
 import {Notificacao} from '@cdk/models/notificacao.model';
 import {NotificacaoDataSource} from '@cdk/data-sources/notificacao-data-source';
+import {FormControl} from "@angular/forms";
 
 @Component({
     selector: 'cdk-notificacao-grid',
@@ -38,6 +39,91 @@ export class CdkNotificacaoGridComponent implements AfterViewInit, OnInit, OnCha
     @Input()
     displayedColumns: string[] =
         ['select', 'id', 'remetente.nome', 'destinatario.nome', 'modalidadeNotificacao.valor', 'dataHoraExpiracao', 'dataHoraLeitura', 'conteudo', 'urgente', 'actions'];
+
+    allColumns: any[] = [
+        {
+            id: 'select',
+            label: '',
+            fixed: true
+        },
+        {
+            id: 'id',
+            label: 'Id',
+            fixed: true
+        },
+        {
+            id: 'remetente.nome',
+            label: 'Usuário Remetente',
+            fixed: true
+        },
+        {
+            id: 'destinatario.nome',
+            label: 'Usuário Destinatário',
+            fixed: false
+        },
+        {
+            id: 'modalidadeNotificacao.valor',
+            label: 'Modalidade',
+            fixed: false
+        },
+        {
+            id: 'dataHoraExpiracao',
+            label: 'Data de Expiração',
+            fixed: false
+        },
+        {
+            id: 'dataHoraLeitura',
+            label: 'Data da Leitura',
+            fixed: false
+        },
+        {
+            id: 'conteudo',
+            label: 'Conteúdo',
+            fixed: false
+        },
+        {
+            id: 'urgente',
+            label: 'Urgente',
+            fixed: false
+        },
+        {
+            id: 'criadoPor.nome',
+            label: 'Criado Por',
+            fixed: false
+        },
+        {
+            id: 'criadoEm',
+            label: 'Criado Em',
+            fixed: false
+        },
+        {
+            id: 'atualizadoPor.nome',
+            label: 'Atualizado Por',
+            fixed: false
+        },
+        {
+            id: 'atualizadoEm',
+            label: 'Atualizado Em',
+            fixed: false
+        },
+        {
+            id: 'apagadoPor.nome',
+            label: 'Apagado Por',
+            fixed: false
+        },
+        {
+            id: 'apagadoEm',
+            label: 'Apagado Em',
+            fixed: false
+        },
+        {
+            id: 'actions',
+            label: '',
+            fixed: true
+        }
+    ];
+
+    columns = new FormControl();
 
     @Input()
     deletingIds: number[] = [];
@@ -100,7 +186,6 @@ export class CdkNotificacaoGridComponent implements AfterViewInit, OnInit, OnCha
     }
 
     ngOnInit(): void {
-
         this.paginator._intl.itemsPerPageLabel = 'Registros por página';
         this.paginator._intl.nextPageLabel = 'Seguinte';
         this.paginator._intl.previousPageLabel = 'Anterior';
@@ -108,6 +193,23 @@ export class CdkNotificacaoGridComponent implements AfterViewInit, OnInit, OnCha
         this.paginator.pageSize = this.pageSize;
 
         this.dataSource = new NotificacaoDataSource(of(this.notificacoes));
+
+        this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
+
+        this.columns.valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((values) => {
+                this.displayedColumns = [];
+                this.allColumns.forEach(c => {
+                    if (c.fixed || (values.indexOf(c.id) > -1)) {
+                        this.displayedColumns.push(c.id);
+                    }
+                });
+                this._changeDetectorRef.markForCheck();
+                return of([]);
+            })
+        ).subscribe();
     }
 
     ngAfterViewInit(): void {

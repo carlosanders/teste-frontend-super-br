@@ -42,6 +42,18 @@
                 </cdk-especie-tarefa-autocomplete>
             </mat-form-field>
 
+            <mat-form-field fxFlex="100">
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Usuário Responsável"
+                           formControlName="usuarioResponsavel"
+                           [matAutocomplete]="usuarioResponsavel.autocomplete">
+                </div>
+                <cdk-especie-tarefa-autocomplete
+                    #usuarioResponsavel="usuarioResponsavelAutocomplete"
+                    [control]="form.get('usuarioResponsavel')">
+                </cdk-especie-tarefa-autocomplete>
+            </mat-form-field>
+
         </div>
 
         <div fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
