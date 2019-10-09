@@ -166,9 +166,6 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
         }
 
         this.form.get('modalidadeFase').disable();
-
-        console.log (this.classificacaoPagination);
-        console.log (this.setorAtualPagination);
     }
 
 

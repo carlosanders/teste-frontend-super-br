@@ -21,6 +21,7 @@ import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.servi
 import {DocumentoService} from '@cdk/services/documento.service';
 import {PipesModule} from '@cdk/pipes/pipes.module';
 import {LoginService} from '../../../auth/login/login.service';
+import {DynamicService} from '../../../../../modules/dynamic.service';
 
 const routes: Routes = [
     {
@@ -98,7 +99,8 @@ const routes: Routes = [
         VinculacaoEtiquetaService,
         LoginService,
         DocumentoService,
-        fromGuards.ResolveGuard
+        fromGuards.ResolveGuard,
+        DynamicService
     ]
 })
 export class TarefaDetailModule {

@@ -55,24 +55,7 @@ export const navigation: FuseNavigation[] = [
                 translate: 'NAV.PESQUISA.TITLE',
                 type: 'collapsable',
                 icon: 'search',
-                children: [
-                    {
-                        id: 'processo',
-                        title: 'Processo',
-                        translate: 'NAV.PESQUISA.PROCESSO.TITLE',
-                        type: 'item',
-                        icon: 'book',
-                        url: '/apps/pesquisa/processos'
-                    },
-                    {
-                        id: 'documento',
-                        title: 'Documento',
-                        translate: 'NAV.PESQUISA.DOCUMENTO.TITLE',
-                        type: 'item',
-                        icon: 'insert_drive_file',
-                        url: '/apps/pesquisa/documentos'
-                    },
-                ]
+                url: '/apps/pesquisa/processos'
             }
         ]
     }

@@ -1,7 +1,7 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, OnDestroy,
+    Component, ElementRef, OnDestroy,
     OnInit, ViewChild,
     ViewEncapsulation
 } from '@angular/core';
@@ -24,6 +24,8 @@ import {takeUntil} from 'rxjs/operators';
 import {Pagination} from '@cdk/models/pagination';
 import {LoginService} from '../../../auth/login/login.service';
 import {getScreenState} from 'app/store/reducers';
+import {DynamicService} from '../../../../../modules/dynamic.service';
+import {modulesConfig} from 'modules/modules-config';
 
 @Component({
     selector: 'tarefa-detail',
@@ -61,17 +63,22 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
 
     mobileMode = false;
 
+    @ViewChild('container', { read: ElementRef, static: true })
+    container: ElementRef;
+
     /**
      * @param _changeDetectorRef
      * @param _router
      * @param _store
      * @param _loginService
+     * @param _dynamicService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
         private _store: Store<fromStore.TarefaDetailAppState>,
-        private _loginService: LoginService
+        private _loginService: LoginService,
+        private _dynamicService: DynamicService
     ) {
         this._profile = _loginService.getUserProfile();
         this.tarefa$ = this._store.pipe(select(fromStore.getTarefa));
@@ -86,6 +93,18 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
+
+        const path = 'app/main/apps/tarefas/tarefa-detail';
+
+        modulesConfig.forEach((module) => {
+            if (module.components.hasOwnProperty(path)) {
+                module.components[path].forEach((c => {
+                   // this._dynamicService.loadComponent(c)
+                     //   .then(({ host }) => this.containerElement.appendChild(host));
+                }));
+            }
+        });
+
         this._store.pipe(
             select(getRouterState),
             takeUntil(this._unsubscribeAll)
@@ -123,6 +142,10 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
+
+        Array.from(this.containerElement.children)
+            .forEach(child => this.containerElement.removeChild(child));
+
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
@@ -134,6 +157,10 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
 
     submit(): void {
 
+    }
+
+    get containerElement(): HTMLElement {
+        return this.container.nativeElement;
     }
 
     /**
