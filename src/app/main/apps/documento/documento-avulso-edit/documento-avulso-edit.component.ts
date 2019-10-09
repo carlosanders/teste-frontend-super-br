@@ -2,7 +2,7 @@ import {
     ChangeDetectionStrategy,
     Component,
     OnDestroy,
-    OnInit,
+    OnInit, ViewChild,
     ViewEncapsulation
 } from '@angular/core';
 
@@ -13,6 +13,11 @@ import {select, Store} from '@ngrx/store';
 import {Location} from '@angular/common';
 import {DocumentoAvulso} from '@cdk/models/documento-avulso.model';
 import {Documento} from '@cdk/models/documento.model';
+import {Router} from '@angular/router';
+import {getMercureState, getRouterState} from '../../../../store/reducers';
+import {Repositorio} from '@cdk/models/repositorio.model';
+import {RepositorioService} from '@cdk/services/repositorio.service';
+import {ComponenteDigital} from '@cdk/models/componente-digital.model';
 
 @Component({
     selector: 'documento-avulso-edit',
@@ -24,26 +29,99 @@ import {Documento} from '@cdk/models/documento.model';
 })
 export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy {
 
+    /**
+     * @param _store
+     * @param _location
+     * @param _router
+     * @param _repositorioService
+     */
+    constructor(
+        private _store: Store<fromStore.DocumentoAppState>,
+        private _location: Location,
+        private _router: Router,
+        private _repositorioService: RepositorioService,
+    ) {
+        this.documento$ = this._store.pipe(select(fromStore.getDocumento));
+        this.componenteDigital$ = this._store.pipe(select(fromStore.getComponenteDigital));
+        this.documentosVinculados$ = this._store.pipe(select(fromStore.getDocumentosVinculados));
+        this.isSaving$ = this._store.pipe(select(fromStore.getDocumentoAvulsoIsSaving));
+        this.isRemetendo$ = this._store.pipe(select(fromStore.getDocumentoAvulsoIsRemetendo));
+        this.errors$ = this._store.pipe(select(fromStore.getDocumentoAvulsoErrors));
+        this.selectedDocumentosVinculados$ = this._store.pipe(select(fromStore.getSelectedDocumentosVinculados));
+        this.deletingDocumentosVinculadosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosVinculadosId));
+        this.assinandoDocumentosVinculadosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosVinculadosId));
+
+        this.repositorios$ = this._store.pipe(select(fromStore.getRepositorios));
+        this.pagination$ = this._store.pipe(select(fromStore.getRepositoriosPagination));
+        this.loading$ = this._store.pipe(select(fromStore.getRepositoriosIsLoading));
+
+        this.repositorioIdLoadind$ = this._store.pipe(select(fromStore.getComponenteDigitalLoading));
+        this.repositorioIdLoaded$ = this._store.pipe(select(fromStore.getComponenteDigitalLoaded));
+
+        this._store
+            .pipe(
+                select(getMercureState),
+            ).subscribe(message => {
+            if (message && message.type === 'assinatura') {
+                switch (message.content.action) {
+                    case 'assinatura_iniciada':
+                        this.javaWebStartOK = true;
+                        break;
+                    case 'assinatura_cancelada':
+                        this.javaWebStartOK = false;
+                        this._store.dispatch(new fromStore.AssinaDocumentoVinculadoFailed(message.content.documentoId));
+                        break;
+                    case 'assinatura_erro':
+                        this.javaWebStartOK = false;
+                        this._store.dispatch(new fromStore.AssinaDocumentoVinculadoFailed(message.content.documentoId));
+                        break;
+                    case 'assinatura_finalizada':
+                        this.javaWebStartOK = false;
+                        this._store.dispatch(new fromStore.AssinaDocumentoVinculadoSuccess(message.content.documentoId));
+                        break;
+                }
+            }
+        });
+    }
+
     documento$: Observable<Documento>;
+    documentosVinculados$: Observable<Documento[]>;
     documento: Documento;
     isSaving$: Observable<boolean>;
     isRemetendo$: Observable<boolean>;
     errors$: Observable<any>;
 
+    loading$: Observable<boolean>;
+    repositorios$: Observable<Repositorio[]>;
+    pagination$: Observable<any>;
+    pagination: any;
+
+    repositorioIdLoadind$: Observable<number>;
+    repositorioIdLoaded$: Observable<number>;
+
+    componenteDigital$: Observable<ComponenteDigital>;
+
+    selectedDocumentosVinculados$: Observable<Documento[]>;
+    deletingDocumentosVinculadosId$: Observable<number[]>;
+    assinandoDocumentosVinculadosId$: Observable<number[]>;
+    assinandoDocumentosVinculadosId: number[] = [];
+    javaWebStartOK = false;
+
+    activeCard = 'oficio';
+
+    @ViewChild('ckdUpload', {static: false})
+    cdkUpload;
+
+    routerState: any;
+
     acompanharResposta = false;
 
-    /**
-     * @param _store
-     * @param _location
-     */
-    constructor(
-        private _store: Store<fromStore.DocumentoAppState>,
-        private _location: Location
-    ) {
-        this.documento$ = this._store.pipe(select(fromStore.getDocumento));
-        this.isSaving$ = this._store.pipe(select(fromStore.getDocumentoAvulsoIsSaving));
-        this.isRemetendo$ = this._store.pipe(select(fromStore.getDocumentoAvulsoIsRemetendo));
-        this.errors$ = this._store.pipe(select(fromStore.getDocumentoAvulsoErrors));
+    static b64DecodeUnicode(str): any {
+        // Going backwards: from bytestream, to percent-encoding, to original string.
+        // tslint:disable-next-line:only-arrow-functions
+        return decodeURIComponent(atob(str).split('').map(function(c): any {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -55,12 +133,75 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
         this.documento$.subscribe(documento => this.documento = documento);
+
+        this.assinandoDocumentosVinculadosId$.subscribe(assinandoDocumentosVinculadosId => {
+            if (assinandoDocumentosVinculadosId.length > 0) {
+                setInterval(() => {
+                    // monitoramento do java
+                    if (!this.javaWebStartOK && (assinandoDocumentosVinculadosId.length > 0)) {
+                        assinandoDocumentosVinculadosId.forEach(
+                            documentoId => this._store.dispatch(new fromStore.AssinaDocumentoVinculadoFailed(documentoId))
+                        );
+                    }
+                }, 30000);
+            }
+            this.assinandoDocumentosVinculadosId = assinandoDocumentosVinculadosId;
+        });
+
+        this._store
+            .pipe(
+                select(getRouterState)
+            ).subscribe(routerState => {
+            if (routerState) {
+                this.routerState = routerState.state;
+            }
+        });
+
+        this.pagination$.subscribe(pagination => {
+            if (this.pagination && pagination && pagination.ckeditorFilter !== this.pagination.ckeditorFilter && this.activeCard === 'inteligencia') {
+                this.pagination = pagination;
+                this.reload(this.pagination);
+            } else {
+                this.pagination = pagination;
+            }
+        });
+
+        this.componenteDigital$.subscribe(componenteDigital => {
+            if (componenteDigital && componenteDigital.conteudo) {
+                const html = DocumentoAvulsoEditComponent.b64DecodeUnicode(componenteDigital.conteudo.split(';base64,')[1]);
+                this._store.dispatch(new fromStore.SetRepositorioComponenteDigital(html));
+            }
+        });
     }
 
     /**
      * On destroy
      */
     ngOnDestroy(): void {
+    }
+
+    reload(params): void {
+        this._store.dispatch(new fromStore.GetRepositorios({
+            ...this.pagination,
+            filter: {
+                ...this.pagination.filter,
+                ...this.pagination.ckeditorFilter,
+                ...params.gridFilter
+            },
+            sort: params.sort,
+            limit: params.limit,
+            offset: params.offset,
+            populate: [
+                ...this.pagination.populate
+            ]
+        }));
+    }
+
+    doDownload(repositorio: Repositorio): void {
+        this._store.dispatch(new fromStore.DownloadComponenteDigital({
+            componenteDigitalId: repositorio.documento.componentesDigitais[0].id,
+            repositorioId: repositorio.id
+        }));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -73,6 +214,26 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy {
 
     toggleEncerramento($event): void {
         this._store.dispatch(new fromStore.ToggleEncerramentoDocumentoAvulso(this.documento.documentoAvulsoRemessa));
+    }
+
+    changedSelectedDocumentosVinculadosId(selectedIds): void {
+        this._store.dispatch(new fromStore.ChangeSelectedDocumentosVinculados(selectedIds));
+    }
+
+    doDeleteDocumentoVinculado(documentoId): void {
+        this._store.dispatch(new fromStore.DeleteDocumentoVinculado(documentoId));
+    }
+
+    doAssinaturaDocumentoVinculado(documentoId): void {
+        this._store.dispatch(new fromStore.AssinaDocumentoVinculado(documentoId));
+    }
+
+    onClickedDocumentoVinculado(documento): void {
+        this._store.dispatch(new fromStore.ClickedDocumentoVinculado(documento));
+    }
+
+    onCompleteDocumentoVinculado(): void {
+        this._store.dispatch(new fromStore.GetDocumentosVinculados());
     }
 
     back(): void {
@@ -90,6 +251,30 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy {
         );
 
         this._store.dispatch(new fromStore.SaveDocumentoAvulso(documentoAvulso));
+    }
+
+    showForm(): void {
+        this.activeCard = 'oficio';
+    }
+
+    showAnexos(): void {
+        this.activeCard = 'anexos';
+    }
+
+    showInteligencia(): void {
+        this.activeCard = 'inteligencia';
+    }
+
+    upload(): void {
+        this.cdkUpload.upload();
+    }
+
+    anexarCopia(): void {
+        this._router.navigate([
+                this.routerState.url.split(this.routerState.params.documentoHandle + '/oficio')[0] +
+                this.routerState.params.documentoHandle + '/oficio/anexar-copia/' + this.documento.processoOrigem.id + '/visualizar'
+            ]
+        ).then();
     }
 
 }

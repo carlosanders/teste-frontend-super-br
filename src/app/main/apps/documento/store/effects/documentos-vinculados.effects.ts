@@ -170,7 +170,12 @@ export class DocumentosVinculadosEffect {
             .pipe(
                 ofType<DocumentosVinculadosActions.ClickedDocumentoVinculado>(DocumentosVinculadosActions.CLICKED_DOCUMENTO_VINCULADO),
                 tap((action) => {
-                    this._router.navigate([this.routerState.url.split('/documento/')[0] + '/documento/' + action.payload.id + '/editar']).then();
+                    if (!action.payload.documentoAvulsoRemessa) {
+                        this._router.navigate([this.routerState.url.split('/documento/')[0] + '/documento/' + action.payload.id + '/editar']).then();
+                    } else {
+                         this._router.navigate([this.routerState.url.split('/documento/')[0] + '/documento/'
+                         + action.payload.id + '/oficio/componente-digital/' + action.payload.id + '/editor/ckeditor' ]).then();
+                    }
                 })
             );
 

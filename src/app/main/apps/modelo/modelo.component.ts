@@ -55,7 +55,7 @@ export class ModeloComponent implements OnInit, OnDestroy  {
         this.modelos$ = this._store.pipe(select(fromStore.getModelos));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
-        this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
+
         this.processo$ = this._store.pipe(select(fromStore.getProcesso));
         this.tarefa$ = this._store.pipe(select(fromStore.getTarefa));
         this._store

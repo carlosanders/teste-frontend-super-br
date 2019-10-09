@@ -99,6 +99,7 @@ export class DocumentoEffect {
                             'documentoAvulsoRemessa.pessoaDestino',
                             'vinculacaoDocumentoPrincipal',
                             'vinculacaoDocumentoPrincipal.documento',
+                            'vinculacaoDocumentoPrincipal.documento.documentoAvulsoRemessa',
                             'vinculacoesDocumentos',
                             'vinculacoesDocumentos.documentoVinculado',
                             'vinculacoesDocumentos.documentoVinculado.tipoDocumento']));

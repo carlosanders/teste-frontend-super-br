@@ -259,6 +259,7 @@ export class CdkModeloGridComponent implements AfterViewInit, OnInit, OnChanges 
     }
 
     selectModelo(modelo: Modelo): void {
+        this.loading = true;
         this.selected.emit(modelo);
     }
 

@@ -1,34 +1,124 @@
 <div fxFlex fxLayout="row">
     <div fxFlexAlign="column" fxFlex="25">
-        <div *ngIf="!this.documento.documentoAvulsoRemessa.dataHoraRemessa && !(isRemetendo$ | async)"
-             class="header p-8" fxLayout="row" fxLayoutAlign="start center">
-            <button mat-raised-button color="accent" class="mr-sm-12"
-                    aria-label="remeter ofício"
-                    matTooltip="Remeter Ofício"
-                    (click)="remeterDocumentoAvulso()">
-                <mat-icon class="black-fg">send</mat-icon>
-                Remeter
+
+        <div class="actions p-16" fxLayout="row" fxLayoutAlign="end center">
+
+            <button mat-icon-button aria-label="editar o documento"
+                    matTooltip="Editar o Documento" (click)="showForm()"
+                    [ngClass]="{'active accent': activeCard === 'oficio'}">
+                <mat-icon class="black-fg">edit</mat-icon>
+            </button>
+
+            <button *ngIf="!(documento$ | async)?.vinculacaoDocumentoPrincipal" mat-icon-button aria-label="Visualizar Processo"
+                    matTooltip="Gerir Anexos" (click)="showAnexos()"
+                    [ngClass]="{'active accent': activeCard === 'anexos'}">
+                <mat-icon class="black-fg">attachment</mat-icon>
+            </button>
+
+            <button mat-icon-button aria-label="inteligência jurídica"
+                    matTooltip="Inteligência Jurídica" (click)="showInteligencia()"
+                    [ngClass]="{'active accent': activeCard === 'inteligencia'}">
+                <mat-icon class="black-fg">gavel</mat-icon>
             </button>
         </div>
-        <div *ngIf="(isRemetendo$ | async)" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-             fxLayoutAlign="center center">
-            <mat-spinner color="accent" diameter="24"></mat-spinner>
-        </div>
-        <div *ngIf="!(isRemetendo$ | async)">
-            <div>
-                <mat-slide-toggle [checked]="!!!documento.documentoAvulsoRemessa.dataHoraEncerramento"
-                                  (change)="toggleEncerramento($event)"
-                                  class="mt-16 mr-16 mb-16">
-                    Acompanhar a resposta
-                </mat-slide-toggle>
+
+        <div fxLayout="column" *ngIf="activeCard === 'oficio'">
+
+            <div *ngIf="!this.documento.documentoAvulsoRemessa.dataHoraRemessa && !(isRemetendo$ | async)"
+                 class="header p-8" fxLayout="row" fxLayoutAlign="start center">
+                <button mat-raised-button color="accent" class="mr-sm-12"
+                        aria-label="remeter ofício"
+                        matTooltip="Remeter Ofício"
+                        (click)="remeterDocumentoAvulso()">
+                    <mat-icon class="black-fg">send</mat-icon>
+                    Remeter
+                </button>
             </div>
-            <cdk-documento-avulso-form
-                [documentoAvulso]="(documento$ | async)?.documentoAvulsoRemessa"
-                [saving]="(isSaving$ | async)"
-                [errors]="(errors$ | async)"
-                (save)="submit($event)">
-            </cdk-documento-avulso-form>
+            <div *ngIf="(isRemetendo$ | async)" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+                 fxLayoutAlign="center center">
+                <mat-spinner color="accent" diameter="24"></mat-spinner>
+            </div>
+            <div *ngIf="!(isRemetendo$ | async)">
+                <div>
+                    <mat-slide-toggle [checked]="!!!documento.documentoAvulsoRemessa.dataHoraEncerramento"
+                                      (change)="toggleEncerramento($event)"
+                                      class="mt-16 mr-16 mb-16">
+                        Acompanhar a resposta
+                    </mat-slide-toggle>
+                </div>
+                <cdk-documento-avulso-form
+                    [documentoAvulso]="(documento$ | async)?.documentoAvulsoRemessa"
+                    [saving]="(isSaving$ | async)"
+                    [errors]="(errors$ | async)"
+                    (save)="submit($event)">
+                </cdk-documento-avulso-form>
+            </div>
+
         </div>
+
+        <div fxLayout="column"
+             *ngIf="!(documento$ | async)?.vinculacaoDocumentoPrincipal && activeCard === 'anexos'">
+
+            <h3 style="font-weight: bold">Anexos</h3>
+
+            <button mat-mini-fab
+                    class="ml-8 mb-16 active accent add-file-button"
+                    [matMenuTriggerFor]="moreMenu" aria-label="Criar Documento"
+                    (click)="$event.stopPropagation()">
+                <mat-icon class="secondary-text">attach_file</mat-icon>
+            </button>
+
+            <mat-menu #moreMenu="matMenu">
+                <button mat-menu-item aria-label="upload de anexo"
+                        (click)="upload()">
+                    <ng-container>
+                        <mat-icon>picture_as_pdf</mat-icon>
+                        <span>Upload</span>
+                    </ng-container>
+                </button>
+
+                <button mat-menu-item aria-label="anexar uma cópia de um documento"
+                        (click)="anexarCopia()">
+                    <ng-container>
+                        <mat-icon>file_copy</mat-icon>
+                        <span>Por Cópia</span>
+                    </ng-container>
+                </button>
+            </mat-menu>
+
+            <cdk-documento-card-list [documentos]="(documentosVinculados$ | async)"
+                                     [deletingId]="(deletingDocumentosVinculadosId$ | async)"
+                                     [assinandoId]="(assinandoDocumentosVinculadosId$ | async)"
+                                     (delete)="doDeleteDocumentoVinculado($event)"
+                                     (assinatura)="doAssinaturaDocumentoVinculado($event)"
+                                     (clicked)="onClickedDocumentoVinculado($event)"
+                                     (changedSelectedIds)="changedSelectedDocumentosVinculadosId($event)">
+            </cdk-documento-card-list>
+
+            <cdk-componente-digital-card-list #ckdUpload
+                                              [documentoOrigem]="documento$ | async"
+                                              (complete)="onCompleteDocumentoVinculado()">
+            </cdk-componente-digital-card-list>
+
+
+        </div>
+
+        <div fxLayout="column" *ngIf="activeCard === 'inteligencia'">
+            <cdk-repositorio-grid
+                [layout]="'vertical'"
+                [loading]="(loading$ | async)"
+                [repositorios]="(repositorios$ | async)"
+                [total]="(pagination$ | async)?.total"
+                [mode]="'search'"
+                [actions]="['download']"
+                (download)="doDownload($event)"
+                [downloadingId]="(repositorioIdLoadind$ | async)"
+                [downloadedId]="(repositorioIdLoaded$ | async)"
+                (reload)="reload($event)">
+            </cdk-repositorio-grid>
+
+        </div>
+
     </div>
     <router-outlet></router-outlet>
 </div>
