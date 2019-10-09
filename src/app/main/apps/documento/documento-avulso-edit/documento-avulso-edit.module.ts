@@ -21,6 +21,10 @@ const routes: Routes = [
             {
                 path       : 'componente-digital',
                 loadChildren: () => import('../componente-digital/componente-digital.module').then(m => m.ComponenteDigitalModule)
+            },
+            {
+                path       : 'anexar-copia',
+                loadChildren: () => import('../anexar-copia/anexar-copia.module').then(m => m.AnexarCopiaModule)
             }
         ]
     }

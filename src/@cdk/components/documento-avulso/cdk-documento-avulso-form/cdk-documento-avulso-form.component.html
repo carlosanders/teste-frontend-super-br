@@ -15,6 +15,7 @@
                 <input matInput placeholder="Processo"
                        formControlName="processo"
                        [matAutocomplete]="processo.autocomplete" required
+                       [readonly]="inputProcesso"
                        (blur)="checkProcesso()">
             </div>
             <cdk-processo-autocomplete
@@ -22,7 +23,7 @@
                 [control]="form.get('processo')"
                 [pagination]="processoPagination">
             </cdk-processo-autocomplete>
-            <button *ngIf="form.get('processo').enabled" matSuffix mat-button mat-icon-button
+            <button *ngIf="form.get('processo').enabled && !inputProcesso" matSuffix mat-button mat-icon-button
                     (click)="showProcessoGrid()">
                 <mat-icon matTooltip="Procurar">search</mat-icon>
             </button>
@@ -66,6 +67,7 @@
                 <input matInput placeholder="Modelo"
                        formControlName="modelo"
                        [matAutocomplete]="modelo.autocomplete" required
+                       [readonly]="inputModelo"
                        (blur)="checkModelo()">
             </div>
             <cdk-modelo-autocomplete
@@ -73,7 +75,7 @@
                 [control]="form.get('modelo')"
                 [pagination]="modeloPagination">
             </cdk-modelo-autocomplete>
-            <button *ngIf="form.get('modelo').enabled" matSuffix mat-button mat-icon-button
+            <button *ngIf="form.get('modelo').enabled && !inputModelo" matSuffix mat-button mat-icon-button
                     (click)="showModeloGrid()">
                 <mat-icon matTooltip="Procurar">search</mat-icon>
             </button>

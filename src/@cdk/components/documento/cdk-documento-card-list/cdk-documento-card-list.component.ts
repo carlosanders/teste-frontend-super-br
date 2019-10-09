@@ -97,4 +97,49 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
     onClick(documento): void {
         this.clicked.emit(documento);
     }
+
+    doDeleteDocumentoBloco(): void {
+        this.selectedIds.forEach(documentoId => this.doDelete(documentoId));
+    }
+
+    doAssinaturaDocumentoBloco(): void {
+        this.selectedIds.forEach(documentoId => this.doAssinatura(documentoId));
+    }
+
+    /**
+     * Toggle select all
+     *
+     * @param ev
+     */
+    toggleSelectAll(ev): void {
+        ev.preventDefault();
+
+        if (this.selectedIds.length && this.selectedIds.length > 0) {
+            this.deselectAll();
+        } else {
+            this.selectAll();
+        }
+    }
+
+    /**
+     * Select all
+     */
+    selectAll(): void {
+        const arr = Object.keys(this.documentos).map(k => this.documentos[k]);
+        this.selectedIds = arr.map(documento => documento.id);
+        this.recompute();
+    }
+
+    /**
+     * Deselect all documentos
+     */
+    deselectAll(): void {
+        this.selectedIds = [];
+        this.recompute();
+    }
+
+    recompute(): void {
+        this.isIndeterminate = (this.selectedIds.length !== this.documentos.length && this.selectedIds.length > 0);
+        this.changedSelectedIds.emit(this.selectedIds);
+    }
 }

@@ -1,3 +1,39 @@
+<div class="toolbar pt-8 pb-8 pl-8 pr-8"
+     fxLayout="row" fxLayoutAlign="start center" *ngIf="documentos.length > 0">
+
+    <mat-checkbox (click)="toggleSelectAll($event)"
+                  [checked]="selectedIds.length"
+                  [indeterminate]="isIndeterminate">
+    </mat-checkbox>
+
+    <button mat-icon-button [matMenuTriggerFor]="moreMenu"
+            aria-label="Ferramentas" (click)="$event.stopPropagation()"
+            *ngIf="selectedIds?.length > 1">
+        <mat-icon class="secondary-text">more_vert</mat-icon>
+    </button>
+
+    <mat-menu #moreMenu="matMenu">
+
+        <button mat-menu-item aria-label="remover"
+                (click)="doDeleteDocumentoBloco()">
+            <ng-container>
+                <mat-icon>delete</mat-icon>
+                <span>Remover</span>
+            </ng-container>
+        </button>
+
+        <button mat-menu-item aria-label="editar tarefa"
+                (click)="doAssinaturaDocumentoBloco()">
+            <ng-container>
+                <mat-icon>lock</mat-icon>
+                <span>Assinar</span>
+            </ng-container>
+        </button>
+
+    </mat-menu>
+
+</div>
+
 <cdk-documento-card class="ml-8 mb-8"
                     *ngFor="let documento of documentos"
                     [documento]="documento"

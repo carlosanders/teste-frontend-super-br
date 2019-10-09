@@ -79,7 +79,7 @@ export class TarefaEditComponent implements OnInit, OnDestroy {
             this.tarefa.unidadeResponsavel = tarefa.setorResponsavel.unidade;
 
             this.logEntryPaginationTarefa = new Pagination();
-            this.logEntryPaginationTarefa.filter = {entity: 'App\\Entity\\Tarefa', id: + this.tarefa.id};
+            this.logEntryPaginationTarefa.filter = {entity: 'SuppCore\\AdministrativoBackend\\Entity\\Tarefa', id: + this.tarefa.id};
         });
     }
 

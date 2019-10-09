@@ -102,6 +102,10 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
     @Input()
     pessoaDestino: Pessoa;
 
+    inputModelo: boolean;
+    inputProcesso: boolean;
+
+
     /**
      * Constructor
      */
@@ -187,8 +191,8 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
             this.form.patchValue({...this.documentoAvulso});
 
             if (this.documentoAvulso.id) {
-                this.form.get('processo').disable();
-                this.form.get('modelo').disable();
+                this.inputProcesso = true;
+                this.inputModelo = true;
                 this.form.get('pessoaDestino').disable();
                 this.form.get('setorDestino').disable();
                 this.form.get('externa').disable();

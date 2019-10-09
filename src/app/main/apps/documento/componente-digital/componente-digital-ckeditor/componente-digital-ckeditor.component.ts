@@ -83,9 +83,9 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
             } else {
                 this.logEntryPagination = new Pagination();
                 this.logEntryPagination.filter = {
-                    'entity': 'App\\Entity\\ComponenteDigital',
-                    'target': 'hash',
-                    'id': + this.componenteDigital.id};
+                    entity: 'SuppCore\\AdministrativoBackend\\Entity\\ComponenteDigital',
+                    target: 'hash',
+                    id: + this.componenteDigital.id};
             }
         });
 
