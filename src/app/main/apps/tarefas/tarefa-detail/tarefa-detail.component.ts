@@ -63,7 +63,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
 
     mobileMode = false;
 
-    @ViewChild('container', { read: ElementRef, static: true })
+    @ViewChild('container', { read: ElementRef, static: false })
     container: ElementRef;
 
     /**
@@ -99,8 +99,8 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path)) {
                 module.components[path].forEach((c => {
-                   // this._dynamicService.loadComponent(c)
-                     //   .then(({ host }) => this.containerElement.appendChild(host));
+                    this._dynamicService.loadComponent(c)
+                        .then(({ host }) => this.containerElement.appendChild(host));
                 }));
             }
         });

@@ -13,6 +13,16 @@ export const modulesConfig = [
                 }
             ]
         },
+        mainMenu: [{
+            id: 'protocolo',
+            entries: [{
+                    id: 'judicial',
+                    title: 'Judicial',
+                    type: 'item',
+                    icon: 'book',
+                    url: '/apps/processo/criar/editar/dados-basicos-judicial'
+                }]
+        }],
         sidebars: {
             'app/main/apps/processo/processo-edit/sidebars/main': [
                 {
@@ -23,7 +33,9 @@ export const modulesConfig = [
         },
         components: {
             'app/main/apps/tarefas/tarefa-detail': [
-                'modules/judicial/app/main/apps/tarefas/tarefa-detail/button1.module'
+                () => import('modules/judicial/app/main/apps/tarefas/tarefa-detail/button1.module').then(m => {
+                    return {module: m.Button1Module, componentIndex: 0};
+                })
             ]
         }
     }

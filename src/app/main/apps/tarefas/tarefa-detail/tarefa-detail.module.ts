@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {Injector, NgModule, ɵrenderComponent as renderComponent} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {
     MatButtonModule,
@@ -69,6 +69,20 @@ const routes: Routes = [
     }
 ];
 
+/*
+const rootInjector = Injector.create({
+    name: 'root',
+    providers: [
+        {
+            provide: DynamicService, useClass: DynamicService
+        }
+    ]
+});
+
+renderComponent(TarefaDetailComponent, {
+    injector: rootInjector
+});
+*/
 @NgModule({
     declarations: [
         TarefaDetailComponent
@@ -99,8 +113,7 @@ const routes: Routes = [
         VinculacaoEtiquetaService,
         LoginService,
         DocumentoService,
-        fromGuards.ResolveGuard,
-        DynamicService
+        fromGuards.ResolveGuard
     ]
 })
 export class TarefaDetailModule {

@@ -1,4 +1,4 @@
-import { NgModule, LOCALE_ID } from '@angular/core';
+import {NgModule, LOCALE_ID, Injector, ɵrenderComponent as renderComponent} from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
 import { BrowserModule } from '@angular/platform-browser';
@@ -33,6 +33,8 @@ import {ModelModule} from '@cdk/models/model.module';
 import {MAT_DATE_LOCALE} from '@angular/material';
 import {ErrorInterceptor} from './main/auth/login/error.interceptor';
 import {LoginStoreModule} from './main/auth/login/store/store.module';
+import {DynamicService} from '../modules/dynamic.service';
+import {TarefaDetailComponent} from './main/apps/tarefas/tarefa-detail/tarefa-detail.component';
 
 registerLocaleData(localePt, 'pt');
 

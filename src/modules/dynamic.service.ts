@@ -12,13 +12,13 @@ export class DynamicService {
         private injector: Injector,
     ) {}
 
-    loadComponent(path: string): any {
-        return import(path)
-            .then(esModule => esModule.default)
-            .then(ComponentType => {
-                const tagName = ComponentType.ngComponentDef.selectors[0];
+    loadComponent(i: any): any {
+        return i()
+            .then(m => {
+                const c = m.module.ngModuleDef.declarations[m.componentIndex];
+                const tagName = c.ngComponentDef.selectors[0];
                 const host = document.createElement(tagName);
-                const component = renderComponent(ComponentType, {
+                const component = renderComponent(c, {
                     host,
                     injector: this.injector,
                 });

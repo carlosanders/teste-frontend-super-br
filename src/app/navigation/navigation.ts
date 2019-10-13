@@ -45,7 +45,7 @@ export const navigation: FuseNavigation[] = [
                         translate: 'NAV.PROTOCOLO.ADMINISTRATIVO.TITLE',
                         type: 'item',
                         icon: 'book',
-                        url: '/apps/processo/criar/editar'
+                        url: '/apps/processo/criar/editar/dados-basicos'
                     }
                 ]
             },
@@ -53,7 +53,7 @@ export const navigation: FuseNavigation[] = [
                 id: 'pesquisa',
                 title: 'Pesquisa',
                 translate: 'NAV.PESQUISA.TITLE',
-                type: 'collapsable',
+                type: 'item',
                 icon: 'search',
                 url: '/apps/pesquisa/processos'
             }
