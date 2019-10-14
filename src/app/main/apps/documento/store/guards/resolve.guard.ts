@@ -11,7 +11,7 @@ import * as fromStore from '../';
 import {getDocumentoLoaded} from '../selectors';
 import {getRouterState} from 'app/store/reducers';
 import {getDocumentosVinculadosHasLoaded} from '../';
-
+import {getVisibilidadeListLoaded} from '../';
 @Injectable()
 export class ResolveGuard implements CanActivate {
 
@@ -44,7 +44,8 @@ export class ResolveGuard implements CanActivate {
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         return forkJoin(
             this.getDocumento(),
-            this.getDocumentosVinculados()
+            this.getDocumentosVinculados(),
+            this.getVisibilidades()
         ).pipe(
             switchMap(() => of(true)),
             catchError(() => of(false))
@@ -82,6 +83,34 @@ export class ResolveGuard implements CanActivate {
             tap((loaded: any) => {
                 if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
                     this._store.dispatch(new fromStore.GetDocumentosVinculados());
+                }
+            }),
+            filter((loaded: any) => {
+                return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
+            }),
+            take(1)
+        );
+    }
+
+    /**
+     * Get Visibilidades
+     *
+     * @returns {Observable<any>}
+     */
+    getVisibilidades(): any {
+        return this._store.pipe(
+            select(getVisibilidadeListLoaded),
+            tap((loaded: any) => {
+                if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
+
+                    let documentoId = null;
+
+                    const routeParams = of('documentoHandle');
+                    routeParams.subscribe(param => {
+                        documentoId = this.routerState.params[param];
+                    });
+
+                    this._store.dispatch(new fromStore.GetVisibilidades(documentoId));
                 }
             }),
             filter((loaded: any) => {

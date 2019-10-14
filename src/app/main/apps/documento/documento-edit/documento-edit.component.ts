@@ -15,7 +15,7 @@ import {Location} from '@angular/common';
 import {getMercureState, getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {Repositorio} from '@cdk/models/repositorio.model';
-import {filter, takeUntil} from 'rxjs/operators';
+import {filter} from 'rxjs/operators';
 import {DomSanitizer} from '@angular/platform-browser';
 import {ComponenteDigital} from '@cdk/models/componente-digital.model';
 import {RepositorioService} from '@cdk/services/repositorio.service';
@@ -23,6 +23,10 @@ import {Atividade} from '@cdk/models/atividade.model';
 import * as moment from 'moment';
 import {Tarefa} from '@cdk/models/tarefa.model';
 import {getTarefa} from '../../tarefas/tarefa-detail/store/selectors';
+import {Visibilidade} from '@cdk/models/visibilidade.model';
+import {Pagination} from '@cdk/models/pagination';
+import {Colaborador} from '@cdk/models/colaborador.model';
+import {LoginService} from '../../../auth/login/login.service';
 
 @Component({
     selector: 'documento-edit',
@@ -74,19 +78,36 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
 
     atividade: Atividade;
 
+    visibilidades$: Observable<Visibilidade[]>;
+    visibilidade$: Observable<Visibilidade>;
+    visibilidade: Visibilidade;
+    deletingVisibilidadeIds$: Observable<any>;
+    deletedVisibilidadeIds$: Observable<any>;
+
+    unidadePagination: Pagination;
+    setorPagination: Pagination;
+    usuarioPagination: Pagination;
+
+    _profile: Colaborador;
+
+    formAcessoRestrito = false;
+    loadingAcessoRestrito = false;
+
     /**
      * @param _store
      * @param _location
      * @param _router
      * @param _repositorioService
      * @param _sanitizer
+     * @param _loginService
      */
     constructor(
         private _store: Store<fromStore.DocumentoAppState>,
         private _location: Location,
         private _router: Router,
         private _repositorioService: RepositorioService,
-        private _sanitizer: DomSanitizer
+        private _sanitizer: DomSanitizer,
+        private _loginService: LoginService
     ) {
         this.tarefa$ = this._store.pipe(select(getTarefa));
         this.documento$ = this._store.pipe(select(fromStore.getDocumento));
@@ -99,6 +120,23 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
         this.selectedDocumentosVinculados$ = this._store.pipe(select(fromStore.getSelectedDocumentosVinculados));
         this.deletingDocumentosVinculadosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosVinculadosId));
         this.assinandoDocumentosVinculadosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosVinculadosId));
+
+        this.visibilidades$ = this._store.pipe(select(fromStore.getVisibilidadeList));
+        this.visibilidade$ = this._store.pipe(select(fromStore.getVisibilidade));
+        this.deletingVisibilidadeIds$ = this._store.pipe(select(fromStore.getDeletingVisibilidadeIds));
+        this.deletedVisibilidadeIds$ = this._store.pipe(select(fromStore.getDeletedVisibilidadeIds));
+
+        this._profile = _loginService.getUserProfile();
+
+        this.unidadePagination = new Pagination();
+        this.unidadePagination.filter = {parent: 'isNull'};
+
+        this.setorPagination = new Pagination();
+        this.setorPagination.populate = ['unidade', 'parent'];
+        this.setorPagination.filter = {parent: 'isNotNull'};
+
+        this.usuarioPagination = new Pagination();
+        this.usuarioPagination.filter = {id: `neq:${this._profile.usuario.id}`};
 
         this.repositorios$ = this._store.pipe(select(fromStore.getRepositorios));
         this.pagination$ = this._store.pipe(select(fromStore.getRepositoriosPagination));
@@ -150,6 +188,14 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
             this.atividade.usuario = tarefa.usuarioResponsavel;
             this.atividade.setor = tarefa.setorResponsavel;
         });
+
+        this.visibilidade$.subscribe(
+            visibilidade => this.visibilidade = visibilidade
+        );
+
+        if (!this.visibilidade) {
+            this.visibilidade = new Visibilidade();
+        }
 
         this.assinandoDocumentosVinculadosId$.subscribe(assinandoDocumentosVinculadosId => {
             if (assinandoDocumentosVinculadosId.length > 0) {
@@ -205,6 +251,7 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
 
     b64DecodeUnicode(str): any {
         // Going backwards: from bytestream, to percent-encoding, to original string.
+        // tslint:disable-next-line:only-arrow-functions
         return decodeURIComponent(atob(str).split('').map(function(c): any {
             return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
         }).join(''));
@@ -268,9 +315,22 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
         this.activeCard = 'inteligencia';
     }
 
+    showAcessoRestrito(): void {
+        this.activeCard = 'acesso-restrito';
+    }
+
     showForm(): void {
         this.activeCard = 'form';
     }
+
+    showFormAcessoRestrito(): void {
+        this.formAcessoRestrito = !this.formAcessoRestrito;
+    }
+
+    submitVisibilidade(visibilidade): void {
+        this._store.dispatch(new fromStore.SaveVisibilidadeDocumento({documentoId: this.documento.id, visibilidade: visibilidade}));
+        this.formAcessoRestrito = false;
+   }
 
     submit(values): void {
 
@@ -325,6 +385,10 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
         atividade.documentos = [this.documento];
 
         this._store.dispatch(new fromStore.SaveAtividade(atividade));
+    }
+
+    deleteVisibilidade(visibilidadeId: number): void {
+        this._store.dispatch(new fromStore.DeleteVisibilidade({documentoId: this.routerState.params.documentoHandle, visibilidadeId: visibilidadeId}));
     }
 
 }

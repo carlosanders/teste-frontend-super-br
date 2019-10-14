@@ -5,6 +5,7 @@ import { DocumentoAvulsoReducer, DocumentoAvulsoState } from './documento-avulso
 import { DocumentosVinculadosReducer, DocumentosVinculadosState } from './documentos-vinculados.reducer';
 import { ComponenteDigitalReducer, ComponenteDigitalState } from './componentes-digitais.reducer';
 import { AtividadeDocumentoReducer, AtividadeDocumentoState } from './atividade-documento.reducer';
+import {VisibilidadeReducer, VisibilidadeState} from './visibilidade.reducer';
 
 export interface DocumentoAppState
 {
@@ -14,6 +15,7 @@ export interface DocumentoAppState
     documentosVinculados: DocumentosVinculadosState;
     componentesDigitais: ComponenteDigitalState;
     atividadeDocumento: AtividadeDocumentoState;
+    visibilidades: VisibilidadeState;
 }
 
 export const getDocumentoAppState = createFeatureSelector<DocumentoAppState>(
@@ -31,7 +33,8 @@ export const reducers: ActionReducerMap<DocumentoAppState> = {
     documentoAvulso: DocumentoAvulsoReducer,
     documentosVinculados: DocumentosVinculadosReducer,
     componentesDigitais: ComponenteDigitalReducer,
-    atividadeDocumento: AtividadeDocumentoReducer
+    atividadeDocumento: AtividadeDocumentoReducer,
+    visibilidades: VisibilidadeReducer
 };
 
 export * from './documento.reducer';
@@ -40,4 +43,5 @@ export * from './documento-avulso.reducer';
 export * from './documentos-vinculados.reducer';
 export * from './componentes-digitais.reducer';
 export * from './atividade-documento.reducer';
+export * from './visibilidade.reducer';
 

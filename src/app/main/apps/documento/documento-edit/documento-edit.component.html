@@ -25,6 +25,12 @@
                     [ngClass]="{'active accent': activeCard === 'inteligencia'}">
                 <mat-icon class="black-fg">gavel</mat-icon>
             </button>
+
+            <button mat-icon-button aria-label="acesso restrito"
+                    matTooltip="Restrições de Acesso" (click)="showAcessoRestrito()"
+                    [ngClass]="{'active accent': activeCard === 'acesso-restrito'}">
+                <mat-icon class="black-fg">lock</mat-icon>
+            </button>
         </div>
 
         <div *ngIf="(documento$ | async)?.vinculacaoDocumentoPrincipal">
@@ -125,6 +131,51 @@
             </cdk-repositorio-grid>
 
         </div>
+
+        <div class="mb-16" fxFlex fxLayout="column" *ngIf="activeCard === 'acesso-restrito'">
+
+            <h3 style="font-weight: bold">Restrições de Acesso</h3>
+
+            <div class="actions m-16" fxLayout="row" fxLayoutAlign="start center">
+                <button mat-raised-button
+                        class="mat-accent"
+                        aria-label="novo"
+                        (click)="showFormAcessoRestrito()"
+                        *ngIf="!formAcessoRestrito"
+                        matTooltip="Novo">
+                    Novo
+                </button>
+                <button mat-icon-button
+                        (click)="showFormAcessoRestrito()"
+                        *ngIf="formAcessoRestrito"
+                        aria-label="voltar"
+                        matTooltip="Voltar">
+                    <mat-icon>arrow_back</mat-icon>
+                </button>
+            </div>
+
+            <cdk-visibilidade-form *ngIf="formAcessoRestrito"
+                [visibilidade]="visibilidade"
+                [saving]="(isSaving$ | async)"
+                [errors]="(errors$ | async)"
+                [unidadeDefault]="_profile.lotacoes[0].setor.unidade"
+                [unidadePagination]="unidadePagination"
+                [setorPagination]="setorPagination"
+                [usuarioPagination]="usuarioPagination"
+                (save)="submitVisibilidade($event)">
+            </cdk-visibilidade-form>
+
+            <cdk-visibilidade-list class="mr-8" *ngIf="!formAcessoRestrito"
+                [loading]="loadingAcessoRestrito"
+                [visibilidades]="(visibilidades$ | async)"
+                [deletingIds]="(deletingVisibilidadeIds$ | async)"
+                [deletedIds]="(deletedVisibilidadeIds$ | async)"
+                [actions]="['delete']"
+                (delete)="deleteVisibilidade($event)">
+            </cdk-visibilidade-list>
+
+        </div>
+
     </div>
     <router-outlet></router-outlet>
 </div>

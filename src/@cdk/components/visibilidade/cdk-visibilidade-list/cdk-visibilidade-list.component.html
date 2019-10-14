@@ -14,7 +14,7 @@
 
 </div>
 
-<div *ngIf="visibilidades.length === 0 && !loading" fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
+<div *ngIf="visibilidades && visibilidades.length === 0 && !loading" fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
     <span class="no-visibilidades-text hint-text">{{ 'ACESSO LIBERADO' }}</span>
 </div>
 
