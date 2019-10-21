@@ -49,17 +49,8 @@ export const getDeletedVisibilidadeIds = createSelector(
     (state: VisibilidadeState) => state.deletedIds
 );
 
-export const getIsSaving = createSelector(
-    getVisibilidadeState,
-    (state: VisibilidadeState) => state.saving
-);
-
 export const getHasLoaded = createSelector(
     getVisibilidadeState,
     (state: VisibilidadeState) => state.loaded
 );
 
-export const getErrors = createSelector(
-    getVisibilidadeState,
-    (state: VisibilidadeState) => state.errors
-);
