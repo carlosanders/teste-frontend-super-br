@@ -7,9 +7,27 @@
             <mat-label>Número</mat-label>
             <input matInput #numero
                    name="numero"
-                   formControlName="numero"
-                   maxlength="255">
-            <mat-hint align="end">{{numero}} / 255</mat-hint>
+                   formControlName="numero">
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Origem de Dados"
+                       formControlName="origemDados"
+                       [matAutocomplete]="origemDados.autocomplete">
+            </div>
+            <cdk-origem-dados-autocomplete #origemDados="origemDadosAutocomplete" [control]="form.get('origemDados')">
+            </cdk-origem-dados-autocomplete>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Pessoa"
+                       formControlName="pessoa"
+                       [matAutocomplete]="pessoa.autocomplete">
+            </div>
+            <cdk-pessoa-autocomplete #pessoa="pessoaAutocomplete" [control]="form.get('pessoa')">
+            </cdk-pessoa-autocomplete>
         </mat-form-field>
 
     </div>

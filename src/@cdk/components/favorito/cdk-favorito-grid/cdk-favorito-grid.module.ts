@@ -9,7 +9,7 @@ import {
     MatPaginatorModule,
     MatSortModule,
     MatRadioModule,
-    MatSelectModule,
+    MatSelectModule, MatTooltipModule,
 } from '@angular/material';
 
 import {FuseSharedModule} from '@fuse/shared.module';
@@ -36,6 +36,7 @@ import {CdkFavoritoGridFilterModule} from './cdk-favorito-grid-filter/cdk-favori
         CdkFavoritoGridFilterModule,
 
         FuseSharedModule,
+        MatTooltipModule,
     ],
     providers: [
         FavoritoService,

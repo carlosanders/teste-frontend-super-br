@@ -1,6 +1,9 @@
 import {NgModule} from '@angular/core';
 import {
+    MatAutocompleteModule,
     MatButtonModule,
+    MatCheckboxModule,
+    MatDatepickerModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule
@@ -9,6 +12,11 @@ import {
 import {FuseSharedModule} from '@fuse/shared.module';
 import {TemplateService} from '@cdk/services/template.service';
 import {CdkTemplateGridFilterComponent} from './cdk-template-grid-filter.component';
+import {CdkModalidadeTemplateAutocompleteModule} from '../../../modalidade-template/cdk-modalidade-template-autocomplete/cdk-modalidade-template-autocomplete.module';
+import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
+import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
+import {CdkUsuarioAutocompleteModule} from '../../../usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
+import {CdkDocumentoAutocompleteModule} from '../../../documento/cdk-documento-autocomplete/cdk-documento-autocomplete.module';
 
 @NgModule({
     declarations: [
@@ -19,7 +27,18 @@ import {CdkTemplateGridFilterComponent} from './cdk-template-grid-filter.compone
         MatFormFieldModule,
         MatIconModule,
         MatInputModule,
+        MatAutocompleteModule,
+        MatDatepickerModule,
+        MatDatetimepickerModule,
+        MatNativeDatetimeModule,
+        MatMomentDatetimeModule,
+        MatCheckboxModule,
+
         FuseSharedModule,
+
+        CdkUsuarioAutocompleteModule,
+        CdkModalidadeTemplateAutocompleteModule,
+        CdkDocumentoAutocompleteModule,
     ],
     providers: [
         TemplateService,

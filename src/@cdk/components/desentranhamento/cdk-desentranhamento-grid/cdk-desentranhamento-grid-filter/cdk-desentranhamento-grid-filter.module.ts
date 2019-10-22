@@ -1,6 +1,8 @@
 import {NgModule} from '@angular/core';
 import {
+    MatAutocompleteModule,
     MatButtonModule,
+    MatDatepickerModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule
@@ -9,6 +11,11 @@ import {
 import {FuseSharedModule} from '@fuse/shared.module';
 import {DesentranhamentoService} from '@cdk/services/desentranhamento.service';
 import {CdkDesentranhamentoGridFilterComponent} from './cdk-desentranhamento-grid-filter.component';
+import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
+import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
+import {CdkUsuarioAutocompleteModule} from '../../../usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
+import {CdkProcessoAutocompleteModule} from '../../../processo/cdk-processo-autocomplete/cdk-processo-autocomplete.module';
+import {CdkJuntadaAutocompleteModule} from '../../../juntada/cdk-juntada-autocomplete/cdk-juntada-autocomplete.module';
 
 @NgModule({
     declarations: [
@@ -19,7 +26,17 @@ import {CdkDesentranhamentoGridFilterComponent} from './cdk-desentranhamento-gri
         MatFormFieldModule,
         MatIconModule,
         MatInputModule,
+        MatAutocompleteModule,
+        MatDatepickerModule,
+        MatDatetimepickerModule,
+        MatNativeDatetimeModule,
+        MatMomentDatetimeModule,
+
         FuseSharedModule,
+
+        CdkUsuarioAutocompleteModule,
+        CdkJuntadaAutocompleteModule,
+        CdkProcessoAutocompleteModule,
     ],
     providers: [
         DesentranhamentoService,

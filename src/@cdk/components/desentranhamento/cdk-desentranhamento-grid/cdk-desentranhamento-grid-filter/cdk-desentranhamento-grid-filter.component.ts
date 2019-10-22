@@ -23,6 +23,8 @@ export class CdkDesentranhamentoGridFilterComponent implements OnInit {
 
     form: FormGroup;
 
+    filters: any = {};
+
     /**
      * Constructor
      */
@@ -31,7 +33,15 @@ export class CdkDesentranhamentoGridFilterComponent implements OnInit {
     ) {
 
         this.form = this._formBuilder.group({
-            'juntada.descricao': [null]
+            juntada: [null],
+            processoDestino: [null],
+            observacao: [null],
+            criadoPor: [null],
+            criadoEm: [null],
+            atualizadoPor: [null],
+            atualizadoEm: [null],
+            apagadoPor: [null],
+            apagadoEm: [null],
         });
 
     }
@@ -44,8 +54,121 @@ export class CdkDesentranhamentoGridFilterComponent implements OnInit {
      * On init
      */
     ngOnInit(): void {
-        this.form.get('juntada.descricao').valueChanges.subscribe(value => {
-            this.selected.emit({'juntada.descricao': `like:${value}%`});
+        this.form.get('observacao').valueChanges.subscribe(value => {
+            this.filters = {
+                ...this.filters,
+                observacao: `like:${value}%`
+            };
+            this.selected.emit(this.filters);
+        });
+
+        this.form.get('juntada').valueChanges.subscribe(value => {
+            if (typeof value === 'object' && value) {
+                this.filters = {
+                    ...this.filters,
+                    'juntada.id': `eq:${value.id}`
+                };
+                this.selected.emit(this.filters);
+            } else {
+                if (this.filters.hasOwnProperty('juntada.id')) {
+                    delete this.filters['juntada.id'];
+                }
+            }
+            if (!value) {
+                this.selected.emit(this.filters);
+            }
+        });
+
+        this.form.get('processoDestino').valueChanges.subscribe(value => {
+            if (typeof value === 'object' && value) {
+                this.filters = {
+                    ...this.filters,
+                    'processoDestino.id': `eq:${value.id}`
+                };
+                this.selected.emit(this.filters);
+            } else {
+                if (this.filters.hasOwnProperty('processoDestino.id')) {
+                    delete this.filters['processoDestino.id'];
+                }
+            }
+            if (!value) {
+                this.selected.emit(this.filters);
+            }
+        });
+
+        this.form.get('criadoEm').valueChanges.subscribe(value => {
+            this.filters = {
+                ...this.filters,
+                criadoEm: `eq:${value}`
+            };
+            this.selected.emit(this.filters);
+        });
+
+        this.form.get('atualizadoEm').valueChanges.subscribe(value => {
+            this.filters = {
+                ...this.filters,
+                atualizadoEm: `eq:${value}`
+            };
+            this.selected.emit(this.filters);
+        });
+
+        this.form.get('apagadoEm').valueChanges.subscribe(value => {
+            this.filters = {
+                ...this.filters,
+                apagadoEm: `eq:${value}`
+            };
+            this.selected.emit(this.filters);
+        });
+
+        this.form.get('criadoPor').valueChanges.subscribe(value => {
+            if (typeof value === 'object' && value) {
+                this.filters = {
+                    ...this.filters,
+                    'criadoPor.id': `eq:${value.id}`
+                };
+                this.selected.emit(this.filters);
+            } else {
+                if (this.filters.hasOwnProperty('criadoPor.id')) {
+                    delete this.filters['criadoPor.id'];
+                }
+            }
+            if (!value) {
+                this.selected.emit(this.filters);
+            }
+        });
+
+        this.form.get('atualizadoPor').valueChanges.subscribe(value => {
+            if (typeof value === 'object' && value) {
+                this.filters = {
+                    ...this.filters,
+                    'atualizadoPor.id': `eq:${value.id}`
+                };
+                this.selected.emit(this.filters);
+            } else {
+                if (this.filters.hasOwnProperty('atualizadoPor.id')) {
+                    delete this.filters['atualizadoPor.id'];
+                }
+            }
+            if (!value) {
+                this.selected.emit(this.filters);
+            }
+        });
+
+        this.form.get('apagadoPor').valueChanges.subscribe(value => {
+            if (typeof value === 'object' && value) {
+                this.filters = {
+                    ...this.filters,
+                    'apagadoPor.id': `eq:${value.id}`
+                };
+                this.selected.emit(this.filters);
+            } else {
+                if (this.filters.hasOwnProperty('apagadoPor.id')) {
+                    delete this.filters['apagadoPor.id'];
+                }
+            }
+            if (!value) {
+                this.selected.emit(this.filters);
+            }
         });
     }
 

@@ -61,6 +61,11 @@ export class CdkEspecieTarefaGridComponent implements AfterViewInit, OnInit, OnC
             fixed: false
         },
         {
+            id: 'ativo',
+            label: 'Ativo',
+            fixed: false
+        },
+        {
             id: 'generoTarefa.nome',
             label: 'Gênero Tarefa',
             fixed: false

@@ -7,9 +7,42 @@
             <mat-label>Nome</mat-label>
             <input matInput #nome
                    name="nome"
-                   formControlName="nome"
-                   maxlength="255">
-            <mat-hint align="end">{{nome.value.length}} / 255</mat-hint>
+                   formControlName="nome">
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+            <mat-label>Glossário</mat-label>
+            <input matInput #glossario
+                   name="glossario"
+                   formControlName="glossario">
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+            <mat-label>Dispositivo Legal</mat-label>
+            <input matInput #dispositivoLegal
+                   name="dispositivoLegal"
+                   formControlName="dispositivoLegal">
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+            <mat-label>Código do CNJ</mat-label>
+            <input matInput #codigoCNJ
+                   name="codigoCNJ"
+                   formControlName="codigoCNJ">
+        </mat-form-field>
+
+        <mat-checkbox formControlName="ativo" class="mr-16 mb-16" fxFlex="0 1 auto">
+            Ativo
+        </mat-checkbox>
+
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Assunto Administrativo"
+                       formControlName="parent"
+                       [matAutocomplete]="assuntoAdministrativo.autocomplete">
+            </div>
+            <cdk-assunto-administrativo-autocomplete #assuntoAdministrativo="assuntoAdministrativoAutocomplete" [control]="form.get('parent')">
+            </cdk-assunto-administrativo-autocomplete>
         </mat-form-field>
 
     </div>

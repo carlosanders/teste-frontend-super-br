@@ -1,0 +1,126 @@
+<div fxLayout="row" [dndDraggable]="draggable.data" fxLayoutAlign="start center">
+
+    <mat-checkbox class="mr-8" [checked]="selected" (change)="onSelectedChange()"
+                  (click)="$event.stopPropagation();">
+    </mat-checkbox>
+
+    <div fxLayout="row" fxLayoutAlign="start center" fxFlex>
+
+        <div class="info" fxFlex [ngClass]="{'nao-lido': !tarefa.dataHoraLeitura}">
+
+            <div class="title" fxLayout="row">
+                <mat-icon *ngIf="tarefa.processo?.acessoNegado" class="red-fg">block</mat-icon>
+                <mat-icon *ngIf="tarefa.processo?.documentoAvulsoOrigem">mail</mat-icon>
+                <span class="text-truncate">PROCESSO {{tarefa.processo?.NUP | formatNup}}</span>
+            </div>
+
+            <div class="subtitle" *ngIf="!tarefa.processo?.acessoNegado">
+                <span class="text-truncate">{{tarefa.processo?.modalidadeMeio?.valor }} {{tarefa.processo?.especieProcesso?.nome }}</span>
+            </div>
+
+            <div class="subtitle" *ngIf="tarefa.processo?.acessoNegado">
+                <span class="text-truncate">Usuário com acesso negado ao processo</span>
+            </div>
+
+            <div class="subtitle" *ngIf="tarefa.processo?.documentoAvulsoOrigem">
+                <span *ngIf="!tarefa.processo?.documentoAvulsoOrigem?.dataHoraResposta" class="text-truncate">Ofício vinculado pendente de resposta</span>
+                <span *ngIf="tarefa.processo?.documentoAvulsoOrigem?.dataHoraResposta" class="text-truncate">Ofício vinculado respondido em {{tarefa.processo?.documentoAvulsoOrigem?.dataHoraResposta | date: 'dd/MM/yyyy H:mm'}}</span>
+            </div>
+
+            <div class="body mt-4">
+                <div>
+                    {{tarefa.especieTarefa?.nome}}
+                </div>
+
+                <div>
+                    {{tarefa.setorResponsavel?.nome}} ({{tarefa.setorResponsavel?.unidade?.sigla}})
+                </div>
+
+                <div>
+                    {{tarefa.dataHoraInicioPrazo | date: 'dd/MM/yyyy'}}
+                    ATÉ {{tarefa.dataHoraFinalPrazo | date: 'dd/MM/yyyy'}}
+                </div>
+            </div>
+
+            <div class="etiquetas" fxLayout="row wrap" fxHide fxShow.gt-sm>
+                <div class="etiqueta" *ngFor="let vinculacaoEtiqueta of tarefa.vinculacoesEtiquetas"
+                     fxLayout="row" fxLayoutAlign="start center">
+                    <div class="etiqueta-color"
+                         [ngStyle]="{'background-color': (vinculacaoEtiqueta.etiqueta?.corHexadecimal)}"></div>
+                    <div class="etiqueta-title">{{vinculacaoEtiqueta.etiqueta?.nome}}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="actions" fxLayout="row" fxLayoutAlign="start center">
+
+            <button mat-icon-button (click)="doToggleUrgente()"
+                    aria-label="Toggle important" fxHide.xs>
+                <mat-icon class="red-fg" *ngIf="tarefa.urgente">error</mat-icon>
+                <mat-icon class="secondary-text" *ngIf="!tarefa.urgente">error_outline</mat-icon>
+            </button>
+
+            <div class="spinner-container m-8" *ngIf="deleting">
+                <mat-spinner diameter="24"></mat-spinner>
+            </div>
+
+            <button *ngIf="!deleting" mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="Ferramentas"
+                    (click)="$event.stopPropagation()">
+                <mat-icon class="secondary-text">more_vert</mat-icon>
+            </button>
+
+            <mat-menu #moreMenu="matMenu">
+
+                <button mat-menu-item aria-label="remover"
+                        (click)="doDelete()">
+                    <ng-container>
+                        <mat-icon>delete</mat-icon>
+                        <span>Remover</span>
+                    </ng-container>
+                </button>
+
+                <button mat-menu-item aria-label="movimentar"
+                        (click)="doMovimentar()">
+                    <ng-container>
+                        <mat-icon>send</mat-icon>
+                        <span>Movimentar</span>
+                    </ng-container>
+                </button>
+
+                <button mat-menu-item aria-label="editar tarefa"
+                        (click)="doEditTarefa()">
+                    <ng-container>
+                        <mat-icon>edit</mat-icon>
+                        <span>Editar Tarefa</span>
+                    </ng-container>
+                </button>
+
+                <button mat-menu-item aria-label="criar tarefa"
+                        (click)="doCreateTarefa()">
+                    <ng-container>
+                        <mat-icon>check_box</mat-icon>
+                        <span>Criar Tarefa</span>
+                    </ng-container>
+                </button>
+
+                <button mat-menu-item aria-label="enviar ofício"
+                        (click)="doCreateDocumentoAvulso()">
+                    <ng-container>
+                        <mat-icon>mail</mat-icon>
+                        <span>Criar Ofício</span>
+                    </ng-container>
+                </button>
+
+                <button mat-menu-item aria-label="compartilhar"
+                        (click)="doCompartilhar()">
+                    <ng-container>
+                        <mat-icon>share</mat-icon>
+                        <span>Compartilhar</span>
+                    </ng-container>
+                </button>
+
+            </mat-menu>
+        </div>
+
+    </div>
+</div>
