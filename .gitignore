@@ -39,4 +39,4 @@ testem.log
 Thumbs.db
 
 # modules
-/src/modules/judicial/*
+/src/modules/*/*
