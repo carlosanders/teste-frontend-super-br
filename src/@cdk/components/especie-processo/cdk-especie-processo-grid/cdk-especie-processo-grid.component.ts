@@ -15,7 +15,8 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 
 import {EspecieProcesso} from '@cdk/models/especie-processo.model';
 import {EspecieProcessoDataSource} from '@cdk/data-sources/especie-processo-data-source';
-import {FormControl} from "@angular/forms";
+import {FormControl} from '@angular/forms';
+import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 
 @Component({
     selector: 'cdk-especie-processo-grid',
@@ -147,8 +148,6 @@ export class CdkEspecieProcessoGridComponent implements AfterViewInit, OnInit, O
 
     dataSource: EspecieProcessoDataSource;
 
-    showFilter = false;
-
     gridFilter: any;
 
     hasSelected = false;
@@ -158,7 +157,8 @@ export class CdkEspecieProcessoGridComponent implements AfterViewInit, OnInit, O
      * @param _changeDetectorRef
      */
     constructor(
-        private _changeDetectorRef: ChangeDetectorRef
+        private _changeDetectorRef: ChangeDetectorRef,
+        private _fuseSidebarService: FuseSidebarService
     ) {
         this.gridFilter = {};
         this.especieProcessos = [];
@@ -209,12 +209,9 @@ export class CdkEspecieProcessoGridComponent implements AfterViewInit, OnInit, O
         ).subscribe();
     }
 
+
     toggleFilter(): void {
-        this.showFilter = !this.showFilter;
-        if (!this.showFilter) {
-            this.gridFilter = {};
-            this.setGridFilter(this.gridFilter);
-        }
+        this._fuseSidebarService.getSidebar('cdk-especie-processo-main-sidebar').toggleOpen();
     }
 
     loadPage(): void {
@@ -267,7 +264,7 @@ export class CdkEspecieProcessoGridComponent implements AfterViewInit, OnInit, O
     }
 
     /**
-     * Deselect all tarefas
+     * Deselect all
      */
     deselectAll(): void {
         this.selectedIds = [];
@@ -291,11 +288,16 @@ export class CdkEspecieProcessoGridComponent implements AfterViewInit, OnInit, O
     }
 
     setGridFilter(gridFilter): void {
-        this.gridFilter = {
-            ...this.gridFilter,
-            ...gridFilter
-        };
+        console.log('this');
+        console.log(this.gridFilter);
+        console.log('no this');
+        console.log(gridFilter);
 
+        // this.gridFilter = {
+        //     ...this.gridFilter,
+        //     ...gridFilter
+        // };
+        this.gridFilter = gridFilter;
         this.paginator.pageIndex = 0;
         this.loadPage();
     }

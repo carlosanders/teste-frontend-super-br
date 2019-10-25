@@ -2,6 +2,13 @@
 
 cdk-especie-processo-grid {
 
+
+  .aaa {
+    position: inherit !important;
+    background-color: #92a8d1 !important;
+  }
+
+
   .colunas {
     width: 20px !important;
 
@@ -147,4 +154,5 @@ cdk-especie-processo-grid {
       margin-top: 24px;
     }
   }
+
 }

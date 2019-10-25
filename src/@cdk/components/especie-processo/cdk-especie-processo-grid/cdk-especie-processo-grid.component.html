@@ -1,9 +1,19 @@
-<!-- CONTENT HEADER -->
-<div id="teste" *ngIf="showFilter">
-    <div class="filters">
-        <cdk-especie-processo-grid-filter (selected)="setGridFilter($event)"></cdk-especie-processo-grid-filter>
+<!-- SIDEBAR -->
+<fuse-sidebar class="sidebar" name="cdk-especie-processo-main-sidebar" position="left">
+    <!-- SIDEBAR CONTENT -->
+    <div class="content" fusePerfectScrollbar id="teste">
+        <cdk-especie-processo-main-sidebar (selected)="setGridFilter($event)" [@animate]="{value:'*'}"></cdk-especie-processo-main-sidebar>
     </div>
-</div>
+    <!-- / SIDEBAR CONTENT -->
+</fuse-sidebar>
+<!-- / SIDEBAR -->
+
+<!-- CONTENT HEADER -->
+<!--<div *ngIf="showFilter">-->
+<!--    <div class="filters">-->
+<!--        <cdk-especie-processo-grid-filter (selected)="setGridFilter($event)"></cdk-especie-processo-grid-filter>-->
+<!--    </div>-->
+<!--</div>-->
 <!-- / CONTENT HEADER -->
 
 <!-- CONTENT -->
@@ -48,6 +58,7 @@
                     matTooltip="Filtrar">
                 <mat-icon>filter_list</mat-icon>
             </button>
+
         </div>
 
         <div class="spinner-container" *ngIf="loading">

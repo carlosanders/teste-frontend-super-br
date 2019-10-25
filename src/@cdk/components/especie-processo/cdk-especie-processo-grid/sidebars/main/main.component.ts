@@ -1,23 +1,19 @@
-import {
-    ChangeDetectionStrategy,
-    Component, EventEmitter,
-    OnInit, Output,
-    ViewEncapsulation
-} from '@angular/core';
-
-import {fuseAnimations} from '@fuse/animations';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output, ViewChild, ViewEncapsulation} from '@angular/core';
+import { fuseAnimations } from '@fuse/animations';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
+import {MatPaginator, MatSort} from '@angular/material';
 
 @Component({
-    selector: 'cdk-especie-processo-grid-filter',
-    templateUrl: './cdk-especie-processo-grid-filter.component.html',
-    styleUrls: ['./cdk-especie-processo-grid-filter.component.scss'],
+    selector   : 'cdk-especie-processo-main-sidebar',
+    templateUrl: './main.component.html',
+    styleUrls  : ['./main.component.scss'],
+    animations   : fuseAnimations,
     changeDetection: ChangeDetectionStrategy.OnPush,
-    encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    encapsulation: ViewEncapsulation.None
 })
-export class CdkEspecieProcessoGridFilterComponent implements OnInit {
-
+export class CdkEspecieProcessoListMainSidebarComponent implements OnInit
+{
     @Output()
     selected = new EventEmitter<any>();
 
@@ -25,13 +21,15 @@ export class CdkEspecieProcessoGridFilterComponent implements OnInit {
 
     filters: any = {};
 
+    gridFilter: any;
+
     /**
      * Constructor
      */
     constructor(
+        private _fuseSidebarService: FuseSidebarService,
         private _formBuilder: FormBuilder
     ) {
-
         this.form = this._formBuilder.group({
             nome: [null],
             descricao: [null],
@@ -44,7 +42,6 @@ export class CdkEspecieProcessoGridFilterComponent implements OnInit {
             apagadoPor: [null],
             apagadoEm: [null],
         });
-
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -56,29 +53,33 @@ export class CdkEspecieProcessoGridFilterComponent implements OnInit {
      */
     ngOnInit(): void {
         this.form.get('nome').valueChanges.subscribe(value => {
-            this.filters = {
-                ...this.filters,
-                nome: `like:${value}%`
-            };
-            this.selected.emit(this.filters);
-            console.log('filtro');
-            console.log(this.filters);
+            if (value) {
+                this.filters = {
+                    ...this.filters,
+                    nome: `like:${value}%`
+                };
+                this.selected.emit(this.filters); // Devo retirar?
+            }
         });
 
         this.form.get('descricao').valueChanges.subscribe(value => {
-            this.filters = {
-                ...this.filters,
-                descricao: `like:${value}%`
-            };
-            this.selected.emit(this.filters);
+            if (value) {
+                this.filters = {
+                    ...this.filters,
+                    descricao: `like:${value}%`
+                };
+                this.selected.emit(this.filters);
+            }
         });
 
         this.form.get('ativo').valueChanges.subscribe(value => {
-            this.filters = {
-                ...this.filters,
-                ativo: `eq:${value}`
-            };
-            this.selected.emit(this.filters);
+            if (value !== null) {
+                this.filters = {
+                    ...this.filters,
+                    ativo: `eq:${value}`
+                };
+                this.selected.emit(this.filters);
+            }
         });
 
         this.form.get('generoProcesso').valueChanges.subscribe(value => {
@@ -99,27 +100,33 @@ export class CdkEspecieProcessoGridFilterComponent implements OnInit {
         });
 
         this.form.get('criadoEm').valueChanges.subscribe(value => {
-            this.filters = {
-                ...this.filters,
-                criadoEm: `eq:${value}`
-            };
-            this.selected.emit(this.filters);
+            if (value) {
+                this.filters = {
+                    ...this.filters,
+                    criadoEm: `eq:${value}`
+                };
+                this.selected.emit(this.filters);
+            }
         });
 
         this.form.get('atualizadoEm').valueChanges.subscribe(value => {
-            this.filters = {
-                ...this.filters,
-                atualizadoEm: `eq:${value}`
-            };
-            this.selected.emit(this.filters);
+            if (value) {
+                this.filters = {
+                    ...this.filters,
+                    atualizadoEm: `eq:${value}`
+                };
+                this.selected.emit(this.filters);
+            }
         });
 
         this.form.get('apagadoEm').valueChanges.subscribe(value => {
-            this.filters = {
-                ...this.filters,
-                apagadoEm: `eq:${value}`
-            };
-            this.selected.emit(this.filters);
+            if (value) {
+                this.filters = {
+                    ...this.filters,
+                    apagadoEm: `eq:${value}`
+                };
+                this.selected.emit(this.filters);
+            }
         });
 
         this.form.get('criadoPor').valueChanges.subscribe(value => {
@@ -174,5 +181,17 @@ export class CdkEspecieProcessoGridFilterComponent implements OnInit {
         });
     }
 
-}
+    pesquisar(): void {
+        this.selected.emit(this.filters);
+        this._fuseSidebarService.getSidebar('cdk-especie-processo-main-sidebar').toggleOpen();
+    }
 
+    limpar(): void {
+        this.filters = {};
+        this.selected.emit(this.filters);
+        this._fuseSidebarService.getSidebar('cdk-especie-processo-main-sidebar').toggleOpen();
+        this.form.reset();
+    }
+
+
+}
