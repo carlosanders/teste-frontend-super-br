@@ -44,7 +44,6 @@ export class TarefaEditBlocoEffect {
             .pipe(
                 ofType<TarefaEditBlocoActions.SaveTarefa>(TarefaEditBlocoActions.SAVE_TAREFA),
                 mergeMap((action) => {
-                    console.log (action.payload.changes);
                     return this._tarefaService.patch(action.payload.tarefa, action.payload.changes).pipe(
                         mergeMap((response: Tarefa) => [
                             new TarefaEditBlocoActions.SaveTarefaSuccess(action.payload),

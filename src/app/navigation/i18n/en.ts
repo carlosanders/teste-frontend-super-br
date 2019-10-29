@@ -19,13 +19,7 @@ export const locale = {
                 },
             },
             PESQUISA        : {
-                TITLE: 'Pesquisa',
-                PROCESSO: {
-                    TITLE: 'Processo'
-                },
-                DOCUMENTO: {
-                    TITLE: 'Documento'
-                },
+                TITLE: 'Pesquisa'
             }
         }
     }

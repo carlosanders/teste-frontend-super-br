@@ -23,12 +23,12 @@ export const navigation: FuseNavigation[] = [
                 icon: 'check_box',
                 children: [
                     {
-                        id: 'minhasTarefas',
+                        id: 'administrativas',
                         title: 'Administrativas',
                         translate: 'NAV.TAREFA.ADMINISTRATIVAS.TITLE',
                         type: 'item',
                         icon: 'person',
-                        url: '/apps/tarefas/entrada'
+                        url: '/apps/tarefas/administrativo/entrada'
                     }
                 ]
             },
@@ -45,7 +45,7 @@ export const navigation: FuseNavigation[] = [
                         translate: 'NAV.PROTOCOLO.ADMINISTRATIVO.TITLE',
                         type: 'item',
                         icon: 'book',
-                        url: '/apps/processo/criar/editar'
+                        url: '/apps/processo/criar/editar/dados-basicos'
                     }
                 ]
             },
@@ -53,26 +53,9 @@ export const navigation: FuseNavigation[] = [
                 id: 'pesquisa',
                 title: 'Pesquisa',
                 translate: 'NAV.PESQUISA.TITLE',
-                type: 'collapsable',
+                type: 'item',
                 icon: 'search',
-                children: [
-                    {
-                        id: 'processo',
-                        title: 'Processo',
-                        translate: 'NAV.PESQUISA.PROCESSO.TITLE',
-                        type: 'item',
-                        icon: 'book',
-                        url: '/apps/pesquisa/processos'
-                    },
-                    {
-                        id: 'documento',
-                        title: 'Documento',
-                        translate: 'NAV.PESQUISA.DOCUMENTO.TITLE',
-                        type: 'item',
-                        icon: 'insert_drive_file',
-                        url: '/apps/pesquisa/documentos'
-                    },
-                ]
+                url: '/apps/pesquisa/processos'
             }
         ]
     }

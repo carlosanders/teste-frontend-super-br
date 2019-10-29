@@ -19,6 +19,7 @@ import {State} from 'app/store/reducers';
 import {EventSourcePolyfill} from 'event-source-polyfill';
 import * as fromStore from 'app/store';
 import {SetScreen} from 'app/store';
+import {modulesConfig} from '../modules/modules-config';
 
 @Component({
     selector: 'app',
@@ -58,6 +59,20 @@ export class AppComponent implements OnInit, OnDestroy {
     ) {
         // Get default navigation
         this.navigation = navigation;
+
+        modulesConfig.forEach((module) => {
+            if (module.mainMenu) {
+                module.mainMenu.forEach((i) => {
+                    i.entries.forEach((j) => {
+                        this.navigation[0].children.forEach((n, idx) => {
+                            if (n.id === i.id) {
+                                this.navigation[0].children[idx].children.push(j);
+                            }
+                        });
+                    });
+                });
+            }
+        });
 
         // Register the navigation to the service
         this._fuseNavigationService.register('main', this.navigation);

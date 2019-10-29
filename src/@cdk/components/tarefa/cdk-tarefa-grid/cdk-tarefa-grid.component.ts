@@ -37,7 +37,7 @@ export class CdkTarefaGridComponent implements AfterViewInit, OnInit, OnChanges 
 
     @Input()
     displayedColumns: string[] = ['select', 'id', 'processo.nup', 'especieTarefa.nome', 'dataHoraInicioPrazo',
-        'dataHoraFinalPrazo', 'vinculacoesEtiquetas.etiqueta.conteudo', 'actions'];
+        'dataHoraFinalPrazo', 'actions'];
 
     allColumns: any[] = [
         {

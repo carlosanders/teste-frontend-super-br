@@ -2,6 +2,11 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from '../../../store';
 import {getRouterState} from 'app/store/reducers';
+import {Observable} from 'rxjs';
+import {Processo} from '@cdk/models/processo.model';
+import {getProcesso} from '../../dados-basicos/store/selectors';
+
+import {modulesConfig} from 'modules/modules-config';
 
 @Component({
     selector: 'processo-edit-main-sidebar',
@@ -13,14 +18,16 @@ export class ProcessoEditMainSidebarComponent implements OnInit, OnDestroy {
     links: any;
     routerState: any;
 
+    processo$: Observable<Processo>;
+    processo: Processo;
+
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
     // -----------------------------------------------------------------------------------------------------
 
     constructor(private _store: Store<fromStore.ProcessoAppState>) {
-
+        this.processo$ = this._store.pipe(select(getProcesso));
     }
-
 
     /**
      * On init
@@ -35,6 +42,10 @@ export class ProcessoEditMainSidebarComponent implements OnInit, OnDestroy {
                 this.routerState = routerState.state;
             }
         });
+
+        this.processo$.subscribe(
+            processo => this.processo = processo
+        );
 
         this.links = [
             {
@@ -86,6 +97,15 @@ export class ProcessoEditMainSidebarComponent implements OnInit, OnDestroy {
                 link: 'acessos'
             }
         ];
+
+        const path = 'app/main/apps/processo/processo-edit/sidebars/main';
+
+        modulesConfig.forEach((module) => {
+            if (module.sidebars.hasOwnProperty(path)) {
+                module.sidebars[path].forEach((s => this.links.push(s)));
+            }
+        });
+
     }
 
     /**
