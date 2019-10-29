@@ -39,8 +39,8 @@ export class CdkVinculacaoEtiquetaChipsComponent {
     @Input()
     valid = true;
 
-    @ViewChild('etiquetaInput', {static: true}) etiquetaInput: ElementRef<HTMLInputElement>;
-    @ViewChild('etiqueta', {static: true}) matAutocomplete: MatAutocomplete;
+    @ViewChild('etiquetaInput', {static: false}) etiquetaInput: ElementRef<HTMLInputElement>;
+    @ViewChild('etiqueta', {static: false}) matAutocomplete: MatAutocomplete;
 
     constructor() {
         this.pagination = new Pagination();
