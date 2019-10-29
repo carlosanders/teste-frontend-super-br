@@ -89,10 +89,7 @@ export class PessoaListComponent implements OnInit, OnDestroy {
             sort: params.sort,
             limit: params.limit,
             offset: params.offset,
-            populate: [
-                ...this.pagination.populate,
-                ...params.populate
-            ]
+            populate: this.pagination.populate
         }));
     }
 
