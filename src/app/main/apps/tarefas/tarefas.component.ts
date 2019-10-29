@@ -329,54 +329,54 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     doCreateDocumentoAvulso(tarefaId): void {
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.folderHandle + '/tarefa/' + tarefaId + '/oficio']).then();
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.folderHandle + '/tarefa/' + tarefaId + '/oficio']).then();
     }
 
     doCreateTarefa(params): void {
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.folderHandle + '/criar/' + params.processoId]).then();
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.folderHandle + '/criar/' + params.processoId]).then();
     }
 
     doMovimentar(tarefaId): void {
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.folderHandle + '/tarefa/' + tarefaId + '/atividades/criar']).then();
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.folderHandle + '/tarefa/' + tarefaId + '/atividades/criar']).then();
     }
 
     doEditTarefa(tarefaId): void {
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.folderHandle + '/tarefa/' + tarefaId + '/editar']).then();
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.folderHandle + '/tarefa/' + tarefaId + '/editar']).then();
     }
 
     doCompartilhar(tarefaId): void {
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.folderHandle + '/tarefa/' + tarefaId + '/compartilhamentos/criar']).then();
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.folderHandle + '/tarefa/' + tarefaId + '/compartilhamentos/criar']).then();
     }
 
     doCompartilharBloco(): void {
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.folderHandle + '/compartilhamento-bloco']).then();
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.folderHandle + '/compartilhamento-bloco']).then();
     }
 
     doEtiquetarBloco(): void {
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.folderHandle + '/vinculacao-etiqueta-bloco']).then();
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.folderHandle + '/vinculacao-etiqueta-bloco']).then();
     }
 
     doMovimentarBloco(): void {
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.folderHandle + '/atividade-bloco']).then();
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.folderHandle + '/atividade-bloco']).then();
     }
 
     doEditTarefaBloco(): void {
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.folderHandle + '/tarefa-edit-bloco']).then();
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.folderHandle + '/tarefa-edit-bloco']).then();
     }
 
     doCreateTarefaBloco(): void {
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.folderHandle + '/tarefa-bloco']).then();
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.folderHandle + '/tarefa-bloco']).then();
     }
 
     doUploadBloco(): void {
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.folderHandle + '/upload-bloco']).then();
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.folderHandle + '/upload-bloco']).then();
     }
 
     doEditorBloco(): void {
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.folderHandle + '/modelo-bloco']).then();
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.folderHandle + '/modelo-bloco']).then();
     }
 
     doCreateDocumentoAvulsoBloco(): void {
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.folderHandle + '/documento-avulso-bloco']).then();
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.folderHandle + '/documento-avulso-bloco']).then();
     }
 }

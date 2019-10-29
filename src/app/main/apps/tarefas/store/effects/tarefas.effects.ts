@@ -15,7 +15,6 @@ import {Tarefa} from '@cdk/models/tarefa.model';
 import {TarefaService} from '@cdk/services/tarefa.service';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Router} from '@angular/router';
-import {plainToClass} from 'class-transformer';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
@@ -66,8 +65,8 @@ export class TarefasEffect {
                     new TarefasActions.GetTarefasSuccess({
                         entitiesId: response['entities'].map(tarefa => tarefa.id),
                         loaded: {
-                            id: 'folderHandle',
-                            value: this.routerState.params.folderHandle
+                            id: 'generoHandle_folderHandle',
+                            value: this.routerState.params.generoHandle + '_' + this.routerState.params.folderHandle
                         },
                         total: response['total']
                     })
@@ -91,11 +90,11 @@ export class TarefasEffect {
                 map((action) => {
                     if (action.payload.acessoNegado) {
                         this._router.navigate([
-                            'apps/tarefas/' + this.routerState.params.folderHandle + '/tarefa/' + action.payload.tarefaId + '/processo/' + action.payload.processoId + '/acesso-negado']
+                            'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.folderHandle + '/tarefa/' + action.payload.tarefaId + '/processo/' + action.payload.processoId + '/acesso-negado']
                         ).then();
                     } else {
                         this._router.navigate([
-                            'apps/tarefas/' + this.routerState.params.folderHandle + '/tarefa/' + action.payload.tarefaId + '/processo/' + action.payload.processoId + '/visualizar']
+                            'apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.folderHandle + '/tarefa/' + action.payload.tarefaId + '/processo/' + action.payload.processoId + '/visualizar']
                         ).then();
                     }
 
@@ -113,7 +112,7 @@ export class TarefasEffect {
             .pipe(
                 ofType<TarefasActions.CreateTarefa>(TarefasActions.CREATE_TAREFA),
                 map(() => {
-                    this._router.navigate(['apps/tarefas/' + this.routerState.params.folderHandle + '/criar']).then();
+                    this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.folderHandle + '/criar']).then();
                     return new TarefasActions.CreateTarefaSuccess();
                 })
             );

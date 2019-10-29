@@ -120,8 +120,8 @@ export class ResolveGuard implements CanActivate {
                     ]
                 };
 
-                const routeParams = of('folderHandle');
-                routeParams.subscribe(param => {
+                const routeFolderParams = of('folderHandle');
+                routeFolderParams.subscribe(param => {
                     let tarefaFilter = {};
                     if (this.routerState.params[param] === 'compartilhadas') {
                         tarefaFilter = {
@@ -146,13 +146,21 @@ export class ResolveGuard implements CanActivate {
                     params['filter'] = tarefaFilter;
                 });
 
-                if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
+                const routeGeneroParams = of('generoHandle');
+                routeGeneroParams.subscribe(param => {
+                    params['filter'] = {
+                        ...params['filter'],
+                        'especieTarefa.generoTarefa.nome': `eq:${this.routerState.params[param].toUpperCase()}`
+                    };
+                });
+
+                if (!this.routerState.params['generoHandle'] || !this.routerState.params['folderHandle'] || (this.routerState.params['generoHandle'] + '_' + this.routerState.params['folderHandle']) !== loaded.value) {
                     this._store.dispatch(new fromStore.GetTarefas(params));
                     this._store.dispatch(new fromStore.ChangeSelectedTarefas([]));
                 }
             }),
             filter((loaded: any) => {
-                return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
+                return this.routerState.params['generoHandle'] && this.routerState.params['folderHandle'] && (this.routerState.params['generoHandle'] + '_' + this.routerState.params['folderHandle']) === loaded.value;
             }),
             take(1)
         );

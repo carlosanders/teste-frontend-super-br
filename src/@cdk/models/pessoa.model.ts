@@ -24,6 +24,8 @@ export class Pessoa {
 
     pessoaValidada: boolean;
 
+    pessoaRepresentada: boolean;
+
     @Transform(value => value ? value.format('YYYY-MM-DD') : null, { toPlainOnly: true })
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
     dataNascimento?: Date;

@@ -40,7 +40,7 @@ import {LoginService} from '../../auth/login/login.service';
 
 const routes: Routes = [
     {
-        path: ':folderHandle',
+        path: ':generoHandle/:folderHandle',
         component: TarefasComponent,
         children: [
             {

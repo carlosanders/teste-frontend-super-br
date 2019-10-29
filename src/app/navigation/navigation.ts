@@ -23,12 +23,12 @@ export const navigation: FuseNavigation[] = [
                 icon: 'check_box',
                 children: [
                     {
-                        id: 'minhasTarefas',
+                        id: 'administrativas',
                         title: 'Administrativas',
                         translate: 'NAV.TAREFA.ADMINISTRATIVAS.TITLE',
                         type: 'item',
                         icon: 'person',
-                        url: '/apps/tarefas/entrada'
+                        url: '/apps/tarefas/administrativo/entrada'
                     }
                 ]
             },

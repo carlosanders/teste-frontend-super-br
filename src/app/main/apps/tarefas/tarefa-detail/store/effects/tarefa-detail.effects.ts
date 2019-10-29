@@ -101,7 +101,7 @@ export class TarefaDetailEffect {
             .pipe(
                 ofType<TarefaDetailActions.DeselectTarefaAction>(TarefaDetailActions.DESELECT_TAREFA_ACTION),
                 tap(() => {
-                    this._router.navigate(['apps/tarefas/' + this.routerState.params.folderHandle]).then();
+                    this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.folderHandle]).then();
                 })
             );
 
@@ -205,7 +205,7 @@ export class TarefaDetailEffect {
                 ofType<TarefaDetailActions.DarCienciaTarefaSuccess>(TarefaDetailActions.DAR_CIENCIA_TAREFA_SUCCESS),
                 tap((action) => {
                     this._store.dispatch(new DeleteTarefaSuccess(action.payload.id));
-                    this._router.navigate(['apps/tarefas/' + this.routerState.params.folderHandle + '/tarefa/' + this.routerState.params.tarefaHandle + '/encaminhamento']).then();
+                    this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.folderHandle + '/tarefa/' + this.routerState.params.tarefaHandle + '/encaminhamento']).then();
                 })
             );
 

@@ -27,6 +27,8 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
 
     routerState: any;
 
+    generoHandle = '';
+
     /**
      *
      * @param _store
@@ -56,6 +58,7 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
                 } else {
                     this.mode = 'Tarefas';
                 }
+                this.generoHandle = routerState.state.params['generoHandle'];
             }
         });
     }
