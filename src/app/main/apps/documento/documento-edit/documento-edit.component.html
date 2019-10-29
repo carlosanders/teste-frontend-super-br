@@ -2,7 +2,7 @@
     <div fxLayout="column" fxFlex="25">
 
         <div class="actions p-16" fxLayout="row" fxLayoutAlign="end center">
-            <button mat-icon-button aria-label="movimentar"
+            <button *ngIf="(tarefa$ | async)" mat-icon-button aria-label="movimentar"
                     matTooltip="Movimentar" (click)="showAtividade()"
                     [ngClass]="{'active accent': activeCard === 'atividade'}">
                 <mat-icon class="black-fg">send</mat-icon>
@@ -20,7 +20,7 @@
                 <mat-icon class="black-fg">edit</mat-icon>
             </button>
 
-            <button mat-icon-button aria-label="inteligência jurídica"
+            <button *ngIf="!juntadaRoute" mat-icon-button aria-label="inteligência jurídica"
                     matTooltip="Inteligência Jurídica" (click)="showInteligencia()"
                     [ngClass]="{'active accent': activeCard === 'inteligencia'}">
                 <mat-icon class="black-fg">gavel</mat-icon>
@@ -29,7 +29,7 @@
             <button mat-icon-button aria-label="acesso restrito"
                     matTooltip="Restrições de Acesso" (click)="showAcessoRestrito()"
                     [ngClass]="{'active accent': activeCard === 'acesso-restrito'}">
-                <mat-icon class="black-fg">lock</mat-icon>
+                <mat-icon class="black-fg">block</mat-icon>
             </button>
         </div>
 
@@ -108,7 +108,7 @@
             <h3 *ngIf="!(documento$ | async)?.vinculacaoDocumentoPrincipal" style="font-weight: bold">Documento Principal</h3>
             <h3 *ngIf="(documento$ | async)?.vinculacaoDocumentoPrincipal" style="font-weight: bold">Anexo</h3>
 
-            <cdk-documento-form fxFlex [documento]="(documento$ | async)"
+            <cdk-documento-form fxFlex fusePerfectScrollbar [documento]="(documento$ | async)"
                                 [saving]="(isSaving$ | async)"
                                 [errors]="(errors$ | async)"
                                 (save)="submit($event)">
@@ -154,7 +154,7 @@
                 </button>
             </div>
 
-            <cdk-visibilidade-form *ngIf="formAcessoRestrito"
+            <cdk-visibilidade-form fusePerfectScrollbar *ngIf="formAcessoRestrito"
                 [visibilidade]="visibilidade"
                 [saving]="(isSaving$ | async)"
                 [errors]="(errors$ | async)"

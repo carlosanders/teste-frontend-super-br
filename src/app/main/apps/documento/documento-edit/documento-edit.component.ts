@@ -15,7 +15,7 @@ import {Location} from '@angular/common';
 import {getMercureState, getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {Repositorio} from '@cdk/models/repositorio.model';
-import {filter} from 'rxjs/operators';
+import {filter, takeLast} from 'rxjs/operators';
 import {DomSanitizer} from '@angular/platform-browser';
 import {ComponenteDigital} from '@cdk/models/componente-digital.model';
 import {RepositorioService} from '@cdk/services/repositorio.service';
@@ -93,6 +93,8 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
     formAcessoRestrito = false;
     loadingAcessoRestrito = false;
 
+    juntadaRoute = false;
+
     /**
      * @param _store
      * @param _location
@@ -109,17 +111,22 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
         private _sanitizer: DomSanitizer,
         private _loginService: LoginService
     ) {
-        this.tarefa$ = this._store.pipe(select(getTarefa));
         this.documento$ = this._store.pipe(select(fromStore.getDocumento));
         this.componenteDigital$ = this._store.pipe(select(fromStore.getComponenteDigital));
         this.documentosVinculados$ = this._store.pipe(select(fromStore.getDocumentosVinculados));
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
-        this.atividadeIsSaving$ = this._store.pipe(select(fromStore.getAtividadeIsSaving));
-        this.atividadeErrors$ = this._store.pipe(select(fromStore.getAtividadeErrors));
         this.selectedDocumentosVinculados$ = this._store.pipe(select(fromStore.getSelectedDocumentosVinculados));
         this.deletingDocumentosVinculadosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosVinculadosId));
         this.assinandoDocumentosVinculadosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosVinculadosId));
+
+        if (this._router.url.indexOf('/juntadas') === -1) {
+            this.tarefa$ = this._store.pipe(select(getTarefa));
+            this.atividadeIsSaving$ = this._store.pipe(select(fromStore.getAtividadeIsSaving));
+            this.atividadeErrors$ = this._store.pipe(select(fromStore.getAtividadeErrors));
+        } else {
+            this.juntadaRoute = true;
+        }
 
         this.visibilidades$ = this._store.pipe(select(fromStore.getVisibilidadeList));
         this.visibilidade$ = this._store.pipe(select(fromStore.getVisibilidade));
@@ -179,15 +186,18 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        this.atividade = new Atividade();
-        this.atividade.encerraTarefa = true;
-        this.atividade.dataHoraConclusao = moment();
 
-        this.tarefa$.subscribe(tarefa => {
-            this.tarefa = tarefa;
-            this.atividade.usuario = tarefa.usuarioResponsavel;
-            this.atividade.setor = tarefa.setorResponsavel;
-        });
+        if (this._router.url.indexOf('/juntadas') === -1) {
+            this.atividade = new Atividade();
+            this.atividade.encerraTarefa = true;
+            this.atividade.dataHoraConclusao = moment();
+
+            this.tarefa$.subscribe(tarefa => {
+                this.tarefa = tarefa;
+                this.atividade.usuario = tarefa.usuarioResponsavel;
+                this.atividade.setor = tarefa.setorResponsavel;
+            });
+        }
 
         this.visibilidade$.subscribe(
             visibilidade => this.visibilidade = visibilidade
@@ -196,6 +206,12 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
         if (!this.visibilidade) {
             this.visibilidade = new Visibilidade();
         }
+
+        this.visibilidades$.subscribe(
+            () => {
+                this.loadingAcessoRestrito = false;
+            }
+        );
 
         this.assinandoDocumentosVinculadosId$.subscribe(assinandoDocumentosVinculadosId => {
             if (assinandoDocumentosVinculadosId.length > 0) {
@@ -247,6 +263,10 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
                 this._store.dispatch(new fromStore.SetRepositorioComponenteDigital(html));
             }
         });
+
+        if (this.juntadaRoute) {
+            this.activeCard = 'form';
+        }
     }
 
     b64DecodeUnicode(str): any {
@@ -328,6 +348,7 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
     }
 
     submitVisibilidade(visibilidade): void {
+        this.loadingAcessoRestrito = true;
         this._store.dispatch(new fromStore.SaveVisibilidadeDocumento({documentoId: this.documento.id, visibilidade: visibilidade}));
         this.formAcessoRestrito = false;
    }

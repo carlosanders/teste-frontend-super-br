@@ -88,4 +88,8 @@ export class JuntadaListComponent implements OnInit {
         this._store.dispatch(new fromStore.CopiarDocumentoJuntada(juntadaId));
     }
 
+    editar(documentoId: number[]): void {
+        this._router.navigate([this.routerState.url + '/documento/' + documentoId + '/editar']).then();
+    }
+
 }

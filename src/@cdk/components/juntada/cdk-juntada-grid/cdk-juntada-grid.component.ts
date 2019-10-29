@@ -257,8 +257,8 @@ export class CdkJuntadaGridComponent implements AfterViewInit, OnInit, OnChanges
         });
     }
 
-    editJuntada(juntadaId): void {
-        this.edit.emit(juntadaId);
+    editJuntada(documentoId): void {
+        this.edit.emit(documentoId);
     }
 
     selectJuntada(juntada: Juntada): void {

@@ -13,8 +13,9 @@ import {CdkDocumentoCardListModule} from '@cdk/components/documento/cdk-document
 import {CdkUploadModule} from '@cdk/components/upload/cdk-upload.module';
 import {CdkRepositorioGridModule} from '@cdk/components/repositorio/cdk-repositorio-grid/cdk-repositorio-grid.module';
 import {CdkAtividadeFormModule} from '@cdk/components/atividade/cdk-atividade-form/cdk-atividade-form.module';
-import {CdkVisibilidadeListModule} from '../../../../../@cdk/components/visibilidade/cdk-visibilidade-list/cdk-visibilidade-list.module';
-import {CdkVisibilidadeFormModule} from '../../../../../@cdk/components/visibilidade/cdk-visibilidade-form/cdk-visibilidade-form.module';
+import {CdkVisibilidadeListModule} from '@cdk/components/visibilidade/cdk-visibilidade-list/cdk-visibilidade-list.module';
+import {CdkVisibilidadeFormModule} from '@cdk/components/visibilidade/cdk-visibilidade-form/cdk-visibilidade-form.module';
+import {FavoritoService} from '@cdk/services/favorito.service';
 
 const routes: Routes = [
     {
@@ -61,7 +62,8 @@ const routes: Routes = [
         CdkVisibilidadeFormModule,
     ],
     providers: [
-        DocumentoService
+        DocumentoService,
+        FavoritoService
     ],
     exports: [
         DocumentoEditComponent
