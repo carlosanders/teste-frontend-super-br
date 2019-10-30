@@ -1,3 +1,4 @@
+<script src="../../../especie-relevancia/cdk-especie-relevancia-grid/cdk-especie-relevancia-grid.component.ts"></script>
 <form class="p-24 mb-8" fxLayoutGap="16px" fxLayout="column" fxLayoutAlign="start"
       name="form" [formGroup]="form">
 
@@ -77,6 +78,10 @@
             <mat-datetimepicker #apagadoEm type="datetime" openOnFocus="true" timeInterval="5">
             </mat-datetimepicker>
         </mat-form-field>
+
+        <button mat-raised-button color="warn" class="mr-sm-12" (click)="limpar()">
+            Limpar
+        </button>
 
     </div>
 </form>

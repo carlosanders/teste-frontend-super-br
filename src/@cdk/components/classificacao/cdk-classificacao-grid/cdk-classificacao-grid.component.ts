@@ -14,7 +14,8 @@ import {MatPaginator, MatSort} from '@angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 import {ClassificacaoDataSource} from '@cdk/data-sources/classificacao-data-source';
 import {Classificacao} from '@cdk/models/classificacao.model';
-import {FormControl} from "@angular/forms";
+import {FormControl} from '@angular/forms';
+import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 
 @Component({
     selector: 'cdk-classificacao-grid',
@@ -207,11 +208,12 @@ export class CdkClassificacaoGridComponent implements AfterViewInit, OnInit, OnC
      * @param _changeDetectorRef
      */
     constructor(
-        private _changeDetectorRef: ChangeDetectorRef
+        private _changeDetectorRef: ChangeDetectorRef,
+        private _fuseSidebarService: FuseSidebarService
     ) {
+
         this.gridFilter = {};
     }
-
     ngOnChanges(): void {
         this.dataSource = new ClassificacaoDataSource(of(this.classificacoes));
         this.paginator.length = this.total;
@@ -258,11 +260,8 @@ export class CdkClassificacaoGridComponent implements AfterViewInit, OnInit, OnC
     }
 
     toggleFilter(): void {
+        this._fuseSidebarService.getSidebar('cdk-especie-processo-main-sidebar').toggleOpen();
         this.showFilter = !this.showFilter;
-        if (!this.showFilter) {
-            this.gridFilter = {};
-            this.setGridFilter(this.gridFilter);
-        }
     }
 
     loadPage(): void {
@@ -339,11 +338,7 @@ export class CdkClassificacaoGridComponent implements AfterViewInit, OnInit, OnC
     }
 
     setGridFilter(gridFilter): void {
-        this.gridFilter = {
-            ...this.gridFilter,
-            ...gridFilter
-        };
-
+        this.gridFilter = gridFilter;
         this.paginator.pageIndex = 0;
         this.loadPage();
     }

@@ -34,6 +34,8 @@ export class CdkEspecieProcessoGridComponent implements AfterViewInit, OnInit, O
     @Input()
     especieProcessos: EspecieProcesso[];
 
+    showFilter = false;
+
     @Input()
     total = 0;
 
@@ -212,6 +214,7 @@ export class CdkEspecieProcessoGridComponent implements AfterViewInit, OnInit, O
 
     toggleFilter(): void {
         this._fuseSidebarService.getSidebar('cdk-especie-processo-main-sidebar').toggleOpen();
+        this.showFilter = !this.showFilter;
     }
 
     loadPage(): void {
@@ -288,15 +291,6 @@ export class CdkEspecieProcessoGridComponent implements AfterViewInit, OnInit, O
     }
 
     setGridFilter(gridFilter): void {
-        console.log('this');
-        console.log(this.gridFilter);
-        console.log('no this');
-        console.log(gridFilter);
-
-        // this.gridFilter = {
-        //     ...this.gridFilter,
-        //     ...gridFilter
-        // };
         this.gridFilter = gridFilter;
         this.paginator.pageIndex = 0;
         this.loadPage();

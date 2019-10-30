@@ -2,14 +2,14 @@ import {ChangeDetectionStrategy, Component, EventEmitter, Output, ViewEncapsulat
 import {fuseAnimations} from '@fuse/animations';
 
 @Component({
-    selector: 'cdk-especie-processo-main-sidebar',
+    selector: 'cdk-modalidade-meio-main-sidebar',
     templateUrl: './main.component.html',
     styleUrls: ['./main.component.scss'],
     animations: fuseAnimations,
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None
 })
-export class CdkEspecieProcessoListMainSidebarComponent {
+export class CdkModalidadeMeioListMainSidebarComponent {
     @Output()
     selected = new EventEmitter<any>();
 

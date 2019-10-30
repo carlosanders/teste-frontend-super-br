@@ -8,14 +8,6 @@
 </fuse-sidebar>
 <!-- / SIDEBAR -->
 
-<!-- CONTENT HEADER -->
-<!--<div *ngIf="showFilter">-->
-<!--    <div class="filters">-->
-<!--        <cdk-especie-processo-grid-filter (selected)="setGridFilter($event)"></cdk-especie-processo-grid-filter>-->
-<!--    </div>-->
-<!--</div>-->
-<!-- / CONTENT HEADER -->
-
 <!-- CONTENT -->
 <div class="content" fxLayoutAlign="center start">
 
@@ -52,7 +44,7 @@
                 <mat-icon>refresh</mat-icon>
             </button>
 
-            <button class="toggle-filter" mat-icon-button
+            <button class="toggle-filter" [ngClass]="{'warn': (gridFilter | json) != '{}'}" mat-icon-button
                     (click)="toggleFilter()"
                     aria-label="filtrar"
                     matTooltip="Filtrar">
