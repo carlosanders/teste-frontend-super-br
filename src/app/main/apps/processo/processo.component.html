@@ -23,7 +23,7 @@
         <!-- CONTENT HEADER -->
         <div fxLayout="column">
 
-            <div fxLayout="row" fxLayoutAlign="start center" *ngIf="(processo$ | async)?.id">
+            <div fxLayout="row" fxLayoutAlign="start center">
 
                 <div class="sidebar-toggle">
                     <button mat-icon-button *ngIf="routerState.url.indexOf('apps/processo') > -1"
@@ -37,7 +37,7 @@
                 </div>
 
                 <div class="actions">
-                    <button mat-icon-button aria-label="Download" matTooltip="Download"
+                    <button *ngIf="(processo$ | async)?.id" mat-icon-button aria-label="Download" matTooltip="Download"
                             (click)="downloadAsPdf()">
                         <mat-icon class="black-fg">cloud_download</mat-icon>
                     </button>
