@@ -4,12 +4,12 @@ import {Classificacao} from '../models/classificacao.model';
 
 export class ClassificacaoDataSource extends DataSource<Classificacao> {
 
-    public constructor(private classificacao$: Observable<Classificacao[]>) {
+    public constructor(private classificacoes$: Observable<Classificacao[]>) {
         super();
     }
 
     public connect(collectionViewer: CollectionViewer): Observable<Classificacao[]> {
-        return this.classificacao$;
+        return this.classificacoes$;
     }
 
     public disconnect(collectionViewer: CollectionViewer): void {
