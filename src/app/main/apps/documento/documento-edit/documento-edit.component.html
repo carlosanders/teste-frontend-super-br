@@ -2,7 +2,7 @@
     <div fxLayout="column" fxFlex="25">
 
         <div class="actions p-16" fxLayout="row" fxLayoutAlign="end center">
-            <button mat-icon-button aria-label="movimentar"
+            <button *ngIf="(tarefa$ | async)" mat-icon-button aria-label="movimentar"
                     matTooltip="Movimentar" (click)="showAtividade()"
                     [ngClass]="{'active accent': activeCard === 'atividade'}">
                 <mat-icon class="black-fg">send</mat-icon>
@@ -20,10 +20,16 @@
                 <mat-icon class="black-fg">edit</mat-icon>
             </button>
 
-            <button mat-icon-button aria-label="inteligência jurídica"
+            <button *ngIf="!juntadaRoute" mat-icon-button aria-label="inteligência jurídica"
                     matTooltip="Inteligência Jurídica" (click)="showInteligencia()"
                     [ngClass]="{'active accent': activeCard === 'inteligencia'}">
                 <mat-icon class="black-fg">gavel</mat-icon>
+            </button>
+
+            <button mat-icon-button aria-label="acesso restrito"
+                    matTooltip="Restrições de Acesso" (click)="showAcessoRestrito()"
+                    [ngClass]="{'active accent': activeCard === 'acesso-restrito'}">
+                <mat-icon class="black-fg">block</mat-icon>
             </button>
         </div>
 
@@ -102,7 +108,7 @@
             <h3 *ngIf="!(documento$ | async)?.vinculacaoDocumentoPrincipal" style="font-weight: bold">Documento Principal</h3>
             <h3 *ngIf="(documento$ | async)?.vinculacaoDocumentoPrincipal" style="font-weight: bold">Anexo</h3>
 
-            <cdk-documento-form fxFlex [documento]="(documento$ | async)"
+            <cdk-documento-form fxFlex fusePerfectScrollbar [documento]="(documento$ | async)"
                                 [saving]="(isSaving$ | async)"
                                 [errors]="(errors$ | async)"
                                 (save)="submit($event)">
@@ -125,6 +131,51 @@
             </cdk-repositorio-grid>
 
         </div>
+
+        <div class="mb-16" fxFlex fxLayout="column" *ngIf="activeCard === 'acesso-restrito'">
+
+            <h3 style="font-weight: bold">Restrições de Acesso</h3>
+
+            <div class="actions m-16" fxLayout="row" fxLayoutAlign="start center">
+                <button mat-raised-button
+                        class="mat-accent"
+                        aria-label="novo"
+                        (click)="showFormAcessoRestrito()"
+                        *ngIf="!formAcessoRestrito"
+                        matTooltip="Novo">
+                    Novo
+                </button>
+                <button mat-icon-button
+                        (click)="showFormAcessoRestrito()"
+                        *ngIf="formAcessoRestrito"
+                        aria-label="voltar"
+                        matTooltip="Voltar">
+                    <mat-icon>arrow_back</mat-icon>
+                </button>
+            </div>
+
+            <cdk-visibilidade-form fusePerfectScrollbar *ngIf="formAcessoRestrito"
+                [visibilidade]="visibilidade"
+                [saving]="(isSaving$ | async)"
+                [errors]="(errors$ | async)"
+                [unidadeDefault]="_profile.lotacoes[0].setor.unidade"
+                [unidadePagination]="unidadePagination"
+                [setorPagination]="setorPagination"
+                [usuarioPagination]="usuarioPagination"
+                (save)="submitVisibilidade($event)">
+            </cdk-visibilidade-form>
+
+            <cdk-visibilidade-list class="mr-8" *ngIf="!formAcessoRestrito"
+                [loading]="loadingAcessoRestrito"
+                [visibilidades]="(visibilidades$ | async)"
+                [deletingIds]="(deletingVisibilidadeIds$ | async)"
+                [deletedIds]="(deletedVisibilidadeIds$ | async)"
+                [actions]="['delete']"
+                (delete)="deleteVisibilidade($event)">
+            </cdk-visibilidade-list>
+
+        </div>
+
     </div>
     <router-outlet></router-outlet>
 </div>
