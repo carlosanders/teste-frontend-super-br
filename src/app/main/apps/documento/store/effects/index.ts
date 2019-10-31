@@ -4,6 +4,7 @@ import { DocumentoAvulsoEffect } from './documento-avulso.effects';
 import { DocumentosVinculadosEffect } from './documentos-vinculados.effects';
 import { ComponenteDigitalEffect } from './componentes-digitais.effects';
 import { AtividadeDocumentoEffect } from './atividade-documento.effects';
+import {VisibilidadeEffect} from './visibilidade.effects';
 
 export const effects = [
     DocumentoEffect,
@@ -11,7 +12,8 @@ export const effects = [
     DocumentoAvulsoEffect,
     DocumentosVinculadosEffect,
     ComponenteDigitalEffect,
-    AtividadeDocumentoEffect
+    AtividadeDocumentoEffect,
+    VisibilidadeEffect
 ];
 
 export * from './documento.effects';
@@ -20,3 +22,4 @@ export * from './documento-avulso.effects';
 export * from './documentos-vinculados.effects';
 export * from './componentes-digitais.effects';
 export * from './atividade-documento.effects';
+export * from './visibilidade.effects';

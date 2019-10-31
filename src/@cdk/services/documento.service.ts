@@ -7,6 +7,7 @@ import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
 import {PaginatedResponse} from '@cdk/models/paginated.response';
 import {environment} from 'environments/environment';
+import {Visibilidade} from '../models/visibilidade.model';
 
 @Injectable()
 export class DocumentoService {
@@ -76,5 +77,27 @@ export class DocumentoService {
 
     destroy(id: number): Observable<Documento> {
         return this.modelService.delete('documento', id);
+    }
+
+    getVisibilidade(id: number): Observable<any> {
+        return this.http.get(`${environment.api_url}${'documento'}/${id}/visibilidade` + environment.xdebug, {})
+            .pipe(
+                map(response => plainToClass(Visibilidade, response))
+            );
+    }
+
+    createVisibilidade(documentosId: number, visibilidade: Visibilidade): Observable<Visibilidade> {
+        return this.http.put(
+            `${environment.api_url}${'documento'}/${documentosId}/${'visibilidade'}` + environment.xdebug,
+            JSON.stringify(visibilidade)
+        ).pipe(
+            map(response => plainToClass(Visibilidade, response))
+        );
+    }
+
+    destroyVisibilidade(documentosId: number, visibilidadeId: number): Observable<any> {
+        return this.http.delete(
+            `${environment.api_url}${'documento'}/${documentosId}/${'visibilidade'}/${visibilidadeId}` + environment.xdebug
+        );
     }
 }

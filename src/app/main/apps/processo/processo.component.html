@@ -23,7 +23,7 @@
         <!-- CONTENT HEADER -->
         <div fxLayout="column">
 
-            <div fxLayout="row" fxLayoutAlign="start center">
+            <div fxLayout="row" fxLayoutAlign="start center" *ngIf="(processo$ | async)?.id">
 
                 <div class="sidebar-toggle">
                     <button mat-icon-button *ngIf="routerState.url.indexOf('apps/processo') > -1"
@@ -44,7 +44,7 @@
                 </div>
             </div>
 
-            <cdk-vinculacao-etiqueta-chips class="mr-24 ml-24"
+            <cdk-vinculacao-etiqueta-chips *ngIf="(processo$ | async)?.id" class="mr-24 ml-24"
                                            [vinculacoesEtiquetas]="(processo$ | async)?.vinculacoesEtiquetas"
                                            (create)="onEtiquetaCreate($event)"
                                            [pagination]="vinculacaoEtiquetaPagination"
