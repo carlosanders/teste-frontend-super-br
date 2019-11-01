@@ -97,11 +97,14 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
                 }
             });
 
-        this.classificacaoPagination.populate = ['parent'];
         this.logEntryPagination.filter = {entity: 'SuppCore\\AdministrativoBackend\\Entity\\Processo', id: + this.processo.id};
         this.especieProcessoPagination.populate = ['generoProcesso'];
         this.setorAtualPagination.populate = ['unidade', 'parent'];
         this.setorAtualPagination.filter = {id: 'in:' + this._profile.lotacoes.map(lotacao => lotacao.setor.id).join(',')};
+        setTimeout(() => {
+            this.classificacaoPagination.populate = ['parent'];
+        }, 10000);
+
     }
 
     /**
