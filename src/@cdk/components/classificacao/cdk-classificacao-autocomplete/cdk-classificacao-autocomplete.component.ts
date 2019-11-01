@@ -32,7 +32,10 @@ export class CdkClassificacaoAutocompleteComponent implements OnInit {
     @Input()
     control: FormControl;
 
+    @Input()
     classificacaoList: Classificacao[];
+
+    @Input()
     classificacaoListIsLoading: boolean;
 
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
@@ -90,7 +93,7 @@ export class CdkClassificacaoAutocompleteComponent implements OnInit {
 
     displayClassificacaoFn(classificacao): string {
         let displayed = classificacao ? classificacao.nome : '';
-        displayed += (classificacao && classificacao.generoTarefa) ? (' (' + classificacao.generoTarefa.nome + ')') : '';
+        displayed += classificacao ? ' (' + classificacao.codigo + ')' : '';
         return displayed;
     }
 }

@@ -62,10 +62,10 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     modalidadeMeioPagination: Pagination;
 
     @Input()
-    setorAtualPagination: Pagination;
+    classificacaoPagination: Pagination;
 
     @Input()
-    classificacaoPagination: Pagination;
+    setorAtualPagination: Pagination;
 
     @Output()
     save = new EventEmitter<Processo>();
@@ -173,6 +173,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
      * On change
      */
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
+        console.log (changes);
         if (changes['processo'] && this.processo && (!this.processo.id || (this.processo.id !== this.form.get('id').value))) {
             this.form.patchValue({...this.processo});
         }

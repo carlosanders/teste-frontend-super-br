@@ -14,7 +14,7 @@ import {MatPaginator, MatSort} from '@angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 import {ClassificacaoDataSource} from '@cdk/data-sources/classificacao-data-source';
 import {Classificacao} from '@cdk/models/classificacao.model';
-import {FormControl} from "@angular/forms";
+import {FormControl} from '@angular/forms';
 
 @Component({
     selector: 'cdk-classificacao-grid',
@@ -30,7 +30,7 @@ export class CdkClassificacaoGridComponent implements AfterViewInit, OnInit, OnC
     loading = false;
 
     @Input()
-    classificacoes: Classificacao[];
+    classificacoes: Classificacao[] = [];
 
     @Input()
     total = 0;
