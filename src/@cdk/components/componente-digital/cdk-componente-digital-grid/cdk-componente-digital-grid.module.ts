@@ -13,14 +13,17 @@ import {
     MatSelectModule,
 } from '@angular/material';
 
+import {FuseSidebarModule} from '@fuse/components';
 import {FuseSharedModule} from '@fuse/shared.module';
 import {CdkComponenteDigitalGridComponent} from './cdk-componente-digital-grid.component';
 import {CdkComponenteDigitalGridFilterModule} from './cdk-componente-digital-grid-filter/cdk-componente-digital-grid-filter.module';
-import {PipesModule} from '../../../pipes/pipes.module';
+import {PipesModule} from '@cdk/pipes/pipes.module';
+import {CdkComponenteDigitalMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
-        CdkComponenteDigitalGridComponent
+        CdkComponenteDigitalGridComponent,
+        CdkComponenteDigitalMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,
@@ -33,12 +36,14 @@ import {PipesModule} from '../../../pipes/pipes.module';
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
+        MatTooltipModule,
+
+        PipesModule,
 
         CdkComponenteDigitalGridFilterModule,
 
         FuseSharedModule,
-        MatTooltipModule,
-        PipesModule,
+        FuseSidebarModule,
     ],
     providers: [],
     exports: [

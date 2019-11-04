@@ -8,14 +8,13 @@ import {
 import {merge, of} from 'rxjs';
 
 import {fuseAnimations} from '@fuse/animations';
-
+import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@angular/material';
-
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
 import {ModalidadeInteressado} from '@cdk/models/modalidade-interessado.model';
 import {ModalidadeInteressadoDataSource} from '@cdk/data-sources/modalidade-interessado-data-source';
-import {FormControl} from "@angular/forms";
+import {FormControl} from '@angular/forms';
 
 @Component({
     selector: 'cdk-modalidade-interessado-grid',
@@ -153,7 +152,8 @@ export class CdkModalidadeInteressadoGridComponent implements AfterViewInit, OnI
      * @param _changeDetectorRef
      */
     constructor(
-        private _changeDetectorRef: ChangeDetectorRef
+        private _changeDetectorRef: ChangeDetectorRef,
+        private _fuseSidebarService: FuseSidebarService
     ) {
         this.gridFilter = {};
         this.modalidadeinteressados = [];
@@ -204,11 +204,8 @@ export class CdkModalidadeInteressadoGridComponent implements AfterViewInit, OnI
     }
 
     toggleFilter(): void {
+        this._fuseSidebarService.getSidebar('cdk-modalidade-interessado-main-sidebar').toggleOpen();
         this.showFilter = !this.showFilter;
-        if (!this.showFilter) {
-            this.gridFilter = {};
-            this.setGridFilter(this.gridFilter);
-        }
     }
 
     loadPage(): void {
@@ -285,11 +282,7 @@ export class CdkModalidadeInteressadoGridComponent implements AfterViewInit, OnI
     }
 
     setGridFilter(gridFilter): void {
-        this.gridFilter = {
-            ...this.gridFilter,
-            ...gridFilter
-        };
-
+        this.gridFilter = gridFilter;
         this.paginator.pageIndex = 0;
         this.loadPage();
     }

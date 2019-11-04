@@ -12,14 +12,17 @@ import {
     MatSelectModule,
 } from '@angular/material';
 
+import {FuseSidebarModule} from '@fuse/components';
 import {FuseSharedModule} from '@fuse/shared.module';
 import {JuntadaService} from '@cdk/services/juntada.service';
 import {CdkJuntadaGridComponent} from './cdk-juntada-grid.component';
 import {CdkJuntadaGridFilterModule} from './cdk-juntada-grid-filter/cdk-juntada-grid-filter.module';
+import {CdkJuntadaMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
-        CdkJuntadaGridComponent
+        CdkJuntadaGridComponent,
+        CdkJuntadaMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,
@@ -36,6 +39,7 @@ import {CdkJuntadaGridFilterModule} from './cdk-juntada-grid-filter/cdk-juntada-
         CdkJuntadaGridFilterModule,
 
         FuseSharedModule,
+        FuseSidebarModule,
     ],
     providers: [
         JuntadaService,

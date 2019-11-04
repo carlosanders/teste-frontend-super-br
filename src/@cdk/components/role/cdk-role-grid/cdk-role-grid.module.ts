@@ -11,15 +11,18 @@ import {
     MatSelectModule,
 } from '@angular/material';
 
+import {FuseSidebarModule} from '@fuse/components';
 import {FuseSharedModule} from '@fuse/shared.module';
 import {RoleService} from '@cdk/services/role.service';
 import {CdkRoleGridComponent} from './cdk-role-grid.component';
 import {CdkRoleAutocompleteModule} from '@cdk/components/role/cdk-role-autocomplete/cdk-role-autocomplete.module';
 import {CdkRoleGridFilterModule} from './cdk-role-grid-filter/cdk-role-grid-filter.module';
+import {CdkRoleMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
-        CdkRoleGridComponent
+        CdkRoleGridComponent,
+        CdkRoleMainSidebarComponent,
     ],
     imports: [
         MatButtonModule,
@@ -36,6 +39,7 @@ import {CdkRoleGridFilterModule} from './cdk-role-grid-filter/cdk-role-grid-filt
         CdkRoleGridFilterModule,
 
         FuseSharedModule,
+        FuseSidebarModule,
     ],
     providers: [
         RoleService,

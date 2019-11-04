@@ -11,13 +11,16 @@ import {
     MatSelectModule,
 } from '@angular/material';
 
+import {FuseSidebarModule} from '@fuse/components';
 import { FuseSharedModule } from '@fuse/shared.module';
 import { CdkDocumentoIdentificadorGridComponent} from './cdk-documento-identificador-grid.component';
 import { CdkDocumentoIdentificadorGridFilterModule } from './cdk-documento-identificador-grid-filter/cdk-documento-identificador-grid-filter.module';
+import {CdkDocumentoIdentificadorMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
-        CdkDocumentoIdentificadorGridComponent
+        CdkDocumentoIdentificadorGridComponent,
+        CdkDocumentoIdentificadorMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,
@@ -33,6 +36,7 @@ import { CdkDocumentoIdentificadorGridFilterModule } from './cdk-documento-ident
         CdkDocumentoIdentificadorGridFilterModule,
 
         FuseSharedModule,
+        FuseSidebarModule,
     ],
     providers: [
         

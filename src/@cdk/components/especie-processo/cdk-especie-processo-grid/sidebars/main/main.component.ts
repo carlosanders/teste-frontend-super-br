@@ -9,7 +9,7 @@ import {fuseAnimations} from '@fuse/animations';
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None
 })
-export class CdkEspecieProcessoListMainSidebarComponent {
+export class CdkEspecieProcessoMainSidebarComponent {
     @Output()
     selected = new EventEmitter<any>();
 

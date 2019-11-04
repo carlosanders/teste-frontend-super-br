@@ -15,10 +15,14 @@ import {FuseSharedModule} from '@fuse/shared.module';
 import {LogEntryService} from '@cdk/services/logentry.service';
 import {CdkLogentryGridComponent} from './cdk-logentry-grid.component';
 import {CdkLogentryGridFilterModule} from './cdk-logentry-grid-filter/cdk-logentry-grid-filter.module';
+import {CdkLogentryMainSidebarComponent} from './main/main.component';
+import {FuseSidebarModule} from '@fuse/components';
+
 
 @NgModule({
     declarations: [
-        CdkLogentryGridComponent
+        CdkLogentryGridComponent,
+        CdkLogentryMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,
@@ -34,6 +38,7 @@ import {CdkLogentryGridFilterModule} from './cdk-logentry-grid-filter/cdk-logent
         CdkLogentryGridFilterModule,
 
         FuseSharedModule,
+        FuseSidebarModule,
     ],
     providers: [
         LogEntryService,

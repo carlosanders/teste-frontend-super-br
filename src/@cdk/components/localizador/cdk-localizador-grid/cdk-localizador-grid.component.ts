@@ -8,14 +8,13 @@ import {
 import {merge, of} from 'rxjs';
 
 import {fuseAnimations} from '@fuse/animations';
-
+import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@angular/material';
-
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
 import {Localizador} from '@cdk/models/localizador.model';
 import {LocalizadorDataSource} from '@cdk/data-sources/localizador-data-source';
-import {FormControl} from "@angular/forms";
+import {FormControl} from '@angular/forms';
 
 @Component({
     selector: 'cdk-localizador-grid',
@@ -158,7 +157,8 @@ export class CdkLocalizadorGridComponent implements AfterViewInit, OnInit, OnCha
      * @param _changeDetectorRef
      */
     constructor(
-        private _changeDetectorRef: ChangeDetectorRef
+        private _changeDetectorRef: ChangeDetectorRef,
+        private _fuseSidebarService: FuseSidebarService
     ) {
         this.gridFilter = {};
         this.localizadors = [];
@@ -209,11 +209,8 @@ export class CdkLocalizadorGridComponent implements AfterViewInit, OnInit, OnCha
     }
 
     toggleFilter(): void {
+        this._fuseSidebarService.getSidebar('cdk-localizador-main-sidebar').toggleOpen();
         this.showFilter = !this.showFilter;
-        if (!this.showFilter) {
-            this.gridFilter = {};
-            this.setGridFilter(this.gridFilter);
-        }
     }
 
     loadPage(): void {
@@ -290,11 +287,7 @@ export class CdkLocalizadorGridComponent implements AfterViewInit, OnInit, OnCha
     }
 
     setGridFilter(gridFilter): void {
-        this.gridFilter = {
-            ...this.gridFilter,
-            ...gridFilter
-        };
-
+        this.gridFilter = gridFilter;
         this.paginator.pageIndex = 0;
         this.loadPage();
     }

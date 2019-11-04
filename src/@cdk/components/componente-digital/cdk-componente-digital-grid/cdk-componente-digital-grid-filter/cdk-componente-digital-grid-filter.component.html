@@ -3,6 +3,14 @@
 
     <div fxFlex="1 0 auto" fxLayout="column">
 
+        <mat-form-field fxFlex="100">
+            <mat-label>Nome do arquivo</mat-label>
+            <input matInput #fileName
+                   name="fileName"
+                   formControlName="fileName">
+        </mat-form-field>
+
+
         <mat-checkbox formControlName="editavel" class="mr-16 mb-16" fxFlex="0 1 auto">
             Editável
         </mat-checkbox>
@@ -10,13 +18,6 @@
         <mat-checkbox formControlName="assinado" class="mr-16 mb-16" fxFlex="0 1 auto">
             Assinado
         </mat-checkbox>
-
-        <mat-form-field fxFlex="100">
-            <mat-label>Nome do arquivo</mat-label>
-            <input matInput #fileName
-                   name="fileName"
-                   formControlName="fileName">
-        </mat-form-field>
 
         <mat-form-field fxFlex="100">
             <mat-label>Highlights</mat-label>
@@ -250,6 +251,10 @@
             <mat-datetimepicker #apagadoEm type="datetime" openOnFocus="true" timeInterval="5">
             </mat-datetimepicker>
         </mat-form-field>
+
+        <button mat-raised-button color="warn" class="mr-sm-12" (click)="limpar()">
+            Limpar
+        </button>
 
     </div>
 </form>

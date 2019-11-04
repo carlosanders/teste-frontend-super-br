@@ -11,15 +11,18 @@ import {
     MatSelectModule,
 } from '@angular/material';
 
+import {FuseSidebarModule} from '@fuse/components';
 import {FuseSharedModule} from '@fuse/shared.module';
 import {TipoSigiloService} from '@cdk/services/tipo-sigilo.service';
 import {CdkTipoSigiloGridComponent} from './cdk-tipo-sigilo-grid.component';
 import {CdkTipoSigiloAutocompleteModule} from '@cdk/components/tipo-sigilo/cdk-tipo-sigilo-autocomplete/cdk-tipo-sigilo-autocomplete.module';
 import {CdkTipoSigiloGridFilterModule} from './cdk-tipo-sigilo-grid-filter/cdk-tipo-sigilo-grid-filter.module';
+import {CdkTipoSigiloMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
-        CdkTipoSigiloGridComponent
+        CdkTipoSigiloGridComponent,
+        CdkTipoSigiloMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,
@@ -36,6 +39,7 @@ import {CdkTipoSigiloGridFilterModule} from './cdk-tipo-sigilo-grid-filter/cdk-t
         CdkTipoSigiloGridFilterModule,
 
         FuseSharedModule,
+        FuseSidebarModule,
     ],
     providers: [
         TipoSigiloService,

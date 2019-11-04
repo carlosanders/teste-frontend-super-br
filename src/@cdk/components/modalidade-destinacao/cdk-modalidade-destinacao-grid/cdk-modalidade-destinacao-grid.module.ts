@@ -11,15 +11,18 @@ import {
     MatSelectModule,
 } from '@angular/material';
 
+import {FuseSidebarModule} from '@fuse/components';
 import {FuseSharedModule} from '@fuse/shared.module';
 import {ModalidadeDestinacaoService} from '@cdk/services/modalidade-destinacao.service';
 import {CdkModalidadeDestinacaoGridComponent} from './cdk-modalidade-destinacao-grid.component';
 import {CdkModalidadeDestinacaoAutocompleteModule} from '@cdk/components/modalidade-destinacao/cdk-modalidade-destinacao-autocomplete/cdk-modalidade-destinacao-autocomplete.module';
 import {CdkModalidadeDestinacaoGridFilterModule} from './cdk-modalidade-destinacao-grid-filter/cdk-modalidade-destinacao-grid-filter.module';
+import {CdkModalidadeDestinacaoMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
-        CdkModalidadeDestinacaoGridComponent
+        CdkModalidadeDestinacaoGridComponent,
+        CdkModalidadeDestinacaoMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,
@@ -36,6 +39,7 @@ import {CdkModalidadeDestinacaoGridFilterModule} from './cdk-modalidade-destinac
         CdkModalidadeDestinacaoGridFilterModule,
 
         FuseSharedModule,
+        FuseSidebarModule,
     ],
     providers: [
         ModalidadeDestinacaoService,

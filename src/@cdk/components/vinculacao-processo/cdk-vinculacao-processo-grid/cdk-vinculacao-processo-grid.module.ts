@@ -12,15 +12,18 @@ import {
     MatSelectModule,
 } from '@angular/material';
 
+import {FuseSidebarModule} from '@fuse/components';
 import {FuseSharedModule} from '@fuse/shared.module';
 import {VinculacaoProcessoService} from '@cdk/services/vinculacao-processo.service';
 import {CdkVinculacaoProcessoGridComponent} from './cdk-vinculacao-processo-grid.component';
 import {CdkVinculacaoProcessoAutocompleteModule} from '@cdk/components/vinculacao-processo/cdk-vinculacao-processo-autocomplete/cdk-vinculacao-processo-autocomplete.module';
 import {CdkVinculacaoProcessoGridFilterModule} from './cdk-vinculacao-processo-grid-filter/cdk-vinculacao-processo-grid-filter.module';
+import {CdkVinculacaoProcessoMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
-        CdkVinculacaoProcessoGridComponent
+        CdkVinculacaoProcessoGridComponent,
+        CdkVinculacaoProcessoMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,
@@ -38,6 +41,7 @@ import {CdkVinculacaoProcessoGridFilterModule} from './cdk-vinculacao-processo-g
         CdkVinculacaoProcessoGridFilterModule,
 
         FuseSharedModule,
+        FuseSidebarModule,
     ],
     providers: [
         VinculacaoProcessoService,

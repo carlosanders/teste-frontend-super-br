@@ -14,11 +14,9 @@ import {
 import {merge, of} from 'rxjs';
 
 import {fuseAnimations} from '@fuse/animations';
-
+import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@angular/material';
-
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
-
 import {Processo} from '@cdk/models/processo.model';
 import {ProcessoDataSource} from '@cdk/data-sources/processo-data-source';
 import {FormControl} from '@angular/forms';
@@ -38,6 +36,8 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
 
     @Input()
     processos: Processo[];
+
+    showFilter = false;
 
     @Input()
     total = 0;
@@ -251,8 +251,6 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
 
     dataSource: ProcessoDataSource;
 
-    showFilter = false;
-
     gridFilter: any;
 
     hasSelected = false;
@@ -262,7 +260,8 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
      * @param _changeDetectorRef
      */
     constructor(
-        private _changeDetectorRef: ChangeDetectorRef
+        private _changeDetectorRef: ChangeDetectorRef,
+        private _fuseSidebarService: FuseSidebarService
     ) {
         this.gridFilter = {};
         this.processos = [];
@@ -281,10 +280,6 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
         this.paginator.pageSize = this.pageSize;
 
         this.dataSource = new ProcessoDataSource(of(this.processos));
-
-        if (this.mode === 'search') {
-            this.toggleFilter();
-        }
 
         this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
 
@@ -317,11 +312,8 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
     }
 
     toggleFilter(): void {
+        this._fuseSidebarService.getSidebar('cdk-processo-main-sidebar').toggleOpen();
         this.showFilter = !this.showFilter;
-        if (!this.showFilter) {
-            this.gridFilter = {};
-            this.setGridFilter(this.gridFilter);
-        }
     }
 
     loadPage(): void {
@@ -374,7 +366,7 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
     }
 
     /**
-     * Deselect all tarefas
+     * Deselect all
      */
     deselectAll(): void {
         this.selectedIds = [];
@@ -398,11 +390,7 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
     }
 
     setGridFilter(gridFilter): void {
-        this.gridFilter = {
-            ...this.gridFilter,
-            ...gridFilter
-        };
-
+        this.gridFilter = gridFilter;
         this.paginator.pageIndex = 0;
         this.loadPage();
     }

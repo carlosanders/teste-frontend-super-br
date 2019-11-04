@@ -72,7 +72,7 @@ export class CdkClassificacaoGridFilterComponent implements OnInit {
                     nome: `like:${value}%`
                 };
                 this.selected.emit(this.filters);
-        }
+            }
         });
 
         this.form.get('prazoGuardaFaseCorrenteEvento').valueChanges.subscribe(value => {

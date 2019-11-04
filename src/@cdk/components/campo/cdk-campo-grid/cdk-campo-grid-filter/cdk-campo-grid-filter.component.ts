@@ -49,29 +49,40 @@ export class CdkCampoGridFilterComponent implements OnInit {
      */
     ngOnInit(): void {
         this.form.get('nome').valueChanges.subscribe(value => {
-            this.filters = {
-                ...this.filters,
-                nome: `like:${value}%`
-            };
-            this.selected.emit(this.filters);
+            if (value !== null) {
+                this.filters = {
+                    ...this.filters,
+                    nome: `like:${value}%`
+                };
+                this.selected.emit(this.filters);
+            }
         });
 
         this.form.get('descricao').valueChanges.subscribe(value => {
-            this.filters = {
-                ...this.filters,
-                descricao: `like:${value}%`
-            };
-            this.selected.emit(this.filters);
+            if (value !== null) {
+                this.filters = {
+                    ...this.filters,
+                    descricao: `like:${value}%`
+                };
+                this.selected.emit(this.filters);
+            }
         });
 
         this.form.get('html').valueChanges.subscribe(value => {
-            this.filters = {
-                ...this.filters,
-                html: `like:${value}%`
-            };
-            this.selected.emit(this.filters);
+            if (value !== null) {
+                this.filters = {
+                    ...this.filters,
+                    html: `like:${value}%`
+                };
+                this.selected.emit(this.filters);
+            }
         });
+    }
 
+    limpar(): void {
+        this.filters = {};
+        this.selected.emit(this.filters);
+        this.form.reset();
     }
 
 }

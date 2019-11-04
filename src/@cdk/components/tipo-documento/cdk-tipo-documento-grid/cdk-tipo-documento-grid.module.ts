@@ -11,15 +11,18 @@ import {
     MatSelectModule,
 } from '@angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
-import { TipoDocumentoService } from '@cdk/services/tipo-documento.service';
-import { CdkTipoDocumentoGridComponent} from './cdk-tipo-documento-grid.component';
-import { CdkTipoDocumentoAutocompleteModule } from '@cdk/components/tipo-documento/cdk-tipo-documento-autocomplete/cdk-tipo-documento-autocomplete.module';
+import {FuseSidebarModule} from '@fuse/components';
+import {FuseSharedModule} from '@fuse/shared.module';
+import {TipoDocumentoService} from '@cdk/services/tipo-documento.service';
+import {CdkTipoDocumentoGridComponent} from './cdk-tipo-documento-grid.component';
+import {CdkTipoDocumentoAutocompleteModule} from '@cdk/components/tipo-documento/cdk-tipo-documento-autocomplete/cdk-tipo-documento-autocomplete.module';
 import {CdkTipoDocumentoGridFilterModule} from './cdk-tipo-documento-grid-filter/cdk-tipo-documento-grid-filter.module';
+import {CdkTipoDocumentoMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
-        CdkTipoDocumentoGridComponent
+        CdkTipoDocumentoGridComponent,
+        CdkTipoDocumentoMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,
@@ -36,6 +39,7 @@ import {CdkTipoDocumentoGridFilterModule} from './cdk-tipo-documento-grid-filter
         CdkTipoDocumentoGridFilterModule,
 
         FuseSharedModule,
+        FuseSidebarModule,
     ],
     providers: [
         TipoDocumentoService,

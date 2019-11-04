@@ -15,7 +15,8 @@ import {tap} from 'rxjs/operators';
 
 import {GeneroAtividade} from '@cdk/models/genero-atividade.model';
 import {GeneroAtividadeDataSource} from '@cdk/data-sources/genero-atividade-data-source';
-import {FormControl} from "@angular/forms";
+import {FormControl} from '@angular/forms';
+import {FuseSidebarService} from '../../../../@fuse/components/sidebar/sidebar.service';
 
 @Component({
     selector: 'cdk-genero-atividade-grid',
@@ -153,7 +154,8 @@ export class CdkGeneroAtividadeGridComponent implements AfterViewInit, OnInit, O
      * @param _changeDetectorRef
      */
     constructor(
-        private _changeDetectorRef: ChangeDetectorRef
+        private _changeDetectorRef: ChangeDetectorRef,
+        private _fuseSidebarService: FuseSidebarService
     ) {
         this.gridFilter = {};
         this.generoAtividades = [];
@@ -188,11 +190,8 @@ export class CdkGeneroAtividadeGridComponent implements AfterViewInit, OnInit, O
     }
 
     toggleFilter(): void {
+        this._fuseSidebarService.getSidebar('cdk-genero-atividade-main-sidebar').toggleOpen();
         this.showFilter = !this.showFilter;
-        if (!this.showFilter) {
-            this.gridFilter = {};
-            this.setGridFilter(this.gridFilter);
-        }
     }
 
     loadPage(): void {
@@ -269,11 +268,7 @@ export class CdkGeneroAtividadeGridComponent implements AfterViewInit, OnInit, O
     }
 
     setGridFilter(gridFilter): void {
-        this.gridFilter = {
-            ...this.gridFilter,
-            ...gridFilter
-        };
-
+        this.gridFilter = gridFilter;
         this.paginator.pageIndex = 0;
         this.loadPage();
     }

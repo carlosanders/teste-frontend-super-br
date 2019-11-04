@@ -8,15 +8,14 @@ import {
 import {merge, of} from 'rxjs';
 
 import {fuseAnimations} from '@fuse/animations';
-
 import {MatPaginator, MatSort} from '@angular/material';
-
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 import {DocumentoDataSource} from '@cdk/data-sources/documento-data-source';
 import {Documento} from '@cdk/models/documento.model';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {ComponenteDigital} from '../../../models/componente-digital.model';
-import {FormControl} from "@angular/forms";
+import {FormControl} from '@angular/forms';
+import {FuseSidebarService} from '../../../../@fuse/components/sidebar/sidebar.service';
 
 @Component({
     selector: 'cdk-documento-grid',
@@ -266,7 +265,8 @@ export class CdkDocumentoGridComponent implements AfterViewInit, OnInit, OnChang
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _componenteDigitalService: ComponenteDigitalService
+        private _componenteDigitalService: ComponenteDigitalService,
+        private _fuseSidebarService: FuseSidebarService
     ) {
         this.gridFilter = {};
     }
@@ -284,10 +284,6 @@ export class CdkDocumentoGridComponent implements AfterViewInit, OnInit, OnChang
         this.paginator.pageSize = this.pageSize;
 
         this.dataSource = new DocumentoDataSource(of(this.documentos));
-
-        if (this.mode === 'search') {
-            this.toggleFilter();
-        }
 
         this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
 
@@ -320,11 +316,8 @@ export class CdkDocumentoGridComponent implements AfterViewInit, OnInit, OnChang
     }
 
     toggleFilter(): void {
+        this._fuseSidebarService.getSidebar('cdk-documento-main-sidebar').toggleOpen();
         this.showFilter = !this.showFilter;
-        if (!this.showFilter) {
-            this.gridFilter = {};
-            this.setGridFilter(this.gridFilter);
-        }
     }
 
     loadPage(): void {
@@ -402,11 +395,7 @@ export class CdkDocumentoGridComponent implements AfterViewInit, OnInit, OnChang
     }
 
     setGridFilter(gridFilter): void {
-        this.gridFilter = {
-            ...this.gridFilter,
-            ...gridFilter
-        };
-
+        this.gridFilter = gridFilter;
         this.paginator.pageIndex = 0;
         this.loadPage();
     }

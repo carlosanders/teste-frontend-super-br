@@ -8,9 +8,8 @@ import {
 import {merge, of} from 'rxjs';
 
 import {fuseAnimations} from '@fuse/animations';
-
+import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@angular/material';
-
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
 import {EspecieTarefa} from '@cdk/models/especie-tarefa.model';
@@ -158,7 +157,8 @@ export class CdkEspecieTarefaGridComponent implements AfterViewInit, OnInit, OnC
      * @param _changeDetectorRef
      */
     constructor(
-        private _changeDetectorRef: ChangeDetectorRef
+        private _changeDetectorRef: ChangeDetectorRef,
+        private _fuseSidebarService: FuseSidebarService
     ) {
         this.gridFilter = {};
         this.especieTarefas = [];
@@ -210,11 +210,8 @@ export class CdkEspecieTarefaGridComponent implements AfterViewInit, OnInit, OnC
     }
 
     toggleFilter(): void {
+        this._fuseSidebarService.getSidebar('cdk-especie-tarefa-main-sidebar').toggleOpen();
         this.showFilter = !this.showFilter;
-        if (!this.showFilter) {
-            this.gridFilter = {};
-            this.setGridFilter(this.gridFilter);
-        }
     }
 
     loadPage(): void {
@@ -291,11 +288,7 @@ export class CdkEspecieTarefaGridComponent implements AfterViewInit, OnInit, OnC
     }
 
     setGridFilter(gridFilter): void {
-        this.gridFilter = {
-            ...this.gridFilter,
-            ...gridFilter
-        };
-
+        this.gridFilter = gridFilter;
         this.paginator.pageIndex = 0;
         this.loadPage();
     }

@@ -8,14 +8,13 @@ import {
 import {merge, of} from 'rxjs';
 
 import {fuseAnimations} from '@fuse/animations';
-
+import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@angular/material';
-
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
 import {Tramitacao} from '@cdk/models/tramitacao.model';
 import {TramitacaoDataSource} from '@cdk/data-sources/tramitacao-data-source';
-import {FormControl} from "@angular/forms";
+import {FormControl} from '@angular/forms';
 
 @Component({
     selector: 'cdk-remessa-grid',
@@ -37,8 +36,8 @@ export class CdkRemessaGridComponent implements AfterViewInit, OnInit, OnChanges
     total = 0;
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'observacao', 'urgente', 'setorOrigem.nome',
-        'pessoaDestino.nome', 'dataHoraRecebimento', 'usuarioRecebimento.nome', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'observacao', 'urgente', 'setorOrigem.nome', 'setorDestino.nome',
+        'dataHoraRecebimento', 'usuarioRecebimento.nome', 'actions'];
 
     allColumns: any[] = [
         {
@@ -47,38 +46,43 @@ export class CdkRemessaGridComponent implements AfterViewInit, OnInit, OnChanges
             fixed: true
         },
         {
-            id: 'id',
-            label: 'Id',
-            fixed: true
-        },
-        {
-            id: 'pessoaDestino.nome',
-            label: 'Pessoa de Destino',
+            id: 'processo.NUP',
+            label: 'NUP',
             fixed: true
         },
         {
             id: 'observacao',
             label: 'Observação',
-            fixed: false
+            fixed: true
         },
         {
             id: 'urgente',
-            label: 'Urgente',
+            label: 'urgente',
             fixed: false
         },
         {
             id: 'setorOrigem.nome',
-            label: 'setor de Origem',
+            label: 'setorOrigem.nome',
+            fixed: false
+        },
+        {
+            id: 'setorDestino.nome',
+            label: 'setorDestino.nome',
             fixed: false
         },
         {
             id: 'dataHoraRecebimento',
-            label: 'Data do Recebimento',
+            label: 'dataHoraRecebimento',
             fixed: false
         },
         {
             id: 'usuarioRecebimento.nome',
-            label: 'Usuário Recebimento',
+            label: 'usuarioRecebimento.nome',
+            fixed: false
+        },
+        {
+            id: 'pessoaDestino.nome',
+            label: 'Pessoa Destino',
             fixed: false
         },
         {
@@ -169,7 +173,8 @@ export class CdkRemessaGridComponent implements AfterViewInit, OnInit, OnChanges
      * @param _changeDetectorRef
      */
     constructor(
-        private _changeDetectorRef: ChangeDetectorRef
+        private _changeDetectorRef: ChangeDetectorRef,
+        private _fuseSidebarService: FuseSidebarService
     ) {
         this.gridFilter = {};
         this.remessas = [];
@@ -181,7 +186,6 @@ export class CdkRemessaGridComponent implements AfterViewInit, OnInit, OnChanges
     }
 
     ngOnInit(): void {
-
         this.paginator._intl.itemsPerPageLabel = 'Registros por página';
         this.paginator._intl.nextPageLabel = 'Seguinte';
         this.paginator._intl.previousPageLabel = 'Anterior';
@@ -222,11 +226,8 @@ export class CdkRemessaGridComponent implements AfterViewInit, OnInit, OnChanges
     }
 
     toggleFilter(): void {
+        this._fuseSidebarService.getSidebar('cdk-remessa-main-sidebar').toggleOpen();
         this.showFilter = !this.showFilter;
-        if (!this.showFilter) {
-            this.gridFilter = {};
-            this.setGridFilter(this.gridFilter);
-        }
     }
 
     loadPage(): void {
@@ -238,20 +239,20 @@ export class CdkRemessaGridComponent implements AfterViewInit, OnInit, OnChanges
         });
     }
 
-    editTramitacao(tramitacaoId): void {
-        this.edit.emit(tramitacaoId);
+    editRemessa(remessaId): void {
+        this.edit.emit(remessaId);
     }
 
-    selectTramitacao(tramitacao: Tramitacao): void {
-        this.selected.emit(tramitacao);
+    selectRemessa(remessa: Tramitacao): void {
+        this.selected.emit(remessa);
     }
 
-    deleteTramitacao(tramitacaoId): void {
-        this.delete.emit(tramitacaoId);
+    deleteRemessa(remessaId): void {
+        this.delete.emit(remessaId);
     }
 
-    deleteTramitacoes(tramitacoesId): void {
-        tramitacoesId.forEach(tramitacaoId => this.deleteTramitacao(tramitacaoId));
+    deleteTramitacoes(remessasId): void {
+        remessasId.forEach(remessaId => this.deleteRemessa(remessaId));
     }
 
     /**
@@ -274,7 +275,7 @@ export class CdkRemessaGridComponent implements AfterViewInit, OnInit, OnChanges
      */
     selectAll(): void {
         const arr = Object.keys(this.remessas).map(k => this.remessas[k]);
-        this.selectedIds = arr.map(tramitacao => tramitacao.id);
+        this.selectedIds = arr.map(remessa => remessa.id);
         this.recompute();
     }
 
@@ -286,13 +287,13 @@ export class CdkRemessaGridComponent implements AfterViewInit, OnInit, OnChanges
         this.recompute();
     }
 
-    toggleInSelected(tramitacaoId): void {
-        const selectedTramitacaoIds = [...this.selectedIds];
+    toggleInSelected(remessaId): void {
+        const selectedRemessaIds = [...this.selectedIds];
 
-        if (selectedTramitacaoIds.find(id => id === tramitacaoId) !== undefined) {
-            this.selectedIds = selectedTramitacaoIds.filter(id => id !== tramitacaoId);
+        if (selectedRemessaIds.find(id => id === remessaId) !== undefined) {
+            this.selectedIds = selectedRemessaIds.filter(id => id !== remessaId);
         } else {
-            this.selectedIds = [...selectedTramitacaoIds, tramitacaoId];
+            this.selectedIds = [...selectedRemessaIds, remessaId];
         }
         this.recompute();
     }
@@ -303,11 +304,7 @@ export class CdkRemessaGridComponent implements AfterViewInit, OnInit, OnChanges
     }
 
     setGridFilter(gridFilter): void {
-        this.gridFilter = {
-            ...this.gridFilter,
-            ...gridFilter
-        };
-
+        this.gridFilter = gridFilter;
         this.paginator.pageIndex = 0;
         this.loadPage();
     }

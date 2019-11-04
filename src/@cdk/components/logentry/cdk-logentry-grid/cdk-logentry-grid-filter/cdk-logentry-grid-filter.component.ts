@@ -52,59 +52,73 @@ export class CdkLogentryGridFilterComponent implements OnInit {
      */
     ngOnInit(): void {
         this.form.get('action').valueChanges.subscribe(value => {
-            this.filters = {
-                ...this.filters,
-                action: `like:${value}%`
-            };
-            this.selected.emit(this.filters);
+            if (value !== null) {
+                this.filters = {
+                    ...this.filters,
+                    action: `like:${value}%`
+                };
+                this.selected.emit(this.filters);
+            }
         });
 
         this.form.get('objectId').valueChanges.subscribe(value => {
-            this.filters = {
-                ...this.filters,
-                objectId: `like:${value}%`
-            };
-            this.selected.emit(this.filters);
+            if (value !== null) {
+                this.filters = {
+                    ...this.filters,
+                    objectId: `like:${value}%`
+                };
+                this.selected.emit(this.filters);
+            }
         });
 
         this.form.get('loggedAt').valueChanges.subscribe(value => {
-            this.filters = {
-                ...this.filters,
-                loggedAt: `like:${value}%`
-            };
-            this.selected.emit(this.filters);
+            if (value !== null) {
+                this.filters = {
+                    ...this.filters,
+                    loggedAt: `like:${value}%`
+                };
+                this.selected.emit(this.filters);
+            }
         });
 
         this.form.get('objectClass').valueChanges.subscribe(value => {
-            this.filters = {
-                ...this.filters,
-                objectClass: `like:${value}%`
-            };
-            this.selected.emit(this.filters);
+            if (value !== null) {
+                this.filters = {
+                    ...this.filters,
+                    objectClass: `like:${value}%`
+                };
+                this.selected.emit(this.filters);
+            }
         });
 
         this.form.get('valor').valueChanges.subscribe(value => {
-            this.filters = {
-                ...this.filters,
-                valor: `like:${value}%`
-            };
-            this.selected.emit(this.filters);
+            if (value !== null) {
+                this.filters = {
+                    ...this.filters,
+                    valor: `like:${value}%`
+                };
+                this.selected.emit(this.filters);
+            }
         });
 
         this.form.get('username').valueChanges.subscribe(value => {
-            this.filters = {
-                ...this.filters,
-                username: `like:${value}%`
-            };
-            this.selected.emit(this.filters);
+            if (value !== null) {
+                this.filters = {
+                    ...this.filters,
+                    username: `like:${value}%`
+                };
+                this.selected.emit(this.filters);
+            }
         });
 
         this.form.get('loggedAt').valueChanges.subscribe(value => {
-            this.filters = {
-                ...this.filters,
-                loggedAt: `eq:${value}`
-            };
-            this.selected.emit(this.filters);
+            if (value !== null) {
+                this.filters = {
+                    ...this.filters,
+                    loggedAt: `eq:${value}`
+                };
+                this.selected.emit(this.filters);
+            }
         });
     }
 

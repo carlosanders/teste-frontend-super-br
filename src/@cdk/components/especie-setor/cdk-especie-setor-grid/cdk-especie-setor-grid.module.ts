@@ -11,15 +11,18 @@ import {
     MatSelectModule,
 } from '@angular/material';
 
+import {FuseSidebarModule} from '@fuse/components';
 import {FuseSharedModule} from '@fuse/shared.module';
 import {EspecieSetorService} from '@cdk/services/especie-setor.service';
 import {CdkEspecieSetorGridComponent} from './cdk-especie-setor-grid.component';
 import {CdkEspecieSetorAutocompleteModule} from '@cdk/components/especie-setor/cdk-especie-setor-autocomplete/cdk-especie-setor-autocomplete.module';
 import {CdkEspecieSetorGridFilterModule} from './cdk-especie-setor-grid-filter/cdk-especie-setor-grid-filter.module';
+import {CdkEspecieSetorMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
-        CdkEspecieSetorGridComponent
+        CdkEspecieSetorGridComponent,
+        CdkEspecieSetorMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,
@@ -36,6 +39,7 @@ import {CdkEspecieSetorGridFilterModule} from './cdk-especie-setor-grid-filter/c
         CdkEspecieSetorGridFilterModule,
 
         FuseSharedModule,
+        FuseSidebarModule,
     ],
     providers: [
         EspecieSetorService,

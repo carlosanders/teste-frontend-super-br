@@ -11,15 +11,18 @@ import {
     MatSelectModule,
 } from '@angular/material';
 
+import {FuseSidebarModule} from '@fuse/components';
 import {FuseSharedModule} from '@fuse/shared.module';
 import {UsuarioService} from '@cdk/services/usuario.service';
 import {CdkUsuarioAutocompleteModule} from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 import {CdkCompartilhamentoGridComponent} from './cdk-compartilhamento-grid.component';
 import {CdkCompartilhamentoGridFilterModule} from './cdk-compartilhamento-grid-filter/cdk-compartilhamento-grid-filter.module';
+import {CdkCompartilhamentoMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
-        CdkCompartilhamentoGridComponent
+        CdkCompartilhamentoGridComponent,
+        CdkCompartilhamentoMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,
@@ -36,6 +39,7 @@ import {CdkCompartilhamentoGridFilterModule} from './cdk-compartilhamento-grid-f
         CdkCompartilhamentoGridFilterModule,
 
         FuseSharedModule,
+        FuseSidebarModule,
     ],
     providers: [
         UsuarioService,

@@ -18,10 +18,13 @@ import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 import {CdkPessoaAutocompleteModule} from '../../../pessoa/cdk-pessoa-autocomplete/cdk-pessoa-autocomplete.module';
 import {CdkUsuarioAutocompleteModule} from '../../../usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 import {CdkSetorAutocompleteModule} from '../../../setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
+import {CdkTramitacaoMainSidebarComponent} from '../sidebars/main/main.component';
+import {FuseSidebarModule} from '../../../../../@fuse/components';
 
 @NgModule({
     declarations: [
         CdkTramitacaoGridFilterComponent,
+        CdkTramitacaoMainSidebarComponent,
     ],
     imports: [
         MatButtonModule,
@@ -36,6 +39,7 @@ import {CdkSetorAutocompleteModule} from '../../../setor/cdk-setor-autocomplete/
         MatCheckboxModule,
 
         FuseSharedModule,
+        FuseSidebarModule,
 
         CdkUsuarioAutocompleteModule,
         CdkProcessoAutocompleteModule,

@@ -11,15 +11,18 @@ import {
     MatSelectModule,
 } from '@angular/material';
 
+import {FuseSidebarModule} from '@fuse/components';
 import {FuseSharedModule} from '@fuse/shared.module';
 import {OrigemDadosService} from '@cdk/services/origem-dados.service';
 import {CdkOrigemDadosGridComponent} from './cdk-origem-dados-grid.component';
 import {CdkOrigemDadosAutocompleteModule} from '@cdk/components/origem-dados/cdk-origem-dados-autocomplete/cdk-origem-dados-autocomplete.module';
 import {CdkOrigemDadosGridFilterModule} from './cdk-origem-dados-grid-filter/cdk-origem-dados-grid-filter.module';
+import {CdkOrigemDadosMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
-        CdkOrigemDadosGridComponent
+        CdkOrigemDadosGridComponent,
+        CdkOrigemDadosMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,
@@ -36,6 +39,7 @@ import {CdkOrigemDadosGridFilterModule} from './cdk-origem-dados-grid-filter/cdk
         CdkOrigemDadosGridFilterModule,
 
         FuseSharedModule,
+        FuseSidebarModule,
     ],
     providers: [
         OrigemDadosService,

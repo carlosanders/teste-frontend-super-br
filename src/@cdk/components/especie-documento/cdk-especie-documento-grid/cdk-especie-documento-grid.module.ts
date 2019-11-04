@@ -11,15 +11,18 @@ import {
     MatSelectModule,
 } from '@angular/material';
 
+import {FuseSidebarModule} from '@fuse/components';
 import {FuseSharedModule} from '@fuse/shared.module';
 import {EspecieDocumentoService} from '@cdk/services/especie-documento.service';
 import {CdkEspecieDocumentoGridComponent} from './cdk-especie-documento-grid.component';
 import {CdkEspecieDocumentoAutocompleteModule} from '@cdk/components/especie-documento/cdk-especie-documento-autocomplete/cdk-especie-documento-autocomplete.module';
 import {CdkEspecieDocumentoGridFilterModule} from '@cdk/components/especie-documento/cdk-especie-documento-grid/cdk-especie-documento-grid-filter/cdk-especie-documento-grid-filter.module';
+import {CdkEspecieDocumentoMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
-        CdkEspecieDocumentoGridComponent
+        CdkEspecieDocumentoGridComponent,
+        CdkEspecieDocumentoMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,
@@ -36,6 +39,7 @@ import {CdkEspecieDocumentoGridFilterModule} from '@cdk/components/especie-docum
         CdkEspecieDocumentoAutocompleteModule,
 
         FuseSharedModule,
+        FuseSidebarModule,
     ],
     providers: [
         EspecieDocumentoService,

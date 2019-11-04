@@ -2,21 +2,24 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    OnInit, ViewChild, AfterViewInit,
-    ViewEncapsulation, Input, OnChanges, Output, EventEmitter
+    OnInit,
+    ViewChild,
+    AfterViewInit,
+    ViewEncapsulation,
+    Input,
+    OnChanges,
+    Output,
+    EventEmitter
 } from '@angular/core';
 import {merge, of} from 'rxjs';
 
 import {fuseAnimations} from '@fuse/animations';
-
+import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@angular/material';
-
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
-
 import {EspecieProcesso} from '@cdk/models/especie-processo.model';
 import {EspecieProcessoDataSource} from '@cdk/data-sources/especie-processo-data-source';
 import {FormControl} from '@angular/forms';
-import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 
 @Component({
     selector: 'cdk-especie-processo-grid',

@@ -11,15 +11,18 @@ import {
     MatSelectModule,
 } from '@angular/material';
 
+import {FuseSidebarModule} from '@fuse/components';
 import {FuseSharedModule} from '@fuse/shared.module';
 import {ModalidadeRelacionamentoPessoalService} from '@cdk/services/modalidade-relacionamento-pessoal.service';
 import {CdkModalidadeRelacionamentoPessoalGridComponent} from './cdk-modalidade-relacionamento-pessoal-grid.component';
 import {CdkModalidadeRelacionamentoPessoalAutocompleteModule} from '@cdk/components/modalidade-relacionamento-pessoal/cdk-modalidade-relacionamento-pessoal-autocomplete/cdk-modalidade-relacionamento-pessoal-autocomplete.module';
 import {CdkModalidadeRelacionamentoPessoalGridFilterModule} from './cdk-modalidade-relacionamento-pessoal-grid-filter/cdk-modalidade-relacionamento-pessoal-grid-filter.module';
+import {CdkModalidadeRelacionamentoPessoalMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
-        CdkModalidadeRelacionamentoPessoalGridComponent
+        CdkModalidadeRelacionamentoPessoalGridComponent,
+        CdkModalidadeRelacionamentoPessoalMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,
@@ -36,6 +39,7 @@ import {CdkModalidadeRelacionamentoPessoalGridFilterModule} from './cdk-modalida
         CdkModalidadeRelacionamentoPessoalGridFilterModule,
 
         FuseSharedModule,
+        FuseSidebarModule,
     ],
     providers: [
         ModalidadeRelacionamentoPessoalService,

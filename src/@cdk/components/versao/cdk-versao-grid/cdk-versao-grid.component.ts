@@ -14,6 +14,7 @@ import {MatPaginator, MatSort} from '@angular/material';
 import {LogEntry} from '@cdk/models/logentry.model';
 import {LogEntryDataSource} from '@cdk/data-sources/logentry-data-source';
 import {tap} from 'rxjs/operators';
+import {FuseSidebarService} from '../../../../@fuse/components/sidebar/sidebar.service';
 
 @Component({
     selector: 'cdk-versao-grid',
@@ -68,7 +69,7 @@ export class CdkVersaoGridComponent implements AfterViewInit, OnInit, OnChanges 
     delete = new EventEmitter<number>();
 
     @Output()
-    select = new EventEmitter<LogEntry>();
+    selected = new EventEmitter<LogEntry>();
 
     @Output()
     selectedIds: number[] = [];
@@ -86,7 +87,8 @@ export class CdkVersaoGridComponent implements AfterViewInit, OnInit, OnChanges 
      * @param _changeDetectorRef
      */
     constructor(
-        private _changeDetectorRef: ChangeDetectorRef
+        private _changeDetectorRef: ChangeDetectorRef,
+        private _fuseSidebarService: FuseSidebarService
     ) {
         this.gridFilter = {};
         this.logEntrys = [];
@@ -123,11 +125,8 @@ export class CdkVersaoGridComponent implements AfterViewInit, OnInit, OnChanges 
     }
 
     toggleFilter(): void {
+        this._fuseSidebarService.getSidebar('cdk-versao-main-sidebar').toggleOpen();
         this.showFilter = !this.showFilter;
-        if (!this.showFilter) {
-            this.gridFilter = {};
-            this.setGridFilter(this.gridFilter);
-        }
     }
 
     loadPage(): void {
@@ -196,11 +195,7 @@ export class CdkVersaoGridComponent implements AfterViewInit, OnInit, OnChanges 
     }
 
     setGridFilter(gridFilter): void {
-        this.gridFilter = {
-            ...this.gridFilter,
-            ...gridFilter
-        };
-
+        this.gridFilter = gridFilter;
         this.paginator.pageIndex = 0;
         this.loadPage();
     }

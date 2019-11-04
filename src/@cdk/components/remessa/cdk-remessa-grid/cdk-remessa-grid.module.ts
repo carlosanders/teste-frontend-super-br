@@ -11,14 +11,17 @@ import {
     MatSelectModule,
 } from '@angular/material';
 
+import {FuseSidebarModule} from '@fuse/components';
 import {FuseSharedModule} from '@fuse/shared.module';
 import {TramitacaoService} from '@cdk/services/tramitacao.service';
 import {CdkRemessaGridComponent} from './cdk-remessa-grid.component';
 import {CdkRemessaGridFilterModule} from './cdk-remessa-grid-filter/cdk-remessa-grid-filter.module';
+import {CdkRemessaMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
-        CdkRemessaGridComponent
+        CdkRemessaGridComponent,
+        CdkRemessaMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,
@@ -34,6 +37,7 @@ import {CdkRemessaGridFilterModule} from './cdk-remessa-grid-filter/cdk-remessa-
         CdkRemessaGridFilterModule,
 
         FuseSharedModule,
+        FuseSidebarModule,
     ],
     providers: [
         TramitacaoService,

@@ -1,11 +1,12 @@
-<!-- CONTENT HEADER -->
-<div class="header" fxLayout="column" *ngIf="showFilter">
-
-    <div class="filters">
-        <cdk-remessa-grid-filter (selected)="setGridFilter($event)"></cdk-remessa-grid-filter>
+<!-- SIDEBAR -->
+<fuse-sidebar class="sidebar" name="cdk-remessa-main-sidebar" position="left">
+    <!-- SIDEBAR CONTENT -->
+    <div class="content" fusePerfectScrollbar>
+        <cdk-remessa-main-sidebar (selected)="setGridFilter($event)" [@animate]="{value:'*'}"></cdk-remessa-main-sidebar>
     </div>
-</div>
-<!-- / CONTENT HEADER -->
+    <!-- / SIDEBAR CONTENT -->
+</fuse-sidebar>
+<!-- / SIDEBAR -->
 
 <!-- CONTENT -->
 <div class="content" fxLayoutAlign="center start">
@@ -22,7 +23,7 @@
             </button>
 
             <button mat-icon-button *ngIf="selectedIds.length > 1 && actions.indexOf('delete') > -1"
-                    (click)="deleteTramitacoes(selectedIds)"
+                    (click)="deleteRemessas(selectedIds)"
                     aria-label="remover"
                     matTooltip="Remover">
                 <mat-icon>delete</mat-icon>
@@ -43,7 +44,7 @@
                 <mat-icon>refresh</mat-icon>
             </button>
 
-            <button class="toggle-filter" mat-icon-button
+            <button class="toggle-filter" mat-icon-button mat-icon-button [ngClass]="{'warn': (gridFilter | json) != '{}'}"
                     (click)="toggleFilter()"
                     aria-label="filtrar"
                     matTooltip="Filtrar">
@@ -82,13 +83,16 @@
                     [ngClass]="{'deleted':deletedIds?.indexOf(remessa.id) > -1}"> {{remessa.id}} </td>
             </ng-container>
 
-            <!-- PessoaDestino Column -->
-            <ng-container matColumnDef="pessoaDestino.nome">
+            <!-- Processo Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('processo.NUP') > -1" matColumnDef="processo.NUP">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Órgão/Pessoa de Destino
+                    NUP
                 </th>
-                <td mat-cell *matCellDef="let remessa" class='has_label_on_mobile' data-label='Órgão/Pessoa de Destino: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(remessa.id) > -1}"> {{remessa.pessoaDestino?.nome}} </td>
+                <td mat-cell *matCellDef="let remessa" class='has_label_on_mobile' data-label='NUP: '>
+                    <mat-checkbox
+                            [disabled]="true"
+                            [checked]="remessa.processo?.NUP"></mat-checkbox>
+                </td>
             </ng-container>
 
             <!-- Urgente Column -->
@@ -112,22 +116,22 @@
                     [ngClass]="{'deleted':deletedIds?.indexOf(remessa.id) > -1}"> {{remessa.setorOrigem?.nome}} </td>
             </ng-container>
 
+            <!-- SetorDestino Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('setorDestino.nome') > -1" matColumnDef="setorDestino.nome">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Setor de Destino
+                </th>
+                <td mat-cell *matCellDef="let remessa" class='has_label_on_mobile' data-label='Setor de Destino: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(remessa.id) > -1}"> {{remessa.setorDestino?.nome}} </td>
+            </ng-container>
+
             <!-- DataHoraRecebimento Column -->
             <ng-container *ngIf="displayedColumns.indexOf('dataHoraRecebimento') > -1" matColumnDef="dataHoraRecebimento">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     Data de Recebimento
                 </th>
                 <td mat-cell *matCellDef="let remessa" class='has_label_on_mobile' data-label='Data de Recebimento: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(remessa.id) > -1}"> {{remessa.dataHoraRecebimento}} </td>
-            </ng-container>
-
-            <!-- UsuarioRecebimento Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('usuarioRecebimento.nome') > -1" matColumnDef="usuarioRecebimento.nome">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Usuário Recebimento
-                </th>
-                <td mat-cell *matCellDef="let remessa" class='has_label_on_mobile' data-label='Usuário Recebimento: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(remessa.id) > -1}"> {{remessa.usuarioRecebimento?.nome}} </td>
+                    [ngClass]="{'deleted':deletedIds?.indexOf(remessa.id) > -1}"> {{remessa.dataHoraRecebimento | date: 'dd/MM/yyyy'}} </td>
             </ng-container>
 
             <!-- UsuarioRecebimento Column -->
@@ -146,6 +150,15 @@
                 </th>
                 <td mat-cell *matCellDef="let remessa" class='has_label_on_mobile' data-label='Observação: '
                     [ngClass]="{'deleted':deletedIds?.indexOf(remessa.id) > -1}"> {{remessa.observacao}} </td>
+            </ng-container>
+
+            <!-- PessoaDestino Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('pessoaDestino.nome') > -1" matColumnDef="pessoaDestino.nome">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Pessoa Destino
+                </th>
+                <td mat-cell *matCellDef="let remessa" class='has_label_on_mobile' data-label='Pessoa Destino: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(remessa.id) > -1}"> {{remessa.pessoaDestino?.nome}} </td>
             </ng-container>
 
             <!-- CriadoPor Column -->

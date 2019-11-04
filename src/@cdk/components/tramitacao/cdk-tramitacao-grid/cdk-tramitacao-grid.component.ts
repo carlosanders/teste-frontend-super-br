@@ -8,14 +8,13 @@ import {
 import {merge, of} from 'rxjs';
 
 import {fuseAnimations} from '@fuse/animations';
-
+import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@angular/material';
-
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
 import {Tramitacao} from '@cdk/models/tramitacao.model';
 import {TramitacaoDataSource} from '@cdk/data-sources/tramitacao-data-source';
-import {FormControl} from "@angular/forms";
+import {FormControl} from '@angular/forms';
 
 @Component({
     selector: 'cdk-tramitacao-grid',
@@ -174,7 +173,8 @@ export class CdkTramitacaoGridComponent implements AfterViewInit, OnInit, OnChan
      * @param _changeDetectorRef
      */
     constructor(
-        private _changeDetectorRef: ChangeDetectorRef
+        private _changeDetectorRef: ChangeDetectorRef,
+        private _fuseSidebarService: FuseSidebarService
     ) {
         this.gridFilter = {};
         this.tramitacoes = [];
@@ -226,11 +226,8 @@ export class CdkTramitacaoGridComponent implements AfterViewInit, OnInit, OnChan
     }
 
     toggleFilter(): void {
+        this._fuseSidebarService.getSidebar('cdk-tramitacao-main-sidebar').toggleOpen();
         this.showFilter = !this.showFilter;
-        if (!this.showFilter) {
-            this.gridFilter = {};
-            this.setGridFilter(this.gridFilter);
-        }
     }
 
     loadPage(): void {
@@ -307,11 +304,7 @@ export class CdkTramitacaoGridComponent implements AfterViewInit, OnInit, OnChan
     }
 
     setGridFilter(gridFilter): void {
-        this.gridFilter = {
-            ...this.gridFilter,
-            ...gridFilter
-        };
-
+        this.gridFilter = gridFilter;
         this.paginator.pageIndex = 0;
         this.loadPage();
     }

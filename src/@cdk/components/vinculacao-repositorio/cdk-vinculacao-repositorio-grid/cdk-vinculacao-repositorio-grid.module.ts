@@ -11,15 +11,18 @@ import {
     MatSelectModule,
 } from '@angular/material';
 
+import {FuseSidebarModule} from '@fuse/components';
 import {FuseSharedModule} from '@fuse/shared.module';
 import {VinculacaoRepositorioService} from '@cdk/services/vinculacao-repositorio.service';
 import {CdkVinculacaoRepositorioGridComponent} from './cdk-vinculacao-repositorio-grid.component';
 import {CdkVinculacaoRepositorioAutocompleteModule} from '@cdk/components/vinculacao-repositorio/cdk-vinculacao-repositorio-autocomplete/cdk-vinculacao-repositorio-autocomplete.module';
 import {CdkVinculacaoRepositorioGridFilterModule} from './cdk-vinculacao-repositorio-grid-filter/cdk-vinculacao-repositorio-grid-filter.module';
+import {CdkVinculacaoRepositorioMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
-        CdkVinculacaoRepositorioGridComponent
+        CdkVinculacaoRepositorioGridComponent,
+        CdkVinculacaoRepositorioMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,
@@ -36,6 +39,7 @@ import {CdkVinculacaoRepositorioGridFilterModule} from './cdk-vinculacao-reposit
         CdkVinculacaoRepositorioGridFilterModule,
 
         FuseSharedModule,
+        FuseSidebarModule,
     ],
     providers: [
         VinculacaoRepositorioService,

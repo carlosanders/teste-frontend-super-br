@@ -12,14 +12,17 @@ import {
     MatSelectModule, MatTooltipModule,
 } from '@angular/material';
 
+import {FuseSidebarModule} from '@fuse/components';
 import {FuseSharedModule} from '@fuse/shared.module';
 import {FavoritoService} from '@cdk/services/favorito.service';
 import {CdkFavoritoGridComponent} from './cdk-favorito-grid.component';
 import {CdkFavoritoGridFilterModule} from './cdk-favorito-grid-filter/cdk-favorito-grid-filter.module';
+import {CdkFavoritoMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
-        CdkFavoritoGridComponent
+        CdkFavoritoGridComponent,
+        CdkFavoritoMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,
@@ -32,11 +35,12 @@ import {CdkFavoritoGridFilterModule} from './cdk-favorito-grid-filter/cdk-favori
         MatPaginatorModule,
         MatSortModule,
         MatRadioModule,
+        MatTooltipModule,
 
         CdkFavoritoGridFilterModule,
 
         FuseSharedModule,
-        MatTooltipModule,
+        FuseSidebarModule,
     ],
     providers: [
         FavoritoService,
