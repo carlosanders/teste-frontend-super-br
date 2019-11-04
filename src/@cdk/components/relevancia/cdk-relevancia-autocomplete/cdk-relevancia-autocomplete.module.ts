@@ -7,7 +7,7 @@ import {
 import {FuseSharedModule} from '@fuse/shared.module';
 import {RelevanciaService} from '@cdk/services/relevancia.service';
 import {CdkRelevanciaAutocompleteComponent} from './cdk-relevancia-autocomplete.component';
-import {PipesModule} from '../../../pipes/pipes.module';
+import {PipesModule} from '@cdk/pipes/pipes.module';
 
 @NgModule({
     declarations: [

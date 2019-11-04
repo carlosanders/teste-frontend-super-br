@@ -13,13 +13,13 @@ import {
 
 import {FuseSharedModule} from '@fuse/shared.module';
 import {CdkJuntadaFormComponent} from './cdk-juntada-form.component';
-import {SetorService} from '../../../services/setor.service';
-import {VolumeService} from '../../../services/volume.service';
-import {DocumentoAvulsoService} from '../../../services/documento-avulso.service';
-import {AtividadeService} from '../../../services/atividade.service';
-import {TarefaService} from '../../../services/tarefa.service';
-import {OrigemDadosService} from '../../../services/origem-dados.service';
-import {DocumentoService} from '../../../services/documento.service';
+import {SetorService} from '@cdk/services/setor.service';
+import {VolumeService} from '@cdk/services/volume.service';
+import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
+import {AtividadeService} from '@cdk/services/atividade.service';
+import {TarefaService} from '@cdk/services/tarefa.service';
+import {OrigemDadosService} from '@cdk/services/origem-dados.service';
+import {DocumentoService} from '@cdk/services/documento.service';
 import {CdkDocumentoAvulsoAutocompleteModule} from '../../documento-avulso/cdk-documento-avulso-autocomplete/cdk-documento-avulso-autocomplete.module';
 import {CdkDocumentoGridsearchModule} from '../../documento/cdk-documento-autocomplete/cdk-documento-gridsearch/cdk-documento-gridsearch.module';
 import {CdkDocumentoAvulsoGridsearchModule} from '../../documento-avulso/cdk-documento-avulso-autocomplete/cdk-documento-avulso-gridsearch/cdk-documento-avulso-gridsearch.module';

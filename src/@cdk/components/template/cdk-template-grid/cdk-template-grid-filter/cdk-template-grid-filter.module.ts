@@ -12,11 +12,11 @@ import {
 import {FuseSharedModule} from '@fuse/shared.module';
 import {TemplateService} from '@cdk/services/template.service';
 import {CdkTemplateGridFilterComponent} from './cdk-template-grid-filter.component';
-import {CdkModalidadeTemplateAutocompleteModule} from '../../../modalidade-template/cdk-modalidade-template-autocomplete/cdk-modalidade-template-autocomplete.module';
+import {CdkModalidadeTemplateAutocompleteModule} from '@cdk/components/modalidade-template/cdk-modalidade-template-autocomplete/cdk-modalidade-template-autocomplete.module';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
-import {CdkUsuarioAutocompleteModule} from '../../../usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
-import {CdkDocumentoAutocompleteModule} from '../../../documento/cdk-documento-autocomplete/cdk-documento-autocomplete.module';
+import {CdkUsuarioAutocompleteModule} from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
+import {CdkDocumentoAutocompleteModule} from '@cdk/components/documento/cdk-documento-autocomplete/cdk-documento-autocomplete.module';
 
 @NgModule({
     declarations: [

@@ -18,8 +18,8 @@ import {Setor} from '@cdk/models/setor.model';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {Pagination} from '@cdk/models/pagination';
-import {Modelo} from '../../../models/modelo.model';
-import {Pessoa} from '../../../models/pessoa.model';
+import {Modelo} from '@cdk/models/modelo.model';
+import {Pessoa} from '@cdk/models/pessoa.model';
 
 @Component({
     selector: 'cdk-documento-avulso-form',

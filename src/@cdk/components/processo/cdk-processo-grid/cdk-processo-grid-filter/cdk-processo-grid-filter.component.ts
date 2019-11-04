@@ -76,13 +76,32 @@ export class CdkProcessoGridFilterComponent implements OnInit {
     ngOnInit(): void {
         this.form.get('processo').valueChanges.subscribe(value => {
             if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    processo: `like:${value}%`
-                };
-                this.selected.emit(this.filters);
+                if (typeof value === 'object' && value) {
+                    this.filters = {
+                        ...this.filters,
+                        'processo.id': `eq:${value.id}`
+                    };
+                    this.selected.emit(this.filters);
+                } else {
+                    if (this.filters.hasOwnProperty('processo.id')) {
+                        delete this.filters['processo.id'];
+                    }
+                }
+                if (!value) {
+                    this.selected.emit(this.filters);
+                }
             }
         });
+
+        // this.form.get('processo').valueChanges.subscribe(value => {
+        //     if (value !== null) {
+        //         this.filters = {
+        //             ...this.filters,
+        //             processo: `like:${value}%`
+        //         };
+        //         this.selected.emit(this.filters);
+        //     }
+        // });
 
         this.form.get('titulo').valueChanges.subscribe(value => {
             if (value !== null) {

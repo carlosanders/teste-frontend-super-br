@@ -12,7 +12,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { Endereco } from '@cdk/models/endereco.model';
 import { Municipio } from '@cdk/models/municipio.model';
 import {Pais} from '@cdk/models/pais.model';
-import {Pagination} from '../../../models/pagination';
+import {Pagination} from '@cdk/models/pagination';
 
 @Component({
     selector: 'cdk-endereco-form',

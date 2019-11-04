@@ -7,7 +7,7 @@ import {
 import {FuseSharedModule} from '@fuse/shared.module';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
 import {CdkAssinaturaAutocompleteComponent} from './cdk-assinatura-autocomplete.component';
-import {PipesModule} from '../../../pipes/pipes.module';
+import {PipesModule} from '@cdk/pipes/pipes.module';
 
 @NgModule({
     declarations: [

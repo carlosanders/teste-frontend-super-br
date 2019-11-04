@@ -15,7 +15,7 @@ import {LogEntry} from '@cdk/models/logentry.model';
 import {LogEntryDataSource} from '@cdk/data-sources/logentry-data-source';
 import {FormControl} from '@angular/forms';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
-import {FuseSidebarService} from '../../../../@fuse/components/sidebar/sidebar.service';
+import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 
 @Component({
     selector: 'cdk-logentry-grid',

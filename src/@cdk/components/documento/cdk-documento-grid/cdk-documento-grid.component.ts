@@ -13,9 +13,9 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {DocumentoDataSource} from '@cdk/data-sources/documento-data-source';
 import {Documento} from '@cdk/models/documento.model';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
-import {ComponenteDigital} from '../../../models/componente-digital.model';
+import {ComponenteDigital} from '@cdk/models/componente-digital.model';
 import {FormControl} from '@angular/forms';
-import {FuseSidebarService} from '../../../../@fuse/components/sidebar/sidebar.service';
+import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 
 @Component({
     selector: 'cdk-documento-grid',

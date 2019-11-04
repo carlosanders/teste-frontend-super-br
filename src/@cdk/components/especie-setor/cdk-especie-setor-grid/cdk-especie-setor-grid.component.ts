@@ -16,7 +16,7 @@ import {tap} from 'rxjs/operators';
 import {EspecieSetor} from '@cdk/models/especie-setor.model';
 import {EspecieSetorDataSource} from '@cdk/data-sources/especie-setor-data-source';
 import {FormControl} from '@angular/forms';
-import {FuseSidebarService} from '../../../../@fuse/components/sidebar/sidebar.service';
+import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 
 @Component({
     selector: 'cdk-especie-setor-grid',

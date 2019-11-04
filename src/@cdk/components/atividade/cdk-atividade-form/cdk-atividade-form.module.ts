@@ -18,7 +18,7 @@ import { CdkEspecieAtividadeAutocompleteModule } from '@cdk/components/especie-a
 import { CdkEspecieAtividadeGridsearchModule } from '@cdk/components/especie-atividade/cdk-especie-atividade-autocomplete/cdk-especie-atividade-gridsearch/cdk-especie-atividade-gridsearch.module';
 import {CdkUsuarioAutocompleteModule} from '../../usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 import {CdkUsuarioGridsearchModule} from '../../usuario/cdk-usuario-autocomplete/cdk-usuario-gridsearch/cdk-usuario-gridsearch.module';
-import {UsuarioService} from '../../../services/usuario.service';
+import {UsuarioService} from '@cdk/services/usuario.service';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';

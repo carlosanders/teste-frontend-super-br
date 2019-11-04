@@ -14,7 +14,7 @@ import {ModalidadeAlvoInibidorService} from '@cdk/services/modalidade-alvo-inibi
 import {CdkModalidadeAlvoInibidorGridFilterComponent} from './cdk-modalidade-alvo-inibidor-grid-filter.component';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
-import {CdkUsuarioAutocompleteModule} from '../../../usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
+import {CdkUsuarioAutocompleteModule} from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 
 @NgModule({
     declarations: [

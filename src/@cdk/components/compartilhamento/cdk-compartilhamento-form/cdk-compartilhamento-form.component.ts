@@ -11,7 +11,7 @@ import { fuseAnimations } from '@fuse/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { Compartilhamento } from '@cdk/models/compartilhamento.model';
 import { Usuario } from '@cdk/models/usuario.model';
-import {Pagination} from '../../../models/pagination';
+import {Pagination} from '@cdk/models/pagination';
 
 @Component({
     selector: 'cdk-compartilhamento-form',

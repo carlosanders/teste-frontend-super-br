@@ -7,7 +7,7 @@ import {
 import { FuseSharedModule } from '@fuse/shared.module';
 import { ModalidadeRepresentanteService } from '@cdk/services/modalidade-representante.service';
 import {CdkModalidadeRepresentanteAutocompleteComponent} from './cdk-modalidade-representante-autocomplete.component';
-import {PipesModule} from '../../../pipes/pipes.module';
+import {PipesModule} from '@cdk/pipes/pipes.module';
 
 @NgModule({
     declarations: [

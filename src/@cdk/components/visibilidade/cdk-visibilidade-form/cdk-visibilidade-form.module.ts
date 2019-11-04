@@ -18,7 +18,7 @@ import { CdkUsuarioAutocompleteModule } from '@cdk/components/usuario/cdk-usuari
 import { CdkUsuarioGridsearchModule } from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-gridsearch/cdk-usuario-gridsearch.module';
 import {CdkSetorAutocompleteModule} from '../../setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
 import {CdkSetorGridsearchModule} from '../../setor/cdk-setor-autocomplete/cdk-setor-gridsearch/cdk-setor-gridsearch.module';
-import {SetorService} from '../../../services/setor.service';
+import {SetorService} from '@cdk/services/setor.service';
 
 @NgModule({
     declarations: [

@@ -12,7 +12,7 @@ import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 import {FormControl} from '@angular/forms';
-import {AreaTrabalho} from '../../../models/area-trabalho.model';
+import {AreaTrabalho} from '@cdk/models/area-trabalho.model';
 import {AreaTrabalhoDataSource} from '../../../data-sources/area-trabalho-data-source';
 
 @Component({

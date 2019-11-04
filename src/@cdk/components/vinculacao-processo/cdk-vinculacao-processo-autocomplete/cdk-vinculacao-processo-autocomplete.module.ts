@@ -7,7 +7,7 @@ import {
 import {FuseSharedModule} from '@fuse/shared.module';
 import {VinculacaoProcessoService} from '@cdk/services/vinculacao-processo.service';
 import {CdkVinculacaoProcessoAutocompleteComponent} from './cdk-vinculacao-processo-autocomplete.component';
-import {PipesModule} from '../../../pipes/pipes.module';
+import {PipesModule} from '@cdk/pipes/pipes.module';
 
 @NgModule({
     declarations: [

@@ -14,7 +14,7 @@ import {TipoSigiloService} from '@cdk/services/tipo-sigilo.service';
 import {CdkTipoSigiloGridFilterComponent} from './cdk-tipo-sigilo-grid-filter.component';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
-import {CdkUsuarioAutocompleteModule} from '../../../usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
+import {CdkUsuarioAutocompleteModule} from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 
 @NgModule({
     declarations: [

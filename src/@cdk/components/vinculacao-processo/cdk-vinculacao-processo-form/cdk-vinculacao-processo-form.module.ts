@@ -14,8 +14,8 @@ import {
 import {FuseSharedModule} from '@fuse/shared.module';
 import {CdkProcessoAutocompleteModule} from '../../processo/cdk-processo-autocomplete/cdk-processo-autocomplete.module';
 import {CdkProcessoGridsearchModule} from '../../processo/cdk-processo-autocomplete/cdk-processo-gridsearch/cdk-processo-gridsearch.module';
-import {ProcessoService} from '../../../services/processo.service';
-import {ModalidadeVinculacaoProcessoService} from '../../../services/modalidade-vinculacao-processo.service';
+import {ProcessoService} from '@cdk/services/processo.service';
+import {ModalidadeVinculacaoProcessoService} from '@cdk/services/modalidade-vinculacao-processo.service';
 import {CdkModalidadeVinculacaoProcessoGridsearchModule} from '../../modalidade-vinculacao-processo/cdk-modalidade-vinculacao-processo-autocomplete/cdk-modalidade-vinculacao-processo-gridsearch/cdk-modalidade-vinculacao-processo-gridsearch.module';
 import {CdkModalidadeVinculacaoProcessoAutocompleteModule} from '../../modalidade-vinculacao-processo/cdk-modalidade-vinculacao-processo-autocomplete/cdk-modalidade-vinculacao-processo-autocomplete.module';
 import {CdkVinculacaoProcessoFormComponent} from './cdk-vinculacao-processo-form.component';

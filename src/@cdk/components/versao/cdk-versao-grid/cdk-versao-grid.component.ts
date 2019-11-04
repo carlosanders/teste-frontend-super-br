@@ -14,7 +14,7 @@ import {MatPaginator, MatSort} from '@angular/material';
 import {LogEntry} from '@cdk/models/logentry.model';
 import {LogEntryDataSource} from '@cdk/data-sources/logentry-data-source';
 import {tap} from 'rxjs/operators';
-import {FuseSidebarService} from '../../../../@fuse/components/sidebar/sidebar.service';
+import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 
 @Component({
     selector: 'cdk-versao-grid',

@@ -20,6 +20,7 @@ import {CdkModalidadeMeioAutocompleteModule} from '@cdk/components/modalidade-me
 import {CdkEspecieProcessoAutocompleteModule} from '@cdk/components/especie-processo/cdk-especie-processo-autocomplete/cdk-especie-processo-autocomplete.module';
 import {CdkUsuarioAutocompleteModule} from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 import {CdkOrigemDadosAutocompleteModule} from '@cdk/components/origem-dados/cdk-origem-dados-autocomplete/cdk-origem-dados-autocomplete.module';
+import {CdkProcessoAutocompleteModule} from '../../cdk-processo-autocomplete/cdk-processo-autocomplete.module';
 import {CdkSetorAutocompleteModule} from '@cdk/components/setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
@@ -52,6 +53,7 @@ import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
         CdkModalidadeMeioAutocompleteModule,
         CdkEspecieProcessoAutocompleteModule,
         CdkUsuarioAutocompleteModule,
+        CdkProcessoAutocompleteModule,
     ],
     providers: [
         ProcessoService,

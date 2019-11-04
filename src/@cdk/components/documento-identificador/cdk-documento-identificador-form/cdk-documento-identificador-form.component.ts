@@ -10,8 +10,8 @@ import {
 import { fuseAnimations } from '@fuse/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { DocumentoIdentificador } from '@cdk/models/documento-identificador.model';
-import {ModalidadeDocumentoIdentificador} from '../../../models/modalidade-documento-identificador.model';
-import {Pagination} from '../../../models/pagination';
+import {ModalidadeDocumentoIdentificador} from '@cdk/models/modalidade-documento-identificador.model';
+import {Pagination} from '@cdk/models/pagination';
 
 @Component({
     selector: 'cdk-documento-identificador-form',

@@ -14,7 +14,7 @@ import {
 import { FuseSharedModule } from '@fuse/shared.module';
 import { UsuarioService } from '@cdk/services/usuario.service';
 import { CdkAcaoFormComponent } from './cdk-acao-form.component';
-import {SetorService} from '../../../services/setor.service';
+import {SetorService} from '@cdk/services/setor.service';
 import {CdkModeloAutocompleteModule} from '../../modelo/cdk-modelo-autocomplete/cdk-modelo-autocomplete.module';
 import {CdkModeloGridsearchModule} from '../../modelo/cdk-modelo-autocomplete/cdk-modelo-gridsearch/cdk-modelo-gridsearch.module';
 

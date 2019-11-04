@@ -10,9 +10,9 @@ import {
 import { fuseAnimations } from '@fuse/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { RelacionamentoPessoal } from '@cdk/models/relacionamento-pessoal.model';
-import {ModalidadeRelacionamentoPessoal} from '../../../models/modalidade-relacionamento-pessoal.model';
-import {Pagination} from '../../../models/pagination';
-import {Pessoa} from '../../../models/pessoa.model';
+import {ModalidadeRelacionamentoPessoal} from '@cdk/models/modalidade-relacionamento-pessoal.model';
+import {Pagination} from '@cdk/models/pagination';
+import {Pessoa} from '@cdk/models/pessoa.model';
 
 @Component({
     selector: 'cdk-relacionamento-pessoal-form',

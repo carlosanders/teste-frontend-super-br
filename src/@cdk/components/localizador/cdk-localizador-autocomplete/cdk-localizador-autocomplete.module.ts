@@ -7,7 +7,7 @@ import {
 import {FuseSharedModule} from '@fuse/shared.module';
 import {LocalizadorService} from '@cdk/services/localizador.service';
 import {CdkLocalizadorAutocompleteComponent} from './cdk-localizador-autocomplete.component';
-import {PipesModule} from '../../../pipes/pipes.module';
+import {PipesModule} from '@cdk/pipes/pipes.module';
 
 @NgModule({
     declarations: [

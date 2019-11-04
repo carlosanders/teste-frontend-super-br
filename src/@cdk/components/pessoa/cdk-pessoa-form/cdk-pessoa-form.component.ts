@@ -15,7 +15,7 @@ import {ModalidadeQualificacaoPessoa} from '@cdk/models/modalidade-qualificacao-
 import {ModalidadeGeneroPessoa} from '@cdk/models/modalidade-genero-pessoa.model';
 import {Pais} from '@cdk/models/pais.model';
 import {Municipio} from '@cdk/models/municipio.model';
-import {Pagination} from '../../../models/pagination';
+import {Pagination} from '@cdk/models/pagination';
 
 @Component({
     selector: 'cdk-pessoa-form',

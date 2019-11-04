@@ -21,7 +21,7 @@ import {CdkUsuarioAutocompleteModule} from '../../usuario/cdk-usuario-autocomple
 import {CdkUsuarioGridsearchModule} from '../../usuario/cdk-usuario-autocomplete/cdk-usuario-gridsearch/cdk-usuario-gridsearch.module';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {CdkClassificacaoAutocompleteModule} from '../cdk-classificacao-autocomplete/cdk-classificacao-autocomplete.module';
-import {ClassificacaoService} from '../../../services/classificacao.service';
+import {ClassificacaoService} from '@cdk/services/classificacao.service';
 import {CdkClassificacaoGridsearchModule} from '../cdk-classificacao-autocomplete/cdk-classificacao-gridsearch/cdk-classificacao-gridsearch.module';
 
 @NgModule({

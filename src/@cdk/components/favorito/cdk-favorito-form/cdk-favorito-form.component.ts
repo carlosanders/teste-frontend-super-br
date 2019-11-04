@@ -12,8 +12,8 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { Favorito } from '@cdk/models/favorito.model';
 import {Pagination} from '@cdk/models/pagination';
 import {EspecieAtividade} from '@cdk/models/especie-atividade.model';
-import {EspecieTarefa} from '../../../models/especie-tarefa.model';
-import {Setor} from '../../../models/setor.model';
+import {EspecieTarefa} from '@cdk/models/especie-tarefa.model';
+import {Setor} from '@cdk/models/setor.model';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 

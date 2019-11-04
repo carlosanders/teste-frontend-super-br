@@ -7,7 +7,7 @@ import {
 import { FuseSharedModule } from '@fuse/shared.module';
 import { EspecieRelevanciaService } from '@cdk/services/especie-relevancia.service';
 import {CdkEspecieRelevanciaAutocompleteComponent} from './cdk-especie-relevancia-autocomplete.component';
-import {PipesModule} from '../../../pipes/pipes.module';
+import {PipesModule} from '@cdk/pipes/pipes.module';
 
 @NgModule({
     declarations: [

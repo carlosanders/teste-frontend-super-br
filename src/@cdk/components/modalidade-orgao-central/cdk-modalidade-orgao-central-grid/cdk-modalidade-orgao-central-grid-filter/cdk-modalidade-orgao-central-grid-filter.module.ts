@@ -14,7 +14,7 @@ import {ModalidadeOrgaoCentralService} from '@cdk/services/modalidade-orgao-cent
 import {CdkModalidadeOrgaoCentralGridFilterComponent} from './cdk-modalidade-orgao-central-grid-filter.component';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
-import {CdkUsuarioAutocompleteModule} from '../../../usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
+import {CdkUsuarioAutocompleteModule} from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 
 @NgModule({
     declarations: [

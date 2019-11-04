@@ -15,7 +15,7 @@ import { CdkClassificacaoGridFilterComponent } from './cdk-classificacao-grid-fi
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 import {CdkUsuarioAutocompleteModule} from '../../../usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
-import {ModalidadeDestinacao} from '../../../../models/modalidade-destinacao.model';
+import {ModalidadeDestinacao} from '@cdk/models/modalidade-destinacao.model';
 import {CdkClassificacaoAutocompleteModule} from '../../cdk-classificacao-autocomplete/cdk-classificacao-autocomplete.module';
 import {CdkModalidadeDestinacaoAutocompleteModule} from '../../../modalidade-destinacao/cdk-modalidade-destinacao-autocomplete/cdk-modalidade-destinacao-autocomplete.module';
 

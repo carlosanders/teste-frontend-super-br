@@ -10,8 +10,8 @@ import {
 import { fuseAnimations } from '@fuse/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { Nome } from '@cdk/models/nome.model';
-import {Pagination} from '../../../models/pagination';
-import {Pessoa} from '../../../models/pessoa.model';
+import {Pagination} from '@cdk/models/pagination';
+import {Pessoa} from '@cdk/models/pessoa.model';
 
 @Component({
     selector: 'cdk-nome-form',

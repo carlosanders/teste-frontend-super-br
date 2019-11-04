@@ -12,7 +12,7 @@ import { fuseAnimations } from '@fuse/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { Classificacao } from '@cdk/models/classificacao.model';
 import { ModalidadeDestinacao } from '@cdk/models/modalidade-destinacao.model';
-import {Pagination} from '../../../models/pagination';
+import {Pagination} from '@cdk/models/pagination';
 
 @Component({
     selector: 'cdk-classificacao-form',

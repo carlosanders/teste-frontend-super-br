@@ -7,7 +7,7 @@ import {
 import { FuseSharedModule } from '@fuse/shared.module';
 import { ModalidadeGeneroPessoaService } from '@cdk/services/modalidade-genero-pessoa.service';
 import {CdkModalidadeGeneroPessoaAutocompleteComponent} from './cdk-modalidade-genero-pessoa-autocomplete.component';
-import {PipesModule} from '../../../pipes/pipes.module';
+import {PipesModule} from '@cdk/pipes/pipes.module';
 
 @NgModule({
     declarations: [

@@ -14,7 +14,7 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 
 import {EspecieAtividade} from '@cdk/models/especie-atividade.model';
 import {EspecieAtividadeDataSource} from '@cdk/data-sources/especie-atividade-data-source';
-import {Favorito} from '../../../models/favorito.model';
+import {Favorito} from '@cdk/models/favorito.model';
 import {FormControl} from '@angular/forms';
 
 @Component({

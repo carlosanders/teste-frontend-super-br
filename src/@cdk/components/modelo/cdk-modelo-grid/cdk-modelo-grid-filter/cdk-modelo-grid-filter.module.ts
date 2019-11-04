@@ -8,15 +8,15 @@ import {
     MatIconModule,
     MatInputModule
 } from '@angular/material';
-import {FuseSharedModule} from '../../../../../@fuse/shared.module';
+import {FuseSharedModule} from '@fuse/shared.module';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
-import {ModeloService} from '../../../../services/modelo.service';
-import {CdkModalidadeMeioAutocompleteModule} from '../../../modalidade-meio/cdk-modalidade-meio-autocomplete/cdk-modalidade-meio-autocomplete.module';
+import {ModeloService} from '@cdk/services/modelo.service';
+import {CdkModalidadeMeioAutocompleteModule} from '@cdk/components/modalidade-meio/cdk-modalidade-meio-autocomplete/cdk-modalidade-meio-autocomplete.module';
 import {CdkModeloGridFilterComponent} from './cdk-modelo-grid-filter.component';
-import {CdkUsuarioAutocompleteModule} from '../../../usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
-import {CdkTemplateAutocompleteModule} from '../../../template/cdk-template-autocomplete/cdk-template-autocomplete.module';
-import {CdkDocumentoAutocompleteModule} from '../../../documento/cdk-documento-autocomplete/cdk-documento-autocomplete.module';
+import {CdkUsuarioAutocompleteModule} from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
+import {CdkTemplateAutocompleteModule} from '@cdk/components/template/cdk-template-autocomplete/cdk-template-autocomplete.module';
+import {CdkDocumentoAutocompleteModule} from '@cdk/components/documento/cdk-documento-autocomplete/cdk-documento-autocomplete.module';
 
 @NgModule({
     declarations: [

@@ -14,7 +14,7 @@ import {ModalidadeVinculacaoDocumentoService} from '@cdk/services/modalidade-vin
 import {CdkModalidadeVinculacaoDocumentoGridFilterComponent} from './cdk-modalidade-vinculacao-documento-grid-filter.component';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
-import {CdkUsuarioAutocompleteModule} from '../../../usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
+import {CdkUsuarioAutocompleteModule} from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 
 @NgModule({
     declarations: [

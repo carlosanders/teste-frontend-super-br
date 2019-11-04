@@ -13,9 +13,9 @@ import {ModalidadeColaboradorService} from '@cdk/services/modalidade-colaborador
 import {CdkColaboradorGridFilterComponent} from './cdk-colaborador-grid-filter.component';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
-import {CdkUsuarioAutocompleteModule} from '../../../usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
-import {CdkCargoAutocompleteModule} from '../../../cargo/cdk-cargo-autocomplete/cdk-cargo-autocomplete.module';
-import {CdkModalidadeColaboradorAutocompleteModule} from '../../../modalidade-colaborador/cdk-modalidade-colaborador-autocomplete/cdk-modalidade-colaborador-autocomplete.module';
+import {CdkUsuarioAutocompleteModule} from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
+import {CdkCargoAutocompleteModule} from '@cdk/components/cargo/cdk-cargo-autocomplete/cdk-cargo-autocomplete.module';
+import {CdkModalidadeColaboradorAutocompleteModule} from '@cdk/components/modalidade-colaborador/cdk-modalidade-colaborador-autocomplete/cdk-modalidade-colaborador-autocomplete.module';
 
 @NgModule({
     declarations: [

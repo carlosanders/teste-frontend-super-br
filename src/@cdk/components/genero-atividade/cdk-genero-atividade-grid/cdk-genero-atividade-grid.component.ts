@@ -16,7 +16,7 @@ import {tap} from 'rxjs/operators';
 import {GeneroAtividade} from '@cdk/models/genero-atividade.model';
 import {GeneroAtividadeDataSource} from '@cdk/data-sources/genero-atividade-data-source';
 import {FormControl} from '@angular/forms';
-import {FuseSidebarService} from '../../../../@fuse/components/sidebar/sidebar.service';
+import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 
 @Component({
     selector: 'cdk-genero-atividade-grid',
