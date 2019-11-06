@@ -11,15 +11,18 @@ import {
     MatSelectModule, MatTooltipModule,
 } from '@angular/material';
 
+import {FuseSidebarModule} from '@fuse/components';
 import {FuseSharedModule} from '@fuse/shared.module';
 import {DistribuicaoService} from '@cdk/services/distribuicao.service';
 import {CdkDistribuicaoGridComponent} from './cdk-distribuicao-grid.component';
 import {CdkDistribuicaoAutocompleteModule} from '@cdk/components/distribuicao/cdk-distribuicao-autocomplete/cdk-distribuicao-autocomplete.module';
 import {CdkDistribuicaoGridFilterModule} from './cdk-distribuicao-grid-filter/cdk-distribuicao-grid-filter.module';
+import {CdkDistribuicaoMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
-        CdkDistribuicaoGridComponent
+        CdkDistribuicaoGridComponent,
+        CdkDistribuicaoMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,
@@ -31,12 +34,13 @@ import {CdkDistribuicaoGridFilterModule} from './cdk-distribuicao-grid-filter/cd
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
+        MatTooltipModule,
 
         FuseSharedModule,
+        FuseSidebarModule,
 
         CdkDistribuicaoAutocompleteModule,
         CdkDistribuicaoGridFilterModule,
-        MatTooltipModule
     ],
     providers: [
         DistribuicaoService,

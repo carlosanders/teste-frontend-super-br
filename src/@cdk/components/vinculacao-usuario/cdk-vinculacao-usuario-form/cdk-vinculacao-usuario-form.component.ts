@@ -10,7 +10,7 @@ import {
 import {fuseAnimations} from '@fuse/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {VinculacaoUsuario} from '@cdk/models/vinculacao-usuario.model';
-import {Pagination} from '../../../models/pagination';
+import {Pagination} from '@cdk/models/pagination';
 import {Usuario} from '@cdk/models/usuario.model';
 
 @Component({

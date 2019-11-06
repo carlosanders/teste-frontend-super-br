@@ -10,8 +10,8 @@ import {
 import { fuseAnimations } from '@fuse/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { Documento } from '@cdk/models/documento.model';
-import {Pagination} from '../../../models/pagination';
-import {Processo} from '../../../models/processo.model';
+import {Pagination} from '@cdk/models/pagination';
+import {Processo} from '@cdk/models/processo.model';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 

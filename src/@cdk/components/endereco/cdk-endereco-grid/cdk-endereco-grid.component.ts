@@ -8,13 +8,12 @@ import {
 import {merge, of} from 'rxjs';
 
 import {fuseAnimations} from '@fuse/animations';
-
+import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@angular/material';
-
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 import {EnderecoDataSource} from '@cdk/data-sources/endereco-data-source';
 import {Endereco} from '@cdk/models/endereco.model';
-import {FormControl} from "@angular/forms";
+import {FormControl} from '@angular/forms';
 
 @Component({
     selector: 'cdk-endereco-grid',
@@ -187,7 +186,8 @@ export class CdkEnderecoGridComponent implements AfterViewInit, OnInit, OnChange
      * @param _changeDetectorRef
      */
     constructor(
-        private _changeDetectorRef: ChangeDetectorRef
+        private _changeDetectorRef: ChangeDetectorRef,
+        private _fuseSidebarService: FuseSidebarService
     ) {
         this.gridFilter = {};
     }
@@ -238,11 +238,8 @@ export class CdkEnderecoGridComponent implements AfterViewInit, OnInit, OnChange
     }
 
     toggleFilter(): void {
+        this._fuseSidebarService.getSidebar('cdk-endereco-main-sidebar').toggleOpen();
         this.showFilter = !this.showFilter;
-        if (!this.showFilter) {
-            this.gridFilter = {};
-            this.setGridFilter(this.gridFilter);
-        }
     }
 
     loadPage(): void {
@@ -319,11 +316,7 @@ export class CdkEnderecoGridComponent implements AfterViewInit, OnInit, OnChange
     }
 
     setGridFilter(gridFilter): void {
-        this.gridFilter = {
-            ...this.gridFilter,
-            ...gridFilter
-        };
-
+        this.gridFilter = gridFilter;
         this.paginator.pageIndex = 0;
         this.loadPage();
     }

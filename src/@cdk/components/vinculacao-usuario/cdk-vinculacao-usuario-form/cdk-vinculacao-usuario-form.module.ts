@@ -14,7 +14,7 @@ import {
 import {FuseSharedModule} from '@fuse/shared.module';
 import {CdkUsuarioAutocompleteModule} from '../../usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 import {CdkUsuarioGridsearchModule} from '../../usuario/cdk-usuario-autocomplete/cdk-usuario-gridsearch/cdk-usuario-gridsearch.module';
-import {UsuarioService} from '../../../services/usuario.service';
+import {UsuarioService} from '@cdk/services/usuario.service';
 import {CdkVinculacaoUsuarioFormComponent} from './cdk-vinculacao-usuario-form.component';
 
 @NgModule({

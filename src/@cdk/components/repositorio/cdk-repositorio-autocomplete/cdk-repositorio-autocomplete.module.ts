@@ -7,7 +7,7 @@ import {
 import {FuseSharedModule} from '@fuse/shared.module';
 import {RepositorioService} from '@cdk/services/repositorio.service';
 import {CdkRepositorioAutocompleteComponent} from './cdk-repositorio-autocomplete.component';
-import {PipesModule} from '../../../pipes/pipes.module';
+import {PipesModule} from '@cdk/pipes/pipes.module';
 
 @NgModule({
     declarations: [

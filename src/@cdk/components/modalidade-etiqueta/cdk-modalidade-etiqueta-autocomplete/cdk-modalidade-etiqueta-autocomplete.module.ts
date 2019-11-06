@@ -7,7 +7,7 @@ import {
 import { FuseSharedModule } from '@fuse/shared.module';
 import { ModalidadeEtiquetaService } from '@cdk/services/modalidade-etiqueta.service';
 import {CdkModalidadeEtiquetaAutocompleteComponent} from './cdk-modalidade-etiqueta-autocomplete.component';
-import {PipesModule} from '../../../pipes/pipes.module';
+import {PipesModule} from '@cdk/pipes/pipes.module';
 
 @NgModule({
     declarations: [

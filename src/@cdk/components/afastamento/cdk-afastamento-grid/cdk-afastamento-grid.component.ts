@@ -8,13 +8,12 @@ import {
 import {merge, of} from 'rxjs';
 
 import {fuseAnimations} from '@fuse/animations';
-
+import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@angular/material';
-
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 import {AfastamentoDataSource} from '@cdk/data-sources/afastamento-data-source';
 import {Afastamento} from '@cdk/models/afastamento.model';
-import {FormControl} from "@angular/forms";
+import {FormControl} from '@angular/forms';
 
 @Component({
     selector: 'cdk-afastamento-grid',
@@ -163,7 +162,8 @@ export class CdkAfastamentoGridComponent implements AfterViewInit, OnInit, OnCha
      * @param _changeDetectorRef
      */
     constructor(
-        private _changeDetectorRef: ChangeDetectorRef
+        private _changeDetectorRef: ChangeDetectorRef,
+        private _fuseSidebarService: FuseSidebarService
     ) {
         this.gridFilter = {};
     }
@@ -214,11 +214,8 @@ export class CdkAfastamentoGridComponent implements AfterViewInit, OnInit, OnCha
     }
 
     toggleFilter(): void {
+        this._fuseSidebarService.getSidebar('cdk-afastamento-main-sidebar').toggleOpen();
         this.showFilter = !this.showFilter;
-        if (!this.showFilter) {
-            this.gridFilter = {};
-            this.setGridFilter(this.gridFilter);
-        }
     }
 
     loadPage(): void {
@@ -297,11 +294,7 @@ export class CdkAfastamentoGridComponent implements AfterViewInit, OnInit, OnCha
     }
 
     setGridFilter(gridFilter): void {
-        this.gridFilter = {
-            ...this.gridFilter,
-            ...gridFilter
-        };
-
+        this.gridFilter = gridFilter;
         this.paginator.pageIndex = 0;
         this.loadPage();
     }

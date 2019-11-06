@@ -13,10 +13,10 @@ import {FormControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@angular/material';
-import {Pagination} from '../../../models/pagination';
+import {Pagination} from '@cdk/models/pagination';
 
 @Component({
-    selector: 'cdk-modalidade-tipo-inibidorautocomplete',
+    selector: 'cdk-modalidade-tipo-inibidor-autocomplete',
     templateUrl: './cdk-modalidade-tipo-inibidor-autocomplete.component.html',
     styleUrls: ['./cdk-modalidade-tipo-inibidor-autocomplete.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,

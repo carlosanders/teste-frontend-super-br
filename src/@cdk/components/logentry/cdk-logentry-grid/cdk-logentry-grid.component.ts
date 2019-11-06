@@ -15,6 +15,7 @@ import {LogEntry} from '@cdk/models/logentry.model';
 import {LogEntryDataSource} from '@cdk/data-sources/logentry-data-source';
 import {FormControl} from '@angular/forms';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
+import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 
 @Component({
     selector: 'cdk-logentry-grid',
@@ -167,7 +168,8 @@ export class CdkLogentryGridComponent implements AfterViewInit, OnInit, OnChange
      * @param _changeDetectorRef
      */
     constructor(
-        private _changeDetectorRef: ChangeDetectorRef
+        private _changeDetectorRef: ChangeDetectorRef,
+        private _fuseSidebarService: FuseSidebarService
     ) {
         this.gridFilter = {};
         this.logEntrys = [];
@@ -221,11 +223,8 @@ export class CdkLogentryGridComponent implements AfterViewInit, OnInit, OnChange
     }
 
     toggleFilter(): void {
+        this._fuseSidebarService.getSidebar('cdk-logentry-main-sidebar').toggleOpen();
         this.showFilter = !this.showFilter;
-        if (!this.showFilter) {
-            this.gridFilter = {};
-            this.setGridFilter(this.gridFilter);
-        }
     }
 
     loadPage(): void {
@@ -302,11 +301,7 @@ export class CdkLogentryGridComponent implements AfterViewInit, OnInit, OnChange
     }
 
     setGridFilter(gridFilter): void {
-        this.gridFilter = {
-            ...this.gridFilter,
-            ...gridFilter
-        };
-
+        this.gridFilter = gridFilter;
         this.paginator.pageIndex = 0;
         this.loadPage();
     }

@@ -12,13 +12,16 @@ import {
     MatSelectModule,
 } from '@angular/material';
 
+import {FuseSidebarModule} from '@fuse/components';
 import {FuseSharedModule} from '@fuse/shared.module';
 import {CdkAssinaturaGridComponent} from './cdk-assinatura-grid.component';
 import {CdkAssinaturaGridFilterModule} from './cdk-assinatura-grid-filter/cdk-assinatura-grid-filter.module';
+import {CdkAssinaturaMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
-        CdkAssinaturaGridComponent
+        CdkAssinaturaGridComponent,
+        CdkAssinaturaMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,
@@ -30,11 +33,12 @@ import {CdkAssinaturaGridFilterModule} from './cdk-assinatura-grid-filter/cdk-as
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
+        MatTooltipModule,
 
         CdkAssinaturaGridFilterModule,
 
         FuseSharedModule,
-        MatTooltipModule,
+        FuseSidebarModule,
     ],
     providers: [],
     exports: [

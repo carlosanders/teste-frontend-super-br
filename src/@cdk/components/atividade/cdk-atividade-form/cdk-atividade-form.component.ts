@@ -17,9 +17,9 @@ import {Pagination} from '@cdk/models/pagination';
 import {Setor} from '@cdk/models/setor.model';
 import {catchError, debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
-import {DocumentoAvulso} from '../../../models/documento-avulso.model';
-import {Favorito} from '../../../models/favorito.model';
-import {FavoritoService} from '../../../services/favorito.service';
+import {DocumentoAvulso} from '@cdk/models/documento-avulso.model';
+import {Favorito} from '@cdk/models/favorito.model';
+import {FavoritoService} from '@cdk/services/favorito.service';
 import {LoginService} from '../../../../app/main/auth/login/login.service';
 
 @Component({

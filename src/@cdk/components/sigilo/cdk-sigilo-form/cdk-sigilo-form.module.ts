@@ -13,15 +13,15 @@ import {
 
 import {FuseSharedModule} from '@fuse/shared.module';
 import {CdkSigiloFormComponent} from './cdk-sigilo-form.component';
-import {ProcessoService} from '../../../services/processo.service';
+import {ProcessoService} from '@cdk/services/processo.service';
 import {CdkModalidadeCategoriaSigiloAutocompleteModule} from '../../modalidade-categoria-sigilo/cdk-modalidade-categoria-sigilo-autocomplete/cdk-modalidade-categoria-sigilo-autocomplete.module';
 import {CdkTipoSigiloAutocompleteModule} from '../../tipo-sigilo/cdk-tipo-sigilo-autocomplete/cdk-tipo-sigilo-autocomplete.module';
 import {CdkModalidadeCategoriaSigiloGridsearchModule} from '../../modalidade-categoria-sigilo/cdk-modalidade-categoria-sigilo-autocomplete/cdk-modalidade-categoria-sigilo-gridsearch/cdk-modalidade-categoria-sigilo-gridsearch.module';
 import {CdkTipoSigiloGridsearchModule} from '../../tipo-sigilo/cdk-tipo-sigilo-autocomplete/cdk-tipo-sigilo-gridsearch/cdk-tipo-sigilo-gridsearch.module';
-import {ModalidadeCategoriaSigiloService} from '../../../services/modalidade-categoria-sigilo.service';
-import {TipoSigiloService} from '../../../services/tipo-sigilo.service';
-import {DocumentoService} from '../../../services/documento.service';
-import {OrigemDadosService} from '../../../services/origem-dados.service';
+import {ModalidadeCategoriaSigiloService} from '@cdk/services/modalidade-categoria-sigilo.service';
+import {TipoSigiloService} from '@cdk/services/tipo-sigilo.service';
+import {DocumentoService} from '@cdk/services/documento.service';
+import {OrigemDadosService} from '@cdk/services/origem-dados.service';
 import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
 
 @NgModule({

@@ -22,10 +22,10 @@ import {CdkUsuarioGridsearchModule} from '../../usuario/cdk-usuario-autocomplete
 import {CdkProcessoAutocompleteModule} from '../../processo/cdk-processo-autocomplete/cdk-processo-autocomplete.module';
 import {CdkProcessoGridsearchModule} from '../../processo/cdk-processo-autocomplete/cdk-processo-gridsearch/cdk-processo-gridsearch.module';
 
-import {UsuarioService} from '../../../services/usuario.service';
+import {UsuarioService} from '@cdk/services/usuario.service';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
-import {ProcessoService} from '../../../services/processo.service';
+import {ProcessoService} from '@cdk/services/processo.service';
 
 import {CdkSetorAutocompleteModule} from '../../setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
 import {CdkSetorGridsearchModule} from '../../setor/cdk-setor-autocomplete/cdk-setor-gridsearch/cdk-setor-gridsearch.module';

@@ -17,10 +17,13 @@ import {CdkTipoDocumentoAutocompleteModule} from '@cdk/components/tipo-documento
 import {CdkDocumentoGridComponent} from './cdk-documento-grid.component';
 import {CdkDocumentoGridFilterModule} from './cdk-documento-grid-filter/cdk-documento-grid-filter.module';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
+import {CdkDocumentoMainSidebarComponent} from './sidebars/main/main.component';
+import {FuseSidebarModule} from '@fuse/components';
 
 @NgModule({
     declarations: [
-        CdkDocumentoGridComponent
+        CdkDocumentoGridComponent,
+        CdkDocumentoMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,
@@ -32,12 +35,13 @@ import {ComponenteDigitalService} from '@cdk/services/componente-digital.service
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
+        MatTooltipModule,
 
         CdkTipoDocumentoAutocompleteModule,
         CdkDocumentoGridFilterModule,
 
         FuseSharedModule,
-        MatTooltipModule,
+        FuseSidebarModule,
     ],
     providers: [
         TipoDocumentoService,

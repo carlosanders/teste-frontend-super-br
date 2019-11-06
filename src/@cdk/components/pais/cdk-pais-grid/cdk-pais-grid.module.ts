@@ -11,15 +11,18 @@ import {
     MatSelectModule,
 } from '@angular/material';
 
+import {FuseSidebarModule} from '@fuse/components';
 import {FuseSharedModule} from '@fuse/shared.module';
 import {PaisService} from '@cdk/services/pais.service';
 import {CdkPaisGridComponent} from './cdk-pais-grid.component';
 import {CdkPaisAutocompleteModule} from '@cdk/components/pais/cdk-pais-autocomplete/cdk-pais-autocomplete.module';
 import {CdkPaisGridFilterModule} from './cdk-pais-grid-filter/cdk-pais-grid-filter.module';
+import {CdkPaisMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
-        CdkPaisGridComponent
+        CdkPaisGridComponent,
+        CdkPaisMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,
@@ -36,6 +39,7 @@ import {CdkPaisGridFilterModule} from './cdk-pais-grid-filter/cdk-pais-grid-filt
         CdkPaisGridFilterModule,
 
         FuseSharedModule,
+        FuseSidebarModule,
     ],
     providers: [
         PaisService,

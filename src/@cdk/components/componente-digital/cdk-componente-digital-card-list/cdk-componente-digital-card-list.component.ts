@@ -13,10 +13,10 @@ import {HttpClient, HttpErrorResponse, HttpEventType, HttpRequest} from '@angula
 import {catchError, last, map, tap} from 'rxjs/operators';
 import {of, Subscription} from 'rxjs';
 import {environment} from 'environments/environment';
-import {Processo} from '../../../models/processo.model';
-import {Tarefa} from '../../../models/tarefa.model';
-import {Documento} from '../../../models/documento.model';
-import {DocumentoAvulso} from '../../../models/documento-avulso.model';
+import {Processo} from '@cdk/models/processo.model';
+import {Tarefa} from '@cdk/models/tarefa.model';
+import {Documento} from '@cdk/models/documento.model';
+import {DocumentoAvulso} from '@cdk/models/documento-avulso.model';
 
 @Component({
     selector: 'cdk-componente-digital-card-list',

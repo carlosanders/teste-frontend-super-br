@@ -8,14 +8,13 @@ import {
 import {merge, of} from 'rxjs';
 
 import {fuseAnimations} from '@fuse/animations';
-
+import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@angular/material';
-
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
 import {Desentranhamento} from '@cdk/models/desentranhamento.model';
 import {DesentranhamentoDataSource} from '@cdk/data-sources/desentranhamento-data-source';
-import {FormControl} from "@angular/forms";
+import {FormControl} from '@angular/forms';
 
 @Component({
     selector: 'cdk-desentranhamento-grid',
@@ -153,7 +152,8 @@ export class CdkDesentranhamentoGridComponent implements AfterViewInit, OnInit, 
      * @param _changeDetectorRef
      */
     constructor(
-        private _changeDetectorRef: ChangeDetectorRef
+        private _changeDetectorRef: ChangeDetectorRef,
+        private _fuseSidebarService: FuseSidebarService
     ) {
         this.gridFilter = {};
         this.desentranhamentos = [];
@@ -205,11 +205,8 @@ export class CdkDesentranhamentoGridComponent implements AfterViewInit, OnInit, 
     }
 
     toggleFilter(): void {
+        this._fuseSidebarService.getSidebar('cdk-desentranhamento-main-sidebar').toggleOpen();
         this.showFilter = !this.showFilter;
-        if (!this.showFilter) {
-            this.gridFilter = {};
-            this.setGridFilter(this.gridFilter);
-        }
     }
 
     loadPage(): void {
@@ -286,11 +283,7 @@ export class CdkDesentranhamentoGridComponent implements AfterViewInit, OnInit, 
     }
 
     setGridFilter(gridFilter): void {
-        this.gridFilter = {
-            ...this.gridFilter,
-            ...gridFilter
-        };
-
+        this.gridFilter = gridFilter;
         this.paginator.pageIndex = 0;
         this.loadPage();
     }

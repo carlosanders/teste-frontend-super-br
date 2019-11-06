@@ -11,9 +11,9 @@ import { fuseAnimations } from '@fuse/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { Colaborador } from '@cdk/models/colaborador.model';
 import { ModalidadeColaborador } from '@cdk/models/modalidade-colaborador.model';
-import {Usuario} from '../../../models/usuario.model';
-import {Cargo} from '../../../models/cargo.model';
-import {Pagination} from '../../../models/pagination';
+import {Usuario} from '@cdk/models/usuario.model';
+import {Cargo} from '@cdk/models/cargo.model';
+import {Pagination} from '@cdk/models/pagination';
 
 @Component({
     selector: 'cdk-colaborador-form',

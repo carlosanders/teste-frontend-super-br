@@ -7,7 +7,7 @@ import {
 import { FuseSharedModule } from '@fuse/shared.module';
 import { ModalidadeTipoInibidorService } from '@cdk/services/modalidade-tipo-inibidor.service';
 import {CdkModalidadeTipoInibidorAutocompleteComponent} from './cdk-modalidade-tipo-inibidor-autocomplete.component';
-import {PipesModule} from '../../../pipes/pipes.module';
+import {PipesModule} from '@cdk/pipes/pipes.module';
 
 @NgModule({
     declarations: [

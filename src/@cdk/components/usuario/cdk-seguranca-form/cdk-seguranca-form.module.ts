@@ -15,7 +15,7 @@ import {
 import {FuseSharedModule} from '@fuse/shared.module';
 import {CdkSegurancaFormComponent} from './cdk-seguranca-form.component';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
-import {UsuarioService} from '../../../services/usuario.service';
+import {UsuarioService} from '@cdk/services/usuario.service';
 
 @NgModule({
     declarations: [

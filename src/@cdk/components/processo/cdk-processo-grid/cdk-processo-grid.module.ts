@@ -10,22 +10,27 @@ import {
     MatSortModule,
     MatTooltipModule,
     MatSelectModule,
+    MatAutocompleteModule,
+    MatDatepickerModule,
 } from '@angular/material';
 
+import {FuseSidebarModule} from '@fuse/components';
 import {FuseSharedModule} from '@fuse/shared.module';
 import {ProcessoService} from '@cdk/services/processo.service';
 import {CdkProcessoGridComponent} from './cdk-processo-grid.component';
 import {CdkProcessoAutocompleteModule} from '@cdk/components/processo/cdk-processo-autocomplete/cdk-processo-autocomplete.module';
 import {CdkProcessoGridFilterModule} from './cdk-processo-grid-filter/cdk-processo-grid-filter.module';
-import {CommonModule} from "@angular/common";
+import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
+import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
+import {CdkProcessoMainSidebarComponent} from './sidebars/main/main.component';
+import {CommonModule} from '@angular/common';
 
 @NgModule({
     declarations: [
-        CdkProcessoGridComponent
+        CdkProcessoGridComponent,
+        CdkProcessoMainSidebarComponent
     ],
     imports: [
-        CommonModule,
-
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,
@@ -34,13 +39,21 @@ import {CommonModule} from "@angular/common";
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
-        MatTooltipModule,
         MatSelectModule,
+        MatTooltipModule,
+        MatAutocompleteModule,
+        MatDatepickerModule,
+        MatDatetimepickerModule,
+        MatNativeDatetimeModule,
+        MatMomentDatetimeModule,
+
+        FuseSharedModule,
+        FuseSidebarModule,
 
         CdkProcessoAutocompleteModule,
         CdkProcessoGridFilterModule,
 
-        FuseSharedModule,
+        CommonModule,
     ],
     providers: [
         ProcessoService,

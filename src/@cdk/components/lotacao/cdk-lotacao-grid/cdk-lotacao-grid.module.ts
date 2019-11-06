@@ -11,14 +11,17 @@ import {
     MatSelectModule,
 } from '@angular/material';
 
+import {FuseSidebarModule} from '@fuse/components';
 import {FuseSharedModule} from '@fuse/shared.module';
 import {LotacaoService} from '@cdk/services/lotacao.service';
 import {CdkLotacaoGridComponent} from './cdk-lotacao-grid.component';
 import {CdkLotacaoGridFilterModule} from './cdk-lotacao-grid-filter/cdk-lotacao-grid-filter.module';
+import {CdkLotacaoMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
-        CdkLotacaoGridComponent
+        CdkLotacaoGridComponent,
+        CdkLotacaoMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,
@@ -34,6 +37,7 @@ import {CdkLotacaoGridFilterModule} from './cdk-lotacao-grid-filter/cdk-lotacao-
         CdkLotacaoGridFilterModule,
 
         FuseSharedModule,
+        FuseSidebarModule,
     ],
     providers: [
         LotacaoService,

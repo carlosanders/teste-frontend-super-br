@@ -11,15 +11,18 @@ import {
     MatSelectModule,
 } from '@angular/material';
 
+import {FuseSidebarModule} from '@fuse/components';
 import {FuseSharedModule} from '@fuse/shared.module';
 import {AssuntoAdministrativoService} from '@cdk/services/assunto-administrativo.service';
 import {CdkAssuntoAdministrativoGridComponent} from './cdk-assunto-administrativo-grid.component';
 import {CdkAssuntoAdministrativoAutocompleteModule} from '@cdk/components/assunto-administrativo/cdk-assunto-administrativo-autocomplete/cdk-assunto-administrativo-autocomplete.module';
 import {CdkAssuntoAdministrativoGridFilterModule} from './cdk-assunto-administrativo-grid-filter/cdk-assunto-administrativo-grid-filter.module';
+import {CdkAssuntoAdministrativoMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
-        CdkAssuntoAdministrativoGridComponent
+        CdkAssuntoAdministrativoGridComponent,
+        CdkAssuntoAdministrativoMainSidebarComponent
     ],
     imports: [
         MatSelectModule,
@@ -36,6 +39,7 @@ import {CdkAssuntoAdministrativoGridFilterModule} from './cdk-assunto-administra
         CdkAssuntoAdministrativoGridFilterModule,
 
         FuseSharedModule,
+        FuseSidebarModule,
     ],
     providers: [
         AssuntoAdministrativoService,

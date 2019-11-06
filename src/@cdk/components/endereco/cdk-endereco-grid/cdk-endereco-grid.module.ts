@@ -11,15 +11,18 @@ import {
     MatSelectModule,
 } from '@angular/material';
 
+import {FuseSidebarModule} from '@fuse/components';
 import {FuseSharedModule} from '@fuse/shared.module';
 import {MunicipioService} from '@cdk/services/municipio.service';
 import {CdkMunicipioAutocompleteModule} from '@cdk/components/municipio/cdk-municipio-autocomplete/cdk-municipio-autocomplete.module';
 import {CdkEnderecoGridComponent} from './cdk-endereco-grid.component';
 import {CdkEnderecoGridFilterModule} from './cdk-endereco-grid-filter/cdk-endereco-grid-filter.module';
+import {CdkEnderecoMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
-        CdkEnderecoGridComponent
+        CdkEnderecoGridComponent,
+        CdkEnderecoMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,
@@ -36,6 +39,7 @@ import {CdkEnderecoGridFilterModule} from './cdk-endereco-grid-filter/cdk-endere
         CdkEnderecoGridFilterModule,
 
         FuseSharedModule,
+        FuseSidebarModule,
     ],
     providers: [
         MunicipioService,

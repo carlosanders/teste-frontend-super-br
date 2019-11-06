@@ -4,13 +4,32 @@
     <div fxFlex="1 0 auto" fxLayout="column">
 
         <mat-form-field fxFlex="100">
-            <mat-label>Nome</mat-label>
-            <input matInput #nome
-                   name="nome"
-                   formControlName="nome"
-                   maxlength="255">
-            <mat-hint align="end">{{nome.value.length}} / 255</mat-hint>
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Documento"
+                       formControlName="documento"
+                       [matAutocomplete]="documento.autocomplete">
+            </div>
+            <cdk-documento-autocomplete #documento="documentoAutocomplete" [control]="form.get('documento')">
+            </cdk-documento-autocomplete>
         </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Usuário"
+                       formControlName="usuario"
+                       [matAutocomplete]="usuario.autocomplete">
+            </div>
+            <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('usuario')">
+            </cdk-usuario-autocomplete>
+        </mat-form-field>
+
+        <mat-checkbox formControlName="dono" class="mr-16 mb-16" fxFlex="0 1 auto">
+            Dono
+        </mat-checkbox>
+
+        <button mat-raised-button color="warn" class="mr-sm-12" (click)="limpar()">
+            Limpar
+        </button>
 
     </div>
 </form>

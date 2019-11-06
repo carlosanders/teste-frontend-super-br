@@ -11,15 +11,18 @@ import {
     MatSelectModule,
 } from '@angular/material';
 
+import {FuseSidebarModule} from '@fuse/components';
 import {FuseSharedModule} from '@fuse/shared.module';
 import {ModalidadeEtiquetaService} from '@cdk/services/modalidade-etiqueta.service';
 import {CdkModalidadeEtiquetaGridComponent} from './cdk-modalidade-etiqueta-grid.component';
 import {CdkModalidadeEtiquetaAutocompleteModule} from '@cdk/components/modalidade-etiqueta/cdk-modalidade-etiqueta-autocomplete/cdk-modalidade-etiqueta-autocomplete.module';
 import {CdkModalidadeEtiquetaGridFilterModule} from './cdk-modalidade-etiqueta-grid-filter/cdk-modalidade-etiqueta-grid-filter.module';
+import {CdkModalidadeEtiquetaMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
-        CdkModalidadeEtiquetaGridComponent
+        CdkModalidadeEtiquetaGridComponent,
+        CdkModalidadeEtiquetaMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,
@@ -36,6 +39,7 @@ import {CdkModalidadeEtiquetaGridFilterModule} from './cdk-modalidade-etiqueta-g
         CdkModalidadeEtiquetaGridFilterModule,
 
         FuseSharedModule,
+        FuseSidebarModule,
     ],
     providers: [
         ModalidadeEtiquetaService,

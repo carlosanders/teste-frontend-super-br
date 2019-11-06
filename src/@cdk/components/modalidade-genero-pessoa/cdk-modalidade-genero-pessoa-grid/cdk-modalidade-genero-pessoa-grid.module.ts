@@ -11,15 +11,18 @@ import {
     MatSelectModule,
 } from '@angular/material';
 
+import {FuseSidebarModule} from '@fuse/components';
 import {FuseSharedModule} from '@fuse/shared.module';
 import {ModalidadeGeneroPessoaService} from '@cdk/services/modalidade-genero-pessoa.service';
 import {CdkModalidadeGeneroPessoaGridComponent} from './cdk-modalidade-genero-pessoa-grid.component';
 import {CdkModalidadeGeneroPessoaAutocompleteModule} from '@cdk/components/modalidade-genero-pessoa/cdk-modalidade-genero-pessoa-autocomplete/cdk-modalidade-genero-pessoa-autocomplete.module';
 import {CdkModalidadeGeneroPessoaGridFilterModule} from './cdk-modalidade-genero-pessoa-grid-filter/cdk-modalidade-genero-pessoa-grid-filter.module';
+import {CdkModalidadeGeneroPessoaMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
-        CdkModalidadeGeneroPessoaGridComponent
+        CdkModalidadeGeneroPessoaGridComponent,
+        CdkModalidadeGeneroPessoaMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,
@@ -36,6 +39,7 @@ import {CdkModalidadeGeneroPessoaGridFilterModule} from './cdk-modalidade-genero
         CdkModalidadeGeneroPessoaGridFilterModule,
 
         FuseSharedModule,
+        FuseSidebarModule,
     ],
     providers: [
         ModalidadeGeneroPessoaService,

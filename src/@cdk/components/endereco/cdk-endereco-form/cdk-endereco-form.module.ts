@@ -18,7 +18,7 @@ import { CdkMunicipioAutocompleteModule } from '@cdk/components/municipio/cdk-mu
 import { CdkMunicipioGridsearchModule } from '@cdk/components/municipio/cdk-municipio-autocomplete/cdk-municipio-gridsearch/cdk-municipio-gridsearch.module';
 import {CdkPaisAutocompleteModule} from '../../pais/cdk-pais-autocomplete/cdk-pais-autocomplete.module';
 import {CdkPaisGridsearchModule} from '../../pais/cdk-pais-autocomplete/cdk-pais-gridsearch/cdk-pais-gridsearch.module';
-import {PaisService} from '../../../services/pais.service';
+import {PaisService} from '@cdk/services/pais.service';
 
 @NgModule({
     declarations: [

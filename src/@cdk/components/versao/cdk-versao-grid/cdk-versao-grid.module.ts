@@ -13,10 +13,13 @@ import {
 import {FuseSharedModule} from '@fuse/shared.module';
 import {LogEntryService} from '@cdk/services/logentry.service';
 import {CdkVersaoGridComponent} from './cdk-versao-grid.component';
+import {FuseSidebarModule} from '@fuse/components';
+import {CdkVersaoMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
-        CdkVersaoGridComponent
+        CdkVersaoGridComponent,
+        CdkVersaoMainSidebarComponent,
     ],
     imports: [
         MatButtonModule,
@@ -27,7 +30,9 @@ import {CdkVersaoGridComponent} from './cdk-versao-grid.component';
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
+
         FuseSharedModule,
+        FuseSidebarModule,
     ],
     providers: [
         LogEntryService,

@@ -10,9 +10,9 @@ import {
 import {fuseAnimations} from '@fuse/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {VinculacaoProcesso} from '@cdk/models/vinculacao-processo.model';
-import {Pagination} from '../../../models/pagination';
+import {Pagination} from '@cdk/models/pagination';
 import {Processo} from '@cdk/models/processo.model';
-import {ModalidadeVinculacaoProcesso} from '../../../models/modalidade-vinculacao-processo.model';
+import {ModalidadeVinculacaoProcesso} from '@cdk/models/modalidade-vinculacao-processo.model';
 
 @Component({
     selector: 'cdk-vinculacao-processo-form',

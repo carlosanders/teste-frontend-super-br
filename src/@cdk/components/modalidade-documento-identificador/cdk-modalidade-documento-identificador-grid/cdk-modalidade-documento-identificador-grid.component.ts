@@ -8,14 +8,13 @@ import {
 import {merge, of} from 'rxjs';
 
 import {fuseAnimations} from '@fuse/animations';
-
+import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@angular/material';
-
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
 import {ModalidadeDocumentoIdentificador} from '@cdk/models/modalidade-documento-identificador.model';
 import {ModalidadeDocumentoIdentificadorDataSource} from '@cdk/data-sources/modalidade-documento-identificador-data-source';
-import {FormControl} from "@angular/forms";
+import {FormControl} from '@angular/forms';
 
 @Component({
     selector: 'cdk-modalidade-documento-identificador-grid',
@@ -153,7 +152,8 @@ export class CdkModalidadeDocumentoIdentificadorGridComponent implements AfterVi
      * @param _changeDetectorRef
      */
     constructor(
-        private _changeDetectorRef: ChangeDetectorRef
+        private _changeDetectorRef: ChangeDetectorRef,
+        private _fuseSidebarService: FuseSidebarService
     ) {
         this.gridFilter = {};
         this.modalidadedocumentoIdentificadors = [];
@@ -205,11 +205,8 @@ export class CdkModalidadeDocumentoIdentificadorGridComponent implements AfterVi
     }
 
     toggleFilter(): void {
+        this._fuseSidebarService.getSidebar('cdk-modalidade-documento-identificador-main-sidebar').toggleOpen();
         this.showFilter = !this.showFilter;
-        if (!this.showFilter) {
-            this.gridFilter = {};
-            this.setGridFilter(this.gridFilter);
-        }
     }
 
     loadPage(): void {
@@ -286,11 +283,7 @@ export class CdkModalidadeDocumentoIdentificadorGridComponent implements AfterVi
     }
 
     setGridFilter(gridFilter): void {
-        this.gridFilter = {
-            ...this.gridFilter,
-            ...gridFilter
-        };
-
+        this.gridFilter = gridFilter;
         this.paginator.pageIndex = 0;
         this.loadPage();
     }

@@ -16,7 +16,7 @@ import { FuseSharedModule } from '@fuse/shared.module';
 import { ModalidadeColaboradorService } from '@cdk/services/modalidade-colaborador.service';
 import { CdkPerfilFormComponent } from './cdk-perfil-form.component';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
-import {ColaboradorService} from '../../../services/colaborador.service';
+import {ColaboradorService} from '@cdk/services/colaborador.service';
 
 @NgModule({
     declarations: [

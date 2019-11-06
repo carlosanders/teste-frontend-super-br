@@ -19,7 +19,7 @@ import {CdkCampoPluginComponent} from './cdk-plugins/cdk-campo-plugin/cdk-campo-
 import {filter} from 'rxjs/operators';
 import {CdkRepositorioPluginComponent} from './cdk-plugins/cdk-respositorio-plugin/cdk-repositorio-plugin.component';
 import {CdkVersaoPluginComponent} from './cdk-plugins/cdk-versao-plugin/cdk-versao-plugin.component';
-import {Pagination} from '../../../models/pagination';
+import {Pagination} from '@cdk/models/pagination';
 
 @Component({
     selector: 'cdk-componente-digital-ckeditor',

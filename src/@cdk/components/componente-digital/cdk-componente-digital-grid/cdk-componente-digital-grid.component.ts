@@ -8,14 +8,13 @@ import {
 import {merge, of} from 'rxjs';
 
 import {fuseAnimations} from '@fuse/animations';
-
+import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@angular/material';
-
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 import {ComponenteDigitalDataSource} from '@cdk/data-sources/componente-digital-data-source';
 import {ComponenteDigital} from '@cdk/models/componente-digital.model';
 import {environment} from 'environments/environment';
-import {FormControl} from "@angular/forms";
+import {FormControl} from '@angular/forms';
 
 @Component({
     selector: 'cdk-componente-digital-grid',
@@ -261,9 +260,11 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
      * @param _changeDetectorRef
      */
     constructor(
-        private _changeDetectorRef: ChangeDetectorRef
+        private _changeDetectorRef: ChangeDetectorRef,
+        private _fuseSidebarService: FuseSidebarService
     ) {
         this.gridFilter = {};
+        this.componentesDigitais = [];
     }
 
     ngOnChanges(): void {
@@ -281,9 +282,9 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
 
         this.dataSource = new ComponenteDigitalDataSource(of(this.componentesDigitais));
 
-        if (this.mode === 'search') {
-            this.toggleFilter();
-        }
+        // if (this.mode === 'search') {
+        //     this.toggleFilter();
+        // }
 
         this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
 
@@ -316,11 +317,8 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
     }
 
     toggleFilter(): void {
+        this._fuseSidebarService.getSidebar('cdk-componente-digital-main-sidebar').toggleOpen();
         this.showFilter = !this.showFilter;
-        if (!this.showFilter) {
-            this.gridFilter = {};
-            this.setGridFilter(this.gridFilter);
-        }
     }
 
     loadPage(): void {
@@ -332,8 +330,8 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
         });
     }
 
-    editComponenteDigital(ComponenteDigital): void {
-        this.edit.emit(ComponenteDigital);
+    editComponenteDigital(componenteDigital): void {
+        this.edit.emit(componenteDigital);
     }
 
     selectComponenteDigital(componenteDigital: ComponenteDigital): void {
@@ -397,11 +395,7 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
     }
 
     setGridFilter(gridFilter): void {
-        this.gridFilter = {
-            ...this.gridFilter,
-            ...gridFilter
-        };
-
+        this.gridFilter = gridFilter;
         this.paginator.pageIndex = 0;
         this.loadPage();
     }

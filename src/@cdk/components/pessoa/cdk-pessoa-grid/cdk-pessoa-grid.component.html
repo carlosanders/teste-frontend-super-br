@@ -1,10 +1,12 @@
-<!-- CONTENT HEADER -->
-<div class="header" fxLayout="column" *ngIf="showFilter">
-    <div class="filters">
-        <cdk-pessoa-grid-filter (selected)="setGridFilter($event)"></cdk-pessoa-grid-filter>
+<!-- SIDEBAR -->
+<fuse-sidebar class="sidebar" name="cdk-pessoa-main-sidebar" position="left">
+    <!-- SIDEBAR CONTENT -->
+    <div class="content" fusePerfectScrollbar>
+        <cdk-pessoa-main-sidebar (selected)="setGridFilter($event)" [@animate]="{value:'*'}"></cdk-pessoa-main-sidebar>
     </div>
-</div>
-<!-- / CONTENT HEADER -->
+    <!-- / SIDEBAR CONTENT -->
+</fuse-sidebar>
+<!-- / SIDEBAR -->
 
 <!-- CONTENT -->
 <div class="content" fxLayoutAlign="center start">
@@ -42,7 +44,7 @@
                 <mat-icon>refresh</mat-icon>
             </button>
 
-            <button *ngIf="mode === 'list'" class="toggle-filter" mat-icon-button
+            <button *ngIf="mode === 'list'" class="toggle-filter" mat-icon-button [ngClass]="{'warn': (gridFilter | json) != '{}'}"
                     (click)="toggleFilter()"
                     aria-label="filtrar"
                     matTooltip="Filtrar">

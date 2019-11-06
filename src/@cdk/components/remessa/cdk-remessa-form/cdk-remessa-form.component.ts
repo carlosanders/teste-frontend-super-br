@@ -10,7 +10,7 @@ import {
 import {fuseAnimations} from '@fuse/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Tramitacao} from '@cdk/models/tramitacao.model';
-import {Pagination} from '../../../models/pagination';
+import {Pagination} from '@cdk/models/pagination';
 import {Processo} from '@cdk/models/processo.model';
 import {Setor} from '@cdk/models/setor.model';
 import {Pessoa} from '@cdk/models/pessoa.model';

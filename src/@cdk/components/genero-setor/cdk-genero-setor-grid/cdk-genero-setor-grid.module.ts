@@ -11,15 +11,18 @@ import {
     MatSelectModule,
 } from '@angular/material';
 
+import {FuseSidebarModule} from '@fuse/components';
 import {FuseSharedModule} from '@fuse/shared.module';
 import {GeneroSetorService} from '@cdk/services/genero-setor.service';
 import {CdkGeneroSetorGridComponent} from './cdk-genero-setor-grid.component';
 import {CdkGeneroSetorAutocompleteModule} from '@cdk/components/genero-setor/cdk-genero-setor-autocomplete/cdk-genero-setor-autocomplete.module';
 import {CdkGeneroSetorGridFilterModule} from './cdk-genero-setor-grid-filter/cdk-genero-setor-grid-filter.module';
+import {CdkGeneroSetorMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
-        CdkGeneroSetorGridComponent
+        CdkGeneroSetorGridComponent,
+        CdkGeneroSetorMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,
@@ -36,6 +39,7 @@ import {CdkGeneroSetorGridFilterModule} from './cdk-genero-setor-grid-filter/cdk
         CdkGeneroSetorGridFilterModule,
 
         FuseSharedModule,
+        FuseSidebarModule,
     ],
     providers: [
         GeneroSetorService,
