@@ -70,6 +70,15 @@
                         <span>Por Cópia</span>
                     </ng-container>
                 </button>
+
+                <button *ngIf="!(isSaving$ | async)" mat-menu-item aria-label="aprova um documento"
+                        (click)="aprovar()">
+                    <ng-container>
+                        <mat-icon>file_copy</mat-icon>
+                        <span>Aprovar</span>
+                    </ng-container>
+                </button>
+
             </mat-menu>
 
             <cdk-documento-card-list [documentos]="(documentosVinculados$ | async)"
