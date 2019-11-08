@@ -43,6 +43,12 @@ export class ProcessoMainSidebarComponent implements OnInit, OnDestroy {
                 icon: 'library_books',
                 link: 'visualizar',
                 processo: true
+            },
+            {
+                nome: 'Download',
+                icon: 'cloud_download',
+                link: 'download',
+                processo: true
             }
         ];
     }

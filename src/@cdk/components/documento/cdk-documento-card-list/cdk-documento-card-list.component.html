@@ -3,7 +3,8 @@
 
     <mat-checkbox (click)="toggleSelectAll($event)"
                   [checked]="selectedIds.length"
-                  [indeterminate]="isIndeterminate">
+                  [indeterminate]="isIndeterminate"
+                  *ngIf="documentos.length > 1">
     </mat-checkbox>
 
     <button mat-icon-button [matMenuTriggerFor]="moreMenu"

@@ -36,12 +36,6 @@
                     </button>
                 </div>
 
-                <div class="actions">
-                    <button *ngIf="(processo$ | async)?.id" mat-icon-button aria-label="Download" matTooltip="Download"
-                            (click)="downloadAsPdf()">
-                        <mat-icon class="black-fg">cloud_download</mat-icon>
-                    </button>
-                </div>
             </div>
 
             <cdk-vinculacao-etiqueta-chips *ngIf="(processo$ | async)?.id" class="mr-24 ml-24"
@@ -54,9 +48,7 @@
 
         <!-- CONTENT CARD -->
         <div class="content-card">
-
-            <router-outlet></router-outlet>
-
+             <router-outlet></router-outlet>
         </div>
         <!-- / CONTENT CARD -->
 

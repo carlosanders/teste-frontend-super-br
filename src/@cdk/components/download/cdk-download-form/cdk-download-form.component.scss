@@ -1,0 +1,25 @@
+cdk-download-form {
+
+    form {
+        width: 100%;
+
+        mat-radio-button {
+            margin-top: 5px;
+            margin-right: 15px;
+            margin-bottom: 15px;
+        }
+    }
+
+    .form-card {
+        border-radius: 8px;
+    }
+
+    .form-errors-model {
+        flex: 1;
+
+        code {
+            background: none !important;
+        }
+    }
+
+}

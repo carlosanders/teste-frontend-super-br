@@ -18,11 +18,11 @@ import * as fromStore from 'app/main/apps/processo/store';
 import {locale as english} from 'app/main/apps/processo/i18n/en';
 import {fuseAnimations} from '@fuse/animations';
 import {getRouterState} from '../../../store/reducers';
-import {DownloadAsPdfProcesso} from 'app/main/apps/processo/store';
 import {Etiqueta} from '@cdk/models/etiqueta.model';
 import {VinculacaoEtiqueta} from '@cdk/models/vinculacao-etiqueta.model';
 import {Pagination} from '@cdk/models/pagination';
 import {LoginService} from '../../auth/login/login.service';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'processo',
@@ -51,13 +51,15 @@ export class ProcessoComponent implements OnInit, OnDestroy {
      * @param _fuseTranslationLoaderService
      * @param _store
      * @param _loginService
+     * @param _router
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _fuseSidebarService: FuseSidebarService,
         private _fuseTranslationLoaderService: FuseTranslationLoaderService,
         private _store: Store<fromStore.ProcessoAppState>,
-        private _loginService: LoginService
+        private _loginService: LoginService,
+        private _router: Router
     ) {
         // Set the defaults
         this._profile = _loginService.getUserProfile();
@@ -117,10 +119,6 @@ export class ProcessoComponent implements OnInit, OnDestroy {
      */
     toggleSidebar(name): void {
         this._fuseSidebarService.getSidebar(name).toggleOpen();
-    }
-
-    downloadAsPdf(): void {
-        this._store.dispatch(new DownloadAsPdfProcesso());
     }
 
     onEtiquetaCreate(etiqueta: Etiqueta): void {
