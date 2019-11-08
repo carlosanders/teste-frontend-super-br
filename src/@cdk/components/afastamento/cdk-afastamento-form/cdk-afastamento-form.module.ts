@@ -16,7 +16,7 @@ import { ModalidadeAfastamentoService } from '@cdk/services/modalidade-afastamen
 import { CdkAfastamentoFormComponent } from './cdk-afastamento-form.component';
 import { CdkModalidadeAfastamentoAutocompleteModule } from '@cdk/components/modalidade-afastamento/cdk-modalidade-afastamento-autocomplete/cdk-modalidade-afastamento-autocomplete.module';
 import { CdkModalidadeAfastamentoGridsearchModule } from '@cdk/components/modalidade-afastamento/cdk-modalidade-afastamento-autocomplete/cdk-modalidade-afastamento-gridsearch/cdk-modalidade-afastamento-gridsearch.module';
-import {ColaboradorService} from '../../../services/colaborador.service';
+import {ColaboradorService} from '@cdk/services/colaborador.service';
 
 @NgModule({
     declarations: [

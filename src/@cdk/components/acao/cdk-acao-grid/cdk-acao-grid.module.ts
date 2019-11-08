@@ -17,11 +17,14 @@ import {AcaoService} from '@cdk/services/acao.service';
 import {CdkAcaoGridComponent} from './cdk-acao-grid.component';
 import {CdkAcaoAutocompleteModule} from '@cdk/components/acao/cdk-acao-autocomplete/cdk-acao-autocomplete.module';
 import {CdkAcaoGridFilterModule} from './cdk-acao-grid-filter/cdk-acao-grid-filter.module';
-import {CommonModule} from "@angular/common";
+import {CommonModule} from '@angular/common';
+import {FuseSidebarModule} from '@fuse/components';
+import {CdkAcaoMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
-        CdkAcaoGridComponent
+        CdkAcaoGridComponent,
+        CdkAcaoMainSidebarComponent,
     ],
     imports: [
         CommonModule,
@@ -40,6 +43,7 @@ import {CommonModule} from "@angular/common";
         CdkAcaoAutocompleteModule,
         CdkAcaoGridFilterModule,
 
+        FuseSidebarModule,
         FuseSharedModule,
     ],
     providers: [

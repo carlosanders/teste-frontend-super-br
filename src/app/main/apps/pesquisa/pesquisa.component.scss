@@ -2,6 +2,10 @@ pesquisa {
 
   width: 100%;
 
+  .ps {
+    display: contents;
+  }
+
   .sidebar {
 
     &:not(.locked-open) {

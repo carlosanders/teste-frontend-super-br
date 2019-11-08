@@ -7,7 +7,7 @@ import {
 import {FuseSharedModule} from '@fuse/shared.module';
 import {GeneroTarefaService} from '@cdk/services/genero-tarefa.service';
 import {CdkGeneroTarefaAutocompleteComponent} from './cdk-genero-tarefa-autocomplete.component';
-import {PipesModule} from '../../../pipes/pipes.module';
+import {PipesModule} from '@cdk/pipes/pipes.module';
 
 @NgModule({
     declarations: [

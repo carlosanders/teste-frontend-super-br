@@ -8,14 +8,13 @@ import {
 import {merge, of} from 'rxjs';
 
 import {fuseAnimations} from '@fuse/animations';
-
+import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@angular/material';
-
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
 import {Folder} from '@cdk/models/folder.model';
 import {FolderDataSource} from '@cdk/data-sources/folder-data-source';
-import {FormControl} from "@angular/forms";
+import {FormControl} from '@angular/forms';
 
 @Component({
     selector: 'cdk-folder-grid',
@@ -158,7 +157,8 @@ export class CdkFolderGridComponent implements AfterViewInit, OnInit, OnChanges 
      * @param _changeDetectorRef
      */
     constructor(
-        private _changeDetectorRef: ChangeDetectorRef
+        private _changeDetectorRef: ChangeDetectorRef,
+        private _fuseSidebarService: FuseSidebarService
     ) {
         this.gridFilter = {};
         this.folders = [];
@@ -210,11 +210,8 @@ export class CdkFolderGridComponent implements AfterViewInit, OnInit, OnChanges 
     }
 
     toggleFilter(): void {
+        this._fuseSidebarService.getSidebar('cdk-folder-main-sidebar').toggleOpen();
         this.showFilter = !this.showFilter;
-        if (!this.showFilter) {
-            this.gridFilter = {};
-            this.setGridFilter(this.gridFilter);
-        }
     }
 
     loadPage(): void {
@@ -291,11 +288,7 @@ export class CdkFolderGridComponent implements AfterViewInit, OnInit, OnChanges 
     }
 
     setGridFilter(gridFilter): void {
-        this.gridFilter = {
-            ...this.gridFilter,
-            ...gridFilter
-        };
-
+        this.gridFilter = gridFilter;
         this.paginator.pageIndex = 0;
         this.loadPage();
     }

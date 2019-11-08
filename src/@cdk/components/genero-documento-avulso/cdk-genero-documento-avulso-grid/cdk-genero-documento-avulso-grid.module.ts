@@ -11,15 +11,18 @@ import {
     MatSelectModule,
 } from '@angular/material';
 
+import {FuseSidebarModule} from '@fuse/components';
 import {FuseSharedModule} from '@fuse/shared.module';
 import {GeneroDocumentoAvulsoService} from '@cdk/services/genero-documento-avulso.service';
 import {CdkGeneroDocumentoAvulsoGridComponent} from './cdk-genero-documento-avulso-grid.component';
 import {CdkGeneroDocumentoAvulsoAutocompleteModule} from '@cdk/components/genero-documento-avulso/cdk-genero-documento-avulso-autocomplete/cdk-genero-documento-avulso-autocomplete.module';
 import {CdkGeneroDocumentoAvulsoGridFilterModule} from './cdk-genero-documento-avulso-grid-filter/cdk-genero-documento-avulso-grid-filter.module';
+import {CdkGeneroDocumentoAvulsoMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
-        CdkGeneroDocumentoAvulsoGridComponent
+        CdkGeneroDocumentoAvulsoGridComponent,
+        CdkGeneroDocumentoAvulsoMainSidebarComponent,
     ],
     imports: [
         MatButtonModule,
@@ -36,6 +39,7 @@ import {CdkGeneroDocumentoAvulsoGridFilterModule} from './cdk-genero-documento-a
         CdkGeneroDocumentoAvulsoGridFilterModule,
 
         FuseSharedModule,
+        FuseSidebarModule,
     ],
     providers: [
         GeneroDocumentoAvulsoService,

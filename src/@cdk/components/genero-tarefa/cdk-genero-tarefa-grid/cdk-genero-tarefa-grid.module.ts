@@ -11,15 +11,18 @@ import {
     MatSelectModule,
 } from '@angular/material';
 
+import {FuseSidebarModule} from '@fuse/components';
 import {FuseSharedModule} from '@fuse/shared.module';
 import {GeneroTarefaService} from '@cdk/services/genero-tarefa.service';
 import {CdkGeneroTarefaGridComponent} from './cdk-genero-tarefa-grid.component';
 import {CdkGeneroTarefaAutocompleteModule} from '@cdk/components/genero-tarefa/cdk-genero-tarefa-autocomplete/cdk-genero-tarefa-autocomplete.module';
 import {CdkGeneroTarefaGridFilterModule} from './cdk-genero-tarefa-grid-filter/cdk-genero-tarefa-grid-filter.module';
+import {CdkGeneroTarefaMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
-        CdkGeneroTarefaGridComponent
+        CdkGeneroTarefaGridComponent,
+        CdkGeneroTarefaMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,
@@ -36,6 +39,7 @@ import {CdkGeneroTarefaGridFilterModule} from './cdk-genero-tarefa-grid-filter/c
         CdkGeneroTarefaGridFilterModule,
 
         FuseSharedModule,
+        FuseSidebarModule,
     ],
     providers: [
         GeneroTarefaService,

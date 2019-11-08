@@ -11,15 +11,18 @@ import {
     MatSelectModule,
 } from '@angular/material';
 
+import {FuseSidebarModule} from '@fuse/components';
 import {FuseSharedModule} from '@fuse/shared.module';
 import {NomeService} from '@cdk/services/nome.service';
 import {CdkNomeGridComponent} from './cdk-nome-grid.component';
 import {CdkNomeAutocompleteModule} from '@cdk/components/nome/cdk-nome-autocomplete/cdk-nome-autocomplete.module';
 import {CdkNomeGridFilterModule} from './cdk-nome-grid-filter/cdk-nome-grid-filter.module';
+import {CdkNomeMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
-        CdkNomeGridComponent
+        CdkNomeGridComponent,
+        CdkNomeMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,
@@ -36,6 +39,7 @@ import {CdkNomeGridFilterModule} from './cdk-nome-grid-filter/cdk-nome-grid-filt
         CdkNomeGridFilterModule,
 
         FuseSharedModule,
+        FuseSidebarModule,
     ],
     providers: [
         NomeService,

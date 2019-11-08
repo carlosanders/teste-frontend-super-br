@@ -7,7 +7,7 @@ import {
 import {FuseSharedModule} from '@fuse/shared.module';
 import {AfastamentoService} from '@cdk/services/afastamento.service';
 import {CdkAfastamentoAutocompleteComponent} from './cdk-afastamento-autocomplete.component';
-import {PipesModule} from '../../../pipes/pipes.module';
+import {PipesModule} from '@cdk/pipes/pipes.module';
 
 @NgModule({
     declarations: [

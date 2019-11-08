@@ -54,6 +54,8 @@ export class Acao {
         this.id = null;
         this.uuid = null;
         this.etiqueta = null;
+        this.contexto = null;
+        this.trigger = null;
         this.criadoPor = null;
         this.criadoEm = null;
         this.atualizadoPor = null;

@@ -1,10 +1,12 @@
-<!-- CONTENT HEADER -->
-<div class="header" fxLayout="column" *ngIf="showFilter">
-    <div class="filters">
-        <cdk-processo-grid-filter (selected)="setGridFilter($event)"></cdk-processo-grid-filter>
+<!-- SIDEBAR -->
+<fuse-sidebar class="sidebar" name="cdk-processo-main-sidebar" position="left">
+    <!-- SIDEBAR CONTENT -->
+    <div class="content" fusePerfectScrollbar>
+        <cdk-processo-main-sidebar (selected)="setGridFilter($event)" [@animate]="{value:'*'}"></cdk-processo-main-sidebar>
     </div>
-</div>
-<!-- / CONTENT HEADER -->
+    <!-- / SIDEBAR CONTENT -->
+</fuse-sidebar>
+<!-- / SIDEBAR -->
 
 <!-- CONTENT -->
 <div class="content" fxLayoutAlign="center start">
@@ -42,7 +44,7 @@
                 <mat-icon>refresh</mat-icon>
             </button>
 
-            <button *ngIf="mode === 'list'" class="toggle-filter" mat-icon-button
+            <button class="toggle-filter" [ngClass]="{'warn': (gridFilter | json) != '{}'}" mat-icon-button
                     (click)="toggleFilter()"
                     aria-label="filtrar"
                     matTooltip="Filtrar">
@@ -91,7 +93,7 @@
             </ng-container>
 
             <!-- SetorAtual Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('setorAtual') > -1" matColumnDef="setorAtual">
+            <ng-container *ngIf="displayedColumns.indexOf('setorAtual.nome') > -1" matColumnDef="setorAtual.nome">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     Setor Responsável
                 </th>
@@ -284,15 +286,6 @@
                 </th>
                 <td mat-cell *matCellDef="let processo" class='has_label_on_mobile' data-label='Localizador: '
                     [ngClass]="{'deleted':deletedIds?.indexOf(processo.id) > -1}"> {{processo.localizador?.nome}} </td>
-            </ng-container>
-
-            <!-- SetorAtual Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('setorAtual.nome') > -1" matColumnDef="setorAtual.nome">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Setor Atual
-                </th>
-                <td mat-cell *matCellDef="let processo" class='has_label_on_mobile' data-label='Setor Atual: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(processo.id) > -1}"> {{processo.setorAtual?.nome}} </td>
             </ng-container>
 
             <!-- SetorInicial Column -->

@@ -7,7 +7,7 @@ import {
 import {FuseSharedModule} from '@fuse/shared.module';
 import {GeneroAtividadeService} from '@cdk/services/genero-atividade.service';
 import {CdkGeneroAtividadeAutocompleteComponent} from './cdk-genero-atividade-autocomplete.component';
-import {PipesModule} from '../../../pipes/pipes.module';
+import {PipesModule} from '@cdk/pipes/pipes.module';
 
 @NgModule({
     declarations: [

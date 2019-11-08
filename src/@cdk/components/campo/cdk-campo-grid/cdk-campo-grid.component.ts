@@ -14,9 +14,8 @@ import {
 import {merge, of} from 'rxjs';
 
 import {fuseAnimations} from '@fuse/animations';
-
+import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@angular/material';
-
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
 import {Campo} from '@cdk/models/campo.model';
@@ -162,7 +161,8 @@ export class CdkCampoGridComponent implements AfterViewInit, OnInit, OnChanges {
      * @param _changeDetectorRef
      */
     constructor(
-        private _changeDetectorRef: ChangeDetectorRef
+        private _changeDetectorRef: ChangeDetectorRef,
+        private _fuseSidebarService: FuseSidebarService
     ) {
         this.gridFilter = {};
         this.campos = [];
@@ -181,10 +181,6 @@ export class CdkCampoGridComponent implements AfterViewInit, OnInit, OnChanges {
         this.paginator.pageSize = this.pageSize;
 
         this.dataSource = new CampoDataSource(of(this.campos));
-
-        if (this.mode === 'search') {
-            this.toggleFilter();
-        }
 
         this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
 
@@ -217,11 +213,8 @@ export class CdkCampoGridComponent implements AfterViewInit, OnInit, OnChanges {
     }
 
     toggleFilter(): void {
+        this._fuseSidebarService.getSidebar('cdk-campo-main-sidebar').toggleOpen();
         this.showFilter = !this.showFilter;
-        if (!this.showFilter) {
-            this.gridFilter = {};
-            this.setGridFilter(this.gridFilter);
-        }
     }
 
     loadPage(): void {
@@ -298,11 +291,7 @@ export class CdkCampoGridComponent implements AfterViewInit, OnInit, OnChanges {
     }
 
     setGridFilter(gridFilter): void {
-        this.gridFilter = {
-            ...this.gridFilter,
-            ...gridFilter
-        };
-
+        this.gridFilter = gridFilter;
         this.paginator.pageIndex = 0;
         this.loadPage();
     }

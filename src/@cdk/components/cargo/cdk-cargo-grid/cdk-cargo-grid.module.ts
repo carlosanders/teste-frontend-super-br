@@ -12,13 +12,16 @@ import {
     MatSelectModule,
 } from '@angular/material';
 
+import {FuseSidebarModule} from '@fuse/components';
 import {FuseSharedModule} from '@fuse/shared.module';
 import {CdkCargoGridComponent} from './cdk-cargo-grid.component';
 import {CdkCargoGridFilterModule} from './cdk-cargo-grid-filter/cdk-cargo-grid-filter.module';
+import {CdkCargoMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
-        CdkCargoGridComponent
+        CdkCargoGridComponent,
+        CdkCargoMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,
@@ -35,6 +38,7 @@ import {CdkCargoGridFilterModule} from './cdk-cargo-grid-filter/cdk-cargo-grid-f
         CdkCargoGridFilterModule,
 
         FuseSharedModule,
+        FuseSidebarModule,
     ],
     providers: [],
     exports: [

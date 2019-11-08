@@ -7,7 +7,7 @@ import {
 import { FuseSharedModule } from '@fuse/shared.module';
 import { EspecieSetorService } from '@cdk/services/especie-setor.service';
 import {CdkEspecieSetorAutocompleteComponent} from './cdk-especie-setor-autocomplete.component';
-import {PipesModule} from '../../../pipes/pipes.module';
+import {PipesModule} from '@cdk/pipes/pipes.module';
 
 @NgModule({
     declarations: [

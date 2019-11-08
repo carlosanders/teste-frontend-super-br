@@ -48,6 +48,8 @@
 
             <fuse-search-bar (inputText)="search($event)"></fuse-search-bar>
 
+            <div class="toolbar-separator" *ngIf="!hiddenNavbar && rightNavbar" fxHide fxShow.gt-xs></div>
+
             <div class="toolbar-separator" fxHide fxShow.gt-xs></div>
 
             <button mat-icon-button
@@ -65,12 +67,25 @@
 
             <button mat-icon-button
                     class="quick-panel-toggle-button"
+                    (click)="toggleSidebarOpen('ajudaPanel')"
+                    aria-label="Ajuda">
+                <mat-icon class="secondary-text">live_help</mat-icon>
+            </button>
+
+            <div class="toolbar-separator" *ngIf="!hiddenNavbar && rightNavbar" fxHide fxShow.gt-xs></div>
+
+            <div class="toolbar-separator" fxHide fxShow.gt-xs></div>
+
+            <button mat-icon-button
+                    class="quick-panel-toggle-button"
                     (click)="toggleSidebarOpen('quickPanel')"
-                    aria-label="Toggle quick panel">
+                    aria-label="Operações">
                 <mat-icon class="secondary-text">format_list_bulleted</mat-icon>
             </button>
 
             <div class="toolbar-separator" *ngIf="!hiddenNavbar && rightNavbar" fxHide fxShow.gt-xs></div>
+
+            <div class="toolbar-separator" fxHide fxShow.gt-xs></div>
 
             <button mat-icon-button class="navbar-toggle-button"
                     *ngIf="!hiddenNavbar && rightNavbar" (click)="toggleSidebarOpen('navbar')" fxHide.gt-md>

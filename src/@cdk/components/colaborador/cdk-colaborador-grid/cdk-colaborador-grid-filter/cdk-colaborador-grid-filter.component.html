@@ -4,13 +4,38 @@
     <div fxFlex="1 0 auto" fxLayout="column">
 
         <mat-form-field fxFlex="100">
-            <mat-label>Nome</mat-label>
-            <input matInput #nome
-                   name="nome"
-                   formControlName="nome"
-                   maxlength="255">
-            <mat-hint align="end">{{nome.value.length}} / 255</mat-hint>
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Cargo"
+                       formControlName="cargo"
+                       [matAutocomplete]="cargo.autocomplete">
+            </div>
+            <cdk-cargo-autocomplete #cargo="cargoAutocomplete" [control]="form.get('cargo')">
+            </cdk-cargo-autocomplete>
         </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Modalidade do Colaborador"
+                       formControlName="modalidadeColaborador"
+                       [matAutocomplete]="modalidadeColaborador.autocomplete">
+            </div>
+            <cdk-modalidade-colaborador-autocomplete #modalidadeColaborador="modalidadeColaboradorAutocomplete" [control]="form.get('modalidadeColaborador')">
+            </cdk-modalidade-colaborador-autocomplete>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Usuário"
+                       formControlName="usuario"
+                       [matAutocomplete]="usuario.autocomplete">
+            </div>
+            <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('usuario')">
+            </cdk-usuario-autocomplete>
+        </mat-form-field>
+
+        <button mat-raised-button color="warn" class="mr-sm-12" (click)="limpar()">
+            Limpar
+        </button>
 
     </div>
 </form>

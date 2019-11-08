@@ -18,8 +18,8 @@ import {Setor} from '@cdk/models/setor.model';
 import {catchError, debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {Pagination} from '@cdk/models/pagination';
-import {Favorito} from '../../../models/favorito.model';
-import {FavoritoService} from '../../../services/favorito.service';
+import {Favorito} from '@cdk/models/favorito.model';
+import {FavoritoService} from '@cdk/services/favorito.service';
 import {LoginService} from '../../../../app/main/auth/login/login.service';
 
 @Component({

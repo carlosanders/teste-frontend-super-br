@@ -8,14 +8,13 @@ import {
 import {merge, of} from 'rxjs';
 
 import {fuseAnimations} from '@fuse/animations';
-
+import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@angular/material';
-
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
 import {GeneroDocumentoAvulso} from '@cdk/models/genero-documento-avulso.model';
 import {GeneroDocumentoAvulsoDataSource} from '@cdk/data-sources/genero-documento-avulso-data-source';
-import {FormControl} from "@angular/forms";
+import {FormControl} from '@angular/forms';
 
 @Component({
     selector: 'cdk-genero-documento-avulso-grid',
@@ -153,7 +152,8 @@ export class CdkGeneroDocumentoAvulsoGridComponent implements AfterViewInit, OnI
      * @param _changeDetectorRef
      */
     constructor(
-        private _changeDetectorRef: ChangeDetectorRef
+        private _changeDetectorRef: ChangeDetectorRef,
+        private _fuseSidebarService: FuseSidebarService
     ) {
         this.gridFilter = {};
         this.generoDocumentoAvulsos = [];
@@ -204,11 +204,8 @@ export class CdkGeneroDocumentoAvulsoGridComponent implements AfterViewInit, OnI
     }
 
     toggleFilter(): void {
+        this._fuseSidebarService.getSidebar('cdk-genero-documento-avulso-main-sidebar').toggleOpen();
         this.showFilter = !this.showFilter;
-        if (!this.showFilter) {
-            this.gridFilter = {};
-            this.setGridFilter(this.gridFilter);
-        }
     }
 
     loadPage(): void {
@@ -285,11 +282,7 @@ export class CdkGeneroDocumentoAvulsoGridComponent implements AfterViewInit, OnI
     }
 
     setGridFilter(gridFilter): void {
-        this.gridFilter = {
-            ...this.gridFilter,
-            ...gridFilter
-        };
-
+        this.gridFilter = gridFilter;
         this.paginator.pageIndex = 0;
         this.loadPage();
     }

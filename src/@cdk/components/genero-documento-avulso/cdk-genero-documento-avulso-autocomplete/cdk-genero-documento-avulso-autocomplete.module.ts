@@ -7,7 +7,7 @@ import {
 import {FuseSharedModule} from '@fuse/shared.module';
 import {GeneroDocumentoAvulsoService} from '@cdk/services/genero-documento-avulso.service';
 import {CdkGeneroDocumentoAvulsoAutocompleteComponent} from './cdk-genero-documento-avulso-autocomplete.component';
-import {PipesModule} from '../../../pipes/pipes.module';
+import {PipesModule} from '@cdk/pipes/pipes.module';
 
 @NgModule({
     declarations: [

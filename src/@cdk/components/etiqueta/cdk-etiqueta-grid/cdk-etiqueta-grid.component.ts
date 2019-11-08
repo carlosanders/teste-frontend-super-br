@@ -8,13 +8,12 @@ import {
 import {merge, of} from 'rxjs';
 
 import {fuseAnimations} from '@fuse/animations';
-
+import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@angular/material';
-
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 import {EtiquetaDataSource} from '@cdk/data-sources/etiqueta-data-source';
 import {Etiqueta} from '@cdk/models/etiqueta.model';
-import {FormControl} from "@angular/forms";
+import {FormControl} from '@angular/forms';
 
 @Component({
     selector: 'cdk-etiqueta-grid',
@@ -162,7 +161,8 @@ export class CdkEtiquetaGridComponent implements AfterViewInit, OnInit, OnChange
      * @param _changeDetectorRef
      */
     constructor(
-        private _changeDetectorRef: ChangeDetectorRef
+        private _changeDetectorRef: ChangeDetectorRef,
+        private _fuseSidebarService: FuseSidebarService
     ) {
         this.gridFilter = {};
     }
@@ -213,11 +213,8 @@ export class CdkEtiquetaGridComponent implements AfterViewInit, OnInit, OnChange
     }
 
     toggleFilter(): void {
+        this._fuseSidebarService.getSidebar('cdk-etiqueta-main-sidebar').toggleOpen();
         this.showFilter = !this.showFilter;
-        if (!this.showFilter) {
-            this.gridFilter = {};
-            this.setGridFilter(this.gridFilter);
-        }
     }
 
     loadPage(): void {
@@ -294,11 +291,7 @@ export class CdkEtiquetaGridComponent implements AfterViewInit, OnInit, OnChange
     }
 
     setGridFilter(gridFilter): void {
-        this.gridFilter = {
-            ...this.gridFilter,
-            ...gridFilter
-        };
-
+        this.gridFilter = gridFilter;
         this.paginator.pageIndex = 0;
         this.loadPage();
     }

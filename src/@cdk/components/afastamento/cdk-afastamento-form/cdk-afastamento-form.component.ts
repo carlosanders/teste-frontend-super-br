@@ -11,7 +11,7 @@ import { fuseAnimations } from '@fuse/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { Afastamento } from '@cdk/models/afastamento.model';
 import { ModalidadeAfastamento } from '@cdk/models/modalidade-afastamento.model';
-import {Pagination} from '../../../models/pagination';
+import {Pagination} from '@cdk/models/pagination';
 
 @Component({
     selector: 'cdk-afastamento-form',

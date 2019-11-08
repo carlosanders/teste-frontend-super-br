@@ -7,7 +7,7 @@ import {
 import { FuseSharedModule } from '@fuse/shared.module';
 import { EspecieDocumentoAvulsoService } from '@cdk/services/especie-documento-avulso.service';
 import {CdkEspecieDocumentoAvulsoAutocompleteComponent} from './cdk-especie-documento-avulso-autocomplete.component';
-import {PipesModule} from '../../../pipes/pipes.module';
+import {PipesModule} from '@cdk/pipes/pipes.module';
 
 @NgModule({
     declarations: [

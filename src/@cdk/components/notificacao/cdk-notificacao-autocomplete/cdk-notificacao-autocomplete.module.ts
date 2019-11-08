@@ -7,7 +7,7 @@ import {
 import {FuseSharedModule} from '@fuse/shared.module';
 import {NotificacaoService} from '@cdk/services/notificacao.service';
 import {CdkNotificacaoAutocompleteComponent} from './cdk-notificacao-autocomplete.component';
-import {PipesModule} from '../../../pipes/pipes.module';
+import {PipesModule} from '@cdk/pipes/pipes.module';
 
 @NgModule({
     declarations: [

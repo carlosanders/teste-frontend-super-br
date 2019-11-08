@@ -11,15 +11,18 @@ import {
     MatSelectModule,
 } from '@angular/material';
 
+import {FuseSidebarModule} from '@fuse/components';
 import {FuseSharedModule} from '@fuse/shared.module';
 import {RelevanciaService} from '@cdk/services/relevancia.service';
 import {CdkRelevanciaGridComponent} from './cdk-relevancia-grid.component';
 import {CdkRelevanciaAutocompleteModule} from '@cdk/components/relevancia/cdk-relevancia-autocomplete/cdk-relevancia-autocomplete.module';
 import {CdkRelevanciaGridFilterModule} from './cdk-relevancia-grid-filter/cdk-relevancia-grid-filter.module';
+import {CdkRelevanciaMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
-        CdkRelevanciaGridComponent
+        CdkRelevanciaGridComponent,
+        CdkRelevanciaMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,
@@ -36,6 +39,7 @@ import {CdkRelevanciaGridFilterModule} from './cdk-relevancia-grid-filter/cdk-re
         CdkRelevanciaGridFilterModule,
 
         FuseSharedModule,
+        FuseSidebarModule,
     ],
     providers: [
         RelevanciaService,

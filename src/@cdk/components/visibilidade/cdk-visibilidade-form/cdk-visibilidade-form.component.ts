@@ -11,8 +11,8 @@ import {fuseAnimations} from '@fuse/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Visibilidade} from '@cdk/models/visibilidade.model';
 import {Usuario} from '@cdk/models/usuario.model';
-import {Pagination} from '../../../models/pagination';
-import {Setor} from '../../../models/setor.model';
+import {Pagination} from '@cdk/models/pagination';
+import {Setor} from '@cdk/models/setor.model';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 

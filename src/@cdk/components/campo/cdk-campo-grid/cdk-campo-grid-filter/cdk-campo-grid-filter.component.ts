@@ -23,6 +23,8 @@ export class CdkCampoGridFilterComponent implements OnInit {
 
     form: FormGroup;
 
+    filters: any = {};
+
     /**
      * Constructor
      */
@@ -31,7 +33,9 @@ export class CdkCampoGridFilterComponent implements OnInit {
     ) {
 
         this.form = this._formBuilder.group({
-            campo: [null]
+            nome: [null],
+            descricao: [null],
+            html: [null],
         });
 
     }
@@ -44,9 +48,41 @@ export class CdkCampoGridFilterComponent implements OnInit {
      * On init
      */
     ngOnInit(): void {
-        this.form.get('campo').valueChanges.subscribe(value => {
-            this.selected.emit({NUP: `nome:${value.replace(/\D/g, '')}%`});
+        this.form.get('nome').valueChanges.subscribe(value => {
+            if (value !== null) {
+                this.filters = {
+                    ...this.filters,
+                    nome: `like:${value}%`
+                };
+                this.selected.emit(this.filters);
+            }
         });
+
+        this.form.get('descricao').valueChanges.subscribe(value => {
+            if (value !== null) {
+                this.filters = {
+                    ...this.filters,
+                    descricao: `like:${value}%`
+                };
+                this.selected.emit(this.filters);
+            }
+        });
+
+        this.form.get('html').valueChanges.subscribe(value => {
+            if (value !== null) {
+                this.filters = {
+                    ...this.filters,
+                    html: `like:${value}%`
+                };
+                this.selected.emit(this.filters);
+            }
+        });
+    }
+
+    limpar(): void {
+        this.filters = {};
+        this.selected.emit(this.filters);
+        this.form.reset();
     }
 
 }

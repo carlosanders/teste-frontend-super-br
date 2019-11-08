@@ -6,7 +6,9 @@ import {
     MatInputModule,
     MatCheckboxModule,
     MatProgressSpinnerModule,
-    MatAutocompleteModule, MatDatepickerModule, MatTooltipModule
+    MatAutocompleteModule,
+    MatDatepickerModule,
+    MatTooltipModule
 } from '@angular/material';
 
 import {FuseSharedModule} from '@fuse/shared.module';

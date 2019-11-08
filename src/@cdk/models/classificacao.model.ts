@@ -20,7 +20,7 @@ export class Classificacao {
 
     prazoGuardaFaseCorrenteAno?: number;
 
-    prazoGuardaFaseCorrenteMes?: number;
+    prazoGuardaFaseCorrenteMes?: number;    
 
     prazoGuardaFaseCorrenteDia?: number;
 

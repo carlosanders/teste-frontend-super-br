@@ -1,27 +1,42 @@
 import {NgModule} from '@angular/core';
 import {
+    MatAutocompleteModule,
     MatButtonModule,
+    MatCheckboxModule,
+    MatDatepickerModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule
 } from '@angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
-import { EspecieAtividadeService } from '@cdk/services/especie-atividade.service';
-import { CdkEspecieAtividadeGridFilterComponent } from './cdk-especie-atividade-grid-filter.component';
+import {FuseSharedModule} from '@fuse/shared.module';
+import {EspecieAtividadeService} from '@cdk/services/especie-atividade.service';
+import {CdkEspecieAtividadeGridFilterComponent} from './cdk-especie-atividade-grid-filter.component';
+import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
+import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
+import {CdkUsuarioAutocompleteModule} from '../../../usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
+import {CdkGeneroAtividadeAutocompleteModule} from '../../../genero-atividade/cdk-genero-atividade-autocomplete/cdk-genero-atividade-autocomplete.module';
 
 @NgModule({
     declarations: [
         CdkEspecieAtividadeGridFilterComponent,
     ],
     imports: [
-
         MatButtonModule,
         MatFormFieldModule,
         MatIconModule,
         MatInputModule,
+        MatAutocompleteModule,
+        MatDatepickerModule,
+        MatDatetimepickerModule,
+        MatNativeDatetimeModule,
+        MatMomentDatetimeModule,
+        MatCheckboxModule,
 
         FuseSharedModule,
+
+        CdkUsuarioAutocompleteModule,
+        CdkGeneroAtividadeAutocompleteModule,
     ],
     providers: [
         EspecieAtividadeService,

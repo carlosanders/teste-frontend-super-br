@@ -11,15 +11,18 @@ import {
     MatSelectModule,
 } from '@angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
-import { ModalidadeFaseService } from '@cdk/services/modalidade-fase.service';
-import { CdkModalidadeFaseGridComponent} from './cdk-modalidade-fase-grid.component';
-import { CdkModalidadeFaseAutocompleteModule } from '@cdk/components/modalidade-fase/cdk-modalidade-fase-autocomplete/cdk-modalidade-fase-autocomplete.module';
+import {FuseSidebarModule} from '@fuse/components';
+import {FuseSharedModule} from '@fuse/shared.module';
+import {ModalidadeFaseService} from '@cdk/services/modalidade-fase.service';
+import {CdkModalidadeFaseGridComponent} from './cdk-modalidade-fase-grid.component';
+import {CdkModalidadeFaseAutocompleteModule} from '@cdk/components/modalidade-fase/cdk-modalidade-fase-autocomplete/cdk-modalidade-fase-autocomplete.module';
 import {CdkModalidadeFaseGridFilterModule} from './cdk-modalidade-fase-grid-filter/cdk-modalidade-fase-grid-filter.module';
+import {CdkModalidadeFaseMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
-        CdkModalidadeFaseGridComponent
+        CdkModalidadeFaseGridComponent,
+        CdkModalidadeFaseMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,
@@ -36,6 +39,7 @@ import {CdkModalidadeFaseGridFilterModule} from './cdk-modalidade-fase-grid-filt
         CdkModalidadeFaseGridFilterModule,
 
         FuseSharedModule,
+        FuseSidebarModule,
     ],
     providers: [
         ModalidadeFaseService,

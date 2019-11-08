@@ -20,7 +20,7 @@ import { CdkModalidadeColaboradorGridsearchModule } from '@cdk/components/modali
 import {CdkUsuarioAutocompleteModule} from '../../usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 import {CdkUsuarioGridsearchModule} from '../../usuario/cdk-usuario-autocomplete/cdk-usuario-gridsearch/cdk-usuario-gridsearch.module';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
-import {ColaboradorService} from '../../../services/colaborador.service';
+import {ColaboradorService} from '@cdk/services/colaborador.service';
 import {CdkCargoAutocompleteModule} from '@cdk/components/cargo/cdk-cargo-autocomplete/cdk-cargo-autocomplete.module';
 import {CdkCargoGridsearchModule} from '@cdk/components/cargo/cdk-cargo-autocomplete/cdk-cargo-gridsearch/cdk-cargo-gridsearch.module';
 

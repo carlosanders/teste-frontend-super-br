@@ -4,13 +4,103 @@
     <div fxFlex="1 0 auto" fxLayout="column">
 
         <mat-form-field fxFlex="100">
-            <mat-label>Modalidade</mat-label>
-            <input matInput #valor
-                   name="valor"
-                   formControlName="valor"
-                   maxlength="255">
-            <mat-hint align="end">{{valor.value.length}} / 255</mat-hint>
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Modalidade de Afastamento"
+                       formControlName="modalidadeAfastamento"
+                       [matAutocomplete]="modalidadeAfastamento.autocomplete">
+            </div>
+            <cdk-modalidade-afastamento-autocomplete #modalidadeAfastamento="modalidadeAfastamentoAutocomplete" [control]="form.get('modalidadeAfastamento')">
+            </cdk-modalidade-afastamento-autocomplete>
         </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Colaborador"
+                       formControlName="colaborador"
+                       [matAutocomplete]="colaborador.autocomplete">
+            </div>
+            <cdk-colaborador-autocomplete #colaborador="colaboradorAutocomplete" [control]="form.get('colaborador')">
+            </cdk-colaborador-autocomplete>
+        </mat-form-field>
+
+        <mat-form-field class="mr-sm-12">
+            <mat-label>Data de Início</mat-label>
+            <input matInput formControlName="dataInicio" [matDatetimepicker]="dataInicio">
+            <mat-datetimepicker-toggle matSuffix [for]="dataInicio"></mat-datetimepicker-toggle>
+            <mat-datetimepicker #dataInicio type="datetime" openOnFocus="true" timeInterval="5">
+            </mat-datetimepicker>
+        </mat-form-field>
+
+        <mat-form-field class="mr-sm-12">
+            <mat-label>Data de Início do Bloqueio</mat-label>
+            <input matInput formControlName="dataInicioBloqueio" [matDatetimepicker]="dataInicioBloqueio">
+            <mat-datetimepicker-toggle matSuffix [for]="dataInicioBloqueio"></mat-datetimepicker-toggle>
+            <mat-datetimepicker #dataInicioBloqueio type="datetime" openOnFocus="true" timeInterval="5">
+            </mat-datetimepicker>
+        </mat-form-field>
+
+        <mat-form-field class="mr-sm-12">
+            <mat-label>Data Fim</mat-label>
+            <input matInput formControlName="dataFim" [matDatetimepicker]="dataFim">
+            <mat-datetimepicker-toggle matSuffix [for]="dataFim"></mat-datetimepicker-toggle>
+            <mat-datetimepicker #dataFim type="datetime" openOnFocus="true" timeInterval="5">
+            </mat-datetimepicker>
+        </mat-form-field>
+
+        <mat-form-field class="mr-sm-12">
+            <mat-label>Data Fim do Bloqueio</mat-label>
+            <input matInput formControlName="dataFimBloqueio" [matDatetimepicker]="dataFimBloqueio">
+            <mat-datetimepicker-toggle matSuffix [for]="dataFimBloqueio"></mat-datetimepicker-toggle>
+            <mat-datetimepicker #dataFimBloqueio type="datetime" openOnFocus="true" timeInterval="5">
+            </mat-datetimepicker>
+        </mat-form-field>
+
+        <mat-form-field class="mr-sm-12">
+            <mat-label>Criado Em</mat-label>
+            <input matInput formControlName="criadoEm" [matDatetimepicker]="criadoEm">
+            <mat-datetimepicker-toggle matSuffix [for]="criadoEm"></mat-datetimepicker-toggle>
+            <mat-datetimepicker #criadoEm type="datetime" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Atualizado Por"
+                       formControlName="atualizadoPor"
+                       [matAutocomplete]="usuario.autocomplete">
+            </div>
+            <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('atualizadoPor')">
+            </cdk-usuario-autocomplete>
+        </mat-form-field>
+
+        <mat-form-field class="mr-sm-12">
+            <mat-label>Atualizado Em</mat-label>
+            <input matInput formControlName="atualizadoEm" [matDatetimepicker]="atualizadoEm">
+            <mat-datetimepicker-toggle matSuffix [for]="atualizadoEm"></mat-datetimepicker-toggle>
+            <mat-datetimepicker #atualizadoEm type="datetime" openOnFocus="true" timeInterval="5">
+            </mat-datetimepicker>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Apagado Por"
+                       formControlName="apagadoPor"
+                       [matAutocomplete]="usuario.autocomplete">
+            </div>
+            <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('apagadoPor')">
+            </cdk-usuario-autocomplete>
+        </mat-form-field>
+
+        <mat-form-field class="mr-sm-12">
+            <mat-label>Apagado Em</mat-label>
+            <input matInput formControlName="apagadoEm" [matDatetimepicker]="apagadoEm">
+            <mat-datetimepicker-toggle matSuffix [for]="apagadoEm"></mat-datetimepicker-toggle>
+            <mat-datetimepicker #apagadoEm type="datetime" openOnFocus="true" timeInterval="5">
+            </mat-datetimepicker>
+        </mat-form-field>
+
+        <button mat-raised-button color="warn" class="mr-sm-12" (click)="limpar()">
+            Limpar
+        </button>
 
     </div>
 </form>

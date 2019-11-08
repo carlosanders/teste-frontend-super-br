@@ -7,7 +7,7 @@ import {
 import {FuseSharedModule} from '@fuse/shared.module';
 import {DocumentoIdentificadorService} from '@cdk/services/documento-identificador.service';
 import {CdkDocumentoIdentificadorAutocompleteComponent} from './cdk-documento-identificador-autocomplete.component';
-import {PipesModule} from '../../../pipes/pipes.module';
+import {PipesModule} from '@cdk/pipes/pipes.module';
 
 @NgModule({
     declarations: [

@@ -11,15 +11,18 @@ import {
     MatSelectModule,
 } from '@angular/material';
 
+import {FuseSidebarModule} from '@fuse/components';
 import {FuseSharedModule} from '@fuse/shared.module';
 import {ModalidadeAlvoInibidorService} from '@cdk/services/modalidade-alvo-inibidor.service';
 import {CdkModalidadeAlvoInibidorGridComponent} from './cdk-modalidade-alvo-inibidor-grid.component';
 import {CdkModalidadeAlvoInibidorAutocompleteModule} from '@cdk/components/modalidade-alvo-inibidor/cdk-modalidade-alvo-inibidor-autocomplete/cdk-modalidade-alvo-inibidor-autocomplete.module';
 import {CdkModalidadeAlvoInibidorGridFilterModule} from './cdk-modalidade-alvo-inibidor-grid-filter/cdk-modalidade-alvo-inibidor-grid-filter.module';
+import {CdkModalidadeAlvoInibidorMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
-        CdkModalidadeAlvoInibidorGridComponent
+        CdkModalidadeAlvoInibidorGridComponent,
+        CdkModalidadeAlvoInibidorMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,
@@ -36,6 +39,7 @@ import {CdkModalidadeAlvoInibidorGridFilterModule} from './cdk-modalidade-alvo-i
         CdkModalidadeAlvoInibidorGridFilterModule,
 
         FuseSharedModule,
+        FuseSidebarModule,
     ],
     providers: [
         ModalidadeAlvoInibidorService,

@@ -13,7 +13,7 @@ import {FormControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@angular/material';
-import {Pagination} from '../../../models/pagination';
+import {Pagination} from '@cdk/models/pagination';
 
 @Component({
     selector: 'cdk-classificacao-autocomplete',
@@ -32,7 +32,10 @@ export class CdkClassificacaoAutocompleteComponent implements OnInit {
     @Input()
     control: FormControl;
 
+    @Input()
     classificacaoList: Classificacao[];
+
+    @Input()
     classificacaoListIsLoading: boolean;
 
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
@@ -90,7 +93,7 @@ export class CdkClassificacaoAutocompleteComponent implements OnInit {
 
     displayClassificacaoFn(classificacao): string {
         let displayed = classificacao ? classificacao.nome : '';
-        displayed += (classificacao && classificacao.generoTarefa) ? (' (' + classificacao.generoTarefa.nome + ')') : '';
+        displayed += classificacao ? ' (' + classificacao.codigo + ')' : '';
         return displayed;
     }
 }

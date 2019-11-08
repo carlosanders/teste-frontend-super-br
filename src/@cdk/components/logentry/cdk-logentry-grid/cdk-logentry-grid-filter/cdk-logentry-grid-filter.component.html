@@ -1,15 +1,49 @@
 <form class="p-24 mb-8" fxLayoutGap="16px" fxLayout="column" fxLayoutAlign="start"
-      fxFlex="1 0 auto" name="form" [formGroup]="form">
+      name="form" [formGroup]="form">
 
     <div fxFlex="1 0 auto" fxLayout="column">
 
         <mat-form-field fxFlex="100">
-            <mat-label>Nome</mat-label>
-            <input matInput #nome
-                   name="nome"
-                   formControlName="nome"
-                   maxlength="255">
-            <mat-hint align="end">{{nome.value.length}} / 255</mat-hint>
+            <mat-label>Ação</mat-label>
+            <input matInput #action
+                   name="action"
+                   formControlName="action">
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+            <mat-label>Object Id</mat-label>
+            <input matInput #objectId
+                   name="objectId"
+                   formControlName="objectId">
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+            <mat-label>Object Class</mat-label>
+            <input matInput #objectClass
+                   name="objectClass"
+                   formControlName="objectClass">
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+            <mat-label>Valor</mat-label>
+            <input matInput #valor
+                   name="valor"
+                   formControlName="valor">
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+            <mat-label>Username</mat-label>
+            <input matInput #username
+                   name="username"
+                   formControlName="username">
+        </mat-form-field>
+
+        <mat-form-field class="mr-sm-12">
+            <mat-label>Logged At</mat-label>
+            <input matInput formControlName="loggedAt" [matDatetimepicker]="loggedAt">
+            <mat-datetimepicker-toggle matSuffix [for]="loggedAt"></mat-datetimepicker-toggle>
+            <mat-datetimepicker #loggedAt type="datetime" openOnFocus="true" timeInterval="5">
+            </mat-datetimepicker>
         </mat-form-field>
 
     </div>

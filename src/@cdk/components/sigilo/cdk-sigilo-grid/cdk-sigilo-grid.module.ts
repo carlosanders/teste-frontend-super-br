@@ -12,15 +12,18 @@ import {
     MatSelectModule,
 } from '@angular/material';
 
+import {FuseSidebarModule} from '@fuse/components';
 import {FuseSharedModule} from '@fuse/shared.module';
 import {SigiloService} from '@cdk/services/sigilo.service';
 import {CdkSigiloGridComponent} from './cdk-sigilo-grid.component';
 import {CdkSigiloAutocompleteModule} from '@cdk/components/sigilo/cdk-sigilo-autocomplete/cdk-sigilo-autocomplete.module';
 import {CdkSigiloGridFilterModule} from './cdk-sigilo-grid-filter/cdk-sigilo-grid-filter.module';
+import {CdkSigiloMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
-        CdkSigiloGridComponent
+        CdkSigiloGridComponent,
+        CdkSigiloMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,
@@ -38,6 +41,7 @@ import {CdkSigiloGridFilterModule} from './cdk-sigilo-grid-filter/cdk-sigilo-gri
         CdkSigiloGridFilterModule,
 
         FuseSharedModule,
+        FuseSidebarModule,
     ],
     providers: [
         SigiloService,

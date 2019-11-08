@@ -8,7 +8,7 @@ import {
 import {FuseSharedModule} from '@fuse/shared.module';
 import {AcaoService} from '@cdk/services/acao.service';
 import {CdkAcaoAutocompleteComponent} from './cdk-acao-autocomplete.component';
-import {PipesModule} from '../../../pipes/pipes.module';
+import {PipesModule} from '@cdk/pipes/pipes.module';
 
 @NgModule({
     declarations: [
