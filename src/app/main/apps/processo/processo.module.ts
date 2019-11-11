@@ -20,6 +20,7 @@ import { CommonModule } from '@angular/common';
 import {CdkVinculacaoEtiquetaChipsModule} from '@cdk/components/vinculacao-etiqueta/cdk-vinculacao-etiqueta-chips/cdk-vinculacao-etiqueta-chips.module';
 import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
 import {LoginService} from '../../auth/login/login.service';
+import {ProcessoDownloadModule} from './processo-download/processo-download.module';
 
 const routes: Routes = [
     {
@@ -39,6 +40,11 @@ const routes: Routes = [
             {
                 path       : 'acesso-negado',
                 loadChildren: () => import('./processo-empty/processo-empty.module').then(m => m.ProcessoEmptyModule)
+            },
+            {
+                path       : 'download',
+                loadChildren: () => import('./processo-download/processo-download.module').then(m => m.ProcessoDownloadModule),
+                canActivate: [fromGuards.ResolveGuard]
             },
             {
                 path: '**',
@@ -68,7 +74,8 @@ const routes: Routes = [
         FuseSharedModule,
         FuseSidebarModule,
         MatTooltipModule,
-        CdkVinculacaoEtiquetaChipsModule
+        CdkVinculacaoEtiquetaChipsModule,
+        ProcessoDownloadModule
     ],
     providers      : [
         ProcessoService,
