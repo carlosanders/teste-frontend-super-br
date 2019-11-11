@@ -299,6 +299,13 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
         ).then();
     }
 
+    aprovar(): void {
+        this._store.dispatch(new fromStore.ApproveComponenteDigital({
+            documentoOrigem:this.documento
+        }));
+
+    }
+
     changedSelectedDocumentosVinculadosId(selectedIds): void {
         this._store.dispatch(new fromStore.ChangeSelectedDocumentosVinculados(selectedIds));
     }

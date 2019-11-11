@@ -119,4 +119,15 @@ export class ComponenteDigitalService {
             })
         );
     }
+    approve(componenteDigital: ComponenteDigital): Observable<ComponenteDigital> {
+        return this.modelService.post('componente_digital/aprova', classToPlain(componenteDigital))
+            .pipe(
+                map(response => {
+                    response = plainToClass(ComponenteDigital, response);
+                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                    return Object.assign(new ComponenteDigital(), {...componenteDigital, ...response});
+                })
+            );
+    }
+
 }

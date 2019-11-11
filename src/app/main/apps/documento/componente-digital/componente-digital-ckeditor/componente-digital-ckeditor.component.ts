@@ -78,7 +78,7 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
         ).subscribe(cd => {
             this.componenteDigital = cd;
 
-            if (!this.componenteDigital.id) {
+            if (!this.componenteDigital) {
                 this.btVersoes = false;
             } else {
                 this.logEntryPagination = new Pagination();

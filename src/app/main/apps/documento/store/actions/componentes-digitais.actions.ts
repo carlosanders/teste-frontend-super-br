@@ -10,6 +10,10 @@ export const DOWNLOAD_COMPONENTE_DIGITAL_FAILED = '[DOCUMENTO REPOSITORIO] DOWNL
 
 export const SET_REPOSITORIO_COMPONENTE_DIGITAL = '[DOCUMENTO REPOSITORIO] SET REPOSITORIO COMPONENTE DIGITAL';
 
+export const APPROVE_COMPONENTE_DIGITAL = '[DOCUMENTO REPOSITORIO] APPROVE COMPONENTE DIGITAL';
+export const APPROVE_COMPONENTE_DIGITAL_SUCCESS = '[DOCUMENTO REPOSITORIO] APPROVE COMPONENTE DIGITAL SUCCESS';
+export const APPROVE_COMPONENTE_DIGITAL_FAILED = '[DOCUMENTO REPOSITORIO] APPROVE COMPONENTE DIGITAL FAILED';
+
 /**
  * Save Componente Digital
  */
@@ -88,6 +92,42 @@ export class SetRepositorioComponenteDigital implements Action
     }
 }
 
+/**
+ * Approve Componente Digital
+ */
+export class ApproveComponenteDigital implements Action
+{
+    readonly type = APPROVE_COMPONENTE_DIGITAL;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Approve Componente Digital Success
+ */
+export class ApproveComponenteDigitalSuccess implements Action
+{
+    readonly type = APPROVE_COMPONENTE_DIGITAL_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Approve Componente Digital Failed
+ */
+export class ApproveComponenteDigitalFailed implements Action
+{
+    readonly type = APPROVE_COMPONENTE_DIGITAL_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 export type ComponenteDigitalActionsAll
     = DownloadComponenteDigital
     | DownloadComponenteDigitalSuccess
@@ -95,4 +135,7 @@ export type ComponenteDigitalActionsAll
     | SaveComponenteDigital
     | SaveComponenteDigitalSuccess
     | SaveComponenteDigitalFailed
-    | SetRepositorioComponenteDigital;
+    | SetRepositorioComponenteDigital
+    | ApproveComponenteDigital
+    | ApproveComponenteDigitalSuccess
+    | ApproveComponenteDigitalFailed;

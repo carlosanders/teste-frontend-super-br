@@ -1,5 +1,5 @@
-import {modulesConfigJudicial} from './judicial/modules-config';
+//import {modulesConfigJudicial} from './modules-config';
 
 export const modulesConfig = [
-    modulesConfigJudicial
+    //modulesConfigJudicial
 ];
