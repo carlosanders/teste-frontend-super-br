@@ -1,14 +1,9 @@
-#processos {
+processos {
+    display: flex;
+    flex: 1 1 auto;
 
-  .header {
-
-    .actions {
-
+    cdk-processo-grid {
+        display: flex;
+        flex: 1 1 auto;
     }
-
-  }
-
-  .content {
-
-  }
 }
