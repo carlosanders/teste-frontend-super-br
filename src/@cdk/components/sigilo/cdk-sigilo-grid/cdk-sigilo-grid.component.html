@@ -1,325 +1,329 @@
-<!-- SIDEBAR -->
-<fuse-sidebar class="sidebar" name="cdk-sigilo-main-sidebar" position="left">
-    <!-- SIDEBAR CONTENT -->
-    <div class="content" fusePerfectScrollbar>
-        <cdk-sigilo-main-sidebar (selected)="setGridFilter($event)" [@animate]="{value:'*'}"></cdk-sigilo-main-sidebar>
-    </div>
-    <!-- / SIDEBAR CONTENT -->
-</fuse-sidebar>
-<!-- / SIDEBAR -->
+<div class="page-layout fullwidth left-sidebar inner-scroll" fxFlex="100">
 
-<!-- CONTENT -->
-<div class="content" fxLayoutAlign="center start">
-
-    <div class="mb-8 p-8" fxFlex fxLayout="column" fxLayoutAlign="center center">
-
-        <div class="actions" fxFlex fxLayout="row" fxLayoutAlign="end center">
-
-            <button class="back" mat-icon-button *ngIf="actions.indexOf('cancel') > -1"
-                    (click)="doCancel()"
-                    aria-label="cancelar"
-                    matTooltip="Cancelar">
-                <mat-icon>arrow_back</mat-icon>
-            </button>
-
-            <button mat-icon-button *ngIf="selectedIds.length > 1 && actions.indexOf('delete') > -1"
-                    (click)="deleteSigilos(selectedIds)"
-                    aria-label="remover"
-                    matTooltip="Remover">
-                <mat-icon>delete</mat-icon>
-            </button>
-
-            <mat-form-field class="colunas mr-8">
-                <mat-select [formControl]="columns" multiple>
-                    <div *ngFor="let column of allColumns">
-                        <mat-option *ngIf="!column.fixed" [value]="column.id">{{ column.label }}</mat-option>
-                    </div>
-                </mat-select>
-            </mat-form-field>
-
-            <button class="refresh" mat-icon-button
-                    (click)="loadPage()"
-                    aria-label="recarregar"
-                    matTooltip="Recarregar">
-                <mat-icon>refresh</mat-icon>
-            </button>
-
-            <button class="toggle-filter" mat-icon-button mat-icon-button [ngClass]="{'warn': (gridFilter | json) != '{}'}"
-                    (click)="toggleFilter()"
-                    aria-label="filtrar"
-                    matTooltip="Filtrar">
-                <mat-icon>filter_list</mat-icon>
-            </button>
+    <!-- SIDEBAR -->
+    <fuse-sidebar class="sidebar" name="cdk-sigilo-main-sidebar" position="left">
+        <!-- SIDEBAR CONTENT -->
+        <div class="content" fusePerfectScrollbar>
+            <cdk-sigilo-main-sidebar (selected)="setGridFilter($event)" [@animate]="{value:'*'}"></cdk-sigilo-main-sidebar>
         </div>
+        <!-- / SIDEBAR CONTENT -->
+    </fuse-sidebar>
+    <!-- / SIDEBAR -->
 
-        <div class="spinner-container" *ngIf="loading">
-            <mat-spinner diameter="32"></mat-spinner>
-        </div>
+    <!-- CONTENT -->
+    <div class="content" fxLayoutAlign="center start">
 
-        <table mat-table [dataSource]="dataSource" matSort [hidden]="loading">
+        <div class="mb-8 p-8" fxFlex fxLayout="column" fxLayoutAlign="center center">
 
-            <!-- Selection Column -->
-            <ng-container matColumnDef="select">
-                <th mat-header-cell *matHeaderCellDef>
-                    <mat-checkbox (click)="toggleSelectAll($event)"
-                                  [checked]="hasSelected"
-                                  [indeterminate]="isIndeterminate">
-                    </mat-checkbox>
-                </th>
-                <td mat-cell *matCellDef="let sigilo">
-                    <mat-checkbox [checked]="selectedIds.indexOf(sigilo.id) > -1"
-                                  (change)="toggleInSelected(sigilo.id)"
-                                  (click)="$event.stopPropagation();"
-                                  [disabled]="deletedIds?.indexOf(sigilo.id) > -1">
-                    </mat-checkbox>
-                </td>
-            </ng-container>
+            <div class="actions" fxFlex fxLayout="row" fxLayoutAlign="end center">
 
-            <!-- Id Column -->
-            <ng-container matColumnDef="id">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Id
-                </th>
-                <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Id: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.id}} </td>
-            </ng-container>
+                <button class="back" mat-icon-button *ngIf="actions.indexOf('cancel') > -1"
+                        (click)="doCancel()"
+                        aria-label="cancelar"
+                        matTooltip="Cancelar">
+                    <mat-icon>arrow_back</mat-icon>
+                </button>
 
-            <!-- TipoSigilo Column -->
-            <ng-container matColumnDef="tipoSigilo.nome">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Tipo
-                </th>
-                <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Tipo: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.tipoSigilo?.nome}} </td>
-            </ng-container>
+                <button mat-icon-button *ngIf="selectedIds.length > 1 && actions.indexOf('delete') > -1"
+                        (click)="deleteSigilos(selectedIds)"
+                        aria-label="remover"
+                        matTooltip="Remover">
+                    <mat-icon>delete</mat-icon>
+                </button>
 
-            <!-- Desclassificado Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('desclassificado') > -1" matColumnDef="desclassificado">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Desclassificado
-                </th>
-                <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Desclassificado: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.desclassificado}} </td>
-            </ng-container>
+                <mat-form-field class="colunas mr-8">
+                    <mat-select [formControl]="columns" multiple>
+                        <div *ngFor="let column of allColumns">
+                            <mat-option *ngIf="!column.fixed" [value]="column.id">{{ column.label }}</mat-option>
+                        </div>
+                    </mat-select>
+                </mat-form-field>
 
-            <!-- RazoesClassificacaoSigilo Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('razoesClassificacaoSigilo') > -1" matColumnDef="razoesClassificacaoSigilo">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Razões de Classificação
-                </th>
-                <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Razões de Classificação: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.razoesClassificacaoSigilo}} </td>
-            </ng-container>
+                <button class="refresh" mat-icon-button
+                        (click)="loadPage()"
+                        aria-label="recarregar"
+                        matTooltip="Recarregar">
+                    <mat-icon>refresh</mat-icon>
+                </button>
 
-            <!-- DataHoraExpiracao Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('dataHoraExpiracao') > -1" matColumnDef="dataHoraExpiracao">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Data de Início
-                </th>
-                <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Data de Início: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.dataHoraInicioSigilo | date: 'dd/MM/yyyy H:mm'}} </td>
-            </ng-container>
+                <button class="toggle-filter" mat-icon-button mat-icon-button [ngClass]="{'warn': (gridFilter | json) != '{}'}"
+                        (click)="toggleFilter()"
+                        aria-label="filtrar"
+                        matTooltip="Filtrar">
+                    <mat-icon>filter_list</mat-icon>
+                </button>
+            </div>
 
-            <!-- DataHoraValidadeSigilo Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('dataHoraValidadeSigilo') > -1" matColumnDef="dataHoraValidadeSigilo">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Data de Validade
-                </th>
-                <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Data de Validade: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.dataHoraValidadeSigilo | date: 'dd/MM/yyyy H:mm'}} </td>
-            </ng-container>
+            <div class="spinner-container" *ngIf="loading">
+                <mat-spinner diameter="32"></mat-spinner>
+            </div>
 
-            <!-- FundamentoLegal Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('fundamentoLegal') > -1" matColumnDef="fundamentoLegal">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Fundamento Legal
-                </th>
-                <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Fundamento Legal: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.fundamentoLegal}} </td>
-            </ng-container>
+            <table mat-table [dataSource]="dataSource" matSort [hidden]="loading">
 
-            <!-- Modalidade do Sigilo Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('modalidadeCategoriaSigilo.valor') > -1" matColumnDef="modalidadeCategoriaSigilo.valor">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Categoria
-                </th>
-                <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Categoria: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.modalidadeCategoriaSigilo?.valor}} </td>
-            </ng-container>
+                <!-- Selection Column -->
+                <ng-container matColumnDef="select">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <mat-checkbox (click)="toggleSelectAll($event)"
+                                      [checked]="hasSelected"
+                                      [indeterminate]="isIndeterminate">
+                        </mat-checkbox>
+                    </th>
+                    <td mat-cell *matCellDef="let sigilo">
+                        <mat-checkbox [checked]="selectedIds.indexOf(sigilo.id) > -1"
+                                      (change)="toggleInSelected(sigilo.id)"
+                                      (click)="$event.stopPropagation();"
+                                      [disabled]="deletedIds?.indexOf(sigilo.id) > -1">
+                        </mat-checkbox>
+                    </td>
+                </ng-container>
 
-            <!-- Principal Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('desclassificado') > -1" matColumnDef="desclassificado">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Desclassificado
-                </th>
-                <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Desclassificado: '>
-                    <mat-checkbox
-                            [disabled]="true"
-                            [checked]="sigilo.desclassificado"></mat-checkbox>
-                </td>
-            </ng-container>
+                <!-- Id Column -->
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Id
+                    </th>
+                    <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Id: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.id}} </td>
+                </ng-container>
 
-            <!-- Observacao Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('observacao') > -1" matColumnDef="observacao">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Observação
-                </th>
-                <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Observação: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.observacao}} </td>
-            </ng-container>
+                <!-- TipoSigilo Column -->
+                <ng-container matColumnDef="tipoSigilo.nome">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Tipo
+                    </th>
+                    <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Tipo: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.tipoSigilo?.nome}} </td>
+                </ng-container>
 
-            <!-- OrigemDados Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('origemDados.servico') > -1" matColumnDef="origemDados.servico">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Origem de Dados
-                </th>
-                <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Origem de Dados: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.origemDados?.fonteDados}} </td>
-            </ng-container>
+                <!-- Desclassificado Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('desclassificado') > -1" matColumnDef="desclassificado">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Desclassificado
+                    </th>
+                    <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Desclassificado: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.desclassificado}} </td>
+                </ng-container>
 
-            <!-- CodigoIndexacao Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('codigoIndexacao') > -1" matColumnDef="codigoIndexacao">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Código de Indexacao
-                </th>
-                <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Código de Indexacao: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.codigoIndexacao}} </td>
-            </ng-container>
+                <!-- RazoesClassificacaoSigilo Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('razoesClassificacaoSigilo') > -1" matColumnDef="razoesClassificacaoSigilo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Razões de Classificação
+                    </th>
+                    <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Razões de Classificação: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.razoesClassificacaoSigilo}} </td>
+                </ng-container>
 
-            <!-- NivelAcesso Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('nivelAcesso') > -1" matColumnDef="nivelAcesso">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Nível de Acesso
-                </th>
-                <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Nível de Acesso: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.nivelAcesso}} </td>
-            </ng-container>
+                <!-- DataHoraExpiracao Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('dataHoraExpiracao') > -1" matColumnDef="dataHoraExpiracao">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Data de Início
+                    </th>
+                    <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Data de Início: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.dataHoraInicioSigilo | date: 'dd/MM/yyyy H:mm'}} </td>
+                </ng-container>
 
-            <!-- Processo Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('processo.NUP') > -1" matColumnDef="processo.NUP">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    NUP
-                </th>
-                <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='NUP: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.processo?.NUP}} </td>
-            </ng-container>
+                <!-- DataHoraValidadeSigilo Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('dataHoraValidadeSigilo') > -1" matColumnDef="dataHoraValidadeSigilo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Data de Validade
+                    </th>
+                    <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Data de Validade: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.dataHoraValidadeSigilo | date: 'dd/MM/yyyy H:mm'}} </td>
+                </ng-container>
 
-            <!-- OrigemDados Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('origemDados.fonteDados') > -1" matColumnDef="origemDados.fonteDados">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Origem de Dados
-                </th>
-                <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Origem de Dados: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.origemDados?.fonteDados}} </td>
-            </ng-container>
+                <!-- FundamentoLegal Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('fundamentoLegal') > -1" matColumnDef="fundamentoLegal">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Fundamento Legal
+                    </th>
+                    <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Fundamento Legal: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.fundamentoLegal}} </td>
+                </ng-container>
 
-            <!-- Documento Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('documento.tipoDocumento.nome') > -1" matColumnDef="documento.tipoDocumento.nome">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Documento
-                </th>
-                <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Documento: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.documento?.tipoDocumento?.nome}} </td>
-            </ng-container>
+                <!-- Modalidade do Sigilo Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('modalidadeCategoriaSigilo.valor') > -1" matColumnDef="modalidadeCategoriaSigilo.valor">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Categoria
+                    </th>
+                    <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Categoria: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.modalidadeCategoriaSigilo?.valor}} </td>
+                </ng-container>
 
-            <!-- CriadoPor Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('criadoPor.nome') > -1" matColumnDef="criadoPor.nome">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Criado Por
-                </th>
-                <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Criado Por: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.criadoPor?.nome}} </td>
-            </ng-container>
+                <!-- Principal Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('desclassificado') > -1" matColumnDef="desclassificado">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Desclassificado
+                    </th>
+                    <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Desclassificado: '>
+                        <mat-checkbox
+                                [disabled]="true"
+                                [checked]="sigilo.desclassificado"></mat-checkbox>
+                    </td>
+                </ng-container>
 
-            <!-- CriadoEm Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('criadoEm') > -1" matColumnDef="criadoEm">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Criado Em
-                </th>
-                <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Criado Em: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.criadoEm | date: 'dd/MM/yyyy'}} </td>
-            </ng-container>
+                <!-- Observacao Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('observacao') > -1" matColumnDef="observacao">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Observação
+                    </th>
+                    <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Observação: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.observacao}} </td>
+                </ng-container>
 
-            <!-- AtualizadoPor Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1" matColumnDef="atualizadoPor.nome">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Atualizado Por
-                </th>
-                <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Atualizado Por: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.atualizadoPor?.nome}} </td>
-            </ng-container>
+                <!-- OrigemDados Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('origemDados.servico') > -1" matColumnDef="origemDados.servico">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Origem de Dados
+                    </th>
+                    <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Origem de Dados: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.origemDados?.fonteDados}} </td>
+                </ng-container>
 
-            <!-- AtualizadoEm Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('atualizadoEm') > -1" matColumnDef="atualizadoEm">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Atualizado Em
-                </th>
-                <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Atualizado Em: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
-            </ng-container>
+                <!-- CodigoIndexacao Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('codigoIndexacao') > -1" matColumnDef="codigoIndexacao">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Código de Indexacao
+                    </th>
+                    <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Código de Indexacao: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.codigoIndexacao}} </td>
+                </ng-container>
 
-            <!-- ApagadoPor Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('apagadoPor.nome') > -1" matColumnDef="apagadoPor.nome">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Apagado Por
-                </th>
-                <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Apagado Por: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.apagadoPor?.nome}} </td>
-            </ng-container>
+                <!-- NivelAcesso Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('nivelAcesso') > -1" matColumnDef="nivelAcesso">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Nível de Acesso
+                    </th>
+                    <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Nível de Acesso: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.nivelAcesso}} </td>
+                </ng-container>
 
-            <!-- ApagadoEm Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('apagadoEm') > -1" matColumnDef="apagadoEm">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Apagado Em
-                </th>
-                <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Apagado Em: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.apagadoEm | date: 'dd/MM/yyyy'}} </td>
-            </ng-container>
+                <!-- Processo Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('processo.NUP') > -1" matColumnDef="processo.NUP">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        NUP
+                    </th>
+                    <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='NUP: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.processo?.NUP}} </td>
+                </ng-container>
 
-            <!-- Actions Column -->
-            <ng-container matColumnDef="actions">
-                <th mat-header-cell *matHeaderCellDef></th>
-                <td mat-cell *matCellDef="let sigilo">
+                <!-- OrigemDados Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('origemDados.fonteDados') > -1" matColumnDef="origemDados.fonteDados">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Origem de Dados
+                    </th>
+                    <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Origem de Dados: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.origemDados?.fonteDados}} </td>
+                </ng-container>
 
-                    <button mat-icon-button
-                            *ngIf="actions.indexOf('select') > -1"
-                            (click)="selectSigilo(sigilo)"
-                            aria-label="selecionar"
-                            matTooltip="Selecionar">
-                        <mat-icon>keyboard_return</mat-icon>
-                    </button>
+                <!-- Documento Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('documento.tipoDocumento.nome') > -1" matColumnDef="documento.tipoDocumento.nome">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Documento
+                    </th>
+                    <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Documento: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.documento?.tipoDocumento?.nome}} </td>
+                </ng-container>
 
-                    <button mat-icon-button
-                            *ngIf="actions.indexOf('edit') > -1"
-                            [disabled]="deletedIds?.indexOf(sigilo.id) > -1"
-                            (click)="editSigilo(sigilo.id)"
-                            aria-label="editar"
-                            matTooltip="Editar">
-                        <mat-icon>edit</mat-icon>
-                    </button>
+                <!-- CriadoPor Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('criadoPor.nome') > -1" matColumnDef="criadoPor.nome">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Criado Por
+                    </th>
+                    <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Criado Por: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.criadoPor?.nome}} </td>
+                </ng-container>
+
+                <!-- CriadoEm Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('criadoEm') > -1" matColumnDef="criadoEm">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Criado Em
+                    </th>
+                    <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Criado Em: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.criadoEm | date: 'dd/MM/yyyy'}} </td>
+                </ng-container>
+
+                <!-- AtualizadoPor Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1" matColumnDef="atualizadoPor.nome">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Atualizado Por
+                    </th>
+                    <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Atualizado Por: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.atualizadoPor?.nome}} </td>
+                </ng-container>
+
+                <!-- AtualizadoEm Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('atualizadoEm') > -1" matColumnDef="atualizadoEm">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Atualizado Em
+                    </th>
+                    <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Atualizado Em: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
+                </ng-container>
+
+                <!-- ApagadoPor Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('apagadoPor.nome') > -1" matColumnDef="apagadoPor.nome">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Apagado Por
+                    </th>
+                    <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Apagado Por: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.apagadoPor?.nome}} </td>
+                </ng-container>
+
+                <!-- ApagadoEm Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('apagadoEm') > -1" matColumnDef="apagadoEm">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Apagado Em
+                    </th>
+                    <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Apagado Em: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.apagadoEm | date: 'dd/MM/yyyy'}} </td>
+                </ng-container>
+
+                <!-- Actions Column -->
+                <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let sigilo">
+
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('select') > -1"
+                                (click)="selectSigilo(sigilo)"
+                                aria-label="selecionar"
+                                matTooltip="Selecionar">
+                            <mat-icon>keyboard_return</mat-icon>
+                        </button>
+
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('edit') > -1"
+                                [disabled]="deletedIds?.indexOf(sigilo.id) > -1"
+                                (click)="editSigilo(sigilo.id)"
+                                aria-label="editar"
+                                matTooltip="Editar">
+                            <mat-icon>edit</mat-icon>
+                        </button>
 
 
-                    <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(sigilo.id) > -1">
-                        <mat-spinner diameter="24"></mat-spinner>
-                    </div>
+                        <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(sigilo.id) > -1">
+                            <mat-spinner diameter="24"></mat-spinner>
+                        </div>
 
-                    <button mat-icon-button
-                            *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(sigilo.id) === -1"
-                            [disabled]="deletedIds?.indexOf(sigilo.id) > -1"
-                            (click)="deleteSigilo(sigilo.id)"
-                            aria-label="remover"
-                            matTooltip="Remover">
-                        <mat-icon>delete</mat-icon>
-                    </button>
-                </td>
-            </ng-container>
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(sigilo.id) === -1"
+                                [disabled]="deletedIds?.indexOf(sigilo.id) > -1"
+                                (click)="deleteSigilo(sigilo.id)"
+                                aria-label="remover"
+                                matTooltip="Remover">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
 
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let sigilo; columns: displayedColumns;">
-            </tr>
-        </table>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let sigilo; columns: displayedColumns;">
+                </tr>
+            </table>
 
-        <div fxFlex fxLayout="row" fxLayoutAlign="center center">
-            <mat-paginator [pageSizeOptions]="[5, 10]"></mat-paginator>
+            <div fxFlex fxLayout="row" fxLayoutAlign="center center">
+                <mat-paginator [pageSizeOptions]="[5, 10]"></mat-paginator>
+            </div>
+
         </div>
 
     </div>

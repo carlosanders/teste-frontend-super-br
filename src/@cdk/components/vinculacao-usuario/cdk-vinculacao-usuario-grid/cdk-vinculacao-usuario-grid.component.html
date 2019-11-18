@@ -1,225 +1,229 @@
-<!-- SIDEBAR -->
-<fuse-sidebar class="sidebar" name="cdk-vinculacao-usuario-main-sidebar" position="left">
-    <!-- SIDEBAR CONTENT -->
-    <div class="content" fusePerfectScrollbar>
-        <cdk-vinculacao-usuario-main-sidebar (selected)="setGridFilter($event)" [@animate]="{value:'*'}"></cdk-vinculacao-usuario-main-sidebar>
-    </div>
-    <!-- / SIDEBAR CONTENT -->
-</fuse-sidebar>
-<!-- / SIDEBAR -->
+<div class="page-layout fullwidth left-sidebar inner-scroll" fxFlex="100">
 
-<!-- CONTENT -->
-<div class="content" fxLayoutAlign="center start">
-
-    <div class="mb-8 p-8" fxFlex fxLayout="column" fxLayoutAlign="center center">
-
-        <div class="actions" fxFlex fxLayout="row" fxLayoutAlign="end center">
-
-            <button class="back" mat-icon-button *ngIf="actions.indexOf('cancel') > -1"
-                    (click)="doCancel()"
-                    aria-label="cancelar"
-                    matTooltip="Cancelar">
-                <mat-icon>arrow_back</mat-icon>
-            </button>
-
-            <button mat-icon-button *ngIf="selectedIds.length > 1 && actions.indexOf('delete') > -1"
-                    (click)="deleteVinculacaoUsuarios(selectedIds)"
-                    aria-label="remover"
-                    matTooltip="Remover">
-                <mat-icon>delete</mat-icon>
-            </button>
-
-            <mat-form-field class="colunas mr-8">
-                <mat-select [formControl]="columns" multiple>
-                    <div *ngFor="let column of allColumns">
-                        <mat-option *ngIf="!column.fixed" [value]="column.id">{{ column.label }}</mat-option>
-                    </div>
-                </mat-select>
-            </mat-form-field>
-
-            <button class="refresh" mat-icon-button
-                    (click)="loadPage()"
-                    aria-label="recarregar"
-                    matTooltip="Recarregar">
-                <mat-icon>refresh</mat-icon>
-            </button>
-
-            <button class="toggle-filter" mat-icon-button mat-icon-button [ngClass]="{'warn': (gridFilter | json) != '{}'}"
-                    (click)="toggleFilter()"
-                    aria-label="filtrar"
-                    matTooltip="Filtrar">
-                <mat-icon>filter_list</mat-icon>
-            </button>
+    <!-- SIDEBAR -->
+    <fuse-sidebar class="sidebar" name="cdk-vinculacao-usuario-main-sidebar" position="left">
+        <!-- SIDEBAR CONTENT -->
+        <div class="content" fusePerfectScrollbar>
+            <cdk-vinculacao-usuario-main-sidebar (selected)="setGridFilter($event)" [@animate]="{value:'*'}"></cdk-vinculacao-usuario-main-sidebar>
         </div>
+        <!-- / SIDEBAR CONTENT -->
+    </fuse-sidebar>
+    <!-- / SIDEBAR -->
 
-        <div class="spinner-container" *ngIf="loading">
-            <mat-spinner diameter="32"></mat-spinner>
-        </div>
+    <!-- CONTENT -->
+    <div class="content" fxLayoutAlign="center start">
 
-        <table mat-table [dataSource]="dataSource" matSort [hidden]="loading">
+        <div class="mb-8 p-8" fxFlex fxLayout="column" fxLayoutAlign="center center">
 
-            <!-- Selection Column -->
-            <ng-container matColumnDef="select">
-                <th mat-header-cell *matHeaderCellDef>
-                    <mat-checkbox (click)="toggleSelectAll($event)"
-                                  [checked]="hasSelected"
-                                  [indeterminate]="isIndeterminate">
-                    </mat-checkbox>
-                </th>
-                <td mat-cell *matCellDef="let vinculacaoUsuario">
-                    <mat-checkbox [checked]="selectedIds.indexOf(vinculacaoUsuario.id) > -1"
-                                  (change)="toggleInSelected(vinculacaoUsuario.id)"
-                                  (click)="$event.stopPropagation();"
-                                  [disabled]="deletedIds?.indexOf(vinculacaoUsuario.id) > -1">
-                    </mat-checkbox>
-                </td>
-            </ng-container>
+            <div class="actions" fxFlex fxLayout="row" fxLayoutAlign="end center">
 
-            <!-- Id Column -->
-            <ng-container matColumnDef="id">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Id
-                </th>
-                <td mat-cell *matCellDef="let vinculacaoUsuario" class='has_label_on_mobile' data-label='Id: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoUsuario.id) > -1}"> {{vinculacaoUsuario.id}} </td>
-            </ng-container>
+                <button class="back" mat-icon-button *ngIf="actions.indexOf('cancel') > -1"
+                        (click)="doCancel()"
+                        aria-label="cancelar"
+                        matTooltip="Cancelar">
+                    <mat-icon>arrow_back</mat-icon>
+                </button>
 
-            <!-- Usuario Column -->
-            <ng-container matColumnDef="usuarioVinculado.nome">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Usuário Vinculado
-                </th>
-                <td mat-cell *matCellDef="let vinculacaoUsuario" class='has_label_on_mobile' data-label='Usuário Vinculado: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoUsuario.id) > -1}"> {{vinculacaoUsuario.usuarioVinculado?.nome}} </td>
-            </ng-container>
+                <button mat-icon-button *ngIf="selectedIds.length > 1 && actions.indexOf('delete') > -1"
+                        (click)="deleteVinculacaoUsuarios(selectedIds)"
+                        aria-label="remover"
+                        matTooltip="Remover">
+                    <mat-icon>delete</mat-icon>
+                </button>
 
-            <!-- GeneroTarefa Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('generoTarefa.nome') > -1" matColumnDef="generoTarefa.nome">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Gênero Tarefa
-                </th>
-                <td mat-cell *matCellDef="let vinculacaoUsuario" class='has_label_on_mobile' data-label='Gênero Tarefa: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoUsuario.id) > -1}"> {{vinculacaoUsuario.generoTarefa?.nome}} </td>
-            </ng-container>
+                <mat-form-field class="colunas mr-8">
+                    <mat-select [formControl]="columns" multiple>
+                        <div *ngFor="let column of allColumns">
+                            <mat-option *ngIf="!column.fixed" [value]="column.id">{{ column.label }}</mat-option>
+                        </div>
+                    </mat-select>
+                </mat-form-field>
 
-            <!-- Usuario Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('usuario.nome') > -1" matColumnDef="usuario.nome">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Usuário
-                </th>
-                <td mat-cell *matCellDef="let vinculacaoUsuario" class='has_label_on_mobile' data-label='Usuário: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoUsuario.id) > -1}"> {{vinculacaoUsuario.usuario?.nome}} </td>
-            </ng-container>
+                <button class="refresh" mat-icon-button
+                        (click)="loadPage()"
+                        aria-label="recarregar"
+                        matTooltip="Recarregar">
+                    <mat-icon>refresh</mat-icon>
+                </button>
 
-            <!-- Encerra Tarefa Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('encerraTarefa') > -1" matColumnDef="encerraTarefa">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Encerra Tarefas
-                </th>
-                <td mat-cell *matCellDef="let vinculacaoUsuario" class='has_label_on_mobile' data-label='Encerra Tarefas: '>
-                    <mat-checkbox
-                            [disabled]="true"
-                            [checked]="vinculacaoUsuario.encerraTarefa"></mat-checkbox>
-                </td>
-            </ng-container>
+                <button class="toggle-filter" mat-icon-button mat-icon-button [ngClass]="{'warn': (gridFilter | json) != '{}'}"
+                        (click)="toggleFilter()"
+                        aria-label="filtrar"
+                        matTooltip="Filtrar">
+                    <mat-icon>filter_list</mat-icon>
+                </button>
+            </div>
 
-            <!-- CriadoPor Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('criadoPor.nome') > -1" matColumnDef="criadoPor.nome">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Criado Por
-                </th>
-                <td mat-cell *matCellDef="let vinculacaoUsuario" class='has_label_on_mobile' data-label='Criado Por: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoUsuario.id) > -1}"> {{vinculacaoUsuario.criadoPor?.nome}} </td>
-            </ng-container>
+            <div class="spinner-container" *ngIf="loading">
+                <mat-spinner diameter="32"></mat-spinner>
+            </div>
 
-            <!-- CriadoEm Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('criadoEm') > -1" matColumnDef="criadoEm">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Criado Em
-                </th>
-                <td mat-cell *matCellDef="let vinculacaoUsuario" class='has_label_on_mobile' data-label='Criado Em: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoUsuario.id) > -1}"> {{vinculacaoUsuario.criadoEm | date: 'dd/MM/yyyy'}} </td>
-            </ng-container>
+            <table mat-table [dataSource]="dataSource" matSort [hidden]="loading">
 
-            <!-- AtualizadoPor Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1" matColumnDef="atualizadoPor.nome">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Atualizado Por
-                </th>
-                <td mat-cell *matCellDef="let vinculacaoUsuario" class='has_label_on_mobile' data-label='Atualizado Por: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoUsuario.id) > -1}"> {{vinculacaoUsuario.atualizadoPor?.nome}} </td>
-            </ng-container>
+                <!-- Selection Column -->
+                <ng-container matColumnDef="select">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <mat-checkbox (click)="toggleSelectAll($event)"
+                                      [checked]="hasSelected"
+                                      [indeterminate]="isIndeterminate">
+                        </mat-checkbox>
+                    </th>
+                    <td mat-cell *matCellDef="let vinculacaoUsuario">
+                        <mat-checkbox [checked]="selectedIds.indexOf(vinculacaoUsuario.id) > -1"
+                                      (change)="toggleInSelected(vinculacaoUsuario.id)"
+                                      (click)="$event.stopPropagation();"
+                                      [disabled]="deletedIds?.indexOf(vinculacaoUsuario.id) > -1">
+                        </mat-checkbox>
+                    </td>
+                </ng-container>
 
-            <!-- AtualizadoEm Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('atualizadoEm') > -1" matColumnDef="atualizadoEm">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Atualizado Em
-                </th>
-                <td mat-cell *matCellDef="let vinculacaoUsuario" class='has_label_on_mobile' data-label='Atualizado Em: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoUsuario.id) > -1}"> {{vinculacaoUsuario.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
-            </ng-container>
+                <!-- Id Column -->
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Id
+                    </th>
+                    <td mat-cell *matCellDef="let vinculacaoUsuario" class='has_label_on_mobile' data-label='Id: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoUsuario.id) > -1}"> {{vinculacaoUsuario.id}} </td>
+                </ng-container>
 
-            <!-- ApagadoPor Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('apagadoPor.nome') > -1" matColumnDef="apagadoPor.nome">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Apagado Por
-                </th>
-                <td mat-cell *matCellDef="let vinculacaoUsuario" class='has_label_on_mobile' data-label='Apagado Por: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoUsuario.id) > -1}"> {{vinculacaoUsuario.apagadoPor?.nome}} </td>
-            </ng-container>
+                <!-- Usuario Column -->
+                <ng-container matColumnDef="usuarioVinculado.nome">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Usuário Vinculado
+                    </th>
+                    <td mat-cell *matCellDef="let vinculacaoUsuario" class='has_label_on_mobile' data-label='Usuário Vinculado: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoUsuario.id) > -1}"> {{vinculacaoUsuario.usuarioVinculado?.nome}} </td>
+                </ng-container>
 
-            <!-- ApagadoEm Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('apagadoEm') > -1" matColumnDef="apagadoEm">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Apagado Em
-                </th>
-                <td mat-cell *matCellDef="let vinculacaoUsuario" class='has_label_on_mobile' data-label='Apagado Em: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoUsuario.id) > -1}"> {{vinculacaoUsuario.apagadoEm | date: 'dd/MM/yyyy'}} </td>
-            </ng-container>
+                <!-- GeneroTarefa Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('generoTarefa.nome') > -1" matColumnDef="generoTarefa.nome">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Gênero Tarefa
+                    </th>
+                    <td mat-cell *matCellDef="let vinculacaoUsuario" class='has_label_on_mobile' data-label='Gênero Tarefa: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoUsuario.id) > -1}"> {{vinculacaoUsuario.generoTarefa?.nome}} </td>
+                </ng-container>
 
-            <!-- Actions Column -->
-            <ng-container matColumnDef="actions">
-                <th mat-header-cell *matHeaderCellDef></th>
-                <td mat-cell *matCellDef="let vinculacaoUsuario">
+                <!-- Usuario Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('usuario.nome') > -1" matColumnDef="usuario.nome">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Usuário
+                    </th>
+                    <td mat-cell *matCellDef="let vinculacaoUsuario" class='has_label_on_mobile' data-label='Usuário: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoUsuario.id) > -1}"> {{vinculacaoUsuario.usuario?.nome}} </td>
+                </ng-container>
 
-                    <button mat-icon-button
-                            *ngIf="actions.indexOf('select') > -1"
-                            (click)="selectVinculacaoUsuario(vinculacaoUsuario)"
-                            aria-label="selecionar"
-                            matTooltip="Selecionar">
-                        <mat-icon>keyboard_return</mat-icon>
-                    </button>
+                <!-- Encerra Tarefa Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('encerraTarefa') > -1" matColumnDef="encerraTarefa">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Encerra Tarefas
+                    </th>
+                    <td mat-cell *matCellDef="let vinculacaoUsuario" class='has_label_on_mobile' data-label='Encerra Tarefas: '>
+                        <mat-checkbox
+                                [disabled]="true"
+                                [checked]="vinculacaoUsuario.encerraTarefa"></mat-checkbox>
+                    </td>
+                </ng-container>
 
-                    <button mat-icon-button
-                            *ngIf="actions.indexOf('edit') > -1"
-                            [disabled]="deletedIds?.indexOf(vinculacaoUsuario.id) > -1"
-                            (click)="editVinculacaoUsuario(vinculacaoUsuario.id)"
-                            aria-label="editar"
-                            matTooltip="Editar">
-                        <mat-icon>edit</mat-icon>
-                    </button>
+                <!-- CriadoPor Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('criadoPor.nome') > -1" matColumnDef="criadoPor.nome">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Criado Por
+                    </th>
+                    <td mat-cell *matCellDef="let vinculacaoUsuario" class='has_label_on_mobile' data-label='Criado Por: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoUsuario.id) > -1}"> {{vinculacaoUsuario.criadoPor?.nome}} </td>
+                </ng-container>
 
-                    <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(vinculacaoUsuario.id) > -1">
-                        <mat-spinner diameter="24"></mat-spinner>
-                    </div>
+                <!-- CriadoEm Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('criadoEm') > -1" matColumnDef="criadoEm">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Criado Em
+                    </th>
+                    <td mat-cell *matCellDef="let vinculacaoUsuario" class='has_label_on_mobile' data-label='Criado Em: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoUsuario.id) > -1}"> {{vinculacaoUsuario.criadoEm | date: 'dd/MM/yyyy'}} </td>
+                </ng-container>
 
-                    <button mat-icon-button
-                            *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(vinculacaoUsuario.id) === -1"
-                            [disabled]="deletedIds?.indexOf(vinculacaoUsuario.id) > -1"
-                            (click)="deleteVinculacaoUsuario(vinculacaoUsuario.id)"
-                            aria-label="remover"
-                            matTooltip="Remover">
-                        <mat-icon>delete</mat-icon>
-                    </button>
-                </td>
-            </ng-container>
+                <!-- AtualizadoPor Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1" matColumnDef="atualizadoPor.nome">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Atualizado Por
+                    </th>
+                    <td mat-cell *matCellDef="let vinculacaoUsuario" class='has_label_on_mobile' data-label='Atualizado Por: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoUsuario.id) > -1}"> {{vinculacaoUsuario.atualizadoPor?.nome}} </td>
+                </ng-container>
 
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let vinculacaoUsuario; columns: displayedColumns;">
-            </tr>
-        </table>
+                <!-- AtualizadoEm Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('atualizadoEm') > -1" matColumnDef="atualizadoEm">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Atualizado Em
+                    </th>
+                    <td mat-cell *matCellDef="let vinculacaoUsuario" class='has_label_on_mobile' data-label='Atualizado Em: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoUsuario.id) > -1}"> {{vinculacaoUsuario.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
+                </ng-container>
 
-        <div fxFlex fxLayout="row" fxLayoutAlign="center center">
-            <mat-paginator [pageSizeOptions]="[5, 10]"></mat-paginator>
+                <!-- ApagadoPor Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('apagadoPor.nome') > -1" matColumnDef="apagadoPor.nome">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Apagado Por
+                    </th>
+                    <td mat-cell *matCellDef="let vinculacaoUsuario" class='has_label_on_mobile' data-label='Apagado Por: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoUsuario.id) > -1}"> {{vinculacaoUsuario.apagadoPor?.nome}} </td>
+                </ng-container>
+
+                <!-- ApagadoEm Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('apagadoEm') > -1" matColumnDef="apagadoEm">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Apagado Em
+                    </th>
+                    <td mat-cell *matCellDef="let vinculacaoUsuario" class='has_label_on_mobile' data-label='Apagado Em: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoUsuario.id) > -1}"> {{vinculacaoUsuario.apagadoEm | date: 'dd/MM/yyyy'}} </td>
+                </ng-container>
+
+                <!-- Actions Column -->
+                <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let vinculacaoUsuario">
+
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('select') > -1"
+                                (click)="selectVinculacaoUsuario(vinculacaoUsuario)"
+                                aria-label="selecionar"
+                                matTooltip="Selecionar">
+                            <mat-icon>keyboard_return</mat-icon>
+                        </button>
+
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('edit') > -1"
+                                [disabled]="deletedIds?.indexOf(vinculacaoUsuario.id) > -1"
+                                (click)="editVinculacaoUsuario(vinculacaoUsuario.id)"
+                                aria-label="editar"
+                                matTooltip="Editar">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+
+                        <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(vinculacaoUsuario.id) > -1">
+                            <mat-spinner diameter="24"></mat-spinner>
+                        </div>
+
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(vinculacaoUsuario.id) === -1"
+                                [disabled]="deletedIds?.indexOf(vinculacaoUsuario.id) > -1"
+                                (click)="deleteVinculacaoUsuario(vinculacaoUsuario.id)"
+                                aria-label="remover"
+                                matTooltip="Remover">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let vinculacaoUsuario; columns: displayedColumns;">
+                </tr>
+            </table>
+
+            <div fxFlex fxLayout="row" fxLayoutAlign="center center">
+                <mat-paginator [pageSizeOptions]="[5, 10]"></mat-paginator>
+            </div>
+
         </div>
 
     </div>
