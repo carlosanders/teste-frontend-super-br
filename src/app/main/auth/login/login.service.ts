@@ -40,5 +40,19 @@ export class LoginService {
         const url = `${environment.base_url}v1/colaborador/profile` + environment.xdebug;
         return this.http.get(url);
     }
+
+    isGranted(role: string): boolean {
+        const profile = this.getUserProfile();
+        let hasAccess = false;
+        if (profile && profile.usuario && profile.usuario.vinculacoesRoles && profile.usuario.vinculacoesRoles.length > 0) {
+            profile.usuario.vinculacoesRoles.forEach((vinculacaoRole) => {
+                if (vinculacaoRole.role && vinculacaoRole.role.name === role) {
+                    hasAccess = true;
+                    return;
+                }
+            });
+        }
+        return hasAccess;
+    }
 }
 

@@ -19,6 +19,7 @@ export interface FuseNavigationItem
         fg?: string;
     };
     children?: FuseNavigationItem[];
+    role?: string;
 }
 
 export interface FuseNavigation extends FuseNavigationItem
