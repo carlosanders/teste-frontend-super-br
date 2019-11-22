@@ -144,6 +144,14 @@ export function normalized(
                                                             [key]: entities[c][id][key]
                                                         }
                                                     };
+                                                } else {
+                                                    p[c] = {
+                                                        ...p[c],
+                                                        [id]: {
+                                                            ...p[c][id],
+                                                            [key]: entities[c][id][key]
+                                                        }
+                                                    };
                                                 }
                                             }
                                         }
