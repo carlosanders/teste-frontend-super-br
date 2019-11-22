@@ -26,11 +26,38 @@
                 <mat-icon class="black-fg">gavel</mat-icon>
             </button>
 
-            <button mat-icon-button aria-label="acesso restrito"
-                    matTooltip="Restrições de Acesso" (click)="showAcessoRestrito()"
-                    [ngClass]="{'active accent': activeCard === 'acesso-restrito'}">
-                <mat-icon class="black-fg">block</mat-icon>
-            </button>
+            <div fxLayoutAlign="start center">
+
+                <button mat-icon-button [matMenuTriggerFor]="moreMenu"
+                        aria-label="Ferramentas" (click)="$event.stopPropagation()"
+                        fxHide.xs>
+                    <mat-icon class="secondary-text">more_vert</mat-icon>
+                </button>
+
+                <mat-menu #moreMenu="matMenu">
+
+                    <button  mat-menu-item aria-label="acesso restrito"
+                            matTooltip="Restrições de Acesso" (click)="showAcessoRestrito()"
+                            [ngClass]="{'active accent': activeCard === 'acesso-restrito'}">
+                            <ng-container>
+                                <mat-icon class="black-fg">block</mat-icon>
+                                <span>Acessos Restritos</span>
+                            </ng-container>
+                    </button>
+
+                    <button mat-menu-item aria-label="sigilos"
+                            matTooltip="Sigilos" (click)="showSigilo()"
+                            [ngClass]="{'active accent': activeCard === 'sigilos'}">
+                            <ng-container>
+                                <mat-icon class="black-fg">remove_red_eye</mat-icon>
+                                <span>Sigilos</span>
+                            </ng-container>
+                    </button>
+
+                </mat-menu>
+
+            </div>
+
         </div>
 
         <div *ngIf="(documento$ | async)?.vinculacaoDocumentoPrincipal">
@@ -156,7 +183,7 @@
 
             <cdk-visibilidade-form fusePerfectScrollbar *ngIf="formAcessoRestrito"
                 [visibilidade]="visibilidade"
-                [saving]="(isSaving$ | async)"
+                [saving]="(visibilidadeIsSaving$ | async)"
                 [errors]="(errors$ | async)"
                 [unidadeDefault]="_profile.lotacoes[0].setor.unidade"
                 [unidadePagination]="unidadePagination"
@@ -166,13 +193,60 @@
             </cdk-visibilidade-form>
 
             <cdk-visibilidade-list class="mr-8" *ngIf="!formAcessoRestrito"
-                [loading]="loadingAcessoRestrito"
+                [loading]="(loadingAcessoRestrito$ | async)"
                 [visibilidades]="(visibilidades$ | async)"
                 [deletingIds]="(deletingVisibilidadeIds$ | async)"
                 [deletedIds]="(deletedVisibilidadeIds$ | async)"
                 [actions]="['delete']"
                 (delete)="deleteVisibilidade($event)">
             </cdk-visibilidade-list>
+
+        </div>
+
+        <div class="mb-16" fxFlex fxLayout="column" *ngIf="activeCard === 'sigilos'">
+
+            <h3 style="font-weight: bold">Sigilos</h3>
+
+            <div class="actions m-16" fxLayout="row" fxLayoutAlign="start center">
+                <button mat-raised-button
+                        class="mat-accent"
+                        aria-label="novo"
+                        (click)="showFormSigilos()"
+                        *ngIf="!formSigilos"
+                        matTooltip="Novo">
+                    Novo
+                </button>
+                <button mat-icon-button
+                        (click)="showFormSigilos()"
+                        *ngIf="formSigilos"
+                        aria-label="voltar"
+                        matTooltip="Voltar">
+                    <mat-icon>arrow_back</mat-icon>
+                </button>
+            </div>
+
+            <cdk-sigilo-form class="mr-8" *ngIf="formSigilos"
+               [sigilo]="sigilo"
+               [loading]="(sigiloLoading$ | async)"
+               [saving]="(sigiloIsSaving$ | async)"
+               [errors]="(sigiloErrors$ | async)"
+               (save)="submitSigilo($event)"
+            ></cdk-sigilo-form>
+
+            <cdk-sigilo-grid
+                *ngIf="!formSigilos"
+                [loading]="(sigiloLoading$ | async)"
+                [sigilos]="(sigilos$ | async)"
+                [total]="(paginationSigilo$ | async)?.total"
+                [actions]="['edit','delete']"
+                [displayedColumns]="['id', 'tipoSigilo.nome','desclassificado',  'actions']"
+                [deletingIds]="(deletingSigiloIds$ | async)"
+                [deletedIds]="(deletedSigiloIds$ | async)"
+                (delete)="deleteSigilo($event)"
+                (reload)="reloadSigilos($event)"
+                (edit)="editSigilo($event)"
+            >
+            </cdk-sigilo-grid>
 
         </div>
 

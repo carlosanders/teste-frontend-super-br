@@ -102,7 +102,10 @@ export class DocumentoEffect {
                             'vinculacaoDocumentoPrincipal.documento.documentoAvulsoRemessa',
                             'vinculacoesDocumentos',
                             'vinculacoesDocumentos.documentoVinculado',
-                            'vinculacoesDocumentos.documentoVinculado.tipoDocumento']));
+                            'vinculacoesDocumentos.documentoVinculado.tipoDocumento',
+                            'sigilos',
+                            'sigilos.tipoSigilo'
+                        ]));
                 }),
                 switchMap(response => [
                     new AddData<Documento>({data: response['entities'], schema: documentoSchema}),

@@ -1,8 +1,8 @@
 import {Topico} from 'ajuda/topico';
 
 const topico = new Topico();
-topico.titulo = 'Criação de tarefas';
-topico.descricao = 'Descrição detalhada da criação de tarefas';
+topico.titulo = 'Criar tarefas';
+topico.descricao = 'Como criar uma tarefa no SUPP';
 topico.module = () => import('app/main/apps/tarefas/tarefa-create/ajuda/ajuda-tarefa-create.module').then(m => {
     return {module: m.AjudaTarefaCreateModule, componentIndex: 0};
 });

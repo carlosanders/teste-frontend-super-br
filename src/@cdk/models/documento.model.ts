@@ -14,6 +14,7 @@ import {DocumentoAvulso} from './documento-avulso.model';
 import {Modelo} from './modelo.model';
 import {Repositorio} from './repositorio.model';
 import {Juntada} from './juntada.model';
+import {Sigilo} from './sigilo.model';
 
 export class Documento {
 
@@ -134,6 +135,10 @@ export class Documento {
     @Type(() => VinculacaoDocumento)
     vinculacaoDocumentoPrincipal: VinculacaoDocumento;
 
+    @Exclude({ toPlainOnly: true })
+    @Type(() => Sigilo)
+    sigilos: Sigilo[];
+
     constructor() {
         this.id = null;
         this.uuid = null;
@@ -168,5 +173,6 @@ export class Documento {
         this.vinculacoesDocumentos = [];
         this.documentoAvulsoRemessa = null;
         this.vinculacaoDocumentoPrincipal = null;
+        this.sigilos = null;
     }
 }

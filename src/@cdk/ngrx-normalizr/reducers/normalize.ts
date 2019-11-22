@@ -145,6 +145,15 @@ export function normalized(
                                                         }
                                                     };
                                                 }
+                                                else {
+                                                    p[c] = {
+                                                        ...p[c],
+                                                        [id]: {
+                                                            ...p[c][id],
+                                                            [key]: entities[c][id][key]
+                                                        }
+                                                    };
+                                                }
                                             }
                                         }
                                     );

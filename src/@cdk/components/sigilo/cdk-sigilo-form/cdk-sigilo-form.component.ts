@@ -61,6 +61,9 @@ export class CdkSigiloFormComponent implements OnChanges, OnDestroy, OnInit {
     @Input()
     tipoSigiloPagination: Pagination;
 
+    @Input()
+    loading = false;
+
     /**
      * Constructor
      */

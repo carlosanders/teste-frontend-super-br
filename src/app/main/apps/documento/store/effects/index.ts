@@ -5,6 +5,7 @@ import { DocumentosVinculadosEffect } from './documentos-vinculados.effects';
 import { ComponenteDigitalEffect } from './componentes-digitais.effects';
 import { AtividadeDocumentoEffect } from './atividade-documento.effects';
 import {VisibilidadeEffect} from './visibilidade.effects';
+import {SigiloEffect} from './sigilos.effects';
 
 export const effects = [
     DocumentoEffect,
@@ -13,7 +14,8 @@ export const effects = [
     DocumentosVinculadosEffect,
     ComponenteDigitalEffect,
     AtividadeDocumentoEffect,
-    VisibilidadeEffect
+    VisibilidadeEffect,
+    SigiloEffect
 ];
 
 export * from './documento.effects';
@@ -23,3 +25,4 @@ export * from './documentos-vinculados.effects';
 export * from './componentes-digitais.effects';
 export * from './atividade-documento.effects';
 export * from './visibilidade.effects';
+export * from './sigilos.effects';
