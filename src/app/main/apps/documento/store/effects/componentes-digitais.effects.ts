@@ -92,4 +92,38 @@ export class ComponenteDigitalEffect {
                     return caught;
                 })
             );
+
+    /**
+     * Set Current Step
+     * @type {Observable<any>}
+     */
+    @Effect()
+    approveComponenteDigital: any =
+        this._actions
+            .pipe(
+                ofType<ComponenteDigitalActions.ApproveComponenteDigital>(ComponenteDigitalActions.APPROVE_COMPONENTE_DIGITAL),
+                switchMap((action) => {
+
+                    let componenteDigital = new ComponenteDigital();
+                    componenteDigital.documentoOrigem = action.payload.documentoOrigem;
+
+                    return this._componenteDigitalService.approve(componenteDigital).pipe(
+                        mergeMap((response: ComponenteDigital) => [
+                            new ComponenteDigitalActions.ApproveComponenteDigitalSuccess(response),
+                            new AddData<ComponenteDigital>({data: [{...action.payload, ...response}], schema: componenteDigitalSchema}),
+                            new OperacoesActions.Resultado({
+                                type: 'componenteDigital',
+                                content: `Componente Digital id ${response.id} criado com sucesso!`,
+                                dateTime: response.criadoEm
+                            }),
+                            new fromStore.GetDocumentosVinculados()
+                        ]),
+                    );
+                }),
+                catchError((err, caught) => {
+                    console.log(err);
+                    this._store.dispatch(new ComponenteDigitalActions.SaveComponenteDigitalFailed(err));
+                    return caught;
+                })
+            );
 }

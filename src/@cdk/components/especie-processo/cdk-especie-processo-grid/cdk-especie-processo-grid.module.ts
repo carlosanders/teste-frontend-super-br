@@ -10,7 +10,7 @@ import {
     MatSortModule,
     MatSelectModule,
     MatAutocompleteModule,
-    MatDatepickerModule,
+    MatDatepickerModule, MatTooltipModule,
 } from '@angular/material';
 
 import {FuseSharedModule} from '@fuse/shared.module';
@@ -53,6 +53,7 @@ import {CdkEspecieProcessoMainSidebarComponent} from './sidebars/main/main.compo
         CdkGeneroProcessoAutocompleteModule,
         CdkUsuarioAutocompleteModule,
         CdkEspecieProcessoGridFilterModule,
+        MatTooltipModule,
     ],
     providers: [
         EspecieProcessoService,

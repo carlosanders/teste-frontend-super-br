@@ -43,6 +43,7 @@ export class CdkTarefaGridFilterComponent implements OnInit {
             processo: [null],
             especieTarefa: [null],
             usuarioResponsavel: [null],
+            unidadeResponsavel: [null],
             setorOrigem: [null],
             setorResponsavel: [null],
             usuarioConclusaoPrazo: [null],

@@ -1,4 +1,6 @@
 import { Component, HostBinding, Input } from '@angular/core';
+import {FuseNavigationService} from '../../navigation.service';
+import {LoginService} from '../../../../../app/main/auth/login/login.service';
 
 @Component({
     selector   : 'fuse-nav-horizontal-item',
@@ -14,9 +16,11 @@ export class FuseNavHorizontalItemComponent
     item: any;
 
     /**
-     * Constructor
+     *
+     * @param _loginService
      */
-    constructor()
+    constructor(
+        private _loginService: LoginService)
     {
 
     }

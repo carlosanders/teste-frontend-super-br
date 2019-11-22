@@ -144,8 +144,7 @@ export function normalized(
                                                             [key]: entities[c][id][key]
                                                         }
                                                     };
-                                                }
-                                                else {
+                                                } else {
                                                     p[c] = {
                                                         ...p[c],
                                                         [id]: {

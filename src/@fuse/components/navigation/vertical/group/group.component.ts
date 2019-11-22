@@ -4,6 +4,8 @@ import { takeUntil } from 'rxjs/operators';
 
 import { FuseNavigationItem } from '@fuse/types';
 import { FuseNavigationService } from '@fuse/components/navigation/navigation.service';
+import {Router} from '@angular/router';
+import {LoginService} from '../../../../../app/main/auth/login/login.service';
 
 @Component({
     selector   : 'fuse-nav-vertical-group',
@@ -27,12 +29,14 @@ export class FuseNavVerticalGroupComponent implements OnInit, OnDestroy
 
     /**
      *
-     * @param {ChangeDetectorRef} _changeDetectorRef
-     * @param {FuseNavigationService} _fuseNavigationService
+     * @param _changeDetectorRef
+     * @param _fuseNavigationService
+     * @param _loginService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _fuseNavigationService: FuseNavigationService
+        private _fuseNavigationService: FuseNavigationService,
+        private _loginService: LoginService
     )
     {
         // Set the private defaults

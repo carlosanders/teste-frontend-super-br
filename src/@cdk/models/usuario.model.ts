@@ -1,6 +1,6 @@
 import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
-import {Role} from './role.model';
+import {VinculacaoRole} from './vinculacao-role.model';
 
 export class Usuario {
 
@@ -58,8 +58,8 @@ export class Usuario {
     apagadoEm?: Date;
 
     @Exclude({toPlainOnly: true})
-    @Type(() => Role)
-    roles: Role[];
+    @Type(() => VinculacaoRole)
+    vinculacoesRoles: VinculacaoRole[];
 
     constructor() {
         this.id = null;
@@ -70,7 +70,7 @@ export class Usuario {
         this.email = null;
         this.enabled = null;
         this.nivelAcesso = null;
-        this.roles = null;
+        this.vinculacoesRoles = null;
         this.criadoPor = null;
         this.criadoEm = null;
         this.atualizadoPor = null;

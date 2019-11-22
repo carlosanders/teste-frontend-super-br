@@ -1,4 +1,4 @@
-<ng-container *ngIf="!item.hidden">
+<ng-container *ngIf="!item.hidden && (!item.role || _loginService.isGranted(item.role))">
 
     <!-- normal collapsable -->
     <a class="nav-link" [ngClass]="item.classes" *ngIf="!item.url && !item.function"

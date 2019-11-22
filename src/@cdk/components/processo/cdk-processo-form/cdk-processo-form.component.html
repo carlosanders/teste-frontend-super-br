@@ -247,11 +247,9 @@
 </form>
 
 <cdk-especie-processo-gridsearch
-        fxFlex="1 0 auto"
         *ngIf="activeCard === 'especie-processo-gridsearch'"
         [pagination]="especieProcessoPagination"
         (selected)="selectEspecieProcesso($event)"
-        [pagination]="especieProcessoPagination"
         (cancel)="cancel()">
 </cdk-especie-processo-gridsearch>
 
@@ -260,7 +258,6 @@
         *ngIf="activeCard === 'modalidade-fase-gridsearch'"
         [pagination]="modalidadeFasePagination"
         (selected)="selectModalidadeFase($event)"
-        [pagination]="modalidadeFasePagination"
         (cancel)="cancel()">
 </cdk-modalidade-fase-gridsearch>
 
@@ -269,7 +266,6 @@
         *ngIf="activeCard === 'modalidade-meio-gridsearch'"
         [pagination]="modalidadeMeioPagination"
         (selected)="selectModalidadeMeio($event)"
-        [pagination]="modalidadeMeioPagination"
         (cancel)="cancel()">
 </cdk-modalidade-meio-gridsearch>
 
@@ -286,7 +282,6 @@
         *ngIf="activeCard === 'setor-gridsearch'"
         [pagination]="setorAtualPagination"
         (selected)="selectSetor($event)"
-        [pagination]="setorAtualPagination"
         (cancel)="cancel()">
 </cdk-setor-gridsearch>
 

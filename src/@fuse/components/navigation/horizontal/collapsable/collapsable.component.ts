@@ -4,6 +4,8 @@ import { takeUntil } from 'rxjs/operators';
 
 import { fuseAnimations } from '@fuse/animations';
 import { FuseConfigService } from '@fuse/services/config.service';
+import {Router} from '@angular/router';
+import {LoginService} from '../../../../../app/main/auth/login/login.service';
 
 @Component({
     selector   : 'fuse-nav-horizontal-collapsable',
@@ -25,8 +27,14 @@ export class FuseNavHorizontalCollapsableComponent implements OnInit, OnDestroy
     // Private
     private _unsubscribeAll: Subject<any>;
 
+    /**
+     *
+     * @param _fuseConfigService
+     * @param _loginService
+     */
     constructor(
-        private _fuseConfigService: FuseConfigService
+        private _fuseConfigService: FuseConfigService,
+        private _loginService: LoginService
     )
     {
         // Set the private defaults

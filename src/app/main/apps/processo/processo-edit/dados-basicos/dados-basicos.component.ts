@@ -98,6 +98,7 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
             });
 
         this.logEntryPagination.filter = {entity: 'SuppCore\\AdministrativoBackend\\Entity\\Processo', id: + this.processo.id};
+        this.especieProcessoPagination.filter = {'generoProcesso.nome': 'eq:ADMINISTRATIVO'};
         this.especieProcessoPagination.populate = ['generoProcesso'];
         this.setorAtualPagination.populate = ['unidade', 'parent'];
         this.setorAtualPagination.filter = {id: 'in:' + this._profile.lotacoes.map(lotacao => lotacao.setor.id).join(',')};

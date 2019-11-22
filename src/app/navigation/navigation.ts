@@ -13,7 +13,8 @@ export const navigation: FuseNavigation[] = [
                 translate: 'NAV.PAINEL.TITLE',
                 type: 'item',
                 icon: 'dashboard',
-                url: '/apps/painel'
+                url: '/apps/painel',
+                role: 'ROLE_COLABORADOR'
             },
             {
                 id: 'tarefas',
@@ -30,7 +31,8 @@ export const navigation: FuseNavigation[] = [
                         icon: 'person',
                         url: '/apps/tarefas/administrativo/entrada'
                     }
-                ]
+                ],
+                role: 'ROLE_COLABORADOR'
             },
             {
                 id: 'protocolo',
@@ -47,7 +49,8 @@ export const navigation: FuseNavigation[] = [
                         icon: 'book',
                         url: '/apps/processo/criar/editar/dados-basicos'
                     }
-                ]
+                ],
+                role: 'ROLE_COLABORADOR'
             },
             {
                 id: 'pesquisa',
@@ -55,7 +58,8 @@ export const navigation: FuseNavigation[] = [
                 translate: 'NAV.PESQUISA.TITLE',
                 type: 'item',
                 icon: 'search',
-                url: '/apps/pesquisa/processos'
+                url: '/apps/pesquisa/processos',
+                role: 'ROLE_COLABORADOR'
             }
         ]
     }
