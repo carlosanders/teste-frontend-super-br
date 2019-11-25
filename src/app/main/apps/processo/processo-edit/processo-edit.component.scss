@@ -8,6 +8,10 @@ processo-edit {
         overflow-y: auto;
     }
 
+    .altura {
+        height: 100%;
+    }
+
     .sidebar {
 
         &:not(.locked-open) {
