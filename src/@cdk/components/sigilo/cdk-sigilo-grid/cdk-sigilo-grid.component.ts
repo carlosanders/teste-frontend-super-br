@@ -196,6 +196,7 @@ export class CdkSigiloGridComponent implements AfterViewInit, OnInit, OnChanges 
 
     /**
      * @param _changeDetectorRef
+     * @param _fuseSidebarService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -277,6 +278,7 @@ export class CdkSigiloGridComponent implements AfterViewInit, OnInit, OnChanges 
     }
 
     deleteSigilos(sigilosId): void {
+
         sigilosId.forEach(sigiloId => this.deleteSigilo(sigiloId));
     }
 

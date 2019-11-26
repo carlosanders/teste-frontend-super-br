@@ -16,6 +16,8 @@ import {CdkAtividadeFormModule} from '@cdk/components/atividade/cdk-atividade-fo
 import {CdkVisibilidadeListModule} from '@cdk/components/visibilidade/cdk-visibilidade-list/cdk-visibilidade-list.module';
 import {CdkVisibilidadeFormModule} from '@cdk/components/visibilidade/cdk-visibilidade-form/cdk-visibilidade-form.module';
 import {FavoritoService} from '@cdk/services/favorito.service';
+import {CdkSigiloFormModule} from '@cdk/components/sigilo/cdk-sigilo-form/cdk-sigilo-form.module';
+import {CdkSigiloGridModule} from '@cdk/components/sigilo/cdk-sigilo-grid/cdk-sigilo-grid.module';
 
 const routes: Routes = [
     {
@@ -60,6 +62,8 @@ const routes: Routes = [
         CdkAtividadeFormModule,
         CdkVisibilidadeListModule,
         CdkVisibilidadeFormModule,
+        CdkSigiloFormModule,
+        CdkSigiloGridModule,
     ],
     providers: [
         DocumentoService,

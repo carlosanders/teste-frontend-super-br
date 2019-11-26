@@ -37,6 +37,7 @@ export class CdkModeloGridFilterComponent implements OnInit {
             descricao: [null],
             ativo: [null],
             modalidadeModelo: [null],
+            modalidadeMeio: [null],
             template: [null],
             documento: [null],
             criadoPor: [null],
