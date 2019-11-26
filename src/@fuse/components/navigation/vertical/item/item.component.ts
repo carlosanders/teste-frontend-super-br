@@ -35,7 +35,7 @@ export class FuseNavVerticalItemComponent implements OnInit, OnDestroy
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _fuseNavigationService: FuseNavigationService,
-        private _loginService: LoginService
+        public _loginService: LoginService
     )
     {
         // Set the private defaults

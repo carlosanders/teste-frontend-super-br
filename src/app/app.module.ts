@@ -85,10 +85,10 @@ const routingConfiguration: ExtraOptions = {
 
         CKEditorModule,
 
-        InMemoryWebApiModule.forRoot(FakeDbService, {
-            delay: 0,
-            passThruUnknownUrl: true
-        }),
+        // InMemoryWebApiModule.forRoot(FakeDbService, {
+        //     delay: 0,
+        //     passThruUnknownUrl: true
+        // }),
 
         // App modules
         LayoutModule,
