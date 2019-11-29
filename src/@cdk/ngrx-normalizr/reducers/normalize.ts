@@ -123,40 +123,17 @@ export function normalized(
                                         }
                                     };
                                 } else {
-
                                     Object.keys(entities[c][id]).forEach(
                                         (key) => {
-                                            if (typeof p[c][id][key] === 'undefined') {
-                                                p[c] = {
-                                                    ...p[c],
-                                                    [id]: {
-                                                        ...p[c][id],
-                                                        [key]: entities[c][id][key]
-                                                    }
-                                                };
-                                            } else {
-                                                if (typeof p[c][id][key] === 'object' &&
-                                                    typeof entities[c][id][key] !== 'undefined') {
-                                                    p[c] = {
-                                                        ...p[c],
-                                                        [id]: {
-                                                            ...p[c][id],
-                                                            [key]: entities[c][id][key]
-                                                        }
-                                                    };
-                                                } else {
-                                                    p[c] = {
-                                                        ...p[c],
-                                                        [id]: {
-                                                            ...p[c][id],
-                                                            [key]: entities[c][id][key]
-                                                        }
-                                                    };
+                                            p[c] = {
+                                                ...p[c],
+                                                [id]: {
+                                                    ...p[c][id],
+                                                    [key]: entities[c][id][key]
                                                 }
-                                            }
+                                            };
                                         }
                                     );
-
                                 }
                             }
                         );

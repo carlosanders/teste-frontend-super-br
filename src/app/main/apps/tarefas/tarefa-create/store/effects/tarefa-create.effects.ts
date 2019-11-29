@@ -71,7 +71,11 @@ export class TarefaCreateEffect {
             .pipe(
                 ofType<TarefaCreateActions.SaveTarefaSuccess>(TarefaCreateActions.SAVE_TAREFA_SUCCESS),
                 tap(() => {
-                    this._router.navigate([this.routerState.url.replace('/criar', '')]).then();
+                    if (this.routerState.params.processoHandle) {
+                        this._router.navigate([this.routerState.url.replace('/criar/' + this.routerState.params.processoHandle, '')]).then();
+                    } else {
+                        this._router.navigate([this.routerState.url.replace('/criar', '')]).then();
+                    }
                 })
             );
 }

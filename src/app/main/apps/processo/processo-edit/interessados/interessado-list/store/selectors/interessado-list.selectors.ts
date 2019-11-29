@@ -3,7 +3,7 @@ import {
     getInteressadoListAppState,
     InteressadoListAppState,
     InteressadoListState
-} from 'app/main/apps/processo/processo-edit/interessados/interessado-list/store/reducers';
+} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {interessado as interessadoSchema} from '@cdk/normalizr/interessado.schema';
