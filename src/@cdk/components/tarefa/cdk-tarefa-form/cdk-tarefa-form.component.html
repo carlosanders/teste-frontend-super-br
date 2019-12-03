@@ -160,6 +160,24 @@
             </mat-error>
         </mat-form-field>
 
+        <mat-slide-toggle *ngIf="!tarefa.id && mode === 'regular'" formControlName="blocoResponsaveis"
+                          class="mr-16 mb-16" fxFlex="0 1 auto">
+            Bloco de Responsaveis
+        </mat-slide-toggle>
+
+        <div fxFlex="1 0 auto" *ngIf="form.get('blocoResponsaveis').value" class="bloco-responsaveis">
+            <div fxFlex="1 0 auto">
+                <button mat-icon-button type="button" matTooltip="Incluir Mais Responsáveis"
+                        (click)="(selectBlocoResponsaveis())">
+                    <mat-icon class="black-fg">add</mat-icon>
+                </button>
+            </div>
+            <cdk-bloco-responsaveis-grid *ngIf="blocoResponsaveis?.length > 0"
+                [(responsaveis)]="blocoResponsaveis"
+                [actions]="['delete']">
+            </cdk-bloco-responsaveis-grid>
+        </div>
+
         <mat-slide-toggle formControlName="urgente"
                           *ngIf="mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditUrgente"
                           class="mr-16 mb-16" fxFlex="0 1 auto">

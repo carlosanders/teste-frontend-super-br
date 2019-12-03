@@ -43,7 +43,7 @@ export class TarefaCreateEffect {
         this._actions
             .pipe(
                 ofType<TarefaCreateActions.SaveTarefa>(TarefaCreateActions.SAVE_TAREFA),
-                switchMap((action) => {
+                mergeMap((action) => {
                     return this._tarefaService.save(action.payload).pipe(
                         mergeMap((response: Tarefa) => [
                             new TarefaCreateActions.SaveTarefaSuccess(),
