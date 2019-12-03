@@ -75,7 +75,7 @@ cdk-volume-grid {
     width: 100%;
   }
 
-  @media screen and (max-width: 960px) {
+  .responsive-grid[max-width~="600px"] {
     .mat-elevation-z8 {
       box-shadow: none;
     }

@@ -40,34 +40,18 @@ cdk-especie-atividade-grid {
 
   }
 
-  .content {
+  .mat-column-select {
+    overflow: initial;
+  }
 
-    .actions {
-      width: 100%;
+  table {
+    width: 100%;
 
-      .back {
-        margin-right: auto;
+    td {
+      &.deleted {
+        text-decoration: line-through;
       }
     }
-
-    .mat-column-select {
-      overflow: initial;
-    }
-
-    table {
-      width: 100%;
-
-      tr {
-        height: auto;
-      }
-
-      td {
-        &.deleted {
-          text-decoration: line-through;
-        }
-      }
-    }
-
   }
 
   .mat-form-field {
@@ -75,7 +59,7 @@ cdk-especie-atividade-grid {
     width: 100%;
   }
 
-  @media screen and (max-width: 960px) {
+  .responsive-grid[max-width~="600px"] {
     .mat-elevation-z8 {
       box-shadow: none;
     }
@@ -145,6 +129,16 @@ cdk-especie-atividade-grid {
 
     .mat-paginator {
       margin-top: 24px;
+    }
+  }
+
+  .content {
+    .actions {
+      width: 100%;
+
+      .back {
+        margin-right: auto;
+      }
     }
   }
 }

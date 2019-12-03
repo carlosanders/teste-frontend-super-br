@@ -11,7 +11,7 @@
     <!-- / SIDEBAR -->
 
     <!-- CONTENT -->
-    <div class="content" fxLayoutAlign="center start">
+    <div class="content responsive-grid" fxLayoutAlign="center start">
 
         <div class="mb-8 p-8" fxFlex fxLayout="column" fxLayoutAlign="center center">
 
@@ -46,7 +46,7 @@
                     <mat-icon>refresh</mat-icon>
                 </button>
 
-                <button class="toggle-filter" mat-icon-button mat-icon-button [ngClass]="{'warn': (gridFilter | json) != '{}'}"
+                <button class="toggle-filter" mat-icon-button [ngClass]="{'warn': (gridFilter | json) != '{}'}"
                         (click)="toggleFilter()"
                         aria-label="filtrar"
                         matTooltip="Filtrar">
@@ -119,7 +119,7 @@
                     </th>
                     <td mat-cell *matCellDef="let especieAtividade" class='has_label_on_mobile' data-label='Ativo: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(especieAtividade.id) > -1}">
-                        <mat-checkbox [disabled]="true" [checked]="ativo"></mat-checkbox>
+                        <mat-checkbox [disabled]="true" [checked]="especieAtividade.ativo"></mat-checkbox>
                     </td>
                 </ng-container>
 

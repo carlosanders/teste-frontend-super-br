@@ -45,7 +45,7 @@ export class CdkEspecieAtividadeGridsearchComponent implements OnInit {
     loading: boolean;
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'genero.nome', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'generoAtividade.nome', 'actions'];
 
     /**
      *
