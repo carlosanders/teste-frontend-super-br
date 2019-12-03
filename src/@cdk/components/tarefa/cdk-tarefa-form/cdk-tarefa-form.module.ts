@@ -35,6 +35,7 @@ import {FavoritoService} from '@cdk/services/favorito.service';
 import {LoginService} from '../../../../app/main/auth/login/login.service';
 import {CdkLogentryGridModule} from '@cdk/components/logentry/cdk-logentry-grid/cdk-logentry-grid.module';
 import {CdkLogentryGridsearchModule} from '@cdk/components/logentry/cdk-logentry-grid/cdk-logentry-gridsearch/cdk-logentry-gridsearch.module';
+import {CdkBlocoResponsaveisGridModule} from "../cdk-bloco-responsaveis-grid/cdk-bloco-responsaveis-grid.module";
 
 @NgModule({
     declarations: [
@@ -72,6 +73,7 @@ import {CdkLogentryGridsearchModule} from '@cdk/components/logentry/cdk-logentry
         MatTooltipModule,
         CdkLogentryGridModule,
         CdkLogentryGridsearchModule,
+        CdkBlocoResponsaveisGridModule,
     ],
     providers: [
         EspecieTarefaService,
