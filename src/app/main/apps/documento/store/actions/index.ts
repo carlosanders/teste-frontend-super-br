@@ -6,3 +6,4 @@ export * from './componentes-digitais.actions';
 export * from './atividade-documento.actions';
 export * from './visibilidade.actions';
 export * from './sigilos.actions';
+export * from './assinaturas.actions';

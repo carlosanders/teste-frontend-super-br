@@ -23,8 +23,8 @@ import {ModeloService} from '@cdk/services/modelo.service';
 import {Repositorio} from '@cdk/models/repositorio.model';
 import {RepositorioService} from '@cdk/services/repositorio.service';
 import {environment} from 'environments/environment';
-import * as fromStore from './componentes-digitais.effects';
-import {UnloadDocumento} from '../actions/documento.actions';
+import {UnloadDocumento} from '../actions';
+import * as AssinaturaActions from '../actions/assinaturas.actions';
 
 @Injectable()
 export class DocumentoEffect {
@@ -115,6 +115,7 @@ export class DocumentoEffect {
                             value: this.routerState.params.documentoHandle
                         },
                         documentoId: response['entities'][0].id,
+                        // tslint:disable-next-line:max-line-length
                         editavel: (response['entities'][0].documentoAvulsoRemessa && !response['entities'][0].documentoAvulsoRemessa.dataHoraRemessa) || !response['entities'][0].juntadaAtual,
                         currentComponenteDigitalId: response['entities'][0].componentesDigitais[0] ? response['entities'][0].componentesDigitais[0].id : null
                     })
@@ -139,6 +140,14 @@ export class DocumentoEffect {
                     if (this.routerState.url.indexOf('anexar-copia') === -1) {
                         if (action.payload.currentComponenteDigitalId) {
                             this._store.dispatch(new DocumentoActions.SetCurrentStep({id: action.payload.currentComponenteDigitalId, editavel: action.payload.editavel}));
+                            this._store.dispatch(new AssinaturaActions.GetAssinaturas({
+                                filter: {
+                                    'componenteDigital.id': 'eq:' + action.payload.currentComponenteDigitalId
+                                },
+                                limit: 5,
+                                offset: 0,
+                                sort: {criadoEm: 'DESC'}
+                            }));
                         } else {
                             this._router.navigate([
                                     this.routerState.url.split('/componente-digital/')[0] + '/componente-digital/0/empty'

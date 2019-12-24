@@ -71,6 +71,7 @@ export class EncaminhamentoComponent implements OnInit, OnDestroy {
         ).subscribe(tarefa => {
             this.tarefa = tarefa;
         });
+
     }
     /**
      * On destroy
@@ -102,6 +103,6 @@ export class EncaminhamentoComponent implements OnInit, OnDestroy {
     }
 
     cancel(): void {
-        this._router.navigate(['apps/tarefas/entrada']).then();
+        this._router.navigate(['apps/tarefas/' + this.routerState.url.split('/')[3] + '/entrada']).then();
     }
 }

@@ -4,12 +4,14 @@ export interface ProcessoState {
     processoId: number;
     loading: boolean;
     loaded: any;
+    restricaoProcesso: boolean;
 }
 
 export const ProcessoInitialState: ProcessoState = {
     processoId: null,
     loading: false,
-    loaded: false
+    loaded: false,
+    restricaoProcesso: false
 };
 
 export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoActions.ProcessoActionsAll): ProcessoState {
@@ -19,7 +21,8 @@ export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoAc
             return {
                 processoId: null,
                 loaded: false,
-                loading: true
+                loading: true,
+                restricaoProcesso: false
             };
         }
 
@@ -28,13 +31,43 @@ export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoAc
             return {
                 processoId: action.payload.processoId,
                 loading: false,
-                loaded: action.payload.loaded
+                loaded: action.payload.loaded,
+                restricaoProcesso: false
             };
         }
 
         case ProcessoActions.GET_PROCESSO_FAILED: {
             return {
                 processoId: null,
+                loading: false,
+                loaded: false,
+                restricaoProcesso: false
+            };
+        }
+
+        case ProcessoActions.GET_VISIBILIDADES_PROCESSO_TAREFA: {
+            return {
+                ...state,
+                loading: true,
+                processoId: action.payload
+            };
+        }
+
+        case ProcessoActions.GET_VISIBILIDADES_PROCESSO_TAREFA_SUCCESS: {
+
+            const loaded = action.payload.loaded;
+
+            return {
+                ...state,
+                restricaoProcesso: action.payload.restricaoProcesso,
+                loading: false,
+                loaded
+            };
+        }
+
+        case ProcessoActions.GET_VISIBILIDADES_PROCESSO_TAREFA_FAILED: {
+            return {
+                ...state,
                 loading: false,
                 loaded: false
             };

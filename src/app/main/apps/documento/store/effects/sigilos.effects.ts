@@ -83,11 +83,11 @@ export class SigiloEffect {
                 switchMap((action) => {
 
                     const params = {
-                        filter: {
-                            'documento.id': action.payload.documentoId
+                        filter: action.payload.filter ? action.payload.filter : {
+                            'documento.id': 'eq:' + action.payload
                         },
-                        limit: 5,
-                        offset: 0,
+                        limit: action.payload.limit ? action.payload.limit : 5,
+                        offset: action.payload.offset ? action.payload.offset : 0,
                         sort: {criadoEm: 'DESC'},
                         populate: ['tipoSigilo']
                     };

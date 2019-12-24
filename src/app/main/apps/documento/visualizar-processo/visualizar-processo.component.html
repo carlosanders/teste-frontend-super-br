@@ -1,0 +1,16 @@
+<div class="actions p-8" fxLayout="row" fxLayoutAlign="start center">
+    <button class="back" mat-icon-button
+            (click)="back()"
+            aria-label="voltar"
+            matTooltip="Voltar">
+        <mat-icon>arrow_back</mat-icon>
+    </button>
+
+    <div *ngIf="(isSaving$ | async)" class="visualizar-processo mr-sm-12"
+         fxLayoutAlign="start center">
+        <mat-spinner color="accent" diameter="24"></mat-spinner>
+    </div>
+
+</div>
+
+<router-outlet (activate)="onActivate($event)" (deactivate)="onDeactivate($event)"></router-outlet>
