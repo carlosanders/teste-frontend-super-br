@@ -241,7 +241,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                         this._changeDetectorRef.markForCheck();
                     }
 
-                    if (value) {
+                    if (value && typeof value === 'object') {
                         this.processo.emit(this.form.get('processo').value);
                     }
 
@@ -249,6 +249,10 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                 }
             )
         ).subscribe();
+
+        if (this.form.get('processo').value && this.form.get('processo').value.id) {
+           this.processo.emit(this.form.get('processo').value);
+        }
     }
 
     /**

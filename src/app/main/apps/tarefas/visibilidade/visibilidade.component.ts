@@ -89,10 +89,6 @@ export class VisibilidadeComponent implements OnInit, OnDestroy {
         this.usuarioPagination = new Pagination();
         this.usuarioPagination.filter = {id: `neq:${this._profile.usuario.id}`};
 
-    }
-
-    ngOnInit(): void {
-
         this._store
             .pipe(select(getRouterState),
                 takeUntil(this._unsubscribeAll))
@@ -102,9 +98,9 @@ export class VisibilidadeComponent implements OnInit, OnDestroy {
                 }
             });
 
-        this._router.events.pipe(
-            takeUntil(this._unsubscribeAll)
-        ).subscribe();
+    }
+
+    ngOnInit(): void {
 
     }
 
@@ -114,7 +110,8 @@ export class VisibilidadeComponent implements OnInit, OnDestroy {
 
     showFormTarefa(): void {
 
-        this._router.navigate([this.routerState.url.replace('visibilidade', 'criar')]).then();
+        this._router.navigate(['/apps/tarefas/' + this.routerState.params.generoHandle + '/' +
+        this.routerState.params.folderHandle + '/criar']).then();
     }
 
     submitVisibilidade(visibilidade): void {

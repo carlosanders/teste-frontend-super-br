@@ -6,8 +6,6 @@ import {TranslateModule} from '@ngx-translate/core';
 import {VisibilidadeComponent} from './visibilidade.component';
 import {VisibilidadeStoreModule} from './store/store.module';
 import {CdkModeloGridModule} from '@cdk/components/modelo/cdk-modelo-grid/cdk-modelo-grid.module';
-import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
-import {DocumentoService} from '@cdk/services/documento.service';
 import * as fromGuards from './store/guards';
 import {
     MatButtonModule,
@@ -49,8 +47,6 @@ const routes: Routes = [
         MatTooltipModule,
     ],
     providers: [
-        ComponenteDigitalService,
-        DocumentoService,
         fromGuards.ResolveGuard
     ]
 })
