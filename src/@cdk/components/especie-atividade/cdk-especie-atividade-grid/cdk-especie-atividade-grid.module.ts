@@ -9,6 +9,7 @@ import {
     MatPaginatorModule,
     MatSortModule,
     MatSelectModule,
+    MatTooltipModule,
 } from '@angular/material';
 
 import {FuseSidebarModule} from '@fuse/components';
@@ -34,6 +35,7 @@ import {CdkEspecieAtividadeMainSidebarComponent} from './sidebars/main/main.comp
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
+        MatTooltipModule,
 
         CdkEspecieAtividadeGridFilterModule,
         CdkEspecieAtividadeAutocompleteModule,

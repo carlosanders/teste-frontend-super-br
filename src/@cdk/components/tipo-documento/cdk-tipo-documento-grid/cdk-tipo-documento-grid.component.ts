@@ -175,6 +175,10 @@ export class CdkTipoDocumentoGridComponent implements AfterViewInit, OnInit, OnC
     }
 
     ngOnInit(): void {
+        const ElementQueries = require('css-element-queries/src/ElementQueries');
+        ElementQueries.listen();
+        ElementQueries.init();
+
         this.paginator._intl.itemsPerPageLabel = 'Registros por página';
         this.paginator._intl.nextPageLabel = 'Seguinte';
         this.paginator._intl.previousPageLabel = 'Anterior';
