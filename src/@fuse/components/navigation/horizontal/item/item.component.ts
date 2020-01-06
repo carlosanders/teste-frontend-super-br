@@ -20,7 +20,7 @@ export class FuseNavHorizontalItemComponent
      * @param _loginService
      */
     constructor(
-        private _loginService: LoginService)
+        public _loginService: LoginService)
     {
 
     }

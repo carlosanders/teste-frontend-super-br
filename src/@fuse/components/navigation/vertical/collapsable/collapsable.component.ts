@@ -39,7 +39,7 @@ export class FuseNavVerticalCollapsableComponent implements OnInit, OnDestroy
         private _changeDetectorRef: ChangeDetectorRef,
         private _fuseNavigationService: FuseNavigationService,
         private _router: Router,
-        private _loginService: LoginService
+        public _loginService: LoginService
     )
     {
         // Set the private defaults

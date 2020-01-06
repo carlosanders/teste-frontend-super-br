@@ -1,4 +1,4 @@
-<div class="content p-16">
+<div class="content p-16 altura">
     <cdk-tarefa-form
             [tarefa]="tarefa"
             [saving]="(isSaving$ | async)"
@@ -6,6 +6,8 @@
             [especieTarefaPagination]="especieTarefaPagination"
             [setorOrigemPagination]="setorOrigemPagination"
             [setorResponsavelPagination]="setorResponsavelPagination"
-            (save)="submit($event)">
+            (save)="submit($event)"
+            (processo)="verificaVisibilidadeProcesso($event)"
+            >
     </cdk-tarefa-form>
 </div>

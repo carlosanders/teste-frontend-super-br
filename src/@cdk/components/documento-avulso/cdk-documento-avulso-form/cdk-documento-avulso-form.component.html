@@ -140,24 +140,21 @@
             Urgente
         </mat-slide-toggle>
 
-        <div class="dates" fxLayout="row">
-            <mat-form-field class="mr-sm-12" fxFlex>
-                <mat-label>Início do Prazo</mat-label>
-                <input matInput formControlName="dataHoraInicioPrazo" [matDatetimepicker]="dataHoraInicioPrazo"
-                       required>
-                <mat-datetimepicker-toggle matSuffix [for]="dataHoraInicioPrazo"></mat-datetimepicker-toggle>
-                <mat-datetimepicker #dataHoraInicioPrazo type="datetime" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
-            </mat-form-field>
+        <mat-form-field fxFlex="100">
+            <mat-label>Início do Prazo</mat-label>
+            <input matInput formControlName="dataHoraInicioPrazo" [matDatetimepicker]="dataHoraInicioPrazo"
+                   required>
+            <mat-datetimepicker-toggle matSuffix [for]="dataHoraInicioPrazo"></mat-datetimepicker-toggle>
+            <mat-datetimepicker #dataHoraInicioPrazo type="datetime" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
+        </mat-form-field>
 
-            <mat-form-field class="mr-sm-12" fxFlex>
-                <mat-label>Final do Prazo</mat-label>
-                <input matInput formControlName="dataHoraFinalPrazo" [matDatetimepicker]="dataHoraFinalPrazo"
-                       required>
-                <mat-datetimepicker-toggle matSuffix [for]="dataHoraFinalPrazo"></mat-datetimepicker-toggle>
-                <mat-datetimepicker #dataHoraFinalPrazo type="datetime" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
-            </mat-form-field>
-
-        </div>
+        <mat-form-field fxFlex="100">
+            <mat-label>Final do Prazo</mat-label>
+            <input matInput formControlName="dataHoraFinalPrazo" [matDatetimepicker]="dataHoraFinalPrazo"
+                   required>
+            <mat-datetimepicker-toggle matSuffix [for]="dataHoraFinalPrazo"></mat-datetimepicker-toggle>
+            <mat-datetimepicker #dataHoraFinalPrazo type="datetime" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
+        </mat-form-field>
 
         <mat-form-field class="mr-16" fxFlex="1 0 auto">
             <textarea formControlName="observacao"

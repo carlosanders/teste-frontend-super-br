@@ -3,7 +3,7 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable} from 'rxjs';
-import {catchError, switchMap} from 'rxjs/operators';
+import {catchError, filter, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as ProcessoActions from '../actions/processo.actions';
@@ -13,6 +13,7 @@ import {LoginService} from 'app/main/auth/login/login.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Processo} from '@cdk/models/processo.model';
 import {processo as processoSchema} from '@cdk/normalizr/processo.schema';
+
 
 @Injectable()
 export class ProcessoEffect {
@@ -70,5 +71,37 @@ export class ProcessoEffect {
                     this._store.dispatch(new ProcessoActions.GetProcessoFailed(err));
                     return caught;
                 })
+            );
+
+    /**
+     * Get Visibilidades with router parameters
+     * @type {Observable<any>}
+     */
+    @Effect()
+    getVisibilidades: any =
+        this._actions
+            .pipe(
+                ofType<ProcessoActions.GetVisibilidades>(ProcessoActions.GET_VISIBILIDADES_PROCESSO_TAREFA),
+                switchMap((action) => {
+                    return this._processoService.getVisibilidade(action.payload);
+                }),
+                tap((action) => {
+                    if (action[0].label !== 'TODOS OS USUÁRIOS') {
+                        action.restricaoProcesso = true;
+                    } else {
+                        action.restricaoProcesso = false;
+                    }
+                }),
+                mergeMap((response) => [
+                    new ProcessoActions.GetVisibilidadesSuccess({
+                        restricaoProcesso: response.restricaoProcesso
+                    })
+                ]),
+                catchError((err, caught) => {
+                    console.log (err);
+                    this._store.dispatch(new ProcessoActions.GetVisibilidadesFailed(err));
+                    return caught;
+                })
+
             );
 }

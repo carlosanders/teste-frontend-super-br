@@ -33,19 +33,26 @@ export class CdkPessoaGridFilterComponent implements OnInit {
     ) {
         this.form = this._formBuilder.group({
             nome: [null],
-            naturalidade: [null],
-            profissao: [null],
+            numeroDocumentoPrincipal: [null],
             contato: [null],
             pessoaValidada: [null],
+            pessoaRepresentada: [null],
             dataNascimento: [null],
             dataObito: [null],
-            nacionalidade: [null],
-            numeroDocumentoPrincipal: [null],
             nomeGenitor: [null],
             nomeGenitora: [null],
-            modalidadeGeneroPessoa: [null],
+            profissao: [null],
+            nacionalidade: [null],
+            naturalidade: [null],
             modalidadeQualificacaoPessoa: [null],
+            modalidadeGeneroPessoa: [null],
             origemDados: [null],
+            criadoPor: [null],
+            criadoEm: [null],
+            atualizadoPor: [null],
+            atualizadoEm: [null],
+            apagadoPor: [null],
+            apagadoEm: [null],
         });
     }
 
@@ -132,6 +139,16 @@ export class CdkPessoaGridFilterComponent implements OnInit {
                 this.filters = {
                     ...this.filters,
                     pessoaValidada: `eq:${value}`
+                };
+                this.selected.emit(this.filters);
+            }
+        });
+
+        this.form.get('pessoaRepresentada').valueChanges.subscribe(value => {
+            if (value !== null) {
+                this.filters = {
+                    ...this.filters,
+                    pessoaRepresentada: `eq:${value}`
                 };
                 this.selected.emit(this.filters);
             }

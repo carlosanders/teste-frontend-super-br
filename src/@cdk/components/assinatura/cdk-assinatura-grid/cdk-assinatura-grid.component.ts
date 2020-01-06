@@ -35,7 +35,7 @@ export class CdkAssinaturaGridComponent implements AfterViewInit, OnInit, OnChan
     total = 0;
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'criadoEm', 'componenteDigital.conteudo', 'dataHoraAssinatura', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'criadoEm', 'criadoPor.nome', 'dataHoraAssinatura', 'actions'];
 
     allColumns: any[] = [
         {
@@ -47,26 +47,6 @@ export class CdkAssinaturaGridComponent implements AfterViewInit, OnInit, OnChan
             id: 'id',
             label: 'Id',
             fixed: true
-        },
-        {
-            id: 'componenteDigital.conteudo',
-            label: 'Conteúdo',
-            fixed: true
-        },
-        {
-            id: 'algoritmoHash',
-            label: 'Algoritmo Hash',
-            fixed: false
-        },
-        {
-            id: 'assinatura',
-            label: 'Assinatura',
-            fixed: false
-        },
-        {
-            id: 'cadeiaCertificadoPEM',
-            label: 'Cadeia Certificado PEM',
-            fixed: false
         },
         {
             id: 'dataHoraAssinatura',
@@ -86,26 +66,6 @@ export class CdkAssinaturaGridComponent implements AfterViewInit, OnInit, OnChan
         {
             id: 'criadoEm',
             label: 'Criado Em',
-            fixed: false
-        },
-        {
-            id: 'atualizadoPor.nome',
-            label: 'Atualizado Por',
-            fixed: false
-        },
-        {
-            id: 'atualizadoEm',
-            label: 'Atualizado Em',
-            fixed: false
-        },
-        {
-            id: 'apagadoPor.nome',
-            label: 'Apagado Por',
-            fixed: false
-        },
-        {
-            id: 'apagadoEm',
-            label: 'Apagado Em',
             fixed: false
         },
         {

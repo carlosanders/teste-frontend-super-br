@@ -1,5 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {DocumentoAppState, getDocumentoAppState, VisibilidadeState} from '../reducers';
+import {DocumentoAppState, getDocumentoAppState, SigilosState, VisibilidadeState} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {visibilidade as visibilidadeSchema} from '@cdk/normalizr/visibilidade.schema';
@@ -54,3 +54,12 @@ export const getHasLoaded = createSelector(
     (state: VisibilidadeState) => state.loaded
 );
 
+export const getVisibilidadeIsLoading = createSelector(
+    getVisibilidadeState,
+    (state: VisibilidadeState) => state.loading
+);
+
+export const getIsSavingVisibilidade = createSelector(
+    getVisibilidadeState,
+    (state: VisibilidadeState) => state.saving
+);

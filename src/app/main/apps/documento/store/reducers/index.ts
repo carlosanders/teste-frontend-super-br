@@ -6,6 +6,8 @@ import { DocumentosVinculadosReducer, DocumentosVinculadosState } from './docume
 import { ComponenteDigitalReducer, ComponenteDigitalState } from './componentes-digitais.reducer';
 import { AtividadeDocumentoReducer, AtividadeDocumentoState } from './atividade-documento.reducer';
 import {VisibilidadeReducer, VisibilidadeState} from './visibilidade.reducer';
+import {SigilosReducer, SigilosState} from './sigilos.reducer';
+import {AssinaturasReducer, AssinaturasState} from './assinaturas.reducer';
 
 export interface DocumentoAppState
 {
@@ -16,6 +18,8 @@ export interface DocumentoAppState
     componentesDigitais: ComponenteDigitalState;
     atividadeDocumento: AtividadeDocumentoState;
     visibilidades: VisibilidadeState;
+    sigilos: SigilosState;
+    assinaturas: AssinaturasState;
 }
 
 export const getDocumentoAppState = createFeatureSelector<DocumentoAppState>(
@@ -34,7 +38,9 @@ export const reducers: ActionReducerMap<DocumentoAppState> = {
     documentosVinculados: DocumentosVinculadosReducer,
     componentesDigitais: ComponenteDigitalReducer,
     atividadeDocumento: AtividadeDocumentoReducer,
-    visibilidades: VisibilidadeReducer
+    visibilidades: VisibilidadeReducer,
+    sigilos: SigilosReducer,
+    assinaturas: AssinaturasReducer
 };
 
 export * from './documento.reducer';
@@ -44,4 +50,5 @@ export * from './documentos-vinculados.reducer';
 export * from './componentes-digitais.reducer';
 export * from './atividade-documento.reducer';
 export * from './visibilidade.reducer';
-
+export * from './sigilos.reducer';
+export * from './assinaturas.reducer';

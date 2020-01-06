@@ -5,7 +5,7 @@ import {
     MatInputModule,
     MatCheckboxModule,
     MatProgressSpinnerModule,
-    MatSortModule, MatMenuModule, MatAutocompleteModule,
+    MatSortModule, MatMenuModule, MatAutocompleteModule, MatRippleModule,
 } from '@angular/material';
 
 import { FuseSharedModule } from '@fuse/shared.module';
@@ -28,7 +28,7 @@ import { DndModule } from 'ngx-drag-drop';
         CdkTarefaListMainSidebarComponent
     ],
     imports: [
-        
+
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,
@@ -49,6 +49,7 @@ import { DndModule } from 'ngx-drag-drop';
 
         FuseSharedModule,
         FuseSidebarModule,
+        MatRippleModule,
     ],
     providers: [
         EspecieTarefaService,

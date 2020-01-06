@@ -34,7 +34,7 @@ export class FuseNavHorizontalCollapsableComponent implements OnInit, OnDestroy
      */
     constructor(
         private _fuseConfigService: FuseConfigService,
-        private _loginService: LoginService
+        public _loginService: LoginService
     )
     {
         // Set the private defaults

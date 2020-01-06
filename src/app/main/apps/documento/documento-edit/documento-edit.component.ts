@@ -15,7 +15,7 @@ import {Location} from '@angular/common';
 import {getMercureState, getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {Repositorio} from '@cdk/models/repositorio.model';
-import {filter, takeLast} from 'rxjs/operators';
+import {filter, take, takeLast, tap} from 'rxjs/operators';
 import {DomSanitizer} from '@angular/platform-browser';
 import {ComponenteDigital} from '@cdk/models/componente-digital.model';
 import {RepositorioService} from '@cdk/services/repositorio.service';
@@ -27,6 +27,8 @@ import {Visibilidade} from '@cdk/models/visibilidade.model';
 import {Pagination} from '@cdk/models/pagination';
 import {Colaborador} from '@cdk/models/colaborador.model';
 import {LoginService} from '../../../auth/login/login.service';
+import {Sigilo} from '@cdk/models/sigilo.model';
+import {Assinatura} from '@cdk/models/assinatura.model';
 
 @Component({
     selector: 'documento-edit',
@@ -81,8 +83,10 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
     visibilidades$: Observable<Visibilidade[]>;
     visibilidade$: Observable<Visibilidade>;
     visibilidade: Visibilidade;
+
     deletingVisibilidadeIds$: Observable<any>;
     deletedVisibilidadeIds$: Observable<any>;
+    visibilidadeIsSaving$: Observable<boolean>;
 
     unidadePagination: Pagination;
     setorPagination: Pagination;
@@ -91,9 +95,28 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
     _profile: Colaborador;
 
     formAcessoRestrito = false;
-    loadingAcessoRestrito = false;
+    loadingAcessoRestrito$: Observable<boolean>;
+
+    sigilo$: Observable<Sigilo>;
+    sigilo: Sigilo;
+    sigilos$: Observable<Sigilo[]>;
+    formSigilos = false;
+    sigiloIsSaving$: Observable<boolean>;
+    sigiloErrors$: Observable<any>;
+    sigiloLoading$: Observable<boolean>;
+    deletingSigiloIds$: Observable<any>;
+    deletedSigiloIds$: Observable<any>;
+    paginationSigilo$: Observable<any>;
 
     juntadaRoute = false;
+
+    formAssinaturas = false;
+    assinatura: Assinatura;
+    assinaturas$: Observable<Assinatura[]>;
+    assinaturaLoading$: Observable<boolean>;
+    deletingAssinaturaIds$: Observable<any>;
+    deletedAssinaturaIds$: Observable<any>;
+    paginationAssinatura$: Observable<any>;
 
     /**
      * @param _store
@@ -132,6 +155,8 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
         this.visibilidade$ = this._store.pipe(select(fromStore.getVisibilidade));
         this.deletingVisibilidadeIds$ = this._store.pipe(select(fromStore.getDeletingVisibilidadeIds));
         this.deletedVisibilidadeIds$ = this._store.pipe(select(fromStore.getDeletedVisibilidadeIds));
+        this.loadingAcessoRestrito$ = this._store.pipe(select(fromStore.getVisibilidadeIsLoading));
+        this.visibilidadeIsSaving$ = this._store.pipe(select(fromStore.getIsSavingVisibilidade));
 
         this._profile = _loginService.getUserProfile();
 
@@ -151,6 +176,21 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
 
         this.repositorioIdLoadind$ = this._store.pipe(select(fromStore.getComponenteDigitalLoading));
         this.repositorioIdLoaded$ = this._store.pipe(select(fromStore.getComponenteDigitalLoaded));
+
+        this.sigilos$ = this._store.pipe(select(fromStore.getSigilos));
+        this.sigiloIsSaving$ = this._store.pipe(select(fromStore.getIsSavingSigilos));
+        this.sigiloErrors$ = this._store.pipe(select(fromStore.getErrorsSigilos));
+        this.deletingSigiloIds$ = this._store.pipe(select(fromStore.getDeletingSigiloIds));
+        this.deletedSigiloIds$ = this._store.pipe(select(fromStore.getDeletedSigiloIds));
+        this.sigiloLoading$ = this._store.pipe(select(fromStore.getSigilosIsLoading));
+        this.paginationSigilo$ = this._store.pipe(select(fromStore.getSigilosPagination));
+        this.sigilo$ = this._store.pipe(select(fromStore.getSigilo));
+
+        this.assinaturas$ = this._store.pipe(select(fromStore.getAssinaturas));
+        this.paginationAssinatura$ = this._store.pipe(select(fromStore.getAssinaturasPagination));
+        this.deletingAssinaturaIds$ = this._store.pipe(select(fromStore.getDeletingAssinaturaIds));
+        this.deletedAssinaturaIds$ = this._store.pipe(select(fromStore.getDeletedAssinaturaIds));
+        this.assinaturaLoading$ = this._store.pipe(select(fromStore.getAssinaturasIsLoading));
 
         this._store
             .pipe(
@@ -203,15 +243,15 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
             visibilidade => this.visibilidade = visibilidade
         );
 
+        this.sigilo$.subscribe(
+            (sigilo) => {
+                this.sigilo = sigilo;
+            }
+        );
+
         if (!this.visibilidade) {
             this.visibilidade = new Visibilidade();
         }
-
-        this.visibilidades$.subscribe(
-            () => {
-                this.loadingAcessoRestrito = false;
-            }
-        );
 
         this.assinandoDocumentosVinculadosId$.subscribe(assinandoDocumentosVinculadosId => {
             if (assinandoDocumentosVinculadosId.length > 0) {
@@ -249,9 +289,18 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
         });
 
         this.pagination$.subscribe(pagination => {
-            if (this.pagination && pagination && pagination.ckeditorFilter !== this.pagination.ckeditorFilter && this.activeCard === 'inteligencia') {
+            if (this.pagination && pagination && pagination.ckeditorFilter !== this.pagination.ckeditorFilter) {
+
                 this.pagination = pagination;
-                this.reload(this.pagination);
+
+                if (this.activeCard === 'inteligencia') {
+                    this.reload(this.pagination);
+                }
+
+                if (this.activeCard === 'sigilos') {
+                    this.reloadSigilos(this.pagination);
+                }
+
             } else {
                 this.pagination = pagination;
             }
@@ -262,6 +311,7 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
                 const html = this.b64DecodeUnicode(componenteDigital.conteudo.split(';base64,')[1]);
                 this._store.dispatch(new fromStore.SetRepositorioComponenteDigital(html));
             }
+
         });
 
         if (this.juntadaRoute) {
@@ -301,7 +351,7 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
 
     aprovar(): void {
         this._store.dispatch(new fromStore.ApproveComponenteDigital({
-            documentoOrigem:this.documento
+            documentoOrigem: this.documento
         }));
 
     }
@@ -346,6 +396,14 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
         this.activeCard = 'acesso-restrito';
     }
 
+    showSigilo(): void {
+        this.activeCard = 'sigilos';
+    }
+
+    showAssinaturas(): void {
+        this.activeCard = 'assinaturas';
+    }
+
     showForm(): void {
         this.activeCard = 'form';
     }
@@ -354,11 +412,57 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
         this.formAcessoRestrito = !this.formAcessoRestrito;
     }
 
+    showFormSigilos(): void {
+        this.formSigilos = !this.formSigilos;
+    }
+
     submitVisibilidade(visibilidade): void {
-        this.loadingAcessoRestrito = true;
         this._store.dispatch(new fromStore.SaveVisibilidadeDocumento({documentoId: this.documento.id, visibilidade: visibilidade}));
-        this.formAcessoRestrito = false;
+        this.visibilidadeIsSaving$.subscribe((next) => {
+            if (!next) {
+                this.formAcessoRestrito = false;
+            }
+        });
    }
+
+    submitSigilo(values): void {
+
+        const sigilo = new Sigilo();
+
+        Object.entries(values).forEach(
+            ([key, value]) => {
+                sigilo[key] = value;
+            }
+        );
+
+        sigilo.documento = this.documento;
+        this._store.dispatch(new fromStore.SaveSigiloDocumento({documentoId: this.documento.id, sigilo: sigilo}));
+
+        this.sigiloIsSaving$.subscribe((next) => {
+            if (!next) {
+                this.formSigilos = false;
+            }
+        });
+
+        this.sigiloErrors$.subscribe((next) => {
+            if (next) {
+                this.formSigilos = true;
+            }
+        });
+    }
+
+    deleteSigilo(sigiloId: number): void {
+        this._store.dispatch(new fromStore.DeleteSigilo({documentoId: this.documento.id, sigiloId: sigiloId}));
+    }
+
+    editSigilo(sigiloId: number): void {
+        this.formSigilos = true;
+        this._store.dispatch(new fromStore.GetSigilo({sigiloId: sigiloId}));
+    }
+
+    deleteAssinatura(assinaturaId: number): void {
+        this._store.dispatch(new fromStore.DeleteAssinatura({componenteDigitalId: this.routerState.params.componenteDigitalHandle, assinaturaId: assinaturaId}));
+    }
 
     submit(values): void {
 
@@ -380,6 +484,36 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
                 ...this.pagination.filter,
                 ...this.pagination.ckeditorFilter,
                 ...params.gridFilter
+            },
+            sort: params.sort,
+            limit: params.limit,
+            offset: params.offset,
+            populate: [
+                ...this.pagination.populate
+            ]
+        }));
+    }
+
+    reloadSigilos(params): void {
+        this._store.dispatch(new fromStore.GetSigilos({
+            ...this.pagination,
+            filter: {
+                'documento.id': 'eq:' + this.documento.id
+            },
+            sort: params.sort,
+            limit: params.limit,
+            offset: params.offset,
+            populate: [
+                ...this.pagination.populate
+            ]
+        }));
+    }
+
+    reloadAssinaturas(params): void {
+        this._store.dispatch(new fromStore.GetAssinaturas({
+            ...this.pagination,
+            filter: {
+                'componenteDigital.id': 'eq:' + this.routerState.params.componenteDigitalHandle
             },
             sort: params.sort,
             limit: params.limit,

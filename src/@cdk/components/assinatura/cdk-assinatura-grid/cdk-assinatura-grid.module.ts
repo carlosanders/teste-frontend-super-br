@@ -17,6 +17,7 @@ import {FuseSharedModule} from '@fuse/shared.module';
 import {CdkAssinaturaGridComponent} from './cdk-assinatura-grid.component';
 import {CdkAssinaturaGridFilterModule} from './cdk-assinatura-grid-filter/cdk-assinatura-grid-filter.module';
 import {CdkAssinaturaMainSidebarComponent} from './sidebars/main/main.component';
+import {AssinaturaService} from '../../../services/assinatura.service';
 
 @NgModule({
     declarations: [
@@ -40,7 +41,9 @@ import {CdkAssinaturaMainSidebarComponent} from './sidebars/main/main.component'
         FuseSharedModule,
         FuseSidebarModule,
     ],
-    providers: [],
+    providers: [
+        AssinaturaService
+    ],
     exports: [
         CdkAssinaturaGridComponent
     ]

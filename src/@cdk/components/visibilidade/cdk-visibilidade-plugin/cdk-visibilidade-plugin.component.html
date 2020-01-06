@@ -1,0 +1,14 @@
+<h1 mat-dialog-title>Acesso Restrito</h1>
+<div mat-dialog-content>
+    <section class="p-8">O NUP {{data.NUP}} possui acesso restrito!</section>
+    <section class="p-8">Atenção, o usuário responsável pela tarefa deve obrigatoriamente possuir no mínimo poderes
+        para ver o NUP!
+    </section>
+    <section class="p-8"><b>Deseja realizar a configuração da restrição de acesso?</b></section>
+</div>
+<div mat-dialog-actions class="actions m-16" fxLayout="row" fxLayoutAlign="start center">
+    <button mat-raised-button color="accent" class="mr-sm-12" (click)="onYesClick()">
+        Sim
+    </button>
+    <button mat-button mat-dialog-close (click)="onNoClick()">Não</button>
+</div>

@@ -18,8 +18,9 @@ import {Tarefa} from '@cdk/models/tarefa.model';
 import {getSelectedTarefas} from '../store/selectors';
 import {getOperacoesState, getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
-import {filter, takeUntil} from 'rxjs/operators';
+import {filter, takeUntil, tap} from 'rxjs/operators';
 import * as moment from 'moment';
+import {Documento} from '@cdk/models/documento.model';
 
 @Component({
     selector: 'atividade-create-bloco',
@@ -46,6 +47,14 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
 
     routerState: any;
 
+    documentos$: Observable<Documento[]>;
+    minutas: Documento[] = [];
+
+    deletingDocumentosId$: Observable<number[]>;
+    assinandoDocumentosId$: Observable<number[]>;
+    assinandoDocumentosId: number[] = [];
+    selectedDocumentos$: Observable<Documento[]>;
+
     /**
      *
      * @param _store
@@ -64,6 +73,10 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this._profile = _loginService.getUserProfile();
 
+        this.documentos$ = this._store.pipe(select(fromStore.getDocumentos));
+        this.selectedDocumentos$ = this._store.pipe(select(fromStore.getSelectedDocumentos));
+        this.deletingDocumentosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosId));
+        this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -72,8 +85,10 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.tarefas$.pipe(
-            takeUntil(this._unsubscribeAll)
-        ).subscribe(tarefas => this.tarefas = tarefas);
+            takeUntil(this._unsubscribeAll),
+        ).subscribe((tarefas) => {
+            this.tarefas = tarefas;
+        });
 
         this._store
             .pipe(
@@ -103,6 +118,26 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
         this.atividade.encerraTarefa = true;
         this.atividade.dataHoraConclusao = moment();
         this.atividade.usuario = this._profile.usuario;
+
+        if (this.tarefas) {
+
+            const tarefasListId: any[] = [];
+            this.tarefas.forEach((tarefa) => {
+                tarefasListId.push(tarefa.id);
+            });
+
+            this._store.dispatch(new fromStore.GetDocumentos(tarefasListId.toString()));
+        }
+
+        this.documentos$.pipe(
+            filter(cd => !!cd),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(
+            documentos => {
+                this.minutas = documentos;
+                this._changeDetectorRef.markForCheck();
+            }
+        );
     }
 
     ngOnDestroy(): void {
@@ -132,5 +167,21 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
 
             this._store.dispatch(new fromStore.SaveAtividade(atividade));
         });
+    }
+
+    changedSelectedIds(selectedIds): void {
+        this._store.dispatch(new fromStore.ChangeSelectedDocumentos(selectedIds));
+    }
+
+    doDelete(documentoId): void {
+        this._store.dispatch(new fromStore.DeleteDocumento(documentoId));
+    }
+
+    doAssinatura(documentoId): void {
+         this._store.dispatch(new fromStore.AssinaDocumento(documentoId));
+    }
+
+    onClicked(documento): void {
+         this._store.dispatch(new fromStore.ClickedDocumento(documento));
     }
 }
