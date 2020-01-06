@@ -5,6 +5,17 @@
 
     <h3>{{(tarefas$ | async)?.length}} tarefa(s) selecionada(s) </h3>
 
+    <div fxLayout="row">
+        <cdk-documento-card-list [documentos]="minutas"
+                                 [deletingId]="(deletingDocumentosId$ | async)"
+                                 [assinandoId]="(assinandoDocumentosId$ | async)"
+                                 (delete)="doDelete($event)"
+                                 (assinatura)="doAssinatura($event)"
+                                 (clicked)="onClicked($event)"
+                                 (changedSelectedIds)="changedSelectedIds($event)">
+        </cdk-documento-card-list>
+    </div>
+
     <cdk-atividade-form
             [atividade]="atividade"
             [valid]="(tarefas$ | async)?.length > 0"

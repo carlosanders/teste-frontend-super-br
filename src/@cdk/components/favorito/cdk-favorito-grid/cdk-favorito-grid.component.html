@@ -11,7 +11,7 @@
     <!-- / SIDEBAR -->
 
     <!-- CONTENT -->
-    <div class="content" fxLayoutAlign="center start">
+    <div class="content responsive-grid" fxLayoutAlign="center start">
 
         <div class="mb-8 p-8" fxFlex fxLayout="column" fxLayoutAlign="center center">
 
@@ -101,6 +101,15 @@
                     </th>
                     <td mat-cell *matCellDef="let favorito" class='has_label_on_mobile' data-label='Setor Responsável: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(favorito.id) > -1}"> {{favorito.setorResponsavel?.nome}} </td>
+                </ng-container>
+
+                <!-- Unidade Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('setorResponsavel.unidade.nome') > -1" matColumnDef="setorResponsavel.unidade.nome">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Unidade
+                    </th>
+                    <td mat-cell *matCellDef="let favorito" class='has_label_on_mobile' data-label='Unidade: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(favorito.id) > -1}"> {{favorito.setorResponsavel?.unidade?.nome}} </td>
                 </ng-container>
 
                 <!-- Usuario Column -->

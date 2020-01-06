@@ -7,6 +7,7 @@ import { ComponenteDigitalReducer, ComponenteDigitalState } from './componentes-
 import { AtividadeDocumentoReducer, AtividadeDocumentoState } from './atividade-documento.reducer';
 import {VisibilidadeReducer, VisibilidadeState} from './visibilidade.reducer';
 import {SigilosReducer, SigilosState} from './sigilos.reducer';
+import {AssinaturasReducer, AssinaturasState} from './assinaturas.reducer';
 
 export interface DocumentoAppState
 {
@@ -18,6 +19,7 @@ export interface DocumentoAppState
     atividadeDocumento: AtividadeDocumentoState;
     visibilidades: VisibilidadeState;
     sigilos: SigilosState;
+    assinaturas: AssinaturasState;
 }
 
 export const getDocumentoAppState = createFeatureSelector<DocumentoAppState>(
@@ -37,7 +39,8 @@ export const reducers: ActionReducerMap<DocumentoAppState> = {
     componentesDigitais: ComponenteDigitalReducer,
     atividadeDocumento: AtividadeDocumentoReducer,
     visibilidades: VisibilidadeReducer,
-    sigilos: SigilosReducer
+    sigilos: SigilosReducer,
+    assinaturas: AssinaturasReducer
 };
 
 export * from './documento.reducer';
@@ -48,3 +51,4 @@ export * from './componentes-digitais.reducer';
 export * from './atividade-documento.reducer';
 export * from './visibilidade.reducer';
 export * from './sigilos.reducer';
+export * from './assinaturas.reducer';

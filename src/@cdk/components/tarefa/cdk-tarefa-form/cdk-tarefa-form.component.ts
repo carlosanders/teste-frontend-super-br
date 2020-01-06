@@ -117,6 +117,9 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     processos: Processo[] = [];
     blocoResponsaveis: Responsavel[] = [];
 
+    @Output()
+    processo = new EventEmitter<Processo>();
+
     /**
      * Constructor
      */
@@ -242,23 +245,19 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                         this.processos.push(value);
                         this._changeDetectorRef.markForCheck();
                     }
+
+                    if (value && typeof value === 'object') {
+                        this.processo.emit(this.form.get('processo').value);
+                    }
+
                     return of([]);
                 }
             )
         ).subscribe();
 
-        this.form.get('blocoResponsaveis').valueChanges.pipe(
-            debounceTime(300),
-            distinctUntilChanged(),
-            switchMap((value) => {
-                    if (!this.form.get('blocoResponsaveis').value) {
-                        this.blocoResponsaveis = [];
-                        this._changeDetectorRef.markForCheck();
-                    }
-                    return of([]);
-                }
-            )
-        ).subscribe();
+        if (this.form.get('processo').value && this.form.get('processo').value.id) {
+           this.processo.emit(this.form.get('processo').value);
+        }
     }
 
     /**

@@ -7,6 +7,7 @@
 </cdk-favorito-form>
 
 <cdk-favorito-grid
+        [displayedColumns]="['id', 'especieTarefa.nome','actions']"
         [loading]="(loading$ | async)"
         [favoritos]="(favoritos$ | async)"
         [total]="(pagination$ | async)?.total"

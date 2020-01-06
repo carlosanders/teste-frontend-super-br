@@ -18,6 +18,8 @@ import {CdkVisibilidadeFormModule} from '@cdk/components/visibilidade/cdk-visibi
 import {FavoritoService} from '@cdk/services/favorito.service';
 import {CdkSigiloFormModule} from '@cdk/components/sigilo/cdk-sigilo-form/cdk-sigilo-form.module';
 import {CdkSigiloGridModule} from '@cdk/components/sigilo/cdk-sigilo-grid/cdk-sigilo-grid.module';
+import {CdkAssinaturaGridModule} from '@cdk/components/assinatura/cdk-assinatura-grid/cdk-assinatura-grid.module';
+import {ResizableModule} from 'angular-resizable-element';
 
 const routes: Routes = [
     {
@@ -31,6 +33,10 @@ const routes: Routes = [
             {
                 path       : 'anexar-copia',
                 loadChildren: () => import('../anexar-copia/anexar-copia.module').then(m => m.AnexarCopiaModule)
+            },
+            {
+                path       : 'visualizar-processo',
+                loadChildren: () => import('../visualizar-processo/visualizar-processo.module').then(m => m.VisualizarProcessoModule)
             }
         ]
     }
@@ -64,6 +70,8 @@ const routes: Routes = [
         CdkVisibilidadeFormModule,
         CdkSigiloFormModule,
         CdkSigiloGridModule,
+        CdkAssinaturaGridModule,
+        ResizableModule,
     ],
     providers: [
         DocumentoService,
