@@ -21,6 +21,7 @@ import {Pagination} from '@cdk/models/pagination';
 import {Favorito} from '@cdk/models/favorito.model';
 import {FavoritoService} from '@cdk/services/favorito.service';
 import {LoginService} from '../../../../app/main/auth/login/login.service';
+import {Responsavel} from '../../../models/respensavel.model';
 
 @Component({
     selector: 'cdk-tarefa-form',
@@ -114,6 +115,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     activeCard = 'form';
 
     processos: Processo[] = [];
+    blocoResponsaveis: Responsavel[] = [];
 
     @Output()
     processo = new EventEmitter<Processo>();
@@ -141,6 +143,9 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             unidadeResponsavel: [null, [Validators.required]],
             setorResponsavel: [null, [Validators.required]],
             usuarioResponsavel: [null],
+            blocoResponsaveis: [null],
+            usuarios: [null],
+            setores: [null],
             setorOrigem: [null, [Validators.required]],
             observacao: [null, [Validators.maxLength(255)]]
         });
@@ -299,6 +304,21 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         }
 
         this._changeDetectorRef.markForCheck();
+
+        this.form.get('processo').valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((value) => {
+                    if (this.form.get('blocoProcessos').value) {
+                        this.form.get('processo').clearValidators();
+                        this._changeDetectorRef.markForCheck();
+                    } else {
+                        this.form.get('processo').setValidators(Validators.required);
+                    }
+                    return of([]);
+                }
+            )
+        ).subscribe();
     }
 
     /**
@@ -314,9 +334,18 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         if (this.form.valid) {
             if (this.form.get('blocoProcessos').value) {
                 this.form.get('processos').setValue(this.processos);
+                this.processos.forEach(processo => {
+                    this.blocoResponsaveis.forEach(responsavel => {
+                        const tarefa =  {
+                            ...this.form.value,
+                            processo: processo,
+                            setorResponsavel: responsavel.setor,
+                            usuarioResponsavel: responsavel.usuario
+                        };
+                        this.save.emit(tarefa);
+                    });
+                });
             }
-
-            this.save.emit(this.form.value);
         }
     }
 
@@ -513,6 +542,16 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
     cancel(): void {
         this.activeCard = 'form';
+    }
+
+    selectBlocoResponsaveis(): void {
+        const setor = this.form.get('setorResponsavel').value;
+        const usuario = this.form.get('usuarioResponsavel').value;
+        if (!setor) {
+            return;
+        }
+
+        this.blocoResponsaveis = [...this.blocoResponsaveis, {setor, usuario}];
     }
 
 }
