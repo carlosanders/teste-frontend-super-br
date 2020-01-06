@@ -36,7 +36,7 @@ export class CdkFavoritoGridComponent implements AfterViewInit, OnInit, OnChange
     total = 0;
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'especieAtividade.nome', 'setorResponsavel.nome', 'usuario.nome', 'actions'];
+    displayedColumns: string[] = ['id', 'especieAtividade.nome', 'setorResponsavel.nome', 'actions'];
 
     allColumns: any[] = [
         {
@@ -57,6 +57,11 @@ export class CdkFavoritoGridComponent implements AfterViewInit, OnInit, OnChange
         {
             id: 'setorResponsavel.nome',
             label: 'Setor Responsável',
+            fixed: false
+        },
+        {
+            id: 'setorResponsavel.unidade.nome',
+            label: 'Unidade',
             fixed: false
         },
         {

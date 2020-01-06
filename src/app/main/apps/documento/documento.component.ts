@@ -162,4 +162,19 @@ export class DocumentoComponent implements OnInit, OnDestroy {
             }
         });
     }
+
+    visualizarProcessoNovaAba(): void {
+
+        window.open(this.routerState.url.split('/')[1] + '/processo/' + this.documento.processoOrigem.id
+            + '/visualizar', '_blank');
+    }
+
+    visualizarProcesso(): void {
+
+        this._router.navigate([
+                this.routerState.url.split(this.routerState.params.documentoHandle + '/editar')[0] +
+                this.routerState.params.documentoHandle + '/editar/visualizar-processo/' + this.documento.processoOrigem.id + '/visualizar'
+            ]
+        ).then();
+    }
 }

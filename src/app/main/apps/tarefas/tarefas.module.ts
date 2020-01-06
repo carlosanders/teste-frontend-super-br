@@ -87,6 +87,10 @@ const routes: Routes = [
             {
                 path: 'modelo-bloco',
                 loadChildren: () => import('./modelo-bloco/modelo-bloco.module').then(m => m.ModeloBlocoModule),
+            },
+            {
+                path: 'visibilidade',
+                loadChildren: () => import('./visibilidade/visibilidade.module').then(m => m.VisibilidadeModule),
             }
         ],
         canActivate: [fromGuards.ResolveGuard]

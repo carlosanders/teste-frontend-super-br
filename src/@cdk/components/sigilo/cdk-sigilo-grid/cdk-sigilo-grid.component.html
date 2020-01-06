@@ -100,16 +100,8 @@
                         Desclassificado
                     </th>
                     <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Desclassificado: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.desclassificado}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.desclassificado === 1 ? 'Sim' : 'Não'}} </td>
                 </ng-container>
-            <!-- Desclassificado Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('desclassificado') > -1" matColumnDef="desclassificado">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Desclassificado
-                </th>
-                <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Desclassificado: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.desclassificado === 1 ? 'Sim' : 'Não' }} </td>
-            </ng-container>
 
                 <!-- RazoesClassificacaoSigilo Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('razoesClassificacaoSigilo') > -1" matColumnDef="razoesClassificacaoSigilo">

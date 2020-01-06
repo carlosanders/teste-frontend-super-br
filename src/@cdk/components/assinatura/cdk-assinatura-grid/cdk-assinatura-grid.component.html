@@ -85,50 +85,13 @@
                         [ngClass]="{'deleted':deletedIds?.indexOf(assinatura.id) > -1}"> {{assinatura.id}} </td>
                 </ng-container>
 
-                <!-- Conteudo Column -->
-                <ng-container matColumnDef="componenteDigital.conteudo">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Conteúdo
-                    </th>
-                    <td mat-cell *matCellDef="let assinatura" class='has_label_on_mobile' data-label='Conteúdo: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(assinatura.id) > -1}"> {{ assinatura.componenteDigital?.conteudo | date: 'dd/MM/yyyy H:mm'}}
-                    </td>
-                </ng-container>
-
-                <!-- AlgoritmoHash Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('algoritmoHash') > -1" matColumnDef="algoritmoHash">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Algoritmo Hash
-                    </th>
-                    <td mat-cell *matCellDef="let assinatura" class='has_label_on_mobile' data-label='Algoritmo Hash: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(assinatura.id) > -1}"> {{assinatura.algoritmoHash}} </td>
-                </ng-container>
-
-                <!-- Descricao Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('assinatura') > -1" matColumnDef="assinatura">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Assinatura
-                    </th>
-                    <td mat-cell *matCellDef="let assinatura" class='has_label_on_mobile' data-label='Assinatura: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(assinatura.id) > -1}"> {{assinatura.assinatura}} </td>
-                </ng-container>
-
-                <!-- CadeiaCertificadoPEM Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('cadeiaCertificadoPEM') > -1" matColumnDef="cadeiaCertificadoPEM">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Cadeia Certificado PEM
-                    </th>
-                    <td mat-cell *matCellDef="let assinatura" class='has_label_on_mobile' data-label='Cadeia Certificado PEM: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(assinatura.id) > -1}"> {{assinatura.cadeiaCertificadoPEM}} </td>
-                </ng-container>
-
                 <!-- DataHoraAssinatura Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('dataHoraAssinatura') > -1" matColumnDef="dataHoraAssinatura">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Data Hora Assinatura
                     </th>
                     <td mat-cell *matCellDef="let assinatura" class='has_label_on_mobile' data-label='Data Hora Assinatura: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(assinatura.id) > -1}"> {{assinatura.dataHoraAssinatura | date: 'dd/MM/yyyy'}}}}
+                        [ngClass]="{'deleted':deletedIds?.indexOf(assinatura.id) > -1}"> {{assinatura.dataHoraAssinatura | date: 'dd/MM/yyyy HH:mm:ss'}}
                     </td>
                 </ng-container>
 
@@ -157,42 +120,6 @@
                     </th>
                     <td mat-cell *matCellDef="let assinatura" class='has_label_on_mobile' data-label='Criado Em: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(assinatura.id) > -1}"> {{assinatura.criadoEm | date: 'dd/MM/yyyy'}} </td>
-                </ng-container>
-
-                <!-- AtualizadoPor Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1" matColumnDef="atualizadoPor.nome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Atualizado Por
-                    </th>
-                    <td mat-cell *matCellDef="let assinatura" class='has_label_on_mobile' data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(assinatura.id) > -1}"> {{assinatura.atualizadoPor?.nome}} </td>
-                </ng-container>
-
-                <!-- AtualizadoEm Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('atualizadoEm') > -1" matColumnDef="atualizadoEm">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Atualizado Em
-                    </th>
-                    <td mat-cell *matCellDef="let assinatura" class='has_label_on_mobile' data-label='Atualizado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(assinatura.id) > -1}"> {{assinatura.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
-                </ng-container>
-
-                <!-- ApagadoPor Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('apagadoPor.nome') > -1" matColumnDef="apagadoPor.nome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Apagado Por
-                    </th>
-                    <td mat-cell *matCellDef="let assinatura" class='has_label_on_mobile' data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(assinatura.id) > -1}"> {{assinatura.apagadoPor?.nome}} </td>
-                </ng-container>
-
-                <!-- ApagadoEm Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('apagadoEm') > -1" matColumnDef="apagadoEm">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Apagado Em
-                    </th>
-                    <td mat-cell *matCellDef="let assinatura" class='has_label_on_mobile' data-label='Apagado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(assinatura.id) > -1}"> {{assinatura.apagadoEm | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- Actions Column -->

@@ -18,7 +18,11 @@ import * as moment from 'moment';
 import {Colaborador} from '@cdk/models/colaborador.model';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Processo} from '@cdk/models/processo.model';
-import {takeUntil} from 'rxjs/operators';
+import {take, takeUntil, tap} from 'rxjs/operators';
+import {MatDialog} from '@angular/material';
+import {CdkVisibilidadePluginComponent} from '@cdk/components/visibilidade/cdk-visibilidade-plugin/cdk-visibilidade-plugin.component';
+import {Router} from '@angular/router';
+import {getRouterState} from '../../../../store/reducers';
 
 @Component({
     selector: 'tarefa-create',
@@ -45,18 +49,28 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
     processo$: Observable<Processo>;
     processo: Processo;
 
+    visibilidades$: Observable<boolean>;
+    NUP: any;
+
+    routerState: any;
+
     /**
      * @param _store
      * @param _loginService
+     * @param dialog
+     * @param _router
      */
     constructor(
         private _store: Store<fromStore.TarefaCreateAppState>,
-        private _loginService: LoginService
+        private _loginService: LoginService,
+        public dialog: MatDialog,
+        private _router: Router
     ) {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.processo$ = this._store.pipe(select(fromStore.getProcesso));
         this._profile = _loginService.getUserProfile();
+        this.visibilidades$ = this._store.pipe(select(fromStore.getVisibilidadeProcesso));
 
         this.especieTarefaPagination = new Pagination();
         this.especieTarefaPagination.populate = ['generoTarefa'];
@@ -76,19 +90,67 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
 
+        this._store
+            .pipe(
+                select(getRouterState),
+                takeUntil(this._unsubscribeAll)
+            ).subscribe(routerState => {
+            if (routerState) {
+                this.routerState = routerState.state;
+            }
+        });
+
         this.processo$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(p => this.processo = p);
+        ).subscribe(p => {
+            this.processo = p;
+        });
 
         this.tarefa = new Tarefa();
         this.tarefa.unidadeResponsavel = this._profile.lotacoes[0].setor.unidade;
         this.tarefa.dataHoraInicioPrazo = moment();
-        this.tarefa.dataHoraFinalPrazo = moment().add(5, 'days').set({ hour : 20, minute : 0, second : 0 });
+        this.tarefa.dataHoraFinalPrazo = moment().add(5, 'days').set({hour: 20, minute: 0, second: 0});
         this.tarefa.setorOrigem = this._profile.lotacoes[0].setor;
 
         if (this.processo) {
             this.tarefa.processo = this.processo;
         }
+
+        this.visibilidades$.pipe(
+            takeUntil(this._unsubscribeAll),
+        ).subscribe(
+            (restricao) => {
+                if (restricao) {
+                    const dialogRef = this.dialog.open(CdkVisibilidadePluginComponent, {
+                        data: {
+                            NUP: this.NUP
+                        },
+                        hasBackdrop: false,
+                        closeOnNavigation: true
+                    });
+
+                    dialogRef.afterClosed()
+                        .pipe(
+                            tap(
+                                (value) => {
+                                    const processoId = this.routerState.params.processoHandle ? this.routerState.params.processoHandle : this.processo.id;
+                                    if (value === 1 && processoId) {
+
+                                        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' +
+                                        this.routerState.params.folderHandle + '/visibilidade/' + processoId]);
+                                    }
+                                }
+                            ),
+                            tap(() => dialogRef.close()),
+                            take(1)
+                        ).subscribe();
+
+                    this._store.dispatch(new fromStore.GetVisibilidadesSuccess({
+                        restricaoProcesso: false
+                    }));
+                }
+            }
+        );
     }
 
     /**
@@ -97,6 +159,18 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
+
+        if (this.dialog) {
+            this.dialog.closeAll();
+        }
+    }
+
+    verificaVisibilidadeProcesso(value): void {
+
+        this.NUP = value.NUP;
+        this.processo = value;
+        this._store.dispatch(new fromStore.GetVisibilidades(value.id));
+
     }
 
     // -----------------------------------------------------------------------------------------------------

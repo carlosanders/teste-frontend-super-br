@@ -20,7 +20,7 @@
                 <mat-icon class="black-fg">edit</mat-icon>
             </button>
 
-            <button *ngIf="!juntadaRoute" mat-icon-button aria-label="inteligência jurídica"
+            <button *ngIf="!juntadaRoute && routerState.url.indexOf('/editor')  > -1" mat-icon-button aria-label="inteligência jurídica"
                     matTooltip="Inteligência Jurídica" (click)="showInteligencia()"
                     [ngClass]="{'active accent': activeCard === 'inteligencia'}">
                 <mat-icon class="black-fg">gavel</mat-icon>
@@ -41,7 +41,7 @@
                             [ngClass]="{'active accent': activeCard === 'acesso-restrito'}">
                             <ng-container>
                                 <mat-icon class="black-fg">block</mat-icon>
-                                <span>Acessos Restritos</span>
+                                <span>Acesso Restrito</span>
                             </ng-container>
                     </button>
 
@@ -52,6 +52,15 @@
                                 <mat-icon class="black-fg">remove_red_eye</mat-icon>
                                 <span>Sigilos</span>
                             </ng-container>
+                    </button>
+
+                    <button mat-menu-item aria-label="assinaturas"
+                            matTooltip="Assinaturas" (click)="showAssinaturas()"
+                            [ngClass]="{'active accent': activeCard === 'assinaturas'}">
+                        <ng-container>
+                            <mat-icon class="black-fg">lock</mat-icon>
+                            <span>Assinaturas</span>
+                        </ng-container>
                     </button>
 
                 </mat-menu>
@@ -170,7 +179,7 @@
 
         <div class="mb-16" fxFlex fxLayout="column" *ngIf="activeCard === 'acesso-restrito'">
 
-            <h3 style="font-weight: bold">Restrições de Acesso</h3>
+            <h3 style="font-weight: bold">Acesso Restrito</h3>
 
             <div class="actions m-16" fxLayout="row" fxLayoutAlign="start center">
                 <button mat-raised-button
@@ -256,6 +265,26 @@
                 (edit)="editSigilo($event)"
             >
             </cdk-sigilo-grid>
+
+        </div>
+
+        <div class="mb-16" fxFlex fxLayout="column" *ngIf="activeCard === 'assinaturas'">
+
+            <h3 style="font-weight: bold">Assinaturas</h3>
+
+            <cdk-assinatura-grid
+                *ngIf="!formAssinaturas"
+                [loading]="(assinaturaLoading$ | async)"
+                [assinaturas]="(assinaturas$ | async)"
+                [total]="(paginationAssinatura$ | async)?.total"
+                [actions]="['delete']"
+                [displayedColumns]="['id', 'dataHoraAssinatura', 'criadoPor.nome', 'actions']"
+                [deletingIds]="(deletingAssinaturaIds$ | async)"
+                [deletedIds]="(deletedAssinaturaIds$ | async)"
+                (delete)="deleteAssinatura($event)"
+                (reload)="reloadAssinaturas($event)"
+            >
+            </cdk-assinatura-grid>
 
         </div>
 

@@ -24,6 +24,8 @@ import {CdkAtividadeFormModule} from '@cdk/components/atividade/cdk-atividade-fo
 import {AtividadeCreateBlocoStoreModule} from './store/store.module';
 import {AtividadeService} from '@cdk/services/atividade.service';
 import {LoginService} from 'app/main/auth/login/login.service';
+import {DocumentoService} from '@cdk/services/documento.service';
+import {CdkDocumentoCardListModule} from '@cdk/components/documento/cdk-documento-card-list/cdk-documento-card-list.module';
 
 const routes: Routes = [
     {
@@ -63,9 +65,11 @@ const routes: Routes = [
 
         FuseSharedModule,
         FuseSidebarModule,
+        CdkDocumentoCardListModule,
     ],
     providers: [
         AtividadeService,
+        DocumentoService,
         LoginService,
     ]
 })

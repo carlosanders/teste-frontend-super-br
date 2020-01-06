@@ -6,6 +6,7 @@ import { ComponenteDigitalEffect } from './componentes-digitais.effects';
 import { AtividadeDocumentoEffect } from './atividade-documento.effects';
 import {VisibilidadeEffect} from './visibilidade.effects';
 import {SigiloEffect} from './sigilos.effects';
+import {AssinaturaEffect} from './assinaturas.effects';
 
 export const effects = [
     DocumentoEffect,
@@ -15,7 +16,8 @@ export const effects = [
     ComponenteDigitalEffect,
     AtividadeDocumentoEffect,
     VisibilidadeEffect,
-    SigiloEffect
+    SigiloEffect,
+    AssinaturaEffect
 ];
 
 export * from './documento.effects';
@@ -26,3 +28,4 @@ export * from './componentes-digitais.effects';
 export * from './atividade-documento.effects';
 export * from './visibilidade.effects';
 export * from './sigilos.effects';
+export * from './assinaturas.effects';

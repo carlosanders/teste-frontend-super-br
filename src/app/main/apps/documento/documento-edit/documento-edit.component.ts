@@ -15,7 +15,7 @@ import {Location} from '@angular/common';
 import {getMercureState, getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {Repositorio} from '@cdk/models/repositorio.model';
-import {filter, takeLast} from 'rxjs/operators';
+import {filter, take, takeLast, tap} from 'rxjs/operators';
 import {DomSanitizer} from '@angular/platform-browser';
 import {ComponenteDigital} from '@cdk/models/componente-digital.model';
 import {RepositorioService} from '@cdk/services/repositorio.service';
@@ -28,6 +28,7 @@ import {Pagination} from '@cdk/models/pagination';
 import {Colaborador} from '@cdk/models/colaborador.model';
 import {LoginService} from '../../../auth/login/login.service';
 import {Sigilo} from '@cdk/models/sigilo.model';
+import {Assinatura} from '@cdk/models/assinatura.model';
 
 @Component({
     selector: 'documento-edit',
@@ -109,6 +110,14 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
 
     juntadaRoute = false;
 
+    formAssinaturas = false;
+    assinatura: Assinatura;
+    assinaturas$: Observable<Assinatura[]>;
+    assinaturaLoading$: Observable<boolean>;
+    deletingAssinaturaIds$: Observable<any>;
+    deletedAssinaturaIds$: Observable<any>;
+    paginationAssinatura$: Observable<any>;
+
     /**
      * @param _store
      * @param _location
@@ -176,6 +185,12 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
         this.sigiloLoading$ = this._store.pipe(select(fromStore.getSigilosIsLoading));
         this.paginationSigilo$ = this._store.pipe(select(fromStore.getSigilosPagination));
         this.sigilo$ = this._store.pipe(select(fromStore.getSigilo));
+
+        this.assinaturas$ = this._store.pipe(select(fromStore.getAssinaturas));
+        this.paginationAssinatura$ = this._store.pipe(select(fromStore.getAssinaturasPagination));
+        this.deletingAssinaturaIds$ = this._store.pipe(select(fromStore.getDeletingAssinaturaIds));
+        this.deletedAssinaturaIds$ = this._store.pipe(select(fromStore.getDeletedAssinaturaIds));
+        this.assinaturaLoading$ = this._store.pipe(select(fromStore.getAssinaturasIsLoading));
 
         this._store
             .pipe(
@@ -274,9 +289,18 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
         });
 
         this.pagination$.subscribe(pagination => {
-            if (this.pagination && pagination && pagination.ckeditorFilter !== this.pagination.ckeditorFilter && this.activeCard === 'inteligencia') {
+            if (this.pagination && pagination && pagination.ckeditorFilter !== this.pagination.ckeditorFilter) {
+
                 this.pagination = pagination;
-                this.reloadSigilos(this.pagination);
+
+                if (this.activeCard === 'inteligencia') {
+                    this.reload(this.pagination);
+                }
+
+                if (this.activeCard === 'sigilos') {
+                    this.reloadSigilos(this.pagination);
+                }
+
             } else {
                 this.pagination = pagination;
             }
@@ -287,6 +311,7 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
                 const html = this.b64DecodeUnicode(componenteDigital.conteudo.split(';base64,')[1]);
                 this._store.dispatch(new fromStore.SetRepositorioComponenteDigital(html));
             }
+
         });
 
         if (this.juntadaRoute) {
@@ -375,6 +400,10 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
         this.activeCard = 'sigilos';
     }
 
+    showAssinaturas(): void {
+        this.activeCard = 'assinaturas';
+    }
+
     showForm(): void {
         this.activeCard = 'form';
     }
@@ -431,6 +460,10 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
         this._store.dispatch(new fromStore.GetSigilo({sigiloId: sigiloId}));
     }
 
+    deleteAssinatura(assinaturaId: number): void {
+        this._store.dispatch(new fromStore.DeleteAssinatura({componenteDigitalId: this.routerState.params.componenteDigitalHandle, assinaturaId: assinaturaId}));
+    }
+
     submit(values): void {
 
         const documento = new Documento();
@@ -463,7 +496,31 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
 
     reloadSigilos(params): void {
         this._store.dispatch(new fromStore.GetSigilos({
-            documentoId: this.documento.id
+            ...this.pagination,
+            filter: {
+                'documento.id': 'eq:' + this.documento.id
+            },
+            sort: params.sort,
+            limit: params.limit,
+            offset: params.offset,
+            populate: [
+                ...this.pagination.populate
+            ]
+        }));
+    }
+
+    reloadAssinaturas(params): void {
+        this._store.dispatch(new fromStore.GetAssinaturas({
+            ...this.pagination,
+            filter: {
+                'componenteDigital.id': 'eq:' + this.routerState.params.componenteDigitalHandle
+            },
+            sort: params.sort,
+            limit: params.limit,
+            offset: params.offset,
+            populate: [
+                ...this.pagination.populate
+            ]
         }));
     }
 
