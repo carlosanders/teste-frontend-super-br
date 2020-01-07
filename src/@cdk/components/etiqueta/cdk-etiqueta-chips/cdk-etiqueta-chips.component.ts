@@ -18,7 +18,6 @@ export class CdkEtiquetaChipsComponent {
 
     visible = true;
     selectable = true;
-    removable = true;
     addOnBlur = true;
     separatorKeysCodes: number[] = [ENTER, COMMA];
     etiquetaCtrl = new FormControl();
