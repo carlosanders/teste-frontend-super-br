@@ -102,6 +102,21 @@
             </mat-error>
         </mat-form-field>
 
+        <div class="align-icon" fxLayout="row" fxFlex="100">
+            <div class="align-icon toggle-icon">
+                <mat-slide-toggle class="align-icon toggle-icon" *ngIf="!tarefa.id && mode === 'regular'" formControlName="blocoResponsaveis" class="mr-16 mb-16" fxFlex="0 1 auto">
+                    Bloco de Responsáveis
+                </mat-slide-toggle>
+            </div>
+
+            <div class="align-icon add-icon"  *ngIf="form.get('blocoResponsaveis').value" fxFlex="1 0 auto">
+                <button class="mat-icon" mat-icon-button type="button" matTooltip="Incluir Responsáveis"
+                (click)="(selectBlocoResponsaveis())">
+                <mat-icon class="black-fg">playlist_add</mat-icon>
+                </button>
+            </div>
+        </div>
+
         <mat-form-field fxFlex="100"
                         *ngIf="!form.get('setorResponsavel').disabled && (mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditDistribuicao)">
             <div fxLayout="row" fxLayoutAlign="start center">
@@ -159,18 +174,6 @@
                 {{form.get('usuarioResponsavel').errors.formError}}
             </mat-error>
         </mat-form-field>
-
-        <mat-slide-toggle *ngIf="!tarefa.id && mode === 'regular'" formControlName="blocoResponsaveis"
-                          class="mr-16 mb-16" fxFlex="0 1 auto">
-            Bloco de Responsaveis
-        </mat-slide-toggle>
-
-        <div fxFlex="1 0 auto">
-            <button mat-icon-button type="button" matTooltip="Incluir Mais Responsáveis"
-                    (click)="(selectBlocoResponsaveis())">
-                <mat-icon class="black-fg">add</mat-icon>
-            </button>
-        </div>
 
         <div fxFlex="1 0 auto" *ngIf="form.get('blocoResponsaveis').value" class="bloco-responsaveis">
 

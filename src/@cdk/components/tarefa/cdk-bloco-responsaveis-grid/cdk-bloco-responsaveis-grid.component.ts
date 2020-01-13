@@ -10,7 +10,7 @@ import {merge, of} from 'rxjs';
 import {fuseAnimations} from '@fuse/animations';
 import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@angular/material';
-import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, switchMap, tap, findIndex} from 'rxjs/operators';
 
 import {Setor} from '@cdk/models/setor.model';
 import {Usuario} from '@cdk/models/usuario.model';
@@ -191,8 +191,10 @@ export class CdkBlocoResponsaveisComponent implements AfterViewInit, OnInit, OnC
         });
     }
 
-    deleteResponsavel(setorId): void {
-        this.responsaveis = this.responsaveis.filter(responsavel => responsavel.setor.id !== setorId);
+    deleteResponsavel(setorId, responsavelId?): void {
+        this.responsaveis = this.responsaveis.filter(responsavel => 
+            (responsavel.setor.id && responsavel.usuario.id) !== (setorId && responsavelId));
+        //this.responsaveis = this.responsaveis.filter(responsavel => responsavel.setor.id !== setorId);
         this.responsaveisChange.emit(this.responsaveis);
     }
 
