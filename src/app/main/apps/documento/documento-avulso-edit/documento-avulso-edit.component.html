@@ -24,15 +24,17 @@
 
         <div fxLayout="column" *ngIf="activeCard === 'oficio'">
 
-            <div *ngIf="!this.documento.documentoAvulsoRemessa.dataHoraRemessa && !(isRemetendo$ | async)"
-                 class="header p-8" fxLayout="row" fxLayoutAlign="start center">
-                <button mat-raised-button color="accent" class="mr-sm-12"
-                        aria-label="remeter ofício"
-                        matTooltip="Remeter Ofício"
-                        (click)="remeterDocumentoAvulso()">
-                    <mat-icon class="black-fg">send</mat-icon>
-                    Remeter
-                </button>
+            <div class="header p-8" role="list">
+                <div class="mb-8" *ngIf="!this.documento.documentoAvulsoRemessa.dataHoraRemessa && !(isRemetendo$ | async)">
+                    <button mat-raised-button color="accent" class="mr-sm-12"
+                            aria-label="remeter ofício"
+                            matTooltip="Remeter Ofício"
+                            (click)="remeterDocumentoAvulso()">
+                        <mat-icon class="black-fg">send</mat-icon>
+                        Remeter
+                    </button>
+                </div>
+                <div class="mb-4" #container></div>
             </div>
             <div *ngIf="(isRemetendo$ | async)" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
                  fxLayoutAlign="center center">

@@ -1,13 +1,14 @@
 import {
     ChangeDetectionStrategy,
-    Component,
+    Component, ElementRef,
     OnDestroy,
     OnInit, ViewChild,
-    ViewEncapsulation
+    ViewEncapsulation,
+    ChangeDetectorRef
 } from '@angular/core';
 
 import {fuseAnimations} from '@fuse/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import * as fromStore from '../store';
 import {select, Store} from '@ngrx/store';
 import {Location} from '@angular/common';
@@ -18,6 +19,8 @@ import {getMercureState, getRouterState} from '../../../../store/reducers';
 import {Repositorio} from '@cdk/models/repositorio.model';
 import {RepositorioService} from '@cdk/services/repositorio.service';
 import {ComponenteDigital} from '@cdk/models/componente-digital.model';
+import {modulesConfig} from "../../../../../modules/modules-config";
+import {DynamicService} from "../../../../../modules/dynamic.service";
 
 @Component({
     selector: 'documento-avulso-edit',
@@ -29,17 +32,23 @@ import {ComponenteDigital} from '@cdk/models/componente-digital.model';
 })
 export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy {
 
+    private _unsubscribeAll: Subject<any> = new Subject();
+
     /**
      * @param _store
      * @param _location
      * @param _router
      * @param _repositorioService
+     * @param _dynamicService
+     * @param _ref
      */
     constructor(
         private _store: Store<fromStore.DocumentoAppState>,
         private _location: Location,
         private _router: Router,
         private _repositorioService: RepositorioService,
+        private _dynamicService: DynamicService,
+        private _ref: ChangeDetectorRef
     ) {
         this.documento$ = this._store.pipe(select(fromStore.getDocumento));
         this.componenteDigital$ = this._store.pipe(select(fromStore.getComponenteDigital));
@@ -109,6 +118,15 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy {
 
     activeCard = 'oficio';
 
+    /**
+     * Criando ponto de entrada para extensões do componente de edição de documento avulso, permitindo
+     * adicionar botões de remessa diferentes da remessa manual
+     */
+    @ViewChild('container', { read: ElementRef, static: false })
+    container: ElementRef;
+
+    modulesButtons: any[] = [];
+
     @ViewChild('ckdUpload', {static: false})
     cdkUpload;
 
@@ -132,6 +150,20 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
+        const path = 'app/main/apps/documento/documento-avulso-edit';
+
+        modulesConfig.forEach((module) => {
+            if (module.components.hasOwnProperty(path)) {
+                module.components[path].forEach((c => {
+                    this._dynamicService.loadComponent(c)
+                        .then(({ host }) => {
+                            this.modulesButtons.push(host);
+                            this.containerElement.appendChild(host);
+                        });
+                }));
+            }
+        });
+
         this.documento$.subscribe(documento => this.documento = documento);
 
         this.assinandoDocumentosVinculadosId$.subscribe(assinandoDocumentosVinculadosId => {
@@ -174,10 +206,21 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy {
         });
     }
 
+    iniciaModulos(): void {
+        this.modulesButtons.forEach((host) => {
+            this.containerElement.appendChild(host)
+        });
+    }
+
     /**
      * On destroy
      */
     ngOnDestroy(): void {
+    }
+
+    get containerElement(): HTMLElement {
+        this._ref.detectChanges();
+        return this.container.nativeElement;
     }
 
     reload(params): void {
@@ -255,6 +298,7 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy {
 
     showForm(): void {
         this.activeCard = 'oficio';
+        this.iniciaModulos();
     }
 
     showAnexos(): void {
