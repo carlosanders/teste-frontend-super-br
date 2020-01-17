@@ -1,0 +1,20 @@
+<form class="p-24 mb-16" fxLayoutGap="16px" fxLayout="column" fxLayoutAlign="start"
+      name="form" [formGroup]="form">
+
+    <div fxFlex="1 0 auto" fxLayout="column">
+         
+        <mat-checkbox formControlName="responsavel" class="mr-16 mb-16" fxFlex="0 1 auto">
+            Responsável
+        </mat-checkbox>
+
+        <mat-checkbox formControlName="sigla" class="mr-16 mb-16" fxFlex="0 1 auto">
+            Sigla
+        </mat-checkbox>        
+
+        <button mat-raised-button color="warn" class="mr-sm-12" (click)="limpar()">
+            Limpar
+        </button>
+
+    </div>
+</form>
+

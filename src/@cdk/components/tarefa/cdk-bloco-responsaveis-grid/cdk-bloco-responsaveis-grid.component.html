@@ -36,8 +36,10 @@
             <mat-icon>refresh</mat-icon>
         </button>
 
-        <button class="toggle-filter" mat-icon-button [ngClass]="{'warn': (gridFilter | json) != '{}'}"
-            (click)="toggleFilter()" aria-label="filtrar" matTooltip="Filtrar">
+        <button class="toggle-filter" [ngClass]="{'warn': (gridFilter | json) != '{}'}" mat-icon-button
+            (click)="toggleFilter()" 
+            aria-label="filtrar" 
+            matTooltip="Filtrar">
             <mat-icon>filter_list</mat-icon>
         </button>
     </div>

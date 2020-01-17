@@ -15,7 +15,7 @@ import {Usuario} from '@cdk/models/usuario.model';
 import {Processo} from '@cdk/models/processo.model';
 import {MAT_DATETIME_FORMATS} from '@mat-datetimepicker/core';
 import {Setor} from '@cdk/models/setor.model';
-import {catchError, debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
+import {catchError, debounceTime, distinctUntilChanged, switchMap, distinct} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {Pagination} from '@cdk/models/pagination';
 import {Favorito} from '@cdk/models/favorito.model';
@@ -544,15 +544,23 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         this.activeCard = 'form';
     }
 
+    removeDuplicates(valor, key) {
+        console.log(valor, key);
+        const novoObjeto = new Set();
+            return valor.filter( item => !novoObjeto.has[ item[key] ] && novoObjeto[ item[key] ] === true);
+    }
+
     selectBlocoResponsaveis(): void {
         const setor = this.form.get('setorResponsavel').value;
         const usuario = this.form.get('usuarioResponsavel').value;
+
         if (this.form.get("distribuicaoAutomatica").value) {
             if (!setor) {
                 return;
             }
             else {
-                this.blocoResponsaveis = [...this.blocoResponsaveis, {setor, usuario}];
+                const searchDuplicateSetor = this.blocoResponsaveis.some(item => item.setor === setor);
+                if (!searchDuplicateSetor) this.blocoResponsaveis = [...this.blocoResponsaveis, {setor, usuario}];
             }            
         }
         else {
@@ -560,7 +568,9 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                 return;
             }
             else {
-                this.blocoResponsaveis = [...this.blocoResponsaveis, {setor, usuario}];
+                const searchDuplicateSetor = this.blocoResponsaveis.some(item => item.setor === setor);
+                const searchDuplicateUsuario = this.blocoResponsaveis.some(item => item.usuario === usuario);
+                if (!searchDuplicateSetor || !searchDuplicateUsuario) this.blocoResponsaveis = [...this.blocoResponsaveis, {setor, usuario}];
             }            
         }        
     }
