@@ -2,6 +2,7 @@ import {
     Injectable,
     Injector,
     ɵrenderComponent as renderComponent,
+    ɵLifecycleHooksFeature as LifecycleHooksFeature
 } from '@angular/core';
 
 @Injectable({
@@ -21,6 +22,7 @@ export class DynamicService {
                 const component = renderComponent(c, {
                     host,
                     injector: this.injector,
+                    hostFeatures: [LifecycleHooksFeature]
                 });
 
                 return {
