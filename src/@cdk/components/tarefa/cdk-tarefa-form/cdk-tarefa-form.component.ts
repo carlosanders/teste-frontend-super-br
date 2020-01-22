@@ -335,16 +335,46 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             if (this.form.get('blocoProcessos').value) {
                 this.form.get('processos').setValue(this.processos);
                 this.processos.forEach(processo => {
-                    this.blocoResponsaveis.forEach(responsavel => {
-                        const tarefa =  {
+                    let tarefa;
+                    if(this.form.get('blocoResponsaveis').value){
+                        this.blocoResponsaveis.forEach(responsavel => {
+                            tarefa =  {
+                                ...this.form.value,
+                                processo: processo,
+                                setorResponsavel: responsavel.setor,
+                                usuarioResponsavel: responsavel.usuario
+                            };
+                        });
+                    }else{
+                        tarefa =  {
                             ...this.form.value,
                             processo: processo,
+                            setorResponsavel: this.form.get('setorResponsavel').value,
+                            usuarioResponsavel: this.form.get('usuarioResponsavel').value
+                        };
+                    }
+                    this.save.emit(tarefa);
+                });
+            }else{
+                let tarefa;
+                if(this.form.get('blocoResponsaveis').value){
+                    this.blocoResponsaveis.forEach(responsavel => {
+                        tarefa =  {
+                            ...this.form.value,
+                            processo: this.form.get('processo').value,
                             setorResponsavel: responsavel.setor,
                             usuarioResponsavel: responsavel.usuario
                         };
-                        this.save.emit(tarefa);
                     });
-                });
+                }else{
+                    tarefa =  {
+                        ...this.form.value,
+                        processo: this.form.get('processo').value,
+                        setorResponsavel: this.form.get('setorResponsavel').value,
+                        usuarioResponsavel: this.form.get('usuarioResponsavel').value
+                    };
+                }
+                this.save.emit(tarefa);
             }
         }
     }
