@@ -169,8 +169,8 @@ export class Documento {
         this.atualizadoEm = null;
         this.apagadoPor = null;
         this.apagadoEm = null;
-        this.componentesDigitais = [];
-        this.vinculacoesDocumentos = [];
+        this.componentesDigitais = null;
+        this.vinculacoesDocumentos = null;
         this.documentoAvulsoRemessa = null;
         this.vinculacaoDocumentoPrincipal = null;
         this.sigilos = null;
