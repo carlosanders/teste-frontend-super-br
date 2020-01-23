@@ -1,8 +1,8 @@
 import {
     Injectable,
     Injector,
-    ɵrenderComponent as renderComponent,
-    ɵLifecycleHooksFeature as LifecycleHooksFeature
+    Compiler,
+    NgModuleFactory
 } from '@angular/core';
 
 @Injectable({
@@ -10,25 +10,24 @@ import {
 })
 export class DynamicService {
     constructor(
-        private injector: Injector,
-    ) {}
+        private compiler: Compiler, private injector: Injector,
+    ) {
+    }
 
-    loadComponent(i: any): any {
+    loadComponent(i: any): Promise<any> {
         return i()
-            .then(m => {
-                const c = m.module.ngModuleDef.declarations[m.componentIndex];
-                const tagName = c.ngComponentDef.selectors[0];
-                const host = document.createElement(tagName);
-                const component = renderComponent(c, {
-                    host,
-                    injector: this.injector,
-                    hostFeatures: [LifecycleHooksFeature]
-                });
-
-                return {
-                    component,
-                    host,
-                };
+            .then(lazyModule => {
+                if (lazyModule instanceof NgModuleFactory) {
+                    const moduleRef = lazyModule.create(this.injector);
+                    // @ts-ignore
+                    return moduleRef.instance.resolveComponentFactory();
+                } else {
+                    return this.compiler.compileModuleAsync(lazyModule).then(compiledModule => {
+                        const moduleRef = compiledModule.create(this.injector);
+                        // @ts-ignore
+                        return moduleRef.instance.resolveComponentFactory();
+                    });
+                }
             });
     }
 }

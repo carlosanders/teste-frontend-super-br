@@ -105,7 +105,6 @@ export function normalized(
 
         case NormalizeActionTypes.ADD_DATA: {
             const {result, entities} = action.payload;
-
             return {
                 result,
                 entities: Object.keys(entities).reduce(
@@ -114,7 +113,6 @@ export function normalized(
 
                         Object.keys(entities[c]).forEach(
                             (id) => {
-
                                 if (typeof p[c] === 'undefined' || typeof p[c][id] === 'undefined') {
                                     p[c] = {
                                         ...p[c],

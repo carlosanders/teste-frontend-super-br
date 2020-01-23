@@ -1,8 +1,8 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, ElementRef, OnDestroy,
-    OnInit, ViewChild,
+    Component, ViewContainerRef, OnDestroy,
+    OnInit, ViewChild, AfterViewInit,
     ViewEncapsulation
 } from '@angular/core';
 
@@ -35,7 +35,7 @@ import {modulesConfig} from 'modules/modules-config';
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
 })
-export class TarefaDetailComponent implements OnInit, OnDestroy {
+export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
     private _unsubscribeAll: Subject<any> = new Subject();
 
@@ -63,8 +63,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
 
     mobileMode = false;
 
-    @ViewChild('container', { read: ElementRef, static: false })
-    container: ElementRef;
+    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef}) container: ViewContainerRef;
 
     /**
      * @param _changeDetectorRef
@@ -92,18 +91,19 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
         };
     }
 
-    ngOnInit(): void {
-
+    ngAfterViewInit(): void {
         const path = 'app/main/apps/tarefas/tarefa-detail';
-
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path)) {
                 module.components[path].forEach((c => {
                     this._dynamicService.loadComponent(c)
-                        .then(({ host }) => this.containerElement.appendChild(host));
+                        .then( componentFactory  => this.container.createComponent(componentFactory));
                 }));
             }
         });
+    }
+
+    ngOnInit(): void {
 
         this._store.pipe(
             select(getRouterState),
@@ -143,9 +143,6 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
 
-        Array.from(this.containerElement.children)
-            .forEach(child => this.containerElement.removeChild(child));
-
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
@@ -157,10 +154,6 @@ export class TarefaDetailComponent implements OnInit, OnDestroy {
 
     submit(): void {
 
-    }
-
-    get containerElement(): HTMLElement {
-        return this.container.nativeElement;
     }
 
     /**
