@@ -1,6 +1,6 @@
 <div id="tarefa-detail">
 
-        <div *ngIf="(tarefa$ | async)" fxFlex fxLayout="column">
+        <div fxFlex fxLayout="column">
 
             <div class="tarefa-header">
 
@@ -75,7 +75,7 @@
                                 </ng-container>
                             </button>
 
-                            <div #container></div>
+                            <ng-template #dynamicComponent></ng-template>
 
                         </mat-menu>
                     </div>
