@@ -64,16 +64,21 @@ export class ProcessoViewEffect {
                                 if (!juntada.ativo) {
                                     return [];
                                 }
-                                const componentesDigitaisIds = juntada.documento.componentesDigitais.map(
-                                    cd => cd.id
-                                );
-                                juntada.documento.vinculacoesDocumentos.map(
-                                    vinculacaoDocumento => {
-                                        vinculacaoDocumento.documentoVinculado.componentesDigitais.map(
-                                            cd => componentesDigitaisIds.push(cd.id)
-                                        );
-                                    }
-                                );
+                                let componentesDigitaisIds = [];
+                                if (juntada.documento.componentesDigitais) {
+                                    componentesDigitaisIds = juntada.documento.componentesDigitais.map(
+                                        cd => cd.id
+                                    );
+                                }
+                                if (juntada.documento.vinculacoesDocumentos) {
+                                    juntada.documento.vinculacoesDocumentos.map(
+                                        vinculacaoDocumento => {
+                                            vinculacaoDocumento.documentoVinculado.componentesDigitais.map(
+                                                cd => componentesDigitaisIds.push(cd.id)
+                                            );
+                                        }
+                                    );
+                                }
                                 return componentesDigitaisIds;
                             }
                         ),

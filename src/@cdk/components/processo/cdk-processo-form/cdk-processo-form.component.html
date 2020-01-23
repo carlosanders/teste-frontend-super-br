@@ -148,7 +148,7 @@
             <cdk-classificacao-autocomplete
                 #classificacao="classificacaoAutocomplete"
                 [control]="form.get('classificacao')"
-                [pagination]="classificacaoPagination">
+                [pagination]="_classificacaoPagination">
             </cdk-classificacao-autocomplete>
             <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
                     (click)="showLogEntryGrid('classificacao')">
@@ -272,7 +272,7 @@
 <cdk-classificacao-gridsearch
         fxFlex="1 0 auto"
         *ngIf="activeCard === 'classificacao-gridsearch'"
-        [pagination]="classificacaoPagination"
+        [pagination]="_classificacaoPagination"
         (selected)="selectClassificacao($event)"
         (cancel)="cancel()">
 </cdk-classificacao-gridsearch>
