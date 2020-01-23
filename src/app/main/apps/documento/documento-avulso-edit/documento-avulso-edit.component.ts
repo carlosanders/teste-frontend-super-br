@@ -1,10 +1,10 @@
 import {
     ChangeDetectionStrategy,
-    Component, ElementRef,
+    Component,
     OnDestroy,
     OnInit, ViewChild,
     ViewEncapsulation,
-    ChangeDetectorRef
+    ChangeDetectorRef, ViewContainerRef, AfterViewInit
 } from '@angular/core';
 
 import {fuseAnimations} from '@fuse/animations';
@@ -30,9 +30,7 @@ import {DynamicService} from "../../../../../modules/dynamic.service";
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
 })
-export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy {
-
-    private _unsubscribeAll: Subject<any> = new Subject();
+export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy, AfterViewInit {
 
     /**
      * @param _store
@@ -122,8 +120,13 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy {
      * Criando ponto de entrada para extensões do componente de edição de documento avulso, permitindo
      * adicionar botões de remessa diferentes da remessa manual
      */
-    @ViewChild('container', { read: ElementRef, static: false })
-    container: ElementRef;
+    @ViewChild('dynamicButtons', {static: false, read: ViewContainerRef}) containerButtons: ViewContainerRef;
+
+    /**
+     * Criando ponto de entrada para extensões do componente de edição de documento avulso, permitindo
+     * informar status da remessa oriundos de módulos diferentes da remessa manual
+     */
+    @ViewChild('dynamicStatus', {static: false, read: ViewContainerRef}) containerStatus: ViewContainerRef;
 
     modulesButtons: any[] = [];
 
@@ -142,6 +145,9 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy {
         }).join(''));
     }
 
+    ngAfterViewInit(): void {
+        this.iniciaModulos();
+    }
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
     // -----------------------------------------------------------------------------------------------------
@@ -150,20 +156,6 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        const path = 'app/main/apps/documento/documento-avulso-edit';
-
-        modulesConfig.forEach((module) => {
-            if (module.components.hasOwnProperty(path)) {
-                module.components[path].forEach((c => {
-                    this._dynamicService.loadComponent(c)
-                        .then(({ host }) => {
-                            this.modulesButtons.push(host);
-                            this.containerElement.appendChild(host);
-                        });
-                }));
-            }
-        });
-
         this.documento$.subscribe(documento => this.documento = documento);
 
         this.assinandoDocumentosVinculadosId$.subscribe(assinandoDocumentosVinculadosId => {
@@ -207,8 +199,27 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy {
     }
 
     iniciaModulos(): void {
-        this.modulesButtons.forEach((host) => {
-            this.containerElement.appendChild(host)
+        const path1 = 'app/main/apps/documento/documento-avulso-edit#buttons';
+        modulesConfig.forEach((module) => {
+            if (module.components.hasOwnProperty(path1)) {
+                module.components[path1].forEach((c => {
+                    this._dynamicService.loadComponent(c)
+                        .then( componentFactory  => {
+                            this.containerButtons.createComponent(componentFactory)
+                        });
+                }));
+            }
+        });
+        const path2 = 'app/main/apps/documento/documento-avulso-edit#status';
+        modulesConfig.forEach((module) => {
+            if (module.components.hasOwnProperty(path2)) {
+                module.components[path2].forEach((c => {
+                    this._dynamicService.loadComponent(c)
+                        .then( componentFactory  => {
+                            this.containerStatus.createComponent(componentFactory)
+                        });
+                }));
+            }
         });
     }
 
@@ -216,11 +227,6 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
-    }
-
-    get containerElement(): HTMLElement {
-        this._ref.detectChanges();
-        return this.container.nativeElement;
     }
 
     reload(params): void {
@@ -255,7 +261,7 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy {
         this._store.dispatch(new fromStore.RemeterDocumentoAvulso(this.documento.documentoAvulsoRemessa));
     }
 
-    toggleEncerramento($event): void {
+    toggleEncerramento(): void {
         this._store.dispatch(new fromStore.ToggleEncerramentoDocumentoAvulso(this.documento.documentoAvulsoRemessa));
     }
 
@@ -298,6 +304,7 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy {
 
     showForm(): void {
         this.activeCard = 'oficio';
+        this._ref.detectChanges();
         this.iniciaModulos();
     }
 
