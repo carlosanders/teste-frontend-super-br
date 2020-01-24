@@ -2,18 +2,19 @@
 
     <div class="documento-header p-8" fxLayout="row" fxLayoutAlign="end center">
 
-        <button mat-raised-button color="accent" class="mr-sm-12"
-                aria-label="modo processo"
-                matTooltip="Modo Processo"
-                (click)="visualizarProcesso()">
-            <mat-icon class="black-fg">swap_horiz</mat-icon>
-        </button>
+        <mat-slide-toggle
+                          aria-label="modo processo"
+                          matTooltip="Modo Processo"
+                          (click)="visualizarProcesso(this.modoProcesso)"
+                          class="mt-16 mr-16 mb-16" fxFlex="0 1 auto">
+            Visualizar Processo
+        </mat-slide-toggle>
 
         <button mat-raised-button color="accent" class="mr-sm-12"
                 aria-label="visualizar processo"
                 matTooltip="Visualizar Processo em Nova Aba"
                 (click)="visualizarProcessoNovaAba()">
-            <mat-icon class="black-fg">book</mat-icon>
+            <mat-icon class="black-fg">open_in_new</mat-icon>
         </button>
 
         <button class="close mr-8" mat-icon-button
