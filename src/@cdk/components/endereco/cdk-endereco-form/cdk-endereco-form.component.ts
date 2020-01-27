@@ -13,6 +13,9 @@ import { Endereco } from '@cdk/models/endereco.model';
 import { Municipio } from '@cdk/models/municipio.model';
 import {Pais} from '@cdk/models/pais.model';
 import {Pagination} from '@cdk/models/pagination';
+import {EnderecoService} from '@cdk/services/endereco.service';
+import {catchError} from 'rxjs/operators';
+import {of, throwError} from 'rxjs';
 
 @Component({
     selector: 'cdk-endereco-form',
@@ -51,17 +54,18 @@ export class CdkEnderecoFormComponent implements OnChanges, OnDestroy {
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _formBuilder: FormBuilder
+        private _formBuilder: FormBuilder,
+        private _enderecoService: EnderecoService
     ) {
 
         this.form = this._formBuilder.group({
             id: [null],
-            principal: [null, [Validators.required]],
+            principal: [null],
             municipio: [null, [Validators.required]],
             pais: [null, [Validators.required]],
-            logradouro: [null, [Validators.maxLength(255)]],
-            bairro: [null, [Validators.maxLength(255)]],
-            cep: [null, [Validators.maxLength(8), Validators.pattern('/\\d{8}/')]],
+            logradouro: [null, [Validators.required, Validators.maxLength(255)]],
+            bairro: [null, [Validators.required, Validators.maxLength(255)]],
+            cep: [null, [Validators.required, Validators.maxLength(8)]],
             observacao: [null, [Validators.maxLength(255)]],
             numero: [null, [Validators.maxLength(255)]],
             complemento: [null, [Validators.maxLength(255)]],
@@ -122,6 +126,28 @@ export class CdkEnderecoFormComponent implements OnChanges, OnDestroy {
         }
     }
 
+    getEnderecoByCep(): void{
+        if (this.form.get('cep').value) {
+            this._enderecoService.getFromCorreiosByCep(
+                this.form.get('cep').value
+                )
+                .pipe(
+                    catchError(error => of([]))
+                ).subscribe(
+                response => {
+                    this.endereco = Object.assign(new Endereco(), {...response});
+                    if (this.endereco.cep){
+                        this.form.get('logradouro').setValue(this.endereco.logradouro);
+                        this.form.get('numero').setValue(this.endereco.numero);
+                        this.form.get('complemento').setValue(this.endereco.complemento);
+                        this.form.get('bairro').setValue(this.endereco.bairro);
+                        this.form.get('municipio').setValue(this.endereco.municipio);
+                        this.form.get('pais').setValue(this.endereco.municipio.estado.pais);
+                    }
+                });
+        }
+    }
+
     checkMunicipio(): void {
         const value = this.form.get('municipio').value;
         if (!value || typeof value !== 'object') {
@@ -146,6 +172,8 @@ export class CdkEnderecoFormComponent implements OnChanges, OnDestroy {
     showMunicipioGrid(): void {
         this.activeCard = 'municipio-gridsearch';
     }
+
+    
 
     selectPais(pais: Pais): void {
         if (pais) {
