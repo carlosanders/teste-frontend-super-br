@@ -14,7 +14,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {Etiqueta} from '@cdk/models/etiqueta.model';
 import {VinculacaoEtiqueta} from '@cdk/models/vinculacao-etiqueta.model';
-import {CreateVinculacaoEtiqueta, DeleteVinculacaoEtiqueta} from './store';
+import {CreateVinculacaoEtiqueta, DeleteVinculacaoEtiqueta, SaveConteudoVinculacaoEtiqueta} from './store';
 import {Documento} from '@cdk/models/documento.model';
 import {getMaximizado} from '../store/selectors';
 import {ToggleMaximizado} from '../store/actions';
@@ -166,6 +166,18 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
     onEtiquetaCreate(etiqueta: Etiqueta): void {
         this._store.dispatch(new CreateVinculacaoEtiqueta({tarefa: this.tarefa, etiqueta: etiqueta}));
+    }
+
+    onEtiquetaEdit(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
+        //console.log(vinculacaoEtiqueta);
+        this._store.dispatch(new SaveConteudoVinculacaoEtiqueta({
+            vinculacaoEtiqueta: vinculacaoEtiqueta
+        }));    
+        /*this._store.dispatch(new SaveConteudoVinculacaoEtiqueta({
+            tarefaId: this.tarefa.id,
+            vinculacaoEtiquetaId: vinculacaoEtiqueta.id,
+            conteudo: vinculacaoEtiqueta.conteudo
+        }));*/
     }
 
     onEtiquetaDelete(vinculacaoEtiqueta: VinculacaoEtiqueta): void {

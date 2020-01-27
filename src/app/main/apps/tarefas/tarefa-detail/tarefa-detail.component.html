@@ -84,6 +84,7 @@
                 <cdk-vinculacao-etiqueta-chips class="mr-24 ml-24"
                                                [vinculacoesEtiquetas]="(tarefa$ | async).vinculacoesEtiquetas"
                                                (create)="onEtiquetaCreate($event)"
+                                               (edit)="onEtiquetaEdit($event)"
                                                [pagination]="vinculacaoEtiquetaPagination"
                                                (delete)="onEtiquetaDelete($event)"></cdk-vinculacao-etiqueta-chips>
 

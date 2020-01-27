@@ -5,8 +5,9 @@
                 *ngFor="let vinculacaoEtiqueta of vinculacoesEtiquetas"
                 [selectable]="selectable"
                 [removable]="false === vinculacaoEtiqueta.etiqueta.sistema"
+                (click)="openDialogEdit(vinculacaoEtiqueta)"
                 (removed)="remove(vinculacaoEtiqueta)">
-            <mat-icon class="icon">perm_identity</mat-icon>
+                <mat-icon class="icon">{{vinculacaoEtiqueta.conteudo?'more':'perm_identity'}}</mat-icon>
             {{vinculacaoEtiqueta.etiqueta.nome}}
             <mat-icon matChipRemove *ngIf="false === vinculacaoEtiqueta.etiqueta.sistema">cancel</mat-icon>
         </mat-chip>

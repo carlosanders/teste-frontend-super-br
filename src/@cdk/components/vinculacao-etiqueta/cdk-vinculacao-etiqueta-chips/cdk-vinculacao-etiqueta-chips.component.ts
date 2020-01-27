@@ -1,11 +1,14 @@
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Output, ViewChild, ViewEncapsulation} from '@angular/core';
 import {FormControl} from '@angular/forms';
-import {MatAutocompleteSelectedEvent, MatChipInputEvent, MatAutocomplete} from '@angular/material';
+import {MatAutocompleteSelectedEvent, MatChipInputEvent, MatAutocomplete, MatDialog} from '@angular/material';
 import {fuseAnimations} from '@fuse/animations';
 import {Etiqueta} from '@cdk/models/etiqueta.model';
 import {VinculacaoEtiqueta} from '@cdk/models/vinculacao-etiqueta.model';
 import {Pagination} from '@cdk/models/pagination';
+
+import {CdkVinculacaoEtiquetaEditPluginComponent} from '../cdk-vinculacao-etiqueta-edit-plugin/cdk-vinculacao-etiqueta-edit-plugin.component';
+
 
 @Component({
     selector: 'cdk-vinculacao-etiqueta-chips',
@@ -30,6 +33,9 @@ export class CdkVinculacaoEtiquetaChipsComponent {
     delete = new EventEmitter<VinculacaoEtiqueta>();
 
     @Output()
+    edit = new EventEmitter<VinculacaoEtiqueta>();
+
+    @Output()
     create = new EventEmitter<Etiqueta>();
 
     @Input()
@@ -41,7 +47,7 @@ export class CdkVinculacaoEtiquetaChipsComponent {
     @ViewChild('etiquetaInput', {static: false}) etiquetaInput: ElementRef<HTMLInputElement>;
     @ViewChild('etiqueta', {static: false}) matAutocomplete: MatAutocomplete;
 
-    constructor() {
+    constructor(public dialog: MatDialog) {
         this.pagination = new Pagination();
     }
 
@@ -84,5 +90,28 @@ export class CdkVinculacaoEtiquetaChipsComponent {
         this.etiquetaInput.nativeElement.value = '';
         this.etiquetaCtrl.setValue(null);
     }
+
+    openDialogEdit(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
+        //console.log("teste");
+        //console.log(vinculacaoEtiqueta);
+        const dialogRef = this.dialog.open(CdkVinculacaoEtiquetaEditPluginComponent, {
+            data: {
+                idVinculacao: vinculacaoEtiqueta.id,
+                conteudo: vinculacaoEtiqueta.conteudo
+            },
+            hasBackdrop: false,
+            closeOnNavigation: true
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            
+            if (result !== 0){
+                vinculacaoEtiqueta.conteudo = result;
+                this.edit.emit(vinculacaoEtiqueta);
+            }
+        });
+
+
+    }    
 
 }
