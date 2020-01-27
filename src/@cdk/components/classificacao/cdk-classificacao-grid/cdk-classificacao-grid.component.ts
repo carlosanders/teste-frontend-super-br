@@ -29,7 +29,7 @@ export class CdkClassificacaoGridComponent implements AfterViewInit, OnInit, OnC
     loading = false;
 
     @Input()
-    classificacoes: Classificacao[] = [];
+    _classificacoes: Classificacao[] = [];
 
     @Input()
     total = 0;
@@ -213,7 +213,7 @@ export class CdkClassificacaoGridComponent implements AfterViewInit, OnInit, OnC
         this.gridFilter = {};
     }
     ngOnChanges(): void {
-        this.dataSource = new ClassificacaoDataSource(of(this.classificacoes));
+        this.dataSource = new ClassificacaoDataSource(of(this._classificacoes));
         this.paginator.length = this.total;
     }
 
@@ -228,7 +228,7 @@ export class CdkClassificacaoGridComponent implements AfterViewInit, OnInit, OnC
 
         this.paginator.pageSize = this.pageSize;
 
-        this.dataSource = new ClassificacaoDataSource(of(this.classificacoes));
+        this.dataSource = new ClassificacaoDataSource(of(this._classificacoes));
 
         this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
 
@@ -286,8 +286,8 @@ export class CdkClassificacaoGridComponent implements AfterViewInit, OnInit, OnC
         this.delete.emit(classificacaoId);
     }
 
-    deleteClassificacoes(classificacoesId): void {
-        classificacoesId.forEach(classificacaoId => this.deleteClassificacao(classificacaoId));
+    deleteClassificacoes(_classificacoesId): void {
+        _classificacoesId.forEach(classificacaoId => this.deleteClassificacao(classificacaoId));
     }
 
     /**
@@ -309,7 +309,7 @@ export class CdkClassificacaoGridComponent implements AfterViewInit, OnInit, OnC
      * Select all
      */
     selectAll(): void {
-        const arr = Object.keys(this.classificacoes).map(k => this.classificacoes[k]);
+        const arr = Object.keys(this._classificacoes).map(k => this._classificacoes[k]);
         this.selectedIds = arr.map(classificacao => classificacao.id);
         this.recompute();
     }
@@ -335,7 +335,7 @@ export class CdkClassificacaoGridComponent implements AfterViewInit, OnInit, OnC
 
     recompute(): void {
         this.hasSelected = this.selectedIds.length > 0;
-        this.isIndeterminate = (this.selectedIds.length !== this.classificacoes.length && this.selectedIds.length > 0);
+        this.isIndeterminate = (this.selectedIds.length !== this._classificacoes.length && this.selectedIds.length > 0);
     }
 
     setGridFilter(gridFilter): void {

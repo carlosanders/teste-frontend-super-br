@@ -24,21 +24,37 @@
 
         <div fxLayout="column" *ngIf="activeCard === 'oficio'">
 
-            <div *ngIf="!this.documento.documentoAvulsoRemessa.dataHoraRemessa && !(isRemetendo$ | async)"
-                 class="header p-8" fxLayout="row" fxLayoutAlign="start center">
+            <div class="mb-8">
                 <button mat-raised-button color="accent" class="mr-sm-12"
+                        mat-icon-button [matMenuTriggerFor]="remeter"
+                        [disabled]="this.documento.documentoAvulsoRemessa.dataHoraRemessa != null || (isRemetendo$ | async)"
                         aria-label="remeter ofício"
-                        matTooltip="Remeter Ofício"
-                        (click)="remeterDocumentoAvulso()">
+                        matTooltip="Remeter Ofício">
                     <mat-icon class="black-fg">send</mat-icon>
-                    Remeter
                 </button>
+
+                <mat-menu #remeter="matMenu">
+                    <button mat-menu-item
+                            (click)="remeterDocumentoAvulso()">
+                        <mat-icon>send</mat-icon>
+                        <span>Manual</span>
+                    </button>
+
+                    <ng-template #dynamicButtons></ng-template>
+                </mat-menu>
+            </div>
+            <div [hidden]="!this.documento.documentoAvulsoRemessa.dataHoraRemessa">
+                <span *ngIf="this.documento.documentoAvulsoRemessa.dataHoraRemessa != null">
+                    Objeto remetido em: {{this.documento.documentoAvulsoRemessa.dataHoraRemessa | date: 'dd/MM/yyyy HH:mm:ss':'-0300'}}
+                </span>
+
+                <ng-template #dynamicStatus></ng-template>
             </div>
             <div *ngIf="(isRemetendo$ | async)" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
                  fxLayoutAlign="center center">
                 <mat-spinner color="accent" diameter="24"></mat-spinner>
             </div>
-            <div *ngIf="!(isRemetendo$ | async)">
+            <div *ngIf="!(isRemetendo$ | async)" style="overflow-scrolling: auto">
                 <div>
                     <mat-slide-toggle [checked]="!!!documento.documentoAvulsoRemessa.dataHoraEncerramento"
                                       (change)="toggleEncerramento($event)"

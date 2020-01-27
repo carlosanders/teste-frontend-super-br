@@ -64,16 +64,21 @@ export class ProcessoViewEffect {
                                 if (!juntada.ativo) {
                                     return [];
                                 }
-                                const componentesDigitaisIds = juntada.documento.componentesDigitais.map(
-                                    cd => cd.id
-                                );
-                                juntada.documento.vinculacoesDocumentos.map(
-                                    vinculacaoDocumento => {
-                                        vinculacaoDocumento.documentoVinculado.componentesDigitais.map(
-                                            cd => componentesDigitaisIds.push(cd.id)
-                                        );
-                                    }
-                                );
+                                let componentesDigitaisIds = [];
+                                if (juntada.documento.componentesDigitais) {
+                                    componentesDigitaisIds = juntada.documento.componentesDigitais.map(
+                                        cd => cd.id
+                                    );
+                                }
+                                if (juntada.documento.vinculacoesDocumentos) {
+                                    juntada.documento.vinculacoesDocumentos.map(
+                                        vinculacaoDocumento => {
+                                            vinculacaoDocumento.documentoVinculado.componentesDigitais.map(
+                                                cd => componentesDigitaisIds.push(cd.id)
+                                            );
+                                        }
+                                    );
+                                }
                                 return componentesDigitaisIds;
                             }
                         ),
@@ -87,6 +92,7 @@ export class ProcessoViewEffect {
                     new ProcessoViewActions.SetCurrentStep({step: 0, subStep: 0})
                 ]),
                 catchError((err, caught) => {
+                    console.log (err);
                     this._store.dispatch(new ProcessoViewActions.GetJuntadasFailed(err));
                     return caught;
                 })

@@ -50,6 +50,9 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     errors: any;
 
     @Input()
+    _classificacaoPagination: Pagination;
+
+    @Input()
     especieProcessoPagination: Pagination;
 
     @Input()
@@ -60,9 +63,6 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
     @Input()
     modalidadeMeioPagination: Pagination;
-
-    @Input()
-    classificacaoPagination: Pagination;
 
     @Input()
     setorAtualPagination: Pagination;
@@ -117,7 +117,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
         this.especieProcessoPagination = new Pagination();
         this.procedenciaPagination = new Pagination();
-        this.classificacaoPagination = new Pagination();
+        this._classificacaoPagination = new Pagination();
         this.modalidadeMeioPagination = new Pagination();
         this.modalidadeFasePagination = new Pagination();
         this.setorAtualPagination = new Pagination();
