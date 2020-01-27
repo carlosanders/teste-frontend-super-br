@@ -30,6 +30,8 @@ export class DocumentoAvulso {
 
     urgente?: boolean;
 
+    tipoRemessa?: string;
+
     @Type(() => Modelo)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     modelo: Modelo;
@@ -162,6 +164,7 @@ export class DocumentoAvulso {
         this.setorOrigem = null;
         this.especieDocumentoAvulso = null;
         this.observacao = null;
+        this.tipoRemessa = null;
         this.urgente = null;
         this.modelo = null;
         this.dataHoraEncerramento = null;
