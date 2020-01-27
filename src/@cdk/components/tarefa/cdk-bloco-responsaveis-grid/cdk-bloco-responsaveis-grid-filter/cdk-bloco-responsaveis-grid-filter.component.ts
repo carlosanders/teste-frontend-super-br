@@ -7,7 +7,6 @@ import {
   
   import {fuseAnimations} from '@fuse/animations';
   import {FormBuilder, FormGroup} from '@angular/forms';
-import { setor } from '@cdk/normalizr/setor.schema';
 
 @Component({
   selector: 'cdk-bloco-responsaveis-grid-filter',
@@ -36,6 +35,7 @@ export class CdkBlocoResponsaveisGridFilterComponent implements OnInit {
       this.form = this._formBuilder.group({
          
           responsavel: [null],
+          setor: [null],
           sigla: [null],
 
       });
@@ -51,7 +51,26 @@ export class CdkBlocoResponsaveisGridFilterComponent implements OnInit {
    * On init
    */
   ngOnInit(): void {
+
+      this.form.get('responsavel').valueChanges.subscribe(value => {
+          if (value !== null) {
+              this.filters = {
+                  ...this.filters,
+                  responsavel: `like:${value}%`
+              };
+              this.selected.emit(this.filters);
+          }
+      });
       
+      this.form.get('setor').valueChanges.subscribe(value => {
+        if (value !== null) {
+            this.filters = {
+                ...this.filters,
+                setor: `like:${value}%`
+            };
+            this.selected.emit(this.filters);
+        }
+      });      
 
       this.form.get('sigla').valueChanges.subscribe(value => {
           if (value !== null) {
@@ -62,17 +81,6 @@ export class CdkBlocoResponsaveisGridFilterComponent implements OnInit {
               this.selected.emit(this.filters);
           }
       });
-
-      this.form.get('responsavel').valueChanges.subscribe(value => {
-          if (value !== null) {
-              this.filters = {
-                  ...this.filters,
-                  responsavel: `like:${value}%`
-              };
-              this.selected.emit(this.filters);
-          }
-      });      
-      
   }
 
   limpar(): void {

@@ -3,13 +3,32 @@
 
     <div fxFlex="1 0 auto" fxLayout="column">
          
-        <mat-checkbox formControlName="responsavel" class="mr-16 mb-16" fxFlex="0 1 auto">
-            Responsável
-        </mat-checkbox>
+        <mat-form-field fxFlex="100">
+            <mat-label>Responsável</mat-label>
+            <input matInput #responsavel
+                   name="responsavel"
+                   formControlName="responsavel"
+                   maxlength="255">
+            <mat-hint align="end">{{responsavel.value.length}} / 255</mat-hint>
+        </mat-form-field>
 
-        <mat-checkbox formControlName="sigla" class="mr-16 mb-16" fxFlex="0 1 auto">
-            Sigla
-        </mat-checkbox>        
+        <mat-form-field fxFlex="100">
+            <mat-label>Setor</mat-label>
+            <input matInput #setor
+                   name="setor"
+                   formControlName="setor"
+                   maxlength="255">
+            <mat-hint align="end">{{setor.value.length}} / 255</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+            <mat-label>Sigla</mat-label>
+            <input matInput #sigla
+                   name="sigla"
+                   formControlName="sigla"
+                   maxlength="255">
+            <mat-hint align="end">{{sigla.value.length}} / 255</mat-hint>
+        </mat-form-field>
 
         <button mat-raised-button color="warn" class="mr-sm-12" (click)="limpar()">
             Limpar

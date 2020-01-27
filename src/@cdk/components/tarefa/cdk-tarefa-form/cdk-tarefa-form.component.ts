@@ -226,7 +226,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             debounceTime(300),
             distinctUntilChanged(),
             switchMap((value) => {
-                    if (value && typeof value === 'object') {
+                    if (value && typeof value === 'object'  && !this.form.get('distribuicaoAutomatica').value) {
                         this.form.get('usuarioResponsavel').enable();
                         this.form.get('usuarioResponsavel').reset();
                         this.usuarioResponsavelPagination.filter['colaborador.lotacoes.setor.id'] = `eq:${value.id}`;
@@ -237,7 +237,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             )
         ).subscribe();
 
-        this.form.get('processo').valueChanges.pipe(
+        this.form.get('processo').valueChanges.pipe(            
             debounceTime(300),
             distinctUntilChanged(),
             switchMap((value) => {
@@ -258,6 +258,55 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         if (this.form.get('processo').value && this.form.get('processo').value.id) {
            this.processo.emit(this.form.get('processo').value);
         }
+
+        this.form.get('setorResponsavel').valueChanges.pipe(            
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((value) => {
+                if (this.form.get('blocoResponsaveis').value && this.form.get('distribuicaoAutomatica').value && typeof value === 'object' && value) {
+                    const setor = this.form.get('setorResponsavel').value;
+                    const usuario = this.form.get('usuarioResponsavel').value;  
+                                                                           
+                    if (usuario) {
+                        const findDuplicate = this.blocoResponsaveis.some(item => (item.setor.id === setor.id) && (item.usuario.id === usuario.id));
+                        if (!findDuplicate) this.blocoResponsaveis = [...this.blocoResponsaveis, {setor, usuario}];
+                    }else {
+                        const findDuplicate = this.blocoResponsaveis.some(item => item.setor.id === setor.id);
+                        if (!findDuplicate) this.blocoResponsaveis = [...this.blocoResponsaveis, {setor, usuario}];
+                    }              
+                        
+                    this._changeDetectorRef.markForCheck();
+                    } 
+
+                    return of([]);
+                }
+            )
+        ).subscribe();
+
+        this.form.get('usuarioResponsavel').valueChanges.pipe(            
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((value) => {
+                    if (typeof value === 'object' && value) {
+                        const setor = this.form.get('setorResponsavel').value;
+                        const usuario = this.form.get('usuarioResponsavel').value;
+
+                        if (usuario) {
+                            const findDuplicate = this.blocoResponsaveis.some(item => (item.setor.id === setor.id) && (item.usuario.id === usuario.id));
+                            if (!findDuplicate) this.blocoResponsaveis = [...this.blocoResponsaveis, {setor, usuario}];
+                        }else {
+                            const findDuplicate = this.blocoResponsaveis.some(item => item.setor.id === setor.id);
+                            if (!findDuplicate) this.blocoResponsaveis = [...this.blocoResponsaveis, {setor, usuario}];
+                        }                        
+                        
+                        this._changeDetectorRef.markForCheck();
+                    }
+                    return of([]);
+                }
+            )
+        ).subscribe();
+        
+        
     }
 
     /**
@@ -335,16 +384,46 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             if (this.form.get('blocoProcessos').value) {
                 this.form.get('processos').setValue(this.processos);
                 this.processos.forEach(processo => {
-                    this.blocoResponsaveis.forEach(responsavel => {
-                        const tarefa =  {
+                    let tarefa;
+                    if(this.form.get('blocoResponsaveis').value){
+                        this.blocoResponsaveis.forEach(responsavel => {
+                            tarefa =  {
+                                ...this.form.value,
+                                processo: processo,
+                                setorResponsavel: responsavel.setor,
+                                usuarioResponsavel: responsavel.usuario
+                            };
+                        });
+                    }else{
+                        tarefa =  {
                             ...this.form.value,
                             processo: processo,
+                            setorResponsavel: this.form.get('setorResponsavel').value,
+                            usuarioResponsavel: this.form.get('usuarioResponsavel').value
+                        };
+                    }
+                    this.save.emit(tarefa);
+                });
+            }else{
+                let tarefa;
+                if(this.form.get('blocoResponsaveis').value){
+                    this.blocoResponsaveis.forEach(responsavel => {
+                        tarefa =  {
+                            ...this.form.value,
+                            processo: this.form.get('processo').value,
                             setorResponsavel: responsavel.setor,
                             usuarioResponsavel: responsavel.usuario
                         };
-                        this.save.emit(tarefa);
                     });
-                });
+                }else{
+                    tarefa =  {
+                        ...this.form.value,
+                        processo: this.form.get('processo').value,
+                        setorResponsavel: this.form.get('setorResponsavel').value,
+                        usuarioResponsavel: this.form.get('usuarioResponsavel').value
+                    };
+                }
+                this.save.emit(tarefa);
             }
         }
     }
@@ -543,36 +622,4 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     cancel(): void {
         this.activeCard = 'form';
     }
-
-    removeDuplicates(valor, key) {
-        console.log(valor, key);
-        const novoObjeto = new Set();
-            return valor.filter( item => !novoObjeto.has[ item[key] ] && novoObjeto[ item[key] ] === true);
-    }
-
-    selectBlocoResponsaveis(): void {
-        const setor = this.form.get('setorResponsavel').value;
-        const usuario = this.form.get('usuarioResponsavel').value;
-
-        if (this.form.get("distribuicaoAutomatica").value) {
-            if (!setor) {
-                return;
-            }
-            else {
-                const searchDuplicateSetor = this.blocoResponsaveis.some(item => item.setor === setor);
-                if (!searchDuplicateSetor) this.blocoResponsaveis = [...this.blocoResponsaveis, {setor, usuario}];
-            }            
-        }
-        else {
-            if (!setor || !usuario) {
-                return;
-            }
-            else {
-                const searchDuplicateSetor = this.blocoResponsaveis.some(item => item.setor === setor);
-                const searchDuplicateUsuario = this.blocoResponsaveis.some(item => item.usuario === usuario);
-                if (!searchDuplicateSetor || !searchDuplicateUsuario) this.blocoResponsaveis = [...this.blocoResponsaveis, {setor, usuario}];
-            }            
-        }        
-    }
-
 }
