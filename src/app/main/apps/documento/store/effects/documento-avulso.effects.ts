@@ -14,6 +14,7 @@ import {Router} from '@angular/router';
 import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
 import {DocumentoAvulso} from '@cdk/models/documento-avulso.model';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
+import * as DocumentoActions from '../actions/documento.actions';
 
 @Injectable()
 export class DocumentoAvulsoEffect {
@@ -74,8 +75,10 @@ export class DocumentoAvulsoEffect {
                 switchMap((action) => {
                     return this._documentoAvulsoService.remeter(action.payload).pipe(
                         mergeMap((response: DocumentoAvulso) => [
-                            new DocumentoAvulsoActions.RemeterDocumentoAvulsoSuccess(),
-                            new AddData<DocumentoAvulso>({data: [response], schema: documentoAvulsoSchema})
+                            new UpdateData<DocumentoAvulso>({id: response.id, schema: documentoAvulsoSchema,
+                                changes: {dataHoraRemessa: response.dataHoraRemessa, usuarioRemessa: response.usuarioRemessa}}),
+                            new DocumentoActions.GetDocumento(),
+                            new DocumentoAvulsoActions.RemeterDocumentoAvulsoSuccess()
                         ])
                     );
                 }),
