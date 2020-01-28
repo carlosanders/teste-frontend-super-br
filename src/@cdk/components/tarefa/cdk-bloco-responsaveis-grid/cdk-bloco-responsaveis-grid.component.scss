@@ -1,6 +1,6 @@
 @import "src/@fuse/scss/fuse";
 
-cdk-bloco-respoensavel-grid {
+cdk-bloco-responsaveis-grid {
 
   .colunas {
     width: 20px !important;
@@ -133,6 +133,8 @@ cdk-bloco-respoensavel-grid {
   }
 
   .content {
+    width: 100%;
+
     .actions {
       width: 100%;
 
