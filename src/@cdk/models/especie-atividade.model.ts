@@ -74,6 +74,6 @@ export class EspecieAtividade {
         this.atualizadoEm = null;
         this.apagadoPor = null;
         this.apagadoEm = null;
-        this.favoritos = [];
+        this.favoritos = null;
     }
 }

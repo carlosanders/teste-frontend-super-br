@@ -36,7 +36,7 @@ export class CdkLotacaoGridComponent implements AfterViewInit, OnInit, OnChanges
     total = 0;
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'colaborador.usuario.nome', 'setor.nome', 'peso', 'distribuidor', 'coordenador', 'principal', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'setor.unidade.nome', 'setor.nome', 'peso', 'distribuidor', 'coordenador', 'principal', 'actions'];
 
     allColumns: any[] = [
         {
@@ -58,6 +58,11 @@ export class CdkLotacaoGridComponent implements AfterViewInit, OnInit, OnChanges
             id: 'setor.nome',
             label: 'Setor',
             fixed: false
+        },
+        {
+            id: 'setor.unidade.nome',
+            label: 'Unidade',
+            fixed: true
         },
         {
             id: 'peso',
