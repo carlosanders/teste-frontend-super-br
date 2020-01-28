@@ -97,6 +97,7 @@ export class DocumentoEffect {
                             'documentoAvulsoRemessa.modelo',
                             'documentoAvulsoRemessa.setorDestino',
                             'documentoAvulsoRemessa.pessoaDestino',
+                            'documentoAvulsoRemessa.usuarioRemessa',
                             'vinculacaoDocumentoPrincipal',
                             'vinculacaoDocumentoPrincipal.documento',
                             'vinculacaoDocumentoPrincipal.documento.documentoAvulsoRemessa',
