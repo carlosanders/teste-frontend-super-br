@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 
 import {fuseAnimations} from '@fuse/animations';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Processo} from '@cdk/models/processo.model';
 import {EspecieProcesso} from '@cdk/models/especie-processo.model';
 import {MAT_DATETIME_FORMATS} from '@mat-datetimepicker/core';
@@ -82,9 +82,14 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     @Input()
     logEntryPagination: Pagination;
 
+    @Input()
+    processoPagination: Pagination;
+
     form: FormGroup;
 
     activeCard = 'form';
+
+    exibeProcessoOrigem = false;
 
     /**
      * Constructor
@@ -96,6 +101,8 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
         this.form = this._formBuilder.group({
             id: [null],
+            aproveitarDados: [null],
+            processoOrigem: [null, [Validators.required, Validators.maxLength(21)]],
             NUP: [null, [Validators.required, Validators.maxLength(21)]],
             novo: [null, [Validators.required]],
             especieProcesso: [null, [Validators.required]],
@@ -112,6 +119,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             modalidadeMeio: [null, [Validators.required]],
             modalidadeFase: [null],
             dataHoraAbertura: [null, [Validators.required]],
+//            salvar: [null],
 
         });
 
@@ -121,6 +129,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
         this.modalidadeMeioPagination = new Pagination();
         this.modalidadeFasePagination = new Pagination();
         this.setorAtualPagination = new Pagination();
+        this.processoPagination = new Pagination();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -131,6 +140,87 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
         if (!this.processo.id) {
             this.form.get('dataHoraAbertura').setValue(null);
             this.form.get('dataHoraAbertura').disable();
+
+            this.form.get('aproveitarDados').valueChanges.subscribe(value => {
+
+                if (!this.exibeProcessoOrigem) {
+                    this.exibeProcessoOrigem = true;
+
+                    this.form.controls['processoOrigem'].setValidators([Validators.required, Validators.maxLength(21)]);
+
+                    this.form.controls['NUP'].setValidators([Validators.nullValidator]);
+                    this.form.controls['novo'].setValidators([Validators.nullValidator]);
+                    this.form.controls['especieProcesso'].setValidators(Validators.nullValidator);
+                    this.form.controls['titulo'].setValidators([Validators.nullValidator]);
+                    this.form.controls['descricao'].setValidators([Validators.nullValidator]);
+                    this.form.controls['outroNumero'].setValidators([Validators.nullValidator]);
+                    this.form.controls['classificacao'].setValidators([Validators.nullValidator]);
+                    this.form.controls['procedencia'].setValidators([Validators.nullValidator]);
+                    this.form.controls['setorAtual'].setValidators([Validators.nullValidator]);
+                    this.form.controls['modalidadeMeio'].setValidators([Validators.nullValidator]);
+                    this.form.controls['dataHoraAbertura'].setValidators([Validators.nullValidator]);
+                    //this.form.controls['salvar'].setValidators([Validators.nullValidator]);
+
+
+
+                    /*                    this.form.addControl('processoOrigem', new FormControl('', Validators.required));
+
+
+                                        this.form.removeControl('NUP');
+                                        this.form.removeControl('novo');
+                                        this.form.removeControl('especieProcesso');
+                                        this.form.removeControl('titulo');
+                                        this.form.removeControl('classificacao');
+                                        this.form.removeControl('procedencia');
+                                        this.form.removeControl('setorAtual');
+                                        this.form.removeControl('modalidadeMeio');
+                                        this.form.removeControl('dataHoraAbertura');*/
+                }
+                else {
+                    this.exibeProcessoOrigem = false;
+
+                    this.form.controls['processoOrigem'].setValidators([Validators.nullValidator]);
+
+                    this.form.controls['NUP'].setValidators([Validators.required, Validators.maxLength(21)]);
+                    this.form.controls['novo'].setValidators([Validators.required]);
+                    this.form.controls['especieProcesso'].setValidators([Validators.required]);
+                    this.form.controls['titulo'].setValidators([Validators.required, Validators.required, Validators.maxLength(255)]);
+                    this.form.controls['descricao'].setValidators([Validators.maxLength(255)]);
+                    this.form.controls['outroNumero'].setValidators([Validators.maxLength(255)]);
+                    this.form.controls['classificacao'].setValidators([Validators.required]);
+                    this.form.controls['procedencia'].setValidators([Validators.required]);
+                    this.form.controls['setorAtual'].setValidators([Validators.required]);
+                    this.form.controls['modalidadeMeio'].setValidators([Validators.required]);
+                    this.form.controls['dataHoraAbertura'].setValidators([Validators.required]);
+//                    this.form.controls['salvar'].setValidators([Validators.nullValidator]);
+
+/*                    processoOrigem: [null, [Validators.required, Validators.maxLength(21)]],
+                        NUP: [null, [Validators.required, Validators.maxLength(21)]],
+                        novo: [null, [Validators.required]],
+                        especieProcesso: [null, [Validators.required]],
+                        titulo: [null, [Validators.required, Validators.required, Validators.maxLength(255)]],
+                        descricao: [null, [Validators.maxLength(255)]],
+                        outroNumero: [null, [Validators.maxLength(255)]],
+                        classificacao: [null, [Validators.required]],
+                        procedencia: [null, [Validators.required]],
+                        setorAtual: [null, [Validators.required]],
+                        modalidadeMeio: [null, [Validators.required]],
+                        dataHoraAbertura: [null, [Validators.required]],*/
+
+
+/*                    this.form.addControl('NUP', new FormControl('', Validators.required));
+                    this.form.addControl('novo', new FormControl('', Validators.required));
+                    this.form.addControl('especieProcesso', new FormControl('', Validators.required));
+                    this.form.addControl('titulo', new FormControl('', Validators.required));
+                    this.form.addControl('classificacao', new FormControl('', Validators.required));
+                    this.form.addControl('procedencia', new FormControl('', Validators.required));
+                    this.form.addControl('setorAtual', new FormControl('', Validators.required));
+                    this.form.addControl('modalidadeMeio', new FormControl('', Validators.required));
+                    this.form.addControl('dataHoraAbertura', new FormControl('', Validators.required));
+
+                    this.form.removeControl('processoOrigem');*/
+                }
+            });
 
             this.form.get('NUP').setValue(null);
             this.form.get('NUP').disable();
@@ -335,6 +425,24 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
         Object.assign(this.logEntryPagination.filter, campo);
 
         this.activeCard = 'logentry-gridsearch';
+    }
+
+    checkProcesso(): void {
+        const value = this.form.get('processoOrigem').value;
+        if (!value || typeof value !== 'object') {
+            this.form.get('processoOrigem').setValue(null);
+        }
+    }
+
+    showProcessoGrid(): void {
+        this.activeCard = 'processo-gridsearch';
+    }
+
+    selectProcesso(processo: Processo): void {
+        if (processo) {
+            this.form.get('processoOrigem').setValue(processo);
+        }
+        this.activeCard = 'form';
     }
 
 }
