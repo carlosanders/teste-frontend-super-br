@@ -85,6 +85,7 @@
                                                [vinculacoesEtiquetas]="(tarefa$ | async).vinculacoesEtiquetas"
                                                (create)="onEtiquetaCreate($event)"
                                                (edit)="onEtiquetaEdit($event)"
+                                               [savingVinculacaoEtiqueta]="(isSavingVinculacaoEtiqueta$ | async)"
                                                [pagination]="vinculacaoEtiquetaPagination"
                                                (delete)="onEtiquetaDelete($event)"></cdk-vinculacao-etiqueta-chips>
 

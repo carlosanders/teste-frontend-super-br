@@ -6,8 +6,9 @@ import {fuseAnimations} from '@fuse/animations';
 import {Etiqueta} from '@cdk/models/etiqueta.model';
 import {VinculacaoEtiqueta} from '@cdk/models/vinculacao-etiqueta.model';
 import {Pagination} from '@cdk/models/pagination';
+import {filter} from 'rxjs/operators';
 
-import {CdkVinculacaoEtiquetaEditPluginComponent} from '../cdk-vinculacao-etiqueta-edit-plugin/cdk-vinculacao-etiqueta-edit-plugin.component';
+import {CdkVinculacaoEtiquetaEditDialogComponent} from '../cdk-vinculacao-etiqueta-edit-dialog/cdk-vinculacao-etiqueta-edit-dialog.component';
 
 
 @Component({
@@ -25,6 +26,9 @@ export class CdkVinculacaoEtiquetaChipsComponent {
     addOnBlur = true;
     separatorKeysCodes: number[] = [ENTER, COMMA];
     etiquetaCtrl = new FormControl();
+
+    @Input()
+    savingVinculacaoEtiqueta: boolean;  
 
     @Input()
     vinculacoesEtiquetas: VinculacaoEtiqueta[] = [];
@@ -92,24 +96,32 @@ export class CdkVinculacaoEtiquetaChipsComponent {
     }
 
     openDialogEdit(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
-        //console.log("teste");
-        //console.log(vinculacaoEtiqueta);
-        const dialogRef = this.dialog.open(CdkVinculacaoEtiquetaEditPluginComponent, {
-            data: {
-                idVinculacao: vinculacaoEtiqueta.id,
-                conteudo: vinculacaoEtiqueta.conteudo
-            },
-            hasBackdrop: false,
-            closeOnNavigation: true
-        });
+        if (!this.savingVinculacaoEtiqueta) {
+            const dialogRef = this.dialog.open(CdkVinculacaoEtiquetaEditDialogComponent, {
+                data: {
+                    conteudo: vinculacaoEtiqueta.conteudo,
+                    nome: vinculacaoEtiqueta.etiqueta.nome,
+                    corFundo: vinculacaoEtiqueta.etiqueta.corHexadecimal
+                },
+                width: '600px',
+                height: '300px',
+            });
+       
 
-        dialogRef.afterClosed().subscribe(result => {
-            
+        //dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe(result => {
+            dialogRef.afterClosed()
+            .pipe(filter(result => result !== 0))
+            .subscribe(result => {
+                    vinculacaoEtiqueta.conteudo = result;
+                    this.edit.emit(vinculacaoEtiqueta);
+            });
+        }
+        /*dialogRef.afterClosed().subscribe(result => {
             if (result !== 0){
                 vinculacaoEtiqueta.conteudo = result;
                 this.edit.emit(vinculacaoEtiqueta);
             }
-        });
+        });*/
 
 
     }    

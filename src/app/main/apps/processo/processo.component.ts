@@ -23,6 +23,7 @@ import {VinculacaoEtiqueta} from '@cdk/models/vinculacao-etiqueta.model';
 import {Pagination} from '@cdk/models/pagination';
 import {LoginService} from '../../auth/login/login.service';
 import {Router} from '@angular/router';
+import { SaveConteudoVinculacaoEtiqueta } from 'app/main/apps/processo/store';
 
 @Component({
     selector: 'processo',
@@ -123,6 +124,12 @@ export class ProcessoComponent implements OnInit, OnDestroy {
 
     onEtiquetaCreate(etiqueta: Etiqueta): void {
         this._store.dispatch(new fromStore.CreateVinculacaoEtiqueta({processo: this.processo, etiqueta: etiqueta}));
+    }
+    
+    onEtiquetaEdit(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
+        this._store.dispatch(new SaveConteudoVinculacaoEtiqueta({
+            vinculacaoEtiqueta: vinculacaoEtiqueta
+        }));    
     }
 
     onEtiquetaDelete(vinculacaoEtiqueta: VinculacaoEtiqueta): void {

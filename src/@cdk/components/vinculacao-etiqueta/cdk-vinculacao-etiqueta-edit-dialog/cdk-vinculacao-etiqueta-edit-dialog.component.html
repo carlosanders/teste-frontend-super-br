@@ -1,0 +1,25 @@
+<h1 mat-dialog-title>
+    <span class="mat-chip mat-primary mat-standard-chip" [ngStyle]="{'background-color': data.corFundo}">
+        <mat-icon class="icon">person</mat-icon>  {{data.nome}}
+    </span>
+</h1>
+
+
+<div mat-dialog-content>
+    <mat-form-field fxFlex="100">
+        <div>
+            <textarea matInput placeholder="Conteúdo" #conteudo ng-trim="false" 
+            cdkTextareaAutosize
+            cdkAutosizeMinRows="5" 
+            cdkAutosizeMaxRows="6">{{data.conteudo}}</textarea>
+        </div>
+    </mat-form-field>
+</div>
+<div mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close (click)="onNoClick()">Cancelar</button>
+    <button mat-raised-button  color="accent" 
+     (click)="onClickSalvar(conteudo.value)">Salvar</button>
+</div>
+
+
+

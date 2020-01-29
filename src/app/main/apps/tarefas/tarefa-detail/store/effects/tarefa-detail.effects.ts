@@ -248,7 +248,7 @@ export class TarefaDetailEffect {
 
 
    /**
-     * Toggle Urgente Tarefa
+     * Save conteúdo vinculação etiqueta na tarefa
      * @type {Observable<any>}
      */
     @Effect()

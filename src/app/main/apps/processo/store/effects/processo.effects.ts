@@ -10,7 +10,7 @@ import * as ProcessoActions from 'app/main/apps/processo/store/actions/processo.
 
 import {ProcessoService} from '@cdk/services/processo.service';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {AddChildData, AddData, RemoveChildData} from '@cdk/ngrx-normalizr';
+import {AddChildData, AddData, RemoveChildData, UpdateData} from '@cdk/ngrx-normalizr';
 import {Processo} from '@cdk/models/processo.model';
 import {processo as processoSchema} from '@cdk/normalizr/processo.schema';
 import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
@@ -116,6 +116,31 @@ export class ProcessoEffect {
                     );
                 })
             );
+
+
+   /**
+     * Save conteúdo vinculação etiqueta no processo
+     * @type {Observable<any>}
+     */
+    @Effect()
+    SaveConteudoVinculacaoEtiqueta: any =
+        this._actions
+            .pipe(
+                ofType<ProcessoActions.SaveConteudoVinculacaoEtiqueta>(ProcessoActions.SAVE_CONTEUDO_VINCULACAO_ETIQUETA),
+                mergeMap((action) => {
+                     return this._vinculacaoEtiquetaService.patch(action.payload.vinculacaoEtiqueta,  {conteudo: action.payload.vinculacaoEtiqueta.conteudo}).pipe(
+                        mergeMap((response) => [ 
+                            new ProcessoActions.SaveConteudoVinculacaoEtiquetaSuccess(response.id),
+                            new UpdateData<VinculacaoEtiqueta>({id: response.id, schema: vinculacaoEtiquetaSchema, changes: {conteudo: response.conteudo}})
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            return of(new ProcessoActions.SaveConteudoVinculacaoEtiquetaFailed(action.payload));
+                        })
+                    );
+                })
+            );   
+
 
 
     /**

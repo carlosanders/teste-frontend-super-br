@@ -15,14 +15,14 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 
 @Component({
-    selector: 'cdk-vinculacao-etiqueta-edit-plugin',
-    templateUrl: './cdk-vinculacao-etiqueta-edit-plugin.component.html',
-    styleUrls: ['./cdk-vinculacao-etiqueta-edit-plugin.component.scss'],
+    selector: 'cdk-vinculacao-etiqueta-edit-dialog',
+    templateUrl: './cdk-vinculacao-etiqueta-edit-dialog.component.html',
+    styleUrls: ['./cdk-vinculacao-etiqueta-edit-dialog.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
 })
-export class CdkVinculacaoEtiquetaEditPluginComponent implements OnInit {
+export class CdkVinculacaoEtiquetaEditDialogComponent implements OnInit {
 
     @Input()
     pagination: Pagination;
@@ -40,13 +40,13 @@ export class CdkVinculacaoEtiquetaEditPluginComponent implements OnInit {
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: FormBuilder,
-        public dialogRef: MatDialogRef<CdkVinculacaoEtiquetaEditPluginComponent>,
+        public dialogRef: MatDialogRef<CdkVinculacaoEtiquetaEditDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any
     ) {
         this.loading = false;        
 
         this.form = this._formBuilder.group({
-            idVinculacao: [data.idVinculacao],
+            //idVinculacao: [data.idVinculacao],
             conteudo: [data.conteudo],
         });
 
@@ -56,27 +56,9 @@ export class CdkVinculacaoEtiquetaEditPluginComponent implements OnInit {
     ngOnInit(): void {
     }
 
-    onClickInserir(conteudo){
+    onClickSalvar(conteudo){
         this.dialogRef.close(conteudo); 
-        //console.log(conteudo);
-        //console.log(this.form.get('idVinculacao').value);
-        //mmmthis.form.get('conteudo').setValue(conteudo);
-        //console.log(this.form.get('conteudo').value);
-
-        //this.dialogRef.close();
-        /*this.form.setValue({
-            idVinculacao: 
-            conteudo: conteudo
-        });*/
-        //mmmthis.dialogRef.close(this.form); 
-
-        //this.dialogRef.close(this.form.get('conteudo').value);
-        //this.dialogRef.close(this.form.get('conteudo').value);
     }
-
-    /*onYesClick(): void {
-        this.dialogRef.close(1);
-    }*/
 
     onNoClick(): void {
         this.dialogRef.close(0);

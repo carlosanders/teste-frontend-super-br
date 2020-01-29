@@ -107,6 +107,31 @@ export function TarefaDetailReducer(state = TarefaDetailInitialState, action: Ta
             };
         }
 
+
+        case TarefaDetailActions.SAVE_CONTEUDO_VINCULACAO_ETIQUETA: {
+            return {
+                ...state,
+                saving: true
+            };
+        }
+
+        case TarefaDetailActions.SAVE_CONTEUDO_VINCULACAO_ETIQUETA_SUCCESS: {
+            return {
+                ...state,
+                saving: false,
+                errors: false
+            };
+        }
+
+        case TarefaDetailActions.SAVE_CONTEUDO_VINCULACAO_ETIQUETA_FAILED: {
+            return {
+                ...state,
+                saving: false,
+                errors: action.payload
+            };
+        }
+
+
         default:
             return state;
     }

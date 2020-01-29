@@ -9,7 +9,7 @@ import {
 import {Tarefa} from '@cdk/models/tarefa.model';
 
 import {fuseAnimations} from '@fuse/animations';
-import {Observable, Subject} from 'rxjs';
+import {Observable, Subject, of} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {Etiqueta} from '@cdk/models/etiqueta.model';
@@ -38,6 +38,8 @@ import {modulesConfig} from 'modules/modules-config';
 export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
     private _unsubscribeAll: Subject<any> = new Subject();
+
+    isSavingVinculacaoEtiqueta$: Observable<boolean>;
 
     tarefa$: Observable<Tarefa>;
     tarefa: Tarefa;
@@ -89,6 +91,9 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
             'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.usuario.id,
             'modalidadeEtiqueta.valor': 'eq:TAREFA'
         };
+        //this.isSavingVinculacaoEtiqueta$ = of(true); 
+        
+        this.isSavingVinculacaoEtiqueta$ = this._store.pipe(select(fromStore.getVinculacaoEtiquetaIsSaving));
     }
 
     ngAfterViewInit(): void {
@@ -104,7 +109,6 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     ngOnInit(): void {
-
         this._store.pipe(
             select(getRouterState),
             takeUntil(this._unsubscribeAll)
@@ -169,15 +173,9 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     onEtiquetaEdit(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
-        //console.log(vinculacaoEtiqueta);
         this._store.dispatch(new SaveConteudoVinculacaoEtiqueta({
             vinculacaoEtiqueta: vinculacaoEtiqueta
         }));    
-        /*this._store.dispatch(new SaveConteudoVinculacaoEtiqueta({
-            tarefaId: this.tarefa.id,
-            vinculacaoEtiquetaId: vinculacaoEtiqueta.id,
-            conteudo: vinculacaoEtiqueta.conteudo
-        }));*/
     }
 
     onEtiquetaDelete(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
