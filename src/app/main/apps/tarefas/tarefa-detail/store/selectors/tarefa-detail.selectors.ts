@@ -16,7 +16,7 @@ export const getTarefaState = createSelector(
 
 export const getVinculacaoEtiquetaIsSaving = createSelector(
     getTarefaState,
-    (state: TarefaDetailState) => state.saving
+    (state: TarefaDetailState) => state.savingVincEtiquetaId
 );
 
 export const getIsLoading = createSelector(

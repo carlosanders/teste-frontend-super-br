@@ -22,8 +22,7 @@ import { CdkVinculacaoEtiquetaEditDialogModule } from '../cdk-vinculacao-etiquet
         MatChipsModule,
         MatIconModule,
         CdkVinculacaoEtiquetaEditDialogModule,
-        MatTooltipModule,   
-
+        MatTooltipModule,  
         CdkEtiquetaAutocompleteModule,
 
         FuseSharedModule,

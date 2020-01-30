@@ -11,6 +11,11 @@ export const getProcessoState = createSelector(
     (state: ProcessoAppState) => state.processo
 );
 
+export const getVinculacaoEtiquetaIsSaving = createSelector(
+    getProcessoState,
+    (state: ProcessoState) => state.savingVincEtiquetaId
+);
+
 export const getProcessoId = createSelector(
     getProcessoState,
     (state: ProcessoState) => state.loaded && state.loaded.value !== 'criar' ? state.loaded.value : null

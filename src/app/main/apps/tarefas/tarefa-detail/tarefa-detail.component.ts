@@ -39,7 +39,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
     private _unsubscribeAll: Subject<any> = new Subject();
 
-    isSavingVinculacaoEtiqueta$: Observable<boolean>;
+    isSavingVinculacaoEtiqueta$: Observable<any>;
 
     tarefa$: Observable<Tarefa>;
     tarefa: Tarefa;
@@ -91,7 +91,6 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
             'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.usuario.id,
             'modalidadeEtiqueta.valor': 'eq:TAREFA'
         };
-        //this.isSavingVinculacaoEtiqueta$ = of(true); 
         
         this.isSavingVinculacaoEtiqueta$ = this._store.pipe(select(fromStore.getVinculacaoEtiquetaIsSaving));
     }

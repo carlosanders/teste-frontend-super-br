@@ -28,7 +28,7 @@ export class CdkVinculacaoEtiquetaChipsComponent {
     etiquetaCtrl = new FormControl();
 
     @Input()
-    savingVinculacaoEtiqueta: boolean;  
+    savingVinculacaoEtiqueta: number;  
 
     @Input()
     vinculacoesEtiquetas: VinculacaoEtiqueta[] = [];
@@ -96,7 +96,10 @@ export class CdkVinculacaoEtiquetaChipsComponent {
     }
 
     openDialogEdit(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
-        if (!this.savingVinculacaoEtiqueta) {
+
+        
+        //if (!this.savingVinculacaoEtiqueta) {
+        if (this.savingVinculacaoEtiqueta!==vinculacaoEtiqueta.id) {    
             const dialogRef = this.dialog.open(CdkVinculacaoEtiquetaEditDialogComponent, {
                 data: {
                     conteudo: vinculacaoEtiqueta.conteudo,

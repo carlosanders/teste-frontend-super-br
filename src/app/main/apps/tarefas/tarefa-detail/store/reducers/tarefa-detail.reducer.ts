@@ -9,6 +9,7 @@ export interface TarefaDetailState {
     errors: any;
     documentosId: number[];
     documentosLoaded: any;
+    savingVincEtiquetaId: number;
 }
 
 export const TarefaDetailInitialState: TarefaDetailState = {
@@ -19,7 +20,8 @@ export const TarefaDetailInitialState: TarefaDetailState = {
     deleting: false,
     errors: false,
     documentosId: [],
-    documentosLoaded: false
+    documentosLoaded: false,
+    savingVincEtiquetaId: null
 };
 
 export function TarefaDetailReducer(state = TarefaDetailInitialState, action: TarefaDetailActions.TarefaDetailActionsAll): TarefaDetailState {
@@ -72,7 +74,8 @@ export function TarefaDetailReducer(state = TarefaDetailInitialState, action: Ta
                 errors: false,
                 deleting: false,
                 documentosId: [],
-                documentosLoaded: false
+                documentosLoaded: false,
+                savingVincEtiquetaId: null
             };
         }
 
@@ -111,7 +114,8 @@ export function TarefaDetailReducer(state = TarefaDetailInitialState, action: Ta
         case TarefaDetailActions.SAVE_CONTEUDO_VINCULACAO_ETIQUETA: {
             return {
                 ...state,
-                saving: true
+                saving: true,
+                savingVincEtiquetaId: action.payload.vinculacaoEtiqueta.id
             };
         }
 
@@ -119,7 +123,8 @@ export function TarefaDetailReducer(state = TarefaDetailInitialState, action: Ta
             return {
                 ...state,
                 saving: false,
-                errors: false
+                errors: false,
+                savingVincEtiquetaId: null
             };
         }
 
@@ -127,7 +132,8 @@ export function TarefaDetailReducer(state = TarefaDetailInitialState, action: Ta
             return {
                 ...state,
                 saving: false,
-                errors: action.payload
+                errors: action.payload,
+                savingVincEtiquetaId: null
             };
         }
 

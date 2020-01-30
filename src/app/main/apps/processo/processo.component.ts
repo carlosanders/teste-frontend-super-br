@@ -42,6 +42,7 @@ export class ProcessoComponent implements OnInit, OnDestroy {
     routerState: any;
 
     vinculacaoEtiquetaPagination: Pagination;
+    isSavingVinculacaoEtiqueta$: Observable<any>;
 
     private _profile: any;
 
@@ -72,6 +73,8 @@ export class ProcessoComponent implements OnInit, OnDestroy {
             'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.usuario.id,
             'modalidadeEtiqueta.valor': 'eq:PROCESSO'
         };
+        this.isSavingVinculacaoEtiqueta$ = this._store.pipe(select(fromStore.getVinculacaoEtiquetaIsSaving));
+
     }
 
     // -----------------------------------------------------------------------------------------------------
