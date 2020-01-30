@@ -1,17 +1,19 @@
 import {Injectable} from '@angular/core';
-import {HttpParams} from '@angular/common/http';
-import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
+import {Observable, throwError} from 'rxjs';
+import {catchError, map} from 'rxjs/operators';
 import {Endereco} from '@cdk/models/endereco.model';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
 import {PaginatedResponse} from '@cdk/models/paginated.response';
+import {environment} from 'environments/environment';
 
 @Injectable()
 export class EnderecoService {
 
     constructor(
-        private modelService: ModelService
+        private modelService: ModelService,
+        private http: HttpClient
     ) {
     }
 
@@ -20,6 +22,19 @@ export class EnderecoService {
             .pipe(
                 map(response => plainToClass(Endereco, response)[0])
             );
+    }
+
+    getFromCorreiosByCep(cep: string): Observable<Endereco>{
+        return this.http.get(
+            `${environment.api_url}${'endereco'}/${cep}/${'correios'}` + environment.xdebug
+
+        ).pipe(
+            map(response => {
+                response = plainToClass(Endereco, response);
+                Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                return Object.assign(new Endereco(), {...response});
+            }),
+        );
     }
 
     query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {

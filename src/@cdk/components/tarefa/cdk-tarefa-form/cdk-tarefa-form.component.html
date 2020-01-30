@@ -102,6 +102,14 @@
             </mat-error>
         </mat-form-field>
 
+        <div class="align-icon" fxLayout="row" fxFlex="100">
+            <div class="align-icon toggle-icon">
+                <mat-slide-toggle class="align-icon toggle-icon" *ngIf="!tarefa.id && mode === 'regular'" formControlName="blocoResponsaveis" class="mr-16 mb-16" fxFlex="0 1 auto">
+                    Bloco de Responsáveis
+                </mat-slide-toggle>
+            </div>            
+        </div>
+
         <mat-form-field fxFlex="100"
                         *ngIf="!form.get('setorResponsavel').disabled && (mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditDistribuicao)">
             <div fxLayout="row" fxLayoutAlign="start center">
@@ -160,21 +168,8 @@
             </mat-error>
         </mat-form-field>
 
-        <mat-slide-toggle *ngIf="!tarefa.id && mode === 'regular'" formControlName="blocoResponsaveis"
-                          class="mr-16 mb-16" fxFlex="0 1 auto">
-            Bloco de Responsaveis
-        </mat-slide-toggle>
-
-        <div fxFlex="1 0 auto">
-            <button mat-icon-button type="button" matTooltip="Incluir Mais Responsáveis"
-                    (click)="(selectBlocoResponsaveis())">
-                <mat-icon class="black-fg">add</mat-icon>
-            </button>
-        </div>
-
         <div fxFlex="1 0 auto" *ngIf="form.get('blocoResponsaveis').value" class="bloco-responsaveis">
-
-            <cdk-bloco-responsaveis-grid *ngIf="blocoResponsaveis?.length > 0"
+            <cdk-bloco-responsaveis-grid
                 [(responsaveis)]="blocoResponsaveis"
                 [actions]="['delete']">
             </cdk-bloco-responsaveis-grid>
