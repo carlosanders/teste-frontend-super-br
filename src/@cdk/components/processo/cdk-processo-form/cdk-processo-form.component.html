@@ -10,7 +10,8 @@
             Aproveitar dados
         </mat-checkbox>
 
-        <mat-form-field fxFlex *ngIf="this.exibeProcessoOrigem" FxFlex="100">
+        <mat-form-field fxFlex *ngIf="form
+        .value.aproveitarDados" FxFlex>
             <div fxLayout="row" fxLayoutAlign="start center">
                 <input matInput placeholder="Processo Origem"
                        formControlName="processoOrigem"
@@ -34,7 +35,7 @@
 
     </div>
 
-    <div fxFlex="1 0 auto" fxLayout="column" *ngIf="!this.exibeProcessoOrigem">
+    <div fxFlex="1 0 auto" fxLayout="column" *ngIf="!form.value.aproveitarDados">
 
         <mat-checkbox formControlName="novo" *ngIf="!form.value.id"
                       class="mr-16 mb-16" fxFlex="0 1 auto">

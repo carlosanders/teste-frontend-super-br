@@ -89,7 +89,8 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
     activeCard = 'form';
 
-    exibeProcessoOrigem = false;
+//    exibeProcessoOrigem = false;
+
 
     /**
      * Constructor
@@ -102,7 +103,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
         this.form = this._formBuilder.group({
             id: [null],
             aproveitarDados: [null],
-            processoOrigem: [null, [Validators.required, Validators.maxLength(21)]],
+            processoOrigem: [null, Validators.maxLength(21)],
             NUP: [null, [Validators.required, Validators.maxLength(21)]],
             novo: [null, [Validators.required]],
             especieProcesso: [null, [Validators.required]],
@@ -136,110 +137,94 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
     ngOnInit(): void {
         if (!this.processo.id) {
-            this.form.get('dataHoraAbertura').setValue(null);
-            this.form.get('dataHoraAbertura').disable();
 
             this.form.get('aproveitarDados').valueChanges.subscribe(value => {
+                if (value === true) {
+                    if(!this.form.get('processoOrigem').enabled){
+                        this.form.get('processoOrigem').enable();
+                    }
 
-                if (!this.exibeProcessoOrigem) {
-                    this.exibeProcessoOrigem = true;
+                    this.form.get('NUP').setValue(null);
+                    this.form.get('especieProcesso').setValue(null);
+                    this.form.get('titulo').setValue(null);
+                    this.form.get('classificacao').setValue(null);
+                    this.form.get('procedencia').setValue(null);
+                    this.form.get('setorAtual').setValue(null);
+                    this.form.get('modalidadeMeio').setValue(null);
+                    this.form.get('dataHoraAbertura').setValue(null);
+                    this.form.get('novo').setValue(null);
 
-/*                    this.form.controls['processoOrigem'].setValidators([Validators.required, Validators.maxLength(21)]);
-
-                    this.form.controls['NUP'].setValidators([Validators.nullValidator]);
-                    this.form.controls['novo'].setValidators([Validators.nullValidator]);
-                    this.form.controls['especieProcesso'].setValidators(Validators.nullValidator);
-                    this.form.controls['titulo'].setValidators([Validators.nullValidator]);
-                    this.form.controls['classificacao'].setValidators([Validators.nullValidator]);
-                    this.form.controls['procedencia'].setValidators([Validators.nullValidator]);
-                    this.form.controls['setorAtual'].setValidators([Validators.nullValidator]);
-                    this.form.controls['modalidadeMeio'].setValidators([Validators.nullValidator]);
-                    this.form.controls['dataHoraAbertura'].setValidators([Validators.nullValidator]);*/
-
-                                        this.form.addControl('processoOrigem', new FormControl('', Validators.required));
-
-
-                                        this.form.removeControl('NUP');
-                                        this.form.removeControl('novo');
-                                        this.form.removeControl('especieProcesso');
-                                        this.form.removeControl('titulo');
-                                        this.form.removeControl('classificacao');
-                                        this.form.removeControl('procedencia');
-                                        this.form.removeControl('setorAtual');
-                                        this.form.removeControl('modalidadeMeio');
-                                        this.form.removeControl('dataHoraAbertura');
+                    this.form.get('NUP').disable();
+                    this.form.get('especieProcesso').disable();
+                    this.form.get('titulo').disable();
+                    this.form.get('classificacao').disable();
+                    this.form.get('procedencia').disable();
+                    this.form.get('setorAtual').disable();
+                    this.form.get('modalidadeMeio').disable();
+                    this.form.get('dataHoraAbertura').disable();
+                    this.form.get('novo').disable();
+                    this._changeDetectorRef.markForCheck();
                 }
                 else {
-                    this.exibeProcessoOrigem = false;
+                    if(!this.form.get('novo').enabled){
 
-/*                    this.form.controls['processoOrigem'].setValidators([Validators.nullValidator]);
+                        this.form.get('processoOrigem').setValue(null);
+                        this.form.get('processoOrigem').disable();
 
-                    this.form.controls['NUP'].setValidators([Validators.required, Validators.maxLength(21)]);
-                    this.form.controls['novo'].setValidators([Validators.required]);
-                    this.form.controls['especieProcesso'].setValidators([Validators.required]);
-                    this.form.controls['titulo'].setValidators([Validators.required, Validators.maxLength(255)]);
-                    this.form.controls['classificacao'].setValidators([Validators.required]);
-                    this.form.controls['procedencia'].setValidators([Validators.required]);
-                    this.form.controls['setorAtual'].setValidators([Validators.required]);
-                    this.form.controls['modalidadeMeio'].setValidators([Validators.required]);
-                    this.form.controls['dataHoraAbertura'].setValidators([Validators.required]);*/
-//                    this.form.controls['salvar'].setValidators([Validators.nullValidator]);
-
-/*                    processoOrigem: [null, [Validators.required, Validators.maxLength(21)]],
-                        NUP: [null, [Validators.required, Validators.maxLength(21)]],
-                        novo: [null, [Validators.required]],
-                        especieProcesso: [null, [Validators.required]],
-                        titulo: [null, [Validators.required, Validators.required, Validators.maxLength(255)]],
-                        descricao: [null, [Validators.maxLength(255)]],
-                        outroNumero: [null, [Validators.maxLength(255)]],
-                        classificacao: [null, [Validators.required]],
-                        procedencia: [null, [Validators.required]],
-                        setorAtual: [null, [Validators.required]],
-                        modalidadeMeio: [null, [Validators.required]],
-                        dataHoraAbertura: [null, [Validators.required]],*/
-
-
-                    this.form.addControl('NUP', new FormControl('', Validators.required));
-                    this.form.addControl('novo', new FormControl('', Validators.required));
-                    this.form.addControl('especieProcesso', new FormControl('', Validators.required));
-                    this.form.addControl('titulo', new FormControl('', Validators.required));
-                    this.form.addControl('classificacao', new FormControl('', Validators.required));
-                    this.form.addControl('procedencia', new FormControl('', Validators.required));
-                    this.form.addControl('setorAtual', new FormControl('', Validators.required));
-                    this.form.addControl('modalidadeMeio', new FormControl('', Validators.required));
-                    this.form.addControl('dataHoraAbertura', new FormControl('', Validators.required));
-
-                    this.form.removeControl('processoOrigem');
-                }
-            });
-
-            this.form.get('NUP').setValue(null);
-            this.form.get('NUP').disable();
-
-            this.form.get('procedencia').setValue(null);
-            this.form.get('procedencia').disable();
-            this.form.get('novo').valueChanges.subscribe(value => {
-                if (value === true) {
+                        this.form.get('NUP').setValue(null);
+                        this.form.get('especieProcesso').setValue(null);
+                        this.form.get('titulo').setValue(null);
+                        this.form.get('classificacao').setValue(null);
+                        this.form.get('procedencia').setValue(null);
+                        this.form.get('setorAtual').setValue(null);
+                        this.form.get('modalidadeMeio').setValue(null);
+                        this.form.get('dataHoraAbertura').setValue(null);
+                        this.form.get('novo').setValue(null);
+    
+                        this.form.get('NUP').enable();
+                        this.form.get('especieProcesso').enable();
+                        this.form.get('titulo').enable();
+                        this.form.get('classificacao').enable();
+                        this.form.get('procedencia').enable();
+                        this.form.get('setorAtual').enable();
+                        this.form.get('modalidadeMeio').enable();
+                        this.form.get('dataHoraAbertura').enable();
+    
+                        this.form.get('novo').enable();
+                        this.form.get('novo').setValue(true);
+                    }                    
                     this.form.get('dataHoraAbertura').setValue(null);
                     this.form.get('dataHoraAbertura').disable();
-
+        
                     this.form.get('NUP').setValue(null);
                     this.form.get('NUP').disable();
-
+        
                     this.form.get('procedencia').setValue(null);
                     this.form.get('procedencia').disable();
-                } else {
-                    this.form.get('dataHoraAbertura').setValue(null);
-                    this.form.get('dataHoraAbertura').enable();
-
-                    this.form.get('NUP').setValue(null);
-                    this.form.get('NUP').enable();
-
-                    this.form.get('procedencia').setValue(null);
-                    this.form.get('procedencia').enable();
+                    this.form.get('novo').valueChanges.subscribe(value => {
+                        if (value === true) {
+                            this.form.get('dataHoraAbertura').setValue(null);
+                            this.form.get('dataHoraAbertura').disable();
+        
+                            this.form.get('NUP').setValue(null);
+                            this.form.get('NUP').disable();
+        
+                            this.form.get('procedencia').setValue(null);
+                            this.form.get('procedencia').disable();
+                        } else {
+                            this.form.get('dataHoraAbertura').setValue(null);
+                            this.form.get('dataHoraAbertura').enable();
+        
+                            this.form.get('NUP').setValue(null);
+                            this.form.get('NUP').enable();
+        
+                            this.form.get('procedencia').setValue(null);
+                            this.form.get('procedencia').enable();
+                        }
+        
+                        this._changeDetectorRef.markForCheck();
+                    });
                 }
-
-                this._changeDetectorRef.markForCheck();
             });
         } else {
             this.form.get('dataHoraAbertura').disable();
