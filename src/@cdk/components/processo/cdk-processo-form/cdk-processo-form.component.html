@@ -3,14 +3,14 @@
       fxLayoutAlign="start"
       name="form" [formGroup]="form">
 
-    <div fxFlex="1 0 auto" fxLayout="column">
+    <div fxLayout="column">
 
         <mat-checkbox formControlName="aproveitarDados" *ngIf="!form.value.id"
                       class="mr-16 mb-16" fxFlex="0 1 auto">
             Aproveitar dados
         </mat-checkbox>
 
-        <mat-form-field fxFlex *ngIf="this.exibeProcessoOrigem">
+        <mat-form-field fxFlex *ngIf="this.exibeProcessoOrigem" FxFlex="100">
             <div fxLayout="row" fxLayoutAlign="start center">
                 <input matInput placeholder="Processo Origem"
                        formControlName="processoOrigem"
@@ -41,7 +41,7 @@
             Gerar NUP
         </mat-checkbox>
 
-        <mat-form-field *ngIf="form.value.id || !form.value.novo" fxFill>
+        <mat-form-field *ngIf="form.value.id || !form.value.novo" fxFlex>
             <mat-label>NUP</mat-label>
             <input matInput #NUP
                    name="NUP"

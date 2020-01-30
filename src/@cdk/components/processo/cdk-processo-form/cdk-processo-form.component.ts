@@ -119,8 +119,6 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             modalidadeMeio: [null, [Validators.required]],
             modalidadeFase: [null],
             dataHoraAbertura: [null, [Validators.required]],
-//            salvar: [null],
-
         });
 
         this.especieProcessoPagination = new Pagination();
@@ -146,24 +144,19 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
                 if (!this.exibeProcessoOrigem) {
                     this.exibeProcessoOrigem = true;
 
-                    this.form.controls['processoOrigem'].setValidators([Validators.required, Validators.maxLength(21)]);
+/*                    this.form.controls['processoOrigem'].setValidators([Validators.required, Validators.maxLength(21)]);
 
                     this.form.controls['NUP'].setValidators([Validators.nullValidator]);
                     this.form.controls['novo'].setValidators([Validators.nullValidator]);
                     this.form.controls['especieProcesso'].setValidators(Validators.nullValidator);
                     this.form.controls['titulo'].setValidators([Validators.nullValidator]);
-                    this.form.controls['descricao'].setValidators([Validators.nullValidator]);
-                    this.form.controls['outroNumero'].setValidators([Validators.nullValidator]);
                     this.form.controls['classificacao'].setValidators([Validators.nullValidator]);
                     this.form.controls['procedencia'].setValidators([Validators.nullValidator]);
                     this.form.controls['setorAtual'].setValidators([Validators.nullValidator]);
                     this.form.controls['modalidadeMeio'].setValidators([Validators.nullValidator]);
-                    this.form.controls['dataHoraAbertura'].setValidators([Validators.nullValidator]);
-                    //this.form.controls['salvar'].setValidators([Validators.nullValidator]);
+                    this.form.controls['dataHoraAbertura'].setValidators([Validators.nullValidator]);*/
 
-
-
-                    /*                    this.form.addControl('processoOrigem', new FormControl('', Validators.required));
+                                        this.form.addControl('processoOrigem', new FormControl('', Validators.required));
 
 
                                         this.form.removeControl('NUP');
@@ -174,24 +167,22 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
                                         this.form.removeControl('procedencia');
                                         this.form.removeControl('setorAtual');
                                         this.form.removeControl('modalidadeMeio');
-                                        this.form.removeControl('dataHoraAbertura');*/
+                                        this.form.removeControl('dataHoraAbertura');
                 }
                 else {
                     this.exibeProcessoOrigem = false;
 
-                    this.form.controls['processoOrigem'].setValidators([Validators.nullValidator]);
+/*                    this.form.controls['processoOrigem'].setValidators([Validators.nullValidator]);
 
                     this.form.controls['NUP'].setValidators([Validators.required, Validators.maxLength(21)]);
                     this.form.controls['novo'].setValidators([Validators.required]);
                     this.form.controls['especieProcesso'].setValidators([Validators.required]);
-                    this.form.controls['titulo'].setValidators([Validators.required, Validators.required, Validators.maxLength(255)]);
-                    this.form.controls['descricao'].setValidators([Validators.maxLength(255)]);
-                    this.form.controls['outroNumero'].setValidators([Validators.maxLength(255)]);
+                    this.form.controls['titulo'].setValidators([Validators.required, Validators.maxLength(255)]);
                     this.form.controls['classificacao'].setValidators([Validators.required]);
                     this.form.controls['procedencia'].setValidators([Validators.required]);
                     this.form.controls['setorAtual'].setValidators([Validators.required]);
                     this.form.controls['modalidadeMeio'].setValidators([Validators.required]);
-                    this.form.controls['dataHoraAbertura'].setValidators([Validators.required]);
+                    this.form.controls['dataHoraAbertura'].setValidators([Validators.required]);*/
 //                    this.form.controls['salvar'].setValidators([Validators.nullValidator]);
 
 /*                    processoOrigem: [null, [Validators.required, Validators.maxLength(21)]],
@@ -208,7 +199,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
                         dataHoraAbertura: [null, [Validators.required]],*/
 
 
-/*                    this.form.addControl('NUP', new FormControl('', Validators.required));
+                    this.form.addControl('NUP', new FormControl('', Validators.required));
                     this.form.addControl('novo', new FormControl('', Validators.required));
                     this.form.addControl('especieProcesso', new FormControl('', Validators.required));
                     this.form.addControl('titulo', new FormControl('', Validators.required));
@@ -218,7 +209,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
                     this.form.addControl('modalidadeMeio', new FormControl('', Validators.required));
                     this.form.addControl('dataHoraAbertura', new FormControl('', Validators.required));
 
-                    this.form.removeControl('processoOrigem');*/
+                    this.form.removeControl('processoOrigem');
                 }
             });
 
