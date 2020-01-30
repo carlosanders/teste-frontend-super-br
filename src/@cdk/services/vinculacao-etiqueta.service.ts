@@ -72,11 +72,7 @@ export class VinculacaoEtiquetaService {
     }
 
     patch(vinculacaoEtiqueta: VinculacaoEtiqueta, changes: any): Observable<VinculacaoEtiqueta> {
-        //return this.modelService.patch('vinculacao_etiqueta', vinculacaoEtiqueta.id, changes)
-        return this.http.patch(
-            `${environment.api_url}${'vinculacao_etiqueta'}/${vinculacaoEtiqueta.id}` + environment.xdebug,
-            JSON.stringify(changes)
-        ) 
+        return this.modelService.patch('vinculacao_etiqueta', vinculacaoEtiqueta.id, changes)
         .pipe(  
             map(response => {
                 response = plainToClass(VinculacaoEtiqueta, response);
