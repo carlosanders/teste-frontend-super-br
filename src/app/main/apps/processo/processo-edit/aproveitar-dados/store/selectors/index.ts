@@ -1,1 +1,1 @@
-export * from './dados-basicos.selectors';
+export * from './aproveitar-dados.selectors';

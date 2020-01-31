@@ -18,21 +18,21 @@ import {TranslateModule} from '@ngx-translate/core';
 import {FuseSharedModule} from '@fuse/shared.module';
 import {FuseSidebarModule} from '@fuse/components';
 
-import {DadosBasicosComponent} from './dados-basicos.component';
+import {AproveitarDadosComponent} from './aproveitar-dados.component';
 import {RouterModule, Routes} from '@angular/router';
-import {CdkProcessoFormModule} from '@cdk/components/processo/cdk-processo-form/cdk-processo-form.module';
-import {DadosBasicosStoreModule} from './store/store.module';
+import {CdkProcessoAproveitarDadosFormModule} from '@cdk/components/processo/cdk-processo-aproveitar-dados-form/cdk-processo-aproveitar-dados-form.module';
+import {AproveitarDadosStoreModule} from './store/store.module';
 import {ProcessoService} from '@cdk/services/processo.service';
 import * as fromGuards from './store/guards';
 
 const routes: Routes = [
     {
         path: '',
-        component: DadosBasicosComponent,
+        component: AproveitarDadosComponent,
         children: [
             {
-                path       : 'pessoa',
-                loadChildren: () => import('app/main/apps/pessoa/pessoa.module').then(m => m.PessoaModule),
+                path       : 'aproveitar-dados',
+                loadChildren: () => import('app/main/apps/processo/processo-edit/aproveitar-dados/aproveitar-dados.module').then(m => m.AproveitarDadosModule),
             }
         ],
         canActivate: [fromGuards.ResolveGuard]
@@ -41,7 +41,7 @@ const routes: Routes = [
 
 @NgModule({
     declarations: [
-        DadosBasicosComponent
+        AproveitarDadosComponent
     ],
     imports: [
 
@@ -61,9 +61,9 @@ const routes: Routes = [
         MatDatepickerModule,
         MatTooltipModule,
 
-        CdkProcessoFormModule,
+        CdkProcessoAproveitarDadosFormModule,
 
-        DadosBasicosStoreModule,
+        AproveitarDadosStoreModule,
 
         TranslateModule,
 
@@ -75,5 +75,5 @@ const routes: Routes = [
         fromGuards.ResolveGuard
     ]
 })
-export class DadosBasicosModule {
+export class AproveitarDadosModule {
 }

@@ -6,7 +6,7 @@ import {select, Store} from '@ngrx/store';
 import {Observable, of} from 'rxjs';
 import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
 
-import {DadosBasicosAppState} from '../reducers';
+import {AproveitarDadosAppState} from '../reducers';
 import * as fromStore from '../';
 import {getProcessoLoaded} from '../selectors';
 import {getRouterState} from 'app/store/reducers';
@@ -19,10 +19,10 @@ export class ResolveGuard implements CanActivate {
     /**
      * Constructor
      *
-     * @param {Store<DadosBasicosAppState>} _store
+     * @param {Store<AproveitarDadosAppState>} _store
      */
     constructor(
-        private _store: Store<DadosBasicosAppState>
+        private _store: Store<AproveitarDadosAppState>
     ) {
         this._store
             .pipe(select(getRouterState))

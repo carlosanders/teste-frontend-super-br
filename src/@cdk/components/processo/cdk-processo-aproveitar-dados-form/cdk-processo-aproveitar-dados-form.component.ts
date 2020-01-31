@@ -8,21 +8,15 @@ import {
 } from '@angular/core';
 
 import {fuseAnimations} from '@fuse/animations';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Processo} from '@cdk/models/processo.model';
-import {EspecieProcesso} from '@cdk/models/especie-processo.model';
 import {MAT_DATETIME_FORMATS} from '@mat-datetimepicker/core';
-import {ModalidadeFase} from '@cdk/models/modalidade-fase.model';
-import {ModalidadeMeio} from '@cdk/models/modalidade-meio.model';
-import {Classificacao} from '@cdk/models/classificacao.model';
-import {Setor} from '@cdk/models/setor.model';
 import {Pagination} from '@cdk/models/pagination';
-import {Pessoa} from '@cdk/models/pessoa.model';
 
 @Component({
-    selector: 'cdk-processo-form',
-    templateUrl: './cdk-processo-form.component.html',
-    styleUrls: ['./cdk-processo-form.component.scss'],
+    selector: 'cdk-processo-aproveitar-dados-form',
+    templateUrl: './cdk-processo-aproveitar-dados-form.component.html',
+    styleUrls: ['./cdk-processo-aproveitar-dados-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations,
@@ -38,7 +32,7 @@ import {Pessoa} from '@cdk/models/pessoa.model';
         }
     ]
 })
-export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
+export class CdkProcessoAproveitarDadosFormComponent implements OnInit, OnChanges, OnDestroy {
 
     @Input()
     processo: Processo;
@@ -49,38 +43,8 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     @Input()
     errors: any;
 
-    @Input()
-    _classificacaoPagination: Pagination;
-
-    @Input()
-    especieProcessoPagination: Pagination;
-
-    @Input()
-    procedenciaPagination: Pagination;
-
-    @Input()
-    modalidadeFasePagination: Pagination;
-
-    @Input()
-    modalidadeMeioPagination: Pagination;
-
-    @Input()
-    setorAtualPagination: Pagination;
-
     @Output()
     save = new EventEmitter<Processo>();
-
-    @Output()
-    gerirProcedencia = new EventEmitter();
-
-    @Output()
-    editProcedencia = new EventEmitter<number>();
-
-    @Input()
-    procedencia: Pessoa;
-
-    @Input()
-    logEntryPagination: Pagination;
 
     @Input()
     processoPagination: Pagination;
@@ -88,9 +52,6 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     form: FormGroup;
 
     activeCard = 'form';
-
-//    exibeProcessoOrigem = false;
-
 
     /**
      * Constructor
@@ -101,33 +62,8 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     ) {
 
         this.form = this._formBuilder.group({
-            id: [null],
-            aproveitarDados: [null],
             processoOrigem: [null, Validators.maxLength(21)],
-            NUP: [null, [Validators.required, Validators.maxLength(21)]],
-            novo: [null, [Validators.required]],
-            especieProcesso: [null, [Validators.required]],
-            visibilidadeExterna: [null],
-            titulo: [null, [Validators.required, Validators.required, Validators.maxLength(255)]],
-            descricao: [null, [Validators.maxLength(255)]],
-            outroNumero: [null, [Validators.maxLength(255)]],
-            valorEconomico: [null],
-            semValorEconomico: [null],
-            classificacao: [null, [Validators.required]],
-            procedencia: [null, [Validators.required]],
-            localizador: [null],
-            setorAtual: [null, [Validators.required]],
-            modalidadeMeio: [null, [Validators.required]],
-            modalidadeFase: [null],
-            dataHoraAbertura: [null, [Validators.required]],
         });
-
-        this.especieProcessoPagination = new Pagination();
-        this.procedenciaPagination = new Pagination();
-        this._classificacaoPagination = new Pagination();
-        this.modalidadeMeioPagination = new Pagination();
-        this.modalidadeFasePagination = new Pagination();
-        this.setorAtualPagination = new Pagination();
         this.processoPagination = new Pagination();
     }
 
@@ -136,104 +72,8 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
  
     ngOnInit(): void {
-        if (!this.processo.id) {
-            this.form.get('dataHoraAbertura').setValue(null);
-            this.form.get('dataHoraAbertura').disable();
-
-            this.form.get('NUP').setValue(null);
-            this.form.get('NUP').disable();
-
-            this.form.get('procedencia').setValue(null);
-            this.form.get('procedencia').disable();
-            this.form.get('novo').valueChanges.subscribe(value => {
-                if (value === true) {
-                    this.form.get('dataHoraAbertura').setValue(null);
-                    this.form.get('dataHoraAbertura').disable();
-
-                    this.form.get('NUP').setValue(null);
-                    this.form.get('NUP').disable();
-
-                    this.form.get('procedencia').setValue(null);
-                    this.form.get('procedencia').disable();
-                } else {
-                    this.form.get('dataHoraAbertura').setValue(null);
-                    this.form.get('dataHoraAbertura').enable();
-
-                    this.form.get('NUP').setValue(null);
-                    this.form.get('NUP').enable();
-
-                    this.form.get('procedencia').setValue(null);
-                    this.form.get('procedencia').enable();
-                }
-
-                this._changeDetectorRef.markForCheck();
-            });
-/*            this.form.get('aproveitarDados').valueChanges.subscribe(value => {
-                if (value === true) {
-                    if(!this.form.get('processoOrigem').enabled){
-                        this.form.get('processoOrigem').enable();
-                    }
-
-                    this.form.get('NUP').setValue(null);
-                    this.form.get('especieProcesso').setValue(null);
-                    this.form.get('titulo').setValue(null);
-                    this.form.get('classificacao').setValue(null);
-                    this.form.get('procedencia').setValue(null);
-                    this.form.get('setorAtual').setValue(null);
-                    this.form.get('modalidadeMeio').setValue(null);
-                    this.form.get('dataHoraAbertura').setValue(null);
-                    this.form.get('novo').setValue(null);
-
-                    this.form.get('NUP').disable();
-                    this.form.get('especieProcesso').disable();
-                    this.form.get('titulo').disable();
-                    this.form.get('classificacao').disable();
-                    this.form.get('procedencia').disable();
-                    this.form.get('setorAtual').disable();
-                    this.form.get('modalidadeMeio').disable();
-                    this.form.get('dataHoraAbertura').disable();
-                    this.form.get('novo').disable();
-                    this._changeDetectorRef.markForCheck();
-                }
-                else {
-                    if(!this.form.get('novo').enabled){
-
-                        this.form.get('processoOrigem').setValue(null);
-                        this.form.get('processoOrigem').disable();
-
-                        this.form.get('NUP').setValue(null);
-                        this.form.get('especieProcesso').setValue(null);
-                        this.form.get('titulo').setValue(null);
-                        this.form.get('classificacao').setValue(null);
-                        this.form.get('procedencia').setValue(null);
-                        this.form.get('setorAtual').setValue(null);
-                        this.form.get('modalidadeMeio').setValue(null);
-                        this.form.get('dataHoraAbertura').setValue(null);
-                        this.form.get('novo').setValue(null);
-    
-                        this.form.get('NUP').enable();
-                        this.form.get('especieProcesso').enable();
-                        this.form.get('titulo').enable();
-                        this.form.get('classificacao').enable();
-                        this.form.get('procedencia').enable();
-                        this.form.get('setorAtual').enable();
-                        this.form.get('modalidadeMeio').enable();
-                        this.form.get('dataHoraAbertura').enable();
-    
-                        this.form.get('novo').enable();
-                        this.form.get('novo').setValue(true);
-                    }                    
-  
-                }
-            });*/
-        } else {
-            this.form.get('dataHoraAbertura').disable();
-            this.form.get('NUP').disable();
-        }
-
-        this.form.get('modalidadeFase').disable();
+         this.form.get('processoOrigem').enable();
     }
-
 
     /**
      * On change
@@ -262,109 +102,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
             this.form.setErrors(null);
         }
-
-        if (changes['procedencia'] && this.procedencia) {
-            this.form.get('procedencia').setValue(this.procedencia);
-        }
-
-/*        if (!this.processo.id) {
-            alert('aqui');
-            this.form.get('aproveitarDados').valueChanges.subscribe(value => {
-                if (value === true) {
-                    if(!this.form.get('processoOrigem').enabled){
-                        this.form.get('processoOrigem').enable();
-                    }
-
-                    this.form.get('NUP').setValue(null);
-                    this.form.get('especieProcesso').setValue(null);
-                    this.form.get('titulo').setValue(null);
-                    this.form.get('classificacao').setValue(null);
-                    this.form.get('procedencia').setValue(null);
-                    this.form.get('setorAtual').setValue(null);
-                    this.form.get('modalidadeMeio').setValue(null);
-                    this.form.get('dataHoraAbertura').setValue(null);
-                    this.form.get('novo').setValue(null);
-
-                    this.form.get('NUP').disable();
-                    this.form.get('especieProcesso').disable();
-                    this.form.get('titulo').disable();
-                    this.form.get('classificacao').disable();
-                    this.form.get('procedencia').disable();
-                    this.form.get('setorAtual').disable();
-                    this.form.get('modalidadeMeio').disable();
-                    this.form.get('dataHoraAbertura').disable();
-                    this.form.get('novo').disable();
-                    this._changeDetectorRef.markForCheck();
-                }
-                else {
-                    if(!this.form.get('novo').enabled){
-
-                        this.form.get('processoOrigem').setValue(null);
-                        this.form.get('processoOrigem').disable();
-
-                        this.form.get('NUP').setValue(null);
-                        this.form.get('especieProcesso').setValue(null);
-                        this.form.get('titulo').setValue(null);
-                        this.form.get('classificacao').setValue(null);
-                        this.form.get('procedencia').setValue(null);
-                        this.form.get('setorAtual').setValue(null);
-                        this.form.get('modalidadeMeio').setValue(null);
-                        this.form.get('dataHoraAbertura').setValue(null);
-                        this.form.get('novo').setValue(null);
-
-                        this.form.get('NUP').enable();
-                        this.form.get('especieProcesso').enable();
-                        this.form.get('titulo').enable();
-                        this.form.get('classificacao').enable();
-                        this.form.get('procedencia').enable();
-                        this.form.get('setorAtual').enable();
-                        this.form.get('modalidadeMeio').enable();
-                        this.form.get('dataHoraAbertura').enable();
-
-                        this.form.get('novo').enable();
-                        this.form.get('novo').setValue(true);
-                    }                    
-                    this.form.get('dataHoraAbertura').setValue(null);
-                    this.form.get('dataHoraAbertura').disable();
-        
-                    this.form.get('NUP').setValue(null);
-                    this.form.get('NUP').disable();
-        
-                    this.form.get('procedencia').setValue(null);
-                    this.form.get('procedencia').disable();
-                    this.form.get('novo').valueChanges.subscribe(value => {
-                        if (value === true) {
-                            this.form.get('dataHoraAbertura').setValue(null);
-                            this.form.get('dataHoraAbertura').disable();
-        
-                            this.form.get('NUP').setValue(null);
-                            this.form.get('NUP').disable();
-        
-                            this.form.get('procedencia').setValue(null);
-                            this.form.get('procedencia').disable();
-                        } else {
-                            this.form.get('dataHoraAbertura').setValue(null);
-                            this.form.get('dataHoraAbertura').enable();
-        
-                            this.form.get('NUP').setValue(null);
-                            this.form.get('NUP').enable();
-        
-                            this.form.get('procedencia').setValue(null);
-                            this.form.get('procedencia').enable();
-                        }
-        
-                        this._changeDetectorRef.markForCheck();
-                    });
-                }
-            });
-        } else {
-            this.form.get('dataHoraAbertura').disable();
-            this.form.get('NUP').disable();
-        }*/
-
-
-        this._changeDetectorRef.markForCheck();
-    }
+   }
 
     /**
      * On destroy
@@ -381,124 +119,6 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             this.save.emit(this.form.value);
         }
     }
-
-    checkEspecieProcesso(): void {
-        const value = this.form.get('especieProcesso').value;
-        if (!value || typeof value !== 'object') {
-            this.form.get('especieProcesso').setValue(null);
-        }
-    }
-
-    doGerirProcedencia(): void {
-        this.gerirProcedencia.emit();
-    }
-
-    doEditProcedencia(): void {
-        this.editProcedencia.emit(this.form.get('procedencia').value.id);
-    }
-
-    selectEspecieProcesso(especieProcesso: EspecieProcesso): void {
-        if (especieProcesso) {
-            this.form.get('especieProcesso').setValue(especieProcesso);
-        }
-        this.activeCard = 'form';
-    }
-
-    showEspecieProcessoGrid(): void {
-        this.activeCard = 'especie-processo-gridsearch';
-    }
-
-    checkProcedencia(): void {
-        const value = this.form.get('procedencia').value;
-        if (!value || typeof value !== 'object') {
-            this.form.get('procedencia').setValue(null);
-        }
-    }
-
-    checkModalidadeFase(): void {
-        const value = this.form.get('modalidadeFase').value;
-        if (!value || typeof value !== 'object') {
-            this.form.get('modalidadeFase').setValue(null);
-        }
-    }
-
-    selectModalidadeFase(modalidadeFase: ModalidadeFase): void {
-        if (modalidadeFase) {
-            this.form.get('modalidadeFase').setValue(modalidadeFase);
-        }
-        this.activeCard = 'form';
-    }
-
-    showModalidadeFaseGrid(): void {
-        this.activeCard = 'modalidade-fase-gridsearch';
-    }
-
-    checkModalidadeMeio(): void {
-        const value = this.form.get('modalidadeMeio').value;
-        if (!value || typeof value !== 'object') {
-            this.form.get('modalidadeMeio').setValue(null);
-        }
-    }
-
-    selectModalidadeMeio(modalidadeMeio: ModalidadeMeio): void {
-        if (modalidadeMeio) {
-            this.form.get('modalidadeMeio').setValue(modalidadeMeio);
-        }
-        this.activeCard = 'form';
-    }
-
-    showModalidadeMeioGrid(): void {
-        this.activeCard = 'modalidade-meio-gridsearch';
-    }
-
-    checkClassificacao(): void {
-        const value = this.form.get('classificacao').value;
-        if (!value || typeof value !== 'object') {
-            this.form.get('classificacao').setValue(null);
-        }
-    }
-
-    selectClassificacao(classificacao: Classificacao): void {
-        if (classificacao) {
-            this.form.get('classificacao').setValue(classificacao);
-        }
-        this.activeCard = 'form';
-    }
-
-    showClassificacaoGrid(): void {
-        this.activeCard = 'classificacao-gridsearch';
-    }
-
-    checkSetorAtual(): void {
-        const value = this.form.get('setorAtual').value;
-        if (!value || typeof value !== 'object') {
-            this.form.get('setorAtual').setValue(null);
-        }
-    }
-
-    selectSetor(setor: Setor): void {
-        if (setor) {
-            this.form.get('setorAtual').setValue(setor);
-        }
-        this.activeCard = 'form';
-    }
-
-    showSetorGrid(): void {
-        this.activeCard = 'setor-gridsearch';
-    }
-
-    cancel(): void {
-        this.activeCard = 'form';
-    }
-
-    showLogEntryGrid(target: string): void {
-
-        const campo = {target: target};
-        Object.assign(this.logEntryPagination.filter, campo);
-
-        this.activeCard = 'logentry-gridsearch';
-    }
-
     checkProcesso(): void {
         const value = this.form.get('processoOrigem').value;
         if (!value || typeof value !== 'object') {
@@ -516,5 +136,10 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
         }
         this.activeCard = 'form';
     }
+
+    cancel(): void {
+        this.activeCard = 'form';
+    }
+
 
 }

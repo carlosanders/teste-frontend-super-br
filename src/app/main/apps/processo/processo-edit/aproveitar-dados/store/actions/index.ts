@@ -1,1 +1,1 @@
-export * from './dados-basicos.actions';
+export * from './aproveitar-dados.actions';

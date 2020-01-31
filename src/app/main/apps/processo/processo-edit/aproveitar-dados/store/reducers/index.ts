@@ -1,22 +1,22 @@
 import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { DadosBasicosReducer, DadosBasicosState } from './dados-basicos.reducer';
+import { AproveitarDadosReducer, AproveitarDadosState } from './aproveitar-dados.reducer';
 
-export interface DadosBasicosAppState
+export interface AproveitarDadosAppState
 {
-    dadosBasicos: DadosBasicosState;
+    aproveitarDados: AproveitarDadosState;
 }
 
-export const getDadosBasicosAppState = createFeatureSelector<DadosBasicosAppState>(
-    'dados-basicos-app'
+export const getAproveitarDadosAppState = createFeatureSelector<AproveitarDadosAppState>(
+    'aproveitar-dados-app'
 );
 
 export const getAppState = createSelector(
-    getDadosBasicosAppState,
-    (state: DadosBasicosAppState) => state
+    getAproveitarDadosAppState,
+    (state: AproveitarDadosAppState) => state
 );
 
-export const reducers: ActionReducerMap<DadosBasicosAppState> = {
-    dadosBasicos: DadosBasicosReducer
+export const reducers: ActionReducerMap<AproveitarDadosAppState> = {
+    aproveitarDados: AproveitarDadosReducer
 };
 
-export * from './dados-basicos.reducer';
+export * from './aproveitar-dados.reducer';

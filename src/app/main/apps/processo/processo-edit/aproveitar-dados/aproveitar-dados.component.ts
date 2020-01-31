@@ -6,7 +6,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {fuseAnimations} from '@fuse/animations'; 
 import {Observable} from 'rxjs';
 
 import {Processo} from '@cdk/models/processo.model';
@@ -19,7 +19,6 @@ import {LoginService} from 'app/main/auth/login/login.service';
 import {getProcesso} from './store/selectors';
 import {Router} from '@angular/router';
 import {getRouterState} from 'app/store/reducers';
-import {Pessoa} from '@cdk/models/pessoa.model';
 
 @Component({
     selector: 'aproveitar-dados',
@@ -35,18 +34,11 @@ export class AproveitarDadosComponent implements OnInit, OnDestroy {
     processo: Processo;
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
+    processoPagination: Pagination;
 
     _profile: Colaborador;
 
-    especieProcessoPagination: Pagination;
-    setorAtualPagination: Pagination;
-    classificacaoPagination: Pagination;
-
     routerState: any;
-
-    procedencia: Pessoa;
-
-    logEntryPagination: Pagination;
 
     /**
      *
@@ -55,7 +47,7 @@ export class AproveitarDadosComponent implements OnInit, OnDestroy {
      * @param _loginService
      */
     constructor(
-        private _store: Store<fromStore.DadosBasicosAppState>,
+        private _store: Store<fromStore.AproveitarDadosAppState>,
         private _router: Router,
         private _loginService: LoginService
     ) {
@@ -64,11 +56,7 @@ export class AproveitarDadosComponent implements OnInit, OnDestroy {
         this.processo$ = this._store.pipe(select(getProcesso));
 
         this._profile = this._loginService.getUserProfile();
-
-        this.especieProcessoPagination = new Pagination();
-        this.logEntryPagination = new Pagination();
-        this.setorAtualPagination = new Pagination();
-        this.classificacaoPagination = new Pagination();
+        this.processoPagination = new Pagination();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -84,11 +72,6 @@ export class AproveitarDadosComponent implements OnInit, OnDestroy {
             processo => this.processo = processo
         );
 
-        if (!this.processo) {
-            this.processo = new Processo();
-            this.processo.novo = true;
-        }
-
         this._store
             .pipe(select(getRouterState))
             .subscribe(routerState => {
@@ -96,13 +79,6 @@ export class AproveitarDadosComponent implements OnInit, OnDestroy {
                     this.routerState = routerState.state;
                 }
             });
-
-        this.logEntryPagination.filter = {entity: 'SuppCore\\AdministrativoBackend\\Entity\\Processo', id: + this.processo.id};
-        this.especieProcessoPagination.filter = {'generoProcesso.nome': 'eq:ADMINISTRATIVO'};
-        this.especieProcessoPagination.populate = ['generoProcesso'];
-        this.setorAtualPagination.populate = ['unidade', 'parent'];
-        this.setorAtualPagination.filter = {id: 'in:' + this._profile.lotacoes.map(lotacao => lotacao.setor.id).join(',')};
-        this.classificacaoPagination.populate = ['parent'];
     }
 
     /**
@@ -129,26 +105,8 @@ export class AproveitarDadosComponent implements OnInit, OnDestroy {
     }
 
     onActivate(componentReference): void  {
-        if (componentReference.select) {
-            componentReference.select.subscribe((pessoa: Pessoa) => {
-                this.procedencia = pessoa;
-                this._router.navigate([this.routerState.url.split('/pessoa')[0]]).then();
-            });
-        }
     }
 
     onDeactivate(componentReference): void  {
-        if (componentReference.select) {
-            componentReference.select.unsubscribe();
-        }
     }
-
-    gerirProcedencia(): void {
-        this._router.navigate([this.routerState.url + '/pessoa']).then();
-    }
-
-    editProcedencia(pessoaId: number): void {
-        this._router.navigate([this.routerState.url + '/pessoa/editar/' + pessoaId]).then();
-    }
-
 }

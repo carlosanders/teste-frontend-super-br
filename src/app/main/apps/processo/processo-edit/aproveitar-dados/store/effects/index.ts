@@ -1,7 +1,7 @@
-import { DadosBasicosEffect } from './dados-basicos.effects';
+import { AproveitarDadosEffect } from './aproveitar-dados.effects';
 
 export const effects = [
-    DadosBasicosEffect
+    AproveitarDadosEffect
 ];
 
-export * from './dados-basicos.effects';
+export * from './aproveitar-dados.effects';

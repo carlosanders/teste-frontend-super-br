@@ -1,21 +1,21 @@
-import * as DadosBasicosActions from '../actions/dados-basicos.actions';
+import * as AproveitarDadosActions from '../actions/aproveitar-dados.actions';
 
-export interface DadosBasicosState {
+export interface AproveitarDadosState {
     saving: boolean;
     errors: any;
     loaded: any;
 }
 
-export const DadosBasicosInitialState: DadosBasicosState = {
+export const AproveitarDadosInitialState: AproveitarDadosState = {
     saving: false,
     errors: false,
     loaded: false
 };
 
-export function DadosBasicosReducer(state = DadosBasicosInitialState, action: DadosBasicosActions.DadosBasicosActionsAll): DadosBasicosState {
+export function AproveitarDadosReducer(state = AproveitarDadosInitialState, action: AproveitarDadosActions.DadosBasicosActionsAll): AproveitarDadosState {
     switch (action.type) {
 
-        case DadosBasicosActions.CREATE_PROCESSO: {
+        case AproveitarDadosActions.CREATE_PROCESSO: {
             return {
                 loaded: {
                     id: 'processoHandle',
@@ -26,14 +26,14 @@ export function DadosBasicosReducer(state = DadosBasicosInitialState, action: Da
             };
         }
 
-        case DadosBasicosActions.SET_PROCESSO: {
+        case AproveitarDadosActions.SET_PROCESSO: {
             return {
                 ...state,
                 loaded: action.payload
             };
         }
 
-        case DadosBasicosActions.SAVE_PROCESSO: {
+        case AproveitarDadosActions.SAVE_PROCESSO: {
             return {
                 ...state,
                 saving: true,
@@ -41,7 +41,7 @@ export function DadosBasicosReducer(state = DadosBasicosInitialState, action: Da
             };
         }
 
-        case DadosBasicosActions.SAVE_PROCESSO_SUCCESS: {
+        case AproveitarDadosActions.SAVE_PROCESSO_SUCCESS: {
             return {
                 ...state,
                 saving: false,
@@ -49,7 +49,7 @@ export function DadosBasicosReducer(state = DadosBasicosInitialState, action: Da
             };
         }
 
-        case DadosBasicosActions.SAVE_PROCESSO_FAILED: {
+        case AproveitarDadosActions.SAVE_PROCESSO_FAILED: {
             return {
                 ...state,
                 saving: false,

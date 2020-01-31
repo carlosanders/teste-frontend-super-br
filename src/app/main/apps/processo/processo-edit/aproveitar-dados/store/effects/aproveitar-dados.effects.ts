@@ -4,7 +4,7 @@ import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, tap, switchMap} from 'rxjs/operators';
 
-import * as DadosBasicosActions from '../actions/dados-basicos.actions';
+import * as AproveitarDadosActions from '../actions/aproveitar-dados.actions';
 
 import {ProcessoService} from '@cdk/services/processo.service';
 import {AddData} from '@cdk/ngrx-normalizr';
@@ -16,7 +16,7 @@ import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
-export class DadosBasicosEffect {
+export class AproveitarDadosEffect {
     routerState: any;
 
     constructor(
@@ -42,11 +42,11 @@ export class DadosBasicosEffect {
     saveProcesso: any =
         this._actions
             .pipe(
-                ofType<DadosBasicosActions.SaveProcesso>(DadosBasicosActions.SAVE_PROCESSO),
+                ofType<AproveitarDadosActions.SaveProcesso>(AproveitarDadosActions.SAVE_PROCESSO),
                 switchMap((action) => {
                     return this._processoService.save(action.payload).pipe(
                         mergeMap((response: Processo) => [
-                            new DadosBasicosActions.SaveProcessoSuccess(response),
+                            new AproveitarDadosActions.SaveProcessoSuccess(response),
                             new AddData<Processo>({data: [response], schema: processoSchema}),
                             new OperacoesActions.Resultado({
                                 type: 'processo',
@@ -56,7 +56,7 @@ export class DadosBasicosEffect {
                         ]),
                         catchError((err) => {
                             console.log (err);
-                            return of(new DadosBasicosActions.SaveProcessoFailed(err));
+                            return of(new AproveitarDadosActions.SaveProcessoFailed(err));
                         })
                     );
                 })
@@ -70,9 +70,9 @@ export class DadosBasicosEffect {
     saveProcessoSuccess: any =
         this._actions
             .pipe(
-                ofType<DadosBasicosActions.SaveProcessoSuccess>(DadosBasicosActions.SAVE_PROCESSO_SUCCESS),
+                ofType<AproveitarDadosActions.SaveProcessoSuccess>(AproveitarDadosActions.SAVE_PROCESSO_SUCCESS),
                 tap((action) => {
-                    this._router.navigate([this.routerState.url.replace('dados-basicos', 'assuntos/listar').replace('criar', action.payload.id)]).then();
+                    this._router.navigate([this.routerState.url.replace('aproveitar-dados', 'assuntos/listar').replace('criar', action.payload.id)]).then();
                 })
             );
 }

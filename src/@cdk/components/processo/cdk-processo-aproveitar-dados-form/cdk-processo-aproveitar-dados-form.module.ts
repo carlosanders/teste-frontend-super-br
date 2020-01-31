@@ -14,6 +14,7 @@ import {
 import {FuseSharedModule} from '@fuse/shared.module';
 import {CdkProcessoAproveitarDadosFormComponent} from './cdk-processo-aproveitar-dados-form.component';
 import {CdkProcessoAutocompleteModule} from '../cdk-processo-autocomplete/cdk-processo-autocomplete.module';
+import {CdkProcessoGridsearchModule} from '../cdk-processo-autocomplete/cdk-processo-gridsearch/cdk-processo-gridsearch.module';
 
 @NgModule({
     declarations: [
@@ -33,6 +34,7 @@ import {CdkProcessoAutocompleteModule} from '../cdk-processo-autocomplete/cdk-pr
 
         FuseSharedModule,
         CdkProcessoAutocompleteModule,
+        CdkProcessoGridsearchModule,
     ],
     providers: [],
     exports: [
