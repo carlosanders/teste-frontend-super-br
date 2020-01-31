@@ -18,6 +18,16 @@ export const ComponenteDigitalInitialState: ComponenteDigitalState = {
 
 export function ComponenteDigitalReducer(state = ComponenteDigitalInitialState, action: ComponenteDigitalActions.ComponenteDigitalActionsAll): ComponenteDigitalState {
     switch (action.type) {
+        case ComponenteDigitalActions.UNLOAD_COMPONENTE_DIGITAL: {
+            return {
+                loaded: false,
+                loading: false,
+                componenteDigitalId: null,
+                saving: false,
+                errors: false
+            };
+        }
+
         case ComponenteDigitalActions.DOWNLOAD_COMPONENTE_DIGITAL: {
             return {
                 loaded: false,
