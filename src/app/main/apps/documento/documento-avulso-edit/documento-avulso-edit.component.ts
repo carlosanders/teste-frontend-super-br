@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 
 import {fuseAnimations} from '@fuse/animations';
-import {Observable, Subject} from 'rxjs';
+import {Observable} from 'rxjs';
 import * as fromStore from '../store';
 import {select, Store} from '@ngrx/store';
 import {Location} from '@angular/common';
@@ -128,8 +128,6 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy, AfterVie
      */
     @ViewChild('dynamicStatus', {static: false, read: ViewContainerRef}) containerStatus: ViewContainerRef;
 
-    modulesButtons: any[] = [];
-
     @ViewChild('ckdUpload', {static: false})
     cdkUpload;
 
@@ -199,7 +197,6 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy, AfterVie
     }
 
     iniciaModulos(): void {
-        console.log('Iniciou módulos');
         const path1 = 'app/main/apps/documento/documento-avulso-edit#buttons';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path1)) {
