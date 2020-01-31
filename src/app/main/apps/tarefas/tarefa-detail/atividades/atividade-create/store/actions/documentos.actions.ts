@@ -15,6 +15,10 @@ export const ASSINA_DOCUMENTO_FAILED = '[ATIVIDADE CREATE] ASSINA DOCUMENTO FAIL
 export const CLICKED_DOCUMENTO = '[ATIVIDADE CREATE] CLICKED DOCUMENTO';
 export const COMPLETE_DOCUMENTO = '[ATIVIDADE CREATE] COMPLETE DOCUMENTO';
 
+export const CONVERTE_DOCUMENTO_ATIVIDADE = '[ATIVIDADE CREATE] CONVERTE DOCUMENTO ATIVIDADE';
+export const CONVERTE_DOCUMENTO_SUCESS = '[ATIVIDADE CREATE] CONVERTE DOCUMENTO ATIVIDADE SUCCESS';
+export const CONVERTE_DOCUMENTO_FAILED = '[ATIVIDADE CREATE] CONVERTE DOCUMENTO ATIVIDADE FAILED';
+
 export const CHANGE_SELECTED_DOCUMENTOS = '[ATIVIDADE CREATE] CHANGE SELECTED DOCUMENTOS';
 
 /**
@@ -159,6 +163,36 @@ export class CompleteDocumento implements Action
     }
 }
 
+/**
+ * Converte Documento
+ */
+export class ConverteToPdf implements Action
+{
+    readonly type = CONVERTE_DOCUMENTO_ATIVIDADE;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class ConverteToPdfSucess implements Action
+{
+    readonly type = CONVERTE_DOCUMENTO_SUCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class ConverteToPdfFailed implements Action
+{
+    readonly type = CONVERTE_DOCUMENTO_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 export type AtividadeCreateDocumentosActionsAll
     = GetDocumentos
     | GetDocumentosSuccess
@@ -171,4 +205,7 @@ export type AtividadeCreateDocumentosActionsAll
     | DeleteDocumento
     | DeleteDocumentoSuccess
     | DeleteDocumentoFailed
-    | ChangeSelectedDocumentos;
+    | ChangeSelectedDocumentos
+    | ConverteToPdf
+    | ConverteToPdfSucess
+    | ConverteToPdfFailed;

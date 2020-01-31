@@ -29,6 +29,9 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
     assinatura = new EventEmitter<number>();
 
     @Output()
+    converte = new EventEmitter<number>();
+
+    @Output()
     clicked = new EventEmitter<number>();
 
     @Output()
@@ -39,6 +42,9 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
 
     @Input()
     assinandoId: number[];
+
+    @Input()
+    convertendoId: number[];
 
     @Output()
     changedSelectedIds = new EventEmitter<number[]>();
@@ -142,4 +148,15 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
         this.isIndeterminate = (this.selectedIds.length !== this.documentos.length && this.selectedIds.length > 0);
         this.changedSelectedIds.emit(this.selectedIds);
     }
+
+    // **********************************MUDANÇA CONVERTE
+    doConverte(documentoId): void { 
+        this.converte.emit(documentoId);
+    }
+
+    doConverteDocumentoBloco(): void {
+        this.selectedIds.forEach(documentoId => this.doConverte(documentoId));
+        this.deselectAll(); //É PARA MANTER SELECIONADO O PDF?
+    }
+
 }

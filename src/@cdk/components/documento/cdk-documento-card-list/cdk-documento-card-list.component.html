@@ -31,6 +31,14 @@
             </ng-container>
         </button>
 
+        <button mat-menu-item aria-label="editar tarefa"
+                (click)="doConverteDocumentoBloco()">
+            <ng-container>
+                <mat-icon>picture_as_pdf</mat-icon>
+                <span>Converter</span>
+            </ng-container>
+        </button>
+
     </mat-menu>
 
 </div>
@@ -41,9 +49,11 @@
                     [selected]="selectedIds.indexOf(documento.id) > -1"
                     [deleting]="deletingId.indexOf(documento.id) > -1"
                     [assinando]="assinandoId.indexOf(documento.id) > -1"
+                    [convertendo]="convertendoId.indexOf(documento.id) > -1"
                     (delete)="doDelete($event)"
                     (verResposta)="doVerResposta($event)"
                     (assinatura)="doAssinatura($event)"
+                    (converte)="doConverte($event)"
                     (clicked)="onClick($event)"
                     (changedSelected)="toggleInSelected($event)">
 </cdk-documento-card>

@@ -24,11 +24,11 @@
 
     <div class="more-vert"
          [ngClass]="{'light-blue-100':!documento.documentoAvulsoRemessa, 'light-green-100':documento.documentoAvulsoRemessa}">
-        <button *ngIf="!deleting && !assinando" mat-icon-button [matMenuTriggerFor]="card20Menu" aria-label="more">
+        <button *ngIf="!deleting && !assinando && !convertendo" mat-icon-button [matMenuTriggerFor]="card20Menu" aria-label="more">
             <mat-icon>expand_more</mat-icon>
         </button>
 
-        <div *ngIf="deleting || assinando" class="spinner-container m-8">
+        <div *ngIf="deleting || assinando || convertendo" class="spinner-container m-8">
             <mat-spinner diameter="24"></mat-spinner>
         </div>
 
@@ -40,6 +40,10 @@
             <button fxLayout="row" fxLayoutAlign="start center" (click)="doAssinatura(documento.id)" mat-menu-item>
                 <mat-icon color="accent">lock</mat-icon>
                 <span>Assinar</span>
+            </button>
+            <button fxLayout="row" fxLayoutAlign="start center" (click)="doConverte(documento.id)" mat-menu-item>
+                <mat-icon color="accent">picture_as_pdf</mat-icon>
+                <span>Converter</span>
             </button>
             <button *ngIf="documento.documentoAvulsoRemessa && documento.documentoAvulsoRemessa.dataHoraResposta" fxLayout="row" fxLayoutAlign="start center" (click)="doVerResposta(documento.documentoAvulsoRemessa.documentoResposta)" mat-menu-item>
                 <mat-icon color="accent">picture_as_pdf</mat-icon>

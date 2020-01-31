@@ -31,6 +31,9 @@ export class CdkDocumentoCardComponent implements OnInit {
     @Input()
     assinando = false;
 
+    @Input()
+    convertendo = false;
+
     @Output()
     delete = new EventEmitter<number>();
 
@@ -39,6 +42,9 @@ export class CdkDocumentoCardComponent implements OnInit {
 
     @Output()
     assinatura = new EventEmitter<number>();
+
+    @Output()
+    converte = new EventEmitter<number>();
 
     @Output()
     clicked = new EventEmitter<number>();
@@ -79,6 +85,10 @@ export class CdkDocumentoCardComponent implements OnInit {
 
     doAssinatura(documentoId): void {
         this.assinatura.emit(documentoId);
+    }
+
+    doConverte(documentoId): void {
+        this.converte.emit(documentoId);
     }
 
     onClick(documento): void {

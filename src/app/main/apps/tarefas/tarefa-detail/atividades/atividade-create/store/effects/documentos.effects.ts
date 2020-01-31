@@ -6,14 +6,16 @@ import {catchError, mergeMap, map, tap, switchMap} from 'rxjs/operators';
 
 import * as AtividadeCreateDocumentosActions from 'app/main/apps/tarefas/tarefa-detail/atividades/atividade-create/store/actions/documentos.actions';
 
-import {AddData} from '@cdk/ngrx-normalizr';
+import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {Documento} from '@cdk/models/documento.model';
 import {DocumentoService} from '@cdk/services/documento.service';
 import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
+import {componenteDigital as componenteDigitalSchema} from '@cdk/normalizr/componente-digital.schema';
 import {Router} from '@angular/router';
 import {environment} from 'environments/environment';
+import { ComponenteDigital } from '@cdk/models/componente-digital.model';
 
 @Injectable()
 export class AtividadeCreateDocumentosEffect {
@@ -180,4 +182,29 @@ export class AtividadeCreateDocumentosEffect {
                 })
             );
 
+    /**
+     * Converte Documento
+     * @type {Observable<any>}
+     */
+    @Effect()
+    converteDocumento: any =
+        this._actions
+            .pipe(
+                ofType<AtividadeCreateDocumentosActions.ConverteToPdf>(AtividadeCreateDocumentosActions.CONVERTE_DOCUMENTO_ATIVIDADE),
+                mergeMap((action) => {
+                        return this._documentoService.preparaConverter(action.payload,{hash: action.payload.hash})
+                            .pipe(
+                                map((response) => {
+                                    return new AtividadeCreateDocumentosActions.ConverteToPdfSucess(action.payload);
+                                }),
+                                catchError((err) => {
+                                    console.log(err);
+                                    return of(new AtividadeCreateDocumentosActions.ConverteToPdfFailed(action.payload));
+                                })
+                                )
+                                ;
+                        }
+                    )
+                    )
+                    ;
 }
