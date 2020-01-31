@@ -1,0 +1,15 @@
+<cdk-processo-form
+        [processo]="processo"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        [especieProcessoPagination]="especieProcessoPagination"
+        [setorAtualPagination]="setorAtualPagination"
+        [_classificacaoPagination]="classificacaoPagination"
+        [procedencia]="procedencia"
+        [logEntryPagination]="logEntryPagination"
+        (gerirProcedencia)="gerirProcedencia()"
+        (editProcedencia)="editProcedencia($event)"
+        (save)="submit($event)">
+</cdk-processo-form>
+
+<router-outlet (activate)="onActivate($event)" (deactivate)="onDeactivate($event)"></router-outlet>
