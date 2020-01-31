@@ -199,13 +199,15 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy, AfterVie
     }
 
     iniciaModulos(): void {
+        console.log('Iniciou módulos');
         const path1 = 'app/main/apps/documento/documento-avulso-edit#buttons';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path1)) {
                 module.components[path1].forEach((c => {
                     this._dynamicService.loadComponent(c)
                         .then( componentFactory  => {
-                            this.containerButtons.createComponent(componentFactory)
+                            this.containerButtons.createComponent(componentFactory);
+                            this._ref.markForCheck();
                         });
                 }));
             }
@@ -216,7 +218,8 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy, AfterVie
                 module.components[path2].forEach((c => {
                     this._dynamicService.loadComponent(c)
                         .then( componentFactory  => {
-                            this.containerStatus.createComponent(componentFactory)
+                            this.containerStatus.createComponent(componentFactory);
+                            this._ref.markForCheck();
                         });
                 }));
             }
@@ -303,9 +306,11 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy, AfterVie
     }
 
     showForm(): void {
-        this.activeCard = 'oficio';
-        this._ref.detectChanges();
-        this.iniciaModulos();
+        if (this.activeCard !== 'oficio') {
+            this.activeCard = 'oficio';
+            this._ref.detectChanges();
+            this.iniciaModulos();
+        }
     }
 
     showAnexos(): void {
