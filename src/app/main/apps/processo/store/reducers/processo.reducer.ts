@@ -4,6 +4,7 @@ export interface ProcessoState {
     processoId: number;
     loading: boolean;
     loaded: any;
+    errors: any;
     savingVincEtiquetaId: number;    
 }
 
@@ -11,6 +12,7 @@ export const ProcessoInitialState: ProcessoState = {
     processoId: null,
     loading: false,
     loaded: false,
+    errors: false,
     savingVincEtiquetaId: null    
 };
 
@@ -26,6 +28,7 @@ export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoAc
                     acessoNegado: false
                 },
                 loading: false,
+                errors: false,
                 savingVincEtiquetaId: null
             };
         }
@@ -35,6 +38,7 @@ export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoAc
                 processoId: null,
                 loaded: false,
                 loading: true,
+                errors: false,
                 savingVincEtiquetaId: null
             };
         }
@@ -45,6 +49,7 @@ export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoAc
                 processoId: action.payload.processoId,
                 loading: false,
                 loaded: action.payload.loaded,
+                errors: false,
                 savingVincEtiquetaId: null
             };
         }
@@ -54,6 +59,7 @@ export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoAc
                 processoId: null,
                 loading: false,
                 loaded: false,
+                errors: action.payload,
                 savingVincEtiquetaId: null
             };
         }
@@ -61,6 +67,7 @@ export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoAc
         case ProcessoActions.SAVE_CONTEUDO_VINCULACAO_ETIQUETA: {
             return {
                 ...state,
+                errors: false,
                 savingVincEtiquetaId: action.payload.vinculacaoEtiqueta.id
             };
         }
@@ -68,6 +75,7 @@ export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoAc
         case ProcessoActions.SAVE_CONTEUDO_VINCULACAO_ETIQUETA_SUCCESS: {
             return {
                 ...state,
+                errors: false,
                 savingVincEtiquetaId: null
             };
         }
@@ -75,6 +83,7 @@ export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoAc
         case ProcessoActions.SAVE_CONTEUDO_VINCULACAO_ETIQUETA_FAILED: {
             return {
                 ...state,
+                errors: action.payload,
                 savingVincEtiquetaId: null
             };
         }        

@@ -11,12 +11,11 @@
                 <mat-spinner *ngIf="savingVinculacaoEtiqueta===vinculacaoEtiqueta.id" diameter="16"></mat-spinner>
                 <mat-icon *ngIf="savingVinculacaoEtiqueta!==vinculacaoEtiqueta.id" class="icon">person</mat-icon>
                 <mat-icon *ngIf="vinculacaoEtiqueta.conteudo" class="icon">subject</mat-icon>
-                <!--<mat-icon class="icon">{{vinculacaoEtiqueta.conteudo?'comment':'add_comment'}}</mat-icon>-->
             {{vinculacaoEtiqueta.etiqueta.nome}}
             <mat-icon matChipRemove *ngIf="false === vinculacaoEtiqueta.etiqueta.sistema">cancel</mat-icon>
         </mat-chip>
         <input #etiquetaInput
-               placeholder="Etiquetas"
+               placeholder="{{placeholderEtiq}}"
                [formControl]="etiquetaCtrl"
                [matAutocomplete]="etiqueta.autocomplete"
                [matChipInputFor]="chipList"

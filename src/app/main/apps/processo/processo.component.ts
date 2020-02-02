@@ -43,6 +43,7 @@ export class ProcessoComponent implements OnInit, OnDestroy {
 
     vinculacaoEtiquetaPagination: Pagination;
     isSavingVinculacaoEtiqueta$: Observable<any>;
+    errors$: Observable<any>;
 
     private _profile: any;
 
@@ -74,7 +75,7 @@ export class ProcessoComponent implements OnInit, OnDestroy {
             'modalidadeEtiqueta.valor': 'eq:PROCESSO'
         };
         this.isSavingVinculacaoEtiqueta$ = this._store.pipe(select(fromStore.getVinculacaoEtiquetaIsSaving));
-
+        this.errors$ = this._store.pipe(select(fromStore.getErrors));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -129,11 +130,20 @@ export class ProcessoComponent implements OnInit, OnDestroy {
         this._store.dispatch(new fromStore.CreateVinculacaoEtiqueta({processo: this.processo, etiqueta: etiqueta}));
     }
     
-    onEtiquetaEdit(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
+    /*onEtiquetaEdit(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
         this._store.dispatch(new SaveConteudoVinculacaoEtiqueta({
             vinculacaoEtiqueta: vinculacaoEtiqueta
         }));    
-    }
+    }*/
+
+    onEtiquetaEdit(values): void {   
+        const vinculacaoEtiqueta = new VinculacaoEtiqueta();
+        vinculacaoEtiqueta.id = values.id;
+        this._store.dispatch(new SaveConteudoVinculacaoEtiqueta({
+            vinculacaoEtiqueta: vinculacaoEtiqueta,
+            changes: {conteudo: values.conteudo}
+        }));         
+    }    
 
     onEtiquetaDelete(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
         this._store.dispatch(new fromStore.DeleteVinculacaoEtiqueta({

@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {FuseSharedModule} from '@fuse/shared.module';
 import {CdkVinculacaoEtiquetaEditDialogComponent} from './cdk-vinculacao-etiqueta-edit-dialog.component';
-import {MatAutocompleteModule, MatButtonModule, MatDialogModule, MatInputModule, MatIconModule} from '@angular/material';
+import {MatAutocompleteModule, MatButtonModule, MatDialogModule, MatInputModule, MatIconModule, MatSpinner, MatProgressSpinnerModule} from '@angular/material';
 
 @NgModule({
     declarations: [
@@ -14,6 +14,7 @@ import {MatAutocompleteModule, MatButtonModule, MatDialogModule, MatInputModule,
         MatIconModule,
         MatAutocompleteModule,
         MatInputModule,
+        MatProgressSpinnerModule,
 
         FuseSharedModule,
     ],

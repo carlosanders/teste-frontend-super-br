@@ -1,13 +1,12 @@
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import {ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Output, ViewChild, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Output, ViewChild, ViewEncapsulation, SimpleChange, ChangeDetectorRef} from '@angular/core';
 import {FormControl} from '@angular/forms';
-import {MatAutocompleteSelectedEvent, MatChipInputEvent, MatAutocomplete, MatDialog} from '@angular/material';
+import {MatAutocompleteSelectedEvent, MatChipInputEvent, MatAutocomplete, MatDialog, MatDialogRef} from '@angular/material';
 import {fuseAnimations} from '@fuse/animations';
 import {Etiqueta} from '@cdk/models/etiqueta.model';
 import {VinculacaoEtiqueta} from '@cdk/models/vinculacao-etiqueta.model';
 import {Pagination} from '@cdk/models/pagination';
-import {filter} from 'rxjs/operators';
-
+import {filter, tap, delay} from 'rxjs/operators';
 import {CdkVinculacaoEtiquetaEditDialogComponent} from '../cdk-vinculacao-etiqueta-edit-dialog/cdk-vinculacao-etiqueta-edit-dialog.component';
 
 
@@ -27,8 +26,17 @@ export class CdkVinculacaoEtiquetaChipsComponent {
     separatorKeysCodes: number[] = [ENTER, COMMA];
     etiquetaCtrl = new FormControl();
 
+    // é utlizada uma instância única para faciliar o fechamento do dialog através do método ngonchanges
+    dialogRef: MatDialogRef<CdkVinculacaoEtiquetaEditDialogComponent, any>;
+
     @Input()
-    savingVinculacaoEtiqueta: number;  
+    savingVinculacaoEtiqueta: number; 
+    
+    @Input() 
+    placeholderEtiq: string;  
+
+    @Input()
+    errors: any; 
 
     @Input()
     vinculacoesEtiquetas: VinculacaoEtiqueta[] = [];
@@ -37,7 +45,13 @@ export class CdkVinculacaoEtiquetaChipsComponent {
     delete = new EventEmitter<VinculacaoEtiqueta>();
 
     @Output()
-    edit = new EventEmitter<VinculacaoEtiqueta>();
+    edit = new EventEmitter<any>();
+    //@retirar:  edit = new EventEmitter<VinculacaoEtiqueta>();
+
+   /*@retirar: 
+   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
+   verticalPosition: MatSnackBarVerticalPosition = 'top';*/
+
 
     @Output()
     create = new EventEmitter<Etiqueta>();
@@ -51,7 +65,11 @@ export class CdkVinculacaoEtiquetaChipsComponent {
     @ViewChild('etiquetaInput', {static: false}) etiquetaInput: ElementRef<HTMLInputElement>;
     @ViewChild('etiqueta', {static: false}) matAutocomplete: MatAutocomplete;
 
-    constructor(public dialog: MatDialog) {
+    constructor(
+        private _changeDetectorRef: ChangeDetectorRef,
+        public dialog: MatDialog,
+        //@retirar: private snackBar: MatSnackBar
+    ) {
         this.pagination = new Pagination();
     }
 
@@ -95,37 +113,93 @@ export class CdkVinculacaoEtiquetaChipsComponent {
         this.etiquetaCtrl.setValue(null);
     }
 
-    openDialogEdit(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
+    /**
+     * On change
+     */
+    ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
+      
+        // o trecho de código abaixo é apenas para situações em que um dialog de
+        // alteração de conteúdo de vinculação de etiqueta foi aberto
+        if (this.dialogRef) {
+                if (this.errors && this.errors.status && this.errors.status === 422) {//422) {
+                    try {
+                        const data = JSON.parse(this.errors.error.message);
+                        const fields = Object.keys(data || {});
+                        fields.forEach((field) => {
+                            const control = this.dialogRef.componentInstance.form.get(field);
+                            control.setErrors({formError: data[field].join(' - ')});
+                        });
 
-        
-        //if (!this.savingVinculacaoEtiqueta) {
+                    } catch (e) {
+                        this.dialogRef.componentInstance.form.setErrors({rulesError: this.errors.error.message});
+                        //@retirar: this.dialogRef.componentInstance.msgErroForm = this.errors.error.message;
+                    } finally {
+                        // o código abaixo foi colocado para que a mensagem de erro apareça
+                        this.dialogRef.componentInstance.data.mostraSpinnerSalvamento = false;
+                        this.dialogRef.componentInstance._changeDetectorRef.detectChanges();
+                    }
+                }
+                if (!this.errors) {
+                    Object.keys(this.dialogRef.componentInstance.form.controls).forEach(key => {
+                        this.dialogRef.componentInstance.form.get(key).setErrors(null);
+                    });
+                    this.dialogRef.componentInstance.form.setErrors(null);
+
+                    if (!this.savingVinculacaoEtiqueta)  {
+                        this.dialogRef.componentInstance.dialogRef.close();
+                    }
+                }
+        }
+        this._changeDetectorRef.markForCheck();
+     }  
+
+    openDialogEdit(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
+        // abre o diálogo de edição do conteúdo da etiqueta caso ela não esteja com status de saving (nesse estado ela vai ser ready-only)
         if (this.savingVinculacaoEtiqueta!==vinculacaoEtiqueta.id) {    
-            const dialogRef = this.dialog.open(CdkVinculacaoEtiquetaEditDialogComponent, {
+            //@retirar: const dialogRef = this.dialog.open(CdkVinculacaoEtiquetaEditDialogComponent, {
+            this.dialogRef = this.dialog.open(CdkVinculacaoEtiquetaEditDialogComponent, { 
                 data: {
                     conteudo: vinculacaoEtiqueta.conteudo,
                     nome: vinculacaoEtiqueta.etiqueta.nome,
-                    corFundo: vinculacaoEtiqueta.etiqueta.corHexadecimal
+                    id: vinculacaoEtiqueta.id,
+                    corFundo: vinculacaoEtiqueta.etiqueta.corHexadecimal,
+                    mostraSpinnerSalvamento: false
                 },
                 width: '600px',
                 height: '300px',
             });
-       
 
-        //dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe(result => {
+            /*
+            @retirar:
             dialogRef.afterClosed()
-            .pipe(filter(result => result !== 0))
+            .pipe(
+                filter(result => result !== 0),
+                delay(0),
+                tap(result => vinculacaoEtiqueta.conteudo = result)
+                )
             .subscribe(result => {
-                    vinculacaoEtiqueta.conteudo = result;
+                // o settimeout é para evitar o erro "Expression Changed After It Has Been Checked Error: Expression has changed after it was checked."
+                //setTimeout(() => vinculacaoEtiqueta.conteudo = result, 0);
                     this.edit.emit(vinculacaoEtiqueta);
+            });*/
+
+
+            const sub = this.dialogRef.componentInstance.editVinc.subscribe((result) => {    
+                //@retirar:vinculacaoEtiqueta.conteudo = result;
+                //@retirar:this.edit.emit(vinculacaoEtiqueta);
+
+                //@retirar: const control = this.dialogRef.componentInstance.form.get('conteudo');
+
+                this.edit.emit(result);
+
+
+            });            
+       
+            this.dialogRef.afterClosed()
+            .subscribe(result => {
+                this.dialogRef = null;
             });
         }
-        /*dialogRef.afterClosed().subscribe(result => {
-            if (result !== 0){
-                vinculacaoEtiqueta.conteudo = result;
-                this.edit.emit(vinculacaoEtiqueta);
-            }
-        });*/
-
 
     }    
 

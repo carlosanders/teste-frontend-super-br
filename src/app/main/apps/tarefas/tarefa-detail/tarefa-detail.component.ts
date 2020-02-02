@@ -40,6 +40,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     private _unsubscribeAll: Subject<any> = new Subject();
 
     isSavingVinculacaoEtiqueta$: Observable<any>;
+    errors$: Observable<any>; 
 
     tarefa$: Observable<Tarefa>;
     tarefa: Tarefa;
@@ -82,7 +83,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
         private _dynamicService: DynamicService
     ) {
         this._profile = _loginService.getUserProfile();
-        this.tarefa$ = this._store.pipe(select(fromStore.getTarefa));
+        this.tarefa$ = this._store.pipe(select(fromStore.getTarefa)); 
         this.documentos$ = this._store.pipe(select(fromStore.getDocumentos));
         this.maximizado$ = this._store.pipe(select(getMaximizado));
         this.screen$ = this._store.pipe(select(getScreenState));
@@ -93,6 +94,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
         };
         
         this.isSavingVinculacaoEtiqueta$ = this._store.pipe(select(fromStore.getVinculacaoEtiquetaIsSaving));
+        this.errors$ = this._store.pipe(select(fromStore.getErrors));
     }
 
     ngAfterViewInit(): void {
@@ -171,10 +173,20 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
         this._store.dispatch(new CreateVinculacaoEtiqueta({tarefa: this.tarefa, etiqueta: etiqueta}));
     }
 
-    onEtiquetaEdit(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
+   /* @retirar 
+   onEtiquetaEdit(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
         this._store.dispatch(new SaveConteudoVinculacaoEtiqueta({
             vinculacaoEtiqueta: vinculacaoEtiqueta
         }));    
+    }*/
+
+    onEtiquetaEdit(values): void {   
+        const vinculacaoEtiqueta = new VinculacaoEtiqueta();
+        vinculacaoEtiqueta.id = values.id;
+        this._store.dispatch(new SaveConteudoVinculacaoEtiqueta({
+            vinculacaoEtiqueta: vinculacaoEtiqueta,
+            changes: {conteudo: values.conteudo}
+        }));         
     }
 
     onEtiquetaDelete(vinculacaoEtiqueta: VinculacaoEtiqueta): void {

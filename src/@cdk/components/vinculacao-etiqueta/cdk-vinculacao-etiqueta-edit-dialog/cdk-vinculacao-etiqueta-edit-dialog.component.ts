@@ -4,7 +4,7 @@ import {
     Component,
     Input,
     ViewEncapsulation,
-    OnInit, Inject
+    OnInit, Inject, Output, EventEmitter, OnChanges, SimpleChange, SimpleChanges, ViewChild, ElementRef
 } from '@angular/core';
 
 import {fuseAnimations} from '@fuse/animations';
@@ -29,6 +29,14 @@ export class CdkVinculacaoEtiquetaEditDialogComponent implements OnInit {
 
     loading: boolean;
 
+    //@retirar: msgErroForm: string;
+    //@retirar: clicouSalvar: boolean;
+    //@retirar: @ViewChild('fieldConteudo', {static: true}) fieldConteudoElement: ElementRef;
+
+    @Output()
+    editVinc = new EventEmitter<any>();    
+    //@retirar: editVinc = new EventEmitter<VinculacaoEtiqueta>();    
+
     form: FormGroup;
 
     /**
@@ -38,15 +46,16 @@ export class CdkVinculacaoEtiquetaEditDialogComponent implements OnInit {
      * @param data
      */
     constructor(
-        private _changeDetectorRef: ChangeDetectorRef,
+        public _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: FormBuilder,
         public dialogRef: MatDialogRef<CdkVinculacaoEtiquetaEditDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any
     ) {
         this.loading = false;        
+        //@retirar: this.clicouSalvar = false;
 
         this.form = this._formBuilder.group({
-            //idVinculacao: [data.idVinculacao],
+            id: [data.id],
             conteudo: [data.conteudo],
         });
 
@@ -56,9 +65,25 @@ export class CdkVinculacaoEtiquetaEditDialogComponent implements OnInit {
     ngOnInit(): void {
     }
 
+    submit(formulario){
+        if (this.form.valid) {
+            //@retirar: this.editVinc.emit(this.form.get('conteudo').value);
+            //@retirar: this.clicouSalvar = true;
+            this.data.mostraSpinnerSalvamento = true;
+            this.editVinc.emit({
+                id: this.form.value.id,
+                conteudo: this.form.value.conteudo
+            });   
+
+        //@retirar: setTimeout(()=> this._changeDetectorRef.detectChanges(),0);
+        //@retirar: this.fieldConteudoElement.nativeElement.focus();
+        }
+    }
+
+    /*@retirar: 
     onClickSalvar(conteudo){
         this.dialogRef.close(conteudo); 
-    }
+    }*/
 
     onNoClick(): void {
         this.dialogRef.close(0);
