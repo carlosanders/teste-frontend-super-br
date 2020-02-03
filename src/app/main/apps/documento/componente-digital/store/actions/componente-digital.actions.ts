@@ -1,5 +1,7 @@
 import {Action} from '@ngrx/store';
 
+export const UNLOAD_COMPONENTE_DIGITAL = '[COMPONENTE DIGITAL] UNLOAD COMPONENTE DIGITAL';
+
 export const DOWNLOAD_COMPONENTE_DIGITAL = '[COMPONENTE DIGITAL] DOWNLOAD COMPONENTE DIGITAL';
 export const DOWNLOAD_COMPONENTE_DIGITAL_SUCCESS = '[COMPONENTE DIGITAL] DOWNLOAD COMPONENTE DIGITAL SUCCESS';
 export const DOWNLOAD_COMPONENTE_DIGITAL_FAILED = '[COMPONENTE DIGITAL] DOWNLOAD COMPONENTE DIGITAL FAILED';
@@ -15,6 +17,16 @@ export const SAVE_COMPONENTE_DIGITAL_FAILED = '[COMPONENTE DIGITAL] SAVE COMPONE
 export const REVERT_COMPONENTE_DIGITAL = '[COMPONENTE DIGITAL] REVERT COMPONENTE DIGITAL';
 export const REVERT_COMPONENTE_DIGITAL_SUCCESS = '[COMPONENTE DIGITAL] REVERT COMPONENTE DIGITAL SUCCESS';
 export const REVERT_COMPONENTE_DIGITAL_FAILED = '[COMPONENTE DIGITAL] REVERT COMPONENTE DIGITAL FAILED';
+
+/**
+ * Unload ComponenteDigital
+ */
+export class UnloadComponenteDigital implements Action {
+    readonly type = UNLOAD_COMPONENTE_DIGITAL;
+
+    constructor() {
+    }
+}
 
 /**
  * Download ComponenteDigital
@@ -137,7 +149,8 @@ export class RevertComponenteDigitalFailed implements Action {
 }
 
 export type ComponenteDigitalActionsAll
-    = DownloadComponenteDigital
+    = UnloadComponenteDigital
+    | DownloadComponenteDigital
     | DownloadComponenteDigitalSuccess
     | DownloadComponenteDigitalFailed
     | DownloadAsPdfComponenteDigital

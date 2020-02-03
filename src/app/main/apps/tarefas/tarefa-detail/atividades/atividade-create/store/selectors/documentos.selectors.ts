@@ -47,3 +47,8 @@ export const getSelectedDocumentos = createSelector(
     getSelectedDocumentoIds,
     schemaDocumentoSelectors.entitiesProjector
 );
+
+export const getConvertendoDocumentosId = createSelector(
+    getAtividadeCreateDocumentosState,
+    (state: AtividadeCreateDocumentosState) => state.convertendoDocumentoIds
+);

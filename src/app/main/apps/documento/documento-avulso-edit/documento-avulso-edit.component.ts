@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 
 import {fuseAnimations} from '@fuse/animations';
-import {Observable, Subject} from 'rxjs';
+import {Observable} from 'rxjs';
 import * as fromStore from '../store';
 import {select, Store} from '@ngrx/store';
 import {Location} from '@angular/common';
@@ -128,8 +128,6 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy, AfterVie
      */
     @ViewChild('dynamicStatus', {static: false, read: ViewContainerRef}) containerStatus: ViewContainerRef;
 
-    modulesButtons: any[] = [];
-
     @ViewChild('ckdUpload', {static: false})
     cdkUpload;
 
@@ -205,7 +203,8 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy, AfterVie
                 module.components[path1].forEach((c => {
                     this._dynamicService.loadComponent(c)
                         .then( componentFactory  => {
-                            this.containerButtons.createComponent(componentFactory)
+                            this.containerButtons.createComponent(componentFactory);
+                            this._ref.markForCheck();
                         });
                 }));
             }
@@ -216,7 +215,8 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy, AfterVie
                 module.components[path2].forEach((c => {
                     this._dynamicService.loadComponent(c)
                         .then( componentFactory  => {
-                            this.containerStatus.createComponent(componentFactory)
+                            this.containerStatus.createComponent(componentFactory);
+                            this._ref.markForCheck();
                         });
                 }));
             }
@@ -303,9 +303,11 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy, AfterVie
     }
 
     showForm(): void {
-        this.activeCard = 'oficio';
-        this._ref.detectChanges();
-        this.iniciaModulos();
+        if (this.activeCard !== 'oficio') {
+            this.activeCard = 'oficio';
+            this._ref.detectChanges();
+            this.iniciaModulos();
+        }
     }
 
     showAnexos(): void {

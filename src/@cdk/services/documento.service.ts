@@ -8,6 +8,7 @@ import {plainToClass, classToPlain} from 'class-transformer';
 import {PaginatedResponse} from '@cdk/models/paginated.response';
 import {environment} from 'environments/environment';
 import {Visibilidade} from '../models/visibilidade.model';
+import { ComponenteDigital } from '@cdk/models/componente-digital.model';
 
 @Injectable()
 export class DocumentoService {
@@ -99,5 +100,19 @@ export class DocumentoService {
         return this.http.delete(
             `${environment.api_url}${'documento'}/${documentosId}/${'visibilidade'}/${visibilidadeId}` + environment.xdebug
         );
+    }
+
+
+    /**SERVICE DE COMPONENTE DIGITAL NO LUGAR ERRADO. VER SE CONSEGUE MUDAR. */
+    preparaConverter(documentoId: number, changes: any): Observable<any> {
+        return this.http.patch(
+            `${environment.api_url}${'componente_digital'}/${documentoId}/${'convertToPdf'}`+ environment.xdebug,
+            JSON.stringify(changes)
+        )
+        .pipe(
+            map(response =>  
+                plainToClass(ComponenteDigital, response)[0])            
+                )
+        ;
     }
 }

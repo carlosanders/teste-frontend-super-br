@@ -40,8 +40,10 @@
                         <cdk-documento-card-list [documentos]="minutas"
                                                  [deletingId]="(deletingDocumentosId$ | async)"
                                                  [assinandoId]="(assinandoDocumentosId$ | async)"
+                                                 [convertendoId]="(convertendoDocumentosId$ | async)"
                                                  (delete)="doDelete($event)"
                                                  (assinatura)="doAssinatura($event)"
+                                                 (converte)="doConverte($event)"
                                                  (clicked)="onClicked($event)"
                                                  (changedSelectedIds)="changedSelectedIds($event)">
                         </cdk-documento-card-list>
@@ -76,9 +78,11 @@
                         <cdk-documento-card-list [documentos]="oficios"
                                                  [deletingId]="(deletingDocumentosId$ | async)"
                                                  [assinandoId]="(assinandoDocumentosId$ | async)"
+                                                 [convertendoId]="(convertendoDocumentosId$ | async)"
                                                  (delete)="doDelete($event)"
                                                  (verResposta)="doVerResposta($event)"
                                                  (assinatura)="doAssinatura($event)"
+                                                 (converte)="doConverte($event)"
                                                  (clicked)="onClicked($event)"
                                                  (changedSelectedIds)="changedSelectedIds($event)">
                         </cdk-documento-card-list>
