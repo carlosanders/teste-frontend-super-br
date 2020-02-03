@@ -8,8 +8,8 @@
                 matTooltip="Clique para editar o conteúdo"
                 (click)="openDialogEdit(vinculacaoEtiqueta)"
                 (removed)="remove(vinculacaoEtiqueta)">
-                <mat-spinner *ngIf="savingVinculacaoEtiqueta===vinculacaoEtiqueta.id" diameter="16"></mat-spinner>
-                <mat-icon *ngIf="savingVinculacaoEtiqueta!==vinculacaoEtiqueta.id" class="icon">person</mat-icon>
+                <mat-spinner *ngIf="savingVincEtiquetaId===vinculacaoEtiqueta.id" diameter="16"></mat-spinner>
+                <mat-icon *ngIf="savingVincEtiquetaId!==vinculacaoEtiqueta.id" class="icon">person</mat-icon>
                 <mat-icon *ngIf="vinculacaoEtiqueta.conteudo" class="icon">subject</mat-icon>
             {{vinculacaoEtiqueta.etiqueta.nome}}
             <mat-icon matChipRemove *ngIf="false === vinculacaoEtiqueta.etiqueta.sistema">cancel</mat-icon>

@@ -23,7 +23,6 @@ import {VinculacaoEtiqueta} from '@cdk/models/vinculacao-etiqueta.model';
 import {Pagination} from '@cdk/models/pagination';
 import {LoginService} from '../../auth/login/login.service';
 import {Router} from '@angular/router';
-import { SaveConteudoVinculacaoEtiqueta } from 'app/main/apps/processo/store';
 
 @Component({
     selector: 'processo',
@@ -42,7 +41,7 @@ export class ProcessoComponent implements OnInit, OnDestroy {
     routerState: any;
 
     vinculacaoEtiquetaPagination: Pagination;
-    isSavingVinculacaoEtiqueta$: Observable<any>;
+    savingVincEtiquetaId$: Observable<any>;
     errors$: Observable<any>;
 
     private _profile: any;
@@ -74,7 +73,7 @@ export class ProcessoComponent implements OnInit, OnDestroy {
             'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.usuario.id,
             'modalidadeEtiqueta.valor': 'eq:PROCESSO'
         };
-        this.isSavingVinculacaoEtiqueta$ = this._store.pipe(select(fromStore.getVinculacaoEtiquetaIsSaving));
+        this.savingVincEtiquetaId$ = this._store.pipe(select(fromStore.getSavingVincEtiquetaId));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
     }
 
@@ -139,7 +138,7 @@ export class ProcessoComponent implements OnInit, OnDestroy {
     onEtiquetaEdit(values): void {   
         const vinculacaoEtiqueta = new VinculacaoEtiqueta();
         vinculacaoEtiqueta.id = values.id;
-        this._store.dispatch(new SaveConteudoVinculacaoEtiqueta({
+        this._store.dispatch(new fromStore.SaveConteudoVinculacaoEtiqueta({
             vinculacaoEtiqueta: vinculacaoEtiqueta,
             changes: {conteudo: values.conteudo}
         }));         

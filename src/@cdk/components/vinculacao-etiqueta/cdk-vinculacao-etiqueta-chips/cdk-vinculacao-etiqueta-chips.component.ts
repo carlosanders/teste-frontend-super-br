@@ -30,7 +30,7 @@ export class CdkVinculacaoEtiquetaChipsComponent {
     dialogRef: MatDialogRef<CdkVinculacaoEtiquetaEditDialogComponent, any>;
 
     @Input()
-    savingVinculacaoEtiqueta: number; 
+    savingVincEtiquetaId: number; 
     
     @Input() 
     placeholderEtiq: string;  
@@ -145,7 +145,7 @@ export class CdkVinculacaoEtiquetaChipsComponent {
                     });
                     this.dialogRef.componentInstance.form.setErrors(null);
 
-                    if (!this.savingVinculacaoEtiqueta)  {
+                    if (!this.savingVincEtiquetaId)  {
                         this.dialogRef.componentInstance.dialogRef.close();
                     }
                 }
@@ -155,7 +155,7 @@ export class CdkVinculacaoEtiquetaChipsComponent {
 
     openDialogEdit(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
         // abre o diálogo de edição do conteúdo da etiqueta caso ela não esteja com status de saving (nesse estado ela vai ser ready-only)
-        if (this.savingVinculacaoEtiqueta!==vinculacaoEtiqueta.id) {    
+        if (this.savingVincEtiquetaId!==vinculacaoEtiqueta.id) {    
             //@retirar: const dialogRef = this.dialog.open(CdkVinculacaoEtiquetaEditDialogComponent, {
             this.dialogRef = this.dialog.open(CdkVinculacaoEtiquetaEditDialogComponent, { 
                 data: {

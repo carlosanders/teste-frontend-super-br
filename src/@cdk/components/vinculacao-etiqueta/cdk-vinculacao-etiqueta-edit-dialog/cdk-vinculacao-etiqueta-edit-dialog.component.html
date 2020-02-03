@@ -24,7 +24,7 @@
    <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
    <div mat-dialog-actions align="end">
-        <button mat-button mat-dialog-close (click)="onNoClick()">Cancelar</button>
+        <button  *ngIf="!data.mostraSpinnerSalvamento" mat-button mat-dialog-close (click)="onNoClick()">Cancelar</button>
         <mat-spinner *ngIf="data.mostraSpinnerSalvamento" diameter="24"></mat-spinner>
         <button *ngIf="!data.mostraSpinnerSalvamento" mat-raised-button color="accent">Salvar</button>        
     </div>
