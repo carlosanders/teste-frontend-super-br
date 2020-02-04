@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 
 import {fuseAnimations} from '@fuse/animations'; 
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 import {Processo} from '@cdk/models/processo.model';
 import {select, Store} from '@ngrx/store';
@@ -19,6 +19,14 @@ import {LoginService} from 'app/main/auth/login/login.service';
 import {getProcesso} from './store/selectors';
 import {Router} from '@angular/router';
 import {getRouterState} from 'app/store/reducers';
+import { takeUntil } from 'rxjs/operators';
+import { EspecieProcesso } from '@cdk/models/especie-processo.model';
+import { ModalidadeMeio } from '@cdk/models/modalidade-meio.model';
+import { Classificacao } from '@cdk/models/classificacao.model';
+import { Setor } from '@cdk/models/setor.model';
+import { Pessoa } from '@cdk/models/pessoa.model';
+
+
 
 @Component({
     selector: 'aproveitar-dados',
@@ -30,8 +38,9 @@ import {getRouterState} from 'app/store/reducers';
 })
 export class AproveitarDadosComponent implements OnInit, OnDestroy {
 
+    private _unsubscribeAll: Subject<any> = new Subject();
     processo$: Observable<Processo>;
-    processo: Processo;
+    processoOrigem: Processo;
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
     processoPagination: Pagination;
@@ -54,6 +63,7 @@ export class AproveitarDadosComponent implements OnInit, OnDestroy {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.processo$ = this._store.pipe(select(getProcesso));
+//        this.processo$ = this._store.pipe(select(fromStore.getProcesso));        
 
         this._profile = this._loginService.getUserProfile();
         this.processoPagination = new Pagination();
@@ -69,8 +79,9 @@ export class AproveitarDadosComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
 
         this.processo$.subscribe(
-            processo => this.processo = processo
+            processoOrigem => this.processoOrigem = processoOrigem
         );
+
 
         this._store
             .pipe(select(getRouterState))
@@ -79,6 +90,13 @@ export class AproveitarDadosComponent implements OnInit, OnDestroy {
                     this.routerState = routerState.state;
                 }
             });
+
+
+/*        this.processo$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(p => {
+            this.processoOrigem = p;
+        });*/
     }
 
     /**
@@ -91,22 +109,19 @@ export class AproveitarDadosComponent implements OnInit, OnDestroy {
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
-    submit(values): void {
-        const processo = new Processo();
-
-        Object.entries(values).forEach(
-            ([key, value]) => {
-                processo[key] = value;
-            }
-        );
-
-        this._store.dispatch(new fromStore.SaveProcesso(processo));
-
+    submit(values): void {    
+    
+         console.log(values.processoOrigem);
+         this._store.dispatch(new fromStore.SaveProcesso(values.processoOrigem));
     }
 
     onActivate(componentReference): void  {
     }
 
     onDeactivate(componentReference): void  {
+    }
+
+    onClick(values): void {
+        this._router.navigate([this.routerState.url.split('/aproveitar-dados')[0] + '/dados-basicos']).then();
     }
 }

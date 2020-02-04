@@ -1,8 +1,11 @@
 <cdk-processo-aproveitar-dados-form
-        [processo]="processo"
+        [processoOrigem]="processoOrigem"
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
-        (save)="submit($event)">
+        (save)="submit($event)"
+        (clicked)="onClick($event)">
 </cdk-processo-aproveitar-dados-form>
 
 <router-outlet (activate)="onActivate($event)" (deactivate)="onDeactivate($event)"></router-outlet>
+
+

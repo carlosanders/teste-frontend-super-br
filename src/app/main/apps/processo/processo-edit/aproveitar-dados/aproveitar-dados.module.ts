@@ -31,8 +31,9 @@ const routes: Routes = [
         component: AproveitarDadosComponent,
         children: [
             {
-                path       : 'aproveitar-dados',
-                loadChildren: () => import('app/main/apps/processo/processo-edit/aproveitar-dados/aproveitar-dados.module').then(m => m.AproveitarDadosModule),
+               // path       : 'aproveitar-dados',
+               path       : '',
+               // loadChildren: () => import('app/main/apps/aproveitar-dados/aproveitar-dados.module').then(m => m.AproveitarDadosModule),
             }
         ],
         canActivate: [fromGuards.ResolveGuard]

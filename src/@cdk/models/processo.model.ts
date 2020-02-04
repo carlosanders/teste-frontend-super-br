@@ -19,7 +19,8 @@ export class Processo {
     @Exclude({ toPlainOnly: true })
     id?: number;
 
-    origemProcesso?: number;
+    @Exclude({ toPlainOnly: true })
+    processoOrigem?: number;
 
     @Exclude({ toPlainOnly: true })
     uuid?: string;
@@ -134,7 +135,7 @@ export class Processo {
 
     constructor() {
         this.id = null;
-        this.origemProcesso = null;
+        this.processoOrigem = null;
         this.uuid = null;
         this.novo = null;
         this.descricao = null;

@@ -35,7 +35,7 @@ import {Pagination} from '@cdk/models/pagination';
 export class CdkProcessoAproveitarDadosFormComponent implements OnInit, OnChanges, OnDestroy {
 
     @Input()
-    processo: Processo;
+    processoOrigem: Processo;
 
     @Input()
     saving: boolean;
@@ -45,6 +45,9 @@ export class CdkProcessoAproveitarDadosFormComponent implements OnInit, OnChange
 
     @Output()
     save = new EventEmitter<Processo>();
+
+    @Output()
+    clicked = new EventEmitter<Processo>();
 
     @Input()
     processoPagination: Pagination;
@@ -65,6 +68,7 @@ export class CdkProcessoAproveitarDadosFormComponent implements OnInit, OnChange
             processoOrigem: [null, Validators.maxLength(21)],
         });
         this.processoPagination = new Pagination();
+//        this.processoPagination.populate = ['especieProcesso', 'modalidadeMeio', 'classificacao'];
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -73,14 +77,15 @@ export class CdkProcessoAproveitarDadosFormComponent implements OnInit, OnChange
  
     ngOnInit(): void {
          this.form.get('processoOrigem').enable();
+         this.checkProcesso();
     }
 
     /**
      * On change
      */
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
-        if (changes['processo'] && this.processo && (!this.processo.id || (this.processo.id !== this.form.get('id').value))) {
-            this.form.patchValue({...this.processo});
+        if (changes['processoOrigem'] && this.processoOrigem && (!this.processoOrigem.id || (this.processoOrigem.id !== this.form.get('id').value))) {
+            this.form.patchValue({...this.processoOrigem});
         }
 
         if (this.errors && this.errors.status && (this.errors.status === 400 || this.errors.status === 422)) {
@@ -139,6 +144,12 @@ export class CdkProcessoAproveitarDadosFormComponent implements OnInit, OnChange
 
     cancel(): void {
         this.activeCard = 'form';
+    }
+
+    onClick(): void{
+        this.form.get('processoOrigem').setValue(null);        
+        this.form.get('processoOrigem').disable();        
+        this.clicked.emit(this.form.value);
     }
 
 

@@ -74,6 +74,9 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     gerirProcedencia = new EventEmitter();
 
     @Output()
+    navegarAproveitarDados = new EventEmitter();
+
+    @Output()
     editProcedencia = new EventEmitter<number>();
 
     @Input()
@@ -89,9 +92,6 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
     activeCard = 'form';
 
-//    exibeProcessoOrigem = false;
-
-
     /**
      * Constructor
      */
@@ -103,7 +103,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
         this.form = this._formBuilder.group({
             id: [null],
             aproveitarDados: [null],
-            processoOrigem: [null, Validators.maxLength(21)],
+            processoOrigem: [null],
             NUP: [null, [Validators.required, Validators.maxLength(21)]],
             novo: [null, [Validators.required]],
             especieProcesso: [null, [Validators.required]],
@@ -168,64 +168,6 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
                 this._changeDetectorRef.markForCheck();
             });
-/*            this.form.get('aproveitarDados').valueChanges.subscribe(value => {
-                if (value === true) {
-                    if(!this.form.get('processoOrigem').enabled){
-                        this.form.get('processoOrigem').enable();
-                    }
-
-                    this.form.get('NUP').setValue(null);
-                    this.form.get('especieProcesso').setValue(null);
-                    this.form.get('titulo').setValue(null);
-                    this.form.get('classificacao').setValue(null);
-                    this.form.get('procedencia').setValue(null);
-                    this.form.get('setorAtual').setValue(null);
-                    this.form.get('modalidadeMeio').setValue(null);
-                    this.form.get('dataHoraAbertura').setValue(null);
-                    this.form.get('novo').setValue(null);
-
-                    this.form.get('NUP').disable();
-                    this.form.get('especieProcesso').disable();
-                    this.form.get('titulo').disable();
-                    this.form.get('classificacao').disable();
-                    this.form.get('procedencia').disable();
-                    this.form.get('setorAtual').disable();
-                    this.form.get('modalidadeMeio').disable();
-                    this.form.get('dataHoraAbertura').disable();
-                    this.form.get('novo').disable();
-                    this._changeDetectorRef.markForCheck();
-                }
-                else {
-                    if(!this.form.get('novo').enabled){
-
-                        this.form.get('processoOrigem').setValue(null);
-                        this.form.get('processoOrigem').disable();
-
-                        this.form.get('NUP').setValue(null);
-                        this.form.get('especieProcesso').setValue(null);
-                        this.form.get('titulo').setValue(null);
-                        this.form.get('classificacao').setValue(null);
-                        this.form.get('procedencia').setValue(null);
-                        this.form.get('setorAtual').setValue(null);
-                        this.form.get('modalidadeMeio').setValue(null);
-                        this.form.get('dataHoraAbertura').setValue(null);
-                        this.form.get('novo').setValue(null);
-    
-                        this.form.get('NUP').enable();
-                        this.form.get('especieProcesso').enable();
-                        this.form.get('titulo').enable();
-                        this.form.get('classificacao').enable();
-                        this.form.get('procedencia').enable();
-                        this.form.get('setorAtual').enable();
-                        this.form.get('modalidadeMeio').enable();
-                        this.form.get('dataHoraAbertura').enable();
-    
-                        this.form.get('novo').enable();
-                        this.form.get('novo').setValue(true);
-                    }                    
-  
-                }
-            });*/
         } else {
             this.form.get('dataHoraAbertura').disable();
             this.form.get('NUP').disable();
@@ -267,102 +209,6 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             this.form.get('procedencia').setValue(this.procedencia);
         }
 
-/*        if (!this.processo.id) {
-            alert('aqui');
-            this.form.get('aproveitarDados').valueChanges.subscribe(value => {
-                if (value === true) {
-                    if(!this.form.get('processoOrigem').enabled){
-                        this.form.get('processoOrigem').enable();
-                    }
-
-                    this.form.get('NUP').setValue(null);
-                    this.form.get('especieProcesso').setValue(null);
-                    this.form.get('titulo').setValue(null);
-                    this.form.get('classificacao').setValue(null);
-                    this.form.get('procedencia').setValue(null);
-                    this.form.get('setorAtual').setValue(null);
-                    this.form.get('modalidadeMeio').setValue(null);
-                    this.form.get('dataHoraAbertura').setValue(null);
-                    this.form.get('novo').setValue(null);
-
-                    this.form.get('NUP').disable();
-                    this.form.get('especieProcesso').disable();
-                    this.form.get('titulo').disable();
-                    this.form.get('classificacao').disable();
-                    this.form.get('procedencia').disable();
-                    this.form.get('setorAtual').disable();
-                    this.form.get('modalidadeMeio').disable();
-                    this.form.get('dataHoraAbertura').disable();
-                    this.form.get('novo').disable();
-                    this._changeDetectorRef.markForCheck();
-                }
-                else {
-                    if(!this.form.get('novo').enabled){
-
-                        this.form.get('processoOrigem').setValue(null);
-                        this.form.get('processoOrigem').disable();
-
-                        this.form.get('NUP').setValue(null);
-                        this.form.get('especieProcesso').setValue(null);
-                        this.form.get('titulo').setValue(null);
-                        this.form.get('classificacao').setValue(null);
-                        this.form.get('procedencia').setValue(null);
-                        this.form.get('setorAtual').setValue(null);
-                        this.form.get('modalidadeMeio').setValue(null);
-                        this.form.get('dataHoraAbertura').setValue(null);
-                        this.form.get('novo').setValue(null);
-
-                        this.form.get('NUP').enable();
-                        this.form.get('especieProcesso').enable();
-                        this.form.get('titulo').enable();
-                        this.form.get('classificacao').enable();
-                        this.form.get('procedencia').enable();
-                        this.form.get('setorAtual').enable();
-                        this.form.get('modalidadeMeio').enable();
-                        this.form.get('dataHoraAbertura').enable();
-
-                        this.form.get('novo').enable();
-                        this.form.get('novo').setValue(true);
-                    }                    
-                    this.form.get('dataHoraAbertura').setValue(null);
-                    this.form.get('dataHoraAbertura').disable();
-        
-                    this.form.get('NUP').setValue(null);
-                    this.form.get('NUP').disable();
-        
-                    this.form.get('procedencia').setValue(null);
-                    this.form.get('procedencia').disable();
-                    this.form.get('novo').valueChanges.subscribe(value => {
-                        if (value === true) {
-                            this.form.get('dataHoraAbertura').setValue(null);
-                            this.form.get('dataHoraAbertura').disable();
-        
-                            this.form.get('NUP').setValue(null);
-                            this.form.get('NUP').disable();
-        
-                            this.form.get('procedencia').setValue(null);
-                            this.form.get('procedencia').disable();
-                        } else {
-                            this.form.get('dataHoraAbertura').setValue(null);
-                            this.form.get('dataHoraAbertura').enable();
-        
-                            this.form.get('NUP').setValue(null);
-                            this.form.get('NUP').enable();
-        
-                            this.form.get('procedencia').setValue(null);
-                            this.form.get('procedencia').enable();
-                        }
-        
-                        this._changeDetectorRef.markForCheck();
-                    });
-                }
-            });
-        } else {
-            this.form.get('dataHoraAbertura').disable();
-            this.form.get('NUP').disable();
-        }*/
-
-
         this._changeDetectorRef.markForCheck();
     }
 
@@ -392,6 +238,11 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     doGerirProcedencia(): void {
         this.gerirProcedencia.emit();
     }
+
+    doNavegarAproveitarDados(): void {
+        this.navegarAproveitarDados.emit();
+    }
+
 
     doEditProcedencia(): void {
         this.editProcedencia.emit(this.form.get('procedencia').value.id);
@@ -505,16 +356,4 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             this.form.get('processoOrigem').setValue(null);
         }
     }
-
-    showProcessoGrid(): void {
-        this.activeCard = 'processo-gridsearch';
-    }
-
-    selectProcesso(processo: Processo): void {
-        if (processo) {
-            this.form.get('processoOrigem').setValue(processo);
-        }
-        this.activeCard = 'form';
-    }
-
 }

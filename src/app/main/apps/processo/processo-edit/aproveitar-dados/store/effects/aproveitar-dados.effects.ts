@@ -44,7 +44,8 @@ export class AproveitarDadosEffect {
             .pipe(
                 ofType<AproveitarDadosActions.SaveProcesso>(AproveitarDadosActions.SAVE_PROCESSO),
                 switchMap((action) => {
-                    return this._processoService.save(action.payload).pipe(
+                    return this._processoService.aproveitarDados(action.payload).pipe(
+                        tap((next) => {console.log(next); }),
                         mergeMap((response: Processo) => [
                             new AproveitarDadosActions.SaveProcessoSuccess(response),
                             new AddData<Processo>({data: [response], schema: processoSchema}),
@@ -72,7 +73,8 @@ export class AproveitarDadosEffect {
             .pipe(
                 ofType<AproveitarDadosActions.SaveProcessoSuccess>(AproveitarDadosActions.SAVE_PROCESSO_SUCCESS),
                 tap((action) => {
-                    this._router.navigate([this.routerState.url.replace('aproveitar-dados', 'assuntos/listar').replace('criar', action.payload.id)]).then();
+                    this._router.navigate([this.routerState.url.replace('aproveitar-dados', 'dados-basicos').replace('criar', action.payload.id)]).then();
+
                 })
             );
 }

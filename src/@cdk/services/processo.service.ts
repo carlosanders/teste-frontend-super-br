@@ -114,4 +114,15 @@ export class ProcessoService {
     destroy(id: number): Observable<Processo> {
         return this.modelService.delete('processo', id);
     }
+
+    aproveitarDados(processo: Processo): Observable<Processo> {
+        return this.modelService.post(`${'processo/aproveitarDados'}/${processo.id}`, classToPlain(processo))
+        .pipe(
+            map(response => {
+                response = plainToClass(Processo, response);
+                Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                return Object.assign(new Processo(), {...processo, ...response});
+            })
+        );
+    }
 }

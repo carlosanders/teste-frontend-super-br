@@ -14,7 +14,7 @@ import {vinculacaoProcessoJudicialSetor} from '../../modules/judicial/@cdk/norma
 
 export const processo = new schema.Entity('processo', {
     classificacao: classificacao,
-    processoOrigem: this.processo,
+    processoOrigem: this,
     origemDados: origemDados,
     documentoAvulsoOrigem: documentoAvulso,
     procedencia: pessoa,

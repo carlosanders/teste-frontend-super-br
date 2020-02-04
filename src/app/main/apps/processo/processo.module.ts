@@ -47,6 +47,11 @@ const routes: Routes = [
                 canActivate: [fromGuards.ResolveGuard]
             },
             {
+                path       : 'aproveitar-dados',
+                loadChildren: () => import('./processo-edit/aproveitar-dados/aproveitar-dados.module').then(m => m.AproveitarDadosModule),
+                canActivate: [fromGuards.ResolveGuard]
+            },
+            {
                 path: '**',
                 redirectTo: 'visualizar'
             }

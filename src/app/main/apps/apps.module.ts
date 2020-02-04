@@ -3,7 +3,7 @@ import { RouterModule } from '@angular/router';
 
 import { FuseSharedModule } from '@fuse/shared.module';
 
-const routes = [
+const routes = [ 
     {
         path        : 'painel',
         loadChildren: () => import('./painel/painel.module').then(m => m.PainelModule)
@@ -16,6 +16,10 @@ const routes = [
         path        : 'processo',
         loadChildren: () => import('./processo/processo.module').then(m => m.ProcessoModule)
     },
+/*    {
+        path        : 'aproveitar-dados',
+        loadChildren: () => import('./processo/processo-edit/aproveitar-dados/aproveitar-dados.module').then(m => m.AproveitarDadosModule)
+    },*/
     {
         path        : 'documento',
         loadChildren: () => import('./documento/documento.module').then(m => m.DocumentoModule)

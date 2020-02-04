@@ -145,6 +145,13 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
 
     gerirProcedencia(): void {
         this._router.navigate([this.routerState.url + '/pessoa']).then();
+    }   
+
+    navegarAproveitarDados(): void { 
+       // alert(this.routerState.url)
+  //      alert(this.routerState.url + '/aproveitar-dados');
+//        this._router.navigate([this.routerState.url.split('/aproveitar-dados')[0]+'/aproveitar-dados']).then();        
+        this._router.navigate([this.routerState.url.split('/dados-basicos')[0]+ '/aproveitar-dados']).then();
     }
 
     editProcedencia(pessoaId: number): void {
