@@ -18,7 +18,7 @@
         </mat-checkbox>
 
 
-        <mat-form-field *ngIf="this.tem_origem" fxFlex>
+        <mat-form-field *ngIf="this.temOrigem" fxFlex>
             <mat-label>NUP Origem</mat-label>
             <input matInput #nupOrigem
                    name="nupOrigem"
@@ -249,7 +249,7 @@
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
     <div fxLayout="row" fxLayoutAlign="center">
-            <button type="submit" *ngIf="!saving" class="p-20 mr-20"
+            <button type="submit" *ngIf="!saving" class="p-20 mr-20" 
                     mat-raised-button color="accent" 
                     [disabled]="form.invalid" (click)="submit()">
                     <div *ngIf="form.value.id">
@@ -260,8 +260,8 @@
                     </div>
             </button>
 
-            <button mat-raised-button color="accent" *ngIf="!form.value.id" class="p-20"
-                    (click)="doNavegarAproveitarDados()">
+            <button mat-raised-button color="accent" class="p-20" *ngIf="form.value.id"
+                    (click)="doDadosBasicos()">
                 NOVO
             </button>
 

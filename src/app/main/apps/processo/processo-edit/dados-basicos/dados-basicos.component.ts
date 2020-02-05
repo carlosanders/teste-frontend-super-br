@@ -151,8 +151,16 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
        // alert(this.routerState.url)
   //      alert(this.routerState.url + '/aproveitar-dados');
 //        this._router.navigate([this.routerState.url.split('/aproveitar-dados')[0]+'/aproveitar-dados']).then();        
+        this._store.dispatch(new fromStore.CreateProcesso());
         this._router.navigate([this.routerState.url.split('/dados-basicos')[0]+ '/aproveitar-dados']).then();
     }
+
+    navegarDadosBasicos(): void {
+            this.processo = null; 
+            this._router.navigate([this.routerState.url.split('/processo')[0] + '/processo/criar/editar/dados-basicos']).then();  
+
+     }
+ 
 
     editProcedencia(pessoaId: number): void {
         this._router.navigate([this.routerState.url + '/pessoa/editar/' + pessoaId]).then();

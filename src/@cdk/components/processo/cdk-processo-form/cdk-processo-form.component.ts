@@ -80,6 +80,9 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     navegarAproveitarDados = new EventEmitter();
 
     @Output()
+    navegarDadosBasicos = new EventEmitter();
+
+    @Output()
     editProcedencia = new EventEmitter<number>();
 
     @Input()
@@ -95,7 +98,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
     activeCard = 'form';
 
-    tem_origem: boolean;
+    temOrigem: boolean;
     /**
      * Constructor
      */
@@ -133,7 +136,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
         this.modalidadeFasePagination = new Pagination();
         this.setorAtualPagination = new Pagination();
         this.processoPagination = new Pagination();
-        this.tem_origem = false;
+        this.temOrigem = false;
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -178,7 +181,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             this.form.get('NUP').disable();
 
             if (!isUndefined(this.processo.processoOrigem)){
-                this.tem_origem = true;
+                this.temOrigem = true;
                 this.form.get('nupOrigem').setValue(this.processo.processoOrigem.NUP);                            
                 this.form.get('nupOrigem').disable();                            
             }else{
@@ -258,6 +261,10 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
         this.navegarAproveitarDados.emit();
     }
 
+    doDadosBasicos(): void {
+        //alert('aqui');
+        this.navegarDadosBasicos.emit();
+    }
 
     doEditProcedencia(): void {
         this.editProcedencia.emit(this.form.get('procedencia').value.id);
