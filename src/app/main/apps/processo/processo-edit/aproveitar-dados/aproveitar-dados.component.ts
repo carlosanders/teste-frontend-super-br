@@ -111,7 +111,7 @@ export class AproveitarDadosComponent implements OnInit, OnDestroy {
 
     submit(values): void {    
     
-         console.log(values.processoOrigem);
+//         console.log(values.processoOrigem);
          this._store.dispatch(new fromStore.SaveProcesso(values.processoOrigem));
     }
 

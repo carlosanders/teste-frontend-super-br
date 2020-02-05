@@ -18,6 +18,9 @@ import {Classificacao} from '@cdk/models/classificacao.model';
 import {Setor} from '@cdk/models/setor.model';
 import {Pagination} from '@cdk/models/pagination';
 import {Pessoa} from '@cdk/models/pessoa.model';
+import { nullSafeIsEquivalent } from '@angular/compiler/src/output/output_ast';
+import { ITS_JUST_ANGULAR } from '@angular/core/src/r3_symbols';
+import { isUndefined } from 'util';
 
 @Component({
     selector: 'cdk-processo-form',
@@ -92,6 +95,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
     activeCard = 'form';
 
+    tem_origem: boolean;
     /**
      * Constructor
      */
@@ -102,7 +106,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
         this.form = this._formBuilder.group({
             id: [null],
-            aproveitarDados: [null],
+            nupOrigem: [null],
             processoOrigem: [null],
             NUP: [null, [Validators.required, Validators.maxLength(21)]],
             novo: [null, [Validators.required]],
@@ -129,6 +133,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
         this.modalidadeFasePagination = new Pagination();
         this.setorAtualPagination = new Pagination();
         this.processoPagination = new Pagination();
+        this.tem_origem = false;
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -171,6 +176,16 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
         } else {
             this.form.get('dataHoraAbertura').disable();
             this.form.get('NUP').disable();
+
+            if (!isUndefined(this.processo.processoOrigem)){
+                this.tem_origem = true;
+                this.form.get('nupOrigem').setValue(this.processo.processoOrigem.NUP);                            
+                this.form.get('nupOrigem').disable();                            
+            }else{
+                this.form.get('nupOrigem').setValue(null);            
+                this.form.get('nupOrigem').disable();            
+            }
+
         }
 
         this.form.get('modalidadeFase').disable();

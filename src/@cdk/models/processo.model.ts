@@ -19,8 +19,9 @@ export class Processo {
     @Exclude({ toPlainOnly: true })
     id?: number;
 
-    @Exclude({ toPlainOnly: true })
-    processoOrigem?: number;
+    @Type(() => Processo)
+    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    processoOrigem: Processo;
 
     @Exclude({ toPlainOnly: true })
     uuid?: string;
