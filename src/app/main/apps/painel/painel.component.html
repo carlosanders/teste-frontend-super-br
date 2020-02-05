@@ -20,7 +20,7 @@
         <!-- CONTENT -->
         <div class="content" fxLayout="column">
 
-            <div fxLayout="row wrap" fxLayoutAlign="start start">
+            <div fxLayout="row wrap" fxLayoutAlign="start start" *ngIf="!this._loginService.isGranted('ROLE_USER')">
 
                 <div class="widget-group p-12" fxLayout="row wrap" fxLayoutAlign="space-between start" fxFlex="75"
                      *fuseIfOnDom

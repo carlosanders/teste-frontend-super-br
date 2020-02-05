@@ -90,6 +90,7 @@ export class LoginEffects {
     LoginProfileSuccess: Observable<any> = this.actions.pipe(
         ofType(LoginActions.LOGIN_PROFILE_SUCCESS),
         tap((action) => {
+            console.log(action.payload);
             this.loginService.setUserProfile(action.payload.profile);
             this.router.navigateByUrl('/apps/painel').then();
         })

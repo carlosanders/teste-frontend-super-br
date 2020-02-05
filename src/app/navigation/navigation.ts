@@ -60,6 +60,25 @@ export const navigation: FuseNavigation[] = [
                 icon: 'search',
                 url: '/apps/pesquisa/processos',
                 role: 'ROLE_COLABORADOR'
+            },
+            {
+                id: 'usuario-externo',
+                title: 'Usuário Externo',
+                translate: 'NAV.USUARIO_EXTERNO.TITLE',
+                type: 'collapsable',
+                icon: 'search',
+                children: [
+                    {
+                        id: 'consulta-processo',
+                        title: 'Consulta de processos',
+                        translate: 'NAV.USUARIO_EXTERNO.PESQUISA.TITLE',
+                        type: 'item',
+                        icon: 'book',
+                        url: '/apps/usuario-externo/processo/consultar/nup',
+                        role: 'ROLE_USER'
+                    }
+                ],
+                role: 'ROLE_USER'
             }
         ]
     }
