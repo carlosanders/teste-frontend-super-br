@@ -3,7 +3,8 @@ import {
     Component,
     OnDestroy,
     OnInit, ViewChild,
-    ViewEncapsulation
+    ViewEncapsulation,
+    ChangeDetectorRef, ViewContainerRef, AfterViewInit
 } from '@angular/core';
 
 import {fuseAnimations} from '@fuse/animations';
@@ -18,6 +19,8 @@ import {getMercureState, getRouterState} from '../../../../store/reducers';
 import {Repositorio} from '@cdk/models/repositorio.model';
 import {RepositorioService} from '@cdk/services/repositorio.service';
 import {ComponenteDigital} from '@cdk/models/componente-digital.model';
+import {modulesConfig} from "../../../../../modules/modules-config";
+import {DynamicService} from "../../../../../modules/dynamic.service";
 
 @Component({
     selector: 'documento-avulso-edit',
@@ -27,19 +30,23 @@ import {ComponenteDigital} from '@cdk/models/componente-digital.model';
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
 })
-export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy {
+export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy, AfterViewInit {
 
     /**
      * @param _store
      * @param _location
      * @param _router
      * @param _repositorioService
+     * @param _dynamicService
+     * @param _ref
      */
     constructor(
         private _store: Store<fromStore.DocumentoAppState>,
         private _location: Location,
         private _router: Router,
         private _repositorioService: RepositorioService,
+        private _dynamicService: DynamicService,
+        private _ref: ChangeDetectorRef
     ) {
         this.documento$ = this._store.pipe(select(fromStore.getDocumento));
         this.componenteDigital$ = this._store.pipe(select(fromStore.getComponenteDigital));
@@ -109,6 +116,18 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy {
 
     activeCard = 'oficio';
 
+    /**
+     * Criando ponto de entrada para extensões do componente de edição de documento avulso, permitindo
+     * adicionar botões de remessa diferentes da remessa manual
+     */
+    @ViewChild('dynamicButtons', {static: false, read: ViewContainerRef}) containerButtons: ViewContainerRef;
+
+    /**
+     * Criando ponto de entrada para extensões do componente de edição de documento avulso, permitindo
+     * informar status da remessa oriundos de módulos diferentes da remessa manual
+     */
+    @ViewChild('dynamicStatus', {static: false, read: ViewContainerRef}) containerStatus: ViewContainerRef;
+
     @ViewChild('ckdUpload', {static: false})
     cdkUpload;
 
@@ -124,6 +143,9 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy {
         }).join(''));
     }
 
+    ngAfterViewInit(): void {
+        this.iniciaModulos();
+    }
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
     // -----------------------------------------------------------------------------------------------------
@@ -174,6 +196,33 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy {
         });
     }
 
+    iniciaModulos(): void {
+        const path1 = 'app/main/apps/documento/documento-avulso-edit#buttons';
+        modulesConfig.forEach((module) => {
+            if (module.components.hasOwnProperty(path1)) {
+                module.components[path1].forEach((c => {
+                    this._dynamicService.loadComponent(c)
+                        .then( componentFactory  => {
+                            this.containerButtons.createComponent(componentFactory);
+                            this._ref.markForCheck();
+                        });
+                }));
+            }
+        });
+        const path2 = 'app/main/apps/documento/documento-avulso-edit#status';
+        modulesConfig.forEach((module) => {
+            if (module.components.hasOwnProperty(path2)) {
+                module.components[path2].forEach((c => {
+                    this._dynamicService.loadComponent(c)
+                        .then( componentFactory  => {
+                            this.containerStatus.createComponent(componentFactory);
+                            this._ref.markForCheck();
+                        });
+                }));
+            }
+        });
+    }
+
     /**
      * On destroy
      */
@@ -212,7 +261,7 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy {
         this._store.dispatch(new fromStore.RemeterDocumentoAvulso(this.documento.documentoAvulsoRemessa));
     }
 
-    toggleEncerramento($event): void {
+    toggleEncerramento(): void {
         this._store.dispatch(new fromStore.ToggleEncerramentoDocumentoAvulso(this.documento.documentoAvulsoRemessa));
     }
 
@@ -254,7 +303,11 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy {
     }
 
     showForm(): void {
-        this.activeCard = 'oficio';
+        if (this.activeCard !== 'oficio') {
+            this.activeCard = 'oficio';
+            this._ref.detectChanges();
+            this.iniciaModulos();
+        }
     }
 
     showAnexos(): void {

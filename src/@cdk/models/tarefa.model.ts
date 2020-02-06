@@ -146,6 +146,6 @@ export class Tarefa {
         this.auditoriaDistribuicao = null;
         this.tipoDistribuicao = null;
         this.folder = null;
-        this.vinculacoesEtiquetas = [];
+        this.vinculacoesEtiquetas = null;
     }
 }

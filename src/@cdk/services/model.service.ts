@@ -46,7 +46,7 @@ export class ModelService {
     }
 
     patch(path: string, id: number, body: Object = {}): Observable<any> {
-        return this.http.put(
+        return this.http.patch(
             `${environment.api_url}${path}/${id}` + environment.xdebug,
             JSON.stringify(body)
         );
