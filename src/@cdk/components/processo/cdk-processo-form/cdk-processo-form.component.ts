@@ -99,6 +99,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     activeCard = 'form';
 
     temOrigem: boolean;
+    textBotao: string;
     /**
      * Constructor
      */
@@ -137,6 +138,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
         this.setorAtualPagination = new Pagination();
         this.processoPagination = new Pagination();
         this.temOrigem = false;
+        this.textBotao = '';
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -153,6 +155,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
             this.form.get('procedencia').setValue(null);
             this.form.get('procedencia').disable();
+            this.textBotao = 'GRAVAR PROCESSO';
             this.form.get('novo').valueChanges.subscribe(value => {
                 if (value === true) {
                     this.form.get('dataHoraAbertura').setValue(null);
@@ -179,7 +182,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
         } else {
             this.form.get('dataHoraAbertura').disable();
             this.form.get('NUP').disable();
-
+            this.textBotao = 'ATUALIZAR PROCESSO';
             if (!isUndefined(this.processo.processoOrigem)){
                 this.temOrigem = true;
                 this.form.get('nupOrigem').setValue(this.processo.processoOrigem.NUP);                            
@@ -262,7 +265,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     doDadosBasicos(): void {
-        //alert('aqui');
+        //alert('aqui'); 
         this.navegarDadosBasicos.emit();
     }
 
