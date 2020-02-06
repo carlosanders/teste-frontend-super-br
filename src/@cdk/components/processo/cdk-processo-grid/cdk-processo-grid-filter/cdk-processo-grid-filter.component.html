@@ -3,7 +3,7 @@
 
     <div fxFlex="1 0 auto" fxLayout="column">
 
-        <mat-form-field fxFlex="100">
+        <mat-form-field *showIfRole="'ROLE_USER'" fxFlex="100">
             <mat-label>Processo</mat-label>
             <input matInput #NUP
                    name="NUP"
@@ -12,7 +12,15 @@
             <mat-hint align="end">{{NUP.value.length}} / 255</mat-hint>
         </mat-form-field>
 
-        <mat-form-field fxFlex="100">
+        <mat-form-field *showIfRole="'ROLE_USER'" fxFlex="100">
+            <mat-label>Chave de Acesso</mat-label>
+            <input matInput #chaveAcesso
+                   name="chaveAcesso"
+                   formControlName="chaveAcesso"
+                   maxlength="255">
+            <mat-hint align="end">{{chaveAcesso.value.length}} / 255</mat-hint>
+        </mat-form-field>
+        <mat-form-field *showIfRole="'ROLE_COLABORADOR'" fxFlex="100">
             <div fxLayout="row" fxLayoutAlign="start center">
                 <input matInput placeholder="Setor Responsável"
                        formControlName="setorAtual"
@@ -22,23 +30,23 @@
             </cdk-setor-autocomplete>
         </mat-form-field>
 
-        <mat-checkbox formControlName="novo" class="mr-16 mb-16" fxFlex="0 1 auto">
+        <mat-checkbox *showIfRole="'ROLE_COLABORADOR'" formControlName="novo" class="mr-16 mb-16" fxFlex="0 1 auto">
             Novo
         </mat-checkbox>
 
-        <mat-checkbox formControlName="semValorEconomico" class="mr-16 mb-16" fxFlex="0 1 auto">
+        <mat-checkbox *showIfRole="'ROLE_COLABORADOR'" formControlName="semValorEconomico" class="mr-16 mb-16" fxFlex="0 1 auto">
             Sem Valor Ecônomico
         </mat-checkbox>
 
-        <mat-checkbox formControlName="visibilidadeExterna" class="mr-16 mb-16" fxFlex="0 1 auto">
+        <mat-checkbox *showIfRole="'ROLE_COLABORADOR'" formControlName="visibilidadeExterna" class="mr-16 mb-16" fxFlex="0 1 auto">
             Visibilidade Externa
         </mat-checkbox>
 
-        <mat-checkbox formControlName="acessoNegado" class="mr-16 mb-16" fxFlex="0 1 auto">
+        <mat-checkbox *showIfRole="'ROLE_COLABORADOR'" formControlName="acessoNegado" class="mr-16 mb-16" fxFlex="0 1 auto">
             Acesso Negado
         </mat-checkbox>
 
-        <mat-form-field fxFlex="100">
+        <mat-form-field *showIfRole="'ROLE_COLABORADOR'" fxFlex="100">
             <mat-label>Título</mat-label>
             <input matInput #titulo
                    name="titulo"
@@ -47,7 +55,7 @@
             <mat-hint align="end">{{titulo.value.length}} / 255</mat-hint>
         </mat-form-field>
 
-        <mat-form-field fxFlex="100">
+        <mat-form-field *showIfRole="'ROLE_COLABORADOR'" fxFlex="100">
             <mat-label>Descrição</mat-label>
             <input matInput #descricao
                    name="descricao"
@@ -56,7 +64,7 @@
             <mat-hint align="end">{{descricao.value.length}} / 255</mat-hint>
         </mat-form-field>
 
-        <mat-form-field fxFlex="100">
+        <mat-form-field *showIfRole="'ROLE_COLABORADOR'" fxFlex="100">
             <mat-label>Outro Número</mat-label>
             <input matInput #outroNumero
                    name="outroNumero"
@@ -65,33 +73,25 @@
             <mat-hint align="end">{{outroNumero.value.length}} / 255</mat-hint>
         </mat-form-field>
 
-        <mat-form-field fxFlex="100">
-            <mat-label>Chave de Acesso</mat-label>
-            <input matInput #chaveAcesso
-                   name="chaveAcesso"
-                   formControlName="chaveAcesso"
-                   maxlength="255">
-            <mat-hint align="end">{{chaveAcesso.value.length}} / 255</mat-hint>
-        </mat-form-field>
-
-        <mat-form-field fxFlex="100">
+        <mat-form-field *showIfRole="'ROLE_COLABORADOR'" fxFlex="100">
             <mat-label>Valor Ecônomico</mat-label>
             <input matInput #valorEconomico
                    name="valorEconomico"
                    formControlName="valorEconomico">
         </mat-form-field>
 
-        <mat-form-field fxFlex="100">
+        <mat-form-field *showIfRole="'ROLE_COLABORADOR'" fxFlex="100">
             <div fxLayout="row" fxLayoutAlign="start center">
                 <input matInput placeholder="Classificacao"
                        formControlName="classificacao"
                        [matAutocomplete]="classificacao.autocomplete">
             </div>
-            <cdk-classificacao-autocomplete #classificacao="classificacaoAutocomplete" [control]="form.get('classificacao')">
+            <cdk-classificacao-autocomplete #classificacao="classificacaoAutocomplete"
+                                            [control]="form.get('classificacao')">
             </cdk-classificacao-autocomplete>
         </mat-form-field>
 
-        <mat-form-field fxFlex="100">
+        <mat-form-field *showIfRole="'ROLE_COLABORADOR'" fxFlex="100">
             <div fxLayout="row" fxLayoutAlign="start center">
                 <input matInput placeholder="Origem de Dados"
                        formControlName="origemDados"
@@ -101,17 +101,18 @@
             </cdk-origem-dados-autocomplete>
         </mat-form-field>
 
-        <mat-form-field fxFlex="100">
+        <mat-form-field *showIfRole="'ROLE_COLABORADOR'" fxFlex="100">
             <div fxLayout="row" fxLayoutAlign="start center">
                 <input matInput placeholder="Documento Avulso"
                        formControlName="documentoAvulsoOrigem"
                        [matAutocomplete]="documentoAvulso.autocomplete">
             </div>
-            <cdk-documento-avulso-autocomplete #documentoAvulso="documentoAvulsoAutocomplete" [control]="form.get('documentoAvulsoOrigem')">
+            <cdk-documento-avulso-autocomplete #documentoAvulso="documentoAvulsoAutocomplete"
+                                               [control]="form.get('documentoAvulsoOrigem')">
             </cdk-documento-avulso-autocomplete>
         </mat-form-field>
 
-        <mat-form-field fxFlex="100">
+        <mat-form-field *showIfRole="'ROLE_COLABORADOR'" fxFlex="100">
             <div fxLayout="row" fxLayoutAlign="start center">
                 <input matInput placeholder="Procedência"
                        formControlName="procedencia"
@@ -121,7 +122,7 @@
             </cdk-pessoa-autocomplete>
         </mat-form-field>
 
-        <mat-form-field fxFlex="100">
+        <mat-form-field *showIfRole="'ROLE_COLABORADOR'" fxFlex="100">
             <div fxLayout="row" fxLayoutAlign="start center">
                 <input matInput placeholder="Localizador"
                        formControlName="localizador"
@@ -131,7 +132,7 @@
             </cdk-localizador-autocomplete>
         </mat-form-field>
 
-        <mat-form-field class="mr-sm-12">
+        <mat-form-field *showIfRole="'ROLE_COLABORADOR'" class="mr-sm-12">
             <mat-label>Data da Abertura</mat-label>
             <input matInput formControlName="dataHoraAbertura" [matDatetimepicker]="dataHoraAbertura">
             <mat-datetimepicker-toggle matSuffix [for]="dataHoraAbertura"></mat-datetimepicker-toggle>
@@ -139,7 +140,7 @@
             </mat-datetimepicker>
         </mat-form-field>
 
-        <mat-form-field class="mr-sm-12">
+        <mat-form-field *showIfRole="'ROLE_COLABORADOR'" class="mr-sm-12">
             <mat-label>Data da Próxima Transição</mat-label>
             <input matInput formControlName="dataHoraProximaTransicao" [matDatetimepicker]="dataHoraProximaTransicao">
             <mat-datetimepicker-toggle matSuffix [for]="dataHoraProximaTransicao"></mat-datetimepicker-toggle>
@@ -147,44 +148,47 @@
             </mat-datetimepicker>
         </mat-form-field>
 
-        <mat-form-field fxFlex="100">
+        <mat-form-field *showIfRole="'ROLE_COLABORADOR'" fxFlex="100">
             <div fxLayout="row" fxLayoutAlign="start center">
                 <input matInput placeholder="Modalidade da Fase"
                        formControlName="modalidadeFase"
                        [matAutocomplete]="modalidadeFase.autocomplete">
             </div>
-            <cdk-modalidade-fase-autocomplete #modalidadeFase="modalidadeFaseAutocomplete" [control]="form.get('modalidadeFase')">
+            <cdk-modalidade-fase-autocomplete #modalidadeFase="modalidadeFaseAutocomplete"
+                                              [control]="form.get('modalidadeFase')">
             </cdk-modalidade-fase-autocomplete>
         </mat-form-field>
 
-        <mat-form-field fxFlex="100">
+        <mat-form-field *showIfRole="'ROLE_COLABORADOR'" fxFlex="100">
             <div fxLayout="row" fxLayoutAlign="start center">
                 <input matInput placeholder="Modalidade Meio"
                        formControlName="modalidadeMeio"
                        [matAutocomplete]="modalidadeMeio.autocomplete">
             </div>
-            <cdk-modalidade-meio-autocomplete #modalidadeMeio="modalidadeMeioAutocomplete" [control]="form.get('modalidadeMeio')">
+            <cdk-modalidade-meio-autocomplete #modalidadeMeio="modalidadeMeioAutocomplete"
+                                              [control]="form.get('modalidadeMeio')">
             </cdk-modalidade-meio-autocomplete>
         </mat-form-field>
 
-        <mat-form-field fxFlex="100">
+        <mat-form-field *showIfRole="'ROLE_COLABORADOR'" fxFlex="100">
             <div fxLayout="row" fxLayoutAlign="start center">
                 <input matInput placeholder="Espécie Processo"
                        formControlName="especieProcesso"
                        [matAutocomplete]="especieProcesso.autocomplete">
             </div>
-            <cdk-especie-processo-autocomplete #especieProcesso="especieProcessoAutocomplete" [control]="form.get('especieProcesso')">
+            <cdk-especie-processo-autocomplete #especieProcesso="especieProcessoAutocomplete"
+                                               [control]="form.get('especieProcesso')">
             </cdk-especie-processo-autocomplete>
         </mat-form-field>
 
-        <mat-form-field class="mr-sm-12">
+        <mat-form-field *showIfRole="'ROLE_COLABORADOR'" class="mr-sm-12">
             <mat-label>Criado Em</mat-label>
             <input matInput formControlName="criadoEm" [matDatetimepicker]="criadoEm">
             <mat-datetimepicker-toggle matSuffix [for]="criadoEm"></mat-datetimepicker-toggle>
             <mat-datetimepicker #criadoEm type="datetime" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
         </mat-form-field>
 
-        <mat-form-field fxFlex="100">
+        <mat-form-field *showIfRole="'ROLE_COLABORADOR'" fxFlex="100">
             <div fxLayout="row" fxLayoutAlign="start center">
                 <input matInput placeholder="Atualizado Por"
                        formControlName="atualizadoPor"
@@ -194,7 +198,7 @@
             </cdk-usuario-autocomplete>
         </mat-form-field>
 
-        <mat-form-field class="mr-sm-12">
+        <mat-form-field *showIfRole="'ROLE_COLABORADOR'" class="mr-sm-12">
             <mat-label>Atualizado Em</mat-label>
             <input matInput formControlName="atualizadoEm" [matDatetimepicker]="atualizadoEm">
             <mat-datetimepicker-toggle matSuffix [for]="atualizadoEm"></mat-datetimepicker-toggle>
@@ -202,7 +206,7 @@
             </mat-datetimepicker>
         </mat-form-field>
 
-        <mat-form-field fxFlex="100">
+        <mat-form-field *showIfRole="'ROLE_COLABORADOR'" fxFlex="100">
             <div fxLayout="row" fxLayoutAlign="start center">
                 <input matInput placeholder="Apagado Por"
                        formControlName="apagadoPor"
@@ -212,7 +216,7 @@
             </cdk-usuario-autocomplete>
         </mat-form-field>
 
-        <mat-form-field class="mr-sm-12">
+        <mat-form-field *showIfRole="'ROLE_COLABORADOR'" class="mr-sm-12">
             <mat-label>Apagado Em</mat-label>
             <input matInput formControlName="apagadoEm" [matDatetimepicker]="apagadoEm">
             <mat-datetimepicker-toggle matSuffix [for]="apagadoEm"></mat-datetimepicker-toggle>

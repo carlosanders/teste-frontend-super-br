@@ -13,6 +13,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from 'app/main/apps/pesquisa/processos/store';
 import {getRouterState} from 'app/store/reducers';
+import {LoginService} from "../../../auth/login/login.service";
 
 @Component({
     selector: 'processos',
@@ -33,19 +34,24 @@ export class ProcessosComponent implements OnInit {
     deletedIds$: Observable<any>;
     NUPHandle: any;
 
+    private _profile: any;
+
     /**
      * @param _changeDetectorRef
      * @param _router
      * @param _store
+     * @param _loginService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
         private _store: Store<fromStore.ProcessosAppState>,
+        private _loginService: LoginService,
     ) {
         this.processos$ = this._store.pipe(select(fromStore.getProcessos));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
+        this._profile = _loginService.getUserProfile();
     }
 
     ngOnInit(): void {
@@ -81,6 +87,10 @@ export class ProcessosComponent implements OnInit {
             offset: params.offset,
             populate: this.pagination.populate
         }));
+    }
+
+    view(processoId: number): void {
+        this._router.navigate(['apps/processo/' + processoId + '/visualizar']);
     }
 
     edit(processoId: number): void {

@@ -42,6 +42,7 @@ export class ProcessosEffect {
             .pipe(
                 ofType<ProcessosActions.GetProcessos>(ProcessosActions.GET_PROCESSOS),
                 switchMap((action) => {
+                    console.log('Switch map');
                     return this._processoService.query(
                         JSON.stringify({
                             ...action.payload.filter,

@@ -28,7 +28,7 @@ import {CommonModule} from '@angular/common';
 @NgModule({
     declarations: [
         CdkProcessoGridComponent,
-        CdkProcessoMainSidebarComponent
+        CdkProcessoMainSidebarComponent,
     ],
     imports: [
         MatButtonModule,

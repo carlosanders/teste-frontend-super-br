@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Output, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEncapsulation} from '@angular/core';
 import {fuseAnimations} from '@fuse/animations';
 
 @Component({

@@ -223,7 +223,7 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
     pageSize = 5;
 
     @Input()
-    actions: string[] = ['edit', 'delete', 'select'];
+    actions: string[] = ['edit', 'delete', 'select', 'view'];
 
     @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
@@ -236,6 +236,9 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
 
     @Output()
     cancel = new EventEmitter<any>();
+
+    @Output()
+    view = new EventEmitter<number>();
 
     @Output()
     edit = new EventEmitter<number>();
@@ -258,6 +261,7 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
 
     /**
      * @param _changeDetectorRef
+     * @param _fuseSidebarService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -327,6 +331,10 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
             offset: (this.paginator.pageSize * this.paginator.pageIndex),
             sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {}
         });
+    }
+
+    viewProcesso(processoId): void {
+        this.view.emit(processoId);
     }
 
     editProcesso(processoId): void {

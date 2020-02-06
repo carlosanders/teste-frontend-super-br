@@ -3,7 +3,8 @@
         [processos]="(processos$ | async)"
         [total]="(pagination$ | async)?.total"
         [mode]="NUPHandle ? 'list' : 'search'"
-        [actions]="['edit']"
+        [actions]="['edit', 'view']"
         (reload)="reload($event)"
-        (edit)="edit($event)">
+        (edit)="edit($event)"
+        (view)="view($event)">
 </cdk-processo-grid>
