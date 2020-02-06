@@ -46,12 +46,6 @@ export class CdkVinculacaoEtiquetaChipsComponent {
 
     @Output()
     edit = new EventEmitter<any>();
-    //@retirar:  edit = new EventEmitter<VinculacaoEtiqueta>();
-
-   /*@retirar: 
-   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
-   verticalPosition: MatSnackBarVerticalPosition = 'top';*/
-
 
     @Output()
     create = new EventEmitter<Etiqueta>();
@@ -68,7 +62,6 @@ export class CdkVinculacaoEtiquetaChipsComponent {
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         public dialog: MatDialog,
-        //@retirar: private snackBar: MatSnackBar
     ) {
         this.pagination = new Pagination();
     }
@@ -132,7 +125,6 @@ export class CdkVinculacaoEtiquetaChipsComponent {
 
                     } catch (e) {
                         this.dialogRef.componentInstance.form.setErrors({rulesError: this.errors.error.message});
-                        //@retirar: this.dialogRef.componentInstance.msgErroForm = this.errors.error.message;
                     } finally {
                         // o código abaixo foi colocado para que a mensagem de erro apareça
                         this.dialogRef.componentInstance.data.mostraSpinnerSalvamento = false;
@@ -156,43 +148,21 @@ export class CdkVinculacaoEtiquetaChipsComponent {
     openDialogEdit(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
         // abre o diálogo de edição do conteúdo da etiqueta caso ela não esteja com status de saving (nesse estado ela vai ser ready-only)
         if (this.savingVincEtiquetaId!==vinculacaoEtiqueta.id) {    
-            //@retirar: const dialogRef = this.dialog.open(CdkVinculacaoEtiquetaEditDialogComponent, {
             this.dialogRef = this.dialog.open(CdkVinculacaoEtiquetaEditDialogComponent, { 
                 data: {
                     conteudo: vinculacaoEtiqueta.conteudo,
                     nome: vinculacaoEtiqueta.etiqueta.nome,
                     id: vinculacaoEtiqueta.id,
                     corFundo: vinculacaoEtiqueta.etiqueta.corHexadecimal,
-                    mostraSpinnerSalvamento: false
+                    mostraSpinnerSalvamento: false,
+                    podeAlterarConteudo: vinculacaoEtiqueta.podeAlterarConteudo
                 },
                 width: '600px',
                 height: '300px',
             });
 
-            /*
-            @retirar:
-            dialogRef.afterClosed()
-            .pipe(
-                filter(result => result !== 0),
-                delay(0),
-                tap(result => vinculacaoEtiqueta.conteudo = result)
-                )
-            .subscribe(result => {
-                // o settimeout é para evitar o erro "Expression Changed After It Has Been Checked Error: Expression has changed after it was checked."
-                //setTimeout(() => vinculacaoEtiqueta.conteudo = result, 0);
-                    this.edit.emit(vinculacaoEtiqueta);
-            });*/
-
-
             const sub = this.dialogRef.componentInstance.editVinc.subscribe((result) => {    
-                //@retirar:vinculacaoEtiqueta.conteudo = result;
-                //@retirar:this.edit.emit(vinculacaoEtiqueta);
-
-                //@retirar: const control = this.dialogRef.componentInstance.form.get('conteudo');
-
                 this.edit.emit(result);
-
-
             });            
        
             this.dialogRef.afterClosed()

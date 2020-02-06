@@ -74,6 +74,12 @@ export class VinculacaoEtiqueta {
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
     apagadoEm?: Date;
 
+    @Exclude({toPlainOnly: true})
+    podeAlterarConteudo: boolean;
+
+    @Exclude({toPlainOnly: true})
+    podeExcluir: boolean;
+
     constructor() {
         this.id = null;
         this.uuid = null;
@@ -91,5 +97,7 @@ export class VinculacaoEtiqueta {
         this.atualizadoEm = null;
         this.apagadoPor = null;
         this.apagadoEm = null;
+        this.podeAlterarConteudo = null;
+        this.podeExcluir = null;
     }
 }
