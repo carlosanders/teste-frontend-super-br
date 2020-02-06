@@ -161,6 +161,6 @@ export class Processo {
         this.atualizadoEm = null;
         this.apagadoPor = null;
         this.apagadoEm = null;
-        this.vinculacoesEtiquetas = [];
+        this.vinculacoesEtiquetas = []; // Dr. Eduardo, colocamos [] aqui para poder funcionar a vinculação etiqueta.
     }
 }
