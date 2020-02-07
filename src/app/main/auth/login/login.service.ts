@@ -61,7 +61,20 @@ export class LoginService {
                                 "id": 1,
                                 "uuid": "15617711-1415-1214-1515-1513677278af",
                                 "criadoEm": "2020-02-04 14:13:33"
-                            }
+                            }/*,
+                            {
+                                "role": {
+                                    "name": "ROLE_COLABORADOR",
+                                    "description": "Description - ROLE_COLABORADOR",
+                                    "id": 3,
+                                    "uuid": "59d11c02-8a75-49fd-8d51-b4631f517b98",
+                                    "ativo": true,
+                                    "criadoEm": "2020-02-03 20:50:21"
+                                },
+                                "id": 2,
+                                "uuid": "15617711-1415-1214-1515-1513677278af",
+                                "criadoEm": "2020-02-04 14:13:33"
+                            }*/
                         ],
                         "id": 1,
                         "uuid": "47289232-1616-1663-2367-ffff16671a12",

@@ -233,7 +233,7 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
     reload = new EventEmitter<any>();
 
     @Output()
-    view = new EventEmitter<number>();
+    view = new EventEmitter<ComponenteDigital>();
 
     @Output()
     edit = new EventEmitter<ComponenteDigital>();
