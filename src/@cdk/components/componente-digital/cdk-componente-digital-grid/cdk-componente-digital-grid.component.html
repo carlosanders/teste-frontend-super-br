@@ -1,10 +1,10 @@
 <div class="page-layout fullwidth left-sidebar inner-scroll" fxFlex="100">
 
     <!-- SIDEBAR -->
-    <fuse-sidebar class="sidebar" name="cdk-componente-digital-main-sidebar" position="left">
+    <fuse-sidebar [lockedOpen]="(mode === 'search') ? 'gt-xs' : ''" class="sidebar" name="cdk-componente-digital-main-sidebar" position="left">
         <!-- SIDEBAR CONTENT -->
         <div class="content" fusePerfectScrollbar>
-            <cdk-componente-digital-main-sidebar (selected)="setGridFilter($event)" [@animate]="{value:'*'}"></cdk-componente-digital-main-sidebar>
+            <cdk-componente-digital-main-sidebar (selected)="setGridFilter($event)" [mode]="this.mode" [@animate]="{value:'*'}"></cdk-componente-digital-main-sidebar>
         </div>
         <!-- / SIDEBAR CONTENT -->
     </fuse-sidebar>
@@ -370,27 +370,41 @@
                             <mat-icon>keyboard_return</mat-icon>
                         </button>
 
-                        <button mat-icon-button
-                                *ngIf="actions.indexOf('edit') > -1"
-                                [disabled]="deletedIds?.indexOf(componenteDigital.id) > -1"
-                                (click)="editComponenteDigital(componenteDigital)"
-                                aria-label="editar"
-                                matTooltip="Editar">
-                            <mat-icon>edit</mat-icon>
-                        </button>
+                        <ng-template *showIfRole="'ROLE_USER'">
+                            <button mat-icon-button
+                                    *ngIf="actions.indexOf('view') > -1"
+                                    (click)="viewComponenteDigital(componenteDigital)"
+                                    aria-label="visualizar"
+                                    matTooltip="Visualizar">
+                                <mat-icon>pageview</mat-icon>
+                            </button>
+                        </ng-template>
+
+                        <ng-template *showIfRole="'ROLE_COLABORADOR'">
+                            <button mat-icon-button
+                                    *ngIf="actions.indexOf('edit') > -1"
+                                    [disabled]="deletedIds?.indexOf(componenteDigital.id) > -1"
+                                    (click)="editComponenteDigital(componenteDigital)"
+                                    aria-label="editar"
+                                    matTooltip="Editar">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                        </ng-template>
 
                         <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(componenteDigital.id) > -1">
                             <mat-spinner diameter="24"></mat-spinner>
                         </div>
 
-                        <button mat-icon-button
-                                *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(componenteDigital.id) === -1"
-                                [disabled]="deletedIds?.indexOf(componenteDigital.id) > -1"
-                                (click)="deleteComponenteDigital(componenteDigital.id)"
-                                aria-label="remover"
-                                matTooltip="Remover">
-                            <mat-icon>delete</mat-icon>
-                        </button>
+                        <ng-template *showIfRole="'ROLE_COLABORADOR'">
+                            <button mat-icon-button
+                                    *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(componenteDigital.id) === -1"
+                                    [disabled]="deletedIds?.indexOf(componenteDigital.id) > -1"
+                                    (click)="deleteComponenteDigital(componenteDigital.id)"
+                                    aria-label="remover"
+                                    matTooltip="Remover">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </ng-template>
 
                     </td>
                 </ng-container>

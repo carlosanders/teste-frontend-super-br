@@ -233,6 +233,9 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
     reload = new EventEmitter<any>();
 
     @Output()
+    view = new EventEmitter<number>();
+
+    @Output()
     edit = new EventEmitter<ComponenteDigital>();
 
     @Output()
@@ -331,6 +334,10 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
             offset: (this.paginator.pageSize * this.paginator.pageIndex),
             sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {}
         });
+    }
+
+    viewComponenteDigital(componenteDigital): void {
+        this.view.emit(componenteDigital);
     }
 
     editComponenteDigital(componenteDigital): void {
