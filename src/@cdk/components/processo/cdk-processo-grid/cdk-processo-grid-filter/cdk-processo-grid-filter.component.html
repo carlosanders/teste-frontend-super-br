@@ -224,7 +224,11 @@
             </mat-datetimepicker>
         </mat-form-field>
 
-        <button mat-raised-button color="warn" class="mr-sm-12" (click)="limpar()">
+        <button mat-raised-button color="primary" class="mr-sm-12" (click)="buscar()" *ngIf="!this.autoEmit">
+            Buscar
+        </button>
+
+        <button mat-raised-button color="warn" class="mr-sm-12" (click)="limpar()" *ngIf="this.autoEmit">
             Limpar
         </button>
 

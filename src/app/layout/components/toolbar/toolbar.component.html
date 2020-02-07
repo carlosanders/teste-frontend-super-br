@@ -46,7 +46,7 @@
 
             <div class="toolbar-separator"></div>
 
-            <fuse-search-bar (inputText)="search($event)"></fuse-search-bar>
+            <fuse-search-bar (inputText)="search($event)" *showIfRole="'ROLE_COLABORADOR'"></fuse-search-bar>
 
             <div class="toolbar-separator" *ngIf="!hiddenNavbar && rightNavbar" fxHide fxShow.gt-xs></div>
 
