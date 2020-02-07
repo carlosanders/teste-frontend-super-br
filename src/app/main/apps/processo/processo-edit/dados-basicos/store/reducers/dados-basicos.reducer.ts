@@ -4,16 +4,54 @@ export interface DadosBasicosState {
     saving: boolean;
     errors: any;
     loaded: any;
+    loading: boolean;
+    processoId: number;
 }
 
 export const DadosBasicosInitialState: DadosBasicosState = {
     saving: false,
     errors: false,
-    loaded: false
+    loaded: false,
+    loading: false,
+    processoId: null
 };
 
 export function DadosBasicosReducer(state = DadosBasicosInitialState, action: DadosBasicosActions.DadosBasicosActionsAll): DadosBasicosState {
     switch (action.type) {
+
+
+        case DadosBasicosActions.UNLOAD_PROCESSO: {
+            return {
+                processoId: null,
+                loaded: {
+                    id: 'processoHandle',
+                    value: 'criar'
+                },
+                loading: true,
+                saving: false,
+                errors: false
+            };
+        }
+
+        case DadosBasicosActions.GET_PROCESSO: {
+            return {
+                processoId: null,
+                loaded: false,
+                loading: true,
+                saving: false,
+                errors: false
+            };
+        }
+
+        case DadosBasicosActions.GET_PROCESSO_FAILED: {
+            return {
+                processoId: null,
+                loading: false,
+                loaded: false,
+                saving: false,
+                errors: false
+            };
+        }
 
         case DadosBasicosActions.CREATE_PROCESSO: {
             return {
@@ -21,6 +59,8 @@ export function DadosBasicosReducer(state = DadosBasicosInitialState, action: Da
                     id: 'processoHandle',
                     value: 'criar'
                 },
+                processoId: null,
+                loading: false,
                 saving: false,
                 errors: false
             };

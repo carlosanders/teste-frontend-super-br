@@ -6,6 +6,7 @@ import {catchError, mergeMap, tap, switchMap} from 'rxjs/operators';
 
 import * as DadosBasicosActions from '../actions/dados-basicos.actions';
 
+import {UnloadProcesso} from '../actions';
 import {ProcessoService} from '@cdk/services/processo.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {processo as processoSchema} from '@cdk/normalizr/processo.schema';
@@ -14,6 +15,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
+import { GetProcesso } from 'app/main/apps/tarefas/tarefa-create/store';
 
 @Injectable()
 export class DadosBasicosEffect {
@@ -75,4 +77,66 @@ export class DadosBasicosEffect {
                     this._router.navigate([this.routerState.url.replace('dados-basicos', 'assuntos/listar').replace('criar', action.payload.id)]).then();
                 })
             );
+
+/*    @Effect()
+    getProcesso: any =
+        this._actions
+            .pipe(
+                tap(n => {
+                    console.log('LOG: '); 
+                    console.log(n);
+                }),
+                ofType<DadosBasicosActions.GetProcesso>(DadosBasicosActions.GET_PROCESSO),
+                switchMap((action) => {
+                    return this._processoService.query(
+                        JSON.stringify(action.payload),
+                        1,
+                        0,
+                        JSON.stringify({}),
+                        JSON.stringify([
+                            'populateAll',
+                            'setorAtual.unidade',
+                            'vinculacoesEtiquetas',
+                            'vinculacoesEtiquetas.etiqueta'
+                        ]));
+                }),
+                switchMap(response => [
+                    new AddData<Processo>({data: response['entities'], schema: processoSchema}),
+                    new DadosBasicosActions.GetProcessoSuccess({
+                        loaded: {
+                            id: 'processoHandle',
+                            value: this.routerState.params.processoHandle,
+                            acessoNegado: response['entities'][0].acessoNegado
+                        },
+                        processoId: response['entities'][0].id
+                    })
+                ]),
+                catchError((err, caught) => {
+                    console.log(err);
+                    this._store.dispatch(new DadosBasicosActions.GetProcessoFailed(err));
+                    return caught;
+                })
+            );*/
+
+            @Effect({ dispatch: false })
+            UnloadProcesso: any =
+                this._actions
+                    .pipe(
+                        tap(n => {
+                            console.log('LOG: '); 
+                            console.log(n);
+                        }),
+                        ofType<DadosBasicosActions.UnloadProcesso>(DadosBasicosActions.UNLOAD_PROCESSO),
+                        tap((action) => {
+                            //this._store.dispatch(new UnloadProcesso());
+                            tap(n => {
+                                console.log('LOG 1: '); 
+                                console.log(n);
+                            }),
+                            this._router.navigate([
+                                    this.routerState.url.split('/processo/')[0] + '/processo/criar/editar'
+                                ]
+                            ).then();
+                        }));            
+
 }
