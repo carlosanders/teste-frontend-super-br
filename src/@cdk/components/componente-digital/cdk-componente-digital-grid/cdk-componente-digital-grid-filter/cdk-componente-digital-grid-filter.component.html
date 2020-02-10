@@ -63,6 +63,7 @@
         <mat-form-field *showIfRole="'ROLE_USER'" fxFlex="100">
             <mat-label>Código</mat-label>
             <input matInput #codigo
+                   [required]="this.mode==='search'"
                    name="codigo"
                    formControlName="codigo">
         </mat-form-field>
@@ -70,6 +71,7 @@
         <mat-form-field *showIfRole="'ROLE_USER'" fxFlex="100">
             <mat-label>Chave Acesso</mat-label>
             <input matInput #chaveAcesso
+                   [required]="this.mode==='search'"
                    name="chaveAcesso"
                    formControlName="chaveAcesso">
         </mat-form-field>
@@ -269,7 +271,8 @@
             Limpar
         </button>
 
-        <button mat-raised-button color="accent" class="mr-sm-12" (click)="buscar()" *ngIf="this.mode==='search'">
+        <button mat-raised-button color="accent" class="mr-sm-12" (click)="buscar()" *ngIf="this.mode==='search'"
+        [disabled]="!this.form.valid">
             Buscar
         </button>
 

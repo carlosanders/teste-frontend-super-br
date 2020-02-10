@@ -84,18 +84,14 @@ export class LoginService {
             ],
             "total": 1
         };
-        //return this.http.get(url);
-        return of<any>(profile);
+        // return this.http.get(url);
+         return of<any>(profile);
     }
 
     isGranted(role: string): boolean {
         const profile = this.getUserProfile();
         let hasAccess = false;
         if (profile && profile.usuario && profile.usuario.vinculacoesRoles && profile.usuario.vinculacoesRoles.length > 0) {
-            let papel = 'ROLE_COLABORADOR';
-            profile.usuario.vinculacoesRoles.findIndex((role: any) => {
-                return role.name === papel;
-            })
             profile.usuario.vinculacoesRoles.forEach((vinculacaoRole) => {
                 if (vinculacaoRole.role && vinculacaoRole.role.name === role) {
                     hasAccess = true;

@@ -24,6 +24,9 @@ export class CdkComponenteDigitalGridFilterComponent implements OnInit {
     @Input()
     mode = 'list';
 
+    @Input()
+    required: boolean;
+
     form: FormGroup;
 
     filters: any = {};
@@ -547,6 +550,5 @@ export class CdkComponenteDigitalGridFilterComponent implements OnInit {
     buscar(): void {
         this.selected.emit(this.filters);
     }
-
 }
 
