@@ -26,6 +26,7 @@ import {LoginService} from '../../../auth/login/login.service';
 import {getScreenState} from 'app/store/reducers';
 import {DynamicService} from '../../../../../modules/dynamic.service';
 import {modulesConfig} from 'modules/modules-config';
+import {Usuario} from "../../../../../@cdk/models/usuario.model";
 
 @Component({
     selector: 'tarefa-detail',
@@ -59,7 +60,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
     vinculacaoEtiquetaPagination: Pagination;
 
-    private _profile: any;
+    private _profile: Usuario;
 
     mobileMode = false;
 
@@ -86,7 +87,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
         this.screen$ = this._store.pipe(select(getScreenState));
         this.vinculacaoEtiquetaPagination = new Pagination();
         this.vinculacaoEtiquetaPagination.filter = {
-            'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.usuario.id,
+            'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.id,
             'modalidadeEtiqueta.valor': 'eq:TAREFA'
         };
     }

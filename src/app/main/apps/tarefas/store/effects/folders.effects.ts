@@ -12,11 +12,12 @@ import {Folder} from '@cdk/models/folder.model';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Store} from '@ngrx/store';
 import {FoldersState} from '../reducers';
+import {Usuario} from "../../../../../../@cdk/models/usuario.model";
 
 @Injectable()
 export class FoldersEffect
 {
-    private _profile: any;
+    private _profile: Usuario;
 
     constructor(
         private _actions: Actions,
@@ -39,7 +40,7 @@ export class FoldersEffect
                 ofType<FoldersActions.GetFolders>(FoldersActions.GET_FOLDERS),
                 exhaustMap(() => {
                     return this._folderService.query(
-                        `{"usuario.id": "eq:${this._profile.usuario.id}", "modalidadeFolder.valor": "eq:TAREFA"}`,
+                        `{"usuario.id": "eq:${this._profile.id}", "modalidadeFolder.valor": "eq:TAREFA"}`,
                         10,
                         0,
                         '{"nome": "ASC"}');

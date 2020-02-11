@@ -64,7 +64,7 @@ export class ResolveGuard implements CanActivate {
                         filter: {
                             'setorResponsavel': 'isNotNull',
                             'prioritario': 'eq:' + 'true',
-                            'usuario.id': 'eq:' + this._loginService.getUserProfile().usuario.id
+                            'usuario.id': 'eq:' + this._loginService.getUserProfile().id
                         },
                         gridFilter: {},
                         limit: 5,

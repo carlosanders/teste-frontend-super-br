@@ -23,6 +23,7 @@ import {takeUntil} from 'rxjs/operators';
 import {Pessoa} from '@cdk/models/pessoa.model';
 import {Router} from '@angular/router';
 import {getRouterState} from '../../../../store/reducers';
+import {Usuario} from "../../../../../@cdk/models/usuario.model";
 
 @Component({
     selector: 'documento-avulso-create',
@@ -46,7 +47,7 @@ export class DocumentoAvulsoCreateComponent implements OnInit, OnDestroy {
     tarefa$: Observable<any>;
     tarefa: Tarefa;
 
-    _profile: Colaborador;
+    _profile: Usuario;
 
     especieDocumentoAvulsoPagination: Pagination;
     setorDestinoPagination: Pagination;

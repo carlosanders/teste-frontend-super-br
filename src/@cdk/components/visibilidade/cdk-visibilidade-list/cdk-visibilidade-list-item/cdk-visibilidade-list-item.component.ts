@@ -34,7 +34,7 @@ export class CdkVisibilidadeListItemComponent implements OnInit {
     colaborador: Colaborador;
 
     constructor(private _loginService: LoginService) {
-        this.colaborador = _loginService.getUserProfile();
+        this.colaborador = _loginService.getUserProfile().colaborador;
         this.deleting = false;
     }
 

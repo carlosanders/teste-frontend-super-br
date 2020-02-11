@@ -45,7 +45,7 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy
         // Set the private defaults
         this._unsubscribeAll = new Subject();
 
-        this.userProfile = this._loginService.getUserProfile();
+        this.userProfile = this._loginService.getUserProfile().colaborador;
     }
 
     // -----------------------------------------------------------------------------------------------------

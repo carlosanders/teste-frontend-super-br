@@ -31,6 +31,7 @@ import {filter, takeUntil} from 'rxjs/operators';
 import {Pagination} from '@cdk/models/pagination';
 import {LoginService} from '../../auth/login/login.service';
 import {ToggleMaximizado} from 'app/main/apps/tarefas/store';
+import {Usuario} from "../../../../@cdk/models/usuario.model";
 
 @Component({
     selector: 'tarefas',
@@ -83,7 +84,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     vinculacaoEtiquetaPagination: Pagination;
 
-    private _profile: any;
+    private _profile: Usuario;
 
     mobileMode = false;
 
@@ -123,7 +124,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.screen$ = this._store.pipe(select(getScreenState));
         this._profile = _loginService.getUserProfile();
         this.vinculacaoEtiquetaPagination = new Pagination();
-        this.vinculacaoEtiquetaPagination.filter = {'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.usuario.id};
+        this.vinculacaoEtiquetaPagination.filter = {'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.id};
     }
 
     // -----------------------------------------------------------------------------------------------------

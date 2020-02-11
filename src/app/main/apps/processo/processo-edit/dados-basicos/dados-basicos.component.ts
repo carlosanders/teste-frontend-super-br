@@ -20,6 +20,7 @@ import {getProcesso} from './store/selectors';
 import {Router} from '@angular/router';
 import {getRouterState} from 'app/store/reducers';
 import {Pessoa} from '@cdk/models/pessoa.model';
+import {Usuario} from "../../../../../../@cdk/models/usuario.model";
 
 @Component({
     selector: 'dados-basicos',
@@ -36,7 +37,7 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
 
-    _profile: Colaborador;
+    _profile: Usuario;
 
     especieProcessoPagination: Pagination;
     setorAtualPagination: Pagination;
@@ -101,7 +102,7 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
         this.especieProcessoPagination.filter = {'generoProcesso.nome': 'eq:ADMINISTRATIVO'};
         this.especieProcessoPagination.populate = ['generoProcesso'];
         this.setorAtualPagination.populate = ['unidade', 'parent'];
-        this.setorAtualPagination.filter = {id: 'in:' + this._profile.lotacoes.map(lotacao => lotacao.setor.id).join(',')};
+        this.setorAtualPagination.filter = {id: 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.id).join(',')};
         this.classificacaoPagination.populate = ['parent'];
     }
 

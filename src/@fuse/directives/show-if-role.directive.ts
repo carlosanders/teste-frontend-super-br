@@ -21,8 +21,6 @@ import {LoginService} from "../../app/main/auth/login/login.service";
  */
 @Directive({ selector: '[showIfRole]'})
 export class ShowIfRoleDirective {
-    private hasView = false;
-
     constructor(
         private templateRef: TemplateRef<any>,
         private viewContainer: ViewContainerRef,
@@ -30,17 +28,15 @@ export class ShowIfRoleDirective {
 
     @Input() set showIfRole(role: string) {
         const userProfile = this._loginService.getUserProfile();
-        if (userProfile.usuario.vinculacoesRoles && userProfile.usuario.vinculacoesRoles.length > 0) {
-            const hasRole = userProfile.usuario.vinculacoesRoles.findIndex((papel: any) => {
-                return papel.role.name === role;
+        if (userProfile.roles && userProfile.roles.length > 0) {
+            const hasRole = userProfile.roles.findIndex((papel: string) => {
+                return papel === role;
             });
-            if (hasRole !== -1 && !this.hasView) {
+            if (hasRole !== -1) {
                 this.viewContainer.createEmbeddedView(this.templateRef);
-                this.hasView = true;
-            } else if (!hasRole && this.hasView) {
-                this.viewContainer.clear();
-                this.hasView = false;
+                return;
             }
         }
+        this.viewContainer.clear();
     }
 }

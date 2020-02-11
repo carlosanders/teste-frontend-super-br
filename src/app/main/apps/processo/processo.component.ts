@@ -23,6 +23,7 @@ import {VinculacaoEtiqueta} from '@cdk/models/vinculacao-etiqueta.model';
 import {Pagination} from '@cdk/models/pagination';
 import {LoginService} from '../../auth/login/login.service';
 import {Router} from '@angular/router';
+import {Usuario} from "../../../../@cdk/models/usuario.model";
 
 @Component({
     selector: 'processo',
@@ -42,7 +43,7 @@ export class ProcessoComponent implements OnInit, OnDestroy {
 
     vinculacaoEtiquetaPagination: Pagination;
 
-    private _profile: any;
+    private _profile: Usuario;
 
     /**
      *
@@ -68,7 +69,7 @@ export class ProcessoComponent implements OnInit, OnDestroy {
         this.loading$ = this._store.pipe(select(fromStore.getProcessoIsLoading));
         this.vinculacaoEtiquetaPagination = new Pagination();
         this.vinculacaoEtiquetaPagination.filter = {
-            'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.usuario.id,
+            'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.id,
             'modalidadeEtiqueta.valor': 'eq:PROCESSO'
         };
     }

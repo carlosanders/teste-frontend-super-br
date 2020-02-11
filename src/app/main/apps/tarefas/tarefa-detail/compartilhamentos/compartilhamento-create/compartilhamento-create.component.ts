@@ -18,6 +18,7 @@ import {Tarefa} from '@cdk/models/tarefa.model';
 import {getTarefa} from '../../store/selectors';
 import {getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
+import {Colaborador} from "../../../../../../../@cdk/models/colaborador.model";
 
 @Component({
     selector: 'compartilhamento-create',
@@ -36,7 +37,7 @@ export class CompartilhamentoCreateComponent implements OnInit, OnDestroy {
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
 
-    private _profile: any;
+    private _profile: Colaborador;
 
     routerState: any;
 
@@ -56,7 +57,7 @@ export class CompartilhamentoCreateComponent implements OnInit, OnDestroy {
         this.tarefa$ = this._store.pipe(select(getTarefa));
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
-        this._profile = _loginService.getUserProfile();
+        this._profile = _loginService.getUserProfile().colaborador;
 
         this._store
             .pipe(select(getRouterState))
