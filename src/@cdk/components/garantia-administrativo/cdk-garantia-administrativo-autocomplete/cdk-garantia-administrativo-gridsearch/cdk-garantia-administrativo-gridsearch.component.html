@@ -1,0 +1,9 @@
+<cdk-garantia-administrativo-grid
+        [loading]="loading"
+        [garantiasAdministrativos]="garantiasAdministrativos"
+        [total]="total"
+        [actions]="['select', 'cancel']"
+        (selected)="select($event)"
+        (cancel)="doCancel()"
+        (reload)="reload($event)">
+</cdk-garantia-administrativo-grid>

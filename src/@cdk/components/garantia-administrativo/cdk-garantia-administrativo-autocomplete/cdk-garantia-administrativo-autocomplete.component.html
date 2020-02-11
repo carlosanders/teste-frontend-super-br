@@ -1,0 +1,16 @@
+<mat-autocomplete [displayWith]="displayGarantiaAdministrativoFn">
+    <mat-option [ngClass]="{'multiline':garantiaAdministrativo.parent}"
+                *ngFor="let garantiaAdministrativo of garantiaAdministrativoList"
+                [value]="garantiaAdministrativo">
+        <div *ngIf="garantiaAdministrativo.parent">{{ garantiaAdministrativo.parent.nome }}</div>
+        <div [ngClass]="{'strong':garantiaAdministrativo.parent}">
+            <span *ngIf="garantiaAdministrativo.parent">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </span>
+            {{ garantiaAdministrativo.nome }} ({{ garantiaAdministrativo.id}})
+        </div>
+    </mat-option>
+    <mat-option *ngIf="garantiaAdministrativoListIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>

@@ -1,0 +1,13 @@
+cdk-garantia-administrativo-autocomplete {
+
+}
+
+.mat-option {
+  &.multiline {
+    height: 90px !important;
+    line-height: 30px !important;
+    .strong {
+      font-weight: bold;
+    }
+  };
+}
