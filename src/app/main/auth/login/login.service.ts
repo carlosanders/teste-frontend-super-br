@@ -1,6 +1,6 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {Observable, of} from 'rxjs';
+import {Observable} from 'rxjs';
 import {environment} from 'environments/environment';
 import {Usuario} from "@cdk/models/usuario.model";
 
@@ -44,6 +44,7 @@ export class LoginService {
     isGranted(role: string): boolean {
         const profile = this.getUserProfile();
         let hasAccess = false;
+
         if (profile && profile.roles && profile.roles.length > 0) {
             hasAccess = profile.roles.findIndex((papel: string) => {
                 return papel === role;

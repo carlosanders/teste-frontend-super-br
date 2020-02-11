@@ -13,7 +13,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from 'app/main/apps/pesquisa/processos/store';
 import {getRouterState} from 'app/store/reducers';
-import {LoginService} from "../../../auth/login/login.service";
+import {LoginService} from '../../../auth/login/login.service';
 
 @Component({
     selector: 'processos',

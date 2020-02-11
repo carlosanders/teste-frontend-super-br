@@ -1,5 +1,5 @@
 import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
-import {LoginService} from "../../app/main/auth/login/login.service";
+import {LoginService} from '../../app/main/auth/login/login.service';
 
 /**
  * Add the template content to the DOM if the informed role is present on the

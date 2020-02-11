@@ -1,5 +1,5 @@
 <div fxFlex fxLayout="row">
-    <div fxLayout="column" fxFlex="25">
+    <div fxLayout="column" fxFlex="25" *showIfRole="'ROLE_COLABORADOR'">
 
         <div class="actions p-16" fxLayout="row" fxLayoutAlign="end center">
             <button *ngIf="(tarefa$ | async)" mat-icon-button aria-label="movimentar"
