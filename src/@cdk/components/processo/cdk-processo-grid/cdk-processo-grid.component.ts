@@ -259,6 +259,9 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
     hasSelected = false;
     isIndeterminate = false;
 
+    @Input()
+    autoEmit: boolean = true;
+
     /**
      * @param _changeDetectorRef
      * @param _fuseSidebarService

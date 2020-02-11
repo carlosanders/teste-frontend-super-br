@@ -4,6 +4,7 @@
         [total]="(pagination$ | async)?.total"
         [mode]="NUPHandle ? 'list' : 'search'"
         [actions]="['edit', 'view']"
+        [autoEmit]="this._loginService.isGranted('ROLE_COLABORADOR') ? true : false"
         (reload)="reload($event)"
         (edit)="edit($event)"
         (view)="view($event)">

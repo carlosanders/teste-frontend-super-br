@@ -60,7 +60,7 @@ export class LotacaoListEffect {
                                 entitiesId: response['entities'].map(lotacao => lotacao.id),
                                 loaded: {
                                     id: 'lotacaoHandle',
-                                    value: this._loginService.getUserProfile().usuario.id
+                                    value: this._loginService.getUserProfile().id
                                 },
                                 total: response['total']
                             })

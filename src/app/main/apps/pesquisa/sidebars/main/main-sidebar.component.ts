@@ -27,12 +27,14 @@ export class PesquisaMainSidebarComponent
             {
                 nome: 'Processos',
                 icon: 'book',
-                link: 'processos'
+                link: 'processos',
+                role: 'ROLE_USER'
             },
             {
                 nome: 'Documentos',
                 icon: 'insert_drive_file',
-                link: 'documentos'
+                link: 'documentos',
+                role: 'ROLE_USER'
             }
         ];
     }

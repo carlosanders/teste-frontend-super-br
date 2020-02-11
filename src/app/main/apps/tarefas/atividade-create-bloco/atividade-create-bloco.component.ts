@@ -21,6 +21,7 @@ import {Router} from '@angular/router';
 import {filter, takeUntil, tap} from 'rxjs/operators';
 import * as moment from 'moment';
 import {Documento} from '@cdk/models/documento.model';
+import {Usuario} from "../../../../../@cdk/models/usuario.model";
 
 @Component({
     selector: 'atividade-create-bloco',
@@ -43,7 +44,7 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
 
     operacoes: any[] = [];
 
-    private _profile: any;
+    private _profile: Usuario;
 
     routerState: any;
 
@@ -117,7 +118,7 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
         this.atividade = new Atividade();
         this.atividade.encerraTarefa = true;
         this.atividade.dataHoraConclusao = moment();
-        this.atividade.usuario = this._profile.usuario;
+        this.atividade.usuario = this._profile;
 
         if (this.tarefas) {
 

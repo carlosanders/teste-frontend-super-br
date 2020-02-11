@@ -50,8 +50,8 @@ export class AfastamentoEditComponent implements OnInit, OnDestroy {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.afastamento$ = this._store.pipe(select(fromStore.getAfastamento));
-        this.usuario = this._loginService.getUserProfile().usuario;
-        this.colaborador = this._loginService.getUserProfile();
+        this.usuario = this._loginService.getUserProfile();
+        this.colaborador = this.usuario.colaborador;
 
         this.templatePagination = new Pagination();
         this.templatePagination.populate = ['populateAll'];

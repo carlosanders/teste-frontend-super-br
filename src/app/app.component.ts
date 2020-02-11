@@ -170,7 +170,7 @@ export class AppComponent implements OnInit, OnDestroy {
         if (localStorage.getItem('userProfile')) {
             const userProfile = JSON.parse(localStorage.getItem('userProfile'));
             const EventSource = EventSourcePolyfill;
-            const es = new EventSource(environment.mercure_hub + '?topic=' + userProfile.usuario.username,
+            const es = new EventSource(environment.mercure_hub + '?topic=' + userProfile.username,
                 {
                     headers: {
                         Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtZXJjdXJlIjp7InB1Ymxpc2giOltdfX0.R2VYhXy7uBsCqiXb9TRhEccaAiidwkZm_1sQP0JPutw'

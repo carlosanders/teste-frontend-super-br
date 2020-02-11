@@ -4,9 +4,10 @@
     <div fxFlex="1 0 auto" fxLayout="column">
 
         <mat-form-field *showIfRole="'ROLE_USER'" fxFlex="100">
-            <mat-label>Processo</mat-label>
+            <mat-label>Número do Processo</mat-label>
             <input matInput #NUP
                    name="NUP"
+                   [required]="this.mode === 'search'"
                    formControlName="NUP"
                    maxlength="255">
             <mat-hint align="end">{{NUP.value.length}} / 255</mat-hint>
@@ -224,7 +225,13 @@
             </mat-datetimepicker>
         </mat-form-field>
 
-        <button mat-raised-button color="warn" class="mr-sm-12" (click)="limpar()">
+        <button mat-raised-button color="primary" class="mr-sm-12" (click)="buscar()"
+                [disabled]="!this.form.valid"
+                *ngIf="this.mode === 'search'">
+            Buscar
+        </button>
+
+        <button mat-raised-button color="warn" class="mr-sm-12" (click)="limpar()" *ngIf="this.mode === 'list'">
             Limpar
         </button>
 

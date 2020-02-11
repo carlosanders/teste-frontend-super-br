@@ -17,6 +17,7 @@ import {Pagination} from '@cdk/models/pagination';
 import {Colaborador} from '@cdk/models/colaborador.model';
 import {LoginService} from '../../../auth/login/login.service';
 import {filter, takeUntil} from 'rxjs/operators';
+import {Usuario} from "../../../../../@cdk/models/usuario.model";
 
 @Component({
     selector: 'visibilidade',
@@ -44,7 +45,7 @@ export class VisibilidadeComponent implements OnInit, OnDestroy {
 
     filter = {};
 
-    _profile: Colaborador;
+    _profile: Usuario;
 
     visibilidades$: Observable<Visibilidade[]>;
     visibilidade$: Observable<Visibilidade>;
@@ -87,7 +88,7 @@ export class VisibilidadeComponent implements OnInit, OnDestroy {
         this.setorPagination.filter = {parent: 'isNotNull'};
 
         this.usuarioPagination = new Pagination();
-        this.usuarioPagination.filter = {id: `neq:${this._profile.usuario.id}`};
+        this.usuarioPagination.filter = {id: `neq:${this._profile.id}`};
 
         this._store
             .pipe(select(getRouterState),

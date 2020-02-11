@@ -15,6 +15,9 @@ export class CdkProcessoMainSidebarComponent {
 
     gridFilter: any;
 
+    @Input()
+    mode = 'list';
+
     setGridFilter(gridFilter): void {
         this.gridFilter = gridFilter;
         this.selected.emit(this.gridFilter);

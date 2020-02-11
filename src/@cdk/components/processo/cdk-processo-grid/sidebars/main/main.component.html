@@ -15,7 +15,7 @@
 
     <div class="header" fxLayout="column">
         <div class="filters">
-            <cdk-processo-grid-filter (selected)="setGridFilter($event)"></cdk-processo-grid-filter>
+            <cdk-processo-grid-filter (selected)="setGridFilter($event)" [mode]="this.mode"></cdk-processo-grid-filter>
         </div>
     </div>
 

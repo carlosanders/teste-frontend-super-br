@@ -5,7 +5,8 @@
         <!-- SIDEBAR CONTENT -->
         <div class="content" fusePerfectScrollbar>
             <cdk-processo-main-sidebar (selected)="setGridFilter($event)"
-                                       [@animate]="{value:'*'}"></cdk-processo-main-sidebar>
+                                       [@animate]="{value:'*'}"
+                                       [mode]="this.mode"></cdk-processo-main-sidebar>
         </div>
         <!-- / SIDEBAR CONTENT -->
     </fuse-sidebar>

@@ -10,6 +10,7 @@ import {LoginService} from '../../auth/login/login.service';
 import {HistoricoService} from '@cdk/services/historico.service';
 import {Historico} from '@cdk/models/historico.model';
 import {TramitacaoService} from '@cdk/services/tramitacao.service';
+import {Usuario} from "../../../../@cdk/models/usuario.model";
 
 @Component({
     selector     : 'painel',
@@ -21,7 +22,7 @@ import {TramitacaoService} from '@cdk/services/tramitacao.service';
 export class PainelComponent implements OnInit
 {
 
-    _profile: any;
+    _profile: Usuario;
 
     tarefasCount: any = false;
     tarefasVencidasCount: any = false;
@@ -59,7 +60,7 @@ export class PainelComponent implements OnInit
     {
         if (!this._loginService.isGranted('ROLE_USER')) {
             this._tarefaService.count(
-                `{"usuarioResponsavel.id": "eq:${this._profile.usuario.id}", "dataHoraConclusaoPrazo": "isNull"}`)
+                `{"usuarioResponsavel.id": "eq:${this._profile.id}", "dataHoraConclusaoPrazo": "isNull"}`)
                 .pipe(
                     catchError(() => of([]))
                 ).subscribe(
@@ -67,7 +68,7 @@ export class PainelComponent implements OnInit
             );
 
             this._tarefaService.count(
-                `{"usuarioResponsavel.id": "eq:${this._profile.usuario.id}", "dataHoraConclusaoPrazo": "isNull", "dataHoraFinalPrazo": "lt:${moment().format('YYYY-MM-DDTHH:mm:ss')}"}`)
+                `{"usuarioResponsavel.id": "eq:${this._profile.id}", "dataHoraConclusaoPrazo": "isNull", "dataHoraFinalPrazo": "lt:${moment().format('YYYY-MM-DDTHH:mm:ss')}"}`)
                 .pipe(
                     catchError(() => of([]))
                 ).subscribe(
@@ -75,7 +76,7 @@ export class PainelComponent implements OnInit
             );
 
             this._documentoAvulsoService.count(
-                `{"usuarioResponsavel.id": "eq:${this._profile.usuario.id}", "dataHoraResposta": "isNull"}`)
+                `{"usuarioResponsavel.id": "eq:${this._profile.id}", "dataHoraResposta": "isNull"}`)
                 .pipe(
                     catchError(() => of([]))
                 ).subscribe(
@@ -83,7 +84,7 @@ export class PainelComponent implements OnInit
             );
 
             this._documentoAvulsoService.count(
-                `{"usuarioResponsavel.id": "eq:${this._profile.usuario.id}", "dataHoraResposta": "isNull", "dataHoraFinalPrazo": "lt:${moment().format('YYYY-MM-DDTHH:mm:ss')}"}`)
+                `{"usuarioResponsavel.id": "eq:${this._profile.id}", "dataHoraResposta": "isNull", "dataHoraFinalPrazo": "lt:${moment().format('YYYY-MM-DDTHH:mm:ss')}"}`)
                 .pipe(
                     catchError(() => of([]))
                 ).subscribe(
@@ -91,7 +92,7 @@ export class PainelComponent implements OnInit
             );
 
             this._tramitacaoService.count(
-                `{"setorDestino.id": "in:${this._profile.lotacoes.map(lotacao => lotacao.setor.id).join(',')}", "dataHoraRecebimento": "isNull"}`)
+                `{"setorDestino.id": "in:${this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.id).join(',')}", "dataHoraRecebimento": "isNull"}`)
                 .pipe(
                     catchError(() => of([]))
                 ).subscribe(
@@ -100,7 +101,7 @@ export class PainelComponent implements OnInit
 
             this.historicoIsLoding = true;
             this._historicoService.query(
-                `{"criadoPor.id": "eq:${this._profile.usuario.id}", "criadoEm": "gt:${moment().subtract(10, 'days').format('YYYY-MM-DDTHH:mm:ss')}"}`,
+                `{"criadoPor.id": "eq:${this._profile.id}", "criadoEm": "gt:${moment().subtract(10, 'days').format('YYYY-MM-DDTHH:mm:ss')}"}`,
                 5,
                 0,
                 '{}',

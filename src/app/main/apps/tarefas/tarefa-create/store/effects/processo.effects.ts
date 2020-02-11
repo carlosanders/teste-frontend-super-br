@@ -13,12 +13,13 @@ import {LoginService} from 'app/main/auth/login/login.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Processo} from '@cdk/models/processo.model';
 import {processo as processoSchema} from '@cdk/normalizr/processo.schema';
+import {Colaborador} from "../../../../../../../@cdk/models/colaborador.model";
 
 
 @Injectable()
 export class ProcessoEffect {
     routerState: any;
-    private _profile: any;
+    private _profile: Colaborador;
 
     constructor(
         private _actions: Actions,
@@ -34,7 +35,7 @@ export class ProcessoEffect {
                 }
             });
 
-        this._profile = _loginService.getUserProfile();
+        this._profile = _loginService.getUserProfile().colaborador;
     }
 
     /**

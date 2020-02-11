@@ -452,7 +452,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         this.especieTarefaListIsLoading = true;
 
         this._favoritoService.query(
-            `{"usuario.id": "eq:${this._profile.usuario.id}", "especieTarefa": "isNotNull"}`,
+            `{"usuario.id": "eq:${this._profile.id}", "especieTarefa": "isNotNull"}`,
             5,
             0,
             '{"prioritario": "DESC"}',
@@ -484,7 +484,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         this.setorResponsavelListIsLoading = true;
 
         this._favoritoService.query(
-            `{"usuario.id": "eq:${this._profile.usuario.id}", "setorResponsavel": "isNotNull"}`,
+            `{"usuario.id": "eq:${this._profile.id}", "setorResponsavel": "isNotNull"}`,
             5,
             0,
             '{"prioritario": "DESC"}',

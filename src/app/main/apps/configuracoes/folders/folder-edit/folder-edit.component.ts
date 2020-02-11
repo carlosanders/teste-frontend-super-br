@@ -48,7 +48,7 @@ export class FolderEditComponent implements OnInit, OnDestroy {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.folder$ = this._store.pipe(select(fromStore.getFolder));
-        this.usuario = this._loginService.getUserProfile().usuario;
+        this.usuario = this._loginService.getUserProfile();
 
         this.modalidadeFolderPagination = new Pagination();
     }
