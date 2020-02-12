@@ -224,7 +224,7 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
     pageSize = 5;
 
     @Input()
-    actions: string[] = ['edit', 'delete', 'select', 'view'];
+    actions: string[] = ['edit', 'delete', 'select'];
 
     @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
@@ -259,9 +259,6 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
 
     hasSelected = false;
     isIndeterminate = false;
-
-    @Input()
-    autoEmit: boolean = true;
 
     /**
      *
@@ -332,11 +329,14 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
     }
 
     loadPage(): void {
+        const filter = this.gridFilter.filters;
+        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : null;
         this.reload.emit({
-            gridFilter: this.gridFilter,
+            gridFilter: filter,
             limit: this.paginator.pageSize,
             offset: (this.paginator.pageSize * this.paginator.pageIndex),
-            sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {}
+            sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
+            context: contexto
         });
     }
 

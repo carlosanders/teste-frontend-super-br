@@ -33,6 +33,7 @@ export class ProcessosComponent implements OnInit {
     deletingIds$: Observable<any>;
     deletedIds$: Observable<any>;
     NUPHandle: any;
+    colunas: any[] = ['id', 'NUP', 'actions'];
 
     private _profile: any;
 
@@ -52,6 +53,10 @@ export class ProcessosComponent implements OnInit {
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
         this._profile = _loginService.getUserProfile();
+
+        if (_loginService.isGranted('ROLE_COLABORADOR')) {
+            this.colunas = ['select', 'id', 'NUP', 'setorAtual.nome', 'unidade', 'actions'];
+        }
     }
 
     ngOnInit(): void {
@@ -85,12 +90,16 @@ export class ProcessosComponent implements OnInit {
             sort: params.sort,
             limit: params.limit,
             offset: params.offset,
-            populate: this.pagination.populate
+            populate: this.pagination.populate,
+            context: {
+                ...params.context
+            }
         }));
     }
 
-    view(processoId: number): void {
-        this._router.navigate(['apps/processo/' + processoId + '/visualizar']);
+    view(emissao: {id: number, chave_acesso?: string}): void {
+        const chaveAcesso = emissao.chave_acesso ? '/' + emissao.chave_acesso : '';
+        this._router.navigate(['apps/processo/' + emissao.id + '/visualizar' + chaveAcesso]);
     }
 
     edit(processoId: number): void {
