@@ -1,0 +1,9 @@
+<cdk-modalidade-garantia-grid
+        [loading]="loading"
+        [modalidadegarantias]="modalidadegarantias"
+        [total]="total"
+        [actions]="['select', 'cancel']"
+        (selected)="select($event)"
+        (cancel)="doCancel()"
+        (reload)="reload($event)">
+</cdk-modalidade-garantia-grid>

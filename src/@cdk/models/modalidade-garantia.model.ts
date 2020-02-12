@@ -2,11 +2,8 @@ import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
 
 import { Usuario } from '@cdk/models/usuario.model';
-import {ModalidadeGarantia} from '@cdk/models/modalidade-garantia.model';
-import {Processo} from '@cdk/models/processo.model';
 
-
-export class Garantia {
+export class ModalidadeGarantia {
 
     @Exclude({ toPlainOnly: true })
     id?: number;
@@ -14,23 +11,14 @@ export class Garantia {
     @Exclude({ toPlainOnly: true })
     uuid?: string;
 
-    @Type(() => Processo)
-    @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    processo: Processo;
+    @Exclude({ toPlainOnly: true })
+    valor: string;
 
-    @Type(() => ModalidadeGarantia)
-    @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    modalidadeGarantia: ModalidadeGarantia;    
-
+    @Exclude({ toPlainOnly: true })
     descricao: string;
 
-    valor: number;   
-
-    @Transform(value => value ? value.format('YYYY-MM-DDTHH:mm:ss') : null, { toPlainOnly: true })
-    @Transform(value => value ? moment(value) : null, { toClassOnly: true })
-    dataValor: Date|moment.Moment;
-    
-    observacao?: string;    
+    @Exclude({ toPlainOnly: true })
+    ativo: boolean;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)
@@ -65,10 +53,9 @@ export class Garantia {
     constructor() {
         this.id = null;
         this.uuid = null;
-        this.garantiaAdministrativo = null;
-        this.principal = null;
-        this.processo = null;
-        this.origemDados = null;
+        this.valor = null;
+        this.descricao = null;
+        this.ativo = null;
         this.criadoPor = null;
         this.criadoEm = null;
         this.atualizadoPor = null;

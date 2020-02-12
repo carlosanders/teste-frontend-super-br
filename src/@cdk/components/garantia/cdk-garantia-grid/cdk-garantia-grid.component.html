@@ -1,17 +1,17 @@
 <div class="page-layout fullwidth left-sidebar inner-scroll" fxFlex="100">
 
     <!-- SIDEBAR -->
-    <fuse-sidebar class="sidebar" name="cdk-garantia-main-sidebar" position="left">
+    <fuse-sidebar class="sidebar" style="background-color:blue" name="cdk-garantia-main-sidebar" position="left">
         <!-- SIDEBAR CONTENT -->
         <div class="content" fusePerfectScrollbar>
-            <cdk-garantia-main-sidebar (selected)="setGridFilter($event)" [@animate]="{value:'*'}"></cdk-garantia-main-sidebar>
+            <cdk-garantia-main-sidebar  style="background-color:rgb(255, 0, 64)" (selected)="setGridFilter($event)" [@animate]="{value:'*'}"></cdk-garantia-main-sidebar>
         </div>
         <!-- / SIDEBAR CONTENT -->
     </fuse-sidebar>
     <!-- / SIDEBAR -->
 
     <!-- CONTENT -->
-    <div class="content responsive-grid" fxLayoutAlign="center start">
+    <div  style="background-color: yellow" class="content responsive-grid" fxLayoutAlign="center start">
 
         <div fxFlex="1 0 auto" fxLayout="column" fxLayoutAlign="center center">
 
@@ -58,7 +58,7 @@
                 <mat-spinner diameter="32"></mat-spinner>
             </div>
 
-            <table mat-table [dataSource]="dataSource" matSort [hidden]="loading">
+            <table  style="background-color: green" mat-table [dataSource]="dataSource" matSort [hidden]="loading">
 
                 <!-- Selection Column -->
                 <ng-container matColumnDef="select">
@@ -85,23 +85,6 @@
                         [ngClass]="{'deleted':deletedIds?.indexOf(garantia.id) > -1}"> {{garantia.id}} </td>
                 </ng-container>
 
-                <!-- Nome Column -->
-                <ng-container matColumnDef="garantiaAdministrativo.nome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Nome
-                    </th>
-                    <td mat-cell *matCellDef="let garantia" class='has_label_on_mobile' data-label='Nome: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(garantia.id) > -1}"> {{garantia.garantiaAdministrativo?.nome}} </td>
-                </ng-container>
-
-                <!-- Principal Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('principal') > -1" matColumnDef="principal">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Principal
-                    </th>
-                    <td mat-cell *matCellDef="let garantia" class='has_label_on_mobile' data-label='Principal: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(garantia.id) > -1}"> {{garantia.principal}} </td>
-                </ng-container>
 
                 <!-- Processo Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('processo.NUP') > -1" matColumnDef="processo.NUP">
@@ -112,14 +95,50 @@
                         [ngClass]="{'deleted':deletedIds?.indexOf(garantia.id) > -1}"> {{garantia.processo?.NUP}} </td>
                 </ng-container>
 
-                <!-- OrigemDados Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('origemDados.fonteDados') > -1" matColumnDef="origemDados.fonteDados">
+                <!-- Modalidade Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('modalidadeGarantia.valor') > -1" matColumnDef="modalidadeGarantia.valor">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Origem de Dados
+                        Modalidade
                     </th>
-                    <td mat-cell *matCellDef="let garantia" class='has_label_on_mobile' data-label='Origem de Dados: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(garantia.id) > -1}"> {{garantia.origemDados?.fonteDados}} </td>
+                    <td mat-cell *matCellDef="let garantia" class='has_label_on_mobile' data-label='Nome: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(garantia.id) > -1}"> {{garantia.modalidadeGarantia.valor}} </td>
+                </ng-container>   
+                
+                <!-- Descricao Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('descricao') > -1" matColumnDef="descricao">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Descrição
+                    </th>
+                    <td mat-cell *matCellDef="let garantia" class='has_label_on_mobile' data-label='Descrição: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(garantia.id) > -1}"> {{garantia.descricao}} </td>
+                </ng-container> 
+                
+                <!-- Valor Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('valor') > -1" matColumnDef="valor">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Valor
+                    </th>
+                    <td mat-cell *matCellDef="let garantia" class='has_label_on_mobile' data-label='Data Valor: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(garantia.id) > -1}"> {{garantia.valor}} </td>
+                </ng-container>                
+
+                <!-- Data Valor Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('dataValor') > -1" matColumnDef="dataValor">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Data Valor
+                    </th>
+                    <td mat-cell *matCellDef="let garantia" class='has_label_on_mobile' data-label='Data Valor: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(garantia.id) > -1}"> {{garantia.dataValor}} </td>
                 </ng-container>
+
+                <!-- Observacao Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('observacao') > -1" matColumnDef="observacao">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Observação
+                    </th>
+                    <td mat-cell *matCellDef="let garantia" class='has_label_on_mobile' data-label='Observação: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(garantia.id) > -1}"> {{garantia.observacao}} </td>
+                </ng-container>                 
 
                 <!-- CriadoPor Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('criadoPor.nome') > -1" matColumnDef="criadoPor.nome">
