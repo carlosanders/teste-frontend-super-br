@@ -68,14 +68,6 @@
                    formControlName="codigo">
         </mat-form-field>
 
-        <mat-form-field *showIfRole="'ROLE_USER'" fxFlex="100">
-            <mat-label>Chave Acesso</mat-label>
-            <input matInput #chaveAcesso
-                   [required]="this.mode==='search'"
-                   name="chaveAcesso"
-                   formControlName="chaveAcesso">
-        </mat-form-field>
-
         <mat-form-field *showIfRole="'ROLE_COLABORADOR'" fxFlex="100">
             <mat-label>Chave Inibidor</mat-label>
             <input matInput #chaveInibidor

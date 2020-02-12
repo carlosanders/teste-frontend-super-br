@@ -9,12 +9,13 @@ import {merge, of} from 'rxjs';
 
 import {fuseAnimations} from '@fuse/animations';
 import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
-import {MatPaginator, MatSort} from '@angular/material';
-import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
+import {MatDialog, MatPaginator, MatSort} from '@angular/material';
+import {debounceTime, distinctUntilChanged, filter, switchMap, tap} from 'rxjs/operators';
 import {ComponenteDigitalDataSource} from '@cdk/data-sources/componente-digital-data-source';
 import {ComponenteDigital} from '@cdk/models/componente-digital.model';
 import {environment} from 'environments/environment';
 import {FormControl} from '@angular/forms';
+import { CdkChaveAcessoPluginComponent } from '@cdk/components/chave-acesso/cdk-chave-acesso-plugins/cdk-chave-acesso-plugin.component';
 
 @Component({
     selector: 'cdk-componente-digital-grid',
@@ -233,7 +234,7 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
     reload = new EventEmitter<any>();
 
     @Output()
-    view = new EventEmitter<ComponenteDigital>();
+    view = new EventEmitter<any>();
 
     @Output()
     edit = new EventEmitter<ComponenteDigital>();
@@ -264,7 +265,8 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _fuseSidebarService: FuseSidebarService
+        private _fuseSidebarService: FuseSidebarService,
+        private dialog: MatDialog
     ) {
         this.gridFilter = {};
         this.componentesDigitais = [];
@@ -336,11 +338,23 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
         });
     }
 
-    viewComponenteDigital(componenteDigital): void {
-        this.view.emit(componenteDigital);
+    viewComponenteDigital(componenteDigital: ComponenteDigital): void {
+        if (componenteDigital.processoOrigem.visibilidadeExterna) {
+            this.view.emit({id: componenteDigital.id});
+            return;
+        }
+
+        const dialogRef = this.dialog.open(CdkChaveAcessoPluginComponent, {
+            width: '600px'
+        });
+
+        dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe(result => {
+            this.view.emit({id: componenteDigital.id, chave_acesso: result});
+            return;
+        });
     }
 
-    editComponenteDigital(componenteDigital): void {
+    editComponenteDigital(componenteDigital: ComponenteDigital): void {
         this.edit.emit(componenteDigital);
     }
 

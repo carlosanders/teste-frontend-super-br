@@ -71,7 +71,6 @@ export class CdkComponenteDigitalGridFilterComponent implements OnInit {
             atualizadoEm: [null],
             apagadoPor: [null],
             apagadoEm: [null],
-            chaveAcesso: [null],
             codigo: [null]
         });
 
@@ -130,16 +129,6 @@ export class CdkComponenteDigitalGridFilterComponent implements OnInit {
                 this.filters = {
                     ...this.filters,
                     chaveInibidor: `like:${value}%`
-                };
-                this.emite();
-            }
-        });
-
-        this.form.get('chaveAcesso').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    'processoOrigem.chaveAcesso': `eq:${value}`
                 };
                 this.emite();
             }

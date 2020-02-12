@@ -19,6 +19,7 @@ import {CdkComponenteDigitalGridComponent} from './cdk-componente-digital-grid.c
 import {CdkComponenteDigitalGridFilterModule} from './cdk-componente-digital-grid-filter/cdk-componente-digital-grid-filter.module';
 import {PipesModule} from '@cdk/pipes/pipes.module';
 import {CdkComponenteDigitalMainSidebarComponent} from './sidebars/main/main.component';
+import {CdkChaveAcessoPluginModule} from '../../chave-acesso/cdk-chave-acesso-plugins/cdk-chave-acesso-plugin.module';
 
 @NgModule({
     declarations: [
@@ -44,6 +45,8 @@ import {CdkComponenteDigitalMainSidebarComponent} from './sidebars/main/main.com
 
         FuseSharedModule,
         FuseSidebarModule,
+
+        CdkChaveAcessoPluginModule
     ],
     providers: [],
     exports: [

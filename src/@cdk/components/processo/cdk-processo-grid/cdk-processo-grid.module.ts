@@ -24,6 +24,7 @@ import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepic
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 import {CdkProcessoMainSidebarComponent} from './sidebars/main/main.component';
 import {CommonModule} from '@angular/common';
+import {CdkChaveAcessoPluginModule} from '../../chave-acesso/cdk-chave-acesso-plugins/cdk-chave-acesso-plugin.module';
 
 @NgModule({
     declarations: [
@@ -52,6 +53,7 @@ import {CommonModule} from '@angular/common';
 
         CdkProcessoAutocompleteModule,
         CdkProcessoGridFilterModule,
+        CdkChaveAcessoPluginModule,
 
         CommonModule,
     ],
