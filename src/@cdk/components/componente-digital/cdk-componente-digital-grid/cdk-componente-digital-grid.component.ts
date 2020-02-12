@@ -10,7 +10,7 @@ import {merge, of} from 'rxjs';
 import {fuseAnimations} from '@fuse/animations';
 import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 import {MatDialog, MatPaginator, MatSort} from '@angular/material';
-import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, filter, switchMap, tap} from 'rxjs/operators';
 import {ComponenteDigitalDataSource} from '@cdk/data-sources/componente-digital-data-source';
 import {ComponenteDigital} from '@cdk/models/componente-digital.model';
 import {environment} from 'environments/environment';
@@ -234,7 +234,7 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
     reload = new EventEmitter<any>();
 
     @Output()
-    view = new EventEmitter<ComponenteDigital>();
+    view = new EventEmitter<any>();
 
     @Output()
     edit = new EventEmitter<ComponenteDigital>();
@@ -338,16 +338,23 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
         });
     }
 
-    viewComponenteDigital(componenteDigital): void {
+    viewComponenteDigital(componenteDigital: ComponenteDigital): void {
+        if (componenteDigital.processoOrigem.visibilidadeExterna) {
+            this.view.emit({id: componenteDigital.id});
+            return;
+        }
+
         const dialogRef = this.dialog.open(CdkChaveAcessoPluginComponent, {
-            width: '600px',
-            data: {}
+            width: '600px'
         });
 
-        this.view.emit(componenteDigital);
+        dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe(result => {
+            this.view.emit({id: componenteDigital.id, chave_acesso: result});
+            return;
+        });
     }
 
-    editComponenteDigital(componenteDigital): void {
+    editComponenteDigital(componenteDigital: ComponenteDigital): void {
         this.edit.emit(componenteDigital);
     }
 

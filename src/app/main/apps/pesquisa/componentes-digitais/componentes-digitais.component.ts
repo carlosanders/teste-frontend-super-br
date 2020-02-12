@@ -73,8 +73,8 @@ export class ComponentesDigitaisComponent implements OnInit {
         }));
     }
 
-    view(componenteDigital: ComponenteDigital): void {
-        this._router.navigate(['apps/documento/componente-digital/' + componenteDigital.id + '/visualizar']);
+    view(emissor: {id: number, chaveAcesso: string}): void {
+        this._router.navigate(['apps/documento/componente-digital/' + emissor.id + '/visualizar']);
     }
 
     edit(componenteDigital: ComponenteDigital): void {

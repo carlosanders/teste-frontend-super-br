@@ -15,11 +15,12 @@ import {merge, of} from 'rxjs';
 
 import {fuseAnimations} from '@fuse/animations';
 import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
-import {MatPaginator, MatSort} from '@angular/material';
-import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
+import {MatDialog, MatPaginator, MatSort} from '@angular/material';
+import {debounceTime, distinctUntilChanged, filter, switchMap, tap} from 'rxjs/operators';
 import {Processo} from '@cdk/models/processo.model';
 import {ProcessoDataSource} from '@cdk/data-sources/processo-data-source';
 import {FormControl} from '@angular/forms';
+import {CdkChaveAcessoPluginComponent} from '../../chave-acesso/cdk-chave-acesso-plugins/cdk-chave-acesso-plugin.component';
 
 @Component({
     selector: 'cdk-processo-grid',
@@ -238,7 +239,7 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
     cancel = new EventEmitter<any>();
 
     @Output()
-    view = new EventEmitter<number>();
+    view = new EventEmitter<any>();
 
     @Output()
     edit = new EventEmitter<number>();
@@ -263,12 +264,15 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
     autoEmit: boolean = true;
 
     /**
+     *
      * @param _changeDetectorRef
      * @param _fuseSidebarService
+     * @param dialog
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _fuseSidebarService: FuseSidebarService
+        private _fuseSidebarService: FuseSidebarService,
+        private dialog: MatDialog
     ) {
         this.gridFilter = {};
         this.processos = [];
@@ -336,8 +340,20 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
         });
     }
 
-    viewProcesso(processoId): void {
-        this.view.emit(processoId);
+    viewProcesso(processo: Processo): void {
+        if (processo.visibilidadeExterna) {
+            this.view.emit({id: processo.id});
+            return;
+        }
+
+        const dialogRef = this.dialog.open(CdkChaveAcessoPluginComponent, {
+            width: '600px'
+        });
+
+        dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe(result => {
+            this.view.emit({id: processo.id, chave_acesso: result});
+            return;
+        });
     }
 
     editProcesso(processoId): void {

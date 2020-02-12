@@ -46,7 +46,7 @@ export class CdkChaveAcessoPluginComponent implements OnInit {
     checkChaveAcesso(): void {
         const value = this.form.get('chave_acesso').value;
         if (!value) {
-            this.form.get('cahve_acesso').setValue(null);
+            this.form.get('chave_acesso').setValue(null);
         }
     }
 }
