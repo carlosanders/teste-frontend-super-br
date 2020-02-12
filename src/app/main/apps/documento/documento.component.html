@@ -2,7 +2,7 @@
 
     <div class="documento-header p-8" fxLayout="row" fxLayoutAlign="end center">
 
-        <mat-slide-toggle
+        <mat-slide-toggle *ngIf="this.documento.processoOrigem"
                           aria-label="modo processo"
                           matTooltip="Modo Processo"
                           (click)="visualizarProcesso(this.modoProcesso)"
@@ -10,7 +10,8 @@
             Visualizar Processo
         </mat-slide-toggle>
 
-        <button mat-raised-button color="accent" class="mr-sm-12"
+        <button *ngIf="this.documento.processoOrigem"
+                mat-raised-button color="accent" class="mr-sm-12"
                 aria-label="visualizar processo"
                 matTooltip="Visualizar Processo em Nova Aba"
                 (click)="visualizarProcessoNovaAba()">
