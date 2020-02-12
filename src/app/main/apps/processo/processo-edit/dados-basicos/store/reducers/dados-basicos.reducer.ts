@@ -13,25 +13,11 @@ export const DadosBasicosInitialState: DadosBasicosState = {
     errors: false,
     loaded: false,
     loading: false,
-    processoId: null
+    processoId: null,
 };
 
 export function DadosBasicosReducer(state = DadosBasicosInitialState, action: DadosBasicosActions.DadosBasicosActionsAll): DadosBasicosState {
     switch (action.type) {
-
-
-        case DadosBasicosActions.UNLOAD_PROCESSO: {
-            return {
-                processoId: null,
-                loaded: {
-                    id: 'processoHandle',
-                    value: 'criar'
-                },
-                loading: true,
-                saving: false,
-                errors: false
-            };
-        }
 
         case DadosBasicosActions.GET_PROCESSO: {
             return {
@@ -39,7 +25,7 @@ export function DadosBasicosReducer(state = DadosBasicosInitialState, action: Da
                 loaded: false,
                 loading: true,
                 saving: false,
-                errors: false
+                errors: false,
             };
         }
 
@@ -49,20 +35,21 @@ export function DadosBasicosReducer(state = DadosBasicosInitialState, action: Da
                 loading: false,
                 loaded: false,
                 saving: false,
-                errors: false
+                errors: false,
             };
         }
 
         case DadosBasicosActions.CREATE_PROCESSO: {
             return {
+                processoId: null,                
                 loaded: {
                     id: 'processoHandle',
-                    value: 'criar'
+                    value: 'criar',
+                    acessoNegado: false
                 },
-                processoId: null,
                 loading: false,
                 saving: false,
-                errors: false
+                errors: false,   
             };
         }
 
@@ -89,6 +76,22 @@ export function DadosBasicosReducer(state = DadosBasicosInitialState, action: Da
             };
         }
 
+        case DadosBasicosActions.PUT_PROCESSO_SUCCESS: {
+            return {
+                ...state,
+                saving: false,
+                errors: false
+            };
+        }
+
+        case DadosBasicosActions.POST_PROCESSO_SUCCESS: {
+            return {
+                ...state,
+                saving: false,
+                errors: false
+            };
+        }
+
         case DadosBasicosActions.SAVE_PROCESSO_FAILED: {
             return {
                 ...state,
@@ -96,6 +99,23 @@ export function DadosBasicosReducer(state = DadosBasicosInitialState, action: Da
                 errors: action.payload
             };
         }
+
+        case DadosBasicosActions.POST_PROCESSO_FAILED: {
+            return {
+                ...state,
+                saving: false,
+                errors: action.payload
+            };
+        }
+
+        case DadosBasicosActions.PUT_PROCESSO_FAILED: {
+            return {
+                ...state,
+                saving: false,
+                errors: action.payload
+            };
+        }
+
 
         default:
             return state;

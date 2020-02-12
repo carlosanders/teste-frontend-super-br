@@ -6,6 +6,9 @@ import {Processo} from '@cdk/models/processo.model';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from '../../store';
 import {takeUntil} from 'rxjs/operators';
+import { getRouterState } from 'app/store/reducers';
+import {Router} from '@angular/router';
+
 
 @Component({
     selector: 'processo-main-sidebar',
@@ -20,15 +23,21 @@ export class ProcessoMainSidebarComponent implements OnInit, OnDestroy {
     private _unsubscribeAll: Subject<any> = new Subject();
 
     links: any;
+    routerState: any;
 
     processo$: Observable<Processo>;
     processo: Processo;
 
     /**
+     * @param _router
+     */
+
+    /**
      * Constructor
      */
     constructor(
-        private _store: Store<fromStore.ProcessoAppState>
+        private _store: Store<fromStore.ProcessoAppState>,
+        private _router: Router,
     ) {
         this.processo$ = this._store.pipe(select(fromStore.getProcesso));
 
@@ -36,7 +45,7 @@ export class ProcessoMainSidebarComponent implements OnInit, OnDestroy {
             {
                 nome: 'Editar',
                 icon: 'edit',
-                link: 'editar'
+                link: 'editar',
             },
             {
                 nome: 'Visualizar',
@@ -64,6 +73,16 @@ export class ProcessoMainSidebarComponent implements OnInit, OnDestroy {
         this.processo$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(processo => this.processo = processo);
+        
+        this._store
+            .pipe(
+                select(getRouterState)
+            ).subscribe(routerState => {
+            if (routerState) {
+                this.routerState = routerState.state;
+            }
+        });
+
     }
 
     /**
@@ -74,4 +93,9 @@ export class ProcessoMainSidebarComponent implements OnInit, OnDestroy {
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
     }
+
+    create(): void {
+        this._router.navigate([this.routerState.url.replace('processo-empty', 'dados-basicos')]).then();        
+    }
+
 }

@@ -21,6 +21,7 @@ import {Pessoa} from '@cdk/models/pessoa.model';
 import { nullSafeIsEquivalent } from '@angular/compiler/src/output/output_ast';
 import { ITS_JUST_ANGULAR } from '@angular/core/src/r3_symbols';
 import { isUndefined } from 'util';
+import { appendFile } from 'fs';
 
 @Component({
     selector: 'cdk-processo-form',
@@ -74,13 +75,13 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     save = new EventEmitter<Processo>();
 
     @Output()
+    put = new EventEmitter<Processo>();
+
+    @Output()
+    post = new EventEmitter<Processo>();
+
+    @Output()
     gerirProcedencia = new EventEmitter();
-
-    @Output()
-    navegarAproveitarDados = new EventEmitter();
-
-    @Output()
-    navegarDadosBasicos = new EventEmitter();
 
     @Output()
     editProcedencia = new EventEmitter<number>();
@@ -99,6 +100,8 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     activeCard = 'form';
 
     temOrigem: boolean;
+    readonlyProcessoOrigem: boolean;
+    readonlyNUP: boolean;
     textBotao: string;
     /**
      * Constructor
@@ -107,10 +110,10 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: FormBuilder
     ) {
-
+ 
         this.form = this._formBuilder.group({
             id: [null],
-            nupOrigem: [null],
+            processo_rg: [null],
             processoOrigem: [null],
             NUP: [null, [Validators.required, Validators.maxLength(21)]],
             novo: [null, [Validators.required]],
@@ -137,8 +140,13 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
         this.modalidadeFasePagination = new Pagination();
         this.setorAtualPagination = new Pagination();
         this.processoPagination = new Pagination();
+        this.processoPagination.populate = ['especieProcesso', 'modalidadeMeio', 'classificacao', 'setorAtual'];
+
         this.temOrigem = false;
+        this.readonlyProcessoOrigem = false;
+        this.readonlyNUP = false;
         this.textBotao = '';
+
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -146,6 +154,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
  
     ngOnInit(): void {
+
         if (!this.processo.id) {
             this.form.get('dataHoraAbertura').setValue(null);
             this.form.get('dataHoraAbertura').disable();
@@ -155,7 +164,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
             this.form.get('procedencia').setValue(null);
             this.form.get('procedencia').disable();
-            this.textBotao = 'GRAVAR PROCESSO';
+            this.textBotao = 'SALVAR';
             this.form.get('novo').valueChanges.subscribe(value => {
                 if (value === true) {
                     this.form.get('dataHoraAbertura').setValue(null);
@@ -181,15 +190,15 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             });
         } else {
             this.form.get('dataHoraAbertura').disable();
-            this.form.get('NUP').disable();
-            this.textBotao = 'ATUALIZAR PROCESSO';
+            this.readonlyNUP = true;
+            this.textBotao = 'SALVAR';
+            
             if (!isUndefined(this.processo.processoOrigem)){
                 this.temOrigem = true;
-                this.form.get('nupOrigem').setValue(this.processo.processoOrigem.NUP);                            
-                this.form.get('nupOrigem').disable();                            
+                this.readonlyProcessoOrigem = true;
             }else{
-                this.form.get('nupOrigem').setValue(null);            
-                this.form.get('nupOrigem').disable();            
+                this.form.get('processoOrigem').setValue(null);            
+                this.form.get('processoOrigem').disable();            
             }
 
         }
@@ -202,6 +211,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
      * On change
      */
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
+
         if (changes['processo'] && this.processo && (!this.processo.id || (this.processo.id !== this.form.get('id').value))) {
             this.form.patchValue({...this.processo});
         }
@@ -237,15 +247,28 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
+
+
     }
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
-    submit(): void {
-
+/*    submit(): void {
         if (this.form.valid) {
             this.save.emit(this.form.value);
+        }
+    }
+*/
+    doPost(): void {
+        if (this.form.valid) {
+            this.post.emit(this.form.value);
+        }
+    }
+
+    doPut(): void {
+        if (this.form.valid) {
+            this.put.emit(this.form.value);
         }
     }
 
@@ -258,15 +281,6 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
     doGerirProcedencia(): void {
         this.gerirProcedencia.emit();
-    }
-
-    doNavegarAproveitarDados(): void {
-        this.navegarAproveitarDados.emit();
-    }
-
-    doDadosBasicos(): void {
-        //alert('aqui'); 
-        this.navegarDadosBasicos.emit();
     }
 
     doEditProcedencia(): void {
@@ -374,11 +388,39 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
         this.activeCard = 'logentry-gridsearch';
     }
-
+ 
     checkProcesso(): void {
+        
         const value = this.form.get('processoOrigem').value;
+
         if (!value || typeof value !== 'object') {
             this.form.get('processoOrigem').setValue(null);
+        }else{
+            this.form.get('especieProcesso').setValue(value.especieProcesso);
+            this.form.get('modalidadeMeio').setValue(value.modalidadeMeio);
+            this.form.get('classificacao').setValue(value.classificacao);
+            this.form.get('titulo').setValue(value.titulo);
+            this.form.get('descricao').setValue(value.descricao);
+            this.form.get('setorAtual').setValue(value.setorAtual);
         }
     }
+
+    showProcessoGrid(): void {
+        this.activeCard = 'processo-gridsearch';
+    }
+
+    selectProcesso(processo: Processo): void {
+        if (processo) {
+            this.form.get('processoOrigem').setValue(processo);
+            this.checkProcesso();
+        }
+        this.activeCard = 'form';
+    }
+
+/*    onClick(): void{
+        this.form.get('processoOrigem').setValue(null);        
+        this.form.get('processoOrigem').disable();        
+        this.clicked.emit(this.form.value);
+    }
+*/
 }

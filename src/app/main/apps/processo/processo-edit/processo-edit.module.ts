@@ -21,14 +21,13 @@ const routes: Routes = [
         component: ProcessoEditComponent,
         children: [
             {
+                path: 'processo-empty',
+                loadChildren: () => import('./processo-empty/processo-empty.module').then(m => m.ProcessoEmptyModule),
+            },
+            {
                 path: 'dados-basicos',
                 loadChildren: () => import('./dados-basicos/dados-basicos.module').then(m => m.DadosBasicosModule)
             },
-            {
-                path       : 'aproveitar-dados',
-                loadChildren: () => import('./aproveitar-dados/aproveitar-dados.module').then(m => m.AproveitarDadosModule)
-            },
-
             {
                 path: 'assuntos',
                 loadChildren: () => import('./assuntos/assuntos.module').then(m => m.AssuntosModule)

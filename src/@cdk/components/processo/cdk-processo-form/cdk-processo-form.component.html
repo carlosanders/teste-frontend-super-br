@@ -3,28 +3,51 @@
       fxLayoutAlign="start"
       name="form" [formGroup]="form">
 
-    <div fxFlex fxLayout="column">
+    <div fxFlex="0 1 auto" fxLayout="column">
         
-        <div fxLayout="left" class="mb-40">
-            <button mat-raised-button color="accent" *ngIf="!form.value.id" 
-                    (click)="doNavegarAproveitarDados()">
-                Aproveitar Dados
-            </button>
+        <div fxLayout="row" class="start" fxFlex *ngIf="!form.value.id"
+        fxLayoutAlign="start center">
+            <label id="processo-rg"></label>
+            <mat-radio-group class="poderes-rg" 
+                             formControlName="processo_rg" 
+                             aria-labelledby="processo-rg" 
+                             fxLayoutAlign="row">
+                <mat-radio-button [value]="'novo'">
+                    NOVO
+                </mat-radio-button>
+                <mat-radio-button [value]="'aproveitar_dados'">
+                    APROVEITAR DADOS
+                </mat-radio-button>
+            </mat-radio-group>
         </div>
-        
-
+      
         <mat-checkbox formControlName="novo" *ngIf="!form.value.id" class="mb-20" fxFlex>
             Gerar NUP
         </mat-checkbox>
 
+        <mat-form-field *ngIf=" temOrigem || form.value.processo_rg === 'aproveitar_dados'" FxFlex>
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Processo Origem"
+                       formControlName="processoOrigem"
+                       [readonly]="readonlyProcessoOrigem"
+                       [matAutocomplete]="processoOrigem.autocomplete" required
+                       (blur)="checkProcesso()">
+            </div>
 
-        <mat-form-field *ngIf="this.temOrigem" fxFlex>
-            <mat-label>NUP Origem</mat-label>
-            <input matInput #nupOrigem
-                   name="nupOrigem"
-                   formControlName="nupOrigem">
+            <cdk-processo-autocomplete
+                #processoOrigem="processoAutocomplete"
+                [control]="form.get('processoOrigem')"
+                [pagination]="processoPagination">
+            </cdk-processo-autocomplete>
+
+            <button *ngIf="form.get('processoOrigem').enabled && !readonlyProcessoOrigem" matSuffix mat-button mat-icon-button
+                    (click)="showProcessoGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('processoOrigem').hasError('formError')">
+                {{form.get('processoOrigem').errors.formError}}
+            </mat-error>
         </mat-form-field>
-
 
         <mat-form-field *ngIf="form.value.id || !form.value.novo" fxFlex>
             <mat-label>NUP</mat-label>
@@ -32,6 +55,7 @@
                    name="NUP"
                    formControlName="NUP"
                    maxlength="21"
+                   [readonly]="readonlyNUP"
                    required>
             <mat-hint align="end">{{NUP.value.length}} / 21</mat-hint>
             <mat-error>Campo obrigatório!</mat-error>
@@ -250,18 +274,26 @@
 
     <div fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
     fxLayoutAlign="center center">
-            <button *ngIf="!saving" 
+<!--            <button *ngIf="!saving" 
                     class="mr-sm-12"
                     mat-raised-button color="accent" 
                     [disabled]="form.invalid" (click)="submit()">
                     {{this.textBotao}}
             </button>
-
-            <button mat-raised-button color="accent" class="mr-sm-12" *ngIf="form.value.id && !saving"
-                    (click)="doDadosBasicos()">
-                INSERIR NOVO PROCESSO
+-->
+            <button *ngIf="!saving && !form.value.id" 
+                    class="mr-sm-12"
+                    mat-raised-button color="accent" 
+                    [disabled]="form.invalid" (click)="doPost()">
+                    {{this.textBotao}}
             </button>
 
+            <button *ngIf="!saving && form.value.id" 
+                    class="mr-sm-12"
+                    mat-raised-button color="accent" 
+                    [disabled]="form.invalid" (click)="doPut()">
+                    {{this.textBotao}}
+            </button>
     </div>
 
     <div *ngIf="saving" fxLayout="column"  fxFlex
@@ -269,12 +301,15 @@
         <mat-spinner color="accent" diameter="24"></mat-spinner>
     </div>
 
-
-    <div *ngIf="saving" fxLayout="column"  fxFlex
-         fxLayoutAlign="start center">
-        <mat-spinner color="accent" diameter="24"></mat-spinner>
-    </div>
 </form>
+
+<cdk-processo-gridsearch
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'processo-gridsearch'"
+    [pagination]="processoPagination"
+    (selected)="selectProcesso($event)"
+    (cancel)="cancel()">
+</cdk-processo-gridsearch>
 
 <cdk-especie-processo-gridsearch
         *ngIf="activeCard === 'especie-processo-gridsearch'"

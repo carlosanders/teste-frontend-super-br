@@ -11,12 +11,23 @@
 <!-- / SIDEBAR HEADER -->
 
 <!-- SIDEBAR CONTENT -->
+
+<div class="px-24 pt-32 pb-12">
+    <button mat-raised-button *ngIf="!processo"
+            class="mat-accent compose-dialog-button w-100-p"
+            (click)="create()"
+            aria-label="Criar">
+        {{ 'PROCESSO.COMPOSE' | translate }}
+    </button>
+</div>
+
 <div class="content mt-16" fusePerfectScrollbar>
 
     <div class="nav material2">
 
         <div class="nav-item" *ngFor="let link of links">
             <a *ngIf="!link.processo || (processo$ | async)" class="nav-link" matRipple [routerLink]="link.link"
+            
                [routerLinkActive]="['active', 'accent']">
                 <mat-icon class="nav-link-icon">{{ link.icon }}</mat-icon>
                 <span>{{link.nome | titlecase}}</span>

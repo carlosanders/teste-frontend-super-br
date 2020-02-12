@@ -8,7 +8,8 @@ import {
     MatProgressSpinnerModule,
     MatAutocompleteModule,
     MatDatepickerModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatRadioModule
 } from '@angular/material';
 
 import {FuseSharedModule} from '@fuse/shared.module';
@@ -36,7 +37,6 @@ import {CdkProcessoGridsearchModule} from '../cdk-processo-autocomplete/cdk-proc
         CdkProcessoFormComponent,
     ],
     imports: [
-
         MatAutocompleteModule,
         MatButtonModule,
         MatFormFieldModule,
@@ -49,6 +49,7 @@ import {CdkProcessoGridsearchModule} from '../cdk-processo-autocomplete/cdk-proc
         MatNativeDatetimeModule,
         MatMomentDatetimeModule,
         MatTooltipModule,
+        MatRadioModule,
 
         NgxUpperCaseDirectiveModule,
 

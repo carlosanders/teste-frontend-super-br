@@ -39,16 +39,11 @@ const routes: Routes = [
             },
             {
                 path       : 'acesso-negado',
-                loadChildren: () => import('./processo-empty/processo-empty.module').then(m => m.ProcessoEmptyModule)
+                loadChildren: () => import('./processo-acesso-negado/processo-acesso-negado.module').then(m => m.ProcessoAcessoNegadoModule)
             },
             {
                 path       : 'download',
                 loadChildren: () => import('./processo-download/processo-download.module').then(m => m.ProcessoDownloadModule),
-                canActivate: [fromGuards.ResolveGuard]
-            },
-            {
-                path       : 'aproveitar-dados',
-                loadChildren: () => import('./processo-edit/aproveitar-dados/aproveitar-dados.module').then(m => m.AproveitarDadosModule),
                 canActivate: [fromGuards.ResolveGuard]
             },
             {
