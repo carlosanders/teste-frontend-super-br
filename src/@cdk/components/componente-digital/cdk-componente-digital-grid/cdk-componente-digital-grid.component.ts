@@ -9,12 +9,13 @@ import {merge, of} from 'rxjs';
 
 import {fuseAnimations} from '@fuse/animations';
 import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
-import {MatPaginator, MatSort} from '@angular/material';
+import {MatDialog, MatPaginator, MatSort} from '@angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 import {ComponenteDigitalDataSource} from '@cdk/data-sources/componente-digital-data-source';
 import {ComponenteDigital} from '@cdk/models/componente-digital.model';
 import {environment} from 'environments/environment';
 import {FormControl} from '@angular/forms';
+import { CdkChaveAcessoPluginComponent } from '@cdk/components/chave-acesso/cdk-chave-acesso-plugins/cdk-chave-acesso-plugin.component';
 
 @Component({
     selector: 'cdk-componente-digital-grid',
@@ -264,7 +265,8 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _fuseSidebarService: FuseSidebarService
+        private _fuseSidebarService: FuseSidebarService,
+        private dialog: MatDialog
     ) {
         this.gridFilter = {};
         this.componentesDigitais = [];
@@ -337,6 +339,11 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
     }
 
     viewComponenteDigital(componenteDigital): void {
+        const dialogRef = this.dialog.open(CdkChaveAcessoPluginComponent, {
+            width: '600px',
+            data: {}
+        });
+
         this.view.emit(componenteDigital);
     }
 
