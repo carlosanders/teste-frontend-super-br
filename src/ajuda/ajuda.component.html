@@ -48,6 +48,36 @@
                 matTooltip="Voltar">
             <mat-icon>arrow_back</mat-icon>
         </button>
+            <div *ngIf="titulo === 'Criar tarefas'">
+                <ajuda-tarefa-create></ajuda-tarefa-create>
+            </div>
+            <div *ngIf="titulo === 'Controle de Acesso'">
+                <ajuda-visibilidade></ajuda-visibilidade>
+            </div>
+            <div *ngIf="titulo === 'Etiquetando tarefas em bloco'">
+                <ajuda-vinculacao-etiqueta-create-bloco></ajuda-vinculacao-etiqueta-create-bloco>
+            </div>
+            <div *ngIf="titulo === 'Upload de minutas em bloco'">
+                <ajuda-upload-bloco></ajuda-upload-bloco>
+            </div>
+            <div *ngIf="titulo === 'Editando tarefas em bloco'">
+                <ajuda-tarefa-empty></ajuda-tarefa-empty>
+            </div>
+            <div *ngIf="titulo === 'Lançando uma atividade'">
+                <ajuda-atividade-create></ajuda-atividade-create>
+            </div>
+            <div *ngIf="titulo === 'Criar compartilhamento de tarefas'">
+                <ajuda-compartilhamento-create></ajuda-compartilhamento-create>
+            </div>
+            <div *ngIf="titulo === 'Criação de minutas em bloco de tarefas'">
+                <ajuda-modelo-bloco></ajuda-modelo-bloco>
+            </div>
+            <div *ngIf="titulo === 'Criando ofícios em bloco'">
+                <ajuda-documento-avulso-create-bloco></ajuda-documento-avulso-create-bloco>
+            </div>
+            <div *ngIf="titulo === 'Compartilhando tarefas em bloco'">
+                <ajuda-compartilhamento-create-bloco></ajuda-compartilhamento-create-bloco>
+            </div>
     </div>
 
     <div #container></div>

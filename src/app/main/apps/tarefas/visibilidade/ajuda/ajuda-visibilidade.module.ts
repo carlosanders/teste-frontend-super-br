@@ -1,20 +1,20 @@
 import {NgModule} from '@angular/core';
 
-import {AjudaTarefaCreateComponent} from './ajuda-tarefa-create.component';
+import {AjudaVisibilidadeComponent} from './ajuda-visibilidade.component';
 import {FuseSharedModule} from '../../../../../../@fuse/shared.module';
 
 @NgModule({
     declarations: [
-        AjudaTarefaCreateComponent
+        AjudaVisibilidadeComponent
     ],
     imports: [
         FuseSharedModule
     ],
     providers: [
     ],
-    exports: [
-        AjudaTarefaCreateComponent
+    exports:[
+        AjudaVisibilidadeComponent
     ]
 })
-export class AjudaTarefaCreateModule {
+export class AjudaVisibilidadeModule {
 }

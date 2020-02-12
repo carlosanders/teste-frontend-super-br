@@ -22,6 +22,7 @@ export class AjudaComponent implements OnInit {
     container: ElementRef;
 
     card = 'form';
+    titulo = '';
 
     isSubmited = false;
 
@@ -50,13 +51,16 @@ export class AjudaComponent implements OnInit {
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
     pesquisar(): void {
+        console.log("CHAMADO AO ENTRAR NA PAGINA DE TAREFA");
         this.back();
         this.isSubmited = true;
+        console.log(this.form.value);
         this.resultado = FuseUtils.filterArrayByString(this.topicos, this.form.get('pesquisa').value);
     }
 
     carregar(topico: Topico): void {
         this.card = 'modulo';
+        this.titulo = topico.titulo; 
         this._dynamicService.loadComponent(topico.module)
             .then(({ host }) => {
                 this.current = host;

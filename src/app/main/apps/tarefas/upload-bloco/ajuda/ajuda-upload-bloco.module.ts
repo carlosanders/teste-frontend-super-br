@@ -1,20 +1,20 @@
 import {NgModule} from '@angular/core';
 
-import {AjudaTarefaCreateComponent} from './ajuda-tarefa-create.component';
+import {AjudaUploadBlocoComponent} from './ajuda-upload-bloco.component';
 import {FuseSharedModule} from '../../../../../../@fuse/shared.module';
 
 @NgModule({
     declarations: [
-        AjudaTarefaCreateComponent
+        AjudaUploadBlocoComponent
     ],
     imports: [
         FuseSharedModule
     ],
     providers: [
     ],
-    exports: [
-        AjudaTarefaCreateComponent
+    exports:    [
+        AjudaUploadBlocoComponent
     ]
 })
-export class AjudaTarefaCreateModule {
+export class AjudaUploadBlocoModule {
 }
