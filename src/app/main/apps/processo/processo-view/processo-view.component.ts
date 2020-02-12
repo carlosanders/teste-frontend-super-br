@@ -1,5 +1,5 @@
 import {ChangeDetectorRef, Component, EventEmitter, OnDestroy, OnInit, Output, QueryList, ViewChildren, ViewEncapsulation} from '@angular/core';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 import {fuseAnimations} from '@fuse/animations';
 import {FusePerfectScrollbarDirective} from '@fuse/directives/fuse-perfect-scrollbar/fuse-perfect-scrollbar.directive';
@@ -11,8 +11,9 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {DomSanitizer} from '@angular/platform-browser';
-import {filter} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {ComponenteDigital} from '@cdk/models/componente-digital.model';
+import {getRouterState} from "../../../../store/reducers";
 
 @Component({
     selector: 'processo-view',
@@ -23,6 +24,7 @@ import {ComponenteDigital} from '@cdk/models/componente-digital.model';
 })
 export class ProcessoViewComponent implements OnInit, OnDestroy {
 
+    private _unsubscribeAll: Subject<any> = new Subject();
     binary$: Observable<any>;
 
     juntadas$: Observable<Juntada[]>;
@@ -48,6 +50,11 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
 
     pagination$: any;
     pagination: any;
+
+    routerState: any;
+    routerState$: Observable<any>;
+
+    chaveAcesso: string;
 
     @Output()
     select: EventEmitter<ComponenteDigital> = new EventEmitter();
@@ -75,7 +82,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         this.currentStep$ = this._store.pipe(select(fromStore.getCurrentStep));
         this.index$ = this._store.pipe(select(fromStore.getIndex));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
-
+        this.routerState$ = this._store.pipe(select(getRouterState));
         this.juntadas$.pipe(filter(juntadas => !!juntadas)).subscribe(
             juntadas => {
                 this.juntadas = juntadas;
@@ -122,10 +129,29 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
+        this._store
+            .pipe(
+                select(getRouterState)
+            ).subscribe(routerState => {
+            if (routerState) {
+                this.routerState = routerState.state;
+            }
+        });
+
+        this.routerState$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(routerState => {
+            this.chaveAcesso = routerState.state.params['chaveAcessoHandle'];
+        });
+
         // this._store.dispatch(new fromStore.SetCurrentStep({step: 0, subStep: 0}));
     }
 
     ngOnDestroy(): void {
+        this._changeDetectorRef.detach();
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
         this._store.dispatch(new fromStore.UnloadJuntadas());
     }
 

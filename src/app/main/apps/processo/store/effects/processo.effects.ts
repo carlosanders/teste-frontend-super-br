@@ -51,6 +51,9 @@ export class ProcessoEffect {
             .pipe(
                 ofType<ProcessoActions.GetProcesso>(ProcessoActions.GET_PROCESSO),
                 switchMap((action) => {
+                    const chaveAcesso = this.routerState.params.chaveAcessoHandle ? {
+                        chaveAcesso: this.routerState.params.chaveAcessoHandle
+                    } : {};
                     return this._processoService.query(
                         JSON.stringify(action.payload),
                         1,
@@ -61,7 +64,8 @@ export class ProcessoEffect {
                             'setorAtual.unidade',
                             'vinculacoesEtiquetas',
                             'vinculacoesEtiquetas.etiqueta'
-                        ]));
+                        ]),
+                        JSON.stringify(chaveAcesso));
                 }),
                 switchMap(response => [
                     new AddData<Processo>({data: response['entities'], schema: processoSchema}),

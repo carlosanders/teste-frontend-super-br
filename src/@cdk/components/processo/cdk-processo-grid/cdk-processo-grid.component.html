@@ -376,16 +376,19 @@
                     <th mat-header-cell *matHeaderCellDef></th>
                     <td mat-cell *matCellDef="let processo">
 
-                        <button mat-icon-button
-                                (click)="viewProcesso(processo)"
-                                aria-label="visualizar"
-                                matTooltip="Visualizar">
-                            <mat-icon>pageview</mat-icon>
-                        </button>
-
                         <mat-icon *ngIf="processo.acessoNegado" class="red-fg">block</mat-icon>
 
-                        <ng-template *showIfRole="'ROLE_COLABORADOR'">
+                        <span *showIfRole="'ROLE_USER'">
+                            <button mat-icon-button
+                                    *ngIf="actions.indexOf('view') > -1"
+                                    (click)="viewProcesso(processo)"
+                                    aria-label="visualizar"
+                                    matTooltip="Visualizar">
+                                <mat-icon>pageview</mat-icon>
+                            </button>
+                        </span>
+
+                        <span *showIfRole="'ROLE_COLABORADOR'">
                             <button mat-icon-button
                                     *ngIf="!processo.acessoNegado && actions.indexOf('select') > -1"
                                     (click)="selectProcesso(processo)"
@@ -393,9 +396,9 @@
                                     matTooltip="Selecionar">
                                 <mat-icon>keyboard_return</mat-icon>
                             </button>
-                        </ng-template>
+                        </span>
 
-                        <ng-template *showIfRole="'ROLE_COLABORADOR'">
+                        <span *showIfRole="'ROLE_COLABORADOR'">
                             <button mat-icon-button
                                     *ngIf="!processo.acessoNegado && actions.indexOf('edit') > -1"
                                     [disabled]="deletedIds?.indexOf(processo.id) > -1"
@@ -404,7 +407,7 @@
                                     matTooltip="Editar">
                                 <mat-icon>edit</mat-icon>
                             </button>
-                        </ng-template>
+                        </span>
 
                         <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(processo.id) > -1">
                             <mat-spinner diameter="24"></mat-spinner>

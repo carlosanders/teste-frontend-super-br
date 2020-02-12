@@ -25,6 +25,8 @@ export class CdkProcessoGridFilterComponent implements OnInit {
 
     filters: any = {};
 
+    contexto: any = {};
+
     @Input()
     mode = 'list';
 
@@ -65,6 +67,8 @@ export class CdkProcessoGridFilterComponent implements OnInit {
             atualizadoEm: [null],
             apagadoPor: [null],
             apagadoEm: [null],
+            nome: [null],
+            cpfCnpj: [null]
         });
 
     }
@@ -79,17 +83,31 @@ export class CdkProcessoGridFilterComponent implements OnInit {
     ngOnInit(): void {
         this.form.get('NUP').valueChanges.subscribe(value => {
             if (value !== null) {
-                if (this.mode === 'list') {
-                    this.filters = {
-                        ...this.filters,
-                        NUP: `like:${value}%`
-                    };
-                    this.selected.emit(this.filters);
-                }
+                this.filters = {
+                    ...this.filters,
+                    NUP: `like:${value}%`
+                };
+                this.emite();
+            }
+        });
+
+        this.form.get('nome').valueChanges.subscribe(value => {
+            if (value !== null) {
                 if (this.mode === 'search') {
                     this.filters = {
                         ...this.filters,
-                        NUP: `eq:${value}`
+                        'interessados.pessoa.nome': `like:${value}%`
+                    };
+                }
+            }
+        });
+
+        this.form.get('cpfCnpj').valueChanges.subscribe(value => {
+            if (value !== null) {
+                if (this.mode === 'search') {
+                    this.filters = {
+                        ...this.filters,
+                        'interessados.pessoa.numeroDocumentoPrincipal': `like:${value}%`
                     };
                 }
             }
@@ -120,16 +138,6 @@ export class CdkProcessoGridFilterComponent implements OnInit {
                 this.filters = {
                     ...this.filters,
                     outroNumero: `like:${value}%`
-                };
-                this.emite();
-            }
-        });
-
-        this.form.get('chaveAcesso').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    chaveAcesso: `eq:${value}`
                 };
                 this.emite();
             }
@@ -483,19 +491,31 @@ export class CdkProcessoGridFilterComponent implements OnInit {
         });
     }
 
+    validaBusca(): boolean {
+        return true;
+    }
+
     emite(): void {
         if (this.mode === 'list') {
-            this.selected.emit(this.filters);
+            const request = {
+                filters: this.filters
+            };
+            this.selected.emit(request);
         }
     }
 
     buscar(): void {
-        this.selected.emit(this.filters);
+        const request = {
+            filters: this.filters,
+            contexto: this.contexto
+        };
+        this.selected.emit(request);
     }
 
     limpar(): void {
         this.filters = {};
-        this.selected.emit(this.filters);
+        this.contexto = {};
+        this.emite();
         this.form.reset();
     }
 

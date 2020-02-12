@@ -7,20 +7,29 @@
             <mat-label>Número do Processo</mat-label>
             <input matInput #NUP
                    name="NUP"
-                   [required]="this.mode === 'search'"
                    formControlName="NUP"
                    maxlength="255">
             <mat-hint align="end">{{NUP.value.length}} / 255</mat-hint>
         </mat-form-field>
-
-        <mat-form-field *showIfRole="'ROLE_USER'" fxFlex="100">
-            <mat-label>Chave de Acesso</mat-label>
-            <input matInput #chaveAcesso
-                   name="chaveAcesso"
-                   formControlName="chaveAcesso"
+        <mat-form-field *showIfRole="'ROLE_CONVENIADO'" fxFlex="100">
+            <mat-label>Nome</mat-label>
+            <input matInput #nome
+                   name="nome"
+                   [required]="this.mode === 'search'"
+                   formControlName="nome"
                    maxlength="255">
-            <mat-hint align="end">{{chaveAcesso.value.length}} / 255</mat-hint>
+            <mat-hint align="end">{{nome.value.length}} / 255</mat-hint>
         </mat-form-field>
+        <mat-form-field *showIfRole="'ROLE_CONVENIADO'" fxFlex="100">
+            <mat-label>CPF/CNPJ</mat-label>
+            <input matInput #cpfCnpj
+                   name="cpfCnpj"
+                   [required]="this.mode === 'search'"
+                   formControlName="cpfCnpj"
+                   maxlength="255">
+            <mat-hint align="end">{{cpfCnpj.value.length}} / 19</mat-hint>
+        </mat-form-field>
+
         <mat-form-field *showIfRole="'ROLE_COLABORADOR'" fxFlex="100">
             <div fxLayout="row" fxLayoutAlign="start center">
                 <input matInput placeholder="Setor Responsável"
@@ -226,7 +235,7 @@
         </mat-form-field>
 
         <button mat-raised-button color="primary" class="mr-sm-12" (click)="buscar()"
-                [disabled]="!this.form.valid"
+                [disabled]="!this.validaBusca()"
                 *ngIf="this.mode === 'search'">
             Buscar
         </button>
