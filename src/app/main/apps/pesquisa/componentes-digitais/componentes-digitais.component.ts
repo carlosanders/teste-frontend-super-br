@@ -74,7 +74,8 @@ export class ComponentesDigitaisComponent implements OnInit {
     }
 
     view(emissor: {id: number, chaveAcesso: string}): void {
-        this._router.navigate(['apps/documento/componente-digital/' + emissor.id + '/visualizar']);
+        const chaveAcessoHandle = emissor.chaveAcesso ? '/' + emissor.chaveAcesso : '';
+        this._router.navigate(['apps/documento/componente-digital/' + emissor.id + '/visualizar' + chaveAcessoHandle]);
     }
 
     edit(componenteDigital: ComponenteDigital): void {

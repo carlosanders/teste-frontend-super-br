@@ -13,6 +13,10 @@ const routes: Routes = [
     {
         path: '',
         component: ComponenteDigitalViewComponent
+    },
+    {
+        path: ':chaveAcessoHandle',
+        component: ComponenteDigitalViewComponent
     }
 ];
 
