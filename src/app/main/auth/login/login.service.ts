@@ -47,7 +47,7 @@ export class LoginService {
 
         if (profile && profile.roles && profile.roles.length > 0) {
             hasAccess = profile.roles.findIndex((papel: string) => {
-                return papel === role;
+                return papel.includes(role);
             }) !== -1;
         }
         return hasAccess;

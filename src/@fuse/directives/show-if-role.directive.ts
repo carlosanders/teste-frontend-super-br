@@ -30,7 +30,7 @@ export class ShowIfRoleDirective {
         const userProfile = this._loginService.getUserProfile();
         if (userProfile.roles && userProfile.roles.length > 0) {
             const hasRole = userProfile.roles.findIndex((papel: string) => {
-                return papel === role;
+                return papel.includes(role);
             });
             if (hasRole !== -1) {
                 this.viewContainer.createEmbeddedView(this.templateRef);
