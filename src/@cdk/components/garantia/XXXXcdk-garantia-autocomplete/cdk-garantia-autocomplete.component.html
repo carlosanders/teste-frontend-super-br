@@ -1,9 +1,0 @@
-<mat-autocomplete [displayWith]="displayGarantiaFn">
-    <mat-option *ngFor="let garantia of garantiaList"
-                [value]="garantia">
-        <span [innerHTML]="displayGarantiaFn(garantia) | highlightOption: this.control.value"></span>
-    </mat-option>
-    <mat-option *ngIf="garantiaListIsLoading">
-        <mat-spinner diameter="16"></mat-spinner>
-    </mat-option>
-</mat-autocomplete>

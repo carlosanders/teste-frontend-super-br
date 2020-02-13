@@ -1,4 +1,9 @@
-<h1>Edição</h1>
+<div fxLayout="column" fxLayoutAlign="space-between stretch" >
+    <h1 *ngIf="garantia.id">Alteração de Garantia</h1>
+    <h1 *ngIf="!garantia.id">Nova Garantia</h1>
+    <br>
+</div>
+<div fxLayout="column" fxLayoutAlign="space-between stretch" >
 <form *ngIf="activeCard === 'form'" fxLayoutGap="16px"
       fxLayout="column"
       fxLayoutAlign="start"
@@ -37,8 +42,11 @@
 
         <mat-form-field fxFlex="100">
             <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Valor" formControlName="valor" maxlength="20" required upperCase>
+                <input matInput placeholder="Valor (R$)" formControlName="valor" maxlength="20" required>
             </div>
+            <mat-error *ngIf="form.get('valor').hasError('formError')">
+                {{form.get('valor').errors.formError}}
+            </mat-error>            
         </mat-form-field>
 
             <mat-form-field fxFlex="100">
@@ -46,6 +54,9 @@
                 <input matInput formControlName="dataValor" [matDatepicker]="dataValor" required>
                 <mat-datepicker-toggle matSuffix [for]="dataValor"></mat-datepicker-toggle>
                 <mat-datepicker #dataValor></mat-datepicker>
+                <mat-error *ngIf="form.get('dataValor').hasError('formError')">
+                    {{form.get('dataValor').errors.formError}}
+                </mat-error> 
             </mat-form-field>
 
         <mat-form-field fxFlex="100">
@@ -79,3 +90,4 @@
         (selected)="selectModalidadeGarantia($event)"
         (cancel)="cancel()">
 </cdk-modalidade-garantia-gridsearch>
+</div>

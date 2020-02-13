@@ -42,7 +42,9 @@ export class CdkGarantiaFormComponent implements OnChanges, OnDestroy {
 
     activeCard = 'form';
 
-    /**
+    valorRegex = /(?=.*?\d)^\$?(([1-9]\d{0,2}(\d{3})*)|\d+)?(\,\d{1,2})?$/;
+
+     /**
      * Constructor
      */
     constructor(
@@ -55,7 +57,7 @@ export class CdkGarantiaFormComponent implements OnChanges, OnDestroy {
             processo: [null, [Validators.required]],
             modalidadeGarantia: [null, [Validators.required]],
             descricao: [null, [Validators.maxLength(255)]],
-            valor: [null, [Validators.required]],
+            valor: [null, [Validators.required, Validators.pattern(this.valorRegex)]],
             dataValor: [null, [Validators.required]],
             observacao: [null, [Validators.maxLength(255)]]
         });
@@ -74,6 +76,9 @@ export class CdkGarantiaFormComponent implements OnChanges, OnDestroy {
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
         if (changes['garantia'] && this.garantia && ((!this.garantia.id && !this.form.dirty) || (this.garantia.id !== this.form.get('id').value))) {
             this.form.patchValue({...this.garantia});
+            if (this.garantia.valor){
+                this.form.patchValue({'valor':this.garantia.valor.toString().replace('.',',')});
+            }
         }
 
         if (this.errors && this.errors.status && (this.errors.status === 400 || this.errors.status === 422)) {
@@ -136,5 +141,4 @@ export class CdkGarantiaFormComponent implements OnChanges, OnDestroy {
     cancel(): void {
         this.activeCard = 'form';
     }
-
 }
