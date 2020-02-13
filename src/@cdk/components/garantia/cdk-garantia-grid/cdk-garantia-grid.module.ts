@@ -14,8 +14,8 @@ import {
 
 import {FuseSidebarModule} from '@fuse/components';
 import {FuseSharedModule} from '@fuse/shared.module';
-import {GarantiaAdministrativoService} from '@cdk/services/garantia-administrativo.service';
-import {CdkGarantiaAdministrativoAutocompleteModule} from '@cdk/components/garantia-administrativo/cdk-garantia-administrativo-autocomplete/cdk-garantia-administrativo-autocomplete.module';
+import {ModalidadeGarantiaService} from '@cdk/services/modalidade-garantia.service';
+import {CdkModalidadeGarantiaAutocompleteModule} from '@cdk/components/modalidade-garantia/cdk-modalidade-garantia-autocomplete/cdk-modalidade-garantia-autocomplete.module';
 import {CdkGarantiaGridComponent} from './cdk-garantia-grid.component';
 import {CdkGarantiaGridFilterModule} from './cdk-garantia-grid-filter/cdk-garantia-grid-filter.module';
 import {CdkGarantiaMainSidebarComponent} from './sidebars/main/main.component';
@@ -37,14 +37,14 @@ import {CdkGarantiaMainSidebarComponent} from './sidebars/main/main.component';
         MatSortModule,
         MatTooltipModule,
 
-        CdkGarantiaAdministrativoAutocompleteModule,
+        CdkModalidadeGarantiaAutocompleteModule,
         CdkGarantiaGridFilterModule,
 
         FuseSharedModule,
         FuseSidebarModule,
     ],
     providers: [
-        GarantiaAdministrativoService,
+        ModalidadeGarantiaService,
     ],
     exports: [
         CdkGarantiaGridComponent

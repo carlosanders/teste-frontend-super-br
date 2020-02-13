@@ -1,3 +1,4 @@
+<h1>Edição</h1>
 <form *ngIf="activeCard === 'form'" fxLayoutGap="16px"
       fxLayout="column"
       fxLayoutAlign="start"
@@ -5,31 +6,54 @@
 
     <div fxFlex="1 0 auto" fxLayout="column">
 
-        <mat-checkbox formControlName="principal"
-                      class="mr-16 mb-16" fxFlex="0 1 auto">
-            Principal
-        </mat-checkbox>
 
         <mat-form-field fxFlex="100">
             <div fxLayout="row" fxLayoutAlign="start center">
                 <input matInput placeholder="Garantia"
-                       formControlName="garantiaAdministrativo"
-                       [matAutocomplete]="garantiaAdministrativo.autocomplete"
-                       (blur)="checkGarantiaAdministrativo()" required>
+                       formControlName="modalidadeGarantia"
+                       [matAutocomplete]="modalidadeGarantia.autocomplete"
+                       (blur)="checkModalidadeGarantia()" required>
             </div>
-            <cdk-garantia-administrativo-autocomplete
-                #garantiaAdministrativo="garantiaAdministrativoAutocomplete"
-                [control]="form.get('garantiaAdministrativo')"
-                [pagination]="garantiaAdministrativoPagination">
-            </cdk-garantia-administrativo-autocomplete>
+            <cdk-modalidade-garantia-autocomplete
+                #modalidadeGarantia="modalidadeGarantiaAutocomplete"
+                [control]="form.get('modalidadeGarantia')"
+                [pagination]="modalidadeGarantiaPagination">
+            </cdk-modalidade-garantia-autocomplete>
             <button matSuffix mat-button mat-icon-button
-                    (click)="showGarantiaAdministrativoGrid()">
+                    (click)="showModalidadeGarantiaGrid()">
                 <mat-icon matTooltip="Procurar">search</mat-icon>
             </button>
-            <mat-error *ngIf="form.get('garantiaAdministrativo').hasError('formError')">
-                {{form.get('garantiaAdministrativo').errors.formError}}
+            <mat-error *ngIf="form.get('modalidadeGarantia').hasError('formError')">
+                {{form.get('modalidadeGarantia').errors.formError}}
             </mat-error>
         </mat-form-field>
+
+
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Descrição" formControlName="descricao" maxlength="255" required upperCase>
+            </div>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Valor" formControlName="valor" maxlength="20" required upperCase>
+            </div>
+        </mat-form-field>
+
+            <mat-form-field fxFlex="100">
+                <mat-label>Data Valor</mat-label>
+                <input matInput formControlName="dataValor" [matDatepicker]="dataValor" required>
+                <mat-datepicker-toggle matSuffix [for]="dataValor"></mat-datepicker-toggle>
+                <mat-datepicker #dataValor></mat-datepicker>
+            </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Observação" formControlName="observacao" maxlength="255" required upperCase>
+            </div>
+        </mat-form-field>
+
 
     </div>
 
@@ -49,9 +73,9 @@
     </div>
 </form>
 
-<cdk-garantia-administrativo-gridsearch
+<cdk-modalidade-garantia-gridsearch
         fxFlex="1 0 auto"
-        *ngIf="activeCard === 'garantia-administrativo-gridsearch'"
-        (selected)="selectGarantiaAdministrativo($event)"
+        *ngIf="activeCard === 'modalidade-garantia-gridsearch'"
+        (selected)="selectModalidadeGarantia($event)"
         (cancel)="cancel()">
-</cdk-garantia-administrativo-gridsearch>
+</cdk-modalidade-garantia-gridsearch>

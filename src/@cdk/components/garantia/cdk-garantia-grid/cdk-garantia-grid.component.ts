@@ -274,7 +274,8 @@ export class CdkGarantiaGridComponent implements AfterViewInit, OnInit, OnChange
      */
     selectAll(): void {
         const arr = Object.keys(this.garantias).map(k => this.garantias[k]);
-        this.selectedIds = arr.filter(garantia => !garantia.principal).map(garantia => garantia.id);
+        //this.selectedIds = arr.filter(garantia => !garantia.principal).map(garantia => garantia.id);
+        this.selectedIds = arr.map(garantia => garantia.id);
         this.recompute();
     }
 

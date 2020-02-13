@@ -35,7 +35,7 @@ export class GarantiaEditComponent implements OnInit, OnDestroy {
     processo$: Observable<Processo>;
     processo: Processo;
 
-    garantiaAdministrativoPagination: Pagination;
+    modalidadeGarantiaPagination: Pagination;
 
     /**
      * @param _store
@@ -48,8 +48,8 @@ export class GarantiaEditComponent implements OnInit, OnDestroy {
         this.garantia$ = this._store.pipe(select(fromStore.getGarantia));
         this.processo$ = this._store.pipe(select(getProcesso));
 
-        this.garantiaAdministrativoPagination = new Pagination();
-        this.garantiaAdministrativoPagination.populate = ['parent'];
+        this.modalidadeGarantiaPagination = new Pagination();
+        this.modalidadeGarantiaPagination.populate = ['parent'];
     }
 
     // -----------------------------------------------------------------------------------------------------

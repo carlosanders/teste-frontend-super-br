@@ -10,7 +10,7 @@ import {
 import {fuseAnimations} from '@fuse/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Garantia} from '@cdk/models/garantia.model';
-import {GarantiaAdministrativo} from '@cdk/models/garantia-administrativo.model';
+import {ModalidadeGarantia} from '@cdk/models/modalidade-garantia.model';
 import {Pagination} from '@cdk/models/pagination';
 
 @Component({
@@ -36,7 +36,7 @@ export class CdkGarantiaFormComponent implements OnChanges, OnDestroy {
     save = new EventEmitter<Garantia>();
 
     @Input()
-    garantiaAdministrativoPagination: Pagination;
+    modalidadeGarantiaPagination: Pagination;
 
     form: FormGroup;
 
@@ -53,11 +53,14 @@ export class CdkGarantiaFormComponent implements OnChanges, OnDestroy {
         this.form = this._formBuilder.group({
             id: [null],
             processo: [null, [Validators.required]],
-            principal: [null],
-            garantiaAdministrativo: [null, [Validators.required]]
+            modalidadeGarantia: [null, [Validators.required]],
+            descricao: [null, [Validators.maxLength(255)]],
+            valor: [null, [Validators.required]],
+            dataValor: [null, [Validators.required]],
+            observacao: [null, [Validators.maxLength(255)]]
         });
         
-        this.garantiaAdministrativoPagination = new Pagination();
+        this.modalidadeGarantiaPagination = new Pagination();
 
     }
 
@@ -112,22 +115,22 @@ export class CdkGarantiaFormComponent implements OnChanges, OnDestroy {
         }
     }
 
-    checkGarantiaAdministrativo(): void {
-        const value = this.form.get('garantiaAdministrativo').value;
+    checkModalidadeGarantia(): void {
+        const value = this.form.get('modalidadeGarantia').value;
         if (!value || typeof value !== 'object') {
-            this.form.get('garantiaAdministrativo').setValue(null);
+            this.form.get('modalidadeGarantia').setValue(null);
         }
     }
     
-    selectGarantiaAdministrativo(garantiaAdministrativo: GarantiaAdministrativo): void {
-        if (garantiaAdministrativo) {
-            this.form.get('garantiaAdministrativo').setValue(garantiaAdministrativo);
+    selectModalidadeGarantia(modalidadeGarantia: ModalidadeGarantia): void {
+        if (modalidadeGarantia) {
+            this.form.get('modalidadeGarantia').setValue(modalidadeGarantia);
         }
         this.activeCard = 'form';
     }
 
-    showGarantiaAdministrativoGrid(): void {
-        this.activeCard = 'garantia-administrativo-gridsearch';
+    showModalidadeGarantiaGrid(): void {
+        this.activeCard = 'modalidade-garantia-gridsearch';
     }
 
     cancel(): void {

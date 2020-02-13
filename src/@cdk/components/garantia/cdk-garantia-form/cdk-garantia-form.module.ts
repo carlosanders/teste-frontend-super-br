@@ -6,14 +6,16 @@ import {
     MatInputModule,
     MatCheckboxModule,
     MatProgressSpinnerModule,
-    MatAutocompleteModule, MatTooltipModule
+    MatAutocompleteModule, 
+    MatTooltipModule,
+    MatDatepickerModule
 } from '@angular/material';
 
 import { FuseSharedModule } from '@fuse/shared.module';
-import { GarantiaAdministrativoService } from '@cdk/services/garantia-administrativo.service';
+import { ModalidadeGarantiaService } from '@cdk/services/modalidade-garantia.service';
 import { CdkGarantiaFormComponent } from './cdk-garantia-form.component';
-import { CdkGarantiaAdministrativoAutocompleteModule } from '@cdk/components/garantia-administrativo/cdk-garantia-administrativo-autocomplete/cdk-garantia-administrativo-autocomplete.module';
-import { CdkGarantiaAdministrativoGridsearchModule } from '@cdk/components/garantia-administrativo/cdk-garantia-administrativo-autocomplete/cdk-garantia-administrativo-gridsearch/cdk-garantia-administrativo-gridsearch.module';
+import { CdkModalidadeGarantiaAutocompleteModule } from '@cdk/components/modalidade-garantia/cdk-modalidade-garantia-autocomplete/cdk-modalidade-garantia-autocomplete.module';
+import { CdkModalidadeGarantiaGridsearchModule } from '@cdk/components/modalidade-garantia/cdk-modalidade-garantia-autocomplete/cdk-modalidade-garantia-gridsearch/cdk-modalidade-garantia-gridsearch.module';
 
 @NgModule({
     declarations: [
@@ -28,15 +30,16 @@ import { CdkGarantiaAdministrativoGridsearchModule } from '@cdk/components/garan
         MatCheckboxModule,
         MatInputModule,
         MatProgressSpinnerModule,
+        MatDatepickerModule,
 
-        CdkGarantiaAdministrativoAutocompleteModule,
-        CdkGarantiaAdministrativoGridsearchModule,
+        CdkModalidadeGarantiaAutocompleteModule,
+        CdkModalidadeGarantiaGridsearchModule,
 
         FuseSharedModule,
         MatTooltipModule,
     ],
     providers: [
-        GarantiaAdministrativoService,
+        ModalidadeGarantiaService,
     ],
     exports: [
         CdkGarantiaFormComponent
