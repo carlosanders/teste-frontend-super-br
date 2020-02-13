@@ -5,7 +5,7 @@ import {
     OnInit,
     ViewEncapsulation
 } from '@angular/core';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 import {fuseAnimations} from '@fuse/animations';
 import {ComponenteDigital} from '@cdk/models/componente-digital.model';
@@ -73,8 +73,9 @@ export class ComponentesDigitaisComponent implements OnInit {
         }));
     }
 
-    view(emissor: {id: number, chaveAcesso: string}): void {
-        this._router.navigate(['apps/documento/componente-digital/' + emissor.id + '/visualizar']);
+    view(emissor: {id: number, chave_acesso: string}): void {
+        const chaveAcessoHandle = emissor.chave_acesso ? '/' + emissor.chave_acesso : '';
+        this._router.navigate(['apps/documento/componente-digital/' + emissor.id + '/visualizar' + chaveAcessoHandle]);
     }
 
     edit(componenteDigital: ComponenteDigital): void {

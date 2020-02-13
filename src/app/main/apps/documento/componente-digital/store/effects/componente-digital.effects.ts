@@ -13,6 +13,7 @@ import {ComponenteDigital} from '@cdk/models/componente-digital.model';
 import {componenteDigital as componenteDigitalSchema} from '@cdk/normalizr/componente-digital.schema';
 import {Router} from '@angular/router';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
+import {HttpParams} from '@angular/common/http';
 
 @Injectable()
 export class ComponenteDigitalEffect {
@@ -44,10 +45,8 @@ export class ComponenteDigitalEffect {
             .pipe(
                 ofType<ComponenteDigitalActions.DownloadComponenteDigital>(ComponenteDigitalActions.DOWNLOAD_COMPONENTE_DIGITAL),
                 switchMap(() => {
-                    let handle = {
-                        id: '',
-                        value: ''
-                    };
+                    let params: HttpParams;
+                    let handle = { id: '', value: '' };
                     const routeParams = of('componenteDigitalHandle');
                     routeParams.subscribe(param => {
                         if (this.routerState.params[param]) {
@@ -57,7 +56,14 @@ export class ComponenteDigitalEffect {
                             };
                         }
                     });
-                    return this._componenteDigitalService.download(handle.value);
+                    const routeChaveAcessoParams = of('chaveAcessoHandle');
+                    routeChaveAcessoParams.subscribe(param => {
+                        if (this.routerState.params[param]) {
+                            const context = JSON.stringify({chaveAcesso: this.routerState.params[param]});
+                            params = new HttpParams().set('context', context);
+                        }
+                    });
+                    return this._componenteDigitalService.download(handle.value, params);
                 }),
                 mergeMap((response: ComponenteDigital) => [
                     new ComponenteDigitalActions.DownloadComponenteDigitalSuccess({

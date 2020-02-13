@@ -371,7 +371,7 @@
                             <mat-icon>keyboard_return</mat-icon>
                         </button>
 
-                        <ng-template *showIfRole="'ROLE_USER'">
+                        <span *showIfRole="'ROLE_USER'">
                             <button mat-icon-button
                                     *ngIf="actions.indexOf('view') > -1"
                                     (click)="viewComponenteDigital(componenteDigital)"
@@ -379,9 +379,9 @@
                                     matTooltip="Visualizar">
                                 <mat-icon>pageview</mat-icon>
                             </button>
-                        </ng-template>
+                        </span>
 
-                        <ng-template *showIfRole="'ROLE_COLABORADOR'">
+                        <span *showIfRole="'ROLE_COLABORADOR'">
                             <button mat-icon-button
                                     *ngIf="actions.indexOf('edit') > -1"
                                     [disabled]="deletedIds?.indexOf(componenteDigital.id) > -1"
@@ -390,13 +390,13 @@
                                     matTooltip="Editar">
                                 <mat-icon>edit</mat-icon>
                             </button>
-                        </ng-template>
+                        </span>
 
                         <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(componenteDigital.id) > -1">
                             <mat-spinner diameter="24"></mat-spinner>
                         </div>
 
-                        <ng-template *showIfRole="'ROLE_COLABORADOR'">
+                        <span *showIfRole="'ROLE_COLABORADOR'">
                             <button mat-icon-button
                                     *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(componenteDigital.id) === -1"
                                     [disabled]="deletedIds?.indexOf(componenteDigital.id) > -1"
@@ -405,7 +405,7 @@
                                     matTooltip="Remover">
                                 <mat-icon>delete</mat-icon>
                             </button>
-                        </ng-template>
+                        </span>
 
                     </td>
                 </ng-container>

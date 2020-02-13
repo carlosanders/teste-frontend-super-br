@@ -138,7 +138,7 @@ export class CdkComponenteDigitalGridFilterComponent implements OnInit {
             if (value !== null) {
                 this.filters = {
                     ...this.filters,
-                    'componenteDigital.id': `eq:${value}`
+                    id: `eq:${value}`
                 };
                 this.emite();
             }
