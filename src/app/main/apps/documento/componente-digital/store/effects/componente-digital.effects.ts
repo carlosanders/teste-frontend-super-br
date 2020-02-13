@@ -45,7 +45,7 @@ export class ComponenteDigitalEffect {
             .pipe(
                 ofType<ComponenteDigitalActions.DownloadComponenteDigital>(ComponenteDigitalActions.DOWNLOAD_COMPONENTE_DIGITAL),
                 switchMap(() => {
-                    let chaveAcesso: HttpParams;
+                    let params: HttpParams;
                     let handle = { id: '', value: '' };
                     const routeParams = of('componenteDigitalHandle');
                     routeParams.subscribe(param => {
@@ -60,10 +60,10 @@ export class ComponenteDigitalEffect {
                     routeChaveAcessoParams.subscribe(param => {
                         if (this.routerState.params[param]) {
                             const context = JSON.stringify({chaveAcesso: this.routerState.params[param]});
-                            chaveAcesso = new HttpParams().set('context', context);
+                            params = new HttpParams().set('context', context);
                         }
                     });
-                    return this._componenteDigitalService.download(handle.value, chaveAcesso);
+                    return this._componenteDigitalService.download(handle.value, params);
                 }),
                 mergeMap((response: ComponenteDigital) => [
                     new ComponenteDigitalActions.DownloadComponenteDigitalSuccess({
