@@ -339,7 +339,7 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
     }
 
     viewComponenteDigital(componenteDigital: ComponenteDigital): void {
-        if (componenteDigital.processoOrigem.visibilidadeExterna) {
+        if (componenteDigital.documento.juntadaAtual.volume.processo.visibilidadeExterna) {
             this.view.emit({id: componenteDigital.id});
             return;
         }

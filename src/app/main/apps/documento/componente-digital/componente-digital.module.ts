@@ -24,6 +24,10 @@ const routes: Routes = [
                 loadChildren: () => import('./componente-digital-view/componente-digital-view.module').then(m => m.ComponenteDigitalViewModule),
             },
             {
+                path: 'visualizar/:chaveAcessoHandle',
+                loadChildren: () => import('./componente-digital-view/componente-digital-view.module').then(m => m.ComponenteDigitalViewModule),
+            },
+            {
                 path: 'editor',
                 loadChildren: () => import('./componente-digital-ckeditor/componente-digital-ckeditor.module').then(m => m.ComponenteDigitalCkeditorModule),
             },
