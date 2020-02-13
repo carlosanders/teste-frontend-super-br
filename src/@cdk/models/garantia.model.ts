@@ -65,10 +65,12 @@ export class Garantia {
     constructor() {
         this.id = null;
         this.uuid = null;
-        this.garantiaAdministrativo = null;
-        this.principal = null;
-        this.processo = null;
-        this.origemDados = null;
+        this.processo = null;        
+        this.modalidadeGarantia = null;
+        this.descricao = null;
+        this.valor = null;
+        this.dataValor = null;
+        this.observacao = null;
         this.criadoPor = null;
         this.criadoEm = null;
         this.atualizadoPor = null;

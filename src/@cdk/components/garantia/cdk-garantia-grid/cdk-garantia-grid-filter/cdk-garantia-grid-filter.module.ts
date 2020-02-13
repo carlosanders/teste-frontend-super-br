@@ -10,13 +10,12 @@ import {
 } from '@angular/material';
 
 import { FuseSharedModule } from '@fuse/shared.module';
-import { GarantiaAdministrativoService } from '@cdk/services/garantia-administrativo.service';
-import {CdkGarantiaAdministrativoAutocompleteModule} from '@cdk/components/garantia-administrativo/cdk-garantia-administrativo-autocomplete/cdk-garantia-administrativo-autocomplete.module';
+import { ModalidadeGarantiaService } from '@cdk/services/modalidade-garantia.service';
+import {CdkModalidadeGarantiaAutocompleteModule} from '@cdk/components/modalidade-garantia/cdk-modalidade-garantia-autocomplete/cdk-modalidade-garantia-autocomplete.module';
 import {CdkGarantiaGridFilterComponent} from './cdk-garantia-grid-filter.component';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 import {CdkUsuarioAutocompleteModule} from '../../../usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
-import {CdkOrigemDadosAutocompleteModule} from '../../../origem-dados/cdk-origem-dados-autocomplete/cdk-origem-dados-autocomplete.module';
 import {CdkProcessoAutocompleteModule} from '../../../processo/cdk-processo-autocomplete/cdk-processo-autocomplete.module';
 
 @NgModule({
@@ -38,12 +37,12 @@ import {CdkProcessoAutocompleteModule} from '../../../processo/cdk-processo-auto
         FuseSharedModule,
 
         CdkUsuarioAutocompleteModule,
-        CdkGarantiaAdministrativoAutocompleteModule,
+        CdkModalidadeGarantiaAutocompleteModule,
         CdkProcessoAutocompleteModule,
-        CdkOrigemDadosAutocompleteModule,
+
     ],
     providers: [
-        GarantiaAdministrativoService,
+        ModalidadeGarantiaService,
     ],
     exports: [
         CdkGarantiaGridFilterComponent

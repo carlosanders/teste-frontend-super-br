@@ -33,10 +33,8 @@ export class CdkGarantiaGridFilterComponent implements OnInit {
     ) {
 
         this.form = this._formBuilder.group({
-            garantiaAdministrativo: [null],
-            principal: [null],
+            modalidadeGarantia: [null],
             processo: [null],
-            origemDados: [null],
             criadoPor: [null],
             criadoEm: [null],
             atualizadoPor: [null],
@@ -55,27 +53,18 @@ export class CdkGarantiaGridFilterComponent implements OnInit {
      * On init
      */
     ngOnInit(): void {
-        this.form.get('principal').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    principal: `eq:${value}`
-                };
-                this.selected.emit(this.filters);
-            }
-        });
 
-        this.form.get('garantiaAdministrativo').valueChanges.subscribe(value => {
+        this.form.get('modalidadeGarantia').valueChanges.subscribe(value => {
             if (value !== null) {
                 if (typeof value === 'object' && value) {
                     this.filters = {
                         ...this.filters,
-                        'garantiaAdministrativo.id': `eq:${value.id}`
+                        'modalidadeGarantia.id': `eq:${value.id}`
                     };
                     this.selected.emit(this.filters);
                 } else {
-                    if (this.filters.hasOwnProperty('garantiaAdministrativo.id')) {
-                        delete this.filters['garantiaAdministrativo.id'];
+                    if (this.filters.hasOwnProperty('modalidadeGarantia.id')) {
+                        delete this.filters['modalidadeGarantia.id'];
                     }
                 }
                 if (!value) {
@@ -83,6 +72,7 @@ export class CdkGarantiaGridFilterComponent implements OnInit {
                 }
             }
         });
+
 
         this.form.get('processo').valueChanges.subscribe(value => {
             if (value !== null) {
@@ -95,25 +85,6 @@ export class CdkGarantiaGridFilterComponent implements OnInit {
                 } else {
                     if (this.filters.hasOwnProperty('processo.id')) {
                         delete this.filters['processo.id'];
-                    }
-                }
-                if (!value) {
-                    this.selected.emit(this.filters);
-                }
-            }
-        });
-
-        this.form.get('origemDados').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'origemDados.id': `eq:${value.id}`
-                    };
-                    this.selected.emit(this.filters);
-                } else {
-                    if (this.filters.hasOwnProperty('origemDados.id')) {
-                        delete this.filters['origemDados.id'];
                     }
                 }
                 if (!value) {

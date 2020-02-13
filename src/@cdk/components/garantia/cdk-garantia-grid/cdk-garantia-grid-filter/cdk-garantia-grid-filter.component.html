@@ -5,12 +5,14 @@
 
         <mat-form-field fxFlex="100">
             <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Garantia Administrativo"
-                       formControlName="garantiaAdministrativo"
-                       [matAutocomplete]="garantiaAdministrativo.autocomplete">
+                <input matInput placeholder="Modalidade de Garantia"
+                       formControlName="modalidadeGarantia"
+                       [matAutocomplete]="modalidadeGarantia.autocomplete">
             </div>
-            <cdk-garantia-administrativo-autocomplete #garantiaAdministrativo="garantiaAdministrativoAutocomplete" [control]="form.get('garantiaAdministrativo')">
-            </cdk-garantia-administrativo-autocomplete>
+            <cdk-modalidade-garantia-autocomplete 
+                #modalidadeGarantia="modalidadeGarantiaAutocomplete" 
+                [control]="form.get('modalidadeGarantia')">
+            </cdk-modalidade-garantia-autocomplete>            
         </mat-form-field>
 
         <mat-form-field fxFlex="100">
@@ -22,20 +24,6 @@
             <cdk-processo-autocomplete #processo="processoAutocomplete" [control]="form.get('processo')">
             </cdk-processo-autocomplete>
         </mat-form-field>
-
-        <mat-form-field fxFlex="100">
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Origem de Dados"
-                       formControlName="origemDados"
-                       [matAutocomplete]="origemDados.autocomplete">
-            </div>
-            <cdk-origem-dados-autocomplete #origemDados="origemDadosAutocomplete" [control]="form.get('origemDados')">
-            </cdk-origem-dados-autocomplete>
-        </mat-form-field>
-
-        <mat-checkbox formControlName="principal" class="mr-16 mb-16" fxFlex="0 1 auto">
-            Principal
-        </mat-checkbox>
 
         <button mat-raised-button color="warn" class="mr-sm-12" (click)="limpar()">
             Limpar
