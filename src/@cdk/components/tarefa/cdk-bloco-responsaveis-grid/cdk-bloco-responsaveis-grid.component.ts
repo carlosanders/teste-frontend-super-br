@@ -10,7 +10,7 @@ import {merge, of} from 'rxjs';
 import {fuseAnimations} from '@fuse/animations';
 import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@angular/material';
-import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, switchMap, tap, findIndex} from 'rxjs/operators';
 
 import {Setor} from '@cdk/models/setor.model';
 import {Usuario} from '@cdk/models/usuario.model';
@@ -34,11 +34,16 @@ export class CdkBlocoResponsaveisComponent implements AfterViewInit, OnInit, OnC
     @Input()
     responsaveis: Responsavel[];
 
+    showFilter = false;
+
     @Output()
     responsaveisChange = new EventEmitter<Responsavel[]>();
 
     @Input()
     total = 0;
+
+    @Input()
+    mode = 'list';
 
     @Input()
     displayedColumns: string[] = ['select', 'id', 'responsavel', 'setor', 'sigla', 'actions'];
@@ -51,23 +56,23 @@ export class CdkBlocoResponsaveisComponent implements AfterViewInit, OnInit, OnC
         },
         {
             id: 'id',
-            label: '',
-            fixed: true
+            label: 'Id',
+            fixed: false
         },
         {
             id: 'responsavel',
             label: 'Responsável',
-            fixed: true
+            fixed: false
         },
         {
             id: 'setor',
             label: 'Setor',
-            fixed: true
+            fixed: false
         },
         {
             id: 'sigla',
             label: 'Sigla',
-            fixed: true
+            fixed: false
         },
         {
             id: 'actions',
@@ -76,8 +81,7 @@ export class CdkBlocoResponsaveisComponent implements AfterViewInit, OnInit, OnC
         }
     ];
 
-    columnsResponsaveis = new FormControl();
-    columns = new FormControl();
+    columns = new FormControl();    
 
     @Input()
     deletingIds: number[] = [];
@@ -110,11 +114,12 @@ export class CdkBlocoResponsaveisComponent implements AfterViewInit, OnInit, OnC
     delete = new EventEmitter<number>();
 
     @Output()
+    selected = new EventEmitter<Responsavel>();
+
+    @Output()
     selectedIds: number[] = [];
 
     usuariosSetoresDataSource: DataSource<Responsavel>;
-
-    showFilter = false;
 
     gridFilter: any;
 
@@ -191,9 +196,17 @@ export class CdkBlocoResponsaveisComponent implements AfterViewInit, OnInit, OnC
         });
     }
 
-    deleteResponsavel(setorId): void {
-        this.responsaveis = this.responsaveis.filter(responsavel => responsavel.setor.id !== setorId);
-        this.responsaveisChange.emit(this.responsaveis);
+    deleteResponsavel(setorId, responsavelId): void {
+        if (responsavelId) {
+            this.responsaveis = this.responsaveis.filter(responsavel => 
+                (responsavel.setor.id && responsavel.usuario.id) !== (setorId && responsavelId));
+            this.responsaveisChange.emit(this.responsaveis);
+        }else {
+            this.responsaveis = this.responsaveis.filter(responsavel => 
+                (responsavel.setor.id) !== (setorId));
+            this.responsaveisChange.emit(this.responsaveis);
+
+        }
     }
 
     selectResponsavel(responsaveis: Responsavel): void {

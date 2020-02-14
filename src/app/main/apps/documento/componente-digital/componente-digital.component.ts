@@ -8,6 +8,8 @@ import {
 } from '@angular/core';
 
 import {fuseAnimations} from '@fuse/animations';
+import {Store} from '@ngrx/store';
+import * as fromStore from './store';
 
 @Component({
     selector: 'componente-digital',
@@ -20,11 +22,12 @@ import {fuseAnimations} from '@fuse/animations';
 export class ComponenteDigitalComponent implements OnInit, OnDestroy {
 
     /**
-     *
      * @param _changeDetectorRef
+     * @param _store
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
+        private _store: Store<fromStore.ComponenteDigitalAppState>,
     ) {
     }
 
@@ -42,6 +45,7 @@ export class ComponenteDigitalComponent implements OnInit, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
+        this._store.dispatch(new fromStore.UnloadComponenteDigital());
     }
 
     // -----------------------------------------------------------------------------------------------------

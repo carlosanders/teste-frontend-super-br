@@ -166,6 +166,6 @@ export class Processo {
         this.atualizadoEm = null;
         this.apagadoPor = null;
         this.apagadoEm = null;
-        this.vinculacoesEtiquetas = [];
+        this.vinculacoesEtiquetas = null;
     }
 }

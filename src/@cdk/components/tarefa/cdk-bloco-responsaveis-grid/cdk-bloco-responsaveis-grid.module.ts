@@ -22,11 +22,15 @@ import {CdkSetorAutocompleteModule} from '../../setor/cdk-setor-autocomplete/cdk
 import {CdkSetorGridFilterModule} from '../../setor/cdk-setor-grid/cdk-setor-grid-filter/cdk-setor-grid-filter.module';
 import {CdkUsuarioAutocompleteModule} from '../../usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 import {CdkUsuarioGridFilterModule} from '../../usuario/cdk-usuario-grid/cdk-usuario-grid-filter/cdk-usuario-grid-filter.module';
+import {CdkBlocoResponsaveisGridFilterModule} from '../cdk-bloco-responsaveis-grid/cdk-bloco-responsaveis-grid-filter/cdk-bloco-responsaveis-grid-filter.module';
+import {CdkBlocoResponsaveisMainSidebarComponent} from './sidebars/main.bloco-responsaveis.component';
+
 
 
 @NgModule({
     declarations: [
-        CdkBlocoResponsaveisComponent
+        CdkBlocoResponsaveisComponent,
+        CdkBlocoResponsaveisMainSidebarComponent
     ],
     imports: [
         MatSelectModule,
@@ -48,13 +52,15 @@ import {CdkUsuarioGridFilterModule} from '../../usuario/cdk-usuario-grid/cdk-usu
         CdkSetorGridFilterModule,
         CdkUsuarioAutocompleteModule,
         CdkUsuarioGridFilterModule,
+        CdkBlocoResponsaveisGridFilterModule,
     ],
     providers: [
         UsuarioService,
         SetorService
     ],
     exports: [
-        CdkBlocoResponsaveisComponent
+        CdkBlocoResponsaveisComponent,
+        CdkBlocoResponsaveisMainSidebarComponent
     ]
 })
 export class CdkBlocoResponsaveisGridModule {

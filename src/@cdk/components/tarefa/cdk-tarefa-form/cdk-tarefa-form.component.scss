@@ -23,6 +23,16 @@ cdk-tarefa-form {
       background: none !important;
     }
   }
+
+  .align-icon {
+    .toggle-icon {
+      margin-top: 6px;
+      align-self: center;
+    }
+    .add-icon {
+      align-self: flex-start;
+    }
+  }
 }
 
 cdk-processo-gridsearch {
