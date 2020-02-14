@@ -12,9 +12,9 @@
 
 <!-- SIDEBAR CONTENT -->
 
-<div class="px-24 pt-32 pb-12">
-    <button mat-raised-button *ngIf="!processo"
-            class="mat-accent compose-dialog-button w-100-p"
+<div class="px-24 pt-32 pb-12" fxLayout="column">
+    <button mat-raised-button
+            class="mat-accent compose-dialog-button w-100-p mb-20"
             (click)="create()"
             aria-label="Criar">
         {{ 'PROCESSO.COMPOSE' | translate }}

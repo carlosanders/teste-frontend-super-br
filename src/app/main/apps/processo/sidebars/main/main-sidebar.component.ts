@@ -4,9 +4,10 @@ import {fuseAnimations} from '@fuse/animations';
 import {Observable, Subject} from 'rxjs';
 import {Processo} from '@cdk/models/processo.model';
 import {select, Store} from '@ngrx/store';
-import * as fromStore from '../../store';
+import * as fromStore from 'app/main/apps/processo/store';
+import {UnloadProcesso} from 'app/main/apps/processo/processo-edit/dados-basicos/store';
 import {takeUntil} from 'rxjs/operators';
-import { getRouterState } from 'app/store/reducers';
+import { getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 
 
@@ -39,6 +40,7 @@ export class ProcessoMainSidebarComponent implements OnInit, OnDestroy {
         private _store: Store<fromStore.ProcessoAppState>,
         private _router: Router,
     ) {
+
         this.processo$ = this._store.pipe(select(fromStore.getProcesso));
 
         this.links = [
@@ -46,6 +48,7 @@ export class ProcessoMainSidebarComponent implements OnInit, OnDestroy {
                 nome: 'Editar',
                 icon: 'edit',
                 link: 'editar',
+                processo: true
             },
             {
                 nome: 'Visualizar',
@@ -95,7 +98,7 @@ export class ProcessoMainSidebarComponent implements OnInit, OnDestroy {
     }
 
     create(): void {
-        this._router.navigate([this.routerState.url.replace('processo-empty', 'dados-basicos')]).then();        
+//           this._router.navigate([this.routerState.url.split('/processo/')[0] + '/processo/ciar/editar/dados-basicos']).then();        
     }
 
 }

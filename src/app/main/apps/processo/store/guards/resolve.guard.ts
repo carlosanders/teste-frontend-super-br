@@ -59,10 +59,15 @@ export class ResolveGuard implements CanActivate {
                 if (loaded.acessoNegado) {
                     this._router.navigate([this.routerState.url.split('/processo')[0] + '/processo/' + this.routerState.params.processoHandle + '/acesso-negado']).then();
                 } else {
-                    if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
+                     console.log('entrou else Get Guards processo: Handle: ' + this.routerState.params['processoHandle']);
+                     console.log('entrou else Get Guards processo: loaded.id: ' + this.routerState.params[loaded.id]);
+                     console.log('entrou else Get Guards processo: loaded.value: ' + this.routerState.params[loaded.value]);
+                     if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
                         if (this.routerState.params['processoHandle'] === 'criar') {
+                            console.log('entrou processo create');
                             this._store.dispatch(new fromStore.CreateProcesso());
                         } else {
+                            console.log('entrou processo get');
                             this._store.dispatch(new fromStore.GetProcesso({
                                 id: 'eq:' + this.routerState.params['processoHandle']
                             }));

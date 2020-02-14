@@ -9,6 +9,8 @@ import {TranslateModule} from '@ngx-translate/core';
 import {FuseSharedModule} from '@fuse/shared.module';
 import {FuseSidebarModule} from '@fuse/components';
 
+import * as fromGuards from 'app/main/apps/processo/store/guards/index';
+
 import {ProcessoEditMainSidebarComponent} from './sidebars/main/main-sidebar.component';
 import {ProcessoEditComponent} from './processo-edit.component';
 import {CommonModule} from '@angular/common';

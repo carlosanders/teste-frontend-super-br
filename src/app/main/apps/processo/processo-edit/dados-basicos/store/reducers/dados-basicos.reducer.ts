@@ -53,6 +53,20 @@ export function DadosBasicosReducer(state = DadosBasicosInitialState, action: Da
             };
         }
 
+        case DadosBasicosActions.UNLOAD_PROCESSO: {
+            return {
+                processoId: null,                
+                loaded: {
+                    id: 'processoHandle',
+                    value: 'criar',
+                    acessoNegado: false
+                },
+                loading: false,
+                saving: false,
+                errors: false,   
+            };
+        }
+
         case DadosBasicosActions.SET_PROCESSO: {
             return {
                 ...state,

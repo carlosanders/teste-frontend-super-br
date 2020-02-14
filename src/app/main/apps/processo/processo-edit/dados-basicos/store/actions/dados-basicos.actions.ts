@@ -2,6 +2,7 @@ import { Action } from '@ngrx/store';
 
 export const SET_PROCESSO = '[DADOS BASICOS] SET PROCESSO';
 export const GET_PROCESSO = '[DADOS BASICOS] GET PROCESSO';
+export const UNLOAD_PROCESSO = '[DADOS BASICOS] UNLOAD PROCESSO';
 export const GET_PROCESSO_SUCCESS = '[DADOS BASICOS] GET PROCESSO SUCCESS';
 export const GET_PROCESSO_FAILED = '[DADOS BASICOS] GET PROCESSO FAILED';
 export const CREATE_PROCESSO = '[DADOS BASICOS] CREATE PROCESSO';
@@ -188,6 +189,18 @@ export class CreateProcesso implements Action
 }
 
 /**
+ * Unload Processo
+ */
+export class UnloadProcesso implements Action
+{
+    readonly type = UNLOAD_PROCESSO;
+
+    constructor()
+    {
+    }
+}
+
+/**
  * Create Processo Success
  */
 export class CreateProcessoSuccess implements Action
@@ -201,6 +214,7 @@ export class CreateProcessoSuccess implements Action
 
 export type DadosBasicosActionsAll
     = SetProcesso
+    | UnloadProcesso
     | PostProcesso
     | PutProcesso
     | GetProcesso     
