@@ -18,7 +18,7 @@ import {FuseSharedModule} from '@fuse/shared.module';
 import {GarantiasComponent} from './garantias.component';
 import {GarantiaService} from '@cdk/services/garantia.service'; 
 import {RouterModule, Routes} from '@angular/router';
-import {GarantiaAdministrativoService} from '@cdk/services/garantia-administrativo.service';
+
 
 const routes: Routes = [
     {
@@ -66,8 +66,7 @@ const routes: Routes = [
         FuseSharedModule,
     ],
     providers: [
-        GarantiaService,
-        GarantiaAdministrativoService
+        GarantiaService
     ],
     exports: [
         GarantiasComponent

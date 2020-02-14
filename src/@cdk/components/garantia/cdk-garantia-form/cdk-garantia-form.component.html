@@ -36,13 +36,14 @@
 
         <mat-form-field fxFlex="100">
             <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Descrição" formControlName="descricao" maxlength="255" required upperCase>
+                <input #descricao matInput placeholder="Descrição" formControlName="descricao" maxlength="255" required upperCase>
             </div>
+            <mat-hint align="end">{{descricao.value.length}} / 255</mat-hint>            
         </mat-form-field>
 
         <mat-form-field fxFlex="100">
             <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Valor (R$)" formControlName="valor" maxlength="20" required>
+                <input matInput placeholder="Valor (R$)" formControlName="valor" required>
             </div>
             <mat-error *ngIf="form.get('valor').hasError('formError')">
                 {{form.get('valor').errors.formError}}
@@ -61,8 +62,9 @@
 
         <mat-form-field fxFlex="100">
             <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Observação" formControlName="observacao" maxlength="255" required upperCase>
+                <input #observacao matInput placeholder="Observação" formControlName="observacao" maxlength="255" upperCase>
             </div>
+            <mat-hint align="end">{{observacao.value.length}} / 255</mat-hint>
         </mat-form-field>
 
 

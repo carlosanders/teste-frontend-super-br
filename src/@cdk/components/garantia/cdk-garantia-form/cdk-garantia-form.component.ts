@@ -51,17 +51,15 @@ export class CdkGarantiaFormComponent implements OnChanges, OnDestroy {
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: FormBuilder
     ) {
-
         this.form = this._formBuilder.group({
             id: [null],
             processo: [null, [Validators.required]],
             modalidadeGarantia: [null, [Validators.required]],
             descricao: [null, [Validators.maxLength(255)]],
-            valor: [null, [Validators.required, Validators.pattern(this.valorRegex)]],
+            valor: [null, [Validators.required, Validators.pattern(this.valorRegex),Validators.maxLength(10)]],
             dataValor: [null, [Validators.required]],
             observacao: [null, [Validators.maxLength(255)]]
         });
-        
         this.modalidadeGarantiaPagination = new Pagination();
 
     }

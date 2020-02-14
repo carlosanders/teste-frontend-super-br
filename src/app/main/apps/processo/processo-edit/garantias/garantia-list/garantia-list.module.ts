@@ -19,7 +19,6 @@ import {GarantiaListComponent} from './garantia-list.component';
 import {GarantiaService} from '@cdk/services/garantia.service';
 import {RouterModule, Routes} from '@angular/router';
 import {GarantiaListStoreModule} from 'app/main/apps/processo/processo-edit/garantias/garantia-list/store/store.module';
-import {GarantiaAdministrativoService} from '@cdk/services/garantia-administrativo.service';
 import * as fromGuards from 'app/main/apps/processo/processo-edit/garantias/garantia-list/store/guards';
 import {CdkGarantiaGridModule} from '@cdk/components/garantia/cdk-garantia-grid/cdk-garantia-grid.module';
 
@@ -60,7 +59,6 @@ const routes: Routes = [
     ],
     providers: [
         GarantiaService,
-        GarantiaAdministrativoService,
         fromGuards.ResolveGuard
     ],
     exports: [
