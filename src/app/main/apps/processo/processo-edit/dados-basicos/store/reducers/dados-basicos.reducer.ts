@@ -1,4 +1,5 @@
 import * as DadosBasicosActions from '../actions/dados-basicos.actions';
+import { isUndefined } from 'util';
 
 export interface DadosBasicosState {
     saving: boolean;
@@ -55,10 +56,11 @@ export function DadosBasicosReducer(state = DadosBasicosInitialState, action: Da
 
         case DadosBasicosActions.UNLOAD_PROCESSO: {
             return {
-                processoId: null,                
+                processoId: undefined,                
+//                loaded: undefined,
                 loaded: {
-                    id: 'processoHandle',
-                    value: 'criar',
+                    id: undefined,
+                    value: undefined,
                     acessoNegado: false
                 },
                 loading: false,

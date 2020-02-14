@@ -33,6 +33,13 @@ const routes: Routes = [
                 canActivate: [fromGuards.ResolveGuard]
             },
             {
+                path       : 'novo-editar',
+                redirectTo: 'editar',
+                pathMatch: 'prefix',
+//                loadChildren: () => import('./processo-edit/processo-edit.module').then(m => m.ProcessoEditModule),
+//                canActivate: [fromGuards.ResolveGuard]
+            },
+            {
                 path       : 'editar',
                 loadChildren: () => import('./processo-edit/processo-edit.module').then(m => m.ProcessoEditModule),
                 canActivate: [fromGuards.ResolveGuard]

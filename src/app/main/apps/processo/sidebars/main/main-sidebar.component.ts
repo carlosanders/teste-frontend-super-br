@@ -6,8 +6,9 @@ import {Processo} from '@cdk/models/processo.model';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from 'app/main/apps/processo/store';
 import {UnloadProcesso} from 'app/main/apps/processo/processo-edit/dados-basicos/store';
+import {CreateProcesso} from 'app/main/apps/processo/processo-edit/dados-basicos/store';
 import {takeUntil} from 'rxjs/operators';
-import { getRouterState} from 'app/store/reducers';
+import {getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 
 
@@ -78,13 +79,12 @@ export class ProcessoMainSidebarComponent implements OnInit, OnDestroy {
         ).subscribe(processo => this.processo = processo);
         
         this._store
-            .pipe(
-                select(getRouterState)
-            ).subscribe(routerState => {
-            if (routerState) {
-                this.routerState = routerState.state;
-            }
-        });
+            .pipe(select(getRouterState))
+            .subscribe(routerState => {
+                if (routerState) {
+                    this.routerState = routerState.state;
+                }
+            });
 
     }
 
@@ -98,7 +98,21 @@ export class ProcessoMainSidebarComponent implements OnInit, OnDestroy {
     }
 
     create(): void {
-//           this._router.navigate([this.routerState.url.split('/processo/')[0] + '/processo/ciar/editar/dados-basicos']).then();        
+           this._store.dispatch(new fromStore.CreateProcesso());           
+           this._store.dispatch(new CreateProcesso());                      
+           window.location.assign(this.routerState.url.split('/processo/')[0] + '/processo/criar/novo-editar');
+
+/*           if (this.routerState.url.indexOf('novo-editar') === -1){
+//               alert('novo ' + [this.routerState.url.split('/processo/')[0] + '/processo/criar/novo-editar']);
+//               this._router.navigate([this.routerState.url.replace('/processo/', '/processo/criar/novo-editar')]);
+               this._router.navigate([this.routerState.url.split('/processo/')[0] + '/processo/criar/novo-editar']);
+           }else{
+//               alert('dados');
+//               this._router.navigate([this.routerState.url.replace('/processo/', '/processo/criar/editar')]);       
+               this._router.navigate([this.routerState.url.split('/processo/')[0] + '/processo/criar/novo-editar']);                       
+           }
+//           window.location.reload();
+           */
     }
 
 }
