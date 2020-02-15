@@ -119,7 +119,7 @@
                         Valor
                     </th>
                     <td mat-cell *matCellDef="let garantia" class='has_label_on_mobile' data-label='Data Valor: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(garantia.id) > -1}"> {{garantia.valor | currency:'BRL':true}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(garantia.id) > -1}"> {{garantia.valor | currency:'BRL':'symbol'}} </td>
                 </ng-container>                
 
                 <!-- Data Valor Column -->

@@ -16,6 +16,7 @@ import { ModalidadeGarantiaService } from '@cdk/services/modalidade-garantia.ser
 import { CdkGarantiaFormComponent } from './cdk-garantia-form.component';
 import { CdkModalidadeGarantiaAutocompleteModule } from '@cdk/components/modalidade-garantia/cdk-modalidade-garantia-autocomplete/cdk-modalidade-garantia-autocomplete.module';
 import { CdkModalidadeGarantiaGridsearchModule } from '@cdk/components/modalidade-garantia/cdk-modalidade-garantia-autocomplete/cdk-modalidade-garantia-gridsearch/cdk-modalidade-garantia-gridsearch.module';
+import { NgxUpperCaseDirectiveModule } from 'ngx-upper-case-directive';
 
 @NgModule({
     declarations: [
@@ -31,6 +32,8 @@ import { CdkModalidadeGarantiaGridsearchModule } from '@cdk/components/modalidad
         MatInputModule,
         MatProgressSpinnerModule,
         MatDatepickerModule,
+
+        NgxUpperCaseDirectiveModule,
 
         CdkModalidadeGarantiaAutocompleteModule,
         CdkModalidadeGarantiaGridsearchModule,

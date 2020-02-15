@@ -232,7 +232,7 @@ export class CdkGarantiaGridComponent implements AfterViewInit, OnInit, OnChange
             gridFilter: this.gridFilter,
             limit: this.paginator.pageSize,
             offset: (this.paginator.pageSize * this.paginator.pageIndex),
-            sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {}
+            sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {['criadoEm']:'DESC'}
         });
     }
 
