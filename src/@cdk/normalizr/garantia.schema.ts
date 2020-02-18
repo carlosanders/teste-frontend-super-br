@@ -6,7 +6,7 @@ import {usuario} from './usuario.schema';
 
 export const garantia = new schema.Entity('garantia', {
     processo: processo,
-    modalidadeInteressado: modalidadeGarantia,
+    modalidadeGarantia: modalidadeGarantia,
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario
