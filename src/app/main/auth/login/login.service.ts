@@ -1,6 +1,6 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {environment} from 'environments/environment';
 import {Usuario} from "@cdk/models/usuario.model";
 
@@ -38,7 +38,48 @@ export class LoginService {
 
     getProfile(): Observable<any> {
         const url = `${environment.base_url}profile` + environment.xdebug;
-        return this.http.get(url);
+        //return this.http.get(url);
+        const profile = {
+            "entities": [
+                {
+                    "username": "00000******",
+                    "nome": "JOÃO EXTERNO",
+                    "assinaturaHTML": "João Externo",
+                    "email": "joao.externo@teste.com",
+                    "enabled": true,
+                    "nivelAcesso": 0,
+                    "roles": [
+                        "ROLE_ADMIN_1",
+                        "ROLE_COLABORADOR",
+                        "ROLE_USER",
+                        "ROLE_LOGGED"
+                    ],
+                    "vinculacoesRoles": [
+                        {
+                            "role": {
+                                "name": "ROLE_USER",
+                                "description": "Description - ROLE_USER",
+                                "id": 2,
+                                "uuid": "59d11c02-8a75-49fd-8d51-b4631f517b98",
+                                "ativo": true,
+                                "criadoEm": "2020-02-03 20:50:21"
+                            },
+                            "id": 1,
+                            "uuid": "15617711-1415-1214-1515-1513677278af",
+                            "criadoEm": "2020-02-04 14:13:33"
+                        }
+                    ],
+                    "id": 1,
+                    "uuid": "47289232-1616-1663-2367-ffff16671a12",
+                    "criadoEm": "2020-02-04 14:12:56",
+                    "colaborador": {
+                        "id": 2
+                    }
+                }
+            ],
+            "total": 1
+        };
+        return of<any>(profile);
     }
 
     isGranted(role: string): boolean {

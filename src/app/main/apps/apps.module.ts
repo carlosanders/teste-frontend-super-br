@@ -9,6 +9,10 @@ const routes = [
         loadChildren: () => import('./painel/painel.module').then(m => m.PainelModule)
     },
     {
+        path        : 'admin',
+        loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule)
+    },
+    {
         path        : 'tarefas',
         loadChildren: () => import('./tarefas/tarefas.module').then(m => m.TarefasModule)
     },
