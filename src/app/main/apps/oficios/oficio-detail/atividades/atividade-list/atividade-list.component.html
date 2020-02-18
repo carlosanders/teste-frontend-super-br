@@ -1,0 +1,25 @@
+<div fxLayout="column">
+
+    <!-- CONTENT HEADER -->
+    <div class="header" fxLayout="column">
+
+        <div class="actions mt-16 ml-24 mr-16" fxLayout="row" fxLayoutAlign="start center">
+
+        </div>
+    </div>
+    <!-- / CONTENT HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <cdk-atividade-grid
+                [loading]="(loading$ | async)"
+                [atividades]="(atividades$ | async)"
+                [total]="(pagination$ | async)?.total"
+                [actions]="[]"
+                (reload)="reload($event)">
+        </cdk-atividade-grid>
+
+    </div>
+
+</div>
