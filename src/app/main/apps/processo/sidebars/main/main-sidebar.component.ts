@@ -100,19 +100,7 @@ export class ProcessoMainSidebarComponent implements OnInit, OnDestroy {
     create(): void {
            this._store.dispatch(new fromStore.CreateProcesso());           
            this._store.dispatch(new CreateProcesso());                      
-           window.location.assign(this.routerState.url.split('/processo/')[0] + '/processo/criar/novo-editar');
-
-/*           if (this.routerState.url.indexOf('novo-editar') === -1){
-//               alert('novo ' + [this.routerState.url.split('/processo/')[0] + '/processo/criar/novo-editar']);
-//               this._router.navigate([this.routerState.url.replace('/processo/', '/processo/criar/novo-editar')]);
-               this._router.navigate([this.routerState.url.split('/processo/')[0] + '/processo/criar/novo-editar']);
-           }else{
-//               alert('dados');
-//               this._router.navigate([this.routerState.url.replace('/processo/', '/processo/criar/editar')]);       
-               this._router.navigate([this.routerState.url.split('/processo/')[0] + '/processo/criar/novo-editar']);                       
-           }
-//           window.location.reload();
-           */
+           window.location.assign(this.routerState.url.split('/processo/')[0] + '/processo/criar/editar');
     }
 
 }
