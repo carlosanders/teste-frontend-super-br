@@ -57,6 +57,7 @@ export class ProcessoService {
 
     query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
         const params = {};
+        
         params['where'] = filters;
         params['limit'] = limit;
         params['offset'] = offset;
@@ -65,7 +66,9 @@ export class ProcessoService {
 
         return this.modelService.get('processo', new HttpParams({fromObject: params}))
             .pipe(
+                tap((response) => {console.log(response)}),
                 map(response => new PaginatedResponse(plainToClass(Processo, response['entities']), response['total']))
+                
             );
     }
 

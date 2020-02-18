@@ -105,11 +105,6 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
             fixed: false
         },
         {
-            id: 'acessoNegado',
-            label: 'Acesso Negado',
-            fixed: false
-        },
-        {
             id: 'dataHoraProximaTransicao',
             label: 'Data Próxima Transição',
             fixed: false
