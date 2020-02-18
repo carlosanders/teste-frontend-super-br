@@ -54,6 +54,7 @@ const appRoutes: Routes = [
 
 const routingConfiguration: ExtraOptions = {
     paramsInheritanceStrategy: 'always'
+//    onSameUrlNavigation: 'reload'
 };
 
 @NgModule({

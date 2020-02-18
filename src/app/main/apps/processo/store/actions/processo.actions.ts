@@ -2,6 +2,7 @@ import { Action } from '@ngrx/store';
 
 
 export const CREATE_PROCESSO = '[PROCESSO] CREATE PROCESSO';
+export const UNLOAD_PROCESSO = '[PROCESSO] UNLOAD PROCESSO';
 
 export const GET_PROCESSO = '[PROCESSO] GET PROCESSO';
 export const GET_PROCESSO_SUCCESS = '[PROCESSO] GET PROCESSO SUCCESS';
@@ -21,6 +22,18 @@ export const DELETE_VINCULACAO_ETIQUETA_FAILED = '[PROCESSO] DELETE VINCULACAO_E
 export class CreateProcesso implements Action
 {
     readonly type = CREATE_PROCESSO;
+
+    constructor()
+    {
+    }
+}
+
+/**
+ * Create Processo
+ */
+export class UnloadProcesso implements Action
+{
+    readonly type = UNLOAD_PROCESSO;
 
     constructor()
     {
@@ -137,6 +150,7 @@ export class CreateVinculacaoEtiquetaFailed implements Action
 
 export type ProcessoActionsAll
     = CreateProcesso
+    | UnloadProcesso
     | GetProcesso
     | GetProcessoSuccess
     | GetProcessoFailed

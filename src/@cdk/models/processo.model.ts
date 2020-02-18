@@ -19,13 +19,17 @@ export class Processo {
     @Exclude({ toPlainOnly: true })
     id?: number;
 
+    @Type(() => Processo)
+    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    processoOrigem: Processo;
+
     @Exclude({ toPlainOnly: true })
     uuid?: string;
 
     novo: boolean;
 
     NUP: string;
-    
+
     semValorEconomico: boolean;
 
     visibilidadeExterna: boolean;
@@ -132,6 +136,7 @@ export class Processo {
 
     constructor() {
         this.id = null;
+        this.processoOrigem = null;
         this.uuid = null;
         this.novo = null;
         this.descricao = null;

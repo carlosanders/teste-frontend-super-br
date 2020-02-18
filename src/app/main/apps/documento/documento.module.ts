@@ -9,7 +9,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {DocumentoStoreModule} from './store/store.module';
 import * as fromGuards from './store/guards';
 import {DocumentoEditModule} from './documento-edit/documento-edit.module';
-import {MatButtonModule, MatIconModule, MatTooltipModule} from '@angular/material';
+import {MatButtonModule, MatIconModule, MatSlideToggleModule, MatTooltipModule} from '@angular/material';
 import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
 import {FuseSidebarModule} from '@fuse/components';
 import {CdkDocumentoCardListModule} from '@cdk/components/documento/cdk-documento-card-list/cdk-documento-card-list.module';
@@ -64,7 +64,8 @@ const routes: Routes = [
         CdkDocumentoCardListModule,
 
         FuseSidebarModule,
-        MatTooltipModule
+        MatTooltipModule,
+        MatSlideToggleModule
     ],
     providers: [
         DocumentoService,
