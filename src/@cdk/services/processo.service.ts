@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import {map, tap} from 'rxjs/operators';
 import {Processo} from '@cdk/models/processo.model';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
@@ -80,6 +80,7 @@ export class ProcessoService {
         if (processo.id) {
             return this.modelService.put('processo', processo.id, classToPlain(processo))
                 .pipe(
+                    tap((n) => {console.log('servico PUT' + n); } ),
                     map(response => {
                         response = plainToClass(Processo, response);
                         Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);

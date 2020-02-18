@@ -9,6 +9,8 @@ import {TranslateModule} from '@ngx-translate/core';
 import {FuseSharedModule} from '@fuse/shared.module';
 import {FuseSidebarModule} from '@fuse/components';
 
+import * as fromGuards from 'app/main/apps/processo/store/guards/index';
+
 import {ProcessoEditMainSidebarComponent} from './sidebars/main/main-sidebar.component';
 import {ProcessoEditComponent} from './processo-edit.component';
 import {CommonModule} from '@angular/common';
@@ -20,6 +22,10 @@ const routes: Routes = [
         path: '',
         component: ProcessoEditComponent,
         children: [
+            {
+                path: 'processo-empty',
+                loadChildren: () => import('./processo-empty/processo-empty.module').then(m => m.ProcessoEmptyModule),
+            },
             {
                 path: 'dados-basicos',
                 loadChildren: () => import('./dados-basicos/dados-basicos.module').then(m => m.DadosBasicosModule)
