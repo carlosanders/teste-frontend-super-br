@@ -1,24 +1,24 @@
 import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { ProcessosReducer, TarefasState } from './processos.reducer';
+import { ProcessosReducer, ProcessosState } from './processos.reducer';
 import { FoldersReducer, FoldersState } from './folders.reducer';
 
-export interface TarefasAppState
+export interface ProcessosAppState
 {
-    tarefas: TarefasState;
+    processos: ProcessosState;
     folders: FoldersState;
 }
 
-export const getTarefasAppState = createFeatureSelector<TarefasAppState>(
-    'tarefas-app'
+export const getProcessosAppState = createFeatureSelector<ProcessosAppState>(
+    'processos-app'
 );
 
 export const getAppState = createSelector(
-    getTarefasAppState,
-    (state: TarefasAppState) => state
+    getProcessosAppState,
+    (state: ProcessosAppState) => state
 );
 
-export const reducers: ActionReducerMap<TarefasAppState> = {
-    tarefas: ProcessosReducer,
+export const reducers: ActionReducerMap<ProcessosAppState> = {
+    processos: ProcessosReducer,
     folders: FoldersReducer
 };
 

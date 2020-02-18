@@ -1,65 +1,65 @@
 import { createSelector } from '@ngrx/store';
-import { getTarefasAppState, TarefasAppState, TarefasState } from 'app/main/apps/tarefas/store/reducers';
+import { getProcessosAppState, ProcessosAppState, ProcessosState } from 'app/main/apps/oficios/store/reducers';
 
 import { createSchemaSelectors } from '@cdk/ngrx-normalizr';
-import { tarefa as tarefaSchema } from '@cdk/normalizr/tarefa.schema';
-import {Tarefa} from '@cdk/models/tarefa.model';
+import { processo as processoSchema } from '@cdk/normalizr/processo.schema';
+import {Processo} from '../../../../../../@cdk/models/processo.model';
 
-const schemaSelectors = createSchemaSelectors<Tarefa>(tarefaSchema);
+const schemaSelectors = createSchemaSelectors<Processo>(processoSchema);
 
-export const getTarefasState = createSelector(
-    getTarefasAppState,
-    (state: TarefasAppState) => state.tarefas
+export const getProcessosState = createSelector(
+    getProcessosAppState,
+    (state: ProcessosAppState) => state.processos
 );
 
-export const getSelectedTarefaIds = createSelector(
-    getTarefasState,
-    (state: TarefasState) => state.selectedTarefaIds
+export const getSelectedProcessoIds = createSelector(
+    getProcessosState,
+    (state: ProcessosState) => state.selectedProcessoIds
 );
 
 export const getMaximizado = createSelector(
-    getTarefasState,
-    (state: TarefasState) => state.maximizado
+    getProcessosState,
+    (state: ProcessosState) => state.maximizado
 );
 
-export const getTarefasIds = createSelector(
-    getTarefasState,
-    (state: TarefasState) => state.entitiesId
+export const getProcessosIds = createSelector(
+    getProcessosState,
+    (state: ProcessosState) => state.entitiesId
 );
 
-export const getTarefas = createSelector(
+export const getProcessos = createSelector(
     schemaSelectors.getNormalizedEntities,
-    getTarefasIds,
+    getProcessosIds,
     schemaSelectors.entitiesProjector
 );
 
-export const getSelectedTarefas = createSelector(
-    schemaSelectors.getNormalizedEntities,
-    getSelectedTarefaIds,
-    schemaSelectors.entitiesProjector
+// export const getSelectedTarefas = createSelector(
+//     schemaSelectors.getNormalizedEntities,
+//     getSelectedTarefaIds,
+//     schemaSelectors.entitiesProjector
+// );
+//
+// export const getPagination = createSelector(
+//     getTarefasState,
+//     (state: TarefasState) => state.pagination
+// );
+//
+export const getProcessosLoaded = createSelector(
+    getProcessosState,
+    (state: ProcessosState) => state.loaded
 );
-
-export const getPagination = createSelector(
-    getTarefasState,
-    (state: TarefasState) => state.pagination
-);
-
-export const getTarefasLoaded = createSelector(
-    getTarefasState,
-    (state: TarefasState) => state.loaded
-);
-
-export const getIsLoading = createSelector(
-    getTarefasState,
-    (state: TarefasState) => state.loading
-);
-
-export const getDeletingTarefaIds = createSelector(
-    getTarefasState,
-    (state: TarefasState) => state.deletingTarefaIds
-);
-
-export const getDeletedTarefaIds = createSelector(
-    getTarefasState,
-    (state: TarefasState) => state.deletedTarefaIds
-);
+//
+// export const getIsLoading = createSelector(
+//     getTarefasState,
+//     (state: TarefasState) => state.loading
+// );
+//
+// export const getDeletingTarefaIds = createSelector(
+//     getTarefasState,
+//     (state: TarefasState) => state.deletingTarefaIds
+// );
+//
+// export const getDeletedTarefaIds = createSelector(
+//     getTarefasState,
+//     (state: TarefasState) => state.deletedTarefaIds
+// );

@@ -121,7 +121,7 @@ export class ResolveGuard implements CanActivate {
                     ]
                 };
 
-                const routeFolderParams = of('folderHandle');
+                /*const routeFolderParams = of('folderHandle');
                 routeFolderParams.subscribe(param => {
                     let tarefaFilter = {};
                     if (this.routerState.params[param] === 'compartilhadas') {
@@ -158,13 +158,13 @@ export class ResolveGuard implements CanActivate {
                 if (!this.routerState.params['generoHandle'] || !this.routerState.params['folderHandle']
                     || (this.routerState.params['generoHandle'] + '_' + this.routerState.params['folderHandle']) !== loaded.value) {
                     this._store.dispatch(new fromStore.GetProcessos(params));
-                    /*this._store.dispatch(new fromStore.ChangeSelectedProcessos([]));*/
-                }
+                    /!*this._store.dispatch(new fromStore.ChangeSelectedProcessos([]));*!/
+                }*/
             }),
-            filter((loaded: any) => {
+            /*filter((loaded: any) => {
                 return this.routerState.params['generoHandle'] && this.routerState.params['folderHandle']
                     && (this.routerState.params['generoHandle'] + '_' + this.routerState.params['folderHandle']) === loaded.value;
-            }),
+            }),*/
             take(1)
         );
     }

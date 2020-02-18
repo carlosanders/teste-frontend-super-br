@@ -16,11 +16,11 @@ export interface ProcessosState {
     };
     loading: boolean;
     loaded: any;
-    deletingTarefaIds: number[];
-    togglingLidaTarefaIds: number[];
-    currentTarefaId: number;
-    deletedTarefaIds: number[];
-    selectedTarefaIds: number[];
+    deletingProcessoIds: number[];
+    togglingLidaProcessoIds: number[];
+    currentProcessoId: number;
+    deletedProcessoIds: number[];
+    selectedProcessoIds: number[];
     maximizado: boolean;
 }
 
@@ -39,11 +39,11 @@ export const ProcessosInitialState: ProcessosState = {
     },
     loading: false,
     loaded: false,
-    deletingTarefaIds: [],
-    togglingLidaTarefaIds: [],
-    deletedTarefaIds: [],
-    selectedTarefaIds: [],
-    currentTarefaId: null,
+    deletingProcessoIds: [],
+    togglingLidaProcessoIds: [],
+    deletedProcessoIds: [],
+    selectedProcessoIds: [],
+    currentProcessoId: null,
     maximizado: false
 };
 

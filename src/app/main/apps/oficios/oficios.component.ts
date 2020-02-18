@@ -44,6 +44,7 @@ import { Usuario } from '@cdk/models/usuario.model';
 export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
 
     private _unsubscribeAll: Subject<any> = new Subject();
+    private oficios: Processo[];
 
     routerState: any;
 
@@ -51,11 +52,11 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
 
     folders$: Observable<Folder[]>;
     currentOficioId: number;
-    oficios: DocumentoAvulso[] = [];
+    processos: Processo[] = [];
     oficioListSize = 35;
     oficioListOriginalSize: number;
 
-    oficios$: Observable<DocumentoAvulso[]>;
+    oficios$: Observable<Processo[]>;
     loading$: Observable<boolean>;
 
     deletingIds$: Observable<number[]>;
@@ -64,9 +65,9 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
     selectedIds$: Observable<number[]>;
     selectedIds: number[] = [];
 
-    selectedOficios$: Observable<DocumentoAvulso[]>;
+    selectedOficios$: Observable<Processo[]>;
 
-    selectedOficios: DocumentoAvulso[] = [];
+    selectedOficios: Processo[] = [];
 
     screen$: Observable<any>;
 
@@ -90,6 +91,7 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
 
     @ViewChild('oficioListElement', {read: ElementRef, static: true}) oficioListElement: ElementRef;
 
+
     /**
      * @param _changeDetectorRef
      * @param _fuseSidebarService
@@ -103,24 +105,24 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
         private _changeDetectorRef: ChangeDetectorRef,
         private _fuseSidebarService: FuseSidebarService,
         private _fuseTranslationLoaderService: FuseTranslationLoaderService,
-        private _documentoAvulsoService: DocumentoAvulsoService,
+        private _processoService: ProcessoService,
         private _router: Router,
-        private _store: Store<fromStore.TarefasAppState>,
+        private _store: Store<fromStore.ProcessosAppState>,
         private _loginService: LoginService
     ) {
         // Set the defaults
         this.searchInput = new FormControl('');
         this._fuseTranslationLoaderService.loadTranslations(english);
-        this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
-        this.oficios$ = this._store.pipe(select(fromStore.getTarefas));
+        /*this.loading$ = this._store.pipe(select(fromStore.getIsLoading));*/
+        this.oficios$ = this._store.pipe(select(fromStore.getProcessos));
         this.folders$ = this._store.pipe(select(fromStore.getFolders));
-        this.selectedOficios$ = this._store.pipe(select(fromStore.getSelectedTarefas));
-        this.selectedIds$ = this._store.pipe(select(fromStore.getSelectedTarefaIds));
-        this.pagination$ = this._store.pipe(select(fromStore.getPagination));
+        /*this.selectedOficios$ = this._store.pipe(select(fromStore.getSelectedTarefas));*/
+        this.selectedIds$ = this._store.pipe(select(fromStore.getSelectedProcessoIds));
+        /*this.pagination$ = this._store.pipe(select(fromStore.getPagination));*/
         this.routerState$ = this._store.pipe(select(getRouterState));
         this.maximizado$ = this._store.pipe(select(fromStore.getMaximizado));
-        this.deletingIds$ = this._store.pipe(select(fromStore.getDeletingTarefaIds));
-        this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedTarefaIds));
+        /*this.deletingIds$ = this._store.pipe(select(fromStore.getDeletingTarefaIds));
+        this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedTarefaIds));*/
         this.screen$ = this._store.pipe(select(getScreenState));
         this._profile = _loginService.getUserProfile();
         this.vinculacaoEtiquetaPagination = new Pagination();
@@ -198,7 +200,7 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     ngAfterViewInit(): void {
-        this.oficioListOriginalSize = this.oficioListOriginalSize.nativeElement.offsetWidth;
+        /*this.oficioListOriginalSize = this.oficioListOriginalSize.nativeElement.offsetWidth;*/
     }
 
     /**
@@ -223,7 +225,7 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
             sort: params.listSort && Object.keys(params.listSort).length ? params.listSort : this.pagination.sort
         };
 
-        this._store.dispatch(new fromStore.GetTarefas(nparams));
+        this._store.dispatch(new fromStore.GetProcessos(nparams));
     }
 
     addEtiqueta(etiqueta: Etiqueta): void {
@@ -248,11 +250,11 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
             ...this.pagination,
             etiquetaFilter: etiquetaFilter
         };
-        this._store.dispatch(new fromStore.GetTarefas(nparams));
+        this._store.dispatch(new fromStore.GetProcessos(nparams));
     }
 
     onScroll(): void {
-        if (this.tarefas.length >= this.pagination.total) {
+        if (this.processos.length >= this.pagination.total) {
             return;
         }
 
@@ -261,10 +263,10 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
             limit: this.pagination.limit + this.pagination.limit
         };
 
-        this._store.dispatch(new fromStore.GetTarefas(nparams));
+        this._store.dispatch(new fromStore.GetProcessos(nparams));
     }
 
-    setCurrentTarefa(tarefa: Tarefa): void {
+    /*setCurrentTarefa(tarefa: Tarefa): void {
         if (!tarefa.dataHoraLeitura) {
             this._store.dispatch(new fromStore.ToggleLidaTarefa(tarefa));
         }
@@ -277,7 +279,7 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
 
     doToggleUrgente(tarefa: Tarefa): void {
         this._store.dispatch(new fromStore.ToggleUrgenteTarefa(tarefa));
-    }
+    }*/
 
     /**
      * Refresh
@@ -295,7 +297,7 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
         this._fuseSidebarService.getSidebar(name).toggleOpen();
     }
 
-    changeSelectedIds(ids: number[]): void {
+    /*changeSelectedIds(ids: number[]): void {
         this._store.dispatch(new fromStore.ChangeSelectedTarefas(ids));
     }
 
@@ -303,9 +305,9 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
         this.selectedOficios.forEach((oficio) => {
             this._store.dispatch(new fromStore.SetFolderOnSelectedTarefas({tarefa: oficio, folder: folder}));
         });
-    }
+    }*/
 
-    onResizeEndTarefaList(event: ResizeEvent): void {
+    /*onResizeEndTarefaList(event: ResizeEvent): void {
         const potencialTarefaListSize = (event.rectangle.width * this.tarefaListSize) / this.tarefaListOriginalSize;
 
         if (potencialTarefaListSize < 30) {
@@ -327,9 +329,9 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this.tarefaListSize = (event.rectangle.width * this.tarefaListSize) / this.tarefaListOriginalSize;
         this.tarefaListOriginalSize = event.rectangle.width;
-    }
+    }*/
 
-    doCreateDocumentoAvulso(tarefaId): void {
+    /*doCreateDocumentoAvulso(tarefaId): void {
         this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/'
         + this.routerState.params.folderHandle + '/tarefa/' + tarefaId + '/oficio']).then();
     }
@@ -337,9 +339,9 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
     doCreateTarefa(params): void {
         this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/'
         + this.routerState.params.folderHandle + '/criar/' + params.processoId]).then();
-    }
+    }*/
 
-    doMovimentar(tarefaId): void {
+    /*doMovimentar(tarefaId): void {
         this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/'
         + this.routerState.params.folderHandle + '/tarefa/' + tarefaId + '/atividades/criar']).then();
     }
@@ -392,5 +394,5 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
     doCreateDocumentoAvulsoBloco(): void {
         this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/'
         + this.routerState.params.folderHandle + '/documento-avulso-bloco']).then();
-    }
+    }*/
 }
