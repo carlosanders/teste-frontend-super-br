@@ -10,7 +10,7 @@ import {
     MatDatepickerModule,
     MatRadioModule
 
-} from '@angular/material';
+} from '@cdk/angular/material';
 
 import { FuseSharedModule } from '@fuse/shared.module';
 import { CdkFavoritoFormComponent } from './cdk-favorito-form.component';

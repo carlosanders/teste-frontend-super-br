@@ -1,16 +1,17 @@
+<!-- SIDEBAR -->
+<fuse-sidebar [lockedOpen]="(mode === 'search') ? 'gt-xs' : ''" class="sidebar" name="cdk-processo-main-sidebar" position="left">
+    <!-- SIDEBAR CONTENT -->
+    <div class="content" fusePerfectScrollbar>
+        <cdk-processo-main-sidebar (selected)="setGridFilter($event)"
+                                   [mode]="this.mode"
+                                   [@animate]="{value:'*'}"></cdk-processo-main-sidebar>
+    </div>
+    <!-- / SIDEBAR CONTENT -->
+</fuse-sidebar>
+<!-- / SIDEBAR -->
 <div class="page-layout fullwidth left-sidebar inner-scroll" fxFlex="100">
 
-    <!-- SIDEBAR -->
-    <fuse-sidebar [lockedOpen]="(mode === 'search') ? 'gt-xs' : ''" class="sidebar" name="cdk-processo-main-sidebar" position="left">
-        <!-- SIDEBAR CONTENT -->
-        <div class="content" fusePerfectScrollbar>
-            <cdk-processo-main-sidebar (selected)="setGridFilter($event)"
-                                       [@animate]="{value:'*'}"
-                                       [mode]="this.mode"></cdk-processo-main-sidebar>
-        </div>
-        <!-- / SIDEBAR CONTENT -->
-    </fuse-sidebar>
-    <!-- / SIDEBAR -->
+
 
     <!-- CONTENT -->
     <div class="content responsive-grid" fxLayoutAlign="center start">
@@ -61,7 +62,7 @@
                 <mat-spinner diameter="32"></mat-spinner>
             </div>
 
-            <table mat-table [dataSource]="dataSource" matSort>
+            <table mat-table [dataSource]="dataSource" matSort [hidden]="loading">
 
                 <!-- Selection Column -->
                 <ng-container matColumnDef="select">
@@ -438,4 +439,5 @@
         </div>
 
     </div>
+
 </div>

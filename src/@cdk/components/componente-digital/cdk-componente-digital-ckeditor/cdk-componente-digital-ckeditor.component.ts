@@ -10,11 +10,11 @@ import {
     MatSnackBar,
     MatSnackBarHorizontalPosition,
     MatSnackBarVerticalPosition
-} from '@angular/material';
+} from '@cdk/angular/material';
 
 import {fuseAnimations} from '@fuse/animations';
 import {ComponenteDigital} from '@cdk/models/componente-digital.model';
-import {MatDialog} from '@angular/material';
+import {MatDialog} from '@cdk/angular/material';
 import {CdkCampoPluginComponent} from './cdk-plugins/cdk-campo-plugin/cdk-campo-plugin.component';
 import {filter} from 'rxjs/operators';
 import {CdkRepositorioPluginComponent} from './cdk-plugins/cdk-respositorio-plugin/cdk-repositorio-plugin.component';

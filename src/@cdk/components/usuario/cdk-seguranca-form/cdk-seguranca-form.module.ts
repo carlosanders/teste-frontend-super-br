@@ -10,7 +10,7 @@ import {
     MatDatepickerModule,
     MatExpansionModule, MatSlideToggleModule
 
-} from '@angular/material';
+} from '@cdk/angular/material';
 
 import {FuseSharedModule} from '@fuse/shared.module';
 import {CdkSegurancaFormComponent} from './cdk-seguranca-form.component';

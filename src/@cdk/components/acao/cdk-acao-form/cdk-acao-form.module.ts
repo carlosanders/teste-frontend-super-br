@@ -9,7 +9,7 @@ import {
     MatAutocompleteModule,
     MatDatepickerModule, MatRadioModule, MatTooltipModule
 
-} from '@angular/material';
+} from '@cdk/angular/material';
 
 import { FuseSharedModule } from '@fuse/shared.module';
 import { UsuarioService } from '@cdk/services/usuario.service';

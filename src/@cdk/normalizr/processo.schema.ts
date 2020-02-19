@@ -1,6 +1,7 @@
 import {schema} from '@cdk/normalizr-src';
 import {classificacao} from './classificacao.schema';
 import {origemDados} from './origem-dados.schema';
+import {processoOrigem} from './processo-origem.schema';
 import {documentoAvulso} from './documento-avulso.schema';
 import {pessoa} from './pessoa.schema';
 import {localizador} from './localizador.schema';
@@ -14,6 +15,7 @@ import {vinculacaoEtiqueta} from './vinculacao-etiqueta.schema';
 export const processo = new schema.Entity('processo', {
     classificacao: classificacao,
     origemDados: origemDados,
+    processoOrigem: processoOrigem,
     documentoAvulsoOrigem: documentoAvulso,
     procedencia: pessoa,
     localizador: localizador,

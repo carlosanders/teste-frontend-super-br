@@ -9,7 +9,7 @@ import {
     MatAutocompleteModule,
     MatDatepickerModule
 
-} from '@angular/material';
+} from '@cdk/angular/material';
 
 import { FuseSharedModule } from '@fuse/shared.module';
 import { CdkModeloFormComponent } from './cdk-modelo-form.component';

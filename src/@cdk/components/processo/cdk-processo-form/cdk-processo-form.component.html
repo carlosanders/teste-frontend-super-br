@@ -1,27 +1,67 @@
-<form *ngIf="activeCard === 'form'" class="p-24 mr-24" fxLayoutGap="16px"
+<form *ngIf="activeCard === 'form'" class="p-24"
       fxLayout="column"
       fxLayoutAlign="start"
       name="form" [formGroup]="form">
 
-    <div fxFlex="1 0 auto" fxLayout="column">
-
-        <mat-checkbox formControlName="novo" *ngIf="!form.value.id"
-                      class="mr-16 mb-16" fxFlex="0 1 auto">
+    <div fxFlex="0 1 auto" fxLayout="column">
+        
+        <div fxLayout="row" class="start" fxFlex *ngIf="!form.value.id"
+        fxLayoutAlign="start center">
+            <label id="processo-rg"></label>
+            <mat-radio-group class="poderes-rg" 
+                             formControlName="processo_rg" 
+                             aria-labelledby="processo-rg" 
+                             fxLayoutAlign="row">
+                <mat-radio-button [value]="'novo'">
+                    NOVO
+                </mat-radio-button>
+                <mat-radio-button [value]="'aproveitar_dados'">
+                    APROVEITAR DADOS
+                </mat-radio-button>
+            </mat-radio-group>
+        </div>
+      
+        <mat-checkbox formControlName="novo" *ngIf="!form.value.id" class="mb-20" fxFlex>
             Gerar NUP
         </mat-checkbox>
 
-        <mat-form-field *ngIf="form.value.id || !form.value.novo" fxFill>
+        <mat-form-field *ngIf=" temOrigem || form.value.processo_rg === 'aproveitar_dados'" FxFlex>
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Processo Origem"
+                       formControlName="processoOrigem"
+                       [readonly]="readonlyProcessoOrigem"
+                       [matAutocomplete]="processoOrigem.autocomplete" required
+                       (blur)="checkProcesso()">
+            </div>
+
+            <cdk-processo-autocomplete
+                #processoOrigem="processoAutocomplete"
+                [control]="form.get('processoOrigem')"
+                [pagination]="processoPagination">
+            </cdk-processo-autocomplete>
+
+            <button *ngIf="form.get('processoOrigem').enabled && !readonlyProcessoOrigem" matSuffix mat-button mat-icon-button
+                    (click)="showProcessoGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('processoOrigem').hasError('formError')">
+                {{form.get('processoOrigem').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field *ngIf="form.value.id || !form.value.novo" fxFlex>
             <mat-label>NUP</mat-label>
             <input matInput #NUP
                    name="NUP"
                    formControlName="NUP"
                    maxlength="21"
+                   [readonly]="readonlyNUP"
                    required>
             <mat-hint align="end">{{NUP.value.length}} / 21</mat-hint>
             <mat-error>Campo obrigatório!</mat-error>
         </mat-form-field>
 
-        <mat-form-field class="mr-sm-12" *ngIf="form.value.id || !form.value.novo" fxFlex>
+        <mat-form-field *ngIf="form.value.id || !form.value.novo" fxFlex>
             <mat-label>Data Hora de Abertura</mat-label>
             <input matInput formControlName="dataHoraAbertura" [matDatetimepicker]="dataHoraAbertura"
                    required>
@@ -29,7 +69,7 @@
             <mat-datetimepicker #dataHoraAbertura type="datetime" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
         </mat-form-field>
 
-        <mat-form-field fxFlex="100" *ngIf="form.value.id">
+        <mat-form-field fxFlex *ngIf="form.value.id">
             <div fxLayout="row" fxLayoutAlign="start center">
                 <input matInput placeholder="Fase"
                        formControlName="modalidadeFase"
@@ -55,7 +95,7 @@
             </mat-error>
         </mat-form-field>
 
-        <mat-form-field fxFlex="100" *ngIf="form.value.id || !form.value.novo">
+        <mat-form-field fxFlex *ngIf="form.value.id || !form.value.novo">
             <div fxLayout="row" fxLayoutAlign="start center">
                 <input matInput placeholder="Procedência"
                        formControlName="procedencia"
@@ -85,7 +125,7 @@
             </mat-error>
         </mat-form-field>
 
-        <mat-form-field fxFlex="100">
+        <mat-form-field fxFlex>
             <div fxLayout="row" fxLayoutAlign="start center">
                 <input matInput placeholder="Espécie"
                        formControlName="especieProcesso"
@@ -111,7 +151,7 @@
             </mat-error>
         </mat-form-field>
 
-        <mat-form-field fxFlex="100">
+        <mat-form-field fxFlex>
             <div fxLayout="row" fxLayoutAlign="start center">
                 <input matInput placeholder="Meio"
                        formControlName="modalidadeMeio"
@@ -137,7 +177,7 @@
             </mat-error>
         </mat-form-field>
 
-        <mat-form-field fxFlex="100">
+        <mat-form-field fxFlex>
             <div fxLayout="row" fxLayoutAlign="start center">
                 <input matInput placeholder="Classificação"
                        formControlName="classificacao"
@@ -163,7 +203,7 @@
             </mat-error>
         </mat-form-field>
 
-        <mat-form-field fxFlex="100">
+        <mat-form-field fxFlex>
             <mat-label>Título</mat-label>
             <input matInput #titulo
                    name="titulo"
@@ -178,7 +218,7 @@
             </button>
         </mat-form-field>
 
-        <mat-form-field fxFlex="100">
+        <mat-form-field fxFlex>
             <mat-label>Descrição</mat-label>
             <input matInput #descricao
                    name="descricao"
@@ -191,7 +231,7 @@
             </button>
         </mat-form-field>
 
-        <mat-form-field fxFlex="100">
+        <mat-form-field fxFlex>
             <mat-label>Outro Número</mat-label>
             <input matInput #outroNumero
                    name="outroNumero"
@@ -203,7 +243,7 @@
             </button>
         </mat-form-field>
 
-        <mat-form-field fxFlex="100">
+        <mat-form-field fxFlex>
             <div fxLayout="row" fxLayoutAlign="start center">
                 <input matInput placeholder="Setor Responsável"
                        formControlName="setorAtual"
@@ -232,19 +272,44 @@
 
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
-    <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-         fxLayoutAlign="center center">
-        <button type="submit" mat-raised-button color="accent" class="mr-sm-12"
-                [disabled]="form.invalid" (click)="submit()">
-            SALVAR
-        </button>
+    <div fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+    fxLayoutAlign="center center">
+<!--            <button *ngIf="!saving" 
+                    class="mr-sm-12"
+                    mat-raised-button color="accent" 
+                    [disabled]="form.invalid" (click)="submit()">
+                    {{this.textBotao}}
+            </button>
+-->
+            <button *ngIf="!saving && !form.value.id" 
+                    class="mr-sm-12"
+                    mat-raised-button color="accent" 
+                    [disabled]="form.invalid" (click)="doPost()">
+                    {{this.textBotao}}
+            </button>
+
+            <button *ngIf="!saving && form.value.id" 
+                    class="mr-sm-12"
+                    mat-raised-button color="accent" 
+                    [disabled]="form.invalid" (click)="doPut()">
+                    {{this.textBotao}}
+            </button>
     </div>
 
-    <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-         fxLayoutAlign="center center">
+    <div *ngIf="saving" fxLayout="column"  fxFlex
+         fxLayoutAlign="start center">
         <mat-spinner color="accent" diameter="24"></mat-spinner>
     </div>
+
 </form>
+
+<cdk-processo-gridsearch
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'processo-gridsearch'"
+    [pagination]="processoPagination"
+    (selected)="selectProcesso($event)"
+    (cancel)="cancel()">
+</cdk-processo-gridsearch>
 
 <cdk-especie-processo-gridsearch
         *ngIf="activeCard === 'especie-processo-gridsearch'"
@@ -254,7 +319,7 @@
 </cdk-especie-processo-gridsearch>
 
 <cdk-modalidade-fase-gridsearch
-        fxFlex="1 0 auto"
+        fxFlex
         *ngIf="activeCard === 'modalidade-fase-gridsearch'"
         [pagination]="modalidadeFasePagination"
         (selected)="selectModalidadeFase($event)"
@@ -262,7 +327,7 @@
 </cdk-modalidade-fase-gridsearch>
 
 <cdk-modalidade-meio-gridsearch
-        fxFlex="1 0 auto"
+        fxFlex
         *ngIf="activeCard === 'modalidade-meio-gridsearch'"
         [pagination]="modalidadeMeioPagination"
         (selected)="selectModalidadeMeio($event)"
@@ -270,7 +335,7 @@
 </cdk-modalidade-meio-gridsearch>
 
 <cdk-classificacao-gridsearch
-        fxFlex="1 0 auto"
+        fxFlex
         *ngIf="activeCard === 'classificacao-gridsearch'"
         [pagination]="_classificacaoPagination"
         (selected)="selectClassificacao($event)"
@@ -278,7 +343,7 @@
 </cdk-classificacao-gridsearch>
 
 <cdk-setor-gridsearch
-        fxFlex="1 0 auto"
+        fxFlex
         *ngIf="activeCard === 'setor-gridsearch'"
         [pagination]="setorAtualPagination"
         (selected)="selectSetor($event)"
@@ -286,8 +351,9 @@
 </cdk-setor-gridsearch>
 
 <cdk-logentry-gridsearch
-    fxFlex="1 0 auto"
+    fxFlex
     *ngIf="activeCard === 'logentry-gridsearch'"
     [pagination]="logEntryPagination"
     (cancel)="cancel()">
 </cdk-logentry-gridsearch>
+

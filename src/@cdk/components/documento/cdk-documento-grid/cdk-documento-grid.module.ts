@@ -9,7 +9,7 @@ import {
     MatPaginatorModule,
     MatSortModule,
     MatSelectModule, MatTooltipModule,
-} from '@angular/material';
+} from '@cdk/angular/material';
 
 import {FuseSharedModule} from '@fuse/shared.module';
 import {TipoDocumentoService} from '@cdk/services/tipo-documento.service';
