@@ -21,6 +21,10 @@ const routes: Routes = [
             {
                 path       : 'lotacoes',
                 loadChildren: () => import('./lotacoes/lotacoes.module').then(m => m.LotacoesModule)
+            },
+            {
+                path       : 'localizador',
+                loadChildren: () => import('./localizador/localizador.module').then(m => m.LocalizadorModule)
             }
         ]
     },
