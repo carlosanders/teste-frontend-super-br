@@ -14,8 +14,8 @@ import { Observable, Subject } from 'rxjs';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 import { FuseTranslationLoaderService } from '@fuse/services/translation-loader.service';
 
-import { Processo } from '@cdk/models/processo.model';
-import { ProcessoService } from '@cdk/services/processo.service';
+import { DocumentoAvulso } from '@cdk/models/documento-avulso.model';
+import { DocumentoAvulsoService } from '@cdk/services/documento-avulso.service';
 import * as fromStore from 'app/main/apps/oficios/store';
 import { getRouterState, getScreenState } from 'app/store/reducers';
 
@@ -30,7 +30,7 @@ import { Router } from '@angular/router';
 import { filter, takeUntil } from 'rxjs/operators';
 import { Pagination } from '@cdk/models/pagination';
 import { LoginService } from '../../auth/login/login.service';
-import { ToggleMaximizado } from 'app/main/apps/tarefas/store';
+/*import { ToggleMaximizado } from 'app/main/apps/oficios/store';*/
 import { Usuario } from '@cdk/models/usuario.model';
 
 @Component({
@@ -44,19 +44,19 @@ import { Usuario } from '@cdk/models/usuario.model';
 export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
 
     private _unsubscribeAll: Subject<any> = new Subject();
-    private oficios: Processo[];
+    private documentoAvulso: DocumentoAvulso;
 
     routerState: any;
 
     searchInput: FormControl;
 
     folders$: Observable<Folder[]>;
-    currentOficioId: number;
-    processos: Processo[] = [];
-    oficioListSize = 35;
-    oficioListOriginalSize: number;
+    currentDocumentoAvulsoId: number;
+    documentosAvulso: DocumentoAvulso[] = [];
+    documentoAvulsoListSize = 35;
+    documentoAvulsoListOriginalSize: number;
 
-    oficios$: Observable<Processo[]>;
+    documentosAvulso$: Observable<DocumentoAvulso[]>;
     loading$: Observable<boolean>;
 
     deletingIds$: Observable<number[]>;
@@ -65,9 +65,9 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
     selectedIds$: Observable<number[]>;
     selectedIds: number[] = [];
 
-    selectedOficios$: Observable<Processo[]>;
+    selectedOficios$: Observable<DocumentoAvulso[]>;
 
-    selectedOficios: Processo[] = [];
+    selectedOficios: DocumentoAvulso[] = [];
 
     screen$: Observable<any>;
 
@@ -89,7 +89,7 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
 
     mobileMode = false;
 
-    @ViewChild('oficioListElement', {read: ElementRef, static: true}) oficioListElement: ElementRef;
+    @ViewChild('documentoAvulsoListElement', {read: ElementRef, static: true}) documentoAvulsoListElement: ElementRef;
 
 
     /**
@@ -105,7 +105,7 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
         private _changeDetectorRef: ChangeDetectorRef,
         private _fuseSidebarService: FuseSidebarService,
         private _fuseTranslationLoaderService: FuseTranslationLoaderService,
-        private _processoService: ProcessoService,
+        private _documentoAvulsoService: DocumentoAvulsoService,
         private _router: Router,
         private _store: Store<fromStore.ProcessosAppState>,
         private _loginService: LoginService
@@ -114,15 +114,15 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
         this.searchInput = new FormControl('');
         this._fuseTranslationLoaderService.loadTranslations(english);
         /*this.loading$ = this._store.pipe(select(fromStore.getIsLoading));*/
-        this.oficios$ = this._store.pipe(select(fromStore.getProcessos));
+        this.documentosAvulso$ = this._store.pipe(select(fromStore.getProcessos));
         this.folders$ = this._store.pipe(select(fromStore.getFolders));
-        /*this.selectedOficios$ = this._store.pipe(select(fromStore.getSelectedTarefas));*/
-        this.selectedIds$ = this._store.pipe(select(fromStore.getSelectedProcessoIds));
-        /*this.pagination$ = this._store.pipe(select(fromStore.getPagination));*/
+        /*this.selectedOficios$ = this._store.pipe(select(fromStore.getSelectedDocumentosAvulso));
+        this.selectedIds$ = this._store.pipe(select(fromStore.getSelectedDocumentosAvulsoIds));
+        this.pagination$ = this._store.pipe(select(fromStore.getPagination));
         this.routerState$ = this._store.pipe(select(getRouterState));
         this.maximizado$ = this._store.pipe(select(fromStore.getMaximizado));
-        /*this.deletingIds$ = this._store.pipe(select(fromStore.getDeletingTarefaIds));
-        this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedTarefaIds));*/
+        this.deletingIds$ = this._store.pipe(select(fromStore.getDeletingDocumentoAvulsoIds));
+        this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedDocumentoAvulsoIds));*/
         this.screen$ = this._store.pipe(select(getScreenState));
         this._profile = _loginService.getUserProfile();
         this.vinculacaoEtiquetaPagination = new Pagination();
@@ -151,14 +151,14 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
         this.routerState$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(routerState => {
-            this.currentOficioId = parseInt(routerState.state.params['oficioHandle'], 0);
+            this.currentDocumentoAvulsoId = parseInt(routerState.state.params['oficioHandle'], 0);
         });
 
-        this.oficios$.pipe(
+        this.documentosAvulso$.pipe(
             takeUntil(this._unsubscribeAll),
             filter(oficios => !!oficios)
         ).subscribe(oficios => {
-            this.oficios = oficios;
+            this.documentosAvulso = oficios;
         });
 
         this.pagination$.pipe(
@@ -185,7 +185,7 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
             this.selectedIds = selectedIds;
         });
 
-        this.screen$.pipe(
+        /*this.screen$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(screen => {
             if (screen.size !== 'desktop') {
@@ -196,11 +196,11 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
             } else {
                 this.mobileMode = false;
             }
-        });
+        });*/
     }
 
     ngAfterViewInit(): void {
-        /*this.oficioListOriginalSize = this.oficioListOriginalSize.nativeElement.offsetWidth;*/
+        /*this.documentoAvulsoListOriginalSize = this.documentoAvulsoListOriginalSize.nativeElement.offsetWidth;*/
     }
 
     /**
@@ -254,7 +254,7 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     onScroll(): void {
-        if (this.processos.length >= this.pagination.total) {
+        if (this.documentosAvulso.length >= this.pagination.total) {
             return;
         }
 
@@ -266,19 +266,20 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
         this._store.dispatch(new fromStore.GetProcessos(nparams));
     }
 
-    /*setCurrentTarefa(tarefa: Tarefa): void {
-        if (!tarefa.dataHoraLeitura) {
-            this._store.dispatch(new fromStore.ToggleLidaTarefa(tarefa));
+    setCurrentDocumentoAvulso(documentoAvulso: DocumentoAvulso): void {
+        if (!documentoAvulso.dataHoraResposta) {
+            /*this._store.dispatch(new fromStore.ToggleLidaTarefa(tarefa));*/
         }
-        this._store.dispatch(new fromStore.SetCurrentTarefa({tarefaId: tarefa.id, processoId: tarefa.processo.id, acessoNegado: tarefa.processo.acessoNegado}));
+        /*this._store.dispatch(new fromStore.SetCurrentDocumentoAvulso({documentoAvulsoId: documentoAvulso.id,
+        processoId: documentoAvulso.processo.id, acessoNegado: documentoAvulso.processo.acessoNegado}));*/
     }
 
-    deleteTarefa(tarefaId: number): void {
+    /*deleteTarefa(tarefaId: number): void {
         this._store.dispatch(new fromStore.DeleteTarefa(tarefaId));
-    }
+    }*/
 
-    doToggleUrgente(tarefa: Tarefa): void {
-        this._store.dispatch(new fromStore.ToggleUrgenteTarefa(tarefa));
+    /*doToggleUrgente(documentoAvulso: DocumentoAvulso): void {
+        this._store.dispatch(new fromStore.ToggleUrgenteTarefa(documentoAvulso));
     }*/
 
     /**
@@ -297,39 +298,39 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
         this._fuseSidebarService.getSidebar(name).toggleOpen();
     }
 
-    /*changeSelectedIds(ids: number[]): void {
-        this._store.dispatch(new fromStore.ChangeSelectedTarefas(ids));
+    changeSelectedIds(ids: number[]): void {
+        /*this._store.dispatch(new fromStore.ChangeSelectedDocumentosAvulso(ids));*/
     }
 
-    setFolderOnSelectedTarefas(folder): void {
+    /*setFolderOnSelectedTarefas(folder): void {
         this.selectedOficios.forEach((oficio) => {
             this._store.dispatch(new fromStore.SetFolderOnSelectedTarefas({tarefa: oficio, folder: folder}));
         });
     }*/
 
-    /*onResizeEndTarefaList(event: ResizeEvent): void {
-        const potencialTarefaListSize = (event.rectangle.width * this.tarefaListSize) / this.tarefaListOriginalSize;
+    onResizeEndDocumentoAvulsoList(event: ResizeEvent): void {
+        const potencialDocumentoAvulsoListSize = (event.rectangle.width * this.documentoAvulsoListSize) / this.documentoAvulsoListOriginalSize;
 
-        if (potencialTarefaListSize < 30) {
-            this.tarefaListSize = 30;
+        if (potencialDocumentoAvulsoListSize < 30) {
+            this.documentoAvulsoListSize = 30;
             setTimeout(() => {
-                this.tarefaListOriginalSize = this.tarefaListElement.nativeElement.offsetWidth;
+                this.documentoAvulsoListOriginalSize = this.documentoAvulsoListElement.nativeElement.offsetWidth;
             }, 500);
             return;
         }
 
-        if (potencialTarefaListSize > 50) {
-            this.tarefaListSize = 50;
-            this.tarefaListOriginalSize = this.tarefaListElement.nativeElement.offsetWidth;
+        if (potencialDocumentoAvulsoListSize > 50) {
+            this.documentoAvulsoListSize = 50;
+            this.documentoAvulsoListOriginalSize = this.documentoAvulsoListElement.nativeElement.offsetWidth;
             setTimeout(() => {
-                this.tarefaListOriginalSize = this.tarefaListElement.nativeElement.offsetWidth;
+                this.documentoAvulsoListOriginalSize = this.documentoAvulsoListElement.nativeElement.offsetWidth;
             }, 500);
             return;
         }
 
-        this.tarefaListSize = (event.rectangle.width * this.tarefaListSize) / this.tarefaListOriginalSize;
-        this.tarefaListOriginalSize = event.rectangle.width;
-    }*/
+        this.documentoAvulsoListSize = (event.rectangle.width * this.documentoAvulsoListSize) / this.documentoAvulsoListOriginalSize;
+        this.documentoAvulsoListOriginalSize = event.rectangle.width;
+    }
 
     /*doCreateDocumentoAvulso(tarefaId): void {
         this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/'

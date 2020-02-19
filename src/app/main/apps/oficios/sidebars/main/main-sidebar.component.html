@@ -1,0 +1,55 @@
+<!-- SIDEBAR HEADER -->
+<div fxLayout="column" fxLayoutAlign="space-between start"
+     class="header accent p-24 pb-4">
+    <div class="logo" fxFlex fxLayout="row" fxLayoutAlign="start center">
+        <mat-icon class="logo-icon s-24" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+            check_box
+        </mat-icon>
+        <span class="logo-text ml-8 s-24" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">Ofícios</span>
+    </div>
+</div>
+<!-- / SIDEBAR HEADER -->
+
+<!-- SIDEBAR CONTENT -->
+<div class="content" fusePerfectScrollbar>
+
+    <!--<div class="px-24 pt-32 pb-12">
+        <button mat-raised-button
+                class="mat-accent compose-dialog-button w-100-p"
+                (click)="create()"
+                aria-label="Criar">
+            {{ 'TAREFA.COMPOSE' | translate }}
+        </button>
+    </div>-->
+
+    <div class="nav material2">
+
+        <div class="nav-subheader">MEUS OFÍCIOS</div>
+
+        <div class="nav-item" dndDropzone (dndDrop)="onDrop([$event, null])">
+            <a class="nav-link" matRipple [routerLink]="'/apps/oficios/entrada'"
+               [routerLinkActive]="['active', 'accent']">
+                <mat-icon class="nav-link-icon">inbox</mat-icon>
+                <span>Entrada</span>
+            </a>
+        </div>
+
+        <!--<div class="nav-item" dndDropzone (dndDrop)="onDrop([$event, folder])"
+             *ngFor="let folder of (folders$ | async)">
+            <a class="nav-link" matRipple [routerLink]="'/apps/tarefas/' + generoHandle + '/' + folder.nome | lowercase"
+               [routerLinkActive]="['active', 'accent']">
+                <mat-icon class="nav-link-icon">{{ folder.icon ? folder.icon : 'folder' }}</mat-icon>
+                <span>{{folder.nome | titlecase}}</span>
+            </a>
+        </div>
+
+        <div class="nav-item">
+            <a class="nav-link" matRipple [routerLink]="'/apps/tarefas/' + generoHandle + '/compartilhadas'"
+               [routerLinkActive]="['active', 'accent']">
+                <mat-icon class="nav-link-icon">share</mat-icon>
+                <span>Compartilhadas</span>
+            </a>
+        </div>-->
+    </div>
+</div>
+<!-- / SIDEBAR CONTENT -->
