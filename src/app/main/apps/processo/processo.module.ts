@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import {
     MatButtonModule,
     MatIconModule, MatProgressSpinnerModule, MatTooltipModule
-} from '@angular/material';
+} from '@cdk/angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { FuseSharedModule } from '@fuse/shared.module';
@@ -39,7 +39,7 @@ const routes: Routes = [
             },
             {
                 path       : 'acesso-negado',
-                loadChildren: () => import('./processo-empty/processo-empty.module').then(m => m.ProcessoEmptyModule)
+                loadChildren: () => import('./processo-acesso-negado/processo-acesso-negado.module').then(m => m.ProcessoAcessoNegadoModule)
             },
             {
                 path       : 'download',

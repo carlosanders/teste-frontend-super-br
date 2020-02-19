@@ -4,7 +4,7 @@ import {FuseSidebarModule} from '@fuse/components';
 
 import {ProcessoDownloadComponent} from './processo-download.component';
 import {RouterModule, Routes} from '@angular/router';
-import {MatAutocompleteModule, MatButtonModule, MatIconModule, MatInputModule, MatMenuModule, MatProgressSpinnerModule, MatRippleModule, MatTooltipModule} from '@angular/material';
+import {MatAutocompleteModule, MatButtonModule, MatIconModule, MatInputModule, MatMenuModule, MatProgressSpinnerModule, MatRippleModule, MatTooltipModule} from '@cdk/angular/material';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import {CdkDownloadFormModule} from '@cdk/components/download/cdk-download-form/cdk-download-form.module';
 import {ProcessoDownloadStoreModule} from './store/store.module';

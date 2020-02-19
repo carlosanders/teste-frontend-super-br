@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import {
     MatProgressSpinnerModule,
     MatAutocompleteModule, MatChipsModule, MatIconModule, MatFormFieldModule, MatTooltipModule
-} from '@angular/material';
+} from '@cdk/angular/material';
 
 import { FuseSharedModule } from '@fuse/shared.module';
 import { EtiquetaService } from '@cdk/services/etiqueta.service';

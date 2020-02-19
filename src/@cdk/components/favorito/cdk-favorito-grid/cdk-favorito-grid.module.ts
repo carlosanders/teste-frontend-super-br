@@ -10,7 +10,7 @@ import {
     MatSortModule,
     MatRadioModule,
     MatSelectModule, MatTooltipModule,
-} from '@angular/material';
+} from '@cdk/angular/material';
 
 import {FuseSidebarModule} from '@fuse/components';
 import {FuseSharedModule} from '@fuse/shared.module';

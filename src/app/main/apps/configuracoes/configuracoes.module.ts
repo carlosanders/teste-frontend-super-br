@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import {
     MatButtonModule,
     MatIconModule, MatProgressSpinnerModule
-} from '@angular/material';
+} from '@cdk/angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { FuseSharedModule } from '@fuse/shared.module';

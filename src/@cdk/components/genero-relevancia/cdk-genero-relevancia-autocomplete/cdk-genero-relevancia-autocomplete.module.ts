@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {
     MatProgressSpinnerModule,
     MatAutocompleteModule
-} from '@angular/material';
+} from '@cdk/angular/material';
 
 import {FuseSharedModule} from '@fuse/shared.module';
 import {GeneroRelevanciaService} from '@cdk/services/genero-relevancia.service';

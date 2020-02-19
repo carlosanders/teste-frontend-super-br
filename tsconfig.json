@@ -4,13 +4,13 @@
         "baseUrl": "./src",
         "outDir": "./dist/out-tsc",
         "sourceMap": true,
-        "incremental": true,
         "declaration": false,
         "downlevelIteration": true,
         "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
         "module": "esnext",
         "moduleResolution": "node",
-        "importHelpers": false,
+        "importHelpers": true,
         "target": "es5",
         "typeRoots": [
             "node_modules/@types"
@@ -18,16 +18,10 @@
         "lib": [
             "es2018",
             "dom"
-        ],
-        "paths": {
-            "@fuse": [
-                "@fuse/"
-            ]
-        }
+        ]
     },
     "angularCompilerOptions": {
-        "fullTemplateTypeCheck": false,
-        "strictInjectionParameters": false,
-        "debug": true
+        "fullTemplateTypeCheck": true,
+        "strictInjectionParameters": true
     }
 }

@@ -9,7 +9,7 @@ import {
     MatPaginatorModule,
     MatSortModule,
     MatSelectModule,
-} from '@angular/material';
+} from '@cdk/angular/material';
 
 import {FuseSidebarModule} from '@fuse/components';
 import {FuseSharedModule} from '@fuse/shared.module';
@@ -18,6 +18,7 @@ import {CdkModalidadeDocumentoIdentificadorGridComponent} from './cdk-modalidade
 import {CdkModalidadeDocumentoIdentificadorAutocompleteModule} from '@cdk/components/modalidade-documento-identificador/cdk-modalidade-documento-identificador-autocomplete/cdk-modalidade-documento-identificador-autocomplete.module';
 import {CdkModalidadeDocumentoIdentificadorGridFilterModule} from './cdk-modalidade-documento-identificador-grid-filter/cdk-modalidade-documento-identificador-grid-filter.module';
 import {CdkModalidadeDocumentoIdentificadorMainSidebarComponent} from './sidebars/main/sidebars/main/main.component';
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 @NgModule({
     declarations: [
@@ -40,6 +41,7 @@ import {CdkModalidadeDocumentoIdentificadorMainSidebarComponent} from './sidebar
 
         FuseSharedModule,
         FuseSidebarModule,
+        MatTooltipModule,
     ],
     providers: [
         ModalidadeDocumentoIdentificadorService,

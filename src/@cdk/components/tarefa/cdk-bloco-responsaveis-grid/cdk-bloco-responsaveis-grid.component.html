@@ -21,11 +21,6 @@
                 <mat-icon>arrow_back</mat-icon>
             </button>
 
-            <button mat-icon-button *ngIf="selectedIds.length > 1 && actions.indexOf('delete') > -1"
-                (click)="deleteResponsavel(selectedIds)" aria-label="remover" matTooltip="Remover">
-                <mat-icon>delete</mat-icon>
-            </button>
-
             <mat-form-field class="colunas mr-8">
                 <mat-select [formControl]="columns" multiple>
                     <div *ngFor="let column of allColumns">
