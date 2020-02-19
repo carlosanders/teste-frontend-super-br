@@ -7,7 +7,7 @@ import {
     MatFormFieldModule,
     MatIconModule,
     MatInputModule
-} from '@angular/material';
+} from '@cdk/angular/material';
 import {FuseSharedModule} from '@fuse/shared.module';
 import {VinculacaoUsuarioService} from '@cdk/services/vinculacao-usuario.service';
 import {CdkVinculacaoUsuarioGridFilterComponent} from './cdk-vinculacao-usuario-grid-filter.component';

@@ -5,20 +5,20 @@ import {TranslateModule} from '@ngx-translate/core';
 import {FuseSharedModule} from '@fuse/shared.module';
 import {FuseSidebarModule} from '@fuse/components';
 
-import {ProcessoEmptyComponent} from './processo-empty.component';
+import {ProcessoAcessoNegadoComponent} from './processo-acesso-negado.component';
 import {RouterModule, Routes} from '@angular/router';
-import {MatIconModule} from '@angular/material';
+import {MatIconModule} from '@cdk/angular/material';
 
 const routes: Routes = [
     {
         path: '',
-        component: ProcessoEmptyComponent
+        component: ProcessoAcessoNegadoComponent
     }
 ];
 
 @NgModule({
     declarations: [
-        ProcessoEmptyComponent
+        ProcessoAcessoNegadoComponent
     ],
     imports: [
 
@@ -34,5 +34,5 @@ const routes: Routes = [
     providers: [
     ]
 })
-export class ProcessoEmptyModule {
+export class ProcessoAcessoNegadoModule {
 }

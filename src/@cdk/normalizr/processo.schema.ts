@@ -1,5 +1,6 @@
 import {classificacao} from './classificacao.schema';
 import {origemDados} from './origem-dados.schema';
+import {processoOrigem} from './processo-origem.schema';
 import {documentoAvulso} from './documento-avulso.schema';
 import {pessoa} from './pessoa.schema';
 import {localizador} from './localizador.schema';
@@ -14,6 +15,7 @@ import {processo as processoSchema} from './base.schema';
 processoSchema.define({
     classificacao: classificacao,
     origemDados: origemDados,
+    processoOrigem: processoOrigem,
     documentoAvulsoOrigem: documentoAvulso,
     procedencia: pessoa,
     localizador: localizador,

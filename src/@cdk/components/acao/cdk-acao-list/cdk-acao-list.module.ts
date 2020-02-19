@@ -6,7 +6,7 @@ import {
     MatCheckboxModule,
     MatProgressSpinnerModule,
     MatSortModule, MatMenuModule, MatAutocompleteModule, MatRippleModule,
-} from '@angular/material';
+} from '@cdk/angular/material';
 
 import {FuseSharedModule} from '@fuse/shared.module';
 import {CdkAcaoListComponent} from './cdk-acao-list.component';

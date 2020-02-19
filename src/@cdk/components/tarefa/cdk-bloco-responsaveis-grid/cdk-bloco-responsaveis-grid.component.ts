@@ -9,11 +9,10 @@ import {merge, of} from 'rxjs';
 
 import {fuseAnimations} from '@fuse/animations';
 import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
-import {MatPaginator, MatSort} from '@angular/material';
-import {debounceTime, distinctUntilChanged, switchMap, tap, findIndex} from 'rxjs/operators';
+import {MatPaginator, MatSort} from '@cdk/angular/material';
+import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
 import {Setor} from '@cdk/models/setor.model';
-import {Usuario} from '@cdk/models/usuario.model';
 import {FormControl} from '@angular/forms';
 import {DataSource} from '../../../data-sources/data-source';
 import {Responsavel} from '../../../models/respensavel.model';

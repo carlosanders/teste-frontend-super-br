@@ -15,7 +15,7 @@ import {Pagination} from '@cdk/models/pagination';
 
 import {Campo} from '@cdk/models/campo.model';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {MatDialogRef} from '@angular/material/dialog';
+import {MatDialogRef} from '@cdk/angular/material';
 
 @Component({
     selector: 'cdk-campo-plugin',

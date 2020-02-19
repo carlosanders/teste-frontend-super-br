@@ -9,12 +9,20 @@
                   [lockedOpen]="routerState.url.indexOf('apps/processo') > -1 ? 'gt-md' : 'gt-xl'">
 
         <!-- SIDEBAR CONTENT -->
+<!--        <fuse-sidebar class="sidebar" name="processo-main-sidebar" position="left"
+        lockedOpen="gt-md">
+<processo-main-sidebar></processo-main-sidebar>
+</fuse-sidebar>
+-->
+
         <div class="content" fusePerfectScrollbar>
             <processo-main-sidebar [@animate]="{value:'*'}"></processo-main-sidebar>
         </div>
+        
         <!-- / SIDEBAR CONTENT -->
 
     </fuse-sidebar>
+    
     <!-- / SIDEBAR -->
 
     <!-- CENTER -->

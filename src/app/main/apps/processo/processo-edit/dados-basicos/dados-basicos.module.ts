@@ -12,7 +12,7 @@ import {
     MatToolbarModule,
     MatDatepickerModule,
     MatProgressSpinnerModule, MatTooltipModule
-} from '@angular/material';
+} from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 
 import {FuseSharedModule} from '@fuse/shared.module';
@@ -46,7 +46,6 @@ const routes: Routes = [
     imports: [
 
         RouterModule.forChild(routes),
-
         MatButtonModule,
         MatCheckboxModule,
         MatFormFieldModule,
