@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@cdk/angular/material';
+import { MatIconModule } from '@cdk/angular/material';
 
 import { FuseSearchBarComponent } from './search-bar.component';
 

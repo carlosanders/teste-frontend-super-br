@@ -9,7 +9,7 @@ import {
     MatPaginatorModule,
     MatSortModule,
     MatSelectModule,
-} from '@angular/material';
+} from '@cdk/angular/material';
 
 import {FuseSidebarModule} from '@fuse/components';
 import { FuseSharedModule } from '@fuse/shared.module';

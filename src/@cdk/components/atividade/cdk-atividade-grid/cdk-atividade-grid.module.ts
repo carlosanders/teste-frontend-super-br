@@ -9,17 +9,22 @@ import {
     MatPaginatorModule,
     MatSortModule,
     MatSelectModule,
-} from '@angular/material';
+} from '@cdk/angular/material';
 
 import {FuseSharedModule} from '@fuse/shared.module';
 import {EspecieAtividadeService} from '@cdk/services/especie-atividade.service';
 import {CdkEspecieAtividadeAutocompleteModule} from '@cdk/components/especie-atividade/cdk-especie-atividade-autocomplete/cdk-especie-atividade-autocomplete.module';
 import {CdkAtividadeGridComponent} from './cdk-atividade-grid.component';
 import {CdkAtividadeGridFilterModule} from './cdk-atividade-grid-filter/cdk-atividade-grid-filter.module';
+import {FuseSidebarModule} from '@fuse/components';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {CdkAtividadeMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
-        CdkAtividadeGridComponent
+        CdkAtividadeGridComponent,
+        CdkAtividadeMainSidebarComponent
+
     ],
     imports: [
         MatSelectModule,
@@ -36,6 +41,8 @@ import {CdkAtividadeGridFilterModule} from './cdk-atividade-grid-filter/cdk-ativ
         CdkAtividadeGridFilterModule,
 
         FuseSharedModule,
+        FuseSidebarModule,
+        MatTooltipModule,
     ],
     providers: [
         EspecieAtividadeService,

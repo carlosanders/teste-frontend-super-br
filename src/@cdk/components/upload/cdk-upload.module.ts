@@ -5,7 +5,7 @@ import {
     MatPaginatorModule,
     MatProgressSpinnerModule, MatSortModule,
     MatTableModule
-} from '@angular/material';
+} from '@cdk/angular/material';
 import { CdkUploadComponent } from './cdk-upload.component';
 import { CommonModule } from '@angular/common';
 

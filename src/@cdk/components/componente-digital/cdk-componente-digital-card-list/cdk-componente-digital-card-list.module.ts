@@ -3,7 +3,7 @@ import {
     MatButtonModule,
     MatIconModule,
     MatCardModule,
-} from '@angular/material';
+} from '@cdk/angular/material';
 
 import { FuseSharedModule } from '@fuse/shared.module';
 import {CdkComponenteDigitalCardListComponent} from './cdk-componente-digital-card-list.component';
