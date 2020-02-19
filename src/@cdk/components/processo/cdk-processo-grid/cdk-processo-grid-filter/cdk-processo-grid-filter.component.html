@@ -15,7 +15,6 @@
             <mat-label>Nome</mat-label>
             <input matInput #nome
                    name="nome"
-                   [required]="this.mode === 'search'"
                    formControlName="nome"
                    maxlength="255">
             <mat-hint align="end">{{nome.value.length}} / 255</mat-hint>
@@ -24,7 +23,6 @@
             <mat-label>CPF/CNPJ</mat-label>
             <input matInput #cpfCnpj
                    name="cpfCnpj"
-                   [required]="this.mode === 'search'"
                    formControlName="cpfCnpj"
                    maxlength="255">
             <mat-hint align="end">{{cpfCnpj.value.length}} / 19</mat-hint>
@@ -230,7 +228,7 @@
             </mat-datetimepicker>
         </mat-form-field>
 
-        <button mat-raised-button color="primary" class="mr-sm-12" (click)="buscar()"
+        <button mat-raised-button color="accent" class="mr-sm-12" (click)="buscar()"
                 [disabled]="!this.validaBusca()"
                 *ngIf="this.mode === 'search'">
             Buscar
