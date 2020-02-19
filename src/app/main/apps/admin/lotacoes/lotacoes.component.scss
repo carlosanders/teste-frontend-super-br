@@ -1,5 +1,5 @@
 #lotacoes {
-
+  height: 100%;
   .header {
 
     .actions {
@@ -11,6 +11,10 @@
   }
 
   .content {
-
+    height: 100%;
   }
+}
+
+lotacoes {
+  height: 100% !important;
 }
