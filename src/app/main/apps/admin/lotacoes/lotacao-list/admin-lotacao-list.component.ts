@@ -16,13 +16,13 @@ import {getRouterState} from 'app/store/reducers';
 
 @Component({
     selector: 'lotacao-list',
-    templateUrl: './lotacao-list.component.html',
-    styleUrls: ['./lotacao-list.component.scss'],
+    templateUrl: './admin-lotacao-list.component.html',
+    styleUrls: ['./admin-lotacao-list.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
 })
-export class LotacaoListComponent implements OnInit {
+export class AdminLotacaoListComponent implements OnInit {
 
     routerState: any;
     lotacoes$: Observable<Lotacao[]>;

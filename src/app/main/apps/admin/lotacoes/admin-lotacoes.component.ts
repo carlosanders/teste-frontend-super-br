@@ -13,14 +13,14 @@ import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 
 @Component({
-    selector: 'lotacoes',
-    templateUrl: './lotacoes.component.html',
-    styleUrls: ['./lotacoes.component.scss'],
+    selector: 'admin-lotacoes',
+    templateUrl: './admin-lotacoes.component.html',
+    styleUrls: ['./admin-lotacoes.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
 })
-export class LotacoesComponent implements OnInit, OnDestroy {
+export class AdminLotacoesComponent implements OnInit, OnDestroy {
 
     private _unsubscribeAll: Subject<any> = new Subject();
 

@@ -20,7 +20,7 @@ const routes: Routes = [
         children: [
             {
                 path       : 'lotacoes',
-                loadChildren: () => import('./lotacoes/lotacoes.module').then(m => m.LotacoesModule)
+                loadChildren: () => import('./lotacoes/admin-lotacoes.module').then(m => m.AdminLotacoesModule)
             },
             {
                 path       : 'localizador',
