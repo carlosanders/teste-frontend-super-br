@@ -82,7 +82,7 @@ export class ProcessoEditMainSidebarComponent implements OnInit, OnDestroy {
             },            
             {
                 nome: 'Tramitações',
-                link: 'remessas'
+                link: 'tramitacoes'
             },
             {
                 nome: 'Remessas',
