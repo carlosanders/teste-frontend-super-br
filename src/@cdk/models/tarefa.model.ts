@@ -146,6 +146,6 @@ export class Tarefa {
         this.auditoriaDistribuicao = null;
         this.tipoDistribuicao = null;
         this.folder = null;
-        this.vinculacoesEtiquetas = null;
+        this.vinculacoesEtiquetas = []; // Dr. Eduardo, colocamos [] aqui para poder funcionar a vinculação etiqueta.
     }
 }

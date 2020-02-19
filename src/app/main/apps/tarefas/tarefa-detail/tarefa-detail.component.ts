@@ -9,12 +9,12 @@ import {
 import {Tarefa} from '@cdk/models/tarefa.model';
 
 import {fuseAnimations} from '@fuse/animations';
-import {Observable, Subject} from 'rxjs';
+import {Observable, Subject, of} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {Etiqueta} from '@cdk/models/etiqueta.model';
 import {VinculacaoEtiqueta} from '@cdk/models/vinculacao-etiqueta.model';
-import {CreateVinculacaoEtiqueta, DeleteVinculacaoEtiqueta} from './store';
+import {CreateVinculacaoEtiqueta, DeleteVinculacaoEtiqueta, SaveConteudoVinculacaoEtiqueta} from './store';
 import {Documento} from '@cdk/models/documento.model';
 import {getMaximizado} from '../store/selectors';
 import {ToggleMaximizado} from '../store/actions';
@@ -38,6 +38,9 @@ import {modulesConfig} from 'modules/modules-config';
 export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
     private _unsubscribeAll: Subject<any> = new Subject();
+
+    savingVincEtiquetaId$: Observable<any>;
+    errors$: Observable<any>; 
 
     tarefa$: Observable<Tarefa>;
     tarefa: Tarefa;
@@ -80,7 +83,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
         private _dynamicService: DynamicService
     ) {
         this._profile = _loginService.getUserProfile();
-        this.tarefa$ = this._store.pipe(select(fromStore.getTarefa));
+        this.tarefa$ = this._store.pipe(select(fromStore.getTarefa)); 
         this.documentos$ = this._store.pipe(select(fromStore.getDocumentos));
         this.maximizado$ = this._store.pipe(select(getMaximizado));
         this.screen$ = this._store.pipe(select(getScreenState));
@@ -89,6 +92,9 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
             'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.usuario.id,
             'modalidadeEtiqueta.valor': 'eq:TAREFA'
         };
+        
+        this.savingVincEtiquetaId$ = this._store.pipe(select(fromStore.getSavingVincEtiquetaId));
+        this.errors$ = this._store.pipe(select(fromStore.getErrors));
     }
 
     ngAfterViewInit(): void {
@@ -104,7 +110,6 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     ngOnInit(): void {
-
         this._store.pipe(
             select(getRouterState),
             takeUntil(this._unsubscribeAll)
@@ -166,6 +171,22 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
     onEtiquetaCreate(etiqueta: Etiqueta): void {
         this._store.dispatch(new CreateVinculacaoEtiqueta({tarefa: this.tarefa, etiqueta: etiqueta}));
+    }
+
+   /* @retirar 
+   onEtiquetaEdit(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
+        this._store.dispatch(new SaveConteudoVinculacaoEtiqueta({
+            vinculacaoEtiqueta: vinculacaoEtiqueta
+        }));    
+    }*/
+
+    onEtiquetaEdit(values): void {   
+        const vinculacaoEtiqueta = new VinculacaoEtiqueta();
+        vinculacaoEtiqueta.id = values.id;
+        this._store.dispatch(new SaveConteudoVinculacaoEtiqueta({
+            vinculacaoEtiqueta: vinculacaoEtiqueta,
+            changes: {conteudo: values.conteudo}
+        }));         
     }
 
     onEtiquetaDelete(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
