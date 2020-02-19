@@ -35,7 +35,7 @@ export class DocumentoAvulsoMainSidebarComponent implements OnInit, OnDestroy {
      * @param _changeDetectorRef
      */
     constructor(
-        private _store: Store<fromStore.ProcessosAppState>,
+        private _store: Store<fromStore.DocumentoAvulsoAppState>,
         private _changeDetectorRef: ChangeDetectorRef,
     ) {
         this.folders$ = this._store.pipe(select(fromStore.getFolders));

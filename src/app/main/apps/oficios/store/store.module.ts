@@ -7,10 +7,10 @@ import { effects } from 'app/main/apps/oficios/store/effects';
 
 @NgModule({
     imports: [
-        StoreModule.forFeature('processos-app', reducers),
+        StoreModule.forFeature('documentos-avulso-app', reducers),
         EffectsModule.forFeature(effects)
     ],
     providers: []
 })
-export class ProcessosStoreModule {
+export class DocumentosAvulsoStoreModule {
 }

@@ -7,7 +7,7 @@
     $is-dark: map-get($theme, is-dark);
 
     // Tarefa
-    tarefas {
+    documentos-avulsos {
 
         .logo-text {
             font-size: 24px;
@@ -44,7 +44,7 @@
                 }
 
                 // Tarefa list
-                .tarefa-list {
+                .documento-avulso-list {
                     border-right-color: map-get($foreground, divider);
                 }
 
@@ -144,8 +144,8 @@
         }
     }
 
-    // Tarefa list item
-    cdk-tarefa-list-item {
+    // DocumentoAvulso list item
+    cdk-documento-avulso-list-item {
         border-bottom-color: map-get($foreground, divider);
 
         .etiquetas {
@@ -165,7 +165,7 @@
     }
 
     // Todo edit
-    tarefa-detail {
+    oficio-detail {
         .tarefa-header {
             background: map-get($background, background);
             border-bottom-color: map-get($foreground, divider);

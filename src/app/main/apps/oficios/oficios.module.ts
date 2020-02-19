@@ -19,7 +19,7 @@ import { FuseSharedModule } from '@fuse/shared.module';
 import { FuseSidebarModule } from '@fuse/components';
 
 import * as fromGuards from 'app/main/apps/oficios/store/guards/index';
-import { ProcessosStoreModule } from 'app/main/apps/oficios/store/store.module';
+import { DocumentosAvulsoStoreModule } from 'app/main/apps/oficios/store/store.module';
 import { FolderService } from '@cdk/services/folder.service';
 import { ProcessoService } from '@cdk/services/processo.service';
 import { SetorService } from '@cdk/services/setor.service';
@@ -91,7 +91,7 @@ const routes: Routes = [
         FuseSharedModule,
         FuseSidebarModule,
 
-        ProcessosStoreModule
+        DocumentosAvulsoStoreModule
     ],
     providers: [
         FolderService,

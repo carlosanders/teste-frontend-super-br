@@ -6,9 +6,9 @@ import { select, Store } from '@ngrx/store';
 import { Observable, forkJoin, of } from 'rxjs';
 import { switchMap, catchError, map, tap, take, filter } from 'rxjs/operators';
 
-import { ProcessosAppState } from 'app/main/apps/oficios/store/reducers';
+import { DocumentoAvulsoAppState } from 'app/main/apps/oficios/store/reducers';
 import * as fromStore from 'app/main/apps/oficios/store';
-import { getFoldersLoaded, getProcessosLoaded } from 'app/main/apps/oficios/store/selectors';
+import { getFoldersLoaded, getDocumentosAvulsoLoaded } from 'app/main/apps/oficios/store/selectors';
 import { getRouterState } from 'app/store/reducers';
 import { LoginService } from '../../../../auth/login/login.service';
 import { Usuario } from '@cdk/models/usuario.model';
@@ -25,7 +25,7 @@ export class ResolveGuard implements CanActivate {
      * @param _loginService
      */
     constructor(
-        private _store: Store<ProcessosAppState>,
+        private _store: Store<DocumentoAvulsoAppState>,
         private _loginService: LoginService,
     ) {
         this._store
@@ -65,7 +65,7 @@ export class ResolveGuard implements CanActivate {
             filter(([foldersLoaded]) => !!(foldersLoaded)),
             take(1),
             switchMap(() =>
-                this.getProcessos()
+                this.getDocumentosAvulso()
             )
         );
     }
@@ -89,13 +89,13 @@ export class ResolveGuard implements CanActivate {
     }
 
     /**
-     * Get Tarefas
+     * Get DocumentoAvulso
      *
      * @returns {Observable<any>}
      */
-    getProcessos(): any {
+    getDocumentosAvulso(): any {
         return this._store.pipe(
-            select(getProcessosLoaded),
+            select(getDocumentosAvulsoLoaded),
             tap((loaded: any) => {
 
                 const params = {
@@ -109,7 +109,6 @@ export class ResolveGuard implements CanActivate {
                         'processo.especieProcesso',
                         'processo.modalidadeMeio',
                         'processo.documentoAvulsoOrigem',
-                        /*'especieTarefa',*/
                         'usuarioResponsavel',
                         'setorResponsavel',
                         'setorResponsavel.unidade',

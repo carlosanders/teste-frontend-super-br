@@ -1,5 +1,5 @@
 import { createSelector } from '@ngrx/store';
-import { getProcessosAppState, ProcessosAppState, ProcessosState } from 'app/main/apps/oficios/store/reducers';
+import { getDocumentoAvulsoAppState, DocumentoAvulsoAppState, DocumentoAvulsoState } from 'app/main/apps/oficios/store/reducers';
 
 import { createSchemaSelectors } from '@cdk/ngrx-normalizr';
 import { documentoAvulso as documentoAvulsoSchema } from '@cdk/normalizr/documento-avulso.schema';
@@ -8,23 +8,23 @@ import {DocumentoAvulso} from '../../../../../../@cdk/models/documento-avulso.mo
 const schemaSelectors = createSchemaSelectors<DocumentoAvulso>(documentoAvulsoSchema);
 
 export const getDocumentoAvulso = createSelector(
-    getProcessosAppState,
-    (state: ProcessosAppState) => state.processos
+    getDocumentoAvulsoAppState,
+    (state: DocumentoAvulsoAppState) => state.processos
 );
 
 export const getSelectedDocumentoAvulsoIds = createSelector(
     getDocumentoAvulso,
-    (state: ProcessosState) => state.selectedProcessoIds
+    (state: DocumentoAvulsoState) => state.selectedProcessoIds
 );
 
 export const getMaximizado = createSelector(
     getDocumentoAvulso,
-    (state: ProcessosState) => state.maximizado
+    (state: DocumentoAvulsoState) => state.maximizado
 );
 
 export const getDocumentosAvulsoIds = createSelector(
     getDocumentoAvulso,
-    (state: ProcessosState) => state.entitiesId
+    (state: DocumentoAvulsoState) => state.entitiesId
 );
 
 export const getProcessos = createSelector(
@@ -46,7 +46,7 @@ export const getProcessos = createSelector(
 //
 export const getProcessosLoaded = createSelector(
     getDocumentoAvulso,
-    (state: ProcessosState) => state.loaded
+    (state: DocumentoAvulsoState) => state.loaded
 );
 //
 // export const getIsLoading = createSelector(
