@@ -7,7 +7,7 @@ import * as fromStore from 'app/main/auth/login/store';
 import {Store} from '@ngrx/store';
 import {MatSnackBar,
     MatSnackBarHorizontalPosition,
-    MatSnackBarVerticalPosition} from '@angular/material';
+    MatSnackBarVerticalPosition} from '@cdk/angular/material';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {

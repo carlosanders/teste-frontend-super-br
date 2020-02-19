@@ -19,7 +19,7 @@ import {Colaborador} from '@cdk/models/colaborador.model';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Processo} from '@cdk/models/processo.model';
 import {take, takeUntil, tap} from 'rxjs/operators';
-import {MatDialog} from '@angular/material';
+import {MatDialog} from '@cdk/angular/material';
 import {CdkVisibilidadePluginComponent} from '@cdk/components/visibilidade/cdk-visibilidade-plugin/cdk-visibilidade-plugin.component';
 import {Router} from '@angular/router';
 import {getRouterState} from '../../../../store/reducers';

@@ -13,7 +13,7 @@ import {
     MatListModule,
     MatProgressSpinnerModule,
     MatTooltipModule
-} from '@angular/material';
+} from '@cdk/angular/material';
 import {CdkVisibilidadeFormModule} from '@cdk/components/visibilidade/cdk-visibilidade-form/cdk-visibilidade-form.module';
 import {CdkVisibilidadeListModule} from '@cdk/components/visibilidade/cdk-visibilidade-list/cdk-visibilidade-list.module';
 

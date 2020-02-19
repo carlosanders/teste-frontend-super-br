@@ -49,26 +49,38 @@ export default class EntitySchema {
   }
 
   normalize(input, parent, key, visit, addEntity, visitedEntities) {
-    if (visitedEntities.some((entity) => entity === input)) {
-      return this.getId(input, parent, key);
+    const id = this.getId(input, parent, key);
+    const entityType = this.key;
+
+    if (!(entityType in visitedEntities)) {
+      visitedEntities[entityType] = {};
     }
-    visitedEntities.push(input);
+    if (!(id in visitedEntities[entityType])) {
+      visitedEntities[entityType][id] = [];
+    }
+    if (visitedEntities[entityType][id].some((entity) => entity === input)) {
+      return id;
+    }
+    visitedEntities[entityType][id].push(input);
 
     const processedEntity = this._processStrategy(input, parent, key);
     Object.keys(this.schema).forEach((key) => {
       if (processedEntity.hasOwnProperty(key) && typeof processedEntity[key] === 'object') {
         const schema = this.schema[key];
-        const result = visit(processedEntity[key], processedEntity, key, schema, addEntity, visitedEntities);
-        if (result) {
-            processedEntity[key] = result;
-        } else {
-            delete processedEntity[key];
-        }
+        const resolvedSchema = typeof schema === 'function' ? schema(input) : schema;
+        processedEntity[key] = visit(
+          processedEntity[key],
+          processedEntity,
+          key,
+          resolvedSchema,
+          addEntity,
+          visitedEntities
+        );
       }
     });
 
     addEntity(this, processedEntity, input, parent, key);
-    return this.getId(input, parent, key);
+    return id;
   }
 
   denormalize(entity, unvisit) {

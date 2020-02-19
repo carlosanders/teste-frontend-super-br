@@ -4,7 +4,7 @@ import {FuseSharedModule} from '@fuse/shared.module';
 
 import {TranslateModule} from '@ngx-translate/core';
 import {ComponenteDigitalEmptyComponent} from './componente-digital-empty.component';
-import {MatIconModule} from '@angular/material';
+import {MatIconModule} from '@cdk/angular/material';
 
 const routes: Routes = [
     {

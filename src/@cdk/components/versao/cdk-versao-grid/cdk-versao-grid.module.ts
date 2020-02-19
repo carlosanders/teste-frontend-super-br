@@ -8,7 +8,7 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
-} from '@angular/material';
+} from '@cdk/angular/material';
 
 import {FuseSharedModule} from '@fuse/shared.module';
 import {LogEntryService} from '@cdk/services/logentry.service';

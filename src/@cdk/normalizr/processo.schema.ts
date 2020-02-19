@@ -11,7 +11,6 @@ import {especieProcesso} from './especie-processo.schema';
 import {usuario} from './usuario.schema';
 import {modalidadeMeio} from './modalidade-meio.schema';
 import {vinculacaoEtiqueta} from './vinculacao-etiqueta.schema';
-import {vinculacaoProcessoJudicialSetor} from '../../modules/judicial/@cdk/normalizr/vinculacao-processo-judicial-setor.schema';
 
 export const processo = new schema.Entity('processo', {
     classificacao: classificacao,

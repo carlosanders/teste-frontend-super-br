@@ -6,7 +6,7 @@ import {
     MatFormFieldModule,
     MatIconModule,
     MatInputModule
-} from '@angular/material';
+} from '@cdk/angular/material';
 
 import {FuseSharedModule} from '@fuse/shared.module';
 import {CdkCadastroIdentificadorGridFilterComponent} from './cdk-cadastro-identificador-grid-filter.component';

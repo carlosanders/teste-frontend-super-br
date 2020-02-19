@@ -10,7 +10,7 @@ import {
     MatDatepickerModule,
     MatTooltipModule,
     MatRadioModule
-} from '@angular/material';
+} from '@cdk/angular/material';
 
 import {FuseSharedModule} from '@fuse/shared.module';
 import {CdkProcessoFormComponent} from './cdk-processo-form.component';

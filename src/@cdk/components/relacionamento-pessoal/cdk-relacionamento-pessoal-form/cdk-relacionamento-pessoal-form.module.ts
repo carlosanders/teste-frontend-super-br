@@ -9,7 +9,7 @@ import {
     MatAutocompleteModule,
     MatDatepickerModule
 
-} from '@angular/material';
+} from '@cdk/angular/material';
 
 import { FuseSharedModule } from '@fuse/shared.module';
 import { CdkRelacionamentoPessoalFormComponent } from './cdk-relacionamento-pessoal-form.component';
