@@ -62,9 +62,10 @@ const routes: Routes = [
                 path: 'oficios',
                 loadChildren: () => import('./documentos-avulsos/processo-documentos-avulsos.module').then(m => m.ProcessoDocumentosAvulsosModule)
             },
-            { 
+            {
                 path: 'tramitacoes',
                 loadChildren: () => import('./tramitacoes/tramitacoes.module').then(m => m.TramitacoesModule)
+            },
             {
                 path: 'garantias',
                 loadChildren: () => import('./garantias/garantias.module').then(m => m.GarantiasModule)
