@@ -22,14 +22,19 @@ export class AdminMainSidebarComponent implements OnInit, OnDestroy {
 
         this.links = [
             {
+                nome: 'Setor',
+                icon: 'group',
+                link: 'setor'
+            },
+            {
                 nome: 'Lotações',
                 icon: 'edit_location',
                 link: 'lotacoes'
             },
             {
-                nome: 'Seções',
-                icon: 'group',
-                link: 'secoes'
+                nome: 'Localizador',
+                icon: 'edit_location',
+                link: 'localizador'
             }
         ];
     }
@@ -51,3 +56,4 @@ export class AdminMainSidebarComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
     }
 }
+
