@@ -43,6 +43,8 @@ export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoAc
                     acessoNegado: false
                 },
                 loading: false,
+                errors: false,
+                savingVincEtiquetaId: null
             };
         }
 
