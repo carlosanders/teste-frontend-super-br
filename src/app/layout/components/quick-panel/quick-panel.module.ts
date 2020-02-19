@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { MatDividerModule, MatListModule, MatSlideToggleModule } from '@angular/material';
+import { MatDividerModule, MatListModule, MatSlideToggleModule } from '@cdk/angular/material';
 
 import { FuseSharedModule } from '@fuse/shared.module';
 

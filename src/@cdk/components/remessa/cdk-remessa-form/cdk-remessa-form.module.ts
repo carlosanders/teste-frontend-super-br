@@ -9,7 +9,7 @@ import {
     MatAutocompleteModule,
     MatDatepickerModule, MatSlideToggleModule
 
-} from '@angular/material';
+} from '@cdk/angular/material';
 
 import {FuseSharedModule} from '@fuse/shared.module';
 import {CdkRemessaFormComponent} from './cdk-remessa-form.component';

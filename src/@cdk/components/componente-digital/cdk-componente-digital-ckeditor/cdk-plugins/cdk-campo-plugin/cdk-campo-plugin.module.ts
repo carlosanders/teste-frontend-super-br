@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {FuseSharedModule} from '@fuse/shared.module';
 import {CdkCampoPluginComponent} from './cdk-campo-plugin.component';
-import {MatAutocompleteModule, MatButtonModule, MatDialogModule, MatInputModule} from '@angular/material';
+import {MatAutocompleteModule, MatButtonModule, MatDialogModule, MatInputModule} from '@cdk/angular/material';
 import {CdkCampoAutocompleteModule} from '../../../../campo/cdk-campo-autocomplete/cdk-campo-autocomplete.module';
 
 @NgModule({

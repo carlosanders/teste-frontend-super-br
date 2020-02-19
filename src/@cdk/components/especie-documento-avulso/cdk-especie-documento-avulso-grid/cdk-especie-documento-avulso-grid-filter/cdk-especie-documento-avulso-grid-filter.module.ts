@@ -7,7 +7,7 @@ import {
     MatFormFieldModule,
     MatIconModule,
     MatInputModule
-} from '@angular/material';
+} from '@cdk/angular/material';
 
 import {FuseSharedModule} from '@fuse/shared.module';
 import {EspecieDocumentoAvulsoService} from '@cdk/services/especie-documento-avulso.service';

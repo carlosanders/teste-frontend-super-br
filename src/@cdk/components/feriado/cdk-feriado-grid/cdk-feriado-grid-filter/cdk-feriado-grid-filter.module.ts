@@ -7,7 +7,7 @@ import {
     MatFormFieldModule,
     MatIconModule,
     MatInputModule
-} from '@angular/material';
+} from '@cdk/angular/material';
 
 import {FuseSharedModule} from '@fuse/shared.module';
 import {FeriadoService} from '@cdk/services/feriado.service';

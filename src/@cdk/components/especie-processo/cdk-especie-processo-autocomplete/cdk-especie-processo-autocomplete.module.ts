@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {
     MatProgressSpinnerModule,
     MatAutocompleteModule
-} from '@angular/material';
+} from '@cdk/angular/material';
 
 import { FuseSharedModule } from '@fuse/shared.module';
 import { EspecieProcessoService } from '@cdk/services/especie-processo.service';
