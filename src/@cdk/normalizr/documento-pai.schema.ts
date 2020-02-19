@@ -1,4 +1,3 @@
-import {schema} from '@cdk/normalizr-src';
 import {usuario} from './usuario.schema';
 import {processo} from './processo.schema';
 import {pessoa} from './pessoa.schema';
@@ -7,8 +6,9 @@ import {tipoDocumento} from './tipo-documento.schema';
 import {tarefa} from './tarefa.schema';
 import {origemDados} from './origem-dados.schema';
 import {componenteDigital} from './componente-digital.schema';
+import {documentoPai as documentoPaiSchema} from './base.schema';
 
-export const documentoPai = new schema.Entity('documentoPai', {
+documentoPaiSchema.define({
     processoOrigem: processo,
     procedencia: pessoa,
     tipoDocumento: tipoDocumento,
@@ -20,3 +20,5 @@ export const documentoPai = new schema.Entity('documentoPai', {
     apagadoPor: usuario,
     componentesDigitais: [componenteDigital]
 });
+
+export const documentoPai = documentoPaiSchema;

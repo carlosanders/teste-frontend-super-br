@@ -1,11 +1,13 @@
-import {schema} from '@cdk/normalizr-src';
 import {usuario} from './usuario.schema';
 import {modalidadeFolder} from './modalidade-folder.schema';
+import {folder as folderSchema} from './base.schema';
 
-export const folder = new schema.Entity('folder', {
+folderSchema.define({
     modalidadeFolder: modalidadeFolder,
     usuario: usuario,
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario
 });
+
+export const folder = folderSchema;

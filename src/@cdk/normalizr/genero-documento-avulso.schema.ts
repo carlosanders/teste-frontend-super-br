@@ -1,8 +1,10 @@
-import {schema} from '@cdk/normalizr-src';
 import {usuario} from './usuario.schema';
+import {generoDocumentoAvulso as generoDocumentoAvulsoSchema} from './base.schema';
 
-export const generoDocumentoAvulso = new schema.Entity('generoDocumentoAvulso', {
+generoDocumentoAvulsoSchema.define({
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario
 });
+
+export const generoDocumentoAvulso = generoDocumentoAvulsoSchema;

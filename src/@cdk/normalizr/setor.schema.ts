@@ -1,10 +1,10 @@
-import {schema} from '@cdk/normalizr-src';
 import {usuario} from './usuario.schema';
 import {municipio} from './municipio.schema';
 import {especieSetor} from './especie-setor.schema';
 import {unidade} from './unidade.schema';
+import {setor as setorSchema} from './base.schema';
 
-export const setor = new schema.Entity('setor', {
+setorSchema.define({
     municipio: municipio,
     especieSetor: especieSetor,
     unidade: unidade,
@@ -12,3 +12,5 @@ export const setor = new schema.Entity('setor', {
     atualizadoPor: usuario,
     apagadoPor: usuario
 });
+
+export const setor = setorSchema;

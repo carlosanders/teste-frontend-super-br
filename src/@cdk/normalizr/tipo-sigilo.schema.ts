@@ -1,8 +1,10 @@
-import {schema} from '@cdk/normalizr-src';
 import {usuario} from './usuario.schema';
+import {tipoSigilo as tipoSigiloSchema} from './base.schema';
 
-export const tipoSigilo = new schema.Entity('tipoSigilo', {
+tipoSigiloSchema.define({
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario
 });
+
+export const tipoSigilo = tipoSigiloSchema;

@@ -1,4 +1,3 @@
-import {schema} from '@cdk/normalizr-src';
 import {classificacao} from './classificacao.schema';
 import {origemDados} from './origem-dados.schema';
 import {documentoAvulso} from './documento-avulso.schema';
@@ -10,8 +9,9 @@ import {especieProcesso} from './especie-processo.schema';
 import {usuario} from './usuario.schema';
 import {modalidadeMeio} from './modalidade-meio.schema';
 import {vinculacaoEtiqueta} from './vinculacao-etiqueta.schema';
+import {processo as processoSchema} from './base.schema';
 
-export const processo = new schema.Entity('processo', {
+processoSchema.define({
     classificacao: classificacao,
     origemDados: origemDados,
     documentoAvulsoOrigem: documentoAvulso,
@@ -27,5 +27,7 @@ export const processo = new schema.Entity('processo', {
     apagadoPor: usuario,
     vinculacoesEtiquetas: [vinculacaoEtiqueta]
 });
+
+export const processo = processoSchema;
 
 
