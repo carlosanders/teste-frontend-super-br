@@ -1,4 +1,6 @@
-import {schema} from '@cdk/normalizr-src';
+import {usuario as usuarioSchema} from './base.schema';
 
-export const usuario = new schema.Entity('usuario', {
+usuarioSchema.define({
 });
+
+export const usuario = usuarioSchema;

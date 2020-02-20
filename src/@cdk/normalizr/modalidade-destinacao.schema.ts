@@ -1,8 +1,10 @@
-import {schema} from '@cdk/normalizr-src';
 import {usuario} from './usuario.schema';
+import {modalidadeDestinacao as modalidadeDestinacaoSchema} from './base.schema';
 
-export const modalidadeDestinacao = new schema.Entity('modalidadeDestinacao', {
+modalidadeDestinacaoSchema.define({
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario
 });
+
+export const modalidadeDestinacao = modalidadeDestinacaoSchema;

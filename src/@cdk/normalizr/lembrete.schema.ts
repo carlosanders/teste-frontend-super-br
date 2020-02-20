@@ -1,10 +1,12 @@
-import {schema} from '@cdk/normalizr-src';
 import {usuario} from './usuario.schema';
 import {processo} from './processo.schema';
+import {lembrete as lembreteSchema} from './base.schema';
 
-export const lembrete = new schema.Entity('lembrete', {
+lembreteSchema.define({
     processo: processo,
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario
 });
+
+export const lembrete = lembreteSchema;
