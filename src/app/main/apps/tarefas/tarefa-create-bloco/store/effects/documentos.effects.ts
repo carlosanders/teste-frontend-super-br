@@ -102,7 +102,7 @@ export class TarefaCreateBlocoDocumentosEffect {
      * @type {Observable<any>}
      */
     @Effect()
-    deleteDocumento: Observable<TarefaCreateBlocoDocumentosActions.TarefaCreateBlocoDocumentosActionsAll> =
+    deleteDocumento: Observable<TarefaCreateBlocoDocumentosActions.AtividadeCreateDocumentosActionsAll> =
         this._actions
             .pipe(
                 ofType<TarefaCreateBlocoDocumentosActions.DeleteDocumento>(TarefaCreateBlocoDocumentosActions.DELETE_DOCUMENTO),

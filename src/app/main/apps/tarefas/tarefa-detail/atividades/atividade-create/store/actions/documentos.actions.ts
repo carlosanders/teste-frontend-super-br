@@ -193,7 +193,7 @@ export class ConverteToPdfFailed implements Action
     }
 }
 
-export type TarefaCreateBlocoDocumentosActionsAll
+export type AtividadeCreateDocumentosActionsAll
     = GetDocumentos
     | GetDocumentosSuccess
     | GetDocumentosFailed

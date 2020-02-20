@@ -25,7 +25,7 @@ export const TarefaCreateBlocoDocumentosInitialState: TarefaCreateBlocoDocumento
 
 export function TarefaCreateBlocoDocumentosReducer(
     state = TarefaCreateBlocoDocumentosInitialState,
-    action: TarefaCreateBlocoDocumentosActions.TarefaCreateBlocoDocumentosActionsAll
+    action: TarefaCreateBlocoDocumentosActions.AtividadeCreateDocumentosActionsAll
 ): TarefaCreateBlocoDocumentosState {
     switch (action.type) {
 
