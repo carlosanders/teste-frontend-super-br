@@ -7,18 +7,22 @@ import {
     MatCheckboxModule,
     MatProgressSpinnerModule,
     MatAutocompleteModule,
-    MatDatepickerModule,
+//    MatDatepickerModule,
     MatTooltipModule,
     MatRadioModule
 } from '@angular/material';
+//import { BrowserModule } from '@angular/platform-browser';
+//import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import {FuseSharedModule} from '@fuse/shared.module';
 import {CdkProcessoFormComponent} from './cdk-processo-form.component';
 import {CdkEspecieProcessoAutocompleteModule} from '@cdk/components/especie-processo/cdk-especie-processo-autocomplete/cdk-especie-processo-autocomplete.module';
 import {CdkEspecieProcessoGridsearchModule} from '@cdk/components/especie-processo/cdk-especie-processo-autocomplete/cdk-especie-processo-gridsearch/cdk-especie-processo-gridsearch.module';
 //import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
-import {MatDatetimepickerModule} from '@mat-datetimepicker/core';
-import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
+//import {MatDatetimepickerModule} from '@mat-datetimepicker/core';
+import { OwlDateTimeModule, OwlNativeDateTimeModule} from 'ng-pick-datetime';
+//import { OwlMomentDateTimeModule } from 'ng-pick-datetime-moment';
+//import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 import {CdkModalidadeFaseAutocompleteModule} from '@cdk/components/modalidade-fase/cdk-modalidade-fase-autocomplete/cdk-modalidade-fase-autocomplete.module';
 import {CdkModalidadeFaseGridsearchModule} from '@cdk/components/modalidade-fase/cdk-modalidade-fase-autocomplete/cdk-modalidade-fase-gridsearch/cdk-modalidade-fase-gridsearch.module';
 import {CdkModalidadeMeioAutocompleteModule} from '@cdk/components/modalidade-meio/cdk-modalidade-meio-autocomplete/cdk-modalidade-meio-autocomplete.module';
@@ -45,10 +49,15 @@ import {CdkProcessoGridsearchModule} from '../cdk-processo-autocomplete/cdk-proc
         MatCheckboxModule,
         MatInputModule,
         MatProgressSpinnerModule,
-        MatDatepickerModule,
-        MatDatetimepickerModule,
+//        MatDatepickerModule,
+//        MatDatetimepickerModule,
 //        MatNativeDatetimeModule,
-        MatMomentDatetimeModule,
+//        MatMomentDatetimeModule,
+//        BrowserModule, 
+//        BrowserAnimationsModule,        
+        OwlDateTimeModule, 
+        OwlNativeDateTimeModule,
+//        OwlMomentDateTimeModule,        
         MatTooltipModule,
         MatRadioModule,
 
