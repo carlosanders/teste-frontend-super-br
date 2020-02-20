@@ -1,10 +1,10 @@
 import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
 
-import { Usuario } from '@cdk/models/usuario.model';
-import {EspecieAtividade} from '@cdk/models/especie-atividade.model';
-import {Setor} from '@cdk/models/setor.model';
-import {EspecieTarefa} from '@cdk/models/especie-tarefa.model';
+import { Usuario } from '@cdk/models';
+import {EspecieAtividade} from '@cdk/models';
+import {Setor} from '@cdk/models';
+import {EspecieTarefa} from '@cdk/models';
 
 export class Favorito {
 
