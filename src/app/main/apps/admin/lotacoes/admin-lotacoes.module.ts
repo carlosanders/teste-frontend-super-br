@@ -29,6 +29,10 @@ const routes: Routes = [
                 loadChildren: () => import('./lotacao-list/admin-lotacao-list.module').then(m => m.AdminLotacaoListModule),
             },
             {
+                path       : 'editar',
+                loadChildren: () => import('./lotacao-edit/admin-lotacao-edit.module').then(m => m.AdminLotacaoEditModule),
+            },
+            {
                 path: '**',
                 redirectTo: 'listar'
             }

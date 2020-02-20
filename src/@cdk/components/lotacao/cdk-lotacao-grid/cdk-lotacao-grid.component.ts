@@ -187,7 +187,9 @@ export class CdkLotacaoGridComponent implements AfterViewInit, OnInit, OnChanges
     isIndeterminate = false;
 
     /**
+     *
      * @param _changeDetectorRef
+     * @param _fuseSidebarService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,

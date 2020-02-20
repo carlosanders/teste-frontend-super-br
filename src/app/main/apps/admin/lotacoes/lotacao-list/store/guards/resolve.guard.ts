@@ -70,7 +70,8 @@ export class ResolveGuard implements CanActivate {
                         sort: {criadoEm: 'DESC'},
                         populate: [
                             'populateAll',
-                            'setor.unidade'
+                            'setor.unidade',
+                            'colaborador.usuario'
                         ]
                     };
 
