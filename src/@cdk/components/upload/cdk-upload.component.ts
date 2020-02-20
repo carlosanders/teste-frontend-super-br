@@ -14,7 +14,7 @@ import {
 } from '@angular/common/http';
 import {of, Subscription} from 'rxjs';
 import {catchError, last, map, tap} from 'rxjs/operators';
-import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
+import {MatPaginator, MatSort, MatTableDataSource} from '@cdk/angular/material';
 import {fuseAnimations} from '@fuse/animations';
 import {environment} from 'environments/environment';
 import {classToPlain} from 'class-transformer';

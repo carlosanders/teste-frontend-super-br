@@ -1,3 +1,5 @@
+@import "src/@fuse/scss/fuse";
+
 cdk-processo-form {
 
   form {
@@ -17,6 +19,23 @@ cdk-processo-form {
     code {
       background: none !important;
     }
+  }
+  mat-radio-group {
+
+    &.poderes-rg {
+//      padding: 16px;
+      margin: 0px 0px 30px 0px;
+      display: flex;
+      flex-direction: row;
+//    margin: top right bottom left      
+//      @include mat-elevation(1);
+    }
+  }
+
+  mat-radio-button {
+    margin-right: 100px;
+    margin-left: 3px;
+    margin-bottom: 15px;
   }
 
   cdk-especie-processo-grid {

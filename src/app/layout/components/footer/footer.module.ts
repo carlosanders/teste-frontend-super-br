@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { MatButtonModule, MatIconModule, MatToolbarModule } from '@angular/material';
+import { MatButtonModule, MatIconModule, MatToolbarModule } from '@cdk/angular/material';
 
 import { FuseSharedModule } from '@fuse/shared.module';
 

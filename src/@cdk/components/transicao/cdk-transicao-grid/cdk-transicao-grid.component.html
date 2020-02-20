@@ -97,7 +97,7 @@
                 <!-- ModalidadeTransicao Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('modalidadeTransicao.valor') > -1" matColumnDef="modalidadeTransicao.valor">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Modalidade da Transicao
+                        Modalidade da Transição
                     </th>
                     <td mat-cell *matCellDef="let transicao" class='has_label_on_mobile' data-label='Modalidade da Transicao: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(transicao.id) > -1}"> {{transicao.modalidadeTransicao?.valor}} </td>

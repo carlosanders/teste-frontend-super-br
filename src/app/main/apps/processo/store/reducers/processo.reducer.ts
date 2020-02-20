@@ -27,6 +27,20 @@ export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoAc
             };
         }
 
+        case ProcessoActions.UNLOAD_PROCESSO: {
+            return {
+                processoId: null,                
+//                loaded: undefined,
+                loaded: {
+                    id: undefined,
+                    value: undefined,
+                    acessoNegado: false
+                },
+                loading: false,
+            };
+        }
+
+
         case ProcessoActions.GET_PROCESSO: {
             return {
                 processoId: null,
