@@ -51,10 +51,8 @@ export class AjudaComponent implements OnInit {
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
     pesquisar(): void {
-        console.log("CHAMADO AO ENTRAR NA PAGINA DE TAREFA");
         this.back();
         this.isSubmited = true;
-        console.log(this.form.value);
         this.resultado = FuseUtils.filterArrayByString(this.topicos, this.form.get('pesquisa').value);
     }
 
@@ -78,5 +76,8 @@ export class AjudaComponent implements OnInit {
 
     get containerElement(): HTMLElement {
         return this.container.nativeElement;
+    }
+
+    pesquisaInicial(PesquisaAba: string): void{ //IDEIA INICIAL DE PESQUISA NA ABA DE TAREFAS
     }
 }

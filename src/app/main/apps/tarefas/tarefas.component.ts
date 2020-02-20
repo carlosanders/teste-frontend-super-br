@@ -31,6 +31,7 @@ import {filter, takeUntil} from 'rxjs/operators';
 import {Pagination} from '@cdk/models/pagination';
 import {LoginService} from '../../auth/login/login.service';
 import {ToggleMaximizado} from 'app/main/apps/tarefas/store';
+import { Topico } from 'ajuda/topico';
 
 @Component({
     selector: 'tarefas',
@@ -86,6 +87,9 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     private _profile: any;
 
     mobileMode = false;
+
+    AjudaTarefa: Topico;
+    PesquisaTarefa: string;
 
     @ViewChild('tarefaListElement', {read: ElementRef, static: true}) tarefaListElement: ElementRef;
 
@@ -194,6 +198,10 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                 this.mobileMode = false;
             }
         });
+
+        this.PesquisaTarefa = 'tarefa';//IDEIA INICIAL AJUDA ABA TAREFAS
+        
+
     }
 
     ngAfterViewInit(): void {

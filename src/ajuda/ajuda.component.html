@@ -78,6 +78,51 @@
             <div *ngIf="titulo === 'Compartilhando tarefas em bloco'">
                 <ajuda-compartilhamento-create-bloco></ajuda-compartilhamento-create-bloco>
             </div>
+            <div *ngIf="titulo === 'Criando processos'">
+                <ajuda-processo-edit></ajuda-processo-edit>
+            </div>
+            <div *ngIf="titulo === 'Assuntos'">
+                <ajuda-assuntos></ajuda-assuntos>
+            </div>
+            <div *ngIf="titulo === 'Interessados'">
+                <ajuda-interessados></ajuda-interessados>
+            </div>
+            <div *ngIf="titulo === 'Juntadas'">
+                <!-- juntadas -->
+                <ajuda-juntadas></ajuda-juntadas>
+            </div>
+            <div *ngIf="titulo === 'Vinculações'">
+                <!-- vinculaçoes -->
+                <ajuda-vinculacoes-processos></ajuda-vinculacoes-processos>
+            </div>
+            <div *ngIf="titulo === 'Ofícios'">
+                <!-- oficios -->
+                <ajuda-tarefa-create></ajuda-tarefa-create>
+            </div>
+            <div *ngIf="titulo === 'Tramitações'">
+                <!-- tramitacoes -->
+                <ajuda-tarefa-create></ajuda-tarefa-create>
+            </div>
+            <div *ngIf="titulo === 'Remessas'">
+                <!-- remessas -->
+                <ajuda-tarefa-create></ajuda-tarefa-create>
+            </div>
+            <div *ngIf="titulo === 'Transições'">
+                <!-- transicoes -->
+                <ajuda-tarefa-create></ajuda-tarefa-create>
+            </div>
+            <div *ngIf="titulo === 'Sigilos'">
+                <!-- sigilos -->
+                <ajuda-tarefa-create></ajuda-tarefa-create>
+            </div>
+            <div *ngIf="titulo === 'Restrição de Acesso'">
+                <!-- restricaodeacesso -->
+                <ajuda-tarefa-create></ajuda-tarefa-create>
+            </div>
+            <div *ngIf="titulo === 'Processo Judicial'">
+                <!-- processojudicial -->
+                <ajuda-tarefa-create></ajuda-tarefa-create>
+            </div>
     </div>
 
     <div #container></div>

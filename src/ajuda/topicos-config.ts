@@ -10,6 +10,21 @@ import {topicosConfig as tarefaVisibilidadeTopicosConfig} from '../app/main/apps
 import {topicosConfig as tarefaAtividadeCreateTopicosConfig} from '../app/main/apps/tarefas/tarefa-detail/atividades/atividade-create/ajuda/topicos-config';
 import {topicosConfig as tarefaCompartilhamentoCreateTopicosConfig} from '../app/main/apps/tarefas/tarefa-detail/compartilhamentos/compartilhamento-create/ajuda/topicos-config';
 import {topicosConfig as tarefaOficioCreateBlocoTopicosConfig} from '../app/main/apps/tarefas/documento-avulso-create-bloco/ajuda/topicos-config';
+import {topicosConfig as processoEditTopicosConfig} from '../app/main/apps/processo/processo-edit/ajuda/topicos-config';
+import {topicosConfig as assuntosTopicosConfig} from '../app/main/apps/processo/processo-edit/assuntos/ajuda/topicos-config';
+import {topicosConfig as interessadosTopicosConfig} from '../app/main/apps/processo/processo-edit/interessados/ajuda/topicos-config';
+import {topicosConfig as juntadasEditTopicosConfig} from '../app/main/apps/processo/processo-edit/assuntos/ajuda/topicos-config';
+import {topicosConfig as vinculacoesProcessoTopicosConfig} from '../app/main/apps/processo/processo-edit/vinculacoes-processos/ajuda/topicos-config';
+import {topicosConfig as oficiosTopicosConfig} from '../app/main/apps/processo/processo-edit/assuntos/ajuda/topicos-config';
+import {topicosConfig as tramitacoesTopicosConfig} from '../app/main/apps/processo/processo-edit/interessados/ajuda/topicos-config';
+import {topicosConfig as remessasTopicosConfig} from '../app/main/apps/processo/processo-edit/assuntos/ajuda/topicos-config';
+import {topicosConfig as transicoesTopicosConfig} from '../app/main/apps/processo/processo-edit/interessados/ajuda/topicos-config';
+import {topicosConfig as sigilosTopicosConfig} from '../app/main/apps/processo/processo-edit/assuntos/ajuda/topicos-config';
+import {topicosConfig as restricoesdeacessoTopicosConfig} from '../app/main/apps/processo/processo-edit/interessados/ajuda/topicos-config';
+import {topicosConfig as processojudicialTopicosConfig} from '../app/main/apps/processo/processo-edit/assuntos/ajuda/topicos-config';
+
+
+
 
 
 
@@ -25,6 +40,18 @@ export let topicosConfig = [
     ...tarefaVisibilidadeTopicosConfig,
     ...tarefaAtividadeCreateTopicosConfig,
     ...tarefaOficioCreateBlocoTopicosConfig,
+    ...processoEditTopicosConfig,
+    ...assuntosTopicosConfig,
+    ...interessadosTopicosConfig,
+    ...juntadasEditTopicosConfig,
+    ...vinculacoesProcessoTopicosConfig,
+    // ...oficiosTopicosConfig,
+    // ...tramitacoesTopicosConfig,
+    // ...remessasTopicosConfig,
+    // ...transicoesTopicosConfig,
+    // ...sigilosTopicosConfig,
+    // ...restricoesdeacessoTopicosConfig,
+    // ...processojudicialTopicosConfig,
 ];
 
 modulesConfig.forEach((modulo) => {

@@ -1,0 +1,194 @@
+<div>
+    <div *ngIf="titulo === 'processo'" class="content p-16" fxLayout="column">
+
+        <h3><strong>CRIANDO PROCESSOS</strong></h3>
+        <p style="text-align: justify;">
+            Antes de incluir um novo processo, o usuário deve se certificar de que ainda não houve o referido cadastro no SUPP, realizando as pesquisas necessárias.<br>
+            Se o processo já possuir um NUP, deve-se consultar sua existência por meio da pesquisa rápida na barra superior do SUPP
+            <img src="assets/images/ajuda/lupa.png" class="fr-fic fr-dii">.
+        </p>
+        <button type="button" class="collapsible mb-4" (click)="Collapsible()">NUP?</button>
+        <div class="content">
+            O Número Único de Protocolo (NUP) é constituído de quinze dígitos principais, mais dois dígitos de verificação, separados em grupos (00000.000000/0000-00).<br><br>
+            O primeiro grupo é constituído de cinco dígitos, referentes ao código numérico atribuído a cada unidade protocolizadora e este código identifica o órgão de origem do processo, mantendo-se inalterado.<br><br>
+            O segundo grupo é constituído de seis dígitos, separados do primeiro por um ponto e determina o registro sequencial dos processos autuados, devendo este número ser reiniciado a cada ano.<br><br>
+            O terceiro grupo, constituído de quatro dígitos, separado do segundo grupo por uma barra, indica o ano de formação do processo.     
+        </div>
+        <p style="text-align: justify;">
+            Se não houver referência a um determinado NUP, ainda assim pode ocorrer de já haver cadastro do processo no SAPIENS, 
+            de modo que o usuário deverá realizar uma pesquisa avançada, disponível no painel lateral esquerdo.<br><br>
+            <img src="assets/images/ajuda/painelpesquisa.png" style="width: 256px;" class="fr-fic fr-dib fr-fil">
+        </p>
+        <p style="text-align: justify;">
+            Na tela de pesquisa avançada, estão disponíveis diversos campos para que o usuário tente encontrar um cadastro anterior, evitando assim a duplicidade.<br><br>
+            Deve-se realizar a pesquisa avançada, ao menos, pelo nome do interessado. 
+            Entretanto, quanto mais completa for a pesquisa, mais fidedigna será a base de dados do SAPIENS.
+        </p>
+        <p style="text-align: justify;">
+            Confirmada a inexistência de processo anterior, no menu lateral esquerdo o usuário deve selecionar
+            <strong>Protocolo&nbsp;</strong>&gt;
+            <strong>Administrativo</strong>:<br><br>
+            <img src="assets/images/ajuda/criarprocessoadm.png" style="width: 256px;" class="fr-fic fr-dib fr-fil">
+        </p>
+        <p style="text-align: justify;">
+            É aberta a página de <strong>criação de processo</strong>.
+            A opção <strong>Gerar NUP</strong> cria um processo, precisando de dados para preenchimento.
+        </p>
+        <p style="text-align: justify;">
+            Os vários campos dos dados básicos aparecem na tela, e os que necessarimente devem ser preenchidos possuem o carácter <strong>*</strong>.
+        </p>
+        <h3><strong>Preenchendo os dados básicos</strong></h3>
+            <p style="text-align: justify;">
+                1. No campo <strong>Espécie</strong>, preenche-se a informação relacionada ao "tipo" do processo, sendo possível escolher entre as opções:
+                    <li>Administrativo</li>
+                    <li>Consultivo</li>
+                    <li>Correicional</li>
+            </p>
+            <p style="background-color: #d3d3d3;">
+            É possível preencher o campo e escolher a espécie relacionada ou escolher a opção desejada na <img src="assets/images/ajuda/lupa.png" class="fr-fic fr-dii"> e selecionar por meio do botão <img src="assets/images/ajuda/escolheropcao.png" class="fr-fic fr-dii">.
+            </p>
+            <p style="text-align: justify;">
+                2. No campo <strong>Meio</strong>, é preenchido o formato do processo, sendo possível escolher entre as opções:
+                    <li>Físico</li>
+                    <li>Eletrônico</li>
+                    <li>Híbrido</li>
+            </p>
+            <p style="text-align: justify;">
+                3. O campo <strong>Classificação</strong> deve ser atribuído de acordo com o <strong>Plano de Classificação da AGU</strong>, o qual é relacionado
+                aos assuntos do CONARQ - Conselho Nacional de Arquivologia. Existem várias opções, aparecendo uma opção de paginação na parte inferior, sendo possível navegar entre os intervalos
+                de <strong>Registros por página</strong>.<br><br>
+                    <img src="assets/images/ajuda/paginacao.png" style="width: 300px;" class="fr-fic fr-dib fr-fil">
+            </p>
+            <button type="button" class="collapsible mb-4" (click)="Collapsible()">Classificação?</button>
+            <div class="content">
+                Classificação é o ato ou efeito de analisar e identificar o conteúdo dos documentos arquivísticos e de selecionar a classe sob a qual serão recuperados. Essa classificação é feita a partir de um plano de classificação elaborado pelo órgão ou entidade.<br><br>
+                A classificação determina o agrupamento de documentos em unidades menores e o agrupamento destas em unidades maiores, formando o arquivo do órgão ou entidade. Para tanto, deve tomar por base o conteúdo do documento, que reflete a atividade que o gerou e determina o uso da informação nele contida. <br><br>
+                A classificação também define a organização física dos documentos, constituindo-se em referencial básico para sua recuperação. <br><br>
+                Os objetivos da classificação são:
+                    <li>Estabelecer a relação orgânica dos documentos arquivísticos;</li>
+                    <li>Assegurar que os documentos sejam identificados de forma consistente ao longo do tempo;</li>
+                    <li>Auxiliar a recuperação de todos os documentos arquivísticos relacionados a uma determinada função ou atividade;</li>
+                    <li>Possibilitar a avaliação de um grupo de documentos de forma que os documentos associados sejam transferidos, recolhidos ou eliminados em conjunto.</li><br><br>
+                A classificação deve se basear no plano de classificação e envolve os seguintes passos:
+                    <li>Identificar a ação que o documento registra;</li>
+                    <li>Localizar a ação ou atividade no plano de classificação;</li>
+                    <li>Comparar a atividade com a estrutura organizacional para verificar se é apropriada à unidade que gerou o documento;</li>
+                    <li>Aplicar a classificação ao documento.</li>   
+            </div>
+            <p style="text-align: justify;">
+                4. É também necessário colocar um <strong>Título</strong> e um <strong>Setor Responsável</strong> pelo processo.
+            </p>
+            <p style="text-align: justify;">
+                5. Os demais campos não são obrigatórios, mas podem conter informações importantes. Na <strong>Descrição</strong> é possível descrever dados relevantes e observações pertinentes. Já no campo <strong>Outro Número</strong> é inserido algum número externo que não foi possível aproveitar na criação do <strong>NUP</strong>.
+            </p>
+            <p style="text-align: justify;">
+                6. Ao apertar o botão <img src="assets/images/ajuda/salvar.png" class="fr-fic fr-dii">, o NUP é gerado. 
+            </p>
+            <p style="text-align: justify;">
+                O <strong>NUP</strong> foi gerado, porém são necessários outros procedimentos para cadastramento do processo administrativo, de forma a garantir o seu correto andamento. 
+            </p>
+            <p style="text-align: justify;">
+                Aparece um grid com opções de dados que podem/devem ser preenchidos<img src="assets/images/ajuda/gridprocessos.png" style="width: 200px;" class="fr-fic fr-dib fr-fil"> 
+            </p>
+            <p style="text-align: justify;">
+                A estrutura das informações no SUPP mantem a lógica da estrutura das informações no SAPIENS, onde cada novo evento/movimento é lançado como Tarefa em um processo e o trabalho realizado é a Atividade em uma tarefa.
+            </p>
+            <p style="text-align: justify;">
+                Por isso, para dar continuidade ao NUP, é necessário a criação de uma tarefa. Porém, existem pré-requisitos para essa etapa.
+            </p> 
+            <p style="text-align: justify;">
+                Por regras negociais, é sempre necessário que se cadastre um assunto e os interessados no processo para poder criar tarefas.
+            </p>
+            <h4><strong>Observa&ccedil;&otilde;es:</strong> </h4>
+            <p style="text-align: justify;">
+                <li>Caso o processo seja novo, um NUP será automaticamente gerado!</li>
+                <li>Um NUP que possui mais de 1 (um) volume <strong>NÃO</strong> pode ser eletrônico.</li>
+                <li>Os processos são criados com a modalidade fase <strong>CORRENTE</strong>!</li>
+                <li>Os processos novos tem a data/hora de abertura gerada automaticamente!</li>
+                <li>Os processos novos tem uma chave de acesso gerada automaticamente!</li>
+                <li>Caso o processo seja novo a procedência será a instituição!</li>
+                <li>O setor inicial do processo é sempre igual ao primeiro setor atual!</li>
+                <li>O primeiro volume do processo é aberto automaticamente!</li>
+                <li>Realiza o cálculo da data provável da próxima transição arquivística!</li>
+                <li>A tarefa do arquivamento do processo é aberta automaticamente!</li>          
+            </p>
+            <p style="background-color: #d3d3d3;">
+                Para maiores informações:
+                <li><a href="javascript:void(0)" (click)="carregar('assuntos')">Assuntos</a></li> 
+                <li><a href="javascript:void(0)" (click)="carregar('interessados')">Interessados</a></li> 
+                <li><a href="javascript:void(0)" (click)="carregar('tarefas')">Tarefas</a></li>
+                <li><a href="javascript:void(0)" (click)="carregar('juntadas')">Juntadas</a></li> 
+                <li><a href="javascript:void(0)" (click)="carregar('vinculacoes')">Vinculações</a></li> 
+                <li><a href="javascript:void(0)" (click)="carregar('oficios')">Ofícios</a></li> 
+                <li><a href="javascript:void(0)" (click)="carregar('tramitacoes')">Tramitações</a></li> 
+                <li><a href="javascript:void(0)" (click)="carregar('remessas')">Remessas</a></li> 
+                <li><a href="javascript:void(0)" (click)="carregar('transicoes')">Transições</a></li>
+                <li><a href="javascript:void(0)" (click)="carregar('sigilos')">Sigilos</a></li> 
+                <li><a href="javascript:void(0)" (click)="carregar('restricaodeacesso')">Restrições de Acesso</a></li> 
+                <li><a href="javascript:void(0)" (click)="carregar('processojudicial')">Processo Judicial</a></li> 
+            </p>
+        <hr>
+        <p><br></p>
+    </div>
+    <div *ngIf="titulo === 'assuntos'">
+        <ajuda-assuntos></ajuda-assuntos>
+        <a href="javascript:void(0)" (click)="carregar('processo')">Voltar ao <strong>Criando Processos</strong></a>
+    </div>
+    <div *ngIf="titulo === 'interessados'">
+        <ajuda-interessados></ajuda-interessados>
+        <a href="javascript:void(0)" (click)="carregar('processo')">Voltar ao <strong>Criando Processos</strong></a>
+    </div>
+    <div *ngIf="titulo === 'tarefas'">
+        <ajuda-tarefa-create></ajuda-tarefa-create>
+        <a href="javascript:void(0)" (click)="carregar('processo')">Voltar ao <strong>Criando Processos</strong></a>
+    </div>
+    <div *ngIf="titulo === 'juntadas'">
+        <!-- juntadas -->
+        <ajuda-juntadas></ajuda-juntadas>
+        <a href="javascript:void(0)" (click)="carregar('processo')">Voltar ao <strong>Criando Processos</strong></a>
+    </div>
+    <div *ngIf="titulo === 'vinculacoes'">
+        <!-- vinculacoes-processos -->
+        <ajuda-vinculacoes-processos></ajuda-vinculacoes-processos>
+        <a href="javascript:void(0)" (click)="carregar('processo')">Voltar ao <strong>Criando Processos</strong></a>
+    </div>
+    <div *ngIf="titulo === 'oficios'">
+        <!-- oficios -->
+        <ajuda-tarefa-create></ajuda-tarefa-create>
+        <a href="javascript:void(0)" (click)="carregar('processo')">Voltar ao <strong>Criando Processos</strong></a>
+    </div>
+    <div *ngIf="titulo === 'tramitacoes'">
+        <!-- tramitacoes -->
+        <ajuda-tarefa-create></ajuda-tarefa-create>
+        <a href="javascript:void(0)" (click)="carregar('processo')">Voltar ao <strong>Criando Processos</strong></a>
+    </div>
+    <div *ngIf="titulo === 'remessas'">
+        <!-- remessas -->
+        <ajuda-tarefa-create></ajuda-tarefa-create>
+        <a href="javascript:void(0)" (click)="carregar('processo')">Voltar ao <strong>Criando Processos</strong></a>
+    </div>
+    <div *ngIf="titulo === 'transicoes'">
+        <!-- transicoes -->
+        <ajuda-tarefa-create></ajuda-tarefa-create>
+        <a href="javascript:void(0)" (click)="carregar('processo')">Voltar ao <strong>Criando Processos</strong></a>
+    </div>
+
+    <div *ngIf="titulo === 'sigilos'">
+        <!-- sigilos -->
+        <ajuda-tarefa-create></ajuda-tarefa-create>
+        <a href="javascript:void(0)" (click)="carregar('processo')">Voltar ao <strong>Criando Processos</strong></a>
+    </div>
+    <div *ngIf="titulo === 'restricaodeacesso'">
+        <!-- restricaodeacesso -->
+        <ajuda-tarefa-create></ajuda-tarefa-create>
+        <a href="javascript:void(0)" (click)="carregar('processo')">Voltar ao <strong>Criando Processos</strong></a>
+    </div>
+    <div *ngIf="titulo === 'processojudicial'">
+        <!-- processojudicial -->
+        <ajuda-tarefa-create></ajuda-tarefa-create>
+        <a href="javascript:void(0)" (click)="carregar('processo')">Voltar ao <strong>Criando Processos</strong></a>
+    </div>
+
+
+</div>
+
