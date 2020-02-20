@@ -16,7 +16,8 @@ import {FuseSharedModule} from '@fuse/shared.module';
 import {CdkProcessoFormComponent} from './cdk-processo-form.component';
 import {CdkEspecieProcessoAutocompleteModule} from '@cdk/components/especie-processo/cdk-especie-processo-autocomplete/cdk-especie-processo-autocomplete.module';
 import {CdkEspecieProcessoGridsearchModule} from '@cdk/components/especie-processo/cdk-especie-processo-autocomplete/cdk-especie-processo-gridsearch/cdk-especie-processo-gridsearch.module';
-import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
+//import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
+import {MatDatetimepickerModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 import {CdkModalidadeFaseAutocompleteModule} from '@cdk/components/modalidade-fase/cdk-modalidade-fase-autocomplete/cdk-modalidade-fase-autocomplete.module';
 import {CdkModalidadeFaseGridsearchModule} from '@cdk/components/modalidade-fase/cdk-modalidade-fase-autocomplete/cdk-modalidade-fase-gridsearch/cdk-modalidade-fase-gridsearch.module';
@@ -46,7 +47,7 @@ import {CdkProcessoGridsearchModule} from '../cdk-processo-autocomplete/cdk-proc
         MatProgressSpinnerModule,
         MatDatepickerModule,
         MatDatetimepickerModule,
-        MatNativeDatetimeModule,
+//        MatNativeDatetimeModule,
         MatMomentDatetimeModule,
         MatTooltipModule,
         MatRadioModule,

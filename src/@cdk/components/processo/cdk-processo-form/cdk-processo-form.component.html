@@ -63,10 +63,15 @@
 
         <mat-form-field *ngIf="form.value.id || !form.value.novo" fxFlex>
             <mat-label>Data Hora de Abertura</mat-label>
-            <input matInput formControlName="dataHoraAbertura" [matDatetimepicker]="dataHoraAbertura"
-                   required>
-            <mat-datetimepicker-toggle matSuffix [for]="dataHoraAbertura"></mat-datetimepicker-toggle>
-            <mat-datetimepicker #dataHoraAbertura type="datetime" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
+
+            <input matInput formControlName="dataHoraAbertura" [matDatetimepicker]="dataHoraAbertura"required autocomplete="false">
+            <mat-datetimepicker-toggle [for]="dataHoraAbertura" matSuffix ></mat-datetimepicker-toggle>
+            <mat-datetimepicker #dataHoraAbertura type="datetime" [openOnFocus]="true" timeInterval="5"></mat-datetimepicker>
+
+<!--            <input matInput formControlName="dataHoraAbertura" [matDatepicker]="dataHoraAbertura" required autocomplete="false">
+            <mat-datepicker-toggle [for]="dataHoraAbertura" matSuffix ></mat-datepicker-toggle>            
+            <mat-datepicker #dataHoraAbertura type="datetime" openOnFocus="true" timeInterval="5"></mat-datepicker>            
+-->            
         </mat-form-field>
 
         <mat-form-field fxFlex *ngIf="form.value.id">

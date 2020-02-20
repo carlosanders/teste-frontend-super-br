@@ -32,6 +32,29 @@ import { appendFile } from 'fs';
     animations: fuseAnimations,
     providers: [
         {
+          provide: MAT_DATETIME_FORMATS,
+          useValue: {
+            parse: {
+              dateInput: 'L',
+              monthInput: 'MMMM',
+              timeInput: 'LT',
+              datetimeInput: 'L LT'
+            },
+            display: {
+              dateInput: 'L',
+              monthInput: 'MMMM',
+              datetimeInput: 'L LT',
+              timeInput: 'LT',
+              monthYearLabel: 'MMM YYYY',
+              dateA11yLabel: 'LL',
+              monthYearA11yLabel: 'MMMM YYYY',
+              popupHeaderDateLabel: 'ddd, DD MMM'
+            }
+          }
+        }
+      ]    
+/*    providers: [
+        {
             provide: MAT_DATETIME_FORMATS,
             useValue: {
                 display: {
@@ -40,7 +63,7 @@ import { appendFile } from 'fs';
                 }
             }
         }
-    ]
+    ]*/
 })
 export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
@@ -156,6 +179,12 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     ngOnInit(): void {
 
         if (!this.processo.id) {
+
+            if (this.form.get('processo_rg').value !== 'novo' &&
+                this.form.get('processo_rg').value !== 'aproveitar_dados'){
+                this.form.get('processo_rg').setValue('novo');
+            }
+
             this.form.get('dataHoraAbertura').setValue(null);
             this.form.get('dataHoraAbertura').disable();
 

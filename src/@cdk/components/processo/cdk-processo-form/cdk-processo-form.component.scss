@@ -1,4 +1,21 @@
 @import "src/@fuse/scss/fuse";
+/*@import '~@angular/material/theming';
+@import '~@mat-datetimepicker/core/datetimepicker/datetimepicker-theme.scss';
+
+@include mat-core();
+$app-primary: mat-palette($mat-indigo);
+$app-accent:  mat-palette($mat-pink);
+$app-warn:    mat-palette($mat-red);
+
+// Custom Sass colors vars (will be available in all the project)
+$primary: mat-color($app-primary);
+$accent: mat-color($app-accent);
+$warn: mat-color($app-warn);
+
+$theme: mat-light-theme($app-primary, $app-accent, $app-warn);
+@include mat-datetimepicker-theme($theme);*/
+
+
 
 cdk-processo-form {
 
