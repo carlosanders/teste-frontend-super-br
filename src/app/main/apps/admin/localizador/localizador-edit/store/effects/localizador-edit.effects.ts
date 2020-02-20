@@ -82,6 +82,7 @@ export class LocalizadorEditEffect {
             .pipe(
                 ofType<LocalizadorEditActions.SaveLocalizador>(LocalizadorEditActions.SAVE_LOCALIZADOR),
                 switchMap((action) => {
+                    console.log(action);
                     return this._localizadorService.save(action.payload).pipe(
                         mergeMap((response: Localizador) => [
                             new LocalizadorEditActions.SaveLocalizadorSuccess(),

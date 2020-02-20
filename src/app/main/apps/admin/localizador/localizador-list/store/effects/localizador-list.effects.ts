@@ -103,9 +103,9 @@ export class LocalizadorListEffect {
             .pipe(
                 ofType<LocalizadorListActions.SaveLocalizador>(LocalizadorListActions.SAVE_LOCALIZADOR),
                 switchMap((action) => {
-                    return this._localizadorService.patch(action.payload.localizador, action.payload.changes).pipe(
+                    return this._localizadorService.save(action.payload.localizador).pipe(
                         mergeMap((response: Localizador) => [
-                            new UpdateData<Localizador>({id: response.id, schema: localizadorSchema, changes: {principal: response.principal}}),
+                            new UpdateData<Localizador>({id: response.id, schema: localizadorSchema, changes: {}}),
                             new LocalizadorListActions.SaveLocalizadorSuccess(),  new OperacoesActions.Resultado({
                                 type: 'localizador',
                                 content: `Localizador id ${response.id} editada com sucesso!`,

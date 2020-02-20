@@ -7,11 +7,12 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
+
 import { fuseAnimations } from '@fuse/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { Localizador } from '@cdk/models/localizador.model';
 import {Pagination} from '@cdk/models/pagination';
-import {Template} from '@cdk/models/template.model';
+import {Setor} from '@cdk/models/setor.model';
 
 @Component({
     selector: 'cdk-localizador-form',
@@ -40,7 +41,7 @@ export class CdkLocalizadorFormComponent implements OnChanges, OnDestroy {
     activeCard = 'form';
 
     @Input()
-    templatePagination: Pagination;
+    setorPagination: Pagination;
 
     /**
      * Constructor
@@ -54,11 +55,11 @@ export class CdkLocalizadorFormComponent implements OnChanges, OnDestroy {
             id: [null],
             ativo: [null],
             nome: [null, [Validators.required, Validators.maxLength(255)]],
-            descricao: [null, [Validators.required, Validators.maxLength(255)]]
-
+            descricao: [null, [Validators.required, Validators.maxLength(255)]],
+            setor: [null, [Validators.required]],
         });
 
-        this.templatePagination = new Pagination();
+        this.setorPagination = new Pagination();
 
     }
 
@@ -99,6 +100,23 @@ export class CdkLocalizadorFormComponent implements OnChanges, OnDestroy {
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
+    checkSetor(): void {
+        const value = this.form.get('setor').value;
+        if (!value || typeof value !== 'object') {
+            this.form.get('setor').setValue(null);
+        }
+    }
+
+    selectSetor(setor: Setor): void {
+        if (setor) {
+            this.form.get('setor').setValue(setor);
+        }
+        this.activeCard = 'form';
+    }
+
+    showSetorGrid(): void {
+        this.activeCard = 'setor-gridsearch';
+    }
 
     submit(): void {
         if (this.form.valid) {

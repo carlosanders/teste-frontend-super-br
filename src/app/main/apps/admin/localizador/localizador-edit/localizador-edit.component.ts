@@ -32,7 +32,7 @@ export class LocalizadorEditComponent implements OnInit, OnDestroy {
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
     usuario: Usuario;
-    templatePagination: Pagination;
+    setorPagination: Pagination;
 
     /**
      *
@@ -48,8 +48,12 @@ export class LocalizadorEditComponent implements OnInit, OnDestroy {
         this.localizador$ = this._store.pipe(select(fromStore.getLocalizador));
         this.usuario = this._loginService.getUserProfile();
 
-        this.templatePagination = new Pagination();
-        this.templatePagination.populate = ['documento', 'documento.tipoDocumento'];
+        this.setorPagination = new Pagination();
+
+        this.setorPagination.populate = ['unidade'];
+        // TO DO
+        // this.setorPagination.filter = ['']
+
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -84,7 +88,7 @@ export class LocalizadorEditComponent implements OnInit, OnDestroy {
     submit(values): void {
 
         const localizador = new Localizador();
-
+        //localizador.id = null;
         Object.entries(values).forEach(
             ([key, value]) => {
                 localizador[key] = value;
