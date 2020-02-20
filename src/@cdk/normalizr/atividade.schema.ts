@@ -1,8 +1,8 @@
 import {atividade as atividadeSchema} from './base.schema';
-import {especieAtividade} from './especie-atividade.schema';
-import {setor} from './setor.schema';
-import {usuario} from './usuario.schema';
-import {tarefa} from './tarefa.schema';
+import {especieAtividade} from './base.schema';
+import {setor} from './base.schema';
+import {usuario} from './base.schema';
+import {tarefa} from './base.schema';
 
 atividadeSchema.define({
     especieAtividade: especieAtividade,

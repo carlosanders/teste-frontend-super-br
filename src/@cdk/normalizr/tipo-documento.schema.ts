@@ -1,5 +1,5 @@
-import {usuario} from './usuario.schema';
-import {especieDocumento} from './especie-documento.schema';
+import {usuario} from './base.schema';
+import {especieDocumento} from './base.schema';
 import {tipoDocumento as tipoDocumentoSchema} from './base.schema';
 
 tipoDocumentoSchema.define({

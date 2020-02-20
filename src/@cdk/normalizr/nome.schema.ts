@@ -1,5 +1,5 @@
-import {usuario} from './usuario.schema';
-import {origemDados} from './origem-dados.schema';
+import {usuario} from './base.schema';
+import {origemDados} from './base.schema';
 import {nome as nomeSchema} from './base.schema';
 
 nomeSchema.define({

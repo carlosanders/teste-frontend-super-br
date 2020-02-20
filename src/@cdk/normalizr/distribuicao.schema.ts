@@ -1,7 +1,7 @@
-import {usuario} from './usuario.schema';
-import {setor} from './setor.schema';
-import {tarefa} from './tarefa.schema';
-import {documento} from './documento.schema';
+import {usuario} from './base.schema';
+import {setor} from './base.schema';
+import {tarefa} from './base.schema';
+import {documento} from './base.schema';
 import {distribuicao as distribuicaoSchema} from './base.schema';
 
 distribuicaoSchema.define({

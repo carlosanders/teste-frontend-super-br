@@ -1,5 +1,5 @@
-import {usuario} from './usuario.schema';
-import {modalidadeFolder} from './modalidade-folder.schema';
+import {usuario} from './base.schema';
+import {modalidadeFolder} from './base.schema';
 import {folder as folderSchema} from './base.schema';
 
 folderSchema.define({

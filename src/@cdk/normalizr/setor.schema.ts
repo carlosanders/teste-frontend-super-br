@@ -1,7 +1,7 @@
-import {usuario} from './usuario.schema';
-import {municipio} from './municipio.schema';
-import {especieSetor} from './especie-setor.schema';
-import {unidade} from './unidade.schema';
+import {usuario} from './base.schema';
+import {municipio} from './base.schema';
+import {especieSetor} from './base.schema';
+import {unidade} from './base.schema';
 import {setor as setorSchema} from './base.schema';
 
 setorSchema.define({

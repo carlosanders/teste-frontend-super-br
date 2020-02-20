@@ -1,4 +1,4 @@
-import {usuario} from './usuario.schema';
+import {usuario} from './base.schema';
 import {origemDados as origemDadosSchema} from './base.schema';
 
 origemDadosSchema.define({

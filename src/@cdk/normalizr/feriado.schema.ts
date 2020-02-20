@@ -1,6 +1,6 @@
-import {usuario} from './usuario.schema';
-import {estado} from './estado.schema';
-import {municipio} from './municipio.schema';
+import {usuario} from './base.schema';
+import {estado} from './base.schema';
+import {municipio} from './base.schema';
 import {feriado as feriadoSchema} from './base.schema';
 
 feriadoSchema.define({

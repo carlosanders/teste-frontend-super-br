@@ -1,4 +1,4 @@
-import {usuario} from './usuario.schema';
+import {usuario} from './base.schema';
 import {modalidadeNotificacao as modalidadeNotificacaoSchema} from './base.schema';
 
 modalidadeNotificacaoSchema.define({

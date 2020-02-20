@@ -1,5 +1,5 @@
-import {processo} from './processo.schema';
-import {usuario} from './usuario.schema';
+import {processo} from './base.schema';
+import {usuario} from './base.schema';
 import {historico as historicoSchema} from './base.schema';
 
 historicoSchema.define({

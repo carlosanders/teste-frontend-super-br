@@ -1,4 +1,4 @@
-import {usuario} from './usuario.schema';
+import {usuario} from './base.schema';
 import {role as roleSchema} from './base.schema';
 
 roleSchema.define({

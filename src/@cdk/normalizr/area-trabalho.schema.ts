@@ -1,5 +1,5 @@
-import {documento} from './documento.schema';
-import {usuario} from './usuario.schema';
+import {documento} from './base.schema';
+import {usuario} from './base.schema';
 import {areaTrabalho as areaTrabalhoSchema} from './base.schema';
 
 areaTrabalhoSchema.define({

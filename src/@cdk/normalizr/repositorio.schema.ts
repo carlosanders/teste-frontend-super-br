@@ -1,6 +1,6 @@
-import {usuario} from './usuario.schema';
-import {documento} from './documento.schema';
-import {modalidadeRepositorio} from './modalidade-repositorio.schema';
+import {usuario} from './base.schema';
+import {documento} from './base.schema';
+import {modalidadeRepositorio} from './base.schema';
 import {repositorio as repositorioSchema} from './base.schema';
 
 repositorioSchema.define({

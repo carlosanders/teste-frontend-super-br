@@ -1,7 +1,7 @@
-import {usuario} from './usuario.schema';
-import {modalidadeOrgaoCentral} from './modalidade-orgao-central.schema';
-import {municipio} from './municipio.schema';
-import {generoSetor} from './genero-setor.schema';
+import {usuario} from './base.schema';
+import {modalidadeOrgaoCentral} from './base.schema';
+import {municipio} from './base.schema';
+import {generoSetor} from './base.schema';
 import {unidade as unidadeSchema} from './base.schema';
 
 unidadeSchema.define({

@@ -1,6 +1,6 @@
-import {documento} from './documento.schema';
-import {usuario} from './usuario.schema';
-import {origemDados} from './origem-dados.schema';
+import {documento} from './base.schema';
+import {usuario} from './base.schema';
+import {origemDados} from './base.schema';
 import {juntada as juntadaSchema} from './base.schema';
 
 juntadaSchema.define({

@@ -1,7 +1,7 @@
-import {usuario} from './usuario.schema';
-import {municipio} from './municipio.schema';
-import {origemDados} from './origem-dados.schema';
-import {pais} from './pais.schema';
+import {usuario} from './base.schema';
+import {municipio} from './base.schema';
+import {origemDados} from './base.schema';
+import {pais} from './base.schema';
 import {endereco as enderecoSchema} from './base.schema';
 
 enderecoSchema.define({
