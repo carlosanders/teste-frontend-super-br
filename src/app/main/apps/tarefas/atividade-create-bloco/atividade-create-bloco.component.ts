@@ -11,16 +11,15 @@ import {Observable, Subject} from 'rxjs';
 
 import {Atividade} from '@cdk/models/atividade.model';
 import {select, Store} from '@ngrx/store';
-
-import * as fromStore from './store';
+import * as moment from 'moment';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Tarefa} from '@cdk/models/tarefa.model';
+import {filter, takeUntil} from 'rxjs/operators';
+import {Documento} from '@cdk/models/documento.model';
+import {Router} from '@angular/router';
+import * as fromStore from './store';
 import {getSelectedTarefas} from '../store/selectors';
 import {getOperacoesState, getRouterState} from 'app/store/reducers';
-import {Router} from '@angular/router';
-import {filter, takeUntil, tap} from 'rxjs/operators';
-import * as moment from 'moment';
-import {Documento} from '@cdk/models/documento.model';
 
 @Component({
     selector: 'atividade-create-bloco',
@@ -49,11 +48,12 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
 
     documentos$: Observable<Documento[]>;
     minutas: Documento[] = [];
-
+    selectedDocumentos$: Observable<Documento[]>;
     deletingDocumentosId$: Observable<number[]>;
     assinandoDocumentosId$: Observable<number[]>;
     assinandoDocumentosId: number[] = [];
-    selectedDocumentos$: Observable<Documento[]>;
+    convertendoDocumentosId$: Observable<number[]>;
+    convertendoDocumentosId: number[] = [];
 
     /**
      *
@@ -77,13 +77,22 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
         this.selectedDocumentos$ = this._store.pipe(select(fromStore.getSelectedDocumentos));
         this.deletingDocumentosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosId));
         this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
+        //this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoDocumentosId));
     }
 
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
     // -----------------------------------------------------------------------------------------------------
 
+    /**
+     * On init
+     */    
     ngOnInit(): void {
+        this.atividade = new Atividade();
+        this.atividade.encerraTarefa = true;
+        this.atividade.dataHoraConclusao = moment();
+        this.atividade.usuario = this._profile.usuario;
+
         this.tarefas$.pipe(
             takeUntil(this._unsubscribeAll),
         ).subscribe((tarefas) => {
@@ -114,10 +123,6 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
             }
         });
 
-        this.atividade = new Atividade();
-        this.atividade.encerraTarefa = true;
-        this.atividade.dataHoraConclusao = moment();
-        this.atividade.usuario = this._profile.usuario;
 
         if (this.tarefas) {
 
@@ -140,6 +145,9 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
         );
     }
 
+    /**
+     * On destroy
+     */
     ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
@@ -183,5 +191,9 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
 
     onClicked(documento): void {
          this._store.dispatch(new fromStore.ClickedDocumento(documento));
+    }
+
+    doConverte(documentoId): void {
+        //this._store.dispatch(new fromStore.ConverteToPdf(documentoId));
     }
 }

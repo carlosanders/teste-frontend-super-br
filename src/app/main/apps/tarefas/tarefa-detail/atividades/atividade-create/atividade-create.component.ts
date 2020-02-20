@@ -2,7 +2,8 @@ import {
     ChangeDetectionStrategy, ChangeDetectorRef,
     Component,
     OnDestroy,
-    OnInit, ViewChild,
+    OnInit, 
+    ViewChild,
     ViewEncapsulation
 } from '@angular/core';
 
@@ -12,15 +13,14 @@ import {Observable, Subject} from 'rxjs';
 import {Atividade} from '@cdk/models/atividade.model';
 import {select, Store} from '@ngrx/store';
 import * as moment from 'moment';
-
-import * as fromStore from 'app/main/apps/tarefas/tarefa-detail/atividades/atividade-create/store';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Tarefa} from '@cdk/models/tarefa.model';
-import {getTarefa} from '../../store/selectors';
 import {filter, takeUntil} from 'rxjs/operators';
 import {Documento} from '@cdk/models/documento.model';
-import {getRouterState, getMercureState} from 'app/store/reducers';
 import {Router} from '@angular/router';
+import * as fromStore from './store';
+import {getTarefa} from '../../store/selectors';
+import {getRouterState, getMercureState} from 'app/store/reducers';
 
 @Component({
     selector: 'atividade-create',
@@ -45,9 +45,6 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy {
 
     routerState: any;
 
-    @ViewChild('ckdUpload', {static: false})
-    cdkUpload;
-
     documentos$: Observable<Documento[]>;
     minutas: Documento[] = [];
     oficios: Documento[] = [];
@@ -60,6 +57,9 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy {
     convertendoDocumentosId$: Observable<number[]>;
     convertendoDocumentosId: number[] = [];
     javaWebStartOK = false;
+
+    @ViewChild('ckdUpload', {static: false})
+    cdkUpload;
 
     /**
      *
@@ -98,6 +98,14 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy {
         this.atividade.encerraTarefa = true;
         this.atividade.dataHoraConclusao = moment();
 
+        this.tarefa$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(tarefa => {
+            this.tarefa = tarefa;
+            this.atividade.usuario = tarefa.usuarioResponsavel;
+            this.atividade.setor = tarefa.setorResponsavel;
+        });
+
         this._store.pipe(
             select(getRouterState),
             takeUntil(this._unsubscribeAll)
@@ -132,15 +140,6 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy {
                     }
                 }
             });
-
-
-        this.tarefa$.pipe(
-            takeUntil(this._unsubscribeAll)
-        ).subscribe(tarefa => {
-            this.tarefa = tarefa;
-            this.atividade.usuario = tarefa.usuarioResponsavel;
-            this.atividade.setor = tarefa.setorResponsavel;
-        });
 
         this.selectedDocumentos$.pipe(
             filter(selectedDocumentos => !!selectedDocumentos),
