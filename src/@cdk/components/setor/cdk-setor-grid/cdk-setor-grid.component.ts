@@ -100,6 +100,11 @@ export class CdkSetorGridComponent implements AfterViewInit, OnInit, OnChanges {
             fixed: false
         },
         {
+            id: 'parent.nome',
+            label: 'Pai',
+            fixed: false
+        },
+        {
             id: 'municipio.nome',
             label: 'Município',
             fixed: false

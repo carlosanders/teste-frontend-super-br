@@ -14,43 +14,43 @@ export class Setor {
     @Exclude({ toPlainOnly: true })
     uuid?: string;
 
-    @Exclude({ toPlainOnly: true })
+
     apenasProtocolo: boolean;
 
-    @Exclude({ toPlainOnly: true })
+
     endereco?: string;
 
     @Exclude({ toPlainOnly: true })
     email?: string;
 
-    @Exclude({ toPlainOnly: true })
+
     sigla: string;
 
-    @Exclude({ toPlainOnly: true })
+
     apenasDistribuidor: boolean;
 
-    @Exclude({ toPlainOnly: true })
+
     nome: string;
 
-    @Exclude({ toPlainOnly: true })
+
     ativo?: boolean;
 
-    @Exclude({ toPlainOnly: true })
+
     prefixoNUP?: string;
 
-    @Exclude({ toPlainOnly: true })
+
     sequenciaInicialNUP?: number;
 
-    @Exclude({ toPlainOnly: true })
+
     gerenciamento?: boolean;
 
-    @Exclude({ toPlainOnly: true })
+
     numeracaoDocumentoUnidade?: boolean;
 
-    @Exclude({ toPlainOnly: true })
+
     distribuicaoCentena?: boolean;
 
-    @Exclude({ toPlainOnly: true })
+
     prazoEqualizacao?: number;
 
     @Exclude({ toPlainOnly: true })

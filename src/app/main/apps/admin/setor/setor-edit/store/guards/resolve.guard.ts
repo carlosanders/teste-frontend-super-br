@@ -6,11 +6,10 @@ import {select, Store} from '@ngrx/store';
 import {Observable, of} from 'rxjs';
 import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
 
-import {LocalizadorListAppState} from '../reducers';
+import {SetorEditAppState} from '../reducers';
 import * as fromStore from '../';
+import {getHasLoaded} from '../selectors';
 import {getRouterState} from 'app/store/reducers';
-import {getLocalizadorListLoaded} from '../selectors';
-import {LoginService} from 'app/main/auth/login/login.service';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
@@ -18,13 +17,12 @@ export class ResolveGuard implements CanActivate {
     routerState: any;
 
     /**
+     * Constructor
      *
-     * @param _store
-     * @param _loginService
+     * @param {Store<SetorEditAppState>} _store
      */
     constructor(
-        private _store: Store<LocalizadorListAppState>,
-        private _loginService: LoginService
+        private _store: Store<SetorEditAppState>
     ) {
         this._store
             .pipe(select(getRouterState))
@@ -43,44 +41,34 @@ export class ResolveGuard implements CanActivate {
      * @returns {Observable<boolean>}
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-        return this.getLocalizadores().pipe(
+        return this.getSetor().pipe(
             switchMap(() => of(true)),
             catchError(() => of(false))
         );
     }
 
     /**
-     * Get Localizadores
+     * Get Setor
      *
      * @returns {Observable<any>}
      */
-    getLocalizadores(): any {
+    getSetor(): any {
         return this._store.pipe(
-            select(getLocalizadorListLoaded),
+            select(getHasLoaded),
             tap((loaded: any) => {
-                if (!loaded) {
+                if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
+                    if (this.routerState.params['setorHandle'] === 'criar') {
+                        this._store.dispatch(new fromStore.CreateSetor());
+                    } else {
+                        this._store.dispatch(new fromStore.GetSetor({
+                            id: 'eq:' + this.routerState.params['setorHandle']
+                        }));
+                    }
 
-                    const params = {
-
-                        filter: {
-                               /* 'setor.id': 'eq:' + this._loginService.getUserProfile().colaborador.id */
-                        },
-
-
-                        gridFilter: {},
-                        limit: 5,
-                        offset: 0,
-                        sort: {criadoEm: 'DESC'},
-                        populate: [
-                            'populateAll'
-                        ]
-                    };
-
-                    this._store.dispatch(new fromStore.GetLocalizadores(params));
                 }
             }),
             filter((loaded: any) => {
-                return !!loaded;
+                return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
             }),
             take(1)
         );

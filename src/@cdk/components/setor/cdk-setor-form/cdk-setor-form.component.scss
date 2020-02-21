@@ -1,0 +1,46 @@
+cdk-setor-form {
+
+  form {
+    width: 100%;
+  }
+
+  .form-card {
+    border-radius: 8px;
+  }
+
+  .form-errors-model {
+    flex: 1;
+
+    code {
+      background: none !important;
+    }
+  }
+    mat-radio-group {
+
+        &.digito {
+            //      padding: 16px;
+            margin: 0px 0px 30px 0px;
+            display: flex;
+            flex-direction: row;
+            //    margin: top right bottom left
+            //      @include mat-elevation(1);
+        }
+    }
+
+    mat-radio-button {
+        margin-right: 100px;
+        margin-left: 3px;
+
+    }
+
+    label {
+
+        margin-right: 40px;
+        font-size: 16px;
+
+    }
+
+  cdk-unidade-gridsearch {
+    width: 100%;
+  }
+}
