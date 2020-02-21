@@ -35,6 +35,7 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
 
     tarefas$: Observable<Tarefa[]>;
     tarefas: Tarefa[];
+    tarefasSelecionadasListId: any[] = [];
 
     atividade: Atividade;
     isSaving$: Observable<boolean>;
@@ -97,6 +98,19 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
             takeUntil(this._unsubscribeAll),
         ).subscribe((tarefas) => {
             this.tarefas = tarefas;
+
+            if (this.tarefas) {
+
+                const tarefasListId: any[] = [];
+                this.tarefas.forEach((tarefa) => {
+                    tarefasListId.push(tarefa.id);
+                });
+    
+                if (tarefasListId.sort().toString() !== this.tarefasSelecionadasListId.sort().toString() ) {
+                    this._store.dispatch(new fromStore.GetDocumentos(tarefasListId.toString()));
+                }
+            }
+
         });
 
         this._store
@@ -123,16 +137,16 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
             }
         });
 
-
-        if (this.tarefas) {
-
+        //console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+        /*if (this.tarefas) {
+            console.log('bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb');
             const tarefasListId: any[] = [];
             this.tarefas.forEach((tarefa) => {
                 tarefasListId.push(tarefa.id);
             });
-
+            console.log("tttttttttttttttttttttttttttttttttttttttttt");
             this._store.dispatch(new fromStore.GetDocumentos(tarefasListId.toString()));
-        }
+        }*/
 
         this.documentos$.pipe(
             filter(cd => !!cd),
@@ -140,6 +154,7 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
         ).subscribe(
             documentos => {
                 this.minutas = documentos;
+                //console.log("this._changeDetectorRef.markForCheck();");
                 this._changeDetectorRef.markForCheck();
             }
         );

@@ -76,10 +76,7 @@ export class AtividadeCreateBlocoDocumentosEffect {
                 mergeMap(response => [
                     new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
                     new AtividadeBlocoCreateDocumentosActionsAll.GetDocumentosSuccess({
-                        loaded: {
-                            id: 'tarefaHandle',
-                            value: this.routerState.params.tarefaHandle
-                        },
+                        loaded: true,
                         entitiesId: response['entities'].map(documento => documento.id),
                     })
                 ]),
