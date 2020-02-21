@@ -9,7 +9,7 @@ import {CdkModeloGridModule} from '@cdk/components/modelo/cdk-modelo-grid/cdk-mo
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {DocumentoService} from '@cdk/services/documento.service';
 import * as fromGuards from './store/guards';
-import {MatListModule, MatProgressSpinnerModule} from '@angular/material';
+import {MatListModule, MatProgressSpinnerModule} from '@cdk/angular/material';
 
 const routes: Routes = [
     {

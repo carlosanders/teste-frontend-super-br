@@ -7,7 +7,7 @@ import {FuseSidebarModule} from '@fuse/components';
 
 import {ProcessoAcessoNegadoComponent} from './processo-acesso-negado.component';
 import {RouterModule, Routes} from '@angular/router';
-import {MatIconModule} from '@angular/material';
+import {MatIconModule} from '@cdk/angular/material';
 
 const routes: Routes = [
     {

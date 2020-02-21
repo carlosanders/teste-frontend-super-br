@@ -9,7 +9,7 @@ import {
     MatAutocompleteModule,
     MatDatepickerModule, MatSlideToggleModule
 
-} from '@angular/material';
+} from '@cdk/angular/material';
 
 import {FuseSharedModule} from '@fuse/shared.module';
 import {CdkUsuarioAutocompleteModule} from '../../usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';

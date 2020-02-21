@@ -10,7 +10,7 @@ import {
     MatDatepickerModule,
     MatExpansionModule
 
-} from '@angular/material';
+} from '@cdk/angular/material';
 
 import { FuseSharedModule } from '@fuse/shared.module';
 import { ModalidadeDestinacaoService } from '@cdk/services/modalidade-destinacao.service';

@@ -3,7 +3,7 @@ import {
     MatProgressSpinnerModule,
     MatAutocompleteModule,
     MatSelectModule,
-} from '@angular/material';
+} from '@cdk/angular/material';
 
 import {FuseSharedModule} from '@fuse/shared.module';
 import {AcaoService} from '@cdk/services/acao.service';

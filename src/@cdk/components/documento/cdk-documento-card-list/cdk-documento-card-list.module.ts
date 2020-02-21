@@ -3,7 +3,7 @@ import {
     MatButtonModule,
     MatIconModule,
     MatCardModule, MatCheckboxModule, MatMenuModule,
-} from '@angular/material';
+} from '@cdk/angular/material';
 
 import { FuseSharedModule } from '@fuse/shared.module';
 import {CdkDocumentoCardListComponent} from './cdk-documento-card-list.component';

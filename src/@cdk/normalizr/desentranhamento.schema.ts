@@ -1,12 +1,14 @@
-import {schema} from '@cdk/normalizr-src';
-import {usuario} from './usuario.schema';
-import {juntada} from './juntada.schema';
-import {processo} from './processo.schema';
+import {usuario} from './base.schema';
+import {juntada} from './base.schema';
+import {processo} from './base.schema';
+import {desentranhamento as desentranhamentoSchema} from './base.schema';
 
-export const desentranhamento = new schema.Entity('desentranhamento', {
+desentranhamentoSchema.define({
     juntada: juntada,
     processoDestino: processo,
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario
 });
+
+export const desentranhamento = desentranhamentoSchema;

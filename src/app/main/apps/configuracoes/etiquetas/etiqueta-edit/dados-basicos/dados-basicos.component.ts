@@ -70,6 +70,7 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
         if (!this.etiqueta) {
             this.etiqueta = new Etiqueta();
             this.etiqueta.ativo = true;
+            this.etiqueta.corHexadecimal = '#D9E3F0';
         }
     }
 

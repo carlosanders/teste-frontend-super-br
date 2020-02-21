@@ -26,6 +26,10 @@ export const CREATE_VINCULACAO_ETIQUETA = '[TAREFA] VINCULACAO ETIQUETA';
 export const CREATE_VINCULACAO_ETIQUETA_SUCCESS = '[TAREFA] VINCULACAO ETIQUETA SUCCESS';
 export const CREATE_VINCULACAO_ETIQUETA_FAILED = '[TAREFA] VINCULACAO ETIQUETA FAILED';
 
+export const SAVE_CONTEUDO_VINCULACAO_ETIQUETA = '[TAREFA] SAVE CONTEUDO VINCULACAO ETIQUETA';
+export const SAVE_CONTEUDO_VINCULACAO_ETIQUETA_SUCCESS = '[TAREFA] SAVE CONTEUDO VINCULACAO ETIQUETA SUCCESS';
+export const SAVE_CONTEUDO_VINCULACAO_ETIQUETA_FAILED = '[TAREFA] SAVE CONTEUDO VINCULACAO ETIQUETA FAILED';
+
 export const DELETE_VINCULACAO_ETIQUETA = '[TAREFA] DELETE VINCULACAO_ETIQUETA';
 export const DELETE_VINCULACAO_ETIQUETA_SUCCESS = '[TAREFA] DELETE VINCULACAO_ETIQUETA SUCCESS';
 export const DELETE_VINCULACAO_ETIQUETA_FAILED = '[TAREFA] DELETE VINCULACAO_ETIQUETA FAILED';
@@ -240,6 +244,48 @@ export class CreateVinculacaoEtiquetaFailed implements Action
     }
 }
 
+
+
+
+/**
+ * Save Conteudo Vinculacao Etiqueta
+ */
+export class SaveConteudoVinculacaoEtiqueta implements Action
+{
+    readonly type = SAVE_CONTEUDO_VINCULACAO_ETIQUETA;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Save Conteudo Vinculacao Etiqueta Success
+ */
+export class SaveConteudoVinculacaoEtiquetaSuccess implements Action
+{
+    readonly type = SAVE_CONTEUDO_VINCULACAO_ETIQUETA_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Save Conteudo Vinculacao Etiqueta Failed
+ */
+export class SaveConteudoVinculacaoEtiquetaFailed implements Action
+{
+    readonly type = SAVE_CONTEUDO_VINCULACAO_ETIQUETA_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+
+
+
 /**
  * Delete Tarefa
  */
@@ -368,6 +414,9 @@ export type TarefaDetailActionsAll
     | CreateVinculacaoEtiqueta
     | CreateVinculacaoEtiquetaSuccess
     | CreateVinculacaoEtiquetaFailed
+    | SaveConteudoVinculacaoEtiqueta
+    | SaveConteudoVinculacaoEtiquetaSuccess
+    | SaveConteudoVinculacaoEtiquetaFailed   
     | DeleteVinculacaoEtiqueta
     | DeleteVinculacaoEtiquetaSuccess
     | DeleteVinculacaoEtiquetaFailed

@@ -8,7 +8,7 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSortModule, MatDividerModule,
-} from '@angular/material';
+} from '@cdk/angular/material';
 
 import {FuseSharedModule} from '@fuse/shared.module';
 import {HistoricoService} from '@cdk/services/historico.service';

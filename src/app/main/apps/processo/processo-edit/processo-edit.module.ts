@@ -3,7 +3,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {
     MatButtonModule,
     MatIconModule, MatRippleModule, MatTooltipModule
-} from '@angular/material';
+} from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 
 import {FuseSharedModule} from '@fuse/shared.module';
@@ -63,13 +63,13 @@ const routes: Routes = [
                 loadChildren: () => import('./documentos-avulsos/processo-documentos-avulsos.module').then(m => m.ProcessoDocumentosAvulsosModule)
             },
             {
+                path: 'tramitacoes',
+                loadChildren: () => import('./tramitacoes/tramitacoes.module').then(m => m.TramitacoesModule)
+            },
+            {
                 path: 'garantias',
                 loadChildren: () => import('./garantias/garantias.module').then(m => m.GarantiasModule)
             },            
-            {
-                path: 'remessas',
-                loadChildren: () => import('./tramitacoes/tramitacoes.module').then(m => m.TramitacoesModule)
-            },
             {
                 path: 'remessas',
                 loadChildren: () => import('./remessas/remessas.module').then(m => m.RemessasModule)

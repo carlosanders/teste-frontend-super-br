@@ -1,8 +1,10 @@
-import {schema} from '@cdk/normalizr-src';
-import {usuario} from './usuario.schema';
+import {usuario} from './base.schema';
+import {modalidadeVinculacaoProcesso as modalidadeVinculacaoProcessoSchema} from './base.schema';
 
-export const modalidadeVinculacaoProcesso = new schema.Entity('modalidadeVinculacaoProcesso', {
+modalidadeVinculacaoProcessoSchema.define({
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario
 });
+
+export const modalidadeVinculacaoProcesso = modalidadeVinculacaoProcessoSchema;

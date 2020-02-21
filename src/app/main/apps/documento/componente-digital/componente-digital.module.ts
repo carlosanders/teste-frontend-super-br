@@ -7,7 +7,7 @@ import {ComponenteDigitalComponent} from './componente-digital.component';
 import {RouterModule, Routes} from '@angular/router';
 import {ComponenteDigitalStoreModule} from './store/store.module';
 import * as fromGuards from './store/guards';
-import {MatButtonModule, MatIconModule} from '@angular/material';
+import {MatButtonModule, MatIconModule} from '@cdk/angular/material';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 
 const routes: Routes = [

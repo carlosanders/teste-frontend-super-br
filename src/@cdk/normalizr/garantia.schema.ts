@@ -1,8 +1,7 @@
 import {schema} from '@cdk/normalizr-src';
-import {modalidadeGarantia} from './modalidade-garantia.schema';
-import {processo} from './processo.schema';
-import {usuario} from './usuario.schema';
-
+import {modalidadeGarantia} from './base.schema';
+import {processo} from './base.schema';
+import {usuario} from './base.schema';
 
 export const garantia = new schema.Entity('garantia', {
     processo: processo,

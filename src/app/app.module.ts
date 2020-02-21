@@ -6,7 +6,7 @@ import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ExtraOptions, RouterModule, Routes} from '@angular/router';
 import {MatMomentDateModule} from '@angular/material-moment-adapter';
-import {MatButtonModule, MatIconModule, MatSnackBarModule} from '@angular/material';
+import {MatButtonModule, MatIconModule, MatSnackBarModule} from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 import {CKEditorModule} from 'ng2-ckeditor';
 import 'hammerjs';
@@ -30,7 +30,7 @@ import {FakeDbService} from 'app/fake-db/fake-db.service';
 
 import {ModelModule} from '@cdk/models/model.module';
 
-import {MAT_DATE_LOCALE} from '@angular/material';
+import {MAT_DATE_LOCALE} from '@cdk/angular/material';
 import {ErrorInterceptor} from './main/auth/login/error.interceptor';
 import {LoginStoreModule} from './main/auth/login/store/store.module';
 

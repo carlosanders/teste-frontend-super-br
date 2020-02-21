@@ -10,7 +10,7 @@ import {
 import {fuseAnimations} from '@fuse/animations';
 import {FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import {Usuario} from '@cdk/models/usuario.model';
-import {ErrorStateMatcher} from '@angular/material';
+import {ErrorStateMatcher} from '@cdk/angular/material';
 
 @Component({
     selector: 'cdk-seguranca-form',

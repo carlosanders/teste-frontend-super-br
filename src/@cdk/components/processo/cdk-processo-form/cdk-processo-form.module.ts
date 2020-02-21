@@ -10,9 +10,7 @@ import {
 //    MatDatepickerModule,
     MatTooltipModule,
     MatRadioModule
-} from '@angular/material';
-//import { BrowserModule } from '@angular/platform-browser';
-//import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+} from '@cdk/angular/material';
 
 import {FuseSharedModule} from '@fuse/shared.module';
 import {CdkProcessoFormComponent} from './cdk-processo-form.component';
