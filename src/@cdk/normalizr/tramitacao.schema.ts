@@ -1,10 +1,10 @@
-import {schema} from '@cdk/normalizr-src';
-import {usuario} from './usuario.schema';
-import {processo} from './processo.schema';
-import {setor} from './setor.schema';
-import {pessoa} from './pessoa.schema';
+import {usuario} from './base.schema';
+import {processo} from './base.schema';
+import {setor} from './base.schema';
+import {pessoa} from './base.schema';
+import {tramitacao as tramitacaoSchema} from './base.schema';
 
-export const tramitacao = new schema.Entity('tramitacao', {
+tramitacaoSchema.define({
     setorOrigem: setor,
     setorDestino: setor,
     pessoaDestino: pessoa,
@@ -13,3 +13,5 @@ export const tramitacao = new schema.Entity('tramitacao', {
     atualizadoPor: usuario,
     apagadoPor: usuario
 });
+
+export const tramitacao = tramitacaoSchema;

@@ -1,11 +1,11 @@
 import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
 
-import { Usuario } from '@cdk/models/usuario.model';
-import {Pessoa} from '@cdk/models/pessoa.model';
-import {Municipio} from '@cdk/models/municipio.model';
-import {Pais} from '@cdk/models/pais.model';
-import {OrigemDados} from '@cdk/models/origem-dados.model';
+import { Usuario } from '@cdk/models';
+import {Pessoa} from '@cdk/models';
+import {Municipio} from '@cdk/models';
+import {Pais} from '@cdk/models';
+import {OrigemDados} from '@cdk/models';
 
 export class Endereco {
 
