@@ -83,7 +83,7 @@ export class ProcessoService {
         if (processo.id) {
             return this.modelService.put('processo', processo.id, classToPlain(processo))
                 .pipe(
-                    tap((n) => {console.log('servico PUT' + n); } ),
+//                    tap((n) => {console.log('servico PUT' + n); } ),
                     map(response => {
                         response = plainToClass(Processo, response);
                         Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);

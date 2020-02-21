@@ -6,7 +6,6 @@ import {
     Output, SimpleChange,
     ViewEncapsulation
 } from '@angular/core';
-//import {Observable, of} from 'rxjs';
 import {fuseAnimations} from '@fuse/animations';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Processo} from '@cdk/models/processo.model';
@@ -209,11 +208,12 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
         if (!this.processo.id) {
 
-            if (this.form.get('processo_rg').value !== 'novo' &&
+            if (this.form.get('processo_rg').value !== 'novo_dados' &&
                 this.form.get('processo_rg').value !== 'aproveitar_dados'){
-                this.form.get('processo_rg').setValue('novo');
+                this.form.get('processo_rg').setValue('novo_dados');
+                alert('radio');
             }
-
+            alert('nao tem id');
             this.form.get('dataHoraAbertura').setValue(null);
             this.form.get('dataHoraAbertura').disable();
 
@@ -225,6 +225,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             this.textBotao = 'SALVAR';
             this.form.get('novo').valueChanges.subscribe(value => {
                 if (value === true) {
+                    alert('Gerar NUP');
                     this.form.get('dataHoraAbertura').setValue(null);
                     this.form.get('dataHoraAbertura').disable();
 
@@ -234,6 +235,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
                     this.form.get('procedencia').setValue(null);
                     this.form.get('procedencia').disable();
                 } else {
+                    alert('manual');
                     this.form.get('dataHoraAbertura').setValue(null);
                     this.form.get('dataHoraAbertura').enable();
 
@@ -247,16 +249,19 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
                 this._changeDetectorRef.markForCheck();
             });
         } else {
+            alert('tem id');
             this.form.get('dataHoraAbertura').disable();
             this.readonlyNUP = true;
             this.textBotao = 'SALVAR';
             
-            if (!isUndefined(this.processo.processoOrigem)){
+            if (this.processo.processoOrigem != null){
+                alert('tem origem: ' + this.processo.processoOrigem);
                 this.temOrigem = true;
                 this.readonlyProcessoOrigem = true;
             }else{
                 this.form.get('processoOrigem').setValue(null);            
                 this.form.get('processoOrigem').disable();            
+                alert('sem origem');
             }
 
         }
@@ -312,12 +317,12 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
-/*    submit(): void {
+    submit(): void {
         if (this.form.valid) {
             this.save.emit(this.form.value);
         }
     }
-*/
+
     doPost(): void {
         if (this.form.valid) {
             this.post.emit(this.form.value);
