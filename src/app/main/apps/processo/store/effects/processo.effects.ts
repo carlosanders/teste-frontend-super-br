@@ -49,10 +49,6 @@ export class ProcessoEffect {
     getProcesso: any =
         this._actions
             .pipe(
-                tap((n) => {
-                    console.log('entrou GET Effects Processo: '); 
-                    console.log(n);
-                }),
                 ofType<ProcessoActions.GetProcesso>(ProcessoActions.GET_PROCESSO),
                 switchMap((action) => {
                     return this._processoService.query(
@@ -122,7 +118,7 @@ export class ProcessoEffect {
             );
 
 
-   /**
+    /**
      * Save conteúdo vinculação etiqueta no processo
      * @type {Observable<any>}
      */
