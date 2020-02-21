@@ -10,7 +10,7 @@ import {fuseAnimations} from '@fuse/animations';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Processo} from '@cdk/models/processo.model';
 import {EspecieProcesso} from '@cdk/models/especie-processo.model';
-//import {MAT_DATETIME_FORMATS} from '@mat-datetimepicker/core';
+import {MAT_DATETIME_FORMATS} from '@mat-datetimepicker/core';
 import { OWL_DATE_TIME_FORMATS, OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
 import {ModalidadeFase} from '@cdk/models/modalidade-fase.model';
 import {ModalidadeMeio} from '@cdk/models/modalidade-meio.model';
@@ -50,13 +50,13 @@ export const MY_NATIVE_FORMATS = {
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations,
-    providers: [
+/*    providers: [
 //        {provide: OWL_DATE_TIME_FORMATS, useValue: MY_MOMENT_FORMATS},
         {provide: OWL_DATE_TIME_FORMATS, useValue: MY_NATIVE_FORMATS},
         {provide: OWL_DATE_TIME_LOCALE, useValue: 'br'},
     ]    
-    
-/*    
+*/    
+
     providers: [
         {
           provide: MAT_DATETIME_FORMATS,
@@ -80,7 +80,7 @@ export const MY_NATIVE_FORMATS = {
           }
         }
       ]    
-*/      
+
 /*    providers: [
         {
             provide: MAT_DATETIME_FORMATS,
@@ -211,9 +211,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             if (this.form.get('processo_rg').value !== 'novo_dados' &&
                 this.form.get('processo_rg').value !== 'aproveitar_dados'){
                 this.form.get('processo_rg').setValue('novo_dados');
-                alert('radio');
             }
-            alert('nao tem id');
             this.form.get('dataHoraAbertura').setValue(null);
             this.form.get('dataHoraAbertura').disable();
 
@@ -225,7 +223,6 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             this.textBotao = 'SALVAR';
             this.form.get('novo').valueChanges.subscribe(value => {
                 if (value === true) {
-                    alert('Gerar NUP');
                     this.form.get('dataHoraAbertura').setValue(null);
                     this.form.get('dataHoraAbertura').disable();
 
@@ -235,7 +232,6 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
                     this.form.get('procedencia').setValue(null);
                     this.form.get('procedencia').disable();
                 } else {
-                    alert('manual');
                     this.form.get('dataHoraAbertura').setValue(null);
                     this.form.get('dataHoraAbertura').enable();
 
@@ -249,19 +245,16 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
                 this._changeDetectorRef.markForCheck();
             });
         } else {
-            alert('tem id');
             this.form.get('dataHoraAbertura').disable();
             this.readonlyNUP = true;
             this.textBotao = 'SALVAR';
             
             if (this.processo.processoOrigem != null){
-                alert('tem origem: ' + this.processo.processoOrigem);
                 this.temOrigem = true;
                 this.readonlyProcessoOrigem = true;
             }else{
                 this.form.get('processoOrigem').setValue(null);            
                 this.form.get('processoOrigem').disable();            
-                alert('sem origem');
             }
 
         }
