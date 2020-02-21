@@ -23,29 +23,9 @@ export class CdkDocumentoAvulsoListItemComponent implements OnInit {
     @Input()
     selected: boolean;
 
-    @Input()
-    deleting: boolean;
-
     @Output()
     toggleInSelectedDocumentosAvulso = new EventEmitter();
 
-    @Output()
-    delete = new EventEmitter<number>();
-
-    @Output()
-    compartilhar = new EventEmitter<number>();
-
-    @Output()
-    createDocumentoAvulso = new EventEmitter<number>();
-
-    @Output()
-    movimentar = new EventEmitter<number>();
-
-    @Output()
-    editProcesso = new EventEmitter<any>();
-
-    @Output()
-    toggleUrgente = new EventEmitter<DocumentoAvulso>();
 
     draggable = {
         // note that data is handled with JSON.stringify/JSON.parse
@@ -57,7 +37,6 @@ export class CdkDocumentoAvulsoListItemComponent implements OnInit {
     };
 
     constructor() {
-        this.deleting = false;
     }
 
     /**
@@ -67,35 +46,7 @@ export class CdkDocumentoAvulsoListItemComponent implements OnInit {
         this.draggable.data = this.documentoAvulso;
     }
 
-    doDelete(): void {
-        this.delete.emit(this.documentoAvulso.id);
-    }
-
-    doMovimentar(): void {
-        this.movimentar.emit(this.documentoAvulso.id);
-    }
-
-    doCompartilhar(): void {
-        this.compartilhar.emit(this.documentoAvulso.id);
-    }
-
-    /*doCreateDocumentoAvulso(): void {
-        this.createDocumentoAvulso.emit(this.tarefa.id);
-    }
-
-    doCreateTarefa(): void {
-        this.createTarefa.emit({tarefaId: this.tarefa.id, processoId: this.tarefa.processo.id});
-    }*/
-
-    /*doEditDocumentoAvulso(): void {
-        this.doEditDocumentoAvulso.emit(this.documentoAvulso.id);
-    }*/
-
     onSelectedChange(): void {
         this.toggleInSelectedDocumentosAvulso.emit(this.documentoAvulso.id);
-    }
-
-    doToggleUrgente(): void {
-        this.toggleUrgente.emit(this.documentoAvulso);
     }
 }

@@ -52,14 +52,3 @@ export const getIsLoading = createSelector(
     getDocumentosAvulsoState,
     (state: DocumentosAvulsoState) => state.loading
 );
-
-//
-// export const getDeletingTarefaIds = createSelector(
-//     getTarefasState,
-//     (state: TarefasState) => state.deletingTarefaIds
-// );
-//
-// export const getDeletedTarefaIds = createSelector(
-//     getTarefasState,
-//     (state: TarefasState) => state.deletedTarefaIds
-// );

@@ -44,7 +44,7 @@ export class CdkDocumentoAvulsoListMainSidebarComponent implements OnInit
      */
     ngOnInit(): void {
 
-        this.form.get('processo').valueChanges.subscribe(value => {
+        /*this.form.get('processo').valueChanges.subscribe(value => {
             if (typeof value === 'object' && value) {
                 this.filters = {
                     ...this.filters,
@@ -68,7 +68,7 @@ export class CdkDocumentoAvulsoListMainSidebarComponent implements OnInit
                     delete this.filters['especieTarefa.id'];
                 }
             }
-        });
+        });*/
     }
 
     pesquisar(): void {

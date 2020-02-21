@@ -1,7 +1,7 @@
 export const locale = {
     lang: 'en',
     data: {
-        TAREFA: {
+        OFICIO: {
             COMPOSE                 : 'CRIAR',
             FOLDERS                 : 'PASTAS',
             NO_MESSAGES             : 'Não existem ofícios!',

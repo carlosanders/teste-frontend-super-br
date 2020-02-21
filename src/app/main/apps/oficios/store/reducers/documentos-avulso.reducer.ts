@@ -1,6 +1,5 @@
 import * as DocumentosAvulsoActions from 'app/main/apps/oficios/store/actions/documento-avulso.actions';
 import { Etiqueta } from '@cdk/models/etiqueta.model';
-import * as TarefasActions from '../../../tarefas/store/actions/tarefas.actions';
 
 export interface DocumentosAvulsoState {
     entitiesId: number[];
@@ -17,10 +16,8 @@ export interface DocumentosAvulsoState {
     };
     loading: boolean;
     loaded: any;
-    deletingDocumentoAvulsoIds: number[];
     togglingLidaProcessoIds: number[];
     currentDocumentoAvulsoId: number;
-    deletedDocumentoAvulsoIds: number[];
     selectedDocumentoAvulsoIds: number[];
     maximizado: boolean;
 }
@@ -40,9 +37,7 @@ export const DocumentosAvulsoInitialState: DocumentosAvulsoState = {
     },
     loading: false,
     loaded: false,
-    deletingDocumentoAvulsoIds: [],
     togglingLidaProcessoIds: [],
-    deletedDocumentoAvulsoIds: [],
     selectedDocumentoAvulsoIds: [],
     currentDocumentoAvulsoId: null,
     maximizado: false

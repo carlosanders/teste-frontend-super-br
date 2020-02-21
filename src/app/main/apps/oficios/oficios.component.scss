@@ -1,6 +1,6 @@
 @import "src/@fuse/scss/fuse";
 
-tarefas {
+documentos-avulsos {
 
     .center {
 
@@ -36,7 +36,7 @@ tarefas {
                 }
             }
 
-            &.current-tarefa-selected {
+            &.current-documento-avulo-selected {
                 .search-wrapper {
                     display: none !important;
                 }
@@ -54,45 +54,45 @@ tarefas {
                     margin: 0 12px;
                 }
 
-                .tarefa-list-control {
+                .documento-avulo-list-control {
                     margin-left: auto;
                 }
             }
 
             .content {
 
-                .tarefa-list {
+                .documento-avulo-list {
                     border-right: 1px solid;
                     overflow-y: auto;
 
                     &.mobile-mode {
 
-                        &.current-tarefa {
+                        &.current-documento-avulo {
                             display: none !important;
                         }
 
-                        &.no-current-tarefa {
+                        &.no-current-documento-avulo {
                             max-width: 100% !important;
                         }
 
                     }
-                    cdk-tarefa-list {
+                    cdk-documento-avulso-list {
                         min-height: 100%;
                     }
 
                 }
 
-                .tarefa-detail {
+                .oficio-detail {
                     width: 100%;
                     height: 100%;
 
                     &.mobile-mode {
 
-                        &.no-current-tarefa {
+                        &.no-current-documento-avulo {
                             display: none !important;
                         }
 
-                        &.current-tarefa {
+                        &.current-documento-avulo {
                             max-width: 100% !important;
                         }
 

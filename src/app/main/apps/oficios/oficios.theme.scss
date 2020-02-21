@@ -1,4 +1,4 @@
-@mixin tarefas-theme($theme) {
+@mixin oficios-theme($theme) {
 
     $background: map-get($theme, background);
     $foreground: map-get($theme, foreground);
@@ -6,8 +6,8 @@
     $warn: map-get($theme, warn);
     $is-dark: map-get($theme, is-dark);
 
-    // Tarefa
-    documentos-avulsos {
+    // oficios
+    oficios {
 
         .logo-text {
             font-size: 24px;
@@ -43,7 +43,7 @@
                     }
                 }
 
-                // Tarefa list
+                // documento-avulo list
                 .documento-avulso-list {
                     border-right-color: map-get($foreground, divider);
                 }
@@ -166,7 +166,7 @@
 
     // Todo edit
     oficio-detail {
-        .tarefa-header {
+        .oficio-header {
             background: map-get($background, background);
             border-bottom-color: map-get($foreground, divider);
 

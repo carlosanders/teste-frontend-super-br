@@ -62,9 +62,6 @@ export class CdkDocumentoAvulsoListComponent implements AfterViewInit, OnInit, O
     delete = new EventEmitter<number>();
 
     @Output()
-    folder = new EventEmitter<any>();
-
-    @Output()
     selected = new EventEmitter<DocumentoAvulso>();
 
     @Output()
@@ -156,17 +153,6 @@ export class CdkDocumentoAvulsoListComponent implements AfterViewInit, OnInit, O
         this.toggleUrgente.emit(documentoAvulso);
     }
 
-    doDeleteDocumentoAvulsoId(documentoAvulsoId): void {
-        this.delete.emit(documentoAvulsoId);
-    }
-
-    doDeleteDocumentoAvulsoBloco(): void {
-        this.selectedIds.forEach(documentoAvulsoId => this.doDeleteDocumentoAvulsoId(documentoAvulsoId));
-    }
-
-    setFolder(folder): void {
-        this.folder.emit(folder);
-    }
 
     /**
      * Toggle select all

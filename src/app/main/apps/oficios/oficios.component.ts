@@ -146,14 +146,13 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
         this.routerState$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(routerState => {
-            this.currentDocumentoAvulsoId = parseInt(routerState.state.params['documentoAvulsoHandle'], 0);
+            /*this.currentDocumentoAvulsoId = parseInt(routerState.state.params['documentoAvulsoHandle'], 0);*/
         });
 
         this.documentosAvulso$.pipe(
-            takeUntil(this._unsubscribeAll),
-            filter(oficios => !!oficios)
-        ).subscribe(oficios => {
-            this.documentosAvulso = oficios;
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(documentosAvulso => {
+            this.documentosAvulso = documentosAvulso;
         });
 
         this.pagination$.pipe(

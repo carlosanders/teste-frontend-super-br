@@ -4,54 +4,31 @@ export const GET_DOCUMENTOS_AVULSO = '[DOCUMENTOS_AVULSO] GET DOCUMENTOS_AVULSO'
 export const GET_DOCUMENTOS_AVULSO_SUCCESS = '[DOCUMENTOS_AVULSO] GET DOCUMENTOS_AVULSO SUCCESS';
 export const GET_DOCUMENTOS_AVULSO_FAILED = '[DOCUMENTOS_AVULSO] GET DOCUMENTOS_AVULSO FAILED';
 
-export const CHANGE_SELECTED_DOCUMENTOS_AVULSO = '[DOCUMENTOS_AVULSO] CHANGE SELECTED DOCUMENTOS_AVULSO';
+export const CHANGE_SELECTED_DOCUMENTOS_AVULSO = '[DOCUMENTOS_AVULSO] CHANGE SELECTED DOCUMENTOS AVULSO';
 
-export const DELETE_DOCUMENTOS_AVULSO = '[DOCUMENTOS_AVULSO] DELETE DOCUMENTOS_AVULSO';
-export const DELETE_DOCUMENTOS_AVULSO_SUCCESS = '[DOCUMENTOS_AVULSO] DELETE DOCUMENTOS_AVULSO SUCCESS';
-export const DELETE_DOCUMENTOS_AVULSO_FAILED = '[DOCUMENTOS_AVULSO] DELETE DOCUMENTOS_AVULSO FAILED';
+export const DELETE_VINCULACAO_ETIQUETA = '[DOCUMENTOS_AVULSO] DELETE VINCULACAO ETIQUETA';
+export const DELETE_VINCULACAO_ETIQUETA_SUCCESS = '[DOCUMENTOS_AVULSO] DELETE VINCULACAO ETIQUETA SUCCESS';
+export const DELETE_VINCULACAO_ETIQUETA_FAILED = '[DOCUMENTOS_AVULSO] DELETE VINCULACAO ETIQUETA FAILED';
 
-export const SET_CURRENT_DOCUMENTOS_AVULSO = '[DOCUMENTOS_AVULSO] SET CURRENT DOCUMENTOS_AVULSO';
-export const SET_CURRENT_DOCUMENTOS_AVULSO_SUCCESS = '[DOCUMENTOS_AVULSO] SET CURRENT DOCUMENTOS_AVULSO SUCCESS';
+export const SET_CURRENT_DOCUMENTOS_AVULSO = '[DOCUMENTOS_AVULSO] SET CURRENT DOCUMENTOS AVULSO';
+export const SET_CURRENT_DOCUMENTOS_AVULSO_SUCCESS = '[DOCUMENTOS_AVULSO] SET CURRENT DOCUMENTOS AVULSO SUCCESS';
 
 export const TOGGLE_MAXIMIZADO = '[DOCUMENTOS_AVULSO] TOGGLE MAXIMIZADO';
 
+export const CREATE_VINCULACAO_ETIQUETA = '[DOCUMENTOS_AVULSO] CREATE VINCULACAO ETIQUETA';
+export const CREATE_VINCULACAO_ETIQUETA_SUCCESS = '[DOCUMENTOS_AVULSO] CREATE VINCULACAO ETIQUETA SUCCESS';
+export const CREATE_VINCULACAO_ETIQUETA_FAILED = '[DOCUMENTOS_AVULSO] CREATE VINCULACAO ETIQUETA FAILED';
+
 /*
-
-export const CREATE_TAREFA = '[TAREFAS] CREATE TAREFA';
-export const CREATE_TAREFA_SUCCESS = '[TAREFAS] CREATE TAREFA SUCCESS';
-
-export const DELETE_TAREFA = '[TAREFAS] DELETE TAREFA';
-export const DELETE_TAREFA_SUCCESS = '[TAREFAS] DELETE TAREFA SUCCESS';
-export const DELETE_TAREFA_FAILED = '[TAREFAS] DELETE TAREFA FAILED';
-
 export const CHANGE_SELECTED_TAREFAS = '[TAREFAS] CHANGE SELECTED TAREFAS';
-
-
-
 export const TOGGLE_LIDA_TAREFA = '[TAREFAS] TOGGLE LIDA TAREFA';
 export const TOGGLE_LIDA_TAREFA_SUCCESS = '[TAREFAS] TOGGLE LIDA TAREFA SUCCESS';
 export const TOGGLE_LIDA_TAREFA_FAILED = '[TAREFAS] TOGGLE LIDA TAREFA FAILED';
-
-export const TOGGLE_URGENTE_TAREFA = '[TAREFAS] TOGGLE URGENTE TAREFA';
-export const TOGGLE_URGENTE_TAREFA_SUCCESS = '[TAREFAS] TOGGLE URGENTE TAREFA SUCCESS';
-export const TOGGLE_URGENTE_TAREFA_FAILED = '[TAREFAS] TOGGLE URGENTE TAREFA FAILED';
-
-export const SET_FOLDER_ON_SELECTED_TAREFAS = '[TAREFAS] SET FOLDER ON SELECTED TAREFAS';
-export const SET_FOLDER_ON_SELECTED_TAREFAS_SUCCESS = '[TAREFAS] SET FOLDER ON SELECTED TAREFAS SUCCESS';
-export const SET_FOLDER_ON_SELECTED_TAREFAS_FAILED = '[TAREFAS] SET FOLDER ON SELECTED TAREFAS FAILED';
-
-export const SAVE_TAREFA = '[TAREFA] SAVE TAREFA';
-export const SAVE_TAREFA_SUCCESS = '[TAREFA] SAVE TAREFA SUCCESS';
-export const SAVE_TAREFA_FAILED = '[TAREFA] SAVE TAREFA FAILED';
-
-export const CREATE_VINCULACAO_ETIQUETA = '[TAREFA] CREATE VINCULACAO ETIQUETA';
-export const CREATE_VINCULACAO_ETIQUETA_SUCCESS = '[TAREFA] CREATE VINCULACAO ETIQUETA SUCCESS';
-export const CREATE_VINCULACAO_ETIQUETA_FAILED = '[TAREFA] CREATE VINCULACAO ETIQUETA FAILED';
-
-
+*/
 
 /**
- * Get Tarefas
+ *
+ * Get DocumentosAvulso
  */
 export class GetDocumentosAvulso implements Action {
     readonly type = GET_DOCUMENTOS_AVULSO;
@@ -61,7 +38,7 @@ export class GetDocumentosAvulso implements Action {
 }
 
 /**
- * Get Tarefas Success
+ * Get DocumentosAvulso Success
  */
 export class GetDocumentosAvulsoSuccess implements Action {
     readonly type = GET_DOCUMENTOS_AVULSO_SUCCESS;
@@ -99,27 +76,7 @@ export class SetCurrentDocumantoAvulsoSuccess implements Action {
     constructor() {
     }
 }
-//
-// /**
-//  * Creat Tarefa
-//  */
-// export class CreateTarefa implements Action {
-//     readonly type = CREATE_TAREFA;
-//
-//     constructor() {
-//     }
-// }
-//
-// /**
-//  * Creat Tarefa Success
-//  */
-// export class CreateTarefaSuccess implements Action {
-//     readonly type = CREATE_TAREFA_SUCCESS;
-//
-//     constructor() {
-//     }
-// }
-//
+
 /**
  * Change Selected DocumentosAvulso
  */
@@ -131,11 +88,11 @@ export class ChangeSelectedDocumentosAvulso implements Action {
 }
 
 /**
- * Delete Tarefa
+ * Delete Vinculacao Etiqueta
  */
-export class DeleteDocumentoAvulso implements Action
+export class DeleteVinculacaoEtiqueta implements Action
 {
-    readonly type = DELETE_DOCUMENTOS_AVULSO;
+    readonly type = DELETE_VINCULACAO_ETIQUETA;
 
     constructor(public payload: any)
     {
@@ -143,11 +100,11 @@ export class DeleteDocumentoAvulso implements Action
 }
 
 /**
- * Delete Tarefa Success
+ * Delete Vinculacao Etiqueta Success
  */
-export class DeleteDocumentoAvulsoSuccess implements Action
+export class DeleteVinculacaoEtiquetaSuccess implements Action
 {
-    readonly type = DELETE_DOCUMENTOS_AVULSO_SUCCESS;
+    readonly type = DELETE_VINCULACAO_ETIQUETA_SUCCESS;
 
     constructor(public payload: any)
     {
@@ -155,86 +112,65 @@ export class DeleteDocumentoAvulsoSuccess implements Action
 }
 
 /**
- * Delete Tarefa Failed
+ * Delete Vinculacao Etiqueta Failed
  */
-export class DeleteDocumentoAvulsoFailed implements Action
+export class DeleteVinculacaoEtiquetaFailed implements Action
 {
-    readonly type = DELETE_DOCUMENTOS_AVULSO_FAILED;
+    readonly type = DELETE_VINCULACAO_ETIQUETA_FAILED;
 
     constructor(public payload: any)
     {
     }
 }
 
-//
-// /**
-//  * Set Folder on Selected Tarefas
-//  */
-// export class SetFolderOnSelectedTarefas implements Action {
-//     readonly type = SET_FOLDER_ON_SELECTED_TAREFAS;
-//
-//     constructor(public payload: any) {
-//     }
-// }
-//
-// /**
-//  * Set Folder on Selected Tarefas Success
-//  */
-// export class SetFolderOnSelectedTarefasSuccess implements Action {
-//     readonly type = SET_FOLDER_ON_SELECTED_TAREFAS_SUCCESS;
-//
-//     constructor(public payload: any) {
-//     }
-// }
-//
-// /**
-//  * Set Folder on Selected Tarefas Failed
-//  */
-// export class SetFolderOnSelectedTarefasFailed implements Action {
-//     readonly type = SET_FOLDER_ON_SELECTED_TAREFAS_FAILED;
-//
-//     constructor(public payload: any) {
-//     }
-// }
-//
+/**
+ * Create Vinculacao Etiqueta
+ */
+export class CreateVinculacaoEtiqueta implements Action
+{
+    readonly type = CREATE_VINCULACAO_ETIQUETA;
 
-//
-// /**
-//  * Save Tarefa
-//  */
-// export class SaveTarefa implements Action
-// {
-//     readonly type = SAVE_TAREFA;
-//
-//     constructor(public payload: any)
-//     {
-//     }
-// }
-//
-// /**
-//  * Save Tarefa Success
-//  */
-// export class SaveTarefaSuccess implements Action
-// {
-//     readonly type = SAVE_TAREFA_SUCCESS;
-//
-//     constructor(public payload: any)
-//     {
-//     }
-// }
-//
-// /**
-//  * Save Tarefa Failed
-//  */
-// export class SaveTarefaFailed implements Action
-// {
-//     readonly type = SAVE_TAREFA_FAILED;
-//
-//     constructor(public payload: any)
-//     {
-//     }
-// }
-//
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Create Vinculacao Etiqueta Success
+ */
+export class CreateVinculacaoEtiquetaSuccess implements Action
+{
+    readonly type = CREATE_VINCULACAO_ETIQUETA_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Create Vinculacao Etiqueta Failed
+ */
+export class CreateVinculacaoEtiquetaFailed implements Action
+{
+    readonly type = CREATE_VINCULACAO_ETIQUETA_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Toggle Maximizado
+ */
+export class ToggleMaximizado implements Action
+{
+    readonly type = TOGGLE_MAXIMIZADO;
+
+    constructor()
+    {
+    }
+}
+
 // /**
 //  * Toggle Lida Tarefa
 //  */
@@ -271,126 +207,6 @@ export class DeleteDocumentoAvulsoFailed implements Action
 //     }
 // }
 //
-// /**
-//  * Toggle Urgente Tarefa
-//  */
-// export class ToggleUrgenteTarefa implements Action
-// {
-//     readonly type = TOGGLE_URGENTE_TAREFA;
-//
-//     constructor(public payload: any)
-//     {
-//     }
-// }
-//
-// /**
-//  * Toggle Urgente Tarefa Success
-//  */
-// export class ToggleUrgenteTarefaSuccess implements Action
-// {
-//     readonly type = TOGGLE_URGENTE_TAREFA_SUCCESS;
-//
-//     constructor(public payload: any)
-//     {
-//     }
-// }
-//
-// /**
-//  * Toggle Urgente Tarefa Failed
-//  */
-// export class ToggleUrgenteTarefaFailed implements Action
-// {
-//     readonly type = TOGGLE_URGENTE_TAREFA_FAILED;
-//
-//     constructor(public payload: any)
-//     {
-//     }
-// }
-
-// /**
-//  * Delete Vinculacao Etiqueta
-//  */
-// export class DeleteVinculacaoEtiqueta implements Action
-// {
-//     readonly type = DELETE_VINCULACAO_ETIQUETA;
-//
-//     constructor(public payload: any)
-//     {
-//     }
-// }
-//
-// /**
-//  * Delete Vinculacao Etiqueta Success
-//  */
-// export class DeleteVinculacaoEtiquetaSuccess implements Action
-// {
-//     readonly type = DELETE_VINCULACAO_ETIQUETA_SUCCESS;
-//
-//     constructor(public payload: any)
-//     {
-//     }
-// }
-//
-// /**
-//  * Delete Vinculacao Etiqueta Failed
-//  */
-// export class DeleteVinculacaoEtiquetaFailed implements Action
-// {
-//     readonly type = DELETE_VINCULACAO_ETIQUETA_FAILED;
-//
-//     constructor(public payload: any)
-//     {
-//     }
-// }
-//
-// /**
-//  * Create Vinculacao Etiqueta
-//  */
-// export class CreateVinculacaoEtiqueta implements Action
-// {
-//     readonly type = CREATE_VINCULACAO_ETIQUETA;
-//
-//     constructor(public payload: any)
-//     {
-//     }
-// }
-//
-// /**
-//  * Create Vinculacao Etiqueta Success
-//  */
-// export class CreateVinculacaoEtiquetaSuccess implements Action
-// {
-//     readonly type = CREATE_VINCULACAO_ETIQUETA_SUCCESS;
-//
-//     constructor(public payload: any)
-//     {
-//     }
-// }
-//
-// /**
-//  * Create Vinculacao Etiqueta Failed
-//  */
-// export class CreateVinculacaoEtiquetaFailed implements Action
-// {
-//     readonly type = CREATE_VINCULACAO_ETIQUETA_FAILED;
-//
-//     constructor(public payload: any)
-//     {
-//     }
-// }
-//
-
-/**
- * Toggle Maximizado
- */
-export class ToggleMaximizado implements Action
-{
-    readonly type = TOGGLE_MAXIMIZADO;
-
-    constructor()
-    {
-    }
-}
 
 export type DocumentosAvulsoActionsAll
     = GetDocumentosAvulso
@@ -400,29 +216,13 @@ export type DocumentosAvulsoActionsAll
     | SetCurrentDocumentoAvulso
     | SetCurrentDocumantoAvulsoSuccess
     | ToggleMaximizado
-    /*| CreateTarefa
-    | CreateTarefaSuccess
-
-    | ChangeSelectedTarefas
-    | SetFolderOnSelectedTarefas
-    | SetFolderOnSelectedTarefasSuccess
-    | SetFolderOnSelectedTarefasFailed
-    | DeleteTarefa
-    | DeleteTarefaSuccess
-    | DeleteTarefaFailed
-    | SaveTarefa
-    | SaveTarefaSuccess
-    | SaveTarefaFailed
+    /*| ChangeSelectedTarefas
     | ToggleLidaTarefa
     | ToggleLidaTarefaSuccess
-    | ToggleLidaTarefaFailed
-    | ToggleUrgenteTarefa
-    | ToggleUrgenteTarefaSuccess
-    | ToggleUrgenteTarefaFailed
+    | ToggleLidaTarefaFailed*/
     | CreateVinculacaoEtiqueta
     | CreateVinculacaoEtiquetaSuccess
     | CreateVinculacaoEtiquetaFailed
     | DeleteVinculacaoEtiqueta
     | DeleteVinculacaoEtiquetaSuccess
-    | DeleteVinculacaoEtiquetaFailed
-    */;
+    | DeleteVinculacaoEtiquetaFailed;

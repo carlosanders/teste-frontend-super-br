@@ -39,6 +39,12 @@ const routes: Routes = [
     {
         path: '',
         component: OficiosComponent,
+        children: [
+            {
+                path: '',
+                loadChildren: () => import('./oficio-empty/oficio-empty.module').then(m => m.OficioEmptyModule)
+            }
+        ],
         canActivate: [fromGuards.ResolveGuard]
     }
 ];

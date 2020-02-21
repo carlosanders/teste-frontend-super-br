@@ -26,10 +26,10 @@ import {LoginService} from '../../../auth/login/login.service';
 import {getScreenState} from 'app/store/reducers';
 import {DynamicService} from '../../../../../modules/dynamic.service';
 import {modulesConfig} from 'modules/modules-config';
-import {Usuario} from "../../../../../@cdk/models/usuario.model";
+import {Usuario} from '@cdk/models/usuario.model';
 
 @Component({
-    selector: 'tarefa-detail',
+    selector: 'oficio-detail',
     templateUrl: './oficio-detail.component.html',
     styleUrls: ['./oficio-detail.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
