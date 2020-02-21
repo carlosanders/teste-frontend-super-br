@@ -1,4 +1,4 @@
-import {usuario} from './usuario.schema';
+import {usuario} from './base.schema';
 import {compartilhamento as compartilhamentoSchema} from './base.schema';
 
 compartilhamentoSchema.define({

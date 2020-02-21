@@ -1,5 +1,5 @@
-import {usuario} from './usuario.schema';
-import {processo} from './processo.schema';
+import {usuario} from './base.schema';
+import {processo} from './base.schema';
 import {lembrete as lembreteSchema} from './base.schema';
 
 lembreteSchema.define({

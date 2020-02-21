@@ -1,7 +1,7 @@
-import {usuario} from './usuario.schema';
-import {documento} from './documento.schema';
-import {modalidadeMeio} from './modalidade-meio.schema';
-import {template} from './template.schema';
+import {usuario} from './base.schema';
+import {documento} from './base.schema';
+import {modalidadeMeio} from './base.schema';
+import {template} from './base.schema';
 import {modelo as modeloSchema} from './base.schema';
 
 modeloSchema.define({

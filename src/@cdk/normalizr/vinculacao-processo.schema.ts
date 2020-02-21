@@ -1,6 +1,6 @@
-import {processo} from './processo.schema';
-import {modalidadeVinculacaoProcesso} from './modalidade-vinculacao-processo.schema';
-import {usuario} from './usuario.schema';
+import {processo} from './base.schema';
+import {modalidadeVinculacaoProcesso} from './base.schema';
+import {usuario} from './base.schema';
 import {vinculacaoProcesso as vinculacaoProcessoSchema} from './base.schema';
 
 vinculacaoProcessoSchema.define({

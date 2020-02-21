@@ -1,5 +1,5 @@
-import {usuario} from './usuario.schema';
-import {modalidadeEtiqueta} from './modalidade-etiqueta.schema';
+import {usuario} from './base.schema';
+import {modalidadeEtiqueta} from './base.schema';
 import {etiqueta as etiquetaSchema} from './base.schema';
 
 etiquetaSchema.define({

@@ -1,4 +1,4 @@
-import {usuario} from './usuario.schema';
+import {usuario} from './base.schema';
 import {generoTarefa as generoTarefaSchema} from './base.schema';
 
 generoTarefaSchema.define({

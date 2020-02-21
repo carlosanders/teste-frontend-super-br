@@ -1,5 +1,5 @@
-import {generoProcesso} from './genero-processo.schema';
-import {usuario} from './usuario.schema';
+import {generoProcesso} from './base.schema';
+import {usuario} from './base.schema';
 import {especieProcesso as especieProcessoSchema} from './base.schema';
 
 especieProcessoSchema.define({

@@ -1,4 +1,4 @@
-import {usuario} from './usuario.schema';
+import {usuario} from './base.schema';
 import {modalidadeTipoInibidor as modalidadeTipoInibidorSchema} from './base.schema';
 
 modalidadeTipoInibidorSchema.define({

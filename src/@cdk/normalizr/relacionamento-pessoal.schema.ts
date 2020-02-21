@@ -1,7 +1,7 @@
-import {usuario} from './usuario.schema';
-import {pessoa} from './pessoa.schema';
-import {modalidadeRelacionamentoPessoal} from './modalidade-relacionamento-pessoal.schema';
-import {origemDados} from './origem-dados.schema';
+import {usuario} from './base.schema';
+import {pessoa} from './base.schema';
+import {modalidadeRelacionamentoPessoal} from './base.schema';
+import {origemDados} from './base.schema';
 import {relacionamentoPessoal as relacionamentoPessoalSchema} from './base.schema';
 
 relacionamentoPessoalSchema.define({

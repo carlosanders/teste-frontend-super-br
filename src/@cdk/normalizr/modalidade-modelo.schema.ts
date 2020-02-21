@@ -1,4 +1,4 @@
-import {usuario} from './usuario.schema';
+import {usuario} from './base.schema';
 import {modalidadeModelo as modalidadeModeloSchema} from './base.schema';
 
 modalidadeModeloSchema.define({

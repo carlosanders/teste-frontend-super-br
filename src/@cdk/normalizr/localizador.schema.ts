@@ -1,5 +1,5 @@
-import {setor} from './setor.schema';
-import {usuario} from './usuario.schema';
+import {setor} from './base.schema';
+import {usuario} from './base.schema';
 import {localizador as localizadorSchema} from './base.schema';
 
 localizadorSchema.define({

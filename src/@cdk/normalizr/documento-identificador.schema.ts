@@ -1,6 +1,6 @@
-import {usuario} from './usuario.schema';
-import {modalidadeDocumentoIdentificador} from './modalidade-documento-identificador.schema';
-import {origemDados} from './origem-dados.schema';
+import {usuario} from './base.schema';
+import {modalidadeDocumentoIdentificador} from './base.schema';
+import {origemDados} from './base.schema';
 import {documentoIdentificador as documentoIdentificadorSchema} from './base.schema';
 
 documentoIdentificadorSchema.define({

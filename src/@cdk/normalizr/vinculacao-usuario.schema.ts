@@ -1,4 +1,4 @@
-import {usuario} from './usuario.schema';
+import {usuario} from './base.schema';
 import {vinculacaoUsuario as vinculacaoUsuarioSchema} from './base.schema';
 
 vinculacaoUsuarioSchema.define({

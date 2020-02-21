@@ -1,6 +1,6 @@
-import {usuario} from './usuario.schema';
-import {modalidadeVinculacaoDocumento} from './modalidade-vinculacao-documento.schema';
-import {documento} from './documento.schema';
+import {usuario} from './base.schema';
+import {modalidadeVinculacaoDocumento} from './base.schema';
+import {documento} from './base.schema';
 import {vinculacaoDocumento as vinculacaoDocumentoSchema} from './base.schema';
 
 vinculacaoDocumentoSchema.define({

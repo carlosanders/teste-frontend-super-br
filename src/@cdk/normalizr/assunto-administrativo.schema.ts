@@ -1,5 +1,5 @@
 import {assuntoAdministrativo as assuntoAdministrativoSchema} from './base.schema';
-import {usuario} from './usuario.schema';
+import {usuario} from './base.schema';
 
 assuntoAdministrativoSchema.define({
     criadoPor: usuario,
