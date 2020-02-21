@@ -11,7 +11,6 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Processo} from '@cdk/models/processo.model';
 import {EspecieProcesso} from '@cdk/models/especie-processo.model';
 import {MAT_DATETIME_FORMATS} from '@mat-datetimepicker/core';
-import { OWL_DATE_TIME_FORMATS, OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
 import {ModalidadeFase} from '@cdk/models/modalidade-fase.model';
 import {ModalidadeMeio} from '@cdk/models/modalidade-meio.model';
 import {Classificacao} from '@cdk/models/classificacao.model';
@@ -23,25 +22,6 @@ import { ITS_JUST_ANGULAR } from '@angular/core/src/r3_symbols';
 import { isUndefined } from 'util';
 import { appendFile } from 'fs';
 
-/*export const MY_MOMENT_FORMATS = {
-    parseInput: 'l LT',
-    fullPickerInput: 'l LT',
-    datePickerInput: 'l',
-    timePickerInput: 'LT',
-    monthYearLabel: 'MMM YYYY',
-    dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'MMMM YYYY',
-};
-*/
-export const MY_NATIVE_FORMATS = {
-    fullPickerInput: {year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric'},
-    datePickerInput: {year: 'numeric', month: 'numeric', day: 'numeric'},
-    timePickerInput: {hour: 'numeric', minute: 'numeric'},
-    monthYearLabel: {year: 'numeric', month: 'short'},
-    dateA11yLabel: {year: 'numeric', month: 'long', day: 'numeric'},
-    monthYearA11yLabel: {year: 'numeric', month: 'long'},
-};
-
 
 @Component({
     selector: 'cdk-processo-form',
@@ -50,12 +30,6 @@ export const MY_NATIVE_FORMATS = {
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations,
-/*    providers: [
-//        {provide: OWL_DATE_TIME_FORMATS, useValue: MY_MOMENT_FORMATS},
-        {provide: OWL_DATE_TIME_FORMATS, useValue: MY_NATIVE_FORMATS},
-        {provide: OWL_DATE_TIME_LOCALE, useValue: 'br'},
-    ]    
-*/    
 
     providers: [
         {

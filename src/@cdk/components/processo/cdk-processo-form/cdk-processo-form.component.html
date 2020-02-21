@@ -69,14 +69,6 @@
             <mat-datetimepicker #dataHoraAbertura type="datetime" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
         </mat-form-field>
 
-<!--
-        <mat-form-field *ngIf="form.value.id || !form.value.novo" fxFlex>
-                    <mat-label>Data Hora de Abertura</mat-label>
-                    <input matInput formControlName="dataHoraAbertura" [owlDateTime]="dataHoraAbertura" [owlDateTimeTrigger]="dataHoraAbertura" required>
-                    <mat-icon class="right" [owlDateTimeTrigger]="dataHoraAbertura">today</mat-icon>
-                    <owl-date-time #dataHoraAbertura type="datetime" [pickerMode]="'popup'" [pickerType]="'both'"></owl-date-time>
-        </mat-form-field>
--->
         <mat-form-field fxFlex *ngIf="form.value.id">
             <div fxLayout="row" fxLayoutAlign="start center">
                 <input matInput placeholder="Fase"
