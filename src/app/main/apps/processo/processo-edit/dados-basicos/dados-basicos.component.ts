@@ -114,8 +114,8 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
      */
     ngOnDestroy(): void {
 
-//        this._unsubscribeAll.next();
-//        this._unsubscribeAll.complete();        
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();        
     }
 
     // -----------------------------------------------------------------------------------------------------
