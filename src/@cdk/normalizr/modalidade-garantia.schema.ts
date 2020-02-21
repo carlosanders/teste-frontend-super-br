@@ -1,5 +1,5 @@
 import {schema} from '@cdk/normalizr-src';
-import {usuario} from './usuario.schema';
+import {usuario} from './base.schema';
 
 export const modalidadeGarantia = new schema.Entity('modalidadeGarantia', {
     criadoPor: usuario,

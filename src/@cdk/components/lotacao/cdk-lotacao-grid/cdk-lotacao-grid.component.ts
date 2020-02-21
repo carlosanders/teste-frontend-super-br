@@ -15,6 +15,7 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {Lotacao} from '@cdk/models/lotacao.model';
 import {LotacaoDataSource} from '@cdk/data-sources/lotacao-data-source';
 import {FormControl} from '@angular/forms';
+import {Pagination} from "../../../models/pagination";
 
 @Component({
     selector: 'cdk-lotacao-grid',
@@ -179,6 +180,9 @@ export class CdkLotacaoGridComponent implements AfterViewInit, OnInit, OnChanges
 
     dataSource: LotacaoDataSource;
 
+    @Input()
+    setorPagination: Pagination;
+
     showFilter = false;
 
     gridFilter: any;
@@ -187,7 +191,9 @@ export class CdkLotacaoGridComponent implements AfterViewInit, OnInit, OnChanges
     isIndeterminate = false;
 
     /**
+     *
      * @param _changeDetectorRef
+     * @param _fuseSidebarService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,

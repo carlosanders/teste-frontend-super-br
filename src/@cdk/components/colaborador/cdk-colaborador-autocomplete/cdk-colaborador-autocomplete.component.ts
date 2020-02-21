@@ -45,6 +45,7 @@ export class CdkColaboradorAutocompleteComponent implements OnInit {
         this.colaboradorListIsLoading = false;
 
         this.pagination = new Pagination();
+        this.pagination.populate = ['usuario'];
     }
 
     ngOnInit(): void {
@@ -57,7 +58,7 @@ export class CdkColaboradorAutocompleteComponent implements OnInit {
                     value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
                         termFilter = {
                             ...termFilter,
-                            nome: `like:%${bit}%`
+                            'usuario.nome': `like:%${bit}%`
                         };
                     });
                     if (typeof value === 'string') {
@@ -89,6 +90,7 @@ export class CdkColaboradorAutocompleteComponent implements OnInit {
     }
 
     displayColaboradorFn(colaborador): string {
-        return colaborador ? colaborador.nome : null;
+        console.log(colaborador);
+        return colaborador ? colaborador.usuario.nome : null;
     }
 }

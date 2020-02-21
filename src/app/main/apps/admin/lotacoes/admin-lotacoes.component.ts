@@ -13,14 +13,14 @@ import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 
 @Component({
-    selector: 'lotacoes',
-    templateUrl: './lotacoes.component.html',
-    styleUrls: ['./lotacoes.component.scss'],
+    selector: 'admin-lotacoes',
+    templateUrl: './admin-lotacoes.component.html',
+    styleUrls: ['./admin-lotacoes.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
 })
-export class LotacoesComponent implements OnInit, OnDestroy {
+export class AdminLotacoesComponent implements OnInit, OnDestroy {
 
     private _unsubscribeAll: Subject<any> = new Subject();
 
@@ -37,8 +37,7 @@ export class LotacoesComponent implements OnInit, OnDestroy {
         private _store: Store<fromStore.State>,
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router
-    ) {
-            }
+    ) {}
 
     /**
      * On init
@@ -54,6 +53,12 @@ export class LotacoesComponent implements OnInit, OnDestroy {
                 if (this.routerState.url.indexOf('lotacoes/listar') > -1) {
                     this.action = 'listar';
                 }
+                if (this.routerState.url.indexOf('lotacoes/editar') > -1) {
+                    this.action = 'editar';
+                }
+                if (this.routerState.url.indexOf('lotacoes/editar/criar') > -1) {
+                    this.action = 'criar';
+                }
                 this._changeDetectorRef.markForCheck();
             }
         });
@@ -63,5 +68,14 @@ export class LotacoesComponent implements OnInit, OnDestroy {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
+    }
+
+    goBack(): void {
+        if (this.action === 'editar') {
+            this._router.navigate([this.routerState.url.replace(('editar/' + this.routerState.params.lotacaoHandle), 'listar')]).then();
+        }
+        if (this.action === 'criar') {
+            this._router.navigate([this.routerState.url.replace('editar/criar', 'listar')]).then();
+        }
     }
 }

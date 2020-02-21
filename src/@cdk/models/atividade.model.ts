@@ -1,11 +1,11 @@
 import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
 
-import { Usuario } from '@cdk/models/usuario.model';
-import {EspecieAtividade} from '@cdk/models/especie-atividade.model';
-import {Setor} from '@cdk/models/setor.model';
-import {Tarefa} from '@cdk/models/tarefa.model';
-import {Documento} from '@cdk/models/documento.model';
+import { Usuario } from '@cdk/models';
+import {EspecieAtividade} from '@cdk/models';
+import {Setor} from '@cdk/models';
+import {Tarefa} from '@cdk/models';
+import {Documento} from '@cdk/models';
 
 export class Atividade {
 

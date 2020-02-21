@@ -1,8 +1,8 @@
 import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
 
-import { Usuario } from '@cdk/models/usuario.model';
-import { ModalidadeFolder } from '@cdk/models/modalidade-folder.model';
+import { Usuario } from '@cdk/models';
+import { ModalidadeFolder } from '@cdk/models';
 
 export class Folder {
 

@@ -73,7 +73,7 @@ export class LocalizadorComponent implements OnInit, OnDestroy {
 
     goBack(): void {
         if (this.action === 'editar') {
-            this._router.navigate([this.routerState.url.replace(('editar/' + this.routerState.params.modeloHandle), 'listar')]).then();
+            this._router.navigate([this.routerState.url.replace(('editar/' + this.routerState.params.localizadorHandle), 'listar')]).then();
         }
         if (this.action === 'criar') {
             this._router.navigate([this.routerState.url.replace('editar/criar', 'listar')]).then();

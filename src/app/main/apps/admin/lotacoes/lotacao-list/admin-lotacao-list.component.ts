@@ -13,16 +13,17 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
+import {Pagination} from "../../../../../../@cdk/models/pagination";
 
 @Component({
     selector: 'lotacao-list',
-    templateUrl: './lotacao-list.component.html',
-    styleUrls: ['./lotacao-list.component.scss'],
+    templateUrl: './admin-lotacao-list.component.html',
+    styleUrls: ['./admin-lotacao-list.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
 })
-export class LotacaoListComponent implements OnInit {
+export class AdminLotacaoListComponent implements OnInit {
 
     routerState: any;
     lotacoes$: Observable<Lotacao[]>;
@@ -31,6 +32,8 @@ export class LotacaoListComponent implements OnInit {
     pagination: any;
     deletingIds$: Observable<any>;
     deletedIds$: Observable<any>;
+    setorPagination: Pagination = new Pagination();
+    colaboradorPagination: Pagination = new Pagination();
 
     /**
      * @param _changeDetectorRef
@@ -55,6 +58,10 @@ export class LotacaoListComponent implements OnInit {
                     this.routerState = routerState.state;
                 }
             });
+
+        this.setorPagination.populate = ['populateAll'];
+        this.colaboradorPagination.populate = ['populateAll'];
+        this.setorPagination.filter = {'unidade.id':'eq:' + this.routerState.params.unidadeHandle};
     }
 
     ngOnInit(): void {
@@ -83,10 +90,6 @@ export class LotacaoListComponent implements OnInit {
 
     delete(lotacaoId: number): void {
         this._store.dispatch(new fromStore.DeleteLotacao(lotacaoId));
-    }
-
-    setPrincipal(lotacao: Lotacao): void {
-        this._store.dispatch(new fromStore.SaveLotacao({lotacao: lotacao, changes: {principal: true}}));
     }
 
 }

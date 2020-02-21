@@ -1,8 +1,10 @@
-import {schema} from '@cdk/normalizr-src';
-import {usuario} from './usuario.schema';
+import {acao as acaoSchema} from './base.schema';
+import {usuario} from './base.schema';
 
-export const acao = new schema.Entity('acao', {
+acaoSchema.define({
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario
 });
+
+export const acao = acaoSchema;

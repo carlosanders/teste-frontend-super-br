@@ -9,6 +9,7 @@ export interface TarefaDetailState {
     errors: any;
     documentosId: number[];
     documentosLoaded: any;
+    savingVincEtiquetaId: number;
 }
 
 export const TarefaDetailInitialState: TarefaDetailState = {
@@ -19,7 +20,8 @@ export const TarefaDetailInitialState: TarefaDetailState = {
     deleting: false,
     errors: false,
     documentosId: [],
-    documentosLoaded: false
+    documentosLoaded: false,
+    savingVincEtiquetaId: null
 };
 
 export function TarefaDetailReducer(state = TarefaDetailInitialState, action: TarefaDetailActions.TarefaDetailActionsAll): TarefaDetailState {
@@ -72,7 +74,8 @@ export function TarefaDetailReducer(state = TarefaDetailInitialState, action: Ta
                 errors: false,
                 deleting: false,
                 documentosId: [],
-                documentosLoaded: false
+                documentosLoaded: false,
+                savingVincEtiquetaId: null
             };
         }
 
@@ -106,6 +109,34 @@ export function TarefaDetailReducer(state = TarefaDetailInitialState, action: Ta
                 documentosLoaded: action.payload.loaded,
             };
         }
+
+
+        case TarefaDetailActions.SAVE_CONTEUDO_VINCULACAO_ETIQUETA: {
+            return {
+                ...state,
+                saving: true,
+                savingVincEtiquetaId: action.payload.vinculacaoEtiqueta.id
+            };
+        }
+
+        case TarefaDetailActions.SAVE_CONTEUDO_VINCULACAO_ETIQUETA_SUCCESS: {
+            return {
+                ...state,
+                saving: false,
+                errors: false,
+                savingVincEtiquetaId: null
+            };
+        }
+
+        case TarefaDetailActions.SAVE_CONTEUDO_VINCULACAO_ETIQUETA_FAILED: {
+            return {
+                ...state,
+                saving: false,
+                errors: action.payload,
+                savingVincEtiquetaId: null
+            };
+        }
+
 
         default:
             return state;

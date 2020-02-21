@@ -15,31 +15,25 @@ import {
 import {TranslateModule} from '@ngx-translate/core';
 
 import {FuseSharedModule} from '@fuse/shared.module';
-import {LotacoesComponent} from './lotacoes.component';
+import {AdminLotacaoListComponent} from './admin-lotacao-list.component';
 import {LotacaoService} from '@cdk/services/lotacao.service';
 import {RouterModule, Routes} from '@angular/router';
+import {LotacaoListStoreModule} from './store/store.module';
+import * as fromGuards from './store/guards';
+import {CdkLotacaoGridModule} from '@cdk/components/lotacao/cdk-lotacao-grid/cdk-lotacao-grid.module';
+import {LoginService} from '../../../../auth/login/login.service';
 
 const routes: Routes = [
     {
         path: '',
-        component: LotacoesComponent,
-        children: [
-            {
-                path       : 'listar',
-                loadChildren: () => import('./lotacao-list/lotacao-list.module').then(m => m.LotacaoListModule),
-            },
-            {
-                path: '**',
-                redirectTo: 'listar'
-            }
-        ]
+        component: AdminLotacaoListComponent,
+        canActivate: [fromGuards.ResolveGuard]
     }
-
 ];
 
 @NgModule({
     declarations: [
-        LotacoesComponent
+        AdminLotacaoListComponent
     ],
     imports: [
         RouterModule.forChild(routes),
@@ -59,13 +53,19 @@ const routes: Routes = [
         TranslateModule,
 
         FuseSharedModule,
+
+        CdkLotacaoGridModule,
+
+        LotacaoListStoreModule,
     ],
     providers: [
-        LotacaoService
+        LotacaoService,
+        LoginService,
+        fromGuards.ResolveGuard
     ],
     exports: [
-        LotacoesComponent
+        AdminLotacaoListComponent
     ]
 })
-export class LotacoesModule {
+export class AdminLotacaoListModule {
 }

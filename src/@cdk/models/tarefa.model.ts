@@ -1,11 +1,11 @@
 import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
-import {Usuario} from '@cdk/models/usuario.model';
-import {EspecieTarefa} from '@cdk/models/especie-tarefa.model';
-import {Processo} from '@cdk/models/processo.model';
-import {Setor} from '@cdk/models/setor.model';
-import {VinculacaoEtiqueta} from '@cdk/models/vinculacao-etiqueta.model';
-import {Folder} from '@cdk/models/folder.model';
+import {Usuario} from '@cdk/models';
+import {EspecieTarefa} from '@cdk/models';
+import {Processo} from '@cdk/models';
+import {Setor} from '@cdk/models';
+import {VinculacaoEtiqueta} from '@cdk/models';
+import {Folder} from '@cdk/models';
 
 export class Tarefa {
 
@@ -146,6 +146,6 @@ export class Tarefa {
         this.auditoriaDistribuicao = null;
         this.tipoDistribuicao = null;
         this.folder = null;
-        this.vinculacoesEtiquetas = null;
+        this.vinculacoesEtiquetas = []; // Dr. Eduardo, colocamos [] aqui para poder funcionar a vinculação etiqueta.
     }
 }
