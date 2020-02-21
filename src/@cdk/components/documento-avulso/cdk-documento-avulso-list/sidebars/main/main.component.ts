@@ -30,7 +30,7 @@ export class CdkDocumentoAvulsoListMainSidebarComponent implements OnInit
 
         this.form = this._formBuilder.group({
             processo: [null],
-            usuarioResponsavel: [null],
+            setorOrigem: [null],
         });
 
     }
@@ -44,7 +44,7 @@ export class CdkDocumentoAvulsoListMainSidebarComponent implements OnInit
      */
     ngOnInit(): void {
 
-        /*this.form.get('processo').valueChanges.subscribe(value => {
+        this.form.get('processo').valueChanges.subscribe(value => {
             if (typeof value === 'object' && value) {
                 this.filters = {
                     ...this.filters,
@@ -57,18 +57,18 @@ export class CdkDocumentoAvulsoListMainSidebarComponent implements OnInit
             }
         });
 
-        this.form.get('especieTarefa').valueChanges.subscribe(value => {
+        this.form.get('setorOrigem').valueChanges.subscribe(value => {
             if (typeof value === 'object' && value) {
                 this.filters = {
                     ...this.filters,
-                    'especieTarefa.id': `eq:${value.id}`
+                    'setorOrigem.id': `eq:${value.id}`
                 };
             } else {
-                if (this.filters.hasOwnProperty('especieTarefa.id')) {
-                    delete this.filters['especieTarefa.id'];
+                if (this.filters.hasOwnProperty('setorOrigem.id')) {
+                    delete this.filters['setorOrigem.id'];
                 }
             }
-        });*/
+        });
     }
 
     pesquisar(): void {

@@ -5,7 +5,6 @@ import { Observable, Subject } from 'rxjs';
 import { fuseAnimations } from '@fuse/animations';
 
 import * as fromStore from 'app/main/apps/oficios/store';
-import { Folder } from '@cdk/models/folder.model';
 import { getRouterState } from 'app/store/reducers';
 import { takeUntil } from 'rxjs/operators';
 
@@ -24,8 +23,6 @@ export class DocumentoAvulsoMainSidebarComponent implements OnInit, OnDestroy {
     mode = 'DocumentoAvulso';
 
     routerState: any;
-
-    generoHandle = '';
 
     /**
      *
