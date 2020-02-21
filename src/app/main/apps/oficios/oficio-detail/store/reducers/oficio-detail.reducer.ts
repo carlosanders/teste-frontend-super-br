@@ -1,7 +1,7 @@
-import * as TarefaDetailActions from 'app/main/apps/tarefas/tarefa-detail/store/actions/tarefa-detail.actions';
+import * as OficioDetailActions from 'app/main/apps/oficios/oficio-detail/store/actions/oficio-detail.actions';
 
-export interface TarefaDetailState {
-    tarefaId: number;
+export interface DocumentoAvulsoDetailState {
+    documentoAvulsoId: number;
     loading: boolean;
     loaded: any;
     saving: boolean;
@@ -11,8 +11,8 @@ export interface TarefaDetailState {
     documentosLoaded: any;
 }
 
-export const TarefaDetailInitialState: TarefaDetailState = {
-    tarefaId: null,
+export const DocumentoAvulsoDetailInitialState: DocumentoAvulsoDetailState = {
+    documentoAvulsoId: null,
     loading: false,
     loaded: false,
     saving: false,
@@ -22,50 +22,36 @@ export const TarefaDetailInitialState: TarefaDetailState = {
     documentosLoaded: false
 };
 
-export function TarefaDetailReducer(state = TarefaDetailInitialState, action: TarefaDetailActions.TarefaDetailActionsAll): TarefaDetailState {
+export function OficioDetailReducer(state = DocumentoAvulsoDetailInitialState, action: OficioDetailActions.DocumentoAvulsoDetailActionsAll): DocumentoAvulsoDetailState {
     switch (action.type) {
 
-        case TarefaDetailActions.GET_TAREFA: {
+        case OficioDetailActions.GET_DOCUMENTO_AVULSO: {
             return {
                 ...state,
                 loading: true
             };
         }
 
-        case TarefaDetailActions.GET_TAREFA_SUCCESS: {
+        case OficioDetailActions.GET_DOCUMENTO_AVULSO_SUCCESS: {
 
             return {
                 ...state,
-                tarefaId: action.payload.tarefa.id,
+                documentoAvulsoId: action.payload.documento.id,
                 loaded: action.payload.loaded,
                 loading: false
             };
         }
 
-        case TarefaDetailActions.GET_TAREFA_FAILED: {
+        case OficioDetailActions.GET_DOCUMENTOS_FAILED: {
             return {
                 ...state,
                 loading: false
             };
         }
 
-        case TarefaDetailActions.DELETE_TAREFA: {
+        case OficioDetailActions.CREATE_DOCUMENTO_AVULSO: {
             return {
-                ...state,
-                deleting: true
-            };
-        }
-
-        case TarefaDetailActions.DELETE_TAREFA_SUCCESS: {
-            return {
-                ...state,
-                deleting: false
-            };
-        }
-
-        case TarefaDetailActions.CREATE_TAREFA: {
-            return {
-                tarefaId: null,
+                documentoAvulsoId: null,
                 loading: false,
                 loaded: false,
                 saving: false,
@@ -76,14 +62,14 @@ export function TarefaDetailReducer(state = TarefaDetailInitialState, action: Ta
             };
         }
 
-        case TarefaDetailActions.SAVE_TAREFA: {
+        case OficioDetailActions.SAVE_DOCUMENTO_AVULSO: {
             return {
                 ...state,
                 saving: true
             };
         }
 
-        case TarefaDetailActions.SAVE_TAREFA_SUCCESS: {
+        case OficioDetailActions.SAVE_DOCUMENTO_AVULSO: {
             return {
                 ...state,
                 saving: false,
@@ -91,7 +77,7 @@ export function TarefaDetailReducer(state = TarefaDetailInitialState, action: Ta
             };
         }
 
-        case TarefaDetailActions.SAVE_TAREFA_FAILED: {
+        case OficioDetailActions.SAVE_DOCUMENTO_AVULSO_FAILED: {
             return {
                 ...state,
                 saving: false,
@@ -99,7 +85,7 @@ export function TarefaDetailReducer(state = TarefaDetailInitialState, action: Ta
             };
         }
 
-        case TarefaDetailActions.GET_DOCUMENTOS_SUCCESS: {
+        case OficioDetailActions.GET_DOCUMENTOS_SUCCESS: {
             return {
                 ...state,
                 documentosId: action.payload.entitiesId,

@@ -1,1 +1,1 @@
-export * from './tarefa-detail.actions';
+export * from './oficio-detail.actions';

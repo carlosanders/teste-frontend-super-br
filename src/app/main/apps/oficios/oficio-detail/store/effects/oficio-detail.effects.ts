@@ -7,30 +7,29 @@ import {catchError, map, exhaustMap, mergeMap, concatMap, tap, switchMap} from '
 
 import {getRouterState, State} from 'app/store/reducers';
 
-import * as TarefaDetailActions from 'app/main/apps/tarefas/tarefa-detail/store/actions/tarefa-detail.actions';
+import * as OficioDetailActions from 'app/main/apps/oficios/oficio-detail/store/actions/oficio-detail.actions';
 
-import {TarefaService} from '@cdk/services/tarefa.service';
 import {Router} from '@angular/router';
 import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
 import {VinculacaoEtiqueta} from '@cdk/models/vinculacao-etiqueta.model';
 import {AddChildData, AddData, RemoveChildData} from '@cdk/ngrx-normalizr';
 import {vinculacaoEtiqueta as vinculacaoEtiquetaSchema} from '@cdk/normalizr/vinculacao-etiqueta.schema';
-import {tarefa as tarefaSchema} from '@cdk/normalizr/tarefa.schema';
+import {documentoAvulso as documentoAvulsoSchema} from '@cdk/normalizr/documento-avulso.schema';
 import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
 import {DocumentoService} from '@cdk/services/documento.service';
-import {Tarefa} from '@cdk/models/tarefa.model';
 import {Documento} from '@cdk/models/documento.model';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-import {DeleteTarefaSuccess} from '../../../store/actions';
-import {GetDocumentos} from '../../atividades/atividade-create/store/actions';
+import {GetDocumentos} from '../../reponder-complementar/store/actions';
+import {DocumentoAvulsoService} from '../../../../../../../@cdk/services/documento-avulso.service';
+import {DocumentoAvulso} from '../../../../../../../@cdk/models/documento-avulso.model';
 
 @Injectable()
-export class TarefaDetailEffect {
+export class OficioDetailEffect {
     routerState: any;
 
     constructor(
         private _actions: Actions,
-        private _tarefaService: TarefaService,
+        private _documentoAvulsoService: DocumentoAvulsoService,
         private _documentoService: DocumentoService,
         private _vinculacaoEtiquetaService: VinculacaoEtiquetaService,
         private _store: Store<State>,
@@ -46,16 +45,16 @@ export class TarefaDetailEffect {
     }
 
     /**
-     * Get Tarefa with router parameters
+     * Get Oficio with router parameters
      * @type {Observable<any>}
      */
     @Effect()
-    getTarefa: any =
+    getDocumentoAvulso: any =
         this._actions
             .pipe(
-                ofType<TarefaDetailActions.GetTarefa>(TarefaDetailActions.GET_TAREFA),
+                ofType<OficioDetailActions.GetDocumentos>(OficioDetailActions.GET_DOCUMENTOS),
                 switchMap((action) => {
-                    return this._tarefaService.query(
+                    return this._documentoAvulsoService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
@@ -65,149 +64,92 @@ export class TarefaDetailEffect {
                             'processo.especieProcesso',
                             'processo.modalidadeMeio',
                             'processo.documentoAvulsoOrigem',
-                            'especieTarefa',
+                            'especieOficio',
                             'usuarioResponsavel',
                             'setorResponsavel',
                             'setorResponsavel.unidade',
                             'setorOrigem',
                             'setorOrigem.unidade',
-                            'especieTarefa.generoTarefa',
+                            'especieOficio.generoOficio',
                             'vinculacoesEtiquetas',
                             'vinculacoesEtiquetas.etiqueta']));
                 }),
                 mergeMap(response => [
-                    new AddData<Tarefa>({data: response['entities'], schema: tarefaSchema}),
-                    new TarefaDetailActions.GetTarefaSuccess({
+                    new AddData<DocumentoAvulso>({data: response['entities'], schema: documentoAvulsoSchema}),
+                    new OficioDetailActions.GetDocumentoAvulsoSuccess({
                         loaded: {
-                            id: 'tarefaHandle',
-                            value: this.routerState.params.tarefaHandle
+                            id: 'oficioHandle',
+                            value: this.routerState.params.oficioHandle
                         },
-                        tarefa: response['entities'][0]
+                        oficio: response['entities'][0]
                     })
                 ]),
                 catchError((err, caught) => {
                     console.log(err);
-                    this._store.dispatch(new TarefaDetailActions.GetTarefaFailed(err));
+                    this._store.dispatch(new OficioDetailActions.GetDocumentoAvulsoFailed(err));
                     return caught;
                 })
             );
 
     /**
-     * Deselect Tarefa Action
+     * Deselect Oficio Action
      */
     @Effect({dispatch: false})
-    deselectTarefaAction =
+    deselectDocumentoAvulsoAction =
         this._actions
             .pipe(
-                ofType<TarefaDetailActions.DeselectTarefaAction>(TarefaDetailActions.DESELECT_TAREFA_ACTION),
+                ofType<OficioDetailActions.DeselectDocumentoAvulsoAction>(OficioDetailActions.DESELECT_DOCUMENTO_AVULSO_ACTION),
                 tap(() => {
-                    this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.folderHandle]).then();
+                    this._router.navigate(['apps/oficios/' + this.routerState.params.generoHandle + '/' + this.routerState.params.folderHandle]).then();
                 })
             );
 
     /**
-     * Update Tarefa
+     * Update Oficio
      * @type {Observable<any>}
      */
     @Effect()
-    createTarefa: Observable<TarefaDetailActions.TarefaDetailActionsAll> =
+    createDocumentoAvulso: Observable<OficioDetailActions.DocumentoAvulsoDetailActionsAll> =
         this._actions
             .pipe(
-                ofType<TarefaDetailActions.CreateTarefa>(TarefaDetailActions.CREATE_TAREFA),
+                ofType<OficioDetailActions.CreateDocumentoAvulso>(OficioDetailActions.CREATE_DOCUMENTO_AVULSO),
                 map(() => {
                     this._router.navigate([this.routerState.url + '/criar']).then();
-                    return new TarefaDetailActions.CreateTarefaSuccess();
+                    return new OficioDetailActions.CreateDocumentoAvulsoSuccess();
                 })
             );
 
 
     /**
-     * Delete Tarefa
+     * Save Oficio
      * @type {Observable<any>}
      */
     @Effect()
-    deleteTarefa: Observable<TarefaDetailActions.TarefaDetailActionsAll> =
+    saveDocumentoAvulso: any =
         this._actions
             .pipe(
-                ofType<TarefaDetailActions.DeleteTarefa>(TarefaDetailActions.DELETE_TAREFA),
-                mergeMap((action) => {
-                        return this._tarefaService.destroy(action.payload).pipe(
-                            map((response) => new TarefaDetailActions.DeleteTarefaSuccess(response.id)),
-                            catchError((err) => {
-                                console.log(err);
-                                return of(new TarefaDetailActions.DeleteTarefaFailed(action.payload));
-                            })
-                        );
-                    }
-                ));
-
-    /**
-     * Save Tarefa
-     * @type {Observable<any>}
-     */
-    @Effect()
-    saveTarefa: any =
-        this._actions
-            .pipe(
-                ofType<TarefaDetailActions.SaveTarefa>(TarefaDetailActions.SAVE_TAREFA),
+                ofType<OficioDetailActions.SaveDocumentoAvulso>(OficioDetailActions.SAVE_DOCUMENTO_AVULSO),
                 switchMap((action) => {
-                    return this._tarefaService.save(action.payload).pipe(
-                        mergeMap((response: Tarefa) => [
-                            new TarefaDetailActions.SaveTarefaSuccess(),
-                            new AddData<Tarefa>({data: [response], schema: tarefaSchema}), new OperacoesActions.Resultado({
-                                type: 'tarefa',
-                                content: `Tarefa id ${response.id} criada com sucesso!`,
+                    return this._documentoAvulsoService.save(action.payload).pipe(
+                        mergeMap((response: DocumentoAvulso) => [
+                            new OficioDetailActions.SaveDocumentoAvulsoSuccess(),
+                            new AddData<DocumentoAvulso>({
+                                data: [response],
+                                schema: documentoAvulsoSchema
+                            }), new OperacoesActions.Resultado({
+                                type: 'oficio',
+                                content: `Oficio id ${response.id} criada com sucesso!`,
                                 dateTime: response.criadoEm
                             })
                         ]),
                         catchError((err) => {
                             console.log(err);
-                            return of(new TarefaDetailActions.SaveTarefaFailed(err));
+                            return of(new OficioDetailActions.SaveDocumentoAvulsoFailed(err));
                         })
                     );
                 })
             );
 
-    /**
-     * Dar Ciencia Tarefa
-     * @type {Observable<any>}
-     */
-    @Effect()
-    darCienciaTarefa: any =
-        this._actions
-            .pipe(
-                ofType<TarefaDetailActions.DarCienciaTarefa>(TarefaDetailActions.DAR_CIENCIA_TAREFA),
-                switchMap((action) => {
-                    return this._tarefaService.ciencia(action.payload).pipe(
-                        mergeMap((response: Tarefa) => [
-                            new TarefaDetailActions.DarCienciaTarefaSuccess(action.payload),
-                            new AddData<Tarefa>({data: [response], schema: tarefaSchema}), new OperacoesActions.Resultado({
-                                type: 'tarefa',
-                                content: `Tarefa id ${response.id} ciência com sucesso!`,
-                                dateTime: response.criadoEm
-                            })
-                        ]),
-                        catchError((err) => {
-                            console.log(err);
-                            return of(new TarefaDetailActions.SaveTarefaFailed(err));
-                        })
-                    );
-                })
-            );
-
-    /**
-     * Dar Ciencia Tarefa Success
-     */
-    @Effect({ dispatch: false })
-    darCienciaTarefaSuccess: any =
-        this._actions
-            .pipe(
-                ofType<TarefaDetailActions.DarCienciaTarefaSuccess>(TarefaDetailActions.DAR_CIENCIA_TAREFA_SUCCESS),
-                tap((action) => {
-                    this._store.dispatch(new DeleteTarefaSuccess(action.payload.id));
-                    this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.folderHandle + '/tarefa/' + this.routerState.params.tarefaHandle + '/encaminhamento']).then();
-                })
-            );
 
     /**
      * Create Vinculacao Etiqueta
@@ -217,30 +159,30 @@ export class TarefaDetailEffect {
     createVinculacaoEtiqueta: Observable<any> =
         this._actions
             .pipe(
-                ofType<TarefaDetailActions.CreateVinculacaoEtiqueta>(TarefaDetailActions.CREATE_VINCULACAO_ETIQUETA),
+                ofType<OficioDetailActions.CreateVinculacaoEtiqueta>(OficioDetailActions.CREATE_VINCULACAO_ETIQUETA),
                 mergeMap((action) => {
                     const vinculacaoEtiqueta = new VinculacaoEtiqueta();
-                    vinculacaoEtiqueta.tarefa = action.payload.tarefa;
+                    vinculacaoEtiqueta.documento = action.payload.documento;
                     vinculacaoEtiqueta.etiqueta = action.payload.etiqueta;
                     return this._vinculacaoEtiquetaService.save(vinculacaoEtiqueta).pipe(
-                        tap((response) => response.tarefa = null),
+                        tap((response) => response.documento = null),
                         mergeMap((response) => [
                             new AddChildData<VinculacaoEtiqueta>({
                                 data: [response],
                                 childSchema: vinculacaoEtiquetaSchema,
-                                parentSchema: tarefaSchema,
-                                parentId: action.payload.tarefa.id
+                                parentSchema: documentoAvulsoSchema,
+                                parentId: action.payload.documento.id
                             }),
                             new OperacoesActions.Resultado({
-                                type: 'tarefa',
-                                content: `Tarefa id ${response.id} etiquetada com sucesso!`,
+                                type: 'documento',
+                                content: `Documento Avulso de id ${response.id} etiquetada com sucesso!`,
                                 dateTime: response.criadoEm
                             }),
                             new GetDocumentos()
                         ]),
                         catchError((err) => {
                             console.log(err);
-                            return of(new TarefaDetailActions.CreateVinculacaoEtiquetaFailed(err));
+                            return of(new OficioDetailActions.CreateVinculacaoEtiquetaFailed(err));
                         })
                     );
                 })
@@ -255,20 +197,20 @@ export class TarefaDetailEffect {
     deleteVinculacaoEtiqueta: Observable<any> =
         this._actions
             .pipe(
-                ofType<TarefaDetailActions.DeleteVinculacaoEtiqueta>(TarefaDetailActions.DELETE_VINCULACAO_ETIQUETA),
+                ofType<OficioDetailActions.DeleteVinculacaoEtiqueta>(OficioDetailActions.DELETE_VINCULACAO_ETIQUETA),
                 mergeMap((action) => {
                         return this._vinculacaoEtiquetaService.destroy(action.payload.vinculacaoEtiquetaId).pipe(
                             mergeMap(() => [
                                 new RemoveChildData({
                                     id: action.payload.vinculacaoEtiquetaId,
                                     childSchema: vinculacaoEtiquetaSchema,
-                                    parentSchema: tarefaSchema,
-                                    parentId: action.payload.tarefaId
+                                    parentSchema: documentoAvulsoSchema,
+                                    parentId: action.payload.oficioId
                                 })
                             ]),
                             catchError((err) => {
                                 console.log(err);
-                                return of(new TarefaDetailActions.DeleteVinculacaoEtiquetaFailed(action.payload));
+                                return of(new OficioDetailActions.DeleteVinculacaoEtiquetaFailed(action.payload));
                             })
                         );
                     }
@@ -282,7 +224,7 @@ export class TarefaDetailEffect {
     getDocumentos: any =
         this._actions
             .pipe(
-                ofType<TarefaDetailActions.GetDocumentos>(TarefaDetailActions.GET_DOCUMENTOS),
+                ofType<OficioDetailActions.GetDocumentos>(OficioDetailActions.GET_DOCUMENTOS),
                 switchMap((action) => {
                     return this._documentoService.query(
                         JSON.stringify(action.payload),
@@ -296,17 +238,17 @@ export class TarefaDetailEffect {
                 }),
                 mergeMap(response => [
                     new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
-                    new TarefaDetailActions.GetDocumentosSuccess({
+                    new OficioDetailActions.GetDocumentosSuccess({
                         loaded: {
-                            id: 'tarefaHandle',
-                            value: this.routerState.params.tarefaHandle
+                            id: 'documentoHandle',
+                            value: this.routerState.params.documentoHandle
                         },
                         entitiesId: response['entities'].map(documento => documento.id),
                     })
                 ]),
                 catchError((err, caught) => {
                     console.log(err);
-                    this._store.dispatch(new TarefaDetailActions.GetDocumentosFailed(err));
+                    this._store.dispatch(new OficioDetailActions.GetDocumentosFailed(err));
                     return caught;
                 })
             );

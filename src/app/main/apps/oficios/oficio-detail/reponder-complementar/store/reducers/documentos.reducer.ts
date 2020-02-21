@@ -1,6 +1,6 @@
-import * as AtividadeCreateDocumentosActions from 'app/main/apps/tarefas/tarefa-detail/atividades/atividade-create/store/actions/documentos.actions';
+import * as ResponderComplementarDocumentosActionsAll from '../actions/documentos.actions';
 
-export interface AtividadeCreateDocumentosState {
+export interface ResponderComplentarDocumentosState {
     documentosId: number[];
     documentosLoaded: any;
     selectedDocumentosId: number[];
@@ -12,7 +12,7 @@ export interface AtividadeCreateDocumentosState {
 
 }
 
-export const AtividadeCreateDocumentosInitialState: AtividadeCreateDocumentosState = {
+export const ResponderComplementarDocumentosInitialState: ResponderComplentarDocumentosState = {
     documentosId: [],
     documentosLoaded: false,
     selectedDocumentosId: [],
@@ -23,13 +23,13 @@ export const AtividadeCreateDocumentosInitialState: AtividadeCreateDocumentosSta
     loaded: false,
 };
 
-export function AtividadeCreateDocumentosReducer(
-    state = AtividadeCreateDocumentosInitialState,
-    action: AtividadeCreateDocumentosActions.AtividadeCreateDocumentosActionsAll
-): AtividadeCreateDocumentosState {
+export function ResponderComplementarDocumentosReducer(
+    state = ResponderComplementarDocumentosInitialState,
+    action: ResponderComplementarDocumentosActionsAll.ResponderComplementarDocumentosActionsAll
+): ResponderComplentarDocumentosState {
     switch (action.type) {
 
-        case AtividadeCreateDocumentosActions.GET_DOCUMENTOS_SUCCESS: {
+        case ResponderComplementarDocumentosActionsAll.GET_DOCUMENTOS_SUCCESS: {
             return {
                 ...state,
                 documentosId: action.payload.entitiesId,
@@ -37,21 +37,21 @@ export function AtividadeCreateDocumentosReducer(
             };
         }
 
-        case AtividadeCreateDocumentosActions.COMPLETE_DOCUMENTO: {
+        case ResponderComplementarDocumentosActionsAll.COMPLETE_DOCUMENTO: {
             return {
                 ...state,
                 documentosId: [...state.documentosId, action.payload.id],
             };
         }
 
-        case AtividadeCreateDocumentosActions.DELETE_DOCUMENTO: {
+        case ResponderComplementarDocumentosActionsAll.DELETE_DOCUMENTO: {
             return {
                 ...state,
                 deletingDocumentoIds: [...state.deletingDocumentoIds, action.payload]
             };
         }
 
-        case AtividadeCreateDocumentosActions.DELETE_DOCUMENTO_SUCCESS: {
+        case ResponderComplementarDocumentosActionsAll.DELETE_DOCUMENTO_SUCCESS: {
             return {
                 ...state,
                 deletingDocumentoIds: state.deletingDocumentoIds.filter(id => id !== action.payload),
@@ -60,47 +60,47 @@ export function AtividadeCreateDocumentosReducer(
             };
         }
 
-        case AtividadeCreateDocumentosActions.ASSINA_DOCUMENTO: {
+        case ResponderComplementarDocumentosActionsAll.ASSINA_DOCUMENTO: {
             return {
                 ...state,
                 assinandoDocumentoIds: [...state.assinandoDocumentoIds, action.payload]
             };
         }
 
-        case AtividadeCreateDocumentosActions.ASSINA_DOCUMENTO_SUCCESS: {
+        case ResponderComplementarDocumentosActionsAll.ASSINA_DOCUMENTO_SUCCESS: {
             return {
                 ...state,
                 assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload)
             };
         }
 
-        case AtividadeCreateDocumentosActions.ASSINA_DOCUMENTO_FAILED: {
+        case ResponderComplementarDocumentosActionsAll.ASSINA_DOCUMENTO_FAILED: {
             return {
                 ...state,
                 assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload)
             };
         }
 
-        case AtividadeCreateDocumentosActions.CHANGE_SELECTED_DOCUMENTOS: {
+        case ResponderComplementarDocumentosActionsAll.CHANGE_SELECTED_DOCUMENTOS: {
             return {
                 ...state,
                 selectedDocumentosId: action.payload
             };
         }
 
-        case AtividadeCreateDocumentosActions.CONVERTE_DOCUMENTO_ATIVIDADE: {
+        case ResponderComplementarDocumentosActionsAll.CONVERTE_DOCUMENTO_ATIVIDADE: {
             return {
                 ...state,
                 convertendoDocumentoIds: [...state.convertendoDocumentoIds, action.payload],
             };
         }
-        case AtividadeCreateDocumentosActions.CONVERTE_DOCUMENTO_SUCESS: {
+        case ResponderComplementarDocumentosActionsAll.CONVERTE_DOCUMENTO_SUCESS: {
             return {
                 ...state,
                 convertendoDocumentoIds: state.convertendoDocumentoIds.filter(id => id !== action.payload),
             };
         }
-        case AtividadeCreateDocumentosActions.CONVERTE_DOCUMENTO_FAILED: {
+        case ResponderComplementarDocumentosActionsAll.CONVERTE_DOCUMENTO_FAILED: {
             return {
                 ...state,
                 convertendoDocumentoIds: state.convertendoDocumentoIds.filter(id => id !== action.payload),

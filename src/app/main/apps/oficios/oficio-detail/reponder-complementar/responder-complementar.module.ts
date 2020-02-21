@@ -1,27 +1,30 @@
 import {NgModule} from '@angular/core';
 import {
     MatAutocompleteModule,
+    MatBadgeModule,
     MatButtonModule,
     MatCheckboxModule,
+    MatDatepickerModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
     MatMenuModule,
+    MatProgressSpinnerModule,
     MatRippleModule,
     MatSelectModule,
+    MatTabsModule,
     MatToolbarModule,
-    MatDatepickerModule,
-    MatProgressSpinnerModule, MatTooltipModule, MatTableModule, MatBadgeModule, MatTabsModule
+    MatTooltipModule
 } from '@angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 
 import {FuseSharedModule} from '@fuse/shared.module';
 import {FuseSidebarModule} from '@fuse/components';
 
-import {AtividadeCreateComponent} from './atividade-create.component';
+import {ResponderComplementarComponent} from './responder-complementar.component';
 import {RouterModule, Routes} from '@angular/router';
 import {CdkAtividadeFormModule} from '@cdk/components/atividade/cdk-atividade-form/cdk-atividade-form.module';
-import {AtividadeCreateStoreModule} from './store/store.module';
+import {ResponderComplementarStoreModule} from './store/store.module';
 import {AtividadeService} from '@cdk/services/atividade.service';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {CdkUploadModule} from '@cdk/components/upload/cdk-upload.module';
@@ -34,26 +37,16 @@ import {CdkDocumentoCardListModule} from '@cdk/components/documento/cdk-document
 const routes: Routes = [
     {
         path: '',
-        component: AtividadeCreateComponent,
-        children: [
-            {
-                path       : 'documento',
-                loadChildren: () => import('app/main/apps/documento/documento.module').then(m => m.DocumentoModule),
-            }
-        ],
-        canActivate: [fromGuards.ResolveGuard]
-
+        component: ResponderComplementarComponent,
     }
 ];
 
 @NgModule({
     declarations: [
-        AtividadeCreateComponent
+        ResponderComplementarComponent
     ],
     imports: [
-
         RouterModule.forChild(routes),
-
         MatButtonModule,
         MatCheckboxModule,
         MatFormFieldModule,
@@ -73,15 +66,13 @@ const routes: Routes = [
         CdkComponenteDigitalCardListModule,
         CdkDocumentoCardListModule,
         CdkUploadModule,
-
         CdkAtividadeFormModule,
 
-        AtividadeCreateStoreModule,
-
+        ResponderComplementarStoreModule,
         TranslateModule,
-
         FuseSharedModule,
         FuseSidebarModule,
+        RouterModule,
     ],
     providers: [
         AtividadeService,
@@ -89,7 +80,10 @@ const routes: Routes = [
         DocumentoService,
         LoginService,
         fromGuards.ResolveGuard
+    ],
+    exports: [
+        ResponderComplementarComponent
     ]
 })
-export class AtividadeCreateModule {
+export class ResponderComplementarModule {
 }

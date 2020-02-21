@@ -34,16 +34,22 @@ import { LoginService } from '../../auth/login/login.service';
 import { OficiosComponent } from './oficios.component';
 import { DocumentoAvulsoMainSidebarComponent } from './sidebars/main/main-sidebar.component';
 import {DocumentoAvulsoService} from '../../../../@cdk/services/documento-avulso.service';
+import {OficioDetailModule} from './oficio-detail/oficio-detail.module';
 
 const routes: Routes = [
     {
         path: '',
         component: OficiosComponent,
         children: [
-            // {
-            //     path: '',
-            //     // loadChildren: () => import('./tarefa-empty/tarefa-empty.module').then(m => m.TarefaEmptyModule)
-            // }
+            {
+                path: '',
+                loadChildren: () => import('./oficio-empty/oficio-empty.module').then(m => m.OficioEmptyModule)
+            },
+            {
+                path: 'documento-avulso',
+                loadChildren: () => import('./oficio-detail/oficio-detail.module').then(m => m.OficioDetailModule),
+                // canActivate: [fromGuards.ResolveGuard]
+            },
         ]
         /*canActivate: [fromGuards.ResolveGuard]*/
     },
@@ -56,7 +62,7 @@ const routes: Routes = [
 @NgModule({
     declarations: [
         OficiosComponent,
-        DocumentoAvulsoMainSidebarComponent
+        DocumentoAvulsoMainSidebarComponent,
     ],
     imports: [
         RouterModule.forChild(routes),
@@ -91,7 +97,8 @@ const routes: Routes = [
         FuseSharedModule,
         FuseSidebarModule,
 
-        ProcessosStoreModule
+        ProcessosStoreModule,
+        OficioDetailModule
     ],
     providers: [
         FolderService,

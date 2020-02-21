@@ -2,23 +2,21 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap, map, tap, switchMap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
-import * as AtividadeCreateDocumentosActions from 'app/main/apps/tarefas/tarefa-detail/atividades/atividade-create/store/actions/documentos.actions';
+import * as ResponderComplementarDocumentosActions from '../actions/documentos.actions';
 
-import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
+import {AddData} from '@cdk/ngrx-normalizr';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {Documento} from '@cdk/models/documento.model';
 import {DocumentoService} from '@cdk/services/documento.service';
 import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
-import {componenteDigital as componenteDigitalSchema} from '@cdk/normalizr/componente-digital.schema';
 import {Router} from '@angular/router';
 import {environment} from 'environments/environment';
-import { ComponenteDigital } from '@cdk/models/componente-digital.model';
 
 @Injectable()
-export class AtividadeCreateDocumentosEffect {
+export class RespostaComplementarDocumentosEffect {
     routerState: any;
 
     constructor(
@@ -44,7 +42,7 @@ export class AtividadeCreateDocumentosEffect {
     getDocumentos: any =
         this._actions
             .pipe(
-                ofType<AtividadeCreateDocumentosActions.GetDocumentos>(AtividadeCreateDocumentosActions.GET_DOCUMENTOS),
+                ofType<ResponderComplementarDocumentosActions.GetDocumentos>(ResponderComplementarDocumentosActions.GET_DOCUMENTOS),
                 switchMap(() => {
 
                     let tarefaId = null;
@@ -82,7 +80,7 @@ export class AtividadeCreateDocumentosEffect {
                 }),
                 mergeMap(response => [
                     new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
-                    new AtividadeCreateDocumentosActions.GetDocumentosSuccess({
+                    new ResponderComplementarDocumentosActions.GetDocumentosSuccess({
                         loaded: {
                             id: 'tarefaHandle',
                             value: this.routerState.params.tarefaHandle
@@ -92,7 +90,7 @@ export class AtividadeCreateDocumentosEffect {
                 ]),
                 catchError((err, caught) => {
                     console.log(err);
-                    this._store.dispatch(new AtividadeCreateDocumentosActions.GetDocumentosFailed(err));
+                    this._store.dispatch(new ResponderComplementarDocumentosActions.GetDocumentosFailed(err));
                     return caught;
                 })
             );
@@ -102,16 +100,16 @@ export class AtividadeCreateDocumentosEffect {
      * @type {Observable<any>}
      */
     @Effect()
-    deleteDocumento: Observable<AtividadeCreateDocumentosActions.AtividadeCreateDocumentosActionsAll> =
+    deleteDocumento: Observable<ResponderComplementarDocumentosActions.ResponderComplementarDocumentosActionsAll> =
         this._actions
             .pipe(
-                ofType<AtividadeCreateDocumentosActions.DeleteDocumento>(AtividadeCreateDocumentosActions.DELETE_DOCUMENTO),
+                ofType<ResponderComplementarDocumentosActions.DeleteDocumento>(ResponderComplementarDocumentosActions.DELETE_DOCUMENTO),
                 mergeMap((action) => {
                         return this._documentoService.destroy(action.payload).pipe(
-                            map((response) => new AtividadeCreateDocumentosActions.DeleteDocumentoSuccess(response.id)),
+                            map((response) => new ResponderComplementarDocumentosActions.DeleteDocumentoSuccess(response.id)),
                             catchError((err) => {
                                 console.log(err);
-                                return of(new AtividadeCreateDocumentosActions.DeleteDocumentoFailed(action.payload));
+                                return of(new ResponderComplementarDocumentosActions.DeleteDocumentoFailed(action.payload));
                             })
                         );
                     }
@@ -125,16 +123,16 @@ export class AtividadeCreateDocumentosEffect {
     assinaDocumento: any =
         this._actions
             .pipe(
-                ofType<AtividadeCreateDocumentosActions.AssinaDocumento>(AtividadeCreateDocumentosActions.ASSINA_DOCUMENTO),
+                ofType<ResponderComplementarDocumentosActions.AssinaDocumento>(ResponderComplementarDocumentosActions.ASSINA_DOCUMENTO),
                 mergeMap((action) => {
                         return this._documentoService.preparaAssinatura(JSON.stringify([action.payload]))
                             .pipe(
                                 map((response) => {
-                                    return new AtividadeCreateDocumentosActions.AssinaDocumentoSuccess(response);
+                                    return new ResponderComplementarDocumentosActions.AssinaDocumentoSuccess(response);
                                 }),
                                 catchError((err, caught) => {
                                     console.log(err);
-                                    this._store.dispatch(new AtividadeCreateDocumentosActions.AssinaDocumentoFailed(err));
+                                    this._store.dispatch(new ResponderComplementarDocumentosActions.AssinaDocumentoFailed(err));
                                     return caught;
                                 })
                             );
@@ -149,7 +147,7 @@ export class AtividadeCreateDocumentosEffect {
     assinaDocumentoSuccess: any =
         this._actions
             .pipe(
-                ofType<AtividadeCreateDocumentosActions.AssinaDocumentoSuccess>(AtividadeCreateDocumentosActions.ASSINA_DOCUMENTO_SUCCESS),
+                ofType<ResponderComplementarDocumentosActions.AssinaDocumentoSuccess>(ResponderComplementarDocumentosActions.ASSINA_DOCUMENTO_SUCCESS),
                 tap((action) => {
 
                     const url = environment.jnlp + 'v1/assinatura/' + action.payload.jwt + '/get_jnlp';
@@ -171,7 +169,7 @@ export class AtividadeCreateDocumentosEffect {
     clickedDocumento: any =
         this._actions
             .pipe(
-                ofType<AtividadeCreateDocumentosActions.ClickedDocumento>(AtividadeCreateDocumentosActions.CLICKED_DOCUMENTO),
+                ofType<ResponderComplementarDocumentosActions.ClickedDocumento>(ResponderComplementarDocumentosActions.CLICKED_DOCUMENTO),
                 tap((action) => {
                     if (!action.payload.documentoAvulsoRemessa) {
                         this._router.navigate([this.routerState.url + '/documento/' + action.payload.id + '/editar']).then();
@@ -190,16 +188,16 @@ export class AtividadeCreateDocumentosEffect {
     converteDocumento: any =
         this._actions
             .pipe(
-                ofType<AtividadeCreateDocumentosActions.ConverteToPdf>(AtividadeCreateDocumentosActions.CONVERTE_DOCUMENTO_ATIVIDADE),
+                ofType<ResponderComplementarDocumentosActions.ConverteToPdf>(ResponderComplementarDocumentosActions.CONVERTE_DOCUMENTO_ATIVIDADE),
                 mergeMap((action) => {
                         return this._documentoService.preparaConverter(action.payload,{hash: action.payload.hash})
                             .pipe(
                                 map((response) => {
-                                    return new AtividadeCreateDocumentosActions.ConverteToPdfSucess(action.payload);
+                                    return new ResponderComplementarDocumentosActions.ConverteToPdfSucess(action.payload);
                                 }),
                                 catchError((err) => {
                                     console.log(err);
-                                    return of(new AtividadeCreateDocumentosActions.ConverteToPdfFailed(action.payload));
+                                    return of(new ResponderComplementarDocumentosActions.ConverteToPdfFailed(action.payload));
                                 })
                                 )
                                 ;

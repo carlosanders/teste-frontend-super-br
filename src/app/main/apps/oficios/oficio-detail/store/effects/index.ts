@@ -1,7 +1,7 @@
-import { TarefaDetailEffect } from './tarefa-detail.effects';
+import { OficioDetailEffect } from './oficio-detail.effects';
 
 export const effects = [
-    TarefaDetailEffect
+    OficioDetailEffect
 ];
 
-export * from './tarefa-detail.effects';
+export * from './oficio-detail.effects';

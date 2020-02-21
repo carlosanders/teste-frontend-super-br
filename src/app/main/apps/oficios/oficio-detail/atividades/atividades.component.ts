@@ -7,13 +7,13 @@ import {
 import {fuseAnimations} from '@fuse/animations';
 
 @Component({
-    selector: 'atividades',
-    templateUrl: './atividades.component.html',
-    styleUrls: ['./atividades.component.scss'],
+    selector: 'oficio-atividades',
+    templateUrl: './documento-avulso-atividade.component.html',
+    styleUrls: ['./documento-avulso-atividade.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
 })
-export class AtividadesComponent {
+export class Atividades {
 
 }

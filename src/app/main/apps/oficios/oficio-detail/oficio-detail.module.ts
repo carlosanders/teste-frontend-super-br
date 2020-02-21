@@ -1,97 +1,81 @@
-import { Injector, NgModule, ɵrenderComponent as renderComponent } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
 import {
-    MatButtonModule, MatIconModule, MatMenuModule, MatProgressSpinnerModule, MatTooltipModule
+    MatBadgeModule,
+    MatButtonModule,
+    MatIconModule,
+    MatMenuModule,
+    MatProgressSpinnerModule,
+    MatTooltipModule
 } from '@angular/material';
-import { TranslateModule } from '@ngx-translate/core';
+import {TranslateModule} from '@ngx-translate/core';
 
-import { FuseSharedModule } from '@fuse/shared.module';
-import { FuseSidebarModule } from '@fuse/components';
+import {FuseSharedModule} from '@fuse/shared.module';
+import {FuseSidebarModule} from '@fuse/components';
 
-import { OficioDetailComponent } from './oficio-detail.component';
-import { CommonModule } from '@angular/common';
+import {OficioDetailComponent} from './oficio-detail.component';
+import {CommonModule} from '@angular/common';
 
 import * as fromGuards from './store/guards';
 
-import { TarefaDetailStoreModule } from './store/store.module';
-import { TarefaService } from '@cdk/services/tarefa.service';
-import { CdkVinculacaoEtiquetaChipsModule } from '@cdk/components/vinculacao-etiqueta/cdk-vinculacao-etiqueta-chips/cdk-vinculacao-etiqueta-chips.module';
-import { VinculacaoEtiquetaService } from '@cdk/services/vinculacao-etiqueta.service';
-import { DocumentoService } from '@cdk/services/documento.service';
-import { PipesModule } from '@cdk/pipes/pipes.module';
-import { LoginService } from '../../../auth/login/login.service';
-import {DynamicService} from '../../../../../modules/dynamic.service';
+import {TarefaDetailStoreModule} from './store/store.module';
+import {TarefaService} from '@cdk/services/tarefa.service';
+import {CdkVinculacaoEtiquetaChipsModule} from '@cdk/components/vinculacao-etiqueta/cdk-vinculacao-etiqueta-chips/cdk-vinculacao-etiqueta-chips.module';
+import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
+import {DocumentoService} from '@cdk/services/documento.service';
+import {PipesModule} from '@cdk/pipes/pipes.module';
+import {LoginService} from '../../../auth/login/login.service';
+import {CdkComponenteDigitalCardListModule} from '../../../../../@cdk/components/componente-digital/cdk-componente-digital-card-list/cdk-componente-digital-card-list.module';
+import {CdkDocumentoCardListModule} from '../../../../../@cdk/components/documento/cdk-documento-card-list/cdk-documento-card-list.module';
+import {CdkUploadModule} from '../../../../../@cdk/components/upload/cdk-upload.module';
+import {CdkAtividadeFormModule} from '../../../../../@cdk/components/atividade/cdk-atividade-form/cdk-atividade-form.module';
+import {ResponderComplementarModule} from './reponder-complementar/responder-complementar.module';
 
 const routes: Routes = [
     {
-        path: ':tarefaHandle',
+        path: ':documentoAvulsoHundler',
         component: OficioDetailComponent,
-        /*children: [
-            /!*{
-                path: 'editar',
-                loadChildren: () => import('./tarefa-edit/tarefa-edit.module').then(m => m.TarefaEditModule)
-            },
+        children: [
             {
-                path: 'criar',
-                loadChildren: () => import('../tarefa-create/tarefa-create.module').then(m => m.TarefaCreateModule)
-            },
-            {
-                path: 'atividades',
-                loadChildren: () => import('./atividades/atividades.module').then(m => m.AtividadesModule)
-            },
-            {
-                path: 'compartilhamentos',
-                loadChildren: () => import('./compartilhamentos/compartilhamentos.module').then(m => m.CompartilhamentosModule)
+                path: 'responder-complementar',
+                loadChildren: () => import('./reponder-complementar/responder-complementar.module').then(m => m.ResponderComplementarModule)
             },
             {
                 path: 'processo',
                 loadChildren: () => import('app/main/apps/processo/processo.module').then(m => m.ProcessoModule)
             },
-            {
-                path: 'modelo',
-                loadChildren: () => import('app/main/apps/modelo/modelo.module').then(m => m.ModeloModule),
-            },*!/
-            {
-                path: 'oficio',
-                loadChildren: () => import('app/main/apps/documento-avulso/documento-avulso-create/documento-avulso-create.module').then(m => m.DocumentoAvulsoCreateModule),
-            }/!*,
-            {
-                path: 'encaminhamento',
-                loadChildren: () => import('./encaminhamento/encaminhamento.module').then(m => m.EncaminhamentoModule),
-            },
-            {
-                path: '**',
-                redirectTo: 'editar'
-            }*!/
         ],
-        canActivate: [fromGuards.ResolveGuard]*/
     }
 ];
 
 @NgModule({
     declarations: [
-        OficioDetailComponent
+        OficioDetailComponent,
     ],
     imports: [
+
         CommonModule,
         RouterModule.forChild(routes),
-
         MatIconModule,
         MatButtonModule,
         MatMenuModule,
         MatProgressSpinnerModule,
         MatTooltipModule,
-
         TarefaDetailStoreModule,
-
         PipesModule,
-
         TranslateModule,
-
         CdkVinculacaoEtiquetaChipsModule,
-
         FuseSharedModule,
-        FuseSidebarModule
+        FuseSidebarModule,
+        CdkComponenteDigitalCardListModule,
+        CdkDocumentoCardListModule,
+        CdkUploadModule,
+        CdkAtividadeFormModule,
+        MatBadgeModule,
+        ResponderComplementarModule
+    ],
+    exports: [
+        OficioDetailComponent
     ],
     providers: [
         TarefaService,

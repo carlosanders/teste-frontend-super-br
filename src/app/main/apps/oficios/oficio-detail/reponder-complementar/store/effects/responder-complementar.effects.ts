@@ -4,7 +4,7 @@ import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, tap, switchMap} from 'rxjs/operators';
 
-import * as AtividadeCreateActions from '../actions/atividade-create.actions';
+import * as AtividadeCreateActions from '../actions/responder-complementar.actions';
 
 import {AtividadeService} from '@cdk/services/atividade.service';
 import {AddData} from '@cdk/ngrx-normalizr';
@@ -14,11 +14,11 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-import {DeleteTarefaSuccess} from '../../../../../store/actions';
 import * as fromStore from '../index';
+import {DeleteDocumentoAvulso} from '../../../../../processo/processo-edit/documentos-avulsos/documento-avulso-list/store/actions';
 
 @Injectable()
-export class AtividadeCreateEffect {
+export class ResponderComplementarEffect {
     routerState: any;
 
     constructor(
@@ -41,14 +41,14 @@ export class AtividadeCreateEffect {
      * @type {Observable<any>}
      */
     @Effect()
-    saveAtividade: any =
+    saveResponder: any =
         this._actions
             .pipe(
-                ofType<AtividadeCreateActions.SaveAtividade>(AtividadeCreateActions.SAVE_ATIVIDADE),
+                ofType<AtividadeCreateActions.SaveResposta>(AtividadeCreateActions.SAVE_RESPOSTA),
                 switchMap((action) => {
                     return this._atividadeService.save(action.payload).pipe(
                         mergeMap((response: Atividade) => [
-                            new AtividadeCreateActions.SaveAtividadeSuccess(action.payload),
+                            new AtividadeCreateActions.SaveRespostaSuccess(action.payload),
                             new AddData<Atividade>({data: [response], schema: atividadeSchema}),
                             new OperacoesActions.Resultado({
                                 type: 'atividade',
@@ -58,7 +58,7 @@ export class AtividadeCreateEffect {
                         ]),
                         catchError((err) => {
                             console.log (err);
-                            return of(new AtividadeCreateActions.SaveAtividadeFailed(err));
+                            return of(new AtividadeCreateActions.SaveRespostaFailed(err));
                         })
                     );
                 })
@@ -68,13 +68,13 @@ export class AtividadeCreateEffect {
      * Save Atividade Success
      */
     @Effect({ dispatch: false })
-    saveAtividadeSuccess: any =
+    saveResponderSuccess: any =
         this._actions
             .pipe(
-                ofType<AtividadeCreateActions.SaveAtividadeSuccess>(AtividadeCreateActions.SAVE_ATIVIDADE_SUCCESS),
+                ofType<AtividadeCreateActions.SaveRespostaSuccess>(AtividadeCreateActions.SAVE_RESPOSTA_SUCCESS),
                 tap((action) => {
                     if (action.payload.encerraTarefa) {
-                        this._store.dispatch(new DeleteTarefaSuccess(action.payload.tarefa.id));
+                        this._store.dispatch(new DeleteDocumentoAvulso(action.payload.tarefa.id));
                     } else {
                         this._store.dispatch(new fromStore.GetDocumentos());
                     }
