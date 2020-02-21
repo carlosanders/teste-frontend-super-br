@@ -64,10 +64,10 @@ export class DocumentosAvulsoEffects {
                     new AddData<DocumentoAvulso>({data: response['entities'], schema: documentoAvulsoSchema}),
                     new DocumentosAvulsoActions.GetDocumentosAvulsoSuccess({
                         entitiesId: response['entities'].map(documentoAvulso => documentoAvulso.id),
-                        loaded: {
+                        /*loaded: {
                             id: 'generoHandle_folderHandle',
                             value: this.routerState.params.generoHandle + '_' + this.routerState.params.folderHandle
-                        },
+                        },*/
                         total: response['total']
                     })
                 ]),

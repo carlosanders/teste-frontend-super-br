@@ -26,17 +26,17 @@
 
         <div class="toolbar-separator" *ngIf="selectedIds?.length && folders?.length"></div>
 
-        <button mat-icon-button [matMenuTriggerFor]="folderMenu" *ngIf="selectedIds?.length">
+        <!--<button mat-icon-button [matMenuTriggerFor]="folderMenu" *ngIf="selectedIds?.length">
             <mat-icon class="secondary-text">folder</mat-icon>
-        </button>
-        <mat-menu #folderMenu="matMenu">
+        </button>-->
+        <!--<mat-menu #folderMenu="matMenu">
             <button mat-menu-item
                     (click)="setFolder(null)">ENTRADA
             </button>
             <button mat-menu-item *ngFor="let folder of folders"
                     (click)="setFolder(folder)">{{folder.nome}}
             </button>
-        </mat-menu>
+        </mat-menu>-->
 
         <button mat-icon-button [matMenuTriggerFor]="moreMenu"
                 aria-label="Ferramentas" (click)="$event.stopPropagation()"
@@ -152,12 +152,12 @@
     </div>
 
     <cdk-documento-avulso-list-item matRipple *ngFor="let documentoAvulso of documentosAvulso"
-                          [tarefa]="documentoAvulso"
+                          [documentoAvulso]="documentoAvulso"
                           (click)="selectDocumentoAvulso(documentoAvulso)"
                           [selected]="selectedIds.length > 0 && selectedIds.indexOf(documentoAvulso.id) > -1"
                           [deleting]="deletingIds.length > 0 && deletingIds.indexOf(documentoAvulso.id) > -1"
                           (toggleInSelectedDocumentosAvulso)="toggleInSelected($event)"
-                          (delete)="doDeleteDocumentoAvulso($event)"
+
                           (movimentar)="doMovimentar($event)"
                           (compartilhar)="doCompartilhar($event)"
                           (toggleUrgente)="doToggleUrgente($event)"

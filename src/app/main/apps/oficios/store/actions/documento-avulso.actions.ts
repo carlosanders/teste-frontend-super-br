@@ -13,6 +13,8 @@ export const DELETE_DOCUMENTOS_AVULSO_FAILED = '[DOCUMENTOS_AVULSO] DELETE DOCUM
 export const SET_CURRENT_DOCUMENTOS_AVULSO = '[DOCUMENTOS_AVULSO] SET CURRENT DOCUMENTOS_AVULSO';
 export const SET_CURRENT_DOCUMENTOS_AVULSO_SUCCESS = '[DOCUMENTOS_AVULSO] SET CURRENT DOCUMENTOS_AVULSO SUCCESS';
 
+export const TOGGLE_MAXIMIZADO = '[DOCUMENTOS_AVULSO] TOGGLE MAXIMIZADO';
+
 /*
 
 export const CREATE_TAREFA = '[TAREFAS] CREATE TAREFA';
@@ -24,7 +26,7 @@ export const DELETE_TAREFA_FAILED = '[TAREFAS] DELETE TAREFA FAILED';
 
 export const CHANGE_SELECTED_TAREFAS = '[TAREFAS] CHANGE SELECTED TAREFAS';
 
-export const TOGGLE_MAXIMIZADO = '[TAREFAS] TOGGLE MAXIMIZADO';
+
 
 export const TOGGLE_LIDA_TAREFA = '[TAREFAS] TOGGLE LIDA TAREFA';
 export const TOGGLE_LIDA_TAREFA_SUCCESS = '[TAREFAS] TOGGLE LIDA TAREFA SUCCESS';
@@ -377,17 +379,18 @@ export class DeleteDocumentoAvulsoFailed implements Action
 //     }
 // }
 //
-// /**
-//  * Toggle Maximizado
-//  */
-// export class ToggleMaximizado implements Action
-// {
-//     readonly type = TOGGLE_MAXIMIZADO;
-//
-//     constructor()
-//     {
-//     }
-// }
+
+/**
+ * Toggle Maximizado
+ */
+export class ToggleMaximizado implements Action
+{
+    readonly type = TOGGLE_MAXIMIZADO;
+
+    constructor()
+    {
+    }
+}
 
 export type DocumentosAvulsoActionsAll
     = GetDocumentosAvulso
@@ -396,6 +399,7 @@ export type DocumentosAvulsoActionsAll
     | ChangeSelectedDocumentosAvulso
     | SetCurrentDocumentoAvulso
     | SetCurrentDocumantoAvulsoSuccess
+    | ToggleMaximizado
     /*| CreateTarefa
     | CreateTarefaSuccess
 
@@ -421,4 +425,4 @@ export type DocumentosAvulsoActionsAll
     | DeleteVinculacaoEtiqueta
     | DeleteVinculacaoEtiquetaSuccess
     | DeleteVinculacaoEtiquetaFailed
-    | ToggleMaximizado*/;
+    */;

@@ -1,5 +1,6 @@
 import * as DocumentosAvulsoActions from 'app/main/apps/oficios/store/actions/documento-avulso.actions';
 import { Etiqueta } from '@cdk/models/etiqueta.model';
+import * as TarefasActions from '../../../tarefas/store/actions/tarefas.actions';
 
 export interface DocumentosAvulsoState {
     entitiesId: number[];
@@ -173,14 +174,14 @@ export function DocumentosAvulsoReducer(state = DocumentosAvulsoInitialState, ac
                 ...state,
                 currentTarefaId: action.payload
             };
-        }
+        }*/
 
-        case TarefasActions.TOGGLE_MAXIMIZADO: {
+        case DocumentosAvulsoActions.TOGGLE_MAXIMIZADO: {
             return {
                 ...state,
                 maximizado: !state.maximizado
             };
-        }*/
+        }
 
         default:
             return state;

@@ -38,7 +38,7 @@ export class LoginService {
 
     getProfile(): Observable<any> {
         const url = `${environment.base_url}profile` + environment.xdebug;
-        const profile = {
+        /*const profile = {
             entities: [
                 {
                     username: '00000******',
@@ -50,8 +50,8 @@ export class LoginService {
                     roles: [
                         'ROLE_USER',
                         'ROLE_LOGGED',
-                        'ROLE_CONVENIADO_1',
-                        'ROLE_COLABORADOR'
+                        'ROLE_CONVENIADO_2'/!*,
+                        'ROLE_COLABORADOR'*!/
                     ],
                     vinculacoesRoles: [
                         {
@@ -63,7 +63,7 @@ export class LoginService {
                                     uuid: '59d11c02-8a75-49fd-8d51-b4631f517b98',
                                     ativo: true,
                                     criadoEm: '2020-02-03 20:50:21'
-                                },
+                                }/!*,
                                 {
                                     name: 'ROLE_COLABORADOR',
                                     description: 'Description - ROLE_COLABORADOR',
@@ -71,13 +71,13 @@ export class LoginService {
                                     uuid: '59d11c02-8a75-49fd-8d51-b4631f517b98',
                                     ativo: true,
                                     criadoEm: '2020-02-03 20:50:21'
-                                },
+                                },*!/
                             ],
                             id: 1,
                             uuid: '15617711-1415-1214-1515-1513677278af',
                             criadoEm: '2020-02-04 14:13:33'
                         }
-                    ],
+                    ]/!*,
                     colaborador: {
                         id: 2,
                         lotacoes: [
@@ -89,16 +89,16 @@ export class LoginService {
                                 }
                             }
                         ]
-                    },
-                    id: 1,
+                    }*!/,
+                    id: 13,
                     uuid: '47289232-1616-1663-2367-ffff16671a12',
                     criadoEm: '2020-02-04 14:12:56'
                 }
             ],
             total: 1
         };
-        return of<any>(profile);
-        /*return this.http.get(url);*/
+        return of<any>(profile);*/
+        return this.http.get(url);
     }
 
     isGranted(role: string): boolean {

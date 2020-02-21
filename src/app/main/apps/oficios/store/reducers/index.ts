@@ -1,16 +1,13 @@
 import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { ProcessosReducer, ProcessosState } from './processos.reducer';
 import { DocumentosAvulsoReducer, DocumentosAvulsoState } from './documentos-avulso.reducer';
-import { FoldersReducer, FoldersState } from './folders.reducer';
 
 export interface DocumentoAvulsoAppState
 {
     documentosAvulso: DocumentosAvulsoState;
-    folders: FoldersState;
 }
 
 export const getDocumentoAvulsoAppState = createFeatureSelector<DocumentoAvulsoAppState>(
-    'processos-app'
+    'documentos-avulso-app'
 );
 
 export const getAppState = createSelector(
@@ -19,10 +16,7 @@ export const getAppState = createSelector(
 );
 
 export const reducers: ActionReducerMap<DocumentoAvulsoAppState> = {
-    documentosAvulso: DocumentosAvulsoReducer,
-    folders: FoldersReducer
+    documentosAvulso: DocumentosAvulsoReducer
 };
 
-export * from './processos.reducer';
-export * from './folders.reducer';
 export * from './documentos-avulso.reducer';

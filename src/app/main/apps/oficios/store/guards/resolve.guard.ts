@@ -8,7 +8,7 @@ import { switchMap, catchError, map, tap, take, filter } from 'rxjs/operators';
 
 import { DocumentoAvulsoAppState } from 'app/main/apps/oficios/store/reducers';
 import * as fromStore from 'app/main/apps/oficios/store';
-import { getFoldersLoaded, getDocumentosAvulsoLoaded } from 'app/main/apps/oficios/store/selectors';
+import { getDocumentosAvulsoLoaded } from 'app/main/apps/oficios/store/selectors';
 import { getRouterState } from 'app/store/reducers';
 import { LoginService } from '../../../../auth/login/login.service';
 import { Usuario } from '@cdk/models/usuario.model';
@@ -60,30 +60,9 @@ export class ResolveGuard implements CanActivate {
      */
     checkStore(): Observable<any> {
         return forkJoin(
-            this.getFolders()
+            this.getDocumentosAvulso()
         ).pipe(
-            filter(([foldersLoaded]) => !!(foldersLoaded)),
-            take(1),
-            switchMap(() =>
-                this.getDocumentosAvulso()
-            )
-        );
-    }
-
-    /**
-     * Get folders
-     *
-     * @returns {Observable<any>}
-     */
-    getFolders(): any {
-        return this._store.pipe(
-            select(getFoldersLoaded),
-            tap(loaded => {
-                if (!loaded) {
-                    this._store.dispatch(new fromStore.GetFolders([]));
-                }
-            }),
-            filter(loaded => loaded),
+            filter(([documentosAvulsoLoaded]) => !!(documentosAvulsoLoaded)),
             take(1)
         );
     }
@@ -97,7 +76,6 @@ export class ResolveGuard implements CanActivate {
         return this._store.pipe(
             select(getDocumentosAvulsoLoaded),
             tap((loaded: any) => {
-
                 const params = {
                     listFilter: {},
                     etiquetaFilter: {},
@@ -109,61 +87,22 @@ export class ResolveGuard implements CanActivate {
                         'processo.especieProcesso',
                         'processo.modalidadeMeio',
                         'processo.documentoAvulsoOrigem',
+                        'processo.vinculacoesEtiquetas',
+                        'processo.vinculacoesEtiquetas.etiqueta',
                         'usuarioResponsavel',
                         'setorResponsavel',
                         'setorResponsavel.unidade',
                         'setorOrigem',
-                        'setorOrigem.unidade',
-                        'especieTarefa.generoTarefa',
-                        'vinculacoesEtiquetas',
-                        'vinculacoesEtiquetas.etiqueta'
+                        'setorOrigem.unidade'
                     ]
                 };
 
-                /*const routeFolderParams = of('folderHandle');
-                routeFolderParams.subscribe(param => {
-                    let tarefaFilter = {};
-                    if (this.routerState.params[param] === 'compartilhadas') {
-                        tarefaFilter = {
-                            'compartilhamentos.usuario.id': 'eq:' + this._profile.id,
-                            'dataHoraConclusaoPrazo': 'isNull'
-                        };
-                    } else {
-                        tarefaFilter = {
-                            'usuarioResponsavel.id': 'eq:' + this._profile.id,
-                            'dataHoraConclusaoPrazo': 'isNull'
-                        };
-                        let folderFilter = 'isNull';
-                        if (this.routerState.params[param] !== 'entrada') {
-                            const folderName = this.routerState.params[param];
-                            folderFilter = `eq:${folderName.toUpperCase()}`;
-                        }
-                        params['folderFilter'] = {
-                            'folder.nome': folderFilter
-                        };
-                    }
-
-                    params['filter'] = tarefaFilter;
-                });
-
-                const routeGeneroParams = of('generoHandle');
-                routeGeneroParams.subscribe(param => {
-                    params['filter'] = {
-                        ...params['filter'],
-                        'especieTarefa.generoTarefa.nome': `eq:${this.routerState.params[param].toUpperCase()}`
-                    };
-                });
-
-                if (!this.routerState.params['generoHandle'] || !this.routerState.params['folderHandle']
-                    || (this.routerState.params['generoHandle'] + '_' + this.routerState.params['folderHandle']) !== loaded.value) {
-                    this._store.dispatch(new fromStore.GetProcessos(params));
-                    /!*this._store.dispatch(new fromStore.ChangeSelectedProcessos([]));*!/
-                }*/
+                if (!loaded) {
+                    this._store.dispatch(new fromStore.GetDocumentosAvulso(params));
+                    this._store.dispatch(new fromStore.ChangeSelectedDocumentosAvulso([]));
+                }
             }),
-            /*filter((loaded: any) => {
-                return this.routerState.params['generoHandle'] && this.routerState.params['folderHandle']
-                    && (this.routerState.params['generoHandle'] + '_' + this.routerState.params['folderHandle']) === loaded.value;
-            }),*/
+            filter(loaded => loaded),
             take(1)
         );
     }

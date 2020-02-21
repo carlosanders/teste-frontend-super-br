@@ -38,7 +38,7 @@ export class DocumentoAvulsoMainSidebarComponent implements OnInit, OnDestroy {
         private _store: Store<fromStore.DocumentoAvulsoAppState>,
         private _changeDetectorRef: ChangeDetectorRef,
     ) {
-        this.folders$ = this._store.pipe(select(fromStore.getFolders));
+        /*this.folders$ = this._store.pipe(select(fromStore.getFolders));*/
     }
 
     /**
@@ -53,12 +53,6 @@ export class DocumentoAvulsoMainSidebarComponent implements OnInit, OnDestroy {
             ).subscribe(routerState => {
             if (routerState) {
                 this.routerState = routerState.state;
-                if (routerState.state.params['folderHandle'] === 'compartilhadas') {
-                    this.mode = 'Compartilhadas';
-                } else {
-                    this.mode = 'DocumentoAvulso';
-                }
-                this.generoHandle = routerState.state.params['generoHandle'];
             }
         });
     }
@@ -84,9 +78,9 @@ export class DocumentoAvulsoMainSidebarComponent implements OnInit, OnDestroy {
         this._store.dispatch(new fromStore.CreateTarefa());
     }*/
 
-    onDrop($event): void {
+    /*onDrop($event): void {
         if (this.mode === 'DocumentoAvulso') {
-            /*this._store.dispatch(new fromStore.SetFolderOnSelectedTarefas({documentoAvulso: $event[0].data, folder: $event[1]}));*/
+            /!*this._store.dispatch(new fromStore.SetFolderOnSelectedTarefas({documentoAvulso: $event[0].data, folder: $event[1]}));*!/
         }
-    }
+    }*/
 }

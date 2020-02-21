@@ -6,7 +6,7 @@
 
     <div fxLayout="row" fxLayoutAlign="start center" fxFlex>
 
-        <div class="info" fxFlex [ngClass]="{'nao-lido': !tarefa.dataHoraLeitura}">
+        <div class="info" fxFlex [ngClass]="{'nao-respondido': !documentoAvulso.dataHoraResposta}">
 
             <div class="title" fxLayout="row">
                 <mat-icon *ngIf="documentoAvulso.processo?.acessoNegado" class="red-fg">block</mat-icon>
@@ -23,12 +23,12 @@
                 <span class="text-truncate">Usuário com acesso negado ao processo</span>
             </div>
 
-            <div class="subtitle" *ngIf="documentoAvulso.processo?.documentoAvulsoOrigem">
-                <span *ngIf="!documentoAvulso.processo?.documentoAvulsoOrigem?.dataHoraResposta" class="text-truncate">
+            <div class="subtitle">
+                <span *ngIf="!documentoAvulso.dataHoraResposta" class="text-truncate">
                     Ofício vinculado pendente de resposta</span>
-                <span *ngIf="documentoAvulso.processo?.documentoAvulsoOrigem?.dataHoraResposta" class="text-truncate">
+                <span *ngIf="documentoAvulso.dataHoraResposta" class="text-truncate">
                     Ofício vinculado respondido em
-                    {{documentoAvulso.processo?.documentoAvulsoOrigem?.dataHoraResposta | date: 'dd/MM/yyyy H:mm'}}</span>
+                    {{documentoAvulso.dataHoraResposta | date: 'dd/MM/yyyy H:mm'}}</span>
             </div>
 
             <div class="body mt-4">

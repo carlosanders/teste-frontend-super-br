@@ -12,12 +12,12 @@ import {
     MatSelectModule,
     MatToolbarModule,
     MatDatepickerModule,
-    MatProgressSpinnerModule, MatTooltipModule
-} from '@angular/material';
+    MatProgressSpinnerModule,
+    MatTooltipModule
+} from '@cdk/angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 import { FuseSharedModule } from '@fuse/shared.module';
 import { FuseSidebarModule } from '@fuse/components';
-
 import * as fromGuards from 'app/main/apps/oficios/store/guards/index';
 import { DocumentosAvulsoStoreModule } from 'app/main/apps/oficios/store/store.module';
 import { FolderService } from '@cdk/services/folder.service';
@@ -33,23 +33,13 @@ import { DndModule } from 'ngx-drag-drop';
 import { LoginService } from '../../auth/login/login.service';
 import { OficiosComponent } from './oficios.component';
 import { DocumentoAvulsoMainSidebarComponent } from './sidebars/main/main-sidebar.component';
-import {DocumentoAvulsoService} from '../../../../@cdk/services/documento-avulso.service';
+import { DocumentoAvulsoService } from '@cdk/services/documento-avulso.service';
 
 const routes: Routes = [
     {
         path: '',
         component: OficiosComponent,
-        children: [
-            // {
-            //     path: '',
-            //     // loadChildren: () => import('./tarefa-empty/tarefa-empty.module').then(m => m.TarefaEmptyModule)
-            // }
-        ]
-        /*canActivate: [fromGuards.ResolveGuard]*/
-    },
-    {
-        path: '**',
-        redirectTo: 'entrada'
+        canActivate: [fromGuards.ResolveGuard]
     }
 ];
 
@@ -60,7 +50,6 @@ const routes: Routes = [
     ],
     imports: [
         RouterModule.forChild(routes),
-
         MatButtonModule,
         MatCheckboxModule,
         MatFormFieldModule,
@@ -81,16 +70,12 @@ const routes: Routes = [
         CdkDocumentoAvulsoListModule,
 
         TranslateModule,
-
         ResizableModule,
-
         PipesModule,
-
         InfiniteScrollModule,
 
         FuseSharedModule,
         FuseSidebarModule,
-
         DocumentosAvulsoStoreModule
     ],
     providers: [
@@ -101,7 +86,7 @@ const routes: Routes = [
         SetorService,
         UsuarioService,
         LoginService,
-
+        fromGuards.ResolveGuard
     ]
 })
 export class OficiosModule {

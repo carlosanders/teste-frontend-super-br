@@ -148,7 +148,7 @@ export class CdkDocumentoAvulsoListComponent implements AfterViewInit, OnInit, O
         this.loadPage();
     }
 
-    selectTarefa(documentoAvulso: DocumentoAvulso): void {
+    selectDocumentoAvulso(documentoAvulso: DocumentoAvulso): void {
         this.selected.emit(documentoAvulso);
     }
 
@@ -221,24 +221,24 @@ export class CdkDocumentoAvulsoListComponent implements AfterViewInit, OnInit, O
         this.loadPage();
     }
 
-    doMovimentar(tarefaId): void {
-        this.movimentar.emit(tarefaId);
+    doMovimentar(documentoAvulsoId): void {
+        this.movimentar.emit(documentoAvulsoId);
     }
 
     doMovimentarBloco(): void {
         this.movimentarBloco.emit();
     }
 
-    doCompartilhar(tarefaId): void {
-        this.compartilhar.emit(tarefaId);
+    doCompartilhar(documentoAvulsoId): void {
+        this.compartilhar.emit(documentoAvulsoId);
     }
 
     doCompartilharBloco(): void {
         this.compartilharBloco.emit();
     }
 
-    doCreateDocumentoAvulso(tarefaId): void {
-        this.createDocumentoAvulso.emit(tarefaId);
+    doCreateDocumentoAvulso(documentoAvulsoId): void {
+        this.createDocumentoAvulso.emit(documentoAvulsoId);
     }
 
     doCreateDocumentoAvulsoBloco(): void {
@@ -273,6 +273,6 @@ export class CdkDocumentoAvulsoListComponent implements AfterViewInit, OnInit, O
      * Toggle the sidebar
      */
     toggleSidebar(): void {
-        this._fuseSidebarService.getSidebar('cdk-tarefa-list-main-sidebar').toggleOpen();
+        this._fuseSidebarService.getSidebar('cdk-documento-avulso-list-main-sidebar').toggleOpen();
     }
 }
