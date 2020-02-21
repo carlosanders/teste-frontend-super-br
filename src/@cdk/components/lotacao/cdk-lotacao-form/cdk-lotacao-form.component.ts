@@ -9,10 +9,10 @@ import {
 
 import {fuseAnimations} from '@fuse/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Usuario} from '@cdk/models/usuario.model';
 import {Pagination} from '@cdk/models/pagination';
 import {Lotacao} from "@cdk/models/lotacao.model";
-import {Setor} from "../../../models/setor.model";
+import {Setor} from "@cdk/models/setor.model";
+import {Colaborador} from "@cdk/models/colaborador.model";
 
 @Component({
     selector: 'cdk-lotacao-form',
@@ -34,7 +34,7 @@ export class CdkLotacaoFormComponent implements OnChanges, OnDestroy {
     errors: any;
 
     @Input()
-    usuarioPagination: Pagination;
+    colaboradorPagination: Pagination;
 
     @Input()
     setorPagination: Pagination;
@@ -46,6 +46,8 @@ export class CdkLotacaoFormComponent implements OnChanges, OnDestroy {
 
     activeCard = 'form';
 
+    selectedSetor: Setor;
+
     /**
      * Constructor
      */
@@ -55,14 +57,16 @@ export class CdkLotacaoFormComponent implements OnChanges, OnDestroy {
     ) {
        this.form = this._formBuilder.group({
             id: [null],
-            usuario: [null, [Validators.required]],
+            colaborador: [null, [Validators.required]],
             setor: [null, [Validators.required]],
-            principal: [null, [Validators.required]],
-            coordenador: [null, [Validators.required]],
-            distribuidor: [null, [Validators.required]],
-            peso: [100, [Validators.required]]
+            principal: [null],
+            coordenador: [null],
+            distribuidor: [null],
+            peso: ['100', [Validators.required]],
+            centena: [null],
+            digito: [null]
         });
-       this.usuarioPagination = new Pagination();
+       this.colaboradorPagination = new Pagination();
        this.setorPagination = new Pagination();
     }
 
@@ -117,28 +121,30 @@ export class CdkLotacaoFormComponent implements OnChanges, OnDestroy {
         }
     }
 
-    checkUsuario(): void {
-        const value = this.form.get('usuario').value;
+    checkColaborador(): void {
+        const value = this.form.get('colaborador').value;
         if (!value || typeof value !== 'object') {
-            this.form.get('usuario').setValue(null);
+            this.form.get('colaborador').setValue(null);
         }
     }
 
-    selectUsuario(usuario: Usuario): void {
-        if (usuario) {
-            this.form.get('usuario').setValue(usuario);
+    selectColaborador(colaborador: Colaborador): void {
+        if (colaborador) {
+            this.form.get('colaborador').setValue(colaborador);
         }
         this.activeCard = 'form';
     }
 
-    showUsuarioGrid(): void {
-        this.activeCard = 'usuario-gridsearch';
+    showColaboradorGrid(): void {
+        this.activeCard = 'colaborador-gridsearch';
     }
 
     checkSetor(): void {
         const value = this.form.get('setor').value;
+        this.selectedSetor = value;
         if (!value || typeof value !== 'object') {
             this.form.get('setor').setValue(null);
+            this.selectedSetor = null;
         }
     }
 

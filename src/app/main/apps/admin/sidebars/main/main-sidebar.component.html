@@ -13,16 +13,17 @@
 <!-- SIDEBAR CONTENT -->
 <div class="content mt-16" fusePerfectScrollbar>
 
-    <div class="nav material2">
-
+    <div class="nav material2"*ngFor="let unidade of unidades">
+        <div class="nav-subheader">
+            <span>{{unidade.nome | uppercase}}</span>
+        </div>
         <div class="nav-item" *ngFor="let link of links">
-            <a class="nav-link" matRipple [routerLink]="link.link"
+            <a class="nav-link" matRipple [routerLink]="unidade.id + '/' + link.link"
                [routerLinkActive]="['active', 'accent']">
                 <mat-icon class="nav-link-icon">{{ link.icon }}</mat-icon>
                 <span>{{link.nome | titlecase}}</span>
             </a>
         </div>
-
     </div>
 
 </div>

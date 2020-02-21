@@ -4,7 +4,7 @@
     <fuse-sidebar class="sidebar" name="cdk-lotacao-main-sidebar" position="left">
         <!-- SIDEBAR CONTENT -->
         <div class="content" fusePerfectScrollbar>
-            <cdk-lotacao-main-sidebar (selected)="setGridFilter($event)" [@animate]="{value:'*'}"></cdk-lotacao-main-sidebar>
+            <cdk-lotacao-main-sidebar [pagination]="setorPagination" (selected)="setGridFilter($event)" [@animate]="{value:'*'}"></cdk-lotacao-main-sidebar>
         </div>
         <!-- / SIDEBAR CONTENT -->
     </fuse-sidebar>

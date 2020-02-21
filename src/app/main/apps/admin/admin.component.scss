@@ -1,22 +1,24 @@
 admin {
-
-  width: 100%;
-
-  .sidebar {
-
-    &:not(.locked-open) {
-      background: white;
-    }
-  }
-
-  .center {
-
     width: 100%;
+    height: 100%;
 
-    .content-card {
-      flex: 1 0 100%;
-      height: 100% !important;
+    .sidebar {
+        height: 100%;
+
+        &:not(.locked-open) {
+            background: white;
+        }
     }
-  }
+
+    .center {
+
+        width: 100%;
+        height: 100%;
+
+        .content-card {
+            flex: 1 0 100%;
+            height: 100% !important;
+        }
+    }
 }
 

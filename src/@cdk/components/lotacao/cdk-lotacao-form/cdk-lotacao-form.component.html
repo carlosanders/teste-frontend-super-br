@@ -8,21 +8,21 @@
         <mat-form-field fxFlex="100">
             <div fxLayout="row" fxLayoutAlign="start center">
                 <input matInput placeholder="Usuario"
-                       formControlName="usuario"
-                       [matAutocomplete]="usuario.autocomplete"
-                       (blur)="checkUsuario()" required>
+                       formControlName="colaborador"
+                       [matAutocomplete]="colaborador.autocomplete"
+                       (blur)="checkColaborador()" required>
             </div>
-            <cdk-usuario-autocomplete
-                #usuario="usuarioAutocomplete"
-                [control]="form.get('usuario')"
-                [pagination]="usuarioPagination">
-            </cdk-usuario-autocomplete>
+            <cdk-colaborador-autocomplete
+                #colaborador="colaboradorAutocomplete"
+                [control]="form.get('colaborador')"
+                [pagination]="colaboradorPagination">
+            </cdk-colaborador-autocomplete>
             <button matSuffix mat-button mat-icon-button
-                    (click)="showUsuarioGrid()">
+                    (click)="showColaboradorGrid()">
                 <mat-icon matTooltip="Procurar">search</mat-icon>
             </button>
-            <mat-error *ngIf="form.get('usuario').hasError('formError')">
-                {{form.get('usuario').errors.formError}}
+            <mat-error *ngIf="form.get('colaborador').hasError('formError')">
+                {{form.get('colaborador').errors.formError}}
             </mat-error>
         </mat-form-field>
 
@@ -62,6 +62,37 @@
             Distribuidor
         </mat-checkbox>
 
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Peso"
+                       formControlName="peso" required>
+            </div>
+            <mat-error *ngIf="form.get('peso').hasError('formError')">
+                {{form.get('peso').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100" *ngIf="this.selectedSetor && !this.selectedSetor.distribuicaoCentena">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Dígito(s)"
+                       formControlName="digito">
+            </div>
+            <mat-error *ngIf="form.get('digito').hasError('formError')">
+                {{form.get('digito').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100" *ngIf="this.selectedSetor && this.selectedSetor.distribuicaoCentena">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Centena(s)"
+                       formControlName="centena">
+            </div>
+            <mat-error *ngIf="form.get('centena').hasError('formError')">
+                {{form.get('centena').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
+
     </div>
 
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
@@ -80,12 +111,12 @@
     </div>
 </form>
 
-<cdk-usuario-gridsearch
+<cdk-colaborador-gridsearch
         fxFlex="1 0 auto"
-        *ngIf="activeCard === 'usuario-gridsearch'"
-        (selected)="selectUsuario($event)"
+        *ngIf="activeCard === 'colaborador-gridsearch'"
+        (selected)="selectColaborador($event)"
         (cancel)="cancel()">
-</cdk-usuario-gridsearch>
+</cdk-colaborador-gridsearch>
 
 <cdk-setor-gridsearch
     fxFlex="1 0 auto"

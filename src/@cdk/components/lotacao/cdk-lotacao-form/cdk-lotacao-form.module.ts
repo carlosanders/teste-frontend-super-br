@@ -18,6 +18,8 @@ import { CdkUsuarioAutocompleteModule } from '@cdk/components/usuario/cdk-usuari
 import { CdkUsuarioGridsearchModule } from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-gridsearch/cdk-usuario-gridsearch.module';
 import {CdkSetorGridsearchModule} from "../../setor/cdk-setor-autocomplete/cdk-setor-gridsearch/cdk-setor-gridsearch.module";
 import {CdkSetorAutocompleteModule} from "../../setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module";
+import {CdkColaboradorAutocompleteModule} from "../../colaborador/cdk-colaborador-autocomplete/cdk-colaborador-autocomplete.module";
+import {CdkColaboradorGridsearchModule} from "../../colaborador/cdk-colaborador-autocomplete/cdk-colaborador-gridsearch/cdk-colaborador-gridsearch.module";
 
 @NgModule({
     declarations: [
@@ -40,6 +42,8 @@ import {CdkSetorAutocompleteModule} from "../../setor/cdk-setor-autocomplete/cdk
         FuseSharedModule,
         CdkSetorGridsearchModule,
         CdkSetorAutocompleteModule,
+        CdkColaboradorAutocompleteModule,
+        CdkColaboradorGridsearchModule,
     ],
     providers: [
         UsuarioService
