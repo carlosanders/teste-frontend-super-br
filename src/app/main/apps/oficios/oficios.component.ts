@@ -146,7 +146,7 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
         this.routerState$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(routerState => {
-            /*this.currentDocumentoAvulsoId = parseInt(routerState.state.params['documentoAvulsoHandle'], 0);*/
+            this.currentDocumentoAvulsoId = parseInt(routerState.state.params['documentoAvulsoHandle'], 0);
         });
 
         this.documentosAvulso$.pipe(
@@ -268,10 +268,6 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
         pocessoId: documentoAvulso.processo.id, acessoNegado: documentoAvulso.processo.acessoNegado}));
     }
 
-    /*doToggleUrgente(documentoAvulso: DocumentoAvulso): void {
-        this._store.dispatch(new fromStore.ToggleUrgenteTarefa(documentoAvulso));
-    }*/
-
     /**
      * Refresh
      */
@@ -315,49 +311,4 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
         this.documentoAvulsoListSize = (event.rectangle.width * this.documentoAvulsoListSize) / this.documentoAvulsoListOriginalSize;
         this.documentoAvulsoListOriginalSize = event.rectangle.width;
     }
-
-    /*doMovimentar(tarefaId): void {
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/'
-        + this.routerState.params.folderHandle + '/tarefa/' + tarefaId + '/atividades/criar']).then();
-    }
-
-    doCompartilhar(tarefaId): void {
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/'
-        + this.routerState.params.folderHandle + '/tarefa/' + tarefaId + '/compartilhamentos/criar']).then();
-    }
-
-    doCompartilharBloco(): void {
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/'
-        + this.routerState.params.folderHandle + '/compartilhamento-bloco']).then();
-    }
-
-    doEtiquetarBloco(): void {
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/'
-        + this.routerState.params.folderHandle + '/vinculacao-etiqueta-bloco']).then();
-    }
-
-    doMovimentarBloco(): void {
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/'
-        + this.routerState.params.folderHandle + '/atividade-bloco']).then();
-    }
-
-    doCreateTarefaBloco(): void {
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/'
-        + this.routerState.params.folderHandle + '/tarefa-bloco']).then();
-    }
-
-    doUploadBloco(): void {
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/'
-        + this.routerState.params.folderHandle + '/upload-bloco']).then();
-    }
-
-    doEditorBloco(): void {
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/'
-        + this.routerState.params.folderHandle + '/modelo-bloco']).then();
-    }
-
-    doCreateDocumentoAvulsoBloco(): void {
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/'
-        + this.routerState.params.folderHandle + '/documento-avulso-bloco']).then();
-    }*/
 }

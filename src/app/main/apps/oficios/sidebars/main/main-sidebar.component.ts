@@ -21,8 +21,6 @@ export class DocumentoAvulsoMainSidebarComponent implements OnInit, OnDestroy {
 
     private _unsubscribeAll: Subject<any> = new Subject();
 
-    folders$: Observable<Folder[]>;
-
     mode = 'DocumentoAvulso';
 
     routerState: any;
@@ -38,7 +36,6 @@ export class DocumentoAvulsoMainSidebarComponent implements OnInit, OnDestroy {
         private _store: Store<fromStore.DocumentoAvulsoAppState>,
         private _changeDetectorRef: ChangeDetectorRef,
     ) {
-        /*this.folders$ = this._store.pipe(select(fromStore.getFolders));*/
     }
 
     /**
@@ -71,16 +68,4 @@ export class DocumentoAvulsoMainSidebarComponent implements OnInit, OnDestroy {
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
-    /**
-     * Compose dialog
-     */
-    /*create(): void {
-        this._store.dispatch(new fromStore.CreateTarefa());
-    }*/
-
-    /*onDrop($event): void {
-        if (this.mode === 'DocumentoAvulso') {
-            /!*this._store.dispatch(new fromStore.SetFolderOnSelectedTarefas({documentoAvulso: $event[0].data, folder: $event[1]}));*!/
-        }
-    }*/
 }

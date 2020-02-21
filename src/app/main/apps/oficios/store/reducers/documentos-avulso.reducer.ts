@@ -88,88 +88,12 @@ export function DocumentosAvulsoReducer(state = DocumentosAvulsoInitialState, ac
             };
         }
 
-
-        /*case DocumentosAvulsoActions.DELETE_DOCUMENTOS_AVULSO: {
+        case DocumentosAvulsoActions.SET_CURRENT_DOCUMENTOS_AVULSO: {
             return {
                 ...state,
-                deletingDocumentoAvulsoIds: [...state.deletingDocumentoAvulsoIds, action.payload]
+                currentDocumentoAvulsoId: action.payload
             };
         }
-
-        case DocumentosAvulsoActions.DELETE_DOCUMENTOS_AVULSO_SUCCESS: {
-            const entitiesId = state.entitiesId.filter(id => id !== action.payload);
-            const selectedTarefaIds = state.selectedDocumentoAvulsoIds.filter(id => id !== action.payload);
-            return {
-                ...state,
-                entitiesId: entitiesId,
-                pagination: {
-                    ...state.pagination,
-                    total: state.pagination.total > 0 ? state.pagination.total - 1 : 0
-                },
-                selectedDocumentoAvulsoIds: selectedDocumentoAvulsoIds,
-                deletingDocumentoAvulsoIds: state.deletingDocumentoAvulsoIds.filter(id => id !== action.payload),
-                deletedDocumentoAvulsoIds: [...state.deletedDocumentoAvulsoIds, action.payload]
-            };
-        }
-
-        case DocumentosAvulsoActions.DELETE_DOCUMENTOS_AVULSO_FAILED: {
-            return {
-                ...state,
-                deletingDocumentoAvulsoIds: state.deletingDocumentoAvulsoIds.filter(id => id !== action.payload)
-            };
-        }*/
-
-
-        /*case ProcessosActions.CHANGE_SELECTED_TAREFAS: {
-            return {
-                ...state,
-                selectedTarefaIds: action.payload
-            };
-        }
-
-        case ProcessosActions.SET_FOLDER_ON_SELECTED_TAREFAS_SUCCESS: {
-            const entitiesId = state.entitiesId.filter(id => id !== action.payload.id);
-            const selectedTarefaIds = state.selectedTarefaIds.filter(id => id !== action.payload.id);
-            return {
-                ...state,
-                entitiesId: entitiesId,
-                pagination: {
-                    ...state.pagination,
-                    total: state.pagination.total > 0 ? state.pagination.total - 1 : 0
-                },
-                selectedTarefaIds: selectedTarefaIds
-            };
-        }
-
-
-
-        case TarefasActions.TOGGLE_LIDA_TAREFA: {
-            return {
-                ...state,
-                togglingLidaTarefaIds: [...state.togglingLidaTarefaIds, action.payload]
-            };
-        }
-
-        case TarefasActions.TOGGLE_LIDA_TAREFA_SUCCESS: {
-            return {
-                ...state,
-                togglingLidaTarefaIds: state.togglingLidaTarefaIds.filter(id => id !== action.payload)
-            };
-        }
-
-        case TarefasActions.TOGGLE_LIDA_TAREFA_FAILED: {
-            return {
-                ...state,
-                togglingLidaTarefaIds: state.togglingLidaTarefaIds.filter(id => id !== action.payload)
-            };
-        }
-
-        case TarefasActions.SET_CURRENT_TAREFA: {
-            return {
-                ...state,
-                currentTarefaId: action.payload
-            };
-        }*/
 
         case DocumentosAvulsoActions.TOGGLE_MAXIMIZADO: {
             return {

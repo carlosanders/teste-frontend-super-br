@@ -16,8 +16,10 @@ import { PipesModule } from '@cdk/pipes/pipes.module';
 import { FuseSidebarModule } from '@fuse/components';
 import { CdkDocumentoAvulsoListMainSidebarComponent } from './sidebars/main/main.component';
 import { ProcessoService } from '@cdk/services/processo.service';
-import {CdkProcessoAutocompleteModule} from '@cdk/components/processo/cdk-processo-autocomplete/cdk-processo-autocomplete.module';
+import { CdkProcessoAutocompleteModule } from '@cdk/components/processo/cdk-processo-autocomplete/cdk-processo-autocomplete.module';
+import { CdkSetorAutocompleteModule } from '@cdk/components/setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
 import { DndModule } from 'ngx-drag-drop';
+import {SetorService} from '../../../services/setor.service';
 
 @NgModule({
     declarations: [
@@ -38,6 +40,7 @@ import { DndModule } from 'ngx-drag-drop';
         DndModule,
 
         CdkProcessoAutocompleteModule,
+        CdkSetorAutocompleteModule,
 
         TranslateModule,
 
@@ -48,7 +51,8 @@ import { DndModule } from 'ngx-drag-drop';
         MatRippleModule,
     ],
     providers: [
-        ProcessoService
+        ProcessoService,
+        SetorService
     ],
     exports: [
         CdkDocumentoAvulsoListComponent

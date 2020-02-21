@@ -30,17 +30,17 @@
                 </cdk-processo-autocomplete>
             </mat-form-field>
 
-            <!--<mat-form-field fxFlex="100">
+            <mat-form-field fxFlex="100">
                 <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Espécie"
-                           formControlName="especieTarefa"
-                           [matAutocomplete]="especieTarefa.autocomplete">
+                    <input matInput placeholder="Unidade"
+                           formControlName="setorOrigem"
+                           [matAutocomplete]="setor.autocomplete">
                 </div>
-                <cdk-especie-tarefa-autocomplete
-                    #especieTarefa="especieTarefaAutocomplete"
-                    [control]="form.get('especieTarefa')">
-                </cdk-especie-tarefa-autocomplete>
-            </mat-form-field>-->
+                <cdk-setor-autocomplete
+                    #setor="setorAutocomplete"
+                    [control]="form.get('setorOrigem')">
+                </cdk-setor-autocomplete>
+            </mat-form-field>
 
         </div>
 
