@@ -22,6 +22,8 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
     @Input()
     documentos: Documento[];
 
+    //@retirar: mapDocumentos = new Map();
+
     @Output()
     delete = new EventEmitter<number>();
 
@@ -68,7 +70,34 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
 
     ngOnChanges(): void {
 
+/*@retirar
+        this.mapDocumentos.clear();
+        this.documentos.forEach(
+            doc => this.addToMap(
+                    this.mapDocumentos,
+                    'processo: ' + doc.processoOrigem.NUP + '- tarefa: ' + doc.tarefaOrigem.id,
+                    doc)
+        );
+
+        console.log(this.mapDocumentos);
+*/
     }
+
+/*
+    addToMap(map:any, chave:any, valor:any){
+        if ( map.has(chave) ) {
+            // verificar se já tem no array dentro da chave
+            //if (map.get(chave).indexOf(valor) == -1) {
+               map.get(chave).push(valor);
+            //}   
+        } else {
+            map.set(chave,[valor]);
+        }
+        //return map;
+    }
+
+
+    */
 
     deleteDocumento(documentoId): void {
         this.delete.emit(documentoId);

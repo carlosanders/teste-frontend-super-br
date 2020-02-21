@@ -22,31 +22,6 @@ import {getSelectedTarefas} from '../store/selectors';
 import {getOperacoesState, getRouterState} from 'app/store/reducers';
 
 
-/*
-let map = new Map();
-
-addToMap(map, "nup a - tarefa 1", 1);
-addToMap(map, "nup a - tarefa 1", 2);
-addToMap(map, "nup a - tarefa 2", 4);
-addToMap(map, "nup b - tarefa 2", 4);
-addToMap(map, "nup b - tarefa 2", 4);
-
-
-  function addToMap(map:any, chave:any, valor:any){
-    if (map.has(chave)) {
-      map.get(chave).push(valor);
-    } else {
-      map.set(chave,[valor]);
-    }
-    return map;
-  }
-  
-  console.log(map);
-
-
-*/
-
-
 @Component({
     selector: 'atividade-create-bloco',
     templateUrl: './atividade-create-bloco.component.html',
@@ -75,6 +50,9 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
 
     documentos$: Observable<Documento[]>;
     minutas: Documento[] = [];
+
+    mapDocumentos = new Map();
+
     selectedDocumentos$: Observable<Documento[]>;
     deletingDocumentosId$: Observable<number[]>;
     assinandoDocumentosId$: Observable<number[]>;
@@ -139,6 +117,12 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
                     this._store.dispatch(new fromStore.GetDocumentos(tarefasListId.toString()));
                     // guarda a nova lista de ids das tarefas selecionadas
                     this.tarefasSelecionadasListId = [...tarefasListId];
+
+                
+
+
+
+
                 }
                 
 
@@ -185,11 +169,50 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
         ).subscribe(
             documentos => {
                 this.minutas = documentos;
-                //console.log("this._changeDetectorRef.markForCheck();");
                 this._changeDetectorRef.markForCheck();
-            }
+
+                    this.mapDocumentos.clear();
+                    this.minutas.forEach(
+                        doc => this.addToMap(
+                                this.mapDocumentos,
+                                'processo: ' + doc.processoOrigem.NUP + '- tarefa: ' + doc.tarefaOrigem.id,
+                                doc)
+                    ); 
+                    console.log('this.mapDocumentos');
+                    console.log(this.mapDocumentos);
+
+
+
+            },
+
+                    // seta map
+                    //@retirar
+                    /*this.mapDocumentos.clear();
+                    this.documentos.forEach(
+                        doc => this.addToMap(
+                                this.mapDocumentos,
+                                'processo: ' + doc.processoOrigem.NUP + '- tarefa: ' + doc.tarefaOrigem.id,
+                                doc)
+                    );   */ 
+
+
+
+
         );
     }
+
+    addToMap(map:any, chave:any, valor:any){
+        if ( map.has(chave) ) {
+            // verificar se já tem no array dentro da chave
+            //if (map.get(chave).indexOf(valor) == -1) {
+               map.get(chave).push(valor);
+            //}   
+        } else {
+            map.set(chave,[valor]);
+        }
+        //return map;
+    }
+
 
     /**
      * On destroy

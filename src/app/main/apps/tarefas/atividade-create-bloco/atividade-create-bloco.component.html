@@ -5,9 +5,19 @@
 
     <h3>{{(tarefas$ | async)?.length}} tarefa(s) selecionada(s), selecione os documentos
     a serem juntados. </h3>
+<!--[documentos]="minutas"
+*ngFor="let documento of mapDocumentos.get(key).values()"
+<div fxLayout="row">
+-->
 
-    <div fxLayout="row">
-        <cdk-documento-card-list [documentos]="minutas"
+<ng-container *ngFor="let key of mapDocumentos.keys()">
+    <div fxLayout="column">
+        
+               <div  fxLayout="row">{{key}}</div>
+               <div fxLayout="row">
+        <cdk-documento-card-list 
+                    
+                                [documentos]=mapDocumentos.get(key)
                                  [deletingId]="(deletingDocumentosId$ | async)"
                                  [assinandoId]="(assinandoDocumentosId$ | async)"
                                  [convertendoId]="(convertendoDocumentosId$ | async)"
@@ -18,6 +28,8 @@
                                  (changedSelectedIds)="changedSelectedIds($event)">
         </cdk-documento-card-list>
     </div>
+    
+    </div></ng-container>
 
     <cdk-atividade-form
             [atividade]="atividade"
