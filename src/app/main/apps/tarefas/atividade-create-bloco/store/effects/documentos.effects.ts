@@ -60,7 +60,9 @@ export class AtividadeCreateBlocoDocumentosEffect {
                         populate: [
                             'tipoDocumento',
                             'documentoAvulsoRemessa',
-                            'documentoAvulsoRemessa.documentoResposta'
+                            'documentoAvulsoRemessa.documentoResposta',
+                            'processoOrigem',
+                            'tarefaOrigem'
                         ]
                     };
 

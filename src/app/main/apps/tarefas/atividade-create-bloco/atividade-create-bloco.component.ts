@@ -21,6 +21,32 @@ import * as fromStore from './store';
 import {getSelectedTarefas} from '../store/selectors';
 import {getOperacoesState, getRouterState} from 'app/store/reducers';
 
+
+/*
+let map = new Map();
+
+addToMap(map, "nup a - tarefa 1", 1);
+addToMap(map, "nup a - tarefa 1", 2);
+addToMap(map, "nup a - tarefa 2", 4);
+addToMap(map, "nup b - tarefa 2", 4);
+addToMap(map, "nup b - tarefa 2", 4);
+
+
+  function addToMap(map:any, chave:any, valor:any){
+    if (map.has(chave)) {
+      map.get(chave).push(valor);
+    } else {
+      map.set(chave,[valor]);
+    }
+    return map;
+  }
+  
+  console.log(map);
+
+
+*/
+
+
 @Component({
     selector: 'atividade-create-bloco',
     templateUrl: './atividade-create-bloco.component.html',
@@ -100,15 +126,22 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
             this.tarefas = tarefas;
 
             if (this.tarefas) {
-
-                const tarefasListId: any[] = [];
+                // cria array temporário com os ids da tarefas selecionadas 
+                // para a movimentação em lote
+                let tarefasListId: any[] = [];
                 this.tarefas.forEach((tarefa) => {
                     tarefasListId.push(tarefa.id);
                 });
-    
-                if (tarefasListId.sort().toString() !== this.tarefasSelecionadasListId.sort().toString() ) {
+
+                // verifica se houve alteração nas tarefas selecionadas para movimentação em lote
+                if (tarefasListId.length > 0 && tarefasListId.sort().toString() !== this.tarefasSelecionadasListId.sort().toString() ) {
+                    // lê os documentos das nova lista de tarefas selecionadas
                     this._store.dispatch(new fromStore.GetDocumentos(tarefasListId.toString()));
+                    // guarda a nova lista de ids das tarefas selecionadas
+                    this.tarefasSelecionadasListId = [...tarefasListId];
                 }
+                
+
             }
 
         });
@@ -137,14 +170,12 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
             }
         });
 
-        //console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+        //@retirar:
         /*if (this.tarefas) {
-            console.log('bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb');
             const tarefasListId: any[] = [];
             this.tarefas.forEach((tarefa) => {
                 tarefasListId.push(tarefa.id);
             });
-            console.log("tttttttttttttttttttttttttttttttttttttttttt");
             this._store.dispatch(new fromStore.GetDocumentos(tarefasListId.toString()));
         }*/
 
