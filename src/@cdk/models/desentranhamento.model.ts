@@ -1,9 +1,9 @@
 import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
 
-import { Usuario } from '@cdk/models/usuario.model';
-import {Juntada} from '@cdk/models/juntada.model';
-import {Processo} from '@cdk/models/processo.model';
+import { Usuario } from '@cdk/models';
+import {Juntada} from '@cdk/models';
+import {Processo} from '@cdk/models';
 
 export class Desentranhamento {
 

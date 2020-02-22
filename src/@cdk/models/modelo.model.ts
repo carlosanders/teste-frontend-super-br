@@ -1,10 +1,10 @@
 import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
 
-import { Usuario } from '@cdk/models/usuario.model';
-import {ModalidadeMeio} from '@cdk/models/modalidade-meio.model';
-import {Template} from '@cdk/models/template.model';
-import {Documento} from '@cdk/models/documento.model';
+import { Usuario } from '@cdk/models';
+import {ModalidadeMeio} from '@cdk/models';
+import {Template} from '@cdk/models';
+import {Documento} from '@cdk/models';
 
 export class Modelo {
 

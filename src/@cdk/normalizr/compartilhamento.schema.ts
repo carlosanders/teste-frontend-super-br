@@ -1,9 +1,11 @@
-import {schema} from '@cdk/normalizr-src';
-import {usuario} from './usuario.schema';
+import {usuario} from './base.schema';
+import {compartilhamento as compartilhamentoSchema} from './base.schema';
 
-export const compartilhamento = new schema.Entity('compartilhamento', {
+compartilhamentoSchema.define({
     usuario: usuario,
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario
 });
+
+export const compartilhamento = compartilhamentoSchema;

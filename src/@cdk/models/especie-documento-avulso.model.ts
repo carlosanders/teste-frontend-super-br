@@ -1,8 +1,8 @@
 import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
 
-import { Usuario } from '@cdk/models/usuario.model';
-import { GeneroDocumentoAvulso } from '@cdk/models/genero-documento-avulso.model';
+import { Usuario } from '@cdk/models';
+import { GeneroDocumentoAvulso } from '@cdk/models';
 
 export class EspecieDocumentoAvulso {
 
