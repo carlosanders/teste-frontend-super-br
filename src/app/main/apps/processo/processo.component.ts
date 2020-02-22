@@ -7,7 +7,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 import {select, Store} from '@ngrx/store';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 import {FuseTranslationLoaderService} from '@fuse/services/translation-loader.service';
@@ -23,6 +23,8 @@ import {VinculacaoEtiqueta} from '@cdk/models/vinculacao-etiqueta.model';
 import {Pagination} from '@cdk/models/pagination';
 import {LoginService} from '../../auth/login/login.service';
 import {Router} from '@angular/router';
+import {Usuario} from '@cdk/models/usuario.model';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'processo',
@@ -34,17 +36,23 @@ import {Router} from '@angular/router';
 })
 export class ProcessoComponent implements OnInit, OnDestroy {
 
+    private _unsubscribeAll: Subject<any> = new Subject();
+
     processo$: Observable<Processo>;
     processo: Processo;
 
     loading$: Observable<boolean>;
     routerState: any;
 
+    routerState$: Observable<any>;
+
     vinculacaoEtiquetaPagination: Pagination;
     savingVincEtiquetaId$: Observable<any>;
     errors$: Observable<any>;
 
-    private _profile: any;
+    chaveAcesso: string;
+
+    private _profile: Usuario;
 
     /**
      *
@@ -70,9 +78,10 @@ export class ProcessoComponent implements OnInit, OnDestroy {
         this.loading$ = this._store.pipe(select(fromStore.getProcessoIsLoading));
         this.vinculacaoEtiquetaPagination = new Pagination();
         this.vinculacaoEtiquetaPagination.filter = {
-            'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.usuario.id,
+            'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.id,
             'modalidadeEtiqueta.valor': 'eq:PROCESSO'
         };
+        this.routerState$ = this._store.pipe(select(getRouterState));
         this.savingVincEtiquetaId$ = this._store.pipe(select(fromStore.getSavingVincEtiquetaId));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
     }
@@ -94,6 +103,12 @@ export class ProcessoComponent implements OnInit, OnDestroy {
             }
         });
 
+        this.routerState$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(routerState => {
+            this.chaveAcesso = routerState.state.params['chaveAcessoHandle'];
+        });
+
         this.processo$.subscribe(processo => {
             this.processo = processo;
         });
@@ -103,6 +118,10 @@ export class ProcessoComponent implements OnInit, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
+        this._changeDetectorRef.detach();
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -128,21 +147,21 @@ export class ProcessoComponent implements OnInit, OnDestroy {
     onEtiquetaCreate(etiqueta: Etiqueta): void {
         this._store.dispatch(new fromStore.CreateVinculacaoEtiqueta({processo: this.processo, etiqueta: etiqueta}));
     }
-    
+
     /*onEtiquetaEdit(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
         this._store.dispatch(new SaveConteudoVinculacaoEtiqueta({
             vinculacaoEtiqueta: vinculacaoEtiqueta
-        }));    
+        }));
     }*/
 
-    onEtiquetaEdit(values): void {   
+    onEtiquetaEdit(values): void {
         const vinculacaoEtiqueta = new VinculacaoEtiqueta();
         vinculacaoEtiqueta.id = values.id;
         this._store.dispatch(new fromStore.SaveConteudoVinculacaoEtiqueta({
             vinculacaoEtiqueta: vinculacaoEtiqueta,
             changes: {conteudo: values.conteudo}
-        }));         
-    }    
+        }));
+    }
 
     onEtiquetaDelete(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
         this._store.dispatch(new fromStore.DeleteVinculacaoEtiqueta({

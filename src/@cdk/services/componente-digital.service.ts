@@ -19,27 +19,28 @@ export class ComponenteDigitalService {
     }
 
     download(id: number | string, params: HttpParams = new HttpParams()): Observable<any> {
-        return this.http.get(`${environment.api_url}componente_digital/${id}/download` + environment.xdebug, {params});
+        return this.http.get(`${environment.api_url}componente_digital/${id}/download` + environment.xdebug, {params: params});
     }
 
     downloadAsPdf(id: number | string, params: HttpParams = new HttpParams()): Observable<any> {
         return this.http.get(`${environment.api_url}componente_digital/${id}/downloadAsPdf` + environment.xdebug, {params});
     }
 
-    get(id: number): Observable<ComponenteDigital> {
+    get(id: number, params: HttpParams = new HttpParams()): Observable<ComponenteDigital> {
         return this.modelService.getOne('componente_digital', id)
             .pipe(
                 map(response => plainToClass(ComponenteDigital, response)[0])
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
+    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
         params['offset'] = offset;
         params['order'] = order;
         params['populate'] = populate;
+        params['context'] = context;
 
         return this.modelService.get('componente_digital', new HttpParams({fromObject: params}))
             .pipe(
@@ -47,13 +48,14 @@ export class ComponenteDigitalService {
             );
     }
 
-    search(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
+    search(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
         params['offset'] = offset;
         params['order'] = order;
         params['populate'] = populate;
+        params['context'] = context;
 
         return this.modelService.search('componente_digital', new HttpParams({fromObject: params}))
             .pipe(

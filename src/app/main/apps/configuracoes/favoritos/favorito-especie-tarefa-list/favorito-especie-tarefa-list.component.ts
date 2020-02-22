@@ -108,7 +108,7 @@ export class FavoritoEspecieTarefaListComponent implements OnInit, OnDestroy {
             filter: {
                 'especieTarefa': 'isNotNull',
                 'prioritario': 'eq:' + 'true',
-                'usuario.id': 'eq:' + this._loginService.getUserProfile().usuario.id
+                'usuario.id': 'eq:' + this._loginService.getUserProfile().id
             },
             sort: params.sort,
             limit: params.limit,
@@ -132,7 +132,7 @@ export class FavoritoEspecieTarefaListComponent implements OnInit, OnDestroy {
 
         this._store.dispatch(new fromStore.GetFavorito({
             filter: {
-                'usuario.id': 'eq:' + this._loginService.getUserProfile().usuario.id,
+                'usuario.id': 'eq:' + this._loginService.getUserProfile().id,
                 'especieTarefa.id': 'eq:' + valor.especieTarefa.id
             },
             valor: valor

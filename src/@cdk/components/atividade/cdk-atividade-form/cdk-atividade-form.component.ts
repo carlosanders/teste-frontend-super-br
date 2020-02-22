@@ -346,7 +346,7 @@ export class CdkAtividadeFormComponent implements OnInit, OnChanges, OnDestroy {
         this.especieAtividadeListIsLoading = true;
 
         this._favoritoService.query(
-            `{"usuario.id": "eq:${this._profile.usuario.id}", "especieAtividade": "isNotNull"}`,
+            `{"usuario.id": "eq:${this._profile.id}", "especieAtividade": "isNotNull"}`,
             5,
             0,
             '{}',

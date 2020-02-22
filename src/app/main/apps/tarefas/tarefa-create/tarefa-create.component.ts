@@ -69,7 +69,7 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.processo$ = this._store.pipe(select(fromStore.getProcesso));
-        this._profile = _loginService.getUserProfile();
+        this._profile = _loginService.getUserProfile().colaborador;
         this.visibilidades$ = this._store.pipe(select(fromStore.getVisibilidadeProcesso));
 
         this.especieTarefaPagination = new Pagination();

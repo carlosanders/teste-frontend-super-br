@@ -40,7 +40,7 @@ export class PerfilComponent implements OnInit, OnDestroy {
     ) {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
-        this.colaborador = this._loginService.getUserProfile();
+        this.colaborador = this._loginService.getUserProfile().colaborador;
     }
 
     // -----------------------------------------------------------------------------------------------------

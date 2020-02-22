@@ -21,6 +21,7 @@ import {Router} from '@angular/router';
 import {getRouterState} from 'app/store/reducers';
 import {Pessoa} from '@cdk/models/pessoa.model';
 import { takeUntil } from 'rxjs/operators';
+import {Usuario} from "../../../../../../@cdk/models/usuario.model";
 
 @Component({
     selector: 'dados-basicos',
@@ -37,7 +38,7 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
 
-    _profile: Colaborador;
+    _profile: Usuario;
 
     especieProcessoPagination: Pagination;
     setorAtualPagination: Pagination;
@@ -50,7 +51,7 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
     logEntryPagination: Pagination;
     // Private
     private _unsubscribeAll: Subject<any>;
-    
+
 
     /**
      *
@@ -73,7 +74,7 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
         this.logEntryPagination = new Pagination();
         this.setorAtualPagination = new Pagination();
         this.classificacaoPagination = new Pagination();
-        this._unsubscribeAll = new Subject();        
+        this._unsubscribeAll = new Subject();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -105,7 +106,7 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
         this.especieProcessoPagination.filter = {'generoProcesso.nome': 'eq:ADMINISTRATIVO'};
         this.especieProcessoPagination.populate = ['generoProcesso'];
         this.setorAtualPagination.populate = ['unidade', 'parent'];
-        this.setorAtualPagination.filter = {id: 'in:' + this._profile.lotacoes.map(lotacao => lotacao.setor.id).join(',')};
+        this.setorAtualPagination.filter = {id: 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.id).join(',')};
         this.classificacaoPagination.populate = ['parent'];
     }
 
@@ -115,7 +116,7 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
 
         this._unsubscribeAll.next();
-        this._unsubscribeAll.complete();        
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -178,7 +179,7 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
 
     gerirProcedencia(): void {
         this._router.navigate([this.routerState.url + '/pessoa']).then();
-    }   
+    }
 
     editProcedencia(pessoaId: number): void {
         this._router.navigate([this.routerState.url + '/pessoa/editar/' + pessoaId]).then();

@@ -9,7 +9,7 @@
             <div fxLayout="row" fxLayoutAlign="space-between start">
 
                 <span class="mat-display-1 my-0 my-sm-24 welcome-message"
-                      [@animate]="{value:'*',params:{x:'50px'}}">Bem-vindo, {{(_profile.usuario.nome.split(' ')[0]).charAt(0) + (_profile.usuario.nome.split(' ')[0]).slice(1).toLowerCase()}}
+                      [@animate]="{value:'*',params:{x:'50px'}}">Bem-vindo, {{(_profile.nome.split(' ')[0]).charAt(0) + (_profile.nome.split(' ')[0]).slice(1).toLowerCase()}}
                 </span>
 
             </div>
@@ -20,7 +20,7 @@
         <!-- CONTENT -->
         <div class="content" fxLayout="column">
 
-            <div fxLayout="row wrap" fxLayoutAlign="start start">
+            <div fxLayout="row wrap" fxLayoutAlign="start start" *ngIf="!this._loginService.isGranted('ROLE_USER')">
 
                 <div class="widget-group p-12" fxLayout="row wrap" fxLayoutAlign="space-between start" fxFlex="75"
                      *fuseIfOnDom

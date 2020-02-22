@@ -56,7 +56,7 @@ export class VisibilidadeEditComponent implements OnInit, OnDestroy {
         this.visibilidade$ = this._store.pipe(select(fromStore.getVisibilidade));
         this.processo$ = this._store.pipe(select(getProcesso));
 
-        this._profile = _loginService.getUserProfile();
+        this._profile = _loginService.getUserProfile().colaborador;
 
         this.unidadePagination = new Pagination();
         this.unidadePagination.filter = {parent: 'isNull'};

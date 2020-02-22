@@ -2,7 +2,7 @@ import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {environment} from 'environments/environment';
-import {Colaborador} from '@cdk/models/colaborador.model';
+import {Usuario} from "@cdk/models/usuario.model";
 
 @Injectable()
 export class LoginService {
@@ -10,7 +10,7 @@ export class LoginService {
     constructor(private http: HttpClient) {
     }
 
-    getUserProfile(): Colaborador {
+    getUserProfile(): Usuario {
         return JSON.parse(localStorage.getItem('userProfile'));
     }
 
@@ -37,20 +37,18 @@ export class LoginService {
     }
 
     getProfile(): Observable<any> {
-        const url = `${environment.base_url}v1/colaborador/profile` + environment.xdebug;
+        const url = `${environment.base_url}profile` + environment.xdebug;
         return this.http.get(url);
     }
 
     isGranted(role: string): boolean {
         const profile = this.getUserProfile();
         let hasAccess = false;
-        if (profile && profile.usuario && profile.usuario.vinculacoesRoles && profile.usuario.vinculacoesRoles.length > 0) {
-            profile.usuario.vinculacoesRoles.forEach((vinculacaoRole) => {
-                if (vinculacaoRole.role && vinculacaoRole.role.name === role) {
-                    hasAccess = true;
-                    return;
-                }
-            });
+
+        if (profile && profile.roles && profile.roles.length > 0) {
+            hasAccess = profile.roles.findIndex((papel: string) => {
+                return papel.includes(role);
+            }) !== -1;
         }
         return hasAccess;
     }

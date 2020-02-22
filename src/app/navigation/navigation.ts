@@ -59,7 +59,7 @@ export const navigation: FuseNavigation[] = [
                 type: 'item',
                 icon: 'search',
                 url: '/apps/pesquisa/processos',
-                role: 'ROLE_COLABORADOR'
+                role: 'ROLE_USER'
             }
         ]
     }

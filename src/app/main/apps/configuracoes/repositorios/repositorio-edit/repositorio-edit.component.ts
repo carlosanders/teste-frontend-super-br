@@ -48,7 +48,7 @@ export class RepositorioEditComponent implements OnInit, OnDestroy {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.repositorio$ = this._store.pipe(select(fromStore.getRepositorio));
-        this.usuario = this._loginService.getUserProfile().usuario;
+        this.usuario = this._loginService.getUserProfile();
 
         this.modalidadeRepositorioPagination = new Pagination();
     }

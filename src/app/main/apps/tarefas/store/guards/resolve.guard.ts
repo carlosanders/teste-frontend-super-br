@@ -11,11 +11,12 @@ import * as fromStore from 'app/main/apps/tarefas/store';
 import {getFoldersLoaded, getTarefasLoaded} from 'app/main/apps/tarefas/store/selectors';
 import {getRouterState} from 'app/store/reducers';
 import {LoginService} from '../../../../auth/login/login.service';
+import {Usuario} from "../../../../../../@cdk/models/usuario.model";
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
 
-    private _profile: any;
+    private _profile: Usuario;
     routerState: any;
 
     /**
@@ -125,12 +126,12 @@ export class ResolveGuard implements CanActivate {
                     let tarefaFilter = {};
                     if (this.routerState.params[param] === 'compartilhadas') {
                         tarefaFilter = {
-                            'compartilhamentos.usuario.id': 'eq:' + this._profile.usuario.id,
+                            'compartilhamentos.usuario.id': 'eq:' + this._profile.id,
                             'dataHoraConclusaoPrazo': 'isNull'
                         };
                     } else {
                         tarefaFilter = {
-                            'usuarioResponsavel.id': 'eq:' + this._profile.usuario.id,
+                            'usuarioResponsavel.id': 'eq:' + this._profile.id,
                             'dataHoraConclusaoPrazo': 'isNull'
                         };
                         let folderFilter = 'isNull';

@@ -105,7 +105,7 @@ export class FavoritoListEspecieAtividadeEffect {
                                 this.favorito.prioritario = true;
                             } else {
                                 const usuario = new Usuario();
-                                usuario.id = this._loginService.getUserProfile().usuario.id;
+                                usuario.id = this._loginService.getUserProfile().id;
                                 this.favorito.prioritario = true;
                                 this.favorito.qtdUso = 1;
                                 this.favorito.especieAtividade = action.payload.valor.especieAtividade;
@@ -185,7 +185,7 @@ export class FavoritoListEspecieAtividadeEffect {
                                 filter: {
                                     'especieAtividade': 'isNotNull',
                                     'prioritario': 'eq:' + 'true',
-                                    'usuario.id': 'eq:' + this._loginService.getUserProfile().usuario.id
+                                    'usuario.id': 'eq:' + this._loginService.getUserProfile().id
                                 },
                                 gridFilter: {},
                                 limit: 5,

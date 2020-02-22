@@ -39,7 +39,7 @@ export class SegurancaComponent implements OnInit, OnDestroy {
     ) {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
-        this.usuario = this._loginService.getUserProfile().usuario;
+        this.usuario = this._loginService.getUserProfile();
     }
 
     // -----------------------------------------------------------------------------------------------------

@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Output, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEncapsulation} from '@angular/core';
 import {fuseAnimations} from '@fuse/animations';
 
 @Component({
@@ -12,6 +12,9 @@ import {fuseAnimations} from '@fuse/animations';
 export class CdkComponenteDigitalMainSidebarComponent {
     @Output()
     selected = new EventEmitter<any>();
+
+    @Input()
+    mode = 'list';
 
     gridFilter: any;
 

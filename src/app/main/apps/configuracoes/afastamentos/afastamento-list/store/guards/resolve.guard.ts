@@ -61,7 +61,7 @@ export class ResolveGuard implements CanActivate {
 
                     const params = {
                         filter: {
-                            'afastamento.usuario.id': this._loginService.getUserProfile().usuario.id
+                            'afastamento.usuario.id': this._loginService.getUserProfile().id
                         },
                         gridFilter: {},
                         limit: 10,

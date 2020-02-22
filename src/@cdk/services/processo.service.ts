@@ -18,8 +18,8 @@ export class ProcessoService {
     ) {
     }
 
-    get(id: number): Observable<Processo> {
-        return this.modelService.getOne('processo', id)
+    get(id: number, params: HttpParams = new HttpParams()): Observable<Processo> {
+        return this.modelService.getOne('processo', id, params)
             .pipe(
                 map(response => plainToClass(Processo, response)[0])
             );
@@ -55,7 +55,7 @@ export class ProcessoService {
         );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
+    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
         const params = {};
         
         params['where'] = filters;
@@ -63,6 +63,7 @@ export class ProcessoService {
         params['offset'] = offset;
         params['order'] = order;
         params['populate'] = populate;
+        params['context'] = context;
 
         return this.modelService.get('processo', new HttpParams({fromObject: params}))
             .pipe(

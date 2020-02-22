@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 
 import {fuseAnimations} from '@fuse/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import * as fromStore from '../store';
 import {select, Store} from '@ngrx/store';
 import {ComponenteDigital} from '@cdk/models/componente-digital.model';
@@ -21,7 +21,6 @@ import {ComponenteDigital} from '@cdk/models/componente-digital.model';
     animations: fuseAnimations
 })
 export class ComponenteDigitalViewComponent implements OnInit, OnDestroy {
-
     componenteDigital$: Observable<ComponenteDigital>;
     isLoading$: Observable<boolean>;
 
@@ -49,6 +48,7 @@ export class ComponenteDigitalViewComponent implements OnInit, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
+        // Unsubscribe from all subscriptions
     }
 
 }

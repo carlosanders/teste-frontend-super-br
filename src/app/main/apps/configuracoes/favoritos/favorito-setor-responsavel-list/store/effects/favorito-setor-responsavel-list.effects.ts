@@ -105,7 +105,7 @@ export class FavoritoListSetorResponsavelEffect {
                                 this.favorito.prioritario = true;
                             } else {
                                 const usuario = new Usuario();
-                                usuario.id = this._loginService.getUserProfile().usuario.id;
+                                usuario.id = this._loginService.getUserProfile().id;
                                 this.favorito.prioritario = true;
                                 this.favorito.qtdUso = 1;
                                 this.favorito.setorResponsavel = action.payload.valor.setorResponsavel;
@@ -185,7 +185,7 @@ export class FavoritoListSetorResponsavelEffect {
                                 filter: {
                                     'setorResponsavel': 'isNotNull',
                                     'prioritario': 'eq:' + 'true',
-                                    'usuario.id': 'eq:' + this._loginService.getUserProfile().usuario.id
+                                    'usuario.id': 'eq:' + this._loginService.getUserProfile().id
                                 },
                                 gridFilter: {},
                                 limit: 5,
