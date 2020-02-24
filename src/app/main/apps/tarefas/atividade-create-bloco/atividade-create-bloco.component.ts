@@ -6,6 +6,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
+import {FormatNupPipe} from '@cdk/pipes/pipes.module';
 import {fuseAnimations} from '@fuse/animations';
 import {Observable, Subject} from 'rxjs';
 
@@ -102,7 +103,6 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
             takeUntil(this._unsubscribeAll),
         ).subscribe((tarefas) => {
             this.tarefas = tarefas;
-
             if (this.tarefas) {
                 // cria array temporário com os ids da tarefas selecionadas 
                 // para a movimentação em lote
@@ -110,22 +110,13 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
                 this.tarefas.forEach((tarefa) => {
                     tarefasListId.push(tarefa.id);
                 });
-
                 // verifica se houve alteração nas tarefas selecionadas para movimentação em lote
                 if (tarefasListId.length > 0 && tarefasListId.sort().toString() !== this.tarefasSelecionadasListId.sort().toString() ) {
                     // lê os documentos das nova lista de tarefas selecionadas
                     this._store.dispatch(new fromStore.GetDocumentos(tarefasListId.toString()));
                     // guarda a nova lista de ids das tarefas selecionadas
                     this.tarefasSelecionadasListId = [...tarefasListId];
-
-                
-
-
-
-
                 }
-                
-
             }
 
         });
@@ -154,15 +145,6 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
             }
         });
 
-        //@retirar:
-        /*if (this.tarefas) {
-            const tarefasListId: any[] = [];
-            this.tarefas.forEach((tarefa) => {
-                tarefasListId.push(tarefa.id);
-            });
-            this._store.dispatch(new fromStore.GetDocumentos(tarefasListId.toString()));
-        }*/
-
         this.documentos$.pipe(
             filter(cd => !!cd),
             takeUntil(this._unsubscribeAll)
@@ -170,47 +152,38 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
             documentos => {
                 this.minutas = documentos;
                 this._changeDetectorRef.markForCheck();
-
+                
                     this.mapDocumentos.clear();
                     this.minutas.forEach(
-                        doc => this.addToMap(
+                        doc => this.addToMapArray(
                                 this.mapDocumentos,
-                                'processo: ' + doc.processoOrigem.NUP + '- tarefa: ' + doc.tarefaOrigem.id,
+                                `${doc.processoOrigem.NUP}-${doc.tarefaOrigem.id}`,
+                                //`Processo: ${doc.processoOrigem.NUP}-Tarefa: ${doc.tarefaOrigem.id}`,                                
                                 doc)
                     ); 
-                    console.log('this.mapDocumentos');
-                    console.log(this.mapDocumentos);
-
-
-
             },
-
-                    // seta map
-                    //@retirar
-                    /*this.mapDocumentos.clear();
-                    this.documentos.forEach(
-                        doc => this.addToMap(
-                                this.mapDocumentos,
-                                'processo: ' + doc.processoOrigem.NUP + '- tarefa: ' + doc.tarefaOrigem.id,
-                                doc)
-                    );   */ 
-
-
-
-
         );
     }
 
-    addToMap(map:any, chave:any, valor:any){
-        if ( map.has(chave) ) {
+    desmembraKeyMapArray(key:string) {
+        return {
+            'nup' : key.split('-')[0],
+            'idTarefa': key.split('-')[1]
+            /*'nup' : key.split('-')[0].split('Processo: ')[1],
+            'idTarefa': key.split('-')[1],*/
+        }
+    }
+
+    addToMapArray(map:any, chave:any, valor:any){
+        map.has(chave) ? map.get(chave).push(valor) : map.set(chave,[valor]);
+        /*if ( map.has(chave) ) {
             // verificar se já tem no array dentro da chave
             //if (map.get(chave).indexOf(valor) == -1) {
                map.get(chave).push(valor);
             //}   
         } else {
             map.set(chave,[valor]);
-        }
-        //return map;
+        }*/
     }
 
 

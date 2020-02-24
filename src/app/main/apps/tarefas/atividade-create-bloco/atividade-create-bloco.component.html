@@ -12,24 +12,31 @@
 
 <ng-container *ngFor="let key of mapDocumentos.keys()">
     <div fxLayout="column">
-        
-               <div  fxLayout="row">{{key}}</div>
-               <div fxLayout="row">
-        <cdk-documento-card-list 
-                    
-                                [documentos]=mapDocumentos.get(key)
-                                 [deletingId]="(deletingDocumentosId$ | async)"
-                                 [assinandoId]="(assinandoDocumentosId$ | async)"
-                                 [convertendoId]="(convertendoDocumentosId$ | async)"
-                                 (delete)="doDelete($event)"
-                                 (assinatura)="doAssinatura($event)"
-                                 (converte)="doConverte($event)"
-                                 (clicked)="onClicked($event)"
-                                 (changedSelectedIds)="changedSelectedIds($event)">
-        </cdk-documento-card-list>
+        <mat-card>
+            <div fxLayout="row"  fxLayoutGap="12px" >
+                <div>
+                    <b>{{desmembraKeyMapArray(key).nup  | formatNup}}</b> <br>
+                    Tarefa: {{desmembraKeyMapArray(key).idTarefa}} <br> 
+                </div>
+                <div fxLayout="row">
+                    <mat-card-content>    
+                        <cdk-documento-card-list 
+                                                [documentos]=mapDocumentos.get(key)
+                                                [deletingId]="(deletingDocumentosId$ | async)"
+                                                [assinandoId]="(assinandoDocumentosId$ | async)"
+                                                [convertendoId]="(convertendoDocumentosId$ | async)"
+                                                (delete)="doDelete($event)"
+                                                (assinatura)="doAssinatura($event)"
+                                                (converte)="doConverte($event)"
+                                                (clicked)="onClicked($event)"
+                                                (changedSelectedIds)="changedSelectedIds($event)">
+                        </cdk-documento-card-list>
+                    </mat-card-content>
+                </div>
+            </div>
+        </mat-card>
     </div>
-    
-    </div></ng-container>
+</ng-container>
 
     <cdk-atividade-form
             [atividade]="atividade"
