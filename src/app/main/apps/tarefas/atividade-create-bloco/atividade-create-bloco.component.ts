@@ -6,7 +6,6 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {FormatNupPipe} from '@cdk/pipes/pipes.module';
 import {fuseAnimations} from '@fuse/animations';
 import {Observable, Subject} from 'rxjs';
 
@@ -214,6 +213,7 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
             );
 
             atividade.tarefa = tarefa;
+            //atividade.documentos = this.minutas;
 
             this._store.dispatch(new fromStore.SaveAtividade(atividade));
         });
