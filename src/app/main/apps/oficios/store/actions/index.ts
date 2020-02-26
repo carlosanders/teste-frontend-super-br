@@ -1,1 +1,1 @@
-export * from './documento-avulso.actions';
+export * from './oficios.actions';

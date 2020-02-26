@@ -5,17 +5,13 @@ import {TranslateModule} from '@ngx-translate/core';
 import {FuseSharedModule} from '@fuse/shared.module';
 import {AtividadesComponent} from './atividades.component';
 import {RouterModule, Routes} from '@angular/router';
-import {MatButtonModule, MatIconModule, MatStepperModule, MatTooltipModule} from '@angular/material';
+import {MatButtonModule, MatIconModule, MatStepperModule, MatTooltipModule} from '@cdk/angular/material';
 
 const routes: Routes = [
     {
         path: '',
         component: AtividadesComponent,
         children: [
-            {
-                path: 'criar',
-                loadChildren: () => import('./atividade-create/atividade-create.module').then(m => m.AtividadeCreateModule)
-            },
             {
                 path: 'listar',
                 loadChildren: () => import('./atividade-list/atividade-list.module').then(m => m.AtividadeListModule)
@@ -24,7 +20,7 @@ const routes: Routes = [
     },
     {
         path: '**',
-        redirectTo: 'criar'
+        redirectTo: 'listar'
     }
 ];
 

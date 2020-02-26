@@ -1,4 +1,4 @@
-import * as DocumentosAvulsoActions from 'app/main/apps/oficios/store/actions/documento-avulso.actions';
+import * as DocumentosAvulsoActions from 'app/main/apps/oficios/store/actions/oficios.actions';
 import { Etiqueta } from '@cdk/models/etiqueta.model';
 
 export interface DocumentosAvulsoState {
@@ -43,7 +43,7 @@ export const DocumentosAvulsoInitialState: DocumentosAvulsoState = {
     maximizado: false
 };
 
-export function DocumentosAvulsoReducer(state = DocumentosAvulsoInitialState, action: DocumentosAvulsoActions.DocumentosAvulsoActionsAll): DocumentosAvulsoState {
+export function OficiosReducer(state = DocumentosAvulsoInitialState, action: DocumentosAvulsoActions.DocumentosAvulsoActionsAll): DocumentosAvulsoState {
     switch (action.type) {
 
         case DocumentosAvulsoActions.GET_DOCUMENTOS_AVULSO: {

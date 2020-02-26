@@ -1,7 +1,7 @@
-import {DocumentosAvulsoEffects} from './documentos-avulso.effects';
+import {OficiosEffects} from './oficios.effects';
 
 export const effects = [
-    DocumentosAvulsoEffects
+    OficiosEffects
 ];
 
-export * from './documentos-avulso.effects';
+export * from './oficios.effects';

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { fuseAnimations } from '@fuse/animations';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
+import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 
 @Component({
     selector   : 'cdk-documento-avulso-list-main-sidebar',
@@ -31,6 +31,7 @@ export class CdkDocumentoAvulsoListMainSidebarComponent implements OnInit
         this.form = this._formBuilder.group({
             processo: [null],
             setorOrigem: [null],
+            dataHoraRemessa: [null],
         });
 
     }
@@ -67,6 +68,15 @@ export class CdkDocumentoAvulsoListMainSidebarComponent implements OnInit
                 if (this.filters.hasOwnProperty('setorOrigem.id')) {
                     delete this.filters['setorOrigem.id'];
                 }
+            }
+        });
+
+        this.form.get('dataHoraRemessa').valueChanges.subscribe(value => {
+            if (value !== null) {
+                this.filters = {
+                    ...this.filters,
+                    dataHoraRemessa: `eq:${value}`
+                };
             }
         });
     }

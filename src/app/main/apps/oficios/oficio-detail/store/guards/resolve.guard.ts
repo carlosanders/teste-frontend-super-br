@@ -1,15 +1,15 @@
-import {Injectable} from '@angular/core';
-import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from '@angular/router';
+import { Injectable } from '@angular/core';
+import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot } from '@angular/router';
 
-import {select, Store} from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 
-import {Observable, of} from 'rxjs';
-import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { switchMap, catchError, tap, take, filter } from 'rxjs/operators';
 
-import {TarefaDetailAppState} from 'app/main/apps/tarefas/tarefa-detail/store/reducers';
-import * as fromStore from 'app/main/apps/tarefas/tarefa-detail/store';
-import {getHasLoaded} from 'app/main/apps/tarefas/tarefa-detail/store/selectors';
-import {getRouterState} from 'app/store/reducers';
+import { DocumentoAvulsoDetailAppState } from 'app/main/apps/oficios/oficio-detail/store/reducers';
+import * as fromStore from 'app/main/apps/oficios/oficio-detail/store';
+import { getHasLoaded } from 'app/main/apps/oficios/oficio-detail/store/selectors';
+import { getRouterState } from 'app/store/reducers';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
@@ -19,10 +19,10 @@ export class ResolveGuard implements CanActivate {
     /**
      * Constructor
      *
-     * @param {Store<TarefaDetailAppState>} _store
+     * @param {Store<DocumentoAvulsoDetailAppState>} _store
      */
     constructor(
-        private _store: Store<TarefaDetailAppState>
+        private _store: Store<DocumentoAvulsoDetailAppState>
     ) {
         this._store
             .pipe(select(getRouterState))
@@ -41,7 +41,7 @@ export class ResolveGuard implements CanActivate {
      * @returns {Observable<boolean>}
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-        return this.getTarefa().pipe(
+        return this.getDocumentoAvulso().pipe(
             switchMap(() => of(true)),
             catchError(() => of(false))
         );
@@ -52,13 +52,13 @@ export class ResolveGuard implements CanActivate {
      *
      * @returns {Observable<any>}
      */
-    getTarefa(): any {
+    getDocumentoAvulso(): any {
         return this._store.pipe(
             select(getHasLoaded),
             tap((loaded: any) => {
                 if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
-                    this._store.dispatch(new fromStore.GetTarefa({
-                        id: 'eq:' + this.routerState.params['tarefaHandle']
+                    this._store.dispatch(new fromStore.GetDocumentoAvulso({
+                        id: 'eq:' + this.routerState.params['documentoAvulsoHandle']
                     }));
                 }
             }),

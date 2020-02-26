@@ -2,7 +2,7 @@ import { Injector, NgModule, ɵrenderComponent as renderComponent } from '@angul
 import { RouterModule, Routes } from '@angular/router';
 import {
     MatButtonModule, MatIconModule, MatMenuModule, MatProgressSpinnerModule, MatTooltipModule
-} from '@angular/material';
+} from '@cdk/angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { FuseSharedModule } from '@fuse/shared.module';
@@ -20,51 +20,31 @@ import { VinculacaoEtiquetaService } from '@cdk/services/vinculacao-etiqueta.ser
 import { DocumentoService } from '@cdk/services/documento.service';
 import { PipesModule } from '@cdk/pipes/pipes.module';
 import { LoginService } from '../../../auth/login/login.service';
-import {DynamicService} from '../../../../../modules/dynamic.service';
+import { DynamicService } from '../../../../../modules/dynamic.service';
 
 const routes: Routes = [
     {
-        path: ':tarefaHandle',
+        path: ':documentoAvulsoHandle',
         component: OficioDetailComponent,
-        /*children: [
-            /!*{
-                path: 'editar',
-                loadChildren: () => import('./tarefa-edit/tarefa-edit.module').then(m => m.TarefaEditModule)
-            },
-            {
-                path: 'criar',
-                loadChildren: () => import('../tarefa-create/tarefa-create.module').then(m => m.TarefaCreateModule)
-            },
+        children: [
             {
                 path: 'atividades',
                 loadChildren: () => import('./atividades/atividades.module').then(m => m.AtividadesModule)
             },
             {
-                path: 'compartilhamentos',
-                loadChildren: () => import('./compartilhamentos/compartilhamentos.module').then(m => m.CompartilhamentosModule)
-            },
-            {
                 path: 'processo',
                 loadChildren: () => import('app/main/apps/processo/processo.module').then(m => m.ProcessoModule)
-            },
+            }/*,
             {
                 path: 'modelo',
                 loadChildren: () => import('app/main/apps/modelo/modelo.module').then(m => m.ModeloModule),
-            },*!/
+            },
             {
                 path: 'oficio',
                 loadChildren: () => import('app/main/apps/documento-avulso/documento-avulso-create/documento-avulso-create.module').then(m => m.DocumentoAvulsoCreateModule),
-            }/!*,
-            {
-                path: 'encaminhamento',
-                loadChildren: () => import('./encaminhamento/encaminhamento.module').then(m => m.EncaminhamentoModule),
-            },
-            {
-                path: '**',
-                redirectTo: 'editar'
-            }*!/
+            }*/
         ],
-        canActivate: [fromGuards.ResolveGuard]*/
+        canActivate: [fromGuards.ResolveGuard]
     }
 ];
 

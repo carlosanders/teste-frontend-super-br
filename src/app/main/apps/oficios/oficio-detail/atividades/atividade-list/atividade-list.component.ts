@@ -11,7 +11,7 @@ import {fuseAnimations} from '@fuse/animations';
 import {Atividade} from '@cdk/models/atividade.model';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
-import * as fromStore from 'app/main/apps/tarefas/tarefa-detail/atividades/atividade-list/store';
+import * as fromStore from 'app/main/apps/oficios/oficio-detail/atividades/atividade-list/store';
 import {takeUntil} from 'rxjs/operators';
 
 @Component({

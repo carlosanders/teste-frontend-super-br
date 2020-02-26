@@ -4,7 +4,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import { fuseAnimations } from '@fuse/animations';
 
 @Component({
     selector: 'atividades',

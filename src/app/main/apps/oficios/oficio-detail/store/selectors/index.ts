@@ -1,1 +1,1 @@
-export * from './tarefa-detail.selectors';
+export * from './oficio-detail.selectors';

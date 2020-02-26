@@ -6,7 +6,7 @@
 
                 <div fxLayout="row" fxLayoutAlign="start center">
                     <div>
-                        <button *ngIf="mobileMode" mat-icon-button (click)="deselectCurrentTarefa()">
+                        <button *ngIf="mobileMode" mat-icon-button (click)="deselectCurrentOficio()">
                             <mat-icon class="secondary-text">arrow_back</mat-icon>
                         </button>
 
@@ -19,19 +19,19 @@
                         </button>
                     </div>
 
-                    {{(tarefa$ | async).especieTarefa.nome}}
-                    NO NUP {{(tarefa$ | async).processo.NUP | formatNup}}
-                    ATÉ {{(tarefa$ | async).dataHoraFinalPrazo | date: 'dd/MM/yyyy'}}
+                    {{(documentoAvulso$ | async).especieDocumentoAvulso.nome}}
+                    NO NUP {{(documentoAvulso$ | async).processo.NUP | formatNup}}
+                    ATÉ {{(documentoAvulso$ | async).dataHoraFinalPrazo | date: 'dd/MM/yyyy'}}
 
                     <div class="actions" fxLayout="row" fxLayoutAlign="start center">
 
                         <button mat-icon-button aria-label="Processo" matTooltip="Processo"
-                                [routerLink]="['processo', (tarefa$ | async)?.processo?.id]"
+                                [routerLink]="['processo', (documentoAvulso$ | async)?.processo?.id]"
                                 [routerLinkActive]="['active', 'accent']">
                             <mat-icon class="black-fg">book</mat-icon>
                         </button>
 
-                        <button mat-icon-button aria-label="Movimentar" matTooltip="Movimentar"
+                        <!--<button mat-icon-button aria-label="Movimentar" matTooltip="Movimentar"
                                 [routerLink]="'atividades/criar'"
                                 [routerLinkActive]="['active', 'accent']">
                             <mat-icon class="black-fg">send</mat-icon>
@@ -47,9 +47,9 @@
                                 (click)="$event.stopPropagation()"
                                 fxHide.xs>
                             <mat-icon class="secondary-text">more_vert</mat-icon>
-                        </button>
+                        </button>-->
 
-                        <mat-menu #moreMenu="matMenu">
+                        <!--<mat-menu #moreMenu="matMenu">
 
                             <button mat-menu-item aria-label="toggle done"
                                     (click)="doCreateTarefa()">
@@ -77,12 +77,12 @@
 
                             <ng-template #dynamicComponent></ng-template>
 
-                        </mat-menu>
+                        </mat-menu>-->
                     </div>
                 </div>
 
                 <cdk-vinculacao-etiqueta-chips class="mr-24 ml-24"
-                                               [vinculacoesEtiquetas]="(tarefa$ | async).vinculacoesEtiquetas"
+                                               [vinculacoesEtiquetas]="(documentoAvulso$ | async).vinculacoesEtiquetas"
                                                (create)="onEtiquetaCreate($event)"
                                                [pagination]="vinculacaoEtiquetaPagination"
                                                (delete)="onEtiquetaDelete($event)">
@@ -90,7 +90,7 @@
 
             </div>
 
-            <div class="tarefa-content">
+            <div class="oficio-content">
                 <router-outlet></router-outlet>
             </div>
         </div>

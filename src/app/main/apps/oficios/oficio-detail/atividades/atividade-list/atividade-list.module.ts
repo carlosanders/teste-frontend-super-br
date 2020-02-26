@@ -18,7 +18,7 @@ import {FuseSharedModule} from '@fuse/shared.module';
 import {AtividadeListComponent} from './atividade-list.component';
 import {AtividadeService} from '@cdk/services/atividade.service';
 import {RouterModule, Routes} from '@angular/router';
-import {AtividadeListStoreModule} from 'app/main/apps/tarefas/tarefa-detail/atividades/atividade-list/store/store.module';
+import {AtividadeListStoreModule} from 'app/main/apps/oficios/oficio-detail/atividades/atividade-list/store/store.module';
 import {EspecieAtividadeService} from '@cdk/services/especie-atividade.service';
 import {CdkAtividadeGridModule} from '@cdk/components/atividade/cdk-atividade-grid/cdk-atividade-grid.module';
 import * as fromGuards from './store/guards';

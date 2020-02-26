@@ -171,43 +171,6 @@ export class ToggleMaximizado implements Action
     }
 }
 
-// /**
-//  * Toggle Lida Tarefa
-//  */
-// export class ToggleLidaTarefa implements Action
-// {
-//     readonly type = TOGGLE_LIDA_TAREFA;
-//
-//     constructor(public payload: any)
-//     {
-//     }
-// }
-//
-// /**
-//  * Toggle Lida Tarefa Success
-//  */
-// export class ToggleLidaTarefaSuccess implements Action
-// {
-//     readonly type = TOGGLE_LIDA_TAREFA_SUCCESS;
-//
-//     constructor(public payload: any)
-//     {
-//     }
-// }
-//
-// /**
-//  * Toggle Lida Tarefa Failed
-//  */
-// export class ToggleLidaTarefaFailed implements Action
-// {
-//     readonly type = TOGGLE_LIDA_TAREFA_FAILED;
-//
-//     constructor(public payload: any)
-//     {
-//     }
-// }
-//
-
 export type DocumentosAvulsoActionsAll
     = GetDocumentosAvulso
     | GetDocumentosAvulsoSuccess
@@ -216,10 +179,6 @@ export type DocumentosAvulsoActionsAll
     | SetCurrentDocumentoAvulso
     | SetCurrentDocumantoAvulsoSuccess
     | ToggleMaximizado
-    /*| ChangeSelectedTarefas
-    | ToggleLidaTarefa
-    | ToggleLidaTarefaSuccess
-    | ToggleLidaTarefaFailed*/
     | CreateVinculacaoEtiqueta
     | CreateVinculacaoEtiquetaSuccess
     | CreateVinculacaoEtiquetaFailed

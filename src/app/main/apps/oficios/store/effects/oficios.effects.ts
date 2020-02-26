@@ -9,7 +9,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, concatMap, mergeMap, switchMap } from 'rxjs/operators';
 
 import { getRouterState, State } from 'app/store/reducers';
-import * as DocumentosAvulsoActions from '../actions/documento-avulso.actions';
+import * as DocumentosAvulsoActions from '../actions/oficios.actions';
 
 import { DocumentoAvulso } from '@cdk/models/documento-avulso.model';
 import { DocumentoAvulsoService } from '@cdk/services/documento-avulso.service';
@@ -18,7 +18,7 @@ import { Router } from '@angular/router';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
-export class DocumentosAvulsoEffects {
+export class OficiosEffects {
     routerState: any;
 
     constructor(
@@ -64,6 +64,7 @@ export class DocumentosAvulsoEffects {
                     new AddData<DocumentoAvulso>({data: response['entities'], schema: documentoAvulsoSchema}),
                     new DocumentosAvulsoActions.GetDocumentosAvulsoSuccess({
                         entitiesId: response['entities'].map(documentoAvulso => documentoAvulso.id),
+                        processoId: response['entities'].map(documentoAvulso => documentoAvulso.processo.id),
                         loaded: {
                         },
                         total: response['total']
@@ -88,11 +89,11 @@ export class DocumentosAvulsoEffects {
                 map((action) => {
                     if (action.payload.acessoNegado) {
                         this._router.navigate([
-                            'apps/oficios/' + action.payload.documentoAvulsoId + '/processo/' + action.payload.processoId + '/acesso-negado']
+                            'apps/oficios/detalhe/' + action.payload.documentoAvulsoId + '/processo/' + action.payload.processoId + '/acesso-negado']
                         ).then();
                     } else {
                         this._router.navigate([
-                            'apps/oficios/' + action.payload.documentoAvulsoId + '/processo/' + action.payload.processoId + '/visualizar']
+                            'apps/oficios/detalhe/' + action.payload.documentoAvulsoId + '/processo/' + action.payload.processoId + '/visualizar']
                         ).then();
                     }
 

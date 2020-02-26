@@ -265,7 +265,7 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
             this._store.dispatch(new fromStore.ToggleRespondidoDocumentoAvulso(documentoAvulso));
         }*/
         this._store.dispatch(new fromStore.SetCurrentDocumentoAvulso({documentoAvulsoId: documentoAvulso.id,
-        pocessoId: documentoAvulso.processo.id, acessoNegado: documentoAvulso.processo.acessoNegado}));
+        processoId: documentoAvulso.processo.id, acessoNegado: documentoAvulso.processo.acessoNegado}));
     }
 
     /**

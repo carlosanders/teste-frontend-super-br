@@ -6,27 +6,26 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {Tarefa} from '@cdk/models/tarefa.model';
-
-import {fuseAnimations} from '@fuse/animations';
-import {Observable, Subject} from 'rxjs';
-import {select, Store} from '@ngrx/store';
+import { fuseAnimations } from '@fuse/animations';
+import { Observable, Subject } from 'rxjs';
+import { select, Store } from '@ngrx/store';
 import * as fromStore from './store';
-import {Etiqueta} from '@cdk/models/etiqueta.model';
-import {VinculacaoEtiqueta} from '@cdk/models/vinculacao-etiqueta.model';
-import {CreateVinculacaoEtiqueta, DeleteVinculacaoEtiqueta} from './store';
-import {Documento} from '@cdk/models/documento.model';
-import {getMaximizado} from '../store/selectors';
-import {ToggleMaximizado} from '../store/actions';
-import {Router} from '@angular/router';
-import {getRouterState} from '../../../../store/reducers';
-import {takeUntil} from 'rxjs/operators';
-import {Pagination} from '@cdk/models/pagination';
-import {LoginService} from '../../../auth/login/login.service';
-import {getScreenState} from 'app/store/reducers';
-import {DynamicService} from '../../../../../modules/dynamic.service';
-import {modulesConfig} from 'modules/modules-config';
-import {Usuario} from '@cdk/models/usuario.model';
+import { Etiqueta } from '@cdk/models/etiqueta.model';
+import { VinculacaoEtiqueta } from '@cdk/models/vinculacao-etiqueta.model';
+import { CreateVinculacaoEtiqueta, DeleteVinculacaoEtiqueta } from './store';
+import { Documento } from '@cdk/models/documento.model';
+import { getMaximizado } from '../store/selectors';
+import { ToggleMaximizado } from '../store/actions';
+import { Router } from '@angular/router';
+import { getRouterState } from '../../../../store/reducers';
+import { takeUntil } from 'rxjs/operators';
+import { Pagination } from '@cdk/models/pagination';
+import { LoginService } from '../../../auth/login/login.service';
+import { getScreenState } from 'app/store/reducers';
+import { DynamicService } from '../../../../../modules/dynamic.service';
+import { modulesConfig } from 'modules/modules-config';
+import { Usuario } from '@cdk/models/usuario.model';
+import { DocumentoAvulso } from '../../../../../@cdk/models/documento-avulso.model';
 
 @Component({
     selector: 'oficio-detail',
@@ -40,8 +39,8 @@ export class OficioDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
     private _unsubscribeAll: Subject<any> = new Subject();
 
-    tarefa$: Observable<Tarefa>;
-    tarefa: Tarefa;
+    documentoAvulso$: Observable<DocumentoAvulso>;
+    documentoAvulso: DocumentoAvulso;
 
     screen$: Observable<any>;
 
@@ -76,24 +75,24 @@ export class OficioDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
-        private _store: Store<fromStore.TarefaDetailAppState>,
+        private _store: Store<fromStore.DocumentoAvulsoDetailAppState>,
         private _loginService: LoginService,
         private _dynamicService: DynamicService
     ) {
         this._profile = _loginService.getUserProfile();
-        this.tarefa$ = this._store.pipe(select(fromStore.getTarefa));
+        this.documentoAvulso$ = this._store.pipe(select(fromStore.getDocumentoAvulso));
         this.documentos$ = this._store.pipe(select(fromStore.getDocumentos));
         this.maximizado$ = this._store.pipe(select(getMaximizado));
         this.screen$ = this._store.pipe(select(getScreenState));
         this.vinculacaoEtiquetaPagination = new Pagination();
         this.vinculacaoEtiquetaPagination.filter = {
             'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.id,
-            'modalidadeEtiqueta.valor': 'eq:TAREFA'
+            'modalidadeEtiqueta.valor': 'eq:DOCUMENTO_AVULSO'
         };
     }
 
     ngAfterViewInit(): void {
-        const path = 'app/main/apps/tarefas/tarefa-detail';
+        const path = 'app/main/apps/oficios/oficio-detail';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path)) {
                 module.components[path].forEach((c => {
@@ -114,10 +113,10 @@ export class OficioDetailComponent implements OnInit, OnDestroy, AfterViewInit {
                 this.routerState = routerState.state;
             }
         });
-        this.tarefa$.pipe(
+        this.documentoAvulso$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(tarefa => {
-            this.tarefa = tarefa;
+        ).subscribe(documentoAvulso => {
+            this.documentoAvulso = documentoAvulso;
         });
         this.documentos$.pipe(
             takeUntil(this._unsubscribeAll)
@@ -160,18 +159,17 @@ export class OficioDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     /**
      * Deselect current mail
      */
-    deselectCurrentTarefa(): void {
-        this._store.dispatch(new fromStore.DeselectTarefaAction());
-        // this.doToggleMaximizado();
+    deselectCurrentOficio(): void {
+        this._store.dispatch(new fromStore.DeselectDocumentoAvulsoAction());
     }
 
     onEtiquetaCreate(etiqueta: Etiqueta): void {
-        this._store.dispatch(new CreateVinculacaoEtiqueta({tarefa: this.tarefa, etiqueta: etiqueta}));
+        this._store.dispatch(new CreateVinculacaoEtiqueta({documentoAvulso: this.documentoAvulso, etiqueta: etiqueta}));
     }
 
     onEtiquetaDelete(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
         this._store.dispatch(new DeleteVinculacaoEtiqueta({
-            tarefaId: this.tarefa.id,
+            documentoAvulsoId: this.documentoAvulso.id,
             vinculacaoEtiquetaId: vinculacaoEtiqueta.id
         }));
     }
@@ -179,18 +177,18 @@ export class OficioDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     complete(pending: number): void {
         if (pending === 0) {
             this._store.dispatch(new fromStore.GetDocumentos({
-                'tarefaOrigem.id': 'eq:' + this.tarefa.id
+                id: 'eq:' + this.documentoAvulso.id
             }));
         }
     }
 
-    doCiencia(): void {
+    /*doCiencia(): void {
         this._store.dispatch(new fromStore.DarCienciaTarefa(this.tarefa));
-    }
+    }*/
 
-    doCreateTarefa(): void {
+    /*doCreateTarefa(): void {
         this._router.navigate([this.routerState.url.split('/tarefa/')[0] + '/criar/' + this.tarefa.processo.id]).then();
-    }
+    }*/
 
     onUploadClick(): void {
         this.cdkUpload.onClick();

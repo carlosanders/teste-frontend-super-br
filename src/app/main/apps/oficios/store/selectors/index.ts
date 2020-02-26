@@ -1,1 +1,1 @@
-export * from './documentos-avulso.selectors';
+export * from './oficios.selectors';

@@ -1,7 +1,7 @@
-import { TarefaDetailEffect } from './tarefa-detail.effects';
+import { DocumentoAvulsoDetailEffect } from './oficio-detail.effects';
 
 export const effects = [
-    TarefaDetailEffect
+    DocumentoAvulsoDetailEffect
 ];
 
-export * from './tarefa-detail.effects';
+export * from './oficio-detail.effects';

@@ -13,7 +13,8 @@ import {
     MatToolbarModule,
     MatDatepickerModule,
     MatProgressSpinnerModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatDatepickerToggle
 } from '@cdk/angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 import { FuseSharedModule } from '@fuse/shared.module';
@@ -43,6 +44,11 @@ const routes: Routes = [
             {
                 path: '',
                 loadChildren: () => import('./oficio-empty/oficio-empty.module').then(m => m.OficioEmptyModule)
+            },
+            {
+                path: 'detalhe',
+                loadChildren: () => import('./oficio-detail/oficio-detail.module').then(m => m.OficioDetailModule),
+                canActivate: [fromGuards.ResolveGuard]
             }
         ],
         canActivate: [fromGuards.ResolveGuard]
