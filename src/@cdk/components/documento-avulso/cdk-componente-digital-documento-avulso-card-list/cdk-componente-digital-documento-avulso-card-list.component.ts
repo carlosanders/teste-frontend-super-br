@@ -80,7 +80,7 @@ export class CdkComponenteDigitalDocumentoAvulsoCardListComponent implements OnI
     }
 
     initTarget(): string {
-        return `${environment.api_url}/v1/documento_avulso/${this.documentoAvulsoOrigem}/${this.action}` + environment.xdebug;
+        return `${environment.api_url}documento_avulso/${this.documentoAvulsoOrigem}/${this.action}` + environment.xdebug;
     }
 
     toggleInSelected(componenteDigitalId): void {

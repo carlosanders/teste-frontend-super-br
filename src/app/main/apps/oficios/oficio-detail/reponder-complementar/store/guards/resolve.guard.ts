@@ -6,7 +6,7 @@ import {select, Store} from '@ngrx/store';
 import {Observable, of} from 'rxjs';
 import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
 
-import {ResponderComplementarState} from '../reducers';
+import {DocumentosState} from '../reducers';
 import * as fromStore from 'app/main/apps/tarefas/tarefa-detail/atividades/atividade-create/store';
 import {getRouterState} from 'app/store/reducers';
 import {getDocumentosHasLoaded} from '../selectors';
@@ -22,7 +22,7 @@ export class ResolveGuard implements CanActivate {
      * @param {Store<ResponderComplementarState>} _store
      */
     constructor(
-        private _store: Store<ResponderComplementarState>
+        private _store: Store<DocumentosState>
     ) {
         this._store
             .pipe(select(getRouterState))

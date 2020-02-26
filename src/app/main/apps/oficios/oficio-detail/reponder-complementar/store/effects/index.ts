@@ -1,10 +1,13 @@
-import { ResponderComplementarEffect } from './responder-complementar.effects';
-import { RespostaComplementarDocumentosEffect } from './documentos.effects';
+import {DocumentosEffects} from './documentos.effects';
+import {ResponderEffects} from './responder.effects';
+import {ComplementarEffects} from './complementar.effects';
 
 export const effects = [
-    ResponderComplementarEffect,
-    RespostaComplementarDocumentosEffect
+    DocumentosEffects,
+    ResponderEffects,
+    ComplementarEffects
 ];
 
-export * from './responder-complementar.effects';
 export * from './documentos.effects';
+export * from './responder.effects';
+export * from './complementar.effects';
