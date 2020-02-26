@@ -92,31 +92,4 @@ export class LotacaoListEffect {
                     );
                 })
             );
-
-    /**
-     * Save Lotacao
-     * @type {Observable<any>}
-     */
-    @Effect()
-    saveLotacao: any =
-        this._actions
-            .pipe(
-                ofType<LotacaoListActions.SaveLotacao>(LotacaoListActions.SAVE_LOTACAO),
-                switchMap((action) => {
-                    return this._lotacaoService.patch(action.payload.lotacao, action.payload.changes).pipe(
-                        mergeMap((response: Lotacao) => [
-                            new UpdateData<Lotacao>({id: response.id, schema: lotacaoSchema, changes: {principal: response.principal}}),
-                            new LotacaoListActions.SaveLotacaoSuccess(),  new OperacoesActions.Resultado({
-                                type: 'lotacao',
-                                content: `Lotação id ${response.id} editada com sucesso!`,
-                                dateTime: response.criadoEm
-                            })
-                        ]),
-                        catchError((err) => {
-                            console.log (err);
-                            return of(new LotacaoListActions.SaveLotacaoFailed(err));
-                        })
-                    );
-                })
-            );
 }

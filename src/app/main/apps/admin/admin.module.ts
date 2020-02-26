@@ -19,22 +19,18 @@ const routes: Routes = [
         component: AdminComponent,
         children: [
             {
-                path       : 'setor',
+                path       : ':unidadeHandle/setor',
                 loadChildren: () => import('./setor/setor.module').then(m => m.SetorModule)
             },
             {
-                path       : 'lotacoes',
-                loadChildren: () => import('./lotacoes/lotacoes.module').then(m => m.LotacoesModule)
+                path       : ':unidadeHandle/lotacoes',
+                loadChildren: () => import('./lotacoes/admin-lotacoes.module').then(m => m.AdminLotacoesModule)
             },
             {
-                path       : 'localizador',
+                path       : ':unidadeHandle/localizador',
                 loadChildren: () => import('./localizador/localizador.module').then(m => m.LocalizadorModule)
             }
         ]
-    },
-    {
-        path: '**',
-        redirectTo: 'perfil'
     }
 ];
 

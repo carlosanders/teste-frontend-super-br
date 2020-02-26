@@ -143,6 +143,16 @@
             </mat-radio-group>
         </div>
 
+        <mat-checkbox formControlName="desconsiderar"
+                      class="mr-16 mb-16" fxFlex="0 1 auto">
+            Desconsiderar Distribuição
+        </mat-checkbox>
+
+        <mat-checkbox formControlName="prevencao_relatica"
+                      class="mr-16 mb-16" fxFlex="0 1 auto">
+            Aplicar Prevenção Relativa
+        </mat-checkbox>
+
     </div>
 
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>

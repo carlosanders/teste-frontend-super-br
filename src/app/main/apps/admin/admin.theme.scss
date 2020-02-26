@@ -1,19 +1,19 @@
-@mixin configuracoes-theme($theme) {
+@mixin admin-theme($theme) {
 
     $background: map-get($theme, background);
     $foreground: map-get($theme, foreground);
     $accent: map-get($theme, accent);
     $is-dark: map-get($theme, is-dark);
 
-    // Configuracoes
-    configuracoes {
+    // Admin
+    admin {
 
         .center {
 
             .header {
-                height: 60px !important;
-                min-height: 60px !important;
-                max-height: 60px !important;
+                height: 30px !important;
+                min-height: 30px !important;
+                max-height: 30px !important;
 
                 .title {
                     color: white;
@@ -33,7 +33,7 @@
     }
 
 
-    configuracoes-view {
+    admin-view {
 
         .sidebar {
 
@@ -115,9 +115,9 @@
                     background: mat-color($mat-grey, 200);
                 }
 
-                .configuracoes-view-juntada {
+                .admin-view-juntada {
 
-                    .configuracoes-view-juntada-content {
+                    .admin-view-juntada-content {
                         background: map-get($background, card);
                     }
                 }

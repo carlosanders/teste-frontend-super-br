@@ -47,6 +47,7 @@
             </div>
 
             <cdk-vinculacao-etiqueta-chips *ngIf="this._loginService.isGranted('ROLE_COLABORADOR') && (processo$ | async)?.id" class="mr-24 ml-24"
+                                           placeholderEtiq="Etiquetas do processo"
                                            [vinculacoesEtiquetas]="(processo$ | async)?.vinculacoesEtiquetas"
                                            (create)="onEtiquetaCreate($event)"
                                            (edit)="onEtiquetaEdit($event)"

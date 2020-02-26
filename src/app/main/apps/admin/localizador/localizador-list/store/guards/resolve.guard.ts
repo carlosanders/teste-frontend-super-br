@@ -63,7 +63,7 @@ export class ResolveGuard implements CanActivate {
                     const params = {
 
                         filter: {
-                               /* 'setor.id': 'eq:' + this._loginService.getUserProfile().colaborador.id */
+                               'setor.unidade.id': 'eq:' + this.routerState.params.unidadeHandle
                         },
 
 
