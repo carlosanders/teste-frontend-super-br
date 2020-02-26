@@ -1,10 +1,10 @@
 import * as moment from 'moment';
 import { Type, Transform, Exclude } from 'class-transformer';
-import { EspecieSetor } from '@cdk/models/especie-setor.model';
-import { ModalidadeOrgaoCentral } from '@cdk/models/modalidade-orgao-central.model';
-import { Municipio } from '@cdk/models/municipio.model';
-import { GeneroSetor } from '@cdk/models/genero-setor.model';
-import { Usuario } from '@cdk/models/usuario.model';
+import { EspecieSetor } from '@cdk/models';
+import { ModalidadeOrgaoCentral } from '@cdk/models';
+import { Municipio } from '@cdk/models';
+import { GeneroSetor } from '@cdk/models';
+import { Usuario } from '@cdk/models';
 
 export class Setor {
 

@@ -1,10 +1,10 @@
 import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
 
-import { Usuario } from '@cdk/models/usuario.model';
-import {ModalidadeRepresentante} from '@cdk/models/modalidade-representante.model';
-import {Interessado} from '@cdk/models/interessado.model';
-import {OrigemDados} from '@cdk/models/origem-dados.model';
+import { Usuario } from '@cdk/models';
+import {ModalidadeRepresentante} from '@cdk/models';
+import {Interessado} from '@cdk/models';
+import {OrigemDados} from '@cdk/models';
 
 export class Representante {
 

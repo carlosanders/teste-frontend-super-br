@@ -1,13 +1,12 @@
-import {schema} from '@cdk/normalizr-src';
-import {pais} from './pais.schema';
-import {modalidadeGeneroPessoa} from './modalidade-genero-pessoa.schema';
-import {modalidadeQualificacaoPessoa} from './modalidade-qualificacao-pessoa.schema';
-import {municipio} from './municipio.schema';
-import {origemDados} from './origem-dados.schema';
-import {usuario} from './usuario.schema';
+import {pais} from './base.schema';
+import {modalidadeGeneroPessoa} from './base.schema';
+import {modalidadeQualificacaoPessoa} from './base.schema';
+import {municipio} from './base.schema';
+import {origemDados} from './base.schema';
+import {usuario} from './base.schema';
+import {pessoa as pessoaSchema} from './base.schema';
 
-
-export const pessoa = new schema.Entity('pessoa', {
+pessoaSchema.define({
     nacionalidade: pais,
     modalidadeGeneroPessoa: modalidadeGeneroPessoa,
     naturalidade: municipio,
@@ -17,3 +16,5 @@ export const pessoa = new schema.Entity('pessoa', {
     atualizadoPor: usuario,
     apagadoPor: usuario
 });
+
+export const pessoa = pessoaSchema;

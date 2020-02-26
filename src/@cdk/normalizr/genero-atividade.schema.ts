@@ -1,8 +1,10 @@
-import {schema} from '@cdk/normalizr-src';
-import {usuario} from './usuario.schema';
+import {usuario} from './base.schema';
+import {generoAtividade as generoAtividadeSchema} from './base.schema';
 
-export const generoAtividade = new schema.Entity('generoAtividade', {
+generoAtividadeSchema.define({
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario
 });
+
+export const generoAtividade = generoAtividadeSchema;

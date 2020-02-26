@@ -40,3 +40,7 @@ Thumbs.db
 
 # modules
 /src/modules/*/*
+/docker/
+/e2e/
+/docker/
+/docker/
