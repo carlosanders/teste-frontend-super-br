@@ -1,4 +1,4 @@
-import {
+ import {
     AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
@@ -8,15 +8,17 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 import { FormControl} from '@angular/forms';
-import { select, Store} from '@ngrx/store';
+import { select, Store, StoreModule} from '@ngrx/store';
 import {Observable, Subject} from 'rxjs';
 
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 import { FuseTranslationLoaderService } from '@fuse/services/translation-loader.service';
 
 import { Tarefa } from '@cdk/models/tarefa.model';
+import { Assunto } from '@cdk/models/assunto.model';
 import { TarefaService } from '@cdk/services/tarefa.service';
 import * as fromStore from 'app/main/apps/tarefas/store';
+import * as fromAssuntoStore from 'app/main/apps/processo/processo-edit/assuntos/assunto-list/store';
 import {getRouterState, getScreenState} from 'app/store/reducers';
 
 import { locale as english } from 'app/main/apps/tarefas/i18n/en';
@@ -31,6 +33,9 @@ import {filter, takeUntil} from 'rxjs/operators';
 import {Pagination} from '@cdk/models/pagination';
 import {LoginService} from '../../auth/login/login.service';
 import {ToggleMaximizado} from 'app/main/apps/tarefas/store';
+import { AssuntoService } from '@cdk/services/assunto.service';
+import { PaginatedResponse } from '@cdk/models/paginated.response';
+import { tarefa } from '@cdk/normalizr/tarefa.schema';
 
 @Component({
     selector: 'tarefas',
@@ -51,10 +56,12 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     folders$: Observable<Folder[]>;
     currentTarefaId: number;
     tarefas: Tarefa[] = [];
+    assuntos: Assunto[] = [];
     tarefaListSize = 35;
     tarefaListOriginalSize: number;
 
     tarefas$: Observable<Tarefa[]>;
+    
     loading$: Observable<boolean>;
 
     deletingIds$: Observable<number[]>;
@@ -87,6 +94,9 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     mobileMode = false;
 
+    assuntoService: AssuntoService;
+    assuntos$: Observable<Assunto[]>;
+
     @ViewChild('tarefaListElement', {read: ElementRef, static: true}) tarefaListElement: ElementRef;
 
     /**
@@ -96,6 +106,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
      * @param _tarefaService
      * @param _router
      * @param _store
+     * @param _storeAssunto
      * @param _loginService
      */
     constructor(
@@ -105,13 +116,16 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         private _tarefaService: TarefaService,
         private _router: Router,
         private _store: Store<fromStore.TarefasAppState>,
-        private _loginService: LoginService
+        private _storeAssunto: Store<fromAssuntoStore.AssuntoListAppState>,
+        private _loginService: LoginService,
+        private _assuntoService: AssuntoService
     ) {
         // Set the defaults
         this.searchInput = new FormControl('');
         this._fuseTranslationLoaderService.loadTranslations(english);
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
         this.tarefas$ = this._store.pipe(select(fromStore.getTarefas));
+         
         this.folders$ = this._store.pipe(select(fromStore.getFolders));
         this.selectedTarefas$ = this._store.pipe(select(fromStore.getSelectedTarefas));
         this.selectedIds$ = this._store.pipe(select(fromStore.getSelectedTarefaIds));
@@ -124,6 +138,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this._profile = _loginService.getUserProfile();
         this.vinculacaoEtiquetaPagination = new Pagination();
         this.vinculacaoEtiquetaPagination.filter = {'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.usuario.id};
+        this.assuntoService = _assuntoService;
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -267,7 +282,11 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         if (!tarefa.dataHoraLeitura) {
             this._store.dispatch(new fromStore.ToggleLidaTarefa(tarefa));
         }
+        
         this._store.dispatch(new fromStore.SetCurrentTarefa({tarefaId: tarefa.id, processoId: tarefa.processo.id, acessoNegado: tarefa.processo.acessoNegado}));
+
+        
+        
     }
 
     deleteTarefa(tarefaId: number): void {
@@ -378,5 +397,23 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     doCreateDocumentoAvulsoBloco(): void {
         this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.folderHandle + '/documento-avulso-bloco']).then();
+    }
+
+    doLoadAssuntos(): void {
+        try {
+            this.assuntoService.query(
+                "{\"processo.id\":\"eq:" + tarefa.processo.id + "\"}",
+                10,
+                0,
+                "{\"principal\":\"DESC\",\"criadoEm\":\"DESC\"}",
+                "[\"populateAll\"]").subscribe((ass: PaginatedResponse) => {
+                    console.log("*****Service return: " + ass);
+                    this.assuntos = ass.entities;
+                    console.log(JSON.stringify(this.assuntos));
+                });
+            //this._storeAssunto.pipe(select(fromAssuntoStore.getAssuntoList));
+        } catch (e) {
+            console.error(e);
+        }
     }
 }

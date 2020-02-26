@@ -124,3 +124,11 @@
 
     </div>
 </div>
+<mat-expansion-panel (opened)="doOpenPanel(tarefa.processo?.id)" (closed)="doClosePanel()">
+    <mat-expansion-panel-header>
+      Detalhes do processo
+    </mat-expansion-panel-header>
+    <span>Assuntos: </span>
+    <cdk-assunto-list matRipple *ngFor="let assunto of assunto" [assunto]="assunto">
+    </cdk-assunto-list>
+  </mat-expansion-panel>

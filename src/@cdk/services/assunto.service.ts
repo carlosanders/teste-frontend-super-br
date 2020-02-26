@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import {map, tap} from 'rxjs/operators';
 import {Assunto} from '@cdk/models/assunto.model';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
@@ -29,9 +29,10 @@ export class AssuntoService {
         params['offset'] = offset;
         params['order'] = order;
         params['populate'] = populate;
-
+        //console.log("*** AssuntoServiceParams => " + JSON.stringify(params));
         return this.modelService.get('assunto', new HttpParams({fromObject: params}))
             .pipe(
+                //tap((response) => {console.log(" ****** AssuntoService response ==> " + JSON.stringify(response) + " ******")}),                
                 map(response => new PaginatedResponse(plainToClass(Assunto, response['entities']), response['total']))
             );
     }

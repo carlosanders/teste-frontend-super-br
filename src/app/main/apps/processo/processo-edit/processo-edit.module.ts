@@ -65,6 +65,7 @@ const routes: Routes = [
             { 
                 path: 'tramitacoes',
                 loadChildren: () => import('./tramitacoes/tramitacoes.module').then(m => m.TramitacoesModule)
+            },
             {
                 path: 'garantias',
                 loadChildren: () => import('./garantias/garantias.module').then(m => m.GarantiasModule)

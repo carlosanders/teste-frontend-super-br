@@ -7,6 +7,8 @@ import {
 } from '@angular/core';
 
 import {Tarefa} from '@cdk/models/tarefa.model';
+import {AssuntoService} from '../../../../services/assunto.service';
+import { processo } from '@cdk/normalizr/processo.schema';
 
 @Component({
     selector: 'cdk-tarefa-list-item',
@@ -53,6 +55,11 @@ export class CdkTarefaListItemComponent implements OnInit {
     @Output()
     toggleUrgente = new EventEmitter<Tarefa>();
 
+    @Output()
+    assuntos = new Array();
+
+    
+
     draggable = {
         // note that data is handled with JSON.stringify/JSON.parse
         // only set simple data or POJO's as methods will be lost
@@ -64,6 +71,7 @@ export class CdkTarefaListItemComponent implements OnInit {
 
     constructor() {
         this.deleting = false;
+        
     }
 
     /**
@@ -103,5 +111,13 @@ export class CdkTarefaListItemComponent implements OnInit {
 
     doToggleUrgente(): void {
         this.toggleUrgente.emit(this.tarefa);
+    }
+
+    doOpenPanel(idProcesso: string): void {
+        console.log("Processo => " + processo.assuntos);
+    }
+
+    doClosePanel(idProcesso: string): void {
+        console.log("Fechou");
     }
 }

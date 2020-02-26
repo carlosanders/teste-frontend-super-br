@@ -6,6 +6,7 @@ import {
     MatCheckboxModule,
     MatProgressSpinnerModule,
     MatSortModule, MatMenuModule, MatAutocompleteModule, MatRippleModule,
+    MatExpansionModule
 } from '@cdk/angular/material';
 
 import { FuseSharedModule } from '@fuse/shared.module';
@@ -20,12 +21,16 @@ import { EspecieTarefaService } from '@cdk/services/especie-tarefa.service';
 import { ProcessoService } from '@cdk/services/processo.service';
 import {CdkProcessoAutocompleteModule} from '@cdk/components/processo/cdk-processo-autocomplete/cdk-processo-autocomplete.module';
 import { DndModule } from 'ngx-drag-drop';
+import { CdkAssuntoListComponent } from '@cdk/components/assunto/cdk-assunto-list/cdk-assunto-list.component';
+import { CdkAssuntoListItemComponent } from '@cdk/components/assunto/cdk-assunto-list/cdk-assunto-list-item/cdk-assunto-list-item.component';
 
 @NgModule({
     declarations: [
         CdkTarefaListComponent,
         CdkTarefaListItemComponent,
-        CdkTarefaListMainSidebarComponent
+        CdkTarefaListMainSidebarComponent,
+        CdkAssuntoListComponent,
+        CdkAssuntoListItemComponent
     ],
     imports: [
 
@@ -50,13 +55,16 @@ import { DndModule } from 'ngx-drag-drop';
         FuseSharedModule,
         FuseSidebarModule,
         MatRippleModule,
+        MatExpansionModule
     ],
     providers: [
         EspecieTarefaService,
         ProcessoService
     ],
     exports: [
-        CdkTarefaListComponent
+        CdkTarefaListComponent,
+        CdkAssuntoListComponent,
+        CdkAssuntoListItemComponent
     ]
 })
 export class CdkTarefaListModule {
