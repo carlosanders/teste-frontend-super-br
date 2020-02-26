@@ -12,7 +12,7 @@ import {
     MatSelectModule,
     MatAutocompleteModule,
     MatDatepickerModule,
-} from '@angular/material';
+} from '@cdk/angular/material';
 
 import {FuseSidebarModule} from '@fuse/components';
 import {FuseSharedModule} from '@fuse/shared.module';

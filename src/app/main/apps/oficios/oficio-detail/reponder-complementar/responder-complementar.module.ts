@@ -15,7 +15,7 @@ import {
     MatTabsModule,
     MatToolbarModule,
     MatTooltipModule
-} from '@angular/material';
+} from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 
 import {FuseSharedModule} from '@fuse/shared.module';
@@ -33,6 +33,11 @@ import {ComponenteDigitalService} from '@cdk/services/componente-digital.service
 import {DocumentoService} from '@cdk/services/documento.service';
 import * as fromGuards from './store/guards';
 import {CdkDocumentoCardListModule} from '@cdk/components/documento/cdk-documento-card-list/cdk-documento-card-list.module';
+import {CdkDocumentoAvulsoCardListComponent} from '../../../../../../@cdk/components/documento-avulso/cdk-documento-avulso-card-list/cdk-documento-avulso-card-list.component';
+import {CdkDocumentoAvulsoCardModule} from '../../../../../../@cdk/components/documento-avulso/cdk-documento-avulso-card-list/cdk-documento-avulso-card/cdk-documento-avulso-card.module';
+import {CdkDocumentoAvulsoCardListModule} from '../../../../../../@cdk/components/documento-avulso/cdk-documento-avulso-card-list/cdk-documento-avulso-card-list.module';
+import {CdkComponenteDigitalDocumentoAvulsoCardListComponent} from '../../../../../../@cdk/components/documento-avulso/cdk-componente-digital-documento-avulso-card-list/cdk-componente-digital-documento-avulso-card-list.component';
+import {CdkComponenteDigitalDocumentoAvulsoCardListModule} from '../../../../../../@cdk/components/documento-avulso/cdk-componente-digital-documento-avulso-card-list/cdk-componente-digital-documento-avulso-card-list.module';
 
 const routes: Routes = [
     {
@@ -73,6 +78,8 @@ const routes: Routes = [
         FuseSharedModule,
         FuseSidebarModule,
         RouterModule,
+        CdkDocumentoAvulsoCardModule,
+        CdkComponenteDigitalDocumentoAvulsoCardListModule
     ],
     providers: [
         AtividadeService,

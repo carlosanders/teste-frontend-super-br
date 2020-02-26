@@ -7,7 +7,7 @@ import {
     MatMenuModule,
     MatProgressSpinnerModule,
     MatTooltipModule
-} from '@angular/material';
+} from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 
 import {FuseSharedModule} from '@fuse/shared.module';
@@ -33,7 +33,7 @@ import {ResponderComplementarModule} from './reponder-complementar/responder-com
 
 const routes: Routes = [
     {
-        path: ':documentoAvulsoHundler',
+        path: ':documentoAvulsoHandle',
         component: OficioDetailComponent,
         children: [
             {

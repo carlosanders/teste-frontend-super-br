@@ -61,7 +61,7 @@
             <div *ngIf="!(isRemetendo$ | async)" style="overflow-scrolling: auto">
                 <div>
                     <mat-slide-toggle [checked]="!!!documento.documentoAvulsoRemessa.dataHoraEncerramento"
-                                      (change)="toggleEncerramento($event)"
+                                      (change)="toggleEncerramento()"
                                       class="mt-16 mr-16 mb-16">
                         Acompanhar a resposta
                     </mat-slide-toggle>

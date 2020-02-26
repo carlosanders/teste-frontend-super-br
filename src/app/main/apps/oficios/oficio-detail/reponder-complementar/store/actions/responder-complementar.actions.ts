@@ -20,10 +20,7 @@ export const SAVE_COMPLEMENTAR_FAILED = '[COMPLEMENTAR CREATE] SAVE COMPLEMENTAR
 export class SaveResposta implements Action
 {
     readonly type = SAVE_RESPOSTA;
-
-    constructor(public payload: any)
-    {
-    }
+    constructor(public payload: any) {}
 }
 
 /**
@@ -32,10 +29,8 @@ export class SaveResposta implements Action
 export class SaveRespostaSuccess implements Action
 {
     readonly type = SAVE_RESPOSTA_SUCCESS;
-
     constructor(public payload: any)
-    {
-    }
+    {}
 }
 
 /**
@@ -44,10 +39,8 @@ export class SaveRespostaSuccess implements Action
 export class SaveRespostaFailed implements Action
 {
     readonly type = SAVE_RESPOSTA_FAILED;
-
     constructor(public payload: any)
-    {
-    }
+    {}
 }
 
 /**
@@ -56,7 +49,6 @@ export class SaveRespostaFailed implements Action
 export class CreateResposta implements Action
 {
     readonly type = CREATE_RESPOSTA;
-
     constructor(public payload: any)
     {
     }
@@ -68,7 +60,6 @@ export class CreateResposta implements Action
 export class CreateRespostaSuccess implements Action
 {
     readonly type = CREATE_RESPOSTA_SUCCESS;
-
     constructor()
     {
     }
@@ -80,7 +71,6 @@ export class CreateRespostaSuccess implements Action
 export class SaveComplementar implements Action
 {
     readonly type = SAVE_COMPLEMENTAR;
-
     constructor(public payload: any)
     {
     }
@@ -92,7 +82,6 @@ export class SaveComplementar implements Action
 export class SaveComplementarSuccess implements Action
 {
     readonly type = SAVE_COMPLEMENTAR_SUCCESS;
-
     constructor(public payload: any)
     {
     }
@@ -104,7 +93,6 @@ export class SaveComplementarSuccess implements Action
 export class SaveComplementarFailed implements Action
 {
     readonly type = SAVE_COMPLEMENTAR_FAILED;
-
     constructor(public payload: any)
     {
     }
@@ -116,7 +104,6 @@ export class SaveComplementarFailed implements Action
 export class CreateComplementar implements Action
 {
     readonly type = CREATE_COMPLEMENTAR;
-
     constructor(public payload: any)
     {
     }
@@ -128,7 +115,6 @@ export class CreateComplementar implements Action
 export class CreateComplementarSuccess implements Action
 {
     readonly type = CREATE_COMPLEMENTAR_SUCCESS;
-
     constructor()
     {
     }

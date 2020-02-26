@@ -48,6 +48,8 @@ export class ProcessoComponent implements OnInit, OnDestroy {
     routerState$: Observable<any>;
 
     vinculacaoEtiquetaPagination: Pagination;
+    savingVincEtiquetaId$: Observable<any>;
+    errors$: Observable<any>;
 
     chaveAcesso: string;
 
@@ -81,6 +83,8 @@ export class ProcessoComponent implements OnInit, OnDestroy {
             'modalidadeEtiqueta.valor': 'eq:PROCESSO'
         };
         this.routerState$ = this._store.pipe(select(getRouterState));
+        this.savingVincEtiquetaId$ = this._store.pipe(select(fromStore.getSavingVincEtiquetaId));
+        this.errors$ = this._store.pipe(select(fromStore.getErrors));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -144,6 +148,21 @@ export class ProcessoComponent implements OnInit, OnDestroy {
     onEtiquetaCreate(etiqueta: Etiqueta): void {
         this._store.dispatch(new fromStore.CreateVinculacaoEtiqueta({processo: this.processo, etiqueta: etiqueta}));
     }
+    
+    /*onEtiquetaEdit(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
+        this._store.dispatch(new SaveConteudoVinculacaoEtiqueta({
+            vinculacaoEtiqueta: vinculacaoEtiqueta
+        }));    
+    }*/
+
+    onEtiquetaEdit(values): void {   
+        const vinculacaoEtiqueta = new VinculacaoEtiqueta();
+        vinculacaoEtiqueta.id = values.id;
+        this._store.dispatch(new fromStore.SaveConteudoVinculacaoEtiqueta({
+            vinculacaoEtiqueta: vinculacaoEtiqueta,
+            changes: {conteudo: values.conteudo}
+        }));         
+    }    
 
     onEtiquetaDelete(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
         this._store.dispatch(new fromStore.DeleteVinculacaoEtiqueta({

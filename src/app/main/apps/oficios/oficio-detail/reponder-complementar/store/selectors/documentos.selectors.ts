@@ -7,6 +7,8 @@ import {
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {Documento} from '@cdk/models/documento.model';
 import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
+import {AtividadeCreateDocumentosState} from '../../../../../tarefas/tarefa-detail/atividades/atividade-create/store/reducers';
+import {getAtividadeCreateDocumentosState} from '../../../../../tarefas/tarefa-detail/atividades/atividade-create/store/selectors';
 
 const schemaDocumentoSelectors = createSchemaSelectors<Documento>(documentoSchema);
 
@@ -18,6 +20,11 @@ export const getResponderComplementarDocumentosState = createSelector(
 export const getDocumentosId = createSelector(
     getResponderComplementarDocumentosState,
     (state: ResponderComplentarDocumentosState) => state.documentosId
+);
+
+export const getAssinandoDocumentosId = createSelector(
+    getAtividadeCreateDocumentosState,
+    (state: ResponderComplentarDocumentosState) => state.assinandoDocumentoIds
 );
 
 export const getDocumentos = createSelector(

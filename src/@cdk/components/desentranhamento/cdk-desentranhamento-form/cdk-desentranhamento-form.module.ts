@@ -9,7 +9,7 @@ import {
     MatAutocompleteModule,
     MatDatepickerModule, MatRadioModule, MatTooltipModule
 
-} from '@angular/material';
+} from '@cdk/angular/material';
 
 import { FuseSharedModule } from '@fuse/shared.module';
 import { CdkDesentranhamentoFormComponent } from './cdk-desentranhamento-form.component';

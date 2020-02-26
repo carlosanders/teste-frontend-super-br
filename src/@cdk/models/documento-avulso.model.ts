@@ -1,15 +1,15 @@
 import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
 
-import { Usuario } from '@cdk/models/usuario.model';
-import {Setor} from '@cdk/models/setor.model';
-import {EspecieDocumentoAvulso} from '@cdk/models/especie-documento-avulso.model';
-import {Modelo} from '@cdk/models/modelo.model';
-import {Pessoa} from '@cdk/models/pessoa.model';
-import {Documento} from '@cdk/models/documento.model';
-import {Processo} from '@cdk/models/processo.model';
-import {Tarefa} from '@cdk/models/tarefa.model';
-import {VinculacaoEtiqueta} from './vinculacao-etiqueta.model';
+import { Usuario } from '@cdk/models';
+import {Setor} from '@cdk/models';
+import {EspecieDocumentoAvulso} from '@cdk/models';
+import {Modelo} from '@cdk/models';
+import {Pessoa} from '@cdk/models';
+import {Documento} from '@cdk/models';
+import {Processo} from '@cdk/models';
+import {Tarefa} from '@cdk/models';
+import { VinculacaoEtiqueta } from './vinculacao-etiqueta.model';
 
 export class DocumentoAvulso {
 

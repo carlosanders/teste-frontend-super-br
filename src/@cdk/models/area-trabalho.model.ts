@@ -1,8 +1,8 @@
 import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
 
-import { Usuario } from '@cdk/models/usuario.model';
-import {Documento} from '@cdk/models/documento.model';
+import { Usuario } from '@cdk/models';
+import {Documento} from '@cdk/models';
 
 export class AreaTrabalho {
 

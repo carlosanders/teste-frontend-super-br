@@ -61,30 +61,30 @@
                         'no-current-documento-avulso': !currentDocumentoAvulsoId
                      }">
 
-                    <cdk-documento-avulso-list [loading]="(loading$ | async)"
-                                               [documentosAvulso]="documentosAvulso"
-                                               [deletingIds]="(deletingIds$ | async)"
-                                               [deletedIds]="(deletedIds$ | async)"
-                                               [folders]="(folders$ | async)"
-                                               [currentDocumentoAvulsoId]="currentDocumentoAvulsoId"
-                                               [pagination]="pagination"
-                                               [selectedIds]="(selectedIds$ | async)"
-                                               (changeSelectedIds)="changeSelectedIds($event)"
-                                               (reload)="reload($event)"
-                                               (selected)="setCurrentDocumentoAvulso($event)">
-                        <!--(compartilhar)="doCompartilhar($event)"
-                        (createDocumentoAvulso)="doCreateDocumentoAvulso($event)"
-                        (movimentar)="doMovimentar($event)"
-                        (editDocumentoAvulso)="doEditDocumentoAvulso($event)"
-                        (toggleUrgente)="doToggleUrgente($event)"
-                        (compartilharBloco)="doCompartilharBloco()"
-                        (createDocumentoAvulsoBloco)="doCreateDocumentoAvulsoBloco()"
-                        (movimentarBloco)="doMovimentarBloco()"
-                        (etiquetarBloco)="doEtiquetarBloco()"
-                        (uploadBloco)="doUploadBloco()"
-                        (editorBloco)="doEditorBloco()"
-                        (editDocumentoAvulsoBloco)="editDocumentoAvulsoBloco()"-->
-                    </cdk-documento-avulso-list>
+<!--                    <cdk-documento-avulso-list [loading]="(loading$ | async)"-->
+<!--                                               [documentosAvulso]="documentosAvulso"-->
+<!--                                               [deletingIds]="(deletingIds$ | async)"-->
+<!--                                               [deletedIds]="(deletedIds$ | async)"-->
+<!--                                               [folders]="(folders$ | async)"-->
+<!--                                               [currentDocumentoAvulsoId]="currentDocumentoAvulsoId"-->
+<!--                                               [pagination]="pagination"-->
+<!--                                               [selectedIds]="(selectedIds$ | async)"-->
+<!--                                               (changeSelectedIds)="changeSelectedIds($event)"-->
+<!--                                               (reload)="reload($event)"-->
+<!--                                               (selected)="setCurrentDocumentoAvulso($event)">-->
+<!--                        &lt;!&ndash;(compartilhar)="doCompartilhar($event)"-->
+<!--                        (createDocumentoAvulso)="doCreateDocumentoAvulso($event)"-->
+<!--                        (movimentar)="doMovimentar($event)"-->
+<!--                        (editDocumentoAvulso)="doEditDocumentoAvulso($event)"-->
+<!--                        (toggleUrgente)="doToggleUrgente($event)"-->
+<!--                        (compartilharBloco)="doCompartilharBloco()"-->
+<!--                        (createDocumentoAvulsoBloco)="doCreateDocumentoAvulsoBloco()"-->
+<!--                        (movimentarBloco)="doMovimentarBloco()"-->
+<!--                        (etiquetarBloco)="doEtiquetarBloco()"-->
+<!--                        (uploadBloco)="doUploadBloco()"-->
+<!--                        (editorBloco)="doEditorBloco()"-->
+<!--                        (editDocumentoAvulsoBloco)="editDocumentoAvulsoBloco()"&ndash;&gt;-->
+<!--                    </cdk-documento-avulso-list>-->
                 </div>
                 <div class="oficio-detail" mwlResizable [enableGhostResize]="true"
                      [resizeEdges]="{bottom: false, right: true, top: false, left: true}"

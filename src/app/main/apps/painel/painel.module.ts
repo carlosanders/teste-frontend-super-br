@@ -6,7 +6,7 @@ import {
     MatMenuModule,
     MatProgressSpinnerModule,
     MatSelectModule
-} from '@angular/material';
+} from '@cdk/angular/material';
 
 import { FuseSharedModule } from '@fuse/shared.module';
 import { FuseWidgetModule } from '@fuse/components/widget/widget.module';

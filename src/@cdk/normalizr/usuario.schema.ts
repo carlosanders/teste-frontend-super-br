@@ -4,3 +4,4 @@ import {colaborador} from "./colaborador.schema";
 export const usuario = new schema.Entity('usuario', {
     colaborador: colaborador
 });
+

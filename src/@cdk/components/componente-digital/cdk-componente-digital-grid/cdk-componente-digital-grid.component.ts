@@ -9,7 +9,7 @@ import {merge, of} from 'rxjs';
 
 import {fuseAnimations} from '@fuse/animations';
 import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
-import {MatDialog, MatPaginator, MatSort} from '@angular/material';
+import {MatPaginator, MatSort, MatDialog} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, filter, switchMap, tap} from 'rxjs/operators';
 import {ComponenteDigitalDataSource} from '@cdk/data-sources/componente-digital-data-source';
 import {ComponenteDigital} from '@cdk/models/componente-digital.model';

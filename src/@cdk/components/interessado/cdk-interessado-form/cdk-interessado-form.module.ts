@@ -11,7 +11,7 @@ import {
     MatExpansionModule,
     MatRadioModule
 
-} from '@angular/material';
+} from '@cdk/angular/material';
 
 import { FuseSharedModule } from '@fuse/shared.module';
 import { ModalidadeInteressadoService } from '@cdk/services/modalidade-interessado.service';

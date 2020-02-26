@@ -4,9 +4,14 @@ import {fuseAnimations} from '@fuse/animations';
 import {Observable, Subject} from 'rxjs';
 import {Processo} from '@cdk/models/processo.model';
 import {select, Store} from '@ngrx/store';
-import * as fromStore from '../../store';
+import * as fromStore from 'app/main/apps/processo/store';
+import {UnloadProcesso} from 'app/main/apps/processo/processo-edit/dados-basicos/store';
+import {CreateProcesso} from 'app/main/apps/processo/processo-edit/dados-basicos/store';
 import {takeUntil} from 'rxjs/operators';
+import {getRouterState} from 'app/store/reducers';
+import {Router} from '@angular/router';
 import {LoginService} from "../../../../auth/login/login.service";
+
 
 @Component({
     selector: 'processo-main-sidebar',
@@ -21,17 +26,24 @@ export class ProcessoMainSidebarComponent implements OnInit, OnDestroy {
     private _unsubscribeAll: Subject<any> = new Subject();
 
     links: any;
+    routerState: any;
 
     processo$: Observable<Processo>;
     processo: Processo;
+
+    /**
+     * @param _router
+     */
 
     /**
      * Constructor
      */
     constructor(
         private _store: Store<fromStore.ProcessoAppState>,
+        private _router: Router,
         private _loginService: LoginService
     ) {
+
         this.processo$ = this._store.pipe(select(fromStore.getProcesso));
 
         this.links = [
@@ -69,6 +81,15 @@ export class ProcessoMainSidebarComponent implements OnInit, OnDestroy {
         this.processo$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(processo => this.processo = processo);
+        
+        this._store
+            .pipe(select(getRouterState))
+            .subscribe(routerState => {
+                if (routerState) {
+                    this.routerState = routerState.state;
+                }
+            });
+
     }
 
     /**
@@ -79,4 +100,11 @@ export class ProcessoMainSidebarComponent implements OnInit, OnDestroy {
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
     }
+
+    create(): void {
+           this._store.dispatch(new fromStore.CreateProcesso());           
+           this._store.dispatch(new CreateProcesso());                      
+           window.location.assign(this.routerState.url.split('/processo/')[0] + '/processo/criar/editar');
+    }
+
 }

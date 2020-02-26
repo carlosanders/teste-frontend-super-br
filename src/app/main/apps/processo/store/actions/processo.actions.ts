@@ -2,6 +2,7 @@ import { Action } from '@ngrx/store';
 
 
 export const CREATE_PROCESSO = '[PROCESSO] CREATE PROCESSO';
+export const UNLOAD_PROCESSO = '[PROCESSO] UNLOAD PROCESSO';
 
 export const GET_PROCESSO = '[PROCESSO] GET PROCESSO';
 export const GET_PROCESSO_SUCCESS = '[PROCESSO] GET PROCESSO SUCCESS';
@@ -10,6 +11,10 @@ export const GET_PROCESSO_FAILED = '[PROCESSO] GET PROCESSO FAILED';
 export const CREATE_VINCULACAO_ETIQUETA = '[PROCESSO] VINCULACAO ETIQUETA';
 export const CREATE_VINCULACAO_ETIQUETA_SUCCESS = '[PROCESSO] VINCULACAO ETIQUETA SUCCESS';
 export const CREATE_VINCULACAO_ETIQUETA_FAILED = '[PROCESSO] VINCULACAO ETIQUETA FAILED';
+
+export const SAVE_CONTEUDO_VINCULACAO_ETIQUETA = '[PROCESSO] SAVE CONTEUDO VINCULACAO ETIQUETA';
+export const SAVE_CONTEUDO_VINCULACAO_ETIQUETA_SUCCESS = '[PROCESSO] SAVE CONTEUDO VINCULACAO ETIQUETA SUCCESS';
+export const SAVE_CONTEUDO_VINCULACAO_ETIQUETA_FAILED = '[PROCESSO] SAVE CONTEUDO VINCULACAO ETIQUETA FAILED';
 
 export const DELETE_VINCULACAO_ETIQUETA = '[PROCESSO] DELETE VINCULACAO_ETIQUETA';
 export const DELETE_VINCULACAO_ETIQUETA_SUCCESS = '[PROCESSO] DELETE VINCULACAO_ETIQUETA SUCCESS';
@@ -21,6 +26,18 @@ export const DELETE_VINCULACAO_ETIQUETA_FAILED = '[PROCESSO] DELETE VINCULACAO_E
 export class CreateProcesso implements Action
 {
     readonly type = CREATE_PROCESSO;
+
+    constructor()
+    {
+    }
+}
+
+/**
+ * Create Processo
+ */
+export class UnloadProcesso implements Action
+{
+    readonly type = UNLOAD_PROCESSO;
 
     constructor()
     {
@@ -62,6 +79,44 @@ export class GetProcessoFailed implements Action
     {
     }
 }
+
+
+/**
+ * Save Conteudo Vinculacao Etiqueta
+ */
+export class SaveConteudoVinculacaoEtiqueta implements Action
+{
+    readonly type = SAVE_CONTEUDO_VINCULACAO_ETIQUETA;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Save Conteudo Vinculacao Etiqueta Success
+ */
+export class SaveConteudoVinculacaoEtiquetaSuccess implements Action
+{
+    readonly type = SAVE_CONTEUDO_VINCULACAO_ETIQUETA_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Save Conteudo Vinculacao Etiqueta Failed
+ */
+export class SaveConteudoVinculacaoEtiquetaFailed implements Action
+{
+    readonly type = SAVE_CONTEUDO_VINCULACAO_ETIQUETA_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 
 /**
  * Delete Vinculacao Etiqueta
@@ -137,12 +192,16 @@ export class CreateVinculacaoEtiquetaFailed implements Action
 
 export type ProcessoActionsAll
     = CreateProcesso
+    | UnloadProcesso
     | GetProcesso
     | GetProcessoSuccess
     | GetProcessoFailed
     | CreateVinculacaoEtiqueta
     | CreateVinculacaoEtiquetaSuccess
     | CreateVinculacaoEtiquetaFailed
+    | SaveConteudoVinculacaoEtiqueta
+    | SaveConteudoVinculacaoEtiquetaSuccess
+    | SaveConteudoVinculacaoEtiquetaFailed     
     | DeleteVinculacaoEtiqueta
     | DeleteVinculacaoEtiquetaSuccess
     | DeleteVinculacaoEtiquetaFailed;

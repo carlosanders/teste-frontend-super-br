@@ -1,3 +1,13 @@
+<!-- SIDEBAR -->
+<fuse-sidebar [lockedOpen]="(mode === 'search') ? 'gt-xs' : ''" class="sidebar" name="cdk-processo-main-sidebar" position="left">
+    <!-- SIDEBAR CONTENT -->
+    <div class="content" fusePerfectScrollbar>
+        <cdk-processo-main-sidebar (selected)="setGridFilter($event)"
+                                   [@animate]="{value:'*'}"></cdk-processo-main-sidebar>
+    </div>
+    <!-- / SIDEBAR CONTENT -->
+</fuse-sidebar>
+<!-- / SIDEBAR -->
 <div class="page-layout fullwidth left-sidebar inner-scroll" fxFlex="100">
 
     <!-- SIDEBAR -->
@@ -14,9 +24,9 @@
 
     <!-- CONTENT -->
     <div class="content responsive-grid" fxLayoutAlign="center start">
-
+        
         <div class="mb-8 p-8" fxFlex fxLayout="column" fxLayoutAlign="center center">
-
+            
             <div class="actions" fxFlex fxLayout="row" fxLayoutAlign="end center">
 
                 <button class="back" mat-icon-button *ngIf="actions.indexOf('cancel') > -1"
@@ -436,6 +446,7 @@
             </div>
 
         </div>
-
+        
     </div>
+    
 </div>

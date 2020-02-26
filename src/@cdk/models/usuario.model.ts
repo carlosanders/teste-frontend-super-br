@@ -1,7 +1,7 @@
 import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
-import {VinculacaoRole} from './vinculacao-role.model';
-import {Colaborador} from "./colaborador.model";
+import {VinculacaoRole} from '@cdk/models';
+import { Colaborador } from './colaborador.model';
 
 export class Usuario {
 

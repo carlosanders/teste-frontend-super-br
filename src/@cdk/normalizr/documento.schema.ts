@@ -1,17 +1,16 @@
-import {schema} from '@cdk/normalizr-src';
-import {usuario} from './usuario.schema';
-import {processo} from './processo.schema';
-import {pessoa} from './pessoa.schema';
-import {setor} from './setor.schema';
-import {tipoDocumento} from './tipo-documento.schema';
-import {tarefa} from './tarefa.schema';
-import {origemDados} from './origem-dados.schema';
-import {componenteDigital} from './componente-digital.schema';
-import {vinculacaoDocumento} from './vinculacao-documento.schema';
-import {vinculacaoDocumentoPrincipal} from './vinculacao-documento-principal.schema';
-import {juntada} from './juntada.schema';
+import {usuario} from './base.schema';
+import {processo} from './base.schema';
+import {pessoa} from './base.schema';
+import {setor} from './base.schema';
+import {tipoDocumento} from './base.schema';
+import {tarefa} from './base.schema';
+import {origemDados} from './base.schema';
+import {componenteDigital} from './base.schema';
+import {vinculacaoDocumento} from './base.schema';
+import {juntada} from './base.schema';
+import {documento as documentoSchema} from './base.schema';
 
-export const documento = new schema.Entity('documento', {
+documentoSchema.define({
     processoOrigem: processo,
     procedencia: pessoa,
     tipoDocumento: tipoDocumento,
@@ -24,5 +23,7 @@ export const documento = new schema.Entity('documento', {
     apagadoPor: usuario,
     componentesDigitais: [componenteDigital],
     vinculacoesDocumentos: [vinculacaoDocumento],
-    vinculacaoDocumentoPrincipal: vinculacaoDocumentoPrincipal
+    vinculacaoDocumento: vinculacaoDocumento
 });
+
+export const documento = documentoSchema;

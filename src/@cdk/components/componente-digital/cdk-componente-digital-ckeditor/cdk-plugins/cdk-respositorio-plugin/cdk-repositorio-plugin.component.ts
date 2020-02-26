@@ -15,7 +15,7 @@ import {Pagination} from '@cdk/models/pagination';
 
 import {Repositorio} from '@cdk/models/repositorio.model';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {MatDialogRef} from '@angular/material/dialog';
+import {MatDialogRef} from '@cdk/angular/material';
 
 @Component({
     selector: 'cdk-repositorio-plugin',

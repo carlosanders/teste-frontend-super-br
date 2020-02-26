@@ -1,11 +1,10 @@
-import {schema} from '@cdk/normalizr-src';
-import {usuario} from './usuario.schema';
-import {modalidadeOrgaoCentral} from './modalidade-orgao-central.schema';
-import {municipio} from './municipio.schema';
-import {especieSetor} from './especie-setor.schema';
-import {generoSetor} from './genero-setor.schema';
+import {usuario} from './base.schema';
+import {modalidadeOrgaoCentral} from './base.schema';
+import {municipio} from './base.schema';
+import {generoSetor} from './base.schema';
+import {unidade as unidadeSchema} from './base.schema';
 
-export const unidade = new schema.Entity('unidade', {
+unidadeSchema.define({
     municipio: municipio,
     generoSetor: generoSetor,
     modalidadeOrgaoCentral: modalidadeOrgaoCentral,
@@ -13,3 +12,5 @@ export const unidade = new schema.Entity('unidade', {
     atualizadoPor: usuario,
     apagadoPor: usuario
 });
+
+export const unidade = unidadeSchema;

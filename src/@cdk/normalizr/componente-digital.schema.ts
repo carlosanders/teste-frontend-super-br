@@ -1,10 +1,12 @@
-import {schema} from '@cdk/normalizr-src';
-import {usuario} from './usuario.schema';
-import {origemDados} from './origem-dados.schema';
+import {usuario} from './base.schema';
+import {origemDados} from './base.schema';
+import {componenteDigital as componenteDigitalSchema} from './base.schema';
 
-export const componenteDigital = new schema.Entity('componenteDigital', {
+componenteDigitalSchema.define({
     origemDados: origemDados,
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario
 });
+
+export const componenteDigital = componenteDigitalSchema;

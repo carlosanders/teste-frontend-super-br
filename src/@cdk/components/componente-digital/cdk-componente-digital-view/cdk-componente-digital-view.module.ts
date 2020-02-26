@@ -8,7 +8,7 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatSortModule, MatProgressBarModule,
-} from '@angular/material';
+} from '@cdk/angular/material';
 
 import { FuseSharedModule } from '@fuse/shared.module';
 import { CdkComponenteDigitalViewComponent} from './cdk-componente-digital-view.component';

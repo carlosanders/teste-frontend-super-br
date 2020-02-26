@@ -21,7 +21,7 @@
 
                         <mat-menu #moreMenu="matMenu">
                             <button mat-menu-item aria-label="upload"
-                                    (click)="upload()">
+                                    (click)="responderDocumento()">
                                 <ng-container>
                                     <mat-icon>picture_as_pdf</mat-icon>
                                     <span>Responder</span>
@@ -29,7 +29,7 @@
                             </button>
 
                             <button mat-menu-item aria-label="editor de textos"
-                                    (click)="upload()">
+                                    (click)="complementarDocumento()">
                                 <ng-container>
                                     <mat-icon>picture_as_pdf</mat-icon>
                                     <span>Complementar</span>
@@ -37,23 +37,11 @@
                             </button>
                         </mat-menu>
 
-
-
-
-<!--                        <cdk-documento-card-list [documentos]="minutas"-->
-<!--                                                 [deletingId]="(deletingDocumentosId$ | async)"-->
-<!--                                                 [assinandoId]="(assinandoDocumentosId$ | async)"-->
-<!--                                                 [convertendoId]="(convertendoDocumentosId$ | async)"-->
-<!--                                                 (delete)="doDelete($event)"-->
-<!--                                                 (assinatura)="doAssinatura($event)"-->
-<!--                                                 (converte)="doConverte($event)"-->
-<!--                                                 (clicked)="onClicked($event)"-->
-<!--                                                 (changedSelectedIds)="changedSelectedIds($event)">-->
-<!--                        </cdk-documento-card-list>-->
-<!--                        <cdk-componente-digital-card-list #ckdUpload-->
-<!--                                                          [tarefaOrigem]="documentoAvulso"-->
-<!--                                                          (complete)="onComplete()">-->
-<!--                        </cdk-componente-digital-card-list>-->
+                        <cdk-componente-digital-documento-avulso-card-list #ckdUpload
+                                                                           [documentoAvulsoOrigem]="this.documentoOrigem"
+                                                                           [action]="this.action"
+                                                                           (complete)="onComplete()">
+                        </cdk-componente-digital-documento-avulso-card-list>
                     </div>
 
                 </mat-tab>

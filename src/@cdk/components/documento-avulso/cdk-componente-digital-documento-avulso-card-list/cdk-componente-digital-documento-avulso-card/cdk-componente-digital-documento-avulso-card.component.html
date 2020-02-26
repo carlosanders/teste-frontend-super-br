@@ -1,0 +1,16 @@
+<div fxLayout="row" fxLayoutAlign="start center">
+    <div class="p-8 file" fxLayout="column" (click)="onClick(componenteDigital)">
+
+        <div fxLayout="row" fxLayoutAlign="start center">
+            <mat-icon class="ml-8 mr-8">picture_as_pdf</mat-icon>
+            <div class="mr-8">{{componenteDigital.documento?.tipoDocumento?.sigla || 'OUT'}}</div>
+        </div>
+
+        <div *ngIf="componenteDigital.inProgress" fxLayout="row" fxLayoutAlign="start center">
+            <mat-progress-bar mode="determinate" [value]="componenteDigital.progress"></mat-progress-bar>
+        </div>
+
+        <div class="space" *ngIf="!componenteDigital.inProgress" fxLayout="row" fxLayoutAlign="start center">
+        </div>
+    </div>
+</div>
