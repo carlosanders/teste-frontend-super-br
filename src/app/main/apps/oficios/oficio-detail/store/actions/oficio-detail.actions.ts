@@ -179,7 +179,7 @@ export class GetDocumentosFailed implements Action
     }
 }
 
-export type DocumentoAvulsoDetailActionsAll
+export type OficioDetailActionsAll
     = GetDocumentoAvulso
     | GetDocumentoAvulsoSuccess
     | GetDocumentoAvulsoFailed

@@ -1,30 +1,30 @@
-import {Injectable} from '@angular/core';
-import {select, Store} from '@ngrx/store';
-import {Actions, Effect, ofType} from '@ngrx/effects';
+import { Injectable } from '@angular/core';
+import { select, Store } from '@ngrx/store';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 
-import {Observable, of} from 'rxjs';
-import {catchError, map, exhaustMap, mergeMap, concatMap, tap, switchMap} from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { catchError, map, exhaustMap, mergeMap, concatMap, tap, switchMap } from 'rxjs/operators';
 
-import {getRouterState, State} from 'app/store/reducers';
+import { getRouterState, State } from 'app/store/reducers';
 
 import * as DocumentoAvulsoDetailActions from 'app/main/apps/oficios/oficio-detail/store/actions/oficio-detail.actions';
 
 import { DocumentoAvulsoService } from '@cdk/services/documento-avulso.service';
-import {Router} from '@angular/router';
-import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
-import {VinculacaoEtiqueta} from '@cdk/models/vinculacao-etiqueta.model';
-import {AddChildData, AddData, RemoveChildData} from '@cdk/ngrx-normalizr';
-import {vinculacaoEtiqueta as vinculacaoEtiquetaSchema} from '@cdk/normalizr/vinculacao-etiqueta.schema';
-import {documentoAvulso as documentoAvulsoSchema} from '@cdk/normalizr/documento-avulso.schema';
-import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
-import {DocumentoService} from '@cdk/services/documento.service';
-import {DocumentoAvulso} from '@cdk/models/documento-avulso.model';
-import {Documento} from '@cdk/models/documento.model';
+import { Router} from '@angular/router';
+import { VinculacaoEtiquetaService } from '@cdk/services/vinculacao-etiqueta.service';
+import { VinculacaoEtiqueta } from '@cdk/models/vinculacao-etiqueta.model';
+import { AddChildData, AddData, RemoveChildData } from '@cdk/ngrx-normalizr';
+import { vinculacaoEtiqueta as vinculacaoEtiquetaSchema } from '@cdk/normalizr/vinculacao-etiqueta.schema';
+import { documentoAvulso as documentoAvulsoSchema } from '@cdk/normalizr/documento-avulso.schema';
+import { documento as documentoSchema } from '@cdk/normalizr/documento.schema';
+import { DocumentoService } from '@cdk/services/documento.service';
+import { DocumentoAvulso } from '@cdk/models/documento-avulso.model';
+import { Documento } from '@cdk/models/documento.model';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 /*import { GetDocumentos } from '../../atividades/atividade-create/store/actions';*/
 
 @Injectable()
-export class DocumentoAvulsoDetailEffect {
+export class OficioDetailEffect {
     routerState: any;
 
     constructor(
@@ -69,8 +69,8 @@ export class DocumentoAvulsoDetailEffect {
                             'setorResponsavel.unidade',
                             'setorOrigem',
                             'setorOrigem.unidade',
-                            'vinculacoesEtiquetas',
-                            'vinculacoesEtiquetas.etiqueta']));
+                            'processo.vinculacoesEtiquetas',
+                            'processo.vinculacoesEtiquetas.etiqueta']));
                 }),
                 mergeMap(response => [
                     new AddData<DocumentoAvulso>({data: response['entities'], schema: documentoAvulsoSchema}),

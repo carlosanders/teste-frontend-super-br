@@ -7,7 +7,7 @@ export interface DocumentoAvulsoAppState
 }
 
 export const getDocumentoAvulsoAppState = createFeatureSelector<DocumentoAvulsoAppState>(
-    'documentos-avulso-app'
+    'oficio-app'
 );
 
 export const getAppState = createSelector(

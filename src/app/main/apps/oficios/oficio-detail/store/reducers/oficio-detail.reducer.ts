@@ -1,6 +1,6 @@
-import * as DocumentoAvulsoDetailActions from 'app/main/apps/oficios/oficio-detail/store/actions/oficio-detail.actions';
+import * as OficioDetailActions from 'app/main/apps/oficios/oficio-detail/store/actions/oficio-detail.actions';
 
-export interface DocumentoAvulsoDetailState {
+export interface OficioDetailState {
     documentoAvulsoId: number;
     loading: boolean;
     loaded: any;
@@ -11,7 +11,7 @@ export interface DocumentoAvulsoDetailState {
     documentosLoaded: any;
 }
 
-export const DocumentoAvulsoDetailInitialState: DocumentoAvulsoDetailState = {
+export const OficioDetailInitialState: OficioDetailState = {
     documentoAvulsoId: null,
     loading: false,
     loaded: false,
@@ -22,17 +22,17 @@ export const DocumentoAvulsoDetailInitialState: DocumentoAvulsoDetailState = {
     documentosLoaded: false
 };
 
-export function DocumentoAvulsoDetailReducer(state = DocumentoAvulsoDetailInitialState, action: DocumentoAvulsoDetailActions.DocumentoAvulsoDetailActionsAll): DocumentoAvulsoDetailState {
+export function OficioDetailReducer(state = OficioDetailInitialState, action: OficioDetailActions.OficioDetailActionsAll): OficioDetailState {
     switch (action.type) {
 
-        case DocumentoAvulsoDetailActions.GET_DOCUMENTO_AVULSO: {
+        case OficioDetailActions.GET_DOCUMENTO_AVULSO: {
             return {
                 ...state,
                 loading: true
             };
         }
 
-        case DocumentoAvulsoDetailActions.GET_DOCUMENTO_AVULSO_SUCCESS: {
+        case OficioDetailActions.GET_DOCUMENTO_AVULSO_SUCCESS: {
 
             return {
                 ...state,
@@ -42,14 +42,14 @@ export function DocumentoAvulsoDetailReducer(state = DocumentoAvulsoDetailInitia
             };
         }
 
-        case DocumentoAvulsoDetailActions.GET_DOCUMENTO_AVULSO_FAILED: {
+        case OficioDetailActions.GET_DOCUMENTO_AVULSO_FAILED: {
             return {
                 ...state,
                 loading: false
             };
         }
 
-        case DocumentoAvulsoDetailActions.GET_DOCUMENTOS_SUCCESS: {
+        case OficioDetailActions.GET_DOCUMENTOS_SUCCESS: {
             return {
                 ...state,
                 documentosId: action.payload.entitiesId,

@@ -1,22 +1,22 @@
 import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { DocumentoAvulsoDetailReducer, DocumentoAvulsoDetailState } from './oficio-detail.reducer';
+import { OficioDetailReducer, OficioDetailState } from './oficio-detail.reducer';
 
-export interface DocumentoAvulsoDetailAppState
+export interface OficioDetailAppState
 {
-    documentoAvulsoDetail: DocumentoAvulsoDetailState;
+    oficioDetail: OficioDetailState;
 }
 
-export const getDocumentoAvulsoDetailAppState = createFeatureSelector<DocumentoAvulsoDetailAppState>(
+export const getDocumentoAvulsoDetailAppState = createFeatureSelector<OficioDetailAppState>(
     'oficio-detail-app'
 );
 
 export const getAppState = createSelector(
     getDocumentoAvulsoDetailAppState,
-    (state: DocumentoAvulsoDetailAppState) => state
+    (state: OficioDetailAppState) => state
 );
 
-export const reducers: ActionReducerMap<DocumentoAvulsoDetailAppState> = {
-    documentoAvulsoDetail: DocumentoAvulsoDetailReducer
+export const reducers: ActionReducerMap<OficioDetailAppState> = {
+    oficioDetail: OficioDetailReducer
 };
 
 export * from './oficio-detail.reducer';

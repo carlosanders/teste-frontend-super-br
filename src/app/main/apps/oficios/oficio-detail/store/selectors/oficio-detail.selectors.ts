@@ -1,8 +1,8 @@
 import { createSelector } from '@ngrx/store';
 import {
     getDocumentoAvulsoDetailAppState,
-    DocumentoAvulsoDetailAppState,
-    DocumentoAvulsoDetailState } from 'app/main/apps/oficios/oficio-detail/store/reducers';
+    OficioDetailAppState,
+    OficioDetailState } from 'app/main/apps/oficios/oficio-detail/store/reducers';
 import { createSchemaSelectors } from '@cdk/ngrx-normalizr';
 import { documentoAvulso as documentoAvulsoSchema } from '@cdk/normalizr/documento-avulso.schema';
 import { documento as documentoSchema } from '@cdk/normalizr/documento.schema';
@@ -14,27 +14,27 @@ const schemaDocumentoSelectors = createSchemaSelectors<Documento>(documentoSchem
 
 export const getDocumentoAvulsoState = createSelector(
     getDocumentoAvulsoDetailAppState,
-    (state: DocumentoAvulsoDetailAppState) => state.documentoAvulsoDetail
+    (state: OficioDetailAppState) => state.oficioDetail
 );
 
 export const getIsLoading = createSelector(
     getDocumentoAvulsoState,
-    (state: DocumentoAvulsoDetailState) => state.loading
+    (state: OficioDetailState) => state.loading
 );
 
 export const getIsSaving = createSelector(
     getDocumentoAvulsoState,
-    (state: DocumentoAvulsoDetailState) => state.saving
+    (state: OficioDetailState) => state.saving
 );
 
 export const getHasLoaded = createSelector(
     getDocumentoAvulsoState,
-    (state: DocumentoAvulsoDetailState) => state.loaded
+    (state: OficioDetailState) => state.loaded
 );
 
 export const getDocumentoAvulsoId = createSelector(
     getDocumentoAvulsoState,
-    (state: DocumentoAvulsoDetailState) => state.loaded ? state.loaded.value : null
+    (state: OficioDetailState) => state.loaded ? state.loaded.value : null
 );
 
 export const getDocumentoAvulso = createSelector(
@@ -45,12 +45,12 @@ export const getDocumentoAvulso = createSelector(
 
 export const getErrors = createSelector(
     getDocumentoAvulsoState,
-    (state: DocumentoAvulsoDetailState) => state.errors
+    (state: OficioDetailState) => state.errors
 );
 
 export const getDocumentosId = createSelector(
     getDocumentoAvulsoState,
-    (state: DocumentoAvulsoDetailState) => state.documentosId
+    (state: OficioDetailState) => state.documentosId
 );
 
 export const getDocumentos = createSelector(
@@ -61,5 +61,5 @@ export const getDocumentos = createSelector(
 
 export const getDocumentosHasLoaded = createSelector(
     getDocumentoAvulsoState,
-    (state: DocumentoAvulsoDetailState) => state.documentosLoaded
+    (state: OficioDetailState) => state.documentosLoaded
 );

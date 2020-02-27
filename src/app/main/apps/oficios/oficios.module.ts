@@ -20,7 +20,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { FuseSharedModule } from '@fuse/shared.module';
 import { FuseSidebarModule } from '@fuse/components';
 import * as fromGuards from 'app/main/apps/oficios/store/guards/index';
-import { DocumentosAvulsoStoreModule } from 'app/main/apps/oficios/store/store.module';
+import { OficioStoreModule } from 'app/main/apps/oficios/store/store.module';
 import { FolderService } from '@cdk/services/folder.service';
 import { ProcessoService } from '@cdk/services/processo.service';
 import { SetorService } from '@cdk/services/setor.service';
@@ -90,7 +90,7 @@ const routes: Routes = [
 
         FuseSharedModule,
         FuseSidebarModule,
-        DocumentosAvulsoStoreModule
+        OficioStoreModule
     ],
     providers: [
         FolderService,

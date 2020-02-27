@@ -6,7 +6,7 @@ import { select, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { switchMap, catchError, tap, take, filter } from 'rxjs/operators';
 
-import { DocumentoAvulsoDetailAppState } from 'app/main/apps/oficios/oficio-detail/store/reducers';
+import { OficioDetailAppState } from 'app/main/apps/oficios/oficio-detail/store/reducers';
 import * as fromStore from 'app/main/apps/oficios/oficio-detail/store';
 import { getHasLoaded } from 'app/main/apps/oficios/oficio-detail/store/selectors';
 import { getRouterState } from 'app/store/reducers';
@@ -19,10 +19,10 @@ export class ResolveGuard implements CanActivate {
     /**
      * Constructor
      *
-     * @param {Store<DocumentoAvulsoDetailAppState>} _store
+     * @param {Store<OficioDetailAppState>} _store
      */
     constructor(
-        private _store: Store<DocumentoAvulsoDetailAppState>
+        private _store: Store<OficioDetailAppState>
     ) {
         this._store
             .pipe(select(getRouterState))

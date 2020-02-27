@@ -25,7 +25,7 @@ import { getScreenState } from 'app/store/reducers';
 import { DynamicService } from '../../../../../modules/dynamic.service';
 import { modulesConfig } from 'modules/modules-config';
 import { Usuario } from '@cdk/models/usuario.model';
-import { DocumentoAvulso } from '../../../../../@cdk/models/documento-avulso.model';
+import { DocumentoAvulso } from '@cdk/models/documento-avulso.model';
 
 @Component({
     selector: 'oficio-detail',
@@ -75,7 +75,7 @@ export class OficioDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
-        private _store: Store<fromStore.DocumentoAvulsoDetailAppState>,
+        private _store: Store<fromStore.OficioDetailAppState>,
         private _loginService: LoginService,
         private _dynamicService: DynamicService
     ) {
@@ -87,7 +87,7 @@ export class OficioDetailComponent implements OnInit, OnDestroy, AfterViewInit {
         this.vinculacaoEtiquetaPagination = new Pagination();
         this.vinculacaoEtiquetaPagination.filter = {
             'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.id,
-            'modalidadeEtiqueta.valor': 'eq:DOCUMENTO_AVULSO'
+            'modalidadeEtiqueta.valor': 'eq:PROCESSO'
         };
     }
 

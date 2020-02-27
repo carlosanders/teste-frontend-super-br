@@ -13,7 +13,7 @@ import { CommonModule } from '@angular/common';
 
 import * as fromGuards from './store/guards';
 
-import { TarefaDetailStoreModule } from './store/store.module';
+import { OficioDetailStoreModule } from './store/store.module';
 import { TarefaService } from '@cdk/services/tarefa.service';
 import { CdkVinculacaoEtiquetaChipsModule } from '@cdk/components/vinculacao-etiqueta/cdk-vinculacao-etiqueta-chips/cdk-vinculacao-etiqueta-chips.module';
 import { VinculacaoEtiquetaService } from '@cdk/services/vinculacao-etiqueta.service';
@@ -62,7 +62,7 @@ const routes: Routes = [
         MatProgressSpinnerModule,
         MatTooltipModule,
 
-        TarefaDetailStoreModule,
+        OficioDetailStoreModule,
 
         PipesModule,
 

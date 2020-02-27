@@ -1,7 +1,7 @@
-import { DocumentoAvulsoDetailEffect } from './oficio-detail.effects';
+import { OficioDetailEffect } from './oficio-detail.effects';
 
 export const effects = [
-    DocumentoAvulsoDetailEffect
+    OficioDetailEffect
 ];
 
 export * from './oficio-detail.effects';
