@@ -1,7 +1,7 @@
-import {especieSetor} from './especie-setor.schema';
-import {setor} from './setor.schema';
-import {usuario} from './usuario.schema';
-import {repositorio} from './repositorio.schema';
+import {especieSetor} from './base.schema';
+import {setor} from './base.schema';
+import {usuario} from './base.schema';
+import {repositorio} from './base.schema';
 import {vinculacaoRepositorio as vinculacaoRepositorioSchema} from './base.schema';
 
 vinculacaoRepositorioSchema.define({

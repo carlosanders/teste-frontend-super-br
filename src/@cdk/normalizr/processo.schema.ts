@@ -1,15 +1,15 @@
-import {classificacao} from './classificacao.schema';
-import {origemDados} from './origem-dados.schema';
-import {processoOrigem} from './processo-origem.schema';
-import {documentoAvulso} from './documento-avulso.schema';
-import {pessoa} from './pessoa.schema';
-import {localizador} from './localizador.schema';
-import {setor} from './setor.schema';
-import {modalidadeFase} from './modalidade-fase.schema';
-import {especieProcesso} from './especie-processo.schema';
-import {usuario} from './usuario.schema';
-import {modalidadeMeio} from './modalidade-meio.schema';
-import {vinculacaoEtiqueta} from './vinculacao-etiqueta.schema';
+import {classificacao} from './base.schema';
+import {origemDados} from './base.schema';
+import {processo as processoOrigem} from './base.schema';
+import {documentoAvulso} from './base.schema';
+import {pessoa} from './base.schema';
+import {localizador} from './base.schema';
+import {setor} from './base.schema';
+import {modalidadeFase} from './base.schema';
+import {especieProcesso} from './base.schema';
+import {usuario} from './base.schema';
+import {modalidadeMeio} from './base.schema';
+import {vinculacaoEtiqueta} from './base.schema';
 import {processo as processoSchema} from './base.schema';
 
 processoSchema.define({

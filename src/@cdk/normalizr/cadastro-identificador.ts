@@ -1,7 +1,7 @@
 import {cadastroIdentificador as cadastroIdentificadorSchema} from './base.schema';
-import { origemDados } from './origem-dados.schema';
-import {pessoa} from './pessoa.schema';
-import {usuario} from './usuario.schema';
+import { origemDados } from './base.schema';
+import {pessoa} from './base.schema';
+import {usuario} from './base.schema';
 
 cadastroIdentificadorSchema.define({
     origemDados: origemDados,

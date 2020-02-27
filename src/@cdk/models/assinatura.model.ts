@@ -1,9 +1,9 @@
 import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
 
-import { Usuario } from '@cdk/models/usuario.model';
-import {ComponenteDigital} from '@cdk/models/componente-digital.model';
-import {OrigemDados} from '@cdk/models/origem-dados.model';
+import { Usuario } from '@cdk/models';
+import {ComponenteDigital} from '@cdk/models';
+import {OrigemDados} from '@cdk/models';
 
 export class Assinatura {
 

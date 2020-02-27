@@ -1,8 +1,8 @@
 import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
 
-import { Usuario } from '@cdk/models/usuario.model';
-import { Pais } from '@cdk/models/pais.model';
+import { Usuario } from '@cdk/models';
+import { Pais } from '@cdk/models';
 
 export class Estado {
 

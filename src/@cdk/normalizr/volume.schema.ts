@@ -1,7 +1,7 @@
-import {usuario} from './usuario.schema';
-import {processo} from './processo.schema';
-import {modalidadeMeio} from './modalidade-meio.schema';
-import {origemDados} from './origem-dados.schema';
+import {usuario} from './base.schema';
+import {processo} from './base.schema';
+import {modalidadeMeio} from './base.schema';
+import {origemDados} from './base.schema';
 import {volume as volumeSchema} from './base.schema';
 
 volumeSchema.define({

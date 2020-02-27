@@ -1,5 +1,5 @@
-import {pais} from './pais.schema';
-import {usuario} from './usuario.schema';
+import {pais} from './base.schema';
+import {usuario} from './base.schema';
 import {estado as estadoSchema} from './base.schema';
 
 estadoSchema.define({

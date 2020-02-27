@@ -1,5 +1,4 @@
 import {
-    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
@@ -24,8 +23,8 @@ import {VinculacaoEtiqueta} from '@cdk/models/vinculacao-etiqueta.model';
 import {Pagination} from '@cdk/models/pagination';
 import {LoginService} from '../../auth/login/login.service';
 import {Router} from '@angular/router';
-import {Usuario} from "../../../../@cdk/models/usuario.model";
-import {takeUntil} from "rxjs/operators";
+import {Usuario} from '@cdk/models/usuario.model';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'processo',
@@ -82,9 +81,9 @@ export class ProcessoComponent implements OnInit, OnDestroy {
             'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.id,
             'modalidadeEtiqueta.valor': 'eq:PROCESSO'
         };
+        this.routerState$ = this._store.pipe(select(getRouterState));
         this.savingVincEtiquetaId$ = this._store.pipe(select(fromStore.getSavingVincEtiquetaId));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
-        this.routerState$ = this._store.pipe(select(getRouterState));
     }
 
     // -----------------------------------------------------------------------------------------------------

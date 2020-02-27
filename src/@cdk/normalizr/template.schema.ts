@@ -1,7 +1,7 @@
-import {modalidadeTemplate} from './modalidade-template.schema';
-import {tipoDocumento} from './tipo-documento.schema';
-import {documento} from './documento.schema';
-import {usuario} from './usuario.schema';
+import {modalidadeTemplate} from './base.schema';
+import {tipoDocumento} from './base.schema';
+import {documento} from './base.schema';
+import {usuario} from './base.schema';
 import {template as templateSchema} from './base.schema';
 
 templateSchema.define({

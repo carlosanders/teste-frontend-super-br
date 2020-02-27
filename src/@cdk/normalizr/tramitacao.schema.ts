@@ -1,7 +1,7 @@
-import {usuario} from './usuario.schema';
-import {processo} from './processo.schema';
-import {setor} from './setor.schema';
-import {pessoa} from './pessoa.schema';
+import {usuario} from './base.schema';
+import {processo} from './base.schema';
+import {setor} from './base.schema';
+import {pessoa} from './base.schema';
 import {tramitacao as tramitacaoSchema} from './base.schema';
 
 tramitacaoSchema.define({

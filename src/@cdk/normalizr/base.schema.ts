@@ -55,6 +55,7 @@ export const modalidadeDocumentoIdentificador = new schema.Entity('modalidade-do
 export const modalidadeEtiqueta = new schema.Entity('modalidade-etiqueta');
 export const modalidadeFase = new schema.Entity('modalidade-fase');
 export const modalidadeFolder = new schema.Entity('modalidade-folder');
+export const modalidadeGarantia = new schema.Entity('modalidade-garantia');
 export const modalidadeGeneroPessoa = new schema.Entity('modalidade-genero-pessoa');
 export const modalidadeInteressado = new schema.Entity('modalidade-interessado');
 export const modalidadeMeio = new schema.Entity('modalidade-meio');
