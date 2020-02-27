@@ -53,6 +53,8 @@ export class ComponenteDigital {
 
     usernameLockEdicao: string;
 
+    failUpload: boolean;
+
     @Transform(value => value ? value.format() : null, {toPlainOnly: true})
     @Transform(value => value ? moment(value) : null, {toClassOnly: true})
     dataHoraSoftwareCriacao?: Date;
@@ -93,8 +95,9 @@ export class ComponenteDigital {
     @Transform(value => value ? value.map((d) => d.id) : null, { toPlainOnly: true })
     tarefaOrigemBloco?: Tarefa[];
 
-    @Type(() => DocumentoAvulso)
-    @Transform(value => value ? value.id : null, {toPlainOnly: true})
+    // @Exclude({toPlainOnly: true})
+    // @Type(() => DocumentoAvulso)
+    // @Transform(value => value ? value.id : null, {toPlainOnly: true})
     documentoAvulsoOrigem?: DocumentoAvulso;
 
     @Type(() => DocumentoAvulso)
@@ -112,6 +115,7 @@ export class ComponenteDigital {
     criadoPor?: Usuario;
 
     @Exclude({toPlainOnly: true})
+
     @Transform(value => value ? value.format() : null, {toPlainOnly: true})
     @Transform(value => value ? moment(value) : null, {toClassOnly: true})
     criadoEm?: Date;
@@ -198,5 +202,6 @@ export class ComponenteDigital {
         this.canCancel = null;
         this.sub = null;
         this.complete = null;
+
     }
 }

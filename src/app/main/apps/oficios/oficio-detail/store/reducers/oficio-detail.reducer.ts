@@ -11,7 +11,7 @@ export interface OficioDetailState {
     documentosLoaded: any;
 }
 
-export const OficioDetailInitialState: OficioDetailState = {
+export const DocumentoAvulsoDetailInitialState: OficioDetailState = {
     documentoAvulsoId: null,
     loading: false,
     loaded: false,
@@ -22,7 +22,7 @@ export const OficioDetailInitialState: OficioDetailState = {
     documentosLoaded: false
 };
 
-export function OficioDetailReducer(state = OficioDetailInitialState, action: OficioDetailActions.OficioDetailActionsAll): OficioDetailState {
+export function OficioDetailReducer(state = DocumentoAvulsoDetailInitialState, action: OficioDetailActions.OficioDetailActionsAll): OficioDetailState {
     switch (action.type) {
 
         case OficioDetailActions.GET_DOCUMENTO_AVULSO: {
@@ -36,13 +36,13 @@ export function OficioDetailReducer(state = OficioDetailInitialState, action: Of
 
             return {
                 ...state,
-                documentoAvulsoId: action.payload.documentoAvulso.id,
+                documentoAvulsoId: action.payload.loaded.value,
                 loaded: action.payload.loaded,
                 loading: false
             };
         }
 
-        case OficioDetailActions.GET_DOCUMENTO_AVULSO_FAILED: {
+        case OficioDetailActions.GET_DOCUMENTOS_FAILED: {
             return {
                 ...state,
                 loading: false

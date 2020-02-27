@@ -9,6 +9,7 @@ import {PaginatedResponse} from '@cdk/models/paginated.response';
 import {environment} from 'environments/environment';
 import {Visibilidade} from '../models/visibilidade.model';
 import { ComponenteDigital } from '@cdk/models/componente-digital.model';
+import {DocumentoAvulso} from '../models';
 
 @Injectable()
 export class DocumentoService {
@@ -115,4 +116,7 @@ export class DocumentoService {
                 )
         ;
     }
+
+
+
 }

@@ -9,6 +9,7 @@ import {Pessoa} from '@cdk/models';
 import {Documento} from '@cdk/models';
 import {Processo} from '@cdk/models';
 import {Tarefa} from '@cdk/models';
+import { VinculacaoEtiqueta } from './vinculacao-etiqueta.model';
 
 export class DocumentoAvulso {
 
@@ -157,6 +158,9 @@ export class DocumentoAvulso {
     @Transform(value => value ? value.format() : null, { toPlainOnly: true })
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
     apagadoEm?: Date;
+
+    @Type(() => VinculacaoEtiqueta)
+    vinculacoesEtiquetas: VinculacaoEtiqueta[];
 
     constructor() {
         this.id = null;

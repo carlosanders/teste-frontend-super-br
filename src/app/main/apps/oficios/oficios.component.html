@@ -39,7 +39,8 @@
         <!-- / CONTENT HEADER -->
 
         <!-- CONTENT CARD -->
-        <div class="content-card" [ngClass]="{'current-documento-avulso-selected':currentDocumentoAvulsoId || (loading$ | async)}">
+        <div class="content-card"
+             [ngClass]="{'current-documento-avulso-selected':currentDocumentoAvulsoId || (loading$ | async)}">
 
             <!-- CONTENT -->
             <div class="content" fxFlexAlign="row">

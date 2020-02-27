@@ -1,40 +1,39 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
 import {
     MatAutocompleteModule,
     MatButtonModule,
     MatCheckboxModule,
+    MatDatepickerModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
     MatMenuModule,
+    MatProgressSpinnerModule,
     MatRippleModule,
     MatSelectModule,
     MatToolbarModule,
-    MatDatepickerModule,
-    MatProgressSpinnerModule,
-    MatTooltipModule,
-    MatDatepickerToggle
+    MatTooltipModule
 } from '@cdk/angular/material';
-import { TranslateModule } from '@ngx-translate/core';
-import { FuseSharedModule } from '@fuse/shared.module';
-import { FuseSidebarModule } from '@fuse/components';
+import {TranslateModule} from '@ngx-translate/core';
+import {FuseSharedModule} from '@fuse/shared.module';
+import {FuseSidebarModule} from '@fuse/components';
 import * as fromGuards from 'app/main/apps/oficios/store/guards/index';
-import { OficioStoreModule } from 'app/main/apps/oficios/store/store.module';
-import { FolderService } from '@cdk/services/folder.service';
-import { ProcessoService } from '@cdk/services/processo.service';
-import { SetorService } from '@cdk/services/setor.service';
-import { UsuarioService } from '@cdk/services/usuario.service';
-import { PipesModule } from '@cdk/pipes/pipes.module';
-import { ResizableModule } from 'angular-resizable-element';
-import { CdkDocumentoAvulsoListModule } from '@cdk/components/documento-avulso/cdk-documento-avulso-list/cdk-documento-avulso-list.module';
-import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-import { CdkEtiquetaChipsModule } from '@cdk/components/etiqueta/cdk-etiqueta-chips/cdk-etiqueta-chips.module';
-import { DndModule } from 'ngx-drag-drop';
-import { LoginService } from '../../auth/login/login.service';
-import { OficiosComponent } from './oficios.component';
-import { DocumentoAvulsoMainSidebarComponent } from './sidebars/main/main-sidebar.component';
-import { DocumentoAvulsoService } from '@cdk/services/documento-avulso.service';
+import {OficioStoreModule} from 'app/main/apps/oficios/store/store.module';
+import {FolderService} from '@cdk/services/folder.service';
+import {ProcessoService} from '@cdk/services/processo.service';
+import {SetorService} from '@cdk/services/setor.service';
+import {UsuarioService} from '@cdk/services/usuario.service';
+import {PipesModule} from '@cdk/pipes/pipes.module';
+import {ResizableModule} from 'angular-resizable-element';
+import {CdkDocumentoAvulsoListModule} from '@cdk/components/documento-avulso/cdk-documento-avulso-list/cdk-documento-avulso-list.module';
+import {InfiniteScrollModule} from 'ngx-infinite-scroll';
+import {CdkEtiquetaChipsModule} from '@cdk/components/etiqueta/cdk-etiqueta-chips/cdk-etiqueta-chips.module';
+import {DndModule} from 'ngx-drag-drop';
+import {LoginService} from '../../auth/login/login.service';
+import {OficiosComponent} from './oficios.component';
+import {DocumentoAvulsoMainSidebarComponent} from './sidebars/main/main-sidebar.component';
+import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
 import {CdkChaveAcessoPluginModule} from '@cdk/components/chave-acesso/cdk-chave-acesso-plugins/cdk-chave-acesso-plugin.module';
 
 const routes: Routes = [
@@ -90,7 +89,7 @@ const routes: Routes = [
 
         FuseSharedModule,
         FuseSidebarModule,
-        OficioStoreModule
+        OficioStoreModule,
     ],
     providers: [
         FolderService,

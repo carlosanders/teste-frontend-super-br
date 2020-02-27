@@ -1,0 +1,12 @@
+<cdk-componente-digital-documento-avulso-card class="ml-8 mb-8"
+                             *ngFor="let componenteDigital of componentesDigitais"
+                             [componenteDigital]="componenteDigital"
+                             [selected]="selectedIds.indexOf(componenteDigital.id) > -1"
+                             (cancel)="onCancel($event)"
+                             (retry)="onRetry($event)"
+                             (clicked)="onClick($event)"
+                             (changedSelected)="toggleInSelected($event)">
+</cdk-componente-digital-documento-avulso-card>
+
+<input hidden type="file" id="fileUpload" name="fileUpload"
+       accept="{{accept}}"/>

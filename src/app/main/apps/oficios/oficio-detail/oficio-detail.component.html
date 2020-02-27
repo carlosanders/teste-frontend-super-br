@@ -18,8 +18,11 @@
                             <mat-icon class="secondary-text">subdirectory_arrow_right</mat-icon>
                         </button>
                     </div>
+<!--                    <div class="row">
+                        TEXTO A DEFINIR
+                    </div>-->
 
-                    {{(documentoAvulso$ | async).especieDocumentoAvulso.nome}}
+                    <!--{{(documentoAvulso$ | async).especieDocumentoAvulso.nome}}-->
                     NO NUP {{(documentoAvulso$ | async).processo.NUP | formatNup}}
                     ATÉ {{(documentoAvulso$ | async).dataHoraFinalPrazo | date: 'dd/MM/yyyy'}}
 
@@ -31,53 +34,12 @@
                             <mat-icon class="black-fg">book</mat-icon>
                         </button>
 
-                        <!--<button mat-icon-button aria-label="Movimentar" matTooltip="Movimentar"
-                                [routerLink]="'atividades/criar'"
+                        <button mat-icon-button aria-label="Responder Ou Complementar" matTooltip="Responder Ou Complementar"
+                                [routerLink]="['responder-complementar']"
                                 [routerLinkActive]="['active', 'accent']">
                             <mat-icon class="black-fg">send</mat-icon>
                         </button>
 
-                        <button mat-icon-button aria-label="Editar Tarefa" matTooltip="Editar Tarefa"
-                                [routerLink]="'editar'"
-                                [routerLinkActive]="['active', 'accent']">
-                            <mat-icon class="black-fg">edit</mat-icon>
-                        </button>
-
-                        <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="Mais Ferramentas"
-                                (click)="$event.stopPropagation()"
-                                fxHide.xs>
-                            <mat-icon class="secondary-text">more_vert</mat-icon>
-                        </button>-->
-
-                        <!--<mat-menu #moreMenu="matMenu">
-
-                            <button mat-menu-item aria-label="toggle done"
-                                    (click)="doCreateTarefa()">
-                                <ng-container>
-                                    <mat-icon>check_box</mat-icon>
-                                    <span>Criar Tarefa</span>
-                                </ng-container>
-                            </button>
-
-                            <button mat-menu-item aria-label="Compartilhar"
-                                    [routerLink]="'compartilhamentos/criar'">
-                                <ng-container>
-                                    <mat-icon>share</mat-icon>
-                                    <span>Compartilhar</span>
-                                </ng-container>
-                            </button>
-
-                            <button mat-menu-item aria-label="Dar ciência"
-                                    (click)="doCiencia()">
-                                <ng-container>
-                                    <mat-icon>check</mat-icon>
-                                    <span>Dar Ciência</span>
-                                </ng-container>
-                            </button>
-
-                            <ng-template #dynamicComponent></ng-template>
-
-                        </mat-menu>-->
                     </div>
                 </div>
 

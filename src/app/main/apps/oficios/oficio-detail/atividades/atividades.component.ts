@@ -7,7 +7,7 @@ import {
 import { fuseAnimations } from '@fuse/animations';
 
 @Component({
-    selector: 'atividades',
+    selector: 'oficio-atividades',
     templateUrl: './atividades.component.html',
     styleUrls: ['./atividades.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,

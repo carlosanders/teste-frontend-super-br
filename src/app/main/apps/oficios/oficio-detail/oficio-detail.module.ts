@@ -21,7 +21,12 @@ import { DocumentoService } from '@cdk/services/documento.service';
 import { PipesModule } from '@cdk/pipes/pipes.module';
 import { LoginService } from '../../../auth/login/login.service';
 import { DynamicService } from '../../../../../modules/dynamic.service';
-
+import {CdkComponenteDigitalCardListModule} from '../../../../../@cdk/components/componente-digital/cdk-componente-digital-card-list/cdk-componente-digital-card-list.module';
+import {CdkDocumentoCardListModule} from '../../../../../@cdk/components/documento/cdk-documento-card-list/cdk-documento-card-list.module';
+import {CdkUploadModule} from '../../../../../@cdk/components/upload/cdk-upload.module';
+import {CdkAtividadeFormModule} from '../../../../../@cdk/components/atividade/cdk-atividade-form/cdk-atividade-form.module';
+import {ResponderComplementarModule} from './reponder-complementar/responder-complementar.module';
+import {MatBadge, MatBadgeModule} from '@angular/material/badge';
 const routes: Routes = [
     {
         path: ':documentoAvulsoHandle',
@@ -35,14 +40,18 @@ const routes: Routes = [
                 path: 'processo',
                 loadChildren: () => import('app/main/apps/processo/processo.module').then(m => m.ProcessoModule)
             },
-            {
+            /*{
                 path: 'modelo',
                 loadChildren: () => import('app/main/apps/modelo/modelo.module').then(m => m.ModeloModule),
             },
             {
                 path: 'oficio',
                 loadChildren: () => import('app/main/apps/documento-avulso/documento-avulso-create/documento-avulso-create.module').then(m => m.DocumentoAvulsoCreateModule),
-            }
+            },*/
+            {
+                path: 'responder-complementar',
+                loadChildren: () => import('./reponder-complementar/responder-complementar.module').then(m => m.ResponderComplementarModule)
+            },
         ],
         canActivate: [fromGuards.ResolveGuard]
     }
@@ -71,7 +80,16 @@ const routes: Routes = [
         CdkVinculacaoEtiquetaChipsModule,
 
         FuseSharedModule,
-        FuseSidebarModule
+        FuseSidebarModule,
+        CdkComponenteDigitalCardListModule,
+        CdkDocumentoCardListModule,
+        CdkUploadModule,
+        CdkAtividadeFormModule,
+        MatBadgeModule,
+        ResponderComplementarModule
+    ],
+    exports: [
+        OficioDetailComponent
     ],
     providers: [
         TarefaService,
