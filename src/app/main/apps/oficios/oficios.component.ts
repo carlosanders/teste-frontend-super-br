@@ -18,10 +18,7 @@ import { DocumentoAvulso } from '@cdk/models/documento-avulso.model';
 import { DocumentoAvulsoService } from '@cdk/services/documento-avulso.service';
 import * as fromStore from 'app/main/apps/oficios/store';
 import { getRouterState, getScreenState } from 'app/store/reducers';
-
 import { locale as english } from 'app/main/apps/oficios/i18n/en';
-
-import { Folder } from '@cdk/models/folder.model';
 
 import { ResizeEvent } from 'angular-resizable-element';
 import { fuseAnimations } from '@fuse/animations';
@@ -32,6 +29,8 @@ import { Pagination } from '@cdk/models/pagination';
 import { LoginService } from '../../auth/login/login.service';
 import { ToggleMaximizado } from 'app/main/apps/oficios/store';
 import { Usuario } from '@cdk/models/usuario.model';
+import { CdkChaveAcessoPluginComponent } from '@cdk/components/chave-acesso/cdk-chave-acesso-plugins/cdk-chave-acesso-plugin.component';
+import { MatDialog } from '@cdk/angular/material';
 
 @Component({
     selector: 'oficios',
@@ -100,6 +99,7 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
      * @param _loginService
      */
     constructor(
+        public _dialog: MatDialog,
         private _changeDetectorRef: ChangeDetectorRef,
         private _fuseSidebarService: FuseSidebarService,
         private _fuseTranslationLoaderService: FuseTranslationLoaderService,
@@ -261,11 +261,15 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     setCurrentDocumentoAvulso(documentoAvulso: DocumentoAvulso): void {
-        /*if (!documentoAvulso.dataHoraResposta) {
-            this._store.dispatch(new fromStore.ToggleRespondidoDocumentoAvulso(documentoAvulso));
-        }*/
-        this._store.dispatch(new fromStore.SetCurrentDocumentoAvulso({documentoAvulsoId: documentoAvulso.id,
-        processoId: documentoAvulso.processo.id, acessoNegado: documentoAvulso.processo.acessoNegado}));
+        const dialogRef = this._dialog.open(CdkChaveAcessoPluginComponent, {
+            width: '600px'
+        });
+
+        dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe(result => {
+            this._store.dispatch(new fromStore.SetCurrentDocumentoAvulso({documentoAvulsoId: documentoAvulso.id,
+                processoId: documentoAvulso.processo.id, acessoNegado: documentoAvulso.processo.acessoNegado, chaveAcesso: result}));
+            return;
+        });
     }
 
     /**

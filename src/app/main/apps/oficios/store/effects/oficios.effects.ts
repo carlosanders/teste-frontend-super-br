@@ -87,13 +87,14 @@ export class OficiosEffects {
             .pipe(
                 ofType<DocumentosAvulsoActions.SetCurrentDocumentoAvulso>(DocumentosAvulsoActions.SET_CURRENT_DOCUMENTOS_AVULSO),
                 map((action) => {
-                    if (action.payload.acessoNegado) {
+                    if (!action.payload.chaveAcesso) {
                         this._router.navigate([
                             'apps/oficios/detalhe/' + action.payload.documentoAvulsoId + '/processo/' + action.payload.processoId + '/acesso-negado']
                         ).then();
                     } else {
                         this._router.navigate([
-                            'apps/oficios/detalhe/' + action.payload.documentoAvulsoId + '/processo/' + action.payload.processoId + '/visualizar']
+                            'apps/oficios/detalhe/' + action.payload.documentoAvulsoId + '/processo/' + action.payload.processoId
+                            + '/visualizar/' + action.payload.chaveAcesso]
                         ).then();
                     }
 

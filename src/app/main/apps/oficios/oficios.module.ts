@@ -35,6 +35,7 @@ import { LoginService } from '../../auth/login/login.service';
 import { OficiosComponent } from './oficios.component';
 import { DocumentoAvulsoMainSidebarComponent } from './sidebars/main/main-sidebar.component';
 import { DocumentoAvulsoService } from '@cdk/services/documento-avulso.service';
+import {CdkChaveAcessoPluginModule} from '@cdk/components/chave-acesso/cdk-chave-acesso-plugins/cdk-chave-acesso-plugin.module';
 
 const routes: Routes = [
     {
@@ -80,6 +81,7 @@ const routes: Routes = [
 
         CdkEtiquetaChipsModule,
         CdkDocumentoAvulsoListModule,
+        CdkChaveAcessoPluginModule,
 
         TranslateModule,
         ResizableModule,

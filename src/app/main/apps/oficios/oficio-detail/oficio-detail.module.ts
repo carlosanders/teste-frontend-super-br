@@ -34,7 +34,7 @@ const routes: Routes = [
             {
                 path: 'processo',
                 loadChildren: () => import('app/main/apps/processo/processo.module').then(m => m.ProcessoModule)
-            }/*,
+            },
             {
                 path: 'modelo',
                 loadChildren: () => import('app/main/apps/modelo/modelo.module').then(m => m.ModeloModule),
@@ -42,7 +42,7 @@ const routes: Routes = [
             {
                 path: 'oficio',
                 loadChildren: () => import('app/main/apps/documento-avulso/documento-avulso-create/documento-avulso-create.module').then(m => m.DocumentoAvulsoCreateModule),
-            }*/
+            }
         ],
         canActivate: [fromGuards.ResolveGuard]
     }
