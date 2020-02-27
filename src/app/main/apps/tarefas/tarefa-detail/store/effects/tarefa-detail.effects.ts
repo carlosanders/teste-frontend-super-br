@@ -13,7 +13,7 @@ import {TarefaService} from '@cdk/services/tarefa.service';
 import {Router} from '@angular/router';
 import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
 import {VinculacaoEtiqueta} from '@cdk/models/vinculacao-etiqueta.model';
-import {AddChildData, AddData, RemoveChildData} from '@cdk/ngrx-normalizr';
+import {AddChildData, AddData, RemoveChildData, UpdateData} from '@cdk/ngrx-normalizr';
 import {vinculacaoEtiqueta as vinculacaoEtiquetaSchema} from '@cdk/normalizr/vinculacao-etiqueta.schema';
 import {tarefa as tarefaSchema} from '@cdk/normalizr/tarefa.schema';
 import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
@@ -245,6 +245,33 @@ export class TarefaDetailEffect {
                     );
                 })
             );
+
+
+   /**
+     * Save conteúdo vinculação etiqueta na tarefa
+     * @type {Observable<any>}
+     */
+    @Effect()
+    SaveConteudoVinculacaoEtiqueta: any =
+        this._actions
+            .pipe(
+                ofType<TarefaDetailActions.SaveConteudoVinculacaoEtiqueta>(TarefaDetailActions.SAVE_CONTEUDO_VINCULACAO_ETIQUETA),
+                mergeMap((action) => {
+                    return this._vinculacaoEtiquetaService.patch(action.payload.vinculacaoEtiqueta, action.payload.changes).pipe(                        
+                        //@retirar: return this._vinculacaoEtiquetaService.patch(action.payload.vinculacaoEtiqueta,  {conteudo: action.payload.vinculacaoEtiqueta.conteudo}).pipe(
+                        mergeMap((response) => [ 
+                            new TarefaDetailActions.SaveConteudoVinculacaoEtiquetaSuccess(response.id),
+                            new UpdateData<VinculacaoEtiqueta>({id: response.id, schema: vinculacaoEtiquetaSchema, changes: {conteudo: response.conteudo}})
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            return of(new TarefaDetailActions.SaveConteudoVinculacaoEtiquetaFailed(err));
+                        })
+                    );
+                })
+            );            
+
+
 
 
     /**
