@@ -1,6 +1,6 @@
-import {usuario} from './base.schema';
-import {modalidadeNotificacao} from './base.schema';
-import {notificacao as notificacaoSchema} from './base.schema';
+import {usuario} from './index.schema';
+import {modalidadeNotificacao} from './index.schema';
+import {notificacao as notificacaoSchema} from './index.schema';
 
 notificacaoSchema.define({
     remetente: usuario,

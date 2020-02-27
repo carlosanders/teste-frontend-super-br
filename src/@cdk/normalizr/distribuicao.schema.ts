@@ -1,8 +1,8 @@
-import {usuario} from './base.schema';
-import {setor} from './base.schema';
-import {tarefa} from './base.schema';
-import {documento} from './base.schema';
-import {distribuicao as distribuicaoSchema} from './base.schema';
+import {usuario} from './index.schema';
+import {setor} from './index.schema';
+import {tarefa} from './index.schema';
+import {documento} from './index.schema';
+import {distribuicao as distribuicaoSchema} from './index.schema';
 
 distribuicaoSchema.define({
     tarefa: tarefa,

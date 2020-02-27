@@ -1,8 +1,8 @@
-import {usuario} from './base.schema';
-import {processo} from './base.schema';
-import {modalidadeMeio} from './base.schema';
-import {origemDados} from './base.schema';
-import {volume as volumeSchema} from './base.schema';
+import {usuario} from './index.schema';
+import {processo} from './index.schema';
+import {modalidadeMeio} from './index.schema';
+import {origemDados} from './index.schema';
+import {volume as volumeSchema} from './index.schema';
 
 volumeSchema.define({
     modalidadeMeio: modalidadeMeio,

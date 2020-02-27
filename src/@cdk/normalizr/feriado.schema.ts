@@ -1,7 +1,7 @@
-import {usuario} from './base.schema';
-import {estado} from './base.schema';
-import {municipio} from './base.schema';
-import {feriado as feriadoSchema} from './base.schema';
+import {usuario} from './index.schema';
+import {estado} from './index.schema';
+import {municipio} from './index.schema';
+import {feriado as feriadoSchema} from './index.schema';
 
 feriadoSchema.define({
     municipio: municipio,

@@ -1,8 +1,8 @@
-import {usuario} from './base.schema';
-import {modalidadeOrgaoCentral} from './base.schema';
-import {municipio} from './base.schema';
-import {generoSetor} from './base.schema';
-import {unidade as unidadeSchema} from './base.schema';
+import {usuario} from './index.schema';
+import {modalidadeOrgaoCentral} from './index.schema';
+import {municipio} from './index.schema';
+import {generoSetor} from './index.schema';
+import {unidade as unidadeSchema} from './index.schema';
 
 unidadeSchema.define({
     municipio: municipio,

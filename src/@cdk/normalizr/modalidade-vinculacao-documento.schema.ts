@@ -1,5 +1,5 @@
-import {usuario} from './base.schema';
-import {modalidadeVinculacaoDocumento as modalidadeVinculacaoDocumentoSchema} from './base.schema';
+import {usuario} from './index.schema';
+import {modalidadeVinculacaoDocumento as modalidadeVinculacaoDocumentoSchema} from './index.schema';
 
 modalidadeVinculacaoDocumentoSchema.define({
     criadoPor: usuario,
