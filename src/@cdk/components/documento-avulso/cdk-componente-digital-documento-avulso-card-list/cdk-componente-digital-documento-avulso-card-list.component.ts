@@ -59,6 +59,8 @@ export class CdkComponenteDigitalDocumentoAvulsoCardListComponent implements OnI
     @Output()
     complete = new EventEmitter<ComponenteDigital>();
 
+
+
     private files: Array<FileUploadModel> = [];
     selectedIds: number[] = [];
     documentoAvulso: DocumentoAvulso;
@@ -126,7 +128,7 @@ export class CdkComponenteDigitalDocumentoAvulsoCardListComponent implements OnI
                     complete: false,
                     progress: 0,
                     canRetry: false,
-                    canCancel: true
+                    canCancel: true,
                 });
             }
             fileUpload.value = '';
@@ -195,6 +197,8 @@ export class CdkComponenteDigitalDocumentoAvulsoCardListComponent implements OnI
                     catchError((error: HttpErrorResponse) => {
                         componenteDigital.inProgress = false;
                         componenteDigital.canRetry = true;
+                        componenteDigital.failUpload = false;
+                        componenteDigital.complete = true; // Tirar, somente para teste
                         this._changeDetectorRef.markForCheck();
                         return of(`${file.data.name} upload falhou.`);
                     })

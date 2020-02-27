@@ -38,9 +38,6 @@ export class ResponderComplementarComponent implements OnInit, OnDestroy {
     private _profile: Colaborador;
 
     documentoAvulso: DocumentoAvulso;
-    atividade: Atividade;
-    isSaving$: Observable<boolean>;
-    errors$: Observable<any>;
     routerState: any;
     documentos$: Observable<Documento[]>;
     minutas: Documento[] = [];
@@ -65,8 +62,6 @@ export class ResponderComplementarComponent implements OnInit, OnDestroy {
         private _router: Router,
         private _changeDetectorRef: ChangeDetectorRef
     ) {
-        this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
-        this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this._profile = _loginService.getUserProfile().colaborador;
         this.documentos$ = this._store.pipe(select(fromStore.getDocumentos));
     }

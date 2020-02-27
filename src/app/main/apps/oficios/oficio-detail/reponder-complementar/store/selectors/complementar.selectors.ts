@@ -6,12 +6,12 @@ export const getComplementarState = createSelector(
     (state: ResponderComplementarAppState) => state.complementar
 );
 
-export const getIsSaving = createSelector(
+export const getIsSavingComplementar = createSelector(
     getComplementarState,
     (state: ComplementarState) => state.saving
 );
 
-export const getErrors = createSelector(
+export const getErrorsComplementar = createSelector(
     getComplementarState,
     (state: ComplementarState) => state.errors
 );

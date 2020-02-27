@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
 
 import * as DocumentosActions from '../actions/documentos.actions';
 
@@ -13,7 +13,9 @@ import {Documento} from '@cdk/models/documento.model';
 import {DocumentoService} from '@cdk/services/documento.service';
 import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
 import {Router} from '@angular/router';
-import {environment} from 'environments/environment';
+import {DocumentoAvulso} from '../../../../../../../../@cdk/models';
+import {environment} from '../../../../../../../../environments/environment';
+import {classToPlain, plainToClass} from 'class-transformer';
 
 @Injectable()
 export class DocumentosEffects {
@@ -133,4 +135,5 @@ export class DocumentosEffects {
                 )
             )
     ;
+
 }
