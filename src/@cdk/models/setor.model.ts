@@ -57,10 +57,10 @@ export class Setor {
     divergenciaMaxima?: number;
 
 
-    // apenasDistribuicaoAutomatica?: boolean;
-    //
-    //
-    // comPrevencaoRelativa?: boolean;
+    apenasDistribuicaoAutomatica?: boolean;
+
+
+    comPrevencaoRelativa?: boolean;
 
 
     @Exclude({ toPlainOnly: true })
@@ -151,6 +151,8 @@ export class Setor {
         this.distribuicaoCentena = null;
         this.prazoEqualizacao = null;
         this.divergenciaMaxima = null;
+        this.apenasDistribuicaoAutomatica = null;
+        this.comPrevencaoRelativa = null;
         this.criadoPor = null;
         this.criadoEm = null;
         this.atualizadoPor = null;
