@@ -19,6 +19,10 @@ const routes: Routes = [
         component: AdminComponent,
         children: [
             {
+                path       : ':unidadeHandle/setor',
+                loadChildren: () => import('./setor/setor.module').then(m => m.SetorModule)
+            },
+            {
                 path       : ':unidadeHandle/lotacoes',
                 loadChildren: () => import('./lotacoes/admin-lotacoes.module').then(m => m.AdminLotacoesModule)
             },

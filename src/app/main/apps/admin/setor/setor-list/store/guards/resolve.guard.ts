@@ -6,10 +6,10 @@ import {select, Store} from '@ngrx/store';
 import {Observable, of} from 'rxjs';
 import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
 
-import {LocalizadorListAppState} from '../reducers';
+import {SetorListAppState} from '../reducers';
 import * as fromStore from '../';
 import {getRouterState} from 'app/store/reducers';
-import {getLocalizadorListLoaded} from '../selectors';
+import {getSetorListLoaded} from '../selectors';
 import {LoginService} from 'app/main/auth/login/login.service';
 
 @Injectable()
@@ -23,7 +23,7 @@ export class ResolveGuard implements CanActivate {
      * @param _loginService
      */
     constructor(
-        private _store: Store<LocalizadorListAppState>,
+        private _store: Store<SetorListAppState>,
         private _loginService: LoginService
     ) {
         this._store
@@ -43,27 +43,27 @@ export class ResolveGuard implements CanActivate {
      * @returns {Observable<boolean>}
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-        return this.getLocalizadores().pipe(
+        return this.getSetores().pipe(
             switchMap(() => of(true)),
             catchError(() => of(false))
         );
     }
 
     /**
-     * Get Localizadores
+     * Get Setores
      *
      * @returns {Observable<any>}
      */
-    getLocalizadores(): any {
+    getSetores(): any {
         return this._store.pipe(
-            select(getLocalizadorListLoaded),
+            select(getSetorListLoaded),
             tap((loaded: any) => {
                 if (!loaded) {
 
                     const params = {
 
                         filter: {
-                               'setor.unidade.id': 'eq:' + this.routerState.params.unidadeHandle
+                               'unidade.id': 'eq:' + this.routerState.params.unidadeHandle
                         },
 
 
@@ -76,7 +76,7 @@ export class ResolveGuard implements CanActivate {
                         ]
                     };
 
-                    this._store.dispatch(new fromStore.GetLocalizadores(params));
+                    this._store.dispatch(new fromStore.GetSetores(params));
                 }
             }),
             filter((loaded: any) => {

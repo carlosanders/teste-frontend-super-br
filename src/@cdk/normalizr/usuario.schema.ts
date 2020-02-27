@@ -1,5 +1,4 @@
-import {usuario as usuarioSchema} from './base.schema';
-import {colaborador} from "./colaborador.schema";
+import {colaborador, usuario as usuarioSchema} from './base.schema';
 
 usuarioSchema.define({
     colaborador: colaborador

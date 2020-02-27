@@ -13,14 +13,14 @@ import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 
 @Component({
-    selector: 'admin-localizador',
-    templateUrl: './localizador.component.html',
-    styleUrls: ['./localizador.component.scss'],
+    selector: 'admin-setor',
+    templateUrl: './setor.component.html',
+    styleUrls: ['./setor.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
 })
-export class LocalizadorComponent implements OnInit, OnDestroy {
+export class SetorComponent implements OnInit, OnDestroy {
 
     private _unsubscribeAll: Subject<any> = new Subject();
 
@@ -51,13 +51,13 @@ export class LocalizadorComponent implements OnInit, OnDestroy {
             ).subscribe(routerState => {
             if (routerState) {
                 this.routerState = routerState.state;
-                if (this.routerState.url.indexOf('localizador/listar') > -1) {
+                if (this.routerState.url.indexOf('setor/listar') > -1) {
                     this.action = 'listar';
                 }
-                if (this.routerState.url.indexOf('localizador/editar') > -1) {
+                if (this.routerState.url.indexOf('setor/editar') > -1) {
                     this.action = 'editar';
                 }
-                if (this.routerState.url.indexOf('localizador/editar/criar') > -1) {
+                if (this.routerState.url.indexOf('setor/editar/criar') > -1) {
                     this.action = 'criar';
                 }
                 this._changeDetectorRef.markForCheck();
@@ -73,7 +73,7 @@ export class LocalizadorComponent implements OnInit, OnDestroy {
 
     goBack(): void {
         if (this.action === 'editar') {
-            this._router.navigate([this.routerState.url.replace(('editar/' + this.routerState.params.localizadorHandle), 'listar')]).then();
+            this._router.navigate([this.routerState.url.replace(('editar/' + this.routerState.params.modeloHandle), 'listar')]).then();
         }
         if (this.action === 'criar') {
             this._router.navigate([this.routerState.url.replace('editar/criar', 'listar')]).then();
