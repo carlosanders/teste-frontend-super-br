@@ -13,7 +13,7 @@ import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 
 @Component({
-    selector: 'setor',
+    selector: 'admin-setor',
     templateUrl: './setor.component.html',
     styleUrls: ['./setor.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,

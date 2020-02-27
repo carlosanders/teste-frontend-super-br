@@ -13,7 +13,7 @@ import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 
 @Component({
-    selector: 'localizador',
+    selector: 'admin-localizador',
     templateUrl: './localizador.component.html',
     styleUrls: ['./localizador.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,

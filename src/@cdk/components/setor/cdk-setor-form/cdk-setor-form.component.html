@@ -1,13 +1,12 @@
-<form *ngIf="activeCard === 'form'" class="p-24 mr-24" fxLayoutGap="16px"
+<div fusePerfectScrollbar class="inner-scroll">
+
+<form *ngIf="activeCard === 'form'" class="p-24" fxLayoutGap="36px"
       fxLayout="column"
       fxLayoutAlign="start" name="form" [formGroup]="form" (submit)="submit()">
 
     <div fxFlex="1 0 auto" fxLayout="column">
 
-        <mat-checkbox formControlName="ativo"
-                      class="mr-16 mb-16" fxFlex="0 1 auto">
-            Ativo
-        </mat-checkbox>
+
 
         <mat-form-field fxFlex="100">
             <div fxLayout="row" fxLayoutAlign="start center">
@@ -92,68 +91,82 @@
         </mat-form-field>
 
 
+        <div class="legendaGrupo mat-form-field-wrapper">Distribuição Automática:</div>
 
-        <div fxLayout="row" class="start" fxFlex *ngIf="!form.value.id"
-             fxLayoutAlign="start center">
-            <label id="digito">Tipo Prevenção Absoluta: </label>
-            <mat-radio-group class="prevencao"
-                             formControlName="prevencao"
-                             aria-labelledby="Tipo Prevenção Absoluta"
-                             fxLayoutAlign="row">
-                <mat-radio-button [value]="'digito'">
+        <mat-radio-group fxFlex="100" class="distribuicaoCentena"
+                         formControlName="distribuicaoCentena"
+                         aria-labelledby="Tipo Prevenção Absoluta"
+                         fxLayoutAlign="row">
+            <div fxLayout="row" class="start center mat-form-field-wrapper" fxFlex *ngIf="!form.value.id"
+                 fxLayoutAlign="start center">
+                <label id="distribuicaoCentena" class="flex legenda">Tipo Prevenção Absoluta</label>
+
+                <mat-radio-button [checked]="true" [value]="'digito'">
                     DÍGITO
                 </mat-radio-button>
                 <mat-radio-button [value]="'centena'">
                     CENTENA
                 </mat-radio-button>
-            </mat-radio-group>
-        </div>
+            </div>
+        </mat-radio-group>
 
 
-        <div fxLayout="row" class="start" fxFlex *ngIf="!form.value.id"
-             fxLayoutAlign="start center">
-            <label id="prazo_equalizacao">Prazo Máximo Equalização: </label>
-            <mat-radio-group class="prazo_equalizacao"
-                             formControlName="prazo_equalizacao"
-                             aria-labelledby="Prazo Máximo Equalização"
-                             fxLayoutAlign="row">
-                <mat-radio-button [value]="7">
+        <mat-radio-group class="prazoEqualizacao"
+                         formControlName="prazoEqualizacao"
+                         aria-labelledby="Prazo Máximo Equalização"
+                         fxLayoutAlign="row">
+            <div fxLayout="row" class="start center mat-form-field-wrapper" fxFlex *ngIf="!form.value.id"
+                     fxLayoutAlign="start center">
+                <label id="prazoEqualizacao" class="flex legenda">Prazo Máximo Equalização </label>
+                <mat-radio-button [checked]="true" [value]="7">
                     7 DIAS
                 </mat-radio-button>
                 <mat-radio-button [value]="30">
                     30 DIAS
                 </mat-radio-button>
-            </mat-radio-group>
-        </div>
+            </div>
+        </mat-radio-group>
 
 
-        <div fxLayout="row" class="start" fxFlex *ngIf="!form.value.id"
-             fxLayoutAlign="start center">
-            <label id="divirgencia">Divirgência Máxima Diária: </label>
-            <mat-radio-group class="divirgencia"
-                             formControlName="divirgencia"
-                             aria-labelledby="Divirgência Máxima Diária"
-                             fxLayoutAlign="row">
-                <mat-radio-button [value]="'pequena'">
+        <mat-radio-group class="divergenciaMaxima"
+                         formControlName="divergenciaMaxima"
+                         aria-labelledby="Divirgência Máxima Diária"
+                         fxLayoutAlign="row">
+            <div fxLayout="row" class="start center mat-form-field-wrapper" fxFlex *ngIf="!form.value.id"
+                 fxLayoutAlign="start center">
+                <label id="divergenciaMaxima" class="flex legenda">Divirgência Máxima Diária </label>
+                <mat-radio-button [checked]="true" [value]="25">
                     PEQUENA
                 </mat-radio-button>
-                <mat-radio-button [value]="'grande'">
+                <mat-radio-button [value]="100">
                     GRANDE
                 </mat-radio-button>
-            </mat-radio-group>
-        </div>
+            </div>
+        </mat-radio-group>
 
-        <mat-checkbox formControlName="desconsiderar"
+<!--        <mat-checkbox formControlName="desconsiderar"-->
+<!--                      class="mr-16 mb-16" fxFlex="0 1 auto">-->
+<!--            Desconsiderar Distribuição-->
+<!--        </mat-checkbox>-->
+
+<!--        <mat-checkbox formControlName="prevencao_relatica"-->
+<!--                      class="mr-16 mb-16" fxFlex="0 1 auto">-->
+<!--            Aplicar Prevenção Relativa-->
+<!--        </mat-checkbox>-->
+
+        <div class="legendaGrupo mat-form-field-wrapper">Funcionamento:</div>
+
+        <mat-checkbox formControlName="ativo"
                       class="mr-16 mb-16" fxFlex="0 1 auto">
-            Desconsiderar Distribuição
+            Ativo
         </mat-checkbox>
 
-        <mat-checkbox formControlName="prevencao_relatica"
+        <mat-checkbox formControlName="apenasDistribuidor"
                       class="mr-16 mb-16" fxFlex="0 1 auto">
-            Aplicar Prevenção Relativa
+            Distribuidor
         </mat-checkbox>
 
-    </div>
+
 
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
@@ -169,8 +182,10 @@
          fxLayoutAlign="center center">
         <mat-spinner color="accent" diameter="24"></mat-spinner>
     </div>
-</form>
 
+    </div>
+</form>
+</div>
 <cdk-especie-setor-grid
     fxFlex="1 0 auto"
     *ngIf="activeCard === 'especie-setor-gridsearch'"

@@ -63,7 +63,13 @@ export class CdkSetorFormComponent implements OnChanges, OnDestroy {
             especieSetor: [null, [Validators.required]],
             municipio: [null, [Validators.required]],
             setor: [null, [Validators.required]],
-        });
+            distribuicaoCentena: [null],
+            prazoEqualizacao: [null],
+            divergenciaMaxima: [null],
+            apenasDistribuidor: [null],
+            sequenciaInicialNUP: [null],
+
+    });
 
         this.especieSetorPagination = new Pagination();
         this.municipioPagination = new Pagination();

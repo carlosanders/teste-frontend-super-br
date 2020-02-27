@@ -38,13 +38,13 @@ export class Setor {
 
     prefixoNUP?: string;
 
-
+    // @Exclude({ toPlainOnly: true })
     sequenciaInicialNUP?: number;
 
-
+    @Exclude({ toPlainOnly: true })
     gerenciamento?: boolean;
 
-
+    @Exclude({ toPlainOnly: true })
     numeracaoDocumentoUnidade?: boolean;
 
 
@@ -52,6 +52,16 @@ export class Setor {
 
 
     prazoEqualizacao?: number;
+
+
+    divergenciaMaxima?: number;
+
+
+    // apenasDistribuicaoAutomatica?: boolean;
+    //
+    //
+    // comPrevencaoRelativa?: boolean;
+
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Setor)
@@ -140,6 +150,7 @@ export class Setor {
         this.apenasDistribuidor = null;
         this.distribuicaoCentena = null;
         this.prazoEqualizacao = null;
+        this.divergenciaMaxima = null;
         this.criadoPor = null;
         this.criadoEm = null;
         this.atualizadoPor = null;

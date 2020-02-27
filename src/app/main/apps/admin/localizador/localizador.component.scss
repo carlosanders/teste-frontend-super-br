@@ -1,16 +1,21 @@
 #localizador {
+     height: 100%;
 
-  .header {
+     .header {
 
-    .actions {
-      .is-active {
-        display: none;
-      }
-    }
+         .actions {
+             .is-active {
+                 display: none;
+             }
+         }
 
-  }
+     }
 
-  .content {
+     .content {
+         height: 100%;
+     }
+ }
 
-  }
+admin-localizador {
+    height: 100% !important;
 }

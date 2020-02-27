@@ -1,4 +1,5 @@
 #setor {
+   height: 100%;
 
   .header {
 
@@ -11,6 +12,10 @@
   }
 
   .content {
-
+      height: 85%;
   }
+}
+
+admin-setor {
+    height: 100% !important;
 }
