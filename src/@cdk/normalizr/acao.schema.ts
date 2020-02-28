@@ -1,5 +1,6 @@
-import {acao as acaoSchema} from './base.schema';
-import {usuario} from './base.schema';
+import {acao as acaoSchema} from './index.schema';
+import {usuario} from './index.schema';
+
 
 acaoSchema.define({
     criadoPor: usuario,

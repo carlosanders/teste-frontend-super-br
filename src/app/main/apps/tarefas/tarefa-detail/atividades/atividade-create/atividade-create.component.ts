@@ -9,18 +9,19 @@ import {
 import {fuseAnimations} from '@fuse/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {Atividade} from '@cdk/models/atividade.model';
+import {Atividade} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as moment from 'moment';
 
 import * as fromStore from 'app/main/apps/tarefas/tarefa-detail/atividades/atividade-create/store';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Tarefa} from '@cdk/models/tarefa.model';
+import {Tarefa} from '@cdk/models';
 import {getTarefa} from '../../store/selectors';
 import {filter, takeUntil} from 'rxjs/operators';
-import {Documento} from '@cdk/models/documento.model';
+import {Documento} from '@cdk/models';
 import {getRouterState, getMercureState} from 'app/store/reducers';
 import {Router} from '@angular/router';
+import {Colaborador} from "../../../../../../../@cdk/models/colaborador.model";
 
 @Component({
     selector: 'atividade-create',
@@ -41,7 +42,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy {
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
 
-    private _profile: any;
+    private _profile: Colaborador;
 
     routerState: any;
 
@@ -77,7 +78,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy {
         this.tarefa$ = this._store.pipe(select(getTarefa));
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
-        this._profile = _loginService.getUserProfile();
+        this._profile = _loginService.getUserProfile().colaborador;
 
         this.documentos$ = this._store.pipe(select(fromStore.getDocumentos));
         this.selectedDocumentos$ = this._store.pipe(select(fromStore.getSelectedDocumentos));

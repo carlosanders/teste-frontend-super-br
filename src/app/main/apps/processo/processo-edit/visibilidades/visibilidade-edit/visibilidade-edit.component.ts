@@ -9,15 +9,15 @@ import {
 import {fuseAnimations} from '@fuse/animations';
 import {Observable} from 'rxjs';
 
-import {Visibilidade} from '@cdk/models/visibilidade.model';
+import {Visibilidade} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
-import {Processo} from '@cdk/models/processo.model';
+import {Processo} from '@cdk/models';
 import {getProcesso} from '../../../store/selectors';
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Colaborador} from '@cdk/models/colaborador.model';
+import {Colaborador} from '@cdk/models';
 
 @Component({
     selector: 'visibilidade-edit',
@@ -56,7 +56,7 @@ export class VisibilidadeEditComponent implements OnInit, OnDestroy {
         this.visibilidade$ = this._store.pipe(select(fromStore.getVisibilidade));
         this.processo$ = this._store.pipe(select(getProcesso));
 
-        this._profile = _loginService.getUserProfile();
+        this._profile = _loginService.getUserProfile().colaborador;
 
         this.unidadePagination = new Pagination();
         this.unidadePagination.filter = {parent: 'isNull'};

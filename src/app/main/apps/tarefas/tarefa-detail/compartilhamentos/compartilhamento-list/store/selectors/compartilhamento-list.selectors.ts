@@ -7,7 +7,7 @@ import {
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {compartilhamento as compartilhamentoSchema} from '@cdk/normalizr/compartilhamento.schema';
-import {Compartilhamento} from '@cdk/models/compartilhamento.model';
+import {Compartilhamento} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Compartilhamento>(compartilhamentoSchema);
 

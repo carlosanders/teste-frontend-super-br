@@ -9,16 +9,17 @@ import {
 import {fuseAnimations} from '@fuse/animations';
 import {Observable} from 'rxjs';
 
-import {Tarefa} from '@cdk/models/tarefa.model';
+import {Tarefa} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
-import {Processo} from '@cdk/models/processo.model';
+import {Processo} from '@cdk/models';
 import {getProcesso} from '../../../store/selectors';
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 import * as moment from 'moment';
 import {Colaborador} from '../../../../../../../@cdk/models/colaborador.model';
 import {LoginService} from '../../../../../auth/login/login.service';
+import {Usuario} from "../../../../../../../@cdk/models/usuario.model";
 
 @Component({
     selector: 'tarefa-edit',
@@ -38,7 +39,7 @@ export class TarefaEditComponent implements OnInit, OnDestroy {
     processo$: Observable<Processo>;
     processo: Processo;
 
-    _profile: Colaborador;
+    _profile: Usuario;
 
     especieTarefaPagination: Pagination;
 
@@ -78,10 +79,10 @@ export class TarefaEditComponent implements OnInit, OnDestroy {
         if (!this.tarefa) {
             this.tarefa = new Tarefa();
             this.tarefa.processo = this.processo;
-            this.tarefa.unidadeResponsavel = this._profile.lotacoes[0].setor.unidade;
+            this.tarefa.unidadeResponsavel = this._profile.colaborador.lotacoes[0].setor.unidade;
             this.tarefa.dataHoraInicioPrazo = moment();
             this.tarefa.dataHoraFinalPrazo = moment().add(5, 'days').set({ hour : 20, minute : 0, second : 0 });
-            this.tarefa.setorOrigem = this._profile.lotacoes[0].setor;
+            this.tarefa.setorOrigem = this._profile.colaborador.lotacoes[0].setor;
         }
     }
 

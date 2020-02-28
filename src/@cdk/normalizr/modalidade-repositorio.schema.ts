@@ -1,5 +1,5 @@
-import {usuario} from './base.schema';
-import {modalidadeRepositorio as modalidadeRepositorioSchema} from './base.schema';
+import {usuario} from './index.schema';
+import {modalidadeRepositorio as modalidadeRepositorioSchema} from './index.schema';
 
 modalidadeRepositorioSchema.define({
     criadoPor: usuario,

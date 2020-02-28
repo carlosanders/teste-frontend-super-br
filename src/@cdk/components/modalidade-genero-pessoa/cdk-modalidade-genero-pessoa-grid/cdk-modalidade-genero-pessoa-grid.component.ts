@@ -12,7 +12,7 @@ import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
-import {ModalidadeGeneroPessoa} from '@cdk/models/modalidade-genero-pessoa.model';
+import {ModalidadeGeneroPessoa} from '@cdk/models';
 import {ModalidadeGeneroPessoaDataSource} from '@cdk/data-sources/modalidade-genero-pessoa-data-source';
 import {FormControl} from '@angular/forms';
 

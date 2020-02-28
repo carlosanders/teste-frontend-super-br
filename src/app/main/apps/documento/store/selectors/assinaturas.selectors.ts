@@ -3,7 +3,7 @@ import {DocumentoAppState, getDocumentoAppState, AssinaturasState} from '../redu
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {assinatura as schemaAssinatura} from '@cdk/normalizr/assinatura.schema';
-import {Assinatura} from '@cdk/models/assinatura.model';
+import {Assinatura} from '@cdk/models';
 
 const schemaAssinaturaSelectors = createSchemaSelectors<Assinatura>(schemaAssinatura);
 

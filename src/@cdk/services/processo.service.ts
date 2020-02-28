@@ -1,13 +1,13 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {map, tap} from 'rxjs/operators';
-import {Processo} from '@cdk/models/processo.model';
+import {map} from 'rxjs/operators';
+import {Processo} from '@cdk/models';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
-import {PaginatedResponse} from '@cdk/models/paginated.response';
+import {PaginatedResponse} from '@cdk/models';
 import {environment} from 'environments/environment';
-import {Visibilidade} from '@cdk/models/visibilidade.model';
+import {Visibilidade} from '@cdk/models';
 
 @Injectable()
 export class ProcessoService {
@@ -18,8 +18,8 @@ export class ProcessoService {
     ) {
     }
 
-    get(id: number): Observable<Processo> {
-        return this.modelService.getOne('processo', id)
+    get(id: number, params: HttpParams = new HttpParams()): Observable<Processo> {
+        return this.modelService.getOne('processo', id, params)
             .pipe(
                 map(response => plainToClass(Processo, response)[0])
             );
@@ -55,7 +55,7 @@ export class ProcessoService {
         );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
+    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
         const params = {};
         
         params['where'] = filters;
@@ -63,10 +63,10 @@ export class ProcessoService {
         params['offset'] = offset;
         params['order'] = order;
         params['populate'] = populate;
+        params['context'] = context;
 
         return this.modelService.get('processo', new HttpParams({fromObject: params}))
             .pipe(
-                tap((response) => {console.log(response)}),
                 map(response => new PaginatedResponse(plainToClass(Processo, response['entities']), response['total']))
                 
             );

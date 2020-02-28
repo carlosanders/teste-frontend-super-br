@@ -9,17 +9,17 @@ import {
 
 import {fuseAnimations} from '@fuse/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {DocumentoAvulso} from '@cdk/models/documento-avulso.model';
-import {EspecieDocumentoAvulso} from '@cdk/models/especie-documento-avulso.model';
-import {Usuario} from '@cdk/models/usuario.model';
-import {Processo} from '@cdk/models/processo.model';
+import {DocumentoAvulso} from '@cdk/models';
+import {EspecieDocumentoAvulso} from '@cdk/models';
+import {Usuario} from '@cdk/models';
+import {Processo} from '@cdk/models';
 import {MAT_DATETIME_FORMATS} from '@mat-datetimepicker/core';
-import {Setor} from '@cdk/models/setor.model';
+import {Setor} from '@cdk/models';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
-import {Pagination} from '@cdk/models/pagination';
-import {Modelo} from '@cdk/models/modelo.model';
-import {Pessoa} from '@cdk/models/pessoa.model';
+import {Pagination} from '@cdk/models';
+import {Modelo} from '@cdk/models';
+import {Pessoa} from '@cdk/models';
 
 @Component({
     selector: 'cdk-documento-avulso-form',

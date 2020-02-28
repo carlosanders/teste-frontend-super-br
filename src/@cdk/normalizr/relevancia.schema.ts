@@ -1,7 +1,7 @@
-import {usuario} from './base.schema';
-import {especieRelevancia} from './base.schema';
-import {processo} from './base.schema';
-import {relevancia as relevanciaSchema} from './base.schema';
+import {usuario} from './index.schema';
+import {especieRelevancia} from './index.schema';
+import {processo} from './index.schema';
+import {relevancia as relevanciaSchema} from './index.schema';
 
 relevanciaSchema.define({
     especieRelevancia: especieRelevancia,

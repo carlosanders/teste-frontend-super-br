@@ -9,10 +9,10 @@ import {
 
 import {fuseAnimations} from '@fuse/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Sigilo} from '@cdk/models/sigilo.model';
-import {Pagination} from '@cdk/models/pagination';
-import {TipoSigilo} from '@cdk/models/tipo-sigilo.model';
-import {ModalidadeCategoriaSigilo} from '@cdk/models/modalidade-categoria-sigilo.model';
+import {Sigilo} from '@cdk/models';
+import {Pagination} from '@cdk/models';
+import {TipoSigilo} from '@cdk/models';
+import {ModalidadeCategoriaSigilo} from '@cdk/models';
 import {MAT_DATETIME_FORMATS} from '@mat-datetimepicker/core';
 
 @Component({

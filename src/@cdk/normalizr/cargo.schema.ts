@@ -1,4 +1,4 @@
-import {cargo as cargoSchema, usuario} from './base.schema';
+import {cargo as cargoSchema, usuario} from './index.schema';
 
 cargoSchema.define({
     criadoPor: usuario,

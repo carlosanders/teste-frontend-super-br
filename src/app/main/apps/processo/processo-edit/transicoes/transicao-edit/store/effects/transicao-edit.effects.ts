@@ -10,7 +10,7 @@ import * as TransicaoListActions from '../../../transicao-list/store/actions/tra
 import {TransicaoService} from '@cdk/services/transicao.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {transicao as transicaoSchema} from '@cdk/normalizr/transicao.schema';
-import {Transicao} from '@cdk/models/transicao.model';
+import {Transicao} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';

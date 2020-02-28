@@ -8,12 +8,12 @@ import {
 import {Observable} from 'rxjs';
 
 import {fuseAnimations} from '@fuse/animations';
-import {Modelo} from '@cdk/models/modelo.model';
+import {Modelo} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getOperacoesState, getRouterState} from 'app/store/reducers';
-import {Tarefa} from '@cdk/models/tarefa.model';
+import {Tarefa} from '@cdk/models';
 import {getSelectedTarefas} from '../store/selectors';
 import {getIsSaving} from './store/selectors/componentes-digitais.selectors';
 import {filter} from 'rxjs/operators';

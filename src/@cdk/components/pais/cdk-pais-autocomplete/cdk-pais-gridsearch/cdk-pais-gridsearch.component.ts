@@ -14,10 +14,10 @@ import {fuseAnimations} from '@fuse/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 import {PaisService} from '@cdk/services/pais.service';
-import {Pais} from '@cdk/models/pais.model';
+import {Pais} from '@cdk/models';
 
 @Component({
     selector: 'cdk-pais-gridsearch',

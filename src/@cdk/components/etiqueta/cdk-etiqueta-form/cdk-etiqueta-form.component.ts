@@ -9,9 +9,9 @@ import {
 
 import { fuseAnimations } from '@fuse/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { Etiqueta } from '@cdk/models/etiqueta.model';
-import {Pagination} from '@cdk/models/pagination';
-import {ModalidadeEtiqueta} from '@cdk/models/modalidade-etiqueta.model';
+import { Etiqueta } from '@cdk/models';
+import {Pagination} from '@cdk/models';
+import {ModalidadeEtiqueta} from '@cdk/models';
 
 @Component({
     selector: 'cdk-etiqueta-form',

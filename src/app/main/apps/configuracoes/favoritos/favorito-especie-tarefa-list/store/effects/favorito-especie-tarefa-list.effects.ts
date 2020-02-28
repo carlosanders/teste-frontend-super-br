@@ -10,10 +10,10 @@ import * as FavoritoListEspecieTarefaActions from '../actions';
 
 import {FavoritoService} from '@cdk/services/favorito.service';
 import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
-import {Favorito} from '@cdk/models/favorito.model';
+import {Favorito} from '@cdk/models';
 import {favorito as favoritoSchema} from '@cdk/normalizr/favorito.schema';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Usuario} from '@cdk/models/usuario.model';
+import {Usuario} from '@cdk/models';
 
 @Injectable()
 export class FavoritoListEspecieTarefaEffect {
@@ -105,7 +105,7 @@ export class FavoritoListEspecieTarefaEffect {
                                 this.favorito.prioritario = true;
                             } else {
                                 const usuario = new Usuario();
-                                usuario.id = this._loginService.getUserProfile().usuario.id;
+                                usuario.id = this._loginService.getUserProfile().id;
                                 this.favorito.prioritario = true;
                                 this.favorito.qtdUso = 1;
                                 this.favorito.especieTarefa = action.payload.valor.especieTarefa;
@@ -185,7 +185,7 @@ export class FavoritoListEspecieTarefaEffect {
                                 filter: {
                                     'especieTarefa': 'isNotNull',
                                     'prioritario': 'eq:' + 'true',
-                                    'usuario.id': 'eq:' + this._loginService.getUserProfile().usuario.id
+                                    'usuario.id': 'eq:' + this._loginService.getUserProfile().id
                                 },
                                 gridFilter: {},
                                 limit: 5,

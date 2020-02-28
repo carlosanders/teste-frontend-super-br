@@ -10,7 +10,7 @@ import * as NomeListActions from '../../../nome-list/store/actions/nome-list.act
 import {NomeService} from '@cdk/services/nome.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {nome as nomeSchema} from '@cdk/normalizr/nome.schema';
-import {Nome} from '@cdk/models/nome.model';
+import {Nome} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';

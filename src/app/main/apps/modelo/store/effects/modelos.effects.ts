@@ -10,7 +10,7 @@ import * as ModelosActions from 'app/main/apps/modelo/store/actions/modelos.acti
 
 import {ModeloService} from '@cdk/services/modelo.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {Modelo} from '@cdk/models/modelo.model';
+import {Modelo} from '@cdk/models';
 import {modelo as modeloSchema} from '@cdk/normalizr/modelo.schema';
 
 @Injectable()

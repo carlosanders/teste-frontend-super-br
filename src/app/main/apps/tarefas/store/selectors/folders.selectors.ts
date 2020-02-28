@@ -2,7 +2,7 @@ import {createSelector} from '@ngrx/store';
 import {FoldersState, getTarefasAppState, TarefasAppState} from 'app/main/apps/tarefas/store/reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {folder as folderSchema} from '@cdk/normalizr/folder.schema';
-import {Folder} from '@cdk/models/folder.model';
+import {Folder} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Folder>(folderSchema);
 

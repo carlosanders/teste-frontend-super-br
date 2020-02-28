@@ -1,6 +1,6 @@
 import {CollectionViewer, DataSource} from '@angular/cdk/collections';
 import {Observable} from 'rxjs';
-import {Acao} from '@cdk/models/acao.model';
+import {Acao} from '@cdk/models';
 
 export class AcaoDataSource extends DataSource<Acao> {
 

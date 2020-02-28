@@ -1,5 +1,5 @@
-import {usuario} from './base.schema';
-import {tipoSigilo as tipoSigiloSchema} from './base.schema';
+import {usuario} from './index.schema';
+import {tipoSigilo as tipoSigiloSchema} from './index.schema';
 
 tipoSigiloSchema.define({
     criadoPor: usuario,

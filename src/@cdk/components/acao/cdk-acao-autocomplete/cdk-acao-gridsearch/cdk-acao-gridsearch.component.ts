@@ -14,10 +14,10 @@ import {fuseAnimations} from '@fuse/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 import {AcaoService} from '@cdk/services/acao.service';
-import {Acao} from '@cdk/models/acao.model';
+import {Acao} from '@cdk/models';
 
 @Component({
     selector: 'cdk-acao-gridsearch',

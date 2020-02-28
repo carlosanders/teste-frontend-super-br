@@ -12,9 +12,8 @@ import {Observable} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
-import {Colaborador} from '@cdk/models/colaborador.model';
 import {LoginService} from '../../../auth/login/login.service';
-import {Usuario} from '@cdk/models/usuario.model';
+import {Usuario} from '@cdk/models';
 
 @Component({
     selector: 'perfil',
@@ -28,7 +27,7 @@ export class PerfilComponent implements OnInit, OnDestroy {
 
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
-    colaborador: Colaborador;
+    usuario: Usuario;
 
     /**
      * @param _store
@@ -40,7 +39,7 @@ export class PerfilComponent implements OnInit, OnDestroy {
     ) {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
-        this.colaborador = this._loginService.getUserProfile();
+        this.usuario = this._loginService.getUserProfile();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -66,7 +65,7 @@ export class PerfilComponent implements OnInit, OnDestroy {
 
     submit(values): void {
         const usuario = new Usuario();
-        usuario.id = this.colaborador.usuario.id;
+        usuario.id = this.usuario.id;
         this._store.dispatch(new fromStore.SaveProfile({usuario: usuario, changes: values}));
     }
 

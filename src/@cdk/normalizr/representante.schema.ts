@@ -1,8 +1,8 @@
-import {usuario} from './base.schema';
-import {modalidadeRepresentante} from './base.schema';
-import {origemDados} from './base.schema';
-import {interessado} from './base.schema';
-import {representante as representanteSchema} from './base.schema';
+import {usuario} from './index.schema';
+import {modalidadeRepresentante} from './index.schema';
+import {origemDados} from './index.schema';
+import {interessado} from './index.schema';
+import {representante as representanteSchema} from './index.schema';
 
 representanteSchema.define({
     modalidadeRepresentante: modalidadeRepresentante,

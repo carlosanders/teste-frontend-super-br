@@ -9,7 +9,7 @@ import * as DocumentoCopiaCreateBlocoActions from '../actions/documento-copia-cr
 import {DocumentoService} from '@cdk/services/documento.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
-import {Documento} from '@cdk/models/documento.model';
+import {Documento} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';

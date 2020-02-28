@@ -10,7 +10,7 @@ import * as RepositorioListActions from '../actions';
 
 import {RepositorioService} from '@cdk/services/repositorio.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {Repositorio} from '@cdk/models/repositorio.model';
+import {Repositorio} from '@cdk/models';
 import {repositorio as repositorioSchema} from '@cdk/normalizr/repositorio.schema';
 import {LoginService} from 'app/main/auth/login/login.service';
 
@@ -59,7 +59,7 @@ export class RepositorioListEffect {
                                 entitiesId: response['entities'].map(repositorio => repositorio.id),
                                 loaded: {
                                     id: 'usuarioHandle',
-                                    value: this._loginService.getUserProfile().usuario.id
+                                    value: this._loginService.getUserProfile().id
                                 },
                                 total: response['total']
                             })

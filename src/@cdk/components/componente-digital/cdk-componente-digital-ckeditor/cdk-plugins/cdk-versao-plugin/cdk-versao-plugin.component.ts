@@ -11,7 +11,7 @@ import {
 
 import {fuseAnimations} from '@fuse/animations';
 
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@cdk/angular/material';

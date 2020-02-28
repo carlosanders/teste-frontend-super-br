@@ -10,7 +10,7 @@ import * as EtiquetaListActions from '../../../../etiqueta-list/store/actions/et
 import {EtiquetaService} from '@cdk/services/etiqueta.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {etiqueta as etiquetaSchema} from '@cdk/normalizr/etiqueta.schema';
-import {Etiqueta} from '@cdk/models/etiqueta.model';
+import {Etiqueta} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';

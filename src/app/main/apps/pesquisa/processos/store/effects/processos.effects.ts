@@ -10,7 +10,7 @@ import * as ProcessosActions from 'app/main/apps/pesquisa/processos/store/action
 
 import {ProcessoService} from '@cdk/services/processo.service';
 import {AddData, } from '@cdk/ngrx-normalizr';
-import {Processo} from '@cdk/models/processo.model';
+import {Processo} from '@cdk/models';
 import {processo as processoSchema} from '@cdk/normalizr/processo.schema';
 
 @Injectable()
@@ -50,7 +50,8 @@ export class ProcessosEffect {
                         action.payload.limit,
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
-                        JSON.stringify(action.payload.populate));
+                        JSON.stringify(action.payload.populate),
+                        JSON.stringify(action.payload.context));
                 }),
                 mergeMap((response) => [
                     new AddData<Processo>({data: response['entities'], schema: processoSchema}),

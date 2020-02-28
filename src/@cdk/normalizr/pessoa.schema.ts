@@ -1,10 +1,10 @@
-import {pais} from './base.schema';
-import {modalidadeGeneroPessoa} from './base.schema';
-import {modalidadeQualificacaoPessoa} from './base.schema';
-import {municipio} from './base.schema';
-import {origemDados} from './base.schema';
-import {usuario} from './base.schema';
-import {pessoa as pessoaSchema} from './base.schema';
+import {pais} from './index.schema';
+import {modalidadeGeneroPessoa} from './index.schema';
+import {modalidadeQualificacaoPessoa} from './index.schema';
+import {municipio} from './index.schema';
+import {origemDados} from './index.schema';
+import {usuario} from './index.schema';
+import {pessoa as pessoaSchema} from './index.schema';
 
 pessoaSchema.define({
     nacionalidade: pais,

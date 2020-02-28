@@ -7,7 +7,7 @@ import {
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {afastamento as afastamentoSchema} from '@cdk/normalizr/afastamento.schema';
-import {Afastamento} from '@cdk/models/afastamento.model';
+import {Afastamento} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Afastamento>(afastamentoSchema);
 

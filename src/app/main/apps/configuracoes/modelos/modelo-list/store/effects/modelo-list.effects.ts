@@ -10,7 +10,7 @@ import * as ModeloListActions from '../actions';
 
 import {ModeloService} from '@cdk/services/modelo.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {Modelo} from '@cdk/models/modelo.model';
+import {Modelo} from '@cdk/models';
 import {modelo as modeloSchema} from '@cdk/normalizr/modelo.schema';
 import {LoginService} from 'app/main/auth/login/login.service';
 
@@ -59,7 +59,7 @@ export class ModeloListEffect {
                                 entitiesId: response['entities'].map(modelo => modelo.id),
                                 loaded: {
                                     id: 'usuarioHandle',
-                                    value: this._loginService.getUserProfile().usuario.id
+                                    value: this._loginService.getUserProfile().id
                                 },
                                 total: response['total']
                             })

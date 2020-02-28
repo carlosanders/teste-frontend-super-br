@@ -1,7 +1,7 @@
 import {createSelector} from '@ngrx/store';
 import {getTransicaoEditAppState, TransicaoEditAppState, TransicaoEditState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
-import {Transicao} from '@cdk/models/transicao.model';
+import {Transicao} from '@cdk/models';
 import {transicao as transicaoSchema} from '@cdk/normalizr/transicao.schema';
 
 const schemaTransicaoSelectors = createSchemaSelectors<Transicao>(transicaoSchema);

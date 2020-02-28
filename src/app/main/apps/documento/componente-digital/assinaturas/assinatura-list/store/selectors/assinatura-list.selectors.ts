@@ -7,7 +7,7 @@ import {
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {assinatura as assinaturaSchema} from '@cdk/normalizr/assinatura.schema';
-import {Assinatura} from '@cdk/models/assinatura.model';
+import {Assinatura} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Assinatura>(assinaturaSchema);
 

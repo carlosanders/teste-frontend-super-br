@@ -1,5 +1,5 @@
-import {usuario} from './base.schema';
-import {modalidadeMeio as modalidadeMeioSchema} from './base.schema';
+import {usuario} from './index.schema';
+import {modalidadeMeio as modalidadeMeioSchema} from './index.schema';
 
 modalidadeMeioSchema.define({
     criadoPor: usuario,

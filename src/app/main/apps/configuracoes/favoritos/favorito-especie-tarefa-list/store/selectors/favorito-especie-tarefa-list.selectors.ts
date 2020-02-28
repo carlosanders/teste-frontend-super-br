@@ -7,7 +7,7 @@ import {
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {favorito as favoritoSchema} from '@cdk/normalizr/favorito.schema';
-import {Favorito} from '@cdk/models/favorito.model';
+import {Favorito} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Favorito>(favoritoSchema);
 

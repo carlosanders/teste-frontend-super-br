@@ -7,7 +7,7 @@ import {catchError, mergeMap, tap, switchMap} from 'rxjs/operators';
 import * as SegurancaActions from '../actions/seguranca.actions';
 
 import {UsuarioService} from '@cdk/services/usuario.service';
-import {Usuario} from '@cdk/models/usuario.model';
+import {Usuario} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';

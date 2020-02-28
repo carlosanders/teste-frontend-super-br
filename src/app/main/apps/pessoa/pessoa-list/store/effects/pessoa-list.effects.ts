@@ -10,7 +10,7 @@ import * as PessoaListActions from 'app/main/apps/pessoa/pessoa-list/store/actio
 
 import {PessoaService} from '@cdk/services/pessoa.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {Pessoa} from '@cdk/models/pessoa.model';
+import {Pessoa} from '@cdk/models';
 import {pessoa as pessoaSchema} from '@cdk/normalizr/pessoa.schema';
 
 @Injectable()

@@ -29,7 +29,7 @@ import {LoginService} from '../../../../auth/login/login.service';
 
 const routes: Routes = [
     {
-        path: ':folderHandle',
+        path: ':targetHandle',
         component: FolderEditComponent,
         canActivate: [fromGuards.ResolveGuard]
     }
