@@ -12,7 +12,7 @@ import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
-import {Lembrete} from '@cdk/models/lembrete.model';
+import {Lembrete} from '@cdk/models';
 import {LembreteDataSource} from '@cdk/data-sources/lembrete-data-source';
 import {FormControl} from '@angular/forms';
 

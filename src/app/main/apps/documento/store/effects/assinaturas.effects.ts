@@ -9,7 +9,7 @@ import {getRouterState, State} from 'app/store/reducers';
 import * as AssinaturaActions from '../actions/assinaturas.actions';
 
 import {AddData} from '@cdk/ngrx-normalizr';
-import {Assinatura} from '@cdk/models/assinatura.model';
+import {Assinatura} from '@cdk/models';
 import {assinatura as assinaturaSchema} from '@cdk/normalizr/assinatura.schema';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import * as moment from 'moment';

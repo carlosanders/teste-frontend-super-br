@@ -9,11 +9,11 @@ import * as DocumentoAvulsoCreateActions from '../actions/documento-avulso-creat
 import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {documentoAvulso as documentoAvulsoSchema} from '@cdk/normalizr/documento-avulso.schema';
-import {DocumentoAvulso} from '@cdk/models/documento-avulso.model';
+import {DocumentoAvulso} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
-import {Documento} from '@cdk/models/documento.model';
+import {Documento} from '@cdk/models';
 import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
 import {DocumentoService} from '@cdk/services/documento.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';

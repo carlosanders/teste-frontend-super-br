@@ -1,7 +1,7 @@
 import {createSelector} from '@ngrx/store';
 import {getDocumentoIdentificadorEditAppState, DocumentoIdentificadorEditAppState, DocumentoIdentificadorEditState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
-import {DocumentoIdentificador} from '@cdk/models/documento-identificador.model';
+import {DocumentoIdentificador} from '@cdk/models';
 import {documentoIdentificador as documentoIdentificadorchema} from '@cdk/normalizr/documento-identificador.schema';
 
 const schemaDocumentoIdentificadorelectors = createSchemaSelectors<DocumentoIdentificador>(documentoIdentificadorchema);

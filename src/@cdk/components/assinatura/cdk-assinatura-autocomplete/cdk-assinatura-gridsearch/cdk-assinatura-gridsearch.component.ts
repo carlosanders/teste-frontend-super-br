@@ -11,10 +11,10 @@ import {of} from 'rxjs';
 import {fuseAnimations} from '@fuse/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 import {AssinaturaService} from '@cdk/services/assinatura.service';
-import {Assinatura} from '@cdk/models/assinatura.model';
+import {Assinatura} from '@cdk/models';
 
 
 @Component({

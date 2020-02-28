@@ -12,7 +12,7 @@ import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
-import {OrigemDados} from '@cdk/models/origem-dados.model';
+import {OrigemDados} from '@cdk/models';
 import {OrigemDadosDataSource} from '@cdk/data-sources/origem-dados-data-source';
 import {FormControl} from '@angular/forms';
 

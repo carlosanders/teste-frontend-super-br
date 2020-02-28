@@ -5,9 +5,11 @@ import {Observable, Subject} from 'rxjs';
 import {fuseAnimations} from '@fuse/animations';
 
 import * as fromStore from 'app/main/apps/tarefas/store';
-import {Folder} from '@cdk/models/folder.model';
+import {Folder} from '@cdk/models';
 import {getRouterState} from 'app/store/reducers';
 import {takeUntil} from 'rxjs/operators';
+import {LoginService} from 'app/main/auth/login/login.service';
+import {Lotacao, Setor, Usuario, VinculacaoUsuario} from '@cdk/models';
 
 @Component({
     selector: 'tarefas-main-sidebar',
@@ -28,15 +30,22 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
     routerState: any;
 
     generoHandle = '';
+    typeHandle = '';
+
+    setoresCoordenacao: Setor[] = [];
+
+    usuariosAnalista: Usuario[] = [];
 
     /**
      *
      * @param _store
      * @param _changeDetectorRef
+     * @param _loginService
      */
     constructor(
         private _store: Store<fromStore.TarefasAppState>,
         private _changeDetectorRef: ChangeDetectorRef,
+        private _loginService: LoginService
     ) {
         this.folders$ = this._store.pipe(select(fromStore.getFolders));
     }
@@ -53,13 +62,28 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
             ).subscribe(routerState => {
             if (routerState) {
                 this.routerState = routerState.state;
-                if (routerState.state.params['folderHandle'] === 'compartilhadas') {
+                if (routerState.state.params['targetHandle'] === 'compartilhadas') {
                     this.mode = 'Compartilhadas';
                 } else {
                     this.mode = 'Tarefas';
                 }
                 this.generoHandle = routerState.state.params['generoHandle'];
+                this.typeHandle = routerState.state.params['typeHandle'];
             }
+        });
+
+        this.setoresCoordenacao = [];
+
+        this._loginService.getUserProfile().colaborador.lotacoes.forEach((lotacao: Lotacao) => {
+            if (lotacao.coordenador) {
+                this.setoresCoordenacao.push(lotacao.setor);
+            }
+        });
+
+        this.usuariosAnalista = [];
+
+        this._loginService.getUserProfile().vinculacoesUsuariosPrincipais.forEach((vinculacaoUsuario: VinculacaoUsuario) => {
+            this.usuariosAnalista.push(vinculacaoUsuario.usuario);
         });
     }
 

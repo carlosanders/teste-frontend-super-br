@@ -9,11 +9,11 @@ import {
 
 import { fuseAnimations } from '@fuse/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { Favorito } from '@cdk/models/favorito.model';
-import {Pagination} from '@cdk/models/pagination';
-import {EspecieAtividade} from '@cdk/models/especie-atividade.model';
-import {EspecieTarefa} from '@cdk/models/especie-tarefa.model';
-import {Setor} from '@cdk/models/setor.model';
+import { Favorito } from '@cdk/models';
+import {Pagination} from '@cdk/models';
+import {EspecieAtividade} from '@cdk/models';
+import {EspecieTarefa} from '@cdk/models';
+import {Setor} from '@cdk/models';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 

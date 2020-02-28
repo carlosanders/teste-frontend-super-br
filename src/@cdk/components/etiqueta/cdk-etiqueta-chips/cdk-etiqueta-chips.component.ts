@@ -3,8 +3,8 @@ import {ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Out
 import {FormControl} from '@angular/forms';
 import {MatAutocompleteSelectedEvent, MatChipInputEvent, MatAutocomplete} from '@cdk/angular/material';
 import {fuseAnimations} from '@fuse/animations';
-import {Etiqueta} from '@cdk/models/etiqueta.model';
-import {Pagination} from '@cdk/models/pagination';
+import {Etiqueta} from '@cdk/models';
+import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-etiqueta-chips',

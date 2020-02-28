@@ -14,10 +14,10 @@ import {fuseAnimations} from '@fuse/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 import {ModalidadeFaseService} from '@cdk/services/modalidade-fase.service';
-import {ModalidadeFase} from '@cdk/models/modalidade-fase.model';
+import {ModalidadeFase} from '@cdk/models';
 
 @Component({
     selector: 'cdk-modalidade-fase-gridsearch',

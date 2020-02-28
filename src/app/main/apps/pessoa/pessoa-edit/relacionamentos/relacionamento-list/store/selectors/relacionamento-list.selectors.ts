@@ -7,7 +7,7 @@ import {
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {relacionamentoPessoal as relacionamentoSchema} from '@cdk/normalizr/relacionamento-pessoal.schema';
-import {RelacionamentoPessoal} from '@cdk/models/relacionamento-pessoal.model';
+import {RelacionamentoPessoal} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<RelacionamentoPessoal>(relacionamentoSchema);
 

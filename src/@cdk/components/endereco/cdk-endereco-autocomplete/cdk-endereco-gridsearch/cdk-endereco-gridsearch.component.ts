@@ -14,10 +14,10 @@ import {fuseAnimations} from '@fuse/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 import {EnderecoService} from '@cdk/services/endereco.service';
-import {Endereco} from '@cdk/models/endereco.model';
+import {Endereco} from '@cdk/models';
 
 @Component({
     selector: 'cdk-endereco-gridsearch',

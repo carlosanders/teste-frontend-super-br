@@ -10,7 +10,7 @@ import * as FolderListActions from '../actions';
 
 import {FolderService} from '@cdk/services/folder.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {Folder} from '@cdk/models/folder.model';
+import {Folder} from '@cdk/models';
 import {folder as folderSchema} from '@cdk/normalizr/folder.schema';
 import {LoginService} from 'app/main/auth/login/login.service';
 
@@ -59,7 +59,7 @@ export class FolderListEffect {
                                 entitiesId: response['entities'].map(folder => folder.id),
                                 loaded: {
                                     id: 'usuarioHandle',
-                                    value: this._loginService.getUserProfile().usuario.id
+                                    value: this._loginService.getUserProfile().id
                                 },
                                 total: response['total']
                             })

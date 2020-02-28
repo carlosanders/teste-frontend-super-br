@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation
 
 import {fuseAnimations} from '@fuse/animations';
 import {Observable, Subject} from 'rxjs';
-import {Processo} from '@cdk/models/processo.model';
+import {Processo} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from 'app/main/apps/processo/store';
 import {UnloadProcesso} from 'app/main/apps/processo/processo-edit/dados-basicos/store';
@@ -10,7 +10,7 @@ import {CreateProcesso} from 'app/main/apps/processo/processo-edit/dados-basicos
 import {takeUntil} from 'rxjs/operators';
 import {getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
-
+import {LoginService} from "../../../../auth/login/login.service";
 
 @Component({
     selector: 'processo-main-sidebar',
@@ -40,28 +40,32 @@ export class ProcessoMainSidebarComponent implements OnInit, OnDestroy {
     constructor(
         private _store: Store<fromStore.ProcessoAppState>,
         private _router: Router,
+        private _loginService: LoginService
     ) {
 
         this.processo$ = this._store.pipe(select(fromStore.getProcesso));
 
         this.links = [
             {
-                nome: 'Editar',
-                icon: 'edit',
-                link: 'editar',
-                processo: true
-            },
-            {
                 nome: 'Visualizar',
                 icon: 'library_books',
                 link: 'visualizar',
-                processo: true
+                processo: true,
+                role: 'ROLE_USER'
+            },
+            {
+                nome: 'Editar',
+                icon: 'edit',
+                link: 'editar',
+                processo: true,
+                role: 'ROLE_COLABORADOR'
             },
             {
                 nome: 'Download',
                 icon: 'cloud_download',
                 link: 'download',
-                processo: true
+                processo: true,
+                role: 'ROLE_USER'
             }
         ];
     }
@@ -77,7 +81,7 @@ export class ProcessoMainSidebarComponent implements OnInit, OnDestroy {
         this.processo$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(processo => this.processo = processo);
-        
+
         this._store
             .pipe(select(getRouterState))
             .subscribe(routerState => {
@@ -98,8 +102,8 @@ export class ProcessoMainSidebarComponent implements OnInit, OnDestroy {
     }
 
     create(): void {
-           this._store.dispatch(new fromStore.CreateProcesso());           
-           this._store.dispatch(new CreateProcesso());                      
+           this._store.dispatch(new fromStore.CreateProcesso());
+           this._store.dispatch(new CreateProcesso());
            window.location.assign(this.routerState.url.split('/processo/')[0] + '/processo/criar/editar');
     }
 

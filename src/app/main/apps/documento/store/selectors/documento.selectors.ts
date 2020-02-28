@@ -1,9 +1,9 @@
 import {createSelector} from '@ngrx/store';
 import {getDocumentoAppState, DocumentoAppState, DocumentoState} from 'app/main/apps/documento/store/reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
-import {Documento} from '@cdk/models/documento.model';
+import {Documento} from '@cdk/models';
 import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
-import {ComponenteDigital} from '@cdk/models/componente-digital.model';
+import {ComponenteDigital} from '@cdk/models';
 import {componenteDigital as componenteDigitalSchema} from '@cdk/normalizr/componente-digital.schema';
 import {AtividadeCreateDocumentosState} from '../../../tarefas/tarefa-detail/atividades/atividade-create/store/reducers';
 import {getAtividadeCreateDocumentosState} from '../../../tarefas/tarefa-detail/atividades/atividade-create/store/selectors';

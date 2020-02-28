@@ -12,7 +12,7 @@ import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
-import {Historico} from '@cdk/models/historico.model';
+import {Historico} from '@cdk/models';
 import {HistoricoDataSource} from '@cdk/data-sources/historico-data-source';
 import {FormControl} from '@angular/forms';
 

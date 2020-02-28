@@ -14,10 +14,10 @@ import {fuseAnimations} from '@fuse/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 import {ModalidadeAlvoInibidorService} from '@cdk/services/modalidade-alvo-inibidor.service';
-import {ModalidadeAlvoInibidor} from '@cdk/models/modalidade-alvo-inibidor.model';
+import {ModalidadeAlvoInibidor} from '@cdk/models';
 
 @Component({
     selector: 'cdk-modalidade-alvo-inibidor-gridsearch',

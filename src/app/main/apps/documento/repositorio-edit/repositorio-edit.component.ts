@@ -9,10 +9,10 @@ import {
 import {fuseAnimations} from '@fuse/animations';
 import {Observable} from 'rxjs';
 import * as fromStore from '../store';
-import {Documento} from '@cdk/models/documento.model';
+import {Documento} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import {Location} from '@angular/common';
-import {Repositorio} from '@cdk/models/repositorio.model';
+import {Repositorio} from '@cdk/models';
 
 @Component({
     selector: 'repositorio-edit',

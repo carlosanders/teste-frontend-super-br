@@ -54,27 +54,15 @@ export class ResolveGuard implements CanActivate {
      */
     getProcesso(): any {
         return this._store.pipe(
-            tap((n) => {
-                console.log('entrou GET Guards Processo: '); 
-                console.log(n);
-            }),
             select(getProcessoLoaded),
             tap((loaded: any) => {
                 if (loaded.acessoNegado) {
                     this._router.navigate([this.routerState.url.split('/processo')[0] + '/processo/' + this.routerState.params.processoHandle + '/acesso-negado']).then();
                 } else {
-                    console.log('entrou else Get Guards processo: Handle: ' + this.routerState.params['processoHandle']);
-                    console.log('entrou else Get Guards processo: loaded.id: ' + this.routerState.params[loaded.id]);
-                    console.log('entrou else Get Guards processo: loaded.value: ' + loaded.value);                    
-                    console.log(!this.routerState.params[loaded.id]);
-                    console.log(this.routerState.params[loaded.id] !== loaded.value);
-
                     if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
                         if (this.routerState.params['processoHandle'] === 'criar') {
-                            console.log('entrou processo criar: ');                                                
                             this._store.dispatch(new fromStore.CreateProcesso());
                         } else {
-                            console.log('entrou processo get: ');                                                                            
                             this._store.dispatch(new fromStore.GetProcesso({
                                 id: 'eq:' + this.routerState.params['processoHandle']
                             }));
@@ -83,7 +71,6 @@ export class ResolveGuard implements CanActivate {
                 }
             }),
             filter((loaded: any) => {
-                console.log('entrou filter Guards processo');
                 return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
             }),
             take(1)

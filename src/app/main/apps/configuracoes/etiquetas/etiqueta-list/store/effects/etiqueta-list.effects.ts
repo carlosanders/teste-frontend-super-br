@@ -10,7 +10,7 @@ import * as EtiquetaListActions from '../actions';
 
 import {EtiquetaService} from '@cdk/services/etiqueta.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {Etiqueta} from '@cdk/models/etiqueta.model';
+import {Etiqueta} from '@cdk/models';
 import {etiqueta as etiquetaSchema} from '@cdk/normalizr/etiqueta.schema';
 import {LoginService} from 'app/main/auth/login/login.service';
 
@@ -59,7 +59,7 @@ export class EtiquetaListEffect {
                                 entitiesId: response['entities'].map(etiqueta => etiqueta.id),
                                 loaded: {
                                     id: 'usuarioHandle',
-                                    value: this._loginService.getUserProfile().usuario.id
+                                    value: this._loginService.getUserProfile().id
                                 },
                                 total: response['total']
                             })

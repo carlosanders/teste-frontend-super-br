@@ -3,7 +3,7 @@ import {DocumentoAppState, getDocumentoAppState, SigilosState} from '../reducers
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {sigilo as schemaSigilo} from '@cdk/normalizr/sigilo.schema';
-import {Sigilo} from '@cdk/models/sigilo.model';
+import {Sigilo} from '@cdk/models';
 
 const schemaSigiloSelectors = createSchemaSelectors<Sigilo>(schemaSigilo);
 

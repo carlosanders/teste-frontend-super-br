@@ -1,5 +1,5 @@
 import { CollectionViewer, DataSource } from '@angular/cdk/collections';
-import { Documento } from '@cdk/models/documento.model';
+import { Documento } from '@cdk/models';
 import { Observable } from 'rxjs';
 
 export class DocumentoDataSource extends DataSource<Documento> {

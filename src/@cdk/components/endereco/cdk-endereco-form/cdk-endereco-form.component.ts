@@ -9,10 +9,10 @@ import {
 
 import { fuseAnimations } from '@fuse/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { Endereco } from '@cdk/models/endereco.model';
-import { Municipio } from '@cdk/models/municipio.model';
-import {Pais} from '@cdk/models/pais.model';
-import {Pagination} from '@cdk/models/pagination';
+import { Endereco } from '@cdk/models';
+import { Municipio } from '@cdk/models';
+import {Pais} from '@cdk/models';
+import {Pagination} from '@cdk/models';
 import {EnderecoService} from '@cdk/services/endereco.service';
 import {catchError} from 'rxjs/operators';
 import {of, throwError} from 'rxjs';

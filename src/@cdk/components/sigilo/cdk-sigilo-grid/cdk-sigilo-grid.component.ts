@@ -12,7 +12,7 @@ import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
-import {Sigilo} from '@cdk/models/sigilo.model';
+import {Sigilo} from '@cdk/models';
 import {SigiloDataSource} from '@cdk/data-sources/sigilo-data-source';
 import {FormControl} from '@angular/forms';
 

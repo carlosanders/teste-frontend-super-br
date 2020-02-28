@@ -1,7 +1,7 @@
 import {createSelector} from '@ngrx/store';
 import {getRepositorioEditAppState, RepositorioEditAppState, RepositorioEditState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
-import {Repositorio} from '@cdk/models/repositorio.model';
+import {Repositorio} from '@cdk/models';
 import {repositorio as repositorioSchema} from '@cdk/normalizr/repositorio.schema';
 
 const schemaRepositorioSelectors = createSchemaSelectors<Repositorio>(repositorioSchema);

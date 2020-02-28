@@ -14,10 +14,10 @@ import {fuseAnimations} from '@fuse/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 import {ModalidadeAfastamentoService} from '@cdk/services/modalidade-afastamento.service';
-import {ModalidadeAfastamento} from '@cdk/models/modalidade-afastamento.model';
+import {ModalidadeAfastamento} from '@cdk/models';
 
 @Component({
     selector: 'cdk-modalidade-afastamento-gridsearch',

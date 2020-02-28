@@ -9,13 +9,13 @@ import {
 
 import {fuseAnimations} from '@fuse/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Pessoa} from '@cdk/models/pessoa.model';
+import {Pessoa} from '@cdk/models';
 import {MAT_DATETIME_FORMATS} from '@mat-datetimepicker/core';
-import {ModalidadeQualificacaoPessoa} from '@cdk/models/modalidade-qualificacao-pessoa.model';
-import {ModalidadeGeneroPessoa} from '@cdk/models/modalidade-genero-pessoa.model';
-import {Pais} from '@cdk/models/pais.model';
-import {Municipio} from '@cdk/models/municipio.model';
-import {Pagination} from '@cdk/models/pagination';
+import {ModalidadeQualificacaoPessoa} from '@cdk/models';
+import {ModalidadeGeneroPessoa} from '@cdk/models';
+import {Pais} from '@cdk/models';
+import {Municipio} from '@cdk/models';
+import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-pessoa-form',

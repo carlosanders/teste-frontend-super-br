@@ -1,6 +1,6 @@
 import { CollectionViewer, DataSource } from '@angular/cdk/collections';
 import { Observable } from 'rxjs';
-import { Municipio } from '@cdk/models/municipio.model';
+import { Municipio } from '@cdk/models';
 
 export class MunicipioDataSource extends DataSource<Municipio> {
 

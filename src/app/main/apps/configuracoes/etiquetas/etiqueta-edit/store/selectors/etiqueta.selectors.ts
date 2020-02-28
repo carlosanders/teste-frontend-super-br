@@ -1,6 +1,6 @@
 import {createSelector} from '@ngrx/store';
 import {getEtiquetaAppState, EtiquetaAppState, EtiquetaState} from '../reducers';
-import {Etiqueta} from '@cdk/models/etiqueta.model';
+import {Etiqueta} from '@cdk/models';
 import {etiqueta as etiquetaSchema} from '@cdk/normalizr/etiqueta.schema';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 

@@ -10,9 +10,9 @@ import {
 import {coerceNumberProperty} from '@angular/cdk/coercion';
 import { fuseAnimations } from '@fuse/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { Classificacao } from '@cdk/models/classificacao.model';
-import { ModalidadeDestinacao } from '@cdk/models/modalidade-destinacao.model';
-import {Pagination} from '@cdk/models/pagination';
+import { Classificacao } from '@cdk/models';
+import { ModalidadeDestinacao } from '@cdk/models';
+import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-classificacao-form',

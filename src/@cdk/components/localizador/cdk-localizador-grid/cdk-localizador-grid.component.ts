@@ -12,7 +12,7 @@ import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
-import {Localizador} from '@cdk/models/localizador.model';
+import {Localizador} from '@cdk/models';
 import {LocalizadorDataSource} from '@cdk/data-sources/localizador-data-source';
 import {FormControl} from '@angular/forms';
 
