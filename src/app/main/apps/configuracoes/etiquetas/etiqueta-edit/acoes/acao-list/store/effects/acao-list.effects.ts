@@ -10,7 +10,7 @@ import * as AcaoListActions from '../actions';
 
 import {AcaoService} from '@cdk/services/acao.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {Acao} from '@cdk/models/acao.model';
+import {Acao} from '@cdk/models';
 import {acao as acaoSchema} from '@cdk/normalizr/acao.schema';
 
 @Injectable()

@@ -9,7 +9,7 @@ import * as ComponenteDigitalActions from '../actions/componentes-digitais.actio
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {componenteDigital as componenteDigitalSchema} from '@cdk/normalizr/componente-digital.schema';
-import {ComponenteDigital} from '@cdk/models/componente-digital.model';
+import {ComponenteDigital} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {DocumentoService} from '@cdk/services/documento.service';

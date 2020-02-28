@@ -10,10 +10,10 @@ import * as FavoritoListSetorResponsavelActions from '../actions';
 
 import {FavoritoService} from '@cdk/services/favorito.service';
 import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
-import {Favorito} from '@cdk/models/favorito.model';
+import {Favorito} from '@cdk/models';
 import {favorito as favoritoSchema} from '@cdk/normalizr/favorito.schema';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Usuario} from '@cdk/models/usuario.model';
+import {Usuario} from '@cdk/models';
 
 @Injectable()
 export class FavoritoListSetorResponsavelEffect {

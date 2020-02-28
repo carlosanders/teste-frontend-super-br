@@ -11,7 +11,7 @@ import {Observable, Subject} from 'rxjs';
 import * as fromStore from '../store';
 import * as fromDocumentoStore from '../../store';
 import {select, Store} from '@ngrx/store';
-import {ComponenteDigital} from '@cdk/models/componente-digital.model';
+import {ComponenteDigital} from '@cdk/models';
 import {takeUntil} from 'rxjs/operators';
 import {getMercureState, getRouterState} from '../../../../../store/reducers';
 import {getRepositorioComponenteDigital} from '../../store/selectors';

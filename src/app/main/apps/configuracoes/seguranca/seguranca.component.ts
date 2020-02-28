@@ -12,7 +12,7 @@ import {Observable} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
-import {Usuario} from '@cdk/models/usuario.model';
+import {Usuario} from '@cdk/models';
 import {LoginService} from '../../../auth/login/login.service';
 
 @Component({

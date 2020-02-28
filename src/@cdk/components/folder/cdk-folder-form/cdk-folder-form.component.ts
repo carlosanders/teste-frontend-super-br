@@ -9,9 +9,9 @@ import {
 
 import { fuseAnimations } from '@fuse/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { Folder } from '@cdk/models/folder.model';
-import {Pagination} from '@cdk/models/pagination';
-import {ModalidadeFolder} from '@cdk/models/modalidade-folder.model';
+import { Folder } from '@cdk/models';
+import {Pagination} from '@cdk/models';
+import {ModalidadeFolder} from '@cdk/models';
 
 @Component({
     selector: 'cdk-folder-form',

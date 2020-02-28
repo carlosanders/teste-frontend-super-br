@@ -1,7 +1,7 @@
 import {createSelector} from '@ngrx/store';
 import {getTarefaEditAppState, TarefaEditAppState, TarefaEditState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
-import {Tarefa} from '@cdk/models/tarefa.model';
+import {Tarefa} from '@cdk/models';
 import {tarefa as tarefaSchema} from '@cdk/normalizr/tarefa.schema';
 
 const schemaTarefaSelectors = createSchemaSelectors<Tarefa>(tarefaSchema);

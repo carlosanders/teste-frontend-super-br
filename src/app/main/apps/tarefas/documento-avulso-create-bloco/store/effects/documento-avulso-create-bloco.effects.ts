@@ -9,7 +9,7 @@ import * as DocumentoAvulsoCreateBlocoActions from '../actions/documento-avulso-
 import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {documentoAvulso as documentoAvulsoSchema} from '@cdk/normalizr/documento-avulso.schema';
-import {DocumentoAvulso} from '@cdk/models/documento-avulso.model';
+import {DocumentoAvulso} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';

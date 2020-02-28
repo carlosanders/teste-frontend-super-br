@@ -12,7 +12,7 @@ import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
-import {Lotacao} from '@cdk/models/lotacao.model';
+import {Lotacao} from '@cdk/models';
 import {LotacaoDataSource} from '@cdk/data-sources/lotacao-data-source';
 import {FormControl} from '@angular/forms';
 

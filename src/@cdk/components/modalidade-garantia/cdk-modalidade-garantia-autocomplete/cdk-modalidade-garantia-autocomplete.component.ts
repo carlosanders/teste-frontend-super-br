@@ -7,13 +7,13 @@ import {
 } from '@angular/core';
 
 import {fuseAnimations} from '@fuse/animations';
-import {ModalidadeGarantia} from '@cdk/models/modalidade-garantia.model';
+import {ModalidadeGarantia} from '@cdk/models';
 import {ModalidadeGarantiaService} from '@cdk/services/modalidade-garantia.service';
 import {FormControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-modalidade-garantia-autocomplete',

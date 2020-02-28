@@ -8,13 +8,13 @@ import {
 import {Observable, Subject} from 'rxjs';
 
 import {fuseAnimations} from '@fuse/animations';
-import {Favorito} from '@cdk/models/favorito.model';
+import {Favorito} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 import {LoginService} from '../../../../auth/login/login.service';
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 import {takeUntil} from 'rxjs/operators';
 import {FavoritoService} from '@cdk/services/favorito.service';
 

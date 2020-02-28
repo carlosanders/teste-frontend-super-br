@@ -14,10 +14,10 @@ import {fuseAnimations} from '@fuse/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 import {DocumentoIdentificadorService} from '@cdk/services/documento-identificador.service';
-import {DocumentoIdentificador} from '@cdk/models/documento-identificador.model';
+import {DocumentoIdentificador} from '@cdk/models';
 
 @Component({
     selector: 'cdk-documento-identificador-gridsearch',

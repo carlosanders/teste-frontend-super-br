@@ -14,10 +14,10 @@ import {fuseAnimations} from '@fuse/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 import {EspecieAtividadeService} from '@cdk/services/especie-atividade.service';
-import {EspecieAtividade} from '@cdk/models/especie-atividade.model';
+import {EspecieAtividade} from '@cdk/models';
 
 @Component({
     selector: 'cdk-especie-atividade-gridsearch',

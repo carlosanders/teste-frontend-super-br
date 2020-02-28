@@ -10,7 +10,7 @@ import * as VisibilidadeListActions from '../../../visibilidade-list/store/actio
 import {ProcessoService} from '@cdk/services/processo.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {visibilidade as visibilidadeSchema} from '@cdk/normalizr/visibilidade.schema';
-import {Visibilidade} from '@cdk/models/visibilidade.model';
+import {Visibilidade} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';

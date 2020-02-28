@@ -9,11 +9,11 @@ import {
 
 import { fuseAnimations } from '@fuse/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { Colaborador } from '@cdk/models/colaborador.model';
-import { ModalidadeColaborador } from '@cdk/models/modalidade-colaborador.model';
-import {Usuario} from '@cdk/models/usuario.model';
-import {Cargo} from '@cdk/models/cargo.model';
-import {Pagination} from '@cdk/models/pagination';
+import { Colaborador } from '@cdk/models';
+import { ModalidadeColaborador } from '@cdk/models';
+import {Usuario} from '@cdk/models';
+import {Cargo} from '@cdk/models';
+import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-colaborador-form',

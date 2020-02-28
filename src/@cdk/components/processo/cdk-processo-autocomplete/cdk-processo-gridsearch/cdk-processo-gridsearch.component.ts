@@ -14,10 +14,10 @@ import {fuseAnimations} from '@fuse/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 import {ProcessoService} from '@cdk/services/processo.service';
-import {Processo} from '@cdk/models/processo.model';
+import {Processo} from '@cdk/models';
 
 @Component({
     selector: 'cdk-processo-gridsearch',

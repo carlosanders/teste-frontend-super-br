@@ -12,7 +12,7 @@ import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
-import {ModalidadeAfastamento} from '@cdk/models/modalidade-afastamento.model';
+import {ModalidadeAfastamento} from '@cdk/models';
 import {ModalidadeAfastamentoDataSource} from '@cdk/data-sources/modalidade-afastamento-data-source';
 import {FormControl} from '@angular/forms';
 

@@ -7,13 +7,13 @@ import {
 } from '@angular/core';
 
 import {fuseAnimations} from '@fuse/animations';
-import {ModalidadeAlvoInibidor} from '@cdk/models/modalidade-alvo-inibidor.model';
+import {ModalidadeAlvoInibidor} from '@cdk/models';
 import {ModalidadeAlvoInibidorService} from '@cdk/services/modalidade-alvo-inibidor.service';
 import {FormControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-modalidade-alvo-inibidor-autocomplete',

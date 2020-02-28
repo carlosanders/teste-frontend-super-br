@@ -1,7 +1,7 @@
 import {createSelector} from '@ngrx/store';
 import {getRemessaEditAppState, RemessaEditAppState, RemessaEditState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
-import {Tramitacao} from '@cdk/models/tramitacao.model';
+import {Tramitacao} from '@cdk/models';
 import {tramitacao as tramitacaoSchema} from '@cdk/normalizr/tramitacao.schema';
 
 const schemaTramitacaoSelectors = createSchemaSelectors<Tramitacao>(tramitacaoSchema);

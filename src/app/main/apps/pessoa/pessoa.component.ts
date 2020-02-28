@@ -12,7 +12,7 @@ import {Router} from '@angular/router';
 
 import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 import {Observable, Subject} from 'rxjs';
-import {Pessoa} from '@cdk/models/pessoa.model';
+import {Pessoa} from '@cdk/models';
 import {takeUntil} from 'rxjs/operators';
 
 @Component({

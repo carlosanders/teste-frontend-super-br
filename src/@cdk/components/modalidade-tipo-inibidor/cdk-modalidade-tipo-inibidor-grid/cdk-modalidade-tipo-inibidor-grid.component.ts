@@ -12,7 +12,7 @@ import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
-import {ModalidadeTipoInibidor} from '@cdk/models/modalidade-tipo-inibidor.model';
+import {ModalidadeTipoInibidor} from '@cdk/models';
 import {ModalidadeTipoInibidorDataSource} from '@cdk/data-sources/modalidade-tipo-inibidor-data-source';
 import {FormControl} from '@angular/forms';
 

@@ -11,7 +11,7 @@ import {fuseAnimations} from '@fuse/animations';
 
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 
-import {LogEntry} from '@cdk/models/logentry.model';
+import {LogEntry} from '@cdk/models';
 import {LogEntryDataSource} from '@cdk/data-sources/logentry-data-source';
 import {FormControl} from '@angular/forms';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';

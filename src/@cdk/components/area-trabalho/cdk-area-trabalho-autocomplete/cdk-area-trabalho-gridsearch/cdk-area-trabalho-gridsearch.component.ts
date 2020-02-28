@@ -13,8 +13,8 @@ import {fuseAnimations} from '@fuse/animations';
 import {catchError, finalize} from 'rxjs/operators';
 
 import {AreaTrabalhoService} from '@cdk/services/area-trabalho.service';
-import {AreaTrabalho} from '@cdk/models/area-trabalho.model';
-import {Pagination} from '@cdk/models/pagination';
+import {AreaTrabalho} from '@cdk/models';
+import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-area-trabalho-gridsearch',

@@ -10,7 +10,7 @@ import * as InteressadoListActions from 'app/main/apps/processo/processo-edit/in
 import {InteressadoService} from '@cdk/services/interessado.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {interessado as interessadoSchema} from '@cdk/normalizr/interessado.schema';
-import {Interessado} from '@cdk/models/interessado.model';
+import {Interessado} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';

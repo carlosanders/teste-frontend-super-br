@@ -14,9 +14,9 @@ import {fuseAnimations} from '@fuse/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 import {AtividadeService} from '@cdk/services/atividade.service';
-import {Atividade} from '@cdk/models/atividade.model';
+import {Atividade} from '@cdk/models';
 
 @Component({
     selector: 'cdk-atividade-gridsearch',

@@ -14,10 +14,10 @@ import {fuseAnimations} from '@fuse/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 import {NomeService} from '@cdk/services/nome.service';
-import {Nome} from '@cdk/models/nome.model';
+import {Nome} from '@cdk/models';
 
 @Component({
     selector: 'cdk-nome-gridsearch',

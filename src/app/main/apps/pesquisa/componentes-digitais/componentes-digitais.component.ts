@@ -8,7 +8,7 @@ import {
 import {Observable, Subject} from 'rxjs';
 
 import {fuseAnimations} from '@fuse/animations';
-import {ComponenteDigital} from '@cdk/models/componente-digital.model';
+import {ComponenteDigital} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from 'app/main/apps/pesquisa/componentes-digitais/store';

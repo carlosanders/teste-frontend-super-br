@@ -6,9 +6,9 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {Acao} from '@cdk/models/acao.model';
+import {Acao} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Colaborador} from '@cdk/models/colaborador.model';
+import {Colaborador} from '@cdk/models';
 
 @Component({
     selector: 'cdk-acao-list-item',

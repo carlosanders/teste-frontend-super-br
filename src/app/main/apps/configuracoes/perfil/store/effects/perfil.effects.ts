@@ -10,7 +10,7 @@ import {UsuarioService} from '@cdk/services/usuario.service';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-import {Usuario} from '@cdk/models/usuario.model';
+import {Usuario} from '@cdk/models';
 import {UpdateData} from '@cdk/ngrx-normalizr';
 import {usuario as usuarioSchema} from '@cdk/normalizr/usuario.schema';
 

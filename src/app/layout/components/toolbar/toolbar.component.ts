@@ -10,7 +10,7 @@ import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 import {navigation} from 'app/navigation/navigation';
 import {Router} from '@angular/router';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Colaborador} from '@cdk/models/colaborador.model';
+import {Colaborador} from '@cdk/models';
 import {NotificacaoService} from '@cdk/services/notificacao.service';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from 'app/store';

@@ -17,7 +17,7 @@ import {fuseAnimations} from '@fuse/animations';
 import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 import {MatDialog, MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, filter, switchMap, tap} from 'rxjs/operators';
-import {Processo} from '@cdk/models/processo.model';
+import {Processo} from '@cdk/models';
 import {ProcessoDataSource} from '@cdk/data-sources/processo-data-source';
 import {FormControl} from '@angular/forms';
 import {CdkChaveAcessoPluginComponent} from '../../chave-acesso/cdk-chave-acesso-plugins/cdk-chave-acesso-plugin.component';

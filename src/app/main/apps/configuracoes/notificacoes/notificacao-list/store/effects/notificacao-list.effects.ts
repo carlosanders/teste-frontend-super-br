@@ -10,7 +10,7 @@ import * as NotificacaoListActions from '../actions';
 
 import {NotificacaoService} from '@cdk/services/notificacao.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {Notificacao} from '@cdk/models/notificacao.model';
+import {Notificacao} from '@cdk/models';
 import {notificacao as notificacaoSchema} from '@cdk/normalizr/notificacao.schema';
 import {LoginService} from 'app/main/auth/login/login.service';
 

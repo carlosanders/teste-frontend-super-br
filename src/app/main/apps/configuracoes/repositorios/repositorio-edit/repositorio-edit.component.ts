@@ -9,12 +9,12 @@ import {
 import {fuseAnimations} from '@fuse/animations';
 import {Observable} from 'rxjs';
 
-import {Repositorio} from '@cdk/models/repositorio.model';
+import {Repositorio} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
-import {Pagination} from '@cdk/models/pagination';
-import {Usuario} from '@cdk/models/usuario.model';
+import {Pagination} from '@cdk/models';
+import {Usuario} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
 
 @Component({

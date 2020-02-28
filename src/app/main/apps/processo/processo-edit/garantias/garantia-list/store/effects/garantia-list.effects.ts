@@ -10,7 +10,7 @@ import * as GarantiaListActions from '../actions';
 
 import {GarantiaService} from '@cdk/services/garantia.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {Garantia} from '@cdk/models/garantia.model';
+import {Garantia} from '@cdk/models';
 import {garantia as garantiaSchema} from '@cdk/normalizr/garantia.schema';
 
 @Injectable()

@@ -9,18 +9,18 @@ import {
 import {fuseAnimations} from '@fuse/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {DocumentoAvulso} from '@cdk/models/documento-avulso.model';
+import {DocumentoAvulso} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 import * as moment from 'moment';
-import {Colaborador} from '@cdk/models/colaborador.model';
+import {Colaborador} from '@cdk/models';
 import {LoginService} from '../../../auth/login/login.service';
-import {Processo} from '@cdk/models/processo.model';
-import {Tarefa} from '@cdk/models/tarefa.model';
+import {Processo} from '@cdk/models';
+import {Tarefa} from '@cdk/models';
 import {takeUntil} from 'rxjs/operators';
-import {Pessoa} from '@cdk/models/pessoa.model';
+import {Pessoa} from '@cdk/models';
 import {Router} from '@angular/router';
 import {getRouterState} from '../../../../store/reducers';
 import {Usuario} from "../../../../../@cdk/models/usuario.model";

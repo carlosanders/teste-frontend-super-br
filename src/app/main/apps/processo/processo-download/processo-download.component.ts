@@ -6,7 +6,7 @@ import {
 
 import {fuseAnimations} from '@fuse/animations';
 import {Observable} from 'rxjs';
-import {Processo} from '@cdk/models/processo.model';
+import {Processo} from '@cdk/models';
 import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 import {select, Store} from '@ngrx/store';
 import * as fromStoreProcesso from '../store';

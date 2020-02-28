@@ -9,7 +9,7 @@ import {
 
 import {fuseAnimations} from '@fuse/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Colaborador} from '@cdk/models/colaborador.model';
+import {Colaborador, Usuario} from '@cdk/models';
 
 @Component({
     selector: 'cdk-perfil-form',
@@ -22,7 +22,7 @@ import {Colaborador} from '@cdk/models/colaborador.model';
 export class CdkPerfilFormComponent implements OnChanges, OnDestroy {
 
     @Input()
-    colaborador: Colaborador;
+    usuario: Usuario;
 
     @Input()
     saving: boolean;
@@ -64,15 +64,15 @@ export class CdkPerfilFormComponent implements OnChanges, OnDestroy {
      * On change
      */
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
-        if (changes['colaborador'] && this.colaborador && ((!this.colaborador.id && !this.form.dirty) || (this.colaborador.id !== this.form.get('id').value))) {
+        if (changes['usuario'] && this.usuario && ((!this.usuario.id && !this.form.dirty) || (this.usuario.id !== this.form.get('id').value))) {
             this.form.patchValue({
-                id: this.colaborador.id,
-                username: this.colaborador.usuario.username,
-                nome: this.colaborador.usuario.nome,
-                email: this.colaborador.usuario.email,
-                cargo: this.colaborador.cargo.nome,
-                modalidadeColaborador: this.colaborador.modalidadeColaborador.valor,
-                assinaturaHTML: this.colaborador.usuario.assinaturaHTML
+                id: this.usuario.id,
+                username: this.usuario.username,
+                nome: this.usuario.nome,
+                email: this.usuario.email,
+                cargo: this.usuario.colaborador?.cargo.nome,
+                modalidadeColaborador: this.usuario.colaborador?.modalidadeColaborador.valor,
+                assinaturaHTML: this.usuario.assinaturaHTML
             });
         }
 
