@@ -40,14 +40,6 @@ const routes: Routes = [
                 path: 'processo',
                 loadChildren: () => import('app/main/apps/processo/processo.module').then(m => m.ProcessoModule)
             },
-            /*{
-                path: 'modelo',
-                loadChildren: () => import('app/main/apps/modelo/modelo.module').then(m => m.ModeloModule),
-            },
-            {
-                path: 'oficio',
-                loadChildren: () => import('app/main/apps/documento-avulso/documento-avulso-create/documento-avulso-create.module').then(m => m.DocumentoAvulsoCreateModule),
-            },*/
             {
                 path: 'responder-complementar',
                 loadChildren: () => import('./reponder-complementar/responder-complementar.module').then(m => m.ResponderComplementarModule)
