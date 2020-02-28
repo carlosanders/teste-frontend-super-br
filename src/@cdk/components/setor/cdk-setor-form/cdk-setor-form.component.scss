@@ -44,7 +44,9 @@ cdk-setor-form {
     .legendaGrupo {
         color: rgba(0, 0, 0, 0.54);
     }
-
+    .mat-form-field-wrapper {
+        width: 100%;
+    }
     label.legenda {
 
         margin-right: 40px;
