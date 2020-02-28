@@ -1,8 +1,8 @@
-import {assunto as assuntoSchema} from './base.schema';
-import {assuntoAdministrativo} from './base.schema';
-import {origemDados} from './base.schema';
-import {usuario} from './base.schema';
-import {processo} from './base.schema';
+import {assunto as assuntoSchema} from './index.schema';
+import {assuntoAdministrativo} from './index.schema';
+import {origemDados} from './index.schema';
+import {usuario} from './index.schema';
+import {processo} from './index.schema';
 
 assuntoSchema.define({
     assuntoAdministrativo: assuntoAdministrativo,

@@ -1,8 +1,8 @@
-import {setor} from './base.schema';
-import {usuario} from './base.schema';
-import {especieAtividade} from './base.schema';
-import {especieTarefa} from './base.schema';
-import {favorito as favoritoSchema} from './base.schema';
+import {setor} from './index.schema';
+import {usuario} from './index.schema';
+import {especieAtividade} from './index.schema';
+import {especieTarefa} from './index.schema';
+import {favorito as favoritoSchema} from './index.schema';
 
 favoritoSchema.define({
     especieAtividade: especieAtividade,

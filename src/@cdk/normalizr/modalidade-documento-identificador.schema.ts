@@ -1,5 +1,5 @@
-import {usuario} from './base.schema';
-import {modalidadeDocumentoIdentificador as modalidadeDocumentoIdentificadorSchema} from './base.schema';
+import {usuario} from './index.schema';
+import {modalidadeDocumentoIdentificador as modalidadeDocumentoIdentificadorSchema} from './index.schema';
 
 modalidadeDocumentoIdentificadorSchema.define({
     criadoPor: usuario,

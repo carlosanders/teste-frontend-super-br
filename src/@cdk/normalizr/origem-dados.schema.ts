@@ -1,5 +1,5 @@
-import {usuario} from './base.schema';
-import {origemDados as origemDadosSchema} from './base.schema';
+import {usuario} from './index.schema';
+import {origemDados as origemDadosSchema} from './index.schema';
 
 origemDadosSchema.define({
     criadoPor: usuario,

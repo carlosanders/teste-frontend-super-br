@@ -1,6 +1,6 @@
-import {usuario} from './base.schema';
-import {origemDados} from './base.schema';
-import {componenteDigital as componenteDigitalSchema} from './base.schema';
+import {usuario} from './index.schema';
+import {origemDados} from './index.schema';
+import {componenteDigital as componenteDigitalSchema} from './index.schema';
 
 componenteDigitalSchema.define({
     origemDados: origemDados,

@@ -1,5 +1,5 @@
-import {usuario} from './base.schema';
-import {vinculacaoUsuario as vinculacaoUsuarioSchema} from './base.schema';
+import {usuario} from './index.schema';
+import {vinculacaoUsuario as vinculacaoUsuarioSchema} from './index.schema';
 
 vinculacaoUsuarioSchema.define({
     usuario: usuario,

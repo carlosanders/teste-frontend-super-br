@@ -1,7 +1,7 @@
-import {usuario} from './base.schema';
-import {colaborador} from './base.schema';
-import {setor} from './base.schema';
-import {lotacao as lotacaoSchema} from './base.schema';
+import {usuario} from './index.schema';
+import {colaborador} from './index.schema';
+import {setor} from './index.schema';
+import {lotacao as lotacaoSchema} from './index.schema';
 
 lotacaoSchema.define({
     colaborador: colaborador,

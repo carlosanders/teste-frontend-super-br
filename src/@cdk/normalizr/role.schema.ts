@@ -1,5 +1,5 @@
-import {usuario} from './base.schema';
-import {role as roleSchema} from './base.schema';
+import {usuario} from './index.schema';
+import {role as roleSchema} from './index.schema';
 
 roleSchema.define({
     criadoPor: usuario,

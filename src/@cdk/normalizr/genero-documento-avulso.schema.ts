@@ -1,5 +1,5 @@
-import {usuario} from './base.schema';
-import {generoDocumentoAvulso as generoDocumentoAvulsoSchema} from './base.schema';
+import {usuario} from './index.schema';
+import {generoDocumentoAvulso as generoDocumentoAvulsoSchema} from './index.schema';
 
 generoDocumentoAvulsoSchema.define({
     criadoPor: usuario,

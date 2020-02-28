@@ -1,8 +1,8 @@
-import {usuario} from './base.schema';
-import {modalidadeCategoriaSigilo} from './base.schema';
-import {origemDados} from './base.schema';
-import {tipoSigilo} from './base.schema';
-import {sigilo as sigiloSchema} from './base.schema';
+import {usuario} from './index.schema';
+import {modalidadeCategoriaSigilo} from './index.schema';
+import {origemDados} from './index.schema';
+import {tipoSigilo} from './index.schema';
+import {sigilo as sigiloSchema} from './index.schema';
 
 sigiloSchema.define({
     modalidadeCategoriaSigilo: modalidadeCategoriaSigilo,
