@@ -15,20 +15,23 @@ export class AcaoService {
     ) {
     }
 
-    get(id: number): Observable<Acao> {
-        return this.modelService.getOne('acao', id)
+    get(id: number, context: any = {}): Observable<Acao> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.getOne('acao', id, new HttpParams({fromObject: params}))
             .pipe(
                 map(response => plainToClass(Acao, response)[0])
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
+    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
         params['offset'] = offset;
         params['order'] = order;
         params['populate'] = populate;
+        params['context'] = context;
 
         return this.modelService.get('acao', new HttpParams({fromObject: params}))
             .pipe(
@@ -36,16 +39,19 @@ export class AcaoService {
             );
     }
 
-    count(filters: any = {}): Observable<any> {
+    count(filters: any = {}, context: any = {}): Observable<any> {
         const params = {};
         params['where'] = filters;
+        params['context'] = context;
 
         return this.modelService.count('acao', new HttpParams({fromObject: params}));
     }
 
-    save(acao: Acao): Observable<Acao> {
+    save(acao: Acao, context: any = {}): Observable<Acao> {
+        const params = {};
+        params['context'] = context;
         if (acao.id) {
-            return this.modelService.put('acao', acao.id, classToPlain(acao))
+            return this.modelService.put('acao', acao.id, classToPlain(acao), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(Acao, response);
@@ -54,7 +60,7 @@ export class AcaoService {
                     })
                 );
         } else {
-            return this.modelService.post('acao', classToPlain(acao))
+            return this.modelService.post('acao', classToPlain(acao), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(Acao, response);
@@ -65,7 +71,9 @@ export class AcaoService {
         }
     }
 
-    destroy(id: number): Observable<Acao> {
-        return this.modelService.delete('acao', id);
+    destroy(id: number, context: any = {}): Observable<Acao> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.delete('acao', id, new HttpParams({fromObject: params}));
     }
 }
