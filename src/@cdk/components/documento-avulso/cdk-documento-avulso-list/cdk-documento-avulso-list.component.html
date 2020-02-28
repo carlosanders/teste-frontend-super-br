@@ -1,0 +1,75 @@
+<!-- SIDEBAR -->
+<fuse-sidebar class="sidebar" name="cdk-documento-avulso-list-main-sidebar" position="left">
+    <!-- SIDEBAR CONTENT -->
+    <div class="content" fusePerfectScrollbar>
+        <cdk-documento-avulso-list-main-sidebar (selected)="setListFilter($event)" [@animate]="{value:'*'}"></cdk-documento-avulso-list-main-sidebar>
+    </div>
+    <!-- / SIDEBAR CONTENT -->
+</fuse-sidebar>
+<!-- / SIDEBAR -->
+
+
+<div fxLayout="column">
+
+    <div class="toolbar pt-8 pb-8 pl-16 pr-8" fxFlex fxLayout="row" fxLayoutAlign="start center">
+
+        <mat-checkbox (click)="toggleSelectAll($event)"
+                      [checked]="selectedIds.length"
+                      [indeterminate]="isIndeterminate">
+        </mat-checkbox>
+
+        <div class="toolbar-separator" *ngIf="selectedIds.length"></div>
+
+        <div *ngIf="selectedIds?.length">
+            {{selectedIds?.length}}
+        </div>
+
+        <div class="toolbar-separator" *ngIf="selectedIds?.length && folders?.length"></div>
+
+
+        <div class="documento-avulso-list-control" fxLayout="row" fxLayoutAlign="start center">
+
+            <button class="toggle-filter" [ngClass]="{'warn': (listFilter | json) != '{}'}" mat-icon-button
+                    (click)="toggleFilter()"
+                    aria-label="filtrar"
+                    matTooltip="Filtrar">
+                <mat-icon>filter_list</mat-icon>
+            </button>
+
+            <button mat-icon-button [matMenuTriggerFor]="selectMenu">
+                <mat-icon>sort</mat-icon>
+            </button>
+            <mat-menu fxHide #selectMenu="matMenu">
+                <button mat-menu-item (click)="doSort({'dataHoraFinalPrazo': 'DESC'})">Final do
+                    Prazo
+                </button>
+                <button mat-menu-item (click)="doSort({'id': 'DESC'})">Mais Recente</button>
+            </mat-menu>
+
+            <div class="toolbar-separator" *ngIf="pagination.total"></div>
+
+            <div>
+                {{documentosAvulso.length}}/{{pagination.total}}
+            </div>
+        </div>
+    </div>
+
+    <div fxLayout="column" fxFlex
+         fxLayoutAlign="center center">
+        <mat-spinner class="documento-avulso-list-loading" *ngIf="loading" diameter="24"></mat-spinner>
+    </div>
+
+    <cdk-documento-avulso-list-item matRipple *ngFor="let documentoAvulso of documentosAvulso"
+                          [documentoAvulso]="documentoAvulso"
+                          (click)="selectDocumentoAvulso(documentoAvulso)"
+                          [selected]="selectedIds?.length > 0 && selectedIds.indexOf(documentoAvulso.id) > -1"
+                          (toggleInSelectedDocumentosAvulso)="toggleInSelected($event)"
+                          [ngClass]="{'selected':documentoAvulso.id === currentDocumentoAvulsoId}">
+    </cdk-documento-avulso-list-item>
+
+</div>
+
+<div *ngIf="documentosAvulso.length === 0 && !loading" fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
+    <span class="no-documento-avulso-text hint-text">{{ 'OFICIO.NO_MESSAGES' | translate }}</span>
+</div>
+

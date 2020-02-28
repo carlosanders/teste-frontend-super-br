@@ -21,11 +21,8 @@ export const locale = {
             PESQUISA        : {
                 TITLE: 'Pesquisa'
             },
-            USUARIO_EXTERNO : {
-                TITLE: 'Usuário externo',
-                PESQUISA: {
-                    TITLE: 'Pesquisa'
-                }
+            OFICIO : {
+                TITLE: 'Ofício'
             }
         }
     }
