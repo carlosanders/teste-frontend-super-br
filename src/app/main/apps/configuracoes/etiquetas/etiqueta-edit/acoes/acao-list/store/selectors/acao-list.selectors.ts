@@ -7,7 +7,7 @@ import {
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {acao as acaoSchema} from '@cdk/normalizr/acao.schema';
-import {Acao} from '@cdk/models/acao.model';
+import {Acao} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Acao>(acaoSchema);
 

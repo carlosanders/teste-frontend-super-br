@@ -9,7 +9,7 @@ import * as FavoritoEditActions from '../actions/favorito-edit.actions';
 import {FavoritoService} from '@cdk/services/favorito.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {favorito as favoritoSchema} from '@cdk/normalizr/favorito.schema';
-import {Favorito} from '@cdk/models/favorito.model';
+import {Favorito} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';

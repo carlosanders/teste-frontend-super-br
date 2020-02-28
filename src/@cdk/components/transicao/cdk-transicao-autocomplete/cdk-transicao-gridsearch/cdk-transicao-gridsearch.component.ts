@@ -14,10 +14,10 @@ import {fuseAnimations} from '@fuse/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 import {TransicaoService} from '@cdk/services/transicao.service';
-import {Transicao} from '@cdk/models/transicao.model';
+import {Transicao} from '@cdk/models';
 
 @Component({
     selector: 'cdk-transicao-gridsearch',

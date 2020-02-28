@@ -10,7 +10,7 @@ import * as ModeloListActions from '../../../modelo-list/store/actions/modelo-li
 import {ModeloService} from '@cdk/services/modelo.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {modelo as modeloSchema} from '@cdk/normalizr/modelo.schema';
-import {Modelo} from '@cdk/models/modelo.model';
+import {Modelo} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';

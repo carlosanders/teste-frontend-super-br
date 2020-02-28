@@ -13,7 +13,7 @@ import {getRouterState} from 'app/store/reducers';
 import * as fromTarefaDetailStore from '../store';
 import * as fromStore from './store';
 import {Observable, Subject} from 'rxjs';
-import {Tarefa} from '@cdk/models/tarefa.model';
+import {Tarefa} from '@cdk/models';
 import {takeUntil} from 'rxjs/operators';
 
 @Component({

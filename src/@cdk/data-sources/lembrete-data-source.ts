@@ -1,6 +1,6 @@
 import { CollectionViewer, DataSource } from '@angular/cdk/collections';
 import { Observable } from 'rxjs';
-import { Lembrete } from '@cdk/models/lembrete.model';
+import { Lembrete } from '@cdk/models';
 
 export class LembreteDataSource extends DataSource<Lembrete> {
 

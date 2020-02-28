@@ -36,11 +36,11 @@ import {CdkTarefaFormModule} from '@cdk/components/tarefa/cdk-tarefa-form/cdk-ta
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import {CdkEtiquetaChipsModule} from '@cdk/components/etiqueta/cdk-etiqueta-chips/cdk-etiqueta-chips.module';
 import {DndModule} from 'ngx-drag-drop';
-import {LoginService} from '../../auth/login/login.service';
+import {LoginService} from 'app/main/auth/login/login.service';
 
 const routes: Routes = [
     {
-        path: ':generoHandle/:folderHandle',
+        path: ':generoHandle/:typeHandle/:targetHandle',
         component: TarefasComponent,
         children: [
             {

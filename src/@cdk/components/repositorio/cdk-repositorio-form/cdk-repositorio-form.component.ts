@@ -9,9 +9,9 @@ import {
 
 import { fuseAnimations } from '@fuse/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { Repositorio } from '@cdk/models/repositorio.model';
-import {Pagination} from '@cdk/models/pagination';
-import {ModalidadeRepositorio} from '@cdk/models/modalidade-repositorio.model';
+import { Repositorio } from '@cdk/models';
+import {Pagination} from '@cdk/models';
+import {ModalidadeRepositorio} from '@cdk/models';
 
 @Component({
     selector: 'cdk-repositorio-form',

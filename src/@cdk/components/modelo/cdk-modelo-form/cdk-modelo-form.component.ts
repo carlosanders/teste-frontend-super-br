@@ -9,9 +9,9 @@ import {
 
 import { fuseAnimations } from '@fuse/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { Modelo } from '@cdk/models/modelo.model';
-import {Pagination} from '@cdk/models/pagination';
-import {Template} from '@cdk/models/template.model';
+import { Modelo } from '@cdk/models';
+import {Pagination} from '@cdk/models';
+import {Template} from '@cdk/models';
 
 @Component({
     selector: 'cdk-modelo-form',

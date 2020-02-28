@@ -9,16 +9,16 @@ import {
 
 import {fuseAnimations} from '@fuse/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Tarefa} from '@cdk/models/tarefa.model';
-import {EspecieTarefa} from '@cdk/models/especie-tarefa.model';
-import {Usuario} from '@cdk/models/usuario.model';
-import {Processo} from '@cdk/models/processo.model';
+import {Tarefa} from '@cdk/models';
+import {EspecieTarefa} from '@cdk/models';
+import {Usuario} from '@cdk/models';
+import {Processo} from '@cdk/models';
 import {MAT_DATETIME_FORMATS} from '@mat-datetimepicker/core';
-import {Setor} from '@cdk/models/setor.model';
+import {Setor} from '@cdk/models';
 import {catchError, debounceTime, distinctUntilChanged, switchMap, distinct} from 'rxjs/operators';
 import {of} from 'rxjs';
-import {Pagination} from '@cdk/models/pagination';
-import {Favorito} from '@cdk/models/favorito.model';
+import {Pagination} from '@cdk/models';
+import {Favorito} from '@cdk/models';
 import {FavoritoService} from '@cdk/services/favorito.service';
 import {LoginService} from '../../../../app/main/auth/login/login.service';
 import {Responsavel} from '../../../models/respensavel.model';

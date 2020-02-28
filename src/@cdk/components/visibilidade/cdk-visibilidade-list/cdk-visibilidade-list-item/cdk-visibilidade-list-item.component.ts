@@ -6,9 +6,9 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {Visibilidade} from '@cdk/models/visibilidade.model';
+import {Visibilidade} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Colaborador} from '@cdk/models/colaborador.model';
+import {Colaborador} from '@cdk/models';
 
 @Component({
     selector: 'cdk-visibilidade-list-item',

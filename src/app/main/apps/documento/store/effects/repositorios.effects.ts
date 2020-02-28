@@ -10,7 +10,7 @@ import * as RepositoriosActions from '../actions/repositorios.actions';
 
 import {RepositorioService} from '@cdk/services/repositorio.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {Repositorio} from '@cdk/models/repositorio.model';
+import {Repositorio} from '@cdk/models';
 import {repositorio as repositorioSchema} from '@cdk/normalizr/repositorio.schema';
 
 @Injectable()

@@ -10,7 +10,7 @@ import * as ProcessosActions from 'app/main/apps/pesquisa/processos/store/action
 
 import {ProcessoService} from '@cdk/services/processo.service';
 import {AddData, } from '@cdk/ngrx-normalizr';
-import {Processo} from '@cdk/models/processo.model';
+import {Processo} from '@cdk/models';
 import {processo as processoSchema} from '@cdk/normalizr/processo.schema';
 
 @Injectable()

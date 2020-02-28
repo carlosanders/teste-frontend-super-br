@@ -4,14 +4,14 @@ import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from '@angular
 import {select, Store} from '@ngrx/store';
 
 import {Observable, forkJoin, of} from 'rxjs';
-import {switchMap, catchError, map, tap, take, filter} from 'rxjs/operators';
+import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
 
 import {TarefasAppState} from 'app/main/apps/tarefas/store/reducers';
 import * as fromStore from 'app/main/apps/tarefas/store';
 import {getFoldersLoaded, getTarefasLoaded} from 'app/main/apps/tarefas/store/selectors';
 import {getRouterState} from 'app/store/reducers';
 import {LoginService} from '../../../../auth/login/login.service';
-import {Usuario} from '@cdk/models/usuario.model';
+import {Usuario} from '@cdk/models';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
@@ -121,24 +121,49 @@ export class ResolveGuard implements CanActivate {
                     ]
                 };
 
-                const routeFolderParams = of('folderHandle');
-                routeFolderParams.subscribe(param => {
+                const routeTypeParam = of('typeHandle');
+                routeTypeParam.subscribe(typeParam => {
                     let tarefaFilter = {};
-                    if (this.routerState.params[param] === 'compartilhadas') {
+                    if (this.routerState.params[typeParam] === 'compartilhadas') {
                         tarefaFilter = {
                             'compartilhamentos.usuario.id': 'eq:' + this._profile.id,
                             'dataHoraConclusaoPrazo': 'isNull'
                         };
-                    } else {
+                    }
+
+                    if (this.routerState.params[typeParam] === 'coordenacao') {
+                        tarefaFilter = {
+                            dataHoraConclusaoPrazo: 'isNull'
+                        };
+                        const routeTargetParam = of('targetHandle');
+                        routeTargetParam.subscribe(targetParam => {
+                            tarefaFilter['setorResponsavel.id'] = `eq:${this.routerState.params[targetParam]}`;
+                        });
+                    }
+
+                    if (this.routerState.params[typeParam] === 'analista') {
+                        tarefaFilter = {
+                            dataHoraConclusaoPrazo: 'isNull'
+                        };
+                        const routeTargetParam = of('targetHandle');
+                        routeTargetParam.subscribe(targetParam => {
+                            tarefaFilter['usuarioResponsavel.id'] = `eq:${this.routerState.params[targetParam]}`;
+                        });
+                    }
+
+                    if (this.routerState.params[typeParam] === 'minhas-tarefas') {
                         tarefaFilter = {
                             'usuarioResponsavel.id': 'eq:' + this._profile.id,
                             'dataHoraConclusaoPrazo': 'isNull'
                         };
                         let folderFilter = 'isNull';
-                        if (this.routerState.params[param] !== 'entrada') {
-                            const folderName = this.routerState.params[param];
-                            folderFilter = `eq:${folderName.toUpperCase()}`;
-                        }
+                        const routeTargetParam = of('targetHandle');
+                        routeTargetParam.subscribe(targetParam => {
+                            if (this.routerState.params[targetParam] !== 'entrada') {
+                                const folderName = this.routerState.params[targetParam];
+                                folderFilter = `eq:${folderName.toUpperCase()}`;
+                            }
+                        });
                         params['folderFilter'] = {
                             'folder.nome': folderFilter
                         };
@@ -155,13 +180,21 @@ export class ResolveGuard implements CanActivate {
                     };
                 });
 
-                if (!this.routerState.params['generoHandle'] || !this.routerState.params['folderHandle'] || (this.routerState.params['generoHandle'] + '_' + this.routerState.params['folderHandle']) !== loaded.value) {
+                if (!this.routerState.params['generoHandle'] || !this.routerState.params['typeHandle'] ||
+                    !this.routerState.params['targetHandle'] ||
+                    (this.routerState.params['generoHandle'] + '_' + this.routerState.params['typeHandle'] +
+                     '_' + this.routerState.params['targetHandle']) !==
+                    loaded.value) {
                     this._store.dispatch(new fromStore.GetTarefas(params));
                     this._store.dispatch(new fromStore.ChangeSelectedTarefas([]));
                 }
             }),
             filter((loaded: any) => {
-                return this.routerState.params['generoHandle'] && this.routerState.params['folderHandle'] && (this.routerState.params['generoHandle'] + '_' + this.routerState.params['folderHandle']) === loaded.value;
+                return this.routerState.params['generoHandle'] && this.routerState.params['typeHandle'] &&
+                    this.routerState.params['targetHandle'] &&
+                    (this.routerState.params['generoHandle'] + '_' + this.routerState.params['typeHandle'] + '_' +
+                        this.routerState.params['targetHandle']) ===
+                    loaded.value;
             }),
             take(1)
         );

@@ -17,7 +17,7 @@ import {fuseAnimations} from '@fuse/animations';
 import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
-import {ModalidadeMeio} from '@cdk/models/modalidade-meio.model';
+import {ModalidadeMeio} from '@cdk/models';
 import {ModalidadeMeio2DataSource} from '@cdk/data-sources/modalidade-meio2-data-source';
 import {FormControl} from '@angular/forms';
 

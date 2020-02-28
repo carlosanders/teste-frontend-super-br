@@ -14,10 +14,10 @@ import {fuseAnimations} from '@fuse/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 import {JuntadaService} from '@cdk/services/juntada.service';
-import {Juntada} from '@cdk/models/juntada.model';
+import {Juntada} from '@cdk/models';
 
 @Component({
     selector: 'cdk-juntada-gridsearch',

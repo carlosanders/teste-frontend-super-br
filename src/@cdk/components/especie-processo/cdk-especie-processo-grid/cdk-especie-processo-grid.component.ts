@@ -17,7 +17,7 @@ import {fuseAnimations} from '@fuse/animations';
 import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
-import {EspecieProcesso} from '@cdk/models/especie-processo.model';
+import {EspecieProcesso} from '@cdk/models';
 import {EspecieProcessoDataSource} from '@cdk/data-sources/especie-processo-data-source';
 import {FormControl} from '@angular/forms';
 

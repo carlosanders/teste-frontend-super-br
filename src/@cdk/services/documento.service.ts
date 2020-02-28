@@ -2,14 +2,14 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {Documento} from '@cdk/models/documento.model';
+import {Documento} from '@cdk/models';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
 import {PaginatedResponse} from '@cdk/models/paginated.response';
 import {environment} from 'environments/environment';
 import {Visibilidade} from '../models/visibilidade.model';
-import { ComponenteDigital } from '@cdk/models/componente-digital.model';
-import {DocumentoAvulso} from '../models';
+import { ComponenteDigital } from '@cdk/models';
+import {DocumentoAvulso} from '@cdk/models';
 
 @Injectable()
 export class DocumentoService {
@@ -116,7 +116,4 @@ export class DocumentoService {
                 )
         ;
     }
-
-
-
 }

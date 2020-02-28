@@ -12,7 +12,7 @@ import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 import {TarefaDataSource} from '@cdk/data-sources/tarefa-data-source';
-import {Tarefa} from '@cdk/models/tarefa.model';
+import {Tarefa} from '@cdk/models';
 import {FormControl} from '@angular/forms';
 
 @Component({

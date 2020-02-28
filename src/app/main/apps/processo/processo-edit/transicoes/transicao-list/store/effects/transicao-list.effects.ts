@@ -10,7 +10,7 @@ import * as TransicaoListActions from '../actions';
 
 import {TransicaoService} from '@cdk/services/transicao.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {Transicao} from '@cdk/models/transicao.model';
+import {Transicao} from '@cdk/models';
 import {transicao as transicaoSchema} from '@cdk/normalizr/transicao.schema';
 
 @Injectable()

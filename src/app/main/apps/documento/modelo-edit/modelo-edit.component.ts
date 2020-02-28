@@ -9,11 +9,11 @@ import {
 import {fuseAnimations} from '@fuse/animations';
 import {Observable} from 'rxjs';
 import * as fromStore from '../store';
-import {Documento} from '@cdk/models/documento.model';
+import {Documento} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import {Location} from '@angular/common';
 import {getMercureState} from 'app/store/reducers';
-import {Modelo} from '@cdk/models/modelo.model';
+import {Modelo} from '@cdk/models';
 
 @Component({
     selector: 'modelo-edit',

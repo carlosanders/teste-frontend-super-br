@@ -7,13 +7,13 @@ import {
 } from '@angular/core';
 
 import {fuseAnimations} from '@fuse/animations';
-import {Campo} from '@cdk/models/campo.model';
+import {Campo} from '@cdk/models';
 import {CampoService} from '@cdk/services/campo.service';
 import {FormControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-campo-autocomplete',

@@ -7,7 +7,7 @@ import {
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {notificacao as notificacaoSchema} from '@cdk/normalizr/notificacao.schema';
-import {Notificacao} from '@cdk/models/notificacao.model';
+import {Notificacao} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Notificacao>(notificacaoSchema);
 

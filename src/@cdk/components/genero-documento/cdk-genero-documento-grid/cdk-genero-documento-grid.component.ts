@@ -12,7 +12,7 @@ import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
-import {GeneroDocumento} from '@cdk/models/genero-documento.model';
+import {GeneroDocumento} from '@cdk/models';
 import {GeneroDocumentoDataSource} from '@cdk/data-sources/genero-documento-data-source';
 import {FormControl} from '@angular/forms';
 

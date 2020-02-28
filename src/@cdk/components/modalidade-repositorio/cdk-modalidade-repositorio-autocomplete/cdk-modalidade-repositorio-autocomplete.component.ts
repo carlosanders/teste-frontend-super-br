@@ -7,13 +7,13 @@ import {
 } from '@angular/core';
 
 import {fuseAnimations} from '@fuse/animations';
-import {ModalidadeRepositorio} from '@cdk/models/modalidade-repositorio.model';
+import {ModalidadeRepositorio} from '@cdk/models';
 import {ModalidadeRepositorioService} from '@cdk/services/modalidade-repositorio.service';
 import {FormControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-modalidade-repositorio-autocomplete',

@@ -9,26 +9,26 @@ import {
 import {fuseAnimations} from '@fuse/animations';
 import {Observable} from 'rxjs';
 import * as fromStore from '../store';
-import {Documento} from '@cdk/models/documento.model';
+import {Documento} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import {Location} from '@angular/common';
 import {getMercureState, getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
-import {Repositorio} from '@cdk/models/repositorio.model';
+import {Repositorio} from '@cdk/models';
 import {filter, take, takeLast, tap} from 'rxjs/operators';
 import {DomSanitizer} from '@angular/platform-browser';
-import {ComponenteDigital} from '@cdk/models/componente-digital.model';
+import {ComponenteDigital} from '@cdk/models';
 import {RepositorioService} from '@cdk/services/repositorio.service';
-import {Atividade} from '@cdk/models/atividade.model';
+import {Atividade} from '@cdk/models';
 import * as moment from 'moment';
-import {Tarefa} from '@cdk/models/tarefa.model';
+import {Tarefa} from '@cdk/models';
 import {getTarefa} from '../../tarefas/tarefa-detail/store/selectors';
-import {Visibilidade} from '@cdk/models/visibilidade.model';
-import {Pagination} from '@cdk/models/pagination';
-import {Colaborador} from '@cdk/models/colaborador.model';
+import {Visibilidade} from '@cdk/models';
+import {Pagination} from '@cdk/models';
+import {Colaborador} from '@cdk/models';
 import {LoginService} from '../../../auth/login/login.service';
-import {Sigilo} from '@cdk/models/sigilo.model';
-import {Assinatura} from '@cdk/models/assinatura.model';
+import {Sigilo} from '@cdk/models';
+import {Assinatura} from '@cdk/models';
 import {Usuario} from "../../../../../@cdk/models/usuario.model";
 
 @Component({

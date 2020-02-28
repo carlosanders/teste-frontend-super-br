@@ -9,9 +9,9 @@ import {
 
 import {fuseAnimations} from '@fuse/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {AreaTrabalho} from '@cdk/models/area-trabalho.model';
-import {Usuario} from '@cdk/models/usuario.model';
-import {Pagination} from '@cdk/models/pagination';
+import {AreaTrabalho} from '@cdk/models';
+import {Usuario} from '@cdk/models';
+import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-area-trabalho-form',

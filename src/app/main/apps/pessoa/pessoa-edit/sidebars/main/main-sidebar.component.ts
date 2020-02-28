@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Observable, Subject} from 'rxjs';
-import {Pessoa} from '@cdk/models/pessoa.model';
+import {Pessoa} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from '../../dados-pessoa-edit/store';
 

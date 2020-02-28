@@ -10,7 +10,7 @@ import * as VinculacaoUsuarioListActions from '../actions';
 
 import {VinculacaoUsuarioService} from '@cdk/services/vinculacao-usuario.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {VinculacaoUsuario} from '@cdk/models/vinculacao-usuario.model';
+import {VinculacaoUsuario} from '@cdk/models';
 import {vinculacaoUsuario as vinculacaoUsuarioSchema} from '@cdk/normalizr/vinculacao-usuario.schema';
 
 @Injectable()

@@ -9,7 +9,7 @@ import * as AcaoListActions from '../../../acao-list/store/actions/acao-list.act
 
 import {AddData} from '@cdk/ngrx-normalizr';
 import {acao as acaoSchema} from '@cdk/normalizr/acao.schema';
-import {Acao} from '@cdk/models/acao.model';
+import {Acao} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';

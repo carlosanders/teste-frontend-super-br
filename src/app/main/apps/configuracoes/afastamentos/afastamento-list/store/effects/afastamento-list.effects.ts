@@ -10,7 +10,7 @@ import * as AfastamentoListActions from '../actions';
 
 import {AfastamentoService} from '@cdk/services/afastamento.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {Afastamento} from '@cdk/models/afastamento.model';
+import {Afastamento} from '@cdk/models';
 import {afastamento as afastamentoSchema} from '@cdk/normalizr/afastamento.schema';
 import {LoginService} from 'app/main/auth/login/login.service';
 

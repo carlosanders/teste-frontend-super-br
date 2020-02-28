@@ -8,7 +8,7 @@ import {
 import {Observable} from 'rxjs';
 
 import {fuseAnimations} from '@fuse/animations';
-import {Folder} from '@cdk/models/folder.model';
+import {Folder} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';

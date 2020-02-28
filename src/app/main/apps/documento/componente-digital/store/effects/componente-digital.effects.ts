@@ -9,7 +9,7 @@ import {getRouterState, State} from 'app/store/reducers';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {select, Store} from '@ngrx/store';
 import {UpdateData} from '@cdk/ngrx-normalizr';
-import {ComponenteDigital} from '@cdk/models/componente-digital.model';
+import {ComponenteDigital} from '@cdk/models';
 import {componenteDigital as componenteDigitalSchema} from '@cdk/normalizr/componente-digital.schema';
 import {Router} from '@angular/router';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';

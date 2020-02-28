@@ -3,9 +3,9 @@ import {ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Out
 import {FormControl} from '@angular/forms';
 import {MatAutocompleteSelectedEvent, MatChipInputEvent, MatAutocomplete, MatDialog, MatDialogRef} from '@cdk/angular/material';
 import {fuseAnimations} from '@fuse/animations';
-import {Etiqueta} from '@cdk/models/etiqueta.model';
-import {VinculacaoEtiqueta} from '@cdk/models/vinculacao-etiqueta.model';
-import {Pagination} from '@cdk/models/pagination';
+import {Etiqueta} from '@cdk/models';
+import {VinculacaoEtiqueta} from '@cdk/models';
+import {Pagination} from '@cdk/models';
 import {filter, tap, delay} from 'rxjs/operators';
 import {CdkVinculacaoEtiquetaEditDialogComponent} from '../cdk-vinculacao-etiqueta-edit-dialog/cdk-vinculacao-etiqueta-edit-dialog.component';
 

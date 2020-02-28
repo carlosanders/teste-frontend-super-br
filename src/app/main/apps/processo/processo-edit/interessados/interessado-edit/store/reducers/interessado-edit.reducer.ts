@@ -1,5 +1,5 @@
 import * as InteressadoEditActions from 'app/main/apps/processo/processo-edit/interessados/interessado-edit/store/actions/interessado-edit.actions';
-import {Interessado} from '@cdk/models/interessado.model';
+import {Interessado} from '@cdk/models';
 
 export interface InteressadoEditState {
     interessadoId: number;

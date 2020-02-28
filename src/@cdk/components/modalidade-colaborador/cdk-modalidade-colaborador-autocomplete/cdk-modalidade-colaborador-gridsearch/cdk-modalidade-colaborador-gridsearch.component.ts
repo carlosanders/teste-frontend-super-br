@@ -14,10 +14,10 @@ import {fuseAnimations} from '@fuse/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 import {ModalidadeColaboradorService} from '@cdk/services/modalidade-colaborador.service';
-import {ModalidadeColaborador} from '@cdk/models/modalidade-colaborador.model';
+import {ModalidadeColaborador} from '@cdk/models';
 
 @Component({
     selector: 'cdk-modalidade-colaborador-gridsearch',

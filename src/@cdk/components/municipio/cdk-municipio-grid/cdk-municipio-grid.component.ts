@@ -12,7 +12,7 @@ import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
-import {Municipio} from '@cdk/models/municipio.model';
+import {Municipio} from '@cdk/models';
 import {MunicipioDataSource} from '@cdk/data-sources/municipio-data-source';
 import {FormControl} from '@angular/forms';
 

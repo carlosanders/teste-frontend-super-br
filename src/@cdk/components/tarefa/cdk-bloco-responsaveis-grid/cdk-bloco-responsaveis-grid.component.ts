@@ -12,7 +12,7 @@ import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
-import {Setor} from '@cdk/models/setor.model';
+import {Setor} from '@cdk/models';
 import {FormControl} from '@angular/forms';
 import {DataSource} from '../../../data-sources/data-source';
 import {Responsavel} from '../../../models/respensavel.model';
