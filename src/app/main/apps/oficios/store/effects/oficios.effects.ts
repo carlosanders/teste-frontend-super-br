@@ -1,21 +1,20 @@
-import { AddData, UpdateData } from '@cdk/ngrx-normalizr';
-import { documentoAvulso as documentoAvulsoSchema} from '@cdk/normalizr/documento-avulso.schema';
+import {AddData} from '@cdk/ngrx-normalizr';
+import {documentoAvulso as documentoAvulsoSchema} from '@cdk/normalizr/documento-avulso.schema';
 
-import { Injectable } from '@angular/core';
-import { select, Store } from '@ngrx/store';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import {Injectable} from '@angular/core';
+import {select, Store} from '@ngrx/store';
+import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import { Observable, of } from 'rxjs';
-import { catchError, map, concatMap, mergeMap, switchMap } from 'rxjs/operators';
+import {Observable} from 'rxjs';
+import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
 
-import { getRouterState, State } from 'app/store/reducers';
+import {getRouterState, State} from 'app/store/reducers';
 import * as DocumentosAvulsoActions from '../actions/oficios.actions';
 
-import { DocumentoAvulso } from '@cdk/models/documento-avulso.model';
-import { DocumentoAvulsoService } from '@cdk/services/documento-avulso.service';
-import { LoginService } from 'app/main/auth/login/login.service';
-import { Router } from '@angular/router';
-import * as OperacoesActions from 'app/store/actions/operacoes.actions';
+import {DocumentoAvulso} from '@cdk/models/documento-avulso.model';
+import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
+import {LoginService} from 'app/main/auth/login/login.service';
+import {Router} from '@angular/router';
 
 @Injectable()
 export class OficiosEffects {
@@ -87,14 +86,14 @@ export class OficiosEffects {
             .pipe(
                 ofType<DocumentosAvulsoActions.SetCurrentDocumentoAvulso>(DocumentosAvulsoActions.SET_CURRENT_DOCUMENTOS_AVULSO),
                 map((action) => {
-                    if (!action.payload.chaveAcesso) {
+                    if (action.payload.acessoNegado) {
                         this._router.navigate([
                             'apps/oficios/detalhe/' + action.payload.documentoAvulsoId + '/processo/' + action.payload.processoId + '/acesso-negado']
                         ).then();
                     } else {
                         this._router.navigate([
                             'apps/oficios/detalhe/' + action.payload.documentoAvulsoId + '/processo/' + action.payload.processoId
-                            + '/visualizar/' + action.payload.chaveAcesso]
+                            + '/visualizar']
                         ).then();
                     }
 

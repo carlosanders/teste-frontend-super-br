@@ -8,7 +8,7 @@
             <mat-tab-group fxFlex="100">
                 <mat-tab>
                     <ng-template matTabLabel>
-                        <span [matBadge]="minutas.length.toString()" matBadgeOverlap="false" matBadgeColor="warn">Ferramentas</span>
+                        <span [matBadge]="minutas.length.toString()" matBadgeOverlap="false" matBadgeColor="warn">Ofícios</span>
                     </ng-template>
 
                     <div fxLayout="row" class="bt-upload">
@@ -41,7 +41,6 @@
                                                                            [documentoAvulsoOrigem]="this.documentoOrigem"
                                                                            [action]="this.action"
                                                                            (complete)="onComplete()">
-
                         </cdk-componente-digital-documento-avulso-card-list>
                     </div>
 

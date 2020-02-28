@@ -1,7 +1,17 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output, ViewEncapsulation } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    EventEmitter,
+    Input,
+    OnInit,
+    Output,
+    ViewEncapsulation
+} from '@angular/core';
 import { fuseAnimations } from '@fuse/animations';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
+import { MAT_LABEL_GLOBAL_OPTIONS } from '@angular/material/core';
+
 
 @Component({
     selector   : 'cdk-documento-avulso-list-main-sidebar',
@@ -9,12 +19,21 @@ import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
     styleUrls  : ['./main.component.scss'],
     animations   : fuseAnimations,
     changeDetection: ChangeDetectionStrategy.OnPush,
-    encapsulation: ViewEncapsulation.None
+    encapsulation: ViewEncapsulation.None,
+    providers: [
+        {
+            provide: MAT_LABEL_GLOBAL_OPTIONS,
+            useValue: {float: 'never' }
+        }
+    ]
 })
 export class CdkDocumentoAvulsoListMainSidebarComponent implements OnInit
 {
     @Output()
     selected = new EventEmitter<any>();
+
+    @Input()
+    mode = 'horizontal';
 
     form: FormGroup;
 
@@ -32,6 +51,7 @@ export class CdkDocumentoAvulsoListMainSidebarComponent implements OnInit
             processo: [null],
             setorOrigem: [null],
             dataHoraRemessa: [null],
+            usuarioResposta: [null]
         });
 
     }
@@ -76,6 +96,17 @@ export class CdkDocumentoAvulsoListMainSidebarComponent implements OnInit
                 this.filters = {
                     ...this.filters,
                     dataHoraRemessa: `eq:${value}`
+                };
+            }
+        });
+
+        this.form.get('usuarioResposta').valueChanges.subscribe(value => {
+            if (value !== null) {
+                const nullable = value === 'respondidos' ? 'isNotNull' : 'isNull';
+
+                this.filters = {
+                    ...this.filters,
+                    'usuarioResposta.id': `${nullable}`
                 };
             }
         });

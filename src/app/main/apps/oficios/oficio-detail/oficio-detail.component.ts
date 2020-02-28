@@ -164,12 +164,12 @@ export class OficioDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     onEtiquetaCreate(etiqueta: Etiqueta): void {
-        this._store.dispatch(new CreateVinculacaoEtiqueta({documentoAvulso: this.documentoAvulso, etiqueta: etiqueta}));
+        this._store.dispatch(new CreateVinculacaoEtiqueta({processo: this.documentoAvulso.processo, etiqueta: etiqueta}));
     }
 
     onEtiquetaDelete(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
         this._store.dispatch(new DeleteVinculacaoEtiqueta({
-            documentoAvulsoId: this.documentoAvulso.id,
+            processoId: this.documentoAvulso.processo.id,
             vinculacaoEtiquetaId: vinculacaoEtiqueta.id
         }));
     }
@@ -181,14 +181,6 @@ export class OficioDetailComponent implements OnInit, OnDestroy, AfterViewInit {
             }));
         }
     }
-
-    /*doCiencia(): void {
-        this._store.dispatch(new fromStore.DarCienciaTarefa(this.tarefa));
-    }*/
-
-    /*doCreateTarefa(): void {
-        this._router.navigate([this.routerState.url.split('/tarefa/')[0] + '/criar/' + this.tarefa.processo.id]).then();
-    }*/
 
     onUploadClick(): void {
         this.cdkUpload.onClick();

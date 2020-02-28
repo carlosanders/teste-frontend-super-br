@@ -9,7 +9,8 @@ import {
     MatMenuModule,
     MatAutocompleteModule,
     MatRippleModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    MatRadioModule
 } from '@cdk/angular/material';
 
 import { MatDatetimepickerModule, MatNativeDatetimeModule } from '@mat-datetimepicker/core';
@@ -58,7 +59,8 @@ import { SetorService } from '../../../services/setor.service';
         MatRippleModule,
         MatDatetimepickerModule,
         MatNativeDatetimeModule,
-        MatMomentDatetimeModule
+        MatMomentDatetimeModule,
+        MatRadioModule
     ],
     providers: [
         ProcessoService,

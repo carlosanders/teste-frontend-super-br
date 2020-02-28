@@ -18,12 +18,8 @@
                             <mat-icon class="secondary-text">subdirectory_arrow_right</mat-icon>
                         </button>
                     </div>
-<!--                    <div class="row">
-                        TEXTO A DEFINIR
-                    </div>-->
 
-                    <!--{{(documentoAvulso$ | async).especieDocumentoAvulso.nome}}-->
-                    NO NUP {{(documentoAvulso$ | async).processo.NUP | formatNup}}
+                    NUP {{(documentoAvulso$ | async).processo.NUP | formatNup}}
                     ATÉ {{(documentoAvulso$ | async).dataHoraFinalPrazo | date: 'dd/MM/yyyy'}}
 
                     <div class="actions" fxLayout="row" fxLayoutAlign="start center">
@@ -44,7 +40,7 @@
                 </div>
 
                 <cdk-vinculacao-etiqueta-chips class="mr-24 ml-24"
-                                               [vinculacoesEtiquetas]="(documentoAvulso$ | async).vinculacoesEtiquetas"
+                                               [vinculacoesEtiquetas]="(documentoAvulso$ | async).processo.vinculacoesEtiquetas"
                                                (create)="onEtiquetaCreate($event)"
                                                [pagination]="vinculacaoEtiquetaPagination"
                                                (delete)="onEtiquetaDelete($event)">

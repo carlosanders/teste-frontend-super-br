@@ -1,26 +1,28 @@
-import { Injectable } from '@angular/core';
-import { select, Store } from '@ngrx/store';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import {Injectable} from '@angular/core';
+import {select, Store} from '@ngrx/store';
+import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import { Observable, of } from 'rxjs';
-import { catchError, map, exhaustMap, mergeMap, concatMap, tap, switchMap } from 'rxjs/operators';
+import {Observable, of} from 'rxjs';
+import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
-import { getRouterState, State } from 'app/store/reducers';
+import {getRouterState, State} from 'app/store/reducers';
 
 import * as DocumentoAvulsoDetailActions from 'app/main/apps/oficios/oficio-detail/store/actions/oficio-detail.actions';
 
-import { DocumentoAvulsoService } from '@cdk/services/documento-avulso.service';
-import { Router} from '@angular/router';
-import { VinculacaoEtiquetaService } from '@cdk/services/vinculacao-etiqueta.service';
-import { VinculacaoEtiqueta } from '@cdk/models/vinculacao-etiqueta.model';
-import { AddChildData, AddData, RemoveChildData } from '@cdk/ngrx-normalizr';
-import { vinculacaoEtiqueta as vinculacaoEtiquetaSchema } from '@cdk/normalizr/vinculacao-etiqueta.schema';
-import { documentoAvulso as documentoAvulsoSchema } from '@cdk/normalizr/documento-avulso.schema';
-import { documento as documentoSchema } from '@cdk/normalizr/documento.schema';
-import { DocumentoService } from '@cdk/services/documento.service';
-import { DocumentoAvulso } from '@cdk/models/documento-avulso.model';
-import { Documento } from '@cdk/models/documento.model';
+import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
+import {Router} from '@angular/router';
+import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
+import {VinculacaoEtiqueta} from '@cdk/models/vinculacao-etiqueta.model';
+import {AddChildData, AddData, RemoveChildData} from '@cdk/ngrx-normalizr';
+import {vinculacaoEtiqueta as vinculacaoEtiquetaSchema} from '@cdk/normalizr/vinculacao-etiqueta.schema';
+import {documentoAvulso as documentoAvulsoSchema} from '@cdk/normalizr/documento-avulso.schema';
+import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
+import {processo as processoSchema} from '@cdk/normalizr/processo.schema';
+import {DocumentoService} from '@cdk/services/documento.service';
+import {DocumentoAvulso} from '@cdk/models/documento-avulso.model';
+import {Documento} from '@cdk/models/documento.model';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
+
 /*import { GetDocumentos } from '../../atividades/atividade-create/store/actions';*/
 
 @Injectable()
@@ -102,48 +104,6 @@ export class OficioDetailEffect {
                 })
             );
 
-   /* /!**
-     * Dar Ciencia Tarefa
-     * @type {Observable<any>}
-     *!/
-    @Effect()
-    darCienciaDocumentoAvulso: any =
-        this._actions
-            .pipe(
-                ofType<DocumentoAvulsoDetailActions.DarCienciaTarefa>(DocumentoAvulsoDetailActions.DAR_CIENCIA_TAREFA),
-                switchMap((action) => {
-                    return this._tarefaService.ciencia(action.payload).pipe(
-                        mergeMap((response: Tarefa) => [
-                            new TarefaDetailActions.DarCienciaTarefaSuccess(action.payload),
-                            new AddData<Tarefa>({data: [response], schema: tarefaSchema}), new OperacoesActions.Resultado({
-                                type: 'tarefa',
-                                content: `Tarefa id ${response.id} ciência com sucesso!`,
-                                dateTime: response.criadoEm
-                            })
-                        ]),
-                        catchError((err) => {
-                            console.log(err);
-                            return of(new TarefaDetailActions.SaveTarefaFailed(err));
-                        })
-                    );
-                })
-            );
-
-    /!**
-     * Dar Ciencia Tarefa Success
-     *!/
-    @Effect({ dispatch: false })
-    darCienciaTarefaSuccess: any =
-        this._actions
-            .pipe(
-                ofType<TarefaDetailActions.DarCienciaTarefaSuccess>(TarefaDetailActions.DAR_CIENCIA_TAREFA_SUCCESS),
-                tap((action) => {
-                    this._store.dispatch(new DeleteTarefaSuccess(action.payload.id));
-                    this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/'
-                    * + this.routerState.params.folderHandle + '/tarefa/' + this.routerState.params.tarefaHandle + '/encaminhamento']).then();
-                })
-            );*/
-
     /**
      * Create Vinculacao Etiqueta
      * @type {Observable<any>}
@@ -152,23 +112,24 @@ export class OficioDetailEffect {
     createVinculacaoEtiqueta: Observable<any> =
         this._actions
             .pipe(
+
                 ofType<DocumentoAvulsoDetailActions.CreateVinculacaoEtiqueta>(DocumentoAvulsoDetailActions.CREATE_VINCULACAO_ETIQUETA),
                 mergeMap((action) => {
                     const vinculacaoEtiqueta = new VinculacaoEtiqueta();
-                    vinculacaoEtiqueta.tarefa = action.payload.tarefa;
+                    vinculacaoEtiqueta.processo = action.payload.processo;
                     vinculacaoEtiqueta.etiqueta = action.payload.etiqueta;
                     return this._vinculacaoEtiquetaService.save(vinculacaoEtiqueta).pipe(
-                        tap((response) => response.tarefa = null),
+                        tap((response) => response.processo = null),
                         mergeMap((response) => [
                             new AddChildData<VinculacaoEtiqueta>({
                                 data: [response],
                                 childSchema: vinculacaoEtiquetaSchema,
-                                parentSchema: documentoAvulsoSchema,
-                                parentId: action.payload.tarefa.id
+                                parentSchema: processoSchema,
+                                parentId: action.payload.processo.id
                             }),
                             new OperacoesActions.Resultado({
-                                type: 'documentoAvulso',
-                                content: `Documento Avulso id ${response.id} etiquetada com sucesso!`,
+                                type: 'processo',
+                                content: `Processo id ${response.id} etiquetada com sucesso!`,
                                 dateTime: response.criadoEm
                             }),
                             /*new GetDocumentos()*/
@@ -197,8 +158,8 @@ export class OficioDetailEffect {
                                 new RemoveChildData({
                                     id: action.payload.vinculacaoEtiquetaId,
                                     childSchema: vinculacaoEtiquetaSchema,
-                                    parentSchema: documentoAvulsoSchema,
-                                    parentId: action.payload.documentoAvulsoId
+                                    parentSchema: processoSchema,
+                                    parentId: action.payload.processoId
                                 })
                             ]),
                             catchError((err) => {
