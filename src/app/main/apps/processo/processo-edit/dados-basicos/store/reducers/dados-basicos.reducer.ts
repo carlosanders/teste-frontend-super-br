@@ -84,6 +84,22 @@ export function DadosBasicosReducer(state = DadosBasicosInitialState, action: Da
             };
         }
 
+        case DadosBasicosActions.POST_PROCESSO: {
+            return {
+                ...state,
+                saving: true,
+                errors: false
+            };
+        }
+
+        case DadosBasicosActions.PUT_PROCESSO: {
+            return {
+                ...state,
+                saving: true,
+                errors: false
+            };
+        }
+
         case DadosBasicosActions.SAVE_PROCESSO_SUCCESS: {
             return {
                 ...state,
