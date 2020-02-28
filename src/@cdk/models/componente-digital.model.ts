@@ -95,9 +95,8 @@ export class ComponenteDigital {
     @Transform(value => value ? value.map((d) => d.id) : null, { toPlainOnly: true })
     tarefaOrigemBloco?: Tarefa[];
 
-    // @Exclude({toPlainOnly: true})
-    // @Type(() => DocumentoAvulso)
-    // @Transform(value => value ? value.id : null, {toPlainOnly: true})
+    @Type(() => DocumentoAvulso)
+    @Transform(value => value ? value.id : null, {toPlainOnly: true})
     documentoAvulsoOrigem?: DocumentoAvulso;
 
     @Type(() => DocumentoAvulso)

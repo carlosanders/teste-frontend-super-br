@@ -43,7 +43,7 @@
 
 </div>
 
-<cdk-documento-avulso-card class="ml-8 mb-8"
+<cdk-documento-card class="ml-8 mb-8"
                            *ngFor="let documento of documentos"
                            [documento]="documento"
                            [selected]="selectedIds.indexOf(documento.id) > -1"
@@ -56,4 +56,4 @@
                            (converte)="doConverte($event)"
                            (clicked)="onClick($event)"
                            (changedSelected)="toggleInSelected($event)">
-</cdk-documento-avulso-card>
+</cdk-documento-card>

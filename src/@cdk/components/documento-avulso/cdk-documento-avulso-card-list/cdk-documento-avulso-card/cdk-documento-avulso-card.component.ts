@@ -75,8 +75,6 @@ export class CdkDocumentoAvulsoCardComponent implements OnInit {
         this.changedSelected.emit(documentoId);
     }
 
-
-
     doVerResposta(documento): void {
         this.verResposta.emit(documento);
     }
