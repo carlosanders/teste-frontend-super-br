@@ -1,8 +1,8 @@
-import {usuario} from './base.schema';
-import {documento} from './base.schema';
-import {modalidadeMeio} from './base.schema';
-import {template} from './base.schema';
-import {modelo as modeloSchema} from './base.schema';
+import {usuario} from './index.schema';
+import {documento} from './index.schema';
+import {modalidadeMeio} from './index.schema';
+import {template} from './index.schema';
+import {modelo as modeloSchema} from './index.schema';
 
 modeloSchema.define({
     modalidadeModelo: modalidadeMeio,

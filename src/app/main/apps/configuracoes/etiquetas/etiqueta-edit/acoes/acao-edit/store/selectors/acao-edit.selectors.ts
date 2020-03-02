@@ -1,7 +1,7 @@
 import {createSelector} from '@ngrx/store';
 import {getAcaoEditAppState, AcaoEditAppState, AcaoEditState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
-import {Acao} from '@cdk/models/acao.model';
+import {Acao} from '@cdk/models';
 import {acao as acaoSchema} from '@cdk/normalizr/acao.schema';
 
 const schemaAcaoSelectors = createSchemaSelectors<Acao>(acaoSchema);

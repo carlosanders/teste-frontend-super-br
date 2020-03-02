@@ -7,7 +7,7 @@ import {
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {processo as processoSchema} from '@cdk/normalizr/processo.schema';
-import {Processo} from '@cdk/models/processo.model';
+import {Processo} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Processo>(processoSchema);
 

@@ -9,10 +9,10 @@ import {
 
 import {fuseAnimations} from '@fuse/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Interessado} from '@cdk/models/interessado.model';
-import {ModalidadeInteressado} from '@cdk/models/modalidade-interessado.model';
-import {Pessoa} from '@cdk/models/pessoa.model';
-import {Pagination} from '@cdk/models/pagination';
+import {Interessado} from '@cdk/models';
+import {ModalidadeInteressado} from '@cdk/models';
+import {Pessoa} from '@cdk/models';
+import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-interessado-form',

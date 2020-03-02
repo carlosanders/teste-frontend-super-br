@@ -9,14 +9,14 @@ import {
 import {fuseAnimations} from '@fuse/animations';
 import {Observable} from 'rxjs';
 
-import {Acao} from '@cdk/models/acao.model';
+import {Acao} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
-import {Etiqueta} from '@cdk/models/etiqueta.model';
-import {Pagination} from '@cdk/models/pagination';
+import {Etiqueta} from '@cdk/models';
+import {Pagination} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Colaborador} from '@cdk/models/colaborador.model';
+import {Colaborador} from '@cdk/models';
 import {getEtiqueta} from '../../store/selectors';
 import {Usuario} from "../../../../../../../../@cdk/models/usuario.model";
 

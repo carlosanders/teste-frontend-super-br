@@ -10,7 +10,7 @@ import {fuseAnimations} from '@fuse/animations';
 import {Observable, Subject} from 'rxjs';
 import * as fromStore from '../store';
 import {select, Store} from '@ngrx/store';
-import {ComponenteDigital} from '@cdk/models/componente-digital.model';
+import {ComponenteDigital} from '@cdk/models';
 
 @Component({
     selector: 'componente-digital-view',

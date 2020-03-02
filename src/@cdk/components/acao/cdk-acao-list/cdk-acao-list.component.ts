@@ -1,6 +1,6 @@
 import {AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewEncapsulation} from '@angular/core';
 import {fuseAnimations} from '@fuse/animations';
-import {Acao} from '@cdk/models/acao.model';
+import {Acao} from '@cdk/models';
 
 @Component({
     selector: 'cdk-acao-list',

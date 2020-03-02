@@ -10,7 +10,7 @@ import * as DocumentoAvulsoListActions from '../../../documento-avulso-list/stor
 import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {documentoAvulso as documentoAvulsoSchema} from '@cdk/normalizr/documento-avulso.schema';
-import {DocumentoAvulso} from '@cdk/models/documento-avulso.model';
+import {DocumentoAvulso} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';

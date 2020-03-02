@@ -12,7 +12,7 @@ import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 import {GarantiaDataSource} from '@cdk/data-sources/garantia-data-source';
-import {Garantia} from '@cdk/models/garantia.model';
+import {Garantia} from '@cdk/models';
 import {FormControl} from '@angular/forms';
 
 @Component({

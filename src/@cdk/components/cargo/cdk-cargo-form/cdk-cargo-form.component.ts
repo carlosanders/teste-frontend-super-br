@@ -9,7 +9,7 @@ import {
 
 import { fuseAnimations } from '@fuse/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { Cargo } from '@cdk/models/cargo.model';
+import { Cargo } from '@cdk/models';
 
 @Component({
     selector: 'cdk-cargo-form',

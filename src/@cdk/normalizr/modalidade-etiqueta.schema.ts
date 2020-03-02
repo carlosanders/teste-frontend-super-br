@@ -1,5 +1,5 @@
-import {usuario} from './base.schema';
-import {modalidadeEtiqueta as modalidadeEtiquetaSchema} from './base.schema';
+import {usuario} from './index.schema';
+import {modalidadeEtiqueta as modalidadeEtiquetaSchema} from './index.schema';
 
 modalidadeEtiquetaSchema.define({
     criadoPor: usuario,

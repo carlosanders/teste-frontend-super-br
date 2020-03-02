@@ -17,6 +17,7 @@ import { ModalidadeColaboradorService } from '@cdk/services/modalidade-colaborad
 import { CdkPerfilFormComponent } from './cdk-perfil-form.component';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {ColaboradorService} from '@cdk/services/colaborador.service';
+import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
 
 @NgModule({
     declarations: [
@@ -37,6 +38,7 @@ import {ColaboradorService} from '@cdk/services/colaborador.service';
         MatExpansionModule,
 
         FuseSharedModule,
+        NgxUpperCaseDirectiveModule,
     ],
     providers: [
         ModalidadeColaboradorService,

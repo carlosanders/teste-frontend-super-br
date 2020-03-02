@@ -9,13 +9,13 @@ import {
 import {fuseAnimations} from '@fuse/animations';
 import {Observable} from 'rxjs';
 
-import {Transicao} from '@cdk/models/transicao.model';
+import {Transicao} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
-import {Processo} from '@cdk/models/processo.model';
+import {Processo} from '@cdk/models';
 import {getProcesso} from '../../../store/selectors';
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'transicao-edit',

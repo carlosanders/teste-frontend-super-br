@@ -38,7 +38,7 @@ export const navigation: FuseNavigation[] = [
                         translate: 'NAV.TAREFA.ADMINISTRATIVAS.TITLE',
                         type: 'item',
                         icon: 'person',
-                        url: '/apps/tarefas/administrativo/entrada'
+                        url: '/apps/tarefas/administrativo/minhas-tarefas/entrada'
                     }
                 ],
                 role: 'ROLE_COLABORADOR'

@@ -13,8 +13,8 @@ import {fuseAnimations} from '@fuse/animations';
 import {catchError, finalize} from 'rxjs/operators';
 
 import {EspecieTarefaService} from '@cdk/services/especie-tarefa.service';
-import {EspecieTarefa} from '@cdk/models/especie-tarefa.model';
-import {Pagination} from '@cdk/models/pagination';
+import {EspecieTarefa} from '@cdk/models';
+import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-especie-tarefa-gridsearch',

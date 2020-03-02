@@ -9,7 +9,7 @@ import {getRouterState, State} from 'app/store/reducers';
 import * as VisibilidadeActions from '../actions';
 
 import {AddData} from '@cdk/ngrx-normalizr';
-import {Visibilidade} from '@cdk/models/visibilidade.model';
+import {Visibilidade} from '@cdk/models';
 import {visibilidade as visibilidadeSchema} from '@cdk/normalizr/visibilidade.schema';
 import {ProcessoService} from '@cdk/services/processo.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';

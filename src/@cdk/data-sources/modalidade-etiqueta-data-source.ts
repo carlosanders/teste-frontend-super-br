@@ -1,6 +1,6 @@
 import { CollectionViewer, DataSource } from '@angular/cdk/collections';
 import { Observable } from 'rxjs';
-import { ModalidadeEtiqueta } from '@cdk/models/modalidade-etiqueta.model';
+import { ModalidadeEtiqueta } from '@cdk/models';
 
 export class ModalidadeEtiquetaDataSource extends DataSource<ModalidadeEtiqueta> {
 

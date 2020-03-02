@@ -28,7 +28,7 @@ import {LoginService} from './main/auth/login/login.service';
 
 import {FakeDbService} from 'app/fake-db/fake-db.service';
 
-import {ModelModule} from '@cdk/models/model.module';
+import {ModelModule} from '@cdk/models';
 
 import {MAT_DATE_LOCALE} from '@cdk/angular/material';
 import {ErrorInterceptor} from './main/auth/login/error.interceptor';

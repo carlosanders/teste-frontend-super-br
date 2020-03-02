@@ -1,6 +1,6 @@
 import { CollectionViewer, DataSource } from '@angular/cdk/collections';
 import { Observable } from 'rxjs';
-import { Cargo } from '@cdk/models/cargo.model';
+import { Cargo } from '@cdk/models';
 
 export class CargoDataSource extends DataSource<Cargo> {
 

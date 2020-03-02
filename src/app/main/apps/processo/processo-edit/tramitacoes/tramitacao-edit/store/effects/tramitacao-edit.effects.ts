@@ -10,7 +10,7 @@ import * as TramitacaoListActions from '../../../tramitacao-list/store/actions/t
 import {TramitacaoService} from '@cdk/services/tramitacao.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {tramitacao as tramitacaoSchema} from '@cdk/normalizr/tramitacao.schema';
-import {Tramitacao} from '@cdk/models/tramitacao.model';
+import {Tramitacao} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';

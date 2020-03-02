@@ -9,7 +9,7 @@ import {getRouterState, State} from 'app/store/reducers';
 import * as SigiloActions from '../actions/sigilos.actions';
 
 import {AddData} from '@cdk/ngrx-normalizr';
-import {Sigilo} from '@cdk/models/sigilo.model';
+import {Sigilo} from '@cdk/models';
 import {sigilo as sigiloSchema} from '@cdk/normalizr/sigilo.schema';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import * as moment from 'moment';

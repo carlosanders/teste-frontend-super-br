@@ -12,19 +12,19 @@ import {Observable, Subject} from 'rxjs';
 import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 import {FuseTranslationLoaderService} from '@fuse/services/translation-loader.service';
 
-import {Processo} from '@cdk/models/processo.model';
+import {Processo} from '@cdk/models';
 import * as fromStore from 'app/main/apps/processo/store';
 
 import {locale as english} from 'app/main/apps/processo/i18n/en';
 import {fuseAnimations} from '@fuse/animations';
 import {getRouterState} from '../../../store/reducers';
-import {Etiqueta} from '@cdk/models/etiqueta.model';
-import {VinculacaoEtiqueta} from '@cdk/models/vinculacao-etiqueta.model';
-import {Pagination} from '@cdk/models/pagination';
+import {Etiqueta} from '@cdk/models';
+import {VinculacaoEtiqueta} from '@cdk/models';
+import {Pagination} from '@cdk/models';
 import {LoginService} from '../../auth/login/login.service';
 import {Router} from '@angular/router';
-import {Usuario} from "@cdk/models/usuario.model";
-import {takeUntil} from "rxjs/operators";
+import {Usuario} from '@cdk/models';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'processo',

@@ -14,10 +14,10 @@ import {fuseAnimations} from '@fuse/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 import {GeneroTarefaService} from '@cdk/services/genero-tarefa.service';
-import {GeneroTarefa} from '@cdk/models/genero-tarefa.model';
+import {GeneroTarefa} from '@cdk/models';
 
 @Component({
     selector: 'cdk-genero-tarefa-gridsearch',

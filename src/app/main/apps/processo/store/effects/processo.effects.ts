@@ -11,10 +11,10 @@ import * as ProcessoActions from 'app/main/apps/processo/store/actions/processo.
 import {ProcessoService} from '@cdk/services/processo.service';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {AddChildData, AddData, RemoveChildData, UpdateData} from '@cdk/ngrx-normalizr';
-import {Processo} from '@cdk/models/processo.model';
+import {Processo} from '@cdk/models';
 import {processo as processoSchema} from '@cdk/normalizr/processo.schema';
 import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
-import {VinculacaoEtiqueta} from '@cdk/models/vinculacao-etiqueta.model';
+import {VinculacaoEtiqueta} from '@cdk/models';
 import {vinculacaoEtiqueta as vinculacaoEtiquetaSchema} from '@cdk/normalizr/vinculacao-etiqueta.schema';
 import * as OperacoesActions from '../../../../../store/actions/operacoes.actions';
 
@@ -49,10 +49,6 @@ export class ProcessoEffect {
     getProcesso: any =
         this._actions
             .pipe(
-                tap((n) => {
-                    console.log('entrou GET Effects Processo: '); 
-                    console.log(n);
-                }),
                 ofType<ProcessoActions.GetProcesso>(ProcessoActions.GET_PROCESSO),
                 switchMap((action) => {
                     const chaveAcesso = this.routerState.params.chaveAcessoHandle ? {
@@ -126,7 +122,7 @@ export class ProcessoEffect {
             );
 
 
-   /**
+    /**
      * Save conteúdo vinculação etiqueta no processo
      * @type {Observable<any>}
      */

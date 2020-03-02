@@ -8,7 +8,7 @@ import * as FoldersActions from 'app/main/apps/tarefas/store/actions/folders.act
 import { FolderService } from '@cdk/services/folder.service';
 import { LoginService } from 'app/main/auth/login/login.service';
 import {folder as folderSchema} from '@cdk/normalizr/folder.schema';
-import {Folder} from '@cdk/models/folder.model';
+import {Folder} from '@cdk/models';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Store} from '@ngrx/store';
 import {FoldersState} from '../reducers';

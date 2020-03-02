@@ -7,7 +7,7 @@ import {
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {sigilo as sigiloSchema} from '@cdk/normalizr/sigilo.schema';
-import {Sigilo} from '@cdk/models/sigilo.model';
+import {Sigilo} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Sigilo>(sigiloSchema);
 

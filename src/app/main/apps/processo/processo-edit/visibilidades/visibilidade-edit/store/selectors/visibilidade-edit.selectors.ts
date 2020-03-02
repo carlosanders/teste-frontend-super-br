@@ -1,7 +1,7 @@
 import {createSelector} from '@ngrx/store';
 import {getVisibilidadeEditAppState, VisibilidadeEditAppState, VisibilidadeEditState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
-import {Visibilidade} from '@cdk/models/visibilidade.model';
+import {Visibilidade} from '@cdk/models';
 import {visibilidade as visibilidadeSchema} from '@cdk/normalizr/visibilidade.schema';
 
 const schemaVisibilidadeSelectors = createSchemaSelectors<Visibilidade>(visibilidadeSchema);

@@ -8,9 +8,9 @@ import * as moment from 'moment';
 import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
 import {LoginService} from '../../auth/login/login.service';
 import {HistoricoService} from '@cdk/services/historico.service';
-import {Historico} from '@cdk/models/historico.model';
+import {Historico} from '@cdk/models';
 import {TramitacaoService} from '@cdk/services/tramitacao.service';
-import {Usuario} from "../../../../@cdk/models/usuario.model";
+import {Usuario} from '@cdk/models';
 
 @Component({
     selector     : 'painel',
@@ -58,7 +58,7 @@ export class PainelComponent implements OnInit
      */
     ngOnInit(): void
     {
-        if (!this._loginService.isGranted('ROLE_USER')) {
+        if (this._loginService.isGranted('ROLE_COLABORADOR')) {
             this._tarefaService.count(
                 `{"usuarioResponsavel.id": "eq:${this._profile.id}", "dataHoraConclusaoPrazo": "isNull"}`)
                 .pipe(

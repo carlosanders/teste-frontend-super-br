@@ -14,10 +14,10 @@ import {fuseAnimations} from '@fuse/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 import {RepresentanteService} from '@cdk/services/representante.service';
-import {Representante} from '@cdk/models/representante.model';
+import {Representante} from '@cdk/models';
 
 @Component({
     selector: 'cdk-representante-gridsearch',

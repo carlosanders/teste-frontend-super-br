@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation
 
 import {fuseAnimations} from '@fuse/animations';
 import {Observable, Subject} from 'rxjs';
-import {Processo} from '@cdk/models/processo.model';
+import {Processo} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from 'app/main/apps/processo/store';
 import {UnloadProcesso} from 'app/main/apps/processo/processo-edit/dados-basicos/store';

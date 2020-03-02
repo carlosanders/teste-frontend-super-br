@@ -1,6 +1,6 @@
-import {usuario} from './base.schema';
-import {especieDocumento} from './base.schema';
-import {tipoDocumento as tipoDocumentoSchema} from './base.schema';
+import {usuario} from './index.schema';
+import {especieDocumento} from './index.schema';
+import {tipoDocumento as tipoDocumentoSchema} from './index.schema';
 
 tipoDocumentoSchema.define({
     especieDocumento: especieDocumento,

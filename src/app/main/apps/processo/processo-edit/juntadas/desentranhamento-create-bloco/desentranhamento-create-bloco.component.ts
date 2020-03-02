@@ -9,12 +9,12 @@ import {
 import {fuseAnimations} from '@fuse/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {Desentranhamento} from '@cdk/models/desentranhamento.model';
+import {Desentranhamento} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Juntada} from '@cdk/models/juntada.model';
+import {Juntada} from '@cdk/models';
 import {getDesentranhandoJuntadas} from '../juntada-list/store/selectors';
 import {getOperacoesState, getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';

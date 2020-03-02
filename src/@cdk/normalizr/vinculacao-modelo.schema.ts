@@ -1,8 +1,8 @@
-import {modelo} from './base.schema';
-import {especieSetor} from './base.schema';
-import {setor} from './base.schema';
-import {usuario} from './base.schema';
-import {vinculacaoModelo as vinculacaoModeloSchema} from './base.schema';
+import {modelo} from './index.schema';
+import {especieSetor} from './index.schema';
+import {setor} from './index.schema';
+import {usuario} from './index.schema';
+import {vinculacaoModelo as vinculacaoModeloSchema} from './index.schema';
 
 vinculacaoModeloSchema.define({
     modelo: modelo,

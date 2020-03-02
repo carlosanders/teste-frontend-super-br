@@ -7,7 +7,7 @@ import {
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {vinculacaoUsuario as vinculacaoUsuarioSchema} from '@cdk/normalizr/vinculacao-usuario.schema';
-import {VinculacaoUsuario} from '@cdk/models/vinculacao-usuario.model';
+import {VinculacaoUsuario} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<VinculacaoUsuario>(vinculacaoUsuarioSchema);
 

@@ -45,7 +45,7 @@ export function FolderEditReducer(
                 ...state,
                 folderId: null,
                 loaded: {
-                    id: 'folderHandle',
+                    id: 'targetHandle',
                     value: 'criar'
                 },
                 loading: false

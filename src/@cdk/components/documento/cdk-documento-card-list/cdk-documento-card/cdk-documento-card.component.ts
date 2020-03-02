@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 
 import {fuseAnimations} from '@fuse/animations';
-import {Documento} from '@cdk/models/documento.model';
+import {Documento} from '@cdk/models';
 
 @Component({
     selector: 'cdk-documento-card',

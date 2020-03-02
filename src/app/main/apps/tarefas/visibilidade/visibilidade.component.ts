@@ -8,13 +8,13 @@ import {
 import {Observable, Subject} from 'rxjs';
 
 import {fuseAnimations} from '@fuse/animations';
-import {Visibilidade} from '@cdk/models/visibilidade.model';
+import {Visibilidade} from '@cdk/models';
 import {NavigationEnd, Router, RouterEvent} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
-import {Pagination} from '@cdk/models/pagination';
-import {Colaborador} from '@cdk/models/colaborador.model';
+import {Pagination} from '@cdk/models';
+import {Colaborador} from '@cdk/models';
 import {LoginService} from '../../../auth/login/login.service';
 import {filter, takeUntil} from 'rxjs/operators';
 import {Usuario} from "../../../../../@cdk/models/usuario.model";
@@ -112,7 +112,8 @@ export class VisibilidadeComponent implements OnInit, OnDestroy {
     showFormTarefa(): void {
 
         this._router.navigate(['/apps/tarefas/' + this.routerState.params.generoHandle + '/' +
-        this.routerState.params.folderHandle + '/criar']).then();
+        this.routerState.params.typeHandle + '/' +
+        this.routerState.params.targetHandle + '/criar']).then();
     }
 
     submitVisibilidade(visibilidade): void {

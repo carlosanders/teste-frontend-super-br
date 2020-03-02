@@ -7,7 +7,7 @@ import {
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {tramitacao as tramitacaoSchema} from '@cdk/normalizr/tramitacao.schema';
-import {Tramitacao} from '@cdk/models/tramitacao.model';
+import {Tramitacao} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Tramitacao>(tramitacaoSchema);
 

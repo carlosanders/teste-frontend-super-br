@@ -3,7 +3,7 @@ import {DocumentoAppState, getDocumentoAppState, RepositoriosState} from '../red
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {repositorio as schemaRepositorio} from '@cdk/normalizr/repositorio.schema';
-import {Repositorio} from '@cdk/models/repositorio.model';
+import {Repositorio} from '@cdk/models';
 
 const schemaRepositorioSelectors = createSchemaSelectors<Repositorio>(schemaRepositorio);
 

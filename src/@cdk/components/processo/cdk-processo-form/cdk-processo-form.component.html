@@ -12,7 +12,7 @@
                              formControlName="processo_rg" 
                              aria-labelledby="processo-rg" 
                              fxLayoutAlign="row">
-                <mat-radio-button [value]="'novo'">
+                <mat-radio-button [value]="'novo_dados'">
                     NOVO
                 </mat-radio-button>
                 <mat-radio-button [value]="'aproveitar_dados'">
@@ -274,14 +274,14 @@
 
     <div fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
     fxLayoutAlign="center center">
-<!--            <button *ngIf="!saving" 
+            <button *ngIf="!saving" 
                     class="mr-sm-12"
                     mat-raised-button color="accent" 
                     [disabled]="form.invalid" (click)="submit()">
                     {{this.textBotao}}
             </button>
--->
-            <button *ngIf="!saving && !form.value.id" 
+
+<!--            <button *ngIf="!saving && !form.value.id" 
                     class="mr-sm-12"
                     mat-raised-button color="accent" 
                     [disabled]="form.invalid" (click)="doPost()">
@@ -294,6 +294,7 @@
                     [disabled]="form.invalid" (click)="doPut()">
                     {{this.textBotao}}
             </button>
+-->            
     </div>
 
     <div *ngIf="saving" fxLayout="column"  fxFlex

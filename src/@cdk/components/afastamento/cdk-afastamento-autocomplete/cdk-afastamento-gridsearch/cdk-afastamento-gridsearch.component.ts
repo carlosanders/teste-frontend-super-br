@@ -13,8 +13,8 @@ import {fuseAnimations} from '@fuse/animations';
 import {catchError, finalize} from 'rxjs/operators';
 
 import {AfastamentoService} from '@cdk/services/afastamento.service';
-import {Afastamento} from '@cdk/models/afastamento.model';
-import {Pagination} from '@cdk/models/pagination';
+import {Afastamento} from '@cdk/models';
+import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-afastamento-gridsearch',

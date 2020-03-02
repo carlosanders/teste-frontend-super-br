@@ -7,7 +7,7 @@ import {
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {modelo as modeloSchema} from '@cdk/normalizr/modelo.schema';
-import {Modelo} from '@cdk/models/modelo.model';
+import {Modelo} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Modelo>(modeloSchema);
 

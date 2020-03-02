@@ -1,7 +1,7 @@
 import {Component, Input, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 
 import { fuseAnimations } from '@fuse/animations';
-import {Historico} from '@cdk/models/historico.model';
+import {Historico} from '@cdk/models';
 
 @Component({
     selector     : 'cdk-historico-timeline',

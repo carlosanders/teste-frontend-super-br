@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
 import {HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {Afastamento} from '@cdk/models/afastamento.model';
+import {Afastamento} from '@cdk/models';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
-import {PaginatedResponse} from '@cdk/models/paginated.response';
+import {PaginatedResponse} from '@cdk/models';
 import {map} from 'rxjs/operators';
 
 @Injectable()

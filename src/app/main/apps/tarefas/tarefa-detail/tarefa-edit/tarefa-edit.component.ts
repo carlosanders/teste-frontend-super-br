@@ -9,15 +9,15 @@ import {
 import {fuseAnimations} from '@fuse/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {Tarefa} from '@cdk/models/tarefa.model';
+import {Tarefa} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from 'app/main/apps/tarefas/tarefa-detail/store';
 import { SaveTarefa } from 'app/main/apps/tarefas/tarefa-detail/store';
 import {filter, takeUntil} from 'rxjs/operators';
 import {LoginService} from '../../../../auth/login/login.service';
-import {Colaborador} from '@cdk/models/colaborador.model';
-import {Pagination} from '@cdk/models/pagination';
+import {Colaborador} from '@cdk/models';
+import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'tarefa-edit',

@@ -9,11 +9,11 @@ import {
 
 import {fuseAnimations} from '@fuse/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Acao} from '@cdk/models/acao.model';
-import {Pagination} from '@cdk/models/pagination';
+import {Acao} from '@cdk/models';
+import {Pagination} from '@cdk/models';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
-import {Modelo} from '@cdk/models/modelo.model';
+import {Modelo} from '@cdk/models';
 
 @Component({
     selector: 'cdk-acao-form',
