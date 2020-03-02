@@ -7,18 +7,15 @@ import {
 import {fuseAnimations} from '@fuse/animations';
 
 @Component({
-    selector: 'ajuda-interessados',
-    templateUrl: './ajuda-interessados.component.html',
-    styleUrls: ['./ajuda-interessados.component.scss'],
+    selector: 'ajuda-documentos-avulsos',
+    templateUrl: './ajuda-documentos-avulsos.component.html',
+    styleUrls: ['./ajuda-documentos-avulsos.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
 })
-export class AjudaInteressadosComponent {
+export class AjudaDocumentosAvulsosComponent {
     
-    titulo = "interessados";
-
-
     Collapsible():void{
         var coll = document.getElementsByClassName("collapsible");
         var i;
@@ -33,9 +30,5 @@ export class AjudaInteressadosComponent {
             }
             });
         } 
-    }
-
-    carregar(topico: string): void {
-        this.titulo = topico;
-    }
+        }
 }

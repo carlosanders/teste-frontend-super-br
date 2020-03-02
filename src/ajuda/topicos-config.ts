@@ -13,7 +13,7 @@ import {topicosConfig as tarefaOficioCreateBlocoTopicosConfig} from '../app/main
 import {topicosConfig as processoEditTopicosConfig} from '../app/main/apps/processo/processo-edit/ajuda/topicos-config';
 import {topicosConfig as assuntosTopicosConfig} from '../app/main/apps/processo/processo-edit/assuntos/ajuda/topicos-config';
 import {topicosConfig as interessadosTopicosConfig} from '../app/main/apps/processo/processo-edit/interessados/ajuda/topicos-config';
-import {topicosConfig as juntadasEditTopicosConfig} from '../app/main/apps/processo/processo-edit/assuntos/ajuda/topicos-config';
+import {topicosConfig as juntadasEditTopicosConfig} from '../app/main/apps/processo/processo-edit/juntadas/ajuda/topicos-config';
 import {topicosConfig as vinculacoesProcessoTopicosConfig} from '../app/main/apps/processo/processo-edit/vinculacoes-processos/ajuda/topicos-config';
 import {topicosConfig as oficiosTopicosConfig} from '../app/main/apps/processo/processo-edit/assuntos/ajuda/topicos-config';
 import {topicosConfig as tramitacoesTopicosConfig} from '../app/main/apps/processo/processo-edit/interessados/ajuda/topicos-config';

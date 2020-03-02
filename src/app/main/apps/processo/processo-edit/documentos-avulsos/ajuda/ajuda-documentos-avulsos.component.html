@@ -1,31 +1,32 @@
 <div class="content p-16" fxLayout="column">
-    <h3><strong>VINCULAÇÕES</strong></h3>
+    <h3><strong>OFÍCIOS</strong></h3>
     <p style="text-align: justify;text-indent: 20px">
-        Um processo pode ser vinculado a outro processo/documento avulso. 
+        Dentro de um fluxo de trabalho, muitas vezes é necessário interagir com outras Pessoas ou Instituições que não utilizam o SUPP, de modo que a abertura de uma Tarefa é inviável.<br><br>
+        Em outros cenários, a partir de um fluxo de trabalho, surge a necessidade de iniciar um novo fluxo de trabalho, em um novo NUP, como por exemplo, para solicitação de cálculos ou subsídios.<br><br>
+        Nesses esses casos, os ofícios são indispensáveis.
     </p>
-    <button style="text-align: center;margin-left: 20px" type="button" class="collapsible mb-4" (click)="Collapsible()">DOCUMENTO AVULSO?</button>
-    <div class="colapsable">
-        Aquele produzido no âmbito do órgão ou entidade e que demande análise, informação, despacho, parecer ou decisão administrativa e 
-        que necessite de tramitação ou como o documento produzido no âmbito de outro órgão ou entidade e que não tenha recebido NUP na origem.     
-    </div>
+    <p style="text-align: justify;text-indent: 20px">
+        Existem 2 maneiras de criar ofícios no SUPP.
+    </p>
+    <h3><strong>Criando OFÍCIOS na página de cadastramento do NUP</strong></h3>
     <p style="text-align: justify;margin-left: 40px">
-        1. No grid com opções de dados que podem/devem ser preenchidos, escolha o campo <strong>Vinculações</strong>
+        1. No grid com opções de dados que podem/devem ser preenchidos, escolha o campo <strong>Oficios</strong>
     </p>
     <p style="text-align: center;margin-left: 40px">
-        <img src="assets/images/ajuda/processovinculacoes.png" style="width: 200px;" class="fr-fic fr-dib fr-fil"> 
+         <img src="assets/images/ajuda/processovinculacoes.png" style="width: 200px;" class="fr-fic fr-dib fr-fil"> 
     </p>
-    <p style="text-align: justify;margin-left: 40px">
+    <p style="text-align: justify;">
         2. A página de vinculações é aberta. A lista de vinculações aparece no centro da página.      
     </p>
-    <p style="text-align: justify;margin-left: 40px">
+    <p style="text-align: justify;">
         3. É possível adicionar vinculações, a partir do botão <img src="assets/images/ajuda/novo.png" class="fr-fic fr-dii">.
         Ao clicar nele, a página de criação de vinculações é aberta.
     </p>
-    <p style="text-align: justify;margin-left: 40px">
+    <p style="text-align: justify;">
         4. Para realizar novas vinculações, necessariamente devem ser informados o NUP a ser vinculado e a modalidade de vinculação.
     </p>
-    <button style="text-align: center;margin-left: 40px" type="button" class="collapsible mb-4" (click)="Collapsible()">MODALIDADES?</button>
-    <div class="colapsable" style="text-align: center;margin-left: 40px">
+    <button type="button" class="collapsible mb-4" (click)="Collapsible()">Modalidades?</button>
+    <div class="colapsable">
         ANEXAÇÃO é a união <strong>definitiva e irreversível</strong> de um ou mais processos/documentos avulsos a outro processo/documento avulso considerado principal, <strong>desde que pertencentes ao um mesmo interessado que contenham o mesmo assunto</strong>.<br><br>
         Após a anexação, os documentos que estavam juntados no processo/documento avulso vinculado são migrados de forma definitiva para o processo principal. Todos os andamentos passam a ocorrer apenas no processo principal, sendo o vinculado encerrado.<br><br>
         APENSAMENTO é a união provisória de um ou mais processos/documentos avulsos a um processo/documento avulso mais antigo, mantendo cada um a sua numeração específica, destinada ao estudo e à uniformidade de tratamento em matéria semelhante, com o mesmo interessado ou não.<br><br>
