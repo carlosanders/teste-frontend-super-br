@@ -9,10 +9,10 @@ import {merge, of} from 'rxjs';
 
 import {fuseAnimations} from '@fuse/animations';
 import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
-import {MatPaginator, MatSort} from '@angular/material';
+import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
-import {Juntada} from '@cdk/models/juntada.model';
+import {Juntada} from '@cdk/models';
 import {JuntadaDataSource} from '@cdk/data-sources/juntada-data-source';
 import {FormControl} from '@angular/forms';
 

@@ -1,9 +1,6 @@
-import {schema} from '@cdk/normalizr-src';
-import {cargo} from './cargo.schema';
-import {modalidadeColaborador} from './modalidade-colaborador.schema';
-import {usuario} from './usuario.schema';
+import {cargo, colaborador as colaboradorSchema, modalidadeColaborador, usuario} from './index.schema';
 
-export const colaborador = new schema.Entity('colaborador', {
+colaboradorSchema.define({
     cargo: cargo,
     modalidadeColaborador: modalidadeColaborador,
     usuario: usuario,
@@ -11,3 +8,5 @@ export const colaborador = new schema.Entity('colaborador', {
     atualizadoPor: usuario,
     apagadoPor: usuario
 });
+
+export const colaborador = colaboradorSchema;

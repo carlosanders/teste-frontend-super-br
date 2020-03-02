@@ -9,10 +9,10 @@ import {
 
 import {fuseAnimations} from '@fuse/animations';
 
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 import {FormBuilder} from '@angular/forms';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@cdk/angular/material';
 
 @Component({
     selector: 'cdk-visibilidade-plugin',

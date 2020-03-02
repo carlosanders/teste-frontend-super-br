@@ -12,7 +12,7 @@ import {
     MatToolbarModule,
     MatDatepickerModule,
     MatProgressSpinnerModule, MatTooltipModule
-} from '@angular/material';
+} from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 
 import {FuseSharedModule} from '@fuse/shared.module';
@@ -29,7 +29,7 @@ import {LoginService} from '../../../../auth/login/login.service';
 
 const routes: Routes = [
     {
-        path: ':folderHandle',
+        path: ':targetHandle',
         component: FolderEditComponent,
         canActivate: [fromGuards.ResolveGuard]
     }

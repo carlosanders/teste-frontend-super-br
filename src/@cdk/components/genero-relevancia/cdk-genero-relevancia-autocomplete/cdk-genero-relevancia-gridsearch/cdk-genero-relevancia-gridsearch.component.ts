@@ -14,10 +14,10 @@ import {fuseAnimations} from '@fuse/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 import {GeneroRelevanciaService} from '@cdk/services/genero-relevancia.service';
-import {GeneroRelevancia} from '@cdk/models/genero-relevancia.model';
+import {GeneroRelevancia} from '@cdk/models';
 
 @Component({
     selector: 'cdk-genero-relevancia-gridsearch',

@@ -7,13 +7,13 @@ import {
 } from '@angular/core';
 
 import {fuseAnimations} from '@fuse/animations';
-import {VinculacaoRepositorio} from '@cdk/models/vinculacao-repositorio.model';
+import {VinculacaoRepositorio} from '@cdk/models';
 import {VinculacaoRepositorioService} from '@cdk/services/vinculacao-repositorio.service';
 import {FormControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
-import {MatAutocomplete} from '@angular/material';
-import {Pagination} from '@cdk/models/pagination';
+import {MatAutocomplete} from '@cdk/angular/material';
+import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-vinculacao-repositorio-autocomplete',

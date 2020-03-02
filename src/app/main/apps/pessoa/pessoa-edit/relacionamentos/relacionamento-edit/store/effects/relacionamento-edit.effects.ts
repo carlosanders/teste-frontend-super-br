@@ -10,7 +10,7 @@ import * as RelacionamentoListActions from '../../../relacionamento-list/store/a
 import {RelacionamentoPessoalService} from '@cdk/services/relacionamento-pessoal.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {relacionamentoPessoal as relacionamentoSchema} from '@cdk/normalizr/relacionamento-pessoal.schema';
-import {RelacionamentoPessoal} from '@cdk/models/relacionamento-pessoal.model';
+import {RelacionamentoPessoal} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';

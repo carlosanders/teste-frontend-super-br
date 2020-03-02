@@ -7,13 +7,13 @@ import {
 } from '@angular/core';
 
 import {fuseAnimations} from '@fuse/animations';
-import {EspecieSetor} from '@cdk/models/especie-setor.model';
+import {EspecieSetor} from '@cdk/models';
 import {EspecieSetorService} from '@cdk/services/especie-setor.service';
 import {FormControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
-import {MatAutocomplete} from '@angular/material';
-import {Pagination} from '@cdk/models/pagination';
+import {MatAutocomplete} from '@cdk/angular/material';
+import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-especie-setor-autocomplete',

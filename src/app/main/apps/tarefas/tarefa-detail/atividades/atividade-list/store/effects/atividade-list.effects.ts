@@ -10,7 +10,7 @@ import * as AtividadeListActions from 'app/main/apps/tarefas/tarefa-detail/ativi
 
 import {AtividadeService} from '@cdk/services/atividade.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {Atividade} from '@cdk/models/atividade.model';
+import {Atividade} from '@cdk/models';
 import {atividade as atividadeSchema} from '@cdk/normalizr/atividade.schema';
 
 @Injectable()

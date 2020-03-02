@@ -1,12 +1,14 @@
-import {schema} from '@cdk/normalizr-src';
-import {documento} from './documento.schema';
-import {usuario} from './usuario.schema';
-import {origemDados} from './origem-dados.schema';
+import {documento} from './index.schema';
+import {usuario} from './index.schema';
+import {origemDados} from './index.schema';
+import {juntada as juntadaSchema} from './index.schema';
 
-export const juntada = new schema.Entity('juntada', {
+juntadaSchema.define({
     documento: documento,
     origemDados: origemDados,
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario,
 });
+
+export const juntada = juntadaSchema;

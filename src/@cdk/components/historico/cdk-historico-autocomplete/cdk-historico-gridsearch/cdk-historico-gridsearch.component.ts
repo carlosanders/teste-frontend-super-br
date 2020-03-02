@@ -14,10 +14,10 @@ import {fuseAnimations} from '@fuse/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 import {HistoricoService} from '@cdk/services/historico.service';
-import {Historico} from '@cdk/models/historico.model';
+import {Historico} from '@cdk/models';
 
 @Component({
     selector: 'cdk-historico-gridsearch',

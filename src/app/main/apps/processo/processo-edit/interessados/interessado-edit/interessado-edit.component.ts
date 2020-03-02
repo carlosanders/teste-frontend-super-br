@@ -9,13 +9,13 @@ import {
 import {fuseAnimations} from '@fuse/animations';
 import {Observable} from 'rxjs';
 
-import {Interessado} from '@cdk/models/interessado.model';
+import {Interessado} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
-import {Processo} from '@cdk/models/processo.model';
+import {Processo} from '@cdk/models';
 import {getProcesso} from '../../../store/selectors';
-import {Pessoa} from '@cdk/models/pessoa.model';
+import {Pessoa} from '@cdk/models';
 import {Router} from '@angular/router';
 import {getRouterState} from 'app/store/reducers';
 

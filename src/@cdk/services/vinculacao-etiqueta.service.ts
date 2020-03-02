@@ -1,17 +1,19 @@
 import {Injectable} from '@angular/core';
-import {HttpParams} from '@angular/common/http';
+import {HttpParams, HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {VinculacaoEtiqueta} from '@cdk/models/vinculacao-etiqueta.model';
+import {VinculacaoEtiqueta} from '@cdk/models';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
-import {PaginatedResponse} from '@cdk/models/paginated.response';
+import {PaginatedResponse} from '@cdk/models';
+import { environment } from 'environments/environment';
 
 @Injectable()
 export class VinculacaoEtiquetaService {
 
     constructor(
-        private modelService: ModelService
+        private modelService: ModelService,
+        private http: HttpClient
     ) {
     }
 
@@ -68,4 +70,15 @@ export class VinculacaoEtiquetaService {
     destroy(id: number): Observable<VinculacaoEtiqueta> {
         return this.modelService.delete('vinculacao_etiqueta', id);
     }
+
+    patch(vinculacaoEtiqueta: VinculacaoEtiqueta, changes: any): Observable<VinculacaoEtiqueta> {
+        return this.modelService.patch('vinculacao_etiqueta', vinculacaoEtiqueta.id, changes)
+        .pipe(  
+            map(response => {
+                response = plainToClass(VinculacaoEtiqueta, response);
+                Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                return Object.assign(new VinculacaoEtiqueta(), {...vinculacaoEtiqueta, ...response});
+            })
+        );
+    } 
 }

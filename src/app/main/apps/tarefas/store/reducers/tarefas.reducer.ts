@@ -1,5 +1,5 @@
 import * as TarefasActions from 'app/main/apps/tarefas/store/actions/tarefas.actions';
-import {Etiqueta} from '@cdk/models/etiqueta.model';
+import {Etiqueta} from '@cdk/models';
 
 export interface TarefasState {
     entitiesId: number[];

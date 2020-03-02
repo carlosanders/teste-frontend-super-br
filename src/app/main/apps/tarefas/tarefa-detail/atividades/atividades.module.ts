@@ -5,7 +5,7 @@ import {TranslateModule} from '@ngx-translate/core';
 import {FuseSharedModule} from '@fuse/shared.module';
 import {AtividadesComponent} from './atividades.component';
 import {RouterModule, Routes} from '@angular/router';
-import {MatButtonModule, MatIconModule, MatStepperModule, MatTooltipModule} from '@angular/material';
+import {MatButtonModule, MatIconModule, MatStepperModule, MatTooltipModule} from '@cdk/angular/material';
 
 const routes: Routes = [
     {

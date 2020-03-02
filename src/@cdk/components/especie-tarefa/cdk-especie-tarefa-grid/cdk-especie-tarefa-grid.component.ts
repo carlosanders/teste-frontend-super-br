@@ -9,10 +9,10 @@ import {merge, of} from 'rxjs';
 
 import {fuseAnimations} from '@fuse/animations';
 import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
-import {MatPaginator, MatSort} from '@angular/material';
+import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
-import {EspecieTarefa} from '@cdk/models/especie-tarefa.model';
+import {EspecieTarefa} from '@cdk/models';
 import {EspecieTarefaDataSource} from '@cdk/data-sources/especie-tarefa-data-source';
 import {FormControl} from '@angular/forms';
 

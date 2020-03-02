@@ -3,11 +3,13 @@ import {RouterModule, Routes} from '@angular/router';
 import {
     MatButtonModule,
     MatIconModule, MatRippleModule, MatTooltipModule
-} from '@angular/material';
+} from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 
 import {FuseSharedModule} from '@fuse/shared.module';
 import {FuseSidebarModule} from '@fuse/components';
+
+import * as fromGuards from 'app/main/apps/processo/store/guards/index';
 
 import {ProcessoEditMainSidebarComponent} from './sidebars/main/main-sidebar.component';
 import {ProcessoEditComponent} from './processo-edit.component';
@@ -20,6 +22,10 @@ const routes: Routes = [
         path: '',
         component: ProcessoEditComponent,
         children: [
+            {
+                path: 'processo-empty',
+                loadChildren: () => import('./processo-empty/processo-empty.module').then(m => m.ProcessoEmptyModule),
+            },
             {
                 path: 'dados-basicos',
                 loadChildren: () => import('./dados-basicos/dados-basicos.module').then(m => m.DadosBasicosModule)
@@ -57,9 +63,13 @@ const routes: Routes = [
                 loadChildren: () => import('./documentos-avulsos/processo-documentos-avulsos.module').then(m => m.ProcessoDocumentosAvulsosModule)
             },
             {
-                path: 'remessas',
+                path: 'tramitacoes',
                 loadChildren: () => import('./tramitacoes/tramitacoes.module').then(m => m.TramitacoesModule)
             },
+            {
+                path: 'garantias',
+                loadChildren: () => import('./garantias/garantias.module').then(m => m.GarantiasModule)
+            },            
             {
                 path: 'remessas',
                 loadChildren: () => import('./remessas/remessas.module').then(m => m.RemessasModule)

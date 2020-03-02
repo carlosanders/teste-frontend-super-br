@@ -1,11 +1,14 @@
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import {ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Output, ViewChild, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Output, ViewChild, ViewEncapsulation, SimpleChange, ChangeDetectorRef} from '@angular/core';
 import {FormControl} from '@angular/forms';
-import {MatAutocompleteSelectedEvent, MatChipInputEvent, MatAutocomplete} from '@angular/material';
+import {MatAutocompleteSelectedEvent, MatChipInputEvent, MatAutocomplete, MatDialog, MatDialogRef} from '@cdk/angular/material';
 import {fuseAnimations} from '@fuse/animations';
-import {Etiqueta} from '@cdk/models/etiqueta.model';
-import {VinculacaoEtiqueta} from '@cdk/models/vinculacao-etiqueta.model';
-import {Pagination} from '@cdk/models/pagination';
+import {Etiqueta} from '@cdk/models';
+import {VinculacaoEtiqueta} from '@cdk/models';
+import {Pagination} from '@cdk/models';
+import {filter, tap, delay} from 'rxjs/operators';
+import {CdkVinculacaoEtiquetaEditDialogComponent} from '../cdk-vinculacao-etiqueta-edit-dialog/cdk-vinculacao-etiqueta-edit-dialog.component';
+
 
 @Component({
     selector: 'cdk-vinculacao-etiqueta-chips',
@@ -23,11 +26,26 @@ export class CdkVinculacaoEtiquetaChipsComponent {
     separatorKeysCodes: number[] = [ENTER, COMMA];
     etiquetaCtrl = new FormControl();
 
+    // é utlizada uma instância única para faciliar o fechamento do dialog através do método ngonchanges
+    dialogRef: MatDialogRef<CdkVinculacaoEtiquetaEditDialogComponent, any>;
+
+    @Input()
+    savingVincEtiquetaId: number; 
+    
+    @Input() 
+    placeholderEtiq: string;  
+
+    @Input()
+    errors: any; 
+
     @Input()
     vinculacoesEtiquetas: VinculacaoEtiqueta[] = [];
 
     @Output()
     delete = new EventEmitter<VinculacaoEtiqueta>();
+
+    @Output()
+    edit = new EventEmitter<any>();
 
     @Output()
     create = new EventEmitter<Etiqueta>();
@@ -41,7 +59,10 @@ export class CdkVinculacaoEtiquetaChipsComponent {
     @ViewChild('etiquetaInput', {static: false}) etiquetaInput: ElementRef<HTMLInputElement>;
     @ViewChild('etiqueta', {static: false}) matAutocomplete: MatAutocomplete;
 
-    constructor() {
+    constructor(
+        private _changeDetectorRef: ChangeDetectorRef,
+        public dialog: MatDialog,
+    ) {
         this.pagination = new Pagination();
     }
 
@@ -84,5 +105,72 @@ export class CdkVinculacaoEtiquetaChipsComponent {
         this.etiquetaInput.nativeElement.value = '';
         this.etiquetaCtrl.setValue(null);
     }
+
+    /**
+     * On change
+     */
+    ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
+      
+        // o trecho de código abaixo é apenas para situações em que um dialog de
+        // alteração de conteúdo de vinculação de etiqueta foi aberto
+        if (this.dialogRef) {
+                if (this.errors && this.errors.status && this.errors.status === 422) {//422) {
+                    try {
+                        const data = JSON.parse(this.errors.error.message);
+                        const fields = Object.keys(data || {});
+                        fields.forEach((field) => {
+                            const control = this.dialogRef.componentInstance.form.get(field);
+                            control.setErrors({formError: data[field].join(' - ')});
+                        });
+
+                    } catch (e) {
+                        this.dialogRef.componentInstance.form.setErrors({rulesError: this.errors.error.message});
+                    } finally {
+                        // o código abaixo foi colocado para que a mensagem de erro apareça
+                        this.dialogRef.componentInstance.data.mostraSpinnerSalvamento = false;
+                        this.dialogRef.componentInstance._changeDetectorRef.detectChanges();
+                    }
+                }
+                if (!this.errors) {
+                    Object.keys(this.dialogRef.componentInstance.form.controls).forEach(key => {
+                        this.dialogRef.componentInstance.form.get(key).setErrors(null);
+                    });
+                    this.dialogRef.componentInstance.form.setErrors(null);
+
+                    if (!this.savingVincEtiquetaId)  {
+                        this.dialogRef.componentInstance.dialogRef.close();
+                    }
+                }
+        }
+        this._changeDetectorRef.markForCheck();
+     }  
+
+    openDialogEdit(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
+        // abre o diálogo de edição do conteúdo da etiqueta caso ela não esteja com status de saving (nesse estado ela vai ser ready-only)
+        if (this.savingVincEtiquetaId!==vinculacaoEtiqueta.id) {    
+            this.dialogRef = this.dialog.open(CdkVinculacaoEtiquetaEditDialogComponent, { 
+                data: {
+                    conteudo: vinculacaoEtiqueta.conteudo,
+                    nome: vinculacaoEtiqueta.etiqueta.nome,
+                    id: vinculacaoEtiqueta.id,
+                    corFundo: vinculacaoEtiqueta.etiqueta.corHexadecimal,
+                    mostraSpinnerSalvamento: false,
+                    podeAlterarConteudo: vinculacaoEtiqueta.podeAlterarConteudo
+                },
+                width: '600px',
+                height: '300px',
+            });
+
+            const sub = this.dialogRef.componentInstance.editVinc.subscribe((result) => {    
+                this.edit.emit(result);
+            });            
+       
+            this.dialogRef.afterClosed()
+            .subscribe(result => {
+                this.dialogRef = null;
+            });
+        }
+
+    }    
 
 }

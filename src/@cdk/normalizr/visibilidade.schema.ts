@@ -1,4 +1,6 @@
-import {schema} from '@cdk/normalizr-src';
+import {visibilidade as visibilidadeSchema} from './index.schema';
 
-export const visibilidade = new schema.Entity('visibilidade', {
+visibilidadeSchema.define({
 });
+
+export const visibilidade = visibilidadeSchema;

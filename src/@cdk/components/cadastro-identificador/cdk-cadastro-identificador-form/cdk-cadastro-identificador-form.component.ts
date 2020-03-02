@@ -9,7 +9,7 @@ import {
 
 import { fuseAnimations } from '@fuse/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { CadastroIdentificador } from '@cdk/models/cadastro-identificador.model';
+import { CadastroIdentificador } from '@cdk/models';
 
 @Component({
     selector: 'cdk-cadastro-identificador-form',

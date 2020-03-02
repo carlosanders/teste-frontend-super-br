@@ -7,13 +7,13 @@ import {
 } from '@angular/core';
 
 import {fuseAnimations} from '@fuse/animations';
-import {ModalidadeDocumentoIdentificador} from '@cdk/models/modalidade-documento-identificador.model';
+import {ModalidadeDocumentoIdentificador} from '@cdk/models';
 import {ModalidadeDocumentoIdentificadorService} from '@cdk/services/modalidade-documento-identificador.service';
 import {FormControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
-import {MatAutocomplete} from '@angular/material';
-import {Pagination} from '@cdk/models/pagination';
+import {MatAutocomplete} from '@cdk/angular/material';
+import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-modalidade-documento-identificador-autocomplete',

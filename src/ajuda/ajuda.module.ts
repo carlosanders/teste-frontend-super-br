@@ -26,6 +26,7 @@ import { AjudaVinculacoesProcessosModule } from 'app/main/apps/processo/processo
 // import { AjudaProcessoJudicialModule } from 'app/main/apps/processo/processo-edit/processojudicial/ajuda/ajuda-interessados.module';
 
 
+
 @NgModule({
     declarations: [
         AjudaComponent

@@ -3,7 +3,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from '../../../store';
 import {getRouterState} from 'app/store/reducers';
 import {Observable} from 'rxjs';
-import {Processo} from '@cdk/models/processo.model';
+import {Processo} from '@cdk/models';
 import {getProcesso} from '../../dados-basicos/store/selectors';
 
 import {modulesConfig} from 'modules/modules-config';
@@ -77,8 +77,12 @@ export class ProcessoEditMainSidebarComponent implements OnInit, OnDestroy {
                 link: 'oficios'
             },
             {
+                nome: 'Garantias',
+                link: 'garantias'
+            },            
+            {
                 nome: 'Tramitações',
-                link: 'remessas'
+                link: 'tramitacoes'
             },
             {
                 nome: 'Remessas',

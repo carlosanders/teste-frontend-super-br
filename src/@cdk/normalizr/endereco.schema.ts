@@ -1,11 +1,10 @@
-import {schema} from '@cdk/normalizr-src';
-import {usuario} from './usuario.schema';
-import {pessoa} from './pessoa.schema';
-import {municipio} from './municipio.schema';
-import {origemDados} from './origem-dados.schema';
-import {pais} from './pais.schema';
+import {usuario} from './index.schema';
+import {municipio} from './index.schema';
+import {origemDados} from './index.schema';
+import {pais} from './index.schema';
+import {endereco as enderecoSchema} from './index.schema';
 
-export const endereco = new schema.Entity('endereco', {
+enderecoSchema.define({
     municipio: municipio,
     pais: pais,
     origemDados: origemDados,
@@ -13,3 +12,5 @@ export const endereco = new schema.Entity('endereco', {
     atualizadoPor: usuario,
     apagadoPor: usuario
 });
+
+export const endereco = enderecoSchema;

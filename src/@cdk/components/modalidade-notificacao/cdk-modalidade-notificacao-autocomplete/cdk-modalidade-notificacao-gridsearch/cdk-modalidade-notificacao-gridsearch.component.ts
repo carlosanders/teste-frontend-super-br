@@ -14,10 +14,10 @@ import {fuseAnimations} from '@fuse/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 import {ModalidadeNotificacaoService} from '@cdk/services/modalidade-notificacao.service';
-import {ModalidadeNotificacao} from '@cdk/models/modalidade-notificacao.model';
+import {ModalidadeNotificacao} from '@cdk/models';
 
 @Component({
     selector: 'cdk-modalidade-notificacao-gridsearch',

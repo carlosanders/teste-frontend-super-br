@@ -57,11 +57,11 @@ export class ResolveGuard implements CanActivate {
             select(getHasLoaded),
             tap((loaded: any) => {
                 if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
-                    if (this.routerState.params['folderHandle'] === 'criar') {
+                    if (this.routerState.params['targetHandle'] === 'criar') {
                         this._store.dispatch(new fromStore.CreateFolder());
                     } else {
                         this._store.dispatch(new fromStore.GetFolder({
-                            id: 'eq:' + this.routerState.params['folderHandle']
+                            id: 'eq:' + this.routerState.params['targetHandle']
                         }));
                     }
 

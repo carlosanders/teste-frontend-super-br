@@ -9,12 +9,12 @@ import {
 
 import {fuseAnimations} from '@fuse/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Documento} from '@cdk/models/documento.model';
-import {TipoDocumento} from '@cdk/models/tipo-documento.model';
-import {Pagination} from '@cdk/models/pagination';
-import {Processo} from '@cdk/models/processo.model';
-import {Pessoa} from '@cdk/models/pessoa.model';
-import {Setor} from '@cdk/models/setor.model';
+import {Documento} from '@cdk/models';
+import {TipoDocumento} from '@cdk/models';
+import {Pagination} from '@cdk/models';
+import {Processo} from '@cdk/models';
+import {Pessoa} from '@cdk/models';
+import {Setor} from '@cdk/models';
 
 @Component({
     selector: 'cdk-documento-form',

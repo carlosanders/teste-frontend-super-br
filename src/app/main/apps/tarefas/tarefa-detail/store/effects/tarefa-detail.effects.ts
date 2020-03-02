@@ -12,14 +12,14 @@ import * as TarefaDetailActions from 'app/main/apps/tarefas/tarefa-detail/store/
 import {TarefaService} from '@cdk/services/tarefa.service';
 import {Router} from '@angular/router';
 import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
-import {VinculacaoEtiqueta} from '@cdk/models/vinculacao-etiqueta.model';
-import {AddChildData, AddData, RemoveChildData} from '@cdk/ngrx-normalizr';
+import {VinculacaoEtiqueta} from '@cdk/models';
+import {AddChildData, AddData, RemoveChildData, UpdateData} from '@cdk/ngrx-normalizr';
 import {vinculacaoEtiqueta as vinculacaoEtiquetaSchema} from '@cdk/normalizr/vinculacao-etiqueta.schema';
 import {tarefa as tarefaSchema} from '@cdk/normalizr/tarefa.schema';
 import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
 import {DocumentoService} from '@cdk/services/documento.service';
-import {Tarefa} from '@cdk/models/tarefa.model';
-import {Documento} from '@cdk/models/documento.model';
+import {Tarefa} from '@cdk/models';
+import {Documento} from '@cdk/models';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {DeleteTarefaSuccess} from '../../../store/actions';
 import {GetDocumentos} from '../../atividades/atividade-create/store/actions';
@@ -101,7 +101,8 @@ export class TarefaDetailEffect {
             .pipe(
                 ofType<TarefaDetailActions.DeselectTarefaAction>(TarefaDetailActions.DESELECT_TAREFA_ACTION),
                 tap(() => {
-                    this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.folderHandle]).then();
+                    this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' +
+                    this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle]).then();
                 })
             );
 
@@ -154,7 +155,10 @@ export class TarefaDetailEffect {
                     return this._tarefaService.save(action.payload).pipe(
                         mergeMap((response: Tarefa) => [
                             new TarefaDetailActions.SaveTarefaSuccess(),
-                            new AddData<Tarefa>({data: [response], schema: tarefaSchema}), new OperacoesActions.Resultado({
+                            new AddData<Tarefa>({
+                                data: [response],
+                                schema: tarefaSchema
+                            }), new OperacoesActions.Resultado({
                                 type: 'tarefa',
                                 content: `Tarefa id ${response.id} criada com sucesso!`,
                                 dateTime: response.criadoEm
@@ -181,7 +185,10 @@ export class TarefaDetailEffect {
                     return this._tarefaService.ciencia(action.payload).pipe(
                         mergeMap((response: Tarefa) => [
                             new TarefaDetailActions.DarCienciaTarefaSuccess(action.payload),
-                            new AddData<Tarefa>({data: [response], schema: tarefaSchema}), new OperacoesActions.Resultado({
+                            new AddData<Tarefa>({
+                                data: [response],
+                                schema: tarefaSchema
+                            }), new OperacoesActions.Resultado({
                                 type: 'tarefa',
                                 content: `Tarefa id ${response.id} ciência com sucesso!`,
                                 dateTime: response.criadoEm
@@ -198,14 +205,17 @@ export class TarefaDetailEffect {
     /**
      * Dar Ciencia Tarefa Success
      */
-    @Effect({ dispatch: false })
+    @Effect({dispatch: false})
     darCienciaTarefaSuccess: any =
         this._actions
             .pipe(
                 ofType<TarefaDetailActions.DarCienciaTarefaSuccess>(TarefaDetailActions.DAR_CIENCIA_TAREFA_SUCCESS),
                 tap((action) => {
                     this._store.dispatch(new DeleteTarefaSuccess(action.payload.id));
-                    this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.folderHandle + '/tarefa/' + this.routerState.params.tarefaHandle + '/encaminhamento']).then();
+                    this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' +
+                    + this.routerState.params.typeHandle + '/' +
+                    this.routerState.params.targetHandle + '/tarefa/' + this.routerState.params.tarefaHandle +
+                    '/encaminhamento']).then();
                 })
             );
 
@@ -241,6 +251,35 @@ export class TarefaDetailEffect {
                         catchError((err) => {
                             console.log(err);
                             return of(new TarefaDetailActions.CreateVinculacaoEtiquetaFailed(err));
+                        })
+                    );
+                })
+            );
+
+
+    /**
+     * Save conteúdo vinculação etiqueta na tarefa
+     * @type {Observable<any>}
+     */
+    @Effect()
+    SaveConteudoVinculacaoEtiqueta: any =
+        this._actions
+            .pipe(
+                ofType<TarefaDetailActions.SaveConteudoVinculacaoEtiqueta>(TarefaDetailActions.SAVE_CONTEUDO_VINCULACAO_ETIQUETA),
+                mergeMap((action) => {
+                    return this._vinculacaoEtiquetaService.patch(action.payload.vinculacaoEtiqueta, action.payload.changes).pipe(
+                        //@retirar: return this._vinculacaoEtiquetaService.patch(action.payload.vinculacaoEtiqueta,  {conteudo: action.payload.vinculacaoEtiqueta.conteudo}).pipe(
+                        mergeMap((response) => [
+                            new TarefaDetailActions.SaveConteudoVinculacaoEtiquetaSuccess(response.id),
+                            new UpdateData<VinculacaoEtiqueta>({
+                                id: response.id,
+                                schema: vinculacaoEtiquetaSchema,
+                                changes: {conteudo: response.conteudo}
+                            })
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            return of(new TarefaDetailActions.SaveConteudoVinculacaoEtiquetaFailed(err));
                         })
                     );
                 })

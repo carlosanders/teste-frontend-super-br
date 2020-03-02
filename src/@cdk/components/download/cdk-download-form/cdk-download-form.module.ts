@@ -10,7 +10,7 @@ import {
     MatSlideToggleModule,
     MatDatepickerModule, MatRadioModule, MatTooltipModule
 
-} from '@angular/material';
+} from '@cdk/angular/material';
 
 import { FuseSharedModule } from '@fuse/shared.module';
 import { CdkDownloadFormComponent } from './cdk-download-form.component';

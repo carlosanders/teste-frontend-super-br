@@ -7,7 +7,7 @@ import {
     MatFormFieldModule,
     MatIconModule,
     MatInputModule
-} from '@angular/material';
+} from '@cdk/angular/material';
 
 import { FuseSharedModule } from '@fuse/shared.module';
 import { ModalidadeDestinacaoService } from '@cdk/services/modalidade-destinacao.service';
@@ -15,7 +15,7 @@ import { CdkClassificacaoGridFilterComponent } from './cdk-classificacao-grid-fi
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 import {CdkUsuarioAutocompleteModule} from '../../../usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
-import {ModalidadeDestinacao} from '@cdk/models/modalidade-destinacao.model';
+import {ModalidadeDestinacao} from '@cdk/models';
 import {CdkClassificacaoAutocompleteModule} from '../../cdk-classificacao-autocomplete/cdk-classificacao-autocomplete.module';
 import {CdkModalidadeDestinacaoAutocompleteModule} from '../../../modalidade-destinacao/cdk-modalidade-destinacao-autocomplete/cdk-modalidade-destinacao-autocomplete.module';
 

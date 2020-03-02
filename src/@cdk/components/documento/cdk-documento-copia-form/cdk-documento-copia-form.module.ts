@@ -8,7 +8,7 @@ import {
     MatAutocompleteModule,
     MatRadioModule, MatTooltipModule
 
-} from '@angular/material';
+} from '@cdk/angular/material';
 
 import { FuseSharedModule } from '@fuse/shared.module';
 import { CdkDocumentoCopiaFormComponent } from './cdk-documento-copia-form.component';

@@ -1,15 +1,17 @@
+<!-- SIDEBAR -->
+<fuse-sidebar [lockedOpen]="(mode === 'search') ? 'gt-xs' : ''" class="sidebar" name="cdk-processo-main-sidebar" position="left">
+    <!-- SIDEBAR CONTENT -->
+    <div class="content" fusePerfectScrollbar>
+        <cdk-processo-main-sidebar (selected)="setGridFilter($event)"
+                                   [mode]="this.mode"
+                                   [@animate]="{value:'*'}"></cdk-processo-main-sidebar>
+    </div>
+    <!-- / SIDEBAR CONTENT -->
+</fuse-sidebar>
+<!-- / SIDEBAR -->
 <div class="page-layout fullwidth left-sidebar inner-scroll" fxFlex="100">
 
-    <!-- SIDEBAR -->
-    <fuse-sidebar [lockedOpen]="(mode === 'search') ? 'gt-xs' : ''" class="sidebar" name="cdk-processo-main-sidebar" position="left">
-        <!-- SIDEBAR CONTENT -->
-        <div class="content" fusePerfectScrollbar>
-            <cdk-processo-main-sidebar (selected)="setGridFilter($event)"
-                                       [@animate]="{value:'*'}"></cdk-processo-main-sidebar>
-        </div>
-        <!-- / SIDEBAR CONTENT -->
-    </fuse-sidebar>
-    <!-- / SIDEBAR -->
+
 
     <!-- CONTENT -->
     <div class="content responsive-grid" fxLayoutAlign="center start">
@@ -32,7 +34,7 @@
                     <mat-icon>delete</mat-icon>
                 </button>
 
-                <mat-form-field class="colunas mr-8">
+                <mat-form-field class="colunas mr-8" *showIfRole="'ROLE_COLABORADOR'">
                     <mat-select [formControl]="columns" multiple>
                         <div *ngFor="let column of allColumns">
                             <mat-option *ngIf="!column.fixed" [value]="column.id">{{ column.label }}</mat-option>
@@ -48,6 +50,7 @@
                 </button>
 
                 <button class="toggle-filter" [ngClass]="{'warn': (gridFilter | json) != '{}'}" mat-icon-button
+                        *showIfRole="'ROLE_COLABORADOR'"
                         (click)="toggleFilter()"
                         aria-label="filtrar"
                         matTooltip="Filtrar">
@@ -376,35 +379,51 @@
 
                         <mat-icon *ngIf="processo.acessoNegado" class="red-fg">block</mat-icon>
 
-                        <button mat-icon-button
-                                *ngIf="!processo.acessoNegado && actions.indexOf('select') > -1"
-                                (click)="selectProcesso(processo)"
-                                aria-label="selecionar"
-                                matTooltip="Selecionar">
-                            <mat-icon>keyboard_return</mat-icon>
-                        </button>
+                        <span *showIfRole="'ROLE_USER'">
+                            <button mat-icon-button
+                                    *ngIf="actions.indexOf('view') > -1"
+                                    (click)="viewProcesso(processo)"
+                                    aria-label="visualizar"
+                                    matTooltip="Visualizar">
+                                <mat-icon>pageview</mat-icon>
+                            </button>
+                        </span>
 
-                        <button mat-icon-button
-                                *ngIf="!processo.acessoNegado && actions.indexOf('edit') > -1"
-                                [disabled]="deletedIds?.indexOf(processo.id) > -1"
-                                (click)="editProcesso(processo.id)"
-                                aria-label="editar"
-                                matTooltip="Editar">
-                            <mat-icon>edit</mat-icon>
-                        </button>
+                        <span *showIfRole="'ROLE_COLABORADOR'">
+                            <button mat-icon-button
+                                    *ngIf="!processo.acessoNegado && actions.indexOf('select') > -1"
+                                    (click)="selectProcesso(processo)"
+                                    aria-label="selecionar"
+                                    matTooltip="Selecionar">
+                                <mat-icon>keyboard_return</mat-icon>
+                            </button>
+                        </span>
+
+                        <span *showIfRole="'ROLE_COLABORADOR'">
+                            <button mat-icon-button
+                                    *ngIf="!processo.acessoNegado && actions.indexOf('edit') > -1"
+                                    [disabled]="deletedIds?.indexOf(processo.id) > -1"
+                                    (click)="editProcesso(processo.id)"
+                                    aria-label="editar"
+                                    matTooltip="Editar">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                        </span>
 
                         <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(processo.id) > -1">
                             <mat-spinner diameter="24"></mat-spinner>
                         </div>
 
-                        <button mat-icon-button
-                                *ngIf="!processo.acessoNegado && actions.indexOf('delete') > -1 && deletingIds?.indexOf(processo.id) === -1"
-                                [disabled]="deletedIds?.indexOf(processo.id) > -1"
-                                (click)="deleteProcesso(processo.id)"
-                                aria-label="remover"
-                                matTooltip="Remover">
-                            <mat-icon>delete</mat-icon>
-                        </button>
+                        <ng-template *showIfRole="'ROLE_COLABORADOR'">
+                            <button mat-icon-button
+                                    *ngIf="!processo.acessoNegado && actions.indexOf('delete') > -1 && deletingIds?.indexOf(processo.id) === -1"
+                                    [disabled]="deletedIds?.indexOf(processo.id) > -1"
+                                    (click)="deleteProcesso(processo.id)"
+                                    aria-label="remover"
+                                    matTooltip="Remover">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </ng-template>
                     </td>
                 </ng-container>
 
@@ -420,4 +439,5 @@
         </div>
 
     </div>
+
 </div>

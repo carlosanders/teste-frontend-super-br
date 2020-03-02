@@ -1,8 +1,10 @@
-import {schema} from '@cdk/normalizr-src';
-import {usuario} from './usuario.schema';
+import {usuario} from './index.schema';
+import {modalidadeTemplate as modalidadeTemplateSchema} from './index.schema';
 
-export const modalidadeTemplate = new schema.Entity('modalidadeTemplate', {
+modalidadeTemplateSchema.define({
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario
 });
+
+export const modalidadeTemplate = modalidadeTemplateSchema;

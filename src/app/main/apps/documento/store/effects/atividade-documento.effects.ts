@@ -9,7 +9,7 @@ import * as AtividadeDocumentoActions from '../actions/atividade-documento.actio
 import {AtividadeService} from '@cdk/services/atividade.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {atividade as atividadeSchema} from '@cdk/normalizr/atividade.schema';
-import {Atividade} from '@cdk/models/atividade.model';
+import {Atividade} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';

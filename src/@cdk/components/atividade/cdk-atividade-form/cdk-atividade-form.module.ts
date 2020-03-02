@@ -9,7 +9,7 @@ import {
     MatAutocompleteModule,
     MatDatepickerModule, MatSlideToggleModule, MatTooltipModule, MatRadioModule
 
-} from '@angular/material';
+} from '@cdk/angular/material';
 
 import { FuseSharedModule } from '@fuse/shared.module';
 import { EspecieAtividadeService } from '@cdk/services/especie-atividade.service';

@@ -11,11 +11,11 @@ import {
 
 import {fuseAnimations} from '@fuse/animations';
 
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
-import {Campo} from '@cdk/models/campo.model';
+import {Campo} from '@cdk/models';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {MatDialogRef} from '@angular/material/dialog';
+import {MatDialogRef} from '@cdk/angular/material';
 
 @Component({
     selector: 'cdk-campo-plugin',

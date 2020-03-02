@@ -1,10 +1,12 @@
-import {schema} from '@cdk/normalizr-src';
-import {processo} from './processo.schema';
-import {usuario} from './usuario.schema';
+import {processo} from './index.schema';
+import {usuario} from './index.schema';
+import {historico as historicoSchema} from './index.schema';
 
-export const historico = new schema.Entity('historico', {
+historicoSchema.define({
     processo: processo,
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario
 });
+
+export const historico = historicoSchema;

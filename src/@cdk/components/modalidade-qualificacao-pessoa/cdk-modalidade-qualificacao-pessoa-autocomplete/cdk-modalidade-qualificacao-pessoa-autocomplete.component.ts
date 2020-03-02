@@ -7,13 +7,13 @@ import {
 } from '@angular/core';
 
 import {fuseAnimations} from '@fuse/animations';
-import {ModalidadeQualificacaoPessoa} from '@cdk/models/modalidade-qualificacao-pessoa.model';
+import {ModalidadeQualificacaoPessoa} from '@cdk/models';
 import {ModalidadeQualificacaoPessoaService} from '@cdk/services/modalidade-qualificacao-pessoa.service';
 import {FormControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
-import {MatAutocomplete} from '@angular/material';
-import {Pagination} from '@cdk/models/pagination';
+import {MatAutocomplete} from '@cdk/angular/material';
+import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-modalidade-qualificacao-pessoa-autocomplete',

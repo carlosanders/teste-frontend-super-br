@@ -7,13 +7,13 @@ import {
 } from '@angular/core';
 
 import {fuseAnimations} from '@fuse/animations';
-import {GeneroAtividade} from '@cdk/models/genero-atividade.model';
+import {GeneroAtividade} from '@cdk/models';
 import {GeneroAtividadeService} from '@cdk/services/genero-atividade.service';
 import {FormControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
-import {MatAutocomplete} from '@angular/material';
-import {Pagination} from '@cdk/models/pagination';
+import {MatAutocomplete} from '@cdk/angular/material';
+import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-genero-atividade-autocomplete',

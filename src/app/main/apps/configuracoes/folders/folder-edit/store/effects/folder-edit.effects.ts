@@ -10,7 +10,7 @@ import * as FolderListActions from '../../../folder-list/store/actions/folder-li
 import {FolderService} from '@cdk/services/folder.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {folder as folderSchema} from '@cdk/normalizr/folder.schema';
-import {Folder} from '@cdk/models/folder.model';
+import {Folder} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
@@ -60,8 +60,8 @@ export class FolderEditEffect {
                     new AddData<Folder>({data: response['entities'], schema: folderSchema}),
                     new FolderEditActions.GetFolderSuccess({
                         loaded: {
-                            id: 'folderHandle',
-                            value: this.routerState.params.folderHandle
+                            id: 'targetHandle',
+                            value: this.routerState.params.targetHandle
                         },
                         folderId: response['entities'][0].id
                     })
@@ -108,7 +108,7 @@ export class FolderEditEffect {
             .pipe(
                 ofType<FolderEditActions.SaveFolderSuccess>(FolderEditActions.SAVE_FOLDER_SUCCESS),
                 tap(() => {
-                    this._router.navigate([this.routerState.url.replace(('editar/' + this.routerState.params.folderHandle), 'listar')]).then();
+                    this._router.navigate([this.routerState.url.replace(('editar/' + this.routerState.params.targetHandle), 'listar')]).then();
                 })
             );
 }

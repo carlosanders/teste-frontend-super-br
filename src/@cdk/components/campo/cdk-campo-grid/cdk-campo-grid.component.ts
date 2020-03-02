@@ -15,10 +15,10 @@ import {merge, of} from 'rxjs';
 
 import {fuseAnimations} from '@fuse/animations';
 import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
-import {MatPaginator, MatSort} from '@angular/material';
+import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
-import {Campo} from '@cdk/models/campo.model';
+import {Campo} from '@cdk/models';
 import {CampoDataSource} from '@cdk/data-sources/campo-data-source';
 import {FormControl} from '@angular/forms';
 

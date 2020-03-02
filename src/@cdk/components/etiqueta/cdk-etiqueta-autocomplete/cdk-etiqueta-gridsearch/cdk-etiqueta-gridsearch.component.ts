@@ -14,10 +14,10 @@ import {fuseAnimations} from '@fuse/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 import {EtiquetaService} from '@cdk/services/etiqueta.service';
-import {Etiqueta} from '@cdk/models/etiqueta.model';
+import {Etiqueta} from '@cdk/models';
 
 @Component({
     selector: 'cdk-etiqueta-gridsearch',

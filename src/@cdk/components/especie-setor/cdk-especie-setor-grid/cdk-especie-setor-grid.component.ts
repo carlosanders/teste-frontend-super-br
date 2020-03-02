@@ -9,11 +9,11 @@ import {merge, of} from 'rxjs';
 
 import {fuseAnimations} from '@fuse/animations';
 
-import {MatPaginator, MatSort} from '@angular/material';
+import {MatPaginator, MatSort} from '@cdk/angular/material';
 
 import {tap} from 'rxjs/operators';
 
-import {EspecieSetor} from '@cdk/models/especie-setor.model';
+import {EspecieSetor} from '@cdk/models';
 import {EspecieSetorDataSource} from '@cdk/data-sources/especie-setor-data-source';
 import {FormControl} from '@angular/forms';
 import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';

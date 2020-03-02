@@ -31,9 +31,8 @@
                             "src/styles.scss"
                         ],
                         "aot": false,
-                        "scripts": [],
-                        "showCircularDependencies": false,
-                        "preserveSymlinks": true
+			            "scripts": [],
+                        "showCircularDependencies": false
                     },
                     "configurations": {
                         "production": {
@@ -48,10 +47,10 @@
                             "sourceMap": false,
                             "extractCss": true,
                             "namedChunks": false,
-                            "aot": true,
                             "extractLicenses": true,
                             "vendorChunk": false,
                             "buildOptimizer": true,
+                            "aot": true,
                             "budgets": [
                                 {
                                     "type": "initial",

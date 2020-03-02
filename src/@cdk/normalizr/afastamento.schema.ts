@@ -1,13 +1,15 @@
-import {schema} from '@cdk/normalizr-src';
-import {modalidadeAfastamento} from './modalidade-afastamento.schema';
-import {colaborador} from './colaborador.schema';
-import {usuario} from './usuario.schema';
+import {afastamento as afastamentoSchema} from './index.schema';
+import {modalidadeAfastamento} from './index.schema';
+import {colaborador} from './index.schema';
+import {usuario} from './index.schema';
 
-export const afastamento = new schema.Entity('afastamento', {
+afastamentoSchema.define({
     modalidadeAfastamento: modalidadeAfastamento,
     colaborador: colaborador,
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario
 });
+
+export const afastamento = afastamentoSchema;
 

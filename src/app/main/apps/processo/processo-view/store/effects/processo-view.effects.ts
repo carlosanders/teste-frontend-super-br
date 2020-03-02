@@ -9,7 +9,7 @@ import {getRouterState, State} from 'app/store/reducers';
 import * as ProcessoViewActions from 'app/main/apps/processo/processo-view/store/actions/processo-view.actions';
 
 import {AddData} from '@cdk/ngrx-normalizr';
-import {Juntada} from '@cdk/models/juntada.model';
+import {Juntada} from '@cdk/models';
 import {juntada as juntadaSchema} from '@cdk/normalizr/juntada.schema';
 import {JuntadaService} from '@cdk/services/juntada.service';
 import {getCurrentStep, getIndex} from '../selectors';

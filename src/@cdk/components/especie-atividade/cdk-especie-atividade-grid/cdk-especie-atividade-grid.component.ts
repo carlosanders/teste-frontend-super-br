@@ -9,12 +9,12 @@ import {merge, of} from 'rxjs';
 
 import {fuseAnimations} from '@fuse/animations';
 import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
-import {MatPaginator, MatSort} from '@angular/material';
+import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
-import {EspecieAtividade} from '@cdk/models/especie-atividade.model';
+import {EspecieAtividade} from '@cdk/models';
 import {EspecieAtividadeDataSource} from '@cdk/data-sources/especie-atividade-data-source';
-import {Favorito} from '@cdk/models/favorito.model';
+import {Favorito} from '@cdk/models';
 import {FormControl} from '@angular/forms';
 
 @Component({

@@ -14,10 +14,10 @@ import {fuseAnimations} from '@fuse/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 import {VolumeService} from '@cdk/services/volume.service';
-import {Volume} from '@cdk/models/volume.model';
+import {Volume} from '@cdk/models';
 
 @Component({
     selector: 'cdk-volume-gridsearch',

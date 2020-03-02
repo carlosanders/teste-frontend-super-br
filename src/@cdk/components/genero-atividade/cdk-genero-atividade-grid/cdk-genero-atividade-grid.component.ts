@@ -9,11 +9,11 @@ import {merge, of} from 'rxjs';
 
 import {fuseAnimations} from '@fuse/animations';
 
-import {MatPaginator, MatSort} from '@angular/material';
+import {MatPaginator, MatSort} from '@cdk/angular/material';
 
 import {tap} from 'rxjs/operators';
 
-import {GeneroAtividade} from '@cdk/models/genero-atividade.model';
+import {GeneroAtividade} from '@cdk/models';
 import {GeneroAtividadeDataSource} from '@cdk/data-sources/genero-atividade-data-source';
 import {FormControl} from '@angular/forms';
 import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';

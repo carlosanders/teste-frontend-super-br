@@ -6,7 +6,7 @@ import {
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
-} from '@angular/material';
+} from '@cdk/angular/material';
 
 import { FuseSharedModule } from '@fuse/shared.module';
 import { ProcessoService } from '@cdk/services/processo.service';

@@ -8,13 +8,13 @@ import {
 import {Observable, Subject} from 'rxjs';
 
 import {fuseAnimations} from '@fuse/animations';
-import {Favorito} from '@cdk/models/favorito.model';
+import {Favorito} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 import {LoginService} from '../../../../auth/login/login.service';
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 import {takeUntil} from 'rxjs/operators';
 import {FavoritoService} from '@cdk/services/favorito.service';
 
@@ -108,7 +108,7 @@ export class FavoritoEspecieTarefaListComponent implements OnInit, OnDestroy {
             filter: {
                 'especieTarefa': 'isNotNull',
                 'prioritario': 'eq:' + 'true',
-                'usuario.id': 'eq:' + this._loginService.getUserProfile().usuario.id
+                'usuario.id': 'eq:' + this._loginService.getUserProfile().id
             },
             sort: params.sort,
             limit: params.limit,
@@ -132,7 +132,7 @@ export class FavoritoEspecieTarefaListComponent implements OnInit, OnDestroy {
 
         this._store.dispatch(new fromStore.GetFavorito({
             filter: {
-                'usuario.id': 'eq:' + this._loginService.getUserProfile().usuario.id,
+                'usuario.id': 'eq:' + this._loginService.getUserProfile().id,
                 'especieTarefa.id': 'eq:' + valor.especieTarefa.id
             },
             valor: valor

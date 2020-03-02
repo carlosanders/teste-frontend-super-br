@@ -7,7 +7,7 @@ import {ComponenteDigitalViewComponent} from './componente-digital-view.componen
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {CdkComponenteDigitalViewModule} from '@cdk/components/componente-digital/cdk-componente-digital-view/cdk-componente-digital-view.module';
 import {ComponenteDigitalStoreModule} from '../store/store.module';
-import {MatProgressSpinnerModule} from '@angular/material';
+import {MatProgressSpinnerModule} from '@cdk/angular/material';
 
 const routes: Routes = [
     {

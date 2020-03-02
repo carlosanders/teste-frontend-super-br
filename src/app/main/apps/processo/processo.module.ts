@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import {
     MatButtonModule,
     MatIconModule, MatProgressSpinnerModule, MatTooltipModule
-} from '@angular/material';
+} from '@cdk/angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { FuseSharedModule } from '@fuse/shared.module';
@@ -33,16 +33,26 @@ const routes: Routes = [
                 canActivate: [fromGuards.ResolveGuard]
             },
             {
+                path       : 'visualizar/:chaveAcessoHandle',
+                loadChildren: () => import('./processo-view/processo-view.module').then(m => m.ProcessoViewModule),
+                canActivate: [fromGuards.ResolveGuard]
+            },
+            {
                 path       : 'editar',
                 loadChildren: () => import('./processo-edit/processo-edit.module').then(m => m.ProcessoEditModule),
                 canActivate: [fromGuards.ResolveGuard]
             },
             {
                 path       : 'acesso-negado',
-                loadChildren: () => import('./processo-empty/processo-empty.module').then(m => m.ProcessoEmptyModule)
+                loadChildren: () => import('./processo-acesso-negado/processo-acesso-negado.module').then(m => m.ProcessoAcessoNegadoModule)
             },
             {
                 path       : 'download',
+                loadChildren: () => import('./processo-download/processo-download.module').then(m => m.ProcessoDownloadModule),
+                canActivate: [fromGuards.ResolveGuard]
+            },
+            {
+                path       : 'download/:chaveAcessoHandle',
                 loadChildren: () => import('./processo-download/processo-download.module').then(m => m.ProcessoDownloadModule),
                 canActivate: [fromGuards.ResolveGuard]
             },

@@ -1,12 +1,12 @@
-import {schema} from '@cdk/normalizr-src';
-import {vinculacaoEtiqueta} from './vinculacao-etiqueta.schema';
-import {folder} from './folder.schema';
-import {setor} from './setor.schema';
-import {usuario} from './usuario.schema';
-import {processo} from './processo.schema';
-import {especieTarefa} from './especie-tarefa.schema';
+import {vinculacaoEtiqueta} from './index.schema';
+import {folder} from './index.schema';
+import {setor} from './index.schema';
+import {usuario} from './index.schema';
+import {processo} from './index.schema';
+import {especieTarefa} from './index.schema';
+import {tarefa as tarefaSchema} from './index.schema';
 
-export const tarefa = new schema.Entity('tarefa', {
+tarefaSchema.define({
     processo: processo,
     especieTarefa: especieTarefa,
     usuarioResponsavel: usuario,
@@ -19,3 +19,5 @@ export const tarefa = new schema.Entity('tarefa', {
     folder: folder,
     vinculacoesEtiquetas: [vinculacaoEtiqueta]
 });
+
+export const tarefa = tarefaSchema;

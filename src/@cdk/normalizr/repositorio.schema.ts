@@ -1,12 +1,14 @@
-import {schema} from '@cdk/normalizr-src';
-import {usuario} from './usuario.schema';
-import {documento} from './documento.schema';
-import {modalidadeRepositorio} from './modalidade-repositorio.schema';
+import {usuario} from './index.schema';
+import {documento} from './index.schema';
+import {modalidadeRepositorio} from './index.schema';
+import {repositorio as repositorioSchema} from './index.schema';
 
-export const repositorio = new schema.Entity('repositorio', {
+repositorioSchema.define({
     modalidadeRepositorio: modalidadeRepositorio,
     documento: documento,
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario
 });
+
+export const repositorio = repositorioSchema;

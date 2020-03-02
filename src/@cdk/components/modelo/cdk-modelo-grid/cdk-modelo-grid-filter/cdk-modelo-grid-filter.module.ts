@@ -7,7 +7,7 @@ import {
     MatFormFieldModule,
     MatIconModule,
     MatInputModule
-} from '@angular/material';
+} from '@cdk/angular/material';
 import {FuseSharedModule} from '@fuse/shared.module';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';

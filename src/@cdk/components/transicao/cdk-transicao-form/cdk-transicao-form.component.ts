@@ -9,10 +9,10 @@ import {
 
 import {fuseAnimations} from '@fuse/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Transicao} from '@cdk/models/transicao.model';
-import {Pagination} from '@cdk/models/pagination';
-import {Processo} from '@cdk/models/processo.model';
-import {ModalidadeTransicao} from '@cdk/models/modalidade-transicao.model';
+import {Transicao} from '@cdk/models';
+import {Pagination} from '@cdk/models';
+import {Processo} from '@cdk/models';
+import {ModalidadeTransicao} from '@cdk/models';
 
 @Component({
     selector: 'cdk-transicao-form',

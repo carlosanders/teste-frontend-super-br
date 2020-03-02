@@ -8,15 +8,15 @@ import {
     MatProgressSpinnerModule,
     MatAutocompleteModule,
     MatDatepickerModule,
-    MatTooltipModule
-} from '@angular/material';
+    MatTooltipModule,
+    MatRadioModule
+} from '@cdk/angular/material';
 
 import {FuseSharedModule} from '@fuse/shared.module';
 import {CdkProcessoFormComponent} from './cdk-processo-form.component';
 import {CdkEspecieProcessoAutocompleteModule} from '@cdk/components/especie-processo/cdk-especie-processo-autocomplete/cdk-especie-processo-autocomplete.module';
 import {CdkEspecieProcessoGridsearchModule} from '@cdk/components/especie-processo/cdk-especie-processo-autocomplete/cdk-especie-processo-gridsearch/cdk-especie-processo-gridsearch.module';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
-import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 import {CdkModalidadeFaseAutocompleteModule} from '@cdk/components/modalidade-fase/cdk-modalidade-fase-autocomplete/cdk-modalidade-fase-autocomplete.module';
 import {CdkModalidadeFaseGridsearchModule} from '@cdk/components/modalidade-fase/cdk-modalidade-fase-autocomplete/cdk-modalidade-fase-gridsearch/cdk-modalidade-fase-gridsearch.module';
 import {CdkModalidadeMeioAutocompleteModule} from '@cdk/components/modalidade-meio/cdk-modalidade-meio-autocomplete/cdk-modalidade-meio-autocomplete.module';
@@ -28,13 +28,14 @@ import {CdkSetorGridsearchModule} from '@cdk/components/setor/cdk-setor-autocomp
 import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
 import {CdkPessoaAutocompleteModule} from '../../pessoa/cdk-pessoa-autocomplete/cdk-pessoa-autocomplete.module';
 import {CdkLogentryGridsearchModule} from '../../logentry/cdk-logentry-grid/cdk-logentry-gridsearch/cdk-logentry-gridsearch.module';
+import {CdkProcessoAutocompleteModule} from '../cdk-processo-autocomplete/cdk-processo-autocomplete.module';
+import {CdkProcessoGridsearchModule} from '../cdk-processo-autocomplete/cdk-processo-gridsearch/cdk-processo-gridsearch.module';
 
 @NgModule({
     declarations: [
         CdkProcessoFormComponent,
     ],
     imports: [
-
         MatAutocompleteModule,
         MatButtonModule,
         MatFormFieldModule,
@@ -45,11 +46,9 @@ import {CdkLogentryGridsearchModule} from '../../logentry/cdk-logentry-grid/cdk-
         MatDatepickerModule,
         MatDatetimepickerModule,
         MatNativeDatetimeModule,
-        MatMomentDatetimeModule,
         MatTooltipModule,
-
+        MatRadioModule,
         NgxUpperCaseDirectiveModule,
-
         CdkEspecieProcessoAutocompleteModule,
         CdkEspecieProcessoGridsearchModule,
         CdkModalidadeFaseAutocompleteModule,
@@ -64,6 +63,8 @@ import {CdkLogentryGridsearchModule} from '../../logentry/cdk-logentry-grid/cdk-
 
         FuseSharedModule,
         CdkLogentryGridsearchModule,
+        CdkProcessoAutocompleteModule,
+        CdkProcessoGridsearchModule,
     ],
     providers: [],
     exports: [

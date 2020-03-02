@@ -9,14 +9,14 @@ import {
 
 import {fuseAnimations} from '@fuse/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Juntada} from '@cdk/models/juntada.model';
-import {Pagination} from '@cdk/models/pagination';
-import {Documento} from '@cdk/models/documento.model';
-import {OrigemDados} from '@cdk/models/origem-dados.model';
-import {DocumentoAvulso} from '@cdk/models/documento-avulso.model';
-import {Atividade} from '@cdk/models/atividade.model';
-import {Tarefa} from '@cdk/models/tarefa.model';
-import {Volume} from '@cdk/models/volume.model';
+import {Juntada} from '@cdk/models';
+import {Pagination} from '@cdk/models';
+import {Documento} from '@cdk/models';
+import {OrigemDados} from '@cdk/models';
+import {DocumentoAvulso} from '@cdk/models';
+import {Atividade} from '@cdk/models';
+import {Tarefa} from '@cdk/models';
+import {Volume} from '@cdk/models';
 
 @Component({
     selector: 'cdk-juntada-form',

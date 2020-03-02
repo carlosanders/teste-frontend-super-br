@@ -1,10 +1,10 @@
-import {schema} from '@cdk/normalizr-src';
-import {usuario} from './usuario.schema';
-import {documento} from './documento.schema';
-import {modalidadeMeio} from './modalidade-meio.schema';
-import {template} from './template.schema';
+import {usuario} from './index.schema';
+import {documento} from './index.schema';
+import {modalidadeMeio} from './index.schema';
+import {template} from './index.schema';
+import {modelo as modeloSchema} from './index.schema';
 
-export const modelo = new schema.Entity('modelo', {
+modeloSchema.define({
     modalidadeModelo: modalidadeMeio,
     template: template,
     documento: documento,
@@ -12,3 +12,5 @@ export const modelo = new schema.Entity('modelo', {
     atualizadoPor: usuario,
     apagadoPor: usuario
 });
+
+export const modelo = modeloSchema;

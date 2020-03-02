@@ -1,7 +1,7 @@
 import {createSelector} from '@ngrx/store';
 import {getAssuntoEditAppState, AssuntoEditAppState, AssuntoEditState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
-import {Assunto} from '@cdk/models/assunto.model';
+import {Assunto} from '@cdk/models';
 import {assunto as assuntoSchema} from '@cdk/normalizr/assunto.schema';
 
 const schemaAssuntoSelectors = createSchemaSelectors<Assunto>(assuntoSchema);

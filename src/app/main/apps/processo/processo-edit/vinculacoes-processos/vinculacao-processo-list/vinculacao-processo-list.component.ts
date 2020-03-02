@@ -8,7 +8,7 @@ import {
 import {Observable} from 'rxjs';
 
 import {fuseAnimations} from '@fuse/animations';
-import {VinculacaoProcesso} from '@cdk/models/vinculacao-processo.model';
+import {VinculacaoProcesso} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';

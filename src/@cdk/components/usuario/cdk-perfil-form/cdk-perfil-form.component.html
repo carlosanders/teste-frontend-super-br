@@ -11,10 +11,8 @@
                    name="username"
                    formControlName="username"
                    readonly
-                   required
                    maxlength="255" upperCase>
             <mat-hint align="end">{{username.value.length}} / 255</mat-hint>
-            <mat-error>Campo obrigatório!</mat-error>
         </mat-form-field>
 
         <mat-form-field fxFlex="100">
@@ -23,10 +21,8 @@
                    name="nome"
                    formControlName="nome"
                    readonly
-                   required
                    maxlength="255" upperCase>
             <mat-hint align="end">{{nome.value.length}} / 255</mat-hint>
-            <mat-error>Campo obrigatório!</mat-error>
         </mat-form-field>
 
         <mat-form-field fxFlex="100">
@@ -35,34 +31,28 @@
                    name="email"
                    formControlName="email"
                    readonly
-                   required
                    maxlength="255" upperCase>
             <mat-hint align="end">{{email.value.length}} / 255</mat-hint>
-            <mat-error>Campo obrigatório!</mat-error>
         </mat-form-field>
 
-        <mat-form-field fxFlex="100">
+        <mat-form-field fxFlex="100" *ngIf="usuario.colaborador">
             <mat-label>Modalidade</mat-label>
             <input matInput #modalidadeColaborador
                    name="modalidadeColaborador"
                    formControlName="modalidadeColaborador"
                    readonly
-                   required
                    maxlength="255" upperCase>
             <mat-hint align="end">{{modalidadeColaborador.value.length}} / 255</mat-hint>
-            <mat-error>Campo obrigatório!</mat-error>
         </mat-form-field>
 
-        <mat-form-field fxFlex="100">
+        <mat-form-field fxFlex="100" *ngIf="usuario.colaborador">
             <mat-label>Cargo</mat-label>
             <input matInput #cargo
                    name="cargo"
                    formControlName="cargo"
                    readonly
-                   required
                    maxlength="255" upperCase>
             <mat-hint align="end">{{cargo.value.length}} / 255</mat-hint>
-            <mat-error>Campo obrigatório!</mat-error>
         </mat-form-field>
 
         <mat-form-field class="mr-16" fxFlex="1 0 auto">

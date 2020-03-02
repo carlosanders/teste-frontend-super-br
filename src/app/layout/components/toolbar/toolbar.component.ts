@@ -10,12 +10,13 @@ import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 import {navigation} from 'app/navigation/navigation';
 import {Router} from '@angular/router';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Colaborador} from '@cdk/models/colaborador.model';
+import {Colaborador} from '@cdk/models';
 import {NotificacaoService} from '@cdk/services/notificacao.service';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from 'app/store';
 import {getMercureState} from 'app/store';
 import {Logout} from '../../../main/auth/login/store/actions';
+import {Usuario} from "../../../../@cdk/models/usuario.model";
 
 @Component({
     selector: 'toolbar',
@@ -32,7 +33,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     navigation: any;
     selectedLanguage: any;
     userStatusOptions: any[];
-    userProfile: Colaborador;
+    userProfile: Usuario;
 
     notificacoesCount: number;
 
@@ -130,7 +131,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
         if (this.userProfile) {
             this._notificacaoService.count(
-                `{"destinatario.id": "eq:${this.userProfile.usuario.id}", "dataHoraLeitura": "isNull"}`)
+                `{"destinatario.id": "eq:${this.userProfile.id}", "dataHoraLeitura": "isNull"}`)
                 .pipe(
                     catchError(() => of([]))
                 ).subscribe(

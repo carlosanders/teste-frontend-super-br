@@ -41,7 +41,7 @@
 
             <div fxLayout="row wrap" fxLayoutAlign="start start" class="colors" fusePerfectScrollbar>
                 <div class="color" fxLayout="row" fxLayoutAlign="center center"
-                     *ngFor="let color of (colors | keys)"
+                     *ngFor="let color of colorsArray"
                      [ngClass]="color.key"
                      [class.selected]="selectedPalette === color.key"
                      (click)="selectPalette($event, color.key)">

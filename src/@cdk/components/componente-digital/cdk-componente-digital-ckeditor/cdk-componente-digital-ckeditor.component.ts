@@ -10,16 +10,16 @@ import {
     MatSnackBar,
     MatSnackBarHorizontalPosition,
     MatSnackBarVerticalPosition
-} from '@angular/material';
+} from '@cdk/angular/material';
 
 import {fuseAnimations} from '@fuse/animations';
-import {ComponenteDigital} from '@cdk/models/componente-digital.model';
-import {MatDialog} from '@angular/material';
+import {ComponenteDigital} from '@cdk/models';
+import {MatDialog} from '@cdk/angular/material';
 import {CdkCampoPluginComponent} from './cdk-plugins/cdk-campo-plugin/cdk-campo-plugin.component';
 import {filter} from 'rxjs/operators';
 import {CdkRepositorioPluginComponent} from './cdk-plugins/cdk-respositorio-plugin/cdk-repositorio-plugin.component';
 import {CdkVersaoPluginComponent} from './cdk-plugins/cdk-versao-plugin/cdk-versao-plugin.component';
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-componente-digital-ckeditor',

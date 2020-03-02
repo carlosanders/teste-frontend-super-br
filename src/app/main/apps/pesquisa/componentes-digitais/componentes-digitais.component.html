@@ -2,8 +2,9 @@
         [loading]="(loading$ | async)"
         [componentesDigitais]="(componentesDigitais$ | async)"
         [total]="(pagination$ | async)?.total"
-        [mode]="'search'"
-        [actions]="['edit']"
+        [mode]="this._loginService.isGranted('ROLE_COLABORADOR') ? 'list' : 'search'"
+        [actions]="['edit', 'view']"
         (reload)="reload($event)"
-        (edit)="edit($event)">
+        (edit)="edit($event)"
+        (view)="view($event)">
 </cdk-componente-digital-grid>

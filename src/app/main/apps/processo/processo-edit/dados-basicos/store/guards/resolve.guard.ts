@@ -46,7 +46,7 @@ export class ResolveGuard implements CanActivate {
             catchError(() => of(false))
         );
     }
-
+ 
     /**
      * Get Processo
      *
@@ -54,6 +54,11 @@ export class ResolveGuard implements CanActivate {
      */
     getProcesso(): any {
         return this._store.pipe(
+/*            tap((n) => {
+                console.log('entrou GET Guards Dados Basicos: '); 
+                console.log(n);
+            }),
+*/            
             select(getProcessoLoaded),
             tap((loaded: any) => {
                 if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {

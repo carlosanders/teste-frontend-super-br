@@ -1,11 +1,10 @@
-import {schema} from '@cdk/normalizr-src';
-import {assuntoAdministrativo} from './assunto-administrativo.schema';
-import {processo} from './processo.schema';
-import {origemDados} from './origem-dados.schema';
-import {usuario} from './usuario.schema';
+import {assunto as assuntoSchema} from './index.schema';
+import {assuntoAdministrativo} from './index.schema';
+import {origemDados} from './index.schema';
+import {usuario} from './index.schema';
+import {processo} from './index.schema';
 
-
-export const assunto = new schema.Entity('assunto', {
+assuntoSchema.define({
     assuntoAdministrativo: assuntoAdministrativo,
     processo: processo,
     origemDados: origemDados,
@@ -14,3 +13,4 @@ export const assunto = new schema.Entity('assunto', {
     apagadoPor: usuario
 });
 
+export const assunto = assuntoSchema;

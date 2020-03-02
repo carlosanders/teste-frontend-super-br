@@ -7,13 +7,13 @@ import {
 } from '@angular/core';
 
 import {fuseAnimations} from '@fuse/animations';
-import {ModalidadeAfastamento} from '@cdk/models/modalidade-afastamento.model';
+import {ModalidadeAfastamento} from '@cdk/models';
 import {ModalidadeAfastamentoService} from '@cdk/services/modalidade-afastamento.service';
 import {FormControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
-import {MatAutocomplete} from '@angular/material';
-import {Pagination} from '@cdk/models/pagination';
+import {MatAutocomplete} from '@cdk/angular/material';
+import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-modalidade-afastamento-autocomplete',

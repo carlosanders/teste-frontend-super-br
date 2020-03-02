@@ -11,14 +11,15 @@ import {Observable, Subject} from 'rxjs';
 
 import {FuseTranslationLoaderService} from '@fuse/services/translation-loader.service';
 
-import {Documento} from '@cdk/models/documento.model';
+import {Documento} from '@cdk/models';
 import * as fromStore from 'app/main/apps/documento/store';
 
 import {fuseAnimations} from '@fuse/animations';
-import {ComponenteDigital} from '@cdk/models/componente-digital.model';
+import {ComponenteDigital} from '@cdk/models';
 import {Router} from '@angular/router';
 import {getRouterState} from 'app/store/reducers';
 import {takeUntil} from 'rxjs/operators';
+import {Back} from "../../../store/actions";
 
 @Component({
     selector: 'documento',
@@ -40,6 +41,8 @@ export class DocumentoComponent implements OnInit, OnDestroy {
     currentComponenteDigital: ComponenteDigital;
 
     routerState: any;
+
+    modoProcesso = 1;
 
     /**
      *
@@ -169,12 +172,18 @@ export class DocumentoComponent implements OnInit, OnDestroy {
             + '/visualizar', '_blank');
     }
 
-    visualizarProcesso(): void {
+    visualizarProcesso(indice): void {
 
-        this._router.navigate([
-                this.routerState.url.split(this.routerState.params.documentoHandle + '/editar')[0] +
-                this.routerState.params.documentoHandle + '/editar/visualizar-processo/' + this.documento.processoOrigem.id + '/visualizar'
-            ]
-        ).then();
+        if (indice === 1) {
+            this.modoProcesso = 2;
+            this._router.navigate([
+                    this.routerState.url.split(this.routerState.params.documentoHandle + '/editar')[0] +
+                    this.routerState.params.documentoHandle + '/editar/visualizar-processo/' + this.documento.processoOrigem.id + '/visualizar'
+                ]
+            ).then();
+        } else {
+            this.modoProcesso = 1;
+            this._store.dispatch(new Back());
+        }
     }
 }

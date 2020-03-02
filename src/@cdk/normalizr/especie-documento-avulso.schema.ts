@@ -1,11 +1,12 @@
-import {schema} from '@cdk/normalizr-src';
-import {usuario} from './usuario.schema';
-import {generoDocumentoAvulso} from './genero-documento-avulso.schema';
+import {usuario} from './index.schema';
+import {generoDocumentoAvulso} from './index.schema';
+import {especieDocumentoAvulso as especieDocumentoAvulsoSchema} from './index.schema';
 
-
-export const especieDocumentoAvulso = new schema.Entity('especieDocumentoAvulso', {
+especieDocumentoAvulsoSchema.define({
     generoDocumentoAvulso: generoDocumentoAvulso,
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario
 });
+
+export const especieDocumentoAvulso = especieDocumentoAvulsoSchema;

@@ -1,0 +1,7 @@
+<cdk-garantia-form
+        [garantia]="garantia"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        [modalidadeGarantiaPagination]="modalidadeGarantiaPagination"
+        (save)="submit($event)">
+</cdk-garantia-form>

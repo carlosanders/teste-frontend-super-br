@@ -38,28 +38,31 @@ export class ModelService {
         return this.http.get(`${environment.api_url}${path}/count` + environment.xdebug, { params });
     }
 
-    put(path: string, id: number, body: Object = {}): Observable<any> {
+    put(path: string, id: number, body: Object = {}, params: HttpParams = new HttpParams()): Observable<any> {
         return this.http.put(
             `${environment.api_url}${path}/${id}` + environment.xdebug,
-            JSON.stringify(body)
+            JSON.stringify(body),
+            { params }
         );
     }
 
-    patch(path: string, id: number, body: Object = {}): Observable<any> {
+    patch(path: string, id: number, body: Object = {}, params: HttpParams = new HttpParams()): Observable<any> {
         return this.http.patch(
             `${environment.api_url}${path}/${id}` + environment.xdebug,
-            JSON.stringify(body)
+            JSON.stringify(body),
+            { params }
         );
     }
 
-    post(path: string, body: Object = {}): Observable<any> {
+    post(path: string, body: Object = {}, params: HttpParams = new HttpParams()): Observable<any> {
         return this.http.post(
             `${environment.api_url}${path}` + environment.xdebug,
-            JSON.stringify(body)
+            JSON.stringify(body),
+            { params }
         );
     }
 
-    delete(path: string, id: number): Observable<any> {
-        return this.http.delete(`${environment.api_url}${path}/${id}` + environment.xdebug);
+    delete(path: string, id: number, params: HttpParams = new HttpParams()): Observable<any> {
+        return this.http.delete(`${environment.api_url}${path}/${id}` + environment.xdebug, { params });
     }
 }

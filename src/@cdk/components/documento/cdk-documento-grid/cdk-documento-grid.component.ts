@@ -8,12 +8,12 @@ import {
 import {merge, of} from 'rxjs';
 
 import {fuseAnimations} from '@fuse/animations';
-import {MatPaginator, MatSort} from '@angular/material';
+import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 import {DocumentoDataSource} from '@cdk/data-sources/documento-data-source';
-import {Documento} from '@cdk/models/documento.model';
+import {Documento} from '@cdk/models';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
-import {ComponenteDigital} from '@cdk/models/componente-digital.model';
+import {ComponenteDigital} from '@cdk/models';
 import {FormControl} from '@angular/forms';
 import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 

@@ -9,9 +9,9 @@ import {
 
 import {fuseAnimations} from '@fuse/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {VinculacaoUsuario} from '@cdk/models/vinculacao-usuario.model';
-import {Pagination} from '@cdk/models/pagination';
-import {Usuario} from '@cdk/models/usuario.model';
+import {VinculacaoUsuario} from '@cdk/models';
+import {Pagination} from '@cdk/models';
+import {Usuario} from '@cdk/models';
 
 @Component({
     selector: 'cdk-vinculacao-usuario-form',
