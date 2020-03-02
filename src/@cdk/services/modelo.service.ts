@@ -16,7 +16,7 @@ export class ModeloService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<Modelo> {
+    get(id: number, context: any = '{}'): Observable<Modelo> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('modelo', id, new HttpParams({fromObject: params}))
@@ -25,7 +25,7 @@ export class ModeloService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -40,7 +40,7 @@ export class ModeloService {
             );
     }
 
-    search(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    search(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -55,7 +55,7 @@ export class ModeloService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -63,7 +63,7 @@ export class ModeloService {
         return this.modelService.count('modelo', new HttpParams({fromObject: params}));
     }
 
-    save(modelo: Modelo, context: any = {}): Observable<Modelo> {
+    save(modelo: Modelo, context: any = '{}'): Observable<Modelo> {
         const params = {};
         params['context'] = context;
         if (modelo.id) {
@@ -87,7 +87,7 @@ export class ModeloService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<Modelo> {
+    destroy(id: number, context: any = '{}'): Observable<Modelo> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('modelo', id, new HttpParams({fromObject: params}));

@@ -15,7 +15,7 @@ export class ModalidadeGarantiaService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<ModalidadeGarantia> {
+    get(id: number, context: any = '{}'): Observable<ModalidadeGarantia> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('modalidade_garantia', id, new HttpParams({fromObject: params}))
@@ -24,7 +24,7 @@ export class ModalidadeGarantiaService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -39,7 +39,7 @@ export class ModalidadeGarantiaService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -47,7 +47,7 @@ export class ModalidadeGarantiaService {
         return this.modelService.count('modalidade_garantia', new HttpParams({fromObject: params}));
     }
 
-    save(modalidadeGarantia: ModalidadeGarantia, context: any = {}): Observable<ModalidadeGarantia> {
+    save(modalidadeGarantia: ModalidadeGarantia, context: any = '{}'): Observable<ModalidadeGarantia> {
         const params = {};
         params['context'] = context;
         if (modalidadeGarantia.id) {
@@ -71,7 +71,7 @@ export class ModalidadeGarantiaService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<ModalidadeGarantia> {
+    destroy(id: number, context: any = '{}'): Observable<ModalidadeGarantia> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('modalidade_garantia', id, new HttpParams({fromObject: params}));

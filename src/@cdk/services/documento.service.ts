@@ -19,7 +19,7 @@ export class DocumentoService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<Documento> {
+    get(id: number, context: any = '{}'): Observable<Documento> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('documento', id, new HttpParams({fromObject: params}))
@@ -28,7 +28,7 @@ export class DocumentoService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -43,14 +43,14 @@ export class DocumentoService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
         return this.modelService.count('documento', new HttpParams({fromObject: params}));
     }
 
-    save(documento: Documento, context: any = {}): Observable<Documento> {
+    save(documento: Documento, context: any = '{}'): Observable<Documento> {
         const params = {};
         params['context'] = context;
         if (documento.id) {
@@ -74,7 +74,7 @@ export class DocumentoService {
         }
     }
 
-    preparaAssinatura(documentosId: any = '[]', context: any = {}): any {
+    preparaAssinatura(documentosId: any = '[]', context: any = '{}'): any {
         const p = {};
         p['documentosId'] = documentosId;
         const params = new HttpParams({fromObject: p});
@@ -82,13 +82,13 @@ export class DocumentoService {
         return this.http.get(`${environment.api_url}${'documento'}` + '/prepara_assinatura' + environment.xdebug, {params});
     }
 
-    destroy(id: number, context: any = {}): Observable<Documento> {
+    destroy(id: number, context: any = '{}'): Observable<Documento> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('documento', id, new HttpParams({fromObject: params}));
     }
 
-    getVisibilidade(id: number, context: any = {}): Observable<any> {
+    getVisibilidade(id: number, context: any = '{}'): Observable<any> {
         const params: HttpParams = new HttpParams()
         params['context'] = context;
         return this.http.get(`${environment.api_url}${'documento'}/${id}/visibilidade` + environment.xdebug, {params})
@@ -97,7 +97,7 @@ export class DocumentoService {
             );
     }
 
-    createVisibilidade(documentosId: number, visibilidade: Visibilidade, context: any = {}): Observable<Visibilidade> {
+    createVisibilidade(documentosId: number, visibilidade: Visibilidade, context: any = '{}'): Observable<Visibilidade> {
         const params: HttpParams = new HttpParams()
         params['context'] = context;
         return this.http.put(
@@ -109,7 +109,7 @@ export class DocumentoService {
         );
     }
 
-    destroyVisibilidade(documentosId: number, visibilidadeId: number, context: any = {}): Observable<any> {
+    destroyVisibilidade(documentosId: number, visibilidadeId: number, context: any = '{}'): Observable<any> {
         const params: HttpParams = new HttpParams()
         params['context'] = context;
         return this.http.delete(
@@ -120,7 +120,7 @@ export class DocumentoService {
 
 
     /**SERVICE DE COMPONENTE DIGITAL NO LUGAR ERRADO. VER SE CONSEGUE MUDAR. */
-    preparaConverter(documentoId: number, changes: any, context: any = {}): Observable<any> {
+    preparaConverter(documentoId: number, changes: any, context: any = '{}'): Observable<any> {
         const params: HttpParams = new HttpParams()
         params['context'] = context;
         return this.http.patch(

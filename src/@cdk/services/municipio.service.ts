@@ -15,7 +15,7 @@ export class MunicipioService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<Municipio> {
+    get(id: number, context: any = '{}'): Observable<Municipio> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('municipio', id, new HttpParams({fromObject: params}))
@@ -24,7 +24,7 @@ export class MunicipioService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -39,7 +39,7 @@ export class MunicipioService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -47,7 +47,7 @@ export class MunicipioService {
         return this.modelService.count('municipio', new HttpParams({fromObject: params}));
     }
 
-    save(municipio: Municipio, context: any = {}): Observable<Municipio> {
+    save(municipio: Municipio, context: any = '{}'): Observable<Municipio> {
         const params = {};
         params['context'] = context;
         if (municipio.id) {
@@ -71,7 +71,7 @@ export class MunicipioService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<Municipio> {
+    destroy(id: number, context: any = '{}'): Observable<Municipio> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('municipio', id, new HttpParams({fromObject: params}));

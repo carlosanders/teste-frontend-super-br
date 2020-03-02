@@ -16,7 +16,7 @@ export class RepositorioService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<Repositorio> {
+    get(id: number, context: any = '{}'): Observable<Repositorio> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('repositorio', id, new HttpParams({fromObject: params}))
@@ -25,7 +25,7 @@ export class RepositorioService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -40,7 +40,7 @@ export class RepositorioService {
             );
     }
 
-    search(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    search(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -55,7 +55,7 @@ export class RepositorioService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -63,7 +63,7 @@ export class RepositorioService {
         return this.modelService.count('repositorio', new HttpParams({fromObject: params}));
     }
 
-    save(repositorio: Repositorio, context: any = {}): Observable<Repositorio> {
+    save(repositorio: Repositorio, context: any = '{}'): Observable<Repositorio> {
         const params = {};
         params['context'] = context;
         if (repositorio.id) {
@@ -88,7 +88,7 @@ export class RepositorioService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<Repositorio> {
+    destroy(id: number, context: any = '{}'): Observable<Repositorio> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('repositorio', id, new HttpParams({fromObject: params}));

@@ -15,7 +15,7 @@ export class InteressadoService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<Interessado> {
+    get(id: number, context: any = '{}'): Observable<Interessado> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('interessado', id, new HttpParams({fromObject: params}))
@@ -24,7 +24,7 @@ export class InteressadoService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -39,7 +39,7 @@ export class InteressadoService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -47,7 +47,7 @@ export class InteressadoService {
         return this.modelService.count('interessado', new HttpParams({fromObject: params}));
     }
 
-    save(interessado: Interessado, context: any = {}): Observable<Interessado> {
+    save(interessado: Interessado, context: any = '{}'): Observable<Interessado> {
         const params = {};
         params['context'] = context;
         if (interessado.id) {
@@ -71,7 +71,7 @@ export class InteressadoService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<Interessado> {
+    destroy(id: number, context: any = '{}'): Observable<Interessado> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('interessado', id, new HttpParams({fromObject: params}));

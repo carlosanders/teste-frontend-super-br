@@ -17,7 +17,7 @@ export class VinculacaoEtiquetaService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<VinculacaoEtiqueta> {
+    get(id: number, context: any = '{}'): Observable<VinculacaoEtiqueta> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('vinculacao_etiqueta', id, new HttpParams({fromObject: params}))
@@ -26,7 +26,7 @@ export class VinculacaoEtiquetaService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -41,7 +41,7 @@ export class VinculacaoEtiquetaService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -49,7 +49,7 @@ export class VinculacaoEtiquetaService {
         return this.modelService.count('vinculacao_etiqueta', new HttpParams({fromObject: params}));
     }
 
-    save(vinculacaoEtiqueta: VinculacaoEtiqueta, context: any = {}): Observable<VinculacaoEtiqueta> {
+    save(vinculacaoEtiqueta: VinculacaoEtiqueta, context: any = '{}'): Observable<VinculacaoEtiqueta> {
         const params = {};
         params['context'] = context;
         if (vinculacaoEtiqueta.id) {
@@ -73,13 +73,13 @@ export class VinculacaoEtiquetaService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<VinculacaoEtiqueta> {
+    destroy(id: number, context: any = '{}'): Observable<VinculacaoEtiqueta> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('vinculacao_etiqueta', id, new HttpParams({fromObject: params}));
     }
 
-    patch(vinculacaoEtiqueta: VinculacaoEtiqueta, changes: any, context: any = {}): Observable<VinculacaoEtiqueta> {
+    patch(vinculacaoEtiqueta: VinculacaoEtiqueta, changes: any, context: any = '{}'): Observable<VinculacaoEtiqueta> {
         const params = {};
         params['context'] = context;
         return this.modelService.patch('vinculacao_etiqueta', vinculacaoEtiqueta.id, changes, new HttpParams({fromObject: params}))

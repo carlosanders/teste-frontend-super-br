@@ -15,7 +15,7 @@ export class EtiquetaService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<Etiqueta> {
+    get(id: number, context: any = '{}'): Observable<Etiqueta> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('etiqueta', id, new HttpParams({fromObject: params}))
@@ -24,7 +24,7 @@ export class EtiquetaService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -39,7 +39,7 @@ export class EtiquetaService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -47,7 +47,7 @@ export class EtiquetaService {
         return this.modelService.count('etiqueta', new HttpParams({fromObject: params}));
     }
 
-    save(etiqueta: Etiqueta, context: any = {}): Observable<Etiqueta> {
+    save(etiqueta: Etiqueta, context: any = '{}'): Observable<Etiqueta> {
         const params = {};
         params['context'] = context;
         if (etiqueta.id) {
@@ -71,7 +71,7 @@ export class EtiquetaService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<Etiqueta> {
+    destroy(id: number, context: any = '{}'): Observable<Etiqueta> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('etiqueta', id, new HttpParams({fromObject: params}));

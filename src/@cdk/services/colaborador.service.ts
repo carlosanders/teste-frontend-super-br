@@ -15,7 +15,7 @@ export class ColaboradorService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<Colaborador> {
+    get(id: number, context: any = '{}'): Observable<Colaborador> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('colaborador', id, new HttpParams({fromObject: params}))
@@ -24,7 +24,7 @@ export class ColaboradorService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -39,7 +39,7 @@ export class ColaboradorService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -47,7 +47,7 @@ export class ColaboradorService {
         return this.modelService.count('colaborador', new HttpParams({fromObject: params}));
     }
 
-    save(colaborador: Colaborador, context: any = {}): Observable<Colaborador> {
+    save(colaborador: Colaborador, context: any = '{}'): Observable<Colaborador> {
         const params = {};
         params['context'] = context;
         if (colaborador.id) {
@@ -71,7 +71,7 @@ export class ColaboradorService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<Colaborador> {
+    destroy(id: number, context: any = '{}'): Observable<Colaborador> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('colaborador', id, new HttpParams({fromObject: params}));

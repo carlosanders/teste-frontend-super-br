@@ -15,7 +15,7 @@ export class ModalidadeVinculacaoDocumentoService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<ModalidadeVinculacaoDocumento> {
+    get(id: number, context: any = '{}'): Observable<ModalidadeVinculacaoDocumento> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('modalidade_vinculacao_documento', id, new HttpParams({fromObject: params}))
@@ -24,7 +24,7 @@ export class ModalidadeVinculacaoDocumentoService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -39,7 +39,7 @@ export class ModalidadeVinculacaoDocumentoService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -47,7 +47,7 @@ export class ModalidadeVinculacaoDocumentoService {
         return this.modelService.count('modalidade_vinculacao_documento', new HttpParams({fromObject: params}));
     }
 
-    save(modalidadeVinculacaoDocumento: ModalidadeVinculacaoDocumento, context: any = {}): Observable<ModalidadeVinculacaoDocumento> {
+    save(modalidadeVinculacaoDocumento: ModalidadeVinculacaoDocumento, context: any = '{}'): Observable<ModalidadeVinculacaoDocumento> {
         const params = {};
         params['context'] = context;
         if (modalidadeVinculacaoDocumento.id) {
@@ -71,7 +71,7 @@ export class ModalidadeVinculacaoDocumentoService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<ModalidadeVinculacaoDocumento> {
+    destroy(id: number, context: any = '{}'): Observable<ModalidadeVinculacaoDocumento> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('modalidade_vinculacao_documento', id, new HttpParams({fromObject: params}));

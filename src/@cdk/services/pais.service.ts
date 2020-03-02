@@ -15,7 +15,7 @@ export class PaisService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<Pais> {
+    get(id: number, context: any = '{}'): Observable<Pais> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('pais', id, new HttpParams({fromObject: params}))
@@ -24,7 +24,7 @@ export class PaisService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -39,7 +39,7 @@ export class PaisService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -47,7 +47,7 @@ export class PaisService {
         return this.modelService.count('pais', new HttpParams({fromObject: params}));
     }
 
-    save(pais: Pais, context: any = {}): Observable<Pais> {
+    save(pais: Pais, context: any = '{}'): Observable<Pais> {
         const params = {};
         params['context'] = context;
         if (pais.id) {
@@ -71,7 +71,7 @@ export class PaisService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<Pais> {
+    destroy(id: number, context: any = '{}'): Observable<Pais> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('pais', id, new HttpParams({fromObject: params}));

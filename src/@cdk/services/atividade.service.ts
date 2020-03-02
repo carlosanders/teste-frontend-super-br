@@ -15,7 +15,7 @@ export class AtividadeService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<Atividade> {
+    get(id: number, context: any = '{}'): Observable<Atividade> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('atividade', id, new HttpParams({fromObject: params}))
@@ -24,7 +24,7 @@ export class AtividadeService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -39,7 +39,7 @@ export class AtividadeService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -47,7 +47,7 @@ export class AtividadeService {
         return this.modelService.count('atividade', new HttpParams({fromObject: params}));
     }
 
-    save(atividade: Atividade, context: any = {}): Observable<Atividade> {
+    save(atividade: Atividade, context: any = '{}'): Observable<Atividade> {
         const params = {};
         params['context'] = context;
         if (atividade.id) {
@@ -71,7 +71,7 @@ export class AtividadeService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<Atividade> {
+    destroy(id: number, context: any = '{}'): Observable<Atividade> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('atividade', id, new HttpParams({fromObject: params}));

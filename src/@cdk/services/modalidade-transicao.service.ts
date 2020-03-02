@@ -15,7 +15,7 @@ export class ModalidadeTransicaoService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<ModalidadeTransicao> {
+    get(id: number, context: any = '{}'): Observable<ModalidadeTransicao> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('modalidade_transicao', id, new HttpParams({fromObject: params}))
@@ -24,7 +24,7 @@ export class ModalidadeTransicaoService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -39,7 +39,7 @@ export class ModalidadeTransicaoService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -47,7 +47,7 @@ export class ModalidadeTransicaoService {
         return this.modelService.count('modalidade_transicao', new HttpParams({fromObject: params}));
     }
 
-    save(modalidadeTransicao: ModalidadeTransicao, context: any = {}): Observable<ModalidadeTransicao> {
+    save(modalidadeTransicao: ModalidadeTransicao, context: any = '{}'): Observable<ModalidadeTransicao> {
         const params = {};
         params['context'] = context;
         if (modalidadeTransicao.id) {
@@ -71,7 +71,7 @@ export class ModalidadeTransicaoService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<ModalidadeTransicao> {
+    destroy(id: number, context: any = '{}'): Observable<ModalidadeTransicao> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('modalidade_transicao', id, new HttpParams({fromObject: params}));

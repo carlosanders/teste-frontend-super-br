@@ -17,7 +17,7 @@ export class UsuarioService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<Usuario> {
+    get(id: number, context: any = '{}'): Observable<Usuario> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('usuario', id, new HttpParams({fromObject: params}))
@@ -26,7 +26,7 @@ export class UsuarioService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -41,7 +41,7 @@ export class UsuarioService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -49,7 +49,7 @@ export class UsuarioService {
         return this.modelService.count('usuario', new HttpParams({fromObject: params}));
     }
 
-    save(usuario: Usuario, context: any = {}): Observable<Usuario> {
+    save(usuario: Usuario, context: any = '{}'): Observable<Usuario> {
         const params = {};
         params['context'] = context;
         if (usuario.id) {
@@ -73,13 +73,13 @@ export class UsuarioService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<Usuario> {
+    destroy(id: number, context: any = '{}'): Observable<Usuario> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('usuario', id, new HttpParams({fromObject: params}));
     }
 
-    patch(usuario: Usuario, changes: any, context: any = {}): Observable<Usuario> {
+    patch(usuario: Usuario, changes: any, context: any = '{}'): Observable<Usuario> {
         const params: HttpParams = new HttpParams()
         params['context'] = context;
         return this.http.patch(

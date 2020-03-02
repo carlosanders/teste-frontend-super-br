@@ -15,7 +15,7 @@ export class ModalidadeDocumentoIdentificadorService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<ModalidadeDocumentoIdentificador> {
+    get(id: number, context: any = '{}'): Observable<ModalidadeDocumentoIdentificador> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('modalidade_documento_identificador', id, new HttpParams({fromObject: params}))
@@ -24,7 +24,7 @@ export class ModalidadeDocumentoIdentificadorService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -39,7 +39,7 @@ export class ModalidadeDocumentoIdentificadorService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -47,7 +47,7 @@ export class ModalidadeDocumentoIdentificadorService {
         return this.modelService.count('modalidade_documento_identificador', new HttpParams({fromObject: params}));
     }
 
-    save(modalidadeDocumentoIdentificador: ModalidadeDocumentoIdentificador, context: any = {}): Observable<ModalidadeDocumentoIdentificador> {
+    save(modalidadeDocumentoIdentificador: ModalidadeDocumentoIdentificador, context: any = '{}'): Observable<ModalidadeDocumentoIdentificador> {
         const params = {};
         params['context'] = context;
         if (modalidadeDocumentoIdentificador.id) {
@@ -71,7 +71,7 @@ export class ModalidadeDocumentoIdentificadorService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<ModalidadeDocumentoIdentificador> {
+    destroy(id: number, context: any = '{}'): Observable<ModalidadeDocumentoIdentificador> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('modalidade_documento_identificador', id, new HttpParams({fromObject: params}));

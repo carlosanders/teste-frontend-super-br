@@ -15,7 +15,7 @@ export class SigiloService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<Sigilo> {
+    get(id: number, context: any = '{}'): Observable<Sigilo> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('sigilo', id, new HttpParams({fromObject: params}))
@@ -24,7 +24,7 @@ export class SigiloService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -39,7 +39,7 @@ export class SigiloService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -47,7 +47,7 @@ export class SigiloService {
         return this.modelService.count('sigilo', new HttpParams({fromObject: params}));
     }
 
-    save(sigilo: Sigilo, context: any = {}): Observable<Sigilo> {
+    save(sigilo: Sigilo, context: any = '{}'): Observable<Sigilo> {
         const params = {};
         params['context'] = context;
         if (sigilo.id) {
@@ -71,7 +71,7 @@ export class SigiloService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<Sigilo> {
+    destroy(id: number, context: any = '{}'): Observable<Sigilo> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('sigilo', id, new HttpParams({fromObject: params}));

@@ -15,7 +15,7 @@ export class ModalidadeVinculacaoProcessoService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<ModalidadeVinculacaoProcesso> {
+    get(id: number, context: any = '{}'): Observable<ModalidadeVinculacaoProcesso> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('modalidade_vinculacao_processo', id, new HttpParams({fromObject: params}))
@@ -24,7 +24,7 @@ export class ModalidadeVinculacaoProcessoService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -39,7 +39,7 @@ export class ModalidadeVinculacaoProcessoService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -47,7 +47,7 @@ export class ModalidadeVinculacaoProcessoService {
         return this.modelService.count('modalidade_vinculacao_processo', new HttpParams({fromObject: params}));
     }
 
-    save(modalidadeVinculacaoProcesso: ModalidadeVinculacaoProcesso, context: any = {}): Observable<ModalidadeVinculacaoProcesso> {
+    save(modalidadeVinculacaoProcesso: ModalidadeVinculacaoProcesso, context: any = '{}'): Observable<ModalidadeVinculacaoProcesso> {
         const params = {};
         params['context'] = context;
         if (modalidadeVinculacaoProcesso.id) {
@@ -71,7 +71,7 @@ export class ModalidadeVinculacaoProcessoService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<ModalidadeVinculacaoProcesso> {
+    destroy(id: number, context: any = '{}'): Observable<ModalidadeVinculacaoProcesso> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('modalidade_vinculacao_processo', id, new HttpParams({fromObject: params}));

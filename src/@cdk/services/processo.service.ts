@@ -18,7 +18,7 @@ export class ProcessoService {
     ) {
     }
 
-    get(id: number, params: HttpParams = new HttpParams(), context: any = {}): Observable<Processo> {
+    get(id: number, params: HttpParams = new HttpParams(), context: any = '{}'): Observable<Processo> {
         params['context'] = context;
         return this.modelService.getOne('processo', id, params)
             .pipe(
@@ -26,17 +26,17 @@ export class ProcessoService {
             );
     }
 
-    downloadAsPdf(id: number | string, sequencial: number | string, params: HttpParams = new HttpParams(), context: any = {}): Observable<any> {
+    downloadAsPdf(id: number | string, sequencial: number | string, params: HttpParams = new HttpParams(), context: any = '{}'): Observable<any> {
         params['context'] = context;
         return this.http.get(`${environment.api_url}processo/${id}/downloadAsPdf/${sequencial}` + environment.xdebug, {params});
     }
 
-    downloadAsZip(id: number | string, sequencial: number | string, params: HttpParams = new HttpParams(), context: any = {}): Observable<any> {
+    downloadAsZip(id: number | string, sequencial: number | string, params: HttpParams = new HttpParams(), context: any = '{}'): Observable<any> {
         params['context'] = context;
         return this.http.get(`${environment.api_url}processo/${id}/downloadAsZip/${sequencial}` + environment.xdebug, {params});
     }
 
-    getVisibilidade(id: number, context: any = {}): Observable<any> {
+    getVisibilidade(id: number, context: any = '{}'): Observable<any> {
         const params: HttpParams = new HttpParams()
         params['context'] = context;
         return this.http.get(`${environment.api_url}${'processo'}/${id}/visibilidade` + environment.xdebug, {params})
@@ -45,7 +45,7 @@ export class ProcessoService {
             );
     }
 
-    createVisibilidade(processoId: number, visibilidade: Visibilidade, context: any = {}): Observable<Visibilidade> {
+    createVisibilidade(processoId: number, visibilidade: Visibilidade, context: any = '{}'): Observable<Visibilidade> {
         const params: HttpParams = new HttpParams()
         params['context'] = context;
         return this.http.put(
@@ -57,7 +57,7 @@ export class ProcessoService {
         );
     }
 
-    destroyVisibilidade(processoId: number, visibilidadeId: number, context: any = {}): Observable<any> {
+    destroyVisibilidade(processoId: number, visibilidadeId: number, context: any = '{}'): Observable<any> {
         const params: HttpParams = new HttpParams()
         params['context'] = context;
         return this.http.delete(
@@ -66,7 +66,7 @@ export class ProcessoService {
         );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         
         params['where'] = filters;
@@ -83,7 +83,7 @@ export class ProcessoService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -91,7 +91,7 @@ export class ProcessoService {
         return this.modelService.count('processo', new HttpParams({fromObject: params}));
     }
 
-    save(processo: Processo, context: any = {}): Observable<Processo> {
+    save(processo: Processo, context: any = '{}'): Observable<Processo> {
         const params = {};
         params['context'] = context;
         if (processo.id) {
@@ -116,7 +116,7 @@ export class ProcessoService {
         }
     }
 
-    arquivar(processo: Processo, context: any = {}): Observable<Processo> {
+    arquivar(processo: Processo, context: any = '{}'): Observable<Processo> {
         const params: HttpParams = new HttpParams()
         params['context'] = context;
         return this.http.patch(
@@ -132,7 +132,7 @@ export class ProcessoService {
         );
     }
 
-    destroy(id: number, context: any = {}): Observable<Processo> {
+    destroy(id: number, context: any = '{}'): Observable<Processo> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('processo', id, new HttpParams({fromObject: params}));

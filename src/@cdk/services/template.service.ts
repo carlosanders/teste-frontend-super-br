@@ -15,7 +15,7 @@ export class TemplateService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<Template> {
+    get(id: number, context: any = '{}'): Observable<Template> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('template', id, new HttpParams({fromObject: params}))
@@ -24,7 +24,7 @@ export class TemplateService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -39,7 +39,7 @@ export class TemplateService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -47,7 +47,7 @@ export class TemplateService {
         return this.modelService.count('template', new HttpParams({fromObject: params}));
     }
 
-    save(template: Template, context: any = {}): Observable<Template> {
+    save(template: Template, context: any = '{}'): Observable<Template> {
         const params = {};
         params['context'] = context;
         if (template.id) {
@@ -71,7 +71,7 @@ export class TemplateService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<Template> {
+    destroy(id: number, context: any = '{}'): Observable<Template> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('template', id, new HttpParams({fromObject: params}));

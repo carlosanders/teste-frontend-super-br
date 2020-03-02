@@ -15,7 +15,7 @@ export class EspecieSetorService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<EspecieSetor> {
+    get(id: number, context: any = '{}'): Observable<EspecieSetor> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('especie_setor', id, new HttpParams({fromObject: params}))
@@ -24,7 +24,7 @@ export class EspecieSetorService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -39,7 +39,7 @@ export class EspecieSetorService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -47,7 +47,7 @@ export class EspecieSetorService {
         return this.modelService.count('especie_setor', new HttpParams({fromObject: params}));
     }
 
-    save(especieSetor: EspecieSetor, context: any = {}): Observable<EspecieSetor> {
+    save(especieSetor: EspecieSetor, context: any = '{}'): Observable<EspecieSetor> {
         const params = {};
         params['context'] = context;
         if (especieSetor.id) {
@@ -71,7 +71,7 @@ export class EspecieSetorService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<EspecieSetor> {
+    destroy(id: number, context: any = '{}'): Observable<EspecieSetor> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('especie_setor', id, new HttpParams({fromObject: params}));

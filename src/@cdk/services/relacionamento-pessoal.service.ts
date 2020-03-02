@@ -15,7 +15,7 @@ export class RelacionamentoPessoalService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<RelacionamentoPessoal> {
+    get(id: number, context: any = '{}'): Observable<RelacionamentoPessoal> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('relacionamento_pessoal', id, new HttpParams({fromObject: params}))
@@ -24,7 +24,7 @@ export class RelacionamentoPessoalService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -39,7 +39,7 @@ export class RelacionamentoPessoalService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -47,7 +47,7 @@ export class RelacionamentoPessoalService {
         return this.modelService.count('relacionamento_pessoal', new HttpParams({fromObject: params}));
     }
 
-    save(relacionamentoPessoal: RelacionamentoPessoal, context: any = {}): Observable<RelacionamentoPessoal> {
+    save(relacionamentoPessoal: RelacionamentoPessoal, context: any = '{}'): Observable<RelacionamentoPessoal> {
         const params = {};
         params['context'] = context;
         if (relacionamentoPessoal.id) {
@@ -71,7 +71,7 @@ export class RelacionamentoPessoalService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<RelacionamentoPessoal> {
+    destroy(id: number, context: any = '{}'): Observable<RelacionamentoPessoal> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('relacionamento_pessoal', id, new HttpParams({fromObject: params}));

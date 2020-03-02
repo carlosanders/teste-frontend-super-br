@@ -15,7 +15,7 @@ export class LembreteService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<Lembrete> {
+    get(id: number, context: any = '{}'): Observable<Lembrete> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('lembrete', id, new HttpParams({fromObject: params}))
@@ -24,7 +24,7 @@ export class LembreteService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -39,7 +39,7 @@ export class LembreteService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -47,7 +47,7 @@ export class LembreteService {
         return this.modelService.count('lembrete', new HttpParams({fromObject: params}));
     }
 
-    save(lembrete: Lembrete, context: any = {}): Observable<Lembrete> {
+    save(lembrete: Lembrete, context: any = '{}'): Observable<Lembrete> {
         const params = {};
         params['context'] = context;
         if (lembrete.id) {
@@ -71,7 +71,7 @@ export class LembreteService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<Lembrete> {
+    destroy(id: number, context: any = '{}'): Observable<Lembrete> {
         return this.modelService.delete('lembrete', id, new HttpParams({fromObject: params}));
     }
 }

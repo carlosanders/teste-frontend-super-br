@@ -15,7 +15,7 @@ export class CampoService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<Campo> {
+    get(id: number, context: any = '{}'): Observable<Campo> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('campo', id, new HttpParams({fromObject: params}))
@@ -24,7 +24,7 @@ export class CampoService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -39,7 +39,7 @@ export class CampoService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -47,7 +47,7 @@ export class CampoService {
         return this.modelService.count('campo', new HttpParams({fromObject: params}));
     }
 
-    save(campo: Campo, context: any = {}): Observable<Campo> {
+    save(campo: Campo, context: any = '{}'): Observable<Campo> {
         const params = {};
         params['context'] = context;
         if (campo.id) {
@@ -71,7 +71,7 @@ export class CampoService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<Campo> {
+    destroy(id: number, context: any = '{}'): Observable<Campo> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('campo', id, new HttpParams({fromObject: params}));

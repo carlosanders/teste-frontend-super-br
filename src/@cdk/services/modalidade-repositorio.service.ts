@@ -15,7 +15,7 @@ export class ModalidadeRepositorioService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<ModalidadeRepositorio> {
+    get(id: number, context: any = '{}'): Observable<ModalidadeRepositorio> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('modalidade_repositorio', id, new HttpParams({fromObject: params}))
@@ -24,7 +24,7 @@ export class ModalidadeRepositorioService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -39,7 +39,7 @@ export class ModalidadeRepositorioService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -47,7 +47,7 @@ export class ModalidadeRepositorioService {
         return this.modelService.count('modalidade_repositorio', new HttpParams({fromObject: params}));
     }
 
-    save(modalidadeRepositorio: ModalidadeRepositorio, context: any = {}): Observable<ModalidadeRepositorio> {
+    save(modalidadeRepositorio: ModalidadeRepositorio, context: any = '{}'): Observable<ModalidadeRepositorio> {
         const params = {};
         params['context'] = context;
         if (modalidadeRepositorio.id) {
@@ -71,7 +71,7 @@ export class ModalidadeRepositorioService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<ModalidadeRepositorio> {
+    destroy(id: number, context: any = '{}'): Observable<ModalidadeRepositorio> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('modalidade_repositorio', id, new HttpParams({fromObject: params}));

@@ -15,7 +15,7 @@ export class VinculacaoRepositorioService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<VinculacaoRepositorio> {
+    get(id: number, context: any = '{}'): Observable<VinculacaoRepositorio> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('vinculacao_repositorio', id, new HttpParams({fromObject: params}))
@@ -24,7 +24,7 @@ export class VinculacaoRepositorioService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -39,7 +39,7 @@ export class VinculacaoRepositorioService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -47,7 +47,7 @@ export class VinculacaoRepositorioService {
         return this.modelService.count('vinculacao_repositorio', new HttpParams({fromObject: params}));
     }
 
-    save(vinculacaoRepositorio: VinculacaoRepositorio, context: any = {}): Observable<VinculacaoRepositorio> {
+    save(vinculacaoRepositorio: VinculacaoRepositorio, context: any = '{}'): Observable<VinculacaoRepositorio> {
         const params = {};
         params['context'] = context;
         if (vinculacaoRepositorio.id) {
@@ -71,7 +71,7 @@ export class VinculacaoRepositorioService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<VinculacaoRepositorio> {
+    destroy(id: number, context: any = '{}'): Observable<VinculacaoRepositorio> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('vinculacao_repositorio', id, new HttpParams({fromObject: params}));

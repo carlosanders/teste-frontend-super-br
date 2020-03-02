@@ -15,7 +15,7 @@ export class GarantiaService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<Garantia> {
+    get(id: number, context: any = '{}'): Observable<Garantia> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('garantia', id, new HttpParams({fromObject: params}))
@@ -24,7 +24,7 @@ export class GarantiaService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -39,7 +39,7 @@ export class GarantiaService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -47,7 +47,7 @@ export class GarantiaService {
         return this.modelService.count('garantia', new HttpParams({fromObject: params}));
     }
 
-    save(garantia: Garantia, context: any = {}): Observable<Garantia> {
+    save(garantia: Garantia, context: any = '{}'): Observable<Garantia> {
         const params = {};
         params['context'] = context;
         if (garantia.id) {
@@ -71,7 +71,7 @@ export class GarantiaService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<Garantia> {
+    destroy(id: number, context: any = '{}'): Observable<Garantia> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('garantia', id, new HttpParams({fromObject: params}));

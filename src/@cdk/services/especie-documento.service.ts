@@ -15,7 +15,7 @@ export class EspecieDocumentoService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<EspecieDocumento> {
+    get(id: number, context: any = '{}'): Observable<EspecieDocumento> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('especie_documento', id, new HttpParams({fromObject: params}))
@@ -24,7 +24,7 @@ export class EspecieDocumentoService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -39,7 +39,7 @@ export class EspecieDocumentoService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -47,7 +47,7 @@ export class EspecieDocumentoService {
         return this.modelService.count('especie_documento', new HttpParams({fromObject: params}));
     }
 
-    save(especieDocumento: EspecieDocumento, context: any = {}): Observable<EspecieDocumento> {
+    save(especieDocumento: EspecieDocumento, context: any = '{}'): Observable<EspecieDocumento> {
         const params = {};
         params['context'] = context;
         if (especieDocumento.id) {
@@ -71,7 +71,7 @@ export class EspecieDocumentoService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<EspecieDocumento> {
+    destroy(id: number, context: any = '{}'): Observable<EspecieDocumento> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('especie_documento', id, new HttpParams({fromObject: params}));

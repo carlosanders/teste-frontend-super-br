@@ -15,7 +15,7 @@ export class AssinaturaService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<Assinatura> {
+    get(id: number, context: any = '{}'): Observable<Assinatura> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('assinatura', id, new HttpParams({fromObject: params}))
@@ -24,7 +24,7 @@ export class AssinaturaService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -39,7 +39,7 @@ export class AssinaturaService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -47,7 +47,7 @@ export class AssinaturaService {
         return this.modelService.count('assinatura', new HttpParams({fromObject: params}));
     }
 
-    save(assinatura: Assinatura, context: any = {}): Observable<Assinatura> {
+    save(assinatura: Assinatura, context: any = '{}'): Observable<Assinatura> {
         const params = {};
         params['context'] = context;
         if (assinatura.id) {
@@ -71,7 +71,7 @@ export class AssinaturaService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<Assinatura> {
+    destroy(id: number, context: any = '{}'): Observable<Assinatura> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('assinatura', id, new HttpParams({fromObject: params}));

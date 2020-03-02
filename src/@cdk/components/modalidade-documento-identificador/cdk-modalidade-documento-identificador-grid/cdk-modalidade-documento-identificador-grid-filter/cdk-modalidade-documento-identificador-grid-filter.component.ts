@@ -23,7 +23,7 @@ export class CdkModalidadeDocumentoIdentificadorGridFilterComponent implements O
 
     form: FormGroup;
 
-    filters: any = {};
+    filters: any = '{}';
 
     /**
      * Constructor

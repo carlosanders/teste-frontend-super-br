@@ -17,7 +17,7 @@ export class TarefaService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<Tarefa> {
+    get(id: number, context: any = '{}'): Observable<Tarefa> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('tarefa', id, new HttpParams({fromObject: params}))
@@ -26,7 +26,7 @@ export class TarefaService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -41,7 +41,7 @@ export class TarefaService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -49,7 +49,7 @@ export class TarefaService {
         return this.modelService.count('tarefa', new HttpParams({fromObject: params}));
     }
 
-    save(tarefa: Tarefa, context: any = {}): Observable<Tarefa> {
+    save(tarefa: Tarefa, context: any = '{}'): Observable<Tarefa> {
         const params = {};
         params['context'] = context;
         if (tarefa.id) {
@@ -73,13 +73,13 @@ export class TarefaService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<Tarefa> {
+    destroy(id: number, context: any = '{}'): Observable<Tarefa> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('tarefa', id, new HttpParams({fromObject: params}));
     }
 
-    ciencia(tarefa: Tarefa, context: any = {}): Observable<Tarefa> {
+    ciencia(tarefa: Tarefa, context: any = '{}'): Observable<Tarefa> {
         const params: HttpParams = new HttpParams()
         params['context'] = context;
         return this.http.patch(
@@ -95,7 +95,7 @@ export class TarefaService {
         );
     }
 
-    toggleLida(tarefa: Tarefa, context: any = {}): Observable<Tarefa> {
+    toggleLida(tarefa: Tarefa, context: any = '{}'): Observable<Tarefa> {
         const params: HttpParams = new HttpParams()
         params['context'] = context;
         return this.http.patch(
@@ -111,7 +111,7 @@ export class TarefaService {
         );
     }
 
-    patch(tarefa: Tarefa, changes: any, context: any = {}): Observable<Tarefa> {
+    patch(tarefa: Tarefa, changes: any, context: any = '{}'): Observable<Tarefa> {
         const params: HttpParams = new HttpParams()
         params['context'] = context;
         return this.http.patch(

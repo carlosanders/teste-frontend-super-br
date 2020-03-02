@@ -15,7 +15,7 @@ export class HistoricoService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<Historico> {
+    get(id: number, context: any = '{}'): Observable<Historico> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('historico', id, new HttpParams({fromObject: params}))
@@ -24,7 +24,7 @@ export class HistoricoService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -39,7 +39,7 @@ export class HistoricoService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -47,7 +47,7 @@ export class HistoricoService {
         return this.modelService.count('historico', new HttpParams({fromObject: params}));
     }
 
-    save(historico: Historico, context: any = {}): Observable<Historico> {
+    save(historico: Historico, context: any = '{}'): Observable<Historico> {
         const params = {};
         params['context'] = context;
         if (historico.id) {
@@ -71,7 +71,7 @@ export class HistoricoService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<Historico> {
+    destroy(id: number, context: any = '{}'): Observable<Historico> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('historico', id, new HttpParams({fromObject: params}));

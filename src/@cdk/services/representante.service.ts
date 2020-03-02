@@ -15,7 +15,7 @@ export class RepresentanteService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<Representante> {
+    get(id: number, context: any = '{}'): Observable<Representante> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('representante', id, new HttpParams({fromObject: params}))
@@ -24,7 +24,7 @@ export class RepresentanteService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -39,7 +39,7 @@ export class RepresentanteService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -47,7 +47,7 @@ export class RepresentanteService {
         return this.modelService.count('representante', new HttpParams({fromObject: params}));
     }
 
-    save(representante: Representante, context: any = {}): Observable<Representante> {
+    save(representante: Representante, context: any = '{}'): Observable<Representante> {
         const params = {};
         params['context'] = context;
         if (representante.id) {
@@ -71,7 +71,7 @@ export class RepresentanteService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<Representante> {
+    destroy(id: number, context: any = '{}'): Observable<Representante> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('representante', id, new HttpParams({fromObject: params}));

@@ -15,7 +15,7 @@ export class JuntadaService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<Juntada> {
+    get(id: number, context: any = '{}'): Observable<Juntada> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('juntada', id, new HttpParams({fromObject: params}))
@@ -24,7 +24,7 @@ export class JuntadaService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -39,7 +39,7 @@ export class JuntadaService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -47,7 +47,7 @@ export class JuntadaService {
         return this.modelService.count('juntada', new HttpParams({fromObject: params}));
     }
 
-    save(juntada: Juntada, context: any = {}): Observable<Juntada> {
+    save(juntada: Juntada, context: any = '{}'): Observable<Juntada> {
         const params = {};
         params['context'] = context;
         if (juntada.id) {
@@ -71,7 +71,7 @@ export class JuntadaService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<Juntada> {
+    destroy(id: number, context: any = '{}'): Observable<Juntada> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('juntada', id, new HttpParams({fromObject: params}));

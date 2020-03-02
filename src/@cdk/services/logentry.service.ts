@@ -11,7 +11,7 @@ export class LogEntryService {
     ) {
     }
 
-    getLog(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<any> {
+    getLog(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<any> {
 
         const params = {};
         params['where'] = filters;

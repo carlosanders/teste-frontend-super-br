@@ -15,7 +15,7 @@ export class VinculacaoUsuarioService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<VinculacaoUsuario> {
+    get(id: number, context: any = '{}'): Observable<VinculacaoUsuario> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('vinculacao_usuario', id, new HttpParams({fromObject: params}))
@@ -24,7 +24,7 @@ export class VinculacaoUsuarioService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -39,7 +39,7 @@ export class VinculacaoUsuarioService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -47,7 +47,7 @@ export class VinculacaoUsuarioService {
         return this.modelService.count('vinculacao_usuario', new HttpParams({fromObject: params}));
     }
 
-    save(vinculacaoUsuario: VinculacaoUsuario, context: any = {}): Observable<VinculacaoUsuario> {
+    save(vinculacaoUsuario: VinculacaoUsuario, context: any = '{}'): Observable<VinculacaoUsuario> {
         const params = {};
         params['context'] = context;
         if (vinculacaoUsuario.id) {
@@ -71,7 +71,7 @@ export class VinculacaoUsuarioService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<VinculacaoUsuario> {
+    destroy(id: number, context: any = '{}'): Observable<VinculacaoUsuario> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('vinculacao_usuario', id, new HttpParams({fromObject: params}));

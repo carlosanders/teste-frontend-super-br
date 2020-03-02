@@ -15,7 +15,7 @@ export class ClassificacaoService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<Classificacao> {
+    get(id: number, context: any = '{}'): Observable<Classificacao> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('classificacao', id, new HttpParams({fromObject: params}))
@@ -24,7 +24,7 @@ export class ClassificacaoService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -39,7 +39,7 @@ export class ClassificacaoService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -47,7 +47,7 @@ export class ClassificacaoService {
         return this.modelService.count('classificacao', new HttpParams({fromObject: params}));
     }
 
-    save(classificacao: Classificacao, context: any = {}): Observable<Classificacao> {
+    save(classificacao: Classificacao, context: any = '{}'): Observable<Classificacao> {
         const params = {};
         params['context'] = context;
         if (classificacao.id) {
@@ -71,7 +71,7 @@ export class ClassificacaoService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<Classificacao> {
+    destroy(id: number, context: any = '{}'): Observable<Classificacao> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('classificacao', id, new HttpParams({fromObject: params}));

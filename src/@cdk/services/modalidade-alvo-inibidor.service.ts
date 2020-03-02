@@ -15,7 +15,7 @@ export class ModalidadeAlvoInibidorService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<ModalidadeAlvoInibidor> {
+    get(id: number, context: any = '{}'): Observable<ModalidadeAlvoInibidor> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('modalidade_alvo_inibidor', id, new HttpParams({fromObject: params}))
@@ -24,7 +24,7 @@ export class ModalidadeAlvoInibidorService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -39,7 +39,7 @@ export class ModalidadeAlvoInibidorService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -47,7 +47,7 @@ export class ModalidadeAlvoInibidorService {
         return this.modelService.count('modalidade_alvo_inibidor', new HttpParams({fromObject: params}));
     }
 
-    save(modalidadeAlvoInibidor: ModalidadeAlvoInibidor, context: any = {}): Observable<ModalidadeAlvoInibidor> {
+    save(modalidadeAlvoInibidor: ModalidadeAlvoInibidor, context: any = '{}'): Observable<ModalidadeAlvoInibidor> {
         const params = {};
         params['context'] = context;
         if (modalidadeAlvoInibidor.id) {
@@ -71,7 +71,7 @@ export class ModalidadeAlvoInibidorService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<ModalidadeAlvoInibidor> {
+    destroy(id: number, context: any = '{}'): Observable<ModalidadeAlvoInibidor> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('modalidade_alvo_inibidor', id, new HttpParams({fromObject: params}));

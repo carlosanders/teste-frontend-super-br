@@ -15,7 +15,7 @@ export class VinculacaoProcessoService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<VinculacaoProcesso> {
+    get(id: number, context: any = '{}'): Observable<VinculacaoProcesso> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('vinculacao_processo', id, new HttpParams({fromObject: params}))
@@ -24,7 +24,7 @@ export class VinculacaoProcessoService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -39,7 +39,7 @@ export class VinculacaoProcessoService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -47,7 +47,7 @@ export class VinculacaoProcessoService {
         return this.modelService.count('vinculacao_processo', new HttpParams({fromObject: params}));
     }
 
-    save(vinculacaoProcesso: VinculacaoProcesso, context: any = {}): Observable<VinculacaoProcesso> {
+    save(vinculacaoProcesso: VinculacaoProcesso, context: any = '{}'): Observable<VinculacaoProcesso> {
         const params = {};
         params['context'] = context;
         if (vinculacaoProcesso.id) {
@@ -71,7 +71,7 @@ export class VinculacaoProcessoService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<VinculacaoProcesso> {
+    destroy(id: number, context: any = '{}'): Observable<VinculacaoProcesso> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('vinculacao_processo', id, new HttpParams({fromObject: params}));

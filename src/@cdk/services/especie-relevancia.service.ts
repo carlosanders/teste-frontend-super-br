@@ -15,7 +15,7 @@ export class EspecieRelevanciaService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<EspecieRelevancia> {
+    get(id: number, context: any = '{}'): Observable<EspecieRelevancia> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('especie_relevancia', id, new HttpParams({fromObject: params}))
@@ -24,7 +24,7 @@ export class EspecieRelevanciaService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -38,7 +38,7 @@ export class EspecieRelevanciaService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -46,7 +46,7 @@ export class EspecieRelevanciaService {
         return this.modelService.count('especie_relevancia', new HttpParams({fromObject: params}));
     }
 
-    save(especieRelevancia: EspecieRelevancia, context: any = {}): Observable<EspecieRelevancia> {
+    save(especieRelevancia: EspecieRelevancia, context: any = '{}'): Observable<EspecieRelevancia> {
         const params = {};
         params['context'] = context;
         if (especieRelevancia.id) {
@@ -70,7 +70,7 @@ export class EspecieRelevanciaService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<EspecieRelevancia> {
+    destroy(id: number, context: any = '{}'): Observable<EspecieRelevancia> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('especie_relevancia', id, new HttpParams({fromObject: params}));

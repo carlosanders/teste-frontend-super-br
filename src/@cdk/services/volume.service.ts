@@ -15,7 +15,7 @@ export class VolumeService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<Volume> {
+    get(id: number, context: any = '{}'): Observable<Volume> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('volume', id, new HttpParams({fromObject: params}))
@@ -24,7 +24,7 @@ export class VolumeService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -39,7 +39,7 @@ export class VolumeService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -47,7 +47,7 @@ export class VolumeService {
         return this.modelService.count('volume', new HttpParams({fromObject: params}));
     }
 
-    save(volume: Volume, context: any = {}): Observable<Volume> {
+    save(volume: Volume, context: any = '{}'): Observable<Volume> {
         const params = {};
         params['context'] = context;
         if (volume.id) {
@@ -71,7 +71,7 @@ export class VolumeService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<Volume> {
+    destroy(id: number, context: any = '{}'): Observable<Volume> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('volume', id, new HttpParams({fromObject: params}));

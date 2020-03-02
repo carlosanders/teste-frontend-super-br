@@ -15,7 +15,7 @@ export class AfastamentoService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<Afastamento> {
+    get(id: number, context: any = '{}'): Observable<Afastamento> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('afastamento', id, new HttpParams({fromObject: params}))
@@ -24,7 +24,7 @@ export class AfastamentoService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -39,7 +39,7 @@ export class AfastamentoService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -47,7 +47,7 @@ export class AfastamentoService {
         return this.modelService.count('afastamento', new HttpParams({fromObject: params}));
     }
 
-    save(afastamento: Afastamento, context: any = {}): Observable<Afastamento> {
+    save(afastamento: Afastamento, context: any = '{}'): Observable<Afastamento> {
         const params = {};
         params['context'] = context;
         if (afastamento.id) {
@@ -71,7 +71,7 @@ export class AfastamentoService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<Afastamento> {
+    destroy(id: number, context: any = '{}'): Observable<Afastamento> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('afastamento', id, new HttpParams({fromObject: params}));

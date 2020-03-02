@@ -15,7 +15,7 @@ export class LocalizadorService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<Localizador> {
+    get(id: number, context: any = '{}'): Observable<Localizador> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('localizador', id, new HttpParams({fromObject: params}))
@@ -24,7 +24,7 @@ export class LocalizadorService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -39,7 +39,7 @@ export class LocalizadorService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -47,7 +47,7 @@ export class LocalizadorService {
         return this.modelService.count('localizador', new HttpParams({fromObject: params}));
     }
 
-    save(localizador: Localizador, context: any = {}): Observable<Localizador> {
+    save(localizador: Localizador, context: any = '{}'): Observable<Localizador> {
         const params = {};
         params['context'] = context;
         if (localizador.id) {
@@ -71,7 +71,7 @@ export class LocalizadorService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<Localizador> {
+    destroy(id: number, context: any = '{}'): Observable<Localizador> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('localizador', id, new HttpParams({fromObject: params}));

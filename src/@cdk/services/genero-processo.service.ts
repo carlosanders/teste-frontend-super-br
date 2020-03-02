@@ -15,7 +15,7 @@ export class GeneroProcessoService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<GeneroProcesso> {
+    get(id: number, context: any = '{}'): Observable<GeneroProcesso> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('genero_processo', id, new HttpParams({fromObject: params}))
@@ -24,7 +24,7 @@ export class GeneroProcessoService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -38,7 +38,7 @@ export class GeneroProcessoService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -46,7 +46,7 @@ export class GeneroProcessoService {
         return this.modelService.count('genero_processo', new HttpParams({fromObject: params}));
     }
 
-    save(generoProcesso: GeneroProcesso, context: any = {}): Observable<GeneroProcesso> {
+    save(generoProcesso: GeneroProcesso, context: any = '{}'): Observable<GeneroProcesso> {
         const params = {};
         params['context'] = context;
         if (generoProcesso.id) {
@@ -70,7 +70,7 @@ export class GeneroProcessoService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<GeneroProcesso> {
+    destroy(id: number, context: any = '{}'): Observable<GeneroProcesso> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('genero_processo', id, new HttpParams({fromObject: params}));

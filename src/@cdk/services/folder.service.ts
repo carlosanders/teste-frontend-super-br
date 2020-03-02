@@ -15,7 +15,7 @@ export class FolderService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<Folder> {
+    get(id: number, context: any = '{}'): Observable<Folder> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('folder', id, new HttpParams({fromObject: params}))
@@ -24,7 +24,7 @@ export class FolderService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -39,7 +39,7 @@ export class FolderService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -47,7 +47,7 @@ export class FolderService {
         return this.modelService.count('folder', new HttpParams({fromObject: params}));
     }
 
-    save(folder: Folder, context: any = {}): Observable<Folder> {
+    save(folder: Folder, context: any = '{}'): Observable<Folder> {
         const params = {};
         params['context'] = context;
         if (folder.id) {
@@ -71,7 +71,7 @@ export class FolderService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<Folder> {
+    destroy(id: number, context: any = '{}'): Observable<Folder> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('folder', id, new HttpParams({fromObject: params}));

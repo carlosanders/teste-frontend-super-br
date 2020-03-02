@@ -15,7 +15,7 @@ export class RoleService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<Role> {
+    get(id: number, context: any = '{}'): Observable<Role> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('role', id, new HttpParams({fromObject: params}))
@@ -24,7 +24,7 @@ export class RoleService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -39,7 +39,7 @@ export class RoleService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -47,7 +47,7 @@ export class RoleService {
         return this.modelService.count('role', new HttpParams({fromObject: params}));
     }
 
-    save(role: Role, context: any = {}): Observable<Role> {
+    save(role: Role, context: any = '{}'): Observable<Role> {
         const params = {};
         params['context'] = context;
         if (role.id) {
@@ -71,7 +71,7 @@ export class RoleService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<Role> {
+    destroy(id: number, context: any = '{}'): Observable<Role> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('role', id, new HttpParams({fromObject: params}));

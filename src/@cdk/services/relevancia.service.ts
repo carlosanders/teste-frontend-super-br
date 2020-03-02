@@ -15,7 +15,7 @@ export class RelevanciaService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<Relevancia> {
+    get(id: number, context: any = '{}'): Observable<Relevancia> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('relevancia', id, new HttpParams({fromObject: params}))
@@ -24,7 +24,7 @@ export class RelevanciaService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -39,7 +39,7 @@ export class RelevanciaService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -47,7 +47,7 @@ export class RelevanciaService {
         return this.modelService.count('relevancia', new HttpParams({fromObject: params}));
     }
 
-    save(relevancia: Relevancia, context: any = {}): Observable<Relevancia> {
+    save(relevancia: Relevancia, context: any = '{}'): Observable<Relevancia> {
         const params = {};
         params['context'] = context;
         if (relevancia.id) {
@@ -71,7 +71,7 @@ export class RelevanciaService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<Relevancia> {
+    destroy(id: number, context: any = '{}'): Observable<Relevancia> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('relevancia', id, new HttpParams({fromObject: params}));

@@ -17,7 +17,7 @@ export class NotificacaoService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<Notificacao> {
+    get(id: number, context: any = '{}'): Observable<Notificacao> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('notificacao', id, new HttpParams({fromObject: params}))
@@ -26,7 +26,7 @@ export class NotificacaoService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -41,14 +41,14 @@ export class NotificacaoService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
         return this.modelService.count('notificacao', new HttpParams({fromObject: params}));
     }
 
-    save(notificacao: Notificacao, context: any = {}): Observable<Notificacao> {
+    save(notificacao: Notificacao, context: any = '{}'): Observable<Notificacao> {
         const params = {};
         params['context'] = context;
         if (notificacao.id) {
@@ -72,7 +72,7 @@ export class NotificacaoService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<Notificacao> {
+    destroy(id: number, context: any = '{}'): Observable<Notificacao> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('notificacao', id, new HttpParams({fromObject: params}));

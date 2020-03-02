@@ -15,7 +15,7 @@ export class TipoDocumentoService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<TipoDocumento> {
+    get(id: number, context: any = '{}'): Observable<TipoDocumento> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('tipo_documento', id, new HttpParams({fromObject: params}))
@@ -24,7 +24,7 @@ export class TipoDocumentoService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -39,7 +39,7 @@ export class TipoDocumentoService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -47,7 +47,7 @@ export class TipoDocumentoService {
         return this.modelService.count('tipo_documento', new HttpParams({fromObject: params}));
     }
 
-    save(tipoDocumento: TipoDocumento, context: any = {}): Observable<TipoDocumento> {
+    save(tipoDocumento: TipoDocumento, context: any = '{}'): Observable<TipoDocumento> {
         const params = {};
         params['context'] = context;
         if (tipoDocumento.id) {
@@ -71,7 +71,7 @@ export class TipoDocumentoService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<TipoDocumento> {
+    destroy(id: number, context: any = '{}'): Observable<TipoDocumento> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('tipo_documento', id, new HttpParams({fromObject: params}));

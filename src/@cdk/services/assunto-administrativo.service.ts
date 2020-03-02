@@ -15,7 +15,7 @@ export class AssuntoAdministrativoService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<AssuntoAdministrativo> {
+    get(id: number, context: any = '{}'): Observable<AssuntoAdministrativo> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('assunto_administrativo', id, new HttpParams({fromObject: params}))
@@ -24,7 +24,7 @@ export class AssuntoAdministrativoService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -39,7 +39,7 @@ export class AssuntoAdministrativoService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -47,7 +47,7 @@ export class AssuntoAdministrativoService {
         return this.modelService.count('assunto_administrativo', new HttpParams({fromObject: params}));
     }
 
-    save(assuntoAdministrativo: AssuntoAdministrativo, context: any = {}): Observable<AssuntoAdministrativo> {
+    save(assuntoAdministrativo: AssuntoAdministrativo, context: any = '{}'): Observable<AssuntoAdministrativo> {
         const params = {};
         params['context'] = context;
         if (assuntoAdministrativo.id) {
@@ -71,7 +71,7 @@ export class AssuntoAdministrativoService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<AssuntoAdministrativo> {
+    destroy(id: number, context: any = '{}'): Observable<AssuntoAdministrativo> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('assunto_administrativo', id, new HttpParams({fromObject: params}));

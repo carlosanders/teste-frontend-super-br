@@ -15,7 +15,7 @@ export class VinculacaoRoleService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<VinculacaoRole> {
+    get(id: number, context: any = '{}'): Observable<VinculacaoRole> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('vinculacao_role', id, new HttpParams({fromObject: params}))
@@ -24,7 +24,7 @@ export class VinculacaoRoleService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -39,7 +39,7 @@ export class VinculacaoRoleService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -47,7 +47,7 @@ export class VinculacaoRoleService {
         return this.modelService.count('vinculacao_role', new HttpParams({fromObject: params}));
     }
 
-    save(vinculacaoRole: VinculacaoRole, context: any = {}): Observable<VinculacaoRole> {
+    save(vinculacaoRole: VinculacaoRole, context: any = '{}'): Observable<VinculacaoRole> {
         const params = {};
         params['context'] = context;
         if (vinculacaoRole.id) {
@@ -71,7 +71,7 @@ export class VinculacaoRoleService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<VinculacaoRole> {
+    destroy(id: number, context: any = '{}'): Observable<VinculacaoRole> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('vinculacao_role', id, new HttpParams({fromObject: params}));

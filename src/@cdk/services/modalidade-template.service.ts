@@ -15,7 +15,7 @@ export class ModalidadeTemplateService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<ModalidadeTemplate> {
+    get(id: number, context: any = '{}'): Observable<ModalidadeTemplate> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('modalidade_template', id, new HttpParams({fromObject: params}))
@@ -24,7 +24,7 @@ export class ModalidadeTemplateService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -39,7 +39,7 @@ export class ModalidadeTemplateService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -47,7 +47,7 @@ export class ModalidadeTemplateService {
         return this.modelService.count('modalidade_template', new HttpParams({fromObject: params}));
     }
 
-    save(modalidadeTemplate: ModalidadeTemplate, context: any = {}): Observable<ModalidadeTemplate> {
+    save(modalidadeTemplate: ModalidadeTemplate, context: any = '{}'): Observable<ModalidadeTemplate> {
         const params = {};
         params['context'] = context;
         if (modalidadeTemplate.id) {
@@ -71,7 +71,7 @@ export class ModalidadeTemplateService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<ModalidadeTemplate> {
+    destroy(id: number, context: any = '{}'): Observable<ModalidadeTemplate> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('modalidade_template', id, new HttpParams({fromObject: params}));

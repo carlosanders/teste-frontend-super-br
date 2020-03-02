@@ -15,7 +15,7 @@ export class TramitacaoService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<Tramitacao> {
+    get(id: number, context: any = '{}'): Observable<Tramitacao> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('tramitacao', id, new HttpParams({fromObject: params}))
@@ -24,7 +24,7 @@ export class TramitacaoService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -39,7 +39,7 @@ export class TramitacaoService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -47,7 +47,7 @@ export class TramitacaoService {
         return this.modelService.count('tramitacao', new HttpParams({fromObject: params}));
     }
 
-    save(tramitacao: Tramitacao, context: any = {}): Observable<Tramitacao> {
+    save(tramitacao: Tramitacao, context: any = '{}'): Observable<Tramitacao> {
         const params = {};
         params['context'] = context;
         if (tramitacao.id) {
@@ -71,7 +71,7 @@ export class TramitacaoService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<Tramitacao> {
+    destroy(id: number, context: any = '{}'): Observable<Tramitacao> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('tramitacao', id, new HttpParams({fromObject: params}));

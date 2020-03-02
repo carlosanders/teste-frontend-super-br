@@ -15,7 +15,7 @@ export class EstadoService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<Estado> {
+    get(id: number, context: any = '{}'): Observable<Estado> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('estado', id, new HttpParams({fromObject: params}))
@@ -24,7 +24,7 @@ export class EstadoService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -39,7 +39,7 @@ export class EstadoService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -47,7 +47,7 @@ export class EstadoService {
         return this.modelService.count('estado', new HttpParams({fromObject: params}));
     }
 
-    save(estado: Estado, context: any = {}): Observable<Estado> {
+    save(estado: Estado, context: any = '{}'): Observable<Estado> {
         const params = {};
         params['context'] = context;
         if (estado.id) {
@@ -71,7 +71,7 @@ export class EstadoService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<Estado> {
+    destroy(id: number, context: any = '{}'): Observable<Estado> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('estado', id, new HttpParams({fromObject: params}));

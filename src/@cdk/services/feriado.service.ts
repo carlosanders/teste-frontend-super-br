@@ -15,7 +15,7 @@ export class FeriadoService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<Feriado> {
+    get(id: number, context: any = '{}'): Observable<Feriado> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('feriado', id, new HttpParams({fromObject: params}))
@@ -24,7 +24,7 @@ export class FeriadoService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -39,7 +39,7 @@ export class FeriadoService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -47,7 +47,7 @@ export class FeriadoService {
         return this.modelService.count('feriado', new HttpParams({fromObject: params}));
     }
 
-    save(feriado: Feriado, context: any = {}): Observable<Feriado> {
+    save(feriado: Feriado, context: any = '{}'): Observable<Feriado> {
         const params = {};
         params['context'] = context;
         if (feriado.id) {
@@ -71,7 +71,7 @@ export class FeriadoService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<Feriado> {
+    destroy(id: number, context: any = '{}'): Observable<Feriado> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('feriado', id, new HttpParams({fromObject: params}));

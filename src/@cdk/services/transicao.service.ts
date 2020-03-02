@@ -15,7 +15,7 @@ export class TransicaoService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<Transicao> {
+    get(id: number, context: any = '{}'): Observable<Transicao> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('transicao', id, new HttpParams({fromObject: params}))
@@ -24,7 +24,7 @@ export class TransicaoService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -39,7 +39,7 @@ export class TransicaoService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -47,7 +47,7 @@ export class TransicaoService {
         return this.modelService.count('transicao', new HttpParams({fromObject: params}));
     }
 
-    save(transicao: Transicao, context: any = {}): Observable<Transicao> {
+    save(transicao: Transicao, context: any = '{}'): Observable<Transicao> {
         const params = {};
         params['context'] = context;
         if (transicao.id) {
@@ -71,7 +71,7 @@ export class TransicaoService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<Transicao> {
+    destroy(id: number, context: any = '{}'): Observable<Transicao> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('transicao', id, new HttpParams({fromObject: params}));

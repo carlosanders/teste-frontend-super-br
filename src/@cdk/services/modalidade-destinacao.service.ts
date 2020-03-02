@@ -15,7 +15,7 @@ export class ModalidadeDestinacaoService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<ModalidadeDestinacao> {
+    get(id: number, context: any = '{}'): Observable<ModalidadeDestinacao> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('modalidade_destinacao', id, new HttpParams({fromObject: params}))
@@ -24,7 +24,7 @@ export class ModalidadeDestinacaoService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -39,7 +39,7 @@ export class ModalidadeDestinacaoService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -47,7 +47,7 @@ export class ModalidadeDestinacaoService {
         return this.modelService.count('modalidade_destinacao', new HttpParams({fromObject: params}));
     }
 
-    save(modalidadeDestinacao: ModalidadeDestinacao, context: any = {}): Observable<ModalidadeDestinacao> {
+    save(modalidadeDestinacao: ModalidadeDestinacao, context: any = '{}'): Observable<ModalidadeDestinacao> {
         const params = {};
         params['context'] = context;
         if (modalidadeDestinacao.id) {
@@ -71,7 +71,7 @@ export class ModalidadeDestinacaoService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<ModalidadeDestinacao> {
+    destroy(id: number, context: any = '{}'): Observable<ModalidadeDestinacao> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('modalidade_destinacao', id, new HttpParams({fromObject: params}));

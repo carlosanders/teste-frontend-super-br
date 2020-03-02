@@ -15,7 +15,7 @@ export class GeneroDocumentoAvulsoService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<GeneroDocumentoAvulso> {
+    get(id: number, context: any = '{}'): Observable<GeneroDocumentoAvulso> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('genero_documento_avulso', id, new HttpParams({fromObject: params}))
@@ -24,7 +24,7 @@ export class GeneroDocumentoAvulsoService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -39,7 +39,7 @@ export class GeneroDocumentoAvulsoService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -47,7 +47,7 @@ export class GeneroDocumentoAvulsoService {
         return this.modelService.count('genero_documento_avulso', new HttpParams({fromObject: params}));
     }
 
-    save(generoDocumentoAvulso: GeneroDocumentoAvulso, context: any = {}): Observable<GeneroDocumentoAvulso> {
+    save(generoDocumentoAvulso: GeneroDocumentoAvulso, context: any = '{}'): Observable<GeneroDocumentoAvulso> {
         const params = {};
         params['context'] = context;
         if (generoDocumentoAvulso.id) {
@@ -71,7 +71,7 @@ export class GeneroDocumentoAvulsoService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<GeneroDocumentoAvulso> {
+    destroy(id: number, context: any = '{}'): Observable<GeneroDocumentoAvulso> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('genero_documento_avulso', id, new HttpParams({fromObject: params}));

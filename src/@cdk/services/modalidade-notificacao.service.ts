@@ -15,7 +15,7 @@ export class ModalidadeNotificacaoService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<ModalidadeNotificacao> {
+    get(id: number, context: any = '{}'): Observable<ModalidadeNotificacao> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('modalidade_notificacao', id, new HttpParams({fromObject: params}))
@@ -24,7 +24,7 @@ export class ModalidadeNotificacaoService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -39,7 +39,7 @@ export class ModalidadeNotificacaoService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -47,7 +47,7 @@ export class ModalidadeNotificacaoService {
         return this.modelService.count('modalidade_notificacao', new HttpParams({fromObject: params}));
     }
 
-    save(modalidadeNotificacao: ModalidadeNotificacao, context: any = {}): Observable<ModalidadeNotificacao> {
+    save(modalidadeNotificacao: ModalidadeNotificacao, context: any = '{}'): Observable<ModalidadeNotificacao> {
         const params = {};
         params['context'] = context;
         if (modalidadeNotificacao.id) {
@@ -71,7 +71,7 @@ export class ModalidadeNotificacaoService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<ModalidadeNotificacao> {
+    destroy(id: number, context: any = '{}'): Observable<ModalidadeNotificacao> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('modalidade_notificacao', id, new HttpParams({fromObject: params}));

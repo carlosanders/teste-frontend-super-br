@@ -17,7 +17,7 @@ export class FavoritoService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<Favorito> {
+    get(id: number, context: any = '{}'): Observable<Favorito> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('favorito', id, new HttpParams({fromObject: params}))
@@ -26,7 +26,7 @@ export class FavoritoService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -41,7 +41,7 @@ export class FavoritoService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -49,7 +49,7 @@ export class FavoritoService {
         return this.modelService.count('favorito', new HttpParams({fromObject: params}));
     }
 
-    save(favorito: Favorito, context: any = {}): Observable<Favorito> {
+    save(favorito: Favorito, context: any = '{}'): Observable<Favorito> {
         const params = {};
         params['context'] = context;
         if (favorito.id) {
@@ -72,7 +72,7 @@ export class FavoritoService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<Favorito> {
+    destroy(id: number, context: any = '{}'): Observable<Favorito> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('favorito', id, new HttpParams({fromObject: params}));

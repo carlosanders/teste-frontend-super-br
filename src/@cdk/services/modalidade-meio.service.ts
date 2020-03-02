@@ -15,7 +15,7 @@ export class ModalidadeMeioService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<ModalidadeMeio> {
+    get(id: number, context: any = '{}'): Observable<ModalidadeMeio> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('modalidade_meio', id, new HttpParams({fromObject: params}))
@@ -24,7 +24,7 @@ export class ModalidadeMeioService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -39,7 +39,7 @@ export class ModalidadeMeioService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -47,7 +47,7 @@ export class ModalidadeMeioService {
         return this.modelService.count('modalidade_meio', new HttpParams({fromObject: params}));
     }
 
-    save(modalidadeMeio: ModalidadeMeio, context: any = {}): Observable<ModalidadeMeio> {
+    save(modalidadeMeio: ModalidadeMeio, context: any = '{}'): Observable<ModalidadeMeio> {
         const params = {};
         params['context'] = context;
         if (modalidadeMeio.id) {
@@ -71,7 +71,7 @@ export class ModalidadeMeioService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<ModalidadeMeio> {
+    destroy(id: number, context: any = '{}'): Observable<ModalidadeMeio> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('modalidade_meio', id, new HttpParams({fromObject: params}));

@@ -15,7 +15,7 @@ export class TipoSigiloService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<TipoSigilo> {
+    get(id: number, context: any = '{}'): Observable<TipoSigilo> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('tipo_sigilo', id, new HttpParams({fromObject: params}))
@@ -24,7 +24,7 @@ export class TipoSigiloService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -39,7 +39,7 @@ export class TipoSigiloService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -47,7 +47,7 @@ export class TipoSigiloService {
         return this.modelService.count('tipo_sigilo', new HttpParams({fromObject: params}));
     }
 
-    save(tipoSigilo: TipoSigilo, context: any = {}): Observable<TipoSigilo> {
+    save(tipoSigilo: TipoSigilo, context: any = '{}'): Observable<TipoSigilo> {
         const params = {};
         params['context'] = context;
         if (tipoSigilo.id) {
@@ -71,7 +71,7 @@ export class TipoSigiloService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<TipoSigilo> {
+    destroy(id: number, context: any = '{}'): Observable<TipoSigilo> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('tipo_sigilo', id, new HttpParams({fromObject: params}));

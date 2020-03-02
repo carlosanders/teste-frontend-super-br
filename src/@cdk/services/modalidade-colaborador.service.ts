@@ -15,7 +15,7 @@ export class ModalidadeColaboradorService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<ModalidadeColaborador> {
+    get(id: number, context: any = '{}'): Observable<ModalidadeColaborador> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('modalidade_colaborador', id, new HttpParams({fromObject: params}))
@@ -24,7 +24,7 @@ export class ModalidadeColaboradorService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -39,7 +39,7 @@ export class ModalidadeColaboradorService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -47,7 +47,7 @@ export class ModalidadeColaboradorService {
         return this.modelService.count('modalidade_colaborador', new HttpParams({fromObject: params}));
     }
 
-    save(modalidadeColaborador: ModalidadeColaborador, context: any = {}): Observable<ModalidadeColaborador> {
+    save(modalidadeColaborador: ModalidadeColaborador, context: any = '{}'): Observable<ModalidadeColaborador> {
         const params = {};
         params['context'] = context;
         if (modalidadeColaborador.id) {
@@ -71,7 +71,7 @@ export class ModalidadeColaboradorService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<ModalidadeColaborador> {
+    destroy(id: number, context: any = '{}'): Observable<ModalidadeColaborador> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('modalidade_colaborador', id, new HttpParams({fromObject: params}));

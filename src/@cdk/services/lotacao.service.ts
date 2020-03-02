@@ -17,7 +17,7 @@ export class LotacaoService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<Lotacao> {
+    get(id: number, context: any = '{}'): Observable<Lotacao> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('lotacao', id, new HttpParams({fromObject: params}))
@@ -26,7 +26,7 @@ export class LotacaoService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -41,7 +41,7 @@ export class LotacaoService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -49,7 +49,7 @@ export class LotacaoService {
         return this.modelService.count('lotacao', new HttpParams({fromObject: params}));
     }
 
-    save(lotacao: Lotacao, context: any = {}): Observable<Lotacao> {
+    save(lotacao: Lotacao, context: any = '{}'): Observable<Lotacao> {
         const params = {};
         params['context'] = context;
         if (lotacao.id) {
@@ -73,7 +73,7 @@ export class LotacaoService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<Lotacao> {
+    destroy(id: number, context: any = '{}'): Observable<Lotacao> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('lotacao', id, new HttpParams({fromObject: params}));

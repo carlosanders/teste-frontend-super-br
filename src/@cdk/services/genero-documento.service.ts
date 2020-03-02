@@ -15,7 +15,7 @@ export class GeneroDocumentoService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<GeneroDocumento> {
+    get(id: number, context: any = '{}'): Observable<GeneroDocumento> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('genero_documento', id, new HttpParams({fromObject: params}))
@@ -24,7 +24,7 @@ export class GeneroDocumentoService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -39,7 +39,7 @@ export class GeneroDocumentoService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -47,7 +47,7 @@ export class GeneroDocumentoService {
         return this.modelService.count('genero_documento', new HttpParams({fromObject: params}));
     }
 
-    save(generoDocumento: GeneroDocumento, context: any = {}): Observable<GeneroDocumento> {
+    save(generoDocumento: GeneroDocumento, context: any = '{}'): Observable<GeneroDocumento> {
         const params = {};
         params['context'] = context;
         if (generoDocumento.id) {
@@ -71,7 +71,7 @@ export class GeneroDocumentoService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<GeneroDocumento> {
+    destroy(id: number, context: any = '{}'): Observable<GeneroDocumento> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('genero_documento', id, new HttpParams({fromObject: params}));

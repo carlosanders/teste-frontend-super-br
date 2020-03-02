@@ -15,7 +15,7 @@ export class GeneroTarefaService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<GeneroTarefa> {
+    get(id: number, context: any = '{}'): Observable<GeneroTarefa> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('genero_tarefa', id, new HttpParams({fromObject: params}))
@@ -24,7 +24,7 @@ export class GeneroTarefaService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -39,7 +39,7 @@ export class GeneroTarefaService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -47,7 +47,7 @@ export class GeneroTarefaService {
         return this.modelService.count('genero_tarefa', new HttpParams({fromObject: params}));
     }
 
-    save(generoTarefa: GeneroTarefa, context: any = {}): Observable<GeneroTarefa> {
+    save(generoTarefa: GeneroTarefa, context: any = '{}'): Observable<GeneroTarefa> {
         const params = {};
         params['context'] = context;
         if (generoTarefa.id) {
@@ -71,7 +71,7 @@ export class GeneroTarefaService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<GeneroTarefa> {
+    destroy(id: number, context: any = '{}'): Observable<GeneroTarefa> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('genero_tarefa', id, new HttpParams({fromObject: params}));

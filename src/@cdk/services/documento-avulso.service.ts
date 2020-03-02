@@ -17,7 +17,7 @@ export class DocumentoAvulsoService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<DocumentoAvulso> {
+    get(id: number, context: any = '{}'): Observable<DocumentoAvulso> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('documento_avulso', id, new HttpParams({fromObject: params}))
@@ -26,7 +26,7 @@ export class DocumentoAvulsoService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -41,7 +41,7 @@ export class DocumentoAvulsoService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -49,7 +49,7 @@ export class DocumentoAvulsoService {
         return this.modelService.count('documento_avulso', new HttpParams({fromObject: params}));
     }
 
-    save(documentoAvulso: DocumentoAvulso, context: any = {}): Observable<DocumentoAvulso> {
+    save(documentoAvulso: DocumentoAvulso, context: any = '{}'): Observable<DocumentoAvulso> {
         const params = {};
         params['context'] = context;
         if (documentoAvulso.id) {
@@ -99,7 +99,7 @@ export class DocumentoAvulsoService {
         );
     }
 
-    destroy(id: number, context: any = {}): Observable<DocumentoAvulso> {
+    destroy(id: number, context: any = '{}'): Observable<DocumentoAvulso> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('documento_avulso', id, new HttpParams({fromObject: params}));

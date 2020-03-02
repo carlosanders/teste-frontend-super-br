@@ -17,7 +17,7 @@ export class EnderecoService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<Endereco> {
+    get(id: number, context: any = '{}'): Observable<Endereco> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('endereco', id, new HttpParams({fromObject: params}))
@@ -26,7 +26,7 @@ export class EnderecoService {
             );
     }
 
-    getFromCorreiosByCep(cep: string, context: any = {}): Observable<Endereco>{
+    getFromCorreiosByCep(cep: string, context: any = '{}'): Observable<Endereco>{
         const params: HttpParams = new HttpParams()
         params['context'] = context;
         return this.http.get(
@@ -42,7 +42,7 @@ export class EnderecoService {
         );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -57,7 +57,7 @@ export class EnderecoService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -65,7 +65,7 @@ export class EnderecoService {
         return this.modelService.count('endereco', new HttpParams({fromObject: params}));
     }
 
-    save(endereco: Endereco, context: any = {}): Observable<Endereco> {
+    save(endereco: Endereco, context: any = '{}'): Observable<Endereco> {
         const params = {};
         params['context'] = context;
         if (endereco.id) {
@@ -89,7 +89,7 @@ export class EnderecoService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<Endereco> {
+    destroy(id: number, context: any = '{}'): Observable<Endereco> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('endereco', id, new HttpParams({fromObject: params}));
