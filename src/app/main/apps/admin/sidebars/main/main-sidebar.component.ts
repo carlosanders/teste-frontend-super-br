@@ -39,17 +39,17 @@ export class AdminMainSidebarComponent implements OnInit, OnDestroy {
 
         this.links = [
             {
-                nome: 'Setor',
-                icon: 'group',
+                nome: 'Setores',
+                icon: 'domain',
                 link: 'setor'
             },
             {
                 nome: 'Lotações',
-                icon: 'edit_location',
+                icon: 'map',
                 link: 'lotacoes'
             },
             {
-                nome: 'Localizador',
+                nome: 'Localizadores',
                 icon: 'edit_location',
                 link: 'localizador'
             }
