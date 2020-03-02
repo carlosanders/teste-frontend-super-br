@@ -15,20 +15,23 @@ export class DesentranhamentoService {
     ) {
     }
 
-    get(id: number): Observable<Desentranhamento> {
-        return this.modelService.getOne('desentranhamento', id)
+    get(id: number, context: any = {}): Observable<Desentranhamento> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.getOne('desentranhamento', id, new HttpParams({fromObject: params}))
             .pipe(
                 map(response => plainToClass(Desentranhamento, response)[0])
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
+    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
         params['offset'] = offset;
         params['order'] = order;
         params['populate'] = populate;
+        params['context'] = context;
 
         return this.modelService.get('desentranhamento', new HttpParams({fromObject: params}))
             .pipe(
@@ -36,16 +39,19 @@ export class DesentranhamentoService {
             );
     }
 
-    count(filters: any = {}): Observable<any> {
+    count(filters: any = {}, context: any = {}): Observable<any> {
         const params = {};
         params['where'] = filters;
+        params['context'] = context;
 
         return this.modelService.count('desentranhamento', new HttpParams({fromObject: params}));
     }
 
-    save(desentranhamento: Desentranhamento): Observable<Desentranhamento> {
+    save(desentranhamento: Desentranhamento, context: any = {}): Observable<Desentranhamento> {
+        const params = {};
+        params['context'] = context;
         if (desentranhamento.id) {
-            return this.modelService.put('desentranhamento', desentranhamento.id, classToPlain(desentranhamento))
+            return this.modelService.put('desentranhamento', desentranhamento.id, classToPlain(desentranhamento), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(Desentranhamento, response);
@@ -54,7 +60,7 @@ export class DesentranhamentoService {
                     })
                 );
         } else {
-            return this.modelService.post('desentranhamento', classToPlain(desentranhamento))
+            return this.modelService.post('desentranhamento', classToPlain(desentranhamento), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(Desentranhamento, response);
@@ -65,7 +71,9 @@ export class DesentranhamentoService {
         }
     }
 
-    destroy(id: number): Observable<Desentranhamento> {
-        return this.modelService.delete('desentranhamento', id);
+    destroy(id: number, context: any = {}): Observable<Desentranhamento> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.delete('desentranhamento', id, new HttpParams({fromObject: params}));
     }
 }

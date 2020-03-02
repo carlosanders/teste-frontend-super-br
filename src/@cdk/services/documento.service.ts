@@ -19,20 +19,23 @@ export class DocumentoService {
     ) {
     }
 
-    get(id: number): Observable<Documento> {
-        return this.modelService.getOne('documento', id)
+    get(id: number, context: any = {}): Observable<Documento> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.getOne('documento', id, new HttpParams({fromObject: params}))
             .pipe(
                 map(response => plainToClass(Documento, response)[0])
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
+    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
         params['offset'] = offset;
         params['order'] = order;
         params['populate'] = populate;
+        params['context'] = context;
 
         return this.modelService.get('documento', new HttpParams({fromObject: params}))
             .pipe(
@@ -40,16 +43,18 @@ export class DocumentoService {
             );
     }
 
-    count(filters: any = {}): Observable<any> {
+    count(filters: any = {}, context: any = {}): Observable<any> {
         const params = {};
         params['where'] = filters;
-
+        params['context'] = context;
         return this.modelService.count('documento', new HttpParams({fromObject: params}));
     }
 
-    save(documento: Documento): Observable<Documento> {
+    save(documento: Documento, context: any = {}): Observable<Documento> {
+        const params = {};
+        params['context'] = context;
         if (documento.id) {
-            return this.modelService.put('documento', documento.id, classToPlain(documento))
+            return this.modelService.put('documento', documento.id, classToPlain(documento), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(Documento, response);
@@ -58,7 +63,7 @@ export class DocumentoService {
                     })
                 );
         } else {
-            return this.modelService.post('documento', classToPlain(documento))
+            return this.modelService.post('documento', classToPlain(documento), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(Documento, response);
@@ -69,15 +74,18 @@ export class DocumentoService {
         }
     }
 
-    preparaAssinatura(documentosId: any = '[]'): any {
+    preparaAssinatura(documentosId: any = '[]', context: any = {}): any {
         const p = {};
         p['documentosId'] = documentosId;
         const params = new HttpParams({fromObject: p});
+        params['context'] = context;
         return this.http.get(`${environment.api_url}${'documento'}` + '/prepara_assinatura' + environment.xdebug, {params});
     }
 
-    destroy(id: number): Observable<Documento> {
-        return this.modelService.delete('documento', id);
+    destroy(id: number, context: any = {}): Observable<Documento> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.delete('documento', id, new HttpParams({fromObject: params}));
     }
 
     getVisibilidade(id: number): Observable<any> {

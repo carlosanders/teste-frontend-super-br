@@ -18,7 +18,8 @@ export class ProcessoService {
     ) {
     }
 
-    get(id: number, params: HttpParams = new HttpParams()): Observable<Processo> {
+    get(id: number, params: HttpParams = new HttpParams(), context: any = {}): Observable<Processo> {
+        params['context'] = context;
         return this.modelService.getOne('processo', id, params)
             .pipe(
                 map(response => plainToClass(Processo, response)[0])
@@ -72,16 +73,19 @@ export class ProcessoService {
             );
     }
 
-    count(filters: any = {}): Observable<any> {
+    count(filters: any = {}, context: any = {}): Observable<any> {
         const params = {};
         params['where'] = filters;
+        params['context'] = context;
 
         return this.modelService.count('processo', new HttpParams({fromObject: params}));
     }
 
-    save(processo: Processo): Observable<Processo> {
+    save(processo: Processo, context: any = {}): Observable<Processo> {
+        const params = {};
+        params['context'] = context;
         if (processo.id) {
-            return this.modelService.put('processo', processo.id, classToPlain(processo))
+            return this.modelService.put('processo', processo.id, classToPlain(processo), new HttpParams({fromObject: params}))
                 .pipe(
 //                    tap((n) => {console.log('servico PUT' + n); } ),
                     map(response => {
@@ -91,7 +95,7 @@ export class ProcessoService {
                     })
                 );
         } else {
-            return this.modelService.post('processo', classToPlain(processo))
+            return this.modelService.post('processo', classToPlain(processo), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(Processo, response);
@@ -115,7 +119,9 @@ export class ProcessoService {
         );
     }
 
-    destroy(id: number): Observable<Processo> {
-        return this.modelService.delete('processo', id);
+    destroy(id: number, context: any = {}): Observable<Processo> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.delete('processo', id, new HttpParams({fromObject: params}));
     }
 }

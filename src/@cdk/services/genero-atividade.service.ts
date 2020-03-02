@@ -15,18 +15,21 @@ export class GeneroAtividadeService {
     ) {
     }
 
-    get(id: number): Observable<GeneroAtividade> {
-        return this.modelService.getOne('genero_atividade', id)
+    get(id: number, context: any = {}): Observable<GeneroAtividade> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.getOne('genero_atividade', id, new HttpParams({fromObject: params}))
             .pipe(response => plainToClass(GeneroAtividade, response)[0]);
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
+    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
         params['offset'] = offset;
         params['order'] = order;
         params['populate'] = populate;
+        params['context'] = context;
 
         return this.modelService.get('genero_atividade', new HttpParams({fromObject: params}))
             .pipe(
@@ -34,16 +37,19 @@ export class GeneroAtividadeService {
             );
     }
 
-    count(filters: any = {}): Observable<any> {
+    count(filters: any = {}, context: any = {}): Observable<any> {
         const params = {};
         params['where'] = filters;
+        params['context'] = context;
 
         return this.modelService.count('genero_atividade', new HttpParams({fromObject: params}));
     }
 
-    save(generoAtividade: GeneroAtividade): Observable<GeneroAtividade> {
+    save(generoAtividade: GeneroAtividade, context: any = {}): Observable<GeneroAtividade> {
+        const params = {};
+        params['context'] = context;
         if (generoAtividade.id) {
-            return this.modelService.put('genero_atividade', generoAtividade.id, classToPlain(generoAtividade))
+            return this.modelService.put('genero_atividade', generoAtividade.id, classToPlain(generoAtividade), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(GeneroAtividade, response);
@@ -52,7 +58,7 @@ export class GeneroAtividadeService {
                     })
                 );
         } else {
-            return this.modelService.post('genero_atividade', classToPlain(generoAtividade))
+            return this.modelService.post('genero_atividade', classToPlain(generoAtividade), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(GeneroAtividade, response);
@@ -63,7 +69,9 @@ export class GeneroAtividadeService {
         }
     }
 
-    destroy(id: number): Observable<GeneroAtividade> {
-        return this.modelService.delete('genero_atividade', id);
+    destroy(id: number, context: any = {}): Observable<GeneroAtividade> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.delete('genero_atividade', id, new HttpParams({fromObject: params}));
     }
 }

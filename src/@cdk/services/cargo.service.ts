@@ -15,20 +15,23 @@ export class CargoService {
     ) {
     }
 
-    get(id: number): Observable<Cargo> {
-        return this.modelService.getOne('cargo', id)
+    get(id: number, context: any = {}): Observable<Cargo> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.getOne('cargo', id, new HttpParams({fromObject: params}))
             .pipe(
                 map(response => plainToClass(Cargo, response)[0])
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
+    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
         params['offset'] = offset;
         params['order'] = order;
         params['populate'] = populate;
+        params['context'] = context;
 
         return this.modelService.get('cargo', new HttpParams({fromObject: params}))
             .pipe(
@@ -36,16 +39,19 @@ export class CargoService {
             );
     }
 
-    count(filters: any = {}): Observable<any> {
+    count(filters: any = {}, context: any = {}): Observable<any> {
         const params = {};
         params['where'] = filters;
+        params['context'] = context;
 
         return this.modelService.count('cargo', new HttpParams({fromObject: params}));
     }
 
-    save(cargo: Cargo): Observable<Cargo> {
+    save(cargo: Cargo, context: any = {}): Observable<Cargo> {
+        const params = {};
+        params['context'] = context;
         if (cargo.id) {
-            return this.modelService.put('cargo', cargo.id, classToPlain(cargo))
+            return this.modelService.put('cargo', cargo.id, classToPlain(cargo), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(Cargo, response);
@@ -54,7 +60,7 @@ export class CargoService {
                     })
                 );
         } else {
-            return this.modelService.post('cargo', classToPlain(cargo))
+            return this.modelService.post('cargo', classToPlain(cargo), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(Cargo, response);
@@ -65,7 +71,9 @@ export class CargoService {
         }
     }
 
-    destroy(id: number): Observable<Cargo> {
-        return this.modelService.delete('cargo', id);
+    destroy(id: number, context: any = {}): Observable<Cargo> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.delete('cargo', id, new HttpParams({fromObject: params}));
     }
 }

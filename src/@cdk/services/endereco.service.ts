@@ -17,8 +17,10 @@ export class EnderecoService {
     ) {
     }
 
-    get(id: number): Observable<Endereco> {
-        return this.modelService.getOne('endereco', id)
+    get(id: number, context: any = {}): Observable<Endereco> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.getOne('endereco', id, new HttpParams({fromObject: params}))
             .pipe(
                 map(response => plainToClass(Endereco, response)[0])
             );
@@ -37,13 +39,14 @@ export class EnderecoService {
         );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
+    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
         params['offset'] = offset;
         params['order'] = order;
         params['populate'] = populate;
+        params['context'] = context;
 
         return this.modelService.get('endereco', new HttpParams({fromObject: params}))
             .pipe(
@@ -51,16 +54,19 @@ export class EnderecoService {
             );
     }
 
-    count(filters: any = {}): Observable<any> {
+    count(filters: any = {}, context: any = {}): Observable<any> {
         const params = {};
         params['where'] = filters;
+        params['context'] = context;
 
         return this.modelService.count('endereco', new HttpParams({fromObject: params}));
     }
 
-    save(endereco: Endereco): Observable<Endereco> {
+    save(endereco: Endereco, context: any = {}): Observable<Endereco> {
+        const params = {};
+        params['context'] = context;
         if (endereco.id) {
-            return this.modelService.put('endereco', endereco.id, classToPlain(endereco))
+            return this.modelService.put('endereco', endereco.id, classToPlain(endereco), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(Endereco, response);
@@ -69,7 +75,7 @@ export class EnderecoService {
                     })
                 );
         } else {
-            return this.modelService.post('endereco', classToPlain(endereco))
+            return this.modelService.post('endereco', classToPlain(endereco), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(Endereco, response);
@@ -80,7 +86,9 @@ export class EnderecoService {
         }
     }
 
-    destroy(id: number): Observable<Endereco> {
-        return this.modelService.delete('endereco', id);
+    destroy(id: number, context: any = {}): Observable<Endereco> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.delete('endereco', id, new HttpParams({fromObject: params}));
     }
 }

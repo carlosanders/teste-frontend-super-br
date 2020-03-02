@@ -15,20 +15,23 @@ export class ModalidadeNotificacaoService {
     ) {
     }
 
-    get(id: number): Observable<ModalidadeNotificacao> {
-        return this.modelService.getOne('modalidade_notificacao', id)
+    get(id: number, context: any = {}): Observable<ModalidadeNotificacao> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.getOne('modalidade_notificacao', id, new HttpParams({fromObject: params}))
             .pipe(
                 map(response => plainToClass(ModalidadeNotificacao, response)[0])
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
+    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
         params['offset'] = offset;
         params['order'] = order;
         params['populate'] = populate;
+        params['context'] = context;
 
         return this.modelService.get('modalidade_notificacao', new HttpParams({fromObject: params}))
             .pipe(
@@ -36,16 +39,19 @@ export class ModalidadeNotificacaoService {
             );
     }
 
-    count(filters: any = {}): Observable<any> {
+    count(filters: any = {}, context: any = {}): Observable<any> {
         const params = {};
         params['where'] = filters;
+        params['context'] = context;
 
         return this.modelService.count('modalidade_notificacao', new HttpParams({fromObject: params}));
     }
 
-    save(modalidadeNotificacao: ModalidadeNotificacao): Observable<ModalidadeNotificacao> {
+    save(modalidadeNotificacao: ModalidadeNotificacao, context: any = {}): Observable<ModalidadeNotificacao> {
+        const params = {};
+        params['context'] = context;
         if (modalidadeNotificacao.id) {
-            return this.modelService.put('modalidade_notificacao', modalidadeNotificacao.id, classToPlain(modalidadeNotificacao))
+            return this.modelService.put('modalidade_notificacao', modalidadeNotificacao.id, classToPlain(modalidadeNotificacao), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(ModalidadeNotificacao, response);
@@ -54,7 +60,7 @@ export class ModalidadeNotificacaoService {
                     })
                 );
         } else {
-            return this.modelService.post('modalidade_notificacao', classToPlain(modalidadeNotificacao))
+            return this.modelService.post('modalidade_notificacao', classToPlain(modalidadeNotificacao), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(ModalidadeNotificacao, response);
@@ -65,7 +71,9 @@ export class ModalidadeNotificacaoService {
         }
     }
 
-    destroy(id: number): Observable<ModalidadeNotificacao> {
-        return this.modelService.delete('modalidade_notificacao', id);
+    destroy(id: number, context: any = {}): Observable<ModalidadeNotificacao> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.delete('modalidade_notificacao', id, new HttpParams({fromObject: params}));
     }
 }

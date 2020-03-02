@@ -15,20 +15,23 @@ export class VinculacaoDocumentoService {
     ) {
     }
 
-    get(id: number): Observable<VinculacaoDocumento> {
-        return this.modelService.getOne('vinculacao_documento', id)
+    get(id: number, context: any = {}): Observable<VinculacaoDocumento> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.getOne('vinculacao_documento', id, new HttpParams({fromObject: params}))
             .pipe(
                 map(response => plainToClass(VinculacaoDocumento, response)[0])
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
+    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
         params['offset'] = offset;
         params['order'] = order;
         params['populate'] = populate;
+        params['context'] = context;
 
         return this.modelService.get('vinculacao_documento', new HttpParams({fromObject: params}))
             .pipe(
@@ -36,16 +39,19 @@ export class VinculacaoDocumentoService {
             );
     }
 
-    count(filters: any = {}): Observable<any> {
+    count(filters: any = {}, context: any = {}): Observable<any> {
         const params = {};
         params['where'] = filters;
+        params['context'] = context;
 
         return this.modelService.count('vinculacao_documento', new HttpParams({fromObject: params}));
     }
 
-    save(vinculacaoDocumento: VinculacaoDocumento): Observable<VinculacaoDocumento> {
+    save(vinculacaoDocumento: VinculacaoDocumento, context: any = {}): Observable<VinculacaoDocumento> {
+        const params = {};
+        params['context'] = context;
         if (vinculacaoDocumento.id) {
-            return this.modelService.put('vinculacao_documento', vinculacaoDocumento.id, classToPlain(vinculacaoDocumento))
+            return this.modelService.put('vinculacao_documento', vinculacaoDocumento.id, classToPlain(vinculacaoDocumento), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(VinculacaoDocumento, response);
@@ -54,7 +60,7 @@ export class VinculacaoDocumentoService {
                     })
                 );
         } else {
-            return this.modelService.post('vinculacao_documento', classToPlain(vinculacaoDocumento))
+            return this.modelService.post('vinculacao_documento', classToPlain(vinculacaoDocumento), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(VinculacaoDocumento, response);
@@ -65,7 +71,9 @@ export class VinculacaoDocumentoService {
         }
     }
 
-    destroy(id: number): Observable<VinculacaoDocumento> {
-        return this.modelService.delete('vinculacao_documento', id);
+    destroy(id: number, context: any = {}): Observable<VinculacaoDocumento> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.delete('vinculacao_documento', id, new HttpParams({fromObject: params}));
     }
 }

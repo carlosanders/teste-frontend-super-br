@@ -15,20 +15,23 @@ export class FolderService {
     ) {
     }
 
-    get(id: number): Observable<Folder> {
-        return this.modelService.getOne('folder', id)
+    get(id: number, context: any = {}): Observable<Folder> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.getOne('folder', id, new HttpParams({fromObject: params}))
             .pipe(
                 map(response => plainToClass(Folder, response)[0])
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
+    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
         params['offset'] = offset;
         params['order'] = order;
         params['populate'] = populate;
+        params['context'] = context;
 
         return this.modelService.get('folder', new HttpParams({fromObject: params}))
             .pipe(
@@ -36,16 +39,19 @@ export class FolderService {
             );
     }
 
-    count(filters: any = {}): Observable<any> {
+    count(filters: any = {}, context: any = {}): Observable<any> {
         const params = {};
         params['where'] = filters;
+        params['context'] = context;
 
         return this.modelService.count('folder', new HttpParams({fromObject: params}));
     }
 
-    save(folder: Folder): Observable<Folder> {
+    save(folder: Folder, context: any = {}): Observable<Folder> {
+        const params = {};
+        params['context'] = context;
         if (folder.id) {
-            return this.modelService.put('folder', folder.id, classToPlain(folder))
+            return this.modelService.put('folder', folder.id, classToPlain(folder), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(Folder, response);
@@ -54,7 +60,7 @@ export class FolderService {
                     })
                 );
         } else {
-            return this.modelService.post('folder', classToPlain(folder))
+            return this.modelService.post('folder', classToPlain(folder), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(Folder, response);
@@ -65,7 +71,9 @@ export class FolderService {
         }
     }
 
-    destroy(id: number): Observable<Folder> {
-        return this.modelService.delete('folder', id);
+    destroy(id: number, context: any = {}): Observable<Folder> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.delete('folder', id, new HttpParams({fromObject: params}));
     }
 }

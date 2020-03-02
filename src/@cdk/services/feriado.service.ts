@@ -15,20 +15,23 @@ export class FeriadoService {
     ) {
     }
 
-    get(id: number): Observable<Feriado> {
-        return this.modelService.getOne('feriado', id)
+    get(id: number, context: any = {}): Observable<Feriado> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.getOne('feriado', id, new HttpParams({fromObject: params}))
             .pipe(
                 map(response => plainToClass(Feriado, response)[0])
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
+    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
         params['offset'] = offset;
         params['order'] = order;
         params['populate'] = populate;
+        params['context'] = context;
 
         return this.modelService.get('feriado', new HttpParams({fromObject: params}))
             .pipe(
@@ -36,16 +39,19 @@ export class FeriadoService {
             );
     }
 
-    count(filters: any = {}): Observable<any> {
+    count(filters: any = {}, context: any = {}): Observable<any> {
         const params = {};
         params['where'] = filters;
+        params['context'] = context;
 
         return this.modelService.count('feriado', new HttpParams({fromObject: params}));
     }
 
-    save(feriado: Feriado): Observable<Feriado> {
+    save(feriado: Feriado, context: any = {}): Observable<Feriado> {
+        const params = {};
+        params['context'] = context;
         if (feriado.id) {
-            return this.modelService.put('feriado', feriado.id, classToPlain(feriado))
+            return this.modelService.put('feriado', feriado.id, classToPlain(feriado), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(Feriado, response);
@@ -54,7 +60,7 @@ export class FeriadoService {
                     })
                 );
         } else {
-            return this.modelService.post('feriado', classToPlain(feriado))
+            return this.modelService.post('feriado', classToPlain(feriado), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(Feriado, response);
@@ -65,7 +71,9 @@ export class FeriadoService {
         }
     }
 
-    destroy(id: number): Observable<Feriado> {
-        return this.modelService.delete('feriado', id);
+    destroy(id: number, context: any = {}): Observable<Feriado> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.delete('feriado', id, new HttpParams({fromObject: params}));
     }
 }
