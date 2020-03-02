@@ -12,7 +12,7 @@ import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
-import {ModalidadeDocumentoIdentificador} from '@cdk/models/modalidade-documento-identificador.model';
+import {ModalidadeDocumentoIdentificador} from '@cdk/models';
 import {ModalidadeDocumentoIdentificadorDataSource} from '@cdk/data-sources/modalidade-documento-identificador-data-source';
 import {FormControl} from '@angular/forms';
 

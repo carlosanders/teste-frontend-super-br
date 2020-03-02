@@ -9,15 +9,15 @@ import {
 import {fuseAnimations} from '@fuse/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {Tarefa} from '@cdk/models/tarefa.model';
+import {Tarefa} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 import * as moment from 'moment';
-import {Colaborador} from '@cdk/models/colaborador.model';
+import {Colaborador} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Processo} from '@cdk/models/processo.model';
+import {Processo} from '@cdk/models';
 import {take, takeUntil, tap} from 'rxjs/operators';
 import {MatDialog} from '@cdk/angular/material';
 import {CdkVisibilidadePluginComponent} from '@cdk/components/visibilidade/cdk-visibilidade-plugin/cdk-visibilidade-plugin.component';
@@ -69,7 +69,7 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.processo$ = this._store.pipe(select(fromStore.getProcesso));
-        this._profile = _loginService.getUserProfile();
+        this._profile = _loginService.getUserProfile().colaborador;
         this.visibilidades$ = this._store.pipe(select(fromStore.getVisibilidadeProcesso));
 
         this.especieTarefaPagination = new Pagination();
@@ -133,11 +133,13 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
                         .pipe(
                             tap(
                                 (value) => {
-                                    const processoId = this.routerState.params.processoHandle ? this.routerState.params.processoHandle : this.processo.id;
+                                    const processoId = this.routerState.params.processoHandle ?
+                                        this.routerState.params.processoHandle : this.processo.id;
                                     if (value === 1 && processoId) {
-
-                                        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' +
-                                        this.routerState.params.folderHandle + '/visibilidade/' + processoId]);
+                                        this._router.navigate(['apps/tarefas/' +
+                                        this.routerState.params.generoHandle + '/' +
+                                        this.routerState.params.typeHandle + '/' +
+                                        this.routerState.params.targetHandle + '/visibilidade/' + processoId]);
                                     }
                                 }
                             ),

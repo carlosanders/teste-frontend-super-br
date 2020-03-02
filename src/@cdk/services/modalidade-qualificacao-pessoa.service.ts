@@ -2,10 +2,10 @@ import {Injectable} from '@angular/core';
 import {HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {ModalidadeQualificacaoPessoa} from '@cdk/models/modalidade-qualificacao-pessoa.model';
+import {ModalidadeQualificacaoPessoa} from '@cdk/models';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
-import {PaginatedResponse} from '@cdk/models/paginated.response';
+import {PaginatedResponse} from '@cdk/models';
 
 @Injectable()
 export class ModalidadeQualificacaoPessoaService {
@@ -15,20 +15,23 @@ export class ModalidadeQualificacaoPessoaService {
     ) {
     }
 
-    get(id: number): Observable<ModalidadeQualificacaoPessoa> {
-        return this.modelService.getOne('modalidade_qualificacao_pessoa', id)
+    get(id: number, context: any = '{}'): Observable<ModalidadeQualificacaoPessoa> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.getOne('modalidade_qualificacao_pessoa', id, new HttpParams({fromObject: params}))
             .pipe(
                 map(response => plainToClass(ModalidadeQualificacaoPessoa, response)[0])
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
         params['offset'] = offset;
         params['order'] = order;
         params['populate'] = populate;
+        params['context'] = context;
 
         return this.modelService.get('modalidade_qualificacao_pessoa', new HttpParams({fromObject: params}))
             .pipe(
@@ -36,16 +39,19 @@ export class ModalidadeQualificacaoPessoaService {
             );
     }
 
-    count(filters: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
+        params['context'] = context;
 
         return this.modelService.count('modalidade_qualificacao_pessoa', new HttpParams({fromObject: params}));
     }
 
-    save(modalidadeQualificacaoPessoa: ModalidadeQualificacaoPessoa): Observable<ModalidadeQualificacaoPessoa> {
+    save(modalidadeQualificacaoPessoa: ModalidadeQualificacaoPessoa, context: any = '{}'): Observable<ModalidadeQualificacaoPessoa> {
+        const params = {};
+        params['context'] = context;
         if (modalidadeQualificacaoPessoa.id) {
-            return this.modelService.put('modalidade_qualificacao_pessoa', modalidadeQualificacaoPessoa.id, classToPlain(modalidadeQualificacaoPessoa))
+            return this.modelService.put('modalidade_qualificacao_pessoa', modalidadeQualificacaoPessoa.id, classToPlain(modalidadeQualificacaoPessoa), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(ModalidadeQualificacaoPessoa, response);
@@ -54,7 +60,7 @@ export class ModalidadeQualificacaoPessoaService {
                     })
                 );
         } else {
-            return this.modelService.post('modalidade_qualificacao_pessoa', classToPlain(modalidadeQualificacaoPessoa))
+            return this.modelService.post('modalidade_qualificacao_pessoa', classToPlain(modalidadeQualificacaoPessoa), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(ModalidadeQualificacaoPessoa, response);
@@ -65,7 +71,9 @@ export class ModalidadeQualificacaoPessoaService {
         }
     }
 
-    destroy(id: number): Observable<ModalidadeQualificacaoPessoa> {
-        return this.modelService.delete('modalidade_qualificacao_pessoa', id);
+    destroy(id: number, context: any = '{}'): Observable<ModalidadeQualificacaoPessoa> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.delete('modalidade_qualificacao_pessoa', id, new HttpParams({fromObject: params}));
     }
 }

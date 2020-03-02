@@ -12,7 +12,7 @@ import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 import {CompartilhamentoDataSource} from '@cdk/data-sources/compartilhamento-data-source';
-import {Compartilhamento} from '@cdk/models/compartilhamento.model';
+import {Compartilhamento} from '@cdk/models';
 import {FormControl} from '@angular/forms';
 
 @Component({

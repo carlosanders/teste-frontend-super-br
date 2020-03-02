@@ -1,6 +1,6 @@
 import {AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewEncapsulation} from '@angular/core';
 import {fuseAnimations} from '@fuse/animations';
-import {Visibilidade} from '@cdk/models/visibilidade.model';
+import {Visibilidade} from '@cdk/models';
 
 @Component({
     selector: 'cdk-visibilidade-list',

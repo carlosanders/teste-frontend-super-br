@@ -14,10 +14,10 @@ import {fuseAnimations} from '@fuse/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 import {ModalidadeDestinacaoService} from '@cdk/services/modalidade-destinacao.service';
-import {ModalidadeDestinacao} from '@cdk/models/modalidade-destinacao.model';
+import {ModalidadeDestinacao} from '@cdk/models';
 
 @Component({
     selector: 'cdk-modalidade-destinacao-gridsearch',

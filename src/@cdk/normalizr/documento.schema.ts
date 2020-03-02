@@ -1,14 +1,14 @@
-import {usuario} from './base.schema';
-import {processo} from './base.schema';
-import {pessoa} from './base.schema';
-import {setor} from './base.schema';
-import {tipoDocumento} from './base.schema';
-import {tarefa} from './base.schema';
-import {origemDados} from './base.schema';
-import {componenteDigital} from './base.schema';
-import {vinculacaoDocumento} from './base.schema';
-import {juntada} from './base.schema';
-import {documento as documentoSchema} from './base.schema';
+import {usuario} from './index.schema';
+import {processo} from './index.schema';
+import {pessoa} from './index.schema';
+import {setor} from './index.schema';
+import {tipoDocumento} from './index.schema';
+import {tarefa} from './index.schema';
+import {origemDados} from './index.schema';
+import {componenteDigital} from './index.schema';
+import {vinculacaoDocumento} from './index.schema';
+import {juntada} from './index.schema';
+import {documento as documentoSchema} from './index.schema';
 
 documentoSchema.define({
     processoOrigem: processo,

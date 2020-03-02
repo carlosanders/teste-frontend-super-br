@@ -23,7 +23,7 @@ export class CdkModalidadeAfastamentoGridFilterComponent implements OnInit {
 
     form: FormGroup;
 
-    filters: any = {};
+    filters: any = '{}';
 
     /**
      * Constructor

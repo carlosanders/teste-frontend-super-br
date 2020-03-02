@@ -1,4 +1,4 @@
-import {classificacao as classificacaoSchema, modalidadeDestinacao, usuario} from './base.schema';
+import {classificacao as classificacaoSchema, modalidadeDestinacao, usuario} from './index.schema';
 
 classificacaoSchema.define({
     modalidadeDestinacao: modalidadeDestinacao,

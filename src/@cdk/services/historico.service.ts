@@ -2,10 +2,10 @@ import {Injectable} from '@angular/core';
 import {HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {Historico} from '@cdk/models/historico.model';
+import {Historico} from '@cdk/models';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
-import {PaginatedResponse} from '@cdk/models/paginated.response';
+import {PaginatedResponse} from '@cdk/models';
 
 @Injectable()
 export class HistoricoService {
@@ -15,20 +15,23 @@ export class HistoricoService {
     ) {
     }
 
-    get(id: number): Observable<Historico> {
-        return this.modelService.getOne('historico', id)
+    get(id: number, context: any = '{}'): Observable<Historico> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.getOne('historico', id, new HttpParams({fromObject: params}))
             .pipe(
                 map(response => plainToClass(Historico, response)[0])
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
         params['offset'] = offset;
         params['order'] = order;
         params['populate'] = populate;
+        params['context'] = context;
 
         return this.modelService.get('historico', new HttpParams({fromObject: params}))
             .pipe(
@@ -36,16 +39,19 @@ export class HistoricoService {
             );
     }
 
-    count(filters: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
+        params['context'] = context;
 
         return this.modelService.count('historico', new HttpParams({fromObject: params}));
     }
 
-    save(historico: Historico): Observable<Historico> {
+    save(historico: Historico, context: any = '{}'): Observable<Historico> {
+        const params = {};
+        params['context'] = context;
         if (historico.id) {
-            return this.modelService.put('historico', historico.id, classToPlain(historico))
+            return this.modelService.put('historico', historico.id, classToPlain(historico), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(Historico, response);
@@ -54,7 +60,7 @@ export class HistoricoService {
                     })
                 );
         } else {
-            return this.modelService.post('historico', classToPlain(historico))
+            return this.modelService.post('historico', classToPlain(historico), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(Historico, response);
@@ -65,7 +71,9 @@ export class HistoricoService {
         }
     }
 
-    destroy(id: number): Observable<Historico> {
-        return this.modelService.delete('historico', id);
+    destroy(id: number, context: any = '{}'): Observable<Historico> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.delete('historico', id, new HttpParams({fromObject: params}));
     }
 }

@@ -1,10 +1,10 @@
-import {vinculacaoEtiqueta} from './base.schema';
-import {folder} from './base.schema';
-import {setor} from './base.schema';
-import {usuario} from './base.schema';
-import {processo} from './base.schema';
-import {especieTarefa} from './base.schema';
-import {tarefa as tarefaSchema} from './base.schema';
+import {vinculacaoEtiqueta} from './index.schema';
+import {folder} from './index.schema';
+import {setor} from './index.schema';
+import {usuario} from './index.schema';
+import {processo} from './index.schema';
+import {especieTarefa} from './index.schema';
+import {tarefa as tarefaSchema} from './index.schema';
 
 tarefaSchema.define({
     processo: processo,

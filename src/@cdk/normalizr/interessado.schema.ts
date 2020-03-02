@@ -1,9 +1,9 @@
-import {usuario} from './base.schema';
-import {modalidadeInteressado} from './base.schema';
-import {pessoa} from './base.schema';
-import {processo} from './base.schema';
-import {origemDados} from './base.schema';
-import {interessado as interessadoSchema} from './base.schema';
+import {usuario} from './index.schema';
+import {modalidadeInteressado} from './index.schema';
+import {pessoa} from './index.schema';
+import {processo} from './index.schema';
+import {origemDados} from './index.schema';
+import {interessado as interessadoSchema} from './index.schema';
 
 interessadoSchema.define({
     processo: processo,

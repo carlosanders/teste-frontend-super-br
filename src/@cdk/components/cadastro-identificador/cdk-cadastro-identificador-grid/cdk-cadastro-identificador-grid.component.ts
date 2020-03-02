@@ -12,7 +12,7 @@ import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 import {CadastroIdentificadorDataSource} from '@cdk/data-sources/cadastro-identificador-data-source';
-import {CadastroIdentificador} from '@cdk/models/cadastro-identificador.model';
+import {CadastroIdentificador} from '@cdk/models';
 import {FormControl} from '@angular/forms';
 
 @Component({

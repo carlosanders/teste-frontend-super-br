@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {fuseAnimations} from '@fuse/animations';
-import {Juntada} from '@cdk/models/juntada.model';
+import {Juntada} from '@cdk/models';
 import {JuntadaService} from '@cdk/services/juntada.service';
 import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 import {select, Store} from '@ngrx/store';

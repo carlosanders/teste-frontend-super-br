@@ -14,10 +14,10 @@ import {fuseAnimations} from '@fuse/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 import {PessoaService} from '@cdk/services/pessoa.service';
-import {Pessoa} from '@cdk/models/pessoa.model';
+import {Pessoa} from '@cdk/models';
 
 @Component({
     selector: 'cdk-pessoa-gridsearch',

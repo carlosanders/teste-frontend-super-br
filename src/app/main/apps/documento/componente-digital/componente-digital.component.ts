@@ -8,8 +8,9 @@ import {
 } from '@angular/core';
 
 import {fuseAnimations} from '@fuse/animations';
-import {Store} from '@ngrx/store';
+import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
+import {getRouterState} from '../../../../store/reducers';
 
 @Component({
     selector: 'componente-digital',
@@ -21,6 +22,8 @@ import * as fromStore from './store';
 })
 export class ComponenteDigitalComponent implements OnInit, OnDestroy {
 
+    routerState: any;
+
     /**
      * @param _changeDetectorRef
      * @param _store
@@ -29,6 +32,14 @@ export class ComponenteDigitalComponent implements OnInit, OnDestroy {
         private _changeDetectorRef: ChangeDetectorRef,
         private _store: Store<fromStore.ComponenteDigitalAppState>,
     ) {
+        this._store
+            .pipe(
+                select(getRouterState)
+            ).subscribe(routerState => {
+            if (routerState) {
+                this.routerState = routerState.state;
+            }
+        });
     }
 
     // -----------------------------------------------------------------------------------------------------

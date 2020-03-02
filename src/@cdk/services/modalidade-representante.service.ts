@@ -2,10 +2,10 @@ import {Injectable} from '@angular/core';
 import {HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {ModalidadeRepresentante} from '@cdk/models/modalidade-representante.model';
+import {ModalidadeRepresentante} from '@cdk/models';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
-import {PaginatedResponse} from '@cdk/models/paginated.response';
+import {PaginatedResponse} from '@cdk/models';
 
 @Injectable()
 export class ModalidadeRepresentanteService {
@@ -15,14 +15,16 @@ export class ModalidadeRepresentanteService {
     ) {
     }
 
-    get(id: number): Observable<ModalidadeRepresentante> {
-        return this.modelService.getOne('modalidade_representante', id)
+    get(id: number, context: any = '{}'): Observable<ModalidadeRepresentante> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.getOne('modalidade_representante', id, new HttpParams({fromObject: params}))
             .pipe(
                 map(response => plainToClass(ModalidadeRepresentante, response)[0])
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -36,16 +38,19 @@ export class ModalidadeRepresentanteService {
             );
     }
 
-    count(filters: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
+        params['context'] = context;
 
         return this.modelService.count('modalidade_representante', new HttpParams({fromObject: params}));
     }
 
-    save(modalidadeRepresentante: ModalidadeRepresentante): Observable<ModalidadeRepresentante> {
+    save(modalidadeRepresentante: ModalidadeRepresentante, context: any = '{}'): Observable<ModalidadeRepresentante> {
+        const params = {};
+        params['context'] = context;
         if (modalidadeRepresentante.id) {
-            return this.modelService.put('modalidade_representante', modalidadeRepresentante.id, classToPlain(modalidadeRepresentante))
+            return this.modelService.put('modalidade_representante', modalidadeRepresentante.id, classToPlain(modalidadeRepresentante), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(ModalidadeRepresentante, response);
@@ -54,7 +59,7 @@ export class ModalidadeRepresentanteService {
                     })
                 );
         } else {
-            return this.modelService.post('modalidade_representante', classToPlain(modalidadeRepresentante))
+            return this.modelService.post('modalidade_representante', classToPlain(modalidadeRepresentante), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(ModalidadeRepresentante, response);
@@ -65,7 +70,9 @@ export class ModalidadeRepresentanteService {
         }
     }
 
-    destroy(id: number): Observable<ModalidadeRepresentante> {
-        return this.modelService.delete('modalidade_representante', id);
+    destroy(id: number, context: any = '{}'): Observable<ModalidadeRepresentante> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.delete('modalidade_representante', id, new HttpParams({fromObject: params}));
     }
 }

@@ -10,7 +10,7 @@ import * as JuntadaListActions from 'app/main/apps/processo/processo-edit/juntad
 
 import {JuntadaService} from '@cdk/services/juntada.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {Juntada} from '@cdk/models/juntada.model';
+import {Juntada} from '@cdk/models';
 import {juntada as juntadaSchema} from '@cdk/normalizr/juntada.schema';
 import {Router} from '@angular/router';
 

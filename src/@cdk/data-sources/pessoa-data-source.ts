@@ -1,6 +1,6 @@
 import { CollectionViewer, DataSource } from '@angular/cdk/collections';
 import { Observable } from 'rxjs';
-import { Pessoa } from '@cdk/models/pessoa.model';
+import { Pessoa } from '@cdk/models';
 
 export class PessoaDataSource extends DataSource<Pessoa> {
 

@@ -9,9 +9,9 @@ import {
 
 import {fuseAnimations} from '@fuse/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Garantia} from '@cdk/models/garantia.model';
-import {ModalidadeGarantia} from '@cdk/models/modalidade-garantia.model';
-import {Pagination} from '@cdk/models/pagination';
+import {Garantia} from '@cdk/models';
+import {ModalidadeGarantia} from '@cdk/models';
+import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-garantia-form',

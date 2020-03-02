@@ -1,7 +1,7 @@
-import {usuario} from './base.schema';
-import {modalidadeVinculacaoDocumento} from './base.schema';
-import {documento} from './base.schema';
-import {vinculacaoDocumento as vinculacaoDocumentoSchema} from './base.schema';
+import {usuario} from './index.schema';
+import {modalidadeVinculacaoDocumento} from './index.schema';
+import {documento} from './index.schema';
+import {vinculacaoDocumento as vinculacaoDocumentoSchema} from './index.schema';
 
 vinculacaoDocumentoSchema.define({
     documento: documento,

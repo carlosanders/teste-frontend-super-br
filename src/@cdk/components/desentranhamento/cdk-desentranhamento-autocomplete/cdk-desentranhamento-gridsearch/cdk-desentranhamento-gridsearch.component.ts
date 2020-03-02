@@ -14,10 +14,10 @@ import {fuseAnimations} from '@fuse/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 import {DesentranhamentoService} from '@cdk/services/desentranhamento.service';
-import {Desentranhamento} from '@cdk/models/desentranhamento.model';
+import {Desentranhamento} from '@cdk/models';
 
 @Component({
     selector: 'cdk-desentranhamento-gridsearch',

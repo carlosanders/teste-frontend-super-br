@@ -2,10 +2,10 @@ import {Injectable} from '@angular/core';
 import {HttpParams, HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {VinculacaoEtiqueta} from '@cdk/models/vinculacao-etiqueta.model';
+import {VinculacaoEtiqueta} from '@cdk/models';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
-import {PaginatedResponse} from '@cdk/models/paginated.response';
+import {PaginatedResponse} from '@cdk/models';
 import { environment } from 'environments/environment';
 
 @Injectable()
@@ -17,20 +17,23 @@ export class VinculacaoEtiquetaService {
     ) {
     }
 
-    get(id: number): Observable<VinculacaoEtiqueta> {
-        return this.modelService.getOne('vinculacao_etiqueta', id)
+    get(id: number, context: any = '{}'): Observable<VinculacaoEtiqueta> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.getOne('vinculacao_etiqueta', id, new HttpParams({fromObject: params}))
             .pipe(
                 map(response => plainToClass(VinculacaoEtiqueta, response)[0])
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
         params['offset'] = offset;
         params['order'] = order;
         params['populate'] = populate;
+        params['context'] = context;
 
         return this.modelService.get('vinculacao_etiqueta', new HttpParams({fromObject: params}))
             .pipe(
@@ -38,16 +41,19 @@ export class VinculacaoEtiquetaService {
             );
     }
 
-    count(filters: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
+        params['context'] = context;
 
         return this.modelService.count('vinculacao_etiqueta', new HttpParams({fromObject: params}));
     }
 
-    save(vinculacaoEtiqueta: VinculacaoEtiqueta): Observable<VinculacaoEtiqueta> {
+    save(vinculacaoEtiqueta: VinculacaoEtiqueta, context: any = '{}'): Observable<VinculacaoEtiqueta> {
+        const params = {};
+        params['context'] = context;
         if (vinculacaoEtiqueta.id) {
-            return this.modelService.put('vinculacao_etiqueta', vinculacaoEtiqueta.id, classToPlain(vinculacaoEtiqueta))
+            return this.modelService.put('vinculacao_etiqueta', vinculacaoEtiqueta.id, classToPlain(vinculacaoEtiqueta), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(VinculacaoEtiqueta, response);
@@ -56,7 +62,7 @@ export class VinculacaoEtiquetaService {
                     })
                 );
         } else {
-            return this.modelService.post('vinculacao_etiqueta', classToPlain(vinculacaoEtiqueta))
+            return this.modelService.post('vinculacao_etiqueta', classToPlain(vinculacaoEtiqueta), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(VinculacaoEtiqueta, response);
@@ -67,12 +73,16 @@ export class VinculacaoEtiquetaService {
         }
     }
 
-    destroy(id: number): Observable<VinculacaoEtiqueta> {
-        return this.modelService.delete('vinculacao_etiqueta', id);
+    destroy(id: number, context: any = '{}'): Observable<VinculacaoEtiqueta> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.delete('vinculacao_etiqueta', id, new HttpParams({fromObject: params}));
     }
 
-    patch(vinculacaoEtiqueta: VinculacaoEtiqueta, changes: any): Observable<VinculacaoEtiqueta> {
-        return this.modelService.patch('vinculacao_etiqueta', vinculacaoEtiqueta.id, changes)
+    patch(vinculacaoEtiqueta: VinculacaoEtiqueta, changes: any, context: any = '{}'): Observable<VinculacaoEtiqueta> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.patch('vinculacao_etiqueta', vinculacaoEtiqueta.id, changes, new HttpParams({fromObject: params}))
         .pipe(  
             map(response => {
                 response = plainToClass(VinculacaoEtiqueta, response);

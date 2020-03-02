@@ -12,7 +12,7 @@ import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 import {AssinaturaDataSource} from '@cdk/data-sources/assinatura-data-source';
-import {Assinatura} from '@cdk/models/assinatura.model';
+import {Assinatura} from '@cdk/models';
 import {FormControl} from '@angular/forms';
 
 @Component({

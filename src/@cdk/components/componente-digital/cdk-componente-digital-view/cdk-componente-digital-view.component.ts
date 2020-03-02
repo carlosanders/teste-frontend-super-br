@@ -8,7 +8,7 @@ import {
 
 import {fuseAnimations} from '@fuse/animations';
 
-import {ComponenteDigital} from '@cdk/models/componente-digital.model';
+import {ComponenteDigital} from '@cdk/models';
 import {DomSanitizer} from '@angular/platform-browser';
 
 @Component({

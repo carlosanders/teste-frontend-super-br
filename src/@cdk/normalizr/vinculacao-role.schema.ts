@@ -1,6 +1,6 @@
-import {usuario} from './base.schema';
-import {role} from './base.schema';
-import {vinculacaoRole as vinculacaoRoleSchema} from './base.schema';
+import {usuario} from './index.schema';
+import {role} from './index.schema';
+import {vinculacaoRole as vinculacaoRoleSchema} from './index.schema';
 
 vinculacaoRoleSchema.define({
     role: role,

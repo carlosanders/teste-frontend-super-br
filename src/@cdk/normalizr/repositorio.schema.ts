@@ -1,7 +1,7 @@
-import {usuario} from './base.schema';
-import {documento} from './base.schema';
-import {modalidadeRepositorio} from './base.schema';
-import {repositorio as repositorioSchema} from './base.schema';
+import {usuario} from './index.schema';
+import {documento} from './index.schema';
+import {modalidadeRepositorio} from './index.schema';
+import {repositorio as repositorioSchema} from './index.schema';
 
 repositorioSchema.define({
     modalidadeRepositorio: modalidadeRepositorio,

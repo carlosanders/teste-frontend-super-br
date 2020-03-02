@@ -33,6 +33,11 @@ const routes: Routes = [
                 canActivate: [fromGuards.ResolveGuard]
             },
             {
+                path       : 'visualizar/:chaveAcessoHandle',
+                loadChildren: () => import('./processo-view/processo-view.module').then(m => m.ProcessoViewModule),
+                canActivate: [fromGuards.ResolveGuard]
+            },
+            {
                 path       : 'editar',
                 loadChildren: () => import('./processo-edit/processo-edit.module').then(m => m.ProcessoEditModule),
                 canActivate: [fromGuards.ResolveGuard]
@@ -43,6 +48,11 @@ const routes: Routes = [
             },
             {
                 path       : 'download',
+                loadChildren: () => import('./processo-download/processo-download.module').then(m => m.ProcessoDownloadModule),
+                canActivate: [fromGuards.ResolveGuard]
+            },
+            {
+                path       : 'download/:chaveAcessoHandle',
                 loadChildren: () => import('./processo-download/processo-download.module').then(m => m.ProcessoDownloadModule),
                 canActivate: [fromGuards.ResolveGuard]
             },

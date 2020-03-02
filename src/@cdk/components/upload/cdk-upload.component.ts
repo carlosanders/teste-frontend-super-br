@@ -18,9 +18,9 @@ import {MatPaginator, MatSort, MatTableDataSource} from '@cdk/angular/material';
 import {fuseAnimations} from '@fuse/animations';
 import {environment} from 'environments/environment';
 import {classToPlain} from 'class-transformer';
-import {ComponenteDigital} from '@cdk/models/componente-digital.model';
-import {Processo} from '@cdk/models/processo.model';
-import {Tarefa} from '@cdk/models/tarefa.model';
+import {ComponenteDigital} from '@cdk/models';
+import {Processo} from '@cdk/models';
+import {Tarefa} from '@cdk/models';
 
 @Component({
     selector: 'cdk-upload',

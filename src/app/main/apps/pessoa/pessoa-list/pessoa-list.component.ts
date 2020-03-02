@@ -8,7 +8,7 @@ import {
 import {Observable, Subject} from 'rxjs';
 
 import {fuseAnimations} from '@fuse/animations';
-import {Pessoa} from '@cdk/models/pessoa.model';
+import {Pessoa} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from 'app/main/apps/pessoa/pessoa-list/store';

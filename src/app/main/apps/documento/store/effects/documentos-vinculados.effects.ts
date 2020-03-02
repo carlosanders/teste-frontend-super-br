@@ -9,7 +9,7 @@ import * as DocumentosVinculadosActions from '../actions/documentos-vinculados.a
 import {AddData} from '@cdk/ngrx-normalizr';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
-import {Documento} from '@cdk/models/documento.model';
+import {Documento} from '@cdk/models';
 import {DocumentoService} from '@cdk/services/documento.service';
 import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
 import {Router} from '@angular/router';

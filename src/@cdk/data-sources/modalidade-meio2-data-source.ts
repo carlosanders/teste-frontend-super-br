@@ -1,6 +1,6 @@
 import { CollectionViewer, DataSource } from '@angular/cdk/collections';
 import { Observable } from 'rxjs';
-import { ModalidadeMeio } from '@cdk/models/modalidade-meio.model';
+import { ModalidadeMeio } from '@cdk/models';
 
 export class ModalidadeMeio2DataSource extends DataSource<ModalidadeMeio> {
 

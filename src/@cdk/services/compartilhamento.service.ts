@@ -2,10 +2,10 @@ import {Injectable} from '@angular/core';
 import {HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {Compartilhamento} from '@cdk/models/compartilhamento.model';
+import {Compartilhamento} from '@cdk/models';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
-import {PaginatedResponse} from '@cdk/models/paginated.response';
+import {PaginatedResponse} from '@cdk/models';
 
 @Injectable()
 export class CompartilhamentoService {
@@ -15,20 +15,23 @@ export class CompartilhamentoService {
     ) {
     }
 
-    get(id: number): Observable<Compartilhamento> {
-        return this.modelService.getOne('compartilhamento', id)
+    get(id: number, context: any = '{}'): Observable<Compartilhamento> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.getOne('compartilhamento', id, new HttpParams({fromObject: params}))
             .pipe(
                 map(response => plainToClass(Compartilhamento, response)[0])
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
         params['offset'] = offset;
         params['order'] = order;
         params['populate'] = populate;
+        params['context'] = context;
 
         return this.modelService.get('compartilhamento', new HttpParams({fromObject: params}))
             .pipe(
@@ -36,16 +39,19 @@ export class CompartilhamentoService {
             );
     }
 
-    count(filters: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
+        params['context'] = context;
 
         return this.modelService.count('compartilhamento', new HttpParams({fromObject: params}));
     }
 
-    save(compartilhamento: Compartilhamento): Observable<Compartilhamento> {
+    save(compartilhamento: Compartilhamento, context: any = '{}'): Observable<Compartilhamento> {
+        const params = {};
+        params['context'] = context;
         if (compartilhamento.id) {
-            return this.modelService.put('compartilhamento', compartilhamento.id, classToPlain(compartilhamento))
+            return this.modelService.put('compartilhamento', compartilhamento.id, classToPlain(compartilhamento), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(Compartilhamento, response);
@@ -54,7 +60,7 @@ export class CompartilhamentoService {
                     })
                 );
         } else {
-            return this.modelService.post('compartilhamento', classToPlain(compartilhamento))
+            return this.modelService.post('compartilhamento', classToPlain(compartilhamento), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(Compartilhamento, response);
@@ -65,7 +71,9 @@ export class CompartilhamentoService {
         }
     }
 
-    destroy(id: number): Observable<Compartilhamento> {
-        return this.modelService.delete('compartilhamento', id);
+    destroy(id: number, context: any = '{}'): Observable<Compartilhamento> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.delete('compartilhamento', id, new HttpParams({fromObject: params}));
     }
 }

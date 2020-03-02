@@ -7,13 +7,13 @@ import {
 } from '@angular/core';
 
 import {fuseAnimations} from '@fuse/animations';
-import {Role} from '@cdk/models/role.model';
+import {Role} from '@cdk/models';
 import {RoleService} from '@cdk/services/role.service';
 import {FormControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-role-autocomplete',

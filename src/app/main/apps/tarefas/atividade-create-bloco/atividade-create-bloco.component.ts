@@ -8,19 +8,18 @@ import {
 
 import {fuseAnimations} from '@fuse/animations';
 import {Observable, Subject} from 'rxjs';
-
-import {Atividade} from '@cdk/models/atividade.model';
-import {select, Store} from '@ngrx/store';
-import * as moment from 'moment';
-import {LoginService} from 'app/main/auth/login/login.service';
-import {Tarefa} from '@cdk/models/tarefa.model';
-import {filter, takeUntil} from 'rxjs/operators';
-import {Documento} from '@cdk/models/documento.model';
-import {Router} from '@angular/router';
 import * as fromStore from './store';
+import {Atividade} from '@cdk/models';
+import {select, Store} from '@ngrx/store';
+import {LoginService} from 'app/main/auth/login/login.service';
+import {Tarefa} from '@cdk/models';
 import {getSelectedTarefas} from '../store/selectors';
 import {getOperacoesState, getRouterState} from 'app/store/reducers';
-
+import {Router} from '@angular/router';
+import {filter, takeUntil, tap} from 'rxjs/operators';
+import * as moment from 'moment';
+import {Documento} from '@cdk/models';
+import {Usuario} from "../../../../../@cdk/models/usuario.model";
 
 @Component({
     selector: 'atividade-create-bloco',
@@ -44,7 +43,7 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
 
     operacoes: any[] = [];
 
-    private _profile: any;
+    private _profile: Usuario;
 
     routerState: any;
 
@@ -96,7 +95,8 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
         this.atividade = new Atividade();
         this.atividade.encerraTarefa = true;
         this.atividade.dataHoraConclusao = moment();
-        this.atividade.usuario = this._profile.usuario;
+        //this.atividade.usuario = this._profile.usuario;
+        this.atividade.usuario = this._profile;
 
         this.tarefas$.pipe(
             takeUntil(this._unsubscribeAll),
@@ -143,6 +143,21 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
                 this.operacoes = [];
             }
         });
+
+       /* this.atividade = new Atividade();
+        this.atividade.encerraTarefa = true;
+        this.atividade.dataHoraConclusao = moment();
+        this.atividade.usuario = this._profile;
+
+        if (this.tarefas) {
+
+            const tarefasListId: any[] = [];
+            this.tarefas.forEach((tarefa) => {
+                tarefasListId.push(tarefa.id);
+            });
+
+            this._store.dispatch(new fromStore.GetDocumentos(tarefasListId.toString()));
+        }*/
 
         this.documentos$.pipe(
             filter(cd => !!cd),

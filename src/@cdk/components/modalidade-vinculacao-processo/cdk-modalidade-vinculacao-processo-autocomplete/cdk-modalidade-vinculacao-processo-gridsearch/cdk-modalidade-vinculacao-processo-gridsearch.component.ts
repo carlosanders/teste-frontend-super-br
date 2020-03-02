@@ -14,10 +14,10 @@ import {fuseAnimations} from '@fuse/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 import {ModalidadeVinculacaoProcessoService} from '@cdk/services/modalidade-vinculacao-processo.service';
-import {ModalidadeVinculacaoProcesso} from '@cdk/models/modalidade-vinculacao-processo.model';
+import {ModalidadeVinculacaoProcesso} from '@cdk/models';
 
 @Component({
     selector: 'cdk-modalidade-vinculacao-processo-gridsearch',

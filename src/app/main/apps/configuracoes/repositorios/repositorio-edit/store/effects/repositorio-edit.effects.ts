@@ -10,7 +10,7 @@ import * as RepositorioListActions from '../../../repositorio-list/store/actions
 import {RepositorioService} from '@cdk/services/repositorio.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {repositorio as repositorioSchema} from '@cdk/normalizr/repositorio.schema';
-import {Repositorio} from '@cdk/models/repositorio.model';
+import {Repositorio} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';

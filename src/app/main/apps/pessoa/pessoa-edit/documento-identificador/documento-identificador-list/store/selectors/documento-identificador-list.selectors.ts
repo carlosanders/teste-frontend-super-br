@@ -7,7 +7,7 @@ import {
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {documentoIdentificador as documentoIdentificadorchema} from '@cdk/normalizr/documento-identificador.schema';
-import {DocumentoIdentificador} from '@cdk/models/documento-identificador.model';
+import {DocumentoIdentificador} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<DocumentoIdentificador>(documentoIdentificadorchema);
 

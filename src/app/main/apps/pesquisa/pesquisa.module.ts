@@ -12,6 +12,7 @@ import {FuseSidebarModule} from '@fuse/components';
 import {PesquisaComponent} from 'app/main/apps/pesquisa/pesquisa.component';
 import {PesquisaMainSidebarComponent} from './sidebars/main/main-sidebar.component';
 import {CommonModule} from '@angular/common';
+import {RouteGuard} from "./guard";
 
 const routes: Routes = [
     {
@@ -24,7 +25,8 @@ const routes: Routes = [
             },
             {
                 path: 'processos/:NUPHandle',
-                loadChildren: () => import('./processos/pesquisa-processos.module').then(m => m.PesquisaProcessosModule)
+                loadChildren: () => import('./processos/pesquisa-processos.module').then(m => m.PesquisaProcessosModule),
+                canActivate: [RouteGuard]
             },
             {
                 path: 'documentos',

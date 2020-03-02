@@ -2,10 +2,10 @@ import {Injectable} from '@angular/core';
 import {HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {Etiqueta} from '@cdk/models/etiqueta.model';
+import {Etiqueta} from '@cdk/models';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
-import {PaginatedResponse} from '@cdk/models/paginated.response';
+import {PaginatedResponse} from '@cdk/models';
 
 @Injectable()
 export class EtiquetaService {
@@ -15,20 +15,23 @@ export class EtiquetaService {
     ) {
     }
 
-    get(id: number): Observable<Etiqueta> {
-        return this.modelService.getOne('etiqueta', id)
+    get(id: number, context: any = '{}'): Observable<Etiqueta> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.getOne('etiqueta', id, new HttpParams({fromObject: params}))
             .pipe(
                 map(response => plainToClass(Etiqueta, response)[0])
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
         params['offset'] = offset;
         params['order'] = order;
         params['populate'] = populate;
+        params['context'] = context;
 
         return this.modelService.get('etiqueta', new HttpParams({fromObject: params}))
             .pipe(
@@ -36,16 +39,19 @@ export class EtiquetaService {
             );
     }
 
-    count(filters: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
+        params['context'] = context;
 
         return this.modelService.count('etiqueta', new HttpParams({fromObject: params}));
     }
 
-    save(etiqueta: Etiqueta): Observable<Etiqueta> {
+    save(etiqueta: Etiqueta, context: any = '{}'): Observable<Etiqueta> {
+        const params = {};
+        params['context'] = context;
         if (etiqueta.id) {
-            return this.modelService.put('etiqueta', etiqueta.id, classToPlain(etiqueta))
+            return this.modelService.put('etiqueta', etiqueta.id, classToPlain(etiqueta), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(Etiqueta, response);
@@ -54,7 +60,7 @@ export class EtiquetaService {
                     })
                 );
         } else {
-            return this.modelService.post('etiqueta', classToPlain(etiqueta))
+            return this.modelService.post('etiqueta', classToPlain(etiqueta), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(Etiqueta, response);
@@ -65,7 +71,9 @@ export class EtiquetaService {
         }
     }
 
-    destroy(id: number): Observable<Etiqueta> {
-        return this.modelService.delete('etiqueta', id);
+    destroy(id: number, context: any = '{}'): Observable<Etiqueta> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.delete('etiqueta', id, new HttpParams({fromObject: params}));
     }
 }

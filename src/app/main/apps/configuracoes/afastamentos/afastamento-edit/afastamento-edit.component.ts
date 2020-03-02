@@ -9,14 +9,14 @@ import {
 import {fuseAnimations} from '@fuse/animations';
 import {Observable} from 'rxjs';
 
-import {Afastamento} from '@cdk/models/afastamento.model';
+import {Afastamento} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
-import {Pagination} from '@cdk/models/pagination';
-import {Usuario} from '@cdk/models/usuario.model';
+import {Pagination} from '@cdk/models';
+import {Usuario} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Colaborador} from '@cdk/models/colaborador.model';
+import {Colaborador} from '@cdk/models';
 
 @Component({
     selector: 'afastamento-edit',
@@ -50,8 +50,8 @@ export class AfastamentoEditComponent implements OnInit, OnDestroy {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.afastamento$ = this._store.pipe(select(fromStore.getAfastamento));
-        this.usuario = this._loginService.getUserProfile().usuario;
-        this.colaborador = this._loginService.getUserProfile();
+        this.usuario = this._loginService.getUserProfile();
+        this.colaborador = this.usuario.colaborador;
 
         this.templatePagination = new Pagination();
         this.templatePagination.populate = ['populateAll'];

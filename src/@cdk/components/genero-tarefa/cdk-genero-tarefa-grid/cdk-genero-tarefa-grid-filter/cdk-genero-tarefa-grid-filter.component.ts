@@ -23,7 +23,7 @@ export class CdkGeneroTarefaGridFilterComponent implements OnInit {
 
     form: FormGroup;
 
-    filters: any = {};
+    filters: any = '{}';
 
     /**
      * Constructor

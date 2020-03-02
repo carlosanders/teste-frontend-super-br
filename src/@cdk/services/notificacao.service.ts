@@ -2,10 +2,10 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {Notificacao} from '@cdk/models/notificacao.model';
+import {Notificacao} from '@cdk/models';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
-import {PaginatedResponse} from '@cdk/models/paginated.response';
+import {PaginatedResponse} from '@cdk/models';
 import {environment} from 'environments/environment';
 
 @Injectable()
@@ -17,20 +17,23 @@ export class NotificacaoService {
     ) {
     }
 
-    get(id: number): Observable<Notificacao> {
-        return this.modelService.getOne('notificacao', id)
+    get(id: number, context: any = '{}'): Observable<Notificacao> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.getOne('notificacao', id, new HttpParams({fromObject: params}))
             .pipe(
                 map(response => plainToClass(Notificacao, response)[0])
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
         params['offset'] = offset;
         params['order'] = order;
         params['populate'] = populate;
+        params['context'] = context;
 
         return this.modelService.get('notificacao', new HttpParams({fromObject: params}))
             .pipe(
@@ -38,16 +41,18 @@ export class NotificacaoService {
             );
     }
 
-    count(filters: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
-
+        params['context'] = context;
         return this.modelService.count('notificacao', new HttpParams({fromObject: params}));
     }
 
-    save(notificacao: Notificacao): Observable<Notificacao> {
+    save(notificacao: Notificacao, context: any = '{}'): Observable<Notificacao> {
+        const params = {};
+        params['context'] = context;
         if (notificacao.id) {
-            return this.modelService.put('notificacao', notificacao.id, classToPlain(notificacao))
+            return this.modelService.put('notificacao', notificacao.id, classToPlain(notificacao), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(Notificacao, response);
@@ -56,7 +61,7 @@ export class NotificacaoService {
                     })
                 );
         } else {
-            return this.modelService.post('notificacao', classToPlain(notificacao))
+            return this.modelService.post('notificacao', classToPlain(notificacao), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(Notificacao, response);
@@ -67,8 +72,10 @@ export class NotificacaoService {
         }
     }
 
-    destroy(id: number): Observable<Notificacao> {
-        return this.modelService.delete('notificacao', id);
+    destroy(id: number, context: any = '{}'): Observable<Notificacao> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.delete('notificacao', id, new HttpParams({fromObject: params}));
     }
 
     toggleLida(notificacao: Notificacao): Observable<Notificacao> {

@@ -9,12 +9,12 @@ import {
 import {fuseAnimations} from '@fuse/animations';
 import {Observable} from 'rxjs';
 
-import {Folder} from '@cdk/models/folder.model';
+import {Folder} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
-import {Pagination} from '@cdk/models/pagination';
-import {Usuario} from '@cdk/models/usuario.model';
+import {Pagination} from '@cdk/models';
+import {Usuario} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
 
 @Component({
@@ -48,7 +48,7 @@ export class FolderEditComponent implements OnInit, OnDestroy {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.folder$ = this._store.pipe(select(fromStore.getFolder));
-        this.usuario = this._loginService.getUserProfile().usuario;
+        this.usuario = this._loginService.getUserProfile();
 
         this.modalidadeFolderPagination = new Pagination();
     }

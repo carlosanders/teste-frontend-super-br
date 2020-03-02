@@ -12,7 +12,7 @@ import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
-import {Nome} from '@cdk/models/nome.model';
+import {Nome} from '@cdk/models';
 import {NomeDataSource} from '@cdk/data-sources/nome-data-source';
 import {FormControl} from '@angular/forms';
 

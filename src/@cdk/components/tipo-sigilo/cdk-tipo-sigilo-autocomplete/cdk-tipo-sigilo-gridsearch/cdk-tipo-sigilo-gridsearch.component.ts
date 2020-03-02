@@ -14,10 +14,10 @@ import {fuseAnimations} from '@fuse/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 import {TipoSigiloService} from '@cdk/services/tipo-sigilo.service';
-import {TipoSigilo} from '@cdk/models/tipo-sigilo.model';
+import {TipoSigilo} from '@cdk/models';
 
 @Component({
     selector: 'cdk-tipo-sigilo-gridsearch',

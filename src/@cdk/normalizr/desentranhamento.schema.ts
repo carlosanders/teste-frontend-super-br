@@ -1,7 +1,7 @@
-import {usuario} from './base.schema';
-import {juntada} from './base.schema';
-import {processo} from './base.schema';
-import {desentranhamento as desentranhamentoSchema} from './base.schema';
+import {usuario} from './index.schema';
+import {juntada} from './index.schema';
+import {processo} from './index.schema';
+import {desentranhamento as desentranhamentoSchema} from './index.schema';
 
 desentranhamentoSchema.define({
     juntada: juntada,

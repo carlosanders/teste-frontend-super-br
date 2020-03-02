@@ -12,7 +12,7 @@ import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
-import {Relevancia} from '@cdk/models/relevancia.model';
+import {Relevancia} from '@cdk/models';
 import {RelevanciaDataSource} from '@cdk/data-sources/relevancia-data-source';
 import {FormControl} from '@angular/forms';
 

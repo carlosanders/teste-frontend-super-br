@@ -7,13 +7,13 @@ import {
 } from '@angular/core';
 
 import {fuseAnimations} from '@fuse/animations';
-import {ModalidadeGeneroPessoa} from '@cdk/models/modalidade-genero-pessoa.model';
+import {ModalidadeGeneroPessoa} from '@cdk/models';
 import {ModalidadeGeneroPessoaService} from '@cdk/services/modalidade-genero-pessoa.service';
 import {FormControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-modalidade-genero-pessoa-autocomplete',

@@ -1,6 +1,6 @@
-import {documento} from './base.schema';
-import {usuario} from './base.schema';
-import {areaTrabalho as areaTrabalhoSchema} from './base.schema';
+import {documento} from './index.schema';
+import {usuario} from './index.schema';
+import {areaTrabalho as areaTrabalhoSchema} from './index.schema';
 
 areaTrabalhoSchema.define({
     documento: documento,
