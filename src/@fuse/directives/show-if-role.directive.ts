@@ -28,7 +28,7 @@ export class ShowIfRoleDirective {
 
     @Input() set showIfRole(role: string) {
         const userProfile = this._loginService.getUserProfile();
-        if (userProfile.roles && userProfile.roles.length > 0) {
+        if (userProfile && userProfile.roles && userProfile.roles.length > 0) {
             const hasRole = userProfile.roles.findIndex((papel: string) => {
                 return papel.includes(role);
             });
