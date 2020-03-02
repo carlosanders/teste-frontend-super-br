@@ -26,33 +26,43 @@ export class ProcessoService {
             );
     }
 
-    downloadAsPdf(id: number | string, sequencial: number | string, params: HttpParams = new HttpParams()): Observable<any> {
+    downloadAsPdf(id: number | string, sequencial: number | string, params: HttpParams = new HttpParams(), context: any = {}): Observable<any> {
+        params['context'] = context;
         return this.http.get(`${environment.api_url}processo/${id}/downloadAsPdf/${sequencial}` + environment.xdebug, {params});
     }
 
-    downloadAsZip(id: number | string, sequencial: number | string, params: HttpParams = new HttpParams()): Observable<any> {
+    downloadAsZip(id: number | string, sequencial: number | string, params: HttpParams = new HttpParams(), context: any = {}): Observable<any> {
+        params['context'] = context;
         return this.http.get(`${environment.api_url}processo/${id}/downloadAsZip/${sequencial}` + environment.xdebug, {params});
     }
 
-    getVisibilidade(id: number): Observable<any> {
-        return this.http.get(`${environment.api_url}${'processo'}/${id}/visibilidade` + environment.xdebug, {})
+    getVisibilidade(id: number, context: any = {}): Observable<any> {
+        const params: HttpParams = new HttpParams()
+        params['context'] = context;
+        return this.http.get(`${environment.api_url}${'processo'}/${id}/visibilidade` + environment.xdebug, {params})
             .pipe(
                 map(response => plainToClass(Visibilidade, response))
             );
     }
 
-    createVisibilidade(processoId: number, visibilidade: Visibilidade): Observable<Visibilidade> {
+    createVisibilidade(processoId: number, visibilidade: Visibilidade, context: any = {}): Observable<Visibilidade> {
+        const params: HttpParams = new HttpParams()
+        params['context'] = context;
         return this.http.put(
             `${environment.api_url}${'processo'}/${processoId}/${'visibilidade'}` + environment.xdebug,
-            JSON.stringify(visibilidade)
+            JSON.stringify(visibilidade),
+            {params}
         ).pipe(
             map(response => plainToClass(Visibilidade, response))
         );
     }
 
-    destroyVisibilidade(processoId: number, visibilidadeId: number): Observable<any> {
+    destroyVisibilidade(processoId: number, visibilidadeId: number, context: any = {}): Observable<any> {
+        const params: HttpParams = new HttpParams()
+        params['context'] = context;
         return this.http.delete(
-            `${environment.api_url}${'processo'}/${processoId}/${'visibilidade'}/${visibilidadeId}` + environment.xdebug
+            `${environment.api_url}${'processo'}/${processoId}/${'visibilidade'}/${visibilidadeId}` + environment.xdebug,
+            {params}
         );
     }
 
@@ -106,10 +116,13 @@ export class ProcessoService {
         }
     }
 
-    arquivar(processo: Processo): Observable<Processo> {
+    arquivar(processo: Processo, context: any = {}): Observable<Processo> {
+        const params: HttpParams = new HttpParams()
+        params['context'] = context;
         return this.http.patch(
             `${environment.api_url}${'processo'}/${processo.id}/${'arquivar'}` + environment.xdebug,
-            JSON.stringify(classToPlain(processo))
+            JSON.stringify(classToPlain(processo)),
+            {params}
         ).pipe(
             map(response => {
                 response = plainToClass(Processo, response);

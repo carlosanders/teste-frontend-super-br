@@ -26,9 +26,12 @@ export class EnderecoService {
             );
     }
 
-    getFromCorreiosByCep(cep: string): Observable<Endereco>{
+    getFromCorreiosByCep(cep: string, context: any = {}): Observable<Endereco>{
+        const params: HttpParams = new HttpParams()
+        params['context'] = context;
         return this.http.get(
-            `${environment.api_url}${'endereco'}/${cep}/${'correios'}` + environment.xdebug
+            `${environment.api_url}${'endereco'}/${cep}/${'correios'}` + environment.xdebug,
+            {params}
 
         ).pipe(
             map(response => {

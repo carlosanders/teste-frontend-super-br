@@ -79,10 +79,13 @@ export class TarefaService {
         return this.modelService.delete('tarefa', id, new HttpParams({fromObject: params}));
     }
 
-    ciencia(tarefa: Tarefa): Observable<Tarefa> {
+    ciencia(tarefa: Tarefa, context: any = {}): Observable<Tarefa> {
+        const params: HttpParams = new HttpParams()
+        params['context'] = context;
         return this.http.patch(
             `${environment.api_url}${'tarefa'}/${tarefa.id}/${'ciencia'}` + environment.xdebug,
-            JSON.stringify(classToPlain(tarefa))
+            JSON.stringify(classToPlain(tarefa)),
+            {params}
         ).pipe(
             map(response => {
                 response = plainToClass(Tarefa, response);
@@ -92,10 +95,13 @@ export class TarefaService {
         );
     }
 
-    toggleLida(tarefa: Tarefa): Observable<Tarefa> {
+    toggleLida(tarefa: Tarefa, context: any = {}): Observable<Tarefa> {
+        const params: HttpParams = new HttpParams()
+        params['context'] = context;
         return this.http.patch(
             `${environment.api_url}${'tarefa'}/${tarefa.id}/${'toggle_lida'}` + environment.xdebug,
-            JSON.stringify(classToPlain(tarefa))
+            JSON.stringify(classToPlain(tarefa)),
+            {params}
         ).pipe(
             map(response => {
                 response = plainToClass(Tarefa, response);
@@ -105,10 +111,13 @@ export class TarefaService {
         );
     }
 
-    patch(tarefa: Tarefa, changes: any): Observable<Tarefa> {
+    patch(tarefa: Tarefa, changes: any, context: any = {}): Observable<Tarefa> {
+        const params: HttpParams = new HttpParams()
+        params['context'] = context;
         return this.http.patch(
             `${environment.api_url}${'tarefa'}/${tarefa.id}` + environment.xdebug,
-            JSON.stringify(changes)
+            JSON.stringify(changes),
+            {params}
         ).pipe(
             map(response => {
                 response = plainToClass(Tarefa, response);

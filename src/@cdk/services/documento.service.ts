@@ -88,34 +88,45 @@ export class DocumentoService {
         return this.modelService.delete('documento', id, new HttpParams({fromObject: params}));
     }
 
-    getVisibilidade(id: number): Observable<any> {
-        return this.http.get(`${environment.api_url}${'documento'}/${id}/visibilidade` + environment.xdebug, {})
+    getVisibilidade(id: number, context: any = {}): Observable<any> {
+        const params: HttpParams = new HttpParams()
+        params['context'] = context;
+        return this.http.get(`${environment.api_url}${'documento'}/${id}/visibilidade` + environment.xdebug, {params})
             .pipe(
                 map(response => plainToClass(Visibilidade, response))
             );
     }
 
-    createVisibilidade(documentosId: number, visibilidade: Visibilidade): Observable<Visibilidade> {
+    createVisibilidade(documentosId: number, visibilidade: Visibilidade, context: any = {}): Observable<Visibilidade> {
+        const params: HttpParams = new HttpParams()
+        params['context'] = context;
         return this.http.put(
             `${environment.api_url}${'documento'}/${documentosId}/${'visibilidade'}` + environment.xdebug,
-            JSON.stringify(visibilidade)
+            JSON.stringify(visibilidade),
+            {params}
         ).pipe(
             map(response => plainToClass(Visibilidade, response))
         );
     }
 
-    destroyVisibilidade(documentosId: number, visibilidadeId: number): Observable<any> {
+    destroyVisibilidade(documentosId: number, visibilidadeId: number, context: any = {}): Observable<any> {
+        const params: HttpParams = new HttpParams()
+        params['context'] = context;
         return this.http.delete(
-            `${environment.api_url}${'documento'}/${documentosId}/${'visibilidade'}/${visibilidadeId}` + environment.xdebug
+            `${environment.api_url}${'documento'}/${documentosId}/${'visibilidade'}/${visibilidadeId}` + environment.xdebug,
+            {params}
         );
     }
 
 
     /**SERVICE DE COMPONENTE DIGITAL NO LUGAR ERRADO. VER SE CONSEGUE MUDAR. */
-    preparaConverter(documentoId: number, changes: any): Observable<any> {
+    preparaConverter(documentoId: number, changes: any, context: any = {}): Observable<any> {
+        const params: HttpParams = new HttpParams()
+        params['context'] = context;
         return this.http.patch(
             `${environment.api_url}${'componente_digital'}/${documentoId}/${'convertToPdf'}`+ environment.xdebug,
-            JSON.stringify(changes)
+            JSON.stringify(changes),
+            {params}
         )
         .pipe(
             map(response =>  

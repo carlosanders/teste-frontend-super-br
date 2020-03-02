@@ -79,10 +79,13 @@ export class UsuarioService {
         return this.modelService.delete('usuario', id, new HttpParams({fromObject: params}));
     }
 
-    patch(usuario: Usuario, changes: any): Observable<Usuario> {
+    patch(usuario: Usuario, changes: any, context: any = {}): Observable<Usuario> {
+        const params: HttpParams = new HttpParams()
+        params['context'] = context;
         return this.http.patch(
             `${environment.api_url}${'usuario'}/${usuario.id}` + environment.xdebug,
-            JSON.stringify(changes)
+            JSON.stringify(changes),
+            {params}
         ).pipe(
             map(response => {
                 response = plainToClass(Usuario, response);
