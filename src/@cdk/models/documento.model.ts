@@ -30,6 +30,9 @@ export class Documento {
 
     outroNumero?: string;
 
+    @Exclude({toPlainOnly: true})
+    assinado?: string;
+
     semEfeito?: boolean;
 
     redator?: string;
@@ -149,6 +152,7 @@ export class Documento {
         this.localizadorOriginal = null;
         this.localProducao = null;
         this.autor = null;
+        this.assinado = null;
         this.processoOrigem = null;
         this.documentoOrigem = null;
         this.redator = null;
