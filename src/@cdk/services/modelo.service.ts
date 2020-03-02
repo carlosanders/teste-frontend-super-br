@@ -16,20 +16,23 @@ export class ModeloService {
     ) {
     }
 
-    get(id: number): Observable<Modelo> {
-        return this.modelService.getOne('modelo', id)
+    get(id: number, context: any = {}): Observable<Modelo> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.getOne('modelo', id, new HttpParams({fromObject: params}))
             .pipe(
                 map(response => plainToClass(Modelo, response)[0])
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
+    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
         params['offset'] = offset;
         params['order'] = order;
         params['populate'] = populate;
+        params['context'] = context;
 
         return this.modelService.get('modelo', new HttpParams({fromObject: params}))
             .pipe(
@@ -37,13 +40,14 @@ export class ModeloService {
             );
     }
 
-    search(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
+    search(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
         params['offset'] = offset;
         params['order'] = order;
         params['populate'] = populate;
+        params['context'] = context;
 
         return this.modelService.search('modelo', new HttpParams({fromObject: params}))
             .pipe(
@@ -51,17 +55,19 @@ export class ModeloService {
             );
     }
 
-    count(filters: any = {}): Observable<any> {
+    count(filters: any = {}, context: any = {}): Observable<any> {
         const params = {};
         params['where'] = filters;
+        params['context'] = context;
 
         return this.modelService.count('modelo', new HttpParams({fromObject: params}));
     }
 
-    save(modelo: Modelo): Observable<Modelo> {
+    save(modelo: Modelo, context: any = {}): Observable<Modelo> {
+        const params = {};
+        params['context'] = context;
         if (modelo.id) {
-
-            return this.modelService.put('modelo', modelo.id, classToPlain(modelo))
+            return this.modelService.put('modelo', modelo.id, classToPlain(modelo), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(Modelo, response);
@@ -70,7 +76,7 @@ export class ModeloService {
                     })
                 );
         } else {
-            return this.modelService.post('modelo', classToPlain(modelo))
+            return this.modelService.post('modelo', classToPlain(modelo), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(Modelo, response);
@@ -81,7 +87,9 @@ export class ModeloService {
         }
     }
 
-    destroy(id: number): Observable<Modelo> {
-        return this.modelService.delete('modelo', id);
+    destroy(id: number, context: any = {}): Observable<Modelo> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.delete('modelo', id, new HttpParams({fromObject: params}));
     }
 }

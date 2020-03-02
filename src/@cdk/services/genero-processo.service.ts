@@ -15,14 +15,16 @@ export class GeneroProcessoService {
     ) {
     }
 
-    get(id: number): Observable<GeneroProcesso> {
-        return this.modelService.getOne('genero_processo', id)
+    get(id: number, context: any = {}): Observable<GeneroProcesso> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.getOne('genero_processo', id, new HttpParams({fromObject: params}))
             .pipe(
                 map(response => plainToClass(GeneroProcesso, response)[0])
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
+    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -36,16 +38,19 @@ export class GeneroProcessoService {
             );
     }
 
-    count(filters: any = {}): Observable<any> {
+    count(filters: any = {}, context: any = {}): Observable<any> {
         const params = {};
         params['where'] = filters;
+        params['context'] = context;
 
         return this.modelService.count('genero_processo', new HttpParams({fromObject: params}));
     }
 
-    save(generoProcesso: GeneroProcesso): Observable<GeneroProcesso> {
+    save(generoProcesso: GeneroProcesso, context: any = {}): Observable<GeneroProcesso> {
+        const params = {};
+        params['context'] = context;
         if (generoProcesso.id) {
-            return this.modelService.put('genero_processo', generoProcesso.id, classToPlain(generoProcesso))
+            return this.modelService.put('genero_processo', generoProcesso.id, classToPlain(generoProcesso), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(GeneroProcesso, response);
@@ -54,7 +59,7 @@ export class GeneroProcessoService {
                     })
                 );
         } else {
-            return this.modelService.post('genero_processo', classToPlain(generoProcesso))
+            return this.modelService.post('genero_processo', classToPlain(generoProcesso), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(GeneroProcesso, response);
@@ -65,7 +70,9 @@ export class GeneroProcessoService {
         }
     }
 
-    destroy(id: number): Observable<GeneroProcesso> {
-        return this.modelService.delete('genero_processo', id);
+    destroy(id: number, context: any = {}): Observable<GeneroProcesso> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.delete('genero_processo', id, new HttpParams({fromObject: params}));
     }
 }
