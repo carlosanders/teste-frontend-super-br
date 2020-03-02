@@ -59,7 +59,17 @@ export class LoginEffects {
         ofType<LoginActions.Logout>(LoginActions.LOGOUT),
         tap(() => {
             this.loginService.removeToken();
+            this.loginService.removeUserProfile();
             this.router.navigateByUrl('/auth/login').then();
+        })
+    );
+
+    @Effect({dispatch: false})
+    public Unload: Observable<any> = this.actions.pipe(
+        ofType<LoginActions.Unload>(LoginActions.UNLOAD),
+        tap(() => {
+            this.loginService.removeToken();
+            this.loginService.removeUserProfile();
         })
     );
 

@@ -66,6 +66,8 @@ export class LoginComponent implements OnInit
      */
     ngOnInit(): void
     {
+        this.store.dispatch(new fromStore.Unload());
+
         this.loading = false;
 
         this.loginForm = this.formBuilder.group({

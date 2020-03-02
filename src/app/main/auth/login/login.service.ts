@@ -18,6 +18,10 @@ export class LoginService {
         localStorage.setItem('userProfile', JSON.stringify(userProfile));
     }
 
+    removeUserProfile(): void {
+        localStorage.removeItem('userProfile');
+    }
+
     setToken(action): void {
         localStorage.setItem('token', action.payload.token);
     }
@@ -28,7 +32,6 @@ export class LoginService {
 
     removeToken(): void {
         localStorage.removeItem('token');
-        localStorage.removeItem('userProfile');
     }
 
     login(username: string, password: string): Observable<any> {
