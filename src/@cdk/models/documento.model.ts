@@ -31,7 +31,7 @@ export class Documento {
     outroNumero?: string;
 
     @Exclude({toPlainOnly: true})
-    assinado?: string;
+    assinado?: boolean;
 
     semEfeito?: boolean;
 
