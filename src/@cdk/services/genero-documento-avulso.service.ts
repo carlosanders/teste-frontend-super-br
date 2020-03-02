@@ -15,20 +15,23 @@ export class GeneroDocumentoAvulsoService {
     ) {
     }
 
-    get(id: number): Observable<GeneroDocumentoAvulso> {
-        return this.modelService.getOne('genero_documento_avulso', id)
+    get(id: number, context: any = '{}'): Observable<GeneroDocumentoAvulso> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.getOne('genero_documento_avulso', id, new HttpParams({fromObject: params}))
             .pipe(
                 map(response => plainToClass(GeneroDocumentoAvulso, response)[0])
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
         params['offset'] = offset;
         params['order'] = order;
         params['populate'] = populate;
+        params['context'] = context;
 
         return this.modelService.get('genero_documento_avulso', new HttpParams({fromObject: params}))
             .pipe(
@@ -36,16 +39,19 @@ export class GeneroDocumentoAvulsoService {
             );
     }
 
-    count(filters: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
+        params['context'] = context;
 
         return this.modelService.count('genero_documento_avulso', new HttpParams({fromObject: params}));
     }
 
-    save(generoDocumentoAvulso: GeneroDocumentoAvulso): Observable<GeneroDocumentoAvulso> {
+    save(generoDocumentoAvulso: GeneroDocumentoAvulso, context: any = '{}'): Observable<GeneroDocumentoAvulso> {
+        const params = {};
+        params['context'] = context;
         if (generoDocumentoAvulso.id) {
-            return this.modelService.put('genero_documento_avulso', generoDocumentoAvulso.id, classToPlain(generoDocumentoAvulso))
+            return this.modelService.put('genero_documento_avulso', generoDocumentoAvulso.id, classToPlain(generoDocumentoAvulso), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(GeneroDocumentoAvulso, response);
@@ -54,7 +60,7 @@ export class GeneroDocumentoAvulsoService {
                     })
                 );
         } else {
-            return this.modelService.post('genero_documento_avulso', classToPlain(generoDocumentoAvulso))
+            return this.modelService.post('genero_documento_avulso', classToPlain(generoDocumentoAvulso), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(GeneroDocumentoAvulso, response);
@@ -65,7 +71,9 @@ export class GeneroDocumentoAvulsoService {
         }
     }
 
-    destroy(id: number): Observable<GeneroDocumentoAvulso> {
-        return this.modelService.delete('genero_documento_avulso', id);
+    destroy(id: number, context: any = '{}'): Observable<GeneroDocumentoAvulso> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.delete('genero_documento_avulso', id, new HttpParams({fromObject: params}));
     }
 }

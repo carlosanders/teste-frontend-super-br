@@ -15,20 +15,23 @@ export class ModalidadeFaseService {
     ) {
     }
 
-    get(id: number): Observable<ModalidadeFase> {
-        return this.modelService.getOne('modalidade_fase', id)
+    get(id: number, context: any = '{}'): Observable<ModalidadeFase> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.getOne('modalidade_fase', id, new HttpParams({fromObject: params}))
             .pipe(
                 map(response => plainToClass(ModalidadeFase, response)[0])
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
         params['offset'] = offset;
         params['order'] = order;
         params['populate'] = populate;
+        params['context'] = context;
 
         return this.modelService.get('modalidade_fase', new HttpParams({fromObject: params}))
             .pipe(
@@ -36,16 +39,19 @@ export class ModalidadeFaseService {
             );
     }
 
-    count(filters: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
+        params['context'] = context;
 
         return this.modelService.count('modalidade_fase', new HttpParams({fromObject: params}));
     }
 
-    save(modalidadeFase: ModalidadeFase): Observable<ModalidadeFase> {
+    save(modalidadeFase: ModalidadeFase, context: any = '{}'): Observable<ModalidadeFase> {
+        const params = {};
+        params['context'] = context;
         if (modalidadeFase.id) {
-            return this.modelService.put('modalidade_fase', modalidadeFase.id, classToPlain(modalidadeFase))
+            return this.modelService.put('modalidade_fase', modalidadeFase.id, classToPlain(modalidadeFase), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(ModalidadeFase, response);
@@ -54,7 +60,7 @@ export class ModalidadeFaseService {
                     })
                 );
         } else {
-            return this.modelService.post('modalidade_fase', classToPlain(modalidadeFase))
+            return this.modelService.post('modalidade_fase', classToPlain(modalidadeFase), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(ModalidadeFase, response);
@@ -65,7 +71,9 @@ export class ModalidadeFaseService {
         }
     }
 
-    destroy(id: number): Observable<ModalidadeFase> {
-        return this.modelService.delete('modalidade_fase', id);
+    destroy(id: number, context: any = '{}'): Observable<ModalidadeFase> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.delete('modalidade_fase', id, new HttpParams({fromObject: params}));
     }
 }

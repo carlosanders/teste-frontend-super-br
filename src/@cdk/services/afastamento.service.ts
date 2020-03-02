@@ -15,20 +15,23 @@ export class AfastamentoService {
     ) {
     }
 
-    get(id: number): Observable<Afastamento> {
-        return this.modelService.getOne('afastamento', id)
+    get(id: number, context: any = '{}'): Observable<Afastamento> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.getOne('afastamento', id, new HttpParams({fromObject: params}))
             .pipe(
                 map(response => plainToClass(Afastamento, response)[0])
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
         params['offset'] = offset;
         params['order'] = order;
         params['populate'] = populate;
+        params['context'] = context;
 
         return this.modelService.get('afastamento', new HttpParams({fromObject: params}))
             .pipe(
@@ -36,16 +39,19 @@ export class AfastamentoService {
             );
     }
 
-    count(filters: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
+        params['context'] = context;
 
         return this.modelService.count('afastamento', new HttpParams({fromObject: params}));
     }
 
-    save(afastamento: Afastamento): Observable<Afastamento> {
+    save(afastamento: Afastamento, context: any = '{}'): Observable<Afastamento> {
+        const params = {};
+        params['context'] = context;
         if (afastamento.id) {
-            return this.modelService.put('afastamento', afastamento.id, classToPlain(afastamento))
+            return this.modelService.put('afastamento', afastamento.id, classToPlain(afastamento), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(Afastamento, response);
@@ -54,7 +60,7 @@ export class AfastamentoService {
                     })
                 );
         } else {
-            return this.modelService.post('afastamento', classToPlain(afastamento))
+            return this.modelService.post('afastamento', classToPlain(afastamento), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(Afastamento, response);
@@ -65,7 +71,9 @@ export class AfastamentoService {
         }
     }
 
-    destroy(id: number): Observable<Afastamento> {
-        return this.modelService.delete('afastamento', id);
+    destroy(id: number, context: any = '{}'): Observable<Afastamento> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.delete('afastamento', id, new HttpParams({fromObject: params}));
     }
 }

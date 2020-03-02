@@ -23,7 +23,7 @@ export class CdkModalidadeQualificacaoPessoaGridFilterComponent implements OnIni
 
     form: FormGroup;
 
-    filters: any = {};
+    filters: any = '{}';
 
     /**
      * Constructor

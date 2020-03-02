@@ -11,7 +11,7 @@ export class LogEntryService {
     ) {
     }
 
-    getLog(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<any> {
+    getLog(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<any> {
 
         const params = {};
         params['where'] = filters;
@@ -19,6 +19,7 @@ export class LogEntryService {
         params['offset'] = offset;
         params['order'] = order;
         params['populate'] = populate;
+        params['context'] = context;
 
         const url = `${environment.base_url}v1/logEntry/logentry` + environment.xdebug;
         return this.http.get(url, {params});
