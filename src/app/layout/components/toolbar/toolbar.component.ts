@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {of, Subject} from 'rxjs';
 import {catchError, takeUntil} from 'rxjs/operators';
 import {TranslateService} from '@ngx-translate/core';
@@ -25,7 +25,7 @@ import {Usuario} from "../../../../@cdk/models/usuario.model";
     encapsulation: ViewEncapsulation.None
 })
 
-export class ToolbarComponent implements OnInit, OnDestroy {
+export class ToolbarComponent implements OnInit, OnDestroy, AfterViewInit {
     horizontalNavbar: boolean;
     rightNavbar: boolean;
     hiddenNavbar: boolean;
@@ -128,32 +128,9 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
         // Set the selected language from default languages
         this.selectedLanguage = _.find(this.languages, {id: this._translateService.currentLang});
-
-        if (this.userProfile) {
-            this._notificacaoService.count(
-                `{"destinatario.id": "eq:${this.userProfile.id}", "dataHoraLeitura": "isNull"}`)
-                .pipe(
-                    catchError(() => of([]))
-                ).subscribe(
-                value => this.notificacoesCount = value
-            );
-
-            this._store
-                .pipe(
-                    select(getMercureState),
-                    takeUntil(this._unsubscribeAll)
-                ).subscribe(message => {
-                if (message && message.type === 'notificacao') {
-                    switch (message.content.action) {
-                        case 'count':
-                            this.notificacoesCount = message.content.count;
-                            break;
-                    }
-                }
-            });
-        }
-
     }
+
+
 
     /**
      * On destroy
@@ -209,5 +186,31 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
         // Use the selected language for translations
         this._translateService.use(lang.id);
+    }
+
+    ngAfterViewInit(): void {
+        if (this.userProfile) {
+            this._notificacaoService.count(
+                `{"destinatario.id": "eq:${this.userProfile.id}", "dataHoraLeitura": "isNull"}`)
+                .pipe(
+                    catchError(() => of([]))
+                ).subscribe(
+                value => this.notificacoesCount = value
+            );
+
+            this._store
+                .pipe(
+                    select(getMercureState),
+                    takeUntil(this._unsubscribeAll)
+                ).subscribe(message => {
+                if (message && message.type === 'notificacao') {
+                    switch (message.content.action) {
+                        case 'count':
+                            this.notificacoesCount = message.content.count;
+                            break;
+                    }
+                }
+            });
+        }
     }
 }
