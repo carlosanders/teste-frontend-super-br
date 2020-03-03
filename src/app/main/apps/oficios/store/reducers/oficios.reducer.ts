@@ -65,9 +65,6 @@ export function OficiosReducer(state = DocumentosAvulsoInitialState, action: Doc
         }
 
         case DocumentosAvulsoActions.GET_DOCUMENTOS_AVULSO_SUCCESS: {
-
-            const loaded = action.payload.loaded;
-
             return {
                 ...state,
                 entitiesId: action.payload.entitiesId,
@@ -76,7 +73,7 @@ export function OficiosReducer(state = DocumentosAvulsoInitialState, action: Doc
                     total: action.payload.total
                 },
                 loading: false,
-                loaded
+                loaded: action.payload.loaded
             };
         }
 

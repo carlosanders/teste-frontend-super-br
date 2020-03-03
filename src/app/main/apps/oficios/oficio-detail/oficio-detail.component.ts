@@ -3,7 +3,7 @@ import {
     ChangeDetectorRef,
     Component, ViewContainerRef, OnDestroy,
     OnInit, ViewChild, AfterViewInit,
-    ViewEncapsulation
+    ViewEncapsulation, Input
 } from '@angular/core';
 
 import { fuseAnimations } from '@fuse/animations';
@@ -62,6 +62,7 @@ export class OficioDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     private _profile: Usuario;
 
     mobileMode = false;
+    mode = 'entrada';
 
     @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef}) container: ViewContainerRef;
 
@@ -113,6 +114,15 @@ export class OficioDetailComponent implements OnInit, OnDestroy, AfterViewInit {
                 this.routerState = routerState.state;
             }
         });
+        this._store.pipe(
+            select(getRouterState),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(routerState => {
+            if (routerState) {
+                this.mode = routerState.state.params['targetHandle'];
+            }
+        });
+
         this.documentoAvulso$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(documentoAvulso => {

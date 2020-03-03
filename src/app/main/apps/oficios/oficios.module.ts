@@ -38,7 +38,7 @@ import {CdkChaveAcessoPluginModule} from '@cdk/components/chave-acesso/cdk-chave
 
 const routes: Routes = [
     {
-        path: '',
+        path: ':targetHandle',
         component: OficiosComponent,
         children: [
             {
@@ -52,6 +52,10 @@ const routes: Routes = [
             }
         ],
         canActivate: [fromGuards.ResolveGuard]
+    },
+    {
+        path: '**',
+        redirectTo: 'entrada'
     }
 ];
 

@@ -13,7 +13,7 @@ import {ComponenteDigitalService} from '@cdk/services/componente-digital.service
 import {DomSanitizer} from '@angular/platform-browser';
 import {filter, takeUntil} from 'rxjs/operators';
 import {ComponenteDigital} from '@cdk/models';
-import {getRouterState} from "../../../../store/reducers";
+import {getRouterState} from '../../../../store/reducers';
 
 @Component({
     selector: 'processo-view',
@@ -107,8 +107,8 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                         byteNumbers[i] = byteCharacters.charCodeAt(i);
                     }
                     const byteArray = new Uint8Array(byteNumbers);
-                    const blob = new Blob([byteArray], {type: binary.src.mimetype}),
-                        URL = window.URL;
+                    const blob = new Blob([byteArray], {type: binary.src.mimetype});
+                    const   URL = window.URL;
                     this.src = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
                     this.fileName = binary.src.fileName;
                     this.select.emit(binary.src);

@@ -1,7 +1,7 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component,
+    Component, Input,
     OnDestroy,
     OnInit,
     ViewChild,
@@ -38,13 +38,16 @@ export class ResponderComplementarComponent implements OnInit, OnDestroy {
     private _profile: Colaborador;
 
     documentoAvulso: DocumentoAvulso;
-    routerState: any;
     documentos$: Observable<Documento[]>;
     minutas: Documento[] = [];
     oficios: Documento[] = [];
 
-    public documentoOrigem;
-    public action: string;
+    documentoOrigem: number;
+
+    mode: string;
+
+    routerState: any;
+    routerState$: Observable<any>;
 
     @ViewChild('ckdUpload', {static: false})
     cdkUpload;
@@ -64,6 +67,7 @@ export class ResponderComplementarComponent implements OnInit, OnDestroy {
     ) {
         this._profile = _loginService.getUserProfile().colaborador;
         this.documentos$ = this._store.pipe(select(fromStore.getDocumentos));
+        this.routerState$ = this._store.pipe(select(getRouterState));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -82,7 +86,14 @@ export class ResponderComplementarComponent implements OnInit, OnDestroy {
                 this.routerState = routerState.state;
             }
         });
+
         this.getDocumentOrigem();
+
+        this.routerState$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(routerState => {
+            this.mode = routerState.state.params['targetHandle'];
+        });
     }
 
     /**
@@ -103,12 +114,10 @@ export class ResponderComplementarComponent implements OnInit, OnDestroy {
 
     responderDocumento(): void {
         this.cdkUpload.upload();
-        this.action = 'responder';
     }
 
     complementarDocumento(): void {
         this.cdkUpload.upload();
-        this.action = 'complementar';
     }
 
     onComplete(): void {

@@ -36,7 +36,6 @@ export class ResponderEffects {
             .pipe(
                 ofType<ResponderActions.SaveRespostaSuccess>(ResponderActions.SAVE_RESPOSTA_SUCCESS),
                 tap((action) => {
-                    debugger
                     this._router.navigate([
                         this.routerState.url.replace('oficios', '/documento-avulso/') + '/' + action.payload + '/responder-complementar']
                     ).then();

@@ -17,11 +17,19 @@
 
         <div class="nav-subheader">MEUS OFÍCIOS</div>
 
-        <div class="nav-item">
-            <a class="nav-link" matRipple [routerLink]="'/apps/oficios'"
+        <div class="nav-item" dndDropzone (dndDrop)="onDrop([$event, null])">
+            <a class="nav-link" matRipple [routerLink]="'/apps/oficios/entrada'"
                [routerLinkActive]="['active', 'accent']">
                 <mat-icon class="nav-link-icon">inbox</mat-icon>
                 <span>Entrada</span>
+            </a>
+        </div>
+
+        <div class="nav-item" dndDropzone (dndDrop)="onDrop([$event, null])">
+            <a class="nav-link" matRipple [routerLink]="'/apps/oficios/saida'"
+               [routerLinkActive]="['active', 'accent']">
+                <mat-icon class="nav-link-icon">sendbox</mat-icon>
+                <span>Saída</span>
             </a>
         </div>
 

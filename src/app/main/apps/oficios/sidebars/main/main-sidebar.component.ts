@@ -7,6 +7,7 @@ import { fuseAnimations } from '@fuse/animations';
 import * as fromStore from 'app/main/apps/oficios/store';
 import { getRouterState } from 'app/store/reducers';
 import { takeUntil } from 'rxjs/operators';
+import {SetFolderOnSelectedDocumentosAvulso} from 'app/main/apps/oficios/store';
 
 @Component({
     selector: 'documento-avulso-main-sidebar',
@@ -20,7 +21,7 @@ export class DocumentoAvulsoMainSidebarComponent implements OnInit, OnDestroy {
 
     private _unsubscribeAll: Subject<any> = new Subject();
 
-    mode = 'DocumentoAvulso';
+    mode = 'entrada';
 
     routerState: any;
 
@@ -47,6 +48,11 @@ export class DocumentoAvulsoMainSidebarComponent implements OnInit, OnDestroy {
             ).subscribe(routerState => {
             if (routerState) {
                 this.routerState = routerState.state;
+                if (routerState.state.params['targetHandle'] === 'entrada') {
+                    this.mode = 'entrada';
+                } else {
+                    this.mode = 'saida';
+                }
             }
         });
     }
@@ -64,5 +70,4 @@ export class DocumentoAvulsoMainSidebarComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
-
 }

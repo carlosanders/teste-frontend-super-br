@@ -149,11 +149,6 @@ export class CdkDocumentoAvulsoListComponent implements AfterViewInit, OnInit, O
         this.selected.emit(documentoAvulso);
     }
 
-    doToggleUrgente(documentoAvulso: DocumentoAvulso): void {
-        this.toggleUrgente.emit(documentoAvulso);
-    }
-
-
     /**
      * Toggle select all
      *
@@ -205,54 +200,6 @@ export class CdkDocumentoAvulsoListComponent implements AfterViewInit, OnInit, O
     setListFilter(listFilter): void {
         this.listFilter = listFilter;
         this.loadPage();
-    }
-
-    doMovimentar(documentoAvulsoId): void {
-        this.movimentar.emit(documentoAvulsoId);
-    }
-
-    doMovimentarBloco(): void {
-        this.movimentarBloco.emit();
-    }
-
-    doCompartilhar(documentoAvulsoId): void {
-        this.compartilhar.emit(documentoAvulsoId);
-    }
-
-    doCompartilharBloco(): void {
-        this.compartilharBloco.emit();
-    }
-
-    doCreateDocumentoAvulso(documentoAvulsoId): void {
-        this.createDocumentoAvulso.emit(documentoAvulsoId);
-    }
-
-    doCreateDocumentoAvulsoBloco(): void {
-        this.createDocumentoAvulsoBloco.emit();
-    }
-
-    /*doEditDocumentoAvulso(tarefaId): void {
-        this.editDocumentoAvulso.emit(tarefaId);
-    }
-
-    doEditTarefaBloco(): void {
-        this.editTarefaBloco.emit();
-    }*/
-
-    doEditProcesso(params): void {
-        this.editProcesso.emit(params);
-    }
-
-    doEtiquetarBloco(): void {
-        this.etiquetarBloco.emit();
-    }
-
-    doUploadBloco(): void {
-        this.uploadBloco.emit();
-    }
-
-    doEditorBloco(): void {
-        this.editorBloco.emit();
     }
 
     /**

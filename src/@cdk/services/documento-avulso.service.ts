@@ -98,7 +98,7 @@ export class DocumentoAvulsoService {
         return this.modelService.delete('documento_avulso', id);
     }
 
-    responder(documentoAvulso: DocumentoAvulso): Observable<DocumentoAvulso> {
+    /*responder(documentoAvulso: DocumentoAvulso): Observable<DocumentoAvulso> {
         return this.http.patch(
             `${environment.api_url}${'documento_avulso'}/${documentoAvulso.id}/${'responder'}` + environment.xdebug,
             JSON.stringify(classToPlain(documentoAvulso))
@@ -109,5 +109,5 @@ export class DocumentoAvulsoService {
                 return Object.assign(new DocumentoAvulso(), {...documentoAvulso, ...response});
             })
         );
-    }
+    }*/
 }

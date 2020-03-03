@@ -12,7 +12,7 @@ import {Folder} from '@cdk/models';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Store} from '@ngrx/store';
 import {FoldersState} from '../reducers';
-import {Usuario} from "../../../../../../@cdk/models/usuario.model";
+import {Usuario} from '@cdk/models';
 
 @Injectable()
 export class FoldersEffect

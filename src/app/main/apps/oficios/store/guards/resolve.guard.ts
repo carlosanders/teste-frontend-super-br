@@ -97,12 +97,32 @@ export class ResolveGuard implements CanActivate {
                     ]
                 };
 
-                if (!loaded) {
+                const routeTypeParam = of('targetHandle');
+                routeTypeParam.subscribe(typeParam => {
+                    let documentoAvulsoFilter = {};
+                    if (this.routerState.params[typeParam] === 'entrada') {
+                        documentoAvulsoFilter = {
+                            'usuarioResposta.id': 'isNull'
+                        };
+                    }
+
+                    if (this.routerState.params[typeParam] === 'saida') {
+                        documentoAvulsoFilter = {
+                            'usuarioResposta.id': 'isNotNull'
+                        };
+                    }
+
+                    params['filter'] = documentoAvulsoFilter;
+                });
+
+                if (!this.routerState.params['targetHandle'] || this.routerState.params['targetHandle'] !== loaded.value) {
                     this._store.dispatch(new fromStore.GetDocumentosAvulso(params));
                     this._store.dispatch(new fromStore.ChangeSelectedDocumentosAvulso([]));
                 }
             }),
-            filter(loaded => loaded),
+            filter((loaded: any) => {
+                return this.routerState.params['targetHandle'] && this.routerState.params['targetHandle'] === loaded.value;
+            }),
             take(1)
         );
     }

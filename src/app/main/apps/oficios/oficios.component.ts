@@ -27,11 +27,12 @@ import {ResizeEvent} from 'angular-resizable-element';
 import {fuseAnimations} from '@fuse/animations';
 import {Etiqueta} from '@cdk/models/etiqueta.model';
 import {Router} from '@angular/router';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {Pagination} from '@cdk/models/pagination';
 import {LoginService} from '../../auth/login/login.service';
 import {Usuario} from '@cdk/models/usuario.model';
 import {MatDialog} from '@cdk/angular/material';
+import { CdkChaveAcessoPluginComponent } from '@cdk/components/chave-acesso/cdk-chave-acesso-plugins/cdk-chave-acesso-plugin.component';
 
 @Component({
     selector: 'oficios',
@@ -89,12 +90,13 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
 
     @ViewChild('documentoAvulsoListElement', {read: ElementRef, static: true}) documentoAvulsoListElement: ElementRef;
 
-
     /**
+     *
+     * @param _dialog
      * @param _changeDetectorRef
      * @param _fuseSidebarService
      * @param _fuseTranslationLoaderService
-     * @param _tarefaService
+     * @param _documentoAvulsoService
      * @param _router
      * @param _store
      * @param _loginService
@@ -262,8 +264,16 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     setCurrentDocumentoAvulso(documentoAvulso: DocumentoAvulso): void {
-        this._store.dispatch(new fromStore.SetCurrentDocumentoAvulso({documentoAvulsoId: documentoAvulso.id,
-                processoId: documentoAvulso.processo.id, acessoNegado: documentoAvulso.processo.acessoNegado}));
+
+        const dialogRef = this._dialog.open(CdkChaveAcessoPluginComponent, {
+            width: '600px'
+        });
+
+        dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe(result => {
+            this._store.dispatch(new fromStore.SetCurrentDocumentoAvulso({documentoAvulsoId: documentoAvulso.id,
+                processoId: documentoAvulso.processo.id, acessoNegado: documentoAvulso.processo.acessoNegado, chaveAcesso: result}));
+            return;
+        });
     }
 
     /**

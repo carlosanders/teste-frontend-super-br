@@ -1,8 +1,8 @@
 import { Action } from '@ngrx/store';
 
-export const GET_DOCUMENTOS_AVULSO = '[OFICIO] GET DOCUMENTOS_AVULSO';
-export const GET_DOCUMENTOS_AVULSO_SUCCESS = '[OFICIO] GET DOCUMENTOS_AVULSO SUCCESS';
-export const GET_DOCUMENTOS_AVULSO_FAILED = '[OFICIO] GET DOCUMENTOS_AVULSO FAILED';
+export const GET_DOCUMENTOS_AVULSO = '[OFICIO] GET DOCUMENTOS AVULSO';
+export const GET_DOCUMENTOS_AVULSO_SUCCESS = '[OFICIO] GET DOCUMENTOS AVULSO SUCCESS';
+export const GET_DOCUMENTOS_AVULSO_FAILED = '[OFICIO] GET DOCUMENTOS AVULSO FAILED';
 
 export const CHANGE_SELECTED_DOCUMENTOS_AVULSO = '[OFICIO] CHANGE SELECTED DOCUMENTOS AVULSO';
 
@@ -18,6 +18,10 @@ export const TOGGLE_MAXIMIZADO = '[OFICIO] TOGGLE MAXIMIZADO';
 export const CREATE_VINCULACAO_ETIQUETA = '[OFICIO] CREATE VINCULACAO ETIQUETA';
 export const CREATE_VINCULACAO_ETIQUETA_SUCCESS = '[OFICIO] CREATE VINCULACAO ETIQUETA SUCCESS';
 export const CREATE_VINCULACAO_ETIQUETA_FAILED = '[OFICIO] CREATE VINCULACAO ETIQUETA FAILED';
+
+export const SET_FOLDER_ON_SELECTED_DOCUMENTOS_AVULSO = '[OFICIO] SET FOLDER ON SELECTED DOCUMENTOS AVULSO';
+export const SET_FOLDER_ON_SELECTED_DOCUMENTOS_AVULSO_SUCCESS = '[OFICIO] SET FOLDER ON SELECTED DOCUMENTOS AVULSO SUCCESS';
+export const SET_FOLDER_ON_SELECTED_DOCUMENTOS_AVULSO_FAILED = '[OFICIO] SET FOLDER ON SELECTED DOCUMENTOS AVULSO FAILED';
 
 /**
  *
@@ -164,6 +168,36 @@ export class ToggleMaximizado implements Action
     }
 }
 
+/**
+ * Set Folder on Selected DocumantoAvulso
+ */
+export class SetFolderOnSelectedDocumentosAvulso implements Action {
+    readonly type = SET_FOLDER_ON_SELECTED_DOCUMENTOS_AVULSO;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Set Folder on Selected DocumantoAvulso Success
+ */
+export class SetFolderOnSelectedDocumentosAvulsoSuccess implements Action {
+    readonly type = SET_FOLDER_ON_SELECTED_DOCUMENTOS_AVULSO_SUCCESS;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Set Folder on Selected DocumantoAvulso Failed
+ */
+export class SetFolderOnSelectedDocumentosAvulsoFailed implements Action {
+    readonly type = SET_FOLDER_ON_SELECTED_DOCUMENTOS_AVULSO_FAILED;
+
+    constructor(public payload: any) {
+    }
+}
+
 export type DocumentosAvulsoActionsAll
     = GetDocumentosAvulso
     | GetDocumentosAvulsoSuccess
@@ -177,4 +211,7 @@ export type DocumentosAvulsoActionsAll
     | CreateVinculacaoEtiquetaFailed
     | DeleteVinculacaoEtiqueta
     | DeleteVinculacaoEtiquetaSuccess
-    | DeleteVinculacaoEtiquetaFailed;
+    | DeleteVinculacaoEtiquetaFailed
+    | SetFolderOnSelectedDocumentosAvulso
+    | SetFolderOnSelectedDocumentosAvulsoSuccess
+    | SetFolderOnSelectedDocumentosAvulsoFailed;

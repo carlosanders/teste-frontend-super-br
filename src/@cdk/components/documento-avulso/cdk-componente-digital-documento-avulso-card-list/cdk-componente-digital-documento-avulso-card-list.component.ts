@@ -18,6 +18,7 @@ import {of, Subscription} from 'rxjs';
 import {environment} from 'environments/environment';
 import {Documento} from '@cdk/models/documento.model';
 import {DocumentoAvulso} from '@cdk/models/documento-avulso.model';
+import {Processo} from '../../../models';
 
 @Component({
     selector: 'cdk-componente-digital-documento-avulso-card-list',
@@ -34,6 +35,12 @@ export class CdkComponenteDigitalDocumentoAvulsoCardListComponent implements OnI
 
     @Input()
     documentoAvulsoOrigem: DocumentoAvulso;
+
+    @Input()
+    documentoOrigem: Documento;
+
+    @Input()
+    processoOrigem: Processo;
 
     @Input()
     action: string;
@@ -60,7 +67,6 @@ export class CdkComponenteDigitalDocumentoAvulsoCardListComponent implements OnI
     complete = new EventEmitter<ComponenteDigital>();
 
 
-
     private files: Array<FileUploadModel> = [];
     selectedIds: number[] = [];
     documentoAvulso: DocumentoAvulso;
@@ -82,7 +88,7 @@ export class CdkComponenteDigitalDocumentoAvulsoCardListComponent implements OnI
     }
 
     initTarget(): string {
-        return `${environment.api_url}documento_avulso/${this.documentoAvulsoOrigem}/${this.action}` + environment.xdebug;
+        return `${environment.api_url}componente_digital` + environment.xdebug;
     }
 
     toggleInSelected(componenteDigitalId): void {
@@ -172,10 +178,14 @@ export class CdkComponenteDigitalDocumentoAvulsoCardListComponent implements OnI
                 componenteDigital.mimetype = 'application/pdf';
                 componenteDigital.fileName = file.data.name;
                 componenteDigital.tamanho = file.data.size;
+                componenteDigital.documentoAvulsoOrigem = this.documentoAvulsoOrigem;
+                componenteDigital.processoOrigem = this.processoOrigem;
+                componenteDigital.documentoOrigem = this.documentoOrigem;
+
                 this.componentesDigitais.push(componenteDigital);
                 this._changeDetectorRef.markForCheck();
                 const params = classToPlain(componenteDigital);
-                const req = new HttpRequest('PATCH', this.target, params, {
+                const req = new HttpRequest('POST', this.target, params, {
                     reportProgress: true
                 });
                 componenteDigital.inProgress = true;

@@ -14,7 +14,7 @@ export const navigation: FuseNavigation[] = [
                 type: 'item',
                 icon: 'dashboard',
                 url: '/apps/painel',
-                role: 'ROLE_COLABORADOR'
+                role: 'ROLE_USER'
             },
             {
                 id: 'tarefas',
@@ -40,7 +40,7 @@ export const navigation: FuseNavigation[] = [
                 translate: 'NAV.OFICIO.TITLE',
                 type: 'item',
                 icon: 'archive',
-                url: '/apps/oficios',
+                url: '/apps/oficios/entrada',
                 role: 'ROLE_CONVENIADO'
             },
             {
