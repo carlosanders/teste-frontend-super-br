@@ -1,0 +1,12 @@
+<cdk-setor-grid
+        [loading]="(loading$ | async)"
+        [setores]="(setores$ | async)"
+        [total]="(pagination$ | async)?.total"
+        [deletingIds]="(deletingIds$ | async)"
+        [deletedIds]="(deletedIds$ | async)"
+        [displayedColumns]="['select', 'id', 'nome', 'sigla','especieSetor.nome','parent.nome', 'apenasDistribuidor','ativo','actions']"
+        [actions]="['edit','delete']"
+        (reload)="reload($event)"
+        (edit)="edit($event)"
+        (delete)="delete($event)">
+</cdk-setor-grid>
