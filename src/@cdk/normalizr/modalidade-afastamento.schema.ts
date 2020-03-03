@@ -1,5 +1,5 @@
-import {usuario} from './base.schema';
-import {modalidadeAfastamento as modalidadeAfastamentoSchema} from './base.schema';
+import {usuario} from './index.schema';
+import {modalidadeAfastamento as modalidadeAfastamentoSchema} from './index.schema';
 
 modalidadeAfastamentoSchema.define({
     criadoPor: usuario,

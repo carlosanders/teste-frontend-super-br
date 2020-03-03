@@ -1,8 +1,8 @@
-import {usuario} from './base.schema';
-import {municipio} from './base.schema';
-import {especieSetor} from './base.schema';
-import {unidade} from './base.schema';
-import {setor as setorSchema} from './base.schema';
+import {usuario} from './index.schema';
+import {municipio} from './index.schema';
+import {especieSetor} from './index.schema';
+import {unidade} from './index.schema';
+import {setor as setorSchema} from './index.schema';
 
 setorSchema.define({
     municipio: municipio,

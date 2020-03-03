@@ -1,0 +1,8 @@
+<cdk-lotacao-form
+        [lotacao]="lotacao"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        [setorPagination]="setorPagination"
+        [colaboradorPagination]="colaboradorPagination"
+        (save)="submit($event)">
+</cdk-lotacao-form>

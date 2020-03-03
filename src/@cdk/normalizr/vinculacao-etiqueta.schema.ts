@@ -1,7 +1,7 @@
-import {etiqueta} from './base.schema';
-import {usuario} from './base.schema';
-import {tarefa} from './base.schema';
-import {vinculacaoEtiqueta as vinculacaoEtiquetaSchema} from './base.schema';
+import {etiqueta} from './index.schema';
+import {usuario} from './index.schema';
+import {tarefa} from './index.schema';
+import {vinculacaoEtiqueta as vinculacaoEtiquetaSchema} from './index.schema';
 
 vinculacaoEtiquetaSchema.define({
     etiqueta: etiqueta,

@@ -122,7 +122,7 @@ export class ProcessoEffect {
             );
 
 
-   /**
+    /**
      * Save conteúdo vinculação etiqueta no processo
      * @type {Observable<any>}
      */

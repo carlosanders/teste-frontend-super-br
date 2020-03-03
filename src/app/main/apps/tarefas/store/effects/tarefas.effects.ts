@@ -119,7 +119,7 @@ export class TarefasEffect {
             .pipe(
                 ofType<TarefasActions.CreateTarefa>(TarefasActions.CREATE_TAREFA),
                 map(() => {
-                    this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle +
+                    this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' +
                     this.routerState.params.typeHandle + '/' +
                     '/' + this.routerState.params.targetHandle + '/criar']).then();
                     return new TarefasActions.CreateTarefaSuccess();

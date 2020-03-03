@@ -1,7 +1,7 @@
-import {generoAtividade} from './base.schema';
-import {usuario} from './base.schema';
-import {favorito} from './base.schema';
-import {especieAtividade as especieAtividadeSchema} from './base.schema';
+import {generoAtividade} from './index.schema';
+import {usuario} from './index.schema';
+import {favorito} from './index.schema';
+import {especieAtividade as especieAtividadeSchema} from './index.schema';
 
 especieAtividadeSchema.define({
     generoAtividade: generoAtividade,

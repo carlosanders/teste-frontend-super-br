@@ -6,7 +6,6 @@ import {
     Output, SimpleChange,
     ViewEncapsulation
 } from '@angular/core';
-
 import {fuseAnimations} from '@fuse/animations';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Processo} from '@cdk/models';
@@ -23,6 +22,7 @@ import { ITS_JUST_ANGULAR } from '@angular/core/src/r3_symbols';
 import { isUndefined } from 'util';
 import { appendFile } from 'fs';
 
+
 @Component({
     selector: 'cdk-processo-form',
     templateUrl: './cdk-processo-form.component.html',
@@ -30,7 +30,32 @@ import { appendFile } from 'fs';
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations,
+
     providers: [
+        {
+          provide: MAT_DATETIME_FORMATS,
+          useValue: {
+            parse: {
+              dateInput: 'L',
+              monthInput: 'MMMM',
+              timeInput: 'LT',
+              datetimeInput: 'L LT'
+            },
+            display: {
+              dateInput: 'L',
+              monthInput: 'MMMM',
+              datetimeInput: 'L LT',
+              timeInput: 'LT',
+              monthYearLabel: 'MMM YYYY',
+              dateA11yLabel: 'LL',
+              monthYearA11yLabel: 'MMMM YYYY',
+              popupHeaderDateLabel: 'ddd, DD MMM'
+            }
+          }
+        }
+      ]    
+
+/*    providers: [
         {
             provide: MAT_DATETIME_FORMATS,
             useValue: {
@@ -40,7 +65,7 @@ import { appendFile } from 'fs';
                 }
             }
         }
-    ]
+    ]*/
 })
 export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
@@ -156,6 +181,11 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     ngOnInit(): void {
 
         if (!this.processo.id) {
+
+            if (this.form.get('processo_rg').value !== 'novo_dados' &&
+                this.form.get('processo_rg').value !== 'aproveitar_dados'){
+                this.form.get('processo_rg').setValue('novo_dados');
+            }
             this.form.get('dataHoraAbertura').setValue(null);
             this.form.get('dataHoraAbertura').disable();
 
@@ -193,7 +223,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             this.readonlyNUP = true;
             this.textBotao = 'SALVAR';
             
-            if (!isUndefined(this.processo.processoOrigem)){
+            if (this.processo.processoOrigem != null){
                 this.temOrigem = true;
                 this.readonlyProcessoOrigem = true;
             }else{
@@ -254,12 +284,12 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
-/*    submit(): void {
+    submit(): void {
         if (this.form.valid) {
             this.save.emit(this.form.value);
         }
     }
-*/
+
     doPost(): void {
         if (this.form.valid) {
             this.post.emit(this.form.value);

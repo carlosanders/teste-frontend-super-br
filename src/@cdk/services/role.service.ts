@@ -15,20 +15,23 @@ export class RoleService {
     ) {
     }
 
-    get(id: number): Observable<Role> {
-        return this.modelService.getOne('role', id)
+    get(id: number, context: any = '{}'): Observable<Role> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.getOne('role', id, new HttpParams({fromObject: params}))
             .pipe(
                 map(response => plainToClass(Role, response)[0])
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
         params['offset'] = offset;
         params['order'] = order;
         params['populate'] = populate;
+        params['context'] = context;
 
         return this.modelService.get('role', new HttpParams({fromObject: params}))
             .pipe(
@@ -36,16 +39,19 @@ export class RoleService {
             );
     }
 
-    count(filters: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
+        params['context'] = context;
 
         return this.modelService.count('role', new HttpParams({fromObject: params}));
     }
 
-    save(role: Role): Observable<Role> {
+    save(role: Role, context: any = '{}'): Observable<Role> {
+        const params = {};
+        params['context'] = context;
         if (role.id) {
-            return this.modelService.put('role', role.id, classToPlain(role))
+            return this.modelService.put('role', role.id, classToPlain(role), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(Role, response);
@@ -54,7 +60,7 @@ export class RoleService {
                     })
                 );
         } else {
-            return this.modelService.post('role', classToPlain(role))
+            return this.modelService.post('role', classToPlain(role), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(Role, response);
@@ -65,7 +71,9 @@ export class RoleService {
         }
     }
 
-    destroy(id: number): Observable<Role> {
-        return this.modelService.delete('role', id);
+    destroy(id: number, context: any = '{}'): Observable<Role> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.delete('role', id, new HttpParams({fromObject: params}));
     }
 }

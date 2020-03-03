@@ -1,6 +1,6 @@
-import {estado} from './base.schema';
-import {usuario} from './base.schema';
-import {municipio as municipioSchema} from './base.schema';
+import {estado} from './index.schema';
+import {usuario} from './index.schema';
+import {municipio as municipioSchema} from './index.schema';
 
 municipioSchema.define({
     estado: estado,

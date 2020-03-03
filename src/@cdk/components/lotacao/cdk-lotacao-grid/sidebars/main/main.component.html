@@ -15,7 +15,7 @@
 
     <div class="header" fxLayout="column">
         <div class="filters">
-            <cdk-lotacao-grid-filter (selected)="setGridFilter($event)"></cdk-lotacao-grid-filter>
+            <cdk-lotacao-grid-filter [pagination]="pagination" (selected)="setGridFilter($event)"></cdk-lotacao-grid-filter>
         </div>
     </div>
 

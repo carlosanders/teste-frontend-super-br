@@ -1,5 +1,5 @@
-import {usuario} from './base.schema';
-import {modalidadeCategoriaSigilo as modalidadeCategoriaSigiloSchema} from './base.schema';
+import {usuario} from './index.schema';
+import {modalidadeCategoriaSigilo as modalidadeCategoriaSigiloSchema} from './index.schema';
 
 modalidadeCategoriaSigiloSchema.define({
     criadoPor: usuario,

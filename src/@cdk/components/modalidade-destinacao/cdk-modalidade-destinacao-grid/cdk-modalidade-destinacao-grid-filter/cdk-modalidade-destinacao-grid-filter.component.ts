@@ -23,7 +23,7 @@ export class CdkModalidadeDestinacaoGridFilterComponent implements OnInit {
 
     form: FormGroup;
 
-    filters: any = {};
+    filters: any = '{}';
 
     /**
      * Constructor

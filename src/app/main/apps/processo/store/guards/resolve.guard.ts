@@ -54,6 +54,11 @@ export class ResolveGuard implements CanActivate {
      */
     getProcesso(): any {
         return this._store.pipe(
+/*            tap((n) => {
+                console.log('entrou GET Guards Processo: '); 
+                console.log(n);
+            }),
+*/            
             select(getProcessoLoaded),
             tap((loaded: any) => {
                 if (loaded.acessoNegado) {
@@ -71,6 +76,7 @@ export class ResolveGuard implements CanActivate {
                 }
             }),
             filter((loaded: any) => {
+//                console.log('entrou filter Guards processo');
                 return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
             }),
             take(1)

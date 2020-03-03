@@ -176,6 +176,11 @@ export class DadosBasicosEffect {
     getProcesso: any =
         this._actions
             .pipe(
+/*                tap((n) => {
+                    console.log('entrou GET Effects Dados Basicos: '); 
+                    console.log(n);
+                }),
+*/                
                 ofType<DadosBasicosActions.GetProcesso>(DadosBasicosActions.GET_PROCESSO),
                 switchMap((action) => {
                     return this._processoService.query(

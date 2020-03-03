@@ -1,5 +1,6 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Output, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEncapsulation} from '@angular/core';
 import {fuseAnimations} from '@fuse/animations';
+import {Pagination} from "../../../../../models/pagination";
 
 @Component({
     selector: 'cdk-lotacao-main-sidebar',
@@ -14,6 +15,9 @@ export class CdkLotacaoMainSidebarComponent {
     selected = new EventEmitter<any>();
 
     gridFilter: any;
+
+    @Input()
+    pagination: Pagination = new Pagination();
 
     setGridFilter(gridFilter): void {
         this.gridFilter = gridFilter;

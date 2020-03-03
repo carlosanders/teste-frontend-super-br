@@ -1,12 +1,13 @@
 import {
     ChangeDetectionStrategy,
-    Component, EventEmitter,
+    Component, EventEmitter, Input,
     OnInit, Output,
     ViewEncapsulation
 } from '@angular/core';
 
 import {fuseAnimations} from '@fuse/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
+import {Pagination} from "../../../../models/pagination";
 
 @Component({
     selector: 'cdk-lotacao-grid-filter',
@@ -23,7 +24,10 @@ export class CdkLotacaoGridFilterComponent implements OnInit {
 
     form: FormGroup;
 
-    filters: any = {};
+    filters: any = '{}';
+
+    @Input()
+    pagination: Pagination;
 
     /**
      * Constructor
@@ -50,6 +54,7 @@ export class CdkLotacaoGridFilterComponent implements OnInit {
             apagadoEm: [null],
         });
 
+        this.pagination = new Pagination();
     }
 
     // -----------------------------------------------------------------------------------------------------
