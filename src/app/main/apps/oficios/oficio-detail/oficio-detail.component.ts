@@ -119,7 +119,7 @@ export class OficioDetailComponent implements OnInit, OnDestroy, AfterViewInit {
             takeUntil(this._unsubscribeAll)
         ).subscribe(routerState => {
             if (routerState) {
-                this.mode = routerState.state.params['targetHandle'];
+                this.mode = routerState.state.params['oficioTargetHandle'];
             }
         });
 

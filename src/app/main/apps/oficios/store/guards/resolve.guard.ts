@@ -97,7 +97,7 @@ export class ResolveGuard implements CanActivate {
                     ]
                 };
 
-                const routeTypeParam = of('targetHandle');
+                const routeTypeParam = of('oficioTargetHandle');
                 routeTypeParam.subscribe(typeParam => {
                     let documentoAvulsoFilter = {};
                     if (this.routerState.params[typeParam] === 'entrada') {
@@ -115,13 +115,13 @@ export class ResolveGuard implements CanActivate {
                     params['filter'] = documentoAvulsoFilter;
                 });
 
-                if (!this.routerState.params['targetHandle'] || this.routerState.params['targetHandle'] !== loaded.value) {
+                if (!this.routerState.params['oficioTargetHandle'] || this.routerState.params['oficioTargetHandle'] !== loaded.value) {
                     this._store.dispatch(new fromStore.GetDocumentosAvulso(params));
                     this._store.dispatch(new fromStore.ChangeSelectedDocumentosAvulso([]));
                 }
             }),
             filter((loaded: any) => {
-                return this.routerState.params['targetHandle'] && this.routerState.params['targetHandle'] === loaded.value;
+                return this.routerState.params['oficioTargetHandle'] && this.routerState.params['oficioTargetHandle'] === loaded.value;
             }),
             take(1)
         );

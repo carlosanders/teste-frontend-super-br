@@ -65,8 +65,8 @@ export class OficiosEffects {
                         entitiesId: response['entities'].map(documentoAvulso => documentoAvulso.id),
                         processoId: response['entities'].map(documentoAvulso => documentoAvulso.processo.id),
                         loaded: {
-                            id: 'targetHandle',
-                            value: this.routerState.params.targetHandle
+                            id: 'oficioTargetHandle',
+                            value: this.routerState.params.oficioTargetHandle
                         },
                         total: response['total']
                     })
@@ -90,13 +90,13 @@ export class OficiosEffects {
                 map((action) => {
                     if (action.payload.acessoNegado && !action.payload.chaveAcesso) {
                         this._router.navigate([
-                            'apps/oficios/' + this.routerState.params.targetHandle + '/detalhe/'
+                            'apps/oficios/' + this.routerState.params.oficioTargetHandle + '/detalhe/'
                             + action.payload.documentoAvulsoId + '/processo/'
                             + action.payload.processoId + '/acesso-negado']
                         ).then();
                     } else {
                         this._router.navigate([
-                            'apps/oficios/' + this.routerState.params.targetHandle
+                            'apps/oficios/' + this.routerState.params.oficioTargetHandle
                             + '/detalhe/' + action.payload.documentoAvulsoId + '/processo/' + action.payload.processoId
                             + '/visualizar/' + action.payload.chaveAcesso]
                         ).then();

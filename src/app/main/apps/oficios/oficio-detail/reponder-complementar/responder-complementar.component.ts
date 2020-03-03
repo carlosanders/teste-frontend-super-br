@@ -92,7 +92,7 @@ export class ResponderComplementarComponent implements OnInit, OnDestroy {
         this.routerState$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(routerState => {
-            this.mode = routerState.state.params['targetHandle'];
+            this.mode = routerState.state.params['oficioTargetHandle'];
         });
     }
 
@@ -123,5 +123,4 @@ export class ResponderComplementarComponent implements OnInit, OnDestroy {
     onComplete(): void {
         this._store.dispatch(new fromStore.GetDocumentos());
     }
-
 }
