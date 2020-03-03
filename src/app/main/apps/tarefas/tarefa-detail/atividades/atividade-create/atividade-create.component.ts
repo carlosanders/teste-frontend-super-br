@@ -9,7 +9,7 @@ import {
 import {fuseAnimations} from '@fuse/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {Atividade} from '@cdk/models';
+import {Atividade, Favorito} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as moment from 'moment';
 
@@ -21,7 +21,9 @@ import {filter, takeUntil} from 'rxjs/operators';
 import {Documento} from '@cdk/models';
 import {getRouterState, getMercureState} from 'app/store/reducers';
 import {Router} from '@angular/router';
-import {Colaborador} from "../../../../../../../@cdk/models/colaborador.model";
+import {Colaborador} from '@cdk/models';
+import {UpdateData} from '@cdk/ngrx-normalizr';
+import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
 
 @Component({
     selector: 'atividade-create',
@@ -129,6 +131,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy {
                         case 'assinatura_finalizada':
                             this.javaWebStartOK = false;
                             this._store.dispatch(new fromStore.AssinaDocumentoSuccess(message.content.documentoId));
+                            this._store.dispatch(new UpdateData<Documento>({id: message.content.documentoId, schema: documentoSchema, changes: {assinado: true}}));
                             break;
                     }
                 }
