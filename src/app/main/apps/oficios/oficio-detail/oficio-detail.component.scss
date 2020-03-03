@@ -1,0 +1,56 @@
+@import 'src/@fuse/scss/fuse';
+
+oficio-detail {
+    #oficio-detail {
+        width: 100%;
+        height: 100%;
+
+        .actions {
+            min-width: 88px;
+            margin-left: auto;
+            position: absolute;
+            right: 5px;
+            top: 7px;
+        }
+
+        .oficio-loading {
+            height: 100%;
+        }
+
+        .oficio-header {
+            padding: 8px;
+            border-bottom: 1px solid;
+
+
+        }
+
+        .oficio-content {
+
+            height: 100%;
+
+            .tag {
+                font-size: 11px;
+                border-radius: 2px;
+                margin: 8px 4px 0 0;
+                padding: 3px 8px;
+
+                .tag-color {
+                    width: 8px;
+                    height: 8px;
+                    margin-right: 8px;
+                    border-radius: 50%;
+                }
+            }
+
+            .dates {
+
+                .mat-form-field {
+                    width: auto !important;
+                }
+            }
+        }
+    }
+}
+
+
+

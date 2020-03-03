@@ -1,0 +1,96 @@
+<div class="page-layout carded left-sidebar inner-scroll">
+
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+
+    <!-- SIDEBAR -->
+    <fuse-sidebar *ngIf="!(maximizado$ | async)" class="sidebar" name="documento-avulso-main-sidebar" position="left"
+                  lockedOpen="gt-md">
+        <documento-avulso-main-sidebar></documento-avulso-main-sidebar>
+    </fuse-sidebar>
+    <!-- / SIDEBAR -->
+
+    <!-- CENTER -->
+    <div class="center">
+
+        <!-- CONTENT HEADER -->
+        <div class="header" fxLayout="row" fxLayoutAlign="start center" fxHide.lt-md
+             *ngIf="!(maximizado$ | async)">
+
+            <div class="search-wrapper" fxFlex fxLayout="row" fxLayoutAlign="start center">
+
+                <button mat-icon-button class="sidebar-toggle" fxHide.gt-md
+                        (click)="toggleSidebar('documento-avulso-main-sidebar')">
+                    <mat-icon>menu</mat-icon>
+                </button>
+
+                <div class="search" fxLayout="row" fxLayoutAlign="start center">
+                    <mat-icon class="secondary-text">search</mat-icon>
+                    <cdk-etiqueta-chips [etiquetas]="etiquetas"
+                                        (create)="addEtiqueta($event)"
+                                        [pagination]="vinculacaoEtiquetaPagination"
+                                        (delete)="deleteEtiqueta($event)"></cdk-etiqueta-chips>
+                </div>
+
+            </div>
+
+        </div>
+        <!-- / CONTENT HEADER -->
+
+        <!-- CONTENT CARD -->
+        <div class="content-card"
+             [ngClass]="{'current-documento-avulso-selected':currentDocumentoAvulsoId || (loading$ | async)}">
+
+            <!-- CONTENT -->
+            <div class="content" fxFlexAlign="row">
+                <div class="documento-avulso-list" #documentoAvulsoListElement mwlResizable [enableGhostResize]="true"
+                     [resizeEdges]="{bottom: false, right: true, top: false, left: true}"
+                     (resizeEnd)="onResizeEndDocumentoAvulsoList($event)"
+                     [fxFlex]="documentoAvulsoListSize"
+                     [hidden]="(maximizado$ | async)"
+                     fusePerfectScrollbar
+                     infiniteScroll
+                     [scrollWindow]="false"
+                     [infiniteScrollDistance]="2"
+                     [infiniteScrollThrottle]="50"
+                     (scrolled)="onScroll()"
+                     [ngClass]="{
+                        'mobile-mode': mobileMode,
+                        'current-documento-avulso': currentDocumentoAvulsoId,
+                        'no-current-documento-avulso': !currentDocumentoAvulsoId
+                     }">
+
+                    <cdk-documento-avulso-list [loading]="(loading$ | async)"
+                                     [documentosAvulso]="(documentosAvulso$ | async)"
+                                     [deletingIds]="(deletingIds$ | async)"
+                                     [deletedIds]="(deletedIds$ | async)"
+                                     [currentDocumentoAvulsoId]="currentDocumentoAvulsoId"
+                                     [pagination]="pagination"
+                                     [selectedIds]="(selectedIds$ | async)"
+                                     (changeSelectedIds)="changeSelectedIds($event)"
+                                     (reload)="reload($event)"
+                                     (selected)="setCurrentDocumentoAvulso($event)">
+                    </cdk-documento-avulso-list>
+                </div>
+
+                <div class="oficio-detail" mwlResizable [enableGhostResize]="true"
+                     [resizeEdges]="{bottom: false, right: true, top: false, left: true}"
+                     fusePerfectScrollbar fxFlex
+                     [ngClass]="{
+                        'mobile-mode': mobileMode,
+                        'current-documento-avulso': currentDocumentoAvulsoId,
+                        'no-current-documento-avulso': !currentDocumentoAvulsoId
+                     }">
+                    <router-outlet></router-outlet>
+                </div>
+            </div>
+            <!-- / CONTENT -->
+
+        </div>
+        <!-- / CONTENT CARD -->
+
+    </div>
+    <!-- / CENTER -->
+
+</div>
