@@ -23,7 +23,7 @@ export class CdkGeneroRelevanciaGridFilterComponent implements OnInit {
 
     form: FormGroup;
 
-    filters: any = {};
+    filters: any = '{}';
 
     /**
      * Constructor

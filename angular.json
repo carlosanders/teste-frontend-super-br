@@ -31,7 +31,7 @@
                             "src/styles.scss"
                         ],
                         "aot": false,
-                        "scripts": [],
+			            "scripts": [],
                         "showCircularDependencies": false
                     },
                     "configurations": {

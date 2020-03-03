@@ -15,7 +15,7 @@ export class AcaoService {
     ) {
     }
 
-    get(id: number, context: any = {}): Observable<Acao> {
+    get(id: number, context: any = '{}'): Observable<Acao> {
         const params = {};
         params['context'] = context;
         return this.modelService.getOne('acao', id, new HttpParams({fromObject: params}))
@@ -24,7 +24,7 @@ export class AcaoService {
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = [], context: any = {}): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
@@ -39,7 +39,7 @@ export class AcaoService {
             );
     }
 
-    count(filters: any = {}, context: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
         params['context'] = context;
@@ -47,7 +47,7 @@ export class AcaoService {
         return this.modelService.count('acao', new HttpParams({fromObject: params}));
     }
 
-    save(acao: Acao, context: any = {}): Observable<Acao> {
+    save(acao: Acao, context: any = '{}'): Observable<Acao> {
         const params = {};
         params['context'] = context;
         if (acao.id) {
@@ -71,7 +71,7 @@ export class AcaoService {
         }
     }
 
-    destroy(id: number, context: any = {}): Observable<Acao> {
+    destroy(id: number, context: any = '{}'): Observable<Acao> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('acao', id, new HttpParams({fromObject: params}));

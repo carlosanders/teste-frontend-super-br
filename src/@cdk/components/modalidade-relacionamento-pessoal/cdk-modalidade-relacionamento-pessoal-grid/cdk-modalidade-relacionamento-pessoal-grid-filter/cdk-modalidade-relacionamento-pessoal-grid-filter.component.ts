@@ -23,7 +23,7 @@ export class CdkModalidadeRelacionamentoPessoalGridFilterComponent implements On
 
     form: FormGroup;
 
-    filters: any = {};
+    filters: any = '{}';
 
     /**
      * Constructor

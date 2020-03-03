@@ -15,20 +15,23 @@ export class ModalidadeTransicaoService {
     ) {
     }
 
-    get(id: number): Observable<ModalidadeTransicao> {
-        return this.modelService.getOne('modalidade_transicao', id)
+    get(id: number, context: any = '{}'): Observable<ModalidadeTransicao> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.getOne('modalidade_transicao', id, new HttpParams({fromObject: params}))
             .pipe(
                 map(response => plainToClass(ModalidadeTransicao, response)[0])
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
         params['offset'] = offset;
         params['order'] = order;
         params['populate'] = populate;
+        params['context'] = context;
 
         return this.modelService.get('modalidade_transicao', new HttpParams({fromObject: params}))
             .pipe(
@@ -36,16 +39,19 @@ export class ModalidadeTransicaoService {
             );
     }
 
-    count(filters: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
+        params['context'] = context;
 
         return this.modelService.count('modalidade_transicao', new HttpParams({fromObject: params}));
     }
 
-    save(modalidadeTransicao: ModalidadeTransicao): Observable<ModalidadeTransicao> {
+    save(modalidadeTransicao: ModalidadeTransicao, context: any = '{}'): Observable<ModalidadeTransicao> {
+        const params = {};
+        params['context'] = context;
         if (modalidadeTransicao.id) {
-            return this.modelService.put('modalidade_transicao', modalidadeTransicao.id, classToPlain(modalidadeTransicao))
+            return this.modelService.put('modalidade_transicao', modalidadeTransicao.id, classToPlain(modalidadeTransicao), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(ModalidadeTransicao, response);
@@ -54,7 +60,7 @@ export class ModalidadeTransicaoService {
                     })
                 );
         } else {
-            return this.modelService.post('modalidade_transicao', classToPlain(modalidadeTransicao))
+            return this.modelService.post('modalidade_transicao', classToPlain(modalidadeTransicao), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(ModalidadeTransicao, response);
@@ -65,7 +71,9 @@ export class ModalidadeTransicaoService {
         }
     }
 
-    destroy(id: number): Observable<ModalidadeTransicao> {
-        return this.modelService.delete('modalidade_transicao', id);
+    destroy(id: number, context: any = '{}'): Observable<ModalidadeTransicao> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.delete('modalidade_transicao', id, new HttpParams({fromObject: params}));
     }
 }

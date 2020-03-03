@@ -24,7 +24,7 @@ export class CdkCompartilhamentoGridFilterComponent implements OnInit {
 
     form: FormGroup;
 
-    filters: any = {};
+    filters: any = '{}';
 
     /**
      * Constructor

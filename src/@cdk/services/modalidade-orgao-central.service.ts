@@ -15,20 +15,23 @@ export class ModalidadeOrgaoCentralService {
     ) {
     }
 
-    get(id: number): Observable<ModalidadeOrgaoCentral> {
-        return this.modelService.getOne('modalidade_orgao_central', id)
+    get(id: number, context: any = '{}'): Observable<ModalidadeOrgaoCentral> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.getOne('modalidade_orgao_central', id, new HttpParams({fromObject: params}))
             .pipe(
                 map(response => plainToClass(ModalidadeOrgaoCentral, response)[0])
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
         params['offset'] = offset;
         params['order'] = order;
         params['populate'] = populate;
+        params['context'] = context;
 
         return this.modelService.get('modalidade_orgao_central', new HttpParams({fromObject: params}))
             .pipe(
@@ -36,16 +39,19 @@ export class ModalidadeOrgaoCentralService {
             );
     }
 
-    count(filters: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
+        params['context'] = context;
 
         return this.modelService.count('modalidade_orgao_central', new HttpParams({fromObject: params}));
     }
 
-    save(modalidadeOrgaoCentral: ModalidadeOrgaoCentral): Observable<ModalidadeOrgaoCentral> {
+    save(modalidadeOrgaoCentral: ModalidadeOrgaoCentral, context: any = '{}'): Observable<ModalidadeOrgaoCentral> {
+        const params = {};
+        params['context'] = context;
         if (modalidadeOrgaoCentral.id) {
-            return this.modelService.put('modalidade_orgao_central', modalidadeOrgaoCentral.id, classToPlain(modalidadeOrgaoCentral))
+            return this.modelService.put('modalidade_orgao_central', modalidadeOrgaoCentral.id, classToPlain(modalidadeOrgaoCentral), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(ModalidadeOrgaoCentral, response);
@@ -54,7 +60,7 @@ export class ModalidadeOrgaoCentralService {
                     })
                 );
         } else {
-            return this.modelService.post('modalidade_orgao_central', classToPlain(modalidadeOrgaoCentral))
+            return this.modelService.post('modalidade_orgao_central', classToPlain(modalidadeOrgaoCentral), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(ModalidadeOrgaoCentral, response);
@@ -65,7 +71,9 @@ export class ModalidadeOrgaoCentralService {
         }
     }
 
-    destroy(id: number): Observable<ModalidadeOrgaoCentral> {
-        return this.modelService.delete('modalidade_orgao_central', id);
+    destroy(id: number, context: any = '{}'): Observable<ModalidadeOrgaoCentral> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.delete('modalidade_orgao_central', id, new HttpParams({fromObject: params}));
     }
 }

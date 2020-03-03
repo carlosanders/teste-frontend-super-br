@@ -192,7 +192,7 @@ export class AtividadeCreateDocumentosEffect {
             .pipe(
                 ofType<AtividadeCreateDocumentosActions.ConverteToPdf>(AtividadeCreateDocumentosActions.CONVERTE_DOCUMENTO_ATIVIDADE),
                 mergeMap((action) => {
-                        return this._documentoService.preparaConverter(action.payload,{hash: action.payload.hash})
+                        return this._documentoService.preparaConverter(action.payload, {hash: action.payload.hash})
                             .pipe(
                                 map((response) => {
                                     return new AtividadeCreateDocumentosActions.ConverteToPdfSucess(action.payload);

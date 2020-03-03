@@ -23,7 +23,7 @@ export class CdkModalidadeVinculacaoProcessoGridFilterComponent implements OnIni
 
     form: FormGroup;
 
-    filters: any = {};
+    filters: any = '{}';
 
     /**
      * Constructor
