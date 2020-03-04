@@ -1,13 +1,13 @@
 <div class="page-layout fullwidth left-sidebar inner-scroll" fxFlex="100">
 
     <!-- SIDEBAR -->
-    <fuse-sidebar class="sidebar" name="cdk-modalidade-etiqueta-main-sidebar" position="left">
+    <cdk-sidebar class="sidebar" name="cdk-modalidade-etiqueta-main-sidebar" position="left">
         <!-- SIDEBAR CONTENT -->
-        <div class="content" fusePerfectScrollbar>
+        <div class="content" cdkPerfectScrollbar>
             <cdk-modalidade-etiqueta-main-sidebar (selected)="setGridFilter($event)" [@animate]="{value:'*'}"></cdk-modalidade-etiqueta-main-sidebar>
         </div>
         <!-- / SIDEBAR CONTENT -->
-    </fuse-sidebar>
+    </cdk-sidebar>
     <!-- / SIDEBAR -->
 
     <!-- CONTENT -->

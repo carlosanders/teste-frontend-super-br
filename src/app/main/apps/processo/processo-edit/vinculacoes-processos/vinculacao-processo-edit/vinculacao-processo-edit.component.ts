@@ -6,7 +6,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
 
 import {VinculacaoProcesso} from '@cdk/models';
@@ -22,7 +22,7 @@ import {getProcesso} from '../../../store/selectors';
     styleUrls: ['./vinculacao-processo-edit.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class VinculacaoProcessoEditComponent implements OnInit, OnDestroy {
 

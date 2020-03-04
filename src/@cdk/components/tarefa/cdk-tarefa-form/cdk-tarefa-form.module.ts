@@ -11,7 +11,7 @@ import {
 
 } from '@cdk/angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 import { EspecieTarefaService } from '@cdk/services/especie-tarefa.service';
 import { CdkTarefaFormComponent } from './cdk-tarefa-form.component';
 import { CdkEspecieTarefaAutocompleteModule } from '@cdk/components/especie-tarefa/cdk-especie-tarefa-autocomplete/cdk-especie-tarefa-autocomplete.module';
@@ -69,7 +69,7 @@ import {CdkBlocoResponsaveisGridModule} from "../cdk-bloco-responsaveis-grid/cdk
 
         CdkProcessoGridModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
         MatTooltipModule,
         CdkLogentryGridModule,
         CdkLogentryGridsearchModule,

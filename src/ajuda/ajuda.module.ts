@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {AjudaComponent} from './ajuda.component';
-import {FuseSharedModule} from '../@fuse/shared.module';
+import {CdkSharedModule} from '../@cdk/shared.module';
 import {MatButtonModule, MatFormFieldModule, MatIconModule, MatInputModule, MatTooltipModule} from '@cdk/angular/material';
 
 @NgModule({
@@ -8,7 +8,7 @@ import {MatButtonModule, MatFormFieldModule, MatIconModule, MatInputModule, MatT
         AjudaComponent
     ],
     imports: [
-        FuseSharedModule,
+        CdkSharedModule,
         MatInputModule,
         MatFormFieldModule,
         MatButtonModule,

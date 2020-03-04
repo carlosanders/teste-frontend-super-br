@@ -13,8 +13,8 @@ import {FormControl} from '@angular/forms';
 import {select, Store} from '@ngrx/store';
 import {Observable, Subject} from 'rxjs';
 
-import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
-import {FuseTranslationLoaderService} from '@fuse/services/translation-loader.service';
+import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
+import {CdkTranslationLoaderService} from '@cdk/services/translation-loader.service';
 
 import {DocumentoAvulso} from '@cdk/models/documento-avulso.model';
 import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
@@ -24,7 +24,7 @@ import {getRouterState, getScreenState} from 'app/store/reducers';
 import {locale as english} from 'app/main/apps/oficios/i18n/en';
 
 import {ResizeEvent} from 'angular-resizable-element';
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Etiqueta} from '@cdk/models/etiqueta.model';
 import {Router} from '@angular/router';
 import {takeUntil} from 'rxjs/operators';
@@ -39,7 +39,7 @@ import {MatDialog} from '@cdk/angular/material';
     styleUrls: ['./oficios.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
 
@@ -92,8 +92,8 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
 
     /**
      * @param _changeDetectorRef
-     * @param _fuseSidebarService
-     * @param _fuseTranslationLoaderService
+     * @param _cdkSidebarService
+     * @param _cdkTranslationLoaderService
      * @param _tarefaService
      * @param _router
      * @param _store
@@ -102,8 +102,8 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
     constructor(
         public _dialog: MatDialog,
         private _changeDetectorRef: ChangeDetectorRef,
-        private _fuseSidebarService: FuseSidebarService,
-        private _fuseTranslationLoaderService: FuseTranslationLoaderService,
+        private _cdkSidebarService: CdkSidebarService,
+        private _cdkTranslationLoaderService: CdkTranslationLoaderService,
         private _documentoAvulsoService: DocumentoAvulsoService,
         private _router: Router,
         private _store: Store<fromStore.DocumentoAvulsoAppState>,
@@ -111,7 +111,7 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
     ) {
         // Set the defaults
         this.searchInput = new FormControl('');
-        this._fuseTranslationLoaderService.loadTranslations(english);
+        this._cdkTranslationLoaderService.loadTranslations(english);
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
         this.documentosAvulso$ = this._store.pipe(select(fromStore.getDocumentosAvulso));
         this.selectedDocumentosAvulso$ = this._store.pipe(select(fromStore.getSelectedDocumentoAvulso));
@@ -279,7 +279,7 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
      * @param name
      */
     toggleSidebar(name): void {
-        this._fuseSidebarService.getSidebar(name).toggleOpen();
+        this._cdkSidebarService.getSidebar(name).toggleOpen();
     }
 
     changeSelectedIds(ids: number[]): void {

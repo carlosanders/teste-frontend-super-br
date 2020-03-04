@@ -7,7 +7,7 @@ import {
     ChangeDetectorRef, ViewContainerRef, AfterViewInit
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
 import * as fromStore from '../store';
 import {select, Store} from '@ngrx/store';
@@ -28,7 +28,7 @@ import {DynamicService} from "../../../../../modules/dynamic.service";
     styleUrls: ['./documento-avulso-edit.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy, AfterViewInit {
 

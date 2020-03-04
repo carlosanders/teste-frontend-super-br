@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 
 import {RelacionamentoPessoalService} from '@cdk/services/relacionamento-pessoal.service';
 import {CdkRelacionamentoPessoalGridsearchComponent} from './cdk-relacionamento-pessoal-gridsearch.component';
@@ -14,7 +14,7 @@ import {CdkRelacionamentoPessoalGridModule} from '@cdk/components/relacionamento
 
         CdkRelacionamentoPessoalGridModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         RelacionamentoPessoalService

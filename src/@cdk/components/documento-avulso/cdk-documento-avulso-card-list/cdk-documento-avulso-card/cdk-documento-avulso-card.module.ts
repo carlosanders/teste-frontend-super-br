@@ -4,7 +4,7 @@ import {
     MatMenuModule, MatProgressSpinnerModule
 } from '@cdk/angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 import { CdkDocumentoAvulsoCardComponent } from './cdk-documento-avulso-card.component';
 
 @NgModule({
@@ -19,7 +19,7 @@ import { CdkDocumentoAvulsoCardComponent } from './cdk-documento-avulso-card.com
         MatCheckboxModule,
         MatProgressSpinnerModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
     ],

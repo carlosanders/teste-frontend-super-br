@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 
 import { LogEntryService } from '@cdk/services/logentry.service';
 import { CdkLogentryGridsearchComponent } from './cdk-logentry-gridsearch.component';
@@ -14,7 +14,7 @@ import { CdkLogentryGridModule } from '@cdk/components/logentry/cdk-logentry-gri
 
         CdkLogentryGridModule,
         
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         LogEntryService

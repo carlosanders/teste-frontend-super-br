@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 
 import {TranslateModule} from '@ngx-translate/core';
 import {ComponenteDigitalViewComponent} from './componente-digital-view.component';
@@ -30,7 +30,7 @@ const routes: Routes = [
         MatProgressSpinnerModule,
 
         TranslateModule,
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         ComponenteDigitalService

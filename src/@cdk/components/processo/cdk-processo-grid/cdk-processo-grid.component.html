@@ -1,13 +1,13 @@
 <!-- SIDEBAR -->
-<fuse-sidebar [lockedOpen]="(mode === 'search') ? 'gt-xs' : ''" class="sidebar" name="cdk-processo-main-sidebar" position="left">
+<cdk-sidebar [lockedOpen]="(mode === 'search') ? 'gt-xs' : ''" class="sidebar" name="cdk-processo-main-sidebar" position="left">
     <!-- SIDEBAR CONTENT -->
-    <div class="content" fusePerfectScrollbar>
+    <div class="content" cdkPerfectScrollbar>
         <cdk-processo-main-sidebar (selected)="setGridFilter($event)"
                                    [mode]="this.mode"
                                    [@animate]="{value:'*'}"></cdk-processo-main-sidebar>
     </div>
     <!-- / SIDEBAR CONTENT -->
-</fuse-sidebar>
+</cdk-sidebar>
 <!-- / SIDEBAR -->
 <div class="page-layout fullwidth left-sidebar inner-scroll" fxFlex="100">
 

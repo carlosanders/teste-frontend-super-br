@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import {Observable} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Lotacao} from '@cdk/models/lotacao.model';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
@@ -21,7 +21,7 @@ import {Pagination} from "../../../../../../@cdk/models/pagination";
     styleUrls: ['./admin-lotacao-list.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class AdminLotacaoListComponent implements OnInit {
 

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 
 import { EspecieDocumentoService } from '@cdk/services/especie-documento.service';
 import { CdkEspecieDocumentoGridsearchComponent } from './cdk-especie-documento-gridsearch.component';
@@ -14,7 +14,7 @@ import { CdkEspecieDocumentoGridModule } from '@cdk/components/especie-documento
 
         CdkEspecieDocumentoGridModule,
         
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         EspecieDocumentoService

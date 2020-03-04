@@ -6,7 +6,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
 
 import {Tramitacao} from '@cdk/models';
@@ -26,7 +26,7 @@ import {getRouterState} from '../../../../../../store/reducers';
     styleUrls: ['./remessa-edit.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class RemessaEditComponent implements OnInit, OnDestroy {
 

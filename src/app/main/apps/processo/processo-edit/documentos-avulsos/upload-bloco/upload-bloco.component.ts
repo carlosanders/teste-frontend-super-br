@@ -6,7 +6,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
 import {select, Store} from '@ngrx/store';
@@ -26,7 +26,7 @@ import {ComponenteDigital} from '@cdk/models';
     styleUrls: ['./upload-bloco.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class UploadBlocoComponent implements OnInit, OnDestroy {
 

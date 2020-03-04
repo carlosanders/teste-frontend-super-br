@@ -2,7 +2,7 @@ import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Output, ViewChild, ViewEncapsulation, SimpleChange, ChangeDetectorRef} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {MatAutocompleteSelectedEvent, MatChipInputEvent, MatAutocomplete, MatDialog, MatDialogRef} from '@cdk/angular/material';
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Etiqueta} from '@cdk/models';
 import {VinculacaoEtiqueta} from '@cdk/models';
 import {Pagination} from '@cdk/models';
@@ -16,7 +16,7 @@ import {CdkVinculacaoEtiquetaEditDialogComponent} from '../cdk-vinculacao-etique
     styleUrls: ['./cdk-vinculacao-etiqueta-chips.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkVinculacaoEtiquetaChipsComponent {
 

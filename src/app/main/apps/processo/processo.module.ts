@@ -6,8 +6,8 @@ import {
 } from '@cdk/angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { FuseSharedModule } from '@fuse/shared.module';
-import { FuseSidebarModule } from '@fuse/components';
+import { CdkSharedModule } from '@cdk/shared.module';
+import { CdkSidebarModule } from '@cdk/components';
 
 import * as fromGuards from 'app/main/apps/processo/store/guards/index';
 
@@ -81,8 +81,8 @@ const routes: Routes = [
 
         ProcessoStoreModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
         MatTooltipModule,
         CdkVinculacaoEtiquetaChipsModule,
         ProcessoDownloadModule

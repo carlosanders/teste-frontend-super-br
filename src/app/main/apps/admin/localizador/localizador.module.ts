@@ -14,7 +14,7 @@ import {
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {LocalizadorComponent} from './localizador.component';
 import {LocalizadorService} from '@cdk/services/localizador.service';
 import {RouterModule, Routes} from '@angular/router';
@@ -60,7 +60,7 @@ const routes: Routes = [
         MatPaginatorModule,
         MatSortModule,
         TranslateModule,
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         LocalizadorService

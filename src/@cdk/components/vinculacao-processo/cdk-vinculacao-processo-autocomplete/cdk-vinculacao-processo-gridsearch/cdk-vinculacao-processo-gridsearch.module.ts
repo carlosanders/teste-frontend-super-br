@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 
 import {VinculacaoProcessoService} from '@cdk/services/vinculacao-processo.service';
 import {CdkVinculacaoProcessoGridsearchComponent} from './cdk-vinculacao-processo-gridsearch.component';
@@ -14,7 +14,7 @@ import {CdkVinculacaoProcessoGridModule} from '@cdk/components/vinculacao-proces
 
         CdkVinculacaoProcessoGridModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         VinculacaoProcessoService

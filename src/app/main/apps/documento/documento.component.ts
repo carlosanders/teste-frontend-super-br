@@ -9,12 +9,12 @@ import {
 import {select, Store} from '@ngrx/store';
 import {Observable, Subject} from 'rxjs';
 
-import {FuseTranslationLoaderService} from '@fuse/services/translation-loader.service';
+import {CdkTranslationLoaderService} from '@cdk/services/translation-loader.service';
 
 import {Documento} from '@cdk/models';
 import * as fromStore from 'app/main/apps/documento/store';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {ComponenteDigital} from '@cdk/models';
 import {Router} from '@angular/router';
 import {getRouterState} from 'app/store/reducers';
@@ -27,7 +27,7 @@ import {Back} from "../../../store/actions";
     styleUrls: ['./documento.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class DocumentoComponent implements OnInit, OnDestroy {
 
@@ -47,13 +47,13 @@ export class DocumentoComponent implements OnInit, OnDestroy {
     /**
      *
      * @param _changeDetectorRef
-     * @param _fuseTranslationLoaderService
+     * @param _cdkTranslationLoaderService
      * @param _store
      * @param _router
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _fuseTranslationLoaderService: FuseTranslationLoaderService,
+        private _cdkTranslationLoaderService: CdkTranslationLoaderService,
         private _store: Store<fromStore.DocumentoAppState>,
         private _router: Router
     ) {

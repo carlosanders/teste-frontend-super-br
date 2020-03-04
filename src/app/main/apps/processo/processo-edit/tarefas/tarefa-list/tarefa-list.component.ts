@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import {Observable} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Tarefa} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
@@ -20,7 +20,7 @@ import {getRouterState} from 'app/store/reducers';
     styleUrls: ['./tarefa-list.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class TarefaListComponent implements OnInit {
 

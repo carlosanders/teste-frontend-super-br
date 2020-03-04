@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 
 import {VinculacaoDocumentoService} from '@cdk/services/vinculacao-documento.service';
 import {CdkVinculacaoDocumentoGridsearchComponent} from './cdk-vinculacao-documento-gridsearch.component';
@@ -14,7 +14,7 @@ import {CdkVinculacaoDocumentoGridModule} from '@cdk/components/vinculacao-docum
 
         CdkVinculacaoDocumentoGridModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         VinculacaoDocumentoService

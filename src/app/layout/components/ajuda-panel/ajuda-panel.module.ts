@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 
 import { AjudaPanelComponent } from 'app/layout/components/ajuda-panel/ajuda-panel.component';
 import {AjudaModule} from '../../../../ajuda/ajuda.module';
@@ -11,7 +11,7 @@ import {AjudaModule} from '../../../../ajuda/ajuda.module';
     ],
     imports     : [
         AjudaModule,
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     exports: [
         AjudaPanelComponent

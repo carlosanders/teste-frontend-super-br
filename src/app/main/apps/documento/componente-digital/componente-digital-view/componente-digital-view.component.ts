@@ -6,7 +6,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 import * as fromStore from '../store';
 import {select, Store} from '@ngrx/store';
@@ -18,7 +18,7 @@ import {ComponenteDigital} from '@cdk/models';
     styleUrls: ['./componente-digital-view.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class ComponenteDigitalViewComponent implements OnInit, OnDestroy {
     componenteDigital$: Observable<ComponenteDigital>;

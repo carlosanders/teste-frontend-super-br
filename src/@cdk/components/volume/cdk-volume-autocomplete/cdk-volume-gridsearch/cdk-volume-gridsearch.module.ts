@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 
 import {VolumeService} from '@cdk/services/volume.service';
 import {CdkVolumeGridsearchComponent} from './cdk-volume-gridsearch.component';
@@ -14,7 +14,7 @@ import {CdkVolumeGridModule} from '@cdk/components/volume/cdk-volume-grid/cdk-vo
 
         CdkVolumeGridModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         VolumeService

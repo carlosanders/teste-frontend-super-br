@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 
 import {GeneroRelevanciaService} from '@cdk/services/genero-relevancia.service';
 import {CdkGeneroRelevanciaGridsearchComponent} from './cdk-genero-relevancia-gridsearch.component';
@@ -14,7 +14,7 @@ import {CdkGeneroRelevanciaGridModule} from '@cdk/components/genero-relevancia/c
 
         CdkGeneroRelevanciaGridModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         GeneroRelevanciaService

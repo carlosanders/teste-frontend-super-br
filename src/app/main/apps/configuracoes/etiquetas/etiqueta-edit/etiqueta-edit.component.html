@@ -1,15 +1,15 @@
 <div fxLayout="row" class="page-layout full-width left-sidebar inner-scroll">
 
     <!-- SIDEBAR -->
-    <fuse-sidebar *ngIf="routerState.params.etiquetaHandle && routerState.params.etiquetaHandle !== 'criar'" class="sidebar" name="etiqueta-edit-main-sidebar" position="left" [lockedOpen]="'gt-md'">
+    <cdk-sidebar *ngIf="routerState.params.etiquetaHandle && routerState.params.etiquetaHandle !== 'criar'" class="sidebar" name="etiqueta-edit-main-sidebar" position="left" [lockedOpen]="'gt-md'">
 
         <!-- SIDEBAR CONTENT -->
-        <div class="content" fusePerfectScrollbar>
+        <div class="content" cdkPerfectScrollbar>
             <etiqueta-edit-main-sidebar [@animate]="{value:'*'}"></etiqueta-edit-main-sidebar>
         </div>
         <!-- / SIDEBAR CONTENT -->
 
-    </fuse-sidebar>
+    </cdk-sidebar>
     <!-- / SIDEBAR -->
 
     <!-- CENTER -->
@@ -27,7 +27,7 @@
         <!-- / CONTENT HEADER -->
 
         <!-- CONTENT CARD -->
-        <div class="content-card" fusePerfectScrollbar>
+        <div class="content-card" cdkPerfectScrollbar>
 
             <router-outlet></router-outlet>
 

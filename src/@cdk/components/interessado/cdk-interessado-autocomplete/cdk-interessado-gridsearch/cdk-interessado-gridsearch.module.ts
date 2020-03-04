@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 
 import {InteressadoService} from '@cdk/services/interessado.service';
 import {CdkInteressadoGridsearchComponent} from './cdk-interessado-gridsearch.component';
@@ -14,7 +14,7 @@ import {CdkInteressadoGridModule} from '@cdk/components/interessado/cdk-interess
 
         CdkInteressadoGridModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         InteressadoService

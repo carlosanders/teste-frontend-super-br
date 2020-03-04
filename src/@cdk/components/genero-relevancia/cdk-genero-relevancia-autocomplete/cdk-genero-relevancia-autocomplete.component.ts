@@ -6,7 +6,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {GeneroRelevancia} from '@cdk/models';
 import {GeneroRelevanciaService} from '@cdk/services/genero-relevancia.service';
 import {FormControl} from '@angular/forms';
@@ -21,7 +21,7 @@ import {Pagination} from '@cdk/models';
     styleUrls: ['./cdk-genero-relevancia-autocomplete.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations,
+    animations: cdkAnimations,
     exportAs: 'generoRelevanciaAutocomplete',
 })
 export class CdkGeneroRelevanciaAutocompleteComponent implements OnInit {

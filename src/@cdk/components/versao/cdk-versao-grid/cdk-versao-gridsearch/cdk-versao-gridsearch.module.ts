@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 
 import { LogEntryService } from '@cdk/services/logentry.service';
 import { CdkVersaoGridsearchComponent } from './cdk-versao-gridsearch.component';
@@ -12,7 +12,7 @@ import {CdkVersaoGridModule} from '../cdk-versao-grid.module';
     ],
     imports: [
 
-        FuseSharedModule,
+        CdkSharedModule,
         CdkVersaoGridModule,
     ],
     providers: [

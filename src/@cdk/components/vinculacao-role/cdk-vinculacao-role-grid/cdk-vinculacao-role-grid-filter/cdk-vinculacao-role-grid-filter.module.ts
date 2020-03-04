@@ -8,7 +8,7 @@ import {
     MatInputModule
 } from '@cdk/angular/material';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {VinculacaoRoleService} from '@cdk/services/vinculacao-role.service';
 import {CdkVinculacaoRoleGridFilterComponent} from './cdk-vinculacao-role-grid-filter.component';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
@@ -31,7 +31,7 @@ import {CdkRoleAutocompleteModule} from '../../../role/cdk-role-autocomplete/cdk
         MatNativeDatetimeModule,
         MatMomentDatetimeModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
 
         CdkUsuarioAutocompleteModule,
         CdkRoleAutocompleteModule,

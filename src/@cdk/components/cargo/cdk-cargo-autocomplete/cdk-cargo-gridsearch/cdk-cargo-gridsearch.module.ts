@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 
 import { CargoService } from '@cdk/services/cargo.service';
 import { CdkCargoGridsearchComponent } from './cdk-cargo-gridsearch.component';
@@ -14,7 +14,7 @@ import { CdkCargoGridModule } from '@cdk/components/cargo/cdk-cargo-grid/cdk-car
 
         CdkCargoGridModule,
         
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         CargoService

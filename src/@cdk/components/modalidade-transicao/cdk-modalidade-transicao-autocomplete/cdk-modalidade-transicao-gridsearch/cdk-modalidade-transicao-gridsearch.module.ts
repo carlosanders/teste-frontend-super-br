@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 
 import { ModalidadeTransicaoService } from '@cdk/services/modalidade-transicao.service';
 import { CdkModalidadeTransicaoGridsearchComponent } from './cdk-modalidade-transicao-gridsearch.component';
@@ -14,7 +14,7 @@ import { CdkModalidadeTransicaoGridModule } from '@cdk/components/modalidade-tra
 
         CdkModalidadeTransicaoGridModule,
         
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         ModalidadeTransicaoService

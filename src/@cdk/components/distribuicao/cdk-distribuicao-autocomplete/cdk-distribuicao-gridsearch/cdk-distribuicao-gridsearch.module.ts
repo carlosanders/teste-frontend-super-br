@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 
 import {DistribuicaoService} from '@cdk/services/distribuicao.service';
 import {CdkDistribuicaoGridsearchComponent} from './cdk-distribuicao-gridsearch.component';
@@ -14,7 +14,7 @@ import {CdkDistribuicaoGridModule} from '@cdk/components/distribuicao/cdk-distri
 
         CdkDistribuicaoGridModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         DistribuicaoService

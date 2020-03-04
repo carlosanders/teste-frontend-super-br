@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 
 import {TranslateModule} from '@ngx-translate/core';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {VisualizarProcessoComponent} from './visualizar-processo.component';
 import {RouterModule, Routes} from '@angular/router';
 import {MatButtonModule, MatIconModule, MatProgressSpinnerModule, MatTooltipModule} from '@cdk/angular/material';
@@ -30,7 +30,7 @@ const routes: Routes = [
         MatIconModule,
         MatButtonModule,
         TranslateModule,
-        FuseSharedModule,
+        CdkSharedModule,
 
         MatTooltipModule,
         MatProgressSpinnerModule

@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {CdkComponenteDigitalGridsearchComponent} from './cdk-componente-digital-gridsearch.component';
@@ -14,7 +14,7 @@ import {CdkComponenteDigitalGridModule} from '@cdk/components/componente-digital
 
         CdkComponenteDigitalGridModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         ComponenteDigitalService

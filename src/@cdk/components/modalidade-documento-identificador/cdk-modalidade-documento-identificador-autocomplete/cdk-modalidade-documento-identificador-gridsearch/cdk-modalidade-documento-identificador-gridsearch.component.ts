@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import {of} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
@@ -25,7 +25,7 @@ import {ModalidadeDocumentoIdentificador} from '@cdk/models';
     styleUrls: ['./cdk-modalidade-documento-identificador-gridsearch.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkModalidadeDocumentoIdentificadorGridsearchComponent implements OnInit {
 

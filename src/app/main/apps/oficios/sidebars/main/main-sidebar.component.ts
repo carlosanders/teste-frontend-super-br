@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnIni
 import { select, Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 
-import { fuseAnimations } from '@fuse/animations';
+import { cdkAnimations } from '@cdk/animations';
 
 import * as fromStore from 'app/main/apps/oficios/store';
 import { getRouterState } from 'app/store/reducers';
@@ -14,7 +14,7 @@ import { takeUntil } from 'rxjs/operators';
     styleUrls: ['./main-sidebar.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class DocumentoAvulsoMainSidebarComponent implements OnInit, OnDestroy {
 
