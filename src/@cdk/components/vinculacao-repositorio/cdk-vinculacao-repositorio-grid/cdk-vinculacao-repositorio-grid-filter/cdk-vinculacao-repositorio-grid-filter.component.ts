@@ -23,7 +23,7 @@ export class CdkVinculacaoRepositorioGridFilterComponent implements OnInit {
 
     form: FormGroup;
 
-    filters: any = {};
+    filters: any = '{}';
 
     /**
      * Constructor

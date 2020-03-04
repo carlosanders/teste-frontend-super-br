@@ -23,7 +23,7 @@ export class CdkModalidadeFaseGridFilterComponent implements OnInit {
 
     form: FormGroup;
 
-    filters: any = {};
+    filters: any = '{}';
 
     /**
      * Constructor

@@ -1,5 +1,5 @@
-import {usuario} from './base.schema';
-import {modalidadeAlvoInibidor as modalidadeAlvoInibidorSchema} from './base.schema';
+import {usuario} from './index.schema';
+import {modalidadeAlvoInibidor as modalidadeAlvoInibidorSchema} from './index.schema';
 
 modalidadeAlvoInibidorSchema.define({
     criadoPor: usuario,

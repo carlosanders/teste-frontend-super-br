@@ -1,6 +1,6 @@
-import {generoTarefa} from './base.schema';
-import {usuario} from './base.schema';
-import {especieTarefa as especieTarefaSchema} from './base.schema';
+import {generoTarefa} from './index.schema';
+import {usuario} from './index.schema';
+import {especieTarefa as especieTarefaSchema} from './index.schema';
 
 especieTarefaSchema.define({
     generoTarefa: generoTarefa,

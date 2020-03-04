@@ -1,7 +1,7 @@
-import {assinatura as assinaturaSchema} from './base.schema';
-import {componenteDigital} from './base.schema';
-import {origemDados} from './base.schema';
-import {usuario} from './base.schema';
+import {assinatura as assinaturaSchema} from './index.schema';
+import {componenteDigital} from './index.schema';
+import {origemDados} from './index.schema';
+import {usuario} from './index.schema';
 
 assinaturaSchema.define({
     componenteDigital: componenteDigital,

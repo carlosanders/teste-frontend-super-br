@@ -1,5 +1,5 @@
-import {usuario} from './base.schema';
-import {compartilhamento as compartilhamentoSchema} from './base.schema';
+import {usuario} from './index.schema';
+import {compartilhamento as compartilhamentoSchema} from './index.schema';
 
 compartilhamentoSchema.define({
     usuario: usuario,

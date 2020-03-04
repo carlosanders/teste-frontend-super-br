@@ -1,8 +1,8 @@
-import {usuario} from './base.schema';
-import {processo} from './base.schema';
-import {setor} from './base.schema';
-import {pessoa} from './base.schema';
-import {tramitacao as tramitacaoSchema} from './base.schema';
+import {usuario} from './index.schema';
+import {processo} from './index.schema';
+import {setor} from './index.schema';
+import {pessoa} from './index.schema';
+import {tramitacao as tramitacaoSchema} from './index.schema';
 
 tramitacaoSchema.define({
     setorOrigem: setor,

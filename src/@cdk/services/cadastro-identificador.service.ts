@@ -15,20 +15,23 @@ export class CadastroIdentificadorService {
     ) {
     }
 
-    get(id: number): Observable<CadastroIdentificador> {
-        return this.modelService.getOne('cadastro_identificador', id)
+    get(id: number, context: any = '{}'): Observable<CadastroIdentificador> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.getOne('cadastro_identificador', id, new HttpParams({fromObject: params}))
             .pipe(
                 map(response => plainToClass(CadastroIdentificador, response)[0])
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
         params['offset'] = offset;
         params['order'] = order;
         params['populate'] = populate;
+        params['context'] = context;
 
         return this.modelService.get('cadastro_identificador', new HttpParams({fromObject: params}))
             .pipe(
@@ -36,16 +39,19 @@ export class CadastroIdentificadorService {
             );
     }
 
-    count(filters: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
+        params['context'] = context;
 
         return this.modelService.count('cadastro_identificador', new HttpParams({fromObject: params}));
     }
 
-    save(cadastroIdentificador: CadastroIdentificador): Observable<CadastroIdentificador> {
+    save(cadastroIdentificador: CadastroIdentificador, context: any = '{}'): Observable<CadastroIdentificador> {
+        const params = {};
+        params['context'] = context;
         if (cadastroIdentificador.id) {
-            return this.modelService.put('cadastro_identificador', cadastroIdentificador.id, classToPlain(cadastroIdentificador))
+            return this.modelService.put('cadastro_identificador', cadastroIdentificador.id, classToPlain(cadastroIdentificador), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(CadastroIdentificador, response);
@@ -54,7 +60,7 @@ export class CadastroIdentificadorService {
                     })
                 );
         } else {
-            return this.modelService.post('cadastro_identificador', classToPlain(cadastroIdentificador))
+            return this.modelService.post('cadastro_identificador', classToPlain(cadastroIdentificador), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(CadastroIdentificador, response);
@@ -65,7 +71,9 @@ export class CadastroIdentificadorService {
         }
     }
 
-    destroy(id: number): Observable<CadastroIdentificador> {
-        return this.modelService.delete('cadastro_identificador', id);
+    destroy(id: number, context: any = '{}'): Observable<CadastroIdentificador> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.delete('cadastro_identificador', id, new HttpParams({fromObject: params}));
     }
 }

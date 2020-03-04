@@ -54,7 +54,7 @@
 
         <div class="actions" fxLayout="row" fxLayoutAlign="start center">
 
-            <button mat-icon-button (click)="doToggleUrgente()"
+            <button mat-icon-button (click)="doToggleUrgente($event)"
                     aria-label="Toggle important" fxHide.xs>
                 <mat-icon class="red-fg" *ngIf="tarefa.urgente">error</mat-icon>
                 <mat-icon class="secondary-text" *ngIf="!tarefa.urgente">error_outline</mat-icon>

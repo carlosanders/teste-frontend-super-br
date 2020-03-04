@@ -15,6 +15,7 @@
             <mat-icon *ngIf="documento.documentoAvulsoRemessa && !documento.documentoAvulsoRemessa.dataHoraRemessa" class="ml-8 mr-8">edit</mat-icon>
             <mat-icon *ngIf="documento.documentoAvulsoRemessa && documento.documentoAvulsoRemessa.dataHoraRemessa && !documento.documentoAvulsoRemessa.dataHoraResposta" class="ml-8 mr-8">screen_share</mat-icon>
             <mat-icon *ngIf="documento.documentoAvulsoRemessa && documento.documentoAvulsoRemessa.dataHoraResposta" class="ml-8 mr-8">reply</mat-icon>
+            <mat-icon *ngIf="documento.assinado" class="ml-8 mr-8">lock</mat-icon>
         </div>
 
         <div class="space" fxLayout="row" fxLayoutAlign="start center">

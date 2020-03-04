@@ -1,5 +1,5 @@
-import {usuario} from './base.schema';
-import {modalidadeTransicao as modalidadeTransicaoSchema} from './base.schema';
+import {usuario} from './index.schema';
+import {modalidadeTransicao as modalidadeTransicaoSchema} from './index.schema';
 
 modalidadeTransicaoSchema.define({
     criadoPor: usuario,

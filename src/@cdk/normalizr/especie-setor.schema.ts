@@ -1,6 +1,6 @@
-import {generoSetor} from './base.schema';
-import {usuario} from './base.schema';
-import {especieSetor as especieSetorSchema} from './base.schema';
+import {generoSetor} from './index.schema';
+import {usuario} from './index.schema';
+import {especieSetor as especieSetorSchema} from './index.schema';
 
 especieSetorSchema.define({
     generoSetor: generoSetor,

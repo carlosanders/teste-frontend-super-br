@@ -1,4 +1,4 @@
-import {cargo, colaborador as colaboradorSchema, modalidadeColaborador, usuario} from './base.schema';
+import {cargo, colaborador as colaboradorSchema, modalidadeColaborador, usuario} from './index.schema';
 
 colaboradorSchema.define({
     cargo: cargo,

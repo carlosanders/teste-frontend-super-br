@@ -1,0 +1,7 @@
+<cdk-localizador-form
+        [localizador]="localizador"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        [setorPagination]="setorPagination"
+        (save)="submit($event)">
+</cdk-localizador-form>

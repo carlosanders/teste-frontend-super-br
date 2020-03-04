@@ -17,6 +17,15 @@ export const navigation: FuseNavigation[] = [
                 role: 'ROLE_USER'
             },
             {
+                id: 'admin',
+                title: 'Admin',
+                translate: 'NAV.ADMIN.TITLE',
+                type: 'item',
+                icon: 'settings',
+                url: '/apps/admin',
+                role: 'ROLE_ADMIN'
+            },
+            {
                 id: 'tarefas',
                 title: 'Tarefas',
                 translate: 'NAV.TAREFA.TITLE',

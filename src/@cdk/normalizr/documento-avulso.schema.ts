@@ -1,12 +1,12 @@
-import {setor} from './base.schema';
-import {especieDocumentoAvulso} from './base.schema';
-import {modelo} from './base.schema';
-import {pessoa} from './base.schema';
-import {documento} from './base.schema';
-import {usuario} from './base.schema';
-import {processo} from './base.schema';
-import {tarefa} from './base.schema';
-import {documentoAvulso as documentoAvulsoSchema} from './base.schema';
+import {setor} from './index.schema';
+import {especieDocumentoAvulso} from './index.schema';
+import {modelo} from './index.schema';
+import {pessoa} from './index.schema';
+import {documento} from './index.schema';
+import {usuario} from './index.schema';
+import {processo} from './index.schema';
+import {tarefa} from './index.schema';
+import {documentoAvulso as documentoAvulsoSchema} from './index.schema';
 
 documentoAvulsoSchema.define({
     setorOrigem: setor,

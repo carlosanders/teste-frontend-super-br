@@ -15,20 +15,23 @@ export class ColaboradorService {
     ) {
     }
 
-    get(id: number): Observable<Colaborador> {
-        return this.modelService.getOne('colaborador', id)
+    get(id: number, context: any = '{}'): Observable<Colaborador> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.getOne('colaborador', id, new HttpParams({fromObject: params}))
             .pipe(
                 map(response => plainToClass(Colaborador, response)[0])
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
         params['offset'] = offset;
         params['order'] = order;
         params['populate'] = populate;
+        params['context'] = context;
 
         return this.modelService.get('colaborador', new HttpParams({fromObject: params}))
             .pipe(
@@ -36,16 +39,19 @@ export class ColaboradorService {
             );
     }
 
-    count(filters: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
+        params['context'] = context;
 
         return this.modelService.count('colaborador', new HttpParams({fromObject: params}));
     }
 
-    save(colaborador: Colaborador): Observable<Colaborador> {
+    save(colaborador: Colaborador, context: any = '{}'): Observable<Colaborador> {
+        const params = {};
+        params['context'] = context;
         if (colaborador.id) {
-            return this.modelService.put('colaborador', colaborador.id, classToPlain(colaborador))
+            return this.modelService.put('colaborador', colaborador.id, classToPlain(colaborador), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(Colaborador, response);
@@ -54,7 +60,7 @@ export class ColaboradorService {
                     })
                 );
         } else {
-            return this.modelService.post('colaborador', classToPlain(colaborador))
+            return this.modelService.post('colaborador', classToPlain(colaborador), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(Colaborador, response);
@@ -65,7 +71,9 @@ export class ColaboradorService {
         }
     }
 
-    destroy(id: number): Observable<Colaborador> {
-        return this.modelService.delete('colaborador', id);
+    destroy(id: number, context: any = '{}'): Observable<Colaborador> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.delete('colaborador', id, new HttpParams({fromObject: params}));
     }
 }

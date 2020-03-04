@@ -1,6 +1,6 @@
-import {generoRelevancia} from './base.schema';
-import {usuario} from './base.schema';
-import {especieRelevancia as especieRelevanciaSchema} from './base.schema';
+import {generoRelevancia} from './index.schema';
+import {usuario} from './index.schema';
+import {especieRelevancia as especieRelevanciaSchema} from './index.schema';
 
 especieRelevanciaSchema.define({
     generoRelevancia: generoRelevancia,

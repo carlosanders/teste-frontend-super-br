@@ -13,11 +13,8 @@ import {FuseTranslationLoaderService} from '@fuse/services/translation-loader.se
 
 import {navigation} from 'app/navigation/navigation';
 import {locale as navigationEnglish} from 'app/navigation/i18n/en';
-import {environment} from '../environments/environment';
 import {Store} from '@ngrx/store';
 import {State} from 'app/store/reducers';
-import {EventSourcePolyfill} from 'event-source-polyfill';
-import * as fromStore from 'app/store';
 import {SetScreen} from 'app/store';
 import {modulesConfig} from '../modules/modules-config';
 
@@ -106,7 +103,7 @@ export class AppComponent implements OnInit, OnDestroy {
          * This is related to ngxTranslate module and below there is a temporary fix while we
          * are moving the multi language implementation over to the Angular's core language
          * service.
-         **/
+         */
 
         // Set the default language to 'en' and then back to 'tr'.
         // '.use' cannot be used here as ngxTranslate won't switch to a language that's already
@@ -155,6 +152,7 @@ export class AppComponent implements OnInit, OnDestroy {
                 }
 
                 // Color theme - Use normal for loop for IE11 compatibility
+                // tslint:disable-next-line:prefer-for-of
                 for (let i = 0; i < this.document.body.classList.length; i++) {
                     const className = this.document.body.classList[i];
 
@@ -165,26 +163,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
                 this.document.body.classList.add(this.fuseConfig.colorTheme);
             });
-
-
-        if (localStorage.getItem('userProfile')) {
-            const userProfile = JSON.parse(localStorage.getItem('userProfile'));
-            const EventSource = EventSourcePolyfill;
-            const es = new EventSource(environment.mercure_hub + '?topic=' + userProfile.username,
-                {
-                    headers: {
-                        Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtZXJjdXJlIjp7InB1Ymxpc2giOltdfX0.R2VYhXy7uBsCqiXb9TRhEccaAiidwkZm_1sQP0JPutw'
-                    }
-                }
-            );
-            es.onmessage = e => {
-                const message = JSON.parse(e.data);
-                this._store.dispatch(new fromStore.Message({
-                    type: Object.keys(message)[0],
-                    content: Object.values(message)[0]
-                }));
-            };
-        }
 
         this.resize$ = fromEvent(window, 'resize')
             .pipe(

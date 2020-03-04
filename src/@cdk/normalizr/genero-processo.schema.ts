@@ -1,5 +1,5 @@
-import {usuario} from './base.schema';
-import {generoProcesso as generoProcessoSchema} from './base.schema';
+import {usuario} from './index.schema';
+import {generoProcesso as generoProcessoSchema} from './index.schema';
 
 generoProcessoSchema.define({
     criadoPor: usuario,
