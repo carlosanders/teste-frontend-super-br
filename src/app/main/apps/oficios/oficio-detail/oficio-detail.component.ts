@@ -88,7 +88,7 @@ export class OficioDetailComponent implements OnInit, OnDestroy, AfterViewInit {
         this.vinculacaoEtiquetaPagination = new Pagination();
         this.vinculacaoEtiquetaPagination.filter = {
             'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.id,
-            'modalidadeEtiqueta.valor': 'eq:PROCESSO'
+            'modalidadeEtiqueta.valor': 'eq:OFICIO'
         };
     }
 
@@ -174,12 +174,12 @@ export class OficioDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     onEtiquetaCreate(etiqueta: Etiqueta): void {
-        this._store.dispatch(new CreateVinculacaoEtiqueta({processo: this.documentoAvulso.processo, etiqueta: etiqueta}));
+        this._store.dispatch(new CreateVinculacaoEtiqueta({documentoAvulso: this.documentoAvulso, etiqueta: etiqueta}));
     }
 
     onEtiquetaDelete(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
         this._store.dispatch(new DeleteVinculacaoEtiqueta({
-            processoId: this.documentoAvulso.processo.id,
+            documentoAvulsoId: this.documentoAvulso.id,
             vinculacaoEtiquetaId: vinculacaoEtiqueta.id
         }));
     }

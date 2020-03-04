@@ -57,12 +57,17 @@ export class CdkComponenteDigitalDocumentoAvulsoCardListComponent implements OnI
     @Input()
     showButton = true;
 
-    /** File extension that accepted, same as 'accept' of <input type="file" />.
-     By the default, it's set to 'image/*'. */
+    /**
+     * File extension that accepted, same as 'accept' of <input type="file" />.
+     * By the default, it's set to 'image/*'.
+     */
     @Input()
     accept = 'application/pdf';
 
-    /** Allow you to add handler after its completion. Bubble up response text from remote. */
+    /**
+     * Allow you to add handler after its completion.
+     * Bubble up response text from remote.
+     */
     @Output()
     complete = new EventEmitter<ComponenteDigital>();
 
@@ -178,16 +183,18 @@ export class CdkComponenteDigitalDocumentoAvulsoCardListComponent implements OnI
                 componenteDigital.mimetype = 'application/pdf';
                 componenteDigital.fileName = file.data.name;
                 componenteDigital.tamanho = file.data.size;
-                componenteDigital.documentoAvulsoOrigem = this.documentoAvulsoOrigem;
-                componenteDigital.processoOrigem = this.processoOrigem;
                 componenteDigital.documentoOrigem = this.documentoOrigem;
+                componenteDigital.documentoAvulsoOrigem = this.documentoAvulsoOrigem;
 
                 this.componentesDigitais.push(componenteDigital);
                 this._changeDetectorRef.markForCheck();
+
                 const params = classToPlain(componenteDigital);
+
                 const req = new HttpRequest('POST', this.target, params, {
                     reportProgress: true
                 });
+
                 componenteDigital.inProgress = true;
                 file.sub = this._http.request(req).pipe(
                     map(event => {
@@ -220,7 +227,7 @@ export class CdkComponenteDigitalDocumentoAvulsoCardListComponent implements OnI
                             componenteDigital.inProgress = false;
                             this._changeDetectorRef.markForCheck();
                             setTimeout(() => {
-
+                                this.removeFileFromArray(file);
                                 this.componentesDigitais = this.componentesDigitais.filter(cd => cd !== componenteDigital);
                                 this._changeDetectorRef.markForCheck();
                                 this.complete.emit(componenteDigital);
@@ -228,7 +235,6 @@ export class CdkComponenteDigitalDocumentoAvulsoCardListComponent implements OnI
                         }
                     }
                 );
-                this.removeFileFromArray(file);
             }
         );
     }

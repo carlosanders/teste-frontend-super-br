@@ -1,7 +1,7 @@
 import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
 
-import { Usuario } from '@cdk/models';
+import {DocumentoAvulso, Usuario} from '@cdk/models';
 import { Etiqueta } from '@cdk/models';
 import {Tarefa} from '@cdk/models';
 import {Documento} from '@cdk/models';
@@ -38,6 +38,10 @@ export class VinculacaoEtiqueta {
     @Type(() => Processo)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     processo?: Processo;
+
+    @Type(() => DocumentoAvulso)
+    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    documentoAvulso?: DocumentoAvulso;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)
@@ -90,6 +94,7 @@ export class VinculacaoEtiqueta {
         this.tarefa = null;
         this.documento = null;
         this.processo = null;
+        this.documentoAvulso = null;
         this.usuario = null;
         this.criadoPor = null;
         this.criadoEm = null;
