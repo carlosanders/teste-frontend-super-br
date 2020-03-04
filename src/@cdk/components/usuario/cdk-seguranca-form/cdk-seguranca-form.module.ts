@@ -12,7 +12,7 @@ import {
 
 } from '@cdk/angular/material';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkSegurancaFormComponent} from './cdk-seguranca-form.component';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {UsuarioService} from '@cdk/services/usuario.service';
@@ -36,7 +36,7 @@ import {UsuarioService} from '@cdk/services/usuario.service';
         MatExpansionModule,
         MatSlideToggleModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         UsuarioService

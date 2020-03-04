@@ -11,8 +11,8 @@ import {
     MatSelectModule,
 } from '@cdk/angular/material';
 
-import {FuseSidebarModule} from '@fuse/components';
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSidebarModule} from '@cdk/components/index';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {AssuntoAdministrativoService} from '@cdk/services/assunto-administrativo.service';
 import {CdkAssuntoAdministrativoGridComponent} from './cdk-assunto-administrativo-grid.component';
 import {CdkAssuntoAdministrativoAutocompleteModule} from '@cdk/components/assunto-administrativo/cdk-assunto-administrativo-autocomplete/cdk-assunto-administrativo-autocomplete.module';
@@ -38,8 +38,8 @@ import {CdkAssuntoAdministrativoMainSidebarComponent} from './sidebars/main/main
         CdkAssuntoAdministrativoAutocompleteModule,
         CdkAssuntoAdministrativoGridFilterModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
     ],
     providers: [
         AssuntoAdministrativoService,

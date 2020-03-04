@@ -11,7 +11,7 @@ import {
 
 } from '@cdk/angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 import { ModalidadeAfastamentoService } from '@cdk/services/modalidade-afastamento.service';
 import { CdkAfastamentoFormComponent } from './cdk-afastamento-form.component';
 import { CdkModalidadeAfastamentoAutocompleteModule } from '@cdk/components/modalidade-afastamento/cdk-modalidade-afastamento-autocomplete/cdk-modalidade-afastamento-autocomplete.module';
@@ -36,7 +36,7 @@ import {ColaboradorService} from '@cdk/services/colaborador.service';
         CdkModalidadeAfastamentoAutocompleteModule,
         CdkModalidadeAfastamentoGridsearchModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         ModalidadeAfastamentoService,

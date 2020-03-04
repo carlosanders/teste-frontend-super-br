@@ -7,9 +7,9 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
+import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 
 @Component({
     selector: 'configuracoes',
@@ -17,7 +17,7 @@ import {fuseAnimations} from '@fuse/animations';
     styleUrls: ['./configuracoes.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class ConfiguracoesComponent implements OnInit, OnDestroy {
 
@@ -25,11 +25,11 @@ export class ConfiguracoesComponent implements OnInit, OnDestroy {
      * Constructor
      *
      * @param {ChangeDetectorRef} _changeDetectorRef
-     * @param {FuseSidebarService} _fuseSidebarService
+     * @param {CdkSidebarService} _cdkSidebarService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _fuseSidebarService: FuseSidebarService,
+        private _cdkSidebarService: CdkSidebarService,
     ) {
         // Set the defaults
     }
@@ -67,7 +67,7 @@ export class ConfiguracoesComponent implements OnInit, OnDestroy {
      * @param name
      */
     toggleSidebar(name): void {
-        this._fuseSidebarService.getSidebar(name).toggleOpen();
+        this._cdkSidebarService.getSidebar(name).toggleOpen();
     }
 
 }

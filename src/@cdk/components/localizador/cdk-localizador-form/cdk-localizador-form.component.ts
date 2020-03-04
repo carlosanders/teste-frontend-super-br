@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 
 
-import { fuseAnimations } from '@fuse/animations';
+import { cdkAnimations } from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { Localizador } from '@cdk/models/localizador.model';
 import {Pagination} from '@cdk/models/pagination';
@@ -20,7 +20,7 @@ import {Setor} from '@cdk/models/setor.model';
     styleUrls: ['./cdk-localizador-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkLocalizadorFormComponent implements OnChanges, OnDestroy {
 

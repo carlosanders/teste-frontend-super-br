@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output, ViewEncapsulation } from '@angular/core';
-import { fuseAnimations } from '@fuse/animations';
+import { cdkAnimations } from '@cdk/animations';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
+import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 
 @Component({
     selector   : 'cdk-tarefa-list-main-sidebar',
     templateUrl: './main.component.html',
     styleUrls  : ['./main.component.scss'],
-    animations   : fuseAnimations,
+    animations   : cdkAnimations,
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None
 })
@@ -24,7 +24,7 @@ export class CdkTarefaListMainSidebarComponent implements OnInit
      * Constructor
      */
     constructor(
-        private _fuseSidebarService: FuseSidebarService,
+        private _cdkSidebarService: CdkSidebarService,
         private _formBuilder: FormBuilder
     ) {
 
@@ -74,13 +74,13 @@ export class CdkTarefaListMainSidebarComponent implements OnInit
 
     pesquisar(): void {
         this.selected.emit(this.filters);
-        this._fuseSidebarService.getSidebar('cdk-tarefa-list-main-sidebar').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-tarefa-list-main-sidebar').toggleOpen();
     }
 
     limpar(): void {
         this.filters = {};
         this.selected.emit(this.filters);
-        this._fuseSidebarService.getSidebar('cdk-tarefa-list-main-sidebar').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-tarefa-list-main-sidebar').toggleOpen();
         this.form.reset();
     }
 }

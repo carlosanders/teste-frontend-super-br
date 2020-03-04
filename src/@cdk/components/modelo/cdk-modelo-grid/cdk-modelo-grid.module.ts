@@ -12,8 +12,8 @@ import {
     MatSelectModule,
 } from '@cdk/angular/material';
 
-import {FuseSidebarModule} from '@fuse/components';
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSidebarModule} from '@cdk/components/index';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {ModeloService} from '@cdk/services/modelo.service';
 import {CdkModeloGridComponent} from './cdk-modelo-grid.component';
 import {CdkModeloAutocompleteModule} from '@cdk/components/modelo/cdk-modelo-autocomplete/cdk-modelo-autocomplete.module';
@@ -41,8 +41,8 @@ import {CdkModeloMainSidebarComponent} from './sidebars/main/main.component';
         CdkModeloAutocompleteModule,
         CdkModeloGridFilterModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
 
         PipesModule,
     ],

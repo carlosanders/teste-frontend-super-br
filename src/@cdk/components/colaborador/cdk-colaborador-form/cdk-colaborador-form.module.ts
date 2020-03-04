@@ -12,7 +12,7 @@ import {
 
 } from '@cdk/angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 import { ModalidadeColaboradorService } from '@cdk/services/modalidade-colaborador.service';
 import { CdkColaboradorFormComponent } from './cdk-colaborador-form.component';
 import { CdkModalidadeColaboradorAutocompleteModule } from '@cdk/components/modalidade-colaborador/cdk-modalidade-colaborador-autocomplete/cdk-modalidade-colaborador-autocomplete.module';
@@ -49,7 +49,7 @@ import {CdkCargoGridsearchModule} from '@cdk/components/cargo/cdk-cargo-autocomp
         CdkCargoAutocompleteModule,
         CdkCargoGridsearchModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         ModalidadeColaboradorService,

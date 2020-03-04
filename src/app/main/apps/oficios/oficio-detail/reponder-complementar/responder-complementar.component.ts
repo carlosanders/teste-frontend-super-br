@@ -8,7 +8,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
 import {Atividade} from '@cdk/models/atividade.model';
@@ -30,7 +30,7 @@ import {DocumentoAvulso} from '../../../../../../@cdk/models';
     styleUrls: ['./responder-complementar.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class ResponderComplementarComponent implements OnInit, OnDestroy {
 

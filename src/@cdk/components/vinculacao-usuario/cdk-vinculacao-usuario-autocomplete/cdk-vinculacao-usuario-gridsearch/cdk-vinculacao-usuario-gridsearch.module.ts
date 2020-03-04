@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 
 import {VinculacaoUsuarioService} from '@cdk/services/vinculacao-usuario.service';
 import {CdkVinculacaoUsuarioGridsearchComponent} from './cdk-vinculacao-usuario-gridsearch.component';
@@ -14,7 +14,7 @@ import {CdkVinculacaoUsuarioGridModule} from '@cdk/components/vinculacao-usuario
 
         CdkVinculacaoUsuarioGridModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         VinculacaoUsuarioService

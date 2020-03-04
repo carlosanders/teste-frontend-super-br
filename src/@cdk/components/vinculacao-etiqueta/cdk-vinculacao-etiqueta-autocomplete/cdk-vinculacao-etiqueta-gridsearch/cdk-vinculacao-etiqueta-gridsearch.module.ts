@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 
 import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
 import {CdkVinculacaoEtiquetaGridsearchComponent} from './cdk-vinculacao-etiqueta-gridsearch.component';
@@ -14,7 +14,7 @@ import {CdkVinculacaoEtiquetaGridModule} from '@cdk/components/vinculacao-etique
 
         CdkVinculacaoEtiquetaGridModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         VinculacaoEtiquetaService

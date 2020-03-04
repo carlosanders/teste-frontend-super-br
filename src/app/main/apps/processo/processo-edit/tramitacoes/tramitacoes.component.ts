@@ -4,7 +4,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from '../../store';
 import {getRouterState} from '../../../../../store/reducers';
@@ -18,7 +18,7 @@ import {takeUntil} from 'rxjs/operators';
     styleUrls: ['./tramitacoes.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class TramitacoesComponent implements OnInit, OnDestroy {
 

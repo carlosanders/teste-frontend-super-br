@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 
 import {AssuntoService} from '@cdk/services/assunto.service';
 import {CdkAssuntoGridsearchComponent} from './cdk-assunto-gridsearch.component';
@@ -14,7 +14,7 @@ import {CdkAssuntoGridModule} from '@cdk/components/assunto/cdk-assunto-grid/cdk
 
         CdkAssuntoGridModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         AssuntoService

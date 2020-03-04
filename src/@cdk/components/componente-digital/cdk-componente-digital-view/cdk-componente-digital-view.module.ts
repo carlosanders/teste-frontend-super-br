@@ -10,7 +10,7 @@ import {
     MatSortModule, MatProgressBarModule,
 } from '@cdk/angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 import { CdkComponenteDigitalViewComponent} from './cdk-componente-digital-view.component';
 import {CdkDocumentoFormModule} from '../../documento/cdk-documento-form/cdk-documento-form.module';
 
@@ -32,7 +32,7 @@ import {CdkDocumentoFormModule} from '../../documento/cdk-documento-form/cdk-doc
 
         CdkDocumentoFormModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
     ],

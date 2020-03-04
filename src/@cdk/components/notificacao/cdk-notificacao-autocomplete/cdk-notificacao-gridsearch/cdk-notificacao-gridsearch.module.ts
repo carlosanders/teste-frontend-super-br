@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 
 import {NotificacaoService} from '@cdk/services/notificacao.service';
 import {CdkNotificacaoGridsearchComponent} from './cdk-notificacao-gridsearch.component';
@@ -14,7 +14,7 @@ import {CdkNotificacaoGridModule} from '@cdk/components/notificacao/cdk-notifica
 
         CdkNotificacaoGridModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         NotificacaoService

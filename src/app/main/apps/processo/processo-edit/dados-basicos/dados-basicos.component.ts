@@ -7,7 +7,7 @@ import {
 
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
 import {Processo} from '@cdk/models';
@@ -29,7 +29,7 @@ import {Usuario} from "../../../../../../@cdk/models/usuario.model";
     styleUrls: ['./dados-basicos.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class DadosBasicosComponent implements OnInit, OnDestroy {
 

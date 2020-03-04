@@ -5,7 +5,7 @@ import {
     EventEmitter,
     OnInit, ChangeDetectorRef, ChangeDetectionStrategy
 } from '@angular/core';
-import { fuseAnimations } from '../../../../@fuse/animations';
+import { cdkAnimations } from '../../../animations';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 
@@ -15,7 +15,7 @@ import { MatDialogRef } from '@angular/material/dialog';
     styleUrls: [],
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 
 export class CdkChaveAcessoPluginComponent implements OnInit {

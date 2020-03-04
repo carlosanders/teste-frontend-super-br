@@ -11,8 +11,8 @@ import {
     MatSelectModule,
 } from '@cdk/angular/material';
 
-import {FuseSidebarModule} from '@fuse/components';
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSidebarModule} from '@cdk/components/index';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {GeneroProcessoService} from '@cdk/services/genero-processo.service';
 import {CdkGeneroProcessoGridComponent} from './cdk-genero-processo-grid.component';
 import {CdkGeneroProcessoAutocompleteModule} from '@cdk/components/genero-processo/cdk-genero-processo-autocomplete/cdk-genero-processo-autocomplete.module';
@@ -38,8 +38,8 @@ import {CdkGeneroProcessoMainSidebarComponent} from './sidebars/main/main.compon
         CdkGeneroProcessoAutocompleteModule,
         CdkGeneroProcessoGridFilterModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
     ],
     providers: [
         GeneroProcessoService,

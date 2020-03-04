@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 
 import {coerceNumberProperty} from '@angular/cdk/coercion';
-import { fuseAnimations } from '@fuse/animations';
+import { cdkAnimations } from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { Classificacao } from '@cdk/models';
 import { ModalidadeDestinacao } from '@cdk/models';
@@ -20,7 +20,7 @@ import {Pagination} from '@cdk/models';
     styleUrls: ['./cdk-classificacao-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkClassificacaoFormComponent implements OnChanges, OnDestroy {
 

@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 
 import {HistoricoService} from '@cdk/services/historico.service';
 import {CdkHistoricoGridsearchComponent} from './cdk-historico-gridsearch.component';
@@ -14,7 +14,7 @@ import {CdkHistoricoGridModule} from '@cdk/components/historico/cdk-historico-gr
 
         CdkHistoricoGridModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         HistoricoService

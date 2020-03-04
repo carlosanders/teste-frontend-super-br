@@ -14,7 +14,7 @@ import {
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {PessoaListComponent} from './pessoa-list.component';
 import {PessoaService} from '@cdk/services/pessoa.service';
 import {RouterModule, Routes} from '@angular/router';
@@ -50,7 +50,7 @@ const routes: Routes = [
 
         TranslateModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
 
         CdkPessoaGridModule,
 

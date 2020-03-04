@@ -9,7 +9,7 @@ import {
     MatInputModule
 } from '@cdk/angular/material';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {TramitacaoService} from '@cdk/services/tramitacao.service';
 import {CdkRemessaGridFilterComponent} from './cdk-remessa-grid-filter.component';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
@@ -34,7 +34,7 @@ import {CdkProcessoAutocompleteModule} from "../../../processo/cdk-processo-auto
         MatMomentDatetimeModule,
         MatCheckboxModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
 
         CdkUsuarioAutocompleteModule,
         CdkSetorAutocompleteModule,

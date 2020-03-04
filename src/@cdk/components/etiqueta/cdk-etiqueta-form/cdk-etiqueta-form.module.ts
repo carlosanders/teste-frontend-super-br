@@ -11,7 +11,7 @@ import {
 
 } from '@cdk/angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 import { CdkEtiquetaFormComponent } from './cdk-etiqueta-form.component';
 import {CdkModalidadeEtiquetaAutocompleteModule} from '../../modalidade-etiqueta/cdk-modalidade-etiqueta-autocomplete/cdk-modalidade-etiqueta-autocomplete.module';
 import {CdkModalidadeEtiquetaGridsearchModule} from '../../modalidade-etiqueta/cdk-modalidade-etiqueta-autocomplete/cdk-modalidade-etiqueta-gridsearch/cdk-modalidade-etiqueta-gridsearch.module';
@@ -42,7 +42,7 @@ import {MccColorPickerModule} from 'material-community-components';
         CdkModalidadeEtiquetaAutocompleteModule,
         CdkModalidadeEtiquetaGridsearchModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
 

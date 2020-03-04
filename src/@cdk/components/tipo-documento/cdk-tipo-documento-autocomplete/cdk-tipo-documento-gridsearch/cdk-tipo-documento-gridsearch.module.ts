@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 
 import { TipoDocumentoService } from '@cdk/services/tipo-documento.service';
 import { CdkTipoDocumentoGridsearchComponent } from './cdk-tipo-documento-gridsearch.component';
@@ -14,7 +14,7 @@ import { CdkTipoDocumentoGridModule } from '@cdk/components/tipo-documento/cdk-t
 
         CdkTipoDocumentoGridModule,
         
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         TipoDocumentoService

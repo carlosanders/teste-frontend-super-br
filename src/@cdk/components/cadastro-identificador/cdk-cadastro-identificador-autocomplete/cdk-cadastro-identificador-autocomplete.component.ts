@@ -6,7 +6,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {CadastroIdentificador} from '@cdk/models';
 import {CadastroIdentificadorService} from '@cdk/services/cadastro-identificador.service';
 import {FormControl} from '@angular/forms';
@@ -21,7 +21,7 @@ import {Pagination} from '@cdk/models';
     styleUrls: ['./cdk-cadastro-identificador-autocomplete.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations,
+    animations: cdkAnimations,
     exportAs: 'cadastroIdentificadorAutocomplete',
 })
 export class CdkCadastroIdentificadorAutocompleteComponent implements OnInit {

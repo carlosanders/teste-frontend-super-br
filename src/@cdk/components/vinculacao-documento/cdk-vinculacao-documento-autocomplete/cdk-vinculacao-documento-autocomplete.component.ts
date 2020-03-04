@@ -6,7 +6,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {VinculacaoDocumento} from '@cdk/models';
 import {VinculacaoDocumentoService} from '@cdk/services/vinculacao-documento.service';
 import {FormControl} from '@angular/forms';
@@ -21,7 +21,7 @@ import {Pagination} from '@cdk/models';
     styleUrls: ['./cdk-vinculacao-documento-autocomplete.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations,
+    animations: cdkAnimations,
     exportAs: 'vinculacaoDocumentoAutocomplete',
 })
 export class CdkVinculacaoDocumentoAutocompleteComponent implements OnInit {

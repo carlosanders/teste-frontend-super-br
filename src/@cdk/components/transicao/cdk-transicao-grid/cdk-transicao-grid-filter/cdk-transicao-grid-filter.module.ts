@@ -8,7 +8,7 @@ import {
     MatInputModule
 } from '@cdk/angular/material';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {TransicaoService} from '@cdk/services/transicao.service';
 import {CdkTransicaoGridFilterComponent} from './cdk-transicao-grid-filter.component';
 import {CdkProcessoAutocompleteModule} from '@cdk/components/processo/cdk-processo-autocomplete/cdk-processo-autocomplete.module';
@@ -32,7 +32,7 @@ import {CdkModalidadeTransicaoAutocompleteModule} from '@cdk/components/modalida
         MatNativeDatetimeModule,
         MatMomentDatetimeModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
 
         CdkUsuarioAutocompleteModule,
         CdkProcessoAutocompleteModule,

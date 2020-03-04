@@ -5,7 +5,7 @@ import {
 
 } from '@cdk/angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 import { CdkEncaminhamentoFormComponent } from './cdk-encaminhamento-form.component';
 
 @NgModule({
@@ -18,7 +18,7 @@ import { CdkEncaminhamentoFormComponent } from './cdk-encaminhamento-form.compon
         MatButtonModule,
         MatProgressSpinnerModule,
         MatIconModule,
-        FuseSharedModule,
+        CdkSharedModule,
         MatRadioModule,
     ],
     providers: [

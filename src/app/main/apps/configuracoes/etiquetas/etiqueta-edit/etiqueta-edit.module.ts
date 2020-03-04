@@ -6,8 +6,8 @@ import {
 } from '@cdk/angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { FuseSharedModule } from '@fuse/shared.module';
-import { FuseSidebarModule } from '@fuse/components';
+import { CdkSharedModule } from '@cdk/shared.module';
+import { CdkSidebarModule } from '@cdk/components';
 
 import { EtiquetaEditMainSidebarComponent } from './sidebars/main/main-sidebar.component';
 import { EtiquetaEditComponent } from './etiqueta-edit.component';
@@ -54,8 +54,8 @@ const routes: Routes = [
 
         EtiquetaStoreModule,
 
-        FuseSharedModule,
-        FuseSidebarModule
+        CdkSharedModule,
+        CdkSidebarModule
     ],
     providers      : [
         fromGuards.ResolveGuard

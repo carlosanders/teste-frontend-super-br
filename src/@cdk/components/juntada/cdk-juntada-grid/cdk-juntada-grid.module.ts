@@ -12,8 +12,8 @@ import {
     MatSelectModule,
 } from '@cdk/angular/material';
 
-import {FuseSidebarModule} from '@fuse/components';
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSidebarModule} from '@cdk/components/index';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {JuntadaService} from '@cdk/services/juntada.service';
 import {CdkJuntadaGridComponent} from './cdk-juntada-grid.component';
 import {CdkJuntadaGridFilterModule} from './cdk-juntada-grid-filter/cdk-juntada-grid-filter.module';
@@ -38,8 +38,8 @@ import {CdkJuntadaMainSidebarComponent} from './sidebars/main/main.component';
 
         CdkJuntadaGridFilterModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
     ],
     providers: [
         JuntadaService,

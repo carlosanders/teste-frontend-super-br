@@ -6,7 +6,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
 import {Tarefa} from '@cdk/models';
@@ -25,7 +25,7 @@ import {Pagination} from '@cdk/models';
     styleUrls: ['./tarefa-edit.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class TarefaEditComponent implements OnInit, OnDestroy {
 

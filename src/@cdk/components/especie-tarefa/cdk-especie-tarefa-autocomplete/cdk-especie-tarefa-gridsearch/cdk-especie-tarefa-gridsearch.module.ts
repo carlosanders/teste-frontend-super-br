@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 
 import { EspecieTarefaService } from '@cdk/services/especie-tarefa.service';
 import { CdkEspecieTarefaGridsearchComponent } from './cdk-especie-tarefa-gridsearch.component';
@@ -14,7 +14,7 @@ import { CdkEspecieTarefaGridModule } from '@cdk/components/especie-tarefa/cdk-e
 
         CdkEspecieTarefaGridModule,
         
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         EspecieTarefaService

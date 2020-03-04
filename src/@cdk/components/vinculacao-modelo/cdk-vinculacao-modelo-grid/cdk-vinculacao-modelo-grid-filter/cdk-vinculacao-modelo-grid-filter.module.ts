@@ -8,7 +8,7 @@ import {
     MatInputModule
 } from '@cdk/angular/material';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {VinculacaoModeloService} from '@cdk/services/vinculacao-modelo.service';
 import {CdkVinculacaoModeloGridFilterComponent} from './cdk-vinculacao-modelo-grid-filter.component';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
@@ -33,7 +33,7 @@ import {CdkSetorAutocompleteModule} from '../../../setor/cdk-setor-autocomplete/
         MatNativeDatetimeModule,
         MatMomentDatetimeModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
 
         CdkUsuarioAutocompleteModule,
         CdkModeloAutocompleteModule,

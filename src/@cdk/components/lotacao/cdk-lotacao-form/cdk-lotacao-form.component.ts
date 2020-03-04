@@ -7,7 +7,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Pagination} from '@cdk/models/pagination';
 import {Lotacao} from "@cdk/models/lotacao.model";
@@ -20,7 +20,7 @@ import {Colaborador} from "@cdk/models/colaborador.model";
     styleUrls: ['./cdk-lotacao-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkLotacaoFormComponent implements OnChanges, OnDestroy {
 

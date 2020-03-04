@@ -12,8 +12,8 @@ import {
     MatSelectModule, MatTooltipModule,
 } from '@cdk/angular/material';
 
-import {FuseSidebarModule} from '@fuse/components';
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSidebarModule} from '@cdk/components/index';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {FavoritoService} from '@cdk/services/favorito.service';
 import {CdkFavoritoGridComponent} from './cdk-favorito-grid.component';
 import {CdkFavoritoGridFilterModule} from './cdk-favorito-grid-filter/cdk-favorito-grid-filter.module';
@@ -39,8 +39,8 @@ import {CdkFavoritoMainSidebarComponent} from './sidebars/main/main.component';
 
         CdkFavoritoGridFilterModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
     ],
     providers: [
         FavoritoService,

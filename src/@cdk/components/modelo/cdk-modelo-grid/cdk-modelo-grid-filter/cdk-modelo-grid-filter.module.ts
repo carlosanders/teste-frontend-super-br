@@ -8,7 +8,7 @@ import {
     MatIconModule,
     MatInputModule
 } from '@cdk/angular/material';
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 import {ModeloService} from '@cdk/services/modelo.service';
@@ -34,7 +34,7 @@ import {CdkDocumentoAutocompleteModule} from '@cdk/components/documento/cdk-docu
         MatMomentDatetimeModule,
         MatCheckboxModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
 
         CdkUsuarioAutocompleteModule,
         CdkModalidadeMeioAutocompleteModule,

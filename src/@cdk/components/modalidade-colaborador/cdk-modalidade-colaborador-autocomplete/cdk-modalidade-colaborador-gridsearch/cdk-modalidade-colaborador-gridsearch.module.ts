@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 
 import { ModalidadeColaboradorService } from '@cdk/services/modalidade-colaborador.service';
 import { CdkModalidadeColaboradorGridsearchComponent } from './cdk-modalidade-colaborador-gridsearch.component';
@@ -14,7 +14,7 @@ import { CdkModalidadeColaboradorGridModule } from '@cdk/components/modalidade-c
 
         CdkModalidadeColaboradorGridModule,
         
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         ModalidadeColaboradorService

@@ -12,7 +12,7 @@ import {
 
 } from '@cdk/angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 import { CdkFavoritoFormComponent } from './cdk-favorito-form.component';
 import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
 import {CdkEspecieAtividadeAutocompleteModule} from '../../especie-atividade/cdk-especie-atividade-autocomplete/cdk-especie-atividade-autocomplete.module';
@@ -44,7 +44,7 @@ import {CdkSetorGridsearchModule} from '../../setor/cdk-setor-autocomplete/cdk-s
         CdkEspecieAtividadeGridsearchModule,
         CdkEspecieTarefaAutocompleteModule,
         CdkEspecieTarefaGridsearchModule,
-        FuseSharedModule,
+        CdkSharedModule,
         CdkSetorAutocompleteModule,
         CdkSetorGridsearchModule,
     ],

@@ -9,14 +9,14 @@ import {
 import {select, Store} from '@ngrx/store';
 import {Observable, Subject} from 'rxjs';
 
-import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
-import {FuseTranslationLoaderService} from '@fuse/services/translation-loader.service';
+import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
+import {CdkTranslationLoaderService} from '@cdk/services/translation-loader.service';
 
 import {Processo} from '@cdk/models';
 import * as fromStore from 'app/main/apps/processo/store';
 
 import {locale as english} from 'app/main/apps/processo/i18n/en';
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {getRouterState} from '../../../store/reducers';
 import {Etiqueta} from '@cdk/models';
 import {VinculacaoEtiqueta} from '@cdk/models';
@@ -32,7 +32,7 @@ import {takeUntil} from 'rxjs/operators';
     styleUrls: ['./processo.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class ProcessoComponent implements OnInit, OnDestroy {
 
@@ -57,23 +57,23 @@ export class ProcessoComponent implements OnInit, OnDestroy {
     /**
      *
      * @param _changeDetectorRef
-     * @param _fuseSidebarService
-     * @param _fuseTranslationLoaderService
+     * @param _cdkSidebarService
+     * @param _cdkTranslationLoaderService
      * @param _store
      * @param _loginService
      * @param _router
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _fuseSidebarService: FuseSidebarService,
-        private _fuseTranslationLoaderService: FuseTranslationLoaderService,
+        private _cdkSidebarService: CdkSidebarService,
+        private _cdkTranslationLoaderService: CdkTranslationLoaderService,
         private _store: Store<fromStore.ProcessoAppState>,
         private _loginService: LoginService,
         private _router: Router
     ) {
         // Set the defaults
         this._profile = _loginService.getUserProfile();
-        this._fuseTranslationLoaderService.loadTranslations(english);
+        this._cdkTranslationLoaderService.loadTranslations(english);
         this.processo$ = this._store.pipe(select(fromStore.getProcesso));
         this.loading$ = this._store.pipe(select(fromStore.getProcessoIsLoading));
         this.vinculacaoEtiquetaPagination = new Pagination();
@@ -141,7 +141,7 @@ export class ProcessoComponent implements OnInit, OnDestroy {
      * @param name
      */
     toggleSidebar(name): void {
-        this._fuseSidebarService.getSidebar(name).toggleOpen();
+        this._cdkSidebarService.getSidebar(name).toggleOpen();
     }
 
     onEtiquetaCreate(etiqueta: Etiqueta): void {

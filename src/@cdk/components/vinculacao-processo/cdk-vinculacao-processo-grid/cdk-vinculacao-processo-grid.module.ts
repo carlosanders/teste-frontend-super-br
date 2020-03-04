@@ -12,8 +12,8 @@ import {
     MatSelectModule,
 } from '@cdk/angular/material';
 
-import {FuseSidebarModule} from '@fuse/components';
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSidebarModule} from '@cdk/components/index';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {VinculacaoProcessoService} from '@cdk/services/vinculacao-processo.service';
 import {CdkVinculacaoProcessoGridComponent} from './cdk-vinculacao-processo-grid.component';
 import {CdkVinculacaoProcessoAutocompleteModule} from '@cdk/components/vinculacao-processo/cdk-vinculacao-processo-autocomplete/cdk-vinculacao-processo-autocomplete.module';
@@ -40,8 +40,8 @@ import {CdkVinculacaoProcessoMainSidebarComponent} from './sidebars/main/main.co
         CdkVinculacaoProcessoAutocompleteModule,
         CdkVinculacaoProcessoGridFilterModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
     ],
     providers: [
         VinculacaoProcessoService,

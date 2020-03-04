@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, ViewEncapsulation} from '@angular/core';
 
-import { fuseAnimations } from '@fuse/animations';
+import { cdkAnimations } from '@cdk/animations';
 
 @Component({
     selector       : 'pesquisa-main-sidebar',
@@ -8,7 +8,7 @@ import { fuseAnimations } from '@fuse/animations';
     styleUrls      : ['./main-sidebar.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation  : ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class PesquisaMainSidebarComponent
 {

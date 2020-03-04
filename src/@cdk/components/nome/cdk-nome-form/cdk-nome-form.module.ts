@@ -11,7 +11,7 @@ import {
 
 } from '@cdk/angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 import { CdkNomeFormComponent } from './cdk-nome-form.component';
 import {CdkPessoaAutocompleteModule} from '../../pessoa/cdk-pessoa-autocomplete/cdk-pessoa-autocomplete.module';
 import {CdkPessoaGridsearchModule} from '../../pessoa/cdk-pessoa-autocomplete/cdk-pessoa-gridsearch/cdk-pessoa-gridsearch.module';
@@ -32,7 +32,7 @@ import {CdkPessoaGridsearchModule} from '../../pessoa/cdk-pessoa-autocomplete/cd
         MatDatepickerModule,
         CdkPessoaAutocompleteModule,
         CdkPessoaGridsearchModule,
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
 
