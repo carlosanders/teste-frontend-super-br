@@ -44,16 +44,16 @@
 </div>
 
 <cdk-documento-card class="ml-8 mb-8"
-                    *ngFor="let documento of documentos"
-                    [documento]="documento"
-                    [selected]="selectedIds !== undefined && selectedIds.indexOf(documento.id) > -1"
-                    [deleting]="deletingId !== undefined && deletingId.indexOf(documento.id) > -1"
-                    [assinando]="assinandoId  !== undefined && assinandoId.indexOf(documento.id) > -1"
-                    [convertendo]="convertendoId != undefined && convertendoId.indexOf(documento.id) > -1"
-                    (delete)="doDelete($event)"
-                    (verResposta)="doVerResposta($event)"
-                    (assinatura)="doAssinatura($event)"
-                    (converte)="doConverte($event)"
-                    (clicked)="onClick($event)"
-                    (changedSelected)="toggleInSelected($event)">
+                           *ngFor="let documento of documentos"
+                           [documento]="documento"
+                           [selected]="selectedIds.indexOf(documento.id) > -1"
+                           [deleting]="deletingId.indexOf(documento.id) > -1"
+                           [assinando]="assinandoId.indexOf(documento.id) > -1"
+                           [convertendo]="convertendoId.indexOf(documento.id) > -1"
+                           (delete)="doDelete($event)"
+                           (verResposta)="doVerResposta($event)"
+                           (assinatura)="doAssinatura($event)"
+                           (converte)="doConverte($event)"
+                           (clicked)="onClick($event)"
+                           (changedSelected)="toggleInSelected($event)">
 </cdk-documento-card>

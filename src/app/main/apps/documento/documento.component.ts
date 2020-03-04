@@ -148,7 +148,7 @@ export class DocumentoComponent implements OnInit, OnDestroy {
     gotoNextStep(): void {
         this.documento.componentesDigitais.forEach(componenteDigital => {
             if (componenteDigital.numeracaoSequencial === (this.currentComponenteDigital.numeracaoSequencial + 1)) {
-                this._store.dispatch(new fromStore.SetCurrentStep({id: componenteDigital.id, editavel: componenteDigital.editavel && !!this.documento.juntadaAtual}));
+                this._store.dispatch(new fromStore.SetCurrentStep({id: componenteDigital.id, editavel: componenteDigital.editavel && this.documento.minuta}));
                 return;
             }
         });
@@ -160,7 +160,7 @@ export class DocumentoComponent implements OnInit, OnDestroy {
     gotoPreviousStep(): void {
         this.documento.componentesDigitais.forEach(componenteDigital => {
             if (componenteDigital.numeracaoSequencial === (this.currentComponenteDigital.numeracaoSequencial - 1)) {
-                this._store.dispatch(new fromStore.SetCurrentStep({id: componenteDigital.id, editavel: componenteDigital.editavel && !!this.documento.juntadaAtual}));
+                this._store.dispatch(new fromStore.SetCurrentStep({id: componenteDigital.id, editavel: componenteDigital.editavel && this.documento.minuta}));
                 return;
             }
         });
