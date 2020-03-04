@@ -8,7 +8,7 @@ export interface RealizarTransicaoState {
     loaded: any;
 }
 
-export const TransicaoEditInitialState: RealizarTransicaoState = {
+export const RealizarTransicaoInitialState: RealizarTransicaoState = {
     transicaoId: null,
     saving: false,
     errors: false,
@@ -17,7 +17,7 @@ export const TransicaoEditInitialState: RealizarTransicaoState = {
 };
 
 export function RealizarTransicaoReducer(
-    state = TransicaoEditInitialState,
+    state = RealizarTransicaoInitialState,
     action: RealizarTransicaoActions.RealizarTransicaoActionsAll
 ): RealizarTransicaoState {
     switch (action.type) {

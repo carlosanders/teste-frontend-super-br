@@ -1,10 +1,25 @@
 import {getRealizarTransicaoAppState, RealizarTransicaoAppState, RealizarTransicaoState} from "../reducers";
-import {createSelector} from "@ngrx/store";
+import {createSelector} from '@ngrx/store';
+import {transicao as transicaoSchema} from '@cdk/normalizr/transicao.schema';
+import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
+import {Transicao} from '@cdk/models';
 
+const schemaTransicaoSelectors = createSchemaSelectors<Transicao>(transicaoSchema);
 
 export const getRealizarTransicaoState = createSelector(
     getRealizarTransicaoAppState,
     (state: RealizarTransicaoAppState) => state.transicao
+);
+
+export const getTransicaoId = createSelector(
+    getRealizarTransicaoState,
+    (state: RealizarTransicaoState) => state.loaded ? state.loaded.value : null
+);
+
+export const getTransicao = createSelector(
+    schemaTransicaoSelectors.getNormalizedEntities,
+    getTransicaoId,
+    schemaTransicaoSelectors.entityProjector
 );
 
 export const getIsSaving = createSelector(
@@ -22,7 +37,3 @@ export const getErrors = createSelector(
     (state: RealizarTransicaoState) => state.errors
 );
 
-export const getLoagind = createSelector(
-    getRealizarTransicaoState,
-    (state: RealizarTransicaoState) => state.loading
-);

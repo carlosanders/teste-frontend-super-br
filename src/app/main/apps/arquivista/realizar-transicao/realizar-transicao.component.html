@@ -1,17 +1,7 @@
-<p>realizar-transicao works!</p>
-
-<cdk-transicao-form
+<cdk-realizar-transicao-form
     [saving]="(isSaving$ | async)"
     [errors]="(errors$ | async)"
+    [processoId]= "this.processoId"
     [modalidadeTransicaoPagination]="modalidadeTransicaoPagination"
     (save)="submit($event)">
-</cdk-transicao-form>
-
-<!--<cdk-transicao-form-->
-<!--    [transicao]="transicao"-->
-<!--    [saving]="(isSaving$ | async)"-->
-<!--    [errors]="(errors$ | async)"-->
-<!--    [modalidadeTransicaoPagination]="modalidadeTransicaoPagination"-->
-<!--    (save)="submit($event)">-->
-<!--</cdk-transicao-form>-->
-
+</cdk-realizar-transicao-form>

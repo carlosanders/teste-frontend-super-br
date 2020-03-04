@@ -1,8 +1,7 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { RealizarTransicaoReducer, RealizarTransicaoState } from './realizar-transicao.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {RealizarTransicaoReducer, RealizarTransicaoState} from './realizar-transicao.reducer';
 
-export interface RealizarTransicaoAppState
-{
+export interface RealizarTransicaoAppState {
     transicao: RealizarTransicaoState;
 }
 

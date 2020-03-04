@@ -1,19 +1,20 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {ArquivistaComponent} from "./arquivista.component";
-import {RouterModule, Routes} from "@angular/router";
-import {RealizarTransicaoComponent} from "./realizar-transicao/realizar-transicao.component";
+import {ArquivistaComponent} from './arquivista.component';
+import {RouterModule, Routes} from '@angular/router';
 
 const routes: Routes = [
     {
         path: '',
-        component: ArquivistaComponent
-    },
-    {
-        path: ':processoHandler/realizar-transicao',
-        component: RealizarTransicaoComponent
+        component: ArquivistaComponent,
+        children: [
+            {
+                path: ':processoHandle/realizar-transicao',
+                loadChildren: () => import('./realizar-transicao/realizar-transicao.module').then(m => m.RealizarTransicaoModule)
+            }
+        ]
     }
-]
+];
 
 
 @NgModule({
