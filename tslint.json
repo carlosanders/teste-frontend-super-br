@@ -20,7 +20,7 @@
             true,
             "attribute",
             [
-                "fuse",
+                "supp",
                 ""
             ],
             "camelCase"
@@ -30,7 +30,7 @@
             "element",
             "attribute",
             [
-                "fuse",
+                "supp",
                 ""
             ],
             [

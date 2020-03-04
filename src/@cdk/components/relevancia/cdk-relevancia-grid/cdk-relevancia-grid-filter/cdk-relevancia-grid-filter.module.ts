@@ -8,7 +8,7 @@ import {
     MatInputModule
 } from '@cdk/angular/material';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {RelevanciaService} from '@cdk/services/relevancia.service';
 import {CdkRelevanciaGridFilterComponent} from './cdk-relevancia-grid-filter.component';
 import {CdkProcessoAutocompleteModule} from '@cdk/components/processo/cdk-processo-autocomplete/cdk-processo-autocomplete.module';
@@ -32,7 +32,7 @@ import {CdkUsuarioAutocompleteModule} from '@cdk/components/usuario/cdk-usuario-
         MatNativeDatetimeModule,
         MatMomentDatetimeModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
 
         CdkUsuarioAutocompleteModule,
         CdkProcessoAutocompleteModule,

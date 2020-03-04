@@ -6,7 +6,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
 
 import {select, Store} from '@ngrx/store';
@@ -21,7 +21,7 @@ import {LoginService} from '../../../auth/login/login.service';
     styleUrls: ['./seguranca.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class SegurancaComponent implements OnInit, OnDestroy {
 

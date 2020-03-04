@@ -11,7 +11,7 @@ import {
 
 } from '@cdk/angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 import { UsuarioService } from '@cdk/services/usuario.service';
 import { CdkVisibilidadeFormComponent } from './cdk-visibilidade-form.component';
 import { CdkUsuarioAutocompleteModule } from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
@@ -42,7 +42,7 @@ import {SetorService} from '@cdk/services/setor.service';
         CdkSetorAutocompleteModule,
         CdkSetorGridsearchModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         UsuarioService,

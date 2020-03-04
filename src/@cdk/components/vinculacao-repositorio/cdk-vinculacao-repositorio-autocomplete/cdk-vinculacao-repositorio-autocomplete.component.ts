@@ -6,7 +6,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {VinculacaoRepositorio} from '@cdk/models';
 import {VinculacaoRepositorioService} from '@cdk/services/vinculacao-repositorio.service';
 import {FormControl} from '@angular/forms';
@@ -21,7 +21,7 @@ import {Pagination} from '@cdk/models';
     styleUrls: ['./cdk-vinculacao-repositorio-autocomplete.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations,
+    animations: cdkAnimations,
     exportAs: 'vinculacaoRepositorioAutocomplete',
 })
 export class CdkVinculacaoRepositorioAutocompleteComponent implements OnInit {

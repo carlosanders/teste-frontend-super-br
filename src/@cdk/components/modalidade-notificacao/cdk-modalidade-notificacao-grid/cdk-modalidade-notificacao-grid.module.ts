@@ -11,8 +11,8 @@ import {
     MatSelectModule,
 } from '@cdk/angular/material';
 
-import {FuseSidebarModule} from '@fuse/components';
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSidebarModule} from '@cdk/components/index';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {ModalidadeNotificacaoService} from '@cdk/services/modalidade-notificacao.service';
 import {CdkModalidadeNotificacaoGridComponent} from './cdk-modalidade-notificacao-grid.component';
 import {CdkModalidadeNotificacaoAutocompleteModule} from '@cdk/components/modalidade-notificacao/cdk-modalidade-notificacao-autocomplete/cdk-modalidade-notificacao-autocomplete.module';
@@ -38,8 +38,8 @@ import {CdkModalidadeNotificacaoMainSidebarComponent} from './sidebars/main/main
         CdkModalidadeNotificacaoAutocompleteModule,
         CdkModalidadeNotificacaoGridFilterModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
     ],
     providers: [
         ModalidadeNotificacaoService,

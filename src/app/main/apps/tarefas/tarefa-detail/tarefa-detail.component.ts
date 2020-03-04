@@ -8,7 +8,7 @@ import {
 
 import {Tarefa} from '@cdk/models';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject, of} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
@@ -34,7 +34,7 @@ import {Usuario} from '@cdk/models';
     styleUrls: ['./tarefa-detail.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 

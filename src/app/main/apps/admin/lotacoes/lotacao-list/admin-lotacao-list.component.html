@@ -1,0 +1,13 @@
+<cdk-lotacao-grid
+        [loading]="(loading$ | async)"
+        [lotacoes]="(lotacoes$ | async)"
+        [total]="(pagination$ | async)?.total"
+        [deletingIds]="(deletingIds$ | async)"
+        [deletedIds]="(deletedIds$ | async)"
+        [displayedColumns]="['select', 'id', 'colaborador.usuario.nome', 'setor.unidade.nome', 'setor.nome', 'peso', 'distribuidor', 'coordenador', 'principal', 'actions']"
+        [actions]="['edit', 'delete']"
+        [setorPagination]="this.setorPagination"
+        (reload)="reload($event)"
+        (edit)="edit($event)"
+        (delete)="delete($event)">
+</cdk-lotacao-grid>

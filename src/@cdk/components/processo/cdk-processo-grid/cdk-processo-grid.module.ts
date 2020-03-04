@@ -14,8 +14,8 @@ import {
     MatDatepickerModule,
 } from '@cdk/angular/material';
 
-import {FuseSidebarModule} from '@fuse/components';
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSidebarModule} from '@cdk/components/index';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {ProcessoService} from '@cdk/services/processo.service';
 import {CdkProcessoGridComponent} from './cdk-processo-grid.component';
 import {CdkProcessoAutocompleteModule} from '@cdk/components/processo/cdk-processo-autocomplete/cdk-processo-autocomplete.module';
@@ -48,8 +48,8 @@ import {CdkChaveAcessoPluginModule} from '../../chave-acesso/cdk-chave-acesso-pl
         MatNativeDatetimeModule,
         MatMomentDatetimeModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
 
         CdkProcessoAutocompleteModule,
         CdkProcessoGridFilterModule,

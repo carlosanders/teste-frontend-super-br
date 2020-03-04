@@ -11,8 +11,8 @@ import {
     MatSelectModule,
 } from '@cdk/angular/material';
 
-import {FuseSidebarModule} from '@fuse/components';
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSidebarModule} from '@cdk/components/index';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {ModalidadeOrgaoCentralService} from '@cdk/services/modalidade-orgao-central.service';
 import {CdkModalidadeOrgaoCentralGridComponent} from './cdk-modalidade-orgao-central-grid.component';
 import {CdkModalidadeOrgaoCentralAutocompleteModule} from '@cdk/components/modalidade-orgao-central/cdk-modalidade-orgao-central-autocomplete/cdk-modalidade-orgao-central-autocomplete.module';
@@ -38,8 +38,8 @@ import {CdkModalidadeOrgaoCentralMainSidebarComponent} from './sidebars/main/mai
         CdkModalidadeOrgaoCentralAutocompleteModule,
         CdkModalidadeOrgaoCentralGridFilterModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
     ],
     providers: [
         ModalidadeOrgaoCentralService,

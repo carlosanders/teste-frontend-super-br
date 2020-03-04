@@ -6,7 +6,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Assunto} from '@cdk/models';
 import {AssuntoService} from '@cdk/services/assunto.service';
 import {FormControl} from '@angular/forms';
@@ -21,7 +21,7 @@ import {Pagination} from '@cdk/models';
     styleUrls: ['./cdk-assunto-autocomplete.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations,
+    animations: cdkAnimations,
     exportAs: 'assuntoAutocomplete',
 })
 export class CdkAssuntoAutocompleteComponent implements OnInit {

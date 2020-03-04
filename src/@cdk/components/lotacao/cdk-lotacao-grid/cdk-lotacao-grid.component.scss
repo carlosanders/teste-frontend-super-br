@@ -1,4 +1,4 @@
-@import "src/@fuse/scss/fuse";
+@import "../../../scss/cdk";
 
 cdk-lotacao-grid {
 
@@ -43,6 +43,11 @@ cdk-lotacao-grid {
   }
 
   .content {
+    height: 95%;
+
+    .div {
+      height: 95%;
+    }
 
     .actions {
       width: 100%;
@@ -95,6 +100,7 @@ cdk-lotacao-grid {
 
       * {
         box-sizing: border-box;
+        height: 100%;
       }
 
       .mat-row {

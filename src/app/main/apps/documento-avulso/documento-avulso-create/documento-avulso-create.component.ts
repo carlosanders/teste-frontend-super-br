@@ -6,7 +6,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
 import {DocumentoAvulso} from '@cdk/models';
@@ -31,7 +31,7 @@ import {Usuario} from "../../../../../@cdk/models/usuario.model";
     styleUrls: ['./documento-avulso-create.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class DocumentoAvulsoCreateComponent implements OnInit, OnDestroy {
 

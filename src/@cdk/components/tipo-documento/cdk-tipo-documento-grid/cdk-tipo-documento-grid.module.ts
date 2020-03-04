@@ -11,8 +11,8 @@ import {
     MatSelectModule,
 } from '@cdk/angular/material';
 
-import {FuseSidebarModule} from '@fuse/components';
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSidebarModule} from '@cdk/components/index';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {TipoDocumentoService} from '@cdk/services/tipo-documento.service';
 import {CdkTipoDocumentoGridComponent} from './cdk-tipo-documento-grid.component';
 import {CdkTipoDocumentoAutocompleteModule} from '@cdk/components/tipo-documento/cdk-tipo-documento-autocomplete/cdk-tipo-documento-autocomplete.module';
@@ -38,8 +38,8 @@ import {CdkTipoDocumentoMainSidebarComponent} from './sidebars/main/main.compone
         CdkTipoDocumentoAutocompleteModule,
         CdkTipoDocumentoGridFilterModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
     ],
     providers: [
         TipoDocumentoService,

@@ -6,7 +6,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Afastamento} from '@cdk/models';
 import {AfastamentoService} from '@cdk/services/afastamento.service';
 import {FormControl} from '@angular/forms';
@@ -21,7 +21,7 @@ import {Pagination} from '@cdk/models';
     styleUrls: ['./cdk-afastamento-autocomplete.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations,
+    animations: cdkAnimations,
     exportAs: 'afastamentoAutocomplete',
 })
 export class CdkAfastamentoAutocompleteComponent implements OnInit {

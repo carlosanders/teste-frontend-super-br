@@ -6,7 +6,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {GeneroDocumento} from '@cdk/models';
 import {GeneroDocumentoService} from '@cdk/services/genero-documento.service';
 import {FormControl} from '@angular/forms';
@@ -21,7 +21,7 @@ import {Pagination} from '@cdk/models';
     styleUrls: ['./cdk-genero-documento-autocomplete.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations,
+    animations: cdkAnimations,
     exportAs: 'generoDocumentoAutocomplete',
 })
 export class CdkGeneroDocumentoAutocompleteComponent implements OnInit {

@@ -35,6 +35,9 @@ export class Documento {
 
     semEfeito?: boolean;
 
+    @Exclude({toPlainOnly: true})
+    minuta?: boolean;
+
     redator?: string;
 
     localizadorOriginal?: string;
@@ -165,6 +168,7 @@ export class Documento {
         this.tarefaOrigem = null;
         this.origemDados = null;
         this.modelo = null;
+        this.minuta = null;
         this.juntadaAtual = null;
         this.repositorio = null;
         this.criadoPor = null;

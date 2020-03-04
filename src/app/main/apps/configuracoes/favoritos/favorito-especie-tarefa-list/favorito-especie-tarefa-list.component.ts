@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import {Observable, Subject} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Favorito} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
@@ -24,7 +24,7 @@ import {FavoritoService} from '@cdk/services/favorito.service';
     styleUrls: ['./favorito-especie-tarefa-list.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class FavoritoEspecieTarefaListComponent implements OnInit, OnDestroy {
 

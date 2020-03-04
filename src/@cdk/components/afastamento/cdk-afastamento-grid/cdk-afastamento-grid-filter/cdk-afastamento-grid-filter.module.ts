@@ -9,7 +9,7 @@ import {
     MatInputModule
 } from '@cdk/angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 import { ModalidadeAfastamentoService } from '@cdk/services/modalidade-afastamento.service';
 import { CdkAfastamentoGridFilterComponent } from './cdk-afastamento-grid-filter.component';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
@@ -34,7 +34,7 @@ import {CdkColaboradorAutocompleteModule} from '@cdk/components/colaborador/cdk-
         MatMomentDatetimeModule,
         MatCheckboxModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
 
         CdkUsuarioAutocompleteModule,
         CdkModalidadeAfastamentoAutocompleteModule,

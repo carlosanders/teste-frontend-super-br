@@ -11,7 +11,7 @@ import {
 
 } from '@cdk/angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 import { CdkCadastroIdentificadorFormComponent } from './cdk-cadastro-identificador-form.component';
 
 @NgModule({
@@ -29,7 +29,7 @@ import { CdkCadastroIdentificadorFormComponent } from './cdk-cadastro-identifica
         MatProgressSpinnerModule,
         MatDatepickerModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
 

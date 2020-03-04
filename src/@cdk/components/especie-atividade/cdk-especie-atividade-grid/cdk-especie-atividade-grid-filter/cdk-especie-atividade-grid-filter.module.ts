@@ -9,7 +9,7 @@ import {
     MatInputModule
 } from '@cdk/angular/material';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {EspecieAtividadeService} from '@cdk/services/especie-atividade.service';
 import {CdkEspecieAtividadeGridFilterComponent} from './cdk-especie-atividade-grid-filter.component';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
@@ -33,7 +33,7 @@ import {CdkGeneroAtividadeAutocompleteModule} from '../../../genero-atividade/cd
         MatMomentDatetimeModule,
         MatCheckboxModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
 
         CdkUsuarioAutocompleteModule,
         CdkGeneroAtividadeAutocompleteModule,

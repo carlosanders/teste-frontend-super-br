@@ -6,7 +6,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Compartilhamento} from '@cdk/models';
 import {CompartilhamentoService} from '@cdk/services/compartilhamento.service';
 import {FormControl} from '@angular/forms';
@@ -21,7 +21,7 @@ import {Pagination} from '@cdk/models';
     styleUrls: ['./cdk-compartilhamento-autocomplete.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations,
+    animations: cdkAnimations,
     exportAs: 'compartilhamentoAutocomplete',
 })
 export class CdkCompartilhamentoAutocompleteComponent implements OnInit {

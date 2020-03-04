@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 
 import { EspecieSetorService } from '@cdk/services/especie-setor.service';
 import { CdkEspecieSetorGridsearchComponent } from './cdk-especie-setor-gridsearch.component';
@@ -14,7 +14,7 @@ import { CdkEspecieSetorGridModule } from '@cdk/components/especie-setor/cdk-esp
 
         CdkEspecieSetorGridModule,
         
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         EspecieSetorService

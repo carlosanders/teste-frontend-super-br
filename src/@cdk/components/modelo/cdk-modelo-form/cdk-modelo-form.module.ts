@@ -11,7 +11,7 @@ import {
 
 } from '@cdk/angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 import { CdkModeloFormComponent } from './cdk-modelo-form.component';
 import {CdkTemplateAutocompleteModule} from '../../template/cdk-template-autocomplete/cdk-template-autocomplete.module';
 import {CdkTemplateGridsearchModule} from '../../template/cdk-template-autocomplete/cdk-template-gridsearch/cdk-template-gridsearch.module';
@@ -37,7 +37,7 @@ import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
         CdkTemplateAutocompleteModule,
         CdkTemplateGridsearchModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
 

@@ -11,8 +11,8 @@ import {
     MatSelectModule,
 } from '@cdk/angular/material';
 
-import {FuseSidebarModule} from '@fuse/components';
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSidebarModule} from '@cdk/components/index';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {ModalidadeAfastamentoService} from '@cdk/services/modalidade-afastamento.service';
 import {CdkModalidadeAfastamentoAutocompleteModule} from '@cdk/components/modalidade-afastamento/cdk-modalidade-afastamento-autocomplete/cdk-modalidade-afastamento-autocomplete.module';
 import {CdkAfastamentoGridComponent} from './cdk-afastamento-grid.component';
@@ -38,8 +38,8 @@ import {CdkAfastamentoMainSidebarComponent} from './sidebars/main/main.component
         CdkModalidadeAfastamentoAutocompleteModule,
         CdkAfastamentoGridFilterModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
     ],
     providers: [
         ModalidadeAfastamentoService,

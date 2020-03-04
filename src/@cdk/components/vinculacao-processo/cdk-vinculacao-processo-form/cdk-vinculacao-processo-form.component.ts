@@ -7,7 +7,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {VinculacaoProcesso} from '@cdk/models';
 import {Pagination} from '@cdk/models';
@@ -20,7 +20,7 @@ import {ModalidadeVinculacaoProcesso} from '@cdk/models';
     styleUrls: ['./cdk-vinculacao-processo-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkVinculacaoProcessoFormComponent implements OnChanges, OnDestroy, OnInit {
 

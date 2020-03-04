@@ -1,12 +1,12 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Output, ViewEncapsulation} from '@angular/core';
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {CdkLogentryGridComponent} from '../cdk-logentry-grid.component';
 
 @Component({
     selector: 'cdk-logentry-main-sidebar',
     templateUrl: './main.component.html',
     styleUrls: ['./main.component.scss'],
-    animations: fuseAnimations,
+    animations: cdkAnimations,
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None
 })

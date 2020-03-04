@@ -1,0 +1,19 @@
+<div class="toolbar pt-8 pb-8 pl-8 pr-8"
+     fxLayout="row" fxLayoutAlign="start center">
+
+    <button mat-icon-button
+            aria-label="Ferramentas" (click)="$event.stopPropagation()"
+            *ngIf="selectedIds?.length > 1">
+        <mat-icon class="secondary-text">more_vert</mat-icon>
+    </button>
+
+</div>
+
+<cdk-documento-avulso-card class="ml-8 mb-8"
+                           *ngFor="let documento of documentos"
+                           [documento]="documento"
+                           (verResposta)="doVerResposta($event)"
+                           (converte)="doConverte($event)"
+                           (clicked)="onClick($event)">
+</cdk-documento-avulso-card>
+

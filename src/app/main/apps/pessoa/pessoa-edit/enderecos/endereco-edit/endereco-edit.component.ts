@@ -6,7 +6,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
 import {Endereco} from '@cdk/models';
@@ -24,7 +24,7 @@ import {takeUntil} from 'rxjs/operators';
     styleUrls: ['./endereco-edit.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class EnderecoEditComponent implements OnInit, OnDestroy {
 

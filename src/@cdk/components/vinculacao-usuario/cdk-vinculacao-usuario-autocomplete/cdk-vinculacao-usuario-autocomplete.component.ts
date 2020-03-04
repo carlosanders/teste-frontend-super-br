@@ -6,7 +6,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {VinculacaoUsuario} from '@cdk/models';
 import {VinculacaoUsuarioService} from '@cdk/services/vinculacao-usuario.service';
 import {FormControl} from '@angular/forms';
@@ -21,7 +21,7 @@ import {Pagination} from '@cdk/models';
     styleUrls: ['./cdk-vinculacao-usuario-autocomplete.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations,
+    animations: cdkAnimations,
     exportAs: 'vinculacaoUsuarioAutocomplete',
 })
 export class CdkVinculacaoUsuarioAutocompleteComponent implements OnInit {

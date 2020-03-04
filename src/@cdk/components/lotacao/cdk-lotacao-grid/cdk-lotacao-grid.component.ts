@@ -7,14 +7,15 @@ import {
 } from '@angular/core';
 import {merge, of} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
-import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
+import {cdkAnimations} from '@cdk/animations';
+import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
 import {Lotacao} from '@cdk/models';
 import {LotacaoDataSource} from '@cdk/data-sources/lotacao-data-source';
 import {FormControl} from '@angular/forms';
+import {Pagination} from "../../../models/pagination";
 
 @Component({
     selector: 'cdk-lotacao-grid',
@@ -22,7 +23,7 @@ import {FormControl} from '@angular/forms';
     styleUrls: ['./cdk-lotacao-grid.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkLotacaoGridComponent implements AfterViewInit, OnInit, OnChanges {
 
@@ -179,6 +180,9 @@ export class CdkLotacaoGridComponent implements AfterViewInit, OnInit, OnChanges
 
     dataSource: LotacaoDataSource;
 
+    @Input()
+    setorPagination: Pagination;
+
     showFilter = false;
 
     gridFilter: any;
@@ -187,11 +191,13 @@ export class CdkLotacaoGridComponent implements AfterViewInit, OnInit, OnChanges
     isIndeterminate = false;
 
     /**
+     *
      * @param _changeDetectorRef
+     * @param _cdkSidebarService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _fuseSidebarService: FuseSidebarService
+        private _cdkSidebarService: CdkSidebarService
     ) {
         this.gridFilter = {};
         this.lotacoes = [];
@@ -246,7 +252,7 @@ export class CdkLotacaoGridComponent implements AfterViewInit, OnInit, OnChanges
     }
 
     toggleFilter(): void {
-        this._fuseSidebarService.getSidebar('cdk-lotacao-main-sidebar').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-lotacao-main-sidebar').toggleOpen();
         this.showFilter = !this.showFilter;
     }
 

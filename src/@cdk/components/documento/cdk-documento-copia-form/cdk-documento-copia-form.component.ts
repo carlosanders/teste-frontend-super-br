@@ -7,7 +7,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import { fuseAnimations } from '@fuse/animations';
+import { cdkAnimations } from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { Documento } from '@cdk/models';
 import {Pagination} from '@cdk/models';
@@ -21,7 +21,7 @@ import {of} from 'rxjs';
     styleUrls: ['./cdk-documento-copia-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkDocumentoCopiaFormComponent implements OnInit, OnChanges, OnDestroy {
 

@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 
 import {DesentranhamentoService} from '@cdk/services/desentranhamento.service';
 import {CdkDesentranhamentoGridsearchComponent} from './cdk-desentranhamento-gridsearch.component';
@@ -14,7 +14,7 @@ import {CdkDesentranhamentoGridModule} from '@cdk/components/desentranhamento/cd
 
         CdkDesentranhamentoGridModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         DesentranhamentoService

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 
 import { AcaoService } from '@cdk/services/acao.service';
 import { CdkAcaoGridsearchComponent } from './cdk-acao-gridsearch.component';
@@ -14,7 +14,7 @@ import { CdkAcaoGridModule } from '@cdk/components/acao/cdk-acao-grid/cdk-acao-g
 
         CdkAcaoGridModule,
         
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         AcaoService

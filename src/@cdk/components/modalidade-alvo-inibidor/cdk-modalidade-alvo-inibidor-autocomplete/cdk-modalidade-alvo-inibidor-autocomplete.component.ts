@@ -6,7 +6,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {ModalidadeAlvoInibidor} from '@cdk/models';
 import {ModalidadeAlvoInibidorService} from '@cdk/services/modalidade-alvo-inibidor.service';
 import {FormControl} from '@angular/forms';
@@ -21,7 +21,7 @@ import {Pagination} from '@cdk/models';
     styleUrls: ['./cdk-modalidade-alvo-inibidor-autocomplete.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations,
+    animations: cdkAnimations,
     exportAs: 'modalidadeAlvoInibidorAutocomplete',
 })
 export class CdkModalidadeAlvoInibidorAutocompleteComponent implements OnInit {

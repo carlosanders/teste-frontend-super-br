@@ -1,12 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 
 const routes = [ 
     {
         path        : 'painel',
         loadChildren: () => import('./painel/painel.module').then(m => m.PainelModule)
+    },
+    {
+        path        : 'admin',
+        loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule)
     },
     {
         path        : 'tarefas',
@@ -31,13 +35,17 @@ const routes = [
     {
         path        : 'configuracoes',
         loadChildren: () => import('./configuracoes/configuracoes.module').then(m => m.ConfiguracoesModule)
+    },
+    {
+        path        : 'oficios',
+        loadChildren: () => import('./oficios/oficios.module').then(m => m.OficiosModule)
     }
 ];
 
 @NgModule({
     imports     : [
         RouterModule.forChild(routes),
-        FuseSharedModule
+        CdkSharedModule
     ]
 })
 export class AppsModule

@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 
 import {TranslateModule} from '@ngx-translate/core';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {ComponenteDigitalComponent} from './componente-digital.component';
 import {RouterModule, Routes} from '@angular/router';
 import {ComponenteDigitalStoreModule} from './store/store.module';
@@ -50,7 +50,7 @@ const routes: Routes = [
         MatIconModule,
         MatButtonModule,
         TranslateModule,
-        FuseSharedModule,
+        CdkSharedModule,
 
         ComponenteDigitalStoreModule,
 

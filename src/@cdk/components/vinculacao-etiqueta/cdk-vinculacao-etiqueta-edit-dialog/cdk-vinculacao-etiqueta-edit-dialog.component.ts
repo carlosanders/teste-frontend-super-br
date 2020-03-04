@@ -7,7 +7,7 @@ import {
     OnInit, Inject, Output, EventEmitter, OnChanges, SimpleChange, SimpleChanges, ViewChild, ElementRef
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 
 import {Pagination} from '@cdk/models';
 
@@ -20,7 +20,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
     styleUrls: ['./cdk-vinculacao-etiqueta-edit-dialog.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkVinculacaoEtiquetaEditDialogComponent implements OnInit {
 

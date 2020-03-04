@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import {Observable, Subject} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Atividade} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
@@ -20,7 +20,7 @@ import {takeUntil} from 'rxjs/operators';
     styleUrls: ['./atividade-list.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class AtividadeListComponent implements OnInit, OnDestroy {
 

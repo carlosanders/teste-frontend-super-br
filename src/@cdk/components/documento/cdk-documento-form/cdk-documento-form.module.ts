@@ -13,7 +13,7 @@ import {
     MatTableModule, MatTooltipModule
 } from '@cdk/angular/material';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {TipoDocumentoService} from '@cdk/services/tipo-documento.service';
 import {CdkDocumentoFormComponent} from './cdk-documento-form.component';
 import {CdkTipoDocumentoAutocompleteModule} from '@cdk/components/tipo-documento/cdk-tipo-documento-autocomplete/cdk-tipo-documento-autocomplete.module';
@@ -54,7 +54,7 @@ import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
         CdkPessoaGridsearchModule,
         CdkPessoaAutocompleteModule,
         CdkPessoaGridsearchModule,
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         TipoDocumentoService,

@@ -11,8 +11,8 @@ import {
     MatSelectModule,
 } from '@cdk/angular/material';
 
-import {FuseSidebarModule} from '@fuse/components';
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSidebarModule} from '@cdk/components/index';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {ModalidadeEtiquetaService} from '@cdk/services/modalidade-etiqueta.service';
 import {CdkModalidadeEtiquetaGridComponent} from './cdk-modalidade-etiqueta-grid.component';
 import {CdkModalidadeEtiquetaAutocompleteModule} from '@cdk/components/modalidade-etiqueta/cdk-modalidade-etiqueta-autocomplete/cdk-modalidade-etiqueta-autocomplete.module';
@@ -38,8 +38,8 @@ import {CdkModalidadeEtiquetaMainSidebarComponent} from './sidebars/main/main.co
         CdkModalidadeEtiquetaAutocompleteModule,
         CdkModalidadeEtiquetaGridFilterModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
     ],
     providers: [
         ModalidadeEtiquetaService,

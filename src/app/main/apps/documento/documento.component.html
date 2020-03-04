@@ -35,7 +35,7 @@
 
                 <div class="componentes-digitais-navigation">
 
-                    <button mat-mini-fab class="previous mat-accent fuse-white-fg"
+                    <button mat-mini-fab class="previous mat-accent cdk-white-fg"
                             (click)="gotoPreviousStep()"
                             [disabled]="(currentComponenteDigital$ | async)?.numeracaoSequencial <= 1">
                         <mat-icon>chevron_left</mat-icon>
@@ -47,7 +47,7 @@
                             /{{(documento$ | async).componentesDigitais.length}})</h3>
                     </div>
 
-                    <button mat-mini-fab class="next mat-accent fuse-white-fg"
+                    <button mat-mini-fab class="next mat-accent cdk-white-fg"
                             (click)="gotoNextStep()"
                             [disabled]="(currentComponenteDigital$ | async)?.numeracaoSequencial >= (documento$ | async).componentesDigitais.length">
                         <mat-icon>chevron_right</mat-icon>

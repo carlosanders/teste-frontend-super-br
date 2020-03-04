@@ -1,11 +1,12 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Output, ViewEncapsulation} from '@angular/core';
-import {fuseAnimations} from '@fuse/animations';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEncapsulation} from '@angular/core';
+import {cdkAnimations} from '@cdk/animations';
+import {Pagination} from "../../../../../models/pagination";
 
 @Component({
     selector: 'cdk-lotacao-main-sidebar',
     templateUrl: './main.component.html',
     styleUrls: ['./main.component.scss'],
-    animations: fuseAnimations,
+    animations: cdkAnimations,
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None
 })
@@ -14,6 +15,9 @@ export class CdkLotacaoMainSidebarComponent {
     selected = new EventEmitter<any>();
 
     gridFilter: any;
+
+    @Input()
+    pagination: Pagination = new Pagination();
 
     setGridFilter(gridFilter): void {
         this.gridFilter = gridFilter;

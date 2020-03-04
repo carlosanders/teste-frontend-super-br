@@ -6,7 +6,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
 import {Atividade} from '@cdk/models';
@@ -29,7 +29,7 @@ import {Usuario} from "../../../../../@cdk/models/usuario.model";
     styleUrls: ['./atividade-create-bloco.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
 
