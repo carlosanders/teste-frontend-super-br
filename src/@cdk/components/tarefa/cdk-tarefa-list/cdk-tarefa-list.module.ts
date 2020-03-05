@@ -8,12 +8,12 @@ import {
     MatSortModule, MatMenuModule, MatAutocompleteModule, MatRippleModule,
 } from '@cdk/angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 import { CdkTarefaListComponent } from './cdk-tarefa-list.component';
 import { CdkTarefaListItemComponent } from './cdk-tarefa-list-item/cdk-tarefa-list-item.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { PipesModule } from '@cdk/pipes/pipes.module';
-import { FuseSidebarModule } from '@fuse/components';
+import { CdkSidebarModule } from '@cdk/components/index';
 import { CdkTarefaListMainSidebarComponent } from './sidebars/main/main.component';
 import { CdkEspecieTarefaAutocompleteModule } from '@cdk/components/especie-tarefa/cdk-especie-tarefa-autocomplete/cdk-especie-tarefa-autocomplete.module';
 import { EspecieTarefaService } from '@cdk/services/especie-tarefa.service';
@@ -47,8 +47,8 @@ import { DndModule } from 'ngx-drag-drop';
 
         PipesModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
         MatRippleModule,
     ],
     providers: [

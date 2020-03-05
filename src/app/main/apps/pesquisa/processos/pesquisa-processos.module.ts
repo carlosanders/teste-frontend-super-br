@@ -14,7 +14,7 @@ import {
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {ProcessoService} from '@cdk/services/processo.service';
 import {RouterModule, Routes} from '@angular/router';
 import {CdkProcessoGridModule} from '@cdk/components/processo/cdk-processo-grid/cdk-processo-grid.module';
@@ -50,7 +50,7 @@ const routes: Routes = [
         ProcessosStoreModule,
 
         TranslateModule,
-        FuseSharedModule,
+        CdkSharedModule,
 
         CdkProcessoGridModule
     ],

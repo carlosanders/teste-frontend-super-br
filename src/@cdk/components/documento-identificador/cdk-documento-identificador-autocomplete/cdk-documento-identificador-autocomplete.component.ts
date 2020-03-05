@@ -6,7 +6,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {DocumentoIdentificador} from '@cdk/models';
 import {DocumentoIdentificadorService} from '@cdk/services/documento-identificador.service';
 import {FormControl} from '@angular/forms';
@@ -21,7 +21,7 @@ import {Pagination} from '@cdk/models';
     styleUrls: ['./cdk-documento-identificador-autocomplete.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations,
+    animations: cdkAnimations,
     exportAs: 'documentoIdentificadorAutocomplete',
 })
 export class CdkDocumentoIdentificadorAutocompleteComponent implements OnInit {

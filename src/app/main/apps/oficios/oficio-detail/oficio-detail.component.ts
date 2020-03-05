@@ -6,7 +6,7 @@ import {
     ViewEncapsulation, Input
 } from '@angular/core';
 
-import { fuseAnimations } from '@fuse/animations';
+import { cdkAnimations } from '@cdk/animations';
 import { Observable, Subject } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import * as fromStore from './store';
@@ -33,7 +33,7 @@ import { DocumentoAvulso } from '@cdk/models/documento-avulso.model';
     styleUrls: ['./oficio-detail.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class OficioDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 

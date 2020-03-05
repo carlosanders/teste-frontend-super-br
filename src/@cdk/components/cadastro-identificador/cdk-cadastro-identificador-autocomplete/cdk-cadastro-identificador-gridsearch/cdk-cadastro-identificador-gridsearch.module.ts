@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 
 import {CadastroIdentificadorService} from '@cdk/services/cadastro-identificador.service';
 import {CdkCadastroIdentificadorGridsearchComponent} from './cdk-cadastro-identificador-gridsearch.component';
@@ -14,7 +14,7 @@ import {CdkCadastroIdentificadorGridModule} from '@cdk/components/cadastro-ident
 
         CdkCadastroIdentificadorGridModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         CadastroIdentificadorService

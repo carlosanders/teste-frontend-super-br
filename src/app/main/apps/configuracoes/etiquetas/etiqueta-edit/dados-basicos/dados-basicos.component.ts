@@ -6,7 +6,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
 
 import {Etiqueta} from '@cdk/models';
@@ -24,7 +24,7 @@ import {getEtiqueta} from '../store/selectors';
     styleUrls: ['./dados-basicos.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class DadosBasicosComponent implements OnInit, OnDestroy {
 

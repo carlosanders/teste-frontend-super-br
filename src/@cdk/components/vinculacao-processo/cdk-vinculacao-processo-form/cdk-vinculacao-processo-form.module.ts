@@ -11,7 +11,7 @@ import {
 
 } from '@cdk/angular/material';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkProcessoAutocompleteModule} from '../../processo/cdk-processo-autocomplete/cdk-processo-autocomplete.module';
 import {CdkProcessoGridsearchModule} from '../../processo/cdk-processo-autocomplete/cdk-processo-gridsearch/cdk-processo-gridsearch.module';
 import {ProcessoService} from '@cdk/services/processo.service';
@@ -39,7 +39,7 @@ import {CdkVinculacaoProcessoFormComponent} from './cdk-vinculacao-processo-form
         CdkModalidadeVinculacaoProcessoAutocompleteModule,
         CdkModalidadeVinculacaoProcessoGridsearchModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         ProcessoService,

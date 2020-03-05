@@ -7,7 +7,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Tarefa} from '@cdk/models';
 import {EspecieTarefa} from '@cdk/models';
@@ -29,7 +29,7 @@ import {Responsavel} from '../../../models/respensavel.model';
     styleUrls: ['./cdk-tarefa-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations,
+    animations: cdkAnimations,
     providers: [
         {
             provide: MAT_DATETIME_FORMATS,

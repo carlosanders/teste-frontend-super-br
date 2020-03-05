@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 
 import { ModalidadeEtiquetaService } from '@cdk/services/modalidade-etiqueta.service';
 import { CdkModalidadeEtiquetaGridsearchComponent } from './cdk-modalidade-etiqueta-gridsearch.component';
@@ -14,7 +14,7 @@ import { CdkModalidadeEtiquetaGridModule } from '@cdk/components/modalidade-etiq
 
         CdkModalidadeEtiquetaGridModule,
         
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         ModalidadeEtiquetaService

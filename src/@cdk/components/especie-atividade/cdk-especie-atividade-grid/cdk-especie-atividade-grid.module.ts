@@ -12,8 +12,8 @@ import {
     MatTooltipModule,
 } from '@cdk/angular/material';
 
-import {FuseSidebarModule} from '@fuse/components';
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSidebarModule} from '@cdk/components/index';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {EspecieAtividadeService} from '@cdk/services/especie-atividade.service';
 import {CdkEspecieAtividadeGridComponent} from './cdk-especie-atividade-grid.component';
 import {CdkEspecieAtividadeAutocompleteModule} from '@cdk/components/especie-atividade/cdk-especie-atividade-autocomplete/cdk-especie-atividade-autocomplete.module';
@@ -40,8 +40,8 @@ import {CdkEspecieAtividadeMainSidebarComponent} from './sidebars/main/main.comp
         CdkEspecieAtividadeGridFilterModule,
         CdkEspecieAtividadeAutocompleteModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
     ],
     providers: [
         EspecieAtividadeService,

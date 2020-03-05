@@ -11,8 +11,8 @@ import {
     MatSelectModule,
 } from '@cdk/angular/material';
 
-import {FuseSidebarModule} from '@fuse/components';
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSidebarModule} from '@cdk/components/index';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {HistoricoService} from '@cdk/services/historico.service';
 import {CdkHistoricoGridComponent} from './cdk-historico-grid.component';
 import {CdkHistoricoAutocompleteModule} from '@cdk/components/historico/cdk-historico-autocomplete/cdk-historico-autocomplete.module';
@@ -38,8 +38,8 @@ import {CdkHistoricoMainSidebarComponent} from './sidebars/main/main.component';
         CdkHistoricoAutocompleteModule,
         CdkHistoricoGridFilterModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
     ],
     providers: [
         HistoricoService,

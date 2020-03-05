@@ -20,7 +20,7 @@ export class PessoaEditMainSidebarComponent implements OnInit, OnDestroy {
 
     /**
      * @param _changeDetectorRef
-     * @param _fuseSidebarService
+     * @param _cdkSidebarService
      * @param _store
      */
     constructor(

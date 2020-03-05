@@ -9,7 +9,7 @@ import {
     MatAutocompleteModule, MatDatepickerModule
 } from '@cdk/angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 import { CdkPessoaFormComponent } from './cdk-pessoa-form.component';
 import {CdkModalidadeQualificacaoPessoaAutocompleteModule} from '@cdk/components/modalidade-qualificacao-pessoa/cdk-modalidade-qualificacao-pessoa-autocomplete/cdk-modalidade-qualificacao-pessoa-autocomplete.module';
 import {CdkModalidadeQualificacaoPessoaGridsearchModule} from '@cdk/components/modalidade-qualificacao-pessoa/cdk-modalidade-qualificacao-pessoa-autocomplete/cdk-modalidade-qualificacao-pessoa-gridsearch/cdk-modalidade-qualificacao-pessoa-gridsearch.module';
@@ -44,7 +44,7 @@ import {CdkModalidadeGeneroPessoaAutocompleteModule} from '@cdk/components/modal
         CdkMunicipioAutocompleteModule,
         CdkMunicipioGridsearchModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
     ],

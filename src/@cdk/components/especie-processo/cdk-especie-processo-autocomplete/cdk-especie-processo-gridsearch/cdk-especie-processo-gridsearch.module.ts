@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 
 import { EspecieProcessoService } from '@cdk/services/especie-processo.service';
 import { CdkEspecieProcessoGridsearchComponent } from './cdk-especie-processo-gridsearch.component';
@@ -14,7 +14,7 @@ import { CdkEspecieProcessoGridModule } from '@cdk/components/especie-processo/c
 
         CdkEspecieProcessoGridModule,
         
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         EspecieProcessoService

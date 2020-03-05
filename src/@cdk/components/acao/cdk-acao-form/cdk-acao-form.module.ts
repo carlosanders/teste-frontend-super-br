@@ -11,7 +11,7 @@ import {
 
 } from '@cdk/angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 import { UsuarioService } from '@cdk/services/usuario.service';
 import { CdkAcaoFormComponent } from './cdk-acao-form.component';
 import {SetorService} from '@cdk/services/setor.service';
@@ -37,7 +37,7 @@ import {CdkModeloGridsearchModule} from '../../modelo/cdk-modelo-autocomplete/cd
         CdkModeloAutocompleteModule,
         CdkModeloGridsearchModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
         MatTooltipModule,
     ],
     providers: [

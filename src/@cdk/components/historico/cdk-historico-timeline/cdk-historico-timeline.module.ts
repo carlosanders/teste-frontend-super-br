@@ -10,7 +10,7 @@ import {
     MatSortModule, MatDividerModule,
 } from '@cdk/angular/material';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {HistoricoService} from '@cdk/services/historico.service';
 import {CdkHistoricoTimelineComponent} from './cdk-historico-timeline.component';
 
@@ -28,7 +28,7 @@ import {CdkHistoricoTimelineComponent} from './cdk-historico-timeline.component'
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         HistoricoService,

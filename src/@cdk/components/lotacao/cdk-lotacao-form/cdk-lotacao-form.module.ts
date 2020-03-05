@@ -11,7 +11,7 @@ import {
 
 } from '@cdk/angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 import { UsuarioService } from '@cdk/services/usuario.service';
 import { CdkLotacaoFormComponent } from './cdk-lotacao-form.component';
 import { CdkUsuarioAutocompleteModule } from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
@@ -39,7 +39,7 @@ import {CdkColaboradorGridsearchModule} from "../../colaborador/cdk-colaborador-
         CdkUsuarioAutocompleteModule,
         CdkUsuarioGridsearchModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
         CdkSetorGridsearchModule,
         CdkSetorAutocompleteModule,
         CdkColaboradorAutocompleteModule,

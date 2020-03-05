@@ -49,8 +49,7 @@ export class AtividadeCreateBlocoDocumentosEffect {
                     const params = {
                         filter: {
                             'tarefaOrigem.id': tarefaId,
-                            'juntadaAtual': 'isNull',
-                            'apagadoEm': 'isNull'
+                            'juntadaAtual': 'isNull'
                         },
                         limit: 10,
                         offset: 0,

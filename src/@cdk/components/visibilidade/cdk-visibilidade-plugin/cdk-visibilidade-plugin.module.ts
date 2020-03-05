@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkVisibilidadePluginComponent} from './cdk-visibilidade-plugin.component';
 import {MatAutocompleteModule, MatButtonModule, MatDialogModule, MatInputModule} from '@cdk/angular/material';
 
@@ -15,7 +15,7 @@ import {MatAutocompleteModule, MatButtonModule, MatDialogModule, MatInputModule}
         MatAutocompleteModule,
         MatInputModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     entryComponents: [
         CdkVisibilidadePluginComponent

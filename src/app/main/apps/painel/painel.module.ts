@@ -8,8 +8,8 @@ import {
     MatSelectModule
 } from '@cdk/angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
-import { FuseWidgetModule } from '@fuse/components/widget/widget.module';
+import { CdkSharedModule } from '@cdk/shared.module';
+import { CdkWidgetModule } from '@cdk/components/widget/widget.module';
 
 import { PainelComponent } from 'app/main/apps/painel/painel.component';
 
@@ -42,8 +42,8 @@ const routes: Routes = [
 
         CdkHistoricoTimelineModule,
 
-        FuseSharedModule,
-        FuseWidgetModule
+        CdkSharedModule,
+        CdkWidgetModule
     ],
     providers   : [
         TarefaService,

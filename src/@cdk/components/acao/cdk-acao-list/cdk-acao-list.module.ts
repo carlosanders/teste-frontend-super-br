@@ -8,7 +8,7 @@ import {
     MatSortModule, MatMenuModule, MatAutocompleteModule, MatRippleModule,
 } from '@cdk/angular/material';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkAcaoListComponent} from './cdk-acao-list.component';
 import {CdkAcaoListItemComponent} from './cdk-acao-list-item/cdk-acao-list-item.component';
 import {TranslateModule} from '@ngx-translate/core';
@@ -33,7 +33,7 @@ import {LoginService} from 'app/main/auth/login/login.service';
         MatRippleModule,
 
         TranslateModule,
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         ProcessoService,

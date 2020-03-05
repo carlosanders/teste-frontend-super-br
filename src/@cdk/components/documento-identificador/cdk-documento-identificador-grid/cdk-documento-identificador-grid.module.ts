@@ -11,8 +11,8 @@ import {
     MatSelectModule,
 } from '@cdk/angular/material';
 
-import {FuseSidebarModule} from '@fuse/components';
-import { FuseSharedModule } from '@fuse/shared.module';
+import {CdkSidebarModule} from '@cdk/components/index';
+import { CdkSharedModule } from '@cdk/shared.module';
 import { CdkDocumentoIdentificadorGridComponent} from './cdk-documento-identificador-grid.component';
 import { CdkDocumentoIdentificadorGridFilterModule } from './cdk-documento-identificador-grid-filter/cdk-documento-identificador-grid-filter.module';
 import {CdkDocumentoIdentificadorMainSidebarComponent} from './sidebars/main/main.component';
@@ -35,8 +35,8 @@ import {CdkDocumentoIdentificadorMainSidebarComponent} from './sidebars/main/mai
 
         CdkDocumentoIdentificadorGridFilterModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
     ],
     providers: [
         

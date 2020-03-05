@@ -3,10 +3,10 @@ import { NavigationEnd, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { delay, filter, take, takeUntil } from 'rxjs/operators';
 
-import { FuseConfigService } from '@fuse/services/config.service';
-import { FuseNavigationService } from '@fuse/components/navigation/navigation.service';
-import { FusePerfectScrollbarDirective } from '@fuse/directives/fuse-perfect-scrollbar/fuse-perfect-scrollbar.directive';
-import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
+import { CdkConfigService } from '@cdk/services/config.service';
+import { CdkNavigationService } from '@cdk/components/navigation/navigation.service';
+import { CdkPerfectScrollbarDirective } from '@cdk/directives/cdk-perfect-scrollbar/cdk-perfect-scrollbar.directive';
+import { CdkSidebarService } from '@cdk/components/sidebar/sidebar.service';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Usuario} from "@cdk/models/usuario.model";
 
@@ -18,26 +18,26 @@ import {Usuario} from "@cdk/models/usuario.model";
 })
 export class NavbarVerticalStyle1Component implements OnInit, OnDestroy
 {
-    fuseConfig: any;
+    cdkConfig: any;
     navigation: any;
 
     userProfile: Usuario;
 
     // Private
-    private _fusePerfectScrollbar: FusePerfectScrollbarDirective;
+    private _cdkPerfectScrollbar: CdkPerfectScrollbarDirective;
     private _unsubscribeAll: Subject<any>;
 
     /**
-     * @param _fuseConfigService
-     * @param _fuseNavigationService
-     * @param _fuseSidebarService
+     * @param _cdkConfigService
+     * @param _cdkNavigationService
+     * @param _cdkSidebarService
      * @param _loginService
      * @param _router
      */
     constructor(
-        private _fuseConfigService: FuseConfigService,
-        private _fuseNavigationService: FuseNavigationService,
-        private _fuseSidebarService: FuseSidebarService,
+        private _cdkConfigService: CdkConfigService,
+        private _cdkNavigationService: CdkNavigationService,
+        private _cdkSidebarService: CdkSidebarService,
         private _loginService: LoginService,
         private _router: Router
     )
@@ -53,24 +53,24 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy
     // -----------------------------------------------------------------------------------------------------
 
     // Directive
-    @ViewChild(FusePerfectScrollbarDirective, {static: true})
-    set directive(theDirective: FusePerfectScrollbarDirective)
+    @ViewChild(CdkPerfectScrollbarDirective, {static: true})
+    set directive(theDirective: CdkPerfectScrollbarDirective)
     {
         if ( !theDirective )
         {
             return;
         }
 
-        this._fusePerfectScrollbar = theDirective;
+        this._cdkPerfectScrollbar = theDirective;
 
         // Update the scrollbar on collapsable item toggle
-        this._fuseNavigationService.onItemCollapseToggled
+        this._cdkNavigationService.onItemCollapseToggled
             .pipe(
                 delay(500),
                 takeUntil(this._unsubscribeAll)
             )
             .subscribe(() => {
-                this._fusePerfectScrollbar.update();
+                this._cdkPerfectScrollbar.update();
             });
 
         // Scroll to the active item position
@@ -89,7 +89,7 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy
                                   activeItemOffsetParentTop = activeNavItem.offsetParent.offsetTop,
                                   scrollDistance            = activeItemOffsetTop - activeItemOffsetParentTop - (48 * 3) - 168;
 
-                            this._fusePerfectScrollbar.scrollToTop(scrollDistance);
+                            this._cdkPerfectScrollbar.scrollToTop(scrollDistance);
                         }
                     });
                 }
@@ -111,28 +111,28 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy
                 takeUntil(this._unsubscribeAll)
             )
             .subscribe(() => {
-                    if ( this._fuseSidebarService.getSidebar('navbar') )
+                    if ( this._cdkSidebarService.getSidebar('navbar') )
                     {
-                        this._fuseSidebarService.getSidebar('navbar').close();
+                        this._cdkSidebarService.getSidebar('navbar').close();
                     }
                 }
             );
 
         // Subscribe to the config changes
-        this._fuseConfigService.config
+        this._cdkConfigService.config
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((config) => {
-                this.fuseConfig = config;
+                this.cdkConfig = config;
             });
 
         // Get current navigation
-        this._fuseNavigationService.onNavigationChanged
+        this._cdkNavigationService.onNavigationChanged
             .pipe(
                 filter(value => value !== null),
                 takeUntil(this._unsubscribeAll)
             )
             .subscribe(() => {
-                this.navigation = this._fuseNavigationService.getCurrentNavigation();
+                this.navigation = this._cdkNavigationService.getCurrentNavigation();
             });
     }
 
@@ -155,7 +155,7 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy
      */
     toggleSidebarOpened(): void
     {
-        this._fuseSidebarService.getSidebar('navbar').toggleOpen();
+        this._cdkSidebarService.getSidebar('navbar').toggleOpen();
     }
 
     /**
@@ -163,6 +163,6 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy
      */
     toggleSidebarFolded(): void
     {
-        this._fuseSidebarService.getSidebar('navbar').toggleFold();
+        this._cdkSidebarService.getSidebar('navbar').toggleFold();
     }
 }

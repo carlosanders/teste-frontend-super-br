@@ -1,9 +1,9 @@
 import {ChangeDetectorRef, Component, EventEmitter, OnDestroy, OnInit, Output, QueryList, ViewChildren, ViewEncapsulation} from '@angular/core';
 import {Observable, Subject} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
-import {FusePerfectScrollbarDirective} from '@fuse/directives/fuse-perfect-scrollbar/fuse-perfect-scrollbar.directive';
-import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
+import {cdkAnimations} from '@cdk/animations';
+import {CdkPerfectScrollbarDirective} from '@cdk/directives/cdk-perfect-scrollbar/cdk-perfect-scrollbar.directive';
+import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 
 import {JuntadaService} from '@cdk/services/juntada.service';
 import {Juntada} from '@cdk/models';
@@ -20,7 +20,7 @@ import {getRouterState} from '../../../../store/reducers';
     templateUrl: './processo-view.component.html',
     styleUrls: ['./processo-view.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class ProcessoViewComponent implements OnInit, OnDestroy {
 
@@ -40,8 +40,8 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
 
     animationDirection: 'left' | 'right' | 'none';
 
-    @ViewChildren(FusePerfectScrollbarDirective)
-    fuseScrollbarDirectives: QueryList<FusePerfectScrollbarDirective>;
+    @ViewChildren(CdkPerfectScrollbarDirective)
+    cdkScrollbarDirectives: QueryList<CdkPerfectScrollbarDirective>;
 
     fileName = '';
 
@@ -63,7 +63,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
      *
      * @param _juntadaService
      * @param _changeDetectorRef
-     * @param _fuseSidebarService
+     * @param _cdkSidebarService
      * @param _componenteDigitalService
      * @param _sanitizer
      * @param _store
@@ -71,7 +71,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     constructor(
         private _juntadaService: JuntadaService,
         private _changeDetectorRef: ChangeDetectorRef,
-        private _fuseSidebarService: FuseSidebarService,
+        private _cdkSidebarService: CdkSidebarService,
         private _componenteDigitalService: ComponenteDigitalService,
         private _sanitizer: DomSanitizer,
         private _store: Store<fromStore.ProcessoViewAppState>
@@ -226,7 +226,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
      * @param name
      */
     toggleSidebar(name): void {
-        this._fuseSidebarService.getSidebar(name).toggleOpen();
+        this._cdkSidebarService.getSidebar(name).toggleOpen();
     }
 
     onScroll(): void {

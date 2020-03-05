@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 
 import {LembreteService} from '@cdk/services/lembrete.service';
 import {CdkLembreteGridsearchComponent} from './cdk-lembrete-gridsearch.component';
@@ -14,7 +14,7 @@ import {CdkLembreteGridModule} from '@cdk/components/lembrete/cdk-lembrete-grid/
 
         CdkLembreteGridModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         LembreteService

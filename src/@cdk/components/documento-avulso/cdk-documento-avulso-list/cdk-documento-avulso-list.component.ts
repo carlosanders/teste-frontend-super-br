@@ -10,9 +10,9 @@ import {
     Output,
     ViewEncapsulation
 } from '@angular/core';
-import { fuseAnimations } from '@fuse/animations';
+import { cdkAnimations } from '@cdk/animations';
 import { DocumentoAvulso } from '@cdk/models/documento-avulso.model';
-import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
+import { CdkSidebarService } from '@cdk/components/sidebar/sidebar.service';
 
 @Component({
     selector: 'cdk-documento-avulso-list',
@@ -20,7 +20,7 @@ import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
     styleUrls: ['./cdk-documento-avulso-list.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations,
+    animations: cdkAnimations,
     exportAs: 'dragDocumentoAvulsoList'
 })
 export class CdkDocumentoAvulsoListComponent implements AfterViewInit, OnInit, OnChanges {
@@ -113,7 +113,7 @@ export class CdkDocumentoAvulsoListComponent implements AfterViewInit, OnInit, O
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _fuseSidebarService: FuseSidebarService) {
+        private _cdkSidebarService: CdkSidebarService) {
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -206,6 +206,6 @@ export class CdkDocumentoAvulsoListComponent implements AfterViewInit, OnInit, O
      * Toggle the sidebar
      */
     toggleSidebar(): void {
-        this._fuseSidebarService.getSidebar('cdk-documento-avulso-list-main-sidebar').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-documento-avulso-list-main-sidebar').toggleOpen();
     }
 }

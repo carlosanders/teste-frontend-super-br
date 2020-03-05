@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 
 import { EspecieRelevanciaService } from '@cdk/services/especie-relevancia.service';
 import { CdkEspecieRelevanciaGridsearchComponent } from './cdk-especie-relevancia-gridsearch.component';
@@ -14,7 +14,7 @@ import { CdkEspecieRelevanciaGridModule } from '@cdk/components/especie-relevanc
 
         CdkEspecieRelevanciaGridModule,
         
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         EspecieRelevanciaService

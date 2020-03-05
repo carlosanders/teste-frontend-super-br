@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import {merge, of} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 
@@ -16,7 +16,7 @@ import {tap} from 'rxjs/operators';
 import {EspecieSetor} from '@cdk/models';
 import {EspecieSetorDataSource} from '@cdk/data-sources/especie-setor-data-source';
 import {FormControl} from '@angular/forms';
-import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
+import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 
 @Component({
     selector: 'cdk-especie-setor-grid',
@@ -24,7 +24,7 @@ import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
     styleUrls: ['./cdk-especie-setor-grid.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkEspecieSetorGridComponent implements AfterViewInit, OnInit, OnChanges {
 
@@ -160,7 +160,7 @@ export class CdkEspecieSetorGridComponent implements AfterViewInit, OnInit, OnCh
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _fuseSidebarService: FuseSidebarService
+        private _cdkSidebarService: CdkSidebarService
     ) {
         this.gridFilter = {};
         this.especieSetors = [];
@@ -198,7 +198,7 @@ export class CdkEspecieSetorGridComponent implements AfterViewInit, OnInit, OnCh
     }
 
     toggleFilter(): void {
-        this._fuseSidebarService.getSidebar('cdk-especie-setor-main-sidebar').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-especie-setor-main-sidebar').toggleOpen();
         this.showFilter = !this.showFilter;
     }
 

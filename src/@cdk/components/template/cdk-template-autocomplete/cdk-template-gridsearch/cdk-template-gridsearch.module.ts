@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 
 import {TemplateService} from '@cdk/services/template.service';
 import {CdkTemplateGridsearchComponent} from './cdk-template-gridsearch.component';
@@ -14,7 +14,7 @@ import {CdkTemplateGridModule} from '@cdk/components/template/cdk-template-grid/
 
         CdkTemplateGridModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         TemplateService

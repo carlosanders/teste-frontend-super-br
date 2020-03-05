@@ -8,7 +8,7 @@ import {
     MatInputModule,
 } from '@cdk/angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 import { ProcessoService } from '@cdk/services/processo.service';
 import { CdkProcessoGridFilterComponent } from './cdk-processo-grid-filter.component';
 import {CdkDocumentoAvulsoAutocompleteModule} from '@cdk/components/documento-avulso/cdk-documento-avulso-autocomplete/cdk-documento-avulso-autocomplete.module';
@@ -41,7 +41,7 @@ import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
         MatNativeDatetimeModule,
         MatMomentDatetimeModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
 
         CdkClassificacaoAutocompleteModule,
         CdkOrigemDadosAutocompleteModule,

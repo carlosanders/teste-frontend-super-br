@@ -16,8 +16,8 @@ import {
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 
-import {FuseSharedModule} from '@fuse/shared.module';
-import {FuseSidebarModule} from '@fuse/components';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {CdkSidebarModule} from '@cdk/components';
 
 import * as fromGuards from 'app/main/apps/tarefas/store/guards/index';
 import {TarefasStoreModule} from 'app/main/apps/tarefas/store/store.module';
@@ -138,8 +138,8 @@ const routes: Routes = [
 
         InfiniteScrollModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
 
         TarefasStoreModule
     ],

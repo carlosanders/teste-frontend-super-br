@@ -14,7 +14,7 @@ import {
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {AdminLotacoesComponent} from './admin-lotacoes.component';
 import {LotacaoService} from '@cdk/services/lotacao.service';
 import {RouterModule, Routes} from '@angular/router';
@@ -62,7 +62,7 @@ const routes: Routes = [
 
         TranslateModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         LotacaoService

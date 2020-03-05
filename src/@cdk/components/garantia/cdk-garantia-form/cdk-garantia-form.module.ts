@@ -11,7 +11,7 @@ import {
     MatDatepickerModule
 } from '@cdk/angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 import { ModalidadeGarantiaService } from '@cdk/services/modalidade-garantia.service';
 import { CdkGarantiaFormComponent } from './cdk-garantia-form.component';
 import { CdkModalidadeGarantiaAutocompleteModule } from '@cdk/components/modalidade-garantia/cdk-modalidade-garantia-autocomplete/cdk-modalidade-garantia-autocomplete.module';
@@ -38,7 +38,7 @@ import { NgxUpperCaseDirectiveModule } from 'ngx-upper-case-directive';
         CdkModalidadeGarantiaAutocompleteModule,
         CdkModalidadeGarantiaGridsearchModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
         MatTooltipModule,
     ],
     providers: [

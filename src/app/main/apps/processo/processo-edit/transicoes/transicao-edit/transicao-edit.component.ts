@@ -6,7 +6,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
 
 import {Transicao} from '@cdk/models';
@@ -23,7 +23,7 @@ import {Pagination} from '@cdk/models';
     styleUrls: ['./transicao-edit.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class TransicaoEditComponent implements OnInit, OnDestroy {
 

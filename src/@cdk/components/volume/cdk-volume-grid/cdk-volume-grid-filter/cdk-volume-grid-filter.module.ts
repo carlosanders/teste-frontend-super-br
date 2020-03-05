@@ -9,7 +9,7 @@ import {
     MatInputModule
 } from '@cdk/angular/material';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {VolumeService} from '@cdk/services/volume.service';
 import {CdkVolumeGridFilterComponent} from './cdk-volume-grid-filter.component';
 import {CdkProcessoAutocompleteModule} from '../../../processo/cdk-processo-autocomplete/cdk-processo-autocomplete.module';
@@ -35,7 +35,7 @@ import {CdkModalidadeMeioAutocompleteModule} from '../../../modalidade-meio/cdk-
         MatMomentDatetimeModule,
         MatCheckboxModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
 
         CdkUsuarioAutocompleteModule,
         CdkProcessoAutocompleteModule,

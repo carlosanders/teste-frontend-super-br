@@ -12,8 +12,8 @@ import {
     MatSelectModule,
 } from '@cdk/angular/material';
 
-import {FuseSidebarModule} from '@fuse/components';
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSidebarModule} from '@cdk/components/index';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {SigiloService} from '@cdk/services/sigilo.service';
 import {CdkSigiloGridComponent} from './cdk-sigilo-grid.component';
 import {CdkSigiloAutocompleteModule} from '@cdk/components/sigilo/cdk-sigilo-autocomplete/cdk-sigilo-autocomplete.module';
@@ -40,8 +40,8 @@ import {CdkSigiloMainSidebarComponent} from './sidebars/main/main.component';
         CdkSigiloAutocompleteModule,
         CdkSigiloGridFilterModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
     ],
     providers: [
         SigiloService,

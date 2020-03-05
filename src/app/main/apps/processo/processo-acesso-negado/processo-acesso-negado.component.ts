@@ -4,7 +4,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 
 @Component({
     selector: 'processo-acesso-negado',
@@ -12,7 +12,7 @@ import {fuseAnimations} from '@fuse/animations';
     styleUrls: ['./processo-acesso-negado.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class ProcessoAcessoNegadoComponent {
 

@@ -1,11 +1,11 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Output, ViewEncapsulation} from '@angular/core';
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 
 @Component({
     selector: 'cdk-bloco-responsaveis-main-sidebar',
     templateUrl: './main.bloco-responsaveis.html',
     styleUrls: ['./main.bloco-responsaveis.scss'],
-    animations: fuseAnimations,
+    animations: cdkAnimations,
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None
 })

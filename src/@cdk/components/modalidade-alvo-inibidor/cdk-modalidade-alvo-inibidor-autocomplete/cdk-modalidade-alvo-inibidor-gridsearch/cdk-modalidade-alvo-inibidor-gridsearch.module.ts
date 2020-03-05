@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 
 import { ModalidadeAlvoInibidorService } from '@cdk/services/modalidade-alvo-inibidor.service';
 import { CdkModalidadeAlvoInibidorGridsearchComponent } from './cdk-modalidade-alvo-inibidor-gridsearch.component';
@@ -14,7 +14,7 @@ import { CdkModalidadeAlvoInibidorGridModule } from '@cdk/components/modalidade-
 
         CdkModalidadeAlvoInibidorGridModule,
         
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         ModalidadeAlvoInibidorService

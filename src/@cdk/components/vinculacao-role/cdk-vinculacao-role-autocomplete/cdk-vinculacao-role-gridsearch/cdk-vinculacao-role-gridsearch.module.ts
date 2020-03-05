@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 
 import {VinculacaoRoleService} from '@cdk/services/vinculacao-role.service';
 import {CdkVinculacaoRoleGridsearchComponent} from './cdk-vinculacao-role-gridsearch.component';
@@ -14,7 +14,7 @@ import {CdkVinculacaoRoleGridModule} from '@cdk/components/vinculacao-role/cdk-v
 
         CdkVinculacaoRoleGridModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         VinculacaoRoleService

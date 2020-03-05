@@ -13,8 +13,8 @@ import {
 } from '@angular/core';
 import {merge, of} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
-import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
+import {cdkAnimations} from '@cdk/animations';
+import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 import {EspecieProcesso} from '@cdk/models';
@@ -27,7 +27,7 @@ import {FormControl} from '@angular/forms';
     styleUrls: ['./cdk-especie-processo-grid.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkEspecieProcessoGridComponent implements AfterViewInit, OnInit, OnChanges {
 
@@ -163,7 +163,7 @@ export class CdkEspecieProcessoGridComponent implements AfterViewInit, OnInit, O
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _fuseSidebarService: FuseSidebarService
+        private _cdkSidebarService: CdkSidebarService
     ) {
         this.gridFilter = {};
         this.especieProcessos = [];
@@ -220,7 +220,7 @@ export class CdkEspecieProcessoGridComponent implements AfterViewInit, OnInit, O
 
 
     toggleFilter(): void {
-        this._fuseSidebarService.getSidebar('cdk-especie-processo-main-sidebar').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-especie-processo-main-sidebar').toggleOpen();
         this.showFilter = !this.showFilter;
     }
 

@@ -6,7 +6,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
 import {Desentranhamento} from '@cdk/models';
@@ -26,7 +26,7 @@ import {filter, takeUntil} from 'rxjs/operators';
     styleUrls: ['./desentranhamento-create-bloco.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class DesentranhamentoCreateBlocoComponent implements OnInit, OnDestroy {
 

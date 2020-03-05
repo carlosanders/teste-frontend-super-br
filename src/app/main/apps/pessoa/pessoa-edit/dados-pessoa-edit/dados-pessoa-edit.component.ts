@@ -6,7 +6,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
 import {Pessoa} from '@cdk/models';
@@ -22,7 +22,7 @@ import {takeUntil} from 'rxjs/operators';
     styleUrls: ['./dados-pessoa-edit.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class DadosPessoaEditComponent implements OnInit, OnDestroy {
 

@@ -12,7 +12,7 @@ import {
 
 } from '@cdk/angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 import { ModalidadeDestinacaoService } from '@cdk/services/modalidade-destinacao.service';
 import { CdkClassificacaoFormComponent } from './cdk-classificacao-form.component';
 import { CdkModalidadeDestinacaoAutocompleteModule } from '@cdk/components/modalidade-destinacao/cdk-modalidade-destinacao-autocomplete/cdk-modalidade-destinacao-autocomplete.module';
@@ -49,7 +49,7 @@ import {CdkClassificacaoGridsearchModule} from '../cdk-classificacao-autocomplet
         CdkClassificacaoAutocompleteModule,
         CdkClassificacaoGridsearchModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         ModalidadeDestinacaoService,

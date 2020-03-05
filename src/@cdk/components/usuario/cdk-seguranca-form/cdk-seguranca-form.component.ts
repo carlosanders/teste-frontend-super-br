@@ -7,7 +7,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import {Usuario} from '@cdk/models';
 import {ErrorStateMatcher} from '@cdk/angular/material';
@@ -18,7 +18,7 @@ import {ErrorStateMatcher} from '@cdk/angular/material';
     styleUrls: ['./cdk-seguranca-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkSegurancaFormComponent implements OnChanges, OnDestroy {
 

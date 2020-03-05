@@ -7,8 +7,8 @@ import {
 } from '@angular/core';
 import {merge, of} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
-import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
+import {cdkAnimations} from '@cdk/animations';
+import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 import {AssuntoDataSource} from '@cdk/data-sources/assunto-data-source';
@@ -21,7 +21,7 @@ import {FormControl} from '@angular/forms';
     styleUrls: ['./cdk-assunto-grid.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkAssuntoGridComponent implements AfterViewInit, OnInit, OnChanges {
 
@@ -157,7 +157,7 @@ export class CdkAssuntoGridComponent implements AfterViewInit, OnInit, OnChanges
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _fuseSidebarService: FuseSidebarService
+        private _cdkSidebarService: CdkSidebarService
     ) {
         this.gridFilter = {};
     }
@@ -211,7 +211,7 @@ export class CdkAssuntoGridComponent implements AfterViewInit, OnInit, OnChanges
     }
 
     toggleFilter(): void {
-        this._fuseSidebarService.getSidebar('cdk-assunto-main-sidebar').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-assunto-main-sidebar').toggleOpen();
         this.showFilter = !this.showFilter;
     }
 

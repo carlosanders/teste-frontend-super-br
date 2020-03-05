@@ -1,9 +1,9 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Juntada} from '@cdk/models';
 import {JuntadaService} from '@cdk/services/juntada.service';
-import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
+import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from '../../store';
 import {Observable} from 'rxjs';
@@ -16,7 +16,7 @@ import {FormBuilder, FormGroup} from '@angular/forms';
     styleUrls: ['./main-sidebar.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class ProcessoViewMainSidebarComponent implements OnInit {
 
@@ -52,7 +52,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
     constructor(
         private _juntadaService: JuntadaService,
         private _changeDetectorRef: ChangeDetectorRef,
-        private _fuseSidebarService: FuseSidebarService,
+        private _cdkSidebarService: CdkSidebarService,
         private _store: Store<fromStore.ProcessoViewAppState>,
         private _formBuilder: FormBuilder
     ) {

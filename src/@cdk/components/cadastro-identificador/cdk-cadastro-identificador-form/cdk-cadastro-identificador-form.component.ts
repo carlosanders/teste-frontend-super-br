@@ -7,7 +7,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import { fuseAnimations } from '@fuse/animations';
+import { cdkAnimations } from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { CadastroIdentificador } from '@cdk/models';
 
@@ -17,7 +17,7 @@ import { CadastroIdentificador } from '@cdk/models';
     styleUrls: ['./cdk-cadastro-identificador-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkCadastroIdentificadorFormComponent implements OnChanges, OnDestroy {
 

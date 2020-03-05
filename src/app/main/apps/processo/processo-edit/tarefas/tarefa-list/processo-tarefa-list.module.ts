@@ -14,7 +14,7 @@ import {
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {TarefaListComponent} from './tarefa-list.component';
 import {TarefaService} from '@cdk/services/tarefa.service';
 import {RouterModule, Routes} from '@angular/router';
@@ -52,7 +52,7 @@ const routes: Routes = [
 
         TranslateModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
 
         CdkTarefaGridModule,
 

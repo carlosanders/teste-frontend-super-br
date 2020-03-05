@@ -15,7 +15,7 @@ import {
 import {of, Subscription} from 'rxjs';
 import {catchError, last, map, tap} from 'rxjs/operators';
 import {MatPaginator, MatSort, MatTableDataSource} from '@cdk/angular/material';
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {environment} from 'environments/environment';
 import {classToPlain} from 'class-transformer';
 import {ComponenteDigital} from '@cdk/models';
@@ -28,7 +28,7 @@ import {Tarefa} from '@cdk/models';
     styleUrls: ['./cdk-upload.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 
 export class CdkUploadComponent implements OnInit {

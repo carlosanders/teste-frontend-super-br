@@ -5,23 +5,23 @@
     <!-- / TOP BACKGROUND -->
 
     <!-- SIDEBAR -->
-    <fuse-sidebar class="sidebar" name="processo-main-sidebar" position="left"
+    <cdk-sidebar class="sidebar" name="processo-main-sidebar" position="left"
                   [lockedOpen]="routerState.url.indexOf('apps/processo') > -1 ? 'gt-md' : 'gt-xl'">
 
         <!-- SIDEBAR CONTENT -->
-<!--        <fuse-sidebar class="sidebar" name="processo-main-sidebar" position="left"
+<!--        <cdk-sidebar class="sidebar" name="processo-main-sidebar" position="left"
         lockedOpen="gt-md">
 <processo-main-sidebar></processo-main-sidebar>
-</fuse-sidebar>
+</cdk-sidebar>
 -->
 
-        <div class="content" fusePerfectScrollbar>
+        <div class="content" cdkPerfectScrollbar>
             <processo-main-sidebar [@animate]="{value:'*'}"></processo-main-sidebar>
         </div>
         
         <!-- / SIDEBAR CONTENT -->
 
-    </fuse-sidebar>
+    </cdk-sidebar>
     
     <!-- / SIDEBAR -->
 

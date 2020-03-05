@@ -4,13 +4,13 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from 'app/main/apps/pessoa/pessoa-list/store';
 import {getRouterState} from '../../../store/reducers';
 import {Router} from '@angular/router';
 
-import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
+import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {Observable, Subject} from 'rxjs';
 import {Pessoa} from '@cdk/models';
 import {takeUntil} from 'rxjs/operators';
@@ -21,7 +21,7 @@ import {takeUntil} from 'rxjs/operators';
     styleUrls: ['./pessoa.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class PessoaComponent implements OnInit, OnDestroy {
 
@@ -39,13 +39,13 @@ export class PessoaComponent implements OnInit, OnDestroy {
      * @param _store
      * @param _changeDetectorRef
      * @param _router
-     * @param _fuseSidebarService
+     * @param _cdkSidebarService
      */
     constructor(
         private _store: Store<fromStore.PessoaListAppState>,
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
-        private _fuseSidebarService: FuseSidebarService,
+        private _cdkSidebarService: CdkSidebarService,
     ) {
         this.pessoas$ = this._store.pipe(select(fromStore.getPessoaList));
 

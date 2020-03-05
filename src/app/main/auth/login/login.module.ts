@@ -3,7 +3,7 @@ import { RouterModule } from '@angular/router';
 import {MatButtonModule, MatCheckboxModule, MatFormFieldModule, MatIconModule, MatInputModule, MatProgressBarModule} from '@cdk/angular/material';
 import { HttpClientModule } from '@angular/common/http';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 
 import { LoginComponent } from 'app/main/auth/login/login.component';
 
@@ -31,7 +31,7 @@ const routes = [
         MatInputModule,
         MatProgressBarModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
 
         LoginStoreModule
     ]

@@ -6,7 +6,7 @@ import {
     Output, SimpleChange,
     ViewEncapsulation
 } from '@angular/core';
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Processo} from '@cdk/models';
 import {EspecieProcesso} from '@cdk/models';
@@ -29,7 +29,7 @@ import { appendFile } from 'fs';
     styleUrls: ['./cdk-processo-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations,
+    animations: cdkAnimations,
 
     providers: [
         {

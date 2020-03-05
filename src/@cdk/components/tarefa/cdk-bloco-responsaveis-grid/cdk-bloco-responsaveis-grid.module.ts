@@ -11,8 +11,8 @@ import {
     MatSelectModule,
 } from '@cdk/angular/material';
 
-import {FuseSidebarModule} from '@fuse/components';
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSidebarModule} from '@cdk/components/index';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {UsuarioService} from '@cdk/services/usuario.service';
 import {CdkBlocoResponsaveisComponent} from './cdk-bloco-responsaveis-grid.component';
 import {SetorService} from '../../../services/setor.service';
@@ -44,8 +44,8 @@ import {MatTooltipModule} from "@angular/material/tooltip";
         MatPaginatorModule,
         MatSortModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
 
         CdkUsuarioGridModule,
         CdkSetorGridModule,
