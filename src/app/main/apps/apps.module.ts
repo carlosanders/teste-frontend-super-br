@@ -1,7 +1,6 @@
-import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
-
-import { FuseSharedModule } from '@fuse/shared.module';
+import {NgModule} from '@angular/core';
+import {RouterModule} from '@angular/router';
+import {FuseSharedModule} from '@fuse/shared.module';
 
 const routes = [ 
     {
@@ -35,6 +34,10 @@ const routes = [
     {
         path        : 'configuracoes',
         loadChildren: () => import('./configuracoes/configuracoes.module').then(m => m.ConfiguracoesModule)
+    },
+    {
+        path        : 'arquivista',
+        loadChildren: () => import('./arquivista/arquivista.module').then(m => m.ArquivistaModule)
     }
 ];
 
@@ -42,7 +45,7 @@ const routes = [
     imports     : [
         RouterModule.forChild(routes),
         FuseSharedModule
-    ]
+    ],
 })
 export class AppsModule
 {

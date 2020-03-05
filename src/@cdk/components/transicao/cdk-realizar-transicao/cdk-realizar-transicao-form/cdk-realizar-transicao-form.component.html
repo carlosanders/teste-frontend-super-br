@@ -1,4 +1,3 @@
-
 <form *ngIf="activeCard === 'form'" class="p-16" fxLayoutGap="36px"
       fxLayout="column"
       fxLayoutAlign="start"
@@ -70,13 +69,13 @@
         <mat-spinner color="accent" diameter="24"></mat-spinner>
     </div>
 </form>
-<!-- <pre>{{form.value | json}} status do formulário =  {{form.valid}}</pre> -->
+<!-- <pre>{{this.form.value | json}}</pre> -->
 
 
 <cdk-modalidade-transicao-gridsearch
-        fxFlex="1 0 auto"
-        *ngIf="activeCard === 'modalidade-transicao-gridsearch'"
-        [pagination]="modalidadeTransicaoPagination"
-        (selected)="selectModalidadeTransicao($event)"
-        (cancel)="cancel()">
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'modalidade-transicao-gridsearch'"
+    [pagination]="modalidadeTransicaoPagination"
+    (selected)="selectModalidadeTransicao($event)"
+    (cancel)="cancel()">
 </cdk-modalidade-transicao-gridsearch>
