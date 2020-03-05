@@ -6,29 +6,41 @@
 
     <div fxLayout="row" fxLayoutAlign="start center" fxFlex>
 
-        <div class="info" fxFlex [ngClass]="{'nao-lido': !processo.dataHoraLeitura}">
+        <div class="info" fxFlex>
 
-         
-            
-
-            <div class="subtitle" *ngIf="processo?.documentoAvulsoOrigem">
-                <span *ngIf="!processo?.documentoAvulsoOrigem?.dataHoraResposta" class="text-truncate">Ofício vinculado pendente de resposta</span>
-                <span *ngIf="processo?.documentoAvulsoOrigem?.dataHoraResposta" class="text-truncate">Ofício vinculado respondido em {{processo?.documentoAvulsoOrigem?.dataHoraResposta | date: 'dd/MM/yyyy H:mm'}}</span>
-            </div>
 
             <div class="body mt-4">
+                <div>
+                    {{processo.id}} | {{processo.NUP}}
+                </div>
+
+
                 <div>
                     {{processo.especieProcesso?.nome}}
                 </div>
 
                 <div>
-                    {{processo.setorResponsavel?.nome}} ({{processo.setorResponsavel?.unidade?.sigla}})
+                    {{processo.modalidadeMeio?.descricao}} / {{processo.modalidadeFase?.descricao}}
                 </div>
 
                 <div>
-                    {{processo.dataHoraInicioPrazo | date: 'dd/MM/yyyy'}}
-                    ATÉ {{processo.dataHoraFinalPrazo | date: 'dd/MM/yyyy'}}
+                    {{processo.dataHoraAbertura | date: 'dd/MM/yyyy'}}
+
                 </div>
+
+                <div>
+                    {{processo.dataHoraProximaTransicao | date: 'dd/MM/yyyy'}}
+
+                </div>
+
+                <div>
+                    {{processo.classificacao?.nome}}
+                </div>
+
+                <div>
+                    {{processo.classificacao.modalidadeDestinacao?.descricao}}
+                </div>
+
             </div>
 
             <div class="etiquetas" fxLayout="row wrap" fxHide fxShow.gt-sm>
@@ -56,37 +68,28 @@
 
             <mat-menu #moreMenu="matMenu">
 
-                <button mat-menu-item aria-label="remover"
-                        (click)="doDelete()">
+                <button mat-menu-item aria-label="realizar transicao"
+                        (click)="doRealizarTransicao()">
                     <ng-container>
-                        <mat-icon>delete</mat-icon>
-                        <span>Remover</span>
+                        <mat-icon>check</mat-icon>
+                        <span>Realizar Transição</span>
                     </ng-container>
                 </button>
 
-                <button mat-menu-item aria-label="movimentar"
-                        (click)="doMovimentar()">
+
+                <button mat-menu-item aria-label="criar lembrete"
+                        (click)="doCriarLembrete()">
                     <ng-container>
-                        <mat-icon>send</mat-icon>
-                        <span>Movimentar</span>
+                        <mat-icon>add</mat-icon>
+                        <span>Criar Lembrete</span>
                     </ng-container>
                 </button>
 
-                
-
-                <button mat-menu-item aria-label="enviar ofício"
-                        (click)="doCreateDocumentoAvulso()">
+                <button mat-menu-item aria-label="realizar classificacao"
+                        (click)="doClassificacao()">
                     <ng-container>
-                        <mat-icon>mail</mat-icon>
-                        <span>Criar Ofício</span>
-                    </ng-container>
-                </button>
-
-                <button mat-menu-item aria-label="compartilhar"
-                        (click)="doCompartilhar()">
-                    <ng-container>
-                        <mat-icon>share</mat-icon>
-                        <span>Compartilhar</span>
+                        <mat-icon>playlist_add</mat-icon>
+                        <span>Realizar Classificação</span>
                     </ng-container>
                 </button>
 

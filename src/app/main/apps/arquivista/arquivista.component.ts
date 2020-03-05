@@ -7,12 +7,12 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
+import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {select, Store} from '@ngrx/store';
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Etiqueta, Pagination} from '@cdk/models';
 import * as fromStore from './arquivista-list/store';
-import {FuseTranslationLoaderService} from '../../../../@fuse/services/translation-loader.service';
+import {CdkTranslationLoaderService} from '../../../../@cdk/services/translation-loader.service';
 import {ProcessoService} from '../../../../@cdk/services/processo.service';
 import {Router} from '@angular/router';
 import {LoginService} from '../../auth/login/login.service';
@@ -25,7 +25,7 @@ import {Usuario} from '@cdk/models/usuario.model';
     styleUrls: ['./arquivista.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class ArquivistaComponent implements OnInit, OnDestroy {
 
@@ -40,12 +40,12 @@ export class ArquivistaComponent implements OnInit, OnDestroy {
      * Constructor
      *
      * @param {ChangeDetectorRef} _changeDetectorRef
-     * @param {FuseSidebarService} _fuseSidebarService
+     * @param {CdkSidebarService} _cdkSidebarService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _fuseSidebarService: FuseSidebarService,
-        private _fuseTranslationLoaderService: FuseTranslationLoaderService,
+        private _cdkSidebarService: CdkSidebarService,
+        private _cdkTranslationLoaderService: CdkTranslationLoaderService,
         private _processoService: ProcessoService,
         private _router: Router,
         private _store: Store<fromStore.ArquivistaAppState>,
@@ -91,7 +91,7 @@ export class ArquivistaComponent implements OnInit, OnDestroy {
      * @param name
      */
     toggleSidebar(name): void {
-        this._fuseSidebarService.getSidebar(name).toggleOpen();
+        this._cdkSidebarService.getSidebar(name).toggleOpen();
     }
 
     addEtiqueta(etiqueta: Etiqueta): void {

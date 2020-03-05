@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit
 import {select, Store} from '@ngrx/store';
 import {Observable, Subject} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 
 import * as fromStore from 'app/main/apps/arquivista/arquivista-list/store';
 import {Colaborador} from '@cdk/models';
@@ -17,7 +17,7 @@ import {Lotacao, Setor, Usuario, VinculacaoUsuario} from '@cdk/models';
     styleUrls: ['./main-sidebar.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class ArquivistaMainSidebarComponent implements OnInit, OnDestroy {
 

@@ -30,26 +30,13 @@ export class CdkProcessoListItemComponent implements OnInit {
     toggleInSelectedProcessos = new EventEmitter();
 
     @Output()
-    delete = new EventEmitter<number>();
+    criarLembrete = new EventEmitter<any>();
 
     @Output()
-    compartilhar = new EventEmitter<number>();
+    classificacao = new EventEmitter<any>();
 
     @Output()
-    createDocumentoAvulso = new EventEmitter<number>();
-
-    @Output()
-    createProcesso = new EventEmitter<any>();
-
-    @Output()
-    movimentar = new EventEmitter<number>();
-
-    @Output()
-    editProcesso = new EventEmitter<any>();
-
-
-    @Output()
-    toggleUrgente = new EventEmitter<Processo>();
+    realizarTransicao = new EventEmitter<any>();
 
     draggable = {
         // note that data is handled with JSON.stringify/JSON.parse
@@ -71,24 +58,23 @@ export class CdkProcessoListItemComponent implements OnInit {
         this.draggable.data = this.processo;
     }
 
-    doDelete(): void {
-        this.delete.emit(this.processo.id);
-    }
 
-    doMovimentar(): void {
-        this.movimentar.emit(this.processo.id);
-    }
-
-    doCompartilhar(): void {
-        this.compartilhar.emit(this.processo.id);
-    }
-
-    doCreateDocumentoAvulso(): void {
-        this.createDocumentoAvulso.emit(this.processo.id);
-    }
 
     onSelectedChange(): void {
         this.toggleInSelectedProcessos.emit(this.processo.id);
     }
+
+    doClassificacao(): void {
+        this.classificacao.emit();
+    }
+
+    doRealizarTransicao(): void {
+        this.realizarTransicao.emit();
+    }
+
+    doCriarLembrete(): void {
+        this.criarLembrete.emit();
+    }
+
 
 }

@@ -1,11 +1,11 @@
 <!-- SIDEBAR -->
-<fuse-sidebar class="sidebar" name="cdk-processo-list-main-sidebar" position="left">
+<cdk-sidebar class="sidebar" name="cdk-processo-list-main-sidebar" position="left">
     <!-- SIDEBAR CONTENT -->
-    <div class="content" fusePerfectScrollbar>
+    <div class="content" cdkPerfectScrollbar>
         <cdk-processo-list-main-sidebar (selected)="setListFilter($event)" [@animate]="{value:'*'}"></cdk-processo-list-main-sidebar>
     </div>
     <!-- / SIDEBAR CONTENT -->
-</fuse-sidebar>
+</cdk-sidebar>
 <!-- / SIDEBAR -->
 
 
@@ -26,17 +26,7 @@
 
         <div class="toolbar-separator" *ngIf="selectedIds?.length && folders?.length"></div>
 
-        <button mat-icon-button [matMenuTriggerFor]="folderMenu" *ngIf="selectedIds?.length">
-            <mat-icon class="secondary-text">folder</mat-icon>
-        </button>
-        <mat-menu #folderMenu="matMenu">
-            <button mat-menu-item
-                    (click)="setFolder(null)">ENTRADA
-            </button>
-            <button mat-menu-item *ngFor="let folder of folders"
-                    (click)="setFolder(folder)">{{folder.nome}}
-            </button>
-        </mat-menu>
+
 
         <button mat-icon-button [matMenuTriggerFor]="moreMenu"
                 aria-label="Ferramentas" (click)="$event.stopPropagation()"
@@ -46,74 +36,30 @@
 
         <mat-menu #moreMenu="matMenu">
 
-            <button mat-menu-item aria-label="remover"
-                    (click)="doDeleteProcessoBloco()">
+            <button mat-menu-item aria-label="realizar transicao"
+                    (click)="doRealizarTransicaoBloco()">
                 <ng-container>
-                    <mat-icon>delete</mat-icon>
-                    <span>Remover</span>
+                    <mat-icon>check</mat-icon>
+                    <span>Realizar Transição</span>
                 </ng-container>
             </button>
 
-            <button mat-menu-item aria-label="criar processo"
-                    (click)="doCreateProcessoBloco()">
+
+            <button mat-menu-item aria-label="criar lembrete"
+                    (click)="doCriarLembreteBloco()">
                 <ng-container>
-                    <mat-icon>check_box</mat-icon>
-                    <span>Criar Processo</span>
+                    <mat-icon>add</mat-icon>
+                    <span>Criar Lembrete</span>
                 </ng-container>
             </button>
 
-            <button mat-menu-item aria-label="criar ofício"
-                    (click)="doCreateDocumentoAvulsoBloco()">
-                <ng-container>
-                    <mat-icon>mail</mat-icon>
-                    <span>Criar Ofício</span>
-                </ng-container>
-            </button>
 
-            <button mat-menu-item aria-label="editar processo"
-                    (click)="doEditProcessoBloco()">
-                <ng-container>
-                    <mat-icon>edit</mat-icon>
-                    <span>Editar</span>
-                </ng-container>
-            </button>
 
-            <button mat-menu-item aria-label="movimentar"
-                    (click)="doMovimentarBloco()">
+            <button mat-menu-item aria-label="realizar classificacao"
+                    (click)="doClassificacaoBloco()">
                 <ng-container>
-                    <mat-icon>send</mat-icon>
-                    <span>Movimentar</span>
-                </ng-container>
-            </button>
-
-            <button mat-menu-item aria-label="minutas" [matMenuTriggerFor]="selectMenuMinutas">
-                <ng-container>
-                    <mat-icon>attach_file</mat-icon>
-                    <span>Minutas</span>
-                </ng-container>
-            </button>
-            <mat-menu fxHide #selectMenuMinutas="matMenu">
-                <button mat-menu-item (click)="doUploadBloco()">
-                    Upload
-                </button>
-                <button mat-menu-item (click)="doEditorBloco()">
-                    Editor
-                </button>
-            </mat-menu>
-
-            <button mat-menu-item aria-label="etiquetar"
-                    (click)="doEtiquetarBloco()">
-                <ng-container>
-                    <mat-icon>label</mat-icon>
-                    <span>Etiquetar</span>
-                </ng-container>
-            </button>
-
-            <button mat-menu-item aria-label="compartilhar"
-                    (click)="doCompartilharBloco()">
-                <ng-container>
-                    <mat-icon>share</mat-icon>
-                    <span>Compartilhar</span>
+                    <mat-icon>playlist_add</mat-icon>
+                    <span>Realizar Classificação</span>
                 </ng-container>
             </button>
 
@@ -155,8 +101,7 @@
                           [selected]="selectedIds.length > 0 && selectedIds.indexOf(processo.id) > -1"
                           [deleting]="deletingIds.length > 0 && deletingIds.indexOf(processo.id) > -1"
                           (toggleInSelectedProcessos)="toggleInSelected($event)"
-                          (delete)="doDeleteProcesso($event)"
-                          (movimentar)="doMovimentar($event)"
+
 
                           [ngClass]="{'selected':processo.id === currentProcessoId}">
     </cdk-processo-list-item>

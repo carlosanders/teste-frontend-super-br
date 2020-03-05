@@ -2,8 +2,8 @@ import {NgModule} from '@angular/core';
 
 import {TranslateModule} from '@ngx-translate/core';
 
-import {FuseSharedModule} from '@fuse/shared.module';
-import {FuseSidebarModule} from '@fuse/components';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {CdkSidebarModule} from '@cdk/components';
 
 import {ArquivistaListComponent} from './arquivista-list.component';
 import {RouterModule, Routes} from '@angular/router';
@@ -37,8 +37,8 @@ const routes: Routes = [
         ArquivistaStoreModule,
         TranslateModule,
         CdkProcessoListModule,
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
         MatProgressSpinnerModule,
         InfiniteScrollModule,
     ],

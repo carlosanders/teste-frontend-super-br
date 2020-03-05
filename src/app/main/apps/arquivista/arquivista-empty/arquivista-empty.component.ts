@@ -5,7 +5,7 @@ import {
 } from '@angular/core';
 
 import * as fromStore from 'app/store';
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 
@@ -15,7 +15,7 @@ import {select, Store} from '@ngrx/store';
     styleUrls: ['./arquivista-empty.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class ArquivistaEmptyComponent {
 

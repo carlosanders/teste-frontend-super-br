@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import {Observable, Subject} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Visibilidade} from '@cdk/models';
 import {NavigationEnd, Router, RouterEvent} from '@angular/router';
 import {select, Store} from '@ngrx/store';
@@ -25,7 +25,7 @@ import {Usuario} from '../../../../../@cdk/models/usuario.model';
     styleUrls: ['./visibilidade.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class VisibilidadeComponent implements OnInit, OnDestroy {
 

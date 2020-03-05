@@ -1,7 +1,7 @@
 import {AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewEncapsulation} from '@angular/core';
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Processo} from '@cdk/models';
-import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
+import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 
 @Component({
     selector: 'cdk-processo-list',
@@ -9,7 +9,7 @@ import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
     styleUrls: ['./cdk-processo-list.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations,
+    animations: cdkAnimations,
     exportAs: 'dragProcessoList'
 })
 export class CdkProcessoListComponent implements AfterViewInit, OnInit, OnChanges {
@@ -42,61 +42,22 @@ export class CdkProcessoListComponent implements AfterViewInit, OnInit, OnChange
     folders: any;
 
     @Input()
-    actions: string[] = ['edit', 'delete', 'select'];
+    actions: string[] = ['select'];
 
     @Output()
     reload = new EventEmitter<any>();
 
     @Output()
-    delete = new EventEmitter<number>();
-
-    @Output()
-    folder = new EventEmitter<any>();
-
-    @Output()
     selected = new EventEmitter<Processo>();
 
     @Output()
-    compartilhar = new EventEmitter<number>();
+    criarLembreteBloco = new EventEmitter<any>();
 
     @Output()
-    createDocumentoAvulso = new EventEmitter<number>();
+    classificacaoBloco = new EventEmitter<any>();
 
     @Output()
-    createProcesso = new EventEmitter<any>();
-
-    @Output()
-    movimentar = new EventEmitter<number>();
-
-    @Output()
-    editProcesso = new EventEmitter<any>();
-
-    @Output()
-    toggleUrgente = new EventEmitter<Processo>();
-
-    @Output()
-    compartilharBloco = new EventEmitter<any>();
-
-    @Output()
-    createProcessoBloco = new EventEmitter<any>();
-
-    @Output()
-    createDocumentoAvulsoBloco = new EventEmitter<any>();
-
-    @Output()
-    editProcessoBloco = new EventEmitter<any>();
-
-    @Output()
-    movimentarBloco = new EventEmitter<any>();
-
-    @Output()
-    etiquetarBloco = new EventEmitter<any>();
-
-    @Output()
-    uploadBloco = new EventEmitter<any>();
-
-    @Output()
-    editorBloco = new EventEmitter<any>();
+    realizarTransicaoBloco = new EventEmitter<any>();
 
     listFilter: {} = {};
     listSort: {} = {};
@@ -108,7 +69,7 @@ export class CdkProcessoListComponent implements AfterViewInit, OnInit, OnChange
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _fuseSidebarService: FuseSidebarService) {
+        private _cdkSidebarService: CdkSidebarService) {
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -144,21 +105,6 @@ export class CdkProcessoListComponent implements AfterViewInit, OnInit, OnChange
         this.selected.emit(processo);
     }
 
-    doToggleUrgente(processo: Processo): void {
-        this.toggleUrgente.emit(processo);
-    }
-
-    doDeleteProcesso(processoId): void {
-        this.delete.emit(processoId);
-    }
-
-    doDeleteProcessoBloco(): void {
-        this.selectedIds.forEach(processoId => this.doDeleteProcesso(processoId));
-    }
-
-    setFolder(folder): void {
-        this.folder.emit(folder);
-    }
 
     /**
      * Toggle select all
@@ -213,46 +159,28 @@ export class CdkProcessoListComponent implements AfterViewInit, OnInit, OnChange
         this.loadPage();
     }
 
-    doMovimentar(processoId): void {
-        this.movimentar.emit(processoId);
+
+
+    doClassificacaoBloco(): void {
+        this.classificacaoBloco.emit();
     }
 
-    doMovimentarBloco(): void {
-        this.movimentarBloco.emit();
+    doRealizarTransicaoBloco(): void {
+        this.realizarTransicaoBloco.emit();
     }
 
-    doCompartilharBloco(): void {
-        this.compartilharBloco.emit();
+    doCriarLembreteBloco(): void {
+        this.criarLembreteBloco.emit();
     }
 
-    doCreateDocumentoAvulsoBloco(): void {
-        this.createDocumentoAvulsoBloco.emit();
-    }
 
-    doCreateProcessoBloco(): void {
-        this.createProcessoBloco.emit();
-    }
 
-    doEditProcessoBloco(): void {
-        this.editProcessoBloco.emit();
-    }
 
-    doEtiquetarBloco(): void {
-        this.etiquetarBloco.emit();
-    }
-
-    doUploadBloco(): void {
-        this.uploadBloco.emit();
-    }
-
-    doEditorBloco(): void {
-        this.editorBloco.emit();
-    }
 
     /**
      * Toggle the sidebar
      */
     toggleSidebar(): void {
-        this._fuseSidebarService.getSidebar('cdk-processo-list-main-sidebar').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-processo-list-main-sidebar').toggleOpen();
     }
 }

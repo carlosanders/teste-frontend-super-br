@@ -6,7 +6,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
 import {VinculacaoEtiqueta} from '@cdk/models';
@@ -27,7 +27,7 @@ import {Etiqueta} from '@cdk/models';
     styleUrls: ['./vinculacao-etiqueta-create-bloco.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class VinculacaoEtiquetaCreateBlocoComponent implements OnInit, OnDestroy {
 
