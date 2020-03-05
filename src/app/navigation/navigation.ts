@@ -32,7 +32,7 @@ export const navigation: CdkNavigation[] = [
                 type: 'item',
                 icon: 'archive',
                 url: '/apps/arquivista',
-                role: 'ROLE_ADMIN'
+                role: 'ROLE_ARQUIVISTA'
             },
             {
                 id: 'tarefas',

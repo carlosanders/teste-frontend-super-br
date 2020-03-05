@@ -15,7 +15,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Processo} from '@cdk/models';
-import {getSelectedProcessos} from '../store/selectors';
+import {getSelectedProcessos} from '../arquivista-list/store/selectors';
 import {getOperacoesState, getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {filter, takeUntil} from 'rxjs/operators';
