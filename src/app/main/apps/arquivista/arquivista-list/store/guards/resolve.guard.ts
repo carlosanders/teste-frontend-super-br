@@ -110,12 +110,12 @@ export class ResolveGuard implements CanActivate {
                 });
 
                 const routeUnidadeParams = of('unidadeHandle');
-                routeUnidadeParams.subscribe(param => {
-                    params['filter'] = {
-                        ...params['filter'],
-                        'localizador.setor.unidade.id': `eq:${this.routerState.params[param]}`
-                    };
-                });
+                // routeUnidadeParams.subscribe(param => {
+                //     params['filter'] = {
+                //         ...params['filter'],
+                //         'setorAtual.id': `eq:${this.routerState.params[param]}`
+                //     };
+                // });
                 if (!this.routerState.params['unidadeHandle'] || !this.routerState.params['typeHandle'] ||
 
                     (this.routerState.params['unidadeHandle'] + '_' + this.routerState.params['typeHandle'] ) !==

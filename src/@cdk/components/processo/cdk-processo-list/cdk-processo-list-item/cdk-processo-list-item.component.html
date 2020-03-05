@@ -8,40 +8,49 @@
 
         <div class="info" fxFlex>
 
-
             <div class="body mt-4">
-                <div>
-                    {{processo.id}} | {{processo.NUP}}
+                <div class="title">
+                    <span class="text-truncate">PROCESSO {{processo.NUP | formatNup}}</span>
                 </div>
 
 
-                <div>
-                    {{processo.especieProcesso?.nome}}
+                <div class="subtitle">
+                    <span class="text-truncate">{{processo.especieProcesso?.nome}} / {{processo.modalidadeMeio?.valor}}
+                        / {{processo.modalidadeFase?.valor}}</span>
                 </div>
 
-                <div>
-                    {{processo.modalidadeMeio?.descricao}} / {{processo.modalidadeFase?.descricao}}
+                <div class="body mt-4">
+
+                    <div>
+                        Data Abertura:  {{processo.dataHoraAbertura | date: 'dd/MM/yyyy'}}
+
+                    </div>
+
+                    <div>
+                        Data Transição: {{processo.dataHoraProximaTransicao | date: 'dd/MM/yyyy'}}
+
+                    </div>
+
+                    <div *ngIf="processo.classificacao">
+                        Classificação: {{processo.classificacao?.nome}}
+                    </div>
+
+                    <div *ngIf="processo.classificacao">
+                        Modalidade: {{processo.classificacao.modalidadeDestinacao?.valor}}
+                    </div>
                 </div>
-
-                <div>
-                    {{processo.dataHoraAbertura | date: 'dd/MM/yyyy'}}
-
-                </div>
-
-                <div>
-                    {{processo.dataHoraProximaTransicao | date: 'dd/MM/yyyy'}}
-
-                </div>
-
-                <div>
-                    {{processo.classificacao?.nome}}
-                </div>
-
-                <div>
-                    {{processo.classificacao.modalidadeDestinacao?.descricao}}
-                </div>
-
             </div>
+
+            <mat-expansion-panel (opened)="panelOpenState = true"
+                                 (closed)="panelOpenState = false"
+                                 (click)="$event.stopPropagation();">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Lembrete
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <p>TESTE</p>
+            </mat-expansion-panel>
 
             <div class="etiquetas" fxLayout="row wrap" fxHide fxShow.gt-sm>
                 <div class="etiqueta" *ngFor="let vinculacaoEtiqueta of processo.vinculacoesEtiquetas"
@@ -55,7 +64,6 @@
 
         <div class="actions" fxLayout="row" fxLayoutAlign="start center">
 
-          
 
             <div class="spinner-container m-8" *ngIf="deleting">
                 <mat-spinner diameter="24"></mat-spinner>

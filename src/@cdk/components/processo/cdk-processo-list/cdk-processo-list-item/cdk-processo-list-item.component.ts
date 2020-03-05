@@ -46,6 +46,7 @@ export class CdkProcessoListItemComponent implements OnInit {
         disable: false,
         handle: false
     };
+    panelOpenState: boolean;
 
     constructor() {
         this.deleting = false;

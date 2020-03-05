@@ -24,10 +24,7 @@
                                        [selectedIds]="(selectedIds$ | async)"
                                        (changeSelectedIds)="changeSelectedIds($event)"
                                        (reload)="reload($event)"
-                                       (selected)="setCurrentProcesso($event)"
-                                       (movimentar)="doMovimentar($event)"
-                                       (movimentarBloco)="doMovimentarBloco()"
-                                       (etiquetarBloco)="doEtiquetarBloco()">
+                                       (selected)="setCurrentProcesso($event)">
                     </cdk-processo-list>
                 </div>
                 <div class="processo-detail" mwlResizable [enableGhostResize]="true"
