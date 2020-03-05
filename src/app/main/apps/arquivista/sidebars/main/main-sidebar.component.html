@@ -1,0 +1,30 @@
+<!-- SIDEBAR HEADER -->
+<div fxLayout="column" fxLayoutAlign="space-between start"
+     class="header accent p-24 pb-4">
+    <div class="logo" fxFlex fxLayout="row" fxLayoutAlign="start center">
+        <mat-icon class="logo-icon s-32" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+            archive
+        </mat-icon>
+        <span class="logo-text" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">Arquivista</span>
+    </div>
+</div>
+<!-- / SIDEBAR HEADER -->
+
+<!-- SIDEBAR CONTENT -->
+<div class="content mt-16" fusePerfectScrollbar>
+
+    <div class="nav material2"*ngFor="let unidade of unidades">
+        <div class="nav-subheader">
+            <span>{{unidade.nome | uppercase}}</span>
+        </div>
+        <div class="nav-item" *ngFor="let link of links">
+            <a class="nav-link" matRipple [routerLink]="unidade.id + '/' + link.link"
+               [routerLinkActive]="['active', 'accent']">
+                <mat-icon class="nav-link-icon">{{ link.icon }}</mat-icon>
+                <span>{{link.nome | titlecase}}</span>
+            </a>
+        </div>
+    </div>
+
+</div>
+<!-- / SIDEBAR CONTENT -->
