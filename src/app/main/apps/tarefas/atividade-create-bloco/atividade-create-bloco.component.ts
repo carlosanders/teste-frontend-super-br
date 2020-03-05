@@ -33,6 +33,9 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
 
     private _unsubscribeAll: Subject<any> = new Subject();
 
+    selectedIds: number[] = [];
+    componenteChamador: String = 'atividade-create-bloco';
+
     tarefas$: Observable<Tarefa[]>;
     tarefas: Tarefa[];
     tarefasSelecionadasListId: any[] = [];
@@ -243,13 +246,44 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
 
 
             /*console.log("this.selectedDocumentos$"); 
-                console.log(this.selectedDocumentos$);
-            this._store.dispatch(new fromStore.SaveAtividade(atividade));*/
+                console.log(this.selectedDocumentos$);*/
+            this._store.dispatch(new fromStore.SaveAtividade(atividade));
         });
     }
 
+    //changedSelectedIds(selectedIds): void {
+
+
+
     changedSelectedIds(selectedIds): void {
-        this._store.dispatch(new fromStore.ChangeSelectedDocumentos(selectedIds));
+        console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
+        console.log(selectedIds);
+        selectedIds.forEach(element => {
+            this._changedSelectedIds(element);
+        });
+        
+
+        /*const selectedDocumentoIds = [...this.selectedIds];
+
+        if (selectedDocumentoIds.find(id => id === documentoId) !== undefined) {
+            this.selectedIds = selectedDocumentoIds.filter(id => id !== documentoId);
+        } else {
+            this.selectedIds = [...selectedDocumentoIds, documentoId];
+        }*/
+        console.log(this.selectedIds);
+        this._store.dispatch(new fromStore.ChangeSelectedDocumentos(this.selectedIds));
+
+        //this._store.dispatch(new fromStore.ChangeSelectedDocumentos(selectedIds));
+    }
+
+    _changedSelectedIds(documentoId): void {
+        const selectedDocumentoIds = [...this.selectedIds];
+
+        if (selectedDocumentoIds.find(id => id === documentoId) !== undefined) {
+            this.selectedIds = selectedDocumentoIds.filter(id => id !== documentoId);
+        } else {
+            this.selectedIds = [...selectedDocumentoIds, documentoId];
+        }
     }
 
     doDelete(documentoId): void {

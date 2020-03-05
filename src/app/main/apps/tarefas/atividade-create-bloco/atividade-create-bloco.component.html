@@ -21,6 +21,7 @@
                 <div fxLayout="row">
                     <mat-card-content>    
                         <cdk-documento-card-list 
+                                                [componenteChamador]=componenteChamador
                                                 [documentos]=mapDocumentos.get(key)
                                                 [deletingId]="(deletingDocumentosId$ | async)"
                                                 [assinandoId]="(assinandoDocumentosId$ | async)"

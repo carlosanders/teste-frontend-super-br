@@ -20,9 +20,10 @@ import {Documento} from '@cdk/models';
 export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
 
     @Input()
-    documentos: Documento[];
+    componenteChamador: String = null;
 
-    //@retirar: mapDocumentos = new Map();
+    @Input()
+    documentos: Documento[];
 
     @Output()
     delete = new EventEmitter<number>();
@@ -105,6 +106,31 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
 
     toggleInSelected(documentoId): void {
         const selectedDocumentoIds = [...this.selectedIds];
+        if (selectedDocumentoIds.find(id => id === documentoId) !== undefined) {
+            this.selectedIds = selectedDocumentoIds.filter(id => id !== documentoId);
+        } else {
+            this.selectedIds = [...selectedDocumentoIds, documentoId];
+        }
+        this.hasSelected = this.selectedIds.length > 0;
+        this.isIndeterminate = (this.selectedIds.length !== this.documentos.length && this.selectedIds.length > 0);
+
+        if (this.componenteChamador === 'atividade-create-bloco') {
+            this.changedSelectedIds.emit([documentoId]);
+            console.log("chamador");
+        } else {
+            console.log("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq");
+            console.log(documentoId);
+            console.log(this.selectedIds);
+            this.changedSelectedIds.emit(this.selectedIds);
+        }
+
+  /*      if (this.componenteChamador === 'atividade-create-bloco') {
+            this.changedSelectedIds.emit(documentoId);
+            console.log("chamador");
+            return;
+        }
+
+        const selectedDocumentoIds = [...this.selectedIds];
 
         if (selectedDocumentoIds.find(id => id === documentoId) !== undefined) {
             this.selectedIds = selectedDocumentoIds.filter(id => id !== documentoId);
@@ -114,7 +140,10 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
 
         this.hasSelected = this.selectedIds.length > 0;
         this.isIndeterminate = (this.selectedIds.length !== this.documentos.length && this.selectedIds.length > 0);
-        this.changedSelectedIds.emit(this.selectedIds);
+console.log("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq");
+console.log(documentoId);
+console.log(this.selectedIds);
+        this.changedSelectedIds.emit(this.selectedIds);*/
     }
 
     doDelete(documentoId): void {
@@ -160,7 +189,10 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
      * Select all
      */
     selectAll(): void {
+        console.log("ooooooooooooooooooo");
+        console.log(this.documentos);
         const arr = Object.keys(this.documentos).map(k => this.documentos[k]);
+        console.log(arr);
         this.selectedIds = arr.map(documento => documento.id);
         this.recompute();
     }
@@ -169,13 +201,21 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
      * Deselect all documentos
      */
     deselectAll(): void {
-        this.selectedIds = [];
-        this.recompute();
+        if (this.componenteChamador === 'atividade-create-bloco') {
+            this.changedSelectedIds.emit(this.selectedIds);
+            this.selectedIds = [];
+        } else {
+            this.selectedIds = [];
+            this.recompute();
+        }
     }
 
     recompute(): void {
         this.isIndeterminate = (this.selectedIds.length !== this.documentos.length && this.selectedIds.length > 0);
         this.changedSelectedIds.emit(this.selectedIds);
+        console.log("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzz");
+
+console.log(this.selectedIds);
     }
 
     // **********************************MUDANÇA CONVERTE
