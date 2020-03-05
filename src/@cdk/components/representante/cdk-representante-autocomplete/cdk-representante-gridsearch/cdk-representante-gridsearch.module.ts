@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 
 import {RepresentanteService} from '@cdk/services/representante.service';
 import {CdkRepresentanteGridsearchComponent} from './cdk-representante-gridsearch.component';
@@ -14,7 +14,7 @@ import {CdkRepresentanteGridModule} from '@cdk/components/representante/cdk-repr
 
         CdkRepresentanteGridModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         RepresentanteService

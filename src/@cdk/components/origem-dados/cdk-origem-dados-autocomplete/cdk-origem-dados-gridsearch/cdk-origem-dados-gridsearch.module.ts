@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 
 import {OrigemDadosService} from '@cdk/services/origem-dados.service';
 import {CdkOrigemDadosGridsearchComponent} from './cdk-origem-dados-gridsearch.component';
@@ -14,7 +14,7 @@ import {CdkOrigemDadosGridModule} from '@cdk/components/origem-dados/cdk-origem-
 
         CdkOrigemDadosGridModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         OrigemDadosService

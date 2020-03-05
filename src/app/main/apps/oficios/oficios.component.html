@@ -5,10 +5,10 @@
     <!-- / TOP BACKGROUND -->
 
     <!-- SIDEBAR -->
-    <fuse-sidebar *ngIf="!(maximizado$ | async)" class="sidebar" name="documento-avulso-main-sidebar" position="left"
+    <cdk-sidebar *ngIf="!(maximizado$ | async)" class="sidebar" name="documento-avulso-main-sidebar" position="left"
                   lockedOpen="gt-md">
         <documento-avulso-main-sidebar></documento-avulso-main-sidebar>
-    </fuse-sidebar>
+    </cdk-sidebar>
     <!-- / SIDEBAR -->
 
     <!-- CENTER -->
@@ -49,7 +49,7 @@
                      (resizeEnd)="onResizeEndDocumentoAvulsoList($event)"
                      [fxFlex]="documentoAvulsoListSize"
                      [hidden]="(maximizado$ | async)"
-                     fusePerfectScrollbar
+                     cdkPerfectScrollbar
                      infiniteScroll
                      [scrollWindow]="false"
                      [infiniteScrollDistance]="2"
@@ -76,7 +76,7 @@
 
                 <div class="oficio-detail" mwlResizable [enableGhostResize]="true"
                      [resizeEdges]="{bottom: false, right: true, top: false, left: true}"
-                     fusePerfectScrollbar fxFlex
+                     cdkPerfectScrollbar fxFlex
                      [ngClass]="{
                         'mobile-mode': mobileMode,
                         'current-documento-avulso': currentDocumentoAvulsoId,

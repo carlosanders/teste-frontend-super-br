@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 
 import { ModalidadeDocumentoIdentificadorService } from '@cdk/services/modalidade-documento-identificador.service';
 import { CdkModalidadeDocumentoIdentificadorGridsearchComponent } from './cdk-modalidade-documento-identificador-gridsearch.component';
@@ -14,7 +14,7 @@ import { CdkModalidadeDocumentoIdentificadorGridModule } from '@cdk/components/m
 
         CdkModalidadeDocumentoIdentificadorGridModule,
         
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         ModalidadeDocumentoIdentificadorService

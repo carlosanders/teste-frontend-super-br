@@ -4,7 +4,7 @@ import {
     MatAutocompleteModule, MatChipsModule, MatIconModule, MatFormFieldModule
 } from '@cdk/angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 import { EtiquetaService } from '@cdk/services/etiqueta.service';
 import { CdkEtiquetaChipsComponent } from './cdk-etiqueta-chips.component';
 import { CdkEtiquetaAutocompleteModule} from '../cdk-etiqueta-autocomplete/cdk-etiqueta-autocomplete.module';
@@ -23,7 +23,7 @@ import { CdkEtiquetaAutocompleteModule} from '../cdk-etiqueta-autocomplete/cdk-e
 
         CdkEtiquetaAutocompleteModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         EtiquetaService,

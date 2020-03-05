@@ -7,7 +7,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Colaborador, Usuario} from '@cdk/models';
 
@@ -17,7 +17,7 @@ import {Colaborador, Usuario} from '@cdk/models';
     styleUrls: ['./cdk-perfil-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkPerfilFormComponent implements OnChanges, OnDestroy {
 

@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 
 import {FeriadoService} from '@cdk/services/feriado.service';
 import {CdkFeriadoGridsearchComponent} from './cdk-feriado-gridsearch.component';
@@ -14,7 +14,7 @@ import {CdkFeriadoGridModule} from '@cdk/components/feriado/cdk-feriado-grid/cdk
 
         CdkFeriadoGridModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         FeriadoService

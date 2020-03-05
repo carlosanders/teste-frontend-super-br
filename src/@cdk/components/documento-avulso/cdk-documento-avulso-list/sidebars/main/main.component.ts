@@ -7,9 +7,9 @@ import {
     Output,
     ViewEncapsulation
 } from '@angular/core';
-import { fuseAnimations } from '@fuse/animations';
+import { cdkAnimations } from '@cdk/animations';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
+import { CdkSidebarService } from '@cdk/components/sidebar/sidebar.service';
 import { MAT_LABEL_GLOBAL_OPTIONS } from '@angular/material/core';
 
 
@@ -17,7 +17,7 @@ import { MAT_LABEL_GLOBAL_OPTIONS } from '@angular/material/core';
     selector   : 'cdk-documento-avulso-list-main-sidebar',
     templateUrl: './main.component.html',
     styleUrls  : ['./main.component.scss'],
-    animations   : fuseAnimations,
+    animations   : cdkAnimations,
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     providers: [
@@ -43,7 +43,7 @@ export class CdkDocumentoAvulsoListMainSidebarComponent implements OnInit
      * Constructor
      */
     constructor(
-        private _fuseSidebarService: FuseSidebarService,
+        private _cdkSidebarService: CdkSidebarService,
         private _formBuilder: FormBuilder
     ) {
 
@@ -114,13 +114,13 @@ export class CdkDocumentoAvulsoListMainSidebarComponent implements OnInit
 
     pesquisar(): void {
         this.selected.emit(this.filters);
-        this._fuseSidebarService.getSidebar('cdk-documento-avulso-list-main-sidebar').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-documento-avulso-list-main-sidebar').toggleOpen();
     }
 
     limpar(): void {
         this.filters = {};
         this.selected.emit(this.filters);
-        this._fuseSidebarService.getSidebar('cdk-documento-avulso-list-main-sidebar').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-documento-avulso-list-main-sidebar').toggleOpen();
         this.form.reset();
     }
 }

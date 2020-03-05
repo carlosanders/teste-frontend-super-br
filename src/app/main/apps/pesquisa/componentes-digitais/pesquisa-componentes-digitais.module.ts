@@ -14,7 +14,7 @@ import {
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {RouterModule, Routes} from '@angular/router';
 import {CdkComponenteDigitalGridModule} from '@cdk/components/componente-digital/cdk-componente-digital-grid/cdk-componente-digital-grid.module';
@@ -50,7 +50,7 @@ const routes: Routes = [
         ComponentesDigitaisStoreModule,
 
         TranslateModule,
-        FuseSharedModule,
+        CdkSharedModule,
 
         CdkComponenteDigitalGridModule
     ],

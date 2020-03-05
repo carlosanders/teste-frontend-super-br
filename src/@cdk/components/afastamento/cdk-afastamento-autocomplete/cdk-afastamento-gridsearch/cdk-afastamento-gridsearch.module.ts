@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 
 import {AfastamentoService} from '@cdk/services/afastamento.service';
 import {CdkAfastamentoGridsearchComponent} from './cdk-afastamento-gridsearch.component';
@@ -14,7 +14,7 @@ import {CdkAfastamentoGridModule} from '@cdk/components/afastamento/cdk-afastame
 
         CdkAfastamentoGridModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         AfastamentoService

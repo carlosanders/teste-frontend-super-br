@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 
 import {TransicaoService} from '@cdk/services/transicao.service';
 import {CdkTransicaoGridsearchComponent} from './cdk-transicao-gridsearch.component';
@@ -14,7 +14,7 @@ import {CdkTransicaoGridModule} from '@cdk/components/transicao/cdk-transicao-gr
 
         CdkTransicaoGridModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         TransicaoService

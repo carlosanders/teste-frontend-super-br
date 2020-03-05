@@ -8,8 +8,8 @@ import {
     MatInputModule,
 } from '@cdk/angular/material';
 
-import {FuseSidebarModule} from '@fuse/components';
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSidebarModule} from '@cdk/components/index';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkBlocoResponsaveisGridFilterComponent} from './cdk-bloco-responsaveis-grid-filter.component';
 
 
@@ -25,7 +25,7 @@ import {CdkBlocoResponsaveisGridFilterComponent} from './cdk-bloco-responsaveis-
         MatCheckboxModule,
         MatAutocompleteModule,
         MatDatepickerModule,
-        FuseSharedModule,
+        CdkSharedModule,
         
     ],
     providers: [

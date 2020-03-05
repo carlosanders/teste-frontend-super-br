@@ -6,7 +6,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {ComponenteDigital} from '@cdk/models/componente-digital.model';
 
 @Component({
@@ -15,7 +15,7 @@ import {ComponenteDigital} from '@cdk/models/componente-digital.model';
     styleUrls: ['./cdk-componente-digital-documento-avulso-card.component.scss'],
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkComponenteDigitalDocumentoAvulsoCardComponent implements DoCheck {
 

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
-import { fuseAnimations } from '@fuse/animations';
+import { cdkAnimations } from '@cdk/animations';
 import { TarefaService } from '@cdk/services/tarefa.service';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
@@ -17,7 +17,7 @@ import {Usuario} from '@cdk/models';
     templateUrl  : './painel.component.html',
     styleUrls    : ['./painel.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    animations   : fuseAnimations
+    animations   : cdkAnimations
 })
 export class PainelComponent implements OnInit
 {

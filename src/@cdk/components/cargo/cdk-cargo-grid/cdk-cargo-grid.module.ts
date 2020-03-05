@@ -12,8 +12,8 @@ import {
     MatSelectModule,
 } from '@cdk/angular/material';
 
-import {FuseSidebarModule} from '@fuse/components';
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSidebarModule} from '@cdk/components/index';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkCargoGridComponent} from './cdk-cargo-grid.component';
 import {CdkCargoGridFilterModule} from './cdk-cargo-grid-filter/cdk-cargo-grid-filter.module';
 import {CdkCargoMainSidebarComponent} from './sidebars/main/main.component';
@@ -37,8 +37,8 @@ import {CdkCargoMainSidebarComponent} from './sidebars/main/main.component';
 
         CdkCargoGridFilterModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
     ],
     providers: [],
     exports: [

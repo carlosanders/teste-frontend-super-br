@@ -9,7 +9,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {ComponenteDigital} from '@cdk/models/componente-digital.model';
 import {classToPlain} from 'class-transformer';
 import {HttpClient, HttpErrorResponse, HttpEventType, HttpRequest} from '@angular/common/http';
@@ -25,7 +25,7 @@ import {DocumentoAvulso} from '@cdk/models/documento-avulso.model';
     styleUrls: ['./cdk-componente-digital-documento-avulso-card-list.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkComponenteDigitalDocumentoAvulsoCardListComponent implements OnInit {
 

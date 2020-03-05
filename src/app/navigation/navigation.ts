@@ -1,6 +1,6 @@
-import {FuseNavigation} from '@fuse/types';
+import {CdkNavigation} from '@cdk/types';
 
-export const navigation: FuseNavigation[] = [
+export const navigation: CdkNavigation[] = [
     {
         id: 'applications',
         title: 'Aplicações',

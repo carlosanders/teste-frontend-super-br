@@ -6,7 +6,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {ModalidadeOrgaoCentral} from '@cdk/models';
 import {ModalidadeOrgaoCentralService} from '@cdk/services/modalidade-orgao-central.service';
 import {FormControl} from '@angular/forms';
@@ -21,7 +21,7 @@ import {Pagination} from '@cdk/models';
     styleUrls: ['./cdk-modalidade-orgao-central-autocomplete.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations,
+    animations: cdkAnimations,
     exportAs: 'modalidadeOrgaoCentralAutocomplete',
 })
 export class CdkModalidadeOrgaoCentralAutocompleteComponent implements OnInit {

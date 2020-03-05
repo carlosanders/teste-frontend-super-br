@@ -6,7 +6,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
 
 import {RelacionamentoPessoal} from '@cdk/models';
@@ -23,7 +23,7 @@ import {Pagination} from '@cdk/models';
     styleUrls: ['./relacionamento-edit.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class RelacionamentoEditComponent implements OnInit, OnDestroy {
 

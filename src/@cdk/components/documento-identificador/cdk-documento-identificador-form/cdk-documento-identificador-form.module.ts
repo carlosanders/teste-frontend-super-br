@@ -11,7 +11,7 @@ import {
 
 } from '@cdk/angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 import { CdkDocumentoIdentificadorFormComponent } from './cdk-documento-identificador-form.component';
 import {CdkModalidadeDocumentoIdentificadorAutocompleteModule} from '../../modalidade-documento-identificador/cdk-modalidade-documento-identificador-autocomplete/cdk-modalidade-documento-identificador-autocomplete.module';
 import {CdkModalidadeDocumentoIdentificadorGridsearchModule} from '../../modalidade-documento-identificador/cdk-modalidade-documento-identificador-autocomplete/cdk-modalidade-documento-identificador-gridsearch/cdk-modalidade-documento-identificador-gridsearch.module';
@@ -32,7 +32,7 @@ import {CdkModalidadeDocumentoIdentificadorGridsearchModule} from '../../modalid
         MatDatepickerModule,
         CdkModalidadeDocumentoIdentificadorAutocompleteModule,
         CdkModalidadeDocumentoIdentificadorGridsearchModule,
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
 

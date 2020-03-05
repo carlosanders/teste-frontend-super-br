@@ -11,7 +11,7 @@ import {
     MatAutocompleteModule
 } from '@cdk/angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 import { CdkSetorFormComponent } from './cdk-setor-form.component';
 import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
 import {CdkSetorGridsearchModule} from '../../setor/cdk-setor-autocomplete/cdk-setor-gridsearch/cdk-setor-gridsearch.module';
@@ -37,7 +37,7 @@ import {CdkMunicipioGridsearchModule} from '../../municipio/cdk-municipio-autoco
         MatProgressSpinnerModule,
         MatDatepickerModule,
         NgxUpperCaseDirectiveModule,
-        FuseSharedModule,
+        CdkSharedModule,
         MatAutocompleteModule,
         CdkSetorAutocompleteModule,
         CdkSetorGridsearchModule,

@@ -6,7 +6,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {RelacionamentoPessoal} from '@cdk/models';
 import {RelacionamentoPessoalService} from '@cdk/services/relacionamento-pessoal.service';
 import {FormControl} from '@angular/forms';
@@ -21,7 +21,7 @@ import {Pagination} from '@cdk/models';
     styleUrls: ['./cdk-relacionamento-pessoal-autocomplete.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations,
+    animations: cdkAnimations,
     exportAs: 'relacionamentoPessoalAutocomplete',
 })
 export class CdkRelacionamentoPessoalAutocompleteComponent implements OnInit {

@@ -11,7 +11,7 @@ import {
 
 } from '@cdk/angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 import { CdkRelacionamentoPessoalFormComponent } from './cdk-relacionamento-pessoal-form.component';
 import {CdkModalidadeRelacionamentoPessoalAutocompleteModule} from '../../modalidade-relacionamento-pessoal/cdk-modalidade-relacionamento-pessoal-autocomplete/cdk-modalidade-relacionamento-pessoal-autocomplete.module';
 import {CdkModalidadeRelacionamentoPessoalGridsearchModule} from '../../modalidade-relacionamento-pessoal/cdk-modalidade-relacionamento-pessoal-autocomplete/cdk-modalidade-relacionamento-pessoal-gridsearch/cdk-modalidade-relacionamento-pessoal-gridsearch.module';
@@ -36,7 +36,7 @@ import {CdkPessoaGridsearchModule} from '../../pessoa/cdk-pessoa-autocomplete/cd
         CdkModalidadeRelacionamentoPessoalGridsearchModule,
         CdkPessoaAutocompleteModule,
         CdkPessoaGridsearchModule,
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
 

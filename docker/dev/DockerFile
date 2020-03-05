@@ -3,6 +3,8 @@ FROM node:12.16.1-alpine
 
 MAINTAINER Leonardo Nobre <leonardo.nobre@agu.gov.br>
 
+ENV NODE_OPTIONS=--max-old-space-size=8192
+
 WORKDIR /app
 
 COPY package.json /app/package.json

@@ -7,7 +7,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Atividade} from '@cdk/models';
 import {EspecieAtividade} from '@cdk/models';
@@ -28,7 +28,7 @@ import {LoginService} from '../../../../app/main/auth/login/login.service';
     styleUrls: ['./cdk-atividade-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations,
+    animations: cdkAnimations,
     providers: [
         {
             provide: MAT_DATETIME_FORMATS,

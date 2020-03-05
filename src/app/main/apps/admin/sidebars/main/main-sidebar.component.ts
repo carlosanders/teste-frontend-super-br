@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {LoginService} from "../../../../auth/login/login.service";
 import {Colaborador} from "@cdk/models";
 import {Setor} from "@cdk/models";
@@ -12,7 +12,7 @@ import {Lotacao} from "@cdk/models";
     styleUrls: ['./main-sidebar.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class AdminMainSidebarComponent implements OnInit, OnDestroy {
 

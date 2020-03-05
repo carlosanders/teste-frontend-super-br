@@ -6,7 +6,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
 import {Tarefa} from '@cdk/models';
@@ -27,7 +27,7 @@ import {Colaborador} from "../../../../../@cdk/models/colaborador.model";
     styleUrls: ['./tarefa-create-bloco.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class TarefaCreateBlocoComponent implements OnInit, OnDestroy {
 

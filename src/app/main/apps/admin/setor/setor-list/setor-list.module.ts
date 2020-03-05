@@ -14,7 +14,7 @@ import {
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {SetorListComponent} from './setor-list.component';
 import {SetorService} from '@cdk/services/setor.service';
 import {RouterModule, Routes} from '@angular/router';
@@ -50,7 +50,7 @@ const routes: Routes = [
         MatPaginatorModule,
         MatSortModule,
         TranslateModule,
-        FuseSharedModule,
+        CdkSharedModule,
         CdkSetorGridModule,
         SetorListStoreModule,
     ],

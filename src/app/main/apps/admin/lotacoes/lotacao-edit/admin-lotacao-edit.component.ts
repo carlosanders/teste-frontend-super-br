@@ -6,7 +6,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
 
 import {select, Store} from '@ngrx/store';
@@ -25,7 +25,7 @@ import {getRouterState} from "../../../../../store/reducers";
     styleUrls: ['./admin-lotacao-edit.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class AdminLotacaoEditComponent implements OnInit, OnDestroy {
 

@@ -7,7 +7,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {DocumentoAvulso} from '@cdk/models';
 import {EspecieDocumentoAvulso} from '@cdk/models';
@@ -27,7 +27,7 @@ import {Pessoa} from '@cdk/models';
     styleUrls: ['./cdk-documento-avulso-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations,
+    animations: cdkAnimations,
     providers: [
         {
             provide: MAT_DATETIME_FORMATS,

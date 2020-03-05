@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 
 
-import { fuseAnimations } from '@fuse/animations';
+import { cdkAnimations } from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { Setor } from '@cdk/models/setor.model';
 import {Pagination} from '@cdk/models/pagination';
@@ -21,7 +21,7 @@ import {Municipio} from '../../../models/municipio.model';
     styleUrls: ['./cdk-setor-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkSetorFormComponent implements OnChanges, OnDestroy {
 

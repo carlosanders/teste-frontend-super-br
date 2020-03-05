@@ -12,7 +12,7 @@ import {
     MatSnackBarVerticalPosition
 } from '@cdk/angular/material';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {ComponenteDigital} from '@cdk/models';
 import {MatDialog} from '@cdk/angular/material';
 import {CdkCampoPluginComponent} from './cdk-plugins/cdk-campo-plugin/cdk-campo-plugin.component';
@@ -27,7 +27,7 @@ import {Pagination} from '@cdk/models';
     styleUrls: ['./cdk-componente-digital-ckeditor.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy, OnChanges {
 

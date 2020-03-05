@@ -14,7 +14,7 @@ import {
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {FoldersComponent} from './folders.component';
 import {FolderService} from '@cdk/services/folder.service';
 import {RouterModule, Routes} from '@angular/router';
@@ -63,7 +63,7 @@ const routes: Routes = [
 
         TranslateModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         FolderService,

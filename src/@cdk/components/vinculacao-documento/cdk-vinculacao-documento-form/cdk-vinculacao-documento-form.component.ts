@@ -7,7 +7,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {VinculacaoDocumento} from '@cdk/models';
 import {Pagination} from '@cdk/models';
@@ -20,7 +20,7 @@ import {ModalidadeVinculacaoDocumento} from '@cdk/models';
     styleUrls: ['./cdk-vinculacao-documento-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkVinculacaoDocumentoFormComponent implements OnChanges, OnDestroy, OnInit {
 

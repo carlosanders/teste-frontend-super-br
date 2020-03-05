@@ -6,8 +6,8 @@ import {
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 
-import {FuseSharedModule} from '@fuse/shared.module';
-import {FuseSidebarModule} from '@fuse/components';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {CdkSidebarModule} from '@cdk/components';
 
 import {TarefaDetailComponent} from './tarefa-detail.component';
 import {CommonModule} from '@angular/common';
@@ -90,8 +90,8 @@ const routes: Routes = [
 
         CdkVinculacaoEtiquetaChipsModule,
 
-        FuseSharedModule,
-        FuseSidebarModule
+        CdkSharedModule,
+        CdkSidebarModule
     ],
     providers: [
         TarefaService,
