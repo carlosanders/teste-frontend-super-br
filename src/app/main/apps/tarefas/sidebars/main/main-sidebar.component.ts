@@ -74,7 +74,7 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
 
         this.setoresCoordenacao = [];
 
-        this._loginService.getUserProfile().colaborador.lotacoes.forEach((lotacao: Lotacao) => {
+        this._loginService.getUserProfile().colaborador.lotacoes?.forEach((lotacao: Lotacao) => {
             if (lotacao.coordenador) {
                 this.setoresCoordenacao.push(lotacao.setor);
             }
@@ -82,7 +82,7 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
 
         this.usuariosAnalista = [];
 
-        this._loginService.getUserProfile().vinculacoesUsuariosPrincipais.forEach((vinculacaoUsuario: VinculacaoUsuario) => {
+        this._loginService.getUserProfile().vinculacoesUsuariosPrincipais?.forEach((vinculacaoUsuario: VinculacaoUsuario) => {
             this.usuariosAnalista.push(vinculacaoUsuario.usuario);
         });
     }
@@ -92,7 +92,6 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
      */
     ngOnDestroy(): void {
         this._changeDetectorRef.detach();
-        // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
     }
