@@ -11,8 +11,8 @@ import {
     MatSelectModule,
 } from '@cdk/angular/material';
 
-import {FuseSidebarModule} from '@fuse/components';
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSidebarModule} from '@cdk/components/index';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {LocalizadorService} from '@cdk/services/localizador.service';
 import {CdkLocalizadorGridComponent} from './cdk-localizador-grid.component';
 import {CdkLocalizadorAutocompleteModule} from '@cdk/components/localizador/cdk-localizador-autocomplete/cdk-localizador-autocomplete.module';
@@ -38,8 +38,8 @@ import {CdkLocalizadorMainSidebarComponent} from './sidebars/main/main.component
         CdkLocalizadorAutocompleteModule,
         CdkLocalizadorGridFilterModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
     ],
     providers: [
         LocalizadorService,

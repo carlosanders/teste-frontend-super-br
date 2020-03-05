@@ -4,6 +4,7 @@ export * from '@angular/material/button';
 export * from '@angular/material/input';
 export * from '@angular/material/autocomplete';
 export * from '@angular/material/datepicker';
+export {FloatLabelType} from '@angular/material/core';
 export * from '@angular/material/form-field';
 export * from '@angular/material/radio';
 export * from '@angular/material/select';

@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 
 import {AtividadeService} from '@cdk/services/atividade.service';
 import {CdkAtividadeGridsearchComponent} from './cdk-atividade-gridsearch.component';
@@ -14,7 +14,7 @@ import {CdkAtividadeGridModule} from '@cdk/components/atividade/cdk-atividade-gr
 
         CdkAtividadeGridModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         AtividadeService

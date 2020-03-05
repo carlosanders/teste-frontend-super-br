@@ -11,7 +11,7 @@ import {
 
 } from '@cdk/angular/material';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkJuntadaFormComponent} from './cdk-juntada-form.component';
 import {SetorService} from '@cdk/services/setor.service';
 import {VolumeService} from '@cdk/services/volume.service';
@@ -62,7 +62,7 @@ import {CdkTarefaGridsearchModule} from '../../tarefa/cdk-tarefa-autocomplete/cd
         CdkTarefaAutocompleteModule,
         CdkTarefaGridsearchModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         DocumentoService,

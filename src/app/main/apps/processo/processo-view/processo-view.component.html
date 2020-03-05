@@ -1,7 +1,7 @@
 <div id="processo-view" class="page-layout simple left-sidebar inner-scroll">
 
     <!-- SIDEBAR -->
-    <fuse-sidebar class="sidebar" name="juntadas-left-sidebar-1" position="left" lockedOpen="gt-md">
+    <cdk-sidebar class="sidebar" name="juntadas-left-sidebar-1" position="left" lockedOpen="gt-md">
 
         <!-- SIDEBAR CONTENT -->
         <div class="content" infiniteScroll
@@ -9,12 +9,12 @@
              [infiniteScrollDistance]="2"
              [infiniteScrollThrottle]="50"
              (scrolled)="onScroll()"
-             fusePerfectScrollbar>
+             cdkPerfectScrollbar>
             <processo-view-main-sidebar [@animate]="{value:'*'}"></processo-view-main-sidebar>
         </div>
         <!-- / SIDEBAR CONTENT -->
 
-    </fuse-sidebar>
+    </cdk-sidebar>
     <!-- / SIDEBAR -->
 
     <!-- CENTER -->
@@ -23,14 +23,14 @@
         <!-- HEADER -->
         <div class="header accent p-16" fxLayout="row" fxLayoutAlign="start center">
 
-            <button mat-icon-button class="sidebar-toggle mr-16 fuse-black-fg" fxHide.gt-md
+            <button mat-icon-button class="sidebar-toggle mr-16 cdk-black-fg" fxHide.gt-md
                     (click)="toggleSidebar('juntadas-left-sidebar-1')">
                 <mat-icon>menu</mat-icon>
             </button>
 
             <div class="juntada-navigation">
 
-                <button mat-mini-fab class="previous mat-accent fuse-white-fg"
+                <button mat-mini-fab class="previous mat-accent cdk-white-fg"
                         (click)="gotoPreviousStep()"
                         [disabled]="currentStep.step === 0 && currentStep.subStep === 0">
                     <mat-icon>chevron_left</mat-icon>
@@ -40,7 +40,7 @@
                     <h3 *ngIf="!loading">{{fileName}}</h3>
                 </div>
 
-                <button mat-mini-fab class="next mat-accent fuse-white-fg"
+                <button mat-mini-fab class="next mat-accent cdk-white-fg"
                         (click)="gotoNextStep()"
                         [disabled]="currentStep.step === totalSteps - 1 && currentStep.subStep === index[currentStep.step].length - 1">
                     <mat-icon>chevron_right</mat-icon>
@@ -55,7 +55,7 @@
         <!-- CONTENT -->
         <div class="content">
 
-            <div class="processo-view-juntada" fusePerfectScrollbar>
+            <div class="processo-view-juntada" cdkPerfectScrollbar>
 
                 <div fxLayout="column" fxFlex
                      fxLayoutAlign="center center">

@@ -11,8 +11,8 @@ import {
     MatSelectModule,
 } from '@cdk/angular/material';
 
-import {FuseSidebarModule} from '@fuse/components';
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSidebarModule} from '@cdk/components/index';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {FolderService} from '@cdk/services/folder.service';
 import {CdkFolderGridComponent} from './cdk-folder-grid.component';
 import {CdkFolderAutocompleteModule} from '@cdk/components/folder/cdk-folder-autocomplete/cdk-folder-autocomplete.module';
@@ -38,8 +38,8 @@ import {CdkFolderMainSidebarComponent} from './sidebars/main/main.component';
         CdkFolderAutocompleteModule,
         CdkFolderGridFilterModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
     ],
     providers: [
         FolderService,

@@ -1,4 +1,4 @@
-<div class="navbar-header" [ngClass]="fuseConfig.layout.navbar.secondaryBackground">
+<div class="navbar-header" [ngClass]="cdkConfig.layout.navbar.secondaryBackground">
 
     <div class="logo">
         <img class="logo-icon" src="assets/images/logos/supp.png">
@@ -17,7 +17,7 @@
 
 </div>
 
-<div class="navbar-content" fusePerfectScrollbar [fusePerfectScrollbarOptions]="{suppressScrollX: true}"
-     [ngClass]="fuseConfig.layout.navbar.primaryBackground">
-    <fuse-navigation layout="vertical"></fuse-navigation>
+<div class="navbar-content" cdkPerfectScrollbar [cdkPerfectScrollbarOptions]="{suppressScrollX: true}"
+     [ngClass]="cdkConfig.layout.navbar.primaryBackground">
+    <cdk-navigation layout="vertical"></cdk-navigation>
 </div>

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 
 import { SetorService } from '@cdk/services/setor.service';
 import { CdkSetorGridsearchComponent } from './cdk-setor-gridsearch.component';
@@ -14,7 +14,7 @@ import { CdkSetorGridModule } from '@cdk/components/setor/cdk-setor-grid/cdk-set
 
         CdkSetorGridModule,
         
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         SetorService

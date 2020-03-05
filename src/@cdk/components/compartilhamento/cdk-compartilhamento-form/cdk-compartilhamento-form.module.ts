@@ -9,7 +9,7 @@ import {
     MatAutocompleteModule
 } from '@cdk/angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 import { UsuarioService } from '@cdk/services/usuario.service';
 import { CdkCompartilhamentoFormComponent } from './cdk-compartilhamento-form.component';
 import { CdkUsuarioAutocompleteModule } from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
@@ -32,7 +32,7 @@ import { CdkUsuarioGridsearchModule } from '@cdk/components/usuario/cdk-usuario-
         CdkUsuarioAutocompleteModule,
         CdkUsuarioGridsearchModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         UsuarioService,

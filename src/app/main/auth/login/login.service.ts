@@ -1,13 +1,17 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {Observable, of} from 'rxjs';
-import {environment} from 'environments/environment';
-import {Usuario} from "@cdk/models/usuario.model";
+import {Observable} from 'rxjs';
+import {Usuario} from '@cdk/models';
+import {EventSourcePolyfill} from 'event-source-polyfill';
+import * as fromStore from 'app/store';
+import {Store} from '@ngrx/store';
+import {State} from 'app/store';
+import {environment} from '../../../../environments/environment';
 
 @Injectable()
 export class LoginService {
 
-    constructor(private http: HttpClient) {
+    constructor(private http: HttpClient, private _store: Store<State>) {
     }
 
     getUserProfile(): Usuario {
@@ -16,6 +20,29 @@ export class LoginService {
 
     setUserProfile(userProfile: any): void {
         localStorage.setItem('userProfile', JSON.stringify(userProfile));
+        this.setMercure(userProfile);
+    }
+
+    setMercure(userProfile: any): void {
+        const EventSource = EventSourcePolyfill;
+        const es = new EventSource(environment.mercure_hub + '?topic=' + userProfile.username,
+            {
+                headers: {
+                    Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtZXJjdXJlIjp7InB1Ymxpc2giOltdfX0.R2VYhXy7uBsCqiXb9TRhEccaAiidwkZm_1sQP0JPutw'
+                }
+            }
+        );
+        es.onmessage = e => {
+            const message = JSON.parse(e.data);
+            this._store.dispatch(new fromStore.Message({
+                type: Object.keys(message)[0],
+                content: Object.values(message)[0]
+            }));
+        };
+    }
+
+    removeUserProfile(): void {
+        localStorage.removeItem('userProfile');
     }
 
     setToken(action): void {
@@ -28,7 +55,6 @@ export class LoginService {
 
     removeToken(): void {
         localStorage.removeItem('token');
-        localStorage.removeItem('userProfile');
     }
 
     login(username: string, password: string): Observable<any> {

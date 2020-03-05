@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 
 import {TranslateModule} from '@ngx-translate/core';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {DocumentoComponent} from './documento.component';
 import {DocumentoService} from '@cdk/services/documento.service';
 import {RouterModule, Routes} from '@angular/router';
@@ -11,7 +11,7 @@ import * as fromGuards from './store/guards';
 import {DocumentoEditModule} from './documento-edit/documento-edit.module';
 import {MatButtonModule, MatIconModule, MatSlideToggleModule, MatTooltipModule} from '@cdk/angular/material';
 import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
-import {FuseSidebarModule} from '@fuse/components';
+import {CdkSidebarModule} from '@cdk/components';
 import {CdkDocumentoCardListModule} from '@cdk/components/documento/cdk-documento-card-list/cdk-documento-card-list.module';
 import {ModeloService} from '@cdk/services/modelo.service';
 import {RepositorioService} from '@cdk/services/repositorio.service';
@@ -57,13 +57,13 @@ const routes: Routes = [
         MatIconModule,
         MatButtonModule,
         TranslateModule,
-        FuseSharedModule,
+        CdkSharedModule,
         DocumentoEditModule,
         DocumentoStoreModule,
 
         CdkDocumentoCardListModule,
 
-        FuseSidebarModule,
+        CdkSidebarModule,
         MatTooltipModule,
         MatSlideToggleModule
     ],

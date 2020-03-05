@@ -11,7 +11,7 @@
 <!-- / SIDEBAR HEADER -->
 
 <!-- SIDEBAR CONTENT -->
-<div class="content" fusePerfectScrollbar>
+<div class="content" cdkPerfectScrollbar>
 
     <div class="px-24 pt-32 pb-12">
         <button mat-raised-button
@@ -63,7 +63,7 @@
             </a>
         </div>
 
-        <div *ngIf="setoresCoordenacao.length > 0" class="nav-subheader">ANALISTA</div>
+        <div *ngIf="usuariosAnalista.length > 0" class="nav-subheader">ANALISTA</div>
 
         <div class="nav-item" *ngFor="let usuario of usuariosAnalista">
             <a class="nav-link" matRipple [routerLink]="'/apps/tarefas/' + generoHandle + '/analista/' + usuario.id"

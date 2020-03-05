@@ -6,7 +6,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
 
 import {DocumentoAvulso} from '@cdk/models';
@@ -24,7 +24,7 @@ import * as moment from 'moment';
     styleUrls: ['./documento-avulso-edit.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy {
 

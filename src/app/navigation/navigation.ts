@@ -1,6 +1,6 @@
-import {FuseNavigation} from '@fuse/types';
+import {CdkNavigation} from '@cdk/types';
 
-export const navigation: FuseNavigation[] = [
+export const navigation: CdkNavigation[] = [
     {
         id: 'applications',
         title: 'Aplicações',
@@ -51,6 +51,15 @@ export const navigation: FuseNavigation[] = [
                     }
                 ],
                 role: 'ROLE_COLABORADOR'
+            },
+            {
+                id: 'oficios',
+                title: 'Ofícios',
+                translate: 'NAV.OFICIO.TITLE',
+                type: 'item',
+                icon: 'archive',
+                url: '/apps/oficios',
+                role: 'ROLE_CONVENIADO'
             },
             {
                 id: 'protocolo',

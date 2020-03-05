@@ -7,8 +7,8 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
-import {fuseAnimations} from '@fuse/animations';
+import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
+import {cdkAnimations} from '@cdk/animations';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {Observable, Subject} from 'rxjs';
@@ -22,7 +22,7 @@ import {Router} from '@angular/router';
     styleUrls: ['./favoritos.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class FavoritosComponent implements OnInit, OnDestroy {
 
@@ -36,14 +36,14 @@ export class FavoritosComponent implements OnInit, OnDestroy {
 
     /**
      * @param _changeDetectorRef
-     * @param _fuseSidebarService
+     * @param _cdkSidebarService
      * @param _store
      * @param _router
      */
     constructor(
         private _store: Store<fromStore.FavoritoEditState>,
         private _changeDetectorRef: ChangeDetectorRef,
-        private _fuseSidebarService: FuseSidebarService,
+        private _cdkSidebarService: CdkSidebarService,
         private _router: Router
     ) {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
@@ -104,7 +104,7 @@ export class FavoritosComponent implements OnInit, OnDestroy {
      * @param name
      */
     toggleSidebar(name): void {
-        this._fuseSidebarService.getSidebar(name).toggleOpen();
+        this._cdkSidebarService.getSidebar(name).toggleOpen();
     }
 
     goBack(): void {

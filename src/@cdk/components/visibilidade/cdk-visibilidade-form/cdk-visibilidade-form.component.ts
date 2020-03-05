@@ -7,7 +7,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Visibilidade} from '@cdk/models';
 import {Usuario} from '@cdk/models';
@@ -22,7 +22,7 @@ import {of} from 'rxjs';
     styleUrls: ['./cdk-visibilidade-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkVisibilidadeFormComponent implements OnInit, OnChanges, OnDestroy {
 

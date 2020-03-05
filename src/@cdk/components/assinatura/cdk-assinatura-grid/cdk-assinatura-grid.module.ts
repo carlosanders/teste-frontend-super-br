@@ -12,8 +12,8 @@ import {
     MatSelectModule,
 } from '@cdk/angular/material';
 
-import {FuseSidebarModule} from '@fuse/components';
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSidebarModule} from '@cdk/components/index';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkAssinaturaGridComponent} from './cdk-assinatura-grid.component';
 import {CdkAssinaturaGridFilterModule} from './cdk-assinatura-grid-filter/cdk-assinatura-grid-filter.module';
 import {CdkAssinaturaMainSidebarComponent} from './sidebars/main/main.component';
@@ -38,8 +38,8 @@ import {AssinaturaService} from '../../../services/assinatura.service';
 
         CdkAssinaturaGridFilterModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
     ],
     providers: [
         AssinaturaService

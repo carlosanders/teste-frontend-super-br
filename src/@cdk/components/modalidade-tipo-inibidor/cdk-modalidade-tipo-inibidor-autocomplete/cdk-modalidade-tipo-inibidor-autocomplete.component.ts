@@ -6,7 +6,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {ModalidadeTipoInibidor} from '@cdk/models';
 import {ModalidadeTipoInibidorService} from '@cdk/services/modalidade-tipo-inibidor.service';
 import {FormControl} from '@angular/forms';
@@ -21,7 +21,7 @@ import {Pagination} from '@cdk/models';
     styleUrls: ['./cdk-modalidade-tipo-inibidor-autocomplete.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations,
+    animations: cdkAnimations,
     exportAs: 'modalidadeTipoInibidorAutocomplete',
 })
 export class CdkModalidadeTipoInibidorAutocompleteComponent implements OnInit {

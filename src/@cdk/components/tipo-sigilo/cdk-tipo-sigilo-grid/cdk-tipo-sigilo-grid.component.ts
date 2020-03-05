@@ -7,8 +7,8 @@ import {
 } from '@angular/core';
 import {merge, of} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
-import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
+import {cdkAnimations} from '@cdk/animations';
+import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
@@ -22,7 +22,7 @@ import {FormControl} from '@angular/forms';
     styleUrls: ['./cdk-tipo-sigilo-grid.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkTipoSigiloGridComponent implements AfterViewInit, OnInit, OnChanges {
 
@@ -168,7 +168,7 @@ export class CdkTipoSigiloGridComponent implements AfterViewInit, OnInit, OnChan
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _fuseSidebarService: FuseSidebarService
+        private _cdkSidebarService: CdkSidebarService
     ) {
         this.gridFilter = {};
         this.tipoSigilos = [];
@@ -224,7 +224,7 @@ export class CdkTipoSigiloGridComponent implements AfterViewInit, OnInit, OnChan
     }
 
     toggleFilter(): void {
-        this._fuseSidebarService.getSidebar('cdk-tipo-sigilo-main-sidebar').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-tipo-sigilo-main-sidebar').toggleOpen();
         this.showFilter = !this.showFilter;
     }
 

@@ -11,8 +11,8 @@ import {
     MatSelectModule,
 } from '@cdk/angular/material';
 
-import {FuseSidebarModule} from '@fuse/components';
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSidebarModule} from '@cdk/components/index';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {EspecieRelevanciaService} from '@cdk/services/especie-relevancia.service';
 import {CdkEspecieRelevanciaGridComponent} from './cdk-especie-relevancia-grid.component';
 import {CdkEspecieRelevanciaAutocompleteModule} from '@cdk/components/especie-relevancia/cdk-especie-relevancia-autocomplete/cdk-especie-relevancia-autocomplete.module';
@@ -38,8 +38,8 @@ import {CdkEspecieRelevanciaMainSidebarComponent} from './sidebars/main/main.com
         CdkEspecieRelevanciaAutocompleteModule,
         CdkEspecieRelevanciaGridFilterModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
     ],
     providers: [
         EspecieRelevanciaService,

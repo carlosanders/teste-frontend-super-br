@@ -11,8 +11,8 @@ import {
     MatSelectModule,
 } from '@cdk/angular/material';
 
-import {FuseSidebarModule} from '@fuse/components';
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSidebarModule} from '@cdk/components/index';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {EspecieTarefaService} from '@cdk/services/especie-tarefa.service';
 import {CdkEspecieTarefaAutocompleteModule} from '@cdk/components/especie-tarefa/cdk-especie-tarefa-autocomplete/cdk-especie-tarefa-autocomplete.module';
 import {CdkTarefaGridComponent} from './cdk-tarefa-grid.component';
@@ -38,8 +38,8 @@ import {CdkTarefaMainSidebarComponent} from './sidebars/main/main.component';
         CdkEspecieTarefaAutocompleteModule,
         CdkTarefaGridFilterModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
     ],
     providers: [
         EspecieTarefaService,

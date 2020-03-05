@@ -5,7 +5,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
 
 @Component({
@@ -14,7 +14,7 @@ import {FormBuilder, FormGroup} from '@angular/forms';
     styleUrls: ['./cdk-modalidade-tipo-inibidor-grid-filter.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkModalidadeTipoInibidorGridFilterComponent implements OnInit {
 
@@ -23,7 +23,7 @@ export class CdkModalidadeTipoInibidorGridFilterComponent implements OnInit {
 
     form: FormGroup;
 
-    filters: any = {};
+    filters: any = '{}';
 
     /**
      * Constructor

@@ -15,20 +15,23 @@ export class ModalidadeColaboradorService {
     ) {
     }
 
-    get(id: number): Observable<ModalidadeColaborador> {
-        return this.modelService.getOne('modalidade_colaborador', id)
+    get(id: number, context: any = '{}'): Observable<ModalidadeColaborador> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.getOne('modalidade_colaborador', id, new HttpParams({fromObject: params}))
             .pipe(
                 map(response => plainToClass(ModalidadeColaborador, response)[0])
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
         params['offset'] = offset;
         params['order'] = order;
         params['populate'] = populate;
+        params['context'] = context;
 
         return this.modelService.get('modalidade_colaborador', new HttpParams({fromObject: params}))
             .pipe(
@@ -36,16 +39,19 @@ export class ModalidadeColaboradorService {
             );
     }
 
-    count(filters: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
+        params['context'] = context;
 
         return this.modelService.count('modalidade_colaborador', new HttpParams({fromObject: params}));
     }
 
-    save(modalidadeColaborador: ModalidadeColaborador): Observable<ModalidadeColaborador> {
+    save(modalidadeColaborador: ModalidadeColaborador, context: any = '{}'): Observable<ModalidadeColaborador> {
+        const params = {};
+        params['context'] = context;
         if (modalidadeColaborador.id) {
-            return this.modelService.put('modalidade_colaborador', modalidadeColaborador.id, classToPlain(modalidadeColaborador))
+            return this.modelService.put('modalidade_colaborador', modalidadeColaborador.id, classToPlain(modalidadeColaborador), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(ModalidadeColaborador, response);
@@ -54,7 +60,7 @@ export class ModalidadeColaboradorService {
                     })
                 );
         } else {
-            return this.modelService.post('modalidade_colaborador', classToPlain(modalidadeColaborador))
+            return this.modelService.post('modalidade_colaborador', classToPlain(modalidadeColaborador), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(ModalidadeColaborador, response);
@@ -65,7 +71,9 @@ export class ModalidadeColaboradorService {
         }
     }
 
-    destroy(id: number): Observable<ModalidadeColaborador> {
-        return this.modelService.delete('modalidade_colaborador', id);
+    destroy(id: number, context: any = '{}'): Observable<ModalidadeColaborador> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.delete('modalidade_colaborador', id, new HttpParams({fromObject: params}));
     }
 }

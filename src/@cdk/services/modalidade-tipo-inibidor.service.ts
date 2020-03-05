@@ -15,20 +15,23 @@ export class ModalidadeTipoInibidorService {
     ) {
     }
 
-    get(id: number): Observable<ModalidadeTipoInibidor> {
-        return this.modelService.getOne('modalidade_tipo_inibidor', id)
+    get(id: number, context: any = '{}'): Observable<ModalidadeTipoInibidor> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.getOne('modalidade_tipo_inibidor', id, new HttpParams({fromObject: params}))
             .pipe(
                 map(response => plainToClass(ModalidadeTipoInibidor, response)[0])
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
         params['offset'] = offset;
         params['order'] = order;
         params['populate'] = populate;
+        params['context'] = context;
 
         return this.modelService.get('modalidade_tipo_inibidor', new HttpParams({fromObject: params}))
             .pipe(
@@ -36,16 +39,19 @@ export class ModalidadeTipoInibidorService {
             );
     }
 
-    count(filters: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
+        params['context'] = context;
 
         return this.modelService.count('modalidade_tipo_inibidor', new HttpParams({fromObject: params}));
     }
 
-    save(modalidadeTipoInibidor: ModalidadeTipoInibidor): Observable<ModalidadeTipoInibidor> {
+    save(modalidadeTipoInibidor: ModalidadeTipoInibidor, context: any = '{}'): Observable<ModalidadeTipoInibidor> {
+        const params = {};
+        params['context'] = context;
         if (modalidadeTipoInibidor.id) {
-            return this.modelService.put('modalidade_tipo_inibidor', modalidadeTipoInibidor.id, classToPlain(modalidadeTipoInibidor))
+            return this.modelService.put('modalidade_tipo_inibidor', modalidadeTipoInibidor.id, classToPlain(modalidadeTipoInibidor), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(ModalidadeTipoInibidor, response);
@@ -54,7 +60,7 @@ export class ModalidadeTipoInibidorService {
                     })
                 );
         } else {
-            return this.modelService.post('modalidade_tipo_inibidor', classToPlain(modalidadeTipoInibidor))
+            return this.modelService.post('modalidade_tipo_inibidor', classToPlain(modalidadeTipoInibidor), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(ModalidadeTipoInibidor, response);
@@ -65,7 +71,9 @@ export class ModalidadeTipoInibidorService {
         }
     }
 
-    destroy(id: number): Observable<ModalidadeTipoInibidor> {
-        return this.modelService.delete('modalidade_tipo_inibidor', id);
+    destroy(id: number, context: any = '{}'): Observable<ModalidadeTipoInibidor> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.delete('modalidade_tipo_inibidor', id, new HttpParams({fromObject: params}));
     }
 }

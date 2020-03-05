@@ -6,7 +6,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {ModalidadeGeneroPessoa} from '@cdk/models';
 import {ModalidadeGeneroPessoaService} from '@cdk/services/modalidade-genero-pessoa.service';
 import {FormControl} from '@angular/forms';
@@ -21,7 +21,7 @@ import {Pagination} from '@cdk/models';
     styleUrls: ['./cdk-modalidade-genero-pessoa-autocomplete.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations,
+    animations: cdkAnimations,
     exportAs: 'modalidadeGeneroPessoaAutocomplete',
 })
 export class CdkModalidadeGeneroPessoaAutocompleteComponent implements OnInit {

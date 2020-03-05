@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 
 import {GeneroDocumentoAvulsoService} from '@cdk/services/genero-documento-avulso.service';
 import {CdkGeneroDocumentoAvulsoGridsearchComponent} from './cdk-genero-documento-avulso-gridsearch.component';
@@ -14,7 +14,7 @@ import {CdkGeneroDocumentoAvulsoGridModule} from '@cdk/components/genero-documen
 
         CdkGeneroDocumentoAvulsoGridModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         GeneroDocumentoAvulsoService

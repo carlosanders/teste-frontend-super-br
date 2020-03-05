@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 
 import { ModalidadeMeioService } from '@cdk/services/modalidade-meio.service';
 import { CdkModalidadeMeioGridsearchComponent } from './cdk-modalidade-meio-gridsearch.component';
@@ -14,7 +14,7 @@ import { CdkModalidadeMeioGridModule } from '@cdk/components/modalidade-meio/cdk
 
         CdkModalidadeMeioGridModule,
         
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         ModalidadeMeioService

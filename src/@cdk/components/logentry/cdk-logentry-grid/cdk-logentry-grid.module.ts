@@ -11,12 +11,12 @@ import {
     MatSelectModule,
 } from '@cdk/angular/material';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {LogEntryService} from '@cdk/services/logentry.service';
 import {CdkLogentryGridComponent} from './cdk-logentry-grid.component';
 import {CdkLogentryGridFilterModule} from './cdk-logentry-grid-filter/cdk-logentry-grid-filter.module';
 import {CdkLogentryMainSidebarComponent} from './main/main.component';
-import {FuseSidebarModule} from '@fuse/components';
+import {CdkSidebarModule} from '@cdk/components/index';
 
 
 @NgModule({
@@ -37,8 +37,8 @@ import {FuseSidebarModule} from '@fuse/components';
 
         CdkLogentryGridFilterModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
     ],
     providers: [
         LogEntryService,

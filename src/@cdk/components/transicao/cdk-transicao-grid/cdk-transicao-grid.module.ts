@@ -11,8 +11,8 @@ import {
     MatSelectModule,
 } from '@cdk/angular/material';
 
-import {FuseSidebarModule} from '@fuse/components';
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSidebarModule} from '@cdk/components/index';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {TransicaoService} from '@cdk/services/transicao.service';
 import {CdkTransicaoGridComponent} from './cdk-transicao-grid.component';
 import {CdkTransicaoAutocompleteModule} from '@cdk/components/transicao/cdk-transicao-autocomplete/cdk-transicao-autocomplete.module';
@@ -38,8 +38,8 @@ import {CdkTransicaoMainSidebarComponent} from './sidebars/main/main.component';
         CdkTransicaoAutocompleteModule,
         CdkTransicaoGridFilterModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
     ],
     providers: [
         TransicaoService,

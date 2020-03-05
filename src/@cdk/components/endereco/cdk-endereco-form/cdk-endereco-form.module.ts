@@ -11,7 +11,7 @@ import {
 
 } from '@cdk/angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 import { MunicipioService } from '@cdk/services/municipio.service';
 import { CdkEnderecoFormComponent } from './cdk-endereco-form.component';
 import { CdkMunicipioAutocompleteModule } from '@cdk/components/municipio/cdk-municipio-autocomplete/cdk-municipio-autocomplete.module';
@@ -40,7 +40,7 @@ import {PaisService} from '@cdk/services/pais.service';
         CdkPaisAutocompleteModule,
         CdkPaisGridsearchModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         MunicipioService,

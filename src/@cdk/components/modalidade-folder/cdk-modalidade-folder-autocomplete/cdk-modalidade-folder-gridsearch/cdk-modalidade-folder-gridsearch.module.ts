@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 
 import { ModalidadeFolderService } from '@cdk/services/modalidade-folder.service';
 import { CdkModalidadeFolderGridsearchComponent } from './cdk-modalidade-folder-gridsearch.component';
@@ -14,7 +14,7 @@ import { CdkModalidadeFolderGridModule } from '@cdk/components/modalidade-folder
 
         CdkModalidadeFolderGridModule,
         
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         ModalidadeFolderService

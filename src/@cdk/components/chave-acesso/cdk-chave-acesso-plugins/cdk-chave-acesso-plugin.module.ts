@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { FuseSharedModule } from '../../../../@fuse/shared.module';
+import { CdkSharedModule } from '../../../shared.module';
 import { CdkChaveAcessoPluginComponent } from './cdk-chave-acesso-plugin.component';
 import { MatButtonModule, MatDialogModule, MatInputModule } from '@cdk/angular/material';
 
@@ -11,7 +11,7 @@ import { MatButtonModule, MatDialogModule, MatInputModule } from '@cdk/angular/m
         MatDialogModule,
         MatButtonModule,
         MatInputModule,
-        FuseSharedModule
+        CdkSharedModule
     ],
     entryComponents: [
         CdkChaveAcessoPluginComponent

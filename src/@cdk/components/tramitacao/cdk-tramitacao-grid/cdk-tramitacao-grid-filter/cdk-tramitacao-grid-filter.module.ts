@@ -9,7 +9,7 @@ import {
     MatInputModule
 } from '@cdk/angular/material';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {TramitacaoService} from '@cdk/services/tramitacao.service';
 import {CdkTramitacaoGridFilterComponent} from './cdk-tramitacao-grid-filter.component';
 import {CdkProcessoAutocompleteModule} from '@cdk/components/processo/cdk-processo-autocomplete/cdk-processo-autocomplete.module';
@@ -18,7 +18,7 @@ import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 import {CdkPessoaAutocompleteModule} from '@cdk/components/pessoa/cdk-pessoa-autocomplete/cdk-pessoa-autocomplete.module';
 import {CdkUsuarioAutocompleteModule} from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 import {CdkSetorAutocompleteModule} from '@cdk/components/setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
-import {FuseSidebarModule} from '@fuse/components';
+import {CdkSidebarModule} from '@cdk/components/index';
 
 @NgModule({
     declarations: [
@@ -36,8 +36,8 @@ import {FuseSidebarModule} from '@fuse/components';
         MatMomentDatetimeModule,
         MatCheckboxModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
 
         CdkUsuarioAutocompleteModule,
         CdkProcessoAutocompleteModule,

@@ -1,11 +1,11 @@
-import {Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {of, Subject} from 'rxjs';
 import {catchError, takeUntil} from 'rxjs/operators';
 import {TranslateService} from '@ngx-translate/core';
 import * as _ from 'lodash';
 
-import {FuseConfigService} from '@fuse/services/config.service';
-import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
+import {CdkConfigService} from '@cdk/services/config.service';
+import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 
 import {navigation} from 'app/navigation/navigation';
 import {Router} from '@angular/router';
@@ -25,7 +25,7 @@ import {Usuario} from "../../../../@cdk/models/usuario.model";
     encapsulation: ViewEncapsulation.None
 })
 
-export class ToolbarComponent implements OnInit, OnDestroy {
+export class ToolbarComponent implements OnInit, OnDestroy, AfterViewInit {
     horizontalNavbar: boolean;
     rightNavbar: boolean;
     hiddenNavbar: boolean;
@@ -42,8 +42,8 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
     /**
      *
-     * @param _fuseConfigService
-     * @param _fuseSidebarService
+     * @param _cdkConfigService
+     * @param _cdkSidebarService
      * @param _translateService
      * @param _loginService
      * @param _notificacaoService
@@ -51,8 +51,8 @@ export class ToolbarComponent implements OnInit, OnDestroy {
      * @param _router
      */
     constructor(
-        private _fuseConfigService: FuseConfigService,
-        private _fuseSidebarService: FuseSidebarService,
+        private _cdkConfigService: CdkConfigService,
+        private _cdkSidebarService: CdkSidebarService,
         private _translateService: TranslateService,
         private _loginService: LoginService,
         private _notificacaoService: NotificacaoService,
@@ -118,7 +118,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
         // Subscribe to the config changes
-        this._fuseConfigService.config
+        this._cdkConfigService.config
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((settings) => {
                 this.horizontalNavbar = settings.layout.navbar.position === 'top';
@@ -128,32 +128,9 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
         // Set the selected language from default languages
         this.selectedLanguage = _.find(this.languages, {id: this._translateService.currentLang});
-
-        if (this.userProfile) {
-            this._notificacaoService.count(
-                `{"destinatario.id": "eq:${this.userProfile.id}", "dataHoraLeitura": "isNull"}`)
-                .pipe(
-                    catchError(() => of([]))
-                ).subscribe(
-                value => this.notificacoesCount = value
-            );
-
-            this._store
-                .pipe(
-                    select(getMercureState),
-                    takeUntil(this._unsubscribeAll)
-                ).subscribe(message => {
-                if (message && message.type === 'notificacao') {
-                    switch (message.content.action) {
-                        case 'count':
-                            this.notificacoesCount = message.content.count;
-                            break;
-                    }
-                }
-            });
-        }
-
     }
+
+
 
     /**
      * On destroy
@@ -174,7 +151,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
      * @param key
      */
     toggleSidebarOpen(key): void {
-        this._fuseSidebarService.getSidebar(key).toggleOpen();
+        this._cdkSidebarService.getSidebar(key).toggleOpen();
     }
 
     /**
@@ -209,5 +186,31 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
         // Use the selected language for translations
         this._translateService.use(lang.id);
+    }
+
+    ngAfterViewInit(): void {
+        if (this.userProfile) {
+            this._notificacaoService.count(
+                `{"destinatario.id": "eq:${this.userProfile.id}", "dataHoraLeitura": "isNull"}`)
+                .pipe(
+                    catchError(() => of([]))
+                ).subscribe(
+                value => this.notificacoesCount = value
+            );
+
+            this._store
+                .pipe(
+                    select(getMercureState),
+                    takeUntil(this._unsubscribeAll)
+                ).subscribe(message => {
+                if (message && message.type === 'notificacao') {
+                    switch (message.content.action) {
+                        case 'count':
+                            this.notificacoesCount = message.content.count;
+                            break;
+                    }
+                }
+            });
+        }
     }
 }

@@ -9,7 +9,7 @@ import {
     MatInputModule
 } from '@cdk/angular/material';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {EspecieDocumentoAvulsoService} from '@cdk/services/especie-documento-avulso.service';
 import {CdkEspecieDocumentoAvulsoGridFilterComponent} from './cdk-especie-documento-avulso-grid-filter.component';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
@@ -33,7 +33,7 @@ import {CdkGeneroDocumentoAvulsoAutocompleteModule} from '@cdk/components/genero
         MatMomentDatetimeModule,
         MatCheckboxModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
 
         CdkUsuarioAutocompleteModule,
         CdkGeneroDocumentoAvulsoAutocompleteModule,

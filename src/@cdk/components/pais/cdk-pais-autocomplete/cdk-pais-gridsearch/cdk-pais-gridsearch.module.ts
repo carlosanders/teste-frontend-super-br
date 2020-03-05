@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 
 import { PaisService } from '@cdk/services/pais.service';
 import { CdkPaisGridsearchComponent } from './cdk-pais-gridsearch.component';
@@ -14,7 +14,7 @@ import { CdkPaisGridModule } from '@cdk/components/pais/cdk-pais-grid/cdk-pais-g
 
         CdkPaisGridModule,
         
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         PaisService

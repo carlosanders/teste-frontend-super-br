@@ -2,7 +2,7 @@ import {ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, ViewEncapsu
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {topicosConfig} from './topicos-config';
 import {Topico} from './topico';
-import { FuseUtils } from '@fuse/utils';
+import { CdkUtils } from '@cdk/utils';
 import {DynamicService} from '../modules/dynamic.service';
 
 @Component({
@@ -52,7 +52,7 @@ export class AjudaComponent implements OnInit {
     pesquisar(): void {
         this.back();
         this.isSubmited = true;
-        this.resultado = FuseUtils.filterArrayByString(this.topicos, this.form.get('pesquisa').value);
+        this.resultado = CdkUtils.filterArrayByString(this.topicos, this.form.get('pesquisa').value);
     }
 
     carregar(topico: Topico): void {

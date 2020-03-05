@@ -6,8 +6,8 @@ import {
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 
-import {FuseSharedModule} from '@fuse/shared.module';
-import {FuseSidebarModule} from '@fuse/components';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {CdkSidebarModule} from '@cdk/components';
 
 import {TarefaDetailComponent} from './tarefa-detail.component';
 import {CommonModule} from '@angular/common';
@@ -21,7 +21,6 @@ import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.servi
 import {DocumentoService} from '@cdk/services/documento.service';
 import {PipesModule} from '@cdk/pipes/pipes.module';
 import {LoginService} from '../../../auth/login/login.service';
-import {DynamicService} from '../../../../../modules/dynamic.service';
 
 const routes: Routes = [
     {
@@ -69,20 +68,6 @@ const routes: Routes = [
     }
 ];
 
-/*
-const rootInjector = Injector.create({
-    name: 'root',
-    providers: [
-        {
-            provide: DynamicService, useClass: DynamicService
-        }
-    ]
-});
-
-renderComponent(TarefaDetailComponent, {
-    injector: rootInjector
-});
-*/
 @NgModule({
     declarations: [
         TarefaDetailComponent
@@ -105,8 +90,8 @@ renderComponent(TarefaDetailComponent, {
 
         CdkVinculacaoEtiquetaChipsModule,
 
-        FuseSharedModule,
-        FuseSidebarModule
+        CdkSharedModule,
+        CdkSidebarModule
     ],
     providers: [
         TarefaService,

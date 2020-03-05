@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 
 import { ModalidadeGarantiaService } from '@cdk/services/modalidade-garantia.service';
 import { CdkModalidadeGarantiaGridsearchComponent } from './cdk-modalidade-garantia-gridsearch.component';
@@ -14,7 +14,7 @@ import { CdkModalidadeGarantiaGridModule } from '@cdk/components/modalidade-gara
 
         CdkModalidadeGarantiaGridModule,
         
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         ModalidadeGarantiaService

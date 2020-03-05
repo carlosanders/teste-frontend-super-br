@@ -4,7 +4,7 @@ import {
     MatMenuModule, MatProgressBarModule, MatProgressSpinnerModule
 } from '@cdk/angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 import { CdkComponenteDigitalCardComponent } from './cdk-componente-digital-card.component';
 
 @NgModule({
@@ -20,7 +20,7 @@ import { CdkComponenteDigitalCardComponent } from './cdk-componente-digital-card
         MatProgressBarModule,
         MatProgressSpinnerModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
     ],

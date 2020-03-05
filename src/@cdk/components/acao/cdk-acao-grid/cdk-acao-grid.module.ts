@@ -12,13 +12,13 @@ import {
     MatSelectModule,
 } from '@cdk/angular/material';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {AcaoService} from '@cdk/services/acao.service';
 import {CdkAcaoGridComponent} from './cdk-acao-grid.component';
 import {CdkAcaoAutocompleteModule} from '@cdk/components/acao/cdk-acao-autocomplete/cdk-acao-autocomplete.module';
 import {CdkAcaoGridFilterModule} from './cdk-acao-grid-filter/cdk-acao-grid-filter.module';
 import {CommonModule} from '@angular/common';
-import {FuseSidebarModule} from '@fuse/components';
+import {CdkSidebarModule} from '@cdk/components/index';
 import {CdkAcaoMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
@@ -43,8 +43,8 @@ import {CdkAcaoMainSidebarComponent} from './sidebars/main/main.component';
         CdkAcaoAutocompleteModule,
         CdkAcaoGridFilterModule,
 
-        FuseSidebarModule,
-        FuseSharedModule,
+        CdkSidebarModule,
+        CdkSharedModule,
     ],
     providers: [
         AcaoService,

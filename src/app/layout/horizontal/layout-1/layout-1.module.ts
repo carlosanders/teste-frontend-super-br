@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { MatSidenavModule } from '@cdk/angular/material';
 
-import { FuseSidebarModule, FuseThemeOptionsModule } from '@fuse/components';
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSidebarModule, CdkThemeOptionsModule } from '@cdk/components';
+import { CdkSharedModule } from '@cdk/shared.module';
 
 import { ContentModule } from 'app/layout/components/content/content.module';
 import { FooterModule } from 'app/layout/components/footer/footer.module';
@@ -20,9 +20,9 @@ import {AjudaPanelModule} from '../../components/ajuda-panel/ajuda-panel.module'
     imports     : [
         MatSidenavModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
-        FuseThemeOptionsModule,
+        CdkSharedModule,
+        CdkSidebarModule,
+        CdkThemeOptionsModule,
 
         ContentModule,
         FooterModule,

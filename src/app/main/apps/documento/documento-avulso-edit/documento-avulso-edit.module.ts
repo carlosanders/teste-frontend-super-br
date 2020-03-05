@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 
 import {TranslateModule} from '@ngx-translate/core';
 import {DocumentoAvulsoEditComponent} from './documento-avulso-edit.component';
@@ -44,7 +44,7 @@ const routes: Routes = [
         DocumentoStoreModule,
 
         TranslateModule,
-        FuseSharedModule,
+        CdkSharedModule,
         MatTooltipModule,
         MatProgressSpinnerModule,
         MatSlideToggleModule,

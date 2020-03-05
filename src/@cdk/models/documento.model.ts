@@ -30,7 +30,13 @@ export class Documento {
 
     outroNumero?: string;
 
+    @Exclude({toPlainOnly: true})
+    assinado?: boolean;
+
     semEfeito?: boolean;
+
+    @Exclude({toPlainOnly: true})
+    minuta?: boolean;
 
     redator?: string;
 
@@ -149,6 +155,7 @@ export class Documento {
         this.localizadorOriginal = null;
         this.localProducao = null;
         this.autor = null;
+        this.assinado = null;
         this.processoOrigem = null;
         this.documentoOrigem = null;
         this.redator = null;
@@ -161,6 +168,7 @@ export class Documento {
         this.tarefaOrigem = null;
         this.origemDados = null;
         this.modelo = null;
+        this.minuta = null;
         this.juntadaAtual = null;
         this.repositorio = null;
         this.criadoPor = null;

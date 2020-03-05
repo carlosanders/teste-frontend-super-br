@@ -6,7 +6,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
 
 import {Compartilhamento} from '@cdk/models';
@@ -26,7 +26,7 @@ import {Colaborador} from "../../../../../../../@cdk/models/colaborador.model";
     styleUrls: ['./compartilhamento-create.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CompartilhamentoCreateComponent implements OnInit, OnDestroy {
 
