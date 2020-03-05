@@ -1,0 +1,97 @@
+<div id="arquivista-detail">
+
+    <div fxFlex fxLayout="column">
+
+        <div class="arquivista-header">
+
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <div>
+                    <button *ngIf="mobileMode" mat-icon-button (click)="deselectCurrentProcesso()">
+                        <mat-icon class="secondary-text">arrow_back</mat-icon>
+                    </button>
+
+                    <button *ngIf="!mobileMode && !(maximizado$ | async)" mat-icon-button (click)="doToggleMaximizado()">
+                        <mat-icon class="secondary-text">zoom_out_map</mat-icon>
+                    </button>
+
+                    <button *ngIf="!mobileMode && (maximizado$ | async)" mat-icon-button (click)="doToggleMaximizado()">
+                        <mat-icon class="secondary-text">subdirectory_arrow_right</mat-icon>
+                    </button>
+                </div>
+
+                NO NUP {{(processo$ | async).NUP | formatNup}}
+                ATÉ {{(processo$ | async).dataHoraAbertura | date: 'dd/MM/yyyy'}}
+
+                <div class="actions" fxLayout="row" fxLayoutAlign="start center">
+
+                    <button mat-icon-button aria-label="Processo" matTooltip="Processo"
+                            [routerLink]="['processo', (processo$ | async)?.id]"
+                            [routerLinkActive]="['active', 'accent']">
+                        <mat-icon class="black-fg">book</mat-icon>
+                    </button>
+
+                    <button mat-icon-button aria-label="Movimentar" matTooltip="Movimentar"
+                            [routerLink]="'atividades/criar'"
+                            [routerLinkActive]="['active', 'accent']">
+                        <mat-icon class="black-fg">send</mat-icon>
+                    </button>
+
+                    <button mat-icon-button aria-label="Editar Tarefa" matTooltip="Editar Tarefa"
+                            [routerLink]="'editar'"
+                            [routerLinkActive]="['active', 'accent']">
+                        <mat-icon class="black-fg">edit</mat-icon>
+                    </button>
+
+                    <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="Mais Ferramentas"
+                            (click)="$event.stopPropagation()"
+                            fxHide.xs>
+                        <mat-icon class="secondary-text">more_vert</mat-icon>
+                    </button>
+
+                    <mat-menu #moreMenu="matMenu">
+
+                        <button mat-menu-item aria-label="toggle done">
+                            <ng-container>
+                                <mat-icon>check_box</mat-icon>
+                                <span>Criar Tarefa</span>
+                            </ng-container>
+                        </button>
+
+                        <button mat-menu-item aria-label="Compartilhar"
+                                [routerLink]="'compartilhamentos/criar'">
+                            <ng-container>
+                                <mat-icon>share</mat-icon>
+                                <span>Compartilhar</span>
+                            </ng-container>
+                        </button>
+
+                        <button mat-menu-item aria-label="Dar ciência">
+                            <ng-container>
+                                <mat-icon>check</mat-icon>
+                                <span>Dar Ciência</span>
+                            </ng-container>
+                        </button>
+
+                        <ng-template #dynamicComponent></ng-template>
+
+                    </mat-menu>
+                </div>
+            </div>
+            <cdk-vinculacao-etiqueta-chips class="mr-24 ml-24"
+                                           placeholderEtiq="Etiquetas da arquivista"
+                                           [vinculacoesEtiquetas]="(processo$ | async).vinculacoesEtiquetas"
+                                           (create)="onEtiquetaCreate($event)"
+                                           (edit)="onEtiquetaEdit($event)"
+                                           [savingVincEtiquetaId]="(savingVincEtiquetaId$ | async)"
+                                           [errors]="(errors$ | async)"
+                                           [pagination]="vinculacaoEtiquetaPagination"
+                                           (delete)="onEtiquetaDelete($event)"></cdk-vinculacao-etiqueta-chips>
+
+        </div>
+
+        <div class="arquivista-content">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>
+
