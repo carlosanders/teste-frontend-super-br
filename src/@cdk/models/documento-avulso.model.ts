@@ -204,6 +204,6 @@ export class DocumentoAvulso {
         this.atualizadoEm = null;
         this.apagadoPor = null;
         this.apagadoEm = null;
-        this.vinculacoesEtiquetas = null;
+        this.vinculacoesEtiquetas = [];
     }
 }

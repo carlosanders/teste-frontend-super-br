@@ -1,11 +1,14 @@
 import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
 
-import {DocumentoAvulso, Usuario} from '@cdk/models';
-import { Etiqueta } from '@cdk/models';
-import {Tarefa} from '@cdk/models';
-import {Documento} from '@cdk/models';
-import {Processo} from '@cdk/models';
+import {
+    DocumentoAvulso,
+    Usuario,
+    Etiqueta,
+    Tarefa,
+    Documento,
+    Processo
+} from '@cdk/models';
 
 export class VinculacaoEtiqueta {
 

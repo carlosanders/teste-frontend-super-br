@@ -241,7 +241,7 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
             etiquetasId.push(e.id);
         });
         const etiquetaFilter = {
-            'processo.vinculacoesEtiquetas.etiqueta.id': `in:${etiquetasId.join(',')}`
+            'vinculacoesEtiquetas.etiqueta.id': `in:${etiquetasId.join(',')}`
         };
         const nparams = {
             ...this.pagination,

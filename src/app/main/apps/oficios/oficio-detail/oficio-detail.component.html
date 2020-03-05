@@ -40,7 +40,7 @@
                 </div>
 
                 <cdk-vinculacao-etiqueta-chips class="mr-24 ml-24"
-                                               [vinculacoesEtiquetas]="(documentoAvulso$ | async).processo.vinculacoesEtiquetas"
+                                               [vinculacoesEtiquetas]="(documentoAvulso$ | async).vinculacoesEtiquetas"
                                                (create)="onEtiquetaCreate($event)"
                                                [pagination]="vinculacaoEtiquetaPagination"
                                                (delete)="onEtiquetaDelete($event)">

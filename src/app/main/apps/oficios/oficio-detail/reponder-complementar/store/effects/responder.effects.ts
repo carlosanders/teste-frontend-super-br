@@ -4,8 +4,6 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from '../../../../../../../store/reducers';
 import * as ResponderActions from '../actions/responder.actions';
-import {DocumentoService} from '../../../../../../../../@cdk/services/documento.service';
-import {DocumentoAvulso} from '../../../../../../../../@cdk/models';
 import {tap} from 'rxjs/operators';
 
 @Injectable()
@@ -36,8 +34,7 @@ export class ResponderEffects {
             .pipe(
                 ofType<ResponderActions.SaveRespostaSuccess>(ResponderActions.SAVE_RESPOSTA_SUCCESS),
                 tap((action) => {
-                    this._router.navigate([
-                        this.routerState.url.replace('oficios', '/documento-avulso/') + '/' + action.payload + '/responder-complementar']
+                    this._router.navigate(['apps/oficios/' + action.payload + '/responder-complementar']
                     ).then();
                 })
             );
