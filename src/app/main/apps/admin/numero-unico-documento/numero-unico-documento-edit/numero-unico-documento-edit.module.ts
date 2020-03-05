@@ -15,8 +15,8 @@ import {
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 
-import {FuseSharedModule} from '@fuse/shared.module';
-import {FuseSidebarModule} from '@fuse/components';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {CdkSidebarModule} from '@cdk/components';
 
 import {NumeroUnicoDocumentoEditComponent} from './numero-unico-documento-edit.component';
 import {RouterModule, Routes} from '@angular/router';
@@ -62,8 +62,8 @@ const routes: Routes = [
 
         TranslateModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
         CdkNumeroUnicoDocumentoFormModule,
     ],
     providers: [

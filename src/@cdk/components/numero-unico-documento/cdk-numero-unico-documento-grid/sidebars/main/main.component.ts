@@ -1,12 +1,12 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEncapsulation} from '@angular/core';
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Pagination} from "@cdk/models";
 
 @Component({
     selector: 'cdk-numero-unico-documento-main-sidebar',
     templateUrl: './main.component.html',
     styleUrls: ['./main.component.scss'],
-    animations: fuseAnimations,
+    animations: cdkAnimations,
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None
 })

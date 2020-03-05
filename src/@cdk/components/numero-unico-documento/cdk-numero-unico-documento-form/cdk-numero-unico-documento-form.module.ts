@@ -11,7 +11,7 @@ import {
 
 } from '@cdk/angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 import { UsuarioService } from '@cdk/services/usuario.service';
 import { CdkNumeroUnicoDocumentoFormComponent } from './cdk-numero-unico-documento-form.component';
 import {CdkSetorGridsearchModule} from "@cdk/components/setor/cdk-setor-autocomplete/cdk-setor-gridsearch/cdk-setor-gridsearch.module";
@@ -34,7 +34,7 @@ import {CdkTipoDocumentoAutocompleteModule} from "@cdk/components/tipo-documento
         MatProgressSpinnerModule,
         MatDatepickerModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
         CdkSetorGridsearchModule,
         CdkSetorAutocompleteModule,
         CdkTipoDocumentoGridsearchModule,

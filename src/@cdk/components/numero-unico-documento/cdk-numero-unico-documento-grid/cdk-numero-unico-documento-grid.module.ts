@@ -11,8 +11,8 @@ import {
     MatSelectModule,
 } from '@cdk/angular/material';
 
-import {FuseSidebarModule} from '@fuse/components';
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSidebarModule} from '@cdk/components';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {NumeroUnicoDocumentoService} from '@cdk/services/numero-unico-documento.service';
 import {CdkNumeroUnicoDocumentoGridComponent} from './cdk-numero-unico-documento-grid.component';
 import {CdkNumeroUnicoDocumentoGridFilterModule} from './cdk-numero-unico-documento-grid-filter/cdk-numero-unico-documento-grid-filter.module';
@@ -36,8 +36,8 @@ import {CdkNumeroUnicoDocumentoMainSidebarComponent} from './sidebars/main/main.
 
         CdkNumeroUnicoDocumentoGridFilterModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
     ],
     providers: [
         NumeroUnicoDocumentoService,

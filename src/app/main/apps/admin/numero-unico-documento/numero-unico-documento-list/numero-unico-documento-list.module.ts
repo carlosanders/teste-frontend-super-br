@@ -14,7 +14,7 @@ import {
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {NumeroUnicoDocumentoListComponent} from './numero-unico-documento-list.component';
 import {RouterModule, Routes} from '@angular/router';
 import {NumeroUnicoDocumentoListStoreModule} from './store/store.module';
@@ -52,7 +52,7 @@ const routes: Routes = [
 
         TranslateModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
 
         NumeroUnicoDocumentoListStoreModule,
         CdkNumeroUnicoDocumentoGridModule,

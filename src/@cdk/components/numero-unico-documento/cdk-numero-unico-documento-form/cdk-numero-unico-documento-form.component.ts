@@ -7,7 +7,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {NumeroUnicoDocumento, TipoDocumento, Setor, Pagination} from "@cdk/models";
 
@@ -17,7 +17,7 @@ import {NumeroUnicoDocumento, TipoDocumento, Setor, Pagination} from "@cdk/model
     styleUrls: ['./cdk-numero-unico-documento-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkNumeroUnicoDocumentoFormComponent implements OnChanges, OnDestroy {
 
