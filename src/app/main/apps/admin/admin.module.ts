@@ -29,6 +29,10 @@ const routes: Routes = [
             {
                 path       : ':unidadeHandle/localizador',
                 loadChildren: () => import('./localizador/localizador.module').then(m => m.LocalizadorModule)
+            },
+            {
+                path       : ':unidadeHandle/numero-unico-documento',
+                loadChildren: () => import('./numero-unico-documento/numero-unico-documento.module').then(m => m.NumeroUnicoDocumentoModule)
             }
         ]
     }

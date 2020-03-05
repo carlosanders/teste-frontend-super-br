@@ -12,31 +12,32 @@ import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
-import {TipoDocumento} from '@cdk/models';
-import {TipoDocumentoDataSource} from '@cdk/data-sources/tipo-documento-data-source';
+import {NumeroUnicoDocumento} from '@cdk/models';
+import {NumeroUnicoDocumentoDataSource} from '@cdk/data-sources/numero-unico-documento-data-source';
 import {FormControl} from '@angular/forms';
+import {Pagination} from "@cdk/models";
 
 @Component({
-    selector: 'cdk-tipo-documento-grid',
-    templateUrl: './cdk-tipo-documento-grid.component.html',
-    styleUrls: ['./cdk-tipo-documento-grid.component.scss'],
+    selector: 'cdk-numero-unico-documento-grid',
+    templateUrl: './cdk-numero-unico-documento-grid.component.html',
+    styleUrls: ['./cdk-numero-unico-documento-grid.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
 })
-export class CdkTipoDocumentoGridComponent implements AfterViewInit, OnInit, OnChanges {
+export class CdkNumeroUnicoDocumentoGridComponent implements AfterViewInit, OnInit, OnChanges {
 
     @Input()
     loading = false;
 
     @Input()
-    tiposDocumentos: TipoDocumento[];
+    numerosUnicosDocumento: NumeroUnicoDocumento[];
 
     @Input()
     total = 0;
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'nome', 'sigla', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'tipoDocumento.nome', 'setor.unidade.nome', 'setor.nome', 'sequencia', 'ano', 'actions'];
 
     allColumns: any[] = [
         {
@@ -50,28 +51,28 @@ export class CdkTipoDocumentoGridComponent implements AfterViewInit, OnInit, OnC
             fixed: true
         },
         {
-            id: 'nome',
-            label: 'Nome',
+            id: 'tipoDocumento.nome',
+            label: 'Tipo Documento',
             fixed: true
         },
         {
-            id: 'sigla',
-            label: 'Sigla',
+            id: 'setor.nome',
+            label: 'Setor',
+            fixed: true
+        },
+        {
+            id: 'setor.unidade.nome',
+            label: 'Unidade',
+            fixed: true
+        },
+        {
+            id: 'sequencia',
+            label: 'Sequência',
             fixed: false
         },
         {
-            id: 'descricao',
-            label: 'Descrição',
-            fixed: false
-        },
-        {
-            id: 'ativo',
-            label: 'Ativo',
-            fixed: false
-        },
-        {
-            id: 'especieDocumento.nome',
-            label: 'Espécie de Documento',
+            id: 'ano',
+            label: 'Ano',
             fixed: false
         },
         {
@@ -123,7 +124,7 @@ export class CdkTipoDocumentoGridComponent implements AfterViewInit, OnInit, OnC
     pageSize = 5;
 
     @Input()
-    actions: string[] = ['edit', 'delete', 'select'];
+    actions: string[] = ['edit', 'select'];
 
     @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
@@ -144,12 +145,15 @@ export class CdkTipoDocumentoGridComponent implements AfterViewInit, OnInit, OnC
     delete = new EventEmitter<number>();
 
     @Output()
-    selected = new EventEmitter<TipoDocumento>();
+    selected = new EventEmitter<NumeroUnicoDocumento>();
 
     @Output()
     selectedIds: number[] = [];
 
-    dataSource: TipoDocumentoDataSource;
+    dataSource: NumeroUnicoDocumentoDataSource;
+
+    @Input()
+    setorPagination: Pagination;
 
     showFilter = false;
 
@@ -168,11 +172,11 @@ export class CdkTipoDocumentoGridComponent implements AfterViewInit, OnInit, OnC
         private _fuseSidebarService: FuseSidebarService
     ) {
         this.gridFilter = {};
-        this.tiposDocumentos = [];
+        this.numerosUnicosDocumento = [];
     }
 
     ngOnChanges(): void {
-        this.dataSource = new TipoDocumentoDataSource(of(this.tiposDocumentos));
+        this.dataSource = new NumeroUnicoDocumentoDataSource(of(this.numerosUnicosDocumento));
         this.paginator.length = this.total;
     }
 
@@ -187,7 +191,7 @@ export class CdkTipoDocumentoGridComponent implements AfterViewInit, OnInit, OnC
 
         this.paginator.pageSize = this.pageSize;
 
-        this.dataSource = new TipoDocumentoDataSource(of(this.tiposDocumentos));
+        this.dataSource = new NumeroUnicoDocumentoDataSource(of(this.numerosUnicosDocumento));
 
         this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
 
@@ -220,7 +224,7 @@ export class CdkTipoDocumentoGridComponent implements AfterViewInit, OnInit, OnC
     }
 
     toggleFilter(): void {
-        this._fuseSidebarService.getSidebar('cdk-tipo-documento-main-sidebar').toggleOpen();
+        this._fuseSidebarService.getSidebar('cdk-numero-unico-documento-main-sidebar').toggleOpen();
         this.showFilter = !this.showFilter;
     }
 
@@ -233,20 +237,20 @@ export class CdkTipoDocumentoGridComponent implements AfterViewInit, OnInit, OnC
         });
     }
 
-    editTipoDocumento(tipoDocumentoId): void {
-        this.edit.emit(tipoDocumentoId);
+    editNumeroUnicoDocumento(numeroUnicoDocumentoId): void {
+        this.edit.emit(numeroUnicoDocumentoId);
     }
 
-    selectTipoDocumento(tipoDocumento: TipoDocumento): void {
-        this.selected.emit(tipoDocumento);
+    selectNumeroUnicoDocumento(numeroUnicoDocumento: NumeroUnicoDocumento): void {
+        this.selected.emit(numeroUnicoDocumento);
     }
 
-    deleteTipoDocumento(tipoDocumentoId): void {
-        this.delete.emit(tipoDocumentoId);
+    deleteNumeroUnicoDocumento(numeroUnicoDocumentoId): void {
+        this.delete.emit(numeroUnicoDocumentoId);
     }
 
-    deleteTiposDocumentos(tiposDocumentosId): void {
-        tiposDocumentosId.forEach(tipoDocumentoId => this.deleteTipoDocumento(tipoDocumentoId));
+    deleteLotacoes(numerosUnicosDocumentoId): void {
+        numerosUnicosDocumentoId.forEach(numeroUnicoDocumentoId => this.deleteNumeroUnicoDocumento(numeroUnicoDocumentoId));
     }
 
     /**
@@ -268,8 +272,8 @@ export class CdkTipoDocumentoGridComponent implements AfterViewInit, OnInit, OnC
      * Select all
      */
     selectAll(): void {
-        const arr = Object.keys(this.tiposDocumentos).map(k => this.tiposDocumentos[k]);
-        this.selectedIds = arr.map(tipoDocumento => tipoDocumento.id);
+        const arr = Object.keys(this.numerosUnicosDocumento).map(k => this.numerosUnicosDocumento[k]);
+        this.selectedIds = arr.map(numeroUnicoDocumento => numeroUnicoDocumento.id);
         this.recompute();
     }
 
@@ -281,20 +285,20 @@ export class CdkTipoDocumentoGridComponent implements AfterViewInit, OnInit, OnC
         this.recompute();
     }
 
-    toggleInSelected(tipoDocumentoId): void {
-        const selectedTipoDocumentoIds = [...this.selectedIds];
+    toggleInSelected(numeroUnicoDocumentoId): void {
+        const selectedNumeroUnicoDocumentoIds = [...this.selectedIds];
 
-        if (selectedTipoDocumentoIds.find(id => id === tipoDocumentoId) !== undefined) {
-            this.selectedIds = selectedTipoDocumentoIds.filter(id => id !== tipoDocumentoId);
+        if (selectedNumeroUnicoDocumentoIds.find(id => id === numeroUnicoDocumentoId) !== undefined) {
+            this.selectedIds = selectedNumeroUnicoDocumentoIds.filter(id => id !== numeroUnicoDocumentoId);
         } else {
-            this.selectedIds = [...selectedTipoDocumentoIds, tipoDocumentoId];
+            this.selectedIds = [...selectedNumeroUnicoDocumentoIds, numeroUnicoDocumentoId];
         }
         this.recompute();
     }
 
     recompute(): void {
         this.hasSelected = this.selectedIds.length > 0;
-        this.isIndeterminate = (this.selectedIds.length !== this.tiposDocumentos.length && this.selectedIds.length > 0);
+        this.isIndeterminate = (this.selectedIds.length !== this.numerosUnicosDocumento.length && this.selectedIds.length > 0);
     }
 
     setGridFilter(gridFilter): void {

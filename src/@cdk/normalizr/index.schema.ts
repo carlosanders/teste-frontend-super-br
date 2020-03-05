@@ -75,6 +75,7 @@ export const modelo = new schema.Entity('modelo');
 export const municipio = new schema.Entity('municipio');
 export const nome = new schema.Entity('nome');
 export const notificacao = new schema.Entity('notificacao');
+export const numeroUnicoDocumento = new schema.Entity('numero-unico-documento');
 export const origemDados = new schema.Entity('origem-dados');
 export const pais = new schema.Entity('pais');
 export const pessoa = new schema.Entity('pessoa');

@@ -1,29 +1,33 @@
 import {
     ChangeDetectionStrategy,
-    Component, EventEmitter,
+    Component, EventEmitter, Input,
     OnInit, Output,
     ViewEncapsulation
 } from '@angular/core';
 
 import {fuseAnimations} from '@fuse/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
+import {Pagination} from "@cdk/models";
 
 @Component({
-    selector: 'cdk-tipo-documento-grid-filter',
-    templateUrl: './cdk-tipo-documento-grid-filter.component.html',
-    styleUrls: ['./cdk-tipo-documento-grid-filter.component.scss'],
+    selector: 'cdk-numero-unico-documento-grid-filter',
+    templateUrl: './cdk-numero-unico-documento-grid-filter.component.html',
+    styleUrls: ['./cdk-numero-unico-documento-grid-filter.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
 })
-export class CdkTipoDocumentoGridFilterComponent implements OnInit {
+export class CdkNumeroUnicoDocumentoGridFilterComponent implements OnInit {
 
     @Output()
     selected = new EventEmitter<any>();
 
     form: FormGroup;
 
-    filters: any = '{}';
+    filters: any = {};
+
+    @Input()
+    pagination: Pagination;
 
     /**
      * Constructor
@@ -31,12 +35,12 @@ export class CdkTipoDocumentoGridFilterComponent implements OnInit {
     constructor(
         private _formBuilder: FormBuilder
     ) {
+
         this.form = this._formBuilder.group({
-            nome: [null],
-            sigla: [null],
-            especieDocumento: [null],
-            descricao: [null],
-            ativo: [null],
+            tipoDocumento: [null],
+            setor: [null],
+            sequencia: [null],
+            ano: [null],
             criadoPor: [null],
             criadoEm: [null],
             atualizadoPor: [null],
@@ -44,6 +48,8 @@ export class CdkTipoDocumentoGridFilterComponent implements OnInit {
             apagadoPor: [null],
             apagadoEm: [null],
         });
+
+        this.pagination = new Pagination();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -54,57 +60,56 @@ export class CdkTipoDocumentoGridFilterComponent implements OnInit {
      * On init
      */
     ngOnInit(): void {
-        this.form.get('nome').valueChanges.subscribe(value => {
+        this.form.get('sequencia').valueChanges.subscribe(value => {
             if (value !== null) {
                 this.filters = {
                     ...this.filters,
-                    nome: `like:${value}%`
+                    sequencia: `like:${value}%`
                 };
                 this.selected.emit(this.filters);
             }
         });
 
-        this.form.get('sigla').valueChanges.subscribe(value => {
+        this.form.get('ano').valueChanges.subscribe(value => {
             if (value !== null) {
                 this.filters = {
                     ...this.filters,
-                    sigla: `like:${value}%`
+                    ano: `like:${value}%`
                 };
                 this.selected.emit(this.filters);
             }
         });
 
-        this.form.get('descricao').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    descricao: `like:${value}%`
-                };
-                this.selected.emit(this.filters);
-            }
-        });
-
-        this.form.get('ativo').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    ativo: `eq:${value}`
-                };
-                this.selected.emit(this.filters);
-            }
-        });
-
-        this.form.get('especieDocumento').valueChanges.subscribe(value => {
+        this.form.get('tipoDocumento').valueChanges.subscribe(value => {
             if (value !== null) {
                 if (typeof value === 'object' && value) {
                     this.filters = {
                         ...this.filters,
-                        'especieDocumento.id': `eq:${value.id}`
+                        'tipoDocumento.id': `eq:${value.id}`
                     };
                     this.selected.emit(this.filters);
                 } else {
-                    if (this.filters.hasOwnProperty('especieDocumento.id')) {
-                        delete this.filters['especieDocumento.id'];
+                    if (this.filters.hasOwnProperty('tipoDocumento.id')) {
+                        delete this.filters['tipoDocumento.id'];
+                    }
+                }
+                if (!value) {
+                    this.selected.emit(this.filters);
+                }
+            }
+        });
+
+        this.form.get('setor').valueChanges.subscribe(value => {
+            if (value !== null) {
+                if (typeof value === 'object' && value) {
+                    this.filters = {
+                        ...this.filters,
+                        'setor.id': `eq:${value.id}`
+                    };
+                    this.selected.emit(this.filters);
+                } else {
+                    if (this.filters.hasOwnProperty('setor.id')) {
+                        delete this.filters['setor.id'];
                     }
                 }
                 if (!value) {
@@ -208,4 +213,3 @@ export class CdkTipoDocumentoGridFilterComponent implements OnInit {
     }
 
 }
-
