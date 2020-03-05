@@ -229,8 +229,22 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
 
             atividade.tarefa = tarefa;
             //atividade.documentos = this.minutas;
+            this.selectedDocumentos$.subscribe(
+                documentos => {
+                    atividade.documentos = documentos;
+                    //@retirar:
+                    console.log("atividade.documentos"); 
+                    console.log(atividade.documentos);
 
-            this._store.dispatch(new fromStore.SaveAtividade(atividade));
+
+                }
+
+            );
+
+
+            /*console.log("this.selectedDocumentos$"); 
+                console.log(this.selectedDocumentos$);
+            this._store.dispatch(new fromStore.SaveAtividade(atividade));*/
         });
     }
 
