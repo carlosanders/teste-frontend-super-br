@@ -41,6 +41,10 @@ const routes = [
         loadChildren: () => import('./configuracoes/configuracoes.module').then(m => m.ConfiguracoesModule)
     },
     {
+        path        : 'arquivista',
+        loadChildren: () => import('./arquivista/arquivista.module').then(m => m.ArquivistaModule)
+    },
+    {
         path        : 'oficios',
         loadChildren: () => import('./oficios/oficios.module').then(m => m.OficiosModule)
     }
@@ -49,7 +53,7 @@ const routes = [
 @NgModule({
     imports     : [
         RouterModule.forChild(routes),
-        CdkSharedModule
+        CdkSharedModule,
     ]
 })
 export class AppsModule
