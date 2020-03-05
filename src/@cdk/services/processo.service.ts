@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {Processo} from '@cdk/models';
+import {Processo, Tarefa} from '@cdk/models';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
 import {PaginatedResponse} from '@cdk/models';
@@ -118,4 +118,19 @@ export class ProcessoService {
     destroy(id: number): Observable<Processo> {
         return this.modelService.delete('processo', id);
     }
+
+    patch(processo: Processo, changes: any): Observable<Processo> {
+        return this.http.patch(
+            `${environment.api_url}${'processo'}/${processo.id}` + environment.xdebug,
+            JSON.stringify(changes)
+        ).pipe(
+            map(response => {
+                response = plainToClass(Processo, response);
+                Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                return Object.assign(new Processo(), {...processo, ...response});
+            })
+        );
+    }
+
+
 }

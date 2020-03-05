@@ -12,10 +12,10 @@ const routes = [
         path        : 'admin',
         loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule)
     },
-    // {
-    //     path        : 'arquivista',
-    //     loadChildren: () => import('./arquivista/arquivista.module').then(m => m.ArquivistaModule)
-    // },
+    {
+        path        : 'arquivista',
+        loadChildren: () => import('./arquivista/arquivista.module').then(m => m.ArquivistaModule)
+    },
     {
         path        : 'tarefas',
         loadChildren: () => import('./tarefas/tarefas.module').then(m => m.TarefasModule)
