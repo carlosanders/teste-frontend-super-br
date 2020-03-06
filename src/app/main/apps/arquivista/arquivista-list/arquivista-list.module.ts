@@ -23,10 +23,14 @@ const routes: Routes = [
         canActivate: [fromGuards.ResolveGuard],
         children: [
             {
+                path: 'detalhe',
+                loadChildren: () => import('../arquivista-detail/arquivista-detail.module').then(m => m.ArquivistaDetailModule)
+            },
+            {
                 path: 'vinculacao-etiqueta-bloco',
                 loadChildren: () => import('../vinculacao-etiqueta-create-bloco/vinculacao-etiqueta-create-bloco.module').then(m => m.VinculacaoEtiquetaCreateBlocoModule),
             }
-        ]
+        ],
     }
 ];
 
@@ -50,7 +54,7 @@ const routes: Routes = [
     ],
     providers: [
         fromGuards.ResolveGuard,
-        ProcessoService
+
     ]
 })
 export class ArquivistaListModule {

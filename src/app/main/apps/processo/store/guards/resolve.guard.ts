@@ -76,7 +76,6 @@ export class ResolveGuard implements CanActivate {
                 }
             }),
             filter((loaded: any) => {
-//                console.log('entrou filter Guards processo');
                 return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
             }),
             take(1)
