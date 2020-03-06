@@ -23,6 +23,10 @@ const routes: Routes = [
         canActivate: [fromGuards.ResolveGuard],
         children: [
             {
+                path: '',
+                loadChildren: () => import('../arquivista-empty/arquivista-empty.module').then(m => m.ArquivistaEmptyModule)
+            },
+            {
                 path: 'detalhe',
                 loadChildren: () => import('../arquivista-detail/arquivista-detail.module').then(m => m.ArquivistaDetailModule)
             },

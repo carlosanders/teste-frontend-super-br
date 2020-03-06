@@ -1,4 +1,4 @@
-<div fxLayout="row" [dndDraggable]="draggable.data" fxLayoutAlign="start center">
+<div fxLayout="row"  fxLayoutAlign="start center">
 
     <mat-checkbox class="mr-8" [checked]="selected" (change)="onSelectedChange()"
                   (click)="$event.stopPropagation();">
@@ -30,7 +30,6 @@
                     </div>
 
 
-
                     <div *ngIf="processo.classificacao">
                         Classificação: {{processo.classificacao?.nome}}
                     </div>
@@ -39,27 +38,32 @@
                         Destinaçao: {{processo.classificacao.modalidadeDestinacao?.valor}}
                     </div>
                 </div>
-            </div>
 
-            <div class="etiquetas" fxLayout="row wrap" fxHide fxShow.gt-sm>
-                <div class="etiqueta" *ngFor="let vinculacaoEtiqueta of processo.vinculacoesEtiquetas"
-                     fxLayout="row" fxLayoutAlign="start center">
-                    <div class="etiqueta-color"
-                         [ngStyle]="{'background-color': (vinculacaoEtiqueta.etiqueta?.corHexadecimal)}"></div>
-                    <div class="etiqueta-title">{{vinculacaoEtiqueta.etiqueta?.nome}}</div>
+                <div class="etiquetas" fxLayout="row wrap" fxHide fxShow.gt-sm>
+                    <div class="etiqueta" *ngFor="let vinculacaoEtiqueta of processo.vinculacoesEtiquetas"
+                         fxLayout="row" fxLayoutAlign="start center">
+                        <div class="etiqueta-color"
+                             [ngStyle]="{'background-color': (vinculacaoEtiqueta.etiqueta?.corHexadecimal)}"></div>
+                        <div class="etiqueta-title">{{vinculacaoEtiqueta.etiqueta?.nome}}</div>
+                    </div>
                 </div>
-            </div>
 
-            <mat-expansion-panel (opened)="panelOpenState = true"
-                                 (closed)="panelOpenState = false"
-                                 (click)="$event.stopPropagation();">
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
-                        Lembrete
-                    </mat-panel-title>
-                </mat-expansion-panel-header>
-                <p>TESTE</p>
-            </mat-expansion-panel>
+                <mat-expansion-panel (opened)="panelOpenState = true"
+                                     (closed)="panelOpenState = false"
+                                     (click)="$event.stopPropagation();">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            Lembrete
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <p *ngIf="editantoLembrete == false" (click)="doEditarLembrete()">Teste</p>
+                    <mat-form-field *ngIf="editantoLembrete == true"  fxFlex>
+                      <input  matInput ng-model="Teste">
+                    </mat-form-field>
+                </mat-expansion-panel>
+
+
+            </div>
 
 
         </div>
