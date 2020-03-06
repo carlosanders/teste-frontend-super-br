@@ -89,14 +89,12 @@ export class ResolveGuard implements CanActivate {
                             dataHoraProximaTransicao: 'lt:' + this.currentDate,
 
                         };
-
                     }
 
                     if (this.routerState.params[typeParam] === 'aguardando-decurso') {
                         processoFilter = {
                             dataHoraProximaTransicao: 'gte:' + this.currentDate,
                         };
-
                     }
 
                     if (this.routerState.params[typeParam] === 'pendencia-analise') {
@@ -113,7 +111,7 @@ export class ResolveGuard implements CanActivate {
                 // routeUnidadeParams.subscribe(param => {
                 //     params['filter'] = {
                 //         ...params['filter'],
-                //         'setorAtual.id': `eq:${this.routerState.params[param]}`
+                //         'localizador.setor.unidade.id': `eq:${this.routerState.params[param]}`
                 //     };
                 // });
                 if (!this.routerState.params['unidadeHandle'] || !this.routerState.params['typeHandle'] ||
