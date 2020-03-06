@@ -12,8 +12,8 @@ import {select, Store} from '@ngrx/store';
 import {cdkAnimations} from '@cdk/animations';
 import {Etiqueta, Pagination} from '@cdk/models';
 import * as fromStore from './arquivista-list/store';
-import {CdkTranslationLoaderService} from '../../../../@cdk/services/translation-loader.service';
-import {ProcessoService} from '../../../../@cdk/services/processo.service';
+import {CdkTranslationLoaderService} from '@cdk/services/translation-loader.service';
+import {ProcessoService} from '@cdk/services/processo.service';
 import {Router} from '@angular/router';
 import {LoginService} from '../../auth/login/login.service';
 import {Observable} from 'rxjs';
@@ -32,6 +32,8 @@ export class ArquivistaComponent implements OnInit, OnDestroy {
     etiquetas: Etiqueta[] = [];
     vinculacaoEtiquetaPagination: Pagination;
 
+    maximizado$: any;
+    currentProcessoId: Observable<number[]>;
 
     pagination$: Observable<any>;
     pagination: any;

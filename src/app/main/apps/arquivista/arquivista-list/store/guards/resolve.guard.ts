@@ -74,7 +74,18 @@ export class ResolveGuard implements CanActivate {
                     offset: 0,
                     sort: {dataHoraProximaTransicao: 'ASC'},
                     populate: [
-                        'populateAll'
+                        'especieProcesso',
+                        'modalidadeMeio',
+                        'modalidadeFase',
+                        'documentoAvulsoOrigem',
+                        'especieProcesso',
+                        'classificacao',
+                        'classificacao.modalidadeDestinacao',
+                        'setorInicial',
+                        'setorAtual',
+                        'vinculacoesEtiquetas',
+                        'vinculacoesEtiquetas.etiqueta'
+
                     ]
                 };
 

@@ -1,12 +1,12 @@
 import * as VinculacaoEtiquetaCreateBlocoActions from '../actions/vinculacao-etiqueta-create-bloco.actions';
 
 export interface VinculacaoEtiquetaCreateBlocoState {
-    savingTarefasId: number[];
+    savingProcessosId: number[];
     errors: any;
 }
 
 export const VinculacaoEtiquetaCreateInitialState: VinculacaoEtiquetaCreateBlocoState = {
-    savingTarefasId: [],
+    savingProcessosId: [],
     errors: false
 };
 
@@ -17,7 +17,7 @@ export function VinculacaoEtiquetaCreateBlocoReducer(
 
         case VinculacaoEtiquetaCreateBlocoActions.CREATE_VINCULACAO_ETIQUETA: {
             return {
-                savingTarefasId: [],
+                savingProcessosId: [],
                 errors: false
             };
         }
@@ -25,21 +25,21 @@ export function VinculacaoEtiquetaCreateBlocoReducer(
         case VinculacaoEtiquetaCreateBlocoActions.SAVE_VINCULACAO_ETIQUETA: {
             return {
                 ...state,
-                savingTarefasId: [...state.savingTarefasId, action.payload.tarefa.id]
+                savingProcessosId: [...state.savingProcessosId, action.payload.processo.id]
             };
         }
 
         case VinculacaoEtiquetaCreateBlocoActions.SAVE_VINCULACAO_ETIQUETA_SUCCESS: {
             return {
                 ...state,
-                savingTarefasId: state.savingTarefasId.filter(id => id !== action.payload.tarefa.id)
+                savingProcessosId: state.savingProcessosId.filter(id => id !== action.payload.processo.id)
             };
         }
 
         case VinculacaoEtiquetaCreateBlocoActions.SAVE_VINCULACAO_ETIQUETA_FAILED: {
             return {
                 ...state,
-                savingTarefasId: state.savingTarefasId.filter(id => id !== action.payload.tarefa.id),
+                savingProcessosId: state.savingProcessosId.filter(id => id !== action.payload.processo.id),
                 errors: action.payload
             };
         }

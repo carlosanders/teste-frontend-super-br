@@ -20,7 +20,13 @@ const routes: Routes = [
     {
         path: '',
         component: ArquivistaListComponent,
-        canActivate: [fromGuards.ResolveGuard]
+        canActivate: [fromGuards.ResolveGuard],
+        children: [
+            {
+                path: 'vinculacao-etiqueta-bloco',
+                loadChildren: () => import('../vinculacao-etiqueta-create-bloco/vinculacao-etiqueta-create-bloco.module').then(m => m.VinculacaoEtiquetaCreateBlocoModule),
+            }
+        ]
     }
 ];
 
@@ -44,7 +50,7 @@ const routes: Routes = [
     ],
     providers: [
         fromGuards.ResolveGuard,
-
+        ProcessoService
     ]
 })
 export class ArquivistaListModule {

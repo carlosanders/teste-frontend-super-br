@@ -24,6 +24,7 @@
                                        [selectedIds]="(selectedIds$ | async)"
                                        (changeSelectedIds)="changeSelectedIds($event)"
                                        (reload)="reload($event)"
+                                       (etiquetarBloco)="doEtiquetarBloco()"
                                        (selected)="setCurrentProcesso($event)">
                     </cdk-processo-list>
                 </div>

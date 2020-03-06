@@ -246,9 +246,6 @@ export class ArquivistaListComponent implements OnInit, OnDestroy, AfterViewInit
         }));
     }
 
-    deleteProcesso(processoId: number): void {
-        this._store.dispatch(new fromStore.DeleteProcesso(processoId));
-    }
 
     /**
      * Refresh
@@ -296,18 +293,15 @@ export class ArquivistaListComponent implements OnInit, OnDestroy, AfterViewInit
     }
 
 
-    doMovimentar(processoId): void {
-        this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle + '/' + this.routerState.params.typeHandle + '/transicao/' + processoId + '/criar']).then();
-    }
-
-
     doEtiquetarBloco(): void {
         this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle + '/' + this.routerState.params.typeHandle + '/vinculacao-etiqueta-bloco']).then();
     }
 
-    doMovimentarBloco(): void {
-        this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle + '/' + this.routerState.params.typeHandle + '/atividade-bloco']).then();
+    doClassificacaoBloco(): void {
+        this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle + '/' + this.routerState.params.typeHandle + '/vinculacao-etiqueta-bloco']).then();
     }
+
+
 
 
 }
