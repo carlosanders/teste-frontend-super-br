@@ -67,8 +67,10 @@ export class AdminLotacaoEditComponent implements OnInit, OnDestroy {
 
         this.setorPagination.populate = ['populateAll'];
         this.colaboradorPagination.populate = ['populateAll'];
-        this.setorPagination.filter = {'unidade.id':'eq:' + this.routerState.params.unidadeHandle};
-
+        this.setorPagination.filter = {
+            'unidade.id': 'eq:' + this.routerState.params.unidadeHandle,
+            'parent.id': 'isNotNull'
+        };
     }
 
     // -----------------------------------------------------------------------------------------------------

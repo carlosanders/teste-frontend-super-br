@@ -61,7 +61,10 @@ export class AdminLotacaoListComponent implements OnInit {
 
         this.setorPagination.populate = ['populateAll'];
         this.colaboradorPagination.populate = ['populateAll'];
-        this.setorPagination.filter = {'unidade.id':'eq:' + this.routerState.params.unidadeHandle};
+        this.setorPagination.filter = {
+            'unidade.id':'eq:' + this.routerState.params.unidadeHandle,
+            'parent.id': 'isNotNull'
+        };
     }
 
     ngOnInit(): void {

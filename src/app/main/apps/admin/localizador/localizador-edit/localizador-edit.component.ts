@@ -16,6 +16,7 @@ import * as fromStore from './store';
 import {Pagination} from '@cdk/models/pagination';
 import {Usuario} from '@cdk/models/usuario.model';
 import {LoginService} from 'app/main/auth/login/login.service';
+import {getRouterState} from "../../../../../store/reducers";
 
 @Component({
     selector: 'localizador-edit',
@@ -27,6 +28,7 @@ import {LoginService} from 'app/main/auth/login/login.service';
 })
 export class LocalizadorEditComponent implements OnInit, OnDestroy {
 
+    routerState: any;
     localizador$: Observable<Localizador>;
     localizador: Localizador;
     isSaving$: Observable<boolean>;
@@ -48,11 +50,20 @@ export class LocalizadorEditComponent implements OnInit, OnDestroy {
         this.localizador$ = this._store.pipe(select(fromStore.getLocalizador));
         this.usuario = this._loginService.getUserProfile();
 
-        this.setorPagination = new Pagination();
+        this._store
+            .pipe(select(getRouterState))
+            .subscribe(routerState => {
+                if (routerState) {
+                    this.routerState = routerState.state;
+                }
+            });
 
+        this.setorPagination = new Pagination();
         this.setorPagination.populate = ['unidade'];
-        // TO DO
-        // this.setorPagination.filter = ['']
+        this.setorPagination.filter = {
+            'unidade.id': 'eq:' + this.routerState.params.unidadeHandle,
+            'parent.id': 'isNotNull'
+        };
 
     }
 
