@@ -73,7 +73,10 @@ export class ResolveGuard implements CanActivate {
                         sort: {criadoEm: 'DESC'},
                         populate: [
                             'populateAll'
-                        ]
+                        ],
+                        context: {
+                            'isAdmin': true
+                        }
                     };
 
                     this._store.dispatch(new fromStore.GetLocalizadores(params));

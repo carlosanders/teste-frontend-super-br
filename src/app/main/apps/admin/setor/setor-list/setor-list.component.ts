@@ -74,7 +74,8 @@ export class SetorListComponent implements OnInit {
             sort: params.sort,
             limit: params.limit,
             offset: params.offset,
-            populate: this.pagination.populate
+            populate: this.pagination.populate,
+            context: this.pagination.context
         }));
     }
 
@@ -84,10 +85,6 @@ export class SetorListComponent implements OnInit {
 
     delete(setorId: number): void {
         this._store.dispatch(new fromStore.DeleteSetor(setorId));
-    }
-
-    setPrincipal(setor: Setor): void {
-        this._store.dispatch(new fromStore.SaveSetor({setor: setor, changes: {principal: true}}));
     }
 
 }

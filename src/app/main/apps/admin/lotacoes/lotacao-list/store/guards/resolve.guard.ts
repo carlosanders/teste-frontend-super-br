@@ -72,7 +72,10 @@ export class ResolveGuard implements CanActivate {
                             'populateAll',
                             'setor.unidade',
                             'colaborador.usuario'
-                        ]
+                        ],
+                        context: {
+                            'isAdmin': true
+                        }
                     };
 
                     this._store.dispatch(new fromStore.GetLotacoes(params));

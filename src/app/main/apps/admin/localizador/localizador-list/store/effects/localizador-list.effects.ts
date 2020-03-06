@@ -53,7 +53,8 @@ export class LocalizadorListEffect {
                         action.payload.limit,
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
-                        JSON.stringify(action.payload.populate)).pipe(
+                        JSON.stringify(action.payload.populate),
+                        JSON.stringify(action.payload.context)).pipe(
                         mergeMap((response) => [
                             new AddData<Localizador>({data: response['entities'], schema: localizadorSchema}),
                             new LocalizadorListActions.GetLocalizadoresSuccess({

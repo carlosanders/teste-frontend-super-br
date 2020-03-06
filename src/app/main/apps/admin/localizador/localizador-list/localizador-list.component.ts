@@ -73,7 +73,8 @@ export class LocalizadorListComponent implements OnInit {
             sort: params.sort,
             limit: params.limit,
             offset: params.offset,
-            populate: this.pagination.populate
+            populate: this.pagination.populate,
+            context: this.pagination.context
         }));
     }
 
@@ -83,10 +84,6 @@ export class LocalizadorListComponent implements OnInit {
 
     delete(localizadorId: number): void {
         this._store.dispatch(new fromStore.DeleteLocalizador(localizadorId));
-    }
-
-    setPrincipal(localizador: Localizador): void {
-        this._store.dispatch(new fromStore.SaveLocalizador({localizador: localizador, changes: {principal: true}}));
     }
 
 }
