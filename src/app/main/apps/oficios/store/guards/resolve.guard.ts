@@ -102,13 +102,15 @@ export class ResolveGuard implements CanActivate {
                     let documentoAvulsoFilter = {};
                     if (this.routerState.params[typeParam] === 'entrada') {
                         documentoAvulsoFilter = {
-                            'usuarioResposta.id': 'isNull'
+                            'usuarioResposta.id': 'isNull',
+                            'documentoRemessa.id': 'isNotNull'
                         };
                     }
 
                     if (this.routerState.params[typeParam] === 'saida') {
                         documentoAvulsoFilter = {
-                            'usuarioResposta.id': 'isNotNull'
+                            'usuarioResposta.id': 'isNotNull',
+                            'documentoRemessa.id': 'isNotNull'
                         };
                     }
 
