@@ -89,14 +89,12 @@ export class ResolveGuard implements CanActivate {
                             dataHoraProximaTransicao: 'lt:' + this.currentDate,
 
                         };
-
                     }
 
                     if (this.routerState.params[typeParam] === 'aguardando-decurso') {
                         processoFilter = {
                             dataHoraProximaTransicao: 'gte:' + this.currentDate,
                         };
-
                     }
 
                     if (this.routerState.params[typeParam] === 'pendencia-analise') {

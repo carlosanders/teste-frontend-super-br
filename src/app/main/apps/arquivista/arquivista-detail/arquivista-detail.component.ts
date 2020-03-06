@@ -75,7 +75,7 @@ export class ArquivistaDetailComponent implements OnInit, OnDestroy, AfterViewIn
         this.screen$ = this._store.pipe(select(getScreenState));
         this.vinculacaoEtiquetaPagination = new Pagination();
         this.vinculacaoEtiquetaPagination.filter = {
-            'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.id,
+            // 'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.id,
             'modalidadeEtiqueta.valor': 'eq:PROCESSO'
         };
 

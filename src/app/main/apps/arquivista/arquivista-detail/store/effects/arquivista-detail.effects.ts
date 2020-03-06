@@ -48,17 +48,6 @@ export class ArquivistaDetailEffects {
                         0,
                         JSON.stringify({}),
                         JSON.stringify([
-                            'processo',
-                            'processo.especieProcesso',
-                            'processo.modalidadeMeio',
-                            'processo.documentoAvulsoOrigem',
-                            'especieTarefa',
-                            'usuarioResponsavel',
-                            'setorResponsavel',
-                            'setorResponsavel.unidade',
-                            'setorOrigem',
-                            'setorOrigem.unidade',
-                            'especieTarefa.generoTarefa',
                             'vinculacoesEtiquetas',
                             'vinculacoesEtiquetas.etiqueta']));
                 }),

@@ -88,14 +88,11 @@ export class ArquivistaEffect {
             .pipe(
                 ofType<ArquivistaActions.SetCurrentProcesso>(ArquivistaActions.SET_CURRENT_PROCESSO),
                 map((action) => {
-
                         this._router.navigate([
                             'apps/arquivista/' + this.routerState.params.unidadeHandle + '/' +
-                            this.routerState.params.typeHandle + '/' +
-                           action.payload.processoId +
-                            action.payload.processoId + '/visualizar']
+                            this.routerState.params.typeHandle + '/detalhe/' +
+                           action.payload.processoId + '/visualizar']
                         ).then();
-
 
                         return new ArquivistaActions.SetCurrentProcessoSuccess();
                 })

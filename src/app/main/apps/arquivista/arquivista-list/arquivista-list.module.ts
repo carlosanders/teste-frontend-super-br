@@ -14,12 +14,19 @@ import {ArquivistaStoreModule} from './store/store.module';
 import {ProcessoService} from '@cdk/services/processo.service';
 import {ResizableModule} from 'angular-resizable-element';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
+import {ArquivistaDetailComponent} from '../arquivista-detail/arquivista-detail.component';
 
 
 const routes: Routes = [
     {
         path: '',
         component: ArquivistaListComponent,
+        children: [
+            {
+                path: 'detalhe',
+                loadChildren: () => import('../arquivista-detail/arquivista-detail.module').then(m => m.ArquivistaDetailModule)
+            },
+        ],
         canActivate: [fromGuards.ResolveGuard]
     }
 ];

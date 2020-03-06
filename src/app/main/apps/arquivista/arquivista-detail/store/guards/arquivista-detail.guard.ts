@@ -40,6 +40,8 @@ export class ArquivistaDetailGuard implements CanActivate{
             catchError(() => of(false))
         );
     }
+
+
     /**
      * Get Processo
      *

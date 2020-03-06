@@ -18,18 +18,17 @@ import {ArquivistaDetailStoreModule} from './store/store.module';
 import {ProcessoService} from '../../../../../@cdk/services/processo.service';
 import {VinculacaoEtiquetaService} from '../../../../../@cdk/services/vinculacao-etiqueta.service';
 import {LoginService} from '../../../auth/login/login.service';
-import * as fromGuards from './store/guards';
 
 const routes: Routes = [
     {
-        path: ':processoHandle',
+        path: '',
         component: ArquivistaDetailComponent,
         children: [
             {
-                path: 'processo',
-                loadChildren: () => import('app/main/apps/processo/processo.module').then(m => m.ProcessoModule)
+                path: '',
+                loadChildren: () => import('app/main/apps/processo/processo.module').then(m => m.ProcessoModule),
             },
-        ]
+        ],
     }
 ]
 
@@ -67,7 +66,6 @@ const routes: Routes = [
         ProcessoService,
         VinculacaoEtiquetaService,
         LoginService,
-        fromGuards.ArquivistaDetailGuard
     ]
 })
 export class ArquivistaDetailModule {

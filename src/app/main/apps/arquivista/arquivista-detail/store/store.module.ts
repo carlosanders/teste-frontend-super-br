@@ -12,6 +12,9 @@ import {EffectsModule} from '@ngrx/effects';
         CommonModule,
         StoreModule.forFeature('arquivista-detail-app', reducers),
         EffectsModule.forFeature(effects)
+    ],
+    providers: [
+
     ]
 })
 export class ArquivistaDetailStoreModule {

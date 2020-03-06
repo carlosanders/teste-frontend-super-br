@@ -9,6 +9,7 @@ export interface ArquivistaDetailState {
     errors: any;
     savingVincEtiquetaId: number;
     maximizado: boolean;
+    // processo: any;
 }
 
 export const ArquivistaDetailInitialState: ArquivistaDetailState = {
@@ -19,7 +20,8 @@ export const ArquivistaDetailInitialState: ArquivistaDetailState = {
     processoId: null,
     saving: false,
     savingVincEtiquetaId: null,
-    maximizado: false
+    maximizado: false,
+    // processo: null
 }
 
 export function ArquivistaDetailReducer(
@@ -37,7 +39,7 @@ export function ArquivistaDetailReducer(
         case ArquivistaDetailActions.GET_PROCESSO_SUCCESS:
             return {
                 ...state,
-                processoId: action.payload.processo.id,
+                processoId: action.payload.loaded.id,
                 loading: false
             };
 
