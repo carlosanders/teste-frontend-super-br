@@ -32,41 +32,5 @@ export class ArquivistaDetailEffects {
             });
     }
 
-    /**
-     * Get Tarefa with router parameters
-     * @type {Observable<any>}
-     */
-    @Effect()
-    getProcesso: any =
-        this._actions
-            .pipe(
-                ofType<ArquivistaDetailActions.GetProcesso>(ArquivistaDetailActions.GET_PROCESSO),
-                switchMap((action) => {
-                    return this._processoService.query(
-                        JSON.stringify(action.payload),
-                        1,
-                        0,
-                        JSON.stringify({}),
-                        JSON.stringify([
-                            'vinculacoesEtiquetas',
-                            'vinculacoesEtiquetas.etiqueta']));
-                }),
-                mergeMap(response => [
-                    new AddData<Processo>({data: response['entities'], schema: processoSchema}),
-                    new ArquivistaDetailActions.GetProcessoSuccess({
-                        loaded: {
-                            id: 'processoHandle',
-                            value: this.routerState.params.processoHandle
-                        },
-                        processo: response['entities'][0]
-                    })
-                ]),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new ArquivistaDetailActions.GetProcessoFailed(err));
-                    return caught;
-                })
-            );
-
 
 }

@@ -102,7 +102,8 @@ export class RealizarTransicaoEffects {
             .pipe(
                 ofType<RealizarTransicoesActions.SaveTransicaoSuccess>(RealizarTransicoesActions.SAVE_TRANSICAO_SUCCESS),
                 tap(() => {
-                    // this._router.navigate([this.routerState.url.replace(('editar/' + this.routerState.params.transicaoHandle), 'listar')]).then();
+                    this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle + '/' +
+                    this.routerState.params.typeHandle]).then();
                 })
             );
 }

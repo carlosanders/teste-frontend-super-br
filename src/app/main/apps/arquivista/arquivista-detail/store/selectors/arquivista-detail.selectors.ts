@@ -16,17 +16,6 @@ export const getHasLoaded = createSelector(
     (state: ArquivistaDetailState) => state.loaded
 );
 
-export const getProcessoId = createSelector(
-    getArquivistaDetailState,
-    (state: ArquivistaDetailState) => state.loaded ? state.loaded.value : null
-);
-
-export const getProcesso = createSelector(
-    schemaProcessoSelectors.getNormalizedEntities,
-    getProcessoId,
-    schemaProcessoSelectors.entityProjector
-);
-
 export const getMaximizado = createSelector(
     getArquivistaDetailState,
     (state: ArquivistaDetailState) => state.maximizado

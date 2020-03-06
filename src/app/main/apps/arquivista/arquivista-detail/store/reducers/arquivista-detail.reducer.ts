@@ -30,26 +30,6 @@ export function ArquivistaDetailReducer(
 ): ArquivistaDetailState {
     switch (action.type) {
 
-        case ArquivistaDetailActions.GET_PROCESSO:
-            return {
-                ...state,
-                loading: true
-            };
-
-        case ArquivistaDetailActions.GET_PROCESSO_SUCCESS:
-            return {
-                ...state,
-                processoId: action.payload.loaded.id,
-                loading: false
-            };
-
-        case ArquivistaDetailActions.GET_PROCESSO_FAILED:
-            return {
-                ...state,
-                loading: false
-            };
-
-
         default:
             return state;
     }
