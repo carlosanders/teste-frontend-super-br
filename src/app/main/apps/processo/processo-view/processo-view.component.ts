@@ -237,7 +237,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
 
         const nparams = {
             ...this.pagination,
-            limit: this.pagination.limit + this.pagination.limit
+            offset: this.pagination.offset + this.pagination.limit
         };
 
         this._store.dispatch(new fromStore.GetJuntadas(nparams));
