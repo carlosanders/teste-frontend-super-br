@@ -98,7 +98,7 @@ export class CdkDocumentoAvulsoListComponent implements AfterViewInit, OnInit, O
     etiquetarBloco = new EventEmitter<any>();
 
     @Output()
-    uploadBloco = new EventEmitter<any>();
+    responderComplentarBloco = new EventEmitter<any>();
 
     @Output()
     editorBloco = new EventEmitter<any>();
@@ -207,5 +207,13 @@ export class CdkDocumentoAvulsoListComponent implements AfterViewInit, OnInit, O
      */
     toggleSidebar(): void {
         this._cdkSidebarService.getSidebar('cdk-documento-avulso-list-main-sidebar').toggleOpen();
+    }
+
+    doResponderComplementarBloco(): void {
+        this.responderComplentarBloco.emit();
+    }
+
+    doEtiquetarBloco(): void {
+        this.etiquetarBloco.emit();
     }
 }

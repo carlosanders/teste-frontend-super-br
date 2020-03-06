@@ -70,7 +70,9 @@
                                      [selectedIds]="(selectedIds$ | async)"
                                      (changeSelectedIds)="changeSelectedIds($event)"
                                      (reload)="reload($event)"
-                                     (selected)="setCurrentDocumentoAvulso($event)">
+                                     (selected)="setCurrentDocumentoAvulso($event)"
+                                     (responderComplentarBloco)="doResponderComplentarBlocoBloco()"
+                                     (etiquetarBloco)="doEtiquetarBloco()">
                     </cdk-documento-avulso-list>
                 </div>
 

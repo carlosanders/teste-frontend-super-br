@@ -26,6 +26,71 @@
 
         <div class="toolbar-separator" *ngIf="selectedIds?.length && folders?.length"></div>
 
+        <button mat-icon-button [matMenuTriggerFor]="moreMenu"
+                aria-label="Ferramentas" (click)="$event.stopPropagation()"
+                *ngIf="selectedIds?.length > 0">
+            <mat-icon class="secondary-text">more_vert</mat-icon>
+        </button>
+
+        <mat-menu #moreMenu="matMenu">
+
+            <!--<button mat-menu-item aria-label="remover"
+                    (click)="doDeleteTarefaBloco()">
+                <ng-container>
+                    <mat-icon>delete</mat-icon>
+                    <span>Remover</span>
+                </ng-container>
+            </button>-->
+
+            <!--<button mat-menu-item aria-label="criar tarefa"
+                    (click)="doCreateTarefaBloco()">
+                <ng-container>
+                    <mat-icon>check_box</mat-icon>
+                    <span>Criar Tarefa</span>
+                </ng-container>
+            </button>-->
+
+            <!--<button mat-menu-item aria-label="criar ofício"
+                    (click)="doCreateDocumentoAvulsoBloco()">
+                <ng-container>
+                    <mat-icon>mail</mat-icon>
+                    <span>Criar Ofício</span>
+                </ng-container>
+            </button>-->
+
+            <!--<button mat-menu-item aria-label="editar tarefa"
+                    (click)="doEditTarefaBloco()">
+                <ng-container>
+                    <mat-icon>edit</mat-icon>
+                    <span>Editar</span>
+                </ng-container>
+            </button>-->
+
+            <button mat-menu-item aria-label="reposnder / complementar"
+                    (click)="doResponderComplementarBloco()">
+                <ng-container>
+                    <mat-icon>send</mat-icon>
+                    <span>Responder / Complementar</span>
+                </ng-container>
+            </button>
+
+            <button mat-menu-item aria-label="etiquetar"
+                    (click)="doEtiquetarBloco()">
+                <ng-container>
+                    <mat-icon>label</mat-icon>
+                    <span>Etiquetar</span>
+                </ng-container>
+            </button>
+
+            <!--<button mat-menu-item aria-label="compartilhar"
+                    (click)="doCompartilharBloco()">
+                <ng-container>
+                    <mat-icon>share</mat-icon>
+                    <span>Compartilhar</span>
+                </ng-container>
+            </button>-->
+
+        </mat-menu>
 
         <div class="documento-avulso-list-control" fxLayout="row" fxLayoutAlign="start center">
 

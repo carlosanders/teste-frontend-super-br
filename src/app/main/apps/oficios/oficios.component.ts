@@ -33,6 +33,7 @@ import {LoginService} from '../../auth/login/login.service';
 import {Usuario} from '@cdk/models/usuario.model';
 import {MatDialog} from '@cdk/angular/material';
 import { CdkChaveAcessoPluginComponent } from '@cdk/components/chave-acesso/cdk-chave-acesso-plugins/cdk-chave-acesso-plugin.component';
+import {Pessoa} from '../../../../@cdk/models';
 
 @Component({
     selector: 'oficios',
@@ -318,5 +319,13 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this.documentoAvulsoListSize = (event.rectangle.width * this.documentoAvulsoListSize) / this.documentoAvulsoListOriginalSize;
         this.documentoAvulsoListOriginalSize = event.rectangle.width;
+    }
+
+    doResponderComplentarBlocoBloco(): void {
+        this._router.navigate(['apps/oficios/' + this.routerState.params.oficioHandle + '/responde-complementra-bloco']).then();
+    }
+
+    doEtiquetarBloco(): void {
+        this._router.navigate(['apps/oficios/' + this.routerState.params.oficioHandle + '/vinculacao-etiqueta-bloco\'']).then();
     }
 }

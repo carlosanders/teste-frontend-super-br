@@ -38,7 +38,7 @@
             </div>
 
             <div class="etiquetas" fxLayout="row wrap" fxHide fxShow.gt-sm>
-                <div class="etiqueta" *ngFor="let vinculacaoEtiqueta of documentoAvulso.processo.vinculacoesEtiquetas"
+                <div class="etiqueta" *ngFor="let vinculacaoEtiqueta of documentoAvulso.vinculacoesEtiquetas"
                      fxLayout="row" fxLayoutAlign="start center">
                     <div class="etiqueta-color"
                          [ngStyle]="{'background-color': (vinculacaoEtiqueta.etiqueta?.corHexadecimal)}"></div>
