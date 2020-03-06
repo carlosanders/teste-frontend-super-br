@@ -13,6 +13,7 @@ export class NumeroUnicoDocumento {
 
     sequencia?: number;
 
+    @Exclude({ toPlainOnly: true })
     ano?: number;
 
     @Type(() => TipoDocumento)

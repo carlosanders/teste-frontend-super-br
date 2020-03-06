@@ -74,7 +74,7 @@ export class CdkNumeroUnicoDocumentoGridFilterComponent implements OnInit {
             if (value !== null) {
                 this.filters = {
                     ...this.filters,
-                    ano: `like:${value}%`
+                    ano: `eq:${value}`
                 };
                 this.selected.emit(this.filters);
             }

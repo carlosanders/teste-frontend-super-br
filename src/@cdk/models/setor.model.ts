@@ -14,27 +14,20 @@ export class Setor {
     @Exclude({ toPlainOnly: true })
     uuid?: string;
 
-
     apenasProtocolo: boolean;
-
 
     endereco?: string;
 
     @Exclude({ toPlainOnly: true })
     email?: string;
 
-
     sigla: string;
-
 
     apenasDistribuidor: boolean;
 
-
     nome: string;
 
-
     ativo?: boolean;
-
 
     prefixoNUP?: string;
 
@@ -47,18 +40,13 @@ export class Setor {
     @Exclude({ toPlainOnly: true })
     numeracaoDocumentoUnidade?: boolean;
 
-
     distribuicaoCentena?: boolean;
-
 
     prazoEqualizacao?: number;
 
-
     divergenciaMaxima?: number;
 
-
     apenasDistribuicaoAutomatica?: boolean;
-
 
     comPrevencaoRelativa?: boolean;
 

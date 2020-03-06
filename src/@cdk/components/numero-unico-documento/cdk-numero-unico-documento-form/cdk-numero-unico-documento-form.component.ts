@@ -25,6 +25,9 @@ export class CdkNumeroUnicoDocumentoFormComponent implements OnChanges, OnDestro
     numeroUnicoDocumento: NumeroUnicoDocumento;
 
     @Input()
+    unidade: Setor;
+
+    @Input()
     saving: boolean;
 
     @Input()
@@ -43,8 +46,6 @@ export class CdkNumeroUnicoDocumentoFormComponent implements OnChanges, OnDestro
 
     activeCard = 'form';
 
-    selectedSetor: Setor;
-
     /**
      * Constructor
      */
@@ -55,8 +56,8 @@ export class CdkNumeroUnicoDocumentoFormComponent implements OnChanges, OnDestro
        this.form = this._formBuilder.group({
             id: [null],
             tipoDocumento: [null, [Validators.required]],
-            setor: [null, [Validators.required]],
-            sequencia: [null],
+            setor: [null],
+            sequencia: [null, [Validators.required]],
             ano: [null]
         });
        this.tipoDocumentoPagination = new Pagination();
@@ -134,10 +135,8 @@ export class CdkNumeroUnicoDocumentoFormComponent implements OnChanges, OnDestro
 
     checkSetor(): void {
         const value = this.form.get('setor').value;
-        this.selectedSetor = value;
         if (!value || typeof value !== 'object') {
             this.form.get('setor').setValue(null);
-            this.selectedSetor = null;
         }
     }
 

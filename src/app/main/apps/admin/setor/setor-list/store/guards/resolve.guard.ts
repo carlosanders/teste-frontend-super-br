@@ -63,7 +63,8 @@ export class ResolveGuard implements CanActivate {
                     const params = {
 
                         filter: {
-                               'unidade.id': 'eq:' + this.routerState.params.unidadeHandle
+                            'unidade.id': 'eq:' + this.routerState.params.unidadeHandle,
+                            'parent': 'isNotNull'
                         },
 
 

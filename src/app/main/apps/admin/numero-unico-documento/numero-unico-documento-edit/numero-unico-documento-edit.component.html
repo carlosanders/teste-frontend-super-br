@@ -1,5 +1,6 @@
 <cdk-numero-unico-documento-form
         [numeroUnicoDocumento]="numeroUnicoDocumento"
+        [unidade]="(unidade$ | async)"
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
         [setorPagination]="setorPagination"

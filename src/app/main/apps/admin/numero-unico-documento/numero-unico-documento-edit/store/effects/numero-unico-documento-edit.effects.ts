@@ -85,7 +85,6 @@ export class NumeroUnicoDocumentoEditEffect {
             .pipe(
                 ofType<NumeroUnicoDocumentoEditActions.SaveNumeroUnicoDocumento>(NumeroUnicoDocumentoEditActions.SAVE_NUMERO_UNICO_DOCUMENTO),
                 switchMap((action) => {
-                    console.log(action);
                     return this._numeroUnicoDocumentoService.save(action.payload).pipe(
                         mergeMap((response: NumeroUnicoDocumento) => [
                             new NumeroUnicoDocumentoEditActions.SaveNumeroUnicoDocumentoSuccess(),

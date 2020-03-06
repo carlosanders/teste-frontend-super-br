@@ -52,8 +52,8 @@ export class AdminMainSidebarComponent implements OnInit, OnDestroy {
                 link: 'localizador'
             },
             {
-                nome: 'Nºs únicos',
-                icon: 'edit_location',
+                nome: 'Nºs únicos documento',
+                icon: 'filter_9_plus',
                 link: 'numero-unico-documento'
             }
         ];

@@ -161,7 +161,7 @@ export class CdkTipoDocumentoGridComponent implements AfterViewInit, OnInit, OnC
     /**
      *
      * @param _changeDetectorRef
-     * @param _fuseSidebarService
+     * @param _cdkSidebarService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,

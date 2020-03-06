@@ -6,7 +6,7 @@ import {select, Store} from '@ngrx/store';
 import {Observable, of} from 'rxjs';
 import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
 
-import {NumeroUnicoDocumentoEditAppState} from '../reducers';
+import {AdminAppState} from '../reducers';
 import * as fromStore from '../';
 import {getHasLoaded} from '../selectors';
 import {getRouterState} from 'app/store/reducers';
@@ -19,10 +19,10 @@ export class ResolveGuard implements CanActivate {
     /**
      * Constructor
      *
-     * @param {Store<NumeroUnicoDocumentoEditAppState>} _store
+     * @param {Store<AdminAppState>} _store
      */
     constructor(
-        private _store: Store<NumeroUnicoDocumentoEditAppState>
+        private _store: Store<AdminAppState>
     ) {
         this._store
             .pipe(select(getRouterState))
@@ -41,30 +41,25 @@ export class ResolveGuard implements CanActivate {
      * @returns {Observable<boolean>}
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-        return this.getNumeroUnicoDocumento().pipe(
+        return this.getUnidade().pipe(
             switchMap(() => of(true)),
             catchError(() => of(false))
         );
     }
 
     /**
-     * Get NumeroUnicoDocumento
+     * Get Setor
      *
      * @returns {Observable<any>}
      */
-    getNumeroUnicoDocumento(): any {
+    getUnidade(): any {
         return this._store.pipe(
             select(getHasLoaded),
             tap((loaded: any) => {
                 if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
-                    if (this.routerState.params['numeroUnicoDocumentoHandle'] === 'criar') {
-                        this._store.dispatch(new fromStore.CreateNumeroUnicoDocumento());
-                    } else {
-                        this._store.dispatch(new fromStore.GetNumeroUnicoDocumento({
-                            id: 'eq:' + this.routerState.params['numeroUnicoDocumentoHandle']
-                        }));
-                    }
-
+                    this._store.dispatch(new fromStore.GetSetor({
+                        id: 'eq:' + this.routerState.params['unidadeHandle']
+                    }));
                 }
             }),
             filter((loaded: any) => {

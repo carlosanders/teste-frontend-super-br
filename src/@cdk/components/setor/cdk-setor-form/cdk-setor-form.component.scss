@@ -1,29 +1,31 @@
 @import "../../../scss/cdk";
+
 cdk-setor-form {
     width: 100%;
     height: 100%;
-    .inner-scroll{
+
+    .inner-scroll {
+        width: 100%;
         height: 100%;
     }
 
     form {
-
         width: 100%;
         height: 100%;
-
     }
 
-  .form-card {
-    border-radius: 8px;
-  }
-
-  .form-errors-model {
-    flex: 1;
-
-    code {
-      background: none !important;
+    .form-card {
+        border-radius: 8px;
     }
-  }
+
+    .form-errors-model {
+        flex: 1;
+
+        code {
+            background: none !important;
+        }
+    }
+
     mat-radio-group {
 
         &.digito {
@@ -41,12 +43,15 @@ cdk-setor-form {
         margin-left: 3px;
         min-width: 200px;
     }
+
     .legendaGrupo {
         color: rgba(0, 0, 0, 0.54);
     }
+
     .mat-form-field-wrapper {
         width: 100%;
     }
+
     label.legenda {
 
         margin-right: 40px;
@@ -54,12 +59,20 @@ cdk-setor-form {
         max-width: 300px;
     }
 
-    .flex{
+    .flex {
         flex: 1 1 0%;
         box-sizing: border-box;
     }
 
-  cdk-unidade-gridsearch {
-    width: 100%;
-  }
+    cdk-municipio-gridsearch {
+        width: 100%;
+    }
+
+    cdk-especie-setor-gridsearch {
+        width: 100%;
+    }
+
+    cdk-setor-gridsearch {
+        width: 100%;
+    }
 }

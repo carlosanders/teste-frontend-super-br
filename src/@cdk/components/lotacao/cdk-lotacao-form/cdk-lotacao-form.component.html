@@ -114,6 +114,7 @@
 <cdk-colaborador-gridsearch
         fxFlex="1 0 auto"
         *ngIf="activeCard === 'colaborador-gridsearch'"
+        [pagination]="colaboradorPagination"
         (selected)="selectColaborador($event)"
         (cancel)="cancel()">
 </cdk-colaborador-gridsearch>
@@ -121,6 +122,7 @@
 <cdk-setor-gridsearch
     fxFlex="1 0 auto"
     *ngIf="activeCard === 'setor-gridsearch'"
+    [pagination]="setorPagination"
     (selected)="selectSetor($event)"
     (cancel)="cancel()">
 </cdk-setor-gridsearch>

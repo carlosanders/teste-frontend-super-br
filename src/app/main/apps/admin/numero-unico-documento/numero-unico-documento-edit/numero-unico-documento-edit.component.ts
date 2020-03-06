@@ -12,7 +12,7 @@ import {Observable} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
-import {Usuario, NumeroUnicoDocumento, Pagination} from '@cdk/models';
+import {Usuario, NumeroUnicoDocumento, Pagination, Setor} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Router} from "@angular/router";
 import {getRouterState} from "../../../../../store/reducers";
@@ -33,6 +33,8 @@ export class NumeroUnicoDocumentoEditComponent implements OnInit, OnDestroy {
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
     usuario: Usuario;
+    unidade$: Observable<Setor>;
+    unidade: Setor;
     setorPagination: Pagination;
     tipoDocumentoPagination: Pagination;
 
@@ -51,6 +53,7 @@ export class NumeroUnicoDocumentoEditComponent implements OnInit, OnDestroy {
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.numeroUnicoDocumento$ = this._store.pipe(select(fromStore.getNumeroUnicoDocumento));
         this.usuario = this._loginService.getUserProfile();
+        this.unidade$ = this._store.pipe(select(fromStore.getSetor));
 
         this._store
             .pipe(select(getRouterState))
@@ -65,7 +68,10 @@ export class NumeroUnicoDocumentoEditComponent implements OnInit, OnDestroy {
 
         this.setorPagination.populate = ['populateAll', 'unidade'];
         this.tipoDocumentoPagination.populate = ['populateAll'];
-        this.setorPagination.filter = {'unidade.id':'eq:' + this.routerState.params.unidadeHandle};
+        this.setorPagination.filter = {
+            'unidade.id':'eq:' + this.routerState.params.unidadeHandle,
+            'parent':'isNotNull'
+        };
 
     }
 
@@ -80,6 +86,10 @@ export class NumeroUnicoDocumentoEditComponent implements OnInit, OnDestroy {
 
         this.numeroUnicoDocumento$.subscribe(
             numeroUnicoDocumento => this.numeroUnicoDocumento = numeroUnicoDocumento
+        );
+
+        this.unidade$.subscribe(
+            unidade => this.unidade = unidade
         );
 
         if (!this.numeroUnicoDocumento) {
@@ -106,8 +116,11 @@ export class NumeroUnicoDocumentoEditComponent implements OnInit, OnDestroy {
             }
         );
 
-        this._store.dispatch(new fromStore.SaveNumeroUnicoDocumento(numeroUnicoDocumento));
+        if (this.unidade.numeracaoDocumentoUnidade) {
+            numeroUnicoDocumento['setor'] = this.unidade.unidade as Setor;
+        }
 
+        this._store.dispatch(new fromStore.SaveNumeroUnicoDocumento(numeroUnicoDocumento));
     }
 
 }

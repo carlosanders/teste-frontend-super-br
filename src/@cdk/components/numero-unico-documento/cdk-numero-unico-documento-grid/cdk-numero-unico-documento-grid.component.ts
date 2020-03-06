@@ -37,13 +37,13 @@ export class CdkNumeroUnicoDocumentoGridComponent implements AfterViewInit, OnIn
     total = 0;
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'tipoDocumento.nome', 'setor.unidade.nome', 'setor.nome', 'sequencia', 'ano', 'actions'];
+    displayedColumns: string[] = ['id', 'tipoDocumento.nome', 'setor.unidade.nome', 'setor.nome', 'sequencia', 'ano', 'actions'];
 
     allColumns: any[] = [
         {
             id: 'select',
             label: '',
-            fixed: true
+            fixed: false
         },
         {
             id: 'id',
@@ -73,7 +73,7 @@ export class CdkNumeroUnicoDocumentoGridComponent implements AfterViewInit, OnIn
         {
             id: 'ano',
             label: 'Ano',
-            fixed: false
+            fixed: true
         },
         {
             id: 'criadoPor.nome',

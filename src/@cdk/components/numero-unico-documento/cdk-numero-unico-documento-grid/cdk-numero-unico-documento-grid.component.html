@@ -1,13 +1,13 @@
 <div class="page-layout fullwidth left-sidebar inner-scroll" fxFlex="100">
 
     <!-- SIDEBAR -->
-    <fuse-sidebar class="sidebar" name="cdk-numero-unico-documento-main-sidebar" position="left">
+    <cdk-sidebar class="sidebar" name="cdk-numero-unico-documento-main-sidebar" position="left">
         <!-- SIDEBAR CONTENT -->
-        <div class="content" fusePerfectScrollbar>
+        <div class="content" cdkPerfectScrollbar>
             <cdk-numero-unico-documento-main-sidebar [pagination]="setorPagination" (selected)="setGridFilter($event)" [@animate]="{value:'*'}"></cdk-numero-unico-documento-main-sidebar>
         </div>
         <!-- / SIDEBAR CONTENT -->
-    </fuse-sidebar>
+    </cdk-sidebar>
     <!-- / SIDEBAR -->
 
     <!-- CONTENT -->
@@ -126,11 +126,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Ano
                     </th>
-                    <td mat-cell *matCellDef="let numeroUnicoDocumento" class='has_label_on_mobile' data-label='Ano: '>
-                        <mat-checkbox
-                                [disabled]="true"
-                                [checked]="numeroUnicoDocumento.ano"></mat-checkbox>
-                    </td>
+                    <td mat-cell *matCellDef="let numeroUnicoDocumento" class='has_label_on_mobile' data-label='Ano: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(numeroUnicoDocumento.id) > -1}"> {{numeroUnicoDocumento.ano}} </td>
                 </ng-container>
 
                 <!-- CriadoPor Column -->

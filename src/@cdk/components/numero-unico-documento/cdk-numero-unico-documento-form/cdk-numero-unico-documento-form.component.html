@@ -26,7 +26,7 @@
             </mat-error>
         </mat-form-field>
 
-        <mat-form-field fxFlex="100">
+        <mat-form-field fxFlex="100" *ngIf="!unidade.numeracaoDocumentoUnidade">
             <div fxLayout="row" fxLayoutAlign="start center">
                 <input matInput placeholder="Setor"
                        formControlName="setor"
@@ -54,16 +54,6 @@
             </div>
             <mat-error *ngIf="form.get('sequencia').hasError('formError')">
                 {{form.get('sequencia').errors.formError}}
-            </mat-error>
-        </mat-form-field>
-
-        <mat-form-field fxFlex="100">
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Ano"
-                       formControlName="ano" required>
-            </div>
-            <mat-error *ngIf="form.get('ano').hasError('formError')">
-                {{form.get('ano').errors.formError}}
             </mat-error>
         </mat-form-field>
 
@@ -95,6 +85,7 @@
 <cdk-setor-gridsearch
     fxFlex="1 0 auto"
     *ngIf="activeCard === 'setor-gridsearch'"
+    [pagination]="setorPagination"
     (selected)="selectSetor($event)"
     (cancel)="cancel()">
 </cdk-setor-gridsearch>
