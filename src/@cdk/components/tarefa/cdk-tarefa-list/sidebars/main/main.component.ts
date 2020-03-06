@@ -18,7 +18,7 @@ export class CdkTarefaListMainSidebarComponent implements OnInit
 
     form: FormGroup;
 
-    filters: any = '{}';
+    filters: any = {};
 
     /**
      * Constructor
