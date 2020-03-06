@@ -55,7 +55,7 @@ export class ArquivistaMainSidebarComponent implements OnInit, OnDestroy {
 
 
         this.colaborador.lotacoes.forEach((lotacao: Lotacao) => {
-            if (!this.unidades.includes(lotacao.setor.unidade)) {
+            if (!this.unidades.includes(lotacao.setor.unidade) && lotacao.arquivista === true) {
                 this.unidades.push(lotacao.setor.unidade);
             }
         });
@@ -98,9 +98,7 @@ export class ArquivistaMainSidebarComponent implements OnInit, OnDestroy {
                 if (routerState.state.params['unidadeHandle']) {
                     this.unidadeHandle = routerState.state.params['unidadeHandle'];
                 }
-                else{
-                    this.unidadeHandle = '1';
-                }
+
 
                 if (routerState.state.params['typeHandle']) {
                     this.typeHandle = routerState.state.params['typeHandle'];
