@@ -56,7 +56,7 @@
                     <span class="no-juntadas-text hint-text"> Não há documentos juntados</span>
                 </div>
 
-                <div *ngIf="!loading" class="processo-view-juntada-content">
+                <div *ngIf="!loading && (juntadas)?.length > 0" class="processo-view-juntada-content">
                     <iframe id="iframe-juntadas"
                             [src]="src">
                     </iframe>
