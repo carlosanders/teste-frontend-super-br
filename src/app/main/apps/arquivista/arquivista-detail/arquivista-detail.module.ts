@@ -20,6 +20,7 @@ import {VinculacaoEtiquetaService} from '../../../../../@cdk/services/vinculacao
 import {LoginService} from '../../../auth/login/login.service';
 import {RealizarTransicaoComponent} from '../realizar-transicao/realizar-transicao.component';
 import {RealizarTransicaoModule} from '../realizar-transicao/realizar-transicao.module';
+import {ArquivistaClassificacaoComponent} from '../arquivista-classificacao/arquivista-classificacao.component';
 
 const routes: Routes = [
     {
@@ -33,6 +34,10 @@ const routes: Routes = [
             {
                 path: ':processoHandle/realizar-transicao/criar',
                 component: RealizarTransicaoComponent
+            },
+            {
+                path: ':processoHandle/classificacao',
+                component: ArquivistaClassificacaoComponent
             }
         ],
     }

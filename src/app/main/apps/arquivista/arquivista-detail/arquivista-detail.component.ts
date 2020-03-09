@@ -164,6 +164,10 @@ export class ArquivistaDetailComponent implements OnInit, OnDestroy, AfterViewIn
         this._store.dispatch(new ToggleMaximizado());
     }
 
+    setRouteClassificacao() {
+        return this.processo.id + '/classificacao';
+    }
+
     setRouteRealizarTransacao() {
         return this.processo.id + '/realizar-transicao/criar';
     }
