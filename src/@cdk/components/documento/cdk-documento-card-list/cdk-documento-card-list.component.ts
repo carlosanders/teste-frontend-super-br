@@ -203,6 +203,8 @@ console.log(this.selectedIds);
     deselectAll(): void {
         if (this.componenteChamador === 'atividade-create-bloco') {
             this.changedSelectedIds.emit(this.selectedIds);
+            // o esvaziamento do array contendo os ids é depois da emissão,
+            // para que o componente atividade-create-bloco posso retirá-los da lista que ele armazena
             this.selectedIds = [];
         } else {
             this.selectedIds = [];
