@@ -61,6 +61,8 @@ tarefas {
 
             .content {
 
+                height: 100%;
+
                 .tarefa-list {
                     border-right: 1px solid;
 
@@ -82,8 +84,6 @@ tarefas {
                 }
 
                 .tarefa-detail {
-                    width: 100%;
-                    height: 100%;
 
                     &.mobile-mode {
 
