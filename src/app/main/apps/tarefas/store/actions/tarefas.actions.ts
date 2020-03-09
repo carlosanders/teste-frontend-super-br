@@ -1,5 +1,7 @@
 import {Action} from '@ngrx/store';
 
+export const UNLOAD_TAREFAS = '[TAREFAS] UNLOAD TAREFAS';
+
 export const GET_TAREFAS = '[TAREFAS] GET TAREFAS';
 export const GET_TAREFAS_SUCCESS = '[TAREFAS] GET TAREFAS SUCCESS';
 export const GET_TAREFAS_FAILED = '[TAREFAS] GET TAREFAS FAILED';
@@ -41,6 +43,16 @@ export const CREATE_VINCULACAO_ETIQUETA_FAILED = '[TAREFA] CREATE VINCULACAO ETI
 export const DELETE_VINCULACAO_ETIQUETA = '[TAREFA] DELETE VINCULACAO_ETIQUETA';
 export const DELETE_VINCULACAO_ETIQUETA_SUCCESS = '[TAREFA] DELETE VINCULACAO_ETIQUETA SUCCESS';
 export const DELETE_VINCULACAO_ETIQUETA_FAILED = '[TAREFA] DELETE VINCULACAO_ETIQUETA FAILED';
+
+/**
+ * Unload Tarefas
+ */
+export class UnloadTarefas implements Action {
+    readonly type = UNLOAD_TAREFAS;
+
+    constructor(public payload: any) {
+    }
+}
 
 /**
  * Get Tarefas
@@ -381,7 +393,8 @@ export class ToggleMaximizado implements Action
 }
 
 export type TarefasActionsAll
-    = GetTarefas
+    = UnloadTarefas
+    | GetTarefas
     | GetTarefasSuccess
     | GetTarefasFailed
     | CreateTarefa
