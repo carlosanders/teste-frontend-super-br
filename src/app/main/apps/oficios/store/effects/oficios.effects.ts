@@ -90,13 +90,12 @@ export class OficiosEffects {
                 map((action) => {
                     if (!action.payload.acessoNegado && !action.payload.chaveAcesso) {
                         this._router.navigate([
-                            'apps/oficios/' + this.routerState.params.oficioTargetHandle + '/detalhe/'
-                            + action.payload.documentoAvulsoId + '/processo/'
-                            + action.payload.processoId + '/acesso-negado']
+                            'apps/oficios/' + this.routerState.params.oficioTargetHandle + '/' + this.routerState.params.pessoaHandle
+                            + '/detalhe/' + action.payload.documentoAvulsoId + '/processo/' + action.payload.processoId + '/acesso-negado']
                         ).then();
                     } else {
                         this._router.navigate([
-                            'apps/oficios/' + this.routerState.params.oficioTargetHandle
+                            'apps/oficios/' + this.routerState.params.oficioTargetHandle + '/' + this.routerState.params.pessoaHandle
                             + '/detalhe/' + action.payload.documentoAvulsoId + '/processo/' + action.payload.processoId
                             + '/visualizar/' + action.payload.chaveAcesso]
                         ).then();

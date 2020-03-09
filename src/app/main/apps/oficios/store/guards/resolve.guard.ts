@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot } from '@angular/router';
+import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
 
 import { select, Store } from '@ngrx/store';
 
@@ -28,6 +28,7 @@ export class ResolveGuard implements CanActivate {
     constructor(
         private _store: Store<DocumentoAvulsoAppState>,
         private _loginService: LoginService,
+        private _router: Router,
     ) {
         this._store
             .pipe(select(getRouterState))
@@ -38,7 +39,7 @@ export class ResolveGuard implements CanActivate {
             });
 
         this._profile = _loginService.getUserProfile();
-        this.pessoasConveniadas = _loginService.getUserProfile().vinculacoesPessoasUsuarios;
+        this.pessoasConveniadas = this._profile.vinculacoesPessoasUsuarios;
     }
 
     /**
@@ -49,10 +50,12 @@ export class ResolveGuard implements CanActivate {
      * @returns {Observable<boolean>}
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-        return this.checkStore().pipe(
-            switchMap(() => of(true)),
-            catchError(() => of(false))
-        );
+        if (this.getRouterDefault()) {
+            return this.checkStore().pipe(
+                switchMap(() => of(true)),
+                catchError(() => of(false))
+            );
+        }
     }
 
     /**
@@ -107,7 +110,7 @@ export class ResolveGuard implements CanActivate {
                         documentoAvulsoFilter = {
                             'usuarioResposta.id': 'isNull',
                             'documentoRemessa.id': 'isNotNull',
-                            'pessoaDestino.id': this.pessoasConveniadas[0].pessoa.id
+                            'pessoaDestino.id': `eq:${this.routerState.params['pessoaHandle']}`
                         };
                     }
 
@@ -115,7 +118,7 @@ export class ResolveGuard implements CanActivate {
                         documentoAvulsoFilter = {
                             'usuarioResposta.id': 'isNotNull',
                             'documentoRemessa.id': 'isNotNull',
-                            'pessoaDestino.id': this.pessoasConveniadas[0].pessoa.id
+                            'pessoaDestino.id': `eq:${this.routerState.params['pessoaHandle']}`
                         };
                     }
 
@@ -132,5 +135,14 @@ export class ResolveGuard implements CanActivate {
             }),
             take(1)
         );
+    }
+
+    getRouterDefault(): boolean {
+        if (!this.routerState.params['pessoaHandle']) {
+            this._router.navigate(['apps/oficios/entrada/' + this.pessoasConveniadas[0].pessoa.id]);
+            return false;
+        }
+
+        return true;
     }
 }

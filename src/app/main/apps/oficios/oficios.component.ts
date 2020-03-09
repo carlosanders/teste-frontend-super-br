@@ -89,6 +89,7 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
     mobileMode = false;
 
     pessoasConveniadas: any;
+    currentPessoaConveniadaId: any;
 
     @ViewChild('documentoAvulsoListElement', {read: ElementRef, static: true}) documentoAvulsoListElement: ElementRef;
 
@@ -153,6 +154,12 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
             takeUntil(this._unsubscribeAll)
         ).subscribe(routerState => {
             this.currentDocumentoAvulsoId = parseInt(routerState.state.params['documentoAvulsoHandle'], 0);
+        });
+
+        this.routerState$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(routerState => {
+            this.currentPessoaConveniadaId = parseInt(routerState.state.params['pessoaHandle'], 0);
         });
 
         this.documentosAvulso$.pipe(
@@ -268,15 +275,24 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
 
     setCurrentDocumentoAvulso(documentoAvulso: DocumentoAvulso): void {
 
-        const dialogRef = this._dialog.open(CdkChaveAcessoPluginComponent, {
-            width: '600px'
-        });
+        /*if (!documentoAvulso.processo.acessoNegado && !chaveAcesso) {
+            const dialogRef = this._dialog.open(CdkChaveAcessoPluginComponent, {
+                width: '600px'
+            });
 
-        dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe(result => {
-            this._store.dispatch(new fromStore.SetCurrentDocumentoAvulso({documentoAvulsoId: documentoAvulso.id,
-                processoId: documentoAvulso.processo.id, acessoNegado: documentoAvulso.processo.acessoNegado, chaveAcesso: result}));
-            return;
-        });
+            dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe(result => {
+                this._store.dispatch(new fromStore.SetCurrentDocumentoAvulso({
+                    documentoAvulsoId: documentoAvulso.id, processoId: documentoAvulso.processo.id,
+                    acessoNegado: documentoAvulso.processo.acessoNegado, chaveAcesso: result}));
+                return;
+            });
+        }*/
+
+        this._store.dispatch(new fromStore.SetCurrentDocumentoAvulso({
+            documentoAvulsoId: documentoAvulso.id, processoId: documentoAvulso.processo.id,
+            acessoNegado: documentoAvulso.processo.acessoNegado, chaveAcesso: '12345678'}));
+        return;
+
     }
 
     /**
@@ -324,10 +340,12 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     doResponderComplentarBlocoBloco(): void {
-        this._router.navigate(['apps/oficios/' + this.routerState.params.oficioHandle + '/responde-complementra-bloco']).then();
+        this._router.navigate(['apps/oficios/' + this.routerState.params.oficioHandle + '/'
+        + this.routerState.params.pessoaHandle + '/responde-complementra-bloco']).then();
     }
 
     doEtiquetarBloco(): void {
-        this._router.navigate(['apps/oficios/' + this.routerState.params.oficioHandle + '/vinculacao-etiqueta-bloco']).then();
+        this._router.navigate(['apps/oficios/' + this.routerState.params.oficioHandle + '/'
+        + this.routerState.params.pessoaHandle + '/vinculacao-etiqueta-bloco']).then();
     }
 }
