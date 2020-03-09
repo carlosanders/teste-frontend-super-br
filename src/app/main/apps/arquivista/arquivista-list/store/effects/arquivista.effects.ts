@@ -90,7 +90,7 @@ export class ArquivistaEffect {
                 map((action) => {
                         this._router.navigate([
                             'apps/arquivista/' + this.routerState.params.unidadeHandle + '/' +
-                            this.routerState.params.typeHandle + '/detalhe/' +
+                            this.routerState.params.typeHandle + '/detalhe/processo/' +
                            action.payload.processoId + '/visualizar']
                         ).then();
 
