@@ -72,29 +72,11 @@ export class CdkRealizarTransicaoFormComponent
 
     setProcesso(): void {
         const processoId = parseInt(String(this.processoId), 10);
-        if (this.processoId) {
-            this.processo = {
-                id: processoId,
-                NUP: '',
-                acessoNegado: false,
-                chaveAcesso: '',
-                novo: false,
-                classificacao: undefined,
-                dataHoraAbertura: undefined,
-                especieProcesso: undefined,
-                modalidadeFase: undefined,
-                modalidadeMeio: undefined,
-                procedencia: undefined,
-                processoOrigem: undefined,
-                setorAtual: undefined,
-                setorInicial: undefined,
-                semValorEconomico: false,
-                titulo: '',
-                vinculacoesEtiquetas: [],
-                visibilidadeExterna: false
-            };
-            this.form.get('processo').setValue(this.processo);
-        }
+        const processo = new Processo();
+
+        processo.id = processoId;
+        this.processo = processo;
+        this.form.get('processo').setValue(processo);
     }
 
 

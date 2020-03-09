@@ -168,6 +168,10 @@ export class ArquivistaDetailComponent implements OnInit, OnDestroy, AfterViewIn
         return this.processo.id + '/realizar-transicao/criar';
     }
 
+    setRouteLembrete() {
+        return this.processo.id + '/lembretes';
+    }
+
     isDataProntaParaTransicao() {
         return this.processo.dataHoraProximaTransicao;
     }
