@@ -7,7 +7,7 @@
     <!-- SIDEBAR -->
     <cdk-sidebar *ngIf="!(maximizado$ | async)" class="sidebar" name="documento-avulso-main-sidebar" position="left"
                   lockedOpen="gt-md">
-        <documento-avulso-main-sidebar></documento-avulso-main-sidebar>
+        <documento-avulso-main-sidebar [pessoasConveniadas]="pessoasConveniadas"></documento-avulso-main-sidebar>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 

@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component, OnDestroy,
+    OnInit,
+    ViewEncapsulation,
+    Input
+} from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 
@@ -7,7 +14,6 @@ import { cdkAnimations } from '@cdk/animations';
 import * as fromStore from 'app/main/apps/oficios/store';
 import { getRouterState } from 'app/store/reducers';
 import { takeUntil } from 'rxjs/operators';
-import {SetFolderOnSelectedDocumentosAvulso} from 'app/main/apps/oficios/store';
 
 @Component({
     selector: 'documento-avulso-main-sidebar',
@@ -25,6 +31,9 @@ export class DocumentoAvulsoMainSidebarComponent implements OnInit, OnDestroy {
 
     routerState: any;
 
+    @Input()
+    pessoasConveniadas: any;
+
     /**
      *
      * @param _store
@@ -40,7 +49,6 @@ export class DocumentoAvulsoMainSidebarComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-
         this._store
             .pipe(
                 select(getRouterState),

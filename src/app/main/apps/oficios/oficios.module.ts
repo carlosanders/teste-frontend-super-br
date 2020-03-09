@@ -38,9 +38,13 @@ import {CdkChaveAcessoPluginModule} from '@cdk/components/chave-acesso/cdk-chave
 
 const routes: Routes = [
     {
-        path: ':oficioTargetHandle',
+        path: '',
         component: OficiosComponent,
         children: [
+            /*{
+                path: ':oficioTargetHandle/:pessoaHandle',
+                loadChildren: () => import('./oficio-empty/oficio-content.module').then(m => m.OficioContentModule)
+            },*/
             {
                 path: '',
                 loadChildren: () => import('./oficio-empty/oficio-empty.module').then(m => m.OficioEmptyModule)

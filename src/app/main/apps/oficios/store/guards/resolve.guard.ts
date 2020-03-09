@@ -11,12 +11,13 @@ import * as fromStore from 'app/main/apps/oficios/store';
 import { getDocumentosAvulsoLoaded } from 'app/main/apps/oficios/store/selectors';
 import { getRouterState } from 'app/store/reducers';
 import { LoginService } from '../../../../auth/login/login.service';
-import { Usuario } from '@cdk/models/usuario.model';
+import { Usuario, VinculacaoPessoaUsuario } from '@cdk/models';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
 
     private _profile: Usuario;
+    private pessoasConveniadas: VinculacaoPessoaUsuario[];
     routerState: any;
 
     /**
@@ -37,6 +38,7 @@ export class ResolveGuard implements CanActivate {
             });
 
         this._profile = _loginService.getUserProfile();
+        this.pessoasConveniadas = _loginService.getUserProfile().vinculacoesPessoasUsuarios;
     }
 
     /**
@@ -100,17 +102,20 @@ export class ResolveGuard implements CanActivate {
                 const routeTypeParam = of('oficioTargetHandle');
                 routeTypeParam.subscribe(typeParam => {
                     let documentoAvulsoFilter = {};
+
                     if (this.routerState.params[typeParam] === 'entrada') {
                         documentoAvulsoFilter = {
                             'usuarioResposta.id': 'isNull',
-                            'documentoRemessa.id': 'isNotNull'
+                            'documentoRemessa.id': 'isNotNull',
+                            'pessoaDestino.id': this.pessoasConveniadas[0].pessoa.id
                         };
                     }
 
                     if (this.routerState.params[typeParam] === 'saida') {
                         documentoAvulsoFilter = {
                             'usuarioResposta.id': 'isNotNull',
-                            'documentoRemessa.id': 'isNotNull'
+                            'documentoRemessa.id': 'isNotNull',
+                            'pessoaDestino.id': this.pessoasConveniadas[0].pessoa.id
                         };
                     }
 

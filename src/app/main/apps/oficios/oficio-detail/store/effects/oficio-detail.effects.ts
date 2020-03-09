@@ -68,8 +68,9 @@ export class OficioDetailEffect {
                             'setorResponsavel.unidade',
                             'setorOrigem',
                             'setorOrigem.unidade',
-                            'processo.vinculacoesEtiquetas',
-                            'processo.vinculacoesEtiquetas.etiqueta']));
+                            'vinculacoesEtiquetas',
+                            'vinculacoesEtiquetas.etiqueta'
+                        ]));
                 }),
                 mergeMap(response => [
                     new AddData<DocumentoAvulso>({data: response['entities'], schema: documentoAvulsoSchema}),

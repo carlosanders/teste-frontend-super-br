@@ -33,7 +33,6 @@ import {LoginService} from '../../auth/login/login.service';
 import {Usuario} from '@cdk/models/usuario.model';
 import {MatDialog} from '@cdk/angular/material';
 import { CdkChaveAcessoPluginComponent } from '@cdk/components/chave-acesso/cdk-chave-acesso-plugins/cdk-chave-acesso-plugin.component';
-import {Pessoa} from '../../../../@cdk/models';
 
 @Component({
     selector: 'oficios',
@@ -89,6 +88,8 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
 
     mobileMode = false;
 
+    pessoasConveniadas: any;
+
     @ViewChild('documentoAvulsoListElement', {read: ElementRef, static: true}) documentoAvulsoListElement: ElementRef;
 
     /**
@@ -126,6 +127,7 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
         this._profile = _loginService.getUserProfile();
         this.vinculacaoEtiquetaPagination = new Pagination();
         this.vinculacaoEtiquetaPagination.filter = {'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.id};
+        this.pessoasConveniadas =  _loginService.getUserProfile().vinculacoesPessoasUsuarios;
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -326,6 +328,6 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     doEtiquetarBloco(): void {
-        this._router.navigate(['apps/oficios/' + this.routerState.params.oficioHandle + '/vinculacao-etiqueta-bloco\'']).then();
+        this._router.navigate(['apps/oficios/' + this.routerState.params.oficioHandle + '/vinculacao-etiqueta-bloco']).then();
     }
 }
