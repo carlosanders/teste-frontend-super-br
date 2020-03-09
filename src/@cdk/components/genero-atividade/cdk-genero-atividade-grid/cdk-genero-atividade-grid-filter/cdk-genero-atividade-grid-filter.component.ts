@@ -23,7 +23,7 @@ export class CdkGeneroAtividadeGridFilterComponent implements OnInit {
 
     form: FormGroup;
 
-    filters: any = '{}';
+    filters: any = {};
 
     /**
      * Constructor
