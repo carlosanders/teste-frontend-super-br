@@ -2,7 +2,8 @@
 <cdk-sidebar class="sidebar" name="cdk-tarefa-list-main-sidebar" position="left">
     <!-- SIDEBAR CONTENT -->
     <div class="content" cdkPerfectScrollbar>
-        <cdk-tarefa-list-main-sidebar (selected)="setListFilter($event)" [@animate]="{value:'*'}"></cdk-tarefa-list-main-sidebar>
+        <cdk-tarefa-list-main-sidebar (selected)="setListFilter($event)"
+                                      [@animate]="{value:'*'}"></cdk-tarefa-list-main-sidebar>
     </div>
     <!-- / SIDEBAR CONTENT -->
 </cdk-sidebar>
@@ -14,7 +15,7 @@
     <div class="toolbar pt-8 pb-8 pl-16 pr-8" fxFlex fxLayout="row" fxLayoutAlign="start center">
 
         <mat-checkbox (click)="toggleSelectAll($event)"
-                      [checked]="selectedIds.length"
+                      [checked]="!!selectedIds.length"
                       [indeterminate]="isIndeterminate">
         </mat-checkbox>
 
@@ -151,20 +152,32 @@
         <mat-spinner class="tarefa-list-loading" *ngIf="loading" diameter="24"></mat-spinner>
     </div>
 
-    <cdk-tarefa-list-item matRipple *ngFor="let tarefa of tarefas" [tarefa]="tarefa" (click)="selectTarefa(tarefa)"
-                          [selected]="selectedIds.length > 0 && selectedIds.indexOf(tarefa.id) > -1"
-                          [deleting]="deletingIds.length > 0 && deletingIds.indexOf(tarefa.id) > -1"
-                          (toggleInSelectedTarefas)="toggleInSelected($event)"
-                          (delete)="doDeleteTarefa($event)"
-                          (movimentar)="doMovimentar($event)"
-                          (compartilhar)="doCompartilhar($event)"
-                          (toggleUrgente)="doToggleUrgente($event)"
-                          (createDocumentoAvulso)="doCreateDocumentoAvulso($event)"
-                          (createTarefa)="doCreateTarefa($event)"
-                          (editTarefa)="doEditTarefa($event)"
-                          (editProcesso)="doEditProcesso($event)"
-                          [ngClass]="{'selected':tarefa.id === currentTarefaId}">
-    </cdk-tarefa-list-item>
+    <div class="scroll-wraper" fxFlex fxLayout="column">
+
+        <div class="scroll-container"
+             infiniteScroll
+             [scrollWindow]="false"
+             [infiniteScrollDistance]="2"
+             [infiniteScrollThrottle]="50"
+             (scrolled)="onScroll()">
+
+            <cdk-tarefa-list-item matRipple cdkPerfectScrollbar *ngFor="let tarefa of tarefas" [tarefa]="tarefa"
+                                  (click)="selectTarefa(tarefa)"
+                                  [selected]="selectedIds.length > 0 && selectedIds.indexOf(tarefa.id) > -1"
+                                  [deleting]="deletingIds.length > 0 && deletingIds.indexOf(tarefa.id) > -1"
+                                  (toggleInSelectedTarefas)="toggleInSelected($event)"
+                                  (delete)="doDeleteTarefa($event)"
+                                  (movimentar)="doMovimentar($event)"
+                                  (compartilhar)="doCompartilhar($event)"
+                                  (toggleUrgente)="doToggleUrgente($event)"
+                                  (createDocumentoAvulso)="doCreateDocumentoAvulso($event)"
+                                  (createTarefa)="doCreateTarefa($event)"
+                                  (editTarefa)="doEditTarefa($event)"
+                                  (editProcesso)="doEditProcesso($event)"
+                                  [ngClass]="{'selected':tarefa.id === currentTarefaId}">
+            </cdk-tarefa-list-item>
+        </div>
+    </div>
 
 </div>
 
