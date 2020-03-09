@@ -1,24 +1,13 @@
-<div id="processo-view" class="page-layout simple left-sidebar inner-scroll">
+<div class="left-sidebar" fxFlex fxLayout="row">
 
     <!-- SIDEBAR -->
     <cdk-sidebar class="sidebar" name="juntadas-left-sidebar-1" position="left" lockedOpen="gt-md">
-
-        <!-- SIDEBAR CONTENT -->
-        <div class="content" infiniteScroll
-             [scrollWindow]="false"
-             [infiniteScrollDistance]="2"
-             [infiniteScrollThrottle]="50"
-             (scrolled)="onScroll()"
-             cdkPerfectScrollbar>
-            <processo-view-main-sidebar [@animate]="{value:'*'}"></processo-view-main-sidebar>
-        </div>
-        <!-- / SIDEBAR CONTENT -->
-
+        <processo-view-main-sidebar [@animate]="{value:'*'}" (scrolled)="onScroll()"></processo-view-main-sidebar>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
     <!-- CENTER -->
-    <div class="center">
+    <div class="center" fxFlex fxLayout="column">
 
         <!-- HEADER -->
         <div class="header accent p-16" fxLayout="row" fxLayoutAlign="start center">
@@ -53,7 +42,7 @@
         <!-- / HEADER -->
 
         <!-- CONTENT -->
-        <div class="content">
+        <div fxFlex class="content">
 
             <div class="processo-view-juntada" cdkPerfectScrollbar>
 
