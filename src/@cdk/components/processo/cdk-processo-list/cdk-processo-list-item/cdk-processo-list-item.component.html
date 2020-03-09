@@ -1,0 +1,114 @@
+<div fxLayout="row"  fxLayoutAlign="start center">
+
+    <mat-checkbox class="mr-8" [checked]="selected" (change)="onSelectedChange()"
+                  (click)="$event.stopPropagation();">
+    </mat-checkbox>
+
+    <div fxLayout="row" fxLayoutAlign="start center" fxFlex>
+
+        <div class="info" fxFlex>
+
+            <div class="body mt-4">
+                <div class="title">
+                    <span class="text-truncate">PROCESSO {{processo.NUP | formatNup}}</span>
+                </div>
+
+
+                <div class="subtitle">
+                    <span class="text-truncate">{{processo.especieProcesso?.nome}} / {{processo.modalidadeMeio?.valor}}
+                        / {{processo.modalidadeFase?.valor}}</span>
+                </div>
+
+                <div class="body mt-4">
+
+                    <div>
+                        Data Abertura:  {{processo.dataHoraAbertura | date: 'dd/MM/yyyy'}}
+                    </div>
+
+                    <div>
+                        Data Transição: {{processo.dataHoraProximaTransicao | date: 'dd/MM/yyyy'}}
+                    </div>
+
+
+                    <div *ngIf="processo.classificacao">
+                        Classificação: {{processo.classificacao?.nome}}
+                    </div>
+
+                    <div *ngIf="processo.classificacao">
+                        Destinaçao: {{processo.classificacao.modalidadeDestinacao?.valor}}
+                    </div>
+                </div>
+
+                <div class="etiquetas" fxLayout="row wrap" fxHide fxShow.gt-sm>
+                    <div class="etiqueta" *ngFor="let vinculacaoEtiqueta of processo.vinculacoesEtiquetas"
+                         fxLayout="row" fxLayoutAlign="start center">
+                        <div class="etiqueta-color"
+                             [ngStyle]="{'background-color': (vinculacaoEtiqueta.etiqueta?.corHexadecimal)}"></div>
+                        <div class="etiqueta-title">{{vinculacaoEtiqueta.etiqueta?.nome}}</div>
+                    </div>
+                </div>
+
+                <mat-expansion-panel (opened)="panelOpenState = true"
+                                     (closed)="panelOpenState = false"
+                                     (click)="$event.stopPropagation();">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            Lembrete
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <p *ngIf="editantoLembrete == false" (click)="doEditarLembrete()">Teste</p>
+                    <mat-form-field *ngIf="editantoLembrete == true"  fxFlex>
+                      <input  matInput ng-model="Teste">
+                    </mat-form-field>
+                </mat-expansion-panel>
+
+
+            </div>
+
+
+        </div>
+
+        <div class="actions" fxLayout="row" fxLayoutAlign="start center">
+
+
+            <div class="spinner-container m-8" *ngIf="deleting">
+                <mat-spinner diameter="24"></mat-spinner>
+            </div>
+
+            <button *ngIf="!deleting" mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="Ferramentas"
+                    (click)="$event.stopPropagation()">
+                <mat-icon class="secondary-text">more_vert</mat-icon>
+            </button>
+
+            <mat-menu #moreMenu="matMenu">
+
+                <button mat-menu-item aria-label="realizar transicao"
+                        (click)="doRealizarTransicao()">
+                    <ng-container>
+                        <mat-icon>check</mat-icon>
+                        <span>Realizar Transição</span>
+                    </ng-container>
+                </button>
+
+
+                <button mat-menu-item aria-label="criar lembrete"
+                        (click)="doCriarLembrete()">
+                    <ng-container>
+                        <mat-icon>add</mat-icon>
+                        <span>Criar Lembrete</span>
+                    </ng-container>
+                </button>
+
+                <button mat-menu-item aria-label="realizar classificacao"
+                        (click)="doClassificacao()">
+                    <ng-container>
+                        <mat-icon>playlist_add</mat-icon>
+                        <span>Realizar Classificação</span>
+                    </ng-container>
+                </button>
+
+            </mat-menu>
+        </div>
+
+    </div>
+</div>

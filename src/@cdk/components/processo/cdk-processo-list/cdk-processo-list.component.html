@@ -1,0 +1,122 @@
+<!-- SIDEBAR -->
+<cdk-sidebar class="sidebar" name="cdk-processo-list-main-sidebar" position="left">
+    <!-- SIDEBAR CONTENT -->
+    <div class="content" cdkPerfectScrollbar>
+        <cdk-processo-list-main-sidebar (selected)="setListFilter($event)" [@animate]="{value:'*'}"></cdk-processo-list-main-sidebar>
+    </div>
+    <!-- / SIDEBAR CONTENT -->
+</cdk-sidebar>
+<!-- / SIDEBAR -->
+
+
+<div fxLayout="column">
+
+    <div class="toolbar pt-8 pb-8 pl-16 pr-8" fxFlex fxLayout="row" fxLayoutAlign="start center">
+
+        <mat-checkbox (click)="toggleSelectAll($event)"
+                      [checked]="selectedIds.length"
+                      [indeterminate]="isIndeterminate">
+        </mat-checkbox>
+
+        <div class="toolbar-separator" *ngIf="selectedIds.length"></div>
+
+        <div *ngIf="selectedIds?.length">
+            {{selectedIds?.length}}
+        </div>
+
+        <div class="toolbar-separator" *ngIf="selectedIds?.length && folders?.length"></div>
+
+
+
+        <button mat-icon-button [matMenuTriggerFor]="moreMenu"
+                aria-label="Ferramentas" (click)="$event.stopPropagation()"
+                *ngIf="selectedIds?.length > 1">
+            <mat-icon class="secondary-text">more_vert</mat-icon>
+        </button>
+
+        <mat-menu #moreMenu="matMenu">
+
+            <button mat-menu-item aria-label="realizar transicao"
+                    (click)="doRealizarTransicaoBloco()">
+                <ng-container>
+                    <mat-icon>check</mat-icon>
+                    <span>Realizar Transição</span>
+                </ng-container>
+            </button>
+
+
+            <button mat-menu-item aria-label="criar lembrete"
+                    (click)="doCriarLembreteBloco()">
+                <ng-container>
+                    <mat-icon>add</mat-icon>
+                    <span>Criar Lembrete</span>
+                </ng-container>
+            </button>
+
+
+
+            <button mat-menu-item aria-label="realizar classificacao"
+                    (click)="doClassificacaoBloco()">
+                <ng-container>
+                    <mat-icon>playlist_add</mat-icon>
+                    <span>Realizar Classificação</span>
+                </ng-container>
+            </button>
+
+            <button mat-menu-item aria-label="etiquetar"
+                    (click)="doEtiquetarBloco()">
+                <ng-container>
+                    <mat-icon>label</mat-icon>
+                    <span>Etiquetar</span>
+                </ng-container>
+            </button>
+
+        </mat-menu>
+
+        <div class="processo-list-control" fxLayout="row" fxLayoutAlign="start center">
+
+            <button class="toggle-filter" [ngClass]="{'warn': (listFilter | json) != '{}'}" mat-icon-button
+                    (click)="toggleFilter()"
+                    aria-label="filtrar"
+                    matTooltip="Filtrar">
+                <mat-icon>filter_list</mat-icon>
+            </button>
+
+            <button mat-icon-button [matMenuTriggerFor]="selectMenu">
+                <mat-icon>sort</mat-icon>
+            </button>
+            <mat-menu fxHide #selectMenu="matMenu">
+                <button mat-menu-item (click)="doSort({'dataHoraAbertura': 'DESC'})">Final do
+                    Prazo
+                </button>
+                <button mat-menu-item (click)="doSort({'id': 'DESC'})">Mais Recente</button>
+            </mat-menu>
+
+            <div class="toolbar-separator" *ngIf="pagination.total"></div>
+
+            <div>
+                {{processos.length}}/{{pagination.total}}
+            </div>
+        </div>
+    </div>
+
+    <div fxLayout="column" fxFlex
+         fxLayoutAlign="center center">
+        <mat-spinner class="processo-list-loading" *ngIf="loading" diameter="24"></mat-spinner>
+    </div>
+
+    <cdk-processo-list-item matRipple *ngFor="let processo of processos" [processo]="processo" (click)="selectProcesso(processo)"
+                          [selected]="selectedIds.length > 0 && selectedIds.indexOf(processo.id) > -1"
+                          [deleting]="deletingIds.length > 0 && deletingIds.indexOf(processo.id) > -1"
+                          (toggleInSelectedProcessos)="toggleInSelected($event)"
+
+
+                          [ngClass]="{'selected':processo.id === currentProcessoId}">
+    </cdk-processo-list-item>
+
+</div>
+
+<div *ngIf="processos.length === 0 && !loading" fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
+    <span class="no-processos-text hint-text">{{ 'PROCESSO.NO_MESSAGES' | translate }}</span>
+</div>
+

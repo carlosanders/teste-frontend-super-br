@@ -26,6 +26,15 @@ export const navigation: CdkNavigation[] = [
                 role: 'ROLE_ADMIN'
             },
             {
+                id: 'arquivista',
+                title: 'Arquivista',
+                translate: 'NAV.ARQUIVISTA.TITLE',
+                type: 'item',
+                icon: 'archive',
+                url: '/apps/arquivista',
+                role: 'ROLE_ARQUIVISTA'
+            },
+            {
                 id: 'tarefas',
                 title: 'Tarefas',
                 translate: 'NAV.TAREFA.TITLE',

@@ -1,0 +1,47 @@
+<!-- CONTENT -->
+
+<div class="content" fxFlexAlign="row">
+                <div class="processo-list" #processoListElement mwlResizable [enableGhostResize]="true"
+                     [resizeEdges]="{bottom: false, right: true, top: false, left: true}"
+                     (resizeEnd)="onResizeEndProcessoList($event)"
+                     [fxFlex]="processoListSize"
+                     [hidden]="(maximizado$ | async)"
+                     cdkPerfectScrollbar
+                     infiniteScroll
+                     [scrollWindow]="false"
+                     [infiniteScrollDistance]="2"
+                     [infiniteScrollThrottle]="50"
+                     (scrolled)="onScroll()"
+                     [ngClass]="{
+                        'mobile-mode': mobileMode,
+                        'current-processo': currentProcessoId,
+                        'no-current-processo': !currentProcessoId
+                     }">
+                    <cdk-processo-list [loading]="(loading$ | async)"
+                                       [processos]="processos"
+                                       [currentProcessoId]="currentProcessoId"
+                                       [pagination]="pagination"
+                                       [selectedIds]="(selectedIds$ | async)"
+                                       (changeSelectedIds)="changeSelectedIds($event)"
+                                       (reload)="reload($event)"
+                                       (etiquetarBloco)="doEtiquetarBloco()"
+                                       (selected)="setCurrentProcesso($event)">
+<!--                                       (movimentar)="doMovimentar($event)"-->
+<!--                                       (movimentarBloco)="doMovimentarBloco()"-->
+<!--                                       (etiquetarBloco)="doEtiquetarBloco()"-->
+                    </cdk-processo-list>
+                </div>
+                <div class="processo-detail" mwlResizable [enableGhostResize]="true"
+                     [resizeEdges]="{bottom: false, right: true, top: false, left: true}"
+                     cdkPerfectScrollbar fxFlex
+                     [ngClass]="{
+                        'mobile-mode': mobileMode,
+                        'current-processo': currentProcessoId,
+                        'no-current-processo': !currentProcessoId
+                     }">
+                    <router-outlet></router-outlet>
+                </div>
+            </div>
+            <!-- / CONTENT -->
+
+
