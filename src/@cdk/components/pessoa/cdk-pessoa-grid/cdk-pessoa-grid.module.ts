@@ -18,6 +18,7 @@ import {CdkPessoaGridComponent} from './cdk-pessoa-grid.component';
 import {CdkPessoaAutocompleteModule} from '@cdk/components/pessoa/cdk-pessoa-autocomplete/cdk-pessoa-autocomplete.module';
 import {CdkPessoaGridFilterModule} from './cdk-pessoa-grid-filter/cdk-pessoa-grid-filter.module';
 import {CdkPessoaMainSidebarComponent} from './sidebars/main/main.component';
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 @NgModule({
     declarations: [
@@ -40,6 +41,7 @@ import {CdkPessoaMainSidebarComponent} from './sidebars/main/main.component';
 
         CdkSharedModule,
         CdkSidebarModule,
+        MatTooltipModule,
     ],
     providers: [
         PessoaService,
