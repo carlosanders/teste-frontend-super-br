@@ -1,9 +1,5 @@
 import {Action} from '@ngrx/store';
 
-export const GET_PROCESSO = '[ARQUIVISTA-DETAIL] GET PROCESSO';
-export const GET_PROCESSO_SUCCESS = '[ARQUIVISTA-DETAIL] GET PROCESSO SUCCESS';
-export const GET_PROCESSO_FAILED = '[ARQUIVISTA-DETAIL] GET PROCESSO FAILED';
-
 export const CREATE_VINCULACAO_ETIQUETA = '[ARQUIVISTA-DETAIL] VINCULACAO ETIQUETA';
 export const CREATE_VINCULACAO_ETIQUETA_SUCCESS = '[ARQUIVISTA-DETAIL] VINCULACAO ETIQUETA SUCCESS';
 export const CREATE_VINCULACAO_ETIQUETA_FAILED = '[ARQUIVISTA-DETAIL] VINCULACAO ETIQUETA FAILED';
@@ -19,29 +15,6 @@ export const DELETE_VINCULACAO_ETIQUETA_FAILED = '[ARQUIVISTA-DETAIL] DELETE VIN
 export const TOGGLE_MAXIMIZADO = '[ARQUIVISTA-DETAIL] TOGGLE MAXIMIZADO';
 
 export const DESELECT_TAREFA_ACTION = '[ARQUIVISTA-DETAIL] DESELECT TAREFA ACTION';
-
-export class GetProcesso implements Action {
-    readonly type = GET_PROCESSO;
-
-    constructor(public payload: any) {
-    }
-}
-
-export class GetProcessoSuccess implements Action {
-
-    readonly type = GET_PROCESSO_SUCCESS;
-
-    constructor(public payload: any) {
-    }
-}
-
-export class GetProcessoFailed implements Action {
-
-    readonly type = GET_PROCESSO_FAILED;
-
-    constructor(public payload: any) {
-    }
-}
 
 /**
  * Create Vinculacao Etiqueta
@@ -153,10 +126,7 @@ export class DeselectTarefaAction implements Action
 }
 
 export type ArquivistaDetailActionsAll
-    = GetProcesso
-    | GetProcessoSuccess
-    | GetProcessoFailed
-    | SaveConteudoVinculacaoEtiqueta
+    = SaveConteudoVinculacaoEtiqueta
     | SaveConteudoVinculacaoEtiquetaFailed
     | SaveConteudoVinculacaoEtiquetaSuccess
     | CreateVinculacaoEtiqueta
