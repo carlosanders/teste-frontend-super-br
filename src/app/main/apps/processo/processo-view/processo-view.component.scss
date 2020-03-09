@@ -2,15 +2,17 @@
 
 processo-view {
 
-    display: flex;
-    flex-direction: column;
-    flex: 1 0 auto;
     height: 100%;
+
+    .sidebar {
+        width: 230px !important;
+        min-width: 230px !important;
+        max-width: 230px !important;
+    }
 
     .center {
 
         position: relative;
-        overflow: hidden;
 
         .header {
             height: 56px !important;
@@ -42,7 +44,6 @@ processo-view {
 
         .content {
             position: relative;
-            display: flex;
 
             .processo-view-juntada {
                 position: absolute;
