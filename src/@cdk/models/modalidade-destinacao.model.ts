@@ -11,7 +11,7 @@ export class ModalidadeDestinacao {
     @Exclude({ toPlainOnly: true })
     uuid?: string;
 
-    @Exclude({ toPlainOnly: true })
+
     valor: string;
 
     @Exclude({ toPlainOnly: true })

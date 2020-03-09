@@ -14,20 +14,27 @@ import {ArquivistaStoreModule} from './store/store.module';
 import {ProcessoService} from '@cdk/services/processo.service';
 import {ResizableModule} from 'angular-resizable-element';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
-import {ArquivistaDetailComponent} from '../arquivista-detail/arquivista-detail.component';
 
 
 const routes: Routes = [
     {
         path: '',
         component: ArquivistaListComponent,
+        canActivate: [fromGuards.ResolveGuard],
         children: [
+            {
+                path: '',
+                loadChildren: () => import('../arquivista-empty/arquivista-empty.module').then(m => m.ArquivistaEmptyModule)
+            },
             {
                 path: 'detalhe',
                 loadChildren: () => import('../arquivista-detail/arquivista-detail.module').then(m => m.ArquivistaDetailModule)
             },
+            {
+                path: 'vinculacao-etiqueta-bloco',
+                loadChildren: () => import('../vinculacao-etiqueta-create-bloco/vinculacao-etiqueta-create-bloco.module').then(m => m.VinculacaoEtiquetaCreateBlocoModule),
+            }
         ],
-        canActivate: [fromGuards.ResolveGuard]
     }
 ];
 

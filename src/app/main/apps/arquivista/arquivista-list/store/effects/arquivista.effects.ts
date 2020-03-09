@@ -115,24 +115,6 @@ export class ArquivistaEffect {
                 })
             );
 
-    /**
-     * Delete Processo
-     * @type {Observable<any>}
-     */
-    @Effect()
-    deleteProcesso: Observable<ArquivistaActions.ArquivistaActionsAll> =
-        this._actions
-            .pipe(
-                ofType<ArquivistaActions.DeleteProcesso>(ArquivistaActions.DELETE_PROCESSO),
-                mergeMap((action) => {
-                    return this._processoService.destroy(action.payload).pipe(
-                        map((response) => new ArquivistaActions.DeleteProcessoSuccess(response.id)),
-                        catchError((err) => {
-                            console.log(err);
-                            return of(new ArquivistaActions.DeleteProcessoFailed(action.payload));
-                        })
-                    );
-                })
-            );
+
 
 }

@@ -15,7 +15,7 @@ import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import * as moment from 'moment';
-import {tarefa as tarefaSchema} from '@cdk/normalizr/tarefa.schema';
+import {processo as processoSchema} from '@cdk/normalizr/processo.schema';
 
 @Injectable()
 export class VinculacaoEtiquetaCreateBlocoEffect {
@@ -47,18 +47,19 @@ export class VinculacaoEtiquetaCreateBlocoEffect {
             .pipe(
                 ofType<VinculacaoEtiquetaCreateBlocoActions.SaveVinculacaoEtiqueta>(VinculacaoEtiquetaCreateBlocoActions.SAVE_VINCULACAO_ETIQUETA),
                 mergeMap((action) => {
+                    console.log(action.payload);
                     return this._vinculacaoEtiquetaService.save(action.payload).pipe(
                         mergeMap((response: VinculacaoEtiqueta) => [
                             new VinculacaoEtiquetaCreateBlocoActions.SaveVinculacaoEtiquetaSuccess(action.payload),
                             new AddChildData<VinculacaoEtiqueta>({
                                 data: [{...action.payload, ...response}],
                                 childSchema: vinculacaoEtiquetaSchema,
-                                parentSchema: tarefaSchema,
-                                parentId: action.payload.tarefa.id
+                                parentSchema: processoSchema,
+                                parentId: action.payload.processo.id
                             }),
                             new OperacoesActions.Resultado({
                                 type: 'vinculacao_etiqueta',
-                                content: `Etiqueta na tarefa id ${action.payload.tarefa.id} criada com sucesso!`,
+                                content: `Etiqueta no processo id ${action.payload.processo.id} criada com sucesso!`,
                                 success: true,
                                 dateTime: response.criadoEm
                             })
@@ -67,7 +68,7 @@ export class VinculacaoEtiquetaCreateBlocoEffect {
                             console.log (err);
                             this._store.dispatch(new OperacoesActions.Resultado({
                                 type: 'vinculacao_etiqueta',
-                                content: `Houve erro no etiqueta na tarefa id ${action.payload.tarefa.id}! ${err.error.message}`,
+                                content: `Houve erro no etiqueta no processo id ${action.payload.processo.id}! ${err.error.message}`,
                                 success: false,
                                 dateTime: moment()
                             }));

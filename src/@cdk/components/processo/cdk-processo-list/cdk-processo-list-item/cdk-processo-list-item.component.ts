@@ -26,11 +26,17 @@ export class CdkProcessoListItemComponent implements OnInit {
     @Input()
     deleting: boolean;
 
+    @Input()
+    editantoLembrete: boolean;
+
     @Output()
     toggleInSelectedProcessos = new EventEmitter();
 
     @Output()
     criarLembrete = new EventEmitter<any>();
+
+    @Output()
+    editarLembrete = new EventEmitter<any>();
 
     @Output()
     classificacao = new EventEmitter<any>();
@@ -50,6 +56,7 @@ export class CdkProcessoListItemComponent implements OnInit {
 
     constructor() {
         this.deleting = false;
+        this.editantoLembrete = false;
     }
 
     /**
@@ -76,6 +83,11 @@ export class CdkProcessoListItemComponent implements OnInit {
     doCriarLembrete(): void {
         this.criarLembrete.emit();
     }
-
+    doEditarLembrete(): void {
+        this.editantoLembrete = true;
+        this.editarLembrete.emit();
+    }
 
 }
+
+

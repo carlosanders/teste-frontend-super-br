@@ -59,6 +59,9 @@ export class CdkProcessoListComponent implements AfterViewInit, OnInit, OnChange
     @Output()
     realizarTransicaoBloco = new EventEmitter<any>();
 
+    @Output()
+    etiquetarBloco = new EventEmitter<any>();
+
     listFilter: {} = {};
     listSort: {} = {};
 
@@ -172,6 +175,11 @@ export class CdkProcessoListComponent implements AfterViewInit, OnInit, OnChange
     doCriarLembreteBloco(): void {
         this.criarLembreteBloco.emit();
     }
+
+    doEtiquetarBloco(): void {
+        this.etiquetarBloco.emit();
+    }
+
 
 
 

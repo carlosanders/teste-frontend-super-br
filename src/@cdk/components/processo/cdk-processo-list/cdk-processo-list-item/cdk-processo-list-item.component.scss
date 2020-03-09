@@ -9,6 +9,10 @@ cdk-processo-list-item {
     cursor: pointer;
     flex-shrink: 0;
 
+    mat-expansion-panel{
+        margin-top: 15px !important;
+    }
+
     .info {
 
         &.nao-lido {
