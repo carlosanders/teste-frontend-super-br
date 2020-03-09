@@ -31,7 +31,7 @@ import {filter, takeUntil} from 'rxjs/operators';
 import {Pagination} from '@cdk/models';
 import {LoginService} from '../../auth/login/login.service';
 import {ToggleMaximizado} from 'app/main/apps/tarefas/store';
-import {Usuario} from "../../../../@cdk/models/usuario.model";
+import {Usuario} from '@cdk/models';
 
 @Component({
     selector: 'tarefas',
@@ -217,6 +217,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     reload(params): void {
 
+        this._store.dispatch(new fromStore.UnloadTarefas({reset: false}));
+
         const nparams = {
             ...this.pagination,
             listFilter: params.listFilter,
@@ -258,7 +260,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
         const nparams = {
             ...this.pagination,
-            limit: this.pagination.limit + this.pagination.limit
+            offset: this.pagination.offset + this.pagination.limit
         };
 
         this._store.dispatch(new fromStore.GetTarefas(nparams));
