@@ -1,0 +1,35 @@
+<div class="title-lembrete">
+    <h2>CADASTRAR LEMBRETE</h2>
+</div>
+<form
+    *ngIf="activeCard === 'form'" class="p-16" fxLayoutGap="36px"
+    fxLayout="column"
+    fxLayoutAlign="start"
+    name="form" [formGroup]="form" (submit)="submit()">
+
+    <div fxFlex="1 0 auto" fxLayout="column">
+        <mat-form-field fxFlex="100">
+            <mat-label>Conteúdo</mat-label>
+            <input matInput #conteudo
+                   name="conteudo"
+                   formControlName="conteudo"
+                   maxlength="255" required>
+            <mat-hint align="end">{{conteudo.value.length}} / 255</mat-hint>
+        </mat-form-field>
+    </div>
+
+    <div fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+         fxLayoutAlign="center center">
+        <button mat-raised-button color="accent" class="mr-sm-12"
+                [disabled]="form.invalid">
+        CRIAR LEMBRETE
+        </button>
+    </div>
+
+</form>
+
+<div class="title-lembrete">
+    <h2>HISTÓRICO LEMBRETE</h2>
+</div>
+
+<!-- <pre>{{this.form.value | json}}</pre>-->

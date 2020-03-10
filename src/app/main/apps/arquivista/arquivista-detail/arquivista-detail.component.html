@@ -30,13 +30,19 @@
                         <mat-icon class="black-fg">book</mat-icon>
                     </button>
 
+                    <button mat-icon-button aria-label="Lembretes" matTooltip="Lembretes"
+                            [routerLink]="this.setRouteLembrete()"
+                            [routerLinkActive]="['active', 'accent']">
+                        <mat-icon class="black-fg">notes</mat-icon>
+                    </button>
+
                     <button *ngIf="this.isDataProntaParaTransicao()" mat-icon-button aria-label="Realizar Transição" matTooltip="Realizar Transição"
                             [routerLink]="this.setRouteRealizarTransacao()"
                             [routerLinkActive]="['active', 'accent']">
                         <mat-icon class="black-fg">swap_horiz</mat-icon>
                     </button>
 
-                    <button *ngIf="!this.isDataProntaParaTransicao()" mat-icon-button aria-label="Realizar Transição" matTooltip="Realizar Transição"
+                    <button *ngIf="!this.isDataProntaParaTransicao()" mat-icon-button aria-label="Realizar Transição" matTooltip="Data Prevista Transição"
                             [routerLinkActive]="['active', 'accent']">
                         <mat-icon class="black-fg">date_range</mat-icon>
                     </button>
@@ -47,6 +53,8 @@
                             [routerLinkActive]="['active', 'accent']">
                         <mat-icon class="black-fg">format_indent_increase</mat-icon>
                     </button>
+
+
 
 
                 </div>
