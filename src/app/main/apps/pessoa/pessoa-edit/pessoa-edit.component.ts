@@ -41,6 +41,7 @@ export class PessoaEditComponent implements OnInit, OnDestroy {
      * @param _changeDetectorRef
      * @param _cdkSidebarService
      * @param _store
+     * @param _router
      */
     constructor(
         private _store: Store<fromStore.DadosPessoaEditAppState>,
