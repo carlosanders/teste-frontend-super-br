@@ -11,13 +11,9 @@
 <!-- / SIDEBAR HEADER -->
 
 <!-- SIDEBAR CONTENT -->
-<div class="content py-16" cdkPerfectScrollbar>
-
-    <div class="header" fxLayout="column">
-        <div class="filters">
-            <cdk-origem-dados-grid-filter (selected)="setGridFilter($event)"></cdk-origem-dados-grid-filter>
-        </div>
+<div class="py-16" cdkPerfectScrollbar>
+    <div fxLayout="column">
+        <cdk-origem-dados-grid-filter (selected)="setGridFilter($event)"></cdk-origem-dados-grid-filter>
     </div>
-
 </div>
 <!-- / SIDEBAR CONTENT -->
