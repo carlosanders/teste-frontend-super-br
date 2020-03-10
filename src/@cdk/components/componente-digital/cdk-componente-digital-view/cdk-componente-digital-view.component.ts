@@ -6,9 +6,9 @@ import {
     ViewEncapsulation, Input, OnChanges
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 
-import {ComponenteDigital} from '@cdk/models/componente-digital.model';
+import {ComponenteDigital} from '@cdk/models';
 import {DomSanitizer} from '@angular/platform-browser';
 
 @Component({
@@ -17,7 +17,7 @@ import {DomSanitizer} from '@angular/platform-browser';
     styleUrls: ['./cdk-componente-digital-view.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkComponenteDigitalViewComponent implements OnInit, OnChanges {
 

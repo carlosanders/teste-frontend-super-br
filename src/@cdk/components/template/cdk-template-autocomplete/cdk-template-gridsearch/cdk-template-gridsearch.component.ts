@@ -10,14 +10,14 @@ import {
 } from '@angular/core';
 import {of} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 import {TemplateService} from '@cdk/services/template.service';
-import {Template} from '@cdk/models/template.model';
+import {Template} from '@cdk/models';
 
 @Component({
     selector: 'cdk-template-gridsearch',
@@ -25,7 +25,7 @@ import {Template} from '@cdk/models/template.model';
     styleUrls: ['./cdk-template-gridsearch.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkTemplateGridsearchComponent implements OnInit {
 

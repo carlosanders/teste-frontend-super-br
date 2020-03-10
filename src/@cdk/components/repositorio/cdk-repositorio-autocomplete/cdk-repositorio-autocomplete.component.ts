@@ -6,14 +6,14 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
-import {Repositorio} from '@cdk/models/repositorio.model';
+import {cdkAnimations} from '@cdk/animations';
+import {Repositorio} from '@cdk/models';
 import {RepositorioService} from '@cdk/services/repositorio.service';
 import {FormControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-repositorio-autocomplete',
@@ -21,7 +21,7 @@ import {Pagination} from '@cdk/models/pagination';
     styleUrls: ['./cdk-repositorio-autocomplete.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations,
+    animations: cdkAnimations,
     exportAs: 'repositorioAutocomplete',
 })
 export class CdkRepositorioAutocompleteComponent implements OnInit {

@@ -10,14 +10,14 @@ import {
 } from '@angular/core';
 import {of} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
-import {DocumentoAvulso} from '@cdk/models/documento-avulso.model';
+import {DocumentoAvulso} from '@cdk/models';
 
 @Component({
     selector: 'cdk-documento-avulso-gridsearch',
@@ -25,7 +25,7 @@ import {DocumentoAvulso} from '@cdk/models/documento-avulso.model';
     styleUrls: ['./cdk-documento-avulso-gridsearch.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkDocumentoAvulsoGridsearchComponent implements OnInit {
 

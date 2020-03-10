@@ -15,12 +15,12 @@ import {AddData} from '@cdk/ngrx-normalizr';
 import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
 import {modelo as modeloSchema} from '@cdk/normalizr/modelo.schema';
 import {repositorio as repositorioSchema} from '@cdk/normalizr/repositorio.schema';
-import {Documento} from '@cdk/models/documento.model';
+import {Documento} from '@cdk/models';
 import {Router} from '@angular/router';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-import {Modelo} from '@cdk/models/modelo.model';
+import {Modelo} from '@cdk/models';
 import {ModeloService} from '@cdk/services/modelo.service';
-import {Repositorio} from '@cdk/models/repositorio.model';
+import {Repositorio} from '@cdk/models';
 import {RepositorioService} from '@cdk/services/repositorio.service';
 import {environment} from 'environments/environment';
 import {UnloadDocumento} from '../actions';
@@ -117,7 +117,7 @@ export class DocumentoEffect {
                         },
                         documentoId: response['entities'][0].id,
                         // tslint:disable-next-line:max-line-length
-                        editavel: (response['entities'][0].documentoAvulsoRemessa && !response['entities'][0].documentoAvulsoRemessa.dataHoraRemessa) || !response['entities'][0].juntadaAtual,
+                        editavel: (response['entities'][0].documentoAvulsoRemessa && !response['entities'][0].documentoAvulsoRemessa.dataHoraRemessa) || response['entities'][0].minuta,
                         currentComponenteDigitalId: response['entities'][0].componentesDigitais[0] ? response['entities'][0].componentesDigitais[0].id : null
                     })
                 ]),

@@ -7,12 +7,12 @@ import {
 } from '@angular/core';
 import {merge, of} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
-import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
+import {cdkAnimations} from '@cdk/animations';
+import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
-import {ModalidadeModelo} from '@cdk/models/modalidade-modelo.model';
+import {ModalidadeModelo} from '@cdk/models';
 import {ModalidadeModeloDataSource} from '@cdk/data-sources/modalidade-modelo-data-source';
 import {FormControl} from '@angular/forms';
 
@@ -22,7 +22,7 @@ import {FormControl} from '@angular/forms';
     styleUrls: ['./cdk-modalidade-modelo-grid.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkModalidadeModeloGridComponent implements AfterViewInit, OnInit, OnChanges {
 
@@ -153,7 +153,7 @@ export class CdkModalidadeModeloGridComponent implements AfterViewInit, OnInit, 
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _fuseSidebarService: FuseSidebarService
+        private _cdkSidebarService: CdkSidebarService
     ) {
         this.gridFilter = {};
         this.modalidademodelos = [];
@@ -208,7 +208,7 @@ export class CdkModalidadeModeloGridComponent implements AfterViewInit, OnInit, 
     }
 
     toggleFilter(): void {
-        this._fuseSidebarService.getSidebar('cdk-modalidade-modelo-main-sidebar').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-modalidade-modelo-main-sidebar').toggleOpen();
         this.showFilter = !this.showFilter;
     }
 

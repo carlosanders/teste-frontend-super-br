@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
-import {FuseSharedModule} from '@fuse/shared.module';
-import {FuseSidebarModule} from '@fuse/components';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {CdkSidebarModule} from '@cdk/components';
 
 import {ProcessoDownloadComponent} from './processo-download.component';
 import {RouterModule, Routes} from '@angular/router';
@@ -34,8 +34,8 @@ const routes: Routes = [
 
         InfiniteScrollModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
         MatRippleModule,
         CdkDownloadFormModule,
         ProcessoDownloadStoreModule

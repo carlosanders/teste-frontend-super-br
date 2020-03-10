@@ -1,4 +1,4 @@
-@import "src/@fuse/scss/fuse";
+@import "../../../scss/cdk";
 
 cdk-processo-form {
 
@@ -11,6 +11,11 @@ cdk-processo-form {
 
   .form-card {
     border-radius: 8px;
+  }
+
+  .owl-dt-popup-container{
+      width: 20%;
+      height: 20%;
   }
 
   .form-errors-model {

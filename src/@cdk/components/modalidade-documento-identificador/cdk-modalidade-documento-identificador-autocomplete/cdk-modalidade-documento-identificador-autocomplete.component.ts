@@ -6,14 +6,14 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
-import {ModalidadeDocumentoIdentificador} from '@cdk/models/modalidade-documento-identificador.model';
+import {cdkAnimations} from '@cdk/animations';
+import {ModalidadeDocumentoIdentificador} from '@cdk/models';
 import {ModalidadeDocumentoIdentificadorService} from '@cdk/services/modalidade-documento-identificador.service';
 import {FormControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-modalidade-documento-identificador-autocomplete',
@@ -21,7 +21,7 @@ import {Pagination} from '@cdk/models/pagination';
     styleUrls: ['./cdk-modalidade-documento-identificador-autocomplete.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations,
+    animations: cdkAnimations,
     exportAs: 'modalidadeDocumentoIdentificadorAutocomplete',
 })
 export class CdkModalidadeDocumentoIdentificadorAutocompleteComponent implements OnInit {

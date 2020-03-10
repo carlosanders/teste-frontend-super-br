@@ -1,14 +1,7 @@
 import * as moment from 'moment';
-import {Type, Transform, Exclude} from 'class-transformer';
+import {Exclude, Transform, Type} from 'class-transformer';
 
-import { Usuario } from '@cdk/models/usuario.model';
-import {Setor} from '@cdk/models/setor.model';
-import {EspecieDocumentoAvulso} from '@cdk/models/especie-documento-avulso.model';
-import {Modelo} from '@cdk/models/modelo.model';
-import {Pessoa} from '@cdk/models/pessoa.model';
-import {Documento} from '@cdk/models/documento.model';
-import {Processo} from '@cdk/models/processo.model';
-import {Tarefa} from '@cdk/models/tarefa.model';
+import {Documento, EspecieDocumentoAvulso, Modelo, Pessoa, Processo, Setor, Tarefa, Usuario} from '@cdk/models';
 
 export class DocumentoAvulso {
 

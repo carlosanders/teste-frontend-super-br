@@ -7,12 +7,12 @@ import {
 } from '@angular/core';
 import {merge, of} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
-import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
+import {cdkAnimations} from '@cdk/animations';
+import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 import {AtividadeDataSource} from '@cdk/data-sources/atividade-data-source';
-import {Atividade} from '@cdk/models/atividade.model';
+import {Atividade} from '@cdk/models';
 import {FormControl} from '@angular/forms';
 
 @Component({
@@ -21,7 +21,7 @@ import {FormControl} from '@angular/forms';
     styleUrls: ['./cdk-atividade-grid.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkAtividadeGridComponent implements AfterViewInit, OnInit, OnChanges {
 
@@ -187,7 +187,7 @@ export class CdkAtividadeGridComponent implements AfterViewInit, OnInit, OnChang
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _fuseSidebarService: FuseSidebarService
+        private _cdkSidebarService: CdkSidebarService
     ) {
         this.gridFilter = {};
     }
@@ -242,7 +242,7 @@ export class CdkAtividadeGridComponent implements AfterViewInit, OnInit, OnChang
     }
 
     toggleFilter(): void {
-        this._fuseSidebarService.getSidebar('cdk-atividade-main-sidebar').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-atividade-main-sidebar').toggleOpen();
         this.showFilter = !this.showFilter;
     }
 

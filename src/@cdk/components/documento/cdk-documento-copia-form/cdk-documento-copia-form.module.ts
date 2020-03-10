@@ -10,7 +10,7 @@ import {
 
 } from '@cdk/angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 import { CdkDocumentoCopiaFormComponent } from './cdk-documento-copia-form.component';
 import {CdkProcessoAutocompleteModule} from '../../processo/cdk-processo-autocomplete/cdk-processo-autocomplete.module';
 import {CdkProcessoGridsearchModule} from '../../processo/cdk-processo-autocomplete/cdk-processo-gridsearch/cdk-processo-gridsearch.module';
@@ -28,7 +28,7 @@ import {CdkProcessoGridsearchModule} from '../../processo/cdk-processo-autocompl
         MatInputModule,
         MatProgressSpinnerModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
         CdkProcessoAutocompleteModule,
         CdkProcessoGridsearchModule,
         MatRadioModule,

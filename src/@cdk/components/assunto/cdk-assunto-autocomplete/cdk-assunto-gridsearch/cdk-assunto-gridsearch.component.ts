@@ -8,13 +8,13 @@ import {
 } from '@angular/core';
 import {of} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 import {AssuntoService} from '@cdk/services/assunto.service';
-import {Assunto} from '@cdk/models/assunto.model';
+import {Assunto} from '@cdk/models';
 
 
 @Component({
@@ -23,7 +23,7 @@ import {Assunto} from '@cdk/models/assunto.model';
     styleUrls: ['./cdk-assunto-gridsearch.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkAssuntoGridsearchComponent implements OnInit {
 

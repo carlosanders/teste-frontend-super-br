@@ -6,14 +6,14 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
-import {AreaTrabalho} from '@cdk/models/area-trabalho.model';
+import {cdkAnimations} from '@cdk/animations';
+import {AreaTrabalho} from '@cdk/models';
 import {AreaTrabalhoService} from '@cdk/services/area-trabalho.service';
 import {FormControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-area-trabalho-autocomplete',
@@ -21,7 +21,7 @@ import {Pagination} from '@cdk/models/pagination';
     styleUrls: ['./cdk-area-trabalho-autocomplete.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations,
+    animations: cdkAnimations,
     exportAs: 'areaTrabalhoAutocomplete',
 })
 export class CdkAreaTrabalhoAutocompleteComponent implements OnInit {

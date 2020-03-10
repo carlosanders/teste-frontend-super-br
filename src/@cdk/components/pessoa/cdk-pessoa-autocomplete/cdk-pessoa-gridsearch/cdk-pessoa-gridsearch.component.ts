@@ -10,14 +10,14 @@ import {
 } from '@angular/core';
 import {of} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 import {PessoaService} from '@cdk/services/pessoa.service';
-import {Pessoa} from '@cdk/models/pessoa.model';
+import {Pessoa} from '@cdk/models';
 
 @Component({
     selector: 'cdk-pessoa-gridsearch',
@@ -25,7 +25,7 @@ import {Pessoa} from '@cdk/models/pessoa.model';
     styleUrls: ['./cdk-pessoa-gridsearch.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkPessoaGridsearchComponent implements OnInit {
 

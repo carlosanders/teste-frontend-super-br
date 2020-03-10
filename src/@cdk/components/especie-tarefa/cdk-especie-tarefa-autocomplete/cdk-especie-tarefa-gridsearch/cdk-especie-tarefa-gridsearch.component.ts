@@ -8,13 +8,13 @@ import {
 } from '@angular/core';
 import {of} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
 import {EspecieTarefaService} from '@cdk/services/especie-tarefa.service';
-import {EspecieTarefa} from '@cdk/models/especie-tarefa.model';
-import {Pagination} from '@cdk/models/pagination';
+import {EspecieTarefa} from '@cdk/models';
+import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-especie-tarefa-gridsearch',
@@ -22,7 +22,7 @@ import {Pagination} from '@cdk/models/pagination';
     styleUrls: ['./cdk-especie-tarefa-gridsearch.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkEspecieTarefaGridsearchComponent implements OnInit {
 

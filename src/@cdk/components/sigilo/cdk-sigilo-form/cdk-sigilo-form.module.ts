@@ -11,7 +11,7 @@ import {
 
 } from '@cdk/angular/material';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkSigiloFormComponent} from './cdk-sigilo-form.component';
 import {ProcessoService} from '@cdk/services/processo.service';
 import {CdkModalidadeCategoriaSigiloAutocompleteModule} from '../../modalidade-categoria-sigilo/cdk-modalidade-categoria-sigilo-autocomplete/cdk-modalidade-categoria-sigilo-autocomplete.module';
@@ -47,7 +47,7 @@ import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
         CdkTipoSigiloAutocompleteModule,
         CdkTipoSigiloGridsearchModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
         MatTooltipModule,
     ],
     providers: [

@@ -6,14 +6,14 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
-import {AssuntoAdministrativo} from '@cdk/models/assunto-administrativo.model';
+import {cdkAnimations} from '@cdk/animations';
+import {AssuntoAdministrativo} from '@cdk/models';
 import {AssuntoAdministrativoService} from '@cdk/services/assunto-administrativo.service';
 import {FormControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-assunto-administrativo-autocomplete',
@@ -21,7 +21,7 @@ import {Pagination} from '@cdk/models/pagination';
     styleUrls: ['./cdk-assunto-administrativo-autocomplete.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations,
+    animations: cdkAnimations,
     exportAs: 'assuntoAdministrativoAutocomplete',
 })
 export class CdkAssuntoAdministrativoAutocompleteComponent implements OnInit {

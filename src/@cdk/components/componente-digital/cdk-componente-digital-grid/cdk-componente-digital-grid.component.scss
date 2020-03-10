@@ -1,4 +1,4 @@
-@import "src/@fuse/scss/fuse";
+@import "../../../scss/cdk";
 
 cdk-componente-digital-grid {
 
@@ -143,4 +143,8 @@ cdk-componente-digital-grid {
       }
     }
   }
+}
+
+.locked-open {
+    float: left;
 }

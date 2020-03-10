@@ -1,9 +1,9 @@
 import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
 
-import { Usuario } from '@cdk/models/usuario.model';
-import {Documento} from '@cdk/models/documento.model';
-import {ModalidadeVinculacaoDocumento} from '@cdk/models/modalidade-vinculacao-documento.model';
+import { Usuario } from '@cdk/models';
+import {Documento} from '@cdk/models';
+import {ModalidadeVinculacaoDocumento} from '@cdk/models';
 
 export class VinculacaoDocumento {
 

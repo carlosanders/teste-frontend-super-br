@@ -10,14 +10,14 @@ import {
 } from '@angular/core';
 import {of} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 import {TarefaService} from '@cdk/services/tarefa.service';
-import {Tarefa} from '@cdk/models/tarefa.model';
+import {Tarefa} from '@cdk/models';
 
 @Component({
     selector: 'cdk-tarefa-gridsearch',
@@ -25,7 +25,7 @@ import {Tarefa} from '@cdk/models/tarefa.model';
     styleUrls: ['./cdk-tarefa-gridsearch.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkTarefaGridsearchComponent implements OnInit {
 

@@ -10,7 +10,7 @@ import * as TarefaListActions from '../../../tarefa-list/store/actions/tarefa-li
 import {TarefaService} from '@cdk/services/tarefa.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {tarefa as tarefaSchema} from '@cdk/normalizr/tarefa.schema';
-import {Tarefa} from '@cdk/models/tarefa.model';
+import {Tarefa} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';

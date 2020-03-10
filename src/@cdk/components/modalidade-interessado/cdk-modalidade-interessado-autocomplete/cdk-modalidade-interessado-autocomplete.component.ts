@@ -6,14 +6,14 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
-import {ModalidadeInteressado} from '@cdk/models/modalidade-interessado.model';
+import {cdkAnimations} from '@cdk/animations';
+import {ModalidadeInteressado} from '@cdk/models';
 import {ModalidadeInteressadoService} from '@cdk/services/modalidade-interessado.service';
 import {FormControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-modalidade-interessado-autocomplete',
@@ -21,7 +21,7 @@ import {Pagination} from '@cdk/models/pagination';
     styleUrls: ['./cdk-modalidade-interessado-autocomplete.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations,
+    animations: cdkAnimations,
     exportAs: 'modalidadeInteressadoAutocomplete',
 })
 export class CdkModalidadeInteressadoAutocompleteComponent implements OnInit {

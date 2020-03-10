@@ -1,15 +1,15 @@
 <div fxLayout="row" class="page-layout full-width left-sidebar inner-scroll">
 
     <!-- SIDEBAR -->
-    <fuse-sidebar class="sidebar" name="favorito-edit-main-sidebar" position="left" lockedOpen="gt-xs">
+    <cdk-sidebar class="sidebar" name="favorito-edit-main-sidebar" position="left" lockedOpen="gt-xs">
 
         <!-- SIDEBAR CONTENT -->
-        <div class="content" fusePerfectScrollbar>
+        <div class="content" cdkPerfectScrollbar>
             <favorito-edit-main-sidebar [@animate]="{value:'*'}"></favorito-edit-main-sidebar>
         </div>
         <!-- / SIDEBAR CONTENT -->
 
-    </fuse-sidebar>
+    </cdk-sidebar>
     <!-- / SIDEBAR -->
 
     <!-- CENTER -->
@@ -28,7 +28,7 @@
         <!-- / CONTENT HEADER -->
 
         <!-- CONTENT CARD -->
-        <div class="content-card" fusePerfectScrollbar>
+        <div class="content-card" cdkPerfectScrollbar>
 
             <router-outlet></router-outlet>
 

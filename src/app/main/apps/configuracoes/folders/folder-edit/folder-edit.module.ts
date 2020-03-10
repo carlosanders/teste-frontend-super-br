@@ -15,8 +15,8 @@ import {
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 
-import {FuseSharedModule} from '@fuse/shared.module';
-import {FuseSidebarModule} from '@fuse/components';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {CdkSidebarModule} from '@cdk/components';
 
 import {FolderEditComponent} from './folder-edit.component';
 import {RouterModule, Routes} from '@angular/router';
@@ -29,7 +29,7 @@ import {LoginService} from '../../../../auth/login/login.service';
 
 const routes: Routes = [
     {
-        path: ':folderHandle',
+        path: ':targetHandle',
         component: FolderEditComponent,
         canActivate: [fromGuards.ResolveGuard]
     }
@@ -63,8 +63,8 @@ const routes: Routes = [
 
         TranslateModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
     ],
     providers: [
         FolderService,

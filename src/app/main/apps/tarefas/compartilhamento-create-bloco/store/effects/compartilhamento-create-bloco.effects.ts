@@ -9,7 +9,7 @@ import * as CompartilhamentoCreateBlocoActions from '../actions/compartilhamento
 import {CompartilhamentoService} from '@cdk/services/compartilhamento.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {compartilhamento as compartilhamentoSchema} from '@cdk/normalizr/compartilhamento.schema';
-import {Compartilhamento} from '@cdk/models/compartilhamento.model';
+import {Compartilhamento} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';

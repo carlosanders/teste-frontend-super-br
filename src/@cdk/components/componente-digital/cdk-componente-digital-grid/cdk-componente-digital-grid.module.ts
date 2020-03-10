@@ -13,12 +13,13 @@ import {
     MatSelectModule,
 } from '@cdk/angular/material';
 
-import {FuseSidebarModule} from '@fuse/components';
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSidebarModule} from '@cdk/components/index';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkComponenteDigitalGridComponent} from './cdk-componente-digital-grid.component';
 import {CdkComponenteDigitalGridFilterModule} from './cdk-componente-digital-grid-filter/cdk-componente-digital-grid-filter.module';
 import {PipesModule} from '@cdk/pipes/pipes.module';
 import {CdkComponenteDigitalMainSidebarComponent} from './sidebars/main/main.component';
+import {CdkChaveAcessoPluginModule} from '../../chave-acesso/cdk-chave-acesso-plugins/cdk-chave-acesso-plugin.module';
 
 @NgModule({
     declarations: [
@@ -42,8 +43,10 @@ import {CdkComponenteDigitalMainSidebarComponent} from './sidebars/main/main.com
 
         CdkComponenteDigitalGridFilterModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
+
+        CdkChaveAcessoPluginModule
     ],
     providers: [],
     exports: [

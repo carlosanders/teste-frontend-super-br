@@ -1,6 +1,6 @@
 import {createSelector} from '@ngrx/store';
 import {getProcessoAppState, ProcessoAppState, ProcessoState} from 'app/main/apps/processo/store/reducers';
-import {Processo} from '@cdk/models/processo.model';
+import {Processo} from '@cdk/models';
 import {processo as processoSchema} from '@cdk/normalizr/processo.schema';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 
@@ -9,6 +9,16 @@ const schemaProcessoSelectors = createSchemaSelectors<Processo>(processoSchema);
 export const getProcessoState = createSelector(
     getProcessoAppState,
     (state: ProcessoAppState) => state.processo
+);
+
+export const getSavingVincEtiquetaId = createSelector(
+    getProcessoState,
+    (state: ProcessoState) => state.savingVincEtiquetaId
+);
+
+export const getErrors = createSelector(
+    getProcessoState,
+    (state: ProcessoState) => state.errors
 );
 
 export const getProcessoId = createSelector(

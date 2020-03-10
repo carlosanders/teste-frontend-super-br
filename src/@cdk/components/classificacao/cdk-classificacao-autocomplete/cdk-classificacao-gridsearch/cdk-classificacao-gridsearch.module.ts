@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 
 import { ClassificacaoService } from '@cdk/services/classificacao.service';
 import { CdkClassificacaoGridsearchComponent } from './cdk-classificacao-gridsearch.component';
@@ -14,7 +14,7 @@ import { CdkClassificacaoGridModule } from '@cdk/components/classificacao/cdk-cl
 
         CdkClassificacaoGridModule,
         
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         ClassificacaoService

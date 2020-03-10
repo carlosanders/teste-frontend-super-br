@@ -2,10 +2,10 @@ import {Injectable} from '@angular/core';
 import {HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {Assinatura} from '@cdk/models/assinatura.model';
+import {Assinatura} from '@cdk/models';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
-import {PaginatedResponse} from '@cdk/models/paginated.response';
+import {PaginatedResponse} from '@cdk/models';
 
 @Injectable()
 export class AssinaturaService {
@@ -15,20 +15,23 @@ export class AssinaturaService {
     ) {
     }
 
-    get(id: number): Observable<Assinatura> {
-        return this.modelService.getOne('assinatura', id)
+    get(id: number, context: any = '{}'): Observable<Assinatura> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.getOne('assinatura', id, new HttpParams({fromObject: params}))
             .pipe(
                 map(response => plainToClass(Assinatura, response)[0])
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
         params['offset'] = offset;
         params['order'] = order;
         params['populate'] = populate;
+        params['context'] = context;
 
         return this.modelService.get('assinatura', new HttpParams({fromObject: params}))
             .pipe(
@@ -36,16 +39,19 @@ export class AssinaturaService {
             );
     }
 
-    count(filters: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
+        params['context'] = context;
 
         return this.modelService.count('assinatura', new HttpParams({fromObject: params}));
     }
 
-    save(assinatura: Assinatura): Observable<Assinatura> {
+    save(assinatura: Assinatura, context: any = '{}'): Observable<Assinatura> {
+        const params = {};
+        params['context'] = context;
         if (assinatura.id) {
-            return this.modelService.put('assinatura', assinatura.id, classToPlain(assinatura))
+            return this.modelService.put('assinatura', assinatura.id, classToPlain(assinatura), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(Assinatura, response);
@@ -54,7 +60,7 @@ export class AssinaturaService {
                     })
                 );
         } else {
-            return this.modelService.post('assinatura', classToPlain(assinatura))
+            return this.modelService.post('assinatura', classToPlain(assinatura), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(Assinatura, response);
@@ -65,7 +71,9 @@ export class AssinaturaService {
         }
     }
 
-    destroy(id: number): Observable<Assinatura> {
-        return this.modelService.delete('assinatura', id);
+    destroy(id: number, context: any = '{}'): Observable<Assinatura> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.delete('assinatura', id, new HttpParams({fromObject: params}));
     }
 }

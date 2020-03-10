@@ -13,7 +13,7 @@ import {
     MatExpansionModule, MatTooltipModule
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {PessoaComponent} from './pessoa.component';
 import {RouterModule, Routes} from '@angular/router';
 import {PessoaService} from '@cdk/services/pessoa.service';
@@ -62,7 +62,7 @@ const routes: Routes = [
 
         TranslateModule,
 
-        FuseSharedModule
+        CdkSharedModule
     ],
     providers: [
         PessoaService,

@@ -6,21 +6,24 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {Atividade} from '@cdk/models/atividade.model';
+import {Atividade} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as moment from 'moment';
 
 import * as fromStore from 'app/main/apps/tarefas/tarefa-detail/atividades/atividade-create/store';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Tarefa} from '@cdk/models/tarefa.model';
+import {Tarefa} from '@cdk/models';
 import {getTarefa} from '../../store/selectors';
 import {filter, takeUntil} from 'rxjs/operators';
-import {Documento} from '@cdk/models/documento.model';
+import {Documento} from '@cdk/models';
 import {getRouterState, getMercureState} from 'app/store/reducers';
 import {Router} from '@angular/router';
+import {Colaborador} from '@cdk/models';
+import {UpdateData} from '@cdk/ngrx-normalizr';
+import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
 
 @Component({
     selector: 'atividade-create',
@@ -28,7 +31,7 @@ import {Router} from '@angular/router';
     styleUrls: ['./atividade-create.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class AtividadeCreateComponent implements OnInit, OnDestroy {
 
@@ -41,7 +44,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy {
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
 
-    private _profile: any;
+    private _profile: Colaborador;
 
     routerState: any;
 
@@ -58,7 +61,6 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy {
     assinandoDocumentosId$: Observable<number[]>;
     assinandoDocumentosId: number[] = [];
     convertendoDocumentosId$: Observable<number[]>;
-    convertendoDocumentosId: number[] = [];
     javaWebStartOK = false;
 
     /**
@@ -77,7 +79,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy {
         this.tarefa$ = this._store.pipe(select(getTarefa));
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
-        this._profile = _loginService.getUserProfile();
+        this._profile = _loginService.getUserProfile().colaborador;
 
         this.documentos$ = this._store.pipe(select(fromStore.getDocumentos));
         this.selectedDocumentos$ = this._store.pipe(select(fromStore.getSelectedDocumentos));
@@ -128,6 +130,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy {
                         case 'assinatura_finalizada':
                             this.javaWebStartOK = false;
                             this._store.dispatch(new fromStore.AssinaDocumentoSuccess(message.content.documentoId));
+                            this._store.dispatch(new UpdateData<Documento>({id: message.content.documentoId, schema: documentoSchema, changes: {assinado: true}}));
                             break;
                     }
                 }
@@ -146,7 +149,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy {
             filter(selectedDocumentos => !!selectedDocumentos),
             takeUntil(this._unsubscribeAll)
         ).subscribe(selectedDocumentos => {
-            this.selectedMinutas = selectedDocumentos.filter(documento => !documento.documentoAvulsoRemessa);
+            this.selectedMinutas = selectedDocumentos.filter(documento => documento.minuta && !documento.documentoAvulsoRemessa);
             this.selectedOficios = selectedDocumentos.filter(documento => documento.documentoAvulsoRemessa);
         });
 
@@ -155,7 +158,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy {
             takeUntil(this._unsubscribeAll)
         ).subscribe(
             documentos => {
-                this.minutas = documentos.filter(documento => (!documento.documentoAvulsoRemessa && !documento.juntadaAtual));
+                this.minutas = documentos.filter(documento => (!documento.documentoAvulsoRemessa && documento.minuta));
                 this.oficios = documentos.filter(documento => documento.documentoAvulsoRemessa);
                 this._changeDetectorRef.markForCheck();
             }

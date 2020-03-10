@@ -7,8 +7,8 @@ import {
 } from '@angular/core';
 import {Observable} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
-import {DocumentoIdentificador} from '@cdk/models/documento-identificador.model';
+import {cdkAnimations} from '@cdk/animations';
+import {DocumentoIdentificador} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
@@ -20,7 +20,7 @@ import {getRouterState} from 'app/store/reducers';
     styleUrls: ['./documento-identificador-list.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class DocumentoIdentificadorListComponent implements OnInit {
 

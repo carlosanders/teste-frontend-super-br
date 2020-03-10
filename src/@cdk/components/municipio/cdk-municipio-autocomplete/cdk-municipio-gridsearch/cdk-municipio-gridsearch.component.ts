@@ -10,14 +10,14 @@ import {
 } from '@angular/core';
 import {of} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 import {MunicipioService} from '@cdk/services/municipio.service';
-import {Municipio} from '@cdk/models/municipio.model';
+import {Municipio} from '@cdk/models';
 
 @Component({
     selector: 'cdk-municipio-gridsearch',
@@ -25,7 +25,7 @@ import {Municipio} from '@cdk/models/municipio.model';
     styleUrls: ['./cdk-municipio-gridsearch.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkMunicipioGridsearchComponent implements OnInit {
 

@@ -9,7 +9,7 @@ import * as TarefaEditBlocoActions from '../actions/tarefa-edit-bloco.actions';
 import {TarefaService} from '@cdk/services/tarefa.service';
 import {UpdateData} from '@cdk/ngrx-normalizr';
 import {tarefa as tarefaSchema} from '@cdk/normalizr/tarefa.schema';
-import {Tarefa} from '@cdk/models/tarefa.model';
+import {Tarefa} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';

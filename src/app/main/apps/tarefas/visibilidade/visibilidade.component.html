@@ -28,10 +28,10 @@
         </button>
     </div>
 
-    <cdk-visibilidade-form fusePerfectScrollbar *ngIf="formAcessoRestrito"
+    <cdk-visibilidade-form cdkPerfectScrollbar *ngIf="formAcessoRestrito"
                            [visibilidade]="visibilidade"
                            [saving]="(visibilidadeIsSaving$ | async)"
-                           [unidadeDefault]="_profile.lotacoes[0].setor.unidade"
+                           [unidadeDefault]="_profile.colaborador.lotacoes[0].setor.unidade"
                            [unidadePagination]="unidadePagination"
                            [setorPagination]="setorPagination"
                            [usuarioPagination]="usuarioPagination"

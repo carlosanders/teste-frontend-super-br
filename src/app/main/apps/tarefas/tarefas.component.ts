@@ -10,32 +10,32 @@ import { getAssunto } from './../processo/processo-edit/assuntos/assunto-edit/st
     OnInit, ViewChild,
     ViewEncapsulation
 } from '@angular/core';
-import { FormControl} from '@angular/forms';
-import { select, Store} from '@ngrx/store';
-import { Observable, Subject, BehaviorSubject } from 'rxjs';
+import {FormControl} from '@angular/forms';
+import {select, Store} from '@ngrx/store';
+import {Observable, Subject} from 'rxjs';
 
-import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
-import { FuseTranslationLoaderService } from '@fuse/services/translation-loader.service';
+import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
+import {CdkTranslationLoaderService} from '@cdk/services/translation-loader.service';
 
-import { Tarefa } from '@cdk/models/tarefa.model';
-import { Assunto } from '@cdk/models/assunto.model';
-import { TarefaService } from '@cdk/services/tarefa.service';
+import {Tarefa} from '@cdk/models';
+import {TarefaService} from '@cdk/services/tarefa.service';
 import * as fromStore from 'app/main/apps/tarefas/store';
 
 import {getRouterState, getScreenState} from 'app/store/reducers';
 
-import { locale as english } from 'app/main/apps/tarefas/i18n/en';
+import {locale as english} from 'app/main/apps/tarefas/i18n/en';
 
-import { Folder } from '@cdk/models/folder.model';
+import {Folder} from '@cdk/models';
 
-import { ResizeEvent } from 'angular-resizable-element';
-import { fuseAnimations } from '@fuse/animations';
-import { Etiqueta } from '@cdk/models/etiqueta.model';
+import {ResizeEvent} from 'angular-resizable-element';
+import {cdkAnimations} from '@cdk/animations';
+import {Etiqueta} from '@cdk/models';
 import {Router} from '@angular/router';
-import { filter, takeUntil, tap } from 'rxjs/operators';
-import {Pagination} from '@cdk/models/pagination';
+import {filter, takeUntil} from 'rxjs/operators';
+import {Pagination} from '@cdk/models';
 import {LoginService} from '../../auth/login/login.service';
 import {ToggleMaximizado} from 'app/main/apps/tarefas/store';
+import {Usuario} from '@cdk/models';
 
 import * as fromAssuntoStore from 'app/main/apps/processo/processo-edit/assuntos/assunto-list/store';
 import { AssuntoService } from '@cdk/services/assunto.service';
@@ -47,7 +47,7 @@ import { AssuntoService } from '@cdk/services/assunto.service';
     styleUrls: ['./tarefas.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
@@ -94,7 +94,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     vinculacaoEtiquetaPagination: Pagination;
 
-    private _profile: any;
+    private _profile: Usuario;
 
     mobileMode = false;
 
@@ -111,8 +111,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     /**
      * @param _changeDetectorRef
-     * @param _fuseSidebarService
-     * @param _fuseTranslationLoaderService
+     * @param _cdkSidebarService
+     * @param _cdkTranslationLoaderService
      * @param _tarefaService
      * @param _router
      * @param _store
@@ -121,8 +121,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _fuseSidebarService: FuseSidebarService,
-        private _fuseTranslationLoaderService: FuseTranslationLoaderService,
+        private _cdkSidebarService: CdkSidebarService,
+        private _cdkTranslationLoaderService: CdkTranslationLoaderService,
         private _tarefaService: TarefaService,
         private _router: Router,
         private _store: Store<fromStore.TarefasAppState>,
@@ -132,7 +132,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     ) {
         // Set the defaults
         this.searchInput = new FormControl('');
-        this._fuseTranslationLoaderService.loadTranslations(english);
+        this._cdkTranslationLoaderService.loadTranslations(english);
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
         this.tarefas$ = this._store.pipe(select(fromStore.getTarefas));
          
@@ -242,6 +242,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     reload(params): void {
 
+        this._store.dispatch(new fromStore.UnloadTarefas({reset: false}));
+
         const nparams = {
             ...this.pagination,
             listFilter: params.listFilter,
@@ -262,6 +264,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     proccessEtiquetaFilter(): any {
+        this._store.dispatch(new fromStore.UnloadTarefas({reset: false}));
         const etiquetasId = [];
         this.etiquetas.forEach((e) => {
             etiquetasId.push(e.id);
@@ -283,7 +286,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
         const nparams = {
             ...this.pagination,
-            limit: this.pagination.limit + this.pagination.limit
+            offset: this.pagination.offset + this.pagination.limit
         };
 
         this._store.dispatch(new fromStore.GetTarefas(nparams));
@@ -293,11 +296,11 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         if (!tarefa.dataHoraLeitura) {
             this._store.dispatch(new fromStore.ToggleLidaTarefa(tarefa));
         }
-        
-        this._store.dispatch(new fromStore.SetCurrentTarefa({tarefaId: tarefa.id, processoId: tarefa.processo.id, acessoNegado: tarefa.processo.acessoNegado}));
-
-        
-        
+        this._store.dispatch(new fromStore.SetCurrentTarefa({
+            tarefaId: tarefa.id,
+            processoId: tarefa.processo.id,
+            acessoNegado: tarefa.processo.acessoNegado
+        }));
     }
 
     deleteTarefa(tarefaId: number): void {
@@ -321,7 +324,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
      * @param name
      */
     toggleSidebar(name): void {
-        this._fuseSidebarService.getSidebar(name).toggleOpen();
+        this._cdkSidebarService.getSidebar(name).toggleOpen();
     }
 
     changeSelectedIds(ids: number[]): void {
@@ -359,55 +362,55 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     doCreateDocumentoAvulso(tarefaId): void {
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.folderHandle + '/tarefa/' + tarefaId + '/oficio']).then();
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + tarefaId + '/oficio']).then();
     }
 
     doCreateTarefa(params): void {
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.folderHandle + '/criar/' + params.processoId]).then();
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/criar/' + params.processoId]).then();
     }
 
     doMovimentar(tarefaId): void {
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.folderHandle + '/tarefa/' + tarefaId + '/atividades/criar']).then();
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + tarefaId + '/atividades/criar']).then();
     }
 
     doEditTarefa(tarefaId): void {
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.folderHandle + '/tarefa/' + tarefaId + '/editar']).then();
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + tarefaId + '/editar']).then();
     }
 
     doCompartilhar(tarefaId): void {
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.folderHandle + '/tarefa/' + tarefaId + '/compartilhamentos/criar']).then();
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + tarefaId + '/compartilhamentos/criar']).then();
     }
 
     doCompartilharBloco(): void {
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.folderHandle + '/compartilhamento-bloco']).then();
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/compartilhamento-bloco']).then();
     }
 
     doEtiquetarBloco(): void {
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.folderHandle + '/vinculacao-etiqueta-bloco']).then();
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/vinculacao-etiqueta-bloco']).then();
     }
 
     doMovimentarBloco(): void {
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.folderHandle + '/atividade-bloco']).then();
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/atividade-bloco']).then();
     }
 
     doEditTarefaBloco(): void {
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.folderHandle + '/tarefa-edit-bloco']).then();
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa-edit-bloco']).then();
     }
 
     doCreateTarefaBloco(): void {
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.folderHandle + '/tarefa-bloco']).then();
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa-bloco']).then();
     }
 
     doUploadBloco(): void {
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.folderHandle + '/upload-bloco']).then();
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/upload-bloco']).then();
     }
 
     doEditorBloco(): void {
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.folderHandle + '/modelo-bloco']).then();
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/modelo-bloco']).then();
     }
 
     doCreateDocumentoAvulsoBloco(): void {
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.folderHandle + '/documento-avulso-bloco']).then();
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/documento-avulso-bloco']).then();
     }
 
     doLoadAssuntos(idProcesso): void {

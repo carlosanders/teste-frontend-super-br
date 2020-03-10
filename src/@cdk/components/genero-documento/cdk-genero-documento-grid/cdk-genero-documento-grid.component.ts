@@ -7,12 +7,12 @@ import {
 } from '@angular/core';
 import {merge, of} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
-import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
+import {cdkAnimations} from '@cdk/animations';
+import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
-import {GeneroDocumento} from '@cdk/models/genero-documento.model';
+import {GeneroDocumento} from '@cdk/models';
 import {GeneroDocumentoDataSource} from '@cdk/data-sources/genero-documento-data-source';
 import {FormControl} from '@angular/forms';
 
@@ -22,7 +22,7 @@ import {FormControl} from '@angular/forms';
     styleUrls: ['./cdk-genero-documento-grid.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkGeneroDocumentoGridComponent implements AfterViewInit, OnInit, OnChanges {
 
@@ -153,7 +153,7 @@ export class CdkGeneroDocumentoGridComponent implements AfterViewInit, OnInit, O
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _fuseSidebarService: FuseSidebarService
+        private _cdkSidebarService: CdkSidebarService
     ) {
         this.gridFilter = {};
         this.generoDocumentos = [];
@@ -208,7 +208,7 @@ export class CdkGeneroDocumentoGridComponent implements AfterViewInit, OnInit, O
     }
 
     toggleFilter(): void {
-        this._fuseSidebarService.getSidebar('cdk-genero-documento-main-sidebar').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-genero-documento-main-sidebar').toggleOpen();
         this.showFilter = !this.showFilter;
     }
 

@@ -10,14 +10,14 @@ import {
 } from '@angular/core';
 import {of} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 import {RelacionamentoPessoalService} from '@cdk/services/relacionamento-pessoal.service';
-import {RelacionamentoPessoal} from '@cdk/models/relacionamento-pessoal.model';
+import {RelacionamentoPessoal} from '@cdk/models';
 
 @Component({
     selector: 'cdk-relacionamento-pessoal-gridsearch',
@@ -25,7 +25,7 @@ import {RelacionamentoPessoal} from '@cdk/models/relacionamento-pessoal.model';
     styleUrls: ['./cdk-relacionamento-pessoal-gridsearch.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkRelacionamentoPessoalGridsearchComponent implements OnInit {
 

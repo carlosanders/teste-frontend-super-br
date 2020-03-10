@@ -10,14 +10,14 @@ import {
 } from '@angular/core';
 import {of} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 import {ModalidadeAfastamentoService} from '@cdk/services/modalidade-afastamento.service';
-import {ModalidadeAfastamento} from '@cdk/models/modalidade-afastamento.model';
+import {ModalidadeAfastamento} from '@cdk/models';
 
 @Component({
     selector: 'cdk-modalidade-afastamento-gridsearch',
@@ -25,7 +25,7 @@ import {ModalidadeAfastamento} from '@cdk/models/modalidade-afastamento.model';
     styleUrls: ['./cdk-modalidade-afastamento-gridsearch.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkModalidadeAfastamentoGridsearchComponent implements OnInit {
 

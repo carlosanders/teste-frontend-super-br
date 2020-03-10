@@ -1,5 +1,5 @@
 <div fxFlex fxLayout="row">
-    <div fxLayout="column" fxFlex="25">
+    <div fxLayout="column" fxFlex="25" *showIfRole="'ROLE_COLABORADOR'">
 
         <div class="actions p-16" fxLayout="row" fxLayoutAlign="end center">
             <button *ngIf="(tarefa$ | async)" mat-icon-button aria-label="movimentar"
@@ -153,7 +153,7 @@
             <h3 *ngIf="!(documento$ | async)?.vinculacaoDocumentoPrincipal" style="font-weight: bold">Documento Principal</h3>
             <h3 *ngIf="(documento$ | async)?.vinculacaoDocumentoPrincipal" style="font-weight: bold">Anexo</h3>
 
-            <cdk-documento-form fxFlex fusePerfectScrollbar [documento]="(documento$ | async)"
+            <cdk-documento-form fxFlex cdkPerfectScrollbar [documento]="(documento$ | async)"
                                 [saving]="(isSaving$ | async)"
                                 [errors]="(errors$ | async)"
                                 (save)="submit($event)">
@@ -199,11 +199,11 @@
                 </button>
             </div>
 
-            <cdk-visibilidade-form fusePerfectScrollbar *ngIf="formAcessoRestrito"
+            <cdk-visibilidade-form cdkPerfectScrollbar *ngIf="formAcessoRestrito"
                 [visibilidade]="visibilidade"
                 [saving]="(visibilidadeIsSaving$ | async)"
                 [errors]="(errors$ | async)"
-                [unidadeDefault]="_profile.lotacoes[0].setor.unidade"
+                [unidadeDefault]="_profile.colaborador.lotacoes[0].setor.unidade"
                 [unidadePagination]="unidadePagination"
                 [setorPagination]="setorPagination"
                 [usuarioPagination]="usuarioPagination"

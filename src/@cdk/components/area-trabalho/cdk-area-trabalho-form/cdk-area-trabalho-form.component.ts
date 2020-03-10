@@ -7,11 +7,11 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {AreaTrabalho} from '@cdk/models/area-trabalho.model';
-import {Usuario} from '@cdk/models/usuario.model';
-import {Pagination} from '@cdk/models/pagination';
+import {AreaTrabalho} from '@cdk/models';
+import {Usuario} from '@cdk/models';
+import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-area-trabalho-form',
@@ -19,7 +19,7 @@ import {Pagination} from '@cdk/models/pagination';
     styleUrls: ['./cdk-area-trabalho-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkAreaTrabalhoFormComponent implements OnChanges, OnDestroy {
 

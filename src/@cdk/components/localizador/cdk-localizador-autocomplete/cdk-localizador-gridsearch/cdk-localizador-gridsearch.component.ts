@@ -10,14 +10,14 @@ import {
 } from '@angular/core';
 import {of} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 import {LocalizadorService} from '@cdk/services/localizador.service';
-import {Localizador} from '@cdk/models/localizador.model';
+import {Localizador} from '@cdk/models';
 
 @Component({
     selector: 'cdk-localizador-gridsearch',
@@ -25,7 +25,7 @@ import {Localizador} from '@cdk/models/localizador.model';
     styleUrls: ['./cdk-localizador-gridsearch.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkLocalizadorGridsearchComponent implements OnInit {
 

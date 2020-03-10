@@ -6,19 +6,19 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from '../documento-avulso-list/store';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {DocumentoAvulso} from '@cdk/models/documento-avulso.model';
+import {DocumentoAvulso} from '@cdk/models';
 import {getRespodendoDocumentosAvulsos} from '../documento-avulso-list/store/selectors';
 import {getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {takeUntil} from 'rxjs/operators';
-import {ComponenteDigital} from '@cdk/models/componente-digital.model';
+import {ComponenteDigital} from '@cdk/models';
 
 @Component({
     selector: 'upload-bloco',
@@ -26,7 +26,7 @@ import {ComponenteDigital} from '@cdk/models/componente-digital.model';
     styleUrls: ['./upload-bloco.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class UploadBlocoComponent implements OnInit, OnDestroy {
 

@@ -123,6 +123,9 @@ export function normalized(
                                 } else {
                                     Object.keys(entities[c][id]).forEach(
                                         (key) => {
+                                            if (p[c][id][key]?.['id'] && !entities[c][id][key]) {
+                                                return;
+                                            }
                                             p[c] = {
                                                 ...p[c],
                                                 [id]: {

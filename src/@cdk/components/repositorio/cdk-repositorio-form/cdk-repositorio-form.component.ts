@@ -7,11 +7,11 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import { fuseAnimations } from '@fuse/animations';
+import { cdkAnimations } from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { Repositorio } from '@cdk/models/repositorio.model';
-import {Pagination} from '@cdk/models/pagination';
-import {ModalidadeRepositorio} from '@cdk/models/modalidade-repositorio.model';
+import { Repositorio } from '@cdk/models';
+import {Pagination} from '@cdk/models';
+import {ModalidadeRepositorio} from '@cdk/models';
 
 @Component({
     selector: 'cdk-repositorio-form',
@@ -19,7 +19,7 @@ import {ModalidadeRepositorio} from '@cdk/models/modalidade-repositorio.model';
     styleUrls: ['./cdk-repositorio-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkRepositorioFormComponent implements OnChanges, OnDestroy {
 

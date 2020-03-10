@@ -7,7 +7,7 @@ import {
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {lotacao as lotacaoSchema} from '@cdk/normalizr/lotacao.schema';
-import {Lotacao} from '@cdk/models/lotacao.model';
+import {Lotacao} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Lotacao>(lotacaoSchema);
 

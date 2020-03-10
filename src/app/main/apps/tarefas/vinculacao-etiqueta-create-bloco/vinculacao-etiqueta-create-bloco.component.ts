@@ -6,20 +6,20 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {VinculacaoEtiqueta} from '@cdk/models/vinculacao-etiqueta.model';
+import {VinculacaoEtiqueta} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Tarefa} from '@cdk/models/tarefa.model';
+import {Tarefa} from '@cdk/models';
 import {getSelectedTarefas} from '../store/selectors';
 import {getOperacoesState, getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {filter, takeUntil} from 'rxjs/operators';
-import {Etiqueta} from '@cdk/models/etiqueta.model';
+import {Etiqueta} from '@cdk/models';
 
 @Component({
     selector: 'vinculacao-etiqueta-create',
@@ -27,7 +27,7 @@ import {Etiqueta} from '@cdk/models/etiqueta.model';
     styleUrls: ['./vinculacao-etiqueta-create-bloco.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class VinculacaoEtiquetaCreateBlocoComponent implements OnInit, OnDestroy {
 

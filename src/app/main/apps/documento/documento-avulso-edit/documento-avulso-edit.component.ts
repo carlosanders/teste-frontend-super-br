@@ -7,18 +7,18 @@ import {
     ChangeDetectorRef, ViewContainerRef, AfterViewInit
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
 import * as fromStore from '../store';
 import {select, Store} from '@ngrx/store';
 import {Location} from '@angular/common';
-import {DocumentoAvulso} from '@cdk/models/documento-avulso.model';
-import {Documento} from '@cdk/models/documento.model';
+import {DocumentoAvulso} from '@cdk/models';
+import {Documento} from '@cdk/models';
 import {Router} from '@angular/router';
 import {getMercureState, getRouterState} from '../../../../store/reducers';
-import {Repositorio} from '@cdk/models/repositorio.model';
+import {Repositorio} from '@cdk/models';
 import {RepositorioService} from '@cdk/services/repositorio.service';
-import {ComponenteDigital} from '@cdk/models/componente-digital.model';
+import {ComponenteDigital} from '@cdk/models';
 import {modulesConfig} from "../../../../../modules/modules-config";
 import {DynamicService} from "../../../../../modules/dynamic.service";
 
@@ -28,7 +28,7 @@ import {DynamicService} from "../../../../../modules/dynamic.service";
     styleUrls: ['./documento-avulso-edit.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy, AfterViewInit {
 

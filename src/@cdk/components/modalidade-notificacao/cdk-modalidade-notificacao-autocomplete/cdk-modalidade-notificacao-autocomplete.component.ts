@@ -6,14 +6,14 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
-import {ModalidadeNotificacao} from '@cdk/models/modalidade-notificacao.model';
+import {cdkAnimations} from '@cdk/animations';
+import {ModalidadeNotificacao} from '@cdk/models';
 import {ModalidadeNotificacaoService} from '@cdk/services/modalidade-notificacao.service';
 import {FormControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-modalidade-notificacao-autocomplete',
@@ -21,7 +21,7 @@ import {Pagination} from '@cdk/models/pagination';
     styleUrls: ['./cdk-modalidade-notificacao-autocomplete.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations,
+    animations: cdkAnimations,
     exportAs: 'modalidadeNotificacaoAutocomplete',
 })
 export class CdkModalidadeNotificacaoAutocompleteComponent implements OnInit {

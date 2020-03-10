@@ -10,14 +10,14 @@ import {
 } from '@angular/core';
 import {of} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 import {LembreteService} from '@cdk/services/lembrete.service';
-import {Lembrete} from '@cdk/models/lembrete.model';
+import {Lembrete} from '@cdk/models';
 
 @Component({
     selector: 'cdk-lembrete-gridsearch',
@@ -25,7 +25,7 @@ import {Lembrete} from '@cdk/models/lembrete.model';
     styleUrls: ['./cdk-lembrete-gridsearch.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkLembreteGridsearchComponent implements OnInit {
 

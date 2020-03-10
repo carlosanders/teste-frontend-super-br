@@ -10,14 +10,14 @@ import {
 } from '@angular/core';
 import {of} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 import {OrigemDadosService} from '@cdk/services/origem-dados.service';
-import {OrigemDados} from '@cdk/models/origem-dados.model';
+import {OrigemDados} from '@cdk/models';
 
 @Component({
     selector: 'cdk-origem-dados-gridsearch',
@@ -25,7 +25,7 @@ import {OrigemDados} from '@cdk/models/origem-dados.model';
     styleUrls: ['./cdk-origem-dados-gridsearch.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkOrigemDadosGridsearchComponent implements OnInit {
 

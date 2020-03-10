@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 
 import { EspecieAtividadeService } from '@cdk/services/especie-atividade.service';
 import { CdkEspecieAtividadeGridsearchComponent } from './cdk-especie-atividade-gridsearch.component';
@@ -14,7 +14,7 @@ import { CdkEspecieAtividadeGridModule } from '@cdk/components/especie-atividade
 
         CdkEspecieAtividadeGridModule,
         
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         EspecieAtividadeService

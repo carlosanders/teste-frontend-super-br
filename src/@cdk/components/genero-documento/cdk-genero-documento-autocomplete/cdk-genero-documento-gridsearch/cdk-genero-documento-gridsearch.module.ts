@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 
 import {GeneroDocumentoService} from '@cdk/services/genero-documento.service';
 import {CdkGeneroDocumentoGridsearchComponent} from './cdk-genero-documento-gridsearch.component';
@@ -14,7 +14,7 @@ import {CdkGeneroDocumentoGridModule} from '@cdk/components/genero-documento/cdk
 
         CdkGeneroDocumentoGridModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         GeneroDocumentoService

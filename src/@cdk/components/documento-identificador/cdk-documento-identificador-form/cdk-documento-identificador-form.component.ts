@@ -7,11 +7,11 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import { fuseAnimations } from '@fuse/animations';
+import { cdkAnimations } from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { DocumentoIdentificador } from '@cdk/models/documento-identificador.model';
-import {ModalidadeDocumentoIdentificador} from '@cdk/models/modalidade-documento-identificador.model';
-import {Pagination} from '@cdk/models/pagination';
+import { DocumentoIdentificador } from '@cdk/models';
+import {ModalidadeDocumentoIdentificador} from '@cdk/models';
+import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-documento-identificador-form',
@@ -19,7 +19,7 @@ import {Pagination} from '@cdk/models/pagination';
     styleUrls: ['./cdk-documento-identificador-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkDocumentoIdentificadorFormComponent implements OnChanges, OnDestroy {
 

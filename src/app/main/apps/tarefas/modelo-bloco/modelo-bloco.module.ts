@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 
 import {TranslateModule} from '@ngx-translate/core';
 import {ModeloBlocoComponent} from './modelo-bloco.component';
@@ -33,7 +33,7 @@ const routes: Routes = [
         ModeloBlocoStoreModule,
 
         TranslateModule,
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         ComponenteDigitalService,

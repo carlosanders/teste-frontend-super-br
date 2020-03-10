@@ -6,16 +6,16 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
 
-import {RelacionamentoPessoal} from '@cdk/models/relacionamento-pessoal.model';
+import {RelacionamentoPessoal} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
-import {Pessoa} from '@cdk/models/pessoa.model';
+import {Pessoa} from '@cdk/models';
 import {getPessoa} from '../../dados-pessoa-edit/store/selectors';
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'relacionamento-edit',
@@ -23,7 +23,7 @@ import {Pagination} from '@cdk/models/pagination';
     styleUrls: ['./relacionamento-edit.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class RelacionamentoEditComponent implements OnInit, OnDestroy {
 

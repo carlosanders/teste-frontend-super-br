@@ -10,14 +10,14 @@ import {
 } from '@angular/core';
 import {of} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 import {PaisService} from '@cdk/services/pais.service';
-import {Pais} from '@cdk/models/pais.model';
+import {Pais} from '@cdk/models';
 
 @Component({
     selector: 'cdk-pais-gridsearch',
@@ -25,7 +25,7 @@ import {Pais} from '@cdk/models/pais.model';
     styleUrls: ['./cdk-pais-gridsearch.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkPaisGridsearchComponent implements OnInit {
 

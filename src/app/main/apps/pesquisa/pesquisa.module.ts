@@ -6,12 +6,13 @@ import {
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 
-import {FuseSharedModule} from '@fuse/shared.module';
-import {FuseSidebarModule} from '@fuse/components';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {CdkSidebarModule} from '@cdk/components';
 
 import {PesquisaComponent} from 'app/main/apps/pesquisa/pesquisa.component';
 import {PesquisaMainSidebarComponent} from './sidebars/main/main-sidebar.component';
 import {CommonModule} from '@angular/common';
+import {RouteGuard} from "./guard";
 
 const routes: Routes = [
     {
@@ -24,7 +25,8 @@ const routes: Routes = [
             },
             {
                 path: 'processos/:NUPHandle',
-                loadChildren: () => import('./processos/pesquisa-processos.module').then(m => m.PesquisaProcessosModule)
+                loadChildren: () => import('./processos/pesquisa-processos.module').then(m => m.PesquisaProcessosModule),
+                canActivate: [RouteGuard]
             },
             {
                 path: 'documentos',
@@ -52,8 +54,8 @@ const routes: Routes = [
 
         TranslateModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
         MatRippleModule
     ],
     providers: [

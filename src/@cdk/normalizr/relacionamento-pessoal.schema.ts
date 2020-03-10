@@ -1,10 +1,10 @@
-import {schema} from '@cdk/normalizr-src';
-import {usuario} from './usuario.schema';
-import {pessoa} from './pessoa.schema';
-import {modalidadeRelacionamentoPessoal} from './modalidade-relacionamento-pessoal.schema';
-import {origemDados} from './origem-dados.schema';
+import {usuario} from './index.schema';
+import {pessoa} from './index.schema';
+import {modalidadeRelacionamentoPessoal} from './index.schema';
+import {origemDados} from './index.schema';
+import {relacionamentoPessoal as relacionamentoPessoalSchema} from './index.schema';
 
-export const relacionamentoPessoal = new schema.Entity('relacionamentoPessoal', {
+relacionamentoPessoalSchema.define({
     pessoaRelacionada: pessoa,
     modalidadeRelacionamentoPessoal: modalidadeRelacionamentoPessoal,
     origemDados: origemDados,
@@ -12,3 +12,5 @@ export const relacionamentoPessoal = new schema.Entity('relacionamentoPessoal', 
     atualizadoPor: usuario,
     apagadoPor: usuario
 });
+
+export const relacionamentoPessoal = relacionamentoPessoalSchema;

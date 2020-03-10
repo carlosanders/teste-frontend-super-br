@@ -8,13 +8,13 @@ import {
 } from '@angular/core';
 import {of} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
 import {AfastamentoService} from '@cdk/services/afastamento.service';
-import {Afastamento} from '@cdk/models/afastamento.model';
-import {Pagination} from '@cdk/models/pagination';
+import {Afastamento} from '@cdk/models';
+import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-afastamento-gridsearch',
@@ -22,7 +22,7 @@ import {Pagination} from '@cdk/models/pagination';
     styleUrls: ['./cdk-afastamento-gridsearch.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkAfastamentoGridsearchComponent implements OnInit {
 

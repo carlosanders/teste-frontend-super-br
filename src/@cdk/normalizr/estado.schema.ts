@@ -1,11 +1,13 @@
-import {schema} from '@cdk/normalizr-src';
-import {pais} from './pais.schema';
-import {usuario} from './usuario.schema';
+import {pais} from './index.schema';
+import {usuario} from './index.schema';
+import {estado as estadoSchema} from './index.schema';
 
-export const estado = new schema.Entity('estado', {
+estadoSchema.define({
     pais: pais,
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario
 });
+
+export const estado = estadoSchema;
 

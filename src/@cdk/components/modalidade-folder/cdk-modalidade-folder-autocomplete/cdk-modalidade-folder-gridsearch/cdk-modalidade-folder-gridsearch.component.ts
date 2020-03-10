@@ -10,14 +10,14 @@ import {
 } from '@angular/core';
 import {of} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 import {ModalidadeFolderService} from '@cdk/services/modalidade-folder.service';
-import {ModalidadeFolder} from '@cdk/models/modalidade-folder.model';
+import {ModalidadeFolder} from '@cdk/models';
 
 @Component({
     selector: 'cdk-modalidade-folder-gridsearch',
@@ -25,7 +25,7 @@ import {ModalidadeFolder} from '@cdk/models/modalidade-folder.model';
     styleUrls: ['./cdk-modalidade-folder-gridsearch.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkModalidadeFolderGridsearchComponent implements OnInit {
 

@@ -2,10 +2,10 @@ import {Injectable} from '@angular/core';
 import {HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {VinculacaoModelo} from '@cdk/models/vinculacao-modelo.model';
+import {VinculacaoModelo} from '@cdk/models';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
-import {PaginatedResponse} from '@cdk/models/paginated.response';
+import {PaginatedResponse} from '@cdk/models';
 
 @Injectable()
 export class VinculacaoModeloService {
@@ -15,20 +15,23 @@ export class VinculacaoModeloService {
     ) {
     }
 
-    get(id: number): Observable<VinculacaoModelo> {
-        return this.modelService.getOne('vinculacao_modelo', id)
+    get(id: number, context: any = '{}'): Observable<VinculacaoModelo> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.getOne('vinculacao_modelo', id, new HttpParams({fromObject: params}))
             .pipe(
                 map(response => plainToClass(VinculacaoModelo, response)[0])
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
         params['offset'] = offset;
         params['order'] = order;
         params['populate'] = populate;
+        params['context'] = context;
 
         return this.modelService.get('vinculacao_modelo', new HttpParams({fromObject: params}))
             .pipe(
@@ -36,16 +39,19 @@ export class VinculacaoModeloService {
             );
     }
 
-    count(filters: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
+        params['context'] = context;
 
         return this.modelService.count('vinculacao_modelo', new HttpParams({fromObject: params}));
     }
 
-    save(vinculacaoModelo: VinculacaoModelo): Observable<VinculacaoModelo> {
+    save(vinculacaoModelo: VinculacaoModelo, context: any = '{}'): Observable<VinculacaoModelo> {
+        const params = {};
+        params['context'] = context;
         if (vinculacaoModelo.id) {
-            return this.modelService.put('vinculacao_modelo', vinculacaoModelo.id, classToPlain(vinculacaoModelo))
+            return this.modelService.put('vinculacao_modelo', vinculacaoModelo.id, classToPlain(vinculacaoModelo), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(VinculacaoModelo, response);
@@ -54,7 +60,7 @@ export class VinculacaoModeloService {
                     })
                 );
         } else {
-            return this.modelService.post('vinculacao_modelo', classToPlain(vinculacaoModelo))
+            return this.modelService.post('vinculacao_modelo', classToPlain(vinculacaoModelo), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(VinculacaoModelo, response);
@@ -65,7 +71,9 @@ export class VinculacaoModeloService {
         }
     }
 
-    destroy(id: number): Observable<VinculacaoModelo> {
-        return this.modelService.delete('vinculacao_modelo', id);
+    destroy(id: number, context: any = '{}'): Observable<VinculacaoModelo> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.delete('vinculacao_modelo', id, new HttpParams({fromObject: params}));
     }
 }

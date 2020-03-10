@@ -1,18 +1,18 @@
-import {schema} from '@cdk/normalizr-src';
-import {classificacao} from './classificacao.schema';
-import {origemDados} from './origem-dados.schema';
-import {processoOrigem} from './processo-origem.schema';
-import {documentoAvulso} from './documento-avulso.schema';
-import {pessoa} from './pessoa.schema';
-import {localizador} from './localizador.schema';
-import {setor} from './setor.schema';
-import {modalidadeFase} from './modalidade-fase.schema';
-import {especieProcesso} from './especie-processo.schema';
-import {usuario} from './usuario.schema';
-import {modalidadeMeio} from './modalidade-meio.schema';
-import {vinculacaoEtiqueta} from './vinculacao-etiqueta.schema';
+import {classificacao} from './index.schema';
+import {origemDados} from './index.schema';
+import {processo as processoOrigem} from './index.schema';
+import {documentoAvulso} from './index.schema';
+import {pessoa} from './index.schema';
+import {localizador} from './index.schema';
+import {setor} from './index.schema';
+import {modalidadeFase} from './index.schema';
+import {especieProcesso} from './index.schema';
+import {usuario} from './index.schema';
+import {modalidadeMeio} from './index.schema';
+import {vinculacaoEtiqueta} from './index.schema';
+import {processo as processoSchema} from './index.schema';
 
-export const processo = new schema.Entity('processo', {
+processoSchema.define({
     classificacao: classificacao,
     origemDados: origemDados,
     processoOrigem: processoOrigem,
@@ -29,5 +29,7 @@ export const processo = new schema.Entity('processo', {
     apagadoPor: usuario,
     vinculacoesEtiquetas: [vinculacaoEtiqueta]
 });
+
+export const processo = processoSchema;
 
 

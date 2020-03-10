@@ -10,14 +10,14 @@ import {
 } from '@angular/core';
 import {of} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 import {CadastroIdentificadorService} from '@cdk/services/cadastro-identificador.service';
-import {CadastroIdentificador} from '@cdk/models/cadastro-identificador.model';
+import {CadastroIdentificador} from '@cdk/models';
 
 @Component({
     selector: 'cdk-cadastro-identificador-gridsearch',
@@ -25,7 +25,7 @@ import {CadastroIdentificador} from '@cdk/models/cadastro-identificador.model';
     styleUrls: ['./cdk-cadastro-identificador-gridsearch.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkCadastroIdentificadorGridsearchComponent implements OnInit {
 

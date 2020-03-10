@@ -1,15 +1,15 @@
 import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
 
-import { Usuario } from '@cdk/models/usuario.model';
-import {Processo} from '@cdk/models/processo.model';
-import {Pessoa} from '@cdk/models/pessoa.model';
-import {TipoDocumento} from '@cdk/models/tipo-documento.model';
-import {Setor} from '@cdk/models/setor.model';
-import {Tarefa} from '@cdk/models/tarefa.model';
-import {OrigemDados} from '@cdk/models/origem-dados.model';
-import {ComponenteDigital} from '@cdk/models/componente-digital.model';
-import {VinculacaoDocumento} from '@cdk/models/vinculacao-documento.model';
+import { Usuario } from '@cdk/models';
+import {Processo} from '@cdk/models';
+import {Pessoa} from '@cdk/models';
+import {TipoDocumento} from '@cdk/models';
+import {Setor} from '@cdk/models';
+import {Tarefa} from '@cdk/models';
+import {OrigemDados} from '@cdk/models';
+import {ComponenteDigital} from '@cdk/models';
+import {VinculacaoDocumento} from '@cdk/models';
 import {DocumentoAvulso} from './documento-avulso.model';
 import {Modelo} from './modelo.model';
 import {Repositorio} from './repositorio.model';
@@ -30,7 +30,13 @@ export class Documento {
 
     outroNumero?: string;
 
+    @Exclude({toPlainOnly: true})
+    assinado?: boolean;
+
     semEfeito?: boolean;
+
+    @Exclude({toPlainOnly: true})
+    minuta?: boolean;
 
     redator?: string;
 
@@ -149,6 +155,7 @@ export class Documento {
         this.localizadorOriginal = null;
         this.localProducao = null;
         this.autor = null;
+        this.assinado = null;
         this.processoOrigem = null;
         this.documentoOrigem = null;
         this.redator = null;
@@ -161,6 +168,7 @@ export class Documento {
         this.tarefaOrigem = null;
         this.origemDados = null;
         this.modelo = null;
+        this.minuta = null;
         this.juntadaAtual = null;
         this.repositorio = null;
         this.criadoPor = null;

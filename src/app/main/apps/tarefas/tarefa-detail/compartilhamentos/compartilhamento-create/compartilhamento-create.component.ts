@@ -6,18 +6,19 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
 
-import {Compartilhamento} from '@cdk/models/compartilhamento.model';
+import {Compartilhamento} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from 'app/main/apps/tarefas/tarefa-detail/compartilhamentos/compartilhamento-create/store';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Tarefa} from '@cdk/models/tarefa.model';
+import {Tarefa} from '@cdk/models';
 import {getTarefa} from '../../store/selectors';
 import {getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
+import {Colaborador} from "../../../../../../../@cdk/models/colaborador.model";
 
 @Component({
     selector: 'compartilhamento-create',
@@ -25,7 +26,7 @@ import {Router} from '@angular/router';
     styleUrls: ['./compartilhamento-create.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CompartilhamentoCreateComponent implements OnInit, OnDestroy {
 
@@ -36,7 +37,7 @@ export class CompartilhamentoCreateComponent implements OnInit, OnDestroy {
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
 
-    private _profile: any;
+    private _profile: Colaborador;
 
     routerState: any;
 
@@ -56,7 +57,7 @@ export class CompartilhamentoCreateComponent implements OnInit, OnDestroy {
         this.tarefa$ = this._store.pipe(select(getTarefa));
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
-        this._profile = _loginService.getUserProfile();
+        this._profile = _loginService.getUserProfile().colaborador;
 
         this._store
             .pipe(select(getRouterState))

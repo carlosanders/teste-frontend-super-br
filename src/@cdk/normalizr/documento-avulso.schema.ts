@@ -1,14 +1,14 @@
-import {schema} from '@cdk/normalizr-src';
-import {setor} from './setor.schema';
-import {especieDocumentoAvulso} from './especie-documento-avulso.schema';
-import {modelo} from './modelo.schema';
-import {pessoa} from './pessoa.schema';
-import {documento} from './documento.schema';
-import {usuario} from './usuario.schema';
-import {processo} from './processo.schema';
-import {tarefa} from './tarefa.schema';
+import {setor} from './index.schema';
+import {especieDocumentoAvulso} from './index.schema';
+import {modelo} from './index.schema';
+import {pessoa} from './index.schema';
+import {documento} from './index.schema';
+import {usuario} from './index.schema';
+import {processo} from './index.schema';
+import {tarefa} from './index.schema';
+import {documentoAvulso as documentoAvulsoSchema} from './index.schema';
 
-export const documentoAvulso = new schema.Entity('documentoAvulso', {
+documentoAvulsoSchema.define({
     setorOrigem: setor,
     especieDocumentoAvulso: especieDocumentoAvulso,
     modelo: modelo,
@@ -27,3 +27,5 @@ export const documentoAvulso = new schema.Entity('documentoAvulso', {
     atualizadoPor: usuario,
     apagadoPor: usuario
 });
+
+export const documentoAvulso = documentoAvulsoSchema;

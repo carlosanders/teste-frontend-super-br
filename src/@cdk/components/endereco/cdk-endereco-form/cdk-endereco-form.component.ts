@@ -7,12 +7,12 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import { fuseAnimations } from '@fuse/animations';
+import { cdkAnimations } from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { Endereco } from '@cdk/models/endereco.model';
-import { Municipio } from '@cdk/models/municipio.model';
-import {Pais} from '@cdk/models/pais.model';
-import {Pagination} from '@cdk/models/pagination';
+import { Endereco } from '@cdk/models';
+import { Municipio } from '@cdk/models';
+import {Pais} from '@cdk/models';
+import {Pagination} from '@cdk/models';
 import {EnderecoService} from '@cdk/services/endereco.service';
 import {catchError} from 'rxjs/operators';
 import {of, throwError} from 'rxjs';
@@ -23,7 +23,7 @@ import {of, throwError} from 'rxjs';
     styleUrls: ['./cdk-endereco-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkEnderecoFormComponent implements OnChanges, OnDestroy {
 

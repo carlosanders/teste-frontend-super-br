@@ -10,14 +10,14 @@ import {
 } from '@angular/core';
 import {of} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 import {EnderecoService} from '@cdk/services/endereco.service';
-import {Endereco} from '@cdk/models/endereco.model';
+import {Endereco} from '@cdk/models';
 
 @Component({
     selector: 'cdk-endereco-gridsearch',
@@ -25,7 +25,7 @@ import {Endereco} from '@cdk/models/endereco.model';
     styleUrls: ['./cdk-endereco-gridsearch.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkEnderecoGridsearchComponent implements OnInit {
 

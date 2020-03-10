@@ -9,7 +9,7 @@ import * as DadosBasicosActions from '../actions/dados-basicos.actions';
 import {ProcessoService} from '@cdk/services/processo.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {processo as processoSchema, processo} from '@cdk/normalizr/processo.schema';
-import {Processo} from '@cdk/models/processo.model';
+import {Processo} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
@@ -176,10 +176,11 @@ export class DadosBasicosEffect {
     getProcesso: any =
         this._actions
             .pipe(
-                tap((n) => {
+/*                tap((n) => {
                     console.log('entrou GET Effects Dados Basicos: '); 
                     console.log(n);
                 }),
+*/                
                 ofType<DadosBasicosActions.GetProcesso>(DadosBasicosActions.GET_PROCESSO),
                 switchMap((action) => {
                     return this._processoService.query(

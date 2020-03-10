@@ -7,18 +7,18 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Atividade} from '@cdk/models/atividade.model';
-import {EspecieAtividade} from '@cdk/models/especie-atividade.model';
-import {Usuario} from '@cdk/models/usuario.model';
+import {Atividade} from '@cdk/models';
+import {EspecieAtividade} from '@cdk/models';
+import {Usuario} from '@cdk/models';
 import {MAT_DATETIME_FORMATS} from '@mat-datetimepicker/core';
-import {Pagination} from '@cdk/models/pagination';
-import {Setor} from '@cdk/models/setor.model';
+import {Pagination} from '@cdk/models';
+import {Setor} from '@cdk/models';
 import {catchError, debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
-import {DocumentoAvulso} from '@cdk/models/documento-avulso.model';
-import {Favorito} from '@cdk/models/favorito.model';
+import {DocumentoAvulso} from '@cdk/models';
+import {Favorito} from '@cdk/models';
 import {FavoritoService} from '@cdk/services/favorito.service';
 import {LoginService} from '../../../../app/main/auth/login/login.service';
 
@@ -28,7 +28,7 @@ import {LoginService} from '../../../../app/main/auth/login/login.service';
     styleUrls: ['./cdk-atividade-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations,
+    animations: cdkAnimations,
     providers: [
         {
             provide: MAT_DATETIME_FORMATS,
@@ -346,7 +346,7 @@ export class CdkAtividadeFormComponent implements OnInit, OnChanges, OnDestroy {
         this.especieAtividadeListIsLoading = true;
 
         this._favoritoService.query(
-            `{"usuario.id": "eq:${this._profile.usuario.id}", "especieAtividade": "isNotNull"}`,
+            `{"usuario.id": "eq:${this._profile.id}", "especieAtividade": "isNotNull"}`,
             5,
             0,
             '{}',

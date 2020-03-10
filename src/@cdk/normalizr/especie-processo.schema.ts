@@ -1,10 +1,12 @@
-import {schema} from '@cdk/normalizr-src';
-import {generoProcesso} from './genero-processo.schema';
-import {usuario} from './usuario.schema';
+import {generoProcesso} from './index.schema';
+import {usuario} from './index.schema';
+import {especieProcesso as especieProcessoSchema} from './index.schema';
 
-export const especieProcesso = new schema.Entity('especieProcesso', {
+especieProcessoSchema.define({
     generoProcesso: generoProcesso,
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario
 });
+
+export const especieProcesso = especieProcessoSchema;

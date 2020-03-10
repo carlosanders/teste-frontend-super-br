@@ -6,8 +6,8 @@ import {
 } from '@cdk/angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { FuseSharedModule } from '@fuse/shared.module';
-import { FuseSidebarModule } from '@fuse/components';
+import { CdkSharedModule } from '@cdk/shared.module';
+import { CdkSidebarModule } from '@cdk/components';
 
 import * as fromGuards from 'app/main/apps/processo/store/guards/index';
 
@@ -33,6 +33,11 @@ const routes: Routes = [
                 canActivate: [fromGuards.ResolveGuard]
             },
             {
+                path       : 'visualizar/:chaveAcessoHandle',
+                loadChildren: () => import('./processo-view/processo-view.module').then(m => m.ProcessoViewModule),
+                canActivate: [fromGuards.ResolveGuard]
+            },
+            {
                 path       : 'editar',
                 loadChildren: () => import('./processo-edit/processo-edit.module').then(m => m.ProcessoEditModule),
                 canActivate: [fromGuards.ResolveGuard]
@@ -43,6 +48,11 @@ const routes: Routes = [
             },
             {
                 path       : 'download',
+                loadChildren: () => import('./processo-download/processo-download.module').then(m => m.ProcessoDownloadModule),
+                canActivate: [fromGuards.ResolveGuard]
+            },
+            {
+                path       : 'download/:chaveAcessoHandle',
                 loadChildren: () => import('./processo-download/processo-download.module').then(m => m.ProcessoDownloadModule),
                 canActivate: [fromGuards.ResolveGuard]
             },
@@ -71,8 +81,8 @@ const routes: Routes = [
 
         ProcessoStoreModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
         MatTooltipModule,
         CdkVinculacaoEtiquetaChipsModule,
         ProcessoDownloadModule

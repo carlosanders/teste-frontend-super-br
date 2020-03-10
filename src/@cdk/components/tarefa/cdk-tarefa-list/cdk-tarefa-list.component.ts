@@ -1,6 +1,8 @@
 import { PaginatedResponse } from '@cdk/models/paginated.response';
 import { Observable, BehaviorSubject } from 'rxjs';
 import {AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewEncapsulation} from '@angular/core';
+import {cdkAnimations} from '@cdk/animations';
+import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {fuseAnimations} from '@fuse/animations';
 import {Tarefa} from '@cdk/models/tarefa.model';
 import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
@@ -9,13 +11,14 @@ import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 */
 import { Assunto } from '@cdk/models/assunto.model';
  
+
 @Component({
     selector: 'cdk-tarefa-list',
     templateUrl: './cdk-tarefa-list.component.html',
     styleUrls: ['./cdk-tarefa-list.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations,
+    animations: cdkAnimations,
     exportAs: 'dragTarefaList'
 })
 export class CdkTarefaListComponent implements AfterViewInit, OnInit, OnChanges {
@@ -52,6 +55,9 @@ export class CdkTarefaListComponent implements AfterViewInit, OnInit, OnChanges 
 
     @Output()
     reload = new EventEmitter<any>();
+
+    @Output()
+    scrolled = new EventEmitter<any>();
 
     @Output()
     delete = new EventEmitter<number>();
@@ -134,7 +140,7 @@ export class CdkTarefaListComponent implements AfterViewInit, OnInit, OnChanges 
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _fuseSidebarService: FuseSidebarService) {
+        private _cdkSidebarService: CdkSidebarService) {
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -184,6 +190,10 @@ export class CdkTarefaListComponent implements AfterViewInit, OnInit, OnChanges 
 
     setFolder(folder): void {
         this.folder.emit(folder);
+    }
+
+    onScroll(): void {
+        this.scrolled.emit();
     }
 
     /**
@@ -299,7 +309,7 @@ export class CdkTarefaListComponent implements AfterViewInit, OnInit, OnChanges 
      * Toggle the sidebar
      */
     toggleSidebar(): void {
-        this._fuseSidebarService.getSidebar('cdk-tarefa-list-main-sidebar').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-tarefa-list-main-sidebar').toggleOpen();
     }
 
     doLoadAssuntos(idProcesso) {

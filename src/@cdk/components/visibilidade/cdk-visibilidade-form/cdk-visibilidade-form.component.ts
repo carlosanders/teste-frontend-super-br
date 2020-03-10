@@ -7,12 +7,12 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Visibilidade} from '@cdk/models/visibilidade.model';
-import {Usuario} from '@cdk/models/usuario.model';
-import {Pagination} from '@cdk/models/pagination';
-import {Setor} from '@cdk/models/setor.model';
+import {Visibilidade} from '@cdk/models';
+import {Usuario} from '@cdk/models';
+import {Pagination} from '@cdk/models';
+import {Setor} from '@cdk/models';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 
@@ -22,7 +22,7 @@ import {of} from 'rxjs';
     styleUrls: ['./cdk-visibilidade-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkVisibilidadeFormComponent implements OnInit, OnChanges, OnDestroy {
 

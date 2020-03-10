@@ -10,14 +10,14 @@ import {
 } from '@angular/core';
 import {of} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 import {NotificacaoService} from '@cdk/services/notificacao.service';
-import {Notificacao} from '@cdk/models/notificacao.model';
+import {Notificacao} from '@cdk/models';
 
 @Component({
     selector: 'cdk-notificacao-gridsearch',
@@ -25,7 +25,7 @@ import {Notificacao} from '@cdk/models/notificacao.model';
     styleUrls: ['./cdk-notificacao-gridsearch.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkNotificacaoGridsearchComponent implements OnInit {
 

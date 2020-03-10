@@ -1,10 +1,10 @@
-import {schema} from '@cdk/normalizr-src';
-import {especieAtividade} from './especie-atividade.schema';
-import {setor} from './setor.schema';
-import {tarefa} from './tarefa.schema';
-import {usuario} from './usuario.schema';
+import {atividade as atividadeSchema} from './index.schema';
+import {especieAtividade} from './index.schema';
+import {setor} from './index.schema';
+import {usuario} from './index.schema';
+import {tarefa} from './index.schema';
 
-export const atividade = new schema.Entity('atividade', {
+atividadeSchema.define({
     especieAtividade: especieAtividade,
     setor: setor,
     usuario: usuario,
@@ -13,3 +13,5 @@ export const atividade = new schema.Entity('atividade', {
     atualizadoPor: usuario,
     apagadoPor: usuario
 });
+
+export const atividade = atividadeSchema;

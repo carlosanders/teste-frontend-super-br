@@ -10,7 +10,7 @@ import * as DocumentoIdentificadorListActions from '../actions';
 
 import {DocumentoIdentificadorService} from '@cdk/services/documento-identificador.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {DocumentoIdentificador} from '@cdk/models/documento-identificador.model';
+import {DocumentoIdentificador} from '@cdk/models';
 import {documentoIdentificador as documentoIdentificadorchema} from '@cdk/normalizr/documento-identificador.schema';
 
 @Injectable()

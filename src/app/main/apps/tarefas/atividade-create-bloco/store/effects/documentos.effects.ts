@@ -7,7 +7,7 @@ import {catchError, mergeMap, map, tap, switchMap} from 'rxjs/operators';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
-import {Documento} from '@cdk/models/documento.model';
+import {Documento} from '@cdk/models';
 import {DocumentoService} from '@cdk/services/documento.service';
 import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
 import {Router} from '@angular/router';
@@ -49,8 +49,7 @@ export class AtividadeCreateBlocoDocumentosEffect {
                     const params = {
                         filter: {
                             'tarefaOrigem.id': tarefaId,
-                            'juntadaAtual': 'isNull',
-                            'apagadoEm': 'isNull'
+                            'juntadaAtual': 'isNull'
                         },
                         limit: 10,
                         offset: 0,

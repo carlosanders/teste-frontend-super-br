@@ -6,6 +6,9 @@ export const locale = {
             PAINEL        : {
                 TITLE: 'Painel',
             },
+            ADMIN        : {
+                TITLE: 'Admin',
+            },
             TAREFA        : {
                 TITLE: 'Tarefas',
                 ADMINISTRATIVAS: {
@@ -20,6 +23,9 @@ export const locale = {
             },
             PESQUISA        : {
                 TITLE: 'Pesquisa'
+            },
+            OFICIO : {
+                TITLE: 'Ofício'
             }
         }
     }

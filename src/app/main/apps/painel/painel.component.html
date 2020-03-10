@@ -1,7 +1,7 @@
 <div id="painel" class="page-layout simple left-sidebar inner-scroll" fxLayout="row">
 
     <!-- CENTER -->
-    <div class="center" fusePerfectScrollbar>
+    <div class="center" cdkPerfectScrollbar>
 
         <!-- HEADER -->
         <div class="header accent p-24 pb-0" fxLayout="column" fxLayoutAlign="space-between">
@@ -9,7 +9,7 @@
             <div fxLayout="row" fxLayoutAlign="space-between start">
 
                 <span class="mat-display-1 my-0 my-sm-24 welcome-message"
-                      [@animate]="{value:'*',params:{x:'50px'}}">Bem-vindo, {{(_profile.usuario.nome.split(' ')[0]).charAt(0) + (_profile.usuario.nome.split(' ')[0]).slice(1).toLowerCase()}}
+                      [@animate]="{value:'*',params:{x:'50px'}}">Bem-vindo, {{(_profile.nome.split(' ')[0]).charAt(0) + (_profile.nome.split(' ')[0]).slice(1).toLowerCase()}}
                 </span>
 
             </div>
@@ -20,18 +20,18 @@
         <!-- CONTENT -->
         <div class="content" fxLayout="column">
 
-            <div fxLayout="row wrap" fxLayoutAlign="start start">
+            <div fxLayout="row wrap" fxLayoutAlign="start start" *ngIf="this._loginService.isGranted('ROLE_COLABORADOR')">
 
                 <div class="widget-group p-12" fxLayout="row wrap" fxLayoutAlign="space-between start" fxFlex="75"
-                     *fuseIfOnDom
+                     *cdkIfOnDom
                      [@animateStagger]="{value:'50'}">
 
                     <!-- WIDGET Tarefa -->
-                    <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
+                    <cdk-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
                                  fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="30">
 
                         <!-- Front -->
-                        <div class="fuse-widget-front">
+                        <div class="cdk-widget-front">
                             <div class="pl-16 pr-8 py-16 h-52" fxLayout="row"
                                  fxLayoutAlign="end center">
                             </div>
@@ -60,8 +60,8 @@
                         <!-- / Front -->
 
                         <!-- Back -->
-                        <div class="fuse-widget-back p-16 pt-32">
-                            <button mat-icon-button fuseWidgetToggle class="fuse-widget-flip-button"
+                        <div class="cdk-widget-back p-16 pt-32">
+                            <button mat-icon-button cdkWidgetToggle class="cdk-widget-flip-button"
                                     aria-label="Flip widget">
                                 <mat-icon class="s-16">close</mat-icon>
                             </button>
@@ -72,15 +72,15 @@
                         </div>
                         <!-- / Back -->
 
-                    </fuse-widget>
+                    </cdk-widget>
                     <!-- / WIDGET 1 -->
 
                     <!-- WIDGET Documento Avulso -->
-                    <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
+                    <cdk-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
                                  fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="30">
 
                         <!-- Front -->
-                        <div class="fuse-widget-front">
+                        <div class="cdk-widget-front">
                             <div class="pl-16 pr-8 py-16 h-52" fxLayout="row"
                                  fxLayoutAlign="end center">
                             </div>
@@ -110,8 +110,8 @@
                         <!-- / Front -->
 
                         <!-- Back -->
-                        <div class="fuse-widget-back p-16 pt-32">
-                            <button mat-icon-button fuseWidgetToggle class="fuse-widget-flip-button"
+                        <div class="cdk-widget-back p-16 pt-32">
+                            <button mat-icon-button cdkWidgetToggle class="cdk-widget-flip-button"
                                     aria-label="Flip widget">
                                 <mat-icon class="s-16">close</mat-icon>
                             </button>
@@ -122,15 +122,15 @@
                         </div>
                         <!-- / Back -->
 
-                    </fuse-widget>
+                    </cdk-widget>
                     <!-- / WIDGET 1 -->
 
                     <!-- WIDGET Tramitação -->
-                    <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
+                    <cdk-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
                                  fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="30">
 
                         <!-- Front -->
-                        <div class="fuse-widget-front">
+                        <div class="cdk-widget-front">
                             <div class="pl-16 pr-8 py-16 h-52" fxLayout="row"
                                  fxLayoutAlign="end center">
                             </div>
@@ -154,8 +154,8 @@
                         <!-- / Front -->
 
                         <!-- Back -->
-                        <div class="fuse-widget-back p-16 pt-32">
-                            <button mat-icon-button fuseWidgetToggle class="fuse-widget-flip-button"
+                        <div class="cdk-widget-back p-16 pt-32">
+                            <button mat-icon-button cdkWidgetToggle class="cdk-widget-flip-button"
                                     aria-label="Flip widget">
                                 <mat-icon class="s-16">close</mat-icon>
                             </button>
@@ -166,15 +166,15 @@
                         </div>
                         <!-- / Back -->
 
-                    </fuse-widget>
+                    </cdk-widget>
                     <!-- / WIDGET 1 -->
 
                     <!-- WIDGET Alertas -->
-                    <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
+                    <cdk-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
                                  fxFlex="100">
 
                         <!-- Front -->
-                        <div class="fuse-widget-front p-16">
+                        <div class="cdk-widget-front p-16">
 
                             <div class="pt-8 pb-32" fxLayout="column" fxLayoutAlign="center center">
                                 <div class="h4 font-weight-800">
@@ -196,7 +196,7 @@
                         </div>
                         <!-- / Front -->
 
-                    </fuse-widget>
+                    </cdk-widget>
                     <!-- / WIDGET 1 -->
 
                 </div>

@@ -11,13 +11,13 @@
 <!-- / SIDEBAR HEADER -->
 
 <!-- SIDEBAR CONTENT -->
-<div class="content mt-16" fusePerfectScrollbar>
+<div class="content mt-16" cdkPerfectScrollbar>
 
     <div class="nav material2">
 
         <div class="nav-item" *ngFor="let link of links">
             <a class="nav-link" matRipple [routerLink]="link.link"
-               [routerLinkActive]="['active', 'accent']">
+               [routerLinkActive]="['active', 'accent']" *showIfRole="link.role">
                 <mat-icon class="nav-link-icon">{{ link.icon }}</mat-icon>
                 <span>{{link.nome | titlecase}}</span>
             </a>

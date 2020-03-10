@@ -16,7 +16,7 @@ export class FavoritoEditMainSidebarComponent implements OnInit, OnDestroy {
 
     /**
      * @param _changeDetectorRef
-     * @param _fuseSidebarService
+     * @param _cdkSidebarService
      * @param _store
      */
     constructor(

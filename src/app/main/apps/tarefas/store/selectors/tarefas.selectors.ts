@@ -3,7 +3,7 @@ import { getTarefasAppState, TarefasAppState, TarefasState } from 'app/main/apps
 
 import { createSchemaSelectors } from '@cdk/ngrx-normalizr';
 import { tarefa as tarefaSchema } from '@cdk/normalizr/tarefa.schema';
-import {Tarefa} from '@cdk/models/tarefa.model';
+import {Tarefa} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Tarefa>(tarefaSchema);
 

@@ -5,7 +5,7 @@ import {
     MatCardModule,
 } from '@cdk/angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 import {CdkComponenteDigitalCardListComponent} from './cdk-componente-digital-card-list.component';
 import {CdkComponenteDigitalCardModule} from './cdk-componente-digital-card/cdk-componente-digital-card.module';
 
@@ -21,7 +21,7 @@ import {CdkComponenteDigitalCardModule} from './cdk-componente-digital-card/cdk-
 
         CdkComponenteDigitalCardModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
     ],

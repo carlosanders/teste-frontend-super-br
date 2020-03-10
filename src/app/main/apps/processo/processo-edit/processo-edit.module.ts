@@ -6,8 +6,8 @@ import {
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 
-import {FuseSharedModule} from '@fuse/shared.module';
-import {FuseSidebarModule} from '@fuse/components';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {CdkSidebarModule} from '@cdk/components';
 
 import * as fromGuards from 'app/main/apps/processo/store/guards/index';
 
@@ -62,7 +62,7 @@ const routes: Routes = [
                 path: 'oficios',
                 loadChildren: () => import('./documentos-avulsos/processo-documentos-avulsos.module').then(m => m.ProcessoDocumentosAvulsosModule)
             },
-            { 
+            {
                 path: 'tramitacoes',
                 loadChildren: () => import('./tramitacoes/tramitacoes.module').then(m => m.TramitacoesModule)
             },
@@ -110,8 +110,8 @@ routes[0].children.push({
 
         TranslateModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
         MatTooltipModule
     ]
 })

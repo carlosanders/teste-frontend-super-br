@@ -7,7 +7,7 @@ import {
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {etiqueta as etiquetaSchema} from '@cdk/normalizr/etiqueta.schema';
-import {Etiqueta} from '@cdk/models/etiqueta.model';
+import {Etiqueta} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Etiqueta>(etiquetaSchema);
 

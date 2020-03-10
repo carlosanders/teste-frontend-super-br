@@ -2,10 +2,10 @@ import {Injectable} from '@angular/core';
 import {HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {VinculacaoRepositorio} from '@cdk/models/vinculacao-repositorio.model';
+import {VinculacaoRepositorio} from '@cdk/models';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
-import {PaginatedResponse} from '@cdk/models/paginated.response';
+import {PaginatedResponse} from '@cdk/models';
 
 @Injectable()
 export class VinculacaoRepositorioService {
@@ -15,20 +15,23 @@ export class VinculacaoRepositorioService {
     ) {
     }
 
-    get(id: number): Observable<VinculacaoRepositorio> {
-        return this.modelService.getOne('vinculacao_repositorio', id)
+    get(id: number, context: any = '{}'): Observable<VinculacaoRepositorio> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.getOne('vinculacao_repositorio', id, new HttpParams({fromObject: params}))
             .pipe(
                 map(response => plainToClass(VinculacaoRepositorio, response)[0])
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
         params['offset'] = offset;
         params['order'] = order;
         params['populate'] = populate;
+        params['context'] = context;
 
         return this.modelService.get('vinculacao_repositorio', new HttpParams({fromObject: params}))
             .pipe(
@@ -36,16 +39,19 @@ export class VinculacaoRepositorioService {
             );
     }
 
-    count(filters: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
+        params['context'] = context;
 
         return this.modelService.count('vinculacao_repositorio', new HttpParams({fromObject: params}));
     }
 
-    save(vinculacaoRepositorio: VinculacaoRepositorio): Observable<VinculacaoRepositorio> {
+    save(vinculacaoRepositorio: VinculacaoRepositorio, context: any = '{}'): Observable<VinculacaoRepositorio> {
+        const params = {};
+        params['context'] = context;
         if (vinculacaoRepositorio.id) {
-            return this.modelService.put('vinculacao_repositorio', vinculacaoRepositorio.id, classToPlain(vinculacaoRepositorio))
+            return this.modelService.put('vinculacao_repositorio', vinculacaoRepositorio.id, classToPlain(vinculacaoRepositorio), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(VinculacaoRepositorio, response);
@@ -54,7 +60,7 @@ export class VinculacaoRepositorioService {
                     })
                 );
         } else {
-            return this.modelService.post('vinculacao_repositorio', classToPlain(vinculacaoRepositorio))
+            return this.modelService.post('vinculacao_repositorio', classToPlain(vinculacaoRepositorio), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(VinculacaoRepositorio, response);
@@ -65,7 +71,9 @@ export class VinculacaoRepositorioService {
         }
     }
 
-    destroy(id: number): Observable<VinculacaoRepositorio> {
-        return this.modelService.delete('vinculacao_repositorio', id);
+    destroy(id: number, context: any = '{}'): Observable<VinculacaoRepositorio> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.delete('vinculacao_repositorio', id, new HttpParams({fromObject: params}));
     }
 }

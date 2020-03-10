@@ -9,11 +9,11 @@ import {
     OnInit
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
-import {Campo} from '@cdk/models/campo.model';
+import {Campo} from '@cdk/models';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatDialogRef} from '@cdk/angular/material';
 
@@ -23,7 +23,7 @@ import {MatDialogRef} from '@cdk/angular/material';
     styleUrls: ['./cdk-campo-plugin.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkCampoPluginComponent implements OnInit {
 

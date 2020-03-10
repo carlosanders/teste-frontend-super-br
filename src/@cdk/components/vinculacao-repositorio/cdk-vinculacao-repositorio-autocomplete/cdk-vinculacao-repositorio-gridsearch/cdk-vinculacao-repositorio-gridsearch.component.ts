@@ -10,14 +10,14 @@ import {
 } from '@angular/core';
 import {of} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 import {VinculacaoRepositorioService} from '@cdk/services/vinculacao-repositorio.service';
-import {VinculacaoRepositorio} from '@cdk/models/vinculacao-repositorio.model';
+import {VinculacaoRepositorio} from '@cdk/models';
 
 @Component({
     selector: 'cdk-vinculacao-repositorio-gridsearch',
@@ -25,7 +25,7 @@ import {VinculacaoRepositorio} from '@cdk/models/vinculacao-repositorio.model';
     styleUrls: ['./cdk-vinculacao-repositorio-gridsearch.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkVinculacaoRepositorioGridsearchComponent implements OnInit {
 

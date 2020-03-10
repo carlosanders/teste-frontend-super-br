@@ -13,13 +13,14 @@ import {
 } from '@angular/core';
 import {merge, of} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
-import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
-import {MatPaginator, MatSort} from '@cdk/angular/material';
-import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
-import {Processo} from '@cdk/models/processo.model';
+import {cdkAnimations} from '@cdk/animations';
+import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
+import {MatDialog, MatPaginator, MatSort} from '@cdk/angular/material';
+import {debounceTime, distinctUntilChanged, filter, switchMap, tap} from 'rxjs/operators';
+import {Processo} from '@cdk/models';
 import {ProcessoDataSource} from '@cdk/data-sources/processo-data-source';
 import {FormControl} from '@angular/forms';
+import {CdkChaveAcessoPluginComponent} from '../../chave-acesso/cdk-chave-acesso-plugins/cdk-chave-acesso-plugin.component';
 
 @Component({
     selector: 'cdk-processo-grid',
@@ -27,7 +28,7 @@ import {FormControl} from '@angular/forms';
     styleUrls: ['./cdk-processo-grid.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChanges {
 
@@ -233,6 +234,9 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
     cancel = new EventEmitter<any>();
 
     @Output()
+    view = new EventEmitter<any>();
+
+    @Output()
     edit = new EventEmitter<number>();
 
     @Output()
@@ -252,11 +256,15 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
     isIndeterminate = false;
 
     /**
+     *
      * @param _changeDetectorRef
+     * @param _cdkSidebarService
+     * @param dialog
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _fuseSidebarService: FuseSidebarService
+        private _cdkSidebarService: CdkSidebarService,
+        private dialog: MatDialog
     ) {
         this.gridFilter = {};
         this.processos = [];
@@ -311,16 +319,35 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
     }
 
     toggleFilter(): void {
-        this._fuseSidebarService.getSidebar('cdk-processo-main-sidebar').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-processo-main-sidebar').toggleOpen();
         this.showFilter = !this.showFilter;
     }
 
     loadPage(): void {
+        const filter = this.gridFilter.filters;
+        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : null;
         this.reload.emit({
-            gridFilter: this.gridFilter,
+            gridFilter: filter,
             limit: this.paginator.pageSize,
             offset: (this.paginator.pageSize * this.paginator.pageIndex),
-            sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {}
+            sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
+            context: contexto
+        });
+    }
+
+    viewProcesso(processo: Processo): void {
+        if (processo.visibilidadeExterna) {
+            this.view.emit({id: processo.id});
+            return;
+        }
+
+        const dialogRef = this.dialog.open(CdkChaveAcessoPluginComponent, {
+            width: '600px'
+        });
+
+        dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe(result => {
+            this.view.emit({id: processo.id, chave_acesso: result});
+            return;
         });
     }
 

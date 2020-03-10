@@ -6,14 +6,14 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
-import {ModalidadeDestinacao} from '@cdk/models/modalidade-destinacao.model';
+import {cdkAnimations} from '@cdk/animations';
+import {ModalidadeDestinacao} from '@cdk/models';
 import {ModalidadeDestinacaoService} from '@cdk/services/modalidade-destinacao.service';
 import {FormControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-modalidade-destinacao-autocomplete',
@@ -21,7 +21,7 @@ import {Pagination} from '@cdk/models/pagination';
     styleUrls: ['./cdk-modalidade-destinacao-autocomplete.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations,
+    animations: cdkAnimations,
     exportAs: 'modalidadeDestinacaoAutocomplete',
 })
 export class CdkModalidadeDestinacaoAutocompleteComponent implements OnInit {

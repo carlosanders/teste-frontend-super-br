@@ -1,12 +1,14 @@
-import {schema} from '@cdk/normalizr-src';
-import {processo} from './processo.schema';
-import {modalidadeVinculacaoProcesso} from './modalidade-vinculacao-processo.schema';
-import {usuario} from './usuario.schema';
+import {processo} from './index.schema';
+import {modalidadeVinculacaoProcesso} from './index.schema';
+import {usuario} from './index.schema';
+import {vinculacaoProcesso as vinculacaoProcessoSchema} from './index.schema';
 
-export const vinculacaoProcesso = new schema.Entity('vinculacaoProcesso', {
+vinculacaoProcessoSchema.define({
     processoVinculado: processo,
     modalidadeVinculacaoProcesso: modalidadeVinculacaoProcesso,
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario
 });
+
+export const vinculacaoProcesso = vinculacaoProcessoSchema;

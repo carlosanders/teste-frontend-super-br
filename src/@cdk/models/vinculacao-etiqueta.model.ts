@@ -1,11 +1,11 @@
 import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
 
-import { Usuario } from '@cdk/models/usuario.model';
-import { Etiqueta } from '@cdk/models/etiqueta.model';
-import {Tarefa} from '@cdk/models/tarefa.model';
-import {Documento} from '@cdk/models/documento.model';
-import {Processo} from '@cdk/models/processo.model';
+import { Usuario } from '@cdk/models';
+import { Etiqueta } from '@cdk/models';
+import {Tarefa} from '@cdk/models';
+import {Documento} from '@cdk/models';
+import {Processo} from '@cdk/models';
 
 export class VinculacaoEtiqueta {
 
@@ -74,6 +74,12 @@ export class VinculacaoEtiqueta {
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
     apagadoEm?: Date;
 
+    @Exclude({toPlainOnly: true})
+    podeAlterarConteudo: boolean;
+
+    @Exclude({toPlainOnly: true})
+    podeExcluir: boolean;
+
     constructor() {
         this.id = null;
         this.uuid = null;
@@ -91,5 +97,7 @@ export class VinculacaoEtiqueta {
         this.atualizadoEm = null;
         this.apagadoPor = null;
         this.apagadoEm = null;
+        this.podeAlterarConteudo = null;
+        this.podeExcluir = null;
     }
 }

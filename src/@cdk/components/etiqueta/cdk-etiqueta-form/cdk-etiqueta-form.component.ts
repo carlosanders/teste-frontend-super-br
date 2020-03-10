@@ -7,11 +7,11 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import { fuseAnimations } from '@fuse/animations';
+import { cdkAnimations } from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { Etiqueta } from '@cdk/models/etiqueta.model';
-import {Pagination} from '@cdk/models/pagination';
-import {ModalidadeEtiqueta} from '@cdk/models/modalidade-etiqueta.model';
+import { Etiqueta } from '@cdk/models';
+import {Pagination} from '@cdk/models';
+import {ModalidadeEtiqueta} from '@cdk/models';
 
 @Component({
     selector: 'cdk-etiqueta-form',
@@ -19,7 +19,7 @@ import {ModalidadeEtiqueta} from '@cdk/models/modalidade-etiqueta.model';
     styleUrls: ['./cdk-etiqueta-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkEtiquetaFormComponent implements OnChanges, OnDestroy {
 

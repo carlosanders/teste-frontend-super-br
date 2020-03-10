@@ -7,11 +7,11 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import { fuseAnimations } from '@fuse/animations';
+import { cdkAnimations } from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { Modelo } from '@cdk/models/modelo.model';
-import {Pagination} from '@cdk/models/pagination';
-import {Template} from '@cdk/models/template.model';
+import { Modelo } from '@cdk/models';
+import {Pagination} from '@cdk/models';
+import {Template} from '@cdk/models';
 
 @Component({
     selector: 'cdk-modelo-form',
@@ -19,7 +19,7 @@ import {Template} from '@cdk/models/template.model';
     styleUrls: ['./cdk-modelo-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkModeloFormComponent implements OnChanges, OnDestroy {
 

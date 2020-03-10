@@ -6,14 +6,14 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
-import {ModalidadeColaborador} from '@cdk/models/modalidade-colaborador.model';
+import {cdkAnimations} from '@cdk/animations';
+import {ModalidadeColaborador} from '@cdk/models';
 import {ModalidadeColaboradorService} from '@cdk/services/modalidade-colaborador.service';
 import {FormControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-modalidade-colaborador-autocomplete',
@@ -21,7 +21,7 @@ import {Pagination} from '@cdk/models/pagination';
     styleUrls: ['./cdk-modalidade-colaborador-autocomplete.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations,
+    animations: cdkAnimations,
     exportAs: 'modalidadeColaboradorAutocomplete',
 })
 export class CdkModalidadeColaboradorAutocompleteComponent implements OnInit {

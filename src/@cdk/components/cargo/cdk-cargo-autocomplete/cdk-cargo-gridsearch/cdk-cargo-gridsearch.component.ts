@@ -10,14 +10,14 @@ import {
 } from '@angular/core';
 import {of} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 import {CargoService} from '@cdk/services/cargo.service';
-import {Cargo} from '@cdk/models/cargo.model';
+import {Cargo} from '@cdk/models';
 
 @Component({
     selector: 'cdk-cargo-gridsearch',
@@ -25,7 +25,7 @@ import {Cargo} from '@cdk/models/cargo.model';
     styleUrls: ['./cdk-cargo-gridsearch.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkCargoGridsearchComponent implements OnInit {
 

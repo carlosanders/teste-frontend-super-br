@@ -3,8 +3,8 @@ import {getTarefaDetailAppState, TarefaDetailAppState, TarefaDetailState} from '
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {tarefa as tarefaSchema} from '@cdk/normalizr/tarefa.schema';
 import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
-import {Tarefa} from '@cdk/models/tarefa.model';
-import {Documento} from '@cdk/models/documento.model';
+import {Tarefa} from '@cdk/models';
+import {Documento} from '@cdk/models';
 
 const schemaTarefaSelectors = createSchemaSelectors<Tarefa>(tarefaSchema);
 const schemaDocumentoSelectors = createSchemaSelectors<Documento>(documentoSchema);
@@ -12,6 +12,11 @@ const schemaDocumentoSelectors = createSchemaSelectors<Documento>(documentoSchem
 export const getTarefaState = createSelector(
     getTarefaDetailAppState,
     (state: TarefaDetailAppState) => state.tarefaDetail
+);
+
+export const getSavingVincEtiquetaId = createSelector(
+    getTarefaState,
+    (state: TarefaDetailState) => state.savingVincEtiquetaId
 );
 
 export const getIsLoading = createSelector(

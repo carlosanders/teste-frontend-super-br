@@ -9,7 +9,7 @@ import {
     MatInputModule
 } from '@cdk/angular/material';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {SigiloService} from '@cdk/services/sigilo.service';
 import {CdkSigiloGridFilterComponent} from './cdk-sigilo-grid-filter.component';
 import {CdkProcessoAutocompleteModule} from '@cdk/components/processo/cdk-processo-autocomplete/cdk-processo-autocomplete.module';
@@ -37,7 +37,7 @@ import {CdkTipoSigiloAutocompleteModule} from '@cdk/components/tipo-sigilo/cdk-t
         MatMomentDatetimeModule,
         MatCheckboxModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
 
         CdkUsuarioAutocompleteModule,
         CdkModalidadeCategoriaSigiloAutocompleteModule,

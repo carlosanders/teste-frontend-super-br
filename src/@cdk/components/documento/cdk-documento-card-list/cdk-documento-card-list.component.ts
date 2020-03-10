@@ -6,8 +6,8 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
-import {Documento} from '@cdk/models/documento.model';
+import {cdkAnimations} from '@cdk/animations';
+import {Documento} from '@cdk/models';
 
 @Component({
     selector: 'cdk-documento-card-list',
@@ -15,7 +15,7 @@ import {Documento} from '@cdk/models/documento.model';
     styleUrls: ['./cdk-documento-card-list.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
 

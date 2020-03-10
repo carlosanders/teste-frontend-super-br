@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 
 import {LocalizadorService} from '@cdk/services/localizador.service';
 import {CdkLocalizadorGridsearchComponent} from './cdk-localizador-gridsearch.component';
@@ -14,7 +14,7 @@ import {CdkLocalizadorGridModule} from '@cdk/components/localizador/cdk-localiza
 
         CdkLocalizadorGridModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         LocalizadorService

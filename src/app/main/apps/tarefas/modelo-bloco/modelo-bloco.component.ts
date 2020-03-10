@@ -7,13 +7,13 @@ import {
 } from '@angular/core';
 import {Observable} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
-import {Modelo} from '@cdk/models/modelo.model';
+import {cdkAnimations} from '@cdk/animations';
+import {Modelo} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getOperacoesState, getRouterState} from 'app/store/reducers';
-import {Tarefa} from '@cdk/models/tarefa.model';
+import {Tarefa} from '@cdk/models';
 import {getSelectedTarefas} from '../store/selectors';
 import {getIsSaving} from './store/selectors/componentes-digitais.selectors';
 import {filter} from 'rxjs/operators';
@@ -24,7 +24,7 @@ import {filter} from 'rxjs/operators';
     styleUrls: ['./modelo-bloco.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class ModeloBlocoComponent implements OnInit, OnDestroy  {
 

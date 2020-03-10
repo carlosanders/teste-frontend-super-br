@@ -1,11 +1,11 @@
-import {schema} from '@cdk/normalizr-src';
-import {usuario} from './usuario.schema';
-import {modalidadeInteressado} from './modalidade-interessado.schema';
-import {pessoa} from './pessoa.schema';
-import {processo} from './processo.schema';
-import {origemDados} from './origem-dados.schema';
+import {usuario} from './index.schema';
+import {modalidadeInteressado} from './index.schema';
+import {pessoa} from './index.schema';
+import {processo} from './index.schema';
+import {origemDados} from './index.schema';
+import {interessado as interessadoSchema} from './index.schema';
 
-export const interessado = new schema.Entity('interessado', {
+interessadoSchema.define({
     processo: processo,
     pessoa: pessoa,
     modalidadeInteressado: modalidadeInteressado,
@@ -14,3 +14,5 @@ export const interessado = new schema.Entity('interessado', {
     atualizadoPor: usuario,
     apagadoPor: usuario
 });
+
+export const interessado = interessadoSchema;

@@ -9,7 +9,7 @@ import * as ProcessoActions from '../actions/processo.actions';
 import {ProcessoService} from '@cdk/services/processo.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {processo as processoSchema} from '@cdk/normalizr/processo.schema';
-import {Processo} from '@cdk/models/processo.model';
+import {Processo} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';

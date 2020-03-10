@@ -1,6 +1,6 @@
 import {AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewEncapsulation} from '@angular/core';
-import {fuseAnimations} from '@fuse/animations';
-import {Visibilidade} from '@cdk/models/visibilidade.model';
+import {cdkAnimations} from '@cdk/animations';
+import {Visibilidade} from '@cdk/models';
 
 @Component({
     selector: 'cdk-visibilidade-list',
@@ -8,7 +8,7 @@ import {Visibilidade} from '@cdk/models/visibilidade.model';
     styleUrls: ['./cdk-visibilidade-list.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkVisibilidadeListComponent implements AfterViewInit, OnInit, OnChanges {
 

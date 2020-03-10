@@ -1,14 +1,14 @@
 import {Component, Input, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 
-import { fuseAnimations } from '@fuse/animations';
-import {Historico} from '@cdk/models/historico.model';
+import { cdkAnimations } from '@cdk/animations';
+import {Historico} from '@cdk/models';
 
 @Component({
     selector     : 'cdk-historico-timeline',
     templateUrl  : './cdk-historico-timeline.component.html',
     styleUrls    : ['./cdk-historico-timeline.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    animations   : fuseAnimations
+    animations   : cdkAnimations
 })
 export class CdkHistoricoTimelineComponent implements OnInit, OnDestroy
 {

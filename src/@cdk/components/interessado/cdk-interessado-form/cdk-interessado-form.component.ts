@@ -7,12 +7,12 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Interessado} from '@cdk/models/interessado.model';
-import {ModalidadeInteressado} from '@cdk/models/modalidade-interessado.model';
-import {Pessoa} from '@cdk/models/pessoa.model';
-import {Pagination} from '@cdk/models/pagination';
+import {Interessado} from '@cdk/models';
+import {ModalidadeInteressado} from '@cdk/models';
+import {Pessoa} from '@cdk/models';
+import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-interessado-form',
@@ -20,7 +20,7 @@ import {Pagination} from '@cdk/models/pagination';
     styleUrls: ['./cdk-interessado-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkInteressadoFormComponent implements OnChanges, OnDestroy {
 

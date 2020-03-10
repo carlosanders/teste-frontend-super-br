@@ -1,10 +1,12 @@
-import {schema} from '@cdk/normalizr-src';
-import {usuario} from './usuario.schema';
+import {usuario} from './index.schema';
+import {vinculacaoUsuario as vinculacaoUsuarioSchema} from './index.schema';
 
-export const vinculacaoUsuario = new schema.Entity('vinculacaoUsuario', {
+vinculacaoUsuarioSchema.define({
     usuario: usuario,
     usuarioVinculado: usuario,
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario
 });
+
+export const vinculacaoUsuario = vinculacaoUsuarioSchema;

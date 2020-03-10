@@ -6,19 +6,20 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {Compartilhamento} from '@cdk/models/compartilhamento.model';
+import {Compartilhamento} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Tarefa} from '@cdk/models/tarefa.model';
+import {Tarefa} from '@cdk/models';
 import {getSelectedTarefas} from '../store/selectors';
 import {getOperacoesState, getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {filter, takeUntil} from 'rxjs/operators';
+import {Usuario} from "../../../../../@cdk/models/usuario.model";
 
 @Component({
     selector: 'compartilhamento-create',
@@ -26,7 +27,7 @@ import {filter, takeUntil} from 'rxjs/operators';
     styleUrls: ['./compartilhamento-create-bloco.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CompartilhamentoCreateBlocoComponent implements OnInit, OnDestroy {
 
@@ -41,7 +42,7 @@ export class CompartilhamentoCreateBlocoComponent implements OnInit, OnDestroy {
 
     operacoes: any[] = [];
 
-    private _profile: any;
+    private _profile: Usuario;
 
     routerState: any;
 

@@ -8,13 +8,13 @@ import {
 } from '@angular/core';
 import {of} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
 import {AreaTrabalhoService} from '@cdk/services/area-trabalho.service';
-import {AreaTrabalho} from '@cdk/models/area-trabalho.model';
-import {Pagination} from '@cdk/models/pagination';
+import {AreaTrabalho} from '@cdk/models';
+import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-area-trabalho-gridsearch',
@@ -22,7 +22,7 @@ import {Pagination} from '@cdk/models/pagination';
     styleUrls: ['./cdk-area-trabalho-gridsearch.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkAreaTrabalhoGridsearchComponent implements OnInit {
 

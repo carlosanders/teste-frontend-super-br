@@ -2,10 +2,10 @@ import {Injectable} from '@angular/core';
 import {HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {Campo} from '@cdk/models/campo.model';
+import {Campo} from '@cdk/models';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
-import {PaginatedResponse} from '@cdk/models/paginated.response';
+import {PaginatedResponse} from '@cdk/models';
 
 @Injectable()
 export class CampoService {
@@ -15,20 +15,23 @@ export class CampoService {
     ) {
     }
 
-    get(id: number): Observable<Campo> {
-        return this.modelService.getOne('campo', id)
+    get(id: number, context: any = '{}'): Observable<Campo> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.getOne('campo', id, new HttpParams({fromObject: params}))
             .pipe(
                 map(response => plainToClass(Campo, response)[0])
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
         params['offset'] = offset;
         params['order'] = order;
         params['populate'] = populate;
+        params['context'] = context;
 
         return this.modelService.get('campo', new HttpParams({fromObject: params}))
             .pipe(
@@ -36,16 +39,19 @@ export class CampoService {
             );
     }
 
-    count(filters: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
+        params['context'] = context;
 
         return this.modelService.count('campo', new HttpParams({fromObject: params}));
     }
 
-    save(campo: Campo): Observable<Campo> {
+    save(campo: Campo, context: any = '{}'): Observable<Campo> {
+        const params = {};
+        params['context'] = context;
         if (campo.id) {
-            return this.modelService.put('campo', campo.id, classToPlain(campo))
+            return this.modelService.put('campo', campo.id, classToPlain(campo), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(Campo, response);
@@ -54,7 +60,7 @@ export class CampoService {
                     })
                 );
         } else {
-            return this.modelService.post('campo', classToPlain(campo))
+            return this.modelService.post('campo', classToPlain(campo), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(Campo, response);
@@ -65,7 +71,9 @@ export class CampoService {
         }
     }
 
-    destroy(id: number): Observable<Campo> {
-        return this.modelService.delete('campo', id);
+    destroy(id: number, context: any = '{}'): Observable<Campo> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.delete('campo', id, new HttpParams({fromObject: params}));
     }
 }

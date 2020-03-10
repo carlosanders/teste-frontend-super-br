@@ -13,7 +13,7 @@ import {
 
 } from '@cdk/angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 import { ModalidadeInteressadoService } from '@cdk/services/modalidade-interessado.service';
 import { CdkInteressadoFormComponent } from './cdk-interessado-form.component';
 import { CdkModalidadeInteressadoAutocompleteModule } from '@cdk/components/modalidade-interessado/cdk-modalidade-interessado-autocomplete/cdk-modalidade-interessado-autocomplete.module';
@@ -44,7 +44,7 @@ import {InteressadoService} from '@cdk/services/interessado.service';
         CdkModalidadeInteressadoGridsearchModule,
         CdkPessoaAutocompleteModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         ModalidadeInteressadoService,

@@ -7,11 +7,11 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import { fuseAnimations } from '@fuse/animations';
+import { cdkAnimations } from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { Afastamento } from '@cdk/models/afastamento.model';
-import { ModalidadeAfastamento } from '@cdk/models/modalidade-afastamento.model';
-import {Pagination} from '@cdk/models/pagination';
+import { Afastamento } from '@cdk/models';
+import { ModalidadeAfastamento } from '@cdk/models';
+import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-afastamento-form',
@@ -19,7 +19,7 @@ import {Pagination} from '@cdk/models/pagination';
     styleUrls: ['./cdk-afastamento-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkAfastamentoFormComponent implements OnChanges, OnDestroy {
 

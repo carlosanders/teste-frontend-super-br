@@ -11,8 +11,8 @@ import {
     MatSelectModule,
 } from '@cdk/angular/material';
 
-import {FuseSidebarModule} from '@fuse/components';
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSidebarModule} from '@cdk/components/index';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {RepresentanteService} from '@cdk/services/representante.service';
 import {CdkRepresentanteGridComponent} from './cdk-representante-grid.component';
 import {CdkRepresentanteAutocompleteModule} from '@cdk/components/representante/cdk-representante-autocomplete/cdk-representante-autocomplete.module';
@@ -38,8 +38,8 @@ import {CdkRepresentanteMainSidebarComponent} from './sidebars/main/main.compone
         CdkRepresentanteAutocompleteModule,
         CdkRepresentanteGridFilterModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
     ],
     providers: [
         RepresentanteService,

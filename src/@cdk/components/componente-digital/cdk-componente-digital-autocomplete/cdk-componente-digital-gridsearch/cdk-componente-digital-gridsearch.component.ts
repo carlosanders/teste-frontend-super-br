@@ -10,14 +10,14 @@ import {
 } from '@angular/core';
 import {of} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
-import {ComponenteDigital} from '@cdk/models/componente-digital.model';
+import {ComponenteDigital} from '@cdk/models';
 
 @Component({
     selector: 'cdk-componente-digital-gridsearch',
@@ -25,7 +25,7 @@ import {ComponenteDigital} from '@cdk/models/componente-digital.model';
     styleUrls: ['./cdk-componente-digital-gridsearch.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkComponenteDigitalGridsearchComponent implements OnInit {
 

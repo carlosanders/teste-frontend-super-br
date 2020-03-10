@@ -1,11 +1,13 @@
-import {schema} from '@cdk/normalizr-src';
-import {generoTarefa} from './genero-tarefa.schema';
-import {usuario} from './usuario.schema';
+import {generoTarefa} from './index.schema';
+import {usuario} from './index.schema';
+import {especieTarefa as especieTarefaSchema} from './index.schema';
 
-export const especieTarefa = new schema.Entity('especieTarefa', {
+especieTarefaSchema.define({
     generoTarefa: generoTarefa,
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario
 });
+
+export const especieTarefa = especieTarefaSchema;
 

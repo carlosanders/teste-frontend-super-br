@@ -10,14 +10,14 @@ import {
 } from '@angular/core';
 import {of} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 import {TipoSigiloService} from '@cdk/services/tipo-sigilo.service';
-import {TipoSigilo} from '@cdk/models/tipo-sigilo.model';
+import {TipoSigilo} from '@cdk/models';
 
 @Component({
     selector: 'cdk-tipo-sigilo-gridsearch',
@@ -25,7 +25,7 @@ import {TipoSigilo} from '@cdk/models/tipo-sigilo.model';
     styleUrls: ['./cdk-tipo-sigilo-gridsearch.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkTipoSigiloGridsearchComponent implements OnInit {
 

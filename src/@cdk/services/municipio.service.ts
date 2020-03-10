@@ -2,10 +2,10 @@ import {Injectable} from '@angular/core';
 import {HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {Municipio} from '@cdk/models/municipio.model';
+import {Municipio} from '@cdk/models';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
-import {PaginatedResponse} from '@cdk/models/paginated.response';
+import {PaginatedResponse} from '@cdk/models';
 
 @Injectable()
 export class MunicipioService {
@@ -15,20 +15,23 @@ export class MunicipioService {
     ) {
     }
 
-    get(id: number): Observable<Municipio> {
-        return this.modelService.getOne('municipio', id)
+    get(id: number, context: any = '{}'): Observable<Municipio> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.getOne('municipio', id, new HttpParams({fromObject: params}))
             .pipe(
                 map(response => plainToClass(Municipio, response)[0])
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
         params['offset'] = offset;
         params['order'] = order;
         params['populate'] = populate;
+        params['context'] = context;
 
         return this.modelService.get('municipio', new HttpParams({fromObject: params}))
             .pipe(
@@ -36,16 +39,19 @@ export class MunicipioService {
             );
     }
 
-    count(filters: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
+        params['context'] = context;
 
         return this.modelService.count('municipio', new HttpParams({fromObject: params}));
     }
 
-    save(municipio: Municipio): Observable<Municipio> {
+    save(municipio: Municipio, context: any = '{}'): Observable<Municipio> {
+        const params = {};
+        params['context'] = context;
         if (municipio.id) {
-            return this.modelService.put('municipio', municipio.id, classToPlain(municipio))
+            return this.modelService.put('municipio', municipio.id, classToPlain(municipio), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(Municipio, response);
@@ -54,7 +60,7 @@ export class MunicipioService {
                     })
                 );
         } else {
-            return this.modelService.post('municipio', classToPlain(municipio))
+            return this.modelService.post('municipio', classToPlain(municipio), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(Municipio, response);
@@ -65,7 +71,9 @@ export class MunicipioService {
         }
     }
 
-    destroy(id: number): Observable<Municipio> {
-        return this.modelService.delete('municipio', id);
+    destroy(id: number, context: any = '{}'): Observable<Municipio> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.delete('municipio', id, new HttpParams({fromObject: params}));
     }
 }

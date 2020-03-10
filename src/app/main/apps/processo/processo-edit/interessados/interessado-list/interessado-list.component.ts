@@ -7,8 +7,8 @@ import {
 } from '@angular/core';
 import {Observable} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
-import {Interessado} from '@cdk/models/interessado.model';
+import {cdkAnimations} from '@cdk/animations';
+import {Interessado} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from 'app/main/apps/processo/processo-edit/interessados/interessado-list/store';
@@ -20,7 +20,7 @@ import {getRouterState} from '../../../../../../store/reducers';
     styleUrls: ['./interessado-list.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class InteressadoListComponent implements OnInit {
 

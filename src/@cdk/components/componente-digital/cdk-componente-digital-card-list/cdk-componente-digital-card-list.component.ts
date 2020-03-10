@@ -6,17 +6,17 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
-import {ComponenteDigital} from '@cdk/models/componente-digital.model';
+import {cdkAnimations} from '@cdk/animations';
+import {ComponenteDigital} from '@cdk/models';
 import {classToPlain} from 'class-transformer';
 import {HttpClient, HttpErrorResponse, HttpEventType, HttpRequest} from '@angular/common/http';
 import {catchError, last, map, tap} from 'rxjs/operators';
 import {of, Subscription} from 'rxjs';
 import {environment} from 'environments/environment';
-import {Processo} from '@cdk/models/processo.model';
-import {Tarefa} from '@cdk/models/tarefa.model';
-import {Documento} from '@cdk/models/documento.model';
-import {DocumentoAvulso} from '@cdk/models/documento-avulso.model';
+import {Processo} from '@cdk/models';
+import {Tarefa} from '@cdk/models';
+import {Documento} from '@cdk/models';
+import {DocumentoAvulso} from '@cdk/models';
 
 @Component({
     selector: 'cdk-componente-digital-card-list',
@@ -24,7 +24,7 @@ import {DocumentoAvulso} from '@cdk/models/documento-avulso.model';
     styleUrls: ['./cdk-componente-digital-card-list.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkComponenteDigitalCardListComponent implements OnInit {
 

@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 
 import {AssinaturaService} from '@cdk/services/assinatura.service';
 import {CdkAssinaturaGridsearchComponent} from './cdk-assinatura-gridsearch.component';
@@ -14,7 +14,7 @@ import {CdkAssinaturaGridModule} from '@cdk/components/assinatura/cdk-assinatura
 
         CdkAssinaturaGridModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         AssinaturaService

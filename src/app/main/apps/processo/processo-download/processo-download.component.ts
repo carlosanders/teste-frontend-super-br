@@ -4,10 +4,10 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
-import {Processo} from '@cdk/models/processo.model';
-import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
+import {Processo} from '@cdk/models';
+import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {select, Store} from '@ngrx/store';
 import * as fromStoreProcesso from '../store';
 import * as fromStoreDownload from './store';
@@ -20,7 +20,7 @@ import {getRouterState} from '../../../../store/reducers';
     styleUrls: ['./processo-download.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class ProcessoDownloadComponent implements OnInit, OnDestroy {
 
@@ -35,14 +35,14 @@ export class ProcessoDownloadComponent implements OnInit, OnDestroy {
     /**
      *
      * @param _changeDetectorRef
-     * @param _fuseSidebarService
+     * @param _cdkSidebarService
      * @param _storeProcesso
      * @param _storeDownload
      * @param _router
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _fuseSidebarService: FuseSidebarService,
+        private _cdkSidebarService: CdkSidebarService,
         private _storeProcesso: Store<fromStoreProcesso.ProcessoAppState>,
         private _storeDownload: Store<fromStoreDownload.ProcessoDownloadAppState>,
         private _router: Router

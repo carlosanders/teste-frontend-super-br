@@ -2,10 +2,10 @@ import {Injectable} from '@angular/core';
 import {HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {Distribuicao} from '@cdk/models/distribuicao.model';
+import {Distribuicao} from '@cdk/models';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
-import {PaginatedResponse} from '@cdk/models/paginated.response';
+import {PaginatedResponse} from '@cdk/models';
 
 @Injectable()
 export class DistribuicaoService {
@@ -15,20 +15,23 @@ export class DistribuicaoService {
     ) {
     }
 
-    get(id: number): Observable<Distribuicao> {
-        return this.modelService.getOne('distribuicao', id)
+    get(id: number, context: any = '{}'): Observable<Distribuicao> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.getOne('distribuicao', id, new HttpParams({fromObject: params}))
             .pipe(
                 map(response => plainToClass(Distribuicao, response)[0])
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
         params['offset'] = offset;
         params['order'] = order;
         params['populate'] = populate;
+        params['context'] = context;
 
         return this.modelService.get('distribuicao', new HttpParams({fromObject: params}))
             .pipe(
@@ -36,16 +39,18 @@ export class DistribuicaoService {
             );
     }
 
-    count(filters: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
 
         return this.modelService.count('distribuicao', new HttpParams({fromObject: params}));
     }
 
-    save(distribuicao: Distribuicao): Observable<Distribuicao> {
+    save(distribuicao: Distribuicao, context: any = '{}'): Observable<Distribuicao> {
+        const params = {};
+        params['context'] = context;
         if (distribuicao.id) {
-            return this.modelService.put('distribuicao', distribuicao.id, classToPlain(distribuicao))
+            return this.modelService.put('distribuicao', distribuicao.id, classToPlain(distribuicao), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(Distribuicao, response);
@@ -54,7 +59,7 @@ export class DistribuicaoService {
                     })
                 );
         } else {
-            return this.modelService.post('distribuicao', classToPlain(distribuicao))
+            return this.modelService.post('distribuicao', classToPlain(distribuicao), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(Distribuicao, response);
@@ -65,7 +70,9 @@ export class DistribuicaoService {
         }
     }
 
-    destroy(id: number): Observable<Distribuicao> {
-        return this.modelService.delete('distribuicao', id);
+    destroy(id: number, context: any = '{}'): Observable<Distribuicao> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.delete('distribuicao', id, new HttpParams({fromObject: params}));
     }
 }

@@ -10,14 +10,14 @@ import {
 } from '@angular/core';
 import {of} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 import {RelevanciaService} from '@cdk/services/relevancia.service';
-import {Relevancia} from '@cdk/models/relevancia.model';
+import {Relevancia} from '@cdk/models';
 
 @Component({
     selector: 'cdk-relevancia-gridsearch',
@@ -25,7 +25,7 @@ import {Relevancia} from '@cdk/models/relevancia.model';
     styleUrls: ['./cdk-relevancia-gridsearch.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkRelevanciaGridsearchComponent implements OnInit {
 

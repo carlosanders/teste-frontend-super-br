@@ -8,14 +8,14 @@ import {
 } from '@angular/core';
 import {of} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 import {AssuntoAdministrativoService} from '@cdk/services/assunto-administrativo.service';
-import {AssuntoAdministrativo} from '@cdk/models/assunto-administrativo.model';
+import {AssuntoAdministrativo} from '@cdk/models';
 
 @Component({
     selector: 'cdk-assunto-administrativo-gridsearch',
@@ -23,7 +23,7 @@ import {AssuntoAdministrativo} from '@cdk/models/assunto-administrativo.model';
     styleUrls: ['./cdk-assunto-administrativo-gridsearch.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkAssuntoAdministrativoGridsearchComponent implements OnInit {
 

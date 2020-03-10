@@ -7,12 +7,12 @@ import {
 } from '@angular/core';
 import {merge, of} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
-import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
+import {cdkAnimations} from '@cdk/animations';
+import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 import {CompartilhamentoDataSource} from '@cdk/data-sources/compartilhamento-data-source';
-import {Compartilhamento} from '@cdk/models/compartilhamento.model';
+import {Compartilhamento} from '@cdk/models';
 import {FormControl} from '@angular/forms';
 
 @Component({
@@ -21,7 +21,7 @@ import {FormControl} from '@angular/forms';
     styleUrls: ['./cdk-compartilhamento-grid.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkCompartilhamentoGridComponent implements AfterViewInit, OnInit, OnChanges {
 
@@ -157,7 +157,7 @@ export class CdkCompartilhamentoGridComponent implements AfterViewInit, OnInit, 
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _fuseSidebarService: FuseSidebarService
+        private _cdkSidebarService: CdkSidebarService
     ) {
         this.gridFilter = {};
     }
@@ -211,7 +211,7 @@ export class CdkCompartilhamentoGridComponent implements AfterViewInit, OnInit, 
     }
 
     toggleFilter(): void {
-        this._fuseSidebarService.getSidebar('cdk-compartilhamento-main-sidebar').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-compartilhamento-main-sidebar').toggleOpen();
         this.showFilter = !this.showFilter;
     }
 

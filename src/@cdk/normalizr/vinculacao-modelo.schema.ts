@@ -1,10 +1,10 @@
-import {schema} from '@cdk/normalizr-src';
-import {modelo} from './modelo.schema';
-import {especieSetor} from './especie-setor.schema';
-import {setor} from './setor.schema';
-import {usuario} from './usuario.schema';
+import {modelo} from './index.schema';
+import {especieSetor} from './index.schema';
+import {setor} from './index.schema';
+import {usuario} from './index.schema';
+import {vinculacaoModelo as vinculacaoModeloSchema} from './index.schema';
 
-export const vinculacaoModelo = new schema.Entity('vinculacaoModelo', {
+vinculacaoModeloSchema.define({
     modelo: modelo,
     especieSetor: especieSetor,
     setor: setor,

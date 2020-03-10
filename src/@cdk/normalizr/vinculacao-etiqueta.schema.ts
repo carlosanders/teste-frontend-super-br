@@ -1,9 +1,9 @@
-import {schema} from '@cdk/normalizr-src';
-import {etiqueta} from './etiqueta.schema';
-import {usuario} from './usuario.schema';
-import {tarefa} from './tarefa.schema';
+import {etiqueta} from './index.schema';
+import {usuario} from './index.schema';
+import {tarefa} from './index.schema';
+import {vinculacaoEtiqueta as vinculacaoEtiquetaSchema} from './index.schema';
 
-export const vinculacaoEtiqueta = new schema.Entity('vinculacaoEtiqueta', {
+vinculacaoEtiquetaSchema.define({
     etiqueta: etiqueta,
     tarefa: tarefa,
     criadoPor: usuario,
@@ -11,3 +11,5 @@ export const vinculacaoEtiqueta = new schema.Entity('vinculacaoEtiqueta', {
     usuario: usuario,
     apagadoPor: usuario
 });
+
+export const vinculacaoEtiqueta = vinculacaoEtiquetaSchema;

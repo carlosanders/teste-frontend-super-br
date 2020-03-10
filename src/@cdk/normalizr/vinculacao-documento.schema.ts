@@ -1,14 +1,15 @@
-import {schema} from '@cdk/normalizr-src';
-import {usuario} from './usuario.schema';
-import {modalidadeVinculacaoDocumento} from './modalidade-vinculacao-documento.schema';
-import {documentoVinculado} from './documento-vinculado.schema';
-import {documento} from './documento.schema';
+import {usuario} from './index.schema';
+import {modalidadeVinculacaoDocumento} from './index.schema';
+import {documento} from './index.schema';
+import {vinculacaoDocumento as vinculacaoDocumentoSchema} from './index.schema';
 
-export const vinculacaoDocumento = new schema.Entity('vinculacaoDocumento', {
+vinculacaoDocumentoSchema.define({
     documento: documento,
-    documentoVinculado: documentoVinculado,
+    documentoVinculado: documento,
     modalidadeVinculacaoDocumento: modalidadeVinculacaoDocumento,
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario
 });
+
+export const vinculacaoDocumento = vinculacaoDocumentoSchema;

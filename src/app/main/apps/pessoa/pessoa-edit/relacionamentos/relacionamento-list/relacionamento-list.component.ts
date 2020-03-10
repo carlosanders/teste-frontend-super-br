@@ -7,8 +7,8 @@ import {
 } from '@angular/core';
 import {Observable} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
-import {RelacionamentoPessoal} from '@cdk/models/relacionamento-pessoal.model';
+import {cdkAnimations} from '@cdk/animations';
+import {RelacionamentoPessoal} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
@@ -20,7 +20,7 @@ import {getRouterState} from 'app/store/reducers';
     styleUrls: ['./relacionamento-list.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class RelacionamentoListComponent implements OnInit {
 

@@ -1,8 +1,8 @@
 import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
 
-import { Usuario } from '@cdk/models/usuario.model';
-import {Setor} from '@cdk/models/setor.model';
+import { Usuario } from '@cdk/models';
+import {Setor} from '@cdk/models';
 
 export class Localizador {
 
@@ -12,16 +12,13 @@ export class Localizador {
     @Exclude({ toPlainOnly: true })
     uuid?: string;
 
-    @Exclude({ toPlainOnly: true })
     nome: string;
 
-    @Exclude({ toPlainOnly: true })
     descricao: string;
 
-    @Exclude({ toPlainOnly: true })
     ativo: boolean;
 
-    @Exclude({ toPlainOnly: true })
+    // @Exclude({ toPlainOnly: true })
     @Type(() => Setor)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     setor: Setor;

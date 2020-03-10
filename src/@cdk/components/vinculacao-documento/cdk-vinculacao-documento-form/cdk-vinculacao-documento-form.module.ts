@@ -11,7 +11,7 @@ import {
 
 } from '@cdk/angular/material';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkVinculacaoDocumentoFormComponent} from './cdk-vinculacao-documento-form.component';
 import {ModalidadeVinculacaoDocumentoService} from '@cdk/services/modalidade-vinculacao-documento.service';
 import {CdkModalidadeVinculacaoDocumentoGridsearchModule} from '../../modalidade-vinculacao-documento/cdk-modalidade-vinculacao-documento-autocomplete/cdk-modalidade-vinculacao-documento-gridsearch/cdk-modalidade-vinculacao-documento-gridsearch.module';
@@ -39,7 +39,7 @@ import {CdkDocumentoAutocompleteModule} from '../../documento/cdk-documento-auto
         CdkModalidadeVinculacaoDocumentoAutocompleteModule,
         CdkModalidadeVinculacaoDocumentoGridsearchModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         DocumentoService,

@@ -12,8 +12,8 @@ import {
     MatSelectModule,
 } from '@cdk/angular/material';
 
-import {FuseSidebarModule} from '@fuse/components';
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSidebarModule} from '@cdk/components/index';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {CampoService} from '@cdk/services/campo.service';
 import {CdkCampoGridComponent} from './cdk-campo-grid.component';
 import {CdkCampoAutocompleteModule} from '@cdk/components/campo/cdk-campo-autocomplete/cdk-campo-autocomplete.module';
@@ -43,8 +43,8 @@ import {CdkCampoMainSidebarComponent} from './sidebars/main/main.component';
         CdkCampoAutocompleteModule,
         CdkCampoGridFilterModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
     ],
     providers: [
         CampoService,

@@ -1,0 +1,55 @@
+<div id="oficio-detail">
+
+        <div fxFlex fxLayout="column">
+
+            <div class="oficio">
+
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <div>
+                        <button *ngIf="mobileMode" mat-icon-button (click)="deselectCurrentOficio()">
+                            <mat-icon class="secondary-text">arrow_back</mat-icon>
+                        </button>
+
+                        <button *ngIf="!mobileMode && !(maximizado$ | async)" mat-icon-button (click)="doToggleMaximizado()">
+                            <mat-icon class="secondary-text">zoom_out_map</mat-icon>
+                        </button>
+
+                        <button *ngIf="!mobileMode && (maximizado$ | async)" mat-icon-button (click)="doToggleMaximizado()">
+                            <mat-icon class="secondary-text">subdirectory_arrow_right</mat-icon>
+                        </button>
+                    </div>
+
+                    NUP {{(documentoAvulso$ | async).processo.NUP | formatNup}}
+                    ATÉ {{(documentoAvulso$ | async).dataHoraFinalPrazo | date: 'dd/MM/yyyy'}}
+
+                    <div class="actions" fxLayout="row" fxLayoutAlign="start center">
+
+                        <button mat-icon-button aria-label="Processo" matTooltip="Processo"
+                                [routerLink]="['processo', (documentoAvulso$ | async)?.processo?.id]"
+                                [routerLinkActive]="['active', 'accent']">
+                            <mat-icon class="black-fg">book</mat-icon>
+                        </button>
+
+                        <button mat-icon-button aria-label="Responder Ou Complementar" matTooltip="Responder Ou Complementar"
+                                [routerLink]="['responder-complementar']"
+                                [routerLinkActive]="['active', 'accent']">
+                            <mat-icon class="black-fg">send</mat-icon>
+                        </button>
+
+                    </div>
+                </div>
+
+                <cdk-vinculacao-etiqueta-chips class="mr-24 ml-24"
+                                               [vinculacoesEtiquetas]="(documentoAvulso$ | async).processo.vinculacoesEtiquetas"
+                                               (create)="onEtiquetaCreate($event)"
+                                               [pagination]="vinculacaoEtiquetaPagination"
+                                               (delete)="onEtiquetaDelete($event)">
+                </cdk-vinculacao-etiqueta-chips>
+
+            </div>
+
+            <div class="oficio-content">
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+</div>

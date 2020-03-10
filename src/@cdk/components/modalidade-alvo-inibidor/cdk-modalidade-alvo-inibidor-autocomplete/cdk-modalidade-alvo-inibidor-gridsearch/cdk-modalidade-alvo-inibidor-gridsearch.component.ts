@@ -10,14 +10,14 @@ import {
 } from '@angular/core';
 import {of} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 import {ModalidadeAlvoInibidorService} from '@cdk/services/modalidade-alvo-inibidor.service';
-import {ModalidadeAlvoInibidor} from '@cdk/models/modalidade-alvo-inibidor.model';
+import {ModalidadeAlvoInibidor} from '@cdk/models';
 
 @Component({
     selector: 'cdk-modalidade-alvo-inibidor-gridsearch',
@@ -25,7 +25,7 @@ import {ModalidadeAlvoInibidor} from '@cdk/models/modalidade-alvo-inibidor.model
     styleUrls: ['./cdk-modalidade-alvo-inibidor-gridsearch.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkModalidadeAlvoInibidorGridsearchComponent implements OnInit {
 

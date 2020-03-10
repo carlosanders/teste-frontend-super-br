@@ -10,14 +10,14 @@ import {
 } from '@angular/core';
 import {of} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 import {ClassificacaoService} from '@cdk/services/classificacao.service';
-import {Classificacao} from '@cdk/models/classificacao.model';
+import {Classificacao} from '@cdk/models';
 
 @Component({
     selector: 'cdk-classificacao-gridsearch',
@@ -25,7 +25,7 @@ import {Classificacao} from '@cdk/models/classificacao.model';
     styleUrls: ['./cdk-classificacao-gridsearch.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkClassificacaoGridsearchComponent implements OnInit {
 

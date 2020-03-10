@@ -10,14 +10,14 @@ import {
 } from '@angular/core';
 import {of} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 import {VinculacaoRoleService} from '@cdk/services/vinculacao-role.service';
-import {VinculacaoRole} from '@cdk/models/vinculacao-role.model';
+import {VinculacaoRole} from '@cdk/models';
 
 @Component({
     selector: 'cdk-vinculacao-role-gridsearch',
@@ -25,7 +25,7 @@ import {VinculacaoRole} from '@cdk/models/vinculacao-role.model';
     styleUrls: ['./cdk-vinculacao-role-gridsearch.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkVinculacaoRoleGridsearchComponent implements OnInit {
 

@@ -6,18 +6,18 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {Tarefa} from '@cdk/models/tarefa.model';
+import {Tarefa} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from 'app/main/apps/tarefas/tarefa-detail/store';
 import { SaveTarefa } from 'app/main/apps/tarefas/tarefa-detail/store';
 import {filter, takeUntil} from 'rxjs/operators';
 import {LoginService} from '../../../../auth/login/login.service';
-import {Colaborador} from '@cdk/models/colaborador.model';
-import {Pagination} from '@cdk/models/pagination';
+import {Colaborador} from '@cdk/models';
+import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'tarefa-edit',
@@ -25,7 +25,7 @@ import {Pagination} from '@cdk/models/pagination';
     styleUrls: ['./tarefa-edit.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class TarefaEditComponent implements OnInit, OnDestroy {
 
@@ -54,7 +54,7 @@ export class TarefaEditComponent implements OnInit, OnDestroy {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
 
-        this._profile = _loginService.getUserProfile();
+        this._profile = _loginService.getUserProfile().colaborador;
 
         this.especieTarefaPagination = new Pagination();
         this.especieTarefaPagination.populate = ['generoTarefa'];

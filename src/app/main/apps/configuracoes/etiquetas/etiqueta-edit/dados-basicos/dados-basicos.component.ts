@@ -6,15 +6,15 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
 
-import {Etiqueta} from '@cdk/models/etiqueta.model';
+import {Etiqueta} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
-import {Pagination} from '@cdk/models/pagination';
-import {Usuario} from '@cdk/models/usuario.model';
+import {Pagination} from '@cdk/models';
+import {Usuario} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {getEtiqueta} from '../store/selectors';
 
@@ -24,7 +24,7 @@ import {getEtiqueta} from '../store/selectors';
     styleUrls: ['./dados-basicos.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class DadosBasicosComponent implements OnInit, OnDestroy {
 
@@ -49,7 +49,7 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.etiqueta$ = this._store.pipe(select(getEtiqueta));
-        this.usuario = this._loginService.getUserProfile().usuario;
+        this.usuario = this._loginService.getUserProfile();
 
         this.modalidadeEtiquetaPagination = new Pagination();
     }

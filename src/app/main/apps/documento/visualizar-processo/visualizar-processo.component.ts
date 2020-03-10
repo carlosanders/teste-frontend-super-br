@@ -7,13 +7,13 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from '../store';
 import {Back} from 'app/store';
-import {ComponenteDigital} from '@cdk/models/componente-digital.model';
+import {ComponenteDigital} from '@cdk/models';
 import {Observable} from 'rxjs';
-import {Documento} from '@cdk/models/documento.model';
+import {Documento} from '@cdk/models';
 
 @Component({
     selector: 'visualizar-processo',
@@ -21,7 +21,7 @@ import {Documento} from '@cdk/models/documento.model';
     styleUrls: ['./visualizar-processo.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class VisualizarProcessoComponent implements OnInit, OnDestroy {
 

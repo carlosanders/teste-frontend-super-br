@@ -7,12 +7,12 @@ import {
 } from '@angular/core';
 import {merge, of} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
-import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
+import {cdkAnimations} from '@cdk/animations';
+import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
-import {ModalidadeVinculacaoDocumento} from '@cdk/models/modalidade-vinculacao-documento.model';
+import {ModalidadeVinculacaoDocumento} from '@cdk/models';
 import {ModalidadeVinculacaoDocumentoDataSource} from '@cdk/data-sources/modalidade-vinculacao-documento-data-source';
 import {FormControl} from '@angular/forms';
 
@@ -22,7 +22,7 @@ import {FormControl} from '@angular/forms';
     styleUrls: ['./cdk-modalidade-vinculacao-documento-grid.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkModalidadeVinculacaoDocumentoGridComponent implements AfterViewInit, OnInit, OnChanges {
 
@@ -153,7 +153,7 @@ export class CdkModalidadeVinculacaoDocumentoGridComponent implements AfterViewI
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _fuseSidebarService: FuseSidebarService
+        private _cdkSidebarService: CdkSidebarService
     ) {
         this.gridFilter = {};
         this.modalidadevinculacaoDocumentos = [];
@@ -209,7 +209,7 @@ export class CdkModalidadeVinculacaoDocumentoGridComponent implements AfterViewI
     }
 
     toggleFilter(): void {
-        this._fuseSidebarService.getSidebar('cdk-modalidade-vinculacao-documento-main-sidebar').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-modalidade-vinculacao-documento-main-sidebar').toggleOpen();
         this.showFilter = !this.showFilter;
     }
 

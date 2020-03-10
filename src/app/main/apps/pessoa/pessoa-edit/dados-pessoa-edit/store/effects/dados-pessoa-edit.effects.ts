@@ -10,7 +10,7 @@ import * as PessoaListActions from '../../../../pessoa-list/store/actions/pessoa
 import {PessoaService} from '@cdk/services/pessoa.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {pessoa as pessoaSchema} from '@cdk/normalizr/pessoa.schema';
-import {Pessoa} from '@cdk/models/pessoa.model';
+import {Pessoa} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
@@ -109,7 +109,7 @@ export class DadosPessoaEditEffect {
             .pipe(
                 ofType<DadosPessoaEditActions.SavePessoaSuccess>(DadosPessoaEditActions.SAVE_PESSOA_SUCCESS),
                 tap((action) => {
-                    this._router.navigate([this.routerState.url.replace('dados-pessoa', 'documentos/listar').replace('criar', action.payload.id)]).then();
+                    this._router.navigate([this.routerState.url.replace('criar/dados-pessoa', action.payload.id + '/documentos/listar')]).then();
                 })
             );
 }

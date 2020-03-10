@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { MatButtonModule, MatIconModule } from '@cdk/angular/material';
 
-import { FuseNavigationModule } from '@fuse/components';
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkNavigationModule } from '@cdk/components';
+import { CdkSharedModule } from '@cdk/shared.module';
 
 import { NavbarVerticalStyle1Component } from 'app/layout/components/navbar/vertical/style-1/style-1.component';
 import {LoginService} from 'app/main/auth/login/login.service';
@@ -15,8 +15,8 @@ import {LoginService} from 'app/main/auth/login/login.service';
         MatButtonModule,
         MatIconModule,
 
-        FuseSharedModule,
-        FuseNavigationModule
+        CdkSharedModule,
+        CdkNavigationModule
     ],
     exports     : [
         NavbarVerticalStyle1Component

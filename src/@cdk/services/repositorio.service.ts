@@ -2,11 +2,11 @@ import {Injectable} from '@angular/core';
 import {HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {Repositorio} from '@cdk/models/repositorio.model';
+import {Repositorio} from '@cdk/models';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
-import {PaginatedResponse} from '@cdk/models/paginated.response';
-import {Pessoa} from '@cdk/models/pessoa.model';
+import {PaginatedResponse} from '@cdk/models';
+import {Pessoa} from '@cdk/models';
 
 @Injectable()
 export class RepositorioService {
@@ -16,20 +16,23 @@ export class RepositorioService {
     ) {
     }
 
-    get(id: number): Observable<Repositorio> {
-        return this.modelService.getOne('repositorio', id)
+    get(id: number, context: any = '{}'): Observable<Repositorio> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.getOne('repositorio', id, new HttpParams({fromObject: params}))
             .pipe(
                 map(response => plainToClass(Repositorio, response)[0])
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
         params['offset'] = offset;
         params['order'] = order;
         params['populate'] = populate;
+        params['context'] = context;
 
         return this.modelService.get('repositorio', new HttpParams({fromObject: params}))
             .pipe(
@@ -37,13 +40,14 @@ export class RepositorioService {
             );
     }
 
-    search(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
+    search(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
         params['offset'] = offset;
         params['order'] = order;
         params['populate'] = populate;
+        params['context'] = context;
 
         return this.modelService.search('repositorio', new HttpParams({fromObject: params}))
             .pipe(
@@ -51,17 +55,20 @@ export class RepositorioService {
             );
     }
 
-    count(filters: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
+        params['context'] = context;
 
         return this.modelService.count('repositorio', new HttpParams({fromObject: params}));
     }
 
-    save(repositorio: Repositorio): Observable<Repositorio> {
+    save(repositorio: Repositorio, context: any = '{}'): Observable<Repositorio> {
+        const params = {};
+        params['context'] = context;
         if (repositorio.id) {
 
-            return this.modelService.put('repositorio', repositorio.id, classToPlain(repositorio))
+            return this.modelService.put('repositorio', repositorio.id, classToPlain(repositorio), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(Repositorio, response);
@@ -70,7 +77,7 @@ export class RepositorioService {
                     })
                 );
         } else {
-            return this.modelService.post('repositorio', classToPlain(repositorio))
+            return this.modelService.post('repositorio', classToPlain(repositorio), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(Repositorio, response);
@@ -81,7 +88,9 @@ export class RepositorioService {
         }
     }
 
-    destroy(id: number): Observable<Repositorio> {
-        return this.modelService.delete('repositorio', id);
+    destroy(id: number, context: any = '{}'): Observable<Repositorio> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.delete('repositorio', id, new HttpParams({fromObject: params}));
     }
 }

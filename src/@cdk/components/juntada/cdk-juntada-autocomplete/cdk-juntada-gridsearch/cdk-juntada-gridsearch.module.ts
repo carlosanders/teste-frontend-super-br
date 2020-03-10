@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 
 import {JuntadaService} from '@cdk/services/juntada.service';
 import {CdkJuntadaGridsearchComponent} from './cdk-juntada-gridsearch.component';
@@ -14,7 +14,7 @@ import {CdkJuntadaGridModule} from '@cdk/components/juntada/cdk-juntada-grid/cdk
 
         CdkJuntadaGridModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         JuntadaService

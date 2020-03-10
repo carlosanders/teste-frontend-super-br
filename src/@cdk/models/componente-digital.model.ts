@@ -1,12 +1,12 @@
 import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
 
-import {Usuario} from '@cdk/models/usuario.model';
-import {ModalidadeAlvoInibidor} from '@cdk/models/modalidade-alvo-inibidor.model';
-import {ModalidadeTipoInibidor} from '@cdk/models/modalidade-tipo-inibidor.model';
-import {Modelo} from '@cdk/models/modelo.model';
-import {Documento} from '@cdk/models/documento.model';
-import {OrigemDados} from '@cdk/models/origem-dados.model';
+import {Usuario} from '@cdk/models';
+import {ModalidadeAlvoInibidor} from '@cdk/models';
+import {ModalidadeTipoInibidor} from '@cdk/models';
+import {Modelo} from '@cdk/models';
+import {Documento} from '@cdk/models';
+import {OrigemDados} from '@cdk/models';
 
 import {Subscription} from 'rxjs';
 import {Processo} from './processo.model';
@@ -52,6 +52,8 @@ export class ComponenteDigital {
     hash: string;
 
     usernameLockEdicao: string;
+
+    failUpload: boolean;
 
     @Transform(value => value ? value.format() : null, {toPlainOnly: true})
     @Transform(value => value ? moment(value) : null, {toClassOnly: true})
@@ -112,6 +114,7 @@ export class ComponenteDigital {
     criadoPor?: Usuario;
 
     @Exclude({toPlainOnly: true})
+
     @Transform(value => value ? value.format() : null, {toPlainOnly: true})
     @Transform(value => value ? moment(value) : null, {toClassOnly: true})
     criadoEm?: Date;
@@ -198,5 +201,6 @@ export class ComponenteDigital {
         this.canCancel = null;
         this.sub = null;
         this.complete = null;
+
     }
 }

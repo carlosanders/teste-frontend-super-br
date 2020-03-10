@@ -15,8 +15,8 @@ import {
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 
-import {FuseSharedModule} from '@fuse/shared.module';
-import {FuseSidebarModule} from '@fuse/components';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {CdkSidebarModule} from '@cdk/components';
 
 import {EncaminhamentoComponent} from './encaminhamento.component';
 import {RouterModule, Routes} from '@angular/router';
@@ -58,8 +58,8 @@ const routes: Routes = [
 
         EncaminhamentoStoreModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
     ],
     providers: [
     ]

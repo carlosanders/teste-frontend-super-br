@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 
 import { ModalidadeCategoriaSigiloService } from '@cdk/services/modalidade-categoria-sigilo.service';
 import { CdkModalidadeCategoriaSigiloGridsearchComponent } from './cdk-modalidade-categoria-sigilo-gridsearch.component';
@@ -14,7 +14,7 @@ import { CdkModalidadeCategoriaSigiloGridModule } from '@cdk/components/modalida
 
         CdkModalidadeCategoriaSigiloGridModule,
         
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         ModalidadeCategoriaSigiloService

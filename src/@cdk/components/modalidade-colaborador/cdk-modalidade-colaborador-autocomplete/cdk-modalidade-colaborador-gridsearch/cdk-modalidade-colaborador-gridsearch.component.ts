@@ -10,14 +10,14 @@ import {
 } from '@angular/core';
 import {of} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 import {ModalidadeColaboradorService} from '@cdk/services/modalidade-colaborador.service';
-import {ModalidadeColaborador} from '@cdk/models/modalidade-colaborador.model';
+import {ModalidadeColaborador} from '@cdk/models';
 
 @Component({
     selector: 'cdk-modalidade-colaborador-gridsearch',
@@ -25,7 +25,7 @@ import {ModalidadeColaborador} from '@cdk/models/modalidade-colaborador.model';
     styleUrls: ['./cdk-modalidade-colaborador-gridsearch.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkModalidadeColaboradorGridsearchComponent implements OnInit {
 

@@ -124,7 +124,8 @@ export class CdkTarefaListItemComponent implements OnInit {
         this.toggleInSelectedTarefas.emit(this.tarefa.id);
     }
 
-    doToggleUrgente(): void {
+    doToggleUrgente($event: Event): void {
+        $event.stopPropagation();
         this.toggleUrgente.emit(this.tarefa);
     }
 

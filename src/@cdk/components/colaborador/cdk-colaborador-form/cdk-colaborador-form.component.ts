@@ -7,13 +7,13 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import { fuseAnimations } from '@fuse/animations';
+import { cdkAnimations } from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { Colaborador } from '@cdk/models/colaborador.model';
-import { ModalidadeColaborador } from '@cdk/models/modalidade-colaborador.model';
-import {Usuario} from '@cdk/models/usuario.model';
-import {Cargo} from '@cdk/models/cargo.model';
-import {Pagination} from '@cdk/models/pagination';
+import { Colaborador } from '@cdk/models';
+import { ModalidadeColaborador } from '@cdk/models';
+import {Usuario} from '@cdk/models';
+import {Cargo} from '@cdk/models';
+import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-colaborador-form',
@@ -21,7 +21,7 @@ import {Pagination} from '@cdk/models/pagination';
     styleUrls: ['./cdk-colaborador-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkColaboradorFormComponent implements OnChanges, OnDestroy {
 

@@ -7,18 +7,18 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Tarefa} from '@cdk/models/tarefa.model';
-import {EspecieTarefa} from '@cdk/models/especie-tarefa.model';
-import {Usuario} from '@cdk/models/usuario.model';
-import {Processo} from '@cdk/models/processo.model';
+import {Tarefa} from '@cdk/models';
+import {EspecieTarefa} from '@cdk/models';
+import {Usuario} from '@cdk/models';
+import {Processo} from '@cdk/models';
 import {MAT_DATETIME_FORMATS} from '@mat-datetimepicker/core';
-import {Setor} from '@cdk/models/setor.model';
+import {Setor} from '@cdk/models';
 import {catchError, debounceTime, distinctUntilChanged, switchMap, distinct} from 'rxjs/operators';
 import {of} from 'rxjs';
-import {Pagination} from '@cdk/models/pagination';
-import {Favorito} from '@cdk/models/favorito.model';
+import {Pagination} from '@cdk/models';
+import {Favorito} from '@cdk/models';
 import {FavoritoService} from '@cdk/services/favorito.service';
 import {LoginService} from '../../../../app/main/auth/login/login.service';
 import {Responsavel} from '../../../models/respensavel.model';
@@ -29,7 +29,7 @@ import {Responsavel} from '../../../models/respensavel.model';
     styleUrls: ['./cdk-tarefa-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations,
+    animations: cdkAnimations,
     providers: [
         {
             provide: MAT_DATETIME_FORMATS,
@@ -452,7 +452,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         this.especieTarefaListIsLoading = true;
 
         this._favoritoService.query(
-            `{"usuario.id": "eq:${this._profile.usuario.id}", "especieTarefa": "isNotNull"}`,
+            `{"usuario.id": "eq:${this._profile.id}", "especieTarefa": "isNotNull"}`,
             5,
             0,
             '{"prioritario": "DESC"}',
@@ -484,7 +484,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         this.setorResponsavelListIsLoading = true;
 
         this._favoritoService.query(
-            `{"usuario.id": "eq:${this._profile.usuario.id}", "setorResponsavel": "isNotNull"}`,
+            `{"usuario.id": "eq:${this._profile.id}", "setorResponsavel": "isNotNull"}`,
             5,
             0,
             '{"prioritario": "DESC"}',

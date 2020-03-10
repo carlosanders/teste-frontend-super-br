@@ -7,16 +7,16 @@ import {
 } from '@angular/core';
 import {merge, of} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 
 import {tap} from 'rxjs/operators';
 
-import {GeneroAtividade} from '@cdk/models/genero-atividade.model';
+import {GeneroAtividade} from '@cdk/models';
 import {GeneroAtividadeDataSource} from '@cdk/data-sources/genero-atividade-data-source';
 import {FormControl} from '@angular/forms';
-import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
+import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 
 @Component({
     selector: 'cdk-genero-atividade-grid',
@@ -24,7 +24,7 @@ import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
     styleUrls: ['./cdk-genero-atividade-grid.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkGeneroAtividadeGridComponent implements AfterViewInit, OnInit, OnChanges {
 
@@ -155,7 +155,7 @@ export class CdkGeneroAtividadeGridComponent implements AfterViewInit, OnInit, O
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _fuseSidebarService: FuseSidebarService
+        private _cdkSidebarService: CdkSidebarService
     ) {
         this.gridFilter = {};
         this.generoAtividades = [];
@@ -193,7 +193,7 @@ export class CdkGeneroAtividadeGridComponent implements AfterViewInit, OnInit, O
     }
 
     toggleFilter(): void {
-        this._fuseSidebarService.getSidebar('cdk-genero-atividade-main-sidebar').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-genero-atividade-main-sidebar').toggleOpen();
         this.showFilter = !this.showFilter;
     }
 

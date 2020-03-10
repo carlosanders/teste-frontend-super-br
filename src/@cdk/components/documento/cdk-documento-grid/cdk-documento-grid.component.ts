@@ -7,15 +7,15 @@ import {
 } from '@angular/core';
 import {merge, of} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 import {DocumentoDataSource} from '@cdk/data-sources/documento-data-source';
-import {Documento} from '@cdk/models/documento.model';
+import {Documento} from '@cdk/models';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
-import {ComponenteDigital} from '@cdk/models/componente-digital.model';
+import {ComponenteDigital} from '@cdk/models';
 import {FormControl} from '@angular/forms';
-import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
+import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 
 @Component({
     selector: 'cdk-documento-grid',
@@ -23,7 +23,7 @@ import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
     styleUrls: ['./cdk-documento-grid.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkDocumentoGridComponent implements AfterViewInit, OnInit, OnChanges {
 
@@ -266,7 +266,7 @@ export class CdkDocumentoGridComponent implements AfterViewInit, OnInit, OnChang
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _componenteDigitalService: ComponenteDigitalService,
-        private _fuseSidebarService: FuseSidebarService
+        private _cdkSidebarService: CdkSidebarService
     ) {
         this.gridFilter = {};
     }
@@ -320,7 +320,7 @@ export class CdkDocumentoGridComponent implements AfterViewInit, OnInit, OnChang
     }
 
     toggleFilter(): void {
-        this._fuseSidebarService.getSidebar('cdk-documento-main-sidebar').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-documento-main-sidebar').toggleOpen();
         this.showFilter = !this.showFilter;
     }
 

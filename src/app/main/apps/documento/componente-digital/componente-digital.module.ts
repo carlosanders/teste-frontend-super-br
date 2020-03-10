@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 
 import {TranslateModule} from '@ngx-translate/core';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {ComponenteDigitalComponent} from './componente-digital.component';
 import {RouterModule, Routes} from '@angular/router';
 import {ComponenteDigitalStoreModule} from './store/store.module';
@@ -21,6 +21,10 @@ const routes: Routes = [
             },
             {
                 path: 'visualizar',
+                loadChildren: () => import('./componente-digital-view/componente-digital-view.module').then(m => m.ComponenteDigitalViewModule),
+            },
+            {
+                path: 'visualizar/:chaveAcessoHandle',
                 loadChildren: () => import('./componente-digital-view/componente-digital-view.module').then(m => m.ComponenteDigitalViewModule),
             },
             {
@@ -46,7 +50,7 @@ const routes: Routes = [
         MatIconModule,
         MatButtonModule,
         TranslateModule,
-        FuseSharedModule,
+        CdkSharedModule,
 
         ComponenteDigitalStoreModule,
 

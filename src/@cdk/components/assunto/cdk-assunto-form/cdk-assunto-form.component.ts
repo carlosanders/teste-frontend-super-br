@@ -7,11 +7,11 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Assunto} from '@cdk/models/assunto.model';
-import {AssuntoAdministrativo} from '@cdk/models/assunto-administrativo.model';
-import {Pagination} from '@cdk/models/pagination';
+import {Assunto} from '@cdk/models';
+import {AssuntoAdministrativo} from '@cdk/models';
+import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-assunto-form',
@@ -19,7 +19,7 @@ import {Pagination} from '@cdk/models/pagination';
     styleUrls: ['./cdk-assunto-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkAssuntoFormComponent implements OnChanges, OnDestroy {
 

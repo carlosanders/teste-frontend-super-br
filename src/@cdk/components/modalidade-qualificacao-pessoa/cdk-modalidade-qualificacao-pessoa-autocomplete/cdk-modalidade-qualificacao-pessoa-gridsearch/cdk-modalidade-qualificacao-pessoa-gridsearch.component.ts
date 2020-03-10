@@ -10,14 +10,14 @@ import {
 } from '@angular/core';
 import {of} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 import {ModalidadeQualificacaoPessoaService} from '@cdk/services/modalidade-qualificacao-pessoa.service';
-import {ModalidadeQualificacaoPessoa} from '@cdk/models/modalidade-qualificacao-pessoa.model';
+import {ModalidadeQualificacaoPessoa} from '@cdk/models';
 
 @Component({
     selector: 'cdk-modalidade-qualificacao-pessoa-gridsearch',
@@ -25,7 +25,7 @@ import {ModalidadeQualificacaoPessoa} from '@cdk/models/modalidade-qualificacao-
     styleUrls: ['./cdk-modalidade-qualificacao-pessoa-gridsearch.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkModalidadeQualificacaoPessoaGridsearchComponent implements OnInit {
 

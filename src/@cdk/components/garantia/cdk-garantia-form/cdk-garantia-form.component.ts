@@ -7,11 +7,11 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Garantia} from '@cdk/models/garantia.model';
-import {ModalidadeGarantia} from '@cdk/models/modalidade-garantia.model';
-import {Pagination} from '@cdk/models/pagination';
+import {Garantia} from '@cdk/models';
+import {ModalidadeGarantia} from '@cdk/models';
+import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-garantia-form',
@@ -19,7 +19,7 @@ import {Pagination} from '@cdk/models/pagination';
     styleUrls: ['./cdk-garantia-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkGarantiaFormComponent implements OnChanges, OnDestroy {
 

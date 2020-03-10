@@ -6,23 +6,24 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {DocumentoAvulso} from '@cdk/models/documento-avulso.model';
+import {DocumentoAvulso} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 import * as moment from 'moment';
-import {Colaborador} from '@cdk/models/colaborador.model';
+import {Colaborador} from '@cdk/models';
 import {LoginService} from '../../../auth/login/login.service';
-import {Processo} from '@cdk/models/processo.model';
-import {Tarefa} from '@cdk/models/tarefa.model';
+import {Processo} from '@cdk/models';
+import {Tarefa} from '@cdk/models';
 import {takeUntil} from 'rxjs/operators';
-import {Pessoa} from '@cdk/models/pessoa.model';
+import {Pessoa} from '@cdk/models';
 import {Router} from '@angular/router';
 import {getRouterState} from '../../../../store/reducers';
+import {Usuario} from "../../../../../@cdk/models/usuario.model";
 
 @Component({
     selector: 'documento-avulso-create',
@@ -30,7 +31,7 @@ import {getRouterState} from '../../../../store/reducers';
     styleUrls: ['./documento-avulso-create.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class DocumentoAvulsoCreateComponent implements OnInit, OnDestroy {
 
@@ -46,7 +47,7 @@ export class DocumentoAvulsoCreateComponent implements OnInit, OnDestroy {
     tarefa$: Observable<any>;
     tarefa: Tarefa;
 
-    _profile: Colaborador;
+    _profile: Usuario;
 
     especieDocumentoAvulsoPagination: Pagination;
     setorDestinoPagination: Pagination;

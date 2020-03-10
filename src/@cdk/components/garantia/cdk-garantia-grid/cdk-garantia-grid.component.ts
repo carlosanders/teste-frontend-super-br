@@ -7,12 +7,12 @@ import {
 } from '@angular/core';
 import {merge, of} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
-import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
+import {cdkAnimations} from '@cdk/animations';
+import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 import {GarantiaDataSource} from '@cdk/data-sources/garantia-data-source';
-import {Garantia} from '@cdk/models/garantia.model';
+import {Garantia} from '@cdk/models';
 import {FormControl} from '@angular/forms';
 
 @Component({
@@ -21,7 +21,7 @@ import {FormControl} from '@angular/forms';
     styleUrls: ['./cdk-garantia-grid.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkGarantiaGridComponent implements AfterViewInit, OnInit, OnChanges {
 
@@ -167,7 +167,7 @@ export class CdkGarantiaGridComponent implements AfterViewInit, OnInit, OnChange
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _fuseSidebarService: FuseSidebarService
+        private _cdkSidebarService: CdkSidebarService
     ) {
         this.gridFilter = {};
     }
@@ -223,7 +223,7 @@ export class CdkGarantiaGridComponent implements AfterViewInit, OnInit, OnChange
     }
 
     toggleFilter(): void {
-        this._fuseSidebarService.getSidebar('cdk-garantia-main-sidebar').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-garantia-main-sidebar').toggleOpen();
         this.showFilter = !this.showFilter;
     }
 

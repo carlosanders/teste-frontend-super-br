@@ -10,14 +10,14 @@ import {
 } from '@angular/core';
 import {of} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 import {RepresentanteService} from '@cdk/services/representante.service';
-import {Representante} from '@cdk/models/representante.model';
+import {Representante} from '@cdk/models';
 
 @Component({
     selector: 'cdk-representante-gridsearch',
@@ -25,7 +25,7 @@ import {Representante} from '@cdk/models/representante.model';
     styleUrls: ['./cdk-representante-gridsearch.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkRepresentanteGridsearchComponent implements OnInit {
 

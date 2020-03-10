@@ -3,8 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { FuseConfigService } from '@fuse/services/config.service';
-import { fuseAnimations } from '@fuse/animations';
+import { CdkConfigService } from '@cdk/services/config.service';
+import { cdkAnimations } from '@cdk/animations';
 
 import * as fromStore from 'app/main/auth/login/store';
 import { getLoginAppState } from 'app/main/auth/login/store';
@@ -14,7 +14,7 @@ import { getLoginAppState } from 'app/main/auth/login/store';
     templateUrl  : './login.component.html',
     styleUrls    : ['./login.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    animations   : fuseAnimations
+    animations   : cdkAnimations
 })
 export class LoginComponent implements OnInit
 {
@@ -26,18 +26,18 @@ export class LoginComponent implements OnInit
     /**
      * Constructor
      *
-     * @param fuseConfigService
+     * @param cdkConfigService
      * @param formBuilder
      * @param store
      */
     constructor(
-        private fuseConfigService: FuseConfigService,
+        private cdkConfigService: CdkConfigService,
         private formBuilder: FormBuilder,
         private store: Store<fromStore.LoginState>
     )
     {
         // Configure the layout
-        this.fuseConfigService.config = {
+        this.cdkConfigService.config = {
             layout: {
                 navbar   : {
                     hidden: true
@@ -66,6 +66,8 @@ export class LoginComponent implements OnInit
      */
     ngOnInit(): void
     {
+        this.store.dispatch(new fromStore.Unload());
+
         this.loading = false;
 
         this.loginForm = this.formBuilder.group({

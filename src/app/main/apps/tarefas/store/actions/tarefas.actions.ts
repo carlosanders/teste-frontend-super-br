@@ -1,6 +1,8 @@
 
 import {Action} from '@ngrx/store';
 
+export const UNLOAD_TAREFAS = '[TAREFAS] UNLOAD TAREFAS';
+
 export const GET_TAREFAS = '[TAREFAS] GET TAREFAS';
 export const GET_TAREFAS_SUCCESS = '[TAREFAS] GET TAREFAS SUCCESS';
 export const GET_TAREFAS_FAILED = '[TAREFAS] GET TAREFAS FAILED';
@@ -52,6 +54,16 @@ export const GET_ASSUNTOS_PROCESSO_TAREFA_FAILED = '[TAREFA] GET ASSUNTOS PROCES
 */
 
 
+
+/**
+ * Unload Tarefas
+ */
+export class UnloadTarefas implements Action {
+    readonly type = UNLOAD_TAREFAS;
+
+    constructor(public payload: any) {
+    }
+}
 
 /**
  * Get Tarefas
@@ -426,7 +438,8 @@ export class GetAssuntosProcessoTarefaFailed implements Action {
 }
 
 export type TarefasActionsAll
-    = GetTarefas
+    = UnloadTarefas
+    | GetTarefas
     | GetTarefasSuccess
     | GetTarefasFailed
     | CreateTarefa

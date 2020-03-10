@@ -2,9 +2,9 @@ import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Output, ViewChild, ViewEncapsulation} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {MatAutocompleteSelectedEvent, MatChipInputEvent, MatAutocomplete} from '@cdk/angular/material';
-import {fuseAnimations} from '@fuse/animations';
-import {Etiqueta} from '@cdk/models/etiqueta.model';
-import {Pagination} from '@cdk/models/pagination';
+import {cdkAnimations} from '@cdk/animations';
+import {Etiqueta} from '@cdk/models';
+import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-etiqueta-chips',
@@ -12,7 +12,7 @@ import {Pagination} from '@cdk/models/pagination';
     styleUrls: ['./cdk-etiqueta-chips.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkEtiquetaChipsComponent {
 

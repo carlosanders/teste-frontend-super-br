@@ -6,10 +6,10 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {Tarefa} from '@cdk/models/tarefa.model';
+import {Tarefa} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
@@ -19,6 +19,7 @@ import {getOperacoesState, getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {filter, takeUntil} from 'rxjs/operators';
 import * as moment from 'moment';
+import {Colaborador} from "../../../../../@cdk/models/colaborador.model";
 
 @Component({
     selector: 'tarefa-create',
@@ -26,7 +27,7 @@ import * as moment from 'moment';
     styleUrls: ['./tarefa-create-bloco.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class TarefaCreateBlocoComponent implements OnInit, OnDestroy {
 
@@ -41,7 +42,7 @@ export class TarefaCreateBlocoComponent implements OnInit, OnDestroy {
 
     operacoes: any[] = [];
 
-    private _profile: any;
+    private _profile: Colaborador;
 
     routerState: any;
 
@@ -61,7 +62,7 @@ export class TarefaCreateBlocoComponent implements OnInit, OnDestroy {
         this.tarefas$ = this._store.pipe(select(getSelectedTarefas));
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
-        this._profile = _loginService.getUserProfile();
+        this._profile = _loginService.getUserProfile().colaborador;
 
     }
 

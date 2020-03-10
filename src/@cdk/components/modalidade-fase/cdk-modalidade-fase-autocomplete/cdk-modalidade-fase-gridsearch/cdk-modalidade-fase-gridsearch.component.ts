@@ -10,14 +10,14 @@ import {
 } from '@angular/core';
 import {of} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 import {ModalidadeFaseService} from '@cdk/services/modalidade-fase.service';
-import {ModalidadeFase} from '@cdk/models/modalidade-fase.model';
+import {ModalidadeFase} from '@cdk/models';
 
 @Component({
     selector: 'cdk-modalidade-fase-gridsearch',
@@ -25,7 +25,7 @@ import {ModalidadeFase} from '@cdk/models/modalidade-fase.model';
     styleUrls: ['./cdk-modalidade-fase-gridsearch.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkModalidadeFaseGridsearchComponent implements OnInit {
 

@@ -1,28 +1,30 @@
 import {ChangeDetectorRef, Component, EventEmitter, OnDestroy, OnInit, Output, QueryList, ViewChildren, ViewEncapsulation} from '@angular/core';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
-import {FusePerfectScrollbarDirective} from '@fuse/directives/fuse-perfect-scrollbar/fuse-perfect-scrollbar.directive';
-import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
+import {cdkAnimations} from '@cdk/animations';
+import {CdkPerfectScrollbarDirective} from '@cdk/directives/cdk-perfect-scrollbar/cdk-perfect-scrollbar.directive';
+import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 
 import {JuntadaService} from '@cdk/services/juntada.service';
-import {Juntada} from '@cdk/models/juntada.model';
+import {Juntada} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {DomSanitizer} from '@angular/platform-browser';
-import {filter} from 'rxjs/operators';
-import {ComponenteDigital} from '@cdk/models/componente-digital.model';
+import {filter, takeUntil} from 'rxjs/operators';
+import {ComponenteDigital} from '@cdk/models';
+import {getRouterState} from "../../../../store/reducers";
 
 @Component({
     selector: 'processo-view',
     templateUrl: './processo-view.component.html',
     styleUrls: ['./processo-view.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class ProcessoViewComponent implements OnInit, OnDestroy {
 
+    private _unsubscribeAll: Subject<any> = new Subject();
     binary$: Observable<any>;
 
     juntadas$: Observable<Juntada[]>;
@@ -38,8 +40,8 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
 
     animationDirection: 'left' | 'right' | 'none';
 
-    @ViewChildren(FusePerfectScrollbarDirective)
-    fuseScrollbarDirectives: QueryList<FusePerfectScrollbarDirective>;
+    @ViewChildren(CdkPerfectScrollbarDirective)
+    cdkScrollbarDirectives: QueryList<CdkPerfectScrollbarDirective>;
 
     fileName = '';
 
@@ -49,6 +51,11 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     pagination$: any;
     pagination: any;
 
+    routerState: any;
+    routerState$: Observable<any>;
+
+    chaveAcesso: string;
+
     @Output()
     select: EventEmitter<ComponenteDigital> = new EventEmitter();
 
@@ -56,7 +63,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
      *
      * @param _juntadaService
      * @param _changeDetectorRef
-     * @param _fuseSidebarService
+     * @param _cdkSidebarService
      * @param _componenteDigitalService
      * @param _sanitizer
      * @param _store
@@ -64,7 +71,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     constructor(
         private _juntadaService: JuntadaService,
         private _changeDetectorRef: ChangeDetectorRef,
-        private _fuseSidebarService: FuseSidebarService,
+        private _cdkSidebarService: CdkSidebarService,
         private _componenteDigitalService: ComponenteDigitalService,
         private _sanitizer: DomSanitizer,
         private _store: Store<fromStore.ProcessoViewAppState>
@@ -75,7 +82,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         this.currentStep$ = this._store.pipe(select(fromStore.getCurrentStep));
         this.index$ = this._store.pipe(select(fromStore.getIndex));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
-
+        this.routerState$ = this._store.pipe(select(getRouterState));
         this.juntadas$.pipe(filter(juntadas => !!juntadas)).subscribe(
             juntadas => {
                 this.juntadas = juntadas;
@@ -122,10 +129,29 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
+        this._store
+            .pipe(
+                select(getRouterState)
+            ).subscribe(routerState => {
+            if (routerState) {
+                this.routerState = routerState.state;
+            }
+        });
+
+        this.routerState$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(routerState => {
+            this.chaveAcesso = routerState.state.params['chaveAcessoHandle'];
+        });
+
         // this._store.dispatch(new fromStore.SetCurrentStep({step: 0, subStep: 0}));
     }
 
     ngOnDestroy(): void {
+        this._changeDetectorRef.detach();
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
         this._store.dispatch(new fromStore.UnloadJuntadas());
     }
 
@@ -200,7 +226,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
      * @param name
      */
     toggleSidebar(name): void {
-        this._fuseSidebarService.getSidebar(name).toggleOpen();
+        this._cdkSidebarService.getSidebar(name).toggleOpen();
     }
 
     onScroll(): void {
@@ -211,7 +237,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
 
         const nparams = {
             ...this.pagination,
-            limit: this.pagination.limit + this.pagination.limit
+            offset: this.pagination.offset + this.pagination.limit
         };
 
         this._store.dispatch(new fromStore.GetJuntadas(nparams));

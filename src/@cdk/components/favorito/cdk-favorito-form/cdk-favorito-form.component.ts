@@ -7,13 +7,13 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import { fuseAnimations } from '@fuse/animations';
+import { cdkAnimations } from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { Favorito } from '@cdk/models/favorito.model';
-import {Pagination} from '@cdk/models/pagination';
-import {EspecieAtividade} from '@cdk/models/especie-atividade.model';
-import {EspecieTarefa} from '@cdk/models/especie-tarefa.model';
-import {Setor} from '@cdk/models/setor.model';
+import { Favorito } from '@cdk/models';
+import {Pagination} from '@cdk/models';
+import {EspecieAtividade} from '@cdk/models';
+import {EspecieTarefa} from '@cdk/models';
+import {Setor} from '@cdk/models';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 
@@ -23,7 +23,7 @@ import {of} from 'rxjs';
     styleUrls: ['./cdk-favorito-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkFavoritoFormComponent implements OnChanges, OnDestroy, OnInit {
 

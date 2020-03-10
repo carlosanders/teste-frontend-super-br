@@ -6,18 +6,19 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
 
-import {Acao} from '@cdk/models/acao.model';
+import {Acao} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
-import {Etiqueta} from '@cdk/models/etiqueta.model';
-import {Pagination} from '@cdk/models/pagination';
+import {Etiqueta} from '@cdk/models';
+import {Pagination} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Colaborador} from '@cdk/models/colaborador.model';
+import {Colaborador} from '@cdk/models';
 import {getEtiqueta} from '../../store/selectors';
+import {Usuario} from "../../../../../../../../@cdk/models/usuario.model";
 
 @Component({
     selector: 'acao-edit',
@@ -25,7 +26,7 @@ import {getEtiqueta} from '../../store/selectors';
     styleUrls: ['./acao-edit.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class AcaoEditComponent implements OnInit, OnDestroy {
 
@@ -41,7 +42,7 @@ export class AcaoEditComponent implements OnInit, OnDestroy {
     setorPagination: Pagination;
     usuarioPagination: Pagination;
 
-    _profile: Colaborador;
+    _profile: Usuario;
 
     /**
      * @param _store
@@ -66,7 +67,7 @@ export class AcaoEditComponent implements OnInit, OnDestroy {
         this.setorPagination.filter = {parent: 'isNotNull'};
 
         this.usuarioPagination = new Pagination();
-        this.usuarioPagination.filter = {id: `neq:${this._profile.usuario.id}`};
+        this.usuarioPagination.filter = {id: `neq:${this._profile.id}`};
     }
 
     // -----------------------------------------------------------------------------------------------------

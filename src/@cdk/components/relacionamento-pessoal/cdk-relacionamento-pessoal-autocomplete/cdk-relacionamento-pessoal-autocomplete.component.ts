@@ -6,14 +6,14 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
-import {RelacionamentoPessoal} from '@cdk/models/relacionamento-pessoal.model';
+import {cdkAnimations} from '@cdk/animations';
+import {RelacionamentoPessoal} from '@cdk/models';
 import {RelacionamentoPessoalService} from '@cdk/services/relacionamento-pessoal.service';
 import {FormControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-relacionamento-pessoal-autocomplete',
@@ -21,7 +21,7 @@ import {Pagination} from '@cdk/models/pagination';
     styleUrls: ['./cdk-relacionamento-pessoal-autocomplete.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations,
+    animations: cdkAnimations,
     exportAs: 'relacionamentoPessoalAutocomplete',
 })
 export class CdkRelacionamentoPessoalAutocompleteComponent implements OnInit {

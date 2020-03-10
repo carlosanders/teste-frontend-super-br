@@ -11,11 +11,11 @@ import {TranslateModule} from '@ngx-translate/core';
 import {CKEditorModule} from 'ng2-ckeditor';
 import 'hammerjs';
 
-import {FuseModule} from '@fuse/fuse.module';
-import {FuseSharedModule} from '@fuse/shared.module';
-import {FuseProgressBarModule, FuseSidebarModule, FuseThemeOptionsModule} from '@fuse/components';
+import {CdkModule} from '@cdk/cdk.module';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {CdkProgressBarModule, CdkSidebarModule, CdkThemeOptionsModule} from '@cdk/components';
 
-import {fuseConfig} from 'app/fuse-config';
+import {cdkConfig} from 'app/cdk-config';
 
 import {AppComponent} from 'app/app.component';
 import {AppStoreModule} from 'app/store/store.module';
@@ -28,7 +28,7 @@ import {LoginService} from './main/auth/login/login.service';
 
 import {FakeDbService} from 'app/fake-db/fake-db.service';
 
-import {ModelModule} from '@cdk/models/model.module';
+import {ModelModule} from '@cdk/models';
 
 import {MAT_DATE_LOCALE} from '@cdk/angular/material';
 import {ErrorInterceptor} from './main/auth/login/error.interceptor';
@@ -77,12 +77,12 @@ const routingConfiguration: ExtraOptions = {
         MatIconModule,
         MatSnackBarModule,
 
-        // Fuse modules
-        FuseModule.forRoot(fuseConfig),
-        FuseProgressBarModule,
-        FuseSharedModule,
-        FuseSidebarModule,
-        FuseThemeOptionsModule,
+        // Cdk modules
+        CdkModule.forRoot(cdkConfig),
+        CdkProgressBarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
+        CdkThemeOptionsModule,
 
         CKEditorModule,
 

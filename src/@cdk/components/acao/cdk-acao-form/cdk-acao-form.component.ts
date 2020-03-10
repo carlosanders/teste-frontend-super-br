@@ -7,13 +7,13 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Acao} from '@cdk/models/acao.model';
-import {Pagination} from '@cdk/models/pagination';
+import {Acao} from '@cdk/models';
+import {Pagination} from '@cdk/models';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
-import {Modelo} from '@cdk/models/modelo.model';
+import {Modelo} from '@cdk/models';
 
 @Component({
     selector: 'cdk-acao-form',
@@ -21,7 +21,7 @@ import {Modelo} from '@cdk/models/modelo.model';
     styleUrls: ['./cdk-acao-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkAcaoFormComponent implements OnInit, OnChanges, OnDestroy {
 

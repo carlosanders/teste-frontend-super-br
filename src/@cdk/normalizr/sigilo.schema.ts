@@ -1,12 +1,10 @@
-import {schema} from '@cdk/normalizr-src';
-import {usuario} from './usuario.schema';
-import {modalidadeCategoriaSigilo} from './modalidade-categoria-sigilo.schema';
-import {processo} from './processo.schema';
-import {documento} from './documento.schema';
-import {origemDados} from './origem-dados.schema';
-import {tipoSigilo} from './tipo-sigilo.schema';
+import {usuario} from './index.schema';
+import {modalidadeCategoriaSigilo} from './index.schema';
+import {origemDados} from './index.schema';
+import {tipoSigilo} from './index.schema';
+import {sigilo as sigiloSchema} from './index.schema';
 
-export const sigilo = new schema.Entity('sigilo', {
+sigiloSchema.define({
     modalidadeCategoriaSigilo: modalidadeCategoriaSigilo,
     tipoSigilo: tipoSigilo,
     origemDados: origemDados,
@@ -14,3 +12,5 @@ export const sigilo = new schema.Entity('sigilo', {
     atualizadoPor: usuario,
     apagadoPor: usuario
 });
+
+export const sigilo = sigiloSchema;

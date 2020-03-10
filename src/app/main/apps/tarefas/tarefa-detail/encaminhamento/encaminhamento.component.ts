@@ -6,14 +6,14 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState} from 'app/store/reducers';
 import * as fromTarefaDetailStore from '../store';
 import * as fromStore from './store';
 import {Observable, Subject} from 'rxjs';
-import {Tarefa} from '@cdk/models/tarefa.model';
+import {Tarefa} from '@cdk/models';
 import {takeUntil} from 'rxjs/operators';
 
 @Component({
@@ -22,7 +22,7 @@ import {takeUntil} from 'rxjs/operators';
     styleUrls: ['./encaminhamento.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class EncaminhamentoComponent implements OnInit, OnDestroy {
 

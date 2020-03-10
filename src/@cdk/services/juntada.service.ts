@@ -2,10 +2,10 @@ import {Injectable} from '@angular/core';
 import {HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {Juntada} from '@cdk/models/juntada.model';
+import {Juntada} from '@cdk/models';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
-import {PaginatedResponse} from '@cdk/models/paginated.response';
+import {PaginatedResponse} from '@cdk/models';
 
 @Injectable()
 export class JuntadaService {
@@ -15,20 +15,23 @@ export class JuntadaService {
     ) {
     }
 
-    get(id: number): Observable<Juntada> {
-        return this.modelService.getOne('juntada', id)
+    get(id: number, context: any = '{}'): Observable<Juntada> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.getOne('juntada', id, new HttpParams({fromObject: params}))
             .pipe(
                 map(response => plainToClass(Juntada, response)[0])
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
         params['offset'] = offset;
         params['order'] = order;
         params['populate'] = populate;
+        params['context'] = context;
 
         return this.modelService.get('juntada', new HttpParams({fromObject: params}))
             .pipe(
@@ -36,14 +39,17 @@ export class JuntadaService {
             );
     }
 
-    count(filters: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
+        params['context'] = context;
 
         return this.modelService.count('juntada', new HttpParams({fromObject: params}));
     }
 
-    save(juntada: Juntada): Observable<Juntada> {
+    save(juntada: Juntada, context: any = '{}'): Observable<Juntada> {
+        const params = {};
+        params['context'] = context;
         if (juntada.id) {
             return this.modelService.put('juntada', juntada.id, classToPlain(juntada))
                 .pipe(
@@ -65,7 +71,9 @@ export class JuntadaService {
         }
     }
 
-    destroy(id: number): Observable<Juntada> {
-        return this.modelService.delete('juntada', id);
+    destroy(id: number, context: any = '{}'): Observable<Juntada> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.delete('juntada', id, new HttpParams({fromObject: params}));
     }
 }

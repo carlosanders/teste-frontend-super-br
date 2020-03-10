@@ -11,8 +11,8 @@ import {
     MatSelectModule,
 } from '@cdk/angular/material';
 
-import {FuseSidebarModule} from '@fuse/components';
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSidebarModule} from '@cdk/components/index';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {LembreteService} from '@cdk/services/lembrete.service';
 import {CdkLembreteGridComponent} from './cdk-lembrete-grid.component';
 import {CdkLembreteAutocompleteModule} from '@cdk/components/lembrete/cdk-lembrete-autocomplete/cdk-lembrete-autocomplete.module';
@@ -38,8 +38,8 @@ import {CdkLembreteMainSidebarComponent} from './sidebars/main/sidebars/main/mai
         CdkLembreteAutocompleteModule,
         CdkLembreteGridFilterModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
     ],
     providers: [
         LembreteService,

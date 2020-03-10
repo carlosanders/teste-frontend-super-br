@@ -1,10 +1,12 @@
-import {schema} from '@cdk/normalizr-src';
-import {setor} from './setor.schema';
-import {usuario} from './usuario.schema';
+import {setor} from './index.schema';
+import {usuario} from './index.schema';
+import {localizador as localizadorSchema} from './index.schema';
 
-export const localizador = new schema.Entity('localizador', {
+localizadorSchema.define({
     setor: setor,
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario
 });
+
+export const localizador = localizadorSchema;

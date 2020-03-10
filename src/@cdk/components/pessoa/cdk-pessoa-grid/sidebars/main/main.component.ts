@@ -1,11 +1,11 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Output, ViewEncapsulation} from '@angular/core';
-import {fuseAnimations} from '@fuse/animations';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEncapsulation} from '@angular/core';
+import {cdkAnimations} from '@cdk/animations';
 
 @Component({
     selector: 'cdk-pessoa-main-sidebar',
     templateUrl: './main.component.html',
     styleUrls: ['./main.component.scss'],
-    animations: fuseAnimations,
+    animations: cdkAnimations,
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None
 })
@@ -14,6 +14,9 @@ export class CdkPessoaMainSidebarComponent {
     selected = new EventEmitter<any>();
 
     gridFilter: any;
+
+    @Input()
+    mode = 'list';
 
     setGridFilter(gridFilter): void {
         this.gridFilter = gridFilter;

@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 
 import {GeneroTarefaService} from '@cdk/services/genero-tarefa.service';
 import {CdkGeneroTarefaGridsearchComponent} from './cdk-genero-tarefa-gridsearch.component';
@@ -14,7 +14,7 @@ import {CdkGeneroTarefaGridModule} from '@cdk/components/genero-tarefa/cdk-gener
 
         CdkGeneroTarefaGridModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         GeneroTarefaService

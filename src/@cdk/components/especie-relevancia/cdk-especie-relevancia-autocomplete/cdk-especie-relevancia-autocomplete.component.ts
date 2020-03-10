@@ -6,14 +6,14 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
-import {EspecieRelevancia} from '@cdk/models/especie-relevancia.model';
+import {cdkAnimations} from '@cdk/animations';
+import {EspecieRelevancia} from '@cdk/models';
 import {EspecieRelevanciaService} from '@cdk/services/especie-relevancia.service';
 import {FormControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
-import {Pagination} from '@cdk/models/pagination';
+import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-especie-relevancia-autocomplete',
@@ -21,7 +21,7 @@ import {Pagination} from '@cdk/models/pagination';
     styleUrls: ['./cdk-especie-relevancia-autocomplete.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations,
+    animations: cdkAnimations,
     exportAs: 'especieRelevanciaAutocomplete',
 })
 export class CdkEspecieRelevanciaAutocompleteComponent implements OnInit {

@@ -1,7 +1,7 @@
 import {createSelector} from '@ngrx/store';
 import {getRelacionamentoEditAppState, RelacionamentoEditAppState, RelacionamentoEditState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
-import {RelacionamentoPessoal} from '@cdk/models/relacionamento-pessoal.model';
+import {RelacionamentoPessoal} from '@cdk/models';
 import {relacionamentoPessoal as relacionamentoSchema} from '@cdk/normalizr/relacionamento-pessoal.schema';
 
 const schemaRelacionamentoSelectors = createSchemaSelectors<RelacionamentoPessoal>(relacionamentoSchema);

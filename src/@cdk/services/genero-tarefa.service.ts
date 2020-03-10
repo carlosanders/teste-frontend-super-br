@@ -2,10 +2,10 @@ import {Injectable} from '@angular/core';
 import {HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {GeneroTarefa} from '@cdk/models/genero-tarefa.model';
+import {GeneroTarefa} from '@cdk/models';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
-import {PaginatedResponse} from '@cdk/models/paginated.response';
+import {PaginatedResponse} from '@cdk/models';
 
 @Injectable()
 export class GeneroTarefaService {
@@ -15,20 +15,23 @@ export class GeneroTarefaService {
     ) {
     }
 
-    get(id: number): Observable<GeneroTarefa> {
-        return this.modelService.getOne('genero_tarefa', id)
+    get(id: number, context: any = '{}'): Observable<GeneroTarefa> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.getOne('genero_tarefa', id, new HttpParams({fromObject: params}))
             .pipe(
                 map(response => plainToClass(GeneroTarefa, response)[0])
             );
     }
 
-    query(filters: any = {}, limit: number = 25, offset: number = 0, order: any = {}, populate: any = []): Observable<PaginatedResponse> {
+    query(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;
         params['limit'] = limit;
         params['offset'] = offset;
         params['order'] = order;
         params['populate'] = populate;
+        params['context'] = context;
 
         return this.modelService.get('genero_tarefa', new HttpParams({fromObject: params}))
             .pipe(
@@ -36,16 +39,19 @@ export class GeneroTarefaService {
             );
     }
 
-    count(filters: any = {}): Observable<any> {
+    count(filters: any = '{}', context: any = '{}'): Observable<any> {
         const params = {};
         params['where'] = filters;
+        params['context'] = context;
 
         return this.modelService.count('genero_tarefa', new HttpParams({fromObject: params}));
     }
 
-    save(generoTarefa: GeneroTarefa): Observable<GeneroTarefa> {
+    save(generoTarefa: GeneroTarefa, context: any = '{}'): Observable<GeneroTarefa> {
+        const params = {};
+        params['context'] = context;
         if (generoTarefa.id) {
-            return this.modelService.put('genero_tarefa', generoTarefa.id, classToPlain(generoTarefa))
+            return this.modelService.put('genero_tarefa', generoTarefa.id, classToPlain(generoTarefa), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(GeneroTarefa, response);
@@ -54,7 +60,7 @@ export class GeneroTarefaService {
                     })
                 );
         } else {
-            return this.modelService.post('genero_tarefa', classToPlain(generoTarefa))
+            return this.modelService.post('genero_tarefa', classToPlain(generoTarefa), new HttpParams({fromObject: params}))
                 .pipe(
                     map(response => {
                         response = plainToClass(GeneroTarefa, response);
@@ -65,7 +71,9 @@ export class GeneroTarefaService {
         }
     }
 
-    destroy(id: number): Observable<GeneroTarefa> {
-        return this.modelService.delete('genero_tarefa', id);
+    destroy(id: number, context: any = '{}'): Observable<GeneroTarefa> {
+        const params = {};
+        params['context'] = context;
+        return this.modelService.delete('genero_tarefa', id, new HttpParams({fromObject: params}));
     }
 }

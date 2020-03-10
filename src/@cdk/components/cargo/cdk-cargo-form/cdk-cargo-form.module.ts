@@ -11,7 +11,7 @@ import {
 
 } from '@cdk/angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 import { CdkCargoFormComponent } from './cdk-cargo-form.component';
 
 @NgModule({
@@ -29,7 +29,7 @@ import { CdkCargoFormComponent } from './cdk-cargo-form.component';
         MatProgressSpinnerModule,
         MatDatepickerModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
 
