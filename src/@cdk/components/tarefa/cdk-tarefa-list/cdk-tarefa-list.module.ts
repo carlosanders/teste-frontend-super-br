@@ -21,16 +21,13 @@ import { EspecieTarefaService } from '@cdk/services/especie-tarefa.service';
 import { ProcessoService } from '@cdk/services/processo.service';
 import {CdkProcessoAutocompleteModule} from '@cdk/components/processo/cdk-processo-autocomplete/cdk-processo-autocomplete.module';
 import { DndModule } from 'ngx-drag-drop';
-import { CdkAssuntoListComponent } from '@cdk/components/assunto/cdk-assunto-list/cdk-assunto-list.component';
-import { CdkAssuntoListItemComponent } from '@cdk/components/assunto/cdk-assunto-list/cdk-assunto-list-item/cdk-assunto-list-item.component';
+import { AssuntoService } from '@cdk/services/assunto.service';
 
 @NgModule({
     declarations: [
         CdkTarefaListComponent,
         CdkTarefaListItemComponent,
-        CdkTarefaListMainSidebarComponent,
-        CdkAssuntoListComponent,
-        CdkAssuntoListItemComponent
+        CdkTarefaListMainSidebarComponent
     ],
     imports: [
 
@@ -59,12 +56,11 @@ import { CdkAssuntoListItemComponent } from '@cdk/components/assunto/cdk-assunto
     ],
     providers: [
         EspecieTarefaService,
-        ProcessoService
+        ProcessoService,
+        AssuntoService
     ],
     exports: [
-        CdkTarefaListComponent,
-        CdkAssuntoListComponent,
-        CdkAssuntoListItemComponent
+        CdkTarefaListComponent
     ]
 })
 export class CdkTarefaListModule {

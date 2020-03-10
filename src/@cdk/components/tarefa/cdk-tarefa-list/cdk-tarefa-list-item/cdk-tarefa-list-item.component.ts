@@ -1,3 +1,7 @@
+import { Assunto } from '@cdk/models/assunto.model';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { Store, select } from '@ngrx/store';
+import { PaginatedResponse } from '@cdk/models/paginated.response';
 import {
     ChangeDetectionStrategy,
     Component, EventEmitter,
@@ -9,6 +13,7 @@ import {
 import {Tarefa} from '@cdk/models/tarefa.model';
 import {AssuntoService} from '../../../../services/assunto.service';
 import { processo } from '@cdk/normalizr/processo.schema';
+import * as fromStore from 'app/main/apps/processo/processo-edit/assuntos/assunto-list/store';
 
 @Component({
     selector: 'cdk-tarefa-list-item',
@@ -55,10 +60,20 @@ export class CdkTarefaListItemComponent implements OnInit {
     @Output()
     toggleUrgente = new EventEmitter<Tarefa>();
 
+    /*
+    * ISSUE-100
+    */
     @Output()
-    assuntos = new Array();
+    codProcesso = new EventEmitter<any>();
 
-    
+    @Input()
+    assuntos: Assunto[];
+
+    @Input()
+    bsAssuntos: BehaviorSubject<Assunto[]>;
+
+    @Input()
+    pagAssunto: PaginatedResponse;
 
     draggable = {
         // note that data is handled with JSON.stringify/JSON.parse
@@ -71,8 +86,8 @@ export class CdkTarefaListItemComponent implements OnInit {
 
     constructor() {
         this.deleting = false;
-        
     }
+
 
     /**
      * On init
@@ -113,11 +128,11 @@ export class CdkTarefaListItemComponent implements OnInit {
         this.toggleUrgente.emit(this.tarefa);
     }
 
-    doOpenPanel(idProcesso: string): void {
-        console.log("Processo => " + processo.assuntos);
+    doOpenPanel(idProcesso: any): void {
+        this.codProcesso.emit(idProcesso);
     }
 
-    doClosePanel(idProcesso: string): void {
-        console.log("Fechou");
+    doClosePanel(): void {
+        this.pagAssunto = null;
     }
 }

@@ -1,3 +1,6 @@
+import { PaginatedResponse } from '@cdk/models/paginated.response';
+
+import { getAssunto } from './../processo/processo-edit/assuntos/assunto-edit/store/selectors/assunto-edit.selectors';
  import {
     AfterViewInit,
     ChangeDetectionStrategy,
@@ -8,8 +11,8 @@
     ViewEncapsulation
 } from '@angular/core';
 import { FormControl} from '@angular/forms';
-import { select, Store, StoreModule} from '@ngrx/store';
-import {Observable, Subject} from 'rxjs';
+import { select, Store} from '@ngrx/store';
+import { Observable, Subject, BehaviorSubject } from 'rxjs';
 
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 import { FuseTranslationLoaderService } from '@fuse/services/translation-loader.service';
@@ -18,7 +21,7 @@ import { Tarefa } from '@cdk/models/tarefa.model';
 import { Assunto } from '@cdk/models/assunto.model';
 import { TarefaService } from '@cdk/services/tarefa.service';
 import * as fromStore from 'app/main/apps/tarefas/store';
-import * as fromAssuntoStore from 'app/main/apps/processo/processo-edit/assuntos/assunto-list/store';
+
 import {getRouterState, getScreenState} from 'app/store/reducers';
 
 import { locale as english } from 'app/main/apps/tarefas/i18n/en';
@@ -29,13 +32,14 @@ import { ResizeEvent } from 'angular-resizable-element';
 import { fuseAnimations } from '@fuse/animations';
 import { Etiqueta } from '@cdk/models/etiqueta.model';
 import {Router} from '@angular/router';
-import {filter, takeUntil} from 'rxjs/operators';
+import { filter, takeUntil, tap } from 'rxjs/operators';
 import {Pagination} from '@cdk/models/pagination';
 import {LoginService} from '../../auth/login/login.service';
 import {ToggleMaximizado} from 'app/main/apps/tarefas/store';
+
+import * as fromAssuntoStore from 'app/main/apps/processo/processo-edit/assuntos/assunto-list/store';
 import { AssuntoService } from '@cdk/services/assunto.service';
-import { PaginatedResponse } from '@cdk/models/paginated.response';
-import { tarefa } from '@cdk/normalizr/tarefa.schema';
+
 
 @Component({
     selector: 'tarefas',
@@ -56,7 +60,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     folders$: Observable<Folder[]>;
     currentTarefaId: number;
     tarefas: Tarefa[] = [];
-    assuntos: Assunto[] = [];
+    
     tarefaListSize = 35;
     tarefaListOriginalSize: number;
 
@@ -94,8 +98,14 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     mobileMode = false;
 
-    assuntoService: AssuntoService;
+    /*
+    * ISSUE-100
+    */
+    assuntos: Assunto[] = [];
     assuntos$: Observable<Assunto[]>;
+    assuntoService: AssuntoService;
+    pagAssuntos : PaginatedResponse;
+    bsAssuntos: BehaviorSubject<Assunto[]> = new BehaviorSubject([]);
 
     @ViewChild('tarefaListElement', {read: ElementRef, static: true}) tarefaListElement: ElementRef;
 
@@ -138,6 +148,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this._profile = _loginService.getUserProfile();
         this.vinculacaoEtiquetaPagination = new Pagination();
         this.vinculacaoEtiquetaPagination.filter = {'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.usuario.id};
+
         this.assuntoService = _assuntoService;
     }
 
@@ -399,21 +410,45 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.folderHandle + '/documento-avulso-bloco']).then();
     }
 
-    doLoadAssuntos(): void {
-        try {
-            this.assuntoService.query(
-                "{\"processo.id\":\"eq:" + tarefa.processo.id + "\"}",
-                10,
-                0,
-                "{\"principal\":\"DESC\",\"criadoEm\":\"DESC\"}",
-                "[\"populateAll\"]").subscribe((ass: PaginatedResponse) => {
-                    console.log("*****Service return: " + ass);
-                    this.assuntos = ass.entities;
-                    console.log(JSON.stringify(this.assuntos));
-                });
-            //this._storeAssunto.pipe(select(fromAssuntoStore.getAssuntoList));
-        } catch (e) {
-            console.error(e);
+    doLoadAssuntos(idProcesso): void {
+
+        const processo = {
+            'processo.id' : 'eq:' + idProcesso
         }
-    }
+        
+        const sort = {
+            'principal' : 'DESC',
+            'criadoEm' : 'DESC'
+        }
+
+        const populate = ['populateAll'];
+
+        const params = {
+            filter: processo,
+            sort : sort,
+            limit : 10,
+            offset : 0,
+            populate : populate
+        }
+        
+        //this._storeAssunto.dispatch(new fromAssuntoStore.GetAssuntos(params));
+        
+        this._assuntoService.query(
+            "{\"processo.id\":\"eq:" + idProcesso.id + "\"}",
+            10,
+            0,
+            "{\"principal\":\"DESC\",\"criadoEm\":\"DESC\"}",
+            "[\"populateAll\"]"
+        ).subscribe(ass => {
+            /*
+            this.bsAssuntos.next(ass.entities);
+            this.assuntos = ass.entities;
+            idProcesso.assuntos = ass;
+            console.log(this.bsAssuntos.value);
+            */
+           this.pagAssuntos = ass;
+        });
+
+    }   
+
 }

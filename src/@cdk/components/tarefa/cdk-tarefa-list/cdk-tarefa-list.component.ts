@@ -1,8 +1,14 @@
+import { PaginatedResponse } from '@cdk/models/paginated.response';
+import { Observable, BehaviorSubject } from 'rxjs';
 import {AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewEncapsulation} from '@angular/core';
 import {fuseAnimations} from '@fuse/animations';
 import {Tarefa} from '@cdk/models/tarefa.model';
 import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
-
+/*
+* ISSUE-100
+*/
+import { Assunto } from '@cdk/models/assunto.model';
+ 
 @Component({
     selector: 'cdk-tarefa-list',
     templateUrl: './cdk-tarefa-list.component.html',
@@ -101,10 +107,27 @@ export class CdkTarefaListComponent implements AfterViewInit, OnInit, OnChanges 
     @Output()
     editorBloco = new EventEmitter<any>();
 
+    /*
+    * ISSUE-100
+    */
+    @Input()
+    assuntos: Assunto[];
+
+    @Output()
+    idProcesso = new EventEmitter<any>();
+
+    @Input()
+    bsAssuntos: BehaviorSubject<Assunto[]>;
+
+    @Input()
+    pagAssuntos: PaginatedResponse;
+
     listFilter: {} = {};
     listSort: {} = {};
 
     isIndeterminate = false;
+
+    
 
     /**
      * Constructor
@@ -277,5 +300,9 @@ export class CdkTarefaListComponent implements AfterViewInit, OnInit, OnChanges 
      */
     toggleSidebar(): void {
         this._fuseSidebarService.getSidebar('cdk-tarefa-list-main-sidebar').toggleOpen();
+    }
+
+    doLoadAssuntos(idProcesso) {
+        this.idProcesso.emit(idProcesso);
     }
 }

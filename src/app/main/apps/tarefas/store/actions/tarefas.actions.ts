@@ -1,3 +1,4 @@
+
 import {Action} from '@ngrx/store';
 
 export const GET_TAREFAS = '[TAREFAS] GET TAREFAS';
@@ -41,6 +42,16 @@ export const CREATE_VINCULACAO_ETIQUETA_FAILED = '[TAREFA] CREATE VINCULACAO ETI
 export const DELETE_VINCULACAO_ETIQUETA = '[TAREFA] DELETE VINCULACAO_ETIQUETA';
 export const DELETE_VINCULACAO_ETIQUETA_SUCCESS = '[TAREFA] DELETE VINCULACAO_ETIQUETA SUCCESS';
 export const DELETE_VINCULACAO_ETIQUETA_FAILED = '[TAREFA] DELETE VINCULACAO_ETIQUETA FAILED';
+
+export const GET_ASSUNTOS_PROCESSO_TAREFA = '[TAREFA] GET ASSUNTOS PROCESSO';
+export const GET_ASSUNTOS_PROCESSO_TAREFA_SUCCESS = '[TAREFA] GET ASSUNTOS PROCESSO SUCCESS';
+export const GET_ASSUNTOS_PROCESSO_TAREFA_FAILED = '[TAREFA] GET ASSUNTOS PROCESSO FAILED';
+
+/*
+* ISSUE-100
+*/
+
+
 
 /**
  * Get Tarefas
@@ -380,6 +391,40 @@ export class ToggleMaximizado implements Action
     }
 }
 
+/**
+ * ISSUE-100
+ */
+
+/**
+ * Get Assuntos dos processo da tarefa
+ */
+export class GetAssuntosProcessoTarefa implements Action {
+    readonly type = GET_ASSUNTOS_PROCESSO_TAREFA;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Get Assuntos dos processo da tarefa Success
+ */
+export class GetAssuntosProcessoTarefaSuccess implements Action {
+    readonly type = GET_ASSUNTOS_PROCESSO_TAREFA_SUCCESS;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Get Assuntos dos processo da tarefa Failed
+ */
+export class GetAssuntosProcessoTarefaFailed implements Action {
+    readonly type = GET_ASSUNTOS_PROCESSO_TAREFA_FAILED;
+
+    constructor(public payload: any) {
+    }
+}
+
 export type TarefasActionsAll
     = GetTarefas
     | GetTarefasSuccess
@@ -410,4 +455,7 @@ export type TarefasActionsAll
     | DeleteVinculacaoEtiqueta
     | DeleteVinculacaoEtiquetaSuccess
     | DeleteVinculacaoEtiquetaFailed
-    | ToggleMaximizado;
+    | ToggleMaximizado
+    | GetAssuntosProcessoTarefa
+    | GetAssuntosProcessoTarefaSuccess
+    | GetAssuntosProcessoTarefaFailed;

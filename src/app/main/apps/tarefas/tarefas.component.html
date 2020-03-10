@@ -86,7 +86,9 @@
                                      (etiquetarBloco)="doEtiquetarBloco()"
                                      (uploadBloco)="doUploadBloco()"
                                      (editorBloco)="doEditorBloco()"
-                                     (editTarefaBloco)="doEditTarefaBloco()">
+                                     (editTarefaBloco)="doEditTarefaBloco()"
+                                     (idProcesso)="doLoadAssuntos($event)"
+                                     [pagAssuntos]="(pagAssuntos)">
                     </cdk-tarefa-list>
                 </div>
                 <div class="tarefa-detail" mwlResizable [enableGhostResize]="true"

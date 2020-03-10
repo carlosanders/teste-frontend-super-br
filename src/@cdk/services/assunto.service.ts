@@ -29,7 +29,6 @@ export class AssuntoService {
         params['offset'] = offset;
         params['order'] = order;
         params['populate'] = populate;
-        //console.log("*** AssuntoServiceParams => " + JSON.stringify(params));
         return this.modelService.get('assunto', new HttpParams({fromObject: params}))
             .pipe(
                 //tap((response) => {console.log(" ****** AssuntoService response ==> " + JSON.stringify(response) + " ******")}),                

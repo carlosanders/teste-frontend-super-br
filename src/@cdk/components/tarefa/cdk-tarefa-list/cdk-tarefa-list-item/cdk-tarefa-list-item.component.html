@@ -54,7 +54,7 @@
 
         <div class="actions" fxLayout="row" fxLayoutAlign="start center">
 
-            <button mat-icon-button (click)="doToggleUrgente()"
+            <button mat-icon-button (click)="doToggleUrgente(); $event.stopPropagation();"
                     aria-label="Toggle important" fxHide.xs>
                 <mat-icon class="red-fg" *ngIf="tarefa.urgente">error</mat-icon>
                 <mat-icon class="secondary-text" *ngIf="!tarefa.urgente">error_outline</mat-icon>
@@ -124,11 +124,17 @@
 
     </div>
 </div>
-<mat-expansion-panel (opened)="doOpenPanel(tarefa.processo?.id)" (closed)="doClosePanel()">
+<mat-expansion-panel
+    (opened)="doOpenPanel(tarefa.processo);"
+    (closed)="doClosePanel()"
+    (click)="$event.stopPropagation();">
     <mat-expansion-panel-header>
       Detalhes do processo
     </mat-expansion-panel-header>
     <span>Assuntos: </span>
-    <cdk-assunto-list matRipple *ngFor="let assunto of assunto" [assunto]="assunto">
-    </cdk-assunto-list>
+    <ng-template matExpansionPanelContent >
+        <li *ngFor="let assunto of pagAssunto.entities">
+            {{assunto.assuntoAdministrativo.nome}}
+        </li>
+    </ng-template>
   </mat-expansion-panel>

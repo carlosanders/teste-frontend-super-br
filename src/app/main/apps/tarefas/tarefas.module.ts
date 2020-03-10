@@ -38,6 +38,8 @@ import {CdkEtiquetaChipsModule} from '@cdk/components/etiqueta/cdk-etiqueta-chip
 import {DndModule} from 'ngx-drag-drop';
 import {LoginService} from '../../auth/login/login.service';
 import { AssuntoService } from '@cdk/services/assunto.service';
+import * as fromAssuntosGuards from 'app/main/apps/processo/processo-edit/assuntos/assunto-list/store/guards/index';
+import {AssuntoListStoreModule} from 'app/main/apps/processo/processo-edit/assuntos/assunto-list/store/store.module';
 
 const routes: Routes = [
     {
@@ -142,7 +144,9 @@ const routes: Routes = [
         FuseSharedModule,
         FuseSidebarModule,
 
-        TarefasStoreModule
+        TarefasStoreModule,
+
+        AssuntoListStoreModule
     ],
     providers: [
         TarefaService,
@@ -153,7 +157,8 @@ const routes: Routes = [
         UsuarioService,
         LoginService,
         fromGuards.ResolveGuard,
-        AssuntoService
+        AssuntoService,
+        fromAssuntosGuards.ResolveGuard
     ]
 })
 export class TarefasModule {

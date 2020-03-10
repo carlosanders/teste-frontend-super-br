@@ -1,3 +1,4 @@
+
 import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
 import { Usuario } from '@cdk/models/usuario.model';
@@ -13,6 +14,8 @@ import {Pessoa} from '@cdk/models/pessoa.model';
 import {Localizador} from '@cdk/models/localizador.model';
 import {OrigemDados} from '@cdk/models/origem-dados.model';
 import {VinculacaoEtiqueta} from './vinculacao-etiqueta.model';
+
+import { Assunto } from '@cdk/models/assunto.model';
 
 export class Processo {
 
@@ -134,6 +137,13 @@ export class Processo {
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
     apagadoEm?: Date;
 
+    /*
+    * ISSUE-107
+    */
+   @Exclude({toPlainOnly: true})
+   @Type(() => Assunto)
+   assuntos: Assunto[];
+
     constructor() {
         this.id = null;
         this.processoOrigem = null;
@@ -167,5 +177,6 @@ export class Processo {
         this.apagadoPor = null;
         this.apagadoEm = null;
         this.vinculacoesEtiquetas = null;
+        this.assuntos = null;
     }
 }
