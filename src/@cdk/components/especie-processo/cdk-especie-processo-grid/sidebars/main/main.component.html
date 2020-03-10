@@ -11,13 +11,9 @@
 <!-- / SIDEBAR HEADER -->
 
 <!-- SIDEBAR CONTENT -->
-<div class="content py-16" cdkPerfectScrollbar>
-
-    <div class="header" fxLayout="column">
-        <div class="filters">
-            <cdk-especie-processo-grid-filter (selected)="setGridFilter($event)"></cdk-especie-processo-grid-filter>
-        </div>
+<div class="py-16" cdkPerfectScrollbar>
+    <div fxLayout="column">
+        <cdk-especie-processo-grid-filter (selected)="setGridFilter($event)"></cdk-especie-processo-grid-filter>
     </div>
-
 </div>
 <!-- / SIDEBAR CONTENT -->

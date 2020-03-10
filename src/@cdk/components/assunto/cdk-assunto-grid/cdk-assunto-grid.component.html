@@ -1,4 +1,4 @@
-<div class="page-layout fullwidth left-sidebar inner-scroll" fxFlex="100">
+<div class="left-sidebar" fxFlex>
 
     <!-- SIDEBAR -->
     <cdk-sidebar class="sidebar" name="cdk-assunto-main-sidebar" position="left">
@@ -11,7 +11,7 @@
     <!-- / SIDEBAR -->
 
     <!-- CONTENT -->
-    <div class="content responsive-grid" fxLayoutAlign="center start">
+    <div class="content responsive-grid" fxFlex fxLayout="column">
 
         <div fxFlex="1 0 auto" fxLayout="column" fxLayoutAlign="center center">
 
@@ -46,7 +46,7 @@
                     <mat-icon>refresh</mat-icon>
                 </button>
 
-                <button class="toggle-filter" mat-icon-button mat-icon-button [ngClass]="{'warn': (gridFilter | json) != '{}'}"
+                <button class="toggle-filter" mat-icon-button [ngClass]="{'warn': (gridFilter | json) != '{}'}"
                         (click)="toggleFilter()"
                         aria-label="filtrar"
                         matTooltip="Filtrar">
@@ -54,7 +54,7 @@
                 </button>
             </div>
 
-            <div class="spinner-container" *ngIf="loading">
+            <div fxFlex="1 1 auto" fxLayout="row" fxLayoutAlign="center center" *ngIf="loading">
                 <mat-spinner diameter="32"></mat-spinner>
             </div>
 
@@ -213,12 +213,14 @@
                     </td>
                 </ng-container>
 
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
                 <tr mat-row *matRowDef="let assunto; columns: displayedColumns;">
                 </tr>
             </table>
 
-            <mat-paginator [pageSizeOptions]="[5, 10, 25, 50, 100]"></mat-paginator>
+                    <div class="actions" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="center center">
+            <mat-paginator [disabled]="loading" [pageSizeOptions]="[5, 10]"></mat-paginator>
+        </div>
 
         </div>
 

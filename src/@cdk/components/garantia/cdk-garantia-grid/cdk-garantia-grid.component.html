@@ -1,4 +1,4 @@
-<div class="page-layout fullwidth left-sidebar inner-scroll" fxFlex="100">
+<div class="left-sidebar" fxFlex>
 
     <!-- SIDEBAR -->
     <cdk-sidebar class="sidebar" name="cdk-garantia-main-sidebar" position="left">
@@ -11,7 +11,7 @@
     <!-- / SIDEBAR -->
 
     <!-- CONTENT -->
-    <div class="content responsive-grid" fxLayoutAlign="center start">
+    <div class="content responsive-grid" fxFlex fxLayout="column">
 
         <div fxFlex="1 0 auto" fxLayout="column" fxLayoutAlign="center center">
 
@@ -46,7 +46,7 @@
                     <mat-icon>refresh</mat-icon>
                 </button>
 
-                <button class="toggle-filter" mat-icon-button mat-icon-button [ngClass]="{'warn': (gridFilter | json) != '{}'}"
+                <button class="toggle-filter" mat-icon-button [ngClass]="{'warn': (gridFilter | json) != '{}'}"
                         (click)="toggleFilter()"
                         aria-label="filtrar"
                         matTooltip="Filtrar">
@@ -54,7 +54,7 @@
                 </button>
             </div>
 
-            <div class="spinner-container" *ngIf="loading">
+            <div fxFlex="1 1 auto" fxLayout="row" fxLayoutAlign="center center" *ngIf="loading">
                 <mat-spinner diameter="32"></mat-spinner>
             </div>
 
@@ -102,8 +102,8 @@
                     </th>
                     <td mat-cell *matCellDef="let garantia" class='has_label_on_mobile' data-label='Nome: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(garantia.id) > -1}"> {{garantia.modalidadeGarantia.valor}} </td>
-                </ng-container>   
-                
+                </ng-container>
+
                 <!-- Descricao Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('descricao') > -1" matColumnDef="descricao">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
@@ -111,8 +111,8 @@
                     </th>
                     <td mat-cell *matCellDef="let garantia" class='has_label_on_mobile' data-label='Descrição: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(garantia.id) > -1}"> {{garantia.descricao}} </td>
-                </ng-container> 
-                
+                </ng-container>
+
                 <!-- Valor Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('valor') > -1" matColumnDef="valor">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
@@ -120,7 +120,7 @@
                     </th>
                     <td mat-cell *matCellDef="let garantia" class='has_label_on_mobile' data-label='Data Valor: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(garantia.id) > -1}"> {{garantia.valor | currency:'BRL':'symbol'}} </td>
-                </ng-container>                
+                </ng-container>
 
                 <!-- Data Valor Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('dataValor') > -1" matColumnDef="dataValor">
@@ -138,7 +138,7 @@
                     </th>
                     <td mat-cell *matCellDef="let garantia" class='has_label_on_mobile' data-label='Observação: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(garantia.id) > -1}"> {{garantia.observacao}} </td>
-                </ng-container>                 
+                </ng-container>
 
                 <!-- CriadoPor Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('criadoPor.nome') > -1" matColumnDef="criadoPor.nome">
@@ -232,12 +232,14 @@
                     </td>
                 </ng-container>
 
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
                 <tr mat-row *matRowDef="let garantia; columns: displayedColumns;">
                 </tr>
             </table>
 
-            <mat-paginator [pageSizeOptions]="[5, 10, 25, 50, 100]"></mat-paginator>
+            <div class="actions" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="center center">
+                <mat-paginator [disabled]="loading" [pageSizeOptions]="[5, 10]"></mat-paginator>
+            </div>
 
         </div>
 

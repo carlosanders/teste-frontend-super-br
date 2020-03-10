@@ -1,4 +1,4 @@
-<div class="page-layout fullwidth left-sidebar inner-scroll" fxFlex="100">
+<div class="left-sidebar" fxFlex>
 
     <!-- SIDEBAR -->
     <cdk-sidebar class="sidebar" name="cdk-especie-processo-main-sidebar" position="left">
@@ -11,309 +11,307 @@
     <!-- / SIDEBAR -->
 
     <!-- CONTENT -->
-    <div class="content responsive-grid" fxLayoutAlign="center start">
+    <div class="content responsive-grid" fxFlex fxLayout="column">
 
-        <div class="mb-8 p-8" fxFlex fxLayout="column" fxLayoutAlign="center center">
+        <div class="actions" fxFlex fxLayout="row" fxLayoutAlign="end center">
 
-            <div class="actions" fxFlex fxLayout="row" fxLayoutAlign="end center">
+            <button class="back" mat-icon-button *ngIf="actions.indexOf('cancel') > -1"
+                    (click)="doCancel()"
+                    aria-label="cancelar"
+                    matTooltip="Cancelar">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
 
-                <button class="back" mat-icon-button *ngIf="actions.indexOf('cancel') > -1"
-                        (click)="doCancel()"
-                        aria-label="cancelar"
-                        matTooltip="Cancelar">
-                    <mat-icon>arrow_back</mat-icon>
-                </button>
+            <button mat-icon-button *ngIf="selectedIds.length > 1 && actions.indexOf('delete') > -1"
+                    (click)="deleteClassificacao(selectedIds)"
+                    aria-label="remover"
+                    matTooltip="Remover">
+                <mat-icon>delete</mat-icon>
+            </button>
 
-                <button mat-icon-button *ngIf="selectedIds.length > 1 && actions.indexOf('delete') > -1"
-                        (click)="deleteClassificacao(selectedIds)"
-                        aria-label="remover"
-                        matTooltip="Remover">
-                    <mat-icon>delete</mat-icon>
-                </button>
+            <mat-form-field class="colunas mr-8">
+                <mat-select [formControl]="columns" multiple>
+                    <div *ngFor="let column of allColumns">
+                        <mat-option *ngIf="!column.fixed" [value]="column.id">{{ column.label }}</mat-option>
+                    </div>
+                </mat-select>
+            </mat-form-field>
 
-                <mat-form-field class="colunas mr-8">
-                    <mat-select [formControl]="columns" multiple>
-                        <div *ngFor="let column of allColumns">
-                            <mat-option *ngIf="!column.fixed" [value]="column.id">{{ column.label }}</mat-option>
-                        </div>
-                    </mat-select>
-                </mat-form-field>
+            <button class="refresh" mat-icon-button
+                    (click)="loadPage()"
+                    aria-label="recarregar"
+                    matTooltip="Recarregar">
+                <mat-icon>refresh</mat-icon>
+            </button>
 
-                <button class="refresh" mat-icon-button
-                        (click)="loadPage()"
-                        aria-label="recarregar"
-                        matTooltip="Recarregar">
-                    <mat-icon>refresh</mat-icon>
-                </button>
+            <button class="toggle-filter" mat-icon-button [ngClass]="{'warn': (gridFilter | json) != '{}'}"
+                    (click)="toggleFilter()"
+                    aria-label="filtrar"
+                    matTooltip="Filtrar">
+                <mat-icon>filter_list</mat-icon>
+            </button>
+        </div>
 
-                <button class="toggle-filter" mat-icon-button [ngClass]="{'warn': (gridFilter | json) != '{}'}"
-                        (click)="toggleFilter()"
-                        aria-label="filtrar"
-                        matTooltip="Filtrar">
-                    <mat-icon>filter_list</mat-icon>
-                </button>
-            </div>
+        <div fxFlex="1 1 auto" fxLayout="row" fxLayoutAlign="center center" *ngIf="loading">
+            <mat-spinner diameter="32"></mat-spinner>
+        </div>
 
-            <div class="spinner-container" *ngIf="loading">
-                <mat-spinner diameter="32"></mat-spinner>
-            </div>
+        <table mat-table [dataSource]="dataSource" matSort [hidden]="loading">
 
-            <table mat-table [dataSource]="dataSource" matSort [hidden]="loading">
+            <!-- Selection Column -->
+            <ng-container matColumnDef="select">
+                <th mat-header-cell *matHeaderCellDef>
+                    <mat-checkbox (click)="toggleSelectAll($event)"
+                                  [checked]="hasSelected"
+                                  [indeterminate]="isIndeterminate">
+                    </mat-checkbox>
+                </th>
+                <td mat-cell *matCellDef="let classificacao">
+                    <mat-checkbox [checked]="selectedIds.indexOf(classificacao.id) > -1"
+                                  (change)="toggleInSelected(classificacao.id)"
+                                  (click)="$event.stopPropagation();"
+                                  [disabled]="deletedIds?.indexOf(classificacao.id) > -1">
+                    </mat-checkbox>
+                </td>
+            </ng-container>
 
-                <!-- Selection Column -->
-                <ng-container matColumnDef="select">
-                    <th mat-header-cell *matHeaderCellDef>
-                        <mat-checkbox (click)="toggleSelectAll($event)"
-                                      [checked]="hasSelected"
-                                      [indeterminate]="isIndeterminate">
-                        </mat-checkbox>
-                    </th>
-                    <td mat-cell *matCellDef="let classificacao">
-                        <mat-checkbox [checked]="selectedIds.indexOf(classificacao.id) > -1"
-                                      (change)="toggleInSelected(classificacao.id)"
-                                      (click)="$event.stopPropagation();"
-                                      [disabled]="deletedIds?.indexOf(classificacao.id) > -1">
-                        </mat-checkbox>
-                    </td>
-                </ng-container>
+            <!-- Id Column -->
+            <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Id
+                </th>
+                <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile' data-label='Id: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1}"> {{classificacao.id}} </td>
+            </ng-container>
 
-                <!-- Id Column -->
-                <ng-container matColumnDef="id">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Id
-                    </th>
-                    <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile' data-label='Id: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1}"> {{classificacao.id}} </td>
-                </ng-container>
+            <!-- Nome Column -->
+            <ng-container matColumnDef="nome">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Nome
+                </th>
+                <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile' data-label='Nome: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1}"> {{classificacao.nome}}
+                </td>
+            </ng-container>
 
-                <!-- Nome Column -->
-                <ng-container matColumnDef="nome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Nome
-                    </th>
-                    <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile' data-label='Nome: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1}"> {{classificacao.nome}}
-                    </td>
-                </ng-container>
+            <!-- ModalidadeDestinacao Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('modalidadeDestinacao.valor') > -1" matColumnDef="modalidadeDestinacao.valor">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Modalidade Destinação
+                </th>
+                <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile' data-label='Modalidade Destinação: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1}"> {{classificacao.modalidadeDestinacao?.valor}} </td>
+            </ng-container>
 
-                <!-- ModalidadeDestinacao Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('modalidadeDestinacao.valor') > -1" matColumnDef="modalidadeDestinacao.valor">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Modalidade Destinação
-                    </th>
-                    <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile' data-label='Modalidade Destinação: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1}"> {{classificacao.modalidadeDestinacao?.valor}} </td>
-                </ng-container>
+            <!-- PrazoGuardaFaseCorrenteAno Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('prazoGuardaFaseCorrenteAno') > -1" matColumnDef="prazoGuardaFaseCorrenteAno">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Prazo Guarda Fase Corrente Ano
+                </th>
+                <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile' data-label='Prazo Guarda Fase Corrente Ano: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1}"> {{classificacao.prazoGuardaFaseCorrenteAno}} </td>
+            </ng-container>
 
-                <!-- PrazoGuardaFaseCorrenteAno Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('prazoGuardaFaseCorrenteAno') > -1" matColumnDef="prazoGuardaFaseCorrenteAno">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Prazo Guarda Fase Corrente Ano
-                    </th>
-                    <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile' data-label='Prazo Guarda Fase Corrente Ano: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1}"> {{classificacao.prazoGuardaFaseCorrenteAno}} </td>
-                </ng-container>
+            <!-- PrazoGuardaFaseCorrenteMes Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('prazoGuardaFaseCorrenteMes') > -1" matColumnDef="prazoGuardaFaseCorrenteMes">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Prazo Guarda Fase Corrente Mês
+                </th>
+                <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile' data-label='Prazo Guarda Fase Corrente Mês: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1}"> {{classificacao.prazoGuardaFaseCorrenteMes}} </td>
+            </ng-container>
 
-                <!-- PrazoGuardaFaseCorrenteMes Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('prazoGuardaFaseCorrenteMes') > -1" matColumnDef="prazoGuardaFaseCorrenteMes">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Prazo Guarda Fase Corrente Mês
-                    </th>
-                    <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile' data-label='Prazo Guarda Fase Corrente Mês: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1}"> {{classificacao.prazoGuardaFaseCorrenteMes}} </td>
-                </ng-container>
+            <!-- PrazoGuardaFaseCorrenteDia Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('prazoGuardaFaseCorrenteDia') > -1" matColumnDef="prazoGuardaFaseCorrenteDia">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Prazo Guarda Fase Corrente Dia
+                </th>
+                <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile' data-label='Prazo Guarda Fase Corrente Dia: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1}"> {{classificacao.prazoGuardaFaseCorrenteDia}} </td>
+            </ng-container>
 
-                <!-- PrazoGuardaFaseCorrenteDia Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('prazoGuardaFaseCorrenteDia') > -1" matColumnDef="prazoGuardaFaseCorrenteDia">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Prazo Guarda Fase Corrente Dia
-                    </th>
-                    <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile' data-label='Prazo Guarda Fase Corrente Dia: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1}"> {{classificacao.prazoGuardaFaseCorrenteDia}} </td>
-                </ng-container>
+            <!-- PrazoGuardaFaseCorrenteEvento Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('prazoGuardaFaseCorrenteEvento') > -1" matColumnDef="prazoGuardaFaseCorrenteEvento">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Prazo Guarda Fase Corrente Evento
+                </th>
+                <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile' data-label='Prazo Guarda Fase Corrente Evento: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1}"> {{classificacao.prazoGuardaFaseCorrenteEvento}} </td>
+            </ng-container>
 
-                <!-- PrazoGuardaFaseCorrenteEvento Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('prazoGuardaFaseCorrenteEvento') > -1" matColumnDef="prazoGuardaFaseCorrenteEvento">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Prazo Guarda Fase Corrente Evento
-                    </th>
-                    <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile' data-label='Prazo Guarda Fase Corrente Evento: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1}"> {{classificacao.prazoGuardaFaseCorrenteEvento}} </td>
-                </ng-container>
+            <!-- PrazoGuardaFaseIntermediariaAno Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('prazoGuardaFaseIntermediariaAno') > -1" matColumnDef="prazoGuardaFaseIntermediariaAno">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Prazo Guarda Fase Intermediária Ano
+                </th>
+                <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile' data-label='Prazo Guarda Fase Intermediária Ano: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1}"> {{classificacao.prazoGuardaFaseIntermediariaAno}} </td>
+            </ng-container>
 
-                <!-- PrazoGuardaFaseIntermediariaAno Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('prazoGuardaFaseIntermediariaAno') > -1" matColumnDef="prazoGuardaFaseIntermediariaAno">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Prazo Guarda Fase Intermediária Ano
-                    </th>
-                    <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile' data-label='Prazo Guarda Fase Intermediária Ano: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1}"> {{classificacao.prazoGuardaFaseIntermediariaAno}} </td>
-                </ng-container>
+            <!-- PrazoGuardaFaseIntermediariaMes Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('prazoGuardaFaseIntermediariaMes') > -1" matColumnDef="prazoGuardaFaseIntermediariaMes">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Prazo Guarda Fase Intermediária Mês
+                </th>
+                <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile' data-label='Prazo Guarda Fase Intermediária Mês: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1}"> {{classificacao.prazoGuardaFaseIntermediariaMes}} </td>
+            </ng-container>
 
-                <!-- PrazoGuardaFaseIntermediariaMes Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('prazoGuardaFaseIntermediariaMes') > -1" matColumnDef="prazoGuardaFaseIntermediariaMes">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Prazo Guarda Fase Intermediária Mês
-                    </th>
-                    <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile' data-label='Prazo Guarda Fase Intermediária Mês: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1}"> {{classificacao.prazoGuardaFaseIntermediariaMes}} </td>
-                </ng-container>
+            <!-- PrazoGuardaFaseIntermediariaDia Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('prazoGuardaFaseIntermediariaDia') > -1" matColumnDef="prazoGuardaFaseIntermediariaDia">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Prazo Guarda Fase Intermediária Dia
+                </th>
+                <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile' data-label='Prazo Guarda Fase Intermediária Dia: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1}"> {{classificacao.prazoGuardaFaseIntermediariaDia}} </td>
+            </ng-container>
 
-                <!-- PrazoGuardaFaseIntermediariaDia Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('prazoGuardaFaseIntermediariaDia') > -1" matColumnDef="prazoGuardaFaseIntermediariaDia">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Prazo Guarda Fase Intermediária Dia
-                    </th>
-                    <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile' data-label='Prazo Guarda Fase Intermediária Dia: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1}"> {{classificacao.prazoGuardaFaseIntermediariaDia}} </td>
-                </ng-container>
+            <!-- PrazoGuardaFaseIntermediariaEvento Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('prazoGuardaFaseIntermediariaEvento') > -1" matColumnDef="prazoGuardaFaseIntermediariaEvento">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Prazo Guarda Fase Intermediária Evento
+                </th>
+                <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile' data-label='Prazo Guarda Fase Intermediária Evento: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1}"> {{classificacao.prazoGuardaFaseIntermediariaEvento}} </td>
+            </ng-container>
 
-                <!-- PrazoGuardaFaseIntermediariaEvento Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('prazoGuardaFaseIntermediariaEvento') > -1" matColumnDef="prazoGuardaFaseIntermediariaEvento">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Prazo Guarda Fase Intermediária Evento
-                    </th>
-                    <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile' data-label='Prazo Guarda Fase Intermediária Evento: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1}"> {{classificacao.prazoGuardaFaseIntermediariaEvento}} </td>
-                </ng-container>
+            <!-- Codigo Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('codigo') > -1" matColumnDef="codigo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Código
+                </th>
+                <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile' data-label='Código: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1}"> {{classificacao.codigo}} </td>
+            </ng-container>
 
-                <!-- Codigo Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('codigo') > -1" matColumnDef="codigo">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Código
-                    </th>
-                    <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile' data-label='Código: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1}"> {{classificacao.codigo}} </td>
-                </ng-container>
+            <!-- Ativo Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('ativo') > -1" matColumnDef="ativo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Ativo
+                </th>
+                <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile' data-label='Ativo: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1}">
+                    <mat-checkbox [disabled]="true" [checked]="classificacao.ativo"></mat-checkbox>
+                </td>
+            </ng-container>
 
-                <!-- Ativo Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('ativo') > -1" matColumnDef="ativo">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Ativo
-                    </th>
-                    <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile' data-label='Ativo: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1}">
-                        <mat-checkbox [disabled]="true" [checked]="classificacao.ativo"></mat-checkbox>
-                    </td>
-                </ng-container>
+            <!-- PermissaoUso Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('permissaoUso') > -1" matColumnDef="permissaoUso">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Permissão de Uso
+                </th>
+                <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile' data-label='Permissão de Uso: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1}">
+                    <mat-checkbox [disabled]="true" [checked]="classificacao.permissaoUso"></mat-checkbox>
+                </td>
+            </ng-container>
 
-                <!-- PermissaoUso Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('permissaoUso') > -1" matColumnDef="permissaoUso">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Permissão de Uso
-                    </th>
-                    <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile' data-label='Permissão de Uso: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1}">
-                        <mat-checkbox [disabled]="true" [checked]="classificacao.permissaoUso"></mat-checkbox>
-                    </td>
-                </ng-container>
+            <!-- Observacao Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('observacao') > -1" matColumnDef="observacao">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Observação
+                </th>
+                <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile' data-label='Observação: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1}"> {{classificacao.observacao}} </td>
+            </ng-container>
 
-                <!-- Observacao Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('observacao') > -1" matColumnDef="observacao">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Observação
-                    </th>
-                    <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile' data-label='Observação: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1}"> {{classificacao.observacao}} </td>
-                </ng-container>
+            <!-- CriadoPor Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('criadoPor.nome') > -1" matColumnDef="criadoPor.nome">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Criado Por
+                </th>
+                <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile' data-label='Criado Por: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1}"> {{classificacao.criadoPor?.nome}} </td>
+            </ng-container>
 
-                <!-- CriadoPor Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('criadoPor.nome') > -1" matColumnDef="criadoPor.nome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Criado Por
-                    </th>
-                    <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile' data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1}"> {{classificacao.criadoPor?.nome}} </td>
-                </ng-container>
+            <!-- CriadoEm Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('criadoEm') > -1" matColumnDef="criadoEm">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Criado Em
+                </th>
+                <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile' data-label='Criado Em: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1}"> {{classificacao.criadoEm | date: 'dd/MM/yyyy'}} </td>
+            </ng-container>
 
-                <!-- CriadoEm Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('criadoEm') > -1" matColumnDef="criadoEm">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Criado Em
-                    </th>
-                    <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile' data-label='Criado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1}"> {{classificacao.criadoEm | date: 'dd/MM/yyyy'}} </td>
-                </ng-container>
+            <!-- AtualizadoPor Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1" matColumnDef="atualizadoPor.nome">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Atualizado Por
+                </th>
+                <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile' data-label='Atualizado Por: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1}"> {{classificacao.atualizadoPor?.nome}} </td>
+            </ng-container>
 
-                <!-- AtualizadoPor Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1" matColumnDef="atualizadoPor.nome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Atualizado Por
-                    </th>
-                    <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile' data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1}"> {{classificacao.atualizadoPor?.nome}} </td>
-                </ng-container>
+            <!-- AtualizadoEm Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('atualizadoEm') > -1" matColumnDef="atualizadoEm">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Atualizado Em
+                </th>
+                <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile' data-label='Atualizado Em: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1}"> {{classificacao.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
+            </ng-container>
 
-                <!-- AtualizadoEm Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('atualizadoEm') > -1" matColumnDef="atualizadoEm">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Atualizado Em
-                    </th>
-                    <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile' data-label='Atualizado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1}"> {{classificacao.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
-                </ng-container>
+            <!-- ApagadoPor Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('apagadoPor.nome') > -1" matColumnDef="apagadoPor.nome">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Apagado Por
+                </th>
+                <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile' data-label='Apagado Por: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1}"> {{classificacao.apagadoPor?.nome}} </td>
+            </ng-container>
 
-                <!-- ApagadoPor Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('apagadoPor.nome') > -1" matColumnDef="apagadoPor.nome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Apagado Por
-                    </th>
-                    <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile' data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1}"> {{classificacao.apagadoPor?.nome}} </td>
-                </ng-container>
+            <!-- ApagadoEm Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('apagadoEm') > -1" matColumnDef="apagadoEm">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Apagado Em
+                </th>
+                <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile' data-label='Apagado Em: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1}"> {{classificacao.apagadoEm | date: 'dd/MM/yyyy'}} </td>
+            </ng-container>
 
-                <!-- ApagadoEm Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('apagadoEm') > -1" matColumnDef="apagadoEm">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Apagado Em
-                    </th>
-                    <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile' data-label='Apagado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1}"> {{classificacao.apagadoEm | date: 'dd/MM/yyyy'}} </td>
-                </ng-container>
+            <!-- Actions Column -->
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let classificacao">
 
-                <!-- Actions Column -->
-                <ng-container matColumnDef="actions">
-                    <th mat-header-cell *matHeaderCellDef></th>
-                    <td mat-cell *matCellDef="let classificacao">
+                    <button mat-icon-button
+                            *ngIf="actions.indexOf('select') > -1"
+                            (click)="selectClassificacao(classificacao)"
+                            aria-label="selecionar"
+                            matTooltip="Selecionar">
+                        <mat-icon>keyboard_return</mat-icon>
+                    </button>
 
-                        <button mat-icon-button
-                                *ngIf="actions.indexOf('select') > -1"
-                                (click)="selectClassificacao(classificacao)"
-                                aria-label="selecionar"
-                                matTooltip="Selecionar">
-                            <mat-icon>keyboard_return</mat-icon>
-                        </button>
+                    <button mat-icon-button
+                            *ngIf="actions.indexOf('edit') > -1"
+                            [disabled]="deletedIds?.indexOf(classificacao.id) > -1"
+                            (click)="editClassificacao(classificacao.id)"
+                            aria-label="editar"
+                            matTooltip="Editar">
+                        <mat-icon>edit</mat-icon>
+                    </button>
 
-                        <button mat-icon-button
-                                *ngIf="actions.indexOf('edit') > -1"
-                                [disabled]="deletedIds?.indexOf(classificacao.id) > -1"
-                                (click)="editClassificacao(classificacao.id)"
-                                aria-label="editar"
-                                matTooltip="Editar">
-                            <mat-icon>edit</mat-icon>
-                        </button>
+                    <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(classificacao.id) > -1">
+                        <mat-spinner diameter="24"></mat-spinner>
+                    </div>
 
-                        <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(classificacao.id) > -1">
-                            <mat-spinner diameter="24"></mat-spinner>
-                        </div>
+                    <button mat-icon-button
+                            *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(classificacao.id) === -1"
+                            [disabled]="deletedIds?.indexOf(classificacao.id) > -1"
+                            (click)="deleteClassificacao(classificacao.id)"
+                            aria-label="remover"
+                            matTooltip="Remover">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
 
-                        <button mat-icon-button
-                                *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(classificacao.id) === -1"
-                                [disabled]="deletedIds?.indexOf(classificacao.id) > -1"
-                                (click)="deleteClassificacao(classificacao.id)"
-                                aria-label="remover"
-                                matTooltip="Remover">
-                            <mat-icon>delete</mat-icon>
-                        </button>
-                    </td>
-                </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
+            <tr mat-row *matRowDef="let classificacao; columns: displayedColumns;">
+            </tr>
+        </table>
 
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let classificacao; columns: displayedColumns;">
-                </tr>
-            </table>
-
-            <mat-paginator [pageSizeOptions]="[5, 10, 25, 50, 100]"></mat-paginator>
-
+        <div class="actions" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="center center">
+            <mat-paginator [disabled]="loading" [pageSizeOptions]="[5, 10]"></mat-paginator>
         </div>
 
     </div>
