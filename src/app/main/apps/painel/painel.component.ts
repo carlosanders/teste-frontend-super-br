@@ -56,8 +56,8 @@ export class PainelComponent implements OnInit
     /**
      * On init
      */
-    ngOnInit(): void
-    {
+    ngOnInit(): void {
+        
         if (this._loginService.isGranted('ROLE_COLABORADOR')) {
             this._tarefaService.count(
                 `{"usuarioResponsavel.id": "eq:${this._profile.id}", "dataHoraConclusaoPrazo": "isNull"}`)
@@ -75,22 +75,6 @@ export class PainelComponent implements OnInit
                 value => this.tarefasVencidasCount = value
             );
 
-            this._documentoAvulsoService.count(
-                `{"usuarioResponsavel.id": "eq:${this._profile.id}", "dataHoraResposta": "isNull"}`)
-                .pipe(
-                    catchError(() => of([]))
-                ).subscribe(
-                value => this.documentosAvulsosCount = value
-            );
-
-            this._documentoAvulsoService.count(
-                `{"usuarioResponsavel.id": "eq:${this._profile.id}", "dataHoraResposta": "isNull", "dataHoraFinalPrazo": "lt:${moment().format('YYYY-MM-DDTHH:mm:ss')}"}`)
-                .pipe(
-                    catchError(() => of([]))
-                ).subscribe(
-                value => this.documentosAvulsosVencidosCount = value
-            );
-
             this._tramitacaoService.count(
                 `{"setorDestino.id": "in:${this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.id).join(',')}", "dataHoraRecebimento": "isNull"}`)
                 .pipe(
@@ -98,26 +82,42 @@ export class PainelComponent implements OnInit
                 ).subscribe(
                 value => this.tramitacoesCount = value
             );
-
-            this.historicoIsLoding = true;
-            this._historicoService.query(
-                `{"criadoPor.id": "eq:${this._profile.id}", "criadoEm": "gt:${moment().subtract(10, 'days').format('YYYY-MM-DDTHH:mm:ss')}"}`,
-                5,
-                0,
-                '{}',
-                '["populateAll"]')
-                .pipe(
-                    catchError(() => {
-                            this.historicoIsLoding = false;
-                            return of([]);
-                        }
-                    )
-                ).subscribe(
-                value => {
-                    this.historicoIsLoding = false;
-                    this.historicos = value['entities'];
-                }
-            );
         }
+
+        this._documentoAvulsoService.count(
+            `{"usuarioResponsavel.id": "eq:${this._profile.id}", "dataHoraResposta": "isNull"}`)
+            .pipe(
+                catchError(() => of([]))
+            ).subscribe(
+            value => this.documentosAvulsosCount = value
+        );
+
+        this._documentoAvulsoService.count(
+            `{"usuarioResponsavel.id": "eq:${this._profile.id}", "dataHoraResposta": "isNull", "dataHoraFinalPrazo": "lt:${moment().format('YYYY-MM-DDTHH:mm:ss')}"}`)
+            .pipe(
+                catchError(() => of([]))
+            ).subscribe(
+            value => this.documentosAvulsosVencidosCount = value
+        );
+
+        this.historicoIsLoding = true;
+        this._historicoService.query(
+            `{"criadoPor.id": "eq:${this._profile.id}", "criadoEm": "gt:${moment().subtract(10, 'days').format('YYYY-MM-DDTHH:mm:ss')}"}`,
+            5,
+            0,
+            '{}',
+            '["populateAll"]')
+            .pipe(
+                catchError(() => {
+                        this.historicoIsLoding = false;
+                        return of([]);
+                    }
+                )
+            ).subscribe(
+            value => {
+                this.historicoIsLoding = false;
+                this.historicos = value['entities'];
+            }
+        );
     }
 }
