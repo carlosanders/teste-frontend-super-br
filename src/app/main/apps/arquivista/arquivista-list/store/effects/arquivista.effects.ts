@@ -58,6 +58,7 @@ export class ArquivistaEffect {
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate));
+
                 }),
                 mergeMap((response) => [
                     new AddData<Processo>({data: response['entities'], schema: processoSchema}),

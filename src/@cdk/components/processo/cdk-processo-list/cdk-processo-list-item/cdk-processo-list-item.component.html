@@ -48,15 +48,15 @@
                     </div>
                 </div>
 
-                <mat-expansion-panel *ngIf="processo.lembretes" (opened)="panelOpenState = true"
-                                     (closed)="panelOpenState = false"
+                <mat-expansion-panel *ngIf="processo.lembretes" (opened)="this.panelOpenState = true"
+                                     (closed)="this.panelOpenState = false"
                                      (click)="$event.stopPropagation();">
                     <mat-expansion-panel-header>
                         <mat-panel-title>
                             Lembrete
                         </mat-panel-title>
                     </mat-expansion-panel-header>
-                    <p *ngIf="editantoLembrete == false" (click)="doEditarLembrete()">{{processo.lembretes.conteudo}}</p>
+                    <p *ngIf="editantoLembrete == false" (click)="doEditarLembrete()">{{processo.lembretes}}</p>
                     <mat-form-field *ngIf="editantoLembrete == true"  fxFlex>
                       <input  matInput>
                     </mat-form-field>

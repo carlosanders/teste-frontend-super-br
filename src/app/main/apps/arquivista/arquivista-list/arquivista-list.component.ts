@@ -81,6 +81,7 @@ export class ArquivistaListComponent implements OnInit, OnDestroy, AfterViewInit
     maximizado = false;
 
 
+
     private _profile: Usuario;
 
     mobileMode = false;
@@ -119,6 +120,7 @@ export class ArquivistaListComponent implements OnInit, OnDestroy, AfterViewInit
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedProcessoIds));
         this.screen$ = this._store.pipe(select(getScreenState));
         this._profile = _loginService.getUserProfile();
+
 
     }
 

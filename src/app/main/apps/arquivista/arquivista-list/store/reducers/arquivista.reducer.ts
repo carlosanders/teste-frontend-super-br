@@ -1,6 +1,7 @@
 import * as ArquivistaActions from 'app/main/apps/arquivista/arquivista-list/store/actions/arquivista.actions';
 import {Etiqueta} from '@cdk/models';
 
+
 export interface ArquivistaState {
     entitiesId: number[];
     pagination: {
@@ -47,6 +48,25 @@ export const ArquivistaInitialState: ArquivistaState = {
 
 export function ArquivistaReducer(state = ArquivistaInitialState, action: ArquivistaActions.ArquivistaActionsAll): ArquivistaState {
     switch (action.type) {
+
+        case ArquivistaActions.UNLOAD_PROCESSOS: {
+            if (action.payload.reset) {
+                return {
+                    ...ArquivistaInitialState
+                };
+            } else {
+                return {
+                    ...state,
+                    entitiesId: [],
+                    pagination: {
+                        ...state.pagination,
+                        limit: 10,
+                        offset: 0,
+                        total: 0
+                    }
+                };
+            }
+        }
 
         case ArquivistaActions.GET_PROCESSOS: {
             return {
@@ -127,26 +147,6 @@ export function ArquivistaReducer(state = ArquivistaInitialState, action: Arquiv
             };
         }
 
-        case ArquivistaActions.TOGGLE_LIDA_PROCESSO: {
-            return {
-                ...state,
-                togglingLidaProcessoIds: [...state.togglingLidaProcessoIds, action.payload]
-            };
-        }
-
-        case ArquivistaActions.TOGGLE_LIDA_PROCESSO_SUCCESS: {
-            return {
-                ...state,
-                togglingLidaProcessoIds: state.togglingLidaProcessoIds.filter(id => id !== action.payload)
-            };
-        }
-
-        case ArquivistaActions.TOGGLE_LIDA_PROCESSO_FAILED: {
-            return {
-                ...state,
-                togglingLidaProcessoIds: state.togglingLidaProcessoIds.filter(id => id !== action.payload)
-            };
-        }
 
         case ArquivistaActions.SET_CURRENT_PROCESSO: {
             return {

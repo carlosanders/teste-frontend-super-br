@@ -1,5 +1,8 @@
 import {Action} from '@ngrx/store';
 
+
+export const UNLOAD_PROCESSOS = '[ARQUIVISTA-LIST] UNLOAD PROCESSOS';
+
 export const GET_PROCESSOS = '[ARQUIVISTA-LIST] GET PROCESSOS';
 export const GET_PROCESSOS_SUCCESS = '[ARQUIVISTA-LIST] GET PROCESSOS SUCCESS';
 export const GET_PROCESSOS_FAILED = '[ARQUIVISTA-LIST] GET PROCESSOS FAILED';
@@ -37,6 +40,17 @@ export const CREATE_VINCULACAO_ETIQUETA_FAILED = '[ARQUIVISTA-LIST] CREATE VINCU
 export const DELETE_VINCULACAO_ETIQUETA = '[ARQUIVISTA-LIST] DELETE VINCULACAO_ETIQUETA';
 export const DELETE_VINCULACAO_ETIQUETA_SUCCESS = '[ARQUIVISTA-LIST] DELETE VINCULACAO_ETIQUETA SUCCESS';
 export const DELETE_VINCULACAO_ETIQUETA_FAILED = '[ARQUIVISTA-LIST] DELETE VINCULACAO_ETIQUETA FAILED';
+
+/**
+ * Unload Processos
+ */
+export class UnloadProcessos implements Action {
+    readonly type = UNLOAD_PROCESSOS;
+
+    constructor(public payload: any) {
+    }
+}
+
 
 /**
  * Get Processos
@@ -348,7 +362,8 @@ export class ToggleMaximizado implements Action
 }
 
 export type ArquivistaActionsAll
-    = GetProcessos
+    = UnloadProcessos
+    | GetProcessos
     | GetProcessosSuccess
     | GetProcessosFailed
     | CreateProcesso
@@ -362,12 +377,6 @@ export type ArquivistaActionsAll
     | SaveProcesso
     | SaveProcessoSuccess
     | SaveProcessoFailed
-    | ToggleLidaProcesso
-    | ToggleLidaProcessoSuccess
-    | ToggleLidaProcessoFailed
-    | ToggleUrgenteProcesso
-    | ToggleUrgenteProcessoSuccess
-    | ToggleUrgenteProcessoFailed
     | CreateVinculacaoEtiqueta
     | CreateVinculacaoEtiquetaSuccess
     | CreateVinculacaoEtiquetaFailed

@@ -15,9 +15,7 @@ import {ArquivistaMainSidebarComponent} from './sidebars/main/main-sidebar.compo
 import {CdkEtiquetaChipsModule} from '@cdk/components/etiqueta/cdk-etiqueta-chips/cdk-etiqueta-chips.module';
 import * as fromGuards from './arquivista-list/store/guards';
 import {ProcessoService} from '@cdk/services/processo.service';
-import { ArquivistaDetailComponent } from './arquivista-detail/arquivista-detail.component';
-import {LembreteService} from '../../../../@cdk/services/lembrete.service';
-import {CdkLembreteGridModule} from '../../../../@cdk/components/lembrete/cdk-lembrete-grid/cdk-lembrete-grid.module';
+
 const routes: Routes = [
     {
         path       : '',
