@@ -133,7 +133,7 @@
     </mat-expansion-panel-header>
     <span>Assuntos: </span>
     <ng-template matExpansionPanelContent >
-        <li *ngFor="let assunto of pagAssunto.entities">
+        <li *ngFor="let assunto of tarefa.processo?.assuntos">
             {{assunto.assuntoAdministrativo.nome}}
         </li>
     </ng-template>

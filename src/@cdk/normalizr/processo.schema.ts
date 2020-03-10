@@ -12,6 +12,11 @@ import {modalidadeMeio} from './index.schema';
 import {vinculacaoEtiqueta} from './index.schema';
 import {processo as processoSchema} from './index.schema';
 
+/*
+* ISSUE-107
+*/
+import {assunto} from './index.schema';
+
 processoSchema.define({
     classificacao: classificacao,
     origemDados: origemDados,
@@ -27,7 +32,8 @@ processoSchema.define({
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario,
-    vinculacoesEtiquetas: [vinculacaoEtiqueta]
+    vinculacoesEtiquetas: [vinculacaoEtiqueta],
+    assuntos: [assunto]
 });
 
 export const processo = processoSchema;

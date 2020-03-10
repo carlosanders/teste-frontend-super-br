@@ -167,21 +167,22 @@
                           (codProcesso)="doLoadAssuntos($event)"
                           [pagAssunto]="(pagAssuntos)">
     </cdk-tarefa-list-item>
-    <div *ngIf="tarefas.length > 0"
-         cdkPerfectScrollbar
-         infiniteScroll
-         fxFlex="1 1 auto" fxLayout="column"
-         [scrollWindow]="false"
-         [infiniteScrollDistance]="2"
-         [infiniteScrollThrottle]="50"
-         (scrolled)="onScroll()">
-
-        
-    </div>
+    
     <div *ngIf="tarefas.length === 0 && !loading" fxLayout="column" fxFlex="1 1 auto" fxLayoutAlign="center center">
         <span class="no-tarefas-text hint-text">{{ 'TAREFA.NO_MESSAGES' | translate }}</span>
     </div>
 
+    <div *ngIf="tarefas.length > 0"
+        cdkPerfectScrollbar
+        infiniteScroll
+        fxFlex="1 1 auto" fxLayout="column"
+        [scrollWindow]="false"
+        [infiniteScrollDistance]="2"
+        [infiniteScrollThrottle]="50"
+        (scrolled)="onScroll()">
+
+       
+   </div>
 </div>
 
 

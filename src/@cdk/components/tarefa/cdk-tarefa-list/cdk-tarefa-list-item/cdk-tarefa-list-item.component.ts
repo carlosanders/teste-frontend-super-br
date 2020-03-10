@@ -130,7 +130,7 @@ export class CdkTarefaListItemComponent implements OnInit {
     }
 
     doOpenPanel(idProcesso: any): void {
-        this.codProcesso.emit(idProcesso);
+        this.codProcesso.emit(this.tarefa);
     }
 
     doClosePanel(): void {

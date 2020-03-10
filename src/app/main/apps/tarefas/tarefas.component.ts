@@ -1,3 +1,4 @@
+import { processo } from './../../../../@cdk/normalizr/processo.schema';
 import { PaginatedResponse } from '@cdk/models/paginated.response';
 
 import { getAssunto } from './../processo/processo-edit/assuntos/assunto-edit/store/selectors/assunto-edit.selectors';
@@ -435,23 +436,26 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         }
         
         //this._storeAssunto.dispatch(new fromAssuntoStore.GetAssuntos(params));
-        
-        this._assuntoService.query(
-            "{\"processo.id\":\"eq:" + idProcesso.id + "\"}",
-            10,
-            0,
-            "{\"principal\":\"DESC\",\"criadoEm\":\"DESC\"}",
-            "[\"populateAll\"]"
-        ).subscribe(ass => {
-            /*
-            this.bsAssuntos.next(ass.entities);
-            this.assuntos = ass.entities;
-            idProcesso.assuntos = ass;
-            console.log(this.bsAssuntos.value);
-            */
-           this.pagAssuntos = ass;
-        });
 
+        if(idProcesso.processo.assuntos === null) {
+            this._assuntoService.query(
+                "{\"processo.id\":\"eq:" + idProcesso.processo.id + "\"}",
+                10,
+                0,
+                "{\"principal\":\"DESC\",\"criadoEm\":\"DESC\"}",
+                "[\"populateAll\"]"
+            ).subscribe(ass => {
+                /*
+                this.bsAssuntos.next(ass.entities);
+                this.assuntos = ass.entities;
+                idProcesso.assuntos = ass;
+                console.log(this.bsAssuntos.value);
+                */
+                idProcesso.processo.assuntos = ass.entities;
+                console.log(idProcesso);
+            });
+        }
+        
     }   
 
 }
