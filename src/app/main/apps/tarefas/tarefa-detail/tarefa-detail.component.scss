@@ -5,14 +5,18 @@ tarefa-detail {
     height: 100%;
 
     .tarefa-header {
-        height: 125px;
-        flex-grow: 0;
-        flex-shrink: 0;
-        padding: 8px;
         border-bottom: 1px solid;
+        height: 55px;
+
+        cdk-vinculacao-etiqueta-chips {
+            width: 92%;
+        }
+
+        .pre-actions {
+            width: 100%;
+        }
 
         .actions {
-            min-width: 88px;
             margin-left: auto;
         }
     }
