@@ -239,6 +239,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     proccessEtiquetaFilter(): any {
+        this._store.dispatch(new fromStore.UnloadTarefas({reset: false}));
         const etiquetasId = [];
         this.etiquetas.forEach((e) => {
             etiquetasId.push(e.id);
