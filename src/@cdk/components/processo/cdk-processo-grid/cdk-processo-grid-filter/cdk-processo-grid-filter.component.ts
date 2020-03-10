@@ -23,7 +23,7 @@ export class CdkProcessoGridFilterComponent implements OnInit {
 
     form: FormGroup;
 
-    filters: any = '{}';
+    filters: any = {};
 
     contexto: any = {};
 

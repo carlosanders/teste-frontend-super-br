@@ -23,7 +23,7 @@ export class CdkModalidadeVinculacaoDocumentoGridFilterComponent implements OnIn
 
     form: FormGroup;
 
-    filters: any = '{}';
+    filters: any = {};
 
     /**
      * Constructor

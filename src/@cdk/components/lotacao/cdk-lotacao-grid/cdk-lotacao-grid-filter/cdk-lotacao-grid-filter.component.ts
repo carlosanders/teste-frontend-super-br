@@ -24,7 +24,7 @@ export class CdkLotacaoGridFilterComponent implements OnInit {
 
     form: FormGroup;
 
-    filters: any = '{}';
+    filters: any = {};
 
     @Input()
     pagination: Pagination;

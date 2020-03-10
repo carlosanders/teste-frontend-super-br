@@ -2,10 +2,6 @@
 
 cdk-pessoa-grid {
 
-    componente-digital {
-        height: 100%;
-    }
-
     height: 100%;
 
     .colunas {
@@ -14,18 +10,34 @@ cdk-pessoa-grid {
         .mat-select-value {
             display: none !important;
         }
+
     }
 
-    .mat-column-select {
-        overflow: initial;
-    }
+    .content {
 
-    table {
-        width: 100%;
+        .actions {
+            width: 100%;
 
-        td {
-            &.deleted {
-                text-decoration: line-through;
+            .back {
+                margin-right: auto;
+            }
+        }
+
+        .mat-column-select {
+            overflow: initial;
+        }
+
+        table {
+            width: 100%;
+
+            tr {
+                height: auto;
+            }
+
+            td {
+                &.deleted {
+                    text-decoration: line-through;
+                }
             }
         }
     }
@@ -105,16 +117,6 @@ cdk-pessoa-grid {
 
         .mat-paginator {
             margin-top: 24px;
-        }
-    }
-
-    .content {
-        .actions {
-            width: 100%;
-
-            .back {
-                margin-right: auto;
-            }
         }
     }
 }
