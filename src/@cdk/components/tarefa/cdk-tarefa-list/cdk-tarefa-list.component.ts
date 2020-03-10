@@ -3,9 +3,8 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import {AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewEncapsulation} from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
-import {fuseAnimations} from '@fuse/animations';
 import {Tarefa} from '@cdk/models/tarefa.model';
-import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
+
 /*
 * ISSUE-100
 */

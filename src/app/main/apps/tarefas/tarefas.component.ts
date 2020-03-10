@@ -12,7 +12,7 @@ import { getAssunto } from './../processo/processo-edit/assuntos/assunto-edit/st
 } from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {select, Store} from '@ngrx/store';
-import {Observable, Subject} from 'rxjs';
+import { Observable, Subject, BehaviorSubject } from 'rxjs';
 
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {CdkTranslationLoaderService} from '@cdk/services/translation-loader.service';
@@ -39,7 +39,7 @@ import {Usuario} from '@cdk/models';
 
 import * as fromAssuntoStore from 'app/main/apps/processo/processo-edit/assuntos/assunto-list/store';
 import { AssuntoService } from '@cdk/services/assunto.service';
-
+import { Assunto } from '@cdk/models';
 
 @Component({
     selector: 'tarefas',
