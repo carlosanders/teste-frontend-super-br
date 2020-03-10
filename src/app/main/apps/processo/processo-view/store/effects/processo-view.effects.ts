@@ -44,6 +44,9 @@ export class ProcessoViewEffect {
             .pipe(
                 ofType<ProcessoViewActions.GetJuntadas>(ProcessoViewActions.GET_JUNTADAS),
                 switchMap((action) => {
+                    const chaveAcesso = this.routerState.params.chaveAcessoHandle ? {
+                        chaveAcesso: this.routerState.params.chaveAcessoHandle
+                    } : {};
                     return this._juntadaService.query(
                         JSON.stringify({
                             ...action.payload.filter,
@@ -54,7 +57,8 @@ export class ProcessoViewEffect {
                         action.payload.limit,
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
-                        JSON.stringify(action.payload.populate));
+                        JSON.stringify(action.payload.populate),
+                        JSON.stringify(chaveAcesso));
                 }),
                 mergeMap((response) => [
                     new AddData<Juntada>({data: response['entities'], schema: juntadaSchema}),
