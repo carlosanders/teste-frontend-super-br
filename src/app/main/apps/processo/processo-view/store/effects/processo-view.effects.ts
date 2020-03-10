@@ -14,6 +14,7 @@ import {juntada as juntadaSchema} from '@cdk/normalizr/juntada.schema';
 import {JuntadaService} from '@cdk/services/juntada.service';
 import {getCurrentStep, getIndex, getPagination} from '../selectors';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
+import {HttpParams} from '@angular/common/http';
 
 @Injectable()
 export class ProcessoViewEffect {
@@ -114,7 +115,11 @@ export class ProcessoViewEffect {
                     if (typeof index[currentStep.step] === 'undefined' || typeof index[currentStep.step][currentStep.subStep] === 'undefined') {
                         return throwError(new Error('não há documentos'));
                     }
-                    return this._componenteDigitalService.download(index[currentStep.step][currentStep.subStep]);
+                    const chaveAcesso = this.routerState.params.chaveAcessoHandle ?
+                        {chaveAcesso: this.routerState.params.chaveAcessoHandle} : {};
+                    const context = JSON.stringify(chaveAcesso);
+
+                    return this._componenteDigitalService.download(index[currentStep.step][currentStep.subStep], new HttpParams(), context);
                 }),
                 map((response: any) => {
                     return new ProcessoViewActions.SetCurrentStepSuccess(response);

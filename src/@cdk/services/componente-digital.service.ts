@@ -20,7 +20,7 @@ export class ComponenteDigitalService {
 
     download(id: number | string, params: HttpParams = new HttpParams(), context: any = '{}'): Observable<any> {
         params['context'] = context;
-        return this.http.get(`${environment.api_url}componente_digital/${id}/download` + environment.xdebug, {params: params});
+        return this.http.get(`${environment.api_url}componente_digital/${id}/download` + environment.xdebug, {params});
     }
 
     downloadAsPdf(id: number | string, params: HttpParams = new HttpParams(), context: any = '{}'): Observable<any> {
