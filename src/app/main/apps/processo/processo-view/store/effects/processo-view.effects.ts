@@ -3,7 +3,7 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of, throwError} from 'rxjs';
-import {catchError, map, exhaustMap, mergeMap, withLatestFrom, switchMap} from 'rxjs/operators';
+import {catchError, map, exhaustMap, mergeMap, withLatestFrom, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as ProcessoViewActions from 'app/main/apps/processo/processo-view/store/actions/processo-view.actions';
@@ -12,7 +12,7 @@ import {AddData} from '@cdk/ngrx-normalizr';
 import {Juntada} from '@cdk/models';
 import {juntada as juntadaSchema} from '@cdk/normalizr/juntada.schema';
 import {JuntadaService} from '@cdk/services/juntada.service';
-import {getCurrentStep, getIndex} from '../selectors';
+import {getCurrentStep, getIndex, getPagination} from '../selectors';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 
 @Injectable()
@@ -92,8 +92,7 @@ export class ProcessoViewEffect {
                             value: this.routerState.params.processoHandle
                         },
                         total: response['total']
-                    }),
-                    new ProcessoViewActions.SetCurrentStep({step: 0, subStep: 0})
+                    })
                 ]),
                 catchError((err, caught) => {
                     console.log (err);
@@ -103,7 +102,6 @@ export class ProcessoViewEffect {
             );
 
     /**
-     * Set Current Step
      * @type {Observable<any>}
      */
     @Effect()
@@ -120,6 +118,26 @@ export class ProcessoViewEffect {
                 }),
                 map((response: any) => {
                     return new ProcessoViewActions.SetCurrentStepSuccess(response);
+                }),
+                catchError((err, caught) => {
+                    this._store.dispatch(new ProcessoViewActions.SetCurrentStepFailed(err));
+                    return caught;
+                })
+            );
+
+    /**
+     * Set Current Step
+     */
+    @Effect({dispatch: false})
+    getJuntadasSuccess: any =
+        this._actions
+            .pipe(
+                ofType<ProcessoViewActions.GetJuntadasSuccess>(ProcessoViewActions.GET_JUNTADAS_SUCCESS),
+                withLatestFrom(this._store.pipe(select(getPagination))),
+                tap(([action, pagination]) => {
+                    if (pagination.offset === 0) {
+                        this._store.dispatch(new ProcessoViewActions.SetCurrentStep({step: 0, subStep: 0}));
+                    }
                 }),
                 catchError((err, caught) => {
                     this._store.dispatch(new ProcessoViewActions.SetCurrentStepFailed(err));

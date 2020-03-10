@@ -19,7 +19,6 @@ import {PessoaListComponent} from './pessoa-list.component';
 import {PessoaService} from '@cdk/services/pessoa.service';
 import {RouterModule, Routes} from '@angular/router';
 import {PessoaListStoreModule} from 'app/main/apps/pessoa/pessoa-list/store/store.module';
-import * as fromGuards from 'app/main/apps/pessoa/pessoa-list/store/guards';
 import {CdkPessoaGridModule} from '@cdk/components/pessoa/cdk-pessoa-grid/cdk-pessoa-grid.module';
 
 const routes: Routes = [
@@ -57,8 +56,7 @@ const routes: Routes = [
         PessoaListStoreModule,
     ],
     providers: [
-        PessoaService,
-        fromGuards.ResolveGuard
+        PessoaService
     ],
     exports: [
         PessoaListComponent
