@@ -119,7 +119,7 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
         this._cdkTranslationLoaderService.loadTranslations(english);
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
         this.documentosAvulso$ = this._store.pipe(select(fromStore.getDocumentosAvulso));
-        this.selectedDocumentosAvulso$ = this._store.pipe(select(fromStore.getSelectedDocumentoAvulso));
+        this.selectedDocumentosAvulso$ = this._store.pipe(select(fromStore.getSelectedDocumentosAvulso));
         this.selectedIds$ = this._store.pipe(select(fromStore.getSelectedDocumentoAvulsoIds));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
         this.routerState$ = this._store.pipe(select(getRouterState));

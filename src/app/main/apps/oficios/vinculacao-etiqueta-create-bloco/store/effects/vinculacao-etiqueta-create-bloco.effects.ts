@@ -15,7 +15,7 @@ import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import * as moment from 'moment';
-import {tarefa as tarefaSchema} from '@cdk/normalizr/tarefa.schema';
+import {documentoAvulso as documentoAvulsoSchema} from '@cdk/normalizr/documento-avulso.schema';
 
 @Injectable()
 export class VinculacaoEtiquetaCreateBlocoEffect {
@@ -53,12 +53,12 @@ export class VinculacaoEtiquetaCreateBlocoEffect {
                             new AddChildData<VinculacaoEtiqueta>({
                                 data: [{...action.payload, ...response}],
                                 childSchema: vinculacaoEtiquetaSchema,
-                                parentSchema: tarefaSchema,
-                                parentId: action.payload.tarefa.id
+                                parentSchema: documentoAvulsoSchema,
+                                parentId: action.payload.documentoAvulso.id
                             }),
                             new OperacoesActions.Resultado({
                                 type: 'vinculacao_etiqueta',
-                                content: `Etiqueta na tarefa id ${action.payload.tarefa.id} criada com sucesso!`,
+                                content: `Etiqueta na ofício id ${action.payload.documentoAvulso.id} criada com sucesso!`,
                                 success: true,
                                 dateTime: response.criadoEm
                             })
@@ -67,7 +67,7 @@ export class VinculacaoEtiquetaCreateBlocoEffect {
                             console.log (err);
                             this._store.dispatch(new OperacoesActions.Resultado({
                                 type: 'vinculacao_etiqueta',
-                                content: `Houve erro no etiqueta na tarefa id ${action.payload.tarefa.id}! ${err.error.message}`,
+                                content: `Houve erro no etiqueta na ofício id ${action.payload.documentoAvulso.id}! ${err.error.message}`,
                                 success: false,
                                 dateTime: moment()
                             }));

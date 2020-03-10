@@ -1,12 +1,12 @@
 import * as VinculacaoEtiquetaCreateBlocoActions from '../actions/vinculacao-etiqueta-create-bloco.actions';
 
 export interface VinculacaoEtiquetaCreateBlocoState {
-    savingTarefasId: number[];
+    savingDocumentosAvulsoId: number[];
     errors: any;
 }
 
 export const VinculacaoEtiquetaCreateInitialState: VinculacaoEtiquetaCreateBlocoState = {
-    savingTarefasId: [],
+    savingDocumentosAvulsoId: [],
     errors: false
 };
 
@@ -17,7 +17,7 @@ export function VinculacaoEtiquetaCreateBlocoReducer(
 
         case VinculacaoEtiquetaCreateBlocoActions.CREATE_VINCULACAO_ETIQUETA: {
             return {
-                savingTarefasId: [],
+                savingDocumentosAvulsoId: [],
                 errors: false
             };
         }
@@ -25,21 +25,21 @@ export function VinculacaoEtiquetaCreateBlocoReducer(
         case VinculacaoEtiquetaCreateBlocoActions.SAVE_VINCULACAO_ETIQUETA: {
             return {
                 ...state,
-                savingTarefasId: [...state.savingTarefasId, action.payload.tarefa.id]
+                savingDocumentosAvulsoId: [...state.savingDocumentosAvulsoId, action.payload.documentoAvulso.id]
             };
         }
 
         case VinculacaoEtiquetaCreateBlocoActions.SAVE_VINCULACAO_ETIQUETA_SUCCESS: {
             return {
                 ...state,
-                savingTarefasId: state.savingTarefasId.filter(id => id !== action.payload.tarefa.id)
+                savingDocumentosAvulsoId: state.savingDocumentosAvulsoId.filter(id => id !== action.payload.documentoAvulso.id)
             };
         }
 
         case VinculacaoEtiquetaCreateBlocoActions.SAVE_VINCULACAO_ETIQUETA_FAILED: {
             return {
                 ...state,
-                savingTarefasId: state.savingTarefasId.filter(id => id !== action.payload.tarefa.id),
+                savingDocumentosAvulsoId: state.savingDocumentosAvulsoId.filter(id => id !== action.payload.documentoAvulso.id),
                 errors: action.payload
             };
         }
