@@ -65,8 +65,8 @@ export class OficiosEffects {
                         entitiesId: response['entities'].map(documentoAvulso => documentoAvulso.id),
                         processoId: response['entities'].map(documentoAvulso => documentoAvulso.processo.id),
                         loaded: {
-                            id: 'oficioTargetHandle',
-                            value: this.routerState.params.oficioTargetHandle
+                            id: 'oficioTargetHandle_pessoaHandle',
+                            value: this.routerState.params.oficioTargetHandle + '_' + this.routerState.params.pessoaHandle
                         },
                         total: response['total']
                     })

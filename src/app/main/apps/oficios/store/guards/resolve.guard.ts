@@ -125,13 +125,14 @@ export class ResolveGuard implements CanActivate {
                     params['filter'] = documentoAvulsoFilter;
                 });
 
-                if (!this.routerState.params['oficioTargetHandle'] || this.routerState.params['oficioTargetHandle'] !== loaded.value) {
+                if (!this.routerState.params['oficioTargetHandle'] || !this.routerState.params['pessoaHandle']
+                    || this.routerState.params['oficioTargetHandle'] + '_' + this.routerState.params['pessoaHandle'] !== loaded.value) {
                     this._store.dispatch(new fromStore.GetDocumentosAvulso(params));
                     this._store.dispatch(new fromStore.ChangeSelectedDocumentosAvulso([]));
                 }
             }),
             filter((loaded: any) => {
-                return this.routerState.params['oficioTargetHandle'] && this.routerState.params['oficioTargetHandle'] === loaded.value;
+                return this.routerState.params['oficioTargetHandle'] + '_' + this.routerState.params['pessoaHandle'] === loaded.value && this.routerState.params['oficioTargetHandle'];
             }),
             take(1)
         );
