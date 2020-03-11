@@ -6,7 +6,7 @@ import {Pipe, PipeTransform} from '@angular/core';
 @Pipe({name: 'formatNup'})
 export class FormatNupPipe implements PipeTransform {
     transform(nup: string): string {
-        switch (nup.length) {
+        switch (nup?.length) {
             case 17:
                 return nup.substr(0, 5) + '.' + nup.substr(5, 6) + '/' + nup.substr(11, 4) + '-' + nup.substr(15, 2);
                 break;
