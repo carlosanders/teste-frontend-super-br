@@ -119,7 +119,7 @@ export class ProcessoViewEffect {
                         {chaveAcesso: this.routerState.params.chaveAcessoHandle} : {};
                     const context = JSON.stringify(chaveAcesso);
 
-                    return this._componenteDigitalService.download(index[currentStep.step][currentStep.subStep], new HttpParams(), context);
+                    return this._componenteDigitalService.download(index[currentStep.step][currentStep.subStep], context);
                 }),
                 map((response: any) => {
                     return new ProcessoViewActions.SetCurrentStepSuccess(response);
