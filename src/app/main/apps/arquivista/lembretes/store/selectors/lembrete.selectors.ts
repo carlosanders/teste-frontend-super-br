@@ -16,7 +16,7 @@ export const getLembreteId = createSelector(
     (state: LembreteState) => state.loaded ? state.loaded.value : null
 );
 
-export const getLembreteList = createSelector(
+export const getLembrete = createSelector(
     schemaLembreteSelectors.getNormalizedEntities,
     getLembreteId,
     schemaLembreteSelectors.entityProjector

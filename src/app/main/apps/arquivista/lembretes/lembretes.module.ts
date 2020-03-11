@@ -31,7 +31,7 @@ const routes: Routes = [
     ],
     providers: [
         LembreteService,
-        LoginService,
+        LoginService
     ],
 })
 export class LembretesModule {
