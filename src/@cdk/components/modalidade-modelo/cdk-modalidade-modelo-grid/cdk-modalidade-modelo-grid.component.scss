@@ -2,145 +2,115 @@
 
 cdk-modalidade-modelo-grid {
 
-  height: 100%;
+    height: 100%;
 
-  .colunas {
-    width: 20px !important;
+    .colunas {
+        width: 20px !important;
 
-    .mat-select-value {
-      display: none !important;
-    }
-
-  }
-
-  .header {
-
-    .filters {
-
-      .search-wrapper {
-        border-radius: 28px;
-        overflow: hidden;
-        @include mat-elevation(1);
-
-        .search {
-          width: 100%;
-          height: 56px;
-          line-height: 56px;
-          padding: 0 18px;
-
-          input {
-            height: 56px;
-            min-height: 56px;
-            max-height: 56px;
-            padding: 0 16px;
-            border: none;
-            outline: none;
-          }
+        .mat-select-value {
+            display: none !important;
         }
-      }
     }
 
-  }
-
-  .mat-column-select {
-    overflow: initial;
-  }
-
-  table {
-    width: 100%;
-
-    td {
-      &.deleted {
-        text-decoration: line-through;
-      }
-    }
-  }
-
-  .mat-form-field {
-    font-size: 14px;
-    width: 100%;
-  }
-
-  .responsive-grid[max-width~="600px"] {
-    .mat-elevation-z8 {
-      box-shadow: none;
+    .mat-column-select {
+        overflow: initial;
     }
 
-    .mat-header-row {
-      display: none;
-    }
-
-    tbody {
-      display: block;
-      width: 100%;
-    }
-
-    .mat-table {
-
-      * {
-        box-sizing: border-box;
-      }
-
-      .mat-row {
-        display: block;
-        overflow: hidden;
-        height: auto;
-        position: relative;
-        clear: both;
-        box-shadow: 0 2px 1px -1px rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 1px 3px 0 rgba(0, 0, 0, .12);
-        border-radius: 3px;
-
-        + .mat-row {
-          margin-top: 24px;
-        }
-      }
-
-      .mat-cell {
-        display: block;
+    table {
         width: 100%;
-        padding: 0 16px;
-        margin: 16px 0;
-        border: 0 none;
 
-        &:first-child {
-          padding: 0 48px 0 16px;
+        td {
+            &.deleted {
+                text-decoration: line-through;
+            }
+        }
+    }
 
-          a {
-            font-size: 20px;
-          }
+    .mat-form-field {
+        font-size: 14px;
+        width: 100%;
+    }
 
-          &:before {
+    .responsive-grid[max-width~="600px"] {
+        .mat-elevation-z8 {
+            box-shadow: none;
+        }
+
+        .mat-header-row {
             display: none;
-          }
         }
 
-        &.m-card-sub-title {
-          margin-top: -8px;
-          padding: 0 48px 0 16px;
+        tbody {
+            display: block;
+            width: 100%;
         }
-      }
 
-      .has_label_on_mobile {
-        &:before {
-          content: attr(data-label);
-          display: inline;
-          font-weight: bold;
+        .mat-table {
+
+            * {
+                box-sizing: border-box;
+            }
+
+            .mat-row {
+                display: block;
+                overflow: hidden;
+                height: auto;
+                position: relative;
+                clear: both;
+                box-shadow: 0 2px 1px -1px rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 1px 3px 0 rgba(0, 0, 0, .12);
+                border-radius: 3px;
+
+                + .mat-row {
+                    margin-top: 24px;
+                }
+            }
+
+            .mat-cell {
+                display: block;
+                width: 100%;
+                padding: 0 16px;
+                margin: 16px 0;
+                border: 0 none;
+
+                &:first-child {
+                    padding: 0 48px 0 16px;
+
+                    a {
+                        font-size: 20px;
+                    }
+
+                    &:before {
+                        display: none;
+                    }
+                }
+
+                &.m-card-sub-title {
+                    margin-top: -8px;
+                    padding: 0 48px 0 16px;
+                }
+            }
+
+            .has_label_on_mobile {
+                &:before {
+                    content: attr(data-label);
+                    display: inline;
+                    font-weight: bold;
+                }
+            }
         }
-      }
+
+        .mat-paginator {
+            margin-top: 24px;
+        }
     }
 
-    .mat-paginator {
-      margin-top: 24px;
-    }
-  }
+    .content {
+        .actions {
+            width: 100%;
 
-  .content {
-    .actions {
-      width: 100%;
-
-      .back {
-        margin-right: auto;
-      }
+            .back {
+                margin-right: auto;
+            }
+        }
     }
-  }
 }

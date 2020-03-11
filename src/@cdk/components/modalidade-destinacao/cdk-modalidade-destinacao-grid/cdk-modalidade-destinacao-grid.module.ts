@@ -18,6 +18,7 @@ import {CdkModalidadeDestinacaoGridComponent} from './cdk-modalidade-destinacao-
 import {CdkModalidadeDestinacaoAutocompleteModule} from '@cdk/components/modalidade-destinacao/cdk-modalidade-destinacao-autocomplete/cdk-modalidade-destinacao-autocomplete.module';
 import {CdkModalidadeDestinacaoGridFilterModule} from './cdk-modalidade-destinacao-grid-filter/cdk-modalidade-destinacao-grid-filter.module';
 import {CdkModalidadeDestinacaoMainSidebarComponent} from './sidebars/main/main.component';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
     declarations: [
@@ -40,6 +41,7 @@ import {CdkModalidadeDestinacaoMainSidebarComponent} from './sidebars/main/main.
 
         CdkSharedModule,
         CdkSidebarModule,
+        MatTooltipModule,
     ],
     providers: [
         ModalidadeDestinacaoService,
