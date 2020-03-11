@@ -44,6 +44,9 @@ export class CdkProcessoListItemComponent implements OnInit {
     @Output()
     realizarTransicao = new EventEmitter<any>();
 
+    @Output()
+    salvarLembrete = new EventEmitter<any>();
+
     draggable = {
         // note that data is handled with JSON.stringify/JSON.parse
         // only set simple data or POJO's as methods will be lost
@@ -67,7 +70,6 @@ export class CdkProcessoListItemComponent implements OnInit {
     }
 
 
-
     onSelectedChange(): void {
         this.toggleInSelectedProcessos.emit(this.processo.id);
     }
@@ -83,10 +85,18 @@ export class CdkProcessoListItemComponent implements OnInit {
     doCriarLembrete(): void {
         this.criarLembrete.emit();
     }
+
     doEditarLembrete(): void {
         this.editantoLembrete = true;
         this.editarLembrete.emit();
     }
+
+    doSalvarLembrete(processo, conteudo): void {
+
+        this.salvarLembrete.emit({processo: processo, conteudo: conteudo});
+
+    }
+
 
 }
 

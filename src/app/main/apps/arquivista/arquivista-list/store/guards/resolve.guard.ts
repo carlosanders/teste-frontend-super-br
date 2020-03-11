@@ -62,7 +62,7 @@ export class ResolveGuard implements CanActivate {
      * @returns {Observable<any>}
      */
     getProcessos(): any {
-
+        this._store.dispatch(new fromStore.UnloadProcessos({reset: true}));
         return this._store.pipe(
             select(getProcessosLoaded),
             tap((loaded: any) => {
@@ -72,7 +72,7 @@ export class ResolveGuard implements CanActivate {
                     etiquetaFilter: {},
                     limit: 10,
                     offset: 0,
-                    sort: {dataHoraProximaTransicao: 'ASC'},
+                    sort: {dataHoraProximaTransicao: 'ASC', dataHoraAbertura: 'ASC', lembretes: 'DESC'},
                     populate: [
                         'especieProcesso',
                         'modalidadeMeio',
@@ -94,11 +94,13 @@ export class ResolveGuard implements CanActivate {
                 routeTypeParam.subscribe(typeParam => {
                     let processoFilter = {};
 
+
                     this.currentDate =  moment().format('YYYY-m-d[T]H:mm:ss');
 
                     if (this.routerState.params[typeParam] === 'pronto-transicao') {
                         processoFilter = {
                             dataHoraProximaTransicao: 'lt:' + this.currentDate,
+                            modalidadeFase: 'in:1,2',
 
                         };
                     }
@@ -106,12 +108,14 @@ export class ResolveGuard implements CanActivate {
                     if (this.routerState.params[typeParam] === 'aguardando-decurso') {
                         processoFilter = {
                             dataHoraProximaTransicao: 'gte:' + this.currentDate,
+                            modalidadeFase: 'in:1,2',
                         };
                     }
 
                     if (this.routerState.params[typeParam] === 'pendencia-analise') {
                         processoFilter = {
-                            dataHoraProximaTransicao: 'isNull'
+                            dataHoraProximaTransicao: 'isNull',
+                            modalidadeFase: 'in:1,2',
                         };
 
                     }

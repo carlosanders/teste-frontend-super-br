@@ -14,7 +14,7 @@ import {Observable, Subject} from 'rxjs';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {CdkTranslationLoaderService} from '@cdk/services/translation-loader.service';
 
-import {Processo} from '@cdk/models';
+import {Lembrete, Processo} from '@cdk/models';
 import {ProcessoService} from '@cdk/services/processo.service';
 import * as fromStore from 'app/main/apps/arquivista/arquivista-list/store';
 import {getRouterState, getScreenState} from 'app/store/reducers';
@@ -48,6 +48,9 @@ export class ArquivistaListComponent implements OnInit, OnDestroy, AfterViewInit
 
     routerState: any;
 
+    processoId: any;
+    conteudo: any;
+
     searchInput: FormControl;
 
     currentProcessoId: number;
@@ -79,6 +82,7 @@ export class ArquivistaListComponent implements OnInit, OnDestroy, AfterViewInit
 
     maximizado$: Observable<boolean>;
     maximizado = false;
+
 
 
     private _profile: Usuario;
@@ -119,6 +123,7 @@ export class ArquivistaListComponent implements OnInit, OnDestroy, AfterViewInit
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedProcessoIds));
         this.screen$ = this._store.pipe(select(getScreenState));
         this._profile = _loginService.getUserProfile();
+
 
     }
 
@@ -239,6 +244,21 @@ export class ArquivistaListComponent implements OnInit, OnDestroy, AfterViewInit
     setCurrentProcesso(processo: Processo): void {
         this._store.dispatch(new fromStore.SetCurrentProcesso({
             processoId: processo.id,
+            populate: [
+                'especieProcesso',
+                'modalidadeMeio',
+                'modalidadeFase',
+                'documentoAvulsoOrigem',
+                'especieProcesso',
+                'classificacao',
+                'classificacao.modalidadeDestinacao',
+                'setorInicial',
+                'setorAtual',
+                'lembretes',
+                'vinculacoesEtiquetas',
+                'vinculacoesEtiquetas.etiqueta'
+
+            ],
             acessoNegado: processo.acessoNegado
         }));
     }
@@ -296,6 +316,24 @@ export class ArquivistaListComponent implements OnInit, OnDestroy, AfterViewInit
 
     doClassificacaoBloco(): void {
         this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle + '/' + this.routerState.params.typeHandle + '/vinculacao-etiqueta-bloco']).then();
+    }
+
+    salvarLembrete(params): void {
+
+        console.log(params);
+
+        const lembrete = new Lembrete();
+
+        Object.entries(params).forEach(
+            ([key, value]) => {
+                lembrete[key] = value;
+            }
+        );
+
+        this._store.dispatch(new fromStore.SaveLembrete(lembrete));
+
+
+
     }
 
 

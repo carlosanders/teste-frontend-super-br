@@ -14,6 +14,8 @@ import {ArquivistaStoreModule} from './store/store.module';
 import {ProcessoService} from '@cdk/services/processo.service';
 import {ResizableModule} from 'angular-resizable-element';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
+import {LoginService} from '../../../auth/login/login.service';
+import {LembreteService} from '../../../../../@cdk/services/lembrete.service';
 
 
 const routes: Routes = [
@@ -58,7 +60,9 @@ const routes: Routes = [
     ],
     providers: [
         fromGuards.ResolveGuard,
-
+        ProcessoService,
+        LembreteService,
+        LoginService
     ]
 })
 export class ArquivistaListModule {

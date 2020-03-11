@@ -3,7 +3,7 @@ import {Actions, Effect, ofType} from '@ngrx/effects';
 import {ProcessoService} from '../../../../../../../@cdk/services/processo.service';
 import {VinculacaoEtiquetaService} from '../../../../../../../@cdk/services/vinculacao-etiqueta.service';
 import {select, Store} from '@ngrx/store';
-import * as ArquivistaDetailActions from '../actions/arquivista-detail.actions';
+
 
 import {getRouterState, State} from 'app/store/reducers';
 import {Router} from '@angular/router';

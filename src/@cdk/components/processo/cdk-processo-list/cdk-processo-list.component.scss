@@ -1,13 +1,7 @@
 cdk-processo-list {
-    min-height: 100%;
-    display: flex;
-    flex: 1 0 auto;
-    flex-direction: column;
-    position: relative;
-    padding: 0;
+
     border-right: 1px solid rgba(0, 0, 0, 0.12);
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
+   height: 100%;
 
     .processo-list-loading {
         z-index: 9999;
@@ -17,23 +11,27 @@ cdk-processo-list {
         transform: translate(-50%, -50%);
     }
 
-    .toolbar {
+    .content {
+        .toolbar {
 
-        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.12);
 
-        .toolbar-separator {
-            height: 32px;
-            width: 1px;
-            margin: 0 12px;
-        }
+            .toolbar-separator {
+                height: 32px;
+                width: 1px;
+                margin: 0 12px;
+            }
 
-        .processo-list-control {
-            margin-left: auto;
+            .processo-list-control {
+                margin-left: auto;
+            }
         }
     }
+
 
     .no-processos-text {
-        font-size: 16px;
-        font-weight: 300;
+            font-size: 16px;
+            font-weight: 300;
+        }
     }
-}
+

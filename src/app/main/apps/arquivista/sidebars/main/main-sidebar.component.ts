@@ -140,12 +140,6 @@ export class ArquivistaMainSidebarComponent implements OnInit, OnDestroy {
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
-    /**
-     * Compose dialog
-     */
-    create(): void {
-        this._store.dispatch(new fromStore.CreateProcesso());
-    }
 
 
 }

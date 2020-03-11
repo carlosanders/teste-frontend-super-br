@@ -38,6 +38,8 @@ export class ArquivistaComponent implements OnInit, OnDestroy {
     pagination$: Observable<any>;
     pagination: any;
 
+    private _profile: Usuario;
+
     /**
      * Constructor
      *
@@ -54,8 +56,13 @@ export class ArquivistaComponent implements OnInit, OnDestroy {
         private _loginService: LoginService
     ) {
         // Set the defaults
-
+        this._profile = _loginService.getUserProfile();
         this.vinculacaoEtiquetaPagination = new Pagination();
+
+        this.vinculacaoEtiquetaPagination.filter = {
+            'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.id,
+            'modalidadeEtiqueta.valor': 'eq:ARQUIVO'
+        };
 
 
     }
@@ -116,7 +123,22 @@ export class ArquivistaComponent implements OnInit, OnDestroy {
         };
         const nparams = {
             ...this.pagination,
-            etiquetaFilter: etiquetaFilter
+            etiquetaFilter: etiquetaFilter,
+            populate: [
+                'especieProcesso',
+                'modalidadeMeio',
+                'modalidadeFase',
+                'documentoAvulsoOrigem',
+                'especieProcesso',
+                'classificacao',
+                'classificacao.modalidadeDestinacao',
+                'setorInicial',
+                'setorAtual',
+                'lembretes',
+                'vinculacoesEtiquetas',
+                'vinculacoesEtiquetas.etiqueta'
+
+            ]
         };
         this._store.dispatch(new fromStore.GetProcessos(nparams));
     }

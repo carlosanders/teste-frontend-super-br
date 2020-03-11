@@ -1,4 +1,4 @@
-import {classificacao} from './index.schema';
+import {classificacao, lembrete} from './index.schema';
 import {origemDados} from './index.schema';
 import {processo as processoOrigem} from './index.schema';
 import {documentoAvulso} from './index.schema';
@@ -27,6 +27,7 @@ processoSchema.define({
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario,
+    lembretes: [lembrete],
     vinculacoesEtiquetas: [vinculacaoEtiqueta]
 });
 

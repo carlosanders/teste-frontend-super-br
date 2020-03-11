@@ -75,8 +75,8 @@ export class ArquivistaDetailComponent implements OnInit, OnDestroy, AfterViewIn
         this.screen$ = this._store.pipe(select(getScreenState));
         this.vinculacaoEtiquetaPagination = new Pagination();
         this.vinculacaoEtiquetaPagination.filter = {
-            // 'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.id,
-            'modalidadeEtiqueta.valor': 'eq:PROCESSO'
+            'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.id,
+            'modalidadeEtiqueta.valor': 'eq:ARQUIVO'
         };
 
         this.savingVincEtiquetaId$ = this._store.pipe(select(fromStoreProcesso.getSavingVincEtiquetaId));
@@ -170,6 +170,10 @@ export class ArquivistaDetailComponent implements OnInit, OnDestroy, AfterViewIn
 
     setRouteRealizarTransacao() {
         return this.processo.id + '/realizar-transicao/criar';
+    }
+
+    setRouteLembrete() {
+        return this.processo.id + '/lembretes';
     }
 
     isDataProntaParaTransicao() {

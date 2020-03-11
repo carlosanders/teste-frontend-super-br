@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ArquivistaDetailComponent } from './arquivista-detail.component';
+import { CdkLembreteFormComponent } from './cdk-lembrete-form.component';
 
-describe('ArquivistaDetailComponent', () => {
-  let component: ArquivistaDetailComponent;
-  let fixture: ComponentFixture<ArquivistaDetailComponent>;
+describe('CdkLembreteFormComponent', () => {
+  let component: CdkLembreteFormComponent;
+  let fixture: ComponentFixture<CdkLembreteFormComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ArquivistaDetailComponent ]
+      declarations: [ CdkLembreteFormComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ArquivistaDetailComponent);
+    fixture = TestBed.createComponent(CdkLembreteFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -6,16 +6,18 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, concatMap, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, map, concatMap, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as ArquivistaActions from '../actions/arquivista.actions';
 
-import {Processo} from '@cdk/models';
+import {Lembrete, Processo} from '@cdk/models';
 import {ProcessoService} from '@cdk/services/processo.service';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Router} from '@angular/router';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
+
+import {lembrete as lembreteSchema} from '@cdk/normalizr/lembrete.schema';
 
 @Injectable()
 export class ArquivistaEffect {
@@ -58,6 +60,7 @@ export class ArquivistaEffect {
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate));
+
                 }),
                 mergeMap((response) => [
                     new AddData<Processo>({data: response['entities'], schema: processoSchema}),
@@ -98,22 +101,6 @@ export class ArquivistaEffect {
                 })
             );
 
-    /**
-     * Update Processo
-     * @type {Observable<any>}
-     */
-    @Effect()
-    createProcesso: Observable<ArquivistaActions.ArquivistaActionsAll> =
-        this._actions
-            .pipe(
-                ofType<ArquivistaActions.CreateProcesso>(ArquivistaActions.CREATE_PROCESSO),
-                map(() => {
-                    this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle +
-                    this.routerState.params.typeHandle + '/' +
-                    '/' + this.routerState.params.targetHandle + '/criar']).then();
-                    return new ArquivistaActions.CreateProcessoSuccess();
-                })
-            );
 
 
 

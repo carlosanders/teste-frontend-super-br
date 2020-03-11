@@ -15,7 +15,7 @@ import {ArquivistaMainSidebarComponent} from './sidebars/main/main-sidebar.compo
 import {CdkEtiquetaChipsModule} from '@cdk/components/etiqueta/cdk-etiqueta-chips/cdk-etiqueta-chips.module';
 import * as fromGuards from './arquivista-list/store/guards';
 import {ProcessoService} from '@cdk/services/processo.service';
-import { ArquivistaDetailComponent } from './arquivista-detail/arquivista-detail.component';
+
 const routes: Routes = [
     {
         path       : '',
@@ -43,11 +43,11 @@ const routes: Routes = [
         MatProgressSpinnerModule,
         TranslateModule,
         CdkSharedModule,
-        CdkSidebarModule
+        CdkSidebarModule,
     ],
     providers      : [
         fromGuards.ResolveGuard,
-        ProcessoService
+        ProcessoService,
     ]
 })
 export class ArquivistaModule
