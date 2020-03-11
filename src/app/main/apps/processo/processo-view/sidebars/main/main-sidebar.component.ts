@@ -1,4 +1,12 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    EventEmitter,
+    OnInit,
+    Output,
+    ViewEncapsulation
+} from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
 import {Juntada} from '@cdk/models';
@@ -44,6 +52,9 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
     showListFilter = false;
 
     form: FormGroup;
+
+    @Output()
+    scrolled = new EventEmitter<any>();
 
     /**
      * Constructor
@@ -110,6 +121,10 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
                 }
             }
         });
+    }
+
+    onScroll(): void {
+        this.scrolled.emit();
     }
 
     /**

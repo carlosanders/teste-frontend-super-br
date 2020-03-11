@@ -20,6 +20,8 @@ import { EspecieTarefaService } from '@cdk/services/especie-tarefa.service';
 import { ProcessoService } from '@cdk/services/processo.service';
 import {CdkProcessoAutocompleteModule} from '@cdk/components/processo/cdk-processo-autocomplete/cdk-processo-autocomplete.module';
 import { DndModule } from 'ngx-drag-drop';
+import {MatTooltipModule} from "@angular/material/tooltip";
+import {InfiniteScrollModule} from "ngx-infinite-scroll";
 
 @NgModule({
     declarations: [
@@ -50,6 +52,8 @@ import { DndModule } from 'ngx-drag-drop';
         CdkSharedModule,
         CdkSidebarModule,
         MatRippleModule,
+        MatTooltipModule,
+        InfiniteScrollModule,
     ],
     providers: [
         EspecieTarefaService,

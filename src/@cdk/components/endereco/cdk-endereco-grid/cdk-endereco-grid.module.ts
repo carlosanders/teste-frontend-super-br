@@ -10,7 +10,6 @@ import {
     MatSortModule,
     MatSelectModule,
 } from '@cdk/angular/material';
-
 import {CdkSidebarModule} from '@cdk/components/index';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {MunicipioService} from '@cdk/services/municipio.service';
@@ -18,6 +17,7 @@ import {CdkMunicipioAutocompleteModule} from '@cdk/components/municipio/cdk-muni
 import {CdkEnderecoGridComponent} from './cdk-endereco-grid.component';
 import {CdkEnderecoGridFilterModule} from './cdk-endereco-grid-filter/cdk-endereco-grid-filter.module';
 import {CdkEnderecoMainSidebarComponent} from './sidebars/main/main.component';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
     declarations: [
@@ -40,6 +40,7 @@ import {CdkEnderecoMainSidebarComponent} from './sidebars/main/main.component';
 
         CdkSharedModule,
         CdkSidebarModule,
+        MatTooltipModule,
     ],
     providers: [
         MunicipioService,

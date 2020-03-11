@@ -124,6 +124,7 @@ export class CdkAssinaturaGridComponent implements AfterViewInit, OnInit, OnChan
 
     /**
      * @param _changeDetectorRef
+     * @param _cdkSidebarService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,

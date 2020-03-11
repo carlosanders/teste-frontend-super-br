@@ -73,7 +73,11 @@
     <mat-spinner class="juntada-list-loading" diameter="24"></mat-spinner>
 </div>
 
-<div *ngIf="!(isLoading$ | async)" class="juntadas">
+<div class="juntadas" cdkPerfectScrollbar infiniteScroll
+     [scrollWindow]="false"
+     [infiniteScrollDistance]="2"
+     [infiniteScrollThrottle]="50"
+     (scrolled)="onScroll()">
 
     <div class="juntada" matRipple
          *ngFor="let juntada of (juntadas); let i = index; let last = last; let first = first"

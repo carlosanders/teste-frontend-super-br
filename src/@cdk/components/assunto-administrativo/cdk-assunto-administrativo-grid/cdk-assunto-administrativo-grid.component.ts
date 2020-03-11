@@ -160,6 +160,7 @@ export class CdkAssuntoAdministrativoGridComponent implements AfterViewInit, OnI
 
     /**
      * @param _changeDetectorRef
+     * @param _cdkSidebarService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
