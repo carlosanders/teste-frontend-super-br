@@ -9,7 +9,12 @@ import {
     SimpleChange
 } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Lembrete, Processo} from '../../../models';
+import {Lembrete, Pagination, Processo} from '../../../models';
+import {catchError, finalize} from 'rxjs/operators';
+import {of} from 'rxjs';
+import {getRouterState, RouterStateUrl} from '../../../../app/store/reducers';
+import {LembreteService} from '../../../services/lembrete.service';
+import {select} from '@ngrx/store';
 
 @Component({
     selector: 'cdk-lembrete-form',
@@ -17,6 +22,9 @@ import {Lembrete, Processo} from '../../../models';
     styleUrls: ['./cdk-lembrete-form.component.scss']
 })
 export class CdkLembreteFormComponent implements OnInit, OnChanges {
+
+
+    private routerState: RouterStateUrl;
 
     activeCard = 'form';
     form: FormGroup;
@@ -31,6 +39,12 @@ export class CdkLembreteFormComponent implements OnInit, OnChanges {
     lembrete: Lembrete;
 
     @Input()
+    total: number;
+
+    @Input()
+    logEntryPaginationLembrete: Pagination;
+
+    @Input()
     saving: boolean;
 
     @Input()
@@ -39,16 +53,28 @@ export class CdkLembreteFormComponent implements OnInit, OnChanges {
     @Input()
     processo: number;
 
+    @Input()
+    lembretes: Lembrete;
+
+    @Input()
+    pagination: Pagination;
+
+    loading: boolean;
 
     constructor(
         private _formBuilder: FormBuilder,
         private _changeDetectorRef: ChangeDetectorRef,
+        private _lembreteService: LembreteService,
     ) {
+
         this.loadForm();
+        this.loading = false;
+        this.pagination = new Pagination();
     }
 
     ngOnInit(): void {
         this.setProcesso();
+        this.load(this.pagination);
     }
 
     loadForm(): void {
@@ -109,5 +135,47 @@ export class CdkLembreteFormComponent implements OnInit, OnChanges {
         this._changeDetectorRef.markForCheck();
     }
 
+    showLogLembreteGrid(): void {
+        this.activeCard = 'lembrete-gridsearch';
+    }
 
+    reload(params): void {
+        params = {
+            ...this.pagination,
+            filter: {
+                ...this.pagination.filter,
+                ...params.gridFilter
+            },
+            sort: params.sort,
+            limit: params.limit,
+            offset: params.offset,
+            populate: this.pagination.populate
+        };
+        this.load(params);
+    }
+
+    load(params): void {
+
+        this.loading = true;
+
+        params.filter = {
+            processo: 'eq:' + this.processo
+        };
+        params.sort = {
+            criadoEm: 'DESC'
+        };
+        this._lembreteService.query(
+            JSON.stringify(params.filter),
+            params.limit,
+            params.offset,
+            JSON.stringify(params.sort),
+            JSON.stringify(params.populate))
+            .pipe(finalize(() => this.loading = false),
+                catchError(() => of([]))
+            ).subscribe(response => {
+            this.lembretes = response['entities'];
+            this.total = response['total'];
+            this._changeDetectorRef.markForCheck();
+        });
+    }
 }
