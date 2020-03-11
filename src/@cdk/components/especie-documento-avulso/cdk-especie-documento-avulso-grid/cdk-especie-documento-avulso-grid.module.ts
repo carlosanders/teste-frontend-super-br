@@ -18,6 +18,7 @@ import {CdkEspecieDocumentoAvulsoGridComponent} from './cdk-especie-documento-av
 import {CdkEspecieDocumentoAvulsoAutocompleteModule} from '@cdk/components/especie-documento-avulso/cdk-especie-documento-avulso-autocomplete/cdk-especie-documento-avulso-autocomplete.module';
 import {CdkEspecieDocumentoAvulsoGridFilterModule} from './cdk-especie-documento-avulso-grid-filter/cdk-especie-documento-avulso-grid-filter.module';
 import {CdkEspecieDocumentoAvulsoMainSidebarComponent} from './sidebars/main/main.component';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
     declarations: [
@@ -40,6 +41,7 @@ import {CdkEspecieDocumentoAvulsoMainSidebarComponent} from './sidebars/main/mai
 
         CdkSharedModule,
         CdkSidebarModule,
+        MatTooltipModule,
     ],
     providers: [
         EspecieDocumentoAvulsoService,

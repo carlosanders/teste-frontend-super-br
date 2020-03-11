@@ -184,6 +184,7 @@ export class CdkAtividadeGridComponent implements AfterViewInit, OnInit, OnChang
 
     /**
      * @param _changeDetectorRef
+     * @param _cdkSidebarService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
