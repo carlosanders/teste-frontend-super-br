@@ -18,6 +18,9 @@ import {ArquivistaDetailStoreModule} from './store/store.module';
 import {ProcessoService} from '../../../../../@cdk/services/processo.service';
 import {VinculacaoEtiquetaService} from '../../../../../@cdk/services/vinculacao-etiqueta.service';
 import {LoginService} from '../../../auth/login/login.service';
+import {RealizarTransicaoComponent} from '../realizar-transicao/realizar-transicao.component';
+import {RealizarTransicaoModule} from '../realizar-transicao/realizar-transicao.module';
+import {ArquivistaClassificacaoComponent} from '../arquivista-classificacao/arquivista-classificacao.component';
 
 const routes: Routes = [
     {
@@ -25,9 +28,17 @@ const routes: Routes = [
         component: ArquivistaDetailComponent,
         children: [
             {
-                path: '',
+                path: 'processo',
                 loadChildren: () => import('app/main/apps/processo/processo.module').then(m => m.ProcessoModule),
             },
+            {
+                path: ':processoHandle/realizar-transicao/criar',
+                component: RealizarTransicaoComponent
+            },
+            {
+                path: ':processoHandle/classificacao',
+                component: ArquivistaClassificacaoComponent
+            }
         ],
     }
 ]
@@ -57,7 +68,8 @@ const routes: Routes = [
         CdkSidebarModule,
         CdkAtividadeFormModule,
         MatBadgeModule,
-        ArquivistaDetailStoreModule
+        ArquivistaDetailStoreModule,
+        RealizarTransicaoModule
     ],
     exports: [
       ArquivistaDetailComponent

@@ -1,22 +1,22 @@
-import {TransicaoService} from '../../../../../../../@cdk/services/transicao.service';
+import {ClassificacaoService} from '@cdk/services/classificacao.service';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {getRouterState, State} from '../../../../../../store/reducers';
 import {select, Store} from '@ngrx/store';
 import {Router} from '@angular/router';
-import * as RealizarTransicoesActions from '../actions/realizar-transicao.actions';
+import * as ArquivistaClassificacaoActions from '../actions/arquivista-classificacao.actions';
 import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
-import {Transicao} from '../../../../../../../@cdk/models';
+import {Classificacao} from '../../../../../../../@cdk/models';
 import {AddData} from '../../../../../../../@cdk/ngrx-normalizr';
-import {transicao as transicaoSchema} from '@cdk/normalizr/transicao.schema';
+import {classificacao as classificacaoSchema} from '@cdk/normalizr/classificacao.schema';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {of} from 'rxjs';
 
-export class RealizarTransicaoEffects {
+export class ArquivistaClassificacaoEffects {
     routerState: any;
 
     constructor(
         private _actions: Actions,
-        private _transicaoService: TransicaoService,
+        private _classificacaoService: ClassificacaoService,
         private _store: Store<State>,
         private _router: Router
     ) {
@@ -30,16 +30,16 @@ export class RealizarTransicaoEffects {
     }
 
     /**
-     * Get Transicao with router parameters
+     * Get Classificação with router parameters
      * @type {Observable<any>}
      */
     @Effect()
-    getTransicao: any =
+    getClassificacao: any =
         this._actions
             .pipe(
-                ofType<RealizarTransicoesActions.GetTransicao>(RealizarTransicoesActions.GET_TRANSICAO),
+                ofType<ArquivistaClassificacaoActions.GetClassificacao>(ArquivistaClassificacaoActions.GET_CLASSIFICACAO),
                 switchMap((action) => {
-                    return this._transicaoService.query(
+                    return this._classificacaoService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
@@ -49,58 +49,58 @@ export class RealizarTransicaoEffects {
                         ]));
                 }),
                 switchMap(response => [
-                    new AddData<Transicao>({data: response['entities'], schema: transicaoSchema}),
-                    new RealizarTransicoesActions.GetTransicaoSuccess({
+                    new AddData<Classificacao>({data: response['entities'], schema: classificacaoSchema}),
+                    new ArquivistaClassificacaoActions.GetClassificacaoSuccess({
                         loaded: {
                             id: 'transicaoHandle',
                             value: this.routerState.params.transicaoHandle
                         },
-                        transicaoId: response['entities'][0].id
+                        classificacaoId: response['entities'][0].id
                     })
                 ]),
                 catchError((err, caught) => {
                     console.log(err);
-                    this._store.dispatch(new RealizarTransicoesActions.GetTransicaoFailed(err));
+                    this._store.dispatch(new ArquivistaClassificacaoActions.GetClassificacaoFailed(err));
                     return caught;
                 })
             );
 
 
     /**
-     * Save Transicao
+     * Save Classificação
      * @type {Observable<any>}
      */
     @Effect()
-    saveTransicao: any =
+    saveClassificacao: any =
         this._actions
             .pipe(
-                ofType<RealizarTransicoesActions.SaveTransicao>(RealizarTransicoesActions.SAVE_TRANSICAO),
+                ofType<ArquivistaClassificacaoActions.SaveClassificacao>(ArquivistaClassificacaoActions.SAVE_CLASSIFICACAO),
                 switchMap((action) => {
-                    return this._transicaoService.save(action.payload).pipe(
-                        mergeMap((response: Transicao) => [
-                            new RealizarTransicoesActions.SaveTransicaoSuccess(),
-                            new AddData<Transicao>({data: [response], schema: transicaoSchema}),
+                    return this._classificacaoService.save(action.payload).pipe(
+                        mergeMap((response: Classificacao) => [
+                            new ArquivistaClassificacaoActions.SaveClassificacaoSuccess(),
+                            new AddData<Classificacao>({data: [response], schema: classificacaoSchema}),
                             new OperacoesActions.Resultado({
-                                type: 'transicao',
-                                content: `Transição id ${response.id} criada com sucesso!`,
+                                type: 'classificacao',
+                                content: `Classificaçaõ id ${response.id} criada com sucesso!`,
                                 dateTime: response.criadoEm
                             })
                         ]),
                         catchError((err) => {
-                            return of(new RealizarTransicoesActions.SaveTransicaoFailed(err));
+                            return of(new ArquivistaClassificacaoActions.SaveClassificacaoFailed(err));
                         })
                     );
                 })
             );
 
     /**
-     * Save Transicao Success
+     * Save Classificação Success
      */
     @Effect({dispatch: false})
-    saveTransicaoSuccess: any =
+    saveClassificacaoSuccess: any =
         this._actions
             .pipe(
-                ofType<RealizarTransicoesActions.SaveTransicaoSuccess>(RealizarTransicoesActions.SAVE_TRANSICAO_SUCCESS),
+                ofType<ArquivistaClassificacaoActions.SaveClassificacaoSuccess>(ArquivistaClassificacaoActions.SAVE_CLASSIFICACAO_SUCCESS),
                 tap(() => {
                     this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle + '/' +
                     this.routerState.params.typeHandle]).then();

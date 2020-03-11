@@ -11,6 +11,7 @@ import {Observable, Subject} from 'rxjs';
 import {Etiqueta, Pagination, Processo, Usuario, VinculacaoEtiqueta} from '../../../../../@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
+import * as fromStoreProcesso from '../../processo/store';
 import * as fromStore from './store';
 import {LoginService} from '../../../auth/login/login.service';
 import {DynamicService} from '../../../../../modules/dynamic.service';
@@ -25,9 +26,9 @@ import {modulesConfig} from '../../../../../modules/modules-config';
 import {takeUntil} from 'rxjs/operators';
 
 @Component({
-  selector: 'app-arquivista-detail',
-  templateUrl: './arquivista-detail.component.html',
-  styleUrls: ['./arquivista-detail.component.scss']
+    selector: 'app-arquivista-detail',
+    templateUrl: './arquivista-detail.component.html',
+    styleUrls: ['./arquivista-detail.component.scss']
 })
 export class ArquivistaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     private _unsubscribeAll: Subject<any> = new Subject();
@@ -53,7 +54,6 @@ export class ArquivistaDetailComponent implements OnInit, OnDestroy, AfterViewIn
 
     mobileMode = false;
 
-    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef}) container: ViewContainerRef;
 
     /**
      * @param _changeDetectorRef
@@ -70,7 +70,7 @@ export class ArquivistaDetailComponent implements OnInit, OnDestroy, AfterViewIn
         private _dynamicService: DynamicService
     ) {
         this._profile = _loginService.getUserProfile();
-        this.processo$ = this._store.pipe(select(fromStore.getProcesso));
+        this.processo$ = this._store.pipe(select(fromStoreProcesso.getProcesso));
         this.maximizado$ = this._store.pipe(select(getMaximizado));
         this.screen$ = this._store.pipe(select(getScreenState));
         this.vinculacaoEtiquetaPagination = new Pagination();
@@ -79,21 +79,21 @@ export class ArquivistaDetailComponent implements OnInit, OnDestroy, AfterViewIn
             'modalidadeEtiqueta.valor': 'eq:PROCESSO'
         };
 
-        this.savingVincEtiquetaId$ = this._store.pipe(select(fromStore.getSavingVincEtiquetaId));
+        this.savingVincEtiquetaId$ = this._store.pipe(select(fromStoreProcesso.getSavingVincEtiquetaId));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
     }
 
-    ngAfterViewInit(): void {
-        const path = 'app/main/apps/arquivista/arquivista-detail';
-        modulesConfig.forEach((module) => {
-            if (module.components.hasOwnProperty(path)) {
-                module.components[path].forEach((c => {
-                    this._dynamicService.loadComponent(c)
-                        .then( componentFactory  => this.container.createComponent(componentFactory));
-                }));
-            }
-        });
-    }
+    // ngAfterViewInit(): void {
+    //     const path = 'app/main/apps/arquivista/arquivista-detail';
+    //     modulesConfig.forEach((module) => {
+    //         if (module.components.hasOwnProperty(path)) {
+    //             module.components[path].forEach((c => {
+    //                 this._dynamicService.loadComponent(c)
+    //                     .then(componentFactory => this.container.createComponent(componentFactory));
+    //             }));
+    //         }
+    //     });
+    // }
 
     ngOnInit(): void {
         this._store.pipe(
@@ -162,5 +162,20 @@ export class ArquivistaDetailComponent implements OnInit, OnDestroy, AfterViewIn
 
     doToggleMaximizado(): void {
         this._store.dispatch(new ToggleMaximizado());
+    }
+
+    setRouteClassificacao() {
+        return this.processo.id + '/classificacao';
+    }
+
+    setRouteRealizarTransacao() {
+        return this.processo.id + '/realizar-transicao/criar';
+    }
+
+    isDataProntaParaTransicao() {
+        return this.processo.dataHoraProximaTransicao;
+    }
+
+    ngAfterViewInit(): void {
     }
 }

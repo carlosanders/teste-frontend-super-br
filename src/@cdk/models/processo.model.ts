@@ -97,9 +97,10 @@ export class Processo {
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     modalidadeMeio: ModalidadeMeio;
 
+    @Exclude({toPlainOnly: true})
     @Type(() => Lembrete)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    lembrete: Lembrete;
+    lembretes?: Lembrete;
 
     @Exclude({toPlainOnly: true})
     @Type(() => VinculacaoEtiqueta)
@@ -159,6 +160,7 @@ export class Processo {
         this.chaveAcesso = null;
         this.modalidadeMeio = null;
         this.modalidadeFase = null;
+        this.lembretes = null;
         this.documentoAvulsoOrigem = null;
         this.classificacao = null;
         this.procedencia = null;
