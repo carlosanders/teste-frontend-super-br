@@ -48,7 +48,7 @@
                     </div>
                 </div>
 
-                <mat-expansion-panel (opened)="panelOpenState = true"
+                <mat-expansion-panel *ngIf="processo.lembretes" (opened)="panelOpenState = true"
                                      (closed)="panelOpenState = false"
                                      (click)="$event.stopPropagation();">
                     <mat-expansion-panel-header>
@@ -56,9 +56,9 @@
                             Lembrete
                         </mat-panel-title>
                     </mat-expansion-panel-header>
-                    <p *ngIf="editantoLembrete == false" (click)="doEditarLembrete()">Teste</p>
+                    <p *ngIf="editantoLembrete == false" (click)="doEditarLembrete()">{{processo.lembretes.conteudo}}</p>
                     <mat-form-field *ngIf="editantoLembrete == true"  fxFlex>
-                      <input  matInput ng-model="Teste">
+                      <input  matInput>
                     </mat-form-field>
                 </mat-expansion-panel>
 
@@ -102,7 +102,7 @@
                 <button mat-menu-item aria-label="realizar classificacao"
                         (click)="doClassificacao()">
                     <ng-container>
-                        <mat-icon>playlist_add</mat-icon>
+                        <mat-icon>format_indent_increase</mat-icon>
                         <span>Realizar Classificação</span>
                     </ng-container>
                 </button>
