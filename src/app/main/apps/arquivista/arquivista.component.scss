@@ -1,13 +1,13 @@
-@import "src/@cdk/scss/cdk";
+@import "../../../../@cdk/scss/cdk";
 
 arquivista {
 
     .center {
 
         .header {
-            height: 100px !important;
-            min-height: 100px !important;
-            max-height: 100px !important;
+            height: 72px !important;
+            min-height: 72px !important;
+            max-height: 72px !important;
 
             .search-wrapper {
                 border-radius: 28px;
@@ -25,9 +25,9 @@ arquivista {
 
                 .search {
                     width: 100%;
-                    height: 56px;
-                    line-height: 56px;
-                    padding: 0 18px;
+                    height: 46px;
+                    line-height: 46px;
+                    padding: 0 8px;
 
                     cdk-etiqueta-chips {
                         width: 100%;
@@ -37,7 +37,7 @@ arquivista {
                 }
             }
 
-            &.current-arquivista-selected {
+            &.current-processo-selected {
                 .search-wrapper {
                     display: none !important;
                 }
@@ -46,7 +46,7 @@ arquivista {
         }
 
         .content-card {
-            min-height: 100%;
+
             .toolbar {
 
                 .toolbar-separator {
@@ -64,15 +64,14 @@ arquivista {
 
                 .arquivista-list {
                     border-right: 1px solid;
-                    overflow-y: auto;
 
                     &.mobile-mode {
 
-                        &.current-arquivista {
+                        &.current-processo {
                             display: none !important;
                         }
 
-                        &.no-current-arquivista {
+                        &.no-current-processo {
                             max-width: 100% !important;
                         }
 
@@ -84,16 +83,14 @@ arquivista {
                 }
 
                 .arquivista-detail {
-                    width: 100%;
-                    height: 100%;
 
                     &.mobile-mode {
 
-                        &.no-current-arquivista {
+                        &.no-current-processo {
                             display: none !important;
                         }
 
-                        &.current-arquivista {
+                        &.current-processo {
                             max-width: 100% !important;
                         }
 

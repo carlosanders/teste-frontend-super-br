@@ -116,38 +116,6 @@ export function ArquivistaReducer(state = ArquivistaInitialState, action: Arquiv
             };
         }
 
-
-        case ArquivistaActions.DELETE_PROCESSO: {
-            return {
-                ...state,
-                deletingProcessoIds: [...state.deletingProcessoIds, action.payload]
-            };
-        }
-
-        case ArquivistaActions.DELETE_PROCESSO_SUCCESS: {
-            const entitiesId = state.entitiesId.filter(id => id !== action.payload);
-            const selectedProcessoIds = state.selectedProcessoIds.filter(id => id !== action.payload);
-            return {
-                ...state,
-                entitiesId: entitiesId,
-                pagination: {
-                    ...state.pagination,
-                    total: state.pagination.total > 0 ? state.pagination.total - 1 : 0
-                },
-                selectedProcessoIds: selectedProcessoIds,
-                deletingProcessoIds: state.deletingProcessoIds.filter(id => id !== action.payload),
-                deletedProcessoIds: [...state.deletedProcessoIds, action.payload]
-            };
-        }
-
-        case ArquivistaActions.DELETE_PROCESSO_FAILED: {
-            return {
-                ...state,
-                deletingProcessoIds: state.deletingProcessoIds.filter(id => id !== action.payload)
-            };
-        }
-
-
         case ArquivistaActions.SET_CURRENT_PROCESSO: {
             return {
                 ...state,

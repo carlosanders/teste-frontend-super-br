@@ -48,7 +48,7 @@
                     </div>
                 </div>
 
-                <mat-expansion-panel *ngIf="processo.lembretes" (opened)="this.panelOpenState = true"
+                <mat-expansion-panel *ngIf="processo.lembretes[0]" (opened)="this.panelOpenState = true"
                                      (closed)="this.panelOpenState = false"
                                      (click)="$event.stopPropagation();">
                     <mat-expansion-panel-header>
@@ -56,9 +56,10 @@
                             Lembrete
                         </mat-panel-title>
                     </mat-expansion-panel-header>
-                    <p *ngIf="editantoLembrete == false" (click)="doEditarLembrete()">{{processo.lembretes}}</p>
+                    <p *ngIf="editantoLembrete == false" (click)="doEditarLembrete()">{{processo.lembretes[0].conteudo}}</p>
                     <mat-form-field *ngIf="editantoLembrete == true"  fxFlex>
-                      <input  matInput>
+
+                        <input #lembreteConteudo matInput placeholder="Lembrete" [value]="processo.lembretes[0].conteudo" (blur)="doSalvarLembrete(processo, lembreteConteudo.value)" />
                     </mat-form-field>
                 </mat-expansion-panel>
 

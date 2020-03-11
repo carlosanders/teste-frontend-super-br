@@ -27,7 +27,7 @@ processoSchema.define({
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario,
-    lembretes: lembrete,
+    lembretes: [lembrete],
     vinculacoesEtiquetas: [vinculacaoEtiqueta]
 });
 

@@ -20,15 +20,14 @@
                     <cdk-processo-list [loading]="(loading$ | async)"
                                        [processos]="processos"
                                        [currentProcessoId]="currentProcessoId"
+                                       (salvarLembrete)="salvarLembrete($event)"
                                        [pagination]="pagination"
                                        [selectedIds]="(selectedIds$ | async)"
                                        (changeSelectedIds)="changeSelectedIds($event)"
                                        (reload)="reload($event)"
                                        (etiquetarBloco)="doEtiquetarBloco()"
                                        (selected)="setCurrentProcesso($event)">
-<!--                                       (movimentar)="doMovimentar($event)"-->
-<!--                                       (movimentarBloco)="doMovimentarBloco()"-->
-<!--                                       (etiquetarBloco)="doEtiquetarBloco()"-->
+
                     </cdk-processo-list>
                 </div>
                 <div class="processo-detail" mwlResizable [enableGhostResize]="true"
