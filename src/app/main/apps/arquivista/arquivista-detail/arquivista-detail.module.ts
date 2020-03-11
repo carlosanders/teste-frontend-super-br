@@ -20,8 +20,12 @@ import {VinculacaoEtiquetaService} from '../../../../../@cdk/services/vinculacao
 import {LoginService} from '../../../auth/login/login.service';
 import {RealizarTransicaoComponent} from '../realizar-transicao/realizar-transicao.component';
 import {RealizarTransicaoModule} from '../realizar-transicao/realizar-transicao.module';
+
+import {LembretesComponent} from '../lembretes/lembretes.component';
+
 import {ArquivistaClassificacaoComponent} from '../arquivista-classificacao/arquivista-classificacao.component';
 import {LembreteStoreModule} from '../lembretes/store/store.module';
+import {LembretesComponent} from '../lembretes/lembretes.component';
 
 const routes: Routes = [
     {
@@ -37,17 +41,18 @@ const routes: Routes = [
                 component: RealizarTransicaoComponent
             },
             {
-                path: ':processoHandle/classificacao',
-                component: ArquivistaClassificacaoComponent
-            },
-            {
+
                 path: ':processoHandle/lembretes',
                 loadChildren: () => import('../lembretes/lembretes.module').then(m => m.LembretesModule),
+            },
+            {
+                path: ':processoHandle/classificacao',
+                component: ArquivistaClassificacaoComponent
 
             }
         ],
     }
-]
+];
 
 
 @NgModule({

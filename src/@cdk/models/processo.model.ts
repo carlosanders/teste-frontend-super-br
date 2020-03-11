@@ -159,7 +159,7 @@ export class Processo {
         this.chaveAcesso = null;
         this.modalidadeMeio = null;
         this.modalidadeFase = null;
-        this.lembretes = null;
+        this.lembretes = [];
         this.documentoAvulsoOrigem = null;
         this.classificacao = null;
         this.procedencia = null;

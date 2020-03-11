@@ -33,6 +33,9 @@ export class CdkProcessoListComponent implements AfterViewInit, OnInit, OnChange
     selectedIds: number[] = [];
 
     @Output()
+    scrolled = new EventEmitter<any>();
+
+    @Output()
     changeSelectedIds = new EventEmitter();
 
     @Input()
@@ -61,6 +64,11 @@ export class CdkProcessoListComponent implements AfterViewInit, OnInit, OnChange
 
     @Output()
     etiquetarBloco = new EventEmitter<any>();
+
+    @Output()
+    salvarLembrete = new EventEmitter<any>();
+
+
 
     listFilter: {} = {};
     listSort: {} = {};
@@ -180,7 +188,13 @@ export class CdkProcessoListComponent implements AfterViewInit, OnInit, OnChange
         this.etiquetarBloco.emit();
     }
 
+    onScroll(): void {
+        this.scrolled.emit();
+    }
 
+    doSalvarLembrete(params): void {
+        this.salvarLembrete.emit(params);
+    }
 
 
 
