@@ -11,13 +11,9 @@
 <!-- / SIDEBAR HEADER -->
 
 <!-- SIDEBAR CONTENT -->
-<div class="content py-16" cdkPerfectScrollbar>
-
-    <div class="header" fxLayout="column">
-        <div class="filters">
-            <cdk-nome-grid-filter (selected)="setGridFilter($event)"></cdk-nome-grid-filter>
-        </div>
+<div class="py-16" cdkPerfectScrollbar>
+    <div fxLayout="column">
+        <cdk-nome-grid-filter (selected)="setGridFilter($event)"></cdk-nome-grid-filter>
     </div>
-
 </div>
 <!-- / SIDEBAR CONTENT -->

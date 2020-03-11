@@ -10,7 +10,7 @@ import {
     MatSortModule,
     MatSelectModule,
 } from '@cdk/angular/material';
-
+import {MatTooltipModule} from '@angular/material/tooltip';
 import {CdkSidebarModule} from '@cdk/components/index';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {ModalidadeFaseService} from '@cdk/services/modalidade-fase.service';
@@ -40,6 +40,7 @@ import {CdkModalidadeFaseMainSidebarComponent} from './sidebars/main/main.compon
 
         CdkSharedModule,
         CdkSidebarModule,
+        MatTooltipModule,
     ],
     providers: [
         ModalidadeFaseService,

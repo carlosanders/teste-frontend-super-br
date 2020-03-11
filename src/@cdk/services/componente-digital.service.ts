@@ -18,12 +18,14 @@ export class ComponenteDigitalService {
     ) {
     }
 
-    download(id: number | string, params: HttpParams = new HttpParams(), context: any = '{}'): Observable<any> {
+    download(id: number | string, context: any = '{}'): Observable<any> {
+        const params: HttpParams = new HttpParams();
         params['context'] = context;
         return this.http.get(`${environment.api_url}componente_digital/${id}/download` + environment.xdebug, {params});
     }
 
-    downloadAsPdf(id: number | string, params: HttpParams = new HttpParams(), context: any = '{}'): Observable<any> {
+    downloadAsPdf(id: number | string, context: any = '{}'): Observable<any> {
+        const params: HttpParams = new HttpParams();
         params['context'] = context;
         return this.http.get(`${environment.api_url}componente_digital/${id}/downloadAsPdf` + environment.xdebug, {params});
     }
@@ -105,7 +107,7 @@ export class ComponenteDigitalService {
     }
 
     patch(componenteDigital: ComponenteDigital, changes: any, context: any = '{}'): Observable<ComponenteDigital> {
-        const params: HttpParams = new HttpParams()
+        const params: HttpParams = new HttpParams();
         params['context'] = context;
         return this.http.patch(
             `${environment.api_url}${'componente_digital'}/${componenteDigital.id}` + environment.xdebug,
@@ -121,7 +123,7 @@ export class ComponenteDigitalService {
     }
 
     reverter(componenteDigital: ComponenteDigital, changes: any, context: any = '{}'): Observable<ComponenteDigital> {
-        const params: HttpParams = new HttpParams()
+        const params: HttpParams = new HttpParams();
         params['context'] = context;
         return this.http.patch(
             `${environment.api_url}${'componente_digital'}/${componenteDigital.id}/reverter` + environment.xdebug,

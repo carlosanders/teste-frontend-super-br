@@ -10,7 +10,7 @@ import {
     MatSortModule,
     MatSelectModule,
 } from '@cdk/angular/material';
-
+import {MatTooltipModule} from '@angular/material/tooltip';
 import {CdkSidebarModule} from '@cdk/components/index';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {EspecieRelevanciaService} from '@cdk/services/especie-relevancia.service';
@@ -40,6 +40,7 @@ import {CdkEspecieRelevanciaMainSidebarComponent} from './sidebars/main/main.com
 
         CdkSharedModule,
         CdkSidebarModule,
+        MatTooltipModule,
     ],
     providers: [
         EspecieRelevanciaService,

@@ -11,13 +11,9 @@
 <!-- / SIDEBAR HEADER -->
 
 <!-- SIDEBAR CONTENT -->
-<div class="content py-16" cdkPerfectScrollbar>
-
-    <div class="header" fxLayout="column">
-        <div class="filters">
-            <cdk-desentranhamento-grid-filter (selected)="setGridFilter($event)"></cdk-desentranhamento-grid-filter>
-        </div>
+<div class="py-16" cdkPerfectScrollbar>
+    <div fxLayout="column">
+        <cdk-desentranhamento-grid-filter (selected)="setGridFilter($event)"></cdk-desentranhamento-grid-filter>
     </div>
-
 </div>
 <!-- / SIDEBAR CONTENT -->

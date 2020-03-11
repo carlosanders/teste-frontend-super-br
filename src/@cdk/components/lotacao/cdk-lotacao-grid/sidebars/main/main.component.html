@@ -11,13 +11,9 @@
 <!-- / SIDEBAR HEADER -->
 
 <!-- SIDEBAR CONTENT -->
-<div class="content py-16" cdkPerfectScrollbar>
-
-    <div class="header" fxLayout="column">
-        <div class="filters">
-            <cdk-lotacao-grid-filter [pagination]="pagination" (selected)="setGridFilter($event)"></cdk-lotacao-grid-filter>
-        </div>
+<div class="py-16" cdkPerfectScrollbar>
+    <div fxLayout="column">
+        <cdk-lotacao-grid-filter [pagination]="pagination" (selected)="setGridFilter($event)"></cdk-lotacao-grid-filter>
     </div>
-
 </div>
 <!-- / SIDEBAR CONTENT -->
