@@ -53,7 +53,22 @@ export class ArquivistaDetailGuard implements CanActivate{
             tap((loaded: any) => {
                 if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
                     this._store.dispatch(new fromStore.GetProcesso({
-                        id: 'eq:' + this.routerState.params['processoHandle']
+                        id: 'eq:' + this.routerState.params['processoHandle'],
+                        populate: [
+                            'especieProcesso',
+                            'modalidadeMeio',
+                            'modalidadeFase',
+                            'documentoAvulsoOrigem',
+                            'especieProcesso',
+                            'classificacao',
+                            'classificacao.modalidadeDestinacao',
+                            'setorInicial',
+                            'setorAtual',
+                            'lembretes',
+                            'vinculacoesEtiquetas',
+                            'vinculacoesEtiquetas.etiqueta'
+
+                        ],
                     }));
                 }
             }),

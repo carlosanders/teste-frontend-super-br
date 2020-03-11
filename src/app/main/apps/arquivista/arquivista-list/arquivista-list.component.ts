@@ -244,6 +244,21 @@ export class ArquivistaListComponent implements OnInit, OnDestroy, AfterViewInit
     setCurrentProcesso(processo: Processo): void {
         this._store.dispatch(new fromStore.SetCurrentProcesso({
             processoId: processo.id,
+            populate: [
+                'especieProcesso',
+                'modalidadeMeio',
+                'modalidadeFase',
+                'documentoAvulsoOrigem',
+                'especieProcesso',
+                'classificacao',
+                'classificacao.modalidadeDestinacao',
+                'setorInicial',
+                'setorAtual',
+                'lembretes',
+                'vinculacoesEtiquetas',
+                'vinculacoesEtiquetas.etiqueta'
+
+            ],
             acessoNegado: processo.acessoNegado
         }));
     }

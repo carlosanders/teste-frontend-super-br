@@ -72,7 +72,7 @@ export class ResolveGuard implements CanActivate {
                     etiquetaFilter: {},
                     limit: 10,
                     offset: 0,
-                    sort: {dataHoraProximaTransicao: 'ASC', lembretes: 'DESC'},
+                    sort: {dataHoraProximaTransicao: 'ASC', dataHoraAbertura: 'ASC', lembretes: 'DESC'},
                     populate: [
                         'especieProcesso',
                         'modalidadeMeio',
@@ -100,7 +100,7 @@ export class ResolveGuard implements CanActivate {
                     if (this.routerState.params[typeParam] === 'pronto-transicao') {
                         processoFilter = {
                             dataHoraProximaTransicao: 'lt:' + this.currentDate,
-                            modalidadeFase: 'in:',
+                            modalidadeFase: 'in:1,2',
 
                         };
                     }
@@ -108,12 +108,14 @@ export class ResolveGuard implements CanActivate {
                     if (this.routerState.params[typeParam] === 'aguardando-decurso') {
                         processoFilter = {
                             dataHoraProximaTransicao: 'gte:' + this.currentDate,
+                            modalidadeFase: 'in:1,2',
                         };
                     }
 
                     if (this.routerState.params[typeParam] === 'pendencia-analise') {
                         processoFilter = {
-                            dataHoraProximaTransicao: 'isNull'
+                            dataHoraProximaTransicao: 'isNull',
+                            modalidadeFase: 'in:1,2',
                         };
 
                     }
