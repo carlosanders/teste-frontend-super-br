@@ -1,11 +1,13 @@
-<div class="title-lembrete">
-    <h2>CADASTRAR LEMBRETE</h2>
-</div>
+
 <form
     *ngIf="activeCard === 'form'" class="p-16" fxLayoutGap="36px"
     fxLayout="column"
     fxLayoutAlign="start"
     name="form" [formGroup]="form" (submit)="submit()">
+
+    <div class="title-lembrete">
+        <h2>CADASTRAR LEMBRETE</h2>
+    </div>
 
     <div fxFlex="1 0 auto" fxLayout="column">
         <mat-form-field fxFlex="100">
@@ -18,6 +20,10 @@
                       maxlength="255"
                       cdkAutosizeMinRows="5"
                       cdkAutosizeMaxRows="5"></textarea>
+            <button matSuffix mat-button mat-icon-button
+                    (click)="showLogLembreteGrid()">
+                <mat-icon matTooltip="Histórico">history</mat-icon>
+            </button>
             <mat-hint align="end">{{conteudo.value.length}} / 255</mat-hint>
         </mat-form-field>
     </div>
@@ -31,5 +37,15 @@
     </div>
 
 </form>
+
+<cdk-lembrete-historico
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'lembrete-gridsearch'"
+    [actions]="['cancel']"
+    [lembretes]="lembretes"
+    [total]="total"
+    (cancel)="cancel()"
+    (reload)="reload($event)">
+</cdk-lembrete-historico>
 
 <!-- <pre>{{this.form.value | json}}</pre>-->

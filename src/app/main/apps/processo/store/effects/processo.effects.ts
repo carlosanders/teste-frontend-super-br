@@ -63,7 +63,8 @@ export class ProcessoEffect {
                             'populateAll',
                             'setorAtual.unidade',
                             'vinculacoesEtiquetas',
-                            'vinculacoesEtiquetas.etiqueta'
+                            'vinculacoesEtiquetas.etiqueta',
+                            'lembretes'
                         ]),
                         JSON.stringify(chaveAcesso));
                 }),

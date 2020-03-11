@@ -99,7 +99,7 @@ export class Processo {
 
     @Type(() => Lembrete)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    lembrete: Lembrete;
+    lembretes: Lembrete[];
 
     @Exclude({toPlainOnly: true})
     @Type(() => VinculacaoEtiqueta)

@@ -6,6 +6,9 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
+import {CdkLembreteGridModule} from '../cdk-lembrete-grid/cdk-lembrete-grid.module';
+import {CdkLembreteHistoricoModule} from '../cdk-lembrete-historico/cdk-lembrete-historico.module';
 
 
 @NgModule({
@@ -17,6 +20,9 @@ import {MatButtonModule} from '@angular/material/button';
         CdkSharedModule,
         MatInputModule,
         MatButtonModule,
+        MatIconModule,
+        CdkLembreteGridModule,
+        CdkLembreteHistoricoModule,
     ],
     exports: [
         CdkLembreteFormComponent
