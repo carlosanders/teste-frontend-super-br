@@ -340,12 +340,12 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     doResponderComplentarBlocoBloco(): void {
-        this._router.navigate(['apps/oficios/' + this.routerState.params.oficioHandle + '/'
+        this._router.navigate(['apps/oficios/' + this.routerState.params.oficioTargetHandle + '/'
         + this.routerState.params.pessoaHandle + '/responde-complementra-bloco']).then();
     }
 
     doEtiquetarBloco(): void {
-        this._router.navigate(['apps/oficios/' + this.routerState.params.oficioHandle + '/'
+        this._router.navigate(['apps/oficios/' + this.routerState.params.oficioTargetHandle + '/'
         + this.routerState.params.pessoaHandle + '/vinculacao-etiqueta-bloco']).then();
     }
 }
