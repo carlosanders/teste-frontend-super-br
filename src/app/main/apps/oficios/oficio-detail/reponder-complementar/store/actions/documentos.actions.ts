@@ -11,6 +11,8 @@ export const CONVERTE_DOCUMENTO = '[DOCUMENTOS CREATE] CONVERTE DOCUMENTO DOCUME
 export const CONVERTE_DOCUMENTO_SUCESS = '[DOCUMENTOS CREATE] CONVERTE DOCUMENTO DOCUMENTOS SUCCESS';
 export const CONVERTE_DOCUMENTO_FAILED = '[DOCUMENTOS CREATE] CONVERTE DOCUMENTO DOCUMENTOS FAILED';
 
+export const CHANGE_SELECTED_DOCUMENTOS = '[DOCUMENTO CREATE] CHANGE SELECTED DOCUMENTOS';
+
 
 /**
  * Get Documentos
@@ -102,6 +104,16 @@ export class ConverteToPdfFailed implements Action
     }
 }
 
+/**
+ * Change Selected Documentos
+ */
+export class ChangeSelectedDocumentos implements Action {
+    readonly type = CHANGE_SELECTED_DOCUMENTOS;
+
+    constructor(public payload: any) {
+    }
+}
+
 export type DocumentosActionsAll
     = GetDocumentos
     | GetDocumentosSuccess
@@ -110,4 +122,5 @@ export type DocumentosActionsAll
     | CompleteDocumento
     | ConverteToPdf
     | ConverteToPdfSucess
-    | ConverteToPdfFailed;
+    | ConverteToPdfFailed
+    | ChangeSelectedDocumentos;

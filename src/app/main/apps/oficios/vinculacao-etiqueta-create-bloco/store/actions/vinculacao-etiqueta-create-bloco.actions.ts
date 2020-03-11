@@ -7,6 +7,9 @@ export const SAVE_VINCULACAO_ETIQUETA = '[VINCULACAO ETIQUETA CREATE BLOCO] SAVE
 export const SAVE_VINCULACAO_ETIQUETA_SUCCESS = '[VINCULACAO ETIQUETA CREATE BLOCO] SAVE VINCULACAO ETIQUETA SUCCESS';
 export const SAVE_VINCULACAO_ETIQUETA_FAILED = '[VINCULACAO ETIQUETA CREATE BLOCO] SAVE VINCULACAO ETIQUETA FAILED';
 
+export const GET_DOCUMENTO_AVULSO = '[VINCULACAO ETIQUETA GET DOCUMENTO AVULSO] GET DOCUMENTO AVULSO';
+export const GET_DOCUMENTO_AVULSO_SUCCESS = '[VINCULACAO ETIQUETA GET DOCUMENTO AVULSO] GET DOCUMENTO AVULSO SUCCESS';
+
 /**
  * Save Vinculacao Etiqueta
  */
@@ -67,9 +70,30 @@ export class CreateVinculacaoEtiquetaSuccess implements Action
     }
 }
 
+export class GetDocumentoAvulso implements Action
+{
+    readonly type = GET_DOCUMENTO_AVULSO;
+
+    constructor()
+    {
+    }
+}
+
+
+export class GetDocumentoAvulsoSuccess implements Action
+{
+    readonly type = GET_DOCUMENTO_AVULSO_SUCCESS;
+
+    constructor()
+    {
+    }
+}
+
 export type VinculacaoEtiquetaCreateBlocoActionsAll
     = CreateVinculacaoEtiqueta
     | CreateVinculacaoEtiquetaSuccess
     | SaveVinculacaoEtiqueta
     | SaveVinculacaoEtiquetaSuccess
-    | SaveVinculacaoEtiquetaFailed;
+    | SaveVinculacaoEtiquetaFailed
+    | GetDocumentoAvulso
+    | GetDocumentoAvulsoSuccess;

@@ -16,6 +16,7 @@ import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import * as moment from 'moment';
 import {documentoAvulso as documentoAvulsoSchema} from '@cdk/normalizr/documento-avulso.schema';
+import * as DocumentosAvulsoActions from 'app/main/apps/oficios/store/actions/oficios.actions';
 
 @Injectable()
 export class VinculacaoEtiquetaCreateBlocoEffect {
@@ -55,6 +56,9 @@ export class VinculacaoEtiquetaCreateBlocoEffect {
                                 childSchema: vinculacaoEtiquetaSchema,
                                 parentSchema: documentoAvulsoSchema,
                                 parentId: action.payload.documentoAvulso.id
+                            }),
+                            new DocumentosAvulsoActions.GetDocumentosAvulso({
+
                             }),
                             new OperacoesActions.Resultado({
                                 type: 'vinculacao_etiqueta',

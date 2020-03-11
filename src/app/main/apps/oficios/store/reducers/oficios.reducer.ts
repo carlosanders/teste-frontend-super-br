@@ -1,5 +1,6 @@
 import * as DocumentosAvulsoActions from 'app/main/apps/oficios/store/actions/oficios.actions';
 import { Etiqueta } from '@cdk/models';
+import * as TarefasActions from '../../../tarefas/store/actions/tarefas.actions';
 
 export interface DocumentosAvulsoState {
     entitiesId: number[];
@@ -96,6 +97,13 @@ export function OficiosReducer(state = DocumentosAvulsoInitialState, action: Doc
             return {
                 ...state,
                 maximizado: !state.maximizado
+            };
+        }
+
+        case DocumentosAvulsoActions.CHANGE_SELECTED_DOCUMENTOS_AVULSO: {
+            return {
+                ...state,
+                selectedDocumentoAvulsoIds: action.payload
             };
         }
 

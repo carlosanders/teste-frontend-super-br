@@ -72,7 +72,7 @@ export class OficioDetailEffect {
                             'vinculacoesEtiquetas.etiqueta'
                         ]),
                         JSON.stringify({chaveAcesso: `${this.routerState.params['chaveAcessoHandle']}`})
-                        );
+                    );
                 }),
                 mergeMap(response => [
                     new AddData<DocumentoAvulso>({data: response['entities'], schema: documentoAvulsoSchema}),

@@ -57,7 +57,7 @@ export class PainelComponent implements OnInit
      * On init
      */
     ngOnInit(): void {
-        
+
         if (this._loginService.isGranted('ROLE_COLABORADOR')) {
             this._tarefaService.count(
                 `{"usuarioResponsavel.id": "eq:${this._profile.id}", "dataHoraConclusaoPrazo": "isNull"}`)
@@ -82,23 +82,45 @@ export class PainelComponent implements OnInit
                 ).subscribe(
                 value => this.tramitacoesCount = value
             );
+
+            this._documentoAvulsoService.count(
+                `{"usuarioResponsavel.id": "eq:${this._profile.id}", "dataHoraResposta": "isNull"}`)
+                .pipe(
+                    catchError(() => of([]))
+                ).subscribe(
+                value => this.documentosAvulsosCount = value
+            );
+
+            this._documentoAvulsoService.count(
+                `{"usuarioResponsavel.id": "eq:${this._profile.id}", "dataHoraResposta": "isNull", "dataHoraFinalPrazo": "lt:${moment().format('YYYY-MM-DDTHH:mm:ss')}"}`)
+                .pipe(
+                    catchError(() => of([]))
+                ).subscribe(
+                value => this.documentosAvulsosVencidosCount = value
+            );
         }
 
-        this._documentoAvulsoService.count(
-            `{"usuarioResponsavel.id": "eq:${this._profile.id}", "dataHoraResposta": "isNull"}`)
-            .pipe(
-                catchError(() => of([]))
-            ).subscribe(
-            value => this.documentosAvulsosCount = value
-        );
 
-        this._documentoAvulsoService.count(
-            `{"usuarioResponsavel.id": "eq:${this._profile.id}", "dataHoraResposta": "isNull", "dataHoraFinalPrazo": "lt:${moment().format('YYYY-MM-DDTHH:mm:ss')}"}`)
-            .pipe(
-                catchError(() => of([]))
-            ).subscribe(
-            value => this.documentosAvulsosVencidosCount = value
-        );
+        if (this._loginService.isGranted('ROLE_CONVENIADO')) {
+            const pessoas = [];
+            this._profile.vinculacoesPessoasUsuarios.forEach((pessoaConveniada) => pessoas.push(pessoaConveniada.pessoa.id));
+
+            this._documentoAvulsoService.count(
+                `{"pessoaDestino.id": "in:${pessoas}", "dataHoraResposta": "isNull"}`)
+                .pipe(
+                    catchError(() => of([]))
+                ).subscribe(
+                value => this.documentosAvulsosCount = value
+            );
+
+            this._documentoAvulsoService.count(
+                `{"pessoaDestino.id": "eq:${pessoas}", "dataHoraResposta": "isNull", "dataHoraFinalPrazo": "lt:${moment().format('YYYY-MM-DDTHH:mm:ss')}"}`)
+                .pipe(
+                    catchError(() => of([]))
+                ).subscribe(
+                value => this.documentosAvulsosVencidosCount = value
+            );
+        }
 
         this.historicoIsLoding = true;
         this._historicoService.query(

@@ -99,7 +99,6 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
      * @param _changeDetectorRef
      * @param _cdkSidebarService
      * @param _cdkTranslationLoaderService
-     * @param _tarefaService
      * @param _router
      * @param _store
      * @param _loginService
@@ -109,7 +108,6 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
         private _changeDetectorRef: ChangeDetectorRef,
         private _cdkSidebarService: CdkSidebarService,
         private _cdkTranslationLoaderService: CdkTranslationLoaderService,
-        private _documentoAvulsoService: DocumentoAvulsoService,
         private _router: Router,
         private _store: Store<fromStore.DocumentoAvulsoAppState>,
         private _loginService: LoginService
@@ -128,7 +126,7 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
         this._profile = _loginService.getUserProfile();
         this.vinculacaoEtiquetaPagination = new Pagination();
         this.vinculacaoEtiquetaPagination.filter = {'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.id};
-        this.pessoasConveniadas =  _loginService.getUserProfile().vinculacoesPessoasUsuarios;
+        this.pessoasConveniadas =  this._profile.vinculacoesPessoasUsuarios;
     }
 
     // -----------------------------------------------------------------------------------------------------

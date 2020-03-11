@@ -64,7 +64,6 @@ export class VinculacaoEtiquetaCreateBlocoComponent implements OnInit, OnDestroy
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this._profile = _loginService.getUserProfile();
-
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -99,6 +98,8 @@ export class VinculacaoEtiquetaCreateBlocoComponent implements OnInit, OnDestroy
                 this.operacoes = [];
             }
         });
+
+        console.log(this.documentosAvulso);
     }
 
     ngOnDestroy(): void {
