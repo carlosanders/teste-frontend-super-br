@@ -10,10 +10,8 @@ import { cdkAnimations } from '@cdk/animations';
 import { Observable, Subject } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import * as fromStore from './store';
-import { Etiqueta } from '@cdk/models/etiqueta.model';
-import { VinculacaoEtiqueta } from '@cdk/models/vinculacao-etiqueta.model';
+import { Etiqueta, VinculacaoEtiqueta, Documento, Usuario, DocumentoAvulso } from '@cdk/models';
 import { CreateVinculacaoEtiqueta, DeleteVinculacaoEtiqueta } from './store';
-import { Documento } from '@cdk/models/documento.model';
 import { getMaximizado } from '../store/selectors';
 import { ToggleMaximizado } from '../store/actions';
 import { Router } from '@angular/router';
@@ -24,8 +22,6 @@ import { LoginService } from '../../../auth/login/login.service';
 import { getScreenState } from 'app/store/reducers';
 import { DynamicService } from '../../../../../modules/dynamic.service';
 import { modulesConfig } from 'modules/modules-config';
-import { Usuario } from '@cdk/models/usuario.model';
-import { DocumentoAvulso } from '@cdk/models/documento-avulso.model';
 
 @Component({
     selector: 'oficio-detail',

@@ -59,6 +59,9 @@ export class CdkDocumentoAvulsoListComponent implements AfterViewInit, OnInit, O
     reload = new EventEmitter<any>();
 
     @Output()
+    scrolled = new EventEmitter<any>();
+
+    @Output()
     delete = new EventEmitter<number>();
 
     @Output()
@@ -215,5 +218,9 @@ export class CdkDocumentoAvulsoListComponent implements AfterViewInit, OnInit, O
 
     doEtiquetarBloco(): void {
         this.etiquetarBloco.emit();
+    }
+
+    onScroll(): void {
+        this.scrolled.emit();
     }
 }

@@ -2,16 +2,17 @@
 <cdk-sidebar class="sidebar" name="cdk-documento-avulso-list-main-sidebar" position="left">
     <!-- SIDEBAR CONTENT -->
     <div class="content" cdkPerfectScrollbar>
-        <cdk-documento-avulso-list-main-sidebar (selected)="setListFilter($event)" [@animate]="{value:'*'}"></cdk-documento-avulso-list-main-sidebar>
+        <cdk-documento-avulso-list-main-sidebar (selected)="setListFilter($event)"
+                                                [@animate]="{value:'*'}"></cdk-documento-avulso-list-main-sidebar>
     </div>
     <!-- / SIDEBAR CONTENT -->
 </cdk-sidebar>
 <!-- / SIDEBAR -->
 
 
-<div fxLayout="column">
+<div class="content" fxLayout="column">
 
-    <div class="toolbar pt-8 pb-8 pl-16 pr-8" fxFlex fxLayout="row" fxLayoutAlign="start center">
+    <div class="toolbar pt-8 pb-8 pl-16 pr-8" fxFlex="0 0 auto" fxLayout="row" fxLayoutAlign="start center">
 
         <mat-checkbox (click)="toggleSelectAll($event)"
                       [checked]="selectedIds.length"
@@ -34,38 +35,6 @@
 
         <mat-menu #moreMenu="matMenu">
 
-            <!--<button mat-menu-item aria-label="remover"
-                    (click)="doDeleteTarefaBloco()">
-                <ng-container>
-                    <mat-icon>delete</mat-icon>
-                    <span>Remover</span>
-                </ng-container>
-            </button>-->
-
-            <!--<button mat-menu-item aria-label="criar tarefa"
-                    (click)="doCreateTarefaBloco()">
-                <ng-container>
-                    <mat-icon>check_box</mat-icon>
-                    <span>Criar Tarefa</span>
-                </ng-container>
-            </button>-->
-
-            <!--<button mat-menu-item aria-label="criar ofício"
-                    (click)="doCreateDocumentoAvulsoBloco()">
-                <ng-container>
-                    <mat-icon>mail</mat-icon>
-                    <span>Criar Ofício</span>
-                </ng-container>
-            </button>-->
-
-            <!--<button mat-menu-item aria-label="editar tarefa"
-                    (click)="doEditTarefaBloco()">
-                <ng-container>
-                    <mat-icon>edit</mat-icon>
-                    <span>Editar</span>
-                </ng-container>
-            </button>-->
-
             <button mat-menu-item aria-label="reposnder / complementar"
                     (click)="doResponderComplementarBloco()">
                 <ng-container>
@@ -81,14 +50,6 @@
                     <span>Etiquetar</span>
                 </ng-container>
             </button>
-
-            <!--<button mat-menu-item aria-label="compartilhar"
-                    (click)="doCompartilharBloco()">
-                <ng-container>
-                    <mat-icon>share</mat-icon>
-                    <span>Compartilhar</span>
-                </ng-container>
-            </button>-->
 
         </mat-menu>
 
@@ -120,21 +81,31 @@
     </div>
 
     <div fxLayout="column" fxFlex
-         fxLayoutAlign="center center">
-        <mat-spinner class="documento-avulso-list-loading" *ngIf="loading" diameter="24"></mat-spinner>
+         fxLayoutAlign="center center" *ngIf="loading">
+        <mat-spinner class="documento-avulso-list-loading" diameter="24"></mat-spinner>
     </div>
 
-    <cdk-documento-avulso-list-item matRipple *ngFor="let documentoAvulso of documentosAvulso"
-                          [documentoAvulso]="documentoAvulso"
-                          (click)="selectDocumentoAvulso(documentoAvulso)"
-                          [selected]="selectedIds?.length > 0 && selectedIds.indexOf(documentoAvulso.id) > -1"
-                          (toggleInSelectedDocumentosAvulso)="toggleInSelected($event)"
-                          [ngClass]="{'selected':documentoAvulso.id === currentDocumentoAvulsoId}">
-    </cdk-documento-avulso-list-item>
+    <div *ngIf="documentosAvulso.length === 0 && !loading" fxLayout="column" fxFlex="1 1 auto" fxLayoutAlign="center center">
+        <span class="no-documento-avulso-text hint-text">{{ 'OFICIO.NO_MESSAGES' | translate }}</span>
+    </div>
 
-</div>
+    <div *ngIf="documentosAvulso.length > 0"
+         cdkPerfectScrollbar
+         infiniteScroll
+         fxFlex="1 1 auto" fxLayout="column"
+         [scrollWindow]="false"
+         [infiniteScrollDistance]="2"
+         [infiniteScrollThrottle]="50"
+         (scrolled)="onScroll()">
 
-<div *ngIf="documentosAvulso.length === 0 && !loading" fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
-    <span class="no-documento-avulso-text hint-text">{{ 'OFICIO.NO_MESSAGES' | translate }}</span>
+        <cdk-documento-avulso-list-item matRipple *ngFor="let documentoAvulso of documentosAvulso"
+                              [documentoAvulso]="documentoAvulso"
+                              (click)="selectDocumentoAvulso(documentoAvulso)"
+                              [selected]="selectedIds?.length > 0 && selectedIds.indexOf(documentoAvulso.id) > -1"
+                              (toggleInSelectedDocumentosAvulso)="toggleInSelected($event)"
+                              [ngClass]="{'selected':documentoAvulso.id === currentDocumentoAvulsoId}">
+        </cdk-documento-avulso-list-item>
+    </div>
+    
 </div>
 
