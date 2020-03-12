@@ -6,6 +6,7 @@ import {reducers} from './reducers';
 import {effects} from './effects';
 import {ProcessoService} from '@cdk/services/processo.service';
 import {LoginService} from '../../../../auth/login/login.service';
+import {LembreteService} from '../../../../../../@cdk/services/lembrete.service';
 
 @NgModule({
     imports: [
@@ -14,6 +15,7 @@ import {LoginService} from '../../../../auth/login/login.service';
     ],
     providers: [
         ProcessoService,
+        LembreteService,
         LoginService
     ]
 })

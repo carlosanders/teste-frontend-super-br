@@ -135,7 +135,7 @@ export class ResolveGuard implements CanActivate {
                     (this.routerState.params['unidadeHandle'] + '_' + this.routerState.params['typeHandle'] ) !==
                     loaded.value) {
                     this._store.dispatch(new fromStore.GetProcessos(params));
-                    this._store.dispatch(new fromStore.ChangeSelectedProcessos([]));
+
                 }
 
             }),

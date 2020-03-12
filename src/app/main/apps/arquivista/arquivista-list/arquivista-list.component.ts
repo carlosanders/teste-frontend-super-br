@@ -344,6 +344,7 @@ export class ArquivistaListComponent implements OnInit, OnDestroy, AfterViewInit
 
         this._store.dispatch(new fromStore.SaveLembrete(lembrete));
 
+
     }
 
     criarLembrete(processoId): void {
