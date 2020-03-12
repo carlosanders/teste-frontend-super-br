@@ -19,8 +19,8 @@
                     </button>
                 </div>
 
-                NO NUP {{(processo$ | async).NUP | formatNup}}
-                ATÉ {{(processo$ | async).dataHoraAbertura | date: 'dd/MM/yyyy'}}
+                NO NUP {{(processo$ | async)?.NUP | formatNup}}
+                ATÉ {{(processo$ | async)?.dataHoraAbertura | date: 'dd/MM/yyyy'}}
 
                 <div class="actions" fxLayout="row" fxLayoutAlign="start center">
 

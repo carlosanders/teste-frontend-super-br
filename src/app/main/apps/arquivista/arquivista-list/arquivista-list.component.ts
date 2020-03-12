@@ -30,7 +30,7 @@ import {filter, takeUntil} from 'rxjs/operators';
 import {Pagination} from '@cdk/models';
 import {LoginService} from '../../../auth/login/login.service';
 import {ToggleMaximizado} from 'app/main/apps/arquivista/arquivista-list/store';
-import {Usuario} from '../../../../../@cdk/models/usuario.model';
+import {Usuario} from '@cdk/models/usuario.model';
 
 
 
@@ -83,6 +83,8 @@ export class ArquivistaListComponent implements OnInit, OnDestroy, AfterViewInit
     maximizado$: Observable<boolean>;
     maximizado = false;
 
+    prontoTransicao: boolean;
+
 
 
     private _profile: Usuario;
@@ -123,6 +125,7 @@ export class ArquivistaListComponent implements OnInit, OnDestroy, AfterViewInit
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedProcessoIds));
         this.screen$ = this._store.pipe(select(getScreenState));
         this._profile = _loginService.getUserProfile();
+        this.prontoTransicao = false;
 
 
     }
@@ -143,8 +146,17 @@ export class ArquivistaListComponent implements OnInit, OnDestroy, AfterViewInit
             ).subscribe(routerState => {
             if (routerState) {
                 this.routerState = routerState.state;
+
+                if (this.routerState.params.typeHandle === 'pronto-transicao'){
+                    this.prontoTransicao = true;
+                }
+                else{
+                    this.prontoTransicao = false;
+                }
             }
         });
+
+
 
         this.routerState$.pipe(
             takeUntil(this._unsubscribeAll)
@@ -217,6 +229,8 @@ export class ArquivistaListComponent implements OnInit, OnDestroy, AfterViewInit
 
     reload(params): void {
 
+        this._store.dispatch(new fromStore.UnloadProcessos({reset: false}));
+
         const nparams = {
             ...this.pagination,
             listFilter: params.listFilter,
@@ -235,7 +249,7 @@ export class ArquivistaListComponent implements OnInit, OnDestroy, AfterViewInit
 
         const nparams = {
             ...this.pagination,
-            limit: this.pagination.limit + this.pagination.limit
+            offset: this.pagination.offset + this.pagination.limit
         };
 
         this._store.dispatch(new fromStore.GetProcessos(nparams));
@@ -320,8 +334,6 @@ export class ArquivistaListComponent implements OnInit, OnDestroy, AfterViewInit
 
     salvarLembrete(params): void {
 
-        console.log(params);
-
         const lembrete = new Lembrete();
 
         Object.entries(params).forEach(
@@ -332,8 +344,20 @@ export class ArquivistaListComponent implements OnInit, OnDestroy, AfterViewInit
 
         this._store.dispatch(new fromStore.SaveLembrete(lembrete));
 
+    }
+
+    criarLembrete(processoId): void {
 
 
+        this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle + '/'
+        + this.routerState.params.typeHandle + '/detalhe/' + processoId + '/lembretes']).then();
+
+    }
+
+    realizarTransicao(processoId): any {
+
+        this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle + '/'
+        + this.routerState.params.typeHandle + '/detalhe/' + processoId + '/realizar-transicao/criar']).then();
     }
 
 

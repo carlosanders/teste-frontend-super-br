@@ -19,8 +19,11 @@
                      }">
                     <cdk-processo-list [loading]="(loading$ | async)"
                                        [processos]="processos"
+                                       [prontoTransicao]="prontoTransicao"
                                        [currentProcessoId]="currentProcessoId"
                                        (salvarLembrete)="salvarLembrete($event)"
+                                       (criarLembrete)="criarLembrete($event)"
+                                       (realizarTransicao)="realizarTransicao($event)"
                                        [pagination]="pagination"
                                        [selectedIds]="(selectedIds$ | async)"
                                        (changeSelectedIds)="changeSelectedIds($event)"

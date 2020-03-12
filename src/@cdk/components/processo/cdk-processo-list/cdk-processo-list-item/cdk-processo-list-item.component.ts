@@ -21,6 +21,9 @@ export class CdkProcessoListItemComponent implements OnInit {
     processo: Processo;
 
     @Input()
+    prontoTransicao: boolean;
+
+    @Input()
     selected: boolean;
 
     @Input()
@@ -36,16 +39,20 @@ export class CdkProcessoListItemComponent implements OnInit {
     criarLembrete = new EventEmitter<any>();
 
     @Output()
+    realizarTransicao = new EventEmitter<any>();
+
+    @Output()
     editarLembrete = new EventEmitter<any>();
 
     @Output()
     classificacao = new EventEmitter<any>();
 
-    @Output()
-    realizarTransicao = new EventEmitter<any>();
+
 
     @Output()
     salvarLembrete = new EventEmitter<any>();
+
+
 
     draggable = {
         // note that data is handled with JSON.stringify/JSON.parse
@@ -78,12 +85,12 @@ export class CdkProcessoListItemComponent implements OnInit {
         this.classificacao.emit();
     }
 
-    doRealizarTransicao(): void {
-        this.realizarTransicao.emit();
+    doRealizarTransicao(processo): void {
+        this.realizarTransicao.emit(this.processo.id);
     }
 
-    doCriarLembrete(): void {
-        this.criarLembrete.emit();
+    doCriarLembrete(processo): void {
+        this.criarLembrete.emit(this.processo.id);
     }
 
     doEditarLembrete(): void {

@@ -61,6 +61,7 @@ export class ProcessoEffect {
                         JSON.stringify({}),
                         JSON.stringify([
                             'populateAll',
+                            'lembretes',
                             'setorAtual.unidade',
                             'vinculacoesEtiquetas',
                             'vinculacoesEtiquetas.etiqueta'
