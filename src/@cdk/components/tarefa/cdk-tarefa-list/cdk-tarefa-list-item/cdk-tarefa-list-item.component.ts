@@ -11,9 +11,7 @@ import {
 } from '@angular/core';
 
 import {Tarefa} from '@cdk/models/tarefa.model';
-import {AssuntoService} from '../../../../services/assunto.service';
-import { processo } from '@cdk/normalizr/processo.schema';
-import * as fromStore from 'app/main/apps/processo/processo-edit/assuntos/assunto-list/store';
+
 
 @Component({
     selector: 'cdk-tarefa-list-item',
@@ -23,6 +21,8 @@ import * as fromStore from 'app/main/apps/processo/processo-edit/assuntos/assunt
     encapsulation: ViewEncapsulation.None
 })
 export class CdkTarefaListItemComponent implements OnInit {
+
+    
 
     @Input()
     tarefa: Tarefa;
@@ -61,7 +61,7 @@ export class CdkTarefaListItemComponent implements OnInit {
     toggleUrgente = new EventEmitter<Tarefa>();
 
     /*
-    * ISSUE-100
+    * ISSUE-107
     */
     @Output()
     codProcesso = new EventEmitter<any>();
@@ -74,6 +74,9 @@ export class CdkTarefaListItemComponent implements OnInit {
 
     @Input()
     pagAssunto: PaginatedResponse;
+
+    @Input()
+    loading: boolean;
 
     draggable = {
         // note that data is handled with JSON.stringify/JSON.parse
@@ -129,11 +132,8 @@ export class CdkTarefaListItemComponent implements OnInit {
         this.toggleUrgente.emit(this.tarefa);
     }
 
-    doOpenPanel(idProcesso: any): void {
+    doOpenPanel(idProcesso: any, event: any): void {
         this.codProcesso.emit(this.tarefa);
     }
 
-    doClosePanel(): void {
-        this.pagAssunto = null;
-    }
 }

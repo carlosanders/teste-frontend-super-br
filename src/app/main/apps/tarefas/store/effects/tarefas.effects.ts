@@ -1,4 +1,6 @@
-import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
+import { SetAssuntosLoaded } from './../actions/tarefas.actions';
+
+import { AddData, UpdateData, AddChildData } from '@cdk/ngrx-normalizr';
 import {tarefa as tarefaSchema} from '@cdk/normalizr/tarefa.schema';
 
 import {Injectable} from '@angular/core';
@@ -23,6 +25,7 @@ import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import { Assunto } from '@cdk/models/assunto.model';
 import { AssuntoService } from '@cdk/services/assunto.service';
 import { assunto as assuntoSchema } from '@cdk/normalizr/assunto.schema';
+import { processo as processoSchema } from '@cdk/normalizr/processo.schema';
 
 @Injectable()
 export class TarefasEffect {
@@ -221,17 +224,17 @@ export class TarefasEffect {
                                 content: `Tarefa id ${response.id} editada com sucesso!`,
                                 dateTime: response.criadoEm
                             })
-                        ]),
+                        ],
                         catchError((err) => {
                             console.log(err);
                             return of(new TarefasActions.SetFolderOnSelectedTarefasFailed(err));
                         })
-                    );
+                    ));
                 })
             );
 
     /**
-     * ISSUE-100
+     * ISSUE-107
      * Get Assuntos Processo tarefa from input parameters
      * @type {Observable<any>}
      */
@@ -240,29 +243,44 @@ export class TarefasEffect {
         this._actions
             .pipe(
                 ofType<TarefasActions.GetAssuntosProcessoTarefaFailed>(TarefasActions.GET_ASSUNTOS_PROCESSO_TAREFA),
-                switchMap((action) => {
-                    return this._assuntoService.query(
-                        JSON.stringify({
-                            ...action.payload.filter
-                        }),
-                        action.payload.limit,
-                        action.payload.offset,
-                        JSON.stringify(action.payload.sort),
-                        JSON.stringify(action.payload.populate));
+                mergeMap((action) => {
+                    
+                    if(action.payload.proc.proc.assuntos === null) {
+                        
+                        return this._assuntoService.query(
+                            JSON.stringify({
+                                ...action.payload.srv.filter
+                            }),
+                            action.payload.srv.limit,
+                            action.payload.srv.offset,
+                            JSON.stringify(action.payload.srv.sort),
+                            JSON.stringify(action.payload.srv.populate)).pipe(
+                                tap((response) => {
+                                    console.log("Response -> " + JSON.stringify(response));
+                                }),
+                                mergeMap((response) => [
+                                    new AddChildData<Assunto>({
+                                        data: response['entities'],
+                                        childSchema: assuntoSchema,
+                                        parentSchema: processoSchema,
+                                        parentId: action.payload.proc.proc.id
+                                    }),
+                                    new TarefasActions.GetAssuntosProcessoTarefaSuccess({
+                                        assuntosId: response['entities'].map(assunto => assunto.id),
+                                        totalAssuntos: response['total']
+                                    })
+                                    
+                                ]),
+                                catchError((err, caught) => {
+                                    console.log(err);
+                                    this._store.dispatch(new TarefasActions.GetAssuntosProcessoTarefaFailed(err));
+                                    return caught;
+                                })
+                            );
+                    } else {
+                        return null;
+                    }
                 }),
-                mergeMap((response) => [
-                    new AddData<Assunto>({data: response['entities'], schema: assuntoSchema}),
-                    
-                    new TarefasActions.GetAssuntosProcessoTarefaSuccess({
-                        assuntosId: response['entities'].map(assunto => assunto.id),
-                        totalAssuntos: response['total']
-                    })
-                    
-                ]),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new TarefasActions.GetAssuntosProcessoTarefaFailed(err));
-                    return caught;
-                })
+                
             );
 }

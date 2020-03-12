@@ -83,7 +83,8 @@
                                      (editorBloco)="doEditorBloco()"
                                      (editTarefaBloco)="doEditTarefaBloco()"
                                      (idProcesso)="doLoadAssuntos($event)"
-                                     [pagAssuntos]="(pagAssuntos)">
+                                     [pagAssuntos]="(pagAssuntos)"
+                                     [loadingAssunto]="(assuntoLoading$ | async)">
                     </cdk-tarefa-list>
                 </div>
                 <div class="tarefa-detail" mwlResizable [enableGhostResize]="true"

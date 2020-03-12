@@ -1,3 +1,5 @@
+import { getIsAssuntoPanelIsOpen } from './store/selectors/tarefas.selectors';
+import { SetLoadingAssuntos, SetAssuntosLoaded } from './store/actions/tarefas.actions';
 import { processo } from './../../../../@cdk/normalizr/processo.schema';
 import { PaginatedResponse } from '@cdk/models/paginated.response';
 
@@ -32,7 +34,7 @@ import {ResizeEvent} from 'angular-resizable-element';
 import {cdkAnimations} from '@cdk/animations';
 import {Etiqueta} from '@cdk/models';
 import {Router} from '@angular/router';
-import {filter, takeUntil} from 'rxjs/operators';
+import { filter, takeUntil, switchMap } from 'rxjs/operators';
 import {Pagination} from '@cdk/models';
 import {LoginService} from '../../auth/login/login.service';
 import {ToggleMaximizado} from 'app/main/apps/tarefas/store';
@@ -108,6 +110,11 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     pagAssuntos : PaginatedResponse;
     bsAssuntos: BehaviorSubject<Assunto[]> = new BehaviorSubject([]);
 
+    assuntoLoading$: Observable<boolean>;
+    assuntoPanelOpen$: Observable<boolean>;
+
+    tarefaToLoadAssuntos$: Observable<Tarefa>;
+
     @ViewChild('tarefaListElement', {read: ElementRef, static: true}) tarefaListElement: ElementRef;
 
     /**
@@ -127,7 +134,6 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         private _tarefaService: TarefaService,
         private _router: Router,
         private _store: Store<fromStore.TarefasAppState>,
-        private _storeAssunto: Store<fromAssuntoStore.AssuntoListAppState>,
         private _loginService: LoginService,
         private _assuntoService: AssuntoService
     ) {
@@ -151,6 +157,11 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.vinculacaoEtiquetaPagination.filter = {'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.id};
 
         this.assuntoService = _assuntoService;
+        /*
+         * ISSUE-107 
+         */
+        this.assuntoLoading$ = this._store.pipe(select(fromStore.getIsAssuntoLoading));
+        this.assuntoPanelOpen$ = this._store.pipe(select(fromStore.getIsAssuntoPanelIsOpen));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -417,7 +428,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     doLoadAssuntos(idProcesso): void {
 
         const processo = {
-            'processo.id' : 'eq:' + idProcesso
+            'processo.id' : 'eq:' + idProcesso.processo.id
         }
         
         const sort = {
@@ -427,35 +438,60 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
         const populate = ['populateAll'];
 
-        const params = {
+        const serviceParams = {
             filter: processo,
             sort : sort,
             limit : 10,
             offset : 0,
             populate : populate
         }
-        
-        //this._storeAssunto.dispatch(new fromAssuntoStore.GetAssuntos(params));
 
-        if(idProcesso.processo.assuntos === null) {
-            this._assuntoService.query(
-                "{\"processo.id\":\"eq:" + idProcesso.processo.id + "\"}",
-                10,
-                0,
-                "{\"principal\":\"DESC\",\"criadoEm\":\"DESC\"}",
-                "[\"populateAll\"]"
-            ).subscribe(ass => {
-                /*
-                this.bsAssuntos.next(ass.entities);
-                this.assuntos = ass.entities;
-                idProcesso.assuntos = ass;
-                console.log(this.bsAssuntos.value);
-                */
-                idProcesso.processo.assuntos = ass.entities;
-                console.log(idProcesso);
-            });
+        const proc = {
+            proc: idProcesso.processo
+        }
+
+        const params = {
+            proc: proc,
+            srv: serviceParams
         }
         
+        
+        this._store.dispatch(new fromStore.SetLoadingAssuntos());
+        this.tarefaToLoadAssuntos$ = this._store.pipe(select(fromStore.getTarefaToLoadAssuntos, idProcesso.id));
+        console.log(idProcesso.id);
+        this.tarefaToLoadAssuntos$.subscribe(t => {
+            console.log(t);
+        })
+        this._store.dispatch(
+            new fromStore.GetAssuntosProcessoTarefa(params));
+        
+        //if(idProcesso.processo.assuntos === null) {
+        //   
+        //    this._assuntoService.query(
+        //        "{\"processo.id\":\"eq:" + idProcesso.processo.id + "\"}",
+        //        10,
+        //        0,
+        //        "{\"principal\":\"DESC\",\"criadoEm\":\"DESC\"}",
+        //        "[\"populateAll\"]"
+        //    ).subscribe(ass => {
+        //        /*
+        //        this.bsAssuntos.next(ass.entities);
+        //        this.assuntos = ass.entities;
+        //        idProcesso.assuntos = ass;
+        //       console.log(this.bsAssuntos.value);
+        //        */
+        //        idProcesso.processo.assuntos = ass.entities;
+        //        
+        //        this._store.dispatch(new fromStore.SetAssuntosLoaded);
+        //    });
+        //
+        //    
+        //   
+        //} else {
+        //    this._store.dispatch(new fromStore.SetAssuntosLoaded);
+        //}
+
+        //this._store.dispatch(new fromStore.SetAssuntosLoaded);
     }   
 
 }

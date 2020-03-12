@@ -45,13 +45,23 @@ export const DELETE_VINCULACAO_ETIQUETA = '[TAREFA] DELETE VINCULACAO_ETIQUETA';
 export const DELETE_VINCULACAO_ETIQUETA_SUCCESS = '[TAREFA] DELETE VINCULACAO_ETIQUETA SUCCESS';
 export const DELETE_VINCULACAO_ETIQUETA_FAILED = '[TAREFA] DELETE VINCULACAO_ETIQUETA FAILED';
 
+
+/*
+* ISSUE-107
+*/
 export const GET_ASSUNTOS_PROCESSO_TAREFA = '[TAREFA] GET ASSUNTOS PROCESSO';
 export const GET_ASSUNTOS_PROCESSO_TAREFA_SUCCESS = '[TAREFA] GET ASSUNTOS PROCESSO SUCCESS';
 export const GET_ASSUNTOS_PROCESSO_TAREFA_FAILED = '[TAREFA] GET ASSUNTOS PROCESSO FAILED';
 
-/*
-* ISSUE-100
-*/
+export const SET_LOADING_ASSUNTOS = '[TAREFA] SET LOADING ASSUNTOS';
+export const SET_LOADING_ASSUNTOS_SUCCESS = '[TAREFA] SET LOADING ASSUNTOS SUCCESS';
+export const SET_LOADING_ASSUNTOS_FAILED = '[TAREFA] SET LOADING ASSUNTOS FAILED';
+
+export const SET_ASSUNTOS_LOADED = '[TAREFA] SET ASSUNTOS LOADED';
+export const SET_ASSUNTOS_LOADED_SUCCESS = '[TAREFA] SET ASSUNTOS LOADED SUCCESS';
+export const SET_ASSUNTOS_LOADED_FAILED = '[TAREFA] SET ASSUNTOS LOADED FAILED';
+
+
 
 
 
@@ -404,7 +414,7 @@ export class ToggleMaximizado implements Action
 }
 
 /**
- * ISSUE-100
+ * ISSUE-107
  */
 
 /**
@@ -436,6 +446,69 @@ export class GetAssuntosProcessoTarefaFailed implements Action {
     constructor(public payload: any) {
     }
 }
+
+
+
+/**
+ * Seta o estado de carregando os assuntos do processo na tarefa
+ */
+export class SetLoadingAssuntos implements Action {
+    readonly type = SET_LOADING_ASSUNTOS;
+
+    constructor() {
+    }
+}
+
+/**
+ * Seta o estado de carregando os assuntos do processo na tarefa - sucesso
+ */
+export class SetLoadingAssuntosSuccess implements Action {
+    readonly type = SET_LOADING_ASSUNTOS_SUCCESS;
+
+    constructor() {
+    }
+}
+
+/**
+ * Seta o estado de carregando os assuntos do processo na tarefa - erro
+ */
+export class SetLoadingAssuntosFailed implements Action {
+    readonly type = SET_LOADING_ASSUNTOS_FAILED;
+
+    constructor() {
+    }
+}
+
+/**
+ * Seta o estado de assuntos carregados no processo da tarefa
+ */
+export class SetAssuntosLoaded implements Action {
+    readonly type = SET_ASSUNTOS_LOADED;
+
+    constructor() {
+    }
+}
+
+/**
+ * Seta o estado de assuntos carregados no processo da tarefa - sucesso
+ */
+export class SetAssuntosLoadedSuccess implements Action {
+    readonly type = SET_ASSUNTOS_LOADED_SUCCESS;
+
+    constructor() {
+    }
+}
+
+/**
+ * Seta o estado de assuntos carregados no processo da tarefa - erro
+ */
+export class SetAssuntosLoadedFailed implements Action {
+    readonly type = SET_ASSUNTOS_LOADED_FAILED;
+
+    constructor() {
+    }
+}
+
 
 export type TarefasActionsAll
     = UnloadTarefas
@@ -471,4 +544,10 @@ export type TarefasActionsAll
     | ToggleMaximizado
     | GetAssuntosProcessoTarefa
     | GetAssuntosProcessoTarefaSuccess
-    | GetAssuntosProcessoTarefaFailed;
+    | GetAssuntosProcessoTarefaFailed
+    | SetLoadingAssuntos
+    | SetLoadingAssuntosSuccess
+    | SetLoadingAssuntosFailed
+    | SetAssuntosLoaded
+    | SetAssuntosLoadedSuccess
+    | SetAssuntosLoadedFailed;

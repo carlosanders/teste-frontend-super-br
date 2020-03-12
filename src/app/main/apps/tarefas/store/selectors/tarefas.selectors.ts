@@ -63,3 +63,21 @@ export const getDeletedTarefaIds = createSelector(
     getTarefasState,
     (state: TarefasState) => state.deletedTarefaIds
 );
+
+/*
+ * ISSUE-107 
+ */
+export const getIsAssuntoLoading = createSelector(
+    getTarefasState,
+    (state: TarefasState) => state.assuntoLoading
+);
+
+export const getIsAssuntoPanelIsOpen = createSelector(
+    getTarefasState,
+    (state: TarefasState) => state.assuntoPanelOpen
+);
+
+export const getTarefaToLoadAssuntos = createSelector (
+    schemaSelectors.getNormalizedEntities,
+    (tarefas, tarefaId: number): Tarefa => tarefas[tarefaId]
+);

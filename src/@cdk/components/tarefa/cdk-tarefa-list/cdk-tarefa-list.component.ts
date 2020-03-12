@@ -113,7 +113,7 @@ export class CdkTarefaListComponent implements AfterViewInit, OnInit, OnChanges 
     editorBloco = new EventEmitter<any>();
 
     /*
-    * ISSUE-100
+    * ISSUE-107
     */
     @Input()
     assuntos: Assunto[];
@@ -127,6 +127,9 @@ export class CdkTarefaListComponent implements AfterViewInit, OnInit, OnChanges 
     @Input()
     pagAssuntos: PaginatedResponse;
 
+    @Input()
+    loadingAssunto: boolean;
+    
     listFilter: {} = {};
     listSort: {} = {};
 

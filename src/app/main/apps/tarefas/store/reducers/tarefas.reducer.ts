@@ -22,6 +22,11 @@ export interface TarefasState {
     deletedTarefaIds: number[];
     selectedTarefaIds: number[];
     maximizado: boolean;
+    /*
+    * ISSUE-107
+    */
+   assuntoLoading: boolean;
+   assuntoPanelOpen: boolean;
 }
 
 export const TarefasInitialState: TarefasState = {
@@ -44,7 +49,12 @@ export const TarefasInitialState: TarefasState = {
     deletedTarefaIds: [],
     selectedTarefaIds: [],
     currentTarefaId: null,
-    maximizado: false
+    maximizado: false,
+    /*
+    * ISSUE-107
+    */
+   assuntoLoading: true,
+   assuntoPanelOpen: false
 };
 
 export function TarefasReducer(state = TarefasInitialState, action: TarefasActions.TarefasActionsAll): TarefasState {
@@ -195,6 +205,38 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
                 ...state,
                 maximizado: !state.maximizado
             };
+        }
+
+        case TarefasActions.GET_ASSUNTOS_PROCESSO_TAREFA: {
+            return {
+                ...state,
+                assuntoLoading: true
+            }
+
+        }
+
+        case TarefasActions.GET_ASSUNTOS_PROCESSO_TAREFA_SUCCESS: {
+            return {
+                ...state,
+                assuntoLoading: false
+            }
+
+        }
+
+        case TarefasActions.GET_ASSUNTOS_PROCESSO_TAREFA_FAILED: {
+            return {
+                ...state,
+                assuntoLoading: false
+            }
+
+        }
+
+        case TarefasActions.SET_ASSUNTOS_LOADED: {
+            return {
+                ...state,
+                assuntoLoading: false
+            }
+
         }
 
         default:

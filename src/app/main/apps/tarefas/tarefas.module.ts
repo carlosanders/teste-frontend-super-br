@@ -144,9 +144,7 @@ const routes: Routes = [
         CdkSharedModule,
         CdkSidebarModule,
 
-        TarefasStoreModule,
-
-        AssuntoListStoreModule
+        TarefasStoreModule
     ],
     providers: [
         TarefaService,
@@ -157,8 +155,7 @@ const routes: Routes = [
         UsuarioService,
         LoginService,
         fromGuards.ResolveGuard,
-        AssuntoService,
-        fromAssuntosGuards.ResolveGuard
+        AssuntoService
     ]
 })
 export class TarefasModule {

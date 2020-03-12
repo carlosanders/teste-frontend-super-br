@@ -125,16 +125,18 @@
     </div>
 </div>
 <mat-expansion-panel
-    (opened)="doOpenPanel(tarefa.processo);"
-    (closed)="doClosePanel()"
+    (opened)="doOpenPanel(tarefa);"
     (click)="$event.stopPropagation();">
     <mat-expansion-panel-header>
       Detalhes do processo
     </mat-expansion-panel-header>
-    <span>Assuntos: </span>
-    <ng-template matExpansionPanelContent >
+    <div class="spinner-container" *ngIf="loading" style="text-align: center; width: 100%;">
+        <mat-spinner diameter="32"></mat-spinner>
+    </div>
+    <div [hidden]="loading">
+        <span>Assuntos: </span>
         <li *ngFor="let assunto of tarefa.processo?.assuntos">
             {{assunto.assuntoAdministrativo.nome}}
         </li>
-    </ng-template>
+    </div>
   </mat-expansion-panel>
