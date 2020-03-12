@@ -8,8 +8,30 @@ arquivista-list {
         height: 100%;
     }
 
-    #arquivista-detail {
+    arquivista-detail {
+
         height: 100%;
+
+        .arquivista-header {
+            border-bottom: 1px solid;
+            height: 56px;
+
+            cdk-vinculacao-etiqueta-chips {
+                width: 92%;
+            }
+
+            .pre-actions {
+                width: 100%;
+            }
+
+            .actions {
+                margin-left: auto;
+            }
+        }
+
+        .arquivista-content {
+            height: 76%;
+        }
     }
 }
 
