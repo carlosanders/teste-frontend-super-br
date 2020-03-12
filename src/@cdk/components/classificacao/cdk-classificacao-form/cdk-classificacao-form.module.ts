@@ -8,15 +8,14 @@ import {
     MatProgressSpinnerModule,
     MatAutocompleteModule,
     MatDatepickerModule,
-    MatExpansionModule
-
+    MatExpansionModule,
+    MatTooltipModule
 } from '@cdk/angular/material';
-
-import { CdkSharedModule } from '@cdk/shared.module';
-import { ModalidadeDestinacaoService } from '@cdk/services/modalidade-destinacao.service';
-import { CdkClassificacaoFormComponent } from './cdk-classificacao-form.component';
-import { CdkModalidadeDestinacaoAutocompleteModule } from '@cdk/components/modalidade-destinacao/cdk-modalidade-destinacao-autocomplete/cdk-modalidade-destinacao-autocomplete.module';
-import { CdkModalidadeDestinacaoGridsearchModule } from '@cdk/components/modalidade-destinacao/cdk-modalidade-destinacao-autocomplete/cdk-modalidade-destinacao-gridsearch/cdk-modalidade-destinacao-gridsearch.module';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {ModalidadeDestinacaoService} from '@cdk/services/modalidade-destinacao.service';
+import {CdkClassificacaoFormComponent} from './cdk-classificacao-form.component';
+import {CdkModalidadeDestinacaoAutocompleteModule} from '@cdk/components/modalidade-destinacao/cdk-modalidade-destinacao-autocomplete/cdk-modalidade-destinacao-autocomplete.module';
+import {CdkModalidadeDestinacaoGridsearchModule} from '@cdk/components/modalidade-destinacao/cdk-modalidade-destinacao-autocomplete/cdk-modalidade-destinacao-gridsearch/cdk-modalidade-destinacao-gridsearch.module';
 import {CdkUsuarioAutocompleteModule} from '../../usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 import {CdkUsuarioGridsearchModule} from '../../usuario/cdk-usuario-autocomplete/cdk-usuario-gridsearch/cdk-usuario-gridsearch.module';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
@@ -29,7 +28,6 @@ import {CdkClassificacaoGridsearchModule} from '../cdk-classificacao-autocomplet
         CdkClassificacaoFormComponent,
     ],
     imports: [
-
         MatAutocompleteModule,
         MatButtonModule,
         MatFormFieldModule,
@@ -50,6 +48,7 @@ import {CdkClassificacaoGridsearchModule} from '../cdk-classificacao-autocomplet
         CdkClassificacaoGridsearchModule,
 
         CdkSharedModule,
+        MatTooltipModule,
     ],
     providers: [
         ModalidadeDestinacaoService,
