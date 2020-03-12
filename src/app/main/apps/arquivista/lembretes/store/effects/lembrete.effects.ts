@@ -22,13 +22,7 @@ export class LembreteEffects {
         private _store: Store<State>,
         private _router: Router
     ) {
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe(routerState => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+        this.initRouterState();
     }
 
     /**
@@ -43,9 +37,11 @@ export class LembreteEffects {
                 switchMap((action) => {
                     return this._lembreteService.query(
                         JSON.stringify(action.payload),
-                        1,
+                        5,
                         0,
-                        JSON.stringify({}),
+                        JSON.stringify({
+                            criadoEm: 'DESC'
+                        }),
                         JSON.stringify([
                             'populateAll'
                         ]));
@@ -108,4 +104,15 @@ export class LembreteEffects {
                     this.routerState.params.typeHandle + '/detalhe/processo/' + this.routerState.params.processoHandle + '/visualizar']).then();
                 })
             );
+
+
+    initRouterState(): void{
+        this._store
+            .pipe(select(getRouterState))
+            .subscribe(routerState => {
+                if (routerState) {
+                    this.routerState = routerState.state;
+                }
+            });
+    }
 }

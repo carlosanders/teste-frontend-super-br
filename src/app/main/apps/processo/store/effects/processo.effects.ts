@@ -63,7 +63,8 @@ export class ProcessoEffect {
                             'populateAll',
                             'setorAtual.unidade',
                             'vinculacoesEtiquetas',
-                            'vinculacoesEtiquetas.etiqueta'
+                            'vinculacoesEtiquetas.etiqueta',
+                            'lembretes'
                         ]),
                         JSON.stringify(chaveAcesso));
                 }),
@@ -133,18 +134,18 @@ export class ProcessoEffect {
                 ofType<ProcessoActions.SaveConteudoVinculacaoEtiqueta>(ProcessoActions.SAVE_CONTEUDO_VINCULACAO_ETIQUETA),
                 mergeMap((action) => {
                     return this._vinculacaoEtiquetaService.patch(action.payload.vinculacaoEtiqueta, action.payload.changes).pipe(
-                     //@retirar: return this._vinculacaoEtiquetaService.patch(action.payload.vinculacaoEtiqueta,  {conteudo: action.payload.vinculacaoEtiqueta.conteudo}).pipe(
-                        mergeMap((response) => [ 
+                        // @retirar: return this._vinculacaoEtiquetaService.patch(action.payload.vinculacaoEtiqueta,  {conteudo: action.payload.vinculacaoEtiqueta.conteudo}).pipe(
+                        mergeMap((response) => [
                             new ProcessoActions.SaveConteudoVinculacaoEtiquetaSuccess(response.id),
                             new UpdateData<VinculacaoEtiqueta>({id: response.id, schema: vinculacaoEtiquetaSchema, changes: {conteudo: response.conteudo}})
                         ]),
                         catchError((err) => {
-                            console.log(err); 
+                            console.log(err);
                             return of(new ProcessoActions.SaveConteudoVinculacaoEtiquetaFailed(err));
                         })
                     );
                 })
-            );   
+            );
 
 
 
