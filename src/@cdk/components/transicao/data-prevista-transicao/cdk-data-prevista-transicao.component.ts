@@ -3,11 +3,11 @@ import {Pagination, Processo} from '../../../models';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
-    selector: 'app-data-prevista-transicao',
-    templateUrl: './data-prevista-transicao.component.html',
-    styleUrls: ['./data-prevista-transicao.component.scss']
+    selector: 'cdk-data-prevista-transicao',
+    templateUrl: './cdk-data-prevista-transicao.component.html',
+    styleUrls: ['./cdk-data-prevista-transicao.component.scss']
 })
-export class DataPrevistaTransicaoComponent implements OnInit {
+export class CdkDataPrevistaTransicaoComponent implements OnInit {
 
 
     @Input()
@@ -50,9 +50,6 @@ export class DataPrevistaTransicaoComponent implements OnInit {
     }
 
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Public methods
-    // -----------------------------------------------------------------------------------------------------
     submit(): void {
         if (this.form.valid) {
             this.save.emit(this.form.value);

@@ -4,13 +4,15 @@ import {CriarDataPrevistaTransicaoComponent} from './criar-data-prevista-transic
 import {CriarDataPrevistaStoreModule} from './store/store.module';
 import {LoginService} from '../../../auth/login/login.service';
 import {ProcessoService} from '../../../../../@cdk/services/processo.service';
+import {CdkDataPrevistaTransicaoModule} from '../../../../../@cdk/components/transicao/data-prevista-transicao/cdk-data-prevista-transicao.module';
 
 
 @NgModule({
     declarations: [CriarDataPrevistaTransicaoComponent],
     imports: [
         CommonModule,
-        CriarDataPrevistaStoreModule
+        CriarDataPrevistaStoreModule,
+        CdkDataPrevistaTransicaoModule
     ],
     providers: [
         ProcessoService,
