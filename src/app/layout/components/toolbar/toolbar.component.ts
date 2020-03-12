@@ -189,7 +189,7 @@ export class ToolbarComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     ngAfterViewInit(): void {
-        if (this.userProfile) {
+        if (this.userProfile && this.userProfile.id) {
             this._notificacaoService.count(
                 `{"destinatario.id": "eq:${this.userProfile.id}", "dataHoraLeitura": "isNull"}`)
                 .pipe(

@@ -36,7 +36,7 @@ export class CdkVinculacaoRoleGridComponent implements AfterViewInit, OnInit, On
     total = 0;
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'role.name', 'usuario.nome', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'role', 'usuario.nome', 'actions'];
 
     allColumns: any[] = [
         {
@@ -50,7 +50,7 @@ export class CdkVinculacaoRoleGridComponent implements AfterViewInit, OnInit, On
             fixed: true
         },
         {
-            id: 'role.name',
+            id: 'role',
             label: 'Papel',
             fixed: true
         },
