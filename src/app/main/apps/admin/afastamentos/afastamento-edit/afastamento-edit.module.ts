@@ -18,31 +18,29 @@ import {TranslateModule} from '@ngx-translate/core';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkSidebarModule} from '@cdk/components';
 
-import {UsuarioEditComponent} from "./usuario-edit.component";
+import {AfastamentoEditComponent} from './afastamento-edit.component';
 import {RouterModule, Routes} from '@angular/router';
-import {CdkUsuarioFormModule} from '@cdk/components/usuario/cdk-usuario-form/cdk-usuario-form.module';
-import {CdkColaboradorFormModule} from '@cdk/components/colaborador/cdk-colaborador-form/cdk-colaborador-form.module';
-import {UsuarioService} from '@cdk/services/usuario.service';
-import {ColaboradorService} from '@cdk/services/colaborador.service';
+import {AdminAfastamentoEditStoreModule} from './store/store.module';
+import {AfastamentoService} from '@cdk/services/afastamento.service';
 
 import * as fromGuards from './store/guards';
 import {LoginService} from '../../../../auth/login/login.service';
-import {UsuarioEditStoreModule} from "./store/store.module";
-import {MatStepperModule} from "@angular/material/stepper";
+import {CdkAfastamentoFormModule} from '@cdk/components/afastamento/cdk-afastamento-form/cdk-afastamento-form.module';
 
 const routes: Routes = [
     {
-        path: ':usuarioHandle',
-        component: UsuarioEditComponent,
+        path: ':afastamentoHandle',
+        component: AfastamentoEditComponent,
         canActivate: [fromGuards.ResolveGuard]
     }
 ];
 
 @NgModule({
     declarations: [
-        UsuarioEditComponent
+        AfastamentoEditComponent
     ],
     imports: [
+
         RouterModule.forChild(routes),
 
         MatButtonModule,
@@ -59,23 +57,19 @@ const routes: Routes = [
         MatDatepickerModule,
         MatTooltipModule,
 
-        CdkUsuarioFormModule,
-        CdkColaboradorFormModule,
-
-        UsuarioEditStoreModule,
+        AdminAfastamentoEditStoreModule,
 
         TranslateModule,
 
         CdkSharedModule,
         CdkSidebarModule,
-        MatStepperModule,
+        CdkAfastamentoFormModule,
     ],
     providers: [
-        UsuarioService,
-        ColaboradorService,
+        AfastamentoService,
         LoginService,
         fromGuards.ResolveGuard
     ]
 })
-export class UsuarioEditModule {
+export class AfastamentoEditModule {
 }

@@ -33,6 +33,7 @@ export class CdkUsuarioFormComponent implements OnChanges, OnDestroy {
     @Output()
     save = new EventEmitter<any>();
 
+    @Input()
     form: FormGroup;
 
     activeCard = 'form';
@@ -50,9 +51,10 @@ export class CdkUsuarioFormComponent implements OnChanges, OnDestroy {
             username: [null, [Validators.required, Validators.maxLength(255)]],
             nome: [null, [Validators.required, Validators.maxLength(255)]],
             email: [null, [Validators.required, Validators.email, Validators.maxLength(255)]],
+            nivelAcesso: [0, [Validators.required, Validators.maxLength(2)]],
             enabled: [null],
             assinaturaHTML: [null, [Validators.required]],
-            resetPassword: [null]
+            resetPassword: [false]
         });
     }
 
@@ -70,6 +72,7 @@ export class CdkUsuarioFormComponent implements OnChanges, OnDestroy {
                 username: this.usuario.username,
                 nome: this.usuario.nome,
                 email: this.usuario.email,
+                nivelAcess: this.usuario.nivelAcesso,
                 enabled: this.usuario.enabled,
                 assinaturaHTML: this.usuario.assinaturaHTML
             });
@@ -109,6 +112,7 @@ export class CdkUsuarioFormComponent implements OnChanges, OnDestroy {
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
     submit(): void {
+        console.log(this.form.value);
         if (this.form.valid) {
             this.save.emit(this.form.value);
         }

@@ -18,7 +18,6 @@ import {CdkModalidadeAfastamentoAutocompleteModule} from '@cdk/components/modali
 import {CdkAfastamentoGridComponent} from './cdk-afastamento-grid.component';
 import {CdkAfastamentoGridFilterModule} from './cdk-afastamento-grid-filter/cdk-afastamento-grid-filter.module';
 import {CdkAfastamentoMainSidebarComponent} from './sidebars/main/main.component';
-import {MatTooltipModule} from "@angular/material/tooltip";
 
 @NgModule({
     declarations: [

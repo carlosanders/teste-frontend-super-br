@@ -46,6 +46,7 @@ export class CdkColaboradorFormComponent implements OnChanges, OnDestroy {
     @Output()
     save = new EventEmitter<Colaborador>();
 
+    @Input()
     form: FormGroup;
 
     activeCard = 'form';
@@ -57,10 +58,10 @@ export class CdkColaboradorFormComponent implements OnChanges, OnDestroy {
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: FormBuilder
     ) {
-
         this.form = this._formBuilder.group({
             id: [null],
             modalidadeColaborador: [null, [Validators.required]],
+            usuario: [null],
             cargo: [null, [Validators.required]],
             ativo: [null]
         });
@@ -79,6 +80,8 @@ export class CdkColaboradorFormComponent implements OnChanges, OnDestroy {
         if (changes['colaborador'] && this.colaborador && ((!this.colaborador.id && !this.form.dirty) || (this.colaborador.id !== this.form.get('id').value))) {
             this.form.patchValue({...this.colaborador});
         }
+
+        this.form.get('usuario').setValue(this.usuario);
 
         if (this.errors && this.errors.status && this.errors.status === 422) {
             try {

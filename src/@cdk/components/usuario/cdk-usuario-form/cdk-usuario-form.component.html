@@ -41,6 +41,15 @@
             </mat-error>
         </mat-form-field>
 
+        <mat-form-field fxFlex="100">
+            <mat-label>Nível de Acesso</mat-label>
+            <input matInput #nivelAcesso
+                   name="nivelAcesso"
+                   formControlName="nivelAcesso"
+                   type="number"
+                   maxlength="2" required>
+        </mat-form-field>
+
         <mat-checkbox formControlName="enabled"
                       class="mr-16 mb-16" fxFlex="0 1 auto">
             Ativo
