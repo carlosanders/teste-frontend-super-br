@@ -1,4 +1,4 @@
-<div id="processo" class="page-layout carded left-sidebar inner-scroll">
+<div class="processo-content page-layout carded left-sidebar inner-scroll">
 
     <!-- TOP BACKGROUND -->
     <div class="top-bg accent"></div>
@@ -6,23 +6,11 @@
 
     <!-- SIDEBAR -->
     <cdk-sidebar class="sidebar" name="processo-main-sidebar" position="left"
-                  [lockedOpen]="routerState.url.indexOf('apps/processo') > -1 ? 'gt-md' : 'gt-xl'">
+                 [lockedOpen]="routerState.url.indexOf('apps/processo') > -1 ? 'gt-md' : 'gt-xl'">
 
-        <!-- SIDEBAR CONTENT -->
-<!--        <cdk-sidebar class="sidebar" name="processo-main-sidebar" position="left"
-        lockedOpen="gt-md">
-<processo-main-sidebar></processo-main-sidebar>
-</cdk-sidebar>
--->
-
-        <div class="content" cdkPerfectScrollbar>
-            <processo-main-sidebar [@animate]="{value:'*'}"></processo-main-sidebar>
-        </div>
-        
-        <!-- / SIDEBAR CONTENT -->
-
+        <processo-main-sidebar [@animate]="{value:'*'}"></processo-main-sidebar>
     </cdk-sidebar>
-    
+
     <!-- / SIDEBAR -->
 
     <!-- CENTER -->
@@ -44,23 +32,25 @@
                     </button>
                 </div>
 
-            </div>
+                <cdk-vinculacao-etiqueta-chips
+                    *ngIf="this._loginService.isGranted('ROLE_COLABORADOR') && (processo$ | async)?.id" 
+                    [vinculacoesEtiquetas]="(processo$ | async)?.vinculacoesEtiquetas"
+                    (create)="onEtiquetaCreate($event)"
+                    (edit)="onEtiquetaEdit($event)"
+                    [savingVincEtiquetaId]="(savingVincEtiquetaId$ | async)"
+                    [errors]="(errors$ | async)"
+                    [pagination]="vinculacaoEtiquetaPagination"
+                    (delete)="onEtiquetaDelete($event)"></cdk-vinculacao-etiqueta-chips>
 
-            <cdk-vinculacao-etiqueta-chips *ngIf="this._loginService.isGranted('ROLE_COLABORADOR') && (processo$ | async)?.id" class="mr-24 ml-24"
-                                           placeholderEtiq="Etiquetas do processo"
-                                           [vinculacoesEtiquetas]="(processo$ | async)?.vinculacoesEtiquetas"
-                                           (create)="onEtiquetaCreate($event)"
-                                           (edit)="onEtiquetaEdit($event)"
-                                           [savingVincEtiquetaId]="(savingVincEtiquetaId$ | async)"
-                                           [errors]="(errors$ | async)"
-                                           [pagination]="vinculacaoEtiquetaPagination"
-                                           (delete)="onEtiquetaDelete($event)"></cdk-vinculacao-etiqueta-chips>
+            </div>
         </div>
         <!-- / CONTENT HEADER -->
 
         <!-- CONTENT CARD -->
         <div class="content-card">
-             <router-outlet></router-outlet>
+            <div class="content">
+                <router-outlet></router-outlet>
+            </div>
         </div>
         <!-- / CONTENT CARD -->
 

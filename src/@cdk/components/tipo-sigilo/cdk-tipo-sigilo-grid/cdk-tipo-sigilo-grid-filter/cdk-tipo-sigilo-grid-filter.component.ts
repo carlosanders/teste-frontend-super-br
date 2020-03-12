@@ -23,7 +23,7 @@ export class CdkTipoSigiloGridFilterComponent implements OnInit {
 
     form: FormGroup;
 
-    filters: any = '{}';
+    filters: any = {};
 
     /**
      * Constructor

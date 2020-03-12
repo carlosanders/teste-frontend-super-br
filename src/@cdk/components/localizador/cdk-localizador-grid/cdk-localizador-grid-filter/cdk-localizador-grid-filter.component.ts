@@ -27,7 +27,7 @@ export class CdkLocalizadorGridFilterComponent implements OnInit {
 
     form: FormGroup;
 
-    filters: any = '{}';
+    filters: any = {};
 
     /**
      * Constructor

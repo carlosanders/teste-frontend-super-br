@@ -158,6 +158,7 @@ export class CdkAcaoGridComponent implements AfterViewInit, OnInit, OnChanges {
 
     /**
      * @param _changeDetectorRef
+     * @param _cdkSidebarService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,

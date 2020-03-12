@@ -1,20 +1,7 @@
 cdk-tarefa-list {
 
-    display: flex;
-    flex: 1 0 auto;
-    flex-direction: column;
-    position: relative;
-    padding: 0;
-
     border-right: 1px solid rgba(0, 0, 0, 0.12);
-
-    .scroll-container {
-        position: absolute;
-        width: 100%;
-        height: 93%;
-        overflow: auto;
-        -webkit-overflow-scrolling: touch;
-    }
+    height: 100%;
 
     .tarefa-list-loading {
         z-index: 9999;
@@ -24,20 +11,23 @@ cdk-tarefa-list {
         transform: translate(-50%, -50%);
     }
 
-    .toolbar {
+    .content {
+        .toolbar {
 
-        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.12);
 
-        .toolbar-separator {
-            height: 32px;
-            width: 1px;
-            margin: 0 12px;
-        }
+            .toolbar-separator {
+                height: 32px;
+                width: 1px;
+                margin: 0 12px;
+            }
 
-        .tarefa-list-control {
-            margin-left: auto;
+            .tarefa-list-control {
+                margin-left: auto;
+            }
         }
     }
+
 
     .no-tarefas-text {
         font-size: 16px;

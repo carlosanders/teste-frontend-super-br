@@ -10,7 +10,6 @@
             <mat-icon matChipRemove *ngIf="false === etiqueta.sistema">cancel</mat-icon>
         </mat-chip>
         <input #etiquetaInput
-               placeholder="Filtro por etiquetas"
                [formControl]="etiquetaCtrl"
                [matAutocomplete]="etiqueta.autocomplete"
                [matChipInputFor]="chipList"

@@ -23,10 +23,10 @@ export class CdkPessoaGridFilterComponent implements OnInit {
 
     form: FormGroup;
 
-    filters: any = '{}';
+    filters: any = {};
 
     /**
-     * Constructor
+     * @param _formBuilder
      */
     constructor(
         private _formBuilder: FormBuilder

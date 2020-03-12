@@ -23,7 +23,7 @@ export class CdkEspecieSetorGridFilterComponent implements OnInit {
 
     form: FormGroup;
 
-    filters: any = '{}';
+    filters: any = {};
 
     /**
      * Constructor
