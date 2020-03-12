@@ -1,15 +1,15 @@
 import { Action } from '@ngrx/store';
 
-export const GET_SETOR = '[ADMIN] GET SETOR';
-export const GET_SETOR_SUCCESS = '[ADMIN] GET SETOR SUCCESS';
-export const GET_SETOR_FAILED = '[ADMIN] GET SETOR FAILED';
+export const GET_UNIDADE = '[ADMIN] GET UNIDADE';
+export const GET_UNIDADE_SUCCESS = '[ADMIN] GET UNIDADE SUCCESS';
+export const GET_UNIDADE_FAILED = '[ADMIN] GET UNIDADE FAILED';
 
 /**
  * Get Setor
  */
-export class GetSetor implements Action
+export class GetUnidade implements Action
 {
-    readonly type = GET_SETOR;
+    readonly type = GET_UNIDADE;
 
     constructor(public payload: any)
     {
@@ -19,9 +19,9 @@ export class GetSetor implements Action
 /**
  * Get Setor Success
  */
-export class GetSetorSuccess implements Action
+export class GetUnidadeSuccess implements Action
 {
-    readonly type = GET_SETOR_SUCCESS;
+    readonly type = GET_UNIDADE_SUCCESS;
 
     constructor(public payload: any)
     {
@@ -31,9 +31,9 @@ export class GetSetorSuccess implements Action
 /**
  * Get Setor Failed
  */
-export class GetSetorFailed implements Action
+export class GetUnidadeFailed implements Action
 {
-    readonly type = GET_SETOR_FAILED;
+    readonly type = GET_UNIDADE_FAILED;
 
     constructor(public payload: string)
     {
@@ -41,6 +41,6 @@ export class GetSetorFailed implements Action
 }
 
 export type AdminActionsAll
-    = GetSetor
-    | GetSetorSuccess
-    | GetSetorFailed;
+    = GetUnidade
+    | GetUnidadeSuccess
+    | GetUnidadeFailed;
