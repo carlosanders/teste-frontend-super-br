@@ -13,6 +13,10 @@
             <div fxLayout="row" fxLayoutAlign="start center">
                 <input matInput placeholder="Nome" formControlName="nome" required maxlength="255" upperCase>
             </div>
+
+            <mat-error *ngIf="form.get('nome').hasError('formError')">
+                {{form.get('nome').errors.formError}}
+            </mat-error>
         </mat-form-field>
 
         <mat-form-field fxFlex="100">

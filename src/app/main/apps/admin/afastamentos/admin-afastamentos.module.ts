@@ -32,10 +32,10 @@ const routes: Routes = [
                 path       : 'listar',
                 loadChildren: () => import('./afastamentos-list/admin-afastamentos-list.module').then(m => m.AdminAfastamentosListModule),
             },
-            // {
-            //     path       : 'editar',
-            //     loadChildren: () => import('./afastamentos-edit/admin-afastamentos-edit.module').then(m => m.AdminAfastamentosEditModule),
-            // },
+            {
+                path       : 'editar',
+                loadChildren: () => import('./afastamento-edit/afastamento-edit.module').then(m => m.AfastamentoEditModule),
+            },
             {
                 path: '**',
                 redirectTo: 'listar'

@@ -40,6 +40,10 @@
                 <input matInput formControlName="dataFim" [matDatepicker]="dataFim" required>
                 <mat-datepicker-toggle matSuffix [for]="dataFim"></mat-datepicker-toggle>
                 <mat-datepicker #dataFim></mat-datepicker>
+
+                <mat-error *ngIf="form.get('dataFim').hasError('formError')">
+                    {{form.get('dataFim').errors.formError}}
+                </mat-error>
             </mat-form-field>
 
         </div>

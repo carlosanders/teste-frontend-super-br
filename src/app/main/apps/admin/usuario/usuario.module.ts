@@ -28,10 +28,10 @@ const routes: Routes = [
                 path       : 'listar',
                 loadChildren: () => import('./usuario-list/usuario-list.module').then(m => m.UsuarioListModule),
             },
-            // {
-            //     path       : 'editar',
-            //     loadChildren: () => import('./usuario-edit/usuario-edit.module').then(m => m.UsuarioEditModule),
-            // },
+            {
+                path       : 'editar',
+                loadChildren: () => import('./usuario-edit/usuario-edit.module').then(m => m.UsuarioEditModule),
+            },
             {
                 path       : ':usuarioHandle/lotacoes',
                 loadChildren: () => import('app/main/apps/admin/lotacoes/admin-lotacoes.module').then(m => m.AdminLotacoesModule),
