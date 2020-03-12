@@ -13,6 +13,7 @@ import { getRouterState } from 'app/store/reducers';
 import { LoginService } from '../../../../auth/login/login.service';
 import { Usuario, VinculacaoPessoaUsuario } from '@cdk/models';
 
+
 @Injectable()
 export class ResolveGuard implements CanActivate {
 

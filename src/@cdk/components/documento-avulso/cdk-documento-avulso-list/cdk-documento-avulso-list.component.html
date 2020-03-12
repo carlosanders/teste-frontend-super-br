@@ -9,8 +9,7 @@
 </cdk-sidebar>
 <!-- / SIDEBAR -->
 
-
-<div class="content" fxLayout="column">
+<div class="content" fxFlex fxLayout="column">
 
     <div class="toolbar pt-8 pb-8 pl-16 pr-8" fxFlex="0 0 auto" fxLayout="row" fxLayoutAlign="start center">
 
@@ -106,6 +105,6 @@
                               [ngClass]="{'selected':documentoAvulso.id === currentDocumentoAvulsoId}">
         </cdk-documento-avulso-list-item>
     </div>
-    
+
 </div>
 
