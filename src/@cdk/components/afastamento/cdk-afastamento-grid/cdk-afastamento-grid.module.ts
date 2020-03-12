@@ -10,7 +10,7 @@ import {
     MatSortModule,
     MatSelectModule,
 } from '@cdk/angular/material';
-
+import {MatTooltipModule} from '@angular/material/tooltip';
 import {CdkSidebarModule} from '@cdk/components/index';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {ModalidadeAfastamentoService} from '@cdk/services/modalidade-afastamento.service';
@@ -18,6 +18,7 @@ import {CdkModalidadeAfastamentoAutocompleteModule} from '@cdk/components/modali
 import {CdkAfastamentoGridComponent} from './cdk-afastamento-grid.component';
 import {CdkAfastamentoGridFilterModule} from './cdk-afastamento-grid-filter/cdk-afastamento-grid-filter.module';
 import {CdkAfastamentoMainSidebarComponent} from './sidebars/main/main.component';
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 @NgModule({
     declarations: [
@@ -40,6 +41,7 @@ import {CdkAfastamentoMainSidebarComponent} from './sidebars/main/main.component
 
         CdkSharedModule,
         CdkSidebarModule,
+        MatTooltipModule,
     ],
     providers: [
         ModalidadeAfastamentoService,

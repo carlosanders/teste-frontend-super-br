@@ -56,11 +56,12 @@ export class ResolveGuard implements CanActivate {
         return this._store.pipe(
             select(getNumeroUnicoDocumentoListLoaded),
             tap((loaded: any) => {
-                if (!loaded) {
+                if (!loaded || this.routerState.params['setorHandle'] !== loaded.value) {
 
                     const params = {
                         filter: {
-                            'setor.unidade.id': 'eq:' + this.routerState.params.unidadeHandle
+                            'setor.unidade.id': 'eq:' + this.routerState.params.unidadeHandle,
+                            'setor.id':'eq:' + this.routerState.params.setorHandle
                         },
                         gridFilter: {},
                         limit: 5,
@@ -69,6 +70,9 @@ export class ResolveGuard implements CanActivate {
                         populate: [
                             'populateAll',
                             'setor.unidade',
+                            'setor.especieSetor',
+                            'setor.generoSetor',
+                            'setor.parent',
                             'tipoDocumento.especieDocumento'
                         ],
                         context: {
@@ -80,7 +84,7 @@ export class ResolveGuard implements CanActivate {
                 }
             }),
             filter((loaded: any) => {
-                return !!loaded;
+                return loaded.id === 'setorHandle' && this.routerState.params['setorHandle'] && this.routerState.params['setorHandle'] === loaded.value;
             }),
             take(1)
         );

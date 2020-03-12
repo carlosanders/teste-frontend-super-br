@@ -1,62 +1,65 @@
-<div class="page-layout fullwidth left-sidebar inner-scroll" fxFlex="100">
+<div class="left-sidebar" fxFlex>
 
     <!-- SIDEBAR -->
-    <cdk-sidebar class="sidebar" name="cdk-pessoa-main-sidebar" position="left">
+    <cdk-sidebar [lockedOpen]="(mode === 'search') ? 'gt-xs' : ''" class="sidebar" name="cdk-pessoa-main-sidebar"
+                 position="left">
         <!-- SIDEBAR CONTENT -->
         <div class="content" cdkPerfectScrollbar>
-            <cdk-pessoa-main-sidebar (selected)="setGridFilter($event)" [@animate]="{value:'*'}"></cdk-pessoa-main-sidebar>
+            <cdk-pessoa-main-sidebar (selected)="setGridFilter($event)" [mode]="this.mode"
+                                     [@animate]="{value:'*'}"></cdk-pessoa-main-sidebar>
         </div>
         <!-- / SIDEBAR CONTENT -->
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
     <!-- CONTENT -->
-    <div class="content responsive-grid" fxLayoutAlign="center start">
+    <div class="content responsive-grid" fxFlex fxLayout="column">
 
-        <div class="mb-8 p-8" fxFlex fxLayout="column" fxLayoutAlign="center center">
+        <div class="actions" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="end center">
 
-            <div class="actions" fxFlex fxLayout="row" fxLayoutAlign="end center">
+            <button class="back" mat-icon-button *ngIf="actions.indexOf('cancel') > -1"
+                    (click)="doCancel()"
+                    aria-label="cancelar"
+                    matTooltip="Cancelar">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
 
-                <button class="back" mat-icon-button *ngIf="actions.indexOf('cancel') > -1"
-                        (click)="doCancel()"
-                        aria-label="cancelar"
-                        matTooltip="Cancelar">
-                    <mat-icon>arrow_back</mat-icon>
-                </button>
+            <button mat-icon-button *ngIf="selectedIds.length > 1 && actions.indexOf('delete') > -1"
+                    (click)="deletePessoas(selectedIds)"
+                    aria-label="remover"
+                    matTooltip="Remover">
+                <mat-icon>delete</mat-icon>
+            </button>
 
-                <button mat-icon-button *ngIf="selectedIds.length > 1 && actions.indexOf('delete') > -1"
-                        (click)="deletePessoas(selectedIds)"
-                        aria-label="remover"
-                        matTooltip="Remover">
-                    <mat-icon>delete</mat-icon>
-                </button>
+            <mat-form-field class="colunas mr-8">
+                <mat-select [formControl]="columns" multiple>
+                    <div *ngFor="let column of allColumns">
+                        <mat-option *ngIf="!column.fixed" [value]="column.id">{{ column.label }}</mat-option>
+                    </div>
+                </mat-select>
+            </mat-form-field>
 
-                <mat-form-field class="colunas mr-8">
-                    <mat-select [formControl]="columns" multiple>
-                        <div *ngFor="let column of allColumns">
-                            <mat-option *ngIf="!column.fixed" [value]="column.id">{{ column.label }}</mat-option>
-                        </div>
-                    </mat-select>
-                </mat-form-field>
+            <button class="refresh" mat-icon-button
+                    (click)="loadPage()"
+                    aria-label="recarregar"
+                    matTooltip="Recarregar">
+                <mat-icon>refresh</mat-icon>
+            </button>
 
-                <button *ngIf="mode === 'list'" class="refresh" mat-icon-button
-                        (click)="loadPage()"
-                        aria-label="recarregar"
-                        matTooltip="Recarregar">
-                    <mat-icon>refresh</mat-icon>
-                </button>
+            <button class="toggle-filter" mat-icon-button
+                    [ngClass]="{'warn': (gridFilter | json) != '{}'}"
+                    (click)="toggleFilter()"
+                    aria-label="filtrar"
+                    matTooltip="Filtrar">
+                <mat-icon>filter_list</mat-icon>
+            </button>
+        </div>
 
-                <button *ngIf="mode === 'list'" class="toggle-filter" mat-icon-button [ngClass]="{'warn': (gridFilter | json) != '{}'}"
-                        (click)="toggleFilter()"
-                        aria-label="filtrar"
-                        matTooltip="Filtrar">
-                    <mat-icon>filter_list</mat-icon>
-                </button>
-            </div>
+        <div fxFlex="1 1 auto" fxLayout="row" fxLayoutAlign="center center" *ngIf="loading">
+            <mat-spinner diameter="32"></mat-spinner>
+        </div>
 
-            <div class="spinner-container" *ngIf="loading">
-                <mat-spinner diameter="32"></mat-spinner>
-            </div>
+        <div fxFlex="1 1 auto" fxLayout="column" cdkPerfectScrollbar>
 
             <table mat-table [dataSource]="dataSource" matSort [hidden]="loading">
 
@@ -95,11 +98,13 @@
                 </ng-container>
 
                 <!-- NumeroDocumentoPrincipal Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('numeroDocumentoPrincipal') > -1" matColumnDef="numeroDocumentoPrincipal">
+                <ng-container *ngIf="displayedColumns.indexOf('numeroDocumentoPrincipal') > -1"
+                              matColumnDef="numeroDocumentoPrincipal">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Número do Documento Principal
                     </th>
-                    <td mat-cell *matCellDef="let pessoa" class='has_label_on_mobile' data-label='Número do Documento Principal: '
+                    <td mat-cell *matCellDef="let pessoa" class='has_label_on_mobile'
+                        data-label='Número do Documento Principal: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(pessoa.id) > -1}"> {{pessoa.numeroDocumentoPrincipal}} </td>
                 </ng-container>
 
@@ -167,7 +172,8 @@
                 </ng-container>
 
                 <!-- Nacionalidade Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('nacionalidade.nome') > -1" matColumnDef="nacionalidade.nome">
+                <ng-container *ngIf="displayedColumns.indexOf('nacionalidade.nome') > -1"
+                              matColumnDef="nacionalidade.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Nacionalidade
                     </th>
@@ -176,16 +182,19 @@
                 </ng-container>
 
                 <!-- ModalidadeGeneroPessoa.valor Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('modalidadeGeneroPessoa.valor') > -1" matColumnDef="modalidadeGeneroPessoa.valor">
+                <ng-container *ngIf="displayedColumns.indexOf('modalidadeGeneroPessoa.valor') > -1"
+                              matColumnDef="modalidadeGeneroPessoa.valor">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Modalidade Genêro Pessoa
                     </th>
-                    <td mat-cell *matCellDef="let pessoa" class='has_label_on_mobile' data-label='Modalidade Genêro Pessoa: '
+                    <td mat-cell *matCellDef="let pessoa" class='has_label_on_mobile'
+                        data-label='Modalidade Genêro Pessoa: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(pessoa.id) > -1}"> {{pessoa.modalidadeGeneroPessoa.valor}} </td>
                 </ng-container>
 
                 <!-- Naturalidade Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('naturalidade.nome') > -1" matColumnDef="naturalidade.nome">
+                <ng-container *ngIf="displayedColumns.indexOf('naturalidade.nome') > -1"
+                              matColumnDef="naturalidade.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Naturalidade
                     </th>
@@ -194,7 +203,8 @@
                 </ng-container>
 
                 <!-- OrigemDados Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('origemDados.fonteDados') > -1" matColumnDef="origemDados.fonteDados">
+                <ng-container *ngIf="displayedColumns.indexOf('origemDados.fonteDados') > -1"
+                              matColumnDef="origemDados.fonteDados">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Origem de Dados
                     </th>
@@ -221,7 +231,8 @@
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1" matColumnDef="atualizadoPor.nome">
+                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1"
+                              matColumnDef="atualizadoPor.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Atualizado Por
                     </th>
@@ -293,17 +304,16 @@
                     </td>
                 </ng-container>
 
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
                 <tr mat-row *matRowDef="let pessoa; columns: displayedColumns;">
                 </tr>
             </table>
 
-            <div fxFlex fxLayout="row" fxLayoutAlign="center center">
-                <mat-paginator [pageSizeOptions]="[5, 10]"></mat-paginator>
-            </div>
-
         </div>
 
+        <div class="actions" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="center center">
+            <mat-paginator [disabled]="loading" [pageSizeOptions]="[5, 10]"></mat-paginator>
+        </div>
     </div>
 
 </div>

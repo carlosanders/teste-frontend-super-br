@@ -27,7 +27,7 @@
                        formControlName="setor"
                        [matAutocomplete]="setor.autocomplete">
             </div>
-            <cdk-setor-autocomplete #setor="setorAutocomplete" [control]="form.get('setor')">
+            <cdk-setor-autocomplete #setor="setorAutocomplete" [control]="form.get('setor')" [pagination]="setorPagination">
             </cdk-setor-autocomplete>
         </mat-form-field>
 

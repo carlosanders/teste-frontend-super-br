@@ -13,9 +13,8 @@ import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
 import {Pagination} from '@cdk/models/pagination';
-import {Usuario} from '@cdk/models/usuario.model';
+import {Usuario, Setor, Lotacao} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Lotacao} from "@cdk/models/lotacao.model";
 import {Router} from "@angular/router";
 import {getRouterState} from "../../../../../store/reducers";
 
@@ -35,6 +34,8 @@ export class AdminLotacaoEditComponent implements OnInit, OnDestroy {
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
     usuario: Usuario;
+    usuario$: Observable<Usuario>;
+    setor$: Observable<Setor>;
     setorPagination: Pagination;
     colaboradorPagination: Pagination;
 
@@ -52,6 +53,8 @@ export class AdminLotacaoEditComponent implements OnInit, OnDestroy {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.lotacao$ = this._store.pipe(select(fromStore.getLotacao));
+        this.usuario$ = this._store.pipe(select(fromStore.getUsuario));
+        this.setor$ = this._store.pipe(select(fromStore.getSetor));
         this.usuario = this._loginService.getUserProfile();
 
         this._store

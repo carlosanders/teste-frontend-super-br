@@ -11,7 +11,6 @@ import {
     MatSelectModule,
     MatTooltipModule,
 } from '@cdk/angular/material';
-
 import {CdkSidebarModule} from '@cdk/components/index';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {EspecieAtividadeService} from '@cdk/services/especie-atividade.service';

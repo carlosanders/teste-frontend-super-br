@@ -149,6 +149,7 @@ export class CdkAreaTrabalhoGridComponent implements AfterViewInit, OnInit, OnCh
 
     /**
      * @param _changeDetectorRef
+     * @param _cdkSidebarService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,

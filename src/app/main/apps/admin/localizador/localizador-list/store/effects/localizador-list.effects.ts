@@ -60,8 +60,8 @@ export class LocalizadorListEffect {
                             new LocalizadorListActions.GetLocalizadoresSuccess({
                                 entitiesId: response['entities'].map(localizador => localizador.id),
                                 loaded: {
-                                    id: 'localizadorHandle',
-                                    value: this._loginService.getUserProfile().id
+                                    id: 'setorHandle',
+                                    value: this.routerState.params['setorHandle']
                                 },
                                 total: response['total']
                             })

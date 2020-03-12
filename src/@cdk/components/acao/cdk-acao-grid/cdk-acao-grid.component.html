@@ -1,4 +1,4 @@
-<div class="page-layout fullwidth left-sidebar inner-scroll" fxFlex="100">
+<div class="left-sidebar" fxFlex>
 
     <!-- SIDEBAR -->
     <cdk-sidebar class="sidebar" name="cdk-acao-main-sidebar" position="left">
@@ -11,7 +11,7 @@
     <!-- / SIDEBAR -->
 
     <!-- CONTENT -->
-    <div class="content responsive-grid" fxLayoutAlign="center start">
+    <div class="content responsive-grid" fxFlex fxLayout="column">
 
         <div class="mb-16 p-16" fxFlex fxLayout="column" fxLayoutAlign="center center">
 
@@ -54,7 +54,7 @@
                 </button>
             </div>
 
-            <div class="spinner-container" *ngIf="loading">
+            <div fxFlex="1 1 auto" fxLayout="row" fxLayoutAlign="center center" *ngIf="loading">
                 <mat-spinner diameter="32"></mat-spinner>
             </div>
 
@@ -205,13 +205,13 @@
                     </td>
                 </ng-container>
 
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
                 <tr mat-row *matRowDef="let acao; columns: displayedColumns;">
                 </tr>
             </table>
 
-            <div fxFlex fxLayout="row" fxLayoutAlign="center center">
-                <mat-paginator [pageSizeOptions]="[5, 10]"></mat-paginator>
+            <div class="actions" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="center center">
+                <mat-paginator [disabled]="loading" [pageSizeOptions]="[5, 10]"></mat-paginator>
             </div>
 
         </div>

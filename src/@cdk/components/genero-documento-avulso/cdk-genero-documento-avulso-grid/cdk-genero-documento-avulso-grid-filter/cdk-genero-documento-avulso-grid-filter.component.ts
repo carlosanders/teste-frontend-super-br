@@ -23,7 +23,7 @@ export class CdkGeneroDocumentoAvulsoGridFilterComponent implements OnInit {
 
     form: FormGroup;
 
-    filters: any = '{}';
+    filters: any = {};
 
     /**
      * Constructor

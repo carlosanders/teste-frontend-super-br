@@ -6,10 +6,11 @@ import {select, Store} from '@ngrx/store';
 import {Observable, of} from 'rxjs';
 import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
 
-import {PessoaListAppState} from 'app/main/apps/pessoa/pessoa-list/store/reducers';
-import * as fromStore from 'app/main/apps/pessoa/pessoa-list/store';
+import {AfastamentosListAppState} from '../reducers';
+import * as fromStore from '../';
 import {getRouterState} from 'app/store/reducers';
-import {getPessoaListLoaded} from 'app/main/apps/pessoa/pessoa-list/store/selectors';
+import {getAfastamentosListLoaded} from '../selectors';
+import {LoginService} from 'app/main/auth/login/login.service';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
@@ -17,12 +18,13 @@ export class ResolveGuard implements CanActivate {
     routerState: any;
 
     /**
-     * Constructor
      *
-     * @param {Store<PessoaListAppState>} _store
+     * @param _store
+     * @param _loginService
      */
     constructor(
-        private _store: Store<PessoaListAppState>
+        private _store: Store<AfastamentosListAppState>,
+        private _loginService: LoginService
     ) {
         this._store
             .pipe(select(getRouterState))
@@ -41,46 +43,47 @@ export class ResolveGuard implements CanActivate {
      * @returns {Observable<boolean>}
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-        return this.getPessoas().pipe(
+        return this.getAfastamentos().pipe(
             switchMap(() => of(true)),
             catchError(() => of(false))
         );
     }
 
     /**
-     * Get Pessoas
+     * Get Afastamentos
      *
      * @returns {Observable<any>}
      */
-    getPessoas(): any {
+    getAfastamentos(): any {
         return this._store.pipe(
-            select(getPessoaListLoaded),
+            select(getAfastamentosListLoaded),
             tap((loaded: any) => {
-                if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
+                if (!loaded || (this.routerState.params['usuarioHandle'] !== loaded.value)) {
 
-                    let pessoaId = null;
-
-                    const routeParams = of('pessoaHandle');
-                    routeParams.subscribe(param => {
-                        pessoaId = `eq:${this.routerState.params[param]}`;
-                    });
-
+                    let filter: any;
+                    filter = {
+                        'colaborador.usuario.id': 'eq:' + this.routerState.params['usuarioHandle']
+                    };
                     const params = {
-                        filter: {},
+                        filter: filter,
                         gridFilter: {},
-                        limit: 10,
+                        limit: 5,
                         offset: 0,
-                        sort: {principal: 'DESC', criadoEm: 'DESC'},
+                        sort: {criadoEm: 'DESC'},
                         populate: [
-                            'populateAll'
-                        ]
+                            'populateAll',
+                            'colaborador.usuario'
+                        ],
+                        context: {
+                            'isAdmin': true
+                        }
                     };
 
-                    this._store.dispatch(new fromStore.GetPessoas(params));
+                    this._store.dispatch(new fromStore.GetAfastamentos(params));
                 }
             }),
             filter((loaded: any) => {
-                return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
+                return loaded && this.routerState.params['usuarioHandle'] && this.routerState.params['usuarioHandle'] === loaded.value;
             }),
             take(1)
         );

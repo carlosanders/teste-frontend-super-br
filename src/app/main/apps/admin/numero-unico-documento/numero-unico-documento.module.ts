@@ -17,12 +17,16 @@ import {TranslateModule} from '@ngx-translate/core';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {NumeroUnicoDocumentoComponent} from './numero-unico-documento.component';
 import {RouterModule, Routes} from '@angular/router';
+import {SetorService} from '@cdk/services/setor.service';
 import {NumeroUnicoDocumentoService} from '@cdk/services/numero-unico-documento.service';
+import * as fromGuards from './store/guards';
+import {NumerosUnicosDocumentosStoreModule} from "./store/store.module";
 
 const routes: Routes = [
     {
         path: '',
         component: NumeroUnicoDocumentoComponent,
+        canActivate: [fromGuards.ResolveGuard],
         children: [
             {
                 path       : 'listar',
@@ -62,10 +66,14 @@ const routes: Routes = [
 
         TranslateModule,
 
+        NumerosUnicosDocumentosStoreModule,
+
         CdkSharedModule,
     ],
     providers: [
-        NumeroUnicoDocumentoService
+        NumeroUnicoDocumentoService,
+        SetorService,
+        fromGuards.ResolveGuard
     ],
     exports: [
         NumeroUnicoDocumentoComponent

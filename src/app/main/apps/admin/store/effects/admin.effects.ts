@@ -19,7 +19,7 @@ export class AdminEffect {
     routerState: any;
 
     /**
-     * 
+     *
      * @param _actions
      * @param _setorService
      * @param _store
@@ -45,10 +45,10 @@ export class AdminEffect {
      * @type {Observable<any>}
      */
     @Effect()
-    getSetor: any =
+    getUnidade: any =
         this._actions
             .pipe(
-                ofType<AdminActions.GetSetor>(AdminActions.GET_SETOR),
+                ofType<AdminActions.GetUnidade>(AdminActions.GET_UNIDADE),
                 switchMap((action) => {
                     return this._setorService.query(
                         JSON.stringify(action.payload),
@@ -61,17 +61,17 @@ export class AdminEffect {
                 }),
                 switchMap(response => [
                     new AddData<Setor>({data: response['entities'], schema: setorSchema}),
-                    new AdminActions.GetSetorSuccess({
+                    new AdminActions.GetUnidadeSuccess({
                         loaded: {
                             id: 'unidadeHandle',
                             value: this.routerState.params.unidadeHandle
                         },
-                        setorId: response['entities'][0].id
+                        unidadeId: response['entities'][0].id
                     })
                 ]),
                 catchError((err, caught) => {
                     console.log(err);
-                    this._store.dispatch(new AdminActions.GetSetorFailed(err));
+                    this._store.dispatch(new AdminActions.GetUnidadeFailed(err));
                     return caught;
                 })
             );

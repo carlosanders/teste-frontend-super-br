@@ -10,7 +10,7 @@ import {
     MatSortModule,
     MatSelectModule,
 } from '@cdk/angular/material';
-
+import {MatTooltipModule} from '@angular/material/tooltip';
 import {CdkSidebarModule} from '@cdk/components/index';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {SetorService} from '@cdk/services/setor.service';
@@ -18,6 +18,7 @@ import {CdkSetorGridComponent} from './cdk-setor-grid.component';
 import {CdkSetorAutocompleteModule} from '@cdk/components/setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
 import {CdkSetorGridFilterModule} from './cdk-setor-grid-filter/cdk-setor-grid-filter.module';
 import {CdkSetorMainSidebarComponent} from './sidebars/main/main.component';
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 @NgModule({
     declarations: [
@@ -40,6 +41,7 @@ import {CdkSetorMainSidebarComponent} from './sidebars/main/main.component';
 
         CdkSharedModule,
         CdkSidebarModule,
+        MatTooltipModule,
     ],
     providers: [
         SetorService,

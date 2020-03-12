@@ -25,7 +25,7 @@ export class CdkNumeroUnicoDocumentoFormComponent implements OnChanges, OnDestro
     numeroUnicoDocumento: NumeroUnicoDocumento;
 
     @Input()
-    unidade: Setor;
+    setor: Setor;
 
     @Input()
     saving: boolean;
@@ -35,9 +35,6 @@ export class CdkNumeroUnicoDocumentoFormComponent implements OnChanges, OnDestro
 
     @Input()
     tipoDocumentoPagination: Pagination;
-
-    @Input()
-    setorPagination: Pagination;
 
     @Output()
     save = new EventEmitter<NumeroUnicoDocumento>();
@@ -61,7 +58,6 @@ export class CdkNumeroUnicoDocumentoFormComponent implements OnChanges, OnDestro
             ano: [null]
         });
        this.tipoDocumentoPagination = new Pagination();
-       this.setorPagination = new Pagination();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -74,6 +70,10 @@ export class CdkNumeroUnicoDocumentoFormComponent implements OnChanges, OnDestro
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
         if (changes['numeroUnicoDocumento'] && this.numeroUnicoDocumento && ((!this.numeroUnicoDocumento.id && !this.form.dirty) || (this.numeroUnicoDocumento.id !== this.form.get('id').value))) {
             this.form.patchValue({...this.numeroUnicoDocumento});
+        }
+
+        if (this.setor) {
+            this.form.get('setor').setValue(this.setor);
         }
 
         if (this.errors && this.errors.status && this.errors.status === 422) {
@@ -131,24 +131,6 @@ export class CdkNumeroUnicoDocumentoFormComponent implements OnChanges, OnDestro
 
     showTipoDocumentoGrid(): void {
         this.activeCard = 'tipo-documento-gridsearch';
-    }
-
-    checkSetor(): void {
-        const value = this.form.get('setor').value;
-        if (!value || typeof value !== 'object') {
-            this.form.get('setor').setValue(null);
-        }
-    }
-
-    selectSetor(setor: Setor): void {
-        if (setor) {
-            this.form.get('setor').setValue(setor);
-        }
-        this.activeCard = 'form';
-    }
-
-    showSetorGrid(): void {
-        this.activeCard = 'setor-gridsearch';
     }
 
     cancel(): void {

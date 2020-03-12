@@ -6,6 +6,8 @@ import {numeroUnicoDocumento as numeroUnicoDocumentoSchema} from '@cdk/normalizr
 import {setor as schemaSetor} from '@cdk/normalizr/setor.schema';
 import {getAdminState} from "../../../../store/selectors";
 import {AdminState} from "../../../../store/reducers";
+import {getNumeroUnicoDocumentoState} from "../../../store/selectors";
+import {NumeroUnicoDocumentoState} from "../../../store/reducers";
 
 const schemaNumeroUnicoDocumentoSelectors = createSchemaSelectors<NumeroUnicoDocumento>(numeroUnicoDocumentoSchema);
 const schemaSetorSelectors = createSchemaSelectors<Setor>(schemaSetor);
@@ -41,9 +43,20 @@ export const getErrors = createSelector(
     (state: NumeroUnicoDocumentoEditState) => state.errors
 );
 
-export const getSetorId = createSelector(
+export const getUnidadeId = createSelector(
     getAdminState,
     (state: AdminState) => state.loaded && (state.loaded.id === 'unidadeHandle') ? state.loaded.value : null
+);
+
+export const getUnidade = createSelector(
+    schemaSetorSelectors.getNormalizedEntities,
+    getUnidadeId,
+    schemaSetorSelectors.entityProjector
+);
+
+export const getSetorId = createSelector(
+    getNumeroUnicoDocumentoState,
+    (state: NumeroUnicoDocumentoState) => (state.loaded && state.loaded.id === 'setorHandle') ? state.loaded.value : null
 );
 
 export const getSetor = createSelector(
