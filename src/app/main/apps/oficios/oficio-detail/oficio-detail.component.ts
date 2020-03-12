@@ -13,7 +13,7 @@ import * as fromStore from './store';
 import { Etiqueta, VinculacaoEtiqueta, Documento, Usuario, DocumentoAvulso } from '@cdk/models';
 import { CreateVinculacaoEtiqueta, DeleteVinculacaoEtiqueta } from './store';
 import { getMaximizado } from '../store/selectors';
-import { ToggleMaximizado } from '../store/actions';
+import {GetDocumentosAvulso, ToggleMaximizado} from '../store/actions';
 import { Router } from '@angular/router';
 import { getRouterState } from '../../../../store/reducers';
 import { takeUntil } from 'rxjs/operators';
@@ -110,6 +110,7 @@ export class OficioDetailComponent implements OnInit, OnDestroy, AfterViewInit {
                 this.routerState = routerState.state;
             }
         });
+
         this._store.pipe(
             select(getRouterState),
             takeUntil(this._unsubscribeAll)
@@ -124,6 +125,7 @@ export class OficioDetailComponent implements OnInit, OnDestroy, AfterViewInit {
         ).subscribe(documentoAvulso => {
             this.documentoAvulso = documentoAvulso;
         });
+
         this.documentos$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(
@@ -183,7 +185,7 @@ export class OficioDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     complete(pending: number): void {
         if (pending === 0) {
             this._store.dispatch(new fromStore.GetDocumentos({
-                id: 'eq:' + this.documentoAvulso.id
+                id: 'eq:' + this.documentoAvulso.documentoResposta.id
             }));
         }
     }

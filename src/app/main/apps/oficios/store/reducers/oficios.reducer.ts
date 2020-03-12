@@ -1,6 +1,5 @@
 import * as DocumentosAvulsoActions from 'app/main/apps/oficios/store/actions/oficios.actions';
 import { Etiqueta } from '@cdk/models';
-import * as TarefasActions from '../../../tarefas/store/actions/tarefas.actions';
 
 export interface DocumentosAvulsoState {
     entitiesId: number[];

@@ -102,11 +102,11 @@ export class PainelComponent implements OnInit
 
 
         if (this._loginService.isGranted('ROLE_CONVENIADO')) {
-            const pessoas = [];
-            this._profile.vinculacoesPessoasUsuarios.forEach((pessoaConveniada) => pessoas.push(pessoaConveniada.pessoa.id));
+            const pessoaIds = [];
+            this._profile.vinculacoesPessoasUsuarios.forEach((pessoaConveniada) => pessoaIds.push(pessoaConveniada.pessoa.id));
 
             this._documentoAvulsoService.count(
-                `{"pessoaDestino.id": "in:${pessoas}", "dataHoraResposta": "isNull"}`)
+                `{"pessoaDestino.id": "in:${pessoaIds}", "dataHoraResposta": "isNull"}`)
                 .pipe(
                     catchError(() => of([]))
                 ).subscribe(
@@ -114,7 +114,7 @@ export class PainelComponent implements OnInit
             );
 
             this._documentoAvulsoService.count(
-                `{"pessoaDestino.id": "eq:${pessoas}", "dataHoraResposta": "isNull", "dataHoraFinalPrazo": "lt:${moment().format('YYYY-MM-DDTHH:mm:ss')}"}`)
+                `{"pessoaDestino.id": "eq:${pessoaIds}", "dataHoraResposta": "isNull", "dataHoraFinalPrazo": "lt:${moment().format('YYYY-MM-DDTHH:mm:ss')}"}`)
                 .pipe(
                     catchError(() => of([]))
                 ).subscribe(
