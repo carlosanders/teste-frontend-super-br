@@ -182,4 +182,8 @@ export class ArquivistaDetailComponent implements OnInit, OnDestroy, AfterViewIn
 
     ngAfterViewInit(): void {
     }
+
+    isPendenciaAnalise(): boolean{
+        return this.routerState.params.typeHandle === 'pendencia-analise' ? true : false;
+    }
 }
