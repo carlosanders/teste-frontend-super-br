@@ -35,6 +35,7 @@ export class NumeroUnicoDocumentoEditComponent implements OnInit, OnDestroy {
     usuario: Usuario;
     unidade$: Observable<Setor>;
     unidade: Setor;
+    setor$: Observable<Setor>;
     setorPagination: Pagination;
     tipoDocumentoPagination: Pagination;
 
@@ -53,7 +54,8 @@ export class NumeroUnicoDocumentoEditComponent implements OnInit, OnDestroy {
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.numeroUnicoDocumento$ = this._store.pipe(select(fromStore.getNumeroUnicoDocumento));
         this.usuario = this._loginService.getUserProfile();
-        this.unidade$ = this._store.pipe(select(fromStore.getSetor));
+        this.unidade$ = this._store.pipe(select(fromStore.getUnidade));
+        this.setor$ = this._store.pipe(select(fromStore.getSetor));
 
         this._store
             .pipe(select(getRouterState))
@@ -115,10 +117,6 @@ export class NumeroUnicoDocumentoEditComponent implements OnInit, OnDestroy {
                 numeroUnicoDocumento[key] = value;
             }
         );
-
-        if (this.unidade.numeracaoDocumentoUnidade) {
-            numeroUnicoDocumento['setor'] = this.unidade.unidade as Setor;
-        }
 
         this._store.dispatch(new fromStore.SaveNumeroUnicoDocumento(numeroUnicoDocumento));
     }

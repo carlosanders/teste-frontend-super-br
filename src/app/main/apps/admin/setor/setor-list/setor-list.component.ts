@@ -83,6 +83,18 @@ export class SetorListComponent implements OnInit {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/') + setorId]);
     }
 
+    lotacoes(setorId: number): void {
+        this._router.navigate([this.routerState.url.replace('listar', `${setorId}/lotacoes`)]);
+    }
+
+    localizadores(setorId: number): void {
+        this._router.navigate([this.routerState.url.replace('listar', `${setorId}/localizadores`)]);
+    }
+
+    numerosUnicosDocumentos(setorId: number): void {
+        this._router.navigate([this.routerState.url.replace('listar', `${setorId}/numeros-unicos-documentos`)]);
+    }
+
     delete(setorId: number): void {
         this._store.dispatch(new fromStore.DeleteSetor(setorId));
     }

@@ -51,13 +51,13 @@ export class LocalizadorComponent implements OnInit, OnDestroy {
             ).subscribe(routerState => {
             if (routerState) {
                 this.routerState = routerState.state;
-                if (this.routerState.url.indexOf('localizador/listar') > -1) {
+                if (this.routerState.url.indexOf('localizadores/listar') > -1) {
                     this.action = 'listar';
                 }
-                if (this.routerState.url.indexOf('localizador/editar') > -1) {
+                if (this.routerState.url.indexOf('localizadores/editar') > -1) {
                     this.action = 'editar';
                 }
-                if (this.routerState.url.indexOf('localizador/editar/criar') > -1) {
+                if (this.routerState.url.indexOf('localizadores/editar/criar') > -1) {
                     this.action = 'criar';
                 }
                 this._changeDetectorRef.markForCheck();

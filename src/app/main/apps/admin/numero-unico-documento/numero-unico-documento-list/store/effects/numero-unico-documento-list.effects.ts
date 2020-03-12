@@ -59,8 +59,8 @@ export class NumeroUnicoDocumentoListEffect {
                             new NumeroUnicoDocumentoListActions.GetNumerosUnicosDocumentosSuccess({
                                 entitiesId: response['entities'].map(numeroUnicoDocumento => numeroUnicoDocumento.id),
                                 loaded: {
-                                    id: 'unidadeHandle',
-                                    value: this.routerState.params['unidadeHandle']
+                                    id: 'setorHandle',
+                                    value: this.routerState.params['setorHandle']
                                 },
                                 total: response['total']
                             })

@@ -42,19 +42,9 @@ export class AdminMainSidebarComponent implements OnInit, OnDestroy {
                 link: 'setor'
             },
             {
-                nome: 'Lotações',
-                icon: 'map',
-                link: 'lotacoes'
-            },
-            {
-                nome: 'Localizadores',
-                icon: 'edit_location',
-                link: 'localizador'
-            },
-            {
-                nome: 'Nºs únicos documento',
-                icon: 'filter_9_plus',
-                link: 'numero-unico-documento'
+                nome: 'Usuários',
+                icon: 'person',
+                link: 'usuario'
             }
         ];
     }

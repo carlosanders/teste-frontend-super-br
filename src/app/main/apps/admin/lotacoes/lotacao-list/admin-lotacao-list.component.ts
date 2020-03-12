@@ -60,11 +60,24 @@ export class AdminLotacaoListComponent implements OnInit {
             });
 
         this.setorPagination.populate = ['populateAll'];
+        this.colaboradorPagination.filter = {};
         this.colaboradorPagination.populate = ['populateAll'];
         this.setorPagination.filter = {
             'unidade.id':'eq:' + this.routerState.params.unidadeHandle,
             'parent.id': 'isNotNull'
         };
+        if (this.routerState.params['usuarioHandle']) {
+            this.colaboradorPagination.filter = {
+                ...this.colaboradorPagination.filter,
+                'usuario.id':'eq:' + this.routerState.params['usuarioHandle']
+            };
+        }
+        if (this.routerState.params['setorHandle']) {
+            this.setorPagination.filter = {
+                ...this.setorPagination.filter,
+                'id':'eq:' + this.routerState.params['setorHandle']
+            };
+        }
     }
 
     ngOnInit(): void {

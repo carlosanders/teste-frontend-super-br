@@ -53,7 +53,10 @@ export class AdminLotacaoEditEffect {
                         JSON.stringify({}),
                         JSON.stringify([
                             'populateAll',
-                            'colaborador.usuario'
+                            'colaborador.usuario',
+                            'setor.unidade',
+                            'setor.especieSetor',
+                            'setor.generoSetor',
                         ]));
                 }),
                 switchMap(response => [

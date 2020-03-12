@@ -11,7 +11,7 @@ export const AdminInitialState: AdminState = {
     unidadeId: null,
     errors: false,
     loading: false,
-    loaded: false
+    loaded: false,
 };
 
 export function AdminReducer(
@@ -20,7 +20,7 @@ export function AdminReducer(
 ): AdminState {
     switch (action.type) {
 
-        case AdminActions.GET_SETOR: {
+        case AdminActions.GET_UNIDADE: {
             return {
                 ...state,
                 unidadeId: null,
@@ -28,7 +28,7 @@ export function AdminReducer(
             };
         }
 
-        case AdminActions.GET_SETOR_SUCCESS: {
+        case AdminActions.GET_UNIDADE_SUCCESS: {
 
             return {
                 ...state,
@@ -38,7 +38,7 @@ export function AdminReducer(
             };
         }
 
-        case AdminActions.GET_SETOR_FAILED: {
+        case AdminActions.GET_UNIDADE_FAILED: {
             return {
                 ...state,
                 loading: false

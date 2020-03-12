@@ -60,7 +60,10 @@ export class NumeroUnicoDocumentoListComponent implements OnInit {
 
         this.setorPagination.populate = ['populateAll'];
         this.tipoDocumentoPagination.populate = ['populateAll'];
-        this.setorPagination.filter = {'unidade.id':'eq:' + this.routerState.params.unidadeHandle};
+        this.setorPagination.filter = {
+            'unidade.id':'eq:' + this.routerState.params.unidadeHandle,
+            'id':'eq:' + this.routerState.params['setorHandle']
+        };
     }
 
     ngOnInit(): void {

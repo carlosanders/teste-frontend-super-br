@@ -15,33 +15,27 @@ import { CommonModule } from '@angular/common';
 import {AdminMainSidebarComponent} from "./sidebars/main/main-sidebar.component";
 import {AdminStoreModule} from "./store/store.module";
 import {SetorService} from "@cdk/services/setor.service";
+import {UsuarioService} from '@cdk/services/usuario.service';
 
 const routes: Routes = [
     {
-        path       : '',
+        path       : ':unidadeHandle',
         component: AdminComponent,
         children: [
             {
-                path       : ':unidadeHandle/setor',
-                loadChildren: () => import('./setor/setor.module').then(m => m.SetorModule),
-                canActivate: [fromGuards.ResolveGuard]
+                path       : 'setor',
+                loadChildren: () => import('./setor/setor.module').then(m => m.SetorModule)
             },
             {
-                path       : ':unidadeHandle/lotacoes',
-                loadChildren: () => import('./lotacoes/admin-lotacoes.module').then(m => m.AdminLotacoesModule),
-                canActivate: [fromGuards.ResolveGuard]
-            },
-            {
-                path       : ':unidadeHandle/localizador',
-                loadChildren: () => import('./localizador/localizador.module').then(m => m.LocalizadorModule),
-                canActivate: [fromGuards.ResolveGuard]
-            },
-            {
-                path       : ':unidadeHandle/numero-unico-documento',
-                loadChildren: () => import('./numero-unico-documento/numero-unico-documento.module').then(m => m.NumeroUnicoDocumentoModule),
-                canActivate: [fromGuards.ResolveGuard]
+                path       : 'usuario',
+                loadChildren: () => import('./usuario/usuario.module').then(m => m.UsuarioModule)
             }
-        ]
+        ],
+        canActivate: [fromGuards.ResolveGuard]
+    },
+    {
+        path: '**',
+        redirectTo: 'default/setor'
     }
 ];
 
@@ -67,6 +61,7 @@ const routes: Routes = [
     ],
     providers      : [
         SetorService,
+        UsuarioService,
         fromGuards.ResolveGuard
     ]
 })

@@ -29,13 +29,13 @@ export class CdkColaboradorFormComponent implements OnChanges, OnDestroy {
     colaborador: Colaborador;
 
     @Input()
+    usuario: Usuario;
+
+    @Input()
     saving: boolean;
 
     @Input()
     errors: any;
-
-    @Input()
-    usuarioPagination: Pagination;
 
     @Input()
     modalidadeColaboradorPagination: Pagination;
@@ -60,11 +60,10 @@ export class CdkColaboradorFormComponent implements OnChanges, OnDestroy {
 
         this.form = this._formBuilder.group({
             id: [null],
-            usuario: [null, [Validators.required]],
             modalidadeColaborador: [null, [Validators.required]],
-            cargo: [null, [Validators.required]]
+            cargo: [null, [Validators.required]],
+            ativo: [null]
         });
-        this.usuarioPagination = new Pagination();
         this.modalidadeColaboradorPagination = new Pagination();
         this.cargoPagination = new Pagination();
     }
@@ -120,13 +119,6 @@ export class CdkColaboradorFormComponent implements OnChanges, OnDestroy {
         }
     }
 
-    checkUsuario(): void {
-        const value = this.form.get('usuario').value;
-        if (!value || typeof value !== 'object') {
-            this.form.get('usuario').setValue(null);
-        }
-    }
-
     checkModalidadeColaborador(): void {
         const value = this.form.get('modalidadeColaborador').value;
         if (!value || typeof value !== 'object') {
@@ -161,17 +153,6 @@ export class CdkColaboradorFormComponent implements OnChanges, OnDestroy {
 
     showCargoGrid(): void {
         this.activeCard = 'cargo-gridsearch';
-    }
-
-    selectUsuario(usuario: Usuario): void {
-        if (usuario) {
-            this.form.get('usuario').setValue(usuario);
-        }
-        this.activeCard = 'form';
-    }
-
-    showUsuarioGrid(): void {
-        this.activeCard = 'usuario-gridsearch';
     }
 
     cancel(): void {

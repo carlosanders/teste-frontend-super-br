@@ -33,12 +33,27 @@ const routes: Routes = [
                 loadChildren: () => import('./setor-edit/setor-edit.module').then(m => m.SetorEditModule),
             },
             {
+                path       : ':setorHandle/lotacoes',
+                loadChildren: () => import('app/main/apps/admin/lotacoes/admin-lotacoes.module').then(m => m.AdminLotacoesModule),
+            },
+            {
+                path       : ':setorHandle/localizadores',
+                loadChildren: () => import('app/main/apps/admin/localizador/localizador.module').then(m => m.LocalizadorModule),
+            },
+            {
+                path       : ':setorHandle/numeros-unicos-documentos',
+                loadChildren: () => import('app/main/apps/admin/numero-unico-documento/numero-unico-documento.module').then(m => m.NumeroUnicoDocumentoModule),
+            },
+            {
                 path: '**',
                 redirectTo: 'listar'
             }
         ]
+    },
+    {
+        path: '**',
+        redirectTo: 'listar'
     }
-
 ];
 
 @NgModule({

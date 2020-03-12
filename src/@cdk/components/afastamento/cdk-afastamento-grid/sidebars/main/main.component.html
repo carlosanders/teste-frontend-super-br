@@ -15,7 +15,7 @@
 
     <div class="header" fxLayout="column">
         <div class="filters">
-            <cdk-afastamento-grid-filter (selected)="setGridFilter($event)"></cdk-afastamento-grid-filter>
+            <cdk-afastamento-grid-filter [colaboradorPagination]="colaboradorPagination" (selected)="setGridFilter($event)"></cdk-afastamento-grid-filter>
         </div>
     </div>
 

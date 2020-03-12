@@ -58,21 +58,25 @@ export class ResolveGuard implements CanActivate {
         return this._store.pipe(
             select(getLocalizadorListLoaded),
             tap((loaded: any) => {
-                if (!loaded) {
+                if (!loaded || this.routerState.params['setorHandle'] !== loaded.value) {
 
                     const params = {
 
                         filter: {
-                               'setor.unidade.id': 'eq:' + this.routerState.params.unidadeHandle
+                            'setor.unidade.id': 'eq:' + this.routerState.params.unidadeHandle,
+                            'setor.id':'eq:' + this.routerState.params.setorHandle
                         },
-
 
                         gridFilter: {},
                         limit: 5,
                         offset: 0,
                         sort: {criadoEm: 'DESC'},
                         populate: [
-                            'populateAll'
+                            'populateAll',
+                            'setor.unidade',
+                            'setor.especieSetor',
+                            'setor.generoSetor',
+                            'setor.parent',
                         ],
                         context: {
                             'isAdmin': true
@@ -83,7 +87,7 @@ export class ResolveGuard implements CanActivate {
                 }
             }),
             filter((loaded: any) => {
-                return !!loaded;
+                return loaded.id === 'setorHandle' && this.routerState.params['setorHandle'] && this.routerState.params['setorHandle'] === loaded.value;
             }),
             take(1)
         );

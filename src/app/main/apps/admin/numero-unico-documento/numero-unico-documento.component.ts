@@ -50,13 +50,13 @@ export class NumeroUnicoDocumentoComponent implements OnInit, OnDestroy {
             ).subscribe(routerState => {
             if (routerState) {
                 this.routerState = routerState.state;
-                if (this.routerState.url.indexOf('numero-unico-documento/listar') > -1) {
+                if (this.routerState.url.indexOf('numeros-unicos-documentos/listar') > -1) {
                     this.action = 'listar';
                 }
-                if (this.routerState.url.indexOf('numero-unico-documento/editar') > -1) {
+                if (this.routerState.url.indexOf('numeros-unicos-documentos/editar') > -1) {
                     this.action = 'editar';
                 }
-                if (this.routerState.url.indexOf('numero-unico-documento/editar/criar') > -1) {
+                if (this.routerState.url.indexOf('numeros-unicos-documentos/editar/criar') > -1) {
                     this.action = 'criar';
                 }
                 this._changeDetectorRef.markForCheck();

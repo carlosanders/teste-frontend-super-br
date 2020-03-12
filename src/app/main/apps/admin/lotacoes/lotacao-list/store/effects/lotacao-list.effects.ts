@@ -60,8 +60,8 @@ export class LotacaoListEffect {
                             new LotacaoListActions.GetLotacoesSuccess({
                                 entitiesId: response['entities'].map(lotacao => lotacao.id),
                                 loaded: {
-                                    id: 'lotacaoHandle',
-                                    value: this._loginService.getUserProfile().id
+                                    id: this.routerState.params.setorHandle ? 'setorHandle' : 'usuarioHandle',
+                                    value: this.routerState.params.setorHandle ? this.routerState.params.setorHandle : this.routerState.params.usuarioHandle
                                 },
                                 total: response['total']
                             })

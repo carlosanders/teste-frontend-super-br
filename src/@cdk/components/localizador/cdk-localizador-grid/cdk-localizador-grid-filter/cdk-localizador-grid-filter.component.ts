@@ -1,12 +1,13 @@
 import {
     ChangeDetectionStrategy,
-    Component, EventEmitter,
+    Component, EventEmitter, Input,
     OnInit, Output,
     ViewEncapsulation
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
+import {Pagination} from "../../../../models";
 
 @Component({
     selector: 'cdk-localizador-grid-filter',
@@ -20,6 +21,9 @@ export class CdkLocalizadorGridFilterComponent implements OnInit {
 
     @Output()
     selected = new EventEmitter<any>();
+
+    @Input()
+    setorPagination: Pagination;
 
     form: FormGroup;
 
@@ -45,6 +49,7 @@ export class CdkLocalizadorGridFilterComponent implements OnInit {
             apagadoEm: [null],
         });
 
+        this.setorPagination = new Pagination();
     }
 
     // -----------------------------------------------------------------------------------------------------

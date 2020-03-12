@@ -58,12 +58,28 @@ export class ResolveGuard implements CanActivate {
         return this._store.pipe(
             select(getLotacaoListLoaded),
             tap((loaded: any) => {
-                if (!loaded) {
+                if (!loaded ||
+                    (('usuarioHandle' === loaded.id) && this.routerState.params['usuarioHandle'] !== loaded.value)
+                    || (('setorHandle' === loaded.id) && this.routerState.params['setorHandle'] !== loaded.value)) {
 
+                    let filter: any;
+                    filter = {
+                        'setor.unidade.id': 'eq:' + this.routerState.params.unidadeHandle
+                    };
+                    if (this.routerState.params['usuarioHandle']) {
+                        filter = {
+                            ...filter,
+                            'colaborador.usuario.id':'eq:' + this.routerState.params['usuarioHandle']
+                        };
+                    }
+                    if (this.routerState.params['setorHandle']) {
+                        filter = {
+                            ...filter,
+                            'setor.id':'eq:' + this.routerState.params['setorHandle']
+                        };
+                    }
                     const params = {
-                        filter: {
-                            'setor.unidade.id': 'eq:' + this.routerState.params.unidadeHandle
-                        },
+                        filter: filter,
                         gridFilter: {},
                         limit: 5,
                         offset: 0,
@@ -71,6 +87,9 @@ export class ResolveGuard implements CanActivate {
                         populate: [
                             'populateAll',
                             'setor.unidade',
+                            'setor.especieSetor',
+                            'setor.generoSetor',
+                            'setor.parent',
                             'colaborador.usuario'
                         ],
                         context: {
@@ -82,7 +101,8 @@ export class ResolveGuard implements CanActivate {
                 }
             }),
             filter((loaded: any) => {
-                return !!loaded;
+                return loaded.id === 'usuarioHandle' && this.routerState.params['usuarioHandle'] && this.routerState.params['usuarioHandle'] === loaded.value ||
+                    loaded.id === 'setorHandle' && this.routerState.params['setorHandle'] && this.routerState.params['setorHandle'] === loaded.value;
             }),
             take(1)
         );
