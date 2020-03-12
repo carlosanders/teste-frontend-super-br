@@ -1,11 +1,11 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {LembreteService} from '../../../../../@cdk/services/lembrete.service';
-import {catchError, finalize} from 'rxjs/operators';
-import {Observable, of} from 'rxjs';
-import {Lembrete, Pagination} from '../../../../../@cdk/models';
+import {Observable} from 'rxjs';
+import {Lembrete, Processo} from '../../../../../@cdk/models';
 import {getRouterState, RouterStateUrl} from '../../../../store/reducers';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
+import * as fromStoreProcesso from '../../processo/store';
 
 @Component({
     selector: 'app-lembretes-form',
@@ -14,12 +14,14 @@ import * as fromStore from './store';
 })
 export class LembretesComponent implements OnInit {
 
-
-    pagination: Pagination;
     loading: boolean;
-    lembretes: Lembrete[];
+    lembretes$: Observable<Lembrete>;
+    lembretes: Lembrete;
+    processo$: Observable<Processo>;
+    processo: Processo;
     total = 0;
-    processo: number;
+    processoId: number;
+
     private routerState: RouterStateUrl;
     private isSaving$: Observable<boolean>;
     private errors$: Observable<any>;
@@ -30,14 +32,22 @@ export class LembretesComponent implements OnInit {
         private _store: Store<fromStore.LembreteAppState>
     ) {
         this.loading = false;
-        this.pagination = new Pagination();
-        this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
-        this.errors$ = this._store.pipe(select(fromStore.getErrors));
-
+        this.initObservales();
+        this.initRouteState();
+        this.setProcessoId();
     }
 
     ngOnInit(): void {
-        this.load(this.pagination);
+    }
+
+    initObservales(): void{
+        this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
+        this.errors$ = this._store.pipe(select(fromStore.getErrors));
+        this.processo$ = this._store.pipe(select(fromStoreProcesso.getProcesso));
+        this.lembretes$ = this._store.pipe(select(fromStore.getLembreteList));
+    }
+
+    initRouteState(): void {
         this._store
             .pipe(select(getRouterState))
             .subscribe(routerState => {
@@ -45,41 +55,10 @@ export class LembretesComponent implements OnInit {
                     this.routerState = routerState.state;
                 }
             });
-        this.processo = this.routerState.params.processoHandle;
     }
 
-    load(params): void {
-
-        this.loading = true;
-
-        this._lembreteService.query(
-            JSON.stringify(params.filter),
-            params.limit,
-            params.offset,
-            JSON.stringify(params.sort),
-            JSON.stringify(params.populate))
-            .pipe(finalize(() => this.loading = false),
-                catchError(() => of([]))
-            ).subscribe(response => {
-            this.lembretes = response['entities'];
-            this.total = response['total'];
-            this._changeDetectorRef.markForCheck();
-        });
-    }
-
-    reload(params): void {
-        params = {
-            ...this.pagination,
-            filter: {
-                ...this.pagination.filter,
-                ...params.gridFilter
-            },
-            sort: params.sort,
-            limit: params.limit,
-            offset: params.offset,
-            populate: this.pagination.populate
-        };
-        this.load (params);
+    setProcessoId(): void{
+        this.processoId = this.routerState.params.processoHandle;
     }
 
     submit(values): void {
@@ -90,7 +69,6 @@ export class LembretesComponent implements OnInit {
                 lembrete[key] = value;
             }
         );
-
         this._store.dispatch(new fromStore.SaveLembrete(lembrete));
 
     }

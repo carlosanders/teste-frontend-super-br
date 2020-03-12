@@ -27,8 +27,8 @@ processoSchema.define({
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario,
-    lembretes: [lembrete],
-    vinculacoesEtiquetas: [vinculacaoEtiqueta]
+    vinculacoesEtiquetas: [vinculacaoEtiqueta],
+    lembretes: [lembrete]
 });
 
 export const processo = processoSchema;
