@@ -3,10 +3,10 @@ cdk-usuario-form {
   form {
     width: 100%;
   }
-
-  .div-form {
-    width: 350px;
-  }
+    .inner-scroll{
+        height: 50%;
+        width: 100%;
+    }
 
   .form-card {
     border-radius: 8px;

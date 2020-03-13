@@ -1,9 +1,10 @@
-<form *ngIf="activeCard === 'form'" class="p-24 mr-24" fxLayoutGap="36px"
+<div cdkPerfectScrollbar class="inner-scroll" >
+<form *ngIf="activeCard === 'form'" class="mr-24" fxLayoutGap="1px"
       fxLayout="column"
       fxLayoutAlign="start"
       name="form" [formGroup]="form" (submit)="submit()">
 
-    <div fxFlex="1 0 auto" fxLayout="column" class="div-form">
+    <div  fxLayout="column" >
 
         <mat-form-field fxFlex="100">
             <mat-label>CPF</mat-label>
@@ -76,3 +77,4 @@
         <mat-spinner color="accent" diameter="24"></mat-spinner>
     </div>
 </form>
+</div>
