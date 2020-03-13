@@ -5,7 +5,7 @@ import {getRouterState, State} from '../../../../../../store/reducers';
 import {Router} from '@angular/router';
 import * as DataPrevistaTransicaoActions from '../actions/criar-data-prevista-transicao.actions';
 import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
-import {AddData} from '@cdk/ngrx-normalizr';
+import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {Processo} from '@cdk/models';
 import {processo as processoSchema} from '@cdk/normalizr/processo.schema';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
@@ -35,10 +35,10 @@ export class CriarDataPrevistaTransicaoEffects {
             .pipe(
                 ofType<DataPrevistaTransicaoActions.SaveDataPrevistaTransicao>(DataPrevistaTransicaoActions.SAVE_DATA_PREVISTA_TRANSICAO),
                 switchMap((action) => {
-                    return this._processoService.save(action.payload).pipe(
+                    return this._processoService.patch(action.payload.values.processo, action.payload.changes).pipe(
                         mergeMap((response: Processo) => [
                             new DataPrevistaTransicaoActions.SaveDataPrevistaTransicaoSuccess(),
-                            new AddData<Processo>({data: [response], schema: processoSchema}),
+                            new UpdateData<Processo>({id: response.id, schema: processoSchema, changes: {dataHoraProximaTransicao: response.dataHoraProximaTransicao}}),
                             new OperacoesActions.Resultado({
                                 type: 'processo',
                                 content: `Processo id ${response.id} Atualizado com sucesso!`,

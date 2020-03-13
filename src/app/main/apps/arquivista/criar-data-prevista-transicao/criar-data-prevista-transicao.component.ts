@@ -40,17 +40,7 @@ export class CriarDataPrevistaTransicaoComponent implements OnInit {
         this.processoId = this.routerState.params.processoHandle;
     }
 
-    submit(values): void {
-        const processo = new Processo();
-
-        Object.entries(values).forEach(
-            ([key, value]) => {
-                processo[key] = value;
-            }
-        );
-
-        this._store.dispatch(new fromStore.SaveDataPrevistaTransicao(processo));
-
+    submit(values: any): void {
+        this._store.dispatch(new fromStore.SaveDataPrevistaTransicao({values, changes: {dataHoraProximaTransicao: values.processo.dataHoraProximaTransicao}}));
     }
-
 }
