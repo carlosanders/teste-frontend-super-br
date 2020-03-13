@@ -65,7 +65,7 @@ export class CriarDataPrevistaTransicaoEffects {
                 ofType<DataPrevistaTransicaoActions.SaveDataPrevistaTransicaoSuccess>(DataPrevistaTransicaoActions.SAVE_DATA_PREVISTA_TRANSICAO_SUCCESS),
                 tap(() => {
                     this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle
-                    + '/pronto-transicao/detalhe/processo/' + this.routerState.params.processoHandle + '/visualizar']).then();
+                    + '/aguardando-decurso/detalhe/processo/' + this.routerState.params.processoHandle + '/visualizar']).then();
                 })
             );
 
