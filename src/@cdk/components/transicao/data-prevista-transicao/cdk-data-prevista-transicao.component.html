@@ -13,16 +13,6 @@
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
-
-
-<!--        <mat-form-field class="mr-sm-12" fxFlex>-->
-<!--            <mat-label>Data Prevista Transição</mat-label>-->
-<!--            <input matInput formControlName="dataHoraProximaTransicao" [matDatetimepicker]="dataHoraProximaTransicao"-->
-<!--                   required>-->
-<!--            <mat-datetimepicker-toggle matSuffix [for]="dataHoraProximaTransicao"></mat-datetimepicker-toggle>-->
-<!--            <mat-datetimepicker #dataHoraProximaTransicao type="datetime" openOnFocus="true" timeInterval="5"-->
-<!--                                required></mat-datetimepicker>-->
-<!--        </mat-form-field>-->
     </div>
 
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>

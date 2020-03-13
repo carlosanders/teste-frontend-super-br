@@ -9,6 +9,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {CdkLembreteGridModule} from '../cdk-lembrete-grid/cdk-lembrete-grid.module';
 import {CdkLembreteHistoricoModule} from '../cdk-lembrete-historico/cdk-lembrete-historico.module';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import {CdkLembreteHistoricoModule} from '../cdk-lembrete-historico/cdk-lembrete
         MatIconModule,
         CdkLembreteGridModule,
         CdkLembreteHistoricoModule,
+        MatProgressSpinnerModule,
     ],
     exports: [
         CdkLembreteFormComponent

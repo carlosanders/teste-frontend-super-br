@@ -11,10 +11,13 @@ import {processo as processoSchema} from '@cdk/normalizr/processo.schema';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {of} from 'rxjs';
 import {Injectable} from '@angular/core';
+import * as moment from 'moment';
+import * as fromStoreProcesso from '../../../../processo/store';
 
 @Injectable()
 export class CriarDataPrevistaTransicaoEffects {
     routerState: any;
+    private currentDate: any;
 
     constructor(
         private _actions: Actions,
@@ -61,8 +64,8 @@ export class CriarDataPrevistaTransicaoEffects {
             .pipe(
                 ofType<DataPrevistaTransicaoActions.SaveDataPrevistaTransicaoSuccess>(DataPrevistaTransicaoActions.SAVE_DATA_PREVISTA_TRANSICAO_SUCCESS),
                 tap(() => {
-                    this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle + '/' +
-                    this.routerState.params.typeHandle + '/detalhe/processo/' + this.routerState.params.processoHandle + '/visualizar']).then();
+                    this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle
+                    + '/pronto-transicao/detalhe/processo/' + this.routerState.params.processoHandle + '/visualizar']).then();
                 })
             );
 
