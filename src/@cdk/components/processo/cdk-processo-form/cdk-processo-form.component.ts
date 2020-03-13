@@ -53,19 +53,7 @@ import { appendFile } from 'fs';
             }
           }
         }
-      ]    
-
-/*    providers: [
-        {
-            provide: MAT_DATETIME_FORMATS,
-            useValue: {
-                display: {
-                    dateInput: 'L LT',
-                    datetimeInput: 'L LT'
-                }
-            }
-        }
-    ]*/
+      ]
 })
 export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
