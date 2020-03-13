@@ -87,7 +87,6 @@ export * from './relevancia.model';
 export * from './repositorio.model';
 export * from './representante.model';
 export * from './respensavel.model';
-export * from './role.model';
 export * from './setor.model';
 export * from './sigilo.model';
 export * from './tarefa.model';
