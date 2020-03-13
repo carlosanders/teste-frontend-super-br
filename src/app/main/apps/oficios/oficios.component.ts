@@ -163,7 +163,7 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
         this.documentosAvulso$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(documentosAvulso => {
-            this.documentosAvulso = documentosAvulso;
+            this.documentosAvulso = documentosAvulso ? documentosAvulso : [];
         });
 
         this.pagination$.pipe(
@@ -272,25 +272,16 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     setCurrentDocumentoAvulso(documentoAvulso: DocumentoAvulso): void {
+        const dialogRef = this._dialog.open(CdkChaveAcessoPluginComponent, {
+            width: '600px'
+        });
 
-        /*if (!documentoAvulso.processo.acessoNegado && !chaveAcesso) {
-            const dialogRef = this._dialog.open(CdkChaveAcessoPluginComponent, {
-                width: '600px'
-            });
-
-            dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe(result => {
-                this._store.dispatch(new fromStore.SetCurrentDocumentoAvulso({
-                    documentoAvulsoId: documentoAvulso.id, processoId: documentoAvulso.processo.id,
-                    acessoNegado: documentoAvulso.processo.acessoNegado, chaveAcesso: result}));
-                return;
-            });
-        }*/
-
-        this._store.dispatch(new fromStore.SetCurrentDocumentoAvulso({
-            documentoAvulsoId: documentoAvulso.id, processoId: documentoAvulso.processo.id,
-            acessoNegado: documentoAvulso.processo.acessoNegado, chaveAcesso: '12345678'}));
-        return;
-
+        dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe(result => {
+            this._store.dispatch(new fromStore.SetCurrentDocumentoAvulso({
+                documentoAvulsoId: documentoAvulso.id, processoId: documentoAvulso.processo.id,
+                acessoNegado: documentoAvulso.processo.acessoNegado, chaveAcesso: result}));
+            return;
+        });
     }
 
     /**

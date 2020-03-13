@@ -52,26 +52,13 @@ export class ResolveGuard implements CanActivate {
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         if (this.getRouterDefault()) {
-            return this.checkStore().pipe(
+            return this.getDocumentosAvulso().pipe(
                 switchMap(() => of(true)),
                 catchError(() => of(false))
             );
         }
     }
 
-    /**
-     * Check store
-     *
-     * @returns {Observable<any>}
-     */
-    checkStore(): Observable<any> {
-        return forkJoin(
-            this.getDocumentosAvulso()
-        ).pipe(
-            filter(([documentosAvulsoLoaded]) => !!(documentosAvulsoLoaded)),
-            take(1)
-        );
-    }
 
     /**
      * Get DocumentoAvulso
@@ -133,7 +120,8 @@ export class ResolveGuard implements CanActivate {
                 }
             }),
             filter((loaded: any) => {
-                return this.routerState.params['oficioTargetHandle'] + '_' + this.routerState.params['pessoaHandle'] === loaded.value && this.routerState.params['oficioTargetHandle'];
+                return this.routerState.params['oficioTargetHandle'] + '_' + this.routerState.params['pessoaHandle'] === loaded.value
+                    && this.routerState.params['oficioTargetHandle'];
             }),
             take(1)
         );
