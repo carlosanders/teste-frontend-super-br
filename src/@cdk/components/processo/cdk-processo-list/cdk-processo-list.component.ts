@@ -21,6 +21,9 @@ export class CdkProcessoListComponent implements AfterViewInit, OnInit, OnChange
     processos: Processo[] = [];
 
     @Input()
+    prontoTransicao: boolean;
+
+    @Input()
     currentProcessoId: number;
 
     @Input()
@@ -54,13 +57,19 @@ export class CdkProcessoListComponent implements AfterViewInit, OnInit, OnChange
     selected = new EventEmitter<Processo>();
 
     @Output()
+    criarLembrete = new EventEmitter<any>();
+
+    @Output()
+    realizarTransicao = new EventEmitter<any>();
+
+    @Output()
+    realizarTransicaoBloco = new EventEmitter<any>();
+
+    @Output()
     criarLembreteBloco = new EventEmitter<any>();
 
     @Output()
     classificacaoBloco = new EventEmitter<any>();
-
-    @Output()
-    realizarTransicaoBloco = new EventEmitter<any>();
 
     @Output()
     etiquetarBloco = new EventEmitter<any>();
@@ -194,6 +203,14 @@ export class CdkProcessoListComponent implements AfterViewInit, OnInit, OnChange
 
     doSalvarLembrete(params): void {
         this.salvarLembrete.emit(params);
+    }
+
+    doCriarLembrete(params): void {
+        this.criarLembrete.emit(params);
+    }
+
+    doRealizarTransicao(params): void {
+        this.realizarTransicao.emit(params);
     }
 
 

@@ -83,7 +83,7 @@
 
             <mat-menu #moreMenu="matMenu">
 
-                <button mat-menu-item aria-label="realizar transicao"
+                <button *ngIf="prontoTransicao === true" mat-menu-item aria-label="realizar transicao"
                         (click)="doRealizarTransicao()">
                     <ng-container>
                         <mat-icon>check</mat-icon>
@@ -93,20 +93,20 @@
 
 
                 <button mat-menu-item aria-label="criar lembrete"
-                        (click)="doCriarLembrete()">
+                        (click)="doCriarLembrete(processo)">
                     <ng-container>
                         <mat-icon>add</mat-icon>
                         <span>Criar Lembrete</span>
                     </ng-container>
                 </button>
 
-                <button mat-menu-item aria-label="realizar classificacao"
-                        (click)="doClassificacao()">
-                    <ng-container>
-                        <mat-icon>format_indent_increase</mat-icon>
-                        <span>Realizar Classificação</span>
-                    </ng-container>
-                </button>
+<!--                <button mat-menu-item aria-label="realizar classificacao"-->
+<!--                        (click)="doClassificacao()">-->
+<!--                    <ng-container>-->
+<!--                        <mat-icon>format_indent_increase</mat-icon>-->
+<!--                        <span>Realizar Classificação</span>-->
+<!--                    </ng-container>-->
+<!--                </button>-->
 
             </mat-menu>
         </div>

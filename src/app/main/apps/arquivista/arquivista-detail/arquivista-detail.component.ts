@@ -26,7 +26,7 @@ import {modulesConfig} from '../../../../../modules/modules-config';
 import {takeUntil} from 'rxjs/operators';
 
 @Component({
-    selector: 'app-arquivista-detail',
+    selector: 'arquivista-detail',
     templateUrl: './arquivista-detail.component.html',
     styleUrls: ['./arquivista-detail.component.scss']
 })
@@ -53,6 +53,8 @@ export class ArquivistaDetailComponent implements OnInit, OnDestroy, AfterViewIn
     private _profile: Usuario;
 
     mobileMode = false;
+
+    prontoTransicao: boolean;
 
 
     /**
@@ -102,6 +104,13 @@ export class ArquivistaDetailComponent implements OnInit, OnDestroy, AfterViewIn
         ).subscribe(routerState => {
             if (routerState) {
                 this.routerState = routerState.state;
+
+                if (this.routerState.params.typeHandle === 'pronto-transicao'){
+                    this.prontoTransicao = true;
+                }
+                else{
+                    this.prontoTransicao = false;
+                }
             }
         });
         this.processo$.pipe(

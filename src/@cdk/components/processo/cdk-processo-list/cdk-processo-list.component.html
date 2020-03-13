@@ -122,6 +122,9 @@
                                 [selected]="selectedIds.length > 0 && selectedIds.indexOf(processo.id) > -1"
                                 [deleting]="deletingIds.length > 0 && deletingIds.indexOf(processo.id) > -1"
                                 (salvarLembrete)="doSalvarLembrete($event)"
+                                (criarLembrete)="doCriarLembrete($event)"
+                                [prontoTransicao]="prontoTransicao"
+                                (realizarTransicao)="doRealizarTransicao($event)"
                                 (toggleInSelectedProcessos)="toggleInSelected($event)"
 
 
