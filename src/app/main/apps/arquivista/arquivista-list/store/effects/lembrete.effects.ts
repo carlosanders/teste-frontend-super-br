@@ -79,6 +79,8 @@ export class LembreteEffects {
                 ofType<LembreteActions.SaveLembreteSuccess>(LembreteActions.SAVE_LEMBRETE_SUCCESS),
                 tap(() => {
 
+                    // this._store.dispatch(new fromStore.UnloadProcessos({reset: false}));
+
                     const params = {
                         listFilter: {},
                         etiquetaFilter: {},
