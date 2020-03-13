@@ -161,9 +161,10 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
         });
 
         this.documentosAvulso$.pipe(
-            takeUntil(this._unsubscribeAll)
+            takeUntil(this._unsubscribeAll),
+            filter(documentosAvulso => !!documentosAvulso)
         ).subscribe(documentosAvulso => {
-            this.documentosAvulso = documentosAvulso ? documentosAvulso : [];
+            this.documentosAvulso = documentosAvulso;
         });
 
         this.pagination$.pipe(
