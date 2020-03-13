@@ -180,6 +180,7 @@ export class AtividadeCreateBlocoDocumentosEffect {
             .pipe(
                 ofType<AtividadeBlocoCreateDocumentosActionsAll.ClickedDocumento>(AtividadeBlocoCreateDocumentosActionsAll.CLICKED_DOCUMENTO_BLOCO),
                 tap((action) => {
+                    debugger;
                     if (!action.payload.documentoAvulsoRemessa) {
                         this._router.navigate([this.routerState.url + '/documento/' + action.payload.id + '/editar']).then();
                     } else {
