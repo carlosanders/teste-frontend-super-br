@@ -170,10 +170,8 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
         if (!this.processo.id) {
 
-            if (this.form.get('processo_rg').value !== 'novo_dados' &&
-                this.form.get('processo_rg').value !== 'aproveitar_dados'){
-                this.form.get('processo_rg').setValue('novo_dados');
-            }
+            this.form.get('processo_rg').setValue(false);
+
             this.form.get('dataHoraAbertura').setValue(null);
             this.form.get('dataHoraAbertura').disable();
 
