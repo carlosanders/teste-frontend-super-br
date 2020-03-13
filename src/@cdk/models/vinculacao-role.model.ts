@@ -2,7 +2,6 @@ import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
 
 import { Usuario } from '@cdk/models';
-import {Role} from '@cdk/models';
 
 export class VinculacaoRole {
 
@@ -12,10 +11,7 @@ export class VinculacaoRole {
     @Exclude({ toPlainOnly: true })
     uuid?: string;
 
-    @Exclude({ toPlainOnly: true })
-    @Type(() => Role)
-    @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    role: Role;
+    role: string;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)
