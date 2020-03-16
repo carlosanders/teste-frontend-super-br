@@ -28,6 +28,9 @@ export class CdkLocalizadorFormComponent implements OnChanges, OnDestroy {
     localizador: Localizador;
 
     @Input()
+    setor: Setor;
+
+    @Input()
     saving: boolean;
 
     @Input()
@@ -73,6 +76,10 @@ export class CdkLocalizadorFormComponent implements OnChanges, OnDestroy {
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
         if (changes['localizador'] && this.localizador && (!this.localizador.id || (this.localizador.id !== this.form.get('id').value))) {
             this.form.patchValue({...this.localizador});
+        }
+
+        if (this.setor) {
+            this.form.get('setor').setValue(this.setor);
         }
 
         if (this.errors && this.errors.status && this.errors.status === 422) {

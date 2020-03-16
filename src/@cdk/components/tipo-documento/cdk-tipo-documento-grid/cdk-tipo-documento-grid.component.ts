@@ -36,7 +36,7 @@ export class CdkTipoDocumentoGridComponent implements AfterViewInit, OnInit, OnC
     total = 0;
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'nome', 'glossario', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'nome', 'sigla', 'actions'];
 
     allColumns: any[] = [
         {
@@ -159,7 +159,9 @@ export class CdkTipoDocumentoGridComponent implements AfterViewInit, OnInit, OnC
     isIndeterminate = false;
 
     /**
+     *
      * @param _changeDetectorRef
+     * @param _cdkSidebarService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,

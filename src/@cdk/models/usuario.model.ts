@@ -12,21 +12,16 @@ export class Usuario {
     @Exclude({ toPlainOnly: true })
     uuid?: string;
 
-    @Exclude({ toPlainOnly: true })
     username?: string;
 
     assinaturaHTML?: string;
 
-    @Exclude({ toPlainOnly: true })
     email?: string;
 
-    @Exclude({ toPlainOnly: true })
     enabled?: boolean;
 
-    @Exclude({ toPlainOnly: true })
     nivelAcesso?: number;
 
-    @Exclude({ toPlainOnly: true })
     nome?: string;
 
     @Exclude({ toPlainOnly: true })

@@ -68,12 +68,14 @@ export class SetorListComponent implements OnInit {
             ...this.pagination,
             filter: {
                 ...this.pagination.filter,
-                ...params.gridFilter
+                ...params.gridFilter,
+                'parent': 'isNotNull'
             },
             sort: params.sort,
             limit: params.limit,
             offset: params.offset,
-            populate: this.pagination.populate
+            populate: this.pagination.populate,
+            context: this.pagination.context
         }));
     }
 
@@ -81,12 +83,20 @@ export class SetorListComponent implements OnInit {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/') + setorId]);
     }
 
-    delete(setorId: number): void {
-        this._store.dispatch(new fromStore.DeleteSetor(setorId));
+    lotacoes(setorId: number): void {
+        this._router.navigate([this.routerState.url.replace('listar', `${setorId}/lotacoes`)]);
     }
 
-    setPrincipal(setor: Setor): void {
-        this._store.dispatch(new fromStore.SaveSetor({setor: setor, changes: {principal: true}}));
+    localizadores(setorId: number): void {
+        this._router.navigate([this.routerState.url.replace('listar', `${setorId}/localizadores`)]);
+    }
+
+    numerosUnicosDocumentos(setorId: number): void {
+        this._router.navigate([this.routerState.url.replace('listar', `${setorId}/numeros-unicos-documentos`)]);
+    }
+
+    delete(setorId: number): void {
+        this._store.dispatch(new fromStore.DeleteSetor(setorId));
     }
 
 }

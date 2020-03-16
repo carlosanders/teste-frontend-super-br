@@ -63,8 +63,8 @@ export class ResolveGuard implements CanActivate {
                     const params = {
 
                         filter: {
-                               'unidade.id': 'eq:' + this.routerState.params.unidadeHandle
-
+                            'unidade.id': 'eq:' + this.routerState.params.unidadeHandle,
+                            'parent': 'isNotNull'
                         },
 
 
@@ -74,7 +74,10 @@ export class ResolveGuard implements CanActivate {
                         sort: {criadoEm: 'DESC'},
                         populate: [
                             'populateAll'
-                        ]
+                        ],
+                        context: {
+                            'isAdmin': true
+                        }
                     };
 
                     this._store.dispatch(new fromStore.GetSetores(params));

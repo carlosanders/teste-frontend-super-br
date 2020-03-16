@@ -351,9 +351,36 @@
                         <mat-icon>edit</mat-icon>
                     </button>
 
-                    <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(setor.id) > -1">
-                        <mat-spinner diameter="24"></mat-spinner>
-                    </div>
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('lotacoes') > -1"
+                                [disabled]="deletedIds?.indexOf(setor.id) > -1"
+                                (click)="lotacoesSetor(setor.id)"
+                                aria-label="lotações"
+                                matTooltip="Lotações">
+                            <mat-icon>map</mat-icon>
+                        </button>
+
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('localizadores') > -1"
+                                [disabled]="deletedIds?.indexOf(setor.id) > -1"
+                                (click)="localizadoresSetor(setor.id)"
+                                aria-label="localizadores"
+                                matTooltip="Localizadores">
+                            <mat-icon>edit_location</mat-icon>
+                        </button>
+
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('numeros-unicos-documentos') > -1"
+                                [disabled]="deletedIds?.indexOf(setor.id) > -1"
+                                (click)="numerosUnicosDocumentosSetor(setor.id)"
+                                aria-label="números únicos documentos"
+                                matTooltip="Números Únicos Documentos">
+                            <mat-icon>filter_9_plus</mat-icon>
+                        </button>
+
+                        <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(setor.id) > -1">
+                            <mat-spinner diameter="24"></mat-spinner>
+                        </div>
 
                     <button mat-icon-button
                             *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(setor.id) === -1"
