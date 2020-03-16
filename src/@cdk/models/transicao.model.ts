@@ -15,17 +15,17 @@ export class Transicao {
 
     @Type(() => Processo)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    processo: Processo;
+    processo?: Processo;
 
     @Type(() => ModalidadeTransicao)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    modalidadeTransicao: ModalidadeTransicao;
+    modalidadeTransicao?: ModalidadeTransicao;
 
     observacao?: string;
 
-    metodo: string;
+    metodo?: string;
 
-    edital: string;
+    edital?: string;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)

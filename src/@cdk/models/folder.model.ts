@@ -12,17 +12,17 @@ export class Folder {
     @Exclude({ toPlainOnly: true })
     uuid?: string;
 
-    nome: string;
+    nome?: string;
 
-    descricao: string;
+    descricao?: string;
 
     @Type(() => ModalidadeFolder)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    modalidadeFolder: ModalidadeFolder;
+    modalidadeFolder?: ModalidadeFolder;
 
     @Type(() => Usuario)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    usuario: Usuario;
+    usuario?: Usuario;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)

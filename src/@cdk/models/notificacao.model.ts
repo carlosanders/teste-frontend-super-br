@@ -14,25 +14,25 @@ export class Notificacao {
 
     @Type(() => Usuario)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    remetente: Usuario;
+    remetente?: Usuario;
 
     @Type(() => Usuario)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    destinatario: Usuario;
+    destinatario?: Usuario;
 
     @Type(() => ModalidadeNotificacao)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    modalidadeNotificacao: ModalidadeNotificacao;
+    modalidadeNotificacao?: ModalidadeNotificacao;
 
     @Transform(value => value ? value.format() : null, { toPlainOnly: true })
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
-    dataHoraExpiracao: Date;
+    dataHoraExpiracao?: Date;
 
     @Transform(value => value ? value.format() : null, { toPlainOnly: true })
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
     dataHoraLeitura?: Date;
 
-    conteudo: string;
+    conteudo?: string;
 
     urgente?: boolean;
 

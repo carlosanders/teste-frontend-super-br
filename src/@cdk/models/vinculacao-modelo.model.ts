@@ -16,7 +16,7 @@ export class VinculacaoModelo {
 
     @Type(() => Modelo)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    modelo: Modelo;
+    modelo?: Modelo;
 
     @Type(() => EspecieSetor)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })

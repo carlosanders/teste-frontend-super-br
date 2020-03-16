@@ -83,7 +83,6 @@ export const relacionamentoPessoal = new schema.Entity('relacionamento-pessoal')
 export const relevancia = new schema.Entity('relevancia');
 export const repositorio = new schema.Entity('repositorio');
 export const representante = new schema.Entity('representante');
-export const role = new schema.Entity('role');
 export const setor = new schema.Entity('setor');
 export const sigilo = new schema.Entity('sigilo');
 export const tarefa = new schema.Entity('tarefa');

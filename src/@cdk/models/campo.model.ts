@@ -8,11 +8,11 @@ export class Campo {
     @Exclude({ toPlainOnly: true })
     uuid?: string;
 
-    nome: string;
+    nome?: string;
 
-    descricao: string;
+    descricao?: string;
 
-    html: string;
+    html?: string;
 
     constructor() {
         this.id = null;

@@ -12,13 +12,13 @@ export class OrigemDados {
     uuid?: string;
 
     @Exclude({ toPlainOnly: true })
-    idExterno: string;
+    idExterno?: string;
 
     @Exclude({ toPlainOnly: true })
-    servico: string;
+    servico?: string;
 
     @Exclude({ toPlainOnly: true })
-    fonteDados: string;
+    fonteDados?: string;
 
     @Exclude({ toPlainOnly: true })
     status?: number;

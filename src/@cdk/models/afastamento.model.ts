@@ -15,7 +15,7 @@ export class Afastamento {
 
     @Type(() => ModalidadeAfastamento)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    modalidadeAfastamento: ModalidadeAfastamento;
+    modalidadeAfastamento?: ModalidadeAfastamento;
 
     @Type(() => Colaborador)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
