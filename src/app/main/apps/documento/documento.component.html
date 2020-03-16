@@ -1,29 +1,32 @@
 <div class="full-screen page-layout carded left-sidebar inner-scroll" fxLayout="column">
 
-    <div class="documento-header p-8" fxLayout="row" fxLayoutAlign="end center">
+    <div class="documento-header p-8" fxLayout="row" fxLayoutAlign="start center">
 
-        <mat-slide-toggle *ngIf="this.documento.processoOrigem"
-                          aria-label="modo processo"
-                          matTooltip="Modo Processo"
-                          (click)="visualizarProcesso(this.modoProcesso)"
-                          class="mt-16 mr-16 mb-16" fxFlex="0 1 auto">
-            Visualizar Processo
-        </mat-slide-toggle>
+        <div fxFlex="25"></div>
 
-        <button *ngIf="this.documento.processoOrigem"
-                mat-raised-button color="accent" class="mr-sm-12"
-                aria-label="visualizar processo"
-                matTooltip="Visualizar Processo em Nova Aba"
-                (click)="visualizarProcessoNovaAba()">
-            <mat-icon class="black-fg">open_in_new</mat-icon>
-        </button>
+        <div class="ml-32" fxFlex="75" fxLayout="row" fxLayoutAlign="start center">
+            <mat-tab-group class="mr-16" (selectedTabChange)="visualizarProcesso(this.modoProcesso)">
+                <mat-tab label="Editar a Minuta">
+                </mat-tab>
+                <mat-tab label="Visualizar o Processo">
+                </mat-tab>
+            </mat-tab-group>
 
-        <button class="close mr-8" mat-icon-button
-                (click)="back()"
-                aria-label="fechar"
-                matTooltip="Fechar">
-            <mat-icon>close</mat-icon>
-        </button>
+            <button style="margin-left: auto;" *ngIf="this.documento.processoOrigem"
+                    mat-raised-button color="accent" class="mr-sm-12"
+                    aria-label="visualizar processo"
+                    matTooltip="Visualizar Processo em Nova Aba"
+                    (click)="visualizarProcessoNovaAba()">
+                <mat-icon class="black-fg">open_in_new</mat-icon>
+            </button>
+
+            <button class="mr-8" mat-icon-button
+                    (click)="back()"
+                    aria-label="fechar"
+                    matTooltip="Fechar">
+                <mat-icon>close</mat-icon>
+            </button>
+        </div>
     </div>
 
     <!-- CENTER -->

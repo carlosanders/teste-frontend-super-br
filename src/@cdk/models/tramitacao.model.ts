@@ -20,11 +20,11 @@ export class Tramitacao {
 
     @Type(() => Processo)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    processo: Processo;
+    processo?: Processo;
 
     @Type(() => Setor)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    setorOrigem: Setor;
+    setorOrigem?: Setor;
 
     @Type(() => Setor)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })

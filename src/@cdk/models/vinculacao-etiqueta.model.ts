@@ -1,11 +1,14 @@
 import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
 
-import { Usuario } from '@cdk/models';
-import { Etiqueta } from '@cdk/models';
-import {Tarefa} from '@cdk/models';
-import {Documento} from '@cdk/models';
-import {Processo} from '@cdk/models';
+import {
+    DocumentoAvulso,
+    Usuario,
+    Etiqueta,
+    Tarefa,
+    Documento,
+    Processo
+} from '@cdk/models';
 
 export class VinculacaoEtiqueta {
 
@@ -17,7 +20,7 @@ export class VinculacaoEtiqueta {
 
     conteudo?: string;
 
-    privada: boolean;
+    privada?: boolean;
 
     @Transform(value => value ? value.format() : null, {toPlainOnly: true})
     @Transform(value => value ? moment(value) : null, {toClassOnly: true})
@@ -25,7 +28,7 @@ export class VinculacaoEtiqueta {
 
     @Type(() => Etiqueta)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    etiqueta: Etiqueta;
+    etiqueta?: Etiqueta;
 
     @Type(() => Tarefa)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
@@ -38,6 +41,10 @@ export class VinculacaoEtiqueta {
     @Type(() => Processo)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     processo?: Processo;
+
+    @Type(() => DocumentoAvulso)
+    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    documentoAvulso?: DocumentoAvulso;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)
@@ -75,10 +82,10 @@ export class VinculacaoEtiqueta {
     apagadoEm?: Date;
 
     @Exclude({toPlainOnly: true})
-    podeAlterarConteudo: boolean;
+    podeAlterarConteudo?: boolean;
 
     @Exclude({toPlainOnly: true})
-    podeExcluir: boolean;
+    podeExcluir?: boolean;
 
     constructor() {
         this.id = null;
@@ -90,6 +97,7 @@ export class VinculacaoEtiqueta {
         this.tarefa = null;
         this.documento = null;
         this.processo = null;
+        this.documentoAvulso = null;
         this.usuario = null;
         this.criadoPor = null;
         this.criadoEm = null;

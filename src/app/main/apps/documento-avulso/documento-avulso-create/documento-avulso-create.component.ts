@@ -64,7 +64,7 @@ export class DocumentoAvulsoCreateComponent implements OnInit, OnDestroy {
      */
     constructor(
         private _store: Store<fromStore.DocumentoAvulsoCreateAppState>,
-        private _loginService: LoginService,
+        public _loginService: LoginService,
         private _router: Router
     ) {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));

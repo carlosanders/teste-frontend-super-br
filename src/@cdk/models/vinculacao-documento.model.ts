@@ -15,15 +15,15 @@ export class VinculacaoDocumento {
 
     @Type(() => Documento)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    documento: Documento;
+    documento?: Documento;
 
     @Type(() => Documento)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    documentoVinculado: Documento;
+    documentoVinculado?: Documento;
 
     @Type(() => ModalidadeVinculacaoDocumento)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    modalidadeVinculacaoDocumento: ModalidadeVinculacaoDocumento;
+    modalidadeVinculacaoDocumento?: ModalidadeVinculacaoDocumento;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)

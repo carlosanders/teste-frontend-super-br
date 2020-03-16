@@ -23,7 +23,7 @@ export class LocalizadorListEffect {
     constructor(
         private _actions: Actions,
         private _localizadorService: LocalizadorService,
-        private _loginService: LoginService,
+        public _loginService: LoginService,
         private _store: Store<State>
     ) {
         this._store

@@ -87,10 +87,10 @@ export class DocumentoAvulsoCreateEffect {
                         1,
                         0,
                         '{}',
-                        '["populateAll"]');
+                        '[]');
                 }),
                 switchMap(response => [
-                    new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
+                    // new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
                     new DocumentoAvulsoCreateActions.GetDocumentoSuccess(response['entities'][0].id),
                 ]),
                 catchError((err, caught) => {

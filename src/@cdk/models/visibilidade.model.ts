@@ -1,14 +1,14 @@
 export class Visibilidade {
 
-    id: number;
+    id?: number;
 
-    label: string;
+    label?: string;
 
-    tipo: string;
+    tipo?: string;
 
-    valor: string;
+    valor?: string;
 
-    poderes: string[];
+    poderes?: string[];
 
     constructor() {
         this.label = null;

@@ -8,11 +8,11 @@ import {
     MatProgressSpinnerModule,
     MatDatepickerModule,
     MatRadioModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatTooltipModule,
 } from '@cdk/angular/material';
-
-import { CdkSharedModule } from '@cdk/shared.module';
-import { CdkSetorFormComponent } from './cdk-setor-form.component';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {CdkSetorFormComponent} from './cdk-setor-form.component';
 import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
 import {CdkSetorGridsearchModule} from '../cdk-setor-autocomplete/cdk-setor-gridsearch/cdk-setor-gridsearch.module';
 import {CdkSetorAutocompleteModule} from '../cdk-setor-autocomplete/cdk-setor-autocomplete.module';
@@ -21,8 +21,6 @@ import {CdkEspecieSetorAutocompleteModule} from '../../especie-setor/cdk-especie
 import {CdkMunicipioAutocompleteModule} from '../../municipio/cdk-municipio-autocomplete/cdk-municipio-autocomplete.module';
 import {CdkMunicipioGridsearchModule} from '../../municipio/cdk-municipio-autocomplete/cdk-municipio-gridsearch/cdk-municipio-gridsearch.module';
 import {CdkEspecieSetorGridsearchModule} from "../../especie-setor/cdk-especie-setor-autocomplete/cdk-especie-setor-gridsearch/cdk-especie-setor-gridsearch.module";
-
-
 
 @NgModule({
     declarations: [
@@ -37,9 +35,11 @@ import {CdkEspecieSetorGridsearchModule} from "../../especie-setor/cdk-especie-s
         MatRadioModule,
         MatProgressSpinnerModule,
         MatDatepickerModule,
-        NgxUpperCaseDirectiveModule,
-        CdkSharedModule,
+        MatTooltipModule,
         MatAutocompleteModule,
+
+        NgxUpperCaseDirectiveModule,
+
         CdkSetorAutocompleteModule,
         CdkSetorGridsearchModule,
         CdkEspecieSetorAutocompleteModule,
@@ -50,7 +50,9 @@ import {CdkEspecieSetorGridsearchModule} from "../../especie-setor/cdk-especie-s
     ],
     providers: [
 
+        CdkSharedModule,
     ],
+    providers: [],
     exports: [
         CdkSetorFormComponent
     ]

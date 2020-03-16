@@ -20,7 +20,8 @@ import {debounceTime, distinctUntilChanged, filter, switchMap, tap} from 'rxjs/o
 import {Processo} from '@cdk/models';
 import {ProcessoDataSource} from '@cdk/data-sources/processo-data-source';
 import {FormControl} from '@angular/forms';
-import {CdkChaveAcessoPluginComponent} from '../../chave-acesso/cdk-chave-acesso-plugins/cdk-chave-acesso-plugin.component';
+import {CdkChaveAcessoPluginComponent} from '@cdk/components/chave-acesso/cdk-chave-acesso-plugins/cdk-chave-acesso-plugin.component';
+import {LoginService} from 'app/main/auth/login/login.service';
 
 @Component({
     selector: 'cdk-processo-grid',
@@ -264,7 +265,8 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _cdkSidebarService: CdkSidebarService,
-        private dialog: MatDialog
+        private _dialog: MatDialog,
+        private _loginService: LoginService
     ) {
         this.gridFilter = {};
         this.processos = [];
@@ -336,12 +338,12 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
     }
 
     viewProcesso(processo: Processo): void {
-        if (processo.visibilidadeExterna) {
+        if (processo.visibilidadeExterna || this._loginService.isGranted('ROLE_COLABORADOR')) {
             this.view.emit({id: processo.id});
             return;
         }
 
-        const dialogRef = this.dialog.open(CdkChaveAcessoPluginComponent, {
+        const dialogRef = this._dialog.open(CdkChaveAcessoPluginComponent, {
             width: '600px'
         });
 

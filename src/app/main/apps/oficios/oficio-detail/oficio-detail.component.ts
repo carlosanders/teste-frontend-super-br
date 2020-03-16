@@ -3,19 +3,17 @@ import {
     ChangeDetectorRef,
     Component, ViewContainerRef, OnDestroy,
     OnInit, ViewChild, AfterViewInit,
-    ViewEncapsulation
+    ViewEncapsulation, Input
 } from '@angular/core';
 
 import { cdkAnimations } from '@cdk/animations';
 import { Observable, Subject } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import * as fromStore from './store';
-import { Etiqueta } from '@cdk/models/etiqueta.model';
-import { VinculacaoEtiqueta } from '@cdk/models/vinculacao-etiqueta.model';
+import { Etiqueta, VinculacaoEtiqueta, Documento, Usuario, DocumentoAvulso } from '@cdk/models';
 import { CreateVinculacaoEtiqueta, DeleteVinculacaoEtiqueta } from './store';
-import { Documento } from '@cdk/models/documento.model';
 import { getMaximizado } from '../store/selectors';
-import { ToggleMaximizado } from '../store/actions';
+import {GetDocumentosAvulso, ToggleMaximizado} from '../store/actions';
 import { Router } from '@angular/router';
 import { getRouterState } from '../../../../store/reducers';
 import { takeUntil } from 'rxjs/operators';
@@ -24,8 +22,6 @@ import { LoginService } from '../../../auth/login/login.service';
 import { getScreenState } from 'app/store/reducers';
 import { DynamicService } from '../../../../../modules/dynamic.service';
 import { modulesConfig } from 'modules/modules-config';
-import { Usuario } from '@cdk/models/usuario.model';
-import { DocumentoAvulso } from '@cdk/models/documento-avulso.model';
 
 @Component({
     selector: 'oficio-detail',
@@ -62,6 +58,7 @@ export class OficioDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     private _profile: Usuario;
 
     mobileMode = false;
+    mode = 'entrada';
 
     @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef}) container: ViewContainerRef;
 
@@ -76,7 +73,7 @@ export class OficioDetailComponent implements OnInit, OnDestroy, AfterViewInit {
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
         private _store: Store<fromStore.OficioDetailAppState>,
-        private _loginService: LoginService,
+        public _loginService: LoginService,
         private _dynamicService: DynamicService
     ) {
         this._profile = _loginService.getUserProfile();
@@ -87,7 +84,7 @@ export class OficioDetailComponent implements OnInit, OnDestroy, AfterViewInit {
         this.vinculacaoEtiquetaPagination = new Pagination();
         this.vinculacaoEtiquetaPagination.filter = {
             'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.id,
-            'modalidadeEtiqueta.valor': 'eq:PROCESSO'
+            'modalidadeEtiqueta.valor': 'eq:OFICIO'
         };
     }
 
@@ -113,11 +110,22 @@ export class OficioDetailComponent implements OnInit, OnDestroy, AfterViewInit {
                 this.routerState = routerState.state;
             }
         });
+
+        this._store.pipe(
+            select(getRouterState),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(routerState => {
+            if (routerState) {
+                this.mode = routerState.state.params['oficioTargetHandle'];
+            }
+        });
+
         this.documentoAvulso$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(documentoAvulso => {
             this.documentoAvulso = documentoAvulso;
         });
+
         this.documentos$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(
@@ -164,12 +172,12 @@ export class OficioDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     onEtiquetaCreate(etiqueta: Etiqueta): void {
-        this._store.dispatch(new CreateVinculacaoEtiqueta({processo: this.documentoAvulso.processo, etiqueta: etiqueta}));
+        this._store.dispatch(new CreateVinculacaoEtiqueta({documentoAvulso: this.documentoAvulso, etiqueta: etiqueta}));
     }
 
     onEtiquetaDelete(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
         this._store.dispatch(new DeleteVinculacaoEtiqueta({
-            processoId: this.documentoAvulso.processo.id,
+            documentoAvulsoId: this.documentoAvulso.id,
             vinculacaoEtiquetaId: vinculacaoEtiqueta.id
         }));
     }
@@ -177,7 +185,7 @@ export class OficioDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     complete(pending: number): void {
         if (pending === 0) {
             this._store.dispatch(new fromStore.GetDocumentos({
-                id: 'eq:' + this.documentoAvulso.id
+                id: 'eq:' + this.documentoAvulso.documentoResposta.id
             }));
         }
     }

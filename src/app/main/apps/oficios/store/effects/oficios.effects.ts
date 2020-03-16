@@ -23,7 +23,7 @@ export class OficiosEffects {
     constructor(
         private _actions: Actions,
         private _documentoAvulsoService: DocumentoAvulsoService,
-        private _loginService: LoginService,
+        public _loginService: LoginService,
         private _store: Store<State>,
         private _router: Router
     ) {
@@ -65,6 +65,8 @@ export class OficiosEffects {
                         entitiesId: response['entities'].map(documentoAvulso => documentoAvulso.id),
                         processoId: response['entities'].map(documentoAvulso => documentoAvulso.processo.id),
                         loaded: {
+                            id: 'oficioTargetHandle_pessoaHandle',
+                            value: this.routerState.params.oficioTargetHandle + '_' + this.routerState.params.pessoaHandle
                         },
                         total: response['total']
                     })
@@ -86,14 +88,16 @@ export class OficiosEffects {
             .pipe(
                 ofType<DocumentosAvulsoActions.SetCurrentDocumentoAvulso>(DocumentosAvulsoActions.SET_CURRENT_DOCUMENTOS_AVULSO),
                 map((action) => {
-                    if (action.payload.acessoNegado) {
+                    if (!action.payload.acessoNegado && !action.payload.chaveAcesso) {
                         this._router.navigate([
-                            'apps/oficios/detalhe/' + action.payload.documentoAvulsoId + '/processo/' + action.payload.processoId + '/acesso-negado']
+                            'apps/oficios/' + this.routerState.params.oficioTargetHandle + '/' + this.routerState.params.pessoaHandle
+                            + '/detalhe/' + action.payload.documentoAvulsoId + '/processo/' + action.payload.processoId + '/acesso-negado']
                         ).then();
                     } else {
                         this._router.navigate([
-                            'apps/oficios/detalhe/' + action.payload.documentoAvulsoId + '/processo/' + action.payload.processoId
-                            + '/visualizar']
+                            'apps/oficios/' + this.routerState.params.oficioTargetHandle + '/' + this.routerState.params.pessoaHandle
+                            + '/detalhe/' + action.payload.documentoAvulsoId + '/processo/' + action.payload.processoId
+                            + '/visualizar/' + action.payload.chaveAcesso]
                         ).then();
                     }
 

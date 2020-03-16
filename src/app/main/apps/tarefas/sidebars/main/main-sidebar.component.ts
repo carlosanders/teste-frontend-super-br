@@ -45,7 +45,7 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
     constructor(
         private _store: Store<fromStore.TarefasAppState>,
         private _changeDetectorRef: ChangeDetectorRef,
-        private _loginService: LoginService
+        public _loginService: LoginService
     ) {
         this.folders$ = this._store.pipe(select(fromStore.getFolders));
     }

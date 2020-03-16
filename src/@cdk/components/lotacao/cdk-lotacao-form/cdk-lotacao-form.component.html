@@ -1,115 +1,115 @@
-<form *ngIf="activeCard === 'form'" class="p-24 mr-24" fxLayoutGap="16px"
-      fxLayout="column"
-      fxLayoutAlign="start"
-      name="form" [formGroup]="form" (submit)="submit()">
+<div class="pr-16" fxFlex *ngIf="activeCard === 'form'" cdkPerfectScrollbar>
+    <form *ngIf="activeCard === 'form'" class="p-24 mr-24" fxLayoutGap="16px"
+          fxLayout="column"
+          fxLayoutAlign="start"
+          name="form" [formGroup]="form" (submit)="submit()">
 
-    <div fxFlex="1 0 auto" fxLayout="column">
+        <div fxFlex="1 0 auto" fxLayout="column">
 
-        <mat-form-field fxFlex="100" *ngIf="!this.usuario">
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Usuario"
-                       formControlName="colaborador"
-                       [matAutocomplete]="colaborador.autocomplete"
-                       (blur)="checkColaborador()" required>
-            </div>
-            <cdk-colaborador-autocomplete
-                #colaborador="colaboradorAutocomplete"
-                [control]="form.get('colaborador')"
-                [pagination]="colaboradorPagination">
-            </cdk-colaborador-autocomplete>
-            <button matSuffix mat-button mat-icon-button
-                    (click)="showColaboradorGrid()">
-                <mat-icon matTooltip="Procurar">search</mat-icon>
+            <mat-form-field fxFlex="100"  *ngIf="!this.usuario">
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Usuario"
+                           formControlName="colaborador"
+                           [matAutocomplete]="colaborador.autocomplete"
+                           (blur)="checkColaborador()" required>
+                </div>
+                <cdk-colaborador-autocomplete
+                    #colaborador="colaboradorAutocomplete"
+                    [control]="form.get('colaborador')"
+                    [pagination]="colaboradorPagination">
+                </cdk-colaborador-autocomplete>
+                <button matSuffix mat-button mat-icon-button
+                        (click)="showColaboradorGrid()">
+                    <mat-icon matTooltip="Procurar">search</mat-icon>
+                </button>
+                <mat-error *ngIf="form.get('colaborador').hasError('formError')">
+                    {{form.get('colaborador').errors.formError}}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="100" *ngIf="!this.setor">
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Setor"
+                           formControlName="setor"
+                           [matAutocomplete]="setor.autocomplete"
+                           (blur)="checkSetor()" required>
+                </div>
+                <cdk-setor-autocomplete
+                    #setor="setorAutocomplete"
+                    [control]="form.get('setor')"
+                    [pagination]="setorPagination">
+                </cdk-setor-autocomplete>
+                <button matSuffix mat-button mat-icon-button
+                        (click)="showSetorGrid()">
+                    <mat-icon matTooltip="Procurar">search</mat-icon>
+                </button>
+                <mat-error *ngIf="form.get('setor').hasError('formError')">
+                    {{form.get('setor').errors.formError}}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-checkbox formControlName="principal"
+                          class="mr-16 mb-16" fxFlex="0 1 auto">
+                Principal
+            </mat-checkbox>
+
+            <mat-checkbox formControlName="coordenador"
+                          class="mr-16 mb-16" fxFlex="0 1 auto">
+                Coordenador
+            </mat-checkbox>
+
+            <mat-checkbox formControlName="distribuidor"
+                          class="mr-16 mb-16" fxFlex="0 1 auto">
+                Distribuidor
+            </mat-checkbox>
+
+            <mat-form-field fxFlex="100">
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Peso"
+                           formControlName="peso" required>
+                </div>
+                <mat-error *ngIf="form.get('peso').hasError('formError')">
+                    {{form.get('peso').errors.formError}}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="100" *ngIf="this.selectedSetor && !this.selectedSetor.distribuicaoCentena">
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Dígito(s)"
+                           formControlName="digito">
+                </div>
+                <mat-error *ngIf="form.get('digito').hasError('formError')">
+                    {{form.get('digito').errors.formError}}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="100" *ngIf="this.selectedSetor && this.selectedSetor.distribuicaoCentena">
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Centena(s)"
+                           formControlName="centena">
+                </div>
+                <mat-error *ngIf="form.get('centena').hasError('formError')">
+                    {{form.get('centena').errors.formError}}
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+
+        <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+             fxLayoutAlign="center center">
+            <button mat-raised-button color="accent" class="mr-sm-12"
+                    [disabled]="form.invalid">
+                SALVAR
             </button>
-            <mat-error *ngIf="form.get('colaborador').hasError('formError')">
-                {{form.get('colaborador').errors.formError}}
-            </mat-error>
-        </mat-form-field>
+        </div>
 
-        <mat-form-field fxFlex="100" *ngIf="!this.setor">
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Setor"
-                       formControlName="setor"
-                       [matAutocomplete]="setor.autocomplete"
-                       (blur)="checkSetor()" required>
-            </div>
-            <cdk-setor-autocomplete
-                #setor="setorAutocomplete"
-                [control]="form.get('setor')"
-                [pagination]="setorPagination">
-            </cdk-setor-autocomplete>
-            <button matSuffix mat-button mat-icon-button
-                    (click)="showSetorGrid()">
-                <mat-icon matTooltip="Procurar">search</mat-icon>
-            </button>
-            <mat-error *ngIf="form.get('setor').hasError('formError')">
-                {{form.get('setor').errors.formError}}
-            </mat-error>
-        </mat-form-field>
-
-        <mat-checkbox formControlName="principal"
-                      class="mr-16 mb-16" fxFlex="0 1 auto">
-            Principal
-        </mat-checkbox>
-
-        <mat-checkbox formControlName="coordenador"
-                      class="mr-16 mb-16" fxFlex="0 1 auto">
-            Coordenador
-        </mat-checkbox>
-
-        <mat-checkbox formControlName="distribuidor"
-                      class="mr-16 mb-16" fxFlex="0 1 auto">
-            Distribuidor
-        </mat-checkbox>
-
-        <mat-form-field fxFlex="100">
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Peso"
-                       formControlName="peso" required>
-            </div>
-            <mat-error *ngIf="form.get('peso').hasError('formError')">
-                {{form.get('peso').errors.formError}}
-            </mat-error>
-        </mat-form-field>
-
-        <mat-form-field fxFlex="100" *ngIf="this.selectedSetor && !this.selectedSetor.distribuicaoCentena">
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Dígito(s)"
-                       formControlName="digito">
-            </div>
-            <mat-error *ngIf="form.get('digito').hasError('formError')">
-                {{form.get('digito').errors.formError}}
-            </mat-error>
-        </mat-form-field>
-
-        <mat-form-field fxFlex="100" *ngIf="this.selectedSetor && this.selectedSetor.distribuicaoCentena">
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Centena(s)"
-                       formControlName="centena">
-            </div>
-            <mat-error *ngIf="form.get('centena').hasError('formError')">
-                {{form.get('centena').errors.formError}}
-            </mat-error>
-        </mat-form-field>
-
-
-    </div>
-
-    <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
-
-    <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-         fxLayoutAlign="center center">
-        <button mat-raised-button color="accent" class="mr-sm-12"
-                [disabled]="form.invalid">
-            SALVAR
-        </button>
-    </div>
-
-    <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-         fxLayoutAlign="center center">
-        <mat-spinner color="accent" diameter="24"></mat-spinner>
-    </div>
-</form>
+        <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+             fxLayoutAlign="center center">
+            <mat-spinner color="accent" diameter="24"></mat-spinner>
+        </div>
+    </form>
+</div>
 
 <cdk-colaborador-gridsearch
         fxFlex="1 0 auto"

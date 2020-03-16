@@ -13,7 +13,7 @@ export class CadastroIdentificador {
     @Exclude({ toPlainOnly: true })
     uuid?: string;
 
-    numero: string;
+    numero?: string;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => OrigemDados)
@@ -22,7 +22,7 @@ export class CadastroIdentificador {
 
     @Type(() => Pessoa)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    pessoa: Pessoa;
+    pessoa?: Pessoa;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)

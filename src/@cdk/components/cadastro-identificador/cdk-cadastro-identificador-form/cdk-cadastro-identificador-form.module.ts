@@ -8,18 +8,15 @@ import {
     MatProgressSpinnerModule,
     MatAutocompleteModule,
     MatDatepickerModule
-
 } from '@cdk/angular/material';
-
-import { CdkSharedModule } from '@cdk/shared.module';
-import { CdkCadastroIdentificadorFormComponent } from './cdk-cadastro-identificador-form.component';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {CdkCadastroIdentificadorFormComponent} from './cdk-cadastro-identificador-form.component';
 
 @NgModule({
     declarations: [
         CdkCadastroIdentificadorFormComponent,
     ],
     imports: [
-
         MatAutocompleteModule,
         MatButtonModule,
         MatFormFieldModule,
@@ -31,9 +28,7 @@ import { CdkCadastroIdentificadorFormComponent } from './cdk-cadastro-identifica
 
         CdkSharedModule,
     ],
-    providers: [
-
-    ],
+    providers: [],
     exports: [
         CdkCadastroIdentificadorFormComponent
     ]

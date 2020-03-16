@@ -11,7 +11,6 @@ import {
     MatTooltipModule,
     MatRadioModule
 } from '@cdk/angular/material';
-
 import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkProcessoFormComponent} from './cdk-processo-form.component';
 import {CdkEspecieProcessoAutocompleteModule} from '@cdk/components/especie-processo/cdk-especie-processo-autocomplete/cdk-especie-processo-autocomplete.module';
@@ -30,6 +29,8 @@ import {CdkPessoaAutocompleteModule} from '../../pessoa/cdk-pessoa-autocomplete/
 import {CdkLogentryGridsearchModule} from '../../logentry/cdk-logentry-grid/cdk-logentry-gridsearch/cdk-logentry-gridsearch.module';
 import {CdkProcessoAutocompleteModule} from '../cdk-processo-autocomplete/cdk-processo-autocomplete.module';
 import {CdkProcessoGridsearchModule} from '../cdk-processo-autocomplete/cdk-processo-gridsearch/cdk-processo-gridsearch.module';
+import {MatCardModule} from '@angular/material/card';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 @NgModule({
     declarations: [
@@ -48,7 +49,9 @@ import {CdkProcessoGridsearchModule} from '../cdk-processo-autocomplete/cdk-proc
         MatNativeDatetimeModule,
         MatTooltipModule,
         MatRadioModule,
+
         NgxUpperCaseDirectiveModule,
+
         CdkEspecieProcessoAutocompleteModule,
         CdkEspecieProcessoGridsearchModule,
         CdkModalidadeFaseAutocompleteModule,
@@ -60,11 +63,15 @@ import {CdkProcessoGridsearchModule} from '../cdk-processo-autocomplete/cdk-proc
         CdkSetorAutocompleteModule,
         CdkSetorGridsearchModule,
         CdkPessoaAutocompleteModule,
+        CdkProcessoAutocompleteModule,
+        CdkProcessoGridsearchModule,
 
         CdkSharedModule,
         CdkLogentryGridsearchModule,
         CdkProcessoAutocompleteModule,
         CdkProcessoGridsearchModule,
+        MatCardModule,
+        MatSlideToggleModule,
     ],
     providers: [],
     exports: [

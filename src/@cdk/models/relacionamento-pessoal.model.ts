@@ -16,15 +16,15 @@ export class RelacionamentoPessoal {
 
     @Type(() => Pessoa)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    pessoa: Pessoa;
+    pessoa?: Pessoa;
 
     @Type(() => Pessoa)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    pessoaRelacionada: Pessoa;
+    pessoaRelacionada?: Pessoa;
 
     @Type(() => ModalidadeRelacionamentoPessoal)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    modalidadeRelacionamentoPessoal: ModalidadeRelacionamentoPessoal;
+    modalidadeRelacionamentoPessoal?: ModalidadeRelacionamentoPessoal;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => OrigemDados)

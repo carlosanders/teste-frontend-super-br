@@ -14,7 +14,7 @@ export const navigation: CdkNavigation[] = [
                 type: 'item',
                 icon: 'dashboard',
                 url: '/apps/painel',
-                role: 'ROLE_COLABORADOR'
+                role: 'ROLE_USER'
             },
             {
                 id: 'admin',
@@ -24,6 +24,15 @@ export const navigation: CdkNavigation[] = [
                 icon: 'build',
                 url: '/apps/admin',
                 role: 'ROLE_ADMIN'
+            },
+            {
+                id: 'arquivista',
+                title: 'Arquivista',
+                translate: 'NAV.ARQUIVISTA.TITLE',
+                type: 'item',
+                icon: 'archive',
+                url: '/apps/arquivista',
+                role: 'ROLE_ARQUIVISTA'
             },
             {
                 id: 'tarefas',
@@ -49,7 +58,7 @@ export const navigation: CdkNavigation[] = [
                 translate: 'NAV.OFICIO.TITLE',
                 type: 'item',
                 icon: 'archive',
-                url: '/apps/oficios',
+                url: '/apps/oficios/entrada',
                 role: 'ROLE_CONVENIADO'
             },
             {

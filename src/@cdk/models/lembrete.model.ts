@@ -12,11 +12,21 @@ export class Lembrete {
     @Exclude({ toPlainOnly: true })
     uuid?: string;
 
+    nome: string;
+
+    descricao: string;
+
+    corHexadecimal: string;
+
+    ativo: boolean;
+
+    sistema: boolean;
+
     @Type(() => Processo)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    processo: Processo;
+    processo?: Processo;
 
-    conteudo: string;
+    conteudo?: string;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)

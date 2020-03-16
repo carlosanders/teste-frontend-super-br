@@ -23,7 +23,7 @@ export class LotacaoListEffect {
     constructor(
         private _actions: Actions,
         private _lotacaoService: LotacaoService,
-        private _loginService: LoginService,
+        public _loginService: LoginService,
         private _store: Store<State>
     ) {
         this._store

@@ -16,6 +16,7 @@ import {CdkDocumentoCardListModule} from '@cdk/components/documento/cdk-document
 import {ModeloService} from '@cdk/services/modelo.service';
 import {RepositorioService} from '@cdk/services/repositorio.service';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
+import {MatTabsModule} from '@angular/material/tabs';
 
 const routes: Routes = [
     {
@@ -65,7 +66,8 @@ const routes: Routes = [
 
         CdkSidebarModule,
         MatTooltipModule,
-        MatSlideToggleModule
+        MatSlideToggleModule,
+        MatTabsModule
     ],
     providers: [
         DocumentoService,

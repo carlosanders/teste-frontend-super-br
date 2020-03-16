@@ -10,9 +10,9 @@ import {
     MatDatepickerModule,
     MatSlideToggleModule,
     MatTabsModule,
-    MatTableModule, MatTooltipModule
+    MatTableModule,
+    MatTooltipModule
 } from '@cdk/angular/material';
-
 import {CdkSharedModule} from '@cdk/shared.module';
 import {TipoDocumentoService} from '@cdk/services/tipo-documento.service';
 import {CdkDocumentoFormComponent} from './cdk-documento-form.component';
@@ -54,6 +54,7 @@ import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
         CdkPessoaGridsearchModule,
         CdkPessoaAutocompleteModule,
         CdkPessoaGridsearchModule,
+
         CdkSharedModule,
     ],
     providers: [

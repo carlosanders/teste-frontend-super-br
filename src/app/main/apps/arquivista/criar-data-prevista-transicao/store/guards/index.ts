@@ -1,0 +1,1 @@
+export * from './criar-data-prevista-transicao.guard';

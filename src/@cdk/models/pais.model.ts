@@ -12,13 +12,13 @@ export class Pais {
     uuid?: string;
 
     @Exclude({ toPlainOnly: true })
-    nome: string;
+    nome?: string;
 
     @Exclude({ toPlainOnly: true })
-    codigo: string;
+    codigo?: string;
 
     @Exclude({ toPlainOnly: true })
-    ativo: boolean;
+    ativo?: boolean;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)

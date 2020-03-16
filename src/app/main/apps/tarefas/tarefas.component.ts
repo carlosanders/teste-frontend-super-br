@@ -106,7 +106,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         private _tarefaService: TarefaService,
         private _router: Router,
         private _store: Store<fromStore.TarefasAppState>,
-        private _loginService: LoginService
+        public _loginService: LoginService
     ) {
         // Set the defaults
         this.searchInput = new FormControl('');

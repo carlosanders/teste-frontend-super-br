@@ -13,19 +13,19 @@ export class Template {
     @Exclude({ toPlainOnly: true })
     uuid?: string;
 
-    nome: string;
+    nome?: string;
 
-    descricao: string;
+    descricao?: string;
 
-    ativo: boolean;
+    ativo?: boolean;
 
     @Type(() => ModalidadeTemplate)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    modalidadeTemplate: ModalidadeTemplate;
+    modalidadeTemplate?: ModalidadeTemplate;
 
     @Type(() => Documento)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    documento: Documento;
+    documento?: Documento;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)

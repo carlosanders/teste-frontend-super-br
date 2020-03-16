@@ -1,0 +1,36 @@
+<!-- CONTENT -->
+<div class="content p-16" fxLayout="column" fxFlex="100">
+
+    <h2>Etiqueta em bloco de ofícios</h2>
+
+    <h3>{{(documentosAvulso$ | async)?.length}} ofício(s) selecionada(s) </h3>
+
+    <cdk-etiqueta-chips [etiquetas]="etiquetas"
+                        (create)="addEtiqueta($event)"
+                        (delete)="deleteEtiqueta($event)"></cdk-etiqueta-chips>
+
+    <div *ngIf="!(isSaving$ | async)" fxLayout="row" class="mr-sm-12 mt-8 mb-16" fxFlex
+         fxLayoutAlign="center center">
+        <button type="submit" mat-raised-button color="accent" class="mr-sm-12" (click)="submit()"
+                [disabled]="!(documentosAvulso$ | async)?.length || !etiquetas.length">
+            SALVAR
+        </button>
+    </div>
+
+    <div *ngIf="(isSaving$ | async)" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+         fxLayoutAlign="center center">
+        <mat-spinner color="accent" diameter="24"></mat-spinner>
+    </div>
+
+    <mat-list *ngIf="operacoes.length > 0" fxFlex>
+        <h3 matSubheader>
+            <span>Resultado do Bloco</span>
+        </h3>
+
+        <mat-list-item *ngFor="let operacao of operacoes">
+            <p matLine class="mb-4 p-8 secondary-text"
+               [ngClass]="{'light-green-50': operacao.success, 'pink-50': !operacao.success}">{{operacao.content}}</p>
+        </mat-list-item>
+    </mat-list>
+
+</div>

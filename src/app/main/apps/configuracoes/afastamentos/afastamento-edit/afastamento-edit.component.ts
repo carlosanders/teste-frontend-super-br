@@ -45,7 +45,7 @@ export class AfastamentoEditComponent implements OnInit, OnDestroy {
      */
     constructor(
         private _store: Store<fromStore.AfastamentoEditAppState>,
-        private _loginService: LoginService
+        public _loginService: LoginService
     ) {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
