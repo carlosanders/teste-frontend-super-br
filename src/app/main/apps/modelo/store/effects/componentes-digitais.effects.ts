@@ -111,7 +111,7 @@ export class ComponenteDigitalEffect {
                         1,
                         0,
                         '{}',
-                        '["populateAll"]');
+                        '[]');
                 }),
                 switchMap(response => [
                     new AddData<Documento>({data: response['entities'], schema: documentoSchema}),

@@ -55,7 +55,7 @@ export class CompartilhamentoCreateBlocoComponent implements OnInit, OnDestroy {
      */
     constructor(
         private _store: Store<fromStore.CompartilhamentoCreateBlocoAppState>,
-        private _loginService: LoginService,
+        public _loginService: LoginService,
         private _router: Router,
         private _changeDetectorRef: ChangeDetectorRef
     ) {

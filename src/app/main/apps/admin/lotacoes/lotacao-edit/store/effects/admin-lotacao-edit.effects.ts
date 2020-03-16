@@ -24,7 +24,7 @@ export class AdminLotacaoEditEffect {
         private _actions: Actions,
         private _lotacaoService: LotacaoService,
         private _store: Store<State>,
-        private _loginService: LoginService,
+        public _loginService: LoginService,
         private _router: Router
     ) {
         this._store

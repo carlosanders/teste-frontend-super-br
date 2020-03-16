@@ -17,12 +17,12 @@ export class Tarefa {
 
     postIt?: string;
 
-    urgente: boolean;
+    urgente?: boolean;
 
     observacao?: string;
 
     @Exclude({toPlainOnly: true})
-    redistribuida: boolean;
+    redistribuida?: boolean;
 
     @Transform(value => value ? value.format('YYYY-MM-DDTHH:mm:ss') : null, { toPlainOnly: true })
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
@@ -30,11 +30,11 @@ export class Tarefa {
 
     @Transform(value => value ? value.format('YYYY-MM-DDTHH:mm:ss') : null, {toPlainOnly: true})
     @Transform(value => value ? moment(value) : null, {toClassOnly: true})
-    dataHoraInicioPrazo: Date|moment.Moment;
+    dataHoraInicioPrazo?: Date|moment.Moment;
 
     @Transform(value => value ? value.format('YYYY-MM-DDTHH:mm:ss') : null, {toPlainOnly: true})
     @Transform(value => value ? moment(value) : null, {toClassOnly: true})
-    dataHoraFinalPrazo: Date|moment.Moment;
+    dataHoraFinalPrazo?: Date|moment.Moment;
 
     @Exclude({toPlainOnly: true})
     @Transform(value => value ? value.format('YYYY-MM-DDTHH:mm:ss') : null, {toPlainOnly: true})
@@ -43,26 +43,26 @@ export class Tarefa {
 
     @Type(() => Processo)
     @Transform(value => value ? value.id : null, {toPlainOnly: true})
-    processo: Processo;
+    processo?: Processo;
 
     @Type(() => EspecieTarefa)
     @Transform(value => value ? value.id : null, {toPlainOnly: true})
-    especieTarefa: EspecieTarefa;
+    especieTarefa?: EspecieTarefa;
 
     @Type(() => Usuario)
     @Transform(value => value ? value.id : null, {toPlainOnly: true})
-    usuarioResponsavel: Usuario;
+    usuarioResponsavel?: Usuario;
 
     @Type(() => Setor)
     @Transform(value => value ? value.id : null, {toPlainOnly: true})
     setorOrigem?: Setor;
 
     @Exclude()
-    unidadeResponsavel: Setor;
+    unidadeResponsavel?: Setor;
 
     @Type(() => Setor)
     @Transform(value => value ? value.id : null, {toPlainOnly: true})
-    setorResponsavel: Setor;
+    setorResponsavel?: Setor;
 
     @Exclude({toPlainOnly: true})
     @Type(() => Usuario)
@@ -99,16 +99,16 @@ export class Tarefa {
     @Transform(value => value ? moment(value) : null, {toClassOnly: true})
     apagadoEm?: Date;
 
-    distribuicaoAutomatica: boolean;
+    distribuicaoAutomatica?: boolean;
 
     @Exclude({toPlainOnly: true})
-    livreBalanceamento: boolean;
+    livreBalanceamento?: boolean;
 
     @Exclude({toPlainOnly: true})
     auditoriaDistribuicao?: string;
 
     @Exclude({toPlainOnly: true})
-    tipoDistribuicao: number;
+    tipoDistribuicao?: number;
 
     @Type(() => Folder)
     @Transform(value => value ? value.id : null, {toPlainOnly: true})
@@ -116,7 +116,7 @@ export class Tarefa {
 
     @Exclude({toPlainOnly: true})
     @Type(() => VinculacaoEtiqueta)
-    vinculacoesEtiquetas: VinculacaoEtiqueta[];
+    vinculacoesEtiquetas?: VinculacaoEtiqueta[];
 
     constructor() {
         this.id = null;

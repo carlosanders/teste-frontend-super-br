@@ -13,18 +13,18 @@ export class Estado {
     uuid?: string;
 
     @Exclude({ toPlainOnly: true })
-    nome: string;
+    nome?: string;
 
     @Exclude({ toPlainOnly: true })
-    uf: string;
+    uf?: string;
 
     @Exclude({ toPlainOnly: true })
-    ativo: boolean;
+    ativo?: boolean;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Pais)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    pais: Pais;
+    pais?: Pais;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)

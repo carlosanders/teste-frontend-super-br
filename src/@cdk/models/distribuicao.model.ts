@@ -16,7 +16,7 @@ export class Distribuicao {
 
     @Type(() => Tarefa)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    tarefa: Tarefa;
+    tarefa?: Tarefa;
 
     @Type(() => Documento)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
@@ -24,7 +24,7 @@ export class Distribuicao {
 
     @Transform(value => value ? value.format('YYYY-MM-DDTHH:mm:ss') : null, { toPlainOnly: true })
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
-    dataHoraFinalPrazo: Date;
+    dataHoraFinalPrazo?: Date;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)
@@ -33,7 +33,7 @@ export class Distribuicao {
 
     @Type(() => Usuario)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    usuarioPosterior: Usuario;
+    usuarioPosterior?: Usuario;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Setor)
@@ -42,13 +42,13 @@ export class Distribuicao {
 
     @Type(() => Setor)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    setorPosterior: Setor;
+    setorPosterior?: Setor;
 
     distribuicaoAutomatica?: boolean;
 
     livreBalanceamento?: boolean;
 
-    auditoriaDistribuicao: string;
+    auditoriaDistribuicao?: string;
 
     tipoDistribuicao?: number;
 

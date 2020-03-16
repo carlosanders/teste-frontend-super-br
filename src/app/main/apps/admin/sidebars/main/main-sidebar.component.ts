@@ -24,7 +24,7 @@ export class AdminMainSidebarComponent implements OnInit, OnDestroy {
      * Constructor
      */
     constructor(
-        private _loginService: LoginService
+        public _loginService: LoginService
     ) {
 
         this.colaborador = this._loginService.getUserProfile().colaborador;

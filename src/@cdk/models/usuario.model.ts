@@ -2,6 +2,7 @@ import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
 import {VinculacaoUsuario} from '@cdk/models';
 import {Colaborador} from '@cdk/models';
+import {VinculacaoPessoaUsuario} from './vinculacao-pessoa-usuario.model';
 
 export class Usuario {
 
@@ -12,21 +13,21 @@ export class Usuario {
     uuid?: string;
 
     @Exclude({ toPlainOnly: true })
-    username: string;
+    username?: string;
 
     assinaturaHTML?: string;
 
     @Exclude({ toPlainOnly: true })
-    email: string;
+    email?: string;
 
     @Exclude({ toPlainOnly: true })
-    enabled: boolean;
+    enabled?: boolean;
 
     @Exclude({ toPlainOnly: true })
-    nivelAcesso: number;
+    nivelAcesso?: number;
 
     @Exclude({ toPlainOnly: true })
-    nome: string;
+    nome?: string;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)
@@ -60,14 +61,19 @@ export class Usuario {
 
     @Exclude({toPlainOnly: true})
     @Type(() => VinculacaoUsuario)
-    vinculacoesUsuariosPrincipais: VinculacaoUsuario[];
+    vinculacoesUsuariosPrincipais?: VinculacaoUsuario[];
 
     @Exclude({toPlainOnly: true})
     @Type(() => Colaborador)
     colaborador?: Colaborador;
 
     @Exclude({toPlainOnly: true})
-    roles: string[];
+    roles?: string[];
+
+
+    @Exclude({toPlainOnly: true})
+    @Type(() => VinculacaoPessoaUsuario)
+    vinculacoesPessoasUsuarios: VinculacaoPessoaUsuario[];
 
     constructor() {
         this.id = null;
@@ -87,5 +93,6 @@ export class Usuario {
         this.atualizadoEm = null;
         this.apagadoPor = null;
         this.apagadoEm = null;
+        this.vinculacoesPessoasUsuarios = null;
     }
 }

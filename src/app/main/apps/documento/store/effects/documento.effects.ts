@@ -36,7 +36,7 @@ export class DocumentoEffect {
         private _documentoService: DocumentoService,
         private _modeloService: ModeloService,
         private _repositorioService: RepositorioService,
-        private _loginService: LoginService,
+        public _loginService: LoginService,
         private _router: Router,
         private _store: Store<State>
     ) {

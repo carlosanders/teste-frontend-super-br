@@ -5,11 +5,12 @@ processo-edit {
 
     #processo-edit {
         height: 100%;
-        overflow-y: auto;
+        overflow-y: hidden;
     }
 
     .altura {
         height: 100%;
+        padding-bottom: 10rem;
     }
 
     .sidebar {

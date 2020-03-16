@@ -11,15 +11,15 @@ export class AssuntoAdministrativo {
     @Exclude({ toPlainOnly: true })
     uuid?: string;
 
-    nome: string;
+    nome?: string;
 
     glossario?: string;
 
     dispositivoLegal?: string;
 
-    codigoCNJ: string;
+    codigoCNJ?: string;
 
-    ativo: boolean;
+    ativo?: boolean;
 
     @Type(() => AssuntoAdministrativo)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })

@@ -11,11 +11,11 @@ export class Cargo {
     @Exclude({ toPlainOnly: true })
     uuid?: string;
 
-    nome: string;
+    nome?: string;
 
-    descricao: string;
+    descricao?: string;
 
-    ativo: boolean;
+    ativo?: boolean;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)

@@ -62,7 +62,7 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
      */
     constructor(
         private _store: Store<fromStore.TarefaCreateAppState>,
-        private _loginService: LoginService,
+        public _loginService: LoginService,
         public dialog: MatDialog,
         private _router: Router
     ) {

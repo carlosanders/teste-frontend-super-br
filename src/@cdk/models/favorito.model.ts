@@ -16,23 +16,23 @@ export class Favorito {
 
     @Type(() => EspecieAtividade)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    especieAtividade: EspecieAtividade;
+    especieAtividade?: EspecieAtividade;
 
     @Type(() => Setor)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    setorResponsavel: Setor;
+    setorResponsavel?: Setor;
 
     @Type(() => Usuario)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    usuario: Usuario;
+    usuario?: Usuario;
 
     @Type(() => EspecieTarefa)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    especieTarefa: EspecieTarefa;
+    especieTarefa?: EspecieTarefa;
 
     qtdUso?: number;
 
-    prioritario: boolean;
+    prioritario?: boolean;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)

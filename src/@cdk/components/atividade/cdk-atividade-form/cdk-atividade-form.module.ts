@@ -7,15 +7,16 @@ import {
     MatCheckboxModule,
     MatProgressSpinnerModule,
     MatAutocompleteModule,
-    MatDatepickerModule, MatSlideToggleModule, MatTooltipModule, MatRadioModule
-
+    MatDatepickerModule,
+    MatSlideToggleModule,
+    MatTooltipModule,
+    MatRadioModule
 } from '@cdk/angular/material';
-
-import { CdkSharedModule } from '@cdk/shared.module';
-import { EspecieAtividadeService } from '@cdk/services/especie-atividade.service';
-import { CdkAtividadeFormComponent } from './cdk-atividade-form.component';
-import { CdkEspecieAtividadeAutocompleteModule } from '@cdk/components/especie-atividade/cdk-especie-atividade-autocomplete/cdk-especie-atividade-autocomplete.module';
-import { CdkEspecieAtividadeGridsearchModule } from '@cdk/components/especie-atividade/cdk-especie-atividade-autocomplete/cdk-especie-atividade-gridsearch/cdk-especie-atividade-gridsearch.module';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {EspecieAtividadeService} from '@cdk/services/especie-atividade.service';
+import {CdkAtividadeFormComponent} from './cdk-atividade-form.component';
+import {CdkEspecieAtividadeAutocompleteModule} from '@cdk/components/especie-atividade/cdk-especie-atividade-autocomplete/cdk-especie-atividade-autocomplete.module';
+import {CdkEspecieAtividadeGridsearchModule} from '@cdk/components/especie-atividade/cdk-especie-atividade-autocomplete/cdk-especie-atividade-gridsearch/cdk-especie-atividade-gridsearch.module';
 import {CdkUsuarioAutocompleteModule} from '../../usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 import {CdkUsuarioGridsearchModule} from '../../usuario/cdk-usuario-autocomplete/cdk-usuario-gridsearch/cdk-usuario-gridsearch.module';
 import {UsuarioService} from '@cdk/services/usuario.service';
@@ -30,7 +31,6 @@ import {CdkSetorGridsearchModule} from '../../setor/cdk-setor-autocomplete/cdk-s
         CdkAtividadeFormComponent,
     ],
     imports: [
-
         MatAutocompleteModule,
         MatButtonModule,
         MatFormFieldModule,

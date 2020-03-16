@@ -38,7 +38,7 @@ import {CdkChaveAcessoPluginModule} from '@cdk/components/chave-acesso/cdk-chave
 
 const routes: Routes = [
     {
-        path: '',
+        path: ':oficioTargetHandle/:pessoaHandle',
         component: OficiosComponent,
         children: [
             {
@@ -49,9 +49,17 @@ const routes: Routes = [
                 path: 'detalhe',
                 loadChildren: () => import('./oficio-detail/oficio-detail.module').then(m => m.OficioDetailModule),
                 canActivate: [fromGuards.ResolveGuard]
-            }
+            },
+            {
+                path: 'vinculacao-etiqueta-bloco',
+                loadChildren: () => import('./vinculacao-etiqueta-create-bloco/vinculacao-etiqueta-create-bloco.module').then(m => m.VinculacaoEtiquetaCreateBlocoModule),
+            },
         ],
         canActivate: [fromGuards.ResolveGuard]
+    },
+    {
+        path: '**',
+        redirectTo: 'entrada/'
     }
 ];
 

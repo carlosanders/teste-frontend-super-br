@@ -13,10 +13,10 @@ export class Repositorio {
     @Exclude({ toPlainOnly: true })
     uuid?: string;
 
-    nome: string;
+    nome?: string;
 
     @Exclude({toPlainOnly: true})
-    highlights: string;
+    highlights?: string;
 
     descricao?: string;
 
@@ -24,11 +24,11 @@ export class Repositorio {
 
     @Type(() => ModalidadeRepositorio)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    modalidadeRepositorio: ModalidadeRepositorio;
+    modalidadeRepositorio?: ModalidadeRepositorio;
 
     @Type(() => Documento)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    documento: Documento;
+    documento?: Documento;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)
