@@ -14,10 +14,10 @@
                                  aria-labelledby="processo-rg2"
                                  fxLayoutAlign="row">
                     <mat-radio-button [value]="true">
-                        Gerar Novo Processo
+                        Criar Novo Processo
                     </mat-radio-button>
                     <mat-radio-button [value]="false">
-                        Informar Dados de Processo Existente em Outro Sistema
+                        Cadastrar Processo Existente
                     </mat-radio-button>
                 </mat-radio-group>
             </div>
@@ -75,10 +75,10 @@
             </mat-form-field>
         </mat-card>
 
-        <mat-card class="mb-16" fxFlex="0 1 auto" fxLayout="column">
+        <mat-card class="mb-16" fxFlex="0 1 auto" fxLayout="column" *ngIf="!form.value.id || temOrigem || form.value.processo_rg === true">
             <mat-slide-toggle *ngIf="!form.value.id" formControlName="processo_rg"
                               class="mt-16 mr-16 mb-16" fxFlex="0 1 auto">
-                Importar Dados de Processo Existente
+                Importar Dados de Processo Existente no Sistema
             </mat-slide-toggle>
 
             <mat-form-field *ngIf=" temOrigem || form.value.processo_rg === true">

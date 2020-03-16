@@ -23,7 +23,7 @@ export class SetorListEffect {
     constructor(
         private _actions: Actions,
         private _setorService: SetorService,
-        private _loginService: LoginService,
+        public _loginService: LoginService,
         private _store: Store<State>
     ) {
         this._store

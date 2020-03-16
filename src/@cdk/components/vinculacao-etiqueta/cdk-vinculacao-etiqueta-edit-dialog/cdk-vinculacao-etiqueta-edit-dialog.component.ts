@@ -63,7 +63,7 @@ export class CdkVinculacaoEtiquetaEditDialogComponent implements OnInit {
         //
     }
 
-    submit(formulario){
+    submit(): void {
         if (this.form.valid) {
             this.data.mostraSpinnerSalvamento = true;
             this.editVinc.emit({

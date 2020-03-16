@@ -26,7 +26,7 @@ export class ProcessoEffect {
     constructor(
         private _actions: Actions,
         private _processoService: ProcessoService,
-        private _loginService: LoginService,
+        public _loginService: LoginService,
         private _vinculacaoEtiquetaService: VinculacaoEtiquetaService,
         private _store: Store<State>
     ) {

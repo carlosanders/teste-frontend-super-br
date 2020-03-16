@@ -48,7 +48,7 @@ export class TarefaEditComponent implements OnInit, OnDestroy {
      */
     constructor(
         private _store: Store<fromStore.TarefaDetailAppState>,
-        private _loginService: LoginService
+        public _loginService: LoginService
     ) {
         this.tarefa$ = this._store.pipe(select(fromStore.getTarefa));
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));

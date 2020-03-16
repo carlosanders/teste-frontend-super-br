@@ -76,7 +76,7 @@ export class OficioDetailComponent implements OnInit, OnDestroy, AfterViewInit {
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
         private _store: Store<fromStore.OficioDetailAppState>,
-        private _loginService: LoginService,
+        public _loginService: LoginService,
         private _dynamicService: DynamicService
     ) {
         this._profile = _loginService.getUserProfile();
