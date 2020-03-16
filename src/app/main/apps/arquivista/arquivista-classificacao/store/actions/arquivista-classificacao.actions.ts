@@ -1,4 +1,4 @@
-import {Action} from "@ngrx/store";
+import {Action} from '@ngrx/store';
 
 export const CREATE_CLASSIFICACAO = '[CLASSIFICACAO] CREATE CLASSIFICACAO';
 export const CREATE_CLASSIFICACAO_SUCCESS = '[CLASSIFICACAO] CREATE CLASSIFICACAO SUCCESS';
