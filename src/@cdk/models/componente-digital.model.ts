@@ -21,23 +21,23 @@ export class ComponenteDigital {
     @Exclude({toPlainOnly: true})
     uuid?: string;
 
-    editavel: boolean;
+    editavel?: boolean;
 
     @Exclude({toPlainOnly: true})
-    assinado: boolean;
+    assinado?: boolean;
 
-    fileName: string;
+    fileName?: string;
 
     @Exclude({toPlainOnly: true})
-    highlights: string;
+    highlights?: string;
 
-    numeracaoSequencial: number;
+    numeracaoSequencial?: number;
 
-    conteudo: string;
+    conteudo?: string;
 
-    tamanho: number;
+    tamanho?: number;
 
-    nivelComposicao: number;
+    nivelComposicao?: number;
 
     softwareCriacao?: string;
 
@@ -45,15 +45,15 @@ export class ComponenteDigital {
 
     versaoSoftwareCriacao?: string;
 
-    mimetype: string;
+    mimetype?: string;
 
-    extensao: string;
+    extensao?: string;
 
-    hash: string;
+    hash?: string;
 
-    usernameLockEdicao: string;
+    usernameLockEdicao?: string;
 
-    failUpload: boolean;
+    failUpload?: boolean;
 
     @Transform(value => value ? value.format() : null, {toPlainOnly: true})
     @Transform(value => value ? moment(value) : null, {toClassOnly: true})
@@ -77,7 +77,7 @@ export class ComponenteDigital {
 
     @Type(() => Documento)
     @Transform(value => value ? value.id : null, {toPlainOnly: true})
-    documento: Documento;
+    documento?: Documento;
 
     @Type(() => Processo)
     @Transform(value => value ? value.id : null, {toPlainOnly: true})
@@ -140,19 +140,19 @@ export class ComponenteDigital {
     apagadoEm?: Date;
 
     @Exclude()
-    file: File;
+    file?: File;
     @Exclude()
-    state: string;
+    state?: string;
     @Exclude()
-    inProgress: boolean;
+    inProgress?: boolean;
     @Exclude()
-    progress: number;
+    progress?: number;
     @Exclude()
-    canRetry: boolean;
+    canRetry?: boolean;
     @Exclude()
-    canCancel: boolean;
+    canCancel?: boolean;
     @Exclude()
-    complete: boolean;
+    complete?: boolean;
     @Exclude()
     sub?: Subscription;
 

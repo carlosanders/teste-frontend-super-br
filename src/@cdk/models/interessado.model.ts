@@ -17,15 +17,15 @@ export class Interessado {
 
     @Type(() => Processo)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    processo: Processo;
+    processo?: Processo;
 
     @Type(() => Pessoa)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    pessoa: Pessoa;
+    pessoa?: Pessoa;
 
     @Type(() => ModalidadeInteressado)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    modalidadeInteressado: ModalidadeInteressado;
+    modalidadeInteressado?: ModalidadeInteressado;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => OrigemDados)

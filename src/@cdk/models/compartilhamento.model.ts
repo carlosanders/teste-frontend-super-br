@@ -23,9 +23,9 @@ export class Compartilhamento {
 
     @Type(() => Usuario)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    usuario: Usuario;
+    usuario?: Usuario;
 
-    analista: boolean;
+    analista?: boolean;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)

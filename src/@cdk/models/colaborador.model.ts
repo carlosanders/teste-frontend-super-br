@@ -17,15 +17,15 @@ export class Colaborador {
 
     @Type(() => Cargo)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    cargo: Cargo;
+    cargo?: Cargo;
 
     @Type(() => ModalidadeColaborador)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    modalidadeColaborador: ModalidadeColaborador;
+    modalidadeColaborador?: ModalidadeColaborador;
 
     @Type(() => Usuario)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    usuario: Usuario;
+    usuario?: Usuario;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)
@@ -59,7 +59,7 @@ export class Colaborador {
 
     @Exclude({toPlainOnly: true})
     @Type(() => Lotacao)
-    lotacoes: Lotacao[];
+    lotacoes?: Lotacao[];
 
     constructor() {
         this.id = null;

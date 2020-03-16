@@ -14,17 +14,17 @@ export class Representante {
     @Exclude({ toPlainOnly: true })
     uuid?: string;
 
-    nome: string;
+    nome?: string;
 
     inscricao?: string;
 
     @Type(() => ModalidadeRepresentante)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    modalidadeRepresentante: ModalidadeRepresentante;
+    modalidadeRepresentante?: ModalidadeRepresentante;
 
     @Type(() => Interessado)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    interessado: Interessado;
+    interessado?: Interessado;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => OrigemDados)

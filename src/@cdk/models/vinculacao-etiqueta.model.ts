@@ -17,7 +17,7 @@ export class VinculacaoEtiqueta {
 
     conteudo?: string;
 
-    privada: boolean;
+    privada?: boolean;
 
     @Transform(value => value ? value.format() : null, {toPlainOnly: true})
     @Transform(value => value ? moment(value) : null, {toClassOnly: true})
@@ -25,7 +25,7 @@ export class VinculacaoEtiqueta {
 
     @Type(() => Etiqueta)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    etiqueta: Etiqueta;
+    etiqueta?: Etiqueta;
 
     @Type(() => Tarefa)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
@@ -75,10 +75,10 @@ export class VinculacaoEtiqueta {
     apagadoEm?: Date;
 
     @Exclude({toPlainOnly: true})
-    podeAlterarConteudo: boolean;
+    podeAlterarConteudo?: boolean;
 
     @Exclude({toPlainOnly: true})
-    podeExcluir: boolean;
+    podeExcluir?: boolean;
 
     constructor() {
         this.id = null;
