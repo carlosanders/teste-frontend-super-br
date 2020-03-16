@@ -20,7 +20,7 @@ import {CdkEspecieSetorGridModule} from '../../especie-setor/cdk-especie-setor-g
 import {CdkEspecieSetorAutocompleteModule} from '../../especie-setor/cdk-especie-setor-autocomplete/cdk-especie-setor-autocomplete.module';
 import {CdkMunicipioAutocompleteModule} from '../../municipio/cdk-municipio-autocomplete/cdk-municipio-autocomplete.module';
 import {CdkMunicipioGridsearchModule} from '../../municipio/cdk-municipio-autocomplete/cdk-municipio-gridsearch/cdk-municipio-gridsearch.module';
-import {CdkEspecieSetorGridsearchModule} from "../../especie-setor/cdk-especie-setor-autocomplete/cdk-especie-setor-gridsearch/cdk-especie-setor-gridsearch.module";
+import {CdkEspecieSetorGridsearchModule} from '../../especie-setor/cdk-especie-setor-autocomplete/cdk-especie-setor-gridsearch/cdk-especie-setor-gridsearch.module';
 
 @NgModule({
     declarations: [
@@ -49,10 +49,8 @@ import {CdkEspecieSetorGridsearchModule} from "../../especie-setor/cdk-especie-s
         CdkEspecieSetorGridsearchModule,
     ],
     providers: [
-
         CdkSharedModule,
     ],
-    providers: [],
     exports: [
         CdkSetorFormComponent
     ]
