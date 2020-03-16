@@ -1,6 +1,7 @@
 import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
-import { Usuario } from '@cdk/models';
+import {Lembrete} from '@cdk/models';
+import {Usuario} from '@cdk/models';
 import { EspecieProcesso } from '@cdk/models';
 import { Setor } from '@cdk/models';
 
@@ -96,9 +97,16 @@ export class Processo {
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     modalidadeMeio?: ModalidadeMeio;
 
+
+    @Type(() => Lembrete)
+    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    lembretes: Lembrete[];
+
+
     @Exclude({toPlainOnly: true})
     @Type(() => VinculacaoEtiqueta)
     vinculacoesEtiquetas?: VinculacaoEtiqueta[];
+
 
     @Type(() => EspecieProcesso)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
@@ -153,6 +161,7 @@ export class Processo {
         this.chaveAcesso = null;
         this.modalidadeMeio = null;
         this.modalidadeFase = null;
+        this.lembretes = [];
         this.documentoAvulsoOrigem = null;
         this.classificacao = null;
         this.procedencia = null;

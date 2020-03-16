@@ -64,6 +64,7 @@ export class ResolveGuard implements CanActivate {
 
                         filter: {
                                'unidade.id': 'eq:' + this.routerState.params.unidadeHandle
+
                         },
 
 

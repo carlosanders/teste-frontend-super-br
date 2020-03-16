@@ -1,0 +1,104 @@
+@import "../../../../@cdk/scss/cdk";
+
+arquivista {
+
+    .center {
+
+        .header {
+            height: 72px !important;
+            min-height: 72px !important;
+            max-height: 72px !important;
+
+            .search-wrapper {
+                border-radius: 28px;
+                overflow: hidden;
+                background-color: #fff;
+                @include mat-elevation(1);
+
+                .sidebar-toggle {
+                    margin: 0 0 0 6px;
+                    width: 56px;
+                    height: 56px;
+                    border-radius: 0;
+                    border-right: 1px solid;
+                }
+
+                .search {
+                    width: 100%;
+                    height: 46px;
+                    line-height: 46px;
+                    padding: 0 8px;
+
+                    cdk-etiqueta-chips {
+                        width: 100%;
+                        margin-left: 16px;
+                        margin-right: 16px;
+                    }
+                }
+            }
+
+            &.current-processo-selected {
+                .search-wrapper {
+                    display: none !important;
+                }
+            }
+
+        }
+
+        .content-card {
+
+            .toolbar {
+
+                .toolbar-separator {
+                    height: 32px;
+                    width: 1px;
+                    margin: 0 12px;
+                }
+
+                .arquivista-list-control {
+                    margin-left: auto;
+                }
+            }
+
+            .content {
+
+                .arquivista-list {
+                    border-right: 1px solid;
+
+                    &.mobile-mode {
+
+                        &.current-processo {
+                            display: none !important;
+                        }
+
+                        &.no-current-processo {
+                            max-width: 100% !important;
+                        }
+
+                    }
+                    cdk-arquivista-list {
+                        min-height: 100%;
+                    }
+
+                }
+
+                .arquivista-detail {
+
+                    &.mobile-mode {
+
+                        &.no-current-processo {
+                            display: none !important;
+                        }
+
+                        &.current-processo {
+                            max-width: 100% !important;
+                        }
+
+                    }
+                }
+
+            }
+        }
+    }
+}
+

@@ -1,0 +1,27 @@
+<mat-form-field class="cdk-lembrete-chips-list">
+    <mat-chip-list #chipList>
+        <mat-chip
+            [ngStyle]="{'background-color': lembrete.corHexadecimal}"
+            *ngFor="let lembrete of lembretes"
+            [selectable]="selectable"
+            [removable]="false === lembrete.sistema"
+            (removed)="remove(lembrete)">
+            {{lembrete.nome}}
+            <mat-icon matChipRemove *ngIf="false === lembrete.sistema">cancel</mat-icon>
+        </mat-chip>
+        <input #lembreteInput
+               placeholder="Filtro por lembretes"
+               [formControl]="lembreteCtrl"
+               [matAutocomplete]="lembrete.autocomplete"
+               [matChipInputFor]="chipList"
+               [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+               [matChipInputAddOnBlur]="addOnBlur">
+    </mat-chip-list>
+    <cdk-lembrete-autocomplete
+        #lembrete="lembreteAutocomplete"
+        [control]="lembreteCtrl"
+        [pagination]="pagination"
+        (selected)="this.selected($event)">
+    </cdk-lembrete-autocomplete>
+</mat-form-field>
+

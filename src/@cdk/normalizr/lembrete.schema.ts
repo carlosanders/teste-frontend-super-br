@@ -3,7 +3,7 @@ import {processo} from './index.schema';
 import {lembrete as lembreteSchema} from './index.schema';
 
 lembreteSchema.define({
-    processo: processo,
+    // processo: processo,
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario
