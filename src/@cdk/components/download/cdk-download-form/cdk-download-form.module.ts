@@ -12,7 +12,7 @@ import {
 
 } from '@cdk/angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 import { CdkDownloadFormComponent } from './cdk-download-form.component';
 import {CdkProcessoAutocompleteModule} from '../../processo/cdk-processo-autocomplete/cdk-processo-autocomplete.module';
 import {CdkProcessoGridsearchModule} from '../../processo/cdk-processo-autocomplete/cdk-processo-gridsearch/cdk-processo-gridsearch.module';
@@ -33,7 +33,7 @@ import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
         MatProgressSpinnerModule,
         MatDatepickerModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
         CdkProcessoAutocompleteModule,
         CdkProcessoGridsearchModule,
         MatRadioModule,

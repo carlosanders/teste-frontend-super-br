@@ -10,9 +10,9 @@ import {
     MatSortModule,
     MatSelectModule,
 } from '@cdk/angular/material';
-
-import {FuseSidebarModule} from '@fuse/components';
-import {FuseSharedModule} from '@fuse/shared.module';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {CdkSidebarModule} from '@cdk/components/index';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {PaisService} from '@cdk/services/pais.service';
 import {CdkPaisGridComponent} from './cdk-pais-grid.component';
 import {CdkPaisAutocompleteModule} from '@cdk/components/pais/cdk-pais-autocomplete/cdk-pais-autocomplete.module';
@@ -38,8 +38,9 @@ import {CdkPaisMainSidebarComponent} from './sidebars/main/main.component';
         CdkPaisAutocompleteModule,
         CdkPaisGridFilterModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
+        MatTooltipModule,
     ],
     providers: [
         PaisService,

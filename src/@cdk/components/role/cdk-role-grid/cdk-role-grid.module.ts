@@ -10,9 +10,9 @@ import {
     MatSortModule,
     MatSelectModule,
 } from '@cdk/angular/material';
-
-import {FuseSidebarModule} from '@fuse/components';
-import {FuseSharedModule} from '@fuse/shared.module';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {CdkSidebarModule} from '@cdk/components/index';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {RoleService} from '@cdk/services/role.service';
 import {CdkRoleGridComponent} from './cdk-role-grid.component';
 import {CdkRoleAutocompleteModule} from '@cdk/components/role/cdk-role-autocomplete/cdk-role-autocomplete.module';
@@ -38,8 +38,9 @@ import {CdkRoleMainSidebarComponent} from './sidebars/main/main.component';
         CdkRoleAutocompleteModule,
         CdkRoleGridFilterModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
+        MatTooltipModule,
     ],
     providers: [
         RoleService,

@@ -5,7 +5,7 @@ import {
     MatCardModule, MatCheckboxModule, MatMenuModule,
 } from '@cdk/angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 import {CdkDocumentoAvulsoCardListComponent} from './cdk-documento-avulso-card-list.component';
 import {CdkDocumentoAvulsoCardModule} from './cdk-documento-avulso-card/cdk-documento-avulso-card.module';
 
@@ -21,7 +21,7 @@ import {CdkDocumentoAvulsoCardModule} from './cdk-documento-avulso-card/cdk-docu
 
         CdkDocumentoAvulsoCardModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
         MatCheckboxModule,
         MatMenuModule,
     ],

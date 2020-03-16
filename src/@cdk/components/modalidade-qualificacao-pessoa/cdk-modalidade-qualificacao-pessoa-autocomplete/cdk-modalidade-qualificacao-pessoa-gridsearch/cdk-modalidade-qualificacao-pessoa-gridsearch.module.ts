@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 
 import { ModalidadeQualificacaoPessoaService } from '@cdk/services/modalidade-qualificacao-pessoa.service';
 import { CdkModalidadeQualificacaoPessoaGridsearchComponent } from './cdk-modalidade-qualificacao-pessoa-gridsearch.component';
@@ -14,7 +14,7 @@ import { CdkModalidadeQualificacaoPessoaGridModule } from '@cdk/components/modal
 
         CdkModalidadeQualificacaoPessoaGridModule,
         
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         ModalidadeQualificacaoPessoaService

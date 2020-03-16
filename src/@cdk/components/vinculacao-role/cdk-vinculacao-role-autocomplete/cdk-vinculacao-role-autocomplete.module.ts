@@ -4,7 +4,7 @@ import {
     MatAutocompleteModule
 } from '@cdk/angular/material';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {VinculacaoRoleService} from '@cdk/services/vinculacao-role.service';
 import {CdkVinculacaoRoleAutocompleteComponent} from './cdk-vinculacao-role-autocomplete.component';
 import {PipesModule} from '@cdk/pipes/pipes.module';
@@ -20,7 +20,7 @@ import {PipesModule} from '@cdk/pipes/pipes.module';
 
         PipesModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         VinculacaoRoleService,

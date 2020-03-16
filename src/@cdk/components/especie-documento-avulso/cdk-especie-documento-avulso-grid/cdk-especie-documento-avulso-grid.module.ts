@@ -11,13 +11,14 @@ import {
     MatSelectModule,
 } from '@cdk/angular/material';
 
-import {FuseSidebarModule} from '@fuse/components';
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSidebarModule} from '@cdk/components/index';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {EspecieDocumentoAvulsoService} from '@cdk/services/especie-documento-avulso.service';
 import {CdkEspecieDocumentoAvulsoGridComponent} from './cdk-especie-documento-avulso-grid.component';
 import {CdkEspecieDocumentoAvulsoAutocompleteModule} from '@cdk/components/especie-documento-avulso/cdk-especie-documento-avulso-autocomplete/cdk-especie-documento-avulso-autocomplete.module';
 import {CdkEspecieDocumentoAvulsoGridFilterModule} from './cdk-especie-documento-avulso-grid-filter/cdk-especie-documento-avulso-grid-filter.module';
 import {CdkEspecieDocumentoAvulsoMainSidebarComponent} from './sidebars/main/main.component';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
     declarations: [
@@ -38,8 +39,9 @@ import {CdkEspecieDocumentoAvulsoMainSidebarComponent} from './sidebars/main/mai
         CdkEspecieDocumentoAvulsoGridFilterModule,
         CdkEspecieDocumentoAvulsoAutocompleteModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
+        MatTooltipModule,
     ],
     providers: [
         EspecieDocumentoAvulsoService,

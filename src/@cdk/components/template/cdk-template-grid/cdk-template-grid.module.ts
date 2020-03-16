@@ -10,9 +10,9 @@ import {
     MatSortModule,
     MatSelectModule,
 } from '@cdk/angular/material';
-
-import {FuseSidebarModule} from '@fuse/components';
-import {FuseSharedModule} from '@fuse/shared.module';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {CdkSidebarModule} from '@cdk/components/index';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {TemplateService} from '@cdk/services/template.service';
 import {CdkTemplateGridComponent} from './cdk-template-grid.component';
 import {CdkTemplateAutocompleteModule} from '@cdk/components/template/cdk-template-autocomplete/cdk-template-autocomplete.module';
@@ -38,8 +38,9 @@ import {CdkTemplateMainSidebarComponent} from './sidebars/main/main.component';
         CdkTemplateAutocompleteModule,
         CdkTemplateGridFilterModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
+        MatTooltipModule,
     ],
     providers: [
         TemplateService,

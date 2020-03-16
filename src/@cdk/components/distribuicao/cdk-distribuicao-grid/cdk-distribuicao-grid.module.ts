@@ -10,9 +10,8 @@ import {
     MatSortModule,
     MatSelectModule, MatTooltipModule,
 } from '@cdk/angular/material';
-
-import {FuseSidebarModule} from '@fuse/components';
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSidebarModule} from '@cdk/components/index';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {DistribuicaoService} from '@cdk/services/distribuicao.service';
 import {CdkDistribuicaoGridComponent} from './cdk-distribuicao-grid.component';
 import {CdkDistribuicaoAutocompleteModule} from '@cdk/components/distribuicao/cdk-distribuicao-autocomplete/cdk-distribuicao-autocomplete.module';
@@ -36,8 +35,8 @@ import {CdkDistribuicaoMainSidebarComponent} from './sidebars/main/main.componen
         MatSortModule,
         MatTooltipModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
 
         CdkDistribuicaoAutocompleteModule,
         CdkDistribuicaoGridFilterModule,

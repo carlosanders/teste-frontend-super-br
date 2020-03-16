@@ -6,7 +6,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
 import {Tarefa} from '@cdk/models';
@@ -30,7 +30,7 @@ import {getRouterState} from '../../../../store/reducers';
     styleUrls: ['./tarefa-create.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class TarefaCreateComponent implements OnInit, OnDestroy {
 

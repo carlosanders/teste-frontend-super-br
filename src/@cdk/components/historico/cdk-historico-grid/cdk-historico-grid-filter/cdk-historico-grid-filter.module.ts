@@ -9,7 +9,7 @@ import {
     MatInputModule
 } from '@cdk/angular/material';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {HistoricoService} from '@cdk/services/historico.service';
 import {CdkHistoricoGridFilterComponent} from './cdk-historico-grid-filter.component';
 import {CdkProcessoAutocompleteModule} from '@cdk/components/processo/cdk-processo-autocomplete/cdk-processo-autocomplete.module';
@@ -33,7 +33,7 @@ import {CdkUsuarioAutocompleteModule} from '@cdk/components/usuario/cdk-usuario-
         MatMomentDatetimeModule,
         MatCheckboxModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
 
         CdkUsuarioAutocompleteModule,
         CdkProcessoAutocompleteModule,

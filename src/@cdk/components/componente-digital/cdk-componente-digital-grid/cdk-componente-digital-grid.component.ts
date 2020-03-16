@@ -7,8 +7,8 @@ import {
 } from '@angular/core';
 import {merge, of} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
-import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
+import {cdkAnimations} from '@cdk/animations';
+import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {MatDialog, MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, filter, switchMap, tap} from 'rxjs/operators';
 import {ComponenteDigitalDataSource} from '@cdk/data-sources/componente-digital-data-source';
@@ -16,6 +16,7 @@ import {ComponenteDigital} from '@cdk/models';
 import {environment} from 'environments/environment';
 import {FormControl} from '@angular/forms';
 import { CdkChaveAcessoPluginComponent } from '@cdk/components/chave-acesso/cdk-chave-acesso-plugins/cdk-chave-acesso-plugin.component';
+import {LoginService} from 'app/main/auth/login/login.service';
 
 @Component({
     selector: 'cdk-componente-digital-grid',
@@ -23,7 +24,7 @@ import { CdkChaveAcessoPluginComponent } from '@cdk/components/chave-acesso/cdk-
     styleUrls: ['./cdk-componente-digital-grid.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit, OnChanges {
 
@@ -265,8 +266,9 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _fuseSidebarService: FuseSidebarService,
-        private dialog: MatDialog
+        private _cdkSidebarService: CdkSidebarService,
+        private _dialog: MatDialog,
+        private _loginService: LoginService
     ) {
         this.gridFilter = {};
         this.componentesDigitais = [];
@@ -325,7 +327,7 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
     }
 
     toggleFilter(): void {
-        this._fuseSidebarService.getSidebar('cdk-componente-digital-main-sidebar').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-componente-digital-main-sidebar').toggleOpen();
         this.showFilter = !this.showFilter;
     }
 
@@ -339,12 +341,12 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
     }
 
     viewComponenteDigital(componenteDigital: ComponenteDigital): void {
-        if (componenteDigital.documento.juntadaAtual.volume.processo.visibilidadeExterna) {
+        if (componenteDigital.documento.juntadaAtual.volume.processo.visibilidadeExterna || this._loginService.isGranted('ROLE_COLABORADOR')) {
             this.view.emit({id: componenteDigital.id});
             return;
         }
 
-        const dialogRef = this.dialog.open(CdkChaveAcessoPluginComponent, {
+        const dialogRef = this._dialog.open(CdkChaveAcessoPluginComponent, {
             width: '600px'
         });
 

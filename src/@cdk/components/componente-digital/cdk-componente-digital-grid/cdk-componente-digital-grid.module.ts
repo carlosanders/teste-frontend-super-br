@@ -12,9 +12,8 @@ import {
     MatTooltipModule,
     MatSelectModule,
 } from '@cdk/angular/material';
-
-import {FuseSidebarModule} from '@fuse/components';
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSidebarModule} from '@cdk/components/index';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkComponenteDigitalGridComponent} from './cdk-componente-digital-grid.component';
 import {CdkComponenteDigitalGridFilterModule} from './cdk-componente-digital-grid-filter/cdk-componente-digital-grid-filter.module';
 import {PipesModule} from '@cdk/pipes/pipes.module';
@@ -43,8 +42,8 @@ import {CdkChaveAcessoPluginModule} from '../../chave-acesso/cdk-chave-acesso-pl
 
         CdkComponenteDigitalGridFilterModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
 
         CdkChaveAcessoPluginModule
     ],

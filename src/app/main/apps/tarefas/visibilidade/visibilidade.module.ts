@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 
 import {TranslateModule} from '@ngx-translate/core';
 import {VisibilidadeComponent} from './visibilidade.component';
@@ -39,7 +39,7 @@ const routes: Routes = [
         VisibilidadeStoreModule,
 
         TranslateModule,
-        FuseSharedModule,
+        CdkSharedModule,
         CdkVisibilidadeFormModule,
         CdkVisibilidadeListModule,
         MatIconModule,

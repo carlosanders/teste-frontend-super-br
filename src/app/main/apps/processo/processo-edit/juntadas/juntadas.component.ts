@@ -4,7 +4,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from '../../store';
 import {getRouterState} from 'app/store/reducers';
@@ -16,7 +16,7 @@ import {Router} from '@angular/router';
     styleUrls: ['./juntadas.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class JuntadasComponent implements OnInit {
 

@@ -10,9 +10,9 @@ import {
     MatSortModule,
     MatSelectModule,
 } from '@cdk/angular/material';
-
-import {FuseSidebarModule} from '@fuse/components';
-import {FuseSharedModule} from '@fuse/shared.module';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {CdkSidebarModule} from '@cdk/components/index';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {ModalidadeAlvoInibidorService} from '@cdk/services/modalidade-alvo-inibidor.service';
 import {CdkModalidadeAlvoInibidorGridComponent} from './cdk-modalidade-alvo-inibidor-grid.component';
 import {CdkModalidadeAlvoInibidorAutocompleteModule} from '@cdk/components/modalidade-alvo-inibidor/cdk-modalidade-alvo-inibidor-autocomplete/cdk-modalidade-alvo-inibidor-autocomplete.module';
@@ -38,8 +38,9 @@ import {CdkModalidadeAlvoInibidorMainSidebarComponent} from './sidebars/main/mai
         CdkModalidadeAlvoInibidorAutocompleteModule,
         CdkModalidadeAlvoInibidorGridFilterModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
+        MatTooltipModule,
     ],
     providers: [
         ModalidadeAlvoInibidorService,

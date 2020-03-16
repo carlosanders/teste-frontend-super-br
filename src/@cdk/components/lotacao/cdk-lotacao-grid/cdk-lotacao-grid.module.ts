@@ -10,9 +10,9 @@ import {
     MatSortModule,
     MatSelectModule,
 } from '@cdk/angular/material';
-
-import {FuseSidebarModule} from '@fuse/components';
-import {FuseSharedModule} from '@fuse/shared.module';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {CdkSidebarModule} from '@cdk/components/index';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {LotacaoService} from '@cdk/services/lotacao.service';
 import {CdkLotacaoGridComponent} from './cdk-lotacao-grid.component';
 import {CdkLotacaoGridFilterModule} from './cdk-lotacao-grid-filter/cdk-lotacao-grid-filter.module';
@@ -36,8 +36,9 @@ import {CdkLotacaoMainSidebarComponent} from './sidebars/main/main.component';
 
         CdkLotacaoGridFilterModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
+        MatTooltipModule,
     ],
     providers: [
         LotacaoService,

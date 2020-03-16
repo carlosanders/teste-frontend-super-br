@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot } from '@angular/router';
+import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
 
 import { select, Store } from '@ngrx/store';
 
@@ -11,12 +11,14 @@ import * as fromStore from 'app/main/apps/oficios/store';
 import { getDocumentosAvulsoLoaded } from 'app/main/apps/oficios/store/selectors';
 import { getRouterState } from 'app/store/reducers';
 import { LoginService } from '../../../../auth/login/login.service';
-import { Usuario } from '@cdk/models/usuario.model';
+import { Usuario, VinculacaoPessoaUsuario } from '@cdk/models';
+
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
 
     private _profile: Usuario;
+    private pessoasConveniadas: VinculacaoPessoaUsuario[];
     routerState: any;
 
     /**
@@ -27,6 +29,7 @@ export class ResolveGuard implements CanActivate {
     constructor(
         private _store: Store<DocumentoAvulsoAppState>,
         private _loginService: LoginService,
+        private _router: Router,
     ) {
         this._store
             .pipe(select(getRouterState))
@@ -37,6 +40,7 @@ export class ResolveGuard implements CanActivate {
             });
 
         this._profile = _loginService.getUserProfile();
+        this.pessoasConveniadas = this._profile.vinculacoesPessoasUsuarios;
     }
 
     /**
@@ -47,25 +51,14 @@ export class ResolveGuard implements CanActivate {
      * @returns {Observable<boolean>}
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-        return this.checkStore().pipe(
-            switchMap(() => of(true)),
-            catchError(() => of(false))
-        );
+        if (this.getRouterDefault()) {
+            return this.getDocumentosAvulso().pipe(
+                switchMap(() => of(true)),
+                catchError(() => of(false))
+            );
+        }
     }
 
-    /**
-     * Check store
-     *
-     * @returns {Observable<any>}
-     */
-    checkStore(): Observable<any> {
-        return forkJoin(
-            this.getDocumentosAvulso()
-        ).pipe(
-            filter(([documentosAvulsoLoaded]) => !!(documentosAvulsoLoaded)),
-            take(1)
-        );
-    }
 
     /**
      * Get DocumentoAvulso
@@ -87,23 +80,59 @@ export class ResolveGuard implements CanActivate {
                         'processo.especieProcesso',
                         'processo.modalidadeMeio',
                         'processo.documentoAvulsoOrigem',
-                        'processo.vinculacoesEtiquetas',
-                        'processo.vinculacoesEtiquetas.etiqueta',
                         'usuarioResponsavel',
                         'setorResponsavel',
                         'setorResponsavel.unidade',
                         'setorOrigem',
-                        'setorOrigem.unidade'
+                        'setorOrigem.unidade',
+                        'vinculacoesEtiquetas',
+                        'vinculacoesEtiquetas.etiqueta'
                     ]
                 };
 
-                if (!loaded) {
+                const routeTypeParam = of('oficioTargetHandle');
+                routeTypeParam.subscribe(typeParam => {
+                    let documentoAvulsoFilter = {};
+
+                    if (this.routerState.params[typeParam] === 'entrada') {
+                        documentoAvulsoFilter = {
+                            'usuarioResposta.id': 'isNull',
+                            'documentoRemessa.id': 'isNotNull',
+                            'pessoaDestino.id': `eq:${this.routerState.params['pessoaHandle']}`
+                        };
+                    }
+
+                    if (this.routerState.params[typeParam] === 'saida') {
+                        documentoAvulsoFilter = {
+                            'usuarioResposta.id': 'isNotNull',
+                            'documentoRemessa.id': 'isNotNull',
+                            'pessoaDestino.id': `eq:${this.routerState.params['pessoaHandle']}`
+                        };
+                    }
+
+                    params['filter'] = documentoAvulsoFilter;
+                });
+
+                if (!this.routerState.params['oficioTargetHandle'] || !this.routerState.params['pessoaHandle']
+                    || this.routerState.params['oficioTargetHandle'] + '_' + this.routerState.params['pessoaHandle'] !== loaded.value) {
                     this._store.dispatch(new fromStore.GetDocumentosAvulso(params));
                     this._store.dispatch(new fromStore.ChangeSelectedDocumentosAvulso([]));
                 }
             }),
-            filter(loaded => loaded),
+            filter((loaded: any) => {
+                return this.routerState.params['oficioTargetHandle'] + '_' + this.routerState.params['pessoaHandle'] === loaded.value
+                    && this.routerState.params['oficioTargetHandle'];
+            }),
             take(1)
         );
+    }
+
+    getRouterDefault(): boolean {
+        if (!this.routerState.params['pessoaHandle']) {
+            this._router.navigate(['apps/oficios/entrada/' + this.pessoasConveniadas[0].pessoa.id]);
+            return false;
+        }
+
+        return true;
     }
 }

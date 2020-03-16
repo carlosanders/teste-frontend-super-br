@@ -4,7 +4,7 @@ import {
     MatAutocompleteModule
 } from '@cdk/angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 import { ModalidadeTemplateService } from '@cdk/services/modalidade-template.service';
 import {CdkModalidadeTemplateAutocompleteComponent} from './cdk-modalidade-template-autocomplete.component';
 import {PipesModule} from '@cdk/pipes/pipes.module';
@@ -20,7 +20,7 @@ import {PipesModule} from '@cdk/pipes/pipes.module';
 
         PipesModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         ModalidadeTemplateService,

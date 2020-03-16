@@ -1,36 +1,25 @@
-<div id="processo-view" class="page-layout simple left-sidebar inner-scroll">
+<div class="left-sidebar" fxFlex fxLayout="row">
 
     <!-- SIDEBAR -->
-    <fuse-sidebar class="sidebar" name="juntadas-left-sidebar-1" position="left" lockedOpen="gt-md">
-
-        <!-- SIDEBAR CONTENT -->
-        <div class="content" infiniteScroll
-             [scrollWindow]="false"
-             [infiniteScrollDistance]="2"
-             [infiniteScrollThrottle]="50"
-             (scrolled)="onScroll()"
-             fusePerfectScrollbar>
-            <processo-view-main-sidebar [@animate]="{value:'*'}"></processo-view-main-sidebar>
-        </div>
-        <!-- / SIDEBAR CONTENT -->
-
-    </fuse-sidebar>
+    <cdk-sidebar class="sidebar" name="juntadas-left-sidebar-1" position="left" lockedOpen="gt-md">
+        <processo-view-main-sidebar [@animate]="{value:'*'}" (scrolled)="onScroll()"></processo-view-main-sidebar>
+    </cdk-sidebar>
     <!-- / SIDEBAR -->
 
     <!-- CENTER -->
-    <div class="center">
+    <div class="center" fxFlex fxLayout="column">
 
         <!-- HEADER -->
         <div class="header accent p-16" fxLayout="row" fxLayoutAlign="start center">
 
-            <button mat-icon-button class="sidebar-toggle mr-16 fuse-black-fg" fxHide.gt-md
+            <button mat-icon-button class="sidebar-toggle mr-16 cdk-black-fg" fxHide.gt-md
                     (click)="toggleSidebar('juntadas-left-sidebar-1')">
                 <mat-icon>menu</mat-icon>
             </button>
 
             <div class="juntada-navigation">
 
-                <button mat-mini-fab class="previous mat-accent fuse-white-fg"
+                <button mat-mini-fab class="previous mat-accent cdk-white-fg"
                         (click)="gotoPreviousStep()"
                         [disabled]="currentStep.step === 0 && currentStep.subStep === 0">
                     <mat-icon>chevron_left</mat-icon>
@@ -40,7 +29,7 @@
                     <h3 *ngIf="!loading">{{fileName}}</h3>
                 </div>
 
-                <button mat-mini-fab class="next mat-accent fuse-white-fg"
+                <button mat-mini-fab class="next mat-accent cdk-white-fg"
                         (click)="gotoNextStep()"
                         [disabled]="currentStep.step === totalSteps - 1 && currentStep.subStep === index[currentStep.step].length - 1">
                     <mat-icon>chevron_right</mat-icon>
@@ -53,9 +42,9 @@
         <!-- / HEADER -->
 
         <!-- CONTENT -->
-        <div class="content">
+        <div fxFlex class="content">
 
-            <div class="processo-view-juntada" fusePerfectScrollbar>
+            <div class="processo-view-juntada" cdkPerfectScrollbar>
 
                 <div fxLayout="column" fxFlex
                      fxLayoutAlign="center center">
@@ -67,7 +56,7 @@
                     <span class="no-juntadas-text hint-text"> Não há documentos juntados</span>
                 </div>
 
-                <div *ngIf="!loading" class="processo-view-juntada-content">
+                <div *ngIf="!loading && (juntadas)?.length > 0" class="processo-view-juntada-content">
                     <iframe id="iframe-juntadas"
                             [src]="src">
                     </iframe>

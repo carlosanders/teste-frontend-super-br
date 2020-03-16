@@ -5,7 +5,7 @@ import {
     MatCardModule,
 } from '@cdk/angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 import {CdkComponenteDigitalDocumentoAvulsoCardListComponent} from './cdk-componente-digital-documento-avulso-card-list.component';
 import {CdkComponenteDigitalDocumentoAvulsoCardModule} from './cdk-componente-digital-documento-avulso-card/cdk-componente-digital-documento-avulso-card.module';
 
@@ -18,7 +18,7 @@ import {CdkComponenteDigitalDocumentoAvulsoCardModule} from './cdk-componente-di
         MatButtonModule,
         MatIconModule,
         MatCardModule,
-        FuseSharedModule,
+        CdkSharedModule,
         CdkComponenteDigitalDocumentoAvulsoCardModule,
     ],
     providers: [

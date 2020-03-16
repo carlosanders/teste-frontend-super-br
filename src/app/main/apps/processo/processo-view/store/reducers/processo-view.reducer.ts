@@ -41,7 +41,7 @@ export const ProcessoViewInitialState: ProcessoViewState = {
         step: 0,
         subStep: 0
     },
-    index: {},
+    index: [],
     binary: {
         src: null,
         loading: false
@@ -73,8 +73,8 @@ export function ProcessoViewReducer(state = ProcessoViewInitialState, action: Pr
 
             return {
                 ...state,
-                index: action.payload.index,
-                entitiesId: action.payload.entitiesId,
+                index: [...state.index, ...action.payload.index],
+                entitiesId: [...state.entitiesId, ...action.payload.entitiesId],
                 pagination: {
                     ...state.pagination,
                     total: action.payload.total
@@ -110,7 +110,7 @@ export function ProcessoViewReducer(state = ProcessoViewInitialState, action: Pr
                     step: 0,
                     subStep: 0
                 },
-                index: {},
+                index: [],
                 binary: {
                     src: null,
                     loading: false

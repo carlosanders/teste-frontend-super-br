@@ -17,13 +17,10 @@ import {AddChildData, AddData, RemoveChildData} from '@cdk/ngrx-normalizr';
 import {vinculacaoEtiqueta as vinculacaoEtiquetaSchema} from '@cdk/normalizr/vinculacao-etiqueta.schema';
 import {documentoAvulso as documentoAvulsoSchema} from '@cdk/normalizr/documento-avulso.schema';
 import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
-import {processo as processoSchema} from '@cdk/normalizr/processo.schema';
 import {DocumentoService} from '@cdk/services/documento.service';
 import {DocumentoAvulso} from '@cdk/models/documento-avulso.model';
 import {Documento} from '@cdk/models/documento.model';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-
-/*import { GetDocumentos } from '../../atividades/atividade-create/store/actions';*/
 
 @Injectable()
 export class OficioDetailEffect {
@@ -71,8 +68,11 @@ export class OficioDetailEffect {
                             'setorResponsavel.unidade',
                             'setorOrigem',
                             'setorOrigem.unidade',
-                            'processo.vinculacoesEtiquetas',
-                            'processo.vinculacoesEtiquetas.etiqueta']));
+                            'vinculacoesEtiquetas',
+                            'vinculacoesEtiquetas.etiqueta'
+                        ]),
+                        JSON.stringify({chaveAcesso: `${this.routerState.params['chaveAcessoHandle']}`})
+                    );
                 }),
                 mergeMap(response => [
                     new AddData<DocumentoAvulso>({data: response['entities'], schema: documentoAvulsoSchema}),
@@ -116,20 +116,20 @@ export class OficioDetailEffect {
                 ofType<DocumentoAvulsoDetailActions.CreateVinculacaoEtiqueta>(DocumentoAvulsoDetailActions.CREATE_VINCULACAO_ETIQUETA),
                 mergeMap((action) => {
                     const vinculacaoEtiqueta = new VinculacaoEtiqueta();
-                    vinculacaoEtiqueta.processo = action.payload.processo;
+                    vinculacaoEtiqueta.documentoAvulso = action.payload.documentoAvulso;
                     vinculacaoEtiqueta.etiqueta = action.payload.etiqueta;
                     return this._vinculacaoEtiquetaService.save(vinculacaoEtiqueta).pipe(
-                        tap((response) => response.processo = null),
+                        tap((response) => response.documentoAvulso = null),
                         mergeMap((response) => [
                             new AddChildData<VinculacaoEtiqueta>({
                                 data: [response],
                                 childSchema: vinculacaoEtiquetaSchema,
-                                parentSchema: processoSchema,
-                                parentId: action.payload.processo.id
+                                parentSchema: documentoAvulsoSchema,
+                                parentId: action.payload.documentoAvulso.id
                             }),
                             new OperacoesActions.Resultado({
-                                type: 'processo',
-                                content: `Processo id ${response.id} etiquetada com sucesso!`,
+                                type: 'oficio',
+                                content: `Documento Avulso id ${response.id} etiquetada com sucesso!`,
                                 dateTime: response.criadoEm
                             }),
                             /*new GetDocumentos()*/
@@ -158,8 +158,8 @@ export class OficioDetailEffect {
                                 new RemoveChildData({
                                     id: action.payload.vinculacaoEtiquetaId,
                                     childSchema: vinculacaoEtiquetaSchema,
-                                    parentSchema: processoSchema,
-                                    parentId: action.payload.processoId
+                                    parentSchema: documentoAvulsoSchema,
+                                    parentId: action.payload.documentoAvulsoId
                                 })
                             ]),
                             catchError((err) => {

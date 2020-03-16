@@ -10,9 +10,9 @@ import {
     MatSortModule,
     MatSelectModule,
 } from '@cdk/angular/material';
-
-import {FuseSidebarModule} from '@fuse/components';
-import {FuseSharedModule} from '@fuse/shared.module';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {CdkSidebarModule} from '@cdk/components/index';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {EspecieDocumentoService} from '@cdk/services/especie-documento.service';
 import {CdkEspecieDocumentoGridComponent} from './cdk-especie-documento-grid.component';
 import {CdkEspecieDocumentoAutocompleteModule} from '@cdk/components/especie-documento/cdk-especie-documento-autocomplete/cdk-especie-documento-autocomplete.module';
@@ -38,8 +38,9 @@ import {CdkEspecieDocumentoMainSidebarComponent} from './sidebars/main/main.comp
         CdkEspecieDocumentoGridFilterModule,
         CdkEspecieDocumentoAutocompleteModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
+        MatTooltipModule,
     ],
     providers: [
         EspecieDocumentoService,

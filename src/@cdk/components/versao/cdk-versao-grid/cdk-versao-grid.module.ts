@@ -10,11 +10,12 @@ import {
     MatSortModule,
 } from '@cdk/angular/material';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {LogEntryService} from '@cdk/services/logentry.service';
 import {CdkVersaoGridComponent} from './cdk-versao-grid.component';
-import {FuseSidebarModule} from '@fuse/components';
+import {CdkSidebarModule} from '@cdk/components/index';
 import {CdkVersaoMainSidebarComponent} from './sidebars/main/main.component';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
     declarations: [
@@ -31,8 +32,9 @@ import {CdkVersaoMainSidebarComponent} from './sidebars/main/main.component';
         MatPaginatorModule,
         MatSortModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
+        MatTooltipModule,
     ],
     providers: [
         LogEntryService,

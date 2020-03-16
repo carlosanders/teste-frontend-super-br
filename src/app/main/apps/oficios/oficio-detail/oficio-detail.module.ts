@@ -5,8 +5,8 @@ import {
 } from '@cdk/angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { FuseSharedModule } from '@fuse/shared.module';
-import { FuseSidebarModule } from '@fuse/components';
+import { CdkSharedModule } from '@cdk/shared.module';
+import { CdkSidebarModule } from '@cdk/components';
 
 import { OficioDetailComponent } from './oficio-detail.component';
 import { CommonModule } from '@angular/common';
@@ -20,11 +20,10 @@ import { VinculacaoEtiquetaService } from '@cdk/services/vinculacao-etiqueta.ser
 import { DocumentoService } from '@cdk/services/documento.service';
 import { PipesModule } from '@cdk/pipes/pipes.module';
 import { LoginService } from '../../../auth/login/login.service';
-import { DynamicService } from '../../../../../modules/dynamic.service';
-import {CdkComponenteDigitalCardListModule} from '../../../../../@cdk/components/componente-digital/cdk-componente-digital-card-list/cdk-componente-digital-card-list.module';
-import {CdkDocumentoCardListModule} from '../../../../../@cdk/components/documento/cdk-documento-card-list/cdk-documento-card-list.module';
-import {CdkUploadModule} from '../../../../../@cdk/components/upload/cdk-upload.module';
-import {CdkAtividadeFormModule} from '../../../../../@cdk/components/atividade/cdk-atividade-form/cdk-atividade-form.module';
+import {CdkComponenteDigitalCardListModule} from '@cdk/components/componente-digital/cdk-componente-digital-card-list/cdk-componente-digital-card-list.module';
+import {CdkDocumentoCardListModule} from '@cdk/components/documento/cdk-documento-card-list/cdk-documento-card-list.module';
+import {CdkUploadModule} from '@cdk/components/upload/cdk-upload.module';
+import {CdkAtividadeFormModule} from '@cdk/components/atividade/cdk-atividade-form/cdk-atividade-form.module';
 import {ResponderComplementarModule} from './reponder-complementar/responder-complementar.module';
 import {MatBadge, MatBadgeModule} from '@angular/material/badge';
 const routes: Routes = [
@@ -32,10 +31,6 @@ const routes: Routes = [
         path: ':documentoAvulsoHandle',
         component: OficioDetailComponent,
         children: [
-            {
-                path: 'atividades',
-                loadChildren: () => import('./atividades/atividades.module').then(m => m.AtividadesModule)
-            },
             {
                 path: 'processo',
                 loadChildren: () => import('app/main/apps/processo/processo.module').then(m => m.ProcessoModule)
@@ -71,8 +66,8 @@ const routes: Routes = [
 
         CdkVinculacaoEtiquetaChipsModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
         CdkComponenteDigitalCardListModule,
         CdkDocumentoCardListModule,
         CdkUploadModule,

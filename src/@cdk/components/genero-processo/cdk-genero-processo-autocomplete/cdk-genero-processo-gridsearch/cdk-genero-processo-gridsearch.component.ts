@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import {of} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 
 import {catchError, finalize} from 'rxjs/operators';
 
@@ -25,7 +25,7 @@ import {GeneroProcesso} from '@cdk/models';
     styleUrls: ['./cdk-genero-processo-gridsearch.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkGeneroProcessoGridsearchComponent implements OnInit {
 

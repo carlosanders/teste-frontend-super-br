@@ -4,8 +4,8 @@ import {catchError, takeUntil} from 'rxjs/operators';
 import {TranslateService} from '@ngx-translate/core';
 import * as _ from 'lodash';
 
-import {FuseConfigService} from '@fuse/services/config.service';
-import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
+import {CdkConfigService} from '@cdk/services/config.service';
+import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 
 import {navigation} from 'app/navigation/navigation';
 import {Router} from '@angular/router';
@@ -42,8 +42,8 @@ export class ToolbarComponent implements OnInit, OnDestroy, AfterViewInit {
 
     /**
      *
-     * @param _fuseConfigService
-     * @param _fuseSidebarService
+     * @param _cdkConfigService
+     * @param _cdkSidebarService
      * @param _translateService
      * @param _loginService
      * @param _notificacaoService
@@ -51,8 +51,8 @@ export class ToolbarComponent implements OnInit, OnDestroy, AfterViewInit {
      * @param _router
      */
     constructor(
-        private _fuseConfigService: FuseConfigService,
-        private _fuseSidebarService: FuseSidebarService,
+        private _cdkConfigService: CdkConfigService,
+        private _cdkSidebarService: CdkSidebarService,
         private _translateService: TranslateService,
         private _loginService: LoginService,
         private _notificacaoService: NotificacaoService,
@@ -118,7 +118,7 @@ export class ToolbarComponent implements OnInit, OnDestroy, AfterViewInit {
      */
     ngOnInit(): void {
         // Subscribe to the config changes
-        this._fuseConfigService.config
+        this._cdkConfigService.config
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((settings) => {
                 this.horizontalNavbar = settings.layout.navbar.position === 'top';
@@ -151,7 +151,7 @@ export class ToolbarComponent implements OnInit, OnDestroy, AfterViewInit {
      * @param key
      */
     toggleSidebarOpen(key): void {
-        this._fuseSidebarService.getSidebar(key).toggleOpen();
+        this._cdkSidebarService.getSidebar(key).toggleOpen();
     }
 
     /**

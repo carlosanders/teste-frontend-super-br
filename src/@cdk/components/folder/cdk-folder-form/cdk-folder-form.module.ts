@@ -11,7 +11,7 @@ import {
 
 } from '@cdk/angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 import { CdkFolderFormComponent } from './cdk-folder-form.component';
 import {CdkModalidadeFolderAutocompleteModule} from '../../modalidade-folder/cdk-modalidade-folder-autocomplete/cdk-modalidade-folder-autocomplete.module';
 import {CdkModalidadeFolderGridsearchModule} from '../../modalidade-folder/cdk-modalidade-folder-autocomplete/cdk-modalidade-folder-gridsearch/cdk-modalidade-folder-gridsearch.module';
@@ -37,7 +37,7 @@ import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
         CdkModalidadeFolderAutocompleteModule,
         CdkModalidadeFolderGridsearchModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
 

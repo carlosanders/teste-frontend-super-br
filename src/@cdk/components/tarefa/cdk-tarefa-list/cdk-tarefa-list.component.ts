@@ -1,7 +1,7 @@
 import {AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewEncapsulation} from '@angular/core';
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Tarefa} from '@cdk/models';
-import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
+import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 
 @Component({
     selector: 'cdk-tarefa-list',
@@ -9,7 +9,7 @@ import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
     styleUrls: ['./cdk-tarefa-list.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations,
+    animations: cdkAnimations,
     exportAs: 'dragTarefaList'
 })
 export class CdkTarefaListComponent implements AfterViewInit, OnInit, OnChanges {
@@ -46,6 +46,9 @@ export class CdkTarefaListComponent implements AfterViewInit, OnInit, OnChanges 
 
     @Output()
     reload = new EventEmitter<any>();
+
+    @Output()
+    scrolled = new EventEmitter<any>();
 
     @Output()
     delete = new EventEmitter<number>();
@@ -111,7 +114,7 @@ export class CdkTarefaListComponent implements AfterViewInit, OnInit, OnChanges 
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _fuseSidebarService: FuseSidebarService) {
+        private _cdkSidebarService: CdkSidebarService) {
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -161,6 +164,10 @@ export class CdkTarefaListComponent implements AfterViewInit, OnInit, OnChanges 
 
     setFolder(folder): void {
         this.folder.emit(folder);
+    }
+
+    onScroll(): void {
+        this.scrolled.emit();
     }
 
     /**
@@ -276,6 +283,6 @@ export class CdkTarefaListComponent implements AfterViewInit, OnInit, OnChanges 
      * Toggle the sidebar
      */
     toggleSidebar(): void {
-        this._fuseSidebarService.getSidebar('cdk-tarefa-list-main-sidebar').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-tarefa-list-main-sidebar').toggleOpen();
     }
 }

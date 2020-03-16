@@ -6,7 +6,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {ComponenteDigital} from '@cdk/models';
 import {classToPlain} from 'class-transformer';
 import {HttpClient, HttpErrorResponse, HttpEventType, HttpRequest} from '@angular/common/http';
@@ -24,7 +24,7 @@ import {DocumentoAvulso} from '@cdk/models';
     styleUrls: ['./cdk-componente-digital-card-list.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkComponenteDigitalCardListComponent implements OnInit {
 
@@ -177,9 +177,9 @@ export class CdkComponenteDigitalCardListComponent implements OnInit {
     private uploadFile(file: FileUploadModel): void {
 
         /**
-         multipart formdata
-         const params = new FormData();
-         fd.append('conteudo', file.data);
+         * multipart formdata
+         * const params = new FormData();
+         * fd.append('conteudo', file.data);
          */
 
         file.canCancel = true;

@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 
 import {GeneroProcessoService} from '@cdk/services/genero-processo.service';
 import {CdkGeneroProcessoGridsearchComponent} from './cdk-genero-processo-gridsearch.component';
@@ -14,7 +14,7 @@ import {CdkGeneroProcessoGridModule} from '@cdk/components/genero-processo/cdk-g
 
         CdkGeneroProcessoGridModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         GeneroProcessoService

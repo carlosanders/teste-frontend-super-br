@@ -11,13 +11,9 @@
 <!-- / SIDEBAR HEADER -->
 
 <!-- SIDEBAR CONTENT -->
-<div class="content py-16" fusePerfectScrollbar>
-
-    <div class="header" fxLayout="column">
-        <div class="filters">
-            <cdk-colaborador-grid-filter (selected)="setGridFilter($event)"></cdk-colaborador-grid-filter>
-        </div>
+<div class="py-16" cdkPerfectScrollbar>
+    <div fxLayout="column">
+        <cdk-colaborador-grid-filter (selected)="setGridFilter($event)"></cdk-colaborador-grid-filter>
     </div>
-
 </div>
 <!-- / SIDEBAR CONTENT -->

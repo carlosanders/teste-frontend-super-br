@@ -3,6 +3,9 @@ import {DocumentosState, getResponderComplementarAppState, ResponderComplementar
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {Documento} from '@cdk/models/documento.model';
 import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
+import {AtividadeCreateDocumentosState} from '../../../../../tarefas/tarefa-detail/atividades/atividade-create/store/reducers';
+import {getAtividadeCreateDocumentosState} from '../../../../../tarefas/tarefa-detail/atividades/atividade-create/store/selectors';
+
 
 const schemaDocumentoSelectors = createSchemaSelectors<Documento>(documentoSchema);
 
@@ -26,5 +29,16 @@ export const getDocumentos = createSelector(
 export const getDocumentosHasLoaded = createSelector(
     getDocumentosState,
     (state: DocumentosState) => state.documentosLoaded
+);
+
+export const getSelectedDocumentoIds = createSelector(
+    getDocumentosState,
+    (state: AtividadeCreateDocumentosState) => state.selectedDocumentosId
+);
+
+export const getSelectedDocumentos = createSelector(
+    schemaDocumentoSelectors.getNormalizedEntities,
+    getSelectedDocumentoIds,
+    schemaDocumentoSelectors.entitiesProjector
 );
 

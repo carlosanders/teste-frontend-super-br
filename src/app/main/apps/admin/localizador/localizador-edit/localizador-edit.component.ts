@@ -6,7 +6,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
 
 import {Localizador} from '@cdk/models/localizador.model';
@@ -23,7 +23,7 @@ import {LoginService} from 'app/main/auth/login/login.service';
     styleUrls: ['./localizador-edit.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class LocalizadorEditComponent implements OnInit, OnDestroy {
 

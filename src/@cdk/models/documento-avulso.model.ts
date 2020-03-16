@@ -1,7 +1,17 @@
 import * as moment from 'moment';
 import {Exclude, Transform, Type} from 'class-transformer';
 
-import {Documento, EspecieDocumentoAvulso, Modelo, Pessoa, Processo, Setor, Tarefa, Usuario} from '@cdk/models';
+import {
+    Documento,
+    EspecieDocumentoAvulso,
+    Modelo,
+    Pessoa,
+    Processo,
+    Setor,
+    Tarefa,
+    Usuario,
+    VinculacaoEtiqueta
+} from '@cdk/models';
 
 export class DocumentoAvulso {
 
@@ -151,6 +161,10 @@ export class DocumentoAvulso {
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
     apagadoEm?: Date;
 
+    @Exclude({toPlainOnly: true})
+    @Type(() => VinculacaoEtiqueta)
+    vinculacoesEtiquetas: VinculacaoEtiqueta[];
+
     constructor() {
         this.id = null;
         this.uuid = null;
@@ -190,5 +204,6 @@ export class DocumentoAvulso {
         this.atualizadoEm = null;
         this.apagadoPor = null;
         this.apagadoEm = null;
+        this.vinculacoesEtiquetas = [];
     }
 }

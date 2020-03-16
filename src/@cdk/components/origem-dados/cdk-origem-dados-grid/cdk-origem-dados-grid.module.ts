@@ -10,9 +10,9 @@ import {
     MatSortModule,
     MatSelectModule,
 } from '@cdk/angular/material';
-
-import {FuseSidebarModule} from '@fuse/components';
-import {FuseSharedModule} from '@fuse/shared.module';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {CdkSidebarModule} from '@cdk/components/index';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {OrigemDadosService} from '@cdk/services/origem-dados.service';
 import {CdkOrigemDadosGridComponent} from './cdk-origem-dados-grid.component';
 import {CdkOrigemDadosAutocompleteModule} from '@cdk/components/origem-dados/cdk-origem-dados-autocomplete/cdk-origem-dados-autocomplete.module';
@@ -38,8 +38,9 @@ import {CdkOrigemDadosMainSidebarComponent} from './sidebars/main/main.component
         CdkOrigemDadosAutocompleteModule,
         CdkOrigemDadosGridFilterModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
+        MatTooltipModule,
     ],
     providers: [
         OrigemDadosService,

@@ -6,10 +6,10 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {Atividade, Favorito} from '@cdk/models';
+import {Atividade} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as moment from 'moment';
 
@@ -31,7 +31,7 @@ import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
     styleUrls: ['./atividade-create.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class AtividadeCreateComponent implements OnInit, OnDestroy {
 
@@ -61,7 +61,6 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy {
     assinandoDocumentosId$: Observable<number[]>;
     assinandoDocumentosId: number[] = [];
     convertendoDocumentosId$: Observable<number[]>;
-    convertendoDocumentosId: number[] = [];
     javaWebStartOK = false;
 
     /**
@@ -150,7 +149,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy {
             filter(selectedDocumentos => !!selectedDocumentos),
             takeUntil(this._unsubscribeAll)
         ).subscribe(selectedDocumentos => {
-            this.selectedMinutas = selectedDocumentos.filter(documento => !documento.documentoAvulsoRemessa);
+            this.selectedMinutas = selectedDocumentos.filter(documento => documento.minuta && !documento.documentoAvulsoRemessa);
             this.selectedOficios = selectedDocumentos.filter(documento => documento.documentoAvulsoRemessa);
         });
 

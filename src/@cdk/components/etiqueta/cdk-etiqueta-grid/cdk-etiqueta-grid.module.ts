@@ -10,9 +10,9 @@ import {
     MatSortModule,
     MatSelectModule,
 } from '@cdk/angular/material';
-
-import {FuseSidebarModule} from '@fuse/components';
-import {FuseSharedModule} from '@fuse/shared.module';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {CdkSidebarModule} from '@cdk/components/index';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkEtiquetaGridComponent} from './cdk-etiqueta-grid.component';
 import {CdkEtiquetaGridFilterModule} from './cdk-etiqueta-grid-filter/cdk-etiqueta-grid-filter.module';
 import {CdkEtiquetaMainSidebarComponent} from './sidebars/main/main.component';
@@ -35,8 +35,9 @@ import {CdkEtiquetaMainSidebarComponent} from './sidebars/main/main.component';
 
         CdkEtiquetaGridFilterModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
+        MatTooltipModule,
     ],
     providers: [],
     exports: [

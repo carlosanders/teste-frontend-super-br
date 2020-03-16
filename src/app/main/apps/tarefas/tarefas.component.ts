@@ -11,8 +11,8 @@ import {FormControl} from '@angular/forms';
 import {select, Store} from '@ngrx/store';
 import {Observable, Subject} from 'rxjs';
 
-import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
-import {FuseTranslationLoaderService} from '@fuse/services/translation-loader.service';
+import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
+import {CdkTranslationLoaderService} from '@cdk/services/translation-loader.service';
 
 import {Tarefa} from '@cdk/models';
 import {TarefaService} from '@cdk/services/tarefa.service';
@@ -24,14 +24,14 @@ import {locale as english} from 'app/main/apps/tarefas/i18n/en';
 import {Folder} from '@cdk/models';
 
 import {ResizeEvent} from 'angular-resizable-element';
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Etiqueta} from '@cdk/models';
 import {Router} from '@angular/router';
 import {filter, takeUntil} from 'rxjs/operators';
 import {Pagination} from '@cdk/models';
 import {LoginService} from '../../auth/login/login.service';
 import {ToggleMaximizado} from 'app/main/apps/tarefas/store';
-import {Usuario} from "../../../../@cdk/models/usuario.model";
+import {Usuario} from '@cdk/models';
 
 @Component({
     selector: 'tarefas',
@@ -39,7 +39,7 @@ import {Usuario} from "../../../../@cdk/models/usuario.model";
     styleUrls: ['./tarefas.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
@@ -92,8 +92,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     /**
      * @param _changeDetectorRef
-     * @param _fuseSidebarService
-     * @param _fuseTranslationLoaderService
+     * @param _cdkSidebarService
+     * @param _cdkTranslationLoaderService
      * @param _tarefaService
      * @param _router
      * @param _store
@@ -101,8 +101,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _fuseSidebarService: FuseSidebarService,
-        private _fuseTranslationLoaderService: FuseTranslationLoaderService,
+        private _cdkSidebarService: CdkSidebarService,
+        private _cdkTranslationLoaderService: CdkTranslationLoaderService,
         private _tarefaService: TarefaService,
         private _router: Router,
         private _store: Store<fromStore.TarefasAppState>,
@@ -110,7 +110,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     ) {
         // Set the defaults
         this.searchInput = new FormControl('');
-        this._fuseTranslationLoaderService.loadTranslations(english);
+        this._cdkTranslationLoaderService.loadTranslations(english);
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
         this.tarefas$ = this._store.pipe(select(fromStore.getTarefas));
         this.folders$ = this._store.pipe(select(fromStore.getFolders));
@@ -217,6 +217,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     reload(params): void {
 
+        this._store.dispatch(new fromStore.UnloadTarefas({reset: false}));
+
         const nparams = {
             ...this.pagination,
             listFilter: params.listFilter,
@@ -237,6 +239,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     proccessEtiquetaFilter(): any {
+        this._store.dispatch(new fromStore.UnloadTarefas({reset: false}));
         const etiquetasId = [];
         this.etiquetas.forEach((e) => {
             etiquetasId.push(e.id);
@@ -258,7 +261,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
         const nparams = {
             ...this.pagination,
-            limit: this.pagination.limit + this.pagination.limit
+            offset: this.pagination.offset + this.pagination.limit
         };
 
         this._store.dispatch(new fromStore.GetTarefas(nparams));
@@ -296,7 +299,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
      * @param name
      */
     toggleSidebar(name): void {
-        this._fuseSidebarService.getSidebar(name).toggleOpen();
+        this._cdkSidebarService.getSidebar(name).toggleOpen();
     }
 
     changeSelectedIds(ids: number[]): void {

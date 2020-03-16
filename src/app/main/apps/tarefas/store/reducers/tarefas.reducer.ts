@@ -50,6 +50,25 @@ export const TarefasInitialState: TarefasState = {
 export function TarefasReducer(state = TarefasInitialState, action: TarefasActions.TarefasActionsAll): TarefasState {
     switch (action.type) {
 
+        case TarefasActions.UNLOAD_TAREFAS: {
+            if (action.payload.reset) {
+                return {
+                    ...TarefasInitialState
+                };
+            } else {
+                return {
+                    ...state,
+                    entitiesId: [],
+                    pagination: {
+                        ...state.pagination,
+                        limit: 10,
+                        offset: 0,
+                        total: 0
+                    }
+                };
+            }
+        }
+
         case TarefasActions.GET_TAREFAS: {
             return {
                 ...state,
@@ -74,7 +93,7 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
 
             return {
                 ...state,
-                entitiesId: action.payload.entitiesId,
+                entitiesId: [...state.entitiesId, ...action.payload.entitiesId],
                 pagination: {
                     ...state.pagination,
                     total: action.payload.total

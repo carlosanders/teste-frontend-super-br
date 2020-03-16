@@ -7,7 +7,7 @@ import {
     MatInputModule
 } from '@cdk/angular/material';
 
-import { FuseSharedModule } from '@fuse/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 import { CampoService } from '@cdk/services/campo.service';
 import { CdkCampoGridFilterComponent } from './cdk-campo-grid-filter.component';
 import {CdkUsuarioAutocompleteModule} from '../../../usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
@@ -23,7 +23,7 @@ import {CdkUsuarioAutocompleteModule} from '../../../usuario/cdk-usuario-autocom
         MatInputModule,
         MatAutocompleteModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
 
         CdkUsuarioAutocompleteModule,
     ],

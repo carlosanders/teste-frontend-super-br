@@ -10,9 +10,9 @@ import {
     MatSortModule,
     MatSelectModule,
 } from '@cdk/angular/material';
-
-import {FuseSidebarModule} from '@fuse/components';
-import {FuseSharedModule} from '@fuse/shared.module';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {CdkSidebarModule} from '@cdk/components/index';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {ModalidadeTransicaoService} from '@cdk/services/modalidade-transicao.service';
 import {CdkModalidadeTransicaoGridComponent} from './cdk-modalidade-transicao-grid.component';
 import {CdkModalidadeTransicaoAutocompleteModule} from '@cdk/components/modalidade-transicao/cdk-modalidade-transicao-autocomplete/cdk-modalidade-transicao-autocomplete.module';
@@ -38,8 +38,9 @@ import {CdkModalidadeTransicaoMainSidebarComponent} from './sidebars/main/main.c
         CdkModalidadeTransicaoAutocompleteModule,
         CdkModalidadeTransicaoGridFilterModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
+        MatTooltipModule,
     ],
     providers: [
         ModalidadeTransicaoService,

@@ -10,15 +10,14 @@ import {
     MatSortModule,
     MatSelectModule,
 } from '@cdk/angular/material';
-
-import {FuseSidebarModule} from '@fuse/components';
-import {FuseSharedModule} from '@fuse/shared.module';
+import {MatTooltipModule} from "@angular/material/tooltip";
+import {CdkSidebarModule} from '@cdk/components/index';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {ModalidadeDocumentoIdentificadorService} from '@cdk/services/modalidade-documento-identificador.service';
 import {CdkModalidadeDocumentoIdentificadorGridComponent} from './cdk-modalidade-documento-identificador-grid.component';
 import {CdkModalidadeDocumentoIdentificadorAutocompleteModule} from '@cdk/components/modalidade-documento-identificador/cdk-modalidade-documento-identificador-autocomplete/cdk-modalidade-documento-identificador-autocomplete.module';
 import {CdkModalidadeDocumentoIdentificadorGridFilterModule} from './cdk-modalidade-documento-identificador-grid-filter/cdk-modalidade-documento-identificador-grid-filter.module';
 import {CdkModalidadeDocumentoIdentificadorMainSidebarComponent} from './sidebars/main/sidebars/main/main.component';
-import {MatTooltipModule} from "@angular/material/tooltip";
 
 @NgModule({
     declarations: [
@@ -39,8 +38,8 @@ import {MatTooltipModule} from "@angular/material/tooltip";
         CdkModalidadeDocumentoIdentificadorAutocompleteModule,
         CdkModalidadeDocumentoIdentificadorGridFilterModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
         MatTooltipModule,
     ],
     providers: [

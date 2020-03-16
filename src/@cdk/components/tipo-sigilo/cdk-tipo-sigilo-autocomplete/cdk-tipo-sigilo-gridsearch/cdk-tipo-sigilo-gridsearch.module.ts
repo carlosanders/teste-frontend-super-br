@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 
 import {TipoSigiloService} from '@cdk/services/tipo-sigilo.service';
 import {CdkTipoSigiloGridsearchComponent} from './cdk-tipo-sigilo-gridsearch.component';
@@ -14,7 +14,7 @@ import {CdkTipoSigiloGridModule} from '@cdk/components/tipo-sigilo/cdk-tipo-sigi
 
         CdkTipoSigiloGridModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         TipoSigiloService

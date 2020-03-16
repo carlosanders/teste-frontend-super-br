@@ -10,9 +10,9 @@ import {
     MatSortModule,
     MatSelectModule,
 } from '@cdk/angular/material';
-
-import {FuseSidebarModule} from '@fuse/components';
-import {FuseSharedModule} from '@fuse/shared.module';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {CdkSidebarModule} from '@cdk/components/index';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {TipoSigiloService} from '@cdk/services/tipo-sigilo.service';
 import {CdkTipoSigiloGridComponent} from './cdk-tipo-sigilo-grid.component';
 import {CdkTipoSigiloAutocompleteModule} from '@cdk/components/tipo-sigilo/cdk-tipo-sigilo-autocomplete/cdk-tipo-sigilo-autocomplete.module';
@@ -38,8 +38,9 @@ import {CdkTipoSigiloMainSidebarComponent} from './sidebars/main/main.component'
         CdkTipoSigiloAutocompleteModule,
         CdkTipoSigiloGridFilterModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
+        MatTooltipModule,
     ],
     providers: [
         TipoSigiloService,

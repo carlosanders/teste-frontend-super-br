@@ -9,7 +9,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {ComponenteDigital} from '@cdk/models/componente-digital.model';
 import {classToPlain} from 'class-transformer';
 import {HttpClient, HttpErrorResponse, HttpEventType, HttpRequest} from '@angular/common/http';
@@ -18,6 +18,7 @@ import {of, Subscription} from 'rxjs';
 import {environment} from 'environments/environment';
 import {Documento} from '@cdk/models/documento.model';
 import {DocumentoAvulso} from '@cdk/models/documento-avulso.model';
+import {Processo} from '../../../models';
 
 @Component({
     selector: 'cdk-componente-digital-documento-avulso-card-list',
@@ -25,7 +26,7 @@ import {DocumentoAvulso} from '@cdk/models/documento-avulso.model';
     styleUrls: ['./cdk-componente-digital-documento-avulso-card-list.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkComponenteDigitalDocumentoAvulsoCardListComponent implements OnInit {
 
@@ -34,6 +35,12 @@ export class CdkComponenteDigitalDocumentoAvulsoCardListComponent implements OnI
 
     @Input()
     documentoAvulsoOrigem: DocumentoAvulso;
+
+    @Input()
+    documentoOrigem: Documento;
+
+    @Input()
+    processoOrigem: Processo;
 
     @Input()
     action: string;
@@ -50,15 +57,19 @@ export class CdkComponenteDigitalDocumentoAvulsoCardListComponent implements OnI
     @Input()
     showButton = true;
 
-    /** File extension that accepted, same as 'accept' of <input type="file" />.
-     By the default, it's set to 'image/*'. */
+    /**
+     * File extension that accepted, same as 'accept' of <input type="file" />.
+     * By the default, it's set to 'image/*'.
+     */
     @Input()
     accept = 'application/pdf';
 
-    /** Allow you to add handler after its completion. Bubble up response text from remote. */
+    /**
+     * Allow you to add handler after its completion.
+     * Bubble up response text from remote.
+     */
     @Output()
     complete = new EventEmitter<ComponenteDigital>();
-
 
 
     private files: Array<FileUploadModel> = [];
@@ -82,7 +93,7 @@ export class CdkComponenteDigitalDocumentoAvulsoCardListComponent implements OnI
     }
 
     initTarget(): string {
-        return `${environment.api_url}documento_avulso/${this.documentoAvulsoOrigem}/${this.action}` + environment.xdebug;
+        return `${environment.api_url}componente_digital` + environment.xdebug;
     }
 
     toggleInSelected(componenteDigitalId): void {
@@ -172,12 +183,19 @@ export class CdkComponenteDigitalDocumentoAvulsoCardListComponent implements OnI
                 componenteDigital.mimetype = 'application/pdf';
                 componenteDigital.fileName = file.data.name;
                 componenteDigital.tamanho = file.data.size;
+                componenteDigital.documentoOrigem = this.documentoOrigem;
+                componenteDigital.documentoAvulsoOrigem = this.documentoAvulsoOrigem;
+                componenteDigital.modelo = this.documentoAvulsoOrigem.modelo;
+
                 this.componentesDigitais.push(componenteDigital);
                 this._changeDetectorRef.markForCheck();
+
                 const params = classToPlain(componenteDigital);
-                const req = new HttpRequest('PATCH', this.target, params, {
+
+                const req = new HttpRequest('POST', this.target, params, {
                     reportProgress: true
                 });
+
                 componenteDigital.inProgress = true;
                 file.sub = this._http.request(req).pipe(
                     map(event => {
@@ -210,7 +228,7 @@ export class CdkComponenteDigitalDocumentoAvulsoCardListComponent implements OnI
                             componenteDigital.inProgress = false;
                             this._changeDetectorRef.markForCheck();
                             setTimeout(() => {
-
+                                this.removeFileFromArray(file);
                                 this.componentesDigitais = this.componentesDigitais.filter(cd => cd !== componenteDigital);
                                 this._changeDetectorRef.markForCheck();
                                 this.complete.emit(componenteDigital);
@@ -218,7 +236,6 @@ export class CdkComponenteDigitalDocumentoAvulsoCardListComponent implements OnI
                         }
                     }
                 );
-                this.removeFileFromArray(file);
             }
         );
     }

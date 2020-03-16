@@ -13,14 +13,15 @@ import {
 } from '@angular/core';
 import {merge, of} from 'rxjs';
 
-import {fuseAnimations} from '@fuse/animations';
-import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
+import {cdkAnimations} from '@cdk/animations';
+import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {MatDialog, MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, filter, switchMap, tap} from 'rxjs/operators';
 import {Processo} from '@cdk/models';
 import {ProcessoDataSource} from '@cdk/data-sources/processo-data-source';
 import {FormControl} from '@angular/forms';
-import {CdkChaveAcessoPluginComponent} from '../../chave-acesso/cdk-chave-acesso-plugins/cdk-chave-acesso-plugin.component';
+import {CdkChaveAcessoPluginComponent} from '@cdk/components/chave-acesso/cdk-chave-acesso-plugins/cdk-chave-acesso-plugin.component';
+import {LoginService} from 'app/main/auth/login/login.service';
 
 @Component({
     selector: 'cdk-processo-grid',
@@ -28,7 +29,7 @@ import {CdkChaveAcessoPluginComponent} from '../../chave-acesso/cdk-chave-acesso
     styleUrls: ['./cdk-processo-grid.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChanges {
 
@@ -258,13 +259,14 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
     /**
      *
      * @param _changeDetectorRef
-     * @param _fuseSidebarService
+     * @param _cdkSidebarService
      * @param dialog
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _fuseSidebarService: FuseSidebarService,
-        private dialog: MatDialog
+        private _cdkSidebarService: CdkSidebarService,
+        private _dialog: MatDialog,
+        private _loginService: LoginService
     ) {
         this.gridFilter = {};
         this.processos = [];
@@ -319,7 +321,7 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
     }
 
     toggleFilter(): void {
-        this._fuseSidebarService.getSidebar('cdk-processo-main-sidebar').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-processo-main-sidebar').toggleOpen();
         this.showFilter = !this.showFilter;
     }
 
@@ -336,12 +338,12 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
     }
 
     viewProcesso(processo: Processo): void {
-        if (processo.visibilidadeExterna) {
+        if (processo.visibilidadeExterna || this._loginService.isGranted('ROLE_COLABORADOR')) {
             this.view.emit({id: processo.id});
             return;
         }
 
-        const dialogRef = this.dialog.open(CdkChaveAcessoPluginComponent, {
+        const dialogRef = this._dialog.open(CdkChaveAcessoPluginComponent, {
             width: '600px'
         });
 

@@ -5,7 +5,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {filter} from 'rxjs/operators';
 
@@ -15,7 +15,7 @@ import {filter} from 'rxjs/operators';
     styleUrls: ['./cdk-repositorio-grid-filter.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkRepositorioGridFilterComponent implements OnInit {
 
@@ -24,7 +24,7 @@ export class CdkRepositorioGridFilterComponent implements OnInit {
 
     form: FormGroup;
 
-    filters: any = '{}';
+    filters: any = {};
 
     /**
      * Constructor

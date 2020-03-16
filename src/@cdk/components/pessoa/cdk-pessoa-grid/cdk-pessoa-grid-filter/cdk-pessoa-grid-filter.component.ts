@@ -5,7 +5,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
 
 @Component({
@@ -14,7 +14,7 @@ import {FormBuilder, FormGroup} from '@angular/forms';
     styleUrls: ['./cdk-pessoa-grid-filter.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkPessoaGridFilterComponent implements OnInit {
 
@@ -23,10 +23,10 @@ export class CdkPessoaGridFilterComponent implements OnInit {
 
     form: FormGroup;
 
-    filters: any = '{}';
+    filters: any = {};
 
     /**
-     * Constructor
+     * @param _formBuilder
      */
     constructor(
         private _formBuilder: FormBuilder

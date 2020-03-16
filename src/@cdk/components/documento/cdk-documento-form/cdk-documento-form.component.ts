@@ -7,7 +7,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Documento} from '@cdk/models';
 import {TipoDocumento} from '@cdk/models';
@@ -22,7 +22,7 @@ import {Setor} from '@cdk/models';
     styleUrls: ['./cdk-documento-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkDocumentoFormComponent implements OnChanges, OnDestroy {
 

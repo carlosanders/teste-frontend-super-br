@@ -10,9 +10,9 @@ import {
     MatSortModule,
     MatSelectModule,
 } from '@cdk/angular/material';
-
-import {FuseSidebarModule} from '@fuse/components';
-import {FuseSharedModule} from '@fuse/shared.module';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {CdkSidebarModule} from '@cdk/components/index';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {MunicipioService} from '@cdk/services/municipio.service';
 import {CdkMunicipioGridComponent} from './cdk-municipio-grid.component';
 import {CdkMunicipioAutocompleteModule} from '@cdk/components/municipio/cdk-municipio-autocomplete/cdk-municipio-autocomplete.module';
@@ -38,8 +38,9 @@ import {CdkMunicipioMainSidebarComponent} from './sidebars/main/main.component';
         CdkMunicipioAutocompleteModule,
         CdkMunicipioGridFilterModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
+        MatTooltipModule,
     ],
     providers: [
         MunicipioService,

@@ -7,7 +7,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Juntada} from '@cdk/models';
 import {Pagination} from '@cdk/models';
@@ -24,7 +24,7 @@ import {Volume} from '@cdk/models';
     styleUrls: ['./cdk-juntada-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class CdkJuntadaFormComponent implements OnChanges, OnDestroy, OnInit {
 

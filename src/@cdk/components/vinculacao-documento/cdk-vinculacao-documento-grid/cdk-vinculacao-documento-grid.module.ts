@@ -10,9 +10,9 @@ import {
     MatSortModule,
     MatSelectModule,
 } from '@cdk/angular/material';
-
-import {FuseSidebarModule} from '@fuse/components';
-import {FuseSharedModule} from '@fuse/shared.module';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {CdkSidebarModule} from '@cdk/components/index';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {VinculacaoDocumentoService} from '@cdk/services/vinculacao-documento.service';
 import {CdkVinculacaoDocumentoGridComponent} from './cdk-vinculacao-documento-grid.component';
 import {CdkVinculacaoDocumentoAutocompleteModule} from '@cdk/components/vinculacao-documento/cdk-vinculacao-documento-autocomplete/cdk-vinculacao-documento-autocomplete.module';
@@ -38,8 +38,9 @@ import {CdkVinculacaoDocumentoMainSidebarComponent} from './sidebars/main/main.c
         CdkVinculacaoDocumentoAutocompleteModule,
         CdkVinculacaoDocumentoGridFilterModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
+        MatTooltipModule,
     ],
     providers: [
         VinculacaoDocumentoService,

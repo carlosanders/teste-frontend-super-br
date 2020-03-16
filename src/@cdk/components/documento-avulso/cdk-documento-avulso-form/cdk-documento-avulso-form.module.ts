@@ -11,7 +11,7 @@ import {
 
 } from '@cdk/angular/material';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {EspecieDocumentoAvulsoService} from '@cdk/services/especie-documento-avulso.service';
 import {CdkDocumentoAvulsoFormComponent} from './cdk-documento-avulso-form.component';
 import {CdkEspecieDocumentoAvulsoAutocompleteModule} from '@cdk/components/especie-documento-avulso/cdk-especie-documento-avulso-autocomplete/cdk-especie-documento-avulso-autocomplete.module';
@@ -71,7 +71,7 @@ import {CdkProcessoGridModule} from '../../processo/cdk-processo-grid/cdk-proces
 
         CdkProcessoGridModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         EspecieDocumentoAvulsoService,

@@ -7,7 +7,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from '../store';
 import {Back} from 'app/store';
@@ -21,7 +21,7 @@ import {Documento} from '@cdk/models';
     styleUrls: ['./anexar-copia.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class AnexarCopiaComponent implements OnInit, OnDestroy {
 

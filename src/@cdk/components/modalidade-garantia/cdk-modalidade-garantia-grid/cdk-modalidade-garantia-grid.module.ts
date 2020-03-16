@@ -10,9 +10,9 @@ import {
     MatSortModule,
     MatSelectModule,
 } from '@cdk/angular/material';
-
-import {FuseSidebarModule} from '@fuse/components';
-import {FuseSharedModule} from '@fuse/shared.module';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {CdkSidebarModule} from '@cdk/components/index';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {ModalidadeGarantiaService} from '@cdk/services/modalidade-garantia.service';
 import {CdkModalidadeGarantiaGridComponent} from './cdk-modalidade-garantia-grid.component';
 import {CdkModalidadeGarantiaAutocompleteModule} from '@cdk/components/modalidade-garantia/cdk-modalidade-garantia-autocomplete/cdk-modalidade-garantia-autocomplete.module';
@@ -38,8 +38,9 @@ import {CdkModalidadeGarantiaMainSidebarComponent} from './sidebars/main/main.co
         CdkModalidadeGarantiaAutocompleteModule,
         CdkModalidadeGarantiaGridFilterModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
+        MatTooltipModule,
     ],
     providers: [
         ModalidadeGarantiaService,

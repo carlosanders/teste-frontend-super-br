@@ -5,10 +5,10 @@
     <!-- / TOP BACKGROUND -->
 
     <!-- SIDEBAR -->
-    <fuse-sidebar *ngIf="!(maximizado$ | async)" class="sidebar" name="tarefas-main-sidebar" position="left"
+    <cdk-sidebar *ngIf="!(maximizado$ | async)" class="sidebar" name="tarefas-main-sidebar" position="left"
                   lockedOpen="gt-md">
         <tarefas-main-sidebar></tarefas-main-sidebar>
-    </fuse-sidebar>
+    </cdk-sidebar>
     <!-- / SIDEBAR -->
 
     <!-- CENTER -->
@@ -49,18 +49,13 @@
                      (resizeEnd)="onResizeEndTarefaList($event)"
                      [fxFlex]="tarefaListSize"
                      [hidden]="(maximizado$ | async)"
-                     fusePerfectScrollbar
-                     infiniteScroll
-                     [scrollWindow]="false"
-                     [infiniteScrollDistance]="2"
-                     [infiniteScrollThrottle]="50"
-                     (scrolled)="onScroll()"
                      [ngClass]="{
                         'mobile-mode': mobileMode,
                         'current-tarefa': currentTarefaId,
                         'no-current-tarefa': !currentTarefaId
                      }">
-                    <cdk-tarefa-list [loading]="(loading$ | async)"
+                    <cdk-tarefa-list (scrolled)="onScroll()"
+                                     [loading]="(loading$ | async)"
                                      [tarefas]="tarefas"
                                      [deletingIds]="(deletingIds$ | async)"
                                      [deletedIds]="(deletedIds$ | async)"
@@ -91,7 +86,7 @@
                 </div>
                 <div class="tarefa-detail" mwlResizable [enableGhostResize]="true"
                      [resizeEdges]="{bottom: false, right: true, top: false, left: true}"
-                     fusePerfectScrollbar fxFlex
+                     fxFlex
                      [ngClass]="{
                         'mobile-mode': mobileMode,
                         'current-tarefa': currentTarefaId,

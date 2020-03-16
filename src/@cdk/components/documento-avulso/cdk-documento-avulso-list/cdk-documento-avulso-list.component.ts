@@ -10,9 +10,9 @@ import {
     Output,
     ViewEncapsulation
 } from '@angular/core';
-import { fuseAnimations } from '@fuse/animations';
+import { cdkAnimations } from '@cdk/animations';
 import { DocumentoAvulso } from '@cdk/models/documento-avulso.model';
-import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
+import { CdkSidebarService } from '@cdk/components/sidebar/sidebar.service';
 
 @Component({
     selector: 'cdk-documento-avulso-list',
@@ -20,7 +20,7 @@ import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
     styleUrls: ['./cdk-documento-avulso-list.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations,
+    animations: cdkAnimations,
     exportAs: 'dragDocumentoAvulsoList'
 })
 export class CdkDocumentoAvulsoListComponent implements AfterViewInit, OnInit, OnChanges {
@@ -57,6 +57,9 @@ export class CdkDocumentoAvulsoListComponent implements AfterViewInit, OnInit, O
 
     @Output()
     reload = new EventEmitter<any>();
+
+    @Output()
+    scrolled = new EventEmitter<any>();
 
     @Output()
     delete = new EventEmitter<number>();
@@ -98,7 +101,7 @@ export class CdkDocumentoAvulsoListComponent implements AfterViewInit, OnInit, O
     etiquetarBloco = new EventEmitter<any>();
 
     @Output()
-    uploadBloco = new EventEmitter<any>();
+    responderComplentarBloco = new EventEmitter<any>();
 
     @Output()
     editorBloco = new EventEmitter<any>();
@@ -113,7 +116,7 @@ export class CdkDocumentoAvulsoListComponent implements AfterViewInit, OnInit, O
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _fuseSidebarService: FuseSidebarService) {
+        private _cdkSidebarService: CdkSidebarService) {
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -148,11 +151,6 @@ export class CdkDocumentoAvulsoListComponent implements AfterViewInit, OnInit, O
     selectDocumentoAvulso(documentoAvulso: DocumentoAvulso): void {
         this.selected.emit(documentoAvulso);
     }
-
-    doToggleUrgente(documentoAvulso: DocumentoAvulso): void {
-        this.toggleUrgente.emit(documentoAvulso);
-    }
-
 
     /**
      * Toggle select all
@@ -207,58 +205,22 @@ export class CdkDocumentoAvulsoListComponent implements AfterViewInit, OnInit, O
         this.loadPage();
     }
 
-    doMovimentar(documentoAvulsoId): void {
-        this.movimentar.emit(documentoAvulsoId);
+    /**
+     * Toggle the sidebar
+     */
+    toggleSidebar(): void {
+        this._cdkSidebarService.getSidebar('cdk-documento-avulso-list-main-sidebar').toggleOpen();
     }
 
-    doMovimentarBloco(): void {
-        this.movimentarBloco.emit();
-    }
-
-    doCompartilhar(documentoAvulsoId): void {
-        this.compartilhar.emit(documentoAvulsoId);
-    }
-
-    doCompartilharBloco(): void {
-        this.compartilharBloco.emit();
-    }
-
-    doCreateDocumentoAvulso(documentoAvulsoId): void {
-        this.createDocumentoAvulso.emit(documentoAvulsoId);
-    }
-
-    doCreateDocumentoAvulsoBloco(): void {
-        this.createDocumentoAvulsoBloco.emit();
-    }
-
-    /*doEditDocumentoAvulso(tarefaId): void {
-        this.editDocumentoAvulso.emit(tarefaId);
-    }
-
-    doEditTarefaBloco(): void {
-        this.editTarefaBloco.emit();
-    }*/
-
-    doEditProcesso(params): void {
-        this.editProcesso.emit(params);
+    doResponderComplementarBloco(): void {
+        this.responderComplentarBloco.emit();
     }
 
     doEtiquetarBloco(): void {
         this.etiquetarBloco.emit();
     }
 
-    doUploadBloco(): void {
-        this.uploadBloco.emit();
-    }
-
-    doEditorBloco(): void {
-        this.editorBloco.emit();
-    }
-
-    /**
-     * Toggle the sidebar
-     */
-    toggleSidebar(): void {
-        this._fuseSidebarService.getSidebar('cdk-documento-avulso-list-main-sidebar').toggleOpen();
+    onScroll(): void {
+        this.scrolled.emit();
     }
 }

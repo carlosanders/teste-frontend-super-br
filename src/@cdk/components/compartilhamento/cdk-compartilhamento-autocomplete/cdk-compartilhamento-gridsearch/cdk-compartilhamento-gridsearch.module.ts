@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 
-import {FuseSharedModule} from '@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 
 import {CompartilhamentoService} from '@cdk/services/compartilhamento.service';
 import {CdkCompartilhamentoGridsearchComponent} from './cdk-compartilhamento-gridsearch.component';
@@ -14,7 +14,7 @@ import {CdkCompartilhamentoGridModule} from '@cdk/components/compartilhamento/cd
 
         CdkCompartilhamentoGridModule,
 
-        FuseSharedModule,
+        CdkSharedModule,
     ],
     providers: [
         CompartilhamentoService

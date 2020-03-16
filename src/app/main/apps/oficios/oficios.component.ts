@@ -13,8 +13,8 @@ import {FormControl} from '@angular/forms';
 import {select, Store} from '@ngrx/store';
 import {Observable, Subject} from 'rxjs';
 
-import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
-import {FuseTranslationLoaderService} from '@fuse/services/translation-loader.service';
+import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
+import {CdkTranslationLoaderService} from '@cdk/services/translation-loader.service';
 
 import {DocumentoAvulso} from '@cdk/models/documento-avulso.model';
 import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
@@ -24,14 +24,15 @@ import {getRouterState, getScreenState} from 'app/store/reducers';
 import {locale as english} from 'app/main/apps/oficios/i18n/en';
 
 import {ResizeEvent} from 'angular-resizable-element';
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Etiqueta} from '@cdk/models/etiqueta.model';
 import {Router} from '@angular/router';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {Pagination} from '@cdk/models/pagination';
 import {LoginService} from '../../auth/login/login.service';
 import {Usuario} from '@cdk/models/usuario.model';
 import {MatDialog} from '@cdk/angular/material';
+import { CdkChaveAcessoPluginComponent } from '@cdk/components/chave-acesso/cdk-chave-acesso-plugins/cdk-chave-acesso-plugin.component';
 
 @Component({
     selector: 'oficios',
@@ -39,7 +40,7 @@ import {MatDialog} from '@cdk/angular/material';
     styleUrls: ['./oficios.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
 
@@ -87,14 +88,17 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
 
     mobileMode = false;
 
+    pessoasConveniadas: any;
+    currentPessoaConveniadaId: any;
+
     @ViewChild('documentoAvulsoListElement', {read: ElementRef, static: true}) documentoAvulsoListElement: ElementRef;
 
-
     /**
+     *
+     * @param _dialog
      * @param _changeDetectorRef
-     * @param _fuseSidebarService
-     * @param _fuseTranslationLoaderService
-     * @param _tarefaService
+     * @param _cdkSidebarService
+     * @param _cdkTranslationLoaderService
      * @param _router
      * @param _store
      * @param _loginService
@@ -102,19 +106,18 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
     constructor(
         public _dialog: MatDialog,
         private _changeDetectorRef: ChangeDetectorRef,
-        private _fuseSidebarService: FuseSidebarService,
-        private _fuseTranslationLoaderService: FuseTranslationLoaderService,
-        private _documentoAvulsoService: DocumentoAvulsoService,
+        private _cdkSidebarService: CdkSidebarService,
+        private _cdkTranslationLoaderService: CdkTranslationLoaderService,
         private _router: Router,
         private _store: Store<fromStore.DocumentoAvulsoAppState>,
         private _loginService: LoginService
     ) {
         // Set the defaults
         this.searchInput = new FormControl('');
-        this._fuseTranslationLoaderService.loadTranslations(english);
+        this._cdkTranslationLoaderService.loadTranslations(english);
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
         this.documentosAvulso$ = this._store.pipe(select(fromStore.getDocumentosAvulso));
-        this.selectedDocumentosAvulso$ = this._store.pipe(select(fromStore.getSelectedDocumentoAvulso));
+        this.selectedDocumentosAvulso$ = this._store.pipe(select(fromStore.getSelectedDocumentosAvulso));
         this.selectedIds$ = this._store.pipe(select(fromStore.getSelectedDocumentoAvulsoIds));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
         this.routerState$ = this._store.pipe(select(getRouterState));
@@ -123,6 +126,7 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
         this._profile = _loginService.getUserProfile();
         this.vinculacaoEtiquetaPagination = new Pagination();
         this.vinculacaoEtiquetaPagination.filter = {'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.id};
+        this.pessoasConveniadas =  this._profile.vinculacoesPessoasUsuarios;
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -150,8 +154,15 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
             this.currentDocumentoAvulsoId = parseInt(routerState.state.params['documentoAvulsoHandle'], 0);
         });
 
-        this.documentosAvulso$.pipe(
+        this.routerState$.pipe(
             takeUntil(this._unsubscribeAll)
+        ).subscribe(routerState => {
+            this.currentPessoaConveniadaId = parseInt(routerState.state.params['pessoaHandle'], 0);
+        });
+
+        this.documentosAvulso$.pipe(
+            takeUntil(this._unsubscribeAll),
+            filter(documentosAvulso => !!documentosAvulso)
         ).subscribe(documentosAvulso => {
             this.documentosAvulso = documentosAvulso;
         });
@@ -239,7 +250,7 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
             etiquetasId.push(e.id);
         });
         const etiquetaFilter = {
-            'processo.vinculacoesEtiquetas.etiqueta.id': `in:${etiquetasId.join(',')}`
+            'vinculacoesEtiquetas.etiqueta.id': `in:${etiquetasId.join(',')}`
         };
         const nparams = {
             ...this.pagination,
@@ -262,8 +273,16 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     setCurrentDocumentoAvulso(documentoAvulso: DocumentoAvulso): void {
-        this._store.dispatch(new fromStore.SetCurrentDocumentoAvulso({documentoAvulsoId: documentoAvulso.id,
-                processoId: documentoAvulso.processo.id, acessoNegado: documentoAvulso.processo.acessoNegado}));
+        const dialogRef = this._dialog.open(CdkChaveAcessoPluginComponent, {
+            width: '600px'
+        });
+
+        dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe(result => {
+            this._store.dispatch(new fromStore.SetCurrentDocumentoAvulso({
+                documentoAvulsoId: documentoAvulso.id, processoId: documentoAvulso.processo.id,
+                acessoNegado: documentoAvulso.processo.acessoNegado, chaveAcesso: result}));
+            return;
+        });
     }
 
     /**
@@ -279,7 +298,7 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
      * @param name
      */
     toggleSidebar(name): void {
-        this._fuseSidebarService.getSidebar(name).toggleOpen();
+        this._cdkSidebarService.getSidebar(name).toggleOpen();
     }
 
     changeSelectedIds(ids: number[]): void {
@@ -308,5 +327,15 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this.documentoAvulsoListSize = (event.rectangle.width * this.documentoAvulsoListSize) / this.documentoAvulsoListOriginalSize;
         this.documentoAvulsoListOriginalSize = event.rectangle.width;
+    }
+
+    doResponderComplentarBlocoBloco(): void {
+        this._router.navigate(['apps/oficios/' + this.routerState.params.oficioTargetHandle + '/'
+        + this.routerState.params.pessoaHandle + '/responde-complementra-bloco']).then();
+    }
+
+    doEtiquetarBloco(): void {
+        this._router.navigate(['apps/oficios/' + this.routerState.params.oficioTargetHandle + '/'
+        + this.routerState.params.pessoaHandle + '/vinculacao-etiqueta-bloco']).then();
     }
 }

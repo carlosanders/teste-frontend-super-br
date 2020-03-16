@@ -16,8 +16,8 @@ import {
     MatTooltipModule
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
-import {FuseSharedModule} from '@fuse/shared.module';
-import {FuseSidebarModule} from '@fuse/components';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {CdkSidebarModule} from '@cdk/components';
 import * as fromGuards from 'app/main/apps/oficios/store/guards/index';
 import {OficioStoreModule} from 'app/main/apps/oficios/store/store.module';
 import {FolderService} from '@cdk/services/folder.service';
@@ -38,7 +38,7 @@ import {CdkChaveAcessoPluginModule} from '@cdk/components/chave-acesso/cdk-chave
 
 const routes: Routes = [
     {
-        path: '',
+        path: ':oficioTargetHandle/:pessoaHandle',
         component: OficiosComponent,
         children: [
             {
@@ -49,9 +49,17 @@ const routes: Routes = [
                 path: 'detalhe',
                 loadChildren: () => import('./oficio-detail/oficio-detail.module').then(m => m.OficioDetailModule),
                 canActivate: [fromGuards.ResolveGuard]
-            }
+            },
+            {
+                path: 'vinculacao-etiqueta-bloco',
+                loadChildren: () => import('./vinculacao-etiqueta-create-bloco/vinculacao-etiqueta-create-bloco.module').then(m => m.VinculacaoEtiquetaCreateBlocoModule),
+            },
         ],
         canActivate: [fromGuards.ResolveGuard]
+    },
+    {
+        path: '**',
+        redirectTo: 'entrada/'
     }
 ];
 
@@ -87,8 +95,8 @@ const routes: Routes = [
         PipesModule,
         InfiniteScrollModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
         OficioStoreModule,
     ],
     providers: [

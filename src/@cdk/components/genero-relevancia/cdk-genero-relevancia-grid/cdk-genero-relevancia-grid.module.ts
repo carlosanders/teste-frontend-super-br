@@ -10,9 +10,9 @@ import {
     MatSortModule,
     MatSelectModule,
 } from '@cdk/angular/material';
-
-import {FuseSidebarModule} from '@fuse/components';
-import {FuseSharedModule} from '@fuse/shared.module';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {CdkSidebarModule} from '@cdk/components/index';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {GeneroRelevanciaService} from '@cdk/services/genero-relevancia.service';
 import {CdkGeneroRelevanciaGridComponent} from './cdk-genero-relevancia-grid.component';
 import {CdkGeneroRelevanciaAutocompleteModule} from '@cdk/components/genero-relevancia/cdk-genero-relevancia-autocomplete/cdk-genero-relevancia-autocomplete.module';
@@ -38,8 +38,9 @@ import {CdkGeneroRelevanciaMainSidebarComponent} from './sidebars/main/main.comp
         CdkGeneroRelevanciaAutocompleteModule,
         CdkGeneroRelevanciaGridFilterModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
+        MatTooltipModule,
     ],
     providers: [
         GeneroRelevanciaService,

@@ -6,7 +6,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {ModalidadeDestinacao} from '@cdk/models';
 import {ModalidadeDestinacaoService} from '@cdk/services/modalidade-destinacao.service';
 import {FormControl} from '@angular/forms';
@@ -21,7 +21,7 @@ import {Pagination} from '@cdk/models';
     styleUrls: ['./cdk-modalidade-destinacao-autocomplete.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations,
+    animations: cdkAnimations,
     exportAs: 'modalidadeDestinacaoAutocomplete',
 })
 export class CdkModalidadeDestinacaoAutocompleteComponent implements OnInit {

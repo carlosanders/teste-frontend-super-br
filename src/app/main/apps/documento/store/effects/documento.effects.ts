@@ -117,7 +117,7 @@ export class DocumentoEffect {
                         },
                         documentoId: response['entities'][0].id,
                         // tslint:disable-next-line:max-line-length
-                        editavel: (response['entities'][0].documentoAvulsoRemessa && !response['entities'][0].documentoAvulsoRemessa.dataHoraRemessa) || !response['entities'][0].juntadaAtual,
+                        editavel: (response['entities'][0].documentoAvulsoRemessa && !response['entities'][0].documentoAvulsoRemessa.dataHoraRemessa) || response['entities'][0].minuta,
                         currentComponenteDigitalId: response['entities'][0].componentesDigitais[0] ? response['entities'][0].componentesDigitais[0].id : null
                     })
                 ]),

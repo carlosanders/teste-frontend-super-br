@@ -11,13 +11,9 @@
 <!-- / SIDEBAR HEADER -->
 
 <!-- SIDEBAR CONTENT -->
-<div class="content py-16" fusePerfectScrollbar>
-
-    <div class="header" fxLayout="column">
-        <div class="filters">
-            <cdk-garantia-grid-filter (selected)="setGridFilter($event)"></cdk-garantia-grid-filter>
-        </div>
+<div class="py-16" cdkPerfectScrollbar>
+    <div fxLayout="column">
+        <cdk-garantia-grid-filter (selected)="setGridFilter($event)"></cdk-garantia-grid-filter>
     </div>
-
 </div>
 <!-- / SIDEBAR CONTENT -->

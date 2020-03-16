@@ -10,9 +10,9 @@ import {
     MatSortModule,
     MatSelectModule,
 } from '@cdk/angular/material';
-
-import {FuseSidebarModule} from '@fuse/components';
-import {FuseSharedModule} from '@fuse/shared.module';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {CdkSidebarModule} from '@cdk/components/index';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {ModalidadeFaseService} from '@cdk/services/modalidade-fase.service';
 import {CdkModalidadeFaseGridComponent} from './cdk-modalidade-fase-grid.component';
 import {CdkModalidadeFaseAutocompleteModule} from '@cdk/components/modalidade-fase/cdk-modalidade-fase-autocomplete/cdk-modalidade-fase-autocomplete.module';
@@ -38,8 +38,9 @@ import {CdkModalidadeFaseMainSidebarComponent} from './sidebars/main/main.compon
         CdkModalidadeFaseAutocompleteModule,
         CdkModalidadeFaseGridFilterModule,
 
-        FuseSharedModule,
-        FuseSidebarModule,
+        CdkSharedModule,
+        CdkSidebarModule,
+        MatTooltipModule,
     ],
     providers: [
         ModalidadeFaseService,
