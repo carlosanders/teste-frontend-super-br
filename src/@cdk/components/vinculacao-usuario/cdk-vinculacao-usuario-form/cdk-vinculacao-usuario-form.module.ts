@@ -7,10 +7,10 @@ import {
     MatCheckboxModule,
     MatProgressSpinnerModule,
     MatAutocompleteModule,
-    MatDatepickerModule, MatSlideToggleModule
-
+    MatDatepickerModule,
+    MatSlideToggleModule,
+    MatTooltipModule,
 } from '@cdk/angular/material';
-
 import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkUsuarioAutocompleteModule} from '../../usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 import {CdkUsuarioGridsearchModule} from '../../usuario/cdk-usuario-autocomplete/cdk-usuario-gridsearch/cdk-usuario-gridsearch.module';
@@ -31,6 +31,7 @@ import {CdkVinculacaoUsuarioFormComponent} from './cdk-vinculacao-usuario-form.c
         MatProgressSpinnerModule,
         MatDatepickerModule,
         MatSlideToggleModule,
+        MatTooltipModule,
 
         CdkUsuarioAutocompleteModule,
         CdkUsuarioGridsearchModule,

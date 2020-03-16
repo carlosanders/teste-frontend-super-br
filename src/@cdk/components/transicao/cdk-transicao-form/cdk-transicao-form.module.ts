@@ -7,10 +7,9 @@ import {
     MatCheckboxModule,
     MatProgressSpinnerModule,
     MatAutocompleteModule,
-    MatDatepickerModule, MatSlideToggleModule
-
+    MatDatepickerModule,
+    MatTooltipModule,
 } from '@cdk/angular/material';
-
 import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkTransicaoFormComponent} from './cdk-transicao-form.component';
 import {CdkProcessoAutocompleteModule} from '../../processo/cdk-processo-autocomplete/cdk-processo-autocomplete.module';
@@ -34,6 +33,7 @@ import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
         MatInputModule,
         MatProgressSpinnerModule,
         MatDatepickerModule,
+        MatTooltipModule,
 
         NgxUpperCaseDirectiveModule,
 

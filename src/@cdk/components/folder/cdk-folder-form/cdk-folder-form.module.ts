@@ -7,12 +7,11 @@ import {
     MatCheckboxModule,
     MatProgressSpinnerModule,
     MatAutocompleteModule,
-    MatDatepickerModule
-
+    MatDatepickerModule,
+    MatTooltipModule
 } from '@cdk/angular/material';
-
-import { CdkSharedModule } from '@cdk/shared.module';
-import { CdkFolderFormComponent } from './cdk-folder-form.component';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {CdkFolderFormComponent} from './cdk-folder-form.component';
 import {CdkModalidadeFolderAutocompleteModule} from '../../modalidade-folder/cdk-modalidade-folder-autocomplete/cdk-modalidade-folder-autocomplete.module';
 import {CdkModalidadeFolderGridsearchModule} from '../../modalidade-folder/cdk-modalidade-folder-autocomplete/cdk-modalidade-folder-gridsearch/cdk-modalidade-folder-gridsearch.module';
 import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
@@ -22,7 +21,6 @@ import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
         CdkFolderFormComponent,
     ],
     imports: [
-
         MatAutocompleteModule,
         MatButtonModule,
         MatFormFieldModule,
@@ -31,6 +29,7 @@ import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
         MatInputModule,
         MatProgressSpinnerModule,
         MatDatepickerModule,
+        MatTooltipModule,
 
         NgxUpperCaseDirectiveModule,
 
@@ -39,9 +38,7 @@ import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
 
         CdkSharedModule,
     ],
-    providers: [
-
-    ],
+    providers: [],
     exports: [
         CdkFolderFormComponent
     ]

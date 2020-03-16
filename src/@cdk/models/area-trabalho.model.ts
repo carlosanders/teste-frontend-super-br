@@ -14,13 +14,13 @@ export class AreaTrabalho {
 
     @Type(() => Documento)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    documento: Documento;
+    documento?: Documento;
 
     @Type(() => Usuario)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    usuario: Usuario;
+    usuario?: Usuario;
 
-    dono: boolean;
+    dono?: boolean;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)

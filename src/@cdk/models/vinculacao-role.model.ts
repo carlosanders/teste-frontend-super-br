@@ -11,7 +11,7 @@ export class VinculacaoRole {
     @Exclude({ toPlainOnly: true })
     uuid?: string;
 
-    role: string;
+    role?: string;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)

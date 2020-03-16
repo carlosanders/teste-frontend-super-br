@@ -24,9 +24,9 @@ export class Juntada {
 
     @Type(() => Documento)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    documento: Documento;
+    documento?: Documento;
 
-    descricao: string;
+    descricao?: string;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => OrigemDados)
@@ -35,7 +35,7 @@ export class Juntada {
 
     @Type(() => Volume)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    volume: Volume;
+    volume?: Volume;
 
     @Type(() => DocumentoAvulso)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })

@@ -16,19 +16,19 @@ export class Garantia {
 
     @Type(() => Processo)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    processo: Processo;
+    processo?: Processo;
 
     @Type(() => ModalidadeGarantia)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    modalidadeGarantia: ModalidadeGarantia;    
+    modalidadeGarantia?: ModalidadeGarantia;
 
-    descricao: string;
+    descricao?: string;
 
-    valor: number;   
+    valor?: number;
 
     @Transform(value => value ? value.format('YYYY-MM-DDTHH:mm:ss') : null, { toPlainOnly: true })
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
-    dataValor: Date|moment.Moment;
+    dataValor?: Date|moment.Moment;
     
     observacao?: string;    
 

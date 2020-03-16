@@ -48,7 +48,7 @@ export class Documento {
 
     observacao?: string;
 
-    copia: boolean;
+    copia?: boolean;
 
     @Transform(value => value ? value.format() : null, { toPlainOnly: true })
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
@@ -68,7 +68,7 @@ export class Documento {
 
     @Type(() => TipoDocumento)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    tipoDocumento: TipoDocumento;
+    tipoDocumento?: TipoDocumento;
 
     @Type(() => Setor)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
@@ -131,19 +131,19 @@ export class Documento {
 
     @Exclude({ toPlainOnly: true })
     @Type(() => ComponenteDigital)
-    componentesDigitais: ComponenteDigital[];
+    componentesDigitais?: ComponenteDigital[];
 
     @Exclude({ toPlainOnly: true })
     @Type(() => VinculacaoDocumento)
-    vinculacoesDocumentos: VinculacaoDocumento[];
+    vinculacoesDocumentos?: VinculacaoDocumento[];
 
     @Exclude({ toPlainOnly: true })
     @Type(() => VinculacaoDocumento)
-    vinculacaoDocumentoPrincipal: VinculacaoDocumento;
+    vinculacaoDocumentoPrincipal?: VinculacaoDocumento;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Sigilo)
-    sigilos: Sigilo[];
+    sigilos?: Sigilo[];
 
     constructor() {
         this.id = null;

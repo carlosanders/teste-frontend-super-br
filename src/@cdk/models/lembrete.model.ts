@@ -14,9 +14,9 @@ export class Lembrete {
 
     @Type(() => Processo)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    processo: Processo;
+    processo?: Processo;
 
-    conteudo: string;
+    conteudo?: string;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)
