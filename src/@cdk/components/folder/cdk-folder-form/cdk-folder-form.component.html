@@ -1,64 +1,66 @@
-<form *ngIf="activeCard === 'form'" class="p-24 mr-24" fxLayoutGap="16px"
-      fxLayout="column"
-      fxLayoutAlign="start"
-      name="form" [formGroup]="form" (submit)="submit()">
+<div class="pr-16" fxFlex *ngIf="activeCard === 'form'" cdkPerfectScrollbar>
+    <form class="p-24 mr-24" fxLayoutGap="16px"
+          fxLayout="column"
+          fxLayoutAlign="start"
+          name="form" [formGroup]="form" (submit)="submit()">
 
-    <div fxFlex="1 0 auto" fxLayout="column">
+        <div fxFlex="1 0 auto" fxLayout="column">
 
-        <mat-form-field fxFlex="100">
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Nome" formControlName="nome" maxlength="255" required upperCase>
-            </div>
-        </mat-form-field>
+            <mat-form-field fxFlex="100">
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Nome" formControlName="nome" maxlength="255" required upperCase>
+                </div>
+            </mat-form-field>
 
-        <mat-form-field fxFlex="100">
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Descrição" formControlName="descricao" maxlength="255" required upperCase>
-            </div>
-        </mat-form-field>
+            <mat-form-field fxFlex="100">
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Descrição" formControlName="descricao" maxlength="255" required upperCase>
+                </div>
+            </mat-form-field>
 
-        <mat-form-field fxFlex="100">
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Modalidade"
-                       formControlName="modalidadeFolder"
-                       [matAutocomplete]="modalidadefolder.autocomplete"
-                       (blur)="checkModalidadeFolder()" required>
-            </div>
-            <cdk-modalidade-folder-autocomplete
-                #modalidadefolder="modalidadeFolderAutocomplete"
-                [control]="form.get('modalidadeFolder')"
-                [pagination]="modalidadeFolderPagination">
-            </cdk-modalidade-folder-autocomplete>
-            <button matSuffix mat-button mat-icon-button
-                    (click)="showModalidadeFolderGrid()">
-                <mat-icon matTooltip="Procurar">search</mat-icon>
+            <mat-form-field fxFlex="100">
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Modalidade"
+                           formControlName="modalidadeFolder"
+                           [matAutocomplete]="modalidadefolder.autocomplete"
+                           (blur)="checkModalidadeFolder()" required>
+                </div>
+                <cdk-modalidade-folder-autocomplete
+                    #modalidadefolder="modalidadeFolderAutocomplete"
+                    [control]="form.get('modalidadeFolder')"
+                    [pagination]="modalidadeFolderPagination">
+                </cdk-modalidade-folder-autocomplete>
+                <button matSuffix mat-button mat-icon-button
+                        (click)="showModalidadeFolderGrid()">
+                    <mat-icon matTooltip="Procurar">search</mat-icon>
+                </button>
+                <mat-error *ngIf="form.get('modalidadeFolder').hasError('formError')">
+                    {{form.get('modalidadeFolder').errors.formError}}
+                </mat-error>
+            </mat-form-field>
+
+        </div>
+
+        <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+
+        <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+             fxLayoutAlign="center center">
+            <button mat-raised-button color="accent" class="mr-sm-12"
+                    [disabled]="form.invalid">
+                SALVAR
             </button>
-            <mat-error *ngIf="form.get('modalidadeFolder').hasError('formError')">
-                {{form.get('modalidadeFolder').errors.formError}}
-            </mat-error>
-        </mat-form-field>
+        </div>
 
-    </div>
-
-    <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
-
-    <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-         fxLayoutAlign="center center">
-        <button mat-raised-button color="accent" class="mr-sm-12"
-                [disabled]="form.invalid">
-            SALVAR
-        </button>
-    </div>
-
-    <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-         fxLayoutAlign="center center">
-        <mat-spinner color="accent" diameter="24"></mat-spinner>
-    </div>
-</form>
+        <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+             fxLayoutAlign="center center">
+            <mat-spinner color="accent" diameter="24"></mat-spinner>
+        </div>
+    </form>
+</div>
 
 <cdk-modalidade-folder-gridsearch
-        fxFlex="1 0 auto"
-        *ngIf="activeCard === 'modalidade-folder-gridsearch'"
-        (selected)="selectModalidadeFolder($event)"
-        (cancel)="cancel()">
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'modalidade-folder-gridsearch'"
+    (selected)="selectModalidadeFolder($event)"
+    (cancel)="cancel()">
 </cdk-modalidade-folder-gridsearch>

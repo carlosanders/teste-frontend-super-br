@@ -7,10 +7,10 @@ import {
     MatCheckboxModule,
     MatProgressSpinnerModule,
     MatAutocompleteModule,
-    MatDatepickerModule, MatSlideToggleModule
-
+    MatDatepickerModule,
+    MatSlideToggleModule,
+    MatTooltipModule,
 } from '@cdk/angular/material';
-
 import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkRemessaFormComponent} from './cdk-remessa-form.component';
 import {CdkProcessoAutocompleteModule} from '../../processo/cdk-processo-autocomplete/cdk-processo-autocomplete.module';
@@ -27,7 +27,6 @@ import {SetorService} from '@cdk/services/setor.service';
         CdkRemessaFormComponent,
     ],
     imports: [
-
         MatAutocompleteModule,
         MatButtonModule,
         MatFormFieldModule,
@@ -37,6 +36,7 @@ import {SetorService} from '@cdk/services/setor.service';
         MatProgressSpinnerModule,
         MatDatepickerModule,
         MatSlideToggleModule,
+        MatTooltipModule,
 
         CdkProcessoAutocompleteModule,
         CdkProcessoGridsearchModule,

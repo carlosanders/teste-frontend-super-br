@@ -7,12 +7,11 @@ import {
     MatCheckboxModule,
     MatProgressSpinnerModule,
     MatAutocompleteModule,
-    MatDatepickerModule
-
+    MatDatepickerModule,
+    MatTooltipModule
 } from '@cdk/angular/material';
-
-import { CdkSharedModule } from '@cdk/shared.module';
-import { CdkDocumentoIdentificadorFormComponent } from './cdk-documento-identificador-form.component';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {CdkDocumentoIdentificadorFormComponent} from './cdk-documento-identificador-form.component';
 import {CdkModalidadeDocumentoIdentificadorAutocompleteModule} from '../../modalidade-documento-identificador/cdk-modalidade-documento-identificador-autocomplete/cdk-modalidade-documento-identificador-autocomplete.module';
 import {CdkModalidadeDocumentoIdentificadorGridsearchModule} from '../../modalidade-documento-identificador/cdk-modalidade-documento-identificador-autocomplete/cdk-modalidade-documento-identificador-gridsearch/cdk-modalidade-documento-identificador-gridsearch.module';
 
@@ -21,7 +20,6 @@ import {CdkModalidadeDocumentoIdentificadorGridsearchModule} from '../../modalid
         CdkDocumentoIdentificadorFormComponent,
     ],
     imports: [
-
         MatAutocompleteModule,
         MatButtonModule,
         MatFormFieldModule,
@@ -30,13 +28,14 @@ import {CdkModalidadeDocumentoIdentificadorGridsearchModule} from '../../modalid
         MatInputModule,
         MatProgressSpinnerModule,
         MatDatepickerModule,
+        MatTooltipModule,
+
         CdkModalidadeDocumentoIdentificadorAutocompleteModule,
         CdkModalidadeDocumentoIdentificadorGridsearchModule,
+
         CdkSharedModule,
     ],
-    providers: [
-
-    ],
+    providers: [],
     exports: [
         CdkDocumentoIdentificadorFormComponent
     ]

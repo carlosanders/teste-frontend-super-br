@@ -43,7 +43,7 @@ export class PainelComponent implements OnInit
         private _documentoAvulsoService: DocumentoAvulsoService,
         private _tramitacaoService: TramitacaoService,
         private _historicoService: HistoricoService,
-        private _loginService: LoginService
+        public _loginService: LoginService
     )
     {
         this._profile = _loginService.getUserProfile();

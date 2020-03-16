@@ -8,7 +8,6 @@ import {
 
 import {cdkAnimations} from '@cdk/animations';
 import {Documento} from '@cdk/models/documento.model';
-import {ComponenteDigital} from '../../../models';
 
 @Component({
     selector: 'cdk-documento-avulso-card-list',

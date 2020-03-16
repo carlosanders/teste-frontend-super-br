@@ -43,7 +43,7 @@ export class VinculacaoUsuarioEditComponent implements OnInit, OnDestroy {
      */
     constructor(
         private _store: Store<fromStore.VinculacaoUsuarioEditAppState>,
-        private _loginService: LoginService
+        public _loginService: LoginService
     ) {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));

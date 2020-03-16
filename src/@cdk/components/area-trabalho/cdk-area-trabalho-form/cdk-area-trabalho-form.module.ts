@@ -7,22 +7,20 @@ import {
     MatCheckboxModule,
     MatProgressSpinnerModule,
     MatAutocompleteModule,
-    MatDatepickerModule
-
+    MatDatepickerModule,
+    MatTooltipModule,
 } from '@cdk/angular/material';
-
-import { CdkSharedModule } from '@cdk/shared.module';
-import { UsuarioService } from '@cdk/services/usuario.service';
-import { CdkAreaTrabalhoFormComponent } from './cdk-area-trabalho-form.component';
-import { CdkUsuarioAutocompleteModule } from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
-import { CdkUsuarioGridsearchModule } from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-gridsearch/cdk-usuario-gridsearch.module';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {UsuarioService} from '@cdk/services/usuario.service';
+import {CdkAreaTrabalhoFormComponent} from './cdk-area-trabalho-form.component';
+import {CdkUsuarioAutocompleteModule} from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
+import {CdkUsuarioGridsearchModule} from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-gridsearch/cdk-usuario-gridsearch.module';
 
 @NgModule({
     declarations: [
         CdkAreaTrabalhoFormComponent,
     ],
     imports: [
-
         MatAutocompleteModule,
         MatButtonModule,
         MatFormFieldModule,
@@ -31,6 +29,7 @@ import { CdkUsuarioGridsearchModule } from '@cdk/components/usuario/cdk-usuario-
         MatInputModule,
         MatProgressSpinnerModule,
         MatDatepickerModule,
+        MatTooltipModule,
 
         CdkUsuarioAutocompleteModule,
         CdkUsuarioGridsearchModule,

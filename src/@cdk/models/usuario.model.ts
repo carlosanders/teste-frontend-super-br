@@ -13,21 +13,21 @@ export class Usuario {
     uuid?: string;
 
     @Exclude({ toPlainOnly: true })
-    username: string;
+    username?: string;
 
     assinaturaHTML?: string;
 
     @Exclude({ toPlainOnly: true })
-    email: string;
+    email?: string;
 
     @Exclude({ toPlainOnly: true })
-    enabled: boolean;
+    enabled?: boolean;
 
     @Exclude({ toPlainOnly: true })
-    nivelAcesso: number;
+    nivelAcesso?: number;
 
     @Exclude({ toPlainOnly: true })
-    nome: string;
+    nome?: string;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)
@@ -61,14 +61,14 @@ export class Usuario {
 
     @Exclude({toPlainOnly: true})
     @Type(() => VinculacaoUsuario)
-    vinculacoesUsuariosPrincipais: VinculacaoUsuario[];
+    vinculacoesUsuariosPrincipais?: VinculacaoUsuario[];
 
     @Exclude({toPlainOnly: true})
     @Type(() => Colaborador)
     colaborador?: Colaborador;
 
     @Exclude({toPlainOnly: true})
-    roles: string[];
+    roles?: string[];
 
 
     @Exclude({toPlainOnly: true})

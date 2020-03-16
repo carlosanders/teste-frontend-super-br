@@ -7,10 +7,10 @@ import {
     MatCheckboxModule,
     MatProgressSpinnerModule,
     MatAutocompleteModule,
-    MatDatepickerModule, MatSlideToggleModule, MatTooltipModule
-
+    MatDatepickerModule,
+    MatSlideToggleModule,
+    MatTooltipModule
 } from '@cdk/angular/material';
-
 import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkSigiloFormComponent} from './cdk-sigilo-form.component';
 import {ProcessoService} from '@cdk/services/processo.service';
@@ -29,7 +29,6 @@ import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
         CdkSigiloFormComponent,
     ],
     imports: [
-
         MatAutocompleteModule,
         MatButtonModule,
         MatFormFieldModule,
@@ -39,6 +38,7 @@ import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
         MatProgressSpinnerModule,
         MatDatepickerModule,
         MatSlideToggleModule,
+        MatTooltipModule,
 
         NgxUpperCaseDirectiveModule,
 
@@ -48,7 +48,6 @@ import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
         CdkTipoSigiloGridsearchModule,
 
         CdkSharedModule,
-        MatTooltipModule,
     ],
     providers: [
         ProcessoService,

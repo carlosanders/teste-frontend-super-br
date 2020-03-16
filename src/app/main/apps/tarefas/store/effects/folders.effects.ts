@@ -23,7 +23,7 @@ export class FoldersEffect
         private _actions: Actions,
         private _folderService: FolderService,
         private _store: Store<FoldersState>,
-        private _loginService: LoginService
+        public _loginService: LoginService
     ) {
         this._profile = _loginService.getUserProfile();
     }

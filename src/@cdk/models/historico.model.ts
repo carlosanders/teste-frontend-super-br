@@ -12,11 +12,11 @@ export class Historico {
     @Exclude({ toPlainOnly: true })
     uuid?: string;
 
-    descricao: string;
+    descricao?: string;
 
     @Type(() => Processo)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    processo: Processo;
+    processo?: Processo;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)

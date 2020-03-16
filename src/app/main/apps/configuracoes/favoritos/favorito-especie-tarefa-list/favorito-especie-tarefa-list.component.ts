@@ -59,7 +59,7 @@ export class FavoritoEspecieTarefaListComponent implements OnInit, OnDestroy {
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
         private _store: Store<fromStore.FavoritoListEspecieTarefaAppState>,
-        private _loginService: LoginService,
+        public _loginService: LoginService,
         private _favoritoService: FavoritoService
     ) {
         this.favoritos$ = this._store.pipe(select(fromStore.getFavoritoListEspecieTarefa));

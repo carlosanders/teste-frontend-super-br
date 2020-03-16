@@ -1,93 +1,95 @@
-<form *ngIf="activeCard === 'form'" class="p-24 mr-24" fxLayoutGap="36px"
-      fxLayout="column"
-      fxLayoutAlign="start"
-      name="form" [formGroup]="form" (submit)="submit()">
+<div class="pr-16" fxFlex *ngIf="activeCard === 'form'" cdkPerfectScrollbar>
+    <form class="p-24 mr-24" fxLayoutGap="36px"
+          fxLayout="column"
+          fxLayoutAlign="start"
+          name="form" [formGroup]="form" (submit)="submit()">
 
-    <div fxFlex="1 0 auto" fxLayout="column" class="div-form">
+        <div fxFlex="1 0 auto" fxLayout="column" class="div-form">
 
-        <mat-form-field fxFlex="100">
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Usuário"
-                       formControlName="usuario"
-                       [matAutocomplete]="usuario.autocomplete"
-                       (blur)="checkUsuario()"
-                       required>
-            </div>
-            <cdk-usuario-autocomplete
-                #usuario="usuarioAutocomplete"
-                [control]="form.get('usuario')"
-                [pagination]="usuarioPagination">
-            </cdk-usuario-autocomplete>
-            <button matSuffix mat-button mat-icon-button
-                    (click)="showUsuarioGrid()">
-                <mat-icon matTooltip="Procurar">search</mat-icon>
+            <mat-form-field fxFlex="100">
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Usuário"
+                           formControlName="usuario"
+                           [matAutocomplete]="usuario.autocomplete"
+                           (blur)="checkUsuario()"
+                           required>
+                </div>
+                <cdk-usuario-autocomplete
+                    #usuario="usuarioAutocomplete"
+                    [control]="form.get('usuario')"
+                    [pagination]="usuarioPagination">
+                </cdk-usuario-autocomplete>
+                <button matSuffix mat-button mat-icon-button
+                        (click)="showUsuarioGrid()">
+                    <mat-icon matTooltip="Procurar">search</mat-icon>
+                </button>
+                <mat-error *ngIf="form.get('usuario').hasError('formError')">
+                    {{form.get('usuario').errors.formError}}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="100">
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Modalidade"
+                           formControlName="modalidadeColaborador"
+                           [matAutocomplete]="modalidadeColaborador.autocomplete"
+                           (blur)="checkModalidadeColaborador()"
+                           required>
+                </div>
+                <cdk-modalidade-colaborador-autocomplete
+                    #modalidadeColaborador="modalidadeColaboradorAutocomplete"
+                    [control]="form.get('modalidadeColaborador')"
+                    [pagination]="modalidadeColaborador">
+                </cdk-modalidade-colaborador-autocomplete>
+                <button matSuffix mat-button mat-icon-button
+                        (click)="showModalidadeColaboradorGrid()">
+                    <mat-icon matTooltip="Procurar">search</mat-icon>
+                </button>
+                <mat-error *ngIf="form.get('modalidadeColaborador').hasError('formError')">
+                    {{form.get('modalidadeColaborador').errors.formError}}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="100">
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Cargo"
+                           formControlName="cargo"
+                           [matAutocomplete]="cargo.autocomplete"
+                           (blur)="checkCargo()"
+                           required>
+                </div>
+                <cdk-cargo-autocomplete
+                    #cargo="cargoAutocomplete"
+                    [control]="form.get('cargo')"
+                    [pagination]="cargoPagination">
+                </cdk-cargo-autocomplete>
+                <button matSuffix mat-button mat-icon-button
+                        (click)="showCargoGrid()">
+                    <mat-icon matTooltip="Procurar">search</mat-icon>
+                </button>
+                <mat-error *ngIf="form.get('cargo').hasError('formError')">
+                    {{form.get('cargo').errors.formError}}
+                </mat-error>
+            </mat-form-field>
+
+        </div>
+
+        <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+
+        <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+             fxLayoutAlign="center center">
+            <button mat-raised-button color="accent" class="mr-sm-12"
+                    [disabled]="form.invalid">
+                SALVAR
             </button>
-            <mat-error *ngIf="form.get('usuario').hasError('formError')">
-                {{form.get('usuario').errors.formError}}
-            </mat-error>
-        </mat-form-field>
+        </div>
 
-        <mat-form-field fxFlex="100">
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Modalidade"
-                       formControlName="modalidadeColaborador"
-                       [matAutocomplete]="modalidadeColaborador.autocomplete"
-                       (blur)="checkModalidadeColaborador()"
-                       required>
-            </div>
-            <cdk-modalidade-colaborador-autocomplete
-                #modalidadeColaborador="modalidadeColaboradorAutocomplete"
-                [control]="form.get('modalidadeColaborador')"
-                [pagination]="modalidadeColaborador">
-            </cdk-modalidade-colaborador-autocomplete>
-            <button matSuffix mat-button mat-icon-button
-                    (click)="showModalidadeColaboradorGrid()">
-                <mat-icon matTooltip="Procurar">search</mat-icon>
-            </button>
-            <mat-error *ngIf="form.get('modalidadeColaborador').hasError('formError')">
-                {{form.get('modalidadeColaborador').errors.formError}}
-            </mat-error>
-        </mat-form-field>
-
-        <mat-form-field fxFlex="100">
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Cargo"
-                       formControlName="cargo"
-                       [matAutocomplete]="cargo.autocomplete"
-                       (blur)="checkCargo()"
-                       required>
-            </div>
-            <cdk-cargo-autocomplete
-                #cargo="cargoAutocomplete"
-                [control]="form.get('cargo')"
-                [pagination]="cargoPagination">
-            </cdk-cargo-autocomplete>
-            <button matSuffix mat-button mat-icon-button
-                    (click)="showCargoGrid()">
-                <mat-icon matTooltip="Procurar">search</mat-icon>
-            </button>
-            <mat-error *ngIf="form.get('cargo').hasError('formError')">
-                {{form.get('cargo').errors.formError}}
-            </mat-error>
-        </mat-form-field>
-
-    </div>
-
-    <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
-
-    <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-         fxLayoutAlign="center center">
-        <button mat-raised-button color="accent" class="mr-sm-12"
-                [disabled]="form.invalid">
-            SALVAR
-        </button>
-    </div>
-
-    <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-         fxLayoutAlign="center center">
-        <mat-spinner color="accent" diameter="24"></mat-spinner>
-    </div>
-</form>
+        <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+             fxLayoutAlign="center center">
+            <mat-spinner color="accent" diameter="24"></mat-spinner>
+        </div>
+    </form>
+</div>
 
 <cdk-usuario-gridsearch
     fxFlex="1 0 auto"
@@ -97,10 +99,10 @@
 </cdk-usuario-gridsearch>
 
 <cdk-modalidade-colaborador-gridsearch
-        fxFlex="1 0 auto"
-        *ngIf="activeCard === 'modalidade-colaborador-gridsearch'"
-        (selected)="selectModalidadeColaborador($event)"
-        (cancel)="cancel()">
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'modalidade-colaborador-gridsearch'"
+    (selected)="selectModalidadeColaborador($event)"
+    (cancel)="cancel()">
 </cdk-modalidade-colaborador-gridsearch>
 
 <cdk-cargo-gridsearch

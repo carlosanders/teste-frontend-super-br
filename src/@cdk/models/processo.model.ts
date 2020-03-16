@@ -21,36 +21,36 @@ export class Processo {
 
     @Type(() => Processo)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    processoOrigem: Processo;
+    processoOrigem?: Processo;
 
     @Exclude({ toPlainOnly: true })
     uuid?: string;
 
-    novo: boolean;
+    novo?: boolean;
 
-    NUP: string;
+    NUP?: string;
 
-    semValorEconomico: boolean;
+    semValorEconomico?: boolean;
 
-    visibilidadeExterna: boolean;
+    visibilidadeExterna?: boolean;
 
-    acessoNegado: boolean;
+    acessoNegado?: boolean;
     
-    titulo: string;
+    titulo?: string;
 
     descricao?: string;
     
     outroNumero?: string;
 
     @Exclude({ toPlainOnly: true })
-    chaveAcesso: string;
+    chaveAcesso?: string;
 
     @Exclude({ toPlainOnly: true })
     valorEconomico?: number;
 
     @Type(() => Classificacao)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    classificacao: Classificacao;
+    classificacao?: Classificacao;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => OrigemDados)
@@ -64,7 +64,7 @@ export class Processo {
 
     @Type(() => Pessoa)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    procedencia: Pessoa;
+    procedencia?: Pessoa;
 
     @Type(() => Localizador)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
@@ -72,16 +72,16 @@ export class Processo {
 
     @Type(() => Setor)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    setorAtual: Setor;
+    setorAtual?: Setor;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Setor)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    setorInicial: Setor;
+    setorInicial?: Setor;
     
     @Transform(value => value ? value.format() : null, { toPlainOnly: true })
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
-    dataHoraAbertura: Date;
+    dataHoraAbertura?: Date;
 
     @Exclude({ toPlainOnly: true })
     @Transform(value => value ? value.format() : null, { toPlainOnly: true })
@@ -90,19 +90,19 @@ export class Processo {
 
     @Type(() => ModalidadeFase)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    modalidadeFase: ModalidadeFase;
+    modalidadeFase?: ModalidadeFase;
 
     @Type(() => ModalidadeMeio)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    modalidadeMeio: ModalidadeMeio;
+    modalidadeMeio?: ModalidadeMeio;
 
     @Exclude({toPlainOnly: true})
     @Type(() => VinculacaoEtiqueta)
-    vinculacoesEtiquetas: VinculacaoEtiqueta[];
+    vinculacoesEtiquetas?: VinculacaoEtiqueta[];
 
     @Type(() => EspecieProcesso)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    especieProcesso: EspecieProcesso;
+    especieProcesso?: EspecieProcesso;
     
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)

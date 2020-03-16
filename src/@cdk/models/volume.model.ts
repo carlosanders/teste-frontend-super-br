@@ -15,17 +15,17 @@ export class Volume {
     @Exclude({ toPlainOnly: true })
     uuid?: string;
 
-    numeracaoSequencial: number;
+    numeracaoSequencial?: number;
 
     @Type(() => ModalidadeMeio)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    modalidadeMeio: ModalidadeMeio;
+    modalidadeMeio?: ModalidadeMeio;
 
-    encerrado: boolean;
+    encerrado?: boolean;
 
     @Type(() => Processo)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    processo: Processo;
+    processo?: Processo;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Localizador)
