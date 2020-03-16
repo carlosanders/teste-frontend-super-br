@@ -8,11 +8,9 @@ import {
     MatProgressSpinnerModule,
     MatAutocompleteModule,
     MatDatepickerModule
-
 } from '@cdk/angular/material';
-
-import { CdkSharedModule } from '@cdk/shared.module';
-import { CdkEtiquetaFormComponent } from './cdk-etiqueta-form.component';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {CdkEtiquetaFormComponent} from './cdk-etiqueta-form.component';
 import {CdkModalidadeEtiquetaAutocompleteModule} from '../../modalidade-etiqueta/cdk-modalidade-etiqueta-autocomplete/cdk-modalidade-etiqueta-autocomplete.module';
 import {CdkModalidadeEtiquetaGridsearchModule} from '../../modalidade-etiqueta/cdk-modalidade-etiqueta-autocomplete/cdk-modalidade-etiqueta-gridsearch/cdk-modalidade-etiqueta-gridsearch.module';
 import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
@@ -23,7 +21,6 @@ import {MccColorPickerModule} from 'material-community-components';
         CdkEtiquetaFormComponent,
     ],
     imports: [
-
         MatAutocompleteModule,
         MatButtonModule,
         MatFormFieldModule,
@@ -34,7 +31,6 @@ import {MccColorPickerModule} from 'material-community-components';
         MatDatepickerModule,
 
         NgxUpperCaseDirectiveModule,
-
         MccColorPickerModule.forRoot({
             used_colors: ['#000000', '#123456', '#777666']
         }),
@@ -44,9 +40,7 @@ import {MccColorPickerModule} from 'material-community-components';
 
         CdkSharedModule,
     ],
-    providers: [
-
-    ],
+    providers: [],
     exports: [
         CdkEtiquetaFormComponent
     ]

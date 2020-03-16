@@ -1,90 +1,92 @@
-<form *ngIf="activeCard === 'form'" class="p-16" fxLayoutGap="36px"
-      fxLayout="column"
-      fxLayoutAlign="start"
-      name="form" [formGroup]="form" (submit)="submit()">
+<div class="pr-16" fxFlex *ngIf="activeCard === 'form'" cdkPerfectScrollbar>
+    <form class="p-16" fxLayoutGap="36px"
+          fxLayout="column"
+          fxLayoutAlign="start"
+          name="form" [formGroup]="form" (submit)="submit()">
 
-    <div fxFlex="1 0 auto" fxLayout="column">
+        <div fxFlex="1 0 auto" fxLayout="column">
 
-        <mat-form-field fxFlex="100">
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Processo Vinculado"
-                       formControlName="processoVinculado"
-                       [matAutocomplete]="processoVinculado.autocomplete" required
-                       (blur)="checkProcessoVinculado()">
-            </div>
-            <cdk-processo-autocomplete
-                #processoVinculado="processoAutocomplete"
-                [control]="form.get('processoVinculado')"
-                [pagination]="processoVinculadoPagination">
-            </cdk-processo-autocomplete>
-            <button *ngIf="form.get('processoVinculado').enabled" matSuffix mat-button mat-icon-button
-                    (click)="showProcessoVinculadoGrid()">
-                <mat-icon matTooltip="Procurar">search</mat-icon>
-            </button>
-            <mat-error *ngIf="form.get('processoVinculado').hasError('formError')">
-                {{form.get('processoVinculado').errors.formError}}
-            </mat-error>
-        </mat-form-field>
+            <mat-form-field fxFlex="100">
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Processo Vinculado"
+                           formControlName="processoVinculado"
+                           [matAutocomplete]="processoVinculado.autocomplete" required
+                           (blur)="checkProcessoVinculado()">
+                </div>
+                <cdk-processo-autocomplete
+                    #processoVinculado="processoAutocomplete"
+                    [control]="form.get('processoVinculado')"
+                    [pagination]="processoVinculadoPagination">
+                </cdk-processo-autocomplete>
+                <button *ngIf="form.get('processoVinculado').enabled" matSuffix mat-button mat-icon-button
+                        (click)="showProcessoVinculadoGrid()">
+                    <mat-icon matTooltip="Procurar">search</mat-icon>
+                </button>
+                <mat-error *ngIf="form.get('processoVinculado').hasError('formError')">
+                    {{form.get('processoVinculado').errors.formError}}
+                </mat-error>
+            </mat-form-field>
 
-        <mat-form-field fxFlex="100">
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Modalidade"
-                       formControlName="modalidadeVinculacaoProcesso"
-                       [matAutocomplete]="modalidadeVinculacaoProcesso.autocomplete" required
-                       (blur)="checkModalidadeVinculacaoProcesso()">
-            </div>
-            <cdk-modalidade-vinculacao-processo-autocomplete
-                #modalidadeVinculacaoProcesso="modalidadeVinculacaoProcessoAutocomplete"
-                [control]="form.get('modalidadeVinculacaoProcesso')"
-                [pagination]="modalidadeVinculacaoProcessoPagination">
-            </cdk-modalidade-vinculacao-processo-autocomplete>
-            <button *ngIf="form.get('modalidadeVinculacaoProcesso').enabled" matSuffix mat-button mat-icon-button
-                    (click)="showModalidadeVinculacaoProcessoGrid()">
-                <mat-icon matTooltip="Procurar">search</mat-icon>
-            </button>
-            <mat-error *ngIf="form.get('modalidadeVinculacaoProcesso').hasError('formError')">
-                {{form.get('modalidadeVinculacaoProcesso').errors.formError}}
-            </mat-error>
-        </mat-form-field>
+            <mat-form-field fxFlex="100">
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Modalidade"
+                           formControlName="modalidadeVinculacaoProcesso"
+                           [matAutocomplete]="modalidadeVinculacaoProcesso.autocomplete" required
+                           (blur)="checkModalidadeVinculacaoProcesso()">
+                </div>
+                <cdk-modalidade-vinculacao-processo-autocomplete
+                    #modalidadeVinculacaoProcesso="modalidadeVinculacaoProcessoAutocomplete"
+                    [control]="form.get('modalidadeVinculacaoProcesso')"
+                    [pagination]="modalidadeVinculacaoProcessoPagination">
+                </cdk-modalidade-vinculacao-processo-autocomplete>
+                <button *ngIf="form.get('modalidadeVinculacaoProcesso').enabled" matSuffix mat-button mat-icon-button
+                        (click)="showModalidadeVinculacaoProcessoGrid()">
+                    <mat-icon matTooltip="Procurar">search</mat-icon>
+                </button>
+                <mat-error *ngIf="form.get('modalidadeVinculacaoProcesso').hasError('formError')">
+                    {{form.get('modalidadeVinculacaoProcesso').errors.formError}}
+                </mat-error>
+            </mat-form-field>
 
-        <mat-form-field class="mr-16" fxFlex="1 0 auto">
+            <mat-form-field class="mr-16" fxFlex="1 0 auto">
             <textarea formControlName="observacao"
                       matInput placeholder="Observação" maxlength="255" upperCase></textarea>
-            <mat-error *ngIf="form.get('observacao').hasError('formError')">
-                {{form.get('observacao').errors.formError}}
-            </mat-error>
-        </mat-form-field>
+                <mat-error *ngIf="form.get('observacao').hasError('formError')">
+                    {{form.get('observacao').errors.formError}}
+                </mat-error>
+            </mat-form-field>
 
-    </div>
+        </div>
 
-    <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+        <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
-    <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-         fxLayoutAlign="center center">
-        <button mat-raised-button color="accent" class="mr-sm-12"
-                [disabled]="form.invalid">
-            SALVAR
-        </button>
-    </div>
+        <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+             fxLayoutAlign="center center">
+            <button mat-raised-button color="accent" class="mr-sm-12"
+                    [disabled]="form.invalid">
+                SALVAR
+            </button>
+        </div>
 
-    <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-         fxLayoutAlign="center center">
-        <mat-spinner color="accent" diameter="24"></mat-spinner>
-    </div>
-</form>
+        <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+             fxLayoutAlign="center center">
+            <mat-spinner color="accent" diameter="24"></mat-spinner>
+        </div>
+    </form>
+</div>
 
 <cdk-processo-gridsearch
-        fxFlex="1 0 auto"
-        *ngIf="activeCard === 'processo-vinculado-gridsearch'"
-        [pagination]="processoVinculadoPagination"
-        (selected)="selectProcessoVinculado($event)"
-        (cancel)="cancel()">
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'processo-vinculado-gridsearch'"
+    [pagination]="processoVinculadoPagination"
+    (selected)="selectProcessoVinculado($event)"
+    (cancel)="cancel()">
 </cdk-processo-gridsearch>
 
 <cdk-modalidade-vinculacao-processo-gridsearch
-        fxFlex="1 0 auto"
-        *ngIf="activeCard === 'modalidade-vinculacao-processo-gridsearch'"
-        [pagination]="modalidadeVinculacaoProcessoPagination"
-        (selected)="selectModalidadeVinculacaoProcesso($event)"
-        (cancel)="cancel()">
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'modalidade-vinculacao-processo-gridsearch'"
+    [pagination]="modalidadeVinculacaoProcessoPagination"
+    (selected)="selectModalidadeVinculacaoProcesso($event)"
+    (cancel)="cancel()">
 </cdk-modalidade-vinculacao-processo-gridsearch>

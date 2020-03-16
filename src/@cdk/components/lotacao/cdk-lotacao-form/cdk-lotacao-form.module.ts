@@ -7,15 +7,14 @@ import {
     MatCheckboxModule,
     MatProgressSpinnerModule,
     MatAutocompleteModule,
-    MatDatepickerModule
-
+    MatDatepickerModule,
+    MatTooltipModule
 } from '@cdk/angular/material';
-
-import { CdkSharedModule } from '@cdk/shared.module';
-import { UsuarioService } from '@cdk/services/usuario.service';
-import { CdkLotacaoFormComponent } from './cdk-lotacao-form.component';
-import { CdkUsuarioAutocompleteModule } from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
-import { CdkUsuarioGridsearchModule } from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-gridsearch/cdk-usuario-gridsearch.module';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {UsuarioService} from '@cdk/services/usuario.service';
+import {CdkLotacaoFormComponent} from './cdk-lotacao-form.component';
+import {CdkUsuarioAutocompleteModule} from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
+import {CdkUsuarioGridsearchModule} from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-gridsearch/cdk-usuario-gridsearch.module';
 import {CdkSetorGridsearchModule} from "../../setor/cdk-setor-autocomplete/cdk-setor-gridsearch/cdk-setor-gridsearch.module";
 import {CdkSetorAutocompleteModule} from "../../setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module";
 import {CdkColaboradorAutocompleteModule} from "../../colaborador/cdk-colaborador-autocomplete/cdk-colaborador-autocomplete.module";
@@ -26,7 +25,6 @@ import {CdkColaboradorGridsearchModule} from "../../colaborador/cdk-colaborador-
         CdkLotacaoFormComponent,
     ],
     imports: [
-
         MatAutocompleteModule,
         MatButtonModule,
         MatFormFieldModule,
@@ -35,15 +33,17 @@ import {CdkColaboradorGridsearchModule} from "../../colaborador/cdk-colaborador-
         MatInputModule,
         MatProgressSpinnerModule,
         MatDatepickerModule,
+        MatTooltipModule,
 
         CdkUsuarioAutocompleteModule,
         CdkUsuarioGridsearchModule,
 
-        CdkSharedModule,
         CdkSetorGridsearchModule,
         CdkSetorAutocompleteModule,
         CdkColaboradorAutocompleteModule,
         CdkColaboradorGridsearchModule,
+
+        CdkSharedModule,
     ],
     providers: [
         UsuarioService

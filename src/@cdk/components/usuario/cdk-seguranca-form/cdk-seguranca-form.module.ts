@@ -8,10 +8,9 @@ import {
     MatProgressSpinnerModule,
     MatAutocompleteModule,
     MatDatepickerModule,
-    MatExpansionModule, MatSlideToggleModule
-
+    MatExpansionModule,
+    MatSlideToggleModule
 } from '@cdk/angular/material';
-
 import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkSegurancaFormComponent} from './cdk-seguranca-form.component';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
@@ -22,7 +21,6 @@ import {UsuarioService} from '@cdk/services/usuario.service';
         CdkSegurancaFormComponent,
     ],
     imports: [
-
         MatAutocompleteModule,
         MatButtonModule,
         MatFormFieldModule,

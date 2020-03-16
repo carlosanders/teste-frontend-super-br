@@ -7,13 +7,13 @@ import {
     MatCheckboxModule,
     MatProgressSpinnerModule,
     MatAutocompleteModule,
-    MatDatepickerModule, MatRadioModule, MatTooltipModule
-
+    MatDatepickerModule,
+    MatRadioModule,
+    MatTooltipModule
 } from '@cdk/angular/material';
-
-import { CdkSharedModule } from '@cdk/shared.module';
-import { UsuarioService } from '@cdk/services/usuario.service';
-import { CdkAcaoFormComponent } from './cdk-acao-form.component';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {UsuarioService} from '@cdk/services/usuario.service';
+import {CdkAcaoFormComponent} from './cdk-acao-form.component';
 import {SetorService} from '@cdk/services/setor.service';
 import {CdkModeloAutocompleteModule} from '../../modelo/cdk-modelo-autocomplete/cdk-modelo-autocomplete.module';
 import {CdkModeloGridsearchModule} from '../../modelo/cdk-modelo-autocomplete/cdk-modelo-gridsearch/cdk-modelo-gridsearch.module';
@@ -23,7 +23,6 @@ import {CdkModeloGridsearchModule} from '../../modelo/cdk-modelo-autocomplete/cd
         CdkAcaoFormComponent,
     ],
     imports: [
-
         MatAutocompleteModule,
         MatButtonModule,
         MatFormFieldModule,
@@ -33,12 +32,12 @@ import {CdkModeloGridsearchModule} from '../../modelo/cdk-modelo-autocomplete/cd
         MatProgressSpinnerModule,
         MatDatepickerModule,
         MatRadioModule,
+        MatTooltipModule,
 
         CdkModeloAutocompleteModule,
         CdkModeloGridsearchModule,
 
         CdkSharedModule,
-        MatTooltipModule,
     ],
     providers: [
         UsuarioService,
