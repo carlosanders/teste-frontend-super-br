@@ -93,7 +93,7 @@ export class ResponderComplementarComponent implements OnInit, OnDestroy {
             }
         });
 
-        this.getDocumentoOrigem();
+        //this.getDocumentoOrigem();
 
         this.routerState$.pipe(
             takeUntil(this._unsubscribeAll)

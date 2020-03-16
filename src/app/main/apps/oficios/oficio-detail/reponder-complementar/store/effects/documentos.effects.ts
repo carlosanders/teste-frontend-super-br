@@ -13,10 +13,13 @@ import {Documento} from '@cdk/models/documento.model';
 import {DocumentoService} from '@cdk/services/documento.service';
 import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
 import {Router} from '@angular/router';
+import {getDocumentoAvulso} from '../../../store/selectors';
+import {DocumentoAvulso} from '@cdk/models';
 
 @Injectable()
 export class DocumentosEffects {
     routerState: any;
+    documentoAvulso: DocumentoAvulso;
 
     constructor(
         private _actions: Actions,
@@ -30,6 +33,12 @@ export class DocumentosEffects {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
+            });
+
+        this._store
+            .pipe(select(getDocumentoAvulso))
+            .subscribe(documentoAvulso => {
+                this.documentoAvulso = documentoAvulso;
             });
     }
 
@@ -52,7 +61,7 @@ export class DocumentosEffects {
 
                     const params = {
                         filter: {
-                            id: documentoAvulsoId
+                            id: this.documentoAvulso.documentoResposta.id
                         },
                         limit: 10,
                         offset: 0,

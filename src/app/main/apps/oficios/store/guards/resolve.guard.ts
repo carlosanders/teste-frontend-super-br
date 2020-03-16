@@ -51,11 +51,13 @@ export class ResolveGuard implements CanActivate {
      * @returns {Observable<boolean>}
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-        if (this.getRouterDefault()) {
-            return this.getDocumentosAvulso().pipe(
-                switchMap(() => of(true)),
-                catchError(() => of(false))
-            );
+        if (this.getPermissionRouter()) {
+            if (this.getRouterDefault()) {
+                return this.getDocumentosAvulso().pipe(
+                    switchMap(() => of(true)),
+                    catchError(() => of(false))
+                );
+            }
         }
     }
 
@@ -130,6 +132,29 @@ export class ResolveGuard implements CanActivate {
     getRouterDefault(): boolean {
         if (!this.routerState.params['pessoaHandle']) {
             this._router.navigate(['apps/oficios/entrada/' + this.pessoasConveniadas[0].pessoa.id]);
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Check store
+     *
+     * @returns {Observable<any>}
+     */
+    /*checkSRole(observabObservable): Observable<any> {
+        return forkJoin(
+            // (!this._loginService.isGranted('ROLE_CONVENIADO') => this._router.navigate(['apps/painel/']))
+        ).pipe(
+            switchMap(() => this.getDocumentosAvulso()),
+            catchError(() => of('Usuário não tem permissão de acesso.'))
+        );
+    }*/
+
+    getPermissionRouter(): boolean {
+        if (!this._loginService.isGranted('ROLE_CONVENIADO')) {
+            this._router.navigate(['apps/painel/']);
             return false;
         }
 
