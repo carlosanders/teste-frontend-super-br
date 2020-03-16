@@ -1,19 +1,9 @@
 admin-setor {
-   height: 100%;
+  height: 100%;
+  width: 100%;
+  .setor-content {
+    height: 100%;
     width: 100%;
-
-  .header {
-
-    .actions {
-      .is-active {
-        display: none;
-      }
-    }
-
-  }
-
-  .content {
-      height: 85%;
   }
 }
 
