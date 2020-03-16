@@ -62,7 +62,7 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
     constructor(
         private _store: Store<fromStore.DadosBasicosAppState>,
         private _router: Router,
-        private _loginService: LoginService,
+        public _loginService: LoginService,
 
     ) {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));

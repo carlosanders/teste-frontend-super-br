@@ -133,7 +133,7 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
         private _router: Router,
         private _repositorioService: RepositorioService,
         private _sanitizer: DomSanitizer,
-        private _loginService: LoginService
+        public _loginService: LoginService
     ) {
         this.documento$ = this._store.pipe(select(fromStore.getDocumento));
         this.componenteDigital$ = this._store.pipe(select(fromStore.getComponenteDigital));

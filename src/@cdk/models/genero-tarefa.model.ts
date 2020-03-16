@@ -12,13 +12,13 @@ export class GeneroTarefa {
     uuid?: string;
 
     @Exclude({ toPlainOnly: true })
-    nome: string;
+    nome?: string;
 
     @Exclude({ toPlainOnly: true })
-    descricao: string;
+    descricao?: string;
 
     @Exclude({ toPlainOnly: true })
-    ativo: boolean;
+    ativo?: boolean;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)

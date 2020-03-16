@@ -55,7 +55,7 @@ export class TarefaCreateBlocoComponent implements OnInit, OnDestroy {
      */
     constructor(
         private _store: Store<fromStore.TarefaCreateBlocoAppState>,
-        private _loginService: LoginService,
+        public _loginService: LoginService,
         private _router: Router,
         private _changeDetectorRef: ChangeDetectorRef
     ) {

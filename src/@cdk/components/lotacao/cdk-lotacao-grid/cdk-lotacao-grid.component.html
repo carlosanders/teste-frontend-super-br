@@ -11,9 +11,10 @@
     <!-- / SIDEBAR -->
 
     <!-- CONTENT -->
-    <div class="content responsive-grid" fxLayout="row" fxLayoutAlign="center start">
+    <div class="content responsive-grid" fxFlex fxLayout="column">
 
-        <div class="mb-8 p-8" fxFlex="100%" fxLayout="column" fxLayoutAlign="center center">
+        <div class="actions" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="end">
+
 
             <button class="back" mat-icon-button *ngIf="actions.indexOf('cancel') > -1"
                     (click)="doCancel()"

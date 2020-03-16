@@ -1,30 +1,32 @@
-<form *ngIf="activeCard === 'form'" class="p-24 mr-24" fxLayoutGap="16px"
-      fxLayout="column"
-      fxLayoutAlign="start"
-      name="form" [formGroup]="form" (submit)="submit()">
+<div class="pr-16" fxFlex *ngIf="activeCard === 'form'" cdkPerfectScrollbar>
+    <form class="p-24 mr-24" fxLayoutGap="16px"
+          fxLayout="column"
+          fxLayoutAlign="start"
+          name="form" [formGroup]="form" (submit)="submit()">
 
-    <mat-form-field fxFlex="100">
-        <mat-label>Nome</mat-label>
-        <input matInput #valor
-               name="valor"
-               formControlName="valor"
-               minlength="3"
-               maxlength="255"
-               required>
-    </mat-form-field>
+        <mat-form-field fxFlex="100">
+            <mat-label>Nome</mat-label>
+            <input matInput #valor
+                   name="valor"
+                   formControlName="valor"
+                   minlength="3"
+                   maxlength="255"
+                   required>
+        </mat-form-field>
 
-    <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+        <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
-    <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-         fxLayoutAlign="center center">
-        <button mat-raised-button color="accent" class="mr-sm-12"
-                [disabled]="form.invalid">
-            SALVAR
-        </button>
-    </div>
+        <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+             fxLayoutAlign="center center">
+            <button mat-raised-button color="accent" class="mr-sm-12"
+                    [disabled]="form.invalid">
+                SALVAR
+            </button>
+        </div>
 
-    <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-         fxLayoutAlign="center center">
-        <mat-spinner color="accent" diameter="24"></mat-spinner>
-    </div>
-</form>
+        <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+             fxLayoutAlign="center center">
+            <mat-spinner color="accent" diameter="24"></mat-spinner>
+        </div>
+    </form>
+</div>

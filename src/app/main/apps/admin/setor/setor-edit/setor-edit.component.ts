@@ -16,6 +16,7 @@ import * as fromStore from './store';
 import {Pagination} from '@cdk/models/pagination';
 import {Usuario} from '@cdk/models/usuario.model';
 import {LoginService} from 'app/main/auth/login/login.service';
+import {getRouterState} from "../../../../../store/reducers";
 
 @Component({
     selector: 'setor-edit',
@@ -27,12 +28,14 @@ import {LoginService} from 'app/main/auth/login/login.service';
 })
 export class SetorEditComponent implements OnInit, OnDestroy {
 
+    routerState: any;
     setor$: Observable<Setor>;
     setor: Setor;
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
     usuario: Usuario;
-    // unidadePagination: Pagination;
+    setorPagination: Pagination;
+    especieSetorPagination: Pagination;
 
     /**
      *
@@ -41,18 +44,28 @@ export class SetorEditComponent implements OnInit, OnDestroy {
      */
     constructor(
         private _store: Store<fromStore.SetorEditAppState>,
-        private _loginService: LoginService
+        public _loginService: LoginService
     ) {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.setor$ = this._store.pipe(select(fromStore.getSetor));
         this.usuario = this._loginService.getUserProfile();
 
-        // this.unidadePagination = new Pagination();
-        //
-        // this.unidadePagination.populate = ['unidade'];
-        // TO DO
-        // this.setorPagination.filter = ['']
+        this._store
+            .pipe(select(getRouterState))
+            .subscribe(routerState => {
+                if (routerState) {
+                    this.routerState = routerState.state;
+                }
+            });
+
+        this.setorPagination = new Pagination();
+        this.setorPagination.populate = ['populateAll'];
+        this.setorPagination.filter = {
+            'unidade.id': 'eq:' + this.routerState.params.unidadeHandle
+        }
+        this.especieSetorPagination = new Pagination();
+        this.especieSetorPagination.populate = ['populateAll'];
 
     }
 

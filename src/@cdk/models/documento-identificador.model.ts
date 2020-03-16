@@ -14,9 +14,9 @@ export class DocumentoIdentificador {
     @Exclude({ toPlainOnly: true })
     uuid?: string;
 
-    codigoDocumento: string;
+    codigoDocumento?: string;
 
-    emissorDocumento: string;
+    emissorDocumento?: string;
 
     @Transform(value => value ? value.format('YYYY-MM-DD') : null, { toPlainOnly: true })
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
@@ -33,7 +33,7 @@ export class DocumentoIdentificador {
 
     @Type(() => Pessoa)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    pessoa: Pessoa;
+    pessoa?: Pessoa;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)

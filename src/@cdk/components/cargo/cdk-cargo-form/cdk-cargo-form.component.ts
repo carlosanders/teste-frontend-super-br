@@ -6,10 +6,9 @@ import {
     Output, SimpleChange,
     ViewEncapsulation
 } from '@angular/core';
-
-import { cdkAnimations } from '@cdk/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { Cargo } from '@cdk/models';
+import {Cargo} from '@cdk/models';
 
 @Component({
     selector: 'cdk-cargo-form',

@@ -1,6 +1,7 @@
 version: '3'
 services:
     angular-dev:
+        container_name: angular-dev
         build:
             context: .
             dockerfile: ./docker/dev/DockerFile
@@ -14,11 +15,12 @@ services:
             supp_frontend_network:
                 ipv4_address: 192.168.70.10
     angular-hom:
+        container_name: angular-hom
         build:
             context: .
             dockerfile: ./docker/hom/DockerFile
         ports:
-            - 80:80
+            - 4200:4200
         volumes:
             - '.:/app'
         tty: true

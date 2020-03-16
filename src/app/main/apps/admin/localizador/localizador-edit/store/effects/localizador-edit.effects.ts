@@ -24,7 +24,7 @@ export class LocalizadorEditEffect {
         private _actions: Actions,
         private _localizadorService: LocalizadorService,
         private _store: Store<State>,
-        private _loginService: LoginService,
+        public _loginService: LoginService,
         private _router: Router
     ) {
         this._store
@@ -82,7 +82,6 @@ export class LocalizadorEditEffect {
             .pipe(
                 ofType<LocalizadorEditActions.SaveLocalizador>(LocalizadorEditActions.SAVE_LOCALIZADOR),
                 switchMap((action) => {
-                    console.log(action);
                     return this._localizadorService.save(action.payload).pipe(
                         mergeMap((response: Localizador) => [
                             new LocalizadorEditActions.SaveLocalizadorSuccess(),

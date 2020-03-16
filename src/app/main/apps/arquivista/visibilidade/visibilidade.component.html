@@ -1,0 +1,46 @@
+<!-- CONTENT -->
+<div class="content p-16" fxLayout="column" fxFlex="100">
+
+    <h2>Controle de Acesso</h2>
+
+    <div class="actions m-16" fxLayout="row" fxLayoutAlign="start center">
+        <button mat-raised-button
+                class="mat-accent"
+                aria-label="novo"
+                (click)="showFormAcessoRestrito()"
+                *ngIf="!formAcessoRestrito"
+                matTooltip="Novo">
+            Novo
+        </button>
+        <button mat-icon-button
+                (click)="showFormAcessoRestrito()"
+                *ngIf="formAcessoRestrito"
+                aria-label="voltar"
+                matTooltip="Voltar">
+            <mat-icon>arrow_back</mat-icon>
+        </button>
+    </div>
+
+    <cdk-visibilidade-form cdkPerfectScrollbar *ngIf="formAcessoRestrito"
+                           [visibilidade]="visibilidade"
+                           [saving]="(visibilidadeIsSaving$ | async)"
+                           [unidadeDefault]="_profile.colaborador.lotacoes[0].setor.unidade"
+                           [unidadePagination]="unidadePagination"
+                           [setorPagination]="setorPagination"
+                           [usuarioPagination]="usuarioPagination"
+                           (save)="submitVisibilidade($event)">
+    </cdk-visibilidade-form>
+
+    <cdk-visibilidade-list class="mr-8" *ngIf="!formAcessoRestrito"
+                           [loading]="(loadingAcessoRestrito$ | async)"
+                           [visibilidades]="(visibilidades$ | async)"
+                           [deletingIds]="(deletingVisibilidadeIds$ | async)"
+                           [deletedIds]="(deletedVisibilidadeIds$ | async)"
+                           [actions]="['delete']"
+                           (delete)="deleteVisibilidade($event)">
+    </cdk-visibilidade-list>
+
+</div>
+
+
+

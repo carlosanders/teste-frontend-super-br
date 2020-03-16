@@ -7,10 +7,10 @@ import {
     MatCheckboxModule,
     MatProgressSpinnerModule,
     MatAutocompleteModule,
-    MatDatepickerModule, MatSlideToggleModule, MatTooltipModule
-
+    MatDatepickerModule,
+    MatSlideToggleModule,
+    MatTooltipModule
 } from '@cdk/angular/material';
-
 import {CdkSharedModule} from '@cdk/shared.module';
 import {EspecieDocumentoAvulsoService} from '@cdk/services/especie-documento-avulso.service';
 import {CdkDocumentoAvulsoFormComponent} from './cdk-documento-avulso-form.component';
@@ -18,15 +18,12 @@ import {CdkEspecieDocumentoAvulsoAutocompleteModule} from '@cdk/components/espec
 import {CdkEspecieDocumentoAvulsoGridsearchModule} from '@cdk/components/especie-documento-avulso/cdk-especie-documento-avulso-autocomplete/cdk-especie-documento-avulso-gridsearch/cdk-especie-documento-avulso-gridsearch.module';
 import {CdkUsuarioAutocompleteModule} from '../../usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 import {CdkUsuarioGridsearchModule} from '../../usuario/cdk-usuario-autocomplete/cdk-usuario-gridsearch/cdk-usuario-gridsearch.module';
-
 import {CdkProcessoAutocompleteModule} from '../../processo/cdk-processo-autocomplete/cdk-processo-autocomplete.module';
 import {CdkProcessoGridsearchModule} from '../../processo/cdk-processo-autocomplete/cdk-processo-gridsearch/cdk-processo-gridsearch.module';
-
 import {UsuarioService} from '@cdk/services/usuario.service';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 import {ProcessoService} from '@cdk/services/processo.service';
-
 import {CdkSetorAutocompleteModule} from '../../setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
 import {CdkSetorGridsearchModule} from '../../setor/cdk-setor-autocomplete/cdk-setor-gridsearch/cdk-setor-gridsearch.module';
 import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
@@ -40,7 +37,6 @@ import {CdkProcessoGridModule} from '../../processo/cdk-processo-grid/cdk-proces
         CdkDocumentoAvulsoFormComponent,
     ],
     imports: [
-
         MatAutocompleteModule,
         MatButtonModule,
         MatFormFieldModule,
@@ -68,7 +64,6 @@ import {CdkProcessoGridModule} from '../../processo/cdk-processo-grid/cdk-proces
         CdkModeloAutocompleteModule,
         CdkModeloGridsearchModule,
         CdkPessoaAutocompleteModule,
-
         CdkProcessoGridModule,
 
         CdkSharedModule,

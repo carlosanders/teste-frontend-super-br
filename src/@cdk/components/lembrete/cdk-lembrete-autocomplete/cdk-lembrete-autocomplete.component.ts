@@ -1,13 +1,13 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, Input,
-    OnInit, ViewChild,
+    Component, EventEmitter, Input,
+    OnInit, Output, ViewChild,
     ViewEncapsulation
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Lembrete} from '@cdk/models';
+import {Etiqueta, Lembrete} from '@cdk/models';
 import {LembreteService} from '@cdk/services/lembrete.service';
 import {FormControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
@@ -36,6 +36,9 @@ export class CdkLembreteAutocompleteComponent implements OnInit {
     lembreteListIsLoading: boolean;
 
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+
+    @Output()
+    selected = new EventEmitter<any>();
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -90,5 +93,9 @@ export class CdkLembreteAutocompleteComponent implements OnInit {
 
     displayLembreteFn(lembrete): string {
         return lembrete ? lembrete.conteudo : null;
+    }
+
+    onSelected(etiqueta: Etiqueta): void {
+        this.selected.emit(etiqueta);
     }
 }

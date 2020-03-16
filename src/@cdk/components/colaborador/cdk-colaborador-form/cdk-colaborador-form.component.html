@@ -1,31 +1,10 @@
+
 <form *ngIf="activeCard === 'form'" class="p-24 mr-24" fxLayoutGap="36px"
       fxLayout="column"
       fxLayoutAlign="start"
       name="form" [formGroup]="form" (submit)="submit()">
 
     <div fxFlex="1 0 auto" fxLayout="column" class="div-form">
-
-        <mat-form-field fxFlex="100">
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Usuário"
-                       formControlName="usuario"
-                       [matAutocomplete]="usuario.autocomplete"
-                       (blur)="checkUsuario()"
-                       required>
-            </div>
-            <cdk-usuario-autocomplete
-                #usuario="usuarioAutocomplete"
-                [control]="form.get('usuario')"
-                [pagination]="usuarioPagination">
-            </cdk-usuario-autocomplete>
-            <button matSuffix mat-button mat-icon-button
-                    (click)="showUsuarioGrid()">
-                <mat-icon matTooltip="Procurar">search</mat-icon>
-            </button>
-            <mat-error *ngIf="form.get('usuario').hasError('formError')">
-                {{form.get('usuario').errors.formError}}
-            </mat-error>
-        </mat-form-field>
 
         <mat-form-field fxFlex="100">
             <div fxLayout="row" fxLayoutAlign="start center">
@@ -71,6 +50,10 @@
             </mat-error>
         </mat-form-field>
 
+        <mat-checkbox formControlName="ativo"
+                      class="mr-16 mb-16" fxFlex="0 1 auto">
+            Ativo
+        </mat-checkbox>
     </div>
 
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
@@ -89,12 +72,6 @@
     </div>
 </form>
 
-<cdk-usuario-gridsearch
-    fxFlex="1 0 auto"
-    *ngIf="activeCard === 'usuario-gridsearch'"
-    (selected)="selectUsuario($event)"
-    (cancel)="cancel()">
-</cdk-usuario-gridsearch>
 
 <cdk-modalidade-colaborador-gridsearch
         fxFlex="1 0 auto"

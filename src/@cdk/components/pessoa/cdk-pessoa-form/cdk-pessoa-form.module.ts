@@ -6,11 +6,12 @@ import {
     MatInputModule,
     MatCheckboxModule,
     MatProgressSpinnerModule,
-    MatAutocompleteModule, MatDatepickerModule
+    MatAutocompleteModule,
+    MatDatepickerModule,
+    MatTooltipModule
 } from '@cdk/angular/material';
-
-import { CdkSharedModule } from '@cdk/shared.module';
-import { CdkPessoaFormComponent } from './cdk-pessoa-form.component';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {CdkPessoaFormComponent} from './cdk-pessoa-form.component';
 import {CdkModalidadeQualificacaoPessoaAutocompleteModule} from '@cdk/components/modalidade-qualificacao-pessoa/cdk-modalidade-qualificacao-pessoa-autocomplete/cdk-modalidade-qualificacao-pessoa-autocomplete.module';
 import {CdkModalidadeQualificacaoPessoaGridsearchModule} from '@cdk/components/modalidade-qualificacao-pessoa/cdk-modalidade-qualificacao-pessoa-autocomplete/cdk-modalidade-qualificacao-pessoa-gridsearch/cdk-modalidade-qualificacao-pessoa-gridsearch.module';
 import {CdkPaisAutocompleteModule} from '@cdk/components/pais/cdk-pais-autocomplete/cdk-pais-autocomplete.module';
@@ -25,7 +26,6 @@ import {CdkModalidadeGeneroPessoaAutocompleteModule} from '@cdk/components/modal
         CdkPessoaFormComponent,
     ],
     imports: [
-
         MatAutocompleteModule,
         MatButtonModule,
         MatFormFieldModule,
@@ -34,6 +34,7 @@ import {CdkModalidadeGeneroPessoaAutocompleteModule} from '@cdk/components/modal
         MatInputModule,
         MatProgressSpinnerModule,
         MatDatepickerModule,
+        MatTooltipModule,
 
         CdkModalidadeQualificacaoPessoaAutocompleteModule,
         CdkModalidadeQualificacaoPessoaGridsearchModule,
@@ -46,8 +47,7 @@ import {CdkModalidadeGeneroPessoaAutocompleteModule} from '@cdk/components/modal
 
         CdkSharedModule,
     ],
-    providers: [
-    ],
+    providers: [],
     exports: [
         CdkPessoaFormComponent
     ]

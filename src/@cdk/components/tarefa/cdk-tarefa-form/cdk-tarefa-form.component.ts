@@ -127,7 +127,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: FormBuilder,
         private _favoritoService: FavoritoService,
-        private _loginService: LoginService
+        public _loginService: LoginService
     ) {
 
         this.form = this._formBuilder.group({

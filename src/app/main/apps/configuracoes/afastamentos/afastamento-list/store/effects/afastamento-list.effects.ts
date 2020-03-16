@@ -22,7 +22,7 @@ export class AfastamentoListEffect {
     constructor(
         private _actions: Actions,
         private _afastamentoService: AfastamentoService,
-        private _loginService: LoginService,
+        public _loginService: LoginService,
         private _store: Store<State>
     ) {
         this._store

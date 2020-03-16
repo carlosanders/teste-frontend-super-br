@@ -34,6 +34,7 @@ export class CdkTipoDocumentoGridFilterComponent implements OnInit {
         this.form = this._formBuilder.group({
             nome: [null],
             sigla: [null],
+            especieDocumento: [null],
             descricao: [null],
             ativo: [null],
             criadoPor: [null],

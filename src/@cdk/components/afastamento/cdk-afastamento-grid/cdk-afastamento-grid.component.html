@@ -4,7 +4,7 @@
     <cdk-sidebar class="sidebar" name="cdk-afastamento-main-sidebar" position="left">
         <!-- SIDEBAR CONTENT -->
         <div class="content" cdkPerfectScrollbar>
-            <cdk-afastamento-main-sidebar (selected)="setGridFilter($event)" [@animate]="{value:'*'}"></cdk-afastamento-main-sidebar>
+            <cdk-afastamento-main-sidebar (selected)="setGridFilter($event)" [@animate]="{value:'*'}" [colaboradorPagination]="colaboradorPagination"></cdk-afastamento-main-sidebar>
         </div>
         <!-- / SIDEBAR CONTENT -->
     </cdk-sidebar>
@@ -23,7 +23,7 @@
             </button>
 
             <button mat-icon-button *ngIf="selectedIds.length > 1 && actions.indexOf('delete') > -1"
-                    (click)="deleteAfastamento(selectedIds)"
+                    (click)="deleteAfastamentos(selectedIds)"
                     aria-label="remover"
                     matTooltip="Remover">
                 <mat-icon>delete</mat-icon>

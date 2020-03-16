@@ -32,7 +32,7 @@ export const getDocumentosAvulso = createSelector(
     schemaSelectors.entitiesProjector
 );
 
-export const getSelectedDocumentoAvulso = createSelector(
+export const getSelectedDocumentosAvulso = createSelector(
     schemaSelectors.getNormalizedEntities,
     getSelectedDocumentoAvulsoIds,
     schemaSelectors.entitiesProjector

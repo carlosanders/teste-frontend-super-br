@@ -1,5 +1,6 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Output, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEncapsulation} from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
+import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-localizador-main-sidebar',
@@ -12,6 +13,9 @@ import {cdkAnimations} from '@cdk/animations';
 export class CdkLocalizadorMainSidebarComponent {
     @Output()
     selected = new EventEmitter<any>();
+
+    @Input()
+    setorPagination: Pagination;
 
     gridFilter: any;
 

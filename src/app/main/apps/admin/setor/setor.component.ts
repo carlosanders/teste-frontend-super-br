@@ -37,8 +37,7 @@ export class SetorComponent implements OnInit, OnDestroy {
         private _store: Store<fromStore.State>,
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router
-    ) {
-            }
+    ) {}
 
     /**
      * On init
@@ -60,6 +59,15 @@ export class SetorComponent implements OnInit, OnDestroy {
                 if (this.routerState.url.indexOf('setor/editar/criar') > -1) {
                     this.action = 'criar';
                 }
+                if (this.routerState.url.indexOf('lotacoes') > -1) {
+                    this.action = 'lotacoes';
+                }
+                if (this.routerState.url.indexOf('localizadores') > -1) {
+                    this.action = 'localizadores';
+                }
+                if (this.routerState.url.indexOf('numeros-unicos-documentos') > -1) {
+                    this.action = 'numeros-unicos-documentos';
+                }
                 this._changeDetectorRef.markForCheck();
             }
         });
@@ -73,10 +81,13 @@ export class SetorComponent implements OnInit, OnDestroy {
 
     goBack(): void {
         if (this.action === 'editar') {
-            this._router.navigate([this.routerState.url.replace(('editar/' + this.routerState.params.modeloHandle), 'listar')]).then();
+            this._router.navigate([this.routerState.url.replace(('editar/' + this.routerState.params.setorHandle), 'listar')]).then();
         }
         if (this.action === 'criar') {
             this._router.navigate([this.routerState.url.replace('editar/criar', 'listar')]).then();
+        }
+        if (this.action === 'lotacoes' || this.action === 'localizadores' || this.action === 'numeros-unicos-documentos') {
+            this._router.navigate([`apps/admin/${this.routerState.params.unidadeHandle}/setor/listar`]).then();
         }
     }
 }

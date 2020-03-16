@@ -74,7 +74,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy {
      */
     constructor(
         private _store: Store<fromStore.AtividadeCreateAppState>,
-        private _loginService: LoginService,
+        public _loginService: LoginService,
         private _router: Router,
         private _changeDetectorRef: ChangeDetectorRef
     ) {
@@ -159,7 +159,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy {
             takeUntil(this._unsubscribeAll)
         ).subscribe(
             documentos => {
-                this.minutas = documentos.filter(documento => (!documento.documentoAvulsoRemessa && documento.minuta));
+                this.minutas = documentos.filter(documento => (!documento.documentoAvulsoRemessa && !documento.juntadaAtual));
                 this.oficios = documentos.filter(documento => documento.documentoAvulsoRemessa);
                 this._changeDetectorRef.markForCheck();
             }

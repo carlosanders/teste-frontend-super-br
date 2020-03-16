@@ -1,5 +1,6 @@
 <cdk-localizador-form
         [localizador]="localizador"
+        [setor]="(setor$ | async)"
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
         [setorPagination]="setorPagination"

@@ -24,7 +24,7 @@ export class ShowIfRoleDirective {
     constructor(
         private templateRef: TemplateRef<any>,
         private viewContainer: ViewContainerRef,
-        private _loginService: LoginService) {}
+        public _loginService: LoginService) {}
 
     @Input() set showIfRole(role: string) {
         const userProfile = this._loginService.getUserProfile();

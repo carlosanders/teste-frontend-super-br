@@ -3,8 +3,15 @@ import {getLotacaoEditAppState, LotacaoEditAppState, LotacaoEditState} from '../
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {Lotacao} from '@cdk/models/lotacao.model';
 import {lotacao as lotacaoSchema} from '@cdk/normalizr/lotacao.schema';
+import {getLotacoesState} from "../../../store/selectors";
+import {LotacoesState} from "../../../store/reducers";
+import {Setor, Usuario} from '@cdk/models';
+import {setor as schemaSetor} from '@cdk/normalizr/setor.schema';
+import {usuario as schemaUsuario} from '@cdk/normalizr/usuario.schema';
 
 const schemaLotacaoSelectors = createSchemaSelectors<Lotacao>(lotacaoSchema);
+const schemaSetorSelectors = createSchemaSelectors<Setor>(schemaSetor);
+const schemaUsuarioSelectors = createSchemaSelectors<Usuario>(schemaUsuario);
 
 export const getLotacaoEditState = createSelector(
     getLotacaoEditAppState,
@@ -35,4 +42,26 @@ export const getHasLoaded = createSelector(
 export const getErrors = createSelector(
     getLotacaoEditState,
     (state: LotacaoEditState) => state.errors
+);
+
+export const getSetorId = createSelector(
+    getLotacoesState,
+    (state: LotacoesState) => (state.loaded && state.loaded.id === 'setorHandle') ? state.loaded.value : null
+);
+
+export const getSetor = createSelector(
+    schemaSetorSelectors.getNormalizedEntities,
+    getSetorId,
+    schemaSetorSelectors.entityProjector
+);
+
+export const getUsuarioId = createSelector(
+    getLotacoesState,
+    (state: LotacoesState) => (state.loaded && state.loaded.id === 'usuarioHandle') ? state.loaded.value : null
+);
+
+export const getUsuario = createSelector(
+    schemaUsuarioSelectors.getNormalizedEntities,
+    getUsuarioId,
+    schemaUsuarioSelectors.entityProjector
 );

@@ -13,11 +13,11 @@ export class VinculacaoUsuario {
 
     @Type(() => Usuario)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    usuario: Usuario;
+    usuario?: Usuario;
 
     @Type(() => Usuario)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    usuarioVinculado: Usuario;
+    usuarioVinculado?: Usuario;
 
     encerraTarefa?: boolean;
 

@@ -13,7 +13,7 @@ export class Nome {
     @Exclude({ toPlainOnly: true })
     uuid?: string;
 
-    valor: string;
+    valor?: string;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => OrigemDados)
@@ -22,7 +22,7 @@ export class Nome {
 
     @Type(() => Pessoa)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    pessoa: Pessoa;
+    pessoa?: Pessoa;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)

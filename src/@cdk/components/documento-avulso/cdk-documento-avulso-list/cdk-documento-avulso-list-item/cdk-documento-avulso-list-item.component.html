@@ -9,18 +9,13 @@
         <div class="info" fxFlex [ngClass]="{'nao-respondido': !documentoAvulso.dataHoraResposta}">
 
             <div class="title" fxLayout="row">
-                <mat-icon *ngIf="documentoAvulso.processo?.acessoNegado" class="red-fg">block</mat-icon>
                 <mat-icon *ngIf="documentoAvulso.processo?.documentoAvulsoOrigem">mail</mat-icon>
                 <span class="text-truncate">PROCESSO {{documentoAvulso.processo?.NUP | formatNup}}</span>
             </div>
 
-            <div class="subtitle" *ngIf="!documentoAvulso.processo?.acessoNegado">
+            <div class="subtitle">
                 <span class="text-truncate">{{documentoAvulso.processo?.modalidadeMeio?.valor }}
                     {{documentoAvulso.processo?.especieProcesso?.nome }}</span>
-            </div>
-
-            <div class="subtitle" *ngIf="documentoAvulso.processo?.acessoNegado">
-                <span class="text-truncate">Usuário com acesso negado ao processo</span>
             </div>
 
             <div class="subtitle">
@@ -43,7 +38,7 @@
             </div>
 
             <div class="etiquetas" fxLayout="row wrap" fxHide fxShow.gt-sm>
-                <div class="etiqueta" *ngFor="let vinculacaoEtiqueta of documentoAvulso.processo.vinculacoesEtiquetas"
+                <div class="etiqueta" *ngFor="let vinculacaoEtiqueta of documentoAvulso.vinculacoesEtiquetas"
                      fxLayout="row" fxLayoutAlign="start center">
                     <div class="etiqueta-color"
                          [ngStyle]="{'background-color': (vinculacaoEtiqueta.etiqueta?.corHexadecimal)}"></div>

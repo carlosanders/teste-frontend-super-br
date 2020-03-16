@@ -71,7 +71,7 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
      */
     constructor(
         private _store: Store<fromStore.AtividadeCreateBlocoAppState>,
-        private _loginService: LoginService,
+        public _loginService: LoginService,
         private _router: Router,
         private _changeDetectorRef: ChangeDetectorRef
     ) {

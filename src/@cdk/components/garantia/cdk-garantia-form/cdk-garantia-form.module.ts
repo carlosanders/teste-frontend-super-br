@@ -6,24 +6,22 @@ import {
     MatInputModule,
     MatCheckboxModule,
     MatProgressSpinnerModule,
-    MatAutocompleteModule, 
+    MatAutocompleteModule,
     MatTooltipModule,
     MatDatepickerModule
 } from '@cdk/angular/material';
-
-import { CdkSharedModule } from '@cdk/shared.module';
-import { ModalidadeGarantiaService } from '@cdk/services/modalidade-garantia.service';
-import { CdkGarantiaFormComponent } from './cdk-garantia-form.component';
-import { CdkModalidadeGarantiaAutocompleteModule } from '@cdk/components/modalidade-garantia/cdk-modalidade-garantia-autocomplete/cdk-modalidade-garantia-autocomplete.module';
-import { CdkModalidadeGarantiaGridsearchModule } from '@cdk/components/modalidade-garantia/cdk-modalidade-garantia-autocomplete/cdk-modalidade-garantia-gridsearch/cdk-modalidade-garantia-gridsearch.module';
-import { NgxUpperCaseDirectiveModule } from 'ngx-upper-case-directive';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {ModalidadeGarantiaService} from '@cdk/services/modalidade-garantia.service';
+import {CdkGarantiaFormComponent} from './cdk-garantia-form.component';
+import {CdkModalidadeGarantiaAutocompleteModule} from '@cdk/components/modalidade-garantia/cdk-modalidade-garantia-autocomplete/cdk-modalidade-garantia-autocomplete.module';
+import {CdkModalidadeGarantiaGridsearchModule} from '@cdk/components/modalidade-garantia/cdk-modalidade-garantia-autocomplete/cdk-modalidade-garantia-gridsearch/cdk-modalidade-garantia-gridsearch.module';
+import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
 
 @NgModule({
     declarations: [
         CdkGarantiaFormComponent,
     ],
     imports: [
-
         MatAutocompleteModule,
         MatButtonModule,
         MatFormFieldModule,
@@ -32,14 +30,13 @@ import { NgxUpperCaseDirectiveModule } from 'ngx-upper-case-directive';
         MatInputModule,
         MatProgressSpinnerModule,
         MatDatepickerModule,
-
-        NgxUpperCaseDirectiveModule,
+        MatTooltipModule,
 
         CdkModalidadeGarantiaAutocompleteModule,
         CdkModalidadeGarantiaGridsearchModule,
 
+        NgxUpperCaseDirectiveModule,
         CdkSharedModule,
-        MatTooltipModule,
     ],
     providers: [
         ModalidadeGarantiaService,

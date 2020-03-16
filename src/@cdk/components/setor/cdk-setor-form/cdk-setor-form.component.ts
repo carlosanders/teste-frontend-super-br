@@ -8,12 +8,12 @@ import {
 } from '@angular/core';
 
 
-import { cdkAnimations } from '@cdk/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { Setor } from '@cdk/models/setor.model';
+import {Setor} from '@cdk/models/setor.model';
 import {Pagination} from '@cdk/models/pagination';
 import {EspecieSetor} from '@cdk/models/especie-setor.model';
-import {Municipio} from '../../../models/municipio.model';
+import {Municipio} from '@cdk/models/municipio.model';
 
 @Component({
     selector: 'cdk-setor-form',
@@ -43,7 +43,10 @@ export class CdkSetorFormComponent implements OnChanges, OnDestroy {
 
     @Input()
     especieSetorPagination: Pagination;
+
     municipioPagination: Pagination;
+
+    @Input()
     setorPagination: Pagination;
 
     /**
@@ -62,14 +65,15 @@ export class CdkSetorFormComponent implements OnChanges, OnDestroy {
             endereco: [null],
             especieSetor: [null, [Validators.required]],
             municipio: [null, [Validators.required]],
-            setor: [null, [Validators.required]],
+            parent: [null, [Validators.required]],
             distribuicaoCentena: [null],
             prazoEqualizacao: [null],
             divergenciaMaxima: [null],
             apenasDistribuidor: [null],
             sequenciaInicialNUP: [null],
-
-    });
+            apenasDistribuicaoAutomatica: [null],
+            comPrevencaoRelativa: [null],
+        });
 
         this.especieSetorPagination = new Pagination();
         this.municipioPagination = new Pagination();
@@ -115,15 +119,15 @@ export class CdkSetorFormComponent implements OnChanges, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
 
     checkEspecieSetor(): void {
-        const value = this.form.get('especie-setor').value;
+        const value = this.form.get('especieSetor').value;
         if (!value || typeof value !== 'object') {
-            this.form.get('especie-setor').setValue(null);
+            this.form.get('especieSetor').setValue(null);
         }
     }
 
     selectEspecieSetor(especieSetor: EspecieSetor): void {
         if (especieSetor) {
-            this.form.get('especie-setor').setValue(especieSetor);
+            this.form.get('especieSetor').setValue(especieSetor);
         }
         this.activeCard = 'form';
     }
@@ -151,15 +155,15 @@ export class CdkSetorFormComponent implements OnChanges, OnDestroy {
     }
 
     checkSetor(): void {
-        const value = this.form.get('setor').value;
+        const value = this.form.get('parent').value;
         if (!value || typeof value !== 'object') {
-            this.form.get('setor').setValue(null);
+            this.form.get('parent').setValue(null);
         }
     }
 
     selectSetor(setor: Setor): void {
         if (setor) {
-            this.form.get('setor').setValue(setor);
+            this.form.get('parent').setValue(setor);
         }
         this.activeCard = 'form';
     }
@@ -167,7 +171,6 @@ export class CdkSetorFormComponent implements OnChanges, OnDestroy {
     showSetorGrid(): void {
         this.activeCard = 'setor-gridsearch';
     }
-
 
 
     submit(): void {

@@ -24,7 +24,7 @@ export class ResolveGuard implements CanActivate {
      */
     constructor(
         private _store: Store<SetorListAppState>,
-        private _loginService: LoginService
+        public _loginService: LoginService
     ) {
         this._store
             .pipe(select(getRouterState))
@@ -63,7 +63,8 @@ export class ResolveGuard implements CanActivate {
                     const params = {
 
                         filter: {
-                               'unidade.id': 'eq:' + this.routerState.params.unidadeHandle
+                            'unidade.id': 'eq:' + this.routerState.params.unidadeHandle,
+                            'parent': 'isNotNull'
                         },
 
 
@@ -73,7 +74,10 @@ export class ResolveGuard implements CanActivate {
                         sort: {criadoEm: 'DESC'},
                         populate: [
                             'populateAll'
-                        ]
+                        ],
+                        context: {
+                            'isAdmin': true
+                        }
                     };
 
                     this._store.dispatch(new fromStore.GetSetores(params));

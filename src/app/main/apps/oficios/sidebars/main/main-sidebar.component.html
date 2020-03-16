@@ -14,15 +14,24 @@
 <div class="content" cdkPerfectScrollbar>
 
     <div class="nav material2">
+        <div *ngFor="let pessoaConveniada of pessoasConveniadas">
+            <div class="nav-subheader">{{ pessoaConveniada.pessoa.nome }}</div>
 
-        <div class="nav-subheader">MEUS OFÍCIOS</div>
+            <div class="nav-item" dndDropzone (dndDrop)="onDrop([$event, null])">
+                <a class="nav-link" matRipple [routerLink]="'/apps/oficios/entrada/' + pessoaConveniada.pessoa.id"
+                   [routerLinkActive]="['active', 'accent']">
+                    <mat-icon class="nav-link-icon">inbox</mat-icon>
+                    <span>Entrada</span>
+                </a>
+            </div>
 
-        <div class="nav-item">
-            <a class="nav-link" matRipple [routerLink]="'/apps/oficios'"
-               [routerLinkActive]="['active', 'accent']">
-                <mat-icon class="nav-link-icon">inbox</mat-icon>
-                <span>Entrada</span>
-            </a>
+            <div class="nav-item" dndDropzone (dndDrop)="onDrop([$event, null])">
+                <a class="nav-link" matRipple [routerLink]="'/apps/oficios/saida/' + pessoaConveniada.pessoa.id"
+                   [routerLinkActive]="['active', 'accent']">
+                    <mat-icon class="nav-link-icon">sendbox</mat-icon>
+                    <span>Saída</span>
+                </a>
+            </div>
         </div>
 
     </div>

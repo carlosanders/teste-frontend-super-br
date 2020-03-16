@@ -1,4 +1,4 @@
-<div id="admin" class="page-layout carded left-sidebar inner-scroll">
+<div class="page-layout carded left-sidebar inner-scroll">
 
     <!-- TOP BACKGROUND -->
     <div class="top-bg accent"></div>
@@ -6,18 +6,12 @@
 
     <!-- SIDEBAR -->
     <cdk-sidebar class="sidebar" name="admin-main-sidebar" position="left" lockedOpen="gt-sm">
-
-        <!-- SIDEBAR CONTENT -->
-        <div class="content" cdkPerfectScrollbar>
             <admin-main-sidebar [@animate]="{value:'*'}"></admin-main-sidebar>
-        </div>
-        <!-- / SIDEBAR CONTENT -->
-
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
     <!-- CENTER -->
-    <div class="center ng-tns-c434-286">
+    <div class="center">
 
         <!-- CONTENT HEADER -->
         <div class="header" fxLayout="row" fxLayoutAlign="start center">
@@ -32,9 +26,9 @@
 
         <!-- CONTENT CARD -->
         <div class="content-card">
-
-            <router-outlet></router-outlet>
-
+            <div class="content" cdkPerfectScrollbar>
+                <router-outlet></router-outlet>
+            </div>
         </div>
         <!-- / CONTENT CARD -->
 
