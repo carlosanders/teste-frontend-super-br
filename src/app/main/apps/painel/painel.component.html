@@ -20,14 +20,14 @@
         <!-- CONTENT -->
         <div class="content" fxLayout="column">
 
-            <div fxLayout="row wrap" fxLayoutAlign="start start" *ngIf="this._loginService.isGranted('ROLE_COLABORADOR')">
+            <div fxLayout="row wrap" fxLayoutAlign="start start">
 
                 <div class="widget-group p-12" fxLayout="row wrap" fxLayoutAlign="space-between start" fxFlex="75"
                      *cdkIfOnDom
                      [@animateStagger]="{value:'50'}">
 
                     <!-- WIDGET Tarefa -->
-                    <cdk-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
+                    <cdk-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column" *showIfRole="'ROLE_COLABORADOR'"
                                  fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="30">
 
                         <!-- Front -->
@@ -77,7 +77,7 @@
 
                     <!-- WIDGET Documento Avulso -->
                     <cdk-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
-                                 fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="30">
+                                 fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="30" *showIfRole="'ROLE_CONVENIADO'">
 
                         <!-- Front -->
                         <div class="cdk-widget-front">
@@ -127,7 +127,7 @@
 
                     <!-- WIDGET Tramitação -->
                     <cdk-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
-                                 fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="30">
+                                 fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="30" *showIfRole="'ROLE_COLABORADOR'">
 
                         <!-- Front -->
                         <div class="cdk-widget-front">

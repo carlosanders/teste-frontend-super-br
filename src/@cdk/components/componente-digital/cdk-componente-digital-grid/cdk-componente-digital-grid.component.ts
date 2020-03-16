@@ -16,6 +16,7 @@ import {ComponenteDigital} from '@cdk/models';
 import {environment} from 'environments/environment';
 import {FormControl} from '@angular/forms';
 import { CdkChaveAcessoPluginComponent } from '@cdk/components/chave-acesso/cdk-chave-acesso-plugins/cdk-chave-acesso-plugin.component';
+import {LoginService} from 'app/main/auth/login/login.service';
 
 @Component({
     selector: 'cdk-componente-digital-grid',
@@ -266,7 +267,8 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _cdkSidebarService: CdkSidebarService,
-        private dialog: MatDialog
+        private _dialog: MatDialog,
+        private _loginService: LoginService
     ) {
         this.gridFilter = {};
         this.componentesDigitais = [];
@@ -339,12 +341,12 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
     }
 
     viewComponenteDigital(componenteDigital: ComponenteDigital): void {
-        if (componenteDigital.documento.juntadaAtual.volume.processo.visibilidadeExterna) {
+        if (componenteDigital.documento.juntadaAtual.volume.processo.visibilidadeExterna || this._loginService.isGranted('ROLE_COLABORADOR')) {
             this.view.emit({id: componenteDigital.id});
             return;
         }
 
-        const dialogRef = this.dialog.open(CdkChaveAcessoPluginComponent, {
+        const dialogRef = this._dialog.open(CdkChaveAcessoPluginComponent, {
             width: '600px'
         });
 
