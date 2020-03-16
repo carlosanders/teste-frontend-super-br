@@ -23,7 +23,6 @@ export class LogEntry {
 
     data?: any;
 
-
     username?: string;
 
     constructor() {

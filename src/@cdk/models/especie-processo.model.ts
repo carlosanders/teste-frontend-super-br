@@ -13,18 +13,18 @@ export class EspecieProcesso {
     uuid?: string;
 
     @Exclude({ toPlainOnly: true })
-    nome: string;
+    nome?: string;
 
     @Exclude({ toPlainOnly: true })
-    descricao: string;
+    descricao?: string;
 
     @Exclude({ toPlainOnly: true })
-    ativo: boolean;
+    ativo?: boolean;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => GeneroProcesso)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    generoProcesso: GeneroProcesso;
+    generoProcesso?: GeneroProcesso;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)

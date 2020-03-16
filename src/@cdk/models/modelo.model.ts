@@ -14,10 +14,10 @@ export class Modelo {
     @Exclude({ toPlainOnly: true })
     uuid?: string;
 
-    nome: string;
+    nome?: string;
 
     @Exclude({toPlainOnly: true})
-    highlights: string;
+    highlights?: string;
 
     descricao?: string;
 
@@ -25,15 +25,15 @@ export class Modelo {
 
     @Type(() => ModalidadeMeio)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    modalidadeModelo: ModalidadeMeio;
+    modalidadeModelo?: ModalidadeMeio;
 
     @Type(() => Template)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    template: Template;
+    template?: Template;
 
     @Type(() => Documento)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    documento: Documento;
+    documento?: Documento;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)
