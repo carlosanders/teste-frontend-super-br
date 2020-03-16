@@ -1,9 +1,7 @@
-
+<div class="pr-16" fxFlex *ngIf="activeCard === 'form'" cdkPerfectScrollbar>
     <form *ngIf="activeCard === 'form'" class="p-24"
           fxLayout="column"
           fxLayoutAlign="start" name="form" [formGroup]="form" (submit)="submit()">
-
-
 
             <mat-form-field fxFlex="100">
                 <div fxLayout="row" fxLayoutAlign="start center">
@@ -177,8 +175,8 @@
                  fxLayoutAlign="center center">
                 <mat-spinner color="accent" diameter="24"></mat-spinner>
             </div>
-
     </form>
+</div>
 
 <cdk-especie-setor-gridsearch
     fxFlex="1 0 auto"
