@@ -46,11 +46,18 @@
                     <mat-icon class="black-fg">swap_horiz</mat-icon>
                 </button>
 
-                <button *ngIf="!(processo$ | async)?.dataHoraProximaTransicao" mat-icon-button
-                        aria-label="Realizar Transição" matTooltip="Data Prevista Transição"
-                        [routerLinkActive]="['active', 'accent']">
-                    <mat-icon class="black-fg">date_range</mat-icon>
-                </button>
+                    <button *ngIf="!(processo$ | async)?.dataHoraProximaTransicao && isPendenciaAnalise()" mat-icon-button aria-label="Realizar Transição" matTooltip="Data Prevista Transição"
+                            [routerLink]="[(processo$ | async)?.id, 'criar-data-prevista-transicao']"
+                            [routerLinkActive]="['active', 'accent']">
+                        <mat-icon class="black-fg">date_range</mat-icon>
+                    </button>
+
+
+                    <button mat-icon-button aria-label="Classificação" matTooltip="Classificação"
+                            [routerLink]="[(processo$ | async)?.id, 'classificacao']"
+                            [routerLinkActive]="['active', 'accent']">
+                        <mat-icon class="black-fg">format_indent_increase</mat-icon>
+                    </button>
 
 
 <!--                <button mat-icon-button aria-label="Classificação" matTooltip="Classificação"-->

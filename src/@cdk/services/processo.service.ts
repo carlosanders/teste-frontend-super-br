@@ -141,7 +141,7 @@ export class ProcessoService {
     patch(processo: Processo, changes: any): Observable<Processo> {
         return this.http.patch(
             `${environment.api_url}${'processo'}/${processo.id}` + environment.xdebug,
-            JSON.stringify(changes)
+                JSON.stringify(changes)
         ).pipe(
             map(response => {
                 response = plainToClass(Processo, response);

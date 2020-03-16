@@ -12,9 +12,8 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Lembrete, Pagination, Processo} from '../../../models';
 import {catchError, finalize} from 'rxjs/operators';
 import {of} from 'rxjs';
-import {getRouterState, RouterStateUrl} from '../../../../app/store/reducers';
+import {RouterStateUrl} from '../../../../app/store/reducers';
 import {LembreteService} from '../../../services/lembrete.service';
-import {select} from '@ngrx/store';
 
 @Component({
     selector: 'cdk-lembrete-form',

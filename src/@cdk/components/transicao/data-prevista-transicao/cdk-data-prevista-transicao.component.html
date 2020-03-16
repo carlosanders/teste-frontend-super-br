@@ -1,0 +1,32 @@
+<form *ngIf="activeCard === 'form'" class="p-16" fxLayoutGap="36px"
+      fxLayout="column"
+      fxLayoutAlign="start"
+      name="form" [formGroup]="form" (submit)="submit()">
+
+    <div class="title-data-prevista">
+        <h2>ADICIONAR DATA PREVISTA DE TRANSIÇÃO</h2>
+    </div>
+    <div fxFlex="1 0 auto" fxLayout="column">
+        <mat-form-field>
+            <mat-label>Data Proxima Transição</mat-label>
+            <input datetime="yyyy-MM-dd" readonly matInput [matDatepicker]="picker" formControlName="dataHoraProximaTransicao">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+    </div>
+
+    <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+
+    <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+         fxLayoutAlign="center center">
+        <button mat-raised-button color="accent" class="mr-sm-12"
+                [disabled]="form.invalid">
+            ADICIONAR DATA PREVISTA DE TRANSIÇÃO
+        </button>
+    </div>
+
+    <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+         fxLayoutAlign="center center">
+        <mat-spinner color="accent" diameter="24"></mat-spinner>
+    </div>
+</form>

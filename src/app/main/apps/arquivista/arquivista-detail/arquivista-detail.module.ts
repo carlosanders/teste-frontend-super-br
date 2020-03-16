@@ -22,6 +22,8 @@ import {RealizarTransicaoComponent} from '../realizar-transicao/realizar-transic
 import {RealizarTransicaoModule} from '../realizar-transicao/realizar-transicao.module';
 
 import {ArquivistaClassificacaoComponent} from '../arquivista-classificacao/arquivista-classificacao.component';
+import {CriarDataPrevistaTransicaoModule} from '../criar-data-prevista-transicao/criar-data-prevista-transicao.module';
+import {CriarDataPrevistaTransicaoComponent} from '../criar-data-prevista-transicao/criar-data-prevista-transicao.component';
 
 const routes: Routes = [
     {
@@ -45,7 +47,11 @@ const routes: Routes = [
                 path: ':processoHandle/classificacao',
                 component: ArquivistaClassificacaoComponent
 
-            }
+            },
+            {
+                path: ':processoHandle/criar-data-prevista-transicao',
+                component: CriarDataPrevistaTransicaoComponent
+            },
         ],
     }
 ];
@@ -77,6 +83,7 @@ const routes: Routes = [
         MatBadgeModule,
         ArquivistaDetailStoreModule,
         RealizarTransicaoModule,
+        CriarDataPrevistaTransicaoModule
     ],
     exports: [
       ArquivistaDetailComponent
