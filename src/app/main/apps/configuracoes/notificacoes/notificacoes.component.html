@@ -1,13 +1,14 @@
-<div id="notificacoes" fxLayout="column">
-
+<div class="notificacoes-content" fxFlex fxLayout="column">
     <!-- CONTENT HEADER -->
-    <div class="header" fxLayout="column">
-
+    <div fxFlex="0 1 auto" fxLayout="column">
+        <div class="actions m-16" fxLayout="row" fxLayoutAlign="start center">
+        </div>
     </div>
     <!-- / CONTENT HEADER -->
 
     <!-- CONTENT -->
-    <div class="content pl-24 pr-24">
+    <div class="p-16" fxFlex="1 1 auto" cdkPerfectScrollbar>
         <router-outlet></router-outlet>
     </div>
+    <!-- / CONTENT -->
 </div>
