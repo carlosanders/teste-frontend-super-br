@@ -22,16 +22,11 @@ export function DocumentosReducer(
     action: DocumentosActions.DocumentosActionsAll
 ): DocumentosState {
     switch (action.type) {
-
-        case DocumentosActions.GET_DOCUMENTOS: {
-            return {...state}
-        }
-
         case DocumentosActions.GET_DOCUMENTOS_SUCCESS: {
             return {
                 ...state,
                 documentosId: action.payload.entitiesId,
-                documentosLoaded: action.payload.loaded,
+                documentosLoaded: action.payload.loaded
             };
         }
 

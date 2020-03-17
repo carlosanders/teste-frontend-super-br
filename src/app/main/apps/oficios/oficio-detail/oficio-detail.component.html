@@ -26,7 +26,7 @@
         <div class="actions" fxLayout="row" fxLayoutAlign="start center">
 
             <button mat-icon-button aria-label="Processo" matTooltip="Processo"
-                    [routerLink]="['processo', (documentoAvulso$ | async)?.processo?.id]"
+                    [routerLink]="['processo/' + (documentoAvulso$ | async)?.processo?.id + '/visualizar/12345678']"
                     [routerLinkActive]="['active', 'accent']">
                 <mat-icon class="black-fg">book</mat-icon>
             </button>

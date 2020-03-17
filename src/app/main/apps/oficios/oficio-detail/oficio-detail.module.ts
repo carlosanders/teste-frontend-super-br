@@ -25,7 +25,7 @@ import {CdkDocumentoCardListModule} from '@cdk/components/documento/cdk-document
 import {CdkUploadModule} from '@cdk/components/upload/cdk-upload.module';
 import {CdkAtividadeFormModule} from '@cdk/components/atividade/cdk-atividade-form/cdk-atividade-form.module';
 import {ResponderComplementarModule} from './reponder-complementar/responder-complementar.module';
-import {MatBadge, MatBadgeModule} from '@angular/material/badge';
+import {MatBadgeModule} from '@angular/material/badge';
 const routes: Routes = [
     {
         path: ':documentoAvulsoHandle',

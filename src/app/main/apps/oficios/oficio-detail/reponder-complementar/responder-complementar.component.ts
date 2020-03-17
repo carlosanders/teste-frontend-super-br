@@ -21,7 +21,7 @@ import {Documento} from '@cdk/models/documento.model';
 import {getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {Colaborador} from '../../../../../../@cdk/models/colaborador.model';
-import {DocumentoAvulso} from '../../../../../../@cdk/models';
+import {DocumentoAvulso, Usuario} from '../../../../../../@cdk/models';
 import {getDocumentoAvulso} from '../store/selectors';
 
 
@@ -36,7 +36,7 @@ import {getDocumentoAvulso} from '../store/selectors';
 export class ResponderComplementarComponent implements OnInit, OnDestroy {
 
     private _unsubscribeAll: Subject<any> = new Subject();
-    private _profile: Colaborador;
+    private _profile: Usuario;
 
     documentoAvulso$: Observable<DocumentoAvulso>;
     documentoAvulso: DocumentoAvulso;
@@ -48,6 +48,7 @@ export class ResponderComplementarComponent implements OnInit, OnDestroy {
     documentoOrigem: number;
 
     mode: string;
+    chaveAcesso: any;
 
     routerState: any;
     routerState$: Observable<any>;
@@ -68,11 +69,10 @@ export class ResponderComplementarComponent implements OnInit, OnDestroy {
         private _router: Router,
         private _changeDetectorRef: ChangeDetectorRef
     ) {
-        this._profile = _loginService.getUserProfile().colaborador;
+        this._profile = this._loginService.getUserProfile();
         this.documentoAvulso$ = this._store.pipe(select(getDocumentoAvulso));
         this.documentos$ = this._store.pipe(select(fromStore.getDocumentos));
         this.routerState$ = this._store.pipe(select(getRouterState));
-
         this.selectedDocumentos$ = this._store.pipe(select(fromStore.getSelectedDocumentos));
     }
 
@@ -93,12 +93,16 @@ export class ResponderComplementarComponent implements OnInit, OnDestroy {
             }
         });
 
-        //this.getDocumentoOrigem();
-
         this.routerState$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(routerState => {
             this.mode = routerState.state.params['oficioTargetHandle'];
+        });
+
+        this.routerState$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(routerState => {
+            this.chaveAcesso = routerState.state.params['chaveAcessoHandle'];
         });
 
         this.documentoAvulso$.pipe(
@@ -108,7 +112,6 @@ export class ResponderComplementarComponent implements OnInit, OnDestroy {
         });
 
         this.documentos$.pipe(
-            filter(cd => !!cd),
             takeUntil(this._unsubscribeAll)
         ).subscribe(
             documentos => {

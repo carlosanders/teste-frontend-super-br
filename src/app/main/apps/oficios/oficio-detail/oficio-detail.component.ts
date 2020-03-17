@@ -59,6 +59,7 @@ export class OficioDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
     mobileMode = false;
     mode = 'entrada';
+    chaveAcesso: any;
 
     @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef}) container: ViewContainerRef;
 
@@ -76,7 +77,7 @@ export class OficioDetailComponent implements OnInit, OnDestroy, AfterViewInit {
         private _loginService: LoginService,
         private _dynamicService: DynamicService
     ) {
-        this._profile = _loginService.getUserProfile();
+        this._profile = this._loginService.getUserProfile();
         this.documentoAvulso$ = this._store.pipe(select(fromStore.getDocumentoAvulso));
         this.documentos$ = this._store.pipe(select(fromStore.getDocumentos));
         this.maximizado$ = this._store.pipe(select(getMaximizado));
@@ -117,6 +118,15 @@ export class OficioDetailComponent implements OnInit, OnDestroy, AfterViewInit {
         ).subscribe(routerState => {
             if (routerState) {
                 this.mode = routerState.state.params['oficioTargetHandle'];
+            }
+        });
+
+        this._store.pipe(
+            select(getRouterState),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(routerState => {
+            if (routerState) {
+                this.chaveAcesso = routerState.state.params['chaveAcessoHandle'];
             }
         });
 
