@@ -207,11 +207,10 @@
             <tr mat-row *matRowDef="let modalidadealvoInibidor; columns: displayedColumns;">
             </tr>
         </table>
+    </div>
 
-        <div class="actions" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="center center">
-            <mat-paginator [disabled]="loading" [pageSizeOptions]="[5, 10]"></mat-paginator>
-        </div>
-
+    <div class="actions" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="center center">
+        <mat-paginator [disabled]="loading" [pageSizeOptions]="[5, 10]"></mat-paginator>
     </div>
 
 </div>

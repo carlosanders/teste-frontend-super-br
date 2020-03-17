@@ -56,184 +56,186 @@
             <mat-spinner diameter="32"></mat-spinner>
         </div>
 
-        <table mat-table [dataSource]="dataSource" matSort [hidden]="loading">
+        <div fxFlex="1 1 auto" fxLayout="column" cdkPerfectScrollbar>
+            <table mat-table [dataSource]="dataSource" matSort [hidden]="loading">
 
-            <!-- Selection Column -->
-            <ng-container matColumnDef="select">
-                <th mat-header-cell *matHeaderCellDef>
-                    <mat-checkbox (click)="toggleSelectAll($event)"
-                                  [checked]="hasSelected"
-                                  [indeterminate]="isIndeterminate">
-                    </mat-checkbox>
-                </th>
-                <td mat-cell *matCellDef="let afastamento">
-                    <mat-checkbox [checked]="selectedIds.indexOf(afastamento.id) > -1"
-                                  (change)="toggleInSelected(afastamento.id)"
-                                  (click)="$event.stopPropagation();"
-                                  [disabled]="deletedIds?.indexOf(afastamento.id) > -1">
-                    </mat-checkbox>
-                </td>
-            </ng-container>
+                <!-- Selection Column -->
+                <ng-container matColumnDef="select">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <mat-checkbox (click)="toggleSelectAll($event)"
+                                      [checked]="hasSelected"
+                                      [indeterminate]="isIndeterminate">
+                        </mat-checkbox>
+                    </th>
+                    <td mat-cell *matCellDef="let afastamento">
+                        <mat-checkbox [checked]="selectedIds.indexOf(afastamento.id) > -1"
+                                      (change)="toggleInSelected(afastamento.id)"
+                                      (click)="$event.stopPropagation();"
+                                      [disabled]="deletedIds?.indexOf(afastamento.id) > -1">
+                        </mat-checkbox>
+                    </td>
+                </ng-container>
 
-            <!-- Id Column -->
-            <ng-container matColumnDef="id">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Id
-                </th>
-                <td mat-cell *matCellDef="let afastamento" class='has_label_on_mobile' data-label='Id: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(afastamento.id) > -1}"> {{afastamento.id}} </td>
-            </ng-container>
+                <!-- Id Column -->
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Id
+                    </th>
+                    <td mat-cell *matCellDef="let afastamento" class='has_label_on_mobile' data-label='Id: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(afastamento.id) > -1}"> {{afastamento.id}} </td>
+                </ng-container>
 
-            <!-- Nome Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('colaborador.usuario.nome') > -1" matColumnDef="colaborador.usuario.nome">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Nome
-                </th>
-                <td mat-cell *matCellDef="let afastamento" class='has_label_on_mobile' data-label='Nome: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(afastamento.id) > -1}"> {{afastamento.colaborador?.usuario?.nome}} </td>
-            </ng-container>
+                <!-- Nome Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('colaborador.usuario.nome') > -1" matColumnDef="colaborador.usuario.nome">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Nome
+                    </th>
+                    <td mat-cell *matCellDef="let afastamento" class='has_label_on_mobile' data-label='Nome: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(afastamento.id) > -1}"> {{afastamento.colaborador?.usuario?.nome}} </td>
+                </ng-container>
 
-            <!-- ModalidadeAfastamento Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('modalidadeAfastamento.valor') > -1" matColumnDef="modalidadeAfastamento.valor">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Modalidade Afastamento
-                </th>
-                <td mat-cell *matCellDef="let afastamento" class='has_label_on_mobile' data-label='Nome: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(afastamento.modalidadeAfastamento.valor) > -1}"> {{afastamento.modalidadeAfastamento?.valor}} </td>
-            </ng-container>
+                <!-- ModalidadeAfastamento Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('modalidadeAfastamento.valor') > -1" matColumnDef="modalidadeAfastamento.valor">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Modalidade Afastamento
+                    </th>
+                    <td mat-cell *matCellDef="let afastamento" class='has_label_on_mobile' data-label='Nome: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(afastamento.modalidadeAfastamento.valor) > -1}"> {{afastamento.modalidadeAfastamento?.valor}} </td>
+                </ng-container>
 
-            <!-- DataInicio Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('dataInicio') > -1" matColumnDef="dataInicio">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Data Início
-                </th>
-                <td mat-cell *matCellDef="let afastamento" class='has_label_on_mobile' data-label='Data Início: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(afastamento.id) > -1}"> {{afastamento.dataInicio | date: 'dd/MM/yyyy'}} </td>
-            </ng-container>
+                <!-- DataInicio Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('dataInicio') > -1" matColumnDef="dataInicio">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Data Início
+                    </th>
+                    <td mat-cell *matCellDef="let afastamento" class='has_label_on_mobile' data-label='Data Início: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(afastamento.id) > -1}"> {{afastamento.dataInicio | date: 'dd/MM/yyyy'}} </td>
+                </ng-container>
 
-            <!-- DataInicioBloqueio Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('dataInicioBloqueio') > -1" matColumnDef="dataInicioBloqueio">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Data Início Bloqueio
-                </th>
-                <td mat-cell *matCellDef="let afastamento" class='has_label_on_mobile' data-label='Data Início Bloqueio: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(afastamento.id) > -1}"> {{afastamento.dataInicioBloqueio | date: 'dd/MM/yyyy'}} </td>
-            </ng-container>
+                <!-- DataInicioBloqueio Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('dataInicioBloqueio') > -1" matColumnDef="dataInicioBloqueio">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Data Início Bloqueio
+                    </th>
+                    <td mat-cell *matCellDef="let afastamento" class='has_label_on_mobile' data-label='Data Início Bloqueio: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(afastamento.id) > -1}"> {{afastamento.dataInicioBloqueio | date: 'dd/MM/yyyy'}} </td>
+                </ng-container>
 
-            <!-- DataFim Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('dataFim') > -1" matColumnDef="dataFim">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Data Fim
-                </th>
-                <td mat-cell *matCellDef="let afastamento" class='has_label_on_mobile' data-label='Data Fim: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(afastamento.id) > -1}"> {{afastamento.dataFim | date: 'dd/MM/yyyy'}} </td>
-            </ng-container>
+                <!-- DataFim Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('dataFim') > -1" matColumnDef="dataFim">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Data Fim
+                    </th>
+                    <td mat-cell *matCellDef="let afastamento" class='has_label_on_mobile' data-label='Data Fim: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(afastamento.id) > -1}"> {{afastamento.dataFim | date: 'dd/MM/yyyy'}} </td>
+                </ng-container>
 
-            <!-- DataFimBloqueio Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('dataFimBloqueio') > -1" matColumnDef="dataFimBloqueio">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Data Fim Bloqueio
-                </th>
-                <td mat-cell *matCellDef="let afastamento" class='has_label_on_mobile' data-label='Data Fim Bloqueio: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(afastamento.id) > -1}"> {{afastamento.dataFimBloqueio | date: 'dd/MM/yyyy'}} </td>
-            </ng-container>
+                <!-- DataFimBloqueio Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('dataFimBloqueio') > -1" matColumnDef="dataFimBloqueio">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Data Fim Bloqueio
+                    </th>
+                    <td mat-cell *matCellDef="let afastamento" class='has_label_on_mobile' data-label='Data Fim Bloqueio: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(afastamento.id) > -1}"> {{afastamento.dataFimBloqueio | date: 'dd/MM/yyyy'}} </td>
+                </ng-container>
 
-            <!-- CriadoPor Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('criadoPor.nome') > -1" matColumnDef="criadoPor.nome">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Criado Por
-                </th>
-                <td mat-cell *matCellDef="let afastamento" class='has_label_on_mobile' data-label='Criado Por: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(afastamento.id) > -1}"> {{afastamento.criadoPor?.nome}} </td>
-            </ng-container>
+                <!-- CriadoPor Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('criadoPor.nome') > -1" matColumnDef="criadoPor.nome">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Criado Por
+                    </th>
+                    <td mat-cell *matCellDef="let afastamento" class='has_label_on_mobile' data-label='Criado Por: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(afastamento.id) > -1}"> {{afastamento.criadoPor?.nome}} </td>
+                </ng-container>
 
-            <!-- CriadoEm Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('criadoEm') > -1" matColumnDef="criadoEm">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Criado Em
-                </th>
-                <td mat-cell *matCellDef="let afastamento" class='has_label_on_mobile' data-label='Criado Em: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(afastamento.id) > -1}"> {{afastamento.criadoEm | date: 'dd/MM/yyyy'}} </td>
-            </ng-container>
+                <!-- CriadoEm Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('criadoEm') > -1" matColumnDef="criadoEm">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Criado Em
+                    </th>
+                    <td mat-cell *matCellDef="let afastamento" class='has_label_on_mobile' data-label='Criado Em: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(afastamento.id) > -1}"> {{afastamento.criadoEm | date: 'dd/MM/yyyy'}} </td>
+                </ng-container>
 
-            <!-- AtualizadoPor Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1" matColumnDef="atualizadoPor.nome">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Atualizado Por
-                </th>
-                <td mat-cell *matCellDef="let afastamento" class='has_label_on_mobile' data-label='Atualizado Por: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(afastamento.id) > -1}"> {{afastamento.atualizadoPor?.nome}} </td>
-            </ng-container>
+                <!-- AtualizadoPor Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1" matColumnDef="atualizadoPor.nome">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Atualizado Por
+                    </th>
+                    <td mat-cell *matCellDef="let afastamento" class='has_label_on_mobile' data-label='Atualizado Por: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(afastamento.id) > -1}"> {{afastamento.atualizadoPor?.nome}} </td>
+                </ng-container>
 
-            <!-- AtualizadoEm Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('atualizadoEm') > -1" matColumnDef="atualizadoEm">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Atualizado Em
-                </th>
-                <td mat-cell *matCellDef="let afastamento" class='has_label_on_mobile' data-label='Atualizado Em: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(afastamento.id) > -1}"> {{afastamento.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
-            </ng-container>
+                <!-- AtualizadoEm Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('atualizadoEm') > -1" matColumnDef="atualizadoEm">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Atualizado Em
+                    </th>
+                    <td mat-cell *matCellDef="let afastamento" class='has_label_on_mobile' data-label='Atualizado Em: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(afastamento.id) > -1}"> {{afastamento.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
+                </ng-container>
 
-            <!-- ApagadoPor Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('apagadoPor.nome') > -1" matColumnDef="apagadoPor.nome">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Apagado Por
-                </th>
-                <td mat-cell *matCellDef="let afastamento" class='has_label_on_mobile' data-label='Apagado Por: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(afastamento.id) > -1}"> {{afastamento.apagadoPor?.nome}} </td>
-            </ng-container>
+                <!-- ApagadoPor Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('apagadoPor.nome') > -1" matColumnDef="apagadoPor.nome">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Apagado Por
+                    </th>
+                    <td mat-cell *matCellDef="let afastamento" class='has_label_on_mobile' data-label='Apagado Por: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(afastamento.id) > -1}"> {{afastamento.apagadoPor?.nome}} </td>
+                </ng-container>
 
-            <!-- ApagadoEm Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('apagadoEm') > -1" matColumnDef="apagadoEm">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Apagado Em
-                </th>
-                <td mat-cell *matCellDef="let afastamento" class='has_label_on_mobile' data-label='Apagado Em: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(afastamento.id) > -1}"> {{afastamento.apagadoEm | date: 'dd/MM/yyyy'}} </td>
-            </ng-container>
+                <!-- ApagadoEm Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('apagadoEm') > -1" matColumnDef="apagadoEm">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Apagado Em
+                    </th>
+                    <td mat-cell *matCellDef="let afastamento" class='has_label_on_mobile' data-label='Apagado Em: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(afastamento.id) > -1}"> {{afastamento.apagadoEm | date: 'dd/MM/yyyy'}} </td>
+                </ng-container>
 
-            <!-- Actions Column -->
-            <ng-container matColumnDef="actions">
-                <th mat-header-cell *matHeaderCellDef></th>
-                <td mat-cell *matCellDef="let afastamento">
+                <!-- Actions Column -->
+                <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let afastamento">
 
-                    <button mat-icon-button
-                            *ngIf="actions.indexOf('select') > -1"
-                            (click)="selectAfastamento(afastamento)"
-                            aria-label="selecionar"
-                            matTooltip="Selecionar">
-                        <mat-icon>keyboard_return</mat-icon>
-                    </button>
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('select') > -1"
+                                (click)="selectAfastamento(afastamento)"
+                                aria-label="selecionar"
+                                matTooltip="Selecionar">
+                            <mat-icon>keyboard_return</mat-icon>
+                        </button>
 
-                    <button mat-icon-button
-                            *ngIf="actions.indexOf('edit') > -1"
-                            [disabled]="deletedIds?.indexOf(afastamento.id) > -1"
-                            (click)="editAfastamento(afastamento.id)"
-                            aria-label="editar"
-                            matTooltip="Editar">
-                        <mat-icon>edit</mat-icon>
-                    </button>
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('edit') > -1"
+                                [disabled]="deletedIds?.indexOf(afastamento.id) > -1"
+                                (click)="editAfastamento(afastamento.id)"
+                                aria-label="editar"
+                                matTooltip="Editar">
+                            <mat-icon>edit</mat-icon>
+                        </button>
 
-                    <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(afastamento.id) > -1">
-                        <mat-spinner diameter="24"></mat-spinner>
-                    </div>
+                        <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(afastamento.id) > -1">
+                            <mat-spinner diameter="24"></mat-spinner>
+                        </div>
 
-                    <button mat-icon-button
-                            *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(afastamento.id) === -1"
-                            [disabled]="deletedIds?.indexOf(afastamento.id) > -1"
-                            (click)="deleteAfastamento(afastamento.id)"
-                            aria-label="remover"
-                            matTooltip="Remover">
-                        <mat-icon>delete</mat-icon>
-                    </button>
-                </td>
-            </ng-container>
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(afastamento.id) === -1"
+                                [disabled]="deletedIds?.indexOf(afastamento.id) > -1"
+                                (click)="deleteAfastamento(afastamento.id)"
+                                aria-label="remover"
+                                matTooltip="Remover">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
 
-            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
-            <tr mat-row *matRowDef="let afastamento; columns: displayedColumns;">
-            </tr>
-        </table>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
+                <tr mat-row *matRowDef="let afastamento; columns: displayedColumns;">
+                </tr>
+            </table>
+        </div>
 
-                <div class="actions" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="center center">
+        <div class="actions" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="center center">
             <mat-paginator [disabled]="loading" [pageSizeOptions]="[5, 10]"></mat-paginator>
         </div>
 
