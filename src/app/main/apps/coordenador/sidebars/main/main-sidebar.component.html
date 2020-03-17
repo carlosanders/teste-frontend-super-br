@@ -18,7 +18,7 @@
             <span>{{unidade.nome | uppercase}}</span>
         </div>
         <div class="nav-item" *ngFor="let link of links">
-            <a class="nav-link" matRipple [routerLink]="'/apps/admin/' + unidade.id + '/' + link.link"
+            <a class="nav-link" matRipple [routerLink]="'/apps/coordenador/' + unidade.id + '/' + link.link"
                [routerLinkActive]="['active', 'accent']">
                 <mat-icon class="nav-link-icon">{{ link.icon }}</mat-icon>
                 <span>{{link.nome | titlecase}}</span>
