@@ -1,12 +1,13 @@
 import {
     ChangeDetectionStrategy,
-    Component, EventEmitter,
+    Component, EventEmitter, Input,
     OnInit, Output,
     ViewEncapsulation
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
+import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-afastamento-grid-filter',
@@ -21,9 +22,12 @@ export class CdkAfastamentoGridFilterComponent implements OnInit {
     @Output()
     selected = new EventEmitter<any>();
 
+    @Input()
+    colaboradorPagination: Pagination;
+
     form: FormGroup;
 
-    filters: any = '{}';
+    filters: any = {};
 
     /**
      * Constructor
@@ -47,6 +51,7 @@ export class CdkAfastamentoGridFilterComponent implements OnInit {
             apagadoEm: [null],
         });
 
+        this.colaboradorPagination = new Pagination();
     }
 
     // -----------------------------------------------------------------------------------------------------

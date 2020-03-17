@@ -10,12 +10,12 @@ import {
     MatSortModule,
     MatSelectModule,
 } from '@cdk/angular/material';
-
 import {CdkSidebarModule} from '@cdk/components/index';
 import { CdkSharedModule } from '@cdk/shared.module';
 import { CdkDocumentoIdentificadorGridComponent} from './cdk-documento-identificador-grid.component';
 import { CdkDocumentoIdentificadorGridFilterModule } from './cdk-documento-identificador-grid-filter/cdk-documento-identificador-grid-filter.module';
 import {CdkDocumentoIdentificadorMainSidebarComponent} from './sidebars/main/main.component';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
     declarations: [
@@ -37,6 +37,7 @@ import {CdkDocumentoIdentificadorMainSidebarComponent} from './sidebars/main/mai
 
         CdkSharedModule,
         CdkSidebarModule,
+        MatTooltipModule,
     ],
     providers: [
         

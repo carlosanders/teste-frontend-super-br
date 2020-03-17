@@ -26,7 +26,7 @@ export class ResolveGuard implements CanActivate {
      */
     constructor(
         private _store: Store<TarefasAppState>,
-        private _loginService: LoginService,
+        public _loginService: LoginService,
     ) {
         this._store
             .pipe(select(getRouterState))
@@ -97,94 +97,96 @@ export class ResolveGuard implements CanActivate {
         return this._store.pipe(
             select(getTarefasLoaded),
             tap((loaded: any) => {
-
-                const params = {
-                    listFilter: {},
-                    etiquetaFilter: {},
-                    limit: 10,
-                    offset: 0,
-                    sort: {dataHoraFinalPrazo: 'ASC'},
-                    populate: [
-                        'processo',
-                        'processo.especieProcesso',
-                        'processo.modalidadeMeio',
-                        'processo.documentoAvulsoOrigem',
-                        'especieTarefa',
-                        'usuarioResponsavel',
-                        'setorResponsavel',
-                        'setorResponsavel.unidade',
-                        'setorOrigem',
-                        'setorOrigem.unidade',
-                        'especieTarefa.generoTarefa',
-                        'vinculacoesEtiquetas',
-                        'vinculacoesEtiquetas.etiqueta'
-                    ]
-                };
-
-                const routeTypeParam = of('typeHandle');
-                routeTypeParam.subscribe(typeParam => {
-                    let tarefaFilter = {};
-                    if (this.routerState.params[typeParam] === 'compartilhadas') {
-                        tarefaFilter = {
-                            'compartilhamentos.usuario.id': 'eq:' + this._profile.id,
-                            'dataHoraConclusaoPrazo': 'isNull'
-                        };
-                    }
-
-                    if (this.routerState.params[typeParam] === 'coordenacao') {
-                        tarefaFilter = {
-                            dataHoraConclusaoPrazo: 'isNull'
-                        };
-                        const routeTargetParam = of('targetHandle');
-                        routeTargetParam.subscribe(targetParam => {
-                            tarefaFilter['setorResponsavel.id'] = `eq:${this.routerState.params[targetParam]}`;
-                        });
-                    }
-
-                    if (this.routerState.params[typeParam] === 'analista') {
-                        tarefaFilter = {
-                            dataHoraConclusaoPrazo: 'isNull'
-                        };
-                        const routeTargetParam = of('targetHandle');
-                        routeTargetParam.subscribe(targetParam => {
-                            tarefaFilter['usuarioResponsavel.id'] = `eq:${this.routerState.params[targetParam]}`;
-                        });
-                    }
-
-                    if (this.routerState.params[typeParam] === 'minhas-tarefas') {
-                        tarefaFilter = {
-                            'usuarioResponsavel.id': 'eq:' + this._profile.id,
-                            'dataHoraConclusaoPrazo': 'isNull'
-                        };
-                        let folderFilter = 'isNull';
-                        const routeTargetParam = of('targetHandle');
-                        routeTargetParam.subscribe(targetParam => {
-                            if (this.routerState.params[targetParam] !== 'entrada') {
-                                const folderName = this.routerState.params[targetParam];
-                                folderFilter = `eq:${folderName.toUpperCase()}`;
-                            }
-                        });
-                        params['folderFilter'] = {
-                            'folder.nome': folderFilter
-                        };
-                    }
-
-                    params['filter'] = tarefaFilter;
-                });
-
-                const routeGeneroParams = of('generoHandle');
-                routeGeneroParams.subscribe(param => {
-                    params['filter'] = {
-                        ...params['filter'],
-                        'especieTarefa.generoTarefa.nome': `eq:${this.routerState.params[param].toUpperCase()}`
-                    };
-                });
-
                 if (!this.routerState.params['generoHandle'] || !this.routerState.params['typeHandle'] ||
                     !this.routerState.params['targetHandle'] ||
                     (this.routerState.params['generoHandle'] + '_' + this.routerState.params['typeHandle'] +
                      '_' + this.routerState.params['targetHandle']) !==
                     loaded.value) {
+
+                    this._store.dispatch(new fromStore.UnloadTarefas({reset: true}));
+
+                    const params = {
+                        listFilter: {},
+                        etiquetaFilter: {},
+                        limit: 10,
+                        offset: 0,
+                        sort: {dataHoraFinalPrazo: 'ASC'},
+                        populate: [
+                            'processo',
+                            'processo.especieProcesso',
+                            'processo.modalidadeMeio',
+                            'processo.documentoAvulsoOrigem',
+                            'especieTarefa',
+                            'usuarioResponsavel',
+                            'setorResponsavel',
+                            'setorResponsavel.unidade',
+                            'setorOrigem',
+                            'setorOrigem.unidade',
+                            'especieTarefa.generoTarefa',
+                            'vinculacoesEtiquetas',
+                            'vinculacoesEtiquetas.etiqueta'
+                        ]
+                    };
+
+                    const routeTypeParam = of('typeHandle');
+                    routeTypeParam.subscribe(typeParam => {
+                        let tarefaFilter = {};
+                        if (this.routerState.params[typeParam] === 'compartilhadas') {
+                            tarefaFilter = {
+                                'compartilhamentos.usuario.id': 'eq:' + this._profile.id,
+                                'dataHoraConclusaoPrazo': 'isNull'
+                            };
+                        }
+
+                        if (this.routerState.params[typeParam] === 'coordenacao') {
+                            tarefaFilter = {
+                                dataHoraConclusaoPrazo: 'isNull'
+                            };
+                            const routeTargetParam = of('targetHandle');
+                            routeTargetParam.subscribe(targetParam => {
+                                tarefaFilter['setorResponsavel.id'] = `eq:${this.routerState.params[targetParam]}`;
+                            });
+                        }
+
+                        if (this.routerState.params[typeParam] === 'analista') {
+                            tarefaFilter = {
+                                dataHoraConclusaoPrazo: 'isNull'
+                            };
+                            const routeTargetParam = of('targetHandle');
+                            routeTargetParam.subscribe(targetParam => {
+                                tarefaFilter['usuarioResponsavel.id'] = `eq:${this.routerState.params[targetParam]}`;
+                            });
+                        }
+
+                        if (this.routerState.params[typeParam] === 'minhas-tarefas') {
+                            tarefaFilter = {
+                                'usuarioResponsavel.id': 'eq:' + this._profile.id,
+                                'dataHoraConclusaoPrazo': 'isNull'
+                            };
+                            let folderFilter = 'isNull';
+                            const routeTargetParam = of('targetHandle');
+                            routeTargetParam.subscribe(targetParam => {
+                                if (this.routerState.params[targetParam] !== 'entrada') {
+                                    const folderName = this.routerState.params[targetParam];
+                                    folderFilter = `eq:${folderName.toUpperCase()}`;
+                                }
+                            });
+                            params['folderFilter'] = {
+                                'folder.nome': folderFilter
+                            };
+                        }
+
+                        params['filter'] = tarefaFilter;
+                    });
+
+                    const routeGeneroParams = of('generoHandle');
+                    routeGeneroParams.subscribe(param => {
+                        params['filter'] = {
+                            ...params['filter'],
+                            'especieTarefa.generoTarefa.nome': `eq:${this.routerState.params[param].toUpperCase()}`
+                        };
+                    });
+
                     this._store.dispatch(new fromStore.GetTarefas(params));
                     this._store.dispatch(new fromStore.ChangeSelectedTarefas([]));
                 }

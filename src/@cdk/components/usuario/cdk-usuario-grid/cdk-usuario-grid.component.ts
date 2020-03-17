@@ -65,6 +65,16 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
             fixed: false
         },
         {
+            id: 'colaborador.cargo.nome',
+            label: 'Cargo',
+            fixed: false
+        },
+        {
+            id: 'colaborador.modalidadeColaborador.valor',
+            label: 'Modalidade Colaborador',
+            fixed: false
+        },
+        {
             id: 'enabled',
             label: 'Habilitado',
             fixed: false
@@ -128,7 +138,7 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
     pageSize = 5;
 
     @Input()
-    actions: string[] = ['edit', 'delete', 'select'];
+    actions: string[] = ['edit', 'delete', 'select', 'lotacoes', 'afastamentos'];
 
     @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
@@ -144,6 +154,12 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
 
     @Output()
     edit = new EventEmitter<number>();
+
+    @Output()
+    lotacoes = new EventEmitter<number>();
+
+    @Output()
+    afastamentos = new EventEmitter<number>();
 
     @Output()
     delete = new EventEmitter<number>();
@@ -164,7 +180,9 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
     isIndeterminate = false;
 
     /**
+     *
      * @param _changeDetectorRef
+     * @param _cdkSidebarService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -238,6 +256,14 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
 
     editUsuario(usuarioId): void {
         this.edit.emit(usuarioId);
+    }
+
+    lotacoesUsuario(usuarioId): void {
+        this.lotacoes.emit(usuarioId);
+    }
+
+    afastamentosUsuario(usuarioId): void {
+        this.afastamentos.emit(usuarioId);
     }
 
     selectUsuario(usuario: Usuario): void {

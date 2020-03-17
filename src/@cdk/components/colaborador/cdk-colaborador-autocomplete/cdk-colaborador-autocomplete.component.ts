@@ -45,7 +45,7 @@ export class CdkColaboradorAutocompleteComponent implements OnInit {
         this.colaboradorListIsLoading = false;
 
         this.pagination = new Pagination();
-        this.pagination.populate = ['usuario'];
+        this.pagination.populate = ['populateAll', 'usuario'];
     }
 
     ngOnInit(): void {
@@ -90,7 +90,6 @@ export class CdkColaboradorAutocompleteComponent implements OnInit {
     }
 
     displayColaboradorFn(colaborador): string {
-        console.log(colaborador);
         return colaborador ? colaborador.usuario.nome : null;
     }
 }

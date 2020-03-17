@@ -10,7 +10,7 @@ import {
     MatSortModule,
     MatSelectModule,
 } from '@cdk/angular/material';
-
+import {MatTooltipModule} from '@angular/material/tooltip';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {ModalidadeMeioService} from '@cdk/services/modalidade-meio.service';
 import {CdkModalidadeMeioGridComponent} from './cdk-modalidade-meio-grid.component';
@@ -40,6 +40,7 @@ import {CdkSidebarModule} from '@cdk/components/index';
 
         CdkSharedModule,
         CdkSidebarModule,
+        MatTooltipModule,
     ],
     providers: [
         ModalidadeMeioService,

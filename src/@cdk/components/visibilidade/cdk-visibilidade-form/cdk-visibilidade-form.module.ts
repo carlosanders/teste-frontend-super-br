@@ -7,15 +7,15 @@ import {
     MatCheckboxModule,
     MatProgressSpinnerModule,
     MatAutocompleteModule,
-    MatDatepickerModule, MatRadioModule
-
+    MatDatepickerModule,
+    MatRadioModule,
+    MatTooltipModule,
 } from '@cdk/angular/material';
-
-import { CdkSharedModule } from '@cdk/shared.module';
-import { UsuarioService } from '@cdk/services/usuario.service';
-import { CdkVisibilidadeFormComponent } from './cdk-visibilidade-form.component';
-import { CdkUsuarioAutocompleteModule } from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
-import { CdkUsuarioGridsearchModule } from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-gridsearch/cdk-usuario-gridsearch.module';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {UsuarioService} from '@cdk/services/usuario.service';
+import {CdkVisibilidadeFormComponent} from './cdk-visibilidade-form.component';
+import {CdkUsuarioAutocompleteModule} from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
+import {CdkUsuarioGridsearchModule} from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-gridsearch/cdk-usuario-gridsearch.module';
 import {CdkSetorAutocompleteModule} from '../../setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
 import {CdkSetorGridsearchModule} from '../../setor/cdk-setor-autocomplete/cdk-setor-gridsearch/cdk-setor-gridsearch.module';
 import {SetorService} from '@cdk/services/setor.service';
@@ -25,7 +25,6 @@ import {SetorService} from '@cdk/services/setor.service';
         CdkVisibilidadeFormComponent,
     ],
     imports: [
-
         MatAutocompleteModule,
         MatButtonModule,
         MatFormFieldModule,
@@ -35,10 +34,10 @@ import {SetorService} from '@cdk/services/setor.service';
         MatProgressSpinnerModule,
         MatDatepickerModule,
         MatRadioModule,
+        MatTooltipModule,
 
         CdkUsuarioAutocompleteModule,
         CdkUsuarioGridsearchModule,
-
         CdkSetorAutocompleteModule,
         CdkSetorGridsearchModule,
 

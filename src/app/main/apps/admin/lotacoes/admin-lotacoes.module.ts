@@ -14,15 +14,20 @@ import {
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 
+import * as fromGuards from './store/guards';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {AdminLotacoesComponent} from './admin-lotacoes.component';
 import {LotacaoService} from '@cdk/services/lotacao.service';
 import {RouterModule, Routes} from '@angular/router';
+import {LotacoesStoreModule} from "./store/store.module";
+import {SetorService} from '@cdk/services/setor.service';
+import {UsuarioService} from '@cdk/services/usuario.service';
 
 const routes: Routes = [
     {
         path: '',
         component: AdminLotacoesComponent,
+        canActivate: [fromGuards.ResolveGuard],
         children: [
             {
                 path       : 'listar',
@@ -62,10 +67,15 @@ const routes: Routes = [
 
         TranslateModule,
 
+        LotacoesStoreModule,
+
         CdkSharedModule,
     ],
     providers: [
-        LotacaoService
+        LotacaoService,
+        SetorService,
+        UsuarioService,
+        fromGuards.ResolveGuard
     ],
     exports: [
         AdminLotacoesComponent

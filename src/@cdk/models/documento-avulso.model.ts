@@ -1,7 +1,17 @@
 import * as moment from 'moment';
 import {Exclude, Transform, Type} from 'class-transformer';
 
-import {Documento, EspecieDocumentoAvulso, Modelo, Pessoa, Processo, Setor, Tarefa, Usuario} from '@cdk/models';
+import {
+    Documento,
+    EspecieDocumentoAvulso,
+    Modelo,
+    Pessoa,
+    Processo,
+    Setor,
+    Tarefa,
+    Usuario,
+    VinculacaoEtiqueta
+} from '@cdk/models';
 
 export class DocumentoAvulso {
 
@@ -17,7 +27,7 @@ export class DocumentoAvulso {
 
     @Type(() => EspecieDocumentoAvulso)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    especieDocumentoAvulso: EspecieDocumentoAvulso;
+    especieDocumentoAvulso?: EspecieDocumentoAvulso;
 
     observacao?: string;
 
@@ -27,7 +37,7 @@ export class DocumentoAvulso {
 
     @Type(() => Modelo)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    modelo: Modelo;
+    modelo?: Modelo;
 
     @Transform(value => value ? value.format('YYYY-MM-DDTHH:mm:ss') : null, { toPlainOnly: true })
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
@@ -46,7 +56,7 @@ export class DocumentoAvulso {
     dataHoraConclusaoPrazo?: Date|moment.Moment;
 
     @Exclude()
-    unidadeResponsavel: Setor;
+    unidadeResponsavel?: Setor;
 
     @Type(() => Pessoa)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
@@ -77,15 +87,15 @@ export class DocumentoAvulso {
 
     @Type(() => Documento)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    documentoRemessa: Documento;
+    documentoRemessa?: Documento;
 
     @Type(() => Usuario)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    usuarioResponsavel: Usuario;
+    usuarioResponsavel?: Usuario;
 
     @Type(() => Setor)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    setorResponsavel: Setor;
+    setorResponsavel?: Setor;
 
     @Type(() => Usuario)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
@@ -97,7 +107,7 @@ export class DocumentoAvulso {
 
     @Type(() => Processo)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    processo: Processo;
+    processo?: Processo;
 
     @Type(() => Processo)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
@@ -117,7 +127,7 @@ export class DocumentoAvulso {
 
     livreBalanceamento?: boolean;
 
-    auditoriaDistribuicao: string;
+    auditoriaDistribuicao?: string;
 
     tipoDistribuicao?: number;
 
@@ -150,6 +160,10 @@ export class DocumentoAvulso {
     @Transform(value => value ? value.format() : null, { toPlainOnly: true })
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
     apagadoEm?: Date;
+
+    @Exclude({toPlainOnly: true})
+    @Type(() => VinculacaoEtiqueta)
+    vinculacoesEtiquetas: VinculacaoEtiqueta[];
 
     constructor() {
         this.id = null;
@@ -190,5 +204,6 @@ export class DocumentoAvulso {
         this.atualizadoEm = null;
         this.apagadoPor = null;
         this.apagadoEm = null;
+        this.vinculacoesEtiquetas = [];
     }
 }

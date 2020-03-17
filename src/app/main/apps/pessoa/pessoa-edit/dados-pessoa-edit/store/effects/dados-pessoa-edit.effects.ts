@@ -109,7 +109,7 @@ export class DadosPessoaEditEffect {
             .pipe(
                 ofType<DadosPessoaEditActions.SavePessoaSuccess>(DadosPessoaEditActions.SAVE_PESSOA_SUCCESS),
                 tap((action) => {
-                    this._router.navigate([this.routerState.url.replace('dados-pessoa', 'documentos/listar').replace('criar', action.payload.id)]).then();
+                    this._router.navigate([this.routerState.url.replace('criar/dados-pessoa', action.payload.id + '/documentos/listar')]).then();
                 })
             );
 }

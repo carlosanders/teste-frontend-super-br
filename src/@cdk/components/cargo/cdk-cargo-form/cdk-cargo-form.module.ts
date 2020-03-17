@@ -8,18 +8,15 @@ import {
     MatProgressSpinnerModule,
     MatAutocompleteModule,
     MatDatepickerModule
-
 } from '@cdk/angular/material';
-
-import { CdkSharedModule } from '@cdk/shared.module';
-import { CdkCargoFormComponent } from './cdk-cargo-form.component';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {CdkCargoFormComponent} from './cdk-cargo-form.component';
 
 @NgModule({
     declarations: [
         CdkCargoFormComponent,
     ],
     imports: [
-
         MatAutocompleteModule,
         MatButtonModule,
         MatFormFieldModule,
@@ -31,9 +28,7 @@ import { CdkCargoFormComponent } from './cdk-cargo-form.component';
 
         CdkSharedModule,
     ],
-    providers: [
-
-    ],
+    providers: [],
     exports: [
         CdkCargoFormComponent
     ]

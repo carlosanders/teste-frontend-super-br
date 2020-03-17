@@ -2,9 +2,9 @@ export const environment = {
     test: false,
     production: true,
     hmr       : false,
-    base_url: 'http://sapiensbeta.agu.gov.br:8000/',
-    jnlp: 'jnlp://sapiensbeta.agu.gov.br:8000/',
-    api_url: 'http://sapiensbeta.agu.gov.br:8000/v1/',
-    mercure_hub: 'http://sapiensbeta.agu.gov.br:4000/hub',
-    xdebug: '?XDEBUG_SESSION_START=14013'
+    base_url: 'http://127.0.0.1:8000/',
+    jnlp: 'jnlp://127.0.0.1:8000/',
+    api_url: 'http://127.0.0.1:8000/v1/',
+    mercure_hub: 'http://127.0.0.1:4000/hub',
+    xdebug: '?XDEBUG_SESSION_START=docker'
 };

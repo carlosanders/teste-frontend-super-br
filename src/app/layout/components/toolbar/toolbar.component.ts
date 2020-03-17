@@ -54,7 +54,7 @@ export class ToolbarComponent implements OnInit, OnDestroy, AfterViewInit {
         private _cdkConfigService: CdkConfigService,
         private _cdkSidebarService: CdkSidebarService,
         private _translateService: TranslateService,
-        private _loginService: LoginService,
+        public _loginService: LoginService,
         private _notificacaoService: NotificacaoService,
         private _store: Store<fromStore.State>,
         private _router: Router
@@ -189,7 +189,7 @@ export class ToolbarComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     ngAfterViewInit(): void {
-        if (this.userProfile) {
+        if (this.userProfile && this.userProfile.id) {
             this._notificacaoService.count(
                 `{"destinatario.id": "eq:${this.userProfile.id}", "dataHoraLeitura": "isNull"}`)
                 .pipe(

@@ -9,9 +9,9 @@ oficios {
     .center {
 
         .header {
-            height: 100px !important;
-            min-height: 100px !important;
-            max-height: 100px !important;
+            height: 72px !important;
+            min-height: 72px !important;
+            max-height: 72px !important;
 
             .search-wrapper {
                 border-radius: 28px;
@@ -67,7 +67,6 @@ oficios {
 
                 .documento-avulo-list {
                     border-right: 1px solid;
-                    overflow-y: auto;
 
                     &.mobile-mode {
 
@@ -87,8 +86,6 @@ oficios {
                 }
 
                 .oficio-detail {
-                    width: 100%;
-                    height: 100%;
 
                     &.mobile-mode {
 

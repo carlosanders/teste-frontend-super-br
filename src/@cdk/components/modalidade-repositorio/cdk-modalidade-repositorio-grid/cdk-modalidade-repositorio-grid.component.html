@@ -1,4 +1,4 @@
-<div class="page-layout fullwidth left-sidebar inner-scroll" fxFlex="100">
+<div class="page-layout left-sidebar" fxFlex>
 
     <!-- SIDEBAR -->
     <cdk-sidebar class="sidebar" name="cdk-modalidade-repositorio-main-sidebar" position="left">
@@ -11,209 +11,205 @@
     <!-- / SIDEBAR -->
 
     <!-- CONTENT -->
-    <div class="content responsive-grid" fxLayoutAlign="center start">
+    <div class="content responsive-grid" fxFlex fxLayout="column">
 
-        <div class="mb-8 p-8" fxFlex fxLayout="column" fxLayoutAlign="center center">
+        <div class="actions" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="end center">
 
-            <div class="actions" fxFlex fxLayout="row" fxLayoutAlign="end center">
+            <button class="back" mat-icon-button *ngIf="actions.indexOf('cancel') > -1"
+                    (click)="doCancel()"
+                    aria-label="cancelar"
+                    matTooltip="Cancelar">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
 
-                <button class="back" mat-icon-button *ngIf="actions.indexOf('cancel') > -1"
-                        (click)="doCancel()"
-                        aria-label="cancelar"
-                        matTooltip="Cancelar">
-                    <mat-icon>arrow_back</mat-icon>
-                </button>
+            <button mat-icon-button *ngIf="selectedIds.length > 1 && actions.indexOf('delete') > -1"
+                    (click)="deleteModalidadeRepositorio(selectedIds)"
+                    aria-label="remover"
+                    matTooltip="Remover">
+                <mat-icon>delete</mat-icon>
+            </button>
 
-                <button mat-icon-button *ngIf="selectedIds.length > 1 && actions.indexOf('delete') > -1"
-                        (click)="deleteModalidadeRepositorio(selectedIds)"
-                        aria-label="remover"
-                        matTooltip="Remover">
-                    <mat-icon>delete</mat-icon>
-                </button>
+            <mat-form-field class="colunas mr-8">
+                <mat-select [formControl]="columns" multiple>
+                    <div *ngFor="let column of allColumns">
+                        <mat-option *ngIf="!column.fixed" [value]="column.id">{{ column.label }}</mat-option>
+                    </div>
+                </mat-select>
+            </mat-form-field>
 
-                <mat-form-field class="colunas mr-8">
-                    <mat-select [formControl]="columns" multiple>
-                        <div *ngFor="let column of allColumns">
-                            <mat-option *ngIf="!column.fixed" [value]="column.id">{{ column.label }}</mat-option>
-                        </div>
-                    </mat-select>
-                </mat-form-field>
+            <button class="refresh" mat-icon-button
+                    (click)="loadPage()"
+                    aria-label="recarregar"
+                    matTooltip="Recarregar">
+                <mat-icon>refresh</mat-icon>
+            </button>
 
-                <button class="refresh" mat-icon-button
-                        (click)="loadPage()"
-                        aria-label="recarregar"
-                        matTooltip="Recarregar">
-                    <mat-icon>refresh</mat-icon>
-                </button>
+            <button class="toggle-filter" mat-icon-button [ngClass]="{'warn': (gridFilter | json) != '{}'}"
+                    (click)="toggleFilter()"
+                    aria-label="filtrar"
+                    matTooltip="Filtrar">
+                <mat-icon>filter_list</mat-icon>
+            </button>
+        </div>
 
-                <button class="toggle-filter" mat-icon-button mat-icon-button [ngClass]="{'warn': (gridFilter | json) != '{}'}"
-                        (click)="toggleFilter()"
-                        aria-label="filtrar"
-                        matTooltip="Filtrar">
-                    <mat-icon>filter_list</mat-icon>
-                </button>
-            </div>
+        <div fxFlex="1 1 auto" fxLayout="row" fxLayoutAlign="center center" *ngIf="loading">
+            <mat-spinner diameter="32"></mat-spinner>
+        </div>
 
-            <div class="spinner-container" *ngIf="loading">
-                <mat-spinner diameter="32"></mat-spinner>
-            </div>
+        <table mat-table [dataSource]="dataSource" matSort [hidden]="loading">
 
-            <table mat-table [dataSource]="dataSource" matSort [hidden]="loading">
+            <!-- Selection Column -->
+            <ng-container matColumnDef="select">
+                <th mat-header-cell *matHeaderCellDef>
+                    <mat-checkbox (click)="toggleSelectAll($event)"
+                                  [checked]="hasSelected"
+                                  [indeterminate]="isIndeterminate">
+                    </mat-checkbox>
+                </th>
+                <td mat-cell *matCellDef="let modalidaderepositorio">
+                    <mat-checkbox [checked]="selectedIds.indexOf(modalidaderepositorio.id) > -1"
+                                  (change)="toggleInSelected(modalidaderepositorio.id)"
+                                  (click)="$event.stopPropagation();"
+                                  [disabled]="deletedIds?.indexOf(modalidaderepositorio.id) > -1">
+                    </mat-checkbox>
+                </td>
+            </ng-container>
 
-                <!-- Selection Column -->
-                <ng-container matColumnDef="select">
-                    <th mat-header-cell *matHeaderCellDef>
-                        <mat-checkbox (click)="toggleSelectAll($event)"
-                                      [checked]="hasSelected"
-                                      [indeterminate]="isIndeterminate">
-                        </mat-checkbox>
-                    </th>
-                    <td mat-cell *matCellDef="let modalidaderepositorio">
-                        <mat-checkbox [checked]="selectedIds.indexOf(modalidaderepositorio.id) > -1"
-                                      (change)="toggleInSelected(modalidaderepositorio.id)"
-                                      (click)="$event.stopPropagation();"
-                                      [disabled]="deletedIds?.indexOf(modalidaderepositorio.id) > -1">
-                        </mat-checkbox>
-                    </td>
-                </ng-container>
+            <!-- Id Column -->
+            <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> &nbsp; Id
+                </th>
+                <td mat-cell *matCellDef="let modalidaderepositorio" class='has_label_on_mobile' data-label='Id: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(modalidaderepositorio.id) > -1}"> &nbsp;{{modalidaderepositorio.id}} </td>
+            </ng-container>
 
-                <!-- Id Column -->
-                <ng-container matColumnDef="id">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> &nbsp; Id
-                    </th>
-                    <td mat-cell *matCellDef="let modalidaderepositorio" class='has_label_on_mobile' data-label='Id: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(modalidaderepositorio.id) > -1}"> &nbsp;{{modalidaderepositorio.id}} </td>
-                </ng-container>
+            <!-- Descrição Column -->
+            <ng-container matColumnDef="descricao">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Descrição
+                </th>
+                <td mat-cell *matCellDef="let modalidaderepositorio" class='has_label_on_mobile' data-label='Descrição: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(modalidaderepositorio.id) > -1}"> {{modalidaderepositorio.descricao}} </td>
+            </ng-container>
 
-                <!-- Descrição Column -->
-                <ng-container matColumnDef="descricao">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Descrição
-                    </th>
-                    <td mat-cell *matCellDef="let modalidaderepositorio" class='has_label_on_mobile' data-label='Descrição: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(modalidaderepositorio.id) > -1}"> {{modalidaderepositorio.descricao}} </td>
-                </ng-container>
+            <!-- Valor Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('valor') > -1" matColumnDef="valor">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Valor
+                </th>
+                <td mat-cell *matCellDef="let modalidaderepositorio" class='has_label_on_mobile' data-label='Valor: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(modalidaderepositorio.id) > -1}"> {{modalidaderepositorio.valor}} </td>
+            </ng-container>
 
-                <!-- Valor Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('valor') > -1" matColumnDef="valor">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Valor
-                    </th>
-                    <td mat-cell *matCellDef="let modalidaderepositorio" class='has_label_on_mobile' data-label='Valor: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(modalidaderepositorio.id) > -1}"> {{modalidaderepositorio.valor}} </td>
-                </ng-container>
+            <!-- Ativo Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('ativo') > -1" matColumnDef="ativo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Ativo
+                </th>
+                <td mat-cell *matCellDef="let modalidaderepositorio" class='has_label_on_mobile' data-label='Ativo: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(modalidaderepositorio.id) > -1}">
+                    <mat-checkbox [disabled]="true" [checked]="modalidaderepositorio.ativo"></mat-checkbox>
+                </td>
+            </ng-container>
 
-                <!-- Ativo Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('ativo') > -1" matColumnDef="ativo">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Ativo
-                    </th>
-                    <td mat-cell *matCellDef="let modalidaderepositorio" class='has_label_on_mobile' data-label='Ativo: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(modalidaderepositorio.id) > -1}">
-                        <mat-checkbox [disabled]="true" [checked]="modalidaderepositorio.ativo"></mat-checkbox>
-                    </td>
-                </ng-container>
+            <!-- CriadoPor Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('criadoPor.nome') > -1" matColumnDef="criadoPor.nome">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Criado Por
+                </th>
+                <td mat-cell *matCellDef="let modalidaderepositorio" class='has_label_on_mobile' data-label='Criado Por: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(modalidaderepositorio.id) > -1}"> {{modalidaderepositorio.criadoPor?.nome}} </td>
+            </ng-container>
 
-                <!-- CriadoPor Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('criadoPor.nome') > -1" matColumnDef="criadoPor.nome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Criado Por
-                    </th>
-                    <td mat-cell *matCellDef="let modalidaderepositorio" class='has_label_on_mobile' data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(modalidaderepositorio.id) > -1}"> {{modalidaderepositorio.criadoPor?.nome}} </td>
-                </ng-container>
+            <!-- CriadoEm Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('criadoEm') > -1" matColumnDef="criadoEm">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Criado Em
+                </th>
+                <td mat-cell *matCellDef="let modalidaderepositorio" class='has_label_on_mobile' data-label='Criado Em: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(modalidaderepositorio.id) > -1}"> {{modalidaderepositorio.criadoEm | date: 'dd/MM/yyyy'}} </td>
+            </ng-container>
 
-                <!-- CriadoEm Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('criadoEm') > -1" matColumnDef="criadoEm">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Criado Em
-                    </th>
-                    <td mat-cell *matCellDef="let modalidaderepositorio" class='has_label_on_mobile' data-label='Criado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(modalidaderepositorio.id) > -1}"> {{modalidaderepositorio.criadoEm | date: 'dd/MM/yyyy'}} </td>
-                </ng-container>
+            <!-- AtualizadoPor Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1" matColumnDef="atualizadoPor.nome">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Atualizado Por
+                </th>
+                <td mat-cell *matCellDef="let modalidaderepositorio" class='has_label_on_mobile' data-label='Atualizado Por: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(modalidaderepositorio.id) > -1}"> {{modalidaderepositorio.atualizadoPor?.nome}} </td>
+            </ng-container>
 
-                <!-- AtualizadoPor Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1" matColumnDef="atualizadoPor.nome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Atualizado Por
-                    </th>
-                    <td mat-cell *matCellDef="let modalidaderepositorio" class='has_label_on_mobile' data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(modalidaderepositorio.id) > -1}"> {{modalidaderepositorio.atualizadoPor?.nome}} </td>
-                </ng-container>
+            <!-- AtualizadoEm Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('atualizadoEm') > -1" matColumnDef="atualizadoEm">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Atualizado Em
+                </th>
+                <td mat-cell *matCellDef="let modalidaderepositorio" class='has_label_on_mobile' data-label='Atualizado Em: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(modalidaderepositorio.id) > -1}"> {{modalidaderepositorio.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
+            </ng-container>
 
-                <!-- AtualizadoEm Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('atualizadoEm') > -1" matColumnDef="atualizadoEm">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Atualizado Em
-                    </th>
-                    <td mat-cell *matCellDef="let modalidaderepositorio" class='has_label_on_mobile' data-label='Atualizado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(modalidaderepositorio.id) > -1}"> {{modalidaderepositorio.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
-                </ng-container>
+            <!-- ApagadoPor Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('apagadoPor.nome') > -1" matColumnDef="apagadoPor.nome">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Apagado Por
+                </th>
+                <td mat-cell *matCellDef="let modalidaderepositorio" class='has_label_on_mobile' data-label='Apagado Por: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(modalidaderepositorio.id) > -1}"> {{modalidaderepositorio.apagadoPor?.nome}} </td>
+            </ng-container>
 
-                <!-- ApagadoPor Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('apagadoPor.nome') > -1" matColumnDef="apagadoPor.nome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Apagado Por
-                    </th>
-                    <td mat-cell *matCellDef="let modalidaderepositorio" class='has_label_on_mobile' data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(modalidaderepositorio.id) > -1}"> {{modalidaderepositorio.apagadoPor?.nome}} </td>
-                </ng-container>
+            <!-- ApagadoEm Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('apagadoEm') > -1" matColumnDef="apagadoEm">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Apagado Em
+                </th>
+                <td mat-cell *matCellDef="let modalidaderepositorio" class='has_label_on_mobile' data-label='Apagado Em: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(modalidaderepositorio.id) > -1}"> {{modalidaderepositorio.apagadoEm | date: 'dd/MM/yyyy'}} </td>
+            </ng-container>
 
-                <!-- ApagadoEm Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('apagadoEm') > -1" matColumnDef="apagadoEm">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Apagado Em
-                    </th>
-                    <td mat-cell *matCellDef="let modalidaderepositorio" class='has_label_on_mobile' data-label='Apagado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(modalidaderepositorio.id) > -1}"> {{modalidaderepositorio.apagadoEm | date: 'dd/MM/yyyy'}} </td>
-                </ng-container>
+            <!-- Actions Column -->
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let modalidaderepositorio">
 
-                <!-- Actions Column -->
-                <ng-container matColumnDef="actions">
-                    <th mat-header-cell *matHeaderCellDef></th>
-                    <td mat-cell *matCellDef="let modalidaderepositorio">
+                    <button mat-icon-button
+                            *ngIf="actions.indexOf('select') > -1"
+                            (click)="selectModalidadeRepositorio(modalidaderepositorio)"
+                            aria-label="selecionar"
+                            matTooltip="Selecionar">
+                        <mat-icon>keyboard_return</mat-icon>
+                    </button>
 
-                        <button mat-icon-button
-                                *ngIf="actions.indexOf('select') > -1"
-                                (click)="selectModalidadeRepositorio(modalidaderepositorio)"
-                                aria-label="selecionar"
-                                matTooltip="Selecionar">
-                            <mat-icon>keyboard_return</mat-icon>
-                        </button>
+                    <button mat-icon-button
+                            *ngIf="actions.indexOf('edit') > -1"
+                            [disabled]="deletedIds?.indexOf(modalidaderepositorio.id) > -1"
+                            (click)="editModalidadeRepositorio(modalidaderepositorio.id)"
+                            aria-label="editar"
+                            matTooltip="Editar">
+                        <mat-icon>edit</mat-icon>
+                    </button>
 
-                        <button mat-icon-button
-                                *ngIf="actions.indexOf('edit') > -1"
-                                [disabled]="deletedIds?.indexOf(modalidaderepositorio.id) > -1"
-                                (click)="editModalidadeRepositorio(modalidaderepositorio.id)"
-                                aria-label="editar"
-                                matTooltip="Editar">
-                            <mat-icon>edit</mat-icon>
-                        </button>
+                    <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(modalidaderepositorio.id) > -1">
+                        <mat-spinner diameter="24"></mat-spinner>
+                    </div>
 
-                        <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(modalidaderepositorio.id) > -1">
-                            <mat-spinner diameter="24"></mat-spinner>
-                        </div>
+                    <button mat-icon-button
+                            *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(modalidaderepositorio.id) === -1"
+                            [disabled]="deletedIds?.indexOf(modalidaderepositorio.id) > -1"
+                            (click)="deleteModalidadeRepositorio(modalidaderepositorio.id)"
+                            aria-label="remover"
+                            matTooltip="Remover">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
 
-                        <button mat-icon-button
-                                *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(modalidaderepositorio.id) === -1"
-                                [disabled]="deletedIds?.indexOf(modalidaderepositorio.id) > -1"
-                                (click)="deleteModalidadeRepositorio(modalidaderepositorio.id)"
-                                aria-label="remover"
-                                matTooltip="Remover">
-                            <mat-icon>delete</mat-icon>
-                        </button>
-                    </td>
-                </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
+            <tr mat-row *matRowDef="let modalidaderepositorio; columns: displayedColumns;">
+            </tr>
+        </table>
 
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let modalidaderepositorio; columns: displayedColumns;">
-                </tr>
-            </table>
-
-            <div fxFlex fxLayout="row" fxLayoutAlign="center center">
-                <mat-paginator [pageSizeOptions]="[5, 10]"></mat-paginator>
-            </div>
-
+        <div class="actions" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="center center">
+            <mat-paginator [disabled]="loading" [pageSizeOptions]="[5, 10]"></mat-paginator>
         </div>
 
     </div>

@@ -3,7 +3,7 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of, throwError} from 'rxjs';
-import {catchError, map, exhaustMap, mergeMap, withLatestFrom, switchMap} from 'rxjs/operators';
+import {catchError, map, exhaustMap, mergeMap, withLatestFrom, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as ProcessoViewActions from 'app/main/apps/processo/processo-view/store/actions/processo-view.actions';
@@ -12,8 +12,9 @@ import {AddData} from '@cdk/ngrx-normalizr';
 import {Juntada} from '@cdk/models';
 import {juntada as juntadaSchema} from '@cdk/normalizr/juntada.schema';
 import {JuntadaService} from '@cdk/services/juntada.service';
-import {getCurrentStep, getIndex} from '../selectors';
+import {getCurrentStep, getIndex, getPagination} from '../selectors';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
+import {HttpParams} from '@angular/common/http';
 
 @Injectable()
 export class ProcessoViewEffect {
@@ -44,6 +45,9 @@ export class ProcessoViewEffect {
             .pipe(
                 ofType<ProcessoViewActions.GetJuntadas>(ProcessoViewActions.GET_JUNTADAS),
                 switchMap((action) => {
+                    const chaveAcesso = this.routerState.params.chaveAcessoHandle ? {
+                        chaveAcesso: this.routerState.params.chaveAcessoHandle
+                    } : {};
                     return this._juntadaService.query(
                         JSON.stringify({
                             ...action.payload.filter,
@@ -54,7 +58,8 @@ export class ProcessoViewEffect {
                         action.payload.limit,
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
-                        JSON.stringify(action.payload.populate));
+                        JSON.stringify(action.payload.populate),
+                        JSON.stringify(chaveAcesso));
                 }),
                 mergeMap((response) => [
                     new AddData<Juntada>({data: response['entities'], schema: juntadaSchema}),
@@ -88,8 +93,7 @@ export class ProcessoViewEffect {
                             value: this.routerState.params.processoHandle
                         },
                         total: response['total']
-                    }),
-                    new ProcessoViewActions.SetCurrentStep({step: 0, subStep: 0})
+                    })
                 ]),
                 catchError((err, caught) => {
                     console.log (err);
@@ -99,7 +103,6 @@ export class ProcessoViewEffect {
             );
 
     /**
-     * Set Current Step
      * @type {Observable<any>}
      */
     @Effect()
@@ -112,10 +115,34 @@ export class ProcessoViewEffect {
                     if (typeof index[currentStep.step] === 'undefined' || typeof index[currentStep.step][currentStep.subStep] === 'undefined') {
                         return throwError(new Error('não há documentos'));
                     }
-                    return this._componenteDigitalService.download(index[currentStep.step][currentStep.subStep]);
+                    const chaveAcesso = this.routerState.params.chaveAcessoHandle ?
+                        {chaveAcesso: this.routerState.params.chaveAcessoHandle} : {};
+                    const context = JSON.stringify(chaveAcesso);
+
+                    return this._componenteDigitalService.download(index[currentStep.step][currentStep.subStep], context);
                 }),
                 map((response: any) => {
                     return new ProcessoViewActions.SetCurrentStepSuccess(response);
+                }),
+                catchError((err, caught) => {
+                    this._store.dispatch(new ProcessoViewActions.SetCurrentStepFailed(err));
+                    return caught;
+                })
+            );
+
+    /**
+     * Set Current Step
+     */
+    @Effect({dispatch: false})
+    getJuntadasSuccess: any =
+        this._actions
+            .pipe(
+                ofType<ProcessoViewActions.GetJuntadasSuccess>(ProcessoViewActions.GET_JUNTADAS_SUCCESS),
+                withLatestFrom(this._store.pipe(select(getPagination))),
+                tap(([action, pagination]) => {
+                    if (pagination.offset === 0) {
+                        this._store.dispatch(new ProcessoViewActions.SetCurrentStep({step: 0, subStep: 0}));
+                    }
                 }),
                 catchError((err, caught) => {
                     this._store.dispatch(new ProcessoViewActions.SetCurrentStepFailed(err));

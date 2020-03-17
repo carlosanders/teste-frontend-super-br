@@ -23,7 +23,7 @@ export class LotacaoListEffect {
     constructor(
         private _actions: Actions,
         private _lotacaoService: LotacaoService,
-        private _loginService: LoginService,
+        public _loginService: LoginService,
         private _store: Store<State>
     ) {
         this._store
@@ -53,14 +53,15 @@ export class LotacaoListEffect {
                         action.payload.limit,
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
-                        JSON.stringify(action.payload.populate)).pipe(
+                        JSON.stringify(action.payload.populate),
+                        JSON.stringify(action.payload.context)).pipe(
                         mergeMap((response) => [
                             new AddData<Lotacao>({data: response['entities'], schema: lotacaoSchema}),
                             new LotacaoListActions.GetLotacoesSuccess({
                                 entitiesId: response['entities'].map(lotacao => lotacao.id),
                                 loaded: {
-                                    id: 'lotacaoHandle',
-                                    value: this._loginService.getUserProfile().id
+                                    id: this.routerState.params.setorHandle ? 'setorHandle' : 'usuarioHandle',
+                                    value: this.routerState.params.setorHandle ? this.routerState.params.setorHandle : this.routerState.params.usuarioHandle
                                 },
                                 total: response['total']
                             })

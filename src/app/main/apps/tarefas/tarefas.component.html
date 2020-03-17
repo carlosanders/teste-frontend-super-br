@@ -49,18 +49,13 @@
                      (resizeEnd)="onResizeEndTarefaList($event)"
                      [fxFlex]="tarefaListSize"
                      [hidden]="(maximizado$ | async)"
-                     cdkPerfectScrollbar
-                     infiniteScroll
-                     [scrollWindow]="false"
-                     [infiniteScrollDistance]="2"
-                     [infiniteScrollThrottle]="50"
-                     (scrolled)="onScroll()"
                      [ngClass]="{
                         'mobile-mode': mobileMode,
                         'current-tarefa': currentTarefaId,
                         'no-current-tarefa': !currentTarefaId
                      }">
-                    <cdk-tarefa-list [loading]="(loading$ | async)"
+                    <cdk-tarefa-list (scrolled)="onScroll()"
+                                     [loading]="(loading$ | async)"
                                      [tarefas]="tarefas"
                                      [deletingIds]="(deletingIds$ | async)"
                                      [deletedIds]="(deletedIds$ | async)"
@@ -91,7 +86,7 @@
                 </div>
                 <div class="tarefa-detail" mwlResizable [enableGhostResize]="true"
                      [resizeEdges]="{bottom: false, right: true, top: false, left: true}"
-                     cdkPerfectScrollbar fxFlex
+                     fxFlex
                      [ngClass]="{
                         'mobile-mode': mobileMode,
                         'current-tarefa': currentTarefaId,

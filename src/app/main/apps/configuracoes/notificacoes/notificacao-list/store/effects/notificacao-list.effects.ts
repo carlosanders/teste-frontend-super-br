@@ -9,7 +9,7 @@ import {getRouterState, State} from 'app/store/reducers';
 import * as NotificacaoListActions from '../actions';
 
 import {NotificacaoService} from '@cdk/services/notificacao.service';
-import {AddData} from '@cdk/ngrx-normalizr';
+import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {Notificacao} from '@cdk/models';
 import {notificacao as notificacaoSchema} from '@cdk/normalizr/notificacao.schema';
 import {LoginService} from 'app/main/auth/login/login.service';
@@ -22,7 +22,7 @@ export class NotificacaoListEffect {
     constructor(
         private _actions: Actions,
         private _notificacaoService: NotificacaoService,
-        private _loginService: LoginService,
+        public _loginService: LoginService,
         private _store: Store<State>
     ) {
         this._store
@@ -42,7 +42,7 @@ export class NotificacaoListEffect {
     getNotificacoes: any =
         this._actions
             .pipe(
-                ofType<NotificacaoListActions.GetNotificacoes>(NotificacaoListActions.GET_LOTACOES),
+                ofType<NotificacaoListActions.GetNotificacoes>(NotificacaoListActions.GET_NOTIFICACOES),
                 switchMap((action) => {
                     return this._notificacaoService.query(
                         JSON.stringify({
@@ -80,13 +80,36 @@ export class NotificacaoListEffect {
     deleteNotificacao: any =
         this._actions
             .pipe(
-                ofType<NotificacaoListActions.DeleteNotificacao>(NotificacaoListActions.DELETE_LOTACAO),
+                ofType<NotificacaoListActions.DeleteNotificacao>(NotificacaoListActions.DELETE_NOTIFICACAO),
                 mergeMap((action) => {
                     return this._notificacaoService.destroy(action.payload).pipe(
                         map((response) => new NotificacaoListActions.DeleteNotificacaoSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
                             return of(new NotificacaoListActions.DeleteNotificacaoFailed(action.payload));
+                        })
+                    );
+                })
+            );
+
+    /**
+     * ToggleLida Notificacao
+     * @type {Observable<any>}
+     */
+    @Effect()
+    toggleLidaNotificacao: any =
+        this._actions
+            .pipe(
+                ofType<NotificacaoListActions.ToggleLidaNotificacao>(NotificacaoListActions.TOGGLE_LIDA_NOTIFICACAO),
+                mergeMap((action) => {
+                    return this._notificacaoService.toggleLida(action.payload).pipe(
+                        mergeMap((response) => [
+                            new UpdateData<Notificacao>({id: response.id, schema: notificacaoSchema, changes: {dataHoraLeitura: response.dataHoraLeitura}}),
+                            new NotificacaoListActions.ToggleLidaNotificacaoSuccess(response.id)
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            return of(new NotificacaoListActions.ToggleLidaNotificacaoFailed(action.payload));
                         })
                     );
                 })

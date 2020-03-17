@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as DocumentosActions from '../actions/documentos.actions';
 
@@ -13,9 +13,6 @@ import {Documento} from '@cdk/models/documento.model';
 import {DocumentoService} from '@cdk/services/documento.service';
 import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
 import {Router} from '@angular/router';
-import {DocumentoAvulso} from '../../../../../../../../@cdk/models';
-import {environment} from '../../../../../../../../environments/environment';
-import {classToPlain, plainToClass} from 'class-transformer';
 
 @Injectable()
 export class DocumentosEffects {
@@ -46,7 +43,6 @@ export class DocumentosEffects {
             .pipe(
                 ofType<DocumentosActions.GetDocumentos>(DocumentosActions.GET_DOCUMENTOS),
                 switchMap(() => {
-
                     let documentoAvulsoId = null;
 
                     const routeParams = of('documentoAvulsoHandle');
@@ -97,19 +93,19 @@ export class DocumentosEffects {
                 })
             );
 
-    // /**
-    //  * Clicked Documento
-    //  * @type {Observable<any>}
-    //  */
-    // @Effect({dispatch: false})
-    // clickedDocumento: any =
-    //     this._actions
-    //         .pipe(
-    //             ofType<DocumentosActions.ClickedDocumento>(DocumentosActions.CLICKED_DOCUMENTO),
-    //             tap((action) => {
-    //                 this._router.navigate([this.routerState.url + '/documento/' + action.payload.id + '/oficio']).then();
-    //             })
-    //         );
+    /**
+     * Clicked Documento
+     * @type {Observable<any>}
+     */
+    @Effect({dispatch: false})
+    clickedDocumento: any =
+        this._actions
+            .pipe(
+                ofType<DocumentosActions.ClickedDocumento>(DocumentosActions.CLICKED_DOCUMENTO),
+                tap((action) => {
+                    this._router.navigate([this.routerState.url + '/documento/' + action.payload.id + '/oficio']).then();
+                })
+            );
 
     /**
      * Converte Documento

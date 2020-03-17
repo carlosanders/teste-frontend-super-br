@@ -9,7 +9,7 @@ import {getRouterState, State} from 'app/store/reducers';
 import * as LocalizadorListActions from '../actions';
 
 import {LocalizadorService} from '@cdk/services/localizador.service';
-import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
+import {AddData} from '@cdk/ngrx-normalizr';
 import {Localizador} from '@cdk/models/localizador.model';
 import {localizador as localizadorSchema} from '@cdk/normalizr/localizador.schema';
 import {LoginService} from 'app/main/auth/login/login.service';
@@ -23,7 +23,7 @@ export class LocalizadorListEffect {
     constructor(
         private _actions: Actions,
         private _localizadorService: LocalizadorService,
-        private _loginService: LoginService,
+        public _loginService: LoginService,
         private _store: Store<State>
     ) {
         this._store
@@ -53,14 +53,15 @@ export class LocalizadorListEffect {
                         action.payload.limit,
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
-                        JSON.stringify(action.payload.populate)).pipe(
+                        JSON.stringify(action.payload.populate),
+                        JSON.stringify(action.payload.context)).pipe(
                         mergeMap((response) => [
                             new AddData<Localizador>({data: response['entities'], schema: localizadorSchema}),
                             new LocalizadorListActions.GetLocalizadoresSuccess({
                                 entitiesId: response['entities'].map(localizador => localizador.id),
                                 loaded: {
-                                    id: 'localizadorHandle',
-                                    value: this._loginService.getUserProfile().id
+                                    id: 'setorHandle',
+                                    value: this.routerState.params['setorHandle']
                                 },
                                 total: response['total']
                             })
@@ -105,7 +106,6 @@ export class LocalizadorListEffect {
                 switchMap((action) => {
                     return this._localizadorService.save(action.payload.localizador).pipe(
                         mergeMap((response: Localizador) => [
-                            new UpdateData<Localizador>({id: response.id, schema: localizadorSchema, changes: {}}),
                             new LocalizadorListActions.SaveLocalizadorSuccess(),  new OperacoesActions.Resultado({
                                 type: 'localizador',
                                 content: `Localizador id ${response.id} editada com sucesso!`,

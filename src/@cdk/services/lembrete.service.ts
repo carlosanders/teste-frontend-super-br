@@ -9,6 +9,7 @@ import {PaginatedResponse} from '@cdk/models';
 
 @Injectable()
 export class LembreteService {
+    private params: any;
 
     constructor(
         private modelService: ModelService
@@ -72,6 +73,6 @@ export class LembreteService {
     }
 
     destroy(id: number, context: any = '{}'): Observable<Lembrete> {
-        return this.modelService.delete('lembrete', id, new HttpParams({fromObject: params}));
+        return this.modelService.delete('lembrete', id, new HttpParams({fromObject: this.params}));
     }
 }

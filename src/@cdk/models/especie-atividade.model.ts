@@ -14,22 +14,22 @@ export class EspecieAtividade {
     uuid?: string;
 
     @Exclude({ toPlainOnly: true })
-    nome: string;
+    nome?: string;
 
     @Exclude({ toPlainOnly: true })
-    descricao: string;
+    descricao?: string;
 
     @Exclude({ toPlainOnly: true })
-    ativo: boolean;
+    ativo?: boolean;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => GeneroAtividade)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    generoAtividade: GeneroAtividade;
+    generoAtividade?: GeneroAtividade;
 
     @Exclude({toPlainOnly: true})
     @Type(() => Favorito)
-    favoritos: Favorito[];
+    favoritos?: Favorito[];
 
     @Exclude({toPlainOnly: true})
     @Type(() => Usuario)

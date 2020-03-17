@@ -14,27 +14,20 @@ export class Setor {
     @Exclude({ toPlainOnly: true })
     uuid?: string;
 
-
-    apenasProtocolo: boolean;
-
+    apenasProtocolo?: boolean;
 
     endereco?: string;
 
     @Exclude({ toPlainOnly: true })
     email?: string;
 
+    sigla?: string;
 
-    sigla: string;
+    apenasDistribuidor?: boolean;
 
-
-    apenasDistribuidor: boolean;
-
-
-    nome: string;
-
+    nome?: string;
 
     ativo?: boolean;
-
 
     prefixoNUP?: string;
 
@@ -47,26 +40,20 @@ export class Setor {
     @Exclude({ toPlainOnly: true })
     numeracaoDocumentoUnidade?: boolean;
 
-
     distribuicaoCentena?: boolean;
-
 
     prazoEqualizacao?: number;
 
-
     divergenciaMaxima?: number;
-
 
     apenasDistribuicaoAutomatica?: boolean;
 
-
     comPrevencaoRelativa?: boolean;
-
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Setor)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    unidade: Setor;
+    unidade?: Setor;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Setor)
@@ -81,7 +68,7 @@ export class Setor {
     @Exclude({ toPlainOnly: true })
     @Type(() => Municipio)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    municipio: Municipio;
+    municipio?: Municipio;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => GeneroSetor)

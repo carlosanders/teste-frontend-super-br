@@ -1,5 +1,7 @@
-#lotacoes {
-  height: 100%;
+admin-lotacoes {
+   height: 100%;
+    width: 100%;
+
   .header {
 
     .actions {
@@ -13,8 +15,4 @@
   .content {
     height: 100%;
   }
-}
-
-admin-lotacoes {
-  height: 100% !important;
 }

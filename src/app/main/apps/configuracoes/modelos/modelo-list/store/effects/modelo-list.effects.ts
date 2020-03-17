@@ -22,7 +22,7 @@ export class ModeloListEffect {
     constructor(
         private _actions: Actions,
         private _modeloService: ModeloService,
-        private _loginService: LoginService,
+        public _loginService: LoginService,
         private _store: Store<State>
     ) {
         this._store

@@ -44,7 +44,7 @@ export class ComponentesDigitaisComponent implements OnInit {
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
         private _store: Store<fromStore.ComponentesDigitaisAppState>,
-        private _loginService: LoginService
+        public _loginService: LoginService
     ) {
         this.componentesDigitais$ = this._store.pipe(select(fromStore.getComponentesDigitais));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));

@@ -5,9 +5,9 @@ tarefas {
     .center {
 
         .header {
-            height: 100px !important;
-            min-height: 100px !important;
-            max-height: 100px !important;
+            height: 72px !important;
+            min-height: 72px !important;
+            max-height: 72px !important;
 
             .search-wrapper {
                 border-radius: 28px;
@@ -24,9 +24,9 @@ tarefas {
 
                 .search {
                     width: 100%;
-                    height: 56px;
-                    line-height: 56px;
-                    padding: 0 18px;
+                    height: 46px;
+                    line-height: 46px;
+                    padding: 0 8px;
 
                     cdk-etiqueta-chips {
                         width: 100%;
@@ -63,7 +63,6 @@ tarefas {
 
                 .tarefa-list {
                     border-right: 1px solid;
-                    overflow-y: auto;
 
                     &.mobile-mode {
 
@@ -83,8 +82,6 @@ tarefas {
                 }
 
                 .tarefa-detail {
-                    width: 100%;
-                    height: 100%;
 
                     &.mobile-mode {
 

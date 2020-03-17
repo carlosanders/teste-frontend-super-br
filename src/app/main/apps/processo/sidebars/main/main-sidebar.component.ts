@@ -40,7 +40,7 @@ export class ProcessoMainSidebarComponent implements OnInit, OnDestroy {
     constructor(
         private _store: Store<fromStore.ProcessoAppState>,
         private _router: Router,
-        private _loginService: LoginService
+        public _loginService: LoginService
     ) {
 
         this.processo$ = this._store.pipe(select(fromStore.getProcesso));

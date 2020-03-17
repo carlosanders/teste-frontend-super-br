@@ -15,11 +15,11 @@ export class Relevancia {
 
     @Type(() => Processo)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    processo: Processo;
+    processo?: Processo;
 
     @Type(() => EspecieRelevancia)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    especieRelevancia: EspecieRelevancia;
+    especieRelevancia?: EspecieRelevancia;
 
     observacao?: string;
 

@@ -9,7 +9,7 @@ import {
 
 import { cdkAnimations } from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { Afastamento } from '@cdk/models';
+import {Afastamento, Usuario} from '@cdk/models';
 import { ModalidadeAfastamento } from '@cdk/models';
 import {Pagination} from '@cdk/models';
 
@@ -38,6 +38,9 @@ export class CdkAfastamentoFormComponent implements OnChanges, OnDestroy {
     form: FormGroup;
 
     activeCard = 'form';
+
+    @Input()
+    usuario: Usuario;
 
     @Input()
     modalidadeAfastamentoPagination: Pagination;
@@ -73,6 +76,10 @@ export class CdkAfastamentoFormComponent implements OnChanges, OnDestroy {
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
         if (changes['afastamento'] && this.afastamento && ((!this.afastamento.id && !this.form.dirty) || (this.afastamento.id !== this.form.get('id').value))) {
             this.form.patchValue({...this.afastamento});
+        }
+
+        if (this.usuario) {
+            this.form.get('colaborador').setValue(this.usuario.colaborador);
         }
 
         if (this.errors && this.errors.status && this.errors.status === 422) {

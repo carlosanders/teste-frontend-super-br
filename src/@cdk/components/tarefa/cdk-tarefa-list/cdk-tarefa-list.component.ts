@@ -48,6 +48,9 @@ export class CdkTarefaListComponent implements AfterViewInit, OnInit, OnChanges 
     reload = new EventEmitter<any>();
 
     @Output()
+    scrolled = new EventEmitter<any>();
+
+    @Output()
     delete = new EventEmitter<number>();
 
     @Output()
@@ -161,6 +164,10 @@ export class CdkTarefaListComponent implements AfterViewInit, OnInit, OnChanges 
 
     setFolder(folder): void {
         this.folder.emit(folder);
+    }
+
+    onScroll(): void {
+        this.scrolled.emit();
     }
 
     /**

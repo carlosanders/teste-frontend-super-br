@@ -12,16 +12,16 @@ export class Localizador {
     @Exclude({ toPlainOnly: true })
     uuid?: string;
 
-    nome: string;
+    nome?: string;
 
-    descricao: string;
+    descricao?: string;
 
-    ativo: boolean;
+    ativo?: boolean;
 
     // @Exclude({ toPlainOnly: true })
     @Type(() => Setor)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    setor: Setor;
+    setor?: Setor;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)

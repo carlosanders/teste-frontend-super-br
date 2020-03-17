@@ -10,7 +10,7 @@ import {
     MatSortModule,
     MatSelectModule,
 } from '@cdk/angular/material';
-
+import {MatTooltipModule} from '@angular/material/tooltip';
 import {CdkSidebarModule} from '@cdk/components/index';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {TransicaoService} from '@cdk/services/transicao.service';
@@ -40,6 +40,7 @@ import {CdkTransicaoMainSidebarComponent} from './sidebars/main/main.component';
 
         CdkSharedModule,
         CdkSidebarModule,
+        MatTooltipModule,
     ],
     providers: [
         TransicaoService,
