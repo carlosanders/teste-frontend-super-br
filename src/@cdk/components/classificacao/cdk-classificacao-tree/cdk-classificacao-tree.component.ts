@@ -106,33 +106,18 @@ export class CdkClassificacaoTreeComponent {
             const classificacaoItem = new ClassificacaoNode();
             classificacaoItem.id = value.id;
             classificacaoItem.name = value.nome;
-            classificacaoItem.children = [
-                {
-                    name: 'Green',
-                    children: [
-                        {name: 'Broccoli'},
-                        {name: 'Brussels sprouts'},
-                    ]
-                }, {
-                    name: 'Orange',
-                    children: [
-                        {name: 'Pumpkins'},
-                        {name: 'Carrots'},
-                    ]
-                },
-            ];
+            classificacaoItem.children = [];
             if (value.parent === null) {
                 this.classificacoes.push(classificacaoItem);
-                this.dataSource.data = this.classificacoes;
             } else {
                 this.classificacoes.forEach((pai, index) => {
                     if (value.parent.id === pai.id) {
                         this.classificacoes[index].children[indexItem] = classificacaoItem;
                     }
                 });
-                this.dataSource.data = this.classificacoes;
             }
         });
+        this.dataSource.data = this.classificacoes;
     }
 
     openChild(node: any): void {
