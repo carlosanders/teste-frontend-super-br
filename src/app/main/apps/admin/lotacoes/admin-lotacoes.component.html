@@ -1,8 +1,7 @@
-
-
+<div class="lotacoes-content" fxFlex fxLayout="column">
     <!-- CONTENT HEADER -->
-    <div class="header" fxLayout="column">
-        <div class="actions m-16" fxLayout="row" fxLayoutAlign="start center">
+    <div fxFlex="0 1 auto" fxLayout="column">
+        <div class="actions m-8" fxLayout="row" fxLayoutAlign="start center">
             <button mat-raised-button
                     class="mat-accent"
                     [routerLink]="'editar/criar'"
@@ -23,7 +22,8 @@
     <!-- / CONTENT HEADER -->
 
     <!-- CONTENT -->
-    <div class="content m-16">
+    <div class="p-8" fxFlex="1 1 auto" cdkPerfectScrollbar>
         <router-outlet></router-outlet>
     </div>
 
+</div>
