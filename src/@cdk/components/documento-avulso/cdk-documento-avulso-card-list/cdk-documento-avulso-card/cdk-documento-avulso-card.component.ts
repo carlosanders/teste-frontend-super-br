@@ -83,6 +83,10 @@ export class CdkDocumentoAvulsoCardComponent implements OnInit {
         this.assinatura.emit(documentoId);
     }
 
+    doDelete(documentoId): void {
+        this.delete.emit(documentoId);
+    }
+
     doConverte(documentoId): void {
         this.converte.emit(documentoId);
     }

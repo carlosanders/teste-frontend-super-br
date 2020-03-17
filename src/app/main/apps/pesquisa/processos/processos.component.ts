@@ -47,7 +47,7 @@ export class ProcessosComponent implements OnInit {
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
         private _store: Store<fromStore.ProcessosAppState>,
-        private _loginService: LoginService,
+        public _loginService: LoginService,
     ) {
         this.processos$ = this._store.pipe(select(fromStore.getProcessos));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));

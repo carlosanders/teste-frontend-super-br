@@ -17,37 +17,37 @@ export class Atividade {
 
     @Transform(value => value ? value.format('YYYY-MM-DDTHH:mm:ss') : null, { toPlainOnly: true })
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
-    dataHoraConclusao: moment.Moment;
+    dataHoraConclusao?: moment.Moment;
 
     observacao?: string;
 
-    encerraTarefa: boolean;
+    encerraTarefa?: boolean;
 
-    destinacaoMinutas: string;
+    destinacaoMinutas?: string;
 
     @Type(() => EspecieAtividade)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    especieAtividade: EspecieAtividade;
+    especieAtividade?: EspecieAtividade;
 
     @Type(() => Setor)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    setor: Setor;
+    setor?: Setor;
 
     @Type(() => Usuario)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    usuario: Usuario;
+    usuario?: Usuario;
 
     @Type(() => Usuario)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    usuarioAprovacao: Usuario;
+    usuarioAprovacao?: Usuario;
 
     @Type(() => Setor)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    setorAprovacao: Setor;
+    setorAprovacao?: Setor;
 
     @Type(() => Tarefa)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    tarefa: Tarefa;
+    tarefa?: Tarefa;
 
     @Type(() => Documento)
     @Transform(value => value ? value.map((d) => d.id) : null, { toPlainOnly: true })

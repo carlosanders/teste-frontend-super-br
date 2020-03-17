@@ -13,18 +13,18 @@ export class Municipio {
     uuid?: string;
 
     @Exclude({ toPlainOnly: true })
-    nome: string;
+    nome?: string;
 
     @Exclude({ toPlainOnly: true })
-    codigoIBGE: string;
+    codigoIBGE?: string;
 
     @Exclude({ toPlainOnly: true })
-    ativo: boolean;
+    ativo?: boolean;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Estado)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    estado: Estado;
+    estado?: Estado;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)

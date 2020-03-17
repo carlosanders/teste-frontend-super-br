@@ -23,7 +23,7 @@ export class OficiosEffects {
     constructor(
         private _actions: Actions,
         private _documentoAvulsoService: DocumentoAvulsoService,
-        private _loginService: LoginService,
+        public _loginService: LoginService,
         private _store: Store<State>,
         private _router: Router
     ) {

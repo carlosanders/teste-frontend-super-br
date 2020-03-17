@@ -15,15 +15,15 @@ export class VinculacaoProcesso {
 
     @Type(() => Processo)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    processo: Processo;
+    processo?: Processo;
 
     @Type(() => Processo)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    processoVinculado: Processo;
+    processoVinculado?: Processo;
 
     @Type(() => ModalidadeVinculacaoProcesso)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    modalidadeVinculacaoProcesso: ModalidadeVinculacaoProcesso;
+    modalidadeVinculacaoProcesso?: ModalidadeVinculacaoProcesso;
 
     observacao?: string;
 

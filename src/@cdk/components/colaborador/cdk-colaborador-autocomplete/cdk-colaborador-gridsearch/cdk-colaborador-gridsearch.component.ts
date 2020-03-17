@@ -55,6 +55,7 @@ export class CdkColaboradorGridsearchComponent implements OnInit {
     ) {
         this.loading = false;
         this.pagination = new Pagination();
+        this.pagination.populate = ['populateAll', 'usuario']
     }
 
     ngOnInit(): void {

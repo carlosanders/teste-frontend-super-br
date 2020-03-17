@@ -16,15 +16,15 @@ export class Pessoa {
     @Exclude({ toPlainOnly: true })
     uuid?: string;
 
-    nome: string;
+    nome?: string;
 
-    numeroDocumentoPrincipal: string;
+    numeroDocumentoPrincipal?: string;
 
     contato?: string;
 
-    pessoaValidada: boolean;
+    pessoaValidada?: boolean;
 
-    pessoaRepresentada: boolean;
+    pessoaRepresentada?: boolean;
 
     @Transform(value => value ? value.format('YYYY-MM-DD') : null, { toPlainOnly: true })
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
@@ -54,7 +54,7 @@ export class Pessoa {
 
     @Type(() => ModalidadeQualificacaoPessoa)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    modalidadeQualificacaoPessoa: ModalidadeQualificacaoPessoa;
+    modalidadeQualificacaoPessoa?: ModalidadeQualificacaoPessoa;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => OrigemDados)

@@ -27,7 +27,7 @@ export class DocumentoAvulso {
 
     @Type(() => EspecieDocumentoAvulso)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    especieDocumentoAvulso: EspecieDocumentoAvulso;
+    especieDocumentoAvulso?: EspecieDocumentoAvulso;
 
     observacao?: string;
 
@@ -37,7 +37,7 @@ export class DocumentoAvulso {
 
     @Type(() => Modelo)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    modelo: Modelo;
+    modelo?: Modelo;
 
     @Transform(value => value ? value.format('YYYY-MM-DDTHH:mm:ss') : null, { toPlainOnly: true })
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
@@ -56,7 +56,7 @@ export class DocumentoAvulso {
     dataHoraConclusaoPrazo?: Date|moment.Moment;
 
     @Exclude()
-    unidadeResponsavel: Setor;
+    unidadeResponsavel?: Setor;
 
     @Type(() => Pessoa)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
@@ -87,15 +87,15 @@ export class DocumentoAvulso {
 
     @Type(() => Documento)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    documentoRemessa: Documento;
+    documentoRemessa?: Documento;
 
     @Type(() => Usuario)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    usuarioResponsavel: Usuario;
+    usuarioResponsavel?: Usuario;
 
     @Type(() => Setor)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    setorResponsavel: Setor;
+    setorResponsavel?: Setor;
 
     @Type(() => Usuario)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
@@ -107,7 +107,7 @@ export class DocumentoAvulso {
 
     @Type(() => Processo)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    processo: Processo;
+    processo?: Processo;
 
     @Type(() => Processo)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
@@ -127,7 +127,7 @@ export class DocumentoAvulso {
 
     livreBalanceamento?: boolean;
 
-    auditoriaDistribuicao: string;
+    auditoriaDistribuicao?: string;
 
     tipoDistribuicao?: number;
 

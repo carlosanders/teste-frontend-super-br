@@ -13,13 +13,13 @@ export class TipoDocumento {
     uuid?: string;
 
     @Exclude({ toPlainOnly: true })
-    nome: string;
+    nome?: string;
 
     @Exclude({ toPlainOnly: true })
-    sigla: string;
+    sigla?: string;
 
     @Exclude({ toPlainOnly: true })
-    descricao: string;
+    descricao?: string;
 
     @Exclude({ toPlainOnly: true })
     ativo?: boolean;
@@ -27,7 +27,7 @@ export class TipoDocumento {
     @Exclude({ toPlainOnly: true })
     @Type(() => EspecieDocumento)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    especieDocumento: EspecieDocumento;
+    especieDocumento?: EspecieDocumento;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)

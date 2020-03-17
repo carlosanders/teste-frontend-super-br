@@ -7,9 +7,9 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import { cdkAnimations } from '@cdk/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { CadastroIdentificador } from '@cdk/models';
+import {CadastroIdentificador} from '@cdk/models';
 
 @Component({
     selector: 'cdk-cadastro-identificador-form',

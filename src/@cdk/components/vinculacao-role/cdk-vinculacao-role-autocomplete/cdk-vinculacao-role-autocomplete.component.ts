@@ -57,7 +57,7 @@ export class CdkVinculacaoRoleAutocompleteComponent implements OnInit {
                     value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
                         termFilter = {
                             ...termFilter,
-                            'role.name': `like:%${bit}%`
+                            'role': `like:%${bit}%`
                         };
                     });
                     if (typeof value === 'string') {
@@ -89,6 +89,6 @@ export class CdkVinculacaoRoleAutocompleteComponent implements OnInit {
     }
 
     displayVinculacaoRoleFn(vinculacaoRole): string {
-        return vinculacaoRole ? vinculacaoRole.role.name : null;
+        return vinculacaoRole ? vinculacaoRole.role : null;
     }
 }

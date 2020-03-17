@@ -68,7 +68,7 @@ export class ProcessoComponent implements OnInit, OnDestroy {
         private _cdkSidebarService: CdkSidebarService,
         private _cdkTranslationLoaderService: CdkTranslationLoaderService,
         private _store: Store<fromStore.ProcessoAppState>,
-        private _loginService: LoginService,
+        public _loginService: LoginService,
         private _router: Router
     ) {
         // Set the defaults

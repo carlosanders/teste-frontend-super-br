@@ -4,7 +4,6 @@ import {Type, Transform, Exclude} from 'class-transformer';
 import { Usuario } from '@cdk/models';
 import {Cargo} from '@cdk/models';
 import {ModalidadeColaborador} from '@cdk/models';
-import {VinculacaoEtiqueta} from './vinculacao-etiqueta.model';
 import {Lotacao} from './lotacao.model';
 
 export class Colaborador {
@@ -17,15 +16,15 @@ export class Colaborador {
 
     @Type(() => Cargo)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    cargo: Cargo;
+    cargo?: Cargo;
 
     @Type(() => ModalidadeColaborador)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    modalidadeColaborador: ModalidadeColaborador;
+    modalidadeColaborador?: ModalidadeColaborador;
 
     @Type(() => Usuario)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    usuario: Usuario;
+    usuario?: Usuario;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)
@@ -59,7 +58,9 @@ export class Colaborador {
 
     @Exclude({toPlainOnly: true})
     @Type(() => Lotacao)
-    lotacoes: Lotacao[];
+    lotacoes?: Lotacao[];
+
+    ativo: boolean;
 
     constructor() {
         this.id = null;
@@ -68,6 +69,7 @@ export class Colaborador {
         this.modalidadeColaborador = null;
         this.usuario = null;
         this.lotacoes = null;
+        this.ativo = null;
         this.criadoPor = null;
         this.criadoEm = null;
         this.atualizadoPor = null;

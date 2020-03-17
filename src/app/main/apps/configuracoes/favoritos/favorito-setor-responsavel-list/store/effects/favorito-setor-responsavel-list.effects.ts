@@ -25,7 +25,7 @@ export class FavoritoListSetorResponsavelEffect {
     constructor(
         private _actions: Actions,
         private _favoritoService: FavoritoService,
-        private _loginService: LoginService,
+        public _loginService: LoginService,
         private _store: Store<State>
     ) {
         this._store

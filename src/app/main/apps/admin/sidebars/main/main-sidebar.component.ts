@@ -2,9 +2,9 @@ import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation
 
 import {cdkAnimations} from '@cdk/animations';
 import {LoginService} from "../../../../auth/login/login.service";
-import {Colaborador} from "@cdk/models/colaborador.model";
-import {Setor} from "@cdk/models/setor.model";
-import {Lotacao} from "../../../../../../@cdk/models/lotacao.model";
+import {Colaborador} from "@cdk/models";
+import {Setor} from "@cdk/models";
+import {Lotacao} from "@cdk/models";
 
 @Component({
     selector: 'admin-main-sidebar',
@@ -24,18 +24,16 @@ export class AdminMainSidebarComponent implements OnInit, OnDestroy {
      * Constructor
      */
     constructor(
-        private _loginService: LoginService
+        public _loginService: LoginService
     ) {
 
         this.colaborador = this._loginService.getUserProfile().colaborador;
 
-        console.log(this.colaborador.lotacoes);
         this.colaborador.lotacoes.forEach((lotacao: Lotacao) => {
             if (!this.unidades.includes(lotacao.setor.unidade)) {
                 this.unidades.push(lotacao.setor.unidade);
             }
         });
-        console.log(this.unidades);
 
         this.links = [
             {
@@ -44,14 +42,9 @@ export class AdminMainSidebarComponent implements OnInit, OnDestroy {
                 link: 'setor'
             },
             {
-                nome: 'Lotações',
-                icon: 'map',
-                link: 'lotacoes'
-            },
-            {
-                nome: 'Localizadores',
-                icon: 'edit_location',
-                link: 'localizador'
+                nome: 'Usuários',
+                icon: 'person',
+                link: 'usuario'
             }
         ];
     }

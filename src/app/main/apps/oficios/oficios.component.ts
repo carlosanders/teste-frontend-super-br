@@ -110,7 +110,7 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
         private _cdkTranslationLoaderService: CdkTranslationLoaderService,
         private _router: Router,
         private _store: Store<fromStore.DocumentoAvulsoAppState>,
-        private _loginService: LoginService
+        public _loginService: LoginService
     ) {
         // Set the defaults
         this.searchInput = new FormControl('');

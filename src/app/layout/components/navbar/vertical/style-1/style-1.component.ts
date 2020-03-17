@@ -38,7 +38,7 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy
         private _cdkConfigService: CdkConfigService,
         private _cdkNavigationService: CdkNavigationService,
         private _cdkSidebarService: CdkSidebarService,
-        private _loginService: LoginService,
+        public _loginService: LoginService,
         private _router: Router
     )
     {

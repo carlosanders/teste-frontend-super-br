@@ -13,18 +13,18 @@ export class EspecieSetor {
     uuid?: string;
 
     @Exclude({ toPlainOnly: true })
-    nome: string;
+    nome?: string;
 
     @Exclude({ toPlainOnly: true })
-    descricao: string;
+    descricao?: string;
 
     @Exclude({ toPlainOnly: true })
-    ativo: boolean;
+    ativo?: boolean;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => GeneroSetor)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    generoSetor: GeneroSetor;
+    generoSetor?: GeneroSetor;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)

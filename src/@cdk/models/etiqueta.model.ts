@@ -12,19 +12,19 @@ export class Etiqueta {
     @Exclude({toPlainOnly: true})
     uuid?: string;
 
-    nome: string;
+    nome?: string;
 
-    descricao: string;
+    descricao?: string;
 
-    corHexadecimal: string;
+    corHexadecimal?: string;
 
-    ativo: boolean;
+    ativo?: boolean;
 
-    sistema: boolean;
+    sistema?: boolean;
 
     @Type(() => ModalidadeEtiqueta)
     @Transform(value => value ? value.id : null, {toPlainOnly: true})
-    modalidadeEtiqueta: ModalidadeEtiqueta;
+    modalidadeEtiqueta?: ModalidadeEtiqueta;
 
     @Exclude({toPlainOnly: true})
     @Type(() => Usuario)

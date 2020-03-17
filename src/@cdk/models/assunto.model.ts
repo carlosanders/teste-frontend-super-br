@@ -22,7 +22,7 @@ export class Assunto {
 
     @Type(() => Processo)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    processo: Processo;
+    processo?: Processo;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => OrigemDados)

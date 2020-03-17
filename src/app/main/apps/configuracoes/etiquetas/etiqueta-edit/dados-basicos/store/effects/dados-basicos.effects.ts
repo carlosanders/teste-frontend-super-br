@@ -24,7 +24,7 @@ export class EtiquetaEditEffect {
         private _actions: Actions,
         private _etiquetaService: EtiquetaService,
         private _store: Store<State>,
-        private _loginService: LoginService,
+        public _loginService: LoginService,
         private _router: Router
     ) {
         this._store

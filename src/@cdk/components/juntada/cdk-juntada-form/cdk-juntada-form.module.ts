@@ -7,10 +7,10 @@ import {
     MatCheckboxModule,
     MatProgressSpinnerModule,
     MatAutocompleteModule,
-    MatDatepickerModule, MatSlideToggleModule
-
+    MatDatepickerModule,
+    MatSlideToggleModule,
+    MatTooltipModule
 } from '@cdk/angular/material';
-
 import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkJuntadaFormComponent} from './cdk-juntada-form.component';
 import {SetorService} from '@cdk/services/setor.service';
@@ -38,7 +38,6 @@ import {CdkTarefaGridsearchModule} from '../../tarefa/cdk-tarefa-autocomplete/cd
         CdkJuntadaFormComponent,
     ],
     imports: [
-
         MatAutocompleteModule,
         MatButtonModule,
         MatFormFieldModule,
@@ -48,6 +47,7 @@ import {CdkTarefaGridsearchModule} from '../../tarefa/cdk-tarefa-autocomplete/cd
         MatProgressSpinnerModule,
         MatDatepickerModule,
         MatSlideToggleModule,
+        MatTooltipModule,
 
         CdkDocumentoAutocompleteModule,
         CdkDocumentoGridsearchModule,

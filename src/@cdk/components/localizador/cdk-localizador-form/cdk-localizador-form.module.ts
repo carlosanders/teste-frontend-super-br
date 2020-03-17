@@ -13,8 +13,6 @@ import {
 import { CdkSharedModule } from '@cdk/shared.module';
 import { CdkLocalizadorFormComponent } from './cdk-localizador-form.component';
 import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
-import {CdkSetorGridsearchModule} from '../../setor/cdk-setor-autocomplete/cdk-setor-gridsearch/cdk-setor-gridsearch.module';
-import {CdkSetorAutocompleteModule} from '../../setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
 @NgModule({
     declarations: [
         CdkLocalizadorFormComponent,
@@ -30,8 +28,6 @@ import {CdkSetorAutocompleteModule} from '../../setor/cdk-setor-autocomplete/cdk
         NgxUpperCaseDirectiveModule,
         CdkSharedModule,
         MatAutocompleteModule,
-        CdkSetorAutocompleteModule,
-        CdkSetorGridsearchModule,
     ],
     providers: [
 
