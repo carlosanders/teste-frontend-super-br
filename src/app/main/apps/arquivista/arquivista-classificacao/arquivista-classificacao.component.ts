@@ -10,51 +10,51 @@ import {getRouterState, RouterStateUrl} from '../../../../store/reducers';
     templateUrl: './arquivista-classificacao.component.html',
     styleUrls: ['./arquivista-classificacao.component.scss']
 })
-export class ArquivistaClassificacaoComponent implements OnInit {
+export class ArquivistaClassificacaoComponent {
 
-
-    isSaving$: Observable<boolean>;
-    errors$: Observable<any>;
-
-    processo$: Observable<Processo>;
-    processo: Processo;
-    public processoId: number;
-
-    modalidadeTransicaoPagination: Pagination;
-
-    private transicao$: Observable<Transicao>;
-    transicao: Transicao;
-    private routerState: RouterStateUrl;
-
-    constructor(
-        private _store: Store<fromStore.ArquivistaClassificacaoAppState>
-    ) {
-        this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
-        this.errors$ = this._store.pipe(select(fromStore.getErrors));
-        this.modalidadeTransicaoPagination = new Pagination();
-    }
-
-    ngOnInit(): void {
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe(routerState => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
-        this.processoId = this.routerState.params.processoHandle;
-    }
-
-    submit(values): void {
-        const classificacao = new Classificacao();
-
-        Object.entries(values).forEach(
-            ([key, value]) => {
-                classificacao[key] = value;
-            }
-        );
-
-        this._store.dispatch(new fromStore.SaveClassificacao(classificacao));
-
-    }
+    //
+    // isSaving$: Observable<boolean>;
+    // errors$: Observable<any>;
+    //
+    // processo$: Observable<Processo>;
+    // processo: Processo;
+    // public processoId: number;
+    //
+    // modalidadeTransicaoPagination: Pagination;
+    //
+    // private transicao$: Observable<Transicao>;
+    // transicao: Transicao;
+    // private routerState: RouterStateUrl;
+    //
+    // constructor(
+    //     private _store: Store<fromStore.ArquivistaClassificacaoAppState>
+    // ) {
+    //     this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
+    //     this.errors$ = this._store.pipe(select(fromStore.getErrors));
+    //     this.modalidadeTransicaoPagination = new Pagination();
+    // }
+    //
+    // ngOnInit(): void {
+    //     this._store
+    //         .pipe(select(getRouterState))
+    //         .subscribe(routerState => {
+    //             if (routerState) {
+    //                 this.routerState = routerState.state;
+    //             }
+    //         });
+    //     this.processoId = this.routerState.params.processoHandle;
+    // }
+    //
+    // submit(values): void {
+    //     const classificacao = new Classificacao();
+    //
+    //     Object.entries(values).forEach(
+    //         ([key, value]) => {
+    //             classificacao[key] = value;
+    //         }
+    //     );
+    //
+    //     this._store.dispatch(new fromStore.SaveClassificacao(classificacao));
+    //
+    // }
 }

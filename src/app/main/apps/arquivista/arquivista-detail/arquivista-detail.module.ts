@@ -45,7 +45,7 @@ const routes: Routes = [
             },
             {
                 path: ':processoHandle/classificacao',
-                component: ArquivistaClassificacaoComponent
+                loadChildren: () => import('../arquivista-classificacao/arquivista-classificacao.module').then(m => m.ArquivistaClassificacaoModule),
 
             },
             {

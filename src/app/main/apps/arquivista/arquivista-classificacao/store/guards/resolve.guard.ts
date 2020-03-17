@@ -58,9 +58,9 @@ export class ResolveGuard implements CanActivate {
             tap((loaded: any) => {
                 if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
                     if (this.routerState.params['transicaoHandle'] === 'criar') {
-                        this._store.dispatch(new fromStore.CreateTransicao());
+                        this._store.dispatch(new fromStore.CreateClassificacao());
                     } else {
-                        this._store.dispatch(new fromStore.GetTransicao({
+                        this._store.dispatch(new fromStore.GetClassificacao({
                             id: 'eq:' + this.routerState.params['transicaoHandle']
                         }));
                     }
