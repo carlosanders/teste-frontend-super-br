@@ -4,7 +4,9 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import { cdkAnimations } from '@cdk/animations';
+import { Topico } from 'ajuda/topico';
+
 
 @Component({
     selector: 'ajuda-atividade-create',
@@ -12,7 +14,14 @@ import {fuseAnimations} from '@fuse/animations';
     styleUrls: ['./ajuda-atividade-create.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class AjudaAtividadeCreateComponent{
+
+    topicos: Topico[] = [];
+    titulo = "atividades";
+
+    carregar(topico: string): void {
+        this.titulo = topico;
+    }
 }

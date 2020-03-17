@@ -4,7 +4,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import { cdkAnimations } from '@cdk/animations';
 
 @Component({
     selector: 'ajuda-atividade-create-bloco',
@@ -12,7 +12,7 @@ import {fuseAnimations} from '@fuse/animations';
     styleUrls: ['./ajuda-atividade-create-bloco.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class AjudaAtividadeCreateBlocoComponent {
 }

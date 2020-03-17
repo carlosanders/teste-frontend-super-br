@@ -4,7 +4,8 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {fuseAnimations} from '@fuse/animations';
+import { cdkAnimations } from '@cdk/animations';
+import { Topico } from 'ajuda/topico';
 
 @Component({
     selector: 'ajuda-vinculacoes-processos',
@@ -12,9 +13,12 @@ import {fuseAnimations} from '@fuse/animations';
     styleUrls: ['./ajuda-vinculacoes-processos.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: cdkAnimations
 })
 export class AjudaVinculacoesProcessosComponent {
+    
+    topicos: Topico[] = [];
+    titulo = "vinculacoes";
     
     Collapsible():void{
         var coll = document.getElementsByClassName("collapsible");
@@ -31,4 +35,7 @@ export class AjudaVinculacoesProcessosComponent {
             });
         } 
         }
+    carregar(topico: string): void {
+        this.titulo = topico;
+    }
 }

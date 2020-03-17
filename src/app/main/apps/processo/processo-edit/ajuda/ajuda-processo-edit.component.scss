@@ -1,58 +1,13 @@
 ajuda-processo-edit {
 	
 	/*Variáveis do Collapsible*/
-	$corCollapsibleNotClicked: #1d75b3;
-	$corCollapsibleClicked: #64bde0;
-	$corTextoCollapsible: #ffffff;
-	$corSimboloCollapsible: #ffffff;
-	$corContentCollapsible: #b7e1f1;
+	$corAccordionClicked: #64bde0;
 
     p {
         text-align: left;
     }
     img {
         max-width: 256px;
-	}
-	
-
-    /* Estilo do botão utilizado para abrir e fechar o conteúdo do collapsible*/
-	.collapsible {
-		background-color: $corCollapsibleNotClicked;
-		color: $corTextoCollapsible;
-		cursor: pointer;
-		padding: 18px;
-		width: 80%;
-		border: none;
-		text-align: left;
-		outline: none;
-		font-size: 15px;
-	}
-
-	/* Adicionar uma cor diferente ao clicar/passar o mouse em cima.*/
-	.active, .collapsible:hover {
-		background-color: $corCollapsibleClicked;
-	}
-
-	/* Estilo do conteúdo do collapsible. Escondido por padrão*/
-	.colapsable {
-		padding: 0 18px;
-		display: none;
-		overflow: hidden;
-		width: 80%;
-		background-color: $corContentCollapsible;		
-		margin-left: 5px;
-		} 
-    .collapsible:after {
-        content: '\02795'; /* Unicode para símbolo de "mais" (+) */
-        font-size: 13px;
-        color: $corSimboloCollapsible;
-		float: none;
-		// float: right;
-        margin-left: 5px;
-    }
-	    
-	.active:after {
-		content: "\2796"; /* Unicode para símbolo de "menos" (-) */
 	}
 
 	/*Coluna Dupla*/
@@ -66,5 +21,21 @@ ajuda-processo-edit {
 		content: "";
 		display: table;
 		clear: both;
-	}	
+	}
+	.mat-expansion-panel {
+		background-color: $corAccordionClicked;
+	}
+	.mat-expanded {
+		background-color: $corAccordionClicked;
+	}
+	.mat-expansion-panel-header.mat-expanded,
+	.mat-expansion-panel-header.mat-expanded:hover,
+	.mat-expansion-panel-header.mat-expanded:focus{
+		background-color: $corAccordionClicked;
+	}
+	.mat-expansion-panel-header.mat-disabled,
+	.mat-expansion-panel-header.mat-disabled:hover,
+	.mat-expansion-panel-header.mat-disabled:focus{
+		background-color: $corAccordionClicked;
+	}
 }

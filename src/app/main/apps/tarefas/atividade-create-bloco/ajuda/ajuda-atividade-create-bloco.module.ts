@@ -1,16 +1,19 @@
 import {NgModule} from '@angular/core';
 
 import {AjudaAtividadeCreateBlocoComponent} from './ajuda-atividade-create-bloco.component';
-import {FuseSharedModule} from '../../../../../../@fuse/shared.module';
+import {CdkSharedModule} from '../../../../../../@cdk/shared.module';
 
 @NgModule({
     declarations: [
         AjudaAtividadeCreateBlocoComponent
     ],
     imports: [
-        FuseSharedModule
+        CdkSharedModule
     ],
     providers: [
+    ],
+    exports:    [
+        AjudaAtividadeCreateBlocoComponent
     ]
 })
 export class AjudaAtividadeCreateBlocoModule {

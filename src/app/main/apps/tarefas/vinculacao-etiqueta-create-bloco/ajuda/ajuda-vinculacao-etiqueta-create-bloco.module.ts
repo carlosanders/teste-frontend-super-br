@@ -1,14 +1,14 @@
 import {NgModule} from '@angular/core';
 
 import {AjudaVinculacaoEtiquetaCreateBlocoComponent} from './ajuda-vinculacao-etiqueta-create-bloco.component';
-import {FuseSharedModule} from '../../../../../../@fuse/shared.module';
+import {CdkSharedModule} from '../../../../../../@cdk/shared.module';
 
 @NgModule({
     declarations: [
         AjudaVinculacaoEtiquetaCreateBlocoComponent
     ],
     imports: [
-        FuseSharedModule
+        CdkSharedModule
     ],
     providers: [
     ],

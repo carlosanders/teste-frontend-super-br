@@ -1,14 +1,14 @@
 import {NgModule} from '@angular/core';
 
 import {AjudaModeloBlocoComponent} from './ajuda-modelo-bloco.component';
-import {FuseSharedModule} from '../../../../../../@fuse/shared.module';
+import {CdkSharedModule} from '../../../../../../@cdk/shared.module';
 
 @NgModule({
     declarations: [
         AjudaModeloBlocoComponent
     ],
     imports: [
-        FuseSharedModule
+        CdkSharedModule
     ],
     providers: [
     ], 

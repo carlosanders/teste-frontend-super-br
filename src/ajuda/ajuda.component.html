@@ -18,9 +18,8 @@
                 </mat-form-field>
             </div>
         </form>
-
     </div>
-
+    
     <div class="mt-16" *ngIf="card === 'form'">
         <table *ngIf="resultado.length > 0">
             <tr *ngFor="let topico of resultado">
@@ -52,7 +51,7 @@
                 <ajuda-tarefa-create></ajuda-tarefa-create>
             </div>
             <div *ngIf="titulo === 'Controle de Acesso'">
-                <ajuda-visibilidade></ajuda-visibilidade>
+                <ajuda-visibilidades></ajuda-visibilidades>
             </div>
             <div *ngIf="titulo === 'Etiquetando tarefas em bloco'">
                 <ajuda-vinculacao-etiqueta-create-bloco></ajuda-vinculacao-etiqueta-create-bloco>
@@ -61,12 +60,15 @@
                 <ajuda-upload-bloco></ajuda-upload-bloco>
             </div>
             <div *ngIf="titulo === 'Editando tarefas em bloco'">
-                <ajuda-tarefa-empty></ajuda-tarefa-empty>
+                <ajuda-tarefa-edit-bloco></ajuda-tarefa-edit-bloco>
             </div>
             <div *ngIf="titulo === 'Lançando uma atividade'">
                 <ajuda-atividade-create></ajuda-atividade-create>
             </div>
-            <div *ngIf="titulo === 'Criar compartilhamento de tarefas'">
+            <div *ngIf="titulo === 'Lançando atividades em bloco'">
+                <ajuda-atividade-create-bloco></ajuda-atividade-create-bloco>
+            </div>
+            <div *ngIf="titulo === 'Compartilhando minutas'">
                 <ajuda-compartilhamento-create></ajuda-compartilhamento-create>
             </div>
             <div *ngIf="titulo === 'Criação de minutas em bloco de tarefas'">
@@ -75,7 +77,7 @@
             <div *ngIf="titulo === 'Criando ofícios em bloco'">
                 <ajuda-documento-avulso-create-bloco></ajuda-documento-avulso-create-bloco>
             </div>
-            <div *ngIf="titulo === 'Compartilhando tarefas em bloco'">
+            <div *ngIf="titulo === 'Compartilhando minutas em bloco'">
                 <ajuda-compartilhamento-create-bloco></ajuda-compartilhamento-create-bloco>
             </div>
             <div *ngIf="titulo === 'Criando processos'">
@@ -88,40 +90,28 @@
                 <ajuda-interessados></ajuda-interessados>
             </div>
             <div *ngIf="titulo === 'Juntadas'">
-                <!-- juntadas -->
                 <ajuda-juntadas></ajuda-juntadas>
             </div>
             <div *ngIf="titulo === 'Vinculações'">
-                <!-- vinculaçoes -->
                 <ajuda-vinculacoes-processos></ajuda-vinculacoes-processos>
             </div>
-            <div *ngIf="titulo === 'Ofícios'">
-                <!-- oficios -->
-                <ajuda-tarefa-create></ajuda-tarefa-create>
+            <div *ngIf="titulo === 'Criando ofícios'">
+                <ajuda-oficios></ajuda-oficios>
             </div>
             <div *ngIf="titulo === 'Tramitações'">
-                <!-- tramitacoes -->
-                <ajuda-tarefa-create></ajuda-tarefa-create>
+                <ajuda-tramitacoes></ajuda-tramitacoes>
             </div>
             <div *ngIf="titulo === 'Remessas'">
-                <!-- remessas -->
-                <ajuda-tarefa-create></ajuda-tarefa-create>
+                <ajuda-remessas></ajuda-remessas>
             </div>
             <div *ngIf="titulo === 'Transições'">
-                <!-- transicoes -->
-                <ajuda-tarefa-create></ajuda-tarefa-create>
+                <ajuda-transicoes></ajuda-transicoes>
             </div>
             <div *ngIf="titulo === 'Sigilos'">
-                <!-- sigilos -->
-                <ajuda-tarefa-create></ajuda-tarefa-create>
+                <ajuda-sigilos></ajuda-sigilos>
             </div>
-            <div *ngIf="titulo === 'Restrição de Acesso'">
-                <!-- restricaodeacesso -->
-                <ajuda-tarefa-create></ajuda-tarefa-create>
-            </div>
-            <div *ngIf="titulo === 'Processo Judicial'">
-                <!-- processojudicial -->
-                <ajuda-tarefa-create></ajuda-tarefa-create>
+            <div *ngIf="titulo === 'Restrições de acesso'">
+                <ajuda-visibilidades></ajuda-visibilidades>
             </div>
     </div>
 

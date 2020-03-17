@@ -1,14 +1,14 @@
 import {NgModule} from '@angular/core';
 
 import {AjudaTarefaEditBlocoComponent} from './ajuda-tarefa-edit-bloco.component';
-import {FuseSharedModule} from '../../../../../../@fuse/shared.module';
+import {CdkSharedModule} from '../../../../../../@cdk/shared.module';
 
 @NgModule({
     declarations: [
         AjudaTarefaEditBlocoComponent
     ],
     imports: [
-        FuseSharedModule
+        CdkSharedModule
     ],
     providers: [
     ],

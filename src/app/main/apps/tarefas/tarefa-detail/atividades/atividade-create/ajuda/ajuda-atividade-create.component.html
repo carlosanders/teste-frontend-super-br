@@ -1,44 +1,155 @@
-<div class="content p-16" fxLayout="column">
-    <p style="text-align: justify;">
-        1. No menu lateral esquerdo, para lançar uma atividade administrativa, clique em
-        <strong>Tarefas&nbsp;</strong>&gt;
-        <strong>Administrativas</strong>:
-        <img src="assets/images/ajuda/criartarefaadm.png" style="width: 256px;" class="fr-fic fr-dib fr-fil">
-    </p>
-    <p style="text-align: justify;">
-        2. Na nova tela, clique na <strong>Tarefa</strong> que vai ser vinculada a nova atividade.
-    </p>
-    <p style="text-align: justify;">
-        3. Clique no botão superior direito <strong>Movimentar</strong> <img src="assets/images/ajuda/botaomovimentar.png" class="fr-fic fr-dii">, 
-        para alcançar o menu de atividades.
-    </p>
-    <p style="text-align: justify;">
-        4. É possível adicionar componentes digitais por meio do botão de anexar, que permite a utilização do editor ou do upload.
-        Além disso, existe a opção de <strong>Juntar no processo</strong> ou <strong>Submeter à aprovação</strong>
-    </p>
+<div>
+    <div *ngIf="titulo === 'atividades'" class="content p-16" fxLayout="column">
+        <h3><strong>LANÇANDO ATIVIDADES</strong></h3>
+        
+        <p style="text-align: justify;text-indent: 20px">
+            O usuário, ao receber uma tarefa de outro usuário, realizará uma ou mais atividades, dando assim continuidade ao fluxo de trabalho.
+        </p>
+        <p style="text-align: justify;text-indent: 20px">
+            As atividades ficam acessíveis dentro do formulário das tarefas, em uma aba.
+        </p>
+        <p style="text-align: justify;text-indent: 20px">
+            Uma atividade pode ou não encerrar uma tarefa, 
+            de modo que essa opção deverá ser marcada apenas quando o usuário já tiver lançado todas as atividades necessárias.
+        </p>
+        <p style="text-align: justify;text-indent: 20px">
+            Toda atividade necessariamente possui uma espécie, que descreve em linhas gerais o que foi realizado.
+        </p>
+        <p style="text-align: justify;text-indent: 20px">
+            No campo observação o usuário poderá detalhar o que foi realizado com a atividade.
+        </p>
+        <p style="text-align: justify;text-indent: 20px">
+            Além disso, é possível declarar qual usuário foi responsável pela realização da atividade, 
+            quando diferente da pessoa que estiver realizando o cadastro.
+        </p>
+        <p style="text-align: justify;text-indent: 20px">
+            Uma tarefa, após lançada, pode ser apagada pelo usuário que a criou, mas os eventos oriundos daquela atividade, 
+            como por exemplo, uma juntada, não são afetados pela exclusão da atividade.
+        </p>
+        <p style="text-align: justify;text-indent: 20px">
+            Opcionalmente, no ato de lançamento da atividade, o usuário poderá informar que deseja juntar as minutas que estão vinculadas à tarefa.
+        </p>
+        <p style="background-color: #d3d3d3;margin-left: 40px">
+            <img src="assets/images/ajuda/atencao.png" style="width: 15px;"class="fr-fic fr-dii"><strong>FIQUE ATENTO:</strong>
+            A juntada não poderá ser desfeita, mesmo que a atividade seja posteriormente excluída! Lembre-se, 
+            a juntada é o ato de retirar uma minuta da área de trabalho e “publicá-la”, tornando-a imutável e pertencente a um processo/documento avulso.    
+        </p>
+        <p style="text-align: justify;text-indent: 20px">
+            Após o lançamento de uma atividade que encerre uma tarefa, 
+            esta última não poderá mais ser modificada, mas nada impede que novas atividades sejam lançadas pelo usuário. 
+        </p>
 
-    <p style="text-align: justify;">
-        5. É possível <strong>Encerrar a tarefa</strong> ou não, dependendo da vontade do usuário.
-    </p>
-    <p style="text-align: justify;">
-        6. Nos campos restantes, é possível escolher uma <strong>Espécie de Atividade</strong>, a <strong>Data/Hora</strong> e o <strong>Usuário Responsável pela Atividade</strong> 
-    </p>
-    <p style="text-align: justify;">
-        7. Ao clicar no botão salvar, é aberto o menu de 
-        <strong>Encaminhamento do Processo</strong>, onde é possível <strong>Criar nova tarefa</strong>, 
-        <strong>Arquivar o processo</strong> ou <strong>Remeter para outro órgão</strong>, 
-        impedindo o objeto de cair no esquecimento das pessoas que o estão manipulando e dando continuadade ao <strong>Processo</strong>.
-    </p>
-    <p style="text-align: justify;">8. Clique em <strong>Salvar</strong>.</p>
-    <p style="text-align: justify;">
-        9. Ao concluir o <strong>lançamento da atividade</strong>, o SUPP força a continuidade do processo, evitando o esquecimento desse.
-        Por isso, entra no menu de Encaminhamento do Processo.
-        <img src="assets/images/ajuda/encaminhamentoprocesso.png" style="width: 200px;" class="fr-fic fr-dib fr-fil">
-    </p>
+        <p style="background-color: #d3d3d3;margin-left: 40px">
+            <img src="assets/images/ajuda/atencao.png" style="width: 15px;"class="fr-fic fr-dii"><strong>FIQUE ATENTO:</strong>
+            Se o usuário lançar uma atividade e houver uma tramitação pendente de recebimento no NUP, 
+            o SAPIENS irá primeiro receber a tramitação pendente e na sequência criar a atividade. 
+            Trata-se de um recebimento tácito da tramitação. Atenção: ao abrir uma nova atividade, 
+            a opção “Encerra Tarefa” é marcada como padrão pelo SAPIENS.
+        </p>
+        <p style="text-align: justify;text-indent: 20px">
+            Opcionalmente, no ato de lançamento da atividade, o usuário poderá informar que deseja submeter 
+            as minutas que estão vinculadas à tarefa para que outro usuário realize a sua aprovação. 
+        </p>
+        <p style="text-align: justify;text-indent: 20px">
+            Nesse caso, não ocorre a juntada das minutas no NUP, mas sim a abertura de uma tarefa de aprovação das 
+            minutas para o novo usuário selecionado, com a transferência automática da minuta (compartilhamento com dono).
+        </p>
+        <p style="text-align: justify;text-indent: 20px">
+            Trata-se de atalho para facilitar o fluxo de trabalho, normalmente útil na atividade administrativa estrita e no consultivo, 
+            em que um usuário precisa da aprovação de suas minutas por um outro usuário, hierarquicamente superior.
+        </p>
+        <p style="text-align: justify;text-indent: 20px">
+            Quando a tarefa pertencer a um NUP vinculado a uma comunicação interna pendente de resposta, há um ícone de envelope na tarefa, 
+            e é possível selecionar a minuta que responderá a comunicação já no ato de lançar a atividade.
+        </p>
+        <p style="text-align: justify;text-indent: 20px">
+            Nesse caso, além dos documentos serem juntados no NUP, a comunicação será devidamente respondida.
+        </p>
+        <p style="text-align: justify;text-indent: 20px">
+            Ao encerrar uma tarefa não judicial, o usuário será questionado se deseja realizar uma outra ação naquele mesmo NUP.
+        </p>
+        <p style="text-align: justify;text-indent: 20px">
+            As ações são criar uma nova tarefa, tramitar externamente ou arquivar.
+        </p>
+        <p style="text-align: justify;text-indent: 20px">
+            O usuário poderá optar por encerrar a tarefa com a atividade em questão, e, além disso, 
+            selecionar se deseja efetuar a juntada das minutas vinculadas à tarefa, submeter as minutas à aprovação de outro usuário, ou responder uma comunicação interna.    
+        </p>
+        <p style="background-color: #d3d3d3;margin-left: 40px">
+            <img src="assets/images/ajuda/atencao.png" style="width: 15px;"class="fr-fic fr-dii"><strong>FIQUE ATENTO:</strong>
+            Ao abrir uma nova atividade, a opção “Encerra Tarefa” é marcada como padrão pelo SAPIENS.
+        </p>
+        
+        <h3 style="text-align: justify;text-indent: 20px">
+            <strong>Lançando uma atividade na página de tarefas</strong>
+        </h3>
+        <p style="text-align: justify;margin-left: 40px">
+            1. No menu lateral esquerdo, clique em
+            <strong>Tarefas&nbsp;</strong>&gt;
+            <strong>Administrativas</strong>:
+        </p>
+        <p style="text-align: center;">
+            <img src="assets/images/ajuda/criartarefaadm.png" style="width: 256px;" class="fr-fic fr-dib fr-fil">
+        </p>
+        <p style="text-align: justify;margin-left: 40px">
+            2. Na nova tela, clique na <strong>Tarefa</strong> que vai ser vinculada a nova atividade.
+        </p>
+        <p style="text-align: justify;margin-left: 40px">
+            3. Clique no botão superior direito <strong>Movimentar</strong> <img src="assets/images/ajuda/botaomovimentar.png" class="fr-fic fr-dii">, 
+            para alcançar o menu de atividades.
+        </p>
+        <p style="text-align: justify;margin-left: 40px">
+            4. É possível adicionar componentes digitais por meio do botão de anexar, que permite a utilização do editor ou do upload.
+            Além disso, existe a opção de <strong>Juntar no processo</strong> ou <strong>Submeter à aprovação</strong>
+        </p>
+        <p style="text-align: justify;margin-left: 40px">
+            5. É possível <strong>Encerrar a tarefa</strong> ou não, dependendo da vontade do usuário.
+        </p>
+        <p style="text-align: justify;margin-left: 40px">
+            6. Nos campos restantes, é possível escolher uma <strong>Espécie de Atividade</strong>, a <strong>Data/Hora</strong> e o <strong>Usuário Responsável pela Atividade</strong> 
+        </p>
+        <p style="text-align: justify;margin-left: 40px">
+            7. Ao clicar no botão salvar, é aberto o menu de 
+            <strong>Encaminhamento do Processo</strong>, onde é possível <strong>Criar nova tarefa</strong>, 
+            <strong>Arquivar o processo</strong> ou <strong>Remeter para outro órgão</strong>, 
+            impedindo o objeto de cair no esquecimento das pessoas que o estão manipulando e dando continuadade ao <strong>Processo</strong>.
+        </p>
+        <p style="text-align: justify;margin-left: 40px">8. Clique em <strong>Salvar</strong>.</p>
+        <p style="text-align: justify;margin-left: 40px">
+            9. Ao concluir o <strong>lançamento da atividade</strong>, o SUPP força a continuidade do processo, evitando o esquecimento desse.
+            Por isso, entra no menu de Encaminhamento do Processo.
+        </p>
+        <p style="text-align: center;">
+            <img src="assets/images/ajuda/encaminhamentoprocesso.png" style="width: 200px;" class="fr-fic fr-dib fr-fil">
+        </p>
+        <hr>
+        <div style="background-color: #d3d3d3;text-indent: 20px">
+            <p>
+                <img src="assets/images/ajuda/atencao.png" style="width: 15px;"class="fr-fic fr-dii"><strong>FIQUE ATENTO:</strong>
+            </p>
+            <p>    
+                Caso o processo esteja com alguma <strong>Tramita&ccedil;&atilde;o Externa</strong> em andamento, a abertura da Atividade <strong>n&atilde;o</strong> ser&aacute; realizada        </p>
 
-    <hr>
-    <p style="text-align: justify;"><strong>Observa&ccedil;&atilde;o:</strong> Caso o processo esteja com alguma <strong>Tramita&ccedil;&atilde;o
-        Externa</strong> em andamento, a abertura da Atividade <strong>n&atilde;o</strong> ser&aacute; realizada.</p>
-    <hr>
-    <p><br></p>
+        </div>
+        <div class="row" style="background-color: #d3d3d3;">
+            <strong>Para maiores informações:</strong><br><br>
+            <div class="column">
+                <li><a href="javascript:void(0)" (click)="carregar('oficios')">Ofícios</a></li> 
+            </div>
+            <div class="column">
+                <li><a href="javascript:void(0)" (click)="carregar('atividadesbloco')">Lançando atividades em bloco</a></li>  
+            </div>
+        </div>
+        <hr>
+        <p><br></p>
+    </div>
+    <!-- LINK FUTURO DE COMUNICAÇÃO  -->
+    <div *ngIf="titulo === 'oficios'">
+        <ajuda-oficios></ajuda-oficios>
+        <a href="javascript:void(0)" (click)="carregar('atividades')">Voltar ao <strong>Criar Tarefas</strong></a>
+    </div>
+    <div *ngIf="titulo === 'atividadesbloco'">
+        <ajuda-atividade-create-bloco></ajuda-atividade-create-bloco>
+        <a href="javascript:void(0)" (click)="carregar('atividades')">Voltar ao <strong>Lançando atividades</strong></a>
+    </div> 
 </div>

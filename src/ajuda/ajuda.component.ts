@@ -4,6 +4,7 @@ import {topicosConfig} from './topicos-config';
 import {Topico} from './topico';
 import { CdkUtils } from '@cdk/utils';
 import {DynamicService} from '../modules/dynamic.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'ajuda',
@@ -27,6 +28,7 @@ export class AjudaComponent implements OnInit {
     isSubmited = false;
 
     current: any;
+    context: any;
 
     /**
      * Constructor
@@ -34,13 +36,22 @@ export class AjudaComponent implements OnInit {
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: FormBuilder,
-        private _dynamicService: DynamicService
+        private _dynamicService: DynamicService,
+        private _router: Router,
     ) {
 
         this.form = this._formBuilder.group({
             pesquisa: [null, [Validators.required, Validators.maxLength(255)]],
         });
 
+        this._router.events.subscribe(
+            (next) => {
+                this.context = next;
+                if(this.context.url){
+                    this.resultado = CdkUtils.filterArrayByString(this.topicos, this.context.url.split("/", 3)[2]);
+                }
+            }
+        );
     }
 
     ngOnInit(): void {
@@ -76,8 +87,5 @@ export class AjudaComponent implements OnInit {
 
     get containerElement(): HTMLElement {
         return this.container.nativeElement;
-    }
-
-    pesquisaInicial(PesquisaAba: string): void{ //IDEIA INICIAL DE PESQUISA NA ABA DE TAREFAS
     }
 }

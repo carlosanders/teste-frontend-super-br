@@ -1,14 +1,17 @@
 import {NgModule} from '@angular/core';
+import {MatExpansionModule} from '@angular/material/expansion';
+
 
 import {AjudaInteressadosComponent} from './ajuda-interessados.component';
-import {FuseSharedModule} from '../../../../../../../@fuse/shared.module';
+import {CdkSharedModule} from '../../../../../../../@cdk/shared.module';
 
 @NgModule({
     declarations: [
         AjudaInteressadosComponent
     ],
     imports: [
-        FuseSharedModule,
+        CdkSharedModule,
+        MatExpansionModule,
         
     ],
     providers: [

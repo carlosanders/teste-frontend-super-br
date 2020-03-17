@@ -1,19 +1,111 @@
 <div class="content p-16" fxLayout="column">
     <h3><strong>JUNTADAS</strong></h3>
-    <p style="text-align: justify;">
-        Um documento é toda informação registrada em um suporte material, suscetível de consulta, estudo, prova e pesquisa, pois comprova fatos, fenômenos, formas de vida e pensamentos do homem numa determinada época ou lugar.
-        Logo abaixo dos interessados do processo, está a opção de juntadas, onde o usuário poderá consultar os documentos que já foram juntados naquele NUP
+    <p style="text-align: justify;text-indent: 20px">
+        Um documento é toda informação registrada em um suporte material, suscetível de consulta, 
+        estudo, prova e pesquisa, pois comprova fatos, fenômenos, formas de vida e pensamentos do homem numa determinada época ou lugar.
     </p>
-    <p style="text-align: justify;">
+    <p style="text-align: justify;text-indent: 20px">    
+        Existem várias maneiras de acessar as juntadas de um NUP.
+    </p>
+    <mat-expansion-panel style="text-align: center;margin-left: 20px">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            O QUE É UM NUP?
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+       <p> 
+            O Número Único de Protocolo (NUP) é constituído de quinze dígitos principais, mais dois dígitos de verificação, separados em grupos (00000.000000/0000-00).<br><br>
+            O primeiro grupo é constituído de cinco dígitos, referentes ao código numérico atribuído a cada unidade protocolizadora e este código identifica o órgão de origem do processo, mantendo-se inalterado.<br><br>
+            O segundo grupo é constituído de seis dígitos, separados do primeiro por um ponto e determina o registro sequencial dos processos autuados, devendo este número ser reiniciado a cada ano.<br><br>
+            O terceiro grupo, constituído de quatro dígitos, separado do segundo grupo por uma barra, indica o ano de formação do processo.     
+        </p>
+    </mat-expansion-panel>
+    <h3 style="text-align: justify;text-indent: 20px">
+        <strong>Acessando as Juntadas na página de cadastramento de processo</strong>
+    </h3>
+    <p style="text-align: justify;margin-left: 40px">
         1. No grid com opções de dados que podem/devem ser preenchidos, escolha o campo <strong>Juntadas</strong>
-         <img src="assets/images/ajuda/processojuntadas.png" style="width: 200px;" class="fr-fic fr-dib fr-fil"> 
     </p>
-    <p style="text-align: justify;">
+    <p style="text-align: center;">
+        <img src="assets/images/ajuda/processojuntadas.png" style="width: 200px;" class="fr-fic fr-dib fr-fil"> 
+    </p>
+    <p style="text-align: justify;margin-left: 40px">
         2. A página de juntadas é aberta. A lista de juntadas aparece no centro da página. Por padrão, aparecem as colunas Id, Sequencial, Descrição e Tipo de documento. 
-        Na opção  <img src="assets/images/ajuda/listacolunas.png" class="fr-fic fr-dii"> é possível adicionar mais colunas, como Ativo, Origem de Dados, Volume e Documento Avulso.
+    </p>
+    <p style="text-align: justify;margin-left: 40px">  
+        3. Na opção  <img src="assets/images/ajuda/listacolunas.png" class="fr-fic fr-dii"> é possível adicionar mais colunas, como Ativo, Origem de Dados, Volume e Documento Avulso.
         Essas informações auxiliam na localização de juntadas específicas, ordenando as colunas de diferentes modos.        
     </p>
-    <p style="text-align: justify;">
-        3. Além da opção de ordenar/adicionar colunas, existe a opção de filtro <img src="assets/images/ajuda/listacolunas.png" class="fr-fic fr-dii">, facilitando ainda mais a localização de juntadas.
+    <p style="text-align: justify;margin-left: 40px">
+        4. Além da opção de ordenar/adicionar colunas, existe a opção de filtro <img src="assets/images/ajuda/listacolunas.png" class="fr-fic fr-dii">, facilitando ainda mais a localização de juntadas.
     </p>
+    <h3 style="text-align: justify;text-indent: 20px">
+        <strong>Acessando as Juntadas na página de tarefas</strong>
+    </h3>
+    <p style="text-align: justify;margin-left: 40px">
+        1. No menu lateral esquerdo, para acessar, por exemplo, as <strong>juntadas de um NUP administrativo</strong> clique em
+        <strong>Tarefas&nbsp;</strong>&gt;
+        <strong>Administrativas</strong>:
+    </p>
+    <p style="text-align: center;">
+        <img src="assets/images/ajuda/criartarefaadm.png" style="width: 256px;" class="fr-fic fr-dib fr-fil">
+    </p>
+    <p style="text-align: justify;margin-left: 40px">
+        2. Na nova tela, clique em uma tarefa já criada:
+    </p>
+    <p style="text-align: center;">
+       <img src="assets/images/ajuda/tarefacriada.png" style="width: 256px;" class="fr-fic fr-dib fr-fil">
+    </p>
+    <p style="text-align: justify;margin-left: 40px">
+        3. No centro da tela aparece a lista de documentos juntados e ao lado direito uma visualização do documento juntado.
+    </p>
+    <p style="text-align: justify;margin-left: 40px">
+        4. É possível navegar entre os documentos juntados e analisar a sequência de documentos juntados.
+    </p>
+    <p style="text-align: justify;margin-left: 40px">
+        5. Clicando no botão superior direito <strong>Movimentar</strong> <img src="assets/images/ajuda/botaomovimentar.png" class="fr-fic fr-dii">, 
+        e indo para a aba ofícios, é possível <strong>juntar</strong> novos documentos, aumentando as juntadas.  
+    </p>
+    <p style="text-align: justify;margin-left: 40px">
+        5. Na aba <strong>Atividade</strong> é possível juntar documentos a partir da criação de atividades. Para saber mais sobre atividades <br>
+        <a href="javascript:void(0)" (click)="carregar('atividades')">clique aqui</a>
+    </p>
+    <div style="background-color: #d3d3d3;">
+        <p>
+            <img src="assets/images/ajuda/atencao.png" style="width: 15px;"class="fr-fic fr-dii"><strong>FIQUE ATENTO:</strong>
+        </p>
+        <p style="text-indent: 20px">    
+            Um NUP <strong>encerrado</strong> NÃO pode receber juntadas.
+        </p>
+        <p style="text-indent: 20px">
+            NUPs recebidos via <strong>barramento/integração</strong> NÃO podem possuir documentos com mais de 1 componente digital.
+        </p>
+        <p style="text-indent: 20px">
+            NUPs recebidos via <strong>barramento/integração</strong> SOMENTE aceitam componentes digitais nos formatos HTML e PDF.
+        </p>
+        <p style="text-indent: 20px">
+            Um NUP <strong>apensado</strong> ou <strong>anexado</strong> a outro NÃO pode receber juntadas.
+        </p>
+        <p style="text-indent: 20px">
+            Um NUP <strong>físico</strong> NÃO pode receber juntadas com componentes digitais.
+        </p>
+        <p style="text-indent: 20px">
+            Um NUP <strong>eletrônico</strong> NÃO pode receber juntadas de documentos sem componentes digitais.
+        </p>
+        <p style="text-indent: 20px">
+            Um NUP <strong>remetido</strong> para um órgão externo NÃO pode receber juntadas.<!--REMESSAS? REMESSAS já é externo. Redundante? Necessário?-->
+        </p>
+        <p style="text-indent: 20px">
+            Um documento que NÃO é mais uma minuta NÃO pode ser juntado.
+        </p>
+        <p style="text-indent: 20px">
+            Quando uma minuta está <strong>vinculada</strong> a uma comunicação, a juntada deve ser efetuada pela <strong>remessa de comunicação</strong>.
+        </p>
+        <p style="text-indent: 20px">
+            Apenas o <strong>dono</strong> da minuta pode realizar juntadas.
+        </p>
+        <p style="text-indent: 20px">
+            Um NUP que está no Serviço de Conformidade Documental NÃO pode receber juntadas.
+        </p>
+    </div>  
 </div>
