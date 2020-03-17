@@ -17,6 +17,10 @@ const routes = [
         loadChildren: () => import('./arquivista/arquivista.module').then(m => m.ArquivistaModule)
     },
     {
+        path        : 'coordenador',
+        loadChildren: () => import('./coordenador/coordenador.module').then(m => m.CoordenadorModule)
+    },
+    {
         path        : 'tarefas',
         loadChildren: () => import('./tarefas/tarefas.module').then(m => m.TarefasModule)
     },

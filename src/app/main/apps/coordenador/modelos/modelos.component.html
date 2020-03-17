@@ -1,0 +1,30 @@
+
+
+    <!-- CONTENT HEADER -->
+    <div class="header" fxLayout="column">
+
+        <div class="actions m-16" fxLayout="row" fxLayoutAlign="start center">
+            <button mat-raised-button
+                    class="mat-accent"
+                    [routerLink]="'editar/criar'"
+                    *ngIf="action === 'listar'"
+                    aria-label="novo"
+                    matTooltip="Novo Setor">
+                Novo
+            </button>
+            <button mat-icon-button
+                    (click)="goBack()"
+                    *ngIf="action !== 'listar'"
+                    aria-label="voltar"
+                    matTooltip="Voltar">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
+        </div>
+    </div>
+    <!-- / CONTENT HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content m-16" fxLayout="column" cdkPerfectScroll>
+        <router-outlet></router-outlet>
+    </div>
+
