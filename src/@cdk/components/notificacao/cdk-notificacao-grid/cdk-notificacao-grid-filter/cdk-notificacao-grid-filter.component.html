@@ -20,7 +20,7 @@
                        formControlName="remetente"
                        [matAutocomplete]="usuario.autocomplete">
             </div>
-            <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('usuario')">
+            <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('remetente')">
             </cdk-usuario-autocomplete>
         </mat-form-field>
 
@@ -30,7 +30,7 @@
                        formControlName="destinatario"
                        [matAutocomplete]="usuario.autocomplete">
             </div>
-            <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('usuario')">
+            <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('destinatario')">
             </cdk-usuario-autocomplete>
         </mat-form-field>
 

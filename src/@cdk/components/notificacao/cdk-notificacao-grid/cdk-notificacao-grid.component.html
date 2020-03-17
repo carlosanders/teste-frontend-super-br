@@ -4,7 +4,8 @@
     <cdk-sidebar class="sidebar" name="cdk-notificacao-main-sidebar" position="left">
         <!-- SIDEBAR CONTENT -->
         <div class="content" cdkPerfectScrollbar>
-            <cdk-notificacao-main-sidebar (selected)="setGridFilter($event)" [@animate]="{value:'*'}"></cdk-notificacao-main-sidebar>
+            <cdk-notificacao-main-sidebar (selected)="setGridFilter($event)"
+                                          [@animate]="{value:'*'}"></cdk-notificacao-main-sidebar>
         </div>
         <!-- / SIDEBAR CONTENT -->
     </cdk-sidebar>
@@ -56,194 +57,211 @@
             <mat-spinner diameter="32"></mat-spinner>
         </div>
 
-        <table mat-table [dataSource]="dataSource" matSort [hidden]="loading">
+        <div fxFlex="1 1 auto" fxLayout="column" cdkPerfectScrollbar>
 
-            <!-- Selection Column -->
-            <ng-container matColumnDef="select">
-                <th mat-header-cell *matHeaderCellDef>
-                    <mat-checkbox (click)="toggleSelectAll($event)"
-                                  [checked]="hasSelected"
-                                  [indeterminate]="isIndeterminate">
-                    </mat-checkbox>
-                </th>
-                <td mat-cell *matCellDef="let notificacao">
-                    <mat-checkbox [checked]="selectedIds.indexOf(notificacao.id) > -1"
-                                  (change)="toggleInSelected(notificacao.id)"
-                                  (click)="$event.stopPropagation();"
-                                  [disabled]="deletedIds?.indexOf(notificacao.id) > -1">
-                    </mat-checkbox>
-                </td>
-            </ng-container>
+            <table mat-table [dataSource]="dataSource" matSort [hidden]="loading">
 
-            <!-- Id Column -->
-            <ng-container matColumnDef="id">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Id
-                </th>
-                <td mat-cell *matCellDef="let notificacao" class='has_label_on_mobile' data-label='Id: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(notificacao.id) > -1}"> {{notificacao.id}} </td>
-            </ng-container>
+                <!-- Selection Column -->
+                <ng-container matColumnDef="select">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <mat-checkbox (click)="toggleSelectAll($event)"
+                                      [checked]="hasSelected"
+                                      [indeterminate]="isIndeterminate">
+                        </mat-checkbox>
+                    </th>
+                    <td mat-cell *matCellDef="let notificacao">
+                        <mat-checkbox [checked]="selectedIds.indexOf(notificacao.id) > -1"
+                                      (change)="toggleInSelected(notificacao.id)"
+                                      (click)="$event.stopPropagation();"
+                                      [disabled]="deletedIds?.indexOf(notificacao.id) > -1">
+                        </mat-checkbox>
+                    </td>
+                </ng-container>
 
-            <!-- Nome Remetente Column -->
-            <ng-container matColumnDef="remetente.nome">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Remetente
-                </th>
-                <td mat-cell *matCellDef="let notificacao" class='has_label_on_mobile' data-label='Remetente: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(notificacao.id) > -1}"> {{notificacao.remetente?.nome}} </td>
-            </ng-container>
+                <!-- Id Column -->
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Id
+                    </th>
+                    <td mat-cell *matCellDef="let notificacao" class='has_label_on_mobile' data-label='Id: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(notificacao.id) > -1}"> {{notificacao.id}} </td>
+                </ng-container>
 
-            <!-- Nome Destinatario Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('destinatario.nome') > -1" matColumnDef="destinatario.nome">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Destinatário
-                </th>
-                <td mat-cell *matCellDef="let notificacao" class='has_label_on_mobile' data-label='Destinatário: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(notificacao.id) > -1}"> {{notificacao.destinatario?.nome}} </td>
-            </ng-container>
+                <!-- Nome Remetente Column -->
+                <ng-container matColumnDef="remetente.nome">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Remetente
+                    </th>
+                    <td mat-cell *matCellDef="let notificacao" class='has_label_on_mobile' data-label='Remetente: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(notificacao.id) > -1}"> {{notificacao.remetente?.nome}} </td>
+                </ng-container>
 
-            <!-- Modalidade Notificacao Notificacao Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('modalidadeNotificacao.valor') > -1" matColumnDef="modalidadeNotificacao.valor">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Modalidade
-                </th>
-                <td mat-cell *matCellDef="let notificacao" class='has_label_on_mobile' data-label='Modalidade: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(notificacao.id) > -1}"> {{notificacao.modalidadeNotificacao?.valor}} </td>
-            </ng-container>
+                <!-- Nome Destinatario Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('destinatario.nome') > -1"
+                              matColumnDef="destinatario.nome">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Destinatário
+                    </th>
+                    <td mat-cell *matCellDef="let notificacao" class='has_label_on_mobile' data-label='Destinatário: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(notificacao.id) > -1}"> {{notificacao.destinatario?.nome}} </td>
+                </ng-container>
 
-            <!-- DataHoraExpiracao Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('dataHoraExpiracao') > -1" matColumnDef="dataHoraExpiracao">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Data Expiração
-                </th>
-                <td mat-cell *matCellDef="let notificacao" class='has_label_on_mobile' data-label='Data Expiração: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(notificacao.id) > -1}"> {{notificacao.dataHoraExpiracao | date: 'dd/MM/yyyy'}} </td>
-            </ng-container>
+                <!-- Modalidade Notificacao Notificacao Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('modalidadeNotificacao.valor') > -1"
+                              matColumnDef="modalidadeNotificacao.valor">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Modalidade
+                    </th>
+                    <td mat-cell *matCellDef="let notificacao" class='has_label_on_mobile' data-label='Modalidade: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(notificacao.id) > -1}"> {{notificacao.modalidadeNotificacao?.valor}} </td>
+                </ng-container>
 
-            <!-- DataHoraLeitura Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('dataHoraLeitura') > -1" matColumnDef="dataHoraLeitura">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Data da Leitura
-                </th>
-                <td mat-cell *matCellDef="let notificacao" class='has_label_on_mobile' data-label='Data da Leitura: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(notificacao.id) > -1}"> {{notificacao.dataHoraLeitura | date: 'dd/MM/yyyy'}} </td>
-            </ng-container>
+                <!-- DataHoraExpiracao Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('dataHoraExpiracao') > -1"
+                              matColumnDef="dataHoraExpiracao">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Data Expiração
+                    </th>
+                    <td mat-cell *matCellDef="let notificacao" class='has_label_on_mobile' data-label='Data Expiração: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(notificacao.id) > -1}"> {{notificacao.dataHoraExpiracao | date: 'dd/MM/yyyy'}} </td>
+                </ng-container>
 
-            <!-- Conteudo Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('conteudo') > -1" matColumnDef="conteudo">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Conteúdo
-                </th>
-                <td mat-cell *matCellDef="let notificacao" class='has_label_on_mobile' data-label='Conteúdo: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(notificacao.id) > -1}"> {{notificacao.conteudo}} </td>
-            </ng-container>
+                <!-- DataHoraLeitura Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('dataHoraLeitura') > -1" matColumnDef="dataHoraLeitura">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Data da Leitura
+                    </th>
+                    <td mat-cell *matCellDef="let notificacao" class='has_label_on_mobile'
+                        data-label='Data da Leitura: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(notificacao.id) > -1}"> {{notificacao.dataHoraLeitura | date: 'dd/MM/yyyy'}} </td>
+                </ng-container>
 
-            <!-- Urgente Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('urgente') > -1" matColumnDef="urgente">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Urgente
-                </th>
-                <td mat-cell *matCellDef="let notificacao" class='has_label_on_mobile' data-label='Urgente: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(notificacao.id) > -1}">
-                    <mat-checkbox [disabled]="true" [checked]="notificacao.urgente"></mat-checkbox>
-                </td>
-            </ng-container>
+                <!-- Conteudo Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('conteudo') > -1" matColumnDef="conteudo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Conteúdo
+                    </th>
+                    <td mat-cell *matCellDef="let notificacao" class='has_label_on_mobile' data-label='Conteúdo: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(notificacao.id) > -1}"> {{notificacao.conteudo}} </td>
+                </ng-container>
 
-            <!-- CriadoPor Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('criadoPor.nome') > -1" matColumnDef="criadoPor.nome">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Criado Por
-                </th>
-                <td mat-cell *matCellDef="let notificacao" class='has_label_on_mobile' data-label='Criado Por: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(notificacao.id) > -1}"> {{notificacao.criadoPor?.nome}} </td>
-            </ng-container>
+                <!-- Urgente Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('urgente') > -1" matColumnDef="urgente">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Urgente
+                    </th>
+                    <td mat-cell *matCellDef="let notificacao" class='has_label_on_mobile' data-label='Urgente: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(notificacao.id) > -1}">
+                        <mat-checkbox [disabled]="true" [checked]="notificacao.urgente"></mat-checkbox>
+                    </td>
+                </ng-container>
 
-            <!-- CriadoEm Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('criadoEm') > -1" matColumnDef="criadoEm">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Criado Em
-                </th>
-                <td mat-cell *matCellDef="let notificacao" class='has_label_on_mobile' data-label='Criado Em: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(notificacao.id) > -1}"> {{notificacao.criadoEm | date: 'dd/MM/yyyy'}} </td>
-            </ng-container>
+                <!-- CriadoPor Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('criadoPor.nome') > -1" matColumnDef="criadoPor.nome">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Criado Por
+                    </th>
+                    <td mat-cell *matCellDef="let notificacao" class='has_label_on_mobile' data-label='Criado Por: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(notificacao.id) > -1}"> {{notificacao.criadoPor?.nome}} </td>
+                </ng-container>
 
-            <!-- AtualizadoPor Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1" matColumnDef="atualizadoPor.nome">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Atualizado Por
-                </th>
-                <td mat-cell *matCellDef="let notificacao" class='has_label_on_mobile' data-label='Atualizado Por: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(notificacao.id) > -1}"> {{notificacao.atualizadoPor?.nome}} </td>
-            </ng-container>
+                <!-- CriadoEm Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('criadoEm') > -1" matColumnDef="criadoEm">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Criado Em
+                    </th>
+                    <td mat-cell *matCellDef="let notificacao" class='has_label_on_mobile' data-label='Criado Em: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(notificacao.id) > -1}"> {{notificacao.criadoEm | date: 'dd/MM/yyyy'}} </td>
+                </ng-container>
 
-            <!-- AtualizadoEm Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('atualizadoEm') > -1" matColumnDef="atualizadoEm">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Atualizado Em
-                </th>
-                <td mat-cell *matCellDef="let notificacao" class='has_label_on_mobile' data-label='Atualizado Em: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(notificacao.id) > -1}"> {{notificacao.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
-            </ng-container>
+                <!-- AtualizadoPor Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1"
+                              matColumnDef="atualizadoPor.nome">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Atualizado Por
+                    </th>
+                    <td mat-cell *matCellDef="let notificacao" class='has_label_on_mobile' data-label='Atualizado Por: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(notificacao.id) > -1}"> {{notificacao.atualizadoPor?.nome}} </td>
+                </ng-container>
 
-            <!-- ApagadoPor Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('apagadoPor.nome') > -1" matColumnDef="apagadoPor.nome">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Apagado Por
-                </th>
-                <td mat-cell *matCellDef="let notificacao" class='has_label_on_mobile' data-label='Apagado Por: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(notificacao.id) > -1}"> {{notificacao.apagadoPor?.nome}} </td>
-            </ng-container>
+                <!-- AtualizadoEm Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('atualizadoEm') > -1" matColumnDef="atualizadoEm">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Atualizado Em
+                    </th>
+                    <td mat-cell *matCellDef="let notificacao" class='has_label_on_mobile' data-label='Atualizado Em: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(notificacao.id) > -1}"> {{notificacao.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
+                </ng-container>
 
-            <!-- ApagadoEm Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('apagadoEm') > -1" matColumnDef="apagadoEm">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Apagado Em
-                </th>
-                <td mat-cell *matCellDef="let notificacao" class='has_label_on_mobile' data-label='Apagado Em: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(notificacao.id) > -1}"> {{notificacao.apagadoEm | date: 'dd/MM/yyyy'}} </td>
-            </ng-container>
+                <!-- ApagadoPor Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('apagadoPor.nome') > -1" matColumnDef="apagadoPor.nome">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Apagado Por
+                    </th>
+                    <td mat-cell *matCellDef="let notificacao" class='has_label_on_mobile' data-label='Apagado Por: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(notificacao.id) > -1}"> {{notificacao.apagadoPor?.nome}} </td>
+                </ng-container>
 
-            <!-- Actions Column -->
-            <ng-container matColumnDef="actions">
-                <th mat-header-cell *matHeaderCellDef></th>
-                <td mat-cell *matCellDef="let notificacao">
+                <!-- ApagadoEm Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('apagadoEm') > -1" matColumnDef="apagadoEm">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Apagado Em
+                    </th>
+                    <td mat-cell *matCellDef="let notificacao" class='has_label_on_mobile' data-label='Apagado Em: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(notificacao.id) > -1}"> {{notificacao.apagadoEm | date: 'dd/MM/yyyy'}} </td>
+                </ng-container>
 
-                    <button mat-icon-button
-                            *ngIf="actions.indexOf('select') > -1"
-                            (click)="selectNotificacao(notificacao)"
-                            aria-label="selecionar"
-                            matTooltip="Selecionar">
-                        <mat-icon>keyboard_return</mat-icon>
-                    </button>
+                <!-- Actions Column -->
+                <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let notificacao">
 
-                    <button mat-icon-button
-                            *ngIf="actions.indexOf('edit') > -1"
-                            [disabled]="deletedIds?.indexOf(notificacao.id) > -1"
-                            (click)="editNotificacao(notificacao.id)"
-                            aria-label="editar"
-                            matTooltip="Editar">
-                        <mat-icon>edit</mat-icon>
-                    </button>
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('select') > -1"
+                                (click)="selectNotificacao(notificacao)"
+                                aria-label="selecionar"
+                                matTooltip="Selecionar">
+                            <mat-icon>keyboard_return</mat-icon>
+                        </button>
 
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('edit') > -1"
+                                [disabled]="deletedIds?.indexOf(notificacao.id) > -1"
+                                (click)="editNotificacao(notificacao.id)"
+                                aria-label="editar"
+                                matTooltip="Editar">
+                            <mat-icon>edit</mat-icon>
+                        </button>
 
-                    <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(notificacao.id) > -1">
-                        <mat-spinner diameter="24"></mat-spinner>
-                    </div>
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('toggleLida') > -1"
+                                [disabled]="deletedIds?.indexOf(notificacao.id) > -1 || notificacao.dataHoraLeitura"
+                                (click)="toggleLidaNotificacao(notificacao)"
+                                aria-label="marcar como lida"
+                                [matTooltip]="!notificacao.dataHoraLeitura ? 'Marcar como lida' : 'Lido'">
+                            <mat-icon *ngIf="!notificacao.dataHoraLeitura">toggle_off</mat-icon>
+                            <mat-icon *ngIf="notificacao.dataHoraLeitura">toggle_on</mat-icon>
+                        </button>
 
-                    <button mat-icon-button
-                            *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(notificacao.id) === -1"
-                            [disabled]="deletedIds?.indexOf(notificacao.id) > -1"
-                            (click)="deleteNotificacao(notificacao.id)"
-                            aria-label="remover"
-                            matTooltip="Remover">
-                        <mat-icon>delete</mat-icon>
-                    </button>
-                </td>
-            </ng-container>
+                        <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(notificacao.id) > -1">
+                            <mat-spinner diameter="24"></mat-spinner>
+                        </div>
 
-            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
-            <tr mat-row *matRowDef="let notificacao; columns: displayedColumns;">
-            </tr>
-        </table>
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(notificacao.id) === -1"
+                                [disabled]="deletedIds?.indexOf(notificacao.id) > -1"
+                                (click)="deleteNotificacao(notificacao.id)"
+                                aria-label="remover"
+                                matTooltip="Remover">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
+                <tr mat-row *matRowDef="let notificacao; columns: displayedColumns;">
+                </tr>
+            </table>
+        </div>
 
         <div class="actions" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="center center">
             <mat-paginator [disabled]="loading" [pageSizeOptions]="[5, 10]"></mat-paginator>
