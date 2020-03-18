@@ -56,7 +56,6 @@ export class CdkClassificacaoTreeService {
     initialize(classificacaoPai: ClassificacaoNode[]): void {
         // Build the tree nodes from Json object. The result is a list of `TodoItemNode` with nested
         //     file node as children.
-        debugger
         const data = this.buildFileTree(classificacaoPai, 0);
 
         // Notify the change.
