@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Classificacao, Pagination, Processo, Transicao} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
@@ -21,8 +21,6 @@ export class ArquivistaClassificacaoComponent implements OnInit {
     public processoId: number;
 
     modalidadeTransicaoPagination: Pagination;
-
-    private transicao$: Observable<Transicao>;
     transicao: Transicao;
     private routerState: RouterStateUrl;
 
