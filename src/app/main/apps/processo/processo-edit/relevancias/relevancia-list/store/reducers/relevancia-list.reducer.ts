@@ -1,4 +1,4 @@
-import * as RelevaciaListActions from '../actions';
+import * as RelevanciaListActions from '../actions/relevancia-list.actions';
 
 export interface RelevanciaListState {
     entitiesId: number[];
