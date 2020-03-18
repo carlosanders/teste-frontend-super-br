@@ -3,26 +3,26 @@
         <h1 class="m-16">Ajuda</h1>
     </div>
 
+    
     <div class="p-16" fxFlex="1 1 auto" fxLayout="column">
+
         <div>
             <form fxLayoutGap="16px"
-                  fxLayout="column"
-                  fxLayoutAlign="start"
-                  name="form" [formGroup]="form"
-                  (submit)="pesquisar()">
+                fxLayout="column"
+                fxLayoutAlign="start"
+                name="form" [formGroup]="form"
+                    (submit)="pesquisar()">
 
                 <div fxFlex="1 0 auto" fxLayout="column">
                     <mat-form-field fxFlex="100">
                         <div fxLayout="row" fxLayoutAlign="start center">
-                            <input matInput placeholder="Pesquisa" formControlName="pesquisa" maxlength="255" required
-                                   autocomplete="off">
+                            <input matInput placeholder="Pesquisa" formControlName="pesquisa" maxlength="255" required autocomplete="off">
                         </div>
                     </mat-form-field>
                 </div>
             </form>
-
         </div>
-
+        
         <div class="mt-16" *ngIf="card === 'form'">
             <table *ngIf="resultado.length > 0">
                 <tr *ngFor="let topico of resultado">
@@ -50,9 +50,74 @@
                     matTooltip="Voltar">
                 <mat-icon>arrow_back</mat-icon>
             </button>
+                <div *ngIf="titulo === 'Criar tarefas'">
+                    <ajuda-tarefa-create></ajuda-tarefa-create>
+                </div>
+                <div *ngIf="titulo === 'Controle de Acesso'">
+                    <ajuda-visibilidades></ajuda-visibilidades>
+                </div>
+                <div *ngIf="titulo === 'Etiquetando tarefas em bloco'">
+                    <ajuda-vinculacao-etiqueta-create-bloco></ajuda-vinculacao-etiqueta-create-bloco>
+                </div>
+                <div *ngIf="titulo === 'Upload de minutas em bloco'">
+                    <ajuda-upload-bloco></ajuda-upload-bloco>
+                </div>
+                <div *ngIf="titulo === 'Editando tarefas em bloco'">
+                    <ajuda-tarefa-edit-bloco></ajuda-tarefa-edit-bloco>
+                </div>
+                <div *ngIf="titulo === 'Lançando uma atividade'">
+                    <ajuda-atividade-create></ajuda-atividade-create>
+                </div>
+                <div *ngIf="titulo === 'Lançando atividades em bloco'">
+                    <ajuda-atividade-create-bloco></ajuda-atividade-create-bloco>
+                </div>
+                <div *ngIf="titulo === 'Compartilhando minutas'">
+                    <ajuda-compartilhamento-create></ajuda-compartilhamento-create>
+                </div>
+                <div *ngIf="titulo === 'Criação de minutas em bloco de tarefas'">
+                    <ajuda-modelo-bloco></ajuda-modelo-bloco>
+                </div>
+                <div *ngIf="titulo === 'Criando ofícios em bloco'">
+                    <ajuda-documento-avulso-create-bloco></ajuda-documento-avulso-create-bloco>
+                </div>
+                <div *ngIf="titulo === 'Compartilhando minutas em bloco'">
+                    <ajuda-compartilhamento-create-bloco></ajuda-compartilhamento-create-bloco>
+                </div>
+                <div *ngIf="titulo === 'Criando processos'">
+                    <ajuda-processo-edit></ajuda-processo-edit>
+                </div>
+                <div *ngIf="titulo === 'Assuntos'">
+                    <ajuda-assuntos></ajuda-assuntos>
+                </div>
+                <div *ngIf="titulo === 'Interessados'">
+                    <ajuda-interessados></ajuda-interessados>
+                </div>
+                <div *ngIf="titulo === 'Juntadas'">
+                    <ajuda-juntadas></ajuda-juntadas>
+                </div>
+                <div *ngIf="titulo === 'Vinculações'">
+                    <ajuda-vinculacoes-processos></ajuda-vinculacoes-processos>
+                </div>
+                <div *ngIf="titulo === 'Criando ofícios'">
+                    <ajuda-oficios></ajuda-oficios>
+                </div>
+                <div *ngIf="titulo === 'Tramitações'">
+                    <ajuda-tramitacoes></ajuda-tramitacoes>
+                </div>
+                <div *ngIf="titulo === 'Remessas'">
+                    <ajuda-remessas></ajuda-remessas>
+                </div>
+                <div *ngIf="titulo === 'Transições'">
+                    <ajuda-transicoes></ajuda-transicoes>
+                </div>
+                <div *ngIf="titulo === 'Sigilos'">
+                    <ajuda-sigilos></ajuda-sigilos>
+                </div>
+                <div *ngIf="titulo === 'Restrições de acesso'">
+                    <ajuda-visibilidades></ajuda-visibilidades>
+                </div>
         </div>
 
         <div #container></div>
-
     </div>
 </div>

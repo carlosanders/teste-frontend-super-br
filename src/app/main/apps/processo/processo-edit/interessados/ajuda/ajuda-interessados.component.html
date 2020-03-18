@@ -1,0 +1,78 @@
+<div>    
+    <div *ngIf="titulo === 'interessados'" class="content p-16" fxLayout="column">
+        <h3><strong>CADASTRANDO INTERESSADOS</strong></h3>
+        <p style="text-align: justify;text-indent: 20px">
+            É a pessoa física ou jurídica a quem se refere o Processo.
+        </p>    
+        <mat-expansion-panel style="text-align: center;margin-left: 40px">
+            <mat-expansion-panel-header>
+              <mat-panel-title style="text-align: center">
+                LEGITIMADOS?
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+           <p style="text-align: justify;"> 
+            <li>As pessoas físicas ou jurídicas que o iniciem como titulares de direito ou interesses individuais, ou no exercício do direito de interpretação;</li>
+            <li>Aqueles que, sem terem iniciado o processo, têm direitos ou interesses que possam ser afetados pela decisão a ser adotada; </li>
+            <li>As organizações e associações representativas, no tocante a direitos e interesses coletivos; </li>
+            <li>As pessoas ou associações legalmente constituídas quanto a direitos ou interesses difusos.</li> 
+           </p>
+        </mat-expansion-panel>
+        <p style="text-align: justify;text-indent: 20px">
+            
+        </p>
+        <div style="background-color: #d3d3d3;">
+            <p>
+                <img src="assets/images/ajuda/atencao.png" style="width: 15px;"class="fr-fic fr-dii"><strong>FIQUE ATENTO:</strong>
+            </p>
+            <p style="text-indent: 20px">    
+                <strong>O SAPIENS dispõe de integração com a base da Receita Federal.</strong>
+                No formulário de cadastro de interessados, se for pesquisado um CPF/CNPJ completo e 
+                válido que não exista na base do SAPIENS, será feita a migração da base da Receita Federal.            
+            </p>
+        </div>
+        <h3><strong>Cadastrando interessados na página de cadastramento de processos</strong></h3>    
+        <p style="text-align: justify;margin-left: 40px">
+            1. No grid com opções de dados que podem/devem ser preenchidos, escolha o campo <strong>Interessados</strong>
+        </p>
+        <p style="text-align: center;margin-left: 40px">
+            <img src="assets/images/ajuda/processointeressados.png" style="width: 256px;" class="fr-fic fr-dib fr-fil"> 
+        </p>
+        <p style="text-align: justify;margin-left: 40px">
+            2. A página de cadastramento de interessados é aberta. A lista de interessados aparece no centro da página. É possível cadastrar novos interessados a partir do botão <img src="assets/images/ajuda/novo.png" class="fr-fic fr-dii">.        
+        </p>
+        <p style="text-align: justify;margin-left: 40px">
+            3. Ao apertar em <strong>Novo</strong>, a tela de criação de interessados é aberta.
+            Dois campos aparecem, o de <strong>Pessoa</strong> e o de <strong>Modalidade</strong>.       
+        </p>
+        <p style="text-align: left;margin-left: 40px">
+            4. A Pessoa é a pessoa física ou jurídica que vai ser cadastrada. Ao preencher o campo, que pode ser tanto com o nome quanto com o CPF, aparecem as pessoas já cadastradas no sistema.<br>
+            Caso o cadastrador não disponha do CPF/CNPJ do interessado, pode ser necessário realizar uma pesquisa mais detalhada na base de pessoas do SUPP.<br>
+            Ao clicar <img src="assets/images/ajuda/incluirpessoa.png" class="fr-fic fr-dii"> para selecionar uma pessoa na pesquisa avançada, encontrará uma lista de pessoas em que é possível filtrar e escolher.<br>
+            Caso a pessoa em questão ainda não esteja cadastrada na base de dados do SAPIENS, o usuário deverá realizar o cadastro manualmente, clicando no <img src="assets/images/ajuda/novo.png" class="fr-fic fr-dii"><br>
+            Para maiores informações:<br> <a href="javascript:void(0)" (click)="carregar('assuntos')">Cadastrando pessoas manualmente</a>
+        </p>
+        <p style="text-align: justify;margin-left: 40px">
+            5. Após escolher/cadastrar uma pessoa, é necessário escolher a <strong>Modalidade</strong>, iz respeito ao tipo de interessado naquele processo.
+            Ao apertar na <img src="assets/images/ajuda/lupa.png" class="fr-fic fr-dii">, são listadas as modalidades possíveis:
+            <li>Requerente (Pólo ativo)</li>
+            <li>Requerido (Pólo passivo)</li>
+            <li>Terceiro</li>        
+        </p>
+        <p style="text-align: justify;margin-left: 40px">
+            6. Ao apertar o botão <img src="assets/images/ajuda/salvar.png" class="fr-fic fr-dii">, o interessado é cadastrado. 
+        </p>
+        <p style="background-color: #d3d3d3;text-indent: 20px">
+            <img src="assets/images/ajuda/atencao.png" style="width: 15px;"class="fr-fic fr-dii"><strong>FIQUE ATENTO:</strong><br>
+            Após o cadastro de interessados e de assuntos, é possível criar tarefas, que correspondem a um movimento/evento. 
+            A pessoa a qual a tarefa vai ser atribuída realiza uma atividade, que representa o trabalho realizado.
+        </p>
+    </div>
+    <!-- 
+        <div *ngIf="titulo === 'cadastroPessoas'">
+            <ajuda-cadastro-pessoas></ajuda-cadastro-pessoas>
+            <a href="javascript:void(0)" (click)="carregar('interessados')">Voltar ao <strong>Cadastrando Interessados</strong></a>
+        </div> IF CADASTRANDO PESSOAS MANUALMENTE
+    -->
+
+
+</div>
