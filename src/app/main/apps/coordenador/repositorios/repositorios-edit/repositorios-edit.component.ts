@@ -33,7 +33,9 @@ export class RepositoriosEditComponent implements OnInit, OnDestroy {
     repositorio: Repositorio;
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
+    coordenador: boolean;
     usuario: Usuario;
+    setorPagination: Pagination;
     modalidadeRepositorioPagination: Pagination;
 
     /**
@@ -49,6 +51,7 @@ export class RepositoriosEditComponent implements OnInit, OnDestroy {
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.repositorio$ = this._store.pipe(select(fromStore.getRepositorio));
         this.usuario = this._loginService.getUserProfile();
+        this.coordenador = true;
 
         this._store
             .pipe(select(getRouterState))
@@ -57,6 +60,12 @@ export class RepositoriosEditComponent implements OnInit, OnDestroy {
                     this.routerState = routerState.state;
                 }
             });
+
+        this.setorPagination = new Pagination();
+        this.setorPagination.populate = ['populateAll'];
+        this.setorPagination.filter = {
+            'unidade.id': 'eq:' + this.routerState.params.unidadeHandle
+        }
 
         this.modalidadeRepositorioPagination = new Pagination();
         this.modalidadeRepositorioPagination.populate = ['populateAll'];
