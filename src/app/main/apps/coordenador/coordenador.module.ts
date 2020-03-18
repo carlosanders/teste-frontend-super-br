@@ -28,6 +28,10 @@ const routes: Routes = [
                 loadChildren: () => import('./modelos/modelos.module').then(m => m.ModelosModule)
             },
             {
+                path       : 'repositorios',
+                loadChildren: () => import('./repositorios/repositorios.module').then(m => m.RepositoriosModule)
+            },
+            {
                 path       : 'usuario',
                 // loadChildren: () => import('./usuario/usuario.module').then(m => m.UsuarioModule)
             }
@@ -48,15 +52,11 @@ const routes: Routes = [
     imports        : [
         CommonModule,
         RouterModule.forChild(routes),
-
         MatButtonModule,
         MatIconModule,
         MatProgressSpinnerModule,
-
         TranslateModule,
-
         CoordenadorStoreModule,
-
         CdkSharedModule,
         CdkSidebarModule
     ],
