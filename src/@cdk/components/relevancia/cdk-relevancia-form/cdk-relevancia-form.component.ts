@@ -112,7 +112,7 @@ export class CdkRelevanciaFormComponent implements OnChanges, OnDestroy {
             this.form.get('especieRelevancia').setValue(null);
         }
     }
-    
+
     selectEspecieRelevancia(especieRelevancia: EspecieRelevancia): void {
         if (especieRelevancia) {
             this.form.get('especieRelevancia').setValue(especieRelevancia);
