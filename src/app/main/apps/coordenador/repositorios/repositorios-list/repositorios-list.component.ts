@@ -15,7 +15,7 @@ import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 
 @Component({
-    selector: 'repositorios-list',
+    selector: 'coordenador-repositorios-list',
     templateUrl: './repositorios-list.component.html',
     styleUrls: ['./repositorios-list.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
