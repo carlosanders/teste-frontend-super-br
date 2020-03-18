@@ -34,8 +34,7 @@ export class ModelosEditComponent implements OnInit, OnDestroy {
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
     usuario: Usuario;
-    modeloPagination: Pagination;
-    especieModeloPagination: Pagination;
+    templatePagination: Pagination;
 
     /**
      *
@@ -59,13 +58,12 @@ export class ModelosEditComponent implements OnInit, OnDestroy {
                 }
             });
 
-        this.modeloPagination = new Pagination();
-        this.modeloPagination.populate = ['populateAll'];
-        this.modeloPagination.filter = {
+        this.templatePagination = new Pagination();
+        this.templatePagination.populate = ['populateAll'];
+        this.templatePagination.filter = {
             'unidade.id': 'eq:' + this.routerState.params.unidadeHandle
         }
-        this.especieModeloPagination = new Pagination();
-        this.especieModeloPagination.populate = ['populateAll'];
+        
 
     }
 

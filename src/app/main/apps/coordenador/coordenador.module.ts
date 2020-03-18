@@ -48,15 +48,11 @@ const routes: Routes = [
     imports        : [
         CommonModule,
         RouterModule.forChild(routes),
-
         MatButtonModule,
         MatIconModule,
         MatProgressSpinnerModule,
-
         TranslateModule,
-
         CoordenadorStoreModule,
-
         CdkSharedModule,
         CdkSidebarModule
     ],
