@@ -20,7 +20,7 @@ import {CdkSidebarModule} from '@cdk/components';
 
 import {RelevanciaEditComponent} from './relevancia-edit.component';
 import {RouterModule, Routes} from '@angular/router';
-// import {CdkRelevanciaFormModule} from '@cdk/components/relevancia/cdk-relevancia-form/cdk-relevancia-form.module';
+import {CdkRelevanciaFormModule} from '@cdk/components/relevancia/cdk-relevancia-form/cdk-relevancia-form.module';
 import {RelevanciaEditStoreModule} from './store/store.module';
 import {RelevanciaService} from '@cdk/services/relevancia.service';
 
@@ -56,7 +56,7 @@ const routes: Routes = [
         MatDatepickerModule,
         MatTooltipModule,
 
-        // CdkRelevanciaFormModule,
+        CdkRelevanciaFormModule,
 
         RelevanciaEditStoreModule,
 
