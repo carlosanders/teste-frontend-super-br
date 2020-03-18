@@ -1,8 +1,8 @@
 import {createSelector} from '@ngrx/store';
 import {
-    getGarantiaListAppState,
-    GarantiaListAppState,
-    GarantiaListState
+    getRelevanciaListAppState,
+    RelevanciaListAppState,
+    RelevanciaListState
 } from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';

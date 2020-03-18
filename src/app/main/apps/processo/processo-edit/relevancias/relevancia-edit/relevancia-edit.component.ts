@@ -9,7 +9,7 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
 
-import {Garantia} from '@cdk/models';
+import {Relevancia} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
@@ -18,38 +18,38 @@ import {getProcesso} from '../../../store/selectors';
 import {Pagination} from '@cdk/models';
 
 @Component({
-    selector: 'garantia-edit',
-    templateUrl: './garantia-edit.component.html',
-    styleUrls: ['./garantia-edit.component.scss'],
+    selector: 'relevancia-edit',
+    templateUrl: './relevancia-edit.component.html',
+    styleUrls: ['./relevancia-edit.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
 export class RelevanciaEditComponent implements OnInit, OnDestroy {
 
-    garantia$: Observable<Garantia>;
-    garantia: Garantia;
+    relevancia$: Observable<Relevancia>;
+    relevancia: Relevancia;
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
 
     processo$: Observable<Processo>;
     processo: Processo;
 
-    modalidadeGarantiaPagination: Pagination;
+    modalidadeRelevanciaPagination: Pagination;
 
     /**
      * @param _store
      */
     constructor(
-        private _store: Store<fromStore.GarantiaEditAppState>
+        private _store: Store<fromStore.RelevanciaEditAppState>
     ) {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
-        this.garantia$ = this._store.pipe(select(fromStore.getGarantia));
+        this.relevancia$ = this._store.pipe(select(fromStore.getRelevancia));
         this.processo$ = this._store.pipe(select(getProcesso));
 
-        this.modalidadeGarantiaPagination = new Pagination();
-        //this.modalidadeGarantiaPagination.populate = ['parent']; 
+        this.modalidadeRelevanciaPagination = new Pagination();
+        //this.modalidadeRelevanciaPagination.populate = ['parent'];
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -64,13 +64,13 @@ export class RelevanciaEditComponent implements OnInit, OnDestroy {
             processo => this.processo = processo
         );
 
-        this.garantia$.subscribe(
-            garantia => this.garantia = garantia
+        this.relevancia$.subscribe(
+            relevancia => this.relevancia = relevancia
         );
 
-        if (!this.garantia) {
-            this.garantia = new Garantia();
-            this.garantia.processo = this.processo;
+        if (!this.relevancia) {
+            this.relevancia = new Relevancia();
+            this.relevancia.processo = this.processo;
         }
     }
 
@@ -86,15 +86,15 @@ export class RelevanciaEditComponent implements OnInit, OnDestroy {
 
     submit(values): void {
 
-        const garantia = new Garantia();
+        const relevancia = new Relevancia();
 
         Object.entries(values).forEach(
             ([key, value]) => {
-                garantia[key] = value;
+                relevancia[key] = value;
             }
         );
 
-        this._store.dispatch(new fromStore.SaveGarantia(garantia));
+        this._store.dispatch(new fromStore.SaveRelevancia(relevancia));
 
     }
 

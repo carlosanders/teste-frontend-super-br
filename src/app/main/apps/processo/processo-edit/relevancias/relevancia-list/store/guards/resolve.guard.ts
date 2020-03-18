@@ -6,10 +6,10 @@ import {select, Store} from '@ngrx/store';
 import {Observable, of} from 'rxjs';
 import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
 
-import {GarantiaListAppState} from '../reducers';
+import {RelevanciaListAppState} from '../reducers';
 import * as fromStore from '../';
 import {getRouterState} from 'app/store/reducers';
-import {getGarantiaListLoaded} from '../selectors';
+import {getRelevanciaListLoaded} from '../selectors';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
