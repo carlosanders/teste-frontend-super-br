@@ -15,22 +15,24 @@ export function ResponderReducer(state = ResponderInitialState, action: Responde
 
         case ResponderActions.SAVE_RESPOSTA: {
             return {
-                saving: false,
+                saving: true,
                 errors: false
             };
         }
 
         case ResponderActions.SAVE_RESPOSTA_SUCCESS: {
             return {
-                ... state,
-                saving: true
+                ...state,
+                saving: false,
+                errors: false
             };
         }
 
         case ResponderActions.SAVE_RESPOSTA_FAILED: {
             return {
-                ... state,
-                saving: true
+                ...state,
+                saving: false,
+                errors: action.payload
             };
         }
 

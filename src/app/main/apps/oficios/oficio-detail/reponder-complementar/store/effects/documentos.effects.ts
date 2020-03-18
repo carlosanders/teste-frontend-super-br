@@ -1,20 +1,19 @@
-import {Injectable} from '@angular/core';
-import {Actions, Effect, ofType} from '@ngrx/effects';
+import { Injectable } from '@angular/core';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 
-import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 
 import * as DocumentosActions from '../actions/documentos.actions';
 
-import {AddData} from '@cdk/ngrx-normalizr';
-import {select, Store} from '@ngrx/store';
-import {getRouterState, State} from 'app/store/reducers';
-import {Documento} from '@cdk/models/documento.model';
-import {DocumentoService} from '@cdk/services/documento.service';
-import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
-import {Router} from '@angular/router';
-import {getDocumentoAvulso} from '../../../store/selectors';
-import {DocumentoAvulso} from '@cdk/models';
+import { AddData, UpdateData } from '@cdk/ngrx-normalizr';
+import { select, Store } from '@ngrx/store';
+import { getRouterState, State} from 'app/store/reducers';
+import { DocumentoAvulso, Documento} from '@cdk/models';
+import { DocumentoService} from '@cdk/services/documento.service';
+import { documento as documentoSchema} from '@cdk/normalizr/documento.schema';
+import { Router} from '@angular/router';
+import { getDocumentoAvulso} from '../../../store/selectors';
 
 @Injectable()
 export class DocumentosEffects {
@@ -138,7 +137,6 @@ export class DocumentosEffects {
                             );
                     }
                 )
-            )
-    ;
+            );
 
 }

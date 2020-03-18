@@ -53,6 +53,10 @@ export class ResponderComplementarComponent implements OnInit, OnDestroy {
     @ViewChild('ckdUpload', {static: false})
     cdkUpload;
 
+    deletingDocumentosId$: Observable<number[]>;
+    assinandoDocumentosId$: Observable<number[]>;
+    convertendoDocumentosId$: Observable<number[]>;
+
     /**
      *
      * @param _store
@@ -70,7 +74,11 @@ export class ResponderComplementarComponent implements OnInit, OnDestroy {
         this.documentoAvulso$ = this._store.pipe(select(getDocumentoAvulso));
         this.documentos$ = this._store.pipe(select(fromStore.getDocumentos));
         this.routerState$ = this._store.pipe(select(getRouterState));
+
         this.selectedDocumentos$ = this._store.pipe(select(fromStore.getSelectedDocumentos));
+        /*this.deletingDocumentosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosId));
+        this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));*/
+        this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoDocumentosId));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -151,11 +159,31 @@ export class ResponderComplementarComponent implements OnInit, OnDestroy {
         this.cdkUpload.upload();
     }
 
+    changedSelectedIds(selectedIds): void {
+        this._store.dispatch(new fromStore.ChangeSelectedDocumentos(selectedIds));
+    }
+
+    doDelete(documentoId): void {
+        // this._store.dispatch(new fromStore.DeleteDocumento(documentoId));
+    }
+
+    doVerResposta(documento): void {
+        this._store.dispatch(new fromStore.ClickedDocumento(documento));
+    }
+
+    doAssinatura(documentoId): void {
+        // this._store.dispatch(new fromStore.AssinaDocumento(documentoId));
+    }
+
+    onClicked(documento): void {
+        this._store.dispatch(new fromStore.ClickedDocumento(documento));
+    }
+
     onComplete(): void {
         this._store.dispatch(new fromStore.GetDocumentos());
     }
 
-    changedSelectedIds(selectedIds): void {
-        this._store.dispatch(new fromStore.ChangeSelectedDocumentos(selectedIds));
+    doConverte(documentoId): void {
+        this._store.dispatch(new fromStore.ConverteToPdf(documentoId));
     }
 }
