@@ -1,10 +1,10 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {LoginService} from "../../../../auth/login/login.service";
-import {Colaborador} from "@cdk/models";
-import {Setor} from "@cdk/models";
-import {Lotacao} from "@cdk/models";
+import {LoginService} from '../../../../auth/login/login.service';
+import {Colaborador} from '@cdk/models';
+import {Setor} from '@cdk/models';
+import {Lotacao} from '@cdk/models';
 
 @Component({
     selector: 'coordenador-main-sidebar',
@@ -38,12 +38,12 @@ export class CoordenadorMainSidebarComponent implements OnInit, OnDestroy {
         this.links = [
             {
                 nome: 'Modelos',
-                icon: 'web_asset',
+                icon: 'file_copy',
                 link: 'modelos'
             },
             {
                 nome: 'Repositórios',
-                icon: 'all_inbox',
+                icon: 'add_comment',
                 link: 'repositorios'
             },
             {
