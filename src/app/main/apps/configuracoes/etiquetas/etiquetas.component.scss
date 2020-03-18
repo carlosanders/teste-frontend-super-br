@@ -1,16 +1,8 @@
-#etiquetas {
-
-  .header {
-
-    .actions {
-      .is-active {
-        display: none;
-      }
-    }
-
-  }
-
-  .content {
-
+etiquetas {
+  height: 100%;
+  width: 100%;
+  .etiquetas-content {
+    height: 100%;
+    width: 100%;
   }
 }

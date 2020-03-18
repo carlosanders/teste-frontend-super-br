@@ -108,7 +108,7 @@ export class ComponenteDigitalService {
         const params: HttpParams = new HttpParams();
         params['context'] = context;
         return this.http.patch(
-            `${environment.api_url}${'componente_digital'}/${componenteDigital.id}` + environment.xdebug,
+            `${environment.api_url}componente_digital/${componenteDigital.id}` + environment.xdebug,
             JSON.stringify(changes),
             {params}
         ).pipe(
@@ -124,7 +124,7 @@ export class ComponenteDigitalService {
         const params: HttpParams = new HttpParams();
         params['context'] = context;
         return this.http.patch(
-            `${environment.api_url}${'componente_digital'}/${componenteDigital.id}/reverter` + environment.xdebug,
+            `${environment.api_url}componente_digital/${componenteDigital.id}/reverter` + environment.xdebug,
             JSON.stringify(changes),
             {params}
         ).pipe(
@@ -139,13 +139,14 @@ export class ComponenteDigitalService {
     approve(componenteDigital: ComponenteDigital, context: any = '{}'): Observable<ComponenteDigital> {
         const params = {};
         params['context'] = context;
-        return this.modelService.post('componente_digital/aprova', classToPlain(componenteDigital), new HttpParams({fromObject: params}))
-            .pipe(
-                map(response => {
-                    response = plainToClass(ComponenteDigital, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                    return Object.assign(new ComponenteDigital(), {...componenteDigital, ...response});
-                })
-            );
+        return this.modelService.post(
+            'componente_digital/aprova', classToPlain(componenteDigital), new HttpParams({fromObject: params})
+        ).pipe(
+            map(response => {
+                response = plainToClass(ComponenteDigital, response);
+                Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                return Object.assign(new ComponenteDigital(), {...componenteDigital, ...response});
+            })
+        );
     }
 }
