@@ -59,15 +59,6 @@ export class ModelosComponent implements OnInit, OnDestroy {
                 if (this.routerState.url.indexOf('modelos/editar/criar') > -1) {
                     this.action = 'criar';
                 }
-                if (this.routerState.url.indexOf('lotacoes') > -1) {
-                    this.action = 'lotacoes';
-                }
-                if (this.routerState.url.indexOf('localizadores') > -1) {
-                    this.action = 'localizadores';
-                }
-                if (this.routerState.url.indexOf('numeros-unicos-documentos') > -1) {
-                    this.action = 'numeros-unicos-documentos';
-                }
                 this._changeDetectorRef.markForCheck();
             }
         });
@@ -85,9 +76,6 @@ export class ModelosComponent implements OnInit, OnDestroy {
         }
         if (this.action === 'criar') {
             this._router.navigate([this.routerState.url.replace('editar/criar', 'listar')]).then();
-        }
-        if (this.action === 'lotacoes' || this.action === 'localizadores' || this.action === 'numeros-unicos-documentos') {
-            this._router.navigate([`apps/coordenador/${this.routerState.params.unidadeHandle}/modelos/listar`]).then();
         }
     }
 }

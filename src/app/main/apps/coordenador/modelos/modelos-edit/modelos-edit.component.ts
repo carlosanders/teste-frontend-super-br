@@ -34,6 +34,8 @@ export class ModelosEditComponent implements OnInit, OnDestroy {
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
     usuario: Usuario;
+    coordenador: boolean;
+    setorPagination: Pagination;
     templatePagination: Pagination;
 
     /**
@@ -49,6 +51,7 @@ export class ModelosEditComponent implements OnInit, OnDestroy {
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.modelo$ = this._store.pipe(select(fromStore.getModelo));
         this.usuario = this._loginService.getUserProfile();
+        this.coordenador = true;
 
         this._store
             .pipe(select(getRouterState))
@@ -57,6 +60,12 @@ export class ModelosEditComponent implements OnInit, OnDestroy {
                     this.routerState = routerState.state;
                 }
             });
+
+        this.setorPagination = new Pagination();
+        this.setorPagination.populate = ['populateAll'];
+        this.setorPagination.filter = {
+            'unidade.id': 'eq:' + this.routerState.params.unidadeHandle
+        }
 
         this.templatePagination = new Pagination();
         this.templatePagination.populate = ['populateAll'];

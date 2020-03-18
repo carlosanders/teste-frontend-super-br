@@ -37,7 +37,6 @@ const routes: Routes = [
     ],
     imports: [
         RouterModule.forChild(routes),
-
         MatExpansionModule,
         MatAutocompleteModule,
         MatButtonModule,

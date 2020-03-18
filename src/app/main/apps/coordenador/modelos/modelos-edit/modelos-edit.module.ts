@@ -42,7 +42,6 @@ const routes: Routes = [
     imports: [
 
         RouterModule.forChild(routes),
-
         MatButtonModule,
         MatCheckboxModule,
         MatFormFieldModule,
@@ -56,13 +55,9 @@ const routes: Routes = [
         MatProgressSpinnerModule,
         MatDatepickerModule,
         MatTooltipModule,
-
         CdkModeloFormModule,
-
         ModeloEditStoreModule,
-
         TranslateModule,
-
         CdkSharedModule,
         CdkSidebarModule,
     ],
