@@ -4,6 +4,9 @@ import { CdkClassificacaoTreeComponent } from './cdk-classificacao-tree.componen
 import {MatTreeModule} from '@angular/material/tree';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 
 
@@ -16,7 +19,10 @@ import {MatButtonModule} from '@angular/material/button';
         CommonModule,
         MatTreeModule,
         MatIconModule,
-        MatButtonModule
+        MatButtonModule,
+        MatProgressBarModule,
+        MatCheckboxModule,
+        MatProgressSpinnerModule
     ]
 })
 export class CdkClassificacaoTreeModule {

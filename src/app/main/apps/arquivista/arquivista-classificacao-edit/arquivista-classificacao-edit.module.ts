@@ -4,6 +4,7 @@ import {ArquivistaClassificacaoEditComponent} from './arquivista-classificacao-e
 import {CdkClassificacaoTreeModule} from '../../../../../@cdk/components/classificacao/cdk-classificacao-tree/cdk-classificacao-tree.module';
 import {StoreArquivistaClassificacaoModule} from './store/store.module';
 import {ClassificacaoService} from '../../../../../@cdk/services/classificacao.service';
+import {CdkClassificacaoTreeService} from '../../../../../@cdk/components/classificacao/cdk-classificacao-tree/services/cdk-classificacao-tree.service';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import {ClassificacaoService} from '../../../../../@cdk/services/classificacao.s
         StoreArquivistaClassificacaoModule
     ],
     providers: [
-        ClassificacaoService
+        ClassificacaoService,
+        CdkClassificacaoTreeService
     ]
 })
 export class ArquivistaClassificacaoEditModule {
