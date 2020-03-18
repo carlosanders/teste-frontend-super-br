@@ -5,6 +5,7 @@ import { CdkInnerScrollDirective } from '@cdk/directives/cdk-inner-scroll/cdk-in
 import { CdkPerfectScrollbarDirective } from '@cdk/directives/cdk-perfect-scrollbar/cdk-perfect-scrollbar.directive';
 import { CdkMatSidenavHelperDirective, CdkMatSidenavTogglerDirective } from '@cdk/directives/cdk-mat-sidenav/cdk-mat-sidenav.directive';
 import { ShowIfRoleDirective } from './show-if-role.directive';
+import {ShowIfNotRoleDirective} from './show-if-not-role.directive';
 
 @NgModule({
     declarations: [
@@ -13,7 +14,8 @@ import { ShowIfRoleDirective } from './show-if-role.directive';
         CdkMatSidenavHelperDirective,
         CdkMatSidenavTogglerDirective,
         CdkPerfectScrollbarDirective,
-        ShowIfRoleDirective
+        ShowIfRoleDirective,
+        ShowIfNotRoleDirective
     ],
     imports     : [],
     exports     : [

@@ -1,7 +1,7 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, EventEmitter,
+    Component, EventEmitter, Input,
     OnInit, Output,
     ViewEncapsulation
 } from '@angular/core';
@@ -25,6 +25,9 @@ export class CdkDocumentoGridFilterComponent implements OnInit {
     form: FormGroup;
 
     filters: any = {};
+
+    @Input()
+    mode = 'list';
 
     /**
      * Constructor

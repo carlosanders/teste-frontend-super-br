@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Output, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEncapsulation} from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 
 @Component({
@@ -14,6 +14,9 @@ export class CdkDocumentoMainSidebarComponent {
     selected = new EventEmitter<any>();
 
     gridFilter: any;
+
+    @Input()
+    mode = 'list';
 
     setGridFilter(gridFilter): void {
         this.gridFilter = gridFilter;
