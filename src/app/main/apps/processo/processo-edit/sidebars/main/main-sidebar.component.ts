@@ -99,6 +99,10 @@ export class ProcessoEditMainSidebarComponent implements OnInit, OnDestroy {
             {
                 nome: 'Restrições de Acessos',
                 link: 'acessos'
+            },
+            {
+                nome: 'Relevâncias',
+                link: 'relevancias'
             }
         ];
 
