@@ -35,7 +35,7 @@ export class RelevanciaEditComponent implements OnInit, OnDestroy {
     processo$: Observable<Processo>;
     processo: Processo;
 
-    modalidadeRelevanciaPagination: Pagination;
+    especieRelevanciaPagination: Pagination;
 
     /**
      * @param _store
@@ -48,8 +48,8 @@ export class RelevanciaEditComponent implements OnInit, OnDestroy {
         this.relevancia$ = this._store.pipe(select(fromStore.getRelevancia));
         this.processo$ = this._store.pipe(select(getProcesso));
 
-        this.modalidadeRelevanciaPagination = new Pagination();
-        //this.modalidadeRelevanciaPagination.populate = ['parent'];
+        this.especieRelevanciaPagination = new Pagination();
+        this.especieRelevanciaPagination.populate = ['parent'];
     }
 
     // -----------------------------------------------------------------------------------------------------
