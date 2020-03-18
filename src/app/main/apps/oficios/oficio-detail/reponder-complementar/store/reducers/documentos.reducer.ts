@@ -26,7 +26,7 @@ export function DocumentosReducer(
             return {
                 ...state,
                 documentosId: action.payload.entitiesId,
-                documentosLoaded: action.payload.loaded
+                documentosLoaded: action.payload.loaded,
             };
         }
 

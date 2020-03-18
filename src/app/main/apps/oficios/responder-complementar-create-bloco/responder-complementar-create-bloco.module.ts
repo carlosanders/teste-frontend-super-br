@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import { NgModule } from '@angular/core';
 import {
     MatAutocompleteModule,
     MatButtonModule,
@@ -13,27 +13,27 @@ import {
     MatDatepickerModule,
     MatProgressSpinnerModule, MatTooltipModule, MatListModule
 } from '@cdk/angular/material';
-import {TranslateModule} from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 
-import {CdkSharedModule} from '@cdk/shared.module';
-import {CdkSidebarModule} from '@cdk/components';
+import { CdkSharedModule } from '@cdk/shared.module';
+import { CdkSidebarModule } from '@cdk/components';
 
-import {UploadBlocoComponent} from './upload-bloco.component';
-import {RouterModule, Routes} from '@angular/router';
-import {AtividadeService} from '@cdk/services/atividade.service';
-import {LoginService} from 'app/main/auth/login/login.service';
-import {CdkComponenteDigitalCardListModule} from '@cdk/components/componente-digital/cdk-componente-digital-card-list/cdk-componente-digital-card-list.module';
+import { ResponderComplementarCreateBlocoComponent } from './responder-complementar-create-bloco.component';
+import { RouterModule, Routes } from '@angular/router';
+import { AtividadeService } from '@cdk/services/atividade.service';
+import { LoginService } from 'app/main/auth/login/login.service';
+import { CdkComponenteDigitalCardListModule } from '@cdk/components/componente-digital/cdk-componente-digital-card-list/cdk-componente-digital-card-list.module';
 
 const routes: Routes = [
     {
         path: '',
-        component: UploadBlocoComponent
+        component: ResponderComplementarCreateBlocoComponent
     }
 ];
 
 @NgModule({
     declarations: [
-        UploadBlocoComponent
+        ResponderComplementarCreateBlocoComponent
     ],
     imports: [
 
@@ -66,5 +66,5 @@ const routes: Routes = [
         LoginService,
     ]
 })
-export class UploadBlocoModule {
+export class ResponderComplementarCreateBlocoModule {
 }

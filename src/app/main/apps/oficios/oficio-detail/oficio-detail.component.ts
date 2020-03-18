@@ -11,9 +11,9 @@ import { Observable, Subject } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import * as fromStore from './store';
 import { Etiqueta, VinculacaoEtiqueta, Documento, Usuario, DocumentoAvulso } from '@cdk/models';
-import { CreateVinculacaoEtiqueta, DeleteVinculacaoEtiqueta } from './store';
+import { CreateVinculacaoEtiqueta, DeleteVinculacaoEtiqueta, SaveConteudoVinculacaoEtiqueta } from './store';
 import { getMaximizado } from '../store/selectors';
-import {GetDocumentosAvulso, ToggleMaximizado} from '../store/actions';
+import { ToggleMaximizado } from '../store/actions';
 import { Router } from '@angular/router';
 import { getRouterState } from '../../../../store/reducers';
 import { takeUntil } from 'rxjs/operators';
@@ -34,6 +34,9 @@ import { modulesConfig } from 'modules/modules-config';
 export class OficioDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
     private _unsubscribeAll: Subject<any> = new Subject();
+
+    savingVincEtiquetaId$: Observable<any>;
+    errors$: Observable<any>;
 
     documentoAvulso$: Observable<DocumentoAvulso>;
     documentoAvulso: DocumentoAvulso;
@@ -183,6 +186,15 @@ export class OficioDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
     onEtiquetaCreate(etiqueta: Etiqueta): void {
         this._store.dispatch(new CreateVinculacaoEtiqueta({documentoAvulso: this.documentoAvulso, etiqueta: etiqueta}));
+    }
+
+    onEtiquetaEdit(values): void {
+        const vinculacaoEtiqueta = new VinculacaoEtiqueta();
+        vinculacaoEtiqueta.id = values.id;
+        this._store.dispatch(new SaveConteudoVinculacaoEtiqueta({
+            vinculacaoEtiqueta: vinculacaoEtiqueta,
+            changes: {conteudo: values.conteudo}
+        }));
     }
 
     onEtiquetaDelete(vinculacaoEtiqueta: VinculacaoEtiqueta): void {

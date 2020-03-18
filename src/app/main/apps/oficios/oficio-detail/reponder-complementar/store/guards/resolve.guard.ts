@@ -1,15 +1,15 @@
-import {Injectable} from '@angular/core';
-import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from '@angular/router';
+import { Injectable } from '@angular/core';
+import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot } from '@angular/router';
 
-import {select, Store} from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 
-import {Observable, of} from 'rxjs';
-import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { switchMap, catchError, tap, take, filter } from 'rxjs/operators';
 
-import {DocumentosState} from '../reducers';
-import * as fromStore from 'app/main/apps/tarefas/tarefa-detail/atividades/atividade-create/store';
-import {getRouterState} from 'app/store/reducers';
-import {getDocumentosHasLoaded} from '../selectors';
+import { DocumentosState } from '../reducers';
+import { getRouterState } from 'app/store/reducers';
+import { getDocumentosHasLoaded } from '../selectors';
+import * as fromStore from 'app/main/apps/oficios/oficio-detail/reponder-complementar/store';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {

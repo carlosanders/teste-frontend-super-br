@@ -7,7 +7,7 @@ export interface AtividadeCreateBlocoAppState
 }
 
 export const getAtividadeCreateBlocoAppState = createFeatureSelector<AtividadeCreateBlocoAppState>(
-    'upload-bloco-app'
+    'responder-complementar-create-bloco-app'
 );
 
 export const getAppState = createSelector(

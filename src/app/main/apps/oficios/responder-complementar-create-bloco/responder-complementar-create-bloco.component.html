@@ -3,18 +3,18 @@
 
     <h2>Upload em bloco de minutas</h2>
 
-    <h3>{{tarefaPrincipal ? 1 + tarefasBloco.length : 0}} tarefa(s) selecionada(s) </h3>
+    <h3>{{documentoAvulsoPrincipal ? 1 + documentosAvulsoBloco.length : 0}} ofício(s) selecionada(s) </h3>
 
     <button mat-mini-fab
             class="m-4 active accent"
-            [disabled]="!tarefaPrincipal"
+            [disabled]="!documentoAvulsoPrincipal"
             (click)="upload()" aria-label="upload">
         <mat-icon class="secondary-text">attach_file</mat-icon>
     </button>
 
     <cdk-componente-digital-card-list #ckdUpload
-                                      [tarefaOrigem]="tarefaPrincipal"
-                                      [tarefaOrigemBloco]="tarefasBloco"
+                                      [tarefaOrigem]="documentoAvulsoPrincipal"
+                                      [tarefaOrigemBloco]="documentosAvulsoBloco"
                                       (complete)="onComplete($event)">
     </cdk-componente-digital-card-list>
 

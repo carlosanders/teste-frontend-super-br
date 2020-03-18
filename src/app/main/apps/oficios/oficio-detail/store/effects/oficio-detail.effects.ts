@@ -13,7 +13,7 @@ import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
 import {Router} from '@angular/router';
 import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
 import {VinculacaoEtiqueta} from '@cdk/models/vinculacao-etiqueta.model';
-import {AddChildData, AddData, RemoveChildData} from '@cdk/ngrx-normalizr';
+import {AddChildData, AddData, RemoveChildData, UpdateData} from '@cdk/ngrx-normalizr';
 import {vinculacaoEtiqueta as vinculacaoEtiquetaSchema} from '@cdk/normalizr/vinculacao-etiqueta.schema';
 import {documentoAvulso as documentoAvulsoSchema} from '@cdk/normalizr/documento-avulso.schema';
 import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
@@ -44,7 +44,7 @@ export class OficioDetailEffect {
     }
 
     /**
-     * Get Tarefa with router parameters
+     * Get Documento Avulso with router parameters
      * @type {Observable<any>}
      */
     @Effect()
@@ -69,7 +69,8 @@ export class OficioDetailEffect {
                             'setorOrigem',
                             'setorOrigem.unidade',
                             'vinculacoesEtiquetas',
-                            'vinculacoesEtiquetas.etiqueta'
+                            'vinculacoesEtiquetas.etiqueta',
+                            'documentoResposta'
                         ]),
                         JSON.stringify({chaveAcesso: `${this.routerState.params['chaveAcessoHandle']}`})
                     );
@@ -81,7 +82,7 @@ export class OficioDetailEffect {
                             id: 'documentoAvulsoHandle',
                             value: this.routerState.params.documentoAvulsoHandle
                         },
-                        tarefa: response['entities'][0]
+                        documentoAvulso: response['entities'][0]
                     })
                 ]),
                 catchError((err, caught) => {
@@ -92,7 +93,7 @@ export class OficioDetailEffect {
             );
 
     /**
-     * Deselect Tarefa Action
+     * Deselect Documento Avulso Action
      */
     @Effect({dispatch: false})
     deselectDocumentoAvulsoAction =
@@ -169,6 +170,34 @@ export class OficioDetailEffect {
                         );
                     }
                 ));
+
+
+    /**
+     * Save conteúdo vinculação etiqueta
+     * @type {Observable<any>}
+     */
+    @Effect()
+    SaveConteudoVinculacaoEtiqueta: any =
+        this._actions
+            .pipe(
+                ofType<DocumentoAvulsoDetailActions.SaveConteudoVinculacaoEtiqueta>(DocumentoAvulsoDetailActions.SAVE_CONTEUDO_VINCULACAO_ETIQUETA),
+                mergeMap((action) => {
+                    return this._vinculacaoEtiquetaService.patch(action.payload.vinculacaoEtiqueta, action.payload.changes).pipe(
+                        mergeMap((response) => [
+                            new DocumentoAvulsoDetailActions.SaveConteudoVinculacaoEtiquetaSuccess(response.id),
+                            new UpdateData<VinculacaoEtiqueta>({
+                                id: response.id,
+                                schema: vinculacaoEtiquetaSchema,
+                                changes: {conteudo: response.conteudo}
+                            })
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            return of(new DocumentoAvulsoDetailActions.SaveConteudoVinculacaoEtiquetaFailed(err));
+                        })
+                    );
+                })
+            );
 
     /**
      * Get Documentos with router parameters

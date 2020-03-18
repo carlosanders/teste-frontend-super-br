@@ -18,6 +18,9 @@
             <cdk-vinculacao-etiqueta-chips class="mr-24 ml-24"
                                            [vinculacoesEtiquetas]="(documentoAvulso$ | async).vinculacoesEtiquetas"
                                            (create)="onEtiquetaCreate($event)"
+                                           (edit)="onEtiquetaEdit($event)"
+                                           [savingVincEtiquetaId]="(savingVincEtiquetaId$ | async)"
+                                           [errors]="(errors$ | async)"
                                            [pagination]="vinculacaoEtiquetaPagination"
                                            (delete)="onEtiquetaDelete($event)">
             </cdk-vinculacao-etiqueta-chips>

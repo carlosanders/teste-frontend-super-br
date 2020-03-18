@@ -8,21 +8,18 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {cdkAnimations} from '@cdk/animations';
-import {Observable, Subject} from 'rxjs';
-
-import {Atividade} from '@cdk/models/atividade.model';
-import {select, Store} from '@ngrx/store';
+import { cdkAnimations } from '@cdk/animations';
+import { Observable, Subject } from 'rxjs';
+import { select, Store } from '@ngrx/store';
 
 import * as fromStore from './store';
-import {LoginService} from 'app/main/auth/login/login.service';
-import {filter, takeUntil} from 'rxjs/operators';
-import {Documento} from '@cdk/models/documento.model';
-import {getRouterState} from 'app/store/reducers';
-import {Router} from '@angular/router';
-import {Colaborador} from '../../../../../../@cdk/models/colaborador.model';
-import {DocumentoAvulso, Usuario} from '../../../../../../@cdk/models';
-import {getDocumentoAvulso} from '../store/selectors';
+import { LoginService } from 'app/main/auth/login/login.service';
+import { filter, takeUntil } from 'rxjs/operators';
+import { Documento } from '@cdk/models/documento.model';
+import { getRouterState } from 'app/store/reducers';
+import { Router } from '@angular/router';
+import { DocumentoAvulso, Usuario } from '../../../../../../@cdk/models';
+import { getDocumentoAvulso } from '../store/selectors';
 
 
 @Component({
@@ -105,6 +102,12 @@ export class ResponderComplementarComponent implements OnInit, OnDestroy {
             this.chaveAcesso = routerState.state.params['chaveAcessoHandle'];
         });
 
+        this.routerState$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(routerState => {
+            this.documentoOrigem = routerState.state.params['documentoAvulsoHandle'];
+        });
+
         this.documentoAvulso$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(documentoAvulso => {
@@ -134,10 +137,6 @@ export class ResponderComplementarComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
-    }
-
-    getDocumentoOrigem(): void {
-        this.documentoOrigem = this.routerState.params.documentoAvulsoHandle;
     }
 
     // -----------------------------------------------------------------------------------------------------
