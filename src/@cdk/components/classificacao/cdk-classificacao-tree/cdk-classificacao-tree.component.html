@@ -5,34 +5,26 @@
           name="form" [formGroup]="formPesquisa" (submit)="pesquisa()">
 
         <div class="title">
-            <h2>ALTERAR CLASSIFICAÇÃO</h2>
+            <h2>CLASSIFICAÇÕES</h2>
         </div>
-
-        <mat-form-field fxFlex="100">
+        <mat-form-field id="pesquisa">
             <mat-label>Pesquisa</mat-label>
             <div fxLayout="row" fxLayoutAlign="start center">
                 <input matInput placeholder="Pesquisar" formControlName="pesquisa" maxlength="100" required upperCase>
             </div>
+            <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+                 fxLayoutAlign="center center">
+                <mat-spinner color="accent" diameter="24"></mat-spinner>
+            </div>
         </mat-form-field>
 
-        <div *ngIf="!pesquisando" fxLayout="row" class="" fxFlex
-             fxLayoutAlign="center center">
-            <button mat-raised-button color="accent" class="mr-sm-12"
-                    [disabled]="formPesquisa.invalid">
-                PESQUISAR
-            </button>
-        </div>
-
-        <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-             fxLayoutAlign="center center">
-            <mat-spinner color="accent" diameter="24"></mat-spinner>
-        </div>
     </form>
 
     <form class="p-16" fxLayoutGap="36px"
           fxLayout="column"
           fxLayoutAlign="start"
           name="form" [formGroup]="formClassificacao" (submit)="submit()">
+        <mat-label>Arvore</mat-label>
         <div cdkPerfectScrollbar class="tree">
             <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
                 <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>
@@ -41,6 +33,12 @@
                     <!--                      [checked]="checklistSelection.isSelected(node)"-->
                     <!--                      (change)="todoLeafItemSelectionToggle(node)">{{node.name}}</mat-checkbox>-->
                     {{node.name}}
+                    <button *ngIf="!node.isLoading" mat-icon-button
+                            (click)="setInputClassificacao(node)"
+                            aria-label="selecionar"
+                            matTooltip="Selecionar">
+                        <mat-icon>keyboard_return</mat-icon>
+                    </button>
                 </mat-tree-node>
                 <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
                     <button mat-icon-button matTreeNodeToggle
@@ -61,22 +59,30 @@
                     <mat-progress-bar *ngIf="node.isLoading"
                                       mode="indeterminate"
                                       class="example-tree-progress-bar"></mat-progress-bar>
+                    <button *ngIf="!node.isLoading" mat-icon-button
+                            (click)="setInputClassificacao(node)"
+                            aria-label="selecionar"
+                            matTooltip="Selecionar">
+                        <mat-icon>keyboard_return</mat-icon>
+                    </button>
                 </mat-tree-node>
             </mat-tree>
         </div>
+        <div>
+            <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+                 fxLayoutAlign="center center">
+                <button mat-raised-button color="accent" class="mr-sm-12"
+                        [disabled]="formClassificacao.invalid">
+                    ALTERAR CLASSIFICAÇÃO
+                </button>
+            </div>
 
-        <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-             fxLayoutAlign="center center">
-            <button mat-raised-button color="accent" class="mr-sm-12"
-                    [disabled]="formClassificacao.invalid">
-                ALTERAR CLASSIFICAÇÃO
-            </button>
+            <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+                 fxLayoutAlign="center center">
+                <mat-spinner color="accent" diameter="24"></mat-spinner>
+            </div>
         </div>
 
-        <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-             fxLayoutAlign="center center">
-            <mat-spinner color="accent" diameter="24"></mat-spinner>
-        </div>
 
     </form>
 </div>

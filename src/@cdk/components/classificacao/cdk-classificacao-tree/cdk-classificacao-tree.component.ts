@@ -244,7 +244,8 @@ export class CdkClassificacaoTreeComponent {
 
         const params = {
             filter: {
-                parent: parent
+                parent: parent,
+                permissaoUso: 'eq:1'
             },
             sort: {
                 nome: 'ASC'
@@ -273,7 +274,12 @@ export class CdkClassificacaoTreeComponent {
 
     }
 
-    pesquisa() {
+    pesquisa(): void {
 
+    }
+
+
+    setInputClassificacao(node: FlatNode): void {
+        this.formClassificacao.get('classificacao').setValue(node.id);
     }
 }
