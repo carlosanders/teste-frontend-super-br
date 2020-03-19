@@ -6,11 +6,12 @@ import {
 
 import {cdkAnimations} from '@cdk/animations';
 import {select, Store} from '@ngrx/store';
-import * as fromStore from 'app/store';
+import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
-import {Subject} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
+import {Setor, Usuario} from '@cdk/models';
 
 @Component({
     selector: 'admin-lotacoes',
@@ -24,7 +25,13 @@ export class AdminLotacoesComponent implements OnInit, OnDestroy {
 
     private _unsubscribeAll: Subject<any> = new Subject();
 
+    setor$: Observable<Setor>;
+    setor: Setor;
+    usuario$: Observable<Usuario>;
+    usuario: Usuario;
+
     action = '';
+    entidade = '';
     routerState: any;
 
     /**
@@ -34,10 +41,13 @@ export class AdminLotacoesComponent implements OnInit, OnDestroy {
      * @param _router
      */
     constructor(
-        private _store: Store<fromStore.State>,
+        private _store: Store<fromStore.LotacoesState>,
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router
-    ) {}
+    ) {
+        this.usuario$ = this._store.pipe(select(fromStore.getUsuario));
+        this.setor$ = this._store.pipe(select(fromStore.getSetor));
+    }
 
     /**
      * On init
@@ -62,12 +72,26 @@ export class AdminLotacoesComponent implements OnInit, OnDestroy {
                 this._changeDetectorRef.markForCheck();
             }
         });
+
+        this.usuario$.subscribe(usuario => this.usuario = usuario);
+        this.setor$.subscribe(setor => this.setor = setor);
     }
 
     ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
+    }
+
+    getTitulo(): string {
+        this.entidade = this.setor ? this.setor.nome : this.usuario.nome;
+        if (this.action === 'listar') {
+            return 'Lotações - ' + this.entidade;
+        } else if (this.action === 'criar') {
+            return 'Nova Lotação - ' + this.entidade;
+        } else if (this.action === 'editar') {
+            return 'Alterar Lotação - ' + this.entidade;
+        }
     }
 
     goBack(): void {

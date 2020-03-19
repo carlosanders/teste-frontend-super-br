@@ -1,0 +1,20 @@
+@mixin ajuda-theme($theme) {
+
+    $background: map-get($theme, background);
+    $foreground: map-get($theme, foreground);
+    $accent: map-get($theme, accent);
+    $warn: map-get($theme, warn);
+    $is-dark: map-get($theme, is-dark);
+
+    ajuda {
+
+        .ajuda-header {
+            @if ($is-dark) {
+                background-color: #353535;
+            } @else {
+                background-color:map-get($accent, card);
+                color: map-get($foreground, primary-text);
+            }
+        }
+    }
+}

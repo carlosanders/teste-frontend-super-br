@@ -4,7 +4,8 @@
     <cdk-sidebar class="sidebar" name="cdk-notificacao-main-sidebar" position="left">
         <!-- SIDEBAR CONTENT -->
         <div class="content" cdkPerfectScrollbar>
-            <cdk-notificacao-main-sidebar (selected)="setGridFilter($event)" [@animate]="{value:'*'}"></cdk-notificacao-main-sidebar>
+            <cdk-notificacao-main-sidebar (selected)="setGridFilter($event)"
+                                          [@animate]="{value:'*'}"></cdk-notificacao-main-sidebar>
         </div>
         <!-- / SIDEBAR CONTENT -->
     </cdk-sidebar>
@@ -57,6 +58,7 @@
         </div>
 
         <div fxFlex="1 1 auto" fxLayout="column" cdkPerfectScrollbar>
+
             <table mat-table [dataSource]="dataSource" matSort [hidden]="loading">
 
                 <!-- Selection Column -->
@@ -94,7 +96,8 @@
                 </ng-container>
 
                 <!-- Nome Destinatario Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('destinatario.nome') > -1" matColumnDef="destinatario.nome">
+                <ng-container *ngIf="displayedColumns.indexOf('destinatario.nome') > -1"
+                              matColumnDef="destinatario.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Destinatário
                     </th>
@@ -103,7 +106,8 @@
                 </ng-container>
 
                 <!-- Modalidade Notificacao Notificacao Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('modalidadeNotificacao.valor') > -1" matColumnDef="modalidadeNotificacao.valor">
+                <ng-container *ngIf="displayedColumns.indexOf('modalidadeNotificacao.valor') > -1"
+                              matColumnDef="modalidadeNotificacao.valor">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Modalidade
                     </th>
@@ -112,7 +116,8 @@
                 </ng-container>
 
                 <!-- DataHoraExpiracao Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('dataHoraExpiracao') > -1" matColumnDef="dataHoraExpiracao">
+                <ng-container *ngIf="displayedColumns.indexOf('dataHoraExpiracao') > -1"
+                              matColumnDef="dataHoraExpiracao">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Data Expiração
                     </th>
@@ -125,7 +130,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Data da Leitura
                     </th>
-                    <td mat-cell *matCellDef="let notificacao" class='has_label_on_mobile' data-label='Data da Leitura: '
+                    <td mat-cell *matCellDef="let notificacao" class='has_label_on_mobile'
+                        data-label='Data da Leitura: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(notificacao.id) > -1}"> {{notificacao.dataHoraLeitura | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
@@ -168,7 +174,8 @@
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1" matColumnDef="atualizadoPor.nome">
+                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1"
+                              matColumnDef="atualizadoPor.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Atualizado Por
                     </th>
@@ -225,6 +232,15 @@
                             <mat-icon>edit</mat-icon>
                         </button>
 
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('toggleLida') > -1"
+                                [disabled]="deletedIds?.indexOf(notificacao.id) > -1 || notificacao.dataHoraLeitura"
+                                (click)="toggleLidaNotificacao(notificacao)"
+                                aria-label="marcar como lida"
+                                [matTooltip]="!notificacao.dataHoraLeitura ? 'Marcar como lida' : 'Lido'">
+                            <mat-icon *ngIf="!notificacao.dataHoraLeitura">toggle_off</mat-icon>
+                            <mat-icon *ngIf="notificacao.dataHoraLeitura">toggle_on</mat-icon>
+                        </button>
 
                         <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(notificacao.id) > -1">
                             <mat-spinner diameter="24"></mat-spinner>

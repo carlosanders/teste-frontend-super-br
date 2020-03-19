@@ -6,11 +6,12 @@ import {
 
 import {cdkAnimations} from '@cdk/animations';
 import {select, Store} from '@ngrx/store';
-import * as fromStore from 'app/store';
+import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
-import {Subject} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
+import {Usuario} from '@cdk/models';
 
 @Component({
     selector: 'admin-afastamentos',
@@ -24,6 +25,8 @@ export class AdminAfastamentosComponent implements OnInit, OnDestroy {
 
     private _unsubscribeAll: Subject<any> = new Subject();
 
+    usuario$: Observable<Usuario>;
+
     action = '';
     routerState: any;
 
@@ -34,7 +37,7 @@ export class AdminAfastamentosComponent implements OnInit, OnDestroy {
      * @param _router
      */
     constructor(
-        private _store: Store<fromStore.State>,
+        private _store: Store<fromStore.AfastamentosState>,
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router
     ) {}
@@ -62,12 +65,24 @@ export class AdminAfastamentosComponent implements OnInit, OnDestroy {
                 this._changeDetectorRef.markForCheck();
             }
         });
+
+        this.usuario$ = this._store.pipe(select(fromStore.getUsuario));
     }
 
     ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
+    }
+
+    getTitulo(): string {
+        if (this.action === 'listar') {
+            return 'Afastamentos';
+        } else if (this.action === 'criar') {
+            return 'Novo Afastamento';
+        } else if (this.action === 'editar') {
+            return 'Alterar Afastamento';
+        }
     }
 
     goBack(): void {

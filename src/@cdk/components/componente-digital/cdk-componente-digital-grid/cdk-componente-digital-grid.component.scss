@@ -13,16 +13,36 @@ cdk-componente-digital-grid {
 
     }
 
-    .mat-column-select {
-        overflow: initial;
-    }
-
-    table {
+    .content {
         width: 100%;
 
-        td {
-            &.deleted {
-                text-decoration: line-through;
+        &.search {
+            padding: 16px;
+        }
+
+        .actions {
+            width: 100%;
+
+            .back {
+                margin-right: auto;
+            }
+        }
+
+        .mat-column-select {
+            overflow: initial;
+        }
+
+        table {
+            width: 100%;
+
+            tr {
+                height: auto;
+            }
+
+            td {
+                &.deleted {
+                    text-decoration: line-through;
+                }
             }
         }
     }
@@ -104,20 +124,4 @@ cdk-componente-digital-grid {
             margin-top: 24px;
         }
     }
-
-    .content {
-        width: 100%;
-
-        .actions {
-            width: 100%;
-
-            .back {
-                margin-right: auto;
-            }
-        }
-    }
-}
-
-.locked-open {
-    float: left;
 }

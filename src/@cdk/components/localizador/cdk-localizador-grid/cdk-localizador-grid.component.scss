@@ -1,4 +1,4 @@
-@import "src/@cdk/scss/cdk";
+@import "../../../scss/cdk";
 
 cdk-localizador-grid {
 
@@ -10,6 +10,7 @@ cdk-localizador-grid {
         .mat-select-value {
             display: none !important;
         }
+
     }
 
     .content {
@@ -40,7 +41,6 @@ cdk-localizador-grid {
                 }
             }
         }
-
     }
 
     .mat-form-field {

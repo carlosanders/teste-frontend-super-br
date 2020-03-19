@@ -13,7 +13,7 @@
     <!-- / SIDEBAR -->
 
     <!-- CONTENT -->
-    <div class="content responsive-grid" fxFlex fxLayout="column">
+    <div class="content responsive-grid" [ngClass]="{'search': (this.mode == 'search')}" fxFlex fxLayout="column">
 
         <div class="actions" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="end center">
 
@@ -47,7 +47,7 @@
             </button>
 
             <button class="toggle-filter" [ngClass]="{'warn': (gridFilter | json) != '{}'}" mat-icon-button
-                    *showIfRole="'ROLE_COLABORADOR'"
+                    *ngIf="mode === 'list'"
                     (click)="toggleFilter()"
                     aria-label="filtrar"
                     matTooltip="Filtrar">
