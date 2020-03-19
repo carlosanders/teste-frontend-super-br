@@ -4,7 +4,8 @@
     <cdk-sidebar class="sidebar" name="cdk-tramitacao-main-sidebar" position="left">
         <!-- SIDEBAR CONTENT -->
         <div class="content" cdkPerfectScrollbar>
-            <cdk-tramitacao-main-sidebar (selected)="setGridFilter($event)" [@animate]="{value:'*'}"></cdk-tramitacao-main-sidebar>
+            <cdk-tramitacao-main-sidebar (selected)="setGridFilter($event)"
+                                         [@animate]="{value:'*'}"></cdk-tramitacao-main-sidebar>
         </div>
         <!-- / SIDEBAR CONTENT -->
     </cdk-sidebar>
@@ -118,29 +119,35 @@
                 </ng-container>
 
                 <!-- SetorDestino Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('setorDestino.nome') > -1" matColumnDef="setorDestino.nome">
+                <ng-container *ngIf="displayedColumns.indexOf('setorDestino.nome') > -1"
+                              matColumnDef="setorDestino.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Setor de Destino
                     </th>
-                    <td mat-cell *matCellDef="let tramitacao" class='has_label_on_mobile' data-label='Setor de Destino: '
+                    <td mat-cell *matCellDef="let tramitacao" class='has_label_on_mobile'
+                        data-label='Setor de Destino: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(tramitacao.id) > -1}"> {{tramitacao.setorDestino?.nome}} </td>
                 </ng-container>
 
                 <!-- DataHoraRecebimento Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('dataHoraRecebimento') > -1" matColumnDef="dataHoraRecebimento">
+                <ng-container *ngIf="displayedColumns.indexOf('dataHoraRecebimento') > -1"
+                              matColumnDef="dataHoraRecebimento">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Data de Recebimento
                     </th>
-                    <td mat-cell *matCellDef="let tramitacao" class='has_label_on_mobile' data-label='Data de Recebimento: '
+                    <td mat-cell *matCellDef="let tramitacao" class='has_label_on_mobile'
+                        data-label='Data de Recebimento: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(tramitacao.id) > -1}"> {{tramitacao.dataHoraRecebimento | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- UsuarioRecebimento Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('usuarioRecebimento.nome') > -1" matColumnDef="usuarioRecebimento.nome">
+                <ng-container *ngIf="displayedColumns.indexOf('usuarioRecebimento.nome') > -1"
+                              matColumnDef="usuarioRecebimento.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Usuário Recebimento
                     </th>
-                    <td mat-cell *matCellDef="let tramitacao" class='has_label_on_mobile' data-label='Usuário Recebimento: '
+                    <td mat-cell *matCellDef="let tramitacao" class='has_label_on_mobile'
+                        data-label='Usuário Recebimento: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(tramitacao.id) > -1}"> {{tramitacao.usuarioRecebimento?.nome}} </td>
                 </ng-container>
 
@@ -154,7 +161,8 @@
                 </ng-container>
 
                 <!-- PessoaDestino Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('pessoaDestino.nome') > -1" matColumnDef="pessoaDestino.nome">
+                <ng-container *ngIf="displayedColumns.indexOf('pessoaDestino.nome') > -1"
+                              matColumnDef="pessoaDestino.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Pessoa Destino
                     </th>
@@ -181,7 +189,8 @@
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1" matColumnDef="atualizadoPor.nome">
+                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1"
+                              matColumnDef="atualizadoPor.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Atualizado Por
                     </th>

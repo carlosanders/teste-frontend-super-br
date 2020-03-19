@@ -3,8 +3,10 @@
     <!-- CONTENT -->
     <div class="content responsive-grid" fxFlex fxLayout="column">
 
-        <div fxFlex="1 1 auto" fxLayout="row" fxLayoutAlign="center center" *ngIf="loading">
-            <mat-spinner diameter="32"></mat-spinner>
+        <div class="actions" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="end center">
+            <div fxFlex="1 1 auto" fxLayout="row" fxLayoutAlign="center center" *ngIf="loading">
+                <mat-spinner diameter="32"></mat-spinner>
+            </div>
         </div>
 
         <div fxFlex="1 1 auto" fxLayout="column" cdkPerfectScrollbar>
@@ -82,8 +84,9 @@
             </table>
         </div>
 
-        <mat-paginator [pageSizeOptions]="[5, 10]"></mat-paginator>
+        <div class="actions" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="center center">
+            <mat-paginator [pageSizeOptions]="[5, 10]"></mat-paginator>
+        </div>
 
     </div>
-
 </div>
