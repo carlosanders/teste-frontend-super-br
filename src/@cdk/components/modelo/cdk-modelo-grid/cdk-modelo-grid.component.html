@@ -132,6 +132,15 @@
                     [ngClass]="{'deleted':deletedIds?.indexOf(modelo.id) > -1}"> {{modelo.template?.nome}} </td>
             </ng-container>
 
+            <!-- Setor Column -->
+            <ng-container *ngIf="displayedColumns.indexOf('vinculacaoModelo.setor.nome') > -1" matColumnDef="vinculacaoModelo.setor.nome">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Template
+                </th>
+                <td mat-cell *matCellDef="let modelo" class='has_label_on_mobile' data-label='Template: '
+                    [ngClass]="{'deleted':deletedIds?.indexOf(modelo.id) > -1}"> {{vinculacaoModelo.setor?.nome}} </td>
+            </ng-container>
+
             <!-- Documento Column -->
             <ng-container *ngIf="displayedColumns.indexOf('documento.tipoDocumento.nome') > -1" matColumnDef="documento.tipoDocumento.nome">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
