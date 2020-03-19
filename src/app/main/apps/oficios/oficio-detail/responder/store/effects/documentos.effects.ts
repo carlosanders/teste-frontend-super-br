@@ -52,20 +52,15 @@ export class DocumentosEffects {
                 ofType<DocumentosActions.GetDocumentos>(DocumentosActions.GET_DOCUMENTOS),
                 switchMap(() => {
                     let documentoAvulsoId = null;
-                    let documentoId = null;
 
                     const routeParams = of('documentoAvulsoHandle');
                     routeParams.subscribe(param => {
                         documentoAvulsoId = `eq:${this.routerState.params[param]}`;
                     });
 
-                    if (this.routerState.params['oficioTargetHandle'] === 'saida') {
-                        documentoId = this.documentoAvulso.documentoResposta.id;
-                    }
-
                     const params = {
                         filter: {
-                            id: documentoId
+                            id: documentoAvulsoId
                         },
                         limit: 10,
                         offset: 0,
