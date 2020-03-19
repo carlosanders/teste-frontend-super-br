@@ -124,9 +124,11 @@
 
     </div>
 </div>
+<!-- ISSUE-107 -->
 <mat-expansion-panel
-    (opened)="doOpenPanel(tarefa);"
-    (click)="$event.stopPropagation();">
+    (click)="$event.stopPropagation();"
+    [expanded]="(tarefa.id === idTarefaToLoadAssuntos && isOpen)"
+    (afterExpand)="doOpenPanel(tarefa);">
     <mat-expansion-panel-header>
       Detalhes do processo
     </mat-expansion-panel-header>
@@ -135,7 +137,7 @@
     </div>
     <div [hidden]="loading">
         <span>Assuntos: </span>
-        <li *ngFor="let assunto of tarefa.processo?.assuntos">
+        <li *ngFor="let assunto of assuntos">
             {{assunto.assuntoAdministrativo.nome}}
         </li>
     </div>

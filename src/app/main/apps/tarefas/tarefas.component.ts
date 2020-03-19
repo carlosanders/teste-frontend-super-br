@@ -1,6 +1,3 @@
-import { getIsAssuntoPanelIsOpen } from './store/selectors/tarefas.selectors';
-import { SetLoadingAssuntos, SetAssuntosLoaded } from './store/actions/tarefas.actions';
-import { processo } from './../../../../@cdk/normalizr/processo.schema';
 import { PaginatedResponse } from '@cdk/models/paginated.response';
 
 import { getAssunto } from './../processo/processo-edit/assuntos/assunto-edit/store/selectors/assunto-edit.selectors';
@@ -102,10 +99,12 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     mobileMode = false;
 
     /*
-    * ISSUE-100
+    * ISSUE-107
     */
     assuntos: Assunto[] = [];
     assuntos$: Observable<Assunto[]>;
+    idTarefaToLoadAssuntos$: Observable<number>;
+    idTarefaToLoadAssuntos: number;
     assuntoService: AssuntoService;
     pagAssuntos : PaginatedResponse;
     bsAssuntos: BehaviorSubject<Assunto[]> = new BehaviorSubject([]);
@@ -135,7 +134,12 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         private _router: Router,
         private _store: Store<fromStore.TarefasAppState>,
         private _loginService: LoginService,
-        private _assuntoService: AssuntoService
+        private _assuntoService: AssuntoService,
+        /*
+         * ISSUE-107 
+         */
+        private _storeAssutos: Store<fromAssuntoStore.AssuntoListAppState>
+
     ) {
         // Set the defaults
         this.searchInput = new FormControl('');
@@ -160,8 +164,11 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         /*
          * ISSUE-107 
          */
+        this.assuntos = new Array();
         this.assuntoLoading$ = this._store.pipe(select(fromStore.getIsAssuntoLoading));
         this.assuntoPanelOpen$ = this._store.pipe(select(fromStore.getIsAssuntoPanelIsOpen));
+        this.assuntos$ = this._store.pipe(select(fromStore.getAssuntosTarefas));
+        this.idTarefaToLoadAssuntos$ = this._store.pipe(select(fromStore.getIdTarefaToLoadAssuntos));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -194,6 +201,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             filter(tarefas => !!tarefas)
         ).subscribe(tarefas => {
             this.tarefas = tarefas;
+            //console.log('tarefas: ', tarefas);
         });
 
         this.pagination$.pipe(
@@ -232,6 +240,19 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                 this.mobileMode = false;
             }
         });
+
+        /*
+        * ISSUE-107
+        */
+       this.assuntos$.pipe().subscribe(assuntos => {
+            this.assuntos = assuntos;
+        });
+
+        this.idTarefaToLoadAssuntos$.subscribe(id => {
+            this.idTarefaToLoadAssuntos = id;
+        });
+       
+       
     }
 
     ngAfterViewInit(): void {
@@ -425,10 +446,15 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/documento-avulso-bloco']).then();
     }
 
-    doLoadAssuntos(idProcesso): void {
+    /*
+    * Função que carrega os assuntos do processo associado à tarefa
+    * @tarefa
+    * Recebe a referencia da tarefa carregada no componente de lista de tarefas
+    */
+    doLoadAssuntos(tarefa): void {
 
         const processo = {
-            'processo.id' : 'eq:' + idProcesso.processo.id
+            'processo.id' : 'eq:' + tarefa.processo.id
         }
         
         const sort = {
@@ -447,51 +473,17 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         }
 
         const proc = {
-            proc: idProcesso.processo
+            proc: tarefa.processo
         }
 
         const params = {
             proc: proc,
-            srv: serviceParams
+            srv: serviceParams,
+            tarefa: tarefa.id
         }
-        
-        
-        this._store.dispatch(new fromStore.SetLoadingAssuntos());
-        this.tarefaToLoadAssuntos$ = this._store.pipe(select(fromStore.getTarefaToLoadAssuntos, idProcesso.id));
-        console.log(idProcesso.id);
-        this.tarefaToLoadAssuntos$.subscribe(t => {
-            console.log(t);
-        })
-        this._store.dispatch(
-            new fromStore.GetAssuntosProcessoTarefa(params));
-        
-        //if(idProcesso.processo.assuntos === null) {
-        //   
-        //    this._assuntoService.query(
-        //        "{\"processo.id\":\"eq:" + idProcesso.processo.id + "\"}",
-        //        10,
-        //        0,
-        //        "{\"principal\":\"DESC\",\"criadoEm\":\"DESC\"}",
-        //        "[\"populateAll\"]"
-        //    ).subscribe(ass => {
-        //        /*
-        //        this.bsAssuntos.next(ass.entities);
-        //        this.assuntos = ass.entities;
-        //        idProcesso.assuntos = ass;
-        //       console.log(this.bsAssuntos.value);
-        //        */
-        //        idProcesso.processo.assuntos = ass.entities;
-        //        
-        //        this._store.dispatch(new fromStore.SetAssuntosLoaded);
-        //    });
-        //
-        //    
-        //   
-        //} else {
-        //    this._store.dispatch(new fromStore.SetAssuntosLoaded);
-        //}
 
-        //this._store.dispatch(new fromStore.SetAssuntosLoaded);
+        this._store.dispatch(new fromStore.GetAssuntosProcessoTarefa(params));
+        
     }   
 
 }

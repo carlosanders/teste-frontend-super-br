@@ -5,7 +5,11 @@ import { createSchemaSelectors } from '@cdk/ngrx-normalizr';
 import { tarefa as tarefaSchema } from '@cdk/normalizr/tarefa.schema';
 import {Tarefa} from '@cdk/models';
 
+import {Assunto} from '@cdk/models';
+import { assunto as assuntoSchema } from '@cdk/normalizr/assunto.schema';
+
 const schemaSelectors = createSchemaSelectors<Tarefa>(tarefaSchema);
+const schemaAssuntoSelectors = createSchemaSelectors<Assunto>(assuntoSchema);
 
 export const getTarefasState = createSelector(
     getTarefasAppState,
@@ -77,7 +81,20 @@ export const getIsAssuntoPanelIsOpen = createSelector(
     (state: TarefasState) => state.assuntoPanelOpen
 );
 
-export const getTarefaToLoadAssuntos = createSelector (
-    schemaSelectors.getNormalizedEntities,
-    (tarefas, tarefaId: number): Tarefa => tarefas[tarefaId]
+export const getAssuntosTarefasIds = createSelector(
+    getTarefasState,
+    (state: TarefasState) => state.assuntosId
 );
+
+export const getAssuntosTarefas = createSelector(
+    schemaAssuntoSelectors.getNormalizedEntities,
+    getAssuntosTarefasIds,
+    schemaAssuntoSelectors.entitiesProjector
+);
+
+export const getIdTarefaToLoadAssuntos = createSelector(
+    getTarefasState,
+    (state: TarefasState) => state.idTarefaToLoadAssuntos
+);
+
+

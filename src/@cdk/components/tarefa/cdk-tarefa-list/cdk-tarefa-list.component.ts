@@ -122,13 +122,13 @@ export class CdkTarefaListComponent implements AfterViewInit, OnInit, OnChanges 
     idProcesso = new EventEmitter<any>();
 
     @Input()
-    bsAssuntos: BehaviorSubject<Assunto[]>;
-
-    @Input()
-    pagAssuntos: PaginatedResponse;
-
-    @Input()
     loadingAssunto: boolean;
+
+    @Input()
+    isOpenPanel: boolean;
+
+    @Input()
+    idTarefaToLoadAssuntos: number;
     
     listFilter: {} = {};
     listSort: {} = {};

@@ -1,6 +1,10 @@
 import * as TarefasActions from 'app/main/apps/tarefas/store/actions/tarefas.actions';
 import {Etiqueta} from '@cdk/models';
-
+/*
+* ISSUE-107
+*/
+import { Assunto } from '@cdk/models';
+import { arraysAreNotAllowedMsg } from '@ngrx/store/src/models';
 export interface TarefasState {
     entitiesId: number[];
     pagination: {
@@ -27,6 +31,8 @@ export interface TarefasState {
     */
    assuntoLoading: boolean;
    assuntoPanelOpen: boolean;
+   assuntosId: number[];
+   idTarefaToLoadAssuntos: number;
 }
 
 export const TarefasInitialState: TarefasState = {
@@ -54,7 +60,9 @@ export const TarefasInitialState: TarefasState = {
     * ISSUE-107
     */
    assuntoLoading: true,
-   assuntoPanelOpen: false
+   assuntoPanelOpen: false,
+   assuntosId: [],
+   idTarefaToLoadAssuntos: 0
 };
 
 export function TarefasReducer(state = TarefasInitialState, action: TarefasActions.TarefasActionsAll): TarefasState {
@@ -207,18 +215,27 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
             };
         }
 
+        /*
+        * ISSUE-107
+        */
         case TarefasActions.GET_ASSUNTOS_PROCESSO_TAREFA: {
             return {
                 ...state,
-                assuntoLoading: true
+                assuntosId: [],
+                assuntoLoading: true,
+                assuntoPanelOpen: false
             }
+
 
         }
 
         case TarefasActions.GET_ASSUNTOS_PROCESSO_TAREFA_SUCCESS: {
             return {
                 ...state,
-                assuntoLoading: false
+                assuntoLoading: false,
+                assuntoPanelOpen: true,
+                assuntosId: [...action.payload.assuntosId],
+                idTarefaToLoadAssuntos: action.payload.idTarefaToLoadAssuntos
             }
 
         }
@@ -226,7 +243,9 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
         case TarefasActions.GET_ASSUNTOS_PROCESSO_TAREFA_FAILED: {
             return {
                 ...state,
-                assuntoLoading: false
+
+                assuntoLoading: false,
+                assuntoPanelOpen: false
             }
 
         }
@@ -243,3 +262,4 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
             return state;
     }
 }
+

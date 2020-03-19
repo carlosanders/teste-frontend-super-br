@@ -83,10 +83,13 @@
                                      (editorBloco)="doEditorBloco()"
                                      (editTarefaBloco)="doEditTarefaBloco()"
                                      (idProcesso)="doLoadAssuntos($event)"
-                                     [pagAssuntos]="(pagAssuntos)"
-                                     [loadingAssunto]="(assuntoLoading$ | async)">
+                                     [loadingAssunto]="(assuntoLoading$ | async)"
+                                     [assuntos]="(assuntos$ | async)"
+                                     [isOpenPanel]="(assuntoPanelOpen$ | async )"
+                                     [idTarefaToLoadAssuntos]="idTarefaToLoadAssuntos">
                     </cdk-tarefa-list>
                 </div>
+                
                 <div class="tarefa-detail" mwlResizable [enableGhostResize]="true"
                      [resizeEdges]="{bottom: false, right: true, top: false, left: true}"
                      fxFlex

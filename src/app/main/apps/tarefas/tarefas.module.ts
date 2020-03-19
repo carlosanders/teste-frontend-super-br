@@ -144,7 +144,9 @@ const routes: Routes = [
         CdkSharedModule,
         CdkSidebarModule,
 
-        TarefasStoreModule
+        TarefasStoreModule,
+
+        AssuntoListStoreModule
     ],
     providers: [
         TarefaService,

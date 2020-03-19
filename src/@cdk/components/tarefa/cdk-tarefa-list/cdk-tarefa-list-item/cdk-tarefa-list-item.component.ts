@@ -70,13 +70,13 @@ export class CdkTarefaListItemComponent implements OnInit {
     assuntos: Assunto[];
 
     @Input()
-    bsAssuntos: BehaviorSubject<Assunto[]>;
-
-    @Input()
-    pagAssunto: PaginatedResponse;
-
-    @Input()
     loading: boolean;
+
+    @Input()
+    isOpen: boolean = false;
+
+    @Input()
+    idTarefaToLoadAssuntos: number;
 
     draggable = {
         // note that data is handled with JSON.stringify/JSON.parse
@@ -132,7 +132,11 @@ export class CdkTarefaListItemComponent implements OnInit {
         this.toggleUrgente.emit(this.tarefa);
     }
 
-    doOpenPanel(idProcesso: any, event: any): void {
+    /*
+    * ISSUE-107
+    */
+    doOpenPanel(): void {
+        this.isOpen = false;
         this.codProcesso.emit(this.tarefa);
     }
 

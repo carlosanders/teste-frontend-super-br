@@ -1,5 +1,4 @@
-import { SetAssuntosLoaded } from './../actions/tarefas.actions';
-
+import { AssuntoAdministrativo } from './../../../../../../@cdk/models/assunto-administrativo.model';
 import { AddData, UpdateData, AddChildData } from '@cdk/ngrx-normalizr';
 import {tarefa as tarefaSchema} from '@cdk/normalizr/tarefa.schema';
 
@@ -25,6 +24,7 @@ import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import { Assunto } from '@cdk/models/assunto.model';
 import { AssuntoService } from '@cdk/services/assunto.service';
 import { assunto as assuntoSchema } from '@cdk/normalizr/assunto.schema';
+import { assuntoAdministrativo as assuntoAdministrativoSchema } from '@cdk/normalizr/assunto-administrativo.schema';
 import { processo as processoSchema } from '@cdk/normalizr/processo.schema';
 
 @Injectable()
@@ -242,44 +242,32 @@ export class TarefasEffect {
     getAssuntosProcessoTarefa: Observable<any> =
         this._actions
             .pipe(
-                ofType<TarefasActions.GetAssuntosProcessoTarefaFailed>(TarefasActions.GET_ASSUNTOS_PROCESSO_TAREFA),
+                ofType<TarefasActions.GetAssuntosProcessoTarefa>(TarefasActions.GET_ASSUNTOS_PROCESSO_TAREFA),
                 mergeMap((action) => {
-                    
-                    if(action.payload.proc.proc.assuntos === null) {
-                        
-                        return this._assuntoService.query(
-                            JSON.stringify({
-                                ...action.payload.srv.filter
-                            }),
-                            action.payload.srv.limit,
-                            action.payload.srv.offset,
-                            JSON.stringify(action.payload.srv.sort),
-                            JSON.stringify(action.payload.srv.populate)).pipe(
-                                tap((response) => {
-                                    console.log("Response -> " + JSON.stringify(response));
-                                }),
-                                mergeMap((response) => [
-                                    new AddChildData<Assunto>({
-                                        data: response['entities'],
-                                        childSchema: assuntoSchema,
-                                        parentSchema: processoSchema,
-                                        parentId: action.payload.proc.proc.id
-                                    }),
-                                    new TarefasActions.GetAssuntosProcessoTarefaSuccess({
-                                        assuntosId: response['entities'].map(assunto => assunto.id),
-                                        totalAssuntos: response['total']
-                                    })
-                                    
-                                ]),
-                                catchError((err, caught) => {
-                                    console.log(err);
-                                    this._store.dispatch(new TarefasActions.GetAssuntosProcessoTarefaFailed(err));
-                                    return caught;
+                    return this._assuntoService.query(
+                        JSON.stringify({
+                            ...action.payload.srv.filter
+                        }),
+                        action.payload.srv.limit,
+                        action.payload.srv.offset,
+                        JSON.stringify(action.payload.srv.sort),
+                        JSON.stringify(action.payload.srv.populate)).pipe(
+                            mergeMap((response) => [
+                                new AddData<Assunto>({data: response['entities'], schema: assuntoSchema}),
+                                new TarefasActions.GetAssuntosProcessoTarefaSuccess({
+                                    assuntosId: response['entities'].map(assunto => assunto.id),
+                                    idTarefaToLoadAssuntos: action.payload.tarefa,
+                                    totalAssuntos: response['total']
                                 })
-                            );
-                    } else {
-                        return null;
-                    }
+                                
+                            ]),
+                            catchError((err, caught) => {
+                                console.log(err);
+                                this._store.dispatch(new TarefasActions.GetAssuntosProcessoTarefaFailed(err));
+                                return caught;
+                            })
+                        );
+                    
                 }),
                 
             );
