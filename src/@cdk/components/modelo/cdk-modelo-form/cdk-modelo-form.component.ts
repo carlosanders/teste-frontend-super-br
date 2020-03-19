@@ -9,7 +9,7 @@ import {
 
 import { cdkAnimations } from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { Modelo } from '@cdk/models';
+import {ModalidadeModelo, Modelo, Setor} from '@cdk/models';
 import {Pagination} from '@cdk/models';
 import {Template} from '@cdk/models';
 
@@ -32,15 +32,24 @@ export class CdkModeloFormComponent implements OnChanges, OnDestroy {
     @Input()
     errors: any;
 
+    @Input()
+    coordenador: boolean;
+
+    @Input()
+    setorPagination: Pagination;
+
+    @Input()
+    modalidadeModeloPagination: Pagination;
+
+    @Input()
+    templatePagination: Pagination;
+
     @Output()
     save = new EventEmitter<Modelo>();
 
     form: FormGroup;
 
     activeCard = 'form';
-
-    @Input()
-    templatePagination: Pagination;
 
     /**
      * Constructor
@@ -55,9 +64,13 @@ export class CdkModeloFormComponent implements OnChanges, OnDestroy {
             ativo: [null],
             nome: [null, [Validators.required, Validators.maxLength(255)]],
             descricao: [null, [Validators.required, Validators.maxLength(255)]],
+            setor: [null, [Validators.required]],
+            modalidadeModelo: [null, [Validators.required]],
             template: [null, [Validators.required]],
         });
 
+        this.setorPagination = new Pagination();
+        this.modalidadeModeloPagination = new Pagination();
         this.templatePagination = new Pagination();
 
     }
@@ -98,6 +111,42 @@ export class CdkModeloFormComponent implements OnChanges, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
+
+    checkSetor(): void {
+        const value = this.form.get('setor').value;
+        if (!value || typeof value !== 'object') {
+            this.form.get('setor').setValue(null);
+        }
+    }
+
+    selectSetor(setor: Setor): void {
+        if (setor) {
+            this.form.get('setor').setValue(setor);
+        }
+        this.activeCard = 'form';
+    }
+
+    showSetorGrid(): void {
+        this.activeCard = 'setor-gridsearch';
+    }
+
+    checkModalidadeModelo(): void {
+        const value = this.form.get('modalidade-modelo').value;
+        if (!value || typeof value !== 'object') {
+            this.form.get('modalidade-modelo').setValue(null);
+        }
+    }
+
+    selectModalidadeModelo(modalidadeModelo: ModalidadeModelo): void {
+        if (modalidadeModelo) {
+            this.form.get('modalidadeModelo').setValue(modalidadeModelo);
+        }
+        this.activeCard = 'form';
+    }
+
+    showModalidadeModeloGrid(): void {
+        this.activeCard = 'modalidade-modelo-gridsearch';
+    }
 
     checkTemplate(): void {
         const value = this.form.get('template').value;
