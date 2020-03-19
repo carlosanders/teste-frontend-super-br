@@ -17,6 +17,7 @@ export class FlatNode {
     id: number;
     level: number;
     children?: ClassificacaoNode[];
+    selected?: boolean;
 
     constructor(public isLoading = false) {
     }
@@ -53,6 +54,7 @@ export class CdkClassificacaoTreeComponent {
     formPesquisa: FormGroup;
     private formClassificacao: FormGroup;
     pesquisando: boolean;
+    classSelect: string;
 
 
     /** The selection for checklist */
@@ -280,6 +282,24 @@ export class CdkClassificacaoTreeComponent {
 
 
     setInputClassificacao(node: FlatNode): void {
-        this.formClassificacao.get('classificacao').setValue(node.id);
+
+        if (this.formClassificacao.value.classificacao === node.id) {
+            this.formClassificacao.get('classificacao').setValue(null);
+        }
+        else {
+            this.formClassificacao.get('classificacao').setValue(node.id);
+        }
+        this.classSelect = 'selectedItem';
+        this.nestedNodeMap.forEach(value => {
+            value.selected = false;
+        });
+        node.selected = !node.selected;
+    }
+
+    getNodeSelected(node: FlatNode): string {
+        if (node.selected) {
+            return 'selectedItem';
+        }
+        return '';
     }
 }

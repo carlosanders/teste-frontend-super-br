@@ -33,14 +33,17 @@
                     <!--                      [checked]="checklistSelection.isSelected(node)"-->
                     <!--                      (change)="todoLeafItemSelectionToggle(node)">{{node.name}}</mat-checkbox>-->
                     {{node.name}}
-                    <button *ngIf="!node.isLoading" mat-icon-button
-                            (click)="setInputClassificacao(node)"
-                            aria-label="selecionar"
-                            matTooltip="Selecionar">
-                        <mat-icon>keyboard_return</mat-icon>
-                    </button>
+                    <div class="bt-set-action">
+                        <button class="bt-action-select" *ngIf="!node.isLoading" mat-icon-button
+                                (click)="setInputClassificacao(node)"
+                                aria-label="selecionar"
+                                matTooltip="Selecionar">
+                            <mat-icon>keyboard_return</mat-icon>
+                        </button>
+                    </div>
+
                 </mat-tree-node>
-                <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
+                <mat-tree-node [ngClass]="getNodeSelected(node)" *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
                     <button mat-icon-button matTreeNodeToggle
                             [attr.aria-label]="'toggle ' + node.filename">
                         <mat-icon class="mat-icon-rtl-mirror" *ngIf="treeControl.isExpanded(node)">
@@ -59,16 +62,19 @@
                     <mat-progress-bar *ngIf="node.isLoading"
                                       mode="indeterminate"
                                       class="example-tree-progress-bar"></mat-progress-bar>
-                    <button *ngIf="!node.isLoading" mat-icon-button
-                            (click)="setInputClassificacao(node)"
-                            aria-label="selecionar"
-                            matTooltip="Selecionar">
-                        <mat-icon>keyboard_return</mat-icon>
-                    </button>
+
+                    <div class="bt-set-action">
+                        <button class="bt-action-select" *ngIf="!node.isLoading" mat-icon-button
+                                (click)="setInputClassificacao(node)"
+                                aria-label="selecionar"
+                                matTooltip="Selecionar">
+                            <mat-icon>keyboard_return</mat-icon>
+                        </button>
+                    </div>
                 </mat-tree-node>
             </mat-tree>
         </div>
-        <div>
+        <div class="bt-alterar-classificacao">
             <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
                  fxLayoutAlign="center center">
                 <button mat-raised-button color="accent" class="mr-sm-12"

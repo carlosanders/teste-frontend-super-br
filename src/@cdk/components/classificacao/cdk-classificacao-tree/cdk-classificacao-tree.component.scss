@@ -12,10 +12,22 @@ form {
 
 .tree {
     height: 222px;
-    padding: 13px 15px;
+    padding: 13px 44px 13px 13px;
     border: 1px solid #CCC;
 }
 
-#pesquisa {
-    margin-bottom: 0px;
+.bt-set-action {
+    position: absolute;
+    right: 4px;
 }
+
+.bt-alterar-classificacao {
+    margin-top: -31px;
+}
+
+.selectedItem {
+    background: #009EE0;
+    color: #FFF;
+}
+
+
