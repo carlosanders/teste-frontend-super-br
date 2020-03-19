@@ -19,7 +19,7 @@ import { Documento } from '@cdk/models/documento.model';
 import { getRouterState } from 'app/store/reducers';
 import { Router } from '@angular/router';
 import { DocumentoAvulso, Usuario } from '../../../../../../@cdk/models';
-import { getDocumentoAvulso } from '../store/selectors';
+import { getDocumentoAvulso, getDocumentos } from '../store/selectors';
 
 
 @Component({
@@ -72,7 +72,7 @@ export class ResponderComponent implements OnInit, OnDestroy {
     ) {
         this._profile = this._loginService.getUserProfile();
         this.documentoAvulso$ = this._store.pipe(select(getDocumentoAvulso));
-        this.documentos$ = this._store.pipe(select(fromStore.getDocumentos));
+        this.documentos$ = this._store.pipe(select(getDocumentos));
         this.routerState$ = this._store.pipe(select(getRouterState));
 
         this.selectedDocumentos$ = this._store.pipe(select(fromStore.getSelectedDocumentos));

@@ -18,8 +18,7 @@ import {vinculacaoEtiqueta as vinculacaoEtiquetaSchema} from '@cdk/normalizr/vin
 import {documentoAvulso as documentoAvulsoSchema} from '@cdk/normalizr/documento-avulso.schema';
 import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
 import {DocumentoService} from '@cdk/services/documento.service';
-import {DocumentoAvulso} from '@cdk/models/documento-avulso.model';
-import {Documento} from '@cdk/models/documento.model';
+import {DocumentoAvulso, Documento} from '@cdk/models';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
