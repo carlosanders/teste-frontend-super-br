@@ -14,6 +14,7 @@ import { DocumentoService} from '@cdk/services/documento.service';
 import { documento as documentoSchema} from '@cdk/normalizr/documento.schema';
 import { Router} from '@angular/router';
 import { getDocumentoAvulso} from '../../../store/selectors';
+import {GetDocumentoAvulso} from '../../../store/actions';
 
 @Injectable()
 export class DocumentosEffects {
@@ -51,16 +52,9 @@ export class DocumentosEffects {
             .pipe(
                 ofType<DocumentosActions.GetDocumentos>(DocumentosActions.GET_DOCUMENTOS),
                 switchMap(() => {
-                    let documentoAvulsoId = null;
-
-                    const routeParams = of('documentoAvulsoHandle');
-                    routeParams.subscribe(param => {
-                        documentoAvulsoId = `eq:${this.routerState.params[param]}`;
-                    });
-
                     const params = {
                         filter: {
-                            id: documentoAvulsoId
+                            id: `eq:${this.documentoAvulso.documentoResposta.id}`
                         },
                         limit: 10,
                         offset: 0,

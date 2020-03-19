@@ -126,7 +126,7 @@ export class ResponderComponent implements OnInit, OnDestroy {
             takeUntil(this._unsubscribeAll)
         ).subscribe(
             documentos => {
-                this.oficios = documentos.filter(documento => documento.documentoAvulsoRemessa);
+                this.oficios = documentos.filter(documento => !documento.documentoAvulsoRemessa);
                 this._changeDetectorRef.markForCheck();
             }
         );
@@ -135,7 +135,7 @@ export class ResponderComponent implements OnInit, OnDestroy {
             filter(selectedDocumentos => !!selectedDocumentos),
             takeUntil(this._unsubscribeAll)
         ).subscribe(selectedDocumentos => {
-            this.selectedOficios = selectedDocumentos.filter(documento => documento.documentoAvulsoRemessa);
+            this.selectedOficios = selectedDocumentos.filter(documento => !documento.documentoAvulsoRemessa);
         });
     }
 

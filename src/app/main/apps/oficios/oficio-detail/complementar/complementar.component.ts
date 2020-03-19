@@ -126,7 +126,7 @@ export class ComplementarComponent implements OnInit, OnDestroy {
             takeUntil(this._unsubscribeAll)
         ).subscribe(
             documentos => {
-                this.oficios = documentos;
+                this.oficios = documentos.filter(documento => (!documento.documentoAvulsoRemessa && !documento.juntadaAtual));
                 this._changeDetectorRef.markForCheck();
             }
         );
@@ -135,7 +135,7 @@ export class ComplementarComponent implements OnInit, OnDestroy {
             filter(selectedDocumentos => !!selectedDocumentos),
             takeUntil(this._unsubscribeAll)
         ).subscribe(selectedDocumentos => {
-            this.selectedOficios =  selectedDocumentos;
+            this.selectedOficios =  selectedDocumentos.filter(documento => !documento.documentoAvulsoRemessa);
         });
     }
 
