@@ -8,6 +8,8 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {CdkSharedModule} from '../../../shared.module';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
 
 
 
@@ -24,7 +26,9 @@ import {CdkSharedModule} from '../../../shared.module';
         MatProgressBarModule,
         MatCheckboxModule,
         MatProgressSpinnerModule,
-        CdkSharedModule
+        CdkSharedModule,
+        MatFormFieldModule,
+        MatInputModule
     ]
 })
 export class CdkClassificacaoTreeModule {

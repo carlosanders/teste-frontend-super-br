@@ -6,6 +6,8 @@ import {catchError, finalize} from 'rxjs/operators';
 import {Observable, of} from 'rxjs';
 import {CdkClassificacaoTreeService, ClassificacaoNode} from './services/cdk-classificacao-tree.service';
 import {SelectionModel} from '@angular/cdk/collections';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import validate = WebAssembly.validate;
 
 
 /** Flat node with expandable and level information */
@@ -44,12 +46,22 @@ export class CdkClassificacaoTreeComponent {
 
     dataSource: MatTreeFlatDataSource<ClassificacaoNode, FlatNode>;
 
+    saving: boolean;
+
+    activeCard: string;
+
+    formPesquisa: FormGroup;
+    private formClassificacao: FormGroup;
+    pesquisando: boolean;
+
+
     /** The selection for checklist */
     checklistSelection = new SelectionModel<FlatNode>(true /* multiple */);
 
     constructor(
         private _serviceTree: CdkClassificacaoTreeService,
-        private _classificacaoService: ClassificacaoService
+        private _classificacaoService: ClassificacaoService,
+        private _formBuilder: FormBuilder
     ) {
         this.treeFlattener = new MatTreeFlattener(this.transformer, this.getLevel,
             this.isExpandable, this.getChildren);
@@ -60,6 +72,18 @@ export class CdkClassificacaoTreeComponent {
 
         _serviceTree.dataChange.subscribe(data => {
             this.dataSource.data = data;
+        });
+        this.activeCard = 'form';
+        this.loadForms();
+    }
+
+    loadForms(): void {
+        this.formClassificacao = this._formBuilder.group({
+            classificacao: [null, Validators.required],
+        });
+
+        this.formPesquisa = this._formBuilder.group({
+            pesquisa: ['', Validators.required]
         });
     }
 
@@ -242,6 +266,14 @@ export class CdkClassificacaoTreeComponent {
             finalize(() => this.loading = false),
             catchError(() => of([]))
         );
+
+    }
+
+    submit(): void {
+
+    }
+
+    pesquisa() {
 
     }
 }
