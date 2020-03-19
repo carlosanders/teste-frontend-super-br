@@ -1,0 +1,37 @@
+cdk-processo-list {
+
+    border-right: 1px solid rgba(0, 0, 0, 0.12);
+   height: 100%;
+
+    .processo-list-loading {
+        z-index: 9999;
+        margin-top: 48px;
+        display: flex;
+        position: fixed;
+        transform: translate(-50%, -50%);
+    }
+
+    .content {
+        .toolbar {
+
+            border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+
+            .toolbar-separator {
+                height: 32px;
+                width: 1px;
+                margin: 0 12px;
+            }
+
+            .processo-list-control {
+                margin-left: auto;
+            }
+        }
+    }
+
+
+    .no-processos-text {
+            font-size: 16px;
+            font-weight: 300;
+        }
+    }
+

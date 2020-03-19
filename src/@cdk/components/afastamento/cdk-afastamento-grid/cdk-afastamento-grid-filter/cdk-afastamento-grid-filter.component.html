@@ -19,7 +19,7 @@
                        formControlName="colaborador"
                        [matAutocomplete]="colaborador.autocomplete">
             </div>
-            <cdk-colaborador-autocomplete #colaborador="colaboradorAutocomplete" [control]="form.get('colaborador')">
+            <cdk-colaborador-autocomplete #colaborador="colaboradorAutocomplete" [control]="form.get('colaborador')" [pagination]="colaboradorPagination">
             </cdk-colaborador-autocomplete>
         </mat-form-field>
 

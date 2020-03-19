@@ -10,50 +10,35 @@ cdk-assunto-grid {
     .mat-select-value {
       display: none !important;
     }
-
   }
 
-  .header {
+  .content {
+    .actions {
+      width: 100%;
 
-    .filters {
+      .back {
+        margin-right: auto;
+      }
+    }
 
-      .search-wrapper {
-        border-radius: 28px;
-        overflow: hidden;
-        @include mat-elevation(1);
+    .mat-column-select {
+      overflow: initial;
+    }
 
-        .search {
-          width: 100%;
-          height: 56px;
-          line-height: 56px;
-          padding: 0 18px;
+    table {
+      width: 100%;
 
-          input {
-            height: 56px;
-            min-height: 56px;
-            max-height: 56px;
-            padding: 0 16px;
-            border: none;
-            outline: none;
-          }
+      tr {
+        height: auto;
+      }
+
+      td {
+        &.deleted {
+          text-decoration: line-through;
         }
       }
     }
 
-  }
-
-  .mat-column-select {
-    overflow: initial;
-  }
-
-  table {
-    width: 100%;
-
-    td {
-      &.deleted {
-        text-decoration: line-through;
-      }
-    }
   }
 
   .mat-form-field {
@@ -131,16 +116,6 @@ cdk-assunto-grid {
 
     .mat-paginator {
       margin-top: 24px;
-    }
-  }
-
-  .content {
-    .actions {
-      width: 100%;
-
-      .back {
-        margin-right: auto;
-      }
     }
   }
 }

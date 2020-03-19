@@ -1,0 +1,51 @@
+<div class="page-layout carded left-sidebar inner-scroll">
+
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+
+    <!-- SIDEBAR -->
+    <cdk-sidebar *ngIf="!(maximizado$ | async)" class="sidebar" name="arquivista-main-sidebar" position="left"
+                 lockedOpen="gt-md">
+        <arquivista-main-sidebar></arquivista-main-sidebar>
+    </cdk-sidebar>
+    <!-- / SIDEBAR -->
+
+    <!-- CENTER -->
+    <div class="center">
+
+        <!-- CONTENT HEADER -->
+        <div class="header" fxLayout="row" fxLayoutAlign="start center" fxHide.lt-md
+             *ngIf="!(maximizado$ | async)">
+
+            <div class="search-wrapper" fxFlex fxLayout="row" fxLayoutAlign="start center">
+
+                <button mat-icon-button class="sidebar-toggle" fxHide.gt-md
+                        (click)="toggleSidebar('arquivista-main-sidebar')">
+                    <mat-icon>menu</mat-icon>
+                </button>
+
+                <div class="search" fxLayout="row" fxLayoutAlign="start center">
+                    <mat-icon class="secondary-text">search</mat-icon>
+                    <cdk-etiqueta-chips [etiquetas]="etiquetas"
+                                        (create)="addEtiqueta($event)"
+                                        [pagination]="vinculacaoEtiquetaPagination"
+                                        (delete)="deleteEtiqueta($event)"></cdk-etiqueta-chips>
+                </div>
+
+            </div>
+
+        </div>
+        <!-- / CONTENT HEADER -->
+
+        <!-- CONTENT CARD -->
+        <div class="content-card"
+             [ngClass]="{'current-processo-selected':currentProcessoId}">
+            <div class="content">
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+        <!-- / CONTENT CARD -->
+
+    </div>
+</div>

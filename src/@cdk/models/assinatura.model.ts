@@ -13,21 +13,21 @@ export class Assinatura {
     @Exclude({ toPlainOnly: true })
     uuid?: string;
 
-    algoritmoHash: string;
+    algoritmoHash?: string;
 
-    assinatura: string;
+    assinatura?: string;
 
-    cadeiaCertificadoPEM: string;
+    cadeiaCertificadoPEM?: string;
 
-    cadeiaCertificadoPkiPath: string;
+    cadeiaCertificadoPkiPath?: string;
 
     @Transform(value => value ? value.format('YYYY-MM-DDTHH:mm:ss') : null, { toPlainOnly: true })
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
-    dataHoraAssinatura: Date;
+    dataHoraAssinatura?: Date;
 
     @Type(() => ComponenteDigital)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    componenteDigital: ComponenteDigital;
+    componenteDigital?: ComponenteDigital;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => OrigemDados)

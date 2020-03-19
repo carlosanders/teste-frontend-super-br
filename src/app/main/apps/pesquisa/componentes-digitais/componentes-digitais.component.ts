@@ -5,7 +5,7 @@ import {
     OnInit,
     ViewEncapsulation
 } from '@angular/core';
-import {Observable, Subject} from 'rxjs';
+import {Observable} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
 import {ComponenteDigital} from '@cdk/models';
@@ -44,7 +44,7 @@ export class ComponentesDigitaisComponent implements OnInit {
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
         private _store: Store<fromStore.ComponentesDigitaisAppState>,
-        private _loginService: LoginService
+        public _loginService: LoginService
     ) {
         this.componentesDigitais$ = this._store.pipe(select(fromStore.getComponentesDigitais));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));

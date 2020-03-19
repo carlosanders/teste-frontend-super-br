@@ -10,7 +10,7 @@ import {
     MatSortModule,
     MatSelectModule,
 } from '@cdk/angular/material';
-
+import {MatTooltipModule} from '@angular/material/tooltip';
 import {CdkSidebarModule} from '@cdk/components/index';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {UsuarioService} from '@cdk/services/usuario.service';
@@ -24,9 +24,6 @@ import {CdkUsuarioAutocompleteModule} from '../../usuario/cdk-usuario-autocomple
 import {CdkUsuarioGridFilterModule} from '../../usuario/cdk-usuario-grid/cdk-usuario-grid-filter/cdk-usuario-grid-filter.module';
 import {CdkBlocoResponsaveisGridFilterModule} from '../cdk-bloco-responsaveis-grid/cdk-bloco-responsaveis-grid-filter/cdk-bloco-responsaveis-grid-filter.module';
 import {CdkBlocoResponsaveisMainSidebarComponent} from './sidebars/main.bloco-responsaveis.component';
-import {MatTooltipModule} from "@angular/material/tooltip";
-
-
 
 @NgModule({
     declarations: [

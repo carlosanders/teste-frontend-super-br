@@ -23,7 +23,7 @@ export class SetorListEffect {
     constructor(
         private _actions: Actions,
         private _setorService: SetorService,
-        private _loginService: LoginService,
+        public _loginService: LoginService,
         private _store: Store<State>
     ) {
         this._store
@@ -53,7 +53,8 @@ export class SetorListEffect {
                         action.payload.limit,
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
-                        JSON.stringify(action.payload.populate)).pipe(
+                        JSON.stringify(action.payload.populate),
+                        JSON.stringify(action.payload.context)).pipe(
                         mergeMap((response) => [
                             new AddData<Setor>({data: response['entities'], schema: setorSchema}),
                             new SetorListActions.GetSetoresSuccess({

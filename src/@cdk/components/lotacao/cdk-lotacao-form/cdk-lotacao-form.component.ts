@@ -10,9 +10,7 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Pagination} from '@cdk/models/pagination';
-import {Lotacao} from "@cdk/models/lotacao.model";
-import {Setor} from "@cdk/models/setor.model";
-import {Colaborador} from "@cdk/models/colaborador.model";
+import {Lotacao, Setor, Usuario, Colaborador} from "@cdk/models";
 
 @Component({
     selector: 'cdk-lotacao-form',
@@ -42,6 +40,12 @@ export class CdkLotacaoFormComponent implements OnChanges, OnDestroy {
     @Output()
     save = new EventEmitter<Lotacao>();
 
+    @Input()
+    usuario: Usuario;
+
+    @Input()
+    setor: Setor;
+
     form: FormGroup;
 
     activeCard = 'form';
@@ -62,6 +66,7 @@ export class CdkLotacaoFormComponent implements OnChanges, OnDestroy {
             principal: [null],
             coordenador: [null],
             distribuidor: [null],
+            arquivista: [null],
             peso: ['100', [Validators.required]],
             centena: [null],
             digito: [null]
@@ -80,6 +85,14 @@ export class CdkLotacaoFormComponent implements OnChanges, OnDestroy {
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
         if (changes['lotacao'] && this.lotacao && ((!this.lotacao.id && !this.form.dirty) || (this.lotacao.id !== this.form.get('id').value))) {
             this.form.patchValue({...this.lotacao});
+        }
+
+        if (this.usuario) {
+            this.form.get('colaborador').setValue(this.usuario.colaborador);
+        }
+
+        if (this.setor) {
+            this.form.get('setor').setValue(this.setor);
         }
 
         if (this.errors && this.errors.status && this.errors.status === 422) {

@@ -23,7 +23,7 @@ export class FavoritoEditEffect {
         private _actions: Actions,
         private _favoritoService: FavoritoService,
         private _store: Store<State>,
-        private _loginService: LoginService,
+        public _loginService: LoginService,
         private _router: Router
     ) {
         this._store

@@ -34,7 +34,7 @@ export class TarefasEffect {
     constructor(
         private _actions: Actions,
         private _tarefaService: TarefaService,
-        private _loginService: LoginService,
+        public _loginService: LoginService,
         private _store: Store<State>,
         private _router: Router,
         //ISSUE-100

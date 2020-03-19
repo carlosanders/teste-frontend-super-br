@@ -24,7 +24,7 @@ export class SetorEditEffect {
         private _actions: Actions,
         private _setorService: SetorService,
         private _store: Store<State>,
-        private _loginService: LoginService,
+        public _loginService: LoginService,
         private _router: Router
     ) {
         this._store
@@ -82,7 +82,6 @@ export class SetorEditEffect {
             .pipe(
                 ofType<SetorEditActions.SaveSetor>(SetorEditActions.SAVE_SETOR),
                 switchMap((action) => {
-                    console.log(action);
                     return this._setorService.save(action.payload).pipe(
                         mergeMap((response: Setor) => [
                             new SetorEditActions.SaveSetorSuccess(),

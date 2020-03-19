@@ -90,6 +90,8 @@ $typography: mat-typography-config(
 @import "src/app/main/apps/pesquisa/pesquisa.theme";
 @import "src/app/main/apps/configuracoes/configuracoes.theme";
 @import "src/app/main/apps/oficios/oficios.theme";
+@import "src/ajuda/ajuda.theme";
+
 // Define a mixin for easier access
 @mixin components-theme($theme) {
 
@@ -106,6 +108,7 @@ $typography: mat-typography-config(
     @include pesquisa-theme($theme);
     @include configuracoes-theme($theme);
     @include oficios-theme($theme);
+    @include ajuda-theme($theme);
 }
 
 // -----------------------------------------------------------------------------------------------------

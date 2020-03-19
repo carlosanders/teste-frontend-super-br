@@ -8,7 +8,7 @@
             <mat-tab-group fxFlex="100">
                 <mat-tab>
                     <ng-template matTabLabel>
-                        <span [matBadge]="minutas.length.toString()" matBadgeOverlap="false" matBadgeColor="warn">Ofícios</span>
+                        <span [matBadge]="oficios.length.toString()" matBadgeOverlap="false" matBadgeColor="warn">Ofícios</span>
                     </ng-template>
 
                     <div fxLayout="row" class="bt-upload">
@@ -20,7 +20,7 @@
                         </button>
 
                         <mat-menu #moreMenu="matMenu">
-                            <button mat-menu-item aria-label="upload"
+                            <button mat-menu-item aria-label="upload" *ngIf="this.mode === 'entrada'"
                                     (click)="responderDocumento()">
                                 <ng-container>
                                     <mat-icon>picture_as_pdf</mat-icon>
@@ -28,7 +28,7 @@
                                 </ng-container>
                             </button>
 
-                            <button mat-menu-item aria-label="editor de textos"
+                            <button mat-menu-item aria-label="editor de textos" *ngIf="this.mode === 'saida'"
                                     (click)="complementarDocumento()">
                                 <ng-container>
                                     <mat-icon>picture_as_pdf</mat-icon>
@@ -38,8 +38,7 @@
                         </mat-menu>
 
                         <cdk-componente-digital-documento-avulso-card-list #ckdUpload
-                                                                           [documentoAvulsoOrigem]="this.documentoOrigem"
-                                                                           [action]="this.action"
+                                                                           [documentoAvulsoOrigem]="documentoAvulso"
                                                                            (complete)="onComplete()">
                         </cdk-componente-digital-documento-avulso-card-list>
                     </div>

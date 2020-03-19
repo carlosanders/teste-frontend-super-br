@@ -1,14 +1,8 @@
 @import "../../../../../@cdk/scss/cdk";
 
 processo-edit {
-    height: 100%;
 
-    #processo-edit {
-        height: 100%;
-        overflow-y: auto;
-    }
-
-    .altura {
+    .processo-edit-content {
         height: 100%;
     }
 
@@ -30,11 +24,5 @@ processo-edit {
     }
 
     .center {
-
-        width: 100%;
-
-        .header {
-
-        }
     }
 }

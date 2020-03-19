@@ -1,0 +1,110 @@
+<div>
+    <div *ngIf="titulo === 'transicoes'" class="content p-16" fxLayout="column">
+        <h3><strong>TRANSIÇÕES DE UM PROCESSO</strong></h3>
+        <p style="text-align: justify;text-indent: 20px">
+            A passagem dos documentos de uma idade para outra é definida por meio do processo de avaliação <strong>(transição)</strong>, 
+            que leva em conta a frequência de uso dos documentos por seus produtores e a identificação de seus valores primário e secundário. 
+        </p>
+        <mat-expansion-panel style="text-align: center;margin-left: 40px">
+            <mat-expansion-panel-header>
+              <mat-panel-title style="text-align: center">
+                VALOR PRIMÁRIO E SECUNDÁRIO?
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+           <p style="text-align: justify;"> 
+            O valor primário é atribuído aos documentos considerando a sua utilidade administrativa imediata, 
+            isto é, as razões pelas quais esses documentos foram criados.<br> 
+            Já o valor secundário refere-se ao valor atribuído aos documentos em função da sua utilidade 
+            para fins diferentes daqueles para os quais foram originalmente produzidos, como, 
+            por exemplo, provas judiciais e administrativas e pesquisas acadêmicas.   
+           </p>
+        </mat-expansion-panel>
+        <p style="text-align: justify;text-indent: 20px">
+            O “Código de classificação de documentos de arquivo para a administração pública: 
+            atividades-meio” e a “Tabela básica de temporalidade e destinação de documentos de arquivo 
+            relativos às atividades-meio da administração pública” aprovados pelo CONARQ1 são instrumentos fundamentais 
+            para a implementação da gestão arquivística de documentos. 
+        </p>
+        <p style="text-align: justify;text-indent: 20px">
+            Para o usuário realizar <strong>Transições Arquivísticas</strong> do processo, é necessário possuir o perfil de <strong>arquivista</strong>.
+        </p>
+        <p style="text-align: justify;margin-left: 20px">
+            As transições arquivísticas são:
+                <li><strong>Transferência</strong>:da fase corrente para a fase intermediária.</li>
+                <li><strong>Recolhimento</strong>:da fase intermediária para o arquivo definitivo.</li>
+                <li><strong>Eliminação</strong>:quando o prazo de temporalidade for alcançado.</li>
+                <li><strong>Extravio</strong>:sempre que o processo/documento avulso não puder ser encontrado.</li>
+                <li><strong>Desarquivamento</strong>:traz o processo/documento avulso novamente para a fase corrente.</li>
+        </p>
+        <p style="text-align: justify;text-indent: 20px">
+            Os usuários que não possuem perfil de arquivista não poderão realizar transições. 
+            Se perceber a necessidade de realizar uma transição, deverá abrir tarefa para o usuário arquivista de sua unidade.        
+        </p>
+        <p style="background-color: #d3d3d3;text-indent: 40px">
+            A simples remessa do processo/documento avulso para o arquivo corrente não requer uma transição. 
+            Apenas quando houver a remessa para o arquivo intermediário é que deverá ocorrer a transição, da modalidade transferência.<br>
+            NUPs que estejam fora da fase CORRENTE somente aceitam tarefas do gênero arquivístico, por exemplo, solicitação de desarquivamento.
+        </p>
+        <h3 style="text-align: justify;text-indent: 20px">
+            <strong>Criando uma transição na página de cadastramento de processos</strong>
+        </h3>
+        <p style="text-align: justify;margin-left: 40px">
+            1. No grid com opções de dados que podem/devem ser preenchidos, escolha o campo <strong>Transições</strong>
+        </p>
+        <p style="text-align: center;margin-left: 40px">
+            <img src="assets/images/ajuda/processotransicoes.png" style="width: 256px;" class="fr-fic fr-dib fr-fil"> 
+        </p>
+        <p style="text-align: justify;margin-left: 40px">
+            2. A página de transições é aberta. 
+            É possível ver a lista de transições já cadastradas no NUP ou escolher uma nova transição a partir do botão 
+            <img src="assets/images/ajuda/novo.png" class="fr-fic fr-dii">.
+        </p>
+        <p style="text-align: justify;margin-left: 40px">
+            3. Apertando no botão Novo, indique a <strong>Modalidade de Transição</strong>. Clique na Lupa
+            <img src="assets/images/ajuda/lupa.png" class="fr-fic fr-dii">se precisar buscar
+            entre as opções existentes
+        </p>
+        <p style="text-align: justify;margin-left: 40px">
+            4. É necessário indicar o <strong>Método</strong> da transição           
+        </p>
+        <p style="text-align: justify;margin-left: 40px">
+            5. Também é possível preencher os campos <strong>Edital</strong> e <strong>Observação</strong>
+        </p>
+        <mat-expansion-panel style="text-align: center;margin-left: 40px">
+            <mat-expansion-panel-header>
+              <mat-panel-title style="text-align: center">
+                MÉTODO? EDITAL?
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+           <p style="text-align: justify;"> 
+            O método guarda o motivo exato da transição arquivística.<br>
+            Já o edital é o edital de arquivamento ou de eliminação do processo.   
+           </p>
+        </mat-expansion-panel>
+        <hr>
+        <div style="background-color: #d3d3d3;">
+            <p>
+                <img src="assets/images/ajuda/atencao.png" style="width: 15px;"class="fr-fic fr-dii"><strong>FIQUE ATENTO:</strong>
+            </p>
+            <p style="text-indent: 20px">    
+                Um NUP eliminado NÃO pode mais sofrer transições arquivísticas.
+            </p>
+            <p style="text-indent: 20px">
+                Um NUP só pode sofrer uma <strong>Transferência</strong> se estiver na fase <strong>Corrente</strong>.
+            </p>
+            <p style="text-indent: 20px">
+                Um NUP só pode sofrer um <strong>Recolhimento</strong> se estiver na fase <strong>Intermediária</strong>.
+            </p>
+            <p style="text-indent: 20px">
+                Um NUP NÃO pode sofrer um <strong>Desarquivamento</strong> se já estiver na fase <strong>Corrente</strong>.
+            </p>
+            <p style="text-indent: 20px">
+                Um NUP só pode sofrer um <strong>Desarquivamento</strong> se estiver no <strong>setor de Arquivo</strong>.
+            </p>
+            <p style="text-indent: 20px">
+                Um NUP na sua fase <strong>Corrente</strong> e que possua tempo de fase  
+                <strong>Intermediária</strong> de acordo com sua classificação NÃO pode ser eliminado diretamente.
+            </p>
+        </div> 
+   </div>
+</div>

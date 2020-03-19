@@ -1,7 +1,6 @@
-<div class="full-screen page-layout fullwidth inner-scroll" fxLayout="column">
+<div class="full-screen" fxLayout="column">
 
-    <div class="pessoa-header accent p-8" fxLayout="row" fxLayoutAlign="end center">
-
+    <div class="accent p-8" fxLayout="row" fxLayoutAlign="end center">
         <button class="close mr-8" mat-icon-button
                 (click)="back()"
                 aria-label="fechar"
@@ -10,28 +9,23 @@
         </button>
     </div>
 
-    <!-- CENTER -->
-    <div class="center">
+    <!-- CONTENT CARD -->
+    <div class="pessoa-content" fxLayout="column">
 
-        <!-- CONTENT CARD -->
-        <div class="content" fxLayout="column">
+            <div class="actions m-16" fxLayout="row" fxLayoutAlign="start center">
+                <button mat-raised-button
+                        class="mat-accent"
+                        [routerLink]="'editar/criar'"
+                        *ngIf="action == 'listar'"
+                        aria-label="novo"
+                        matTooltip="Criar Pessoa">
+                    Novo
+                </button>
+            </div>
 
-                <div class="actions m-16" fxLayout="row" fxLayoutAlign="start center">
-                    <button mat-raised-button
-                            class="mat-accent"
-                            [routerLink]="'editar/criar'"
-                            *ngIf="action == 'listar'"
-                            aria-label="novo"
-                            matTooltip="Criar Pessoa">
-                        Novo
-                    </button>
-                </div>
-
+            <div class="pessoa-sub-content">
                 <router-outlet (activate)="onActivate($event)" (deactivate)="onDeactivate($event)"></router-outlet>
-
-        </div>
-
+            </div>
     </div>
-    <!-- / CENTER -->
 
 </div>

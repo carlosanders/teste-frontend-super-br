@@ -1,4 +1,4 @@
-<div class="left-sidebar" fxFlex>
+<div class="page-layout left-sidebar" fxFlex>
 
     <!-- SIDEBAR -->
     <cdk-sidebar [lockedOpen]="(mode === 'search') ? 'gt-xs' : ''" class="sidebar" name="cdk-pessoa-main-sidebar"
@@ -13,7 +13,7 @@
     <!-- / SIDEBAR -->
 
     <!-- CONTENT -->
-    <div class="content responsive-grid" fxFlex fxLayout="column">
+    <div class="content responsive-grid" [ngClass]="{'search': (this.mode == 'search')}" fxFlex fxLayout="column">
 
         <div class="actions" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="end center">
 

@@ -177,9 +177,9 @@ export class CdkComponenteDigitalCardListComponent implements OnInit {
     private uploadFile(file: FileUploadModel): void {
 
         /**
-         multipart formdata
-         const params = new FormData();
-         fd.append('conteudo', file.data);
+         * multipart formdata
+         * const params = new FormData();
+         * fd.append('conteudo', file.data);
          */
 
         file.canCancel = true;

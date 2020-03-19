@@ -1,7 +1,8 @@
 
 import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
-import { Usuario } from '@cdk/models';
+import {Lembrete} from '@cdk/models';
+import {Usuario} from '@cdk/models';
 import { EspecieProcesso } from '@cdk/models';
 import { Setor } from '@cdk/models';
 
@@ -24,36 +25,36 @@ export class Processo {
 
     @Type(() => Processo)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    processoOrigem: Processo;
+    processoOrigem?: Processo;
 
     @Exclude({ toPlainOnly: true })
     uuid?: string;
 
-    novo: boolean;
+    novo?: boolean;
 
-    NUP: string;
+    NUP?: string;
 
-    semValorEconomico: boolean;
+    semValorEconomico?: boolean;
 
-    visibilidadeExterna: boolean;
+    visibilidadeExterna?: boolean;
 
-    acessoNegado: boolean;
+    acessoNegado?: boolean;
     
-    titulo: string;
+    titulo?: string;
 
     descricao?: string;
     
     outroNumero?: string;
 
     @Exclude({ toPlainOnly: true })
-    chaveAcesso: string;
+    chaveAcesso?: string;
 
     @Exclude({ toPlainOnly: true })
     valorEconomico?: number;
 
     @Type(() => Classificacao)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    classificacao: Classificacao;
+    classificacao?: Classificacao;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => OrigemDados)
@@ -67,7 +68,7 @@ export class Processo {
 
     @Type(() => Pessoa)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    procedencia: Pessoa;
+    procedencia?: Pessoa;
 
     @Type(() => Localizador)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
@@ -75,16 +76,16 @@ export class Processo {
 
     @Type(() => Setor)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    setorAtual: Setor;
+    setorAtual?: Setor;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Setor)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    setorInicial: Setor;
+    setorInicial?: Setor;
     
     @Transform(value => value ? value.format() : null, { toPlainOnly: true })
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
-    dataHoraAbertura: Date;
+    dataHoraAbertura?: Date;
 
     @Exclude({ toPlainOnly: true })
     @Transform(value => value ? value.format() : null, { toPlainOnly: true })
@@ -93,19 +94,26 @@ export class Processo {
 
     @Type(() => ModalidadeFase)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    modalidadeFase: ModalidadeFase;
+    modalidadeFase?: ModalidadeFase;
 
     @Type(() => ModalidadeMeio)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    modalidadeMeio: ModalidadeMeio;
+    modalidadeMeio?: ModalidadeMeio;
+
+
+    @Type(() => Lembrete)
+    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    lembretes: Lembrete[];
+
 
     @Exclude({toPlainOnly: true})
     @Type(() => VinculacaoEtiqueta)
-    vinculacoesEtiquetas: VinculacaoEtiqueta[];
+    vinculacoesEtiquetas?: VinculacaoEtiqueta[];
+
 
     @Type(() => EspecieProcesso)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    especieProcesso: EspecieProcesso;
+    especieProcesso?: EspecieProcesso;
     
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)
@@ -163,6 +171,7 @@ export class Processo {
         this.chaveAcesso = null;
         this.modalidadeMeio = null;
         this.modalidadeFase = null;
+        this.lembretes = [];
         this.documentoAvulsoOrigem = null;
         this.classificacao = null;
         this.procedencia = null;

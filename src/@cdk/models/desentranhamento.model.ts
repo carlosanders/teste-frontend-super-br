@@ -15,11 +15,11 @@ export class Desentranhamento {
 
     @Type(() => Juntada)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    juntada: Juntada;
+    juntada?: Juntada;
 
     @Type(() => Processo)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    processoDestino: Processo;
+    processoDestino?: Processo;
 
     observacao?: string;
 

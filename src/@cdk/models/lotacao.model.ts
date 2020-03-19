@@ -29,6 +29,8 @@ export class Lotacao {
 
     coordenador?: boolean;
 
+    arquivista?: boolean;
+
     pcu?: boolean;
 
     digitosDistribuicao?: string;

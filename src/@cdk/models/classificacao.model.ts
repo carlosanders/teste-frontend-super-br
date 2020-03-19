@@ -12,7 +12,7 @@ export class Classificacao {
     @Exclude({ toPlainOnly: true })
     uuid?: string;
 
-    nome: string;
+    nome?: string;
 
     @Type(() => ModalidadeDestinacao)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
@@ -34,11 +34,11 @@ export class Classificacao {
 
     prazoGuardaFaseIntermediariaEvento?: string;
 
-    codigo: string;
+    codigo?: string;
 
-    ativo: boolean;
+    ativo?: boolean;
 
-    permissaoUso: boolean;
+    permissaoUso?: boolean;
 
     observacao?: string;
 

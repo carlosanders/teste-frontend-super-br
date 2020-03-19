@@ -18,7 +18,7 @@ export class Acao {
 
     @Type(() => Etiqueta)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    etiqueta: Etiqueta;
+    etiqueta?: Etiqueta;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)

@@ -11,7 +11,7 @@
 <!-- / SIDEBAR HEADER -->
 
 <!-- SIDEBAR CONTENT -->
-<div class="content py-16" cdkPerfectScrollbar>
+<div class="py-16" cdkPerfectScrollbar>
 
     <form class="p-16 mb-8" fxLayoutGap="16px" fxLayout="column" fxLayoutAlign="start"
           name="form" [formGroup]="form">
@@ -49,16 +49,6 @@
                 <mat-datetimepicker #dataHoraRemessa type="datetime" openOnFocus="true" timeInterval="5">
                 </mat-datetimepicker>
             </mat-form-field>
-
-            <mat-radio-group formControlName="usuarioResposta" aria-labelledby="oficios-rg">
-                <mat-label id="oficios-rg">Selecione o status dos ofícios</mat-label>
-                <mat-radio-button [value]="'respondidos'">
-                    Respondidos
-                </mat-radio-button>
-                <mat-radio-button [value]="'nao_respondidos'">
-                    Não respondidos
-                </mat-radio-button>
-            </mat-radio-group>
 
         </div>
 

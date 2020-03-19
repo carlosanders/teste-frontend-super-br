@@ -24,7 +24,7 @@ export class AdminLotacaoEditEffect {
         private _actions: Actions,
         private _lotacaoService: LotacaoService,
         private _store: Store<State>,
-        private _loginService: LoginService,
+        public _loginService: LoginService,
         private _router: Router
     ) {
         this._store
@@ -53,7 +53,10 @@ export class AdminLotacaoEditEffect {
                         JSON.stringify({}),
                         JSON.stringify([
                             'populateAll',
-                            'colaborador.usuario'
+                            'colaborador.usuario',
+                            'setor.unidade',
+                            'setor.especieSetor',
+                            'setor.generoSetor',
                         ]));
                 }),
                 switchMap(response => [
@@ -83,7 +86,6 @@ export class AdminLotacaoEditEffect {
             .pipe(
                 ofType<LotacaoEditActions.SaveLotacao>(LotacaoEditActions.SAVE_LOTACAO),
                 switchMap((action) => {
-                    console.log(action);
                     return this._lotacaoService.save(action.payload).pipe(
                         mergeMap((response: Lotacao) => [
                             new LotacaoEditActions.SaveLotacaoSuccess(),

@@ -7,7 +7,7 @@
     <!-- SIDEBAR -->
     <cdk-sidebar *ngIf="!(maximizado$ | async)" class="sidebar" name="documento-avulso-main-sidebar" position="left"
                   lockedOpen="gt-md">
-        <documento-avulso-main-sidebar></documento-avulso-main-sidebar>
+        <documento-avulso-main-sidebar [pessoasConveniadas]="pessoasConveniadas"></documento-avulso-main-sidebar>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
@@ -62,7 +62,7 @@
                      }">
 
                     <cdk-documento-avulso-list [loading]="(loading$ | async)"
-                                     [documentosAvulso]="(documentosAvulso$ | async)"
+                                     [documentosAvulso]="documentosAvulso"
                                      [deletingIds]="(deletingIds$ | async)"
                                      [deletedIds]="(deletedIds$ | async)"
                                      [currentDocumentoAvulsoId]="currentDocumentoAvulsoId"
@@ -70,7 +70,9 @@
                                      [selectedIds]="(selectedIds$ | async)"
                                      (changeSelectedIds)="changeSelectedIds($event)"
                                      (reload)="reload($event)"
-                                     (selected)="setCurrentDocumentoAvulso($event)">
+                                     (selected)="setCurrentDocumentoAvulso($event)"
+                                     (responderComplentarBloco)="doResponderComplentarBlocoBloco()"
+                                     (etiquetarBloco)="doEtiquetarBloco()">
                     </cdk-documento-avulso-list>
                 </div>
 

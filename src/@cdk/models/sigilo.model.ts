@@ -22,19 +22,19 @@ export class Sigilo {
 
     codigoIndexacao?: string;
 
-    fundamentoLegal: string;
+    fundamentoLegal?: string;
 
     razoesClassificacaoSigilo?: string;
 
     @Transform(value => value ? value.format() : null, { toPlainOnly: true })
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
-    dataHoraValidadeSigilo: Date;
+    dataHoraValidadeSigilo?: Date;
 
     @Transform(value => value ? value.format() : null, { toPlainOnly: true })
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
-    dataHoraInicioSigilo: Date;
+    dataHoraInicioSigilo?: Date;
 
-    nivelAcesso: number;
+    nivelAcesso?: number;
 
     @Type(() => ModalidadeCategoriaSigilo)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
@@ -42,7 +42,7 @@ export class Sigilo {
 
     @Type(() => TipoSigilo)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    tipoSigilo: TipoSigilo;
+    tipoSigilo?: TipoSigilo;
 
     @Type(() => Processo)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })

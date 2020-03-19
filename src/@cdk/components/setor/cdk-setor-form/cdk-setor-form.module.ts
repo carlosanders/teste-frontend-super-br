@@ -8,20 +8,19 @@ import {
     MatProgressSpinnerModule,
     MatDatepickerModule,
     MatRadioModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatTooltipModule,
 } from '@cdk/angular/material';
-
-import { CdkSharedModule } from '@cdk/shared.module';
-import { CdkSetorFormComponent } from './cdk-setor-form.component';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {CdkSetorFormComponent} from './cdk-setor-form.component';
 import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
-import {CdkSetorGridsearchModule} from '../../setor/cdk-setor-autocomplete/cdk-setor-gridsearch/cdk-setor-gridsearch.module';
-import {CdkSetorAutocompleteModule} from '../../setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
+import {CdkSetorGridsearchModule} from '../cdk-setor-autocomplete/cdk-setor-gridsearch/cdk-setor-gridsearch.module';
+import {CdkSetorAutocompleteModule} from '../cdk-setor-autocomplete/cdk-setor-autocomplete.module';
 import {CdkEspecieSetorGridModule} from '../../especie-setor/cdk-especie-setor-grid/cdk-especie-setor-grid.module';
 import {CdkEspecieSetorAutocompleteModule} from '../../especie-setor/cdk-especie-setor-autocomplete/cdk-especie-setor-autocomplete.module';
 import {CdkMunicipioAutocompleteModule} from '../../municipio/cdk-municipio-autocomplete/cdk-municipio-autocomplete.module';
 import {CdkMunicipioGridsearchModule} from '../../municipio/cdk-municipio-autocomplete/cdk-municipio-gridsearch/cdk-municipio-gridsearch.module';
-
-
+import {CdkEspecieSetorGridsearchModule} from '../../especie-setor/cdk-especie-setor-autocomplete/cdk-especie-setor-gridsearch/cdk-especie-setor-gridsearch.module';
 
 @NgModule({
     declarations: [
@@ -36,18 +35,22 @@ import {CdkMunicipioGridsearchModule} from '../../municipio/cdk-municipio-autoco
         MatRadioModule,
         MatProgressSpinnerModule,
         MatDatepickerModule,
-        NgxUpperCaseDirectiveModule,
-        CdkSharedModule,
+        MatTooltipModule,
         MatAutocompleteModule,
+
+        NgxUpperCaseDirectiveModule,
+
         CdkSetorAutocompleteModule,
         CdkSetorGridsearchModule,
         CdkEspecieSetorAutocompleteModule,
         CdkEspecieSetorGridModule,
         CdkMunicipioAutocompleteModule,
         CdkMunicipioGridsearchModule,
+        CdkEspecieSetorGridsearchModule,
+
+        CdkSharedModule
     ],
     providers: [
-
     ],
     exports: [
         CdkSetorFormComponent

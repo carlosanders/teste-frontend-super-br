@@ -50,8 +50,7 @@ export class CdkDocumentoAvulsoListMainSidebarComponent implements OnInit
         this.form = this._formBuilder.group({
             processo: [null],
             setorOrigem: [null],
-            dataHoraRemessa: [null],
-            usuarioResposta: [null]
+            dataHoraRemessa: [null]
         });
 
     }
@@ -96,17 +95,6 @@ export class CdkDocumentoAvulsoListMainSidebarComponent implements OnInit
                 this.filters = {
                     ...this.filters,
                     dataHoraRemessa: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('usuarioResposta').valueChanges.subscribe(value => {
-            if (value !== null) {
-                const nullable = value === 'respondidos' ? 'isNotNull' : 'isNull';
-
-                this.filters = {
-                    ...this.filters,
-                    'usuarioResposta.id': `${nullable}`
                 };
             }
         });

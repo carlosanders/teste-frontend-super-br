@@ -11,11 +11,11 @@ export class ModalidadeCategoriaSigilo {
     @Exclude({ toPlainOnly: true })
     uuid?: string;
 
-    valor: string;
+    valor?: string;
 
-    descricao: string;
+    descricao?: string;
 
-    ativo: boolean;
+    ativo?: boolean;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)

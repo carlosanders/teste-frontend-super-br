@@ -35,6 +35,7 @@ import { filter, takeUntil, switchMap } from 'rxjs/operators';
 import {Pagination} from '@cdk/models';
 import {LoginService} from '../../auth/login/login.service';
 import {ToggleMaximizado} from 'app/main/apps/tarefas/store';
+import { Topico } from 'ajuda/topico';
 import {Usuario} from '@cdk/models';
 
 import * as fromAssuntoStore from 'app/main/apps/processo/processo-edit/assuntos/assunto-list/store';
@@ -113,6 +114,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     assuntoPanelOpen$: Observable<boolean>;
 
     tarefaToLoadAssuntos$: Observable<Tarefa>;
+    AjudaTarefa: Topico;
+    PesquisaTarefa: string;
 
     @ViewChild('tarefaListElement', {read: ElementRef, static: true}) tarefaListElement: ElementRef;
 
@@ -253,6 +256,9 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         });
        
        
+        this.PesquisaTarefa = 'tarefa';//IDEIA INICIAL AJUDA ABA TAREFAS
+        
+
     }
 
     ngAfterViewInit(): void {

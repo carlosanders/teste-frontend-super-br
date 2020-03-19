@@ -7,10 +7,9 @@ import {
     MatCheckboxModule,
     MatProgressSpinnerModule,
     MatAutocompleteModule,
-    MatDatepickerModule
-
+    MatDatepickerModule,
+    MatTooltipModule,
 } from '@cdk/angular/material';
-
 import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkProcessoAutocompleteModule} from '../../processo/cdk-processo-autocomplete/cdk-processo-autocomplete.module';
 import {CdkProcessoGridsearchModule} from '../../processo/cdk-processo-autocomplete/cdk-processo-gridsearch/cdk-processo-gridsearch.module';
@@ -33,6 +32,7 @@ import {CdkVinculacaoProcessoFormComponent} from './cdk-vinculacao-processo-form
         MatInputModule,
         MatProgressSpinnerModule,
         MatDatepickerModule,
+        MatTooltipModule,
 
         CdkProcessoAutocompleteModule,
         CdkProcessoGridsearchModule,

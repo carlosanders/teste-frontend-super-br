@@ -69,7 +69,7 @@ export class VisibilidadeComponent implements OnInit, OnDestroy {
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
         private _store: Store<fromStore.VisibilidadeAppState>,
-        private _loginService: LoginService
+        public _loginService: LoginService
     ) {
         this.visibilidades$ = this._store.pipe(select(fromStore.getVisibilidadeList));
         this.visibilidade$ = this._store.pipe(select(fromStore.getVisibilidade));

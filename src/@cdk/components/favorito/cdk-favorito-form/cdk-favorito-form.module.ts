@@ -8,12 +8,11 @@ import {
     MatProgressSpinnerModule,
     MatAutocompleteModule,
     MatDatepickerModule,
-    MatRadioModule
-
+    MatRadioModule,
+    MatTooltipModule
 } from '@cdk/angular/material';
-
-import { CdkSharedModule } from '@cdk/shared.module';
-import { CdkFavoritoFormComponent } from './cdk-favorito-form.component';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {CdkFavoritoFormComponent} from './cdk-favorito-form.component';
 import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
 import {CdkEspecieAtividadeAutocompleteModule} from '../../especie-atividade/cdk-especie-atividade-autocomplete/cdk-especie-atividade-autocomplete.module';
 import {CdkEspecieAtividadeGridsearchModule} from '../../especie-atividade/cdk-especie-atividade-autocomplete/cdk-especie-atividade-gridsearch/cdk-especie-atividade-gridsearch.module';
@@ -27,7 +26,6 @@ import {CdkSetorGridsearchModule} from '../../setor/cdk-setor-autocomplete/cdk-s
         CdkFavoritoFormComponent,
     ],
     imports: [
-
         MatAutocompleteModule,
         MatButtonModule,
         MatFormFieldModule,
@@ -36,6 +34,7 @@ import {CdkSetorGridsearchModule} from '../../setor/cdk-setor-autocomplete/cdk-s
         MatInputModule,
         MatProgressSpinnerModule,
         MatDatepickerModule,
+        MatTooltipModule,
 
         NgxUpperCaseDirectiveModule,
         MatRadioModule,
@@ -44,13 +43,12 @@ import {CdkSetorGridsearchModule} from '../../setor/cdk-setor-autocomplete/cdk-s
         CdkEspecieAtividadeGridsearchModule,
         CdkEspecieTarefaAutocompleteModule,
         CdkEspecieTarefaGridsearchModule,
-        CdkSharedModule,
         CdkSetorAutocompleteModule,
         CdkSetorGridsearchModule,
+        
+        CdkSharedModule,
     ],
-    providers: [
-
-    ],
+    providers: [],
     exports: [
         CdkFavoritoFormComponent
     ]

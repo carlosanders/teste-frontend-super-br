@@ -10,7 +10,7 @@ import {
     MatSortModule,
     MatSelectModule,
 } from '@cdk/angular/material';
-
+import {MatTooltipModule} from '@angular/material/tooltip';
 import {CdkSidebarModule} from '@cdk/components/index';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {ModalidadeTipoInibidorService} from '@cdk/services/modalidade-tipo-inibidor.service';
@@ -40,6 +40,7 @@ import {CdkModalidadeTipoInibidorMainSidebarComponent} from './sidebars/main/mai
 
         CdkSharedModule,
         CdkSidebarModule,
+        MatTooltipModule,
     ],
     providers: [
         ModalidadeTipoInibidorService,

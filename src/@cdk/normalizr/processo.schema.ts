@@ -1,4 +1,4 @@
-import {classificacao} from './index.schema';
+import {classificacao, lembrete} from './index.schema';
 import {origemDados} from './index.schema';
 import {processo as processoOrigem} from './index.schema';
 import {documentoAvulso} from './index.schema';
@@ -12,10 +12,6 @@ import {modalidadeMeio} from './index.schema';
 import {vinculacaoEtiqueta} from './index.schema';
 import {processo as processoSchema} from './index.schema';
 
-/*
-* ISSUE-107
-*/
-import {assunto} from './index.schema';
 
 processoSchema.define({
     classificacao: classificacao,
@@ -33,7 +29,7 @@ processoSchema.define({
     atualizadoPor: usuario,
     apagadoPor: usuario,
     vinculacoesEtiquetas: [vinculacaoEtiqueta],
-    assuntos: [assunto]
+    lembretes: [lembrete]
 });
 
 export const processo = processoSchema;

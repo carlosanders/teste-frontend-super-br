@@ -30,6 +30,8 @@ import {CdkPessoaAutocompleteModule} from '../../pessoa/cdk-pessoa-autocomplete/
 import {CdkLogentryGridsearchModule} from '../../logentry/cdk-logentry-grid/cdk-logentry-gridsearch/cdk-logentry-gridsearch.module';
 import {CdkProcessoAutocompleteModule} from '../cdk-processo-autocomplete/cdk-processo-autocomplete.module';
 import {CdkProcessoGridsearchModule} from '../cdk-processo-autocomplete/cdk-processo-gridsearch/cdk-processo-gridsearch.module';
+import {MatCardModule} from '@angular/material/card';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 @NgModule({
     declarations: [
@@ -65,6 +67,8 @@ import {CdkProcessoGridsearchModule} from '../cdk-processo-autocomplete/cdk-proc
         CdkLogentryGridsearchModule,
         CdkProcessoAutocompleteModule,
         CdkProcessoGridsearchModule,
+        MatCardModule,
+        MatSlideToggleModule,
     ],
     providers: [],
     exports: [

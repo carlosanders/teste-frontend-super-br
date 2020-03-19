@@ -1,62 +1,63 @@
-<div class="page-layout fullwidth left-sidebar inner-scroll" fxFlex="100">
+<div class="page-layout left-sidebar" fxFlex>
 
     <!-- SIDEBAR -->
     <cdk-sidebar class="sidebar" name="cdk-setor-main-sidebar" position="left">
         <!-- SIDEBAR CONTENT -->
         <div class="content" cdkPerfectScrollbar>
-            <cdk-setor-main-sidebar (selected)="setGridFilter($event)" [@animate]="{value:'*'}"></cdk-setor-main-sidebar>
+            <cdk-setor-main-sidebar (selected)="setGridFilter($event)"
+                                    [@animate]="{value:'*'}"></cdk-setor-main-sidebar>
         </div>
         <!-- / SIDEBAR CONTENT -->
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
     <!-- CONTENT -->
-    <div class="content responsive-grid" fxLayoutAlign="center start">
+    <div class="content responsive-grid" fxFlex fxLayout="column">
 
-        <div class="mb-8 p-8" fxFlex fxLayout="column" fxLayoutAlign="center center">
+        <div class="actions" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="end center">
 
-            <div class="actions" fxFlex fxLayout="row" fxLayoutAlign="end center">
+            <button class="back" mat-icon-button *ngIf="actions.indexOf('cancel') > -1"
+                    (click)="doCancel()"
+                    aria-label="cancelar"
+                    matTooltip="Cancelar">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
 
-                <button class="back" mat-icon-button *ngIf="actions.indexOf('cancel') > -1"
-                        (click)="doCancel()"
-                        aria-label="cancelar"
-                        matTooltip="Cancelar">
-                    <mat-icon>arrow_back</mat-icon>
-                </button>
+            <button mat-icon-button *ngIf="selectedIds.length > 1 && actions.indexOf('delete') > -1"
+                    (click)="deleteSetores(selectedIds)"
+                    aria-label="remover"
+                    matTooltip="Remover">
+                <mat-icon>delete</mat-icon>
+            </button>
 
-                <button mat-icon-button *ngIf="selectedIds.length > 1 && actions.indexOf('delete') > -1"
-                        (click)="deleteSetores(selectedIds)"
-                        aria-label="remover"
-                        matTooltip="Remover">
-                    <mat-icon>delete</mat-icon>
-                </button>
+            <mat-form-field class="colunas mr-8">
+                <mat-select [formControl]="columns" multiple>
+                    <div *ngFor="let column of allColumns">
+                        <mat-option *ngIf="!column.fixed" [value]="column.id">{{ column.label }}</mat-option>
+                    </div>
+                </mat-select>
+            </mat-form-field>
 
-                <mat-form-field class="colunas mr-8">
-                    <mat-select [formControl]="columns" multiple>
-                        <div *ngFor="let column of allColumns">
-                            <mat-option *ngIf="!column.fixed" [value]="column.id">{{ column.label }}</mat-option>
-                        </div>
-                    </mat-select>
-                </mat-form-field>
+            <button class="refresh" mat-icon-button
+                    (click)="loadPage()"
+                    aria-label="recarregar"
+                    matTooltip="Recarregar">
+                <mat-icon>refresh</mat-icon>
+            </button>
 
-                <button class="refresh" mat-icon-button
-                        (click)="loadPage()"
-                        aria-label="recarregar"
-                        matTooltip="Recarregar">
-                    <mat-icon>refresh</mat-icon>
-                </button>
+            <button class="toggle-filter" mat-icon-button [ngClass]="{'warn': (gridFilter | json) != '{}'}"
+                    (click)="toggleFilter()"
+                    aria-label="filtrar"
+                    matTooltip="Filtrar">
+                <mat-icon>filter_list</mat-icon>
+            </button>
+        </div>
 
-                <button class="toggle-filter" mat-icon-button mat-icon-button [ngClass]="{'warn': (gridFilter | json) != '{}'}"
-                        (click)="toggleFilter()"
-                        aria-label="filtrar"
-                        matTooltip="Filtrar">
-                    <mat-icon>filter_list</mat-icon>
-                </button>
-            </div>
+        <div fxFlex="1 1 auto" fxLayout="row" fxLayoutAlign="center center" *ngIf="loading">
+            <mat-spinner diameter="32"></mat-spinner>
+        </div>
 
-            <div class="spinner-container" *ngIf="loading">
-                <mat-spinner diameter="32"></mat-spinner>
-            </div>
+        <div fxFlex="1 1 auto" fxLayout="column" cdkPerfectScrollbar>
 
             <table mat-table [dataSource]="dataSource" matSort [hidden]="loading">
 
@@ -104,7 +105,8 @@
                 </ng-container>
 
                 <!-- EspecieSetor Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('especieSetor.nome') > -1" matColumnDef="especieSetor.nome">
+                <ng-container *ngIf="displayedColumns.indexOf('especieSetor.nome') > -1"
+                              matColumnDef="especieSetor.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Espécie Setor
                     </th>
@@ -133,11 +135,13 @@
                 </ng-container>
 
                 <!-- ModalidadeOrgaoCentral Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('modalidadeOrgaoCentral.valor') > -1" matColumnDef="modalidadeOrgaoCentral.valor">
+                <ng-container *ngIf="displayedColumns.indexOf('modalidadeOrgaoCentral.valor') > -1"
+                              matColumnDef="modalidadeOrgaoCentral.valor">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Modalidade Órgão Central
                     </th>
-                    <td mat-cell *matCellDef="let setor" class='has_label_on_mobile' data-label='Modalidade Órgão Central: '
+                    <td mat-cell *matCellDef="let setor" class='has_label_on_mobile'
+                        data-label='Modalidade Órgão Central: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1}"> {{setor.modalidadeOrgaoCentral?.valor}} </td>
                 </ng-container>
 
@@ -205,11 +209,13 @@
                 </ng-container>
 
                 <!-- SequênciaInicialNUP Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('sequenciaInicialNUP') > -1" matColumnDef="sequenciaInicialNUP">
+                <ng-container *ngIf="displayedColumns.indexOf('sequenciaInicialNUP') > -1"
+                              matColumnDef="sequenciaInicialNUP">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Sequência Inicial NUP
                     </th>
-                    <td mat-cell *matCellDef="let setor" class='has_label_on_mobile' data-label='Sequência Inicial NUP: '
+                    <td mat-cell *matCellDef="let setor" class='has_label_on_mobile'
+                        data-label='Sequência Inicial NUP: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1}"> {{setor.sequenciaInicialNUP}} </td>
                 </ng-container>
 
@@ -236,18 +242,21 @@
                 </ng-container>
 
                 <!-- NumeracaoDocumentoUnidade Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('numeracaoDocumentoUnidade') > -1" matColumnDef="numeracaoDocumentoUnidade">
+                <ng-container *ngIf="displayedColumns.indexOf('numeracaoDocumentoUnidade') > -1"
+                              matColumnDef="numeracaoDocumentoUnidade">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Numeração Documento Unidade
                     </th>
-                    <td mat-cell *matCellDef="let setor" class='has_label_on_mobile' data-label='Numeração Documento Unidade: '
+                    <td mat-cell *matCellDef="let setor" class='has_label_on_mobile'
+                        data-label='Numeração Documento Unidade: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1}">
                         <mat-checkbox [disabled]="true" [checked]="setor.numeracaoDocumentoUnidade"></mat-checkbox>
                     </td>
                 </ng-container>
 
                 <!-- ApenasDistribuidor Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('apenasDistribuidor') > -1" matColumnDef="apenasDistribuidor">
+                <ng-container *ngIf="displayedColumns.indexOf('apenasDistribuidor') > -1"
+                              matColumnDef="apenasDistribuidor">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Apenas Distribuidor
                     </th>
@@ -258,7 +267,8 @@
                 </ng-container>
 
                 <!-- DistribuicaoCentena Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('distribuicaoCentena') > -1" matColumnDef="distribuicaoCentena">
+                <ng-container *ngIf="displayedColumns.indexOf('distribuicaoCentena') > -1"
+                              matColumnDef="distribuicaoCentena">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Distribuição Centena
                     </th>
@@ -296,7 +306,8 @@
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1" matColumnDef="atualizadoPor.nome">
+                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1"
+                              matColumnDef="atualizadoPor.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Atualizado Por
                     </th>
@@ -353,6 +364,33 @@
                             <mat-icon>edit</mat-icon>
                         </button>
 
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('lotacoes') > -1"
+                                [disabled]="deletedIds?.indexOf(setor.id) > -1"
+                                (click)="lotacoesSetor(setor.id)"
+                                aria-label="lotações"
+                                matTooltip="Lotações">
+                            <mat-icon>map</mat-icon>
+                        </button>
+
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('localizadores') > -1"
+                                [disabled]="deletedIds?.indexOf(setor.id) > -1"
+                                (click)="localizadoresSetor(setor.id)"
+                                aria-label="localizadores"
+                                matTooltip="Localizadores">
+                            <mat-icon>edit_location</mat-icon>
+                        </button>
+
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('numeros-unicos-documentos') > -1"
+                                [disabled]="deletedIds?.indexOf(setor.id) > -1"
+                                (click)="numerosUnicosDocumentosSetor(setor.id)"
+                                aria-label="números únicos documentos"
+                                matTooltip="Números Únicos Documentos">
+                            <mat-icon>filter_9_plus</mat-icon>
+                        </button>
+
                         <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(setor.id) > -1">
                             <mat-spinner diameter="24"></mat-spinner>
                         </div>
@@ -368,15 +406,14 @@
                     </td>
                 </ng-container>
 
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
                 <tr mat-row *matRowDef="let setor; columns: displayedColumns;">
                 </tr>
             </table>
+        </div>
 
-            <div fxFlex fxLayout="row" fxLayoutAlign="center center">
-                <mat-paginator [pageSizeOptions]="[5, 10]"></mat-paginator>
-            </div>
-
+        <div class="actions" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="center center">
+            <mat-paginator [disabled]="loading" [pageSizeOptions]="[5, 10]"></mat-paginator>
         </div>
 
     </div>

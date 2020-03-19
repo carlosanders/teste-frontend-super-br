@@ -1,5 +1,5 @@
 import * as DocumentosAvulsoActions from 'app/main/apps/oficios/store/actions/oficios.actions';
-import { Etiqueta } from '@cdk/models/etiqueta.model';
+import { Etiqueta } from '@cdk/models';
 
 export interface DocumentosAvulsoState {
     entitiesId: number[];
@@ -65,9 +65,6 @@ export function OficiosReducer(state = DocumentosAvulsoInitialState, action: Doc
         }
 
         case DocumentosAvulsoActions.GET_DOCUMENTOS_AVULSO_SUCCESS: {
-
-            const loaded = action.payload.loaded;
-
             return {
                 ...state,
                 entitiesId: action.payload.entitiesId,
@@ -76,7 +73,7 @@ export function OficiosReducer(state = DocumentosAvulsoInitialState, action: Doc
                     total: action.payload.total
                 },
                 loading: false,
-                loaded
+                loaded: action.payload.loaded
             };
         }
 
@@ -99,6 +96,13 @@ export function OficiosReducer(state = DocumentosAvulsoInitialState, action: Doc
             return {
                 ...state,
                 maximizado: !state.maximizado
+            };
+        }
+
+        case DocumentosAvulsoActions.CHANGE_SELECTED_DOCUMENTOS_AVULSO: {
+            return {
+                ...state,
+                selectedDocumentoAvulsoIds: action.payload
             };
         }
 

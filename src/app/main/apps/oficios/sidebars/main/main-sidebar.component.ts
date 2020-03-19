@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component, OnDestroy,
+    OnInit,
+    ViewEncapsulation,
+    Input
+} from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 
@@ -20,9 +27,12 @@ export class DocumentoAvulsoMainSidebarComponent implements OnInit, OnDestroy {
 
     private _unsubscribeAll: Subject<any> = new Subject();
 
-    mode = 'DocumentoAvulso';
+    mode = 'entrada';
 
     routerState: any;
+
+    @Input()
+    pessoasConveniadas: any;
 
     /**
      *
@@ -39,7 +49,6 @@ export class DocumentoAvulsoMainSidebarComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-
         this._store
             .pipe(
                 select(getRouterState),
@@ -47,6 +56,11 @@ export class DocumentoAvulsoMainSidebarComponent implements OnInit, OnDestroy {
             ).subscribe(routerState => {
             if (routerState) {
                 this.routerState = routerState.state;
+                if (routerState.state.params['targetHandle'] === 'entrada') {
+                    this.mode = 'entrada';
+                } else {
+                    this.mode = 'saida';
+                }
             }
         });
     }
@@ -64,5 +78,7 @@ export class DocumentoAvulsoMainSidebarComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
+    onDrop($event): void {
 
+    }
 }
