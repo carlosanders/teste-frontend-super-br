@@ -66,6 +66,7 @@ export class CdkLotacaoFormComponent implements OnChanges, OnDestroy {
             principal: [null],
             coordenador: [null],
             distribuidor: [null],
+            arquivista: [null],
             peso: ['100', [Validators.required]],
             centena: [null],
             digito: [null]

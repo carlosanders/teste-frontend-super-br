@@ -17,6 +17,7 @@ import {Store} from '@ngrx/store';
 import {State} from 'app/store/reducers';
 import {SetScreen} from 'app/store';
 import {modulesConfig} from '../modules/modules-config';
+import {LoginService} from './main/auth/login/login.service';
 
 @Component({
     selector: 'app',
@@ -42,6 +43,7 @@ export class AppComponent implements OnInit, OnDestroy {
      * @param _translateService
      * @param _platform
      * @param _store
+     * @param _loginService
      */
     constructor(
         @Inject(DOCUMENT) private document: any,
@@ -52,7 +54,8 @@ export class AppComponent implements OnInit, OnDestroy {
         private _cdkTranslationLoaderService: CdkTranslationLoaderService,
         private _translateService: TranslateService,
         private _platform: Platform,
-        private _store: Store<State>
+        private _store: Store<State>,
+        private _loginService: LoginService
     ) {
         // Get default navigation
         this.navigation = navigation;
@@ -127,6 +130,11 @@ export class AppComponent implements OnInit, OnDestroy {
 
         // Set the private defaults
         this._unsubscribeAll = new Subject();
+
+        const userProfile = this._loginService.getUserProfile();
+        if (userProfile) {
+            this._loginService.setMercure(userProfile);
+        }
     }
 
     // -----------------------------------------------------------------------------------------------------

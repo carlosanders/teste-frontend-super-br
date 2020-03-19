@@ -84,7 +84,7 @@
             <mat-menu #moreMenu="matMenu">
 
                 <button *ngIf="prontoTransicao === true" mat-menu-item aria-label="realizar transicao"
-                        (click)="doRealizarTransicao()">
+                        (click)="doRealizarTransicao(processo)">
                     <ng-container>
                         <mat-icon>check</mat-icon>
                         <span>Realizar Transição</span>
