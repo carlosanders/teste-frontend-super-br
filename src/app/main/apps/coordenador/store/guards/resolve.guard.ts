@@ -3,22 +3,17 @@ import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '
 
 import {select, Store} from '@ngrx/store';
 
-import {Observable, of} from 'rxjs';
-import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
+import {Observable, of, throwError} from 'rxjs';
+import {switchMap, catchError} from 'rxjs/operators';
 
 import {CoordenadorAppState} from '../reducers';
-import * as fromStore from '../';
-import {getHasLoaded} from '../selectors';
 import {getRouterState} from 'app/store/reducers';
-import {Lotacao, Setor} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
 
     routerState: any;
-
-    unidades: Setor[] = [] as Setor[];
 
     /**
      *
@@ -48,49 +43,23 @@ export class ResolveGuard implements CanActivate {
      * @returns {Observable<boolean>}
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-        if (this.getRouterDefault()) {
-            return this.getUnidade().pipe(
-                switchMap(() => of(true)),
-                catchError(() => of(false))
-            );
-        }
-    }
-
-    /**
-     * Get Setor
-     *
-     * @returns {Observable<any>}
-     */
-    getUnidade(): any {
-        return this._store.pipe(
-            select(getHasLoaded),
-            tap((loaded: any) => {
-                if (!this.routerState.params['unidadeHandle'] || this.routerState.params['unidadeHandle'] !== loaded.value) {
-                    this._store.dispatch(new fromStore.GetUnidade({
-                        id: 'eq:' + this.routerState.params['unidadeHandle']
-                    }));
-                }
-            }),
-            filter((loaded: any) => {
-                return this.routerState.params['unidadeHandle'] && this.routerState.params['unidadeHandle'] === loaded.value;
-            }),
-            take(1)
+        return this.checkRole().pipe(
+            switchMap(() => of(true)),
+            catchError(() => of(false))
         );
     }
 
-    getRouterDefault(): boolean {
-        if (this.routerState.params['unidadeHandle'] === 'default') {
-            const colaborador = this._loginService.getUserProfile().colaborador;
-
-            colaborador.lotacoes.forEach((lotacao: Lotacao) => {
-                if (!this.unidades.includes(lotacao.setor.unidade)) {
-                    this.unidades.push(lotacao.setor.unidade);
-                }
+    /**
+     * check Role Coordenador
+     *
+     * @returns {Observable<any>}
+     */
+    checkRole(): any {
+        if (!this._loginService.isGranted('ROLE_COORDENADOR')) {
+            this._router.navigate(['/apps/painel']).then(() => {
+                return throwError(new Error('Usuário sem permissão'));
             });
-
-            this._router.navigate(['apps/coordenador/' + this.unidades[0].id + '/modelos']);
-            return false;
         }
-        return true;
+        return of(true);
     }
 }

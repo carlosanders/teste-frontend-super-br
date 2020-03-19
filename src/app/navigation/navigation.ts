@@ -41,7 +41,7 @@ export const navigation: CdkNavigation[] = [
                 type: 'item',
                 icon: 'build',
                 url: '/apps/coordenador',
-                role: 'ROLE_ADMIN'
+                role: 'ROLE_COORDENADOR'
             },
             {
                 id: 'tarefas',

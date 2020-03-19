@@ -53,7 +53,6 @@ export class CdkUsuarioFormComponent implements OnChanges, OnDestroy {
             email: [null, [Validators.required, Validators.email, Validators.maxLength(255)]],
             nivelAcesso: [0, [Validators.required, Validators.maxLength(2)]],
             enabled: [null],
-            assinaturaHTML: [null, [Validators.required]],
             resetPassword: [false]
         });
     }
@@ -73,8 +72,7 @@ export class CdkUsuarioFormComponent implements OnChanges, OnDestroy {
                 nome: this.usuario.nome,
                 email: this.usuario.email,
                 nivelAcess: this.usuario.nivelAcesso,
-                enabled: this.usuario.enabled,
-                assinaturaHTML: this.usuario.assinaturaHTML
+                enabled: this.usuario.enabled
             });
         }
 

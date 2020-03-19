@@ -20,7 +20,7 @@ import {SetorService} from '@cdk/services/setor.service';
 
 const routes: Routes = [
     {
-        path       : ':unidadeHandle',
+        path       : '',
         component: CoordenadorComponent,
         children: [
             {
@@ -32,8 +32,8 @@ const routes: Routes = [
                 loadChildren: () => import('./repositorios/repositorios.module').then(m => m.RepositoriosModule)
             },
             {
-                path       : 'usuario',
-                // loadChildren: () => import('./usuario/usuario.module').then(m => m.UsuarioModule)
+                path       : 'usuarios',
+                loadChildren: () => import('./usuarios/usuarios.module').then(m => m.UsuariosModule)
             }
         ],
         canActivate: [fromGuards.ResolveGuard]

@@ -6,7 +6,6 @@
 
     <!-- SIDEBAR -->
     <cdk-sidebar class="sidebar" name="admin-main-sidebar" position="left" lockedOpen="gt-sm">
-
             <coordenador-main-sidebar [@animate]="{value:'*'}"></coordenador-main-sidebar>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
@@ -27,9 +26,9 @@
 
         <!-- CONTENT CARD -->
         <div class="content-card">
-
-            <router-outlet></router-outlet>
-
+            <div class="content" cdkPerfectScrollbar>
+                <router-outlet></router-outlet>
+            </div>
         </div>
         <!-- / CONTENT CARD -->
 

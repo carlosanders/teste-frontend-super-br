@@ -59,23 +59,22 @@ export class ResolveGuard implements CanActivate {
             select(getAfastamentosListLoaded),
             tap((loaded: any) => {
                 if (!loaded || (this.routerState.params['usuarioHandle'] !== loaded.value)) {
-
-                    let filter: any;
-                    filter = {
-                        'colaborador.usuario.id': 'eq:' + this.routerState.params['usuarioHandle']
-                    };
                     const params = {
-                        filter: filter,
+                        filter: {
+                            'colaborador.usuario.id': 'eq:' + this.routerState.params['usuarioHandle']
+                        },
                         gridFilter: {},
                         limit: 5,
                         offset: 0,
                         sort: {criadoEm: 'DESC'},
                         populate: [
                             'populateAll',
+                            'colaborador.cargo',
+                            'colaborador.modalidadeColaborador',
                             'colaborador.usuario'
                         ],
                         context: {
-                            'isAdmin': true
+                            isAdmin: true
                         }
                     };
 

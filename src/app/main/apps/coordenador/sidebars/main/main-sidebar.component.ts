@@ -3,8 +3,6 @@ import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation
 import {cdkAnimations} from '@cdk/animations';
 import {LoginService} from '../../../../auth/login/login.service';
 import {Colaborador} from '@cdk/models';
-import {Setor} from '@cdk/models';
-import {Lotacao} from '@cdk/models';
 
 @Component({
     selector: 'coordenador-main-sidebar',
@@ -18,7 +16,6 @@ export class CoordenadorMainSidebarComponent implements OnInit, OnDestroy {
 
     links: any;
     colaborador: Colaborador;
-    unidades: Setor[] = [];
 
     /**
      * Constructor
@@ -28,12 +25,6 @@ export class CoordenadorMainSidebarComponent implements OnInit, OnDestroy {
     ) {
 
         this.colaborador = this._loginService.getUserProfile().colaborador;
-
-        this.colaborador.lotacoes.forEach((lotacao: Lotacao) => {
-            if (!this.unidades.includes(lotacao.setor.unidade)) {
-                this.unidades.push(lotacao.setor.unidade);
-            }
-        });
 
         this.links = [
             {
@@ -49,7 +40,7 @@ export class CoordenadorMainSidebarComponent implements OnInit, OnDestroy {
             {
                 nome: 'Usuários',
                 icon: 'person',
-                link: 'usuario'
+                link: 'usuarios'
             }
         ];
     }
@@ -62,7 +53,6 @@ export class CoordenadorMainSidebarComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-
     }
 
     /**
