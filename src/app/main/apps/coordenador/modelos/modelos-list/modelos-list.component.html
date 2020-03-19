@@ -1,0 +1,12 @@
+<cdk-modelo-grid
+        [loading]="(loading$ | async)"
+        [modelos]="(modelos$ | async)"
+        [total]="(pagination$ | async)?.total"
+        [deletingIds]="(deletingIds$ | async)"
+        [deletedIds]="(deletedIds$ | async)"
+        [displayedColumns]="['select', 'id', 'nome', 'template.nome','ativo','actions']"
+        [actions]="['edit', 'editConteudo', 'delete']"
+        (reload)="reload($event)"
+        (edit)="edit($event)"
+        (delete)="delete($event)">
+</cdk-modelo-grid>
