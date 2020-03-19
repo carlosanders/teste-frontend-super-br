@@ -24,13 +24,13 @@ import { getDocumentoAvulso } from '../store/selectors';
 
 @Component({
     selector: 'responder-complementar',
-    templateUrl: './responder-complementar.component.html',
-    styleUrls: ['./responder-complementar.component.scss'],
+    templateUrl: './complementar.component.html',
+    styleUrls: ['./complementar.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class ResponderComplementarComponent implements OnInit, OnDestroy {
+export class ComplementarComponent implements OnInit, OnDestroy {
 
     private _unsubscribeAll: Subject<any> = new Subject();
     private _profile: Usuario;
@@ -65,7 +65,7 @@ export class ResponderComplementarComponent implements OnInit, OnDestroy {
      * @param _changeDetectorRef
      */
     constructor(
-        private _store: Store<fromStore.ResponderComplementarAppState>,
+        private _store: Store<fromStore.ComplementarAppState>,
         public _loginService: LoginService,
         private _router: Router,
         private _changeDetectorRef: ChangeDetectorRef

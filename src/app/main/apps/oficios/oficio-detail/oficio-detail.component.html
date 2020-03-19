@@ -34,8 +34,14 @@
                 <mat-icon class="black-fg">book</mat-icon>
             </button>
 
-            <button mat-icon-button aria-label="Responder Ou Complementar" matTooltip="Responder Ou Complementar"
-                    [routerLink]="['responder-complementar']"
+            <button mat-icon-button aria-label="Responder" matTooltip="Responder" *ngIf="mode==='entrada'"
+                    [routerLink]="['responder']"
+                    [routerLinkActive]="['active', 'accent']">
+                <mat-icon class="black-fg">send</mat-icon>
+            </button>
+
+            <button mat-icon-button aria-label="Complementar" matTooltip="Complementar" *ngIf="mode==='saida'"
+                    [routerLink]="['complementar']"
                     [routerLinkActive]="['active', 'accent']">
                 <mat-icon class="black-fg">send</mat-icon>
             </button>

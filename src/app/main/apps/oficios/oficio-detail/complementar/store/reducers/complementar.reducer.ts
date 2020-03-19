@@ -24,14 +24,16 @@ export function ComplementarReducer(state = ComplementarInitialState, action: Co
         case ComplementarActions.SAVE_COMPLEMENTAR_SUCCESS: {
             return {
                 ... state,
-                saving: true
+                saving: true,
+                errors: false
             };
         }
 
         case ComplementarActions.SAVE_COMPLEMENTAR_FAILED: {
             return {
                 ... state,
-                saving: true
+                saving: true,
+                errors: action.payload
             };
         }
 

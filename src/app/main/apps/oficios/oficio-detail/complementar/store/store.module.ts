@@ -7,10 +7,10 @@ import {effects} from './effects';
 
 @NgModule({
     imports: [
-        StoreModule.forFeature('reponder-complementar-app', reducers),
+        StoreModule.forFeature('complementar-app', reducers),
         EffectsModule.forFeature(effects)
     ],
     providers: []
 })
-export class ResponderComplementarStoreModule {
+export class ComplementarStoreModule {
 }

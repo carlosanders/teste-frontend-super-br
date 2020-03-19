@@ -1,17 +1,17 @@
-import {createSelector} from '@ngrx/store';
-import {DocumentosState, getResponderComplementarAppState, ResponderComplementarAppState} from '../reducers';
-import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
-import {Documento} from '@cdk/models/documento.model';
-import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
-import {AtividadeCreateDocumentosState} from '../../../../../tarefas/tarefa-detail/atividades/atividade-create/store/reducers';
+import { createSelector } from '@ngrx/store';
+import { DocumentosState, getComplementarAppState, ComplementarAppState } from '../reducers';
+import { createSchemaSelectors } from '@cdk/ngrx-normalizr';
+import { Documento } from '@cdk/models';
+import { documento as documentoSchema } from '@cdk/normalizr/documento.schema';
 import {getAtividadeCreateDocumentosState} from '../../../../../tarefas/tarefa-detail/atividades/atividade-create/store/selectors';
+import {AtividadeCreateDocumentosState} from '../../../../../tarefas/tarefa-detail/atividades/atividade-create/store/reducers';
 
 
 const schemaDocumentoSelectors = createSchemaSelectors<Documento>(documentoSchema);
 
 export const getDocumentosState = createSelector(
-    getResponderComplementarAppState,
-    (state: ResponderComplementarAppState) => state ? state.documentos : null
+    getComplementarAppState,
+    (state: ComplementarAppState) => state ? state.documentos : null
 );
 
 export const getDocumentosId = createSelector(

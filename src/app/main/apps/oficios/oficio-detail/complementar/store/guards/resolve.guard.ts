@@ -9,7 +9,7 @@ import { switchMap, catchError, tap, take, filter } from 'rxjs/operators';
 import { DocumentosState } from '../reducers';
 import { getRouterState } from 'app/store/reducers';
 import { getDocumentosHasLoaded } from '../selectors';
-import * as fromStore from 'app/main/apps/oficios/oficio-detail/reponder-complementar/store';
+import * as fromStore from 'app/main/apps/oficios/oficio-detail/complementar/store';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
@@ -19,7 +19,7 @@ export class ResolveGuard implements CanActivate {
     /**
      * Constructor
      *
-     * @param {Store<ResponderComplementarState>} _store
+     * @param {Store<omplementarState>} _store
      */
     constructor(
         private _store: Store<DocumentosState>

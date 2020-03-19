@@ -21,10 +21,10 @@ import {TranslateModule} from '@ngx-translate/core';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkSidebarModule} from '@cdk/components';
 
-import {ResponderComplementarComponent} from './responder-complementar.component';
+import {ComplementarComponent} from './complementar.component';
 import {RouterModule, Routes} from '@angular/router';
 import {CdkAtividadeFormModule} from '@cdk/components/atividade/cdk-atividade-form/cdk-atividade-form.module';
-import {ResponderComplementarStoreModule} from './store/store.module';
+import {ComplementarStoreModule} from './store/store.module';
 import {AtividadeService} from '@cdk/services/atividade.service';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {CdkUploadModule} from '@cdk/components/upload/cdk-upload.module';
@@ -39,14 +39,14 @@ import {CdkComponenteDigitalDocumentoAvulsoCardListModule} from '@cdk/components
 const routes: Routes = [
     {
         path: '',
-        component: ResponderComplementarComponent,
+        component: ComplementarComponent,
         canActivate: [fromGuards.ResolveGuard]
     }
 ];
 
 @NgModule({
     declarations: [
-        ResponderComplementarComponent
+        ComplementarComponent
     ],
     imports: [
         RouterModule.forChild(routes),
@@ -71,7 +71,7 @@ const routes: Routes = [
         CdkUploadModule,
         CdkAtividadeFormModule,
 
-        ResponderComplementarStoreModule,
+        ComplementarStoreModule,
         TranslateModule,
         CdkSharedModule,
         CdkSidebarModule,
@@ -87,8 +87,8 @@ const routes: Routes = [
         fromGuards.ResolveGuard
     ],
     exports: [
-        ResponderComplementarComponent
+        ComplementarComponent
     ]
 })
-export class ResponderComplementarModule {
+export class ComplementarModule {
 }

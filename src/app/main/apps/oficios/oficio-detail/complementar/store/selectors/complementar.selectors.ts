@@ -1,9 +1,9 @@
 import {createSelector} from '@ngrx/store';
-import {ComplementarState, getResponderComplementarAppState, ResponderComplementarAppState} from '../reducers';
+import {ComplementarState, getComplementarAppState, ComplementarAppState} from '../reducers';
 
 export const getComplementarState = createSelector(
-    getResponderComplementarAppState,
-    (state: ResponderComplementarAppState) => state.complementar
+    getComplementarAppState,
+    (state: ComplementarAppState) => state.complementar
 );
 
 export const getIsSavingComplementar = createSelector(
