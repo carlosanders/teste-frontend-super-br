@@ -4,8 +4,7 @@
     fxLayout="column" 
     fxLayoutAlign="start" 
     name="form" 
-    [formGroup]="form" 
-    (submit)="submit">
+    [formGroup]="form">
 
     <div fxFlex="1 0 auto" fxLayout="column">
         
@@ -48,39 +47,28 @@
                     #observacao 
                     matInput 
                     placeholder="Observação" 
-                    maxlength="255" 
-                    upperCase>
+                    maxlength="255" upperCase>
             </div>
-            <mat-hint align="end">{{observacao.value.length}} / 255</mat-hint>
+            <mat-hint align="end">{{observacao.value.length}}</mat-hint>
         </mat-form-field>
     </div>
 
-    <mat-error 
-        *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}
-    </mat-error>
+    <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
-    <div 
-        *ngIf="!saving" 
-        fxLayout="row" 
-        class="mr-sm-12 mt-16 mb-16" 
-        fxFlex 
-        fxLayoutAlign="center center">
-        <button 
-            mat-raised-button 
-            color="accent" 
-            class="mr-sm-12" 
-            [disabled]="form.invalid">
-            SALVAR
-        </button>
+    <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-8 mb-8" fxFlex
+         fxLayoutAlign="center center">
+            <button
+                type="button" 
+                mat-raised-button 
+                color="accent" 
+                class="mr-sm-12" 
+                [disabled]="form.invalid" 
+                (click)="submit()">SALVAR
+            </button>
     </div>
 
-    <div 
-        *ngIf="saving" 
-        fxLayout="row" 
-        class="mr-sm-12 mt-16 mb-16" 
-        fxFlex -
-        
-        fxLayoutAlign="center center">
+    <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+         fxLayoutAlign="center center">
         <mat-spinner color="accent" diameter="24"></mat-spinner>
     </div>
 

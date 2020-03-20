@@ -30,6 +30,9 @@ export class CdkRelevanciaFormComponent implements OnChanges, OnDestroy {
     saving: boolean;
 
     @Input()
+    valid = true;
+
+    @Input()
     errors: any;
 
     @Output()
@@ -67,6 +70,9 @@ export class CdkRelevanciaFormComponent implements OnChanges, OnDestroy {
      * On change
      */
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
+        if (changes['garantia'] && this.relevancia && ((!this.relevancia.id && !this.form.dirty) || (this.relevancia.id !== this.form.get('id').value))) {
+            this.form.patchValue({...this.relevancia});
+        }
         if (this.errors && this.errors.status && (this.errors.status === 400 || this.errors.status === 422)) {
             try {
                 const data = JSON.parse(this.errors.error.message);

@@ -49,7 +49,7 @@ export class RelevanciaEditComponent implements OnInit, OnDestroy {
         this.processo$ = this._store.pipe(select(getProcesso));
 
         this.especieRelevanciaPagination = new Pagination();
-        this.especieRelevanciaPagination.populate = ['especieRelevancia'];
+        // this.especieRelevanciaPagination.populate = ['especieRelevancia'];
     }
 
     // -----------------------------------------------------------------------------------------------------
