@@ -1,16 +1,14 @@
 import {FlatTreeControl} from '@angular/cdk/tree';
-import {Component} from '@angular/core';
-import {MatTreeFlatDataSource, MatTreeFlattener} from '@angular/material/tree';
+import {Component, ElementRef, EventEmitter, Input, Output, Renderer2, ViewChildren} from '@angular/core';
+import {MatTreeFlatDataSource, MatTreeFlattener, MatTreeNode} from '@angular/material/tree';
 import {ClassificacaoService} from '../../../services/classificacao.service';
 import {catchError, finalize} from 'rxjs/operators';
 import {Observable, of} from 'rxjs';
 import {CdkClassificacaoTreeService, ClassificacaoNode} from './services/cdk-classificacao-tree.service';
 import {SelectionModel} from '@angular/cdk/collections';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import validate = WebAssembly.validate;
+import {Processo} from '../../../models';
 
-
-/** Flat node with expandable and level information */
 export class FlatNode {
     expandable: boolean;
     name: string;
@@ -19,7 +17,9 @@ export class FlatNode {
     children?: ClassificacaoNode[];
     selected?: boolean;
 
-    constructor(public isLoading = false) {
+    constructor(
+        public isLoading = false
+    ) {
     }
 }
 
@@ -30,48 +30,45 @@ export class FlatNode {
 })
 export class CdkClassificacaoTreeComponent {
 
+    @Input()
+    processoId: number;
+
     flatNodeMap = new Map<FlatNode, ClassificacaoNode>();
-
-    /** Map from nested node to flattened node. This helps us to keep the same object for selection */
     nestedNodeMap = new Map<ClassificacaoNode, FlatNode>();
-    loading: boolean;
-    /** A selected parent node to be inserted */
-    selectedParent: FlatNode | null = null;
-
-    /** The new item's name */
-    newItemName = '';
-
     treeControl: FlatTreeControl<FlatNode>;
-
     treeFlattener: MatTreeFlattener<ClassificacaoNode, FlatNode>;
-
     dataSource: MatTreeFlatDataSource<ClassificacaoNode, FlatNode>;
+    checklistSelection = new SelectionModel<FlatNode>(true /* multiple */);
 
+    @ViewChildren(MatTreeNode, {read: ElementRef}) treeNodes: ElementRef[];
+
+
+    @Input()
     saving: boolean;
 
-    activeCard: string;
-
-    formPesquisa: FormGroup;
-    private formClassificacao: FormGroup;
+    /**
+     * Outputs
+     */
+    @Output()
+    save = new EventEmitter<Processo>();
+    loading: boolean;
     pesquisando: boolean;
+    activeCard: string;
+    formPesquisa: FormGroup;
+    formClassificacao: FormGroup;
+
     classSelect: string;
-
-
-    /** The selection for checklist */
-    checklistSelection = new SelectionModel<FlatNode>(true /* multiple */);
 
     constructor(
         private _serviceTree: CdkClassificacaoTreeService,
         private _classificacaoService: ClassificacaoService,
-        private _formBuilder: FormBuilder
+        private _formBuilder: FormBuilder,
     ) {
         this.treeFlattener = new MatTreeFlattener(this.transformer, this.getLevel,
             this.isExpandable, this.getChildren);
         this.treeControl = new FlatTreeControl<FlatNode>(this.getLevel, this.isExpandable);
         this.dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
-
         this.initTree();
-
         _serviceTree.dataChange.subscribe(data => {
             this.dataSource.data = data;
         });
@@ -82,26 +79,18 @@ export class CdkClassificacaoTreeComponent {
     loadForms(): void {
         this.formClassificacao = this._formBuilder.group({
             classificacao: [null, Validators.required],
+            processo: [null]
         });
-
         this.formPesquisa = this._formBuilder.group({
             pesquisa: ['', Validators.required]
         });
     }
 
     getLevel = (node: FlatNode) => node.level;
-
     isExpandable = (node: FlatNode) => node.expandable;
-
     getChildren = (node: ClassificacaoNode): ClassificacaoNode[] => node.children;
-
     hasChild = (_: number, nodeData: FlatNode) => nodeData.children.length >= 0;
 
-    hasNoContent = (_: number, _nodeData: FlatNode) => _nodeData.name === '';
-
-    /**
-     * Transformer to convert nested node to flat node. Record the nodes in maps for later use.
-     */
     transformer = (node: ClassificacaoNode, level: number) => {
         const existingNode = this.nestedNodeMap.get(node);
         const flatNode = existingNode && existingNode.name === node.name
@@ -117,7 +106,10 @@ export class CdkClassificacaoTreeComponent {
         return flatNode;
     }
 
-    /** Whether all the descendants of the node are selected. */
+    /**
+     *
+     * Configuraçoes do checkbox
+     */
     descendantsAllSelected(node: FlatNode): boolean {
         const descendants = this.treeControl.getDescendants(node);
         const descAllSelected = descendants.every(child =>
@@ -126,14 +118,12 @@ export class CdkClassificacaoTreeComponent {
         return descAllSelected;
     }
 
-    /** Whether part of the descendants are selected */
     descendantsPartiallySelected(node: FlatNode): boolean {
         const descendants = this.treeControl.getDescendants(node);
         const result = descendants.some(child => this.checklistSelection.isSelected(child));
         return result && !this.descendantsAllSelected(node);
     }
 
-    /** Toggle the to-do item selection. Select/deselect all the descendants node */
     todoItemSelectionToggle(node: FlatNode): void {
         this.checklistSelection.toggle(node);
         const descendants = this.treeControl.getDescendants(node);
@@ -148,13 +138,11 @@ export class CdkClassificacaoTreeComponent {
         this.checkAllParentsSelection(node);
     }
 
-    /** Toggle a leaf to-do item selection. Check all the parents to see if they changed */
     todoLeafItemSelectionToggle(node: FlatNode): void {
         this.checklistSelection.toggle(node);
         this.checkAllParentsSelection(node);
     }
 
-    /* Checks all the parents when a leaf node is selected/unselected */
     checkAllParentsSelection(node: FlatNode): void {
         let parent: FlatNode | null = this.getParentNode(node);
         while (parent) {
@@ -163,7 +151,6 @@ export class CdkClassificacaoTreeComponent {
         }
     }
 
-    /** Check root node checked state and change it accordingly */
     checkRootNodeSelection(node: FlatNode): void {
         const nodeSelected = this.checklistSelection.isSelected(node);
         const descendants = this.treeControl.getDescendants(node);
@@ -177,7 +164,6 @@ export class CdkClassificacaoTreeComponent {
         }
     }
 
-    /* Get the parent node of a node */
     getParentNode(node: FlatNode): FlatNode | null {
         const currentLevel = this.getLevel(node);
 
@@ -197,7 +183,6 @@ export class CdkClassificacaoTreeComponent {
         return null;
     }
 
-    /** Select the category so we can insert the new item. */
     addNewItem(node: FlatNode): void {
         node.isLoading = true;
         const parentNode = this.flatNodeMap.get(node);
@@ -221,7 +206,6 @@ export class CdkClassificacaoTreeComponent {
         });
     }
 
-
     montarArrayClassificacao(classificacoes): any {
         const arrayClassificoes = [];
         classificacoes.entities.forEach((value, indexItem) => {
@@ -234,16 +218,8 @@ export class CdkClassificacaoTreeComponent {
         return arrayClassificoes;
     }
 
-    /** Save the node to database */
-    saveNode(node: FlatNode, itemValue: string): void {
-        const nestedNode = this.flatNodeMap.get(node);
-        // this._database.updateItem(nestedNode!, itemValue);
-    }
-
     getClassificacao(parent): Observable<any> {
-
         this.loading = true;
-
         const params = {
             filter: {
                 parent: parent,
@@ -272,23 +248,29 @@ export class CdkClassificacaoTreeComponent {
 
     }
 
-    submit(): void {
+    setProcesso(): void {
+        const processoId = parseInt(String(this.processoId), 10);
+        const processo = new Processo();
+        processo.id = processoId;
+        processo.classificacao = this.formClassificacao.value.classificacao;
 
+        this.formClassificacao.get('processo').setValue(processo);
+    }
+
+    submit(): void {
+        if (this.formClassificacao.valid) {
+            this.setProcesso();
+            this.save.emit(this.formClassificacao.value);
+        }
     }
 
     pesquisa(): void {
 
     }
 
-
     setInputClassificacao(node: FlatNode): void {
 
-        if (this.formClassificacao.value.classificacao === node.id) {
-            this.formClassificacao.get('classificacao').setValue(null);
-        }
-        else {
-            this.formClassificacao.get('classificacao').setValue(node.id);
-        }
+        this.formClassificacao.get('classificacao').setValue(node.id);
         this.classSelect = 'selectedItem';
         this.nestedNodeMap.forEach(value => {
             value.selected = false;
@@ -302,4 +284,5 @@ export class CdkClassificacaoTreeComponent {
         }
         return '';
     }
+
 }

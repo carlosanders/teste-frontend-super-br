@@ -5,7 +5,7 @@ import {
     OnInit,
     ViewEncapsulation
 } from '@angular/core';
-import {Observable, Subject} from 'rxjs';
+import {Observable} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
 import {ComponenteDigital} from '@cdk/models';

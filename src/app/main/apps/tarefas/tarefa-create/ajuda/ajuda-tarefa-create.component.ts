@@ -4,6 +4,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
+import { Topico } from 'ajuda/topico';
 import {cdkAnimations} from '@cdk/animations';
 
 @Component({
@@ -15,4 +16,12 @@ import {cdkAnimations} from '@cdk/animations';
     animations: cdkAnimations
 })
 export class AjudaTarefaCreateComponent {
+
+
+    topicos: Topico[] = [];
+    titulo = "tarefas";
+
+    carregar(topico: string): void {
+        this.titulo = topico;
+    }
 }

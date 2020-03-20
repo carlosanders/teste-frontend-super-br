@@ -81,6 +81,10 @@ export class NotificacaoListComponent implements OnInit {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/') + notificacaoId]);
     }
 
+    toggleLida(notificacao: Notificacao): void {
+        this._store.dispatch(new fromStore.ToggleLidaNotificacao(notificacao));
+    }
+
     delete(notificacaoId: number): void {
         this._store.dispatch(new fromStore.DeleteNotificacao(notificacaoId));
     }

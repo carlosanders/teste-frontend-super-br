@@ -27,6 +27,7 @@ import { CdkProcessoAutocompleteModule } from '@cdk/components/processo/cdk-proc
 import { CdkSetorAutocompleteModule } from '@cdk/components/setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
 import { DndModule } from 'ngx-drag-drop';
 import { SetorService } from '../../../services/setor.service';
+import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 
 @NgModule({
     declarations: [
@@ -60,7 +61,8 @@ import { SetorService } from '../../../services/setor.service';
         MatDatetimepickerModule,
         MatNativeDatetimeModule,
         MatMomentDatetimeModule,
-        MatRadioModule
+        MatRadioModule,
+        InfiniteScrollModule
     ],
     providers: [
         ProcessoService,

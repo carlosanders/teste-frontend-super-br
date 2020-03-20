@@ -1,1 +1,5 @@
-<cdk-classificacao-tree></cdk-classificacao-tree>
+<cdk-classificacao-tree
+    [processoId]="this.processoId"
+    (save)="submit($event)"
+    [saving]="(isSaving$ | async)">
+</cdk-classificacao-tree>

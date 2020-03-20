@@ -1,20 +1,9 @@
-#numero-unico-documento {
-  height: 100%;
-  .header {
-
-    .actions {
-      .is-active {
-        display: none;
-      }
-    }
-
-  }
-
-  .content {
-    height: 85%;
-  }
-}
-
 numero-unico-documento {
-  height: 100% !important;
+    height: 100%;
+    width: 100%;
+
+    .numero-unico-documento-content {
+        height: 100%;
+        width: 100%;
+    }
 }

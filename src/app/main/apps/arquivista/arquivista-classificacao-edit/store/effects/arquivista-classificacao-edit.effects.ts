@@ -64,8 +64,8 @@ export class ArquivistaClassificacaoEditEffects {
             .pipe(
                 ofType<ArquivistaClassificacaoActions.SaveArquivistaClassificacaoSuccess>(ArquivistaClassificacaoActions.SAVE_ARQUIVISTA_CLASSIFICACAO_SUCCESS),
                 tap(() => {
-                    this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle
-                    + '/aguardando-decurso/detalhe/processo/' + this.routerState.params.processoHandle + '/visualizar']).then();
+                    this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle + '/'
+                    + this.routerState.params.typeHandle + '/detalhe/processo/' + this.routerState.params.processoHandle + '/visualizar']).then();
                 })
             );
 

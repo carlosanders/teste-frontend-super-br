@@ -47,9 +47,10 @@ import {CdkEspecieSetorGridsearchModule} from '../../especie-setor/cdk-especie-s
         CdkMunicipioAutocompleteModule,
         CdkMunicipioGridsearchModule,
         CdkEspecieSetorGridsearchModule,
+
+        CdkSharedModule
     ],
     providers: [
-        CdkSharedModule,
     ],
     exports: [
         CdkSetorFormComponent

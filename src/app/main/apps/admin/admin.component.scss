@@ -1,10 +1,9 @@
 admin {
-
-
-}
-
-.page-layout.carded.left-sidebar > .center > .header, .page-layout.carded.right-sidebar > .center > .header {
-
-    min-height: 75px;
-    max-height: 75px;
+    .center {
+        .header {
+            height: 72px !important;
+            min-height: 72px !important;
+            max-height: 72px !important;
+        }
+    }
 }

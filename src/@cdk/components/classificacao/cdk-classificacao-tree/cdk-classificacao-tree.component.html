@@ -1,5 +1,5 @@
 <div cdkPerfectScrollbar>
-    <form class="p-16" fxLayoutGap="36px"
+    <form class="form-pesquisa" fxLayoutGap="36px"
           fxLayout="column"
           fxLayoutAlign="start"
           name="form" [formGroup]="formPesquisa" (submit)="pesquisa()">
@@ -12,7 +12,7 @@
             <div fxLayout="row" fxLayoutAlign="start center">
                 <input matInput placeholder="Pesquisar" formControlName="pesquisa" maxlength="100" required upperCase>
             </div>
-            <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+            <div *ngIf="pesquisando" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
                  fxLayoutAlign="center center">
                 <mat-spinner color="accent" diameter="24"></mat-spinner>
             </div>
@@ -20,11 +20,11 @@
 
     </form>
 
-    <form class="p-16" fxLayoutGap="36px"
+    <form class="form-tree" fxLayoutGap="36px"
           fxLayout="column"
           fxLayoutAlign="start"
-          name="form" [formGroup]="formClassificacao" (submit)="submit()">
-        <mat-label>Arvore</mat-label>
+          name="form" [formGroup]="formClassificacao">
+        <mat-label class="title-arvore">Arvore</mat-label>
         <div cdkPerfectScrollbar class="tree">
             <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
                 <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>
@@ -58,7 +58,6 @@
                     <!--        <mat-checkbox [checked]="descendantsAllSelected(node)"-->
                     <!--                      [indeterminate]="descendantsPartiallySelected(node)"-->
                     <!--                      (change)="todoItemSelectionToggle(node)">{{node.name}}</mat-checkbox>-->
-
                     <mat-progress-bar *ngIf="node.isLoading"
                                       mode="indeterminate"
                                       class="example-tree-progress-bar"></mat-progress-bar>
@@ -78,7 +77,8 @@
             <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
                  fxLayoutAlign="center center">
                 <button mat-raised-button color="accent" class="mr-sm-12"
-                        [disabled]="formClassificacao.invalid">
+                        [disabled]="formClassificacao.invalid"
+                        (click)="submit()">
                     ALTERAR CLASSIFICAÇÃO
                 </button>
             </div>
@@ -88,8 +88,6 @@
                 <mat-spinner color="accent" diameter="24"></mat-spinner>
             </div>
         </div>
-
-
     </form>
 </div>
 

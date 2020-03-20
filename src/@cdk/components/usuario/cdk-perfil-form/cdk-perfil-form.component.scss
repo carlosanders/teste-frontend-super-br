@@ -3,9 +3,9 @@ cdk-perfil-form {
   form {
     width: 100%;
   }
-
-  .div-form {
-    width: 350px;
+  .inner-scroll{
+    height: 50%;
+    width: 100%;
   }
 
   .form-card {
@@ -19,19 +19,5 @@ cdk-perfil-form {
       background: none !important;
     }
   }
-
-  .prazoGuarda {
-    display: flex;
-    align-content: center;
-    align-items: center;
-    height: auto;
-    padding: 5px;
-  }
-
-  .prazoGuardaCampo {
-
-
-  }
-
 
 }

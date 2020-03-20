@@ -134,7 +134,7 @@ export class CdkNotificacaoGridComponent implements AfterViewInit, OnInit, OnCha
     pageSize = 5;
 
     @Input()
-    actions: string[] = ['edit', 'delete', 'select'];
+    actions: string[] = ['edit', 'delete', 'select', 'toggleLida'];
 
     @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
@@ -155,6 +155,9 @@ export class CdkNotificacaoGridComponent implements AfterViewInit, OnInit, OnCha
     delete = new EventEmitter<number>();
 
     @Output()
+    toggleLida = new EventEmitter<Notificacao>();
+
+    @Output()
     selected = new EventEmitter<Notificacao>();
 
     @Output()
@@ -171,6 +174,7 @@ export class CdkNotificacaoGridComponent implements AfterViewInit, OnInit, OnCha
 
     /**
      * @param _changeDetectorRef
+     * @param _cdkSidebarService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -252,6 +256,10 @@ export class CdkNotificacaoGridComponent implements AfterViewInit, OnInit, OnCha
 
     deleteNotificacao(notificacaoId): void {
         this.delete.emit(notificacaoId);
+    }
+
+    toggleLidaNotificacao(notificacao: Notificacao): void {
+        this.toggleLida.emit(notificacao);
     }
 
     deleteNotificacoes(notificacoesId): void {
