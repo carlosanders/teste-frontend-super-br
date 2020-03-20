@@ -9,7 +9,7 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {ModalidadeVinculacaoDocumento} from '@cdk/models';
 import {ModalidadeVinculacaoDocumentoService} from '@cdk/services/modalidade-vinculacao-documento.service';
-import {FormControl} from '@angular/forms';
+import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
@@ -30,7 +30,7 @@ export class CdkModalidadeVinculacaoDocumentoAutocompleteComponent implements On
     pagination: Pagination;
 
     @Input()
-    control: FormControl;
+    control: AbstractControl;
 
     modalidadeVinculacaoDocumentoList: ModalidadeVinculacaoDocumento[];
     modalidadeVinculacaoDocumentoListIsLoading: boolean;
