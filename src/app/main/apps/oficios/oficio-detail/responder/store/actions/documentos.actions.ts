@@ -21,7 +21,7 @@ export class GetDocumentos implements Action
 {
     readonly type = GET_DOCUMENTOS;
 
-    constructor()
+    constructor(public payload: any)
     {
     }
 }

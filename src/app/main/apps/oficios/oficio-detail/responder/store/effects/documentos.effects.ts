@@ -4,17 +4,19 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 
-import * as DocumentosActions from '../actions/documentos.actions';
+import * as DocumentosActions from '../actions';
+import * as DocumentoAvulsoActions from '../../../store/actions';
 
 import { AddData, UpdateData } from '@cdk/ngrx-normalizr';
 import { select, Store } from '@ngrx/store';
 import { getRouterState, State} from 'app/store/reducers';
-import { DocumentoAvulso, Documento} from '@cdk/models';
+import { DocumentoAvulso, Documento } from '@cdk/models';
 import { DocumentoService} from '@cdk/services/documento.service';
+import { DocumentoAvulsoService } from '@cdk/services/documento-avulso.service';
 import { documento as documentoSchema} from '@cdk/normalizr/documento.schema';
 import { Router} from '@angular/router';
 import { getDocumentoAvulso} from '../../../store/selectors';
-import {GetDocumentoAvulso} from '../../../store/actions';
+import { documentoAvulso as documentoAvulsoSchema} from '@cdk/normalizr/documento-avulso.schema';
 
 @Injectable()
 export class DocumentosEffects {
@@ -24,6 +26,7 @@ export class DocumentosEffects {
     constructor(
         private _actions: Actions,
         private _documentoService: DocumentoService,
+        private _documentoAvulsoService: DocumentoAvulsoService,
         private _router: Router,
         private _store: Store<State>
     ) {
@@ -51,12 +54,12 @@ export class DocumentosEffects {
         this._actions
             .pipe(
                 ofType<DocumentosActions.GetDocumentos>(DocumentosActions.GET_DOCUMENTOS),
-                switchMap(() => {
+                switchMap((action) => {
                     const params = {
                         filter: {
-                            id: `eq:${this.documentoAvulso.documentoResposta.id}`
+                            id: `eq:${action.payload.id}`
                         },
-                        limit: 10,
+                        limit: 1,
                         offset: 0,
                         sort: {
                             criadoEm: 'DESC'

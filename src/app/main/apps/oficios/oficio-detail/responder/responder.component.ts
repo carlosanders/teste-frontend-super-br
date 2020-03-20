@@ -155,10 +155,6 @@ export class ResponderComponent implements OnInit, OnDestroy {
         this.cdkUpload.upload();
     }
 
-    complementarDocumento(): void {
-        this.cdkUpload.upload();
-    }
-
     changedSelectedIds(selectedIds): void {
         this._store.dispatch(new fromStore.ChangeSelectedDocumentos(selectedIds));
     }
@@ -180,7 +176,9 @@ export class ResponderComponent implements OnInit, OnDestroy {
     }
 
     onComplete(): void {
-        this._store.dispatch(new fromStore.GetDocumentos());
+        this._store.dispatch(new fromStore.GetDocumentos({
+            id: this.documentoAvulso.documentoResposta.id
+        }));
     }
 
     doConverte(documentoId): void {

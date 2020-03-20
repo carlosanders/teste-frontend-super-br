@@ -7,7 +7,6 @@ import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
 import {PaginatedResponse} from '@cdk/models';
 import {environment} from 'environments/environment';
-import {Documento} from '../models';
 
 @Injectable()
 export class DocumentoAvulsoService {

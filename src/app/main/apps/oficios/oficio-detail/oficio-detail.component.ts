@@ -205,6 +205,8 @@ export class OficioDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     complete(pending: number): void {
+        this.getDocumentoAvulso();
+
         if (pending === 0) {
             this._store.dispatch(new fromStore.GetDocumentos({
                 id: 'eq:' + this.documentoAvulso.documentoResposta.id
@@ -218,5 +220,11 @@ export class OficioDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
     doToggleMaximizado(): void {
         this._store.dispatch(new ToggleMaximizado());
+    }
+
+    getDocumentoAvulso(): void {
+        this._store.dispatch(new fromStore.GetDocumentoAvulso({
+            id: 'eq:' + this.documentoAvulso.id
+        }));
     }
 }

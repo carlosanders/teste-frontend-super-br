@@ -98,7 +98,7 @@ export class ResolveGuard implements CanActivate {
 
                     if (this.routerState.params[typeParam] === 'entrada') {
                         documentoAvulsoFilter = {
-                            'usuarioResposta.id': 'isNull',
+                            'documentoResposta.id': 'isNull',
                             'documentoRemessa.id': 'isNotNull',
                             'pessoaDestino.id': `eq:${this.routerState.params['pessoaHandle']}`
                         };
@@ -106,7 +106,7 @@ export class ResolveGuard implements CanActivate {
 
                     if (this.routerState.params[typeParam] === 'saida') {
                         documentoAvulsoFilter = {
-                            'usuarioResposta.id': 'isNotNull',
+                            'documentoResposta.id': 'isNotNull',
                             'documentoRemessa.id': 'isNotNull',
                             'pessoaDestino.id': `eq:${this.routerState.params['pessoaHandle']}`
                         };

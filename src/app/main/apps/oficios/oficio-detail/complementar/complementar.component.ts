@@ -151,10 +151,6 @@ export class ComplementarComponent implements OnInit, OnDestroy {
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
-    responderDocumento(): void {
-        this.cdkUpload.upload();
-    }
-
     complementarDocumento(): void {
         this.cdkUpload.upload();
     }

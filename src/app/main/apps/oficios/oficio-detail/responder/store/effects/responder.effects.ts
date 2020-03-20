@@ -34,7 +34,8 @@ export class ResponderEffects {
             .pipe(
                 ofType<ResponderActions.SaveRespostaSuccess>(ResponderActions.SAVE_RESPOSTA_SUCCESS),
                 tap((action) => {
-                    this._router.navigate(['apps/oficios/' + action.payload + '/responder-complementar']
+                    this._router.navigate(['apps/oficios/' + this.routerState.param['oficioTargetHandle']
+                        + '/' + action.payload + '/responder']
                     ).then();
                 })
             );
