@@ -3,14 +3,14 @@ import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '
 
 import {select, Store} from '@ngrx/store';
 
-import {Observable, of} from 'rxjs';
+import {Observable, of, throwError} from 'rxjs';
 import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
 
 import {AdminAppState} from '../reducers';
 import * as fromStore from '../';
 import {getHasLoaded} from '../selectors';
 import {getRouterState} from 'app/store/reducers';
-import {Lotacao, Setor} from '@cdk/models';
+import {Lotacao, Setor, Usuario} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
 
 @Injectable()
@@ -19,6 +19,8 @@ export class ResolveGuard implements CanActivate {
     routerState: any;
 
     unidades: Setor[] = [] as Setor[];
+
+    usuario: Usuario;
 
     /**
      *
@@ -38,6 +40,8 @@ export class ResolveGuard implements CanActivate {
                     this.routerState = routerState.state;
                 }
             });
+
+        this.usuario = this._loginService.getUserProfile();
     }
 
     /**
@@ -49,11 +53,25 @@ export class ResolveGuard implements CanActivate {
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         if (this.getRouterDefault()) {
-            return this.getUnidade().pipe(
+            return this.checkRole(this.getUnidade()).pipe(
                 switchMap(() => of(true)),
                 catchError(() => of(false))
             );
         }
+    }
+
+    /**
+     * check Role admin
+     *
+     * @returns {Observable<any>}
+     */
+    checkRole(observable: Observable<any>): any {
+        if (!this._loginService.isGranted('ROLE_ADMIN')) {
+            this._router.navigate(['/apps/painel']).then(() => {
+                return throwError(new Error('Usuário sem permissão'));
+            });
+        }
+        return observable;
     }
 
     /**
@@ -80,9 +98,7 @@ export class ResolveGuard implements CanActivate {
 
     getRouterDefault(): boolean {
         if (this.routerState.params['unidadeHandle'] === 'default') {
-            const colaborador = this._loginService.getUserProfile().colaborador;
-
-            colaborador.lotacoes.forEach((lotacao: Lotacao) => {
+            this.usuario.colaborador.lotacoes.forEach((lotacao: Lotacao) => {
                 if (!this.unidades.includes(lotacao.setor.unidade)) {
                     this.unidades.push(lotacao.setor.unidade);
                 }

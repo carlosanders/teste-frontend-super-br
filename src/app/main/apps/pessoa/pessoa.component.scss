@@ -1,6 +1,4 @@
 pessoa {
-    height: 100%;
-    width: 100%;
     .full-screen {
         position: fixed;
         top: 0;
@@ -9,14 +7,10 @@ pessoa {
         width: 100%;
         z-index: 1001;
 
-        .content {
-            height: 100%;
-            width: 100%;
-
-            .pessoa-header {
-                height: 64px !important;
-                min-height: 64px !important;
-                max-height: 64px !important;
+        .pessoa-content {
+            height: 86%;
+            .pessoa-sub-content {
+                height: 100%;
             }
         }
     }

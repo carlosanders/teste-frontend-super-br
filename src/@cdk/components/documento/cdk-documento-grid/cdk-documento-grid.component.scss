@@ -1,4 +1,4 @@
-@import "src/@cdk/scss/cdk";
+@import "../../../scss/cdk";
 
 cdk-documento-grid {
 
@@ -13,16 +13,32 @@ cdk-documento-grid {
 
   }
 
-  .mat-column-select {
-    overflow: initial;
-  }
-
-  table {
+  .content {
     width: 100%;
 
-    td {
-      &.deleted {
-        text-decoration: line-through;
+    .actions {
+      width: 100%;
+
+      .back {
+        margin-right: auto;
+      }
+    }
+
+    .mat-column-select {
+      overflow: initial;
+    }
+
+    table {
+      width: 100%;
+
+      tr {
+        height: auto;
+      }
+
+      td {
+        &.deleted {
+          text-decoration: line-through;
+        }
       }
     }
   }
@@ -102,16 +118,6 @@ cdk-documento-grid {
 
     .mat-paginator {
       margin-top: 24px;
-    }
-  }
-
-  .content {
-    .actions {
-      width: 100%;
-
-      .back {
-        margin-right: auto;
-      }
     }
   }
 }

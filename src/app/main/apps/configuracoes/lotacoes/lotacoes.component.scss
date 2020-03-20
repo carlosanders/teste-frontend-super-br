@@ -1,16 +1,8 @@
-#lotacoes {
-
-  .header {
-
-    .actions {
-      .is-active {
-        display: none;
-      }
-    }
-
-  }
-
-  .content {
-
+lotacoes {
+  height: 100%;
+  width: 100%;
+  .lotacoes-content {
+    height: 100%;
+    width: 100%;
   }
 }
