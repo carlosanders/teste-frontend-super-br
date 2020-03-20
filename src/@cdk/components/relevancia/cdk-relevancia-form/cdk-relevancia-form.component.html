@@ -1,29 +1,17 @@
-<form 
-    *ngIf="activeCard === 'form'" 
-    fxLayoutGap="16px"
-    fxLayout="column" 
-    fxLayoutAlign="start" 
-    name="form" 
-    [formGroup]="form" 
-    (submit)="submit">
+<div class="pr-16" fxFlex *ngIf="activeCard === 'form'" cdkPerfectScrollbar>
+    <form class="p-24 mr-24" fxLayoutGap="36px"
+          fxLayout="column"
+          fxLayoutAlign="start"
+          name="form" [formGroup]="form">
 
-    <div fxFlex="1 0 auto" fxLayout="column">
-        <mat-checkbox 
-            formControlName="principal" 
-            class="mr-16 mb-16" 
-            fxFlex="0 1 auto">
-            Principal
-        </mat-checkbox>
+        <div fxFlex="1 0 auto" fxLayout="column" class="div-form">
 
         <mat-form-field fxFlex="100">
             <div fxLayout="row" fxLayoutAlign="start center">
-                <input 
-                    matInput 
-                    placeholder="Relevância" 
+                <input matInput placeholder="Relevância"
                     formControlName="especieRelevancia" 
-                    [matAutocomplete]="especieRelevancia.autocomplete" 
-                    required 
-                    (blur)="checkEspecieRelevancia()">
+                    [matAutocomplete]="especieRelevancia.autocomplete"
+                    (blur)="checkEspecieRelevancia()" required>
             </div>
 
             <cdk-especie-relevancia-autocomplete 
@@ -31,29 +19,20 @@
                 [control]="form.get('especieRelevancia')" 
                 [pagination]="especieRelevanciaPagination">
             </cdk-especie-relevancia-autocomplete>
-            
-            <button 
-                *ngIf="form.get('especieRelevancia').enabled" 
-                matSuffix 
-                mat-button 
-                mat-icon-button 
-                (click)="showEspecieRelevanciaGrid()">
+
+            <button matSuffix mat-button mat-icon-button
+                    (click)="showEspecieRelevanciaGrid()">
                 <mat-icon matTooltip="Procurar">search</mat-icon>
             </button>
             
-            <mat-error 
-                *ngIf="form.get('especieRelevancia').hasError('formError')">
+            <mat-error *ngIf="form.get('especieRelevancia').hasError('formError')">
                 {{form.get('especieRelevancia').errors.formError}}
             </mat-error>
         </mat-form-field>
 
         <mat-form-field class="mr-16" fxFlex="1 0 auto">
-            <textarea 
-                formControlName="observacao" 
-                matInput 
-                placeholder="Observação" 
-                maxlength="255" 
-                upperCase>
+            <textarea formControlName="observacao" matInput
+                placeholder="Observação" maxlength="255" upperCase>
             </textarea>
         </mat-form-field>
     </div>
@@ -87,3 +66,4 @@
     </div>
     
 </form>
+</div>
