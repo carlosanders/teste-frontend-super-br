@@ -1,7 +1,14 @@
 <mat-autocomplete [displayWith]="displayEspecieRelevanciaFn">
-    <mat-option *ngFor="let especieRelevancia of especieRelevanciaList"
+    <mat-option [ngClass]="{'multiline':especieRelevancia.generoRelevancia}"
+                *ngFor="let especieRelevancia of especieRelevanciaList"
                 [value]="especieRelevancia">
-        <span [innerHTML]="displayEspecieRelevanciaFn(especieRelevancia) | highlightOption: this.control.value"></span>
+        <div *ngIf="especieRelevancia.generoRelevancia">{{especieRelevancia.generoRelevancia.nome}}</div>
+        <div [ngClass]="{'strong':especieRelevancia.generoRelevancia}">
+            <span *ngIf="especieRelevancia.generoRelevancia">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </span>
+            {{especieRelevancia.nome}} ({{especieRelevancia.id}})
+        </div>
     </mat-option>
     <mat-option *ngIf="especieRelevanciaListIsLoading">
         <mat-spinner diameter="16"></mat-spinner>
