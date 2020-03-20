@@ -5,18 +5,19 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 
 import * as DocumentosActions from '../actions';
-import * as DocumentoAvulsoActions from '../../../store/actions';
 
-import { AddData, UpdateData } from '@cdk/ngrx-normalizr';
+import { AddData } from '@cdk/ngrx-normalizr';
 import { select, Store } from '@ngrx/store';
-import { getRouterState, State} from 'app/store/reducers';
+import { getRouterState, State } from 'app/store/reducers';
 import { DocumentoAvulso, Documento } from '@cdk/models';
-import { DocumentoService} from '@cdk/services/documento.service';
+import { DocumentoService } from '@cdk/services/documento.service';
 import { DocumentoAvulsoService } from '@cdk/services/documento-avulso.service';
-import { documento as documentoSchema} from '@cdk/normalizr/documento.schema';
-import { Router} from '@angular/router';
-import { getDocumentoAvulso} from '../../../store/selectors';
-import { documentoAvulso as documentoAvulsoSchema} from '@cdk/normalizr/documento-avulso.schema';
+import { documento as documentoSchema } from '@cdk/normalizr/documento.schema';
+import { Router } from '@angular/router';
+import { getDocumentoAvulso } from '../../../store/selectors';
+import { environment } from 'environments/environment';
+import * as DocumentoAvulsoDetailActions from '../../../store/actions/oficio-detail.actions';
+import {documentoAvulso as documentoAvulsoSchema} from '../../../../../../../../@cdk/normalizr/documento-avulso.schema';
 
 @Injectable()
 export class DocumentosEffects {
@@ -134,6 +135,121 @@ export class DocumentosEffects {
                             );
                     }
                 )
+            );
+
+    /**
+     * Delete Documento
+     * @type {Observable<any>}
+     */
+    @Effect()
+    deleteDocumento: Observable<DocumentosActions.DocumentosActionsAll> =
+        this._actions
+            .pipe(
+                ofType<DocumentosActions.DeleteDocumento>(DocumentosActions.DELETE_DOCUMENTO),
+                mergeMap((action) => {
+                        return this._documentoService.destroy(action.payload).pipe(
+                            map((response) => new DocumentosActions.DeleteDocumentoSuccess(response.id)),
+                            catchError((err) => {
+                                console.log(err);
+                                return of(new DocumentosActions.DeleteDocumentoFailed(action.payload));
+                            })
+                        );
+                    }
+                ));
+
+    /**
+     * Assina Documento
+     * @type {Observable<any>}
+     */
+    @Effect()
+    assinaDocumento: any =
+        this._actions
+            .pipe(
+                ofType<DocumentosActions.AssinaDocumento>(DocumentosActions.ASSINA_DOCUMENTO),
+                mergeMap((action) => {
+                        return this._documentoService.preparaAssinatura(JSON.stringify([action.payload]))
+                            .pipe(
+                                map((response) => {
+                                    return new DocumentosActions.AssinaDocumentoSuccess(response);
+                                }),
+                                catchError((err, caught) => {
+                                    console.log(err);
+                                    this._store.dispatch(new DocumentosActions.AssinaDocumentoFailed(err));
+                                    return caught;
+                                })
+                            );
+                    }
+                ));
+
+    /**
+     * Assina Documento Success
+     * @type {Observable<any>}
+     */
+    @Effect({dispatch: false})
+    assinaDocumentoSuccess: any =
+        this._actions
+            .pipe(
+                ofType<DocumentosActions.AssinaDocumentoSuccess>(DocumentosActions.ASSINA_DOCUMENTO_SUCCESS),
+                tap((action) => {
+
+                    const url = environment.jnlp + 'v1/assinatura/' + action.payload.jwt + '/get_jnlp';
+
+                    const ifrm = document.createElement('iframe');
+                    ifrm.setAttribute('src', url);
+                    ifrm.style.width = '0';
+                    ifrm.style.height = '0';
+                    ifrm.style.border = '0';
+                    document.body.appendChild(ifrm);
+                    setTimeout(() => document.body.removeChild(ifrm), 20000);
+                }));
+
+    /**
+     * Get Documento Avulso with router parameters
+     * @type {Observable<any>}
+     */
+    @Effect()
+    getDocumentoAvulso: any =
+        this._actions
+            .pipe(
+                ofType<DocumentoAvulsoDetailActions.GetDocumentoAvulso>(DocumentoAvulsoDetailActions.GET_DOCUMENTO_AVULSO),
+                switchMap((action) => {
+                    return this._documentoAvulsoService.query(
+                        JSON.stringify(action.payload),
+                        1,
+                        0,
+                        JSON.stringify({}),
+                        JSON.stringify([
+                            'processo',
+                            'processo.especieProcesso',
+                            'processo.modalidadeMeio',
+                            'processo.documentoAvulsoOrigem',
+                            'usuarioResponsavel',
+                            'setorResponsavel',
+                            'setorResponsavel.unidade',
+                            'setorOrigem',
+                            'setorOrigem.unidade',
+                            'vinculacoesEtiquetas',
+                            'vinculacoesEtiquetas.etiqueta',
+                            'documentoResposta'
+                        ]),
+                        JSON.stringify({chaveAcesso: `${this.routerState.params['chaveAcessoHandle']}`})
+                    );
+                }),
+                mergeMap(response => [
+                    new AddData<DocumentoAvulso>({data: response['entities'], schema: documentoAvulsoSchema}),
+                    new DocumentoAvulsoDetailActions.GetDocumentoAvulsoSuccess({
+                        loaded: {
+                            id: 'documentoAvulsoHandle',
+                            value: this.routerState.params.documentoAvulsoHandle
+                        },
+                        documentoAvulso: response['entities'][0]
+                    })
+                ]),
+                catchError((err, caught) => {
+                    console.log(err);
+                    this._store.dispatch(new DocumentoAvulsoDetailActions.GetDocumentoAvulsoFailed(err));
+                    return caught;
+                })
             );
 
 }

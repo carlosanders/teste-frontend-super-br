@@ -16,10 +16,13 @@ import * as fromStore from './store';
 import { LoginService } from 'app/main/auth/login/login.service';
 import { filter, takeUntil } from 'rxjs/operators';
 import { Documento } from '@cdk/models/documento.model';
-import { getRouterState } from 'app/store/reducers';
+import { getMercureState, getRouterState } from 'app/store/reducers';
 import { Router } from '@angular/router';
-import { DocumentoAvulso, Usuario } from '../../../../../../@cdk/models';
+import { DocumentoAvulso, Usuario } from '@cdk/models';
 import { getDocumentoAvulso, getDocumentos } from '../store/selectors';
+import { UpdateData } from '@cdk/ngrx-normalizr';
+import { documento as documentoSchema } from '@cdk/normalizr/documento.schema';
+import { GetDocumentoAvulso } from '../store/actions';
 
 
 @Component({
@@ -56,6 +59,8 @@ export class ResponderComponent implements OnInit, OnDestroy {
     deletingDocumentosId$: Observable<number[]>;
     assinandoDocumentosId$: Observable<number[]>;
     convertendoDocumentosId$: Observable<number[]>;
+    assinandoDocumentosId: number[] = [];
+    javaWebStartOK = false;
 
     /**
      *
@@ -76,8 +81,8 @@ export class ResponderComponent implements OnInit, OnDestroy {
         this.routerState$ = this._store.pipe(select(getRouterState));
 
         this.selectedDocumentos$ = this._store.pipe(select(fromStore.getSelectedDocumentos));
-        /*this.deletingDocumentosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosId));
-        this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));*/
+        this.deletingDocumentosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosId));
+        this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
         this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoDocumentosId));
     }
 
@@ -95,6 +100,33 @@ export class ResponderComponent implements OnInit, OnDestroy {
         ).subscribe(routerState => {
             if (routerState) {
                 this.routerState = routerState.state;
+            }
+        });
+
+        this._store
+            .pipe(
+                select(getMercureState),
+                takeUntil(this._unsubscribeAll)
+            ).subscribe(message => {
+            if (message && message.type === 'assinatura') {
+                switch (message.content.action) {
+                    case 'assinatura_iniciada':
+                        this.javaWebStartOK = true;
+                        break;
+                    case 'assinatura_cancelada':
+                        this.javaWebStartOK = false;
+                        this._store.dispatch(new fromStore.AssinaDocumentoFailed(message.content.documentoId));
+                        break;
+                    case 'assinatura_erro':
+                        this.javaWebStartOK = false;
+                        this._store.dispatch(new fromStore.AssinaDocumentoFailed(message.content.documentoId));
+                        break;
+                    case 'assinatura_finalizada':
+                        this.javaWebStartOK = false;
+                        this._store.dispatch(new fromStore.AssinaDocumentoSuccess(message.content.documentoId));
+                        this._store.dispatch(new UpdateData<Documento>({id: message.content.documentoId, schema: documentoSchema, changes: {assinado: true}}));
+                        break;
+                }
             }
         });
 
@@ -137,6 +169,20 @@ export class ResponderComponent implements OnInit, OnDestroy {
         ).subscribe(selectedDocumentos => {
             this.selectedOficios = selectedDocumentos.filter(documento => !documento.documentoAvulsoRemessa);
         });
+
+        this.assinandoDocumentosId$.subscribe(assinandoDocumentosId => {
+            if (assinandoDocumentosId.length > 0) {
+                setInterval(() => {
+                    // monitoramento do java
+                    if (!this.javaWebStartOK && (assinandoDocumentosId.length > 0)) {
+                        assinandoDocumentosId.forEach(
+                            documentoId => this._store.dispatch(new fromStore.AssinaDocumentoFailed(documentoId))
+                        );
+                    }
+                }, 30000);
+            }
+            this.assinandoDocumentosId = assinandoDocumentosId;
+        });
     }
 
     /**
@@ -160,7 +206,7 @@ export class ResponderComponent implements OnInit, OnDestroy {
     }
 
     doDelete(documentoId): void {
-        // this._store.dispatch(new fromStore.DeleteDocumento(documentoId));
+        this._store.dispatch(new fromStore.DeleteDocumento(documentoId));
     }
 
     doVerResposta(documento): void {
@@ -168,7 +214,7 @@ export class ResponderComponent implements OnInit, OnDestroy {
     }
 
     doAssinatura(documentoId): void {
-        // this._store.dispatch(new fromStore.AssinaDocumento(documentoId));
+        this._store.dispatch(new fromStore.AssinaDocumento(documentoId));
     }
 
     onClicked(documento): void {
@@ -176,12 +222,12 @@ export class ResponderComponent implements OnInit, OnDestroy {
     }
 
     onComplete(): void {
-        this._store.dispatch(new fromStore.GetDocumentos({
-            id: this.documentoAvulso.documentoResposta.id
-        }));
+        this._store.dispatch(new GetDocumentoAvulso({id: `eq:${this.documentoAvulso.id}`}));
+        this._store.dispatch(new fromStore.GetDocumentos({id: this.documentoAvulso.documentoResposta.id}));
     }
 
     doConverte(documentoId): void {
         this._store.dispatch(new fromStore.ConverteToPdf(documentoId));
     }
 }
+
