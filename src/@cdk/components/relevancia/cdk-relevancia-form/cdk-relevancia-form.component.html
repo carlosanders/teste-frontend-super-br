@@ -1,86 +1,87 @@
-<div class="pr-16" fxFlex *ngIf="activeCard === 'form'" cdkPerfectScrollbar>
-    <form 
-        fxLayoutGap="16px" 
-        fxLayout="column" 
-        fxLayoutAlign="start" 
-        name="form" 
-        [formGroup]="form" 
-        (submit)="submit()">
+<form 
+    *ngIf="activeCard === 'form'" 
+    fxLayoutGap="16px"
+    fxLayout="column" 
+    fxLayoutAlign="start" 
+    name="form" 
+    [formGroup]="form" 
+    (submit)="submit">
 
-        <div fxFlex="1 0 auto" fxLayout="column">
-            
-            <mat-form-field fxFlex="100">
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input 
-                        matInput 
-                        placeholder="Relevância" 
-                        formControlName="especieRelevancia" 
-                        [matAutocomplete]="especieRelevancia.autocomplete" 
-                        (blur)="checkEspecieRelevancia()" 
-                        required>
-                </div>
-
-                <cdk-especie-relevancia-autocomplete
-                    #especieRelevancia="especieRelevanciaAutocomplete"
-                    [control]="form.get('especieRelevancia')"
-                    [pagination]="especieRelevanciaPagination">
-                </cdk-especie-relevancia-autocomplete>
-
-                <button 
-                    matSuffix 
-                    mat-button 
-                    mat-icon-button 
-                    (click)="showEspecieRelevanciaGrid()">
-                    <mat-icon matTooltip="Procurar">search</mat-icon>
-                </button>
-
-                <mat-error 
-                    *ngIf="form.get('especieRelevancia').hasError('formError')">
-                    {{form.get('especieRelevancia').errors.formError}}
-                </mat-error>
-            </mat-form-field>
-
-            <mat-form-field class="mr-16" fxFlex="1 0 auto">
-                <textarea 
-                    formControlName="observacao" 
+    <div fxFlex="1 0 auto" fxLayout="column">
+        
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input 
                     matInput 
-                    placeholder="Observação" 
-                    maxlength="255" 
-                    upperCase>
-                </textarea>
-            </mat-form-field>
-         </div>
+                    placeholder="Relevância" 
+                    formControlName="especieRelevancia" 
+                    [matAutocomplete]="especieRelevancia.autocomplete" 
+                    (blur)="checkEspecieRelevancia()" 
+                    required >
+            </div>
 
-        <mat-error 
-            *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}
-        </mat-error>
-
-        <div 
-            *ngIf="!saving" 
-            fxLayout="row" 
-            class="mr-sm-12 mt-16 mb-16" 
-            fxFlex 
-            fxLayoutAlign="center center">
+            <cdk-especie-relevancia-autocomplete 
+                #especieRelevancia="especieRelevanciaAutocomplete" 
+                [control]="form.get('especieRelevancia')" 
+                [pagination]="especieRelevanciaPagination">
+            </cdk-especie-relevancia-autocomplete>
+            
             <button 
-                mat-raised-button 
-                color="accent" 
-                class="mr-sm-12" 
-                [disabled]="form.invalid">
-                SALVAR
+                *ngIf="form.get('especieRelevancia').enabled" 
+                matSuffix 
+                mat-button 
+                mat-icon-button 
+                (click)="showEspecieRelevanciaGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
             </button>
-        </div>
+            
+            <mat-error 
+                *ngIf="form.get('especieRelevancia').hasError('formError')">
+                {{form.get('especieRelevancia').errors.formError}}
+            </mat-error>
+        </mat-form-field>
 
-        <div 
-            *ngIf="saving" 
-            fxLayout="row" 
-            class="mr-sm-12 mt-16 mb-16" 
-            fxFlex 
-            fxLayoutAlign="center center">
-            <mat-spinner color="accent" diameter="24"></mat-spinner>
-        </div>
-    
-    </form>
-</div>
+        <mat-form-field class="mr-16" fxFlex="1 0 auto">
+            <textarea 
+                formControlName="observacao" 
+                matInput 
+                placeholder="Observação" 
+                maxlength="255" 
+                upperCase>
+            </textarea>
+        </mat-form-field>
+    </div>
+
+    <mat-error 
+        *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}
+    </mat-error>
+
+    <div 
+        *ngIf="!saving" 
+        fxLayout="row" 
+        class="mr-sm-12 mt-16 mb-16" 
+        fxFlex 
+        fxLayoutAlign="center center">
+        <button 
+            mat-raised-button 
+            color="accent" 
+            class="mr-sm-12" 
+            [disabled]="form.invalid">
+            SALVAR
+        </button>
+    </div>
+
+    <div 
+        *ngIf="saving" 
+        fxLayout="row" 
+        class="mr-sm-12 mt-16 mb-16" 
+        fxFlex -
+        
+        fxLayoutAlign="center center">
+        <mat-spinner color="accent" diameter="24"></mat-spinner>
+    </div>
+
+</form>
 
 <cdk-especie-relevancia-gridsearch
     fxFlex="1 0 auto"
