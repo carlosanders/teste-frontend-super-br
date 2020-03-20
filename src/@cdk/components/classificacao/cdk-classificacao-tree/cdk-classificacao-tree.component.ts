@@ -2,8 +2,8 @@ import {FlatTreeControl} from '@angular/cdk/tree';
 import {Component, ElementRef, EventEmitter, Input, Output, Renderer2, ViewChildren} from '@angular/core';
 import {MatTreeFlatDataSource, MatTreeFlattener, MatTreeNode} from '@angular/material/tree';
 import {ClassificacaoService} from '../../../services/classificacao.service';
-import {catchError, finalize} from 'rxjs/operators';
-import {Observable, of} from 'rxjs';
+import {catchError, debounceTime, distinctUntilChanged, finalize} from 'rxjs/operators';
+import {Observable, of, Subject} from 'rxjs';
 import {CdkClassificacaoTreeService, ClassificacaoNode} from './services/cdk-classificacao-tree.service';
 import {SelectionModel} from '@angular/cdk/collections';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
@@ -16,6 +16,7 @@ export class FlatNode {
     level: number;
     children?: ClassificacaoNode[];
     selected?: boolean;
+    visible?: boolean;
 
     constructor(
         public isLoading = false
@@ -29,6 +30,23 @@ export class FlatNode {
     styleUrls: ['./cdk-classificacao-tree.component.scss']
 })
 export class CdkClassificacaoTreeComponent {
+
+    constructor(
+        private _serviceTree: CdkClassificacaoTreeService,
+        private _classificacaoService: ClassificacaoService,
+        private _formBuilder: FormBuilder,
+    ) {
+        this.treeFlattener = new MatTreeFlattener(this.transformer, this.getLevel,
+            this.isExpandable, this.getChildren);
+        this.treeControl = new FlatTreeControl<FlatNode>(this.getLevel, this.isExpandable);
+        this.dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
+        this.initTree();
+        _serviceTree.dataChange.subscribe(data => {
+            this.dataSource.data = data;
+        });
+        this.activeCard = 'form';
+        this.loadForms();
+    }
 
     @Input()
     processoId: number;
@@ -58,23 +76,7 @@ export class CdkClassificacaoTreeComponent {
     formClassificacao: FormGroup;
 
     classSelect: string;
-
-    constructor(
-        private _serviceTree: CdkClassificacaoTreeService,
-        private _classificacaoService: ClassificacaoService,
-        private _formBuilder: FormBuilder,
-    ) {
-        this.treeFlattener = new MatTreeFlattener(this.transformer, this.getLevel,
-            this.isExpandable, this.getChildren);
-        this.treeControl = new FlatTreeControl<FlatNode>(this.getLevel, this.isExpandable);
-        this.dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
-        this.initTree();
-        _serviceTree.dataChange.subscribe(data => {
-            this.dataSource.data = data;
-        });
-        this.activeCard = 'form';
-        this.loadForms();
-    }
+    searchFilter: Subject<string> = new Subject<string>();
 
     loadForms(): void {
         this.formClassificacao = this._formBuilder.group({
@@ -104,7 +106,8 @@ export class CdkClassificacaoTreeComponent {
         this.flatNodeMap.set(flatNode, node);
         this.nestedNodeMap.set(node, flatNode);
         return flatNode;
-    }
+    };
+
 
     /**
      *
@@ -264,8 +267,16 @@ export class CdkClassificacaoTreeComponent {
         }
     }
 
-    pesquisa(): void {
+    pesquisa(filterText: any): void {
 
+        this.filterChanged(filterText);
+
+        // this._serviceTree.filter(filterText);
+        // if (filterText) {
+        //     this.treeControl.expandAll();
+        // } else {
+        //     this.treeControl.collapseAll();
+        // }
     }
 
     setInputClassificacao(node: FlatNode): void {
@@ -283,6 +294,41 @@ export class CdkClassificacaoTreeComponent {
             return 'selectedItem';
         }
         return '';
+    }
+
+    filterChanged(filter: string): void {
+        this.searchFilter.next(filter);
+
+        this.searchFilter.pipe(debounceTime(500), distinctUntilChanged())
+            .subscribe(value => {
+                if (value && value.length >= 3) {
+                    this.filterByName(value);
+                } else {
+                    this.clearFilter();
+                }
+            });
+    }
+
+    private filterByName(term: string): void {
+        const filteredItems = this.treeControl.dataNodes.filter(
+            x => x.name.toLowerCase().indexOf(term.toLowerCase()) === -1
+        );
+        filteredItems.map(x => {
+            x.visible = false;
+        });
+
+        const visibleItems = this.treeControl.dataNodes.filter(
+            x => x.children &&
+                x.name.toLowerCase().indexOf(term.toLowerCase()) > -1
+        );
+        visibleItems.map( x => {
+            x.visible = true;
+            this.getChildren(x);
+        });
+    }
+
+    private clearFilter(): void {
+        this.treeControl.dataNodes.forEach(x => x.visible = true);
     }
 
 }

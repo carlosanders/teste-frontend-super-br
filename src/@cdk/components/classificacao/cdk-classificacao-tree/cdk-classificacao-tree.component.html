@@ -1,24 +1,20 @@
 <div cdkPerfectScrollbar>
-    <form class="form-pesquisa" fxLayoutGap="36px"
-          fxLayout="column"
-          fxLayoutAlign="start"
-          name="form" [formGroup]="formPesquisa" (submit)="pesquisa()">
-
-        <div class="title">
-            <h2>CLASSIFICAÇÕES</h2>
+    <div class="title">
+        <h2>CLASSIFICAÇÕES</h2>
+    </div>
+    <mat-form-field id="pesquisa">
+        <mat-label>Pesquisa</mat-label>
+        <div fxLayout="row" fxLayoutAlign="start center">
+            <input matInput placeholder="Pesquisar"
+                   maxlength="100" required upperCase
+                   (input)="pesquisa($event.target.value)"
+            >
         </div>
-        <mat-form-field id="pesquisa">
-            <mat-label>Pesquisa</mat-label>
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Pesquisar" formControlName="pesquisa" maxlength="100" required upperCase>
-            </div>
-            <div *ngIf="pesquisando" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-                 fxLayoutAlign="center center">
-                <mat-spinner color="accent" diameter="24"></mat-spinner>
-            </div>
-        </mat-form-field>
-
-    </form>
+        <div *ngIf="pesquisando" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+             fxLayoutAlign="center center">
+            <mat-spinner color="accent" diameter="24"></mat-spinner>
+        </div>
+    </mat-form-field>
 
     <form class="form-tree" fxLayoutGap="36px"
           fxLayout="column"
@@ -43,7 +39,8 @@
                     </div>
 
                 </mat-tree-node>
-                <mat-tree-node [ngClass]="getNodeSelected(node)" *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
+                <mat-tree-node [ngClass]="getNodeSelected(node)" *matTreeNodeDef="let node; when: hasChild"
+                               matTreeNodePadding>
                     <button mat-icon-button matTreeNodeToggle
                             [attr.aria-label]="'toggle ' + node.filename">
                         <mat-icon class="mat-icon-rtl-mirror" *ngIf="treeControl.isExpanded(node)">

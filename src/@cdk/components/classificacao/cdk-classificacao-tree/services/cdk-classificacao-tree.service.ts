@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject} from 'rxjs';
+import {BehaviorSubject, Subject} from 'rxjs';
+import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
 
 export class ClassificacaoNode {
     id?: number;
@@ -9,16 +10,20 @@ export class ClassificacaoNode {
 
 @Injectable()
 export class CdkClassificacaoTreeService {
-    dataChange = new BehaviorSubject<ClassificacaoNode[]>([]);
 
-    get data(): ClassificacaoNode[] { return this.dataChange.value; }
+    get data(): ClassificacaoNode[] {
+        return this.dataChange.value;
+    }
+    dataChange = new BehaviorSubject<ClassificacaoNode[]>([]);
+    treeData: any[] = [];
+
 
     initialize(classificacaoPai: ClassificacaoNode[]): void {
         const data = this.buildFileTree(classificacaoPai, 0);
         this.dataChange.next(data);
     }
 
-    buildFileTree(obj: {[key: string]: any}, level: number): ClassificacaoNode[] {
+    buildFileTree(obj: { [key: string]: any }, level: number): ClassificacaoNode[] {
         return Object.keys(obj).reduce<ClassificacaoNode[]>((accumulator, key) => {
             const value = obj[key];
             const node = new ClassificacaoNode();
@@ -37,6 +42,46 @@ export class CdkClassificacaoTreeService {
             });
 
             this.dataChange.next(this.data);
+            this.treeData = this.dataChange.getValue();
         }
+    }
+
+
+
+
+    public filter(filterText: string): void {
+        if (this.dataChange.getValue().length < this.treeData.length) {
+            this.dataChange.next(this.treeData);
+        } else {
+            this.treeData = this.dataChange.getValue();
+        }
+
+        debugger;
+
+        let filteredTreeData;
+        if (filterText) {
+            filteredTreeData = this.treeData.filter(d => d.name.toLocaleLowerCase().indexOf(filterText.toLocaleLowerCase()) > -1);
+            Object.assign([], filteredTreeData).forEach(ftd => {
+                let str = (ftd.name);
+                while (str.lastIndexOf('.') > -1) {
+                    const index = str.lastIndexOf('.');
+                    str = str.substring(0, index);
+                    if (filteredTreeData.findIndex(t => t.name === str) === -1) {
+                        const obj = this.treeData.find(d => d.name === str);
+                        if (obj) {
+                            filteredTreeData.push(obj);
+                        }
+                    }
+                }
+            });
+        } else {
+            filteredTreeData = this.treeData;
+        }
+
+        // Build the tree nodes from Json object. The result is a list of `TodoItemNode` with nested
+        // file node as children.
+        const data = this.buildFileTree(filteredTreeData, 0);
+        // Notify the change.
+        this.dataChange.next(data);
     }
 }
