@@ -30,7 +30,7 @@ export class CdkTipoSigiloAutocompleteComponent implements OnInit {
     pagination: Pagination;
 
     @Input()
-    control: FormControl;
+    control: AbstractControl;
 
     tipoSigiloList: TipoSigilo[];
     tipoSigiloListIsLoading: boolean;
