@@ -48,7 +48,8 @@
             <mat-spinner diameter="32"></mat-spinner>
         </div>
 
-        <table mat-table [dataSource]="dataSource" matSort [hidden]="loading">
+        <div fxFlex="1 1 auto" fxLayout="column" cdkPerfectScrollbar>
+            <table mat-table [dataSource]="dataSource" matSort [hidden]="loading">
 
             <!-- Selection Column -->
             <ng-container matColumnDef="select">
@@ -245,7 +246,7 @@
             <tr mat-row *matRowDef="let modelo; columns: displayedColumns;">
             </tr>
         </table>
-
+        </div>
         <div class="actions" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="center center">
             <mat-paginator [disabled]="loading" [pageSizeOptions]="[5, 10]"></mat-paginator>
         </div>

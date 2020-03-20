@@ -17,6 +17,8 @@ import {CdkTemplateGridsearchModule} from '../../template/cdk-template-autocompl
 import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
 import {CdkSetorAutocompleteModule} from '../../setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
 import {CdkSetorGridsearchModule} from '../../setor/cdk-setor-autocomplete/cdk-setor-gridsearch/cdk-setor-gridsearch.module';
+import {CdkModalidadeModeloAutocompleteModule} from "../../modalidade-modelo/cdk-modalidade-modelo-autocomplete/cdk-modalidade-modelo-autocomplete.module";
+import {CdkModalidadeModeloGridsearchModule} from "../../modalidade-modelo/cdk-modalidade-modelo-autocomplete/cdk-modalidade-modelo-gridsearch/cdk-modalidade-modelo-gridsearch.module";
 
 @NgModule({
     declarations: [
@@ -38,6 +40,8 @@ import {CdkSetorGridsearchModule} from '../../setor/cdk-setor-autocomplete/cdk-s
         CdkSharedModule,
         CdkSetorAutocompleteModule,
         CdkSetorGridsearchModule,
+        CdkModalidadeModeloAutocompleteModule,
+        CdkModalidadeModeloGridsearchModule,
     ],
     providers: [],
     exports: [

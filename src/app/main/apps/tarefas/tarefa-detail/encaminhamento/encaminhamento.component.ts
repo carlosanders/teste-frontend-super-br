@@ -103,6 +103,6 @@ export class EncaminhamentoComponent implements OnInit, OnDestroy {
     }
 
     cancel(): void {
-        this._router.navigate(['apps/tarefas/' + this.routerState.url.split('/')[3] + '/entrada']).then();
+        this._router.navigate(['apps/tarefas/' + this.routerState.url.split('/')[3] + '/' + this.routerState.url.split('/')[4] + '/entrada']).then();
     }
 }

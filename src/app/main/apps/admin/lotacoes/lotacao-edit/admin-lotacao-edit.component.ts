@@ -107,7 +107,6 @@ export class AdminLotacaoEditComponent implements OnInit, OnDestroy {
     submit(values): void {
 
         const lotacao = new Lotacao();
-        //localizador.id = null;
         Object.entries(values).forEach(
             ([key, value]) => {
                 lotacao[key] = value;

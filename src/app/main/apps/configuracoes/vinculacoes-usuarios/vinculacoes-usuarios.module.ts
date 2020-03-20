@@ -19,6 +19,7 @@ import {VinculacoesUsuariosComponent} from './vinculacoes-usuarios.component';
 import {VinculacaoUsuarioService} from '@cdk/services/vinculacao-usuario.service';
 import {RouterModule, Routes} from '@angular/router';
 import {UsuarioService} from '@cdk/services/usuario.service';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 const routes: Routes = [
     {
@@ -64,6 +65,7 @@ const routes: Routes = [
         TranslateModule,
 
         CdkSharedModule,
+        MatTooltipModule,
     ],
     providers: [
         VinculacaoUsuarioService,

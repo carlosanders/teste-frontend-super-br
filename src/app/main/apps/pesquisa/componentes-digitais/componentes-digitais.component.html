@@ -1,8 +1,8 @@
-<cdk-componente-digital-grid class="altura"
+<cdk-componente-digital-grid
         [loading]="(loading$ | async)"
         [componentesDigitais]="(componentesDigitais$ | async)"
         [total]="(pagination$ | async)?.total"
-        [mode]="this._loginService.isGranted('ROLE_COLABORADOR') ? 'list' : 'search'"
+        [mode]="'search'"
         [actions]="['edit', 'view']"
         (reload)="reload($event)"
         (edit)="edit($event)"

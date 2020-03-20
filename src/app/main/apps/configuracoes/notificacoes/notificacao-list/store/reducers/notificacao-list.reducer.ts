@@ -40,7 +40,7 @@ export function NotificacaoListReducer(
 ): NotificacaoListState {
     switch (action.type) {
 
-        case NotificacaoListActions.GET_LOTACOES: {
+        case NotificacaoListActions.GET_NOTIFICACOES: {
             return {
                 ...state,
                 loading: true,
@@ -56,7 +56,7 @@ export function NotificacaoListReducer(
             };
         }
 
-        case NotificacaoListActions.GET_LOTACOES_SUCCESS: {
+        case NotificacaoListActions.GET_NOTIFICACOES_SUCCESS: {
 
             const loaded = action.payload.loaded;
 
@@ -72,7 +72,7 @@ export function NotificacaoListReducer(
             };
         }
 
-        case NotificacaoListActions.RELOAD_LOTACOES: {
+        case NotificacaoListActions.RELOAD_NOTIFICACOES: {
             return {
                 ...state,
                 loading: false,
@@ -80,7 +80,7 @@ export function NotificacaoListReducer(
             };
         }
 
-        case NotificacaoListActions.GET_LOTACOES_FAILED: {
+        case NotificacaoListActions.GET_NOTIFICACOES_FAILED: {
             return {
                 ...state,
                 loading: false,
@@ -88,14 +88,14 @@ export function NotificacaoListReducer(
             };
         }
 
-        case NotificacaoListActions.DELETE_LOTACAO: {
+        case NotificacaoListActions.DELETE_NOTIFICACAO: {
             return {
                 ...state,
                 deletingIds: [...state.deletingIds, action.payload]
             };
         }
 
-        case NotificacaoListActions.DELETE_LOTACAO_SUCCESS: {
+        case NotificacaoListActions.DELETE_NOTIFICACAO_SUCCESS: {
             return {
                 ...state,
                 deletingIds: state.deletingIds.filter(id => id !== action.payload),
@@ -103,7 +103,7 @@ export function NotificacaoListReducer(
             };
         }
 
-        case NotificacaoListActions.DELETE_LOTACAO_FAILED: {
+        case NotificacaoListActions.DELETE_NOTIFICACAO_FAILED: {
             return {
                 ...state,
                 deletingIds: state.deletingIds.filter(id => id !== action.payload)

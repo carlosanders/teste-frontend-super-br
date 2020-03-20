@@ -43,6 +43,27 @@
                 </mat-error>
             </mat-form-field>
 
+            <mat-form-field *ngIf="coordenador" fxFlex="100">
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Modalidade Modelo"
+                           formControlName="modalidadeModelo"
+                           [matAutocomplete]="modalidadeModelo.autocomplete"
+                           (blur)="checkModalidadeModelo()" required>
+                </div>
+                <cdk-modalidade-modelo-autocomplete
+                    #modalidadeModelo="modalidadeModeloAutocomplete"
+                    [control]="form.get('modalidadeModelo')"
+                    [pagination]="modalidadeModeloPagination">
+                </cdk-modalidade-modelo-autocomplete>
+                <button matSuffix mat-button mat-icon-button
+                        (click)="showModalidadeModeloGrid()">
+                    <mat-icon matTooltip="Procurar">search</mat-icon>
+                </button>
+                <mat-error *ngIf="form.get('modalidadeModelo').hasError('formError')">
+                    {{form.get('modalidadeModelo').errors.formError}}
+                </mat-error>
+            </mat-form-field>
+
             <mat-form-field fxFlex="100">
                 <div fxLayout="row" fxLayoutAlign="start center">
                     <input matInput placeholder="Template"
@@ -82,6 +103,14 @@
         </div>
     </form>
 </div>
+
+<cdk-modalidade-modelo-gridsearch
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'modalidade-modelo-gridsearch'"
+    (selected)="selectModalidadeModelo($event)"
+    (cancel)="cancel()">
+</cdk-modalidade-modelo-gridsearch>
+
 
 <cdk-setor-gridsearch
     fxFlex="1 0 auto"

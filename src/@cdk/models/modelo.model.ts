@@ -1,7 +1,7 @@
 import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
 
-import { Usuario } from '@cdk/models';
+import {Usuario, VinculacaoModelo} from '@cdk/models';
 import {ModalidadeMeio} from '@cdk/models';
 import {Template} from '@cdk/models';
 import {Documento} from '@cdk/models';

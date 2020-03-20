@@ -4,6 +4,7 @@ import {topicosConfig} from './topicos-config';
 import {Topico} from './topico';
 import { CdkUtils } from '@cdk/utils';
 import {DynamicService} from '../modules/dynamic.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'ajuda',
@@ -22,10 +23,12 @@ export class AjudaComponent implements OnInit {
     container: ElementRef;
 
     card = 'form';
+    titulo = '';
 
     isSubmited = false;
 
     current: any;
+    context: any;
 
     /**
      * Constructor
@@ -33,13 +36,22 @@ export class AjudaComponent implements OnInit {
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: FormBuilder,
-        private _dynamicService: DynamicService
+        private _dynamicService: DynamicService,
+        private _router: Router,
     ) {
 
         this.form = this._formBuilder.group({
             pesquisa: [null, [Validators.required, Validators.maxLength(255)]],
         });
 
+        this._router.events.subscribe(
+            (next) => {
+                this.context = next;
+                if(this.context.url){
+                    this.resultado = CdkUtils.filterArrayByString(this.topicos, this.context.url.split("/", 3)[2]);
+                }
+            }
+        );
     }
 
     ngOnInit(): void {
@@ -57,6 +69,7 @@ export class AjudaComponent implements OnInit {
 
     carregar(topico: Topico): void {
         this.card = 'modulo';
+        this.titulo = topico.titulo; 
         this._dynamicService.loadComponent(topico.module)
             .then(({ host }) => {
                 this.current = host;

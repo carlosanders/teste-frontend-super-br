@@ -15,6 +15,12 @@ cdk-pessoa-grid {
 
     .content {
 
+        width: 100%;
+
+        &.search {
+            padding: 16px;
+        }
+
         .actions {
             width: 100%;
 

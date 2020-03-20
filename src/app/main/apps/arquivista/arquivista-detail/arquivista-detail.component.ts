@@ -3,9 +3,7 @@ import {
     ChangeDetectorRef,
     Component,
     OnDestroy,
-    OnInit,
-    ViewChild,
-    ViewContainerRef
+    OnInit
 } from '@angular/core';
 import {Observable, Subject} from 'rxjs';
 import {Etiqueta, Pagination, Processo, Usuario, VinculacaoEtiqueta} from '../../../../../@cdk/models';
@@ -22,7 +20,6 @@ import {
     SaveConteudoVinculacaoEtiqueta, ToggleMaximizado
 } from './store';
 import {getRouterState, getScreenState} from '../../../../store/reducers';
-import {modulesConfig} from '../../../../../modules/modules-config';
 import {takeUntil} from 'rxjs/operators';
 
 @Component({
