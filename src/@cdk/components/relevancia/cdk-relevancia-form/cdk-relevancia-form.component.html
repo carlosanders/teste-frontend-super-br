@@ -41,14 +41,17 @@
             </mat-error>
         </mat-form-field>
 
-        <mat-form-field class="mr-16" fxFlex="1 0 auto">
-            <textarea 
-                formControlName="observacao" 
-                matInput 
-                placeholder="Observação" 
-                maxlength="255" 
-                upperCase>
-            </textarea>
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input 
+                    formControlName="observacao" 
+                    #observacao 
+                    matInput 
+                    placeholder="Observação" 
+                    maxlength="255" 
+                    upperCase>
+            </div>
+            <mat-hint align="end">{{observacao.value.length}} / 255</mat-hint>
         </mat-form-field>
     </div>
 
