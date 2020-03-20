@@ -247,6 +247,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy {
     }
 
     doConverte(documentoId): void {
+        
         this._store.dispatch(new fromStore.ConverteToPdf(documentoId));
     }
 }

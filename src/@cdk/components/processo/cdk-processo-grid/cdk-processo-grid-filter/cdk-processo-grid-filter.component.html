@@ -12,7 +12,15 @@
             <mat-hint align="end">{{NUP.value.length}} / 255</mat-hint>
         </mat-form-field>
         <mat-form-field *showIfRole="'ROLE_CONVENIADO'" fxFlex="100">
-            <mat-label>Nome</mat-label>
+            <mat-label>Nome do Interessado</mat-label>
+            <input matInput #nome
+                   name="nome"
+                   formControlName="nome"
+                   maxlength="255">
+            <mat-hint align="end">{{nome.value.length}} / 255</mat-hint>
+        </mat-form-field>
+        <mat-form-field *showIfRole="'ROLE_COLABORADOR'" fxFlex="100">
+            <mat-label>Nome do Interessado</mat-label>
             <input matInput #nome
                    name="nome"
                    formControlName="nome"
@@ -20,7 +28,15 @@
             <mat-hint align="end">{{nome.value.length}} / 255</mat-hint>
         </mat-form-field>
         <mat-form-field *showIfRole="'ROLE_CONVENIADO'" fxFlex="100">
-            <mat-label>CPF/CNPJ</mat-label>
+            <mat-label>CPF/CNPJ do Interessado</mat-label>
+            <input matInput #cpfCnpj
+                   name="cpfCnpj"
+                   formControlName="cpfCnpj"
+                   maxlength="255">
+            <mat-hint align="end">{{cpfCnpj.value.length}} / 19</mat-hint>
+        </mat-form-field>
+        <mat-form-field *showIfRole="'ROLE_COLABORADOR'" fxFlex="100">
+            <mat-label>CPF/CNPJ d Interessado</mat-label>
             <input matInput #cpfCnpj
                    name="cpfCnpj"
                    formControlName="cpfCnpj"
@@ -37,18 +53,6 @@
             <cdk-setor-autocomplete #setor="setorAutocomplete" [control]="form.get('setorAtual')">
             </cdk-setor-autocomplete>
         </mat-form-field>
-
-        <mat-checkbox *showIfRole="'ROLE_COLABORADOR'" formControlName="novo" class="mr-16 mb-16" fxFlex="0 1 auto">
-            Novo
-        </mat-checkbox>
-
-        <mat-checkbox *showIfRole="'ROLE_COLABORADOR'" formControlName="semValorEconomico" class="mr-16 mb-16" fxFlex="0 1 auto">
-            Sem Valor Ecônomico
-        </mat-checkbox>
-
-        <mat-checkbox *showIfRole="'ROLE_COLABORADOR'" formControlName="visibilidadeExterna" class="mr-16 mb-16" fxFlex="0 1 auto">
-            Visibilidade Externa
-        </mat-checkbox>
 
         <mat-form-field *showIfRole="'ROLE_COLABORADOR'" fxFlex="100">
             <mat-label>Título</mat-label>
@@ -97,27 +101,6 @@
 
         <mat-form-field *showIfRole="'ROLE_COLABORADOR'" fxFlex="100">
             <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Origem de Dados"
-                       formControlName="origemDados"
-                       [matAutocomplete]="origemDados.autocomplete">
-            </div>
-            <cdk-origem-dados-autocomplete #origemDados="origemDadosAutocomplete" [control]="form.get('origemDados')">
-            </cdk-origem-dados-autocomplete>
-        </mat-form-field>
-
-        <mat-form-field *showIfRole="'ROLE_COLABORADOR'" fxFlex="100">
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Documento Avulso"
-                       formControlName="documentoAvulsoOrigem"
-                       [matAutocomplete]="documentoAvulso.autocomplete">
-            </div>
-            <cdk-documento-avulso-autocomplete #documentoAvulso="documentoAvulsoAutocomplete"
-                                               [control]="form.get('documentoAvulsoOrigem')">
-            </cdk-documento-avulso-autocomplete>
-        </mat-form-field>
-
-        <mat-form-field *showIfRole="'ROLE_COLABORADOR'" fxFlex="100">
-            <div fxLayout="row" fxLayoutAlign="start center">
                 <input matInput placeholder="Procedência"
                        formControlName="procedencia"
                        [matAutocomplete]="pessoa.autocomplete">
@@ -141,14 +124,6 @@
             <input matInput formControlName="dataHoraAbertura" [matDatetimepicker]="dataHoraAbertura">
             <mat-datetimepicker-toggle matSuffix [for]="dataHoraAbertura"></mat-datetimepicker-toggle>
             <mat-datetimepicker #dataHoraAbertura type="datetime" openOnFocus="true" timeInterval="5">
-            </mat-datetimepicker>
-        </mat-form-field>
-
-        <mat-form-field *showIfRole="'ROLE_COLABORADOR'" class="mr-sm-12">
-            <mat-label>Data da Próxima Transição</mat-label>
-            <input matInput formControlName="dataHoraProximaTransicao" [matDatetimepicker]="dataHoraProximaTransicao">
-            <mat-datetimepicker-toggle matSuffix [for]="dataHoraProximaTransicao"></mat-datetimepicker-toggle>
-            <mat-datetimepicker #dataHoraProximaTransicao type="datetime" openOnFocus="true" timeInterval="5">
             </mat-datetimepicker>
         </mat-form-field>
 
@@ -190,42 +165,6 @@
             <input matInput formControlName="criadoEm" [matDatetimepicker]="criadoEm">
             <mat-datetimepicker-toggle matSuffix [for]="criadoEm"></mat-datetimepicker-toggle>
             <mat-datetimepicker #criadoEm type="datetime" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
-        </mat-form-field>
-
-        <mat-form-field *showIfRole="'ROLE_COLABORADOR'" fxFlex="100">
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Atualizado Por"
-                       formControlName="atualizadoPor"
-                       [matAutocomplete]="usuario.autocomplete">
-            </div>
-            <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('atualizadoPor')">
-            </cdk-usuario-autocomplete>
-        </mat-form-field>
-
-        <mat-form-field *showIfRole="'ROLE_COLABORADOR'" class="mr-sm-12">
-            <mat-label>Atualizado Em</mat-label>
-            <input matInput formControlName="atualizadoEm" [matDatetimepicker]="atualizadoEm">
-            <mat-datetimepicker-toggle matSuffix [for]="atualizadoEm"></mat-datetimepicker-toggle>
-            <mat-datetimepicker #atualizadoEm type="datetime" openOnFocus="true" timeInterval="5">
-            </mat-datetimepicker>
-        </mat-form-field>
-
-        <mat-form-field *showIfRole="'ROLE_COLABORADOR'" fxFlex="100">
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Apagado Por"
-                       formControlName="apagadoPor"
-                       [matAutocomplete]="usuario.autocomplete">
-            </div>
-            <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('apagadoPor')">
-            </cdk-usuario-autocomplete>
-        </mat-form-field>
-
-        <mat-form-field *showIfRole="'ROLE_COLABORADOR'" class="mr-sm-12">
-            <mat-label>Apagado Em</mat-label>
-            <input matInput formControlName="apagadoEm" [matDatetimepicker]="apagadoEm">
-            <mat-datetimepicker-toggle matSuffix [for]="apagadoEm"></mat-datetimepicker-toggle>
-            <mat-datetimepicker #apagadoEm type="datetime" openOnFocus="true" timeInterval="5">
-            </mat-datetimepicker>
         </mat-form-field>
 
         <button mat-raised-button color="accent" class="mr-sm-12" (click)="buscar()"

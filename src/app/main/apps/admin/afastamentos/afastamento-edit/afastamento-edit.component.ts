@@ -15,8 +15,8 @@ import * as fromStore from './store';
 import {Pagination} from '@cdk/models/pagination';
 import {Afastamento, Usuario} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Router} from "@angular/router";
-import {getRouterState} from "../../../../../store/reducers";
+import {Router} from '@angular/router';
+import {getRouterState} from 'app/store/reducers';
 
 @Component({
     selector: 'afastamento-edit',

@@ -6,7 +6,7 @@
 
     <!-- SIDEBAR -->
     <cdk-sidebar *ngIf="!(maximizado$ | async)" class="sidebar" name="arquivista-main-sidebar" position="left"
-                  lockedOpen="gt-md">
+                 lockedOpen="gt-md">
         <arquivista-main-sidebar></arquivista-main-sidebar>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
@@ -40,9 +40,10 @@
 
         <!-- CONTENT CARD -->
         <div class="content-card"
-             [ngClass]="{'current-processo-selected':currentProcessoId || (loading$ | async)}">
-
-            <router-outlet></router-outlet>
+             [ngClass]="{'current-processo-selected':currentProcessoId}">
+            <div class="content">
+                <router-outlet></router-outlet>
+            </div>
         </div>
         <!-- / CONTENT CARD -->
 

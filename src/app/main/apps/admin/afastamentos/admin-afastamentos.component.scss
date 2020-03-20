@@ -1,20 +1,9 @@
-#afastamentos {
-  height: 100%;
-  .header {
-
-    .actions {
-      .is-active {
-        display: none;
-      }
-    }
-
-  }
-
-  .content {
-    height: 85%;
-  }
-}
-
 admin-afastamentos {
-  height: 100% !important;
+    height: 100%;
+    width: 100%;
+
+    .afastamentos-content {
+        height: 100%;
+        width: 100%;
+    }
 }

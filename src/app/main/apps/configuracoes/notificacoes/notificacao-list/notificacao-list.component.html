@@ -4,8 +4,9 @@
         [total]="(pagination$ | async)?.total"
         [deletingIds]="(deletingIds$ | async)"
         [deletedIds]="(deletedIds$ | async)"
-        [actions]="[]"
+        [actions]="['toggleLida']"
         (reload)="reload($event)"
         (edit)="edit($event)"
+        (toggleLida)="toggleLida($event)"
         (delete)="delete($event)">
 </cdk-notificacao-grid>
