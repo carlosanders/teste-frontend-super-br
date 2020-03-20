@@ -6,7 +6,7 @@ import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 
 import * as DocumentosActions from '../actions';
 
-import { AddData } from '@cdk/ngrx-normalizr';
+import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import { select, Store } from '@ngrx/store';
 import { getRouterState, State } from 'app/store/reducers';
 import { DocumentoAvulso, Documento } from '@cdk/models';
@@ -17,7 +17,7 @@ import { Router } from '@angular/router';
 import { getDocumentoAvulso } from '../../../store/selectors';
 import { environment } from 'environments/environment';
 import * as DocumentoAvulsoDetailActions from '../../../store/actions/oficio-detail.actions';
-import {documentoAvulso as documentoAvulsoSchema} from '../../../../../../../../@cdk/normalizr/documento-avulso.schema';
+import {documentoAvulso as documentoAvulsoSchema} from '@cdk/normalizr/documento-avulso.schema';
 
 @Injectable()
 export class DocumentosEffects {
@@ -219,24 +219,18 @@ export class DocumentosEffects {
                         0,
                         JSON.stringify({}),
                         JSON.stringify([
-                            'processo',
-                            'processo.especieProcesso',
-                            'processo.modalidadeMeio',
-                            'processo.documentoAvulsoOrigem',
-                            'usuarioResponsavel',
-                            'setorResponsavel',
-                            'setorResponsavel.unidade',
-                            'setorOrigem',
-                            'setorOrigem.unidade',
-                            'vinculacoesEtiquetas',
-                            'vinculacoesEtiquetas.etiqueta',
                             'documentoResposta'
                         ]),
                         JSON.stringify({chaveAcesso: `${this.routerState.params['chaveAcessoHandle']}`})
                     );
                 }),
                 mergeMap(response => [
-                    new AddData<DocumentoAvulso>({data: response['entities'], schema: documentoAvulsoSchema}),
+                    new UpdateData<DocumentoAvulso>({
+                        id: this.routerState.params.documentoAvulsoHandle,
+                        schema: documentoAvulsoSchema,
+                        changes: {documentoResposta: response['entities'][0].documentoResposta
+                        }
+                    }),
                     new DocumentoAvulsoDetailActions.GetDocumentoAvulsoSuccess({
                         loaded: {
                             id: 'documentoAvulsoHandle',
