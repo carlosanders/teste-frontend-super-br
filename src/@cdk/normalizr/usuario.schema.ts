@@ -4,4 +4,4 @@ usuarioSchema.define({
     colaborador: colaborador
 });
 
-export const usuario = usuarioSchema;
+export const  usuario = usuarioSchema;

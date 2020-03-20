@@ -10,18 +10,36 @@ cdk-modelo-grid {
         .mat-select-value {
             display: none !important;
         }
+
     }
 
-    .mat-column-select {
-        overflow: initial;
-    }
+    .content {
+
+        width: 100%;
+
+        .actions {
+            width: 100%;
+
+            .back {
+                margin-right: auto;
+            }
+        }
+
+        .mat-column-select {
+            overflow: initial;
+        }
 
     table {
         width: 100%;
 
-        td {
-            &.deleted {
-                text-decoration: line-through;
+            tr {
+                height: auto;
+            }
+
+            td {
+                &.deleted {
+                    text-decoration: line-through;
+                }
             }
         }
     }
@@ -101,16 +119,6 @@ cdk-modelo-grid {
 
         .mat-paginator {
             margin-top: 24px;
-        }
-    }
-
-    .content {
-        .actions {
-            width: 100%;
-
-            .back {
-                margin-right: auto;
-            }
         }
     }
 }

@@ -58,13 +58,12 @@ export class Usuario {
     @Type(() => VinculacaoUsuario)
     vinculacoesUsuariosPrincipais?: VinculacaoUsuario[];
 
-    @Exclude({toPlainOnly: true})
     @Type(() => Colaborador)
+    @Transform(value => value ? value.id : null, { toPlainOnly: true })
     colaborador?: Colaborador;
 
     @Exclude({toPlainOnly: true})
     roles?: string[];
-
 
     @Exclude({toPlainOnly: true})
     @Type(() => VinculacaoPessoaUsuario)

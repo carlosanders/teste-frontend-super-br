@@ -31,10 +31,6 @@ export class Modelo {
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     template?: Template;
 
-    @Type(() => VinculacaoModelo)
-    @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    vinculacaoModelo?: VinculacaoModelo;
-
     @Type(() => Documento)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     documento?: Documento;
@@ -85,6 +81,5 @@ export class Modelo {
         this.atualizadoEm = null;
         this.apagadoPor = null;
         this.apagadoEm = null;
-        this.vinculacaoModelo = null;
     }
 }

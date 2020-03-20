@@ -1,0 +1,9 @@
+<cdk-usuario-grid
+    [loading]="(loading$ | async)"
+    [usuarios]="(usuarios$ | async)"
+    [total]="(pagination$ | async)?.total"
+    [displayedColumns]="['select', 'id', 'username', 'nome', 'email', 'colaborador.modalidadeColaborador.valor', 'colaborador.cargo.nome', 'enabled', 'actions']"
+    [actions]="['afastamentos']"
+    (reload)="reload($event)"
+    (afastamentos)="afastamentos($event)">
+</cdk-usuario-grid>
