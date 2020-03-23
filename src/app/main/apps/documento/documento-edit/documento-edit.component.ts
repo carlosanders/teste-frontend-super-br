@@ -1,5 +1,5 @@
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef,
+    ChangeDetectionStrategy,
     Component,
     OnDestroy,
     OnInit, ViewChild,
@@ -15,7 +15,7 @@ import {Location} from '@angular/common';
 import {getMercureState, getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {Repositorio} from '@cdk/models';
-import {filter, take, takeLast, tap} from 'rxjs/operators';
+import {filter} from 'rxjs/operators';
 import {DomSanitizer} from '@angular/platform-browser';
 import {ComponenteDigital} from '@cdk/models';
 import {RepositorioService} from '@cdk/services/repositorio.service';
@@ -25,11 +25,10 @@ import {Tarefa} from '@cdk/models';
 import {getTarefa} from '../../tarefas/tarefa-detail/store/selectors';
 import {Visibilidade} from '@cdk/models';
 import {Pagination} from '@cdk/models';
-import {Colaborador} from '@cdk/models';
 import {LoginService} from '../../../auth/login/login.service';
 import {Sigilo} from '@cdk/models';
 import {Assinatura} from '@cdk/models';
-import {Usuario} from "../../../../../@cdk/models/usuario.model";
+import {Usuario} from '@cdk/models';
 
 @Component({
     selector: 'documento-edit',
@@ -317,6 +316,10 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
 
         if (this.juntadaRoute) {
             this.activeCard = 'form';
+        }
+
+        if (!this._loginService.isGranted('ROLE_COLABORADOR')) {
+            this.activeCard = 'anexos';
         }
     }
 

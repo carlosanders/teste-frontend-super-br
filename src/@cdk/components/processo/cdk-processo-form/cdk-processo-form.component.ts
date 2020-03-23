@@ -7,7 +7,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Processo} from '@cdk/models';
 import {EspecieProcesso} from '@cdk/models';
 import {MAT_DATETIME_FORMATS} from '@mat-datetimepicker/core';
@@ -17,10 +17,8 @@ import {Classificacao} from '@cdk/models';
 import {Setor} from '@cdk/models';
 import {Pagination} from '@cdk/models';
 import {Pessoa} from '@cdk/models';
-import { nullSafeIsEquivalent } from '@angular/compiler/src/output/output_ast';
-import { ITS_JUST_ANGULAR } from '@angular/core/src/r3_symbols';
-import { isUndefined } from 'util';
-import { appendFile } from 'fs';
+import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
+import {of} from 'rxjs';
 
 
 @Component({
@@ -112,8 +110,6 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
     activeCard = 'form';
 
-    temOrigem: boolean;
-    readonlyProcessoOrigem: boolean;
     readonlyNUP: boolean;
     textBotao: string;
     /**
@@ -126,7 +122,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
  
         this.form = this._formBuilder.group({
             id: [null],
-            processo_rg: [null],
+            temProcessoOrigem: [null],
             processoOrigem: [null],
             NUP: [null, [Validators.required, Validators.maxLength(21)]],
             novo: [null, [Validators.required]],
@@ -153,10 +149,8 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
         this.modalidadeFasePagination = new Pagination();
         this.setorAtualPagination = new Pagination();
         this.processoPagination = new Pagination();
-        this.processoPagination.populate = ['especieProcesso', 'modalidadeMeio', 'classificacao', 'setorAtual'];
+        this.processoPagination.populate = ['especieProcesso', 'modalidadeMeio', 'classificacao', 'setorAtual', 'setorAtual.unidade'];
 
-        this.temOrigem = false;
-        this.readonlyProcessoOrigem = false;
         this.readonlyNUP = false;
         this.textBotao = '';
 
@@ -170,7 +164,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
         if (!this.processo.id) {
 
-            this.form.get('processo_rg').setValue(false);
+            this.form.get('temProcessoOrigem').setValue(false);
 
             this.form.get('dataHoraAbertura').setValue(null);
             this.form.get('dataHoraAbertura').disable();
@@ -209,15 +203,21 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             this.readonlyNUP = true;
             this.textBotao = 'SALVAR';
             
-            if (this.processo.processoOrigem != null){
-                this.temOrigem = true;
-                this.readonlyProcessoOrigem = true;
-            }else{
+            if (this.processo.id) {
                 this.form.get('processoOrigem').setValue(null);            
                 this.form.get('processoOrigem').disable();            
             }
 
         }
+
+        this.form.get('temProcessoOrigem').valueChanges.subscribe(value => {
+            if (value) {
+                this.form.get('processoOrigem').enable();
+            } else {
+                this.form.get('processoOrigem').setValue(null);
+                this.form.get('processoOrigem').disable();
+            }
+        });
 
         this.form.get('modalidadeFase').disable();
     }
@@ -273,18 +273,6 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     submit(): void {
         if (this.form.valid) {
             this.save.emit(this.form.value);
-        }
-    }
-
-    doPost(): void {
-        if (this.form.valid) {
-            this.post.emit(this.form.value);
-        }
-    }
-
-    doPut(): void {
-        if (this.form.valid) {
-            this.put.emit(this.form.value);
         }
     }
 
@@ -433,10 +421,4 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
         this.activeCard = 'form';
     }
 
-/*    onClick(): void{
-        this.form.get('processoOrigem').setValue(null);        
-        this.form.get('processoOrigem').disable();        
-        this.clicked.emit(this.form.value);
-    }
-*/
 }
