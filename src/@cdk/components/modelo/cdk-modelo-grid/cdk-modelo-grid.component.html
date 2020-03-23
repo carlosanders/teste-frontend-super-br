@@ -232,6 +232,15 @@
                     </button>
 
                     <button mat-icon-button
+                            *ngIf="actions.indexOf('especie') > -1"
+                            [disabled]="deletedIds?.indexOf(modelo.id) > -1"
+                            (click)="especieSetores(modelo.id)"
+                            aria-label="especieSetores"
+                            matTooltip="Espécie de Setores">
+                        <mat-icon>edit_location</mat-icon>
+                    </button>
+
+                    <button mat-icon-button
                             *ngIf="actions.indexOf('anexo') > -1"
                             [disabled]="deletedIds?.indexOf(modelo.id) > -1"
                             (click)="anexoModelo(modelo.id)"

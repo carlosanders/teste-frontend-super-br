@@ -1,0 +1,11 @@
+<cdk-especie-setor-grid
+        [loading]="(loading$ | async)"
+        [especieSetors]="" ]="(especieSetor$ | async)"
+        [total]="(pagination$ | async)?.total"
+        [deletingIds]="(deletingIds$ | async)"
+        [deletedIds]="(deletedIds$ | async)"
+        [actions]="['edit', 'delete']"
+        (reload)="reload($event)"
+        (edit)="edit($event)"
+        (delete)="delete($event)">
+</cdk-especie-setor-grid>

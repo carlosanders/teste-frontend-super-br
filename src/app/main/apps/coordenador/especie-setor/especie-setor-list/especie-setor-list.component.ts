@@ -8,29 +8,30 @@ import {
 import {Observable} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Modelo} from '@cdk/models/modelo.model';
+import {EspecieSetor, Pagination} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 
 @Component({
-    selector: 'modelos-list',
-    templateUrl: './modelos-list.component.html',
-    styleUrls: ['./modelos-list.component.scss'],
+    selector: 'especie-setor-list',
+    templateUrl: './especie-setor-list.component.html',
+    styleUrls: ['./especie-setor-list.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class ModelosListComponent implements OnInit {
+export class EspecieSetorListComponent implements OnInit {
 
     routerState: any;
-    modelos$: Observable<Modelo[]>;
+    especieSetor$: Observable<EspecieSetor[]>;
     loading$: Observable<boolean>;
     pagination$: Observable<any>;
     pagination: any;
     deletingIds$: Observable<any>;
     deletedIds$: Observable<any>;
+    colaboradorPagination: Pagination = new Pagination();
 
     /**
      * @param _changeDetectorRef
@@ -40,9 +41,9 @@ export class ModelosListComponent implements OnInit {
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
-        private _store: Store<fromStore.ModelosListAppState>,
+        private _store: Store<fromStore.EspecieSetorListAppState>,
     ) {
-        this.modelos$ = this._store.pipe(select(fromStore.getModelosList));
+        this.especieSetor$ = this._store.pipe(select(fromStore.getEspecieSetorList));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
         this.deletingIds$ = this._store.pipe(select(fromStore.getDeletingIds));
@@ -55,6 +56,15 @@ export class ModelosListComponent implements OnInit {
                     this.routerState = routerState.state;
                 }
             });
+
+        this.colaboradorPagination.filter = {};
+        this.colaboradorPagination.populate = ['populateAll'];
+        if (this.routerState.params['modeloHandle']) {
+            this.colaboradorPagination.filter = {
+                ...this.colaboradorPagination.filter,
+                'modelo.id': 'eq:' + this.routerState.params['modeloHandle']
+            };
+        }
     }
 
     ngOnInit(): void {
@@ -64,12 +74,11 @@ export class ModelosListComponent implements OnInit {
     }
 
     reload(params): void {
-        this._store.dispatch(new fromStore.GetModelos({
+        this._store.dispatch(new fromStore.GetEspecieSetor({
             ...this.pagination,
             filter: {
                 ...this.pagination.filter,
-                ...params.gridFilter,
-                'parent': 'isNotNull'
+                ...params.gridFilter
             },
             sort: params.sort,
             limit: params.limit,
@@ -79,20 +88,12 @@ export class ModelosListComponent implements OnInit {
         }));
     }
 
-    edit(modeloId: number): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + modeloId]);
+    edit(especieSetorId: number): void {
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + especieSetorId]);
     }
 
-    anexoModelo(modeloId: number): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'anexos/') + modeloId]);
-    }
-
-    especieSetores(modeloId: number): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'especie-setor/') + modeloId]);
-    }
-
-    delete(modeloId: number): void {
-        this._store.dispatch(new fromStore.DeleteModelo(modeloId));
+    delete(especieSetorId: number): void {
+        this._store.dispatch(new fromStore.DeleteEspecieSetor(especieSetorId));
     }
 
 }
