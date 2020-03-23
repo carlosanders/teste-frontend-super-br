@@ -1,56 +1,54 @@
-<form 
-    *ngIf="activeCard === 'form'" 
+<form
+    *ngIf="activeCard === 'form'"
     fxLayoutGap="16px"
-    fxLayout="column" 
-    fxLayoutAlign="start" 
-    name="form" 
+    fxLayout="column"
+    fxLayoutAlign="start"
+    name="form"
     [formGroup]="form">
 
     <div fxFlex="1 0 auto" fxLayout="column">
-        
+
         <mat-form-field fxFlex="100">
             <div fxLayout="row" fxLayoutAlign="start center">
-                <input 
-                    matInput 
-                    placeholder="Relevância" 
-                    formControlName="especieRelevancia" 
-                    [matAutocomplete]="especieRelevancia.autocomplete" 
-                    (blur)="checkEspecieRelevancia()" 
-                    required >
+                <input
+                    matInput
+                    placeholder="Relevância"
+                    formControlName="especieRelevancia"
+                    [matAutocomplete]="especieRelevancia.autocomplete"
+                    (blur)="checkEspecieRelevancia()"
+                    required>
             </div>
 
-            <cdk-especie-relevancia-autocomplete 
-                #especieRelevancia="especieRelevanciaAutocomplete" 
-                [control]="form.get('especieRelevancia')" 
+            <cdk-especie-relevancia-autocomplete
+                #especieRelevancia="especieRelevanciaAutocomplete"
+                [control]="form.get('especieRelevancia')"
                 [pagination]="especieRelevanciaPagination">
             </cdk-especie-relevancia-autocomplete>
-            
+
             <button
-                type="button" 
-                *ngIf="form.get('especieRelevancia').enabled" 
-                matSuffix 
-                mat-button 
-                mat-icon-button 
+                type="button"
+                *ngIf="form.get('especieRelevancia').enabled"
+                matSuffix
+                mat-button
+                mat-icon-button
                 (click)="showEspecieRelevanciaGrid()">
                 <mat-icon matTooltip="Procurar">search</mat-icon>
             </button>
-            
-            <mat-error 
+
+            <mat-error
                 *ngIf="form.get('especieRelevancia').hasError('formError')">
                 {{form.get('especieRelevancia').errors.formError}}
             </mat-error>
         </mat-form-field>
 
         <mat-form-field fxFlex="100">
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input 
-                    formControlName="observacao" 
-                    #observacao 
-                    matInput 
-                    placeholder="Observação" 
-                    maxlength="255" upperCase>
-            </div>
-            <mat-hint align="end">{{observacao.value.length}}</mat-hint>
+            <input
+                formControlName="observacao"
+                matInput #observacao
+                placeholder="Observação"
+                name="observacao"
+                maxlength="255" upperCase>
+            <mat-hint align="end">{{observacao.value.length}} / 255</mat-hint>
         </mat-form-field>
     </div>
 
@@ -58,14 +56,14 @@
 
     <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-8 mb-8" fxFlex
          fxLayoutAlign="center center">
-            <button
-                type="button" 
-                mat-raised-button 
-                color="accent" 
-                class="mr-sm-12" 
-                [disabled]="form.invalid" 
-                (click)="submit()">SALVAR
-            </button>
+        <button
+            type="button"
+            mat-raised-button
+            color="accent"
+            class="mr-sm-12"
+            [disabled]="form.invalid"
+            (click)="submit()">SALVAR
+        </button>
     </div>
 
     <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
