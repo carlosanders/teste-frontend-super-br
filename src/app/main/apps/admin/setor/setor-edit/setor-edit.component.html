@@ -1,5 +1,6 @@
 <cdk-setor-form
         [setor]="setor"
+        [unidade]="(unidade$ | async)"
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
         [setorPagination]="setorPagination"

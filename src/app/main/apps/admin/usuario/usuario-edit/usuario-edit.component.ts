@@ -15,9 +15,9 @@ import * as fromStore from './store';
 import {Pagination} from '@cdk/models/pagination';
 import {Usuario, Colaborador} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Router} from "@angular/router";
-import {getRouterState} from "../../../../../store/reducers";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {Router} from '@angular/router';
+import {getRouterState} from '../../../../../store/reducers';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
     selector: 'usuario-edit',
@@ -77,7 +77,6 @@ export class UsuarioEditComponent implements OnInit, OnDestroy {
             email: [null, [Validators.required, Validators.email, Validators.maxLength(255)]],
             nivelAcesso: [0, [Validators.required, Validators.maxLength(2)]],
             enabled: [null],
-            assinaturaHTML: [null, [Validators.required]],
             resetPassword: [false]
         });
 
@@ -133,7 +132,11 @@ export class UsuarioEditComponent implements OnInit, OnDestroy {
             }
         );
 
-        this._store.dispatch(new fromStore.SaveUsuario(usuario));
+        if (!usuario.id) {
+            this._store.dispatch(new fromStore.SaveUsuario(usuario));
+        } else {
+            this._store.dispatch(new fromStore.UpdateUsuario({usuario: usuario, changes: values}));
+        }
     }
 
     submitColaborador(values): void {
