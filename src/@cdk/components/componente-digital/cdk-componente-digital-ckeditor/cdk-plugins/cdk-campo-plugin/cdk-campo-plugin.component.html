@@ -1,9 +1,9 @@
 <h1 mat-dialog-title>Inclusão de Campo</h1>
 <form [formGroup]="form">
-<div mat-dialog-content>
+<div mat-dialog-content cdk-focus-initial>
     <mat-form-field fxFlex="100">
         <div fxLayout="row" fxLayoutAlign="start center">
-            <input matInput placeholder="Campo"
+            <input tabindex="-1" matInput placeholder="Campo"
                    formControlName="campo"
                    [matAutocomplete]="campo.autocomplete"
                    (blur)="checkCampo()"

@@ -62,7 +62,7 @@ export class CdkRepositorioAutocompleteComponent implements OnInit {
                     });
                     if (typeof value === 'string') {
                         this.repositorioListIsLoading = true;
-                        this._changeDetectorRef.markForCheck();
+                        this._changeDetectorRef.detectChanges();
                         const filterParam = {
                             ...this.pagination.filter,
                             ...termFilter
@@ -74,7 +74,10 @@ export class CdkRepositorioAutocompleteComponent implements OnInit {
                             JSON.stringify(this.pagination.sort),
                             JSON.stringify(this.pagination.populate))
                             .pipe(
-                                finalize(() => this.repositorioListIsLoading = false),
+                                finalize(() => {
+                                    this.repositorioListIsLoading = false;
+                                    this._changeDetectorRef.detectChanges();
+                                }),
                                 catchError(() => of([]))
                             );
                     } else {
@@ -84,7 +87,7 @@ export class CdkRepositorioAutocompleteComponent implements OnInit {
             )
         ).subscribe(response => {
             this.repositorioList = response['entities'];
-            this._changeDetectorRef.markForCheck();
+            this._changeDetectorRef.detectChanges();
         });
     }
 

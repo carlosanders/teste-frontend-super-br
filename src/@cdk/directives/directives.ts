@@ -25,6 +25,7 @@ import {ShowIfNotRoleDirective} from './show-if-not-role.directive';
         CdkMatSidenavTogglerDirective,
         CdkPerfectScrollbarDirective,
         ShowIfRoleDirective,
+        ShowIfNotRoleDirective,
     ]
 })
 export class DirectivesModule
