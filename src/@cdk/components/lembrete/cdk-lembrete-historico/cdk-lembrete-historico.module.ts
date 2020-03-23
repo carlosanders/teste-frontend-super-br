@@ -1,8 +1,7 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { CdkLembreteHistoricoComponent } from './cdk-lembrete-historico.component';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {CdkLembreteHistoricoComponent} from './cdk-lembrete-historico.component';
 import {MatIconModule} from '@angular/material/icon';
-import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatTableModule} from '@angular/material/table';
@@ -10,14 +9,18 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {CdkLembreteGridFilterModule} from '../cdk-lembrete-grid/cdk-lembrete-grid-filter/cdk-lembrete-grid-filter.module';
 import {CdkSharedModule} from '../../../shared.module';
-import {CdkSidebarModule} from '../..';
-import {MatButtonModule, MatInputModule, MatSortModule} from '../../../angular/material';
+import {MatButtonModule} from '@angular/material/button';
+import {MatInputModule} from '@angular/material/input';
+import {MatSortModule} from '@angular/material/sort';
+import {MatTooltipModule} from '@angular/material/tooltip';
+
 @NgModule({
     declarations: [CdkLembreteHistoricoComponent],
     exports: [
         CdkLembreteHistoricoComponent
     ],
     imports: [
+        CommonModule,
         MatSelectModule,
         MatButtonModule,
         MatIconModule,
@@ -29,6 +32,8 @@ import {MatButtonModule, MatInputModule, MatSortModule} from '../../../angular/m
         MatSortModule,
         CdkLembreteGridFilterModule,
         CdkSharedModule,
+        MatTooltipModule,
     ]
 })
-export class CdkLembreteHistoricoModule { }
+export class CdkLembreteHistoricoModule {
+}

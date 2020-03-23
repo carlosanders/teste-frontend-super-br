@@ -8,6 +8,8 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {ToolbarComponent} from 'app/layout/components/toolbar/toolbar.component';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {NotificacaoService} from '@cdk/services/notificacao.service';
+import { AjudaModule } from 'ajuda/ajuda.module';
+import { AjudaComponent } from 'ajuda/ajuda.component';
 
 @NgModule({
     declarations: [
@@ -20,6 +22,7 @@ import {NotificacaoService} from '@cdk/services/notificacao.service';
         MatMenuModule,
         MatToolbarModule,
         MatBadgeModule,
+        
 
         CdkSharedModule,
         CdkSearchBarModule,
@@ -27,7 +30,8 @@ import {NotificacaoService} from '@cdk/services/notificacao.service';
     ],
     providers: [
         LoginService,
-        NotificacaoService
+        NotificacaoService,
+        AjudaComponent,
     ],
     exports: [
         ToolbarComponent

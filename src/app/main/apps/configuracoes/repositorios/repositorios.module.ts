@@ -19,6 +19,7 @@ import {RepositoriosComponent} from './repositorios.component';
 import {RepositorioService} from '@cdk/services/repositorio.service';
 import {RouterModule, Routes} from '@angular/router';
 import {ModalidadeRepositorioService} from '@cdk/services/modalidade-repositorio.service';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 const routes: Routes = [
     {
@@ -64,6 +65,7 @@ const routes: Routes = [
         TranslateModule,
 
         CdkSharedModule,
+        MatTooltipModule,
     ],
     providers: [
         RepositorioService,

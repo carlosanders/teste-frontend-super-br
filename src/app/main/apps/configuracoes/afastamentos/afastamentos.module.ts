@@ -19,6 +19,7 @@ import {AfastamentosComponent} from './afastamentos.component';
 import {AfastamentoService} from '@cdk/services/afastamento.service';
 import {RouterModule, Routes} from '@angular/router';
 import {TemplateService} from '@cdk/services/template.service';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 const routes: Routes = [
     {
@@ -64,6 +65,7 @@ const routes: Routes = [
         TranslateModule,
 
         CdkSharedModule,
+        MatTooltipModule,
     ],
     providers: [
         AfastamentoService,

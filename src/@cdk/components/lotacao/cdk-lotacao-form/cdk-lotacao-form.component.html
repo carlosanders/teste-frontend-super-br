@@ -63,6 +63,11 @@
                 Distribuidor
             </mat-checkbox>
 
+            <mat-checkbox formControlName="arquivista"
+                          class="mr-16 mb-16" fxFlex="0 1 auto" *ngIf="form.get('setor').value && form.get('setor').value.especieSetor.id === 2">
+                Arquivista
+            </mat-checkbox>
+
             <mat-form-field fxFlex="100">
                 <div fxLayout="row" fxLayoutAlign="start center">
                     <input matInput placeholder="Peso"

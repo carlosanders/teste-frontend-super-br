@@ -56,184 +56,186 @@
             <mat-spinner diameter="32"></mat-spinner>
         </div>
 
-        <table mat-table [dataSource]="dataSource" matSort [hidden]="loading">
+        <div fxFlex="1 1 auto" fxLayout="column" cdkPerfectScrollbar>
+            <table mat-table [dataSource]="dataSource" matSort [hidden]="loading">
 
-            <!-- Selection Column -->
-            <ng-container matColumnDef="select">
-                <th mat-header-cell *matHeaderCellDef>
-                    <mat-checkbox (click)="toggleSelectAll($event)"
-                                  [checked]="hasSelected"
-                                  [indeterminate]="isIndeterminate">
-                    </mat-checkbox>
-                </th>
-                <td mat-cell *matCellDef="let garantia">
-                    <mat-checkbox [checked]="selectedIds.indexOf(garantia.id) > -1"
-                                  (change)="toggleInSelected(garantia.id)"
-                                  (click)="$event.stopPropagation();"
-                                  [disabled]="(deletedIds?.indexOf(garantia.id) > -1)">
-                    </mat-checkbox>
-                </td>
-            </ng-container>
+                <!-- Selection Column -->
+                <ng-container matColumnDef="select">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <mat-checkbox (click)="toggleSelectAll($event)"
+                                      [checked]="hasSelected"
+                                      [indeterminate]="isIndeterminate">
+                        </mat-checkbox>
+                    </th>
+                    <td mat-cell *matCellDef="let garantia">
+                        <mat-checkbox [checked]="selectedIds.indexOf(garantia.id) > -1"
+                                      (change)="toggleInSelected(garantia.id)"
+                                      (click)="$event.stopPropagation();"
+                                      [disabled]="(deletedIds?.indexOf(garantia.id) > -1)">
+                        </mat-checkbox>
+                    </td>
+                </ng-container>
 
-            <!-- Id Column -->
-            <ng-container matColumnDef="id">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Id
-                </th>
-                <td mat-cell *matCellDef="let garantia" class='has_label_on_mobile' data-label='Id: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(garantia.id) > -1}"> {{garantia.id}} </td>
-            </ng-container>
-
-
-            <!-- Processo Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('processo.NUP') > -1" matColumnDef="processo.NUP">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    NUP
-                </th>
-                <td mat-cell *matCellDef="let garantia" class='has_label_on_mobile' data-label='NUP: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(garantia.id) > -1}"> {{garantia.processo?.NUP}} </td>
-            </ng-container>
-
-            <!-- Modalidade Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('modalidadeGarantia.valor') > -1" matColumnDef="modalidadeGarantia.valor">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Modalidade
-                </th>
-                <td mat-cell *matCellDef="let garantia" class='has_label_on_mobile' data-label='Nome: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(garantia.id) > -1}"> {{garantia.modalidadeGarantia.valor}} </td>
-            </ng-container>
-
-            <!-- Descricao Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('descricao') > -1" matColumnDef="descricao">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Descrição
-                </th>
-                <td mat-cell *matCellDef="let garantia" class='has_label_on_mobile' data-label='Descrição: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(garantia.id) > -1}"> {{garantia.descricao}} </td>
-            </ng-container>
-
-            <!-- Valor Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('valor') > -1" matColumnDef="valor">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Valor
-                </th>
-                <td mat-cell *matCellDef="let garantia" class='has_label_on_mobile' data-label='Data Valor: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(garantia.id) > -1}"> {{garantia.valor | currency:'BRL':'symbol'}} </td>
-            </ng-container>
-
-            <!-- Data Valor Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('dataValor') > -1" matColumnDef="dataValor">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Data Valor
-                </th>
-                <td mat-cell *matCellDef="let garantia" class='has_label_on_mobile' data-label='Data Valor: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(garantia.id) > -1}"> {{garantia.dataValor | date: 'dd/MM/yyyy'}} </td>
-            </ng-container>
-
-            <!-- Observacao Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('observacao') > -1" matColumnDef="observacao">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Observação
-                </th>
-                <td mat-cell *matCellDef="let garantia" class='has_label_on_mobile' data-label='Observação: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(garantia.id) > -1}"> {{garantia.observacao}} </td>
-            </ng-container>
-
-            <!-- CriadoPor Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('criadoPor.nome') > -1" matColumnDef="criadoPor.nome">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Criado Por
-                </th>
-                <td mat-cell *matCellDef="let garantia" class='has_label_on_mobile' data-label='Criado Por: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(garantia.id) > -1}"> {{garantia.criadoPor?.nome}} </td>
-            </ng-container>
-
-            <!-- CriadoEm Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('criadoEm') > -1" matColumnDef="criadoEm">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Criado Em
-                </th>
-                <td mat-cell *matCellDef="let garantia" class='has_label_on_mobile' data-label='Criado Em: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(garantia.id) > -1}"> {{garantia.criadoEm | date: 'dd/MM/yyyy'}} </td>
-            </ng-container>
-
-            <!-- AtualizadoPor Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1" matColumnDef="atualizadoPor.nome">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Atualizado Por
-                </th>
-                <td mat-cell *matCellDef="let garantia" class='has_label_on_mobile' data-label='Atualizado Por: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(garantia.id) > -1}"> {{garantia.atualizadoPor?.nome}} </td>
-            </ng-container>
-
-            <!-- AtualizadoEm Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('atualizadoEm') > -1" matColumnDef="atualizadoEm">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Atualizado Em
-                </th>
-                <td mat-cell *matCellDef="let garantia" class='has_label_on_mobile' data-label='Atualizado Em: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(garantia.id) > -1}"> {{garantia.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
-            </ng-container>
-
-            <!-- ApagadoPor Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('apagadoPor.nome') > -1" matColumnDef="apagadoPor.nome">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Apagado Por
-                </th>
-                <td mat-cell *matCellDef="let garantia" class='has_label_on_mobile' data-label='Apagado Por: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(garantia.id) > -1}"> {{garantia.apagadoPor?.nome}} </td>
-            </ng-container>
-
-            <!-- ApagadoEm Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('apagadoEm') > -1" matColumnDef="apagadoEm">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Apagado Em
-                </th>
-                <td mat-cell *matCellDef="let garantia" class='has_label_on_mobile' data-label='Apagado Em: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(garantia.id) > -1}"> {{garantia.apagadoEm | date: 'dd/MM/yyyy'}} </td>
-            </ng-container>
+                <!-- Id Column -->
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Id
+                    </th>
+                    <td mat-cell *matCellDef="let garantia" class='has_label_on_mobile' data-label='Id: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(garantia.id) > -1}"> {{garantia.id}} </td>
+                </ng-container>
 
 
-            <!-- Actions Column -->
-            <ng-container matColumnDef="actions">
-                <th mat-header-cell *matHeaderCellDef></th>
-                <td mat-cell *matCellDef="let garantia">
+                <!-- Processo Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('processo.NUP') > -1" matColumnDef="processo.NUP">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        NUP
+                    </th>
+                    <td mat-cell *matCellDef="let garantia" class='has_label_on_mobile' data-label='NUP: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(garantia.id) > -1}"> {{garantia.processo?.NUP}} </td>
+                </ng-container>
 
-                    <button mat-icon-button
-                            *ngIf="actions.indexOf('select') > -1 && deletingIds?.indexOf(garantia.id) === -1"
-                            (click)="selectGarantia(garantia)"
-                            aria-label="selecionar"
-                            matTooltip="Selecionar">
-                        <mat-icon>keyboard_return</mat-icon>
-                    </button>
+                <!-- Modalidade Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('modalidadeGarantia.valor') > -1" matColumnDef="modalidadeGarantia.valor">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Modalidade
+                    </th>
+                    <td mat-cell *matCellDef="let garantia" class='has_label_on_mobile' data-label='Nome: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(garantia.id) > -1}"> {{garantia.modalidadeGarantia.valor}} </td>
+                </ng-container>
 
-                    <button mat-icon-button
-                            *ngIf="actions.indexOf('edit') > -1 && deletingIds?.indexOf(garantia.id) === -1"
-                            [disabled]="deletedIds?.indexOf(garantia.id) > -1"
-                            (click)="editGarantia(garantia.id)"
-                            aria-label="editar"
-                            matTooltip="Editar">
-                        <mat-icon>edit</mat-icon>
-                    </button>
+                <!-- Descricao Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('descricao') > -1" matColumnDef="descricao">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Descrição
+                    </th>
+                    <td mat-cell *matCellDef="let garantia" class='has_label_on_mobile' data-label='Descrição: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(garantia.id) > -1}"> {{garantia.descricao}} </td>
+                </ng-container>
 
-                    <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(garantia.id) > -1">
-                        <mat-spinner diameter="24"></mat-spinner>
-                    </div>
+                <!-- Valor Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('valor') > -1" matColumnDef="valor">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Valor
+                    </th>
+                    <td mat-cell *matCellDef="let garantia" class='has_label_on_mobile' data-label='Data Valor: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(garantia.id) > -1}"> {{garantia.valor | currency:'BRL':'symbol'}} </td>
+                </ng-container>
 
-                    <button mat-icon-button
-                            *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(garantia.id) === -1"
-                            [disabled]="(deletedIds?.indexOf(garantia.id) > -1)"
-                            (click)="deleteGarantia(garantia.id)"
-                            aria-label="remover"
-                            matTooltip="Remover">
-                        <mat-icon>delete</mat-icon>
-                    </button>
-                </td>
-            </ng-container>
+                <!-- Data Valor Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('dataValor') > -1" matColumnDef="dataValor">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Data Valor
+                    </th>
+                    <td mat-cell *matCellDef="let garantia" class='has_label_on_mobile' data-label='Data Valor: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(garantia.id) > -1}"> {{garantia.dataValor | date: 'dd/MM/yyyy'}} </td>
+                </ng-container>
 
-            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
-            <tr mat-row *matRowDef="let garantia; columns: displayedColumns;">
-            </tr>
-        </table>
+                <!-- Observacao Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('observacao') > -1" matColumnDef="observacao">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Observação
+                    </th>
+                    <td mat-cell *matCellDef="let garantia" class='has_label_on_mobile' data-label='Observação: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(garantia.id) > -1}"> {{garantia.observacao}} </td>
+                </ng-container>
+
+                <!-- CriadoPor Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('criadoPor.nome') > -1" matColumnDef="criadoPor.nome">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Criado Por
+                    </th>
+                    <td mat-cell *matCellDef="let garantia" class='has_label_on_mobile' data-label='Criado Por: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(garantia.id) > -1}"> {{garantia.criadoPor?.nome}} </td>
+                </ng-container>
+
+                <!-- CriadoEm Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('criadoEm') > -1" matColumnDef="criadoEm">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Criado Em
+                    </th>
+                    <td mat-cell *matCellDef="let garantia" class='has_label_on_mobile' data-label='Criado Em: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(garantia.id) > -1}"> {{garantia.criadoEm | date: 'dd/MM/yyyy'}} </td>
+                </ng-container>
+
+                <!-- AtualizadoPor Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1" matColumnDef="atualizadoPor.nome">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Atualizado Por
+                    </th>
+                    <td mat-cell *matCellDef="let garantia" class='has_label_on_mobile' data-label='Atualizado Por: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(garantia.id) > -1}"> {{garantia.atualizadoPor?.nome}} </td>
+                </ng-container>
+
+                <!-- AtualizadoEm Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('atualizadoEm') > -1" matColumnDef="atualizadoEm">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Atualizado Em
+                    </th>
+                    <td mat-cell *matCellDef="let garantia" class='has_label_on_mobile' data-label='Atualizado Em: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(garantia.id) > -1}"> {{garantia.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
+                </ng-container>
+
+                <!-- ApagadoPor Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('apagadoPor.nome') > -1" matColumnDef="apagadoPor.nome">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Apagado Por
+                    </th>
+                    <td mat-cell *matCellDef="let garantia" class='has_label_on_mobile' data-label='Apagado Por: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(garantia.id) > -1}"> {{garantia.apagadoPor?.nome}} </td>
+                </ng-container>
+
+                <!-- ApagadoEm Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('apagadoEm') > -1" matColumnDef="apagadoEm">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Apagado Em
+                    </th>
+                    <td mat-cell *matCellDef="let garantia" class='has_label_on_mobile' data-label='Apagado Em: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(garantia.id) > -1}"> {{garantia.apagadoEm | date: 'dd/MM/yyyy'}} </td>
+                </ng-container>
+
+
+                <!-- Actions Column -->
+                <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let garantia">
+
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('select') > -1 && deletingIds?.indexOf(garantia.id) === -1"
+                                (click)="selectGarantia(garantia)"
+                                aria-label="selecionar"
+                                matTooltip="Selecionar">
+                            <mat-icon>keyboard_return</mat-icon>
+                        </button>
+
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('edit') > -1 && deletingIds?.indexOf(garantia.id) === -1"
+                                [disabled]="deletedIds?.indexOf(garantia.id) > -1"
+                                (click)="editGarantia(garantia.id)"
+                                aria-label="editar"
+                                matTooltip="Editar">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+
+                        <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(garantia.id) > -1">
+                            <mat-spinner diameter="24"></mat-spinner>
+                        </div>
+
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(garantia.id) === -1"
+                                [disabled]="(deletedIds?.indexOf(garantia.id) > -1)"
+                                (click)="deleteGarantia(garantia.id)"
+                                aria-label="remover"
+                                matTooltip="Remover">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
+                <tr mat-row *matRowDef="let garantia; columns: displayedColumns;">
+                </tr>
+            </table>
+        </div>
 
         <div class="actions" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="center center">
             <mat-paginator [disabled]="loading" [pageSizeOptions]="[5, 10]"></mat-paginator>

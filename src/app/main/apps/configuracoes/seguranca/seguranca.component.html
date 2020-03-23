@@ -1,5 +1,11 @@
-<cdk-seguranca-form
-        [saving]="(isSaving$ | async)"
-        [errors]="(errors$ | async)"
-        (save)="submit($event)">
-</cdk-seguranca-form>
+<div class="seguranca-content" fxFlex fxLayout="column">
+    <!-- CONTENT -->
+    <div class="p-16" fxFlex="1 1 auto" cdkPerfectScrollbar>
+        <cdk-seguranca-form
+                [saving]="(isSaving$ | async)"
+                [errors]="(errors$ | async)"
+                (save)="submit($event)">
+        </cdk-seguranca-form>
+    </div>
+    <!-- / CONTENT -->
+</div>
