@@ -7,15 +7,12 @@ import {
     MatCheckboxModule,
     MatProgressSpinnerModule,
     MatDatepickerModule,
-    MatAutocompleteModule,
-    MatTooltipModule
+    MatAutocompleteModule
 } from '@cdk/angular/material';
-import {CdkSharedModule} from '@cdk/shared.module';
-import {CdkLocalizadorFormComponent} from './cdk-localizador-form.component';
-import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
-import {CdkSetorGridsearchModule} from '../../setor/cdk-setor-autocomplete/cdk-setor-gridsearch/cdk-setor-gridsearch.module';
-import {CdkSetorAutocompleteModule} from '../../setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
 
+import { CdkSharedModule } from '@cdk/shared.module';
+import { CdkLocalizadorFormComponent } from './cdk-localizador-form.component';
+import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
 @NgModule({
     declarations: [
         CdkLocalizadorFormComponent,
@@ -28,17 +25,13 @@ import {CdkSetorAutocompleteModule} from '../../setor/cdk-setor-autocomplete/cdk
         MatInputModule,
         MatProgressSpinnerModule,
         MatDatepickerModule,
-        MatTooltipModule,
-        MatAutocompleteModule,
-
         NgxUpperCaseDirectiveModule,
-
-        CdkSetorAutocompleteModule,
-        CdkSetorGridsearchModule,
-
         CdkSharedModule,
+        MatAutocompleteModule,
     ],
-    providers: [],
+    providers: [
+
+    ],
     exports: [
         CdkLocalizadorFormComponent
     ]

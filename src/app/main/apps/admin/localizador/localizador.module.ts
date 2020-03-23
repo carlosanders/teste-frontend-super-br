@@ -16,13 +16,17 @@ import {TranslateModule} from '@ngx-translate/core';
 
 import {CdkSharedModule} from '@cdk/shared.module';
 import {LocalizadorComponent} from './localizador.component';
+import {SetorService} from '@cdk/services/setor.service';
 import {LocalizadorService} from '@cdk/services/localizador.service';
 import {RouterModule, Routes} from '@angular/router';
+import * as fromGuards from './store/guards';
+import {LocalizadoresStoreModule} from "./store/store.module";
 
 const routes: Routes = [
     {
         path: '',
         component: LocalizadorComponent,
+        canActivate: [fromGuards.ResolveGuard],
         children: [
             {
                 path       : 'listar',
@@ -60,10 +64,15 @@ const routes: Routes = [
         MatPaginatorModule,
         MatSortModule,
         TranslateModule,
+
+        LocalizadoresStoreModule,
+
         CdkSharedModule,
     ],
     providers: [
-        LocalizadorService
+        LocalizadorService,
+        SetorService,
+        fromGuards.ResolveGuard
     ],
     exports: [
         LocalizadorComponent

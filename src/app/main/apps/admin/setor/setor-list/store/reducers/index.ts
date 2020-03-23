@@ -7,7 +7,7 @@ export interface SetorListAppState
 }
 
 export const getSetorListAppState = createFeatureSelector<SetorListAppState>(
-    'transicao-list-app'
+    'setor-list-app'
 );
 
 export const getAppState = createSelector(

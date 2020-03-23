@@ -75,6 +75,7 @@ export * from './model.module';
 export * from './municipio.model';
 export * from './nome.model';
 export * from './notificacao.model';
+export * from './numero-unico-documento.model';
 export * from './origem-dados.model';
 export * from './pais.model';
 export * from './pagination';

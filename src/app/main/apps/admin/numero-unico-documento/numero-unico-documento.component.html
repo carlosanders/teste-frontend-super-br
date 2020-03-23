@@ -1,0 +1,29 @@
+<div class="numero-unico-documento-content" fxFlex fxLayout="column">
+    <!-- CONTENT HEADER -->
+    <div fxFlex="0 1 auto" fxLayout="column">
+        <div class="m-8" fxLayoutAlign="center">{{this.getTitulo()}} - {{(this.setor$ | async).nome}}</div>
+        <div class="actions m-8" fxLayout="row" fxLayoutAlign="start center">
+            <button mat-raised-button
+                    class="mat-accent"
+                    [routerLink]="'editar/criar'"
+                    *ngIf="action === 'listar'"
+                    aria-label="novo"
+                    matTooltip="Novo Número Único de Documento">
+                Novo
+            </button>
+            <button mat-icon-button
+                    (click)="goBack()"
+                    *ngIf="action !== 'listar'"
+                    aria-label="voltar"
+                    matTooltip="Voltar">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
+        </div>
+    </div>
+    <!-- / CONTENT HEADER -->
+
+    <!-- CONTENT -->
+    <div class="p-8" fxFlex="1 1 auto" cdkPerfectScrollbar>
+        <router-outlet></router-outlet>
+    </div>
+</div>

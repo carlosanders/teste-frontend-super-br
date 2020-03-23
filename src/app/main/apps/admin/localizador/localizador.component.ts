@@ -6,11 +6,12 @@ import {
 
 import {cdkAnimations} from '@cdk/animations';
 import {select, Store} from '@ngrx/store';
-import * as fromStore from 'app/store';
+import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
-import {Subject} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
+import {Setor} from '@cdk/models';
 
 @Component({
     selector: 'admin-localizador',
@@ -24,6 +25,8 @@ export class LocalizadorComponent implements OnInit, OnDestroy {
 
     private _unsubscribeAll: Subject<any> = new Subject();
 
+    setor$: Observable<Setor>;
+
     action = '';
     routerState: any;
 
@@ -34,11 +37,10 @@ export class LocalizadorComponent implements OnInit, OnDestroy {
      * @param _router
      */
     constructor(
-        private _store: Store<fromStore.State>,
+        private _store: Store<fromStore.LocalizadorState>,
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router
-    ) {
-            }
+    ) {}
 
     /**
      * On init
@@ -51,24 +53,36 @@ export class LocalizadorComponent implements OnInit, OnDestroy {
             ).subscribe(routerState => {
             if (routerState) {
                 this.routerState = routerState.state;
-                if (this.routerState.url.indexOf('localizador/listar') > -1) {
+                if (this.routerState.url.indexOf('localizadores/listar') > -1) {
                     this.action = 'listar';
                 }
-                if (this.routerState.url.indexOf('localizador/editar') > -1) {
+                if (this.routerState.url.indexOf('localizadores/editar') > -1) {
                     this.action = 'editar';
                 }
-                if (this.routerState.url.indexOf('localizador/editar/criar') > -1) {
+                if (this.routerState.url.indexOf('localizadores/editar/criar') > -1) {
                     this.action = 'criar';
                 }
                 this._changeDetectorRef.markForCheck();
             }
         });
+
+        this.setor$ = this._store.pipe(select(fromStore.getSetor));
     }
 
     ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
+    }
+
+    getTitulo(): string {
+        if (this.action === 'listar') {
+            return 'Localizadores';
+        } else if (this.action === 'criar') {
+            return 'Novo Localizador';
+        } else if (this.action === 'editar') {
+            return 'Alterar Localizador';
+        }
     }
 
     goBack(): void {

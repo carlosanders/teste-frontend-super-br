@@ -12,7 +12,7 @@ import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
-import {Localizador} from '@cdk/models';
+import {Localizador, Pagination} from '@cdk/models';
 import {LocalizadorDataSource} from '@cdk/data-sources/localizador-data-source';
 import {FormControl} from '@angular/forms';
 
@@ -153,8 +153,13 @@ export class CdkLocalizadorGridComponent implements AfterViewInit, OnInit, OnCha
     hasSelected = false;
     isIndeterminate = false;
 
+    @Input()
+    setorPagination: Pagination;
+
     /**
+     *
      * @param _changeDetectorRef
+     * @param _cdkSidebarService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,

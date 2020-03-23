@@ -13,7 +13,7 @@
 <!-- SIDEBAR CONTENT -->
 <div class="py-16" cdkPerfectScrollbar>
     <div fxLayout="column">
-        <cdk-afastamento-grid-filter (selected)="setGridFilter($event)"></cdk-afastamento-grid-filter>
+        <cdk-afastamento-grid-filter [colaboradorPagination]="colaboradorPagination" (selected)="setGridFilter($event)"></cdk-afastamento-grid-filter>
     </div>
 </div>
 <!-- / SIDEBAR CONTENT -->

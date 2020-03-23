@@ -9,28 +9,33 @@ import { TranslateModule } from '@ngx-translate/core';
 import { CdkSharedModule } from '@cdk/shared.module';
 import { CdkSidebarModule } from '@cdk/components';
 
+import * as fromGuards from './store/guards';
 import { AdminComponent } from './admin.component';
 import { CommonModule } from '@angular/common';
 import {AdminMainSidebarComponent} from "./sidebars/main/main-sidebar.component";
+import {AdminStoreModule} from "./store/store.module";
+import {SetorService} from "@cdk/services/setor.service";
+import {UsuarioService} from '@cdk/services/usuario.service';
 
 const routes: Routes = [
     {
-        path       : '',
+        path       : ':unidadeHandle',
         component: AdminComponent,
         children: [
             {
-                path       : ':unidadeHandle/setor',
+                path       : 'setor',
                 loadChildren: () => import('./setor/setor.module').then(m => m.SetorModule)
             },
             {
-                path       : ':unidadeHandle/lotacoes',
-                loadChildren: () => import('./lotacoes/admin-lotacoes.module').then(m => m.AdminLotacoesModule)
-            },
-            {
-                path       : ':unidadeHandle/localizador',
-                loadChildren: () => import('./localizador/localizador.module').then(m => m.LocalizadorModule)
+                path       : 'usuario',
+                loadChildren: () => import('./usuario/usuario.module').then(m => m.UsuarioModule)
             }
-        ]
+        ],
+        canActivate: [fromGuards.ResolveGuard]
+    },
+    {
+        path: '**',
+        redirectTo: 'default/setor'
     }
 ];
 
@@ -49,10 +54,15 @@ const routes: Routes = [
 
         TranslateModule,
 
+        AdminStoreModule,
+
         CdkSharedModule,
         CdkSidebarModule
     ],
     providers      : [
+        SetorService,
+        UsuarioService,
+        fromGuards.ResolveGuard
     ]
 })
 export class AdminModule

@@ -21,7 +21,7 @@ export const navigation: CdkNavigation[] = [
                 title: 'Admin',
                 translate: 'NAV.ADMIN.TITLE',
                 type: 'item',
-                icon: 'settings',
+                icon: 'build',
                 url: '/apps/admin',
                 role: 'ROLE_ADMIN'
             },

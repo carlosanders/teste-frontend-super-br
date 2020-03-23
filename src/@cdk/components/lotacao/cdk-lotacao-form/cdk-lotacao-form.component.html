@@ -6,7 +6,7 @@
 
         <div fxFlex="1 0 auto" fxLayout="column">
 
-            <mat-form-field fxFlex="100">
+            <mat-form-field fxFlex="100"  *ngIf="!this.usuario">
                 <div fxLayout="row" fxLayoutAlign="start center">
                     <input matInput placeholder="Usuario"
                            formControlName="colaborador"
@@ -27,7 +27,7 @@
                 </mat-error>
             </mat-form-field>
 
-            <mat-form-field fxFlex="100">
+            <mat-form-field fxFlex="100" *ngIf="!this.setor">
                 <div fxLayout="row" fxLayoutAlign="start center">
                     <input matInput placeholder="Setor"
                            formControlName="setor"
@@ -61,6 +61,11 @@
             <mat-checkbox formControlName="distribuidor"
                           class="mr-16 mb-16" fxFlex="0 1 auto">
                 Distribuidor
+            </mat-checkbox>
+
+            <mat-checkbox formControlName="arquivista"
+                          class="mr-16 mb-16" fxFlex="0 1 auto" *ngIf="form.get('setor').value && form.get('setor').value.especieSetor.id === 2">
+                Arquivista
             </mat-checkbox>
 
             <mat-form-field fxFlex="100">
@@ -112,15 +117,17 @@
 </div>
 
 <cdk-colaborador-gridsearch
-    fxFlex="1 0 auto"
-    *ngIf="activeCard === 'colaborador-gridsearch'"
-    (selected)="selectColaborador($event)"
-    (cancel)="cancel()">
+        fxFlex="1 0 auto"
+        *ngIf="activeCard === 'colaborador-gridsearch'"
+        [pagination]="colaboradorPagination"
+        (selected)="selectColaborador($event)"
+        (cancel)="cancel()">
 </cdk-colaborador-gridsearch>
 
 <cdk-setor-gridsearch
     fxFlex="1 0 auto"
     *ngIf="activeCard === 'setor-gridsearch'"
+    [pagination]="setorPagination"
     (selected)="selectSetor($event)"
     (cancel)="cancel()">
 </cdk-setor-gridsearch>

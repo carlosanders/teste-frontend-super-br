@@ -12,7 +12,7 @@ import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 import {AfastamentoDataSource} from '@cdk/data-sources/afastamento-data-source';
-import {Afastamento} from '@cdk/models';
+import {Afastamento, Pagination} from '@cdk/models';
 import {FormControl} from '@angular/forms';
 
 @Component({
@@ -149,6 +149,9 @@ export class CdkAfastamentoGridComponent implements AfterViewInit, OnInit, OnCha
     @Output()
     selectedIds: number[] = [];
 
+    @Input()
+    colaboradorPagination: Pagination;
+
     dataSource: AfastamentoDataSource;
 
     showFilter = false;
@@ -159,6 +162,7 @@ export class CdkAfastamentoGridComponent implements AfterViewInit, OnInit, OnCha
     isIndeterminate = false;
 
     /**
+     *
      * @param _changeDetectorRef
      * @param _cdkSidebarService
      */
@@ -167,6 +171,7 @@ export class CdkAfastamentoGridComponent implements AfterViewInit, OnInit, OnCha
         private _cdkSidebarService: CdkSidebarService
     ) {
         this.gridFilter = {};
+        this.colaboradorPagination = new Pagination();
     }
 
     ngOnChanges(): void {
