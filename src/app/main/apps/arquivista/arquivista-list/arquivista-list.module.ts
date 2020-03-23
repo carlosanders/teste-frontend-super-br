@@ -35,6 +35,10 @@ const routes: Routes = [
             {
                 path: 'vinculacao-etiqueta-bloco',
                 loadChildren: () => import('../vinculacao-etiqueta-create-bloco/vinculacao-etiqueta-create-bloco.module').then(m => m.VinculacaoEtiquetaCreateBlocoModule),
+            },
+            {
+                path: 'lembrete-bloco',
+                loadChildren: () => import('../arquivista-lembrete-bloco/arquivista-lembrete-bloco.module').then(m => m.ArquivistaLembreteBlocoModule),
             }
         ],
     }
