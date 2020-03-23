@@ -14,6 +14,7 @@ import {EspecieRelevanciaService} from '@cdk/services/especie-relevancia.service
 import {CdkRelevanciaFormComponent} from './cdk-relevancia-form.component';
 import {CdkEspecieRelevanciaAutocompleteModule} from '@cdk/components/especie-relevancia/cdk-especie-relevancia-autocomplete/cdk-especie-relevancia-autocomplete.module';
 import {CdkEspecieRelevanciaGridsearchModule} from '@cdk/components/especie-relevancia/cdk-especie-relevancia-autocomplete/cdk-especie-relevancia-gridsearch/cdk-especie-relevancia-gridsearch.module';
+import {NgxUpperCaseDirectiveModule} from "ngx-upper-case-directive";
 
 @NgModule({
     declarations: [
@@ -33,6 +34,7 @@ import {CdkEspecieRelevanciaGridsearchModule} from '@cdk/components/especie-rele
         CdkEspecieRelevanciaGridsearchModule,
 
         CdkSharedModule,
+        NgxUpperCaseDirectiveModule,
     ],
     providers: [
         EspecieRelevanciaService,
