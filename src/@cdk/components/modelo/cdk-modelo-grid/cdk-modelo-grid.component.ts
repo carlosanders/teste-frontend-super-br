@@ -39,7 +39,7 @@ export class CdkModeloGridComponent implements AfterViewInit, OnInit, OnChanges 
     mode = 'list';
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'highlights', 'ativo', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'nome', 'descricao','highlights', 'ativo', 'actions'];
 
     allColumns: any[] = [
         {
@@ -141,7 +141,7 @@ export class CdkModeloGridComponent implements AfterViewInit, OnInit, OnChanges 
     pageSize = 5;
 
     @Input()
-    actions: string[] = ['edit', 'editConteudo', 'delete', 'select'];
+    actions: string[] = ['edit', 'editConteudo','anexo', 'delete', 'select'];
 
     @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
@@ -157,6 +157,9 @@ export class CdkModeloGridComponent implements AfterViewInit, OnInit, OnChanges 
 
     @Output()
     edit = new EventEmitter<number>();
+
+    @Output()
+    anexo = new EventEmitter<number>();
 
     @Output()
     editConteudo = new EventEmitter<number>();
@@ -254,6 +257,10 @@ export class CdkModeloGridComponent implements AfterViewInit, OnInit, OnChanges 
 
     editModelo(modeloId): void {
         this.edit.emit(modeloId);
+    }
+
+    anexoModelo(modeloId): void {
+        this.anexo.emit(modeloId);
     }
 
     editConteudoModelo(documentoId): void {

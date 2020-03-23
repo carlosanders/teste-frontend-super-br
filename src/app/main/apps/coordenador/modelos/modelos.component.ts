@@ -56,6 +56,9 @@ export class ModelosComponent implements OnInit, OnDestroy {
                 if (this.routerState.url.indexOf('modelos/editar') > -1) {
                     this.action = 'editar';
                 }
+                if (this.routerState.url.indexOf('modelos/anexos') > -1) {
+                    this.action = 'anexos';
+                }
                 if (this.routerState.url.indexOf('modelos/editar/criar') > -1) {
                     this.action = 'criar';
                 }
@@ -76,6 +79,9 @@ export class ModelosComponent implements OnInit, OnDestroy {
         }
         if (this.action === 'criar') {
             this._router.navigate([this.routerState.url.replace('editar/criar', 'listar')]).then();
+        }
+        if (this.action === 'anexos') {
+            this._router.navigate([this.routerState.url.replace(('anexos/' + this.routerState.params.modeloHandle), 'listar')]).then();
         }
     }
 }
