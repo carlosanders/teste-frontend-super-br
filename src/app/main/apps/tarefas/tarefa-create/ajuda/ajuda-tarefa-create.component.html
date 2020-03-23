@@ -1,52 +1,216 @@
-<div class="content p-16" fxLayout="column">
-    <p style="text-align: justify;">
-        1. No menu lateral esquerdo, clique em
-        <strong>Tarefas&nbsp;</strong>&gt;
-        <strong>Minhas Tarefas</strong>:
-        <img src="assets/images/ajuda/criatarefa1.png" style="width: 256px;" class="fr-fic fr-dib fr-fil">
-    </p>
-    <p style="text-align: justify;">
-        2. Na nova tela, clique em <strong>Criar</strong>:
-        <img src="assets/images/ajuda/criartarefa2.png" style="width: 256px;" class="fr-fic fr-dib fr-fil">
-    </p>
-    <p style="text-align: justify;">
-        3. Indique o <strong>n&uacute;mero</strong> do Processo
-        e a <strong>Esp&eacute;cie de Tarefa</strong>. Clique na Lupa
-        <img src="assets/images/ajuda/lupa.png" class="fr-fic fr-dii">se precisar buscar
-        entre o registro de Processos ou Esp&eacute;cie
-        de Tarefa.
-    </p>
-    <hr>
-    <p style="text-align: justify;"><strong>Observa&ccedil;&atilde;o:</strong> Voc&ecirc; pode buscar dentre as suas
-        Tarefas favoritas clicando na Estrela <img src="assets/images/ajuda/estrela.png" style="width: 25px;"
-                                                   class="fr-fic fr-dii">.
-        Caso voc&ecirc; n&atilde;o tenha tarefas favoritas, o SUPP sugerir&aacute; automaticamente as cinco tarefas mais
-        utilizadas pelo usu&aacute;rio. Al&eacute;m disso, se houver a necessidade de abrir um bloco de tarefas, voc&ecirc;
-        pode clicar no bot&atilde;o: <br />
-        <img src="assets/images/ajuda/blocoprocessos.png" style="width: 189px; height: 31px;" class="fr-fic fr-dii"><br />para
-        determinar a abertura da mesma tarefa para v&aacute;rios processos.</p>
-    <hr>
-    <p style="text-align: justify;">4. Indique a <strong>Unidade, Setor e Usu&aacute;rio</strong> respons&aacute;vel
-        pela nova tarefa. Novamente, voc&ecirc; pode clicar na Lupa <img src="assets/images/ajuda/lupa.png"
-                                                                         class="fr-fic fr-dii">&nbsp;se
-        precisar pesquisar qual a unidade, setor ou usu&aacute;rio respons&aacute;vel.</p>
-    <hr>
-    <p style="text-align: justify;"><strong>Observa&ccedil;&atilde;o:</strong> Caso n&atilde;o saiba apontar um Usu&aacute;rio
-        respons&aacute;vel espec&iacute;fico pela nova tarefa, ou quiser que o SUPP determine automaticamente o respons&aacute;vel,
-        voc&ecirc; pode clicar no bot&atilde;o:
-        <img src="assets/images/ajuda/distribuicaoautomatica.png" style="width: 212px; height: 30px;"
-             class="fr-fic fr-dii"><br />para que o sistema realize esta distribui&ccedil;&atilde;o.</p>
-    <hr>
-    <p style="text-align: justify;">5. Indique <strong>In&iacute;cio</strong> e <strong>Final</strong> de prazo da nova Tarefa. Por padr&atilde;o o
-        SUPP, indica um prazo de cinco dias corridos.</p>
-    <p style="text-align: justify;">6. Indique o <strong>Setor de Origem</strong> da Tarefa. O Setor de Origem por padr&atilde;o &eacute; o Setor
-        atualmente respons&aacute;vel pelo Processo, por&eacute;m o usu&aacute;rio pode indicar um dos setores onde ele
-        se encontra atualmente lotado.</p>
-    <p style="text-align: justify;">7. Indique uma <strong>Observa&ccedil;&atilde;o</strong> para a nova Tarefa, se desejar.</p>
-    <p style="text-align: justify;">8. Clique em <strong>Salvar</strong>.</p>
-    <hr>
-    <p style="text-align: justify;"><strong>Observa&ccedil;&atilde;o:</strong> Caso o processo esteja com alguma <strong>Tramita&ccedil;&atilde;o
-        Externa</strong> em andamento, a abertura da Tarefa <strong>n&atilde;o</strong> ser&aacute; realizada.</p>
-    <hr>
-    <p><br></p>
+<div>
+    <div *ngIf="titulo === 'tarefas'" class="content p-16" fxLayout="column">
+        <h3><strong>CRIANDO TAREFAS</strong></h3>
+        <p style="text-align: justify;text-indent: 20px">
+            A noção central do fluxo de trabalho no SAPIENS é a <strong>tarefa</strong>.
+        </p>
+        <p style="text-align: justify;text-indent: 20px">
+            Um usuário abre uma tarefa para outro usuário quando necessitar que uma ou mais <strong>atividades</strong> sejam realizadas, em um dado prazo.
+        </p>
+        <p style="text-align: justify;text-indent: 20px">    
+            Existem várias maneiras de criar uma tarefa.
+        </p>
+        <h3 style="text-align: justify;text-indent: 20px">
+            <strong>Criando uma tarefa na página de cadastramento de processos</strong>
+        </h3>
+        <p style="background-color: #d3d3d3;margin-left: 40px">
+            <img src="assets/images/ajuda/atencao.png" style="width: 15px;"class="fr-fic fr-dii"><strong>FIQUE ATENTO:</strong>
+            Para cadastrar tarefas nesse caso, é necessário que já se tenha cadastrado pelo menos um <strong>assunto</strong> e pelo menos um <strong>interessado</strong>.
+            Essa é uma forma de não deixar o processo ser esquecido e perder prazos.
+        </p>
+        <p style="text-align: justify;margin-left: 40px">
+            1. No grid com opções de dados que podem/devem ser preenchidos, escolha o campo <strong>Tarefas</strong>
+        </p>
+        <p style="text-align: center;margin-left: 40px">
+            <img src="assets/images/ajuda/processotarefas.png" style="width: 256px;" class="fr-fic fr-dib fr-fil"> 
+        </p>
+        <p style="text-align: justify;margin-left: 40px">
+            2. A página de tarefas é aberta. É possível ver a lista de tarefas já cadastradas no NUP ou escolher um novo assunto a partir do botão <img src="assets/images/ajuda/novo.png" class="fr-fic fr-dii">.
+        </p>
+        <p style="text-align: justify;margin-left: 40px">
+            3. Apertando no botão Novo, indique a <strong>Esp&eacute;cie de Tarefa</strong>. Clique na Lupa
+            <img src="assets/images/ajuda/lupa.png" class="fr-fic fr-dii">se precisar buscar
+            entre o registro de Processos ou Esp&eacute;cie de Tarefa.
+        </p>
+        <p style="background-color: #d3d3d3;margin-left: 40px">
+            Voc&ecirc; pode buscar dentre as suas Tarefas favoritas clicando na Estrela 
+            <img src="assets/images/ajuda/estrela.png" style="width: 25px;"class="fr-fic fr-dii">.
+            Caso voc&ecirc; n&atilde;o tenha tarefas favoritas, o SUPP sugerir&aacute; automaticamente as cinco tarefas mais
+            utilizadas pelo usu&aacute;rio. Al&eacute;m disso, se houver a necessidade de abrir um bloco de tarefas, voc&ecirc;
+            pode clicar no bot&atilde;o: <img src="assets/images/ajuda/blocoprocessos.png" style="text-align: center;width: 189px; height: 31px;" class="fr-fic fr-dii">
+            para determinar a abertura da mesma tarefa para v&aacute;rios processos.
+        </p>
+        <p style="text-align: justify;margin-left: 40px">
+            4. Indique a <strong>Unidade, Setor e Usu&aacute;rio</strong> respons&aacute;vel
+            pela nova tarefa. Novamente, voc&ecirc; pode clicar na Lupa 
+            <img src="assets/images/ajuda/lupa.png"class="fr-fic fr-dii">&nbsp;se
+            precisar pesquisar qual a unidade, setor ou usu&aacute;rio respons&aacute;vel.
+        </p>
+        <p style="background-color: #d3d3d3;margin-left: 40px">
+            Caso n&atilde;o saiba apontar um Usu&aacute;rio
+            respons&aacute;vel espec&iacute;fico pela nova tarefa, ou quiser que o SUPP determine automaticamente o respons&aacute;vel,
+            voc&ecirc; pode clicar no bot&atilde;o:
+            <img src="assets/images/ajuda/distribuicaoautomatica.png" style="width: 212px; height: 30px;"
+                class="fr-fic fr-dii">para que o sistema realize esta distribui&ccedil;&atilde;o.<br>
+            Para saber mais sobre distribuição automática <a href="javascript:void(0)" (click)="carregar('distribuicaoautomatica')">clique aqui</a>      
+        </p>
+        <p style="text-align: justify;margin-left: 40px">
+            5. Indique <strong>In&iacute;cio</strong> e <strong>Final</strong> de prazo da nova Tarefa. Por padr&atilde;o o
+            SUPP, indica um prazo de cinco dias corridos.</p>
+        <p style="text-align: justify;margin-left: 40px">
+            6. Indique o <strong>Setor de Origem</strong> da Tarefa. O Setor de Origem por padr&atilde;o &eacute; o Setor
+            atualmente respons&aacute;vel pelo Processo, por&eacute;m o usu&aacute;rio pode indicar um dos setores onde ele
+            se encontra atualmente lotado.</p>
+        <p style="text-align: justify;margin-left: 40px">
+            7. Indique uma <strong>Observa&ccedil;&atilde;o</strong> para a nova Tarefa, se desejar.
+        </p>
+        <p style="text-align: justify;margin-left: 40px">
+            8. Clique em <strong>Salvar</strong>.
+        </p>
+        <hr>
+
+        <h3 style="text-align: justify;text-indent: 20px">
+            <strong>Criando uma tarefa a partir da página de tarefas</strong>
+        </h3>
+
+        <p style="text-align: justify;margin-left: 40px">
+            1. No menu lateral esquerdo, para criar, por exemplo, uma <strong>tarefa administrativa</strong> clique em
+            <strong>Tarefas&nbsp;</strong>&gt;
+            <strong>Administrativas</strong>:
+        </p>
+        <p style="text-align: center;">
+            <img src="assets/images/ajuda/criartarefaadm.png" style="width: 256px;" class="fr-fic fr-dib fr-fil">
+        </p>
+        <p style="text-align: justify;margin-left: 40px">
+            2. Na nova tela, clique em <strong>Criar</strong>:
+        </p>
+        <p style="text-align: center;">
+            <img src="assets/images/ajuda/criartarefa2.png" style="width: 256px;" class="fr-fic fr-dib fr-fil">
+        </p>
+        <p style="text-align: justify;margin-left: 40px">
+            3. Indique o <strong>n&uacute;mero</strong> do Processo
+            e a <strong>Esp&eacute;cie de Tarefa</strong>. Clique na Lupa
+            <img src="assets/images/ajuda/lupa.png" class="fr-fic fr-dii">se precisar buscar
+            entre o registro de Processos ou Esp&eacute;cie
+            de Tarefa.
+        </p>
+        <hr>
+        <p style="background-color: #d3d3d3;margin-left: 40px">
+            Voc&ecirc; pode buscar dentre as suas Tarefas favoritas clicando na Estrela 
+            <img src="assets/images/ajuda/estrela.png" style="width: 25px;"class="fr-fic fr-dii">.
+            Caso voc&ecirc; n&atilde;o tenha tarefas favoritas, o SUPP sugerir&aacute; automaticamente as cinco tarefas mais
+            utilizadas pelo usu&aacute;rio. Al&eacute;m disso, se houver a necessidade de abrir um bloco de tarefas, voc&ecirc;
+            pode clicar no bot&atilde;o:
+            <img src="assets/images/ajuda/blocoprocessos.png" style="width: 189px; height: 31px;" class="fr-fic fr-dii">para
+            determinar a abertura da mesma tarefa para v&aacute;rios processos.
+        </p>
+        <hr>
+        <p style="text-align: justify;margin-left: 40px">
+            4. Indique a <strong>Unidade, Setor e Usu&aacute;rio</strong> respons&aacute;vel
+            pela nova tarefa. Novamente, voc&ecirc; pode clicar na Lupa 
+            <img src="assets/images/ajuda/lupa.png"class="fr-fic fr-dii">&nbsp;se
+            precisar pesquisar qual a unidade, setor ou usu&aacute;rio respons&aacute;vel.</p>
+        <hr>
+        <p style="background-color: #d3d3d3;margin-left: 40px">
+        Caso n&atilde;o saiba apontar um Usu&aacute;rio respons&aacute;vel espec&iacute;fico pela nova tarefa, ou quiser que o SUPP determine automaticamente o respons&aacute;vel,
+            voc&ecirc; pode clicar no bot&atilde;o:
+            <img src="assets/images/ajuda/distribuicaoautomatica.png" style="width: 212px; height: 30px;" class="fr-fic fr-dii">
+            para que o sistema realize esta distribui&ccedil;&atilde;o.
+        </p>
+        <hr>
+        <p style="text-align: justify;margin-left: 40px">
+            5. Indique <strong>In&iacute;cio</strong> e <strong>Final</strong> de prazo da nova Tarefa. Por padr&atilde;o o
+            SUPP, indica um prazo de cinco dias corridos.
+        </p>
+        <p style="text-align: justify;margin-left: 40px">
+            6. Indique o <strong>Setor de Origem</strong> da Tarefa. O Setor de Origem por padr&atilde;o &eacute; o Setor
+            atualmente respons&aacute;vel pelo Processo, por&eacute;m o usu&aacute;rio pode indicar um dos setores onde ele
+            se encontra atualmente lotado.
+        </p>
+        <p style="text-align: justify;margin-left: 40px">
+            7. Indique uma <strong>Observa&ccedil;&atilde;o</strong> para a nova Tarefa, se desejar.
+        </p>
+        <p style="text-align: justify;margin-left: 40px">
+            8. Clique em <strong>Salvar</strong>.
+        </p>
+        <hr>
+        <div style="background-color: #d3d3d3;text-indent: 20px">
+            <p>
+                <img src="assets/images/ajuda/atencao.png" style="width: 15px;"class="fr-fic fr-dii"><strong>FIQUE ATENTO:</strong>
+            </p>
+            <p>    
+                Caso o processo esteja com alguma <strong>Tramita&ccedil;&atilde;o Externa</strong> em andamento, a abertura da Tarefa <strong>n&atilde;o</strong> ser&aacute; realizada.
+            </p>
+            <p>
+                Em um NUP arquivado, só tarefas do gênero <strong>arquivístico</strong> podem ser criadas. Para liberação, solicite o <strong>desarquivamento por tarefa</strong>
+            </p>
+            <p>
+                ELIMINAR PROCESSO/DOCUMENTO AVULSO e RECOLHER PROCESSO/DOCUMENTO AVULSO AO ARQUIVO DEFINITIVO são tarefas de uso exclusivo dos <strong>Arquivistas</strong>.
+            </p>
+            <p>
+                MANTER SOB GUARDA TEMPORÁRIA NO ARQUIVO CORRENTE e RECOLHER PROCESSO/DOCUMENTO AVULSO AO ARQUIVO DEFINITIVO são tarefas que exigem a <strong>tramitação interna</strong> para o setor de <strong>Arquivo</strong>.
+            </p>
+            <p>
+                Um NUP anexado/apensado a outro NÃO permite a abertura de tarefas. Abra as <strong>tarefas</strong> no NUP <strong>principal</strong>.
+            </p>
+            <p>
+                Existem unidades que só podem receber as tarefas pelo seu <strong>Protocolo</strong>. Sendo assim, as tarefas <strong>NÃO</strong> podem ser mandadas diretamente para os usuários lotados em tal unidade.
+            </p>
+            <p>
+                Quando o NUP é <strong>restrito</strong> e o usuário NÃO possui poderes para visualizá-lo, ele NÃO consegue abrir uma <strong>tarefa</strong>. O acesso deve ser concedido antes da abertura da tarefa.
+            </p>
+            <p>
+                Apenas o usuário da tarefa pode modificá-la.<br><br>
+            </p>
+            <p>
+                Em uma tarefa já concluída, NÃO é possível modificação.<br><br>
+            </p>
+            <p>
+                Uma tarefa que já contém <strong>atividades</strong> NÃO pode ser excluída.<br><br>
+            </p>
+            <p>
+                Caso NÃO seja informado um usuário responsável, o sistema vai utilizar a <strong>distribuição automática</strong> para a tarefa.
+            </p>
+        </div>
+        
+        <div class="row" style="background-color: #d3d3d3;">
+            <strong>Para maiores informações:</strong><br><br>
+            <div class="column">
+                <li><a href="javascript:void(0)" (click)="carregar('assuntos')">Assuntos</a></li> 
+                <li><a href="javascript:void(0)" (click)="carregar('interessados')">Interessados</a></li>
+                <li><a href="javascript:void(0)" (click)="carregar('tramitacoes')">Tramitações</a></li> 
+
+            </div>
+            <div class="column">
+                <li><a href="javascript:void(0)" (click)="carregar('sigilos')">Sigilos</a></li> 
+                <li><a href="javascript:void(0)" (click)="carregar('visibilidades')">Restrições de Acesso</a></li>
+                <li><a href="javascript:void(0)" (click)="carregar('tarefaeditbloco')">Edição de Tarefas em Bloco</a></li>
+            </div>
+        </div> 
+        <p><br></p>
+    </div>
+    <div *ngIf="titulo === 'assuntos'">
+        <ajuda-assuntos></ajuda-assuntos>
+        <a href="javascript:void(0)" (click)="carregar('tarefas')">Voltar ao <strong>Criar Tarefas</strong></a>
+    </div>
+    <div *ngIf="titulo === 'interessados'">
+        <ajuda-interessados></ajuda-interessados>
+        <a href="javascript:void(0)" (click)="carregar('tarefas')">Voltar ao <strong>Criar Tarefas</strong></a>
+    </div>
+    <div *ngIf="titulo === 'tramitacoes'">
+        <ajuda-tramitacoes></ajuda-tramitacoes>
+        <a href="javascript:void(0)" (click)="carregar('tarefas')">Voltar ao <strong>Criar Tarefas</strong></a>
+    </div>
+    <div *ngIf="titulo === 'sigilos'">
+        <ajuda-sigilos></ajuda-sigilos>
+        <a href="javascript:void(0)" (click)="carregar('tarefas')">Voltar ao <strong>Criar Tarefas</strong></a>
+    </div>
+    <div *ngIf="titulo === 'visibilidades'">
+        <ajuda-visibilidades></ajuda-visibilidades>
+        <a href="javascript:void(0)" (click)="carregar('tarefas')">Voltar ao <strong>Criar Tarefas</strong></a>
+    </div>
+    <div *ngIf="titulo === 'tarefaeditbloco'">
+        <ajuda-tarefa-edit-bloco></ajuda-tarefa-edit-bloco>
+        <a href="javascript:void(0)" (click)="carregar('tarefas')">Voltar ao <strong>Criar Tarefas</strong></a>
+    </div>     
 </div>

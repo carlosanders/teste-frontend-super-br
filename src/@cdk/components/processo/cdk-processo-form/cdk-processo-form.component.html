@@ -14,10 +14,10 @@
                                  aria-labelledby="processo-rg2"
                                  fxLayoutAlign="row">
                     <mat-radio-button [value]="true">
-                        Criar Novo Processo
+                        Atribuir Novo NUP
                     </mat-radio-button>
                     <mat-radio-button [value]="false">
-                        Cadastrar Processo Existente
+                        Informar NUP Existente
                     </mat-radio-button>
                 </mat-radio-group>
             </div>
@@ -75,17 +75,16 @@
             </mat-form-field>
         </mat-card>
 
-        <mat-card class="mb-16" fxFlex="0 1 auto" fxLayout="column" *ngIf="!form.value.id || temOrigem || form.value.processo_rg === true">
-            <mat-slide-toggle *ngIf="!form.value.id" formControlName="processo_rg"
+        <mat-card class="mb-16" fxFlex="0 1 auto" fxLayout="column" *ngIf="!form.value.id">
+            <mat-slide-toggle *ngIf="!form.value.id" formControlName="temProcessoOrigem"
                               class="mt-16 mr-16 mb-16" fxFlex="0 1 auto">
                 Importar Dados de Processo Existente no Sistema
             </mat-slide-toggle>
 
-            <mat-form-field *ngIf=" temOrigem || form.value.processo_rg === true">
+            <mat-form-field *ngIf="form.value.temProcessoOrigem === true">
                 <div fxLayout="row" fxLayoutAlign="start center">
                     <input matInput placeholder="Processo Origem"
                            formControlName="processoOrigem"
-                           [readonly]="readonlyProcessoOrigem"
                            [matAutocomplete]="processoOrigem.autocomplete" required
                            (blur)="checkProcesso()">
                 </div>
@@ -96,7 +95,7 @@
                     [pagination]="processoPagination">
                 </cdk-processo-autocomplete>
 
-                <button *ngIf="form.get('processoOrigem').enabled && !readonlyProcessoOrigem" matSuffix mat-button
+                <button *ngIf="form.get('processoOrigem').enabled" matSuffix mat-button
                         mat-icon-button
                         (click)="showProcessoGrid()">
                     <mat-icon matTooltip="Procurar">search</mat-icon>
@@ -135,7 +134,7 @@
 
         <mat-form-field fxFlex>
             <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Espécie"
+                <input matInput placeholder="Processo de Trabalho"
                        formControlName="especieProcesso"
                        required
                        [matAutocomplete]="especieProcesso.autocomplete"

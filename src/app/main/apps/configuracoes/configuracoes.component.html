@@ -6,13 +6,7 @@
 
     <!-- SIDEBAR -->
     <cdk-sidebar class="sidebar" name="configuracoes-main-sidebar" position="left" lockedOpen="gt-sm">
-
-        <!-- SIDEBAR CONTENT -->
-        <div class="content" cdkPerfectScrollbar>
             <configuracoes-main-sidebar [@animate]="{value:'*'}"></configuracoes-main-sidebar>
-        </div>
-        <!-- / SIDEBAR CONTENT -->
-
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
@@ -32,8 +26,9 @@
 
         <!-- CONTENT CARD -->
         <div class="content-card">
-
-            <router-outlet></router-outlet>
+            <div class="content" cdkPerfectScrollbar>
+                <router-outlet></router-outlet>
+            </div>
 
         </div>
         <!-- / CONTENT CARD -->

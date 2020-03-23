@@ -1,17 +1,19 @@
 <div class="page-layout left-sidebar" fxFlex>
 
     <!-- SIDEBAR -->
-    <cdk-sidebar [lockedOpen]="(mode === 'search') ? 'gt-xs' : ''" class="sidebar" name="cdk-processo-main-sidebar" position="left">
+    <cdk-sidebar [lockedOpen]="(mode === 'search') ? 'gt-xs' : ''" class="sidebar" name="cdk-processo-main-sidebar"
+                 position="left">
         <!-- SIDEBAR CONTENT -->
         <div class="content" cdkPerfectScrollbar>
-            <cdk-processo-main-sidebar (selected)="setGridFilter($event)" [mode]="this.mode" [@animate]="{value:'*'}"></cdk-processo-main-sidebar>
+            <cdk-processo-main-sidebar (selected)="setGridFilter($event)" [mode]="this.mode"
+                                       [@animate]="{value:'*'}"></cdk-processo-main-sidebar>
         </div>
         <!-- / SIDEBAR CONTENT -->
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
     <!-- CONTENT -->
-    <div class="content responsive-grid" fxFlex fxLayout="column">
+    <div class="content responsive-grid" [ngClass]="{'search': (this.mode == 'search')}" fxFlex fxLayout="column">
 
         <div class="actions" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="end center">
 
@@ -45,7 +47,7 @@
             </button>
 
             <button class="toggle-filter" [ngClass]="{'warn': (gridFilter | json) != '{}'}" mat-icon-button
-                    *showIfRole="'ROLE_COLABORADOR'"
+                    *ngIf="mode === 'list'"
                     (click)="toggleFilter()"
                     aria-label="filtrar"
                     matTooltip="Filtrar">
@@ -58,7 +60,6 @@
         </div>
 
         <div fxFlex="1 1 auto" fxLayout="column" cdkPerfectScrollbar>
-
             <table mat-table [dataSource]="dataSource" matSort [hidden]="loading">
 
                 <!-- Selection Column -->
@@ -428,7 +429,6 @@
                 <tr mat-row *matRowDef="let processo; columns: displayedColumns;">
                 </tr>
             </table>
-
         </div>
 
         <div class="actions" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="center center">
@@ -438,3 +438,4 @@
     </div>
 
 </div>
+

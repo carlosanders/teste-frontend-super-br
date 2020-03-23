@@ -10,10 +10,14 @@ cdk-pessoa-grid {
         .mat-select-value {
             display: none !important;
         }
-
     }
 
     .content {
+        width: 100%;
+
+        &.search {
+            padding: 16px;
+        }
 
         .actions {
             width: 100%;

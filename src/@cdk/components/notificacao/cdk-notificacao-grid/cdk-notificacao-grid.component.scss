@@ -13,9 +13,9 @@ cdk-notificacao-grid {
     }
 
     .content {
-        .actions {
-            width: 100%;
+        width: 100%;
 
+        .actions {
             .back {
                 margin-right: auto;
             }
@@ -26,7 +26,6 @@ cdk-notificacao-grid {
         }
 
         table {
-            width: 100%;
 
             tr {
                 height: auto;

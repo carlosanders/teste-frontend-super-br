@@ -23,8 +23,8 @@ export class LembretesComponent implements OnInit {
     processoId: number;
 
     private routerState: RouterStateUrl;
-    private isSaving$: Observable<boolean>;
-    private errors$: Observable<any>;
+    isSaving$: Observable<boolean>;
+    errors$: Observable<any>;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
