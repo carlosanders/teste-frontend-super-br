@@ -131,7 +131,9 @@ export class OficioDetailEffect {
                                 content: `Documento Avulso id ${response.id} etiquetada com sucesso!`,
                                 dateTime: response.criadoEm
                             }),
-                            new DocumentoAvulsoDetailActions.GetDocumentos()
+                            new DocumentoAvulsoDetailActions.GetDocumentoAvulso({
+                                id: `eq:${this.routerState.params.documentoAvulsoHandle}`
+                            })
                         ]),
                         catchError((err) => {
                             console.log(err);
@@ -194,69 +196,6 @@ export class OficioDetailEffect {
                             return of(new DocumentoAvulsoDetailActions.SaveConteudoVinculacaoEtiquetaFailed(err));
                         })
                     );
-                })
-            );
-
-    /**
-     * Get Documentos with router parameters
-     * @type {Observable<any>}
-     */
-    @Effect()
-    getDocumentos: any =
-        this._actions
-            .pipe(
-                ofType<DocumentoAvulsoDetailActions.GetDocumentos>(DocumentoAvulsoDetailActions.GET_DOCUMENTOS),
-                switchMap(() => {
-                    let documentoAvulsoId = null;
-
-                    const routeParams = of('documentoAvulsoHandle');
-                    routeParams.subscribe(param => {
-                        documentoAvulsoId = `eq:${this.routerState.params[param]}`;
-                    });
-
-                    const params = {
-                        filter: {
-                            'documentoAvulsoOrigem.id': documentoAvulsoId
-                        },
-                        limit: 10,
-                        offset: 0,
-                        sort: {
-                            criadoEm: 'DESC'
-                        },
-                        populate: [
-                            'tipoDocumento',
-                            'documentoAvulsoRemessa',
-                            'documentoAvulsoRemessa.documentoResposta',
-                            'juntadaAtual'
-                        ]
-                    };
-
-                    return this._documentoService.query(
-                        JSON.stringify({
-                            ...params.filter
-                        }),
-                        25,
-                        0,
-                        JSON.stringify({}),
-                        JSON.stringify([
-                            'tipoDocumento',
-                            'tipoDocumento.especieDocumento',
-                            'componentesDigitais']));
-                }),
-                mergeMap(response => [
-                    new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
-                    new DocumentoAvulsoDetailActions.GetDocumentosSuccess({
-                        loaded: {
-                            id: 'documentoAvulsoHandle',
-                            value: this.routerState.params.documentoAvulsoHandle
-                        },
-                        entitiesId: response['entities'].map(documento => documento.id),
-                    })
-                ]),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new DocumentoAvulsoDetailActions.GetDocumentosFailed(err));
-                    return caught;
                 })
             );
 }

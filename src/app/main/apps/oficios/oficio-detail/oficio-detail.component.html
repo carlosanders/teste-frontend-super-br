@@ -29,19 +29,19 @@
         <div class="actions" fxLayout="row" fxLayoutAlign="start center">
 
             <button mat-icon-button aria-label="Processo" matTooltip="Processo"
-                    [routerLink]="['processo/' + (documentoAvulso$ | async)?.processo?.id + '/visualizar/12345678']"
+                    [routerLink]="['processo/' + (documentoAvulso$ | async)?.processo?.id + '/visualizar/' + chaveAcesso]"
                     [routerLinkActive]="['active', 'accent']">
                 <mat-icon class="black-fg">book</mat-icon>
             </button>
 
             <button mat-icon-button aria-label="Responder" matTooltip="Responder" *ngIf="mode==='entrada'"
-                    [routerLink]="['responder']"
+                    [routerLink]="['responder/' + chaveAcesso]"
                     [routerLinkActive]="['active', 'accent']">
                 <mat-icon class="black-fg">send</mat-icon>
             </button>
 
             <button mat-icon-button aria-label="Complementar" matTooltip="Complementar" *ngIf="mode==='saida'"
-                    [routerLink]="['complementar']"
+                    [routerLink]="['complementar/' + chaveAcesso]"
                     [routerLinkActive]="['active', 'accent']">
                 <mat-icon class="black-fg">send</mat-icon>
             </button>

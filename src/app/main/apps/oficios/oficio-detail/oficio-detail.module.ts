@@ -36,11 +36,11 @@ const routes: Routes = [
                 loadChildren: () => import('app/main/apps/processo/processo.module').then(m => m.ProcessoModule)
             },
             {
-                path: 'responder',
+                path: 'responder/:chaveAcessoHandle',
                 loadChildren: () => import('./responder/responder.module').then(m => m.ResponderModule)
             },
             {
-                path: 'complementar',
+                path: 'complementar/:chaveAcessoHandle',
                 loadChildren: () => import('./complementar/complementar.module').then(m => m.ComplementarModule)
             }
         ],

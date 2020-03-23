@@ -207,7 +207,7 @@ export class DocumentosEffects {
      * Get Documento Avulso with router parameters
      * @type {Observable<any>}
      */
-    /*@Effect()
+    @Effect()
     getDocumentoAvulso: any =
         this._actions
             .pipe(
@@ -219,18 +219,24 @@ export class DocumentosEffects {
                         0,
                         JSON.stringify({}),
                         JSON.stringify([
+                            'processo',
+                            'processo.especieProcesso',
+                            'processo.modalidadeMeio',
+                            'processo.documentoAvulsoOrigem',
+                            'usuarioResponsavel',
+                            'setorResponsavel',
+                            'setorResponsavel.unidade',
+                            'setorOrigem',
+                            'setorOrigem.unidade',
+                            'vinculacoesEtiquetas',
+                            'vinculacoesEtiquetas.etiqueta',
                             'documentoResposta'
                         ]),
                         JSON.stringify({chaveAcesso: `${this.routerState.params['chaveAcessoHandle']}`})
                     );
                 }),
                 mergeMap(response => [
-                    new UpdateData<DocumentoAvulso>({
-                        id: this.routerState.params.documentoAvulsoHandle,
-                        schema: documentoAvulsoSchema,
-                        changes: {documentoResposta: response['entities'][0].documentoResposta
-                        }
-                    }),
+                    new AddData<DocumentoAvulso>({data: response['entities'], schema: documentoAvulsoSchema}),
                     new DocumentoAvulsoDetailActions.GetDocumentoAvulsoSuccess({
                         loaded: {
                             id: 'documentoAvulsoHandle',
@@ -244,6 +250,6 @@ export class DocumentosEffects {
                     this._store.dispatch(new DocumentoAvulsoDetailActions.GetDocumentoAvulsoFailed(err));
                     return caught;
                 })
-            );*/
+            );
 
 }

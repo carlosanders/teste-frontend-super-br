@@ -26,7 +26,7 @@ import { GetDocumentoAvulso } from '../store/actions';
 
 
 @Component({
-    selector: 'responder-complementar',
+    selector: 'responder',
     templateUrl: './responder.component.html',
     styleUrls: ['./responder.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -221,10 +221,8 @@ export class ResponderComponent implements OnInit, OnDestroy {
     }
 
     onComplete(): void {
-        /*this._store.dispatch(new GetDocumentoAvulso({id: `eq:${this.documentoAvulso.id}`}));
-        this._store.dispatch(new fromStore.GetDocumentos({id: this.documentoAvulso.documentoResposta.id}));*/
-
-        this._store.dispatch(new fromStore.GetDocumentos({id: this.documentoAvulso.id}));
+        this._store.dispatch(new GetDocumentoAvulso({id: `eq:${this.documentoAvulso.id}`}));
+        this._store.dispatch(new fromStore.GetDocumentos({id: this.documentoAvulso.documentoResposta.id}));
     }
 
     doConverte(documentoId): void {
