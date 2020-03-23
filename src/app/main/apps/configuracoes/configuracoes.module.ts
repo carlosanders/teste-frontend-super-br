@@ -12,6 +12,7 @@ import { CdkSidebarModule } from '@cdk/components';
 import { ConfiguracoesComponent } from './configuracoes.component';
 import { ConfiguracoesMainSidebarComponent } from './sidebars/main/main-sidebar.component';
 import { CommonModule } from '@angular/common';
+import {MatRippleModule} from '@angular/material/core';
 
 const routes: Routes = [
     {
@@ -75,7 +76,7 @@ const routes: Routes = [
         ConfiguracoesComponent,
         ConfiguracoesMainSidebarComponent
     ],
-    imports        : [
+    imports: [
         CommonModule,
         RouterModule.forChild(routes),
 
@@ -86,7 +87,8 @@ const routes: Routes = [
         TranslateModule,
 
         CdkSharedModule,
-        CdkSidebarModule
+        CdkSidebarModule,
+        MatRippleModule
     ],
     providers      : [
     ]
