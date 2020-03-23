@@ -206,9 +206,7 @@ export class OficioDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
     complete(pending: number): void {
         if (pending === 0) {
-            this._store.dispatch(new fromStore.GetDocumentos({
-                id: 'eq:' + this.documentoAvulso.documentoResposta.id
-            }));
+            this._store.dispatch(new fromStore.GetDocumentos());
         }
     }
 

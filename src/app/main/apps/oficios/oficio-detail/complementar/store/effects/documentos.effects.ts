@@ -1,24 +1,21 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
-
 import { Observable, of } from 'rxjs';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 
 import * as DocumentosActions from '../actions/documentos.actions';
 
-import { AddData, UpdateData } from '@cdk/ngrx-normalizr';
+import { AddData } from '@cdk/ngrx-normalizr';
 import { select, Store } from '@ngrx/store';
-import { getRouterState, State} from 'app/store/reducers';
-import { DocumentoAvulso, Documento} from '@cdk/models';
-import { DocumentoService} from '@cdk/services/documento.service';
-import { documento as documentoSchema} from '@cdk/normalizr/documento.schema';
-import { Router} from '@angular/router';
-import { getDocumentoAvulso} from '../../../store/selectors';
+import { getRouterState, State } from 'app/store/reducers';
+import {  Documento } from '@cdk/models';
+import { DocumentoService } from '@cdk/services/documento.service';
+import { documento as documentoSchema } from '@cdk/normalizr/documento.schema';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class DocumentosEffects {
     routerState: any;
-    documentoAvulso: DocumentoAvulso;
 
     constructor(
         private _actions: Actions,
@@ -32,12 +29,6 @@ export class DocumentosEffects {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
-            });
-
-        this._store
-            .pipe(select(getDocumentoAvulso))
-            .subscribe(documentoAvulso => {
-                this.documentoAvulso = documentoAvulso;
             });
     }
 
@@ -54,7 +45,7 @@ export class DocumentosEffects {
 
                     const params = {
                         filter: {
-                            id: this.documentoAvulso.documentoResposta.id
+                            'documentoAvulsoOrigem.id': this.routerState.params.documentoAvulsoHandle
                         },
                         limit: 10,
                         offset: 0,

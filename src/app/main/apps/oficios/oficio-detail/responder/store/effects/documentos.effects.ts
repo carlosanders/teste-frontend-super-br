@@ -58,9 +58,9 @@ export class DocumentosEffects {
                 switchMap((action) => {
                     const params = {
                         filter: {
-                            id: `eq:${action.payload.id}`
+                            'documentoAvulsoOrigem.id': `eq:${action.payload.id}`
                         },
-                        limit: 1,
+                        limit: 10,
                         offset: 0,
                         sort: {
                             criadoEm: 'DESC'
@@ -207,7 +207,7 @@ export class DocumentosEffects {
      * Get Documento Avulso with router parameters
      * @type {Observable<any>}
      */
-    @Effect()
+    /*@Effect()
     getDocumentoAvulso: any =
         this._actions
             .pipe(
@@ -244,6 +244,6 @@ export class DocumentosEffects {
                     this._store.dispatch(new DocumentoAvulsoDetailActions.GetDocumentoAvulsoFailed(err));
                     return caught;
                 })
-            );
+            );*/
 
 }

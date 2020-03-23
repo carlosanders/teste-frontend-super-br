@@ -7,7 +7,7 @@ import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 
-import * as DocumentoAvulsoDetailActions from 'app/main/apps/oficios/oficio-detail/store/actions/oficio-detail.actions';
+import * as DocumentoAvulsoDetailActions from 'app/main/apps/oficios/oficio-detail/store/actions';
 
 import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
 import {Router} from '@angular/router';
@@ -112,7 +112,6 @@ export class OficioDetailEffect {
     createVinculacaoEtiqueta: Observable<any> =
         this._actions
             .pipe(
-
                 ofType<DocumentoAvulsoDetailActions.CreateVinculacaoEtiqueta>(DocumentoAvulsoDetailActions.CREATE_VINCULACAO_ETIQUETA),
                 mergeMap((action) => {
                     const vinculacaoEtiqueta = new VinculacaoEtiqueta();
@@ -132,7 +131,7 @@ export class OficioDetailEffect {
                                 content: `Documento Avulso id ${response.id} etiquetada com sucesso!`,
                                 dateTime: response.criadoEm
                             }),
-                            /*new GetDocumentos()*/
+                            new DocumentoAvulsoDetailActions.GetDocumentos()
                         ]),
                         catchError((err) => {
                             console.log(err);
@@ -207,9 +206,35 @@ export class OficioDetailEffect {
         this._actions
             .pipe(
                 ofType<DocumentoAvulsoDetailActions.GetDocumentos>(DocumentoAvulsoDetailActions.GET_DOCUMENTOS),
-                switchMap((action) => {
+                switchMap(() => {
+                    let documentoAvulsoId = null;
+
+                    const routeParams = of('documentoAvulsoHandle');
+                    routeParams.subscribe(param => {
+                        documentoAvulsoId = `eq:${this.routerState.params[param]}`;
+                    });
+
+                    const params = {
+                        filter: {
+                            'documentoAvulsoOrigem.id': documentoAvulsoId
+                        },
+                        limit: 10,
+                        offset: 0,
+                        sort: {
+                            criadoEm: 'DESC'
+                        },
+                        populate: [
+                            'tipoDocumento',
+                            'documentoAvulsoRemessa',
+                            'documentoAvulsoRemessa.documentoResposta',
+                            'juntadaAtual'
+                        ]
+                    };
+
                     return this._documentoService.query(
-                        JSON.stringify(action.payload),
+                        JSON.stringify({
+                            ...params.filter
+                        }),
                         25,
                         0,
                         JSON.stringify({}),

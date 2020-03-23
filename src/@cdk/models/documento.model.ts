@@ -78,6 +78,10 @@ export class Documento {
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     tarefaOrigem?: Tarefa;
 
+    @Type(() => DocumentoAvulso)
+    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    documentoAvulsoOrigem?: DocumentoAvulso;
+
     @Type(() => Juntada)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     juntadaAtual?: Juntada;
@@ -166,6 +170,7 @@ export class Documento {
         this.copia = null;
         this.setorOrigem = null;
         this.tarefaOrigem = null;
+        this.documentoAvulsoOrigem = null;
         this.origemDados = null;
         this.modelo = null;
         this.minuta = null;

@@ -77,9 +77,9 @@ export class ResponderComponent implements OnInit, OnDestroy {
     ) {
         this._profile = this._loginService.getUserProfile();
         this.documentoAvulso$ = this._store.pipe(select(getDocumentoAvulso));
-        this.documentos$ = this._store.pipe(select(getDocumentos));
         this.routerState$ = this._store.pipe(select(getRouterState));
 
+        this.documentos$ = this._store.pipe(select(fromStore.getDocumentos));
         this.selectedDocumentos$ = this._store.pipe(select(fromStore.getSelectedDocumentos));
         this.deletingDocumentosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosId));
         this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
@@ -103,8 +103,7 @@ export class ResponderComponent implements OnInit, OnDestroy {
             }
         });
 
-        this._store
-            .pipe(
+        this._store.pipe(
                 select(getMercureState),
                 takeUntil(this._unsubscribeAll)
             ).subscribe(message => {
@@ -222,8 +221,10 @@ export class ResponderComponent implements OnInit, OnDestroy {
     }
 
     onComplete(): void {
-        this._store.dispatch(new GetDocumentoAvulso({id: `eq:${this.documentoAvulso.id}`}));
-        this._store.dispatch(new fromStore.GetDocumentos({id: this.documentoAvulso.documentoResposta.id}));
+        /*this._store.dispatch(new GetDocumentoAvulso({id: `eq:${this.documentoAvulso.id}`}));
+        this._store.dispatch(new fromStore.GetDocumentos({id: this.documentoAvulso.documentoResposta.id}));*/
+
+        this._store.dispatch(new fromStore.GetDocumentos({id: this.documentoAvulso.id}));
     }
 
     doConverte(documentoId): void {
