@@ -32,7 +32,13 @@ import {PipesModule} from '@cdk/pipes/pipes.module';
 const routes: Routes = [
     {
         path: '',
-        component: AtividadeCreateBlocoComponent
+        component: AtividadeCreateBlocoComponent,
+        children: [
+            {
+                path       : 'documento',
+                loadChildren: () => import('app/main/apps/documento/documento.module').then(m => m.DocumentoModule),
+            }
+        ],        
     }
 ];
 
