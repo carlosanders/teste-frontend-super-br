@@ -59,7 +59,6 @@ export class ResponderComplementarCreateBlocoComponent implements OnInit, OnDest
     ) {
         this.documentosAvulso$ = this._store.pipe(select(getSelectedDocumentosAvulso));
         this._profile = _loginService.getUserProfile();
-
     }
 
     // -----------------------------------------------------------------------------------------------------
