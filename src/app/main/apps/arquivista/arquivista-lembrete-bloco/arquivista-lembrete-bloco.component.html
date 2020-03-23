@@ -1,1 +1,5 @@
-<p>arquivista-lembrete-bloco works!</p>
+<cdk-lembrete-form
+    [saving]="(isSaving$ | async)"
+    [errors]="(errors$ | async)"
+    (save)="submit($event)">
+</cdk-lembrete-form>
