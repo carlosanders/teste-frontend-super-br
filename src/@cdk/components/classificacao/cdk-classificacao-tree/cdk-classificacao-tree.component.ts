@@ -268,15 +268,12 @@ export class CdkClassificacaoTreeComponent {
     }
 
     pesquisa(filterText: any): void {
-
-        this.filterChanged(filterText);
-
-        // this._serviceTree.filter(filterText);
-        // if (filterText) {
-        //     this.treeControl.expandAll();
-        // } else {
-        //     this.treeControl.collapseAll();
-        // }
+        this._serviceTree.filter(filterText);
+        if (filterText) {
+            this.treeControl.expandAll();
+        } else {
+            this.treeControl.collapseAll();
+        }
     }
 
     setInputClassificacao(node: FlatNode): void {
@@ -321,7 +318,7 @@ export class CdkClassificacaoTreeComponent {
             x => x.children &&
                 x.name.toLowerCase().indexOf(term.toLowerCase()) > -1
         );
-        visibleItems.map( x => {
+        visibleItems.map(x => {
             x.visible = true;
             this.getChildren(x);
         });

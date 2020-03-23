@@ -3,6 +3,8 @@ form {
 }
 .title {
     margin-bottom: -10px !important;
+    padding-left: 17px;
+    padding-top: 10px;
 
     h2 {
         font-size: 16px;
@@ -48,6 +50,10 @@ form {
     right: 13px;
     bottom: 0px;
     color: #565656;
+}
+#pesquisa {
+    width: 100%;
+    padding: 17px 22px 0px 18px;
 }
 
 

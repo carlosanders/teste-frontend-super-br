@@ -56,8 +56,6 @@ export class CdkClassificacaoTreeService {
             this.treeData = this.dataChange.getValue();
         }
 
-        debugger;
-
         let filteredTreeData;
         if (filterText) {
             filteredTreeData = this.treeData.filter(d => d.name.toLocaleLowerCase().indexOf(filterText.toLocaleLowerCase()) > -1);
