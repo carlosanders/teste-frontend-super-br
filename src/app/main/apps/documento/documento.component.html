@@ -5,14 +5,14 @@
         <div fxFlex="25"></div>
 
         <div class="ml-32" fxFlex="75" fxLayout="row" fxLayoutAlign="start center">
-            <mat-tab-group class="mr-16" (selectedTabChange)="visualizarProcesso(this.modoProcesso)">
+            <mat-tab-group class="mr-16" (selectedTabChange)="visualizarProcesso(this.modoProcesso)" *ngIf="this.documento.processoOrigem?.id">
                 <mat-tab label="Editar a Minuta">
                 </mat-tab>
                 <mat-tab label="Visualizar o Processo">
                 </mat-tab>
             </mat-tab-group>
 
-            <button style="margin-left: auto;" *ngIf="this.documento.processoOrigem"
+            <button style="margin-left: auto;" *ngIf="this.documento.processoOrigem?.id"
                     mat-raised-button color="accent" class="mr-sm-12"
                     aria-label="visualizar processo"
                     matTooltip="Visualizar Processo em Nova Aba"
@@ -20,7 +20,7 @@
                 <mat-icon class="black-fg">open_in_new</mat-icon>
             </button>
 
-            <button class="mr-8" mat-icon-button
+            <button [ngStyle]="{'margin-left': (!this.documento.processoOrigem || !this.documento.processoOrigem?.id)? 'auto' : '0px' }" class="mr-8" mat-icon-button
                     (click)="back()"
                     aria-label="fechar"
                     matTooltip="Fechar">

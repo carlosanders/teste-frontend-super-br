@@ -9,8 +9,8 @@ import {
     MatPaginatorModule,
     MatSortModule,
     MatSelectModule,
+    MatTooltipModule,
 } from '@cdk/angular/material';
-
 import {CdkSidebarModule} from '@cdk/components';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {NumeroUnicoDocumentoService} from '@cdk/services/numero-unico-documento.service';
@@ -33,6 +33,7 @@ import {CdkNumeroUnicoDocumentoMainSidebarComponent} from './sidebars/main/main.
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
+        MatTooltipModule,
 
         CdkNumeroUnicoDocumentoGridFilterModule,
 

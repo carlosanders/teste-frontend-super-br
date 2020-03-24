@@ -62,7 +62,7 @@ export class CdkCampoAutocompleteComponent implements OnInit {
                     });
                     if (typeof value === 'string') {
                         this.campoListIsLoading = true;
-                        this._changeDetectorRef.markForCheck();
+                        this._changeDetectorRef.detectChanges();
                         const filterParam = {
                             ...this.pagination.filter,
                             ...termFilter
@@ -74,7 +74,10 @@ export class CdkCampoAutocompleteComponent implements OnInit {
                             JSON.stringify(this.pagination.sort),
                             JSON.stringify(this.pagination.populate))
                             .pipe(
-                                finalize(() => this.campoListIsLoading = false),
+                                finalize(() => {
+                                    this.campoListIsLoading = false;
+                                    this._changeDetectorRef.detectChanges();
+                                }),
                                 catchError(() => of([]))
                             );
                     } else {
@@ -84,7 +87,7 @@ export class CdkCampoAutocompleteComponent implements OnInit {
             )
         ).subscribe(response => {
             this.campoList = response['entities'];
-            this._changeDetectorRef.markForCheck();
+            this._changeDetectorRef.detectChanges();
         });
     }
 
