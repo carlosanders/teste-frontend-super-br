@@ -4,7 +4,8 @@ import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, map, tap, switchMap} from 'rxjs/operators';
 
-import * as AtividadeCreateDocumentosActions from 'app/main/apps/tarefas/tarefa-detail/atividades/atividade-create/store/actions/documentos.actions';
+import * as AtividadeCreateDocumentosActions
+    from 'app/main/apps/tarefas/tarefa-detail/atividades/atividade-create/store/actions/documentos.actions';
 
 import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {select, Store} from '@ngrx/store';
@@ -15,7 +16,7 @@ import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
 import {componenteDigital as componenteDigitalSchema} from '@cdk/normalizr/componente-digital.schema';
 import {Router} from '@angular/router';
 import {environment} from 'environments/environment';
-import { ComponenteDigital } from '@cdk/models';
+import {ComponenteDigital} from '@cdk/models';
 
 @Injectable()
 export class AtividadeCreateDocumentosEffect {
@@ -202,10 +203,10 @@ export class AtividadeCreateDocumentosEffect {
                                     console.log(err);
                                     return of(new AtividadeCreateDocumentosActions.ConverteToPdfFailed(action.payload));
                                 })
-                                )
-                                ;
-                        }
-                    )
-                    )
-                    ;
+                            )
+                            ;
+                    }
+                )
+            )
+    ;
 }
