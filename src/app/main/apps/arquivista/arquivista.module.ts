@@ -26,6 +26,7 @@ const routes: Routes = [
     }
 ];
 
+
 @NgModule({
     declarations   : [
         ArquivistaComponent,
@@ -47,6 +48,5 @@ const routes: Routes = [
         ProcessoService,
     ]
 })
-export class ArquivistaModule
-{
-}
+// @ts-ignore
+export class ArquivistaModule {}

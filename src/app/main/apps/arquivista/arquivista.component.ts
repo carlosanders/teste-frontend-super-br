@@ -10,14 +10,16 @@ import {
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {select, Store} from '@ngrx/store';
 import {cdkAnimations} from '@cdk/animations';
-import {Etiqueta, Pagination} from '@cdk/models';
+import {Colaborador, Etiqueta, Lotacao, Pagination, Setor} from '@cdk/models';
 import * as fromStore from './arquivista-list/store';
 import {CdkTranslationLoaderService} from '@cdk/services/translation-loader.service';
 import {ProcessoService} from '@cdk/services/processo.service';
 import {Router} from '@angular/router';
 import {LoginService} from '../../auth/login/login.service';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {Usuario} from '@cdk/models/usuario.model';
+import {getRouterState} from '../../../store/reducers';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'arquivista',
@@ -32,6 +34,7 @@ export class ArquivistaComponent implements OnInit, OnDestroy {
     etiquetas: Etiqueta[] = [];
     vinculacaoEtiquetaPagination: Pagination;
 
+
     maximizado$: any;
     currentProcessoId: Observable<number[]>;
 
@@ -39,6 +42,20 @@ export class ArquivistaComponent implements OnInit, OnDestroy {
     pagination: any;
 
     private _profile: Usuario;
+
+    private _unsubscribeAll: Subject<any> = new Subject();
+    mode = 'Arquivista';
+    routerState: any;
+
+    unidadeHandle = '';
+    typeHandle = '';
+    setoresCoordenacao: Setor[] = [];
+
+    usuariosAnalista: Usuario[] = [];
+
+    colaborador: Colaborador;
+    unidades: Setor[] = [];
+    links: any;
 
     /**
      * Constructor
@@ -64,6 +81,12 @@ export class ArquivistaComponent implements OnInit, OnDestroy {
             'modalidadeEtiqueta.valor': 'eq:ARQUIVO'
         };
 
+        this.colaborador = this._loginService.getUserProfile().colaborador;
+        this.colaborador.lotacoes.forEach((lotacao: Lotacao) => {
+            if (!this.unidades.includes(lotacao.setor.unidade) && lotacao.arquivista === true) {
+                this.unidades.push(lotacao.setor.unidade);
+            }
+        });
 
     }
 
@@ -75,12 +98,22 @@ export class ArquivistaComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
+        this.setoresCoordenacao = [];
+        this.usuariosAnalista = [];
+        this._router.navigate(['apps/arquivista/' + this.getUnidade() + '/pronto-transicao']).then();
     }
 
     /**
      * On destroy
      */
     ngOnDestroy(): void {
+        this._changeDetectorRef.detach();
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
+    }
+
+    getUnidade(): number{
+        return this.colaborador.lotacoes[0].setor.unidade.id;
     }
 
     // -----------------------------------------------------------------------------------------------------
