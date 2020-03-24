@@ -21,6 +21,8 @@ export const ASSINA_DOCUMENTO_FAILED = '[COMPLEMENTAR DOCUMENTOS] ASSINA DOCUMEN
 
 export const CHANGE_SELECTED_DOCUMENTOS = '[COMPLEMENTAR DOCUMENTOS] CHANGE SELECTED DOCUMENTOS';
 
+export const GET_DOCUMENTOS_COMPLEMENTARES = '[COMPLEMENTAR DOCUMENTOS] GET DOCUMENTOS COMPLEMENTARES';
+
 
 /**
  * Get Documentos
@@ -185,6 +187,19 @@ export class AssinaDocumentoFailed implements Action
 }
 
 /**
+ * Get Documentos
+ */
+export class GetDocumentosComplementares implements Action
+{
+    readonly type = GET_DOCUMENTOS_COMPLEMENTARES;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+
+/**
  * Change Selected Documentos
  */
 export class ChangeSelectedDocumentos implements Action {
@@ -209,4 +224,5 @@ export type DocumentosActionsAll
     | DeleteDocumento
     | DeleteDocumentoSuccess
     | DeleteDocumentoFailed
+    | GetDocumentosComplementares
     | ChangeSelectedDocumentos;

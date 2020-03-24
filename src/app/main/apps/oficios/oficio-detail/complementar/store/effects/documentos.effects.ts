@@ -8,15 +8,17 @@ import * as DocumentosActions from '../actions/documentos.actions';
 import { AddData } from '@cdk/ngrx-normalizr';
 import { select, Store } from '@ngrx/store';
 import { getRouterState, State } from 'app/store/reducers';
-import {  Documento } from '@cdk/models';
+import {Documento, DocumentoAvulso} from '@cdk/models';
 import { DocumentoService } from '@cdk/services/documento.service';
 import { documento as documentoSchema } from '@cdk/normalizr/documento.schema';
 import { Router } from '@angular/router';
 import { environment } from 'environments/environment';
+import {getDocumentoAvulso} from '../../../store/selectors';
 
 @Injectable()
 export class DocumentosEffects {
     routerState: any;
+    documentoAvulso: DocumentoAvulso;
 
     constructor(
         private _actions: Actions,
@@ -30,6 +32,12 @@ export class DocumentosEffects {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
+            });
+
+        this._store
+            .pipe(select(getDocumentoAvulso))
+            .subscribe(documentoAvulso => {
+                this.documentoAvulso = documentoAvulso;
             });
     }
 
@@ -63,6 +71,9 @@ export class DocumentosEffects {
                             value: this.routerState.params.documentoAvulsoHandle
                         },
                         entitiesId: response['entities'].map(documento => documento.id),
+                    }),
+                    new DocumentosActions.GetDocumentosComplementares({
+                        'documentoAvulsoComplementacaoResposta.id': `eq:${this.documentoAvulso.id}`
                     })
                 ]),
                 catchError((err, caught) => {
@@ -77,7 +88,7 @@ export class DocumentosEffects {
     getDocumentosComplementares: any =
         this._actions
             .pipe(
-                ofType<DocumentosActions.GetDocumentos>(DocumentosActions.GET_DOCUMENTOS),
+                ofType<DocumentosActions.GetDocumentosComplementares>(DocumentosActions.GET_DOCUMENTOS_COMPLEMENTARES),
                 switchMap((action) => {
                     return this._documentoService.query(
                         JSON.stringify(action.payload),
