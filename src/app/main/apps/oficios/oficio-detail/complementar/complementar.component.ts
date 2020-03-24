@@ -23,7 +23,7 @@ import { getDocumentoAvulso } from '../store/selectors';
 
 
 @Component({
-    selector: 'responder-complementar',
+    selector: 'complementar',
     templateUrl: './complementar.component.html',
     styleUrls: ['./complementar.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -76,8 +76,8 @@ export class ComplementarComponent implements OnInit, OnDestroy {
         this.routerState$ = this._store.pipe(select(getRouterState));
 
         this.selectedDocumentos$ = this._store.pipe(select(fromStore.getSelectedDocumentos));
-        /*this.deletingDocumentosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosId));
-        this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));*/
+        this.deletingDocumentosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosId));
+        this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
         this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoDocumentosId));
     }
 
@@ -126,7 +126,7 @@ export class ComplementarComponent implements OnInit, OnDestroy {
             takeUntil(this._unsubscribeAll)
         ).subscribe(
             documentos => {
-                this.oficios = documentos.filter(documento => (!documento.documentoAvulsoRemessa && !documento.juntadaAtual));
+                this.oficios = documentos;
                 this._changeDetectorRef.markForCheck();
             }
         );
@@ -135,7 +135,7 @@ export class ComplementarComponent implements OnInit, OnDestroy {
             filter(selectedDocumentos => !!selectedDocumentos),
             takeUntil(this._unsubscribeAll)
         ).subscribe(selectedDocumentos => {
-            this.selectedOficios =  selectedDocumentos.filter(documento => !documento.documentoAvulsoRemessa);
+            this.selectedOficios =  selectedDocumentos;
         });
     }
 
@@ -160,7 +160,7 @@ export class ComplementarComponent implements OnInit, OnDestroy {
     }
 
     doDelete(documentoId): void {
-        // this._store.dispatch(new fromStore.DeleteDocumento(documentoId));
+        this._store.dispatch(new fromStore.DeleteDocumento(documentoId));
     }
 
     doVerResposta(documento): void {
@@ -168,7 +168,7 @@ export class ComplementarComponent implements OnInit, OnDestroy {
     }
 
     doAssinatura(documentoId): void {
-        // this._store.dispatch(new fromStore.AssinaDocumento(documentoId));
+        this._store.dispatch(new fromStore.AssinaDocumento(documentoId));
     }
 
     onClicked(documento): void {
@@ -176,7 +176,9 @@ export class ComplementarComponent implements OnInit, OnDestroy {
     }
 
     onComplete(): void {
-        this._store.dispatch(new fromStore.GetDocumentos());
+        this._store.dispatch(new fromStore.GetDocumentos({
+            id: `eq:${this.documentoAvulso.documentoResposta.id}`
+        }));
     }
 
     doConverte(documentoId): void {

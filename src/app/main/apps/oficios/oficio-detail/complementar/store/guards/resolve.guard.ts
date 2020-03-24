@@ -3,16 +3,18 @@ import { Observable, of } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot } from '@angular/router';
 import { switchMap, catchError, tap, take, filter } from 'rxjs/operators';
-
+import * as fromStore from '../../store';
 import { DocumentosState } from '../reducers';
 import { getRouterState } from 'app/store/reducers';
 import { getDocumentosHasLoaded } from '../selectors';
-import * as fromStore from 'app/main/apps/oficios/oficio-detail/complementar/store';
+import { getDocumentoAvulso } from '../../../store/selectors';
+import { DocumentoAvulso } from '@cdk/models';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
 
     routerState: any;
+    documentoAvulso: DocumentoAvulso;
 
     /**
      * Constructor
@@ -28,6 +30,12 @@ export class ResolveGuard implements CanActivate {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
+            });
+
+        this._store
+            .pipe(select(getDocumentoAvulso))
+            .subscribe(documentoAvulso => {
+               this.documentoAvulso = documentoAvulso;
             });
     }
 
@@ -55,7 +63,9 @@ export class ResolveGuard implements CanActivate {
             select(getDocumentosHasLoaded),
             tap((loaded: any) => {
                 if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
-                    this._store.dispatch(new fromStore.GetDocumentos());
+                    this._store.dispatch(new fromStore.GetDocumentos({
+                        id: `eq:${this.documentoAvulso.documentoResposta.id}`
+                    }));
                 }
             }),
             filter((loaded: any) => {

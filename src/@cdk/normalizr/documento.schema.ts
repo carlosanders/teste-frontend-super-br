@@ -16,7 +16,7 @@ documentoSchema.define({
     tipoDocumento: tipoDocumento,
     setorOrigem: setor,
     tarefaOrigem: tarefa,
-    documentoAvulsoOrigem: documentoAvulso,
+    documentoAvulsoComplementacaoResposta: documentoAvulso,
     origemDados: origemDados,
     criadoPor: usuario,
     juntadaAtual: juntada,

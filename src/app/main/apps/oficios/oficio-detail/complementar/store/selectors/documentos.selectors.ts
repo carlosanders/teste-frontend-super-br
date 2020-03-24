@@ -3,8 +3,6 @@ import { DocumentosState, getComplementarAppState, ComplementarAppState } from '
 import { createSchemaSelectors } from '@cdk/ngrx-normalizr';
 import { Documento } from '@cdk/models';
 import { documento as documentoSchema } from '@cdk/normalizr/documento.schema';
-import {getAtividadeCreateDocumentosState} from '../../../../../tarefas/tarefa-detail/atividades/atividade-create/store/selectors';
-import {AtividadeCreateDocumentosState} from '../../../../../tarefas/tarefa-detail/atividades/atividade-create/store/reducers';
 
 
 const schemaDocumentoSelectors = createSchemaSelectors<Documento>(documentoSchema);
@@ -33,7 +31,7 @@ export const getDocumentosHasLoaded = createSelector(
 
 export const getSelectedDocumentoIds = createSelector(
     getDocumentosState,
-    (state: AtividadeCreateDocumentosState) => state.selectedDocumentosId
+    (state: DocumentosState) => state.selectedDocumentosId
 );
 
 export const getSelectedDocumentos = createSelector(
@@ -43,7 +41,18 @@ export const getSelectedDocumentos = createSelector(
 );
 
 export const getConvertendoDocumentosId = createSelector(
-    getAtividadeCreateDocumentosState,
-    (state: AtividadeCreateDocumentosState) => state.convertendoDocumentoIds
+    getDocumentosState,
+    (state: DocumentosState) => state.convertendoDocumentoIds
+);
+
+
+export const getDeletingDocumentosId = createSelector(
+    getDocumentosState,
+    (state: DocumentosState) => state.deletingDocumentoIds
+);
+
+export const getAssinandoDocumentosId = createSelector(
+    getDocumentosState,
+    (state: DocumentosState) => state.assinandoDocumentoIds
 );
 

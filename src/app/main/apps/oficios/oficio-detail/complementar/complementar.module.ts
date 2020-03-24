@@ -40,6 +40,12 @@ const routes: Routes = [
     {
         path: '',
         component: ComplementarComponent,
+        children: [
+            {
+                path: 'documento',
+                loadChildren: () => import('app/main/apps/documento/documento.module').then(m => m.DocumentoModule),
+            }
+        ],
         canActivate: [fromGuards.ResolveGuard]
     }
 ];

@@ -6,7 +6,7 @@ import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 
 import * as DocumentosActions from '../actions';
 
-import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
+import {AddData} from '@cdk/ngrx-normalizr';
 import { select, Store } from '@ngrx/store';
 import { getRouterState, State } from 'app/store/reducers';
 import { DocumentoAvulso, Documento } from '@cdk/models';
@@ -17,7 +17,6 @@ import { Router } from '@angular/router';
 import { getDocumentoAvulso } from '../../../store/selectors';
 import { environment } from 'environments/environment';
 import * as DocumentoAvulsoDetailActions from '../../../store/actions/oficio-detail.actions';
-import {documentoAvulso as documentoAvulsoSchema} from '@cdk/normalizr/documento-avulso.schema';
 
 @Injectable()
 export class DocumentosEffects {
@@ -56,31 +55,17 @@ export class DocumentosEffects {
             .pipe(
                 ofType<DocumentosActions.GetDocumentos>(DocumentosActions.GET_DOCUMENTOS),
                 switchMap((action) => {
-                    const params = {
-                        filter: {
-                            'documentoAvulsoOrigem.id': `eq:${action.payload.id}`
-                        },
-                        limit: 10,
-                        offset: 0,
-                        sort: {
-                            criadoEm: 'DESC'
-                        },
-                        populate: [
+                    return this._documentoService.query(
+                        JSON.stringify(action.payload),
+                        1,
+                        0,
+                        JSON.stringify({}),
+                        JSON.stringify([
                             'tipoDocumento',
                             'documentoAvulsoRemessa',
                             'documentoAvulsoRemessa.documentoResposta',
                             'juntadaAtual'
-                        ]
-                    };
-
-                    return this._documentoService.query(
-                        JSON.stringify({
-                            ...params.filter
-                        }),
-                        params.limit,
-                        params.offset,
-                        JSON.stringify(params.sort),
-                        JSON.stringify(params.populate));
+                        ]));
                 }),
                 mergeMap(response => [
                     new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
@@ -204,14 +189,14 @@ export class DocumentosEffects {
                 }));
 
     /**
-     * Get Documento Avulso with router parameters
+     * Get Documento Resposta with router parameters
      * @type {Observable<any>}
      */
     @Effect()
-    getDocumentoAvulso: any =
+    getDocumentoResposta: any =
         this._actions
             .pipe(
-                ofType<DocumentoAvulsoDetailActions.GetDocumentoAvulso>(DocumentoAvulsoDetailActions.GET_DOCUMENTO_AVULSO),
+                ofType<DocumentosActions.GetDocumentoResposta>(DocumentosActions.GET_DOCUMENTO_RESPOSTA),
                 switchMap((action) => {
                     return this._documentoAvulsoService.query(
                         JSON.stringify(action.payload),
@@ -233,23 +218,15 @@ export class DocumentosEffects {
                             'documentoResposta'
                         ]),
                         JSON.stringify({chaveAcesso: `${this.routerState.params['chaveAcessoHandle']}`})
+                    ).pipe(map((response) => {
+                        return new DocumentosActions.GetDocumentos({id: `eq:${response['entities'][0].documentoResposta.id}`});
+                    }),
+                        catchError((err, caught) => {
+                            console.log(err);
+                            this._store.dispatch(new DocumentoAvulsoDetailActions.GetDocumentoAvulsoFailed(err));
+                            return caught;
+                        })
                     );
-                }),
-                mergeMap(response => [
-                    new AddData<DocumentoAvulso>({data: response['entities'], schema: documentoAvulsoSchema}),
-                    new DocumentoAvulsoDetailActions.GetDocumentoAvulsoSuccess({
-                        loaded: {
-                            id: 'documentoAvulsoHandle',
-                            value: this.routerState.params.documentoAvulsoHandle
-                        },
-                        documentoAvulso: response['entities'][0]
-                    })
-                ]),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new DocumentoAvulsoDetailActions.GetDocumentoAvulsoFailed(err));
-                    return caught;
                 })
             );
-
 }

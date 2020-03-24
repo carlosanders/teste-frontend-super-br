@@ -38,12 +38,14 @@
                         </mat-menu>
 
                         <cdk-componente-digital-documento-avulso-card-list #ckdUpload
-                                                                           [documentoAvulsoOrigem]="documentoOrigem"
-                                                                           [action]="this.action"
+                                                                           [documentoAvulsoOrigem]="documentoAvulsoOrigem"
                                                                            (complete)="onComplete()">
                         </cdk-componente-digital-documento-avulso-card-list>
 
                         <cdk-documento-card-list [documentos]="oficios"
+                                                 [deletingId]="(deletingDocumentosId$ | async)"
+                                                 [assinandoId]="(assinandoDocumentosId$ | async)"
+                                                 [convertendoId]="(convertendoDocumentosId$ | async)"
                                                  (delete)="doDelete($event)"
                                                  (verResposta)="doVerResposta($event)"
                                                  (assinatura)="doAssinatura($event)"
@@ -51,10 +53,6 @@
                                                  (clicked)="onClicked($event)"
                                                  (changedSelectedIds)="changedSelectedIds($event)">
                         </cdk-documento-card-list>
-
-                        <!--[deletingId]="(deletingDocumentosId$ | async)"
-                        [assinandoId]="(assinandoDocumentosId$ | async)"
-                        [convertendoId]="(convertendoDocumentosId$ | async)"-->
                     </div>
 
                 </mat-tab>

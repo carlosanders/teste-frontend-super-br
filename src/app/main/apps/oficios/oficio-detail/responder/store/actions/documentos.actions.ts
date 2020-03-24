@@ -8,6 +8,8 @@ export const DELETE_DOCUMENTO = '[RESPONDER DOCUMENTOS] DELETE DOCUMENTO';
 export const DELETE_DOCUMENTO_SUCCESS = '[RESPONDER DOCUMENTOS] DELETE DOCUMENTO SUCCESS';
 export const DELETE_DOCUMENTO_FAILED = '[RESPONDER DOCUMENTOS] DELETE DOCUMENTO FAILED';
 
+export const GET_DOCUMENTO_RESPOSTA = '[RESPONDER DOCUMENTOS] GET DOCUMENTO RESPOSTA';
+
 export const CLICKED_DOCUMENTO = '[RESPONDER DOCUMENTOS] CLICKED DOCUMENTO';
 export const COMPLETE_DOCUMENTO = '[RESPONDER DOCUMENTOS] COMPLETE DOCUMENTO';
 
@@ -194,6 +196,19 @@ export class ChangeSelectedDocumentos implements Action {
     }
 }
 
+
+/**
+ * Get Documentos
+ */
+export class GetDocumentoResposta implements Action
+{
+    readonly type = GET_DOCUMENTO_RESPOSTA;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 export type DocumentosActionsAll
     = GetDocumentos
     | GetDocumentosSuccess
@@ -209,4 +224,5 @@ export type DocumentosActionsAll
     | DeleteDocumento
     | DeleteDocumentoSuccess
     | DeleteDocumentoFailed
-    | ChangeSelectedDocumentos;
+    | ChangeSelectedDocumentos
+    | GetDocumentoResposta;

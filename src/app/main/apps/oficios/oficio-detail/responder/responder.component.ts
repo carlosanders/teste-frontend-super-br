@@ -41,11 +41,12 @@ export class ResponderComponent implements OnInit, OnDestroy {
     documentoAvulso$: Observable<DocumentoAvulso>;
     documentoAvulso: DocumentoAvulso;
     documentos$: Observable<Documento[]>;
+
     selectedDocumentos$: Observable<Documento[]>;
     oficios: Documento[] = [];
     selectedOficios: Documento[] = [];
 
-    documentoOrigem: number;
+    documentoAvulsoOrigem: number;
 
     mode: string;
     chaveAcesso: any;
@@ -144,7 +145,7 @@ export class ResponderComponent implements OnInit, OnDestroy {
         this.routerState$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(routerState => {
-            this.documentoOrigem = routerState.state.params['documentoAvulsoHandle'];
+            this.documentoAvulsoOrigem = routerState.state.params['documentoAvulsoHandle'];
         });
 
         this.documentoAvulso$.pipe(
@@ -157,7 +158,7 @@ export class ResponderComponent implements OnInit, OnDestroy {
             takeUntil(this._unsubscribeAll)
         ).subscribe(
             documentos => {
-                this.oficios = documentos.filter(documento => !documento.documentoAvulsoRemessa);
+                this.oficios = documentos;
                 this._changeDetectorRef.markForCheck();
             }
         );
@@ -166,7 +167,7 @@ export class ResponderComponent implements OnInit, OnDestroy {
             filter(selectedDocumentos => !!selectedDocumentos),
             takeUntil(this._unsubscribeAll)
         ).subscribe(selectedDocumentos => {
-            this.selectedOficios = selectedDocumentos.filter(documento => !documento.documentoAvulsoRemessa);
+            this.selectedOficios = selectedDocumentos;
         });
 
         this.assinandoDocumentosId$.subscribe(assinandoDocumentosId => {
@@ -200,6 +201,10 @@ export class ResponderComponent implements OnInit, OnDestroy {
         this.cdkUpload.upload();
     }
 
+    complementarDocumento(): void {
+        this.cdkUpload.upload();
+    }
+
     changedSelectedIds(selectedIds): void {
         this._store.dispatch(new fromStore.ChangeSelectedDocumentos(selectedIds));
     }
@@ -221,8 +226,7 @@ export class ResponderComponent implements OnInit, OnDestroy {
     }
 
     onComplete(): void {
-        this._store.dispatch(new GetDocumentoAvulso({id: `eq:${this.documentoAvulso.id}`}));
-        this._store.dispatch(new fromStore.GetDocumentos({id: this.documentoAvulso.documentoResposta.id}));
+        this._store.dispatch(new fromStore.GetDocumentoResposta({id: `eq:${this.documentoAvulso.id}`}));
     }
 
     doConverte(documentoId): void {

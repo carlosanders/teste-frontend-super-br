@@ -12,6 +12,7 @@ import {  Documento } from '@cdk/models';
 import { DocumentoService } from '@cdk/services/documento.service';
 import { documento as documentoSchema } from '@cdk/normalizr/documento.schema';
 import { Router } from '@angular/router';
+import {environment} from '../../../../../../../../environments/environment';
 
 @Injectable()
 export class DocumentosEffects {
@@ -41,33 +42,54 @@ export class DocumentosEffects {
         this._actions
             .pipe(
                 ofType<DocumentosActions.GetDocumentos>(DocumentosActions.GET_DOCUMENTOS),
-                switchMap(() => {
-
-                    const params = {
-                        filter: {
-                            'documentoAvulsoOrigem.id': this.routerState.params.documentoAvulsoHandle
-                        },
-                        limit: 10,
-                        offset: 0,
-                        sort: {
-                            criadoEm: 'DESC'
-                        },
-                        populate: [
+                switchMap((action) => {
+                    return this._documentoService.query(
+                        JSON.stringify(action.payload),
+                        10,
+                        0,
+                        JSON.stringify({criadoEm: 'DESC'}),
+                        JSON.stringify([
                             'tipoDocumento',
                             'documentoAvulsoRemessa',
                             'documentoAvulsoRemessa.documentoResposta',
                             'juntadaAtual'
-                        ]
-                    };
+                        ]));
+                }),
+                mergeMap(response => [
+                    new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
+                    new DocumentosActions.GetDocumentosSuccess({
+                        loaded: {
+                            id: 'documentoAvulsoHandle',
+                            value: this.routerState.params.documentoAvulsoHandle
+                        },
+                        entitiesId: response['entities'].map(documento => documento.id),
+                    })
+                ]),
+                catchError((err, caught) => {
+                    console.log(err);
+                    this._store.dispatch(new DocumentosActions.GetDocumentosFailed(err));
+                    return caught;
+                })
+            );
 
+
+    @Effect()
+    getDocumentosComplementares: any =
+        this._actions
+            .pipe(
+                ofType<DocumentosActions.GetDocumentos>(DocumentosActions.GET_DOCUMENTOS),
+                switchMap((action) => {
                     return this._documentoService.query(
-                        JSON.stringify({
-                            ...params.filter
-                        }),
-                        params.limit,
-                        params.offset,
-                        JSON.stringify(params.sort),
-                        JSON.stringify(params.populate));
+                        JSON.stringify(action.payload),
+                        10,
+                        0,
+                        JSON.stringify({criadoEm: 'DESC'}),
+                        JSON.stringify([
+                            'tipoDocumento',
+                            'documentoAvulsoRemessa',
+                            'documentoAvulsoRemessa.documentoResposta',
+                            'juntadaAtual'
+                        ]));
                 }),
                 mergeMap(response => [
                     new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
@@ -96,6 +118,8 @@ export class DocumentosEffects {
             .pipe(
                 ofType<DocumentosActions.ClickedDocumento>(DocumentosActions.CLICKED_DOCUMENTO),
                 tap((action) => {
+                    console.log(this.routerState.url + '/documento/' + action.payload.id + '/oficio');
+
                     this._router.navigate([this.routerState.url + '/documento/' + action.payload.id + '/oficio']).then();
                 })
             );
@@ -123,5 +147,71 @@ export class DocumentosEffects {
                     }
                 )
             );
+
+    /**
+     * Delete Documento
+     * @type {Observable<any>}
+     */
+    @Effect()
+    deleteDocumento: Observable<DocumentosActions.DocumentosActionsAll> =
+        this._actions
+            .pipe(
+                ofType<DocumentosActions.DeleteDocumento>(DocumentosActions.DELETE_DOCUMENTO),
+                mergeMap((action) => {
+                        return this._documentoService.destroy(action.payload).pipe(
+                            map((response) => new DocumentosActions.DeleteDocumentoSuccess(response.id)),
+                            catchError((err) => {
+                                console.log(err);
+                                return of(new DocumentosActions.DeleteDocumentoFailed(action.payload));
+                            })
+                        );
+                    }
+                ));
+
+    /**
+     * Assina Documento
+     * @type {Observable<any>}
+     */
+    @Effect()
+    assinaDocumento: any =
+        this._actions
+            .pipe(
+                ofType<DocumentosActions.AssinaDocumento>(DocumentosActions.ASSINA_DOCUMENTO),
+                mergeMap((action) => {
+                        return this._documentoService.preparaAssinatura(JSON.stringify([action.payload]))
+                            .pipe(
+                                map((response) => {
+                                    return new DocumentosActions.AssinaDocumentoSuccess(response);
+                                }),
+                                catchError((err, caught) => {
+                                    console.log(err);
+                                    this._store.dispatch(new DocumentosActions.AssinaDocumentoFailed(err));
+                                    return caught;
+                                })
+                            );
+                    }
+                ));
+
+    /**
+     * Assina Documento Success
+     * @type {Observable<any>}
+     */
+    @Effect({dispatch: false})
+    assinaDocumentoSuccess: any =
+        this._actions
+            .pipe(
+                ofType<DocumentosActions.AssinaDocumentoSuccess>(DocumentosActions.ASSINA_DOCUMENTO_SUCCESS),
+                tap((action) => {
+
+                    const url = environment.jnlp + 'v1/assinatura/' + action.payload.jwt + '/get_jnlp';
+
+                    const ifrm = document.createElement('iframe');
+                    ifrm.setAttribute('src', url);
+                    ifrm.style.width = '0';
+                    ifrm.style.height = '0';
+                    ifrm.style.border = '0';
+                    document.body.appendChild(ifrm);
+                    setTimeout(() => document.body.removeChild(ifrm), 20000);
+                }));
 
 }

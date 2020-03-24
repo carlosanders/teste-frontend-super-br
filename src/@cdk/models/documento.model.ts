@@ -82,7 +82,7 @@ export class Documento {
 
     @Type(() => DocumentoAvulso)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    documentoAvulsoOrigem?: DocumentoAvulso;
+    documentoAvulsoComplementacaoResposta?: DocumentoAvulso;
 
     @Type(() => Juntada)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
@@ -172,7 +172,7 @@ export class Documento {
         this.copia = null;
         this.setorOrigem = null;
         this.tarefaOrigem = null;
-        this.documentoAvulsoOrigem = null;
+        this.documentoAvulsoComplementacaoResposta = null;
         this.origemDados = null;
         this.modelo = null;
         this.minuta = null;
