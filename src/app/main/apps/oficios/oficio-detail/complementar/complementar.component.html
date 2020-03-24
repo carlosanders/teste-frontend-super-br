@@ -20,15 +20,7 @@
                         </button>
 
                         <mat-menu #moreMenu="matMenu">
-                            <!--<button mat-menu-item aria-label="upload" *ngIf="this.mode === 'entrada'"
-                                    (click)="responderDocumento()">
-                                <ng-container>
-                                    <mat-icon>picture_as_pdf</mat-icon>
-                                    <span>Responder</span>
-                                </ng-container>
-                            </button>-->
-
-                            <button mat-menu-item aria-label="editor de textos" *ngIf="this.mode === 'saida'"
+                            <button mat-menu-item aria-label="upload"
                                     (click)="complementarDocumento()">
                                 <ng-container>
                                     <mat-icon>picture_as_pdf</mat-icon>
@@ -38,7 +30,7 @@
                         </mat-menu>
 
                         <cdk-componente-digital-documento-avulso-card-list #ckdUpload
-                                                                           [documentoAvulsoOrigem]="documentoAvulso"
+                                                                           [documentoAvulsoOrigem]="documentoAvulsoOrigem"
                                                                            (complete)="onComplete()">
                         </cdk-componente-digital-documento-avulso-card-list>
 

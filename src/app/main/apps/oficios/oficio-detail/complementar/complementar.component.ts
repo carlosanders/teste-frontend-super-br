@@ -42,7 +42,7 @@ export class ComplementarComponent implements OnInit, OnDestroy {
     oficios: Documento[] = [];
     selectedOficios: Documento[] = [];
 
-    documentoOrigem: number;
+    documentoAvulsoOrigem: number;
 
     mode: string;
     chaveAcesso: any;
@@ -113,7 +113,7 @@ export class ComplementarComponent implements OnInit, OnDestroy {
         this.routerState$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(routerState => {
-            this.documentoOrigem = routerState.state.params['documentoAvulsoHandle'];
+            this.documentoAvulsoOrigem = routerState.state.params['documentoAvulsoHandle'];
         });
 
         this.documentoAvulso$.pipe(

@@ -19,11 +19,9 @@ import { Documento } from '@cdk/models/documento.model';
 import { getMercureState, getRouterState } from 'app/store/reducers';
 import { Router } from '@angular/router';
 import { DocumentoAvulso, Usuario } from '@cdk/models';
-import { getDocumentoAvulso, getDocumentos } from '../store/selectors';
+import { getDocumentoAvulso } from '../store/selectors';
 import { UpdateData } from '@cdk/ngrx-normalizr';
 import { documento as documentoSchema } from '@cdk/normalizr/documento.schema';
-import { GetDocumentoAvulso } from '../store/actions';
-
 
 @Component({
     selector: 'responder',
