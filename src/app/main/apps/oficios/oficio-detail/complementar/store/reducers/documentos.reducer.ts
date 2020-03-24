@@ -9,7 +9,6 @@ export interface DocumentosState {
     convertendoDocumentoIds: number[];
     loading: boolean;
     loaded: boolean;
-
 }
 
 export const DocumentosInitialState: DocumentosState = {

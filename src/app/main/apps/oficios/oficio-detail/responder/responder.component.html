@@ -20,19 +20,11 @@
                         </button>
 
                         <mat-menu #moreMenu="matMenu">
-                            <button mat-menu-item aria-label="upload" *ngIf="this.mode === 'entrada'"
+                            <button mat-menu-item aria-label="upload"
                                     (click)="responderDocumento()">
                                 <ng-container>
                                     <mat-icon>picture_as_pdf</mat-icon>
-                                    <span>Responder</span>
-                                </ng-container>
-                            </button>
-
-                            <button mat-menu-item aria-label="editor de textos" *ngIf="this.mode === 'saida'"
-                                    (click)="complementarDocumento()">
-                                <ng-container>
-                                    <mat-icon>picture_as_pdf</mat-icon>
-                                    <span>Complementar</span>
+                                    <span>{{this.documentoAvulso.documentoResposta === null ? 'Responder' : 'Complementar'}}</span>
                                 </ng-container>
                             </button>
                         </mat-menu>

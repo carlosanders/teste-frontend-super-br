@@ -201,10 +201,6 @@ export class ResponderComponent implements OnInit, OnDestroy {
         this.cdkUpload.upload();
     }
 
-    complementarDocumento(): void {
-        this.cdkUpload.upload();
-    }
-
     changedSelectedIds(selectedIds): void {
         this._store.dispatch(new fromStore.ChangeSelectedDocumentos(selectedIds));
     }

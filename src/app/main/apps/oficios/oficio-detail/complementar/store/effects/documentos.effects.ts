@@ -12,7 +12,7 @@ import {  Documento } from '@cdk/models';
 import { DocumentoService } from '@cdk/services/documento.service';
 import { documento as documentoSchema } from '@cdk/normalizr/documento.schema';
 import { Router } from '@angular/router';
-import {environment} from '../../../../../../../../environments/environment';
+import { environment } from 'environments/environment';
 
 @Injectable()
 export class DocumentosEffects {
@@ -118,8 +118,6 @@ export class DocumentosEffects {
             .pipe(
                 ofType<DocumentosActions.ClickedDocumento>(DocumentosActions.CLICKED_DOCUMENTO),
                 tap((action) => {
-                    console.log(this.routerState.url + '/documento/' + action.payload.id + '/oficio');
-
                     this._router.navigate([this.routerState.url + '/documento/' + action.payload.id + '/oficio']).then();
                 })
             );

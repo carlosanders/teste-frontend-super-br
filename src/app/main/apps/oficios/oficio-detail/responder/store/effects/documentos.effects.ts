@@ -16,7 +16,8 @@ import { documento as documentoSchema } from '@cdk/normalizr/documento.schema';
 import { Router } from '@angular/router';
 import { getDocumentoAvulso } from '../../../store/selectors';
 import { environment } from 'environments/environment';
-import * as DocumentoAvulsoDetailActions from '../../../store/actions/oficio-detail.actions';
+import * as DocumentoAvulsoDetailActions from '../../../store/actions';
+import { documentoAvulso as documentoAvulsoSchema } from '@cdk/normalizr/documento-avulso.schema';
 
 @Injectable()
 export class DocumentosEffects {
@@ -76,6 +77,7 @@ export class DocumentosEffects {
                         },
                         entitiesId: response['entities'].map(documento => documento.id),
                     })
+                    // new DocumentosActions.GetDocumentos({'documentoAvulsoComplementacaoResposta.id': `eq:${this.documentoAvulso.id}`})
                 ]),
                 catchError((err, caught) => {
                     console.log(err);
@@ -218,15 +220,23 @@ export class DocumentosEffects {
                             'documentoResposta'
                         ]),
                         JSON.stringify({chaveAcesso: `${this.routerState.params['chaveAcessoHandle']}`})
-                    ).pipe(map((response) => {
-                        return new DocumentosActions.GetDocumentos({id: `eq:${response['entities'][0].documentoResposta.id}`});
-                    }),
-                        catchError((err, caught) => {
-                            console.log(err);
-                            this._store.dispatch(new DocumentoAvulsoDetailActions.GetDocumentoAvulsoFailed(err));
-                            return caught;
-                        })
                     );
+                }),
+                mergeMap(response => [
+                    new AddData<DocumentoAvulso>({data: response['entities'], schema: documentoAvulsoSchema}),
+                    new DocumentoAvulsoDetailActions.GetDocumentoAvulsoSuccess({
+                        loaded: {
+                            id: 'documentoAvulsoHandle',
+                            value: this.routerState.params.documentoAvulsoHandle
+                        },
+                        documentoAvulso: response['entities'][0]
+                    }),
+                    new DocumentosActions.GetDocumentos({id: `eq:${response['entities'][0].documentoResposta.id}`})
+                ]),
+                catchError((err, caught) => {
+                    console.log(err);
+                    this._store.dispatch(new DocumentoAvulsoDetailActions.GetDocumentoAvulsoFailed(err));
+                    return caught;
                 })
             );
 }
