@@ -4,6 +4,7 @@ import {ArquivistaLembreteBlocoComponent} from './arquivista-lembrete-bloco.comp
 import {LembreteBlocoStoreModule} from './store/store.module';
 import {RouterModule, Routes} from '@angular/router';
 import {CdkLembreteFormModule} from '../../../../../@cdk/components/lembrete/cdk-lembrete-form/cdk-lembrete-form.module';
+import {MatListModule} from '@angular/material/list';
 
 const routes: Routes = [
     {
@@ -20,6 +21,7 @@ const routes: Routes = [
         LembreteBlocoStoreModule,
         RouterModule.forChild(routes),
         CdkLembreteFormModule,
+        MatListModule,
     ]
 })
 export class ArquivistaLembreteBlocoModule {

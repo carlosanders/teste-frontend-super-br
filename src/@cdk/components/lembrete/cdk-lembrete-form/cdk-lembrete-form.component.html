@@ -20,7 +20,7 @@
                       maxlength="255"
                       cdkAutosizeMinRows="5"
                       cdkAutosizeMaxRows="5"></textarea>
-            <button matSuffix mat-button mat-icon-button
+            <button matSuffix mat-button mat-icon-button *ngIf="!isBloco"
                     (click)="showLogLembreteGrid()">
                 <mat-icon matTooltip="Histórico">history</mat-icon>
             </button>

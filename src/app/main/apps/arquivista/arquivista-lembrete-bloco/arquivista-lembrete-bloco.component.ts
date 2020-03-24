@@ -1,11 +1,13 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {Lembrete, Processo} from '../../../../../@cdk/models';
-import {getRouterState, RouterStateUrl} from '../../../../store/reducers';
+import {getOperacoesState, getRouterState, RouterStateUrl} from '../../../../store/reducers';
 import {LembreteService} from '../../../../../@cdk/services/lembrete.service';
 import * as fromStore from './store';
 import {select, Store} from '@ngrx/store';
 import * as fromStoreProcesso from '../../processo/store';
+import {filter, takeUntil} from 'rxjs/operators';
+import {getSelectedProcessos} from '../arquivista-list/store/selectors';
 
 @Component({
     selector: 'app-arquivista-lembrete-bloco',
@@ -14,17 +16,18 @@ import * as fromStoreProcesso from '../../processo/store';
 })
 export class ArquivistaLembreteBlocoComponent implements OnInit {
 
+    private _unsubscribeAll: Subject<any> = new Subject();
+
     loading: boolean;
-    lembretes$: Observable<Lembrete>;
     lembretes: Lembrete;
-    processo$: Observable<Processo>;
-    processo: Processo;
+    processos$: Observable<Processo[]>;
+    processos: Processo[];
     total = 0;
-    processoId: number;
 
     private routerState: RouterStateUrl;
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
+    operacoes: any[] = [];
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -33,43 +36,56 @@ export class ArquivistaLembreteBlocoComponent implements OnInit {
     ) {
         this.loading = false;
         this.initObservales();
-        this.initRouteState();
-        this.setProcessoId();
     }
 
     ngOnInit(): void {
+        this.processos$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(processos => this.processos = processos);
+
+        this._store
+            .pipe(
+                select(getOperacoesState),
+                takeUntil(this._unsubscribeAll),
+                filter(op => !!op && !!op.content && op.type === 'lembrete')
+            )
+            .subscribe(
+                operacao => {
+                    this.operacoes.push(operacao);
+                    this._changeDetectorRef.markForCheck();
+                }
+            );
+
+        this._store
+            .pipe(
+                select(getRouterState),
+                takeUntil(this._unsubscribeAll)
+            ).subscribe(routerState => {
+            if (routerState) {
+                this.routerState = routerState.state;
+                this.operacoes = [];
+            }
+        });
     }
 
-    initObservales(): void{
+    initObservales(): void {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
-        this.processo$ = this._store.pipe(select(fromStoreProcesso.getProcesso));
-        this.lembretes$ = this._store.pipe(select(fromStore.getLembreteBlocoList));
-    }
-
-    initRouteState(): void {
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe(routerState => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
-    }
-
-    setProcessoId(): void{
-        this.processoId = this.routerState.params.processoHandle;
+        this.processos$ = this._store.pipe(select(getSelectedProcessos));
     }
 
     submit(values): void {
-        const lembrete = new Lembrete();
-
-        Object.entries(values).forEach(
-            ([key, value]) => {
-                lembrete[key] = value;
-            }
-        );
-        this._store.dispatch(new fromStore.SaveLembreteBloco(lembrete));
+        this.operacoes = [];
+        this.processos.forEach(processo => {
+            const lembrete = new Lembrete();
+            Object.entries(values).forEach(
+                ([key, value]) => {
+                    lembrete[key] = value;
+                }
+            );
+            lembrete.processo = processo;
+            this._store.dispatch(new fromStore.SaveLembreteBloco(lembrete));
+        });
 
     }
 }

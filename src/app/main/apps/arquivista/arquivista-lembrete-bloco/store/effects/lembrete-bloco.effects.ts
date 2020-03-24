@@ -4,13 +4,15 @@ import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from '../../../../../../store/reducers';
 import {Router} from '@angular/router';
 import * as LembreteActions from '../actions/lembrete-bloco.actions';
-import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
-import {AddData} from '@cdk/ngrx-normalizr';
+import {catchError, mergeMap, switchMap} from 'rxjs/operators';
+import {AddChildData} from '@cdk/ngrx-normalizr';
 import {Lembrete} from '@cdk/models';
 import {lembrete as lembreteSchema} from '@cdk/normalizr/lembrete.schema';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {of} from 'rxjs';
 import {Injectable} from '@angular/core';
+import {processo as processoSchema} from '@cdk/normalizr/processo.schema';
+import * as moment from 'moment';
 
 @Injectable()
 export class LembreteBlocoEffects {
@@ -30,39 +32,37 @@ export class LembreteBlocoEffects {
      * @type {Observable<any>}
      */
     @Effect()
-    saveLembrete: any =
+    saveLembreteBloco: any =
         this._actions
             .pipe(
                 ofType<LembreteActions.SaveLembreteBloco>(LembreteActions.SAVE_LEMBRETE_BLOCO),
                 switchMap((action) => {
                     return this._lembreteService.save(action.payload).pipe(
                         mergeMap((response: Lembrete) => [
-                            new LembreteActions.SaveLembreteBlocoSuccess(),
-                            new AddData<Lembrete>({data: [response], schema: lembreteSchema}),
+                            new LembreteActions.SaveLembreteBlocoSuccess(action.payload),
+                            new AddChildData<Lembrete>({
+                                data: [{...action.payload, ... response}],
+                                childSchema: lembreteSchema,
+                                parentId: action.payload.processo.id,
+                                parentSchema: processoSchema
+                            }),
                             new OperacoesActions.Resultado({
                                 type: 'lembrete',
-                                content: `Lembrete id ${response.id} criado com sucesso!`,
-                                dateTime: response.criadoEm
+                                content: `Lembrete em bloco criado com sucesso!`,
+                                dateTime: response.criadoEm,
+                                success: true
                             })
                         ]),
                         catchError((err) => {
+                            this._store.dispatch(new OperacoesActions.Resultado({
+                                type: 'lembrete',
+                                content: `Houve ao adicionar lembrete ao processo id ${action.payload.processo.id}! ${err.error.message}`,
+                                success: false,
+                                dateTime: moment()
+                            }));
                             return of(new LembreteActions.SaveLembreteBlocoFailed(err));
                         })
                     );
-                })
-            );
-
-    /**
-     * Save Lembrete Success
-     */
-    @Effect({dispatch: false})
-    saveLembreteSuccess: any =
-        this._actions
-            .pipe(
-                ofType<LembreteActions.SaveLembreteBlocoSuccess>(LembreteActions.CREATE_LEMBRETE_BLOCO_SUCCESS),
-                tap(() => {
-                    this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle + '/' +
-                    this.routerState.params.typeHandle]).then();
                 })
             );
 

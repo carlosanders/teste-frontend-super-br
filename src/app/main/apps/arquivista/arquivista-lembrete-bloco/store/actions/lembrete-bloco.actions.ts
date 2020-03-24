@@ -11,6 +11,7 @@ export const GET_LEMBRETE_BLOCO = '[LEMBRETE_BLOCO] GET LEMBRETE_BLOCO';
 export const GET_LEMBRETE_BLOCO_SUCCESS = '[LEMBRETE_BLOCO] GET LEMBRETE_BLOCO SUCCESS';
 export const GET_LEMBRETE_BLOCO_FAILED = '[LEMBRETE_BLOCO] GET LEMBRETE_BLOCO FAILED';
 
+
 /**
  * Get LembreteBloco
  */
@@ -66,7 +67,7 @@ export class SaveLembreteBlocoSuccess implements Action
 {
     readonly type = SAVE_LEMBRETE_BLOCO_SUCCESS;
 
-    constructor()
+    constructor(public payload: any)
     {
     }
 }
@@ -90,7 +91,7 @@ export class CreateLembreteBloco implements Action
 {
     readonly type = CREATE_LEMBRETE_BLOCO;
 
-    constructor()
+    constructor(public payload: any)
     {
     }
 }
