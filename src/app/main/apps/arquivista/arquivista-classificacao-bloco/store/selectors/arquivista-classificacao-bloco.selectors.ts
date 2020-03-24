@@ -8,7 +8,7 @@ const schemaArquivistaClassificacaoBlocoSelectors = createSchemaSelectors<Proces
 
 export const getArquivistaClassificacaoBlocoState = createSelector(
     getArquivistaClassificacaoBlocoAppState,
-    (state: ArquivistaClassificacaoBlocoAppState) => state.arquivistaClassificacao
+    (state: ArquivistaClassificacaoBlocoAppState) => state.arquivistaClassificacaoBloco
 );
 
 export const getArquivistaClassificacaoBlocoId = createSelector(

@@ -86,6 +86,5 @@ export class ArquivistaLembreteBlocoComponent implements OnInit {
             lembrete.processo = processo;
             this._store.dispatch(new fromStore.SaveLembreteBloco(lembrete));
         });
-
     }
 }

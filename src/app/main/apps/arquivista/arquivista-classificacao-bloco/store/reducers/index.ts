@@ -2,7 +2,7 @@ import {ArquivistaClassificacaoBlocoReducer, ArquivistaClassificacaoBlocoState} 
 import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
 
 export interface ArquivistaClassificacaoBlocoAppState {
-    arquivistaClassificacao: ArquivistaClassificacaoBlocoState;
+    arquivistaClassificacaoBloco: ArquivistaClassificacaoBlocoState;
 }
 
 export const getArquivistaClassificacaoBlocoAppState = createFeatureSelector<ArquivistaClassificacaoBlocoAppState>('app-arquivista-classificacao-bloco');
@@ -13,7 +13,7 @@ export const getAppState = createSelector(
 );
 
 export const reducers: ActionReducerMap<ArquivistaClassificacaoBlocoAppState> = {
-    arquivistaClassificacao: ArquivistaClassificacaoBlocoReducer
+    arquivistaClassificacaoBloco: ArquivistaClassificacaoBlocoReducer
 };
 
 export * from './arquivista-classificacao-bloco.reducers';

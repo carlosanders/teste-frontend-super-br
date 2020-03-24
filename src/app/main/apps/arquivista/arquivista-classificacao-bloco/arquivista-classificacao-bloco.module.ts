@@ -4,13 +4,25 @@ import {ArquivistaClassificacaoBlocoComponent} from './arquivista-classificacao-
 import {ArquivistaClassificacaoBlocoStoreModule} from './store/store.module';
 import {ClassificacaoService} from '@cdk/services/classificacao.service';
 import {CdkClassificacaoTreeService} from '@cdk/components/classificacao/cdk-classificacao-tree/services/cdk-classificacao-tree.service';
+import {RouterModule, Routes} from '@angular/router';
+import {CdkClassificacaoTreeModule} from '../../../../../@cdk/components/classificacao/cdk-classificacao-tree/cdk-classificacao-tree.module';
+import {MatListModule} from '@angular/material/list';
 
+const routes: Routes = [
+    {
+        path       : 'editar',
+        component: ArquivistaClassificacaoBlocoComponent,
+    }
+];
 
 @NgModule({
     declarations: [ArquivistaClassificacaoBlocoComponent],
     imports: [
         CommonModule,
-        ArquivistaClassificacaoBlocoStoreModule
+        ArquivistaClassificacaoBlocoStoreModule,
+        RouterModule.forChild(routes),
+        CdkClassificacaoTreeModule,
+        MatListModule,
     ],
     providers: [
         ClassificacaoService,

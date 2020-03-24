@@ -329,7 +329,7 @@ export class ArquivistaListComponent implements OnInit, OnDestroy, AfterViewInit
     }
 
     doClassificacaoBloco(): void {
-        this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle + '/' + this.routerState.params.typeHandle + '/vinculacao-etiqueta-bloco']).then();
+        this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle + '/' + this.routerState.params.typeHandle + '/classificacao-bloco/editar']).then();
     }
 
     doLembreteBloco(): void {

@@ -11,7 +11,7 @@ import {effects} from './effects';
   declarations: [],
   imports: [
       CommonModule,
-      StoreModule.forFeature('app-arquivista-classificacao-edit', reducers),
+      StoreModule.forFeature('app-arquivista-classificacao-bloco', reducers),
       EffectsModule.forFeature(effects)
   ]
 })
