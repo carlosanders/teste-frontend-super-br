@@ -15,7 +15,7 @@ import {ProcessoService} from '@cdk/services/processo.service';
 import {ResizableModule} from 'angular-resizable-element';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import {LoginService} from '../../../auth/login/login.service';
-import {LembreteService} from '../../../../../@cdk/services/lembrete.service';
+import {LembreteService} from '@cdk/services/lembrete.service';
 
 
 const routes: Routes = [
@@ -35,6 +35,14 @@ const routes: Routes = [
             {
                 path: 'vinculacao-etiqueta-bloco',
                 loadChildren: () => import('../vinculacao-etiqueta-create-bloco/vinculacao-etiqueta-create-bloco.module').then(m => m.VinculacaoEtiquetaCreateBlocoModule),
+            },
+            {
+                path: 'lembrete-bloco',
+                loadChildren: () => import('../arquivista-lembrete-bloco/arquivista-lembrete-bloco.module').then(m => m.ArquivistaLembreteBlocoModule)
+            },
+            {
+                path: 'classificacao-bloco',
+                loadChildren: () => import('../arquivista-classificacao-bloco/arquivista-classificacao-bloco.module').then(m => m.ArquivistaClassificacaoBlocoModule)
             }
         ],
     }
@@ -46,7 +54,6 @@ const routes: Routes = [
         ArquivistaListComponent
     ],
     imports: [
-
         RouterModule.forChild(routes),
         ResizableModule,
         MatIconModule,

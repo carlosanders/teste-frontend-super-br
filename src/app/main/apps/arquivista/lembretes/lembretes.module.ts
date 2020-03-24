@@ -14,9 +14,6 @@ const routes: Routes = [
         component: LembretesComponent,
     }
 ];
-
-
-
 @NgModule({
     declarations: [
         LembretesComponent
