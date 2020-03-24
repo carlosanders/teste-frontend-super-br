@@ -6,6 +6,7 @@ export class ClassificacaoNode {
     id?: number;
     name: string;
     children?: ClassificacaoNode[];
+    hasChild: boolean;
 }
 
 @Injectable()
@@ -30,6 +31,7 @@ export class CdkClassificacaoTreeService {
             node.name = value.name;
             node.id = value.id;
             node.children = value.children;
+            node.hasChild = value.hasChild;
             return accumulator.concat(node);
         }, []);
     }

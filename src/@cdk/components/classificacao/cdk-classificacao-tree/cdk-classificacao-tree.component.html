@@ -23,7 +23,7 @@
         <mat-label class="title-arvore">Arvore</mat-label>
         <div cdkPerfectScrollbar class="tree">
             <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
-                <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>
+                <mat-tree-node [ngClass]="getNodeSelected(node)" *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>
                     <button mat-icon-button disabled></button>
                     <!--        <mat-checkbox class="checklist-leaf-node"-->
                     <!--                      [checked]="checklistSelection.isSelected(node)"-->
