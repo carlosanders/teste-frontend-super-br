@@ -139,11 +139,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
         this.screen$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(screen => {
-            if (screen.size !== 'desktop') {
-                this.mobileMode = true;
-            } else {
-                this.mobileMode = false;
-            }
+            this.mobileMode = screen.size !== 'desktop';
         });
     }
 
@@ -173,13 +169,6 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     onEtiquetaCreate(etiqueta: Etiqueta): void {
         this._store.dispatch(new CreateVinculacaoEtiqueta({tarefa: this.tarefa, etiqueta: etiqueta}));
     }
-
-   /* @retirar 
-   onEtiquetaEdit(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
-        this._store.dispatch(new SaveConteudoVinculacaoEtiqueta({
-            vinculacaoEtiqueta: vinculacaoEtiqueta
-        }));    
-    }*/
 
     onEtiquetaEdit(values): void {   
         const vinculacaoEtiqueta = new VinculacaoEtiqueta();
