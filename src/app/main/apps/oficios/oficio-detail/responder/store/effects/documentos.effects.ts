@@ -5,6 +5,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 
 import * as DocumentosActions from '../actions';
+import * as DocumentosComplementaresActions from '../../../complementar/store/actions';
 
 import {AddData} from '@cdk/ngrx-normalizr';
 import { select, Store } from '@ngrx/store';
@@ -76,8 +77,8 @@ export class DocumentosEffects {
                             value: this.routerState.params.documentoAvulsoHandle
                         },
                         entitiesId: response['entities'].map(documento => documento.id),
-                    })
-                    // new DocumentosActions.GetDocumentos({'documentoAvulsoComplementacaoResposta.id': `eq:${this.documentoAvulso.id}`})
+                    }),
+                    new DocumentosComplementaresActions.GetDocumentosComplementares({'documentoAvulsoComplementacaoResposta.id': `eq:${this.documentoAvulso.id}`})
                 ]),
                 catchError((err, caught) => {
                     console.log(err);

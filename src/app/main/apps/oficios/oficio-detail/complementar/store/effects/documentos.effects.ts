@@ -4,6 +4,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 
 import * as DocumentosActions from '../actions/documentos.actions';
+import * as DocumentosComplementaresActions from '../actions/documentos-complementar.actions';
 
 import { AddData } from '@cdk/ngrx-normalizr';
 import { select, Store } from '@ngrx/store';
@@ -71,9 +72,6 @@ export class DocumentosEffects {
                             value: this.routerState.params.documentoAvulsoHandle
                         },
                         entitiesId: response['entities'].map(documento => documento.id),
-                    }),
-                    new DocumentosActions.GetDocumentosComplementares({
-                        'documentoAvulsoComplementacaoResposta.id': `eq:${this.documentoAvulso.id}`
                     })
                 ]),
                 catchError((err, caught) => {
@@ -84,11 +82,15 @@ export class DocumentosEffects {
             );
 
 
+    /**
+     * Get Documentos Complementares with router parameters
+     * @type {Observable<any>}
+     */
     @Effect()
     getDocumentosComplementares: any =
         this._actions
             .pipe(
-                ofType<DocumentosActions.GetDocumentosComplementares>(DocumentosActions.GET_DOCUMENTOS_COMPLEMENTARES),
+                ofType<DocumentosComplementaresActions.GetDocumentosComplementares>(DocumentosComplementaresActions.GET_DOCUMENTOS_COMPLEMENTARES),
                 switchMap((action) => {
                     return this._documentoService.query(
                         JSON.stringify(action.payload),
@@ -104,7 +106,7 @@ export class DocumentosEffects {
                 }),
                 mergeMap(response => [
                     new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
-                    new DocumentosActions.GetDocumentosSuccess({
+                    new DocumentosComplementaresActions.GetDocumentosCompelemtaresSuccess({
                         loaded: {
                             id: 'documentoAvulsoHandle',
                             value: this.routerState.params.documentoAvulsoHandle
@@ -114,7 +116,7 @@ export class DocumentosEffects {
                 ]),
                 catchError((err, caught) => {
                     console.log(err);
-                    this._store.dispatch(new DocumentosActions.GetDocumentosFailed(err));
+                    this._store.dispatch(new DocumentosComplementaresActions.GetDocumentosComplementaresFailed(err));
                     return caught;
                 })
             );

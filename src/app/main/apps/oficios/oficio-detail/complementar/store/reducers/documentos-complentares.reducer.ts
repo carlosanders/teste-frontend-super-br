@@ -1,0 +1,127 @@
+import * as DocumentosComplementaresActions from '../actions/documentos-complementar.actions';
+
+export interface DocumentosComplementaresState {
+    documentosId: number[];
+    documentosLoaded: any;
+    selectedDocumentosId: number[];
+    deletingDocumentoIds: number[];
+    assinandoDocumentoIds: number[];
+    convertendoDocumentoIds: number[];
+    loading: boolean;
+    loaded: boolean;
+}
+
+export const DocumentosComplementaresInitialState: DocumentosComplementaresState = {
+    documentosId: [],
+    documentosLoaded: false,
+    selectedDocumentosId: [],
+    deletingDocumentoIds: [],
+    assinandoDocumentoIds: [],
+    convertendoDocumentoIds: [],
+    loading: false,
+    loaded: false,
+};
+
+export function DocumentosComplementaresReducer(
+    state = DocumentosComplementaresInitialState,
+    action: DocumentosComplementaresActions.DocumentosComplementaresActionsAll
+): DocumentosComplementaresState {
+    switch (action.type) {
+        case DocumentosComplementaresActions.GET_DOCUMENTOS_COMPLEMENTARES_SUCCESS: {
+            return {
+                ...state,
+                documentosId: action.payload.entitiesId,
+                documentosLoaded: action.payload.loaded,
+            };
+        }
+
+        // case DocumentosActions.COMPLETE_DOCUMENTO: {
+        //     return {
+        //         ...state,
+        //         documentosId: [...state.documentosId, action.payload.id],
+        //     };
+        // }
+        //
+        // case DocumentosActions.CONVERTE_DOCUMENTO: {
+        //     return {
+        //         ...state,
+        //         convertendoDocumentoIds: [...state.convertendoDocumentoIds, action.payload],
+        //     };
+        // }
+        //
+        // case DocumentosActions.CONVERTE_DOCUMENTO_SUCESS: {
+        //     return {
+        //         ...state,
+        //         convertendoDocumentoIds: state.convertendoDocumentoIds.filter(id => id !== action.payload),
+        //     };
+        // }
+        //
+        // case DocumentosActions.CONVERTE_DOCUMENTO_FAILED: {
+        //     return {
+        //         ...state,
+        //         convertendoDocumentoIds: state.convertendoDocumentoIds.filter(id => id !== action.payload),
+        //     };
+        // }
+        //
+        // case DocumentosActions.DELETE_DOCUMENTO: {
+        //     return {
+        //         ...state,
+        //         deletingDocumentoIds: [...state.deletingDocumentoIds, action.payload]
+        //     };
+        // }
+        //
+        // case DocumentosActions.DELETE_DOCUMENTO_SUCCESS: {
+        //     return {
+        //         ...state,
+        //         deletingDocumentoIds: state.deletingDocumentoIds.filter(id => id !== action.payload),
+        //         selectedDocumentosId: state.selectedDocumentosId.filter(id => id !== action.payload),
+        //         documentosId: state.documentosId.filter(id => id !== action.payload)
+        //     };
+        // }
+        //
+        // case DocumentosActions.ASSINA_DOCUMENTO: {
+        //     return {
+        //         ...state,
+        //         assinandoDocumentoIds: [...state.assinandoDocumentoIds, action.payload]
+        //     };
+        // }
+        //
+        // case DocumentosActions.ASSINA_DOCUMENTO_SUCCESS: {
+        //     return {
+        //         ...state,
+        //         assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload)
+        //     };
+        // }
+        //
+        // case DocumentosActions.ASSINA_DOCUMENTO_FAILED: {
+        //     return {
+        //         ...state,
+        //         assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload)
+        //     };
+        // }
+        //
+        // case DocumentosActions.CHANGE_SELECTED_DOCUMENTOS: {
+        //     return {
+        //         ...state,
+        //         selectedDocumentosId: action.payload
+        //     };
+        // }
+        //
+        // case DocumentosActions.CONVERTE_DOCUMENTO_SUCESS: {
+        //     return {
+        //         ...state,
+        //         convertendoDocumentoIds: state.convertendoDocumentoIds.filter(id => id !== action.payload),
+        //     };
+        // }
+        //
+        // case DocumentosActions.CONVERTE_DOCUMENTO_FAILED: {
+        //     return {
+        //         ...state,
+        //         convertendoDocumentoIds: state.convertendoDocumentoIds.filter(id => id !== action.payload),
+        //     };
+        // }
+
+        default:
+            return state;
+    }
+}

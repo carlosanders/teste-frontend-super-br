@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 
 import { cdkAnimations } from '@cdk/animations';
-import { Observable, Subject } from 'rxjs';
+import {merge, Observable, Subject} from 'rxjs';
 import { select, Store } from '@ngrx/store';
 
 import * as fromStore from './store';
@@ -37,7 +37,11 @@ export class ComplementarComponent implements OnInit, OnDestroy {
 
     documentoAvulso$: Observable<DocumentoAvulso>;
     documentoAvulso: DocumentoAvulso;
+
     documentos$: Observable<Documento[]>;
+    documentosComplementares$: Observable<Documento[]>;
+
+
     selectedDocumentos$: Observable<Documento[]>;
     oficios: Documento[] = [];
     selectedOficios: Documento[] = [];
@@ -73,6 +77,7 @@ export class ComplementarComponent implements OnInit, OnDestroy {
         this._profile = this._loginService.getUserProfile();
         this.documentoAvulso$ = this._store.pipe(select(getDocumentoAvulso));
         this.documentos$ = this._store.pipe(select(fromStore.getDocumentos));
+        this.documentosComplementares$ = this._store.pipe(select(fromStore.getDocumentosComplementares));
         this.routerState$ = this._store.pipe(select(getRouterState));
 
         this.selectedDocumentos$ = this._store.pipe(select(fromStore.getSelectedDocumentos));
@@ -127,6 +132,15 @@ export class ComplementarComponent implements OnInit, OnDestroy {
         ).subscribe(
             documentos => {
                 this.oficios = documentos;
+                this._changeDetectorRef.markForCheck();
+            }
+        );
+
+        this.documentosComplementares$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(
+            documentosComplementares => {
+                this.oficios = this.oficios.concat(documentosComplementares);
                 this._changeDetectorRef.markForCheck();
             }
         );

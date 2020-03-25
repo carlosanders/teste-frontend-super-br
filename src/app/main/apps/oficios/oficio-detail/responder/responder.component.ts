@@ -1,7 +1,7 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, Input,
+    Component,
     OnDestroy,
     OnInit,
     ViewChild,
@@ -22,6 +22,7 @@ import { DocumentoAvulso, Usuario } from '@cdk/models';
 import { getDocumentoAvulso } from '../store/selectors';
 import { UpdateData } from '@cdk/ngrx-normalizr';
 import { documento as documentoSchema } from '@cdk/normalizr/documento.schema';
+import { getDocumentosComplementares } from '../complementar/store/selectors';
 
 @Component({
     selector: 'responder',
@@ -39,6 +40,7 @@ export class ResponderComponent implements OnInit, OnDestroy {
     documentoAvulso$: Observable<DocumentoAvulso>;
     documentoAvulso: DocumentoAvulso;
     documentos$: Observable<Documento[]>;
+    documentosComplementares$: Observable<Documento[]>;
 
     selectedDocumentos$: Observable<Documento[]>;
     oficios: Documento[] = [];
@@ -83,6 +85,7 @@ export class ResponderComponent implements OnInit, OnDestroy {
         this.deletingDocumentosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosId));
         this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
         this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoDocumentosId));
+        this.documentosComplementares$ = this._store.pipe(select(getDocumentosComplementares));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -157,6 +160,15 @@ export class ResponderComponent implements OnInit, OnDestroy {
         ).subscribe(
             documentos => {
                 this.oficios = documentos;
+                this._changeDetectorRef.markForCheck();
+            }
+        );
+
+        this.documentosComplementares$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(
+            documentosComplementares => {
+                this.oficios = this.oficios.concat(documentosComplementares);
                 this._changeDetectorRef.markForCheck();
             }
         );

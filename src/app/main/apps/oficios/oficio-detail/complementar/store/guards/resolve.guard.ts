@@ -66,6 +66,9 @@ export class ResolveGuard implements CanActivate {
                     this._store.dispatch(new fromStore.GetDocumentos({
                         id: `eq:${this.documentoAvulso.documentoResposta.id}`
                     }));
+                    this._store.dispatch(new fromStore.GetDocumentosComplementares({
+                        'documentoAvulsoComplementacaoResposta.id': `eq:${this.documentoAvulso.id}`
+                    }));
                 }
             }),
             filter((loaded: any) => {
