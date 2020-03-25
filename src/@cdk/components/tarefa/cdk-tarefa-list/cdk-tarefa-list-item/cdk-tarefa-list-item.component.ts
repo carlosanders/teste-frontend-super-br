@@ -136,7 +136,6 @@ export class CdkTarefaListItemComponent implements OnInit {
     * ISSUE-107
     */
     doOpenPanel(): void {
-        this.isOpen = false;
         this.codProcesso.emit(this.tarefa);
     }
 

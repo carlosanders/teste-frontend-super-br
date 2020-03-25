@@ -223,7 +223,8 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
                 ...state,
                 assuntosId: [],
                 assuntoLoading: true,
-                assuntoPanelOpen: false
+                //assuntoPanelOpen: false
+                assuntoPanelOpen: action.payload.tarefa === state.idTarefaToLoadAssuntos
             }
 
 
