@@ -89,7 +89,7 @@ export class EspecieSetorListComponent implements OnInit {
     }
 
     edit(especieSetorId: number): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + especieSetorId]);
+        this._router.navigate([this.routerState.url.replace('listar', 'vincular/') + especieSetorId]);
     }
 
     delete(especieSetorId: number): void {

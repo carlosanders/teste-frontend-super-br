@@ -1,22 +1,22 @@
 import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { AfastamentoEditReducer, AfastamentoEditState } from './afastamento-edit.reducer';
+import { EspecieSetorEditReducer, EspecieSetorEditState } from './especie-setor-edit.reducer';
 
-export interface AfastamentoEditAppState
+export interface EspecieSetorEditAppState
 {
-    afastamento: AfastamentoEditState;
+    especieSetor: EspecieSetorEditState;
 }
 
-export const getAfastamentoEditAppState = createFeatureSelector<AfastamentoEditAppState>(
+export const getEspecieSetorEditAppState = createFeatureSelector<EspecieSetorEditAppState>(
     'coordenador-especie-setor-edit-app'
 );
 
 export const getAppState = createSelector(
-    getAfastamentoEditAppState,
-    (state: AfastamentoEditAppState) => state
+    getEspecieSetorEditAppState,
+    (state: EspecieSetorEditAppState) => state
 );
 
-export const reducers: ActionReducerMap<AfastamentoEditAppState> = {
-    afastamento: AfastamentoEditReducer
+export const reducers: ActionReducerMap<EspecieSetorEditAppState> = {
+    especieSetor: EspecieSetorEditReducer
 };
 
-export * from './afastamento-edit.reducer';
+export * from './especie-setor-edit.reducer';

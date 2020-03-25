@@ -1,65 +1,65 @@
-import * as AfastamentoEditActions from '../actions/afastamento-edit.actions';
+import * as EspecieSetorEditActions from '../actions/especie-setor-edit.actions';
 
-export interface AfastamentoEditState {
-    afastamentoId: number;
+export interface EspecieSetorEditState {
+    especieSetorId: number;
     saving: boolean;
     errors: any;
     loading: boolean;
     loaded: any;
 }
 
-export const AfastamentoEditInitialState: AfastamentoEditState = {
-    afastamentoId: null,
+export const EspecieSetorEditInitialState: EspecieSetorEditState = {
+    especieSetorId: null,
     saving: false,
     errors: false,
     loading: false,
     loaded: false
 };
 
-export function AfastamentoEditReducer(
-    state = AfastamentoEditInitialState,
-    action: AfastamentoEditActions.AfastamentoEditActionsAll
-): AfastamentoEditState {
+export function EspecieSetorEditReducer(
+    state = EspecieSetorEditInitialState,
+    action: EspecieSetorEditActions.EspecieSetorEditActionsAll
+): EspecieSetorEditState {
     switch (action.type) {
 
-        case AfastamentoEditActions.GET_AFASTAMENTO: {
+        case EspecieSetorEditActions.GET_ESPECIE_SETOR: {
             return {
                 ...state,
-                afastamentoId: null,
+                especieSetorId: null,
                 loading: true
             };
         }
 
-        case AfastamentoEditActions.GET_AFASTAMENTO_SUCCESS: {
+        case EspecieSetorEditActions.GET_ESPECIE_SETOR_SUCCESS: {
 
             return {
                 ...state,
-                afastamentoId: action.payload.afastamentoId,
+                especieSetorId: action.payload.especieSetorId,
                 loaded: action.payload.loaded,
                 loading: false
             };
         }
 
-        case AfastamentoEditActions.CREATE_AFASTAMENTO: {
+        case EspecieSetorEditActions.CREATE_ESPECIE_SETOR: {
             return {
                 ...state,
-                afastamentoId: null,
+                especieSetorId: null,
                 loaded: {
-                    id: 'afastamentoHandle',
+                    id: 'especieSetorHandle',
                     value: 'criar'
                 },
                 loading: false
             };
         }
 
-        case AfastamentoEditActions.GET_AFASTAMENTO_FAILED: {
+        case EspecieSetorEditActions.GET_ESPECIE_SETOR_FAILED: {
             return {
                 ...state,
                 loading: false
             };
         }
 
-        case AfastamentoEditActions.SAVE_AFASTAMENTO: {
+        case EspecieSetorEditActions.SAVE_ESPECIE_SETOR: {
             return {
                 ...state,
                 saving: true,
@@ -67,7 +67,7 @@ export function AfastamentoEditReducer(
             };
         }
 
-        case AfastamentoEditActions.SAVE_AFASTAMENTO_SUCCESS: {
+        case EspecieSetorEditActions.SAVE_ESPECIE_SETOR_SUCCESS: {
             return {
                 ...state,
                 saving: false,
@@ -75,7 +75,7 @@ export function AfastamentoEditReducer(
             };
         }
 
-        case AfastamentoEditActions.SAVE_AFASTAMENTO_FAILED: {
+        case EspecieSetorEditActions.SAVE_ESPECIE_SETOR_FAILED: {
             return {
                 ...state,
                 saving: false,

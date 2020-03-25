@@ -13,13 +13,13 @@ import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
 import {Pagination} from '@cdk/models/pagination';
-import {Afastamento, Usuario} from '@cdk/models';
+import {EspecieSetor, Modelo, Usuario} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Router} from '@angular/router';
 import {getRouterState} from 'app/store/reducers';
 
 @Component({
-    selector: 'afastamento-edit',
+    selector: 'especie-setor-edit',
     templateUrl: './especie-setor-edit.component.html',
     styleUrls: ['./especie-setor-edit.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -29,13 +29,13 @@ import {getRouterState} from 'app/store/reducers';
 export class EspecieSetorEditComponent implements OnInit, OnDestroy {
 
     routerState: any;
-    afastamento$: Observable<Afastamento>;
-    afastamento: Afastamento;
+    especieSetor$: Observable<EspecieSetor>;
+    especieSetor: EspecieSetor;
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
     usuario: Usuario;
-    usuario$: Observable<Usuario>;
-    modalidadeAfastamentoPagination: Pagination;
+    modelo$: Observable<Modelo>;
+    especieSetorPagination: Pagination;
 
     /**
      *
@@ -44,14 +44,14 @@ export class EspecieSetorEditComponent implements OnInit, OnDestroy {
      * @param _loginService
      */
     constructor(
-        private _store: Store<fromStore.AfastamentoEditAppState>,
+        private _store: Store<fromStore.EspecieSetorEditAppState>,
         private _router: Router,
         private _loginService: LoginService
     ) {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
-        this.afastamento$ = this._store.pipe(select(fromStore.getAfastamento));
-        this.usuario$ = this._store.pipe(select(fromStore.getUsuario));
+        this.especieSetor$ = this._store.pipe(select(fromStore.getEspecieSetor));
+        this.modelo$ = this._store.pipe(select(fromStore.getModelo));
         this.usuario = this._loginService.getUserProfile();
 
         this._store
@@ -62,9 +62,9 @@ export class EspecieSetorEditComponent implements OnInit, OnDestroy {
                 }
             });
 
-        this.modalidadeAfastamentoPagination = new Pagination();
+        this.especieSetorPagination = new Pagination();
 
-        this.modalidadeAfastamentoPagination.populate = ['populateAll'];
+        this.especieSetorPagination.populate = ['populateAll'];
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -76,12 +76,12 @@ export class EspecieSetorEditComponent implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
 
-        this.afastamento$.subscribe(
-            afastamento => this.afastamento = afastamento
+        this.especieSetor$.subscribe(
+            especieSetor => this.especieSetor = especieSetor
         );
 
-        if (!this.afastamento) {
-            this.afastamento = new Afastamento();
+        if (!this.especieSetor) {
+            this.especieSetor = new EspecieSetor();
         }
     }
 
@@ -97,14 +97,14 @@ export class EspecieSetorEditComponent implements OnInit, OnDestroy {
 
     submit(values): void {
 
-        const afastamento = new Afastamento();
+        const especieSetor = new EspecieSetor();
         Object.entries(values).forEach(
             ([key, value]) => {
-                afastamento[key] = value;
+                especieSetor[key] = value;
             }
         );
 
-        this._store.dispatch(new fromStore.SaveAfastamento(afastamento));
+        this._store.dispatch(new fromStore.SaveEspecieSetor(especieSetor));
 
     }
 

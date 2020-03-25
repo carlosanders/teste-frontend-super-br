@@ -53,6 +53,9 @@ export class CdkAtividadeFormComponent implements OnInit, OnChanges, OnDestroy {
     valid = true;
 
     @Input()
+    destinacaoMinutas = 'juntar';
+
+    @Input()
     errors: any;
 
     @Input()
@@ -140,7 +143,7 @@ export class CdkAtividadeFormComponent implements OnInit, OnChanges, OnDestroy {
      */
     ngOnInit(): void {
 
-        this.form.get('destinacaoMinutas').setValue('juntar');
+        this.form.get('destinacaoMinutas').setValue(this.destinacaoMinutas);
 
         this.form.get('unidadeAprovacao').disable();
         this.form.get('setorAprovacao').disable();
@@ -206,6 +209,7 @@ export class CdkAtividadeFormComponent implements OnInit, OnChanges, OnDestroy {
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
         if (changes['atividade'] && this.atividade && (!this.atividade.id || (this.atividade.id !== this.form.get('id').value))) {
             this.form.patchValue({...this.atividade});
+            this.form.get('destinacaoMinutas').setValue(this.destinacaoMinutas);
         }
 
         if (this.errors && this.errors.status && (this.errors.status === 400 || this.errors.status === 422)) {

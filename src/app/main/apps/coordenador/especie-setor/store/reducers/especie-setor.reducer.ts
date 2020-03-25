@@ -1,7 +1,7 @@
 import * as EspecieSetorActions from '../actions/especie-setor.actions';
 
 export interface EspecieSetorState {
-    usuarioId: number;
+    modeloId: number;
     errors: any;
     loading: boolean;
     loaded: any;

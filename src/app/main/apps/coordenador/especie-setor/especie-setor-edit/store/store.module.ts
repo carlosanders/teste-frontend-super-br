@@ -12,6 +12,6 @@ import { effects } from './effects';
     ],
     providers: []
 })
-export class CoordenadorAfastamentoEditStoreModule
+export class CoordenadorEspecieSetorEditStoreModule
 {
 }

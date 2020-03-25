@@ -56,12 +56,10 @@ export class EspecieSetorComponent implements OnInit, OnDestroy {
                 if (this.routerState.url.indexOf('especie-setor/listar') > -1) {
                     this.action = 'listar';
                 }
-                if (this.routerState.url.indexOf('especie-setor/editar') > -1) {
-                    this.action = 'editar';
+                if (this.routerState.url.indexOf('especie-setor/vincular') > -1) {
+                    this.action = 'vincular';
                 }
-                if (this.routerState.url.indexOf('especie-setor/editar/criar') > -1) {
-                    this.action = 'criar';
-                }
+
                 this._changeDetectorRef.markForCheck();
             }
         });
@@ -78,19 +76,15 @@ export class EspecieSetorComponent implements OnInit, OnDestroy {
     getTitulo(): string {
         if (this.action === 'listar') {
             return 'Espécie Setor';
-        } else if (this.action === 'criar') {
-            return 'Novo Espécie Setor';
-        } else if (this.action === 'editar') {
-            return 'Alterar Espécie Setor';
+        } else if (this.action === 'vincular') {
+            return 'Vincular Espécie Setor';
         }
     }
 
     goBack(): void {
-        if (this.action === 'editar') {
-            this._router.navigate([this.routerState.url.replace(('editar/' + this.routerState.params.especieSetorHandle), 'listar')]).then();
-        }
-        if (this.action === 'criar') {
-            this._router.navigate([this.routerState.url.replace('editar/criar', 'listar')]).then();
+
+        if (this.action === 'vincular') {
+            this._router.navigate([this.routerState.url.replace('vincular', 'listar')]).then();
         }
     }
 }

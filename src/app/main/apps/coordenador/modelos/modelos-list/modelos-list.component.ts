@@ -88,7 +88,7 @@ export class ModelosListComponent implements OnInit {
     }
 
     especieSetores(modeloId: number): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'especie-setor/') + modeloId]);
+        this._router.navigate([this.routerState.url.replace('listar', `${modeloId}/especie-setor`)]);
     }
 
     delete(modeloId: number): void {

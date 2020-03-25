@@ -33,7 +33,7 @@ const routes: Routes = [
                 loadChildren: () => import('./especie-setor-list/especie-setor-list.module').then(m => m.EspecieSetorListModule),
             },
             {
-                path       : 'editar',
+                path       : 'vincular',
                 loadChildren: () => import('./especie-setor-edit/especie-setor-edit.module').then(m => m.EspecieSetorEditModule),
             },
             {

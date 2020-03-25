@@ -1,7 +1,7 @@
-import { AfastamentoEditEffects } from './afastamento-edit.effects';
+import { EspecieSetorEditEffects } from './especie-setor-edit.effects';
 
 export const effects = [
-    AfastamentoEditEffects
+    EspecieSetorEditEffects
 ];
 
-export * from './afastamento-edit.effects';
+export * from './especie-setor-edit.effects';

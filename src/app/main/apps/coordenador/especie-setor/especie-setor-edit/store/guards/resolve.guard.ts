@@ -6,7 +6,7 @@ import {select, Store} from '@ngrx/store';
 import {Observable, of} from 'rxjs';
 import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
 
-import {AfastamentoEditAppState} from '../reducers';
+import {EspecieSetorEditAppState} from '../reducers';
 import * as fromStore from '../';
 import {getHasLoaded} from '../selectors';
 import {getRouterState} from 'app/store/reducers';
@@ -19,10 +19,10 @@ export class ResolveGuard implements CanActivate {
     /**
      * Constructor
      *
-     * @param {Store<AfastamentoEditAppState>} _store
+     * @param {Store<EspecieSetorEditAppState>} _store
      */
     constructor(
-        private _store: Store<AfastamentoEditAppState>
+        private _store: Store<EspecieSetorEditAppState>
     ) {
         this._store
             .pipe(select(getRouterState))
@@ -41,27 +41,27 @@ export class ResolveGuard implements CanActivate {
      * @returns {Observable<boolean>}
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-        return this.getAfastamento().pipe(
+        return this.getEspecieSetor().pipe(
             switchMap(() => of(true)),
             catchError(() => of(false))
         );
     }
 
     /**
-     * Get Afastamento
+     * Get EspecieSetor
      *
      * @returns {Observable<any>}
      */
-    getAfastamento(): any {
+    getEspecieSetor(): any {
         return this._store.pipe(
             select(getHasLoaded),
             tap((loaded: any) => {
                 if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
-                    if (this.routerState.params['afastamentoHandle'] === 'criar') {
-                        this._store.dispatch(new fromStore.CreateAfastamento());
+                    if (this.routerState.params['especieSetorHandle'] === 'criar') {
+                        this._store.dispatch(new fromStore.CreateEspecieSetor());
                     } else {
-                        this._store.dispatch(new fromStore.GetAfastamento({
-                            id: 'eq:' + this.routerState.params['afastamentoHandle']
+                        this._store.dispatch(new fromStore.GetEspecieSetor({
+                            id: 'eq:' + this.routerState.params['especieSetorHandle']
                         }));
                     }
 

@@ -20,16 +20,16 @@ import {CdkSidebarModule} from '@cdk/components';
 
 import {EspecieSetorEditComponent} from './especie-setor-edit.component';
 import {RouterModule, Routes} from '@angular/router';
-import {CoordenadorAfastamentoEditStoreModule} from './store/store.module';
-import {AfastamentoService} from '@cdk/services/afastamento.service';
+import {CoordenadorEspecieSetorEditStoreModule} from './store/store.module';
+import {EspecieSetorService} from '@cdk/services/especie-setor.service';
 
 import * as fromGuards from './store/guards';
 import {LoginService} from '../../../../auth/login/login.service';
-import {CdkAfastamentoFormModule} from '@cdk/components/afastamento/cdk-afastamento-form/cdk-afastamento-form.module';
+import {CdkModeloVinculacaoEspecieSetorModule} from '@cdk/components/modelo/cdk-modelo-vinculacao-especie-setor/cdk-modelo-vinculacao-especie-setor.module';
 
 const routes: Routes = [
     {
-        path: ':afastamentoHandle',
+        path: ':especieSetorHandle',
         component: EspecieSetorEditComponent,
         canActivate: [fromGuards.ResolveGuard]
     }
@@ -57,16 +57,16 @@ const routes: Routes = [
         MatDatepickerModule,
         MatTooltipModule,
 
-        CoordenadorAfastamentoEditStoreModule,
+        CoordenadorEspecieSetorEditStoreModule,
 
         TranslateModule,
 
         CdkSharedModule,
         CdkSidebarModule,
-        CdkAfastamentoFormModule,
+        CdkModeloVinculacaoEspecieSetorModule,
     ],
     providers: [
-        AfastamentoService,
+        EspecieSetorService,
         LoginService,
         fromGuards.ResolveGuard
     ]

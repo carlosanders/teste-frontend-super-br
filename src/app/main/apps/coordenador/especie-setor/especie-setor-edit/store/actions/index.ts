@@ -1,1 +1,1 @@
-export * from './afastamento-edit.actions';
+export * from './especie-setor-edit.actions';
