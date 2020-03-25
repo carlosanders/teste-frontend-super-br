@@ -23,7 +23,8 @@
                        formControlName="modalidadeFolder"
                        [matAutocomplete]="modalidadeFolder.autocomplete">
             </div>
-            <cdk-modalidade-folder-autocomplete #modalidadeFolder="modalidadeFolderAutocomplete" [control]="form.get('modalidadeFolder')">
+            <cdk-modalidade-folder-autocomplete #modalidadeFolder="modalidadeFolderAutocomplete"
+                                                [control]="form.get('modalidadeFolder')">
             </cdk-modalidade-folder-autocomplete>
         </mat-form-field>
 
@@ -80,13 +81,14 @@
             </mat-datetimepicker>
         </mat-form-field>
 
-        <button mat-raised-button color="accent" class="mr-sm-12" (click)="buscar()">
-            Buscar
-        </button>
+        <div fxFlex="0 1 auto" fxLayoutAlign="center center">
+            <button mat-raised-button color="accent" class="mr-sm-12" (click)="buscar()">
+                Buscar
+            </button>
 
-        <button mat-raised-button color="warn" class="mr-sm-12" (click)="limpar()">
-            Limpar
-        </button>
-
+            <button mat-raised-button color="warn" class="mr-sm-12" (click)="limpar()">
+                Limpar
+            </button>
+        </div>
     </div>
 </form>

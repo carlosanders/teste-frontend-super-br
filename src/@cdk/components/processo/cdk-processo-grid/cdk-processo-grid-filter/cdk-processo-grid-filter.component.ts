@@ -424,31 +424,22 @@ export class CdkProcessoGridFilterComponent implements OnInit {
         });
     }
 
-    validaBusca(): boolean {
-        return true;
-    }
-
     emite(): void {
-        if (this.mode === 'list') {
-            const request = {
-                filters: this.filters
-            };
-            this.selected.emit(request);
-        }
-    }
-
-    buscar(): void {
         const request = {
-            filters: this.filters,
-            contexto: this.contexto
+            filters: this.filters
         };
         this.selected.emit(request);
     }
 
+    buscar(): void {
+        this.emite();
+        this._cdkSidebarService.getSidebar('cdk-processo-main-sidebar').close();
+    }
+
     limpar(): void {
         this.filters = {};
-        this.contexto = {};
         this.emite();
         this.form.reset();
+        this._cdkSidebarService.getSidebar('cdk-processo-main-sidebar').close();
     }
 }

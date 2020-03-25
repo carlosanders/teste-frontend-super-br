@@ -47,7 +47,7 @@
             </button>
 
             <button class="toggle-filter" mat-icon-button
-                    [ngClass]="{'warn': (gridFilter | json) != '{}'}"
+                    [ngClass]="{'warn': !(gridFilter | json).includes('{}')}"
                     (click)="toggleFilter()"
                     aria-label="filtrar"
                     matTooltip="Filtrar">

@@ -59,7 +59,8 @@
                        formControlName="especieDocumentoAvulso"
                        [matAutocomplete]="especieDocumentoAvulso.autocomplete">
             </div>
-            <cdk-especie-documento-avulso-autocomplete #especieDocumentoAvulso="especieDocumentoAvulsoAutocomplete" [control]="form.get('especieDocumentoAvulso')">
+            <cdk-especie-documento-avulso-autocomplete #especieDocumentoAvulso="especieDocumentoAvulsoAutocomplete"
+                                                       [control]="form.get('especieDocumentoAvulso')">
             </cdk-especie-documento-avulso-autocomplete>
         </mat-form-field>
 
@@ -163,15 +164,15 @@
             </cdk-setor-autocomplete>
         </mat-form-field>
 
-<!--        <mat-form-field fxFlex="100">-->
-<!--            <div fxLayout="row" fxLayoutAlign="start center">-->
-<!--                <input matInput placeholder="Processo"-->
-<!--                       formControlName="processo"-->
-<!--                       [matAutocomplete]="processo.autocomplete">-->
-<!--            </div>-->
-<!--            <cdk-processo-autocomplete #processo="processoAutocomplete" [control]="form.get('processo')">-->
-<!--            </cdk-processo-autocomplete>-->
-<!--        </mat-form-field>-->
+        <!--        <mat-form-field fxFlex="100">-->
+        <!--            <div fxLayout="row" fxLayoutAlign="start center">-->
+        <!--                <input matInput placeholder="Processo"-->
+        <!--                       formControlName="processo"-->
+        <!--                       [matAutocomplete]="processo.autocomplete">-->
+        <!--            </div>-->
+        <!--            <cdk-processo-autocomplete #processo="processoAutocomplete" [control]="form.get('processo')">-->
+        <!--            </cdk-processo-autocomplete>-->
+        <!--        </mat-form-field>-->
 
         <mat-form-field fxFlex="100">
             <div fxLayout="row" fxLayoutAlign="start center">
@@ -179,7 +180,8 @@
                        formControlName="documentoAvulsoOrigem"
                        [matAutocomplete]="documentoAvulso.autocomplete">
             </div>
-            <cdk-documento-avulso-autocomplete #documentoAvulso="documentoAvulsoAutocomplete" [control]="form.get('documentoAvulsoOrigem')">
+            <cdk-documento-avulso-autocomplete #documentoAvulso="documentoAvulsoAutocomplete"
+                                               [control]="form.get('documentoAvulsoOrigem')">
             </cdk-documento-avulso-autocomplete>
         </mat-form-field>
 
@@ -236,13 +238,14 @@
             </mat-datetimepicker>
         </mat-form-field>
 
-        <button mat-raised-button color="accent" class="mr-sm-12" (click)="buscar()">
-            Buscar
-        </button>
+        <div fxFlex="0 1 auto" fxLayoutAlign="center center">
+            <button mat-raised-button color="accent" class="mr-sm-12" (click)="buscar()">
+                Buscar
+            </button>
 
-        <button mat-raised-button color="warn" class="mr-sm-12" (click)="limpar()">
-            Limpar
-        </button>
-
+            <button mat-raised-button color="warn" class="mr-sm-12" (click)="limpar()">
+                Limpar
+            </button>
+        </div>
     </div>
 </form>

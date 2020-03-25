@@ -142,7 +142,8 @@
                        formControlName="especieSetor"
                        [matAutocomplete]="especieSetor.autocomplete">
             </div>
-            <cdk-especie-setor-autocomplete #especieSetor="especieSetorAutocomplete" [control]="form.get('especieSetor')">
+            <cdk-especie-setor-autocomplete #especieSetor="especieSetorAutocomplete"
+                                            [control]="form.get('especieSetor')">
             </cdk-especie-setor-autocomplete>
         </mat-form-field>
 
@@ -152,7 +153,8 @@
                        formControlName="modalidadeOrgaoCentral"
                        [matAutocomplete]="modalidadeOrgaoCentral.autocomplete">
             </div>
-            <cdk-modalidade-orgao-central-autocomplete #modalidadeOrgaoCentral="modalidadeOrgaoCentralAutocomplete" [control]="form.get('modalidadeOrgaoCentral')">
+            <cdk-modalidade-orgao-central-autocomplete #modalidadeOrgaoCentral="modalidadeOrgaoCentralAutocomplete"
+                                                       [control]="form.get('modalidadeOrgaoCentral')">
             </cdk-modalidade-orgao-central-autocomplete>
         </mat-form-field>
 
@@ -199,13 +201,14 @@
             </mat-datetimepicker>
         </mat-form-field>
 
-        <button mat-raised-button color="accent" class="mr-sm-12" (click)="buscar()">
-            Buscar
-        </button>
+        <div fxFlex="0 1 auto" fxLayoutAlign="center center">
+            <button mat-raised-button color="accent" class="mr-sm-12" (click)="buscar()">
+                Buscar
+            </button>
 
-        <button mat-raised-button color="warn" class="mr-sm-12" (click)="limpar()">
-            Limpar
-        </button>
-
+            <button mat-raised-button color="warn" class="mr-sm-12" (click)="limpar()">
+                Limpar
+            </button>
+        </div>
     </div>
 </form>

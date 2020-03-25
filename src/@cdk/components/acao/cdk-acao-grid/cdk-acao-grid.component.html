@@ -44,7 +44,7 @@
                 <mat-icon>refresh</mat-icon>
             </button>
 
-            <button *ngIf="mode === 'list'" class="toggle-filter" [ngClass]="{'warn': (gridFilter | json) != '{}'}"
+            <button *ngIf="mode === 'list'" class="toggle-filter" [ngClass]="{'warn': !(gridFilter | json).includes('{}')}"
                     (click)="toggleFilter()"
                     aria-label="filtrar"
                     matTooltip="Filtrar">

@@ -16,7 +16,7 @@
 
         <mat-form-field fxFlex="100">
             <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="XXX"
+                <input matInput placeholder="Etiqueta"
                        formControlName="Etiqueta"
                        [matAutocomplete]="etiqueta.autocomplete">
             </div>
@@ -116,13 +116,14 @@
             </mat-datetimepicker>
         </mat-form-field>
 
-        <button mat-raised-button color="accent" class="mr-sm-12" (click)="buscar()">
-            Buscar
-        </button>
+        <div fxFlex="0 1 auto" fxLayoutAlign="center center">
+            <button mat-raised-button color="accent" class="mr-sm-12" (click)="buscar()">
+                Buscar
+            </button>
 
-        <button mat-raised-button color="warn" class="mr-sm-12" (click)="limpar()">
-            Limpar
-        </button>
-
+            <button mat-raised-button color="warn" class="mr-sm-12" (click)="limpar()">
+                Limpar
+            </button>
+        </div>
     </div>
 </form>
