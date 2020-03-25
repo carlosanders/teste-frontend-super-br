@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from '@angular/router';
+import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
 
 import {select, Store} from '@ngrx/store';
 
@@ -25,10 +25,12 @@ export class ResolveGuard implements CanActivate {
      *
      * @param _store
      * @param _loginService
+     * @param _router
      */
     constructor(
         private _store: Store<ArquivistaAppState>,
         private _loginService: LoginService,
+        private _router: Router
     ) {
         this._store
             .pipe(select(getRouterState))
@@ -37,8 +39,8 @@ export class ResolveGuard implements CanActivate {
                     this.routerState = routerState.state;
                 }
             });
-
         this._profile = _loginService.getUserProfile();
+        this.checkRole();
     }
 
     /**
@@ -55,7 +57,18 @@ export class ResolveGuard implements CanActivate {
         );
     }
 
+    checkRole(): any {
+        if (this._profile.roles.filter(this.isArquivista).length === 0) {
+            this._router.navigate([
+                'apps/painel']
+            ).then();
+        }
+    }
 
+    isArquivista(role): any {
+        return role === 'ROLE_ARQUIVISTA_3';
+    }
+    
     /**
      * Get Processos
      *
@@ -95,7 +108,7 @@ export class ResolveGuard implements CanActivate {
                     let processoFilter = {};
 
 
-                    this.currentDate =  moment().format('YYYY-m-d[T]H:mm:ss');
+                    this.currentDate = moment().format('YYYY-m-d[T]H:mm:ss');
 
                     if (this.routerState.params[typeParam] === 'pronto-transicao') {
                         processoFilter = {
@@ -132,7 +145,7 @@ export class ResolveGuard implements CanActivate {
                 // });
                 if (!this.routerState.params['unidadeHandle'] || !this.routerState.params['typeHandle'] ||
 
-                    (this.routerState.params['unidadeHandle'] + '_' + this.routerState.params['typeHandle'] ) !==
+                    (this.routerState.params['unidadeHandle'] + '_' + this.routerState.params['typeHandle']) !==
                     loaded.value) {
                     this._store.dispatch(new fromStore.GetProcessos(params));
 
