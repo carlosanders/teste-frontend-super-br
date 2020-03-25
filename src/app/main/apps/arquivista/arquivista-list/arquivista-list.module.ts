@@ -22,7 +22,6 @@ const routes: Routes = [
     {
         path: '',
         component: ArquivistaListComponent,
-        canActivate: [fromGuards.ResolveGuard],
         children: [
             {
                 path: '',
@@ -45,6 +44,7 @@ const routes: Routes = [
                 loadChildren: () => import('../arquivista-classificacao-bloco/arquivista-classificacao-bloco.module').then(m => m.ArquivistaClassificacaoBlocoModule)
             }
         ],
+        canActivate: [fromGuards.ResolveGuard]
     }
 ];
 
