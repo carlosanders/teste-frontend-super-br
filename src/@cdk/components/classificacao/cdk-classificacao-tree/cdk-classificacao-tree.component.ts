@@ -17,6 +17,7 @@ export class FlatNode {
     children?: ClassificacaoNode[];
     selected?: boolean;
     visible?: boolean;
+    hasChild: boolean;
 
     constructor(
         public isLoading = false
@@ -46,6 +47,7 @@ export class CdkClassificacaoTreeComponent {
         });
         this.activeCard = 'form';
         this.loadForms();
+
     }
 
     @Input()
@@ -91,7 +93,7 @@ export class CdkClassificacaoTreeComponent {
     getLevel = (node: FlatNode) => node.level;
     isExpandable = (node: FlatNode) => node.expandable;
     getChildren = (node: ClassificacaoNode): ClassificacaoNode[] => node.children;
-    hasChild = (_: number, nodeData: FlatNode) => nodeData.children.length >= 0;
+    hasChild = (_: number, nodeData: FlatNode) => nodeData.hasChild == true;
 
     transformer = (node: ClassificacaoNode, level: number) => {
         const existingNode = this.nestedNodeMap.get(node);
@@ -103,11 +105,11 @@ export class CdkClassificacaoTreeComponent {
         flatNode.children = node.children;
         flatNode.level = level;
         flatNode.expandable = !!node.children;
+        flatNode.hasChild = node.hasChild;
         this.flatNodeMap.set(flatNode, node);
         this.nestedNodeMap.set(node, flatNode);
         return flatNode;
     };
-
 
     /**
      *
@@ -216,6 +218,7 @@ export class CdkClassificacaoTreeComponent {
             classificacaoItem.id = value.id;
             classificacaoItem.name = value.nome;
             classificacaoItem.children = [];
+            classificacaoItem.hasChild = value.hasChild;
             arrayClassificoes.push(classificacaoItem);
         });
         return arrayClassificoes;
