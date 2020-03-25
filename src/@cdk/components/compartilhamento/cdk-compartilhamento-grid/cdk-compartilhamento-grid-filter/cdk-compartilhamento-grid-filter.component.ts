@@ -1,13 +1,12 @@
 import {
     ChangeDetectionStrategy,
-    ChangeDetectorRef,
     Component, EventEmitter,
     OnInit, Output,
     ViewEncapsulation
 } from '@angular/core';
-
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
+import {CdkSidebarService} from '../../../sidebar/sidebar.service';
 
 @Component({
     selector: 'cdk-compartilhamento-grid-filter',
@@ -30,9 +29,9 @@ export class CdkCompartilhamentoGridFilterComponent implements OnInit {
      * Constructor
      */
     constructor(
-        private _formBuilder: FormBuilder
+        private _formBuilder: FormBuilder,
+        private _cdkSidebarService: CdkSidebarService,
     ) {
-
         this.form = this._formBuilder.group({
             tarefa: [null],
             processo: [null],
@@ -45,7 +44,6 @@ export class CdkCompartilhamentoGridFilterComponent implements OnInit {
             apagadoPor: [null],
             apagadoEm: [null],
         });
-
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -62,10 +60,8 @@ export class CdkCompartilhamentoGridFilterComponent implements OnInit {
                     ...this.filters,
                     analista: `eq:${value}`
                 };
-                this.selected.emit(this.filters);
             }
         });
-
 
         this.form.get('tarefa').valueChanges.subscribe(value => {
             if (value !== null) {
@@ -74,14 +70,10 @@ export class CdkCompartilhamentoGridFilterComponent implements OnInit {
                         ...this.filters,
                         'tarefa.id': `eq:${value.id}`
                     };
-                    this.selected.emit(this.filters);
                 } else {
                     if (this.filters.hasOwnProperty('tarefa.id')) {
                         delete this.filters['tarefa.id'];
                     }
-                }
-                if (!value) {
-                    this.selected.emit(this.filters);
                 }
             }
         });
@@ -93,14 +85,10 @@ export class CdkCompartilhamentoGridFilterComponent implements OnInit {
                         ...this.filters,
                         'processo.id': `eq:${value.id}`
                     };
-                    this.selected.emit(this.filters);
                 } else {
                     if (this.filters.hasOwnProperty('processo.id')) {
                         delete this.filters['processo.id'];
                     }
-                }
-                if (!value) {
-                    this.selected.emit(this.filters);
                 }
             }
         });
@@ -112,14 +100,10 @@ export class CdkCompartilhamentoGridFilterComponent implements OnInit {
                         ...this.filters,
                         'usuario.id': `eq:${value.id}`
                     };
-                    this.selected.emit(this.filters);
                 } else {
                     if (this.filters.hasOwnProperty('usuario.id')) {
                         delete this.filters['usuario.id'];
                     }
-                }
-                if (!value) {
-                    this.selected.emit(this.filters);
                 }
             }
         });
@@ -130,10 +114,8 @@ export class CdkCompartilhamentoGridFilterComponent implements OnInit {
                     ...this.filters,
                     criadoEm: `eq:${value}`
                 };
-                this.selected.emit(this.filters);
             }
         });
-
 
         this.form.get('atualizadoEm').valueChanges.subscribe(value => {
             if (value !== null) {
@@ -141,10 +123,8 @@ export class CdkCompartilhamentoGridFilterComponent implements OnInit {
                     ...this.filters,
                     atualizadoEm: `eq:${value}`
                 };
-                this.selected.emit(this.filters);
             }
         });
-
 
         this.form.get('apagadoEm').valueChanges.subscribe(value => {
             if (value !== null) {
@@ -152,10 +132,8 @@ export class CdkCompartilhamentoGridFilterComponent implements OnInit {
                     ...this.filters,
                     apagadoEm: `eq:${value}`
                 };
-                this.selected.emit(this.filters);
             }
         });
-
 
         this.form.get('criadoPor').valueChanges.subscribe(value => {
             if (value !== null) {
@@ -164,14 +142,10 @@ export class CdkCompartilhamentoGridFilterComponent implements OnInit {
                         ...this.filters,
                         'criadoPor.id': `eq:${value.id}`
                     };
-                    this.selected.emit(this.filters);
                 } else {
                     if (this.filters.hasOwnProperty('criadoPor.id')) {
                         delete this.filters['criadoPor.id'];
                     }
-                }
-                if (!value) {
-                    this.selected.emit(this.filters);
                 }
             }
         });
@@ -183,14 +157,10 @@ export class CdkCompartilhamentoGridFilterComponent implements OnInit {
                         ...this.filters,
                         'atualizadoPor.id': `eq:${value.id}`
                     };
-                    this.selected.emit(this.filters);
                 } else {
                     if (this.filters.hasOwnProperty('atualizadoPor.id')) {
                         delete this.filters['atualizadoPor.id'];
                     }
-                }
-                if (!value) {
-                    this.selected.emit(this.filters);
                 }
             }
         });
@@ -202,24 +172,32 @@ export class CdkCompartilhamentoGridFilterComponent implements OnInit {
                         ...this.filters,
                         'apagadoPor.id': `eq:${value.id}`
                     };
-                    this.selected.emit(this.filters);
                 } else {
                     if (this.filters.hasOwnProperty('apagadoPor.id')) {
                         delete this.filters['apagadoPor.id'];
                     }
                 }
-                if (!value) {
-                    this.selected.emit(this.filters);
-                }
             }
         });
     }
 
-    limpar(): void {
-        this.filters = {};
-        this.selected.emit(this.filters);
-        this.form.reset();
+    emite(): void {
+        const request = {
+            filters: this.filters
+        };
+        this.selected.emit(request);
     }
 
+    buscar(): void {
+        this.emite();
+        this._cdkSidebarService.getSidebar('cdk-compartilhamento-main-sidebar').close();
+    }
+
+    limpar(): void {
+        this.filters = {};
+        this.emite();
+        this.form.reset();
+        this._cdkSidebarService.getSidebar('cdk-compartilhamento-main-sidebar').close();
+    }
 }
 

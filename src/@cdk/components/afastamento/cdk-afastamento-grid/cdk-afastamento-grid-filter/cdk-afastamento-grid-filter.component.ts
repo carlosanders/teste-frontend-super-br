@@ -4,10 +4,10 @@ import {
     OnInit, Output,
     ViewEncapsulation
 } from '@angular/core';
-
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {Pagination} from '@cdk/models';
+import {CdkSidebarService} from '../../../sidebar/sidebar.service';
 
 @Component({
     selector: 'cdk-afastamento-grid-filter',
@@ -33,9 +33,9 @@ export class CdkAfastamentoGridFilterComponent implements OnInit {
      * Constructor
      */
     constructor(
-        private _formBuilder: FormBuilder
+        private _formBuilder: FormBuilder,
+        private _cdkSidebarService: CdkSidebarService,
     ) {
-
         this.form = this._formBuilder.group({
             modalidadeAfastamento: [null],
             colaborador: [null],
@@ -68,7 +68,6 @@ export class CdkAfastamentoGridFilterComponent implements OnInit {
                     ...this.filters,
                     dataInicio: `eq:${value}`
                 };
-                this.selected.emit(this.filters);
             }
         });
 
@@ -78,7 +77,6 @@ export class CdkAfastamentoGridFilterComponent implements OnInit {
                     ...this.filters,
                     dataInicioBloqueio: `eq:${value}`
                 };
-                this.selected.emit(this.filters);
             }
         });
 
@@ -88,7 +86,6 @@ export class CdkAfastamentoGridFilterComponent implements OnInit {
                     ...this.filters,
                     dataFim: `eq:${value}`
                 };
-                this.selected.emit(this.filters);
             }
         });
 
@@ -98,7 +95,6 @@ export class CdkAfastamentoGridFilterComponent implements OnInit {
                     ...this.filters,
                     dataFimBloqueio: `eq:${value}`
                 };
-                this.selected.emit(this.filters);
             }
         });
 
@@ -109,14 +105,10 @@ export class CdkAfastamentoGridFilterComponent implements OnInit {
                         ...this.filters,
                         'colaborador.id': `eq:${value.id}`
                     };
-                    this.selected.emit(this.filters);
                 } else {
                     if (this.filters.hasOwnProperty('colaborador.id')) {
                         delete this.filters['colaborador.id'];
                     }
-                }
-                if (!value) {
-                    this.selected.emit(this.filters);
                 }
             }
         });
@@ -128,14 +120,10 @@ export class CdkAfastamentoGridFilterComponent implements OnInit {
                         ...this.filters,
                         'modalidadeAfastamento.id': `eq:${value.id}`
                     };
-                    this.selected.emit(this.filters);
                 } else {
                     if (this.filters.hasOwnProperty('modalidadeAfastamento.id')) {
                         delete this.filters['modalidadeAfastamento.id'];
                     }
-                }
-                if (!value) {
-                    this.selected.emit(this.filters);
                 }
             }
         });
@@ -146,7 +134,6 @@ export class CdkAfastamentoGridFilterComponent implements OnInit {
                     ...this.filters,
                     criadoEm: `eq:${value}`
                 };
-                this.selected.emit(this.filters);
             }
         });
 
@@ -156,7 +143,6 @@ export class CdkAfastamentoGridFilterComponent implements OnInit {
                     ...this.filters,
                     atualizadoEm: `eq:${value}`
                 };
-                this.selected.emit(this.filters);
             }
         });
 
@@ -166,7 +152,6 @@ export class CdkAfastamentoGridFilterComponent implements OnInit {
                     ...this.filters,
                     apagadoEm: `eq:${value}`
                 };
-                this.selected.emit(this.filters);
             }
         });
 
@@ -177,14 +162,10 @@ export class CdkAfastamentoGridFilterComponent implements OnInit {
                         ...this.filters,
                         'criadoPor.id': `eq:${value.id}`
                     };
-                    this.selected.emit(this.filters);
                 } else {
                     if (this.filters.hasOwnProperty('criadoPor.id')) {
                         delete this.filters['criadoPor.id'];
                     }
-                }
-                if (!value) {
-                    this.selected.emit(this.filters);
                 }
             }
         });
@@ -196,14 +177,10 @@ export class CdkAfastamentoGridFilterComponent implements OnInit {
                         ...this.filters,
                         'atualizadoPor.id': `eq:${value.id}`
                     };
-                    this.selected.emit(this.filters);
                 } else {
                     if (this.filters.hasOwnProperty('atualizadoPor.id')) {
                         delete this.filters['atualizadoPor.id'];
                     }
-                }
-                if (!value) {
-                    this.selected.emit(this.filters);
                 }
             }
         });
@@ -215,24 +192,32 @@ export class CdkAfastamentoGridFilterComponent implements OnInit {
                         ...this.filters,
                         'apagadoPor.id': `eq:${value.id}`
                     };
-                    this.selected.emit(this.filters);
                 } else {
                     if (this.filters.hasOwnProperty('apagadoPor.id')) {
                         delete this.filters['apagadoPor.id'];
                     }
                 }
-                if (!value) {
-                    this.selected.emit(this.filters);
-                }
             }
         });
     }
 
-    limpar(): void {
-        this.filters = {};
-        this.selected.emit(this.filters);
-        this.form.reset();
+    emite(): void {
+        const request = {
+            filters: this.filters
+        };
+        this.selected.emit(request);
     }
 
+    buscar(): void {
+        this.emite();
+        this._cdkSidebarService.getSidebar('cdk-afastamento-main-sidebar').close();
+    }
+
+    limpar(): void {
+        this.filters = {};
+        this.emite();
+        this.form.reset();
+        this._cdkSidebarService.getSidebar('cdk-afastamento-main-sidebar').close();
+    }
 }
 

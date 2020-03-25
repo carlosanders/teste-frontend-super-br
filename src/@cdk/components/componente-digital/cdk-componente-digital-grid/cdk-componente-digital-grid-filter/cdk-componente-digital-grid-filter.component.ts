@@ -4,9 +4,9 @@ import {
     OnInit, Output,
     ViewEncapsulation
 } from '@angular/core';
-
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
+import {CdkSidebarService} from '../../../sidebar/sidebar.service';
 
 @Component({
     selector: 'cdk-componente-digital-grid-filter',
@@ -32,9 +32,9 @@ export class CdkComponenteDigitalGridFilterComponent implements OnInit {
      * Constructor
      */
     constructor(
-        private _formBuilder: FormBuilder
+        private _formBuilder: FormBuilder,
+        private _cdkSidebarService: CdkSidebarService,
     ) {
-
         this.form = this._formBuilder.group({
             conteudo: [null],
             tamanho: [null],
@@ -46,7 +46,6 @@ export class CdkComponenteDigitalGridFilterComponent implements OnInit {
             criadoEm: [null],
             codigo: [null]
         });
-
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -63,7 +62,6 @@ export class CdkComponenteDigitalGridFilterComponent implements OnInit {
                     ...this.filters,
                     conteudo: value
                 };
-                this.emite();
             }
         });
 
@@ -73,7 +71,6 @@ export class CdkComponenteDigitalGridFilterComponent implements OnInit {
                     ...this.filters,
                     id: `eq:${value}`
                 };
-                this.emite();
             }
         });
 
@@ -83,7 +80,6 @@ export class CdkComponenteDigitalGridFilterComponent implements OnInit {
                     ...this.filters,
                     extensao: `like:${value}%`
                 };
-                this.emite();
             }
         });
 
@@ -93,7 +89,6 @@ export class CdkComponenteDigitalGridFilterComponent implements OnInit {
                     ...this.filters,
                     editavel: `eq:${value}`
                 };
-                this.emite();
             }
         });
 
@@ -103,7 +98,6 @@ export class CdkComponenteDigitalGridFilterComponent implements OnInit {
                     ...this.filters,
                     assinado: `eq:${value}`
                 };
-                this.emite();
             }
         });
 
@@ -114,14 +108,10 @@ export class CdkComponenteDigitalGridFilterComponent implements OnInit {
                         ...this.filters,
                         'processoOrigem.id': `eq:${value.id}`
                     };
-                    this.emite();
                 } else {
                     if (this.filters.hasOwnProperty('processoOrigem.id')) {
                         delete this.filters['processoOrigem.id'];
                     }
-                }
-                if (!value) {
-                    this.emite();
                 }
             }
         });
@@ -132,7 +122,6 @@ export class CdkComponenteDigitalGridFilterComponent implements OnInit {
                     ...this.filters,
                     criadoEm: `eq:${value}`
                 };
-                this.emite();
             }
         });
 
@@ -143,33 +132,32 @@ export class CdkComponenteDigitalGridFilterComponent implements OnInit {
                         ...this.filters,
                         'criadoPor.id': `eq:${value.id}`
                     };
-                    this.emite();
                 } else {
                     if (this.filters.hasOwnProperty('criadoPor.id')) {
                         delete this.filters['criadoPor.id'];
                     }
                 }
-                if (!value) {
-                    this.emite();
-                }
             }
         });
     }
 
-    limpar(): void {
-        this.filters = {};
-        this.selected.emit(this.filters);
-        this.form.reset();
-    }
-
     emite(): void {
-        if (this.mode === 'list') {
-            this.selected.emit(this.filters);
-        }
+        const request = {
+            filters: this.filters
+        };
+        this.selected.emit(request);
     }
 
     buscar(): void {
-        this.selected.emit(this.filters);
+        this.emite();
+        this._cdkSidebarService.getSidebar('cdk-componente-digital-main-sidebar').close();
+    }
+
+    limpar(): void {
+        this.filters = {};
+        this.emite();
+        this.form.reset();
+        this._cdkSidebarService.getSidebar('cdk-componente-digital-main-sidebar').close();
     }
 }
 

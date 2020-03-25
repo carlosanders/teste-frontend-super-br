@@ -4,9 +4,9 @@ import {
     OnInit, Output,
     ViewEncapsulation
 } from '@angular/core';
-
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
+import {CdkSidebarService} from '../../../sidebar/sidebar.service';
 
 @Component({
     selector: 'cdk-tramitacao-grid-filter',
@@ -29,7 +29,8 @@ export class CdkTramitacaoGridFilterComponent implements OnInit {
      * Constructor
      */
     constructor(
-        private _formBuilder: FormBuilder
+        private _formBuilder: FormBuilder,
+        private _cdkSidebarService: CdkSidebarService,
     ) {
         this.form = this._formBuilder.group({
             observacao: [null],
@@ -63,7 +64,6 @@ export class CdkTramitacaoGridFilterComponent implements OnInit {
                     ...this.filters,
                     observacao: `like:${value}%`
                 };
-                this.selected.emit(this.filters);
             }
         });
         this.form.get('urgente').valueChanges.subscribe(value => {
@@ -72,7 +72,6 @@ export class CdkTramitacaoGridFilterComponent implements OnInit {
                     ...this.filters,
                     urgente: `eq:${value}`
                 };
-                this.selected.emit(this.filters);
             }
         });
 
@@ -82,7 +81,6 @@ export class CdkTramitacaoGridFilterComponent implements OnInit {
                     ...this.filters,
                     dataHoraRecebimento: `eq:${value}`
                 };
-                this.selected.emit(this.filters);
             }
         });
 
@@ -93,14 +91,10 @@ export class CdkTramitacaoGridFilterComponent implements OnInit {
                         ...this.filters,
                         'processo.id': `eq:${value.id}`
                     };
-                    this.selected.emit(this.filters);
                 } else {
                     if (this.filters.hasOwnProperty('processo.id')) {
                         delete this.filters['processo.id'];
                     }
-                }
-                if (!value) {
-                    this.selected.emit(this.filters);
                 }
             }
         });
@@ -112,14 +106,10 @@ export class CdkTramitacaoGridFilterComponent implements OnInit {
                         ...this.filters,
                         'setorOrigem.id': `eq:${value.id}`
                     };
-                    this.selected.emit(this.filters);
                 } else {
                     if (this.filters.hasOwnProperty('setorOrigem.id')) {
                         delete this.filters['setorOrigem.id'];
                     }
-                }
-                if (!value) {
-                    this.selected.emit(this.filters);
                 }
             }
         });
@@ -131,14 +121,10 @@ export class CdkTramitacaoGridFilterComponent implements OnInit {
                         ...this.filters,
                         'setorDestino.id': `eq:${value.id}`
                     };
-                    this.selected.emit(this.filters);
                 } else {
                     if (this.filters.hasOwnProperty('setorDestino.id')) {
                         delete this.filters['setorDestino.id'];
                     }
-                }
-                if (!value) {
-                    this.selected.emit(this.filters);
                 }
             }
         });
@@ -150,14 +136,10 @@ export class CdkTramitacaoGridFilterComponent implements OnInit {
                         ...this.filters,
                         'pessoaDestino.id': `eq:${value.id}`
                     };
-                    this.selected.emit(this.filters);
                 } else {
                     if (this.filters.hasOwnProperty('pessoaDestino.id')) {
                         delete this.filters['pessoaDestino.id'];
                     }
-                }
-                if (!value) {
-                    this.selected.emit(this.filters);
                 }
             }
         });
@@ -169,14 +151,10 @@ export class CdkTramitacaoGridFilterComponent implements OnInit {
                         ...this.filters,
                         'usuarioRecebimento.id': `eq:${value.id}`
                     };
-                    this.selected.emit(this.filters);
                 } else {
                     if (this.filters.hasOwnProperty('usuarioRecebimento.id')) {
                         delete this.filters['usuarioRecebimento.id'];
                     }
-                }
-                if (!value) {
-                    this.selected.emit(this.filters);
                 }
             }
         });
@@ -187,7 +165,6 @@ export class CdkTramitacaoGridFilterComponent implements OnInit {
                     ...this.filters,
                     criadoEm: `eq:${value}`
                 };
-                this.selected.emit(this.filters);
             }
         });
 
@@ -197,7 +174,6 @@ export class CdkTramitacaoGridFilterComponent implements OnInit {
                     ...this.filters,
                     atualizadoEm: `eq:${value}`
                 };
-                this.selected.emit(this.filters);
             }
         });
 
@@ -207,7 +183,6 @@ export class CdkTramitacaoGridFilterComponent implements OnInit {
                     ...this.filters,
                     apagadoEm: `eq:${value}`
                 };
-                this.selected.emit(this.filters);
             }
         });
 
@@ -218,14 +193,10 @@ export class CdkTramitacaoGridFilterComponent implements OnInit {
                         ...this.filters,
                         'criadoPor.id': `eq:${value.id}`
                     };
-                    this.selected.emit(this.filters);
                 } else {
                     if (this.filters.hasOwnProperty('criadoPor.id')) {
                         delete this.filters['criadoPor.id'];
                     }
-                }
-                if (!value) {
-                    this.selected.emit(this.filters);
                 }
             }
         });
@@ -237,14 +208,10 @@ export class CdkTramitacaoGridFilterComponent implements OnInit {
                         ...this.filters,
                         'atualizadoPor.id': `eq:${value.id}`
                     };
-                    this.selected.emit(this.filters);
                 } else {
                     if (this.filters.hasOwnProperty('atualizadoPor.id')) {
                         delete this.filters['atualizadoPor.id'];
                     }
-                }
-                if (!value) {
-                    this.selected.emit(this.filters);
                 }
             }
         });
@@ -256,23 +223,31 @@ export class CdkTramitacaoGridFilterComponent implements OnInit {
                         ...this.filters,
                         'apagadoPor.id': `eq:${value.id}`
                     };
-                    this.selected.emit(this.filters);
                 } else {
                     if (this.filters.hasOwnProperty('apagadoPor.id')) {
                         delete this.filters['apagadoPor.id'];
                     }
                 }
-                if (!value) {
-                    this.selected.emit(this.filters);
-                }
             }
         });
     }
 
-    limpar(): void {
-        this.filters = {};
-        this.selected.emit(this.filters);
-        this.form.reset();
+    emite(): void {
+        const request = {
+            filters: this.filters
+        };
+        this.selected.emit(request);
     }
 
+    buscar(): void {
+        this.emite();
+        this._cdkSidebarService.getSidebar('cdk-tramitacao-main-sidebar').close();
+    }
+
+    limpar(): void {
+        this.filters = {};
+        this.emite();
+        this.form.reset();
+        this._cdkSidebarService.getSidebar('cdk-tramitacao-main-sidebar').close();
+    }
 }

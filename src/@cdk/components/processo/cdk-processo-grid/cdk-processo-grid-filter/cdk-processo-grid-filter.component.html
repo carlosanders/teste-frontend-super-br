@@ -167,9 +167,7 @@
             <mat-datetimepicker #criadoEm type="datetime" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
         </mat-form-field>
 
-        <button mat-raised-button color="accent" class="mr-sm-12" (click)="buscar()"
-                [disabled]="!this.validaBusca()"
-                *ngIf="this.mode === 'search'">
+        <button mat-raised-button color="accent" class="mr-sm-12" (click)="buscar()">
             Buscar
         </button>
 

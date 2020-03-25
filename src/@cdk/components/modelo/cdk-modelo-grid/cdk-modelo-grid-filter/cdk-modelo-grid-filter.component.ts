@@ -4,9 +4,9 @@ import {
     OnInit, Output,
     ViewEncapsulation
 } from '@angular/core';
-
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
+import {CdkSidebarService} from '../../../sidebar/sidebar.service';
 
 @Component({
     selector: 'cdk-modelo-grid-filter',
@@ -29,7 +29,8 @@ export class CdkModeloGridFilterComponent implements OnInit {
      * Constructor
      */
     constructor(
-        private _formBuilder: FormBuilder
+        private _formBuilder: FormBuilder,
+        private _cdkSidebarService: CdkSidebarService,
     ) {
         this.form = this._formBuilder.group({
             nome: [null],
@@ -64,7 +65,6 @@ export class CdkModeloGridFilterComponent implements OnInit {
                     ...this.filters,
                     nome: `like:${value}%`
                 };
-                this.selected.emit(this.filters);
             }
         });
 
@@ -74,7 +74,6 @@ export class CdkModeloGridFilterComponent implements OnInit {
                     ...this.filters,
                     highlights: `like:${value}%`
                 };
-                this.selected.emit(this.filters);
             }
         });
 
@@ -84,7 +83,6 @@ export class CdkModeloGridFilterComponent implements OnInit {
                     ...this.filters,
                     descricao: `like:${value}%`
                 };
-                this.selected.emit(this.filters);
             }
         });
 
@@ -94,7 +92,6 @@ export class CdkModeloGridFilterComponent implements OnInit {
                     ...this.filters,
                     ativo: `eq:${value}`
                 };
-                this.selected.emit(this.filters);
             }
         });
 
@@ -105,14 +102,10 @@ export class CdkModeloGridFilterComponent implements OnInit {
                         ...this.filters,
                         'modalidadeModelo.id': `eq:${value.id}`
                     };
-                    this.selected.emit(this.filters);
                 } else {
                     if (this.filters.hasOwnProperty('modalidadeModelo.id')) {
                         delete this.filters['modalidadeModelo.id'];
                     }
-                }
-                if (!value) {
-                    this.selected.emit(this.filters);
                 }
             }
         });
@@ -124,14 +117,10 @@ export class CdkModeloGridFilterComponent implements OnInit {
                         ...this.filters,
                         'template.id': `eq:${value.id}`
                     };
-                    this.selected.emit(this.filters);
                 } else {
                     if (this.filters.hasOwnProperty('template.id')) {
                         delete this.filters['template.id'];
                     }
-                }
-                if (!value) {
-                    this.selected.emit(this.filters);
                 }
             }
         });
@@ -143,14 +132,10 @@ export class CdkModeloGridFilterComponent implements OnInit {
                         ...this.filters,
                         'documento.id': `eq:${value.id}`
                     };
-                    this.selected.emit(this.filters);
                 } else {
                     if (this.filters.hasOwnProperty('documento.id')) {
                         delete this.filters['documento.id'];
                     }
-                }
-                if (!value) {
-                    this.selected.emit(this.filters);
                 }
             }
         });
@@ -161,7 +146,6 @@ export class CdkModeloGridFilterComponent implements OnInit {
                     ...this.filters,
                     criadoEm: `eq:${value}`
                 };
-                this.selected.emit(this.filters);
             }
         });
 
@@ -171,7 +155,6 @@ export class CdkModeloGridFilterComponent implements OnInit {
                     ...this.filters,
                     atualizadoEm: `eq:${value}`
                 };
-                this.selected.emit(this.filters);
             }
         });
 
@@ -181,7 +164,6 @@ export class CdkModeloGridFilterComponent implements OnInit {
                     ...this.filters,
                     apagadoEm: `eq:${value}`
                 };
-                this.selected.emit(this.filters);
             }
         });
 
@@ -192,14 +174,10 @@ export class CdkModeloGridFilterComponent implements OnInit {
                         ...this.filters,
                         'criadoPor.id': `eq:${value.id}`
                     };
-                    this.selected.emit(this.filters);
                 } else {
                     if (this.filters.hasOwnProperty('criadoPor.id')) {
                         delete this.filters['criadoPor.id'];
                     }
-                }
-                if (!value) {
-                    this.selected.emit(this.filters);
                 }
             }
         });
@@ -211,14 +189,10 @@ export class CdkModeloGridFilterComponent implements OnInit {
                         ...this.filters,
                         'atualizadoPor.id': `eq:${value.id}`
                     };
-                    this.selected.emit(this.filters);
                 } else {
                     if (this.filters.hasOwnProperty('atualizadoPor.id')) {
                         delete this.filters['atualizadoPor.id'];
                     }
-                }
-                if (!value) {
-                    this.selected.emit(this.filters);
                 }
             }
         });
@@ -230,24 +204,32 @@ export class CdkModeloGridFilterComponent implements OnInit {
                         ...this.filters,
                         'apagadoPor.id': `eq:${value.id}`
                     };
-                    this.selected.emit(this.filters);
                 } else {
                     if (this.filters.hasOwnProperty('apagadoPor.id')) {
                         delete this.filters['apagadoPor.id'];
                     }
                 }
-                if (!value) {
-                    this.selected.emit(this.filters);
-                }
             }
         });
     }
 
-    limpar(): void {
-        this.filters = {};
-        this.selected.emit(this.filters);
-        this.form.reset();
+    emite(): void {
+        const request = {
+            filters: this.filters
+        };
+        this.selected.emit(request);
     }
 
+    buscar(): void {
+        this.emite();
+        this._cdkSidebarService.getSidebar('cdk-modelo-main-sidebar').close();
+    }
+
+    limpar(): void {
+        this.filters = {};
+        this.emite();
+        this.form.reset();
+        this._cdkSidebarService.getSidebar('cdk-modelo-main-sidebar').close();
+    }
 }
 

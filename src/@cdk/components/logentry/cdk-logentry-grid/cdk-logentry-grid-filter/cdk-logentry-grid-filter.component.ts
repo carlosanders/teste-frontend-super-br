@@ -4,9 +4,9 @@ import {
     OnInit, Output,
     ViewEncapsulation
 } from '@angular/core';
-
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
+import {CdkSidebarService} from '../../../sidebar/sidebar.service';
 
 @Component({
     selector: 'cdk-logentry-grid-filter',
@@ -29,9 +29,9 @@ export class CdkLogentryGridFilterComponent implements OnInit {
      * Constructor
      */
     constructor(
-        private _formBuilder: FormBuilder
+        private _formBuilder: FormBuilder,
+        private _cdkSidebarService: CdkSidebarService,
     ) {
-
         this.form = this._formBuilder.group({
             action: [null],
             objectId: [null],
@@ -40,7 +40,6 @@ export class CdkLogentryGridFilterComponent implements OnInit {
             valor: [null],
             username: [null],
         });
-
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -57,7 +56,6 @@ export class CdkLogentryGridFilterComponent implements OnInit {
                     ...this.filters,
                     action: `like:${value}%`
                 };
-                this.selected.emit(this.filters);
             }
         });
 
@@ -67,7 +65,6 @@ export class CdkLogentryGridFilterComponent implements OnInit {
                     ...this.filters,
                     objectId: `like:${value}%`
                 };
-                this.selected.emit(this.filters);
             }
         });
 
@@ -77,7 +74,6 @@ export class CdkLogentryGridFilterComponent implements OnInit {
                     ...this.filters,
                     loggedAt: `like:${value}%`
                 };
-                this.selected.emit(this.filters);
             }
         });
 
@@ -87,7 +83,6 @@ export class CdkLogentryGridFilterComponent implements OnInit {
                     ...this.filters,
                     objectClass: `like:${value}%`
                 };
-                this.selected.emit(this.filters);
             }
         });
 
@@ -97,7 +92,6 @@ export class CdkLogentryGridFilterComponent implements OnInit {
                     ...this.filters,
                     valor: `like:${value}%`
                 };
-                this.selected.emit(this.filters);
             }
         });
 
@@ -107,7 +101,6 @@ export class CdkLogentryGridFilterComponent implements OnInit {
                     ...this.filters,
                     username: `like:${value}%`
                 };
-                this.selected.emit(this.filters);
             }
         });
 
@@ -117,9 +110,26 @@ export class CdkLogentryGridFilterComponent implements OnInit {
                     ...this.filters,
                     loggedAt: `eq:${value}`
                 };
-                this.selected.emit(this.filters);
             }
         });
     }
 
+    emite(): void {
+        const request = {
+            filters: this.filters
+        };
+        this.selected.emit(request);
+    }
+
+    buscar(): void {
+        this.emite();
+        this._cdkSidebarService.getSidebar('cdk-logentry-main-sidebar').close();
+    }
+
+    limpar(): void {
+        this.filters = {};
+        this.emite();
+        this.form.reset();
+        this._cdkSidebarService.getSidebar('cdk-logentry-main-sidebar').close();
+    }
 }

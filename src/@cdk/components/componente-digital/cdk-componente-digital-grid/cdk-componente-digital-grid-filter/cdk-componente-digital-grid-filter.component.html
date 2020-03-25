@@ -61,14 +61,12 @@
             Assinado
         </mat-checkbox>
 
-        <button mat-raised-button color="warn" class="mr-sm-12" (click)="limpar()" *ngIf="this.mode==='list'">
-            Limpar
-        </button>
-
-        <button mat-raised-button color="accent" class="mr-sm-12" (click)="buscar()" *ngIf="this.mode==='search'"
-        [disabled]="!this.form.valid">
+        <button mat-raised-button color="accent" class="mr-sm-12" (click)="buscar()">
             Buscar
         </button>
 
+        <button mat-raised-button color="warn" class="mr-sm-12" (click)="limpar()" *ngIf="this.mode==='list'">
+            Limpar
+        </button>
     </div>
 </form>

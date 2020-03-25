@@ -4,9 +4,9 @@ import {
     OnInit, Output,
     ViewEncapsulation
 } from '@angular/core';
-
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
+import {CdkSidebarService} from '../../../sidebar/sidebar.service';
 
 @Component({
     selector: 'cdk-processo-grid-filter',
@@ -34,9 +34,9 @@ export class CdkProcessoGridFilterComponent implements OnInit {
      * Constructor
      */
     constructor(
-        private _formBuilder: FormBuilder
+        private _formBuilder: FormBuilder,
+        private _cdkSidebarService: CdkSidebarService,
     ) {
-
         this.form = this._formBuilder.group({
             processo: [null],
             novo: [null],
@@ -70,7 +70,6 @@ export class CdkProcessoGridFilterComponent implements OnInit {
             nome: [null],
             cpfCnpj: [null]
         });
-
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -87,7 +86,6 @@ export class CdkProcessoGridFilterComponent implements OnInit {
                     ...this.filters,
                     NUP: `like:${value}%`
                 };
-                this.emite();
             }
         });
 
@@ -119,7 +117,6 @@ export class CdkProcessoGridFilterComponent implements OnInit {
                     ...this.filters,
                     titulo: `like:${value}%`
                 };
-                this.emite();
             }
         });
 
@@ -129,7 +126,6 @@ export class CdkProcessoGridFilterComponent implements OnInit {
                     ...this.filters,
                     descricao: `like:${value}%`
                 };
-                this.emite();
             }
         });
 
@@ -139,7 +135,6 @@ export class CdkProcessoGridFilterComponent implements OnInit {
                     ...this.filters,
                     outroNumero: `like:${value}%`
                 };
-                this.emite();
             }
         });
 
@@ -149,7 +144,6 @@ export class CdkProcessoGridFilterComponent implements OnInit {
                     ...this.filters,
                     valorEconomico: `like:${value}%`
                 };
-                this.emite();
             }
         });
 
@@ -159,7 +153,6 @@ export class CdkProcessoGridFilterComponent implements OnInit {
                     ...this.filters,
                     dataHoraAbertura: `eq:${value}`
                 };
-                this.emite();
             }
         });
 
@@ -169,7 +162,6 @@ export class CdkProcessoGridFilterComponent implements OnInit {
                     ...this.filters,
                     dataHoraProximaTransicao: `eq:${value}`
                 };
-                this.emite();
             }
         });
 
@@ -179,7 +171,6 @@ export class CdkProcessoGridFilterComponent implements OnInit {
                     ...this.filters,
                     novo: `eq:${value}`
                 };
-                this.emite();
             }
         });
 
@@ -189,7 +180,6 @@ export class CdkProcessoGridFilterComponent implements OnInit {
                     ...this.filters,
                     semValorEconomico: `eq:${value}`
                 };
-                this.emite();
             }
         });
 
@@ -199,7 +189,6 @@ export class CdkProcessoGridFilterComponent implements OnInit {
                     ...this.filters,
                     visibilidadeExterna: `eq:${value}`
                 };
-                this.emite();
             }
         });
 
@@ -209,7 +198,6 @@ export class CdkProcessoGridFilterComponent implements OnInit {
                     ...this.filters,
                     acessoNegado: `eq:${value}`
                 };
-                this.emite();
             }
         });
 
@@ -220,14 +208,10 @@ export class CdkProcessoGridFilterComponent implements OnInit {
                         ...this.filters,
                         'classificacao.id': `eq:${value.id}`
                     };
-                    this.emite();
                 } else {
                     if (this.filters.hasOwnProperty('classificacao.id')) {
                         delete this.filters['classificacao.id'];
                     }
-                }
-                if (!value) {
-                    this.emite();
                 }
             }
         });
@@ -239,14 +223,10 @@ export class CdkProcessoGridFilterComponent implements OnInit {
                         ...this.filters,
                         'origemDados.id': `eq:${value.id}`
                     };
-                    this.emite();
                 } else {
                     if (this.filters.hasOwnProperty('origemDados.id')) {
                         delete this.filters['origemDados.id'];
                     }
-                }
-                if (!value) {
-                    this.emite();
                 }
             }
         });
@@ -258,14 +238,10 @@ export class CdkProcessoGridFilterComponent implements OnInit {
                         ...this.filters,
                         'documentoAvulsoOrigem.id': `eq:${value.id}`
                     };
-                    this.emite();
                 } else {
                     if (this.filters.hasOwnProperty('documentoAvulsoOrigem.id')) {
                         delete this.filters['documentoAvulsoOrigem.id'];
                     }
-                }
-                if (!value) {
-                    this.emite();
                 }
             }
         });
@@ -277,14 +253,10 @@ export class CdkProcessoGridFilterComponent implements OnInit {
                         ...this.filters,
                         'procedencia.id': `eq:${value.id}`
                     };
-                    this.emite();
                 } else {
                     if (this.filters.hasOwnProperty('procedencia.id')) {
                         delete this.filters['procedencia.id'];
                     }
-                }
-                if (!value) {
-                    this.emite();
                 }
             }
         });
@@ -296,14 +268,10 @@ export class CdkProcessoGridFilterComponent implements OnInit {
                         ...this.filters,
                         'localizador.id': `eq:${value.id}`
                     };
-                    this.emite();
                 } else {
                     if (this.filters.hasOwnProperty('localizador.id')) {
                         delete this.filters['localizador.id'];
                     }
-                }
-                if (!value) {
-                    this.emite();
                 }
             }
         });
@@ -315,14 +283,10 @@ export class CdkProcessoGridFilterComponent implements OnInit {
                         ...this.filters,
                         'setorAtual.id': `eq:${value.id}`
                     };
-                    this.emite();
                 } else {
                     if (this.filters.hasOwnProperty('setorAtual.id')) {
                         delete this.filters['setorAtual.id'];
                     }
-                }
-                if (!value) {
-                    this.emite();
                 }
             }
         });
@@ -334,14 +298,10 @@ export class CdkProcessoGridFilterComponent implements OnInit {
                         ...this.filters,
                         'setorInicial.id': `eq:${value.id}`
                     };
-                    this.emite();
                 } else {
                     if (this.filters.hasOwnProperty('setorInicial.id')) {
                         delete this.filters['setorInicial.id'];
                     }
-                }
-                if (!value) {
-                    this.emite();
                 }
             }
         });
@@ -353,14 +313,10 @@ export class CdkProcessoGridFilterComponent implements OnInit {
                         ...this.filters,
                         'modalidadeFase.id': `eq:${value.id}`
                     };
-                    this.emite();
                 } else {
                     if (this.filters.hasOwnProperty('modalidadeFase.id')) {
                         delete this.filters['modalidadeFase.id'];
                     }
-                }
-                if (!value) {
-                    this.emite();
                 }
             }
         });
@@ -372,14 +328,10 @@ export class CdkProcessoGridFilterComponent implements OnInit {
                         ...this.filters,
                         'modalidadeMeio.id': `eq:${value.id}`
                     };
-                    this.emite();
                 } else {
                     if (this.filters.hasOwnProperty('modalidadeMeio.id')) {
                         delete this.filters['modalidadeMeio.id'];
                     }
-                }
-                if (!value) {
-                    this.emite();
                 }
             }
         });
@@ -391,14 +343,10 @@ export class CdkProcessoGridFilterComponent implements OnInit {
                         ...this.filters,
                         'especieProcesso.id': `eq:${value.id}`
                     };
-                    this.emite();
                 } else {
                     if (this.filters.hasOwnProperty('especieProcesso.id')) {
                         delete this.filters['especieProcesso.id'];
                     }
-                }
-                if (!value) {
-                    this.emite();
                 }
             }
         });
@@ -409,7 +357,6 @@ export class CdkProcessoGridFilterComponent implements OnInit {
                     ...this.filters,
                     criadoEm: `eq:${value}`
                 };
-                this.emite();
             }
         });
 
@@ -419,7 +366,6 @@ export class CdkProcessoGridFilterComponent implements OnInit {
                     ...this.filters,
                     atualizadoEm: `eq:${value}`
                 };
-                this.emite();
             }
         });
 
@@ -429,7 +375,6 @@ export class CdkProcessoGridFilterComponent implements OnInit {
                     ...this.filters,
                     apagadoEm: `eq:${value}`
                 };
-                this.emite();
             }
         });
 
@@ -440,14 +385,10 @@ export class CdkProcessoGridFilterComponent implements OnInit {
                         ...this.filters,
                         'criadoPor.id': `eq:${value.id}`
                     };
-                    this.emite();
                 } else {
                     if (this.filters.hasOwnProperty('criadoPor.id')) {
                         delete this.filters['criadoPor.id'];
                     }
-                }
-                if (!value) {
-                    this.emite();
                 }
             }
         });
@@ -459,14 +400,10 @@ export class CdkProcessoGridFilterComponent implements OnInit {
                         ...this.filters,
                         'atualizadoPor.id': `eq:${value.id}`
                     };
-                    this.emite();
                 } else {
                     if (this.filters.hasOwnProperty('atualizadoPor.id')) {
                         delete this.filters['atualizadoPor.id'];
                     }
-                }
-                if (!value) {
-                    this.emite();
                 }
             }
         });
@@ -478,14 +415,10 @@ export class CdkProcessoGridFilterComponent implements OnInit {
                         ...this.filters,
                         'apagadoPor.id': `eq:${value.id}`
                     };
-                    this.emite();
                 } else {
                     if (this.filters.hasOwnProperty('apagadoPor.id')) {
                         delete this.filters['apagadoPor.id'];
                     }
-                }
-                if (!value) {
-                    this.emite();
                 }
             }
         });
@@ -518,5 +451,4 @@ export class CdkProcessoGridFilterComponent implements OnInit {
         this.emite();
         this.form.reset();
     }
-
 }

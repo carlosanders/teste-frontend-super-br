@@ -4,9 +4,9 @@ import {
     OnInit, Output,
     ViewEncapsulation
 } from '@angular/core';
-
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
+import {CdkSidebarService} from '../../../sidebar/sidebar.service';
 
 @Component({
     selector: 'cdk-tarefa-grid-filter',
@@ -29,7 +29,8 @@ export class CdkTarefaGridFilterComponent implements OnInit {
      * Constructor
      */
     constructor(
-        private _formBuilder: FormBuilder
+        private _formBuilder: FormBuilder,
+        private _cdkSidebarService: CdkSidebarService,
     ) {
         this.form = this._formBuilder.group({
             postIt: [null],
@@ -75,7 +76,6 @@ export class CdkTarefaGridFilterComponent implements OnInit {
                     ...this.filters,
                     postIt: `like:${value}%`
                 };
-                this.selected.emit(this.filters);
             }
         });
 
@@ -85,7 +85,6 @@ export class CdkTarefaGridFilterComponent implements OnInit {
                     ...this.filters,
                     observacao: `like:${value}%`
                 };
-                this.selected.emit(this.filters);
             }
         });
 
@@ -95,7 +94,6 @@ export class CdkTarefaGridFilterComponent implements OnInit {
                     ...this.filters,
                     urgente: `eq:${value}`
                 };
-                this.selected.emit(this.filters);
             }
         });
 
@@ -105,7 +103,6 @@ export class CdkTarefaGridFilterComponent implements OnInit {
                     ...this.filters,
                     redistribuida: `eq:${value}`
                 };
-                this.selected.emit(this.filters);
             }
         });
 
@@ -115,7 +112,6 @@ export class CdkTarefaGridFilterComponent implements OnInit {
                     ...this.filters,
                     dataHoraLeitura: `eq:${value}`
                 };
-                this.selected.emit(this.filters);
             }
         });
 
@@ -125,7 +121,6 @@ export class CdkTarefaGridFilterComponent implements OnInit {
                     ...this.filters,
                     dataHoraInicioPrazo: `eq:${value}`
                 };
-                this.selected.emit(this.filters);
             }
         });
 
@@ -135,7 +130,6 @@ export class CdkTarefaGridFilterComponent implements OnInit {
                     ...this.filters,
                     dataHoraFinalPrazo: `eq:${value}`
                 };
-                this.selected.emit(this.filters);
             }
         });
 
@@ -145,7 +139,6 @@ export class CdkTarefaGridFilterComponent implements OnInit {
                     ...this.filters,
                     dataHoraConclusaoPrazo: `eq:${value}`
                 };
-                this.selected.emit(this.filters);
             }
         });
 
@@ -156,14 +149,10 @@ export class CdkTarefaGridFilterComponent implements OnInit {
                         ...this.filters,
                         'processo.id': `eq:${value.id}`
                     };
-                    this.selected.emit(this.filters);
                 } else {
                     if (this.filters.hasOwnProperty('processo.id')) {
                         delete this.filters['processo.id'];
                     }
-                }
-                if (!value) {
-                    this.selected.emit(this.filters);
                 }
             }
         });
@@ -175,14 +164,10 @@ export class CdkTarefaGridFilterComponent implements OnInit {
                         ...this.filters,
                         'especieTarefa.id': `eq:${value.id}`
                     };
-                    this.selected.emit(this.filters);
                 } else {
                     if (this.filters.hasOwnProperty('especieTarefa.id')) {
                         delete this.filters['especieTarefa.id'];
                     }
-                }
-                if (!value) {
-                    this.selected.emit(this.filters);
                 }
             }
         });
@@ -194,14 +179,10 @@ export class CdkTarefaGridFilterComponent implements OnInit {
                         ...this.filters,
                         'usuarioResponsavel.id': `eq:${value.id}`
                     };
-                    this.selected.emit(this.filters);
                 } else {
                     if (this.filters.hasOwnProperty('usuarioResponsavel.id')) {
                         delete this.filters['usuarioResponsavel.id'];
                     }
-                }
-                if (!value) {
-                    this.selected.emit(this.filters);
                 }
             }
         });
@@ -213,14 +194,10 @@ export class CdkTarefaGridFilterComponent implements OnInit {
                         ...this.filters,
                         'setorOrigem.id': `eq:${value.id}`
                     };
-                    this.selected.emit(this.filters);
                 } else {
                     if (this.filters.hasOwnProperty('setorOrigem.id')) {
                         delete this.filters['setorOrigem.id'];
                     }
-                }
-                if (!value) {
-                    this.selected.emit(this.filters);
                 }
             }
         });
@@ -232,14 +209,10 @@ export class CdkTarefaGridFilterComponent implements OnInit {
                         ...this.filters,
                         'unidadeResponsavel.id': `eq:${value.id}`
                     };
-                    this.selected.emit(this.filters);
                 } else {
                     if (this.filters.hasOwnProperty('unidadeResponsavel.id')) {
                         delete this.filters['unidadeResponsavel.id'];
                     }
-                }
-                if (!value) {
-                    this.selected.emit(this.filters);
                 }
             }
         });
@@ -251,14 +224,10 @@ export class CdkTarefaGridFilterComponent implements OnInit {
                         ...this.filters,
                         'setorResponsavel.id': `eq:${value.id}`
                     };
-                    this.selected.emit(this.filters);
                 } else {
                     if (this.filters.hasOwnProperty('setorResponsavel.id')) {
                         delete this.filters['setorResponsavel.id'];
                     }
-                }
-                if (!value) {
-                    this.selected.emit(this.filters);
                 }
             }
         });
@@ -270,14 +239,10 @@ export class CdkTarefaGridFilterComponent implements OnInit {
                         ...this.filters,
                         'usuarioConclusaoPrazo.id': `eq:${value.id}`
                     };
-                    this.selected.emit(this.filters);
                 } else {
                     if (this.filters.hasOwnProperty('usuarioConclusaoPrazo.id')) {
                         delete this.filters['usuarioConclusaoPrazo.id'];
                     }
-                }
-                if (!value) {
-                    this.selected.emit(this.filters);
                 }
             }
         });
@@ -288,7 +253,6 @@ export class CdkTarefaGridFilterComponent implements OnInit {
                     ...this.filters,
                     criadoEm: `eq:${value}`
                 };
-                this.selected.emit(this.filters);
             }
         });
 
@@ -298,7 +262,6 @@ export class CdkTarefaGridFilterComponent implements OnInit {
                     ...this.filters,
                     atualizadoEm: `eq:${value}`
                 };
-                this.selected.emit(this.filters);
             }
         });
 
@@ -308,7 +271,6 @@ export class CdkTarefaGridFilterComponent implements OnInit {
                     ...this.filters,
                     apagadoEm: `eq:${value}`
                 };
-                this.selected.emit(this.filters);
             }
         });
 
@@ -319,14 +281,10 @@ export class CdkTarefaGridFilterComponent implements OnInit {
                         ...this.filters,
                         'criadoPor.id': `eq:${value.id}`
                     };
-                    this.selected.emit(this.filters);
                 } else {
                     if (this.filters.hasOwnProperty('criadoPor.id')) {
                         delete this.filters['criadoPor.id'];
                     }
-                }
-                if (!value) {
-                    this.selected.emit(this.filters);
                 }
             }
         });
@@ -338,14 +296,10 @@ export class CdkTarefaGridFilterComponent implements OnInit {
                         ...this.filters,
                         'atualizadoPor.id': `eq:${value.id}`
                     };
-                    this.selected.emit(this.filters);
                 } else {
                     if (this.filters.hasOwnProperty('atualizadoPor.id')) {
                         delete this.filters['atualizadoPor.id'];
                     }
-                }
-                if (!value) {
-                    this.selected.emit(this.filters);
                 }
             }
         });
@@ -357,23 +311,31 @@ export class CdkTarefaGridFilterComponent implements OnInit {
                         ...this.filters,
                         'apagadoPor.id': `eq:${value.id}`
                     };
-                    this.selected.emit(this.filters);
                 } else {
                     if (this.filters.hasOwnProperty('apagadoPor.id')) {
                         delete this.filters['apagadoPor.id'];
                     }
                 }
-                if (!value) {
-                    this.selected.emit(this.filters);
-                }
             }
         });
     }
 
-    limpar(): void {
-        this.filters = {};
-        this.selected.emit(this.filters);
-        this.form.reset();
+    emite(): void {
+        const request = {
+            filters: this.filters
+        };
+        this.selected.emit(request);
     }
 
+    buscar(): void {
+        this.emite();
+        this._cdkSidebarService.getSidebar('cdk-tarefa-main-sidebar').close();
+    }
+
+    limpar(): void {
+        this.filters = {};
+        this.emite();
+        this.form.reset();
+        this._cdkSidebarService.getSidebar('cdk-tarefa-main-sidebar').close();
+    }
 }
