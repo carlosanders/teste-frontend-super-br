@@ -34,7 +34,8 @@
         </div>
 
         <mat-menu #card20Menu="matMenu">
-            <button *ngIf="!documento.documentoAvulsoRemessa || !documento.documentoAvulsoRemessa.dataHoraRemessa" fxLayout="row" fxLayoutAlign="start center" (click)="doDelete(documento.id)" mat-menu-item>
+            <button *ngIf="(!documento.documentoAvulsoRemessa || !documento.documentoAvulsoRemessa.dataHoraRemessa) && this._loginService.isGranted('ROLE_COLABORADOR')"
+                    fxLayout="row" fxLayoutAlign="start center" (click)="doDelete(documento.id)" mat-menu-item>
                 <mat-icon color="accent">delete</mat-icon>
                 <span>Remover</span>
             </button>
@@ -42,7 +43,8 @@
                 <mat-icon color="accent">lock</mat-icon>
                 <span>Assinar</span>
             </button>
-            <button fxLayout="row" fxLayoutAlign="start center" (click)="doConverte(documento.id)" mat-menu-item>
+            <button fxLayout="row" fxLayoutAlign="start center" (click)="doConverte(documento.id)" mat-menu-item
+                    *showIfRole="'ROLE_COLABORADOR'">
                 <mat-icon color="accent">picture_as_pdf</mat-icon>
                 <span>Converter</span>
             </button>
