@@ -234,17 +234,26 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
             //atividade.documentos = this.minutas;
             this.selectedDocumentos$.subscribe(
                 documentos => {
-                    atividade.documentos = documentos;
+                    // Como no redux estão todos os documentos selecionados independetemente à qual tarefa pertencem,
+                    // abaixo são inseridos na atividade apenas os documentos selecionados pertencentes a respectiva tarefa
+                    atividade.documentos = documentos.filter(doc => doc.tarefaOrigem.id === tarefa.id);
+
+
+                    //atividade.documentos = documentos;
                     //@retirar:
+                    console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"); 
+                    console.log("atividade"); 
+                    console.log(atividade);                    
                     console.log("atividade.documentos"); 
                     console.log(atividade.documentos);
+                    console.log("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"); 
 
 
                 }
 
             );
 
-
+//sss
             /*console.log("this.selectedDocumentos$"); 
                 console.log(this.selectedDocumentos$);*/
             this._store.dispatch(new fromStore.SaveAtividade(atividade));
