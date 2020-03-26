@@ -17,6 +17,7 @@ import {Pagination} from '@cdk/models/pagination';
 import {Usuario} from '@cdk/models/usuario.model';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {getRouterState} from '../../../../../store/reducers';
+import {ModalidadeModelo} from "../../../../../../@cdk/models";
 
 @Component({
     selector: 'coordenador-modelos-edit',
@@ -68,11 +69,7 @@ export class ModelosEditComponent implements OnInit, OnDestroy {
         }
 
         this.templatePagination = new Pagination();
-        this.templatePagination.populate = ['populateAll'];
-        this.templatePagination.filter = {
-            'unidade.id': 'eq:' + this.routerState.params.unidadeHandle
-        }
-        
+        this.templatePagination.populate = ['documento', 'documento.tipoDocumento'];
 
     }
 
@@ -109,11 +106,22 @@ export class ModelosEditComponent implements OnInit, OnDestroy {
 
         const modelo = new Modelo();
         // modelo.id = null;
+        // modelo.modalidadeModelo = new ModalidadeModelo();
+
+
         Object.entries(values).forEach(
             ([key, value]) => {
                 modelo[key] = value;
             }
         );
+
+        if (modelo['nacional']) {
+           // modelo.modalidadeModelo.id = 3;
+        } else {
+           // modelo.modalidadeModelo.id = 4;
+        }
+
+        console.log(modelo);
 
         this._store.dispatch(new fromStore.SaveModelo(modelo));
 

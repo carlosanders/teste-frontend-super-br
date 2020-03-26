@@ -68,8 +68,7 @@ export class RepositoriosListComponent implements OnInit {
             ...this.pagination,
             filter: {
                 ...this.pagination.filter,
-                ...params.gridFilter,
-                'parent': 'isNotNull'
+                ...params.gridFilter
             },
             sort: params.sort,
             limit: params.limit,
@@ -81,6 +80,10 @@ export class RepositoriosListComponent implements OnInit {
 
     edit(repositorioId: number): void {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/') + repositorioId]);
+    }
+
+    editConteudo(documentoId: number): void {
+        this._router.navigate([this.routerState.url + '/documento/' + documentoId + '/repositorio']).then();
     }
 
     delete(repositorioId: number): void {

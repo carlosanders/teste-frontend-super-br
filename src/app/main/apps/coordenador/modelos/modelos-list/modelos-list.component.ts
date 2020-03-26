@@ -69,7 +69,7 @@ export class ModelosListComponent implements OnInit {
             filter: {
                 ...this.pagination.filter,
                 ...params.gridFilter,
-                'parent': 'isNotNull'
+
             },
             sort: params.sort,
             limit: params.limit,
@@ -81,6 +81,10 @@ export class ModelosListComponent implements OnInit {
 
     edit(modeloId: number): void {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/') + modeloId]);
+    }
+
+    editConteudo(documentoId: number): void {
+        this._router.navigate([this.routerState.url + '/documento/' + documentoId + '/modelo']).then();
     }
 
     anexoModelo(modeloId: number): void {
