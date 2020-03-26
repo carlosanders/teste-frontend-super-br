@@ -1,4 +1,4 @@
-import * as ArquivistaClassificacaoActions from '../actions/arquivista-classificacao.actions';
+import * as ArquivistaClassificacaoActions from '../actions';
 
 export interface ArquivistaClassificacaoState {
     classificacaoId: number;
@@ -9,12 +9,12 @@ export interface ArquivistaClassificacaoState {
 }
 
 export const ArquivistaClassificacaoInitialState: ArquivistaClassificacaoState = {
-    classificacaoId: null,
-    saving: false,
     errors: false,
+    classificacaoId: null,
+    loaded: false,
     loading: false,
-    loaded: false
-};
+    saving: false
+}
 
 export function ArquivistaClassificacaoReducer(
     state = ArquivistaClassificacaoInitialState,
@@ -22,7 +22,7 @@ export function ArquivistaClassificacaoReducer(
 ): ArquivistaClassificacaoState {
     switch (action.type) {
 
-        case ArquivistaClassificacaoActions.GET_CLASSIFICACAO: {
+        case ArquivistaClassificacaoActions.GET_ARQUIVISTA_CLASSIFICACAO : {
             return {
                 ...state,
                 classificacaoId: null,
@@ -30,7 +30,7 @@ export function ArquivistaClassificacaoReducer(
             };
         }
 
-        case ArquivistaClassificacaoActions.GET_CLASSIFICACAO_SUCCESS: {
+        case ArquivistaClassificacaoActions.GET_ARQUIVISTA_CLASSIFICACAO_SUCCESS: {
 
             return {
                 ...state,
@@ -40,26 +40,26 @@ export function ArquivistaClassificacaoReducer(
             };
         }
 
-        case ArquivistaClassificacaoActions.CREATE_CLASSIFICACAO: {
+        case ArquivistaClassificacaoActions.UPDATE_ARQUIVISTA_CLASSIFICACAO: {
             return {
                 ...state,
                 classificacaoId: null,
                 loaded: {
-                    id: 'transicaoHandle',
-                    value: 'criar'
+                    id: 'classificacaoHandle',
+                    value: 'classificacao'
                 },
                 loading: false
             };
         }
 
-        case ArquivistaClassificacaoActions.GET_CLASSIFICACAO_FAILED: {
+        case ArquivistaClassificacaoActions.GET_ARQUIVISTA_CLASSIFICACAO_FAILED: {
             return {
                 ...state,
                 loading: false
             };
         }
 
-        case ArquivistaClassificacaoActions.SAVE_CLASSIFICACAO: {
+        case ArquivistaClassificacaoActions.SAVE_ARQUIVISTA_CLASSIFICACAO: {
             return {
                 ...state,
                 saving: true,
@@ -67,7 +67,7 @@ export function ArquivistaClassificacaoReducer(
             };
         }
 
-        case ArquivistaClassificacaoActions.SAVE_CLASSIFICACAO_SUCCESS: {
+        case ArquivistaClassificacaoActions.SAVE_ARQUIVISTA_CLASSIFICACAO_SUCCESS: {
             return {
                 ...state,
                 saving: false,
@@ -75,7 +75,7 @@ export function ArquivistaClassificacaoReducer(
             };
         }
 
-        case ArquivistaClassificacaoActions.SAVE_CLASSIFICACAO_FAILED: {
+        case ArquivistaClassificacaoActions.SAVE_ARQUIVISTA_CLASSIFICACAO_FAILED: {
             return {
                 ...state,
                 saving: false,
@@ -86,4 +86,6 @@ export function ArquivistaClassificacaoReducer(
         default:
             return state;
     }
+
 }
+
