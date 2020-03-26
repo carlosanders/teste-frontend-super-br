@@ -433,13 +433,13 @@ export class CdkProcessoGridFilterComponent implements OnInit {
 
     buscar(): void {
         this.emite();
-        this._cdkSidebarService.getSidebar('cdk-processo-main-sidebar').close();
+        this._cdkSidebarService.getSidebar('cdk-processo-grid-filter').close();
     }
 
     limpar(): void {
         this.filters = {};
         this.emite();
         this.form.reset();
-        this._cdkSidebarService.getSidebar('cdk-processo-main-sidebar').close();
+        this._cdkSidebarService.getSidebar('cdk-processo-grid-filter').close();
     }
 }

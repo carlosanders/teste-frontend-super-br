@@ -22,14 +22,12 @@ import {CdkProcessoAutocompleteModule} from '@cdk/components/processo/cdk-proces
 import {CdkProcessoGridFilterModule} from './cdk-processo-grid-filter/cdk-processo-grid-filter.module';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
-import {CdkProcessoMainSidebarComponent} from './sidebars/main/main.component';
 import {CommonModule} from '@angular/common';
 import {CdkChaveAcessoPluginModule} from '../../chave-acesso/cdk-chave-acesso-plugins/cdk-chave-acesso-plugin.module';
 
 @NgModule({
     declarations: [
         CdkProcessoGridComponent,
-        CdkProcessoMainSidebarComponent,
     ],
     imports: [
         MatButtonModule,

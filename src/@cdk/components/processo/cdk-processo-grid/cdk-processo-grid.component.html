@@ -2,7 +2,7 @@
 
     <!-- SIDEBAR -->
     <cdk-sidebar [lockedOpen]="(mode === 'search') ? 'gt-xs' : ''" class="sidebar"
-                 name="cdk-processo-main-sidebar"
+                 name="cdk-processo-grid-filter"
                  position="left">
         <cdk-processo-grid-filter (selected)="setGridFilter($event)"
                                   [mode]="this.mode"></cdk-processo-grid-filter>

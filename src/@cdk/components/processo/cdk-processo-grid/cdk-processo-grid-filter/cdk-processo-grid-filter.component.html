@@ -1,7 +1,7 @@
 <form class="altura" fxLayoutGap="16px" name="form" [formGroup]="form">
 
     <div class="altura" fxLayout="column">
-        <div class="x" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="center center">
+        <div class="padd" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="center center">
             <mat-icon [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
                 search
             </mat-icon>
@@ -9,7 +9,7 @@
                   *ngIf="this.mode === 'list'">Filtro</span>
         </div>
 
-        <div class="content" fxFlex="1 1 auto" fxLayout="column" cdkPerfectScrollbar>
+        <div class="padd" fxFlex="1 1 auto" fxLayout="column" cdkPerfectScrollbar>
             <mat-form-field *showIfRole="'ROLE_USER'" fxFlex="100">
                 <mat-label>Número do Processo</mat-label>
                 <input matInput #NUP
@@ -176,7 +176,7 @@
             </mat-form-field>
         </div>
 
-        <div class="x" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="center center">
+        <div class="padd" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="center center">
             <button mat-raised-button color="accent" class="mr-sm-12" (click)="buscar()">
                 Buscar
             </button>
