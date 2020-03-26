@@ -1,14 +1,11 @@
 <div class="page-layout left-sidebar" fxFlex>
 
     <!-- SIDEBAR -->
-    <cdk-sidebar [lockedOpen]="(mode === 'search') ? 'gt-xs' : ''" class="sidebar altura" name="cdk-processo-main-sidebar"
+    <cdk-sidebar [lockedOpen]="(mode === 'search') ? 'gt-xs' : ''" class="sidebar altura"
+                 name="cdk-processo-main-sidebar"
                  position="left">
-        <!-- SIDEBAR CONTENT -->
-        <div class="content" class="altura">
-            <cdk-processo-main-sidebar (selected)="setGridFilter($event)" [mode]="this.mode" class="altura"
-                                       [@animate]="{value:'*'}"></cdk-processo-main-sidebar>
-        </div>
-        <!-- / SIDEBAR CONTENT -->
+        <cdk-processo-grid-filter class="altura" (selected)="setGridFilter($event)"
+                                  [mode]="this.mode"></cdk-processo-grid-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
