@@ -7,19 +7,15 @@ import * as fromStore from '../../store';
 import { DocumentosState } from '../reducers';
 import { getRouterState } from 'app/store/reducers';
 import { getDocumentosHasLoaded } from '../selectors';
-import { getDocumentoAvulso } from '../../../store/selectors';
-import { DocumentoAvulso } from '@cdk/models';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
 
     routerState: any;
-    documentoAvulso: DocumentoAvulso;
 
     /**
-     * Constructor
      *
-     * @param {Store<omplementarState>} _store
+     * @param _store
      */
     constructor(
         private _store: Store<DocumentosState>
@@ -30,12 +26,6 @@ export class ResolveGuard implements CanActivate {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
-            });
-
-        this._store
-            .pipe(select(getDocumentoAvulso))
-            .subscribe(documentoAvulso => {
-               this.documentoAvulso = documentoAvulso;
             });
     }
 
@@ -64,10 +54,7 @@ export class ResolveGuard implements CanActivate {
             tap((loaded: any) => {
                 if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
                     this._store.dispatch(new fromStore.GetDocumentos({
-                        id: `eq:${this.documentoAvulso.documentoResposta.id}`
-                    }));
-                    this._store.dispatch(new fromStore.GetDocumentosComplementares({
-                        'documentoAvulsoComplementacaoResposta.id': `eq:${this.documentoAvulso.id}`
+                        'documentoAvulsoComplementacaoResposta.id': `eq:${this.routerState.params.documentoAvulsoHandle}`
                     }));
                 }
             }),

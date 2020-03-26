@@ -14,7 +14,7 @@ export const getDocumentosComplementaresState = createSelector(
 
 export const getDocumentosComplementaresId = createSelector(
     getDocumentosComplementaresState,
-    (state: DocumentosComplementaresState) => state.documentosId
+    (state: DocumentosComplementaresState) => state.documentosComplementaresId
 );
 
 

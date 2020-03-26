@@ -1,7 +1,7 @@
 import * as DocumentosComplementaresActions from '../actions/documentos-complementar.actions';
 
 export interface DocumentosComplementaresState {
-    documentosId: number[];
+    documentosComplementaresId: number[];
     documentosLoaded: any;
     selectedDocumentosId: number[];
     deletingDocumentoIds: number[];
@@ -12,7 +12,7 @@ export interface DocumentosComplementaresState {
 }
 
 export const DocumentosComplementaresInitialState: DocumentosComplementaresState = {
-    documentosId: [],
+    documentosComplementaresId: [],
     documentosLoaded: false,
     selectedDocumentosId: [],
     deletingDocumentoIds: [],
@@ -30,7 +30,7 @@ export function DocumentosComplementaresReducer(
         case DocumentosComplementaresActions.GET_DOCUMENTOS_COMPLEMENTARES_SUCCESS: {
             return {
                 ...state,
-                documentosId: action.payload.entitiesId,
+                documentosComplementaresId: action.payload.entitiesId,
                 documentosLoaded: action.payload.loaded,
             };
         }

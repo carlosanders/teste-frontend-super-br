@@ -61,7 +61,8 @@ export class DocumentosEffects {
                             'tipoDocumento',
                             'documentoAvulsoRemessa',
                             'documentoAvulsoRemessa.documentoResposta',
-                            'juntadaAtual'
+                            'juntadaAtual',
+                            'componentesDigitais'
                         ]));
                 }),
                 mergeMap(response => [
@@ -86,40 +87,40 @@ export class DocumentosEffects {
      * Get Documentos Complementares with router parameters
      * @type {Observable<any>}
      */
-    @Effect()
-    getDocumentosComplementares: any =
-        this._actions
-            .pipe(
-                ofType<DocumentosComplementaresActions.GetDocumentosComplementares>(DocumentosComplementaresActions.GET_DOCUMENTOS_COMPLEMENTARES),
-                switchMap((action) => {
-                    return this._documentoService.query(
-                        JSON.stringify(action.payload),
-                        10,
-                        0,
-                        JSON.stringify({criadoEm: 'DESC'}),
-                        JSON.stringify([
-                            'tipoDocumento',
-                            'documentoAvulsoRemessa',
-                            'documentoAvulsoRemessa.documentoResposta',
-                            'juntadaAtual'
-                        ]));
-                }),
-                mergeMap(response => [
-                    new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
-                    new DocumentosComplementaresActions.GetDocumentosCompelemtaresSuccess({
-                        loaded: {
-                            id: 'documentoAvulsoHandle',
-                            value: this.routerState.params.documentoAvulsoHandle
-                        },
-                        entitiesId: response['entities'].map(documento => documento.id),
-                    })
-                ]),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new DocumentosComplementaresActions.GetDocumentosComplementaresFailed(err));
-                    return caught;
-                })
-            );
+    // @Effect()
+    // getDocumentosComplementares: any =
+    //     this._actions
+    //         .pipe(
+    //             ofType<DocumentosComplementaresActions.GetDocumentosComplementares>(DocumentosComplementaresActions.GET_DOCUMENTOS_COMPLEMENTARES),
+    //             switchMap((action) => {
+    //                 return this._documentoService.query(
+    //                     JSON.stringify(action.payload),
+    //                     10,
+    //                     0,
+    //                     JSON.stringify({criadoEm: 'DESC'}),
+    //                     JSON.stringify([
+    //                         'tipoDocumento',
+    //                         'documentoAvulsoRemessa',
+    //                         'documentoAvulsoRemessa.documentoResposta',
+    //                         'juntadaAtual'
+    //                     ]));
+    //             }),
+    //             mergeMap(response => [
+    //                 new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
+    //                 new DocumentosComplementaresActions.GetDocumentosCompelemtaresSuccess({
+    //                     loaded: {
+    //                         id: 'documentoAvulsoHandle',
+    //                         value: this.routerState.params.documentoAvulsoHandle
+    //                     },
+    //                     entitiesId: response['entities'].map(documento => documento.id),
+    //                 })
+    //             ]),
+    //             catchError((err, caught) => {
+    //                 console.log(err);
+    //                 this._store.dispatch(new DocumentosComplementaresActions.GetDocumentosComplementaresFailed(err));
+    //                 return caught;
+    //             })
+    //         );
 
     /**
      * Clicked Documento
@@ -131,7 +132,8 @@ export class DocumentosEffects {
             .pipe(
                 ofType<DocumentosActions.ClickedDocumento>(DocumentosActions.CLICKED_DOCUMENTO),
                 tap((action) => {
-                    this._router.navigate([this.routerState.url + '/documento/' + action.payload.id + '/oficio']).then();
+                    this._router.navigate(['apps/documento/componentes-digitais/' + action.payload.componentesDigitais[0].id
+                    + '/visualizar/' + this.routerState.params.chaveAcessoHandle]);
                 })
             );
 

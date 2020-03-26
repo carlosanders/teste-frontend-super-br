@@ -24,7 +24,7 @@
                                     (click)="responderDocumento()">
                                 <ng-container>
                                     <mat-icon>picture_as_pdf</mat-icon>
-                                    <span>{{this.documentoAvulso.documentoResposta === null ? 'Responder' : 'Complementar'}}</span>
+                                    <span>{{documentoAvulso.documentoResposta ? 'Complementar': 'Responder'}}</span>
                                 </ng-container>
                             </button>
                         </mat-menu>
