@@ -2,12 +2,21 @@ cdk-processo-grid-filter {
 
     height: 100%;
 
+
     .altura {
         height: 100%;
     }
 
     .content {
         min-height: 0px;
-        padding: 1%;
+        //background-color: white;
+        padding: 6%;
+    }
+    .x {
+        padding: 6%;
+    }
+
+    .y {
+        padding-bottom: 8%;
     }
 }
