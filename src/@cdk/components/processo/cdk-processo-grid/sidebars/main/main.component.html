@@ -1,19 +1,19 @@
 <!-- SIDEBAR HEADER -->
-<div fxLayout="column" fxLayoutAlign="space-between start"
-     class="header p-16">
-    <div class="logo" fxFlex fxLayout="row" fxLayoutAlign="start center">
-        <mat-icon class="logo-icon s-24" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
-            search
-        </mat-icon>
-        <span class="logo-text" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}" *ngIf="this.mode === 'list'">Filtros</span>
-    </div>
-</div>
+<!--<div fxLayout="column" fxLayoutAlign="space-between start"-->
+<!--     class="header p-16">-->
+<!--    <div class="logo" fxFlex fxLayout="row" fxLayoutAlign="start center">-->
+<!--        <mat-icon class="logo-icon s-24" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">-->
+<!--            search-->
+<!--        </mat-icon>-->
+<!--        <span class="logo-text" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}" *ngIf="this.mode === 'list'">Filtros</span>-->
+<!--    </div>-->
+<!--</div>-->
 <!-- / SIDEBAR HEADER -->
 
 <!-- SIDEBAR CONTENT -->
-<div class="py-16" cdkPerfectScrollbar>
-    <div fxLayout="column">
+<!--<div class="py-16" class="altura">-->
+<!--    <div fxLayout="column" class="altura">-->
         <cdk-processo-grid-filter (selected)="setGridFilter($event)" [mode]="this.mode"></cdk-processo-grid-filter>
-    </div>
-</div>
+<!--    </div>-->
+<!--</div>-->
 <!-- / SIDEBAR CONTENT -->
