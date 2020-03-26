@@ -106,8 +106,7 @@ export class ModelosEditComponent implements OnInit, OnDestroy {
 
         const modelo = new Modelo();
         // modelo.id = null;
-        // modelo.modalidadeModelo = new ModalidadeModelo();
-
+        modelo.modalidadeModelo = new ModalidadeModelo();
 
         Object.entries(values).forEach(
             ([key, value]) => {
@@ -116,9 +115,9 @@ export class ModelosEditComponent implements OnInit, OnDestroy {
         );
 
         if (modelo['nacional']) {
-           // modelo.modalidadeModelo.id = 3;
+           modelo.modalidadeModelo.id = 4;
         } else {
-           // modelo.modalidadeModelo.id = 4;
+           modelo.modalidadeModelo.id = 3;
         }
 
         console.log(modelo);

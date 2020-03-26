@@ -2,7 +2,7 @@ import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
 
 import {Usuario, VinculacaoModelo} from '@cdk/models';
-import {ModalidadeMeio} from '@cdk/models';
+import {ModalidadeModelo} from '@cdk/models';
 import {Template} from '@cdk/models';
 import {Documento} from '@cdk/models';
 
@@ -23,9 +23,9 @@ export class Modelo {
 
     ativo?: boolean;
 
-    @Type(() => ModalidadeMeio)
+    @Type(() => ModalidadeModelo)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    modalidadeModelo?: ModalidadeMeio;
+    modalidadeModelo?: ModalidadeModelo;
 
     @Type(() => Template)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
