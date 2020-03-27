@@ -6,6 +6,10 @@ vertical-layout-2 {
     width: 100%;
     height: 100%;
 
+    .ajuda-panel {
+        min-width: 500px !important;
+    }
+
     #main {
         position: relative;
         display: flex;

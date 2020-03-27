@@ -7,7 +7,7 @@ export interface ComponentesDigitaisAppState
 }
 
 export const getComponentesDigitaisAppState = createFeatureSelector<ComponentesDigitaisAppState>(
-    'pesquisa-componentes-digitais-app'
+    'pesquisa-componente-digital-app'
 );
 
 export const getAppState = createSelector(

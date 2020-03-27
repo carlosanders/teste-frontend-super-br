@@ -1,0 +1,8 @@
+<cdk-numero-unico-documento-form
+        [numeroUnicoDocumento]="numeroUnicoDocumento"
+        [setor]="(unidade$ | async).numeracaoDocumentoUnidade ? (unidade$ | async) : (setor$ | async)"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        [tipoDocumentoPagination]="tipoDocumentoPagination"
+        (save)="submit($event)">
+</cdk-numero-unico-documento-form>

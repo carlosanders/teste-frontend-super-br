@@ -31,6 +31,7 @@ import {filter, takeUntil} from 'rxjs/operators';
 import {Pagination} from '@cdk/models';
 import {LoginService} from '../../auth/login/login.service';
 import {ToggleMaximizado} from 'app/main/apps/tarefas/store';
+import { Topico } from 'ajuda/topico';
 import {Usuario} from '@cdk/models';
 
 @Component({
@@ -87,6 +88,9 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     private _profile: Usuario;
 
     mobileMode = false;
+
+    AjudaTarefa: Topico;
+    PesquisaTarefa: string;
 
     @ViewChild('tarefaListElement', {read: ElementRef, static: true}) tarefaListElement: ElementRef;
 
@@ -195,6 +199,10 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                 this.mobileMode = false;
             }
         });
+
+        this.PesquisaTarefa = 'tarefa';//IDEIA INICIAL AJUDA ABA TAREFAS
+        
+
     }
 
     ngAfterViewInit(): void {
@@ -377,7 +385,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     doUploadBloco(): void {
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/upload-bloco']).then();
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/responder-complementar-create-bloco']).then();
     }
 
     doEditorBloco(): void {

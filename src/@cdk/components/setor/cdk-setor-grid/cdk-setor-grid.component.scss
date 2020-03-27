@@ -1,4 +1,4 @@
-@import "src/@cdk/scss/cdk";
+@import "../../../scss/cdk";
 
 cdk-setor-grid {
 
@@ -12,16 +12,32 @@ cdk-setor-grid {
         }
     }
 
-    .mat-column-select {
-        overflow: initial;
-    }
-
-    table {
+    .content {
         width: 100%;
 
-        td {
-            &.deleted {
-                text-decoration: line-through;
+        .actions {
+            width: 100%;
+
+            .back {
+                margin-right: auto;
+            }
+        }
+
+        .mat-column-select {
+            overflow: initial;
+        }
+
+        table {
+            width: 100%;
+
+            tr {
+                height: auto;
+            }
+
+            td {
+                &.deleted {
+                    text-decoration: line-through;
+                }
             }
         }
     }
@@ -101,16 +117,6 @@ cdk-setor-grid {
 
         .mat-paginator {
             margin-top: 24px;
-        }
-    }
-
-    .content {
-        .actions {
-            width: 100%;
-
-            .back {
-                margin-right: auto;
-            }
         }
     }
 }

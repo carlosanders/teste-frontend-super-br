@@ -1,4 +1,4 @@
-import { Injector, NgModule, ɵrenderComponent as renderComponent } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {
     MatButtonModule, MatIconModule, MatMenuModule, MatProgressSpinnerModule, MatTooltipModule
@@ -20,12 +20,12 @@ import { VinculacaoEtiquetaService } from '@cdk/services/vinculacao-etiqueta.ser
 import { DocumentoService } from '@cdk/services/documento.service';
 import { PipesModule } from '@cdk/pipes/pipes.module';
 import { LoginService } from '../../../auth/login/login.service';
-import {CdkComponenteDigitalCardListModule} from '@cdk/components/componente-digital/cdk-componente-digital-card-list/cdk-componente-digital-card-list.module';
-import {CdkDocumentoCardListModule} from '@cdk/components/documento/cdk-documento-card-list/cdk-documento-card-list.module';
-import {CdkUploadModule} from '@cdk/components/upload/cdk-upload.module';
-import {CdkAtividadeFormModule} from '@cdk/components/atividade/cdk-atividade-form/cdk-atividade-form.module';
-import {ResponderComplementarModule} from './reponder-complementar/responder-complementar.module';
-import {MatBadge, MatBadgeModule} from '@angular/material/badge';
+import { CdkComponenteDigitalCardListModule } from '@cdk/components/componente-digital/cdk-componente-digital-card-list/cdk-componente-digital-card-list.module';
+import { CdkDocumentoCardListModule } from '@cdk/components/documento/cdk-documento-card-list/cdk-documento-card-list.module';
+import { CdkUploadModule } from '@cdk/components/upload/cdk-upload.module';
+import { CdkAtividadeFormModule } from '@cdk/components/atividade/cdk-atividade-form/cdk-atividade-form.module';
+import { MatBadgeModule } from '@angular/material/badge';
+
 const routes: Routes = [
     {
         path: ':documentoAvulsoHandle',
@@ -36,9 +36,17 @@ const routes: Routes = [
                 loadChildren: () => import('app/main/apps/processo/processo.module').then(m => m.ProcessoModule)
             },
             {
-                path: 'responder-complementar',
-                loadChildren: () => import('./reponder-complementar/responder-complementar.module').then(m => m.ResponderComplementarModule)
+                path: 'responder/:chaveAcessoHandle',
+                loadChildren: () => import('./responder/responder.module').then(m => m.ResponderModule)
             },
+            {
+                path: 'complementar/:chaveAcessoHandle',
+                loadChildren: () => import('./complementar/complementar.module').then(m => m.ComplementarModule)
+            },
+            {
+                path: 'documento',
+                loadChildren: () => import('./componente-digital/componente-digital.module').then(m => m.ComponenteDigitalModule),
+            }
         ],
         canActivate: [fromGuards.ResolveGuard]
     }
@@ -72,8 +80,7 @@ const routes: Routes = [
         CdkDocumentoCardListModule,
         CdkUploadModule,
         CdkAtividadeFormModule,
-        MatBadgeModule,
-        ResponderComplementarModule
+        MatBadgeModule
     ],
     exports: [
         OficioDetailComponent

@@ -4,7 +4,6 @@ import {Type, Transform, Exclude} from 'class-transformer';
 import { Usuario } from '@cdk/models';
 import {Cargo} from '@cdk/models';
 import {ModalidadeColaborador} from '@cdk/models';
-import {VinculacaoEtiqueta} from './vinculacao-etiqueta.model';
 import {Lotacao} from './lotacao.model';
 
 export class Colaborador {
@@ -61,6 +60,8 @@ export class Colaborador {
     @Type(() => Lotacao)
     lotacoes?: Lotacao[];
 
+    ativo: boolean;
+
     constructor() {
         this.id = null;
         this.uuid = null;
@@ -68,6 +69,7 @@ export class Colaborador {
         this.modalidadeColaborador = null;
         this.usuario = null;
         this.lotacoes = null;
+        this.ativo = null;
         this.criadoPor = null;
         this.criadoEm = null;
         this.atualizadoPor = null;

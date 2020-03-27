@@ -7,7 +7,7 @@ import { effects } from 'app/main/apps/pesquisa/componentes-digitais/store/effec
 
 @NgModule({
     imports  : [
-        StoreModule.forFeature('pesquisa-componentes-digitais-app', reducers),
+        StoreModule.forFeature('pesquisa-componente-digital-app', reducers),
         EffectsModule.forFeature(effects)
     ],
     providers: []

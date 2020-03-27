@@ -58,7 +58,7 @@ export class ResolveGuard implements CanActivate {
             tap((loaded: any) => {
                 if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
                     this._store.dispatch(new fromStore.GetDocumentoAvulso({
-                        id: `eq:${this.routerState.params['documentoAvulsoHandle']}`
+                        id: `eq:${this.routerState.params[loaded.id]}`
                     }));
                 }
             }),

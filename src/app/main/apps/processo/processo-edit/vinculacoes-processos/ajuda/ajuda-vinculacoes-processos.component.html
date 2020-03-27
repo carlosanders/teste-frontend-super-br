@@ -1,0 +1,128 @@
+<div>
+    <div *ngIf="titulo === 'vinculacoes'" class="content p-16" fxLayout="column">
+        <h3><strong>VINCULAÇÕES DE PROCESSOS</strong></h3>
+        <p style="text-align: justify;text-indent: 20px">
+            Um processo pode ser vinculado a outro processo/documento avulso. 
+        </p>
+        <mat-expansion-panel style="text-align: center;margin-left: 20px">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                DOCUMENTO AVULSO?
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <p> 
+            Aquele produzido no âmbito do órgão ou entidade e que demande análise, informação, despacho, parecer ou decisão administrativa e 
+            que necessite de tramitação ou como o documento produzido no âmbito de outro órgão ou entidade e que não tenha recebido NUP na origem.     
+            </p>
+        </mat-expansion-panel>
+        <p style="text-align: justify;text-indent: 20px">
+            Qualquer usuário poderá adicionar ou remover vinculações entre documentos, mesmo após a juntada.
+        </p>
+        <h3 style="text-align: justify;text-indent: 20px">
+            <strong>Analisando as vinculações</strong>
+        </h3>
+        <p style="text-align: justify;margin-left: 40px">
+            1. No grid com opções de dados que podem/devem ser preenchidos, escolha o campo <strong>Vinculações</strong>
+        </p>
+        <p style="text-align: center;margin-left: 40px">
+            <img src="assets/images/ajuda/processovinculacoes.png" style="width: 200px;" class="fr-fic fr-dib fr-fil"> 
+        </p>
+        <p style="text-align: justify;margin-left: 40px">
+            2. A página de vinculações é aberta. A lista de vinculações aparece no centro da página.      
+        </p>
+        <p style="text-align: justify;margin-left: 40px">
+            3. É possível adicionar vinculações, a partir do botão <img src="assets/images/ajuda/novo.png" class="fr-fic fr-dii">.
+            Ao clicar nele, a página de criação de vinculações é aberta.
+        </p>
+        <p style="text-align: justify;margin-left: 40px">
+            4. Para realizar novas vinculações, necessariamente devem ser informados o NUP a ser vinculado e a modalidade de vinculação.
+        </p>
+        <mat-expansion-panel style="text-align: center;margin-left: 20px">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                MODALIDADES?
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+           <p> 
+            ANEXAÇÃO é a união <strong>definitiva e irreversível</strong> de um ou mais processos/documentos avulsos a outro processo/documento avulso considerado principal, <strong>desde que pertencentes ao um mesmo interessado que contenham o mesmo assunto</strong>.<br><br>
+            Após a anexação, os documentos que estavam juntados no processo/documento avulso vinculado são migrados de forma definitiva para o processo principal. Todos os andamentos passam a ocorrer apenas no processo principal, sendo o vinculado encerrado.<br><br>
+            APENSAMENTO é a união provisória de um ou mais processos/documentos avulsos a um processo/documento avulso mais antigo, mantendo cada um a sua numeração específica, destinada ao estudo e à uniformidade de tratamento em matéria semelhante, com o mesmo interessado ou não.<br><br>
+            Para realizar o apensamento é necessário que ambos os NUPs estejam no mesmo setor atual e, após isso, passam a tramitar conjuntamente. Ou seja, ao tramitar o NUP principal para outro setor, o NUP apensado será tramitado conjuntamente.<br><br>
+            REMISSÃO é a mera referência a outro NUP, por necessidade gerencial, sem qualquer consequência para os documentos ou tramitações. Podem estar em setores e até em unidades diferentes. Em suma, é apenas um apontamento no sentido de que o outro NUP, de alguma forma, se correlaciona com o principal.<br><br>
+          </p>
+        </mat-expansion-panel>
+        <hr>
+        <div style="background-color: #d3d3d3;">
+            <p>
+                <img src="assets/images/ajuda/atencao.png" style="width: 15px;"class="fr-fic fr-dii"><strong>FIQUE ATENTO:</strong>
+            </p>
+            <p style="text-indent: 20px">    
+                Para realizar a vinculação o usuário precisa de poderes para editar ambos os NUPs.
+            </p>
+            <p style="text-indent: 20px">
+                Processos/Documentos Avulsos em tramitação NÃO podem ser vinculados.
+            </p>
+            <p style="text-indent: 20px">
+                Processos/Documentos Avulsos vinculados devem ser do <strong>mesmo</strong> meio de <strong>suporte</strong> (físico x físico, eletrônico x eletrônico).
+            </p>
+            <p style="text-indent: 20px">
+                Processos/Documentos Avulsos localizados em setores diferentes NÃO podem ser vinculados.
+            </p>
+            <p style="text-indent: 20px">
+                Um Processo/Documento Avulso NÃO pode ser vinculado a ele mesmo.
+            </p>
+            <p style="text-indent: 20px">
+                Um NUP recebido via barramento/integração NÃO pode ser vinculado.
+            </p>
+            <p style="text-indent: 20px">
+                Não é possível vincular mais do que 150 (cento e cinquenta) NUPs.
+            </p>
+            <p style="text-indent: 20px">
+                <strong>Não pode haver dupla vinculação!</strong> O NUP vinculado não pode estar vinculado a outro, 
+                o NUP vinculado NÃO pode possuir outros NUPs vinculados a ele e o NUP principal NÃO pode se encontrar vinculado a outro.
+            </p>
+            <p style="text-indent: 20px">
+                Para vincular, os Processos/Documentos Avulsos devem possuir os mesmos interessados e os mesmos assuntos.
+            </p>
+            <p style="text-indent: 20px">
+                A <strong>anexação</strong> entre NUPs é sempre <strong>definitiva</strong> e <strong>não pode ser desfeita</strong>.
+            </p>
+            <p style="text-indent: 20px">
+                Para realizar a exclusão o usuário precisa de poderes de editar ambos os NUPs.
+            </p>
+        </div>  
+        <div class="row" style="background-color: #d3d3d3;">
+            <strong>Para maiores informações:</strong><br><br>
+            <div class="column">
+                <li><a href="javascript:void(0)" (click)="carregar('assuntos')">Assuntos</a></li> 
+                <li><a href="javascript:void(0)" (click)="carregar('interessados')">Interessados</a></li>
+                <li><a href="javascript:void(0)" (click)="carregar('tramitacoes')">Tramitações</a></li> 
+            </div>
+            <div class="column">
+                <li><a href="javascript:void(0)" (click)="carregar('sigilos')">Sigilos</a></li> 
+                <li><a href="javascript:void(0)" (click)="carregar('visibilidades')">Restrições de Acesso</a></li> 
+            </div>
+        </div>
+        <p><br></p>
+    </div>
+    <div *ngIf="titulo === 'assuntos'">
+        <ajuda-assuntos></ajuda-assuntos>
+        <a href="javascript:void(0)" (click)="carregar('vinculacoes')">Voltar ao <strong>Vinculações de Processos</strong></a>
+    </div>
+    <div *ngIf="titulo === 'interessados'">
+        <ajuda-interessados></ajuda-interessados>
+        <a href="javascript:void(0)" (click)="carregar('vinculacoes')">Voltar ao <strong>Vinculações de Processos</strong></a>
+    </div>
+    <div *ngIf="titulo === 'tramitacoes'">
+        <ajuda-tramitacoes></ajuda-tramitacoes>
+        <a href="javascript:void(0)" (click)="carregar('vinculacoes')">Voltar ao <strong>Vinculações de Processos</strong></a>
+    </div>
+    <div *ngIf="titulo === 'sigilos'">
+        <ajuda-sigilos></ajuda-sigilos>
+        <a href="javascript:void(0)" (click)="carregar('vinculacoes')">Voltar ao <strong>Vinculações de Processos</strong></a>
+    </div>
+    <div *ngIf="titulo === 'visibilidades'">
+        <ajuda-visibilidades></ajuda-visibilidades>
+        <a href="javascript:void(0)" (click)="carregar('vinculacoes')">Voltar ao <strong>Vinculações de Processos</strong></a>
+    </div>
+</div>

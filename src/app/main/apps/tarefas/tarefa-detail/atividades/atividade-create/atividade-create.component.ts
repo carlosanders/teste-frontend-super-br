@@ -186,6 +186,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
+        this._store.dispatch(new fromStore.UnloadDocumentos());
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -247,6 +248,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy {
     }
 
     doConverte(documentoId): void {
+        
         this._store.dispatch(new fromStore.ConverteToPdf(documentoId));
     }
 }

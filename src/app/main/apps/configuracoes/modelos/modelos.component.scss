@@ -1,16 +1,8 @@
-#modelos {
-
-  .header {
-
-    .actions {
-      .is-active {
-        display: none;
-      }
-    }
-
-  }
-
-  .content {
-
+modelos {
+  height: 100%;
+  width: 100%;
+  .modelos-content {
+    height: 100%;
+    width: 100%;
   }
 }

@@ -11,6 +11,7 @@ import {
     MatTooltipModule,
     MatRadioModule
 } from '@cdk/angular/material';
+
 import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkProcessoFormComponent} from './cdk-processo-form.component';
 import {CdkEspecieProcessoAutocompleteModule} from '@cdk/components/especie-processo/cdk-especie-processo-autocomplete/cdk-especie-processo-autocomplete.module';
@@ -49,9 +50,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
         MatNativeDatetimeModule,
         MatTooltipModule,
         MatRadioModule,
-
         NgxUpperCaseDirectiveModule,
-
         CdkEspecieProcessoAutocompleteModule,
         CdkEspecieProcessoGridsearchModule,
         CdkModalidadeFaseAutocompleteModule,
@@ -63,8 +62,6 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
         CdkSetorAutocompleteModule,
         CdkSetorGridsearchModule,
         CdkPessoaAutocompleteModule,
-        CdkProcessoAutocompleteModule,
-        CdkProcessoGridsearchModule,
 
         CdkSharedModule,
         CdkLogentryGridsearchModule,

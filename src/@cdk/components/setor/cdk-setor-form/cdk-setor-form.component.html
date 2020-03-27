@@ -1,10 +1,7 @@
 <div class="pr-16" fxFlex *ngIf="activeCard === 'form'" cdkPerfectScrollbar>
-
-    <form class="p-24" fxLayoutGap="36px"
+    <form *ngIf="activeCard === 'form'" class="p-24"
           fxLayout="column"
           fxLayoutAlign="start" name="form" [formGroup]="form" (submit)="submit()">
-
-        <div fxFlex="1 0 auto" fxLayout="column">
 
             <mat-form-field fxFlex="100">
                 <div fxLayout="row" fxLayoutAlign="start center">
@@ -70,21 +67,21 @@
             <mat-form-field fxFlex="100">
                 <div fxLayout="row" fxLayoutAlign="start center">
                     <input matInput placeholder="Setor Pai"
-                           formControlName="setor"
+                           formControlName="parent"
                            [matAutocomplete]="setor.autocomplete"
                            (blur)="checkSetor()" required>
                 </div>
                 <cdk-setor-autocomplete
                     #setor="setorAutocomplete"
-                    [control]="form.get('setor')"
+                    [control]="form.get('parent')"
                     [pagination]="setorPagination">
                 </cdk-setor-autocomplete>
                 <button matSuffix mat-button mat-icon-button
                         (click)="showSetorGrid()">
                     <mat-icon matTooltip="Procurar">search</mat-icon>
                 </button>
-                <mat-error *ngIf="form.get('setor').hasError('formError')">
-                    {{form.get('setor').errors.formError}}
+                <mat-error *ngIf="form.get('parent').hasError('formError')">
+                    {{form.get('parent').errors.formError}}
                 </mat-error>
             </mat-form-field>
 
@@ -95,7 +92,7 @@
                              formControlName="distribuicaoCentena"
                              aria-labelledby="Tipo Prevenção Absoluta"
                              fxLayoutAlign="row">
-                <div fxLayout="row" class="start center mat-form-field-wrapper" fxFlex *ngIf="!form.value.id"
+                <div fxLayout="row" class="start center mat-form-field-wrapper" fxFlex
                      fxLayoutAlign="start center">
                     <label id="distribuicaoCentena" class="flex legenda">Tipo Prevenção Absoluta</label>
 
@@ -113,7 +110,7 @@
                              formControlName="prazoEqualizacao"
                              aria-labelledby="Prazo Máximo Equalização"
                              fxLayoutAlign="row">
-                <div fxLayout="row" class="start center mat-form-field-wrapper" fxFlex *ngIf="!form.value.id"
+                <div fxLayout="row" class="start center mat-form-field-wrapper" fxFlex
                      fxLayoutAlign="start center">
                     <label id="prazoEqualizacao" class="flex legenda">Prazo Máximo Equalização </label>
                     <mat-radio-button [checked]="true" [value]="7">
@@ -128,11 +125,11 @@
 
             <mat-radio-group class="divergenciaMaxima"
                              formControlName="divergenciaMaxima"
-                             aria-labelledby="Divirgência Máxima Diária"
+                             aria-labelledby="Divergência Máxima Diária"
                              fxLayoutAlign="row">
-                <div fxLayout="row" class="start center mat-form-field-wrapper" fxFlex *ngIf="!form.value.id"
+                <div fxLayout="row" class="start center mat-form-field-wrapper" fxFlex
                      fxLayoutAlign="start center">
-                    <label id="divergenciaMaxima" class="flex legenda">Divirgência Máxima Diária </label>
+                    <label id="divergenciaMaxima" class="flex legenda">Divergência Máxima Diária </label>
                     <mat-radio-button [checked]="true" [value]="25">
                         PEQUENA
                     </mat-radio-button>
@@ -142,12 +139,12 @@
                 </div>
             </mat-radio-group>
 
-            <mat-checkbox formControlName="desconsiderar"
+            <mat-checkbox formControlName="apenasDistribuicaoAutomatica"
                           class="mr-16 mb-16" fxFlex="0 1 auto">
-                Desconsiderar Distribuição
+                Desconsiderar Distribuição Manual
             </mat-checkbox>
 
-            <mat-checkbox formControlName="prevencao_relatica"
+            <mat-checkbox formControlName="comPrevencaoRelativa"
                           class="mr-16 mb-16" fxFlex="0 1 auto">
                 Aplicar Prevenção Relativa
             </mat-checkbox>
@@ -167,28 +164,27 @@
 
             <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
-            <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-                 fxLayoutAlign="center center">
+            <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16">
                 <button mat-raised-button color="accent" class="mr-sm-12"
                         [disabled]="form.invalid">
                     SALVAR
                 </button>
             </div>
 
-            <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+            <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16"
                  fxLayoutAlign="center center">
                 <mat-spinner color="accent" diameter="24"></mat-spinner>
             </div>
-
-        </div>
     </form>
 </div>
-<cdk-especie-setor-grid
+
+<cdk-especie-setor-gridsearch
     fxFlex="1 0 auto"
     *ngIf="activeCard === 'especie-setor-gridsearch'"
+    [pagination]="especieSetorPagination"
     (selected)="selectEspecieSetor($event)"
     (cancel)="cancel()">
-</cdk-especie-setor-grid>
+</cdk-especie-setor-gridsearch>
 
 <cdk-municipio-gridsearch
     fxFlex="1 0 auto"
@@ -200,6 +196,7 @@
 <cdk-setor-gridsearch
     fxFlex="1 0 auto"
     *ngIf="activeCard === 'setor-gridsearch'"
+    [pagination]="setorPagination"
     (selected)="selectSetor($event)"
     (cancel)="cancel()">
 </cdk-setor-gridsearch>

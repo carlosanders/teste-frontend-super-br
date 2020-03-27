@@ -1,31 +1,27 @@
 processo {
 
+  .processo-content {
     height: 100%;
+  }
 
-    .processo-content {
-        height: 100%;
+  .sidebar {
 
-        .sidebar {
+    &:not(.locked-open) {
+      background: white;
+    }
+  }
 
-            &:not(.locked-open) {
-                background: white;
-            }
-        }
+  .center {
 
-        .center {
-
-            .actions {
-                margin-left: auto;
-                margin-right: 16px;
-            }
-
-            cdk-vinculacao-etiqueta-chips {
-                width: 100%;
-            }
-
-        }
+    .actions {
+      margin-left: auto;
+      margin-right: 16px;
     }
 
+    cdk-vinculacao-etiqueta-chips {
+      width: 100%;
+    }
 
+  }
 }
 

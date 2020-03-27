@@ -1,12 +1,12 @@
-import {NgModule, LOCALE_ID} from '@angular/core';
+import {LOCALE_ID, NgModule} from '@angular/core';
 import {registerLocaleData} from '@angular/common';
 import localePt from '@angular/common/locales/pt';
 import {BrowserModule} from '@angular/platform-browser';
-import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ExtraOptions, RouterModule, Routes} from '@angular/router';
 import {MatMomentDateModule} from '@angular/material-moment-adapter';
-import {MatButtonModule, MatIconModule, MatSnackBarModule} from '@cdk/angular/material';
+import {MAT_DATE_LOCALE, MatButtonModule, MatIconModule, MatSnackBarModule} from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 import {CKEditorModule} from 'ng2-ckeditor';
 import 'hammerjs';
@@ -20,17 +20,12 @@ import {cdkConfig} from 'app/cdk-config';
 import {AppComponent} from 'app/app.component';
 import {AppStoreModule} from 'app/store/store.module';
 import {LayoutModule} from 'app/layout/layout.module';
-import {InMemoryWebApiModule} from 'angular-in-memory-web-api';
 import {AuthGuard} from './main/guard';
 import {LoginInterceptor} from './main/auth/login/login.interceptor';
 import {LogoutInterceptor} from './main/auth/login/logout.interceptor';
 import {LoginService} from './main/auth/login/login.service';
 
-import {FakeDbService} from 'app/fake-db/fake-db.service';
-
 import {ModelModule} from '@cdk/models';
-
-import {MAT_DATE_LOCALE} from '@cdk/angular/material';
 import {ErrorInterceptor} from './main/auth/login/error.interceptor';
 import {LoginStoreModule} from './main/auth/login/store/store.module';
 
@@ -59,7 +54,7 @@ const routingConfiguration: ExtraOptions = {
 
 @NgModule({
     declarations: [
-        AppComponent
+        AppComponent,
     ],
     imports: [
         BrowserModule,

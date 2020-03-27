@@ -78,10 +78,13 @@ export class NotificacaoService {
         return this.modelService.delete('notificacao', id, new HttpParams({fromObject: params}));
     }
 
-    toggleLida(notificacao: Notificacao): Observable<Notificacao> {
+    toggleLida(notificacao: Notificacao, context: any = '{}'): Observable<Notificacao> {
+        const params = {};
+        params['context'] = context;
         return this.http.patch(
             `${environment.api_url}${'notificacao'}/${notificacao.id}/${'toggle_lida'}` + environment.xdebug,
-            JSON.stringify(classToPlain(notificacao))
+            JSON.stringify(classToPlain(notificacao)),
+            {params}
         ).pipe(
             map(response => {
                 response = plainToClass(Notificacao, response);

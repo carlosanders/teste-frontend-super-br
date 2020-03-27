@@ -13,6 +13,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
+import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'localizador-list',
@@ -31,6 +32,7 @@ export class LocalizadorListComponent implements OnInit {
     pagination: any;
     deletingIds$: Observable<any>;
     deletedIds$: Observable<any>;
+    setorPagination: Pagination = new Pagination();
 
     /**
      * @param _changeDetectorRef
@@ -55,6 +57,12 @@ export class LocalizadorListComponent implements OnInit {
                     this.routerState = routerState.state;
                 }
             });
+
+        this.setorPagination.populate = ['populateAll'];
+        this.setorPagination.filter = {
+            'unidade.id':'eq:' + this.routerState.params.unidadeHandle,
+            'id':'eq:' + this.routerState.params.setorHandle
+        };
     }
 
     ngOnInit(): void {
@@ -73,7 +81,8 @@ export class LocalizadorListComponent implements OnInit {
             sort: params.sort,
             limit: params.limit,
             offset: params.offset,
-            populate: this.pagination.populate
+            populate: this.pagination.populate,
+            context: this.pagination.context
         }));
     }
 
@@ -83,10 +92,6 @@ export class LocalizadorListComponent implements OnInit {
 
     delete(localizadorId: number): void {
         this._store.dispatch(new fromStore.DeleteLocalizador(localizadorId));
-    }
-
-    setPrincipal(localizador: Localizador): void {
-        this._store.dispatch(new fromStore.SaveLocalizador({localizador: localizador, changes: {principal: true}}));
     }
 
 }

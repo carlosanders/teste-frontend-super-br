@@ -198,7 +198,7 @@ export class CdkSetorGridComponent implements AfterViewInit, OnInit, OnChanges {
     pageSize = 5;
 
     @Input()
-    actions: string[] = ['edit', 'delete', 'select'];
+    actions: string[] = ['edit', 'delete', 'select', 'lotacoes', 'localizadores', 'numeros-unicos-documentos'];
 
     @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
@@ -214,6 +214,15 @@ export class CdkSetorGridComponent implements AfterViewInit, OnInit, OnChanges {
 
     @Output()
     edit = new EventEmitter<number>();
+
+    @Output()
+    lotacoes = new EventEmitter<number>();
+
+    @Output()
+    localizadores = new EventEmitter<number>();
+
+    @Output()
+    numerosUnicosDocumentos = new EventEmitter<number>();
 
     @Output()
     delete = new EventEmitter<number>();
@@ -234,7 +243,9 @@ export class CdkSetorGridComponent implements AfterViewInit, OnInit, OnChanges {
     isIndeterminate = false;
 
     /**
+     *
      * @param _changeDetectorRef
+     * @param _cdkSidebarService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -308,6 +319,18 @@ export class CdkSetorGridComponent implements AfterViewInit, OnInit, OnChanges {
 
     editSetor(setorId): void {
         this.edit.emit(setorId);
+    }
+
+    lotacoesSetor(setorId): void {
+        this.lotacoes.emit(setorId);
+    }
+
+    localizadoresSetor(setorId): void {
+        this.localizadores.emit(setorId);
+    }
+
+    numerosUnicosDocumentosSetor(setorId): void {
+        this.numerosUnicosDocumentos.emit(setorId);
     }
 
     selectSetor(setor: Setor): void {

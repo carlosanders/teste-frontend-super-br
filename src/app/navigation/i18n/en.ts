@@ -9,6 +9,9 @@ export const locale = {
             ADMIN        : {
                 TITLE: 'Admin',
             },
+            ARQUIVISTA        : {
+                TITLE: 'Arquivista',
+            },
             TAREFA        : {
                 TITLE: 'Tarefas',
                 ADMINISTRATIVAS: {

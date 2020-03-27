@@ -1,0 +1,7 @@
+<cdk-realizar-transicao-form
+    [saving]="(isSaving$ | async)"
+    [errors]="(errors$ | async)"
+    [processoId]= "this.processoId"
+    [modalidadeTransicaoPagination]="modalidadeTransicaoPagination"
+    (save)="submit($event)">
+</cdk-realizar-transicao-form>
