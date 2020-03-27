@@ -15,7 +15,7 @@ import * as fromStore from '../store';
 import { LoginService } from 'app/main/auth/login/login.service';
 import { DocumentoAvulso, ComponenteDigital } from '@cdk/models';
 import { getSelectedDocumentosAvulso } from '../store/selectors';
-import { getRouterState } from 'app/store/reducers';
+import { getRouterState} from 'app/store/reducers';
 import { Router } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 
@@ -32,8 +32,9 @@ export class ResponderComplementarCreateBlocoComponent implements OnInit, OnDest
     private _unsubscribeAll: Subject<any> = new Subject();
 
     documentosAvulso$: Observable<DocumentoAvulso[]>;
-    documentosAvulsoBloco: DocumentoAvulso[] = [];
-    documentoAvulsoPrincipal: DocumentoAvulso;
+
+    documentosAvulsoBloco: any[] = [];
+    documentoAvulsoPrincipal: number;
 
     operacoes: any[] = [];
 
@@ -70,8 +71,8 @@ export class ResponderComplementarCreateBlocoComponent implements OnInit, OnDest
             takeUntil(this._unsubscribeAll)
         ).subscribe(
             documentosAvulso => {
-                this.documentoAvulsoPrincipal = documentosAvulso[0] ? documentosAvulso[0] : null;
-                this.documentosAvulsoBloco = documentosAvulso[1] ? documentosAvulso.filter(t => t.id !== documentosAvulso[0].id) : [];
+                this.documentoAvulsoPrincipal = documentosAvulso[0] ? documentosAvulso[0].id : null;
+                this.documentosAvulsoBloco  = documentosAvulso.filter(documentoAvulso => documentosAvulso[0].id !== documentoAvulso.id);
                 this._changeDetectorRef.markForCheck();
             });
 
@@ -82,6 +83,7 @@ export class ResponderComplementarCreateBlocoComponent implements OnInit, OnDest
             ).subscribe(routerState => {
             if (routerState) {
                 this.routerState = routerState.state;
+                this.operacoes = [];
             }
         });
     }

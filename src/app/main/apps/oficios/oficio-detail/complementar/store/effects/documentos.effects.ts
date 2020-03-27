@@ -4,7 +4,6 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 
 import * as DocumentosActions from '../actions/documentos.actions';
-import * as DocumentosComplementaresActions from '../actions/documentos-complementar.actions';
 
 import { AddData } from '@cdk/ngrx-normalizr';
 import { select, Store } from '@ngrx/store';
@@ -14,7 +13,6 @@ import { DocumentoService } from '@cdk/services/documento.service';
 import { documento as documentoSchema } from '@cdk/normalizr/documento.schema';
 import { Router } from '@angular/router';
 import { environment } from 'environments/environment';
-import {getDocumentoAvulso} from '../../../store/selectors';
 
 @Injectable()
 export class DocumentosEffects {
@@ -33,12 +31,6 @@ export class DocumentosEffects {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
-            });
-
-        this._store
-            .pipe(select(getDocumentoAvulso))
-            .subscribe(documentoAvulso => {
-                this.documentoAvulso = documentoAvulso;
             });
     }
 
@@ -61,8 +53,8 @@ export class DocumentosEffects {
                             'tipoDocumento',
                             'documentoAvulsoRemessa',
                             'documentoAvulsoRemessa.documentoResposta',
-                            'juntadaAtual',
-                            'componentesDigitais'
+                            'componentesDigitais',
+                            'juntadaAtual'
                         ]));
                 }),
                 mergeMap(response => [
@@ -82,46 +74,6 @@ export class DocumentosEffects {
                 })
             );
 
-
-    /**
-     * Get Documentos Complementares with router parameters
-     * @type {Observable<any>}
-     */
-    // @Effect()
-    // getDocumentosComplementares: any =
-    //     this._actions
-    //         .pipe(
-    //             ofType<DocumentosComplementaresActions.GetDocumentosComplementares>(DocumentosComplementaresActions.GET_DOCUMENTOS_COMPLEMENTARES),
-    //             switchMap((action) => {
-    //                 return this._documentoService.query(
-    //                     JSON.stringify(action.payload),
-    //                     10,
-    //                     0,
-    //                     JSON.stringify({criadoEm: 'DESC'}),
-    //                     JSON.stringify([
-    //                         'tipoDocumento',
-    //                         'documentoAvulsoRemessa',
-    //                         'documentoAvulsoRemessa.documentoResposta',
-    //                         'juntadaAtual'
-    //                     ]));
-    //             }),
-    //             mergeMap(response => [
-    //                 new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
-    //                 new DocumentosComplementaresActions.GetDocumentosCompelemtaresSuccess({
-    //                     loaded: {
-    //                         id: 'documentoAvulsoHandle',
-    //                         value: this.routerState.params.documentoAvulsoHandle
-    //                     },
-    //                     entitiesId: response['entities'].map(documento => documento.id),
-    //                 })
-    //             ]),
-    //             catchError((err, caught) => {
-    //                 console.log(err);
-    //                 this._store.dispatch(new DocumentosComplementaresActions.GetDocumentosComplementaresFailed(err));
-    //                 return caught;
-    //             })
-    //         );
-
     /**
      * Clicked Documento
      * @type {Observable<any>}
@@ -132,7 +84,7 @@ export class DocumentosEffects {
             .pipe(
                 ofType<DocumentosActions.ClickedDocumento>(DocumentosActions.CLICKED_DOCUMENTO),
                 tap((action) => {
-                    this._router.navigate(['apps/documento/componentes-digitais/' + action.payload.componentesDigitais[0].id
+                    this._router.navigate(['apps/documento/componente-digital/' + action.payload.componentesDigitais[0].id
                     + '/visualizar/' + this.routerState.params.chaveAcessoHandle]);
                 })
             );

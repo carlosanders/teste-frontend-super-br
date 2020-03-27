@@ -187,7 +187,6 @@ export class ComplementarComponent implements OnInit, OnDestroy {
     }
 
     onClicked(documento): void {
-        console.log(documento);
         this._store.dispatch(new fromStore.ClickedDocumento(documento));
     }
 

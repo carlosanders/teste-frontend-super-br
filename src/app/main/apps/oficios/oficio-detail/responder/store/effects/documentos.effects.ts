@@ -66,6 +66,7 @@ export class DocumentosEffects {
                             'tipoDocumento',
                             'documentoAvulsoRemessa',
                             'documentoAvulsoRemessa.documentoResposta',
+                            'componentesDigitais',
                             'juntadaAtual'
                         ]));
                 }),
@@ -97,7 +98,8 @@ export class DocumentosEffects {
             .pipe(
                 ofType<DocumentosActions.ClickedDocumento>(DocumentosActions.CLICKED_DOCUMENTO),
                 tap((action) => {
-                    this._router.navigate([this.routerState.url + '/documento/' + action.payload.id + '/oficio']).then();
+                    this._router.navigate(['apps/documento/componente-digital/' + action.payload.componentesDigitais[0].id
+                    + '/visualizar/' + this.routerState.params.chaveAcessoHandle]);
                 })
             );
 
