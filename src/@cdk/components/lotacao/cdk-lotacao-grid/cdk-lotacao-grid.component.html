@@ -263,11 +263,11 @@
 
                         <button mat-icon-button
                                 *ngIf="actions.indexOf('setPrincipal') > -1"
-                                [disabled]="deletedIds?.indexOf(lotacao.id) > -1"
+                                [disabled]="deletedIds?.indexOf(lotacao.id) > -1 || lotacao.principal"
                                 (click)="setPrincipalLotacao(lotacao)"
                                 aria-label="marcar como principal"
-                                matTooltip="Marcar como Principal">
-                            <mat-icon>star_border</mat-icon>
+                                [matTooltip]="lotacao.principal ? 'Lotação principal' : 'Marcar como principal'">
+                            <mat-icon [ngClass]="{'warn' : lotacao.principal}">star_border</mat-icon>
                         </button>
 
                         <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(lotacao.id) > -1">

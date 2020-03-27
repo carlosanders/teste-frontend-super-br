@@ -44,6 +44,12 @@ export function AtividadeCreateDocumentosReducer(
             };
         }
 
+        case AtividadeCreateDocumentosActions.UNLOAD_DOCUMENTOS: {
+            return {
+                ...AtividadeCreateDocumentosInitialState
+            };
+        }
+
         case AtividadeCreateDocumentosActions.DELETE_DOCUMENTO: {
             return {
                 ...state,

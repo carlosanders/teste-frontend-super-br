@@ -75,8 +75,6 @@ export class AtividadeCreateEffect {
                 tap((action) => {
                     if (action.payload.encerraTarefa) {
                         this._store.dispatch(new DeleteTarefaSuccess(action.payload.tarefa.id));
-                    } else {
-                        this._store.dispatch(new fromStore.GetDocumentos());
                     }
                     this._router.navigate([this.routerState.url.split('/atividades/criar')[0] + '/encaminhamento']).then();
                 })

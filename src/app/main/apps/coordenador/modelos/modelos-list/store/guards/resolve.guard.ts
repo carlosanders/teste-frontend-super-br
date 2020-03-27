@@ -61,22 +61,25 @@ export class ResolveGuard implements CanActivate {
                 if (!loaded) {
 
                     const params = {
-
-                        // filter: {
-                        //     'unidade.id': 'eq:' + this.routerState.params.unidadeHandle,
-                        //     'parent': 'isNotNull'
-                        // },
-
-
+                        filter: {
+                            // 'vinculacoesModelos.usuario.id': 'eq:' + this._loginService.getUserProfile().id
+                            modalidadeModelo: 'notIn: [1,2]'
+                        },
                         gridFilter: {},
                         limit: 5,
                         offset: 0,
                         sort: {criadoEm: 'DESC'},
                         populate: [
-                            'populateAll'
+                            'documento',
+                            'documento.componentesDigitais',
+                            'template',
+                            'modalidadeModelo',
+                            'vinculacoesModelos',
+                            'vinculacoesModelos.setor',
+
                         ],
                         context: {
-                            'isAdmin': true
+                            'isCoordenador': true
                         }
                     };
 

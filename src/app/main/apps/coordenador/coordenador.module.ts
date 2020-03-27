@@ -40,7 +40,7 @@ const routes: Routes = [
     },
     {
         path: '**',
-        redirectTo: 'default/modelos'
+        redirectTo: 'modelos'
     }
 ];
 

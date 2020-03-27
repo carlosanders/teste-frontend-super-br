@@ -56,157 +56,159 @@
             <mat-spinner diameter="32"></mat-spinner>
         </div>
 
-        <table mat-table [dataSource]="dataSource" matSort [hidden]="loading">
+        <div fxFlex="1 1 auto" fxLayout="column" cdkPerfectScrollbar>
+            <table mat-table [dataSource]="dataSource" matSort [hidden]="loading">
 
-            <!-- Selection Column -->
-            <ng-container matColumnDef="select">
-                <th mat-header-cell *matHeaderCellDef>
-                    <mat-checkbox (click)="toggleSelectAll($event)"
-                                  [checked]="hasSelected"
-                                  [indeterminate]="isIndeterminate">
-                    </mat-checkbox>
-                </th>
-                <td mat-cell *matCellDef="let colaborador">
-                    <mat-checkbox [checked]="selectedIds.indexOf(colaborador.id) > -1"
-                                  (change)="toggleInSelected(colaborador.id)"
-                                  (click)="$event.stopPropagation();"
-                                  [disabled]="deletedIds?.indexOf(colaborador.id) > -1">
-                    </mat-checkbox>
-                </td>
-            </ng-container>
+                <!-- Selection Column -->
+                <ng-container matColumnDef="select">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <mat-checkbox (click)="toggleSelectAll($event)"
+                                      [checked]="hasSelected"
+                                      [indeterminate]="isIndeterminate">
+                        </mat-checkbox>
+                    </th>
+                    <td mat-cell *matCellDef="let colaborador">
+                        <mat-checkbox [checked]="selectedIds.indexOf(colaborador.id) > -1"
+                                      (change)="toggleInSelected(colaborador.id)"
+                                      (click)="$event.stopPropagation();"
+                                      [disabled]="deletedIds?.indexOf(colaborador.id) > -1">
+                        </mat-checkbox>
+                    </td>
+                </ng-container>
 
-            <!-- Id Column -->
-            <ng-container matColumnDef="id">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Id
-                </th>
-                <td mat-cell *matCellDef="let colaborador" class='has_label_on_mobile' data-label='Id: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(colaborador.id) > -1}"> {{colaborador.id}} </td>
-            </ng-container>
+                <!-- Id Column -->
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Id
+                    </th>
+                    <td mat-cell *matCellDef="let colaborador" class='has_label_on_mobile' data-label='Id: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(colaborador.id) > -1}"> {{colaborador.id}} </td>
+                </ng-container>
 
-            <!-- Nome Column -->
-            <ng-container matColumnDef="usuario.nome">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Nome Usuário
-                </th>
-                <td mat-cell *matCellDef="let colaborador" class='has_label_on_mobile' data-label='Nome Usuário: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(colaborador.id) > -1}"> {{colaborador.usuario?.nome}}
-                </td>
-            </ng-container>
+                <!-- Nome Column -->
+                <ng-container matColumnDef="usuario.nome">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Nome Usuário
+                    </th>
+                    <td mat-cell *matCellDef="let colaborador" class='has_label_on_mobile' data-label='Nome Usuário: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(colaborador.id) > -1}"> {{colaborador.usuario?.nome}}
+                    </td>
+                </ng-container>
 
-            <!-- Cargo Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('cargo.nome') > -1" matColumnDef="cargo.nome">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Cargo
-                </th>
-                <td mat-cell *matCellDef="let colaborador" class='has_label_on_mobile' data-label='Cargo: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(colaborador.id) > -1}"> {{colaborador?.cargo?.nome}}
-                </td>
-            </ng-container>
+                <!-- Cargo Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('cargo.nome') > -1" matColumnDef="cargo.nome">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Cargo
+                    </th>
+                    <td mat-cell *matCellDef="let colaborador" class='has_label_on_mobile' data-label='Cargo: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(colaborador.id) > -1}"> {{colaborador?.cargo?.nome}}
+                    </td>
+                </ng-container>
 
-            <!--  ModalidadeColaborador Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('modalidadeColaborador.valor') > -1" matColumnDef="modalidadeColaborador.valor">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Modalidade Colaborador
-                </th>
-                <td mat-cell *matCellDef="let colaborador" class='has_label_on_mobile' data-label='Modalidade Colaborador: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(colaborador.id) > -1}"> {{colaborador.modalidadeColaborador?.valor}} </td>
-            </ng-container>
+                <!--  ModalidadeColaborador Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('modalidadeColaborador.valor') > -1" matColumnDef="modalidadeColaborador.valor">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Modalidade Colaborador
+                    </th>
+                    <td mat-cell *matCellDef="let colaborador" class='has_label_on_mobile' data-label='Modalidade Colaborador: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(colaborador.id) > -1}"> {{colaborador.modalidadeColaborador?.valor}} </td>
+                </ng-container>
 
-            <!-- CriadoPor Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('criadoPor.nome') > -1" matColumnDef="criadoPor.nome">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Criado Por
-                </th>
-                <td mat-cell *matCellDef="let colaborador" class='has_label_on_mobile' data-label='Criado Por: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(colaborador.id) > -1}"> {{colaborador.criadoPor?.nome}} </td>
-            </ng-container>
+                <!-- CriadoPor Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('criadoPor.nome') > -1" matColumnDef="criadoPor.nome">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Criado Por
+                    </th>
+                    <td mat-cell *matCellDef="let colaborador" class='has_label_on_mobile' data-label='Criado Por: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(colaborador.id) > -1}"> {{colaborador.criadoPor?.nome}} </td>
+                </ng-container>
 
-            <!-- CriadoEm Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('criadoEm') > -1" matColumnDef="criadoEm">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Criado Em
-                </th>
-                <td mat-cell *matCellDef="let colaborador" class='has_label_on_mobile' data-label='Criado Em: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(colaborador.id) > -1}"> {{colaborador.criadoEm | date: 'dd/MM/yyyy'}} </td>
-            </ng-container>
+                <!-- CriadoEm Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('criadoEm') > -1" matColumnDef="criadoEm">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Criado Em
+                    </th>
+                    <td mat-cell *matCellDef="let colaborador" class='has_label_on_mobile' data-label='Criado Em: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(colaborador.id) > -1}"> {{colaborador.criadoEm | date: 'dd/MM/yyyy'}} </td>
+                </ng-container>
 
-            <!-- AtualizadoPor Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1" matColumnDef="atualizadoPor.nome">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Atualizado Por
-                </th>
-                <td mat-cell *matCellDef="let colaborador" class='has_label_on_mobile' data-label='Atualizado Por: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(colaborador.id) > -1}"> {{colaborador.atualizadoPor?.nome}} </td>
-            </ng-container>
+                <!-- AtualizadoPor Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1" matColumnDef="atualizadoPor.nome">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Atualizado Por
+                    </th>
+                    <td mat-cell *matCellDef="let colaborador" class='has_label_on_mobile' data-label='Atualizado Por: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(colaborador.id) > -1}"> {{colaborador.atualizadoPor?.nome}} </td>
+                </ng-container>
 
-            <!-- AtualizadoEm Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('atualizadoEm') > -1" matColumnDef="atualizadoEm">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Atualizado Em
-                </th>
-                <td mat-cell *matCellDef="let colaborador" class='has_label_on_mobile' data-label='Atualizado Em: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(colaborador.id) > -1}"> {{colaborador.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
-            </ng-container>
+                <!-- AtualizadoEm Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('atualizadoEm') > -1" matColumnDef="atualizadoEm">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Atualizado Em
+                    </th>
+                    <td mat-cell *matCellDef="let colaborador" class='has_label_on_mobile' data-label='Atualizado Em: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(colaborador.id) > -1}"> {{colaborador.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
+                </ng-container>
 
-            <!-- ApagadoPor Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('apagadoPor.nome') > -1" matColumnDef="apagadoPor.nome">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Apagado Por
-                </th>
-                <td mat-cell *matCellDef="let colaborador" class='has_label_on_mobile' data-label='Apagado Por: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(colaborador.id) > -1}"> {{colaborador.apagadoPor?.nome}} </td>
-            </ng-container>
+                <!-- ApagadoPor Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('apagadoPor.nome') > -1" matColumnDef="apagadoPor.nome">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Apagado Por
+                    </th>
+                    <td mat-cell *matCellDef="let colaborador" class='has_label_on_mobile' data-label='Apagado Por: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(colaborador.id) > -1}"> {{colaborador.apagadoPor?.nome}} </td>
+                </ng-container>
 
-            <!-- ApagadoEm Column -->
-            <ng-container *ngIf="displayedColumns.indexOf('apagadoEm') > -1" matColumnDef="apagadoEm">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Apagado Em
-                </th>
-                <td mat-cell *matCellDef="let colaborador" class='has_label_on_mobile' data-label='Apagado Em: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(colaborador.id) > -1}"> {{colaborador.apagadoEm | date: 'dd/MM/yyyy'}} </td>
-            </ng-container>
+                <!-- ApagadoEm Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('apagadoEm') > -1" matColumnDef="apagadoEm">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Apagado Em
+                    </th>
+                    <td mat-cell *matCellDef="let colaborador" class='has_label_on_mobile' data-label='Apagado Em: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(colaborador.id) > -1}"> {{colaborador.apagadoEm | date: 'dd/MM/yyyy'}} </td>
+                </ng-container>
 
-            <!-- Actions Column -->
-            <ng-container matColumnDef="actions">
-                <th mat-header-cell *matHeaderCellDef></th>
-                <td mat-cell *matCellDef="let colaborador">
+                <!-- Actions Column -->
+                <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let colaborador">
 
-                    <button mat-icon-button
-                            *ngIf="actions.indexOf('select') > -1"
-                            (click)="selectColaborador(colaborador)"
-                            aria-label="selecionar"
-                            matTooltip="Selecionar">
-                        <mat-icon>keyboard_return</mat-icon>
-                    </button>
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('select') > -1"
+                                (click)="selectColaborador(colaborador)"
+                                aria-label="selecionar"
+                                matTooltip="Selecionar">
+                            <mat-icon>keyboard_return</mat-icon>
+                        </button>
 
-                    <button mat-icon-button
-                            *ngIf="actions.indexOf('edit') > -1"
-                            [disabled]="deletedIds?.indexOf(colaborador.id) > -1"
-                            (click)="editColaborador(colaborador.id)"
-                            aria-label="editar"
-                            matTooltip="Editar">
-                        <mat-icon>edit</mat-icon>
-                    </button>
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('edit') > -1"
+                                [disabled]="deletedIds?.indexOf(colaborador.id) > -1"
+                                (click)="editColaborador(colaborador.id)"
+                                aria-label="editar"
+                                matTooltip="Editar">
+                            <mat-icon>edit</mat-icon>
+                        </button>
 
-                    <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(colaborador.id) > -1">
-                        <mat-spinner diameter="24"></mat-spinner>
-                    </div>
+                        <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(colaborador.id) > -1">
+                            <mat-spinner diameter="24"></mat-spinner>
+                        </div>
 
-                    <button mat-icon-button
-                            *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(colaborador.id) === -1"
-                            [disabled]="deletedIds?.indexOf(colaborador.id) > -1"
-                            (click)="deleteColaborador(colaborador.id)"
-                            aria-label="remover"
-                            matTooltip="Remover">
-                        <mat-icon>delete</mat-icon>
-                    </button>
-                </td>
-            </ng-container>
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(colaborador.id) === -1"
+                                [disabled]="deletedIds?.indexOf(colaborador.id) > -1"
+                                (click)="deleteColaborador(colaborador.id)"
+                                aria-label="remover"
+                                matTooltip="Remover">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
 
-            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
-            <tr mat-row *matRowDef="let colaborador; columns: displayedColumns;">
-            </tr>
-        </table>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
+                <tr mat-row *matRowDef="let colaborador; columns: displayedColumns;">
+                </tr>
+            </table>
+        </div>
 
         <div class="actions" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="center center">
             <mat-paginator [disabled]="loading" [pageSizeOptions]="[5, 10]"></mat-paginator>

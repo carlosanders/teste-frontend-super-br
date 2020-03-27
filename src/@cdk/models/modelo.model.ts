@@ -1,9 +1,10 @@
 import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
 
-import {Usuario, VinculacaoModelo} from '@cdk/models';
-import {ModalidadeMeio} from '@cdk/models';
+import {Usuario, VinculacaoEtiqueta, VinculacaoModelo} from '@cdk/models';
+import {ModalidadeModelo} from '@cdk/models';
 import {Template} from '@cdk/models';
+import {Setor} from '@cdk/models';
 import {Documento} from '@cdk/models';
 
 export class Modelo {
@@ -23,9 +24,9 @@ export class Modelo {
 
     ativo?: boolean;
 
-    @Type(() => ModalidadeMeio)
+    @Type(() => ModalidadeModelo)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    modalidadeModelo?: ModalidadeMeio;
+    modalidadeModelo?: ModalidadeModelo;
 
     @Type(() => Template)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
@@ -34,6 +35,11 @@ export class Modelo {
     @Type(() => Documento)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     documento?: Documento;
+
+    @Type(() => VinculacaoModelo)
+    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    vinculacoesModelos?: VinculacaoModelo[];
+
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)
@@ -74,6 +80,7 @@ export class Modelo {
         this.highlights = null;
         this.modalidadeModelo = null;
         this.template = null;
+        this.vinculacoesModelos = [];
         this.documento = null;
         this.criadoPor = null;
         this.criadoEm = null;

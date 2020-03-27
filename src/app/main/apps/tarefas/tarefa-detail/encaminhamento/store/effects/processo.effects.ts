@@ -72,7 +72,11 @@ export class ProcessoEffect {
             .pipe(
                 ofType<ProcessoActions.SaveProcessoSuccess>(ProcessoActions.SAVE_PROCESSO_SUCCESS),
                 tap(() => {
-                    this._router.navigate(['apps/tarefas/entrada']).then();
+                    this._router.navigate([
+                        'apps/tarefas/' + this.routerState.params.generoHandle + '/'
+                    + this.routerState.params.typeHandle + '/'
+                    + this.routerState.params.targetHandle
+                    ]).then();
                 })
             );
 }
