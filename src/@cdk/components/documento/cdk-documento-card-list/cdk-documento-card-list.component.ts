@@ -70,35 +70,7 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
     }
 
     ngOnChanges(): void {
-
-/*@retirar
-        this.mapDocumentos.clear();
-        this.documentos.forEach(
-            doc => this.addToMap(
-                    this.mapDocumentos,
-                    'processo: ' + doc.processoOrigem.NUP + '- tarefa: ' + doc.tarefaOrigem.id,
-                    doc)
-        );
-
-        console.log(this.mapDocumentos);
-*/
     }
-
-/*
-    addToMap(map:any, chave:any, valor:any){
-        if ( map.has(chave) ) {
-            // verificar se já tem no array dentro da chave
-            //if (map.get(chave).indexOf(valor) == -1) {
-               map.get(chave).push(valor);
-            //}   
-        } else {
-            map.set(chave,[valor]);
-        }
-        //return map;
-    }
-
-
-    */
 
     deleteDocumento(documentoId): void {
         this.delete.emit(documentoId);
@@ -116,34 +88,9 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
 
         if (this.componenteChamador === 'atividade-create-bloco') {
             this.changedSelectedIds.emit([documentoId]);
-            console.log("chamador");
         } else {
-            console.log("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq");
-            console.log(documentoId);
-            console.log(this.selectedIds);
             this.changedSelectedIds.emit(this.selectedIds);
         }
-
-  /*      if (this.componenteChamador === 'atividade-create-bloco') {
-            this.changedSelectedIds.emit(documentoId);
-            console.log("chamador");
-            return;
-        }
-
-        const selectedDocumentoIds = [...this.selectedIds];
-
-        if (selectedDocumentoIds.find(id => id === documentoId) !== undefined) {
-            this.selectedIds = selectedDocumentoIds.filter(id => id !== documentoId);
-        } else {
-            this.selectedIds = [...selectedDocumentoIds, documentoId];
-        }
-
-        this.hasSelected = this.selectedIds.length > 0;
-        this.isIndeterminate = (this.selectedIds.length !== this.documentos.length && this.selectedIds.length > 0);
-console.log("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq");
-console.log(documentoId);
-console.log(this.selectedIds);
-        this.changedSelectedIds.emit(this.selectedIds);*/
     }
 
     doDelete(documentoId): void {
@@ -189,10 +136,7 @@ console.log(this.selectedIds);
      * Select all
      */
     selectAll(): void {
-        console.log("ooooooooooooooooooo");
-        console.log(this.documentos);
         const arr = Object.keys(this.documentos).map(k => this.documentos[k]);
-        console.log(arr);
         this.selectedIds = arr.map(documento => documento.id);
         this.recompute();
     }
@@ -215,9 +159,6 @@ console.log(this.selectedIds);
     recompute(): void {
         this.isIndeterminate = (this.selectedIds.length !== this.documentos.length && this.selectedIds.length > 0);
         this.changedSelectedIds.emit(this.selectedIds);
-        console.log("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzz");
-
-console.log(this.selectedIds);
     }
 
     // **********************************MUDANÇA CONVERTE

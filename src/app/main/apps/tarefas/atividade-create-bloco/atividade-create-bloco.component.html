@@ -5,11 +5,6 @@
 
     <h3>{{(tarefas$ | async)?.length}} tarefa(s) selecionada(s), selecione os documentos
     a serem juntados. </h3>
-<!--[documentos]="minutas"
-*ngFor="let documento of mapDocumentos.get(key).values()"
-<div fxLayout="row">
--->
-
 <ng-container *ngFor="let key of mapDocumentos.keys()">
     <div fxLayout="column">
         <mat-card>

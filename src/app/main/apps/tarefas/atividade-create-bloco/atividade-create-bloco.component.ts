@@ -186,21 +186,11 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
         return {
             'nup' : key.split('-')[0],
             'idTarefa': key.split('-')[1]
-            /*'nup' : key.split('-')[0].split('Processo: ')[1],
-            'idTarefa': key.split('-')[1],*/
         }
     }
 
     addToMapArray(map:any, chave:any, valor:any){
         map.has(chave) ? map.get(chave).push(valor) : map.set(chave,[valor]);
-        /*if ( map.has(chave) ) {
-            // verificar se já tem no array dentro da chave
-            //if (map.get(chave).indexOf(valor) == -1) {
-               map.get(chave).push(valor);
-            //}   
-        } else {
-            map.set(chave,[valor]);
-        }*/
     }
 
 
@@ -237,36 +227,16 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
                     // Como no redux estão todos os documentos selecionados independetemente à qual tarefa pertencem,
                     // abaixo são inseridos na atividade apenas os documentos selecionados pertencentes a respectiva tarefa
                     atividade.documentos = documentos.filter(doc => doc.tarefaOrigem.id === tarefa.id);
-
-
-                    //atividade.documentos = documentos;
-                    //@retirar:
-                    console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"); 
-                    console.log("atividade"); 
-                    console.log(atividade);                    
-                    console.log("atividade.documentos"); 
-                    console.log(atividade.documentos);
-                    console.log("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"); 
-
-
                 }
 
             );
-
-//sss
-            /*console.log("this.selectedDocumentos$"); 
-                console.log(this.selectedDocumentos$);*/
             this._store.dispatch(new fromStore.SaveAtividade(atividade));
         });
     }
 
-    //changedSelectedIds(selectedIds): void {
-
 
 
     changedSelectedIds(selectedIds): void {
-        console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
-        console.log(selectedIds);
         selectedIds.forEach(element => {
             this._changedSelectedIds(element);
         });
@@ -279,7 +249,7 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
         } else {
             this.selectedIds = [...selectedDocumentoIds, documentoId];
         }*/
-        console.log(this.selectedIds);
+
         this._store.dispatch(new fromStore.ChangeSelectedDocumentos(this.selectedIds));
 
         //this._store.dispatch(new fromStore.ChangeSelectedDocumentos(selectedIds));

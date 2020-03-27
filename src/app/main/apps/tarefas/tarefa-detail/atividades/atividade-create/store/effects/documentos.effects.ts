@@ -174,7 +174,6 @@ export class AtividadeCreateDocumentosEffect {
             .pipe(
                 ofType<AtividadeCreateDocumentosActions.ClickedDocumento>(AtividadeCreateDocumentosActions.CLICKED_DOCUMENTO),
                 tap((action) => {
-                    debugger;
                     if (!action.payload.documentoAvulsoRemessa) {
                         this._router.navigate([this.routerState.url + '/documento/' + action.payload.id + '/editar']).then();
                     } else {
