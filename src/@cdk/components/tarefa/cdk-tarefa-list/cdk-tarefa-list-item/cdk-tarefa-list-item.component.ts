@@ -1,3 +1,7 @@
+import { Assunto } from '@cdk/models/assunto.model';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { Store, select } from '@ngrx/store';
+import { PaginatedResponse } from '@cdk/models/paginated.response';
 import {
     ChangeDetectionStrategy,
     Component, EventEmitter,
@@ -6,7 +10,8 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {Tarefa} from '@cdk/models';
+import {Tarefa} from '@cdk/models/tarefa.model';
+
 
 @Component({
     selector: 'cdk-tarefa-list-item',
@@ -16,6 +21,8 @@ import {Tarefa} from '@cdk/models';
     encapsulation: ViewEncapsulation.None
 })
 export class CdkTarefaListItemComponent implements OnInit {
+
+    
 
     @Input()
     tarefa: Tarefa;
@@ -53,6 +60,24 @@ export class CdkTarefaListItemComponent implements OnInit {
     @Output()
     toggleUrgente = new EventEmitter<Tarefa>();
 
+    /*
+    * ISSUE-107
+    */
+    @Output()
+    codProcesso = new EventEmitter<any>();
+
+    @Input()
+    assuntos: Assunto[];
+
+    @Input()
+    loading: boolean;
+
+    @Input()
+    isOpen: boolean = false;
+
+    @Input()
+    idTarefaToLoadAssuntos: number;
+
     draggable = {
         // note that data is handled with JSON.stringify/JSON.parse
         // only set simple data or POJO's as methods will be lost
@@ -65,6 +90,7 @@ export class CdkTarefaListItemComponent implements OnInit {
     constructor() {
         this.deleting = false;
     }
+
 
     /**
      * On init
@@ -105,4 +131,12 @@ export class CdkTarefaListItemComponent implements OnInit {
         $event.stopPropagation();
         this.toggleUrgente.emit(this.tarefa);
     }
+
+    /*
+    * ISSUE-107
+    */
+    doOpenPanel(): void {
+        this.codProcesso.emit(this.tarefa);
+    }
+
 }

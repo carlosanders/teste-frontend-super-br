@@ -81,9 +81,15 @@
                                      (etiquetarBloco)="doEtiquetarBloco()"
                                      (uploadBloco)="doUploadBloco()"
                                      (editorBloco)="doEditorBloco()"
-                                     (editTarefaBloco)="doEditTarefaBloco()">
+                                     (editTarefaBloco)="doEditTarefaBloco()"
+                                     (idProcesso)="doLoadAssuntos($event)"
+                                     [loadingAssunto]="(assuntoLoading$ | async)"
+                                     [assuntos]="(assuntos$ | async)"
+                                     [isOpenPanel]="(assuntoPanelOpen$ | async )"
+                                     [idTarefaToLoadAssuntos]="idTarefaToLoadAssuntos">
                     </cdk-tarefa-list>
                 </div>
+                
                 <div class="tarefa-detail" mwlResizable [enableGhostResize]="true"
                      [resizeEdges]="{bottom: false, right: true, top: false, left: true}"
                      fxFlex

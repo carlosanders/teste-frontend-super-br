@@ -12,6 +12,7 @@ import {modalidadeMeio} from './index.schema';
 import {vinculacaoEtiqueta} from './index.schema';
 import {processo as processoSchema} from './index.schema';
 
+
 processoSchema.define({
     classificacao: classificacao,
     origemDados: origemDados,
