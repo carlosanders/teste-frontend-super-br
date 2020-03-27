@@ -54,7 +54,7 @@
 
         <div class="actions" fxLayout="row" fxLayoutAlign="start center">
 
-            <button mat-icon-button (click)="doToggleUrgente($event)"
+            <button mat-icon-button (click)="doToggleUrgente(); $event.stopPropagation();"
                     aria-label="Toggle important" fxHide.xs>
                 <mat-icon class="red-fg" *ngIf="tarefa.urgente">error</mat-icon>
                 <mat-icon class="secondary-text" *ngIf="!tarefa.urgente">error_outline</mat-icon>
@@ -124,3 +124,21 @@
 
     </div>
 </div>
+<!-- ISSUE-107 -->
+<mat-expansion-panel
+    (click)="$event.stopPropagation();"
+    [expanded]="(tarefa.id === idTarefaToLoadAssuntos && isOpen)"
+    (afterExpand)="doOpenPanel(tarefa);">
+    <mat-expansion-panel-header>
+      Detalhes do processo
+    </mat-expansion-panel-header>
+    <div class="spinner-container" *ngIf="loading" style="text-align: center; width: 100%;">
+        <mat-spinner diameter="32"></mat-spinner>
+    </div>
+    <div [hidden]="loading">
+        <span>Assuntos: </span>
+        <li *ngFor="let assunto of assuntos">
+            {{assunto.assuntoAdministrativo.nome}}
+        </li>
+    </div>
+  </mat-expansion-panel>
