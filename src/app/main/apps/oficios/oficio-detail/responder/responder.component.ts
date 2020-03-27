@@ -79,13 +79,13 @@ export class ResponderComponent implements OnInit, OnDestroy {
         this._profile = this._loginService.getUserProfile();
         this.documentoAvulso$ = this._store.pipe(select(getDocumentoAvulso));
         this.routerState$ = this._store.pipe(select(getRouterState));
+        this.documentosComplementares$ = this._store.pipe(select(getDocumentosComplementares));
 
         this.documentos$ = this._store.pipe(select(fromStore.getDocumentos));
         this.selectedDocumentos$ = this._store.pipe(select(fromStore.getSelectedDocumentos));
         this.deletingDocumentosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosId));
         this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
         this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoDocumentosId));
-        this.documentosComplementares$ = this._store.pipe(select(getDocumentosComplementares));
     }
 
     // -----------------------------------------------------------------------------------------------------

@@ -79,7 +79,9 @@ export class DocumentosEffects {
                         },
                         entitiesId: response['entities'].map(documento => documento.id),
                     }),
-                    new DocumentosComplementaresActions.GetDocumentosComplementares({'documentoAvulsoComplementacaoResposta.id': `eq:${this.documentoAvulso.id}`})
+                    new DocumentosComplementaresActions.GetDocumentosComplementares({
+                        'documentoAvulsoComplementacaoResposta.id': `eq:${this.documentoAvulso.id}`
+                    })
                 ]),
                 catchError((err, caught) => {
                     console.log(err);
@@ -98,6 +100,8 @@ export class DocumentosEffects {
             .pipe(
                 ofType<DocumentosActions.ClickedDocumento>(DocumentosActions.CLICKED_DOCUMENTO),
                 tap((action) => {
+                    console.log('apps/documento/componente-digital/' + action.payload.componentesDigitais[0].id
+                        + '/visualizar/' + this.routerState.params.chaveAcessoHandle);
                     this._router.navigate(['apps/documento/componente-digital/' + action.payload.componentesDigitais[0].id
                     + '/visualizar/' + this.routerState.params.chaveAcessoHandle]);
                 })

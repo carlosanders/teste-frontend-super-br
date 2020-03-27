@@ -8,7 +8,7 @@ import * as DocumentosActions from '../actions/documentos.actions';
 import { AddData } from '@cdk/ngrx-normalizr';
 import { select, Store } from '@ngrx/store';
 import { getRouterState, State } from 'app/store/reducers';
-import {Documento, DocumentoAvulso} from '@cdk/models';
+import { Documento, DocumentoAvulso } from '@cdk/models';
 import { DocumentoService } from '@cdk/services/documento.service';
 import { documento as documentoSchema } from '@cdk/normalizr/documento.schema';
 import { Router } from '@angular/router';

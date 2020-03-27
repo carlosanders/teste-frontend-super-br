@@ -14,7 +14,7 @@ export const getDocumentosComplementaresState = createSelector(
 
 export const getDocumentosComplementaresId = createSelector(
     getDocumentosComplementaresState,
-    (state: DocumentosComplementaresState) => state.documentosComplementaresId
+    (state: DocumentosComplementaresState) => state.documentosId
 );
 
 
@@ -28,31 +28,4 @@ export const getDocumentosComplementaresHasLoaded = createSelector(
     getDocumentosComplementaresState,
     (state: DocumentosComplementaresState) => state.documentosLoaded
 );
-
-// export const getSelectedDocumentoIds = createSelector(
-//     getDocumentosState,
-//     (state: DocumentosState) => state.selectedDocumentosId
-// );
-//
-// export const getSelectedDocumentos = createSelector(
-//     schemaDocumentoSelectors.getNormalizedEntities,
-//     getSelectedDocumentoIds,
-//     schemaDocumentoSelectors.entitiesProjector
-// );
-//
-// export const getConvertendoDocumentosId = createSelector(
-//     getDocumentosState,
-//     (state: DocumentosState) => state.convertendoDocumentoIds
-// );
-//
-//
-// export const getDeletingDocumentosId = createSelector(
-//     getDocumentosState,
-//     (state: DocumentosState) => state.deletingDocumentoIds
-// );
-//
-// export const getAssinandoDocumentosId = createSelector(
-//     getDocumentosState,
-//     (state: DocumentosState) => state.assinandoDocumentoIds
-// );
 

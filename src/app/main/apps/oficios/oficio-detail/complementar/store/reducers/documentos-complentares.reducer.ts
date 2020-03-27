@@ -1,7 +1,7 @@
 import * as DocumentosComplementaresActions from '../actions/documentos-complementar.actions';
 
 export interface DocumentosComplementaresState {
-    documentosComplementaresId: number[];
+    documentosId: number[];
     documentosLoaded: any;
     selectedDocumentosId: number[];
     deletingDocumentoIds: number[];
@@ -12,7 +12,7 @@ export interface DocumentosComplementaresState {
 }
 
 export const DocumentosComplementaresInitialState: DocumentosComplementaresState = {
-    documentosComplementaresId: [],
+    documentosId: [],
     documentosLoaded: false,
     selectedDocumentosId: [],
     deletingDocumentoIds: [],
@@ -30,96 +30,10 @@ export function DocumentosComplementaresReducer(
         case DocumentosComplementaresActions.GET_DOCUMENTOS_COMPLEMENTARES_SUCCESS: {
             return {
                 ...state,
-                documentosComplementaresId: action.payload.entitiesId,
+                documentosId: action.payload.entitiesId,
                 documentosLoaded: action.payload.loaded,
             };
         }
-
-        // case DocumentosActions.COMPLETE_DOCUMENTO: {
-        //     return {
-        //         ...state,
-        //         documentosId: [...state.documentosId, action.payload.id],
-        //     };
-        // }
-        //
-        // case DocumentosActions.CONVERTE_DOCUMENTO: {
-        //     return {
-        //         ...state,
-        //         convertendoDocumentoIds: [...state.convertendoDocumentoIds, action.payload],
-        //     };
-        // }
-        //
-        // case DocumentosActions.CONVERTE_DOCUMENTO_SUCESS: {
-        //     return {
-        //         ...state,
-        //         convertendoDocumentoIds: state.convertendoDocumentoIds.filter(id => id !== action.payload),
-        //     };
-        // }
-        //
-        // case DocumentosActions.CONVERTE_DOCUMENTO_FAILED: {
-        //     return {
-        //         ...state,
-        //         convertendoDocumentoIds: state.convertendoDocumentoIds.filter(id => id !== action.payload),
-        //     };
-        // }
-        //
-        // case DocumentosActions.DELETE_DOCUMENTO: {
-        //     return {
-        //         ...state,
-        //         deletingDocumentoIds: [...state.deletingDocumentoIds, action.payload]
-        //     };
-        // }
-        //
-        // case DocumentosActions.DELETE_DOCUMENTO_SUCCESS: {
-        //     return {
-        //         ...state,
-        //         deletingDocumentoIds: state.deletingDocumentoIds.filter(id => id !== action.payload),
-        //         selectedDocumentosId: state.selectedDocumentosId.filter(id => id !== action.payload),
-        //         documentosId: state.documentosId.filter(id => id !== action.payload)
-        //     };
-        // }
-        //
-        // case DocumentosActions.ASSINA_DOCUMENTO: {
-        //     return {
-        //         ...state,
-        //         assinandoDocumentoIds: [...state.assinandoDocumentoIds, action.payload]
-        //     };
-        // }
-        //
-        // case DocumentosActions.ASSINA_DOCUMENTO_SUCCESS: {
-        //     return {
-        //         ...state,
-        //         assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload)
-        //     };
-        // }
-        //
-        // case DocumentosActions.ASSINA_DOCUMENTO_FAILED: {
-        //     return {
-        //         ...state,
-        //         assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload)
-        //     };
-        // }
-        //
-        // case DocumentosActions.CHANGE_SELECTED_DOCUMENTOS: {
-        //     return {
-        //         ...state,
-        //         selectedDocumentosId: action.payload
-        //     };
-        // }
-        //
-        // case DocumentosActions.CONVERTE_DOCUMENTO_SUCESS: {
-        //     return {
-        //         ...state,
-        //         convertendoDocumentoIds: state.convertendoDocumentoIds.filter(id => id !== action.payload),
-        //     };
-        // }
-        //
-        // case DocumentosActions.CONVERTE_DOCUMENTO_FAILED: {
-        //     return {
-        //         ...state,
-        //         convertendoDocumentoIds: state.convertendoDocumentoIds.filter(id => id !== action.payload),
-        //     };
-        // }
 
         default:
             return state;

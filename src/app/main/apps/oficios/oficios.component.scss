@@ -1,10 +1,6 @@
-@import "../../../../@cdk/scss/cdk";
+@import '~@cdk/scss/cdk';
 
 oficios {
-
-    cdk-documento-avulso-list {
-        height: 100%;
-    }
 
     .center {
 
@@ -28,9 +24,9 @@ oficios {
 
                 .search {
                     width: 100%;
-                    height: 56px;
-                    line-height: 56px;
-                    padding: 0 18px;
+                    height: 46px;
+                    line-height: 46px;
+                    padding: 0 8px;
 
                     cdk-etiqueta-chips {
                         width: 100%;
