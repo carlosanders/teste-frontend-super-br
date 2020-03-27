@@ -16,7 +16,6 @@ import {VinculacaoEtiqueta} from '@cdk/models/vinculacao-etiqueta.model';
 import {AddChildData, AddData, RemoveChildData, UpdateData} from '@cdk/ngrx-normalizr';
 import {vinculacaoEtiqueta as vinculacaoEtiquetaSchema} from '@cdk/normalizr/vinculacao-etiqueta.schema';
 import {documentoAvulso as documentoAvulsoSchema} from '@cdk/normalizr/documento-avulso.schema';
-import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
 import {DocumentoService} from '@cdk/services/documento.service';
 import {DocumentoAvulso, Documento} from '@cdk/models';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';

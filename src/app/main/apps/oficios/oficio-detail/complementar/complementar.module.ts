@@ -40,6 +40,12 @@ const routes: Routes = [
     {
         path: '',
         component: ComplementarComponent,
+        children: [
+            {
+                path: 'documento',
+                loadChildren: () => import('app/main/apps/oficios/componente-digital/componente-digital.module').then(m => m.ComponenteDigitalModule)
+            }
+        ],
         canActivate: [fromGuards.ResolveGuard]
     }
 ];

@@ -1,4 +1,4 @@
-import { Injector, NgModule, ɵrenderComponent as renderComponent } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {
     MatButtonModule, MatIconModule, MatMenuModule, MatProgressSpinnerModule, MatTooltipModule
