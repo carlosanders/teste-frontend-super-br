@@ -5,7 +5,7 @@
                   (click)="$event.stopPropagation();">
     </mat-checkbox>
 
-    <div class="p-8 file" style="border:3px solid red" fxLayout="column" (click)="onClick(documento)"
+    <div class="p-8 file" fxLayout="column" (click)="onClick(documento)"
          [ngClass]="{'light-blue-100':!documento.documentoAvulsoRemessa, 'light-green-100':documento.documentoAvulsoRemessa}">
 
         <div fxLayout="row" fxLayoutAlign="start center">
