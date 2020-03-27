@@ -39,8 +39,6 @@ export class ComplementarComponent implements OnInit, OnDestroy {
     documentoAvulso: DocumentoAvulso;
 
     documentos$: Observable<Documento[]>;
-    documentosComplementares$: Observable<Documento[]>;
-
 
     selectedDocumentos$: Observable<Documento[]>;
     oficios: Documento[] = [];
@@ -49,6 +47,7 @@ export class ComplementarComponent implements OnInit, OnDestroy {
     documentoAvulsoOrigem: number;
 
     mode: string;
+    tipo = 'responder-complementar';
     chaveAcesso: any;
 
     routerState: any;
@@ -77,7 +76,6 @@ export class ComplementarComponent implements OnInit, OnDestroy {
         this._profile = this._loginService.getUserProfile();
         this.documentoAvulso$ = this._store.pipe(select(getDocumentoAvulso));
         this.documentos$ = this._store.pipe(select(fromStore.getDocumentos));
-        //this.documentosComplementares$ = this._store.pipe(select(fromStore.getDocumentosComplementares));
         this.routerState$ = this._store.pipe(select(getRouterState));
 
         this.selectedDocumentos$ = this._store.pipe(select(fromStore.getSelectedDocumentos));
@@ -136,15 +134,6 @@ export class ComplementarComponent implements OnInit, OnDestroy {
                 this.oficios = this.oficios.concat(this.documentoAvulso.documentoResposta);
             }
         );
-
-        // this.documentosComplementares$.pipe(
-        //     takeUntil(this._unsubscribeAll)
-        // ).subscribe(
-        //     documentosComplementares => {
-        //         this.oficios = this.oficios.concat(documentosComplementares);
-        //         this._changeDetectorRef.markForCheck();
-        //     }
-        // );
 
         this.selectedDocumentos$.pipe(
             filter(selectedDocumentos => !!selectedDocumentos),

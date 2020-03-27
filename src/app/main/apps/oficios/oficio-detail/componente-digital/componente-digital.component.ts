@@ -11,7 +11,7 @@ import { Location } from '@angular/common';
 import {cdkAnimations} from '@cdk/animations';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
-import {getRouterState} from '../../../../store/reducers';
+import {getRouterState} from '../../../../../store/reducers';
 
 @Component({
     selector: 'componente-digital',
