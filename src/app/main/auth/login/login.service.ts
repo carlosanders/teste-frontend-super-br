@@ -7,6 +7,7 @@ import * as fromStore from 'app/store';
 import {Store} from '@ngrx/store';
 import {State} from 'app/store';
 import {environment} from '../../../../environments/environment';
+import * as fromLoginStore from 'app/main/auth/login/store';
 
 @Injectable()
 export class LoginService {
@@ -46,7 +47,18 @@ export class LoginService {
     }
 
     setToken(action): void {
+        this.removeToken();
         localStorage.setItem('token', action.payload.token);
+        this.setExp(action);
+        this.startCountdown();
+    }
+
+    setExp(action): void {
+        localStorage.setItem('exp', action.payload.exp);
+    }
+
+    getExp(): Date {
+        return new Date(Number(localStorage.getItem('exp')) * 1000);
     }
 
     getToken(): string {
@@ -55,6 +67,11 @@ export class LoginService {
 
     removeToken(): void {
         localStorage.removeItem('token');
+        this.removeExp();
+    }
+
+    removeExp(): void {
+        localStorage.removeItem('exp');
     }
 
     login(username: string, password: string): Observable<any> {
@@ -64,6 +81,11 @@ export class LoginService {
 
     getProfile(): Observable<any> {
         const url = `${environment.base_url}profile` + environment.xdebug;
+        return this.http.get(url);
+    }
+
+    refreshToken(): Observable<any> {
+        const url = `${environment.base_url}auth/refreshToken` + environment.xdebug;
         return this.http.get(url);
     }
 
@@ -77,6 +99,14 @@ export class LoginService {
             }) !== -1;
         }
         return hasAccess;
+    }
+
+    private startCountdown(): void {
+        // Removing 3 minutes of token Exp time
+        var timeExpToken: number | null;
+        timeExpToken = ((this.getExp().getTime() - new Date().getTime()) / 1000) - 1;
+        setTimeout(() => { this._store.dispatch(new fromLoginStore.LoginRefreshToken()); }, timeExpToken - 180);
+
     }
 }
 
