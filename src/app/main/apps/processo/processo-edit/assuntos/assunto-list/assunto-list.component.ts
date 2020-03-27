@@ -14,6 +14,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 
+
 @Component({
     selector: 'assunto-list',
     templateUrl: './assunto-list.component.html',
@@ -42,11 +43,14 @@ export class AssuntoListComponent implements OnInit {
         private _router: Router,
         private _store: Store<fromStore.AssuntoListAppState>,
     ) {
+        
         this.assuntos$ = this._store.pipe(select(fromStore.getAssuntoList));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
         this.deletingIds$ = this._store.pipe(select(fromStore.getDeletingIds));
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedIds));
+
+        console.log("[Contrutor assunto-list.component] " + this.pagination$);
 
         this._store
             .pipe(select(getRouterState))

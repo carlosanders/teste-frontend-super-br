@@ -1,3 +1,4 @@
+
 import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
 import {Lembrete} from '@cdk/models';
@@ -14,6 +15,8 @@ import {Pessoa} from '@cdk/models';
 import {Localizador} from '@cdk/models';
 import {OrigemDados} from '@cdk/models';
 import {VinculacaoEtiqueta} from './vinculacao-etiqueta.model';
+
+import { Assunto } from '@cdk/models/assunto.model';
 
 export class Processo {
 
@@ -142,6 +145,13 @@ export class Processo {
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
     apagadoEm?: Date;
 
+    /*
+    * ISSUE-107
+    */
+   @Exclude({toPlainOnly: true})
+   @Type(() => Assunto)
+   assuntos: Assunto[];
+
     constructor() {
         this.id = null;
         this.processoOrigem = null;
@@ -175,6 +185,7 @@ export class Processo {
         this.atualizadoEm = null;
         this.apagadoPor = null;
         this.apagadoEm = null;
-        this.vinculacoesEtiquetas = []; // Dr. Eduardo, colocamos [] aqui para poder funcionar a vinculação etiqueta.
+        this.vinculacoesEtiquetas = null;
+        this.assuntos = null;
     }
 }
