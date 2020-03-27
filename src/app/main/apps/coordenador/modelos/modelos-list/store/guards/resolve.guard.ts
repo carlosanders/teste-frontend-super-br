@@ -73,7 +73,10 @@ export class ResolveGuard implements CanActivate {
                             'documento',
                             'documento.componentesDigitais',
                             'template',
-                            'modalidadeModelo'
+                            'modalidadeModelo',
+                            'vinculacoesModelos',
+                            'vinculacoesModelos.setor',
+
                         ],
                         context: {
                             'isCoordenador': true

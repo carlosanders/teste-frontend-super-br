@@ -83,6 +83,11 @@ export class CdkModeloGridComponent implements AfterViewInit, OnInit, OnChanges 
             fixed: false
         },
         {
+            id: 'vinculacoesModelos.setor.nome',
+            label: 'Setor',
+            fixed: false
+        },
+        {
             id: 'vinculacaoModelo.setor.nome',
             label: 'Setor',
             fixed: false

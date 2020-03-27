@@ -71,7 +71,9 @@ export class ResolveGuard implements CanActivate {
                         populate: [
                             'documento',
                             'documento.componentesDigitais',
-                            'modalidadeRepositorio'
+                            'modalidadeRepositorio',
+                            'vinculacoesRepositorios',
+                            'vinculacoesRepositorios.setor'
                         ],
                         context: {
                             'isCoordenador': true
