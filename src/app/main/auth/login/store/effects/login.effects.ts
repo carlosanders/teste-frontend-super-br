@@ -26,7 +26,7 @@ export class LoginEffects {
                         return this.loginService.login(action.payload.username, action.payload.password)
                             .pipe(
                                 map((data) => {
-                                    return new LoginActions.LoginSuccess({token: data.token});
+                                    return new LoginActions.LoginSuccess({token: data.token, exp: data.exp});
                                 }),
                                 catchError((error) => {
                                     let msg = 'Sistema indisponível, tente mais tarde!';
@@ -34,6 +34,28 @@ export class LoginEffects {
                                         msg = 'Dados incorretos!';
                                     }
                                     return of(new LoginActions.LoginFailure({error: msg}));
+                                })
+                            );
+                    }
+                ));
+
+    @Effect()
+    LoginRefreshToken: Observable<LoginActions.LoginActionsAll> =
+        this.actions
+            .pipe(
+                ofType<LoginActions.Login>(LoginActions.LOGIN_REFRESH_TOKEN),
+                switchMap((action) => {
+                        return this.loginService.refreshToken()
+                            .pipe(
+                                map((data) => {
+                                    return new LoginActions.LoginRefreshTokenSuccess({token: data.token, exp: data.exp});
+                                }),
+                                catchError((error) => {
+                                    let msg = 'Token inválido, realize autenticação novamente!';
+                                    if (error && error.status && error.status === 401) {
+                                        msg = 'O Token temporário está expirado!';
+                                    }
+                                    return of(new LoginActions.LoginRefreshTokenFailure({error: msg}));
                                 })
                             );
                     }
@@ -49,9 +71,24 @@ export class LoginEffects {
             })
         );
 
+    @Effect()
+    LoginRefreshTokenSuccess: Observable<LoginActions.LoginProfile> =
+        this.actions.pipe(
+            ofType(LoginActions.LOGIN_REFRESH_TOKEN_SUCCESS),
+            map((action) => {
+                this.loginService.setToken(action);
+                return new LoginActions.LoginProfile();
+            })
+        );
+
     @Effect({dispatch: false})
     LoginFailure: Observable<any> = this.actions.pipe(
         ofType(LoginActions.LOGIN_FAILURE)
+    );
+
+    @Effect({dispatch: false})
+    LoginRefreshTokenFailure: Observable<any> = this.actions.pipe(
+        ofType(LoginActions.LOGIN_REFRESH_TOKEN_FAILURE)
     );
 
     @Effect({dispatch: false})

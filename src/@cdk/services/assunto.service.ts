@@ -35,6 +35,7 @@ export class AssuntoService {
 
         return this.modelService.get('assunto', new HttpParams({fromObject: params}))
             .pipe(
+                //tap((response) => {console.log(" ****** AssuntoService response ==> " + JSON.stringify(response) + " ******")}),                
                 map(response => new PaginatedResponse(plainToClass(Assunto, response['entities']), response['total']))
             );
     }
