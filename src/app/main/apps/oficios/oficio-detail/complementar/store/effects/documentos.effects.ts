@@ -84,8 +84,8 @@ export class DocumentosEffects {
             .pipe(
                 ofType<DocumentosActions.ClickedDocumento>(DocumentosActions.CLICKED_DOCUMENTO),
                 tap((action) => {
-                    this._router.navigate([this.routerState.url.replace(`detalhe/${this.routerState.params.documentoAvulsoHandle}/complementar/${this.routerState.params.chaveAcessoHandle}`,'documento/')  + action.payload.componentesDigitais[0].id
-                    + '/visualizar/' + this.routerState.params.chaveAcessoHandle]);
+                    this._router.navigate([this.routerState.url.replace(`detalhe/${this.routerState.params.documentoAvulsoHandle}/complementar/${this.routerState.params.chaveAcessoHandle}`,'documento/')
+                    + action.payload.componentesDigitais[0].id + '/visualizar/' + this.routerState.params.chaveAcessoHandle]);
                 })
             );
 

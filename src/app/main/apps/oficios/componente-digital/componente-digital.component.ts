@@ -14,7 +14,7 @@ import * as fromStore from './store';
 import {getRouterState} from '../../../../store/reducers';
 
 @Component({
-    selector: 'oficio-componente-digital',
+    selector: 'componente-digital',
     templateUrl: './componente-digital.component.html',
     styleUrls: ['./componente-digital.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
