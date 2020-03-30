@@ -69,6 +69,10 @@ export class ProcessoEditMainSidebarComponent implements OnInit, OnDestroy {
                 link: 'vinculacoes-processos'
             },
             {
+                nome: 'Relevâncias',
+                link: 'relevancias'
+            },
+            {
                 nome: 'Tarefas',
                 link: 'tarefas'
             },
