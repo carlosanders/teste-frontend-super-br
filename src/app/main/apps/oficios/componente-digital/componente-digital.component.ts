@@ -7,14 +7,14 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import { Location } from '@angular/common';
+import {Location} from '@angular/common';
 import {cdkAnimations} from '@cdk/animations';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
-import {getRouterState} from '../../../../../store/reducers';
+import {getRouterState} from '../../../../store/reducers';
 
 @Component({
-    selector: 'componente-digital',
+    selector: 'oficio-componente-digital',
     templateUrl: './componente-digital.component.html',
     styleUrls: ['./componente-digital.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
