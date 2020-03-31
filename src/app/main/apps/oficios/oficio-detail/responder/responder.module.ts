@@ -34,6 +34,7 @@ import {DocumentoService} from '@cdk/services/documento.service';
 import {CdkDocumentoCardListModule} from '@cdk/components/documento/cdk-documento-card-list/cdk-documento-card-list.module';
 import {CdkDocumentoAvulsoCardModule} from '@cdk/components/documento-avulso/cdk-documento-avulso-card-list/cdk-documento-avulso-card/cdk-documento-avulso-card.module';
 import {CdkComponenteDigitalDocumentoAvulsoCardListModule} from '@cdk/components/documento-avulso/cdk-componente-digital-documento-avulso-card-list/cdk-componente-digital-documento-avulso-card-list.module';
+import {ComplementarStoreModule} from '../complementar/store/store.module';
 
 const routes: Routes = [
     {
@@ -70,6 +71,7 @@ const routes: Routes = [
         CdkAtividadeFormModule,
 
         ResponderStoreModule,
+        ComplementarStoreModule,
         TranslateModule,
         CdkSharedModule,
         CdkSidebarModule,
