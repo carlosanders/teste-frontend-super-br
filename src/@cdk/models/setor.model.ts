@@ -29,6 +29,7 @@ export class Setor {
 
     ativo?: boolean;
 
+    @Exclude()
     prefixoNUP?: string;
 
     // @Exclude({ toPlainOnly: true })
@@ -50,32 +51,26 @@ export class Setor {
 
     comPrevencaoRelativa?: boolean;
 
-    @Exclude({ toPlainOnly: true })
     @Type(() => Setor)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     unidade?: Setor;
 
-    @Exclude({ toPlainOnly: true })
     @Type(() => Setor)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     parent?: Setor;
 
-    @Exclude({ toPlainOnly: true })
     @Type(() => Setor)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     unidadePai?: Setor;
 
-    @Exclude({ toPlainOnly: true })
     @Type(() => Municipio)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     municipio?: Municipio;
 
-    @Exclude({ toPlainOnly: true })
     @Type(() => GeneroSetor)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     generoSetor?: GeneroSetor;
 
-    @Exclude({ toPlainOnly: true })
     @Type(() => EspecieSetor)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     especieSetor?: EspecieSetor;
@@ -135,9 +130,9 @@ export class Setor {
         this.apenasProtocolo = null;
         this.numeracaoDocumentoUnidade = null;
         this.apenasDistribuidor = null;
-        this.distribuicaoCentena = null;
-        this.prazoEqualizacao = null;
-        this.divergenciaMaxima = null;
+        this.distribuicaoCentena = false;
+        this.prazoEqualizacao = 7;
+        this.divergenciaMaxima = 25;
         this.apenasDistribuicaoAutomatica = null;
         this.comPrevencaoRelativa = null;
         this.criadoPor = null;

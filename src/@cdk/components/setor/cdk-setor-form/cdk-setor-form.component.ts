@@ -29,6 +29,9 @@ export class CdkSetorFormComponent implements OnChanges, OnDestroy {
     setor: Setor;
 
     @Input()
+    unidade: Setor;
+
+    @Input()
     saving: boolean;
 
     @Input()
@@ -59,16 +62,17 @@ export class CdkSetorFormComponent implements OnChanges, OnDestroy {
 
         this.form = this._formBuilder.group({
             id: [null],
-            ativo: [null],
+            ativo: [true],
             nome: [null, [Validators.required, Validators.maxLength(255)]],
             sigla: [null, [Validators.required, Validators.maxLength(255)]],
             endereco: [null],
             especieSetor: [null, [Validators.required]],
             municipio: [null, [Validators.required]],
             parent: [null, [Validators.required]],
-            distribuicaoCentena: [null],
-            prazoEqualizacao: [null],
-            divergenciaMaxima: [null],
+            unidade: [this.unidade],
+            distribuicaoCentena: [false],
+            prazoEqualizacao: [7],
+            divergenciaMaxima: [25],
             apenasDistribuidor: [null],
             sequenciaInicialNUP: [null],
             apenasDistribuicaoAutomatica: [null],
@@ -78,7 +82,6 @@ export class CdkSetorFormComponent implements OnChanges, OnDestroy {
         this.especieSetorPagination = new Pagination();
         this.municipioPagination = new Pagination();
         this.setorPagination = new Pagination();
-
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -92,6 +95,8 @@ export class CdkSetorFormComponent implements OnChanges, OnDestroy {
         if (changes['setor'] && this.setor && (!this.setor.id || (this.setor.id !== this.form.get('id').value))) {
             this.form.patchValue({...this.setor});
         }
+
+        this.form.get('unidade').setValue(this.unidade);
 
         if (this.errors && this.errors.status && this.errors.status === 422) {
             try {
