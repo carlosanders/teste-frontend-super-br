@@ -84,7 +84,7 @@ const routes: Routes = [
                 loadChildren: () => import('./documento-avulso-create-bloco/documento-avulso-create-bloco.module').then(m => m.DocumentoAvulsoCreateBlocoModule),
             },
             {
-                path: 'responder-complementar-create-bloco',
+                path: 'upload-bloco',
                 loadChildren: () => import('./upload-bloco/upload-bloco.module').then(m => m.UploadBlocoModule),
             },
             {
