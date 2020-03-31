@@ -13,6 +13,7 @@ import {of} from 'rxjs';
 
 export class RealizarTransicaoEffects {
     routerState: any;
+    private currentDate: any;
 
     constructor(
         private _actions: Actions,
@@ -30,43 +31,6 @@ export class RealizarTransicaoEffects {
     }
 
     /**
-     * Get Transicao with router parameters
-     * @type {Observable<any>}
-     */
-    @Effect()
-    getTransicao: any =
-        this._actions
-            .pipe(
-                ofType<RealizarTransicoesActions.GetTransicao>(RealizarTransicoesActions.GET_TRANSICAO),
-                switchMap((action) => {
-                    return this._transicaoService.query(
-                        JSON.stringify(action.payload),
-                        1,
-                        0,
-                        JSON.stringify({}),
-                        JSON.stringify([
-                            'populateAll'
-                        ]));
-                }),
-                switchMap(response => [
-                    new AddData<Transicao>({data: response['entities'], schema: transicaoSchema}),
-                    new RealizarTransicoesActions.GetTransicaoSuccess({
-                        loaded: {
-                            id: 'transicaoHandle',
-                            value: this.routerState.params.transicaoHandle
-                        },
-                        transicaoId: response['entities'][0].id
-                    })
-                ]),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new RealizarTransicoesActions.GetTransicaoFailed(err));
-                    return caught;
-                })
-            );
-
-
-    /**
      * Save Transicao
      * @type {Observable<any>}
      */
@@ -76,6 +40,7 @@ export class RealizarTransicaoEffects {
             .pipe(
                 ofType<RealizarTransicoesActions.SaveTransicao>(RealizarTransicoesActions.SAVE_TRANSICAO),
                 switchMap((action) => {
+                    debugger
                     return this._transicaoService.save(action.payload).pipe(
                         mergeMap((response: Transicao) => [
                             new RealizarTransicoesActions.SaveTransicaoSuccess(),
@@ -102,6 +67,67 @@ export class RealizarTransicaoEffects {
             .pipe(
                 ofType<RealizarTransicoesActions.SaveTransicaoSuccess>(RealizarTransicoesActions.SAVE_TRANSICAO_SUCCESS),
                 tap(() => {
+
+                    // const params = {
+                    //     listFilter: {},
+                    //     etiquetaFilter: {},
+                    //     limit: 10,
+                    //     offset: 0,
+                    //     sort: {dataHoraProximaTransicao: 'ASC', dataHoraAbertura: 'ASC', lembretes: 'DESC'},
+                    //     populate: [
+                    //         'especieProcesso',
+                    //         'modalidadeMeio',
+                    //         'modalidadeFase',
+                    //         'documentoAvulsoOrigem',
+                    //         'especieProcesso',
+                    //         'classificacao',
+                    //         'classificacao.modalidadeDestinacao',
+                    //         'setorInicial',
+                    //         'setorAtual',
+                    //         'lembretes',
+                    //         'vinculacoesEtiquetas',
+                    //         'vinculacoesEtiquetas.etiqueta'
+                    //
+                    //     ]
+                    // };
+                    //
+                    // const routeTypeParam = of('typeHandle');
+                    // routeTypeParam.subscribe(typeParam => {
+                    //     let processoFilter = {};
+                    //
+                    //     this.currentDate =  moment().format('YYYY-m-d[T]H:mm:ss');
+                    //
+                    //     if (this.routerState.params[typeParam] === 'pronto-transicao') {
+                    //         processoFilter = {
+                    //             dataHoraProximaTransicao: 'lt:' + this.currentDate,
+                    //             modalidadeFase: 'in:1,2',
+                    //
+                    //         };
+                    //     }
+                    //
+                    //     if (this.routerState.params[typeParam] === 'aguardando-decurso') {
+                    //         processoFilter = {
+                    //             dataHoraProximaTransicao: 'gte:' + this.currentDate,
+                    //             modalidadeFase: 'in:1,2',
+                    //         };
+                    //     }
+                    //
+                    //     if (this.routerState.params[typeParam] === 'pendencia-analise') {
+                    //         processoFilter = {
+                    //             dataHoraProximaTransicao: 'isNull',
+                    //             modalidadeFase: 'in:1,2',
+                    //         };
+                    //
+                    //     }
+                    //
+                    //     params['filter'] = processoFilter;
+                    // });
+
+                    // this._store.dispatch(new fromStore.(params));
+
+
+
+
                     this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle + '/' +
                     this.routerState.params.typeHandle]).then();
                 })

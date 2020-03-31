@@ -22,43 +22,6 @@ export function RealizarTransicaoReducer(
 ): RealizarTransicaoState {
     switch (action.type) {
 
-        case RealizarTransicaoActions.GET_TRANSICAO: {
-            return {
-                ...state,
-                transicaoId: null,
-                loading: true
-            };
-        }
-
-        case RealizarTransicaoActions.GET_TRANSICAO_SUCCESS: {
-
-            return {
-                ...state,
-                transicaoId: action.payload.transicaoId,
-                loaded: action.payload.loaded,
-                loading: false
-            };
-        }
-
-        case RealizarTransicaoActions.CREATE_TRANSICAO: {
-            return {
-                ...state,
-                transicaoId: null,
-                loaded: {
-                    id: 'transicaoHandle',
-                    value: 'criar'
-                },
-                loading: false
-            };
-        }
-
-        case RealizarTransicaoActions.GET_TRANSICAO_FAILED: {
-            return {
-                ...state,
-                loading: false
-            };
-        }
-
         case RealizarTransicaoActions.SAVE_TRANSICAO: {
             return {
                 ...state,

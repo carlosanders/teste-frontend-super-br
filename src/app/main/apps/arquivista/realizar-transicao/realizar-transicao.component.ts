@@ -29,6 +29,7 @@ export class RealizarTransicaoComponent implements OnInit {
     constructor(
         private _store: Store<fromStore.RealizarTransicaoAppState>
     ) {
+        debugger
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.modalidadeTransicaoPagination = new Pagination();
@@ -53,7 +54,6 @@ export class RealizarTransicaoComponent implements OnInit {
                 transicao[key] = value;
             }
         );
-
         this._store.dispatch(new fromStore.SaveTransicao(transicao));
 
     }

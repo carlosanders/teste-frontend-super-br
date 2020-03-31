@@ -1,4 +1,4 @@
-import {getRealizarTransicaoAppState, RealizarTransicaoAppState, RealizarTransicaoState} from "../reducers";
+import {getRealizarTransicaoAppState, RealizarTransicaoAppState, RealizarTransicaoState} from '../reducers';
 import {createSelector} from '@ngrx/store';
 import {transicao as transicaoSchema} from '@cdk/normalizr/transicao.schema';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
@@ -16,7 +16,7 @@ export const getTransicaoId = createSelector(
     (state: RealizarTransicaoState) => state.loaded ? state.loaded.value : null
 );
 
-export const getTransicao = createSelector(
+export const getTransicaoList = createSelector(
     schemaTransicaoSelectors.getNormalizedEntities,
     getTransicaoId,
     schemaTransicaoSelectors.entityProjector

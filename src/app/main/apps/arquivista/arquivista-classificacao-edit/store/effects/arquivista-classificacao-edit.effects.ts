@@ -85,14 +85,12 @@ export class ArquivistaClassificacaoEditEffects {
                             'lembretes',
                             'vinculacoesEtiquetas',
                             'vinculacoesEtiquetas.etiqueta'
-
                         ]
                     };
 
                     const routeTypeParam = of('typeHandle');
                     routeTypeParam.subscribe(typeParam => {
                         let processoFilter = {};
-
 
                         this.currentDate =  moment().format('YYYY-m-d[T]H:mm:ss');
 

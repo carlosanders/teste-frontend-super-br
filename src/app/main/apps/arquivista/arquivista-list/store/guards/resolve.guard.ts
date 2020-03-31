@@ -106,8 +106,6 @@ export class ResolveGuard implements CanActivate {
                 const routeTypeParam = of('typeHandle');
                 routeTypeParam.subscribe(typeParam => {
                     let processoFilter = {};
-
-
                     this.currentDate = moment().format('YYYY-m-d[T]H:mm:ss');
 
                     if (this.routerState.params[typeParam] === 'pronto-transicao') {

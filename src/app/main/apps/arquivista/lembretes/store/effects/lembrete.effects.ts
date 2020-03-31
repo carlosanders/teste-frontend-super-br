@@ -11,10 +11,13 @@ import {lembrete as lembreteSchema} from '@cdk/normalizr/lembrete.schema';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {of} from 'rxjs';
 import {Injectable} from '@angular/core';
+import * as moment from 'moment';
+import * as fromStore from '../../store';
 
 @Injectable()
 export class LembreteEffects {
     routerState: any;
+    private currentDate: any;
 
     constructor(
         private _actions: Actions,
@@ -100,8 +103,66 @@ export class LembreteEffects {
             .pipe(
                 ofType<LembreteActions.SaveLembreteSuccess>(LembreteActions.SAVE_LEMBRETE_SUCCESS),
                 tap(() => {
-                    this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle + '/' +
-                    this.routerState.params.typeHandle + '/detalhe/processo/' + this.routerState.params.processoHandle + '/visualizar']).then();
+
+                    const params = {
+                        listFilter: {},
+                        etiquetaFilter: {},
+                        limit: 10,
+                        offset: 0,
+                        sort: {dataHoraProximaTransicao: 'ASC', dataHoraAbertura: 'ASC', lembretes: 'DESC'},
+                        populate: [
+                            'especieProcesso',
+                            'modalidadeMeio',
+                            'modalidadeFase',
+                            'documentoAvulsoOrigem',
+                            'especieProcesso',
+                            'classificacao',
+                            'classificacao.modalidadeDestinacao',
+                            'setorInicial',
+                            'setorAtual',
+                            'lembretes',
+                            'vinculacoesEtiquetas',
+                            'vinculacoesEtiquetas.etiqueta'
+                        ]
+                    };
+
+                    const routeTypeParam = of('typeHandle');
+                    routeTypeParam.subscribe(typeParam => {
+                        let processoFilter = {};
+
+
+                        this.currentDate =  moment().format('YYYY-m-d[T]H:mm:ss');
+
+                        if (this.routerState.params[typeParam] === 'pronto-transicao') {
+                            processoFilter = {
+                                dataHoraProximaTransicao: 'lt:' + this.currentDate,
+                                modalidadeFase: 'in:1,2',
+
+                            };
+                        }
+
+                        if (this.routerState.params[typeParam] === 'aguardando-decurso') {
+                            processoFilter = {
+                                dataHoraProximaTransicao: 'gte:' + this.currentDate,
+                                modalidadeFase: 'in:1,2',
+                            };
+                        }
+
+                        if (this.routerState.params[typeParam] === 'pendencia-analise') {
+                            processoFilter = {
+                                dataHoraProximaTransicao: 'isNull',
+                                modalidadeFase: 'in:1,2',
+                            };
+
+                        }
+
+                        params['filter'] = processoFilter;
+                    });
+
+                    this._store.dispatch(new fromStore.GetProcessos(params));
+
+                    // this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle + '/' +
+                    // this.routerState.params.typeHandle + '/detalhe/processo/' + this.routerState.params.processoHandle + '/visualizar']).then();
                 })
             );
 
