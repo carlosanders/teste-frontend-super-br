@@ -29,7 +29,7 @@ export class Setor {
 
     ativo?: boolean;
 
-    @Exclude({ toPlainOnly: true })
+    @Exclude()
     prefixoNUP?: string;
 
     // @Exclude({ toPlainOnly: true })

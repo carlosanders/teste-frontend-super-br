@@ -77,7 +77,7 @@ export class UsuarioEditComponent implements OnInit, OnDestroy {
             email: [null, [Validators.required, Validators.email, Validators.maxLength(255)]],
             nivelAcesso: [0, [Validators.required, Validators.maxLength(2)]],
             enabled: [null],
-            resetPassword: [false]
+            reset: [false]
         });
 
         this.formColaborador = this._formBuilder.group({
@@ -132,11 +132,7 @@ export class UsuarioEditComponent implements OnInit, OnDestroy {
             }
         );
 
-        if (!usuario.id) {
-            this._store.dispatch(new fromStore.SaveUsuario(usuario));
-        } else {
-            this._store.dispatch(new fromStore.UpdateUsuario({usuario: usuario, changes: values}));
-        }
+        this._store.dispatch(new fromStore.SaveUsuario(usuario));
     }
 
     submitColaborador(values): void {

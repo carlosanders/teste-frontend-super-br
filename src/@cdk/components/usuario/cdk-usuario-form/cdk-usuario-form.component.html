@@ -30,7 +30,7 @@
             <input matInput #email
                    name="email"
                    formControlName="email"
-                   maxlength="255" upperCase>
+                   maxlength="255">
             <mat-hint align="end">{{email.value.length}} / 255</mat-hint>
         </mat-form-field>
 
@@ -49,7 +49,7 @@
             Ativo
         </mat-checkbox>
 
-        <mat-checkbox formControlName="resetPassword" *ngIf="form.value.id"
+        <mat-checkbox formControlName="reset" *ngIf="form.value.id"
                       class="mr-16 mb-16" fxFlex="0 1 auto">
             Resetar senha
         </mat-checkbox>
