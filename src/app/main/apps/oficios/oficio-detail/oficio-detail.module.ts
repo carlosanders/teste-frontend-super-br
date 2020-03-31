@@ -42,10 +42,6 @@ const routes: Routes = [
             {
                 path: 'complementar/:chaveAcessoHandle',
                 loadChildren: () => import('./complementar/complementar.module').then(m => m.ComplementarModule)
-            },
-            {
-                path: 'documento',
-                loadChildren: () => import('./componente-digital/componente-digital.module').then(m => m.ComponenteDigitalModule),
             }
         ],
         canActivate: [fromGuards.ResolveGuard]

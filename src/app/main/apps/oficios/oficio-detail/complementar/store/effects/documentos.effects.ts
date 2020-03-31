@@ -3,7 +3,7 @@ import { Observable, of } from 'rxjs';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 
-import * as DocumentosActions from '../actions/documentos.actions';
+import * as DocumentosActions from '../actions';
 
 import { AddData } from '@cdk/ngrx-normalizr';
 import { select, Store } from '@ngrx/store';
@@ -74,6 +74,47 @@ export class DocumentosEffects {
                 })
             );
 
+
+    /**
+     * Get Documentos Complementares with router parameters
+     * @type {Observable<any>}
+     */
+    @Effect()
+    getDocumentosComplementares: any =
+        this._actions
+            .pipe(
+                ofType<DocumentosActions.GetDocumentosComplementares>(DocumentosActions.GET_DOCUMENTOS_COMPLEMENTARES),
+                switchMap((action) => {
+                    return this._documentoService.query(
+                        JSON.stringify(action.payload),
+                        10,
+                        0,
+                        JSON.stringify({criadoEm: 'DESC'}),
+                        JSON.stringify([
+                            'tipoDocumento',
+                            'documentoAvulsoRemessa',
+                            'documentoAvulsoRemessa.documentoResposta',
+                            'componentesDigitais',
+                            'juntadaAtual'
+                        ]));
+                }),
+                mergeMap(response => [
+                    new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
+                    new DocumentosActions.GetDocumentosCompelemtaresSuccess({
+                        loaded: {
+                            id: 'documentoAvulsoHandle',
+                            value: this.routerState.params.documentoAvulsoHandle
+                        },
+                        entitiesId: response['entities'].map(documento => documento.id),
+                    })
+                ]),
+                catchError((err, caught) => {
+                    console.log(err);
+                    this._store.dispatch(new DocumentosActions.GetDocumentosComplementaresFailed(err));
+                    return caught;
+                })
+            );
+
     /**
      * Clicked Documento
      * @type {Observable<any>}
@@ -84,8 +125,8 @@ export class DocumentosEffects {
             .pipe(
                 ofType<DocumentosActions.ClickedDocumento>(DocumentosActions.CLICKED_DOCUMENTO),
                 tap((action) => {
-                    this._router.navigate([this.routerState.url.replace('complementar/' + this.routerState.params.chaveAcessoHandle,'documento/')  + action.payload.componentesDigitais[0].id
-                    + '/visualizar/' + this.routerState.params.chaveAcessoHandle]);
+                    this._router.navigate([this.routerState.url.replace(`detalhe/${this.routerState.params.documentoAvulsoHandle}/complementar/${this.routerState.params.chaveAcessoHandle}`,'documento/')
+                    + action.payload.componentesDigitais[0].id + '/visualizar/' + this.routerState.params.chaveAcessoHandle]);
                 })
             );
 
