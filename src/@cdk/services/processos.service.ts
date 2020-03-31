@@ -9,7 +9,7 @@ import {PaginatedResponse} from '@cdk/models';
 import {environment} from 'environments/environment';
 
 @Injectable()
-export class TarefaService {
+export class ProcessosService {
 
     constructor(
         private modelService: ModelService,

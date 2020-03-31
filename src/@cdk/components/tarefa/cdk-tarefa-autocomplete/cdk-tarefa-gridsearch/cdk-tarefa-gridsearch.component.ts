@@ -16,7 +16,7 @@ import {catchError, finalize} from 'rxjs/operators';
 
 import {Pagination} from '@cdk/models';
 
-import {TarefaService} from '@cdk/services/tarefa.service';
+import {ProcessosService} from 'src/@cdk/services/processos.service';
 import {Tarefa} from '@cdk/models';
 
 @Component({
@@ -51,7 +51,7 @@ export class CdkTarefaGridsearchComponent implements OnInit {
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _tarefaService: TarefaService
+        private _tarefaService: ProcessosService
     ) {
         this.loading = false;
         this.pagination = new Pagination();

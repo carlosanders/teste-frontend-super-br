@@ -8,7 +8,7 @@ import {
 
 import {cdkAnimations} from '@cdk/animations';
 import {Tarefa} from '@cdk/models';
-import {TarefaService} from '@cdk/services/tarefa.service';
+import {ProcessosService} from 'src/@cdk/services/processos.service';
 import {FormControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
@@ -39,7 +39,7 @@ export class CdkTarefaAutocompleteComponent implements OnInit {
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _tarefaService: TarefaService
+        private _tarefaService: ProcessosService
     ) {
         this.tarefaList = [];
         this.tarefaListIsLoading = false;

@@ -1,0 +1,27 @@
+@import '../../../../../@cdk/scss/cdk';
+
+tarefa-detail {
+
+    height: 100%;
+
+    .tarefa-header {
+        border-bottom: 1px solid;
+        height: 56px;
+
+        cdk-vinculacao-etiqueta-chips {
+            width: 92%;
+        }
+
+        .pre-actions {
+            width: 100%;
+        }
+
+        .actions {
+            margin-left: auto;
+        }
+    }
+
+    .tarefa-content {
+        height: 76%;
+    }
+}

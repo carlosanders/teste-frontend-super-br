@@ -1,0 +1,316 @@
+@mixin tarefas-theme($theme) {
+
+    $background: map-get($theme, background);
+    $foreground: map-get($theme, foreground);
+    $accent: map-get($theme, accent);
+    $warn: map-get($theme, warn);
+    $is-dark: map-get($theme, is-dark);
+
+    // Tarefa
+    tarefas {
+
+        .logo-text {
+            font-size: 24px;
+        }
+
+        .center {
+
+            .header {
+
+                .search-wrapper {
+                    background: map-get($background, card);
+
+                    .sidebar-toggle {
+                        border-right-color: map-get($foreground, divider);
+                    }
+
+                    .search {
+
+                        input {
+                            background: map-get($background, card);
+                            color: map-get($foreground, text);
+                        }
+                    }
+                }
+            }
+
+            .content-card {
+
+                .toolbar {
+
+                    .toolbar-separator {
+                        background: map-get($foreground, divider);
+                    }
+                }
+
+                // Tarefa list
+                .tarefa-list {
+                    border-right-color: map-get($foreground, divider);
+                }
+
+            }
+        }
+    }
+
+    processo-view {
+
+        .sidebar {
+
+            .juntadas {
+
+                .juntada {
+                    color: map-get($foreground, secondary-text);
+
+                    &.current {
+                        @if ($is-dark) {
+                            background: map-get($background, app-bar);
+                            color: map-get($foreground, text);
+                        } @else {
+                            background: map-get($accent, 50);
+                            color: map-get($accent, '50-contrast');
+                        }
+
+                        .index {
+
+                            span {
+                                @if ($is-dark) {
+                                    background: map-get($background, app-bar);
+                                    border-color: map-get($accent, default);
+                                } @else {
+                                    background: map-get($background, background);
+                                    border-color: map-get($accent, default);
+                                }
+                            }
+                        }
+                    }
+
+                    &.completed {
+                        color: map-get($foreground, text);
+
+                        .index {
+
+                            span {
+                                border-color: map-get($accent, default);
+                            }
+
+                            &:after {
+                                border-left-color: map-get($accent, default);
+                            }
+                        }
+
+                        + .juntada {
+
+                            .index {
+
+                                &:before {
+                                    border-left-color: map-get($accent, default);
+                                }
+                            }
+                        }
+                    }
+
+                    .index {
+
+                        &:before,
+                        &:after {
+                            border-left-color: map-get($foreground, divider);
+                        }
+
+                        span {
+                            background: map-get($background, background);
+                            border-color: map-get($foreground, divider);
+                        }
+                    }
+                }
+            }
+        }
+
+        .center {
+
+            .content {
+                @if ($is-dark) {
+                    background: #353535;
+                } @else {
+                    background: mat-color($mat-grey, 200);
+                }
+
+                .processo-view-juntada {
+
+                    .processo-view-juntada-content {
+                        background: map-get($background, card);
+                    }
+                }
+            }
+        }
+    }
+
+    // Tarefa list item
+    cdk-tarefa-list-item {
+        border-bottom-color: map-get($foreground, divider);
+
+        .etiquetas {
+
+            .etiqueta {
+                background-color: rgba(0, 0, 0, 0.08);
+            }
+        }
+
+        &.selected {
+            @if ($is-dark) {
+                background: map-get($background, background);
+            } @else {
+                background: map-get($accent, 50);
+            }
+        }
+    }
+
+    // Todo edit
+    tarefa-detail {
+        .tarefa-header {
+            background: map-get($background, background);
+            border-bottom-color: map-get($foreground, divider);
+
+            .etiqueta {
+                background-color: rgba(0, 0, 0, 0.08);
+            }
+        }
+    }
+
+    documento-ckeditor {
+
+        background: map-get($background, background);
+
+        .header {
+            background: map-get($background, background);
+            border-bottom-color: map-get($foreground, divider);
+        }
+
+        .content {
+            background: map-get($background, background);
+        }
+    }
+
+    documento-view {
+
+        background: map-get($background, background);
+
+        .header {
+            background: map-get($background, background);
+            border-bottom-color: map-get($foreground, divider);
+        }
+
+        .content {
+            background: map-get($background, background);
+        }
+    }
+
+    documento-upload {
+
+        background: map-get($background, background);
+
+        .content {
+            background: map-get($background, background);
+        }
+    }
+
+    documento-modelo {
+
+        background: map-get($background, background);
+
+        .content {
+            background: map-get($background, background);
+        }
+    }
+
+    documentos {
+
+        .sidebar {
+
+            .documentos {
+
+                .documento {
+                    color: map-get($foreground, secondary-text);
+
+                    &.current {
+                        @if ($is-dark) {
+                            background: map-get($background, app-bar);
+                            color: map-get($foreground, text);
+                        } @else {
+                            background: map-get($accent, 50);
+                            color: map-get($accent, '50-contrast');
+                        }
+
+                        .index {
+
+                            span {
+                                @if ($is-dark) {
+                                    background: map-get($background, app-bar);
+                                    border-color: map-get($warn, default);
+                                } @else {
+                                    background: map-get($background, background);
+                                    border-color: map-get($warn, default);
+                                }
+                            }
+                        }
+                    }
+
+                    &.completed {
+                        color: map-get($foreground, text);
+
+                        .index {
+
+                            span {
+                                border-color: map-get($accent, default);
+                            }
+
+                            &:after {
+                                border-left-color: map-get($accent, default);
+                            }
+                        }
+
+                        + .documento {
+
+                            .index {
+
+                                &:before {
+                                    border-left-color: map-get($accent, default);
+                                }
+                            }
+                        }
+                    }
+
+                    .index {
+
+                        &:before,
+                        &:after {
+                            border-left-color: map-get($foreground, divider);
+                        }
+
+                        span {
+                            background: map-get($background, background);
+                            border-color: map-get($foreground, divider);
+                        }
+                    }
+                }
+            }
+        }
+
+        .center {
+
+            .content {
+                @if ($is-dark) {
+                    background: #353535;
+                } @else {
+                    background: mat-color($mat-grey, 200);
+                }
+
+                .documentos {
+
+                    .documentos-content {
+                        background: map-get($background, card);
+                    }
+                }
+            }
+        }
+    }
+}

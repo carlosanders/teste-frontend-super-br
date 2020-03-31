@@ -23,7 +23,7 @@ import * as fromGuards from 'app/main/apps/tarefas/store/guards/index';
 import {TarefasStoreModule} from 'app/main/apps/tarefas/store/store.module';
 import {TarefasComponent} from 'app/main/apps/tarefas/tarefas.component';
 import {TarefasMainSidebarComponent} from 'app/main/apps/tarefas/sidebars/main/main-sidebar.component';
-import {TarefaService} from '@cdk/services/tarefa.service';
+import {ProcessosService} from 'src/@cdk/services/processos.service';
 import {FolderService} from '@cdk/services/folder.service';
 import {ProcessoService} from '@cdk/services/processo.service';
 import {EspecieTarefaService} from '@cdk/services/especie-tarefa.service';
@@ -149,7 +149,7 @@ const routes: Routes = [
         AssuntoListStoreModule
     ],
     providers: [
-        TarefaService,
+        ProcessosService,
         FolderService,
         ProcessoService,
         EspecieTarefaService,

@@ -5,7 +5,7 @@ import {
 } from '@cdk/angular/material';
 
 import {CdkSharedModule} from '@cdk/shared.module';
-import {TarefaService} from '@cdk/services/tarefa.service';
+import {ProcessosService} from 'src/@cdk/services/processos.service';
 import {CdkTarefaAutocompleteComponent} from './cdk-tarefa-autocomplete.component';
 import {PipesModule} from '@cdk/pipes/pipes.module';
 
@@ -23,7 +23,7 @@ import {PipesModule} from '@cdk/pipes/pipes.module';
         CdkSharedModule,
     ],
     providers: [
-        TarefaService,
+        ProcessosService,
     ],
     exports: [
         CdkTarefaAutocompleteComponent

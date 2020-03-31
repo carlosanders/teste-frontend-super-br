@@ -29,6 +29,12 @@ export const locale = {
             },
             OFICIO : {
                 TITLE: 'Ofício'
+            },
+            PROTOCOLO_EXTERNO : {
+                TITLE: 'Protocolo',
+                ADMINISTRATIVAS: {
+                    TITLE: 'Meus Protocolos'
+                }
             }
         }
     }

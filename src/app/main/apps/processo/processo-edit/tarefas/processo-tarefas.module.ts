@@ -16,7 +16,7 @@ import {TranslateModule} from '@ngx-translate/core';
 
 import {CdkSharedModule} from '@cdk/shared.module';
 import {TarefasComponent} from './tarefas.component';
-import {TarefaService} from '@cdk/services/tarefa.service';
+import {ProcessosService} from 'src/@cdk/services/processos.service';
 import {RouterModule, Routes} from '@angular/router';
 import {EspecieTarefaService} from '@cdk/services/especie-tarefa.service';
 
@@ -66,7 +66,7 @@ const routes: Routes = [
         CdkSharedModule,
     ],
     providers: [
-        TarefaService,
+        ProcessosService,
         EspecieTarefaService
     ],
     exports: [
