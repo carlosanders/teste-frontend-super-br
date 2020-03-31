@@ -103,6 +103,31 @@ export class UsuarioEditEffects {
             );
 
     /**
+     * Update Usuario
+     * @type {Observable<any>}
+     */
+    @Effect()
+    updateUsuario: any =
+        this._actions
+            .pipe(
+                ofType<UsuarioEditActions.UpdateUsuario>(UsuarioEditActions.UPDATE_USUARIO),
+                switchMap((action) => {
+                    return this._usuarioService.patch(action.payload.usuario, action.payload.changes).pipe(
+                        mergeMap((response: Usuario) => [
+                            new UsuarioListActions.ReloadUsuarios(),
+                            new AddData<Usuario>({data: [response], schema: usuarioSchema}),
+                            new UsuarioEditActions.UpdateUsuarioSuccess(response)
+                        ])
+                    );
+                }),
+                catchError((err, caught) => {
+                    console.log(err);
+                    this._store.dispatch(new UsuarioEditActions.UpdateUsuarioFailed(err));
+                    return caught;
+                })
+            );
+
+    /**
      * Save Usuario Success
      */
     @Effect({dispatch: false})
