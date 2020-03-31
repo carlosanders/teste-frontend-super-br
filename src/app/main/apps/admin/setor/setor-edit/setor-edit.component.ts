@@ -31,6 +31,7 @@ export class SetorEditComponent implements OnInit, OnDestroy {
     routerState: any;
     setor$: Observable<Setor>;
     setor: Setor;
+    unidade$: Observable<Setor>;
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
     usuario: Usuario;
@@ -50,6 +51,7 @@ export class SetorEditComponent implements OnInit, OnDestroy {
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.setor$ = this._store.pipe(select(fromStore.getSetor));
         this.usuario = this._loginService.getUserProfile();
+        this.unidade$ = this._store.pipe(select(fromStore.getUnidade));
 
         this._store
             .pipe(select(getRouterState))
@@ -101,7 +103,6 @@ export class SetorEditComponent implements OnInit, OnDestroy {
     submit(values): void {
 
         const setor = new Setor();
-        //setor.id = null;
         Object.entries(values).forEach(
             ([key, value]) => {
                 setor[key] = value;
