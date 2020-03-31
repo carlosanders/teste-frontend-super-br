@@ -1,8 +1,20 @@
 
 <cdk-realizar-transicao-form
     [saving]="(isSaving$ | async)"
+    [errors]="(errors$ | async)"
     [processoId]= "this.processoId"
     [modalidadeTransicaoPagination]="modalidadeTransicaoPagination"
     (save)="submit($event)"
 >
 </cdk-realizar-transicao-form>
+
+<mat-list *ngIf="operacoes.length > 0" fxFlex>
+    <h3 matSubheader>
+        <span>Resultado do Bloco</span>
+    </h3>
+
+    <mat-list-item *ngFor="let operacao of operacoes">
+        <p matLine class="mb-4 p-8 secondary-text"
+           [ngClass]="{'light-green-50': operacao.success, 'pink-50': !operacao.success}">{{operacao.content}}</p>
+    </mat-list-item>
+</mat-list>

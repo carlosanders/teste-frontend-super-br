@@ -1,9 +1,11 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Observable} from 'rxjs';
+import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
+import {Observable, Subject} from 'rxjs';
 import {Pagination, Processo, Transicao} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
-import {getRouterState, RouterStateUrl} from '../../../../store/reducers';
+import {getOperacoesState, getRouterState, RouterStateUrl} from '../../../../store/reducers';
+import {filter, takeUntil} from 'rxjs/operators';
+
 
 @Component({
     selector: 'app-realizar-transicao',
@@ -19,6 +21,8 @@ export class RealizarTransicaoComponent implements OnInit {
     processo$: Observable<Processo>;
     processo: Processo;
     public processoId: number;
+    operacoes: any[] = [];
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     modalidadeTransicaoPagination: Pagination;
 
@@ -27,15 +31,27 @@ export class RealizarTransicaoComponent implements OnInit {
     private routerState: RouterStateUrl;
 
     constructor(
-        private _store: Store<fromStore.RealizarTransicaoAppState>
+        private _store: Store<fromStore.RealizarTransicaoAppState>,
+        private _changeDetectorRef: ChangeDetectorRef,
     ) {
-        debugger
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.modalidadeTransicaoPagination = new Pagination();
     }
 
     ngOnInit(): void {
+        this._store
+            .pipe(
+                select(getOperacoesState),
+                takeUntil(this._unsubscribeAll),
+                filter(op => !!op && !!op.content && op.type === 'realizar-transicao')
+            )
+            .subscribe(
+                operacao => {
+                    this.operacoes.push(operacao);
+                    this._changeDetectorRef.markForCheck();
+                }
+            );
         this._store
             .pipe(select(getRouterState))
             .subscribe(routerState => {
@@ -54,7 +70,7 @@ export class RealizarTransicaoComponent implements OnInit {
                 transicao[key] = value;
             }
         );
-        this._store.dispatch(new fromStore.SaveTransicao(transicao));
+        this._store.dispatch(new fromStore.SaveRealizarTransicao(transicao));
 
     }
 }

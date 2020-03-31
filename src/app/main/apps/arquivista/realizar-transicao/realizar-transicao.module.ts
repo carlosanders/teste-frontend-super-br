@@ -5,6 +5,7 @@ import {CdkTransicaoFormModule} from '@cdk/components/transicao/cdk-transicao-fo
 import {CdkRealizarTransicaoFormModule} from '@cdk/components/transicao/cdk-realizar-transicao/cdk-realizar-transicao-form/cdk-realizar-transicao-form.module';
 import {TransicaoService} from '@cdk/services/transicao.service';
 import {RealizarTransacaoStoreModule} from './store/store.module';
+import {MatListModule} from '@angular/material/list';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import {RealizarTransacaoStoreModule} from './store/store.module';
         CommonModule,
         CdkTransicaoFormModule,
         CdkRealizarTransicaoFormModule,
-        RealizarTransacaoStoreModule
+        RealizarTransacaoStoreModule,
+        MatListModule
     ],
     providers: [
         TransicaoService,

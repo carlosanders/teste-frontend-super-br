@@ -82,6 +82,7 @@ const routes: Routes = [
         CdkAtividadeFormModule,
         MatBadgeModule,
         ArquivistaDetailStoreModule,
+        RealizarTransicaoModule,
         CriarDataPrevistaTransicaoModule,
         ArquivistaClassificacaoEditModule
     ],

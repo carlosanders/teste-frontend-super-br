@@ -1,34 +1,83 @@
 import {Action} from '@ngrx/store';
 
-export const SAVE_TRANSICAO = '[TRANSICAO] SAVE TRANSICAO';
-export const SAVE_TRANSICAO_SUCCESS = '[TRANSICAO] SAVE TRANSICAO SUCCESS';
-export const SAVE_TRANSICAO_FAILED = '[TRANSICAO] SAVE TRANSICAO FAILED';
+export const SAVE_REALIZAR_TRANSICAO = '[REALIZAR_TRANSICAO] SAVE REALIZAR_TRANSICAO';
+export const SAVE_REALIZAR_TRANSICAO_SUCCESS = '[REALIZAR_TRANSICAO] SAVE REALIZAR_TRANSICAO SUCCESS';
+export const SAVE_REALIZAR_TRANSICAO_FAILED = '[REALIZAR_TRANSICAO] SAVE REALIZAR_TRANSICAO FAILED';
 
-export const GET_PROCESSOS = '[TRANSICAO] GET PROCESSOS';
-export const GET_PROCESSOS_SUCCESS = '[TRANSICAO] GET PROCESSOS SUCCESS';
-export const GET_PROCESSOS_FAILED = '[TRANSICAO] GET PROCESSOS FAILED';
+export const GET_REALIZAR_TRANSICAO = '[REALIZAR_TRANSICAO] GET REALIZAR_TRANSICAO';
+export const GET_REALIZAR_TRANSICAO_SUCCESS = '[REALIZAR_TRANSICAO] GET REALIZAR_TRANSICAO SUCCESS';
+export const GET_REALIZAR_TRANSICAO_FAILED = '[REALIZAR_TRANSICAO] GET REALIZAR_TRANSICAO FAILED';
 
-export class SaveTransicao implements Action
+export const GET_PROCESSOS = '[REALIZAR_TRANSICAO] GET PROCESSOS';
+export const GET_PROCESSOS_SUCCESS = '[REALIZAR_TRANSICAO] GET PROCESSOS SUCCESS';
+export const GET_PROCESSOS_FAILED = '[REALIZAR_TRANSICAO] GET PROCESSOS FAILED';
+
+/**
+ * Get RealizarTransicao
+ */
+export class GetRealizarTransicao implements Action
 {
-    readonly type = SAVE_TRANSICAO;
+    readonly type = GET_REALIZAR_TRANSICAO;
 
     constructor(public payload: any)
     {
     }
 }
 
-export class SaveTransicaoSuccess implements Action
+/**
+ * Get RealizarTransicao Success
+ */
+export class GetRealizarTransicaoSuccess implements Action
 {
-    readonly type = SAVE_TRANSICAO_SUCCESS;
+    readonly type = GET_REALIZAR_TRANSICAO_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Get RealizarTransicao Failed
+ */
+export class GetRealizarTransicaoFailed implements Action
+{
+    readonly type = GET_REALIZAR_TRANSICAO_FAILED;
+
+    constructor(public payload: string)
+    {
+    }
+}
+
+/**
+ * Save RealizarTransicao
+ */
+export class SaveRealizarTransicao implements Action
+{
+    readonly type = SAVE_REALIZAR_TRANSICAO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Save RealizarTransicao Success
+ */
+export class SaveRealizarTransicaoSuccess implements Action
+{
+    readonly type = SAVE_REALIZAR_TRANSICAO_SUCCESS;
 
     constructor()
     {
     }
 }
 
-export class SaveTransicaoFailed implements Action
+/**
+ * Save RealizarTransicao Failed
+ */
+export class SaveRealizarTransicaoFailed implements Action
 {
-    readonly type = SAVE_TRANSICAO_FAILED;
+    readonly type = SAVE_REALIZAR_TRANSICAO_FAILED;
 
     constructor(public payload: any)
     {
@@ -66,10 +115,13 @@ export class GetProcessosFailed implements Action {
     }
 }
 
-export type RealizarTransicaoActionsAll =
-    SaveTransicao
-    | SaveTransicaoSuccess
-    | SaveTransicaoFailed
+export type RealizarTransicaoActionsAll
+    = GetRealizarTransicao
+    | GetRealizarTransicaoSuccess
+    | GetRealizarTransicaoFailed
+    | SaveRealizarTransicao
+    | SaveRealizarTransicaoSuccess
+    | SaveRealizarTransicaoFailed
     | GetProcessos
     | GetProcessosFailed
     | GetProcessosSuccess;

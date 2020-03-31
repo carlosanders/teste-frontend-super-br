@@ -1,4 +1,4 @@
-import * as RealizarTransicaoActions from '../actions/realizar-transicao.actions';
+import * as RealizarTransicaoActions from '../actions';
 
 export interface RealizarTransicaoState {
     transicaoId: number;
@@ -9,12 +9,12 @@ export interface RealizarTransicaoState {
 }
 
 export const RealizarTransicaoInitialState: RealizarTransicaoState = {
-    transicaoId: null,
-    saving: false,
     errors: false,
+    transicaoId: null,
+    loaded: false,
     loading: false,
-    loaded: false
-};
+    saving: false
+}
 
 export function RealizarTransicaoReducer(
     state = RealizarTransicaoInitialState,
@@ -22,7 +22,33 @@ export function RealizarTransicaoReducer(
 ): RealizarTransicaoState {
     switch (action.type) {
 
-        case RealizarTransicaoActions.SAVE_TRANSICAO: {
+        case RealizarTransicaoActions.GET_REALIZAR_TRANSICAO : {
+            return {
+                ...state,
+                transicaoId: null,
+                loading: true
+            };
+        }
+
+        case RealizarTransicaoActions.GET_REALIZAR_TRANSICAO_SUCCESS: {
+
+            return {
+                ...state,
+                transicaoId: action.payload.transicaoId,
+                loaded: action.payload.loaded,
+                loading: false
+            };
+        }
+
+
+        case RealizarTransicaoActions.GET_REALIZAR_TRANSICAO_FAILED: {
+            return {
+                ...state,
+                loading: false
+            };
+        }
+
+        case RealizarTransicaoActions.SAVE_REALIZAR_TRANSICAO: {
             return {
                 ...state,
                 saving: true,
@@ -30,7 +56,7 @@ export function RealizarTransicaoReducer(
             };
         }
 
-        case RealizarTransicaoActions.SAVE_TRANSICAO_SUCCESS: {
+        case RealizarTransicaoActions.SAVE_REALIZAR_TRANSICAO_SUCCESS: {
             return {
                 ...state,
                 saving: false,
@@ -38,7 +64,7 @@ export function RealizarTransicaoReducer(
             };
         }
 
-        case RealizarTransicaoActions.SAVE_TRANSICAO_FAILED: {
+        case RealizarTransicaoActions.SAVE_REALIZAR_TRANSICAO_FAILED: {
             return {
                 ...state,
                 saving: false,
@@ -49,4 +75,6 @@ export function RealizarTransicaoReducer(
         default:
             return state;
     }
+
 }
+
