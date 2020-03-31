@@ -13,7 +13,7 @@ import {getRouterState, State} from 'app/store/reducers';
 import * as TarefasActions from '../actions/tarefas.actions';
 
 import {Tarefa} from '@cdk/models';
-import {ProcessosService} from 'src/@cdk/services/processos.service';
+import {TarefaService} from '@cdk/services/tarefa.service';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Router} from '@angular/router';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
@@ -33,7 +33,7 @@ export class TarefasEffect {
 
     constructor(
         private _actions: Actions,
-        private _tarefaService: ProcessosService,
+        private _tarefaService: TarefaService,
         public _loginService: LoginService,
         private _store: Store<State>,
         private _router: Router,

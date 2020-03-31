@@ -22,7 +22,7 @@ import {TarefaEditBlocoComponent} from './tarefa-edit-bloco.component';
 import {RouterModule, Routes} from '@angular/router';
 import {CdkTarefaFormModule} from '@cdk/components/tarefa/cdk-tarefa-form/cdk-tarefa-form.module';
 import {TarefaEditBlocoStoreModule} from './store/store.module';
-import {ProcessosService} from 'src/@cdk/services/processos.service';
+import {ProcessosService} from '@cdk/services/tarefa.service';
 import {LoginService} from 'app/main/auth/login/login.service';
 
 const routes: Routes = [

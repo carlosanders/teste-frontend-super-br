@@ -17,7 +17,7 @@ import {SetorService} from '@cdk/services/setor.service';
 import {VolumeService} from '@cdk/services/volume.service';
 import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
 import {AtividadeService} from '@cdk/services/atividade.service';
-import {ProcessosService} from 'src/@cdk/services/processos.service';
+import {TarefaService} from '@cdk/services/tarefa.service';
 import {OrigemDadosService} from '@cdk/services/origem-dados.service';
 import {DocumentoService} from '@cdk/services/documento.service';
 import {CdkDocumentoAvulsoAutocompleteModule} from '../../documento-avulso/cdk-documento-avulso-autocomplete/cdk-documento-avulso-autocomplete.module';
@@ -71,7 +71,7 @@ import {CdkTarefaGridsearchModule} from '../../tarefa/cdk-tarefa-autocomplete/cd
         SetorService,
         DocumentoAvulsoService,
         AtividadeService,
-        ProcessosService
+        TarefaService
     ],
     exports: [
         CdkJuntadaFormComponent

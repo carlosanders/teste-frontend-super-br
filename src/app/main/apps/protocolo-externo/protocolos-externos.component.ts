@@ -15,7 +15,7 @@ import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {CdkTranslationLoaderService} from '@cdk/services/translation-loader.service';
 
 import {Tarefa, PaginatedResponse} from '@cdk/models';
-import {ProcessosService} from 'src/@cdk/services/processos.service';
+import {ProcessosService} from '@cdk/services/tarefa.service';
 import * as fromStore from 'app/main/apps/tarefas/store';
 
 import {getRouterState, getScreenState} from 'app/store/reducers';

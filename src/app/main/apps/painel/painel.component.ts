@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
 import { cdkAnimations } from '@cdk/animations';
-import { ProcessosService } from 'src/@cdk/services/processos.service';
+import { TarefaService } from '@cdk/services/tarefa.service';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import * as moment from 'moment';
@@ -39,7 +39,7 @@ export class PainelComponent implements OnInit
      * Constructor
      */
     constructor(
-        private _tarefaService: ProcessosService,
+        private _tarefaService: TarefaService,
         private _documentoAvulsoService: DocumentoAvulsoService,
         private _tramitacaoService: TramitacaoService,
         private _historicoService: HistoricoService,

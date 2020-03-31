@@ -6,7 +6,7 @@ import {catchError, mergeMap} from 'rxjs/operators';
 
 import * as TarefaEditBlocoActions from '../actions/tarefa-edit-bloco.actions';
 
-import {ProcessosService} from 'src/@cdk/services/processos.service';
+import {TarefaService} from '@cdk/services/tarefa.service';
 import {UpdateData} from '@cdk/ngrx-normalizr';
 import {tarefa as tarefaSchema} from '@cdk/normalizr/tarefa.schema';
 import {Tarefa} from '@cdk/models';
@@ -21,7 +21,7 @@ export class TarefaEditBlocoEffect {
 
     constructor(
         private _actions: Actions,
-        private _tarefaService: ProcessosService,
+        private _tarefaService: TarefaService,
         private _store: Store<State>
     ) {
         this._store

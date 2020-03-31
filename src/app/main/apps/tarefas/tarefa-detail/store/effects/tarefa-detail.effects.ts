@@ -9,7 +9,7 @@ import {getRouterState, State} from 'app/store/reducers';
 
 import * as TarefaDetailActions from 'app/main/apps/tarefas/tarefa-detail/store/actions/tarefa-detail.actions';
 
-import {ProcessosService} from 'src/@cdk/services/processos.service';
+import {TarefaService} from '@cdk/services/tarefa.service';
 import {Router} from '@angular/router';
 import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
 import {VinculacaoEtiqueta} from '@cdk/models';
@@ -30,7 +30,7 @@ export class TarefaDetailEffect {
 
     constructor(
         private _actions: Actions,
-        private _tarefaService: ProcessosService,
+        private _tarefaService: TarefaService,
         private _documentoService: DocumentoService,
         private _vinculacaoEtiquetaService: VinculacaoEtiquetaService,
         private _store: Store<State>,

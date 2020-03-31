@@ -16,7 +16,7 @@ import {TranslateModule} from '@ngx-translate/core';
 
 import {CdkSharedModule} from '@cdk/shared.module';
 import {TarefaListComponent} from './tarefa-list.component';
-import {ProcessosService} from 'src/@cdk/services/processos.service';
+import {TarefaService} from '@cdk/services/tarefa.service';
 import {RouterModule, Routes} from '@angular/router';
 import {TarefaListStoreModule} from 'app/main/apps/processo/processo-edit/tarefas/tarefa-list/store/store.module';
 import {EspecieTarefaService} from '@cdk/services/especie-tarefa.service';
@@ -59,7 +59,7 @@ const routes: Routes = [
         TarefaListStoreModule,
     ],
     providers: [
-        ProcessosService,
+        TarefaService,
         EspecieTarefaService,
         fromGuards.ResolveGuard
     ],

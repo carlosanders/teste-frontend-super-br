@@ -7,7 +7,7 @@ import {catchError, mergeMap, tap, switchMap} from 'rxjs/operators';
 import * as TarefaEditActions from '../actions/tarefa-edit.actions';
 import * as TarefaListActions from '../../../tarefa-list/store/actions/tarefa-list.actions';
 
-import {ProcessosService} from 'src/@cdk/services/processos.service';
+import {TarefaService} from '@cdk/services/tarefa.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {tarefa as tarefaSchema} from '@cdk/normalizr/tarefa.schema';
 import {Tarefa} from '@cdk/models';
@@ -22,7 +22,7 @@ export class TarefaEditEffect {
 
     constructor(
         private _actions: Actions,
-        private _tarefaService: ProcessosService,
+        private _tarefaService: TarefaService,
         private _store: Store<State>,
         private _router: Router
     ) {

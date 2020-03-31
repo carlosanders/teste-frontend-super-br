@@ -6,7 +6,7 @@ import {catchError, mergeMap, tap, switchMap} from 'rxjs/operators';
 
 import * as TarefaCreateActions from '../actions/tarefa-create.actions';
 
-import {ProcessosService} from 'src/@cdk/services/processos.service';
+import {ProcessosService} from '@cdk/services/tarefa.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {tarefa as tarefaSchema} from '@cdk/normalizr/tarefa.schema';
 import {Tarefa} from '@cdk/models';

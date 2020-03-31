@@ -6,7 +6,7 @@ import {catchError, mergeMap, tap} from 'rxjs/operators';
 
 import * as TarefaCreateBlocoActions from '../actions/tarefa-create-bloco.actions';
 
-import {ProcessosService} from 'src/@cdk/services/processos.service';
+import {TarefaService} from '@cdk/services/tarefa.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {tarefa as tarefaSchema} from '@cdk/normalizr/tarefa.schema';
 import {Tarefa} from '@cdk/models';
@@ -22,7 +22,7 @@ export class TarefaCreateBlocoEffect {
 
     constructor(
         private _actions: Actions,
-        private _tarefaService: ProcessosService,
+        private _tarefaService: TarefaService,
         private _store: Store<State>,
         private _router: Router
     ) {

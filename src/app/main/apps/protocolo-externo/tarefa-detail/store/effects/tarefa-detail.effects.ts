@@ -9,7 +9,7 @@ import {getRouterState, State} from 'app/store/reducers';
 
 import * as TarefaDetailActions from 'app/main/apps/tarefas/tarefa-detail/store/actions/tarefa-detail.actions';
 
-import {ProcessosService} from 'src/@cdk/services/processos.service';
+import {ProcessosService} from '@cdk/services/tarefa.service';
 import {Router} from '@angular/router';
 import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
 import {VinculacaoEtiqueta} from '@cdk/models';

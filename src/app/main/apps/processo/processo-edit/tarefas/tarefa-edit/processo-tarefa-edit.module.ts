@@ -22,7 +22,7 @@ import {TarefaEditComponent} from './tarefa-edit.component';
 import {RouterModule, Routes} from '@angular/router';
 import {CdkTarefaFormModule} from '@cdk/components/tarefa/cdk-tarefa-form/cdk-tarefa-form.module';
 import {TarefaEditStoreModule} from './store/store.module';
-import {ProcessosService} from 'src/@cdk/services/processos.service';
+import {TarefaService} from '@cdk/services/tarefa.service';
 
 import * as fromGuards from './store/guards';
 
@@ -66,7 +66,7 @@ const routes: Routes = [
         CdkSidebarModule,
     ],
     providers: [
-        ProcessosService,
+        TarefaService,
         fromGuards.ResolveGuard
     ]
 })

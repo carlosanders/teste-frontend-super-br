@@ -15,7 +15,7 @@ import {CommonModule} from '@angular/common';
 import * as fromGuards from './store/guards';
 
 import {TarefaDetailStoreModule} from './store/store.module';
-import {ProcessosService} from 'src/@cdk/services/processos.service';
+import {ProcessosService} from '@cdk/services/tarefa.service';
 import {CdkVinculacaoEtiquetaChipsModule} from '@cdk/components/vinculacao-etiqueta/cdk-vinculacao-etiqueta-chips/cdk-vinculacao-etiqueta-chips.module';
 import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
 import {DocumentoService} from '@cdk/services/documento.service';

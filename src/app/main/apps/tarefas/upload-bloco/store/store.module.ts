@@ -7,7 +7,7 @@ import {effects} from './effects';
 
 @NgModule({
     imports: [
-        StoreModule.forFeature('responder-complementar-create-bloco-app', reducers),
+        StoreModule.forFeature('upload-bloco-app', reducers),
         EffectsModule.forFeature(effects)
     ],
     providers: []

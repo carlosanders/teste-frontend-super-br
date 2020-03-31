@@ -23,7 +23,7 @@ import * as fromGuards from 'app/main/apps/tarefas/store/guards/index';
 import {TarefasStoreModule} from 'app/main/apps/tarefas/store/store.module';
 import {TarefasComponent} from 'app/main/apps/tarefas/tarefas.component';
 import {TarefasMainSidebarComponent} from 'app/main/apps/tarefas/sidebars/main/main-sidebar.component';
-import {ProcessosService} from 'src/@cdk/services/processos.service';
+import {TarefaService} from '@cdk/services/tarefa.service';
 import {FolderService} from '@cdk/services/folder.service';
 import {ProcessoService} from '@cdk/services/processo.service';
 import {EspecieTarefaService} from '@cdk/services/especie-tarefa.service';
@@ -84,7 +84,7 @@ const routes: Routes = [
                 loadChildren: () => import('./documento-avulso-create-bloco/documento-avulso-create-bloco.module').then(m => m.DocumentoAvulsoCreateBlocoModule),
             },
             {
-                path: 'responder-complementar-create-bloco',
+                path: 'upload-bloco',
                 loadChildren: () => import('./upload-bloco/upload-bloco.module').then(m => m.UploadBlocoModule),
             },
             {
@@ -149,7 +149,7 @@ const routes: Routes = [
         AssuntoListStoreModule
     ],
     providers: [
-        ProcessosService,
+        TarefaService,
         FolderService,
         ProcessoService,
         EspecieTarefaService,
