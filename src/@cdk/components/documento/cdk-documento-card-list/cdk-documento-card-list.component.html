@@ -15,7 +15,7 @@
 
     <mat-menu #moreMenu="matMenu">
 
-        <button mat-menu-item aria-label="remover"
+        <button mat-menu-item aria-label="remover" *showIfRole="'ROLE_COLABORADOR'"
                 (click)="doDeleteDocumentoBloco()">
             <ng-container>
                 <mat-icon>delete</mat-icon>
@@ -31,7 +31,7 @@
             </ng-container>
         </button>
 
-        <button mat-menu-item aria-label="editar tarefa"
+        <button mat-menu-item aria-label="editar tarefa" *showIfRole="'ROLE_COLABORADOR'"
                 (click)="doConverteDocumentoBloco()">
             <ng-container>
                 <mat-icon>picture_as_pdf</mat-icon>
