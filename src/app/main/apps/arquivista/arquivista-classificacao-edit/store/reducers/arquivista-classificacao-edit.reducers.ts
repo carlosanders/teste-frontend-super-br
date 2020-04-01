@@ -1,5 +1,5 @@
 import * as ArquivistaClassificacaoActions from '../actions';
-import {Etiqueta} from '../../../../../../../@cdk/models';
+import {Etiqueta} from '@cdk/models';
 
 export interface ArquivistaClassificacaoState {
     entitiesId: number[];

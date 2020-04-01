@@ -8,15 +8,13 @@ import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {Processo} from '@cdk/models';
 import {processo as processoSchema} from '@cdk/normalizr/processo.schema';
-import {classificacao as classificacaoSchema} from '@cdk/normalizr/classificacao.schema';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {Observable, of} from 'rxjs';
 import {Injectable} from '@angular/core';
 import * as moment from 'moment';
 import * as fromStore from '../../store';
-import * as fromStoreProcessos from '../../../arquivista-list/store';
 import {LoginService} from '../../../../../auth/login/login.service';
-import {ClassificacaoService} from '../../../../../../../@cdk/services/classificacao.service';
+import {ClassificacaoService} from '@cdk/services/classificacao.service';
 
 @Injectable()
 export class ArquivistaClassificacaoEditEffects {
@@ -56,7 +54,6 @@ export class ArquivistaClassificacaoEditEffects {
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate));
-
                 }),
                 mergeMap((response) => [
                     new AddData<Processo>({data: response['entities'], schema: processoSchema}),
@@ -167,7 +164,6 @@ export class ArquivistaClassificacaoEditEffects {
                             };
 
                         }
-
                         params['filter'] = processoFilter;
                     });
 
@@ -187,6 +183,4 @@ export class ArquivistaClassificacaoEditEffects {
                 }
             });
     }
-
-
 }

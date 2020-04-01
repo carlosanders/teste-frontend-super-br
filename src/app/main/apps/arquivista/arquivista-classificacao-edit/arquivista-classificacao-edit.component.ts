@@ -25,20 +25,12 @@ export class ArquivistaClassificacaoEditComponent implements OnInit {
     constructor(
         private _store: Store<fromStore.ArquivistaClassificacaoAppState>
     ) {
-        this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
-        this.errors$ = this._store.pipe(select(fromStore.getErrors));
-        this.processos$ = this._store.pipe(select(fromStore.getProcessos));
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe(routerState => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
-        this.processoId = this.routerState.params.processoHandle;
+        this.constructObservables();
+        this.initRouteState();
     }
 
     ngOnInit(): void {
+        this.processoId = this.routerState.params.processoHandle;
         this.processos$.pipe(
             takeUntil(this._unsubscribeAll),
             filter(processos => !!processos)
@@ -47,7 +39,26 @@ export class ArquivistaClassificacaoEditComponent implements OnInit {
         });
     }
 
+    constructObservables(): void {
+        this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
+        this.errors$ = this._store.pipe(select(fromStore.getErrors));
+        this.processos$ = this._store.pipe(select(fromStore.getProcessos));
+    }
+
+    initRouteState(): void {
+        this._store
+            .pipe(select(getRouterState))
+            .subscribe(routerState => {
+                if (routerState) {
+                    this.routerState = routerState.state;
+                }
+            });
+    }
+
     submit(values: any): void {
-        this._store.dispatch(new fromStore.SaveArquivistaClassificacao({values, changes: {classificacao: values.processo.classificacao}}));
+        this._store.dispatch(new fromStore.SaveArquivistaClassificacao({
+            values,
+            changes: {classificacao: values.processo.classificacao}
+        }));
     }
 }
