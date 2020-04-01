@@ -6,6 +6,7 @@ import {
     MatCheckboxModule,
     MatProgressSpinnerModule,
     MatSortModule, MatMenuModule, MatAutocompleteModule, MatRippleModule,
+    MatExpansionModule
 } from '@cdk/angular/material';
 
 import { CdkSharedModule } from '@cdk/shared.module';
@@ -22,6 +23,7 @@ import {CdkProcessoAutocompleteModule} from '@cdk/components/processo/cdk-proces
 import { DndModule } from 'ngx-drag-drop';
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {InfiniteScrollModule} from "ngx-infinite-scroll";
+import { AssuntoService } from '@cdk/services/assunto.service';
 
 @NgModule({
     declarations: [
@@ -54,10 +56,12 @@ import {InfiniteScrollModule} from "ngx-infinite-scroll";
         MatRippleModule,
         MatTooltipModule,
         InfiniteScrollModule,
+        MatExpansionModule
     ],
     providers: [
         EspecieTarefaService,
-        ProcessoService
+        ProcessoService,
+        AssuntoService
     ],
     exports: [
         CdkTarefaListComponent

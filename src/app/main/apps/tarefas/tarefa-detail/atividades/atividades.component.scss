@@ -2,13 +2,19 @@ atividades {
 
   width: 100%;
 
-  .atividades-header {
+  .atividades-wrapper {
+    height: 100%;
 
-    padding: 8px;
+    .atividades-header {
 
-    .actions {
-      min-width: 88px;
-      margin-left: auto;
+      padding: 8px;
+
+      .actions {
+        min-width: 88px;
+        margin-left: auto;
+      }
     }
   }
+
+
 }

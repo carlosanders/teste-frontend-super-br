@@ -1,0 +1,32 @@
+<!-- CONTENT -->
+<div class="content p-16" fxLayout="column" fxFlex="100">
+
+    <h2>Responder / Complementar ofícios em bloco</h2>
+
+    <h3>{{documentoAvulsoPrincipal ? 1 + documentosAvulsoBloco.length : 0}} ofício(s) selecionada(s) </h3>
+
+    <button mat-mini-fab
+            class="m-4 active accent"
+            [disabled]="!documentoAvulsoPrincipal"
+            (click)="upload()" aria-label="upload">
+        <mat-icon class="secondary-text">attach_file</mat-icon>
+    </button>
+
+    <cdk-componente-digital-card-list #ckdUpload
+                                      [documentoAvulsoOrigem]="documentoAvulsoPrincipal"
+                                      [documentoAvulsoOrigemBloco]="documentosAvulsoBloco"
+                                      (complete)="onComplete($event)">
+    </cdk-componente-digital-card-list>
+
+    <mat-list *ngIf="operacoes.length > 0" fxFlex>
+        <h3 matSubheader>
+            <span>Resultado do Bloco</span>
+        </h3>
+
+        <mat-list-item *ngFor="let operacao of operacoes">
+            <p matLine class="mb-4 p-8 secondary-text"
+               [ngClass]="{'light-green-50': operacao.success, 'pink-50': !operacao.success}">{{operacao.content}}</p>
+        </mat-list-item>
+    </mat-list>
+
+</div>

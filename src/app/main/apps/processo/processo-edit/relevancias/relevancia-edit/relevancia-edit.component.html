@@ -1,0 +1,7 @@
+<cdk-relevancia-form
+        [relevancia]="relevancia"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        [especieRelevanciaPagination]="especieRelevanciaPagination"
+        (save)="submit($event)">
+</cdk-relevancia-form>

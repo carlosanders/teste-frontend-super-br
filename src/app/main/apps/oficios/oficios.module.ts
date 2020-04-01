@@ -54,6 +54,14 @@ const routes: Routes = [
                 path: 'vinculacao-etiqueta-bloco',
                 loadChildren: () => import('./vinculacao-etiqueta-create-bloco/vinculacao-etiqueta-create-bloco.module').then(m => m.VinculacaoEtiquetaCreateBlocoModule),
             },
+            {
+                path: 'responder-complementar-bloco',
+                loadChildren: () => import('./responder-complementar-create-bloco/responder-complementar-create-bloco.module').then(m => m.ResponderComplementarCreateBlocoModule),
+            },
+            {
+                path: 'documento',
+                loadChildren: () => import('./componente-digital/componente-digital.module').then(m => m.ComponenteDigitalModule),
+            }
         ],
         canActivate: [fromGuards.ResolveGuard]
     },
