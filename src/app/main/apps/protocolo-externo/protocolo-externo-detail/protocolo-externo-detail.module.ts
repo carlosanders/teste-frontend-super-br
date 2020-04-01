@@ -9,13 +9,13 @@ import {TranslateModule} from '@ngx-translate/core';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkSidebarModule} from '@cdk/components';
 
-import {TarefaDetailComponent} from './tarefa-detail.component';
+import {ProtocoloExternoDetailComponent} from './protocolo-externo-detail.component';
 import {CommonModule} from '@angular/common';
 
 import * as fromGuards from './store/guards';
 
-import {TarefaDetailStoreModule} from './store/store.module';
-import {ProcessosService} from '@cdk/services/tarefa.service';
+import {ProcessoDetailStoreModule} from './store/store.module';
+import {ProcessoService} from '@cdk/services/processo.service';
 import {CdkVinculacaoEtiquetaChipsModule} from '@cdk/components/vinculacao-etiqueta/cdk-vinculacao-etiqueta-chips/cdk-vinculacao-etiqueta-chips.module';
 import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
 import {DocumentoService} from '@cdk/services/documento.service';
@@ -24,10 +24,10 @@ import {LoginService} from '../../../auth/login/login.service';
 
 const routes: Routes = [
     {
-        path: ':tarefaHandle',
-        component: TarefaDetailComponent,
+        path: ':processoHandle',
+        component: ProtocoloExternoDetailComponent,
         children: [
-            {
+            /*{
                 path: 'editar',
                 loadChildren: () => import('./tarefa-edit/tarefa-edit.module').then(m => m.TarefaEditModule)
             },
@@ -62,7 +62,7 @@ const routes: Routes = [
             {
                 path: '**',
                 redirectTo: 'editar'
-            }
+            }*/
         ],
         canActivate: [fromGuards.ResolveGuard]
     }
@@ -70,7 +70,7 @@ const routes: Routes = [
 
 @NgModule({
     declarations: [
-        TarefaDetailComponent
+        ProtocoloExternoDetailComponent
     ],
     imports: [
         CommonModule,
@@ -82,7 +82,7 @@ const routes: Routes = [
         MatProgressSpinnerModule,
         MatTooltipModule,
 
-        TarefaDetailStoreModule,
+        ProcessoDetailStoreModule,
 
         PipesModule,
 
@@ -94,12 +94,12 @@ const routes: Routes = [
         CdkSidebarModule
     ],
     providers: [
-        ProcessosService,
+        ProcessoService,
         VinculacaoEtiquetaService,
         LoginService,
         DocumentoService,
         fromGuards.ResolveGuard
     ]
 })
-export class TarefaDetailModule {
+export class ProtocoloExternoDetailModule {
 }

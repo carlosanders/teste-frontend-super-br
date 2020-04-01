@@ -16,11 +16,11 @@ export interface ProcessosState {
     };
     loading: boolean;
     loaded: any;
-    deletingTarefaIds: number[];
-    togglingLidaTarefaIds: number[];
-    currentTarefaId: number;
-    deletedTarefaIds: number[];
-    selectedTarefaIds: number[];
+    deletingProcessoIds: number[];
+    togglingLidaProcessoIds: number[];
+    currentProcessoId: number;
+    deletedProcessoIds: number[];
+    selectedProcessoIds: number[];
     maximizado: boolean;
     /*
     * ISSUE-107
@@ -28,7 +28,7 @@ export interface ProcessosState {
    assuntoLoading: boolean;
    assuntoPanelOpen: boolean;
    assuntosId: number[];
-   idTarefaToLoadAssuntos: number;
+   idProcessoToLoadAssuntos: number;
 }
 
 export const ProcessosInitialState: ProcessosState = {
@@ -46,11 +46,11 @@ export const ProcessosInitialState: ProcessosState = {
     },
     loading: false,
     loaded: false,
-    deletingTarefaIds: [],
-    togglingLidaTarefaIds: [],
-    deletedTarefaIds: [],
-    selectedTarefaIds: [],
-    currentTarefaId: null,
+    deletingProcessoIds: [],
+    togglingLidaProcessoIds: [],
+    deletedProcessoIds: [],
+    selectedProcessoIds: [],
+    currentProcessoId: null,
     maximizado: false,
     /*
     * ISSUE-107
@@ -58,10 +58,10 @@ export const ProcessosInitialState: ProcessosState = {
    assuntoLoading: true,
    assuntoPanelOpen: false,
    assuntosId: [],
-   idTarefaToLoadAssuntos: 0
+   idProcessoToLoadAssuntos: 0
 };
 
-export function ProtocolosExternosReducer(state = ProcessosInitialState, action: ProcessosActions.TarefasActionsAll): ProcessosState {
+export function ProtocolosExternosReducer(state = ProcessosInitialState, action: ProcessosActions.ProcessosActionsAll): ProcessosState {
     switch (action.type) {
 
         case ProcessosActions.UNLOAD_PROCESSOS: {
@@ -125,135 +125,121 @@ export function ProtocolosExternosReducer(state = ProcessosInitialState, action:
             };
         }
 
-        // case ProcessosActions.CHANGE_SELECTED_TAREFAS: {
-        //     return {
-        //         ...state,
-        //         selectedTarefaIds: action.payload
-        //     };
-        // }
-        //
-        // case ProcessosActions.SET_FOLDER_ON_SELECTED_TAREFAS_SUCCESS: {
-        //     const entitiesId = state.entitiesId.filter(id => id !== action.payload.id);
-        //     const selectedTarefaIds = state.selectedTarefaIds.filter(id => id !== action.payload.id);
-        //     return {
-        //         ...state,
-        //         entitiesId: entitiesId,
-        //         pagination: {
-        //             ...state.pagination,
-        //             total: state.pagination.total > 0 ? state.pagination.total - 1 : 0
-        //         },
-        //         selectedTarefaIds: selectedTarefaIds
-        //     };
-        // }
-        //
-        // case ProcessosActions.DELETE_TAREFA: {
-        //     return {
-        //         ...state,
-        //         deletingTarefaIds: [...state.deletingTarefaIds, action.payload]
-        //     };
-        // }
-        //
-        // case ProcessosActions.DELETE_TAREFA_SUCCESS: {
-        //     const entitiesId = state.entitiesId.filter(id => id !== action.payload);
-        //     const selectedTarefaIds = state.selectedTarefaIds.filter(id => id !== action.payload);
-        //     return {
-        //         ...state,
-        //         entitiesId: entitiesId,
-        //         pagination: {
-        //             ...state.pagination,
-        //             total: state.pagination.total > 0 ? state.pagination.total - 1 : 0
-        //         },
-        //         selectedTarefaIds: selectedTarefaIds,
-        //         deletingTarefaIds: state.deletingTarefaIds.filter(id => id !== action.payload),
-        //         deletedTarefaIds: [...state.deletedTarefaIds, action.payload]
-        //     };
-        // }
-        //
-        // case ProcessosActions.DELETE_TAREFA_FAILED: {
-        //     return {
-        //         ...state,
-        //         deletingTarefaIds: state.deletingTarefaIds.filter(id => id !== action.payload)
-        //     };
-        // }
-        //
-        // case ProcessosActions.TOGGLE_LIDA_TAREFA: {
-        //     return {
-        //         ...state,
-        //         togglingLidaTarefaIds: [...state.togglingLidaTarefaIds, action.payload]
-        //     };
-        // }
-        //
-        // case ProcessosActions.TOGGLE_LIDA_TAREFA_SUCCESS: {
-        //     return {
-        //         ...state,
-        //         togglingLidaTarefaIds: state.togglingLidaTarefaIds.filter(id => id !== action.payload)
-        //     };
-        // }
-        //
-        // case ProcessosActions.TOGGLE_LIDA_TAREFA_FAILED: {
-        //     return {
-        //         ...state,
-        //         togglingLidaTarefaIds: state.togglingLidaTarefaIds.filter(id => id !== action.payload)
-        //     };
-        // }
-        //
-        // case ProcessosActions.SET_CURRENT_TAREFA: {
-        //     return {
-        //         ...state,
-        //         currentTarefaId: action.payload
-        //     };
-        // }
-        //
-        // case ProcessosActions.TOGGLE_MAXIMIZADO: {
-        //     return {
-        //         ...state,
-        //         maximizado: !state.maximizado
-        //     };
-        // }
-        //
-        // /*
-        // * ISSUE-107
-        // */
-        // case ProcessosActions.GET_ASSUNTOS_PROCESSO_TAREFA: {
-        //     return {
-        //         ...state,
-        //         assuntosId: [],
-        //         assuntoLoading: true,
-        //         //assuntoPanelOpen: false
-        //         assuntoPanelOpen: action.payload.tarefa === state.idTarefaToLoadAssuntos
-        //     }
-        //
-        //
-        // }
-        //
-        // case ProcessosActions.GET_ASSUNTOS_PROCESSO_TAREFA_SUCCESS: {
-        //     return {
-        //         ...state,
-        //         assuntoLoading: false,
-        //         assuntoPanelOpen: true,
-        //         assuntosId: [...action.payload.assuntosId],
-        //         idTarefaToLoadAssuntos: action.payload.idTarefaToLoadAssuntos
-        //     }
-        //
-        // }
-        //
-        // case ProcessosActions.GET_ASSUNTOS_PROCESSO_TAREFA_FAILED: {
-        //     return {
-        //         ...state,
-        //
-        //         assuntoLoading: false,
-        //         assuntoPanelOpen: false
-        //     }
-        //
-        // }
-        //
-        // case ProcessosActions.SET_ASSUNTOS_LOADED: {
-        //     return {
-        //         ...state,
-        //         assuntoLoading: false
-        //     }
-        //
-        // }
+        case ProcessosActions.CHANGE_SELECTED_PROCESSOS: {
+            return {
+                ...state,
+                selectedProcessoIds: action.payload
+            };
+        }
+
+        case ProcessosActions.DELETE_PROCESSO: {
+            return {
+                ...state,
+                deletingProcessoIds: [...state.deletingProcessoIds, action.payload]
+            };
+        }
+
+        case ProcessosActions.DELETE_PROCESSO_SUCCESS: {
+            const entitiesId = state.entitiesId.filter(id => id !== action.payload);
+            const selectedProcessoIds = state.selectedProcessoIds.filter(id => id !== action.payload);
+            return {
+                ...state,
+                entitiesId: entitiesId,
+                pagination: {
+                    ...state.pagination,
+                    total: state.pagination.total > 0 ? state.pagination.total - 1 : 0
+                },
+                selectedProcessoIds: selectedProcessoIds,
+                deletingProcessoIds: state.deletingProcessoIds.filter(id => id !== action.payload),
+                deletedProcessoIds: [...state.deletedProcessoIds, action.payload]
+            };
+        }
+
+        case ProcessosActions.DELETE_PROCESSO_FAILED: {
+            return {
+                ...state,
+                deletingProcessoIds: state.deletingProcessoIds.filter(id => id !== action.payload)
+            };
+        }
+
+        case ProcessosActions.TOGGLE_LIDA_PROCESSO: {
+            return {
+                ...state,
+                togglingLidaProcessoIds: [...state.togglingLidaProcessoIds, action.payload]
+            };
+        }
+
+        case ProcessosActions.TOGGLE_LIDA_PROCESSO_SUCCESS: {
+            return {
+                ...state,
+                togglingLidaProcessoIds: state.togglingLidaProcessoIds.filter(id => id !== action.payload)
+            };
+        }
+
+        case ProcessosActions.TOGGLE_LIDA_PROCESSO_FAILED: {
+            return {
+                ...state,
+                togglingLidaProcessoIds: state.togglingLidaProcessoIds.filter(id => id !== action.payload)
+            };
+        }
+
+        case ProcessosActions.SET_CURRENT_PROCESSO: {
+            return {
+                ...state,
+                currentProcessoId: action.payload
+            };
+        }
+
+        case ProcessosActions.TOGGLE_MAXIMIZADO: {
+            return {
+                ...state,
+                maximizado: !state.maximizado
+            };
+        }
+
+        /*
+        * ISSUE-107
+        */
+        case ProcessosActions.GET_ASSUNTOS_PROCESSO: {
+            return {
+                ...state,
+                assuntosId: [],
+                assuntoLoading: true,
+                //assuntoPanelOpen: false
+                assuntoPanelOpen: action.payload.tarefa === state.idProcessoToLoadAssuntos
+            }
+
+
+        }
+
+        case ProcessosActions.GET_ASSUNTOS_PROCESSO_SUCCESS: {
+            return {
+                ...state,
+                assuntoLoading: false,
+                assuntoPanelOpen: true,
+                assuntosId: [...action.payload.assuntosId],
+                idProcessoToLoadAssuntos: action.payload.idProcessoToLoadAssuntos
+            }
+
+        }
+
+        case ProcessosActions.GET_ASSUNTOS_PROCESSO_FAILED: {
+            return {
+                ...state,
+
+                assuntoLoading: false,
+                assuntoPanelOpen: false
+            }
+
+        }
+
+        case ProcessosActions.SET_ASSUNTOS_LOADED: {
+            return {
+                ...state,
+                assuntoLoading: false
+            }
+
+        }
 
         default:
             return state;

@@ -65,18 +65,9 @@ export const navigation: CdkNavigation[] = [
                 id: 'protocolo-externo',
                 title: 'Protocolo',
                 translate: 'NAV.PROTOCOLO_EXTERNO.TITLE',
-                type: 'collapsable',
+                type: 'item',
                 icon: 'check_box',
-                children: [
-                    {
-                        id: 'protocolar',
-                        title: 'Meus protocolos',
-                        translate: 'NAV.PROTOCOLO_EXTERNO.ADMINISTRATIVAS.TITLE',
-                        type: 'item',
-                        icon: 'person',
-                        url: '/apps/protocolo-externo/administrativo/meus-protocolos/entrada'
-                    }
-                ],
+                url: '/apps/protocolo-externo',
                 role: 'ROLE_CONVENIADO'
             },
             {

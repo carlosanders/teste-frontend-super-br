@@ -1,6 +1,6 @@
-@import "../../../../@cdk/scss/cdk";
+@import "~@cdk/scss/cdk";
 
-tarefas {
+protocolo-externo {
 
     .center {
 
@@ -36,7 +36,7 @@ tarefas {
                 }
             }
 
-            &.current-tarefa-selected {
+            &.current-processo-selected {
                 .search-wrapper {
                     display: none !important;
                 }
@@ -54,42 +54,42 @@ tarefas {
                     margin: 0 12px;
                 }
 
-                .tarefa-list-control {
+                .processo-list-control {
                     margin-left: auto;
                 }
             }
 
             .content {
 
-                .tarefa-list {
+                .processo-list {
                     border-right: 1px solid;
 
                     &.mobile-mode {
 
-                        &.current-tarefa {
+                        &.current-processo {
                             display: none !important;
                         }
 
-                        &.no-current-tarefa {
+                        &.no-current-processo {
                             max-width: 100% !important;
                         }
 
                     }
-                    cdk-tarefa-list {
+                    cdk-processo-list {
                         min-height: 100%;
                     }
 
                 }
 
-                .tarefa-detail {
+                .processo-detail {
 
                     &.mobile-mode {
 
-                        &.no-current-tarefa {
+                        &.no-current-processo {
                             display: none !important;
                         }
 
-                        &.current-tarefa {
+                        &.current-processo {
                             max-width: 100% !important;
                         }
 

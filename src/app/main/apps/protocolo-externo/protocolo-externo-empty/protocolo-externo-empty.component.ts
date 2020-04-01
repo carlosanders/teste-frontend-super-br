@@ -10,14 +10,14 @@ import {Observable} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 
 @Component({
-    selector: 'tarefa-empty',
-    templateUrl: './tarefa-empty.component.html',
-    styleUrls: ['./tarefa-empty.component.scss'],
+    selector: 'protocolo-externo-empty',
+    templateUrl: './protocolo-externo-empty.component.html',
+    styleUrls: ['./protocolo-externo-empty.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class TarefaEmptyComponent {
+export class ProtocoloExternoEmptyComponent {
 
     screen$: Observable<any>;
 

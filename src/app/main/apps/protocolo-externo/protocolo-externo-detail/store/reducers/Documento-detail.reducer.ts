@@ -1,6 +1,6 @@
-import * as TarefaDetailActions from 'app/main/apps/tarefas/tarefa-detail/store/actions/tarefa-detail.actions';
+import * as ProcessoDetailActions from '../actions';
 
-export interface TarefaDetailState {
+export interface ProcessoDetailState {
     tarefaId: number;
     loading: boolean;
     loaded: any;
@@ -12,7 +12,7 @@ export interface TarefaDetailState {
     savingVincEtiquetaId: number;
 }
 
-export const TarefaDetailInitialState: TarefaDetailState = {
+export const ProcessoDetailInitialState: ProcessoDetailState = {
     tarefaId: null,
     loading: false,
     loaded: false,
@@ -24,17 +24,17 @@ export const TarefaDetailInitialState: TarefaDetailState = {
     savingVincEtiquetaId: null
 };
 
-export function TarefaDetailReducer(state = TarefaDetailInitialState, action: TarefaDetailActions.TarefaDetailActionsAll): TarefaDetailState {
+export function DocumentoDetailReducer(state = ProcessoDetailInitialState, action: ProcessoDetailActions.ProcessoDetailActionsAll): ProcessoDetailState {
     switch (action.type) {
 
-        case TarefaDetailActions.GET_TAREFA: {
+        case ProcessoDetailActions.GET_PROCESSO: {
             return {
                 ...state,
                 loading: true
             };
         }
 
-        case TarefaDetailActions.GET_TAREFA_SUCCESS: {
+        case ProcessoDetailActions.GET_PROCESSO_SUCCESS: {
 
             return {
                 ...state,
@@ -44,28 +44,28 @@ export function TarefaDetailReducer(state = TarefaDetailInitialState, action: Ta
             };
         }
 
-        case TarefaDetailActions.GET_TAREFA_FAILED: {
+        case ProcessoDetailActions.GET_PROCESSO_FAILED: {
             return {
                 ...state,
                 loading: false
             };
         }
 
-        case TarefaDetailActions.DELETE_TAREFA: {
+        case ProcessoDetailActions.DELETE_PROCESSO: {
             return {
                 ...state,
                 deleting: true
             };
         }
 
-        case TarefaDetailActions.DELETE_TAREFA_SUCCESS: {
+        case ProcessoDetailActions.DELETE_PROCESSO_SUCCESS: {
             return {
                 ...state,
                 deleting: false
             };
         }
 
-        case TarefaDetailActions.CREATE_TAREFA: {
+        case ProcessoDetailActions.CREATE_PROCESSO: {
             return {
                 tarefaId: null,
                 loading: false,
@@ -79,14 +79,14 @@ export function TarefaDetailReducer(state = TarefaDetailInitialState, action: Ta
             };
         }
 
-        case TarefaDetailActions.SAVE_TAREFA: {
+        case ProcessoDetailActions.SAVE_PROCESSO: {
             return {
                 ...state,
                 saving: true
             };
         }
 
-        case TarefaDetailActions.SAVE_TAREFA_SUCCESS: {
+        case ProcessoDetailActions.SAVE_PROCESSO_SUCCESS: {
             return {
                 ...state,
                 saving: false,
@@ -94,7 +94,7 @@ export function TarefaDetailReducer(state = TarefaDetailInitialState, action: Ta
             };
         }
 
-        case TarefaDetailActions.SAVE_TAREFA_FAILED: {
+        case ProcessoDetailActions.SAVE_PROCESSO_FAILED: {
             return {
                 ...state,
                 saving: false,
@@ -102,7 +102,7 @@ export function TarefaDetailReducer(state = TarefaDetailInitialState, action: Ta
             };
         }
 
-        case TarefaDetailActions.GET_DOCUMENTOS_SUCCESS: {
+        case ProcessoDetailActions.GET_DOCUMENTOS_SUCCESS: {
             return {
                 ...state,
                 documentosId: action.payload.entitiesId,
@@ -111,7 +111,7 @@ export function TarefaDetailReducer(state = TarefaDetailInitialState, action: Ta
         }
 
 
-        case TarefaDetailActions.SAVE_CONTEUDO_VINCULACAO_ETIQUETA: {
+        case ProcessoDetailActions.SAVE_CONTEUDO_VINCULACAO_ETIQUETA: {
             return {
                 ...state,
                 saving: true,
@@ -119,7 +119,7 @@ export function TarefaDetailReducer(state = TarefaDetailInitialState, action: Ta
             };
         }
 
-        case TarefaDetailActions.SAVE_CONTEUDO_VINCULACAO_ETIQUETA_SUCCESS: {
+        case ProcessoDetailActions.SAVE_CONTEUDO_VINCULACAO_ETIQUETA_SUCCESS: {
             return {
                 ...state,
                 saving: false,
@@ -128,7 +128,7 @@ export function TarefaDetailReducer(state = TarefaDetailInitialState, action: Ta
             };
         }
 
-        case TarefaDetailActions.SAVE_CONTEUDO_VINCULACAO_ETIQUETA_FAILED: {
+        case ProcessoDetailActions.SAVE_CONTEUDO_VINCULACAO_ETIQUETA_FAILED: {
             return {
                 ...state,
                 saving: false,

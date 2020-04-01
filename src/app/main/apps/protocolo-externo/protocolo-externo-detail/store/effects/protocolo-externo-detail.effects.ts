@@ -7,30 +7,29 @@ import {catchError, map, mergeMap, tap, switchMap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 
-import * as TarefaDetailActions from 'app/main/apps/tarefas/tarefa-detail/store/actions/tarefa-detail.actions';
+import * as ProcessoDetailActions from '../actions';
 
-import {ProcessosService} from '@cdk/services/tarefa.service';
+import {ProcessoService} from '@cdk/services/processo.service';
 import {Router} from '@angular/router';
 import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
 import {VinculacaoEtiqueta} from '@cdk/models';
 import {AddChildData, AddData, RemoveChildData, UpdateData} from '@cdk/ngrx-normalizr';
 import {vinculacaoEtiqueta as vinculacaoEtiquetaSchema} from '@cdk/normalizr/vinculacao-etiqueta.schema';
-import {tarefa as tarefaSchema} from '@cdk/normalizr/tarefa.schema';
+import {processo as processoSchema} from '@cdk/normalizr/processo.schema';
 import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
 import {DocumentoService} from '@cdk/services/documento.service';
-import {Tarefa} from '@cdk/models';
-import {Documento} from '@cdk/models';
+import {Processo, Documento} from '@cdk/models';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-import {DeleteTarefaSuccess} from '../../../store/actions';
+import {DeleteProcessoSuccess} from '../../../store/actions';
 import {GetDocumentos} from '../../atividades/atividade-create/store/actions';
 
 @Injectable()
-export class TarefaDetailEffect {
+export class ProcessoDetailEffect {
     routerState: any;
 
     constructor(
         private _actions: Actions,
-        private _tarefaService: ProcessosService,
+        private _processoService: ProcessoService,
         private _documentoService: DocumentoService,
         private _vinculacaoEtiquetaService: VinculacaoEtiquetaService,
         private _store: Store<State>,
@@ -46,175 +45,175 @@ export class TarefaDetailEffect {
     }
 
     /**
-     * Get Tarefa with router parameters
+     * Get Processo with router parameters
      * @type {Observable<any>}
      */
     @Effect()
-    getTarefa: any =
+    getProcesso: any =
         this._actions
             .pipe(
-                ofType<TarefaDetailActions.GetTarefa>(TarefaDetailActions.GET_TAREFA),
+                ofType<ProcessoDetailActions.GetProcesso>(ProcessoDetailActions.GET_PROCESSO),
                 switchMap((action) => {
-                    return this._tarefaService.query(
+                    return this._processoService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
                         JSON.stringify({}),
                         JSON.stringify([
-                            'processo',
-                            'processo.especieProcesso',
-                            'processo.modalidadeMeio',
-                            'processo.documentoAvulsoOrigem',
-                            'especieTarefa',
-                            'usuarioResponsavel',
-                            'setorResponsavel',
-                            'setorResponsavel.unidade',
-                            'setorOrigem',
-                            'setorOrigem.unidade',
-                            'especieTarefa.generoTarefa',
+                            'especieProcesso',
+                            'modalidadeMeio',
+                            'modalidadeFase',
+                            'documentoAvulsoOrigem',
+                            'especieProcesso',
+                            'classificacao',
+                            'classificacao.modalidadeDestinacao',
+                            'setorInicial',
+                            'setorAtual',
+                            'lembretes',
                             'vinculacoesEtiquetas',
-                            'vinculacoesEtiquetas.etiqueta']));
+                            'vinculacoesEtiquetas.etiqueta'
+                        ]));
                 }),
                 mergeMap(response => [
-                    new AddData<Tarefa>({data: response['entities'], schema: tarefaSchema}),
-                    new TarefaDetailActions.GetTarefaSuccess({
+                    new AddData<Processo>({data: response['entities'], schema: processoSchema}),
+                    new ProcessoDetailActions.GetProcessoSuccess({
                         loaded: {
-                            id: 'tarefaHandle',
-                            value: this.routerState.params.tarefaHandle
+                            id: 'processoHandle',
+                            value: this.routerState.params.processoHandle
                         },
-                        tarefa: response['entities'][0]
+                        processo: response['entities'][0]
                     })
                 ]),
                 catchError((err, caught) => {
                     console.log(err);
-                    this._store.dispatch(new TarefaDetailActions.GetTarefaFailed(err));
+                    this._store.dispatch(new ProcessoDetailActions.GetProcessoFailed(err));
                     return caught;
                 })
             );
 
     /**
-     * Deselect Tarefa Action
+     * Deselect Processo Action
      */
     @Effect({dispatch: false})
-    deselectTarefaAction =
+    deselectProcessoAction =
         this._actions
             .pipe(
-                ofType<TarefaDetailActions.DeselectTarefaAction>(TarefaDetailActions.DESELECT_TAREFA_ACTION),
+                ofType<ProcessoDetailActions.DeselectProcessoAction>(ProcessoDetailActions.DESELECT_PROCESSO_ACTION),
                 tap(() => {
-                    this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' +
+                    this._router.navigate(['apps/processos/' + this.routerState.params.generoHandle + '/' +
                     this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle]).then();
                 })
             );
 
     /**
-     * Update Tarefa
+     * Update Processo
      * @type {Observable<any>}
      */
     @Effect()
-    createTarefa: Observable<TarefaDetailActions.TarefaDetailActionsAll> =
+    createProcesso: Observable<ProcessoDetailActions.ProcessoDetailActionsAll> =
         this._actions
             .pipe(
-                ofType<TarefaDetailActions.CreateTarefa>(TarefaDetailActions.CREATE_TAREFA),
+                ofType<ProcessoDetailActions.CreateProcesso>(ProcessoDetailActions.CREATE_PROCESSO),
                 map(() => {
                     this._router.navigate([this.routerState.url + '/criar']).then();
-                    return new TarefaDetailActions.CreateTarefaSuccess();
+                    return new ProcessoDetailActions.CreateProcessoSuccess();
                 })
             );
 
 
     /**
-     * Delete Tarefa
+     * Delete Processo
      * @type {Observable<any>}
      */
     @Effect()
-    deleteTarefa: Observable<TarefaDetailActions.TarefaDetailActionsAll> =
+    deleteProcesso: Observable<ProcessoDetailActions.ProcessoDetailActionsAll> =
         this._actions
             .pipe(
-                ofType<TarefaDetailActions.DeleteTarefa>(TarefaDetailActions.DELETE_TAREFA),
+                ofType<ProcessoDetailActions.DeleteProcesso>(ProcessoDetailActions.DELETE_PROCESSO),
                 mergeMap((action) => {
-                        return this._tarefaService.destroy(action.payload).pipe(
-                            map((response) => new TarefaDetailActions.DeleteTarefaSuccess(response.id)),
+                        return this._processoService.destroy(action.payload).pipe(
+                            map((response) => new ProcessoDetailActions.DeleteProcessoSuccess(response.id)),
                             catchError((err) => {
                                 console.log(err);
-                                return of(new TarefaDetailActions.DeleteTarefaFailed(action.payload));
+                                return of(new ProcessoDetailActions.DeleteProcessoFailed(action.payload));
                             })
                         );
                     }
                 ));
 
     /**
-     * Save Tarefa
+     * Save Processo
      * @type {Observable<any>}
      */
     @Effect()
-    saveTarefa: any =
+    saveProcesso: any =
         this._actions
             .pipe(
-                ofType<TarefaDetailActions.SaveTarefa>(TarefaDetailActions.SAVE_TAREFA),
+                ofType<ProcessoDetailActions.SaveProcesso>(ProcessoDetailActions.SAVE_PROCESSO),
                 switchMap((action) => {
-                    return this._tarefaService.save(action.payload).pipe(
-                        mergeMap((response: Tarefa) => [
-                            new TarefaDetailActions.SaveTarefaSuccess(),
-                            new AddData<Tarefa>({
+                    return this._processoService.save(action.payload).pipe(
+                        mergeMap((response: Processo) => [
+                            new ProcessoDetailActions.SaveProcessoSuccess(),
+                            new AddData<Processo>({
                                 data: [response],
-                                schema: tarefaSchema
+                                schema: processoSchema
                             }), new OperacoesActions.Resultado({
-                                type: 'tarefa',
-                                content: `Tarefa id ${response.id} criada com sucesso!`,
+                                type: 'processo',
+                                content: `Processo id ${response.id} criada com sucesso!`,
                                 dateTime: response.criadoEm
                             })
                         ]),
                         catchError((err) => {
                             console.log(err);
-                            return of(new TarefaDetailActions.SaveTarefaFailed(err));
+                            return of(new ProcessoDetailActions.SaveProcessoFailed(err));
                         })
                     );
                 })
             );
 
-    /**
-     * Dar Ciencia Tarefa
-     * @type {Observable<any>}
-     */
-    @Effect()
-    darCienciaTarefa: any =
-        this._actions
-            .pipe(
-                ofType<TarefaDetailActions.DarCienciaTarefa>(TarefaDetailActions.DAR_CIENCIA_TAREFA),
-                switchMap((action) => {
-                    return this._tarefaService.ciencia(action.payload).pipe(
-                        mergeMap((response: Tarefa) => [
-                            new TarefaDetailActions.DarCienciaTarefaSuccess(action.payload),
-                            new AddData<Tarefa>({
-                                data: [response],
-                                schema: tarefaSchema
-                            }), new OperacoesActions.Resultado({
-                                type: 'tarefa',
-                                content: `Tarefa id ${response.id} ciência com sucesso!`,
-                                dateTime: response.criadoEm
-                            })
-                        ]),
-                        catchError((err) => {
-                            console.log(err);
-                            return of(new TarefaDetailActions.SaveTarefaFailed(err));
-                        })
-                    );
-                })
-            );
+    // /**
+    //  * Dar Ciencia Processo
+    //  * @type {Observable<any>}
+    //  */
+    // @Effect()
+    // darCienciaProcesso: any =
+    //     this._actions
+    //         .pipe(
+    //             ofType<ProcessoDetailActions.DarCienciaProcesso>(ProcessoDetailActions.DAR_CIENCIA_PROCESSO),
+    //             switchMap((action) => {
+    //                 return this._processoService.ciencia(action.payload).pipe(
+    //                     mergeMap((response: Processo) => [
+    //                         new ProcessoDetailActions.DarCienciaProcessoSuccess(action.payload),
+    //                         new AddData<Processo>({
+    //                             data: [response],
+    //                             schema: processoSchema
+    //                         }), new OperacoesActions.Resultado({
+    //                             type: 'processo',
+    //                             content: `Processo id ${response.id} ciência com sucesso!`,
+    //                             dateTime: response.criadoEm
+    //                         })
+    //                     ]),
+    //                     catchError((err) => {
+    //                         console.log(err);
+    //                         return of(new ProcessoDetailActions.SaveProcessoFailed(err));
+    //                     })
+    //                 );
+    //             })
+    //         );
 
     /**
-     * Dar Ciencia Tarefa Success
+     * Dar Ciencia Processo Success
      */
     @Effect({dispatch: false})
-    darCienciaTarefaSuccess: any =
+    darCienciaProcessoSuccess: any =
         this._actions
             .pipe(
-                ofType<TarefaDetailActions.DarCienciaTarefaSuccess>(TarefaDetailActions.DAR_CIENCIA_TAREFA_SUCCESS),
+                ofType<ProcessoDetailActions.DarCienciaProcessoSuccess>(ProcessoDetailActions.DAR_CIENCIA_PROCESSO_SUCCESS),
                 tap((action) => {
-                    this._store.dispatch(new DeleteTarefaSuccess(action.payload.id));
-                    this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' +
+                    this._store.dispatch(new DeleteProcessoSuccess(action.payload.id));
+                    this._router.navigate(['apps/processos/' + this.routerState.params.generoHandle + '/' +
                     + this.routerState.params.typeHandle + '/' +
-                    this.routerState.params.targetHandle + '/tarefa/' + this.routerState.params.tarefaHandle +
+                    this.routerState.params.targetHandle + '/processo/' + this.routerState.params.processoHandle +
                     '/encaminhamento']).then();
                 })
             );
@@ -227,30 +226,30 @@ export class TarefaDetailEffect {
     createVinculacaoEtiqueta: Observable<any> =
         this._actions
             .pipe(
-                ofType<TarefaDetailActions.CreateVinculacaoEtiqueta>(TarefaDetailActions.CREATE_VINCULACAO_ETIQUETA),
+                ofType<ProcessoDetailActions.CreateVinculacaoEtiqueta>(ProcessoDetailActions.CREATE_VINCULACAO_ETIQUETA),
                 mergeMap((action) => {
                     const vinculacaoEtiqueta = new VinculacaoEtiqueta();
-                    vinculacaoEtiqueta.tarefa = action.payload.tarefa;
+                    vinculacaoEtiqueta.processo = action.payload.processo;
                     vinculacaoEtiqueta.etiqueta = action.payload.etiqueta;
                     return this._vinculacaoEtiquetaService.save(vinculacaoEtiqueta).pipe(
-                        tap((response) => response.tarefa = null),
+                        tap((response) => response.processo = null),
                         mergeMap((response) => [
                             new AddChildData<VinculacaoEtiqueta>({
                                 data: [response],
                                 childSchema: vinculacaoEtiquetaSchema,
-                                parentSchema: tarefaSchema,
-                                parentId: action.payload.tarefa.id
+                                parentSchema: processoSchema,
+                                parentId: action.payload.processo.id
                             }),
                             new OperacoesActions.Resultado({
-                                type: 'tarefa',
-                                content: `Tarefa id ${response.id} etiquetada com sucesso!`,
+                                type: 'processo',
+                                content: `Processo id ${response.id} etiquetada com sucesso!`,
                                 dateTime: response.criadoEm
                             }),
                             new GetDocumentos()
                         ]),
                         catchError((err) => {
                             console.log(err);
-                            return of(new TarefaDetailActions.CreateVinculacaoEtiquetaFailed(err));
+                            return of(new ProcessoDetailActions.CreateVinculacaoEtiquetaFailed(err));
                         })
                     );
                 })
@@ -258,19 +257,19 @@ export class TarefaDetailEffect {
 
 
     /**
-     * Save conteúdo vinculação etiqueta na tarefa
+     * Save conteúdo vinculação etiqueta na processo
      * @type {Observable<any>}
      */
     @Effect()
     SaveConteudoVinculacaoEtiqueta: any =
         this._actions
             .pipe(
-                ofType<TarefaDetailActions.SaveConteudoVinculacaoEtiqueta>(TarefaDetailActions.SAVE_CONTEUDO_VINCULACAO_ETIQUETA),
+                ofType<ProcessoDetailActions.SaveConteudoVinculacaoEtiqueta>(ProcessoDetailActions.SAVE_CONTEUDO_VINCULACAO_ETIQUETA),
                 mergeMap((action) => {
                     return this._vinculacaoEtiquetaService.patch(action.payload.vinculacaoEtiqueta, action.payload.changes).pipe(
                         //@retirar: return this._vinculacaoEtiquetaService.patch(action.payload.vinculacaoEtiqueta,  {conteudo: action.payload.vinculacaoEtiqueta.conteudo}).pipe(
                         mergeMap((response) => [
-                            new TarefaDetailActions.SaveConteudoVinculacaoEtiquetaSuccess(response.id),
+                            new ProcessoDetailActions.SaveConteudoVinculacaoEtiquetaSuccess(response.id),
                             new UpdateData<VinculacaoEtiqueta>({
                                 id: response.id,
                                 schema: vinculacaoEtiquetaSchema,
@@ -279,7 +278,7 @@ export class TarefaDetailEffect {
                         ]),
                         catchError((err) => {
                             console.log(err);
-                            return of(new TarefaDetailActions.SaveConteudoVinculacaoEtiquetaFailed(err));
+                            return of(new ProcessoDetailActions.SaveConteudoVinculacaoEtiquetaFailed(err));
                         })
                     );
                 })
@@ -294,20 +293,20 @@ export class TarefaDetailEffect {
     deleteVinculacaoEtiqueta: Observable<any> =
         this._actions
             .pipe(
-                ofType<TarefaDetailActions.DeleteVinculacaoEtiqueta>(TarefaDetailActions.DELETE_VINCULACAO_ETIQUETA),
+                ofType<ProcessoDetailActions.DeleteVinculacaoEtiqueta>(ProcessoDetailActions.DELETE_VINCULACAO_ETIQUETA),
                 mergeMap((action) => {
                         return this._vinculacaoEtiquetaService.destroy(action.payload.vinculacaoEtiquetaId).pipe(
                             mergeMap(() => [
                                 new RemoveChildData({
                                     id: action.payload.vinculacaoEtiquetaId,
                                     childSchema: vinculacaoEtiquetaSchema,
-                                    parentSchema: tarefaSchema,
-                                    parentId: action.payload.tarefaId
+                                    parentSchema: processoSchema,
+                                    parentId: action.payload.processoId
                                 })
                             ]),
                             catchError((err) => {
                                 console.log(err);
-                                return of(new TarefaDetailActions.DeleteVinculacaoEtiquetaFailed(action.payload));
+                                return of(new ProcessoDetailActions.DeleteVinculacaoEtiquetaFailed(action.payload));
                             })
                         );
                     }
@@ -321,7 +320,7 @@ export class TarefaDetailEffect {
     getDocumentos: any =
         this._actions
             .pipe(
-                ofType<TarefaDetailActions.GetDocumentos>(TarefaDetailActions.GET_DOCUMENTOS),
+                ofType<ProcessoDetailActions.GetDocumentos>(ProcessoDetailActions.GET_DOCUMENTOS),
                 switchMap((action) => {
                     return this._documentoService.query(
                         JSON.stringify(action.payload),
@@ -335,17 +334,17 @@ export class TarefaDetailEffect {
                 }),
                 mergeMap(response => [
                     new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
-                    new TarefaDetailActions.GetDocumentosSuccess({
+                    new ProcessoDetailActions.GetDocumentosSuccess({
                         loaded: {
-                            id: 'tarefaHandle',
-                            value: this.routerState.params.tarefaHandle
+                            id: 'processoHandle',
+                            value: this.routerState.params.processoHandle
                         },
                         entitiesId: response['entities'].map(documento => documento.id),
                     })
                 ]),
                 catchError((err, caught) => {
                     console.log(err);
-                    this._store.dispatch(new TarefaDetailActions.GetDocumentosFailed(err));
+                    this._store.dispatch(new ProcessoDetailActions.GetDocumentosFailed(err));
                     return caught;
                 })
             );

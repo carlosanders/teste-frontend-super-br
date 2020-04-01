@@ -5,7 +5,7 @@
         <mat-icon class="logo-icon s-24" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
             check_box
         </mat-icon>
-        <span class="logo-text ml-8 s-24" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">Tarefas</span>
+        <span class="logo-text ml-8 s-24" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">Processos</span>
     </div>
 </div>
 <!-- / SIDEBAR HEADER -->
@@ -18,58 +18,19 @@
                 class="mat-accent compose-dialog-button w-100-p"
                 (click)="create()"
                 aria-label="Criar">
-            {{ 'TAREFA.COMPOSE' | translate }}
+            {{ 'PROCESSO.COMPOSE' | translate }}
         </button>
     </div>
 
     <div class="nav material2">
 
-        <div class="nav-subheader">MINHAS TAREFAS</div>
+        <div class="nav-subheader">MEUS PROCESSOS</div>
 
         <div class="nav-item" dndDropzone (dndDrop)="onDrop([$event, null])">
-            <a class="nav-link" matRipple [routerLink]="'/apps/tarefas/' + generoHandle + '/minhas-tarefas/entrada'"
+            <a class="nav-link" matRipple [routerLink]="'/apps/protocolo-externo'"
                [routerLinkActive]="['active', 'accent']">
                 <mat-icon class="nav-link-icon">inbox</mat-icon>
                 <span>Entrada</span>
-            </a>
-        </div>
-
-        <div class="nav-item" dndDropzone (dndDrop)="onDrop([$event, folder])"
-             *ngFor="let folder of (folders$ | async)">
-            <a class="nav-link" matRipple [routerLink]="'/apps/tarefas/' + generoHandle + '/minhas-tarefas/' + folder.nome | lowercase"
-               [routerLinkActive]="['active', 'accent']">
-                <mat-icon class="nav-link-icon">{{ folder.icon ? folder.icon : 'folder' }}</mat-icon>
-                <span>{{folder.nome | titlecase}}</span>
-            </a>
-        </div>
-
-        <div class="nav-subheader">COMPARTILHAMENTO</div>
-
-        <div class="nav-item">
-            <a class="nav-link" matRipple [routerLink]="'/apps/tarefas/' + generoHandle + '/compartilhadas/outros-usuarios'"
-               [routerLinkActive]="['active', 'accent']">
-                <mat-icon class="nav-link-icon">share</mat-icon>
-                <span>Outros Usuários</span>
-            </a>
-        </div>
-
-        <div *ngIf="setoresCoordenacao.length > 0" class="nav-subheader">COORDENAÇÃO</div>
-
-        <div class="nav-item" *ngFor="let setor of setoresCoordenacao">
-            <a class="nav-link" matRipple [routerLink]="'/apps/tarefas/' + generoHandle + '/coordenacao/' + setor.id"
-               [routerLinkActive]="['active', 'accent']">
-                <mat-icon class="nav-link-icon">{{ 'group' }}</mat-icon>
-                <span>{{setor.nome | titlecase}}</span>
-            </a>
-        </div>
-
-        <div *ngIf="usuariosAnalista.length > 0" class="nav-subheader">ANALISTA</div>
-
-        <div class="nav-item" *ngFor="let usuario of usuariosAnalista">
-            <a class="nav-link" matRipple [routerLink]="'/apps/tarefas/' + generoHandle + '/analista/' + usuario.id"
-               [routerLinkActive]="['active', 'accent']">
-                <mat-icon class="nav-link-icon">{{ 'person' }}</mat-icon>
-                <span>{{usuario.nome | titlecase}}</span>
             </a>
         </div>
 

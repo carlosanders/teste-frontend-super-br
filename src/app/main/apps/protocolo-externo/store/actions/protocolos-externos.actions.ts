@@ -1,65 +1,57 @@
 
 import {Action} from '@ngrx/store';
 
-export const UNLOAD_PROCESSOS = '[TAREFAS] UNLOAD TAREFAS';
+export const UNLOAD_PROCESSOS = '[PROCESSOS] UNLOAD PROCESSOS';
 
 export const GET_PROCESSOS = '[PROTOCOLO EXTERNO] GET PROCESSOS';
 export const GET_PROCESSOS_SUCCESS = '[PROTOCOLO EXTERNO] GET PROCESSOS SUCCESS';
 export const GET_PROCESSOS_FAILED = '[PROTOCOLO EXTERNO] GET PROCESSOS FAILED';
 
-export const SET_CURRENT_TAREFA = '[TAREFAS] SET CURRENT TAREFA';
-export const SET_CURRENT_TAREFA_SUCCESS = '[TAREFAS] SET CURRENT TAREFA SUCCESS';
+export const SET_CURRENT_PROCESSO = '[PROCESSOS] SET CURRENT PROCESSO';
+export const SET_CURRENT_PROCESSO_SUCCESS = '[PROCESSOS] SET CURRENT PROCESSO SUCCESS';
 
-export const CREATE_TAREFA = '[TAREFAS] CREATE TAREFA';
-export const CREATE_TAREFA_SUCCESS = '[TAREFAS] CREATE TAREFA SUCCESS';
+export const CREATE_PROCESSO = '[PROCESSOS] CREATE PROCESSO';
+export const CREATE_PROCESSO_SUCCESS = '[PROCESSOS] CREATE PROCESSO SUCCESS';
 
-export const DELETE_TAREFA = '[TAREFAS] DELETE TAREFA';
-export const DELETE_TAREFA_SUCCESS = '[TAREFAS] DELETE TAREFA SUCCESS';
-export const DELETE_TAREFA_FAILED = '[TAREFAS] DELETE TAREFA FAILED';
+export const DELETE_PROCESSO = '[PROCESSOS] DELETE PROCESSO';
+export const DELETE_PROCESSO_SUCCESS = '[PROCESSOS] DELETE PROCESSO SUCCESS';
+export const DELETE_PROCESSO_FAILED = '[PROCESSOS] DELETE PROCESSO FAILED';
 
-export const CHANGE_SELECTED_TAREFAS = '[TAREFAS] CHANGE SELECTED TAREFAS';
+export const CHANGE_SELECTED_PROCESSOS = '[PROCESSOS] CHANGE SELECTED PROCESSOS';
 
-export const TOGGLE_MAXIMIZADO = '[TAREFAS] TOGGLE MAXIMIZADO';
+export const TOGGLE_MAXIMIZADO = '[PROCESSOS] TOGGLE MAXIMIZADO';
 
-export const TOGGLE_LIDA_TAREFA = '[TAREFAS] TOGGLE LIDA TAREFA';
-export const TOGGLE_LIDA_TAREFA_SUCCESS = '[TAREFAS] TOGGLE LIDA TAREFA SUCCESS';
-export const TOGGLE_LIDA_TAREFA_FAILED = '[TAREFAS] TOGGLE LIDA TAREFA FAILED';
+export const TOGGLE_LIDA_PROCESSO = '[PROCESSOS] TOGGLE LIDA PROCESSO';
+export const TOGGLE_LIDA_PROCESSO_SUCCESS = '[PROCESSOS] TOGGLE LIDA PROCESSO SUCCESS';
+export const TOGGLE_LIDA_PROCESSO_FAILED = '[PROCESSOS] TOGGLE LIDA PROCESSO FAILED';
 
-export const TOGGLE_URGENTE_TAREFA = '[TAREFAS] TOGGLE URGENTE TAREFA';
-export const TOGGLE_URGENTE_TAREFA_SUCCESS = '[TAREFAS] TOGGLE URGENTE TAREFA SUCCESS';
-export const TOGGLE_URGENTE_TAREFA_FAILED = '[TAREFAS] TOGGLE URGENTE TAREFA FAILED';
+export const TOGGLE_URGENTE_PROCESSO = '[PROCESSOS] TOGGLE URGENTE PROCESSO';
+export const TOGGLE_URGENTE_PROCESSO_SUCCESS = '[PROCESSOS] TOGGLE URGENTE PROCESSO SUCCESS';
+export const TOGGLE_URGENTE_PROCESSO_FAILED = '[PROCESSOS] TOGGLE URGENTE PROCESSO FAILED';
 
-export const SET_FOLDER_ON_SELECTED_TAREFAS = '[TAREFAS] SET FOLDER ON SELECTED TAREFAS';
-export const SET_FOLDER_ON_SELECTED_TAREFAS_SUCCESS = '[TAREFAS] SET FOLDER ON SELECTED TAREFAS SUCCESS';
-export const SET_FOLDER_ON_SELECTED_TAREFAS_FAILED = '[TAREFAS] SET FOLDER ON SELECTED TAREFAS FAILED';
+export const SAVE_PROCESSO = '[PROCESSO] SAVE PROCESSO';
+export const SAVE_PROCESSO_SUCCESS = '[PROCESSO] SAVE PROCESSO SUCCESS';
+export const SAVE_PROCESSO_FAILED = '[PROCESSO] SAVE PROCESSO FAILED';
 
-export const SAVE_TAREFA = '[TAREFA] SAVE TAREFA';
-export const SAVE_TAREFA_SUCCESS = '[TAREFA] SAVE TAREFA SUCCESS';
-export const SAVE_TAREFA_FAILED = '[TAREFA] SAVE TAREFA FAILED';
+export const CREATE_VINCULACAO_ETIQUETA = '[PROCESSO] CREATE VINCULACAO ETIQUETA';
+export const CREATE_VINCULACAO_ETIQUETA_SUCCESS = '[PROCESSO] CREATE VINCULACAO ETIQUETA SUCCESS';
+export const CREATE_VINCULACAO_ETIQUETA_FAILED = '[PROCESSO] CREATE VINCULACAO ETIQUETA FAILED';
 
-export const CREATE_VINCULACAO_ETIQUETA = '[TAREFA] CREATE VINCULACAO ETIQUETA';
-export const CREATE_VINCULACAO_ETIQUETA_SUCCESS = '[TAREFA] CREATE VINCULACAO ETIQUETA SUCCESS';
-export const CREATE_VINCULACAO_ETIQUETA_FAILED = '[TAREFA] CREATE VINCULACAO ETIQUETA FAILED';
+export const DELETE_VINCULACAO_ETIQUETA = '[PROCESSO] DELETE VINCULACAO_ETIQUETA';
+export const DELETE_VINCULACAO_ETIQUETA_SUCCESS = '[PROCESSO] DELETE VINCULACAO_ETIQUETA SUCCESS';
+export const DELETE_VINCULACAO_ETIQUETA_FAILED = '[PROCESSO] DELETE VINCULACAO_ETIQUETA FAILED';
 
-export const DELETE_VINCULACAO_ETIQUETA = '[TAREFA] DELETE VINCULACAO_ETIQUETA';
-export const DELETE_VINCULACAO_ETIQUETA_SUCCESS = '[TAREFA] DELETE VINCULACAO_ETIQUETA SUCCESS';
-export const DELETE_VINCULACAO_ETIQUETA_FAILED = '[TAREFA] DELETE VINCULACAO_ETIQUETA FAILED';
+export const GET_ASSUNTOS_PROCESSO = '[PROCESSO] GET ASSUNTOS PROCESSO';
+export const GET_ASSUNTOS_PROCESSO_SUCCESS = '[PROCESSO] GET ASSUNTOS PROCESSO SUCCESS';
+export const GET_ASSUNTOS_PROCESSO_FAILED = '[PROCESSO] GET ASSUNTOS PROCESSO FAILED';
 
+export const SET_LOADING_ASSUNTOS = '[PROCESSO] SET LOADING ASSUNTOS';
+export const SET_LOADING_ASSUNTOS_SUCCESS = '[PROCESSO] SET LOADING ASSUNTOS SUCCESS';
+export const SET_LOADING_ASSUNTOS_FAILED = '[PROCESSO] SET LOADING ASSUNTOS FAILED';
 
-/*
-* ISSUE-107
-*/
-export const GET_ASSUNTOS_PROCESSO_TAREFA = '[TAREFA] GET ASSUNTOS PROCESSO';
-export const GET_ASSUNTOS_PROCESSO_TAREFA_SUCCESS = '[TAREFA] GET ASSUNTOS PROCESSO SUCCESS';
-export const GET_ASSUNTOS_PROCESSO_TAREFA_FAILED = '[TAREFA] GET ASSUNTOS PROCESSO FAILED';
-
-export const SET_LOADING_ASSUNTOS = '[TAREFA] SET LOADING ASSUNTOS';
-export const SET_LOADING_ASSUNTOS_SUCCESS = '[TAREFA] SET LOADING ASSUNTOS SUCCESS';
-export const SET_LOADING_ASSUNTOS_FAILED = '[TAREFA] SET LOADING ASSUNTOS FAILED';
-
-export const SET_ASSUNTOS_LOADED = '[TAREFA] SET ASSUNTOS LOADED';
-export const SET_ASSUNTOS_LOADED_SUCCESS = '[TAREFA] SET ASSUNTOS LOADED SUCCESS';
-export const SET_ASSUNTOS_LOADED_FAILED = '[TAREFA] SET ASSUNTOS LOADED FAILED';
+export const SET_ASSUNTOS_LOADED = '[PROCESSO] SET ASSUNTOS LOADED';
+export const SET_ASSUNTOS_LOADED_SUCCESS = '[PROCESSO] SET ASSUNTOS LOADED SUCCESS';
+export const SET_ASSUNTOS_LOADED_FAILED = '[PROCESSO] SET ASSUNTOS LOADED FAILED';
 
 
 
@@ -68,7 +60,7 @@ export const SET_ASSUNTOS_LOADED_FAILED = '[TAREFA] SET ASSUNTOS LOADED FAILED';
 /**
  * Unload Tarefas
  */
-export class UnloadTarefas implements Action {
+export class UnloadProcessos implements Action {
     readonly type = UNLOAD_PROCESSOS;
 
     constructor(public payload: any) {
@@ -105,436 +97,403 @@ export class GetProcessosFailed implements Action {
     }
 }
 
-// /**
-//  * Select Tarefa
-//  */
-// export class SetCurrentTarefa implements Action {
-//     readonly type = SET_CURRENT_TAREFA;
-//
-//     constructor(public payload: any) {
-//     }
-// }
-//
-// /**
-//  * Select Tarefa Success
-//  */
-// export class SetCurrentTarefaSuccess implements Action {
-//     readonly type = SET_CURRENT_TAREFA_SUCCESS;
-//
-//     constructor() {
-//     }
-// }
-//
-// /**
-//  * Creat Tarefa
-//  */
-// export class CreateTarefa implements Action {
-//     readonly type = CREATE_TAREFA;
-//
-//     constructor() {
-//     }
-// }
-//
-// /**
-//  * Creat Tarefa Success
-//  */
-// export class CreateTarefaSuccess implements Action {
-//     readonly type = CREATE_TAREFA_SUCCESS;
-//
-//     constructor() {
-//     }
-// }
-//
-// /**
-//  * Change Selected Tarefas
-//  */
-// export class ChangeSelectedTarefas implements Action {
-//     readonly type = CHANGE_SELECTED_TAREFAS;
-//
-//     constructor(public payload: any) {
-//     }
-// }
-//
-// /**
-//  * Set Folder on Selected Tarefas
-//  */
-// export class SetFolderOnSelectedTarefas implements Action {
-//     readonly type = SET_FOLDER_ON_SELECTED_TAREFAS;
-//
-//     constructor(public payload: any) {
-//     }
-// }
-//
-// /**
-//  * Set Folder on Selected Tarefas Success
-//  */
-// export class SetFolderOnSelectedTarefasSuccess implements Action {
-//     readonly type = SET_FOLDER_ON_SELECTED_TAREFAS_SUCCESS;
-//
-//     constructor(public payload: any) {
-//     }
-// }
-//
-// /**
-//  * Set Folder on Selected Tarefas Failed
-//  */
-// export class SetFolderOnSelectedTarefasFailed implements Action {
-//     readonly type = SET_FOLDER_ON_SELECTED_TAREFAS_FAILED;
-//
-//     constructor(public payload: any) {
-//     }
-// }
-//
-// /**
-//  * Delete Tarefa
-//  */
-// export class DeleteTarefa implements Action
-// {
-//     readonly type = DELETE_TAREFA;
-//
-//     constructor(public payload: any)
-//     {
-//     }
-// }
-//
-// /**
-//  * Delete Tarefa Success
-//  */
-// export class DeleteTarefaSuccess implements Action
-// {
-//     readonly type = DELETE_TAREFA_SUCCESS;
-//
-//     constructor(public payload: any)
-//     {
-//     }
-// }
-//
-// /**
-//  * Delete Tarefa Failed
-//  */
-// export class DeleteTarefaFailed implements Action
-// {
-//     readonly type = DELETE_TAREFA_FAILED;
-//
-//     constructor(public payload: any)
-//     {
-//     }
-// }
-//
-// /**
-//  * Save Tarefa
-//  */
-// export class SaveTarefa implements Action
-// {
-//     readonly type = SAVE_TAREFA;
-//
-//     constructor(public payload: any)
-//     {
-//     }
-// }
-//
-// /**
-//  * Save Tarefa Success
-//  */
-// export class SaveTarefaSuccess implements Action
-// {
-//     readonly type = SAVE_TAREFA_SUCCESS;
-//
-//     constructor(public payload: any)
-//     {
-//     }
-// }
-//
-// /**
-//  * Save Tarefa Failed
-//  */
-// export class SaveTarefaFailed implements Action
-// {
-//     readonly type = SAVE_TAREFA_FAILED;
-//
-//     constructor(public payload: any)
-//     {
-//     }
-// }
-//
-// /**
-//  * Toggle Lida Tarefa
-//  */
-// export class ToggleLidaTarefa implements Action
-// {
-//     readonly type = TOGGLE_LIDA_TAREFA;
-//
-//     constructor(public payload: any)
-//     {
-//     }
-// }
-//
-// /**
-//  * Toggle Lida Tarefa Success
-//  */
-// export class ToggleLidaTarefaSuccess implements Action
-// {
-//     readonly type = TOGGLE_LIDA_TAREFA_SUCCESS;
-//
-//     constructor(public payload: any)
-//     {
-//     }
-// }
-//
-// /**
-//  * Toggle Lida Tarefa Failed
-//  */
-// export class ToggleLidaTarefaFailed implements Action
-// {
-//     readonly type = TOGGLE_LIDA_TAREFA_FAILED;
-//
-//     constructor(public payload: any)
-//     {
-//     }
-// }
-//
-// /**
-//  * Toggle Urgente Tarefa
-//  */
-// export class ToggleUrgenteTarefa implements Action
-// {
-//     readonly type = TOGGLE_URGENTE_TAREFA;
-//
-//     constructor(public payload: any)
-//     {
-//     }
-// }
-//
-// /**
-//  * Toggle Urgente Tarefa Success
-//  */
-// export class ToggleUrgenteTarefaSuccess implements Action
-// {
-//     readonly type = TOGGLE_URGENTE_TAREFA_SUCCESS;
-//
-//     constructor(public payload: any)
-//     {
-//     }
-// }
-//
-// /**
-//  * Toggle Urgente Tarefa Failed
-//  */
-// export class ToggleUrgenteTarefaFailed implements Action
-// {
-//     readonly type = TOGGLE_URGENTE_TAREFA_FAILED;
-//
-//     constructor(public payload: any)
-//     {
-//     }
-// }
-//
-// /**
-//  * Delete Vinculacao Etiqueta
-//  */
-// export class DeleteVinculacaoEtiqueta implements Action
-// {
-//     readonly type = DELETE_VINCULACAO_ETIQUETA;
-//
-//     constructor(public payload: any)
-//     {
-//     }
-// }
-//
-// /**
-//  * Delete Vinculacao Etiqueta Success
-//  */
-// export class DeleteVinculacaoEtiquetaSuccess implements Action
-// {
-//     readonly type = DELETE_VINCULACAO_ETIQUETA_SUCCESS;
-//
-//     constructor(public payload: any)
-//     {
-//     }
-// }
-//
-// /**
-//  * Delete Vinculacao Etiqueta Failed
-//  */
-// export class DeleteVinculacaoEtiquetaFailed implements Action
-// {
-//     readonly type = DELETE_VINCULACAO_ETIQUETA_FAILED;
-//
-//     constructor(public payload: any)
-//     {
-//     }
-// }
-//
-// /**
-//  * Create Vinculacao Etiqueta
-//  */
-// export class CreateVinculacaoEtiqueta implements Action
-// {
-//     readonly type = CREATE_VINCULACAO_ETIQUETA;
-//
-//     constructor(public payload: any)
-//     {
-//     }
-// }
-//
-// /**
-//  * Create Vinculacao Etiqueta Success
-//  */
-// export class CreateVinculacaoEtiquetaSuccess implements Action
-// {
-//     readonly type = CREATE_VINCULACAO_ETIQUETA_SUCCESS;
-//
-//     constructor(public payload: any)
-//     {
-//     }
-// }
-//
-// /**
-//  * Create Vinculacao Etiqueta Failed
-//  */
-// export class CreateVinculacaoEtiquetaFailed implements Action
-// {
-//     readonly type = CREATE_VINCULACAO_ETIQUETA_FAILED;
-//
-//     constructor(public payload: any)
-//     {
-//     }
-// }
-//
-// /**
-//  * Toggle Maximizado
-//  */
-// export class ToggleMaximizado implements Action
-// {
-//     readonly type = TOGGLE_MAXIMIZADO;
-//
-//     constructor()
-//     {
-//     }
-// }
-//
-// /**
-//  * ISSUE-107
-//  */
-//
-// /**
-//  * Get Assuntos dos processo da tarefa
-//  */
-// export class GetAssuntosProcessoTarefa implements Action {
-//     readonly type = GET_ASSUNTOS_PROCESSO_TAREFA;
-//
-//     constructor(public payload: any) {
-//     }
-// }
-//
-// /**
-//  * Get Assuntos dos processo da tarefa Success
-//  */
-// export class GetAssuntosProcessoTarefaSuccess implements Action {
-//     readonly type = GET_ASSUNTOS_PROCESSO_TAREFA_SUCCESS;
-//
-//     constructor(public payload: any) {
-//     }
-// }
-//
-// /**
-//  * Get Assuntos dos processo da tarefa Failed
-//  */
-// export class GetAssuntosProcessoTarefaFailed implements Action {
-//     readonly type = GET_ASSUNTOS_PROCESSO_TAREFA_FAILED;
-//
-//     constructor(public payload: any) {
-//     }
-// }
-//
-//
-//
-// /**
-//  * Seta o estado de carregando os assuntos do processo na tarefa
-//  */
-// export class SetLoadingAssuntos implements Action {
-//     readonly type = SET_LOADING_ASSUNTOS;
-//
-//     constructor() {
-//     }
-// }
-//
-// /**
-//  * Seta o estado de carregando os assuntos do processo na tarefa - sucesso
-//  */
-// export class SetLoadingAssuntosSuccess implements Action {
-//     readonly type = SET_LOADING_ASSUNTOS_SUCCESS;
-//
-//     constructor() {
-//     }
-// }
-//
-// /**
-//  * Seta o estado de carregando os assuntos do processo na tarefa - erro
-//  */
-// export class SetLoadingAssuntosFailed implements Action {
-//     readonly type = SET_LOADING_ASSUNTOS_FAILED;
-//
-//     constructor() {
-//     }
-// }
-//
-// /**
-//  * Seta o estado de assuntos carregados no processo da tarefa
-//  */
-// export class SetAssuntosLoaded implements Action {
-//     readonly type = SET_ASSUNTOS_LOADED;
-//
-//     constructor() {
-//     }
-// }
-//
-// /**
-//  * Seta o estado de assuntos carregados no processo da tarefa - sucesso
-//  */
-// export class SetAssuntosLoadedSuccess implements Action {
-//     readonly type = SET_ASSUNTOS_LOADED_SUCCESS;
-//
-//     constructor() {
-//     }
-// }
-//
-// /**
-//  * Seta o estado de assuntos carregados no processo da tarefa - erro
-//  */
-// export class SetAssuntosLoadedFailed implements Action {
-//     readonly type = SET_ASSUNTOS_LOADED_FAILED;
-//
-//     constructor() {
-//     }
-// }
+/**
+ * Select Processo
+ */
+export class SetCurrentProcesso implements Action {
+    readonly type = SET_CURRENT_PROCESSO;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Select Processo Success
+ */
+export class SetCurrentProcessoSuccess implements Action {
+    readonly type = SET_CURRENT_PROCESSO_SUCCESS;
+
+    constructor() {
+    }
+}
+
+/**
+ * Creat Processo
+ */
+export class CreateProcesso implements Action {
+    readonly type = CREATE_PROCESSO;
+
+    constructor() {
+    }
+}
+
+/**
+ * Creat Processo Success
+ */
+export class CreateProcessoSuccess implements Action {
+    readonly type = CREATE_PROCESSO_SUCCESS;
+
+    constructor() {
+    }
+}
+
+/**
+ * Change Selected Processos
+ */
+export class ChangeSelectedProcessos implements Action {
+    readonly type = CHANGE_SELECTED_PROCESSOS;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Delete Processo
+ */
+export class DeleteProcesso implements Action
+{
+    readonly type = DELETE_PROCESSO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Delete Processo Success
+ */
+export class DeleteProcessoSuccess implements Action
+{
+    readonly type = DELETE_PROCESSO_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Delete Processo Failed
+ */
+export class DeleteProcessoFailed implements Action
+{
+    readonly type = DELETE_PROCESSO_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Save Processo
+ */
+export class SaveProcesso implements Action
+{
+    readonly type = SAVE_PROCESSO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Save Processo Success
+ */
+export class SaveProcessoSuccess implements Action
+{
+    readonly type = SAVE_PROCESSO_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Save Processo Failed
+ */
+export class SaveProcessoFailed implements Action
+{
+    readonly type = SAVE_PROCESSO_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Toggle Lida Processo
+ */
+export class ToggleLidaProcesso implements Action
+{
+    readonly type = TOGGLE_LIDA_PROCESSO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Toggle Lida Processo Success
+ */
+export class ToggleLidaProcessoSuccess implements Action
+{
+    readonly type = TOGGLE_LIDA_PROCESSO_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Toggle Lida Processo Failed
+ */
+export class ToggleLidaProcessoFailed implements Action
+{
+    readonly type = TOGGLE_LIDA_PROCESSO_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Toggle Urgente Processo
+ */
+export class ToggleUrgenteProcesso implements Action
+{
+    readonly type = TOGGLE_URGENTE_PROCESSO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Toggle Urgente Processo Success
+ */
+export class ToggleUrgenteProcessoSuccess implements Action
+{
+    readonly type = TOGGLE_URGENTE_PROCESSO_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Toggle Urgente Processo Failed
+ */
+export class ToggleUrgenteProcessoFailed implements Action
+{
+    readonly type = TOGGLE_URGENTE_PROCESSO_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Delete Vinculacao Etiqueta
+ */
+export class DeleteVinculacaoEtiqueta implements Action
+{
+    readonly type = DELETE_VINCULACAO_ETIQUETA;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Delete Vinculacao Etiqueta Success
+ */
+export class DeleteVinculacaoEtiquetaSuccess implements Action
+{
+    readonly type = DELETE_VINCULACAO_ETIQUETA_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Delete Vinculacao Etiqueta Failed
+ */
+export class DeleteVinculacaoEtiquetaFailed implements Action
+{
+    readonly type = DELETE_VINCULACAO_ETIQUETA_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Create Vinculacao Etiqueta
+ */
+export class CreateVinculacaoEtiqueta implements Action
+{
+    readonly type = CREATE_VINCULACAO_ETIQUETA;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Create Vinculacao Etiqueta Success
+ */
+export class CreateVinculacaoEtiquetaSuccess implements Action
+{
+    readonly type = CREATE_VINCULACAO_ETIQUETA_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Create Vinculacao Etiqueta Failed
+ */
+export class CreateVinculacaoEtiquetaFailed implements Action
+{
+    readonly type = CREATE_VINCULACAO_ETIQUETA_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Toggle Maximizado
+ */
+export class ToggleMaximizado implements Action
+{
+    readonly type = TOGGLE_MAXIMIZADO;
+
+    constructor()
+    {
+    }
+}
+
+/**
+ * ISSUE-107
+ */
+
+/**
+ * Get Assuntos dos processo da tarefa
+ */
+export class GetAssuntosProcessoProcesso implements Action {
+    readonly type = GET_ASSUNTOS_PROCESSO;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Get Assuntos dos processo da tarefa Success
+ */
+export class GetAssuntosProcessoProcessoSuccess implements Action {
+    readonly type = GET_ASSUNTOS_PROCESSO_SUCCESS;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Get Assuntos dos processo da tarefa Failed
+ */
+export class GetAssuntosProcessoProcessoFailed implements Action {
+    readonly type = GET_ASSUNTOS_PROCESSO_FAILED;
+
+    constructor(public payload: any) {
+    }
+}
 
 
-export type TarefasActionsAll
-    = UnloadTarefas
+
+/**
+ * Seta o estado de carregando os assuntos do processo na tarefa
+ */
+export class SetLoadingAssuntos implements Action {
+    readonly type = SET_LOADING_ASSUNTOS;
+
+    constructor() {
+    }
+}
+
+/**
+ * Seta o estado de carregando os assuntos do processo na tarefa - sucesso
+ */
+export class SetLoadingAssuntosSuccess implements Action {
+    readonly type = SET_LOADING_ASSUNTOS_SUCCESS;
+
+    constructor() {
+    }
+}
+
+/**
+ * Seta o estado de carregando os assuntos do processo na tarefa - erro
+ */
+export class SetLoadingAssuntosFailed implements Action {
+    readonly type = SET_LOADING_ASSUNTOS_FAILED;
+
+    constructor() {
+    }
+}
+
+/**
+ * Seta o estado de assuntos carregados no processo da tarefa
+ */
+export class SetAssuntosLoaded implements Action {
+    readonly type = SET_ASSUNTOS_LOADED;
+
+    constructor() {
+    }
+}
+
+/**
+ * Seta o estado de assuntos carregados no processo da tarefa - sucesso
+ */
+export class SetAssuntosLoadedSuccess implements Action {
+    readonly type = SET_ASSUNTOS_LOADED_SUCCESS;
+
+    constructor() {
+    }
+}
+
+/**
+ * Seta o estado de assuntos carregados no processo da tarefa - erro
+ */
+export class SetAssuntosLoadedFailed implements Action {
+    readonly type = SET_ASSUNTOS_LOADED_FAILED;
+
+    constructor() {
+    }
+}
+
+
+export type ProcessosActionsAll
+    = UnloadProcessos
     | GetProcessos
     | GetProcessosSuccess
-    | GetProcessosFailed;
-    /*| CreateTarefa
-    | CreateTarefaSuccess
-    | SetCurrentTarefa
-    | SetCurrentTarefaSuccess
-    | ChangeSelectedTarefas
-    | SetFolderOnSelectedTarefas
-    | SetFolderOnSelectedTarefasSuccess
-    | SetFolderOnSelectedTarefasFailed
-    | DeleteTarefa
-    | DeleteTarefaSuccess
-    | DeleteTarefaFailed
-    | SaveTarefa
-    | SaveTarefaSuccess
-    | SaveTarefaFailed
-    | ToggleLidaTarefa
-    | ToggleLidaTarefaSuccess
-    | ToggleLidaTarefaFailed
-    | ToggleUrgenteTarefa
-    | ToggleUrgenteTarefaSuccess
-    | ToggleUrgenteTarefaFailed
+    | GetProcessosFailed
+    | CreateProcesso
+    | CreateProcessoSuccess
+    | SetCurrentProcesso
+    | SetCurrentProcessoSuccess
+    | ChangeSelectedProcessos
+    | DeleteProcesso
+    | DeleteProcessoSuccess
+    | DeleteProcessoFailed
+    | SaveProcesso
+    | SaveProcessoSuccess
+    | SaveProcessoFailed
+    | ToggleLidaProcesso
+    | ToggleLidaProcessoSuccess
+    | ToggleLidaProcessoFailed
+    | ToggleUrgenteProcesso
+    | ToggleUrgenteProcessoSuccess
+    | ToggleUrgenteProcessoFailed
     | CreateVinculacaoEtiqueta
     | CreateVinculacaoEtiquetaSuccess
     | CreateVinculacaoEtiquetaFailed
@@ -542,12 +501,12 @@ export type TarefasActionsAll
     | DeleteVinculacaoEtiquetaSuccess
     | DeleteVinculacaoEtiquetaFailed
     | ToggleMaximizado
-    | GetAssuntosProcessoTarefa
-    | GetAssuntosProcessoTarefaSuccess
-    | GetAssuntosProcessoTarefaFailed
+    | GetAssuntosProcessoProcesso
+    | GetAssuntosProcessoProcessoSuccess
+    | GetAssuntosProcessoProcessoFailed
     | SetLoadingAssuntos
     | SetLoadingAssuntosSuccess
     | SetLoadingAssuntosFailed
     | SetAssuntosLoaded
     | SetAssuntosLoadedSuccess
-    | SetAssuntosLoadedFailed;*/
+    | SetAssuntosLoadedFailed;

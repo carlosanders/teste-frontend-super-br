@@ -1,10 +1,10 @@
-@import '../../../../../@cdk/scss/cdk';
+@import '~@cdk/scss/cdk';
 
-tarefa-detail {
+protocolo-externo-detail {
 
     height: 100%;
 
-    .tarefa-header {
+    .processo-header {
         border-bottom: 1px solid;
         height: 56px;
 
@@ -21,7 +21,7 @@ tarefa-detail {
         }
     }
 
-    .tarefa-content {
+    .processo-content {
         height: 76%;
     }
 }

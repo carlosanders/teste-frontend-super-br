@@ -6,7 +6,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {Tarefa} from '@cdk/models';
+import {Processo} from '@cdk/models';
 
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject, of} from 'rxjs';
@@ -29,22 +29,22 @@ import {modulesConfig} from 'modules/modules-config';
 import {Usuario} from '@cdk/models';
 
 @Component({
-    selector: 'tarefa-detail',
-    templateUrl: './tarefa-detail.component.html',
-    styleUrls: ['./tarefa-detail.component.scss'],
+    selector: 'protocolo-externo-detail',
+    templateUrl: './protocolo-externo-detail.component.html',
+    styleUrls: ['./protocolo-externo-detail.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
+export class ProtocoloExternoDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
     private _unsubscribeAll: Subject<any> = new Subject();
 
     savingVincEtiquetaId$: Observable<any>;
     errors$: Observable<any>; 
 
-    tarefa$: Observable<Tarefa>;
-    tarefa: Tarefa;
+    processo$: Observable<Processo>;
+    processo: Processo;
 
     screen$: Observable<any>;
 
@@ -79,19 +79,19 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
-        private _store: Store<fromStore.TarefaDetailAppState>,
+        private _store: Store<fromStore.ProcessoDetailAppState>,
         public _loginService: LoginService,
         private _dynamicService: DynamicService
     ) {
         this._profile = _loginService.getUserProfile();
-        this.tarefa$ = this._store.pipe(select(fromStore.getTarefa)); 
+        this.processo$ = this._store.pipe(select(fromStore.getProcesso));
         this.documentos$ = this._store.pipe(select(fromStore.getDocumentos));
         this.maximizado$ = this._store.pipe(select(getMaximizado));
         this.screen$ = this._store.pipe(select(getScreenState));
         this.vinculacaoEtiquetaPagination = new Pagination();
         this.vinculacaoEtiquetaPagination.filter = {
             'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.id,
-            'modalidadeEtiqueta.valor': 'eq:TAREFA'
+            'modalidadeEtiqueta.valor': 'eq:PROCESSO'
         };
         
         this.savingVincEtiquetaId$ = this._store.pipe(select(fromStore.getSavingVincEtiquetaId));
@@ -99,7 +99,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     ngAfterViewInit(): void {
-        const path = 'app/main/apps/tarefas/tarefa-detail';
+        const path = 'app/main/apps/processos/protocolo-externo-detail';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path)) {
                 module.components[path].forEach((c => {
@@ -119,10 +119,10 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
                 this.routerState = routerState.state;
             }
         });
-        this.tarefa$.pipe(
+        this.processo$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(tarefa => {
-            this.tarefa = tarefa;
+        ).subscribe(processo => {
+            this.processo = processo;
         });
         this.documentos$.pipe(
             takeUntil(this._unsubscribeAll)
@@ -161,13 +161,12 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     /**
      * Deselect current mail
      */
-    deselectCurrentTarefa(): void {
-        this._store.dispatch(new fromStore.DeselectTarefaAction());
-        // this.doToggleMaximizado();
+    deselectCurrentProcesso(): void {
+        this._store.dispatch(new fromStore.DeselectProcessoAction());
     }
 
     onEtiquetaCreate(etiqueta: Etiqueta): void {
-        this._store.dispatch(new CreateVinculacaoEtiqueta({tarefa: this.tarefa, etiqueta: etiqueta}));
+        this._store.dispatch(new CreateVinculacaoEtiqueta({processo: this.processo, etiqueta: etiqueta}));
     }
 
     onEtiquetaEdit(values): void {   
@@ -181,7 +180,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
     onEtiquetaDelete(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
         this._store.dispatch(new DeleteVinculacaoEtiqueta({
-            tarefaId: this.tarefa.id,
+            processoId: this.processo.id,
             vinculacaoEtiquetaId: vinculacaoEtiqueta.id
         }));
     }
@@ -189,17 +188,17 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     complete(pending: number): void {
         if (pending === 0) {
             this._store.dispatch(new fromStore.GetDocumentos({
-                'tarefaOrigem.id': 'eq:' + this.tarefa.id
+                'processoOrigem.id': 'eq:' + this.processo.id
             }));
         }
     }
 
     doCiencia(): void {
-        this._store.dispatch(new fromStore.DarCienciaTarefa(this.tarefa));
+        this._store.dispatch(new fromStore.DarCienciaProcesso(this.processo));
     }
 
-    doCreateTarefa(): void {
-        this._router.navigate([this.routerState.url.split('/tarefa/')[0] + '/criar/' + this.tarefa.processo.id]).then();
+    doCreateProcesso(): void {
+        this._router.navigate([this.routerState.url.split('/processo/')[0] + '/criar/' + this.processo.id]).then();
     }
 
     onUploadClick(): void {

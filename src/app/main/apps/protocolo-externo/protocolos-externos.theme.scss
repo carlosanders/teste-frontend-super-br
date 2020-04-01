@@ -1,4 +1,4 @@
-@mixin tarefas-theme($theme) {
+@mixin protocolo-externo-theme($theme) {
 
     $background: map-get($theme, background);
     $foreground: map-get($theme, foreground);
@@ -6,8 +6,8 @@
     $warn: map-get($theme, warn);
     $is-dark: map-get($theme, is-dark);
 
-    // Tarefa
-    tarefas {
+    // Processo
+    protocolo-externo {
 
         .logo-text {
             font-size: 24px;
@@ -44,7 +44,7 @@
                 }
 
                 // Tarefa list
-                .tarefa-list {
+                .processo-list {
                     border-right-color: map-get($foreground, divider);
                 }
 
@@ -145,7 +145,7 @@
     }
 
     // Tarefa list item
-    cdk-tarefa-list-item {
+    cdk-processo-list-item {
         border-bottom-color: map-get($foreground, divider);
 
         .etiquetas {
@@ -165,8 +165,8 @@
     }
 
     // Todo edit
-    tarefa-detail {
-        .tarefa-header {
+    protocolo-externo-detail {
+        .processo-header {
             background: map-get($background, background);
             border-bottom-color: map-get($foreground, divider);
 
