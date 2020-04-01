@@ -1,12 +1,14 @@
-<div class="title">
-    <h2>REALIZAR TRANSIÇÃO ARQUIVISTA</h2>
-</div>
+
 <form *ngIf="activeCard === 'form'" class="p-16" fxLayoutGap="36px"
       fxLayout="column"
       fxLayoutAlign="start"
       name="form" [formGroup]="form" (submit)="submit()">
 
     <div fxFlex="1 0 auto" fxLayout="column">
+        <div class="title">
+            <h2>REALIZAR TRANSIÇÃO ARQUIVISTA</h2>
+        </div>
+
 
         <mat-form-field fxFlex="100">
             <div fxLayout="row" fxLayoutAlign="start center">

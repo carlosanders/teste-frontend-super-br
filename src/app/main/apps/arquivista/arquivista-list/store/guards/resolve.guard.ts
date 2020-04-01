@@ -130,9 +130,9 @@ export class ResolveGuard implements CanActivate {
 
                     if (this.routerState.params[typeParam] === 'pendencia-analise') {
                         processoFilter = {
-                            dataHoraProximaTransicao: 'isNull',
-                            modalidadeFase: 'in:1,2',
-                            setorAtual: 'in:' + this.setorAtual
+                            'dataHoraProximaTransicao': 'isNull',
+                            'modalidadeFase.valor': 'in:CORRENTE,INTERMEDIÁRIA',
+                            'setorAtual': 'in:' + this.setorAtual
                         };
 
                     }
@@ -140,13 +140,6 @@ export class ResolveGuard implements CanActivate {
                     params['filter'] = processoFilter;
                 });
 
-                const routeUnidadeParams = of('unidadeHandle');
-                // routeUnidadeParams.subscribe(param => {
-                //     params['filter'] = {
-                //         ...params['filter'],
-                //         'localizador.setor.unidade.id': `eq:${this.routerState.params[param]}`
-                //     };
-                // });
                 if (!this.routerState.params['unidadeHandle'] || !this.routerState.params['typeHandle'] ||
                     (this.routerState.params['unidadeHandle'] + '_' + this.routerState.params['typeHandle']) !==
                     loaded.value) {
