@@ -11,7 +11,7 @@ import * as fromStore from 'app/main/apps/arquivista/arquivista-list/store';
 import {getProcessosLoaded} from 'app/main/apps/arquivista/arquivista-list/store/selectors';
 import {getRouterState} from 'app/store/reducers';
 import {LoginService} from '../../../../../auth/login/login.service';
-import {Usuario} from '@cdk/models';
+import {Colaborador, Usuario} from '@cdk/models';
 import * as moment from 'moment';
 
 @Injectable()
@@ -20,6 +20,8 @@ export class ResolveGuard implements CanActivate {
     private _profile: Usuario;
     routerState: any;
     private currentDate: any;
+    colaborador: Colaborador;
+    setorAtual: number;
 
     /**
      *
@@ -41,6 +43,7 @@ export class ResolveGuard implements CanActivate {
             });
         this._profile = _loginService.getUserProfile();
         this.checkRole();
+        this.setorAtual = this._loginService.getUserProfile().colaborador.lotacoes[0].setor.id;
     }
 
     /**
@@ -112,6 +115,7 @@ export class ResolveGuard implements CanActivate {
                         processoFilter = {
                             dataHoraProximaTransicao: 'lt:' + this.currentDate,
                             modalidadeFase: 'in:1,2',
+                            setorAtual: 'in:' + this.setorAtual
 
                         };
                     }
@@ -120,6 +124,7 @@ export class ResolveGuard implements CanActivate {
                         processoFilter = {
                             dataHoraProximaTransicao: 'gte:' + this.currentDate,
                             modalidadeFase: 'in:1,2',
+                            setorAtual: 'in:' + this.setorAtual
                         };
                     }
 
@@ -127,6 +132,7 @@ export class ResolveGuard implements CanActivate {
                         processoFilter = {
                             dataHoraProximaTransicao: 'isNull',
                             modalidadeFase: 'in:1,2',
+                            setorAtual: 'in:' + this.setorAtual
                         };
 
                     }
@@ -142,11 +148,9 @@ export class ResolveGuard implements CanActivate {
                 //     };
                 // });
                 if (!this.routerState.params['unidadeHandle'] || !this.routerState.params['typeHandle'] ||
-
                     (this.routerState.params['unidadeHandle'] + '_' + this.routerState.params['typeHandle']) !==
                     loaded.value) {
                     this._store.dispatch(new fromStore.GetProcessos(params));
-
                 }
 
             }),

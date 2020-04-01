@@ -208,7 +208,6 @@ export class CdkClassificacaoTreeComponent {
         classificacaoPai.subscribe(classificacoes => {
             const data = this.montarArrayClassificacao(classificacoes);
             this._serviceTree.initialize(data);
-            debugger
         });
     }
 
