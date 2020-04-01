@@ -18,6 +18,9 @@
             <cdk-vinculacao-etiqueta-chips class="mr-24 ml-24"
                                            [vinculacoesEtiquetas]="(documentoAvulso$ | async).vinculacoesEtiquetas"
                                            (create)="onEtiquetaCreate($event)"
+                                           (edit)="onEtiquetaEdit($event)"
+                                           [savingVincEtiquetaId]="(savingVincEtiquetaId$ | async)"
+                                           [errors]="(errors$ | async)"
                                            [pagination]="vinculacaoEtiquetaPagination"
                                            (delete)="onEtiquetaDelete($event)">
             </cdk-vinculacao-etiqueta-chips>
@@ -26,13 +29,19 @@
         <div class="actions" fxLayout="row" fxLayoutAlign="start center">
 
             <button mat-icon-button aria-label="Processo" matTooltip="Processo"
-                    [routerLink]="['processo', (documentoAvulso$ | async)?.processo?.id]"
+                    [routerLink]="['processo/' + (documentoAvulso$ | async)?.processo?.id + '/visualizar/' + chaveAcesso]"
                     [routerLinkActive]="['active', 'accent']">
                 <mat-icon class="black-fg">book</mat-icon>
             </button>
 
-            <button mat-icon-button aria-label="Responder Ou Complementar" matTooltip="Responder Ou Complementar"
-                    [routerLink]="['responder-complementar']"
+            <button mat-icon-button aria-label="Responder" matTooltip="Responder" *ngIf="mode==='entrada'"
+                    [routerLink]="['responder/' + chaveAcesso]"
+                    [routerLinkActive]="['active', 'accent']">
+                <mat-icon class="black-fg">send</mat-icon>
+            </button>
+
+            <button mat-icon-button aria-label="Complementar" matTooltip="Complementar" *ngIf="mode==='saida'"
+                    [routerLink]="['complementar/' + chaveAcesso]"
                     [routerLinkActive]="['active', 'accent']">
                 <mat-icon class="black-fg">send</mat-icon>
             </button>

@@ -96,10 +96,10 @@
                      fxLayoutAlign="start center">
                     <label id="distribuicaoCentena" class="flex legenda">Tipo Prevenção Absoluta</label>
 
-                    <mat-radio-button [checked]="true" [value]="'digito'">
+                    <mat-radio-button [value]="false">
                         DÍGITO
                     </mat-radio-button>
-                    <mat-radio-button [value]="'centena'">
+                    <mat-radio-button [value]="true">
                         CENTENA
                     </mat-radio-button>
                 </div>
@@ -113,7 +113,7 @@
                 <div fxLayout="row" class="start center mat-form-field-wrapper" fxFlex
                      fxLayoutAlign="start center">
                     <label id="prazoEqualizacao" class="flex legenda">Prazo Máximo Equalização </label>
-                    <mat-radio-button [checked]="true" [value]="7">
+                    <mat-radio-button [value]="7">
                         7 DIAS
                     </mat-radio-button>
                     <mat-radio-button [value]="30">
@@ -130,7 +130,7 @@
                 <div fxLayout="row" class="start center mat-form-field-wrapper" fxFlex
                      fxLayoutAlign="start center">
                     <label id="divergenciaMaxima" class="flex legenda">Divergência Máxima Diária </label>
-                    <mat-radio-button [checked]="true" [value]="25">
+                    <mat-radio-button [value]="25">
                         PEQUENA
                     </mat-radio-button>
                     <mat-radio-button [value]="100">

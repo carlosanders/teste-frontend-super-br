@@ -12,6 +12,10 @@ export const DELETE_VINCULACAO_ETIQUETA = '[OFCIO] DELETE VINCULACAO_ETIQUETA';
 export const DELETE_VINCULACAO_ETIQUETA_SUCCESS = '[OFCIO] DELETE VINCULACAO_ETIQUETA SUCCESS';
 export const DELETE_VINCULACAO_ETIQUETA_FAILED = '[OFCIO] DELETE VINCULACAO_ETIQUETA FAILED';
 
+export const SAVE_CONTEUDO_VINCULACAO_ETIQUETA = '[OFCIO] SAVE CONTEUDO VINCULACAO ETIQUETA';
+export const SAVE_CONTEUDO_VINCULACAO_ETIQUETA_SUCCESS = '[OFCIO] SAVE CONTEUDO VINCULACAO ETIQUETA SUCCESS';
+export const SAVE_CONTEUDO_VINCULACAO_ETIQUETA_FAILED = '[OFCIO] SAVE CONTEUDO VINCULACAO ETIQUETA FAILED';
+
 export const GET_DOCUMENTOS = '[OFCIO] GET DOCUMENTOS';
 export const GET_DOCUMENTOS_SUCCESS = '[OFCIO] GET DOCUMENTOS SUCCESS';
 export const GET_DOCUMENTOS_FAILED = '[OFCIO] GET DOCUMENTOS FAILED';
@@ -128,7 +132,7 @@ export class CreateVinculacaoEtiquetaFailed implements Action
 }
 
 /**
- * Deselect Tarefa Action
+ * Deselect Documento Avulso Action
  */
 export class DeselectDocumentoAvulsoAction implements Action
 {
@@ -140,13 +144,49 @@ export class DeselectDocumentoAvulsoAction implements Action
 }
 
 /**
+ * Save Conteudo Vinculacao Etiqueta
+ */
+export class SaveConteudoVinculacaoEtiqueta implements Action
+{
+    readonly type = SAVE_CONTEUDO_VINCULACAO_ETIQUETA;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Save Conteudo Vinculacao Etiqueta Success
+ */
+export class SaveConteudoVinculacaoEtiquetaSuccess implements Action
+{
+    readonly type = SAVE_CONTEUDO_VINCULACAO_ETIQUETA_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Save Conteudo Vinculacao Etiqueta Failed
+ */
+export class SaveConteudoVinculacaoEtiquetaFailed implements Action
+{
+    readonly type = SAVE_CONTEUDO_VINCULACAO_ETIQUETA_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
  * Get Documentos
  */
 export class GetDocumentos implements Action
 {
     readonly type = GET_DOCUMENTOS;
 
-    constructor(public payload: any)
+    constructor()
     {
     }
 }
@@ -188,4 +228,7 @@ export type OficioDetailActionsAll
     | DeselectDocumentoAvulsoAction
     | GetDocumentos
     | GetDocumentosSuccess
-    | GetDocumentosFailed;
+    | GetDocumentosFailed
+    | SaveConteudoVinculacaoEtiqueta
+    | SaveConteudoVinculacaoEtiquetaSuccess
+    | SaveConteudoVinculacaoEtiquetaFailed;

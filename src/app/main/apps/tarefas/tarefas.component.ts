@@ -1,4 +1,7 @@
-import {
+import { PaginatedResponse } from '@cdk/models/paginated.response';
+
+import { getAssunto } from './../processo/processo-edit/assuntos/assunto-edit/store/selectors/assunto-edit.selectors';
+ import {
     AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
@@ -9,7 +12,7 @@ import {
 } from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {select, Store} from '@ngrx/store';
-import {Observable, Subject} from 'rxjs';
+import { Observable, Subject, BehaviorSubject } from 'rxjs';
 
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {CdkTranslationLoaderService} from '@cdk/services/translation-loader.service';
@@ -17,6 +20,7 @@ import {CdkTranslationLoaderService} from '@cdk/services/translation-loader.serv
 import {Tarefa} from '@cdk/models';
 import {TarefaService} from '@cdk/services/tarefa.service';
 import * as fromStore from 'app/main/apps/tarefas/store';
+
 import {getRouterState, getScreenState} from 'app/store/reducers';
 
 import {locale as english} from 'app/main/apps/tarefas/i18n/en';
@@ -27,12 +31,16 @@ import {ResizeEvent} from 'angular-resizable-element';
 import {cdkAnimations} from '@cdk/animations';
 import {Etiqueta} from '@cdk/models';
 import {Router} from '@angular/router';
-import {filter, takeUntil} from 'rxjs/operators';
+import { filter, takeUntil, switchMap } from 'rxjs/operators';
 import {Pagination} from '@cdk/models';
 import {LoginService} from '../../auth/login/login.service';
 import {ToggleMaximizado} from 'app/main/apps/tarefas/store';
 import { Topico } from 'ajuda/topico';
 import {Usuario} from '@cdk/models';
+
+import * as fromAssuntoStore from 'app/main/apps/processo/processo-edit/assuntos/assunto-list/store';
+import { AssuntoService } from '@cdk/services/assunto.service';
+import { Assunto } from '@cdk/models';
 
 @Component({
     selector: 'tarefas',
@@ -53,10 +61,12 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     folders$: Observable<Folder[]>;
     currentTarefaId: number;
     tarefas: Tarefa[] = [];
+    
     tarefaListSize = 35;
     tarefaListOriginalSize: number;
 
     tarefas$: Observable<Tarefa[]>;
+    
     loading$: Observable<boolean>;
 
     deletingIds$: Observable<number[]>;
@@ -89,6 +99,21 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     mobileMode = false;
 
+    /*
+    * ISSUE-107
+    */
+    assuntos: Assunto[] = [];
+    assuntos$: Observable<Assunto[]>;
+    idTarefaToLoadAssuntos$: Observable<number>;
+    idTarefaToLoadAssuntos: number;
+    assuntoService: AssuntoService;
+    pagAssuntos : PaginatedResponse;
+    bsAssuntos: BehaviorSubject<Assunto[]> = new BehaviorSubject([]);
+
+    assuntoLoading$: Observable<boolean>;
+    assuntoPanelOpen$: Observable<boolean>;
+
+    tarefaToLoadAssuntos$: Observable<Tarefa>;
     AjudaTarefa: Topico;
     PesquisaTarefa: string;
 
@@ -101,6 +126,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
      * @param _tarefaService
      * @param _router
      * @param _store
+     * @param _storeAssunto
      * @param _loginService
      */
     constructor(
@@ -110,13 +136,20 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         private _tarefaService: TarefaService,
         private _router: Router,
         private _store: Store<fromStore.TarefasAppState>,
-        public _loginService: LoginService
+        private _loginService: LoginService,
+        private _assuntoService: AssuntoService,
+        /*
+         * ISSUE-107 
+         */
+        private _storeAssutos: Store<fromAssuntoStore.AssuntoListAppState>
+
     ) {
         // Set the defaults
         this.searchInput = new FormControl('');
         this._cdkTranslationLoaderService.loadTranslations(english);
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
         this.tarefas$ = this._store.pipe(select(fromStore.getTarefas));
+         
         this.folders$ = this._store.pipe(select(fromStore.getFolders));
         this.selectedTarefas$ = this._store.pipe(select(fromStore.getSelectedTarefas));
         this.selectedIds$ = this._store.pipe(select(fromStore.getSelectedTarefaIds));
@@ -129,6 +162,16 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this._profile = _loginService.getUserProfile();
         this.vinculacaoEtiquetaPagination = new Pagination();
         this.vinculacaoEtiquetaPagination.filter = {'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.id};
+
+        this.assuntoService = _assuntoService;
+        /*
+         * ISSUE-107 
+         */
+        this.assuntos = new Array();
+        this.assuntoLoading$ = this._store.pipe(select(fromStore.getIsAssuntoLoading));
+        this.assuntoPanelOpen$ = this._store.pipe(select(fromStore.getIsAssuntoPanelIsOpen));
+        this.assuntos$ = this._store.pipe(select(fromStore.getAssuntosTarefas));
+        this.idTarefaToLoadAssuntos$ = this._store.pipe(select(fromStore.getIdTarefaToLoadAssuntos));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -161,6 +204,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             filter(tarefas => !!tarefas)
         ).subscribe(tarefas => {
             this.tarefas = tarefas;
+            //console.log('tarefas: ', tarefas);
         });
 
         this.pagination$.pipe(
@@ -200,6 +244,18 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             }
         });
 
+        /*
+        * ISSUE-107
+        */
+       this.assuntos$.pipe().subscribe(assuntos => {
+            this.assuntos = assuntos;
+        });
+
+        this.idTarefaToLoadAssuntos$.subscribe(id => {
+            this.idTarefaToLoadAssuntos = id;
+        });
+       
+       
         this.PesquisaTarefa = 'tarefa';//IDEIA INICIAL AJUDA ABA TAREFAS
         
 
@@ -395,4 +451,45 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     doCreateDocumentoAvulsoBloco(): void {
         this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/documento-avulso-bloco']).then();
     }
+
+    /*
+    * Função que carrega os assuntos do processo associado à tarefa
+    * @tarefa
+    * Recebe a referencia da tarefa carregada no componente de lista de tarefas
+    */
+    doLoadAssuntos(tarefa): void {
+
+        const processo = {
+            'processo.id' : 'eq:' + tarefa.processo.id
+        }
+        
+        const sort = {
+            'principal' : 'DESC',
+            'criadoEm' : 'DESC'
+        }
+
+        const populate = ['populateAll'];
+
+        const serviceParams = {
+            filter: processo,
+            sort : sort,
+            limit : 10,
+            offset : 0,
+            populate : populate
+        }
+
+        const proc = {
+            proc: tarefa.processo
+        }
+
+        const params = {
+            proc: proc,
+            srv: serviceParams,
+            tarefa: tarefa.id
+        }
+
+        this._store.dispatch(new fromStore.GetAssuntosProcessoTarefa(params));
+        
+    }   
+
 }
