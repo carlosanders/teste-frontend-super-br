@@ -20,7 +20,7 @@ import {CdkSidebarModule} from '@cdk/components';
 
 import * as fromGuards from './store/guards/index';
 import {ProcessoStoreModule} from './store/store.module';
-import {ProtocolosExternosComponent} from './protocolos-externos.component';
+import {ProtocoloExternoComponent} from './protocolo-externo.component';
 import {ProcessoMainSidebarComponent} from './sidebars/main/main-sidebar.component';
 import {FolderService} from '@cdk/services/folder.service';
 import {ProcessoService} from '@cdk/services/processo.service';
@@ -40,7 +40,7 @@ import {EspecieProcessoService} from '@cdk/services/especie-processo.service';
 const routes: Routes = [
     {
         path: '',
-        component: ProtocolosExternosComponent,
+        component: ProtocoloExternoComponent,
         children: [
             {
                 path: '',
@@ -101,7 +101,7 @@ const routes: Routes = [
 
 @NgModule({
     declarations: [
-        ProtocolosExternosComponent,
+        ProtocoloExternoComponent,
         ProcessoMainSidebarComponent
     ],
     imports: [
@@ -153,5 +153,5 @@ const routes: Routes = [
         AssuntoService
     ]
 })
-export class ProtocolosExternosModule {
+export class ProtocoloExternoModule {
 }
