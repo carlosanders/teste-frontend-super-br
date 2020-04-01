@@ -1,6 +1,10 @@
 # pulled from ubuntu
 FROM node:12.16.1-alpine
 
+RUN apk add tzdata
+
+ENV TZ America/Sao_Paulo
+
 MAINTAINER Leonardo Nobre <leonardo.nobre@agu.gov.br>
 
 ENV NODE_OPTIONS=--max-old-space-size=8192
