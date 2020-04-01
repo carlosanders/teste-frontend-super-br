@@ -6,6 +6,7 @@ import {CdkRealizarTransicaoFormModule} from '@cdk/components/transicao/cdk-real
 import {TransicaoService} from '@cdk/services/transicao.service';
 import {RealizarTransacaoStoreModule} from './store/store.module';
 import {MatListModule} from '@angular/material/list';
+import {ProcessoService} from '../../../../../@cdk/services/processo.service';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import {MatListModule} from '@angular/material/list';
     ],
     providers: [
         TransicaoService,
+        ProcessoService
     ]
 })
 export class RealizarTransicaoModule {

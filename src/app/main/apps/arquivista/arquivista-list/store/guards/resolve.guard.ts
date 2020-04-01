@@ -113,26 +113,26 @@ export class ResolveGuard implements CanActivate {
 
                     if (this.routerState.params[typeParam] === 'pronto-transicao') {
                         processoFilter = {
-                            dataHoraProximaTransicao: 'lt:' + this.currentDate,
-                            modalidadeFase: 'in:1,2',
-                            setorAtual: 'in:' + this.setorAtual
+                            'dataHoraProximaTransicao': 'lt:' + this.currentDate,
+                            'modalidadeFase.valor': 'in:CORRENTE,INTERMEDIÁRIA',
+                            'setorAtual': 'in:' + this.setorAtual
 
                         };
                     }
 
                     if (this.routerState.params[typeParam] === 'aguardando-decurso') {
                         processoFilter = {
-                            dataHoraProximaTransicao: 'gte:' + this.currentDate,
-                            modalidadeFase: 'in:1,2',
-                            setorAtual: 'in:' + this.setorAtual
+                            'dataHoraProximaTransicao': 'gte:' + this.currentDate,
+                                'modalidadeFase.valor': 'in:CORRENTE,INTERMEDIÁRIA',
+                                'setorAtual': 'in:' + this.setorAtual
                         };
                     }
 
                     if (this.routerState.params[typeParam] === 'pendencia-analise') {
                         processoFilter = {
                             'dataHoraProximaTransicao': 'isNull',
-                            'modalidadeFase.valor': 'in:CORRENTE,INTERMEDIÁRIA',
-                            'setorAtual': 'in:' + this.setorAtual
+                                'modalidadeFase.valor': 'in:CORRENTE,INTERMEDIÁRIA',
+                                'setorAtual': 'in:' + this.setorAtual
                         };
 
                     }

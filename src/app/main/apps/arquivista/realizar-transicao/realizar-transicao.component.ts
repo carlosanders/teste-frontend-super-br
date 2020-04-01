@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {Observable, Subject} from 'rxjs';
 import {Pagination, Processo, Transicao} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
@@ -18,15 +18,12 @@ export class RealizarTransicaoComponent implements OnInit {
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
 
-    processo$: Observable<Processo>;
-    processo: Processo;
+    processos: Processo[] = [];
+    processos$: Observable<Processo[]>;
     public processoId: number;
     operacoes: any[] = [];
     private _unsubscribeAll: Subject<any> = new Subject();
-
     modalidadeTransicaoPagination: Pagination;
-
-    private transicao$: Observable<Transicao>;
     transicao: Transicao;
     private routerState: RouterStateUrl;
 
@@ -36,6 +33,7 @@ export class RealizarTransicaoComponent implements OnInit {
     ) {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
+        this.processos$ = this._store.pipe(select(fromStore.getProcessos));
         this.modalidadeTransicaoPagination = new Pagination();
     }
 
@@ -60,6 +58,13 @@ export class RealizarTransicaoComponent implements OnInit {
                 }
             });
         this.processoId = this.routerState.params.processoHandle;
+
+        this.processos$.pipe(
+            takeUntil(this._unsubscribeAll),
+            filter(processos => !!processos)
+        ).subscribe(processos => {
+            this.processos = processos;
+        });
     }
 
     submit(values): void {
