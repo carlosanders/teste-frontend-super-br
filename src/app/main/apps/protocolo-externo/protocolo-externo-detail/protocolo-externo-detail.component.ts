@@ -99,7 +99,7 @@ export class ProtocoloExternoDetailComponent implements OnInit, OnDestroy, After
     }
 
     ngAfterViewInit(): void {
-        const path = 'app/main/apps/processos/protocolo-externo-detail';
+        const path = 'app/main/apps/protocolo-externo/protocolo-externo-detail';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path)) {
                 module.components[path].forEach((c => {

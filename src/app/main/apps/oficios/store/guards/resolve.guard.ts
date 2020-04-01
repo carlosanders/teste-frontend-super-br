@@ -82,6 +82,8 @@ export class ResolveGuard implements CanActivate {
         return this._store.pipe(
             select(getDocumentosAvulsoLoaded),
             tap((loaded: any) => {
+                this._store.dispatch(new fromStore.UnloadDocumentosAvulso({reset: true}));
+
                 const params = {
                     listFilter: {},
                     etiquetaFilter: {},

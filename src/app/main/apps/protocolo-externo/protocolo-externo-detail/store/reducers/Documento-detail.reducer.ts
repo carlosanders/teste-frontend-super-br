@@ -1,7 +1,7 @@
 import * as ProcessoDetailActions from '../actions';
 
 export interface ProcessoDetailState {
-    tarefaId: number;
+    processoId: number;
     loading: boolean;
     loaded: any;
     saving: boolean;
@@ -13,7 +13,7 @@ export interface ProcessoDetailState {
 }
 
 export const ProcessoDetailInitialState: ProcessoDetailState = {
-    tarefaId: null,
+    processoId: null,
     loading: false,
     loaded: false,
     saving: false,
@@ -38,7 +38,7 @@ export function DocumentoDetailReducer(state = ProcessoDetailInitialState, actio
 
             return {
                 ...state,
-                tarefaId: action.payload.tarefa.id,
+                processoId: action.payload.processo.id,
                 loaded: action.payload.loaded,
                 loading: false
             };
@@ -67,7 +67,7 @@ export function DocumentoDetailReducer(state = ProcessoDetailInitialState, actio
 
         case ProcessoDetailActions.CREATE_PROCESSO: {
             return {
-                tarefaId: null,
+                processoId: null,
                 loading: false,
                 loaded: false,
                 saving: false,

@@ -149,7 +149,9 @@ export class ProtocoloExternoComponent implements OnInit, OnDestroy, AfterViewIn
         this.deletingIds$ = this._store.pipe(select(fromStore.getDeletingProcessoIds));
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedProcessoIds));
         this.screen$ = this._store.pipe(select(getScreenState));
+
         this._profile = _loginService.getUserProfile();
+
         this.vinculacaoEtiquetaPagination = new Pagination();
         this.vinculacaoEtiquetaPagination.filter = {'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.id};
 
@@ -157,7 +159,7 @@ export class ProtocoloExternoComponent implements OnInit, OnDestroy, AfterViewIn
         /*
          * ISSUE-107 
          */
-        this.assuntos = new Array();
+        this.assuntos = [];
         this.assuntoLoading$ = this._store.pipe(select(fromStore.getIsAssuntoLoading));
         this.assuntoPanelOpen$ = this._store.pipe(select(fromStore.getIsAssuntoPanelIsOpen));
         this.assuntos$ = this._store.pipe(select(fromStore.getAssuntosProcessos));
@@ -243,10 +245,6 @@ export class ProtocoloExternoComponent implements OnInit, OnDestroy, AfterViewIn
         this.idProcessoToLoadAssuntos$.subscribe(id => {
             this.idProcessoToLoadAssuntos = id;
         });
-
-
-        this.PesquisaProcesso = 'processo';//IDEIA INICIAL AJUDA ABA PROCESSOS
-        
 
     }
 
@@ -471,7 +469,5 @@ export class ProtocoloExternoComponent implements OnInit, OnDestroy, AfterViewIn
         };
 
         this._store.dispatch(new fromStore.GetAssuntosProcessoProcesso(params));
-        
     }*/
-
 }
