@@ -1,33 +1,33 @@
-import * as TarefaCreateActions from 'app/main/apps/tarefas/tarefa-create/store/actions/tarefa-create.actions';
+import * as ProtocoloCreateActions from '../actions/protocolo-create.actions';
 
-export interface TarefaCreateState {
+export interface ProtocoloCreateState {
     saving: boolean;
     errors: any;
 }
 
-export const TarefaCreateInitialState: TarefaCreateState = {
+export const ProtocoloCreateInitialState: ProtocoloCreateState = {
     saving: false,
     errors: false
 };
 
-export function TarefaCreateReducer(state = TarefaCreateInitialState, action: TarefaCreateActions.TarefaCreateActionsAll): TarefaCreateState {
+export function ProtocoloCreateReducer(state = ProtocoloCreateInitialState, action: ProtocoloCreateActions.ProtocoloCreateActionsAll): ProtocoloCreateState {
     switch (action.type) {
 
-        case TarefaCreateActions.CREATE_TAREFA: {
+        case ProtocoloCreateActions.CREATE_PROCESSO: {
             return {
                 saving: false,
                 errors: false
             };
         }
 
-        case TarefaCreateActions.SAVE_TAREFA: {
+        case ProtocoloCreateActions.SAVE_PROCESSO: {
             return {
                 ...state,
                 saving: true
             };
         }
 
-        case TarefaCreateActions.SAVE_TAREFA_SUCCESS: {
+        case ProtocoloCreateActions.SAVE_PROCESSO_SUCCESS: {
             return {
                 ...state,
                 saving: false,
@@ -35,7 +35,7 @@ export function TarefaCreateReducer(state = TarefaCreateInitialState, action: Ta
             };
         }
 
-        case TarefaCreateActions.SAVE_TAREFA_FAILED: {
+        case ProtocoloCreateActions.SAVE_PROCESSO_FAILED: {
             return {
                 ...state,
                 saving: false,

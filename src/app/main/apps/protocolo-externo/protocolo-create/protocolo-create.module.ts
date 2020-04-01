@@ -18,7 +18,7 @@ import {TranslateModule} from '@ngx-translate/core';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkSidebarModule} from '@cdk/components';
 
-import {TarefaCreateComponent} from './tarefa-create.component';
+import {ProtocoloCreateComponent} from './protocolo-create.component';
 import {RouterModule, Routes} from '@angular/router';
 import {CdkTarefaFormModule} from '@cdk/components/tarefa/cdk-tarefa-form/cdk-tarefa-form.module';
 import {TarefaCreateStoreModule} from './store/store.module';
@@ -30,18 +30,18 @@ import {CdkVisibilidadePluginModule} from '@cdk/components/visibilidade/cdk-visi
 const routes: Routes = [
     {
         path: '',
-        component: TarefaCreateComponent
+        component: ProtocoloCreateComponent
     },
     {
         path: ':processoHandle',
-        component: TarefaCreateComponent,
+        component: ProtocoloCreateComponent,
         canActivate: [fromGuards.ResolveGuard]
     }
 ];
 
 @NgModule({
     declarations: [
-        TarefaCreateComponent
+        ProtocoloCreateComponent
     ],
     imports: [
 
@@ -78,5 +78,5 @@ const routes: Routes = [
         fromGuards.ResolveGuard
     ]
 })
-export class TarefaCreateModule {
+export class ProtocoloCreateModule {
 }

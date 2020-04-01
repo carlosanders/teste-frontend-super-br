@@ -8,14 +8,14 @@ import { Topico } from 'ajuda/topico';
 import {cdkAnimations} from '@cdk/animations';
 
 @Component({
-    selector: 'ajuda-tarefa-create',
-    templateUrl: './ajuda-tarefa-create.component.html',
-    styleUrls: ['./ajuda-tarefa-create.component.scss'],
+    selector: 'ajuda-protocolo-create',
+    templateUrl: './ajuda-protocolo-create.component.html',
+    styleUrls: ['./ajuda-protocolo-create.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class AjudaTarefaCreateComponent {
+export class AjudaProtocoloCreateComponent {
 
 
     topicos: Topico[] = [];

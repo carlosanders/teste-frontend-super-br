@@ -2,26 +2,26 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap, tap, switchMap} from 'rxjs/operators';
+import {catchError, mergeMap, tap} from 'rxjs/operators';
 
-import * as TarefaCreateActions from '../actions/tarefa-create.actions';
+import * as ProtocoloCreateActions from '../actions/protocolo-create.actions';
 
-import {ProcessosService} from '@cdk/services/tarefa.service';
+import {ProcessoService} from '@cdk/services/processo.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {tarefa as tarefaSchema} from '@cdk/normalizr/tarefa.schema';
-import {Tarefa} from '@cdk/models';
+import {processo as processoSchema} from '@cdk/normalizr/processo.schema';
+import {Processo} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
-export class TarefaCreateEffect {
+export class ProtocoloCreateEffects {
     routerState: any;
 
     constructor(
         private _actions: Actions,
-        private _tarefaService: ProcessosService,
+        private _processoService: ProcessoService,
         private _store: Store<State>,
         private _router: Router
     ) {
@@ -35,41 +35,41 @@ export class TarefaCreateEffect {
     }
 
     /**
-     * Save Tarefa
+     * Save Processo
      * @type {Observable<any>}
      */
     @Effect()
-    saveTarefa: any =
+    saveProcesso: any =
         this._actions
             .pipe(
-                ofType<TarefaCreateActions.SaveTarefa>(TarefaCreateActions.SAVE_TAREFA),
+                ofType<ProtocoloCreateActions.SaveProcesso>(ProtocoloCreateActions.SAVE_PROCESSO),
                 mergeMap((action) => {
-                    return this._tarefaService.save(action.payload).pipe(
-                        mergeMap((response: Tarefa) => [
-                            new TarefaCreateActions.SaveTarefaSuccess(),
-                            new AddData<Tarefa>({data: [response], schema: tarefaSchema}),
+                    return this._processoService.save(action.payload).pipe(
+                        mergeMap((response: Processo) => [
+                            new ProtocoloCreateActions.SaveProcessoSuccess(),
+                            new AddData<Processo>({data: [response], schema: processoSchema}),
                             new OperacoesActions.Resultado({
-                                type: 'tarefa',
-                                content: `Tarefa id ${response.id} criada com sucesso!`,
+                                type: 'processo',
+                                content: `Processo id ${response.id} criada com sucesso!`,
                                 dateTime: response.criadoEm
                             })
                         ]),
                         catchError((err) => {
                             console.log (err);
-                            return of(new TarefaCreateActions.SaveTarefaFailed(err));
+                            return of(new ProtocoloCreateActions.SaveProcessoFailed(err));
                         })
                     );
                 })
             );
 
     /**
-     * Save Tarefa Success
+     * Save Processo Success
      */
     @Effect({ dispatch: false })
-    saveTarefaSuccess: any =
+    saveProcessoSuccess: any =
         this._actions
             .pipe(
-                ofType<TarefaCreateActions.SaveTarefaSuccess>(TarefaCreateActions.SAVE_TAREFA_SUCCESS),
+                ofType<ProtocoloCreateActions.SaveProcessoSuccess>(ProtocoloCreateActions.SAVE_PROCESSO_SUCCESS),
                 tap(() => {
                     if (this.routerState.params.processoHandle) {
                         this._router.navigate([this.routerState.url.replace('/criar/' + this.routerState.params.processoHandle, '')]).then();

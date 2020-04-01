@@ -1,5 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {getTarefaCreateAppState, TarefaCreateAppState, ProcessoState} from '../reducers';
+import {getProtocoloCreateAppState, ProtocoloCreateAppState, ProcessoState} from '../reducers';
 import {Processo} from '@cdk/models';
 import {processo as processoSchema} from '@cdk/normalizr/processo.schema';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
@@ -7,8 +7,8 @@ import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 const schemaProcessoSelectors = createSchemaSelectors<Processo>(processoSchema);
 
 export const getProcessoState = createSelector(
-    getTarefaCreateAppState,
-    (state: TarefaCreateAppState) => state.processo
+    getProtocoloCreateAppState,
+    (state: ProtocoloCreateAppState) => state.processo
 );
 
 export const getProcessoId = createSelector(

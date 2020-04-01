@@ -6,7 +6,7 @@ import {select, Store} from '@ngrx/store';
 import {Observable, of} from 'rxjs';
 import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
 
-import {TarefaCreateAppState} from '../reducers';
+import {ProtocoloCreateAppState} from '../reducers';
 import * as fromStore from '../';
 import {getProcessoLoaded} from '../selectors';
 import {getRouterState} from 'app/store/reducers';
@@ -19,10 +19,10 @@ export class ResolveGuard implements CanActivate {
     /**
      * Constructor
      *
-     * @param {Store<TarefaCreateAppState>} _store
+     * @param {Store<ProtocoloCreateAppState>} _store
      */
     constructor(
-        private _store: Store<TarefaCreateAppState>
+        private _store: Store<ProtocoloCreateAppState>
     ) {
         this._store
             .pipe(select(getRouterState))
@@ -41,7 +41,7 @@ export class ResolveGuard implements CanActivate {
      * @returns {Observable<boolean>}
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-        return this.getTarefa().pipe(
+        return this.getProcesso().pipe(
             switchMap(() => of(true)),
             catchError((err) => of(false))
         );
@@ -52,7 +52,7 @@ export class ResolveGuard implements CanActivate {
      *
      * @returns {Observable<any>}
      */
-    getTarefa(): any {
+    getProcesso(): any {
         return this._store.pipe(
             select(getProcessoLoaded),
             tap((loaded: any) => {

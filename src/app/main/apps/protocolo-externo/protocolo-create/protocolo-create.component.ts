@@ -9,7 +9,6 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {Tarefa} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
@@ -25,18 +24,17 @@ import {Router} from '@angular/router';
 import {getRouterState} from '../../../../store/reducers';
 
 @Component({
-    selector: 'tarefa-create',
-    templateUrl: './tarefa-create.component.html',
-    styleUrls: ['./tarefa-create.component.scss'],
+    selector: 'protocolo-create',
+    templateUrl: './protocolo-create.component.html',
+    styleUrls: ['./protocolo-create.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class TarefaCreateComponent implements OnInit, OnDestroy {
+export class ProtocoloCreateComponent implements OnInit, OnDestroy {
 
     private _unsubscribeAll: Subject<any> = new Subject();
 
-    tarefa: Tarefa;
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
 
@@ -61,7 +59,7 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
      * @param _router
      */
     constructor(
-        private _store: Store<fromStore.TarefaCreateAppState>,
+        private _store: Store<fromStore.ProtocoloCreateAppState>,
         public _loginService: LoginService,
         public dialog: MatDialog,
         private _router: Router
@@ -106,11 +104,11 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
             this.processo = p;
         });
 
-        this.tarefa = new Tarefa();
-        this.tarefa.unidadeResponsavel = this._profile.lotacoes[0].setor.unidade;
-        this.tarefa.dataHoraInicioPrazo = moment();
-        this.tarefa.dataHoraFinalPrazo = moment().add(5, 'days').set({hour: 20, minute: 0, second: 0});
-        this.tarefa.setorOrigem = this._profile.lotacoes[0].setor;
+        this.processo = new Processo();
+        this.processo.unidadeResponsavel = this._profile.lotacoes[0].setor.unidade;
+        this.processo.dataHoraInicioPrazo = moment();
+        this.processo.dataHoraFinalPrazo = moment().add(5, 'days').set({hour: 20, minute: 0, second: 0});
+        this.processo.setorOrigem = this._profile.lotacoes[0].setor;
 
         if (this.processo) {
             this.tarefa.processo = this.processo;
