@@ -43,7 +43,7 @@
                     }
                 }
 
-                // Tarefa list
+                // Processo list
                 .processo-list {
                     border-right-color: map-get($foreground, divider);
                 }
@@ -144,7 +144,7 @@
         }
     }
 
-    // Tarefa list item
+    // Processo list item
     cdk-processo-list-item {
         border-bottom-color: map-get($foreground, divider);
 

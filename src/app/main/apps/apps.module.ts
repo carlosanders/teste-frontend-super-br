@@ -50,7 +50,7 @@ const routes = [
     },
     {
         path        : 'protocolo-externo',
-        loadChildren: () => import('./protocolo-externo/protocolos-externos.module').then(m => m.ProtocolosExternosModule)
+        loadChildren: () => import('./protocolo-externo/protocolo-externo.module').then(m => m.ProtocoloExternoModule)
     }
 ];
 

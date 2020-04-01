@@ -20,14 +20,14 @@ import * as fromStore from './store';
 
 import {getRouterState, getScreenState} from 'app/store/reducers';
 
-import {locale as english} from 'app/main/apps/tarefas/i18n/en';
+import {locale as english} from './i18n/en';
 
 import {ResizeEvent} from 'angular-resizable-element';
 import {cdkAnimations} from '@cdk/animations';
 import {Router} from '@angular/router';
 import {filter, takeUntil} from 'rxjs/operators';
 import {LoginService} from '../../auth/login/login.service';
-import {ToggleMaximizado} from 'app/main/apps/tarefas/store';
+import {ToggleMaximizado} from 'app/main/apps/protocolo-externo/store';
 import {Topico} from 'ajuda/topico';
 import {Etiqueta, Pagination, Usuario, Assunto} from '@cdk/models';
 
@@ -36,13 +36,13 @@ import { AssuntoService } from '@cdk/services/assunto.service';
 
 @Component({
     selector: 'protocolo-externo',
-    templateUrl: './protocolos-externos.component.html',
-    styleUrls: ['./protocolos-externos.component.scss'],
+    templateUrl: './protocolo-externo.component.html',
+    styleUrls: ['./protocolo-externo.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class ProtocolosExternosComponent implements OnInit, OnDestroy, AfterViewInit {
+export class ProtocoloExternoComponent implements OnInit, OnDestroy, AfterViewInit {
 
     private _unsubscribeAll: Subject<any> = new Subject();
 
@@ -243,9 +243,9 @@ export class ProtocolosExternosComponent implements OnInit, OnDestroy, AfterView
         this.idProcessoToLoadAssuntos$.subscribe(id => {
             this.idProcessoToLoadAssuntos = id;
         });
-       
-       
-        this.PesquisaProcesso = 'processo';//IDEIA INICIAL AJUDA ABA TAREFAS
+
+
+        this.PesquisaProcesso = 'processo';//IDEIA INICIAL AJUDA ABA PROCESSOS
         
 
     }
