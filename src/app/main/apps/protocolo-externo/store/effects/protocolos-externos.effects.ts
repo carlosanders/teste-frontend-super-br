@@ -91,21 +91,15 @@ export class ProcessosEffect {
             .pipe(
                 ofType<ProcessosActions.SetCurrentProcesso>(ProcessosActions.SET_CURRENT_PROCESSO),
                 map((action) => {
-                    if (action.payload.acessoNegado) {
+                    /*if (action.payload.acessoNegado) {
                         this._router.navigate([
-                            'apps/tarefas/' + this.routerState.params.generoHandle + '/'
-                            + this.routerState.params.typeHandle + '/'
-                            + this.routerState.params.targetHandle + '/tarefa/' + action.payload.tarefaId +
-                            '/processo/' + action.payload.processoId + '/acesso-negado']
-                        ).then();
-                    } else {
+                            'apps/protocolo-externo/detalhe/' + action.payload.processoId + '/processo/' + action.payload.processoId + '/acesso-negado'
+                            ]).then();
+                    } else {*/
                         this._router.navigate([
-                            'apps/tarefas/' + this.routerState.params.generoHandle + '/' +
-                            this.routerState.params.typeHandle + '/' +
-                            this.routerState.params.targetHandle + '/tarefa/' + action.payload.tarefaId +
-                            '/processo/' + action.payload.processoId + '/visualizar']
+                            'apps/protocolo-externo/detalhe/' + action.payload.processoId + '/processo/' + action.payload.processoId + '/visualizar/12345678']
                         ).then();
-                    }
+                    /*}*/
 
                     return new ProcessosActions.SetCurrentProcessoSuccess();
                 })

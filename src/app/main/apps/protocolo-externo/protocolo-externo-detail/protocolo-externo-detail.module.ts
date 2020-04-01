@@ -27,6 +27,10 @@ const routes: Routes = [
         path: ':processoHandle',
         component: ProtocoloExternoDetailComponent,
         children: [
+            {
+                path: 'processo',
+                loadChildren: () => import('app/main/apps/processo/processo.module').then(m => m.ProcessoModule)
+            }
             /*{
                 path: 'editar',
                 loadChildren: () => import('./tarefa-edit/tarefa-edit.module').then(m => m.TarefaEditModule)

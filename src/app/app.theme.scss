@@ -110,6 +110,7 @@ $typography: mat-typography-config(
     @include configuracoes-theme($theme);
     @include oficios-theme($theme);
     @include ajuda-theme($theme);
+    @include protocolo-externo-theme($theme);
 }
 
 // -----------------------------------------------------------------------------------------------------
