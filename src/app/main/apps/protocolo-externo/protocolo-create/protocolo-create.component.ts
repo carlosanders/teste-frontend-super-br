@@ -105,14 +105,7 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
         });
 
         this.processo = new Processo();
-        this.processo.unidadeResponsavel = this._profile.lotacoes[0].setor.unidade;
-        this.processo.dataHoraInicioPrazo = moment();
-        this.processo.dataHoraFinalPrazo = moment().add(5, 'days').set({hour: 20, minute: 0, second: 0});
-        this.processo.setorOrigem = this._profile.lotacoes[0].setor;
-
-        if (this.processo) {
-            this.tarefa.processo = this.processo;
-        }
+        this.processo.procedencia = this._profile.lotacoes[0].setor.unidade;
 
         this.visibilidades$.pipe(
             takeUntil(this._unsubscribeAll),
@@ -179,17 +172,17 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
 
     submit(values): void {
 
-        const tarefa = new Tarefa();
+        const processo = new Processo();
 
         Object.entries(values).forEach(
             ([key, value]) => {
-                tarefa[key] = value;
+                processo[key] = value;
             }
         );
 
-        tarefa.vinculacoesEtiquetas = this.tarefa.vinculacoesEtiquetas;
+        processo.vinculacoesEtiquetas = this.processo.vinculacoesEtiquetas;
 
-        this._store.dispatch(new fromStore.SaveTarefa(tarefa));
+        this._store.dispatch(new fromStore.SaveProcesso(processo));
 
     }
 
