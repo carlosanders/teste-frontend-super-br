@@ -26,7 +26,7 @@ export class LoginEffects {
                         return this.loginService.login(action.payload.username, action.payload.password)
                             .pipe(
                                 map((data) => {
-                                    return new LoginActions.LoginSuccess({token: data.token, exp: data.exp});
+                                    return new LoginActions.LoginSuccess(data);
                                 }),
                                 catchError((error) => {
                                     let msg = 'Sistema indisponível, tente mais tarde!';
@@ -48,7 +48,7 @@ export class LoginEffects {
                         return this.loginService.refreshToken()
                             .pipe(
                                 map((data) => {
-                                    return new LoginActions.LoginRefreshTokenSuccess({token: data.token, exp: data.exp});
+                                    return new LoginActions.LoginRefreshTokenSuccess(data);
                                 }),
                                 catchError((error) => {
                                     let msg = 'Token inválido, realize autenticação novamente!';
