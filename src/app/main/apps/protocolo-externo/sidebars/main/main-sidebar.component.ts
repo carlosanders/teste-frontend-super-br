@@ -1,40 +1,36 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    OnDestroy,
+    OnInit,
+    ViewEncapsulation
+} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Observable, Subject} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
 
-import * as fromStore from 'app/main/apps/tarefas/store';
-import {Folder} from '@cdk/models';
+import * as fromStore from '../../store';
 import {getRouterState} from 'app/store/reducers';
 import {takeUntil} from 'rxjs/operators';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Lotacao, Setor, Usuario, VinculacaoUsuario} from '@cdk/models';
 
 @Component({
-    selector: 'tarefas-main-sidebar',
+    selector: 'processos-main-sidebar',
     templateUrl: './main-sidebar.component.html',
     styleUrls: ['./main-sidebar.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
+export class ProcessoMainSidebarComponent implements OnInit, OnDestroy {
 
     private _unsubscribeAll: Subject<any> = new Subject();
 
-    folders$: Observable<Folder[]>;
-
-    mode = 'Tarefas';
+    mode = 'Processos';
 
     routerState: any;
-
-    generoHandle = '';
-    typeHandle = '';
-
-    setoresCoordenacao: Setor[] = [];
-
-    usuariosAnalista: Usuario[] = [];
 
     /**
      *
@@ -43,18 +39,16 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
      * @param _loginService
      */
     constructor(
-        private _store: Store<fromStore.TarefasAppState>,
+        private _store: Store<fromStore.ProcessosAppState>,
         private _changeDetectorRef: ChangeDetectorRef,
         public _loginService: LoginService
     ) {
-        this.folders$ = this._store.pipe(select(fromStore.getFolders));
     }
 
     /**
      * On init
      */
     ngOnInit(): void {
-
         this._store
             .pipe(
                 select(getRouterState),
@@ -62,28 +56,7 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
             ).subscribe(routerState => {
             if (routerState) {
                 this.routerState = routerState.state;
-                if (routerState.state.params['targetHandle'] === 'compartilhadas') {
-                    this.mode = 'Compartilhadas';
-                } else {
-                    this.mode = 'Tarefas';
-                }
-                this.generoHandle = routerState.state.params['generoHandle'];
-                this.typeHandle = routerState.state.params['typeHandle'];
             }
-        });
-
-        this.setoresCoordenacao = [];
-
-        this._loginService.getUserProfile().colaborador.lotacoes?.forEach((lotacao: Lotacao) => {
-            if (lotacao.coordenador) {
-                this.setoresCoordenacao.push(lotacao.setor);
-            }
-        });
-
-        this.usuariosAnalista = [];
-
-        this._loginService.getUserProfile().vinculacoesUsuariosPrincipais?.forEach((vinculacaoUsuario: VinculacaoUsuario) => {
-            this.usuariosAnalista.push(vinculacaoUsuario.usuario);
         });
     }
 
@@ -104,12 +77,10 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
      * Compose dialog
      */
     create(): void {
-        this._store.dispatch(new fromStore.CreateTarefa());
+        this._store.dispatch(new fromStore.CreateProcesso());
     }
 
     onDrop($event): void {
-        if (this.mode === 'Tarefas') {
-            this._store.dispatch(new fromStore.SetFolderOnSelectedTarefas({tarefa: $event[0].data, folder: $event[1]}));
-        }
+
     }
 }

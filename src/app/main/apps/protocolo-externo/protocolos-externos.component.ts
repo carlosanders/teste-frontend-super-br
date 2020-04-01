@@ -14,30 +14,25 @@ import { Observable, Subject, BehaviorSubject } from 'rxjs';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {CdkTranslationLoaderService} from '@cdk/services/translation-loader.service';
 
-import {Tarefa, PaginatedResponse} from '@cdk/models';
-import {ProcessosService} from '@cdk/services/tarefa.service';
-import * as fromStore from 'app/main/apps/tarefas/store';
+import {Processo, PaginatedResponse} from '@cdk/models';
+import {ProcessoService} from '@cdk/services/processo.service';
+import * as fromStore from './store';
 
 import {getRouterState, getScreenState} from 'app/store/reducers';
 
 import {locale as english} from 'app/main/apps/tarefas/i18n/en';
 
-import {Folder} from '@cdk/models';
-
 import {ResizeEvent} from 'angular-resizable-element';
 import {cdkAnimations} from '@cdk/animations';
-import {Etiqueta} from '@cdk/models';
 import {Router} from '@angular/router';
 import {filter, takeUntil} from 'rxjs/operators';
-import {Pagination} from '@cdk/models';
 import {LoginService} from '../../auth/login/login.service';
 import {ToggleMaximizado} from 'app/main/apps/tarefas/store';
 import {Topico} from 'ajuda/topico';
-import {Usuario} from '@cdk/models';
+import {Etiqueta, Pagination, Usuario, Assunto} from '@cdk/models';
 
 import * as fromAssuntoStore from 'app/main/apps/processo/processo-edit/assuntos/assunto-list/store';
 import { AssuntoService } from '@cdk/services/assunto.service';
-import { Assunto } from '@cdk/models';
 
 @Component({
     selector: 'protocolo-externo',
@@ -55,14 +50,13 @@ export class ProtocolosExternosComponent implements OnInit, OnDestroy, AfterView
 
     searchInput: FormControl;
 
-    folders$: Observable<Folder[]>;
-    currentTarefaId: number;
-    tarefas: Tarefa[] = [];
+    currentProcessoId: number;
+    processos: Processo[] = [];
     
-    tarefaListSize = 35;
-    tarefaListOriginalSize: number;
+    processoListSize = 35;
+    processoListOriginalSize: number;
 
-    tarefas$: Observable<Tarefa[]>;
+    processos$: Observable<Processo[]>;
     
     loading$: Observable<boolean>;
 
@@ -72,9 +66,9 @@ export class ProtocolosExternosComponent implements OnInit, OnDestroy, AfterView
     selectedIds$: Observable<number[]>;
     selectedIds: number[] = [];
 
-    selectedTarefas$: Observable<Tarefa[]>;
+    selectedProcessos$: Observable<Processo[]>;
 
-    selectedTarefas: Tarefa[] = [];
+    selectedProcessos: Processo[] = [];
 
     screen$: Observable<any>;
 
@@ -101,8 +95,8 @@ export class ProtocolosExternosComponent implements OnInit, OnDestroy, AfterView
     */
     assuntos: Assunto[] = [];
     assuntos$: Observable<Assunto[]>;
-    idTarefaToLoadAssuntos$: Observable<number>;
-    idTarefaToLoadAssuntos: number;
+    idProcessoToLoadAssuntos$: Observable<number>;
+    idProcessoToLoadAssuntos: number;
     assuntoService: AssuntoService;
     pagAssuntos : PaginatedResponse;
     bsAssuntos: BehaviorSubject<Assunto[]> = new BehaviorSubject([]);
@@ -110,17 +104,17 @@ export class ProtocolosExternosComponent implements OnInit, OnDestroy, AfterView
     assuntoLoading$: Observable<boolean>;
     assuntoPanelOpen$: Observable<boolean>;
 
-    tarefaToLoadAssuntos$: Observable<Tarefa>;
-    AjudaTarefa: Topico;
-    PesquisaTarefa: string;
+    processoToLoadAssuntos$: Observable<Processo>;
+    AjudaProcesso: Topico;
+    PesquisaProcesso: string;
 
-    @ViewChild('tarefaListElement', {read: ElementRef, static: true}) tarefaListElement: ElementRef;
+    @ViewChild('processoListElement', {read: ElementRef, static: true}) processoListElement: ElementRef;
 
     /**
      * @param _changeDetectorRef
      * @param _cdkSidebarService
      * @param _cdkTranslationLoaderService
-     * @param _tarefaService
+     * @param _processoService
      * @param _router
      * @param _store
      * @param _storeAssunto
@@ -130,9 +124,9 @@ export class ProtocolosExternosComponent implements OnInit, OnDestroy, AfterView
         private _changeDetectorRef: ChangeDetectorRef,
         private _cdkSidebarService: CdkSidebarService,
         private _cdkTranslationLoaderService: CdkTranslationLoaderService,
-        private _tarefaService: ProcessosService,
+        private _processoService: ProcessoService,
         private _router: Router,
-        private _store: Store<fromStore.TarefasAppState>,
+        private _store: Store<fromStore.ProcessosAppState>,
         private _loginService: LoginService,
         private _assuntoService: AssuntoService,
         /*
@@ -145,16 +139,15 @@ export class ProtocolosExternosComponent implements OnInit, OnDestroy, AfterView
         this.searchInput = new FormControl('');
         this._cdkTranslationLoaderService.loadTranslations(english);
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
-        this.tarefas$ = this._store.pipe(select(fromStore.getTarefas));
-         
-        this.folders$ = this._store.pipe(select(fromStore.getFolders));
-        this.selectedTarefas$ = this._store.pipe(select(fromStore.getSelectedTarefas));
-        this.selectedIds$ = this._store.pipe(select(fromStore.getSelectedTarefaIds));
+        this.processos$ = this._store.pipe(select(fromStore.getProcessos));
+
+        this.selectedProcessos$ = this._store.pipe(select(fromStore.getSelectedProcessos));
+        this.selectedIds$ = this._store.pipe(select(fromStore.getSelectedProcessoIds));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
         this.routerState$ = this._store.pipe(select(getRouterState));
         this.maximizado$ = this._store.pipe(select(fromStore.getMaximizado));
-        this.deletingIds$ = this._store.pipe(select(fromStore.getDeletingTarefaIds));
-        this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedTarefaIds));
+        this.deletingIds$ = this._store.pipe(select(fromStore.getDeletingProcessoIds));
+        this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedProcessoIds));
         this.screen$ = this._store.pipe(select(getScreenState));
         this._profile = _loginService.getUserProfile();
         this.vinculacaoEtiquetaPagination = new Pagination();
@@ -167,8 +160,8 @@ export class ProtocolosExternosComponent implements OnInit, OnDestroy, AfterView
         this.assuntos = new Array();
         this.assuntoLoading$ = this._store.pipe(select(fromStore.getIsAssuntoLoading));
         this.assuntoPanelOpen$ = this._store.pipe(select(fromStore.getIsAssuntoPanelIsOpen));
-        this.assuntos$ = this._store.pipe(select(fromStore.getAssuntosTarefas));
-        this.idTarefaToLoadAssuntos$ = this._store.pipe(select(fromStore.getIdTarefaToLoadAssuntos));
+        this.assuntos$ = this._store.pipe(select(fromStore.getAssuntosProcessos));
+        this.idProcessoToLoadAssuntos$ = this._store.pipe(select(fromStore.getIdProcessoToLoadAssuntos));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -193,14 +186,14 @@ export class ProtocolosExternosComponent implements OnInit, OnDestroy, AfterView
         this.routerState$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(routerState => {
-            this.currentTarefaId = parseInt(routerState.state.params['tarefaHandle'], 0);
+            this.currentProcessoId = parseInt(routerState.state.params['processoHandle'], 0);
         });
 
-        this.tarefas$.pipe(
+        this.processos$.pipe(
             takeUntil(this._unsubscribeAll),
-            filter(tarefas => !!tarefas)
-        ).subscribe(tarefas => {
-            this.tarefas = tarefas;
+            filter(processos => !!processos)
+        ).subscribe(processos => {
+            this.processos = processos;
         });
 
         this.pagination$.pipe(
@@ -215,10 +208,10 @@ export class ProtocolosExternosComponent implements OnInit, OnDestroy, AfterView
             this.maximizado = maximizado;
         });
 
-        this.selectedTarefas$.pipe(
+        this.selectedProcessos$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(selectedTarefas => {
-            this.selectedTarefas = selectedTarefas;
+        ).subscribe(selectedProcessos => {
+            this.selectedProcessos = selectedProcessos;
         });
 
         this.selectedIds$.pipe(
@@ -247,18 +240,18 @@ export class ProtocolosExternosComponent implements OnInit, OnDestroy, AfterView
             this.assuntos = assuntos;
         });
 
-        this.idTarefaToLoadAssuntos$.subscribe(id => {
-            this.idTarefaToLoadAssuntos = id;
+        this.idProcessoToLoadAssuntos$.subscribe(id => {
+            this.idProcessoToLoadAssuntos = id;
         });
        
        
-        this.PesquisaTarefa = 'tarefa';//IDEIA INICIAL AJUDA ABA TAREFAS
+        this.PesquisaProcesso = 'processo';//IDEIA INICIAL AJUDA ABA TAREFAS
         
 
     }
 
     ngAfterViewInit(): void {
-        this.tarefaListOriginalSize = this.tarefaListElement.nativeElement.offsetWidth;
+        this.processoListOriginalSize = this.processoListElement.nativeElement.offsetWidth;
     }
 
     /**
@@ -277,7 +270,7 @@ export class ProtocolosExternosComponent implements OnInit, OnDestroy, AfterView
 
     reload(params): void {
 
-        this._store.dispatch(new fromStore.UnloadTarefas({reset: false}));
+        this._store.dispatch(new fromStore.UnloadProcessos({reset: false}));
 
         const nparams = {
             ...this.pagination,
@@ -285,7 +278,7 @@ export class ProtocolosExternosComponent implements OnInit, OnDestroy, AfterView
             sort: params.listSort && Object.keys(params.listSort).length ? params.listSort : this.pagination.sort
         };
 
-        this._store.dispatch(new fromStore.GetTarefas(nparams));
+        this._store.dispatch(new fromStore.GetProcessos(nparams));
     }
 
     addEtiqueta(etiqueta: Etiqueta): void {
@@ -299,7 +292,7 @@ export class ProtocolosExternosComponent implements OnInit, OnDestroy, AfterView
     }
 
     proccessEtiquetaFilter(): any {
-        this._store.dispatch(new fromStore.UnloadTarefas({reset: false}));
+        this._store.dispatch(new fromStore.UnloadProcessos({reset: false}));
         const etiquetasId = [];
         this.etiquetas.forEach((e) => {
             etiquetasId.push(e.id);
@@ -311,11 +304,11 @@ export class ProtocolosExternosComponent implements OnInit, OnDestroy, AfterView
             ...this.pagination,
             etiquetaFilter: etiquetaFilter
         };
-        this._store.dispatch(new fromStore.GetTarefas(nparams));
+        this._store.dispatch(new fromStore.GetProcessos(nparams));
     }
 
     onScroll(): void {
-        if (this.tarefas.length >= this.pagination.total) {
+        if (this.processos.length >= this.pagination.total) {
             return;
         }
 
@@ -324,26 +317,25 @@ export class ProtocolosExternosComponent implements OnInit, OnDestroy, AfterView
             offset: this.pagination.offset + this.pagination.limit
         };
 
-        this._store.dispatch(new fromStore.GetTarefas(nparams));
+        this._store.dispatch(new fromStore.GetProcessos(nparams));
     }
 
-    setCurrentTarefa(tarefa: Tarefa): void {
-        if (!tarefa.dataHoraLeitura) {
-            this._store.dispatch(new fromStore.ToggleLidaTarefa(tarefa));
-        }
-        this._store.dispatch(new fromStore.SetCurrentTarefa({
-            tarefaId: tarefa.id,
-            processoId: tarefa.processo.id,
-            acessoNegado: tarefa.processo.acessoNegado
+    setCurrentProcesso(processo: Processo): void {
+        /*if (!processo.dataHoraLeitura) {
+            this._store.dispatch(new fromStore.ToggleLidaProcesso(processo));
+        }*/
+        this._store.dispatch(new fromStore.SetCurrentProcesso({
+            processoId: processo.id,
+            acessoNegado: processo.acessoNegado
         }));
     }
 
-    deleteTarefa(tarefaId: number): void {
-        this._store.dispatch(new fromStore.DeleteTarefa(tarefaId));
+    deleteProcesso(processoId: number): void {
+        this._store.dispatch(new fromStore.DeleteProcesso(processoId));
     }
 
-    doToggleUrgente(tarefa: Tarefa): void {
-        this._store.dispatch(new fromStore.ToggleUrgenteTarefa(tarefa));
+    doToggleUrgente(processo: Processo): void {
+        this._store.dispatch(new fromStore.ToggleUrgenteProcesso(processo));
     }
 
     /**
@@ -363,106 +355,100 @@ export class ProtocolosExternosComponent implements OnInit, OnDestroy, AfterView
     }
 
     changeSelectedIds(ids: number[]): void {
-        this._store.dispatch(new fromStore.ChangeSelectedTarefas(ids));
+        this._store.dispatch(new fromStore.ChangeSelectedProcessos(ids));
     }
 
-    setFolderOnSelectedTarefas(folder): void {
-        this.selectedTarefas.forEach((tarefa) => {
-            this._store.dispatch(new fromStore.SetFolderOnSelectedTarefas({tarefa: tarefa, folder: folder}));
-        });
-    }
+    onResizeEndProcessoList(event: ResizeEvent): void {
+        const potencialProcessoListSize = (event.rectangle.width * this.processoListSize) / this.processoListOriginalSize;
 
-    onResizeEndTarefaList(event: ResizeEvent): void {
-        const potencialTarefaListSize = (event.rectangle.width * this.tarefaListSize) / this.tarefaListOriginalSize;
-
-        if (potencialTarefaListSize < 30) {
-            this.tarefaListSize = 30;
+        if (potencialProcessoListSize < 30) {
+            this.processoListSize = 30;
             setTimeout(() => {
-                this.tarefaListOriginalSize = this.tarefaListElement.nativeElement.offsetWidth;
+                this.processoListOriginalSize = this.processoListElement.nativeElement.offsetWidth;
             }, 500);
             return;
         }
 
-        if (potencialTarefaListSize > 50) {
-            this.tarefaListSize = 50;
-            this.tarefaListOriginalSize = this.tarefaListElement.nativeElement.offsetWidth;
+        if (potencialProcessoListSize > 50) {
+            this.processoListSize = 50;
+            this.processoListOriginalSize = this.processoListElement.nativeElement.offsetWidth;
             setTimeout(() => {
-                this.tarefaListOriginalSize = this.tarefaListElement.nativeElement.offsetWidth;
+                this.processoListOriginalSize = this.processoListElement.nativeElement.offsetWidth;
             }, 500);
             return;
         }
 
-        this.tarefaListSize = (event.rectangle.width * this.tarefaListSize) / this.tarefaListOriginalSize;
-        this.tarefaListOriginalSize = event.rectangle.width;
+        this.processoListSize = (event.rectangle.width * this.processoListSize) / this.processoListOriginalSize;
+        this.processoListOriginalSize = event.rectangle.width;
     }
 
-    doCreateDocumentoAvulso(tarefaId): void {
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + tarefaId + '/oficio']).then();
+    doCreateDocumentoAvulso(processoId): void {
+        this._router.navigate(['apps/processos/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/processo/' + processoId + '/oficio']).then();
     }
 
-    doCreateTarefa(params): void {
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/criar/' + params.processoId]).then();
+    doCreateProcesso(params): void {
+        this._router.navigate(['apps/processos/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/criar/' + params.processoId]).then();
     }
 
-    doMovimentar(tarefaId): void {
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + tarefaId + '/atividades/criar']).then();
+    doMovimentar(processoId): void {
+        this._router.navigate(['apps/processos/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/processo/' + processoId + '/atividades/criar']).then();
     }
 
-    doEditTarefa(tarefaId): void {
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + tarefaId + '/editar']).then();
+    doEditProcesso(processoId): void {
+        this._router.navigate(['apps/processos/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/processo/' + processoId + '/editar']).then();
     }
 
-    doCompartilhar(tarefaId): void {
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + tarefaId + '/compartilhamentos/criar']).then();
+    doCompartilhar(processoId): void {
+        this._router.navigate(['apps/processos/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/processo/' + processoId + '/compartilhamentos/criar']).then();
     }
 
     doCompartilharBloco(): void {
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/compartilhamento-bloco']).then();
+        this._router.navigate(['apps/processos/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/compartilhamento-bloco']).then();
     }
 
     doEtiquetarBloco(): void {
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/vinculacao-etiqueta-bloco']).then();
+        this._router.navigate(['apps/processos/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/vinculacao-etiqueta-bloco']).then();
     }
 
     doMovimentarBloco(): void {
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/atividade-bloco']).then();
+        this._router.navigate(['apps/processos/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/atividade-bloco']).then();
     }
 
-    doEditTarefaBloco(): void {
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa-edit-bloco']).then();
+    doEditProcessoBloco(): void {
+        this._router.navigate(['apps/processos/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/processo-edit-bloco']).then();
     }
 
-    doCreateTarefaBloco(): void {
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa-bloco']).then();
+    doCreateProcessoBloco(): void {
+        this._router.navigate(['apps/processos/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/processo-bloco']).then();
     }
 
     doUploadBloco(): void {
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/responder-complementar-create-bloco']).then();
+        this._router.navigate(['apps/processos/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/responder-complementar-create-bloco']).then();
     }
 
     doEditorBloco(): void {
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/modelo-bloco']).then();
+        this._router.navigate(['apps/processos/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/modelo-bloco']).then();
     }
 
     doCreateDocumentoAvulsoBloco(): void {
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/documento-avulso-bloco']).then();
+        this._router.navigate(['apps/processos/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/documento-avulso-bloco']).then();
     }
 
     /*
-    * Função que carrega os assuntos do processo associado à tarefa
-    * @tarefa
-    * Recebe a referencia da tarefa carregada no componente de lista de tarefas
+    * Função que carrega os assuntos do processo associado à processo
+    * @processo
+    * Recebe a referencia da processo carregada no componente de lista de processos
     */
-    doLoadAssuntos(tarefa): void {
+    /*doLoadAssuntos(processo): void {
 
         const processo = {
-            'processo.id' : 'eq:' + tarefa.processo.id
-        }
+            'processo.id' : 'eq:' + processo.id
+        };
         
         const sort = {
             'principal' : 'DESC',
             'criadoEm' : 'DESC'
-        }
+        };
 
         const populate = ['populateAll'];
 
@@ -472,20 +458,20 @@ export class ProtocolosExternosComponent implements OnInit, OnDestroy, AfterView
             limit : 10,
             offset : 0,
             populate : populate
-        }
+        };
 
         const proc = {
-            proc: tarefa.processo
-        }
+            proc: processo.processo
+        };
 
         const params = {
             proc: proc,
             srv: serviceParams,
-            tarefa: tarefa.id
-        }
+            processo: processo.id
+        };
 
-        this._store.dispatch(new fromStore.GetAssuntosProcessoTarefa(params));
+        this._store.dispatch(new fromStore.GetAssuntosProcessoProcesso(params));
         
-    }   
+    }*/
 
 }

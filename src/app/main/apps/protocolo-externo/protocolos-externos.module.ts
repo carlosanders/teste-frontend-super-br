@@ -21,7 +21,7 @@ import {CdkSidebarModule} from '@cdk/components';
 import * as fromGuards from './store/guards/index';
 import {ProcessoStoreModule} from './store/store.module';
 import {ProtocolosExternosComponent} from './protocolos-externos.component';
-import {ProcessoMainSidebarComponent} from 'app/main/apps/processo/sidebars/main/main-sidebar.component';
+import {ProcessoMainSidebarComponent} from './sidebars/main/main-sidebar.component';
 import {FolderService} from '@cdk/services/folder.service';
 import {ProcessoService} from '@cdk/services/processo.service';
 import {SetorService} from '@cdk/services/setor.service';
@@ -34,53 +34,52 @@ import {CdkEtiquetaChipsModule} from '@cdk/components/etiqueta/cdk-etiqueta-chip
 import {DndModule} from 'ngx-drag-drop';
 import {LoginService} from '../../auth/login/login.service';
 import { AssuntoService } from '@cdk/services/assunto.service';
-import {CdkProcessoFormModule} from '../../../../@cdk/components/processo/cdk-processo-form/cdk-processo-form.module';
-import {EspecieProcessoService} from '../../../../@cdk/services/especie-processo.service';
+import {CdkProcessoFormModule} from '@cdk/components/processo/cdk-processo-form/cdk-processo-form.module';
+import {EspecieProcessoService} from '@cdk/services/especie-processo.service';
 
 const routes: Routes = [
     {
-        path: ':generoHandle/:typeHandle/:targetHandle',
+        path: '',
         component: ProtocolosExternosComponent,
         children: [
             {
                 path: '',
-                loadChildren: () => import('./tarefa-empty/tarefa-empty.module').then(m => m.TarefaEmptyModule)
+                loadChildren: () => import('./protocolo-externo-empty/protocolo-externo-empty.module').then(m => m.ProtocoloExternoEmptyModule)
             },
-            {
+            /*{
                 path: 'criar',
                 loadChildren: () => import('./tarefa-create/tarefa-create.module').then(m => m.TarefaCreateModule)
-            },
+            },*/
             {
-                path: 'tarefa',
-                loadChildren: () => import('./tarefa-detail/tarefa-detail.module').then(m => m.TarefaDetailModule),
-                canActivate: [fromGuards.ResolveGuard]
+                path: 'detalhe',
+                loadChildren: () => import('./protocolo-externo-detail/protocolo-externo-detail.module').then(m => m.ProtocoloExternoDetailModule),
             },
-            {
+            /*{
                 path: 'compartilhamento-bloco',
                 loadChildren: () => import('./compartilhamento-create-bloco/compartilhamento-create-bloco.module').then(m => m.CompartilhamentoCreateBlocoModule),
             },
             {
                 path: 'atividade-bloco',
                 loadChildren: () => import('./atividade-create-bloco/atividade-create-bloco.module').then(m => m.AtividadeCreateBlocoModule),
-            },
+            },*/
             {
                 path: 'vinculacao-etiqueta-bloco',
                 loadChildren: () => import('./vinculacao-etiqueta-create-bloco/vinculacao-etiqueta-create-bloco.module').then(m => m.VinculacaoEtiquetaCreateBlocoModule),
             },
-            {
-                path: 'tarefa-bloco',
-                loadChildren: () => import('./tarefa-create-bloco/tarefa-create-bloco.module').then(m => m.TarefaCreateBlocoModule),
-            },
-            {
-                path: 'tarefa-edit-bloco',
-                loadChildren: () => import('./tarefa-edit-bloco/tarefa-edit-bloco.module').then(m => m.TarefaEditBlocoModule),
-            },
-            {
+            /*{
+                path: 'protocolo-externo-bloco',
+                loadChildren: () => import('./protocolo-externo-create-bloco/protocolo-externo-create-bloco.module').then(m => m.TarefaCreateBlocoModule),
+            },*/
+            /*{
+                path: 'protocolo-externo-edit-bloco',
+                loadChildren: () => import('./protocolo-externo-edit-bloco/protocolo-externo-edit-bloco.module').then(m => m.TarefaEditBlocoModule),
+            },*/
+            /*{
                 path: 'documento-avulso-bloco',
                 loadChildren: () => import('./documento-avulso-create-bloco/documento-avulso-create-bloco.module').then(m => m.DocumentoAvulsoCreateBlocoModule),
             },
             {
-                path: 'responder-complementar-create-bloco',
+                path: 'upload-create-bloco',
                 loadChildren: () => import('./upload-bloco/upload-bloco.module').then(m => m.UploadBlocoModule),
             },
             {
@@ -90,14 +89,14 @@ const routes: Routes = [
             {
                 path: 'visibilidade',
                 loadChildren: () => import('./visibilidade/visibilidade.module').then(m => m.VisibilidadeModule),
-            }
+            }*/
         ],
         canActivate: [fromGuards.ResolveGuard]
-    },
+    }/*,
     {
         path: '**',
         redirectTo: 'entrada'
-    }
+    }*/
 ];
 
 @NgModule({

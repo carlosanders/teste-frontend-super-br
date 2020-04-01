@@ -10,19 +10,22 @@ import { catchError, map, concatMap, mergeMap, switchMap, tap } from 'rxjs/opera
 import {getRouterState, State} from 'app/store/reducers';
 import * as ProcessosActions from '../actions/protocolos-externos.actions';
 
-import {Processo} from '@cdk/models';
+import {Processo, Assunto} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Router} from '@angular/router';
 import {processo as processoSchema} from '@cdk/normalizr/processo.schema';
+import {assunto as assuntoSchema} from '@cdk/normalizr/assunto.schema';
 import {ProcessoService} from '@cdk/services/processo.service';
+import {AssuntoService} from '@cdk/services/assunto.service';
 
 @Injectable()
-export class TarefasEffect {
+export class ProcessosEffect {
     routerState: any;
 
     constructor(
         private _actions: Actions,
         private _processoService: ProcessoService,
+        private _assuntoService: AssuntoService,
         public _loginService: LoginService,
         private _store: Store<State>,
         private _router: Router
@@ -38,7 +41,7 @@ export class TarefasEffect {
     }
 
     /**
-     * Get Tarefas with router parameters
+     * Get Processos with router parameters
      * @type {Observable<any>}
      */
     @Effect()
@@ -79,183 +82,156 @@ export class TarefasEffect {
             );
 
     /**
-     * Update Tarefa
+     * Update Processo
      * @type {Observable<any>}
      */
-    // @Effect()
-    // setCurrentTarefa: Observable<TarefasActions.TarefasActionsAll> =
-    //     this._actions
-    //         .pipe(
-    //             ofType<TarefasActions.SetCurrentTarefa>(TarefasActions.SET_CURRENT_TAREFA),
-    //             map((action) => {
-    //                 if (action.payload.acessoNegado) {
-    //                     this._router.navigate([
-    //                         'apps/tarefas/' + this.routerState.params.generoHandle + '/'
-    //                         + this.routerState.params.typeHandle + '/'
-    //                         + this.routerState.params.targetHandle + '/tarefa/' + action.payload.tarefaId +
-    //                         '/processo/' + action.payload.processoId + '/acesso-negado']
-    //                     ).then();
-    //                 } else {
-    //                     this._router.navigate([
-    //                         'apps/tarefas/' + this.routerState.params.generoHandle + '/' +
-    //                         this.routerState.params.typeHandle + '/' +
-    //                         this.routerState.params.targetHandle + '/tarefa/' + action.payload.tarefaId +
-    //                         '/processo/' + action.payload.processoId + '/visualizar']
-    //                     ).then();
-    //                 }
-    //
-    //                 return new TarefasActions.SetCurrentTarefaSuccess();
-    //             })
-    //         );
-    //
+    @Effect()
+    setCurrentProcesso: Observable<ProcessosActions.ProcessosActionsAll> =
+        this._actions
+            .pipe(
+                ofType<ProcessosActions.SetCurrentProcesso>(ProcessosActions.SET_CURRENT_PROCESSO),
+                map((action) => {
+                    if (action.payload.acessoNegado) {
+                        this._router.navigate([
+                            'apps/tarefas/' + this.routerState.params.generoHandle + '/'
+                            + this.routerState.params.typeHandle + '/'
+                            + this.routerState.params.targetHandle + '/tarefa/' + action.payload.tarefaId +
+                            '/processo/' + action.payload.processoId + '/acesso-negado']
+                        ).then();
+                    } else {
+                        this._router.navigate([
+                            'apps/tarefas/' + this.routerState.params.generoHandle + '/' +
+                            this.routerState.params.typeHandle + '/' +
+                            this.routerState.params.targetHandle + '/tarefa/' + action.payload.tarefaId +
+                            '/processo/' + action.payload.processoId + '/visualizar']
+                        ).then();
+                    }
+
+                    return new ProcessosActions.SetCurrentProcessoSuccess();
+                })
+            );
+
+    /**
+     * Update Processo
+     * @type {Observable<any>}
+     */
+    @Effect()
+    createProcesso: Observable<ProcessosActions.ProcessosActionsAll> =
+        this._actions
+            .pipe(
+                ofType<ProcessosActions.CreateProcesso>(ProcessosActions.CREATE_PROCESSO),
+                map(() => {
+                    this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' +
+                    this.routerState.params.typeHandle + '/' +
+                    '/' + this.routerState.params.targetHandle + '/criar']).then();
+                    return new ProcessosActions.CreateProcessoSuccess();
+                })
+            );
+
+    /**
+     * Delete Processo
+     * @type {Observable<any>}
+     */
+    @Effect()
+    deleteProcesso: Observable<ProcessosActions.ProcessosActionsAll> =
+        this._actions
+            .pipe(
+                ofType<ProcessosActions.DeleteProcesso>(ProcessosActions.DELETE_PROCESSO),
+                mergeMap((action) => {
+                    return this._processoService.destroy(action.payload).pipe(
+                        map((response) => new ProcessosActions.DeleteProcessoSuccess(response.id)),
+                        catchError((err) => {
+                            console.log(err);
+                            return of(new ProcessosActions.DeleteProcessoFailed(action.payload));
+                        })
+                    );
+                })
+            );
+
     // /**
-    //  * Update Tarefa
+    //  * Toggle Lida Processo
     //  * @type {Observable<any>}
     //  */
     // @Effect()
-    // createTarefa: Observable<TarefasActions.TarefasActionsAll> =
+    // toggleLidaProcesso: any =
     //     this._actions
     //         .pipe(
-    //             ofType<TarefasActions.CreateTarefa>(TarefasActions.CREATE_TAREFA),
-    //             map(() => {
-    //                 this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' +
-    //                 this.routerState.params.typeHandle + '/' +
-    //                 '/' + this.routerState.params.targetHandle + '/criar']).then();
-    //                 return new TarefasActions.CreateTarefaSuccess();
-    //             })
-    //         );
-    //
-    // /**
-    //  * Delete Tarefa
-    //  * @type {Observable<any>}
-    //  */
-    // @Effect()
-    // deleteTarefa: Observable<TarefasActions.TarefasActionsAll> =
-    //     this._actions
-    //         .pipe(
-    //             ofType<TarefasActions.DeleteTarefa>(TarefasActions.DELETE_TAREFA),
+    //             ofType<ProcessosActions.ToggleLidaProcesso>(ProcessosActions.TOGGLE_LIDA_PROCESSO),
     //             mergeMap((action) => {
-    //                 return this._tarefaService.destroy(action.payload).pipe(
-    //                     map((response) => new TarefasActions.DeleteTarefaSuccess(response.id)),
-    //                     catchError((err) => {
-    //                         console.log(err);
-    //                         return of(new TarefasActions.DeleteTarefaFailed(action.payload));
-    //                     })
-    //                 );
-    //             })
-    //         );
-    //
-    // /**
-    //  * Toggle Lida Tarefa
-    //  * @type {Observable<any>}
-    //  */
-    // @Effect()
-    // toggleLidaTarefa: any =
-    //     this._actions
-    //         .pipe(
-    //             ofType<TarefasActions.ToggleLidaTarefa>(TarefasActions.TOGGLE_LIDA_TAREFA),
-    //             mergeMap((action) => {
-    //                 return this._tarefaService.toggleLida(action.payload).pipe(
+    //                 return this._processoService.toggleLida(action.payload).pipe(
     //                     mergeMap((response) => [
-    //                         new TarefasActions.ToggleLidaTarefaSuccess(response.id),
-    //                         new UpdateData<Tarefa>({id: response.id, schema: tarefaSchema, changes: {dataHoraLeitura: response.dataHoraLeitura}})
+    //                         new ProcessosActions.ToggleLidaProcessoSuccess(response.id),
+    //                         new UpdateData<Processo>({id: response.id, schema: processoSchema, changes: {dataHoraLeitura: response.dataHoraLeitura}})
     //                     ]),
     //                     catchError((err) => {
     //                         console.log(err);
-    //                         return of(new TarefasActions.ToggleLidaTarefaFailed(action.payload));
+    //                         return of(new ProcessosActions.ToggleLidaProcessoFailed(action.payload));
     //                     })
     //                 );
     //             })
     //         );
-    //
+
     // /**
-    //  * Toggle Urgente Tarefa
+    //  * Toggle Urgente Processo
     //  * @type {Observable<any>}
     //  */
     // @Effect()
-    // toggleUrgenteTarefa: any =
+    // toggleUrgenteProcesso: any =
     //     this._actions
     //         .pipe(
-    //             ofType<TarefasActions.ToggleUrgenteTarefa>(TarefasActions.TOGGLE_URGENTE_TAREFA),
+    //             ofType<ProcessosActions.ToggleUrgenteProcesso>(ProcessosActions.TOGGLE_URGENTE_PROCESSO),
     //             mergeMap((action) => {
-    //                 return this._tarefaService.patch(action.payload, {
+    //                 return this._processoService.patch(action.payload, {
     //                     urgente: !action.payload.urgente
     //                 }).pipe(
     //                     mergeMap((response) => [
-    //                         new TarefasActions.ToggleUrgenteTarefaSuccess(response.id),
-    //                         new UpdateData<Tarefa>({id: response.id, schema: tarefaSchema, changes: {urgente: response.urgente}})
+    //                         new ProcessosActions.ToggleUrgenteProcessoSuccess(response.id),
+    //                         new UpdateData<Processo>({id: response.id, schema: processoSchema, changes: {urgente: response.urgente}})
     //                     ]),
     //                     catchError((err) => {
     //                         console.log(err);
-    //                         return of(new TarefasActions.ToggleUrgenteTarefaFailed(action.payload));
+    //                         return of(new ProcessosActions.ToggleUrgenteProcessoFailed(action.payload));
     //                     })
     //                 );
     //             })
     //         );
-    //
-    // /**
-    //  * Set Folder on Selected Tarefas
-    //  * @type {Observable<any>}
-    //  */
-    // @Effect()
-    // setFolderOnSelectedTarefas: Observable<any> =
-    //     this._actions
-    //         .pipe(
-    //             ofType<TarefasActions.SetFolderOnSelectedTarefas>(TarefasActions.SET_FOLDER_ON_SELECTED_TAREFAS),
-    //             concatMap((action) => {
-    //                 return this._tarefaService.patch(action.payload.tarefa, {folder: action.payload.folder.id}).pipe(
-    //                     mergeMap((response: any) => [
-    //                         new TarefasActions.SetFolderOnSelectedTarefasSuccess(response),
-    //                         new OperacoesActions.Resultado({
-    //                             type: 'tarefa',
-    //                             content: `Tarefa id ${response.id} editada com sucesso!`,
-    //                             dateTime: response.criadoEm
-    //                         })
-    //                     ],
-    //                     catchError((err) => {
-    //                         console.log(err);
-    //                         return of(new TarefasActions.SetFolderOnSelectedTarefasFailed(err));
-    //                     })
-    //                 ));
-    //             })
-    //         );
-    //
-    // /**
-    //  * ISSUE-107
-    //  * Get Assuntos Processo tarefa from input parameters
-    //  * @type {Observable<any>}
-    //  */
-    // @Effect()
-    // getAssuntosProcessoTarefa: Observable<any> =
-    //     this._actions
-    //         .pipe(
-    //             ofType<TarefasActions.GetAssuntosProcessoTarefa>(TarefasActions.GET_ASSUNTOS_PROCESSO_TAREFA),
-    //             mergeMap((action) => {
-    //                 return this._assuntoService.query(
-    //                     JSON.stringify({
-    //                         ...action.payload.srv.filter
-    //                     }),
-    //                     action.payload.srv.limit,
-    //                     action.payload.srv.offset,
-    //                     JSON.stringify(action.payload.srv.sort),
-    //                     JSON.stringify(action.payload.srv.populate)).pipe(
-    //                         mergeMap((response) => [
-    //                             new AddData<Assunto>({data: response['entities'], schema: assuntoSchema}),
-    //                             new TarefasActions.GetAssuntosProcessoTarefaSuccess({
-    //                                 assuntosId: response['entities'].map(assunto => assunto.id),
-    //                                 idTarefaToLoadAssuntos: action.payload.tarefa,
-    //                                 totalAssuntos: response['total']
-    //                             })
-    //
-    //                         ]),
-    //                         catchError((err, caught) => {
-    //                             console.log(err);
-    //                             this._store.dispatch(new TarefasActions.GetAssuntosProcessoTarefaFailed(err));
-    //                             return caught;
-    //                         })
-    //                     );
-    //
-    //             }),
-    //
-    //         );
+
+    /**
+     * ISSUE-107
+     * Get Assuntos Processo processo from input parameters
+     * @type {Observable<any>}
+     */
+    @Effect()
+    getAssuntosProcessoProcesso: Observable<any> =
+        this._actions
+            .pipe(
+                ofType<ProcessosActions.GetAssuntosProcessoProcesso>(ProcessosActions.GET_ASSUNTOS_PROCESSO),
+                mergeMap((action) => {
+                    return this._assuntoService.query(
+                        JSON.stringify({
+                            ...action.payload.srv.filter
+                        }),
+                        action.payload.srv.limit,
+                        action.payload.srv.offset,
+                        JSON.stringify(action.payload.srv.sort),
+                        JSON.stringify(action.payload.srv.populate)).pipe(
+                            mergeMap((response) => [
+                                new AddData<Assunto>({data: response['entities'], schema: assuntoSchema}),
+                                new ProcessosActions.GetAssuntosProcessoProcessoSuccess({
+                                    assuntosId: response['entities'].map(assunto => assunto.id),
+                                    idProcessoToLoadAssuntos: action.payload.processo,
+                                    totalAssuntos: response['total']
+                                })
+
+                            ]),
+                            catchError((err, caught) => {
+                                console.log(err);
+                                this._store.dispatch(new ProcessosActions.GetAssuntosProcessoProcessoFailed(err));
+                                return caught;
+                            })
+                        );
+
+                }),
+
+            );
 }

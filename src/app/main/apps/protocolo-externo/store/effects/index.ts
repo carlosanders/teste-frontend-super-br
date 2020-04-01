@@ -1,10 +1,7 @@
-import { TarefasEffect } from './protocolos-externos.effects';
-import { FoldersEffect } from './folders.effects';
+import { ProcessosEffect } from './protocolos-externos.effects';
 
 export const effects = [
-    TarefasEffect,
-    FoldersEffect
+    ProcessosEffect
 ];
 
 export * from './protocolos-externos.effects';
-export * from './folders.effects';

@@ -7,7 +7,7 @@ export interface TarefaDetailAppState
 }
 
 export const getTarefaDetailAppState = createFeatureSelector<TarefaDetailAppState>(
-    'tarefa-detail-app'
+    'protocolo-externo-detail-app'
 );
 
 export const getAppState = createSelector(

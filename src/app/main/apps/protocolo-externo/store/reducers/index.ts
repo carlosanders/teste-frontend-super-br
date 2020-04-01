@@ -1,11 +1,9 @@
 import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
 import { ProtocolosExternosReducer, ProcessosState } from './protocolos-externos.reducer';
-import { FoldersReducer, FoldersState } from './folders.reducer';
 
 export interface ProcessosAppState
 {
     tarefas: ProcessosState;
-    folders: FoldersState;
 }
 
 export const getProcessosAppState = createFeatureSelector<ProcessosAppState>(
@@ -18,9 +16,7 @@ export const getAppState = createSelector(
 );
 
 export const reducers: ActionReducerMap<ProcessosAppState> = {
-    tarefas: ProtocolosExternosReducer,
-    folders: FoldersReducer
+    tarefas: ProtocolosExternosReducer
 };
 
 export * from './protocolos-externos.reducer';
-export * from './folders.reducer';

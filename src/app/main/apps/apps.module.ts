@@ -47,6 +47,10 @@ const routes = [
     {
         path        : 'oficios',
         loadChildren: () => import('./oficios/oficios.module').then(m => m.OficiosModule)
+    },
+    {
+        path        : 'protocolo-externo',
+        loadChildren: () => import('./protocolo-externo/protocolos-externos.module').then(m => m.ProtocolosExternosModule)
     }
 ];
 

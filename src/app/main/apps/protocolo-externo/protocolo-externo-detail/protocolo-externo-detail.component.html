@@ -1,9 +1,9 @@
 <div fxFlex fxLayout="column">
 
-    <div class="tarefa-header" fxFlex="0 0 auto" fxLayout="row">
+    <div class="processo-header" fxFlex="0 0 auto" fxLayout="row">
 
         <div class="pre-actions" fxLayout="row" fxLayoutAlign="start center">
-            <button *ngIf="mobileMode" mat-icon-button (click)="deselectCurrentTarefa()">
+            <button *ngIf="mobileMode" mat-icon-button (click)="deselectCurrentProcesso()">
                 <mat-icon class="secondary-text">arrow_back</mat-icon>
             </button>
 
@@ -15,7 +15,7 @@
                 <mat-icon class="secondary-text">subdirectory_arrow_right</mat-icon>
             </button>
 
-            <cdk-vinculacao-etiqueta-chips [vinculacoesEtiquetas]="(tarefa$ | async).vinculacoesEtiquetas"
+            <cdk-vinculacao-etiqueta-chips [vinculacoesEtiquetas]="(processo$ | async).vinculacoesEtiquetas"
                                            (create)="onEtiquetaCreate($event)"
                                            (edit)="onEtiquetaEdit($event)"
                                            [savingVincEtiquetaId]="(savingVincEtiquetaId$ | async)"
@@ -28,7 +28,7 @@
         <div class="actions" fxLayout="row" fxLayoutAlign="start center">
 
             <button mat-icon-button aria-label="Processo" matTooltip="Processo"
-                    [routerLink]="['processo', (tarefa$ | async)?.processo?.id]"
+                    [routerLink]="['processo', (processo$ | async)?.id]"
                     [routerLinkActive]="['active', 'accent']">
                 <mat-icon class="black-fg">book</mat-icon>
             </button>
@@ -39,7 +39,7 @@
                 <mat-icon class="black-fg">send</mat-icon>
             </button>
 
-            <button mat-icon-button aria-label="Editar Tarefa" matTooltip="Editar Tarefa"
+            <button mat-icon-button aria-label="Editar Processo" matTooltip="Editar Processo"
                     [routerLink]="'editar'"
                     [routerLinkActive]="['active', 'accent']">
                 <mat-icon class="black-fg">edit</mat-icon>
@@ -54,10 +54,10 @@
             <mat-menu #moreMenu="matMenu">
 
                 <button mat-menu-item aria-label="toggle done"
-                        (click)="doCreateTarefa()">
+                        (click)="doCreateProcesso()">
                     <ng-container>
                         <mat-icon>check_box</mat-icon>
-                        <span>Criar Tarefa</span>
+                        <span>Criar Processo</span>
                     </ng-container>
                 </button>
 
@@ -84,7 +84,7 @@
 
     </div>
 
-    <div fxFlex="1 1 auto" class="tarefa-content">
+    <div fxFlex="1 1 auto" class="processo-content">
         <router-outlet></router-outlet>
     </div>
 </div>

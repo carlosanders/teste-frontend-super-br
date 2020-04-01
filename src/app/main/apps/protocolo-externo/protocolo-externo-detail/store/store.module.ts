@@ -2,8 +2,8 @@ import { StoreModule } from '@ngrx/store';
 import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 
-import {reducers, TarefaDetailState} from 'app/main/apps/tarefas/tarefa-detail/store/reducers';
-import { effects } from 'app/main/apps/tarefas/tarefa-detail/store/effects';
+import {reducers, ProcessoDetailState} from './reducers';
+import { effects } from './effects';
 
 @NgModule({
     imports  : [
@@ -12,6 +12,6 @@ import { effects } from 'app/main/apps/tarefas/tarefa-detail/store/effects';
     ],
     providers: []
 })
-export class TarefaDetailStoreModule
+export class ProcessoDetailStoreModule
 {
 }
