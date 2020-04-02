@@ -9,7 +9,7 @@ import {getRouterState, State} from 'app/store/reducers';
 import * as ComponentesDigitaisActions from 'app/main/apps/pesquisa/componentes-digitais/store/actions';
 
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
-import {AddData, } from '@cdk/ngrx-normalizr';
+import {AddData} from '@cdk/ngrx-normalizr';
 import {ComponenteDigital} from '@cdk/models';
 import {componenteDigital as componenteDigitalSchema} from '@cdk/normalizr/componente-digital.schema';
 

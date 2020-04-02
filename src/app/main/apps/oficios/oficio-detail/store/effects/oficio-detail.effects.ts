@@ -7,19 +7,17 @@ import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 
-import * as DocumentoAvulsoDetailActions from 'app/main/apps/oficios/oficio-detail/store/actions/oficio-detail.actions';
+import * as DocumentoAvulsoDetailActions from 'app/main/apps/oficios/oficio-detail/store/actions';
 
 import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
 import {Router} from '@angular/router';
 import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
 import {VinculacaoEtiqueta} from '@cdk/models/vinculacao-etiqueta.model';
-import {AddChildData, AddData, RemoveChildData} from '@cdk/ngrx-normalizr';
+import {AddChildData, AddData, RemoveChildData, UpdateData} from '@cdk/ngrx-normalizr';
 import {vinculacaoEtiqueta as vinculacaoEtiquetaSchema} from '@cdk/normalizr/vinculacao-etiqueta.schema';
 import {documentoAvulso as documentoAvulsoSchema} from '@cdk/normalizr/documento-avulso.schema';
-import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
 import {DocumentoService} from '@cdk/services/documento.service';
-import {DocumentoAvulso} from '@cdk/models/documento-avulso.model';
-import {Documento} from '@cdk/models/documento.model';
+import {DocumentoAvulso, Documento} from '@cdk/models';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
@@ -44,7 +42,7 @@ export class OficioDetailEffect {
     }
 
     /**
-     * Get Tarefa with router parameters
+     * Get Documento Avulso with router parameters
      * @type {Observable<any>}
      */
     @Effect()
@@ -69,7 +67,8 @@ export class OficioDetailEffect {
                             'setorOrigem',
                             'setorOrigem.unidade',
                             'vinculacoesEtiquetas',
-                            'vinculacoesEtiquetas.etiqueta'
+                            'vinculacoesEtiquetas.etiqueta',
+                            'documentoResposta'
                         ]),
                         JSON.stringify({chaveAcesso: `${this.routerState.params['chaveAcessoHandle']}`})
                     );
@@ -81,7 +80,7 @@ export class OficioDetailEffect {
                             id: 'documentoAvulsoHandle',
                             value: this.routerState.params.documentoAvulsoHandle
                         },
-                        tarefa: response['entities'][0]
+                        documentoAvulso: response['entities'][0]
                     })
                 ]),
                 catchError((err, caught) => {
@@ -92,7 +91,7 @@ export class OficioDetailEffect {
             );
 
     /**
-     * Deselect Tarefa Action
+     * Deselect Documento Avulso Action
      */
     @Effect({dispatch: false})
     deselectDocumentoAvulsoAction =
@@ -112,7 +111,6 @@ export class OficioDetailEffect {
     createVinculacaoEtiqueta: Observable<any> =
         this._actions
             .pipe(
-
                 ofType<DocumentoAvulsoDetailActions.CreateVinculacaoEtiqueta>(DocumentoAvulsoDetailActions.CREATE_VINCULACAO_ETIQUETA),
                 mergeMap((action) => {
                     const vinculacaoEtiqueta = new VinculacaoEtiqueta();
@@ -132,7 +130,9 @@ export class OficioDetailEffect {
                                 content: `Documento Avulso id ${response.id} etiquetada com sucesso!`,
                                 dateTime: response.criadoEm
                             }),
-                            /*new GetDocumentos()*/
+                            new DocumentoAvulsoDetailActions.GetDocumentoAvulso({
+                                id: `eq:${this.routerState.params.documentoAvulsoHandle}`
+                            })
                         ]),
                         catchError((err) => {
                             console.log(err);
@@ -170,40 +170,31 @@ export class OficioDetailEffect {
                     }
                 ));
 
+
     /**
-     * Get Documentos with router parameters
+     * Save conteúdo vinculação etiqueta
      * @type {Observable<any>}
      */
     @Effect()
-    getDocumentos: any =
+    SaveConteudoVinculacaoEtiqueta: any =
         this._actions
             .pipe(
-                ofType<DocumentoAvulsoDetailActions.GetDocumentos>(DocumentoAvulsoDetailActions.GET_DOCUMENTOS),
-                switchMap((action) => {
-                    return this._documentoService.query(
-                        JSON.stringify(action.payload),
-                        25,
-                        0,
-                        JSON.stringify({}),
-                        JSON.stringify([
-                            'tipoDocumento',
-                            'tipoDocumento.especieDocumento',
-                            'componentesDigitais']));
-                }),
-                mergeMap(response => [
-                    new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
-                    new DocumentoAvulsoDetailActions.GetDocumentosSuccess({
-                        loaded: {
-                            id: 'documentoAvulsoHandle',
-                            value: this.routerState.params.documentoAvulsoHandle
-                        },
-                        entitiesId: response['entities'].map(documento => documento.id),
-                    })
-                ]),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new DocumentoAvulsoDetailActions.GetDocumentosFailed(err));
-                    return caught;
+                ofType<DocumentoAvulsoDetailActions.SaveConteudoVinculacaoEtiqueta>(DocumentoAvulsoDetailActions.SAVE_CONTEUDO_VINCULACAO_ETIQUETA),
+                mergeMap((action) => {
+                    return this._vinculacaoEtiquetaService.patch(action.payload.vinculacaoEtiqueta, action.payload.changes).pipe(
+                        mergeMap((response) => [
+                            new DocumentoAvulsoDetailActions.SaveConteudoVinculacaoEtiquetaSuccess(response.id),
+                            new UpdateData<VinculacaoEtiqueta>({
+                                id: response.id,
+                                schema: vinculacaoEtiquetaSchema,
+                                changes: {conteudo: response.conteudo}
+                            })
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            return of(new DocumentoAvulsoDetailActions.SaveConteudoVinculacaoEtiquetaFailed(err));
+                        })
+                    );
                 })
             );
 }

@@ -1,21 +1,21 @@
-import {Injectable} from '@angular/core';
-import {Actions, Effect, ofType} from '@ngrx/effects';
+import { Injectable } from '@angular/core';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 
-import {Observable, of} from 'rxjs';
-import {catchError, mergeMap} from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { catchError, mergeMap } from 'rxjs/operators';
 
 import * as VinculacaoEtiquetaCreateBlocoActions from '../actions/vinculacao-etiqueta-create-bloco.actions';
 
-import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
-import {AddChildData} from '@cdk/ngrx-normalizr';
-import {vinculacaoEtiqueta as vinculacaoEtiquetaSchema} from '@cdk/normalizr/vinculacao-etiqueta.schema';
-import {VinculacaoEtiqueta} from '@cdk/models';
-import {Router} from '@angular/router';
-import {select, Store} from '@ngrx/store';
-import {getRouterState, State} from 'app/store/reducers';
+import { VinculacaoEtiquetaService } from '@cdk/services/vinculacao-etiqueta.service';
+import { AddChildData } from '@cdk/ngrx-normalizr';
+import { vinculacaoEtiqueta as vinculacaoEtiquetaSchema } from '@cdk/normalizr/vinculacao-etiqueta.schema';
+import { VinculacaoEtiqueta } from '@cdk/models';
+import { Router } from '@angular/router';
+import { select, Store } from '@ngrx/store';
+import { getRouterState, State } from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import * as moment from 'moment';
-import {documentoAvulso as documentoAvulsoSchema} from '@cdk/normalizr/documento-avulso.schema';
+import { documentoAvulso as documentoAvulsoSchema } from '@cdk/normalizr/documento-avulso.schema';
 import * as DocumentosAvulsoActions from 'app/main/apps/oficios/store/actions/oficios.actions';
 
 @Injectable()
@@ -56,9 +56,6 @@ export class VinculacaoEtiquetaCreateBlocoEffect {
                                 childSchema: vinculacaoEtiquetaSchema,
                                 parentSchema: documentoAvulsoSchema,
                                 parentId: action.payload.documentoAvulso.id
-                            }),
-                            new DocumentosAvulsoActions.GetDocumentosAvulso({
-
                             }),
                             new OperacoesActions.Resultado({
                                 type: 'vinculacao_etiqueta',
