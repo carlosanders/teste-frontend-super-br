@@ -1,20 +1,22 @@
 import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
 
-import { Usuario } from '@cdk/models';
-import {Processo} from '@cdk/models';
-import {Pessoa} from '@cdk/models';
-import {TipoDocumento} from '@cdk/models';
-import {Setor} from '@cdk/models';
-import {Tarefa} from '@cdk/models';
-import {OrigemDados} from '@cdk/models';
-import {ComponenteDigital} from '@cdk/models';
-import {VinculacaoDocumento} from '@cdk/models';
-import {DocumentoAvulso} from './documento-avulso.model';
-import {Modelo} from './modelo.model';
-import {Repositorio} from './repositorio.model';
-import {Juntada} from './juntada.model';
-import {Sigilo} from './sigilo.model';
+import {
+    Usuario,
+    Processo,
+    Pessoa,
+    TipoDocumento,
+    Setor,
+    Tarefa,
+    OrigemDados,
+    ComponenteDigital,
+    VinculacaoDocumento,
+    DocumentoAvulso,
+    Modelo,
+    Repositorio,
+    Juntada,
+    Sigilo
+} from '@cdk/models';
 
 export class Documento {
 
@@ -77,6 +79,10 @@ export class Documento {
     @Type(() => Tarefa)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     tarefaOrigem?: Tarefa;
+
+    @Type(() => DocumentoAvulso)
+    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    documentoAvulsoComplementacaoResposta?: DocumentoAvulso;
 
     @Type(() => Juntada)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
@@ -166,6 +172,7 @@ export class Documento {
         this.copia = null;
         this.setorOrigem = null;
         this.tarefaOrigem = null;
+        this.documentoAvulsoComplementacaoResposta = null;
         this.origemDados = null;
         this.modelo = null;
         this.minuta = null;

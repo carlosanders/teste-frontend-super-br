@@ -7,7 +7,8 @@ import {
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Documento} from '@cdk/models';
+import {Documento, Usuario} from '@cdk/models';
+import {LoginService} from '../../../../../app/main/auth/login/login.service';
 
 @Component({
     selector: 'cdk-documento-card',
@@ -56,6 +57,7 @@ export class CdkDocumentoCardComponent implements OnInit {
      * Constructor
      */
     constructor(
+        public _loginService: LoginService,
         private _changeDetectorRef: ChangeDetectorRef
     ) {
     }

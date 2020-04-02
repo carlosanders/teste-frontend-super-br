@@ -58,12 +58,15 @@ export class Usuario {
     @Type(() => VinculacaoUsuario)
     vinculacoesUsuariosPrincipais?: VinculacaoUsuario[];
 
+    @Exclude({toPlainOnly: true})
     @Type(() => Colaborador)
-    @Transform(value => value ? value.id : null, { toPlainOnly: true })
     colaborador?: Colaborador;
 
     @Exclude({toPlainOnly: true})
     roles?: string[];
+
+    @Exclude({toClassOnly: true})
+    reset: boolean;
 
     @Exclude({toPlainOnly: true})
     @Type(() => VinculacaoPessoaUsuario)
@@ -88,5 +91,6 @@ export class Usuario {
         this.apagadoPor = null;
         this.apagadoEm = null;
         this.vinculacoesPessoasUsuarios = null;
+        this.reset = false;
     }
 }
