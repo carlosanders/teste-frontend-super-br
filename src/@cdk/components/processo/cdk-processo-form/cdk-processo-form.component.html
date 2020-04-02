@@ -78,8 +78,7 @@
         <mat-card class="mb-16" fxFlex="0 1 auto" fxLayout="column" *showIfRole="'ROLE_CONVENIADO'">
             <mat-form-field fxFlex>
                 <mat-label>Data de prazo de resposta</mat-label>
-                <input matInput #dataHoraPrazoResposta
-                       name="dataHoraPrazoResposta"
+                <input matInput name="dataHoraPrazoResposta"
                        formControlName="dataHoraPrazoResposta"
                        [matDatetimepicker]="dataHoraPrazoResposta"
                        required>

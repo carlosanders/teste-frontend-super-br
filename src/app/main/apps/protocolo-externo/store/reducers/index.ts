@@ -3,20 +3,20 @@ import { ProtocolosExternosReducer, ProcessosState } from './protocolos-externos
 
 export interface ProcessosAppState
 {
-    tarefas: ProcessosState;
+    processos: ProcessosState;
 }
 
-export const getProcessosAppState = createFeatureSelector<ProcessosAppState>(
-    'processos-app'
+export const getProtocoloExternoAppState = createFeatureSelector<ProcessosAppState>(
+    'protocolo-externo-app'
 );
 
-export const getAppState = createSelector(
-    getProcessosAppState,
+export const getProcessosState = createSelector(
+    getProtocoloExternoAppState,
     (state: ProcessosAppState) => state
 );
 
 export const reducers: ActionReducerMap<ProcessosAppState> = {
-    tarefas: ProtocolosExternosReducer
+    processos: ProtocolosExternosReducer
 };
 
 export * from './protocolos-externos.reducer';

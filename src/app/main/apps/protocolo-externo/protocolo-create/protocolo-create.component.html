@@ -6,8 +6,6 @@
                 [form]="formProcesso"
                 [saving]="(isSaving$ | async)"
                 [errors]="(errors$ | async)"
-                [setorOrigemPagination]="setorOrigemPagination"
-                [setorResponsavelPagination]="setorResponsavelPagination"
                 [unidadeProtocoloExternoPagination]="unidadePagination"
                 (save)="submit($event)">
         </cdk-processo-form>

@@ -16,6 +16,7 @@ export interface ProcessosState {
     };
     loading: boolean;
     loaded: any;
+    loadedPessoa: any;
     deletingProcessoIds: number[];
     togglingLidaProcessoIds: number[];
     currentProcessoId: number;
@@ -46,6 +47,7 @@ export const ProcessosInitialState: ProcessosState = {
     },
     loading: false,
     loaded: false,
+    loadedPessoa: false,
     deletingProcessoIds: [],
     togglingLidaProcessoIds: [],
     deletedProcessoIds: [],
