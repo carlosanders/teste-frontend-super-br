@@ -10,7 +10,7 @@ export const getProtocoloExternoAppState = createFeatureSelector<ProcessosAppSta
     'protocolo-externo-app'
 );
 
-export const getProcessosState = createSelector(
+export const getProtocoloExternoState = createSelector(
     getProtocoloExternoAppState,
     (state: ProcessosAppState) => state
 );
