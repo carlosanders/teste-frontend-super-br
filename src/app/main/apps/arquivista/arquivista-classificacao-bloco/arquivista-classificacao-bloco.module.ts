@@ -7,6 +7,7 @@ import {CdkClassificacaoTreeService} from '@cdk/components/classificacao/cdk-cla
 import {RouterModule, Routes} from '@angular/router';
 import {CdkClassificacaoTreeModule} from '../../../../../@cdk/components/classificacao/cdk-classificacao-tree/cdk-classificacao-tree.module';
 import {MatListModule} from '@angular/material/list';
+import {LoginService} from '../../../auth/login/login.service';
 
 const routes: Routes = [
     {
@@ -26,7 +27,8 @@ const routes: Routes = [
     ],
     providers: [
         ClassificacaoService,
-        CdkClassificacaoTreeService
+        CdkClassificacaoTreeService,
+        LoginService,
     ]
 })
 export class ArquivistaClassificacaoBlocoModule {

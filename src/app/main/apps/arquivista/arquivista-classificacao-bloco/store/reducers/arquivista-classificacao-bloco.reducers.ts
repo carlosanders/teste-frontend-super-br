@@ -1,7 +1,18 @@
+import {Etiqueta} from '@cdk/models';
 import * as ArquivistaClassificacaoBlocoActions from '../actions';
 
 export interface ArquivistaClassificacaoBlocoState {
-    classificacaoId: number;
+    entitiesId: number;
+    pagination: {
+        limit: number;
+        offset: number;
+        filter: any;
+        listFilter: any;
+        etiquetaFilter: Etiqueta[];
+        populate: any;
+        sort: any;
+        total: number;
+    };
     saving: boolean;
     errors: any;
     loading: boolean;
@@ -10,7 +21,17 @@ export interface ArquivistaClassificacaoBlocoState {
 
 export const ArquivistaClassificacaoBlocoInitialState: ArquivistaClassificacaoBlocoState = {
     errors: false,
-    classificacaoId: null,
+    pagination: {
+        limit: 0,
+        offset: 0,
+        filter: {},
+        listFilter: {},
+        etiquetaFilter: [],
+        populate: [],
+        sort: {},
+        total: 0,
+    },
+    entitiesId: null,
     loaded: false,
     loading: false,
     saving: false
@@ -25,7 +46,7 @@ export function ArquivistaClassificacaoBlocoReducer(
         case ArquivistaClassificacaoBlocoActions.GET_ARQUIVISTA_CLASSIFICACAO_BLOCO : {
             return {
                 ...state,
-                classificacaoId: null,
+                entitiesId: null,
                 loading: true
             };
         }
@@ -34,16 +55,15 @@ export function ArquivistaClassificacaoBlocoReducer(
 
             return {
                 ...state,
-                classificacaoId: action.payload.classificacaoId,
+                entitiesId: action.payload.entitiesId,
                 loaded: action.payload.loaded,
-                loading: false
             };
         }
 
         case ArquivistaClassificacaoBlocoActions.UPDATE_ARQUIVISTA_CLASSIFICACAO_BLOCO: {
             return {
                 ...state,
-                classificacaoId: null,
+                entitiesId: null,
                 loaded: {
                     id: 'classificacaoHandle',
                     value: 'classificacao'
@@ -70,7 +90,7 @@ export function ArquivistaClassificacaoBlocoReducer(
         case ArquivistaClassificacaoBlocoActions.SAVE_ARQUIVISTA_CLASSIFICACAO_BLOCO_SUCCESS: {
             return {
                 ...state,
-                saving: false,
+                saving: true,
                 errors: false
             };
         }
@@ -80,6 +100,49 @@ export function ArquivistaClassificacaoBlocoReducer(
                 ...state,
                 saving: false,
                 errors: action.payload
+            };
+        }
+
+        case ArquivistaClassificacaoBlocoActions.GET_PROCESSOS: {
+            return {
+                ...state,
+                loading: true,
+                pagination: {
+                    limit: action.payload.limit,
+                    offset: action.payload.offset,
+                    filter: action.payload.filter,
+                    listFilter: action.payload.listFilter,
+                    etiquetaFilter: action.payload.etiquetaFilter,
+                    populate: action.payload.populate,
+                    sort: action.payload.sort,
+                    total: state.pagination.total
+                }
+            };
+        }
+
+        case ArquivistaClassificacaoBlocoActions.GET_PROCESSOS_SUCCESS: {
+
+            const loaded = action.payload.loaded;
+
+            return {
+                ...state,
+                entitiesId: action.payload.entitiesId,
+                pagination: {
+                    ...state.pagination,
+                    total: action.payload.total
+                },
+                loading: false,
+                loaded,
+                saving: false
+            };
+        }
+
+        case ArquivistaClassificacaoBlocoActions.GET_PROCESSOS_FAILED: {
+            return {
+                ...state,
+                loading: false,
+                loaded: false,
+                saving: false
             };
         }
 
