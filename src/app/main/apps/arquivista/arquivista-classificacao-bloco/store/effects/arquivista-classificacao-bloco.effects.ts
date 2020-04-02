@@ -1,19 +1,21 @@
 import {Actions, Effect, ofType} from '@ngrx/effects';
-import {ProcessoService} from '@cdk/services/processo.service';
 import {select, Store} from '@ngrx/store';
-import {getRouterState, State} from '../../../../../../store/reducers';
 import {Router} from '@angular/router';
-import * as ArquivistaClassificacaoBloco from '../actions/arquivista-classificacao-bloco.actions';
 import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
-import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
-import {Processo} from '@cdk/models';
-import {processo as processoSchema} from '@cdk/normalizr/processo.schema';
-import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {Observable, of} from 'rxjs';
 import {Injectable} from '@angular/core';
-import * as fromStore from '../../store';
 import * as moment from 'moment';
+
+import {Processo} from '@cdk/models';
+import {processo as processoSchema} from '@cdk/normalizr/processo.schema';
+import {ProcessoService} from '@cdk/services/processo.service';
 import {LoginService} from '../../../../../auth/login/login.service';
+
+import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
+import * as ArquivistaClassificacaoBloco from '../actions/arquivista-classificacao-bloco.actions';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
+import * as fromStore from '../../store';
+import {getRouterState, State} from '../../../../../../store/reducers';
 
 @Injectable()
 export class ArquivistaClassificacaoBlocoBlocoEffects {
