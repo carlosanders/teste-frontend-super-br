@@ -11,12 +11,13 @@ import * as fromStore from '../../store';
 import {getProcessosLoaded} from '../selectors';
 import {getRouterState} from 'app/store/reducers';
 import {LoginService} from '../../../../auth/login/login.service';
-import {Usuario} from '@cdk/models';
+import {Usuario, VinculacaoPessoaUsuario} from '@cdk/models';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
 
     private _profile: Usuario;
+    private pessoasConveniadas: VinculacaoPessoaUsuario[];
     routerState: any;
 
     /**
@@ -38,6 +39,7 @@ export class ResolveGuard implements CanActivate {
             });
 
         this._profile = _loginService.getUserProfile();
+        this.pessoasConveniadas = this._profile.vinculacoesPessoasUsuarios;
     }
 
     /**
@@ -48,10 +50,12 @@ export class ResolveGuard implements CanActivate {
      * @returns {Observable<boolean>}
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-        return this.checkRole(this.getProcessos()).pipe(
-            switchMap(() => of(true)),
-            catchError(() => of(false))
-        );
+        if (this.getRouterDefault()) {
+            return this.checkRole(this.getProcessos()).pipe(
+                switchMap(() => of(true)),
+                catchError(() => of(false))
+            );
+        }
     }
 
     /**
@@ -82,7 +86,8 @@ export class ResolveGuard implements CanActivate {
 
                     const params = {
                         filter: {
-                            'criadoPor.id': 'eq:' + this._profile.id
+                            'criadoPor.id': `eq:${this._profile.id}`,
+                            'procedencia.id': `eq:${this.routerState.params.pessoaHandle}`
                         },
                         etiquetaFilter: {},
                         limit: 10,
@@ -113,5 +118,14 @@ export class ResolveGuard implements CanActivate {
             }),
             take(1)
         );
+    }
+
+    getRouterDefault(): boolean {
+        if (!this.routerState.params['pessoaHandle']) {
+            this._router.navigate(['apps/protocolo-externo/entrada/' + this.pessoasConveniadas[0].pessoa.id]);
+            return false;
+        }
+
+        return true;
     }
 }

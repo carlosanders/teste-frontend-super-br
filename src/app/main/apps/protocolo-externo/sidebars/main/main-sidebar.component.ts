@@ -1,7 +1,7 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component,
+    Component, Input,
     OnDestroy,
     OnInit,
     ViewEncapsulation
@@ -31,6 +31,9 @@ export class ProcessoMainSidebarComponent implements OnInit, OnDestroy {
     mode = 'Processos';
 
     routerState: any;
+
+    @Input()
+    pessoasConveniadas: any;
 
     /**
      *

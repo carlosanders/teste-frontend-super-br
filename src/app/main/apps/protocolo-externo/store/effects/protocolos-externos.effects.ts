@@ -97,7 +97,8 @@ export class ProcessosEffect {
                             ]).then();
                     } else {*/
                         this._router.navigate([
-                            'apps/protocolo-externo/detalhe/' + action.payload.processoId + '/processo/' + action.payload.processoId + '/visualizar/12345678']
+                            'apps/protocolo-externo/' + this.routerState.params.oficioTargetHandle + '/' + this.routerState.params.pessoaHandle +
+                            '/detalhe/' + action.payload.processoId + '/processo/' + action.payload.processoId + '/visualizar']
                         ).then();
                     /*}*/
 
@@ -196,10 +197,10 @@ export class ProcessosEffect {
      * @type {Observable<any>}
      */
     @Effect()
-    getAssuntosProcessoProcesso: Observable<any> =
+    getAssuntosProcesso: Observable<any> =
         this._actions
             .pipe(
-                ofType<ProcessosActions.GetAssuntosProcessoProcesso>(ProcessosActions.GET_ASSUNTOS_PROCESSO),
+                ofType<ProcessosActions.GetAssuntosProcesso>(ProcessosActions.GET_ASSUNTOS_PROCESSO),
                 mergeMap((action) => {
                     return this._assuntoService.query(
                         JSON.stringify({
@@ -211,7 +212,7 @@ export class ProcessosEffect {
                         JSON.stringify(action.payload.srv.populate)).pipe(
                             mergeMap((response) => [
                                 new AddData<Assunto>({data: response['entities'], schema: assuntoSchema}),
-                                new ProcessosActions.GetAssuntosProcessoProcessoSuccess({
+                                new ProcessosActions.GetAssuntosProcessoSuccess({
                                     assuntosId: response['entities'].map(assunto => assunto.id),
                                     idProcessoToLoadAssuntos: action.payload.processo,
                                     totalAssuntos: response['total']
@@ -220,7 +221,7 @@ export class ProcessosEffect {
                             ]),
                             catchError((err, caught) => {
                                 console.log(err);
-                                this._store.dispatch(new ProcessosActions.GetAssuntosProcessoProcessoFailed(err));
+                                this._store.dispatch(new ProcessosActions.GetAssuntosProcessoFailed(err));
                                 return caught;
                             })
                         );

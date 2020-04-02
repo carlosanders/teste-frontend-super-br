@@ -31,7 +31,7 @@ import {ToggleMaximizado} from 'app/main/apps/protocolo-externo/store';
 import {Topico} from 'ajuda/topico';
 import {Etiqueta, Pagination, Usuario, Assunto} from '@cdk/models';
 
-import * as fromAssuntoStore from 'app/main/apps/processo/processo-edit/assuntos/assunto-list/store';
+import * as fromAssuntoStore from './assuntos/assunto-list/store';
 import { AssuntoService } from '@cdk/services/assunto.service';
 
 @Component({
@@ -90,9 +90,6 @@ export class ProtocoloExternoComponent implements OnInit, OnDestroy, AfterViewIn
 
     mobileMode = false;
 
-    /*
-    * ISSUE-107
-    */
     assuntos: Assunto[] = [];
     assuntos$: Observable<Assunto[]>;
     idProcessoToLoadAssuntos$: Observable<number>;
@@ -107,6 +104,9 @@ export class ProtocoloExternoComponent implements OnInit, OnDestroy, AfterViewIn
     processoToLoadAssuntos$: Observable<Processo>;
     AjudaProcesso: Topico;
     PesquisaProcesso: string;
+
+    pessoasConveniadas: any;
+    currentPessoaConveniadaId: any;
 
     @ViewChild('processoListElement', {read: ElementRef, static: true}) processoListElement: ElementRef;
 
@@ -129,9 +129,7 @@ export class ProtocoloExternoComponent implements OnInit, OnDestroy, AfterViewIn
         private _store: Store<fromStore.ProcessosAppState>,
         private _loginService: LoginService,
         private _assuntoService: AssuntoService,
-        /*
-         * ISSUE-107 
-         */
+
         private _storeAssutos: Store<fromAssuntoStore.AssuntoListAppState>
 
     ) {
@@ -156,14 +154,13 @@ export class ProtocoloExternoComponent implements OnInit, OnDestroy, AfterViewIn
         this.vinculacaoEtiquetaPagination.filter = {'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.id};
 
         this.assuntoService = _assuntoService;
-        /*
-         * ISSUE-107 
-         */
+
         this.assuntos = [];
         this.assuntoLoading$ = this._store.pipe(select(fromStore.getIsAssuntoLoading));
         this.assuntoPanelOpen$ = this._store.pipe(select(fromStore.getIsAssuntoPanelIsOpen));
         this.assuntos$ = this._store.pipe(select(fromStore.getAssuntosProcessos));
         this.idProcessoToLoadAssuntos$ = this._store.pipe(select(fromStore.getIdProcessoToLoadAssuntos));
+        this.pessoasConveniadas =  this._profile.vinculacoesPessoasUsuarios;
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -189,6 +186,12 @@ export class ProtocoloExternoComponent implements OnInit, OnDestroy, AfterViewIn
             takeUntil(this._unsubscribeAll)
         ).subscribe(routerState => {
             this.currentProcessoId = parseInt(routerState.state.params['processoHandle'], 0);
+        });
+
+        this.routerState$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(routerState => {
+            this.currentPessoaConveniadaId = parseInt(routerState.state.params['pessoaHandle'], 0);
         });
 
         this.processos$.pipe(
@@ -324,7 +327,8 @@ export class ProtocoloExternoComponent implements OnInit, OnDestroy, AfterViewIn
         }*/
         this._store.dispatch(new fromStore.SetCurrentProcesso({
             processoId: processo.id,
-            acessoNegado: processo.acessoNegado
+            acessoNegado: processo.acessoNegado,
+            pessoaConveniada: this.currentPessoaConveniadaId
         }));
     }
 
@@ -437,10 +441,10 @@ export class ProtocoloExternoComponent implements OnInit, OnDestroy, AfterViewIn
     * @processo
     * Recebe a referencia da processo carregada no componente de lista de processos
     */
-    /*doLoadAssuntos(processo): void {
+    doLoadAssuntos(processo): void {
 
-        const processo = {
-            'processo.id' : 'eq:' + processo.id
+        const processoFilter = {
+            'processo.id': `eq:${processo.id}`
         };
         
         const sort = {
@@ -451,7 +455,7 @@ export class ProtocoloExternoComponent implements OnInit, OnDestroy, AfterViewIn
         const populate = ['populateAll'];
 
         const serviceParams = {
-            filter: processo,
+            filter: processoFilter,
             sort : sort,
             limit : 10,
             offset : 0,
@@ -459,7 +463,7 @@ export class ProtocoloExternoComponent implements OnInit, OnDestroy, AfterViewIn
         };
 
         const proc = {
-            proc: processo.processo
+            proc: processo
         };
 
         const params = {
@@ -468,6 +472,6 @@ export class ProtocoloExternoComponent implements OnInit, OnDestroy, AfterViewIn
             processo: processo.id
         };
 
-        this._store.dispatch(new fromStore.GetAssuntosProcessoProcesso(params));
-    }*/
+        this._store.dispatch(new fromStore.GetAssuntosProcesso(params));
+    }
 }
