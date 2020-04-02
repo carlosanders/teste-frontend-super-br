@@ -121,8 +121,8 @@ export class ResolveGuard implements CanActivate {
     }
 
     getRouterDefault(): boolean {
-        if (!this.routerState.params['pessoaHandle']) {
-            this._router.navigate(['apps/protocolo-externo/entrada/' + this.pessoasConveniadas[0].pessoa.id]);
+        if (this.routerState.params['pessoaHandle'] === 'default') {
+            this._router.navigate(['apps/protocolo-externo/' + this.pessoasConveniadas[0].pessoa.id]);
             return false;
         }
 

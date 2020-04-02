@@ -39,7 +39,7 @@ import {EspecieProcessoService} from '@cdk/services/especie-processo.service';
 
 const routes: Routes = [
     {
-        path: ':oficioTargetHandle/:pessoaHandle',
+        path: ':pessoaHandle',
         component: ProtocoloExternoComponent,
         children: [
             {
@@ -95,7 +95,7 @@ const routes: Routes = [
     },
     {
         path: '**',
-        redirectTo: 'entrada/'
+        redirectTo: 'default'
     }
 ];
 
