@@ -115,9 +115,8 @@ export class ProcessosEffect {
             .pipe(
                 ofType<ProcessosActions.CreateProcesso>(ProcessosActions.CREATE_PROCESSO),
                 map(() => {
-                    this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' +
-                    this.routerState.params.typeHandle + '/' +
-                    '/' + this.routerState.params.targetHandle + '/criar']).then();
+                    this._router.navigate(['apps/protocolo-externo/' + this.routerState.params.pessoaHandle +
+                    '/criar']).then();
                     return new ProcessosActions.CreateProcessoSuccess();
                 })
             );

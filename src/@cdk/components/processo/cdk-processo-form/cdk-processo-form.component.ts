@@ -82,6 +82,9 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     @Input()
     setorAtualPagination: Pagination;
 
+    @Input()
+    unidadeProtocoloExternoPagination: Pagination;
+
     @Output()
     save = new EventEmitter<Processo>();
 
@@ -106,6 +109,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     @Input()
     processoPagination: Pagination;
 
+    @Input()
     form: FormGroup;
 
     activeCard = 'form';
@@ -148,6 +152,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
         this.modalidadeMeioPagination = new Pagination();
         this.modalidadeFasePagination = new Pagination();
         this.setorAtualPagination = new Pagination();
+        this.unidadeProtocoloExternoPagination = new Pagination();
         this.processoPagination = new Pagination();
         this.processoPagination.populate = ['especieProcesso', 'modalidadeMeio', 'classificacao', 'setorAtual', 'setorAtual.unidade'];
 
@@ -370,11 +375,29 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
         }
     }
 
+    checkUnidadeProtocoloExterno(): void {
+        const value = this.form.get('unidadeProtocoloExterno').value;
+        if (!value || typeof value !== 'object') {
+            this.form.get('unidadeProtocoloExterno').setValue(null);
+        }
+    }
+
     selectSetor(setor: Setor): void {
         if (setor) {
             this.form.get('setorAtual').setValue(setor);
         }
         this.activeCard = 'form';
+    }
+
+    selectUnidadeProtocoloExterno(unidade: Setor): void {
+        if (unidade) {
+            this.form.get('unidadeProtocoloExterno').setValue(unidade);
+        }
+        this.activeCard = 'form';
+    }
+
+    showUnidadeProtocoloExternoGrid(): void {
+        this.activeCard = 'unidade-protocolo-externo-gridsearch';
     }
 
     showSetorGrid(): void {

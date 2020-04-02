@@ -22,6 +22,7 @@ import {MatDialog} from '@cdk/angular/material';
 import {CdkVisibilidadePluginComponent} from '@cdk/components/visibilidade/cdk-visibilidade-plugin/cdk-visibilidade-plugin.component';
 import {Router} from '@angular/router';
 import {getRouterState} from '../../../../store/reducers';
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
     selector: 'protocolo-create',
@@ -43,6 +44,7 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
     especieTarefaPagination: Pagination;
     setorOrigemPagination: Pagination;
     setorResponsavelPagination: Pagination;
+    unidadePagination: Pagination;
 
     processo$: Observable<Processo>;
     processo: Processo;
@@ -51,6 +53,8 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
     NUP: any;
 
     routerState: any;
+
+    formProcesso: FormGroup;
 
     /**
      * @param _store
@@ -62,12 +66,12 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
         private _store: Store<fromStore.ProtocoloCreateAppState>,
         public _loginService: LoginService,
         public dialog: MatDialog,
-        private _router: Router
+        private _router: Router,
+        private _formBuilder: FormBuilder
     ) {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.processo$ = this._store.pipe(select(fromStore.getProcesso));
-        this._profile = _loginService.getUserProfile().colaborador;
         this.visibilidades$ = this._store.pipe(select(fromStore.getVisibilidadeProcesso));
 
         this.especieTarefaPagination = new Pagination();
@@ -77,6 +81,28 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
         this.setorOrigemPagination.filter = {id: 'in:' + this._profile.lotacoes.map(lotacao => lotacao.setor.id).join(',')};
         this.setorResponsavelPagination = new Pagination();
         this.setorResponsavelPagination.populate = ['unidade', 'parent'];
+        this.unidadePagination = new Pagination();
+        this.unidadePagination.populate = ['unidade', 'parent'];
+        this.unidadePagination.filter = {unidadePai: 'isNull'};
+
+        this.formProcesso = this._formBuilder.group({
+            id: [null],
+            titulo: [null],
+            descricao: [null, [Validators.maxLength(255)]],
+            outroNumero: [null],
+            valorEconomico: [null],
+            semValorEconomico: [null],
+            classificacao: [null],
+            procedencia: [null, [Validators.required]],
+            localizador: [null],
+            setorAtual: [null],
+            modalidadeMeio: [null],
+            modalidadeFase: [null],
+            dataHoraAbertura: [null],
+            dataHoraPrazoResposta: [null, [Validators.required]],
+            unidadeProtocoloExterno: [null, [Validators.required]],
+        });
+
     }
 
     // -----------------------------------------------------------------------------------------------------
