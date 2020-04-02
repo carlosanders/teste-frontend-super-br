@@ -12,16 +12,13 @@ import {Observable, Subject} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
-import {Pagination} from '@cdk/models';
+import {Pagination, Pessoa, Processo} from '@cdk/models';
 import * as moment from 'moment';
-import {Colaborador} from '@cdk/models';
-import {LoginService} from 'app/main/auth/login/login.service';
-import {Processo} from '@cdk/models';
 import {take, takeUntil, tap} from 'rxjs/operators';
 import {MatDialog} from '@cdk/angular/material';
-import {CdkVisibilidadePluginComponent} from '@cdk/components/visibilidade/cdk-visibilidade-plugin/cdk-visibilidade-plugin.component';
 import {Router} from '@angular/router';
 import {getRouterState} from '../../../../store/reducers';
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
     selector: 'protocolo-create',
@@ -37,46 +34,65 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
 
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
+    pessoaProcedencia$: Observable<Pessoa>;
+    pessoaProcedencia: Pessoa;
 
-    _profile: Colaborador;
+    unidadePagination: Pagination;
 
-    especieTarefaPagination: Pagination;
-    setorOrigemPagination: Pagination;
-    setorResponsavelPagination: Pagination;
-
-    processo$: Observable<Processo>;
     processo: Processo;
-
-    visibilidades$: Observable<boolean>;
-    NUP: any;
 
     routerState: any;
 
+    formProcesso: FormGroup;
+
+
     /**
+     *
      * @param _store
-     * @param _loginService
      * @param dialog
      * @param _router
+     * @param _formBuilder
      */
     constructor(
         private _store: Store<fromStore.ProtocoloCreateAppState>,
-        public _loginService: LoginService,
         public dialog: MatDialog,
-        private _router: Router
+        private _router: Router,
+        private _formBuilder: FormBuilder
     ) {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
-        this.processo$ = this._store.pipe(select(fromStore.getProcesso));
-        this._profile = _loginService.getUserProfile().colaborador;
-        this.visibilidades$ = this._store.pipe(select(fromStore.getVisibilidadeProcesso));
 
-        this.especieTarefaPagination = new Pagination();
-        this.especieTarefaPagination.populate = ['generoTarefa'];
-        this.setorOrigemPagination = new Pagination();
-        this.setorOrigemPagination.populate = ['unidade', 'parent'];
-        this.setorOrigemPagination.filter = {id: 'in:' + this._profile.lotacoes.map(lotacao => lotacao.setor.id).join(',')};
-        this.setorResponsavelPagination = new Pagination();
-        this.setorResponsavelPagination.populate = ['unidade', 'parent'];
+        // implementar aqui um chamado para o seletor de pessoa que você terá que implementar no store do módulo pai
+        // this.pessoaProcedencia$ = this._store.pipe(select(fromStore.getPessoa));
+
+        this.unidadePagination = new Pagination();
+        this.unidadePagination.populate = ['unidade', 'parent'];
+        this.unidadePagination.filter = {parent: 'isNull'};
+
+        this.formProcesso = this._formBuilder.group({
+            id: [null],
+            temProcessoOrigem: [null],
+            processoOrigem: [null],
+            NUP: [null],
+            novo: [null],
+            especieProcesso: [null],
+            visibilidadeExterna: [null],
+            titulo: [null],
+            descricao: [null, [Validators.maxLength(255)]],
+            outroNumero: [null],
+            valorEconomico: [null],
+            semValorEconomico: [null],
+            classificacao: [null],
+            procedencia: [null, [Validators.required]],
+            localizador: [null],
+            setorAtual: [null],
+            modalidadeMeio: [null],
+            modalidadeFase: [null],
+            dataHoraAbertura: [null],
+            dataHoraPrazoResposta: [null, [Validators.required]],
+            unidadeProtocoloExterno: [null, [Validators.required]],
+        });
+
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -98,52 +114,19 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
             }
         });
 
-        this.processo$.pipe(
-            takeUntil(this._unsubscribeAll)
-        ).subscribe(p => {
-            this.processo = p;
-        });
+        // Descomentar quando estiver implementado o getPessoa
+        // this._store
+        //     .pipe(
+        //         select(hasLoadedPessoa),
+        //         takeUntil(this._unsubscribeAll)
+        //     ).subscribe(pessoa => {
+        //     if (pessoa) {
+        //         this.pessoaProcedencia = pessoa;
+        //     }
+        // });
 
         this.processo = new Processo();
-        this.processo.procedencia = this._profile.lotacoes[0].setor.unidade;
-
-        this.visibilidades$.pipe(
-            takeUntil(this._unsubscribeAll),
-        ).subscribe(
-            (restricao) => {
-                if (restricao) {
-                    const dialogRef = this.dialog.open(CdkVisibilidadePluginComponent, {
-                        data: {
-                            NUP: this.NUP
-                        },
-                        hasBackdrop: false,
-                        closeOnNavigation: true
-                    });
-
-                    dialogRef.afterClosed()
-                        .pipe(
-                            tap(
-                                (value) => {
-                                    const processoId = this.routerState.params.processoHandle ?
-                                        this.routerState.params.processoHandle : this.processo.id;
-                                    if (value === 1 && processoId) {
-                                        this._router.navigate(['apps/tarefas/' +
-                                        this.routerState.params.generoHandle + '/' +
-                                        this.routerState.params.typeHandle + '/' +
-                                        this.routerState.params.targetHandle + '/visibilidade/' + processoId]);
-                                    }
-                                }
-                            ),
-                            tap(() => dialogRef.close()),
-                            take(1)
-                        ).subscribe();
-
-                    this._store.dispatch(new fromStore.GetVisibilidadesSuccess({
-                        restricaoProcesso: false
-                    }));
-                }
-            }
-        );
+        //this.processo.procedencia = this.pessoaProcedencia;
     }
 
     /**
@@ -156,14 +139,6 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
         if (this.dialog) {
             this.dialog.closeAll();
         }
-    }
-
-    verificaVisibilidadeProcesso(value): void {
-
-        this.NUP = value.NUP;
-        this.processo = value;
-        this._store.dispatch(new fromStore.GetVisibilidades(value.id));
-
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -179,8 +154,6 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
                 processo[key] = value;
             }
         );
-
-        processo.vinculacoesEtiquetas = this.processo.vinculacoesEtiquetas;
 
         this._store.dispatch(new fromStore.SaveProcesso(processo));
 

@@ -46,10 +46,10 @@ const routes: Routes = [
                 path: '',
                 loadChildren: () => import('./protocolo-externo-empty/protocolo-externo-empty.module').then(m => m.ProtocoloExternoEmptyModule)
             },
-            /*{
+            {
                 path: 'criar',
-                loadChildren: () => import('./tarefa-create/tarefa-create.module').then(m => m.TarefaCreateModule)
-            },*/
+                loadChildren: () => import('./protocolo-create/protocolo-create.module').then(m => m.ProtocoloCreateModule)
+            },
             {
                 path: 'detalhe',
                 loadChildren: () => import('./protocolo-externo-detail/protocolo-externo-detail.module').then(m => m.ProtocoloExternoDetailModule),
