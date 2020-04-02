@@ -99,7 +99,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     ngAfterViewInit(): void {
-        const path = 'app/main/apps/tarefas/protocolo-externo-detail';
+        const path = 'app/main/apps/tarefas/tarefa-detail';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path)) {
                 module.components[path].forEach((c => {

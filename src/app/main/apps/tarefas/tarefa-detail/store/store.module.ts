@@ -7,7 +7,7 @@ import { effects } from 'app/main/apps/tarefas/tarefa-detail/store/effects';
 
 @NgModule({
     imports  : [
-        StoreModule.forFeature('protocolo-externo-detail-app', reducers),
+        StoreModule.forFeature('tarefa-detail-app', reducers),
         EffectsModule.forFeature(effects)
     ],
     providers: []
