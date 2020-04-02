@@ -1,7 +1,19 @@
-import * as RealizarTransicaoActions from '../actions/realizar-transicao.actions';
+import * as RealizarTransicaoActions from '../actions';
+
+import {Etiqueta} from '@cdk/models';
 
 export interface RealizarTransicaoState {
-    transicaoId: number;
+    entitiesId: number;
+    pagination: {
+        limit: number;
+        offset: number;
+        filter: any;
+        listFilter: any;
+        etiquetaFilter: Etiqueta[];
+        populate: any;
+        sort: any;
+        total: number;
+    };
     saving: boolean;
     errors: any;
     loading: boolean;
@@ -9,11 +21,21 @@ export interface RealizarTransicaoState {
 }
 
 export const RealizarTransicaoInitialState: RealizarTransicaoState = {
-    transicaoId: null,
-    saving: false,
     errors: false,
+    pagination: {
+        limit: 0,
+        offset: 0,
+        filter: {},
+        listFilter: {},
+        etiquetaFilter: [],
+        populate: [],
+        sort: {},
+        total: 0,
+    },
+    entitiesId: null,
+    loaded: false,
     loading: false,
-    loaded: false
+    saving: false
 };
 
 export function RealizarTransicaoReducer(
@@ -22,44 +44,33 @@ export function RealizarTransicaoReducer(
 ): RealizarTransicaoState {
     switch (action.type) {
 
-        case RealizarTransicaoActions.GET_TRANSICAO: {
+        case RealizarTransicaoActions.GET_REALIZAR_TRANSICAO : {
             return {
                 ...state,
-                transicaoId: null,
+                entitiesId: null,
                 loading: true
             };
         }
 
-        case RealizarTransicaoActions.GET_TRANSICAO_SUCCESS: {
+        case RealizarTransicaoActions.GET_REALIZAR_TRANSICAO_SUCCESS: {
 
             return {
                 ...state,
-                transicaoId: action.payload.transicaoId,
+                entitiesId: action.payload.entitiesId,
                 loaded: action.payload.loaded,
                 loading: false
             };
         }
 
-        case RealizarTransicaoActions.CREATE_TRANSICAO: {
-            return {
-                ...state,
-                transicaoId: null,
-                loaded: {
-                    id: 'transicaoHandle',
-                    value: 'criar'
-                },
-                loading: false
-            };
-        }
 
-        case RealizarTransicaoActions.GET_TRANSICAO_FAILED: {
+        case RealizarTransicaoActions.GET_REALIZAR_TRANSICAO_FAILED: {
             return {
                 ...state,
                 loading: false
             };
         }
 
-        case RealizarTransicaoActions.SAVE_TRANSICAO: {
+        case RealizarTransicaoActions.SAVE_REALIZAR_TRANSICAO: {
             return {
                 ...state,
                 saving: true,
@@ -67,7 +78,7 @@ export function RealizarTransicaoReducer(
             };
         }
 
-        case RealizarTransicaoActions.SAVE_TRANSICAO_SUCCESS: {
+        case RealizarTransicaoActions.SAVE_REALIZAR_TRANSICAO_SUCCESS: {
             return {
                 ...state,
                 saving: false,
@@ -75,7 +86,7 @@ export function RealizarTransicaoReducer(
             };
         }
 
-        case RealizarTransicaoActions.SAVE_TRANSICAO_FAILED: {
+        case RealizarTransicaoActions.SAVE_REALIZAR_TRANSICAO_FAILED: {
             return {
                 ...state,
                 saving: false,
@@ -83,7 +94,50 @@ export function RealizarTransicaoReducer(
             };
         }
 
+        case RealizarTransicaoActions.GET_PROCESSOS: {
+            return {
+                ...state,
+                loading: true,
+                pagination: {
+                    limit: action.payload.limit,
+                    offset: action.payload.offset,
+                    filter: action.payload.filter,
+                    listFilter: action.payload.listFilter,
+                    etiquetaFilter: action.payload.etiquetaFilter,
+                    populate: action.payload.populate,
+                    sort: action.payload.sort,
+                    total: state.pagination.total
+                }
+            };
+        }
+
+        case RealizarTransicaoActions.GET_PROCESSOS_SUCCESS: {
+
+            const loaded = action.payload.loaded;
+
+            return {
+                ...state,
+                entitiesId: action.payload.entitiesId,
+                pagination: {
+                    ...state.pagination,
+                    total: action.payload.total
+                },
+                loading: false,
+                loaded
+            };
+        }
+
+        case RealizarTransicaoActions.GET_PROCESSOS_FAILED: {
+            return {
+                ...state,
+                loading: false,
+                loaded: false
+            };
+        }
+
         default:
             return state;
     }
+
 }
+

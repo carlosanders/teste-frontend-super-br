@@ -1,10 +1,11 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {Lembrete, Processo} from '../../../../../@cdk/models';
 import {Observable, Subject} from 'rxjs';
+import {filter, takeUntil} from 'rxjs/operators';
+
 import {select, Store} from '@ngrx/store';
+import {Processo} from '@cdk/models';
 import * as fromStore from '../arquivista-classificacao-bloco/store';
 import {getOperacoesState, getRouterState, RouterStateUrl} from '../../../../store/reducers';
-import {filter, takeUntil} from 'rxjs/operators';
 import {getSelectedProcessos} from '../arquivista-list/store/selectors';
 
 @Component({

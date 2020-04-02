@@ -1,7 +1,18 @@
 import * as LembreteActions from '../actions';
+import {Etiqueta} from '../../../../../../../@cdk/models';
 
 export interface LembreteState {
-    lembreteId: number;
+    entitiesId: number;
+    pagination: {
+        limit: number;
+        offset: number;
+        filter: any;
+        listFilter: any;
+        etiquetaFilter: Etiqueta[];
+        populate: any;
+        sort: any;
+        total: number;
+    };
     saving: boolean;
     errors: any;
     loading: boolean;
@@ -10,7 +21,17 @@ export interface LembreteState {
 
 export const LembreteInitialState: LembreteState = {
     errors: false,
-    lembreteId: null,
+    pagination: {
+        limit: 0,
+        offset: 0,
+        filter: {},
+        listFilter: {},
+        etiquetaFilter: [],
+        populate: [],
+        sort: {},
+        total: 0,
+    },
+    entitiesId: null,
     loaded: false,
     loading: false,
     saving: false
@@ -25,7 +46,7 @@ export function LembreteReducer(
         case LembreteActions.GET_LEMBRETE : {
             return {
                 ...state,
-                lembreteId: null,
+                entitiesId: null,
                 loading: true
             };
         }
@@ -34,7 +55,7 @@ export function LembreteReducer(
 
             return {
                 ...state,
-                lembreteId: action.payload.lembreteId,
+                entitiesId: action.payload.entitiesId,
                 loaded: action.payload.loaded,
                 loading: false
             };
@@ -43,7 +64,7 @@ export function LembreteReducer(
         case LembreteActions.CREATE_LEMBRETE: {
             return {
                 ...state,
-                lembreteId: null,
+                entitiesId: null,
                 loaded: {
                     id: 'lembreteHandle',
                     value: 'criar'
@@ -80,6 +101,47 @@ export function LembreteReducer(
                 ...state,
                 saving: false,
                 errors: action.payload
+            };
+        }
+
+        case LembreteActions.GET_PROCESSOS: {
+            return {
+                ...state,
+                loading: true,
+                pagination: {
+                    limit: action.payload.limit,
+                    offset: action.payload.offset,
+                    filter: action.payload.filter,
+                    listFilter: action.payload.listFilter,
+                    etiquetaFilter: action.payload.etiquetaFilter,
+                    populate: action.payload.populate,
+                    sort: action.payload.sort,
+                    total: state.pagination.total
+                }
+            };
+        }
+
+        case LembreteActions.GET_PROCESSOS_SUCCESS: {
+
+            const loaded = action.payload.loaded;
+
+            return {
+                ...state,
+                entitiesId: action.payload.entitiesId,
+                pagination: {
+                    ...state.pagination,
+                    total: action.payload.total
+                },
+                loading: false,
+                loaded
+            };
+        }
+
+        case LembreteActions.GET_PROCESSOS_FAILED: {
+            return {
+                ...state,
+                loading: false,
+                loaded: false
             };
         }
 

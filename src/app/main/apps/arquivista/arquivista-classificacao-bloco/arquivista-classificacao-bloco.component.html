@@ -3,7 +3,7 @@
     [saving]="(isSaving$ | async)">
 </cdk-classificacao-tree>
 
-<mat-list *ngIf="operacoes.length > 0" fxFlex>
+<mat-list *ngIf="operacoes.length > 0 && (isSaving$ | async) === false" fxFlex>
     <h3 matSubheader>
         <span>Resultado do Bloco</span>
     </h3>

@@ -1,13 +1,12 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {Observable, Subject} from 'rxjs';
+import {select, Store} from '@ngrx/store';
+import {filter, takeUntil} from 'rxjs/operators';
+
+import * as fromStore from './store';
 import {Lembrete, Processo} from '../../../../../@cdk/models';
 import {getOperacoesState, getRouterState, RouterStateUrl} from '../../../../store/reducers';
 import {LembreteService} from '../../../../../@cdk/services/lembrete.service';
-import * as fromStore from './store';
-import {select, Store} from '@ngrx/store';
-import * as fromStoreProcesso from '../../processo/store';
-import {filter, takeUntil} from 'rxjs/operators';
-import {getSelectedProcessos} from '../arquivista-list/store/selectors';
 
 @Component({
     selector: 'app-arquivista-lembrete-bloco',
@@ -71,7 +70,7 @@ export class ArquivistaLembreteBlocoComponent implements OnInit {
     initObservales(): void {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
-        this.processos$ = this._store.pipe(select(getSelectedProcessos));
+        this.processos$ = this._store.pipe(select(fromStore.getProcessos));
     }
 
     submit(values): void {

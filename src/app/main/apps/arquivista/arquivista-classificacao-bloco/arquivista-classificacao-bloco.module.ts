@@ -1,12 +1,16 @@
+
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import {RouterModule, Routes} from '@angular/router';
+
 import {ArquivistaClassificacaoBlocoComponent} from './arquivista-classificacao-bloco.component';
 import {ArquivistaClassificacaoBlocoStoreModule} from './store/store.module';
+import {CdkClassificacaoTreeModule} from '@cdk/components/classificacao/cdk-classificacao-tree/cdk-classificacao-tree.module';
+import {MatListModule} from '@angular/material/list';
+
 import {ClassificacaoService} from '@cdk/services/classificacao.service';
 import {CdkClassificacaoTreeService} from '@cdk/components/classificacao/cdk-classificacao-tree/services/cdk-classificacao-tree.service';
-import {RouterModule, Routes} from '@angular/router';
-import {CdkClassificacaoTreeModule} from '../../../../../@cdk/components/classificacao/cdk-classificacao-tree/cdk-classificacao-tree.module';
-import {MatListModule} from '@angular/material/list';
+import {LoginService} from '../../../auth/login/login.service';
 
 const routes: Routes = [
     {
@@ -26,7 +30,8 @@ const routes: Routes = [
     ],
     providers: [
         ClassificacaoService,
-        CdkClassificacaoTreeService
+        CdkClassificacaoTreeService,
+        LoginService,
     ]
 })
 export class ArquivistaClassificacaoBlocoModule {
