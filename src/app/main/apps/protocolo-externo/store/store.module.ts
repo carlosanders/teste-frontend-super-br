@@ -7,7 +7,7 @@ import {effects} from './effects';
 
 @NgModule({
     imports: [
-        StoreModule.forFeature('processos-app', reducers),
+        StoreModule.forFeature('protocolo-externo-app', reducers),
         EffectsModule.forFeature(effects)
     ],
     providers: []

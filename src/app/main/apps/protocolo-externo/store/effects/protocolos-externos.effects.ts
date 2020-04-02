@@ -67,9 +67,8 @@ export class ProcessosEffect {
                     new ProcessosActions.GetProcessosSuccess({
                         entitiesId: response['entities'].map(processo => processo.id),
                         loaded: {
-                            id: 'generoHandle_typeHandle_targetHandle',
-                            value: this.routerState.params.generoHandle + '_' +
-                                this.routerState.params.typeHandle + '_' + this.routerState.params.targetHandle
+                            id: 'pessoaHandle_usuarioHandle',
+                            value: this.routerState.params.pessoaHandle + '_' + this._loginService.getUserProfile().id
                         },
                         total: response['total']
                     })
@@ -97,7 +96,7 @@ export class ProcessosEffect {
                             ]).then();
                     } else {*/
                         this._router.navigate([
-                            'apps/protocolo-externo/' + this.routerState.params.oficioTargetHandle + '/' + this.routerState.params.pessoaHandle +
+                            'apps/protocolo-externo/' + this.routerState.params.pessoaHandle +
                             '/detalhe/' + action.payload.processoId + '/processo/' + action.payload.processoId + '/visualizar']
                         ).then();
                     /*}*/
@@ -116,7 +115,7 @@ export class ProcessosEffect {
             .pipe(
                 ofType<ProcessosActions.CreateProcesso>(ProcessosActions.CREATE_PROCESSO),
                 map(() => {
-                    this._router.navigate(['apps/protocolo-externo/'+ this.routerState.params.oficioTargetHandle + '/' + this.routerState.params.pessoaHandle +
+                    this._router.navigate(['apps/protocolo-externo/' + this.routerState.params.pessoaHandle +
                     '/criar']).then();
                     return new ProcessosActions.CreateProcessoSuccess();
                 })
