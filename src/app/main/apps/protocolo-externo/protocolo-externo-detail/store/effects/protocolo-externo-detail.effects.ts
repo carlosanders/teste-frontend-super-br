@@ -20,8 +20,8 @@ import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
 import {DocumentoService} from '@cdk/services/documento.service';
 import {Processo, Documento} from '@cdk/models';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-import {DeleteProcessoSuccess} from '../../../store/actions';
-import {GetDocumentos} from '../../atividades/atividade-create/store/actions';
+import {DeleteProcessoSuccess, GetProcessos} from '../../../store/actions';
+import {LoginService} from '../../../../../auth/login/login.service';
 
 @Injectable()
 export class ProcessoDetailEffect {
@@ -33,7 +33,8 @@ export class ProcessoDetailEffect {
         private _documentoService: DocumentoService,
         private _vinculacaoEtiquetaService: VinculacaoEtiquetaService,
         private _store: Store<State>,
-        private _router: Router
+        private _router: Router,
+        private _loginService: LoginService,
     ) {
         this._store
             .pipe(select(getRouterState))
@@ -245,7 +246,10 @@ export class ProcessoDetailEffect {
                                 content: `Processo id ${response.id} etiquetada com sucesso!`,
                                 dateTime: response.criadoEm
                             }),
-                            new GetDocumentos()
+                            new GetProcessos({
+                                'criadoPor.id': `eq:${this._loginService.getUserProfile().id}`,
+                                'procedencia.id': `eq:${this.routerState.params.pessoaHandle}`
+                            })
                         ]),
                         catchError((err) => {
                             console.log(err);

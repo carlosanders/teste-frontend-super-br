@@ -48,22 +48,20 @@
                     </div>
                 </div>
 
-                <ng-template *showIfRole="'ROLE_ARQUIVISTA'">
-                    <mat-expansion-panel *ngIf="processo.lembretes[0]" (opened)="this.panelOpenState = true"
-                                         (closed)="this.panelOpenState = false"
-                                         (click)="$event.stopPropagation();">
-                        <mat-expansion-panel-header>
-                            <mat-panel-title>
-                                Lembrete
-                            </mat-panel-title>
-                        </mat-expansion-panel-header>
-                        <p *ngIf="editantoLembrete == false" (click)="doEditarLembrete()">{{processo.lembretes[0].conteudo}}</p>
-                        <mat-form-field *ngIf="editantoLembrete == true"  fxFlex>
+                <mat-expansion-panel *ngIf="processo.lembretes[0]" (opened)="this.panelOpenState = true"
+                                     (closed)="this.panelOpenState = false"
+                                     (click)="$event.stopPropagation();">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            Lembrete
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <p *ngIf="editantoLembrete == false" (click)="doEditarLembrete()">{{processo.lembretes[0].conteudo}}</p>
+                    <mat-form-field *ngIf="editantoLembrete == true"  fxFlex>
 
-                            <input #lembreteConteudo matInput placeholder="Lembrete" [value]="processo.lembretes[0].conteudo" (blur)="doSalvarLembrete(processo, lembreteConteudo.value)" />
-                        </mat-form-field>
-                    </mat-expansion-panel>
-                </ng-template>
+                        <input #lembreteConteudo matInput placeholder="Lembrete" [value]="processo.lembretes[0].conteudo" (blur)="doSalvarLembrete(processo, lembreteConteudo.value)" />
+                    </mat-form-field>
+                </mat-expansion-panel>
 
             </div>
 

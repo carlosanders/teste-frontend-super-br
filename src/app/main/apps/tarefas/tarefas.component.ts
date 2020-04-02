@@ -1,6 +1,5 @@
 import { PaginatedResponse } from '@cdk/models/paginated.response';
 
-import { getAssunto } from './../processo/processo-edit/assuntos/assunto-edit/store/selectors/assunto-edit.selectors';
  import {
     AfterViewInit,
     ChangeDetectionStrategy,

@@ -39,7 +39,7 @@ import {EspecieProcessoService} from '@cdk/services/especie-processo.service';
 
 const routes: Routes = [
     {
-        path: '',
+        path: ':oficioTargetHandle/:pessoaHandle',
         component: ProtocoloExternoComponent,
         children: [
             {
@@ -92,11 +92,11 @@ const routes: Routes = [
             }*/
         ],
         canActivate: [fromGuards.ResolveGuard]
-    }/*,
+    },
     {
         path: '**',
-        redirectTo: 'entrada'
-    }*/
+        redirectTo: 'entrada/'
+    }
 ];
 
 @NgModule({

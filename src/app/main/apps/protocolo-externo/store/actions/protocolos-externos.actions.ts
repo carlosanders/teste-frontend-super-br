@@ -380,9 +380,9 @@ export class ToggleMaximizado implements Action
  */
 
 /**
- * Get Assuntos dos processo da tarefa
+ * Get Assuntos dos processo
  */
-export class GetAssuntosProcessoProcesso implements Action {
+export class GetAssuntosProcesso implements Action {
     readonly type = GET_ASSUNTOS_PROCESSO;
 
     constructor(public payload: any) {
@@ -390,9 +390,9 @@ export class GetAssuntosProcessoProcesso implements Action {
 }
 
 /**
- * Get Assuntos dos processo da tarefa Success
+ * Get Assuntos dos processo  Success
  */
-export class GetAssuntosProcessoProcessoSuccess implements Action {
+export class GetAssuntosProcessoSuccess implements Action {
     readonly type = GET_ASSUNTOS_PROCESSO_SUCCESS;
 
     constructor(public payload: any) {
@@ -400,9 +400,9 @@ export class GetAssuntosProcessoProcessoSuccess implements Action {
 }
 
 /**
- * Get Assuntos dos processo da tarefa Failed
+ * Get Assuntos dos processo Failed
  */
-export class GetAssuntosProcessoProcessoFailed implements Action {
+export class GetAssuntosProcessoFailed implements Action {
     readonly type = GET_ASSUNTOS_PROCESSO_FAILED;
 
     constructor(public payload: any) {
@@ -501,9 +501,9 @@ export type ProcessosActionsAll
     | DeleteVinculacaoEtiquetaSuccess
     | DeleteVinculacaoEtiquetaFailed
     | ToggleMaximizado
-    | GetAssuntosProcessoProcesso
-    | GetAssuntosProcessoProcessoSuccess
-    | GetAssuntosProcessoProcessoFailed
+    | GetAssuntosProcesso
+    | GetAssuntosProcessoSuccess
+    | GetAssuntosProcessoFailed
     | SetLoadingAssuntos
     | SetLoadingAssuntosSuccess
     | SetLoadingAssuntosFailed
