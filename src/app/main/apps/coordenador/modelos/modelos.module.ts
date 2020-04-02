@@ -33,6 +33,14 @@ const routes: Routes = [
                 loadChildren: () => import('./modelos-edit/modelos-edit.module').then(m => m.ModelosEditModule),
             },
             {
+                path       : 'anexos',
+                loadChildren: () => import('./modelos-anexo/modelos-anexo.module').then(m => m.ModelosAnexoModule),
+            },
+            {
+                path       : ':modeloHandle/especie-setor',
+                loadChildren: () => import('../especie-setor/especie-setor.module').then(m => m.EspecieSetorModule),
+            },
+            {
                 path       : ':setorHandle/lotacoes',
                 loadChildren: () => import('app/main/apps/admin/lotacoes/admin-lotacoes.module').then(m => m.AdminLotacoesModule),
             },

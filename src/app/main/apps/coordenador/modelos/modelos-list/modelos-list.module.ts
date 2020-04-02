@@ -22,11 +22,18 @@ import {ModelosListStoreModule} from './store/store.module';
 import * as fromGuards from './store/guards';
 import {CdkModeloGridModule} from '@cdk/components/modelo/cdk-modelo-grid/cdk-modelo-grid.module';
 import {LoginService} from '../../../../auth/login/login.service';
+import {TemplateService} from '../../../../../../@cdk/services/template.service';
 
 const routes: Routes = [
     {
         path: '',
         component: ModelosListComponent,
+        children: [
+            {
+                path       : 'documento',
+                loadChildren: () => import('app/main/apps/documento/documento.module').then(m => m.DocumentoModule),
+            }
+        ],
         canActivate: [fromGuards.ResolveGuard]
     }
 ];
@@ -55,6 +62,7 @@ const routes: Routes = [
     ],
     providers: [
         ModeloService,
+        TemplateService,
         LoginService,
         fromGuards.ResolveGuard
     ],

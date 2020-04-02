@@ -5,6 +5,6 @@ export const environment = {
     base_url: 'http://sapiensbeta.agu.gov.br:8000/',
     jnlp: 'jnlp://sapiensbeta.agu.gov.br:8000/',
     api_url: 'http://sapiensbeta.agu.gov.br:8000/v1/',
-    mercure_hub: 'http://sapiensbeta.agu.gov.br:4000/hub',
+    mercure_hub: 'http://sapiensbeta.agu.gov.br:4000/.well-known/mercure',
     xdebug: '?XDEBUG_SESSION_START=docker'
 };
