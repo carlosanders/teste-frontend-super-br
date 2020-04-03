@@ -17,6 +17,7 @@ import {Pagination} from '@cdk/models/pagination';
 import {Usuario} from '@cdk/models/usuario.model';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {getRouterState} from '../../../../../store/reducers';
+import {Lotacao, Setor} from "../../../../../../@cdk/models";
 
 @Component({
     selector: 'coordenador-repositorios-edit',
@@ -38,6 +39,8 @@ export class RepositoriosEditComponent implements OnInit, OnDestroy {
     setorPagination: Pagination;
     modalidadeRepositorioPagination: Pagination;
 
+    setores: Setor[] = [];
+
     /**
      *
      * @param _store
@@ -53,6 +56,12 @@ export class RepositoriosEditComponent implements OnInit, OnDestroy {
         // this.usuario = this._loginService.getUserProfile();
         this.coordenador = true;
 
+        this._loginService.getUserProfile().colaborador.lotacoes.forEach((lotacao: Lotacao) => {
+            if (!this.setores.includes(lotacao.setor) && lotacao.coordenador) {
+                this.setores.push(lotacao.setor);
+            }
+        });
+
         this._store
             .pipe(select(getRouterState))
             .subscribe(routerState => {
@@ -64,13 +73,13 @@ export class RepositoriosEditComponent implements OnInit, OnDestroy {
         this.setorPagination = new Pagination();
         this.setorPagination.populate = ['populateAll'];
         this.setorPagination.filter = {
-            'unidade.id': 'eq:' + this.routerState.params.unidadeHandle
+            'id': 'in:' + this.setores.map(setor => setor.id).join(',')
         }
 
         this.modalidadeRepositorioPagination = new Pagination();
         this.modalidadeRepositorioPagination.populate = ['populateAll'];
         this.modalidadeRepositorioPagination.filter = {
-            'unidade.id': 'eq:' + this.routerState.params.unidadeHandle
+            'ativo': 'eq:' + true
         }
 
     }
@@ -85,7 +94,17 @@ export class RepositoriosEditComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
 
         this.repositorio$.subscribe(
-            repositorio => this.repositorio = repositorio
+            repositorio => {
+                if (repositorio) {
+                    this.repositorio = repositorio;
+                    if (this.repositorio.vinculacoesRepositorios[0]?.setor) {
+                        this.repositorio.setor = this.repositorio.vinculacoesRepositorios[0]?.setor;
+                    }
+                    if (this.repositorio.vinculacoesRepositorios[0]?.usuario) {
+                        this.repositorio.usuario = this.repositorio.vinculacoesRepositorios[0]?.usuario;
+                    }
+                }
+            }
         );
 
         if (!this.repositorio) {
@@ -107,7 +126,6 @@ export class RepositoriosEditComponent implements OnInit, OnDestroy {
     submit(values): void {
 
         const repositorio = new Repositorio();
-        // repositorio.id = null;
         Object.entries(values).forEach(
             ([key, value]) => {
                 repositorio[key] = value;

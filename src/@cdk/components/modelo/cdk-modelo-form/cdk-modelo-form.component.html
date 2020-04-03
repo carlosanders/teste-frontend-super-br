@@ -91,6 +91,7 @@
 <cdk-setor-gridsearch
     fxFlex="1 0 auto"
     *ngIf="activeCard === 'setor-gridsearch'"
+    [pagination]="setorPagination"
     (selected)="selectSetor($event)"
     (cancel)="cancel()">
 </cdk-setor-gridsearch>

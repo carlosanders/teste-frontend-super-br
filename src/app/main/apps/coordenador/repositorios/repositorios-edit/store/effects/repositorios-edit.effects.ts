@@ -52,7 +52,10 @@ export class RepositorioEditEffect {
                         0,
                         JSON.stringify({}),
                         JSON.stringify([
-                            'populateAll'
+                            'populateAll',
+                            'vinculacoesRepositorios',
+                            'vinculacoesRepositorios.setor',
+                            'vinculacoesRepositorios.usuario',
                         ]));
                 }),
                 switchMap(response => [

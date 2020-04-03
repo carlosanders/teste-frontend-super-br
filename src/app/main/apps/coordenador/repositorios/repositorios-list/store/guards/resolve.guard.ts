@@ -11,11 +11,15 @@ import * as fromStore from '../';
 import {getRouterState} from 'app/store/reducers';
 import {getRepositoriosListLoaded} from '../selectors';
 import {LoginService} from 'app/main/auth/login/login.service';
+import {Colaborador, Lotacao, Setor} from '@cdk/models';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
 
     routerState: any;
+    _profile: Colaborador;
+
+    setores: Setor[] = [];
 
     /**
      *
@@ -33,6 +37,14 @@ export class ResolveGuard implements CanActivate {
                     this.routerState = routerState.state;
                 }
             });
+
+        this._profile = this._loginService.getUserProfile().colaborador;
+
+        this._profile.lotacoes.forEach((lotacao: Lotacao) => {
+            if (!this.setores.includes(lotacao.setor) && lotacao.coordenador) {
+                this.setores.push(lotacao.setor);
+            }
+        });
     }
 
     /**
@@ -62,7 +74,7 @@ export class ResolveGuard implements CanActivate {
 
                     const params = {
                         filter: {
-                            // 'vinculacoesRepositorios.usuario.id': 'eq:' + this._loginService.getUserProfile().id
+                            'vinculacoesRepositorios.setor.id': 'in:' + this.setores.map(setor => setor.id).join(',')
                         },
                         gridFilter: {},
                         limit: 5,
@@ -71,6 +83,7 @@ export class ResolveGuard implements CanActivate {
                         populate: [
                             'documento',
                             'documento.componentesDigitais',
+                            'documento.tipoDocumento',
                             'modalidadeRepositorio',
                             'vinculacoesRepositorios',
                             'vinculacoesRepositorios.setor'

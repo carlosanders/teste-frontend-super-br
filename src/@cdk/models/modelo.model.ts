@@ -40,7 +40,6 @@ export class Modelo {
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     vinculacoesModelos?: VinculacaoModelo[];
 
-
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
@@ -71,6 +70,14 @@ export class Modelo {
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
     apagadoEm?: Date;
 
+    @Type(() => Setor)
+    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    setor?: Setor;
+
+    @Type(() => Usuario)
+    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    usuario?: Usuario;
+
     constructor() {
         this.id = null;
         this.uuid = null;
@@ -82,6 +89,7 @@ export class Modelo {
         this.template = null;
         this.vinculacoesModelos = [];
         this.documento = null;
+        this.setor = null;
         this.criadoPor = null;
         this.criadoEm = null;
         this.atualizadoPor = null;

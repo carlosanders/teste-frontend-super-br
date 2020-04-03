@@ -92,6 +92,8 @@ export class RepositorioEditComponent implements OnInit, OnDestroy {
             }
         );
 
+        repositorio.usuario = this.usuario;
+
         this._store.dispatch(new fromStore.SaveRepositorio(repositorio));
 
     }

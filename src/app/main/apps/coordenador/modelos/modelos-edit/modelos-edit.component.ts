@@ -17,7 +17,7 @@ import {Pagination} from '@cdk/models/pagination';
 import {Usuario} from '@cdk/models/usuario.model';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {getRouterState} from '../../../../../store/reducers';
-import {ModalidadeModelo} from "../../../../../../@cdk/models";
+import {Lotacao, ModalidadeModelo, Setor} from '@cdk/models';
 
 @Component({
     selector: 'coordenador-modelos-edit',
@@ -39,6 +39,8 @@ export class ModelosEditComponent implements OnInit, OnDestroy {
     setorPagination: Pagination;
     templatePagination: Pagination;
 
+    setores: Setor[] = [];
+
     /**
      *
      * @param _store
@@ -54,6 +56,12 @@ export class ModelosEditComponent implements OnInit, OnDestroy {
         this.usuario = this._loginService.getUserProfile();
         this.coordenador = true;
 
+        this._loginService.getUserProfile().colaborador.lotacoes.forEach((lotacao: Lotacao) => {
+            if (!this.setores.includes(lotacao.setor) && lotacao.coordenador) {
+                this.setores.push(lotacao.setor);
+            }
+        });
+
         this._store
             .pipe(select(getRouterState))
             .subscribe(routerState => {
@@ -65,7 +73,7 @@ export class ModelosEditComponent implements OnInit, OnDestroy {
         this.setorPagination = new Pagination();
         this.setorPagination.populate = ['populateAll'];
         this.setorPagination.filter = {
-            'unidade.id': 'eq:' + this.routerState.params.unidadeHandle
+            'id': 'in:' + this.setores.map(setor => setor.id).join(',')
         }
 
         this.templatePagination = new Pagination();
@@ -83,7 +91,17 @@ export class ModelosEditComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
 
         this.modelo$.subscribe(
-            modelo => this.modelo = modelo
+            modelo => {
+                if (modelo) {
+                    this.modelo = modelo;
+                    if (this.modelo.vinculacoesModelos[0]?.setor) {
+                        this.modelo.setor = this.modelo.vinculacoesModelos[0]?.setor;
+                    }
+                    if (this.modelo.vinculacoesModelos[0]?.usuario) {
+                        this.modelo.usuario = this.modelo.vinculacoesModelos[0]?.usuario;
+                    }
+                }
+            }
         );
 
         if (!this.modelo) {
@@ -105,7 +123,6 @@ export class ModelosEditComponent implements OnInit, OnDestroy {
     submit(values): void {
 
         const modelo = new Modelo();
-        // modelo.id = null;
         modelo.modalidadeModelo = new ModalidadeModelo();
 
         Object.entries(values).forEach(
@@ -119,8 +136,6 @@ export class ModelosEditComponent implements OnInit, OnDestroy {
         } else {
            modelo.modalidadeModelo.id = 3;
         }
-
-        console.log(modelo);
 
         this._store.dispatch(new fromStore.SaveModelo(modelo));
 

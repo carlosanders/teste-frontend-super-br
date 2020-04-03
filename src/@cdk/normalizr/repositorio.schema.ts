@@ -6,7 +6,7 @@ import {repositorio as repositorioSchema} from './index.schema';
 repositorioSchema.define({
     modalidadeRepositorio: modalidadeRepositorio,
     documento: documento,
-    vinculacoesRepositorios: vinculacaoRepositorio,
+    vinculacaoRepositorio: vinculacaoRepositorio,
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario
