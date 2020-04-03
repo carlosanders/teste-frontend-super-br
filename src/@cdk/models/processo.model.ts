@@ -15,7 +15,6 @@ import {Pessoa} from '@cdk/models';
 import {Localizador} from '@cdk/models';
 import {OrigemDados} from '@cdk/models';
 import {VinculacaoEtiqueta} from './vinculacao-etiqueta.model';
-
 import { Assunto } from '@cdk/models/assunto.model';
 
 export class Processo {
@@ -92,6 +91,10 @@ export class Processo {
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
     dataHoraProximaTransicao?: Date;
 
+    @Transform(value => value ? value.format() : null, { toPlainOnly: true })
+    @Transform(value => value ? moment(value) : null, { toClassOnly: true })
+    dataHoraPrazoResposta?: Date;
+
     @Type(() => ModalidadeFase)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     modalidadeFase?: ModalidadeFase;
@@ -152,6 +155,11 @@ export class Processo {
    @Type(() => Assunto)
    assuntos: Assunto[];
 
+    @Exclude({toClassOnly: true})
+    @Type(() => Setor)
+    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    unidadeProtocoloExterno?: Setor;
+
     constructor() {
         this.id = null;
         this.processoOrigem = null;
@@ -166,6 +174,7 @@ export class Processo {
         this.dataHoraAbertura = null;
         this.acessoNegado = null;
         this.dataHoraProximaTransicao = null;
+        this.dataHoraPrazoResposta = null;
         this.titulo = null;
         this.outroNumero = null;
         this.chaveAcesso = null;
@@ -187,5 +196,6 @@ export class Processo {
         this.apagadoEm = null;
         this.vinculacoesEtiquetas = null;
         this.assuntos = null;
+        this.unidadeProtocoloExterno = null;
     }
 }

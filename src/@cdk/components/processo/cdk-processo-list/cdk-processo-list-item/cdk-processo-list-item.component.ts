@@ -6,7 +6,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {Processo} from '@cdk/models';
+import {Processo, Assunto, Interessado} from '@cdk/models';
 
 @Component({
     selector: 'cdk-processo-list-item',
@@ -52,7 +52,26 @@ export class CdkProcessoListItemComponent implements OnInit {
     @Output()
     salvarLembrete = new EventEmitter<any>();
 
+    @Output()
+    codProcesso = new EventEmitter<any>();
 
+    @Output()
+    codProcessoInteressado = new EventEmitter<any>();
+
+    @Input()
+    assuntos: Assunto[];
+
+    @Input()
+    interessados: Interessado[];
+
+    @Input()
+    loading: boolean;
+
+    @Input()
+    isOpen: boolean = false;
+
+    @Input()
+    idProcessoToLoadAssuntos: number;
 
     draggable = {
         // note that data is handled with JSON.stringify/JSON.parse
@@ -99,12 +118,13 @@ export class CdkProcessoListItemComponent implements OnInit {
     }
 
     doSalvarLembrete(processo, conteudo): void {
-
         this.salvarLembrete.emit({processo: processo, conteudo: conteudo});
-
     }
 
-
+    doOpenPanel(): void {
+        this.codProcesso.emit(this.processo);
+        this.codProcessoInteressado.emit(this.processo);
+    }
 }
 
 

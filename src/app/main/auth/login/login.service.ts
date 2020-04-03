@@ -15,18 +15,25 @@ export class LoginService {
     constructor(private http: HttpClient, private _store: Store<State>) {
     }
 
+    init(): void {
+        if (this.getUserProfile()) {
+            this.setMercure();
+            this.startCountdown();
+        }
+    }
+
     getUserProfile(): Usuario {
         return JSON.parse(localStorage.getItem('userProfile'));
     }
 
     setUserProfile(userProfile: any): void {
         localStorage.setItem('userProfile', JSON.stringify(userProfile));
-        this.setMercure(userProfile);
+        this.init();
     }
 
-    setMercure(userProfile: any): void {
+    setMercure(): void {
         const EventSource = EventSourcePolyfill;
-        const es = new EventSource(environment.mercure_hub + '?topic=' + userProfile.username,
+        const es = new EventSource(environment.mercure_hub + '?topic=' + this.getUserProfile().username,
             {
                 headers: {
                     Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtZXJjdXJlIjp7InB1Ymxpc2giOltdfX0.R2VYhXy7uBsCqiXb9TRhEccaAiidwkZm_1sQP0JPutw'
@@ -49,16 +56,24 @@ export class LoginService {
     setToken(action): void {
         this.removeToken();
         localStorage.setItem('token', action.payload.token);
+        this.setTimestamp(action);
         this.setExp(action);
-        this.startCountdown();
     }
 
     setExp(action): void {
         localStorage.setItem('exp', action.payload.exp);
     }
 
-    getExp(): Date {
-        return new Date(Number(localStorage.getItem('exp')) * 1000);
+    setTimestamp(action): void {
+        localStorage.setItem('timestamp', action.payload.timestamp);
+    }
+
+    getExp(): number {
+        return Number(localStorage.getItem('exp'));
+    }
+
+    getTimestamp(): number {
+        return Number(localStorage.getItem('timestamp'));
     }
 
     getToken(): string {
@@ -68,10 +83,15 @@ export class LoginService {
     removeToken(): void {
         localStorage.removeItem('token');
         this.removeExp();
+        this.removeTimestamp();
     }
 
     removeExp(): void {
         localStorage.removeItem('exp');
+    }
+
+    removeTimestamp(): void {
+        localStorage.removeItem('timestamp');
     }
 
     login(username: string, password: string): Observable<any> {
@@ -102,11 +122,14 @@ export class LoginService {
     }
 
     private startCountdown(): void {
-        // Removing 3 minutes of token Exp time
-        var timeExpToken: number | null;
-        timeExpToken = ((this.getExp().getTime() - new Date().getTime()) / 1000) - 1;
-        setTimeout(() => { this._store.dispatch(new fromLoginStore.LoginRefreshToken()); }, timeExpToken - 180);
-
+        // Renova o token quando faltar 3 minutos para expirar
+        const timeExpToken = this.getExp() - this.getTimestamp();
+        if (timeExpToken > 0) {
+            const timeout = (timeExpToken > 180) ?  (timeExpToken - 180) * 1000 : 1;
+            setTimeout(() => {
+                this._store.dispatch(new fromLoginStore.LoginRefreshToken());
+            }, timeout);
+        }
     }
 }
 

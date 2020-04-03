@@ -62,6 +62,15 @@ export const navigation: CdkNavigation[] = [
                 role: 'ROLE_CONVENIADO'
             },
             {
+                id: 'protocolo-externo',
+                title: 'Protocolo',
+                translate: 'NAV.PROTOCOLO_EXTERNO.TITLE',
+                type: 'item',
+                icon: 'check_box',
+                url: '/apps/protocolo-externo',
+                role: 'ROLE_CONVENIADO'
+            },
+            {
                 id: 'protocolo',
                 title: 'Protocolo',
                 translate: 'NAV.PROTOCOLO.TITLE',

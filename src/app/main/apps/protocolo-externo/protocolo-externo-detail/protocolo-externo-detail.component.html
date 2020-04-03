@@ -1,0 +1,90 @@
+<div fxFlex fxLayout="column">
+
+    <div class="processo-header" fxFlex="0 0 auto" fxLayout="row">
+
+        <div class="pre-actions" fxLayout="row" fxLayoutAlign="start center">
+            <button *ngIf="mobileMode" mat-icon-button (click)="deselectCurrentProcesso()">
+                <mat-icon class="secondary-text">arrow_back</mat-icon>
+            </button>
+
+            <button *ngIf="!mobileMode && !(maximizado$ | async)" mat-icon-button (click)="doToggleMaximizado()">
+                <mat-icon class="secondary-text">zoom_out_map</mat-icon>
+            </button>
+
+            <button *ngIf="!mobileMode && (maximizado$ | async)" mat-icon-button (click)="doToggleMaximizado()">
+                <mat-icon class="secondary-text">subdirectory_arrow_right</mat-icon>
+            </button>
+
+            <cdk-vinculacao-etiqueta-chips [vinculacoesEtiquetas]="(processo$ | async).vinculacoesEtiquetas"
+                                           (create)="onEtiquetaCreate($event)"
+                                           (edit)="onEtiquetaEdit($event)"
+                                           [savingVincEtiquetaId]="(savingVincEtiquetaId$ | async)"
+                                           [errors]="(errors$ | async)"
+                                           [pagination]="vinculacaoEtiquetaPagination"
+                                           (delete)="onEtiquetaDelete($event)"></cdk-vinculacao-etiqueta-chips>
+
+        </div>
+
+        <div class="actions" fxLayout="row" fxLayoutAlign="start center">
+
+            <button mat-icon-button aria-label="Processo" matTooltip="Processo"
+                    [routerLink]="['processo', (processo$ | async)?.id]"
+                    [routerLinkActive]="['active', 'accent']">
+                <mat-icon class="black-fg">book</mat-icon>
+            </button>
+
+            <button mat-icon-button aria-label="Movimentar" matTooltip="Movimentar"
+                    [routerLink]="'atividades/criar'"
+                    [routerLinkActive]="['active', 'accent']">
+                <mat-icon class="black-fg">send</mat-icon>
+            </button>
+
+            <button mat-icon-button aria-label="Editar Processo" matTooltip="Editar Processo"
+                    [routerLink]="'editar'"
+                    [routerLinkActive]="['active', 'accent']">
+                <mat-icon class="black-fg">edit</mat-icon>
+            </button>
+
+            <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="Mais Ferramentas"
+                    (click)="$event.stopPropagation()"
+                    fxHide.xs>
+                <mat-icon class="secondary-text">more_vert</mat-icon>
+            </button>
+
+            <mat-menu #moreMenu="matMenu">
+
+                <button mat-menu-item aria-label="toggle done"
+                        (click)="doCreateProcesso()">
+                    <ng-container>
+                        <mat-icon>check_box</mat-icon>
+                        <span>Criar Processo</span>
+                    </ng-container>
+                </button>
+
+                <button mat-menu-item aria-label="Compartilhar"
+                        [routerLink]="'compartilhamentos/criar'">
+                    <ng-container>
+                        <mat-icon>share</mat-icon>
+                        <span>Compartilhar</span>
+                    </ng-container>
+                </button>
+
+                <button mat-menu-item aria-label="Dar ciência"
+                        (click)="doCiencia()">
+                    <ng-container>
+                        <mat-icon>check</mat-icon>
+                        <span>Dar Ciência</span>
+                    </ng-container>
+                </button>
+
+                <ng-template #dynamicComponent></ng-template>
+
+            </mat-menu>
+        </div>
+
+    </div>
+
+    <div fxFlex="1 1 auto" class="processo-content">
+        <router-outlet></router-outlet>
+    </div>
+</div>

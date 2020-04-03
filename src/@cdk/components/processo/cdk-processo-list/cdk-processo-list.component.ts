@@ -1,6 +1,6 @@
 import {AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewEncapsulation} from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
-import {Processo} from '@cdk/models';
+import {Assunto, Interessado, Processo} from '@cdk/models';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 
 @Component({
@@ -77,7 +77,33 @@ export class CdkProcessoListComponent implements AfterViewInit, OnInit, OnChange
     @Output()
     salvarLembrete = new EventEmitter<any>();
 
+    @Input()
+    assuntos: Assunto[];
 
+    @Output()
+    idProcesso = new EventEmitter<any>();
+
+    @Output()
+    idProcessoInteresado = new EventEmitter<any>();
+
+    @Input()
+    loadingAssunto: boolean;
+
+    @Input()
+    isOpenPanel: boolean;
+
+    @Input()
+    idProcessoToLoadAssuntos: number;
+
+
+    @Input()
+    interessados: Interessado[];
+
+    @Input()
+    loadingInteressado: boolean;
+
+    @Input()
+    idProcessoToLoadInteressados: number;
 
     listFilter: {} = {};
     listSort: {} = {};
@@ -213,13 +239,18 @@ export class CdkProcessoListComponent implements AfterViewInit, OnInit, OnChange
         this.realizarTransicao.emit(params);
     }
 
-
-
-
     /**
      * Toggle the sidebar
      */
     toggleSidebar(): void {
         this._cdkSidebarService.getSidebar('cdk-processo-list-main-sidebar').toggleOpen();
+    }
+
+    doLoadAssuntos(idProcesso) {
+        this.idProcesso.emit(idProcesso);
+    }
+
+    doLoadInteressados(idProcessoInteressado) {
+        this.idProcessoInteresado.emit(idProcessoInteressado);
     }
 }

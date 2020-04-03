@@ -1,0 +1,16 @@
+<mat-horizontal-stepper linear class="content p-16 altura" #stepper>
+    <mat-step [completed]="formProcesso.value.id">
+        <ng-template matStepLabel>Processo</ng-template>
+        <cdk-processo-form
+                [processo]="processo"
+                [form]="formProcesso"
+                [saving]="(isSaving$ | async)"
+                [errors]="(errors$ | async)"
+                [unidadeProtocoloExternoPagination]="unidadePagination"
+                (save)="submit($event)">
+        </cdk-processo-form>
+    </mat-step>
+    <mat-step>
+        <ng-template matStepLabel>Documentos</ng-template>
+    </mat-step>
+</mat-horizontal-stepper>

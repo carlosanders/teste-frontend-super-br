@@ -23,6 +23,8 @@ export const SET_FOLDER_ON_SELECTED_DOCUMENTOS_AVULSO = '[OFICIO] SET FOLDER ON 
 export const SET_FOLDER_ON_SELECTED_DOCUMENTOS_AVULSO_SUCCESS = '[OFICIO] SET FOLDER ON SELECTED DOCUMENTOS AVULSO SUCCESS';
 export const SET_FOLDER_ON_SELECTED_DOCUMENTOS_AVULSO_FAILED = '[OFICIO] SET FOLDER ON SELECTED DOCUMENTOS AVULSO FAILED';
 
+export const UNLOAD_DOCUMENTOS_AVULSO = '[OFICIO] UNLOAD DOCUMENTOS AVULSO FAILED';
+
 /**
  *
  * Get DocumentosAvulso
@@ -198,6 +200,17 @@ export class SetFolderOnSelectedDocumentosAvulsoFailed implements Action {
     }
 }
 
+/**
+ * Unload DocumantoAvulso
+ */
+export class UnloadDocumentosAvulso implements Action {
+    readonly type = UNLOAD_DOCUMENTOS_AVULSO;
+
+    constructor(public payload: any) {
+    }
+}
+
+
 export type DocumentosAvulsoActionsAll
     = GetDocumentosAvulso
     | GetDocumentosAvulsoSuccess
@@ -214,4 +227,5 @@ export type DocumentosAvulsoActionsAll
     | DeleteVinculacaoEtiquetaFailed
     | SetFolderOnSelectedDocumentosAvulso
     | SetFolderOnSelectedDocumentosAvulsoSuccess
-    | SetFolderOnSelectedDocumentosAvulsoFailed;
+    | SetFolderOnSelectedDocumentosAvulsoFailed
+    | UnloadDocumentosAvulso;

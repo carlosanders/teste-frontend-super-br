@@ -63,7 +63,6 @@
                     </mat-form-field>
                 </mat-expansion-panel>
 
-
             </div>
 
 
@@ -99,17 +98,25 @@
                         <span>Criar Lembrete</span>
                     </ng-container>
                 </button>
-
-<!--                <button mat-menu-item aria-label="realizar classificacao"-->
-<!--                        (click)="doClassificacao()">-->
-<!--                    <ng-container>-->
-<!--                        <mat-icon>format_indent_increase</mat-icon>-->
-<!--                        <span>Realizar Classificação</span>-->
-<!--                    </ng-container>-->
-<!--                </button>-->
-
             </mat-menu>
         </div>
 
     </div>
 </div>
+<mat-expansion-panel
+    (click)="$event.stopPropagation();"
+    [expanded]="(processo.id === idProcessoToLoadAssuntos && isOpen)"
+    (afterExpand)="doOpenPanel();">
+    <mat-expansion-panel-header>
+        Detalhes do processo
+    </mat-expansion-panel-header>
+    <div class="spinner-container" *ngIf="loading" style="text-align: center; width: 100%;">
+        <mat-spinner diameter="32"></mat-spinner>
+    </div>
+    <div [hidden]="loading">
+        <span>Assuntos: </span>
+        <li *ngFor="let assunto of assuntos">
+            {{assunto.assuntoAdministrativo.nome}}
+        </li>
+    </div>
+</mat-expansion-panel>

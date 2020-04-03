@@ -1,0 +1,44 @@
+<!-- SIDEBAR HEADER -->
+<div fxLayout="column" fxLayoutAlign="space-between start"
+     class="header accent p-24 pb-4">
+    <div class="logo" fxFlex fxLayout="row" fxLayoutAlign="start center">
+        <mat-icon class="logo-icon s-24" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+            check_box
+        </mat-icon>
+        <span class="logo-text ml-8 s-24" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">Processos</span>
+    </div>
+</div>
+<!-- / SIDEBAR HEADER -->
+
+<!-- SIDEBAR CONTENT -->
+<div class="content" cdkPerfectScrollbar>
+
+    <div class="px-24 pt-32 pb-12">
+        <button mat-raised-button
+                class="mat-accent compose-dialog-button w-100-p"
+                (click)="create()"
+                aria-label="Criar">
+            {{ 'PROCESSO.COMPOSE' | translate }}
+        </button>
+    </div>
+
+    <div class="nav material2">
+
+        <div class="nav-subheader">MEUS PROCESSOS</div>
+
+        <div *ngFor="let pessoaConveniada of pessoasConveniadas">
+            <div class="nav-subheader">{{ pessoaConveniada.pessoa.nome }}</div>
+
+            <div class="nav-item" dndDropzone (dndDrop)="onDrop([$event, null])">
+                <a class="nav-link" matRipple [routerLink]="'/apps/protocolo-externo/' + pessoaConveniada.pessoa.id"
+                   [routerLinkActive]="['active', 'accent']">
+                    <mat-icon class="nav-link-icon">inbox</mat-icon>
+                    <span>Entrada</span>
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<!-- / SIDEBAR CONTENT -->

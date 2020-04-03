@@ -1,0 +1,116 @@
+<div class="page-layout carded left-sidebar inner-scroll">
+
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+
+    <!-- SIDEBAR -->
+    <cdk-sidebar *ngIf="!(maximizado$ | async)" class="sidebar" name="processos-main-sidebar" position="left"
+                  lockedOpen="gt-md">
+        <processos-main-sidebar [pessoasConveniadas]="pessoasConveniadas"></processos-main-sidebar>
+    </cdk-sidebar>
+    <!-- / SIDEBAR -->
+
+    <!-- CENTER -->
+    <div class="center">
+
+        <!-- CONTENT HEADER -->
+        <div class="header" fxLayout="row" fxLayoutAlign="start center" fxHide.lt-md
+             *ngIf="!(maximizado$ | async)">
+
+            <div class="search-wrapper" fxFlex fxLayout="row" fxLayoutAlign="start center">
+
+                <button mat-icon-button class="sidebar-toggle" fxHide.gt-md
+                        (click)="toggleSidebar('processos-main-sidebar')">
+                    <mat-icon>menu</mat-icon>
+                </button>
+
+                <div class="search" fxLayout="row" fxLayoutAlign="start center">
+                    <mat-icon class="secondary-text">search</mat-icon>
+                    <cdk-etiqueta-chips [etiquetas]="etiquetas"
+                                        (create)="addEtiqueta($event)"
+                                        [pagination]="vinculacaoEtiquetaPagination"
+                                        (delete)="deleteEtiqueta($event)"></cdk-etiqueta-chips>
+                </div>
+
+            </div>
+
+        </div>
+        <!-- / CONTENT HEADER -->
+
+        <!-- CONTENT CARD -->
+        <div class="content-card"
+             [ngClass]="{'current-processo-selected':currentProcessoId || (loading$ | async)}">
+
+            <!-- CONTENT -->
+            <div class="content" fxFlexAlign="row">
+                <div class="processo-list" #processoListElement mwlResizable [enableGhostResize]="true"
+                     [resizeEdges]="{bottom: false, right: true, top: false, left: true}"
+                     (resizeEnd)="onResizeEndProcessoList($event)"
+                     [fxFlex]="processoListSize"
+                     [hidden]="(maximizado$ | async)"
+                     [ngClass]="{
+                        'mobile-mode': mobileMode,
+                        'current-processo': currentProcessoId,
+                        'no-current-processo': !currentProcessoId
+                     }">
+                    <cdk-processo-list (scrolled)="onScroll()"
+                                     [loading]="(loading$ | async)"
+                                     [processos]="processos"
+                                     [deletingIds]="(deletingIds$ | async)"
+                                     [deletedIds]="(deletedIds$ | async)"
+                                     [currentProcessoId]="currentProcessoId"
+                                     [pagination]="pagination"
+                                     [selectedIds]="(selectedIds$ | async)"
+                                     (changeSelectedIds)="changeSelectedIds($event)"
+                                     (reload)="reload($event)"
+                                     (selected)="setCurrentProcesso($event)"
+                                     (etiquetarBloco)="doEtiquetarBloco()"
+                                     (uploadBloco)="doUploadBloco()"
+                                     (editorBloco)="doEditorBloco()"
+                                     (editProcessoBloco)="doEditProcessoBloco()"
+
+                                     (idProcesso)="doLoadAssuntos($event)"
+                                     [loadingAssunto]="(assuntoLoading$ | async)"
+                                     [assuntos]="(assuntos$ | async)"
+                                     [isOpenPanel]="(assuntoPanelOpen$ | async )"
+                                     [idProcessoToLoadAssuntos]="idProcessoToLoadAssuntos"
+
+                                     (idProcessoInteresado)="doLoadInteressados($event)"
+                                     [interessados]="(interessados$ | async)"
+                                     [idProcessoToLoadAssuntos]="idProcessoToLoadInteressados"
+                    >
+                                     <!--(delete)="deleteProcesso($event)"
+                                     (compartilhar)="doCompartilhar($event)"
+                                     (createDocumentoAvulso)="doCreateDocumentoAvulso($event)"
+                                     (createProcesso)="doCreateProcesso($event)"
+                                     (movimentar)="doMovimentar($event)"
+                                     (editProcesso)="doEditProcesso($event)"
+                                     (toggleUrgente)="doToggleUrgente($event)"
+                                     (compartilharBloco)="doCompartilharBloco()"
+                                     (createDocumentoAvulsoBloco)="doCreateDocumentoAvulsoBloco()"
+                                     (createProcessoBloco)="doCreateProcessoBloco()"
+                                     (movimentarBloco)="doMovimentarBloco()">-->
+                    </cdk-processo-list>
+                </div>
+                
+                <div class="processo-detail" mwlResizable [enableGhostResize]="true"
+                     [resizeEdges]="{bottom: false, right: true, top: false, left: true}"
+                     fxFlex
+                     [ngClass]="{
+                        'mobile-mode': mobileMode,
+                        'current-processo': currentProcessoId,
+                        'no-current-processo': !currentProcessoId
+                     }">
+                    <router-outlet></router-outlet>
+                </div>
+            </div>
+            <!-- / CONTENT -->
+
+        </div>
+        <!-- / CONTENT CARD -->
+
+    </div>
+    <!-- / CENTER -->
+
+</div>

@@ -5,9 +5,9 @@
 
     <div fxFlex="0 1 auto" fxLayout="column">
 
-        <mat-card class="mb-16" fxFlex="0 1 auto" fxLayout="column">
+        <mat-card class="mb-16" fxFlex="0 1 auto" fxLayout="column" *showIfRole="'ROLE_COLABORADOR'">
             <div fxLayout="row" class="start" fxFlex *ngIf="!form.value.id"
-                 fxLayoutAlign="start center">
+                 fxLayoutAlign="start center" >
                 <label id="processo-rg2"></label>
                 <mat-radio-group class="poderes-rg"
                                  formControlName="novo"
@@ -75,13 +75,49 @@
             </mat-form-field>
         </mat-card>
 
-        <mat-card class="mb-16" fxFlex="0 1 auto" fxLayout="column" *ngIf="!form.value.id">
+        <mat-card class="mb-16" fxFlex="0 1 auto" fxLayout="column" *showIfRole="'ROLE_CONVENIADO'">
+            <mat-form-field fxFlex>
+                <mat-label>Data de prazo de resposta</mat-label>
+                <input matInput name="dataHoraPrazoResposta"
+                       formControlName="dataHoraPrazoResposta"
+                       [matDatetimepicker]="dataHoraPrazoResposta"
+                       required>
+                <mat-datetimepicker-toggle matSuffix [for]="dataHoraPrazoResposta"></mat-datetimepicker-toggle>
+                <mat-datetimepicker #dataHoraPrazoResposta type="datetime" openOnFocus="true"
+                                    timeInterval="5"></mat-datetimepicker>
+                <mat-error>Campo obrigatório!</mat-error>
+            </mat-form-field>
+
+            <mat-form-field fxFlex>
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Unidade"
+                           formControlName="unidadeProtocoloExterno"
+                           required
+                           [matAutocomplete]="unidadeProtocoloExterno.autocomplete"
+                           (blur)="checkUnidadeProtocoloExterno()">
+                </div>
+                <cdk-setor-autocomplete
+                    #unidadeProtocoloExterno="setorAutocomplete"
+                    [control]="form.get('unidadeProtocoloExterno')"
+                    [pagination]="unidadeProtocoloExternoPagination">
+                </cdk-setor-autocomplete>
+                <button matSuffix mat-button mat-icon-button
+                        (click)="showUnidadeProtocoloExternoGrid()">
+                    <mat-icon matTooltip="Procurar">search</mat-icon>
+                </button>
+                <mat-error *ngIf="form.get('unidadeProtocoloExterno').hasError('formError')">
+                    {{form.get('unidadeProtocoloExterno').errors.formError}}
+                </mat-error>
+            </mat-form-field>
+        </mat-card>
+
+        <mat-card class="mb-16" fxFlex="0 1 auto" fxLayout="column" *showIfRole="'ROLE_COLABORADOR'">
             <mat-slide-toggle *ngIf="!form.value.id" formControlName="temProcessoOrigem"
                               class="mt-16 mr-16 mb-16" fxFlex="0 1 auto">
                 Importar Dados de Processo Existente no Sistema
             </mat-slide-toggle>
 
-            <mat-form-field *ngIf="form.value.temProcessoOrigem === true">
+            <mat-form-field *ngIf="!form.value.id && form.value.temProcessoOrigem === true">
                 <div fxLayout="row" fxLayoutAlign="start center">
                     <input matInput placeholder="Processo Origem"
                            formControlName="processoOrigem"
@@ -106,8 +142,8 @@
             </mat-form-field>
         </mat-card>
 
-        <mat-form-field fxFlex *ngIf="form.value.id">
-            <div fxLayout="row" fxLayoutAlign="start center">
+        <mat-form-field fxFlex *showIfRole="'ROLE_COLABORADOR'">
+            <div fxLayout="row" fxLayoutAlign="start center" *ngIf="form.value.id">
                 <input matInput placeholder="Fase"
                        formControlName="modalidadeFase"
                        required
@@ -123,7 +159,7 @@
                     (click)="showLogEntryGrid('modalidadeFase')">
                 <mat-icon matTooltip="Histórico">history</mat-icon>
             </button>
-            <button matSuffix mat-button mat-icon-button
+            <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
                     (click)="showModalidadeFaseGrid()">
                 <mat-icon matTooltip="Procurar">search</mat-icon>
             </button>
@@ -132,7 +168,7 @@
             </mat-error>
         </mat-form-field>
 
-        <mat-form-field fxFlex>
+        <mat-form-field fxFlex *showIfRole="'ROLE_COLABORADOR'">
             <div fxLayout="row" fxLayoutAlign="start center">
                 <input matInput placeholder="Processo de Trabalho"
                        formControlName="especieProcesso"
@@ -158,7 +194,7 @@
             </mat-error>
         </mat-form-field>
 
-        <mat-form-field fxFlex>
+        <mat-form-field fxFlex *showIfRole="'ROLE_COLABORADOR'">
             <div fxLayout="row" fxLayoutAlign="start center">
                 <input matInput placeholder="Meio"
                        formControlName="modalidadeMeio"
@@ -184,7 +220,7 @@
             </mat-error>
         </mat-form-field>
 
-        <mat-form-field fxFlex>
+        <mat-form-field fxFlex *showIfRole="'ROLE_COLABORADOR'">
             <div fxLayout="row" fxLayoutAlign="start center">
                 <input matInput placeholder="Classificação"
                        formControlName="classificacao"
@@ -210,7 +246,7 @@
             </mat-error>
         </mat-form-field>
 
-        <mat-form-field fxFlex>
+        <mat-form-field fxFlex *showIfRole="'ROLE_COLABORADOR'">
             <mat-label>Título</mat-label>
             <input matInput #titulo
                    name="titulo"
@@ -238,7 +274,7 @@
             </button>
         </mat-form-field>
 
-        <mat-form-field fxFlex>
+        <mat-form-field fxFlex *showIfRole="'ROLE_COLABORADOR'">
             <mat-label>Outro Número</mat-label>
             <input matInput #outroNumero
                    name="outroNumero"
@@ -250,7 +286,7 @@
             </button>
         </mat-form-field>
 
-        <mat-form-field fxFlex>
+        <mat-form-field fxFlex *showIfRole="'ROLE_COLABORADOR'">
             <div fxLayout="row" fxLayoutAlign="start center">
                 <input matInput placeholder="Setor Responsável"
                        formControlName="setorAtual"
@@ -356,6 +392,14 @@
         [pagination]="setorAtualPagination"
         (selected)="selectSetor($event)"
         (cancel)="cancel()">
+</cdk-setor-gridsearch>
+
+<cdk-setor-gridsearch
+    fxFlex
+    *ngIf="activeCard === 'unidade-protocolo-externo-gridsearch'"
+    [pagination]="unidadeProtocoloExternoPagination"
+    (selected)="selectUnidadeProtocoloExterno($event)"
+    (cancel)="cancel()">
 </cdk-setor-gridsearch>
 
 <cdk-logentry-gridsearch

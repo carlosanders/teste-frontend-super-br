@@ -131,10 +131,7 @@ export class AppComponent implements OnInit, OnDestroy {
         // Set the private defaults
         this._unsubscribeAll = new Subject();
 
-        const userProfile = this._loginService.getUserProfile();
-        if (userProfile) {
-            this._loginService.setMercure(userProfile);
-        }
+        this._loginService.init();
     }
 
     // -----------------------------------------------------------------------------------------------------
