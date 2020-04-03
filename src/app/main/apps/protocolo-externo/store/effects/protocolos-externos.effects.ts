@@ -10,15 +10,17 @@ import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import {getRouterState, State} from 'app/store/reducers';
 import * as ProcessosActions from '../actions/protocolos-externos.actions';
 
-import {Processo, Assunto, Pessoa} from '@cdk/models';
+import {Processo, Assunto, Pessoa, Interessado} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Router} from '@angular/router';
 import {processo as processoSchema} from '@cdk/normalizr/processo.schema';
 import {assunto as assuntoSchema} from '@cdk/normalizr/assunto.schema';
 import {pessoa as pessoaSchema} from '@cdk/normalizr/pessoa.schema';
+import {interessado as interessadoSchema} from '@cdk/normalizr/interessado.schema';
 import {ProcessoService} from '@cdk/services/processo.service';
 import {AssuntoService} from '@cdk/services/assunto.service';
 import {PessoaService} from '@cdk/services/pessoa.service';
+import {InteressadoService} from '@cdk/services/interessado.service';
 
 @Injectable()
 export class ProcessosEffect {
@@ -29,6 +31,7 @@ export class ProcessosEffect {
         private _processoService: ProcessoService,
         private _assuntoService: AssuntoService,
         private _pessoaService: PessoaService,
+        private _interessadoService: InteressadoService,
         public _loginService: LoginService,
         private _store: Store<State>,
         private _router: Router
@@ -93,16 +96,10 @@ export class ProcessosEffect {
             .pipe(
                 ofType<ProcessosActions.SetCurrentProcesso>(ProcessosActions.SET_CURRENT_PROCESSO),
                 map((action) => {
-                    /*if (action.payload.acessoNegado) {
-                        this._router.navigate([
-                            'apps/protocolo-externo/detalhe/' + action.payload.processoId + '/processo/' + action.payload.processoId + '/acesso-negado'
-                            ]).then();
-                    } else {*/
-                        this._router.navigate([
-                            'apps/protocolo-externo/' + this.routerState.params.pessoaHandle +
-                            '/detalhe/' + action.payload.processoId + '/processo/' + action.payload.processoId + '/visualizar']
-                        ).then();
-                    /*}*/
+                    this._router.navigate([
+                        'apps/protocolo-externo/' + this.routerState.params.pessoaHandle +
+                        '/detalhe/' + action.payload.processoId + '/processo/' + action.payload.processoId + '/visualizar']
+                    ).then();
 
                     return new ProcessosActions.SetCurrentProcessoSuccess();
                 })
@@ -193,8 +190,7 @@ export class ProcessosEffect {
     //         );
 
     /**
-     * ISSUE-107
-     * Get Assuntos Processo processo from input parameters
+     * Get Assuntos Processo
      * @type {Observable<any>}
      */
     @Effect()
@@ -204,22 +200,18 @@ export class ProcessosEffect {
                 ofType<ProcessosActions.GetAssuntosProcesso>(ProcessosActions.GET_ASSUNTOS_PROCESSO),
                 switchMap((action) => {
                     return this._assuntoService.query(
-                        JSON.stringify({
-                            ...action.payload.filter,
-                            ...action.payload.folderFilter,
-                            ...action.payload.listFilter,
-                            ...action.payload.etiquetaFilter
-                        }),
-                        action.payload.limit,
-                        action.payload.offset,
-                        JSON.stringify(action.payload.sort),
-                        JSON.stringify(action.payload.populate))
+                        JSON.stringify(action.payload),
+                        10,
+                        0,
+                        JSON.stringify({'principal' : 'DESC', 'criadoEm' : 'DESC'}),
+                        JSON.stringify(['assuntoAdministrativo', 'processo'])
+                    );
                 }),
                 mergeMap((response) => [
                     new AddData<Assunto>({data: response['entities'], schema: assuntoSchema}),
                     new ProcessosActions.GetAssuntosProcessoSuccess({
                         assuntosId: response['entities'].map(assunto => assunto.id),
-                        idProcessoToLoadAssuntos:response['entities'][0].processo.id,
+                        idProcessoToLoadAssuntos: response['entities'][0].processo.id,
                         totalAssuntos: response['total']
                     })
                 ]),
@@ -230,6 +222,11 @@ export class ProcessosEffect {
                 })
             );
 
+
+    /**
+     * Get Pessoa Conveniada
+     * @type {Observable<any>}
+     */
     @Effect()
     getPessoa: any =
         this._actions
@@ -244,7 +241,8 @@ export class ProcessosEffect {
                         action.payload.limit,
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
-                        JSON.stringify(action.payload.populate));
+                        JSON.stringify(action.payload.populate)
+                    );
                 }),
                 mergeMap((response) => [
                     new AddData<Pessoa>({data: response['entities'], schema: pessoaSchema}),
@@ -259,6 +257,39 @@ export class ProcessosEffect {
                 catchError((err, caught) => {
                     console.log(err);
                     this._store.dispatch(new ProcessosActions.GetProcessosFailed(err));
+                    return caught;
+                })
+            );
+
+    /**
+     * GetInteressados Processo
+     * @type {Observable<any>}
+     */
+    @Effect()
+    getInteressadosProcesso: Observable<any> =
+        this._actions
+            .pipe(
+                ofType<ProcessosActions.GetInteressadosProcesso>(ProcessosActions.GET_INTERESSADOS_PROCESSO),
+                switchMap((action) => {
+                    return this._interessadoService.query(
+                    JSON.stringify(action.payload),
+                        10,
+                        0,
+                        JSON.stringify({'principal' : 'DESC', 'criadoEm' : 'DESC'}),
+                        JSON.stringify(['processo', 'modalidadeInteressado', 'pessoa'])
+                    );
+                }),
+                mergeMap((response) => [
+                    new AddData<Interessado>({data: response['entities'], schema: interessadoSchema}),
+                    new ProcessosActions.GetInteressadosProcessoSuccess({
+                        interessadosId: response['entities'].map(interessado => interessado.id),
+                        idProcessoToLoadInteressados: response['entities'][0].processo.id,
+                        totalInteressados: response['total']
+                    })
+                ]),
+                catchError((err, caught) => {
+                    console.log(err);
+                    this._store.dispatch(new ProcessosActions.GetInteressadosProcessoFailed(err));
                     return caught;
                 })
             );

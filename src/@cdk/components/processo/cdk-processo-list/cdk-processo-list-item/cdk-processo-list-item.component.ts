@@ -6,7 +6,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {Processo, Assunto} from '@cdk/models';
+import {Processo, Assunto, Interessado} from '@cdk/models';
 
 @Component({
     selector: 'cdk-processo-list-item',
@@ -55,8 +55,14 @@ export class CdkProcessoListItemComponent implements OnInit {
     @Output()
     codProcesso = new EventEmitter<any>();
 
+    @Output()
+    codProcessoInteressado = new EventEmitter<any>();
+
     @Input()
     assuntos: Assunto[];
+
+    @Input()
+    interessados: Interessado[];
 
     @Input()
     loading: boolean;
@@ -117,6 +123,7 @@ export class CdkProcessoListItemComponent implements OnInit {
 
     doOpenPanel(): void {
         this.codProcesso.emit(this.processo);
+        this.codProcessoInteressado.emit(this.processo);
     }
 }
 

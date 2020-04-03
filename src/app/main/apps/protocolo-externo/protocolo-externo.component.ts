@@ -14,7 +14,7 @@ import { Observable, Subject, BehaviorSubject } from 'rxjs';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {CdkTranslationLoaderService} from '@cdk/services/translation-loader.service';
 
-import {Processo, PaginatedResponse} from '@cdk/models';
+import {Processo, PaginatedResponse, Interessado} from '@cdk/models';
 import {ProcessoService} from '@cdk/services/processo.service';
 import * as fromStore from './store';
 
@@ -108,28 +108,30 @@ export class ProtocoloExternoComponent implements OnInit, OnDestroy, AfterViewIn
     pessoasConveniadas: any;
     currentPessoaConveniadaId: any;
 
+
+    interessados: Interessado[] = [];
+    interessados$: Observable<Interessado[]>;
+    idProcessoToLoadInteressados$: Observable<number>;
+    idProcessoToLoadInteressados: number;
+
     @ViewChild('processoListElement', {read: ElementRef, static: true}) processoListElement: ElementRef;
 
     /**
+     *
      * @param _changeDetectorRef
      * @param _cdkSidebarService
      * @param _cdkTranslationLoaderService
-     * @param _processoService
      * @param _router
      * @param _store
-     * @param _storeAssunto
      * @param _loginService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _cdkSidebarService: CdkSidebarService,
         private _cdkTranslationLoaderService: CdkTranslationLoaderService,
-        private _processoService: ProcessoService,
         private _router: Router,
         private _store: Store<fromStore.ProcessosAppState>,
-        private _loginService: LoginService,
-        private _assuntoService: AssuntoService
-
+        private _loginService: LoginService
     ) {
         // Set the defaults
         this.searchInput = new FormControl('');
@@ -149,9 +151,7 @@ export class ProtocoloExternoComponent implements OnInit, OnDestroy, AfterViewIn
         this._profile = _loginService.getUserProfile();
 
         this.vinculacaoEtiquetaPagination = new Pagination();
-        this.vinculacaoEtiquetaPagination.filter = {'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.id};
-
-        this.assuntoService = _assuntoService;
+        this.vinculacaoEtiquetaPagination.filter = {'vinculacoesEtiquetas.usuario.id': `eq:${this._profile.id}`};
 
         this.assuntos = [];
         this.assuntoLoading$ = this._store.pipe(select(fromStore.getIsAssuntoLoading));
@@ -159,6 +159,11 @@ export class ProtocoloExternoComponent implements OnInit, OnDestroy, AfterViewIn
         this.assuntos$ = this._store.pipe(select(fromStore.getAssuntosProcessos));
         this.idProcessoToLoadAssuntos$ = this._store.pipe(select(fromStore.getIdProcessoToLoadAssuntos));
         this.pessoasConveniadas =  this._profile.vinculacoesPessoasUsuarios;
+
+
+        this.interessados = [];
+        this.interessados$ = this._store.pipe(select(fromStore.getInteressadosProcessos));
+        this.idProcessoToLoadInteressados$ = this._store.pipe(select(fromStore.getIdProcessoToLoadInteressados));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -440,17 +445,15 @@ export class ProtocoloExternoComponent implements OnInit, OnDestroy, AfterViewIn
     * Recebe a referencia da processo carregada no componente de lista de processos
     */
     doLoadAssuntos(processo): void {
-        const params = {
-            filter: {
-                'processo.id': `eq:${processo.id}`
-            },
-            etiquetaFilter: {},
-            limit: 10,
-            offset: 0,
-            sort: {'principal' : 'DESC', 'criadoEm' : 'DESC'},
-            populate: ['populateAll']
-        };
+        this._store.dispatch(new fromStore.GetAssuntosProcesso({
+            'processo.id': `eq:${processo.id}`
+        }));
+    }
 
-        this._store.dispatch(new fromStore.GetAssuntosProcesso(params));
+
+    doLoadInteressados(processo): void {
+        this._store.dispatch(new fromStore.GetInteressadosProcesso({
+            'processo.id': `eq:${processo.id}`
+        }));
     }
 }

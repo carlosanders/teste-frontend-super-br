@@ -23,13 +23,16 @@ export interface ProcessosState {
     deletedProcessoIds: number[];
     selectedProcessoIds: number[];
     maximizado: boolean;
-    /*
-    * ISSUE-107
-    */
-   assuntoLoading: boolean;
-   assuntoPanelOpen: boolean;
-   assuntosId: number[];
-   idProcessoToLoadAssuntos: number;
+
+    assuntoLoading: boolean;
+    assuntoPanelOpen: boolean;
+    assuntosId: number[];
+    idProcessoToLoadAssuntos: number;
+
+    interessadoLoading: boolean;
+    interessadoPanelOpen: boolean;
+    interessadosId: number[];
+    idProcessoToLoadInteressados: number;
 }
 
 export const ProcessosInitialState: ProcessosState = {
@@ -54,13 +57,16 @@ export const ProcessosInitialState: ProcessosState = {
     selectedProcessoIds: [],
     currentProcessoId: null,
     maximizado: false,
-    /*
-    * ISSUE-107
-    */
-   assuntoLoading: true,
-   assuntoPanelOpen: false,
-   assuntosId: [],
-   idProcessoToLoadAssuntos: 0
+
+    assuntoLoading: true,
+    assuntoPanelOpen: false,
+    assuntosId: [],
+    idProcessoToLoadAssuntos: 0,
+
+    interessadoLoading: true,
+    interessadoPanelOpen: false,
+    interessadosId: [],
+    idProcessoToLoadInteressados: 0
 };
 
 export function ProtocolosExternosReducer(state = ProcessosInitialState, action: ProcessosActions.ProcessosActionsAll): ProcessosState {
@@ -199,19 +205,13 @@ export function ProtocolosExternosReducer(state = ProcessosInitialState, action:
             };
         }
 
-        /*
-        * ISSUE-107
-        */
         case ProcessosActions.GET_ASSUNTOS_PROCESSO: {
             return {
                 ...state,
                 assuntosId: [],
                 assuntoLoading: true,
-                //assuntoPanelOpen: false
-                assuntoPanelOpen: action.payload.tarefa === state.idProcessoToLoadAssuntos
+                assuntoPanelOpen: action.payload.processo === state.idProcessoToLoadAssuntos
             }
-
-
         }
 
         case ProcessosActions.GET_ASSUNTOS_PROCESSO_SUCCESS: {
@@ -239,6 +239,44 @@ export function ProtocolosExternosReducer(state = ProcessosInitialState, action:
             return {
                 ...state,
                 assuntoLoading: false
+            }
+
+        }
+
+        case ProcessosActions.GET_INTERESSADOS_PROCESSO: {
+            return {
+                ...state,
+                interessadosId: [],
+                interessadoLoading: true,
+                interessadoPanelOpen: action.payload.processo.id === state.idProcessoToLoadInteressados
+            }
+        }
+
+        case ProcessosActions.GET_INTERESSADOS_PROCESSO_SUCCESS: {
+            return {
+                ...state,
+                interessadoLoading: false,
+                interessadoPanelOpen: true,
+                interessadosId: [...action.payload.interessadosId],
+                idProcessoToLoadInteressados: action.payload.idProcessoToLoadInteressados
+            }
+
+        }
+
+        case ProcessosActions.GET_INTERESSADOS_PROCESSO_FAILED: {
+            return {
+                ...state,
+
+                interessadoLoading: false,
+                interessadoPanelOpen: false
+            }
+
+        }
+
+        case ProcessosActions.SET_INTERESSADOS_LOADED: {
+            return {
+                ...state,
+                interessadoLoading: false
             }
 
         }

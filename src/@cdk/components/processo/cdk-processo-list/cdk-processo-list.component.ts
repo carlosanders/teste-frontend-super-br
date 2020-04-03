@@ -1,6 +1,6 @@
 import {AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewEncapsulation} from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
-import {Assunto, Processo} from '@cdk/models';
+import {Assunto, Interessado, Processo} from '@cdk/models';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 
 @Component({
@@ -83,6 +83,9 @@ export class CdkProcessoListComponent implements AfterViewInit, OnInit, OnChange
     @Output()
     idProcesso = new EventEmitter<any>();
 
+    @Output()
+    idProcessoInteresado = new EventEmitter<any>();
+
     @Input()
     loadingAssunto: boolean;
 
@@ -91,6 +94,16 @@ export class CdkProcessoListComponent implements AfterViewInit, OnInit, OnChange
 
     @Input()
     idProcessoToLoadAssuntos: number;
+
+
+    @Input()
+    interessados: Interessado[];
+
+    @Input()
+    loadingInteressado: boolean;
+
+    @Input()
+    idProcessoToLoadInteressados: number;
 
     listFilter: {} = {};
     listSort: {} = {};
@@ -235,5 +248,9 @@ export class CdkProcessoListComponent implements AfterViewInit, OnInit, OnChange
 
     doLoadAssuntos(idProcesso) {
         this.idProcesso.emit(idProcesso);
+    }
+
+    doLoadInteressados(idProcessoInteressado) {
+        this.idProcessoInteresado.emit(idProcessoInteressado);
     }
 }

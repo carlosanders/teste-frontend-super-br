@@ -2,13 +2,15 @@ import { createSelector } from '@ngrx/store';
 import { getProtocoloExternoAppState, ProcessosAppState, ProcessosState } from '../reducers';
 
 import { createSchemaSelectors } from '@cdk/ngrx-normalizr';
-import { Processo, Assunto } from '@cdk/models';
+import { Processo, Assunto, Interessado } from '@cdk/models';
 
 import { processo as processoSchema } from '@cdk/normalizr/processo.schema';
 import { assunto as assuntoSchema } from '@cdk/normalizr/assunto.schema';
+import { interessado as interessadoSchema } from '@cdk/normalizr/interessado.schema';
 
 const schemaSelectors = createSchemaSelectors<Processo>(processoSchema);
 const schemaAssuntoSelectors = createSchemaSelectors<Assunto>(assuntoSchema);
+const schemaInteressadoSelectors = createSchemaSelectors<Interessado>(interessadoSchema);
 
 export const getProcessosState = createSelector(
     getProtocoloExternoAppState,
@@ -67,9 +69,6 @@ export const getDeletedProcessoIds = createSelector(
     (state: ProcessosState) => state.deletedProcessoIds
 );
 
-/*
- * ISSUE-107 
- */
 export const getIsAssuntoLoading = createSelector(
     getProcessosState,
     (state: ProcessosState) => state.assuntoLoading
@@ -96,5 +95,30 @@ export const getIdProcessoToLoadAssuntos = createSelector(
     (state: ProcessosState) => state.idProcessoToLoadAssuntos
 );
 
+export const getIsInteressadoLoading = createSelector(
+    getProcessosState,
+    (state: ProcessosState) => state.interessadoLoading
+);
+
+export const getIsInteressadoPanelIsOpen = createSelector(
+    getProcessosState,
+    (state: ProcessosState) => state.interessadoPanelOpen
+);
+
+export const getInteressadosProcessosIds = createSelector(
+    getProcessosState,
+    (state: ProcessosState) => state.interessadosId
+);
+
+export const getInteressadosProcessos = createSelector(
+    schemaInteressadoSelectors.getNormalizedEntities,
+    getInteressadosProcessosIds,
+    schemaInteressadoSelectors.entitiesProjector
+);
+
+export const getIdProcessoToLoadInteressados = createSelector(
+    getProcessosState,
+    (state: ProcessosState) => state.idProcessoToLoadInteressados
+);
 
 

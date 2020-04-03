@@ -36,6 +36,7 @@ import {LoginService} from '../../auth/login/login.service';
 import { AssuntoService } from '@cdk/services/assunto.service';
 import {CdkProcessoFormModule} from '@cdk/components/processo/cdk-processo-form/cdk-processo-form.module';
 import {EspecieProcessoService} from '@cdk/services/especie-processo.service';
+import {InteressadoService} from '@cdk/services/interessado.service';
 
 const routes: Routes = [
     {
@@ -150,7 +151,8 @@ const routes: Routes = [
         UsuarioService,
         LoginService,
         fromGuards.ResolveGuard,
-        AssuntoService
+        AssuntoService,
+        InteressadoService
     ]
 })
 export class ProtocoloExternoModule {

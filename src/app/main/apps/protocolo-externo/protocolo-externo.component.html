@@ -69,11 +69,17 @@
                                      (uploadBloco)="doUploadBloco()"
                                      (editorBloco)="doEditorBloco()"
                                      (editProcessoBloco)="doEditProcessoBloco()"
+
                                      (idProcesso)="doLoadAssuntos($event)"
                                      [loadingAssunto]="(assuntoLoading$ | async)"
                                      [assuntos]="(assuntos$ | async)"
                                      [isOpenPanel]="(assuntoPanelOpen$ | async )"
-                                     [idProcessoToLoadAssuntos]="idProcessoToLoadAssuntos">
+                                     [idProcessoToLoadAssuntos]="idProcessoToLoadAssuntos"
+
+                                     (idProcessoInteresado)="doLoadInteressados($event)"
+                                     [interessados]="(interessados$ | async)"
+                                     [idProcessoToLoadAssuntos]="idProcessoToLoadInteressados"
+                    >
                                      <!--(delete)="deleteProcesso($event)"
                                      (compartilhar)="doCompartilhar($event)"
                                      (createDocumentoAvulso)="doCreateDocumentoAvulso($event)"

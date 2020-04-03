@@ -59,6 +59,19 @@ export const GET_PESSOA_SUCCESS = '[PROTOCOLO EXTERNO] GET PESSOA SUCCESS';
 export const GET_PESSOA_FAILED = '[PROTOCOLO EXTERNO] GET PESSOA FAILED';
 
 
+export const GET_INTERESSADOS_PROCESSO = '[PROCESSO] GET INTERESSADOS PROCESSO';
+export const GET_INTERESSADOS_PROCESSO_SUCCESS = '[PROCESSO] GET INTERESSADOS PROCESSO SUCCESS';
+export const GET_INTERESSADOS_PROCESSO_FAILED = '[PROCESSO] GET INTERESSADOS PROCESSO FAILED';
+
+export const SET_LOADING_INTERESSADOS = '[PROCESSO] SET LOADING INTERESSADOS';
+export const SET_LOADING_INTERESSADOS_SUCCESS = '[PROCESSO] SET LOADING INTERESSADOS SUCCESS';
+export const SET_LOADING_INTERESSADOS_FAILED = '[PROCESSO] SET LOADING INTERESSADOS FAILED';
+
+export const SET_INTERESSADOS_LOADED = '[PROCESSO] SET INTERESSADOS LOADED';
+export const SET_INTERESSADOS_LOADED_SUCCESS = '[PROCESSO] SET INTERESSADOS LOADED SUCCESS';
+export const SET_INTERESSADOS_LOADED_FAILED = '[PROCESSO] SET INTERESSADOS LOADED FAILED';
+
+
 /**
  * Unload Tarefas
  */
@@ -378,10 +391,6 @@ export class ToggleMaximizado implements Action
 }
 
 /**
- * ISSUE-107
- */
-
-/**
  * Get Assuntos dos processo
  */
 export class GetAssuntosProcesso implements Action {
@@ -511,6 +520,97 @@ export class GetPessoaFailed implements Action
 }
 
 
+/**
+ * Get Interessados dos processo
+ */
+export class GetInteressadosProcesso implements Action {
+    readonly type = GET_INTERESSADOS_PROCESSO;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Get Interessados dos processo  Success
+ */
+export class GetInteressadosProcessoSuccess implements Action {
+    readonly type = GET_INTERESSADOS_PROCESSO_SUCCESS;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Get Interessados dos processo Failed
+ */
+export class GetInteressadosProcessoFailed implements Action {
+    readonly type = GET_INTERESSADOS_PROCESSO_FAILED;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Seta o estado de carregando os interessados do processo na tarefa
+ */
+export class SetLoadingInteressados implements Action {
+    readonly type = SET_LOADING_INTERESSADOS;
+
+    constructor() {
+    }
+}
+
+/**
+ * Seta o estado de carregando os interessados do processo na tarefa - sucesso
+ */
+export class SetLoadingInteressadosSuccess implements Action {
+    readonly type = SET_LOADING_INTERESSADOS_SUCCESS;
+
+    constructor() {
+    }
+}
+
+/**
+ * Seta o estado de carregando os interessados do processo na tarefa - erro
+ */
+export class SetLoadingInteressadosFailed implements Action {
+    readonly type = SET_LOADING_INTERESSADOS_FAILED;
+
+    constructor() {
+    }
+}
+
+/**
+ * Seta o estado de interessados carregados no processo
+ */
+export class SetInteressadosLoaded implements Action {
+    readonly type = SET_INTERESSADOS_LOADED;
+
+    constructor() {
+    }
+}
+
+/**
+ * Seta o estado de interessados carregados no processo da tarefa - sucesso
+ */
+export class SetInteressadosLoadedSuccess implements Action {
+    readonly type = SET_INTERESSADOS_LOADED_SUCCESS;
+
+    constructor() {
+    }
+}
+
+/**
+ * Seta o estado de interessados carregados no processo - erro
+ */
+export class SetInteressadosLoadedFailed implements Action {
+    readonly type = SET_INTERESSADOS_LOADED_FAILED;
+
+    constructor() {
+    }
+}
+
+
 export type ProcessosActionsAll
     = UnloadProcessos
     | GetProcessos
@@ -551,4 +651,13 @@ export type ProcessosActionsAll
     | SetAssuntosLoadedFailed
     | GetPessoa
     | GetPessoaSuccess
-    | GetPessoaFailed;
+    | GetPessoaFailed
+    | GetInteressadosProcesso
+    | GetInteressadosProcessoSuccess
+    | GetInteressadosProcessoFailed
+    | SetLoadingInteressados
+    | SetLoadingInteressadosSuccess
+    | SetLoadingInteressadosFailed
+    | SetInteressadosLoaded
+    | SetInteressadosLoadedSuccess
+    | SetInteressadosLoadedFailed;
