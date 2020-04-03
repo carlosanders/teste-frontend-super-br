@@ -15,7 +15,6 @@ import {Pessoa} from '@cdk/models';
 import {Localizador} from '@cdk/models';
 import {OrigemDados} from '@cdk/models';
 import {VinculacaoEtiqueta} from './vinculacao-etiqueta.model';
-
 import { Assunto } from '@cdk/models/assunto.model';
 
 export class Processo {

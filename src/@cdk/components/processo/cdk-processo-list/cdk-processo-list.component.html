@@ -126,8 +126,11 @@
                                 [prontoTransicao]="prontoTransicao"
                                 (realizarTransicao)="doRealizarTransicao($event)"
                                 (toggleInSelectedProcessos)="toggleInSelected($event)"
-
-
+                                (codProcesso)="doLoadAssuntos($event)"
+                                [loading] = "loadingAssunto"
+                                [assuntos]="assuntos"
+                                [isOpen]="isOpenPanel"
+                                [idProcessoToLoadAssuntos]="idProcessoToLoadAssuntos"
                                 [ngClass]="{'selected':processo.id === currentProcessoId}">
         </cdk-processo-list-item>
 

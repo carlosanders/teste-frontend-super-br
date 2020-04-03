@@ -199,32 +199,31 @@ export class ProcessosEffect {
         this._actions
             .pipe(
                 ofType<ProcessosActions.GetAssuntosProcesso>(ProcessosActions.GET_ASSUNTOS_PROCESSO),
-                mergeMap((action) => {
+                switchMap((action) => {
                     return this._assuntoService.query(
                         JSON.stringify({
-                            ...action.payload.srv.filter
+                            ...action.payload.filter,
+                            ...action.payload.folderFilter,
+                            ...action.payload.listFilter,
+                            ...action.payload.etiquetaFilter
                         }),
-                        action.payload.srv.limit,
-                        action.payload.srv.offset,
-                        JSON.stringify(action.payload.srv.sort),
-                        JSON.stringify(action.payload.srv.populate)).pipe(
-                            mergeMap((response) => [
-                                new AddData<Assunto>({data: response['entities'], schema: assuntoSchema}),
-                                new ProcessosActions.GetAssuntosProcessoSuccess({
-                                    assuntosId: response['entities'].map(assunto => assunto.id),
-                                    idProcessoToLoadAssuntos: action.payload.processo,
-                                    totalAssuntos: response['total']
-                                })
-
-                            ]),
-                            catchError((err, caught) => {
-                                console.log(err);
-                                this._store.dispatch(new ProcessosActions.GetAssuntosProcessoFailed(err));
-                                return caught;
-                            })
-                        );
-
+                        action.payload.limit,
+                        action.payload.offset,
+                        JSON.stringify(action.payload.sort),
+                        JSON.stringify(action.payload.populate))
                 }),
-
+                mergeMap((response) => [
+                    new AddData<Assunto>({data: response['entities'], schema: assuntoSchema}),
+                    new ProcessosActions.GetAssuntosProcessoSuccess({
+                        assuntosId: response['entities'].map(assunto => assunto.id),
+                        idProcessoToLoadAssuntos:response['entities'][0].processo.id,
+                        totalAssuntos: response['total']
+                    })
+                ]),
+                catchError((err, caught) => {
+                    console.log(err);
+                    this._store.dispatch(new ProcessosActions.GetAssuntosProcessoFailed(err));
+                    return caught;
+                })
             );
 }

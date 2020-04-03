@@ -442,34 +442,15 @@ export class ProtocoloExternoComponent implements OnInit, OnDestroy, AfterViewIn
     * Recebe a referencia da processo carregada no componente de lista de processos
     */
     doLoadAssuntos(processo): void {
-
-        const processoFilter = {
-            'processo.id': `eq:${processo.id}`
-        };
-        
-        const sort = {
-            'principal' : 'DESC',
-            'criadoEm' : 'DESC'
-        };
-
-        const populate = ['populateAll'];
-
-        const serviceParams = {
-            filter: processoFilter,
-            sort : sort,
-            limit : 10,
-            offset : 0,
-            populate : populate
-        };
-
-        const proc = {
-            proc: processo
-        };
-
         const params = {
-            proc: proc,
-            srv: serviceParams,
-            processo: processo.id
+            filter: {
+                'processo.id': `eq:${processo.id}`
+            },
+            etiquetaFilter: {},
+            limit: 10,
+            offset: 0,
+            sort: {'principal' : 'DESC', 'criadoEm' : 'DESC'},
+            populate: ['populateAll']
         };
 
         this._store.dispatch(new fromStore.GetAssuntosProcesso(params));

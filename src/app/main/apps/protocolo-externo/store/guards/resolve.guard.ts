@@ -105,7 +105,8 @@ export class ResolveGuard implements CanActivate {
                             'setorAtual',
                             'lembretes',
                             'vinculacoesEtiquetas',
-                            'vinculacoesEtiquetas.etiqueta'
+                            'vinculacoesEtiquetas.etiqueta',
+                            'assuntos'
                         ]
                     };
 

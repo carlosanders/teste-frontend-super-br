@@ -83,7 +83,14 @@ export class CdkProcessoListComponent implements AfterViewInit, OnInit, OnChange
     @Output()
     idProcesso = new EventEmitter<any>();
 
+    @Input()
+    loadingAssunto: boolean;
 
+    @Input()
+    isOpenPanel: boolean;
+
+    @Input()
+    idProcessoToLoadAssuntos: number;
 
     listFilter: {} = {};
     listSort: {} = {};
