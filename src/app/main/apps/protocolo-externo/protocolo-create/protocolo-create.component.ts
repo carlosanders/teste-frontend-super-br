@@ -14,11 +14,12 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {Pagination, Pessoa, Processo} from '@cdk/models';
 import * as moment from 'moment';
-import {take, takeUntil, tap} from 'rxjs/operators';
+import {filter, take, takeUntil, tap} from 'rxjs/operators';
 import {MatDialog} from '@cdk/angular/material';
 import {Router} from '@angular/router';
 import {getRouterState} from '../../../../store/reducers';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {getPessoa} from '../store/selectors';
 
 @Component({
     selector: 'protocolo-create',
@@ -61,9 +62,7 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
     ) {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
-
-        // implementar aqui um chamado para o seletor de pessoa que você terá que implementar no store do módulo pai
-        // this.pessoaProcedencia$ = this._store.pipe(select(fromStore.getPessoa));
+        this.pessoaProcedencia$ = this._store.pipe(select(getPessoa));
 
         this.unidadePagination = new Pagination();
         this.unidadePagination.populate = ['unidade', 'parent'];
@@ -114,19 +113,16 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
             }
         });
 
-        // Descomentar quando estiver implementado o getPessoa
-        // this._store
-        //     .pipe(
-        //         select(hasLoadedPessoa),
-        //         takeUntil(this._unsubscribeAll)
-        //     ).subscribe(pessoa => {
-        //     if (pessoa) {
-        //         this.pessoaProcedencia = pessoa;
-        //     }
-        // });
+
+        this.pessoaProcedencia$.pipe(
+            takeUntil(this._unsubscribeAll),
+            filter(pessoa => !!pessoa)
+        ).subscribe(pessoa => {
+            this.pessoaProcedencia = pessoa;
+        });
 
         this.processo = new Processo();
-        //this.processo.procedencia = this.pessoaProcedencia;
+        this.processo.procedencia = this.pessoaProcedencia;
     }
 
     /**
@@ -156,7 +152,6 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
         );
 
         this._store.dispatch(new fromStore.SaveProcesso(processo));
-
     }
 
 }

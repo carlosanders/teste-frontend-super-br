@@ -48,7 +48,7 @@ export class ResolveGuard implements CanActivate {
     }
 
     /**
-     * Get Tarefa
+     * Get Processo
      *
      * @returns {Observable<any>}
      */

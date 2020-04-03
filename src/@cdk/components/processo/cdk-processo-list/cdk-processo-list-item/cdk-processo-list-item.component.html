@@ -98,21 +98,11 @@
                         <span>Criar Lembrete</span>
                     </ng-container>
                 </button>
-
-<!--                <button mat-menu-item aria-label="realizar classificacao"-->
-<!--                        (click)="doClassificacao()">-->
-<!--                    <ng-container>-->
-<!--                        <mat-icon>format_indent_increase</mat-icon>-->
-<!--                        <span>Realizar Classificação</span>-->
-<!--                    </ng-container>-->
-<!--                </button>-->
-
             </mat-menu>
         </div>
 
     </div>
 </div>
-<!-- ISSUE-107 -->
 <mat-expansion-panel
     (click)="$event.stopPropagation();"
     [expanded]="(processo.id === idProcessoToLoadAssuntos && isOpen)"

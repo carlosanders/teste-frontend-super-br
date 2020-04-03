@@ -2,10 +2,9 @@ import { createSelector } from '@ngrx/store';
 import { getProtocoloExternoAppState, ProcessosAppState, ProcessosState } from '../reducers';
 
 import { createSchemaSelectors } from '@cdk/ngrx-normalizr';
-import { processo as processoSchema } from '@cdk/normalizr/processo.schema';
-import {Processo} from '@cdk/models';
+import { Processo, Assunto } from '@cdk/models';
 
-import {Assunto} from '@cdk/models';
+import { processo as processoSchema } from '@cdk/normalizr/processo.schema';
 import { assunto as assuntoSchema } from '@cdk/normalizr/assunto.schema';
 
 const schemaSelectors = createSchemaSelectors<Processo>(processoSchema);
@@ -96,5 +95,6 @@ export const getIdProcessoToLoadAssuntos = createSelector(
     getProcessosState,
     (state: ProcessosState) => state.idProcessoToLoadAssuntos
 );
+
 
 

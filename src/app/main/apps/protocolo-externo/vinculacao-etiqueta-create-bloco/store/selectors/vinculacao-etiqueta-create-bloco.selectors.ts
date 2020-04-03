@@ -8,7 +8,7 @@ export const getVinculacaoEtiquetaCreateBlocoState = createSelector(
 
 export const getIsSaving = createSelector(
     getVinculacaoEtiquetaCreateBlocoState,
-    (state: VinculacaoEtiquetaCreateBlocoState) => state.savingTarefasId.length > 0
+    (state: VinculacaoEtiquetaCreateBlocoState) => state.savingProcessosId.length > 0
 );
 
 export const getErrors = createSelector(

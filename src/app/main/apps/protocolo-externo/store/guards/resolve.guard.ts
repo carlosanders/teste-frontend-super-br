@@ -3,7 +3,7 @@ import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '
 
 import {select, Store} from '@ngrx/store';
 
-import {Observable, of, throwError} from 'rxjs';
+import {forkJoin, Observable, of, throwError} from 'rxjs';
 import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
 
 import {ProcessosAppState} from '../reducers';
@@ -12,6 +12,7 @@ import {getProcessosLoaded} from '../selectors';
 import {getRouterState} from 'app/store/reducers';
 import {LoginService} from '../../../../auth/login/login.service';
 import {Usuario, VinculacaoPessoaUsuario} from '@cdk/models';
+import {getPessoaLoaded} from '../../store';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
@@ -51,11 +52,28 @@ export class ResolveGuard implements CanActivate {
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         if (this.getRouterDefault()) {
-            return this.checkRole(this.getProcessos()).pipe(
+            return this.checkRole(this.checkStore()).pipe(
                 switchMap(() => of(true)),
                 catchError(() => of(false))
             );
         }
+    }
+
+    /**
+     * Check store
+     *
+     * @returns {Observable<any>}
+     */
+    checkStore(): Observable<any> {
+        return forkJoin(
+            this.getPessoa()
+        ).pipe(
+            filter(([pessoaLoaded]) => !!(pessoaLoaded)),
+            take(1),
+            switchMap(() =>
+                this.getProcessos()
+            )
+        );
     }
 
     /**
@@ -116,6 +134,36 @@ export class ResolveGuard implements CanActivate {
             }),
             filter((loaded: any) => {
                 return !!loaded;
+            }),
+            take(1)
+        );
+    }
+
+    /**
+     * Get Pessoa
+     *
+     * @returns {Observable<any>}
+     */
+    getPessoa(): any {
+        return this._store.pipe(
+            select(getPessoaLoaded),
+            tap((loaded: any) => {
+                if (!this.routerState.params['pessoaHandle'] || this.routerState.params['pessoaHandle'] !== loaded.value) {
+                    const params = {
+                        filter: {
+                            id: `eq:${this.routerState.params['pessoaHandle']}`
+                        },
+                        limit: 1,
+                        offset: 0,
+                        sort: {},
+                        populate: ['populateAll']
+                    };
+
+                    this._store.dispatch(new fromStore.GetPessoa(params));
+                }
+            }),
+            filter((loaded: any) => {
+                return this.routerState.params['pessoaHandle'] && this.routerState.params['pessoaHandle'] === loaded.value;
             }),
             take(1)
         );

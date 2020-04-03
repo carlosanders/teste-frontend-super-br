@@ -31,7 +31,7 @@ import {ToggleMaximizado} from 'app/main/apps/protocolo-externo/store';
 import {Topico} from 'ajuda/topico';
 import {Etiqueta, Pagination, Usuario, Assunto} from '@cdk/models';
 
-import * as fromAssuntoStore from './assuntos/assunto-list/store';
+import * as fromAssuntoStore from './store';
 import { AssuntoService } from '@cdk/services/assunto.service';
 
 @Component({
@@ -128,9 +128,7 @@ export class ProtocoloExternoComponent implements OnInit, OnDestroy, AfterViewIn
         private _router: Router,
         private _store: Store<fromStore.ProcessosAppState>,
         private _loginService: LoginService,
-        private _assuntoService: AssuntoService,
-
-        private _storeAssutos: Store<fromAssuntoStore.AssuntoListAppState>
+        private _assuntoService: AssuntoService
 
     ) {
         // Set the defaults
@@ -384,45 +382,45 @@ export class ProtocoloExternoComponent implements OnInit, OnDestroy, AfterViewIn
         this.processoListOriginalSize = event.rectangle.width;
     }
 
-    doCreateDocumentoAvulso(processoId): void {
-        this._router.navigate(['apps/processos/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/processo/' + processoId + '/oficio']).then();
-    }
-
-    doCreateProcesso(params): void {
-        this._router.navigate(['apps/processos/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/criar/' + params.processoId]).then();
-    }
-
-    doMovimentar(processoId): void {
-        this._router.navigate(['apps/processos/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/processo/' + processoId + '/atividades/criar']).then();
-    }
-
-    doEditProcesso(processoId): void {
-        this._router.navigate(['apps/processos/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/processo/' + processoId + '/editar']).then();
-    }
-
-    doCompartilhar(processoId): void {
-        this._router.navigate(['apps/processos/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/processo/' + processoId + '/compartilhamentos/criar']).then();
-    }
-
-    doCompartilharBloco(): void {
-        this._router.navigate(['apps/processos/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/compartilhamento-bloco']).then();
-    }
+    // doCreateDocumentoAvulso(processoId): void {
+    //     this._router.navigate(['apps/processos/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/processo/' + processoId + '/oficio']).then();
+    // }
+    //
+    // doCreateProcesso(params): void {
+    //     this._router.navigate(['apps/processos/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/criar/' + params.processoId]).then();
+    // }
+    //
+    // doMovimentar(processoId): void {
+    //     this._router.navigate(['apps/processos/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/processo/' + processoId + '/atividades/criar']).then();
+    // }
+    //
+    // doEditProcesso(processoId): void {
+    //     this._router.navigate(['apps/processos/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/processo/' + processoId + '/editar']).then();
+    // }
+    //
+    // doCompartilhar(processoId): void {
+    //     this._router.navigate(['apps/processos/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/processo/' + processoId + '/compartilhamentos/criar']).then();
+    // }
+    //
+    // doCompartilharBloco(): void {
+    //     this._router.navigate(['apps/processos/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/compartilhamento-bloco']).then();
+    // }
 
     doEtiquetarBloco(): void {
-        this._router.navigate(['apps/processos/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/vinculacao-etiqueta-bloco']).then();
+        this._router.navigate(['apps/protocolo-externo/' + this.routerState.params.pessoaHandle + '/vinculacao-etiqueta-bloco']).then();
     }
 
-    doMovimentarBloco(): void {
-        this._router.navigate(['apps/processos/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/atividade-bloco']).then();
-    }
-
-    doEditProcessoBloco(): void {
-        this._router.navigate(['apps/processos/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/processo-edit-bloco']).then();
-    }
-
-    doCreateProcessoBloco(): void {
-        this._router.navigate(['apps/processos/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/processo-bloco']).then();
-    }
+    // doMovimentarBloco(): void {
+    //     this._router.navigate(['apps/processos/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/atividade-bloco']).then();
+    // }
+    //
+    // doEditProcessoBloco(): void {
+    //     this._router.navigate(['apps/processos/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/processo-edit-bloco']).then();
+    // }
+    //
+    // doCreateProcessoBloco(): void {
+    //     this._router.navigate(['apps/processos/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/processo-bloco']).then();
+    // }
 
     doUploadBloco(): void {
         this._router.navigate(['apps/processos/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/responder-complementar-create-bloco']).then();
@@ -432,9 +430,9 @@ export class ProtocoloExternoComponent implements OnInit, OnDestroy, AfterViewIn
         this._router.navigate(['apps/processos/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/modelo-bloco']).then();
     }
 
-    doCreateDocumentoAvulsoBloco(): void {
-        this._router.navigate(['apps/processos/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/documento-avulso-bloco']).then();
-    }
+    // doCreateDocumentoAvulsoBloco(): void {
+    //     this._router.navigate(['apps/processos/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/documento-avulso-bloco']).then();
+    // }
 
     /*
     * Função que carrega os assuntos do processo associado à processo

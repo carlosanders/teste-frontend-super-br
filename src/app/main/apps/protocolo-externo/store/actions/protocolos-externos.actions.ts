@@ -54,7 +54,9 @@ export const SET_ASSUNTOS_LOADED_SUCCESS = '[PROCESSO] SET ASSUNTOS LOADED SUCCE
 export const SET_ASSUNTOS_LOADED_FAILED = '[PROCESSO] SET ASSUNTOS LOADED FAILED';
 
 
-
+export const GET_PESSOA = '[PROTOCOLO EXTENO] GET PESSOA';
+export const GET_PESSOA_SUCCESS = '[PROTOCOLO EXTERNO] GET PESSOA SUCCESS';
+export const GET_PESSOA_FAILED = '[PROTOCOLO EXTERNO] GET PESSOA FAILED';
 
 
 /**
@@ -471,6 +473,43 @@ export class SetAssuntosLoadedFailed implements Action {
     }
 }
 
+/**
+ *  Get Pessoa
+ */
+export class GetPessoa implements Action
+{
+    readonly type = GET_PESSOA;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+
+/**
+ *  Get Pessoa Success
+ */
+export class GetPessoaSuccess implements Action
+{
+    readonly type = GET_PESSOA_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ *  Get Pessoa Failid
+ */
+export class GetPessoaFailed implements Action
+{
+    readonly type = GET_PESSOA_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 
 export type ProcessosActionsAll
     = UnloadProcessos
@@ -509,4 +548,7 @@ export type ProcessosActionsAll
     | SetLoadingAssuntosFailed
     | SetAssuntosLoaded
     | SetAssuntosLoadedSuccess
-    | SetAssuntosLoadedFailed;
+    | SetAssuntosLoadedFailed
+    | GetPessoa
+    | GetPessoaSuccess
+    | GetPessoaFailed;

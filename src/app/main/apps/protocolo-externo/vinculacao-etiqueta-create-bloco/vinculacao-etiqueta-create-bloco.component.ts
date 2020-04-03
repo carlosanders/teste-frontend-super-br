@@ -14,7 +14,7 @@ import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Tarefa} from '@cdk/models';
+import {Processo} from '@cdk/models';
 import {getSelectedProcessos} from '../store/selectors';
 import {getOperacoesState, getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
@@ -33,8 +33,8 @@ export class VinculacaoEtiquetaCreateBlocoComponent implements OnInit, OnDestroy
 
     private _unsubscribeAll: Subject<any> = new Subject();
 
-    tarefas$: Observable<Tarefa[]>;
-    tarefas: Tarefa[];
+    processos$: Observable<Processo[]>;
+    processos: Processo[];
 
     vinculacaoEtiqueta: VinculacaoEtiqueta;
     isSaving$: Observable<boolean>;
@@ -61,7 +61,7 @@ export class VinculacaoEtiquetaCreateBlocoComponent implements OnInit, OnDestroy
         private _router: Router,
         private _changeDetectorRef: ChangeDetectorRef
     ) {
-        this.tarefas$ = this._store.pipe(select(getSelectedProcessos));
+        this.processos$ = this._store.pipe(select(getSelectedProcessos));
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this._profile = _loginService.getUserProfile();
@@ -73,9 +73,9 @@ export class VinculacaoEtiquetaCreateBlocoComponent implements OnInit, OnDestroy
     // -----------------------------------------------------------------------------------------------------
 
     ngOnInit(): void {
-        this.tarefas$.pipe(
+        this.processos$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(tarefas => this.tarefas = tarefas);
+        ).subscribe(processos => this.processos = processos);
 
         this._store
             .pipe(
@@ -124,7 +124,7 @@ export class VinculacaoEtiquetaCreateBlocoComponent implements OnInit, OnDestroy
 
         this.operacoes = [];
 
-        this.tarefas.forEach(tarefa => {
+        this.processos.forEach(processo => {
             const vinculacaoEtiqueta = new VinculacaoEtiqueta();
 
             Object.entries(this.etiquetas).forEach(
@@ -133,7 +133,7 @@ export class VinculacaoEtiquetaCreateBlocoComponent implements OnInit, OnDestroy
                 }
             );
 
-            vinculacaoEtiqueta.tarefa = tarefa;
+            vinculacaoEtiqueta.processo = processo;
             vinculacaoEtiqueta.privada = false;
 
             this._store.dispatch(new fromStore.SaveVinculacaoEtiqueta(vinculacaoEtiqueta));

@@ -1,9 +1,9 @@
 <!-- CONTENT -->
 <div class="content p-16" fxLayout="column" fxFlex="100">
 
-    <h2>Etiqueta em bloco de tarefas</h2>
+    <h2>Etiqueta em bloco de processos</h2>
 
-    <h3>{{(tarefas$ | async)?.length}} tarefa(s) selecionada(s) </h3>
+    <h3>{{(processos$ | async)?.length}} processo(s) selecionada(s) </h3>
 
     <cdk-etiqueta-chips [etiquetas]="etiquetas"
                         (create)="addEtiqueta($event)"
@@ -12,7 +12,7 @@
     <div *ngIf="!(isSaving$ | async)" fxLayout="row" class="mr-sm-12 mt-8 mb-16" fxFlex
          fxLayoutAlign="center center">
         <button type="submit" mat-raised-button color="accent" class="mr-sm-12" (click)="submit()"
-                [disabled]="!(tarefas$ | async)?.length || !etiquetas.length">
+                [disabled]="!(processos$ | async)?.length || !etiquetas.length">
             SALVAR
         </button>
     </div>
