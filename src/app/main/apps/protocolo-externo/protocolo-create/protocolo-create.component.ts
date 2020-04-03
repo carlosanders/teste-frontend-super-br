@@ -113,16 +113,15 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
             }
         });
 
+        this.processo = new Processo();
 
         this.pessoaProcedencia$.pipe(
             takeUntil(this._unsubscribeAll),
             filter(pessoa => !!pessoa)
         ).subscribe(pessoa => {
             this.pessoaProcedencia = pessoa;
+            this.processo.procedencia = this.pessoaProcedencia;
         });
-
-        this.processo = new Processo();
-        this.processo.procedencia = this.pessoaProcedencia;
     }
 
     /**
@@ -150,6 +149,8 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
                 processo[key] = value;
             }
         );
+
+        processo.procedencia = this.pessoaProcedencia;
 
         this._store.dispatch(new fromStore.SaveProcesso(processo));
     }
