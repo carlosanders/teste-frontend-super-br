@@ -1,8 +1,7 @@
-import * as RealizarTransicaoActions from '../actions';
+import * as TransicaoArquivistaBlocoActions from '../actions';
+import {Etiqueta} from '../../../../../../../@cdk/models';
 
-import {Etiqueta} from '@cdk/models';
-
-export interface RealizarTransicaoState {
+export interface TransicaoArquivistaBlocoState {
     entitiesId: number;
     pagination: {
         limit: number;
@@ -18,9 +17,11 @@ export interface RealizarTransicaoState {
     errors: any;
     loading: boolean;
     loaded: any;
+    deletingIds: number[];
+    deletedIds: number[];
 }
 
-export const RealizarTransicaoInitialState: RealizarTransicaoState = {
+export const TransicaoArquivistaBlocoInitialState: TransicaoArquivistaBlocoState = {
     errors: false,
     pagination: {
         limit: 0,
@@ -35,16 +36,18 @@ export const RealizarTransicaoInitialState: RealizarTransicaoState = {
     entitiesId: null,
     loaded: false,
     loading: false,
-    saving: false
-};
+    saving: false,
+    deletedIds: [],
+    deletingIds: []
+}
 
-export function RealizarTransicaoReducer(
-    state = RealizarTransicaoInitialState,
-    action: RealizarTransicaoActions.RealizarTransicaoActionsAll
-): RealizarTransicaoState {
+export function TransicaoArquivistaBlocoReducer(
+    state = TransicaoArquivistaBlocoInitialState,
+    action: TransicaoArquivistaBlocoActions.TransicaoArquivistaBlocoActionsAll
+): TransicaoArquivistaBlocoState {
     switch (action.type) {
 
-        case RealizarTransicaoActions.GET_REALIZAR_TRANSICAO : {
+        case TransicaoArquivistaBlocoActions.GET_TRANSICAO_ARQUIVISTA_BLOCO : {
             return {
                 ...state,
                 entitiesId: null,
@@ -52,49 +55,52 @@ export function RealizarTransicaoReducer(
             };
         }
 
-        case RealizarTransicaoActions.GET_REALIZAR_TRANSICAO_SUCCESS: {
+        case TransicaoArquivistaBlocoActions.GET_TRANSICAO_ARQUIVISTA_BLOCO_SUCCESS: {
 
             return {
                 ...state,
                 entitiesId: action.payload.entitiesId,
                 loaded: action.payload.loaded,
-                loading: false
             };
         }
 
 
-        case RealizarTransicaoActions.GET_REALIZAR_TRANSICAO_FAILED: {
+        case TransicaoArquivistaBlocoActions.GET_TRANSICAO_ARQUIVISTA_BLOCO_FAILED: {
             return {
                 ...state,
                 loading: false
             };
         }
 
-        case RealizarTransicaoActions.SAVE_REALIZAR_TRANSICAO: {
+        case TransicaoArquivistaBlocoActions.SAVE_TRANSICAO_ARQUIVISTA_BLOCO: {
             return {
                 ...state,
                 saving: true,
-                errors: false
+                errors: false,
+                deletingIds: [...state.deletingIds, action.payload.processo.id]
             };
         }
 
-        case RealizarTransicaoActions.SAVE_REALIZAR_TRANSICAO_SUCCESS: {
+        case TransicaoArquivistaBlocoActions.SAVE_TRANSICAO_ARQUIVISTA_BLOCO_SUCCESS: {
             return {
                 ...state,
                 saving: false,
-                errors: false
+                errors: false,
+                deletingIds: state.deletingIds.filter(id => id !== action.payload),
+                deletedIds: [...state.deletedIds, action.payload]
             };
         }
 
-        case RealizarTransicaoActions.SAVE_REALIZAR_TRANSICAO_FAILED: {
+        case TransicaoArquivistaBlocoActions.SAVE_TRANSICAO_ARQUIVISTA_BLOCO_FAILED: {
             return {
                 ...state,
-                saving: true,
-                errors: action.payload
+                saving: false,
+                errors: action.payload,
+                deletingIds: state.deletingIds.filter(id => id !== action.payload)
             };
         }
 
-        case RealizarTransicaoActions.GET_PROCESSOS: {
+        case TransicaoArquivistaBlocoActions.GET_PROCESSOS: {
             return {
                 ...state,
                 loading: true,
@@ -107,11 +113,11 @@ export function RealizarTransicaoReducer(
                     populate: action.payload.populate,
                     sort: action.payload.sort,
                     total: state.pagination.total
-                },
+                }
             };
         }
 
-        case RealizarTransicaoActions.GET_PROCESSOS_SUCCESS: {
+        case TransicaoArquivistaBlocoActions.GET_PROCESSOS_SUCCESS: {
 
             const loaded = action.payload.loaded;
 
@@ -128,7 +134,7 @@ export function RealizarTransicaoReducer(
             };
         }
 
-        case RealizarTransicaoActions.GET_PROCESSOS_FAILED: {
+        case TransicaoArquivistaBlocoActions.GET_PROCESSOS_FAILED: {
             return {
                 ...state,
                 loading: false,

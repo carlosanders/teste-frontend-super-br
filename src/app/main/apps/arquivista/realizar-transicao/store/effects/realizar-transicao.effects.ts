@@ -76,66 +76,13 @@ export class RealizarTransicaoEffects {
             .pipe(
                 ofType<RealizarTransicaoActions.SaveRealizarTransicaoSuccess>(RealizarTransicaoActions.SAVE_REALIZAR_TRANSICAO_SUCCESS),
                 tap(() => {
-
-                    const params = {
-                        listFilter: {},
-                        etiquetaFilter: {},
-                        limit: 10,
-                        offset: 0,
-                        sort: {dataHoraProximaTransicao: 'ASC', dataHoraAbertura: 'ASC', lembretes: 'DESC'},
-                        populate: [
-                            'especieProcesso',
-                            'modalidadeMeio',
-                            'modalidadeFase',
-                            'documentoAvulsoOrigem',
-                            'especieProcesso',
-                            'classificacao',
-                            'classificacao.modalidadeDestinacao',
-                            'setorInicial',
-                            'setorAtual',
-                            'lembretes',
-                            'vinculacoesEtiquetas',
-                            'vinculacoesEtiquetas.etiqueta'
-                        ]
-                    };
-
-                    const routeTypeParam = of('typeHandle');
-                    routeTypeParam.subscribe(typeParam => {
-                        let processoFilter = {};
-
-                        this.currentDate =  moment().format('YYYY-m-d[T]H:mm:ss');
-
-                        if (this.routerState.params[typeParam] === 'pronto-transicao') {
-                            processoFilter = {
-                                'dataHoraProximaTransicao': 'lt:' + this.currentDate,
-                                'modalidadeFase.valor': 'in:CORRENTE,INTERMEDIÁRIA',
-                                'setorAtual': 'in:' + this.setorAtual
-
-                            };
-                        }
-
-                        if (this.routerState.params[typeParam] === 'aguardando-decurso') {
-                            processoFilter = {
-                                'dataHoraProximaTransicao': 'gte:' + this.currentDate,
-                                'modalidadeFase.valor': 'in:CORRENTE,INTERMEDIÁRIA',
-                                'setorAtual': 'in:' + this.setorAtual
-                            };
-                        }
-
-                        if (this.routerState.params[typeParam] === 'pendencia-analise') {
-                            processoFilter = {
-                                'dataHoraProximaTransicao': 'isNull',
-                                'modalidadeFase.valor': 'in:CORRENTE,INTERMEDIÁRIA',
-                                'setorAtual': 'in:' + this.setorAtual
-                            };
-
-                        }
-
-                        params['filter'] = processoFilter;
-                    });
-
-                    this._store.dispatch(new fromStore.GetProcessos(params));
-                    this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle + '/pronto-transicao']).then();
+                    // Foi autorizado pelo Leo para ser refatorado esse codigo posteriormente.
+                    this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle
+                    + '/aguardando-decurso']).then();
+                    setTimeout(() => {
+                        this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle
+                        + '/pronto-transicao']).then();
+                    }, 1000);
                 })
             );
 

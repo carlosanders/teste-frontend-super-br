@@ -32,6 +32,9 @@
                            (etiquetarBloco)="doEtiquetarBloco()"
                            (lembreteBloco)="doLembreteBloco()"
                            (classificacaoBloco)="doClassificacaoBloco()"
+                           (realizarTransicaoBloco)="doTransicaoArquivistaBloco()"
+                           [deletingIds]="(deletingIds$ | async)"
+                           [deletedIds]="(deletedIds$ | async)"
                            (selected)="setCurrentProcesso($event)">
         </cdk-processo-list>
     </div>

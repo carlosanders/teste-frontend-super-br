@@ -336,6 +336,10 @@ export class ArquivistaListComponent implements OnInit, OnDestroy, AfterViewInit
         this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle + '/' + this.routerState.params.typeHandle + '/lembrete-bloco/criar']).then();
     }
 
+    doTransicaoArquivistaBloco(): void {
+        this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle + '/' + this.routerState.params.typeHandle + '/transicao-arquivista-bloco/criar']).then();
+    }
+
     salvarLembrete(params): void {
 
         const lembrete = new Lembrete();
