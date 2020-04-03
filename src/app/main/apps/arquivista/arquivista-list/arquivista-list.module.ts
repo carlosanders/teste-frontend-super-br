@@ -42,6 +42,10 @@ const routes: Routes = [
             {
                 path: 'classificacao-bloco',
                 loadChildren: () => import('../arquivista-classificacao-bloco/arquivista-classificacao-bloco.module').then(m => m.ArquivistaClassificacaoBlocoModule)
+            },
+            {
+                path: 'transicao-arquivista-bloco',
+                loadChildren: () => import('../transicao-arquivista-bloco/transicao-arquivista-bloco.module').then(m => m.TransicaoArquivistaBlocoModule)
             }
         ],
         canActivate: [fromGuards.ResolveGuard]
