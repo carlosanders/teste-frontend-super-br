@@ -16,13 +16,19 @@
         </div>
     </mat-form-field>
 
-    <form class="form-tree" fxLayoutGap="36px"
+
+
+    <form  class="form-tree" fxLayoutGap="36px"
           fxLayout="column"
           fxLayoutAlign="start"
           name="form" [formGroup]="formClassificacao">
         <mat-label class="title-arvore">Arvore</mat-label>
         <div cdkPerfectScrollbar class="tree">
-            <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+            <div *ngIf="!this.dataSource._data._value.length" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+                 fxLayoutAlign="center center">
+                <mat-spinner color="accent" diameter="24"></mat-spinner>
+            </div>
+            <mat-tree *ngIf="dataSource._data | async" [dataSource]="dataSource" [treeControl]="treeControl">
                 <mat-tree-node [ngClass]="getNodeSelected(node)" *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>
                     <button mat-icon-button disabled></button>
                     <!--        <mat-checkbox class="checklist-leaf-node"-->

@@ -75,6 +75,9 @@ export class CdkProcessoListComponent implements AfterViewInit, OnInit, OnChange
     etiquetarBloco = new EventEmitter<any>();
 
     @Output()
+    lembreteBloco = new EventEmitter<any>();
+
+    @Output()
     salvarLembrete = new EventEmitter<any>();
 
 
@@ -190,7 +193,7 @@ export class CdkProcessoListComponent implements AfterViewInit, OnInit, OnChange
     }
 
     doCriarLembreteBloco(): void {
-        this.criarLembreteBloco.emit();
+        this.lembreteBloco.emit();
     }
 
     doEtiquetarBloco(): void {
