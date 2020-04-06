@@ -66,8 +66,8 @@ export class UsuariosListEffects {
                             new UsuariosListActions.GetUsuariosSuccess({
                                 entitiesId: response['entities'].map(usuario => usuario.id),
                                 loaded: {
-                                    id: 'colaboradorHandle',
-                                    value: this._loginService.getUserProfile().colaborador.id
+                                    id: 'generoHandle_entidadeHandle',
+                                    value: this.routerState.params.generoHandle + '_' + this.routerState.params.entidadeHandle
                                 },
                                 total: response['total']
                             })

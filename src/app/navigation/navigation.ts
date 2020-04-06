@@ -40,7 +40,7 @@ export const navigation: CdkNavigation[] = [
                 translate: 'NAV.COORDENADOR.TITLE',
                 type: 'item',
                 icon: 'build',
-                url: '/apps/coordenador/modelos',
+                url: '/apps/coordenador/default',
                 role: 'ROLE_COORDENADOR'
             },
             {

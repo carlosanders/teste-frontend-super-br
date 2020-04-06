@@ -1,10 +1,9 @@
 import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
-import {VinculacaoOrgaoCentralUsuario, VinculacaoUsuario} from '@cdk/models';
-import {Colaborador} from '@cdk/models';
-import {VinculacaoPessoaUsuario} from './vinculacao-pessoa-usuario.model';
 
-export class Usuario {
+import { Usuario, ModalidadeOrgaoCentral } from '@cdk/models';
+
+export class VinculacaoOrgaoCentralUsuario {
 
     @Exclude({ toPlainOnly: true })
     id?: number;
@@ -12,17 +11,19 @@ export class Usuario {
     @Exclude({ toPlainOnly: true })
     uuid?: string;
 
-    username?: string;
+    administrador: boolean;
 
-    assinaturaHTML?: string;
+    coordenadorNacional: boolean;
 
-    email?: string;
+    @Exclude({ toPlainOnly: true })
+    @Type(() => ModalidadeOrgaoCentral)
+    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    modalidadeOrgaoCentral?: ModalidadeOrgaoCentral;
 
-    enabled?: boolean;
-
-    nivelAcesso?: number;
-
-    nome?: string;
+    @Exclude({ toPlainOnly: true })
+    @Type(() => Usuario)
+    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    usuarioVinculado?: Usuario;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)
@@ -54,48 +55,18 @@ export class Usuario {
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
     apagadoEm?: Date;
 
-    @Exclude({toPlainOnly: true})
-    @Type(() => VinculacaoUsuario)
-    vinculacoesUsuariosPrincipais?: VinculacaoUsuario[];
-
-    @Exclude({toPlainOnly: true})
-    @Type(() => Colaborador)
-    colaborador?: Colaborador;
-
-    @Exclude({toPlainOnly: true})
-    roles?: string[];
-
-    @Exclude({toClassOnly: true})
-    reset: boolean;
-
-    @Exclude({toPlainOnly: true})
-    @Type(() => VinculacaoPessoaUsuario)
-    vinculacoesPessoasUsuarios: VinculacaoPessoaUsuario[];
-
-    @Exclude({toPlainOnly: true})
-    @Type(() => VinculacaoOrgaoCentralUsuario)
-    vinculacoesOrgaoCentralUsuarios: VinculacaoOrgaoCentralUsuario[];
-
     constructor() {
         this.id = null;
         this.uuid = null;
-        this.username = null;
-        this.nome = null;
-        this.assinaturaHTML = null;
-        this.email = null;
-        this.enabled = null;
-        this.nivelAcesso = null;
-        this.colaborador = null;
-        this.roles = null;
-        this.vinculacoesUsuariosPrincipais = null;
+        this.administrador = false;
+        this.coordenadorNacional = false;
+        this.modalidadeOrgaoCentral = null;
+        this.usuarioVinculado = null;
         this.criadoPor = null;
         this.criadoEm = null;
         this.atualizadoPor = null;
         this.atualizadoEm = null;
         this.apagadoPor = null;
         this.apagadoEm = null;
-        this.vinculacoesPessoasUsuarios = null;
-        this.vinculacoesOrgaoCentralUsuarios = null;
-        this.reset = false;
     }
 }

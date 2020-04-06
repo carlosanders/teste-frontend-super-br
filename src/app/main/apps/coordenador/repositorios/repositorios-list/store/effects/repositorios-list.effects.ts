@@ -60,8 +60,8 @@ export class RepositoriosListEffect {
                             new RepositorioListActions.GetRepositoriosSuccess({
                                 entitiesId: response['entities'].map(repositorio => repositorio.id),
                                 loaded: {
-                                    id: 'repositorioHandle',
-                                    value: this._loginService.getUserProfile().id
+                                    id: 'generoHandle_entidadeHandle',
+                                    value: this.routerState.params.generoHandle + '_' + this.routerState.params.entidadeHandle
                                 },
                                 total: response['total']
                             })

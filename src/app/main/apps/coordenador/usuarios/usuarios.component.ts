@@ -50,7 +50,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
             ).subscribe(routerState => {
             if (routerState) {
                 this.routerState = routerState.state;
-                if (this.routerState.url.indexOf('usuario/listar') > -1) {
+                if (this.routerState.url.indexOf('usuarios/listar') > -1) {
                     this.action = 'listar';
                 }
                 if (this.routerState.url.indexOf('afastamentos') > -1) {
@@ -69,7 +69,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
 
     goBack(): void {
         if (this.action === 'afastamentos') {
-            this._router.navigate([`apps/coordenador/usuarios/listar`]).then();
+            this._router.navigate([this.routerState.url.replace((this.routerState.params.usuarioHandle + '/afastamentos/listar'), 'listar')]).then();
         }
     }
 }
