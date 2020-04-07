@@ -32,6 +32,8 @@ export class ModelosListComponent implements OnInit {
     deletingIds$: Observable<any>;
     deletedIds$: Observable<any>;
 
+    actions: string[] = ['edit', 'editConteudo', 'especie', 'anexo', 'delete'];
+
     /**
      * @param _changeDetectorRef
      * @param _router
@@ -53,8 +55,12 @@ export class ModelosListComponent implements OnInit {
             .subscribe(routerState => {
                 if (routerState) {
                     this.routerState = routerState.state;
+                    if (this.routerState.params['generoHandle'] === 'local') {
+                        this.actions = ['edit', 'editConteudo', 'anexo', 'delete'];
+                    }
                 }
             });
+
     }
 
     ngOnInit(): void {

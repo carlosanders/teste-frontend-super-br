@@ -91,7 +91,7 @@ export class ResolveGuard implements CanActivate {
                     if (this.routerState.params.generoHandle === 'nacional') {
                         params.filter = {
                             ...params.filter,
-                            'colaborador.lotacoes.setor.modalidadeOrgaoCentral.id': 'eq:' + this.routerState.params['entidadeHandle']
+                            'colaborador.lotacoes.setor.unidade.modalidadeOrgaoCentral.id': 'eq:' + this.routerState.params['entidadeHandle']
                         }
                     }
                     if (this.routerState.params.generoHandle === 'local') {

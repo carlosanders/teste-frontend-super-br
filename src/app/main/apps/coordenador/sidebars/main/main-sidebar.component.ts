@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation
 
 import {cdkAnimations} from '@cdk/animations';
 import {LoginService} from '../../../../auth/login/login.service';
-import {Colaborador, Lotacao, ModalidadeOrgaoCentral, Setor, Usuario} from '@cdk/models';
+import {Colaborador, Lotacao, ModalidadeOrgaoCentral, Setor, Usuario, VinculacaoOrgaoCentralUsuario} from '@cdk/models';
 
 @Component({
     selector: 'coordenador-main-sidebar',
@@ -35,6 +35,12 @@ export class CoordenadorMainSidebarComponent implements OnInit, OnDestroy {
         this.colaborador.lotacoes.forEach((lotacao: Lotacao) => {
             if (!this.setores.includes(lotacao.setor) && lotacao.coordenador) {
                 this.setores.push(lotacao.setor);
+            }
+        });
+
+        this.usuario.vinculacoesOrgaoCentralUsuarios?.forEach((vinc: VinculacaoOrgaoCentralUsuario) => {
+            if (!this.orgaosCentrais.includes(vinc.modalidadeOrgaoCentral) && vinc.coordenadorNacional) {
+                this.orgaosCentrais.push(vinc.modalidadeOrgaoCentral);
             }
         });
 

@@ -32,7 +32,7 @@
         </div>
     </div>
     <div class="nav material2" *showIfRole="'ROLE_COORDENADOR'">
-        <div *ngIf="this.setores">
+        <div *ngIf="this.setores?.length">
             <div class="nav-subheader pl-8 mt-0">
                 <mat-icon>language</mat-icon>
                 <span>LOCAL</span>

@@ -59,14 +59,8 @@ export class RepositoriosComponent implements OnInit, OnDestroy {
                 if (this.routerState.url.indexOf('repositorios/editar/criar') > -1) {
                     this.action = 'criar';
                 }
-                if (this.routerState.url.indexOf('lotacoes') > -1) {
-                    this.action = 'lotacoes';
-                }
-                if (this.routerState.url.indexOf('localizadores') > -1) {
-                    this.action = 'localizadores';
-                }
-                if (this.routerState.url.indexOf('numeros-unicos-documentos') > -1) {
-                    this.action = 'numeros-unicos-documentos';
+                if (this.routerState.url.indexOf('repositorios/especie-setor') > -1) {
+                    this.action = 'especie-setor';
                 }
                 this._changeDetectorRef.markForCheck();
             }
@@ -81,13 +75,13 @@ export class RepositoriosComponent implements OnInit, OnDestroy {
 
     goBack(): void {
         if (this.action === 'editar') {
-            this._router.navigate([this.routerState.url.replace(('editar/' + this.routerState.params.modeloHandle), 'listar')]).then();
+            this._router.navigate([this.routerState.url.replace(('editar/' + this.routerState.params.repositorioHandle), 'listar')]).then();
         }
         if (this.action === 'criar') {
             this._router.navigate([this.routerState.url.replace('editar/criar', 'listar')]).then();
         }
-        if (this.action === 'lotacoes' || this.action === 'localizadores' || this.action === 'numeros-unicos-documentos') {
-            this._router.navigate([`apps/coordenador/${this.routerState.params.unidadeHandle}/repositorios/listar`]).then();
+        if (this.action === 'especie-setor') {
+            this._router.navigate([this.routerState.url.replace(('especie-setor/' + this.routerState.params.repositorioHandle), 'listar')]).then();
         }
     }
 }

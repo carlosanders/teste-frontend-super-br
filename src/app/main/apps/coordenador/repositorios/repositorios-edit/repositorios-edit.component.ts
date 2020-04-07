@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 import {Repositorio} from '@cdk/models/repositorio.model';
 import {select, Store} from '@ngrx/store';
@@ -17,7 +17,8 @@ import {Pagination} from '@cdk/models/pagination';
 import {Usuario} from '@cdk/models/usuario.model';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {getRouterState} from '../../../../../store/reducers';
-import {Lotacao, Setor} from "../../../../../../@cdk/models";
+import {Lotacao, ModalidadeOrgaoCentral, Setor} from "../../../../../../@cdk/models";
+import {takeUntil} from "rxjs/operators";
 
 @Component({
     selector: 'coordenador-repositorios-edit',
@@ -29,17 +30,20 @@ import {Lotacao, Setor} from "../../../../../../@cdk/models";
 })
 export class RepositoriosEditComponent implements OnInit, OnDestroy {
 
+    private _unsubscribeAll: Subject<any> = new Subject();
+
     routerState: any;
     repositorio$: Observable<Repositorio>;
     repositorio: Repositorio;
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
-    coordenador: boolean;
+    setor$: Observable<Setor>;
+    setor: Setor = null;
+    orgaoCentral$: Observable<ModalidadeOrgaoCentral>;
+    orgaoCentral: ModalidadeOrgaoCentral = null;
     usuario: Usuario;
     setorPagination: Pagination;
     modalidadeRepositorioPagination: Pagination;
-
-    setores: Setor[] = [];
 
     /**
      *
@@ -53,14 +57,8 @@ export class RepositoriosEditComponent implements OnInit, OnDestroy {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.repositorio$ = this._store.pipe(select(fromStore.getRepositorio));
-        // this.usuario = this._loginService.getUserProfile();
-        this.coordenador = true;
-
-        this._loginService.getUserProfile().colaborador.lotacoes.forEach((lotacao: Lotacao) => {
-            if (!this.setores.includes(lotacao.setor) && lotacao.coordenador) {
-                this.setores.push(lotacao.setor);
-            }
-        });
+        this.setor$ = this._store.pipe(select(fromStore.getSetor));
+        this.orgaoCentral$ = this._store.pipe(select(fromStore.getOrgaoCentral));
 
         this._store
             .pipe(select(getRouterState))
@@ -69,12 +67,6 @@ export class RepositoriosEditComponent implements OnInit, OnDestroy {
                     this.routerState = routerState.state;
                 }
             });
-
-        this.setorPagination = new Pagination();
-        this.setorPagination.populate = ['populateAll'];
-        this.setorPagination.filter = {
-            'id': 'in:' + this.setores.map(setor => setor.id).join(',')
-        }
 
         this.modalidadeRepositorioPagination = new Pagination();
         this.modalidadeRepositorioPagination.populate = ['populateAll'];
@@ -93,7 +85,9 @@ export class RepositoriosEditComponent implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
 
-        this.repositorio$.subscribe(
+        this.repositorio$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(
             repositorio => {
                 if (repositorio) {
                     this.repositorio = repositorio;
@@ -103,6 +97,29 @@ export class RepositoriosEditComponent implements OnInit, OnDestroy {
                     if (this.repositorio.vinculacoesRepositorios[0]?.usuario) {
                         this.repositorio.usuario = this.repositorio.vinculacoesRepositorios[0]?.usuario;
                     }
+                    if (this.repositorio.vinculacoesRepositorios[0]?.orgaoCentral) {
+                        this.repositorio.orgaoCentral = this.repositorio.vinculacoesRepositorios[0]?.orgaoCentral;
+                    }
+                }
+            }
+        );
+
+        this.setor$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(
+            setor => {
+                if (setor) {
+                    this.setor = setor;
+                }
+            }
+        );
+
+        this.orgaoCentral$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(
+            orgaoCentral => {
+                if (orgaoCentral) {
+                    this.orgaoCentral = orgaoCentral;
                 }
             }
         );
@@ -110,6 +127,11 @@ export class RepositoriosEditComponent implements OnInit, OnDestroy {
         if (!this.repositorio) {
             this.repositorio = new Repositorio();
             this.repositorio.ativo = true;
+            if (this.orgaoCentral) {
+                this.repositorio.orgaoCentral = this.orgaoCentral;
+            } else {
+                this.repositorio.setor = this.setor;
+            }
         }
     }
 
@@ -117,6 +139,9 @@ export class RepositoriosEditComponent implements OnInit, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -131,6 +156,12 @@ export class RepositoriosEditComponent implements OnInit, OnDestroy {
                 repositorio[key] = value;
             }
         );
+
+        if (this.orgaoCentral) {
+            repositorio.orgaoCentral = this.orgaoCentral;
+        } else {
+            repositorio.setor = this.setor;
+        }
 
         this._store.dispatch(new fromStore.SaveRepositorio(repositorio));
 

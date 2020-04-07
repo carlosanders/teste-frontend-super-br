@@ -42,6 +42,21 @@ export class ResolveGuard implements CanActivate {
             });
 
         this.usuario = this._loginService.getUserProfile();
+
+        if (this._loginService.isGranted('ROLE_COORDENADOR_NACIONAL')) {
+            this.usuario.vinculacoesOrgaoCentralUsuarios.forEach((vinc: VinculacaoOrgaoCentralUsuario) => {
+                if (!this.orgaos.includes(vinc.modalidadeOrgaoCentral) && vinc.coordenadorNacional) {
+                    this.orgaos.push(vinc.modalidadeOrgaoCentral);
+                }
+            });
+        }
+        if (this._loginService.isGranted('ROLE_COORDENADOR')) {
+            this.usuario.colaborador.lotacoes.forEach((lotacao: Lotacao) => {
+                if (!this.setores.includes(lotacao.setor) && lotacao.coordenador) {
+                    this.setores.push(lotacao.setor);
+                }
+            });
+        }
     }
 
     /**
@@ -77,6 +92,7 @@ export class ResolveGuard implements CanActivate {
             });
         }
         if (this.routerState.params['generoHandle'] === 'local' && this.setores.length === 0) {
+            console.log('Aqui');
             this._router.navigate(['/apps/painel']).then(() => {
                 return throwError(new Error('Usuário sem permissão'));
             });
