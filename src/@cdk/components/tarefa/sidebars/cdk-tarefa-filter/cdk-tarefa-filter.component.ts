@@ -26,7 +26,6 @@ export class CdkTarefaFilterComponent implements OnInit {
         private _formBuilder: FormBuilder
     ) {
         this.form = this._formBuilder.group({
-            postIt: [null],
             urgente: [null],
             observacao: [null],
             redistribuida: [null],
@@ -63,15 +62,6 @@ export class CdkTarefaFilterComponent implements OnInit {
      * On init
      */
     ngOnInit(): void {
-        this.form.get('postIt').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    postIt: `like:${value}%`
-                };
-                this.selected.emit(this.filters);
-            }
-        });
 
         this.form.get('observacao').valueChanges.subscribe(value => {
             if (value !== null) {
@@ -296,16 +286,6 @@ export class CdkTarefaFilterComponent implements OnInit {
             }
         });
 
-        this.form.get('apagadoEm').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    apagadoEm: `eq:${value}`
-                };
-                this.selected.emit(this.filters);
-            }
-        });
-
         this.form.get('criadoPor').valueChanges.subscribe(value => {
             if (value !== null) {
                 if (typeof value === 'object' && value) {
@@ -336,25 +316,6 @@ export class CdkTarefaFilterComponent implements OnInit {
                 } else {
                     if (this.filters.hasOwnProperty('atualizadoPor.id')) {
                         delete this.filters['atualizadoPor.id'];
-                    }
-                }
-                if (!value) {
-                    this.selected.emit(this.filters);
-                }
-            }
-        });
-
-        this.form.get('apagadoPor').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'apagadoPor.id': `eq:${value.id}`
-                    };
-                    this.selected.emit(this.filters);
-                } else {
-                    if (this.filters.hasOwnProperty('apagadoPor.id')) {
-                        delete this.filters['apagadoPor.id'];
                     }
                 }
                 if (!value) {
