@@ -11,6 +11,6 @@ export class RelacionamentoPessoalService extends ParentGenericService<Relaciona
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'relacionamento-pessoal', RelacionamentoPessoal);
+        super(modelService, 'relacionamento_pessoal', RelacionamentoPessoal);
     }
 }

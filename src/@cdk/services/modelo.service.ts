@@ -8,7 +8,6 @@ import {plainToClass, classToPlain} from 'class-transformer';
 import {PaginatedResponse} from '@cdk/models';
 import {Pessoa} from '@cdk/models';
 import {ParentGenericService} from './parent-generic.service';
-import {Modelo} from '../models';
 
 @Injectable()
 export class ModeloService extends ParentGenericService<Modelo> {

@@ -7,7 +7,6 @@ import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
 import {environment} from 'environments/environment';
 import {ParentGenericService} from './parent-generic.service';
-import {Tarefa} from '../models';
 
 @Injectable()
 export class TarefaService extends ParentGenericService<Tarefa> {

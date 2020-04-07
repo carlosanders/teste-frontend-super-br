@@ -11,6 +11,6 @@ export class EspecieTarefaService extends ParentGenericService<EspecieTarefa> {
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'especie-tarefa', EspecieTarefa);
+        super(modelService, 'especie_tarefa', EspecieTarefa);
     }
 }

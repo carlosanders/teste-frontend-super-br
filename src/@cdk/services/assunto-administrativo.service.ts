@@ -11,6 +11,6 @@ export class AssuntoAdministrativoService extends ParentGenericService<AssuntoAd
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'assunto-administrativo', AssuntoAdministrativo);
+        super(modelService, 'assunto_administrativo', AssuntoAdministrativo);
     }
 }

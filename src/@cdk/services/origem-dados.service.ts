@@ -11,6 +11,6 @@ export class OrigemDadosService extends ParentGenericService<OrigemDados> {
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'origem-dados', OrigemDados);
+        super(modelService, 'origem_dados', OrigemDados);
     }
 }

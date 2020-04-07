@@ -11,6 +11,6 @@ export class EspecieDocumentoService extends ParentGenericService<EspecieDocumen
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'especie-documento', EspecieDocumento);
+        super(modelService, 'especie_documento', EspecieDocumento);
     }
 }

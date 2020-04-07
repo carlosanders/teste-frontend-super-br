@@ -15,7 +15,7 @@ export class DocumentoAvulsoService extends ParentGenericService<DocumentoAvulso
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'documento-avulso', DocumentoAvulso);
+        super(modelService, 'documento_avulso', DocumentoAvulso);
     }
 
     remeter(documentoAvulso: DocumentoAvulso): Observable<DocumentoAvulso> {

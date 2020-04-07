@@ -7,7 +7,6 @@ import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
 import {PaginatedResponse} from '@cdk/models';
 import {ParentGenericService} from './parent-generic.service';
-import {Pessoa} from '../models';
 
 @Injectable()
 export class PessoaService extends ParentGenericService<Pessoa> {

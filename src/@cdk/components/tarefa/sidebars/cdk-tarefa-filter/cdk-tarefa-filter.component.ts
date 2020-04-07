@@ -4,9 +4,9 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {CdkSidebarService} from '../../../sidebar/sidebar.service';
 
 @Component({
-    selector: 'cdk-tarefa-grid-filter',
-    templateUrl: './cdk-tarefa-grid-filter.component.html',
-    styleUrls: ['./cdk-tarefa-grid-filter.component.scss'],
+    selector: 'cdk-tarefa-filter',
+    templateUrl: './cdk-tarefa-filter.component.html',
+    styleUrls: ['./cdk-tarefa-filter.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None
 })

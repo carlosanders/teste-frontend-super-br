@@ -2,15 +2,15 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {ParentGenericService} from './parent-generic.service';
 import {ModelService} from '@cdk/services/model.service';
-import {Xxx} from '@cdk/models';
+import {ModalidadeAlvoInibidor} from '@cdk/models';
 
 @Injectable()
-export class XxxService extends ParentGenericService<Xxx> {
+export class ModalidadeAlvoInibidorService extends ParentGenericService<ModalidadeAlvoInibidor> {
 
     constructor(
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'Xxx', Xxx);
+        super(modelService, 'modalidade_alvo_inibidor', ModalidadeAlvoInibidor);
     }
 }

@@ -17,7 +17,7 @@ export class ComponenteDigitalService extends ParentGenericService<ComponenteDig
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'componente-digital', ComponenteDigital);
+        super(modelService, 'componente_digital', ComponenteDigital);
     }
 
     download(id: number | string, context: any = '{}'): Observable<any> {

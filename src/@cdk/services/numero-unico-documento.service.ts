@@ -7,7 +7,6 @@ import {ModelService} from '@cdk/services/model.service';
 import {plainToClass} from 'class-transformer';
 import {environment} from 'environments/environment';
 import {ParentGenericService} from './parent-generic.service';
-import {NumeroUnicoDocumento} from '../models';
 
 @Injectable()
 export class NumeroUnicoDocumentoService extends ParentGenericService<NumeroUnicoDocumento> {
@@ -16,7 +15,7 @@ export class NumeroUnicoDocumentoService extends ParentGenericService<NumeroUnic
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'numero-unico-documento', NumeroUnicoDocumento);
+        super(modelService, 'numero_unico_documento', NumeroUnicoDocumento);
     }
 
     patch(numeroUnicoDocumento: NumeroUnicoDocumento, changes: any): Observable<NumeroUnicoDocumento> {

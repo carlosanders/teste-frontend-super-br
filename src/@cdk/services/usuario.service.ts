@@ -4,11 +4,9 @@ import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {Usuario} from '@cdk/models';
 import {ModelService} from '@cdk/services/model.service';
-import {plainToClass, classToPlain} from 'class-transformer';
-import {PaginatedResponse} from '@cdk/models';
+import {plainToClass} from 'class-transformer';
 import {environment} from 'environments/environment';
 import {ParentGenericService} from './parent-generic.service';
-import {Usuario} from '../models';
 
 @Injectable()
 export class UsuarioService extends ParentGenericService<Usuario> {
@@ -21,7 +19,7 @@ export class UsuarioService extends ParentGenericService<Usuario> {
     }
 
     patch(usuario: Usuario, changes: any, context: any = '{}'): Observable<Usuario> {
-        const params: HttpParams = new HttpParams()
+        const params: HttpParams = new HttpParams();
         params['context'] = context;
         return this.http.patch(
             `${environment.api_url}${'usuario'}/${usuario.id}` + environment.xdebug,

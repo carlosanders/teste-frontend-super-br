@@ -11,6 +11,6 @@ export class ModalidadeDocumentoIdentificadorService extends ParentGenericServic
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'modalidade-documento-identificador', ModalidadeDocumentoIdentificador);
+        super(modelService, 'modalidade_documento_identificador', ModalidadeDocumentoIdentificador);
     }
 }

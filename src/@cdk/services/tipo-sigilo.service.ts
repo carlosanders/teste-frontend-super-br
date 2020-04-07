@@ -11,6 +11,6 @@ export class TipoSigiloService extends ParentGenericService<TipoSigilo> {
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'tipo-sigilo', TipoSigilo);
+        super(modelService, 'tipo_sigilo', TipoSigilo);
     }
 }

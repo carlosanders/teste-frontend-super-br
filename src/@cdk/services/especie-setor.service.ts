@@ -11,6 +11,6 @@ export class EspecieSetorService extends ParentGenericService<EspecieSetor> {
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'especie-setor', EspecieSetor);
+        super(modelService, 'especie_setor', EspecieSetor);
     }
 }

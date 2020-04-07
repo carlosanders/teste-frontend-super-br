@@ -11,6 +11,6 @@ export class CadastroIdentificadorService extends ParentGenericService<CadastroI
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'cadastro-identificador', CadastroIdentificador);
+        super(modelService, 'cadastro_identificador', CadastroIdentificador);
     }
 }

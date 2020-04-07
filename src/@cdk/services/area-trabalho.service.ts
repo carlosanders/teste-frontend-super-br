@@ -11,6 +11,6 @@ export class AreaTrabalhoService extends ParentGenericService<AreaTrabalho> {
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'area-trabalho', AreaTrabalho);
+        super(modelService, 'area_trabalho', AreaTrabalho);
     }
 }

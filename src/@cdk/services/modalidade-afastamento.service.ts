@@ -11,6 +11,6 @@ export class ModalidadeAfastamentoService extends ParentGenericService<Modalidad
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'modalidade-afastamento', ModalidadeAfastamento);
+        super(modelService, 'modalidade_afastamento', ModalidadeAfastamento);
     }
 }

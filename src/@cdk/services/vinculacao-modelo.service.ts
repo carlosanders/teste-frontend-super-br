@@ -11,6 +11,6 @@ export class VinculacaoModeloService extends ParentGenericService<VinculacaoMode
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'vinculacao-modelo', VinculacaoModelo);
+        super(modelService, 'vinculacao_modelo', VinculacaoModelo);
     }
 }

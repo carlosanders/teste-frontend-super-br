@@ -6,7 +6,6 @@ import {VinculacaoEtiqueta} from '@cdk/models';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass} from 'class-transformer';
 import {ParentGenericService} from './parent-generic.service';
-import {VinculacaoEtiqueta} from '../models';
 
 @Injectable()
 export class VinculacaoEtiquetaService extends ParentGenericService<VinculacaoEtiqueta> {
@@ -15,7 +14,7 @@ export class VinculacaoEtiquetaService extends ParentGenericService<VinculacaoEt
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'vinculacao-etiqueta', VinculacaoEtiqueta);
+        super(modelService, 'vinculacao_etiqueta', VinculacaoEtiqueta);
     }
 
     patch(vinculacaoEtiqueta: VinculacaoEtiqueta, changes: any, context: any = '{}'): Observable<VinculacaoEtiqueta> {

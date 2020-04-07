@@ -11,6 +11,6 @@ export class ModalidadeNotificacaoService extends ParentGenericService<Modalidad
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'modalidade-notificacao', ModalidadeNotificacao);
+        super(modelService, 'modalidade_notificacao', ModalidadeNotificacao);
     }
 }

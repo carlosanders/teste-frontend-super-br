@@ -11,6 +11,6 @@ export class GeneroSetorService extends ParentGenericService<GeneroSetor> {
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'genero-setor', GeneroSetor);
+        super(modelService, 'genero_setor', GeneroSetor);
     }
 }

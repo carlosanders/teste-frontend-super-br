@@ -11,6 +11,6 @@ export class ModalidadeQualificacaoPessoaService extends ParentGenericService<Mo
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'modalidade-qualificacao-pessoa', ModalidadeQualificacaoPessoa);
+        super(modelService, 'modalidade_qualificacao_pessoa', ModalidadeQualificacaoPessoa);
     }
 }
