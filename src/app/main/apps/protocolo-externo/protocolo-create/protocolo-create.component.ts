@@ -89,6 +89,8 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
             dataHoraAbertura: [null],
             dataHoraPrazoResposta: [null, [Validators.required]],
             unidadeProtocoloExterno: [null, [Validators.required]],
+            tipoProtocolo: [null, [Validators.required]],
+            unidadeArquivistica: [null, [Validators.required]]
         });
 
     }
