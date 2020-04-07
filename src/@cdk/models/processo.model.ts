@@ -20,6 +20,16 @@ import { Assunto } from '@cdk/models/assunto.model';
 
 export class Processo {
 
+    // unidade arquivistica
+    static readonly UA_PROCESSO = 1;
+    static readonly UA_DOCUMENTO_AVULSO = 2;
+    static readonly UA_DOSSIE = 3;
+
+    // tipo protocolo
+    static readonly TP_NOVO = 1;
+    static readonly TP_INFORMADO = 2;
+    static readonly TP_PENDENTE = 3;
+
     @Exclude({ toPlainOnly: true })
     id?: number;
 
@@ -30,7 +40,9 @@ export class Processo {
     @Exclude({ toPlainOnly: true })
     uuid?: string;
 
-    novo?: boolean;
+    unidadeArquivistica?: number;
+
+    tipoProtocolo?: number;
 
     NUP?: string;
 
@@ -156,7 +168,8 @@ export class Processo {
         this.id = null;
         this.processoOrigem = null;
         this.uuid = null;
-        this.novo = null;
+        this.unidadeArquivistica = null;
+        this.tipoProtocolo = null;
         this.descricao = null;
         this.valorEconomico = null;
         this.semValorEconomico = null;

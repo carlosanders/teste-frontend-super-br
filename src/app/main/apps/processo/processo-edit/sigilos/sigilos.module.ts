@@ -19,6 +19,7 @@ import {SigilosComponent} from './sigilos.component';
 import {SigiloService} from '@cdk/services/sigilo.service';
 import {RouterModule, Routes} from '@angular/router';
 import {TipoSigiloService} from '@cdk/services/tipo-sigilo.service';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 const routes: Routes = [
     {
@@ -64,6 +65,7 @@ const routes: Routes = [
         TranslateModule,
 
         CdkSharedModule,
+        MatTooltipModule,
     ],
     providers: [
         SigiloService,

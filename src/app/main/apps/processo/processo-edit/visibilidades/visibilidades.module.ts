@@ -18,6 +18,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {VisibilidadesComponent} from './visibilidades.component';
 import {ProcessoService} from '@cdk/services/processo.service';
 import {RouterModule, Routes} from '@angular/router';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 const routes: Routes = [
     {
@@ -63,6 +64,7 @@ const routes: Routes = [
         TranslateModule,
 
         CdkSharedModule,
+        MatTooltipModule,
     ],
     providers: [
         ProcessoService

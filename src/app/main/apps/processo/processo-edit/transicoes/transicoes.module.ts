@@ -19,6 +19,7 @@ import {TransicoesComponent} from './transicoes.component';
 import {TransicaoService} from '@cdk/services/transicao.service';
 import {RouterModule, Routes} from '@angular/router';
 import {ModalidadeTransicaoService} from '@cdk/services/modalidade-transicao.service';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 const routes: Routes = [
     {
@@ -64,6 +65,7 @@ const routes: Routes = [
         TranslateModule,
 
         CdkSharedModule,
+        MatTooltipModule,
     ],
     providers: [
         TransicaoService,

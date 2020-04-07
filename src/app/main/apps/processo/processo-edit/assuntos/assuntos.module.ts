@@ -19,6 +19,7 @@ import {AssuntosComponent} from './assuntos.component';
 import {AssuntoService} from '@cdk/services/assunto.service';
 import {RouterModule, Routes} from '@angular/router';
 import {AssuntoAdministrativoService} from '@cdk/services/assunto-administrativo.service';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 const routes: Routes = [
     {
@@ -64,6 +65,7 @@ const routes: Routes = [
         TranslateModule,
 
         CdkSharedModule,
+        MatTooltipModule,
     ],
     providers: [
         AssuntoService,
