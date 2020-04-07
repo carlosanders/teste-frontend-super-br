@@ -1,11 +1,10 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {DocumentoAvulso} from '@cdk/models';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
-import {PaginatedResponse} from '@cdk/models';
 import {environment} from 'environments/environment';
 import {ParentGenericService} from './parent-generic.service';
 
@@ -44,17 +43,4 @@ export class DocumentoAvulsoService extends ParentGenericService<DocumentoAvulso
             })
         );
     }
-
-    /*responder(documentoAvulso: DocumentoAvulso): Observable<DocumentoAvulso> {
-        return this.http.patch(
-            `${environment.api_url}${'documento_avulso'}/${documentoAvulso.id}/${'responder'}` + environment.xdebug,
-            JSON.stringify(classToPlain(documentoAvulso))
-        ).pipe(
-            map(response => {
-                response = plainToClass(DocumentoAvulso, response);
-                Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                return Object.assign(new DocumentoAvulso(), {...documentoAvulso, ...response});
-            })
-        );
-    }*/
 }

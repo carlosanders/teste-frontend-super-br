@@ -19,6 +19,7 @@ import {TarefasComponent} from './tarefas.component';
 import {TarefaService} from '@cdk/services/tarefa.service';
 import {RouterModule, Routes} from '@angular/router';
 import {EspecieTarefaService} from '@cdk/services/especie-tarefa.service';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 const routes: Routes = [
     {
@@ -64,6 +65,7 @@ const routes: Routes = [
         TranslateModule,
 
         CdkSharedModule,
+        MatTooltipModule,
     ],
     providers: [
         TarefaService,

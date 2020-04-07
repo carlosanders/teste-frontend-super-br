@@ -1,23 +1,20 @@
-import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
+import {AddData} from '@cdk/ngrx-normalizr';
 import {processo as processoSchema} from '@cdk/normalizr/processo.schema';
 
 import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable, of} from 'rxjs';
-import {catchError, map, concatMap, mergeMap, switchMap, tap} from 'rxjs/operators';
+import {Observable} from 'rxjs';
+import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as ArquivistaActions from '../actions/arquivista.actions';
 
-import {Lembrete, Processo} from '@cdk/models';
+import {Processo} from '@cdk/models';
 import {ProcessoService} from '@cdk/services/processo.service';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Router} from '@angular/router';
-import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-
-import {lembrete as lembreteSchema} from '@cdk/normalizr/lembrete.schema';
 
 @Injectable()
 export class ArquivistaEffect {

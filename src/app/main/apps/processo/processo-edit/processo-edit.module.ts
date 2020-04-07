@@ -77,6 +77,10 @@ const routes: Routes = [
             {
                 path: 'transicoes',
                 loadChildren: () => import('./transicoes/transicoes.module').then(m => m.TransicoesModule)
+            },
+            {
+                path: 'relevancias',
+                loadChildren: () => import('./relevancias/relevancias.module').then(m => m.RelevanciasModule)
             }
         ]
     }

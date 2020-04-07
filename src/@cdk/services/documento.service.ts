@@ -2,14 +2,13 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {Distribuicao, Documento} from '@cdk/models';
+import {Documento} from '@cdk/models';
 import {ModelService} from '@cdk/services/model.service';
-import {plainToClass, classToPlain} from 'class-transformer';
-import {PaginatedResponse} from '@cdk/models/paginated.response';
+import {plainToClass} from 'class-transformer';
 import {environment} from 'environments/environment';
 import {Visibilidade} from '../models/visibilidade.model';
 import { ComponenteDigital } from '@cdk/models';
-import {DocumentoAvulso} from '@cdk/models';
+
 import {ParentGenericService} from './parent-generic.service';
 
 @Injectable()

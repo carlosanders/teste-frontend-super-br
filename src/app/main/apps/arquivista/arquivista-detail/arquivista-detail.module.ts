@@ -20,10 +20,11 @@ import {VinculacaoEtiquetaService} from '../../../../../@cdk/services/vinculacao
 import {LoginService} from '../../../auth/login/login.service';
 import {RealizarTransicaoComponent} from '../realizar-transicao/realizar-transicao.component';
 import {RealizarTransicaoModule} from '../realizar-transicao/realizar-transicao.module';
-
-import {ArquivistaClassificacaoComponent} from '../arquivista-classificacao/arquivista-classificacao.component';
 import {CriarDataPrevistaTransicaoModule} from '../criar-data-prevista-transicao/criar-data-prevista-transicao.module';
 import {CriarDataPrevistaTransicaoComponent} from '../criar-data-prevista-transicao/criar-data-prevista-transicao.component';
+import {ArquivistaClassificacaoEditComponent} from '../arquivista-classificacao-edit/arquivista-classificacao-edit.component';
+import {ArquivistaClassificacaoEditModule} from '../arquivista-classificacao-edit/arquivista-classificacao-edit.module';
+import {TransicaoService} from '../../../../../@cdk/services/transicao.service';
 
 const routes: Routes = [
     {
@@ -45,8 +46,7 @@ const routes: Routes = [
             },
             {
                 path: ':processoHandle/classificacao',
-                component: ArquivistaClassificacaoComponent
-
+                component: ArquivistaClassificacaoEditComponent
             },
             {
                 path: ':processoHandle/criar-data-prevista-transicao',
@@ -83,10 +83,11 @@ const routes: Routes = [
         MatBadgeModule,
         ArquivistaDetailStoreModule,
         RealizarTransicaoModule,
-        CriarDataPrevistaTransicaoModule
+        CriarDataPrevistaTransicaoModule,
+        ArquivistaClassificacaoEditModule
     ],
     exports: [
-      ArquivistaDetailComponent
+        ArquivistaDetailComponent
     ],
     providers: [
         ProcessoService,

@@ -4,6 +4,8 @@ export const GET_DOCUMENTOS = '[ATIVIDADE CREATE] GET DOCUMENTOS';
 export const GET_DOCUMENTOS_SUCCESS = '[ATIVIDADE CREATE] GET DOCUMENTOS SUCCESS';
 export const GET_DOCUMENTOS_FAILED = '[ATIVIDADE CREATE] GET DOCUMENTOS FAILED';
 
+export const UNLOAD_DOCUMENTOS = '[ATIVIDADE CREATE] UNLOAD DOCUMENTOS';
+
 export const DELETE_DOCUMENTO = '[ATIVIDADE CREATE] DELETE DOCUMENTO';
 export const DELETE_DOCUMENTO_SUCCESS = '[ATIVIDADE CREATE] DELETE DOCUMENTO SUCCESS';
 export const DELETE_DOCUMENTO_FAILED = '[ATIVIDADE CREATE] DELETE DOCUMENTO FAILED';
@@ -20,6 +22,18 @@ export const CONVERTE_DOCUMENTO_SUCESS = '[ATIVIDADE CREATE] CONVERTE DOCUMENTO 
 export const CONVERTE_DOCUMENTO_FAILED = '[ATIVIDADE CREATE] CONVERTE DOCUMENTO ATIVIDADE FAILED';
 
 export const CHANGE_SELECTED_DOCUMENTOS = '[ATIVIDADE CREATE] CHANGE SELECTED DOCUMENTOS';
+
+/**
+ * Unload Documentos
+ */
+export class UnloadDocumentos implements Action
+{
+    readonly type = UNLOAD_DOCUMENTOS;
+
+    constructor()
+    {
+    }
+}
 
 /**
  * Get Documentos
@@ -208,4 +222,5 @@ export type AtividadeCreateDocumentosActionsAll
     | ChangeSelectedDocumentos
     | ConverteToPdf
     | ConverteToPdfSucess
-    | ConverteToPdfFailed;
+    | ConverteToPdfFailed
+    | UnloadDocumentos;

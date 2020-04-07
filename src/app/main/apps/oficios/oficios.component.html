@@ -49,19 +49,14 @@
                      (resizeEnd)="onResizeEndDocumentoAvulsoList($event)"
                      [fxFlex]="documentoAvulsoListSize"
                      [hidden]="(maximizado$ | async)"
-                     cdkPerfectScrollbar
-                     infiniteScroll
-                     [scrollWindow]="false"
-                     [infiniteScrollDistance]="2"
-                     [infiniteScrollThrottle]="50"
-                     (scrolled)="onScroll()"
                      [ngClass]="{
                         'mobile-mode': mobileMode,
                         'current-documento-avulso': currentDocumentoAvulsoId,
                         'no-current-documento-avulso': !currentDocumentoAvulsoId
                      }">
 
-                    <cdk-documento-avulso-list [loading]="(loading$ | async)"
+                    <cdk-documento-avulso-list (scrolled)="onScroll()"
+                                     [loading]="(loading$ | async)"
                                      [documentosAvulso]="documentosAvulso"
                                      [deletingIds]="(deletingIds$ | async)"
                                      [deletedIds]="(deletedIds$ | async)"
@@ -75,10 +70,9 @@
                                      (etiquetarBloco)="doEtiquetarBloco()">
                     </cdk-documento-avulso-list>
                 </div>
-
                 <div class="oficio-detail" mwlResizable [enableGhostResize]="true"
                      [resizeEdges]="{bottom: false, right: true, top: false, left: true}"
-                     cdkPerfectScrollbar fxFlex
+                     fxFlex
                      [ngClass]="{
                         'mobile-mode': mobileMode,
                         'current-documento-avulso': currentDocumentoAvulsoId,

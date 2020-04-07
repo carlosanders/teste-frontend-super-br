@@ -46,6 +46,12 @@ export class CdkRealizarTransicaoFormComponent
 
     private processo: Processo;
 
+    @Input()
+    deletingIds: number[] = [];
+
+    @Input()
+    deletedIds: number[] = [];
+
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: FormBuilder
@@ -118,7 +124,9 @@ export class CdkRealizarTransicaoFormComponent
     submit(): void {
         if (this.form.valid) {
             this.save.emit(this.form.value);
+            this.saving = true;
         }
+
     }
 
     cancel(): void {

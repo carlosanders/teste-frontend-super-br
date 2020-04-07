@@ -1,0 +1,643 @@
+
+{
+  "header": {
+    "reportVersion": 1,
+    "event": "Allocation failed - JavaScript heap out of memory",
+    "trigger": "FatalError",
+    "filename": "report.20200326.091704.6960.0.001.json",
+    "dumpEventTime": "2020-03-26T09:17:04Z",
+    "dumpEventTimeStamp": "1585225024336",
+    "processId": 6960,
+    "cwd": "/home/jonas/supp-core/supp-administrativo-frontend",
+    "commandLine": [
+      "/home/jonas/supp-core/supp-administrativo-frontend/node_modules/node/bin/node",
+      "/home/jonas/supp-core/supp-administrativo-frontend/node_modules/.bin/ngcc"
+    ],
+    "nodejsVersion": "v12.16.1",
+    "glibcVersionRuntime": "2.27",
+    "glibcVersionCompiler": "2.17",
+    "wordSize": 64,
+    "arch": "x64",
+    "platform": "linux",
+    "componentVersions": {
+      "node": "12.16.1",
+      "v8": "7.8.279.23-node.31",
+      "uv": "1.34.0",
+      "zlib": "1.2.11",
+      "brotli": "1.0.7",
+      "ares": "1.15.0",
+      "modules": "72",
+      "nghttp2": "1.40.0",
+      "napi": "5",
+      "llhttp": "2.0.4",
+      "http_parser": "2.9.3",
+      "openssl": "1.1.1d",
+      "cldr": "35.1",
+      "icu": "64.2",
+      "tz": "2019c",
+      "unicode": "12.1"
+    },
+    "release": {
+      "name": "node",
+      "lts": "Erbium",
+      "headersUrl": "https://nodejs.org/download/release/v12.16.1/node-v12.16.1-headers.tar.gz",
+      "sourceUrl": "https://nodejs.org/download/release/v12.16.1/node-v12.16.1.tar.gz"
+    },
+    "osName": "Linux",
+    "osRelease": "5.3.0-42-generic",
+    "osVersion": "#34~18.04.1-Ubuntu SMP Fri Feb 28 13:42:26 UTC 2020",
+    "osMachine": "x86_64",
+    "cpus": [
+      {
+        "model": "Intel(R) Core(TM) i7-8565U CPU @ 1.80GHz",
+        "speed": 2599,
+        "user": 4528500,
+        "nice": 100,
+        "sys": 444900,
+        "idle": 25264600,
+        "irq": 0
+      },
+      {
+        "model": "Intel(R) Core(TM) i7-8565U CPU @ 1.80GHz",
+        "speed": 2598,
+        "user": 4414000,
+        "nice": 100,
+        "sys": 437200,
+        "idle": 25422900,
+        "irq": 0
+      },
+      {
+        "model": "Intel(R) Core(TM) i7-8565U CPU @ 1.80GHz",
+        "speed": 2597,
+        "user": 4421000,
+        "nice": 200,
+        "sys": 428300,
+        "idle": 25399300,
+        "irq": 0
+      },
+      {
+        "model": "Intel(R) Core(TM) i7-8565U CPU @ 1.80GHz",
+        "speed": 2596,
+        "user": 4637200,
+        "nice": 300,
+        "sys": 411700,
+        "idle": 25230400,
+        "irq": 0
+      },
+      {
+        "model": "Intel(R) Core(TM) i7-8565U CPU @ 1.80GHz",
+        "speed": 2598,
+        "user": 4640100,
+        "nice": 200,
+        "sys": 423000,
+        "idle": 25198400,
+        "irq": 0
+      },
+      {
+        "model": "Intel(R) Core(TM) i7-8565U CPU @ 1.80GHz",
+        "speed": 2599,
+        "user": 4526000,
+        "nice": 200,
+        "sys": 415300,
+        "idle": 25317900,
+        "irq": 0
+      },
+      {
+        "model": "Intel(R) Core(TM) i7-8565U CPU @ 1.80GHz",
+        "speed": 2599,
+        "user": 4410500,
+        "nice": 0,
+        "sys": 463000,
+        "idle": 24719900,
+        "irq": 0
+      },
+      {
+        "model": "Intel(R) Core(TM) i7-8565U CPU @ 1.80GHz",
+        "speed": 2599,
+        "user": 4265200,
+        "nice": 100,
+        "sys": 586800,
+        "idle": 25327500,
+        "irq": 0
+      }
+    ],
+    "networkInterfaces": [
+      {
+        "name": "lo",
+        "internal": true,
+        "mac": "00:00:00:00:00:00",
+        "address": "127.0.0.1",
+        "netmask": "255.0.0.0",
+        "family": "IPv4"
+      },
+      {
+        "name": "wlp2s0",
+        "internal": false,
+        "mac": "64:32:a8:a9:43:8b",
+        "address": "192.168.0.23",
+        "netmask": "255.255.255.0",
+        "family": "IPv4"
+      },
+      {
+        "name": "gpd0",
+        "internal": false,
+        "mac": "00:00:00:00:00:00",
+        "address": "172.29.2.50",
+        "netmask": "255.255.255.255",
+        "family": "IPv4"
+      },
+      {
+        "name": "lo",
+        "internal": true,
+        "mac": "00:00:00:00:00:00",
+        "address": "::1",
+        "netmask": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff",
+        "family": "IPv6",
+        "scopeid": 0
+      },
+      {
+        "name": "wlp2s0",
+        "internal": false,
+        "mac": "64:32:a8:a9:43:8b",
+        "address": "2804:14c:65a7:462f::2",
+        "netmask": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff",
+        "family": "IPv6",
+        "scopeid": 0
+      },
+      {
+        "name": "wlp2s0",
+        "internal": false,
+        "mac": "64:32:a8:a9:43:8b",
+        "address": "2804:14c:65a7:462f:ecf4:52a8:9104:f4c8",
+        "netmask": "ffff:ffff:ffff:ffff::",
+        "family": "IPv6",
+        "scopeid": 0
+      },
+      {
+        "name": "wlp2s0",
+        "internal": false,
+        "mac": "64:32:a8:a9:43:8b",
+        "address": "2804:14c:65a7:462f:ec06:cfc4:68ec:9b83",
+        "netmask": "ffff:ffff:ffff:ffff::",
+        "family": "IPv6",
+        "scopeid": 0
+      },
+      {
+        "name": "wlp2s0",
+        "internal": false,
+        "mac": "64:32:a8:a9:43:8b",
+        "address": "fe80::dfd6:8e35:7fb1:caa0",
+        "netmask": "ffff:ffff:ffff:ffff::",
+        "family": "IPv6",
+        "scopeid": 2
+      }
+    ],
+    "host": "jonas"
+  },
+  "javascriptStack": {
+    "message": "No stack.",
+    "stack": [
+      "Unavailable."
+    ]
+  },
+  "nativeStack": [
+    {
+      "pc": "0x0000000000b278f5",
+      "symbol": "report::TriggerNodeReport(v8::Isolate*, node::Environment*, char const*, char const*, std::string const&, v8::Local<v8::String>) [/home/jonas/supp-core/supp-administrativo-frontend/node_modules/node/bin/node]"
+    },
+    {
+      "pc": "0x00000000009f13ec",
+      "symbol": "node::OnFatalError(char const*, char const*) [/home/jonas/supp-core/supp-administrativo-frontend/node_modules/node/bin/node]"
+    },
+    {
+      "pc": "0x0000000000b5da9e",
+      "symbol": "v8::Utils::ReportOOMFailure(v8::internal::Isolate*, char const*, bool) [/home/jonas/supp-core/supp-administrativo-frontend/node_modules/node/bin/node]"
+    },
+    {
+      "pc": "0x0000000000b5de19",
+      "symbol": "v8::internal::V8::FatalProcessOutOfMemory(v8::internal::Isolate*, char const*, bool) [/home/jonas/supp-core/supp-administrativo-frontend/node_modules/node/bin/node]"
+    },
+    {
+      "pc": "0x0000000000d0a765",
+      "symbol": " [/home/jonas/supp-core/supp-administrativo-frontend/node_modules/node/bin/node]"
+    },
+    {
+      "pc": "0x0000000000d0adf6",
+      "symbol": "v8::internal::Heap::RecomputeLimits(v8::internal::GarbageCollector) [/home/jonas/supp-core/supp-administrativo-frontend/node_modules/node/bin/node]"
+    },
+    {
+      "pc": "0x0000000000d1760a",
+      "symbol": "v8::internal::Heap::PerformGarbageCollection(v8::internal::GarbageCollector, v8::GCCallbackFlags) [/home/jonas/supp-core/supp-administrativo-frontend/node_modules/node/bin/node]"
+    },
+    {
+      "pc": "0x0000000000d18515",
+      "symbol": "v8::internal::Heap::CollectGarbage(v8::internal::AllocationSpace, v8::internal::GarbageCollectionReason, v8::GCCallbackFlags) [/home/jonas/supp-core/supp-administrativo-frontend/node_modules/node/bin/node]"
+    },
+    {
+      "pc": "0x0000000000d1afcc",
+      "symbol": "v8::internal::Heap::AllocateRawWithRetryOrFail(int, v8::internal::AllocationType, v8::internal::AllocationOrigin, v8::internal::AllocationAlignment) [/home/jonas/supp-core/supp-administrativo-frontend/node_modules/node/bin/node]"
+    },
+    {
+      "pc": "0x0000000000ce19bb",
+      "symbol": "v8::internal::Factory::NewFillerObject(int, bool, v8::internal::AllocationType, v8::internal::AllocationOrigin) [/home/jonas/supp-core/supp-administrativo-frontend/node_modules/node/bin/node]"
+    },
+    {
+      "pc": "0x00000000010246ce",
+      "symbol": "v8::internal::Runtime_AllocateInYoungGeneration(int, unsigned long*, v8::internal::Isolate*) [/home/jonas/supp-core/supp-administrativo-frontend/node_modules/node/bin/node]"
+    },
+    {
+      "pc": "0x00000000013a71b9",
+      "symbol": " [/home/jonas/supp-core/supp-administrativo-frontend/node_modules/node/bin/node]"
+    }
+  ],
+  "javascriptHeap": {
+    "totalMemory": 2154520576,
+    "totalCommittedMemory": 2150711296,
+    "usedMemory": 2145002256,
+    "availableMemory": 47282184,
+    "memoryLimit": 2197815296,
+    "heapSpaces": {
+      "read_only_space": {
+        "memorySize": 262144,
+        "committedMemory": 33088,
+        "capacity": 32808,
+        "used": 32808,
+        "available": 0
+      },
+      "new_space": {
+        "memorySize": 4194304,
+        "committedMemory": 1263240,
+        "capacity": 2094912,
+        "used": 268368,
+        "available": 1826544
+      },
+      "old_space": {
+        "memorySize": 2087600128,
+        "committedMemory": 2087080928,
+        "capacity": 2083080904,
+        "used": 2083014896,
+        "available": 66008
+      },
+      "code_space": {
+        "memorySize": 2002944,
+        "committedMemory": 1887616,
+        "capacity": 1815296,
+        "used": 1815296,
+        "available": 0
+      },
+      "map_space": {
+        "memorySize": 1052672,
+        "committedMemory": 1038040,
+        "capacity": 730400,
+        "used": 730400,
+        "available": 0
+      },
+      "large_object_space": {
+        "memorySize": 59359232,
+        "committedMemory": 59359232,
+        "capacity": 59137704,
+        "used": 59137704,
+        "available": 0
+      },
+      "code_large_object_space": {
+        "memorySize": 49152,
+        "committedMemory": 49152,
+        "capacity": 2784,
+        "used": 2784,
+        "available": 0
+      },
+      "new_large_object_space": {
+        "memorySize": 0,
+        "committedMemory": 0,
+        "capacity": 2094912,
+        "used": 0,
+        "available": 2094912
+      }
+    }
+  },
+  "resourceUsage": {
+    "userCpuSeconds": 174.998,
+    "kernelCpuSeconds": 3.8118,
+    "cpuConsumptionPercent": 120.006,
+    "maxRss": 2258595840,
+    "pageFaults": {
+      "IORequired": 0,
+      "IONotRequired": 1133250
+    },
+    "fsActivity": {
+      "reads": 0,
+      "writes": 24784
+    }
+  },
+  "uvthreadResourceUsage": {
+    "userCpuSeconds": 111.671,
+    "kernelCpuSeconds": 2.13936,
+    "cpuConsumptionPercent": 76.3826,
+    "fsActivity": {
+      "reads": 0,
+      "writes": 24784
+    }
+  },
+  "libuv": [
+  ],
+  "environmentVariables": {
+    "SUDO_GID": "1000",
+    "npm_package_scripts_bundle_report": "webpack-bundle-analyzer dist/stats.json",
+    "npm_package_dependencies__swimlane_ngx_charts": "13.0.2",
+    "npm_package_devDependencies__angular_language_service": "9.0.7",
+    "npm_package_devDependencies__types_node": "12.12.29",
+    "npm_package_devDependencies_ts_node": "7.0.1",
+    "npm_package_devDependencies_tslint": "5.20.1",
+    "npm_config_cache_lock_stale": "60000",
+    "npm_config_ham_it_up": "",
+    "npm_package_dependencies__angular_animations": "9.0.7",
+    "npm_config_legacy_bundling": "",
+    "npm_config_sign_git_tag": "",
+    "MAIL": "/var/mail/root",
+    "LANGUAGE": "pt_BR:pt:en",
+    "USER": "root",
+    "npm_package_dependencies_node_sass": "4.13.1",
+    "npm_package_devDependencies_karma_coverage_istanbul_reporter": "2.1.1",
+    "npm_package_devDependencies_webpack_bundle_analyzer": "3.6.1",
+    "npm_config_user_agent": "npm/6.7.0 node/v11.15.0 linux x64",
+    "npm_config_always_auth": "",
+    "npm_package_dependencies__ngrx_store": "9.0.0",
+    "npm_package_dependencies__ngrx_store_devtools": "9.0.0",
+    "npm_config_bin_links": "true",
+    "npm_config_key": "",
+    "npm_package_dependencies__angular_common": "9.0.7",
+    "npm_package_dependencies_angular_in_memory_web_api": "0.10.0",
+    "npm_config_allow_same_version": "",
+    "npm_config_description": "true",
+    "npm_config_fetch_retries": "2",
+    "npm_config_heading": "npm",
+    "npm_config_if_present": "",
+    "npm_config_init_version": "1.0.0",
+    "npm_config_user": "1000",
+    "npm_node_execpath": "/usr/bin/node",
+    "npm_package_scripts_build_prod_stats": "node --max_old_space_size=6144 ./node_modules/@angular/cli/bin/ng build --prod --stats-json",
+    "npm_package_dependencies__angular_flex_layout": "9.0.0-beta.29",
+    "npm_package_dependencies_html_webpack_plugin": "3.2.0",
+    "npm_package_dependencies_rxjs": "6.5.4",
+    "npm_package_devDependencies__types_jasminewd2": "2.0.8",
+    "npm_package_devDependencies_protractor": "6.0.0",
+    "npm_config_prefer_online": "",
+    "npm_config_noproxy": "",
+    "HOME": "/home/jonas",
+    "npm_package_dependencies_chart_js": "2.9.3",
+    "npm_config_force": "",
+    "npm_package_dependencies__angular_material": "9.1.3",
+    "npm_package_dependencies__ngx_translate_core": "12.1.2",
+    "npm_config_only": "",
+    "npm_config_read_only": "",
+    "npm_package_dependencies_angular_calendar": "0.28.5",
+    "npm_package_devDependencies_jasmine_core": "3.5.0",
+    "npm_config_cache_min": "10",
+    "npm_config_init_license": "ISC",
+    "npm_package_dependencies_angular_resizable_element": "3.3.0",
+    "npm_package_devDependencies__types_jasmine": "3.5.7",
+    "npm_config_editor": "vi",
+    "npm_config_rollback": "true",
+    "npm_config_tag_version_prefix": "v",
+    "npm_package_dependencies_reflect_metadata": "0.1.13",
+    "npm_package_devDependencies_karma": "4.4.1",
+    "npm_config_cache_max": "Infinity",
+    "npm_config_timing": "",
+    "npm_config_userconfig": "/home/jonas/.npmrc",
+    "npm_package_scripts_postinstall": "ngcc",
+    "npm_package_dependencies_moment": "2.24.0",
+    "npm_package_dependencies_node": "12.16.1",
+    "npm_package_devDependencies__angular_compiler_cli": "9.0.7",
+    "npm_package_devDependencies_karma_chrome_launcher": "2.2.0",
+    "npm_config_engine_strict": "",
+    "npm_config_init_author_name": "",
+    "npm_config_init_author_url": "",
+    "npm_config_preid": "",
+    "npm_config_tmp": "/tmp",
+    "COLORTERM": "truecolor",
+    "npm_package_scripts_start_hmr": "ng serve --configuration hmr --source-map=false --hmr-warning=false",
+    "npm_package_dependencies__angular_cdk": "9.1.3",
+    "npm_package_devDependencies_typescript": "3.7.5",
+    "npm_package_description": "leia",
+    "npm_config_depth": "Infinity",
+    "npm_config_package_lock_only": "",
+    "npm_config_save_dev": "",
+    "npm_config_usage": "",
+    "npm_package_dependencies_d3": "5.15.0",
+    "npm_package_devDependencies_jasmine_spec_reporter": "4.2.1",
+    "npm_package_readmeFilename": "README.md",
+    "npm_config_metrics_registry": "https://registry.npmjs.org/",
+    "npm_config_cafile": "",
+    "npm_config_otp": "",
+    "npm_config_package_lock": "true",
+    "npm_config_progress": "true",
+    "npm_config_https_proxy": "",
+    "npm_config_save_prod": "",
+    "SUDO_UID": "1000",
+    "npm_package_scripts_build_prod": "node --max_old_space_size=6144 ./node_modules/@angular/cli/bin/ng build --prod",
+    "npm_package_dependencies__angular_core": "9.0.7",
+    "npm_package_dependencies__swimlane_dragula": "3.8.0",
+    "npm_package_dependencies_prismjs": "1.19.0",
+    "npm_config_audit": "true",
+    "npm_config_cidr": "",
+    "npm_config_onload_script": "",
+    "npm_config_sso_type": "oauth",
+    "LOGNAME": "root",
+    "npm_package_dependencies_hammerjs": "2.0.8",
+    "npm_config_rebuild_bundle": "true",
+    "npm_config_save_bundle": "",
+    "npm_config_shell": "/bin/bash",
+    "npm_package_private": "true",
+    "npm_package_dependencies__angular_platform_browser_dynamic": "9.0.7",
+    "npm_config_dry_run": "",
+    "npm_config_prefix": "/usr",
+    "npm_package_scripts_lint": "ng lint",
+    "npm_package_dependencies_class_transformer": "0.2.3",
+    "npm_package_dependencies_ngx_cookie_service": "2.3.0",
+    "npm_config_scope": "",
+    "npm_config_browser": "",
+    "npm_config_cache_lock_wait": "10000",
+    "npm_config_ignore_prepublish": "",
+    "npm_config_registry": "https://registry.npmjs.org/",
+    "npm_config_save_optional": "",
+    "npm_config_searchopts": "",
+    "npm_config_versions": "",
+    "TERM": "xterm-256color",
+    "USERNAME": "root",
+    "npm_package_dependencies_core_js": "3.6.4",
+    "npm_package_devDependencies__types_lodash": "4.14.149",
+    "npm_package_devDependencies_karma_jasmine_html_reporter": "1.5.2",
+    "npm_config_cache": "/home/jonas/.npm",
+    "npm_config_proxy": "",
+    "npm_config_send_metrics": "",
+    "npm_package_scripts_start": "ng serve --open",
+    "npm_package_scripts_build_stats": "node --max_old_space_size=6144 ./node_modules/@angular/cli/bin/ng build --dev --stats-json",
+    "npm_package_dependencies__angular_compiler": "9.0.7",
+    "npm_config_global_style": "",
+    "npm_config_ignore_scripts": "",
+    "npm_config_version": "",
+    "npm_package_dependencies_ng2_ckeditor": "1.2.7",
+    "npm_package_dependencies_ngrx_store_freeze": "0.2.4",
+    "npm_config_local_address": "",
+    "npm_config_viewer": "man",
+    "npm_config_node_gyp": "/usr/lib/node_modules/npm/node_modules/node-gyp/bin/node-gyp.js",
+    "PATH": "/usr/lib/node_modules/npm/node_modules/npm-lifecycle/node-gyp-bin:/home/jonas/supp-core/supp-administrativo-frontend/node_modules/.bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin",
+    "npm_package_name": "supp-administrativo-frontend",
+    "npm_package_dependencies_css_element_queries": "1.2.3",
+    "npm_config_audit_level": "low",
+    "npm_config_prefer_offline": "",
+    "NODE": "/usr/bin/node",
+    "npm_package_dependencies_ngx_infinite_scroll": "8.0.1",
+    "npm_package_devDependencies__phenomnomnominal_angular_lazy_routes_fix": "0.1.5",
+    "npm_config_color": "true",
+    "npm_config_sign_git_commit": "",
+    "DISPLAY": ":0",
+    "npm_package_dependencies__angular_forms": "9.0.7",
+    "npm_package_dependencies_angular": "1.7.9",
+    "npm_config_fetch_retry_mintimeout": "10000",
+    "npm_config_maxsockets": "50",
+    "npm_config_offline": "",
+    "npm_config_sso_poll_frequency": "500",
+    "LANG": "pt_BR.UTF-8",
+    "npm_package_dependencies_event_source_polyfill": "1.0.12",
+    "npm_config_umask": "0022",
+    "LS_COLORS": "rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:",
+    "XAUTHORITY": "/home/jonas/.Xauthority",
+    "npm_package_scripts_ng": "ng",
+    "npm_package_scripts_e2e": "ng e2e",
+    "npm_package_dependencies_classlist_js": "1.1.20150312",
+    "npm_package_gitHead": "b6b308dc00ff810d8bbc4491578feb023f67548a",
+    "npm_config_fetch_retry_maxtimeout": "60000",
+    "npm_config_loglevel": "notice",
+    "npm_config_logs_max": "10",
+    "npm_config_message": "%s",
+    "npm_lifecycle_script": "ngcc",
+    "SUDO_COMMAND": "/usr/bin/npm install",
+    "npm_package_scripts_test": "ng test",
+    "npm_package_dependencies__ngrx_effects": "9.0.0",
+    "npm_package_dependencies_material_community_components": "6.0.0",
+    "npm_config_ca": "",
+    "npm_config_cert": "",
+    "npm_config_global": "",
+    "npm_config_link": "",
+    "SHELL": "/bin/bash",
+    "npm_package_version": "0.0.1",
+    "npm_package_scripts_start_hmr_sourcemaps": "ng serve --configuration hmr --source-map=true --hmr-warning=false",
+    "npm_package_dependencies_ngx_drag_drop": "2.0.0",
+    "npm_config_access": "",
+    "npm_config_also": "",
+    "npm_config_save": "true",
+    "npm_config_unicode": "true",
+    "npm_lifecycle_event": "postinstall",
+    "npm_package_scripts_build": "node --max_old_space_size=6144 ./node_modules/@angular/cli/bin/ng build --dev",
+    "npm_package_dependencies__angular_router": "9.0.7",
+    "npm_package_dependencies__types_prismjs": "1.16.0",
+    "npm_package_dependencies_ngx_upper_case_directive": "1.0.3",
+    "npm_package_dependencies_perfect_scrollbar": "1.5.0",
+    "npm_package_dependencies_web_animations_js": "2.3.2",
+    "npm_package_devDependencies_tslib": "1.11.1",
+    "npm_config_argv": "{\"remain\":[],\"cooked\":[\"install\"],\"original\":[\"install\"]}",
+    "npm_config_unsafe_perm": "true",
+    "npm_config_long": "",
+    "npm_config_production": "",
+    "npm_config_searchlimit": "20",
+    "npm_config_update_notifier": "true",
+    "SUDO_USER": "jonas",
+    "npm_package_dependencies_fibers": "4.0.2",
+    "npm_package_dependencies_lodash": "4.17.15",
+    "npm_package_devDependencies_karma_jasmine": "2.0.1",
+    "npm_config_auth_type": "legacy",
+    "npm_config_node_version": "11.15.0",
+    "npm_config_tag": "latest",
+    "npm_package_dependencies__angular_material_moment_adapter": "9.1.3",
+    "npm_package_dependencies__ngrx_router_store": "9.0.0",
+    "npm_config_git_tag_version": "true",
+    "npm_config_commit_hooks": "true",
+    "npm_config_script_shell": "",
+    "npm_config_shrinkwrap": "true",
+    "npm_package_license": "https://www.agu.gov.br",
+    "npm_config_fetch_retry_factor": "10",
+    "npm_config_save_exact": "",
+    "npm_config_strict_ssl": "true",
+    "npm_package_devDependencies__angular_cli": "9.0.6",
+    "npm_config_dev": "",
+    "npm_config_globalconfig": "/usr/etc/npmrc",
+    "npm_config_init_module": "/home/jonas/.npm-init.js",
+    "npm_config_parseable": "",
+    "npm_config_globalignorefile": "/usr/etc/npmignore",
+    "npm_execpath": "/usr/lib/node_modules/npm/bin/npm-cli.js",
+    "PWD": "/home/jonas/supp-core/supp-administrativo-frontend",
+    "npm_package_dependencies__mat_datetimepicker_moment": "4.0.1",
+    "npm_package_devDependencies_codelyzer": "5.2.1",
+    "npm_config_cache_lock_retries": "10",
+    "npm_config_searchstaleness": "900",
+    "npm_package_dependencies_date_fns": "2.9.0",
+    "npm_package_devDependencies__angularclass_hmr": "2.1.3",
+    "npm_config_save_prefix": "",
+    "npm_config_node_options": "",
+    "npm_config_scripts_prepend_node_path": "warn-only",
+    "npm_config_group": "1000",
+    "npm_config_init_author_email": "",
+    "npm_config_searchexclude": "",
+    "npm_package_dependencies__mat_datetimepicker_core": "4.0.1",
+    "npm_package_dependencies_zone_js": "0.10.2",
+    "npm_package_devDependencies__angular_devkit_build_angular": "0.900.6",
+    "npm_config_git": "git",
+    "npm_config_optional": "true",
+    "npm_package_dependencies__angular_platform_browser": "9.0.7",
+    "npm_config_json": "",
+    "INIT_CWD": "/home/jonas/supp-core/supp-administrativo-frontend"
+  },
+  "userLimits": {
+    "core_file_size_blocks": {
+      "soft": 0,
+      "hard": "unlimited"
+    },
+    "data_seg_size_kbytes": {
+      "soft": "unlimited",
+      "hard": "unlimited"
+    },
+    "file_size_blocks": {
+      "soft": "unlimited",
+      "hard": "unlimited"
+    },
+    "max_locked_memory_bytes": {
+      "soft": 16777216,
+      "hard": 16777216
+    },
+    "max_memory_size_kbytes": {
+      "soft": "unlimited",
+      "hard": "unlimited"
+    },
+    "open_files": {
+      "soft": 4096,
+      "hard": 4096
+    },
+    "stack_size_bytes": {
+      "soft": 8388608,
+      "hard": "unlimited"
+    },
+    "cpu_time_seconds": {
+      "soft": "unlimited",
+      "hard": "unlimited"
+    },
+    "max_user_processes": {
+      "soft": 79310,
+      "hard": 79310
+    },
+    "virtual_memory_kbytes": {
+      "soft": "unlimited",
+      "hard": "unlimited"
+    }
+  },
+  "sharedObjects": [
+    "linux-vdso.so.1",
+    "/lib/x86_64-linux-gnu/libdl.so.2",
+    "/usr/lib/x86_64-linux-gnu/libstdc++.so.6",
+    "/lib/x86_64-linux-gnu/libm.so.6",
+    "/lib/x86_64-linux-gnu/libgcc_s.so.1",
+    "/lib/x86_64-linux-gnu/libpthread.so.0",
+    "/lib/x86_64-linux-gnu/libc.so.6",
+    "/lib64/ld-linux-x86-64.so.2"
+  ]
+}

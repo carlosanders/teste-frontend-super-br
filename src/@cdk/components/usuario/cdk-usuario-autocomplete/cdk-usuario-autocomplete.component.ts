@@ -16,7 +16,7 @@ import {MatAutocomplete} from '@cdk/angular/material';
 import {Pagination} from '@cdk/models';
 
 @Component({
-    selector: 'cdk-usuario-autocomplete',
+    selector: ' cdk-usuario-autocomplete',
     templateUrl: './cdk-usuario-autocomplete.component.html',
     styleUrls: ['./cdk-usuario-autocomplete.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,

@@ -3,7 +3,7 @@ import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '
 
 import { select, Store } from '@ngrx/store';
 
-import { Observable, forkJoin, of } from 'rxjs';
+import {Observable, forkJoin, of, throwError} from 'rxjs';
 import { switchMap, catchError, map, tap, take, filter } from 'rxjs/operators';
 
 import { DocumentoAvulsoAppState } from 'app/main/apps/oficios/store/reducers';
@@ -52,13 +52,26 @@ export class ResolveGuard implements CanActivate {
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         if (this.getRouterDefault()) {
-            return this.getDocumentosAvulso().pipe(
+            return this.checkRole(this.getDocumentosAvulso()).pipe(
                 switchMap(() => of(true)),
                 catchError(() => of(false))
             );
         }
     }
 
+    /**
+     * check Role admin
+     *
+     * @returns {Observable<any>}
+     */
+    checkRole(observable: Observable<any>): any {
+        if (!this._loginService.isGranted('ROLE_CONVENIADO')) {
+            this._router.navigate(['/apps/painel']).then(() => {
+                return throwError(new Error('Usuário sem permissão'));
+            });
+        }
+        return observable;
+    }
 
     /**
      * Get DocumentoAvulso
@@ -86,7 +99,8 @@ export class ResolveGuard implements CanActivate {
                         'setorOrigem',
                         'setorOrigem.unidade',
                         'vinculacoesEtiquetas',
-                        'vinculacoesEtiquetas.etiqueta'
+                        'vinculacoesEtiquetas.etiqueta',
+                        'documentoResposta'
                     ]
                 };
 
@@ -96,7 +110,7 @@ export class ResolveGuard implements CanActivate {
 
                     if (this.routerState.params[typeParam] === 'entrada') {
                         documentoAvulsoFilter = {
-                            'usuarioResposta.id': 'isNull',
+                            'documentoResposta.id': 'isNull',
                             'documentoRemessa.id': 'isNotNull',
                             'pessoaDestino.id': `eq:${this.routerState.params['pessoaHandle']}`
                         };
@@ -104,7 +118,7 @@ export class ResolveGuard implements CanActivate {
 
                     if (this.routerState.params[typeParam] === 'saida') {
                         documentoAvulsoFilter = {
-                            'usuarioResposta.id': 'isNotNull',
+                            'documentoResposta.id': 'isNotNull',
                             'documentoRemessa.id': 'isNotNull',
                             'pessoaDestino.id': `eq:${this.routerState.params['pessoaHandle']}`
                         };

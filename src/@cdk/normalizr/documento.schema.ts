@@ -1,4 +1,4 @@
-import {usuario} from './index.schema';
+import {documentoAvulso, usuario} from './index.schema';
 import {processo} from './index.schema';
 import {pessoa} from './index.schema';
 import {setor} from './index.schema';
@@ -16,6 +16,7 @@ documentoSchema.define({
     tipoDocumento: tipoDocumento,
     setorOrigem: setor,
     tarefaOrigem: tarefa,
+    documentoAvulsoComplementacaoResposta: documentoAvulso,
     origemDados: origemDados,
     criadoPor: usuario,
     juntadaAtual: juntada,
