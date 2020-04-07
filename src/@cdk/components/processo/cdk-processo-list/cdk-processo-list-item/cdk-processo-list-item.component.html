@@ -113,10 +113,17 @@
     <div class="spinner-container" *ngIf="loading" style="text-align: center; width: 100%;">
         <mat-spinner diameter="32"></mat-spinner>
     </div>
-    <div [hidden]="loading">
+    <div [hidden]="loadingAssuntos">
         <span>Assuntos: </span>
         <li *ngFor="let assunto of assuntos">
             {{assunto.assuntoAdministrativo.nome}}
         </li>
     </div>
+    <div [hidden]="loadingInteressados">
+        <span>Assuntos: </span>
+        <li *ngFor="let interessado of interessados">
+            {{interessado.pessoa.nome}}
+        </li>
+    </div>
+
 </mat-expansion-panel>

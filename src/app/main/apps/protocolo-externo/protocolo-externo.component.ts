@@ -95,7 +95,7 @@ export class ProtocoloExternoComponent implements OnInit, OnDestroy, AfterViewIn
     idProcessoToLoadAssuntos$: Observable<number>;
     idProcessoToLoadAssuntos: number;
     assuntoService: AssuntoService;
-    pagAssuntos : PaginatedResponse;
+    pagAssuntos: PaginatedResponse;
     bsAssuntos: BehaviorSubject<Assunto[]> = new BehaviorSubject([]);
 
     assuntoLoading$: Observable<boolean>;
@@ -113,6 +113,8 @@ export class ProtocoloExternoComponent implements OnInit, OnDestroy, AfterViewIn
     interessados$: Observable<Interessado[]>;
     idProcessoToLoadInteressados$: Observable<number>;
     idProcessoToLoadInteressados: number;
+    interessadosLoading$: Observable<boolean>;
+    interessadosPanelOpen$: Observable<boolean>;
 
     @ViewChild('processoListElement', {read: ElementRef, static: true}) processoListElement: ElementRef;
 
@@ -162,6 +164,8 @@ export class ProtocoloExternoComponent implements OnInit, OnDestroy, AfterViewIn
 
 
         this.interessados = [];
+        this.interessadosLoading$ = this._store.pipe(select(fromStore.getIsInteressadoLoading));
+        this.interessadosPanelOpen$ = this._store.pipe(select(fromStore.getIsInteressadoPanelIsOpen));
         this.interessados$ = this._store.pipe(select(fromStore.getInteressadosProcessos));
         this.idProcessoToLoadInteressados$ = this._store.pipe(select(fromStore.getIdProcessoToLoadInteressados));
     }
@@ -240,11 +244,8 @@ export class ProtocoloExternoComponent implements OnInit, OnDestroy, AfterViewIn
                 this.mobileMode = false;
             }
         });
-
-        /*
-        * ISSUE-107
-        */
-       this.assuntos$.pipe().subscribe(assuntos => {
+        
+        this.assuntos$.pipe().subscribe(assuntos => {
             this.assuntos = assuntos;
         });
 
@@ -325,9 +326,6 @@ export class ProtocoloExternoComponent implements OnInit, OnDestroy, AfterViewIn
     }
 
     setCurrentProcesso(processo: Processo): void {
-        /*if (!processo.dataHoraLeitura) {
-            this._store.dispatch(new fromStore.ToggleLidaProcesso(processo));
-        }*/
         this._store.dispatch(new fromStore.SetCurrentProcesso({
             processoId: processo.id,
             acessoNegado: processo.acessoNegado,
@@ -387,62 +385,14 @@ export class ProtocoloExternoComponent implements OnInit, OnDestroy, AfterViewIn
         this.processoListOriginalSize = event.rectangle.width;
     }
 
-    // doCreateDocumentoAvulso(processoId): void {
-    //     this._router.navigate(['apps/processos/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/processo/' + processoId + '/oficio']).then();
-    // }
-    //
-    // doCreateProcesso(params): void {
-    //     this._router.navigate(['apps/processos/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/criar/' + params.processoId]).then();
-    // }
-    //
-    // doMovimentar(processoId): void {
-    //     this._router.navigate(['apps/processos/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/processo/' + processoId + '/atividades/criar']).then();
-    // }
-    //
-    // doEditProcesso(processoId): void {
-    //     this._router.navigate(['apps/processos/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/processo/' + processoId + '/editar']).then();
-    // }
-    //
-    // doCompartilhar(processoId): void {
-    //     this._router.navigate(['apps/processos/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/processo/' + processoId + '/compartilhamentos/criar']).then();
-    // }
-    //
-    // doCompartilharBloco(): void {
-    //     this._router.navigate(['apps/processos/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/compartilhamento-bloco']).then();
-    // }
-
     doEtiquetarBloco(): void {
         this._router.navigate(['apps/protocolo-externo/' + this.routerState.params.pessoaHandle + '/vinculacao-etiqueta-bloco']).then();
     }
 
-    // doMovimentarBloco(): void {
-    //     this._router.navigate(['apps/processos/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/atividade-bloco']).then();
-    // }
-    //
-    // doEditProcessoBloco(): void {
-    //     this._router.navigate(['apps/processos/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/processo-edit-bloco']).then();
-    // }
-    //
-    // doCreateProcessoBloco(): void {
-    //     this._router.navigate(['apps/processos/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/processo-bloco']).then();
-    // }
-
-    doUploadBloco(): void {
-        this._router.navigate(['apps/processos/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/responder-complementar-create-bloco']).then();
-    }
-
-    doEditorBloco(): void {
-        this._router.navigate(['apps/processos/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/modelo-bloco']).then();
-    }
-
-    // doCreateDocumentoAvulsoBloco(): void {
-    //     this._router.navigate(['apps/processos/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/documento-avulso-bloco']).then();
-    // }
-
     /*
     * Função que carrega os assuntos do processo associado à processo
     * @processo
-    * Recebe a referencia da processo carregada no componente de lista de processos
+    * Recebe a referencia do processo carregada no componente de lista de processos
     */
     doLoadAssuntos(processo): void {
         this._store.dispatch(new fromStore.GetAssuntosProcesso({
@@ -450,7 +400,11 @@ export class ProtocoloExternoComponent implements OnInit, OnDestroy, AfterViewIn
         }));
     }
 
-
+    /*
+    * Função que carrega os interessados no processo associado
+    * @processo
+    * Recebe a referencia do processo carregada no componente de lista de interessados
+    */
     doLoadInteressados(processo): void {
         this._store.dispatch(new fromStore.GetInteressadosProcesso({
             'processo.id': `eq:${processo.id}`
