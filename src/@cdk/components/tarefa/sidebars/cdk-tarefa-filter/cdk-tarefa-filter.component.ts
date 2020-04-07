@@ -1,22 +1,16 @@
-import {
-    ChangeDetectionStrategy,
-    Component, EventEmitter,
-    OnInit, Output,
-    ViewEncapsulation
-} from '@angular/core';
-
+import {ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output, ViewEncapsulation} from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
 
 @Component({
-    selector: 'cdk-tarefa-grid-filter',
-    templateUrl: './cdk-tarefa-grid-filter.component.html',
-    styleUrls: ['./cdk-tarefa-grid-filter.component.scss'],
+    selector: 'cdk-tarefa-filter',
+    templateUrl: './cdk-tarefa-filter.component.html',
+    styleUrls: ['./cdk-tarefa-filter.component.scss'],
+    animations: cdkAnimations,
     changeDetection: ChangeDetectionStrategy.OnPush,
-    encapsulation: ViewEncapsulation.None,
-    animations: cdkAnimations
+    encapsulation: ViewEncapsulation.None
 })
-export class CdkTarefaGridFilterComponent implements OnInit {
+export class CdkTarefaFilterComponent implements OnInit {
 
     @Output()
     selected = new EventEmitter<any>();
