@@ -52,14 +52,11 @@ export class ArquivistaMainSidebarComponent implements OnInit, OnDestroy {
     ) {
 
         this.colaborador = this._loginService.getUserProfile().colaborador;
-
-
         this.colaborador.lotacoes.forEach((lotacao: Lotacao) => {
             if (!this.unidades.includes(lotacao.setor.unidade) && lotacao.arquivista === true) {
                 this.unidades.push(lotacao.setor.unidade);
             }
         });
-
 
         this.links = [
             {
@@ -78,7 +75,6 @@ export class ArquivistaMainSidebarComponent implements OnInit, OnDestroy {
                 link: 'pendencia-analise'
             }
         ];
-
 
     }
 
@@ -121,9 +117,6 @@ export class ArquivistaMainSidebarComponent implements OnInit, OnDestroy {
 
         this.usuariosAnalista = [];
 
-        // this._loginService.getUserProfile().vinculacoesUsuariosPrincipais.forEach((vinculacaoUsuario: VinculacaoUsuario) => {
-        //     this.usuariosAnalista.push(vinculacaoUsuario.usuario);
-        // });
     }
 
     /**
@@ -135,11 +128,5 @@ export class ArquivistaMainSidebarComponent implements OnInit, OnDestroy {
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
     }
-
-    // -----------------------------------------------------------------------------------------------------
-    // @ Public methods
-    // -----------------------------------------------------------------------------------------------------
-
-
 
 }

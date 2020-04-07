@@ -31,8 +31,6 @@ export class CdkLembreteFormComponent implements OnInit, OnChanges {
     /**
      * Outputs
      */
-    @Output()
-    save = new EventEmitter<Lembrete>();
 
     @Input()
     lembrete: Lembrete;
@@ -58,6 +56,12 @@ export class CdkLembreteFormComponent implements OnInit, OnChanges {
     @Input()
     pagination: Pagination;
 
+    @Input()
+    isBloco: boolean;
+
+    @Output()
+    save = new EventEmitter<Lembrete>();
+
     loading: boolean;
 
     constructor(
@@ -65,10 +69,13 @@ export class CdkLembreteFormComponent implements OnInit, OnChanges {
         private _changeDetectorRef: ChangeDetectorRef,
         private _lembreteService: LembreteService,
     ) {
-
         this.loadForm();
         this.loading = false;
         this.pagination = new Pagination();
+        if (this.isBloco === null) {
+            this.isBloco = false;
+        }
+
     }
 
     ngOnInit(): void {
@@ -100,6 +107,7 @@ export class CdkLembreteFormComponent implements OnInit, OnChanges {
         if (this.form.valid) {
             this.save.emit(this.form.value);
         }
+        this.form.get('conteudo').setValue('');
     }
 
     /**

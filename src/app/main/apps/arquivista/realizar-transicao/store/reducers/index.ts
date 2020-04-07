@@ -1,13 +1,11 @@
-import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
 import {RealizarTransicaoReducer, RealizarTransicaoState} from './realizar-transicao.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
 
 export interface RealizarTransicaoAppState {
-    transicao: RealizarTransicaoState;
+    arquivistaClassificacao: RealizarTransicaoState;
 }
 
-export const getRealizarTransicaoAppState = createFeatureSelector<RealizarTransicaoAppState>(
-    'app-realizar-transicao'
-);
+export const getRealizarTransicaoAppState = createFeatureSelector<RealizarTransicaoAppState>('app-arquivista-classificacao-edit');
 
 export const getAppState = createSelector(
     getRealizarTransicaoAppState,
@@ -15,7 +13,7 @@ export const getAppState = createSelector(
 );
 
 export const reducers: ActionReducerMap<RealizarTransicaoAppState> = {
-    transicao: RealizarTransicaoReducer
+    arquivistaClassificacao: RealizarTransicaoReducer
 };
 
 export * from './realizar-transicao.reducer';
