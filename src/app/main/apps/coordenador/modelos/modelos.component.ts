@@ -59,7 +59,7 @@ export class ModelosComponent implements OnInit, OnDestroy {
                 if (this.routerState.url.indexOf('modelos/anexos') > -1) {
                     this.action = 'anexos';
                 }
-                if (this.routerState.url.indexOf('modelos/especie-setor') > -1) {
+                if (this.routerState.url.indexOf('modelos/' + this.routerState.params.modeloHandle + '/especie-setor') > -1) {
                     this.action = 'especie-setor';
                 }
                 if (this.routerState.url.indexOf('modelos/editar/criar') > -1) {
@@ -87,7 +87,7 @@ export class ModelosComponent implements OnInit, OnDestroy {
             this._router.navigate([this.routerState.url.replace(('anexos/' + this.routerState.params.modeloHandle), 'listar')]).then();
         }
         if (this.action === 'especie-setor') {
-            this._router.navigate([this.routerState.url.replace(('especie-setor/' + this.routerState.params.modeloHandle), 'listar')]).then();
+            this._router.navigate([`apps/coordenador/${this.routerState.params.generoHandle}/${this.routerState.params.entidadeHandle}/modelos/listar`]).then();
         }
     }
 }

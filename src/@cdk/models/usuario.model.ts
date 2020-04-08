@@ -1,6 +1,6 @@
 import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
-import {VinculacaoUsuario} from '@cdk/models';
+import {VinculacaoOrgaoCentralUsuario, VinculacaoUsuario} from '@cdk/models';
 import {Colaborador} from '@cdk/models';
 import {VinculacaoPessoaUsuario} from './vinculacao-pessoa-usuario.model';
 
@@ -58,16 +58,23 @@ export class Usuario {
     @Type(() => VinculacaoUsuario)
     vinculacoesUsuariosPrincipais?: VinculacaoUsuario[];
 
+    @Exclude({toPlainOnly: true})
     @Type(() => Colaborador)
-    @Transform(value => value ? value.id : null, { toPlainOnly: true })
     colaborador?: Colaborador;
 
     @Exclude({toPlainOnly: true})
     roles?: string[];
 
+    @Exclude({toClassOnly: true})
+    reset: boolean;
+
     @Exclude({toPlainOnly: true})
     @Type(() => VinculacaoPessoaUsuario)
     vinculacoesPessoasUsuarios: VinculacaoPessoaUsuario[];
+
+    @Exclude({toPlainOnly: true})
+    @Type(() => VinculacaoOrgaoCentralUsuario)
+    vinculacoesOrgaoCentralUsuarios: VinculacaoOrgaoCentralUsuario[];
 
     constructor() {
         this.id = null;
@@ -88,5 +95,7 @@ export class Usuario {
         this.apagadoPor = null;
         this.apagadoEm = null;
         this.vinculacoesPessoasUsuarios = null;
+        this.vinculacoesOrgaoCentralUsuarios = null;
+        this.reset = false;
     }
 }

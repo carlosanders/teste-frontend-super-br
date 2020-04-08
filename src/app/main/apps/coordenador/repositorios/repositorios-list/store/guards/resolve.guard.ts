@@ -11,11 +11,15 @@ import * as fromStore from '../';
 import {getRouterState} from 'app/store/reducers';
 import {getRepositoriosListLoaded} from '../selectors';
 import {LoginService} from 'app/main/auth/login/login.service';
+import {Colaborador, Setor} from '@cdk/models';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
 
     routerState: any;
+    _profile: Colaborador;
+
+    setores: Setor[] = [];
 
     /**
      *
@@ -58,12 +62,12 @@ export class ResolveGuard implements CanActivate {
         return this._store.pipe(
             select(getRepositoriosListLoaded),
             tap((loaded: any) => {
-                if (!loaded) {
+                if (!this.routerState.params['generoHandle'] || !this.routerState.params['entidadeHandle']
+                    || (this.routerState.params['generoHandle'] + '_' + this.routerState.params['entidadeHandle'] !==
+                        loaded.value)) {
 
-                    const params = {
-                        filter: {
-                            // 'vinculacoesRepositorios.usuario.id': 'eq:' + this._loginService.getUserProfile().id
-                        },
+                    let params: any = {
+                        filter: {},
                         gridFilter: {},
                         limit: 5,
                         offset: 0,
@@ -71,20 +75,38 @@ export class ResolveGuard implements CanActivate {
                         populate: [
                             'documento',
                             'documento.componentesDigitais',
+                            'documento.tipoDocumento',
                             'modalidadeRepositorio',
                             'vinculacoesRepositorios',
-                            'vinculacoesRepositorios.setor'
+                            'vinculacoesRepositorios.setor',
+                            'vinculacoesRepositorios.orgaoCentral'
                         ],
                         context: {
                             'isCoordenador': true
                         }
                     };
 
+
+                    if (this.routerState.params.generoHandle === 'nacional') {
+                        params.filter = {
+                            ...params.filter,
+                            'vinculacoesRepositorios.orgaoCentral.id': 'eq:' + this.routerState.params['entidadeHandle']
+                        }
+                    }
+                    if (this.routerState.params.generoHandle === 'local') {
+                        params.filter = {
+                            ...params.filter,
+                            'vinculacoesRepositorios.setor.id': 'eq:' + this.routerState.params['entidadeHandle']
+                        }
+                    }
+
                     this._store.dispatch(new fromStore.GetRepositorios(params));
                 }
             }),
             filter((loaded: any) => {
-                return !!loaded;
+                return this.routerState.params['generoHandle'] && this.routerState.params['entidadeHandle'] &&
+                    (this.routerState.params['generoHandle'] + '_' + this.routerState.params['entidadeHandle'] ===
+                        loaded.value);
             }),
             take(1)
         );

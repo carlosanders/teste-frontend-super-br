@@ -70,11 +70,11 @@ export class ResolveGuard implements CanActivate {
         return this._store.pipe(
             select(getUsuariosListLoaded),
             tap((loaded: any) => {
-                if (!loaded) {
-                    const params = {
-                        filter: {
-                            'colaborador.lotacoes.setor.id': 'in:' + this.setoresCoordenador.map(setor => setor.id).join(',')
-                        },
+                if (!this.routerState.params['generoHandle'] || !this.routerState.params['entidadeHandle']
+                    || (this.routerState.params['generoHandle'] + '_' + this.routerState.params['entidadeHandle'] !==
+                        loaded.value)) {
+                    const params: any = {
+                        filter: {},
                         gridFilter: {},
                         limit: 5,
                         offset: 0,
@@ -88,11 +88,26 @@ export class ResolveGuard implements CanActivate {
                         context: {}
                     };
 
+                    if (this.routerState.params.generoHandle === 'nacional') {
+                        params.filter = {
+                            ...params.filter,
+                            'colaborador.lotacoes.setor.unidade.modalidadeOrgaoCentral.id': 'eq:' + this.routerState.params['entidadeHandle']
+                        }
+                    }
+                    if (this.routerState.params.generoHandle === 'local') {
+                        params.filter = {
+                            ...params.filter,
+                            'colaborador.lotacoes.setor.id': 'eq:' + this.routerState.params['entidadeHandle']
+                        }
+                    }
+
                     this._store.dispatch(new fromStore.GetUsuarios(params));
                 }
             }),
             filter((loaded: any) => {
-                return !!loaded;
+                return this.routerState.params['generoHandle'] && this.routerState.params['entidadeHandle'] &&
+                    (this.routerState.params['generoHandle'] + '_' + this.routerState.params['entidadeHandle'] ===
+                        loaded.value);
             }),
             take(1)
         );

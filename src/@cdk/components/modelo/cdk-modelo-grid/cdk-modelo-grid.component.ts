@@ -39,7 +39,7 @@ export class CdkModeloGridComponent implements AfterViewInit, OnInit, OnChanges 
     mode = 'list';
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'nome', 'descricao','highlights', 'ativo', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'highlights', 'ativo', 'actions'];
 
     allColumns: any[] = [
         {
@@ -88,8 +88,8 @@ export class CdkModeloGridComponent implements AfterViewInit, OnInit, OnChanges 
             fixed: false
         },
         {
-            id: 'vinculacaoModelo.setor.nome',
-            label: 'Setor',
+            id: 'vinculacaoModelo.orgaoCentral.valor',
+            label: 'Órgão Central',
             fixed: false
         },
         {
@@ -146,7 +146,7 @@ export class CdkModeloGridComponent implements AfterViewInit, OnInit, OnChanges 
     pageSize = 5;
 
     @Input()
-    actions: string[] = ['edit', 'editConteudo','especie','anexo', 'delete', 'select'];
+    actions: string[] = ['edit', 'editConteudo', 'especie', 'anexo', 'delete', 'select'];
 
     @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;

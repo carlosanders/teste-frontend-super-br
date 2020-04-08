@@ -17,22 +17,23 @@ import {CoordenadorStoreModule} from './store/store.module';
 import {ModeloService} from '@cdk/services/modelo.service';
 import {UsuarioService} from '@cdk/services/usuario.service';
 import {SetorService} from '@cdk/services/setor.service';
+import {ModalidadeOrgaoCentralService} from "../../../../@cdk/services/modalidade-orgao-central.service";
 
 const routes: Routes = [
     {
-        path       : '',
+        path       : ':generoHandle',
         component: CoordenadorComponent,
         children: [
             {
-                path       : 'modelos',
+                path       : ':entidadeHandle/modelos',
                 loadChildren: () => import('./modelos/modelos.module').then(m => m.ModelosModule)
             },
             {
-                path       : 'repositorios',
+                path       : ':entidadeHandle/repositorios',
                 loadChildren: () => import('./repositorios/repositorios.module').then(m => m.RepositoriosModule)
             },
             {
-                path       : 'usuarios',
+                path       : ':entidadeHandle/usuarios',
                 loadChildren: () => import('./usuarios/usuarios.module').then(m => m.UsuariosModule)
             }
         ],
@@ -40,7 +41,7 @@ const routes: Routes = [
     },
     {
         path: '**',
-        redirectTo: 'modelos'
+        redirectTo: 'default'
     }
 ];
 
@@ -64,6 +65,7 @@ const routes: Routes = [
         ModeloService,
         SetorService,
         UsuarioService,
+        ModalidadeOrgaoCentralService,
         fromGuards.ResolveGuard
     ]
 })

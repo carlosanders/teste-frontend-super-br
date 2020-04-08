@@ -60,8 +60,8 @@ export class ModelosListEffect {
                             new ModeloListActions.GetModelosSuccess({
                                 entitiesId: response['entities'].map(modelo => modelo.id),
                                 loaded: {
-                                    id: 'modeloHandle',
-                                    value: this._loginService.getUserProfile().id
+                                    id: 'generoHandle_entidadeHandle',
+                                    value: this.routerState.params.generoHandle + '_' + this.routerState.params.entidadeHandle
                                 },
                                 total: response['total']
                             })

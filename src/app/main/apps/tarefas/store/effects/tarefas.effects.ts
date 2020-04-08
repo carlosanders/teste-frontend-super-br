@@ -1,4 +1,5 @@
-import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
+import { AssuntoAdministrativo } from './../../../../../../@cdk/models/assunto-administrativo.model';
+import { AddData, UpdateData, AddChildData } from '@cdk/ngrx-normalizr';
 import {tarefa as tarefaSchema} from '@cdk/normalizr/tarefa.schema';
 
 import {Injectable} from '@angular/core';
@@ -6,7 +7,7 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, concatMap, mergeMap, switchMap} from 'rxjs/operators';
+import { catchError, map, concatMap, mergeMap, switchMap, tap } from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as TarefasActions from '../actions/tarefas.actions';
@@ -17,6 +18,15 @@ import {LoginService} from 'app/main/auth/login/login.service';
 import {Router} from '@angular/router';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
+/*
+* ISSUE-100
+*/
+import { Assunto } from '@cdk/models/assunto.model';
+import { AssuntoService } from '@cdk/services/assunto.service';
+import { assunto as assuntoSchema } from '@cdk/normalizr/assunto.schema';
+import { assuntoAdministrativo as assuntoAdministrativoSchema } from '@cdk/normalizr/assunto-administrativo.schema';
+import { processo as processoSchema } from '@cdk/normalizr/processo.schema';
+
 @Injectable()
 export class TarefasEffect {
     routerState: any;
@@ -26,7 +36,9 @@ export class TarefasEffect {
         private _tarefaService: TarefaService,
         public _loginService: LoginService,
         private _store: Store<State>,
-        private _router: Router
+        private _router: Router,
+        //ISSUE-100
+        private _assuntoService: AssuntoService
     ) {
         this._store
             .pipe(
@@ -212,12 +224,51 @@ export class TarefasEffect {
                                 content: `Tarefa id ${response.id} editada com sucesso!`,
                                 dateTime: response.criadoEm
                             })
-                        ]),
+                        ],
                         catchError((err) => {
                             console.log(err);
                             return of(new TarefasActions.SetFolderOnSelectedTarefasFailed(err));
                         })
-                    );
+                    ));
                 })
+            );
+
+    /**
+     * ISSUE-107
+     * Get Assuntos Processo tarefa from input parameters
+     * @type {Observable<any>}
+     */
+    @Effect()
+    getAssuntosProcessoTarefa: Observable<any> =
+        this._actions
+            .pipe(
+                ofType<TarefasActions.GetAssuntosProcessoTarefa>(TarefasActions.GET_ASSUNTOS_PROCESSO_TAREFA),
+                mergeMap((action) => {
+                    return this._assuntoService.query(
+                        JSON.stringify({
+                            ...action.payload.srv.filter
+                        }),
+                        action.payload.srv.limit,
+                        action.payload.srv.offset,
+                        JSON.stringify(action.payload.srv.sort),
+                        JSON.stringify(action.payload.srv.populate)).pipe(
+                            mergeMap((response) => [
+                                new AddData<Assunto>({data: response['entities'], schema: assuntoSchema}),
+                                new TarefasActions.GetAssuntosProcessoTarefaSuccess({
+                                    assuntosId: response['entities'].map(assunto => assunto.id),
+                                    idTarefaToLoadAssuntos: action.payload.tarefa,
+                                    totalAssuntos: response['total']
+                                })
+                                
+                            ]),
+                            catchError((err, caught) => {
+                                console.log(err);
+                                this._store.dispatch(new TarefasActions.GetAssuntosProcessoTarefaFailed(err));
+                                return caught;
+                            })
+                        );
+                    
+                }),
+                
             );
 }

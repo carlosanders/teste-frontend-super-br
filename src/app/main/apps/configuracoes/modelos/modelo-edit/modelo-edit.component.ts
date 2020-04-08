@@ -93,6 +93,8 @@ export class ModeloEditComponent implements OnInit, OnDestroy {
             }
         );
 
+        modelo.usuario = this.usuario;
+
         this._store.dispatch(new fromStore.SaveModelo(modelo));
 
     }

@@ -7,20 +7,17 @@ export const SAVE_USUARIO = '[ADMIN USUARIO EDIT] SAVE USUARIO';
 export const SAVE_USUARIO_SUCCESS = '[ADMIN USUARIO EDIT] SAVE USUARIO SUCCESS';
 export const SAVE_USUARIO_FAILED = '[ADMIN USUARIO EDIT] SAVE USUARIO FAILED';
 
+export const UPDATE_USUARIO = '[ADMIN USUARIO EDIT] UPDATE USUARIO';
+export const UPDATE_USUARIO_SUCCESS = '[ADMIN USUARIO EDIT] UPDATE USUARIO SUCCESS';
+export const UPDATE_USUARIO_FAILED = '[ADMIN USUARIO EDIT] UPDATE USUARIO FAILED';
+
 export const GET_USUARIO = '[ADMIN USUARIO EDIT] GET USUARIO';
 export const GET_USUARIO_SUCCESS = '[ADMIN USUARIO EDIT] GET USUARIO SUCCESS';
 export const GET_USUARIO_FAILED = '[ADMIN USUARIO EDIT] GET USUARIO FAILED';
 
-export const CREATE_COLABORADOR = '[ADMIN USUARIO EDIT] CREATE COLABORADOR';
-export const CREATE_COLABORADOR_SUCCESS = '[ADMIN USUARIO EDIT] CREATE COLABORADOR SUCCESS';
-
 export const SAVE_COLABORADOR = '[ADMIN USUARIO EDIT] SAVE COLABORADOR';
 export const SAVE_COLABORADOR_SUCCESS = '[ADMIN USUARIO EDIT] SAVE COLABORADOR SUCCESS';
 export const SAVE_COLABORADOR_FAILED = '[ADMIN USUARIO EDIT] SAVE COLABORADOR FAILED';
-
-export const GET_COLABORADOR = '[ADMIN USUARIO EDIT] GET COLABORADOR';
-export const GET_COLABORADOR_SUCCESS = '[ADMIN USUARIO EDIT] GET COLABORADOR SUCCESS';
-export const GET_COLABORADOR_FAILED = '[ADMIN USUARIO EDIT] GET COLABORADOR FAILED';
 
 /**
  * Get Usuario
@@ -71,6 +68,18 @@ export class SaveUsuario implements Action
 }
 
 /**
+ * Update Usuario
+ */
+export class UpdateUsuario implements Action
+{
+    readonly type = UPDATE_USUARIO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
  * Save Usuario Success
  */
 export class SaveUsuarioSuccess implements Action
@@ -88,6 +97,30 @@ export class SaveUsuarioSuccess implements Action
 export class SaveUsuarioFailed implements Action
 {
     readonly type = SAVE_USUARIO_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Update Usuario Success
+ */
+export class UpdateUsuarioSuccess implements Action
+{
+    readonly type = UPDATE_USUARIO_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Update Usuario Failed
+ */
+export class UpdateUsuarioFailed implements Action
+{
+    readonly type = UPDATE_USUARIO_FAILED;
 
     constructor(public payload: any)
     {
@@ -163,6 +196,9 @@ export type UsuarioEditActionsAll
     | SaveUsuario
     | SaveUsuarioSuccess
     | SaveUsuarioFailed
+    | UpdateUsuario
+    | UpdateUsuarioSuccess
+    | UpdateUsuarioFailed
     | SaveColaborador
     | SaveColaboradorSuccess
     | SaveColaboradorFailed;

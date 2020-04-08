@@ -12,7 +12,7 @@
                    name="username"
                    formControlName="username"
                    [readonly]="form.value.id"
-                   maxlength="255" upperCase required>
+                   maxlength="255" upperCase>
             <mat-hint align="end">{{username.value.length}} / 255</mat-hint>
         </mat-form-field>
 
@@ -21,7 +21,7 @@
             <input matInput #nome
                    name="nome"
                    formControlName="nome"
-                   maxlength="255" upperCase required>
+                   maxlength="255" upperCase>
             <mat-hint align="end">{{nome.value.length}} / 255</mat-hint>
         </mat-form-field>
 
@@ -30,7 +30,7 @@
             <input matInput #email
                    name="email"
                    formControlName="email"
-                   maxlength="255" upperCase required>
+                   maxlength="255">
             <mat-hint align="end">{{email.value.length}} / 255</mat-hint>
         </mat-form-field>
 
@@ -40,7 +40,8 @@
                    name="nivelAcesso"
                    formControlName="nivelAcesso"
                    type="number"
-                   maxlength="2" required>
+                   max="4"
+                   maxlength="2">
         </mat-form-field>
 
         <mat-checkbox formControlName="enabled"
@@ -48,7 +49,7 @@
             Ativo
         </mat-checkbox>
 
-        <mat-checkbox formControlName="resetPassword" *ngIf="form.value.id"
+        <mat-checkbox formControlName="reset" *ngIf="form.value.id"
                       class="mr-16 mb-16" fxFlex="0 1 auto">
             Resetar senha
         </mat-checkbox>

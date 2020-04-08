@@ -32,6 +32,9 @@ export class RepositoriosListComponent implements OnInit {
     deletingIds$: Observable<any>;
     deletedIds$: Observable<any>;
 
+    actions: string[];
+    colunas: string[];
+
     /**
      * @param _changeDetectorRef
      * @param _router
@@ -53,6 +56,15 @@ export class RepositoriosListComponent implements OnInit {
             .subscribe(routerState => {
                 if (routerState) {
                     this.routerState = routerState.state;
+
+                    if (this.routerState.params['generoHandle'] === 'local') {
+                        this.actions = ['edit', 'editConteudo', 'delete'];
+                        this.colunas = ['select', 'id', 'nome', 'descricao', 'modalidadeRepositorio.valor', 'vinculacoesRepositorios.setor.nome', 'ativo', 'actions'];
+                    }
+                    if (this.routerState.params['generoHandle'] === 'nacional') {
+                        this.actions = ['edit', 'editConteudo', 'especie', 'delete'];
+                        this.colunas = ['select', 'id', 'nome', 'descricao', 'modalidadeRepositorio.valor', 'vinculacoesRepositorios.orgaoCentral.valor', 'ativo', 'actions'];
+                    }
                 }
             });
     }
@@ -84,6 +96,10 @@ export class RepositoriosListComponent implements OnInit {
 
     editConteudo(documentoId: number): void {
         this._router.navigate([this.routerState.url + '/documento/' + documentoId + '/repositorio']).then();
+    }
+
+    especieSetores(repositorioId: number): void {
+        this._router.navigate([this.routerState.url.replace('listar', `${repositorioId}/especie-setor`)]);
     }
 
     delete(repositorioId: number): void {

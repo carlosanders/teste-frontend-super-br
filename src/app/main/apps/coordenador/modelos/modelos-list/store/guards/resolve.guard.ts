@@ -11,11 +11,16 @@ import * as fromStore from '../';
 import {getRouterState} from 'app/store/reducers';
 import {getModelosListLoaded} from '../selectors';
 import {LoginService} from 'app/main/auth/login/login.service';
+import {Colaborador, Lotacao, Setor} from '@cdk/models';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
 
     routerState: any;
+
+    _profile: Colaborador;
+
+    setores: Setor[] = [];
 
     /**
      *
@@ -33,6 +38,14 @@ export class ResolveGuard implements CanActivate {
                     this.routerState = routerState.state;
                 }
             });
+
+        this._profile = this._loginService.getUserProfile().colaborador;
+
+        this._profile.lotacoes.forEach((lotacao: Lotacao) => {
+            if (!this.setores.includes(lotacao.setor) && lotacao.coordenador) {
+                this.setores.push(lotacao.setor);
+            }
+        });
     }
 
     /**
@@ -58,13 +71,12 @@ export class ResolveGuard implements CanActivate {
         return this._store.pipe(
             select(getModelosListLoaded),
             tap((loaded: any) => {
-                if (!loaded) {
+                if (!this.routerState.params['generoHandle'] || !this.routerState.params['entidadeHandle']
+                    || (this.routerState.params['generoHandle'] + '_' + this.routerState.params['entidadeHandle'] !==
+                        loaded.value)) {
 
-                    const params = {
-                        filter: {
-                            // 'vinculacoesModelos.usuario.id': 'eq:' + this._loginService.getUserProfile().id
-                            modalidadeModelo: 'notIn: [1,2]'
-                        },
+                    let params: any = {
+                        filter: {},
                         gridFilter: {},
                         limit: 5,
                         offset: 0,
@@ -76,18 +88,33 @@ export class ResolveGuard implements CanActivate {
                             'modalidadeModelo',
                             'vinculacoesModelos',
                             'vinculacoesModelos.setor',
-
+                            'vinculacoesModelos.orgaoCentral',
                         ],
                         context: {
                             'isCoordenador': true
                         }
                     };
 
+                    if (this.routerState.params.generoHandle === 'nacional') {
+                        params.filter = {
+                            ...params.filter,
+                            'vinculacoesModelos.orgaoCentral.id': 'in:' + this.routerState.params['entidadeHandle']
+                        }
+                    }
+                    if (this.routerState.params.generoHandle === 'local') {
+                        params.filter = {
+                            ...params.filter,
+                            'vinculacoesModelos.setor.id': 'eq:' + this.routerState.params['entidadeHandle']
+                        }
+                    }
+
                     this._store.dispatch(new fromStore.GetModelos(params));
                 }
             }),
             filter((loaded: any) => {
-                return !!loaded;
+                return this.routerState.params['generoHandle'] && this.routerState.params['entidadeHandle'] &&
+                    (this.routerState.params['generoHandle'] + '_' + this.routerState.params['entidadeHandle'] ===
+                        loaded.value);
             }),
             take(1)
         );

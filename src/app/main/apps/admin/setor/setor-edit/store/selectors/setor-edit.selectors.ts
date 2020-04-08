@@ -3,6 +3,7 @@ import {getSetorEditAppState, SetorEditAppState, SetorEditState} from '../reduce
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {Setor} from '@cdk/models/setor.model';
 import {setor as setorSchema} from '@cdk/normalizr/setor.schema';
+import {getAdminAppState, AdminAppState, AdminState} from '../../../../store/reducers';
 
 const schemaSetorSelectors = createSchemaSelectors<Setor>(setorSchema);
 
@@ -11,9 +12,25 @@ export const getSetorEditState = createSelector(
     (state: SetorEditAppState) => state.setor
 );
 
+export const getAdminState = createSelector(
+    getAdminAppState,
+    (state: AdminAppState) => state.admin
+);
+
 export const getSetorId = createSelector(
     getSetorEditState,
     (state: SetorEditState) => state.loaded ? state.loaded.value : null
+);
+
+export const getUnidadeId = createSelector(
+    getAdminState,
+    (state: AdminState) => state.loaded ? state.loaded.value : null
+);
+
+export const getUnidade = createSelector(
+    schemaSetorSelectors.getNormalizedEntities,
+    getUnidadeId,
+    schemaSetorSelectors.entityProjector
 );
 
 export const getSetor = createSelector(
@@ -30,6 +47,11 @@ export const getIsSaving = createSelector(
 export const getHasLoaded = createSelector(
     getSetorEditState,
     (state: SetorEditState) => state.loaded
+);
+
+export const getHasLoadedUnidade = createSelector(
+    getAdminState,
+    (state: AdminState) => state.loaded
 );
 
 export const getErrors = createSelector(

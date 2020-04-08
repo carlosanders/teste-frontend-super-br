@@ -17,6 +17,7 @@ import {CdkUsuarioAutocompleteModule} from '../../../usuario/cdk-usuario-autocom
 import {CdkEspecieSetorAutocompleteModule} from '../../../especie-setor/cdk-especie-setor-autocomplete/cdk-especie-setor-autocomplete.module';
 import {CdkModeloAutocompleteModule} from '../../../modelo/cdk-modelo-autocomplete/cdk-modelo-autocomplete.module';
 import {CdkSetorAutocompleteModule} from '../../../setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
+import {CdkModalidadeOrgaoCentralAutocompleteModule} from "../../../modalidade-orgao-central/cdk-modalidade-orgao-central-autocomplete/cdk-modalidade-orgao-central-autocomplete.module";
 
 @NgModule({
     declarations: [
@@ -39,6 +40,7 @@ import {CdkSetorAutocompleteModule} from '../../../setor/cdk-setor-autocomplete/
         CdkModeloAutocompleteModule,
         CdkEspecieSetorAutocompleteModule,
         CdkSetorAutocompleteModule,
+        CdkModalidadeOrgaoCentralAutocompleteModule,
     ],
     providers: [
         VinculacaoModeloService,

@@ -52,7 +52,10 @@ export class ModeloEditEffect {
                         0,
                         JSON.stringify({}),
                         JSON.stringify([
-                            'populateAll'
+                            'populateAll',
+                            'vinculacoesModelos',
+                            'vinculacoesModelos.setor',
+                            'vinculacoesModelos.usuario',
                         ]));
                 }),
                 switchMap(response => [

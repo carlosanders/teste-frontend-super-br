@@ -1,7 +1,7 @@
 import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
 
-import {Usuario, VinculacaoEtiqueta, VinculacaoModelo} from '@cdk/models';
+import {ModalidadeOrgaoCentral, Usuario, VinculacaoEtiqueta, VinculacaoModelo} from '@cdk/models';
 import {ModalidadeModelo} from '@cdk/models';
 import {Template} from '@cdk/models';
 import {Setor} from '@cdk/models';
@@ -40,7 +40,6 @@ export class Modelo {
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     vinculacoesModelos?: VinculacaoModelo[];
 
-
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
@@ -71,6 +70,18 @@ export class Modelo {
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
     apagadoEm?: Date;
 
+    @Type(() => Setor)
+    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    setor?: Setor;
+
+    @Type(() => Usuario)
+    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    usuario?: Usuario;
+
+    @Type(() => ModalidadeOrgaoCentral)
+    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    orgaoCentral?: ModalidadeOrgaoCentral;
+
     constructor() {
         this.id = null;
         this.uuid = null;
@@ -82,6 +93,9 @@ export class Modelo {
         this.template = null;
         this.vinculacoesModelos = [];
         this.documento = null;
+        this.setor = null;
+        this.usuario = null;
+        this.orgaoCentral = null;
         this.criadoPor = null;
         this.criadoEm = null;
         this.atualizadoPor = null;

@@ -1,110 +1,113 @@
-<!-- SIDEBAR -->
-<cdk-sidebar class="sidebar" name="cdk-documento-avulso-list-main-sidebar" position="left">
-    <!-- SIDEBAR CONTENT -->
-    <div class="content" cdkPerfectScrollbar>
-        <cdk-documento-avulso-list-main-sidebar (selected)="setListFilter($event)"
-                                                [@animate]="{value:'*'}"></cdk-documento-avulso-list-main-sidebar>
-    </div>
-    <!-- / SIDEBAR CONTENT -->
-</cdk-sidebar>
-<!-- / SIDEBAR -->
-
-<div class="content" fxFlex fxLayout="column">
-
-    <div class="toolbar pt-8 pb-8 pl-16 pr-8" fxFlex="0 0 auto" fxLayout="row" fxLayoutAlign="start center">
-
-        <mat-checkbox (click)="toggleSelectAll($event)"
-                      [checked]="selectedIds.length"
-                      [indeterminate]="isIndeterminate">
-        </mat-checkbox>
-
-        <div class="toolbar-separator" *ngIf="selectedIds.length"></div>
-
-        <div *ngIf="selectedIds?.length">
-            {{selectedIds?.length}}
+<div class="page-layout left-sidebar" fxFlex>
+    <!-- SIDEBAR -->
+    <cdk-sidebar class="sidebar" name="cdk-documento-avulso-list-main-sidebar" position="left">
+        <!-- SIDEBAR CONTENT -->
+        <div class="content" cdkPerfectScrollbar>
+            <cdk-documento-avulso-list-main-sidebar (selected)="setListFilter($event)"
+                                                    [@animate]="{value:'*'}"></cdk-documento-avulso-list-main-sidebar>
         </div>
+        <!-- / SIDEBAR CONTENT -->
+    </cdk-sidebar>
+    <!-- / SIDEBAR -->
 
-        <div class="toolbar-separator" *ngIf="selectedIds?.length && folders?.length"></div>
+    <div class="content" fxFlex fxLayout="column">
 
-        <button mat-icon-button [matMenuTriggerFor]="moreMenu"
-                aria-label="Ferramentas" (click)="$event.stopPropagation()"
-                *ngIf="selectedIds?.length > 0">
-            <mat-icon class="secondary-text">more_vert</mat-icon>
-        </button>
+        <div class="toolbar pt-8 pb-8 pl-16 pr-8" fxFlex="0 0 auto" fxLayout="row" fxLayoutAlign="start center">
 
-        <mat-menu #moreMenu="matMenu">
+            <mat-checkbox (click)="toggleSelectAll($event)"
+                          [checked]="!!selectedIds.length"
+                          [indeterminate]="isIndeterminate">
+            </mat-checkbox>
 
-            <button mat-menu-item aria-label="reposnder / complementar"
-                    (click)="doResponderComplementarBloco()">
-                <ng-container>
-                    <mat-icon>send</mat-icon>
-                    <span>Responder / Complementar</span>
-                </ng-container>
+            <div class="toolbar-separator" *ngIf="selectedIds.length"></div>
+
+            <div *ngIf="selectedIds?.length">
+                {{selectedIds?.length}}
+            </div>
+
+            <div class="toolbar-separator" *ngIf="selectedIds?.length && folders?.length"></div>
+
+            <button mat-icon-button [matMenuTriggerFor]="moreMenu"
+                    aria-label="Ferramentas" (click)="$event.stopPropagation()"
+                    *ngIf="selectedIds?.length > 1">
+                <mat-icon class="secondary-text">more_vert</mat-icon>
             </button>
 
-            <button mat-menu-item aria-label="etiquetar"
-                    (click)="doEtiquetarBloco()">
-                <ng-container>
-                    <mat-icon>label</mat-icon>
-                    <span>Etiquetar</span>
-                </ng-container>
-            </button>
+            <mat-menu #moreMenu="matMenu">
 
-        </mat-menu>
-
-        <div class="documento-avulso-list-control" fxLayout="row" fxLayoutAlign="start center">
-
-            <button class="toggle-filter" [ngClass]="{'warn': (listFilter | json) != '{}'}" mat-icon-button
-                    (click)="toggleFilter()"
-                    aria-label="filtrar"
-                    matTooltip="Filtrar">
-                <mat-icon>filter_list</mat-icon>
-            </button>
-
-            <button mat-icon-button [matMenuTriggerFor]="selectMenu">
-                <mat-icon>sort</mat-icon>
-            </button>
-            <mat-menu fxHide #selectMenu="matMenu">
-                <button mat-menu-item (click)="doSort({'dataHoraFinalPrazo': 'DESC'})">Final do
-                    Prazo
+                <button mat-menu-item aria-label="reposnder / complementar"
+                        (click)="doResponderComplementarBloco()">
+                    <ng-container>
+                        <mat-icon>send</mat-icon>
+                        <span>Responder / Complementar</span>
+                    </ng-container>
                 </button>
-                <button mat-menu-item (click)="doSort({'id': 'DESC'})">Mais Recente</button>
+
+                <button mat-menu-item aria-label="etiquetar"
+                        (click)="doEtiquetarBloco()">
+                    <ng-container>
+                        <mat-icon>label</mat-icon>
+                        <span>Etiquetar</span>
+                    </ng-container>
+                </button>
+
             </mat-menu>
 
-            <div class="toolbar-separator" *ngIf="pagination.total"></div>
+            <div class="documento-avulso-list-control" fxLayout="row" fxLayoutAlign="start center">
 
-            <div>
-                {{documentosAvulso.length}}/{{pagination.total}}
+                <button class="toggle-filter" [ngClass]="{'warn': (listFilter | json) != '{}'}" mat-icon-button
+                        (click)="toggleFilter()"
+                        aria-label="filtrar"
+                        matTooltip="Filtrar">
+                    <mat-icon>filter_list</mat-icon>
+                </button>
+
+                <button mat-icon-button [matMenuTriggerFor]="selectMenu">
+                    <mat-icon>sort</mat-icon>
+                </button>
+                <mat-menu fxHide #selectMenu="matMenu">
+                    <button mat-menu-item (click)="doSort({'dataHoraFinalPrazo': 'DESC'})">Final do
+                        Prazo
+                    </button>
+                    <button mat-menu-item (click)="doSort({'id': 'DESC'})">Mais Recente</button>
+                </mat-menu>
+
+                <div class="toolbar-separator" *ngIf="pagination.total"></div>
+
+                <div>
+                    {{documentosAvulso.length}}/{{pagination.total}}
+                </div>
             </div>
         </div>
+
+        <div fxLayout="column" fxFlex
+             fxLayoutAlign="center center" *ngIf="loading">
+            <mat-spinner class="documento-avulso-list-loading" diameter="24"></mat-spinner>
+        </div>
+
+        <div *ngIf="documentosAvulso.length === 0 && !loading" fxLayout="column" fxFlex="1 1 auto"
+             fxLayoutAlign="center center">
+            <span class="no-documento-avulso-text hint-text">{{ 'OFICIO.NO_MESSAGES' | translate }}</span>
+        </div>
+
+        <div *ngIf="documentosAvulso.length > 0"
+             cdkPerfectScrollbar
+             infiniteScroll
+             fxFlex="1 1 auto" fxLayout="column"
+             [scrollWindow]="false"
+             [infiniteScrollDistance]="2"
+             [infiniteScrollThrottle]="50"
+             (scrolled)="onScroll()">
+
+            <cdk-documento-avulso-list-item matRipple *ngFor="let documentoAvulso of documentosAvulso"
+                                            [documentoAvulso]="documentoAvulso"
+                                            (click)="selectDocumentoAvulso(documentoAvulso)"
+                                            [selected]="selectedIds?.length > 0 && selectedIds.indexOf(documentoAvulso.id) > -1"
+                                            (toggleInSelectedDocumentosAvulso)="toggleInSelected($event)"
+                                            [ngClass]="{'selected':documentoAvulso.id === currentDocumentoAvulsoId}">
+            </cdk-documento-avulso-list-item>
+        </div>
+
     </div>
-
-    <div fxLayout="column" fxFlex
-         fxLayoutAlign="center center" *ngIf="loading">
-        <mat-spinner class="documento-avulso-list-loading" diameter="24"></mat-spinner>
-    </div>
-
-    <div *ngIf="documentosAvulso.length === 0 && !loading" fxLayout="column" fxFlex="1 1 auto" fxLayoutAlign="center center">
-        <span class="no-documento-avulso-text hint-text">{{ 'OFICIO.NO_MESSAGES' | translate }}</span>
-    </div>
-
-    <div *ngIf="documentosAvulso.length > 0"
-         cdkPerfectScrollbar
-         infiniteScroll
-         fxFlex="1 1 auto" fxLayout="column"
-         [scrollWindow]="false"
-         [infiniteScrollDistance]="2"
-         [infiniteScrollThrottle]="50"
-         (scrolled)="onScroll()">
-
-        <cdk-documento-avulso-list-item matRipple *ngFor="let documentoAvulso of documentosAvulso"
-                              [documentoAvulso]="documentoAvulso"
-                              (click)="selectDocumentoAvulso(documentoAvulso)"
-                              [selected]="selectedIds?.length > 0 && selectedIds.indexOf(documentoAvulso.id) > -1"
-                              (toggleInSelectedDocumentosAvulso)="toggleInSelected($event)"
-                              [ngClass]="{'selected':documentoAvulso.id === currentDocumentoAvulsoId}">
-        </cdk-documento-avulso-list-item>
-    </div>
-
 </div>
 

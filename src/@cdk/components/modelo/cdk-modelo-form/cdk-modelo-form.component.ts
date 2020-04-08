@@ -61,8 +61,6 @@ export class CdkModeloFormComponent implements OnChanges, OnDestroy {
             ativo: [null],
             nome: [null, [Validators.required, Validators.maxLength(255)]],
             descricao: [null, [Validators.required, Validators.maxLength(255)]],
-            setor: [null],
-            nacional: [null],
             template: [null, [Validators.required]],
         });
 
@@ -107,24 +105,6 @@ export class CdkModeloFormComponent implements OnChanges, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
-
-    checkSetor(): void {
-        const value = this.form.get('setor').value;
-        if (!value || typeof value !== 'object') {
-            this.form.get('setor').setValue(null);
-        }
-    }
-
-    selectSetor(setor: Setor): void {
-        if (setor) {
-            this.form.get('setor').setValue(setor);
-        }
-        this.activeCard = 'form';
-    }
-
-    showSetorGrid(): void {
-        this.activeCard = 'setor-gridsearch';
-    }
 
     checkTemplate(): void {
         const value = this.form.get('template').value;

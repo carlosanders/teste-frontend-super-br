@@ -7,7 +7,6 @@ import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
 import {PaginatedResponse} from '@cdk/models';
 import {environment} from 'environments/environment';
-import {Documento} from '../models';
 
 @Injectable()
 export class DocumentoAvulsoService {
@@ -105,17 +104,4 @@ export class DocumentoAvulsoService {
         params['context'] = context;
         return this.modelService.delete('documento_avulso', id, new HttpParams({fromObject: params}));
     }
-
-    /*responder(documentoAvulso: DocumentoAvulso): Observable<DocumentoAvulso> {
-        return this.http.patch(
-            `${environment.api_url}${'documento_avulso'}/${documentoAvulso.id}/${'responder'}` + environment.xdebug,
-            JSON.stringify(classToPlain(documentoAvulso))
-        ).pipe(
-            map(response => {
-                response = plainToClass(DocumentoAvulso, response);
-                Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
-                return Object.assign(new DocumentoAvulso(), {...documentoAvulso, ...response});
-            })
-        );
-    }*/
 }

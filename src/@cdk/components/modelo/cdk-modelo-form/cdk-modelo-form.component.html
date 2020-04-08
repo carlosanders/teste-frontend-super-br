@@ -10,11 +10,6 @@
                 Ativo
             </mat-checkbox>
 
-            <mat-checkbox  *ngIf="coordenador" formControlName="nacional"
-                          class="mr-16 mb-16" fxFlex="0 1 auto">
-                Nacional
-            </mat-checkbox>
-
             <mat-form-field fxFlex="100">
                 <div fxLayout="row" fxLayoutAlign="start center">
                     <input matInput placeholder="Nome" formControlName="nome" required maxlength="255" upperCase>
@@ -25,27 +20,6 @@
                 <div fxLayout="row" fxLayoutAlign="start center">
                     <input matInput placeholder="Descrição" formControlName="descricao" maxlength="255" required upperCase>
                 </div>
-            </mat-form-field>
-
-            <mat-form-field *ngIf="coordenador" fxFlex="100">
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Setor"
-                           formControlName="setor"
-                           [matAutocomplete]="setor.autocomplete"
-                           (blur)="checkSetor()" required>
-                </div>
-                <cdk-setor-autocomplete
-                    #setor="setorAutocomplete"
-                    [control]="form.get('setor')"
-                    [pagination]="setorPagination">
-                </cdk-setor-autocomplete>
-                <button matSuffix mat-button mat-icon-button
-                        (click)="showSetorGrid()">
-                    <mat-icon matTooltip="Procurar">search</mat-icon>
-                </button>
-                <mat-error *ngIf="form.get('setor').hasError('formError')">
-                    {{form.get('setor').errors.formError}}
-                </mat-error>
             </mat-form-field>
 
             <mat-form-field fxFlex="100">
@@ -87,13 +61,6 @@
         </div>
     </form>
 </div>
-
-<cdk-setor-gridsearch
-    fxFlex="1 0 auto"
-    *ngIf="activeCard === 'setor-gridsearch'"
-    (selected)="selectSetor($event)"
-    (cancel)="cancel()">
-</cdk-setor-gridsearch>
 
 <cdk-template-gridsearch
     fxFlex="1 0 auto"

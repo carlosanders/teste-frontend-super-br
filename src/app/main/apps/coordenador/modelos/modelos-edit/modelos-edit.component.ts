@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 import {Modelo} from '@cdk/models/modelo.model';
 import {select, Store} from '@ngrx/store';
@@ -17,7 +17,8 @@ import {Pagination} from '@cdk/models/pagination';
 import {Usuario} from '@cdk/models/usuario.model';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {getRouterState} from '../../../../../store/reducers';
-import {ModalidadeModelo} from "../../../../../../@cdk/models";
+import {Lotacao, ModalidadeOrgaoCentral, Setor} from '@cdk/models';
+import {takeUntil} from "rxjs/operators";
 
 @Component({
     selector: 'coordenador-modelos-edit',
@@ -29,14 +30,18 @@ import {ModalidadeModelo} from "../../../../../../@cdk/models";
 })
 export class ModelosEditComponent implements OnInit, OnDestroy {
 
+    private _unsubscribeAll: Subject<any> = new Subject();
+
     routerState: any;
     modelo$: Observable<Modelo>;
     modelo: Modelo;
+    setor$: Observable<Setor>;
+    setor: Setor = null;
+    orgaoCentral$: Observable<ModalidadeOrgaoCentral>;
+    orgaoCentral: ModalidadeOrgaoCentral = null;
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
     usuario: Usuario;
-    coordenador: boolean;
-    setorPagination: Pagination;
     templatePagination: Pagination;
 
     /**
@@ -52,25 +57,29 @@ export class ModelosEditComponent implements OnInit, OnDestroy {
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.modelo$ = this._store.pipe(select(fromStore.getModelo));
         this.usuario = this._loginService.getUserProfile();
-        this.coordenador = true;
+        this.setor$ = this._store.pipe(select(fromStore.getSetor));
+        this.orgaoCentral$ = this._store.pipe(select(fromStore.getOrgaoCentral));
 
         this._store
-            .pipe(select(getRouterState))
+            .pipe(
+                select(getRouterState),
+                takeUntil(this._unsubscribeAll)
+            )
             .subscribe(routerState => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
             });
 
-        this.setorPagination = new Pagination();
-        this.setorPagination.populate = ['populateAll'];
-        this.setorPagination.filter = {
-            'unidade.id': 'eq:' + this.routerState.params.unidadeHandle
-        }
-
         this.templatePagination = new Pagination();
         this.templatePagination.populate = ['documento', 'documento.tipoDocumento'];
 
+    }
+
+    ngOnDestroy(): void {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -82,20 +91,54 @@ export class ModelosEditComponent implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
 
-        this.modelo$.subscribe(
-            modelo => this.modelo = modelo
+        this.modelo$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(
+            modelo => {
+                if (modelo) {
+                    this.modelo = modelo;
+                    if (this.modelo.vinculacoesModelos[0]?.setor) {
+                        this.modelo.setor = this.modelo.vinculacoesModelos[0]?.setor;
+                    }
+                    if (this.modelo.vinculacoesModelos[0]?.usuario) {
+                        this.modelo.usuario = this.modelo.vinculacoesModelos[0]?.usuario;
+                    }
+                    if (this.modelo.vinculacoesModelos[0]?.orgaoCentral) {
+                        this.modelo.orgaoCentral = this.modelo.vinculacoesModelos[0]?.orgaoCentral;
+                    }
+                }
+            }
+        );
+
+        this.setor$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(
+            setor => {
+                if (setor) {
+                    this.setor = setor;
+                }
+            }
+        );
+
+        this.orgaoCentral$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(
+            orgaoCentral => {
+                if (orgaoCentral) {
+                    this.orgaoCentral = orgaoCentral;
+                }
+            }
         );
 
         if (!this.modelo) {
             this.modelo = new Modelo();
             this.modelo.ativo = true;
+            if (this.orgaoCentral) {
+                this.modelo.orgaoCentral = this.orgaoCentral;
+            } else {
+                this.modelo.setor = this.setor;
+            }
         }
-    }
-
-    /**
-     * On destroy
-     */
-    ngOnDestroy(): void {
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -105,8 +148,6 @@ export class ModelosEditComponent implements OnInit, OnDestroy {
     submit(values): void {
 
         const modelo = new Modelo();
-        // modelo.id = null;
-        modelo.modalidadeModelo = new ModalidadeModelo();
 
         Object.entries(values).forEach(
             ([key, value]) => {
@@ -114,13 +155,11 @@ export class ModelosEditComponent implements OnInit, OnDestroy {
             }
         );
 
-        if (modelo['nacional']) {
-           modelo.modalidadeModelo.id = 4;
+        if (this.orgaoCentral) {
+           modelo.orgaoCentral = this.orgaoCentral;
         } else {
-           modelo.modalidadeModelo.id = 3;
+           modelo.setor = this.setor;
         }
-
-        console.log(modelo);
 
         this._store.dispatch(new fromStore.SaveModelo(modelo));
 

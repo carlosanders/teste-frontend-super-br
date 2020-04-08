@@ -146,6 +146,15 @@
                         [ngClass]="{'deleted':deletedIds?.indexOf(modelo.id) > -1}"> {{modelo.vinculacoesModelos[0]?.setor?.nome}} </td>
                 </ng-container>
 
+                <!-- Órgão Central Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('vinculacoesModelos.orgaoCentral.valor') > -1" matColumnDef="vinculacoesModelos.orgaoCentral.valor">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Órgão Central
+                    </th>
+                    <td mat-cell *matCellDef="let modelo" class='has_label_on_mobile' data-label='Órgão Central: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(modelo.id) > -1}"> {{modelo.vinculacoesModelos[0]?.orgaoCentral?.valor}} </td>
+                </ng-container>
+
                 <!-- Documento Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('documento.tipoDocumento.nome') > -1"
                               matColumnDef="documento.tipoDocumento.nome">
