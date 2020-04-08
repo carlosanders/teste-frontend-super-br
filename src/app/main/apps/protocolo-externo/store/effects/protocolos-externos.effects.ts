@@ -275,7 +275,7 @@ export class ProcessosEffect {
                     JSON.stringify(action.payload),
                         10,
                         0,
-                        JSON.stringify({'principal' : 'DESC', 'criadoEm' : 'DESC'}),
+                        JSON.stringify({principal : 'DESC', criadoEm : 'DESC'}),
                         JSON.stringify(['processo', 'modalidadeInteressado', 'pessoa'])
                     );
                 }),

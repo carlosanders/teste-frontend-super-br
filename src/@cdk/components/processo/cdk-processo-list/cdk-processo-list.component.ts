@@ -103,7 +103,7 @@ export class CdkProcessoListComponent implements AfterViewInit, OnInit, OnChange
     interessados: Interessado[];
 
     @Input()
-    loadingInteressado: boolean;
+    loadingInteressados: boolean;
 
     @Input()
     idProcessoToLoadInteressados: number;
@@ -249,11 +249,11 @@ export class CdkProcessoListComponent implements AfterViewInit, OnInit, OnChange
         this._cdkSidebarService.getSidebar('cdk-processo-list-main-sidebar').toggleOpen();
     }
 
-    doLoadAssuntos(idProcesso) {
+    doLoadAssuntos(idProcesso): void {
         this.idProcesso.emit(idProcesso);
     }
 
-    doLoadInteressados(idProcessoInteressado) {
+    doLoadInteressados(idProcessoInteressado): void {
         this.idProcessoInteresado.emit(idProcessoInteressado);
     }
 }

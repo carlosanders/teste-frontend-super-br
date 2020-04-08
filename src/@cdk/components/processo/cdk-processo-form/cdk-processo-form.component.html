@@ -175,31 +175,34 @@
             </mat-form-field>
         </mat-card>
 
-        <mat-form-field fxFlex *showIfRole="'ROLE_COLABORADOR'">
-            <div fxLayout="row" fxLayoutAlign="start center" *ngIf="form.value.id">
-                <input matInput placeholder="Fase"
-                       formControlName="modalidadeFase"
-                       required
-                       [matAutocomplete]="modalidadeFase.autocomplete"
-                       (blur)="checkModalidadeFase()">
-            </div>
-            <cdk-modalidade-fase-autocomplete
-                #modalidadeFase="modalidadeFaseAutocomplete"
-                [control]="form.get('modalidadeFase')"
-                [pagination]="modalidadeFasePagination">
-            </cdk-modalidade-fase-autocomplete>
-            <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-                    (click)="showLogEntryGrid('modalidadeFase')">
-                <mat-icon matTooltip="Histórico">history</mat-icon>
-            </button>
-            <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-                    (click)="showModalidadeFaseGrid()">
-                <mat-icon matTooltip="Procurar">search</mat-icon>
-            </button>
-            <mat-error *ngIf="form.get('modalidadeFase').hasError('formError')">
-                {{form.get('modalidadeFase').errors.formError}}
-            </mat-error>
-        </mat-form-field>
+        <ng-template *showIfRole="'ROLE_COLABORADOR'">
+            <mat-form-field fxFlex>
+                <div fxLayout="row" fxLayoutAlign="start center" *ngIf="form.value.id">
+                    <input matInput placeholder="Fase"
+                           formControlName="modalidadeFase"
+                           required
+                           [matAutocomplete]="modalidadeFase.autocomplete"
+                           (blur)="checkModalidadeFase()">
+                </div>
+                <cdk-modalidade-fase-autocomplete
+                    #modalidadeFase="modalidadeFaseAutocomplete"
+                    [control]="form.get('modalidadeFase')"
+                    [pagination]="modalidadeFasePagination">
+                </cdk-modalidade-fase-autocomplete>
+                <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                        (click)="showLogEntryGrid('modalidadeFase')">
+                    <mat-icon matTooltip="Histórico">history</mat-icon>
+                </button>
+                <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                        (click)="showModalidadeFaseGrid()">
+                    <mat-icon matTooltip="Procurar">search</mat-icon>
+                </button>
+                <mat-error *ngIf="form.get('modalidadeFase').hasError('formError')">
+                    {{form.get('modalidadeFase').errors.formError}}
+                </mat-error>
+            </mat-form-field>
+        </ng-template>
+
 
         <mat-form-field fxFlex *showIfRole="'ROLE_COLABORADOR'">
             <div fxLayout="row" fxLayoutAlign="start center">

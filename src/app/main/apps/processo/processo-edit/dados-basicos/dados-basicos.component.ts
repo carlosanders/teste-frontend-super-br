@@ -10,18 +10,14 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {Processo} from '@cdk/models';
+import {Processo, Pessoa, Usuario} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {Pagination} from '@cdk/models';
-import {Colaborador} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {getProcesso} from './store/selectors';
 import {Router} from '@angular/router';
 import {getRouterState} from 'app/store/reducers';
-import {Pessoa} from '@cdk/models';
-import { takeUntil } from 'rxjs/operators';
-import {Usuario} from "../../../../../../@cdk/models/usuario.model";
 
 @Component({
     selector: 'dados-basicos',

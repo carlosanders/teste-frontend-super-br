@@ -128,9 +128,10 @@
                                 (realizarTransicao)="doRealizarTransicao($event)"
                                 (toggleInSelectedProcessos)="toggleInSelected($event)"
                                 (codProcesso)="doLoadAssuntos($event)"
-
-                                [loading] = "loadingAssunto"
+                                [loadingAssuntos]="loadingAssunto"
                                 [assuntos]="assuntos"
+                                [loadingInteressados]="loadingInteressados"
+                                (codProcessoInteressado)="doLoadInteressados($event)"
                                 [interessados]="interessados"
                                 [isOpen]="isOpenPanel"
                                 [idProcessoToLoadAssuntos]="idProcessoToLoadAssuntos"

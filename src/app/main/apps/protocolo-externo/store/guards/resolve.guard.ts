@@ -8,17 +8,17 @@ import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
 
 import {ProcessosAppState} from '../reducers';
 import * as fromStore from '../../store';
-import {getProcessosLoaded} from '../selectors';
+import {getProcessosLoaded, getPessoaLoaded} from '../selectors';
 import {getRouterState} from 'app/store/reducers';
 import {LoginService} from '../../../../auth/login/login.service';
 import {Usuario, VinculacaoPessoaUsuario} from '@cdk/models';
-import {getPessoaLoaded} from '../../store';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
 
     private _profile: Usuario;
     private pessoasConveniadas: VinculacaoPessoaUsuario[];
+    private unidadeArquivistica = 2;
     routerState: any;
 
     /**
@@ -105,7 +105,8 @@ export class ResolveGuard implements CanActivate {
                     const params = {
                         filter: {
                             'criadoPor.id': `eq:${this._profile.id}`,
-                            'procedencia.id': `eq:${this.routerState.params.pessoaHandle}`
+                            'procedencia.id': `eq:${this.routerState.params.pessoaHandle}`,
+                            'unidadeArquivistica': `eq:${this.unidadeArquivistica}`
                         },
                         etiquetaFilter: {},
                         limit: 10,

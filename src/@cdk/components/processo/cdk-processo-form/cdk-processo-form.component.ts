@@ -17,9 +17,6 @@ import {Classificacao} from '@cdk/models';
 import {Setor} from '@cdk/models';
 import {Pagination} from '@cdk/models';
 import {Pessoa} from '@cdk/models';
-import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
-import {of} from 'rxjs';
-
 
 @Component({
     selector: 'cdk-processo-form',

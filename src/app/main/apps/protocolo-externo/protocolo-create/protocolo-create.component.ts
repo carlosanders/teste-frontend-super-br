@@ -13,12 +13,11 @@ import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
 import {Pagination, Pessoa, Processo} from '@cdk/models';
-import * as moment from 'moment';
-import {filter, take, takeUntil, tap} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {MatDialog} from '@cdk/angular/material';
 import {Router} from '@angular/router';
 import {getRouterState} from '../../../../store/reducers';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {getPessoa} from '../store/selectors';
 
 @Component({
@@ -90,6 +89,8 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
             dataHoraAbertura: [null],
             dataHoraPrazoResposta: [null, [Validators.required]],
             unidadeProtocoloExterno: [null, [Validators.required]],
+            tipoProtocolo: [null, [Validators.required]],
+            unidadeArquivistica: [null, [Validators.required]]
         });
 
     }
@@ -113,15 +114,17 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
             }
         });
 
-        this.processo = new Processo();
 
         this.pessoaProcedencia$.pipe(
             takeUntil(this._unsubscribeAll),
             filter(pessoa => !!pessoa)
         ).subscribe(pessoa => {
             this.pessoaProcedencia = pessoa;
-            this.processo.procedencia = this.pessoaProcedencia;
         });
+
+        this.processo = new Processo();
+        this.processo.unidadeArquivistica = 2;
+        this.processo.tipoProtocolo = 1;
     }
 
     /**

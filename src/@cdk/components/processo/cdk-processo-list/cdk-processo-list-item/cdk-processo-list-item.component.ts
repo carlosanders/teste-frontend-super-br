@@ -68,10 +68,13 @@ export class CdkProcessoListItemComponent implements OnInit {
     interessados: Interessado[];
 
     @Input()
-    loading: boolean;
+    loadingAssuntos: boolean;
 
     @Input()
-    isOpen: boolean = false;
+    loadingInteressados: boolean;
+
+    @Input()
+    isOpen = false;
 
     @Input()
     idProcessoToLoadAssuntos: number;

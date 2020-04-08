@@ -211,7 +211,7 @@ export function ProtocolosExternosReducer(state = ProcessosInitialState, action:
                 assuntosId: [],
                 assuntoLoading: true,
                 assuntoPanelOpen: action.payload.processo === state.idProcessoToLoadAssuntos
-            }
+            };
         }
 
         case ProcessosActions.GET_ASSUNTOS_PROCESSO_SUCCESS: {
@@ -221,8 +221,7 @@ export function ProtocolosExternosReducer(state = ProcessosInitialState, action:
                 assuntoPanelOpen: true,
                 assuntosId: [...action.payload.assuntosId],
                 idProcessoToLoadAssuntos: action.payload.idProcessoToLoadAssuntos
-            }
-
+            };
         }
 
         case ProcessosActions.GET_ASSUNTOS_PROCESSO_FAILED: {
@@ -231,16 +230,14 @@ export function ProtocolosExternosReducer(state = ProcessosInitialState, action:
 
                 assuntoLoading: false,
                 assuntoPanelOpen: false
-            }
-
+            };
         }
 
         case ProcessosActions.SET_ASSUNTOS_LOADED: {
             return {
                 ...state,
                 assuntoLoading: false
-            }
-
+            };
         }
 
         case ProcessosActions.GET_INTERESSADOS_PROCESSO: {
@@ -249,7 +246,7 @@ export function ProtocolosExternosReducer(state = ProcessosInitialState, action:
                 interessadosId: [],
                 interessadoLoading: true,
                 interessadoPanelOpen: action.payload.processo.id === state.idProcessoToLoadInteressados
-            }
+            };
         }
 
         case ProcessosActions.GET_INTERESSADOS_PROCESSO_SUCCESS: {
@@ -259,8 +256,7 @@ export function ProtocolosExternosReducer(state = ProcessosInitialState, action:
                 interessadoPanelOpen: true,
                 interessadosId: [...action.payload.interessadosId],
                 idProcessoToLoadInteressados: action.payload.idProcessoToLoadInteressados
-            }
-
+            };
         }
 
         case ProcessosActions.GET_INTERESSADOS_PROCESSO_FAILED: {
@@ -269,16 +265,14 @@ export function ProtocolosExternosReducer(state = ProcessosInitialState, action:
 
                 interessadoLoading: false,
                 interessadoPanelOpen: false
-            }
-
+            };
         }
 
         case ProcessosActions.SET_INTERESSADOS_LOADED: {
             return {
                 ...state,
                 interessadoLoading: false
-            }
-
+            };
         }
 
         default:
