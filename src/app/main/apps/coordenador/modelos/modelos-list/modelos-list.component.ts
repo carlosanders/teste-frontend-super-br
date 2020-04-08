@@ -32,7 +32,8 @@ export class ModelosListComponent implements OnInit {
     deletingIds$: Observable<any>;
     deletedIds$: Observable<any>;
 
-    actions: string[] = ['edit', 'editConteudo', 'especie', 'anexo', 'delete'];
+    actions: string[];
+    colunas: string[];
 
     /**
      * @param _changeDetectorRef
@@ -57,6 +58,11 @@ export class ModelosListComponent implements OnInit {
                     this.routerState = routerState.state;
                     if (this.routerState.params['generoHandle'] === 'local') {
                         this.actions = ['edit', 'editConteudo', 'anexo', 'delete'];
+                        this.colunas = ['select', 'id', 'nome', 'descricao', 'vinculacoesModelos.setor.nome', 'template.nome', 'ativo', 'actions'];
+                    }
+                    if (this.routerState.params['generoHandle'] === 'nacional') {
+                        this.actions = ['edit', 'editConteudo', 'especie', 'anexo', 'delete'];
+                        this.colunas = ['select', 'id', 'nome', 'descricao', 'vinculacoesModelos.orgaoCentral.valor', 'template.nome', 'ativo', 'actions'];
                     }
                 }
             });

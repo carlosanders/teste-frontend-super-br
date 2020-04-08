@@ -16,7 +16,7 @@ export class VinculacaoRepositorio {
 
     @Type(() => Repositorio)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    modelo?: Repositorio;
+    repositorio?: Repositorio;
 
     @Type(() => EspecieSetor)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
@@ -67,7 +67,7 @@ export class VinculacaoRepositorio {
     constructor() {
         this.id = null;
         this.uuid = null;
-        this.modelo = null;
+        this.repositorio = null;
         this.especieSetor = null;
         this.setor = null;
         this.usuario = null;

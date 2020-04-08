@@ -38,7 +38,7 @@ const routes: Routes = [
             },
             {
                 path       : ':modeloHandle/especie-setor',
-                loadChildren: () => import('../especie-setor/especie-setor.module').then(m => m.EspecieSetorModule),
+                loadChildren: () => import('./modelos-especie-setor/modelos-especie-setor.module').then(m => m.ModelosEspecieSetorModule),
             },
             {
                 path: '**',

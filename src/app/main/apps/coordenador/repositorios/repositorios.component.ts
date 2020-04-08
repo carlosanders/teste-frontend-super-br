@@ -59,7 +59,7 @@ export class RepositoriosComponent implements OnInit, OnDestroy {
                 if (this.routerState.url.indexOf('repositorios/editar/criar') > -1) {
                     this.action = 'criar';
                 }
-                if (this.routerState.url.indexOf('repositorios/especie-setor') > -1) {
+                if (this.routerState.url.indexOf('repositorios/' + this.routerState.params.repositorioHandle + '/especie-setor') > -1) {
                     this.action = 'especie-setor';
                 }
                 this._changeDetectorRef.markForCheck();
@@ -81,7 +81,7 @@ export class RepositoriosComponent implements OnInit, OnDestroy {
             this._router.navigate([this.routerState.url.replace('editar/criar', 'listar')]).then();
         }
         if (this.action === 'especie-setor') {
-            this._router.navigate([this.routerState.url.replace(('especie-setor/' + this.routerState.params.repositorioHandle), 'listar')]).then();
+            this._router.navigate([`apps/coordenador/${this.routerState.params.generoHandle}/${this.routerState.params.entidadeHandle}/repositorios/listar`]).then();
         }
     }
 }

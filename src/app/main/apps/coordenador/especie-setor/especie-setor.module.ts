@@ -24,7 +24,7 @@ import {EspecieSetorService} from '@cdk/services/especie-setor.service';
 
 const routes: Routes = [
     {
-        path: ':modeloHandle',
+        path: '',
         component: EspecieSetorComponent,
         canActivate: [fromGuards.ResolveGuard],
         children: [

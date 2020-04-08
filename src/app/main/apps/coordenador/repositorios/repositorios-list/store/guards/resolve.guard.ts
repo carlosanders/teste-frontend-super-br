@@ -78,7 +78,8 @@ export class ResolveGuard implements CanActivate {
                             'documento.tipoDocumento',
                             'modalidadeRepositorio',
                             'vinculacoesRepositorios',
-                            'vinculacoesRepositorios.setor'
+                            'vinculacoesRepositorios.setor',
+                            'vinculacoesRepositorios.orgaoCentral'
                         ],
                         context: {
                             'isCoordenador': true

@@ -88,7 +88,7 @@ export class ResolveGuard implements CanActivate {
                             'modalidadeModelo',
                             'vinculacoesModelos',
                             'vinculacoesModelos.setor',
-
+                            'vinculacoesModelos.orgaoCentral',
                         ],
                         context: {
                             'isCoordenador': true

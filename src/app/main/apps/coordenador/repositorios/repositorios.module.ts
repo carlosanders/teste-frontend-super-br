@@ -33,6 +33,10 @@ const routes: Routes = [
                 loadChildren: () => import('./repositorios-edit/repositorios-edit.module').then(m => m.RepositoriosEditModule),
             },
             {
+                path       : ':repositorioHandle/especie-setor',
+                loadChildren: () => import('./repositorios-especie-setor/repositorios-especie-setor.module').then(m => m.RepositoriosEspecieSetorModule),
+            },
+            {
                 path: '**',
                 redirectTo: 'listar'
             }

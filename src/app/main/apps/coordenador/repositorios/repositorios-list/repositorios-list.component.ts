@@ -32,7 +32,8 @@ export class RepositoriosListComponent implements OnInit {
     deletingIds$: Observable<any>;
     deletedIds$: Observable<any>;
 
-    actions: string[] = ['edit', 'editConteudo', 'especie', 'delete'];
+    actions: string[];
+    colunas: string[];
 
     /**
      * @param _changeDetectorRef
@@ -58,6 +59,11 @@ export class RepositoriosListComponent implements OnInit {
 
                     if (this.routerState.params['generoHandle'] === 'local') {
                         this.actions = ['edit', 'editConteudo', 'delete'];
+                        this.colunas = ['select', 'id', 'nome', 'descricao', 'modalidadeRepositorio.valor', 'vinculacoesRepositorios.setor.nome', 'ativo', 'actions'];
+                    }
+                    if (this.routerState.params['generoHandle'] === 'nacional') {
+                        this.actions = ['edit', 'editConteudo', 'especie', 'delete'];
+                        this.colunas = ['select', 'id', 'nome', 'descricao', 'modalidadeRepositorio.valor', 'vinculacoesRepositorios.orgaoCentral.valor', 'ativo', 'actions'];
                     }
                 }
             });
