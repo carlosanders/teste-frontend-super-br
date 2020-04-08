@@ -123,6 +123,8 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
         });
 
         this.processo = new Processo();
+        this.processo.unidadeArquivistica = 2;
+        this.processo.tipoProtocolo = 1;
     }
 
     /**
