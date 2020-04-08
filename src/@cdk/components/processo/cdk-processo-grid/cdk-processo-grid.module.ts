@@ -19,7 +19,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {ProcessoService} from '@cdk/services/processo.service';
 import {CdkProcessoGridComponent} from './cdk-processo-grid.component';
 import {CdkProcessoAutocompleteModule} from '@cdk/components/processo/cdk-processo-autocomplete/cdk-processo-autocomplete.module';
-import {CdkProcessoGridFilterModule} from '../sidebars/cdk-processo-grid-filter/cdk-processo-grid-filter.module';
+import {CdkProcessoFilterModule} from '../sidebars/cdk-processo-filter/cdk-processo-filter.module';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 import {CommonModule} from '@angular/common';
@@ -50,7 +50,7 @@ import {CdkChaveAcessoPluginModule} from '../../chave-acesso/cdk-chave-acesso-pl
         CdkSidebarModule,
 
         CdkProcessoAutocompleteModule,
-        CdkProcessoGridFilterModule,
+        CdkProcessoFilterModule,
         CdkChaveAcessoPluginModule,
 
         CommonModule,

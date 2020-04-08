@@ -2,15 +2,16 @@ import {NgModule} from '@angular/core';
 import {
     MatAutocompleteModule,
     MatButtonModule,
-    MatCheckboxModule, MatDatepickerModule,
+    MatCheckboxModule,
+    MatDatepickerModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
 } from '@cdk/angular/material';
 
-import { CdkSharedModule } from '@cdk/shared.module';
-import { ProcessoService } from '@cdk/services/processo.service';
-import { CdkProcessoGridFilterComponent } from './cdk-processo-grid-filter.component';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {ProcessoService} from '@cdk/services/processo.service';
+import {CdkProcessoFilterComponent} from './cdk-processo-filter.component';
 import {CdkDocumentoAvulsoAutocompleteModule} from '@cdk/components/documento-avulso/cdk-documento-avulso-autocomplete/cdk-documento-avulso-autocomplete.module';
 import {CdkLocalizadorAutocompleteModule} from '@cdk/components/localizador/cdk-localizador-autocomplete/cdk-localizador-autocomplete.module';
 import {CdkPessoaAutocompleteModule} from '@cdk/components/pessoa/cdk-pessoa-autocomplete/cdk-pessoa-autocomplete.module';
@@ -27,7 +28,7 @@ import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 
 @NgModule({
     declarations: [
-        CdkProcessoGridFilterComponent,
+        CdkProcessoFilterComponent,
     ],
     imports: [
         MatButtonModule,
@@ -59,8 +60,8 @@ import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
         ProcessoService,
     ],
     exports: [
-        CdkProcessoGridFilterComponent
+        CdkProcessoFilterComponent
     ]
 })
-export class CdkProcessoGridFilterModule {
+export class CdkProcessoFilterModule {
 }

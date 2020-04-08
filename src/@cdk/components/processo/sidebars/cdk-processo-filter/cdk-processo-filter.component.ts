@@ -9,14 +9,14 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {CdkSidebarService} from '../../../sidebar/sidebar.service';
 
 @Component({
-    selector: 'cdk-processo-grid-filter',
-    templateUrl: './cdk-processo-grid-filter.component.html',
-    styleUrls: ['./cdk-processo-grid-filter.component.scss'],
+    selector: 'cdk-processo-filter',
+    templateUrl: './cdk-processo-filter.component.html',
+    styleUrls: ['./cdk-processo-filter.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class CdkProcessoGridFilterComponent implements OnInit {
+export class CdkProcessoFilterComponent implements OnInit {
 
     @Output()
     selected = new EventEmitter<any>();

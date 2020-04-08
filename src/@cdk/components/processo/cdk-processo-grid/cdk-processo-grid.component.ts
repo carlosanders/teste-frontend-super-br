@@ -316,7 +316,7 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
     }
 
     toggleFilter(): void {
-        this._cdkSidebarService.getSidebar('cdk-processo-grid-filter').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-processo-filter').toggleOpen();
         this.showFilter = !this.showFilter;
     }
 

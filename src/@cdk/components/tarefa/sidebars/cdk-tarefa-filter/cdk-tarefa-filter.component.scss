@@ -1,23 +1,17 @@
 cdk-tarefa-filter {
-    display: flex;
-    flex: 1 0 auto;
-    flex-direction: column;
     height: 100%;
 
-    .header {
+    .altura {
+        height: 100%;
+    }
 
-        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    .content {
+        min-height: 0px;
+        //background-color: white;
+        padding: 6%;
+    }
 
-        .logo {
-
-            .logo-icon {
-                margin: 0 16px 0 0;
-            }
-
-            .logo-text {
-                font-size: 16px;
-                line-height: 16px;
-            }
-        }
+    .padd {
+        padding: 6%;
     }
 }
