@@ -5,24 +5,56 @@
 
     <div fxFlex="0 1 auto" fxLayout="column">
 
-        <mat-card class="mb-16" fxFlex="0 1 auto" fxLayout="column" *showIfRole="'ROLE_COLABORADOR'">
+        <mat-card class="mb-16" fxFlex="0 1 auto" fxLayout="column">
+
+            <mat-card-subtitle>Unidade Arquivística</mat-card-subtitle>
+
+            <h3 *ngIf="form.value.id && form.value.unidadeArquivistica === 1">PROCESSO</h3>
+            <h3 *ngIf="form.value.id && form.value.unidadeArquivistica === 2">DOCUMENTO AVULSO</h3>
+            <h3 *ngIf="form.value.id && form.value.unidadeArquivistica === 3">PASTA/DOSSIÊ</h3>
+
             <div fxLayout="row" class="start" fxFlex *ngIf="!form.value.id"
-                 fxLayoutAlign="start center" >
+                 fxLayoutAlign="start center">
+                <label id="processo-rg3"></label>
+                <mat-radio-group class="poderes-rg"
+                                 formControlName="unidadeArquivistica"
+                                 aria-labelledby="processo-rg3"
+                                 fxLayoutAlign="row">
+                    <mat-radio-button [value]=1>
+                        Processo
+                    </mat-radio-button>
+                    <mat-radio-button [value]=2>
+                        Documento Avulso
+                    </mat-radio-button>
+                    <mat-radio-button [value]=3>
+                        Pasta/Dossiê
+                    </mat-radio-button>
+                </mat-radio-group>
+            </div>
+        </mat-card>
+
+        <mat-card class="mb-16" fxFlex="0 1 auto" fxLayout="column">
+            <mat-card-subtitle>Dados do Protocolo</mat-card-subtitle>
+            <div fxLayout="row" class="start" fxFlex *ngIf="!form.value.id"
+                 fxLayoutAlign="start center">
                 <label id="processo-rg2"></label>
                 <mat-radio-group class="poderes-rg"
-                                 formControlName="novo"
+                                 formControlName="tipoProtocolo"
                                  aria-labelledby="processo-rg2"
                                  fxLayoutAlign="row">
-                    <mat-radio-button [value]="true">
-                        Atribuir Novo NUP
+                    <mat-radio-button [value]=1 *ngIf="form.value.unidadeArquivistica !== 3">
+                        Atribuir Novo Protocolo
                     </mat-radio-button>
-                    <mat-radio-button [value]="false">
-                        Informar NUP Existente
+                    <mat-radio-button [value]=2 *ngIf="form.value.unidadeArquivistica !== 3">
+                        Informar Protocolo Existente
+                    </mat-radio-button>
+                    <mat-radio-button [value]=3 *ngIf="form.value.unidadeArquivistica === 3">
+                        Não Possui Protocolo
                     </mat-radio-button>
                 </mat-radio-group>
             </div>
 
-            <mat-form-field *ngIf="form.value.id || !form.value.novo" fxFlex>
+            <mat-form-field *ngIf="form.value.id || form.value.tipoProtocolo === 2" fxFlex>
                 <mat-label>NUP</mat-label>
                 <input matInput #NUP
                        name="NUP"
@@ -34,7 +66,7 @@
                 <mat-error>Campo obrigatório!</mat-error>
             </mat-form-field>
 
-            <mat-form-field *ngIf="form.value.id || !form.value.novo" fxFlex>
+            <mat-form-field *ngIf="form.value.id || form.value.tipoProtocolo === 2" fxFlex>
                 <mat-label>Data Hora de Abertura</mat-label>
                 <input matInput formControlName="dataHoraAbertura" [matDatetimepicker]="dataHoraAbertura"
                        required>
@@ -43,7 +75,7 @@
                                     timeInterval="5"></mat-datetimepicker>
             </mat-form-field>
 
-            <mat-form-field fxFlex *ngIf="form.value.id || !form.value.novo">
+            <mat-form-field fxFlex *ngIf="form.value.id || form.value.tipoProtocolo === 2">
                 <div fxLayout="row" fxLayoutAlign="start center">
                     <input matInput placeholder="Procedência"
                            formControlName="procedencia"
@@ -60,7 +92,8 @@
                         (click)="showLogEntryGrid('procedencia')">
                     <mat-icon matTooltip="Histórico">history</mat-icon>
                 </button>
-                <button *ngIf="form.get('procedencia').value && form.get('procedencia').value.id" matSuffix mat-button
+                <button *ngIf="form.get('procedencia').value && form.get('procedencia').value.id" matSuffix
+                        mat-button
                         mat-icon-button
                         (click)="doEditProcedencia()">
                     <mat-icon matTooltip="Editar pessoa">edit</mat-icon>

@@ -11,6 +11,12 @@ export const GET_ARQUIVISTA_CLASSIFICACAO = '[ARQUIVISTA_CLASSIFICACAO] GET ARQU
 export const GET_ARQUIVISTA_CLASSIFICACAO_SUCCESS = '[ARQUIVISTA_CLASSIFICACAO] GET ARQUIVISTA_CLASSIFICACAO SUCCESS';
 export const GET_ARQUIVISTA_CLASSIFICACAO_FAILED = '[ARQUIVISTA_CLASSIFICACAO] GET ARQUIVISTA_CLASSIFICACAO FAILED';
 
+export const GET_PROCESSOS = '[ARQUIVISTA_CLASSIFICACAO] GET PROCESSOS';
+export const GET_PROCESSOS_SUCCESS = '[ARQUIVISTA_CLASSIFICACAO] GET PROCESSOS SUCCESS';
+export const GET_PROCESSOS_FAILED = '[ARQUIVISTA_CLASSIFICACAO] GET PROCESSOS FAILED';
+
+export const UNLOAD_PROCESSOS = '[ARQUIVISTA_CLASSIFICACAO] UNLOAD PROCESSOS';
+
 /**
  * Get ArquivistaClassificacao
  */
@@ -107,6 +113,49 @@ export class UpdateArquivistaClassificacaoSuccess implements Action
     }
 }
 
+/**
+ * Unload Processos
+ */
+export class UnloadProcessos implements Action {
+    readonly type = UNLOAD_PROCESSOS;
+
+    constructor(public payload: any) {
+    }
+}
+
+
+
+/**
+ * Get Processos
+ */
+export class GetProcessos implements Action {
+    readonly type = GET_PROCESSOS;
+
+    constructor(public payload: any) {
+    }
+}
+
+
+/**
+ * Get Processos Success
+ */
+export class GetProcessosSuccess implements Action {
+    readonly type = GET_PROCESSOS_SUCCESS;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Get Processos Failed
+ */
+export class GetProcessosFailed implements Action {
+    readonly type = GET_PROCESSOS_FAILED;
+
+    constructor(public payload: string) {
+    }
+}
+
 export type ArquivistaClassificacaoActionsAll
     = UpdateArquivistaClassificacao
     | UpdateArquivistaClassificacaoSuccess
@@ -115,4 +164,8 @@ export type ArquivistaClassificacaoActionsAll
     | GetArquivistaClassificacaoFailed
     | SaveArquivistaClassificacao
     | SaveArquivistaClassificacaoSuccess
-    | SaveArquivistaClassificacaoFailed;
+    | SaveArquivistaClassificacaoFailed
+    | GetProcessos
+    | GetProcessosFailed
+    | GetProcessosSuccess
+    | UnloadProcessos;

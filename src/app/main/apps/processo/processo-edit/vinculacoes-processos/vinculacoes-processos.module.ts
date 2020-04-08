@@ -19,6 +19,7 @@ import {VinculacoesProcessosComponent} from './vinculacoes-processos.component';
 import {VinculacaoProcessoService} from '@cdk/services/vinculacao-processo.service';
 import {RouterModule, Routes} from '@angular/router';
 import {ModalidadeVinculacaoProcessoService} from '@cdk/services/modalidade-vinculacao-processo.service';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 const routes: Routes = [
     {
@@ -64,6 +65,7 @@ const routes: Routes = [
         TranslateModule,
 
         CdkSharedModule,
+        MatTooltipModule,
     ],
     providers: [
         VinculacaoProcessoService,

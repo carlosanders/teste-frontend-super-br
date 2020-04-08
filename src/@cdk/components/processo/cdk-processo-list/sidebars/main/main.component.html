@@ -32,6 +32,30 @@
 
             <mat-form-field fxFlex="100">
                 <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Interessados"
+                           formControlName="interessado"
+                           [matAutocomplete]="interessadoAutocomplete.autocomplete">
+                </div>
+                <cdk-interessado-autocomplete
+                    #interessadoAutocomplete="interessadoAutocomplete"
+                    [control]="form.get('interessado')">
+                </cdk-interessado-autocomplete>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="100">
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Assunto"
+                           formControlName="assunto"
+                           [matAutocomplete]="assuntoAdministrativoAutocomplete.autocomplete">
+                </div>
+                <cdk-assunto-administrativo-autocomplete
+                    #assuntoAdministrativoAutocomplete="assuntoAdministrativoAutocomplete"
+                    [control]="form.get('assunto')">
+                </cdk-assunto-administrativo-autocomplete>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="100">
+                <div fxLayout="row" fxLayoutAlign="start center">
                     <input matInput placeholder="Espécie"
                            formControlName="especieProcesso"
                            [matAutocomplete]="especieProcesso.autocomplete">
@@ -40,6 +64,30 @@
                     #especieProcesso="especieProcessoAutocomplete"
                     [control]="form.get('especieProcesso')">
                 </cdk-especie-processo-autocomplete>
+            </mat-form-field>
+
+            <mat-form-field>
+                <input datetime="yyyy-MM-dd" placeholder="Inicio Prazo" readonly matInput [matDatepicker]="dataHoraAbertura" formControlName="dataHoraAbertura">
+                <mat-datepicker-toggle matSuffix [for]="dataHoraAbertura"></mat-datepicker-toggle>
+                <mat-datepicker #dataHoraAbertura></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field>
+                <input datetime="yyyy-MM-dd" placeholder="Final Prazo" readonly matInput [matDatepicker]="dataHoraProximaTransicao" formControlName="dataHoraProximaTransicao">
+                <mat-datepicker-toggle matSuffix [for]="dataHoraProximaTransicao"></mat-datepicker-toggle>
+                <mat-datepicker #dataHoraProximaTransicao></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="100">
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Etiqueta"
+                           formControlName="etiqueta"
+                           [matAutocomplete]="etiquetaAutocomplete.autocomplete">
+                </div>
+                <cdk-etiqueta-autocomplete
+                    #etiquetaAutocomplete="etiquetaAutocomplete"
+                    [control]="form.get('etiqueta')">
+                </cdk-etiqueta-autocomplete>
             </mat-form-field>
 
         </div>
@@ -58,3 +106,5 @@
     </form>
 </div>
 <!-- / SIDEBAR CONTENT -->
+
+

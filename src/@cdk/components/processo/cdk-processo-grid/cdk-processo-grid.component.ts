@@ -77,11 +77,6 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
             fixed: true
         },
         {
-            id: 'novo',
-            label: 'Novo',
-            fixed: false
-        },
-        {
             id: 'valorEconomico',
             label: 'Valor',
             fixed: false

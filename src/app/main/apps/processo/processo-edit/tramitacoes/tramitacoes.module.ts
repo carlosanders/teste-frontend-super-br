@@ -18,6 +18,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {TramitacoesComponent} from './tramitacoes.component';
 import {TramitacaoService} from '@cdk/services/tramitacao.service';
 import {RouterModule, Routes} from '@angular/router';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 const routes: Routes = [
     {
@@ -63,6 +64,7 @@ const routes: Routes = [
         TranslateModule,
 
         CdkSharedModule,
+        MatTooltipModule,
     ],
     providers: [
         TramitacaoService

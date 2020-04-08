@@ -129,7 +129,8 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             temProcessoOrigem: [null],
             processoOrigem: [null],
             NUP: [null, [Validators.required, Validators.maxLength(21)]],
-            novo: [null, [Validators.required]],
+            tipoProtocolo: [null, [Validators.required]],
+            unidadeArquivistica: [null, [Validators.required]],
             especieProcesso: [null, [Validators.required]],
             visibilidadeExterna: [null],
             titulo: [null, [Validators.required, Validators.required, Validators.maxLength(255)]],
@@ -180,17 +181,8 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             this.form.get('procedencia').setValue(null);
             this.form.get('procedencia').disable();
             this.textBotao = 'SALVAR';
-            this.form.get('novo').valueChanges.subscribe(value => {
-                if (value === true) {
-                    this.form.get('dataHoraAbertura').setValue(null);
-                    this.form.get('dataHoraAbertura').disable();
-
-                    this.form.get('NUP').setValue(null);
-                    this.form.get('NUP').disable();
-
-                    this.form.get('procedencia').setValue(null);
-                    this.form.get('procedencia').disable();
-                } else {
+            this.form.get('tipoProtocolo').valueChanges.subscribe(value => {
+                if (value === Processo.TP_INFORMADO) {
                     this.form.get('dataHoraAbertura').setValue(null);
                     this.form.get('dataHoraAbertura').enable();
 
@@ -199,6 +191,26 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
                     this.form.get('procedencia').setValue(null);
                     this.form.get('procedencia').enable();
+                } else {
+
+                    this.form.get('dataHoraAbertura').setValue(null);
+                    this.form.get('dataHoraAbertura').disable();
+
+                    this.form.get('NUP').setValue(null);
+                    this.form.get('NUP').disable();
+
+                    this.form.get('procedencia').setValue(null);
+                    this.form.get('procedencia').disable();
+                }
+
+                this._changeDetectorRef.markForCheck();
+            });
+
+            this.form.get('unidadeArquivistica').valueChanges.subscribe(value => {
+                if (value === Processo.UA_DOSSIE) {
+                    this.form.get('tipoProtocolo').setValue(Processo.TP_PENDENTE);
+                } else {
+                    this.form.get('tipoProtocolo').setValue(Processo.TP_NOVO);
                 }
 
                 this._changeDetectorRef.markForCheck();

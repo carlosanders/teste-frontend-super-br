@@ -30,6 +30,9 @@ export class CdkProcessoListItemComponent implements OnInit {
     deleting: boolean;
 
     @Input()
+    deletedIds: boolean;
+
+    @Input()
     editantoLembrete: boolean;
 
     @Output()

@@ -91,7 +91,8 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
 
         if (!this.processo) {
             this.processo = new Processo();
-            this.processo.novo = true;
+            this.processo.unidadeArquivistica = 1;
+            this.processo.tipoProtocolo = 1;
         }
 
         this._store

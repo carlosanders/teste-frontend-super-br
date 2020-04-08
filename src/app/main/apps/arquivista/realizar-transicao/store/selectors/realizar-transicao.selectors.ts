@@ -1,26 +1,25 @@
-import {getRealizarTransicaoAppState, RealizarTransicaoAppState, RealizarTransicaoState} from "../reducers";
 import {createSelector} from '@ngrx/store';
-import {transicao as transicaoSchema} from '@cdk/normalizr/transicao.schema';
-import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
-import {Transicao} from '@cdk/models';
 
-const schemaTransicaoSelectors = createSchemaSelectors<Transicao>(transicaoSchema);
+import {Processo} from '@cdk/models';
+
+import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
+import {processo as processoShema} from '@cdk/normalizr/processo.schema';
+import {getRealizarTransicaoAppState, RealizarTransicaoAppState, RealizarTransicaoState} from '../reducers';
+import {getProcessosIds} from '../../../arquivista-list/store/selectors';
+
+const schemaRealizarTransicaoSelectors = createSchemaSelectors<Processo>(processoShema);
 
 export const getRealizarTransicaoState = createSelector(
     getRealizarTransicaoAppState,
-    (state: RealizarTransicaoAppState) => state.transicao
+    (state: RealizarTransicaoAppState) => state.arquivistaClassificacao
 );
 
-export const getTransicaoId = createSelector(
-    getRealizarTransicaoState,
-    (state: RealizarTransicaoState) => state.loaded ? state.loaded.value : null
+export const getProcessos = createSelector(
+    schemaRealizarTransicaoSelectors.getNormalizedEntities,
+    getProcessosIds,
+    schemaRealizarTransicaoSelectors.entitiesProjector
 );
 
-export const getTransicao = createSelector(
-    schemaTransicaoSelectors.getNormalizedEntities,
-    getTransicaoId,
-    schemaTransicaoSelectors.entityProjector
-);
 
 export const getIsSaving = createSelector(
     getRealizarTransicaoState,
@@ -36,4 +35,3 @@ export const getErrors = createSelector(
     getRealizarTransicaoState,
     (state: RealizarTransicaoState) => state.errors
 );
-
