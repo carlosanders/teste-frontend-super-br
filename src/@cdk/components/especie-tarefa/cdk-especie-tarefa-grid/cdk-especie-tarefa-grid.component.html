@@ -1,13 +1,8 @@
 <div class="page-layout left-sidebar" fxFlex>
 
     <!-- SIDEBAR -->
-    <cdk-sidebar class="sidebar" name="cdk-especie-tarefa-main-sidebar" position="left">
-        <!-- SIDEBAR CONTENT -->
-        <div class="content" cdkPerfectScrollbar>
-            <cdk-especie-tarefa-main-sidebar (selected)="setGridFilter($event)"
-                                             [@animate]="{value:'*'}"></cdk-especie-tarefa-main-sidebar>
-        </div>
-        <!-- / SIDEBAR CONTENT -->
+    <cdk-sidebar name="cdk-especie-tarefa-filter" position="left">
+        <cdk-especie-tarefa-filter (selected)="setGridFilter($event)" [mode]="this.mode"></cdk-especie-tarefa-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 

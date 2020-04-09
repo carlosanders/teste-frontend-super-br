@@ -1,6 +1,6 @@
 import {
     ChangeDetectionStrategy,
-    Component, EventEmitter,
+    Component, EventEmitter, Input,
     OnInit, Output,
     ViewEncapsulation
 } from '@angular/core';
@@ -9,14 +9,14 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {CdkSidebarService} from '../../../sidebar/sidebar.service';
 
 @Component({
-    selector: 'cdk-especie-tarefa-grid-filter',
-    templateUrl: './cdk-especie-tarefa-grid-filter.component.html',
-    styleUrls: ['./cdk-especie-tarefa-grid-filter.component.scss'],
+    selector: 'cdk-especie-tarefa-filter',
+    templateUrl: './cdk-especie-tarefa-filter.component.html',
+    styleUrls: ['./cdk-especie-tarefa-filter.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class CdkEspecieTarefaGridFilterComponent implements OnInit {
+export class CdkEspecieTarefaFilterComponent implements OnInit {
 
     @Output()
     selected = new EventEmitter<any>();
@@ -24,6 +24,11 @@ export class CdkEspecieTarefaGridFilterComponent implements OnInit {
     form: FormGroup;
 
     filters: any = {};
+
+    contexto: any = {};
+
+    @Input()
+    mode = 'list';
 
     /**
      * Constructor
@@ -170,22 +175,21 @@ export class CdkEspecieTarefaGridFilterComponent implements OnInit {
     }
 
     emite(): void {
-            const request = {
-                filters: this.filters
-            };
-            this.selected.emit(request);
+        const request = {
+            filters: this.filters,
+        };
+        this.selected.emit(request);
+        this._cdkSidebarService.getSidebar('cdk-especie-tarefa-filter').close();
     }
 
     buscar(): void {
         this.emite();
-        this._cdkSidebarService.getSidebar('cdk-especie-tarefa-main-sidebar').close();
     }
 
     limpar(): void {
         this.filters = {};
         this.emite();
         this.form.reset();
-        this._cdkSidebarService.getSidebar('cdk-especie-tarefa-main-sidebar').close();
     }
 }
 

@@ -1,7 +1,8 @@
 import {NgModule} from '@angular/core';
 import {
     MatAutocompleteModule,
-    MatButtonModule, MatCheckboxModule,
+    MatButtonModule,
+    MatCheckboxModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule
@@ -9,14 +10,14 @@ import {
 
 import {CdkSharedModule} from '@cdk/shared.module';
 import {EspecieTarefaService} from '@cdk/services/especie-tarefa.service';
-import {CdkEspecieTarefaGridFilterComponent} from './cdk-especie-tarefa-grid-filter.component';
+import {CdkEspecieTarefaFilterComponent} from './cdk-especie-tarefa-filter.component';
 import {CdkGeneroTarefaAutocompleteModule} from '@cdk/components/genero-tarefa/cdk-genero-tarefa-autocomplete/cdk-genero-tarefa-autocomplete.module';
 import {CdkUsuarioAutocompleteModule} from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 import {MatDatetimepickerModule} from '@mat-datetimepicker/core';
 
 @NgModule({
     declarations: [
-        CdkEspecieTarefaGridFilterComponent,
+        CdkEspecieTarefaFilterComponent,
     ],
     imports: [
         MatButtonModule,
@@ -36,8 +37,8 @@ import {MatDatetimepickerModule} from '@mat-datetimepicker/core';
         EspecieTarefaService,
     ],
     exports: [
-        CdkEspecieTarefaGridFilterComponent
+        CdkEspecieTarefaFilterComponent
     ]
 })
-export class CdkEspecieTarefaGridFilterModule {
+export class CdkEspecieTarefaFilterModule {
 }

@@ -1,7 +1,7 @@
 <div class="page-layout left-sidebar" fxFlex>
 
     <!-- SIDEBAR -->
-    <cdk-sidebar [lockedOpen]="(mode === 'search') ? 'gt-xs' : ''" class="sidebar"
+    <cdk-sidebar [lockedOpen]="(mode === 'search') ? 'gt-xs' : ''"
                  name="cdk-processo-filter"
                  position="left">
         <cdk-processo-filter (selected)="setGridFilter($event)"

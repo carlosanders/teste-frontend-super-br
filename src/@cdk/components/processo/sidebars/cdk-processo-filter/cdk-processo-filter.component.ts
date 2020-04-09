@@ -23,9 +23,7 @@ export class CdkProcessoFilterComponent implements OnInit {
 
     form: FormGroup;
 
-    filters: any = {};
-
-    contexto: any = {};
+    filters: any = null;
 
     @Input()
     mode = 'list';
@@ -451,27 +449,20 @@ export class CdkProcessoFilterComponent implements OnInit {
     }
 
     emite(): void {
-        if (this.mode === 'list') {
-            const request = {
-                filters: this.filters
-            };
-            this.selected.emit(request);
-        }
+        const request = {
+            filters: this.filters,
+        };
+        this.selected.emit(request);
+        this._cdkSidebarService.getSidebar('cdk-processo-filter').close();
     }
 
     buscar(): void {
-        const request = {
-            filters: this.filters,
-            contexto: this.contexto
-        };
-        this.selected.emit(request);
+        this.emite();
     }
 
     limpar(): void {
-        this.filters = {};
-        this.contexto = {};
+        this.filters = null;
         this.emite();
         this.form.reset();
     }
-
 }
