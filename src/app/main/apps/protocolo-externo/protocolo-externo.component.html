@@ -69,7 +69,7 @@
                                      (idProcesso)="doLoadAssuntos($event)"
                                      [loadingAssunto]="(assuntoLoading$ | async)"
                                      [assuntos]="(assuntos$ | async)"
-                                     [isOpenPanel]="(assuntoPanelOpen$ | async )"
+                                     [isOpenPanel]="(assuntoPanelOpen$ | async ) || (interessadosPanelOpen$ | async )"
                                      [idProcessoToLoadAssuntos]="idProcessoToLoadAssuntos"
                                      (idProcessoInteresado)="doLoadInteressados($event)"
                                      [loadingInteressados]="(interessadosLoading$ | async)"

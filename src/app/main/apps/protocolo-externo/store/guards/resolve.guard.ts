@@ -40,7 +40,6 @@ export class ResolveGuard implements CanActivate {
             });
 
         this._profile = _loginService.getUserProfile();
-        this.pessoasConveniadas = this._profile.vinculacoesPessoasUsuarios;
     }
 
     /**
@@ -172,7 +171,7 @@ export class ResolveGuard implements CanActivate {
 
     getRouterDefault(): boolean {
         if (this.routerState.params['pessoaHandle'] === 'default') {
-            this._router.navigate(['apps/protocolo-externo/' + this.pessoasConveniadas[0].pessoa.id]);
+            this._router.navigate(['apps/protocolo-externo/' + this._profile.vinculacoesPessoasUsuarios[0].pessoa.id]);
             return false;
         }
 
