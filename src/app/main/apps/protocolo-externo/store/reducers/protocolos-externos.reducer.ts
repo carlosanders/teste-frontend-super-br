@@ -245,7 +245,7 @@ export function ProtocolosExternosReducer(state = ProcessosInitialState, action:
                 ...state,
                 interessadosId: [],
                 interessadoLoading: true,
-                interessadoPanelOpen: action.payload.processo.id === state.idProcessoToLoadInteressados
+                interessadoPanelOpen: action.payload.processo === state.idProcessoToLoadInteressados
             };
         }
 

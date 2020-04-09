@@ -130,6 +130,7 @@
                                 (codProcesso)="doLoadAssuntos($event)"
                                 [loadingAssuntos]="loadingAssunto"
                                 [assuntos]="assuntos"
+                                [loading]="loadingAssunto || loadingInteressados"
                                 [loadingInteressados]="loadingInteressados"
                                 (codProcessoInteressado)="doLoadInteressados($event)"
                                 [interessados]="interessados"
@@ -137,8 +138,6 @@
                                 [idProcessoToLoadAssuntos]="idProcessoToLoadAssuntos"
                                 [ngClass]="{'selected':processo.id === currentProcessoId}">
         </cdk-processo-list-item>
-
-<!--        (codProcessoInteressado)="doLoadInteressados($event)"-->
 
     </div>
 

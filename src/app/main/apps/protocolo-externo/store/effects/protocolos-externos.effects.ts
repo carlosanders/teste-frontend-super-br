@@ -190,40 +190,6 @@ export class ProcessosEffect {
     //         );
 
     /**
-     * Get Assuntos Processo
-     * @type {Observable<any>}
-     */
-    @Effect()
-    getAssuntosProcesso: Observable<any> =
-        this._actions
-            .pipe(
-                ofType<ProcessosActions.GetAssuntosProcesso>(ProcessosActions.GET_ASSUNTOS_PROCESSO),
-                switchMap((action) => {
-                    return this._assuntoService.query(
-                        JSON.stringify(action.payload),
-                        10,
-                        0,
-                        JSON.stringify({'principal' : 'DESC', 'criadoEm' : 'DESC'}),
-                        JSON.stringify(['assuntoAdministrativo', 'processo'])
-                    );
-                }),
-                mergeMap((response) => [
-                    new AddData<Assunto>({data: response['entities'], schema: assuntoSchema}),
-                    new ProcessosActions.GetAssuntosProcessoSuccess({
-                        assuntosId: response['entities'].map(assunto => assunto.id),
-                        idProcessoToLoadAssuntos: response['entities'][0].processo.id,
-                        totalAssuntos: response['total']
-                    })
-                ]),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new ProcessosActions.GetAssuntosProcessoFailed(err));
-                    return caught;
-                })
-            );
-
-
-    /**
      * Get Pessoa Conveniada
      * @type {Observable<any>}
      */
@@ -262,6 +228,39 @@ export class ProcessosEffect {
             );
 
     /**
+     * Get Assuntos Processo
+     * @type {Observable<any>}
+     */
+    @Effect()
+    getAssuntosProcesso: Observable<any> =
+        this._actions
+            .pipe(
+                ofType<ProcessosActions.GetAssuntosProcesso>(ProcessosActions.GET_ASSUNTOS_PROCESSO),
+                switchMap((action) => {
+                    return this._assuntoService.query(
+                        JSON.stringify(action.payload),
+                        10,
+                        0,
+                        JSON.stringify({principal : 'DESC', criadoEm : 'DESC'}),
+                        JSON.stringify(['assuntoAdministrativo', 'processo'])
+                    );
+                }),
+                mergeMap((response) => [
+                    new AddData<Assunto>({data: response['entities'], schema: assuntoSchema}),
+                    new ProcessosActions.GetAssuntosProcessoSuccess({
+                        assuntosId: response['entities'].map(assunto => assunto.id),
+                        idProcessoToLoadAssuntos: response['entities'][0]?.processo?.id,
+                        totalAssuntos: response['total']
+                    })
+                ]),
+                catchError((err, caught) => {
+                    console.log(err);
+                    this._store.dispatch(new ProcessosActions.GetAssuntosProcessoFailed(err));
+                    return caught;
+                })
+            );
+
+    /**
      * GetInteressados Processo
      * @type {Observable<any>}
      */
@@ -283,7 +282,7 @@ export class ProcessosEffect {
                     new AddData<Interessado>({data: response['entities'], schema: interessadoSchema}),
                     new ProcessosActions.GetInteressadosProcessoSuccess({
                         interessadosId: response['entities'].map(interessado => interessado.id),
-                        idProcessoToLoadInteressados: response['entities'][0].processo.id,
+                        idProcessoToLoadInteressados: response['entities'][0]?.processo?.id,
                         totalInteressados: response['total']
                     })
                 ]),
