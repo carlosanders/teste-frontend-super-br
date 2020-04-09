@@ -16,7 +16,7 @@ import {CdkSidebarModule} from '@cdk/components/index';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {JuntadaService} from '@cdk/services/juntada.service';
 import {CdkJuntadaGridComponent} from './cdk-juntada-grid.component';
-import {CdkJuntadaGridFilterModule} from './cdk-juntada-grid-filter/cdk-juntada-grid-filter.module';
+import {CdkJuntadaGridFilterModule} from '../sidebars/cdk-juntada-grid-filter/cdk-juntada-grid-filter.module';
 import {CdkJuntadaMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({

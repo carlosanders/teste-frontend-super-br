@@ -15,7 +15,7 @@ import {
 import {CdkSidebarModule} from '@cdk/components/index';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkAssinaturaGridComponent} from './cdk-assinatura-grid.component';
-import {CdkAssinaturaGridFilterModule} from './cdk-assinatura-grid-filter/cdk-assinatura-grid-filter.module';
+import {CdkAssinaturaGridFilterModule} from '../sidebars/cdk-assinatura-grid-filter/cdk-assinatura-grid-filter.module';
 import {CdkAssinaturaMainSidebarComponent} from './sidebars/main/main.component';
 import {AssinaturaService} from '../../../services/assinatura.service';
 

@@ -16,7 +16,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {VinculacaoModeloService} from '@cdk/services/vinculacao-modelo.service';
 import {CdkVinculacaoModeloGridComponent} from './cdk-vinculacao-modelo-grid.component';
 import {CdkVinculacaoModeloAutocompleteModule} from '@cdk/components/vinculacao-modelo/cdk-vinculacao-modelo-autocomplete/cdk-vinculacao-modelo-autocomplete.module';
-import {CdkVinculacaoModeloGridFilterModule} from './cdk-vinculacao-modelo-grid-filter/cdk-vinculacao-modelo-grid-filter.module';
+import {CdkVinculacaoModeloGridFilterModule} from '../sidebars/cdk-vinculacao-modelo-grid-filter/cdk-vinculacao-modelo-grid-filter.module';
 import {CdkVinculacaoModeloMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({

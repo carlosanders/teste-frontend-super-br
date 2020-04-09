@@ -16,7 +16,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {PaisService} from '@cdk/services/pais.service';
 import {CdkPaisGridComponent} from './cdk-pais-grid.component';
 import {CdkPaisAutocompleteModule} from '@cdk/components/pais/cdk-pais-autocomplete/cdk-pais-autocomplete.module';
-import {CdkPaisGridFilterModule} from './cdk-pais-grid-filter/cdk-pais-grid-filter.module';
+import {CdkPaisGridFilterModule} from '../sidebars/cdk-pais-grid-filter/cdk-pais-grid-filter.module';
 import {CdkPaisMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({

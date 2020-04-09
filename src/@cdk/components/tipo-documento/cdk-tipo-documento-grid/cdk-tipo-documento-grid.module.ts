@@ -16,7 +16,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {TipoDocumentoService} from '@cdk/services/tipo-documento.service';
 import {CdkTipoDocumentoGridComponent} from './cdk-tipo-documento-grid.component';
 import {CdkTipoDocumentoAutocompleteModule} from '@cdk/components/tipo-documento/cdk-tipo-documento-autocomplete/cdk-tipo-documento-autocomplete.module';
-import {CdkTipoDocumentoGridFilterModule} from './cdk-tipo-documento-grid-filter/cdk-tipo-documento-grid-filter.module';
+import {CdkTipoDocumentoGridFilterModule} from '../sidebars/cdk-tipo-documento-grid-filter/cdk-tipo-documento-grid-filter.module';
 import {CdkTipoDocumentoMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({

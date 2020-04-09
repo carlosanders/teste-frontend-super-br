@@ -16,7 +16,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {EspecieRelevanciaService} from '@cdk/services/especie-relevancia.service';
 import {CdkEspecieRelevanciaGridComponent} from './cdk-especie-relevancia-grid.component';
 import {CdkEspecieRelevanciaAutocompleteModule} from '@cdk/components/especie-relevancia/cdk-especie-relevancia-autocomplete/cdk-especie-relevancia-autocomplete.module';
-import {CdkEspecieRelevanciaGridFilterModule} from './cdk-especie-relevancia-grid-filter/cdk-especie-relevancia-grid-filter.module';
+import {CdkEspecieRelevanciaGridFilterModule} from '../sidebars/cdk-especie-relevancia-grid-filter/cdk-especie-relevancia-grid-filter.module';
 import {CdkEspecieRelevanciaMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({

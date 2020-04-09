@@ -16,7 +16,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {GeneroRelevanciaService} from '@cdk/services/genero-relevancia.service';
 import {CdkGeneroRelevanciaGridComponent} from './cdk-genero-relevancia-grid.component';
 import {CdkGeneroRelevanciaAutocompleteModule} from '@cdk/components/genero-relevancia/cdk-genero-relevancia-autocomplete/cdk-genero-relevancia-autocomplete.module';
-import {CdkGeneroRelevanciaGridFilterModule} from './cdk-genero-relevancia-grid-filter/cdk-genero-relevancia-grid-filter.module';
+import {CdkGeneroRelevanciaGridFilterModule} from '../sidebars/cdk-genero-relevancia-grid-filter/cdk-genero-relevancia-grid-filter.module';
 import {CdkGeneroRelevanciaMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({

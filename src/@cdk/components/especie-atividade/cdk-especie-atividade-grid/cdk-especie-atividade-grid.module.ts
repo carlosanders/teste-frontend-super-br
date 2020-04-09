@@ -16,7 +16,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {EspecieAtividadeService} from '@cdk/services/especie-atividade.service';
 import {CdkEspecieAtividadeGridComponent} from './cdk-especie-atividade-grid.component';
 import {CdkEspecieAtividadeAutocompleteModule} from '@cdk/components/especie-atividade/cdk-especie-atividade-autocomplete/cdk-especie-atividade-autocomplete.module';
-import {CdkEspecieAtividadeGridFilterModule} from '@cdk/components/especie-atividade/cdk-especie-atividade-grid/cdk-especie-atividade-grid-filter/cdk-especie-atividade-grid-filter.module';
+import {CdkEspecieAtividadeGridFilterModule} from '@cdk/components/especie-atividade/sidebars/cdk-especie-atividade-grid-filter/cdk-especie-atividade-grid-filter.module';
 import {CdkEspecieAtividadeMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({

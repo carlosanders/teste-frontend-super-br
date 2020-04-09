@@ -16,7 +16,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {ModalidadeFaseService} from '@cdk/services/modalidade-fase.service';
 import {CdkModalidadeFaseGridComponent} from './cdk-modalidade-fase-grid.component';
 import {CdkModalidadeFaseAutocompleteModule} from '@cdk/components/modalidade-fase/cdk-modalidade-fase-autocomplete/cdk-modalidade-fase-autocomplete.module';
-import {CdkModalidadeFaseGridFilterModule} from './cdk-modalidade-fase-grid-filter/cdk-modalidade-fase-grid-filter.module';
+import {CdkModalidadeFaseGridFilterModule} from '../sidebars/cdk-modalidade-fase-grid-filter/cdk-modalidade-fase-grid-filter.module';
 import {CdkModalidadeFaseMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({

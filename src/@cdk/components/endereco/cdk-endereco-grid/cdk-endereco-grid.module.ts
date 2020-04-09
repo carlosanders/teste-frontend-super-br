@@ -15,7 +15,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {MunicipioService} from '@cdk/services/municipio.service';
 import {CdkMunicipioAutocompleteModule} from '@cdk/components/municipio/cdk-municipio-autocomplete/cdk-municipio-autocomplete.module';
 import {CdkEnderecoGridComponent} from './cdk-endereco-grid.component';
-import {CdkEnderecoGridFilterModule} from './cdk-endereco-grid-filter/cdk-endereco-grid-filter.module';
+import {CdkEnderecoGridFilterModule} from '../sidebars/cdk-endereco-grid-filter/cdk-endereco-grid-filter.module';
 import {CdkEnderecoMainSidebarComponent} from './sidebars/main/main.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
 

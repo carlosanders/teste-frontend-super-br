@@ -15,7 +15,7 @@ import {CdkSidebarModule} from '@cdk/components/index';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {TramitacaoService} from '@cdk/services/tramitacao.service';
 import {CdkRemessaGridComponent} from './cdk-remessa-grid.component';
-import {CdkRemessaGridFilterModule} from './cdk-remessa-grid-filter/cdk-remessa-grid-filter.module';
+import {CdkRemessaGridFilterModule} from '../sidebars/cdk-remessa-grid-filter/cdk-remessa-grid-filter.module';
 import {CdkRemessaMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({

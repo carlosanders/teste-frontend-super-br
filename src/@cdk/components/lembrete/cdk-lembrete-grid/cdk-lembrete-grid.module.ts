@@ -16,7 +16,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {LembreteService} from '@cdk/services/lembrete.service';
 import {CdkLembreteGridComponent} from './cdk-lembrete-grid.component';
 import {CdkLembreteAutocompleteModule} from '@cdk/components/lembrete/cdk-lembrete-autocomplete/cdk-lembrete-autocomplete.module';
-import {CdkLembreteGridFilterModule} from './cdk-lembrete-grid-filter/cdk-lembrete-grid-filter.module';
+import {CdkLembreteGridFilterModule} from '../sidebars/cdk-lembrete-grid-filter/cdk-lembrete-grid-filter.module';
 import {CdkLembreteMainSidebarComponent} from './sidebars/main/sidebars/main/main.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
 

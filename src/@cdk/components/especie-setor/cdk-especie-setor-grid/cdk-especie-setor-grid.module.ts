@@ -16,7 +16,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {EspecieSetorService} from '@cdk/services/especie-setor.service';
 import {CdkEspecieSetorGridComponent} from './cdk-especie-setor-grid.component';
 import {CdkEspecieSetorAutocompleteModule} from '@cdk/components/especie-setor/cdk-especie-setor-autocomplete/cdk-especie-setor-autocomplete.module';
-import {CdkEspecieSetorGridFilterModule} from './cdk-especie-setor-grid-filter/cdk-especie-setor-grid-filter.module';
+import {CdkEspecieSetorGridFilterModule} from '../sidebars/cdk-especie-setor-grid-filter/cdk-especie-setor-grid-filter.module';
 import {CdkEspecieSetorMainSidebarComponent} from './sidebars/main/main.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
 

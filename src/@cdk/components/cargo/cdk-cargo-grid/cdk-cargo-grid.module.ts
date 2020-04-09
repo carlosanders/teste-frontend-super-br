@@ -15,7 +15,7 @@ import {
 import {CdkSidebarModule} from '@cdk/components/index';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkCargoGridComponent} from './cdk-cargo-grid.component';
-import {CdkCargoGridFilterModule} from './cdk-cargo-grid-filter/cdk-cargo-grid-filter.module';
+import {CdkCargoGridFilterModule} from '../sidebars/cdk-cargo-grid-filter/cdk-cargo-grid-filter.module';
 import {CdkCargoMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({

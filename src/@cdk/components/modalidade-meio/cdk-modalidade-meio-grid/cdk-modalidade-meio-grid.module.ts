@@ -15,7 +15,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {ModalidadeMeioService} from '@cdk/services/modalidade-meio.service';
 import {CdkModalidadeMeioGridComponent} from './cdk-modalidade-meio-grid.component';
 import {CdkModalidadeMeioAutocompleteModule} from '@cdk/components/modalidade-meio/cdk-modalidade-meio-autocomplete/cdk-modalidade-meio-autocomplete.module';
-import {CdkModalidadeMeioGridFilterModule} from './cdk-modalidade-meio-grid-filter/cdk-modalidade-meio-grid-filter.module';
+import {CdkModalidadeMeioGridFilterModule} from '../sidebars/cdk-modalidade-meio-grid-filter/cdk-modalidade-meio-grid-filter.module';
 import {CdkModalidadeMeioListMainSidebarComponent} from './sidebars/main/main.component';
 import {CdkSidebarModule} from '@cdk/components/index';
 

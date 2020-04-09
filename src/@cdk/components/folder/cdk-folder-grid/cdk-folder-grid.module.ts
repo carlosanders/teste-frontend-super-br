@@ -16,7 +16,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {FolderService} from '@cdk/services/folder.service';
 import {CdkFolderGridComponent} from './cdk-folder-grid.component';
 import {CdkFolderAutocompleteModule} from '@cdk/components/folder/cdk-folder-autocomplete/cdk-folder-autocomplete.module';
-import {CdkFolderGridFilterModule} from './cdk-folder-grid-filter/cdk-folder-grid-filter.module';
+import {CdkFolderGridFilterModule} from '../sidebars/cdk-folder-grid-filter/cdk-folder-grid-filter.module';
 import {CdkFolderMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({

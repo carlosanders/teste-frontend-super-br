@@ -16,7 +16,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {HistoricoService} from '@cdk/services/historico.service';
 import {CdkHistoricoGridComponent} from './cdk-historico-grid.component';
 import {CdkHistoricoAutocompleteModule} from '@cdk/components/historico/cdk-historico-autocomplete/cdk-historico-autocomplete.module';
-import {CdkHistoricoGridFilterModule} from './cdk-historico-grid-filter/cdk-historico-grid-filter.module';
+import {CdkHistoricoGridFilterModule} from '../sidebars/cdk-historico-grid-filter/cdk-historico-grid-filter.module';
 import {CdkHistoricoMainSidebarComponent} from './sidebars/main/main.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
 

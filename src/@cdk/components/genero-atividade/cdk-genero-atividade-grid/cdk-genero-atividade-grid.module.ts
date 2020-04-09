@@ -16,7 +16,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {GeneroAtividadeService} from '@cdk/services/genero-atividade.service';
 import {CdkGeneroAtividadeGridComponent} from './cdk-genero-atividade-grid.component';
 import {CdkGeneroAtividadeAutocompleteModule} from '@cdk/components/genero-atividade/cdk-genero-atividade-autocomplete/cdk-genero-atividade-autocomplete.module';
-import {CdkGeneroAtividadeGridFilterModule} from './cdk-genero-atividade-grid-filter/cdk-genero-atividade-grid-filter.module';
+import {CdkGeneroAtividadeGridFilterModule} from '../sidebars/cdk-genero-atividade-grid-filter/cdk-genero-atividade-grid-filter.module';
 import {CdkGeneroAtividadeMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({

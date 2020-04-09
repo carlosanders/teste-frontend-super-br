@@ -16,7 +16,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {VinculacaoDocumentoService} from '@cdk/services/vinculacao-documento.service';
 import {CdkVinculacaoDocumentoGridComponent} from './cdk-vinculacao-documento-grid.component';
 import {CdkVinculacaoDocumentoAutocompleteModule} from '@cdk/components/vinculacao-documento/cdk-vinculacao-documento-autocomplete/cdk-vinculacao-documento-autocomplete.module';
-import {CdkVinculacaoDocumentoGridFilterModule} from './cdk-vinculacao-documento-grid-filter/cdk-vinculacao-documento-grid-filter.module';
+import {CdkVinculacaoDocumentoGridFilterModule} from '../sidebars/cdk-vinculacao-documento-grid-filter/cdk-vinculacao-documento-grid-filter.module';
 import {CdkVinculacaoDocumentoMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({

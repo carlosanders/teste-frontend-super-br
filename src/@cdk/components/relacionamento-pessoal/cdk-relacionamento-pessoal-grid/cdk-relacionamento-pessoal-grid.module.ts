@@ -16,7 +16,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {RelacionamentoPessoalService} from '@cdk/services/relacionamento-pessoal.service';
 import {CdkRelacionamentoPessoalGridComponent} from './cdk-relacionamento-pessoal-grid.component';
 import {CdkRelacionamentoPessoalAutocompleteModule} from '@cdk/components/relacionamento-pessoal/cdk-relacionamento-pessoal-autocomplete/cdk-relacionamento-pessoal-autocomplete.module';
-import {CdkRelacionamentoPessoalGridFilterModule} from './cdk-relacionamento-pessoal-grid-filter/cdk-relacionamento-pessoal-grid-filter.module';
+import {CdkRelacionamentoPessoalGridFilterModule} from '../sidebars/cdk-relacionamento-pessoal-grid-filter/cdk-relacionamento-pessoal-grid-filter.module';
 import {CdkRelacionamentoPessoalMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({

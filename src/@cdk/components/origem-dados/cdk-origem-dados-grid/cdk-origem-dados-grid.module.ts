@@ -16,7 +16,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {OrigemDadosService} from '@cdk/services/origem-dados.service';
 import {CdkOrigemDadosGridComponent} from './cdk-origem-dados-grid.component';
 import {CdkOrigemDadosAutocompleteModule} from '@cdk/components/origem-dados/cdk-origem-dados-autocomplete/cdk-origem-dados-autocomplete.module';
-import {CdkOrigemDadosGridFilterModule} from './cdk-origem-dados-grid-filter/cdk-origem-dados-grid-filter.module';
+import {CdkOrigemDadosGridFilterModule} from '../sidebars/cdk-origem-dados-grid-filter/cdk-origem-dados-grid-filter.module';
 import {CdkOrigemDadosMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({

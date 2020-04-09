@@ -16,7 +16,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {ModalidadeInteressadoService} from '@cdk/services/modalidade-interessado.service';
 import {CdkModalidadeInteressadoGridComponent} from './cdk-modalidade-interessado-grid.component';
 import {CdkModalidadeInteressadoAutocompleteModule} from '@cdk/components/modalidade-interessado/cdk-modalidade-interessado-autocomplete/cdk-modalidade-interessado-autocomplete.module';
-import {CdkModalidadeInteressadoGridFilterModule} from './cdk-modalidade-interessado-grid-filter/cdk-modalidade-interessado-grid-filter.module';
+import {CdkModalidadeInteressadoGridFilterModule} from '../sidebars/cdk-modalidade-interessado-grid-filter/cdk-modalidade-interessado-grid-filter.module';
 import {CdkModalidadeInteressadoMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({

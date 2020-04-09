@@ -16,7 +16,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {AssuntoAdministrativoService} from '@cdk/services/assunto-administrativo.service';
 import {CdkAssuntoAdministrativoGridComponent} from './cdk-assunto-administrativo-grid.component';
 import {CdkAssuntoAdministrativoAutocompleteModule} from '@cdk/components/assunto-administrativo/cdk-assunto-administrativo-autocomplete/cdk-assunto-administrativo-autocomplete.module';
-import {CdkAssuntoAdministrativoGridFilterModule} from './cdk-assunto-administrativo-grid-filter/cdk-assunto-administrativo-grid-filter.module';
+import {CdkAssuntoAdministrativoGridFilterModule} from '../sidebars/cdk-assunto-administrativo-grid-filter/cdk-assunto-administrativo-grid-filter.module';
 import {CdkAssuntoAdministrativoMainSidebarComponent} from './sidebars/main/main.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
 
