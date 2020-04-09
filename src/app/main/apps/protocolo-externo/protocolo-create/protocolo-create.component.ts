@@ -1,8 +1,8 @@
 import {
-    ChangeDetectionStrategy,
+    ChangeDetectionStrategy, ChangeDetectorRef,
     Component,
     OnDestroy,
-    OnInit,
+    OnInit, ViewChild,
     ViewEncapsulation
 } from '@angular/core';
 
@@ -12,13 +12,16 @@ import {Observable, Subject} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
-import {Pagination, Pessoa, Processo} from '@cdk/models';
+import {Documento, Pagination, Pessoa, Processo} from '@cdk/models';
 import {filter, takeUntil} from 'rxjs/operators';
 import {MatDialog} from '@cdk/angular/material';
 import {Router} from '@angular/router';
-import {getRouterState} from '../../../../store/reducers';
+import {getMercureState, getRouterState} from '../../../../store/reducers';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {getPessoa} from '../store/selectors';
+import {getDocumentos} from './store/selectors';
+import {UpdateData} from '../../../../../@cdk/ngrx-normalizr';
+import { documento as documentoSchema } from '@cdk/normalizr/documento.schema';
 
 @Component({
     selector: 'protocolo-create',
@@ -40,10 +43,21 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
     unidadePagination: Pagination;
 
     processo: Processo;
+    documentos: Documento[] = [];
+    documentos$: Observable<Documento[]>;
+    assinandoDocumentosId$: Observable<number[]>;
+    assinandoDocumentosId: number[] = [];
+    deletingDocumentosId$: Observable<number[]>;
+    convertendoDocumentosId$: Observable<number[]>;
+
 
     routerState: any;
 
     formProcesso: FormGroup;
+    javaWebStartOK = false;
+
+    @ViewChild('ckdUpload', {static: false})
+    cdkUpload;
 
 
     /**
@@ -57,11 +71,16 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
         private _store: Store<fromStore.ProtocoloCreateAppState>,
         public dialog: MatDialog,
         private _router: Router,
-        private _formBuilder: FormBuilder
+        private _formBuilder: FormBuilder,
+        private _changeDetectorRef: ChangeDetectorRef,
     ) {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.pessoaProcedencia$ = this._store.pipe(select(getPessoa));
+        this.documentos$ = this._store.pipe(select(getDocumentos));
+        this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
+        this.deletingDocumentosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosId));
+        this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoDocumentosId));
 
         this.unidadePagination = new Pagination();
         this.unidadePagination.populate = ['unidade', 'parent'];
@@ -92,7 +111,11 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
             tipoProtocolo: [null, [Validators.required]],
             unidadeArquivistica: [null, [Validators.required]]
         });
+        this.formProcesso.value.id = 1;
 
+        this.processo = new Processo();
+        // Provisório
+        this.processo.id = 6;
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -114,6 +137,33 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
             }
         });
 
+        this._store.pipe(
+            select(getMercureState),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(message => {
+            if (message && message.type === 'assinatura') {
+                switch (message.content.action) {
+                    case 'assinatura_iniciada':
+                        this.javaWebStartOK = true;
+                        break;
+                    case 'assinatura_cancelada':
+                        this.javaWebStartOK = false;
+                        this._store.dispatch(new fromStore.AssinaDocumentoFailed(message.content.documentoId));
+                        break;
+                    case 'assinatura_erro':
+                        this.javaWebStartOK = false;
+                        this._store.dispatch(new fromStore.AssinaDocumentoFailed(message.content.documentoId));
+                        break;
+                    case 'assinatura_finalizada':
+                        this.javaWebStartOK = false;
+                        this._store.dispatch(new fromStore.AssinaDocumentoSuccess(message.content.documentoId));
+                        this._store.dispatch(new UpdateData<Documento>({id: message.content.documentoId, schema: documentoSchema, changes: {assinado: true}}));
+                        break;
+                }
+            }
+        });
+
+        this.processo = new Processo();
 
         this.pessoaProcedencia$.pipe(
             takeUntil(this._unsubscribeAll),
@@ -122,9 +172,62 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
             this.pessoaProcedencia = pessoa;
         });
 
+        this.documentos$.pipe(
+            takeUntil(this._unsubscribeAll),
+            filter(documento => !!documento)
+        ).subscribe(
+            documento => {
+                this.documentos = documento;
+                this._changeDetectorRef.markForCheck();
+            }
+        );
+
+        this.assinandoDocumentosId$.subscribe(assinandoDocumentosId => {
+            if (assinandoDocumentosId.length > 0) {
+                setInterval(() => {
+                    // monitoramento do java
+                    if (!this.javaWebStartOK && (assinandoDocumentosId.length > 0)) {
+                        assinandoDocumentosId.forEach(
+                            documentoId => this._store.dispatch(new fromStore.AssinaDocumentoFailed(documentoId))
+                        );
+                    }
+                }, 30000);
+            }
+            this.assinandoDocumentosId = assinandoDocumentosId;
+        });
+
+
         this.processo = new Processo();
         this.processo.unidadeArquivistica = 2;
         this.processo.tipoProtocolo = 1;
+
+        this.documentos$.pipe(
+            takeUntil(this._unsubscribeAll),
+            filter(documento => !!documento)
+        ).subscribe(
+            documento => {
+                this.documentos = documento;
+                this._changeDetectorRef.markForCheck();
+            }
+        );
+
+        this.assinandoDocumentosId$.subscribe(assinandoDocumentosId => {
+            if (assinandoDocumentosId.length > 0) {
+                setInterval(() => {
+                    // monitoramento do java
+                    if (!this.javaWebStartOK && (assinandoDocumentosId.length > 0)) {
+                        assinandoDocumentosId.forEach(
+                            documentoId => this._store.dispatch(new fromStore.AssinaDocumentoFailed(documentoId))
+                        );
+                    }
+                }, 30000);
+            }
+            this.assinandoDocumentosId = assinandoDocumentosId;
+        });
+
+
+            this.processo.procedencia = this.pessoaProcedencia;
+
     }
 
     /**
@@ -155,7 +258,19 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
 
         processo.procedencia = this.pessoaProcedencia;
 
-        this._store.dispatch(new fromStore.SaveProcesso(processo));
+        // this._store.dispatch(new fromStore.SaveProcesso(processo));
+    }
+
+    upload(): void {
+        this.cdkUpload.upload();
+    }
+
+    onComplete(): void {
+        this._store.dispatch(new fromStore.GetDocumentos({processoOrigem: 'eq:6'}));
+    }
+
+    onClicked(documento): void {
+        this._store.dispatch(new fromStore.ClickedDocumento(documento));
     }
 
 }

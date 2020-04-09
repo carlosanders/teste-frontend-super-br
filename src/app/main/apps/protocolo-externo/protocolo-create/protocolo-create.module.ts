@@ -27,6 +27,8 @@ import {ProcessoService} from '@cdk/services/processo.service';
 import {CdkVisibilidadePluginModule} from '@cdk/components/visibilidade/cdk-visibilidade-plugin/cdk-visibilidade-plugin.module';
 import {MatStepperModule} from "@angular/material/stepper";
 import {CdkProcessoFormModule} from "../../../../../@cdk/components/processo/cdk-processo-form/cdk-processo-form.module";
+import {CdkComponenteDigitalDocumentoAvulsoCardListModule} from '../../../../../@cdk/components/documento-avulso/cdk-componente-digital-documento-avulso-card-list/cdk-componente-digital-documento-avulso-card-list.module';
+import {CdkDocumentoCardListModule} from '../../../../../@cdk/components/documento/cdk-documento-card-list/cdk-documento-card-list.module';
 
 const routes: Routes = [
     {
@@ -74,6 +76,8 @@ const routes: Routes = [
         CdkSidebarModule,
         MatStepperModule,
         CdkProcessoFormModule,
+        CdkComponenteDigitalDocumentoAvulsoCardListModule,
+        CdkDocumentoCardListModule,
     ],
     providers: [
         ProcessoService,
