@@ -398,7 +398,7 @@ export class CdkDocumentoGridComponent implements AfterViewInit, OnInit, OnChang
         this.changedSelectedIds.emit(this.selectedIds);
     }
 
-    setGridFilter(gridFilter): void {
+    setFilter(gridFilter): void {
         this.gridFilter = gridFilter;
         this.paginator.pageIndex = 0;
         this.loadPage();

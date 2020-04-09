@@ -16,7 +16,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {ModalidadeGeneroPessoaService} from '@cdk/services/modalidade-genero-pessoa.service';
 import {CdkModalidadeGeneroPessoaGridComponent} from './cdk-modalidade-genero-pessoa-grid.component';
 import {CdkModalidadeGeneroPessoaAutocompleteModule} from '@cdk/components/modalidade-genero-pessoa/cdk-modalidade-genero-pessoa-autocomplete/cdk-modalidade-genero-pessoa-autocomplete.module';
-import {CdkModalidadeGeneroPessoaGridFilterModule} from '../sidebars/cdk-modalidade-genero-pessoa-grid-filter/cdk-modalidade-genero-pessoa-grid-filter.module';
+import {CdkModalidadeGeneroPessoaFilterModule} from '../sidebars/cdk-modalidade-genero-pessoa-filter/cdk-modalidade-genero-pessoa-filter.module';
 import {CdkModalidadeGeneroPessoaMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
@@ -36,7 +36,7 @@ import {CdkModalidadeGeneroPessoaMainSidebarComponent} from './sidebars/main/mai
         MatSortModule,
 
         CdkModalidadeGeneroPessoaAutocompleteModule,
-        CdkModalidadeGeneroPessoaGridFilterModule,
+        CdkModalidadeGeneroPessoaFilterModule,
 
         CdkSharedModule,
         CdkSidebarModule,

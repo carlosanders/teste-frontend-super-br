@@ -16,7 +16,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {GeneroProcessoService} from '@cdk/services/genero-processo.service';
 import {CdkGeneroProcessoGridComponent} from './cdk-genero-processo-grid.component';
 import {CdkGeneroProcessoAutocompleteModule} from '@cdk/components/genero-processo/cdk-genero-processo-autocomplete/cdk-genero-processo-autocomplete.module';
-import {CdkGeneroProcessoGridFilterModule} from '../sidebars/cdk-genero-processo-grid-filter/cdk-genero-processo-grid-filter.module';
+import {CdkGeneroProcessoFilterModule} from '../sidebars/cdk-genero-processo-filter/cdk-genero-processo-filter.module';
 import {CdkGeneroProcessoMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
@@ -36,7 +36,7 @@ import {CdkGeneroProcessoMainSidebarComponent} from './sidebars/main/main.compon
         MatSelectModule,
 
         CdkGeneroProcessoAutocompleteModule,
-        CdkGeneroProcessoGridFilterModule,
+        CdkGeneroProcessoFilterModule,
 
         CdkSharedModule,
         CdkSidebarModule,

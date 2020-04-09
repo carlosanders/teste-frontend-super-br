@@ -319,7 +319,7 @@ export class CdkFavoritoGridComponent implements AfterViewInit, OnInit, OnChange
         this.isIndeterminate = (this.selectedIds.length !== this.favoritos.length && this.selectedIds.length > 0);
     }
 
-    setGridFilter(gridFilter): void {
+    setFilter(gridFilter): void {
         this.gridFilter = gridFilter;
         this.paginator.pageIndex = 0;
         this.loadPage();

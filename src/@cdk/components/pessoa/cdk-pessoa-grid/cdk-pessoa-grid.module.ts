@@ -16,7 +16,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {PessoaService} from '@cdk/services/pessoa.service';
 import {CdkPessoaGridComponent} from './cdk-pessoa-grid.component';
 import {CdkPessoaAutocompleteModule} from '@cdk/components/pessoa/cdk-pessoa-autocomplete/cdk-pessoa-autocomplete.module';
-import {CdkPessoaGridFilterModule} from '../sidebars/cdk-pessoa-grid-filter/cdk-pessoa-grid-filter.module';
+import {CdkPessoaFilterModule} from '../sidebars/cdk-pessoa-filter/cdk-pessoa-filter.module';
 import {CdkPessoaMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
@@ -36,7 +36,7 @@ import {CdkPessoaMainSidebarComponent} from './sidebars/main/main.component';
         MatSortModule,
 
         CdkPessoaAutocompleteModule,
-        CdkPessoaGridFilterModule,
+        CdkPessoaFilterModule,
 
         CdkSharedModule,
         CdkSidebarModule,

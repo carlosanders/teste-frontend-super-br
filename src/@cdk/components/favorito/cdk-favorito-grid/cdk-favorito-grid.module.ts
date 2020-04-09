@@ -16,7 +16,7 @@ import {CdkSidebarModule} from '@cdk/components/index';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {FavoritoService} from '@cdk/services/favorito.service';
 import {CdkFavoritoGridComponent} from './cdk-favorito-grid.component';
-import {CdkFavoritoGridFilterModule} from '../sidebars/cdk-favorito-grid-filter/cdk-favorito-grid-filter.module';
+import {CdkFavoritoFilterModule} from '../sidebars/cdk-favorito-filter/cdk-favorito-filter.module';
 import {CdkFavoritoMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
@@ -37,7 +37,7 @@ import {CdkFavoritoMainSidebarComponent} from './sidebars/main/main.component';
         MatRadioModule,
         MatTooltipModule,
 
-        CdkFavoritoGridFilterModule,
+        CdkFavoritoFilterModule,
 
         CdkSharedModule,
         CdkSidebarModule,

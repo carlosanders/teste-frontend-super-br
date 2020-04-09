@@ -295,7 +295,7 @@ export class CdkTransicaoGridComponent implements AfterViewInit, OnInit, OnChang
         this.isIndeterminate = (this.selectedIds.length !== this.transicoes.length && this.selectedIds.length > 0);
     }
 
-    setGridFilter(gridFilter): void {
+    setFilter(gridFilter): void {
         this.gridFilter = gridFilter;
         this.paginator.pageIndex = 0;
         this.loadPage();

@@ -10,7 +10,7 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {CdkSidebarService} from '../../../sidebar/sidebar.service';
 
 @Component({
-    selector: 'cdk-acao-grid-filter',
+    selector: 'cdk-acao-filter',
     templateUrl: './cdk-acao-filter.component.html',
     styleUrls: ['./cdk-acao-filter.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,

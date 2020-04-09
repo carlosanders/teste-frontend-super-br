@@ -296,7 +296,7 @@ export class CdkAssuntoAdministrativoGridComponent implements AfterViewInit, OnI
         this.isIndeterminate = (this.selectedIds.length !== this.assuntosAdministrativos.length && this.selectedIds.length > 0);
     }
 
-    setGridFilter(gridFilter): void {
+    setFilter(gridFilter): void {
         this.gridFilter = gridFilter;
         this.paginator.pageIndex = 0;
         this.loadPage();

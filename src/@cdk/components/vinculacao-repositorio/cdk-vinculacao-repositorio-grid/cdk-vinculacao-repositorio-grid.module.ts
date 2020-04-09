@@ -16,7 +16,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {VinculacaoRepositorioService} from '@cdk/services/vinculacao-repositorio.service';
 import {CdkVinculacaoRepositorioGridComponent} from './cdk-vinculacao-repositorio-grid.component';
 import {CdkVinculacaoRepositorioAutocompleteModule} from '@cdk/components/vinculacao-repositorio/cdk-vinculacao-repositorio-autocomplete/cdk-vinculacao-repositorio-autocomplete.module';
-import {CdkVinculacaoRepositorioGridFilterModule} from '../sidebars/cdk-vinculacao-repositorio-grid-filter/cdk-vinculacao-repositorio-grid-filter.module';
+import {CdkVinculacaoRepositorioFilterModule} from '../sidebars/cdk-vinculacao-repositorio-filter/cdk-vinculacao-repositorio-filter.module';
 import {CdkVinculacaoRepositorioMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
@@ -36,7 +36,7 @@ import {CdkVinculacaoRepositorioMainSidebarComponent} from './sidebars/main/main
         MatSortModule,
 
         CdkVinculacaoRepositorioAutocompleteModule,
-        CdkVinculacaoRepositorioGridFilterModule,
+        CdkVinculacaoRepositorioFilterModule,
 
         CdkSharedModule,
         CdkSidebarModule,

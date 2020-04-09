@@ -295,7 +295,7 @@ export class CdkFeriadoGridComponent implements AfterViewInit, OnInit, OnChanges
         this.isIndeterminate = (this.selectedIds.length !== this.feriados.length && this.selectedIds.length > 0);
     }
 
-    setGridFilter(gridFilter): void {
+    setFilter(gridFilter): void {
         this.gridFilter = gridFilter;
         this.paginator.pageIndex = 0;
         this.loadPage();

@@ -314,7 +314,7 @@ export class CdkNotificacaoGridComponent implements AfterViewInit, OnInit, OnCha
         this.isIndeterminate = (this.selectedIds.length !== this.notificacoes.length && this.selectedIds.length > 0);
     }
 
-    setGridFilter(gridFilter): void {
+    setFilter(gridFilter): void {
         this.gridFilter = gridFilter;
         this.paginator.pageIndex = 0;
         this.loadPage();

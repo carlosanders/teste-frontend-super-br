@@ -17,7 +17,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {ModalidadeGarantiaService} from '@cdk/services/modalidade-garantia.service';
 import {CdkModalidadeGarantiaAutocompleteModule} from '@cdk/components/modalidade-garantia/cdk-modalidade-garantia-autocomplete/cdk-modalidade-garantia-autocomplete.module';
 import {CdkGarantiaGridComponent} from './cdk-garantia-grid.component';
-import {CdkGarantiaGridFilterModule} from '../sidebars/cdk-garantia-grid-filter/cdk-garantia-grid-filter.module';
+import {CdkGarantiaFilterModule} from '../sidebars/cdk-garantia-filter/cdk-garantia-filter.module';
 import {CdkGarantiaMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
@@ -38,7 +38,7 @@ import {CdkGarantiaMainSidebarComponent} from './sidebars/main/main.component';
         MatTooltipModule,
 
         CdkModalidadeGarantiaAutocompleteModule,
-        CdkGarantiaGridFilterModule,
+        CdkGarantiaFilterModule,
 
         CdkSharedModule,
         CdkSidebarModule,

@@ -16,7 +16,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {ModalidadeColaboradorService} from '@cdk/services/modalidade-colaborador.service';
 import {CdkModalidadeColaboradorAutocompleteModule} from '@cdk/components/modalidade-colaborador/cdk-modalidade-colaborador-autocomplete/cdk-modalidade-colaborador-autocomplete.module';
 import {CdkColaboradorGridComponent} from './cdk-colaborador-grid.component';
-import {CdkColaboradorGridFilterModule} from '../sidebars/cdk-colaborador-grid-filter/cdk-colaborador-grid-filter.module';
+import {CdkColaboradorFilterModule} from '../sidebars/cdk-colaborador-filter/cdk-colaborador-filter.module';
 import {CdkColaboradorMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
@@ -36,7 +36,7 @@ import {CdkColaboradorMainSidebarComponent} from './sidebars/main/main.component
         MatSortModule,
 
         CdkModalidadeColaboradorAutocompleteModule,
-        CdkColaboradorGridFilterModule,
+        CdkColaboradorFilterModule,
 
         CdkSharedModule,
         CdkSidebarModule,

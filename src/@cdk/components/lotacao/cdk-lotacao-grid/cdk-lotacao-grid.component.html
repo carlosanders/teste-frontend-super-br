@@ -4,7 +4,7 @@
     <cdk-sidebar class="sidebar" name="cdk-lotacao-main-sidebar" position="left">
         <!-- SIDEBAR CONTENT -->
         <div class="content" cdkPerfectScrollbar>
-            <cdk-lotacao-main-sidebar [pagination]="setorPagination" (selected)="setGridFilter($event)"
+            <cdk-lotacao-main-sidebar [pagination]="setorPagination" (selected)="setFilter($event)"
                                       [@animate]="{value:'*'}"></cdk-lotacao-main-sidebar>
         </div>
         <!-- / SIDEBAR CONTENT -->

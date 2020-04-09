@@ -15,7 +15,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {DistribuicaoService} from '@cdk/services/distribuicao.service';
 import {CdkDistribuicaoGridComponent} from './cdk-distribuicao-grid.component';
 import {CdkDistribuicaoAutocompleteModule} from '@cdk/components/distribuicao/cdk-distribuicao-autocomplete/cdk-distribuicao-autocomplete.module';
-import {CdkDistribuicaoGridFilterModule} from '../sidebars/cdk-distribuicao-grid-filter/cdk-distribuicao-grid-filter.module';
+import {CdkDistribuicaoFilterModule} from '../sidebars/cdk-distribuicao-filter/cdk-distribuicao-filter.module';
 import {CdkDistribuicaoMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
@@ -39,7 +39,7 @@ import {CdkDistribuicaoMainSidebarComponent} from './sidebars/main/main.componen
         CdkSidebarModule,
 
         CdkDistribuicaoAutocompleteModule,
-        CdkDistribuicaoGridFilterModule,
+        CdkDistribuicaoFilterModule,
     ],
     providers: [
         DistribuicaoService,

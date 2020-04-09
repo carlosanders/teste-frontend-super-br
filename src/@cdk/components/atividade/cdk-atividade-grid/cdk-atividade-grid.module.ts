@@ -15,7 +15,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {EspecieAtividadeService} from '@cdk/services/especie-atividade.service';
 import {CdkEspecieAtividadeAutocompleteModule} from '@cdk/components/especie-atividade/cdk-especie-atividade-autocomplete/cdk-especie-atividade-autocomplete.module';
 import {CdkAtividadeGridComponent} from './cdk-atividade-grid.component';
-import {CdkAtividadeGridFilterModule} from '../sidebars/cdk-atividade-grid-filter/cdk-atividade-grid-filter.module';
+import {CdkAtividadeFilterModule} from '../sidebars/cdk-atividade-filter/cdk-atividade-filter.module';
 import {CdkSidebarModule} from '@cdk/components/index';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {CdkAtividadeMainSidebarComponent} from './sidebars/main/main.component';
@@ -38,7 +38,7 @@ import {CdkAtividadeMainSidebarComponent} from './sidebars/main/main.component';
         MatSortModule,
 
         CdkEspecieAtividadeAutocompleteModule,
-        CdkAtividadeGridFilterModule,
+        CdkAtividadeFilterModule,
 
         CdkSharedModule,
         CdkSidebarModule,

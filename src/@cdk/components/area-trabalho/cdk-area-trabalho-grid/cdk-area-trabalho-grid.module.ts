@@ -16,7 +16,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {UsuarioService} from '@cdk/services/usuario.service';
 import {CdkUsuarioAutocompleteModule} from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 import {CdkAreaTrabalhoGridComponent} from './cdk-area-trabalho-grid.component';
-import {CdkAreaTrabalhoGridFilterModule} from '../sidebars/cdk-area-trabalho-grid-filter/cdk-area-trabalho-grid-filter.module';
+import {CdkAreaTrabalhoFilterModule} from '../sidebars/cdk-area-trabalho-filter/cdk-area-trabalho-filter.module';
 import {CdkAreaTrabalhoMainSidebarComponent} from './sidebars/main/main.component';
 
 
@@ -37,7 +37,7 @@ import {CdkAreaTrabalhoMainSidebarComponent} from './sidebars/main/main.componen
         MatSortModule,
 
         CdkUsuarioAutocompleteModule,
-        CdkAreaTrabalhoGridFilterModule,
+        CdkAreaTrabalhoFilterModule,
 
         CdkSharedModule,
         CdkSidebarModule,

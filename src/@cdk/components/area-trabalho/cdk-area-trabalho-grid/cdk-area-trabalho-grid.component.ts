@@ -284,7 +284,7 @@ export class CdkAreaTrabalhoGridComponent implements AfterViewInit, OnInit, OnCh
         this.isIndeterminate = (this.selectedIds.length !== this.areaTrabalhos.length && this.selectedIds.length > 0);
     }
 
-    setGridFilter(gridFilter): void {
+    setFilter(gridFilter): void {
         this.gridFilter = gridFilter;
         this.paginator.pageIndex = 0;
         this.loadPage();

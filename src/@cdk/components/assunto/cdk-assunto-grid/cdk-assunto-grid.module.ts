@@ -16,7 +16,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {AssuntoAdministrativoService} from '@cdk/services/assunto-administrativo.service';
 import {CdkAssuntoAdministrativoAutocompleteModule} from '@cdk/components/assunto-administrativo/cdk-assunto-administrativo-autocomplete/cdk-assunto-administrativo-autocomplete.module';
 import {CdkAssuntoGridComponent} from './cdk-assunto-grid.component';
-import {CdkAssuntoGridFilterModule} from '../sidebars/cdk-assunto-grid-filter/cdk-assunto-grid-filter.module';
+import {CdkAssuntoFilterModule} from '../sidebars/cdk-assunto-filter/cdk-assunto-filter.module';
 import {CdkAssuntoMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
@@ -37,7 +37,7 @@ import {CdkAssuntoMainSidebarComponent} from './sidebars/main/main.component';
         MatTooltipModule,
 
         CdkAssuntoAdministrativoAutocompleteModule,
-        CdkAssuntoGridFilterModule,
+        CdkAssuntoFilterModule,
 
         CdkSharedModule,
         CdkSidebarModule,

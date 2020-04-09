@@ -16,7 +16,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {SigiloService} from '@cdk/services/sigilo.service';
 import {CdkSigiloGridComponent} from './cdk-sigilo-grid.component';
 import {CdkSigiloAutocompleteModule} from '@cdk/components/sigilo/cdk-sigilo-autocomplete/cdk-sigilo-autocomplete.module';
-import {CdkSigiloGridFilterModule} from '../sidebars/cdk-sigilo-grid-filter/cdk-sigilo-grid-filter.module';
+import {CdkSigiloFilterModule} from '../sidebars/cdk-sigilo-filter/cdk-sigilo-filter.module';
 import {CdkSigiloMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
@@ -37,7 +37,7 @@ import {CdkSigiloMainSidebarComponent} from './sidebars/main/main.component';
         MatTooltipModule,
 
         CdkSigiloAutocompleteModule,
-        CdkSigiloGridFilterModule,
+        CdkSigiloFilterModule,
 
         CdkSharedModule,
         CdkSidebarModule,

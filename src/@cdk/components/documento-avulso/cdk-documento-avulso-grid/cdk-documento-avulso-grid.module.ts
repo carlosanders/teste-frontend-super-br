@@ -16,7 +16,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
 import {CdkDocumentoAvulsoGridComponent} from './cdk-documento-avulso-grid.component';
 import {CdkDocumentoAvulsoAutocompleteModule} from '@cdk/components/documento-avulso/cdk-documento-avulso-autocomplete/cdk-documento-avulso-autocomplete.module';
-import {CdkDocumentoAvulsoGridFilterModule} from '../sidebars/cdk-documento-avulso-grid-filter/cdk-documento-avulso-grid-filter.module';
+import {CdkDocumentoAvulsoFilterModule} from '../sidebars/cdk-documento-avulso-filter/cdk-documento-avulso-filter.module';
 import {CdkDocumentoAvulsoMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
@@ -40,7 +40,7 @@ import {CdkDocumentoAvulsoMainSidebarComponent} from './sidebars/main/main.compo
         CdkSidebarModule,
 
         CdkDocumentoAvulsoAutocompleteModule,
-        CdkDocumentoAvulsoGridFilterModule,
+        CdkDocumentoAvulsoFilterModule,
     ],
     providers: [
         DocumentoAvulsoService,

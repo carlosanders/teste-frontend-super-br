@@ -16,7 +16,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {GeneroDocumentoService} from '@cdk/services/genero-documento.service';
 import {CdkGeneroDocumentoGridComponent} from './cdk-genero-documento-grid.component';
 import {CdkGeneroDocumentoAutocompleteModule} from '@cdk/components/genero-documento/cdk-genero-documento-autocomplete/cdk-genero-documento-autocomplete.module';
-import {CdkGeneroDocumentoGridFilterModule} from '../sidebars/cdk-genero-documento-grid-filter/cdk-genero-documento-grid-filter.module';
+import {CdkGeneroDocumentoFilterModule} from '../sidebars/cdk-genero-documento-filter/cdk-genero-documento-filter.module';
 import {CdkGeneroDocumentoMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
@@ -36,7 +36,7 @@ import {CdkGeneroDocumentoMainSidebarComponent} from './sidebars/main/main.compo
         MatSortModule,
 
         CdkGeneroDocumentoAutocompleteModule,
-        CdkGeneroDocumentoGridFilterModule,
+        CdkGeneroDocumentoFilterModule,
 
         CdkSharedModule,
         CdkSidebarModule,

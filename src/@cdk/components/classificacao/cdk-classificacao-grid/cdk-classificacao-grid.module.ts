@@ -16,7 +16,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {ModalidadeDestinacaoService} from '@cdk/services/modalidade-destinacao.service';
 import {CdkModalidadeDestinacaoAutocompleteModule} from '@cdk/components/modalidade-destinacao/cdk-modalidade-destinacao-autocomplete/cdk-modalidade-destinacao-autocomplete.module';
 import {CdkClassificacaoGridComponent} from './cdk-classificacao-grid.component';
-import {CdkClassificacaoGridFilterModule} from '../sidebars/cdk-classificacao-grid-filter/cdk-classificacao-grid-filter.module';
+import {CdkClassificacaoFilterModule} from '../sidebars/cdk-classificacao-filter/cdk-classificacao-filter.module';
 import {CdkSidebarModule} from '@cdk/components/index';
 import {CdkClassificacaoListMainSidebarComponent} from './sidebars/main/main.component';
 
@@ -39,7 +39,7 @@ import {CdkClassificacaoListMainSidebarComponent} from './sidebars/main/main.com
         MatTooltipModule,
 
         CdkModalidadeDestinacaoAutocompleteModule,
-        CdkClassificacaoGridFilterModule,
+        CdkClassificacaoFilterModule,
 
         CdkSharedModule,
         CdkSidebarModule,

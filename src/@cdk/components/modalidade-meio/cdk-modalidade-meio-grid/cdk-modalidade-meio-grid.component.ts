@@ -290,7 +290,7 @@ export class CdkModalidadeMeioGridComponent implements AfterViewInit, OnInit, On
         this.isIndeterminate = (this.selectedIds.length !== this.modalidademeios.length && this.selectedIds.length > 0);
     }
 
-    setGridFilter(gridFilter): void {
+    setFilter(gridFilter): void {
         this.gridFilter = gridFilter;
         this.paginator.pageIndex = 0;
         this.loadPage();

@@ -334,7 +334,7 @@ export class CdkSigiloGridComponent implements AfterViewInit, OnInit, OnChanges 
         this.isIndeterminate = (this.selectedIds.length !== this.sigilos.length && this.selectedIds.length > 0);
     }
 
-    setGridFilter(gridFilter): void {
+    setFilter(gridFilter): void {
         this.gridFilter = gridFilter;
         this.paginator.pageIndex = 0;
         this.loadPage();

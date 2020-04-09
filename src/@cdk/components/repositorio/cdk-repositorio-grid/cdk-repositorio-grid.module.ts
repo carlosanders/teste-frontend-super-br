@@ -16,7 +16,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {RepositorioService} from '@cdk/services/repositorio.service';
 import {CdkRepositorioGridComponent} from './cdk-repositorio-grid.component';
 import {CdkRepositorioAutocompleteModule} from '@cdk/components/repositorio/cdk-repositorio-autocomplete/cdk-repositorio-autocomplete.module';
-import {CdkRepositorioGridFilterModule} from '../sidebars/cdk-repositorio-grid-filter/cdk-repositorio-grid-filter.module';
+import {CdkRepositorioFilterModule} from '../sidebars/cdk-repositorio-filter/cdk-repositorio-filter.module';
 import {PipesModule} from '@cdk/pipes/pipes.module';
 import {CdkRepositorioMainSidebarComponent} from './sidebars/main/main.component';
 
@@ -38,7 +38,7 @@ import {CdkRepositorioMainSidebarComponent} from './sidebars/main/main.component
         MatTooltipModule,
 
         CdkRepositorioAutocompleteModule,
-        CdkRepositorioGridFilterModule,
+        CdkRepositorioFilterModule,
 
         PipesModule,
 

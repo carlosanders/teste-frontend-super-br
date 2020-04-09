@@ -16,7 +16,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {VolumeService} from '@cdk/services/volume.service';
 import {CdkVolumeGridComponent} from './cdk-volume-grid.component';
 import {CdkVolumeAutocompleteModule} from '@cdk/components/volume/cdk-volume-autocomplete/cdk-volume-autocomplete.module';
-import {CdkVolumeGridFilterModule} from '../sidebars/cdk-volume-grid-filter/cdk-volume-grid-filter.module';
+import {CdkVolumeFilterModule} from '../sidebars/cdk-volume-filter/cdk-volume-filter.module';
 import {CdkVolumeMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
@@ -36,7 +36,7 @@ import {CdkVolumeMainSidebarComponent} from './sidebars/main/main.component';
         MatSortModule,
 
         CdkVolumeAutocompleteModule,
-        CdkVolumeGridFilterModule,
+        CdkVolumeFilterModule,
 
         CdkSharedModule,
         CdkSidebarModule,

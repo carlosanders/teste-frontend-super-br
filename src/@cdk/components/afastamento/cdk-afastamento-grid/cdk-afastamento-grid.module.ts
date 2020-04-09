@@ -16,7 +16,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {ModalidadeAfastamentoService} from '@cdk/services/modalidade-afastamento.service';
 import {CdkModalidadeAfastamentoAutocompleteModule} from '@cdk/components/modalidade-afastamento/cdk-modalidade-afastamento-autocomplete/cdk-modalidade-afastamento-autocomplete.module';
 import {CdkAfastamentoGridComponent} from './cdk-afastamento-grid.component';
-import {CdkAfastamentoGridFilterModule} from '../sidebars/cdk-afastamento-grid-filter/cdk-afastamento-grid-filter.module';
+import {CdkAfastamentoFilterModule} from '../sidebars/cdk-afastamento-filter/cdk-afastamento-filter.module';
 import {CdkAfastamentoMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
@@ -36,7 +36,7 @@ import {CdkAfastamentoMainSidebarComponent} from './sidebars/main/main.component
         MatSortModule,
 
         CdkModalidadeAfastamentoAutocompleteModule,
-        CdkAfastamentoGridFilterModule,
+        CdkAfastamentoFilterModule,
 
         CdkSharedModule,
         CdkSidebarModule,

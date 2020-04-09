@@ -16,7 +16,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {ModalidadeVinculacaoProcessoService} from '@cdk/services/modalidade-vinculacao-processo.service';
 import {CdkModalidadeVinculacaoProcessoGridComponent} from './cdk-modalidade-vinculacao-processo-grid.component';
 import {CdkModalidadeVinculacaoProcessoAutocompleteModule} from '@cdk/components/modalidade-vinculacao-processo/cdk-modalidade-vinculacao-processo-autocomplete/cdk-modalidade-vinculacao-processo-autocomplete.module';
-import {CdkModalidadeVinculacaoProcessoGridFilterModule} from '../sidebars/cdk-modalidade-vinculacao-processo-grid-filter/cdk-modalidade-vinculacao-processo-grid-filter.module';
+import {CdkModalidadeVinculacaoProcessoFilterModule} from '../sidebars/cdk-modalidade-vinculacao-processo-filter/cdk-modalidade-vinculacao-processo-filter.module';
 import {CdkModalidadeVinculacaoProcessoMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
@@ -36,7 +36,7 @@ import {CdkModalidadeVinculacaoProcessoMainSidebarComponent} from './sidebars/ma
         MatSortModule,
 
         CdkModalidadeVinculacaoProcessoAutocompleteModule,
-        CdkModalidadeVinculacaoProcessoGridFilterModule,
+        CdkModalidadeVinculacaoProcessoFilterModule,
 
         CdkSharedModule,
         CdkSidebarModule,

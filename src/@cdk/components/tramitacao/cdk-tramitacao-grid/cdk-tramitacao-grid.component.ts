@@ -307,7 +307,7 @@ export class CdkTramitacaoGridComponent implements AfterViewInit, OnInit, OnChan
         this.isIndeterminate = (this.selectedIds.length !== this.tramitacoes.length && this.selectedIds.length > 0);
     }
 
-    setGridFilter(gridFilter): void {
+    setFilter(gridFilter): void {
         this.gridFilter = gridFilter;
         this.paginator.pageIndex = 0;
         this.loadPage();

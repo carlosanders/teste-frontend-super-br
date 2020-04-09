@@ -16,7 +16,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {RepresentanteService} from '@cdk/services/representante.service';
 import {CdkRepresentanteGridComponent} from './cdk-representante-grid.component';
 import {CdkRepresentanteAutocompleteModule} from '@cdk/components/representante/cdk-representante-autocomplete/cdk-representante-autocomplete.module';
-import {CdkRepresentanteGridFilterModule} from '../sidebars/cdk-representante-grid-filter/cdk-representante-grid-filter.module';
+import {CdkRepresentanteFilterModule} from '../sidebars/cdk-representante-filter/cdk-representante-filter.module';
 import {CdkRepresentanteMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
@@ -36,7 +36,7 @@ import {CdkRepresentanteMainSidebarComponent} from './sidebars/main/main.compone
         MatSortModule,
 
         CdkRepresentanteAutocompleteModule,
-        CdkRepresentanteGridFilterModule,
+        CdkRepresentanteFilterModule,
 
         CdkSharedModule,
         CdkSidebarModule,

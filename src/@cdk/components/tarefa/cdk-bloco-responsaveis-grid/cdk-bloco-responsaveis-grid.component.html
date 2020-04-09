@@ -4,7 +4,7 @@
     <cdk-sidebar [lockedOpen]="(mode === 'search') ? 'gt-xs' : ''" class="sidebar" name="cdk-bloco-responsaveis-main-sidebar" position="left">
         <!-- SIDEBAR CONTENT -->
         <div class="content" cdkPerfectScrollbar>
-            <cdk-bloco-responsaveis-main-sidebar (selected)="setGridFilter($event)" [@animate]="{value:'*'}">
+            <cdk-bloco-responsaveis-main-sidebar (selected)="setFilter($event)" [@animate]="{value:'*'}">
             </cdk-bloco-responsaveis-main-sidebar>
         </div>
         <!-- / SIDEBAR CONTENT -->

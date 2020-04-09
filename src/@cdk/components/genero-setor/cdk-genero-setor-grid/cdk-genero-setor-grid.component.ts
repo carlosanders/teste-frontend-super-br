@@ -285,7 +285,7 @@ export class CdkGeneroSetorGridComponent implements AfterViewInit, OnInit, OnCha
         this.isIndeterminate = (this.selectedIds.length !== this.generoSetors.length && this.selectedIds.length > 0);
     }
 
-    setGridFilter(gridFilter): void {
+    setFilter(gridFilter): void {
         this.gridFilter = gridFilter;
         this.paginator.pageIndex = 0;
         this.loadPage();

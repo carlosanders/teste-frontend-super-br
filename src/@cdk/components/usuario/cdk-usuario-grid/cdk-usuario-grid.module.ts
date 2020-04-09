@@ -16,7 +16,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {UsuarioService} from '@cdk/services/usuario.service';
 import {CdkUsuarioGridComponent} from './cdk-usuario-grid.component';
 import {CdkUsuarioAutocompleteModule} from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
-import {CdkUsuarioGridFilterModule} from '../sidebars/cdk-usuario-grid-filter/cdk-usuario-grid-filter.module';
+import {CdkUsuarioFilterModule} from '../sidebars/cdk-usuario-filter/cdk-usuario-filter.module';
 import {CdkUsuarioMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
@@ -36,7 +36,7 @@ import {CdkUsuarioMainSidebarComponent} from './sidebars/main/main.component';
         MatSortModule,
 
         CdkUsuarioAutocompleteModule,
-        CdkUsuarioGridFilterModule,
+        CdkUsuarioFilterModule,
 
         CdkSharedModule,
         CdkSidebarModule,

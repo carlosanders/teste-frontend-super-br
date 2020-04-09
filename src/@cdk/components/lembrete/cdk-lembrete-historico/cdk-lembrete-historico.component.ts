@@ -143,7 +143,7 @@ export class CdkLembreteHistoricoComponent implements AfterViewInit, OnInit, OnC
             sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {}
         });
     }
-    setGridFilter(gridFilter): void {
+    setFilter(gridFilter): void {
         this.gridFilter = gridFilter;
         this.paginator.pageIndex = 0;
         this.loadPage();

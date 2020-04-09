@@ -285,7 +285,7 @@ export class CdkGeneroTarefaGridComponent implements AfterViewInit, OnInit, OnCh
         this.isIndeterminate = (this.selectedIds.length !== this.generoTarefas.length && this.selectedIds.length > 0);
     }
 
-    setGridFilter(gridFilter): void {
+    setFilter(gridFilter): void {
         this.gridFilter = gridFilter;
         this.paginator.pageIndex = 0;
         this.loadPage();

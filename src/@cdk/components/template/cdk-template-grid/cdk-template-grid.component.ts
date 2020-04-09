@@ -291,7 +291,7 @@ export class CdkTemplateGridComponent implements AfterViewInit, OnInit, OnChange
         this.isIndeterminate = (this.selectedIds.length !== this.templates.length && this.selectedIds.length > 0);
     }
 
-    setGridFilter(gridFilter): void {
+    setFilter(gridFilter): void {
         this.gridFilter = gridFilter;
         this.paginator.pageIndex = 0;
         this.loadPage();

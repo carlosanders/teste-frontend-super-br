@@ -15,7 +15,7 @@ export class CdkBlocoResponsaveisMainSidebarComponent {
 
     gridFilter: any;
 
-    setGridFilter(gridFilter): void {
+    setFilter(gridFilter): void {
         this.gridFilter = gridFilter;
         this.selected.emit(this.gridFilter);
     }

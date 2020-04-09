@@ -16,7 +16,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {NomeService} from '@cdk/services/nome.service';
 import {CdkNomeGridComponent} from './cdk-nome-grid.component';
 import {CdkNomeAutocompleteModule} from '@cdk/components/nome/cdk-nome-autocomplete/cdk-nome-autocomplete.module';
-import {CdkNomeGridFilterModule} from '../sidebars/cdk-nome-grid-filter/cdk-nome-grid-filter.module';
+import {CdkNomeFilterModule} from '../sidebars/cdk-nome-filter/cdk-nome-filter.module';
 import {CdkNomeMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
@@ -36,7 +36,7 @@ import {CdkNomeMainSidebarComponent} from './sidebars/main/main.component';
         MatSortModule,
 
         CdkNomeAutocompleteModule,
-        CdkNomeGridFilterModule,
+        CdkNomeFilterModule,
 
         CdkSharedModule,
         CdkSidebarModule,
