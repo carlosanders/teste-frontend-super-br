@@ -329,7 +329,15 @@ export class ArquivistaListComponent implements OnInit, OnDestroy, AfterViewInit
     }
 
     doClassificacaoBloco(): void {
-        this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle + '/' + this.routerState.params.typeHandle + '/vinculacao-etiqueta-bloco']).then();
+        this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle + '/' + this.routerState.params.typeHandle + '/classificacao-bloco/editar']).then();
+    }
+
+    doLembreteBloco(): void {
+        this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle + '/' + this.routerState.params.typeHandle + '/lembrete-bloco/criar']).then();
+    }
+
+    doTransicaoArquivistaBloco(): void {
+        this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle + '/' + this.routerState.params.typeHandle + '/transicao-arquivista-bloco/criar']).then();
     }
 
     salvarLembrete(params): void {
@@ -348,15 +356,12 @@ export class ArquivistaListComponent implements OnInit, OnDestroy, AfterViewInit
     }
 
     criarLembrete(processoId): void {
-
-
         this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle + '/'
         + this.routerState.params.typeHandle + '/detalhe/' + processoId + '/lembretes']).then();
 
     }
 
     realizarTransicao(processoId): any {
-
         this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle + '/'
         + this.routerState.params.typeHandle + '/detalhe/' + processoId + '/realizar-transicao/criar']).then();
     }

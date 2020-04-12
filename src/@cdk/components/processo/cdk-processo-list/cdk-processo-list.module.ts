@@ -23,6 +23,16 @@ import { DndModule } from 'ngx-drag-drop';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import {MatExpansionModule} from '@angular/material/expansion';
+import {CdkUsuarioAutocompleteModule} from '../../usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
+import {CdkAssuntoAdministrativoAutocompleteModule} from '../../assunto-administrativo/cdk-assunto-administrativo-autocomplete/cdk-assunto-administrativo-autocomplete.module';
+import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
+import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
+import {MatRadioModule} from '../../../angular/material';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {CdkEtiquetaAutocompleteModule} from '../../etiqueta/cdk-etiqueta-autocomplete/cdk-etiqueta-autocomplete.module';
+import {CdkInteressadoAutocompleteModule} from '../../interessado/cdk-interessado-autocomplete/cdk-interessado-autocomplete.module';
+import {CdkInteressadoGridsearchModule} from '../../interessado/cdk-interessado-autocomplete/cdk-interessado-gridsearch/cdk-interessado-gridsearch.module';
 
 @NgModule({
     declarations: [
@@ -55,6 +65,18 @@ import {MatExpansionModule} from '@angular/material/expansion';
         CdkSidebarModule,
         MatRippleModule,
         MatExpansionModule,
+        CdkUsuarioAutocompleteModule,
+        CdkAssuntoAdministrativoAutocompleteModule,
+        MatDatetimepickerModule,
+        MatDialogModule,
+
+        MatNativeDatetimeModule,
+        MatMomentDatetimeModule,
+        MatRadioModule,
+        MatDatepickerModule,
+        CdkEtiquetaAutocompleteModule,
+        CdkInteressadoAutocompleteModule,
+        CdkInteressadoGridsearchModule,
     ],
     providers: [
         EspecieProcessoService,

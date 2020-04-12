@@ -311,10 +311,10 @@ export class CdkTarefaListComponent implements AfterViewInit, OnInit, OnChanges 
      * Toggle the sidebar
      */
     toggleSidebar(): void {
-        this._cdkSidebarService.getSidebar('cdk-tarefa-list-main-sidebar').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-tarefa-filter-sidebar').toggleOpen();
     }
 
-    doLoadAssuntos(idProcesso) {
+    doLoadAssuntos(idProcesso): void {
         this.idProcesso.emit(idProcesso);
     }
 }

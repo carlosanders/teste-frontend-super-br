@@ -35,49 +35,10 @@ export class ArquivistaDetailGuard implements CanActivate{
      * @returns {Observable<boolean>}
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-        return this.getProcesso().pipe(
-            switchMap(() => of(true)),
-            catchError(() => of(false))
-        );
+        return undefined;
     }
 
 
-    /**
-     * Get Processo
-     *
-     * @returns {Observable<any>}
-     */
-    getProcesso(): any {
-        return this._store.pipe(
-            select(getHasLoaded),
-            tap((loaded: any) => {
-                if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
-                    this._store.dispatch(new fromStore.GetProcesso({
-                        id: 'eq:' + this.routerState.params['processoHandle'],
-                        populate: [
-                            'especieProcesso',
-                            'modalidadeMeio',
-                            'modalidadeFase',
-                            'documentoAvulsoOrigem',
-                            'especieProcesso',
-                            'classificacao',
-                            'classificacao.modalidadeDestinacao',
-                            'setorInicial',
-                            'setorAtual',
-                            'lembretes',
-                            'vinculacoesEtiquetas',
-                            'vinculacoesEtiquetas.etiqueta'
-
-                        ],
-                    }));
-                }
-            }),
-            filter((loaded: any) => {
-                return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
-            }),
-            take(1)
-        );
-    }
 
 
 
