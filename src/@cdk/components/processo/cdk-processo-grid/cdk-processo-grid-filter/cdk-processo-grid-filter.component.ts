@@ -39,7 +39,6 @@ export class CdkProcessoGridFilterComponent implements OnInit {
 
         this.form = this._formBuilder.group({
             processo: [null],
-            novo: [null],
             descricao: [null],
             valorEconomico: [null],
             semValorEconomico: [null],
@@ -168,16 +167,6 @@ export class CdkProcessoGridFilterComponent implements OnInit {
                 this.filters = {
                     ...this.filters,
                     dataHoraProximaTransicao: `eq:${value}`
-                };
-                this.emite();
-            }
-        });
-
-        this.form.get('novo').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    novo: `eq:${value}`
                 };
                 this.emite();
             }

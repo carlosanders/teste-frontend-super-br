@@ -1,0 +1,161 @@
+<!-- SIDEBAR HEADER -->
+<div fxLayout="column" fxLayoutAlign="space-between start"
+     class="header p-16">
+    <div class="logo" fxFlex fxLayout="row" fxLayoutAlign="start center">
+        <mat-icon class="logo-icon s-24" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+            search
+        </mat-icon>
+        <span class="logo-text" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">Filtros</span>
+    </div>
+</div>
+<!-- / SIDEBAR HEADER -->
+
+<!-- SIDEBAR CONTENT -->
+<div class="py-16" cdkPerfectScrollbar>
+    <div fxLayout="column">
+        <form class="p-24 mb-8" fxLayoutGap="16px" fxLayout="column" fxLayoutAlign="start"
+              name="form" [formGroup]="form">
+
+            <div fxFlex="1 0 auto" fxLayout="column">
+
+                <mat-form-field fxFlex="100">
+                    <div fxLayout="row" fxLayoutAlign="start center">
+                        <input matInput placeholder="Processo"
+                               formControlName="processo"
+                               [matAutocomplete]="processo.autocomplete">
+                    </div>
+                    <cdk-processo-autocomplete #processo="processoAutocomplete" [control]="form.get('processo')">
+                    </cdk-processo-autocomplete>
+                </mat-form-field>
+
+                <mat-form-field fxFlex="100">
+                    <div fxLayout="row" fxLayoutAlign="start center">
+                        <input matInput placeholder="Espécie de Tarefa"
+                               formControlName="especieTarefa"
+                               [matAutocomplete]="especieTarefa.autocomplete">
+                    </div>
+                    <cdk-especie-tarefa-autocomplete #especieTarefa="especieTarefaAutocomplete" [control]="form.get('especieTarefa')">
+                    </cdk-especie-tarefa-autocomplete>
+                </mat-form-field>
+
+                <mat-form-field fxFlex="100">
+                    <div fxLayout="row" fxLayoutAlign="start center">
+                        <input matInput placeholder="Usuário Responsável"
+                               formControlName="usuarioResponsavel"
+                               [matAutocomplete]="usuario.autocomplete">
+                    </div>
+                    <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('usuarioResponsavel')">
+                    </cdk-usuario-autocomplete>
+                </mat-form-field>
+
+                <mat-form-field fxFlex="100">
+                    <div fxLayout="row" fxLayoutAlign="start center">
+                        <input matInput placeholder="Usuário da Conclusão do Prazo"
+                               formControlName="usuarioConclusaoPrazo"
+                               [matAutocomplete]="usuario.autocomplete">
+                    </div>
+                    <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('usuarioResponsavel')">
+                    </cdk-usuario-autocomplete>
+                </mat-form-field>
+
+                <mat-form-field fxFlex="100">
+                    <div fxLayout="row" fxLayoutAlign="start center">
+                        <input matInput placeholder="Setor de Origem"
+                               formControlName="setorOrigem"
+                               [matAutocomplete]="setor.autocomplete">
+                    </div>
+                    <cdk-setor-autocomplete #setor="setorAutocomplete" [control]="form.get('setorOrigem')">
+                    </cdk-setor-autocomplete>
+                </mat-form-field>
+
+                <mat-form-field fxFlex="100">
+                    <div fxLayout="row" fxLayoutAlign="start center">
+                        <input matInput placeholder="Unidade Responsável"
+                               formControlName="unidadeResponsavel"
+                               [matAutocomplete]="setor.autocomplete">
+                    </div>
+                    <cdk-setor-autocomplete #setor="setorAutocomplete" [control]="form.get('unidadeResponsavel')">
+                    </cdk-setor-autocomplete>
+                </mat-form-field>
+
+                <mat-form-field class="mr-sm-12">
+                    <mat-label>Data da Leitura</mat-label>
+                    <input matInput formControlName="dataHoraLeitura" [matDatetimepicker]="dataHoraLeitura">
+                    <mat-datetimepicker-toggle matSuffix [for]="dataHoraLeitura"></mat-datetimepicker-toggle>
+                    <mat-datetimepicker #dataHoraLeitura type="datetime" openOnFocus="true" timeInterval="5">
+                    </mat-datetimepicker>
+                </mat-form-field>
+
+                <mat-form-field class="mr-sm-12">
+                    <mat-label>Data do Início do Prazo</mat-label>
+                    <input matInput formControlName="dataHoraInicioPrazo" [matDatetimepicker]="dataHoraInicioPrazo">
+                    <mat-datetimepicker-toggle matSuffix [for]="dataHoraInicioPrazo"></mat-datetimepicker-toggle>
+                    <mat-datetimepicker #dataHoraInicioPrazo type="datetime" openOnFocus="true" timeInterval="5">
+                    </mat-datetimepicker>
+                </mat-form-field>
+
+                <mat-form-field class="mr-sm-12">
+                    <mat-label>Data do Final do Prazo</mat-label>
+                    <input matInput formControlName="dataHoraFinalPrazo" [matDatetimepicker]="dataHoraFinalPrazo">
+                    <mat-datetimepicker-toggle matSuffix [for]="dataHoraFinalPrazo"></mat-datetimepicker-toggle>
+                    <mat-datetimepicker #dataHoraFinalPrazo type="datetime" openOnFocus="true" timeInterval="5">
+                    </mat-datetimepicker>
+                </mat-form-field>
+
+                <mat-form-field class="mr-sm-12">
+                    <mat-label>Data da Conclusão do Prazo</mat-label>
+                    <input matInput formControlName="dataHoraConclusaoPrazo" [matDatetimepicker]="dataHoraConclusaoPrazo">
+                    <mat-datetimepicker-toggle matSuffix [for]="dataHoraConclusaoPrazo"></mat-datetimepicker-toggle>
+                    <mat-datetimepicker #dataHoraConclusaoPrazo type="datetime" openOnFocus="true" timeInterval="5">
+                    </mat-datetimepicker>
+                </mat-form-field>
+
+                <mat-form-field fxFlex="100">
+                    <mat-label>Observação</mat-label>
+                    <input matInput #observacao
+                           name="observacao"
+                           formControlName="observacao">
+                </mat-form-field>
+
+                <mat-checkbox formControlName="urgente" class="mr-16 mb-16" fxFlex="0 1 auto">
+                    Urgente
+                </mat-checkbox>
+
+                <mat-checkbox formControlName="redistribuida" class="mr-16 mb-16" fxFlex="0 1 auto">
+                    Redistribuída
+                </mat-checkbox>
+
+                <mat-form-field class="mr-sm-12">
+                    <mat-label>Criado Em</mat-label>
+                    <input matInput formControlName="criadoEm" [matDatetimepicker]="criadoEm">
+                    <mat-datetimepicker-toggle matSuffix [for]="criadoEm"></mat-datetimepicker-toggle>
+                    <mat-datetimepicker #criadoEm type="datetime" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
+                </mat-form-field>
+
+                <mat-form-field fxFlex="100">
+                    <div fxLayout="row" fxLayoutAlign="start center">
+                        <input matInput placeholder="Atualizado Por"
+                               formControlName="atualizadoPor"
+                               [matAutocomplete]="usuario.autocomplete">
+                    </div>
+                    <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('atualizadoPor')">
+                    </cdk-usuario-autocomplete>
+                </mat-form-field>
+
+                <mat-form-field class="mr-sm-12">
+                    <mat-label>Atualizado Em</mat-label>
+                    <input matInput formControlName="criadoEm" [matDatetimepicker]="atualizadoEm">
+                    <mat-datetimepicker-toggle matSuffix [for]="atualizadoEm"></mat-datetimepicker-toggle>
+                    <mat-datetimepicker #atualizadoEm type="datetime" openOnFocus="true" timeInterval="5">
+                    </mat-datetimepicker>
+                </mat-form-field>
+
+                <button mat-raised-button color="warn" class="mr-sm-12" (click)="limpar()">
+                    Limpar
+                </button>
+
+            </div>
+        </form>
+    </div>
+</div>
+<!-- / SIDEBAR CONTENT -->

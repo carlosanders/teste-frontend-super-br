@@ -123,17 +123,6 @@
                         [ngClass]="{'deleted':deletedIds?.indexOf(processo.id) > -1}"> {{processo.descricao}} </td>
                 </ng-container>
 
-                <!-- Novo Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('novo') > -1" matColumnDef="novo">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Novo
-                    </th>
-                    <td mat-cell *matCellDef="let processo" class='has_label_on_mobile' data-label='Novo: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(processo.id) > -1}">
-                        <mat-checkbox [disabled]="true" [checked]="processo.novo"></mat-checkbox>
-                    </td>
-                </ng-container>
-
                 <!-- Valor Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('valorEconomico') > -1" matColumnDef="valorEconomico">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
