@@ -1,10 +1,8 @@
 <div class="page-layout left-sidebar" fxFlex>
 
     <!-- SIDEBAR -->
-    <cdk-sidebar class="sidebar" name="cdk-genero-documento-avulso-main-sidebar" position="left">
-        <!-- SIDEBAR CONTENT -->
-        <div class="content" cdkPerfectScrollbar>
-            <cdk-genero-documento-avulso-main-sidebar (selected)="setFilter($event)" [@animate]="{value:'*'}"></cdk-genero-documento-avulso-main-sidebar>
+    <cdk-sidebar class="sidebar" name="cdk-genero-documento-avulso-filter" position="left">
+                <cdk-xxx-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-xxx-filter>genero-documento-avulso-filter (selected)="setFilter($event)" [@animate]="{value:'*'}"></cdk-genero-documento-avulso-filter>
         </div>
         <!-- / SIDEBAR CONTENT -->
     </cdk-sidebar>

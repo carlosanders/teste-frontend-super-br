@@ -1,12 +1,10 @@
 <div class="page-layout left-sidebar" fxFlex>
 
     <!-- SIDEBAR -->
-    <cdk-sidebar [lockedOpen]="(mode === 'search') ? 'gt-xs' : ''" class="sidebar" name="cdk-pessoa-main-sidebar"
+    <cdk-sidebar [lockedOpen]="(mode === 'search') ? 'gt-xs' : ''" class="sidebar" name="cdk-pessoa-filter"
                  position="left">
-        <!-- SIDEBAR CONTENT -->
-        <div class="content" cdkPerfectScrollbar>
-            <cdk-pessoa-main-sidebar (selected)="setFilter($event)" [mode]="this.mode"
-                                     [@animate]="{value:'*'}"></cdk-pessoa-main-sidebar>
+                <cdk-xxx-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-xxx-filter>pessoa-filter (selected)="setFilter($event)" [mode]="this.mode"
+                                     [@animate]="{value:'*'}"></cdk-pessoa-filter>
         </div>
         <!-- / SIDEBAR CONTENT -->
     </cdk-sidebar>

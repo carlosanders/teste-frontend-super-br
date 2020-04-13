@@ -1,11 +1,9 @@
 <div class="page-layout left-sidebar" fxFlex>
 
     <!-- SIDEBAR -->
-    <cdk-sidebar class="sidebar" name="cdk-localizador-main-sidebar" position="left">
-        <!-- SIDEBAR CONTENT -->
-        <div class="content" cdkPerfectScrollbar>
-            <cdk-localizador-main-sidebar (selected)="setFilter($event)"
-                                          [@animate]="{value:'*'}" [setorPagination]="setorPagination"></cdk-localizador-main-sidebar>
+    <cdk-sidebar class="sidebar" name="cdk-localizador-filter" position="left">
+                <cdk-xxx-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-xxx-filter>localizador-filter (selected)="setFilter($event)"
+                                          [@animate]="{value:'*'}" [setorPagination]="setorPagination"></cdk-localizador-filter>
         </div>
         <!-- / SIDEBAR CONTENT -->
     </cdk-sidebar>

@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, EventEmitter, Output, ViewEncapsulat
 import {cdkAnimations} from '@cdk/animations';
 
 @Component({
-    selector: 'cdk-setor-main-sidebar',
+    selector: 'cdk-setor-filter',
     templateUrl: './main.component.html',
     styleUrls: ['./main.component.scss'],
     animations: cdkAnimations,

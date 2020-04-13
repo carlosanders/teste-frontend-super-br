@@ -223,6 +223,6 @@ export class CdkProcessoListComponent implements AfterViewInit, OnInit, OnChange
      * Toggle the sidebar
      */
     toggleSidebar(): void {
-        this._cdkSidebarService.getSidebar('cdk-processo-list-main-sidebar').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-processo-list-filter').toggleOpen();
     }
 }

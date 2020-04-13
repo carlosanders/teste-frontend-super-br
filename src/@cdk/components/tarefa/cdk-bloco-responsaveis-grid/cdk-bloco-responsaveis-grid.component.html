@@ -1,11 +1,9 @@
 <div class="page-layout left-sidebar" fxFlex>
 
     <!-- SIDEBAR -->
-    <cdk-sidebar [lockedOpen]="(mode === 'search') ? 'gt-xs' : ''" class="sidebar" name="cdk-bloco-responsaveis-main-sidebar" position="left">
-        <!-- SIDEBAR CONTENT -->
-        <div class="content" cdkPerfectScrollbar>
-            <cdk-bloco-responsaveis-main-sidebar (selected)="setFilter($event)" [@animate]="{value:'*'}">
-            </cdk-bloco-responsaveis-main-sidebar>
+    <cdk-sidebar [lockedOpen]="(mode === 'search') ? 'gt-xs' : ''" class="sidebar" name="cdk-bloco-responsaveis-filter" position="left">
+                <cdk-xxx-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-xxx-filter>bloco-responsaveis-filter (selected)="setFilter($event)" [@animate]="{value:'*'}">
+            </cdk-bloco-responsaveis-filter>
         </div>
         <!-- / SIDEBAR CONTENT -->
     </cdk-sidebar>

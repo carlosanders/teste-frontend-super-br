@@ -1,10 +1,8 @@
 <div class="page-layout left-sidebar" fxFlex>
 
     <!-- SIDEBAR -->
-    <cdk-sidebar class="sidebar" name="cdk-relevancia-main-sidebar" position="left">
-        <!-- SIDEBAR CONTENT -->
-        <div class="content" cdkPerfectScrollbar>
-            <cdk-relevancia-main-sidebar (selected)="setFilter($event)" [@animate]="{value:'*'}"></cdk-relevancia-main-sidebar>
+    <cdk-sidebar class="sidebar" name="cdk-relevancia-filter" position="left">
+                <cdk-xxx-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-xxx-filter>relevancia-filter (selected)="setFilter($event)" [@animate]="{value:'*'}"></cdk-relevancia-filter>
         </div>
         <!-- / SIDEBAR CONTENT -->
     </cdk-sidebar>

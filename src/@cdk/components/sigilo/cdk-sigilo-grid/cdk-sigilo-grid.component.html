@@ -1,10 +1,8 @@
 <div class="page-layout left-sidebar" fxFlex>
 
     <!-- SIDEBAR -->
-    <cdk-sidebar class="sidebar" name="cdk-sigilo-main-sidebar" position="left">
-        <!-- SIDEBAR CONTENT -->
-        <div class="content" cdkPerfectScrollbar>
-            <cdk-sigilo-main-sidebar (selected)="setFilter($event)" [@animate]="{value:'*'}"></cdk-sigilo-main-sidebar>
+    <cdk-sidebar class="sidebar" name="cdk-sigilo-filter" position="left">
+                <cdk-xxx-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-xxx-filter>sigilo-filter (selected)="setFilter($event)" [@animate]="{value:'*'}"></cdk-sigilo-filter>
         </div>
         <!-- / SIDEBAR CONTENT -->
     </cdk-sidebar>

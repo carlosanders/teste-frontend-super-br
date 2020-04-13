@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, EventEmitter, Output, ViewEncapsulat
 import {cdkAnimations} from '@cdk/animations';
 
 @Component({
-    selector: 'cdk-bloco-responsaveis-main-sidebar',
+    selector: 'cdk-bloco-responsaveis-filter',
     templateUrl: './main.bloco-responsaveis.html',
     styleUrls: ['./main.bloco-responsaveis.scss'],
     animations: cdkAnimations,

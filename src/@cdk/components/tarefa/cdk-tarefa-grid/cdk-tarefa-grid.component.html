@@ -2,9 +2,7 @@
 
     <!-- SIDEBAR -->
     <cdk-sidebar class="sidebar" name="cdk-tarefa-filter-sidebar" position="left">
-        <!-- SIDEBAR CONTENT -->
-        <div class="content" cdkPerfectScrollbar>
-            <cdk-tarefa-filter (selected)="setFilter($event)" [@animate]="{value:'*'}"></cdk-tarefa-filter>
+                <cdk-xxx-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-xxx-filter>tarefa-filter (selected)="setFilter($event)" [@animate]="{value:'*'}"></cdk-tarefa-filter>
         </div>
         <!-- / SIDEBAR CONTENT -->
     </cdk-sidebar>

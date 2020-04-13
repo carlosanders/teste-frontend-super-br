@@ -1,10 +1,8 @@
 <div class="page-layout left-sidebar" fxFlex>
 
     <!-- SIDEBAR -->
-    <cdk-sidebar class="sidebar" name="cdk-modalidade-relacionamento-pessoal-main-sidebar" position="left">
-        <!-- SIDEBAR CONTENT -->
-        <div class="content" cdkPerfectScrollbar>
-            <cdk-modalidade-relacionamento-pessoal-main-sidebar (selected)="setFilter($event)" [@animate]="{value:'*'}"></cdk-modalidade-relacionamento-pessoal-main-sidebar>
+    <cdk-sidebar class="sidebar" name="cdk-modalidade-relacionamento-pessoal-filter" position="left">
+                <cdk-xxx-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-xxx-filter>modalidade-relacionamento-pessoal-filter (selected)="setFilter($event)" [@animate]="{value:'*'}"></cdk-modalidade-relacionamento-pessoal-filter>
         </div>
         <!-- / SIDEBAR CONTENT -->
     </cdk-sidebar>

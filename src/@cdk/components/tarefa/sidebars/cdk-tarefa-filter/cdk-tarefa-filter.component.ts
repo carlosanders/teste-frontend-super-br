@@ -313,13 +313,13 @@ export class CdkTarefaFilterComponent implements OnInit {
 
     buscar(): void {
         this.emite();
-        this._cdkSidebarService.getSidebar('cdk-tarefa-main-sidebar').close();
+        this._cdkSidebarService.getSidebar('cdk-tarefa-filter').close();
     }
 
     limpar(): void {
         this.filters = {};
         this.emite();
         this.form.reset();
-        this._cdkSidebarService.getSidebar('cdk-tarefa-main-sidebar').close();
+        this._cdkSidebarService.getSidebar('cdk-tarefa-filter').close();
     }
 }

@@ -223,7 +223,7 @@ export class CdkGarantiaGridComponent implements AfterViewInit, OnInit, OnChange
     }
 
     toggleFilter(): void {
-        this._cdkSidebarService.getSidebar('cdk-garantia-main-sidebar').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-garantia-filter').toggleOpen();
         this.showFilter = !this.showFilter;
     }
 

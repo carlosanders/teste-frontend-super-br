@@ -4,8 +4,7 @@
     <cdk-sidebar [lockedOpen]="(mode === 'search') ? 'gt-xs' : ''"
                  name="cdk-processo-filter"
                  position="left">
-        <cdk-processo-filter (selected)="setFilter($event)"
-                                  [mode]="this.mode"></cdk-processo-filter>
+        <cdk-processo-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-processo-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 

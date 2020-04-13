@@ -209,7 +209,7 @@ export class CdkDocumentoAvulsoListComponent implements AfterViewInit, OnInit, O
      * Toggle the sidebar
      */
     toggleSidebar(): void {
-        this._cdkSidebarService.getSidebar('cdk-documento-avulso-list-main-sidebar').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-documento-avulso-list-filter').toggleOpen();
     }
 
     doResponderComplementarBloco(): void {

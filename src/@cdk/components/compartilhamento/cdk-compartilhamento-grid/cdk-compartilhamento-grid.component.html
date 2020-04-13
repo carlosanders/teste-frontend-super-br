@@ -1,10 +1,8 @@
 <div class="page-layout left-sidebar" fxFlex>
 
     <!-- SIDEBAR -->
-    <cdk-sidebar class="sidebar" name="cdk-compartilhamento-main-sidebar" position="left">
-        <!-- SIDEBAR CONTENT -->
-        <div class="content" cdkPerfectScrollbar>
-            <cdk-compartilhamento-main-sidebar (selected)="setFilter($event)" [@animate]="{value:'*'}"></cdk-compartilhamento-main-sidebar>
+    <cdk-sidebar class="sidebar" name="cdk-compartilhamento-filter" position="left">
+                <cdk-xxx-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-xxx-filter>compartilhamento-filter (selected)="setFilter($event)" [@animate]="{value:'*'}"></cdk-compartilhamento-filter>
         </div>
         <!-- / SIDEBAR CONTENT -->
     </cdk-sidebar>

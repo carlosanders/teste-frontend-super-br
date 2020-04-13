@@ -1,10 +1,8 @@
 <div class="page-layout left-sidebar" fxFlex>
 
     <!-- SIDEBAR -->
-    <cdk-sidebar class="sidebar" name="cdk-especie-setor-main-sidebar" position="left">
-        <!-- SIDEBAR CONTENT -->
-        <div class="content" cdkPerfectScrollbar>
-            <cdk-especie-setor-main-sidebar (selected)="setFilter($event)" [@animate]="{value:'*'}"></cdk-especie-setor-main-sidebar>
+    <cdk-sidebar class="sidebar" name="cdk-especie-setor-filter" position="left">
+                <cdk-xxx-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-xxx-filter>especie-setor-filter (selected)="setFilter($event)" [@animate]="{value:'*'}"></cdk-especie-setor-filter>
         </div>
         <!-- / SIDEBAR CONTENT -->
     </cdk-sidebar>

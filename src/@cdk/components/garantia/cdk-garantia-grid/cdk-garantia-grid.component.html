@@ -1,10 +1,8 @@
 <div class="page-layout left-sidebar" fxFlex>
 
     <!-- SIDEBAR -->
-    <cdk-sidebar class="sidebar" name="cdk-garantia-main-sidebar" position="left">
-        <!-- SIDEBAR CONTENT -->
-        <div class="content" cdkPerfectScrollbar>
-            <cdk-garantia-main-sidebar (selected)="setFilter($event)" [@animate]="{value:'*'}"></cdk-garantia-main-sidebar>
+    <cdk-sidebar class="sidebar" name="cdk-garantia-filter" position="left">
+                <cdk-xxx-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-xxx-filter>garantia-filter (selected)="setFilter($event)" [@animate]="{value:'*'}"></cdk-garantia-filter>
         </div>
         <!-- / SIDEBAR CONTENT -->
     </cdk-sidebar>

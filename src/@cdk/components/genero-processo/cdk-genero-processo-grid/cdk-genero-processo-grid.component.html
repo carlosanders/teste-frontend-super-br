@@ -1,10 +1,8 @@
 <div class="page-layout left-sidebar" fxFlex>
 
     <!-- SIDEBAR -->
-    <cdk-sidebar class="sidebar" name="cdk-genero-processo-main-sidebar" position="left">
-        <!-- SIDEBAR CONTENT -->
-        <div class="content" cdkPerfectScrollbar>
-            <cdk-genero-processo-main-sidebar (selected)="setFilter($event)" [@animate]="{value:'*'}"></cdk-genero-processo-main-sidebar>
+    <cdk-sidebar class="sidebar" name="cdk-genero-processo-filter" position="left">
+                <cdk-xxx-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-xxx-filter>genero-processo-filter (selected)="setFilter($event)" [@animate]="{value:'*'}"></cdk-genero-processo-filter>
         </div>
         <!-- / SIDEBAR CONTENT -->
     </cdk-sidebar>

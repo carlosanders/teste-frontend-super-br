@@ -171,13 +171,13 @@ export class CdkAcaoFilterComponent implements OnInit {
 
     buscar(): void {
         this.emite();
-        this._cdkSidebarService.getSidebar('cdk-acao-main-sidebar').close();
+        this._cdkSidebarService.getSidebar('cdk-acao-filter').close();
     }
 
     limpar(): void {
         this.filters = {};
         this.emite();
         this.form.reset();
-        this._cdkSidebarService.getSidebar('cdk-acao-main-sidebar').close();
+        this._cdkSidebarService.getSidebar('cdk-acao-filter').close();
     }
 }

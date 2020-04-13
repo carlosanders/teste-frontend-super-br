@@ -2,11 +2,9 @@
 
     <!-- SIDEBAR -->
     <cdk-sidebar [lockedOpen]="(mode === 'search') ? 'gt-xs' : ''" class="sidebar"
-                 name="cdk-componente-digital-main-sidebar" position="left">
-        <!-- SIDEBAR CONTENT -->
-        <div class="content" cdkPerfectScrollbar>
-            <cdk-componente-digital-main-sidebar (selected)="setFilter($event)" [mode]="this.mode"
-                                                 [@animate]="{value:'*'}"></cdk-componente-digital-main-sidebar>
+                 name="cdk-componente-digital-filter" position="left">
+                <cdk-xxx-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-xxx-filter>componente-digital-filter (selected)="setFilter($event)" [mode]="this.mode"
+                                                 [@animate]="{value:'*'}"></cdk-componente-digital-filter>
         </div>
         <!-- / SIDEBAR CONTENT -->
     </cdk-sidebar>

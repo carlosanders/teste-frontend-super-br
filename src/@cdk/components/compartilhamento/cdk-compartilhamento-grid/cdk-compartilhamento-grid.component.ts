@@ -212,16 +212,19 @@ export class CdkCompartilhamentoGridComponent implements AfterViewInit, OnInit, 
     }
 
     toggleFilter(): void {
-        this._cdkSidebarService.getSidebar('cdk-compartilhamento-main-sidebar').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-compartilhamento-filter').toggleOpen();
         this.showFilter = !this.showFilter;
     }
 
     loadPage(): void {
+        const filter = this.gridFilter.filters;
+        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : null;
         this.reload.emit({
-            gridFilter: this.gridFilter,
+            gridFilter: filter,
             limit: this.paginator.pageSize,
             offset: (this.paginator.pageSize * this.paginator.pageIndex),
-            sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {}
+            sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
+            context: contexto
         });
     }
 
