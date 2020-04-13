@@ -17,13 +17,11 @@ import {ModalidadeDestinacaoService} from '@cdk/services/modalidade-destinacao.s
 import {CdkModalidadeDestinacaoGridComponent} from './cdk-modalidade-destinacao-grid.component';
 import {CdkModalidadeDestinacaoAutocompleteModule} from '@cdk/components/modalidade-destinacao/cdk-modalidade-destinacao-autocomplete/cdk-modalidade-destinacao-autocomplete.module';
 import {CdkModalidadeDestinacaoFilterModule} from '../sidebars/cdk-modalidade-destinacao-filter/cdk-modalidade-destinacao-filter.module';
-import {CdkModalidadeDestinacaoMainSidebarComponent} from './sidebars/main/main.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
     declarations: [
         CdkModalidadeDestinacaoGridComponent,
-        CdkModalidadeDestinacaoMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,

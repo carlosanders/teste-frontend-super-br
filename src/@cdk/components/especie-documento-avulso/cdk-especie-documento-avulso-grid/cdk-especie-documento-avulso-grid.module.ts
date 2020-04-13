@@ -17,13 +17,11 @@ import {EspecieDocumentoAvulsoService} from '@cdk/services/especie-documento-avu
 import {CdkEspecieDocumentoAvulsoGridComponent} from './cdk-especie-documento-avulso-grid.component';
 import {CdkEspecieDocumentoAvulsoAutocompleteModule} from '@cdk/components/especie-documento-avulso/cdk-especie-documento-avulso-autocomplete/cdk-especie-documento-avulso-autocomplete.module';
 import {CdkEspecieDocumentoAvulsoFilterModule} from '../sidebars/cdk-especie-documento-avulso-filter/cdk-especie-documento-avulso-filter.module';
-import {CdkEspecieDocumentoAvulsoMainSidebarComponent} from './sidebars/main/main.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
     declarations: [
         CdkEspecieDocumentoAvulsoGridComponent,
-        CdkEspecieDocumentoAvulsoMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,

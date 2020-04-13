@@ -18,12 +18,10 @@ import {CdkModeloGridComponent} from './cdk-modelo-grid.component';
 import {CdkModeloAutocompleteModule} from '@cdk/components/modelo/cdk-modelo-autocomplete/cdk-modelo-autocomplete.module';
 import {CdkModeloFilterModule} from '../sidebars/cdk-modelo-filter/cdk-modelo-filter.module';
 import {PipesModule} from '@cdk/pipes/pipes.module';
-import {CdkModeloMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
         CdkModeloGridComponent,
-        CdkModeloMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,

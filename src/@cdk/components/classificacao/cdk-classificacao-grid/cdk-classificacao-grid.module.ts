@@ -18,13 +18,10 @@ import {CdkModalidadeDestinacaoAutocompleteModule} from '@cdk/components/modalid
 import {CdkClassificacaoGridComponent} from './cdk-classificacao-grid.component';
 import {CdkClassificacaoFilterModule} from '../sidebars/cdk-classificacao-filter/cdk-classificacao-filter.module';
 import {CdkSidebarModule} from '@cdk/components/index';
-import {CdkClassificacaoListMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
         CdkClassificacaoGridComponent,
-        CdkClassificacaoListMainSidebarComponent
-
     ],
     imports: [
         MatSelectModule,

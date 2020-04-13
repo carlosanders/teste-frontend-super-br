@@ -17,12 +17,10 @@ import {FeriadoService} from '@cdk/services/feriado.service';
 import {CdkFeriadoGridComponent} from './cdk-feriado-grid.component';
 import {CdkFeriadoAutocompleteModule} from '@cdk/components/feriado/cdk-feriado-autocomplete/cdk-feriado-autocomplete.module';
 import {CdkFeriadoFilterModule} from '../sidebars/cdk-feriado-filter/cdk-feriado-filter.module';
-import {CdkFeriadoMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
         CdkFeriadoGridComponent,
-        CdkFeriadoMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,

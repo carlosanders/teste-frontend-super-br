@@ -17,13 +17,11 @@ import {VinculacaoDocumentoService} from '@cdk/services/vinculacao-documento.ser
 import {CdkVinculacaoDocumentoGridComponent} from './cdk-vinculacao-documento-grid.component';
 import {CdkVinculacaoDocumentoAutocompleteModule} from '@cdk/components/vinculacao-documento/cdk-vinculacao-documento-autocomplete/cdk-vinculacao-documento-autocomplete.module';
 import {CdkVinculacaoDocumentoFilterModule} from '../sidebars/cdk-vinculacao-documento-filter/cdk-vinculacao-documento-filter.module';
-import {CdkVinculacaoDocumentoMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
         CdkVinculacaoDocumentoGridComponent,
-        CdkVinculacaoDocumentoMainSidebarComponent,
-    ],
+       ],
     imports: [
         MatSelectModule,
         MatButtonModule,

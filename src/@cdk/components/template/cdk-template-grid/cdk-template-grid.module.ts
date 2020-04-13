@@ -17,12 +17,10 @@ import {TemplateService} from '@cdk/services/template.service';
 import {CdkTemplateGridComponent} from './cdk-template-grid.component';
 import {CdkTemplateAutocompleteModule} from '@cdk/components/template/cdk-template-autocomplete/cdk-template-autocomplete.module';
 import {CdkTemplateFilterModule} from '../sidebars/cdk-template-filter/cdk-template-filter.module';
-import {CdkTemplateMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
         CdkTemplateGridComponent,
-        CdkTemplateMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,

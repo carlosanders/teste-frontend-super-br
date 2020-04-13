@@ -17,12 +17,10 @@ import {UsuarioService} from '@cdk/services/usuario.service';
 import {CdkUsuarioGridComponent} from './cdk-usuario-grid.component';
 import {CdkUsuarioAutocompleteModule} from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 import {CdkUsuarioFilterModule} from '../sidebars/cdk-usuario-filter/cdk-usuario-filter.module';
-import {CdkUsuarioMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
         CdkUsuarioGridComponent,
-        CdkUsuarioMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,

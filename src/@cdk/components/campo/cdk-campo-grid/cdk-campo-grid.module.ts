@@ -19,12 +19,10 @@ import {CdkCampoGridComponent} from './cdk-campo-grid.component';
 import {CdkCampoAutocompleteModule} from '@cdk/components/campo/cdk-campo-autocomplete/cdk-campo-autocomplete.module';
 import {CdkCampoFilterModule} from '../sidebars/cdk-campo-filter/cdk-campo-filter.module';
 import {CommonModule} from "@angular/common";
-import {CdkCampoMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
         CdkCampoGridComponent,
-        CdkCampoMainSidebarComponent,
     ],
     imports: [
         CommonModule,

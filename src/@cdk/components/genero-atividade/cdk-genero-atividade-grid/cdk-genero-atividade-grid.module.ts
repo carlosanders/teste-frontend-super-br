@@ -17,12 +17,10 @@ import {GeneroAtividadeService} from '@cdk/services/genero-atividade.service';
 import {CdkGeneroAtividadeGridComponent} from './cdk-genero-atividade-grid.component';
 import {CdkGeneroAtividadeAutocompleteModule} from '@cdk/components/genero-atividade/cdk-genero-atividade-autocomplete/cdk-genero-atividade-autocomplete.module';
 import {CdkGeneroAtividadeFilterModule} from '../sidebars/cdk-genero-atividade-filter/cdk-genero-atividade-filter.module';
-import {CdkGeneroAtividadeMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
         CdkGeneroAtividadeGridComponent,
-        CdkGeneroAtividadeMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,

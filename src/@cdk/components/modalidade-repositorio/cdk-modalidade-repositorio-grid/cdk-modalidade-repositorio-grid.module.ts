@@ -17,12 +17,10 @@ import {ModalidadeRepositorioService} from '@cdk/services/modalidade-repositorio
 import {CdkModalidadeRepositorioGridComponent} from './cdk-modalidade-repositorio-grid.component';
 import {CdkModalidadeRepositorioAutocompleteModule} from '@cdk/components/modalidade-repositorio/cdk-modalidade-repositorio-autocomplete/cdk-modalidade-repositorio-autocomplete.module';
 import {CdkModalidadeRepositorioFilterModule} from '../sidebars/cdk-modalidade-repositorio-filter/cdk-modalidade-repositorio-filter.module';
-import {CdkModalidadeRepositorioMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
         CdkModalidadeRepositorioGridComponent,
-        CdkModalidadeRepositorioMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,

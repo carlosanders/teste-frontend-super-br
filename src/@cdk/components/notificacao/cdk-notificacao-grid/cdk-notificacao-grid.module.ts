@@ -17,12 +17,10 @@ import {NotificacaoService} from '@cdk/services/notificacao.service';
 import {CdkNotificacaoGridComponent} from './cdk-notificacao-grid.component';
 import {CdkNotificacaoAutocompleteModule} from '@cdk/components/notificacao/cdk-notificacao-autocomplete/cdk-notificacao-autocomplete.module';
 import {CdkNotificacaoFilterModule} from '../sidebars/cdk-notificacao-filter/cdk-notificacao-filter.module';
-import {CdkNotificacaoMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
         CdkNotificacaoGridComponent,
-        CdkNotificacaoMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,

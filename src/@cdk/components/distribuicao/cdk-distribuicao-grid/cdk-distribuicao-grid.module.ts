@@ -16,12 +16,10 @@ import {DistribuicaoService} from '@cdk/services/distribuicao.service';
 import {CdkDistribuicaoGridComponent} from './cdk-distribuicao-grid.component';
 import {CdkDistribuicaoAutocompleteModule} from '@cdk/components/distribuicao/cdk-distribuicao-autocomplete/cdk-distribuicao-autocomplete.module';
 import {CdkDistribuicaoFilterModule} from '../sidebars/cdk-distribuicao-filter/cdk-distribuicao-filter.module';
-import {CdkDistribuicaoMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
         CdkDistribuicaoGridComponent,
-        CdkDistribuicaoMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,

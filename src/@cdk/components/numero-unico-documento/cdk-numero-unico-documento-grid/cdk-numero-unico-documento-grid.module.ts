@@ -16,12 +16,11 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {NumeroUnicoDocumentoService} from '@cdk/services/numero-unico-documento.service';
 import {CdkNumeroUnicoDocumentoGridComponent} from './cdk-numero-unico-documento-grid.component';
 import {CdkNumeroUnicoDocumentoFilterModule} from '../sidebars/cdk-numero-unico-documento-filter/cdk-numero-unico-documento-filter.module';
-import {CdkNumeroUnicoDocumentoMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
         CdkNumeroUnicoDocumentoGridComponent,
-        CdkNumeroUnicoDocumentoMainSidebarComponent,
+
     ],
     imports: [
         MatSelectModule,

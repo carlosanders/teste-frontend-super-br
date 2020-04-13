@@ -17,13 +17,10 @@ import {UsuarioService} from '@cdk/services/usuario.service';
 import {CdkUsuarioAutocompleteModule} from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 import {CdkAreaTrabalhoGridComponent} from './cdk-area-trabalho-grid.component';
 import {CdkAreaTrabalhoFilterModule} from '../sidebars/cdk-area-trabalho-filter/cdk-area-trabalho-filter.module';
-import {CdkAreaTrabalhoMainSidebarComponent} from './sidebars/main/main.component';
-
 
 @NgModule({
     declarations: [
         CdkAreaTrabalhoGridComponent,
-        CdkAreaTrabalhoMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,

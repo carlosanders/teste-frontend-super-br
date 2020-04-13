@@ -17,12 +17,10 @@ import {TipoSigiloService} from '@cdk/services/tipo-sigilo.service';
 import {CdkTipoSigiloGridComponent} from './cdk-tipo-sigilo-grid.component';
 import {CdkTipoSigiloAutocompleteModule} from '@cdk/components/tipo-sigilo/cdk-tipo-sigilo-autocomplete/cdk-tipo-sigilo-autocomplete.module';
 import {CdkTipoSigiloFilterModule} from '../sidebars/cdk-tipo-sigilo-filter/cdk-tipo-sigilo-filter.module';
-import {CdkTipoSigiloMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
         CdkTipoSigiloGridComponent,
-        CdkTipoSigiloMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,

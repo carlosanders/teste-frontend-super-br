@@ -17,12 +17,10 @@ import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.servi
 import {CdkVinculacaoEtiquetaGridComponent} from './cdk-vinculacao-etiqueta-grid.component';
 import {CdkVinculacaoEtiquetaAutocompleteModule} from '@cdk/components/vinculacao-etiqueta/cdk-vinculacao-etiqueta-autocomplete/cdk-vinculacao-etiqueta-autocomplete.module';
 import {CdkVinculacaoEtiquetaFilterModule} from '../sidebars/cdk-vinculacao-etiqueta-filter/cdk-vinculacao-etiqueta-filter.module';
-import {CdkVinculacaoEtiquetaMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
         CdkVinculacaoEtiquetaGridComponent,
-        CdkVinculacaoEtiquetaMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,

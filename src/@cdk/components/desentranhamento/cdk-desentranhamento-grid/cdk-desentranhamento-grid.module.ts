@@ -17,12 +17,10 @@ import {DesentranhamentoService} from '@cdk/services/desentranhamento.service';
 import {CdkDesentranhamentoGridComponent} from './cdk-desentranhamento-grid.component';
 import {CdkDesentranhamentoAutocompleteModule} from '@cdk/components/desentranhamento/cdk-desentranhamento-autocomplete/cdk-desentranhamento-autocomplete.module';
 import {CdkDesentranhamentoFilterModule} from '../sidebars/cdk-desentranhamento-filter/cdk-desentranhamento-filter.module';
-import {CdkDesentranhamentoMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
         CdkDesentranhamentoGridComponent,
-        CdkDesentranhamentoMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,

@@ -17,12 +17,10 @@ import {LocalizadorService} from '@cdk/services/localizador.service';
 import {CdkLocalizadorGridComponent} from './cdk-localizador-grid.component';
 import {CdkLocalizadorAutocompleteModule} from '@cdk/components/localizador/cdk-localizador-autocomplete/cdk-localizador-autocomplete.module';
 import {CdkLocalizadorFilterModule} from '../sidebars/cdk-localizador-filter/cdk-localizador-filter.module';
-import {CdkLocalizadorMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
         CdkLocalizadorGridComponent,
-        CdkLocalizadorMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,

@@ -17,12 +17,10 @@ import {GeneroProcessoService} from '@cdk/services/genero-processo.service';
 import {CdkGeneroProcessoGridComponent} from './cdk-genero-processo-grid.component';
 import {CdkGeneroProcessoAutocompleteModule} from '@cdk/components/genero-processo/cdk-genero-processo-autocomplete/cdk-genero-processo-autocomplete.module';
 import {CdkGeneroProcessoFilterModule} from '../sidebars/cdk-genero-processo-filter/cdk-genero-processo-filter.module';
-import {CdkGeneroProcessoMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
         CdkGeneroProcessoGridComponent,
-        CdkGeneroProcessoMainSidebarComponent,
     ],
     imports: [
         MatButtonModule,

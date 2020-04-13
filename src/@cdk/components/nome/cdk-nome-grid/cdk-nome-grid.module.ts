@@ -17,12 +17,10 @@ import {NomeService} from '@cdk/services/nome.service';
 import {CdkNomeGridComponent} from './cdk-nome-grid.component';
 import {CdkNomeAutocompleteModule} from '@cdk/components/nome/cdk-nome-autocomplete/cdk-nome-autocomplete.module';
 import {CdkNomeFilterModule} from '../sidebars/cdk-nome-filter/cdk-nome-filter.module';
-import {CdkNomeMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
         CdkNomeGridComponent,
-        CdkNomeMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,

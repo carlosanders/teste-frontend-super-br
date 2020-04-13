@@ -18,13 +18,10 @@ import {CdkAtividadeGridComponent} from './cdk-atividade-grid.component';
 import {CdkAtividadeFilterModule} from '../sidebars/cdk-atividade-filter/cdk-atividade-filter.module';
 import {CdkSidebarModule} from '@cdk/components/index';
 import {MatTooltipModule} from '@angular/material/tooltip';
-import {CdkAtividadeMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
         CdkAtividadeGridComponent,
-        CdkAtividadeMainSidebarComponent
-
     ],
     imports: [
         MatSelectModule,

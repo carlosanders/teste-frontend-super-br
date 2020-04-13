@@ -17,12 +17,10 @@ import {OrigemDadosService} from '@cdk/services/origem-dados.service';
 import {CdkOrigemDadosGridComponent} from './cdk-origem-dados-grid.component';
 import {CdkOrigemDadosAutocompleteModule} from '@cdk/components/origem-dados/cdk-origem-dados-autocomplete/cdk-origem-dados-autocomplete.module';
 import {CdkOrigemDadosFilterModule} from '../sidebars/cdk-origem-dados-filter/cdk-origem-dados-filter.module';
-import {CdkOrigemDadosMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
         CdkOrigemDadosGridComponent,
-        CdkOrigemDadosMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,

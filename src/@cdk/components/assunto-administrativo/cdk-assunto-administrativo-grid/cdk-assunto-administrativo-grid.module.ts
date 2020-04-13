@@ -17,13 +17,11 @@ import {AssuntoAdministrativoService} from '@cdk/services/assunto-administrativo
 import {CdkAssuntoAdministrativoGridComponent} from './cdk-assunto-administrativo-grid.component';
 import {CdkAssuntoAdministrativoAutocompleteModule} from '@cdk/components/assunto-administrativo/cdk-assunto-administrativo-autocomplete/cdk-assunto-administrativo-autocomplete.module';
 import {CdkAssuntoAdministrativoFilterModule} from '../sidebars/cdk-assunto-administrativo-filter/cdk-assunto-administrativo-filter.module';
-import {CdkAssuntoAdministrativoMainSidebarComponent} from './sidebars/main/main.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
     declarations: [
         CdkAssuntoAdministrativoGridComponent,
-        CdkAssuntoAdministrativoMainSidebarComponent
     ],
     imports: [
         MatSelectModule,

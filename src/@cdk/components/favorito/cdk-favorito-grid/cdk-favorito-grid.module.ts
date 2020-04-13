@@ -17,12 +17,10 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {FavoritoService} from '@cdk/services/favorito.service';
 import {CdkFavoritoGridComponent} from './cdk-favorito-grid.component';
 import {CdkFavoritoFilterModule} from '../sidebars/cdk-favorito-filter/cdk-favorito-filter.module';
-import {CdkFavoritoMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
         CdkFavoritoGridComponent,
-        CdkFavoritoMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,

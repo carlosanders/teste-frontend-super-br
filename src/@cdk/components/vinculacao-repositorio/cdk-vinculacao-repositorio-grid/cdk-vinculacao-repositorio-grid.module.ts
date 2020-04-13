@@ -17,12 +17,10 @@ import {VinculacaoRepositorioService} from '@cdk/services/vinculacao-repositorio
 import {CdkVinculacaoRepositorioGridComponent} from './cdk-vinculacao-repositorio-grid.component';
 import {CdkVinculacaoRepositorioAutocompleteModule} from '@cdk/components/vinculacao-repositorio/cdk-vinculacao-repositorio-autocomplete/cdk-vinculacao-repositorio-autocomplete.module';
 import {CdkVinculacaoRepositorioFilterModule} from '../sidebars/cdk-vinculacao-repositorio-filter/cdk-vinculacao-repositorio-filter.module';
-import {CdkVinculacaoRepositorioMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
         CdkVinculacaoRepositorioGridComponent,
-        CdkVinculacaoRepositorioMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,

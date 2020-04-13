@@ -17,12 +17,10 @@ import {EspecieDocumentoService} from '@cdk/services/especie-documento.service';
 import {CdkEspecieDocumentoGridComponent} from './cdk-especie-documento-grid.component';
 import {CdkEspecieDocumentoAutocompleteModule} from '@cdk/components/especie-documento/cdk-especie-documento-autocomplete/cdk-especie-documento-autocomplete.module';
 import {CdkEspecieDocumentoFilterModule} from '@cdk/components/especie-documento/sidebars/cdk-especie-documento-filter/cdk-especie-documento-filter.module';
-import {CdkEspecieDocumentoMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
         CdkEspecieDocumentoGridComponent,
-        CdkEspecieDocumentoMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,

@@ -17,13 +17,11 @@ import {EspecieSetorService} from '@cdk/services/especie-setor.service';
 import {CdkEspecieSetorGridComponent} from './cdk-especie-setor-grid.component';
 import {CdkEspecieSetorAutocompleteModule} from '@cdk/components/especie-setor/cdk-especie-setor-autocomplete/cdk-especie-setor-autocomplete.module';
 import {CdkEspecieSetorFilterModule} from '../sidebars/cdk-especie-setor-filter/cdk-especie-setor-filter.module';
-import {CdkEspecieSetorMainSidebarComponent} from './sidebars/main/main.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
     declarations: [
         CdkEspecieSetorGridComponent,
-        CdkEspecieSetorMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,

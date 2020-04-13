@@ -17,12 +17,10 @@ import {GeneroDocumentoAvulsoService} from '@cdk/services/genero-documento-avuls
 import {CdkGeneroDocumentoAvulsoGridComponent} from './cdk-genero-documento-avulso-grid.component';
 import {CdkGeneroDocumentoAvulsoAutocompleteModule} from '@cdk/components/genero-documento-avulso/cdk-genero-documento-avulso-autocomplete/cdk-genero-documento-avulso-autocomplete.module';
 import {CdkGeneroDocumentoAvulsoFilterModule} from '../sidebars/cdk-genero-documento-avulso-filter/cdk-genero-documento-avulso-filter.module';
-import {CdkGeneroDocumentoAvulsoMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
         CdkGeneroDocumentoAvulsoGridComponent,
-        CdkGeneroDocumentoAvulsoMainSidebarComponent,
     ],
     imports: [
         MatButtonModule,

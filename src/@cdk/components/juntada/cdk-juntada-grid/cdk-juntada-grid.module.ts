@@ -17,12 +17,10 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {JuntadaService} from '@cdk/services/juntada.service';
 import {CdkJuntadaGridComponent} from './cdk-juntada-grid.component';
 import {CdkJuntadaFilterModule} from '../sidebars/cdk-juntada-filter/cdk-juntada-filter.module';
-import {CdkJuntadaMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
         CdkJuntadaGridComponent,
-        CdkJuntadaMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,

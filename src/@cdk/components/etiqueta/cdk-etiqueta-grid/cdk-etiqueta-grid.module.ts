@@ -15,12 +15,10 @@ import {CdkSidebarModule} from '@cdk/components/index';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkEtiquetaGridComponent} from './cdk-etiqueta-grid.component';
 import {CdkEtiquetaFilterModule} from '../sidebars/cdk-etiqueta-filter/cdk-etiqueta-filter.module';
-import {CdkEtiquetaMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
         CdkEtiquetaGridComponent,
-        CdkEtiquetaMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,

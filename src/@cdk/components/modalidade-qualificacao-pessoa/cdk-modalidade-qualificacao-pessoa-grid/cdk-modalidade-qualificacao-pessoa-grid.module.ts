@@ -17,12 +17,10 @@ import {ModalidadeQualificacaoPessoaService} from '@cdk/services/modalidade-qual
 import {CdkModalidadeQualificacaoPessoaGridComponent} from './cdk-modalidade-qualificacao-pessoa-grid.component';
 import {CdkModalidadeQualificacaoPessoaAutocompleteModule} from '@cdk/components/modalidade-qualificacao-pessoa/cdk-modalidade-qualificacao-pessoa-autocomplete/cdk-modalidade-qualificacao-pessoa-autocomplete.module';
 import {CdkModalidadeQualificacaoPessoaFilterModule} from '../sidebars/cdk-modalidade-qualificacao-pessoa-filter/cdk-modalidade-qualificacao-pessoa-filter.module';
-import {CdkModalidadeQualificacaoPessoaMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
         CdkModalidadeQualificacaoPessoaGridComponent,
-        CdkModalidadeQualificacaoPessoaMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,

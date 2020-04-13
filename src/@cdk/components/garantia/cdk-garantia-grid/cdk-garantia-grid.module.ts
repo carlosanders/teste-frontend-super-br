@@ -18,12 +18,10 @@ import {ModalidadeGarantiaService} from '@cdk/services/modalidade-garantia.servi
 import {CdkModalidadeGarantiaAutocompleteModule} from '@cdk/components/modalidade-garantia/cdk-modalidade-garantia-autocomplete/cdk-modalidade-garantia-autocomplete.module';
 import {CdkGarantiaGridComponent} from './cdk-garantia-grid.component';
 import {CdkGarantiaFilterModule} from '../sidebars/cdk-garantia-filter/cdk-garantia-filter.module';
-import {CdkGarantiaMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
         CdkGarantiaGridComponent,
-        CdkGarantiaMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,

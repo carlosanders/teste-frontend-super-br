@@ -17,12 +17,10 @@ import {PaisService} from '@cdk/services/pais.service';
 import {CdkPaisGridComponent} from './cdk-pais-grid.component';
 import {CdkPaisAutocompleteModule} from '@cdk/components/pais/cdk-pais-autocomplete/cdk-pais-autocomplete.module';
 import {CdkPaisFilterModule} from '../sidebars/cdk-pais-filter/cdk-pais-filter.module';
-import {CdkPaisMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
         CdkPaisGridComponent,
-        CdkPaisMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,

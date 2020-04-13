@@ -17,12 +17,10 @@ import {ModalidadeFaseService} from '@cdk/services/modalidade-fase.service';
 import {CdkModalidadeFaseGridComponent} from './cdk-modalidade-fase-grid.component';
 import {CdkModalidadeFaseAutocompleteModule} from '@cdk/components/modalidade-fase/cdk-modalidade-fase-autocomplete/cdk-modalidade-fase-autocomplete.module';
 import {CdkModalidadeFaseFilterModule} from '../sidebars/cdk-modalidade-fase-filter/cdk-modalidade-fase-filter.module';
-import {CdkModalidadeFaseMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
         CdkModalidadeFaseGridComponent,
-        CdkModalidadeFaseMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,

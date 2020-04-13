@@ -16,13 +16,11 @@ import {CdkTipoDocumentoAutocompleteModule} from '@cdk/components/tipo-documento
 import {CdkDocumentoGridComponent} from './cdk-documento-grid.component';
 import {CdkDocumentoFilterModule} from '../sidebars/cdk-documento-filter/cdk-documento-filter.module';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
-import {CdkDocumentoMainSidebarComponent} from './sidebars/main/main.component';
 import {CdkSidebarModule} from '@cdk/components/index';
 
 @NgModule({
     declarations: [
         CdkDocumentoGridComponent,
-        CdkDocumentoMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,

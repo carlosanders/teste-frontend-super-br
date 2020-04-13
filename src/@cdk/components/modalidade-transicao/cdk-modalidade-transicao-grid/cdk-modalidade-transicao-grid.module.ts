@@ -17,12 +17,10 @@ import {ModalidadeTransicaoService} from '@cdk/services/modalidade-transicao.ser
 import {CdkModalidadeTransicaoGridComponent} from './cdk-modalidade-transicao-grid.component';
 import {CdkModalidadeTransicaoAutocompleteModule} from '@cdk/components/modalidade-transicao/cdk-modalidade-transicao-autocomplete/cdk-modalidade-transicao-autocomplete.module';
 import {CdkModalidadeTransicaoFilterModule} from '../sidebars/cdk-modalidade-transicao-filter/cdk-modalidade-transicao-filter.module';
-import {CdkModalidadeTransicaoMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
         CdkModalidadeTransicaoGridComponent,
-        CdkModalidadeTransicaoMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,

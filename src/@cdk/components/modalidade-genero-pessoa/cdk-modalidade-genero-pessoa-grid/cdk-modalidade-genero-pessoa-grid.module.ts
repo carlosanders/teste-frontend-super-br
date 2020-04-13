@@ -17,12 +17,10 @@ import {ModalidadeGeneroPessoaService} from '@cdk/services/modalidade-genero-pes
 import {CdkModalidadeGeneroPessoaGridComponent} from './cdk-modalidade-genero-pessoa-grid.component';
 import {CdkModalidadeGeneroPessoaAutocompleteModule} from '@cdk/components/modalidade-genero-pessoa/cdk-modalidade-genero-pessoa-autocomplete/cdk-modalidade-genero-pessoa-autocomplete.module';
 import {CdkModalidadeGeneroPessoaFilterModule} from '../sidebars/cdk-modalidade-genero-pessoa-filter/cdk-modalidade-genero-pessoa-filter.module';
-import {CdkModalidadeGeneroPessoaMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
         CdkModalidadeGeneroPessoaGridComponent,
-        CdkModalidadeGeneroPessoaMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,

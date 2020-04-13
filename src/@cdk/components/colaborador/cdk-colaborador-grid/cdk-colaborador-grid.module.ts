@@ -17,12 +17,10 @@ import {ModalidadeColaboradorService} from '@cdk/services/modalidade-colaborador
 import {CdkModalidadeColaboradorAutocompleteModule} from '@cdk/components/modalidade-colaborador/cdk-modalidade-colaborador-autocomplete/cdk-modalidade-colaborador-autocomplete.module';
 import {CdkColaboradorGridComponent} from './cdk-colaborador-grid.component';
 import {CdkColaboradorFilterModule} from '../sidebars/cdk-colaborador-filter/cdk-colaborador-filter.module';
-import {CdkColaboradorMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
         CdkColaboradorGridComponent,
-        CdkColaboradorMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,

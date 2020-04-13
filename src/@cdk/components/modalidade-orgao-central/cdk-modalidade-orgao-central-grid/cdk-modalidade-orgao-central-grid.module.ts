@@ -17,12 +17,10 @@ import {ModalidadeOrgaoCentralService} from '@cdk/services/modalidade-orgao-cent
 import {CdkModalidadeOrgaoCentralGridComponent} from './cdk-modalidade-orgao-central-grid.component';
 import {CdkModalidadeOrgaoCentralAutocompleteModule} from '@cdk/components/modalidade-orgao-central/cdk-modalidade-orgao-central-autocomplete/cdk-modalidade-orgao-central-autocomplete.module';
 import {CdkModalidadeOrgaoCentralFilterModule} from '../sidebars/cdk-modalidade-orgao-central-filter/cdk-modalidade-orgao-central-filter.module';
-import {CdkModalidadeOrgaoCentralMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
         CdkModalidadeOrgaoCentralGridComponent,
-        CdkModalidadeOrgaoCentralMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,

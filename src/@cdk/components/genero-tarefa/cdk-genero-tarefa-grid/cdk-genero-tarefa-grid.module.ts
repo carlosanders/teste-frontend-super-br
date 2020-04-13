@@ -17,12 +17,10 @@ import {GeneroTarefaService} from '@cdk/services/genero-tarefa.service';
 import {CdkGeneroTarefaGridComponent} from './cdk-genero-tarefa-grid.component';
 import {CdkGeneroTarefaAutocompleteModule} from '@cdk/components/genero-tarefa/cdk-genero-tarefa-autocomplete/cdk-genero-tarefa-autocomplete.module';
 import {CdkGeneroTarefaFilterModule} from '../sidebars/cdk-genero-tarefa-filter/cdk-genero-tarefa-filter.module';
-import {CdkGeneroTarefaMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
         CdkGeneroTarefaGridComponent,
-        CdkGeneroTarefaMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,

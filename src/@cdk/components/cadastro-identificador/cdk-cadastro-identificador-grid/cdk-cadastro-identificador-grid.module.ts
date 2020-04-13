@@ -15,12 +15,10 @@ import {CdkSidebarModule} from '@cdk/components/index';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkCadastroIdentificadorGridComponent} from './cdk-cadastro-identificador-grid.component';
 import {CdkCadastroIdentificadorFilterModule} from '../sidebars/cdk-cadastro-identificador-filter/cdk-cadastro-identificador-filter.module';
-import {CdkCadastroIdentificadorMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
         CdkCadastroIdentificadorGridComponent,
-        CdkCadastroIdentificadorMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,

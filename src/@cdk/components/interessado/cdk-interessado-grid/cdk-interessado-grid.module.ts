@@ -18,12 +18,10 @@ import {ModalidadeInteressadoService} from '@cdk/services/modalidade-interessado
 import {CdkModalidadeInteressadoAutocompleteModule} from '@cdk/components/modalidade-interessado/cdk-modalidade-interessado-autocomplete/cdk-modalidade-interessado-autocomplete.module';
 import {CdkInteressadoGridComponent} from './cdk-interessado-grid.component';
 import {CdkInteressadoFilterModule} from '../sidebars/cdk-interessado-filter/cdk-interessado-filter.module';
-import {CdkInteressadoMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
         CdkInteressadoGridComponent,
-        CdkInteressadoMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,

@@ -17,12 +17,10 @@ import {ModalidadeRepresentanteService} from '@cdk/services/modalidade-represent
 import {CdkModalidadeRepresentanteGridComponent} from './cdk-modalidade-representante-grid.component';
 import {CdkModalidadeRepresentanteAutocompleteModule} from '@cdk/components/modalidade-representante/cdk-modalidade-representante-autocomplete/cdk-modalidade-representante-autocomplete.module';
 import {CdkModalidadeRepresentanteFilterModule} from '../sidebars/cdk-modalidade-representante-filter/cdk-modalidade-representante-filter.module';
-import {CdkModalidadeRepresentanteMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
         CdkModalidadeRepresentanteGridComponent,
-        CdkModalidadeRepresentanteMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,

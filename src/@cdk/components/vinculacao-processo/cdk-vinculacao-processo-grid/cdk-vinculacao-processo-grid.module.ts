@@ -17,12 +17,10 @@ import {VinculacaoProcessoService} from '@cdk/services/vinculacao-processo.servi
 import {CdkVinculacaoProcessoGridComponent} from './cdk-vinculacao-processo-grid.component';
 import {CdkVinculacaoProcessoAutocompleteModule} from '@cdk/components/vinculacao-processo/cdk-vinculacao-processo-autocomplete/cdk-vinculacao-processo-autocomplete.module';
 import {CdkVinculacaoProcessoFilterModule} from '../sidebars/cdk-vinculacao-processo-filter/cdk-vinculacao-processo-filter.module';
-import {CdkVinculacaoProcessoMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
         CdkVinculacaoProcessoGridComponent,
-        CdkVinculacaoProcessoMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,

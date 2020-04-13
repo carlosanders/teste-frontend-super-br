@@ -16,13 +16,11 @@ import {ModalidadeMeioService} from '@cdk/services/modalidade-meio.service';
 import {CdkModalidadeMeioGridComponent} from './cdk-modalidade-meio-grid.component';
 import {CdkModalidadeMeioAutocompleteModule} from '@cdk/components/modalidade-meio/cdk-modalidade-meio-autocomplete/cdk-modalidade-meio-autocomplete.module';
 import {CdkModalidadeMeioFilterModule} from '../sidebars/cdk-modalidade-meio-filter/cdk-modalidade-meio-filter.module';
-import {CdkModalidadeMeioListMainSidebarComponent} from './sidebars/main/main.component';
 import {CdkSidebarModule} from '@cdk/components/index';
 
 @NgModule({
     declarations: [
         CdkModalidadeMeioGridComponent,
-        CdkModalidadeMeioListMainSidebarComponent
     ],
     imports: [
         MatSelectModule,

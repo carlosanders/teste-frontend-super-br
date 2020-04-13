@@ -17,12 +17,10 @@ import {RelacionamentoPessoalService} from '@cdk/services/relacionamento-pessoal
 import {CdkRelacionamentoPessoalGridComponent} from './cdk-relacionamento-pessoal-grid.component';
 import {CdkRelacionamentoPessoalAutocompleteModule} from '@cdk/components/relacionamento-pessoal/cdk-relacionamento-pessoal-autocomplete/cdk-relacionamento-pessoal-autocomplete.module';
 import {CdkRelacionamentoPessoalFilterModule} from '../sidebars/cdk-relacionamento-pessoal-filter/cdk-relacionamento-pessoal-filter.module';
-import {CdkRelacionamentoPessoalMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
         CdkRelacionamentoPessoalGridComponent,
-        CdkRelacionamentoPessoalMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,

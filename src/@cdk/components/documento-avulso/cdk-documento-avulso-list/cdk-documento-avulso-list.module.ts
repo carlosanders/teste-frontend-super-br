@@ -21,7 +21,6 @@ import { CdkDocumentoAvulsoListItemComponent } from './cdk-documento-avulso-list
 import { TranslateModule } from '@ngx-translate/core';
 import { PipesModule } from '@cdk/pipes/pipes.module';
 import { CdkSidebarModule } from '@cdk/components/index';
-import { CdkDocumentoAvulsoListMainSidebarComponent } from './sidebars/main/main.component';
 import { ProcessoService } from '@cdk/services/processo.service';
 import { CdkProcessoAutocompleteModule } from '@cdk/components/processo/cdk-processo-autocomplete/cdk-processo-autocomplete.module';
 import { CdkSetorAutocompleteModule } from '@cdk/components/setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
@@ -33,7 +32,6 @@ import {InfiniteScrollModule} from 'ngx-infinite-scroll';
     declarations: [
         CdkDocumentoAvulsoListComponent,
         CdkDocumentoAvulsoListItemComponent,
-        CdkDocumentoAvulsoListMainSidebarComponent
     ],
     imports: [
         MatButtonModule,

@@ -23,12 +23,10 @@ import {CdkGeneroProcessoAutocompleteModule} from '../../genero-processo/cdk-gen
 import {CdkUsuarioAutocompleteModule} from '../../usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
-import {CdkEspecieProcessoMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
         CdkEspecieProcessoGridComponent,
-        CdkEspecieProcessoMainSidebarComponent
     ],
     imports: [
         MatButtonModule,

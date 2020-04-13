@@ -16,12 +16,10 @@ import {CdkSidebarModule} from '@cdk/components/index';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkCargoGridComponent} from './cdk-cargo-grid.component';
 import {CdkCargoFilterModule} from '../sidebars/cdk-cargo-filter/cdk-cargo-filter.module';
-import {CdkCargoMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
         CdkCargoGridComponent,
-        CdkCargoMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,

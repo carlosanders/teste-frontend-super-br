@@ -17,12 +17,10 @@ import {MunicipioService} from '@cdk/services/municipio.service';
 import {CdkMunicipioGridComponent} from './cdk-municipio-grid.component';
 import {CdkMunicipioAutocompleteModule} from '@cdk/components/municipio/cdk-municipio-autocomplete/cdk-municipio-autocomplete.module';
 import {CdkMunicipioFilterModule} from '../sidebars/cdk-municipio-filter/cdk-municipio-filter.module';
-import {CdkMunicipioMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
         CdkMunicipioGridComponent,
-        CdkMunicipioMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,

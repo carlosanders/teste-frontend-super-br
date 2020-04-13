@@ -16,12 +16,10 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {TramitacaoService} from '@cdk/services/tramitacao.service';
 import {CdkRemessaGridComponent} from './cdk-remessa-grid.component';
 import {CdkRemessaFilterModule} from '../sidebars/cdk-remessa-filter/cdk-remessa-filter.module';
-import {CdkRemessaMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
         CdkRemessaGridComponent,
-        CdkRemessaMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,

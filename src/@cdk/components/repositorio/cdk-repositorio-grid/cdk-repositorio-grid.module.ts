@@ -18,12 +18,10 @@ import {CdkRepositorioGridComponent} from './cdk-repositorio-grid.component';
 import {CdkRepositorioAutocompleteModule} from '@cdk/components/repositorio/cdk-repositorio-autocomplete/cdk-repositorio-autocomplete.module';
 import {CdkRepositorioFilterModule} from '../sidebars/cdk-repositorio-filter/cdk-repositorio-filter.module';
 import {PipesModule} from '@cdk/pipes/pipes.module';
-import {CdkRepositorioMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
         CdkRepositorioGridComponent,
-        CdkRepositorioMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,

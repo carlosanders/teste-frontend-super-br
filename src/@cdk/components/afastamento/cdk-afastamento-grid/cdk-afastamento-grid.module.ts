@@ -17,12 +17,10 @@ import {ModalidadeAfastamentoService} from '@cdk/services/modalidade-afastamento
 import {CdkModalidadeAfastamentoAutocompleteModule} from '@cdk/components/modalidade-afastamento/cdk-modalidade-afastamento-autocomplete/cdk-modalidade-afastamento-autocomplete.module';
 import {CdkAfastamentoGridComponent} from './cdk-afastamento-grid.component';
 import {CdkAfastamentoFilterModule} from '../sidebars/cdk-afastamento-filter/cdk-afastamento-filter.module';
-import {CdkAfastamentoMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
         CdkAfastamentoGridComponent,
-        CdkAfastamentoMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,

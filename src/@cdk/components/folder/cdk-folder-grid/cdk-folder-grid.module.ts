@@ -17,12 +17,10 @@ import {FolderService} from '@cdk/services/folder.service';
 import {CdkFolderGridComponent} from './cdk-folder-grid.component';
 import {CdkFolderAutocompleteModule} from '@cdk/components/folder/cdk-folder-autocomplete/cdk-folder-autocomplete.module';
 import {CdkFolderFilterModule} from '../sidebars/cdk-folder-filter/cdk-folder-filter.module';
-import {CdkFolderMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
         CdkFolderGridComponent,
-        CdkFolderMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,

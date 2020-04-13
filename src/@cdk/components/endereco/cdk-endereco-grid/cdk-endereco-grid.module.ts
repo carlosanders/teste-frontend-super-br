@@ -16,13 +16,11 @@ import {MunicipioService} from '@cdk/services/municipio.service';
 import {CdkMunicipioAutocompleteModule} from '@cdk/components/municipio/cdk-municipio-autocomplete/cdk-municipio-autocomplete.module';
 import {CdkEnderecoGridComponent} from './cdk-endereco-grid.component';
 import {CdkEnderecoFilterModule} from '../sidebars/cdk-endereco-filter/cdk-endereco-filter.module';
-import {CdkEnderecoMainSidebarComponent} from './sidebars/main/main.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
     declarations: [
         CdkEnderecoGridComponent,
-        CdkEnderecoMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,
