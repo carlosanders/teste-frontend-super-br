@@ -1,0 +1,38 @@
+<form fxLayoutGap="16px" fxLayout="column" fxLayoutAlign="start"
+      name="form" [formGroup]="form">
+
+    <div fxFlex="1 0 auto" fxLayout="column">
+
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Modalidade de Garantia"
+                       formControlName="modalidadeGarantia"
+                       [matAutocomplete]="modalidadeGarantia.autocomplete">
+            </div>
+            <cdk-modalidade-garantia-autocomplete
+                #modalidadeGarantia="modalidadeGarantiaAutocomplete"
+                [control]="form.get('modalidadeGarantia')">
+            </cdk-modalidade-garantia-autocomplete>
+        </mat-form-field>
+
+        <!--<mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Processo"
+                       formControlName="processo"
+                       [matAutocomplete]="processo.autocomplete">
+            </div>
+            <cdk-processo-autocomplete #processo="processoAutocomplete" [control]="form.get('processo')">
+            </cdk-processo-autocomplete>
+        </mat-form-field>-->
+
+        <div fxFlex="0 1 auto" fxLayoutAlign="center center">
+            <button mat-raised-button color="accent" class="mr-sm-12" (click)="buscar()">
+                Buscar
+            </button>
+
+            <button mat-raised-button color="warn" class="mr-sm-12" (click)="limpar()">
+                Limpar
+            </button>
+        </div>
+    </div>
+</form>

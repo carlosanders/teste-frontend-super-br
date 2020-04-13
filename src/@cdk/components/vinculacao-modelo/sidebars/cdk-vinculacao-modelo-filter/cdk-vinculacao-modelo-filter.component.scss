@@ -1,0 +1,18 @@
+cdk-vinculacao-modelo-filter {
+
+  .content {
+
+    .form-card {
+      border-radius: 8px;
+    }
+
+    .form-errors-model {
+      flex: 1;
+
+      code {
+        background: none !important;
+      }
+    }
+  }
+
+}
