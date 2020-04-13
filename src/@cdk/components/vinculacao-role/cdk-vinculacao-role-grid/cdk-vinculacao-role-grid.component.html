@@ -1,10 +1,8 @@
 <div class="page-layout left-sidebar" fxFlex>
 
     <!-- SIDEBAR -->
-    <cdk-sidebar class="sidebar" name="cdk-vinculacao-filter" position="left">
-                <cdk-xxx-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-xxx-filter>vinculacao-role-filter (selected)="setFilter($event)" [@animate]="{value:'*'}"></cdk-vinculacao-role-filter>
-        </div>
-        <!-- / SIDEBAR CONTENT -->
+    <cdk-sidebar class="sidebar" name="cdk-vinculacao-role-filter" position="left">
+        <cdk-vinculacao-role-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-vinculacao-role-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
@@ -119,11 +117,13 @@
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1" matColumnDef="atualizadoPor.nome">
+                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1"
+                              matColumnDef="atualizadoPor.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Atualizado Por
                     </th>
-                    <td mat-cell *matCellDef="let vinculacaoRole" class='has_label_on_mobile' data-label='Atualizado Por: '
+                    <td mat-cell *matCellDef="let vinculacaoRole" class='has_label_on_mobile'
+                        data-label='Atualizado Por: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoRole.id) > -1}"> {{vinculacaoRole.atualizadoPor?.nome}} </td>
                 </ng-container>
 
@@ -132,7 +132,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Atualizado Em
                     </th>
-                    <td mat-cell *matCellDef="let vinculacaoRole" class='has_label_on_mobile' data-label='Atualizado Em: '
+                    <td mat-cell *matCellDef="let vinculacaoRole" class='has_label_on_mobile'
+                        data-label='Atualizado Em: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoRole.id) > -1}"> {{vinculacaoRole.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 

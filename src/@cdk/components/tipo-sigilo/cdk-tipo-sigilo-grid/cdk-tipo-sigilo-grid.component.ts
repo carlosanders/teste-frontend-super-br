@@ -36,6 +36,9 @@ export class CdkTipoSigiloGridComponent implements AfterViewInit, OnInit, OnChan
     total = 0;
 
     @Input()
+    mode = 'list';
+
+    @Input()
     displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'nivelAcesso', 'prazoAnos', 'leiAcessoInformacao', 'actions'];
 
     allColumns: any[] = [

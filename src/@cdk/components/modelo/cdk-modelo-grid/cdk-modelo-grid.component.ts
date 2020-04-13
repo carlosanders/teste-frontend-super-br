@@ -39,6 +39,9 @@ export class CdkModeloGridComponent implements AfterViewInit, OnInit, OnChanges 
     mode = 'list';
 
     @Input()
+    mode = 'list';
+
+    @Input()
     displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'highlights', 'ativo', 'actions'];
 
     allColumns: any[] = [

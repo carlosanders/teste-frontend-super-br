@@ -35,6 +35,9 @@ export class CdkInteressadoGridComponent implements AfterViewInit, OnInit, OnCha
     total = 0;
 
     @Input()
+    mode = 'list';
+
+    @Input()
     displayedColumns: string[] = ['select', 'id', 'pessoa.nome', 'modalidadeInteressado.valor', 'actions'];
 
     allColumns: any[] = [

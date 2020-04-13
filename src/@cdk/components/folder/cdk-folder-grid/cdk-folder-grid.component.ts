@@ -36,6 +36,9 @@ export class CdkFolderGridComponent implements AfterViewInit, OnInit, OnChanges 
     total = 0;
 
     @Input()
+    mode = 'list';
+
+    @Input()
     displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'modalidadeFolder.valor', 'actions'];
 
     allColumns: any[] = [

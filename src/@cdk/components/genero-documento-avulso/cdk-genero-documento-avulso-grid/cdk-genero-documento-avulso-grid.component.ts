@@ -36,6 +36,9 @@ export class CdkGeneroDocumentoAvulsoGridComponent implements AfterViewInit, OnI
     total = 0;
 
     @Input()
+    mode = 'list';
+
+    @Input()
     displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'actions'];
 
     allColumns: any[] = [

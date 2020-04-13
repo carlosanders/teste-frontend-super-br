@@ -36,6 +36,9 @@ export class CdkDesentranhamentoGridComponent implements AfterViewInit, OnInit, 
     total = 0;
 
     @Input()
+    mode = 'list';
+
+    @Input()
     displayedColumns: string[] = ['select', 'id', 'juntada.descricao', 'processoDestino.NUP', 'observacao', 'actions'];
 
     allColumns: any[] = [

@@ -33,6 +33,9 @@ export class CdkLembreteHistoricoComponent implements AfterViewInit, OnInit, OnC
     @Input()
     total = 0;
     @Input()
+    mode = 'list';
+
+    @Input()
     displayedColumns: string[] = ['id', 'conteudo', 'criadoEm'];
     allColumns: any[] = [
         {

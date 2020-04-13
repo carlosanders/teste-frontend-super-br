@@ -36,6 +36,9 @@ export class CdkLocalizadorGridComponent implements AfterViewInit, OnInit, OnCha
     total = 0;
 
     @Input()
+    mode = 'list';
+
+    @Input()
     displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'ativo', 'setor.nome', 'actions'];
 
     allColumns: any[] = [

@@ -35,6 +35,9 @@ export class CdkDocumentoIdentificadorGridComponent implements AfterViewInit, On
     total = 0;
 
     @Input()
+    mode = 'list';
+
+    @Input()
     displayedColumns: string[] = ['select', 'id', 'modalidadeDocumentoIdentificador.valor', 'codigoDocumento', 'emissorDocumento',
         'dataEmissao', 'origemDados.fonteDados', 'actions'];
 

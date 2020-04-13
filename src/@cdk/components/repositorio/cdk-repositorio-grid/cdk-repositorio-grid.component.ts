@@ -39,6 +39,9 @@ export class CdkRepositorioGridComponent implements AfterViewInit, OnInit, OnCha
     mode = 'list';
 
     @Input()
+    mode = 'list';
+
+    @Input()
     displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'highlights', 'modalidadeRepositorio.valor', 'ativo', 'actions'];
 
     allColumns: any[] = [

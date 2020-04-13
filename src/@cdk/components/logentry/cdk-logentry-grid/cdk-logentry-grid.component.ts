@@ -37,6 +37,9 @@ export class CdkLogentryGridComponent implements AfterViewInit, OnInit, OnChange
     total = 0;
 
     @Input()
+    mode = 'list';
+
+    @Input()
     displayedColumns: string[] = ['id', 'loggedAt', 'username', 'valor'];
 
     allColumns: any[] = [

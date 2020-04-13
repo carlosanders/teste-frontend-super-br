@@ -2,9 +2,7 @@
 
     <!-- SIDEBAR -->
     <cdk-sidebar class="sidebar" name="cdk-lembrete-filter" position="left">
-                <cdk-xxx-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-xxx-filter>lembrete-filter (selected)="setFilter($event)" [@animate]="{value:'*'}"></cdk-lembrete-filter>
-        </div>
-        <!-- / SIDEBAR CONTENT -->
+        <cdk-lembrete-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-lembrete-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
@@ -119,7 +117,8 @@
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1" matColumnDef="atualizadoPor.nome">
+                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1"
+                              matColumnDef="atualizadoPor.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Atualizado Por
                     </th>

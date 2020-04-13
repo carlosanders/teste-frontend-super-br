@@ -45,6 +45,9 @@ export class CdkCampoGridComponent implements AfterViewInit, OnInit, OnChanges {
     mode = 'list';
 
     @Input()
+    mode = 'list';
+
+    @Input()
     displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'html', 'actions'];
 
     allColumns: any[] = [

@@ -36,6 +36,9 @@ export class CdkTemplateGridComponent implements AfterViewInit, OnInit, OnChange
     total = 0;
 
     @Input()
+    mode = 'list';
+
+    @Input()
     displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'modalidadeTemplate.valor', 'documento.descricaoOutros', 'actions'];
 
     allColumns: any[] = [

@@ -36,6 +36,9 @@ export class CdkRepresentanteGridComponent implements AfterViewInit, OnInit, OnC
     total = 0;
 
     @Input()
+    mode = 'list';
+
+    @Input()
     displayedColumns: string[] = ['select', 'id', 'nome', 'inscricao', 'modalidadeRepresentante.valor', 'interessado.pessoa.nome',
         'origemDados.servico', 'actions'];
 

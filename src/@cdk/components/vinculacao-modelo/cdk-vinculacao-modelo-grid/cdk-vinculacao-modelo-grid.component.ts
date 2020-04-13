@@ -36,6 +36,9 @@ export class CdkVinculacaoModeloGridComponent implements AfterViewInit, OnInit, 
     total = 0;
 
     @Input()
+    mode = 'list';
+
+    @Input()
     displayedColumns: string[] = ['select', 'id', 'modelo.nome', 'especieSetor.nome', 'setor.nome', 'usuario.nome', 'actions'];
 
     allColumns: any[] = [

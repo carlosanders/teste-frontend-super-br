@@ -36,6 +36,9 @@ export class CdkHistoricoGridComponent implements AfterViewInit, OnInit, OnChang
     total = 0;
 
     @Input()
+    mode = 'list';
+
+    @Input()
     displayedColumns: string[] = ['select', 'id', 'descricao', 'processo.NUP', 'actions'];
 
     allColumns: any[] = [

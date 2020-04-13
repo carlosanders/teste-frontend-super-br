@@ -35,6 +35,9 @@ export class CdkGarantiaGridComponent implements AfterViewInit, OnInit, OnChange
     total = 0;
 
     @Input()
+    mode = 'list';
+
+    @Input()
     displayedColumns: string[] = ['select', 'id', 'modalidadeGarantia.valor', 'valor','dataValor','descricao', 'actions'];
 
     allColumns: any[] = [

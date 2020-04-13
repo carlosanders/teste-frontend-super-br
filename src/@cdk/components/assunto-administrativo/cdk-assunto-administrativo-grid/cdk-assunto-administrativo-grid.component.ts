@@ -36,6 +36,9 @@ export class CdkAssuntoAdministrativoGridComponent implements AfterViewInit, OnI
     total = 0;
 
     @Input()
+    mode = 'list';
+
+    @Input()
     displayedColumns: string[] = ['select', 'id', 'nome', 'glossario', 'actions'];
 
     allColumns: any[] = [

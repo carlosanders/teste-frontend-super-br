@@ -35,6 +35,9 @@ export class CdkAssinaturaGridComponent implements AfterViewInit, OnInit, OnChan
     total = 0;
 
     @Input()
+    mode = 'list';
+
+    @Input()
     displayedColumns: string[] = ['select', 'id', 'criadoEm', 'criadoPor.nome', 'dataHoraAssinatura', 'actions'];
 
     allColumns: any[] = [

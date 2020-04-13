@@ -35,6 +35,9 @@ export class CdkCargoGridComponent implements AfterViewInit, OnInit, OnChanges {
     total = 0;
 
     @Input()
+    mode = 'list';
+
+    @Input()
     displayedColumns: string[] = ['select', 'id', 'ativo', 'nome', 'descricao', 'actions'];
 
     allColumns: any[] = [

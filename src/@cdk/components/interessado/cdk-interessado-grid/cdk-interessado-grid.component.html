@@ -2,9 +2,7 @@
 
     <!-- SIDEBAR -->
     <cdk-sidebar class="sidebar" name="cdk-interessado-filter" position="left">
-                <cdk-xxx-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-xxx-filter>interessado-filter (selected)="setFilter($event)" [@animate]="{value:'*'}"></cdk-interessado-filter>
-        </div>
-        <!-- / SIDEBAR CONTENT -->
+        <cdk-interessado-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-interessado-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
@@ -93,11 +91,13 @@
                 </ng-container>
 
                 <!--  ModalidadeInteressado Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('modalidadeInteressado.valor') > -1" matColumnDef="modalidadeInteressado.valor">
+                <ng-container *ngIf="displayedColumns.indexOf('modalidadeInteressado.valor') > -1"
+                              matColumnDef="modalidadeInteressado.valor">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Modalidade Interessado
                     </th>
-                    <td mat-cell *matCellDef="let interessado" class='has_label_on_mobile' data-label='Modalidade Interessado: '
+                    <td mat-cell *matCellDef="let interessado" class='has_label_on_mobile'
+                        data-label='Modalidade Interessado: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(interessado.id) > -1}"> {{interessado.modalidadeInteressado?.valor}} </td>
                 </ng-container>
 
@@ -111,11 +111,13 @@
                 </ng-container>
 
                 <!-- OrigemDados Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('origemDados.fonteDados') > -1" matColumnDef="origemDados.fonteDados">
+                <ng-container *ngIf="displayedColumns.indexOf('origemDados.fonteDados') > -1"
+                              matColumnDef="origemDados.fonteDados">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Origem de Dados
                     </th>
-                    <td mat-cell *matCellDef="let interessado" class='has_label_on_mobile' data-label='Origem de Dados: '
+                    <td mat-cell *matCellDef="let interessado" class='has_label_on_mobile'
+                        data-label='Origem de Dados: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(interessado.id) > -1}"> {{interessado.origemDados?.fonteDados}} </td>
                 </ng-container>
 
@@ -138,7 +140,8 @@
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1" matColumnDef="atualizadoPor.nome">
+                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1"
+                              matColumnDef="atualizadoPor.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Atualizado Por
                     </th>

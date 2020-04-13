@@ -36,6 +36,9 @@ export class CdkEspecieDocumentoGridComponent implements AfterViewInit, OnInit, 
     total = 0;
 
     @Input()
+    mode = 'list';
+
+    @Input()
     displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'generoDocumento.nome', 'actions'];
 
     allColumns: any[] = [

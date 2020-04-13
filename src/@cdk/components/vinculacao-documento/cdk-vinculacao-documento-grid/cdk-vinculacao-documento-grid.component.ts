@@ -36,6 +36,9 @@ export class CdkVinculacaoDocumentoGridComponent implements AfterViewInit, OnIni
     total = 0;
 
     @Input()
+    mode = 'list';
+
+    @Input()
     displayedColumns: string[] = ['select', 'id', 'documento.tipoDocumento.nome', 'documentoVinculado.tipoDocumento.nome',
         'modalidadeVinculacaoDocumento.valor', 'actions'];
 

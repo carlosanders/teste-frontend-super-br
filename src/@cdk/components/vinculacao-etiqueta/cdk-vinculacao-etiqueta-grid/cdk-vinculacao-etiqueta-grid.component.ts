@@ -36,6 +36,9 @@ export class CdkVinculacaoEtiquetaGridComponent implements AfterViewInit, OnInit
     total = 0;
 
     @Input()
+    mode = 'list';
+
+    @Input()
     displayedColumns: string[] = ['select', 'id', 'etiqueta.nome', 'tarefa.especieTarefa.nome', 'documento.tipoDocumento.nome',
         'processo.NUP', 'actions'];
 

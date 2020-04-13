@@ -36,6 +36,9 @@ export class CdkModalidadeQualificacaoPessoaGridComponent implements AfterViewIn
     total = 0;
 
     @Input()
+    mode = 'list';
+
+    @Input()
     displayedColumns: string[] = ['select', 'id', 'valor', 'descricao', 'actions'];
 
     allColumns: any[] = [

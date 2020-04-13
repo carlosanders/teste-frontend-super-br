@@ -36,6 +36,9 @@ export class CdkNomeGridComponent implements AfterViewInit, OnInit, OnChanges {
     total = 0;
 
     @Input()
+    mode = 'list';
+
+    @Input()
     displayedColumns: string[] = ['select', 'id', 'valor', 'origemDados.fonteDados', 'actions'];
 
     allColumns: any[] = [

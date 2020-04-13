@@ -36,6 +36,9 @@ export class CdkJuntadaGridComponent implements AfterViewInit, OnInit, OnChanges
     total = 0;
 
     @Input()
+    mode = 'list';
+
+    @Input()
     displayedColumns: string[] = ['select', 'id', 'numeracaoSequencial', 'descricao', 'documento.tipoDocumento.nome', 'actions'];
 
     allColumns: any[] = [

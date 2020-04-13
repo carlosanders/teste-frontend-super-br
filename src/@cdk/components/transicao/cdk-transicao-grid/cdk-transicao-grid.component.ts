@@ -36,6 +36,9 @@ export class CdkTransicaoGridComponent implements AfterViewInit, OnInit, OnChang
     total = 0;
 
     @Input()
+    mode = 'list';
+
+    @Input()
     displayedColumns: string[] = ['select', 'id', 'modalidadeTransicao.valor', 'observacao', 'metodo', 'edital', 'actions'];
 
     allColumns: any[] = [

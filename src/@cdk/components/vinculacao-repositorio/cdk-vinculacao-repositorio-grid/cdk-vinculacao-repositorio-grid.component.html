@@ -2,9 +2,7 @@
 
     <!-- SIDEBAR -->
     <cdk-sidebar class="sidebar" name="cdk-vinculacao-repositorio-filter" position="left">
-                <cdk-xxx-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-xxx-filter>vinculacao-repositorio-filter (selected)="setFilter($event)" [@animate]="{value:'*'}"></cdk-vinculacao-repositorio-filter>
-        </div>
-        <!-- / SIDEBAR CONTENT -->
+        <cdk-vinculacao-repositorio-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-vinculacao-repositorio-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
@@ -87,16 +85,19 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Nome do Repositorio
                     </th>
-                    <td mat-cell *matCellDef="let vinculacaoModelo" class='has_label_on_mobile' data-label='Nome do Repositorio: '
+                    <td mat-cell *matCellDef="let vinculacaoModelo" class='has_label_on_mobile'
+                        data-label='Nome do Repositorio: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoModelo.id) > -1}"> {{vinculacaoModelo.modelo?.nome}} </td>
                 </ng-container>
 
                 <!-- EspecieSetor Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('especieSetor.nome') > -1" matColumnDef="especieSetor.nome">
+                <ng-container *ngIf="displayedColumns.indexOf('especieSetor.nome') > -1"
+                              matColumnDef="especieSetor.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Espécie do Setor
                     </th>
-                    <td mat-cell *matCellDef="let vinculacaoModelo" class='has_label_on_mobile' data-label='Espécie do Setor: '
+                    <td mat-cell *matCellDef="let vinculacaoModelo" class='has_label_on_mobile'
+                        data-label='Espécie do Setor: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoModelo.id) > -1}"> {{vinculacaoModelo.especieSetor?.nome}} </td>
                 </ng-container>
 
@@ -123,7 +124,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Criado Por
                     </th>
-                    <td mat-cell *matCellDef="let vinculacaoModelo" class='has_label_on_mobile' data-label='Criado Por: '
+                    <td mat-cell *matCellDef="let vinculacaoModelo" class='has_label_on_mobile'
+                        data-label='Criado Por: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoModelo.id) > -1}"> {{vinculacaoModelo.criadoPor?.nome}} </td>
                 </ng-container>
 
@@ -137,11 +139,13 @@
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1" matColumnDef="atualizadoPor.nome">
+                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1"
+                              matColumnDef="atualizadoPor.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Atualizado Por
                     </th>
-                    <td mat-cell *matCellDef="let vinculacaoModelo" class='has_label_on_mobile' data-label='Atualizado Por: '
+                    <td mat-cell *matCellDef="let vinculacaoModelo" class='has_label_on_mobile'
+                        data-label='Atualizado Por: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoModelo.id) > -1}"> {{vinculacaoModelo.atualizadoPor?.nome}} </td>
                 </ng-container>
 
@@ -150,7 +154,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Atualizado Em
                     </th>
-                    <td mat-cell *matCellDef="let vinculacaoModelo" class='has_label_on_mobile' data-label='Atualizado Em: '
+                    <td mat-cell *matCellDef="let vinculacaoModelo" class='has_label_on_mobile'
+                        data-label='Atualizado Em: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoModelo.id) > -1}"> {{vinculacaoModelo.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
@@ -159,7 +164,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Apagado Por
                     </th>
-                    <td mat-cell *matCellDef="let vinculacaoModelo" class='has_label_on_mobile' data-label='Apagado Por: '
+                    <td mat-cell *matCellDef="let vinculacaoModelo" class='has_label_on_mobile'
+                        data-label='Apagado Por: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoModelo.id) > -1}"> {{vinculacaoModelo.apagadoPor?.nome}} </td>
                 </ng-container>
 
@@ -168,7 +174,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Apagado Em
                     </th>
-                    <td mat-cell *matCellDef="let vinculacaoModelo" class='has_label_on_mobile' data-label='Apagado Em: '
+                    <td mat-cell *matCellDef="let vinculacaoModelo" class='has_label_on_mobile'
+                        data-label='Apagado Em: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoModelo.id) > -1}"> {{vinculacaoModelo.apagadoEm | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 

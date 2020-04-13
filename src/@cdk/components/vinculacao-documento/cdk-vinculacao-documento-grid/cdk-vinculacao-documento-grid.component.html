@@ -2,9 +2,7 @@
 
     <!-- SIDEBAR -->
     <cdk-sidebar class="sidebar" name="cdk-vinculacao-documento-filter" position="left">
-                <cdk-xxx-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-xxx-filter>vinculacao-documento-filter (selected)="setFilter($event)" [@animate]="{value:'*'}"></cdk-vinculacao-documento-filter>
-        </div>
-        <!-- / SIDEBAR CONTENT -->
+        <cdk-vinculacao-documento-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-vinculacao-documento-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
@@ -87,25 +85,30 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Documento
                     </th>
-                    <td mat-cell *matCellDef="let vinculacaoDocumento" class='has_label_on_mobile' data-label='Documento: '
+                    <td mat-cell *matCellDef="let vinculacaoDocumento" class='has_label_on_mobile'
+                        data-label='Documento: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoDocumento.id) > -1}"> {{vinculacaoDocumento.documento?.tipoDocumento?.nome}} </td>
                 </ng-container>
 
                 <!-- DocumentoVinculado Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('documentoVinculado.tipoDocumento.nome') > -1" matColumnDef="documentoVinculado.tipoDocumento.nome">
+                <ng-container *ngIf="displayedColumns.indexOf('documentoVinculado.tipoDocumento.nome') > -1"
+                              matColumnDef="documentoVinculado.tipoDocumento.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Documento Vinculado
                     </th>
-                    <td mat-cell *matCellDef="let vinculacaoDocumento" class='has_label_on_mobile' data-label='Documento Vinculado: '
+                    <td mat-cell *matCellDef="let vinculacaoDocumento" class='has_label_on_mobile'
+                        data-label='Documento Vinculado: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoDocumento.id) > -1}"> {{vinculacaoDocumento.documentoVinculado?.tipoDocumento?.nome}} </td>
                 </ng-container>
 
                 <!-- ModalidadeVinculacaoDocumento Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('documentoVinculado.descricaoOutros') > -1" matColumnDef="documentoVinculado.descricaoOutros">
+                <ng-container *ngIf="displayedColumns.indexOf('documentoVinculado.descricaoOutros') > -1"
+                              matColumnDef="documentoVinculado.descricaoOutros">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Modalidade da Vinculação do Documento
                     </th>
-                    <td mat-cell *matCellDef="let vinculacaoDocumento" class='has_label_on_mobile' data-label='Modalidade da Vinculação do Documento: '
+                    <td mat-cell *matCellDef="let vinculacaoDocumento" class='has_label_on_mobile'
+                        data-label='Modalidade da Vinculação do Documento: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoDocumento.id) > -1}"> {{vinculacaoDocumento.documentoVinculado?.descricaoOutros}} </td>
                 </ng-container>
 
@@ -114,7 +117,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Criado Por
                     </th>
-                    <td mat-cell *matCellDef="let vinculacaoDocumento" class='has_label_on_mobile' data-label='Criado Por: '
+                    <td mat-cell *matCellDef="let vinculacaoDocumento" class='has_label_on_mobile'
+                        data-label='Criado Por: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoDocumento.id) > -1}"> {{vinculacaoDocumento.criadoPor?.nome}} </td>
                 </ng-container>
 
@@ -123,16 +127,19 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Criado Em
                     </th>
-                    <td mat-cell *matCellDef="let vinculacaoDocumento" class='has_label_on_mobile' data-label='Criado Em: '
+                    <td mat-cell *matCellDef="let vinculacaoDocumento" class='has_label_on_mobile'
+                        data-label='Criado Em: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoDocumento.id) > -1}"> {{vinculacaoDocumento.criadoEm | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1" matColumnDef="atualizadoPor.nome">
+                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1"
+                              matColumnDef="atualizadoPor.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Atualizado Por
                     </th>
-                    <td mat-cell *matCellDef="let vinculacaoDocumento" class='has_label_on_mobile' data-label='Atualizado Por: '
+                    <td mat-cell *matCellDef="let vinculacaoDocumento" class='has_label_on_mobile'
+                        data-label='Atualizado Por: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoDocumento.id) > -1}"> {{vinculacaoDocumento.atualizadoPor?.nome}} </td>
                 </ng-container>
 
@@ -141,7 +148,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Atualizado Em
                     </th>
-                    <td mat-cell *matCellDef="let vinculacaoDocumento" class='has_label_on_mobile' data-label='Atualizado Em: '
+                    <td mat-cell *matCellDef="let vinculacaoDocumento" class='has_label_on_mobile'
+                        data-label='Atualizado Em: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoDocumento.id) > -1}"> {{vinculacaoDocumento.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
@@ -150,7 +158,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Apagado Por
                     </th>
-                    <td mat-cell *matCellDef="let vinculacaoDocumento" class='has_label_on_mobile' data-label='Apagado Por: '
+                    <td mat-cell *matCellDef="let vinculacaoDocumento" class='has_label_on_mobile'
+                        data-label='Apagado Por: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoDocumento.id) > -1}"> {{vinculacaoDocumento.apagadoPor?.nome}} </td>
                 </ng-container>
 
@@ -159,7 +168,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Apagado Em
                     </th>
-                    <td mat-cell *matCellDef="let vinculacaoDocumento" class='has_label_on_mobile' data-label='Apagado Em: '
+                    <td mat-cell *matCellDef="let vinculacaoDocumento" class='has_label_on_mobile'
+                        data-label='Apagado Em: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoDocumento.id) > -1}"> {{vinculacaoDocumento.apagadoEm | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 

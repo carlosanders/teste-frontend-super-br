@@ -35,6 +35,9 @@ export class CdkAreaTrabalhoGridComponent implements AfterViewInit, OnInit, OnCh
     total = 0;
 
     @Input()
+    mode = 'list';
+
+    @Input()
     displayedColumns: string[] = ['select', 'id', 'usuario.nome', 'dono', 'actions'];
 
     allColumns: any[] = [

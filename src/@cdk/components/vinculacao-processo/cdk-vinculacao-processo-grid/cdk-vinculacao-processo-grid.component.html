@@ -2,9 +2,7 @@
 
     <!-- SIDEBAR -->
     <cdk-sidebar class="sidebar" name="cdk-vinculacao-processo-filter" position="left">
-                <cdk-xxx-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-xxx-filter>vinculacao-processo-filter (selected)="setFilter($event)" [@animate]="{value:'*'}"></cdk-vinculacao-processo-filter>
-        </div>
-        <!-- / SIDEBAR CONTENT -->
+        <cdk-vinculacao-processo-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-vinculacao-processo-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
@@ -87,25 +85,30 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Principal
                     </th>
-                    <td mat-cell *matCellDef="let vinculacaoProcesso" class='has_label_on_mobile' data-label='Principal: '
+                    <td mat-cell *matCellDef="let vinculacaoProcesso" class='has_label_on_mobile'
+                        data-label='Principal: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoProcesso.id) > -1}"> {{vinculacaoProcesso.processo?.NUP}} </td>
                 </ng-container>
 
                 <!-- ProcessoVinculado Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('processoVinculado.NUP') > -1" matColumnDef="processoVinculado.NUP">
+                <ng-container *ngIf="displayedColumns.indexOf('processoVinculado.NUP') > -1"
+                              matColumnDef="processoVinculado.NUP">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Vinculado
                     </th>
-                    <td mat-cell *matCellDef="let vinculacaoProcesso" class='has_label_on_mobile' data-label='Vinculado: '
+                    <td mat-cell *matCellDef="let vinculacaoProcesso" class='has_label_on_mobile'
+                        data-label='Vinculado: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoProcesso.id) > -1}"> {{vinculacaoProcesso.processoVinculado?.NUP}} </td>
                 </ng-container>
 
                 <!-- ModalidadeVinculacaoProcesso Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('modalidadeVinculacaoProcesso.valor') > -1" matColumnDef="modalidadeVinculacaoProcesso.valor">
+                <ng-container *ngIf="displayedColumns.indexOf('modalidadeVinculacaoProcesso.valor') > -1"
+                              matColumnDef="modalidadeVinculacaoProcesso.valor">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Modalidade
                     </th>
-                    <td mat-cell *matCellDef="let vinculacaoProcesso" class='has_label_on_mobile' data-label='Modalidade: '
+                    <td mat-cell *matCellDef="let vinculacaoProcesso" class='has_label_on_mobile'
+                        data-label='Modalidade: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoProcesso.id) > -1}"> {{vinculacaoProcesso.modalidadeVinculacaoProcesso?.valor}} </td>
                 </ng-container>
 
@@ -114,7 +117,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Observação
                     </th>
-                    <td mat-cell *matCellDef="let vinculacaoProcesso" class='has_label_on_mobile' data-label='Observação: '
+                    <td mat-cell *matCellDef="let vinculacaoProcesso" class='has_label_on_mobile'
+                        data-label='Observação: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoProcesso.id) > -1}"> {{vinculacaoProcesso.observacao}} </td>
                 </ng-container>
 
@@ -123,7 +127,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Criado Por
                     </th>
-                    <td mat-cell *matCellDef="let vinculacaoProcesso" class='has_label_on_mobile' data-label='Criado Por: '
+                    <td mat-cell *matCellDef="let vinculacaoProcesso" class='has_label_on_mobile'
+                        data-label='Criado Por: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoProcesso.id) > -1}"> {{vinculacaoProcesso.criadoPor?.nome}} </td>
                 </ng-container>
 
@@ -132,16 +137,19 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Criado Em
                     </th>
-                    <td mat-cell *matCellDef="let vinculacaoProcesso" class='has_label_on_mobile' data-label='Criado Em: '
+                    <td mat-cell *matCellDef="let vinculacaoProcesso" class='has_label_on_mobile'
+                        data-label='Criado Em: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoProcesso.id) > -1}"> {{vinculacaoProcesso.criadoEm | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1" matColumnDef="atualizadoPor.nome">
+                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1"
+                              matColumnDef="atualizadoPor.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Atualizado Por
                     </th>
-                    <td mat-cell *matCellDef="let vinculacaoProcesso" class='has_label_on_mobile' data-label='Atualizado Por: '
+                    <td mat-cell *matCellDef="let vinculacaoProcesso" class='has_label_on_mobile'
+                        data-label='Atualizado Por: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoProcesso.id) > -1}"> {{vinculacaoProcesso.atualizadoPor?.nome}} </td>
                 </ng-container>
 
@@ -150,7 +158,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Atualizado Em
                     </th>
-                    <td mat-cell *matCellDef="let vinculacaoProcesso" class='has_label_on_mobile' data-label='Atualizado Em: '
+                    <td mat-cell *matCellDef="let vinculacaoProcesso" class='has_label_on_mobile'
+                        data-label='Atualizado Em: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoProcesso.id) > -1}"> {{vinculacaoProcesso.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
@@ -159,7 +168,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Apagado Por
                     </th>
-                    <td mat-cell *matCellDef="let vinculacaoProcesso" class='has_label_on_mobile' data-label='Apagado Por: '
+                    <td mat-cell *matCellDef="let vinculacaoProcesso" class='has_label_on_mobile'
+                        data-label='Apagado Por: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoProcesso.id) > -1}"> {{vinculacaoProcesso.apagadoPor?.nome}} </td>
                 </ng-container>
 
@@ -168,7 +178,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Apagado Em
                     </th>
-                    <td mat-cell *matCellDef="let vinculacaoProcesso" class='has_label_on_mobile' data-label='Apagado Em: '
+                    <td mat-cell *matCellDef="let vinculacaoProcesso" class='has_label_on_mobile'
+                        data-label='Apagado Em: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoProcesso.id) > -1}"> {{vinculacaoProcesso.apagadoEm | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 

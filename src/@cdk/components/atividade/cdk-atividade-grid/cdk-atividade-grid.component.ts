@@ -35,6 +35,9 @@ export class CdkAtividadeGridComponent implements AfterViewInit, OnInit, OnChang
     total = 0;
 
     @Input()
+    mode = 'list';
+
+    @Input()
     displayedColumns: string[] = ['select', 'id', 'dataHoraConclusao', 'especieAtividade.nome', 'usuario.nome', 'encerraTarefa', 'actions'];
 
     allColumns: any[] = [

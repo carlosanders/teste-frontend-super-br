@@ -2,9 +2,7 @@
 
     <!-- SIDEBAR -->
     <cdk-sidebar class="sidebar" name="cdk-modelo-filter" position="left">
-                <cdk-xxx-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-xxx-filter>modelo-filter (selected)="setFilter($event)" [@animate]="{value:'*'}"></cdk-modelo-filter>
-        </div>
-        <!-- / SIDEBAR CONTENT -->
+        <cdk-modelo-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-modelo-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
@@ -34,7 +32,8 @@
                 <mat-icon>refresh</mat-icon>
             </button>
 
-            <button *ngIf="mode === 'list'" class="toggle-filter" mat-icon-button [ngClass]="{'warn': !(gridFilter | json).includes('{}')}"
+            <button *ngIf="mode === 'list'" class="toggle-filter" mat-icon-button
+                    [ngClass]="{'warn': !(gridFilter | json).includes('{}')}"
                     (click)="toggleFilter()"
                     aria-label="filtrar"
                     matTooltip="Filtrar">
@@ -98,7 +97,8 @@
                         Resumo
                     </th>
                     <td mat-cell *matCellDef="let modelo" class='has_label_on_mobile' data-label='Resumo: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(modelo.id) > -1}"><span [innerHTML]="modelo.highlights | safeHtml"></span></td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(modelo.id) > -1}"><span
+                        [innerHTML]="modelo.highlights | safeHtml"></span></td>
                 </ng-container>
 
                 <!-- Ativo Column -->
@@ -114,7 +114,8 @@
                 </ng-container>
 
                 <!-- Modalidade Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('modalidadeModelo.valor') > -1" matColumnDef="modalidadeModelo.valor">
+                <ng-container *ngIf="displayedColumns.indexOf('modalidadeModelo.valor') > -1"
+                              matColumnDef="modalidadeModelo.valor">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Modalidade
                     </th>
@@ -132,7 +133,8 @@
                 </ng-container>
 
                 <!-- Documento Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('documento.tipoDocumento.nome') > -1" matColumnDef="documento.tipoDocumento.nome">
+                <ng-container *ngIf="displayedColumns.indexOf('documento.tipoDocumento.nome') > -1"
+                              matColumnDef="documento.tipoDocumento.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Documento
                     </th>
@@ -159,7 +161,8 @@
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1" matColumnDef="atualizadoPor.nome">
+                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1"
+                              matColumnDef="atualizadoPor.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Atualizado Por
                     </th>

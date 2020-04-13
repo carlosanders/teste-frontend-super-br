@@ -2,10 +2,7 @@
 
     <!-- SIDEBAR -->
     <cdk-sidebar [lockedOpen]="(mode === 'search') ? 'gt-xs' : ''" class="sidebar" name="cdk-bloco-responsaveis-filter" position="left">
-                <cdk-xxx-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-xxx-filter>bloco-responsaveis-filter (selected)="setFilter($event)" [@animate]="{value:'*'}">
-            </cdk-bloco-responsaveis-filter>
-        </div>
-        <!-- / SIDEBAR CONTENT -->
+        <cdk-bloco-responsaveis-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-bloco-responsaveis-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
@@ -54,7 +51,8 @@
                     </th>
                     <td mat-cell *matCellDef="let responsavel">
                         <mat-checkbox [checked]="selectedIds.indexOf(responsavel.setor.id) > -1"
-                                      (change)="toggleInSelected(responsavel.setor.id)" (click)="$event.stopPropagation();"
+                                      (change)="toggleInSelected(responsavel.setor.id)"
+                                      (click)="$event.stopPropagation();"
                                       [disabled]="deletedIds?.indexOf(responsavel.setor.id) > -1">
                         </mat-checkbox>
                     </td>

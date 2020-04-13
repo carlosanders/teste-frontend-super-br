@@ -39,6 +39,9 @@ export class CdkEspecieTarefaGridComponent implements AfterViewInit, OnInit, OnC
     mode = 'list';
 
     @Input()
+    mode = 'list';
+
+    @Input()
     displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'generoTarefa.nome', 'actions'];
 
     allColumns: any[] = [

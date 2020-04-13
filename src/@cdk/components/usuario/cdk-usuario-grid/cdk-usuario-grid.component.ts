@@ -36,6 +36,9 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
     total = 0;
 
     @Input()
+    mode = 'list';
+
+    @Input()
     displayedColumns: string[] = ['select', 'id', 'nome', 'actions'];
 
     allColumns: any[] = [

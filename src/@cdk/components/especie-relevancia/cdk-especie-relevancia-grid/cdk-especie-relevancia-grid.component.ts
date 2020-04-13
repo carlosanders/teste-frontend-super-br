@@ -36,6 +36,9 @@ export class CdkEspecieRelevanciaGridComponent implements AfterViewInit, OnInit,
     total = 0;
 
     @Input()
+    mode = 'list';
+
+    @Input()
     displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'generoRelevancia.nome', 'actions'];
 
     allColumns: any[] = [

@@ -35,6 +35,9 @@ export class CdkAssuntoGridComponent implements AfterViewInit, OnInit, OnChanges
     total = 0;
 
     @Input()
+    mode = 'list';
+
+    @Input()
     displayedColumns: string[] = ['select', 'id', 'assuntoAdministrativo.nome', 'principal', 'actions'];
 
     allColumns: any[] = [

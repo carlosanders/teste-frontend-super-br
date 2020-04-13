@@ -2,9 +2,7 @@
 
     <!-- SIDEBAR -->
     <cdk-sidebar class="sidebar" name="cdk-modalidade-repositorio-filter" position="left">
-                <cdk-xxx-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-xxx-filter>modalidade-repositorio-filter (selected)="setFilter($event)" [@animate]="{value:'*'}"></cdk-modalidade-repositorio-filter>
-        </div>
-        <!-- / SIDEBAR CONTENT -->
+        <cdk-modalidade-repositorio-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-modalidade-repositorio-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
@@ -79,7 +77,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> &nbsp; Id
                     </th>
                     <td mat-cell *matCellDef="let modalidaderepositorio" class='has_label_on_mobile' data-label='Id: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(modalidaderepositorio.id) > -1}"> &nbsp;{{modalidaderepositorio.id}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(modalidaderepositorio.id) > -1}">
+                        &nbsp;{{modalidaderepositorio.id}} </td>
                 </ng-container>
 
                 <!-- Descrição Column -->
@@ -87,7 +86,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Descrição
                     </th>
-                    <td mat-cell *matCellDef="let modalidaderepositorio" class='has_label_on_mobile' data-label='Descrição: '
+                    <td mat-cell *matCellDef="let modalidaderepositorio" class='has_label_on_mobile'
+                        data-label='Descrição: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(modalidaderepositorio.id) > -1}"> {{modalidaderepositorio.descricao}} </td>
                 </ng-container>
 
@@ -96,7 +96,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Valor
                     </th>
-                    <td mat-cell *matCellDef="let modalidaderepositorio" class='has_label_on_mobile' data-label='Valor: '
+                    <td mat-cell *matCellDef="let modalidaderepositorio" class='has_label_on_mobile'
+                        data-label='Valor: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(modalidaderepositorio.id) > -1}"> {{modalidaderepositorio.valor}} </td>
                 </ng-container>
 
@@ -105,7 +106,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Ativo
                     </th>
-                    <td mat-cell *matCellDef="let modalidaderepositorio" class='has_label_on_mobile' data-label='Ativo: '
+                    <td mat-cell *matCellDef="let modalidaderepositorio" class='has_label_on_mobile'
+                        data-label='Ativo: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(modalidaderepositorio.id) > -1}">
                         <mat-checkbox [disabled]="true" [checked]="modalidaderepositorio.ativo"></mat-checkbox>
                     </td>
@@ -116,7 +118,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Criado Por
                     </th>
-                    <td mat-cell *matCellDef="let modalidaderepositorio" class='has_label_on_mobile' data-label='Criado Por: '
+                    <td mat-cell *matCellDef="let modalidaderepositorio" class='has_label_on_mobile'
+                        data-label='Criado Por: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(modalidaderepositorio.id) > -1}"> {{modalidaderepositorio.criadoPor?.nome}} </td>
                 </ng-container>
 
@@ -125,16 +128,19 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Criado Em
                     </th>
-                    <td mat-cell *matCellDef="let modalidaderepositorio" class='has_label_on_mobile' data-label='Criado Em: '
+                    <td mat-cell *matCellDef="let modalidaderepositorio" class='has_label_on_mobile'
+                        data-label='Criado Em: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(modalidaderepositorio.id) > -1}"> {{modalidaderepositorio.criadoEm | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1" matColumnDef="atualizadoPor.nome">
+                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1"
+                              matColumnDef="atualizadoPor.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Atualizado Por
                     </th>
-                    <td mat-cell *matCellDef="let modalidaderepositorio" class='has_label_on_mobile' data-label='Atualizado Por: '
+                    <td mat-cell *matCellDef="let modalidaderepositorio" class='has_label_on_mobile'
+                        data-label='Atualizado Por: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(modalidaderepositorio.id) > -1}"> {{modalidaderepositorio.atualizadoPor?.nome}} </td>
                 </ng-container>
 
@@ -143,7 +149,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Atualizado Em
                     </th>
-                    <td mat-cell *matCellDef="let modalidaderepositorio" class='has_label_on_mobile' data-label='Atualizado Em: '
+                    <td mat-cell *matCellDef="let modalidaderepositorio" class='has_label_on_mobile'
+                        data-label='Atualizado Em: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(modalidaderepositorio.id) > -1}"> {{modalidaderepositorio.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
@@ -152,7 +159,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Apagado Por
                     </th>
-                    <td mat-cell *matCellDef="let modalidaderepositorio" class='has_label_on_mobile' data-label='Apagado Por: '
+                    <td mat-cell *matCellDef="let modalidaderepositorio" class='has_label_on_mobile'
+                        data-label='Apagado Por: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(modalidaderepositorio.id) > -1}"> {{modalidaderepositorio.apagadoPor?.nome}} </td>
                 </ng-container>
 
@@ -161,7 +169,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Apagado Em
                     </th>
-                    <td mat-cell *matCellDef="let modalidaderepositorio" class='has_label_on_mobile' data-label='Apagado Em: '
+                    <td mat-cell *matCellDef="let modalidaderepositorio" class='has_label_on_mobile'
+                        data-label='Apagado Em: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(modalidaderepositorio.id) > -1}"> {{modalidaderepositorio.apagadoEm | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 

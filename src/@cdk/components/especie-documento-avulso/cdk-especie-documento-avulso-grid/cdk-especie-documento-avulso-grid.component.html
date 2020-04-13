@@ -2,9 +2,7 @@
 
     <!-- SIDEBAR -->
     <cdk-sidebar class="sidebar" name="cdk-especie-documento-avulso-filter" position="left">
-                <cdk-xxx-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-xxx-filter>especie-documento-avulso-filter (selected)="setFilter($event)" [@animate]="{value:'*'}"></cdk-especie-documento-avulso-filter>
-        </div>
-        <!-- / SIDEBAR CONTENT -->
+        <cdk-especie-documento-avulso-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-especie-documento-avulso-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
@@ -87,7 +85,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Nome
                     </th>
-                    <td mat-cell *matCellDef="let especieDocumentoAvulso" class='has_label_on_mobile' data-label='Nome: '
+                    <td mat-cell *matCellDef="let especieDocumentoAvulso" class='has_label_on_mobile'
+                        data-label='Nome: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(especieDocumentoAvulso.id) > -1}"> {{especieDocumentoAvulso.nome}} </td>
                 </ng-container>
 
@@ -96,16 +95,19 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Descrição
                     </th>
-                    <td mat-cell *matCellDef="let especieDocumentoAvulso" class='has_label_on_mobile' data-label='Descrição: '
+                    <td mat-cell *matCellDef="let especieDocumentoAvulso" class='has_label_on_mobile'
+                        data-label='Descrição: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(especieDocumentoAvulso.id) > -1}"> {{especieDocumentoAvulso.descricao}} </td>
                 </ng-container>
 
                 <!-- GeneroDocumentoAvulso Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('generoDocumentoAvulso.nome') > -1" matColumnDef="generoDocumentoAvulso.nome">
+                <ng-container *ngIf="displayedColumns.indexOf('generoDocumentoAvulso.nome') > -1"
+                              matColumnDef="generoDocumentoAvulso.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Gênero Documento Avulso
                     </th>
-                    <td mat-cell *matCellDef="let especieDocumentoAvulso" class='has_label_on_mobile' data-label='Gênero Documento Avulso: '
+                    <td mat-cell *matCellDef="let especieDocumentoAvulso" class='has_label_on_mobile'
+                        data-label='Gênero Documento Avulso: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(especieDocumentoAvulso.id) > -1}"> {{especieDocumentoAvulso.generoDocumentoAvulso?.nome}} </td>
                 </ng-container>
 
@@ -114,7 +116,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Ativo
                     </th>
-                    <td mat-cell *matCellDef="let especieDocumentoAvulso" class='has_label_on_mobile' data-label='Ativo: '
+                    <td mat-cell *matCellDef="let especieDocumentoAvulso" class='has_label_on_mobile'
+                        data-label='Ativo: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(especieDocumentoAvulso.id) > -1}">
                         <mat-checkbox [disabled]="true" [checked]="especieDocumentoAvulso.ativo"></mat-checkbox>
                     </td>
@@ -125,7 +128,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Criado Por
                     </th>
-                    <td mat-cell *matCellDef="let especieDocumentoAvulso" class='has_label_on_mobile' data-label='Criado Por: '
+                    <td mat-cell *matCellDef="let especieDocumentoAvulso" class='has_label_on_mobile'
+                        data-label='Criado Por: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(especieDocumentoAvulso.id) > -1}"> {{especieDocumentoAvulso.criadoPor?.nome}} </td>
                 </ng-container>
 
@@ -134,16 +138,19 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Criado Em
                     </th>
-                    <td mat-cell *matCellDef="let especieDocumentoAvulso" class='has_label_on_mobile' data-label='Criado Em: '
+                    <td mat-cell *matCellDef="let especieDocumentoAvulso" class='has_label_on_mobile'
+                        data-label='Criado Em: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(especieDocumentoAvulso.id) > -1}"> {{especieDocumentoAvulso.criadoEm | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1" matColumnDef="atualizadoPor.nome">
+                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1"
+                              matColumnDef="atualizadoPor.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Atualizado Por
                     </th>
-                    <td mat-cell *matCellDef="let especieDocumentoAvulso" class='has_label_on_mobile' data-label='Atualizado Por: '
+                    <td mat-cell *matCellDef="let especieDocumentoAvulso" class='has_label_on_mobile'
+                        data-label='Atualizado Por: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(especieDocumentoAvulso.id) > -1}"> {{especieDocumentoAvulso.atualizadoPor?.nome}} </td>
                 </ng-container>
 
@@ -152,7 +159,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Atualizado Em
                     </th>
-                    <td mat-cell *matCellDef="let especieDocumentoAvulso" class='has_label_on_mobile' data-label='Atualizado Em: '
+                    <td mat-cell *matCellDef="let especieDocumentoAvulso" class='has_label_on_mobile'
+                        data-label='Atualizado Em: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(especieDocumentoAvulso.id) > -1}"> {{especieDocumentoAvulso.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
@@ -161,7 +169,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Apagado Por
                     </th>
-                    <td mat-cell *matCellDef="let especieDocumentoAvulso" class='has_label_on_mobile' data-label='Apagado Por: '
+                    <td mat-cell *matCellDef="let especieDocumentoAvulso" class='has_label_on_mobile'
+                        data-label='Apagado Por: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(especieDocumentoAvulso.id) > -1}"> {{especieDocumentoAvulso.apagadoPor?.nome}} </td>
                 </ng-container>
 
@@ -170,7 +179,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Apagado Em
                     </th>
-                    <td mat-cell *matCellDef="let especieDocumentoAvulso" class='has_label_on_mobile' data-label='Apagado Em: '
+                    <td mat-cell *matCellDef="let especieDocumentoAvulso" class='has_label_on_mobile'
+                        data-label='Apagado Em: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(especieDocumentoAvulso.id) > -1}"> {{especieDocumentoAvulso.apagadoEm | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 

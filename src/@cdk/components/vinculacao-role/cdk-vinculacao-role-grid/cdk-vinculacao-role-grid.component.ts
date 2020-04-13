@@ -36,6 +36,9 @@ export class CdkVinculacaoRoleGridComponent implements AfterViewInit, OnInit, On
     total = 0;
 
     @Input()
+    mode = 'list';
+
+    @Input()
     displayedColumns: string[] = ['select', 'id', 'role', 'usuario.nome', 'actions'];
 
     allColumns: any[] = [

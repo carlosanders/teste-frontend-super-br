@@ -37,6 +37,9 @@ export class CdkNumeroUnicoDocumentoGridComponent implements AfterViewInit, OnIn
     total = 0;
 
     @Input()
+    mode = 'list';
+
+    @Input()
     displayedColumns: string[] = ['id', 'tipoDocumento.nome', 'setor.unidade.nome', 'setor.nome', 'sequencia', 'ano', 'actions'];
 
     allColumns: any[] = [

@@ -45,6 +45,9 @@ export class CdkBlocoResponsaveisComponent implements AfterViewInit, OnInit, OnC
     mode = 'list';
 
     @Input()
+    mode = 'list';
+
+    @Input()
     displayedColumns: string[] = ['select', 'id', 'responsavel', 'setor', 'sigla', 'actions'];
 
     allColumns: any[] = [

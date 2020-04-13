@@ -36,6 +36,9 @@ export class CdkVolumeGridComponent implements AfterViewInit, OnInit, OnChanges 
     total = 0;
 
     @Input()
+    mode = 'list';
+
+    @Input()
     displayedColumns: string[] = ['select', 'id', 'numeracaoSequencial', 'modalidadeMeio.valor', 'encerrado',
         'processo.NUP', 'origemDados.fonteDados', 'actions'];
 

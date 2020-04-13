@@ -35,6 +35,9 @@ export class CdkAfastamentoGridComponent implements AfterViewInit, OnInit, OnCha
     total = 0;
 
     @Input()
+    mode = 'list';
+
+    @Input()
     displayedColumns: string[] = ['select', 'id', 'colaborador.usuario.nome', 'dataInicio', 'dataInicioBloqueio', 'dataFim',
         'dataFimBloqueio', 'modalidadeAfastamento.valor', 'actions'];
 

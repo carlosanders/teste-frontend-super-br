@@ -35,6 +35,9 @@ export class CdkCadastroIdentificadorGridComponent implements AfterViewInit, OnI
     total = 0;
 
     @Input()
+    mode = 'list';
+
+    @Input()
     displayedColumns: string[] = ['select', 'id', 'numero', 'origemDados.fonteDados', 'actions'];
 
     allColumns: any[] = [

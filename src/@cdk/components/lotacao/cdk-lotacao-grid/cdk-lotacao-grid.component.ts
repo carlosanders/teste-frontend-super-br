@@ -37,6 +37,9 @@ export class CdkLotacaoGridComponent implements AfterViewInit, OnInit, OnChanges
     total = 0;
 
     @Input()
+    mode = 'list';
+
+    @Input()
     displayedColumns: string[] = ['select', 'id', 'setor.unidade.nome', 'setor.nome', 'peso', 'distribuidor', 'coordenador', 'principal', 'actions'];
 
     allColumns: any[] = [

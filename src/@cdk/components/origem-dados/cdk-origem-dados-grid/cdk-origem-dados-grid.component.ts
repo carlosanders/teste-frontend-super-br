@@ -36,6 +36,9 @@ export class CdkOrigemDadosGridComponent implements AfterViewInit, OnInit, OnCha
     total = 0;
 
     @Input()
+    mode = 'list';
+
+    @Input()
     displayedColumns: string[] = ['select', 'id', 'servico', 'fonteDados', 'status', 'dataHoraUltimaConsulta', 'actions'];
 
     allColumns: any[] = [

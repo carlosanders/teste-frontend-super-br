@@ -35,6 +35,9 @@ export class CdkEtiquetaGridComponent implements AfterViewInit, OnInit, OnChange
     total = 0;
 
     @Input()
+    mode = 'list';
+
+    @Input()
     displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'modalidadeEtiqueta.valor', 'ativo', 'corHexadecimal', 'actions'];
 
     allColumns: any[] = [

@@ -36,6 +36,9 @@ export class CdkRelevanciaGridComponent implements AfterViewInit, OnInit, OnChan
     total = 0;
 
     @Input()
+    mode = 'list';
+
+    @Input()
     displayedColumns: string[] = ['select', 'id', 'processo.NUP', 'especieRelevancia.nome', 'observacao', 'actions'];
 
     allColumns: any[] = [

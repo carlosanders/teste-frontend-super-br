@@ -2,9 +2,7 @@
 
     <!-- SIDEBAR -->
     <cdk-sidebar class="sidebar" name="cdk-garantia-filter" position="left">
-                <cdk-xxx-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-xxx-filter>garantia-filter (selected)="setFilter($event)" [@animate]="{value:'*'}"></cdk-garantia-filter>
-        </div>
-        <!-- / SIDEBAR CONTENT -->
+        <cdk-garantia-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-garantia-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
@@ -93,7 +91,8 @@
                 </ng-container>
 
                 <!-- Modalidade Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('modalidadeGarantia.valor') > -1" matColumnDef="modalidadeGarantia.valor">
+                <ng-container *ngIf="displayedColumns.indexOf('modalidadeGarantia.valor') > -1"
+                              matColumnDef="modalidadeGarantia.valor">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Modalidade
                     </th>
@@ -156,7 +155,8 @@
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1" matColumnDef="atualizadoPor.nome">
+                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1"
+                              matColumnDef="atualizadoPor.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Atualizado Por
                     </th>

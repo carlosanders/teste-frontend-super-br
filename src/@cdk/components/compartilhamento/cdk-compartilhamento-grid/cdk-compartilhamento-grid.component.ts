@@ -35,6 +35,9 @@ export class CdkCompartilhamentoGridComponent implements AfterViewInit, OnInit, 
     total = 0;
 
     @Input()
+    mode = 'list';
+
+    @Input()
     displayedColumns: string[] = ['select', 'id', 'usuario.nome', 'actions'];
 
     allColumns: any[] = [

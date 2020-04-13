@@ -36,6 +36,9 @@ export class CdkDistribuicaoGridComponent implements AfterViewInit, OnInit, OnCh
     total = 0;
 
     @Input()
+    mode = 'list';
+
+    @Input()
     displayedColumns: string[] = ['select', 'id', 'tarefa.especieTarefa.nome', 'documentoAvulso.descricaoOutros', 'dataHoraFinalPrazo',
         'usuarioAnterior.nome', 'usuarioPosterior.nome', 'setorAnterior.nome', 'setorPosterior.nome', 'distribuicaoAutomatica',
         'livreBalanceamento', 'auditoriaDistribuicao', 'tipoDistribuicao', 'actions'];

@@ -35,6 +35,9 @@ export class CdkColaboradorGridComponent implements AfterViewInit, OnInit, OnCha
     total = 0;
 
     @Input()
+    mode = 'list';
+
+    @Input()
     displayedColumns: string[] = ['select', 'id', 'usuario.nome', 'cargo.nome', 'modalidadeColaborador.valor', 'actions'];
 
     allColumns: any[] = [

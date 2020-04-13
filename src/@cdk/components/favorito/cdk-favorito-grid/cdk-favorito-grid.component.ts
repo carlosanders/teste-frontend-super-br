@@ -36,6 +36,9 @@ export class CdkFavoritoGridComponent implements AfterViewInit, OnInit, OnChange
     total = 0;
 
     @Input()
+    mode = 'list';
+
+    @Input()
     displayedColumns: string[] = ['id', 'especieAtividade.nome', 'setorResponsavel.nome', 'actions'];
 
     allColumns: any[] = [

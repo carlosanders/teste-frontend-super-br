@@ -36,6 +36,9 @@ export class CdkTipoDocumentoGridComponent implements AfterViewInit, OnInit, OnC
     total = 0;
 
     @Input()
+    mode = 'list';
+
+    @Input()
     displayedColumns: string[] = ['select', 'id', 'nome', 'sigla', 'actions'];
 
     allColumns: any[] = [

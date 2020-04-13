@@ -36,6 +36,9 @@ export class CdkGeneroProcessoGridComponent implements AfterViewInit, OnInit, On
     total = 0;
 
     @Input()
+    mode = 'list';
+
+    @Input()
     displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'actions'];
 
     allColumns: any[] = [
