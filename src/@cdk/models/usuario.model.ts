@@ -1,6 +1,6 @@
 import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
-import {VinculacaoUsuario} from '@cdk/models';
+import {VinculacaoOrgaoCentralUsuario, VinculacaoUsuario} from '@cdk/models';
 import {Colaborador} from '@cdk/models';
 import {VinculacaoPessoaUsuario} from './vinculacao-pessoa-usuario.model';
 
@@ -72,6 +72,10 @@ export class Usuario {
     @Type(() => VinculacaoPessoaUsuario)
     vinculacoesPessoasUsuarios: VinculacaoPessoaUsuario[];
 
+    @Exclude({toPlainOnly: true})
+    @Type(() => VinculacaoOrgaoCentralUsuario)
+    vinculacoesOrgaoCentralUsuarios: VinculacaoOrgaoCentralUsuario[];
+
     constructor() {
         this.id = null;
         this.uuid = null;
@@ -91,6 +95,7 @@ export class Usuario {
         this.apagadoPor = null;
         this.apagadoEm = null;
         this.vinculacoesPessoasUsuarios = null;
+        this.vinculacoesOrgaoCentralUsuarios = null;
         this.reset = false;
     }
 }

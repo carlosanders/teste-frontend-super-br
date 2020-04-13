@@ -56,7 +56,12 @@ export class AfastamentosEffects {
                         0,
                         JSON.stringify({}),
                         JSON.stringify([
-                            'populateAll'
+                            'populateAll',
+                            'colaborador',
+                            'colaborador.cargo',
+                            'colaborador.modalidadeColaborador',
+                            'colaborador.usuario',
+                            'colaborador.lotacoes'
                         ]));
                 }),
                 switchMap(response => [
@@ -66,7 +71,7 @@ export class AfastamentosEffects {
                             id: 'usuarioHandle',
                             value: this.routerState.params.usuarioHandle
                         },
-                        setorId: response['entities'][0].id
+                        usuarioId: response['entities'][0].id
                     })
                 ]),
                 catchError((err, caught) => {

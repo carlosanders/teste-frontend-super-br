@@ -13,7 +13,10 @@
 <!-- SIDEBAR CONTENT -->
 <div class="py-16" cdkPerfectScrollbar>
     <div fxLayout="column">
-        <cdk-vinculacao-repositorio-grid-filter (selected)="setGridFilter($event)"></cdk-vinculacao-repositorio-grid-filter>
+        <cdk-vinculacao-repositorio-grid-filter [setorPagination]="setorPagination" [repositorioPagination]="repositorioPagination"
+                                                [orgaoCentralPagination]="orgaoCentralPagination"
+                                                [usuarioPagination]="usuarioPagination" (selected)="setGridFilter($event)">
+        </cdk-vinculacao-repositorio-grid-filter>
     </div>
 </div>
 <!-- / SIDEBAR CONTENT -->

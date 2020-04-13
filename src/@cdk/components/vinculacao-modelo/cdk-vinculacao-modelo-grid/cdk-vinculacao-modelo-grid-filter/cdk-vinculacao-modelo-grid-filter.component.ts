@@ -1,12 +1,13 @@
 import {
     ChangeDetectionStrategy,
-    Component, EventEmitter,
+    Component, EventEmitter, Input,
     OnInit, Output,
     ViewEncapsulation
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
+import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-vinculacao-modelo-grid-filter',
@@ -25,6 +26,18 @@ export class CdkVinculacaoModeloGridFilterComponent implements OnInit {
 
     filters: any = {};
 
+    @Input()
+    orgaoCentralPagination: Pagination;
+
+    @Input()
+    modeloPagination: Pagination;
+
+    @Input()
+    setorPagination: Pagination;
+
+    @Input()
+    usuarioPagination: Pagination;
+
     /**
      * Constructor
      */
@@ -36,6 +49,7 @@ export class CdkVinculacaoModeloGridFilterComponent implements OnInit {
             especieSetor: [null],
             setor: [null],
             usuario: [null],
+            orgaoCentral: [null],
             criadoPor: [null],
             criadoEm: [null],
             atualizadoPor: [null],
@@ -43,6 +57,11 @@ export class CdkVinculacaoModeloGridFilterComponent implements OnInit {
             apagadoPor: [null],
             apagadoEm: [null],
         });
+
+        this.orgaoCentralPagination = new Pagination();
+        this.modeloPagination = new Pagination();
+        this.setorPagination = new Pagination();
+        this.usuarioPagination = new Pagination();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -121,6 +140,25 @@ export class CdkVinculacaoModeloGridFilterComponent implements OnInit {
                 } else {
                     if (this.filters.hasOwnProperty('usuario.id')) {
                         delete this.filters['usuario.id'];
+                    }
+                }
+                if (!value) {
+                    this.selected.emit(this.filters);
+                }
+            }
+        });
+
+        this.form.get('orgaoCentral').valueChanges.subscribe(value => {
+            if (value !== null) {
+                if (typeof value === 'object' && value) {
+                    this.filters = {
+                        ...this.filters,
+                        'orgaoCentral.id': `eq:${value.id}`
+                    };
+                    this.selected.emit(this.filters);
+                } else {
+                    if (this.filters.hasOwnProperty('orgaoCentral.id')) {
+                        delete this.filters['orgaoCentral.id'];
                     }
                 }
                 if (!value) {

@@ -1,4 +1,4 @@
-import {especieSetor} from './index.schema';
+import {especieSetor, modalidadeOrgaoCentral} from './index.schema';
 import {setor} from './index.schema';
 import {usuario} from './index.schema';
 import {repositorio} from './index.schema';
@@ -7,6 +7,7 @@ import {vinculacaoRepositorio as vinculacaoRepositorioSchema} from './index.sche
 vinculacaoRepositorioSchema.define({
     modelo: repositorio,
     especieSetor: especieSetor,
+    orgaoCentral: modalidadeOrgaoCentral,
     setor: setor,
     usuario: usuario,
     criadoPor: usuario,

@@ -1,0 +1,127 @@
+<div class="pr-16" fxFlex *ngIf="activeCard === 'form'" cdkPerfectScrollbar>
+    <form class="p-24 mr-24" fxLayoutGap="16px"
+          fxLayout="column"
+          fxLayoutAlign="start" name="form" [formGroup]="form" (submit)="submit()">
+
+        <div fxFlex="1 0 auto" fxLayout="column">
+
+            <mat-checkbox formControlName="ativo"
+                          class="mr-16 mb-16" fxFlex="0 1 auto">
+                Ativo
+            </mat-checkbox>
+
+            <mat-form-field fxFlex="100">
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Nome" formControlName="nome" required maxlength="255" upperCase>
+                </div>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="100">
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Descrição" formControlName="descricao" maxlength="255" required upperCase>
+                </div>
+            </mat-form-field>
+
+            <mat-form-field *ngIf="coordenador" fxFlex="100">
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Setor"
+                           formControlName="setor"
+                           [matAutocomplete]="setor.autocomplete"
+                           (blur)="checkSetor()" required>
+                </div>
+                <cdk-setor-autocomplete
+                    #setor="setorAutocomplete"
+                    [control]="form.get('template')"
+                    [pagination]="setorPagination">
+                </cdk-setor-autocomplete>
+                <button matSuffix mat-button mat-icon-button
+                        (click)="showSetorGrid()">
+                    <mat-icon matTooltip="Procurar">search</mat-icon>
+                </button>
+                <mat-error *ngIf="form.get('setor').hasError('formError')">
+                    {{form.get('setor').errors.formError}}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field *ngIf="coordenador" fxFlex="100">
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Modalidade Modelo"
+                           formControlName="modalidadeModelo"
+                           [matAutocomplete]="modalidadeModelo.autocomplete"
+                           (blur)="checkModalidadeModelo()" required>
+                </div>
+                <cdk-modalidade-modelo-autocomplete
+                    #modalidadeModelo="modalidadeModeloAutocomplete"
+                    [control]="form.get('modalidadeModelo')"
+                    [pagination]="modalidadeModeloPagination">
+                </cdk-modalidade-modelo-autocomplete>
+                <button matSuffix mat-button mat-icon-button
+                        (click)="showModalidadeModeloGrid()">
+                    <mat-icon matTooltip="Procurar">search</mat-icon>
+                </button>
+                <mat-error *ngIf="form.get('modalidadeModelo').hasError('formError')">
+                    {{form.get('modalidadeModelo').errors.formError}}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="100">
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Template"
+                           formControlName="template"
+                           [matAutocomplete]="template.autocomplete"
+                           (blur)="checkTemplate()" required>
+                </div>
+                <cdk-template-autocomplete
+                    #template="templateAutocomplete"
+                    [control]="form.get('template')"
+                    [pagination]="templatePagination">
+                </cdk-template-autocomplete>
+                <button matSuffix mat-button mat-icon-button
+                        (click)="showTemplateGrid()">
+                    <mat-icon matTooltip="Procurar">search</mat-icon>
+                </button>
+                <mat-error *ngIf="form.get('template').hasError('formError')">
+                    {{form.get('template').errors.formError}}
+                </mat-error>
+            </mat-form-field>
+
+        </div>
+
+        <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+
+        <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+             fxLayoutAlign="center center">
+            <button mat-raised-button color="accent" class="mr-sm-12"
+                    [disabled]="form.invalid">
+                SALVAR
+            </button>
+        </div>
+
+        <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+             fxLayoutAlign="center center">
+            <mat-spinner color="accent" diameter="24"></mat-spinner>
+        </div>
+    </form>
+</div>
+
+<cdk-modalidade-modelo-gridsearch
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'modalidade-modelo-gridsearch'"
+    (selected)="selectModalidadeModelo($event)"
+    (cancel)="cancel()">
+</cdk-modalidade-modelo-gridsearch>
+
+
+<cdk-setor-gridsearch
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'setor-gridsearch'"
+    (selected)="selectSetor($event)"
+    (cancel)="cancel()">
+</cdk-setor-gridsearch>
+
+<cdk-template-gridsearch
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'template-gridsearch'"
+    (selected)="selectTemplate($event)"
+    (cancel)="cancel()">
+</cdk-template-gridsearch>
