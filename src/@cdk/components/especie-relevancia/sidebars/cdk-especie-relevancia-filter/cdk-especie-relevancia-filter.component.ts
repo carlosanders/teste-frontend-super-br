@@ -25,6 +25,9 @@ export class CdkEspecieRelevanciaFilterComponent implements OnInit {
 
     filters: any = {};
 
+    @Input()
+    mode = 'list';
+
     /**
      * Constructor
      */
@@ -174,18 +177,17 @@ export class CdkEspecieRelevanciaFilterComponent implements OnInit {
             filters: this.filters
         };
         this.selected.emit(request);
+        this._cdkSidebarService.getSidebar('cdk-especie-relevancia-filter').close();
     }
 
     buscar(): void {
         this.emite();
-        this._cdkSidebarService.getSidebar('cdk-especie-relevancia-filter').close();
     }
 
     limpar(): void {
         this.filters = {};
         this.emite();
         this.form.reset();
-        this._cdkSidebarService.getSidebar('cdk-especie-relevancia-filter').close();
     }
 }
 

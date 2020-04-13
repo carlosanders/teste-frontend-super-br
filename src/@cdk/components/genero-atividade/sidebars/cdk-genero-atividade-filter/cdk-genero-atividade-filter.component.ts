@@ -8,6 +8,7 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {CdkSidebarService} from '../../../sidebar/sidebar.service';
+
 @Component({
     selector: 'cdk-genero-atividade-filter',
     templateUrl: './cdk-genero-atividade-filter.component.html',
@@ -24,6 +25,9 @@ export class CdkGeneroAtividadeFilterComponent implements OnInit {
     form: FormGroup;
 
     filters: any = {};
+
+    @Input()
+    mode = 'list';
 
     /**
      * Constructor
@@ -154,21 +158,20 @@ export class CdkGeneroAtividadeFilterComponent implements OnInit {
     }
 
     emite(): void {
-            const request = {
-                filters: this.filters
-            };
-            this.selected.emit(request);
+        const request = {
+            filters: this.filters
+        };
+        this.selected.emit(request);
+        this._cdkSidebarService.getSidebar('cdk-genero-atividade-filter').close();
     }
 
     buscar(): void {
         this.emite();
-        this._cdkSidebarService.getSidebar('cdk-genero-atividade-filter').close();
     }
 
     limpar(): void {
         this.filters = {};
         this.emite();
         this.form.reset();
-        this._cdkSidebarService.getSidebar('cdk-genero-atividade-filter').close();
     }
 }

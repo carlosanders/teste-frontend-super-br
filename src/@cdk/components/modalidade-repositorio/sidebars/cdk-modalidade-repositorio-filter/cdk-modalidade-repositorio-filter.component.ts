@@ -25,6 +25,9 @@ export class CdkModalidadeRepositorioFilterComponent implements OnInit {
 
     filters: any = {};
 
+    @Input()
+    mode = 'list';
+
     /**
      * Constructor
      */
@@ -158,18 +161,17 @@ export class CdkModalidadeRepositorioFilterComponent implements OnInit {
             filters: this.filters
         };
         this.selected.emit(request);
+        this._cdkSidebarService.getSidebar('cdk-modalidade-repositorio-filter').close();
     }
 
     buscar(): void {
         this.emite();
-        this._cdkSidebarService.getSidebar('cdk-modalidade-repositorio-filter').close();
     }
 
     limpar(): void {
         this.filters = {};
         this.emite();
         this.form.reset();
-        this._cdkSidebarService.getSidebar('cdk-modalidade-repositorio-filter').close();
     }
 }
 

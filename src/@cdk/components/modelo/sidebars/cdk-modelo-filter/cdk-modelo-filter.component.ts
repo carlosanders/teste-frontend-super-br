@@ -25,6 +25,9 @@ export class CdkModeloFilterComponent implements OnInit {
 
     filters: any = {};
 
+    @Input()
+    mode = 'list';
+
     /**
      * Constructor
      */

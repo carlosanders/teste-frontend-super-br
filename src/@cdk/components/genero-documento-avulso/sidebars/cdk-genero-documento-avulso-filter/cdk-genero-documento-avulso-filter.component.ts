@@ -25,6 +25,9 @@ export class CdkGeneroDocumentoAvulsoFilterComponent implements OnInit {
 
     filters: any = {};
 
+    @Input()
+    mode = 'list';
+
     /**
      * Constructor
      */
@@ -154,21 +157,20 @@ export class CdkGeneroDocumentoAvulsoFilterComponent implements OnInit {
     }
 
     emite(): void {
-            const request = {
-                filters: this.filters
-            };
-            this.selected.emit(request);
+        const request = {
+            filters: this.filters
+        };
+        this.selected.emit(request);
+        this._cdkSidebarService.getSidebar('cdk-genero-documento-avulso-filter').close();
     }
 
     buscar(): void {
         this.emite();
-        this._cdkSidebarService.getSidebar('cdk-genero-documento-avulso-filter').close();
     }
 
     limpar(): void {
         this.filters = {};
         this.emite();
         this.form.reset();
-        this._cdkSidebarService.getSidebar('cdk-genero-documento-avulso-filter').close();
     }
 }

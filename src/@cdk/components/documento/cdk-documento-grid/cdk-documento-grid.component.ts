@@ -40,9 +40,6 @@ export class CdkDocumentoGridComponent implements AfterViewInit, OnInit, OnChang
     mode = 'list';
 
     @Input()
-    mode = 'list';
-
-    @Input()
     displayedColumns: string[] = ['select', 'id', 'tipoDocumento.nome', 'tipoDocumento.especieDocumento.nome',
         'componentesDigitais.extensao', 'actions'];
 

@@ -25,6 +25,9 @@ export class CdkVolumeFilterComponent implements OnInit {
 
     filters: any = {};
 
+    @Input()
+    mode = 'list';
+
     /**
      * Constructor
      */
@@ -181,17 +184,16 @@ export class CdkVolumeFilterComponent implements OnInit {
             filters: this.filters
         };
         this.selected.emit(request);
+        this._cdkSidebarService.getSidebar('cdk-volume-filter').close();
     }
 
     buscar(): void {
         this.emite();
-        this._cdkSidebarService.getSidebar('cdk-volume-filter').close();
     }
 
     limpar(): void {
         this.filters = {};
         this.emite();
         this.form.reset();
-        this._cdkSidebarService.getSidebar('cdk-volume-filter').close();
     }
 }

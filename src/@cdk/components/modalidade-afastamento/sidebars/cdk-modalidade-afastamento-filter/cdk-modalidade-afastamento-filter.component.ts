@@ -25,6 +25,9 @@ export class CdkModalidadeAfastamentoFilterComponent implements OnInit {
 
     filters: any = {};
 
+    @Input()
+    mode = 'list';
+
     /**
      * Constructor
      */
@@ -158,17 +161,16 @@ export class CdkModalidadeAfastamentoFilterComponent implements OnInit {
             filters: this.filters
         };
         this.selected.emit(request);
+        this._cdkSidebarService.getSidebar('cdk-modalidade-afastamento-filter').close();
     }
 
     buscar(): void {
         this.emite();
-        this._cdkSidebarService.getSidebar('cdk-modalidade-afastamento-filter').close();
     }
 
     limpar(): void {
         this.filters = {};
         this.emite();
         this.form.reset();
-        this._cdkSidebarService.getSidebar('cdk-modalidade-afastamento-filter').close();
     }
 }

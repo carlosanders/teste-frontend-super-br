@@ -29,6 +29,9 @@ export class CdkLotacaoFilterComponent implements OnInit {
     @Input()
     pagination: Pagination;
 
+    @Input()
+    mode = 'list';
+
     /**
      * Constructor
      */
@@ -236,17 +239,16 @@ export class CdkLotacaoFilterComponent implements OnInit {
             filters: this.filters
         };
         this.selected.emit(request);
+        this._cdkSidebarService.getSidebar('cdk-lotacao-filter').close();
     }
 
     buscar(): void {
         this.emite();
-        this._cdkSidebarService.getSidebar('cdk-lotacao-filter').close();
     }
 
     limpar(): void {
         this.filters = {};
         this.emite();
         this.form.reset();
-        this._cdkSidebarService.getSidebar('cdk-lotacao-filter').close();
     }
 }

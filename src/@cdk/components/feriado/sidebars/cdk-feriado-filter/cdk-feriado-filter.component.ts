@@ -25,6 +25,9 @@ export class CdkFeriadoFilterComponent implements OnInit {
 
     filters: any = {};
 
+    @Input()
+    mode = 'list';
+
     /**
      * Constructor
      */
@@ -171,20 +174,20 @@ export class CdkFeriadoFilterComponent implements OnInit {
     }
 
     emite(): void {
-            const request = {
-                filters: this.filters
-            };
-            this.selected.emit(request);
+        const request = {
+            filters: this.filters
+        };
+        this.selected.emit(request);
+        this._cdkSidebarService.getSidebar('cdk-feriado-filter').close();
     }
 
     buscar(): void {
         this.emite();
-        this._cdkSidebarService.getSidebar('cdk-feriado-filter').close();
     }
 
     limpar(): void {
         this.filters = {};
         this.emite();
         this.form.reset();
-        this._cdkSidebarService.getSidebar('cdk-feriado-filter').close();
-    }}
+    }
+}

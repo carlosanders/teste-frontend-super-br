@@ -41,9 +41,6 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
     mode = 'list';
 
     @Input()
-    mode = 'list';
-
-    @Input()
     displayedColumns: string[] = ['select', 'id', 'documento.juntadaAtual.volume.processo.NUP', 'documento.tipoDocumento', 'highlights', 'actions'];
 
     allColumns: any[] = [

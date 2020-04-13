@@ -29,6 +29,9 @@ export class CdkNumeroUnicoDocumentoFilterComponent implements OnInit {
     @Input()
     pagination: Pagination;
 
+    @Input()
+    mode = 'list';
+
     /**
      * Constructor
      */
@@ -186,17 +189,16 @@ export class CdkNumeroUnicoDocumentoFilterComponent implements OnInit {
             filters: this.filters
         };
         this.selected.emit(request);
+        this._cdkSidebarService.getSidebar('cdk-numero-unico-documento-filter').close();
     }
 
     buscar(): void {
         this.emite();
-        this._cdkSidebarService.getSidebar('cdk-numero-unico-documento-filter').close();
     }
 
     limpar(): void {
         this.filters = {};
         this.emite();
         this.form.reset();
-        this._cdkSidebarService.getSidebar('cdk-numero-unico-documento-filter').close();
     }
 }

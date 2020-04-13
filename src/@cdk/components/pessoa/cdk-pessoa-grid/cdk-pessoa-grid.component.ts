@@ -39,9 +39,6 @@ export class CdkPessoaGridComponent implements AfterViewInit, OnInit, OnChanges 
     mode = 'list';
 
     @Input()
-    mode = 'list';
-
-    @Input()
     displayedColumns: string[] = ['select', 'id', 'nome', 'numeroDocumentoPrincipal', 'actions'];
 
     allColumns: any[] = [
