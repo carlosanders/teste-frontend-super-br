@@ -1,18 +1,17 @@
 cdk-classificacao-filter {
 
-  .content {
+    height: 100%;
 
-    .form-card {
-      border-radius: 8px;
+    .altura {
+        height: 100%;
     }
 
-    .form-errors-model {
-      flex: 1;
-
-      code {
-        background: none !important;
-      }
+    .content {
+        min-height: 0px;
+        padding: 6%;
     }
-  }
 
+    .padd {
+        padding: 6%;
+    }
 }

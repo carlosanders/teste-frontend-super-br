@@ -1,18 +1,17 @@
 cdk-bloco-responsaveis-filter {
 
-    .content {
-  
-      .form-card {
-        border-radius: 8px;
-      }
-  
-      .form-errors-model {
-        flex: 1;
-  
-        code {
-          background: none !important;
-        }
-      }
+      height: 100%;
+
+    .altura {
+        height: 100%;
     }
-  
-  }
+
+    .content {
+        min-height: 0px;
+        padding: 6%;
+    }
+
+    .padd {
+        padding: 6%;
+    }
+}
