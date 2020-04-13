@@ -11,33 +11,35 @@
 
         <div class="padd" fxFlex="1 1 auto" fxLayout="column" cdkPerfectScrollbar>
 
-        <mat-form-field fxFlex="100">
-            <mat-label>Nome</mat-label>
-            <input matInput #nome
-                   name="nome"
-                   formControlName="nome">
-        </mat-form-field>
+            <mat-form-field fxFlex="100">
+                <mat-label>Nome</mat-label>
+                <input matInput #nome
+                       name="nome"
+                       formControlName="nome">
+            </mat-form-field>
 
-        <mat-form-field fxFlex="100">
-            <mat-label>Descrição</mat-label>
-            <input matInput #descricao
-                   name="descricao"
-                   formControlName="descricao">
-        </mat-form-field>
+            <mat-form-field fxFlex="100">
+                <mat-label>Descrição</mat-label>
+                <input matInput #descricao
+                       name="descricao"
+                       formControlName="descricao">
+            </mat-form-field>
 
-        <mat-form-field fxFlex="100">
-            <mat-label>HTML</mat-label>
-            <input matInput #html
-                   name="html"
-                   formControlName="html">
-        </mat-form-field>
+            <mat-form-field fxFlex="100">
+                <mat-label>HTML</mat-label>
+                <input matInput #html
+                       name="html"
+                       formControlName="html">
+            </mat-form-field>
 
-        <div fxFlex="0 1 auto" fxLayoutAlign="center center">
+        </div>
+
+        <div class="padd" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="center center">
             <button mat-raised-button color="accent" class="mr-sm-12" (click)="buscar()">
                 Buscar
             </button>
 
-            <button mat-raised-button color="warn" class="mr-sm-12" (click)="limpar()">
+            <button mat-raised-button color="warn" fclass="mr-sm-12" (click)="limpar()" *ngIf="this.mode === 'list'">
                 Limpar
             </button>
         </div>
