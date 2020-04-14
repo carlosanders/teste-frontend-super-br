@@ -12,7 +12,7 @@ import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
-import {VinculacaoModelo} from '@cdk/models';
+import {Pagination, VinculacaoModelo} from '@cdk/models';
 import {VinculacaoModeloDataSource} from '@cdk/data-sources/vinculacao-modelo-data-source';
 import {FormControl} from '@angular/forms';
 
@@ -40,6 +40,18 @@ export class CdkVinculacaoModeloGridComponent implements AfterViewInit, OnInit, 
 
     @Input()
     displayedColumns: string[] = ['select', 'id', 'modelo.nome', 'especieSetor.nome', 'setor.nome', 'usuario.nome', 'actions'];
+
+    @Input()
+    orgaoCentralPagination: Pagination;
+
+    @Input()
+    modeloPagination: Pagination;
+
+    @Input()
+    setorPagination: Pagination;
+
+    @Input()
+    usuarioPagination: Pagination;
 
     allColumns: any[] = [
         {
@@ -70,6 +82,11 @@ export class CdkVinculacaoModeloGridComponent implements AfterViewInit, OnInit, 
         {
             id: 'usuario.nome',
             label: 'Usuário',
+            fixed: false
+        },
+        {
+            id: 'orgaoCentral.valor',
+            label: 'Órgão Central',
             fixed: false
         },
         {
@@ -165,6 +182,11 @@ export class CdkVinculacaoModeloGridComponent implements AfterViewInit, OnInit, 
     ) {
         this.gridFilter = {};
         this.vinculacaoModelos = [];
+
+        this.orgaoCentralPagination = new Pagination();
+        this.modeloPagination = new Pagination();
+        this.setorPagination = new Pagination();
+        this.usuarioPagination = new Pagination();
     }
 
     ngOnChanges(): void {

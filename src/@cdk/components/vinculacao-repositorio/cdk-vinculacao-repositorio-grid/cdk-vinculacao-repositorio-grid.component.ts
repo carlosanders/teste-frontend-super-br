@@ -12,7 +12,7 @@ import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
-import {VinculacaoRepositorio} from '@cdk/models';
+import {Pagination, VinculacaoRepositorio} from '@cdk/models';
 import {VinculacaoRepositorioDataSource} from '@cdk/data-sources/vinculacao-repositorio-data-source';
 import {FormControl} from '@angular/forms';
 
@@ -39,7 +39,19 @@ export class CdkVinculacaoRepositorioGridComponent implements AfterViewInit, OnI
     mode = 'list';
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'modelo.nome', 'especieSetor.nome', 'setor.nome', 'usuario.nome', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'repositorio.nome', 'especieSetor.nome', 'setor.nome', 'usuario.nome', 'actions'];
+
+    @Input()
+    orgaoCentralPagination: Pagination;
+
+    @Input()
+    repositorioPagination: Pagination;
+
+    @Input()
+    setorPagination: Pagination;
+
+    @Input()
+    usuarioPagination: Pagination;
 
     allColumns: any[] = [
         {
@@ -53,8 +65,8 @@ export class CdkVinculacaoRepositorioGridComponent implements AfterViewInit, OnI
             fixed: true
         },
         {
-            id: 'modelo.nome',
-            label: 'Modelo',
+            id: 'repositorio.nome',
+            label: 'Repositorio',
             fixed: true
         },
         {
@@ -70,6 +82,11 @@ export class CdkVinculacaoRepositorioGridComponent implements AfterViewInit, OnI
         {
             id: 'usuario.nome',
             label: 'Usuário',
+            fixed: false
+        },
+        {
+            id: 'orgaoCentral.valor',
+            label: 'Órgão Central',
             fixed: false
         },
         {
@@ -165,6 +182,11 @@ export class CdkVinculacaoRepositorioGridComponent implements AfterViewInit, OnI
     ) {
         this.gridFilter = {};
         this.vinculacaoRepositorios = [];
+
+        this.orgaoCentralPagination = new Pagination();
+        this.repositorioPagination = new Pagination();
+        this.setorPagination = new Pagination();
+        this.usuarioPagination = new Pagination();
     }
 
     ngOnChanges(): void {

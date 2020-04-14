@@ -17,7 +17,7 @@
                            formControlName="modelo"
                            [matAutocomplete]="modelo.autocomplete">
                 </div>
-                <cdk-modelo-autocomplete #modelo="modeloAutocomplete" [control]="form.get('modelo')">
+                <cdk-modelo-autocomplete #modelo="modeloAutocomplete" [pagination]="modeloPagination" [control]="form.get('modelo')">
                 </cdk-modelo-autocomplete>
             </mat-form-field>
 
@@ -27,8 +27,7 @@
                            formControlName="especieSetor"
                            [matAutocomplete]="especieSetor.autocomplete">
                 </div>
-                <cdk-especie-setor-autocomplete #especieSetor="especieSetorAutocomplete"
-                                                [control]="form.get('especieSetor')">
+                <cdk-especie-setor-autocomplete #especieSetor="especieSetorAutocomplete" [control]="form.get('especieSetor')">
                 </cdk-especie-setor-autocomplete>
             </mat-form-field>
 
@@ -38,7 +37,7 @@
                            formControlName="setor"
                            [matAutocomplete]="setor.autocomplete">
                 </div>
-                <cdk-setor-autocomplete #setor="setorAutocomplete" [control]="form.get('setor')">
+                <cdk-setor-autocomplete #setor="setorAutocomplete" [pagination]="setorPagination" [control]="form.get('setor')">
                 </cdk-setor-autocomplete>
             </mat-form-field>
 
@@ -48,8 +47,19 @@
                            formControlName="usuario"
                            [matAutocomplete]="usuario.autocomplete">
                 </div>
-                <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('usuario')">
+                <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [pagination]="usuarioPagination" [control]="form.get('usuario')">
                 </cdk-usuario-autocomplete>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="100">
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Órgão Central"
+                           formControlName="orgaoCentral"
+                           [matAutocomplete]="orgaoCentral.autocomplete">
+                </div>
+                <cdk-modalidade-orgao-central-autocomplete #orgaoCentral="modalidadeOrgaoCentralAutocomplete"
+                                                           [pagination]="orgaoCentralPagination" [control]="form.get('orgaoCentral')">
+                </cdk-modalidade-orgao-central-autocomplete>
             </mat-form-field>
 
             <mat-form-field class="mr-sm-12">
@@ -94,6 +104,7 @@
                 <mat-datetimepicker #apagadoEm type="datetime" openOnFocus="true" timeInterval="5">
                 </mat-datetimepicker>
             </mat-form-field>
+
 
         </div>
 

@@ -1,20 +1,13 @@
-    height: 100%;
+import {
+    ChangeDetectionStrategy,
+    Component, EventEmitter, Input,
+    OnInit, Output,
+    ViewEncapsulation
+} from '@angular/core';
 
-    .altura {
-        height: 100%;
-    }
-
-    .content {
-        min-height: 0px;
-        padding: 6%;
-    }
-
-    .padd {
-        padding: 6%;
-    }
-}
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
+import {Pagination} from '@cdk/models';
 import {CdkSidebarService} from '../../../sidebar/sidebar.service';
 
 @Component({
@@ -37,6 +30,21 @@ export class CdkVinculacaoModeloFilterComponent implements OnInit {
     @Input()
     mode = 'list';
 
+    @Input()
+    orgaoCentralPagination: Pagination;
+
+    @Input()
+    repositorioPagination: Pagination;
+
+    @Input()
+    setorPagination: Pagination;
+
+    @Input()
+    usuarioPagination: Pagination;
+
+    @Input()
+    modeloPagination: Pagination;
+
     /**
      * Constructor
      */
@@ -45,10 +53,11 @@ export class CdkVinculacaoModeloFilterComponent implements OnInit {
         private _cdkSidebarService: CdkSidebarService,
     ) {
         this.form = this._formBuilder.group({
-            modelo: [null],
+            repositorio: [null],
             especieSetor: [null],
             setor: [null],
             usuario: [null],
+            orgaoCentral: [null],
             criadoPor: [null],
             criadoEm: [null],
             atualizadoPor: [null],
@@ -56,6 +65,11 @@ export class CdkVinculacaoModeloFilterComponent implements OnInit {
             apagadoPor: [null],
             apagadoEm: [null],
         });
+
+        this.orgaoCentralPagination = new Pagination();
+        this.repositorioPagination = new Pagination();
+        this.setorPagination = new Pagination();
+        this.usuarioPagination = new Pagination();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -66,16 +80,16 @@ export class CdkVinculacaoModeloFilterComponent implements OnInit {
      * On init
      */
     ngOnInit(): void {
-        this.form.get('modelo').valueChanges.subscribe(value => {
+        this.form.get('repositorio').valueChanges.subscribe(value => {
             if (value !== null) {
                 if (typeof value === 'object' && value) {
                     this.filters = {
                         ...this.filters,
-                        'modelo.id': `eq:${value.id}`
+                        'repositorio.id': `eq:${value.id}`
                     };
                 } else {
-                    if (this.filters.hasOwnProperty('modelo.id')) {
-                        delete this.filters['modelo.id'];
+                    if (this.filters.hasOwnProperty('repositorio.id')) {
+                        delete this.filters['repositorio.id'];
                     }
                 }
             }
@@ -122,6 +136,25 @@ export class CdkVinculacaoModeloFilterComponent implements OnInit {
                     if (this.filters.hasOwnProperty('usuario.id')) {
                         delete this.filters['usuario.id'];
                     }
+                }
+            }
+        });
+
+        this.form.get('orgaoCentral').valueChanges.subscribe(value => {
+            if (value !== null) {
+                if (typeof value === 'object' && value) {
+                    this.filters = {
+                        ...this.filters,
+                        'orgaoCentral.id': `eq:${value.id}`
+                    };
+                    this.selected.emit(this.filters);
+                } else {
+                    if (this.filters.hasOwnProperty('orgaoCentral.id')) {
+                        delete this.filters['orgaoCentral.id'];
+                    }
+                }
+                if (!value) {
+                    this.selected.emit(this.filters);
                 }
             }
         });

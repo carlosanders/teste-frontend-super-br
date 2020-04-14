@@ -83,6 +83,16 @@ export class CdkRepositorioGridComponent implements AfterViewInit, OnInit, OnCha
             fixed: false
         },
         {
+            id: 'vinculacoesRepositorios.setor.nome',
+            label: 'Setor',
+            fixed: false
+        },
+        {
+            id: 'vinculacoesRepositorios.orgaoCentral.valor',
+            label: 'Órgão Central',
+            fixed: false
+        },
+        {
             id: 'criadoPor.nome',
             label: 'Criado Por',
             fixed: false
@@ -156,6 +166,9 @@ export class CdkRepositorioGridComponent implements AfterViewInit, OnInit, OnCha
 
     @Output()
     edit = new EventEmitter<number>();
+
+    @Output()
+    especie = new EventEmitter<number>();
 
     @Output()
     editConteudo = new EventEmitter<number>();
@@ -259,6 +272,10 @@ export class CdkRepositorioGridComponent implements AfterViewInit, OnInit, OnCha
 
     editRepositorio(repositorioId): void {
         this.edit.emit(repositorioId);
+    }
+
+    especieSetores(repositorioId): void {
+        this.especie.emit(repositorioId);
     }
 
     editConteudoRepositorio(documentoId): void {

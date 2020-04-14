@@ -90,6 +90,8 @@ $typography: mat-typography-config(
 @import "src/app/main/apps/pesquisa/pesquisa.theme";
 @import "src/app/main/apps/configuracoes/configuracoes.theme";
 @import "src/app/main/apps/oficios/oficios.theme";
+@import "src/app/main/apps/admin/admin.theme";
+@import "src/app/main/apps/coordenador/coordenador.theme";
 @import "src/ajuda/ajuda.theme";
 
 // Define a mixin for easier access
@@ -108,6 +110,8 @@ $typography: mat-typography-config(
     @include pesquisa-theme($theme);
     @include configuracoes-theme($theme);
     @include oficios-theme($theme);
+    @include admin-theme($theme);
+    @include coordenador-theme($theme);
     @include ajuda-theme($theme);
 }
 
