@@ -4,7 +4,7 @@ import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, tap} from 'rxjs/operators';
 
-import * as ProtocoloCreateActions from '../actions/protocolo-create.actions';
+import * as ProtocoloCreateActions from '../actions';
 
 import {ProcessoService} from '@cdk/services/processo.service';
 import {AddData} from '@cdk/ngrx-normalizr';
@@ -52,6 +52,9 @@ export class ProtocoloCreateEffects {
                                 type: 'processo',
                                 content: `Processo id ${response.id} criada com sucesso!`,
                                 dateTime: response.criadoEm
+                            }),
+                            new ProtocoloCreateActions.GetProcesso({
+                                id: `eq:${response.id}`
                             })
                         ]),
                         catchError((err) => {

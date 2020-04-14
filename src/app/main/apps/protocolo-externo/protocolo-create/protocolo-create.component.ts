@@ -43,6 +43,8 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
     unidadePagination: Pagination;
 
     processo: Processo;
+    processo$: Observable<Processo>;
+
     documentos: Documento[] = [];
     documentos$: Observable<Documento[]>;
     assinandoDocumentosId$: Observable<number[]>;
@@ -81,6 +83,7 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
         this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
         this.deletingDocumentosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosId));
         this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoDocumentosId));
+        this.processo$ = this._store.pipe(select(fromStore.getProcesso));
 
         this.unidadePagination = new Pagination();
         this.unidadePagination.populate = ['unidade', 'parent'];
@@ -111,11 +114,6 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
             tipoProtocolo: [null, [Validators.required]],
             unidadeArquivistica: [null, [Validators.required]]
         });
-        this.formProcesso.value.id = 1;
-
-        this.processo = new Processo();
-        // Provisório
-        this.processo.id = 6;
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -163,8 +161,6 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
             }
         });
 
-        this.processo = new Processo();
-
         this.pessoaProcedencia$.pipe(
             takeUntil(this._unsubscribeAll),
             filter(pessoa => !!pessoa)
@@ -196,10 +192,18 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
             this.assinandoDocumentosId = assinandoDocumentosId;
         });
 
-
-        this.processo = new Processo();
-        this.processo.unidadeArquivistica = 2;
-        this.processo.tipoProtocolo = 1;
+        this.processo$.pipe(
+            takeUntil(this._unsubscribeAll),
+            filter(processo => !!processo)
+        ).subscribe(
+            processo => {
+                this.processo = processo;
+                if (this.processo.id) {
+                    this.formProcesso.value.id = this.processo.id;
+                }
+                this._changeDetectorRef.markForCheck();
+            }
+        );
 
         this.documentos$.pipe(
             takeUntil(this._unsubscribeAll),
@@ -225,9 +229,12 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
             this.assinandoDocumentosId = assinandoDocumentosId;
         });
 
-
+        if  (!this.processo) {
+            this.processo = new Processo();
+            this.processo.unidadeArquivistica = 2;
+            this.processo.tipoProtocolo = 1;
             this.processo.procedencia = this.pessoaProcedencia;
-
+        }
     }
 
     /**
@@ -258,7 +265,7 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
 
         processo.procedencia = this.pessoaProcedencia;
 
-        // this._store.dispatch(new fromStore.SaveProcesso(processo));
+        this._store.dispatch(new fromStore.SaveProcesso(processo));
     }
 
     upload(): void {
@@ -266,7 +273,7 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
     }
 
     onComplete(): void {
-        this._store.dispatch(new fromStore.GetDocumentos({processoOrigem: 'eq:6'}));
+        this._store.dispatch(new fromStore.GetDocumentos({processoOrigem: `eq:${this.processo.id}`}));
     }
 
     onClicked(documento): void {
