@@ -29,12 +29,12 @@ export class MainSidebarComponent implements OnInit, OnDestroy {
         this.links = [
             {
                 nome: 'Tarefas',
-                icon: 'domain',
+                icon: 'check_box',
                 link: 'tarefas'
             },
             {
                 nome: 'Atividades',
-                icon: 'person',
+                icon: 'local_activity',
                 link: 'atividades'
             }
         ];

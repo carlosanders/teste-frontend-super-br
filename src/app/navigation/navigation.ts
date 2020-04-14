@@ -30,7 +30,7 @@ export const navigation: CdkNavigation[] = [
                 title: 'SuperAdmin',
                 translate: 'NAV.SUPERADMIN.TITLE',
                 type: 'item',
-                icon: 'build',
+                icon: 'settings_applications',
                 url: '/apps/super-admin',
                 role: 'ROLE_ROOT'
             },
