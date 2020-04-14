@@ -1,0 +1,56 @@
+<!-- SIDEBAR HEADER -->
+<div fxLayout="column" fxLayoutAlign="space-between start"
+     class="header accent p-24 pb-4">
+    <div class="logo" fxFlex fxLayout="row" fxLayoutAlign="start center">
+        <mat-icon class="logo-icon s-32" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+            settings
+        </mat-icon>
+        <span class="logo-text" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">Coordenador</span>
+    </div>
+</div>
+<!-- / SIDEBAR HEADER -->
+
+<!-- SIDEBAR CONTENT -->
+<div class="content mt-16" cdkPerfectScrollbar>
+
+    <div class="nav material2" *showIfRole="'ROLE_COORDENADOR_NACIONAL'">
+        <div class="nav-subheader pl-8 mt-0">
+            <mat-icon>language</mat-icon>
+            <span>NACIONAL</span>
+        </div>
+        <div *ngFor="let orgao of orgaosCentrais">
+            <div class="nav-subheader mt-0">
+                <span>{{orgao.valor | uppercase}}</span>
+            </div>
+            <div class="nav-item" *ngFor="let link of links">
+                <a class="nav-link" matRipple [routerLink]="'/apps/coordenador/nacional/' + orgao.id + '/' + link.link"
+                   [routerLinkActive]="['active', 'accent']">
+                    <mat-icon class="nav-link-icon">{{ link.icon }}</mat-icon>
+                    <span>{{link.nome | titlecase}} Nacionais</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="nav material2" *showIfRole="'ROLE_COORDENADOR'">
+        <div *ngIf="this.setores?.length">
+            <div class="nav-subheader pl-8 mt-0">
+                <mat-icon>language</mat-icon>
+                <span>LOCAL</span>
+            </div>
+            <div *ngFor="let setor of setores">
+                <div class="nav-subheader mt-0">
+                    <span>{{setor.nome | uppercase}}</span>
+                </div>
+                <div class="nav-item" *ngFor="let link of links">
+                    <a class="nav-link" matRipple [routerLink]="'/apps/coordenador/local/' + setor.id + '/' + link.link"
+                       [routerLinkActive]="['active', 'accent']">
+                        <mat-icon class="nav-link-icon">{{ link.icon }}</mat-icon>
+                        <span>{{link.nome | titlecase}}</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- / SIDEBAR CONTENT -->

@@ -9,7 +9,7 @@ import {
 
 import { cdkAnimations } from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { Modelo } from '@cdk/models';
+import {ModalidadeModelo, ModalidadeRepositorio, Modelo, Setor} from '@cdk/models';
 import {Pagination} from '@cdk/models';
 import {Template} from '@cdk/models';
 
@@ -32,15 +32,21 @@ export class CdkModeloFormComponent implements OnChanges, OnDestroy {
     @Input()
     errors: any;
 
+    @Input()
+    coordenador: boolean;
+
+    @Input()
+    setorPagination: Pagination;
+
+    @Input()
+    templatePagination: Pagination;
+
     @Output()
     save = new EventEmitter<Modelo>();
 
     form: FormGroup;
 
     activeCard = 'form';
-
-    @Input()
-    templatePagination: Pagination;
 
     /**
      * Constructor
@@ -58,6 +64,7 @@ export class CdkModeloFormComponent implements OnChanges, OnDestroy {
             template: [null, [Validators.required]],
         });
 
+        this.setorPagination = new Pagination();
         this.templatePagination = new Pagination();
 
     }

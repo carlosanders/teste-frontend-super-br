@@ -1,7 +1,7 @@
 import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
 
-import { Usuario } from '@cdk/models';
+import {ModalidadeOrgaoCentral, Usuario} from '@cdk/models';
 import {Repositorio} from '@cdk/models';
 import {EspecieSetor} from '@cdk/models';
 import {Setor} from '@cdk/models';
@@ -16,7 +16,7 @@ export class VinculacaoRepositorio {
 
     @Type(() => Repositorio)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    modelo?: Repositorio;
+    repositorio?: Repositorio;
 
     @Type(() => EspecieSetor)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
@@ -29,6 +29,10 @@ export class VinculacaoRepositorio {
     @Type(() => Usuario)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     usuario?: Usuario;
+
+    @Type(() => ModalidadeOrgaoCentral)
+    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    orgaoCentral?: ModalidadeOrgaoCentral;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)
@@ -63,10 +67,11 @@ export class VinculacaoRepositorio {
     constructor() {
         this.id = null;
         this.uuid = null;
-        this.modelo = null;
+        this.repositorio = null;
         this.especieSetor = null;
         this.setor = null;
         this.usuario = null;
+        this.orgaoCentral = null;
         this.criadoPor = null;
         this.criadoEm = null;
         this.atualizadoPor = null;
