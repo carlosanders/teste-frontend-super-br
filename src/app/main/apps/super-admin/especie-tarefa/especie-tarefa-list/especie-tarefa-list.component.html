@@ -1,1 +1,11 @@
-<p>especie-tarefa-list works!</p>
+<cdk-especie-tarefa-grid
+    [loading]="(loading$ | async)"
+    [especieTarefas]="(especieTarefas$ | async)"
+    [total]="(pagination$ | async)?.total"
+    [deletingIds]="(deletingIds$ | async)"
+    [deletedIds]="(deletedIds$ | async)"
+    [displayedColumns]="['select', 'id', 'nome', 'descricao', 'generoTarefa.nome', 'ativo', 'actions']"
+    [actions]="['edit']"
+    (reload)="reload($event)"
+    (edit)="edit($event)">
+</cdk-especie-tarefa-grid>

@@ -21,7 +21,7 @@ export const getEspecieTarefaListIds = createSelector(
     (state: EspecieTarefaListState) => state.entitiesId
 );
 
-export const GetEspecieTarefaList = createSelector(
+export const getEspecieTarefaList = createSelector(
     schemaSelectors.getNormalizedEntities,
     getEspecieTarefaListIds,
     schemaSelectors.entitiesProjector
