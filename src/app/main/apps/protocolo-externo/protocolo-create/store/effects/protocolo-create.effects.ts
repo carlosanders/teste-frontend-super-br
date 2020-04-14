@@ -74,11 +74,7 @@ export class ProtocoloCreateEffects {
             .pipe(
                 ofType<ProtocoloCreateActions.SaveProcessoSuccess>(ProtocoloCreateActions.SAVE_PROCESSO_SUCCESS),
                 tap(() => {
-                    if (this.routerState.params.processoHandle) {
-                        this._router.navigate([this.routerState.url.replace('/criar/' + this.routerState.params.processoHandle, '')]).then();
-                    } else {
-                        this._router.navigate([this.routerState.url.replace('/criar', '')]).then();
-                    }
+
                 })
             );
 }

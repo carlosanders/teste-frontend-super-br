@@ -14,12 +14,11 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {Documento, Pagination, Pessoa, Processo} from '@cdk/models';
 import {filter, takeUntil} from 'rxjs/operators';
-import {MatDialog} from '@cdk/angular/material';
+import {MatDialog, MatStepper} from '@cdk/angular/material';
 import {Router} from '@angular/router';
 import {getMercureState, getRouterState} from '../../../../store/reducers';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {getPessoa} from '../store/selectors';
-import {getDocumentos} from './store/selectors';
 import {UpdateData} from '../../../../../@cdk/ngrx-normalizr';
 import { documento as documentoSchema } from '@cdk/normalizr/documento.schema';
 
@@ -42,8 +41,8 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
 
     unidadePagination: Pagination;
 
-    processo: Processo;
     processo$: Observable<Processo>;
+    processo: Processo;
 
     documentos: Documento[] = [];
     documentos$: Observable<Documento[]>;
@@ -51,7 +50,6 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
     assinandoDocumentosId: number[] = [];
     deletingDocumentosId$: Observable<number[]>;
     convertendoDocumentosId$: Observable<number[]>;
-
 
     routerState: any;
 
@@ -61,6 +59,7 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
     @ViewChild('ckdUpload', {static: false})
     cdkUpload;
 
+    @ViewChild('stepper') private stepper: MatStepper;
 
     /**
      *
@@ -68,22 +67,23 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
      * @param dialog
      * @param _router
      * @param _formBuilder
+     * @param _changeDetectorRef
      */
     constructor(
         private _store: Store<fromStore.ProtocoloCreateAppState>,
         public dialog: MatDialog,
         private _router: Router,
         private _formBuilder: FormBuilder,
-        private _changeDetectorRef: ChangeDetectorRef,
+        private _changeDetectorRef: ChangeDetectorRef
     ) {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.pessoaProcedencia$ = this._store.pipe(select(getPessoa));
-        this.documentos$ = this._store.pipe(select(getDocumentos));
+        this.documentos$ = this._store.pipe(select(fromStore.getDocumentos));
+        this.processo$ = this._store.pipe(select(fromStore.getProcesso));
         this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
         this.deletingDocumentosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosId));
         this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoDocumentosId));
-        this.processo$ = this._store.pipe(select(fromStore.getProcesso));
 
         this.unidadePagination = new Pagination();
         this.unidadePagination.populate = ['unidade', 'parent'];
@@ -161,49 +161,25 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
             }
         });
 
-        this.pessoaProcedencia$.pipe(
-            takeUntil(this._unsubscribeAll),
-            filter(pessoa => !!pessoa)
-        ).subscribe(pessoa => {
-            this.pessoaProcedencia = pessoa;
-        });
-
-        this.documentos$.pipe(
-            takeUntil(this._unsubscribeAll),
-            filter(documento => !!documento)
-        ).subscribe(
-            documento => {
-                this.documentos = documento;
-                this._changeDetectorRef.markForCheck();
-            }
-        );
-
-        this.assinandoDocumentosId$.subscribe(assinandoDocumentosId => {
-            if (assinandoDocumentosId.length > 0) {
-                setInterval(() => {
-                    // monitoramento do java
-                    if (!this.javaWebStartOK && (assinandoDocumentosId.length > 0)) {
-                        assinandoDocumentosId.forEach(
-                            documentoId => this._store.dispatch(new fromStore.AssinaDocumentoFailed(documentoId))
-                        );
-                    }
-                }, 30000);
-            }
-            this.assinandoDocumentosId = assinandoDocumentosId;
-        });
-
         this.processo$.pipe(
             takeUntil(this._unsubscribeAll),
             filter(processo => !!processo)
         ).subscribe(
             processo => {
                 this.processo = processo;
-                if (this.processo.id) {
+                if (this.processo) {
                     this.formProcesso.value.id = this.processo.id;
                 }
                 this._changeDetectorRef.markForCheck();
             }
         );
+
+        this.pessoaProcedencia$.pipe(
+            takeUntil(this._unsubscribeAll),
+            filter(pessoa => !!pessoa)
+        ).subscribe(pessoa => {
+            this.pessoaProcedencia = pessoa;
+        });
 
         this.documentos$.pipe(
             takeUntil(this._unsubscribeAll),
@@ -266,6 +242,7 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
         processo.procedencia = this.pessoaProcedencia;
 
         this._store.dispatch(new fromStore.SaveProcesso(processo));
+        this.stepper.next();
     }
 
     upload(): void {

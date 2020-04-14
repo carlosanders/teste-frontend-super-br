@@ -9,22 +9,17 @@ import {getRouterState, State} from 'app/store/reducers';
 import * as ProcessoActions from '../actions/processo.actions';
 
 import {ProcessoService} from '@cdk/services/processo.service';
-import {LoginService} from 'app/main/auth/login/login.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Processo} from '@cdk/models';
 import {processo as processoSchema} from '@cdk/normalizr/processo.schema';
-import {Colaborador} from '@cdk/models/colaborador.model';
-
 
 @Injectable()
 export class ProcessoEffect {
     routerState: any;
-    private _profile: Colaborador;
 
     constructor(
         private _actions: Actions,
         private _processoService: ProcessoService,
-        public _loginService: LoginService,
         private _store: Store<State>
     ) {
         this._store
@@ -34,8 +29,6 @@ export class ProcessoEffect {
                     this.routerState = routerState.state;
                 }
             });
-
-        this._profile = _loginService.getUserProfile().colaborador;
     }
 
     /**
