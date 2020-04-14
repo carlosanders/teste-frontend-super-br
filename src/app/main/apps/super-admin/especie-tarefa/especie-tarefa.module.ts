@@ -18,16 +18,17 @@ import {
 } from '../../../../../@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 import {CdkSharedModule} from '../../../../../@cdk/shared.module';
+import {LoginService} from '../../../auth/login/login.service';
 
 const routes: Routes = [
     {
         path: '',
         component: EspecieTarefaComponent,
         children: [
-            // {
-            //     path       : 'listar',
-            //     loadChildren: () => import('./usuario-list/usuario-list.module').then(m => m.UsuarioListModule),
-            // },
+            {
+                path       : 'listar',
+                loadChildren: () => import('./especie-tarefa-list/especie-tarefa-list.module').then(m => m.EspecieTarefaListModule),
+            },
             // {
             //     path       : 'editar',
             //     loadChildren: () => import('./usuario-edit/usuario-edit.module').then(m => m.UsuarioEditModule),
@@ -40,10 +41,10 @@ const routes: Routes = [
             //     path       : ':usuarioHandle/afastamentos',
             //     loadChildren: () => import('app/main/apps/admin/afastamentos/admin-afastamentos.module').then(m => m.AdminAfastamentosModule),
             // },
-            // {
-            //     path: '**',
-            //     redirectTo: 'listar'
-            // }
+            {
+                path: '**',
+                redirectTo: 'listar'
+            }
         ]
     }
 ];
@@ -67,6 +68,9 @@ const routes: Routes = [
         MatSortModule,
         TranslateModule,
         CdkSharedModule,
+    ],
+    providers: [
+        LoginService
     ]
 })
 export class EspecieTarefaModule {

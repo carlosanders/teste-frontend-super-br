@@ -7,7 +7,7 @@ export interface EspecieTarefaListAppState
 }
 
 export const getEspecieTarefaListAppState = createFeatureSelector<EspecieTarefaListAppState>(
-    'especie-tarefa-list-app'
+    'especie-tarefa-list'
 );
 
 export const getAppState = createSelector(
