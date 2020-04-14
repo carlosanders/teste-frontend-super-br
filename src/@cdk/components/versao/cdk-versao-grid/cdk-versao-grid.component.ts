@@ -36,9 +36,6 @@ export class CdkVersaoGridComponent implements AfterViewInit, OnInit, OnChanges 
     total = 0;
 
     @Input()
-    mode = 'list';
-
-    @Input()
     displayedColumns: string[] = ['id', 'loggedAt', 'username', 'actions'];
 
     @Input()
@@ -131,19 +128,16 @@ export class CdkVersaoGridComponent implements AfterViewInit, OnInit, OnChanges 
     }
 
     toggleFilter(): void {
-        this._cdkSidebarService.getSidebar('cdk-versao-filter').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-versao-main-sidebar').toggleOpen();
         this.showFilter = !this.showFilter;
     }
 
     loadPage(): void {
-        const filter = this.gridFilter.filters;
-        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : null;
         this.reload.emit({
-            gridFilter: filter,
+            gridFilter: this.gridFilter,
             limit: this.paginator.pageSize,
             offset: (this.paginator.pageSize * this.paginator.pageIndex),
-            sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
-            context: contexto
+            sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {}
         });
     }
 
@@ -203,7 +197,7 @@ export class CdkVersaoGridComponent implements AfterViewInit, OnInit, OnChanges 
         this.isIndeterminate = (this.selectedIds.length !== this.logEntrys.length && this.selectedIds.length > 0);
     }
 
-    setFilter(gridFilter): void {
+    setGridFilter(gridFilter): void {
         this.gridFilter = gridFilter;
         this.paginator.pageIndex = 0;
         this.loadPage();
