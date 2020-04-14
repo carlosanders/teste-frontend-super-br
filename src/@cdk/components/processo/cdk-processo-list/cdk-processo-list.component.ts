@@ -80,6 +80,9 @@ export class CdkProcessoListComponent implements AfterViewInit, OnInit, OnChange
     @Output()
     salvarLembrete = new EventEmitter<any>();
 
+    @Input()
+    mode = 'list';
+
     gridFilter: any;
 
     listFilter: {} = {};

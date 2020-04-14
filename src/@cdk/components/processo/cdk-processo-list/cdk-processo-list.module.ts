@@ -32,6 +32,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {CdkEtiquetaAutocompleteModule} from '../../etiqueta/cdk-etiqueta-autocomplete/cdk-etiqueta-autocomplete.module';
 import {CdkInteressadoAutocompleteModule} from '../../interessado/cdk-interessado-autocomplete/cdk-interessado-autocomplete.module';
 import {CdkInteressadoGridsearchModule} from '../../interessado/cdk-interessado-autocomplete/cdk-interessado-gridsearch/cdk-interessado-gridsearch.module';
+import {CdkProcessoFilterModule} from '../sidebars/cdk-processo-filter/cdk-processo-filter.module';
 
 @NgModule({
     declarations: [
@@ -75,6 +76,7 @@ import {CdkInteressadoGridsearchModule} from '../../interessado/cdk-interessado-
         CdkEtiquetaAutocompleteModule,
         CdkInteressadoAutocompleteModule,
         CdkInteressadoGridsearchModule,
+        CdkProcessoFilterModule,
     ],
     providers: [
         EspecieProcessoService,
