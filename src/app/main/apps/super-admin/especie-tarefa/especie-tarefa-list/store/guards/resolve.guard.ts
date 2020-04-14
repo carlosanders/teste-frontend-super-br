@@ -7,9 +7,9 @@ import {Observable, of} from 'rxjs';
 import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
 import * as fromStore from '../';
 import {getRouterState} from 'app/store/reducers';
-import {UsuarioListAppState} from '../reducers';
+import {EspecieTarefaListAppState} from '../reducers';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {getUsuarioListLoaded} from '../';
+import {getEspecieTarefaListLoaded} from '../';
 
 
 @Injectable()
@@ -23,7 +23,7 @@ export class ResolveGuard implements CanActivate {
      * @param _loginService
      */
     constructor(
-        private _store: Store<UsuarioListAppState>,
+        private _store: Store<EspecieTarefaListAppState>,
         private _loginService: LoginService
     ) {
         this._store
@@ -43,42 +43,34 @@ export class ResolveGuard implements CanActivate {
      * @returns {Observable<boolean>}
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-        return this.getUsuarios().pipe(
+        return this.getEspecieTarefa().pipe(
             switchMap(() => of(true)),
             catchError(() => of(false))
         );
     }
 
     /**
-     * Get Usuarios
+     * Get EspecieTarefa
      *
      * @returns {Observable<any>}
      */
-    getUsuarios(): Observable<any> {
+    getEspecieTarefa(): Observable<any> {
         return this._store.pipe(
-            select(getUsuarioListLoaded),
+            select(getEspecieTarefaListLoaded),
             tap((loaded: any) => {
                 if (!loaded) {
                     const params = {
-
                         filter: {},
-
                         gridFilter: {},
                         limit: 5,
                         offset: 0,
                         sort: {criadoEm: 'DESC'},
                         populate: [
                             'populateAll',
-                            'colaborador',
-                            'colaborador.cargo',
-                            'colaborador.modalidadeColaborador'
-                        ],
-                        context: {
-                            'isAdmin': true
-                        }
+                        ]
                     };
 
-                    this._store.dispatch(new fromStore.GetUsuarios(params));
+                    this._store.dispatch(new fromStore.GetEspecieTarefa(params));
                 }
             }),
             filter((loaded: any) => {
