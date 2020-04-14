@@ -80,7 +80,7 @@ export class CdkProcessoListComponent implements AfterViewInit, OnInit, OnChange
     @Output()
     salvarLembrete = new EventEmitter<any>();
 
-
+    gridFilter: any;
 
     listFilter: {} = {};
     listSort: {} = {};
@@ -216,8 +216,10 @@ export class CdkProcessoListComponent implements AfterViewInit, OnInit, OnChange
         this.realizarTransicao.emit(params);
     }
 
-
-
+    setFilter(gridFilter): void {
+        this.gridFilter = gridFilter;
+        this.loadPage();
+    }
 
     /**
      * Toggle the sidebar

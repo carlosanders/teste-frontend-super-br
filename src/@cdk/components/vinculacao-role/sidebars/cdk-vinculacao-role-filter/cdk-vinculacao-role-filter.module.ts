@@ -14,7 +14,6 @@ import {CdkVinculacaoRoleFilterComponent} from './cdk-vinculacao-role-filter.com
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 import {CdkUsuarioAutocompleteModule} from '../../../usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
-import {CdkRoleAutocompleteModule} from '../../../role/cdk-role-autocomplete/cdk-role-autocomplete.module';
 
 @NgModule({
     declarations: [
@@ -34,7 +33,6 @@ import {CdkRoleAutocompleteModule} from '../../../role/cdk-role-autocomplete/cdk
         CdkSharedModule,
 
         CdkUsuarioAutocompleteModule,
-        CdkRoleAutocompleteModule,
     ],
     providers: [
         VinculacaoRoleService,
