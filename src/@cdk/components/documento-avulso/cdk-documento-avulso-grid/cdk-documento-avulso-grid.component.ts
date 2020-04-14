@@ -425,7 +425,6 @@ export class CdkDocumentoAvulsoGridComponent implements AfterViewInit, OnInit, O
 
     setFilter(gridFilter): void {
         this.gridFilter = gridFilter;
-        this.paginator.pageIndex = 0;
         this.loadPage();
     }
 

@@ -1,9 +1,18 @@
-import {
-    ChangeDetectionStrategy,
-    Component, EventEmitter,
-    OnInit, Output,
-    ViewEncapsulation
-} from '@angular/core';
+    height: 100%;
+
+    .altura {
+        height: 100%;
+    }
+
+    .content {
+        min-height: 0px;
+        padding: 6%;
+    }
+
+    .padd {
+        padding: 6%;
+    }
+}
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {CdkSidebarService} from '../../../sidebar/sidebar.service';

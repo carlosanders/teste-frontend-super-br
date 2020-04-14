@@ -12,7 +12,6 @@ import {
     EventEmitter
 } from '@angular/core';
 import {merge, of} from 'rxjs';
-
 import {cdkAnimations} from '@cdk/animations';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
@@ -216,7 +215,7 @@ export class CdkModalidadeMeioGridComponent implements AfterViewInit, OnInit, On
     }
 
     toggleFilter(): void {
-        this._cdkSidebarService.getSidebar('cdk-especie-processo-filter').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-modalidade-meio-filter').toggleOpen();
         this.showFilter = !this.showFilter;
     }
 

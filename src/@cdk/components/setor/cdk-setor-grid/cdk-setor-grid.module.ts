@@ -17,12 +17,10 @@ import {SetorService} from '@cdk/services/setor.service';
 import {CdkSetorGridComponent} from './cdk-setor-grid.component';
 import {CdkSetorAutocompleteModule} from '@cdk/components/setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
 import {CdkSetorFilterModule} from '../sidebars/cdk-setor-filter/cdk-setor-filter.module';
-import {CdkSetorMainSidebarComponent} from '../sidebars/sidebars/main/main.component';
 
 @NgModule({
     declarations: [
         CdkSetorGridComponent,
-        CdkSetorMainSidebarComponent,
     ],
     imports: [
         MatButtonModule,

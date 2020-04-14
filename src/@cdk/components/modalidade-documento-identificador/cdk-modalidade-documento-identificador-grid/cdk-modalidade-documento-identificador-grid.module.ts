@@ -17,12 +17,10 @@ import {ModalidadeDocumentoIdentificadorService} from '@cdk/services/modalidade-
 import {CdkModalidadeDocumentoIdentificadorGridComponent} from './cdk-modalidade-documento-identificador-grid.component';
 import {CdkModalidadeDocumentoIdentificadorAutocompleteModule} from '@cdk/components/modalidade-documento-identificador/cdk-modalidade-documento-identificador-autocomplete/cdk-modalidade-documento-identificador-autocomplete.module';
 import {CdkModalidadeDocumentoIdentificadorFilterModule} from '../sidebars/cdk-modalidade-documento-identificador-filter/cdk-modalidade-documento-identificador-filter.module';
-import {CdkModalidadeDocumentoIdentificadorMainSidebarComponent} from './sidebars/main/sidebars/main/main.component';
 
 @NgModule({
     declarations: [
         CdkModalidadeDocumentoIdentificadorGridComponent,
-        CdkModalidadeDocumentoIdentificadorMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,

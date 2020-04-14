@@ -21,9 +21,6 @@ export class CdkComponenteDigitalFilterComponent implements OnInit {
     @Output()
     selected = new EventEmitter<any>();
 
-    @Input()
-    mode = 'list';
-
     form: FormGroup;
 
     filters: any = {};

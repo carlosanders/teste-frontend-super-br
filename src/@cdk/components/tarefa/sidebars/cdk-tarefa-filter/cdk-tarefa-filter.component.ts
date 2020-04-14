@@ -1,5 +1,4 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output, ViewEncapsulation} from '@angular/core';
-import {cdkAnimations} from '@cdk/animations';
+import {ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output, Input, ViewEncapsulation} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {CdkSidebarService} from '../../../sidebar/sidebar.service';
 

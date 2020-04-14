@@ -1,17 +1,21 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
+    OnInit,
+    ViewChild,
+    AfterViewInit,
+    ViewEncapsulation,
+    OnChanges,
+    EventEmitter,
     Component,
-    OnInit, ViewChild, AfterViewInit,
-    ViewEncapsulation, Input, OnChanges, Output, EventEmitter
+    Input,
+    Output
 } from '@angular/core';
 import {merge, of} from 'rxjs';
-
 import {cdkAnimations} from '@cdk/animations';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
-
 import {Lembrete} from '@cdk/models';
 import {LembreteDataSource} from '@cdk/data-sources/lembrete-data-source';
 import {FormControl} from '@angular/forms';

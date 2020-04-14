@@ -106,6 +106,11 @@ export class CdkDocumentoAvulsoListComponent implements AfterViewInit, OnInit, O
     @Output()
     editorBloco = new EventEmitter<any>();
 
+    @Input()
+    mode = 'list';
+
+    gridFilter: any;
+
     listFilter: {} = {};
     listSort: {} = {};
 
@@ -222,5 +227,10 @@ export class CdkDocumentoAvulsoListComponent implements AfterViewInit, OnInit, O
 
     onScroll(): void {
         this.scrolled.emit();
+    }
+
+    setFilter(gridFilter): void {
+        this.gridFilter = gridFilter;
+        this.loadPage();
     }
 }

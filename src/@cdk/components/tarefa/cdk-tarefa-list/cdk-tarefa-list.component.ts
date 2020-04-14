@@ -129,7 +129,9 @@ export class CdkTarefaListComponent implements AfterViewInit, OnInit, OnChanges 
 
     @Input()
     idTarefaToLoadAssuntos: number;
-    
+
+    gridFilter: any;
+
     listFilter: {} = {};
     listSort: {} = {};
 
@@ -316,5 +318,10 @@ export class CdkTarefaListComponent implements AfterViewInit, OnInit, OnChanges 
 
     doLoadAssuntos(idProcesso): void {
         this.idProcesso.emit(idProcesso);
+    }
+
+    setFilter(gridFilter): void {
+        this.gridFilter = gridFilter;
+        this.loadPage();
     }
 }

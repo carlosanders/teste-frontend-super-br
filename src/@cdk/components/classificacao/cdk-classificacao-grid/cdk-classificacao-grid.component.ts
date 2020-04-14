@@ -264,7 +264,7 @@ export class CdkClassificacaoGridComponent implements AfterViewInit, OnInit, OnC
     }
 
     toggleFilter(): void {
-        this._cdkSidebarService.getSidebar('cdk-especie-processo-filter').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-classificacao-filter').toggleOpen();
         this.showFilter = !this.showFilter;
     }
 
