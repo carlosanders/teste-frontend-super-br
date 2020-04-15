@@ -29,10 +29,10 @@ const routes: Routes = [
                 path       : 'listar',
                 loadChildren: () => import('./especie-tarefa-list/especie-tarefa-list.module').then(m => m.EspecieTarefaListModule),
             },
-            // {
-            //     path       : 'editar',
-            //     loadChildren: () => import('./usuario-edit/usuario-edit.module').then(m => m.UsuarioEditModule),
-            // },
+            {
+                path       : 'editar',
+                loadChildren: () => import('./especie-tarefa-edit/especie-tarefa-edit.module').then(m => m.EspecieTarefaEditModule),
+            },
             // {
             //     path       : ':usuarioHandle/lotacoes',
             //     loadChildren: () => import('app/main/apps/admin/lotacoes/admin-lotacoes.module').then(m => m.AdminLotacoesModule),
