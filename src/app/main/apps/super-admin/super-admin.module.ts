@@ -14,10 +14,10 @@ const routes: Routes = [
         path       : '',
         component: SuperAdminComponent,
         children: [
-            // {
-            //     path       : 'tarefas',
-            //     loadChildren: () => import('./setor/setor.module').then(m => m.SetorModule)
-            // },
+            {
+                path       : 'tarefas',
+                loadChildren: () => import('./especie-tarefa/especie-tarefa.module').then(m => m.EspecieTarefaModule)
+            },
             // {
             //     path       : 'atividades',
             //     loadChildren: () => import('./usuario/usuario.module').then(m => m.UsuarioModule)
