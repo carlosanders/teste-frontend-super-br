@@ -26,6 +26,7 @@ import {ResolveGuard} from './store/guards';
 import {EspecieTarefaEditStoreModule} from './store/store.module';
 import {EspecieTarefaService} from '../../../../../../@cdk/services/especie-tarefa.service';
 import {ColaboradorService} from '../../../../../../@cdk/services/colaborador.service';
+import {CdkEspecieTarefaFormModule} from '../../../../../../@cdk/components/especie-tarefa/cdk-especie-tarefa-form/cdk-especie-tarefa-form.module';
 
 
 const routes: Routes = [
@@ -63,7 +64,8 @@ const routes: Routes = [
         CdkSharedModule,
         CdkSidebarModule,
         MatStepperModule,
-        EspecieTarefaEditStoreModule
+        EspecieTarefaEditStoreModule,
+        CdkEspecieTarefaFormModule
 
     ],
     providers: [

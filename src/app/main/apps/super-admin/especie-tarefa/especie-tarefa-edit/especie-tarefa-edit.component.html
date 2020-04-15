@@ -1,1 +1,30 @@
-<p>especie-tarefa-edit works!</p>
+<mat-horizontal-stepper linear #stepper>
+    <mat-step [completed]="formEspecieTarefa.value.id">
+        <ng-template matStepLabel>Espécie Tarefa</ng-template>
+            <cdk-especie-tarefa-form
+                [especieTarefa]="(especieTarefa$ | async)"
+                [form]="formEspecieTarefa"
+                [saving]="(isSaving$ | async)"
+                [errors]="(errors$ | async)"
+                (save)="submitEspecieTarefa($event)">
+            </cdk-especie-tarefa-form>
+<!--        <cdk-usuario-form-->
+<!--            [usuario]="(usuario$ | async)"-->
+<!--            [form]="formUsuario"-->
+<!--            [saving]="(isSaving$ | async)"-->
+<!--            [errors]="(errors$ | async)"-->
+<!--            (save)="submitUsuario($event)">-->
+<!--        </cdk-usuario-form>-->
+    </mat-step>
+<!--    <mat-step [stepControl]="formColaborador">-->
+<!--        <ng-template matStepLabel>Colaborador</ng-template>-->
+<!--&lt;!&ndash;        <cdk-colaborador-form&ndash;&gt;-->
+<!--&lt;!&ndash;            [colaborador]="colaborador"&ndash;&gt;-->
+<!--&lt;!&ndash;            [usuario]="(usuario$ | async)"&ndash;&gt;-->
+<!--&lt;!&ndash;            [form]="formColaborador"&ndash;&gt;-->
+<!--&lt;!&ndash;            [saving]="(isSaving$ | async)"&ndash;&gt;-->
+<!--&lt;!&ndash;            [errors]="(errors$ | async)"&ndash;&gt;-->
+<!--&lt;!&ndash;            (save)="submitColaborador($event)">&ndash;&gt;-->
+<!--&lt;!&ndash;        </cdk-colaborador-form>&ndash;&gt;-->
+<!--    </mat-step>-->
+</mat-horizontal-stepper>

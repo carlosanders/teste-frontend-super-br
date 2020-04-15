@@ -24,7 +24,6 @@ export class ResolveGuard implements CanActivate {
     constructor(
         private _store: Store<EspecieTarefaEditAppState>
     ) {
-        debugger
         this._store
             .pipe(select(getRouterState))
             .subscribe(routerState => {

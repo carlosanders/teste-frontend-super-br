@@ -64,9 +64,9 @@ export class ResolveGuard implements CanActivate {
                         gridFilter: {},
                         limit: 5,
                         offset: 0,
-                        sort: {criadoEm: 'DESC'},
+                        sort: {criadoEm: 'ASC'},
                         populate: [
-                            'populateAll',
+                            'populateAll'
                         ]
                     };
 
