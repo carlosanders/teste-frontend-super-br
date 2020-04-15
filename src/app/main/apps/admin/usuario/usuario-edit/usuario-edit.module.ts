@@ -18,7 +18,7 @@ import {TranslateModule} from '@ngx-translate/core';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkSidebarModule} from '@cdk/components';
 
-import {UsuarioEditComponent} from "./usuario-edit.component";
+import {UsuarioEditComponent} from './usuario-edit.component';
 import {RouterModule, Routes} from '@angular/router';
 import {CdkUsuarioFormModule} from '@cdk/components/usuario/cdk-usuario-form/cdk-usuario-form.module';
 import {CdkColaboradorFormModule} from '@cdk/components/colaborador/cdk-colaborador-form/cdk-colaborador-form.module';
@@ -27,8 +27,8 @@ import {ColaboradorService} from '@cdk/services/colaborador.service';
 
 import * as fromGuards from './store/guards';
 import {LoginService} from '../../../../auth/login/login.service';
-import {UsuarioEditStoreModule} from "./store/store.module";
-import {MatStepperModule} from "@angular/material/stepper";
+import {UsuarioEditStoreModule} from './store/store.module';
+import {MatStepperModule} from '@angular/material/stepper';
 
 const routes: Routes = [
     {
