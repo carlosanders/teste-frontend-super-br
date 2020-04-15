@@ -56,7 +56,7 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
     formProcesso: FormGroup;
     javaWebStartOK = false;
 
-    @ViewChild('stepper') stepper: MatStepper;
+    selectedIndex: number;
 
     @ViewChild('ckdUpload', {static: false})
     cdkUpload;
@@ -212,7 +212,7 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
             this.processo.procedencia = this.pessoaProcedencia;
         }
 
-        this.stepper.selectedIndex = this.routerState.params.stepHandle ?? 0;
+        this.selectedIndex = this.routerState.params.stepHandle ?? 0;
     }
 
     /**
