@@ -1,0 +1,7 @@
+<cdk-modelo-form
+        [modelo]="modelo"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        [templatePagination]="templatePagination"
+        (save)="submit($event)">
+</cdk-modelo-form>

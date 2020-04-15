@@ -1,0 +1,13 @@
+<cdk-afastamento-grid
+        [loading]="(loading$ | async)"
+        [afastamentos]="(afastamentos$ | async)"
+        [total]="(pagination$ | async)?.total"
+        [deletingIds]="(deletingIds$ | async)"
+        [deletedIds]="(deletedIds$ | async)"
+        [displayedColumns]="['select', 'id', 'dataInicio', 'dataInicioBloqueio', 'dataFim', 'dataFimBloqueio', 'modalidadeAfastamento.valor', 'actions']"
+        [actions]="['edit', 'delete']"
+        [colaboradorPagination]="this.colaboradorPagination"
+        (reload)="reload($event)"
+        (edit)="edit($event)"
+        (delete)="delete($event)">
+</cdk-afastamento-grid>

@@ -9,7 +9,7 @@ import {
 
 import { cdkAnimations } from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { Repositorio } from '@cdk/models';
+import {Repositorio, Setor} from '@cdk/models';
 import {Pagination} from '@cdk/models';
 import {ModalidadeRepositorio} from '@cdk/models';
 
@@ -32,6 +32,15 @@ export class CdkRepositorioFormComponent implements OnChanges, OnDestroy {
     @Input()
     errors: any;
 
+    @Input()
+    coordenador: boolean;
+
+    @Input()
+    setorPagination: Pagination;
+
+    @Input()
+    modalidadeRepositorioPagination: Pagination;
+
     @Output()
     save = new EventEmitter<Repositorio>();
 
@@ -39,8 +48,7 @@ export class CdkRepositorioFormComponent implements OnChanges, OnDestroy {
 
     activeCard = 'form';
 
-    @Input()
-    modalidadeRepositorioPagination: Pagination;
+
 
     /**
      * Constructor
@@ -55,6 +63,7 @@ export class CdkRepositorioFormComponent implements OnChanges, OnDestroy {
             ativo: [null],
             nome: [null, [Validators.required, Validators.maxLength(255)]],
             descricao: [null, [Validators.required, Validators.maxLength(255)]],
+            setor: [null],
             modalidadeRepositorio: [null, [Validators.required]],
         });
 
@@ -98,6 +107,24 @@ export class CdkRepositorioFormComponent implements OnChanges, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
+
+    checkSetor(): void {
+        const value = this.form.get('setor').value;
+        if (!value || typeof value !== 'object') {
+            this.form.get('setor').setValue(null);
+        }
+    }
+
+    selectSetor(setor: Setor): void {
+        if (setor) {
+            this.form.get('setor').setValue(setor);
+        }
+        this.activeCard = 'form';
+    }
+
+    showSetorGrid(): void {
+        this.activeCard = 'setor-gridsearch';
+    }
 
     checkModalidadeRepositorio(): void {
         const value = this.form.get('modalidadeRepositorio').value;

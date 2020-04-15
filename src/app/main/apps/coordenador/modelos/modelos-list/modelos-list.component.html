@@ -1,0 +1,17 @@
+<cdk-modelo-grid
+        [loading]="(loading$ | async)"
+        [modelos]="(modelos$ | async)"
+        [total]="(pagination$ | async)?.total"
+        [deletingIds]="(deletingIds$ | async)"
+        [deletedIds]="(deletedIds$ | async)"
+        [displayedColumns]="colunas"
+        [actions]="actions"
+        (reload)="reload($event)"
+        (edit)="edit($event)"
+        (anexo)="anexoModelo($event)"
+        (especie)="especieSetores($event)"
+        (editConteudo)="editConteudo($event)"
+        (delete)="delete($event)">
+</cdk-modelo-grid>
+
+<router-outlet></router-outlet>
