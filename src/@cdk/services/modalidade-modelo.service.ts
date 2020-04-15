@@ -72,6 +72,8 @@ export class ModalidadeModeloService {
     }
 
     destroy(id: number, context: any = '{}'): Observable<ModalidadeModelo> {
+        const params = {};
+        params['context'] = context;
         return this.modelService.delete('modalidade_modelo', id, new HttpParams({fromObject: params}));
     }
 }

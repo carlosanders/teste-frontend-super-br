@@ -1,5 +1,6 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Output, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEncapsulation} from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
+import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-vinculacao-repositorio-main-sidebar',
@@ -14,6 +15,18 @@ export class CdkVinculacaoRepositorioMainSidebarComponent {
     selected = new EventEmitter<any>();
 
     gridFilter: any;
+
+    @Input()
+    orgaoCentralPagination: Pagination;
+
+    @Input()
+    repositorioPagination: Pagination;
+
+    @Input()
+    setorPagination: Pagination;
+
+    @Input()
+    usuarioPagination: Pagination;
 
     setGridFilter(gridFilter): void {
         this.gridFilter = gridFilter;

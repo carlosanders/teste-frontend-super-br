@@ -3,7 +3,6 @@ import {cargo, colaborador as colaboradorSchema, modalidadeColaborador, usuario}
 colaboradorSchema.define({
     cargo: cargo,
     modalidadeColaborador: modalidadeColaborador,
-    usuario: usuario,
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario

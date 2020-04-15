@@ -1,5 +1,5 @@
-<mat-horizontal-stepper linear class="content p-16 altura" #stepper>
-    <mat-step [completed]="formProcesso.value.id">
+<mat-horizontal-stepper linear #stepper class="content p-16 altura" [selectedIndex]="selectedIndex">
+    <mat-step [completed]="formProcesso.value.id" [stepControl]="formProcesso">
         <ng-template matStepLabel>Processo</ng-template>
         <cdk-processo-form
                 [processo]="processo"
@@ -39,8 +39,7 @@
                                      (clicked)="onClicked($event)"
                                      [assinandoId]="(assinandoDocumentosId$ | async)"
                                      [deletingId]="(deletingDocumentosId$ | async)"
-                                     [convertendoId]="(convertendoDocumentosId$ | async)"
-            >
+                                     [convertendoId]="(convertendoDocumentosId$ | async)">
             </cdk-documento-card-list>
         </div>
     </mat-step>

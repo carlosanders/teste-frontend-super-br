@@ -4,7 +4,7 @@ import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, tap} from 'rxjs/operators';
 
-import * as ProtocoloCreateActions from '../actions/protocolo-create.actions';
+import * as ProtocoloCreateActions from '../actions';
 
 import {ProcessoService} from '@cdk/services/processo.service';
 import {AddData} from '@cdk/ngrx-normalizr';
@@ -46,8 +46,8 @@ export class ProtocoloCreateEffects {
                 mergeMap((action) => {
                     return this._processoService.save(action.payload).pipe(
                         mergeMap((response: Processo) => [
-                            new ProtocoloCreateActions.SaveProcessoSuccess(),
                             new AddData<Processo>({data: [response], schema: processoSchema}),
+                            new ProtocoloCreateActions.SaveProcessoSuccess(response),
                             new OperacoesActions.Resultado({
                                 type: 'processo',
                                 content: `Processo id ${response.id} criada com sucesso!`,
@@ -70,12 +70,8 @@ export class ProtocoloCreateEffects {
         this._actions
             .pipe(
                 ofType<ProtocoloCreateActions.SaveProcessoSuccess>(ProtocoloCreateActions.SAVE_PROCESSO_SUCCESS),
-                tap(() => {
-                    if (this.routerState.params.processoHandle) {
-                        this._router.navigate([this.routerState.url.replace('/criar/' + this.routerState.params.processoHandle, '')]).then();
-                    } else {
-                        this._router.navigate([this.routerState.url.replace('/criar', '')]).then();
-                    }
+                tap((action) => {
+                    this._router.navigate([this.routerState.url + '/' + action.payload.id + '/step/1']).then();
                 })
             );
 }

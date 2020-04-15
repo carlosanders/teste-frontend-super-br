@@ -1,12 +1,13 @@
 import {
     ChangeDetectionStrategy,
-    Component, EventEmitter,
+    Component, EventEmitter, Input,
     OnInit, Output,
     ViewEncapsulation
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
+import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-vinculacao-repositorio-grid-filter',
@@ -25,6 +26,18 @@ export class CdkVinculacaoRepositorioGridFilterComponent implements OnInit {
 
     filters: any = {};
 
+    @Input()
+    orgaoCentralPagination: Pagination;
+
+    @Input()
+    repositorioPagination: Pagination;
+
+    @Input()
+    setorPagination: Pagination;
+
+    @Input()
+    usuarioPagination: Pagination;
+
     /**
      * Constructor
      */
@@ -32,10 +45,11 @@ export class CdkVinculacaoRepositorioGridFilterComponent implements OnInit {
         private _formBuilder: FormBuilder
     ) {
         this.form = this._formBuilder.group({
-            modelo: [null],
+            repositorio: [null],
             especieSetor: [null],
             setor: [null],
             usuario: [null],
+            orgaoCentral: [null],
             criadoPor: [null],
             criadoEm: [null],
             atualizadoPor: [null],
@@ -43,6 +57,11 @@ export class CdkVinculacaoRepositorioGridFilterComponent implements OnInit {
             apagadoPor: [null],
             apagadoEm: [null],
         });
+
+        this.orgaoCentralPagination = new Pagination();
+        this.repositorioPagination = new Pagination();
+        this.setorPagination = new Pagination();
+        this.usuarioPagination = new Pagination();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -53,17 +72,17 @@ export class CdkVinculacaoRepositorioGridFilterComponent implements OnInit {
      * On init
      */
     ngOnInit(): void {
-        this.form.get('modelo').valueChanges.subscribe(value => {
+        this.form.get('repositorio').valueChanges.subscribe(value => {
             if (value !== null) {
                 if (typeof value === 'object' && value) {
                     this.filters = {
                         ...this.filters,
-                        'modelo.id': `eq:${value.id}`
+                        'repositorio.id': `eq:${value.id}`
                     };
                     this.selected.emit(this.filters);
                 } else {
-                    if (this.filters.hasOwnProperty('modelo.id')) {
-                        delete this.filters['modelo.id'];
+                    if (this.filters.hasOwnProperty('repositorio.id')) {
+                        delete this.filters['repositorio.id'];
                     }
                 }
                 if (!value) {
@@ -121,6 +140,25 @@ export class CdkVinculacaoRepositorioGridFilterComponent implements OnInit {
                 } else {
                     if (this.filters.hasOwnProperty('usuario.id')) {
                         delete this.filters['usuario.id'];
+                    }
+                }
+                if (!value) {
+                    this.selected.emit(this.filters);
+                }
+            }
+        });
+
+        this.form.get('orgaoCentral').valueChanges.subscribe(value => {
+            if (value !== null) {
+                if (typeof value === 'object' && value) {
+                    this.filters = {
+                        ...this.filters,
+                        'orgaoCentral.id': `eq:${value.id}`
+                    };
+                    this.selected.emit(this.filters);
+                } else {
+                    if (this.filters.hasOwnProperty('orgaoCentral.id')) {
+                        delete this.filters['orgaoCentral.id'];
                     }
                 }
                 if (!value) {
