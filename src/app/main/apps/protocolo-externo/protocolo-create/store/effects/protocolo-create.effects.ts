@@ -46,15 +46,12 @@ export class ProtocoloCreateEffects {
                 mergeMap((action) => {
                     return this._processoService.save(action.payload).pipe(
                         mergeMap((response: Processo) => [
-                            new ProtocoloCreateActions.SaveProcessoSuccess(),
                             new AddData<Processo>({data: [response], schema: processoSchema}),
+                            new ProtocoloCreateActions.SaveProcessoSuccess(response),
                             new OperacoesActions.Resultado({
                                 type: 'processo',
                                 content: `Processo id ${response.id} criada com sucesso!`,
                                 dateTime: response.criadoEm
-                            }),
-                            new ProtocoloCreateActions.GetProcesso({
-                                id: `eq:${response.id}`
                             })
                         ]),
                         catchError((err) => {
@@ -73,8 +70,8 @@ export class ProtocoloCreateEffects {
         this._actions
             .pipe(
                 ofType<ProtocoloCreateActions.SaveProcessoSuccess>(ProtocoloCreateActions.SAVE_PROCESSO_SUCCESS),
-                tap(() => {
-
+                tap((action) => {
+                    this._router.navigate([this.routerState.url + '/' + action.payload.id + '/step/1']).then();
                 })
             );
 }

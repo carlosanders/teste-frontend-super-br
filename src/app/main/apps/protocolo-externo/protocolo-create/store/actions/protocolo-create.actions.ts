@@ -26,7 +26,7 @@ export class SaveProcessoSuccess implements Action
 {
     readonly type = SAVE_PROCESSO_SUCCESS;
 
-    constructor()
+    constructor(public payload: any)
     {
     }
 }

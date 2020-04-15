@@ -20,7 +20,7 @@ import {getMercureState, getRouterState} from '../../../../store/reducers';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {getPessoa} from '../store/selectors';
 import {UpdateData} from '../../../../../@cdk/ngrx-normalizr';
-import { documento as documentoSchema } from '@cdk/normalizr/documento.schema';
+import {documento as documentoSchema } from '@cdk/normalizr/documento.schema';
 
 @Component({
     selector: 'protocolo-create',
@@ -56,10 +56,10 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
     formProcesso: FormGroup;
     javaWebStartOK = false;
 
+    @ViewChild('stepper') stepper: MatStepper;
+
     @ViewChild('ckdUpload', {static: false})
     cdkUpload;
-
-    @ViewChild('stepper') private stepper: MatStepper;
 
     /**
      *
@@ -211,6 +211,8 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
             this.processo.tipoProtocolo = 1;
             this.processo.procedencia = this.pessoaProcedencia;
         }
+
+        this.stepper.selectedIndex = this.routerState.params.stepHandle ?? 0;
     }
 
     /**
@@ -242,7 +244,6 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
         processo.procedencia = this.pessoaProcedencia;
 
         this._store.dispatch(new fromStore.SaveProcesso(processo));
-        this.stepper.next();
     }
 
     upload(): void {
@@ -256,5 +257,4 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
     onClicked(documento): void {
         this._store.dispatch(new fromStore.ClickedDocumento(documento));
     }
-
 }
