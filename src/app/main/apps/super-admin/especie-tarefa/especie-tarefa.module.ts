@@ -33,14 +33,6 @@ const routes: Routes = [
                 path       : 'editar',
                 loadChildren: () => import('./especie-tarefa-edit/especie-tarefa-edit.module').then(m => m.EspecieTarefaEditModule),
             },
-            // {
-            //     path       : ':usuarioHandle/lotacoes',
-            //     loadChildren: () => import('app/main/apps/admin/lotacoes/admin-lotacoes.module').then(m => m.AdminLotacoesModule),
-            // },
-            // {
-            //     path       : ':usuarioHandle/afastamentos',
-            //     loadChildren: () => import('app/main/apps/admin/afastamentos/admin-afastamentos.module').then(m => m.AdminAfastamentosModule),
-            // },
             {
                 path: '**',
                 redirectTo: 'listar'
