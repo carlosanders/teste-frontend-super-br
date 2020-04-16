@@ -24,22 +24,14 @@ const routes: Routes = [
         path: '',
         component: EspecieAtividadeComponent,
         children: [
-            // {
-            //     path       : 'listar',
-            //     loadChildren: () => import('./especie-tarefa-list/especie-tarefa-list.module').then(m => m.EspecieTarefaListModule),
-            // },
+            {
+                path       : 'listar',
+                loadChildren: () => import('./especie-atividade-list/especie-atividade-list.module').then(m => m.EspecieAtividadeListModule),
+            },
             // {
             //     path       : 'editar',
             //     loadChildren: () => import('./especie-tarefa-edit/especie-tarefa-edit.module').then(m => m.EspecieTarefaEditModule),
-            // },
-            // {
-            //     path       : ':usuarioHandle/lotacoes',
-            //     loadChildren: () => import('app/main/apps/admin/lotacoes/admin-lotacoes.module').then(m => m.AdminLotacoesModule),
-            // },
-            // {
-            //     path       : ':usuarioHandle/afastamentos',
-            //     loadChildren: () => import('app/main/apps/admin/afastamentos/admin-afastamentos.module').then(m => m.AdminAfastamentosModule),
-            // },
+            // }
             {
                 path: '**',
                 redirectTo: 'listar'

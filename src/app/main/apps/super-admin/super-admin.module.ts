@@ -21,14 +21,14 @@ const routes: Routes = [
             {
                 path       : 'atividades',
                 loadChildren: () => import('./especie-atividade/especie-atividade.module').then(m => m.EspecieAtividadeModule)
+            },
+            {
+                path: '**',
+                redirectTo: 'tarefas'
             }
         ],
-        // canActivate: [fromGuards.ResolveGuard]
     },
-    {
-        path: '**',
-        redirectTo: 'tarefas'
-    }
+
 ];
 
 

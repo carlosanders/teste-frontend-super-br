@@ -28,7 +28,7 @@ import {FormControl} from '@angular/forms';
 export class CdkEspecieAtividadeGridComponent implements AfterViewInit, OnInit, OnChanges {
 
     @Input()
-    loading = false;
+    loading: boolean;
 
     @Input()
     especieAtividades: EspecieAtividade[];
