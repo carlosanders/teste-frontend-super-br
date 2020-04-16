@@ -1,5 +1,3 @@
-import { PaginatedResponse } from '@cdk/models/paginated.response';
-import { Observable, BehaviorSubject } from 'rxjs';
 import {AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewEncapsulation} from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
@@ -137,7 +135,8 @@ export class CdkTarefaListComponent implements AfterViewInit, OnInit, OnChanges 
 
     isIndeterminate = false;
 
-    
+    @Input()
+    mode = 'list';
 
     /**
      * Constructor
@@ -313,7 +312,7 @@ export class CdkTarefaListComponent implements AfterViewInit, OnInit, OnChanges 
      * Toggle the sidebar
      */
     toggleSidebar(): void {
-        this._cdkSidebarService.getSidebar('cdk-tarefa-filter-sidebar').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-tarefa-filter').toggleOpen();
     }
 
     doLoadAssuntos(idProcesso): void {

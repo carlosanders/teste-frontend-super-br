@@ -222,7 +222,7 @@ export class CdkAssuntoAdministrativoGridComponent implements AfterViewInit, OnI
     }
 
     toggleFilter(): void {
-        this._cdkSidebarService.getSidebar('cdk-assunto-administrativo--filter').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-assunto-administrativo-filter').toggleOpen();
         this.showFilter = !this.showFilter;
     }
 

@@ -1,13 +1,15 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output, Input, ViewEncapsulation} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {CdkSidebarService} from '../../../sidebar/sidebar.service';
+import {cdkAnimations} from '@cdk/animations';
 
 @Component({
     selector: 'cdk-tarefa-filter',
     templateUrl: './cdk-tarefa-filter.component.html',
     styleUrls: ['./cdk-tarefa-filter.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    encapsulation: ViewEncapsulation.None
+    encapsulation: ViewEncapsulation.None,
+    animations: cdkAnimations
 })
 export class CdkTarefaFilterComponent implements OnInit {
 
@@ -35,6 +37,7 @@ export class CdkTarefaFilterComponent implements OnInit {
             dataHoraInicioPrazo: [null],
             dataHoraFinalPrazo: [null],
             dataHoraConclusaoPrazo: [null],
+            postIt: [null],
             dataHoraLeitura: [null],
             processo: [null],
             especieTarefa: [null],
