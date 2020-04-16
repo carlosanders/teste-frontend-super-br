@@ -18,10 +18,10 @@ const routes: Routes = [
                 path       : 'tarefas',
                 loadChildren: () => import('./especie-tarefa/especie-tarefa.module').then(m => m.EspecieTarefaModule)
             },
-            // {
-            //     path       : 'atividades',
-            //     loadChildren: () => import('./usuario/usuario.module').then(m => m.UsuarioModule)
-            // }
+            {
+                path       : 'atividades',
+                loadChildren: () => import('./especie-atividade/especie-atividade.module').then(m => m.EspecieAtividadeModule)
+            }
         ],
         // canActivate: [fromGuards.ResolveGuard]
     },
