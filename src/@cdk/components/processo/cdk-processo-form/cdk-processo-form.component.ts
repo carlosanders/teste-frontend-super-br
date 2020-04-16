@@ -219,7 +219,6 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
                 this.form.get('processoOrigem').setValue(null);            
                 this.form.get('processoOrigem').disable();            
             }
-
         }
 
         this.form.get('temProcessoOrigem').valueChanges.subscribe(value => {
@@ -240,7 +239,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
      */
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
 
-        if (changes['processo'] && this.processo && (!this.processo.id || (this.processo.id !== this.form.get('id').value))) {
+        if (changes['processo'] && this.processo && (!this.processo.id || (this.processo.id !== this.form.get('id').value) || (this.processo.unidadeArquivistica !== this.form.get('unidadeArquivistica').value))) {
             this.form.patchValue({...this.processo});
         }
 
@@ -268,7 +267,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             this.form.get('procedencia').setValue(this.procedencia);
         }
 
-        this._changeDetectorRef.markForCheck();
+        this._changeDetectorRef.detectChanges();
     }
 
     /**

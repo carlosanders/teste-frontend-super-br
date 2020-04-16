@@ -17,33 +17,6 @@ export const navigation: CdkNavigation[] = [
                 role: 'ROLE_USER'
             },
             {
-                id: 'admin',
-                title: 'Admin',
-                translate: 'NAV.ADMIN.TITLE',
-                type: 'item',
-                icon: 'build',
-                url: '/apps/admin',
-                role: 'ROLE_ADMIN'
-            },
-            {
-                id: 'arquivista',
-                title: 'Arquivista',
-                translate: 'NAV.ARQUIVISTA.TITLE',
-                type: 'item',
-                icon: 'archive',
-                url: '/apps/arquivista',
-                role: 'ROLE_ARQUIVISTA'
-            },
-            {
-                id: 'coordenador',
-                title: 'Coordenador',
-                translate: 'NAV.COORDENADOR.TITLE',
-                type: 'item',
-                icon: 'tune',
-                url: '/apps/coordenador/default',
-                role: 'ROLE_COORDENADOR'
-            },
-            {
                 id: 'tarefas',
                 title: 'Tarefas',
                 translate: 'NAV.TAREFA.TITLE',
@@ -96,6 +69,41 @@ export const navigation: CdkNavigation[] = [
                 icon: 'search',
                 url: '/apps/pesquisa/processos',
                 role: 'ROLE_USER'
+            }
+        ]
+    },
+    {
+        id: 'modulos',
+        title: 'Módulos',
+        translate: 'NAV.MODULES',
+        type: 'group',
+        children: [
+            {
+                id: 'admin',
+                title: 'Admin',
+                translate: 'NAV.ADMIN.TITLE',
+                type: 'item',
+                icon: 'build',
+                url: '/apps/admin',
+                role: 'ROLE_ADMIN'
+            },
+            {
+                id: 'arquivista',
+                title: 'Arquivista',
+                translate: 'NAV.ARQUIVISTA.TITLE',
+                type: 'item',
+                icon: 'archive',
+                url: '/apps/arquivista',
+                role: 'ROLE_ARQUIVISTA'
+            },
+            {
+                id: 'coordenador',
+                title: 'Coordenador',
+                translate: 'NAV.COORDENADOR.TITLE',
+                type: 'item',
+                icon: 'tune',
+                url: '/apps/coordenador/default',
+                role: 'ROLE_COORDENADOR'
             }
         ]
     }

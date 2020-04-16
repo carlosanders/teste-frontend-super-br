@@ -10,10 +10,6 @@ pessoa-edit {
     &:not(.locked-open) {
       background: white;
     }
-
-    &.locked-open {
-      margin-top: 42px;
-    }
   }
 
   .center {

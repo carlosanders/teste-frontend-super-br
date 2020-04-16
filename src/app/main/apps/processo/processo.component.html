@@ -33,7 +33,7 @@
                 </div>
 
                 <cdk-vinculacao-etiqueta-chips
-                    *ngIf="this._loginService.isGranted('ROLE_COLABORADOR') && (processo$ | async)?.id" 
+                    *ngIf="this._loginService.isGranted('ROLE_COLABORADOR') && (processo$ | async)?.id"
                     [vinculacoesEtiquetas]="(processo$ | async)?.vinculacoesEtiquetas"
                     (create)="onEtiquetaCreate($event)"
                     (edit)="onEtiquetaEdit($event)"
@@ -41,6 +41,27 @@
                     [errors]="(errors$ | async)"
                     [pagination]="vinculacaoEtiquetaPagination"
                     (delete)="onEtiquetaDelete($event)"></cdk-vinculacao-etiqueta-chips>
+
+                <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="Mais Ferramentas"
+                        (click)="$event.stopPropagation()"
+                        fxHide.xs
+                        *ngIf="this._loginService.isGranted('ROLE_COLABORADOR') && (processo$ | async)?.id && (processo$ | async)?.unidadeArquivistica !== 1">
+                    <mat-icon class="secondary-text">more_vert</mat-icon>
+                </button>
+
+                <mat-menu #moreMenu="matMenu">
+
+                    <button mat-menu-item aria-label="Autuar"
+                            (click)="doAutuar()">
+                        <ng-container>
+                            <mat-icon>check</mat-icon>
+                            <span>Autuar</span>
+                        </ng-container>
+                    </button>
+
+                    <ng-template #dynamicComponent></ng-template>
+
+                </mat-menu>
 
             </div>
         </div>
