@@ -3,11 +3,12 @@ export const locale = {
     data: {
         NAV: {
             APPLICATIONS: 'Aplicações',
+            MODULES: 'Módulos',
             PAINEL        : {
                 TITLE: 'Painel',
             },
             ADMIN        : {
-                TITLE: 'Admin',
+                TITLE: 'Administrador',
             },
             SUPERADMIN        : {
                 TITLE: 'SuperAdmin',

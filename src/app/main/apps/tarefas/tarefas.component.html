@@ -82,11 +82,8 @@
                                      (uploadBloco)="doUploadBloco()"
                                      (editorBloco)="doEditorBloco()"
                                      (editTarefaBloco)="doEditTarefaBloco()"
-                                     (idProcesso)="doLoadAssuntos($event)"
-                                     [loadingAssunto]="(assuntoLoading$ | async)"
-                                     [assuntos]="(assuntos$ | async)"
-                                     [isOpenPanel]="(assuntoPanelOpen$ | async )"
-                                     [idTarefaToLoadAssuntos]="idTarefaToLoadAssuntos">
+                                     (loadAssuntos)="doLoadAssuntos($event)"
+                                     [loadingAssuntosProcessosId]="(loadingAssuntosProcessosId$ | async)">
                     </cdk-tarefa-list>
                 </div>
                 
