@@ -38,13 +38,13 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
     verResposta = new EventEmitter<Documento>();
 
     @Input()
-    deletingId: number[];
+    deletingId: number[] = [];
 
     @Input()
-    assinandoId: number[];
+    assinandoId: number[] = [];
 
     @Input()
-    convertendoId: number[];
+    convertendoId: number[] = [];
 
     @Output()
     changedSelectedIds = new EventEmitter<number[]>();
