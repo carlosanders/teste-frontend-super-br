@@ -178,11 +178,8 @@
                           (editTarefa)="doEditTarefa($event)"
                           (editProcesso)="doEditProcesso($event)"
                           [ngClass]="{'selected':tarefa.id === currentTarefaId}"
-                          (codProcesso)="doLoadAssuntos($event)"
-                          [loading] = "loadingAssunto"
-                          [assuntos]="assuntos"
-                          [isOpen]="isOpenPanel"
-                          [idTarefaToLoadAssuntos]="idTarefaToLoadAssuntos">
+                          (loadAssuntos)="doLoadAssuntos($event)"
+                          [loadingAssuntosProcessosId] = "loadingAssuntosProcessosId">
         </cdk-tarefa-list-item>
        
    </div>

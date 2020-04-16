@@ -37,7 +37,7 @@ export class ProcessoService {
     }
 
     getVisibilidade(id: number, context: any = '{}'): Observable<any> {
-        const params: HttpParams = new HttpParams()
+        const params: HttpParams = new HttpParams();
         params['context'] = context;
         return this.http.get(`${environment.api_url}${'processo'}/${id}/visibilidade` + environment.xdebug, {params})
             .pipe(
@@ -46,7 +46,7 @@ export class ProcessoService {
     }
 
     createVisibilidade(processoId: number, visibilidade: Visibilidade, context: any = '{}'): Observable<Visibilidade> {
-        const params: HttpParams = new HttpParams()
+        const params: HttpParams = new HttpParams();
         params['context'] = context;
         return this.http.put(
             `${environment.api_url}${'processo'}/${processoId}/${'visibilidade'}` + environment.xdebug,
@@ -58,7 +58,7 @@ export class ProcessoService {
     }
 
     destroyVisibilidade(processoId: number, visibilidadeId: number, context: any = '{}'): Observable<any> {
-        const params: HttpParams = new HttpParams()
+        const params: HttpParams = new HttpParams();
         params['context'] = context;
         return this.http.delete(
             `${environment.api_url}${'processo'}/${processoId}/${'visibilidade'}/${visibilidadeId}` + environment.xdebug,
@@ -97,7 +97,6 @@ export class ProcessoService {
         if (processo.id) {
             return this.modelService.put('processo', processo.id, classToPlain(processo), new HttpParams({fromObject: params}))
                 .pipe(
-//                    tap((n) => {console.log('servico PUT' + n); } ),
                     map(response => {
                         response = plainToClass(Processo, response);
                         Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
@@ -117,10 +116,26 @@ export class ProcessoService {
     }
 
     arquivar(processo: Processo, context: any = '{}'): Observable<Processo> {
-        const params: HttpParams = new HttpParams()
+        const params: HttpParams = new HttpParams();
         params['context'] = context;
         return this.http.patch(
             `${environment.api_url}${'processo'}/${processo.id}/${'arquivar'}` + environment.xdebug,
+            JSON.stringify(classToPlain(processo)),
+            {params}
+        ).pipe(
+            map(response => {
+                response = plainToClass(Processo, response);
+                Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                return Object.assign(new Processo(), {...processo, ...response});
+            })
+        );
+    }
+
+    autuar(processo: Processo, context: any = '{}'): Observable<Processo> {
+        const params: HttpParams = new HttpParams();
+        params['context'] = context;
+        return this.http.patch(
+            `${environment.api_url}${'processo'}/${processo.id}/${'autuar'}` + environment.xdebug,
             JSON.stringify(classToPlain(processo)),
             {params}
         ).pipe(

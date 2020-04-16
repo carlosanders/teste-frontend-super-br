@@ -1,10 +1,6 @@
 import * as TarefasActions from 'app/main/apps/tarefas/store/actions/tarefas.actions';
 import {Etiqueta} from '@cdk/models';
-/*
-* ISSUE-107
-*/
-import { Assunto } from '@cdk/models';
-import { arraysAreNotAllowedMsg } from '@ngrx/store/src/models';
+
 export interface TarefasState {
     entitiesId: number[];
     pagination: {
@@ -26,13 +22,7 @@ export interface TarefasState {
     deletedTarefaIds: number[];
     selectedTarefaIds: number[];
     maximizado: boolean;
-    /*
-    * ISSUE-107
-    */
-   assuntoLoading: boolean;
-   assuntoPanelOpen: boolean;
-   assuntosId: number[];
-   idTarefaToLoadAssuntos: number;
+    loadingAssuntosProcessosId: number[];
 }
 
 export const TarefasInitialState: TarefasState = {
@@ -56,13 +46,7 @@ export const TarefasInitialState: TarefasState = {
     selectedTarefaIds: [],
     currentTarefaId: null,
     maximizado: false,
-    /*
-    * ISSUE-107
-    */
-   assuntoLoading: true,
-   assuntoPanelOpen: false,
-   assuntosId: [],
-   idTarefaToLoadAssuntos: 0
+    loadingAssuntosProcessosId: []
 };
 
 export function TarefasReducer(state = TarefasInitialState, action: TarefasActions.TarefasActionsAll): TarefasState {
@@ -215,46 +199,25 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
             };
         }
 
-        /*
-        * ISSUE-107
-        */
         case TarefasActions.GET_ASSUNTOS_PROCESSO_TAREFA: {
+
             return {
                 ...state,
-                assuntosId: [],
-                assuntoLoading: true,
-                //assuntoPanelOpen: false
-                assuntoPanelOpen: action.payload.tarefa === state.idTarefaToLoadAssuntos
+                loadingAssuntosProcessosId: (state.loadingAssuntosProcessosId.indexOf(action.payload.processoId) === -1 ? [...state.loadingAssuntosProcessosId, action.payload.processoId] : [...state.loadingAssuntosProcessosId])
             }
-
-
         }
 
         case TarefasActions.GET_ASSUNTOS_PROCESSO_TAREFA_SUCCESS: {
             return {
                 ...state,
-                assuntoLoading: false,
-                assuntoPanelOpen: true,
-                assuntosId: [...action.payload.assuntosId],
-                idTarefaToLoadAssuntos: action.payload.idTarefaToLoadAssuntos
+                loadingAssuntosProcessosId: state.loadingAssuntosProcessosId.filter(id => id !== action.payload)
             }
-
         }
 
         case TarefasActions.GET_ASSUNTOS_PROCESSO_TAREFA_FAILED: {
             return {
                 ...state,
-
-                assuntoLoading: false,
-                assuntoPanelOpen: false
-            }
-
-        }
-
-        case TarefasActions.SET_ASSUNTOS_LOADED: {
-            return {
-                ...state,
-                assuntoLoading: false
+                loadingAssuntosProcessosId: state.loadingAssuntosProcessosId.filter(id => id !== action.payload)
             }
 
         }
