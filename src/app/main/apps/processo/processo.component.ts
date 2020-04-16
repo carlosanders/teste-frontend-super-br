@@ -144,15 +144,13 @@ export class ProcessoComponent implements OnInit, OnDestroy {
         this._cdkSidebarService.getSidebar(name).toggleOpen();
     }
 
+    doAutuar() : void {
+        this._store.dispatch(new fromStore.AutuarProcesso(this.processo));
+    }
+
     onEtiquetaCreate(etiqueta: Etiqueta): void {
         this._store.dispatch(new fromStore.CreateVinculacaoEtiqueta({processo: this.processo, etiqueta: etiqueta}));
     }
-
-    /*onEtiquetaEdit(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
-        this._store.dispatch(new SaveConteudoVinculacaoEtiqueta({
-            vinculacaoEtiqueta: vinculacaoEtiqueta
-        }));
-    }*/
 
     onEtiquetaEdit(values): void {
         const vinculacaoEtiqueta = new VinculacaoEtiqueta();

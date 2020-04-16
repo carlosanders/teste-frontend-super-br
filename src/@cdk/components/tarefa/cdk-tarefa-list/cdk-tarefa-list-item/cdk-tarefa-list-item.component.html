@@ -12,6 +12,8 @@
                 <mat-icon *ngIf="tarefa.processo?.acessoNegado" class="red-fg">block</mat-icon>
                 <mat-icon *ngIf="tarefa.processo?.documentoAvulsoOrigem">mail</mat-icon>
                 <span class="text-truncate">PROCESSO {{tarefa.processo?.NUP | formatNup}}</span>
+                <mat-icon (click)="doTogglePanel(); $event.stopPropagation();" *ngIf="!tarefa.processo?.acessoNegado && !isOpen">keyboard_arrow_down</mat-icon>
+                <mat-icon (click)="doTogglePanel(); $event.stopPropagation();" *ngIf="!tarefa.processo?.acessoNegado && isOpen">keyboard_arrow_up</mat-icon>
             </div>
 
             <div class="subtitle" *ngIf="!tarefa.processo?.acessoNegado">
@@ -23,8 +25,19 @@
             </div>
 
             <div class="subtitle" *ngIf="tarefa.processo?.documentoAvulsoOrigem">
-                <span *ngIf="!tarefa.processo?.documentoAvulsoOrigem?.dataHoraResposta" class="text-truncate">Ofício vinculado pendente de resposta</span>
-                <span *ngIf="tarefa.processo?.documentoAvulsoOrigem?.dataHoraResposta" class="text-truncate">Ofício vinculado respondido em {{tarefa.processo?.documentoAvulsoOrigem?.dataHoraResposta | date: 'dd/MM/yyyy H:mm'}}</span>
+                    <span *ngIf="!tarefa.processo?.documentoAvulsoOrigem?.dataHoraResposta"
+                          class="text-truncate">Ofício vinculado pendente de resposta</span>
+                <span *ngIf="tarefa.processo?.documentoAvulsoOrigem?.dataHoraResposta"
+                      class="text-truncate">Ofício vinculado respondido em {{tarefa.processo?.documentoAvulsoOrigem?.dataHoraResposta | date: 'dd/MM/yyyy H:mm'}}</span>
+            </div>
+
+            <div class="subtitle" fxLayout="row" *ngIf="isOpen">
+                <div *ngIf="loadingAssuntosProcessosId.indexOf(tarefa.processo.id) !== -1">
+                    <mat-spinner diameter=16></mat-spinner>
+                </div>
+                <div *ngIf="tarefa.processo?.assuntos?.length > 0">
+                    <span class="text-truncate">ASSUNTO: {{tarefa.processo?.assuntos[0]?.assuntoAdministrativo?.nome}}</span>
+                </div>
             </div>
 
             <div class="body mt-4">
@@ -124,21 +137,3 @@
 
     </div>
 </div>
-<!-- ISSUE-107 -->
-<mat-expansion-panel
-    (click)="$event.stopPropagation();"
-    [expanded]="(tarefa.id === idTarefaToLoadAssuntos && isOpen)"
-    (afterExpand)="doOpenPanel(tarefa);">
-    <mat-expansion-panel-header>
-      Detalhes do processo
-    </mat-expansion-panel-header>
-    <div class="spinner-container" *ngIf="loading" style="text-align: center; width: 100%;">
-        <mat-spinner diameter="32"></mat-spinner>
-    </div>
-    <div [hidden]="loading">
-        <span>Assuntos: </span>
-        <li *ngFor="let assunto of assuntos">
-            {{assunto.assuntoAdministrativo.nome}}
-        </li>
-    </div>
-  </mat-expansion-panel>

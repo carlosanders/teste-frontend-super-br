@@ -1,7 +1,3 @@
-import { Assunto } from '@cdk/models/assunto.model';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { Store, select } from '@ngrx/store';
-import { PaginatedResponse } from '@cdk/models/paginated.response';
 import {
     ChangeDetectionStrategy,
     Component, EventEmitter,
@@ -12,7 +8,6 @@ import {
 
 import {Tarefa} from '@cdk/models/tarefa.model';
 
-
 @Component({
     selector: 'cdk-tarefa-list-item',
     templateUrl: './cdk-tarefa-list-item.component.html',
@@ -21,8 +16,6 @@ import {Tarefa} from '@cdk/models/tarefa.model';
     encapsulation: ViewEncapsulation.None
 })
 export class CdkTarefaListItemComponent implements OnInit {
-
-    
 
     @Input()
     tarefa: Tarefa;
@@ -60,23 +53,14 @@ export class CdkTarefaListItemComponent implements OnInit {
     @Output()
     toggleUrgente = new EventEmitter<Tarefa>();
 
-    /*
-    * ISSUE-107
-    */
     @Output()
-    codProcesso = new EventEmitter<any>();
+    loadAssuntos = new EventEmitter<any>();
 
     @Input()
-    assuntos: Assunto[];
+    loadingAssuntosProcessosId: number[];
 
-    @Input()
-    loading: boolean;
-
-    @Input()
-    isOpen: boolean = false;
-
-    @Input()
-    idTarefaToLoadAssuntos: number;
+    isOpen: boolean;
+    loadedAssuntos: boolean;
 
     draggable = {
         // note that data is handled with JSON.stringify/JSON.parse
@@ -88,15 +72,21 @@ export class CdkTarefaListItemComponent implements OnInit {
     };
 
     constructor() {
+        this.isOpen = false;
+        this.loadedAssuntos = false;
         this.deleting = false;
+        this.selected = false;
+        this.draggable.data = this.tarefa;
     }
-
 
     /**
      * On init
      */
     ngOnInit(): void {
-        this.draggable.data = this.tarefa;
+        if (this.tarefa.processo?.assuntos?.length > 0){
+            this.isOpen = true;
+            this.loadedAssuntos = true;
+        }
     }
 
     doDelete(): void {
@@ -127,16 +117,15 @@ export class CdkTarefaListItemComponent implements OnInit {
         this.toggleInSelectedTarefas.emit(this.tarefa.id);
     }
 
-    doToggleUrgente($event: Event): void {
-        $event.stopPropagation();
+    doToggleUrgente(): void {
         this.toggleUrgente.emit(this.tarefa);
     }
 
-    /*
-    * ISSUE-107
-    */
-    doOpenPanel(): void {
-        this.codProcesso.emit(this.tarefa);
+    doTogglePanel(): void {
+        if (!this.loadedAssuntos) {
+            this.loadAssuntos.emit(this.tarefa.processo.id);
+        }
+        this.isOpen = !this.isOpen;
     }
 
 }
