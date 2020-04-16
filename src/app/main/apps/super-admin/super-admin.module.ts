@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {RouterModule, Routes} from '@angular/router';
@@ -7,7 +7,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {CdkSidebarModule} from '@cdk/components';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {SuperAdminComponent} from './super-admin.component';
-import { MainSidebarComponent } from './sidebars/main/main-sidebar.component';
+import {MainSidebarComponent} from './sidebars/main/main-sidebar.component';
 
 const routes: Routes = [
     {
@@ -27,7 +27,7 @@ const routes: Routes = [
     },
     {
         path: '**',
-        redirectTo: ''
+        redirectTo: 'tarefas'
     }
 ];
 
@@ -45,6 +45,8 @@ const routes: Routes = [
         RouterModule,
         CdkSharedModule,
         MatButtonModule
+    ],
+    providers: [
     ]
 })
 export class SuperAdminModule { }
