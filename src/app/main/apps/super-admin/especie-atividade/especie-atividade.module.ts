@@ -28,10 +28,10 @@ const routes: Routes = [
                 path       : 'listar',
                 loadChildren: () => import('./especie-atividade-list/especie-atividade-list.module').then(m => m.EspecieAtividadeListModule),
             },
-            // {
-            //     path       : 'editar',
-            //     loadChildren: () => import('./especie-tarefa-edit/especie-tarefa-edit.module').then(m => m.EspecieTarefaEditModule),
-            // }
+            {
+                path       : 'editar',
+                loadChildren: () => import('./especie-atividade-edit/especie-atividade-edit.module').then(m => m.EspecieAtividadeEditModule),
+            },
             {
                 path: '**',
                 redirectTo: 'listar'
