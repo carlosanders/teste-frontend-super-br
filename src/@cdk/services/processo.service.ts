@@ -75,6 +75,22 @@ export class ProcessoService extends ParentGenericService<Processo> {
         );
     }
 
+    autuar(processo: Processo, context: any = '{}'): Observable<Processo> {
+        const params: HttpParams = new HttpParams();
+        params['context'] = context;
+        return this.http.patch(
+            `${environment.api_url}${'processo'}/${processo.id}/${'autuar'}` + environment.xdebug,
+            JSON.stringify(classToPlain(processo)),
+            {params}
+        ).pipe(
+            map(response => {
+                response = plainToClass(Processo, response);
+                Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                return Object.assign(new Processo(), {...processo, ...response});
+            })
+        );
+    }
+
     patch(processo: Processo, changes: any): Observable<Processo> {
         return this.http.patch(
             `${environment.api_url}${'processo'}/${processo.id}` + environment.xdebug,

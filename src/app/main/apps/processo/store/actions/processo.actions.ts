@@ -1,12 +1,15 @@
 import { Action } from '@ngrx/store';
 
-
 export const CREATE_PROCESSO = '[PROCESSO] CREATE PROCESSO';
 export const UNLOAD_PROCESSO = '[PROCESSO] UNLOAD PROCESSO';
 
 export const GET_PROCESSO = '[PROCESSO] GET PROCESSO';
 export const GET_PROCESSO_SUCCESS = '[PROCESSO] GET PROCESSO SUCCESS';
 export const GET_PROCESSO_FAILED = '[PROCESSO] GET PROCESSO FAILED';
+
+export const AUTUAR_PROCESSO = '[PROCESSO] AUTUAR PROCESSO';
+export const AUTUAR_PROCESSO_SUCCESS = '[PROCESSO] AUTUAR PROCESSO SUCCESS';
+export const AUTUAR_PROCESSO_FAILED = '[PROCESSO] AUTUAR PROCESSO FAILED';
 
 export const CREATE_VINCULACAO_ETIQUETA = '[PROCESSO] VINCULACAO ETIQUETA';
 export const CREATE_VINCULACAO_ETIQUETA_SUCCESS = '[PROCESSO] VINCULACAO ETIQUETA SUCCESS';
@@ -80,6 +83,41 @@ export class GetProcessoFailed implements Action
     }
 }
 
+/**
+ * Autuar Processo
+ */
+export class AutuarProcesso implements Action
+{
+    readonly type = AUTUAR_PROCESSO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Autuar Processo Success
+ */
+export class AutuarProcessoSuccess implements Action
+{
+    readonly type = AUTUAR_PROCESSO_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Autuar Processo Failed
+ */
+export class AutuarProcessoFailed implements Action
+{
+    readonly type = AUTUAR_PROCESSO_FAILED;
+
+    constructor(public payload: string)
+    {
+    }
+}
 
 /**
  * Save Conteudo Vinculacao Etiqueta
@@ -193,6 +231,9 @@ export class CreateVinculacaoEtiquetaFailed implements Action
 export type ProcessoActionsAll
     = CreateProcesso
     | UnloadProcesso
+    | AutuarProcesso
+    | AutuarProcessoSuccess
+    | AutuarProcessoFailed
     | GetProcesso
     | GetProcessoSuccess
     | GetProcessoFailed

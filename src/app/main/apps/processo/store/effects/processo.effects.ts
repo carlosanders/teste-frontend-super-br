@@ -95,6 +95,33 @@ export class ProcessoEffect {
             );
 
     /**
+     * Autuar Processo
+     * @type {Observable<any>}
+     */
+    @Effect()
+    autuarProcesso: any =
+        this._actions
+            .pipe(
+                ofType<ProcessoActions.AutuarProcesso>(ProcessoActions.AUTUAR_PROCESSO),
+                switchMap((action) => {
+                    return this._processoService.autuar(action.payload).pipe(
+                        mergeMap((response: Processo) => [
+                            new ProcessoActions.AutuarProcessoSuccess(response),
+                            new AddData<Processo>({data: [response], schema: processoSchema}),
+                            new OperacoesActions.Resultado({
+                                type: 'processo',
+                                content: `Processo id ${response.id} autuado com sucesso!`,
+                                dateTime: response.criadoEm
+                            })
+                        ]),
+                        catchError((err) => {
+                            return of(new ProcessoActions.AutuarProcessoFailed(err));
+                        })
+                    );
+                })
+            );
+
+    /**
      * Create Vinculacao Etiqueta
      * @type {Observable<any>}
      */
@@ -136,7 +163,7 @@ export class ProcessoEffect {
      * @type {Observable<any>}
      */
     @Effect()
-    SaveConteudoVinculacaoEtiqueta: any =
+    saveConteudoVinculacaoEtiqueta: any =
         this._actions
             .pipe(
                 ofType<ProcessoActions.SaveConteudoVinculacaoEtiqueta>(ProcessoActions.SAVE_CONTEUDO_VINCULACAO_ETIQUETA),

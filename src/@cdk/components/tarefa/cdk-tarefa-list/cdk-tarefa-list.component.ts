@@ -1,13 +1,19 @@
-import {AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewEncapsulation} from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    EventEmitter,
+    Input, OnInit,
+    Output,
+    ViewChild,
+    ViewEncapsulation
+} from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {Tarefa} from '@cdk/models/tarefa.model';
-
-/*
-* ISSUE-100
-*/
-import { Assunto } from '@cdk/models/assunto.model';
- 
+import {MatPaginator, MatSort} from '../../../angular/material';
+import {TarefaDataSource} from '../../../data-sources/tarefa-data-source';
+import {of} from 'rxjs';
 
 @Component({
     selector: 'cdk-tarefa-list',
@@ -18,7 +24,7 @@ import { Assunto } from '@cdk/models/assunto.model';
     animations: cdkAnimations,
     exportAs: 'dragTarefaList'
 })
-export class CdkTarefaListComponent implements AfterViewInit, OnInit, OnChanges {
+export class CdkTarefaListComponent implements OnInit {
 
     @Input()
     loading: boolean;
@@ -110,16 +116,23 @@ export class CdkTarefaListComponent implements AfterViewInit, OnInit, OnChanges 
     @Output()
     editorBloco = new EventEmitter<any>();
 
-    /*
-    * ISSUE-107
-    */
-    @Input()
-    assuntos: Assunto[];
-
     @Output()
-    idProcesso = new EventEmitter<any>();
+    loadAssuntos = new EventEmitter<any>();
 
     @Input()
+    loadingAssuntosProcessosId: number[];
+
+    // @ViewChild(MatPaginator, {static: true})
+    // paginator: MatPaginator;
+
+    @ViewChild(MatSort, {static: true})
+    sort: MatSort;
+
+    @Input()
+    pageSize = 5;
+
+    dataSource: TarefaDataSource;
+
     loadingAssunto: boolean;
 
     @Input()
@@ -138,35 +151,36 @@ export class CdkTarefaListComponent implements AfterViewInit, OnInit, OnChanges 
     @Input()
     mode = 'list';
 
+    showFilter = false;
+
     /**
      * Constructor
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _cdkSidebarService: CdkSidebarService) {
+        this.gridFilter = {};
     }
+
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
-    ngOnChanges(): void {
-    }
-
-    ngOnInit(): void {
-    }
-
-    ngAfterViewInit(): void {
-    }
-
     toggleFilter(): void {
-        this.toggleSidebar();
+        this._cdkSidebarService.getSidebar('cdk-tarefa-filter').toggleOpen();
+        this.showFilter = !this.showFilter;
     }
 
     loadPage(): void {
+        const filter = this.gridFilter.filters;
+        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : null;
         this.reload.emit({
-            listFilter: this.listFilter,
-            listSort: this.listSort
+            gridFilter: filter,
+            // limit: this.paginator.pageSize,
+            // offset: (this.paginator.pageSize * this.paginator.pageIndex),
+            // sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
+            context: contexto
         });
     }
 
@@ -247,11 +261,6 @@ export class CdkTarefaListComponent implements AfterViewInit, OnInit, OnChanges 
         this.changeSelectedIds.emit(this.selectedIds);
     }
 
-    setListFilter(listFilter): void {
-        this.listFilter = listFilter;
-        this.loadPage();
-    }
-
     doMovimentar(tarefaId): void {
         this.movimentar.emit(tarefaId);
     }
@@ -308,19 +317,26 @@ export class CdkTarefaListComponent implements AfterViewInit, OnInit, OnChanges 
         this.editorBloco.emit();
     }
 
-    /**
-     * Toggle the sidebar
-     */
-    toggleSidebar(): void {
-        this._cdkSidebarService.getSidebar('cdk-tarefa-filter').toggleOpen();
-    }
-
-    doLoadAssuntos(idProcesso): void {
-        this.idProcesso.emit(idProcesso);
+    doLoadAssuntos(processoId): void {
+        this.loadAssuntos.emit(processoId);
     }
 
     setFilter(gridFilter): void {
         this.gridFilter = gridFilter;
+        // this.paginator.pageIndex = 0;
         this.loadPage();
+    }
+
+    ngOnInit(): void {
+        this.dataSource = new TarefaDataSource(of(this.tarefas));
+        // this.paginator._intl.itemsPerPageLabel = 'Registros por página';
+        // this.paginator._intl.nextPageLabel = 'Seguinte';
+        // this.paginator._intl.previousPageLabel = 'Anterior';
+        // this.paginator.pageSize = this.pageSize;
+    }
+
+    ngOnChanges(): void {
+        this.dataSource = new TarefaDataSource(of(this.tarefas));
+        // this.paginator.length = this.total;
     }
 }

@@ -115,10 +115,9 @@
                 </button>
 
             </mat-menu>
-
+            {{ (listFilter | json) }}
             <div class="tarefa-list-control" fxLayout="row" fxLayoutAlign="start center">
-
-                <button class="toggle-filter" [ngClass]="{'warn': (listFilter | json) != '{}'}" mat-icon-button
+                <button class="toggle-filter" [ngClass]="{'warn': !(listFilter | json).includes('{}')}" mat-icon-button
                         (click)="toggleFilter()"
                         aria-label="filtrar"
                         matTooltip="Filtrar">
@@ -175,11 +174,8 @@
                                   (editTarefa)="doEditTarefa($event)"
                                   (editProcesso)="doEditProcesso($event)"
                                   [ngClass]="{'selected':tarefa.id === currentTarefaId}"
-                                  (codProcesso)="doLoadAssuntos($event)"
-                                  [loading]="loadingAssunto"
-                                  [assuntos]="assuntos"
-                                  [isOpen]="isOpenPanel"
-                                  [idTarefaToLoadAssuntos]="idTarefaToLoadAssuntos">
+                                  (loadAssuntos)="doLoadAssuntos($event)"
+                                  [loadingAssuntosProcessosId]="loadingAssuntosProcessosId">
             </cdk-tarefa-list-item>
 
         </div>

@@ -154,6 +154,21 @@ export class CdkVinculacaoRepositorioFilterComponent implements OnInit {
             }
         });
 
+        this.form.get('orgaoCentral').valueChanges.subscribe(value => {
+            if (value !== null) {
+                if (typeof value === 'object' && value) {
+                    this.filters = {
+                        ...this.filters,
+                        'orgaoCentral.id': `eq:${value.id}`
+                    };
+                } else {
+                    if (this.filters.hasOwnProperty('orgaoCentral.id')) {
+                        delete this.filters['orgaoCentral.id'];
+                    }
+                }
+            }
+        });
+
         this.form.get('criadoEm').valueChanges.subscribe(value => {
             if (value !== null) {
                 this.filters = {
