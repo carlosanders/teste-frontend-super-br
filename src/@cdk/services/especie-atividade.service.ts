@@ -1,17 +1,19 @@
 import {Injectable} from '@angular/core';
-import {HttpParams} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {EspecieAtividade} from '@cdk/models';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
 import {PaginatedResponse} from '@cdk/models';
+import {environment} from '../../environments/environment';
 
 @Injectable()
 export class EspecieAtividadeService {
 
     constructor(
-        private modelService: ModelService
+        private modelService: ModelService,
+        private http: HttpClient
     ) {
     }
 
@@ -75,5 +77,18 @@ export class EspecieAtividadeService {
         const params = {};
         params['context'] = context;
         return this.modelService.delete('especie_atividade', id, new HttpParams({fromObject: params}));
+    }
+
+    patch(especieAtividade: EspecieAtividade, changes: any): Observable<EspecieAtividade> {
+        return this.http.patch(
+            `${environment.api_url}${'especieAtividade'}/${especieAtividade.id}` + environment.xdebug,
+            JSON.stringify(changes)
+        ).pipe(
+            map(response => {
+                response = plainToClass(EspecieAtividade, response);
+                Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                return Object.assign(new EspecieAtividade(), {...especieAtividade, ...response});
+            })
+        );
     }
 }
