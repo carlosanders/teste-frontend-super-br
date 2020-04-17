@@ -119,7 +119,9 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
             unidadeArquivistica: [null, [Validators.required]],
             generoSetor: [null, [Validators.required]],
             especieSetor: [null, [Validators.required]],
-            estado: [null, [Validators.required]]
+            estado: [null, [Validators.required]],
+            requerimento: [null, [Validators.required, Validators.maxLength(255)]],
+            resumo: [null, [Validators.required, Validators.maxLength(255)]],
         });
     }
 

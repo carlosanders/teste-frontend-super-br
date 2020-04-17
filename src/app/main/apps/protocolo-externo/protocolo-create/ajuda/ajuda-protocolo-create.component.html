@@ -9,19 +9,19 @@
                 Caso o processo esteja com alguma <strong>Tramita&ccedil;&atilde;o Externa</strong> em andamento, a abertura da Tarefa <strong>n&atilde;o</strong> ser&aacute; realizada.
             </p>
             <p>
-                Em um NUP arquivado, só tarefas do gênero <strong>arquivístico</strong> podem ser criadas. Para liberação, solicite o <strong>desarquivamento por tarefa</strong>
+                Em um NUP arquivado, só protocolo do gênero <strong>arquivístico</strong> podem ser criadas. Para liberação, solicite o <strong>desarquivamento por tarefa</strong>
             </p>
             <p>
-                ELIMINAR PROCESSO/DOCUMENTO AVULSO e RECOLHER PROCESSO/DOCUMENTO AVULSO AO ARQUIVO DEFINITIVO são tarefas de uso exclusivo dos <strong>Arquivistas</strong>.
+                ELIMINAR PROCESSO/DOCUMENTO AVULSO e RECOLHER PROCESSO/DOCUMENTO AVULSO AO ARQUIVO DEFINITIVO são protocolo de uso exclusivo dos <strong>Arquivistas</strong>.
             </p>
             <p>
-                MANTER SOB GUARDA TEMPORÁRIA NO ARQUIVO CORRENTE e RECOLHER PROCESSO/DOCUMENTO AVULSO AO ARQUIVO DEFINITIVO são tarefas que exigem a <strong>tramitação interna</strong> para o setor de <strong>Arquivo</strong>.
+                MANTER SOB GUARDA TEMPORÁRIA NO ARQUIVO CORRENTE e RECOLHER PROCESSO/DOCUMENTO AVULSO AO ARQUIVO DEFINITIVO são protocolo que exigem a <strong>tramitação interna</strong> para o setor de <strong>Arquivo</strong>.
             </p>
             <p>
-                Um NUP anexado/apensado a outro NÃO permite a abertura de tarefas. Abra as <strong>tarefas</strong> no NUP <strong>principal</strong>.
+                Um NUP anexado/apensado a outro NÃO permite a abertura de protocolo. Abra as <strong>protocolo</strong> no NUP <strong>principal</strong>.
             </p>
             <p>
-                Existem unidades que só podem receber as tarefas pelo seu <strong>Protocolo</strong>. Sendo assim, as tarefas <strong>NÃO</strong> podem ser mandadas diretamente para os usuários lotados em tal unidade.
+                Existem unidades que só podem receber as protocolo pelo seu <strong>Protocolo</strong>. Sendo assim, as protocolo <strong>NÃO</strong> podem ser mandadas diretamente para os usuários lotados em tal unidade.
             </p>
             <p>
                 Quando o NUP é <strong>restrito</strong> e o usuário NÃO possui poderes para visualizá-lo, ele NÃO consegue abrir uma <strong>tarefa</strong>. O acesso deve ser concedido antes da abertura da tarefa.
@@ -39,40 +39,5 @@
                 Caso NÃO seja informado um usuário responsável, o sistema vai utilizar a <strong>distribuição automática</strong> para a tarefa.
             </p>
         </div>
-        <div class="row" style="background-color: #d3d3d3;">
-            <strong>Para maiores informações:</strong><br><br>
-            <div class="column">
-                <li><a href="javascript:void(0)" (click)="carregar('assuntos')">Assuntos</a></li> 
-                <li><a href="javascript:void(0)" (click)="carregar('interessados')">Interessados</a></li>
-                <li><a href="javascript:void(0)" (click)="carregar('tramitacoes')">Tramitações</a></li> 
-
-            </div>
-            <div class="column">
-                <li><a href="javascript:void(0)" (click)="carregar('sigilos')">Sigilos</a></li> 
-                <li><a href="javascript:void(0)" (click)="carregar('visibilidades')">Restrições de Acesso</a></li>
-                <li><a href="javascript:void(0)" (click)="carregar('tarefaeditbloco')">Edição de Tarefas em Bloco</a></li>
-            </div>
-        </div> 
-        <p><br></p>
-    </div>
-    <div *ngIf="titulo === 'assuntos'">
-        <ajuda-assuntos></ajuda-assuntos>
-        <a href="javascript:void(0)" (click)="carregar('tarefas')">Voltar ao <strong>Criar Tarefas</strong></a>
-    </div>
-    <div *ngIf="titulo === 'interessados'">
-        <ajuda-interessados></ajuda-interessados>
-        <a href="javascript:void(0)" (click)="carregar('tarefas')">Voltar ao <strong>Criar Tarefas</strong></a>
-    </div>
-    <div *ngIf="titulo === 'tramitacoes'">
-        <ajuda-tramitacoes></ajuda-tramitacoes>
-        <a href="javascript:void(0)" (click)="carregar('tarefas')">Voltar ao <strong>Criar Tarefas</strong></a>
-    </div>
-    <div *ngIf="titulo === 'sigilos'">
-        <ajuda-sigilos></ajuda-sigilos>
-        <a href="javascript:void(0)" (click)="carregar('tarefas')">Voltar ao <strong>Criar Tarefas</strong></a>
-    </div>
-    <div *ngIf="titulo === 'visibilidades'">
-        <ajuda-visibilidades></ajuda-visibilidades>
-        <a href="javascript:void(0)" (click)="carregar('tarefas')">Voltar ao <strong>Criar Tarefas</strong></a>
     </div>
 </div>

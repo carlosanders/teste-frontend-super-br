@@ -33,7 +33,7 @@
                     [control]="form.get('generoSetor')"
                     [pagination]="generoSetorPagination">
                 </cdk-genero-setor-autocomplete>
-                <button matSuffix mat-button mat-icon-button
+                <button matSuffix mat-button mat-icon-button [disabled]="!form.get('estado').value"
                         (click)="showGeneroSetorGrid()">
                     <mat-icon matTooltip="Procurar">search</mat-icon>
                 </button>
@@ -55,7 +55,7 @@
                     [control]="form.get('especieSetor')"
                     [pagination]="especieSetorPagination">
                 </cdk-especie-setor-autocomplete>
-                <button matSuffix mat-button mat-icon-button
+                <button matSuffix mat-button mat-icon-button [disabled]="!form.get('generoSetor').value"
                         (click)="showEspecieSetorGrid()">
                     <mat-icon matTooltip="Procurar">search</mat-icon>
                 </button>
@@ -74,10 +74,10 @@
                 </div>
                 <cdk-setor-autocomplete
                     #unidadeProtocoloExterno="setorAutocomplete"
-                    [control]="form.get('unidadeProtocoloExterno')"Genero Setor
+                    [control]="form.get('unidadeProtocoloExterno')"
                     [pagination]="unidadeProtocoloExternoPagination">
                 </cdk-setor-autocomplete>
-                <button matSuffix mat-button mat-icon-button
+                <button matSuffix mat-button mat-icon-button [disabled]="!form.get('especieSetor').value"
                         (click)="showUnidadeProtocoloExternoGrid()">
                     <mat-icon matTooltip="Procurar">search</mat-icon>
                 </button>
@@ -200,6 +200,39 @@
                 <mat-datetimepicker-toggle matSuffix [for]="dataHoraPrazoResposta"></mat-datetimepicker-toggle>
                 <mat-datetimepicker #dataHoraPrazoResposta type="datetime" openOnFocus="true"
                                     timeInterval="5"></mat-datetimepicker>
+                <mat-error>Campo obrigatório!</mat-error>
+            </mat-form-field>
+
+            <mat-form-field fxFlex>
+                <mat-label>Requerimento</mat-label>
+                <input matInput #requerimento
+                       name="requerimento"
+                       formControlName="requerimento"
+                       maxlength="255"
+                       upperCase
+                       required>
+                <mat-hint align="end">{{requerimento.value.length}} / 255</mat-hint>
+                <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                        (click)="showLogEntryGrid('requerimento')">
+                    <mat-icon matTooltip="Histórico">history</mat-icon>
+                </button>
+                <mat-error>Campo obrigatório!</mat-error>
+            </mat-form-field>
+
+
+            <mat-form-field fxFlex>
+                <mat-label>Resumo</mat-label>
+                <input matInput #resumo
+                       name="resumo"
+                       formControlName="resumo"
+                       maxlength="255"
+                       upperCase
+                       required>
+                <mat-hint align="end">{{resumo.value.length}} / 255</mat-hint>
+                <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                        (click)="showLogEntryGrid('resumo')">
+                    <mat-icon matTooltip="Histórico">history</mat-icon>
+                </button>
                 <mat-error>Campo obrigatório!</mat-error>
             </mat-form-field>
         </mat-card>

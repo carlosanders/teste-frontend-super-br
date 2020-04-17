@@ -19,7 +19,7 @@ export class AjudaProtocoloCreateComponent {
 
 
     topicos: Topico[] = [];
-    titulo = "tarefas";
+    titulo = 'Criar Protocolo';
 
     carregar(topico: string): void {
         this.titulo = topico;

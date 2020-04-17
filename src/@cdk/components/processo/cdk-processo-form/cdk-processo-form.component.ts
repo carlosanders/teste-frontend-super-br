@@ -129,7 +129,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: FormBuilder
     ) {
- 
+
         this.form = this._formBuilder.group({
             id: [null],
             temProcessoOrigem: [null],
@@ -186,6 +186,15 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             this.form.get('NUP').setValue(null);
             this.form.get('NUP').disable();
 
+            this.form.get('generoSetor').setValue(null);
+            this.form.get('generoSetor').disable();
+
+            this.form.get('especieSetor').setValue(null);
+            this.form.get('especieSetor').disable();
+
+            this.form.get('unidadeProtocoloExterno').setValue(null);
+            this.form.get('unidadeProtocoloExterno').disable();
+
             this.form.get('procedencia').setValue(null);
             this.form.get('procedencia').disable();
             this.textBotao = 'SALVAR';
@@ -241,6 +250,40 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             } else {
                 this.form.get('processoOrigem').setValue(null);
                 this.form.get('processoOrigem').disable();
+            }
+        });
+
+        this.form.get('estado').valueChanges.subscribe(value => {
+            if (value) {
+                this.form.get('generoSetor').enable();
+            } else {
+                this.form.get('generoSetor').setValue(null);
+                this.form.get('generoSetor').disable();
+            }
+        });
+
+        this.form.get('generoSetor').valueChanges.subscribe(value => {
+            if (value) {
+                this.form.get('especieSetor').enable();
+            } else {
+                this.form.get('especieSetor').setValue(null);
+                this.form.get('especieSetor').disable();
+            }
+        });
+
+        this.form.get('especieSetor').valueChanges.subscribe(value => {
+            if (value) {
+                this.form.get('unidadeProtocoloExterno').enable();
+                this.unidadeProtocoloExternoPagination.filter = {
+                    ...this.unidadeProtocoloExternoPagination.filter, ...{
+                        'municipio.estado.id': `eq:${this.form.get('estado').value}`,
+                        'generoSetor.id': `eq:${this.form.get('generoSetor').value.id}`,
+                        'especieSetor.id': `eq:${this.form.get('especieSetor').value.id}`
+                    }
+                };
+            } else {
+                this.form.get('unidadeProtocoloExterno').setValue(null);
+                this.form.get('unidadeProtocoloExterno').disable();
             }
         });
 
@@ -499,5 +542,4 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     showEspecieSetorGrid(): void {
         this.activeCard = 'especie-setor-gridsearch';
     }
-
 }

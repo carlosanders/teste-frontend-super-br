@@ -57,6 +57,10 @@ export class Processo {
     
     outroNumero?: string;
 
+    requerimento?: string;
+
+    resumo?: string;
+
     @Exclude({ toPlainOnly: true })
     chaveAcesso?: string;
 
@@ -167,7 +171,7 @@ export class Processo {
    @Type(() => Assunto)
    assuntos: Assunto[];
 
-    @Exclude({toClassOnly: true})
+    @Exclude({toPlainOnly: true})
     @Type(() => Setor)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     unidadeProtocoloExterno?: Setor;
@@ -210,5 +214,7 @@ export class Processo {
         this.vinculacoesEtiquetas = null;
         this.assuntos = null;
         this.unidadeProtocoloExterno = null;
+        this.requerimento = null;
+        this.resumo = null;
     }
 }
