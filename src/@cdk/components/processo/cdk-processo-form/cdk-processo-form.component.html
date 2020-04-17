@@ -5,6 +5,88 @@
 
     <div fxFlex="0 1 auto" fxLayout="column">
 
+        <mat-card class="mb-16" fxFlex="0 1 auto" fxLayout="column" *showIfRole="'ROLE_CONVENIADO'">
+            <mat-form-field fxFlex>
+                <mat-label>Estado</mat-label>
+                <mat-select
+                    matInput #estado
+                    name="estado"
+                    formControlName="estado"
+                    required>
+                    <mat-option *ngFor="let estado of estados" [value]="estado.id">
+                        {{estado.uf}}
+                    </mat-option>
+                </mat-select>
+                <mat-error>Campo obrigatório!</mat-error>
+            </mat-form-field>
+
+            <mat-form-field fxFlex>
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Ramo"
+                           formControlName="generoSetor"
+                           required
+                           [matAutocomplete]="generoSetor.autocomplete"
+                           (blur)="checkGeneroSetor()">
+                </div>
+                <cdk-genero-setor-autocomplete
+                    #generoSetor="generoSetorAutocomplete"
+                    [control]="form.get('generoSetor')"
+                    [pagination]="generoSetorPagination">
+                </cdk-genero-setor-autocomplete>
+                <button matSuffix mat-button mat-icon-button
+                        (click)="showGeneroSetorGrid()">
+                    <mat-icon matTooltip="Procurar">search</mat-icon>
+                </button>
+                <mat-error *ngIf="form.get('generoSetor').hasError('formError')">
+                    {{form.get('generoSetor').errors.formError}}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field fxFlex>
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Atividade"
+                           formControlName="especieSetor"
+                           required
+                           [matAutocomplete]="especieSetor.autocomplete"
+                           (blur)="checkEspecieSetor()">
+                </div>
+                <cdk-especie-setor-autocomplete
+                    #especieSetor="especieSetorAutocomplete"
+                    [control]="form.get('especieSetor')"
+                    [pagination]="especieSetorPagination">
+                </cdk-especie-setor-autocomplete>
+                <button matSuffix mat-button mat-icon-button
+                        (click)="showEspecieSetorGrid()">
+                    <mat-icon matTooltip="Procurar">search</mat-icon>
+                </button>
+                <mat-error *ngIf="form.get('especieSetor').hasError('formError')">
+                    {{form.get('especieSetor').errors.formError}}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field fxFlex>
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Unidade"
+                           formControlName="unidadeProtocoloExterno"
+                           required
+                           [matAutocomplete]="unidadeProtocoloExterno.autocomplete"
+                           (blur)="checkUnidadeProtocoloExterno()">
+                </div>
+                <cdk-setor-autocomplete
+                    #unidadeProtocoloExterno="setorAutocomplete"
+                    [control]="form.get('unidadeProtocoloExterno')"Genero Setor
+                    [pagination]="unidadeProtocoloExternoPagination">
+                </cdk-setor-autocomplete>
+                <button matSuffix mat-button mat-icon-button
+                        (click)="showUnidadeProtocoloExternoGrid()">
+                    <mat-icon matTooltip="Procurar">search</mat-icon>
+                </button>
+                <mat-error *ngIf="form.get('unidadeProtocoloExterno').hasError('formError')">
+                    {{form.get('unidadeProtocoloExterno').errors.formError}}
+                </mat-error>
+            </mat-form-field>
+        </mat-card>
+
         <mat-card class="mb-16" fxFlex="0 1 auto" fxLayout="column">
 
             <mat-card-subtitle>Unidade Arquivística</mat-card-subtitle>
@@ -119,28 +201,6 @@
                 <mat-datetimepicker #dataHoraPrazoResposta type="datetime" openOnFocus="true"
                                     timeInterval="5"></mat-datetimepicker>
                 <mat-error>Campo obrigatório!</mat-error>
-            </mat-form-field>
-
-            <mat-form-field fxFlex>
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Unidade"
-                           formControlName="unidadeProtocoloExterno"
-                           required
-                           [matAutocomplete]="unidadeProtocoloExterno.autocomplete"
-                           (blur)="checkUnidadeProtocoloExterno()">
-                </div>
-                <cdk-setor-autocomplete
-                    #unidadeProtocoloExterno="setorAutocomplete"
-                    [control]="form.get('unidadeProtocoloExterno')"
-                    [pagination]="unidadeProtocoloExternoPagination">
-                </cdk-setor-autocomplete>
-                <button matSuffix mat-button mat-icon-button
-                        (click)="showUnidadeProtocoloExternoGrid()">
-                    <mat-icon matTooltip="Procurar">search</mat-icon>
-                </button>
-                <mat-error *ngIf="form.get('unidadeProtocoloExterno').hasError('formError')">
-                    {{form.get('unidadeProtocoloExterno').errors.formError}}
-                </mat-error>
             </mat-form-field>
         </mat-card>
 
@@ -444,4 +504,20 @@
         [pagination]="logEntryPagination"
         (cancel)="cancel()">
 </cdk-logentry-gridsearch>
+
+<cdk-genero-setor-gridsearch
+    fxFlex
+    *ngIf="activeCard === 'genero-setor-gridsearch'"
+    [pagination]="generoSetorPagination"
+    (selected)="selectGeneroSetor($event)"
+    (cancel)="cancel()">
+</cdk-genero-setor-gridsearch>
+
+<cdk-especie-setor-gridsearch
+    fxFlex
+    *ngIf="activeCard === 'especie-setor-gridsearch'"
+    [pagination]="especieSetorPagination"
+    (selected)="selectEspecieSetor($event)"
+    (cancel)="cancel()">
+</cdk-especie-setor-gridsearch>
 

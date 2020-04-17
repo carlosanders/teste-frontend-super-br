@@ -96,6 +96,5 @@ export class ProcessoEffect {
                     this._store.dispatch(new ProcessoActions.GetVisibilidadesFailed(err));
                     return caught;
                 })
-
             );
 }

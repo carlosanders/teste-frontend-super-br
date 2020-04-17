@@ -12,9 +12,9 @@ import {Observable, Subject} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
-import {Documento, Pagination, Pessoa, Processo} from '@cdk/models';
+import {Documento, Estado, Pagination, Pessoa, Processo} from '@cdk/models';
 import {filter, takeUntil} from 'rxjs/operators';
-import {MatDialog, MatStepper} from '@cdk/angular/material';
+import {MatDialog} from '@cdk/angular/material';
 import {Router} from '@angular/router';
 import {getMercureState, getRouterState} from '../../../../store/reducers';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
@@ -43,6 +43,9 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
 
     processo$: Observable<Processo>;
     processo: Processo;
+
+    estados$: Observable<Estado[]>;
+    estados: Estado[] = [];
 
     documentos: Documento[] = [];
     documentos$: Observable<Documento[]>;
@@ -84,6 +87,7 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
         this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
         this.deletingDocumentosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosId));
         this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoDocumentosId));
+        this.estados$ = this._store.pipe(select(fromStore.getEstados));
 
         this.unidadePagination = new Pagination();
         this.unidadePagination.populate = ['unidade', 'parent'];
@@ -112,7 +116,10 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
             dataHoraPrazoResposta: [null, [Validators.required]],
             unidadeProtocoloExterno: [null, [Validators.required]],
             tipoProtocolo: [null, [Validators.required]],
-            unidadeArquivistica: [null, [Validators.required]]
+            unidadeArquivistica: [null, [Validators.required]],
+            generoSetor: [null, [Validators.required]],
+            especieSetor: [null, [Validators.required]],
+            estado: [null, [Validators.required]]
         });
     }
 
@@ -183,11 +190,20 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
 
         this.documentos$.pipe(
             takeUntil(this._unsubscribeAll),
-            filter(documento => !!documento)
+            filter(documentos => !!documentos)
         ).subscribe(
-            documento => {
-                this.documentos = documento;
+            documentos => {
+                this.documentos = documentos;
                 this._changeDetectorRef.markForCheck();
+            }
+        );
+
+        this.estados$.pipe(
+            takeUntil(this._unsubscribeAll),
+            filter(estados => !!estados)
+        ).subscribe(
+            estados => {
+                this.estados = estados;
             }
         );
 
@@ -212,7 +228,8 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
             this.processo.procedencia = this.pessoaProcedencia;
         }
 
-        this.selectedIndex = this.routerState.params.stepHandle ?? 0;
+        this.selectedIndex = this.routerState.params.processoHandle ? 1 : 0;
+        this.getEstados();
     }
 
     /**
@@ -256,5 +273,9 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
 
     onClicked(documento): void {
         this._store.dispatch(new fromStore.ClickedDocumento(documento));
+    }
+
+    getEstados(): void {
+        this._store.dispatch(new fromStore.GetEstados({}));
     }
 }

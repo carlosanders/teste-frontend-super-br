@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Processo} from '@cdk/models';
+import {Estado, GeneroSetor, Processo} from '@cdk/models';
 import {EspecieProcesso} from '@cdk/models';
 import {MAT_DATETIME_FORMATS} from '@mat-datetimepicker/core';
 import {ModalidadeFase} from '@cdk/models';
@@ -107,6 +107,15 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     processoPagination: Pagination;
 
     @Input()
+    generoSetorPagination: Pagination;
+
+    @Input()
+    especieSetorPagination: Pagination;
+
+    @Input()
+    estados: Estado[];
+
+    @Input()
     form: FormGroup;
 
     activeCard = 'form';
@@ -141,7 +150,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             setorAtual: [null, [Validators.required]],
             modalidadeMeio: [null, [Validators.required]],
             modalidadeFase: [null],
-            dataHoraAbertura: [null, [Validators.required]],
+            dataHoraAbertura: [null, [Validators.required]]
         });
 
         this.especieProcessoPagination = new Pagination();
@@ -153,6 +162,8 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
         this.unidadeProtocoloExternoPagination = new Pagination();
         this.processoPagination = new Pagination();
         this.processoPagination.populate = ['especieProcesso', 'modalidadeMeio', 'classificacao', 'setorAtual', 'setorAtual.unidade'];
+        this.generoSetorPagination = new Pagination();
+        this.especieSetorPagination = new Pagination();
 
         this.readonlyNUP = false;
         this.textBotao = '';
@@ -451,6 +462,42 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             this.checkProcesso();
         }
         this.activeCard = 'form';
+    }
+
+    checkGeneroSetor(): void {
+        const value = this.form.get('generoSetor').value;
+        if (!value || typeof value !== 'object') {
+            this.form.get('generoSetor').setValue(null);
+        }
+    }
+
+    selectGeneroSetor(generoSetor: GeneroSetor): void {
+        if (generoSetor) {
+            this.form.get('generoSetor').setValue(generoSetor);
+        }
+        this.activeCard = 'form';
+    }
+
+    showGeneroSetorGrid(): void {
+        this.activeCard = 'genero-setor-gridsearch';
+    }
+
+    checkEspecieSetor(): void {
+        const value = this.form.get('especieSetor').value;
+        if (!value || typeof value !== 'object') {
+            this.form.get('especieSetor').setValue(null);
+        }
+    }
+
+    selectEspecieSetor(generoSetor: GeneroSetor): void {
+        if (generoSetor) {
+            this.form.get('especieSetor').setValue(generoSetor);
+        }
+        this.activeCard = 'form';
+    }
+
+    showEspecieSetorGrid(): void {
+        this.activeCard = 'especie-setor-gridsearch';
     }
 
 }

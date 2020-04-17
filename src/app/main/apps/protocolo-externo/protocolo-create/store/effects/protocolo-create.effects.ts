@@ -71,7 +71,7 @@ export class ProtocoloCreateEffects {
             .pipe(
                 ofType<ProtocoloCreateActions.SaveProcessoSuccess>(ProtocoloCreateActions.SAVE_PROCESSO_SUCCESS),
                 tap((action) => {
-                    this._router.navigate([this.routerState.url + '/' + action.payload.id + '/step/1']).then();
+                    this._router.navigate([this.routerState.url + '/' + action.payload.id]).then();
                 })
             );
 }
