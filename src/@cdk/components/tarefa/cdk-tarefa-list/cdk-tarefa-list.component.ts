@@ -115,12 +115,15 @@ export class CdkTarefaListComponent {
 
     isIndeterminate = false;
 
+    gridFilter: any;
+
     /**
      * Constructor
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _cdkSidebarService: CdkSidebarService) {
+        this.gridFilter = {};
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -130,6 +133,18 @@ export class CdkTarefaListComponent {
     toggleFilter(): void {
         this.toggleSidebar();
     }
+
+    // loadPage(): void {
+    //     const filter = this.gridFilter.filters;
+    //     const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : null;
+    //     this.reload.emit({
+    //         gridFilter: filter,
+    //         // limit: this.paginator.pageSize,
+    //         // offset: (this.paginator.pageSize * this.paginator.pageIndex),
+    //         // sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
+    //         context: contexto
+    //     });
+    // }
 
     loadPage(): void {
         this.reload.emit({
@@ -216,6 +231,7 @@ export class CdkTarefaListComponent {
     }
 
     setListFilter(listFilter): void {
+        this.gridFilter = listFilter;
         this.listFilter = listFilter;
         this.loadPage();
     }
@@ -280,7 +296,7 @@ export class CdkTarefaListComponent {
      * Toggle the sidebar
      */
     toggleSidebar(): void {
-        this._cdkSidebarService.getSidebar('cdk-tarefa-filter-sidebar').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-tarefa-filter').toggleOpen();
     }
 
     doLoadAssuntos(processoId): void {

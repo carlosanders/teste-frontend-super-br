@@ -1,14 +1,22 @@
 <div class="page-layout left-sidebar" fxFlex>
 
-    <!-- SIDEBAR -->
-    <cdk-sidebar class="sidebar" name="cdk-tarefa-filter-sidebar" position="left">
-        <!-- SIDEBAR CONTENT -->
-        <div class="content" cdkPerfectScrollbar>
-            <cdk-tarefa-filter (selected)="setListFilter($event)" [@animate]="{value:'*'}"></cdk-tarefa-filter>
-        </div>
-        <!-- / SIDEBAR CONTENT -->
+<!--    &lt;!&ndash; SIDEBAR &ndash;&gt;-->
+<!--    <cdk-sidebar class="sidebar" name="cdk-tarefa-filter-sidebar" position="left">-->
+<!--        &lt;!&ndash; SIDEBAR CONTENT &ndash;&gt;-->
+<!--        <div class="content" cdkPerfectScrollbar>-->
+<!--            <cdk-tarefa-filter (selected)="setListFilter($event)" [@animate]="{value:'*'}"></cdk-tarefa-filter>-->
+<!--        </div>-->
+<!--        &lt;!&ndash; / SIDEBAR CONTENT &ndash;&gt;-->
+<!--    </cdk-sidebar>-->
+<!--    &lt;!&ndash; / SIDEBAR &ndash;&gt;-->
+
+   <!-- SIDEBAR -->
+    <cdk-sidebar class="sidebar" name="cdk-tarefa-filter" position="left">
+        <cdk-tarefa-filter (selected)="setListFilter($event)" ></cdk-tarefa-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
+
+
 
     <div class="content" fxFlex fxLayout="column">
 
