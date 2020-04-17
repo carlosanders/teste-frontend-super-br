@@ -46,7 +46,7 @@ export class CdkTramitacaoGridComponent implements AfterViewInit, OnInit, OnChan
             fixed: true
         },
         {
-            id: 'processo.NUP',
+            id: 'processo',
             label: 'NUP',
             fixed: true
         },

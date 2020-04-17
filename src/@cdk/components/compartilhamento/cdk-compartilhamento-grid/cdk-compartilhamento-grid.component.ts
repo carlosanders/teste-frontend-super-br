@@ -59,7 +59,7 @@ export class CdkCompartilhamentoGridComponent implements AfterViewInit, OnInit, 
             fixed: false
         },
         {
-            id: 'processo.NUP',
+            id: 'processo',
             label: 'Processo',
             fixed: false
         },

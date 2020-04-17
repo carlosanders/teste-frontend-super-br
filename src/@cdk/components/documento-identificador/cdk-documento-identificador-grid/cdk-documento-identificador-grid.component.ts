@@ -36,7 +36,7 @@ export class CdkDocumentoIdentificadorGridComponent implements AfterViewInit, On
 
     @Input()
     displayedColumns: string[] = ['select', 'id', 'modalidadeDocumentoIdentificador.valor', 'codigoDocumento', 'emissorDocumento',
-        'dataEmissao', 'origemDados.fonteDados', 'actions'];
+        'dataEmissao', 'origemDados', 'actions'];
 
     allColumns: any[] = [
         {
@@ -70,7 +70,7 @@ export class CdkDocumentoIdentificadorGridComponent implements AfterViewInit, On
             fixed: false
         },
         {
-            id: 'origemDados.fonteDados',
+            id: 'origemDados',
             label: 'Origem de Dados',
             fixed: false
         },
