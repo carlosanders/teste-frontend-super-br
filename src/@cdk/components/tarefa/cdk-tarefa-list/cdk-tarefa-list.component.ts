@@ -1,19 +1,7 @@
-import {
-    ChangeDetectionStrategy,
-    ChangeDetectorRef,
-    Component,
-    EventEmitter,
-    Input, OnInit,
-    Output,
-    ViewChild,
-    ViewEncapsulation
-} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output, ViewEncapsulation} from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {Tarefa} from '@cdk/models/tarefa.model';
-import {MatPaginator, MatSort} from '../../../angular/material';
-import {TarefaDataSource} from '../../../data-sources/tarefa-data-source';
-import {of} from 'rxjs';
 
 @Component({
     selector: 'cdk-tarefa-list',
@@ -24,7 +12,7 @@ import {of} from 'rxjs';
     animations: cdkAnimations,
     exportAs: 'dragTarefaList'
 })
-export class CdkTarefaListComponent implements OnInit {
+export class CdkTarefaListComponent {
 
     @Input()
     loading: boolean;
@@ -121,37 +109,11 @@ export class CdkTarefaListComponent implements OnInit {
 
     @Input()
     loadingAssuntosProcessosId: number[];
-
-    // @ViewChild(MatPaginator, {static: true})
-    // paginator: MatPaginator;
-
-    @ViewChild(MatSort, {static: true})
-    sort: MatSort;
-
-    @Input()
-    pageSize = 5;
-
-    dataSource: TarefaDataSource;
-
-    loadingAssunto: boolean;
-
-    @Input()
-    isOpenPanel: boolean;
-
-    @Input()
-    idTarefaToLoadAssuntos: number;
-
-    gridFilter: any;
-
+    
     listFilter: {} = {};
     listSort: {} = {};
 
     isIndeterminate = false;
-
-    @Input()
-    mode = 'list';
-
-    showFilter = false;
 
     /**
      * Constructor
@@ -159,28 +121,20 @@ export class CdkTarefaListComponent implements OnInit {
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _cdkSidebarService: CdkSidebarService) {
-        this.gridFilter = {};
     }
-
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
     toggleFilter(): void {
-        this._cdkSidebarService.getSidebar('cdk-tarefa-filter').toggleOpen();
-        this.showFilter = !this.showFilter;
+        this.toggleSidebar();
     }
 
     loadPage(): void {
-        const filter = this.gridFilter.filters;
-        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : null;
         this.reload.emit({
-            gridFilter: filter,
-            // limit: this.paginator.pageSize,
-            // offset: (this.paginator.pageSize * this.paginator.pageIndex),
-            // sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
-            context: contexto
+            listFilter: this.listFilter,
+            listSort: this.listSort
         });
     }
 
@@ -261,6 +215,11 @@ export class CdkTarefaListComponent implements OnInit {
         this.changeSelectedIds.emit(this.selectedIds);
     }
 
+    setListFilter(listFilter): void {
+        this.listFilter = listFilter;
+        this.loadPage();
+    }
+
     doMovimentar(tarefaId): void {
         this.movimentar.emit(tarefaId);
     }
@@ -317,26 +276,14 @@ export class CdkTarefaListComponent implements OnInit {
         this.editorBloco.emit();
     }
 
+    /**
+     * Toggle the sidebar
+     */
+    toggleSidebar(): void {
+        this._cdkSidebarService.getSidebar('cdk-tarefa-filter-sidebar').toggleOpen();
+    }
+
     doLoadAssuntos(processoId): void {
         this.loadAssuntos.emit(processoId);
-    }
-
-    setFilter(gridFilter): void {
-        this.gridFilter = gridFilter;
-        // this.paginator.pageIndex = 0;
-        this.loadPage();
-    }
-
-    ngOnInit(): void {
-        this.dataSource = new TarefaDataSource(of(this.tarefas));
-        // this.paginator._intl.itemsPerPageLabel = 'Registros por página';
-        // this.paginator._intl.nextPageLabel = 'Seguinte';
-        // this.paginator._intl.previousPageLabel = 'Anterior';
-        // this.paginator.pageSize = this.pageSize;
-    }
-
-    ngOnChanges(): void {
-        this.dataSource = new TarefaDataSource(of(this.tarefas));
-        // this.paginator.length = this.total;
     }
 }
