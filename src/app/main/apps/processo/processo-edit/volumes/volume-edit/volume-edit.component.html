@@ -1,0 +1,7 @@
+<cdk-volume-form
+        [volume]="volume"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        [modalidadeMeioPagination]="modalidadeMeioPagination"
+        (save)="submit($event)">
+</cdk-volume-form>

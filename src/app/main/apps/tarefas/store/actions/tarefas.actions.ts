@@ -1,4 +1,3 @@
-
 import {Action} from '@ngrx/store';
 
 export const UNLOAD_TAREFAS = '[TAREFAS] UNLOAD TAREFAS';
@@ -45,10 +44,6 @@ export const DELETE_VINCULACAO_ETIQUETA = '[TAREFA] DELETE VINCULACAO_ETIQUETA';
 export const DELETE_VINCULACAO_ETIQUETA_SUCCESS = '[TAREFA] DELETE VINCULACAO_ETIQUETA SUCCESS';
 export const DELETE_VINCULACAO_ETIQUETA_FAILED = '[TAREFA] DELETE VINCULACAO_ETIQUETA FAILED';
 
-
-/*
-* ISSUE-107
-*/
 export const GET_ASSUNTOS_PROCESSO_TAREFA = '[TAREFA] GET ASSUNTOS PROCESSO';
 export const GET_ASSUNTOS_PROCESSO_TAREFA_SUCCESS = '[TAREFA] GET ASSUNTOS PROCESSO SUCCESS';
 export const GET_ASSUNTOS_PROCESSO_TAREFA_FAILED = '[TAREFA] GET ASSUNTOS PROCESSO FAILED';
@@ -60,10 +55,6 @@ export const SET_LOADING_ASSUNTOS_FAILED = '[TAREFA] SET LOADING ASSUNTOS FAILED
 export const SET_ASSUNTOS_LOADED = '[TAREFA] SET ASSUNTOS LOADED';
 export const SET_ASSUNTOS_LOADED_SUCCESS = '[TAREFA] SET ASSUNTOS LOADED SUCCESS';
 export const SET_ASSUNTOS_LOADED_FAILED = '[TAREFA] SET ASSUNTOS LOADED FAILED';
-
-
-
-
 
 /**
  * Unload Tarefas
@@ -188,228 +179,190 @@ export class SetFolderOnSelectedTarefasFailed implements Action {
 /**
  * Delete Tarefa
  */
-export class DeleteTarefa implements Action
-{
+export class DeleteTarefa implements Action {
     readonly type = DELETE_TAREFA;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Delete Tarefa Success
  */
-export class DeleteTarefaSuccess implements Action
-{
+export class DeleteTarefaSuccess implements Action {
     readonly type = DELETE_TAREFA_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Delete Tarefa Failed
  */
-export class DeleteTarefaFailed implements Action
-{
+export class DeleteTarefaFailed implements Action {
     readonly type = DELETE_TAREFA_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Save Tarefa
  */
-export class SaveTarefa implements Action
-{
+export class SaveTarefa implements Action {
     readonly type = SAVE_TAREFA;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Save Tarefa Success
  */
-export class SaveTarefaSuccess implements Action
-{
+export class SaveTarefaSuccess implements Action {
     readonly type = SAVE_TAREFA_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Save Tarefa Failed
  */
-export class SaveTarefaFailed implements Action
-{
+export class SaveTarefaFailed implements Action {
     readonly type = SAVE_TAREFA_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Toggle Lida Tarefa
  */
-export class ToggleLidaTarefa implements Action
-{
+export class ToggleLidaTarefa implements Action {
     readonly type = TOGGLE_LIDA_TAREFA;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Toggle Lida Tarefa Success
  */
-export class ToggleLidaTarefaSuccess implements Action
-{
+export class ToggleLidaTarefaSuccess implements Action {
     readonly type = TOGGLE_LIDA_TAREFA_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Toggle Lida Tarefa Failed
  */
-export class ToggleLidaTarefaFailed implements Action
-{
+export class ToggleLidaTarefaFailed implements Action {
     readonly type = TOGGLE_LIDA_TAREFA_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Toggle Urgente Tarefa
  */
-export class ToggleUrgenteTarefa implements Action
-{
+export class ToggleUrgenteTarefa implements Action {
     readonly type = TOGGLE_URGENTE_TAREFA;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Toggle Urgente Tarefa Success
  */
-export class ToggleUrgenteTarefaSuccess implements Action
-{
+export class ToggleUrgenteTarefaSuccess implements Action {
     readonly type = TOGGLE_URGENTE_TAREFA_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Toggle Urgente Tarefa Failed
  */
-export class ToggleUrgenteTarefaFailed implements Action
-{
+export class ToggleUrgenteTarefaFailed implements Action {
     readonly type = TOGGLE_URGENTE_TAREFA_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Delete Vinculacao Etiqueta
  */
-export class DeleteVinculacaoEtiqueta implements Action
-{
+export class DeleteVinculacaoEtiqueta implements Action {
     readonly type = DELETE_VINCULACAO_ETIQUETA;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Delete Vinculacao Etiqueta Success
  */
-export class DeleteVinculacaoEtiquetaSuccess implements Action
-{
+export class DeleteVinculacaoEtiquetaSuccess implements Action {
     readonly type = DELETE_VINCULACAO_ETIQUETA_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Delete Vinculacao Etiqueta Failed
  */
-export class DeleteVinculacaoEtiquetaFailed implements Action
-{
+export class DeleteVinculacaoEtiquetaFailed implements Action {
     readonly type = DELETE_VINCULACAO_ETIQUETA_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Create Vinculacao Etiqueta
  */
-export class CreateVinculacaoEtiqueta implements Action
-{
+export class CreateVinculacaoEtiqueta implements Action {
     readonly type = CREATE_VINCULACAO_ETIQUETA;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Create Vinculacao Etiqueta Success
  */
-export class CreateVinculacaoEtiquetaSuccess implements Action
-{
+export class CreateVinculacaoEtiquetaSuccess implements Action {
     readonly type = CREATE_VINCULACAO_ETIQUETA_SUCCESS;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Create Vinculacao Etiqueta Failed
  */
-export class CreateVinculacaoEtiquetaFailed implements Action
-{
+export class CreateVinculacaoEtiquetaFailed implements Action {
     readonly type = CREATE_VINCULACAO_ETIQUETA_FAILED;
 
-    constructor(public payload: any)
-    {
+    constructor(public payload: any) {
     }
 }
 
 /**
  * Toggle Maximizado
  */
-export class ToggleMaximizado implements Action
-{
+export class ToggleMaximizado implements Action {
     readonly type = TOGGLE_MAXIMIZADO;
 
-    constructor()
-    {
+    constructor() {
     }
 }
 
@@ -446,7 +399,6 @@ export class GetAssuntosProcessoTarefaFailed implements Action {
     constructor(public payload: any) {
     }
 }
-
 
 
 /**

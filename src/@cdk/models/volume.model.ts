@@ -15,12 +15,14 @@ export class Volume {
     @Exclude({ toPlainOnly: true })
     uuid?: string;
 
+    @Exclude({ toPlainOnly: true })
     numeracaoSequencial?: number;
 
     @Type(() => ModalidadeMeio)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     modalidadeMeio?: ModalidadeMeio;
 
+    @Exclude({ toPlainOnly: true })
     encerrado?: boolean;
 
     @Type(() => Processo)

@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Juntada} from '@cdk/models';
+import {Juntada, Pagination} from '@cdk/models';
 import {JuntadaService} from '@cdk/services/juntada.service';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {select, Store} from '@ngrx/store';
@@ -17,6 +17,8 @@ import * as fromStore from '../../store';
 import {Observable} from 'rxjs';
 import {filter} from 'rxjs/operators';
 import {FormBuilder, FormGroup} from '@angular/forms';
+import {Router} from '@angular/router';
+import {getRouterState} from '../../../../../../store/reducers';
 
 @Component({
     selector: 'processo-view-main-sidebar',
@@ -56,19 +58,29 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
     @Output()
     scrolled = new EventEmitter<any>();
 
+    volumePaginaton: Pagination;
+
+    routerState: any;
+
     /**
-     * Constructor
-     *
+     * @param _juntadaService
+     * @param _changeDetectorRef
+     * @param _cdkSidebarService
+     * @param _store
+     * @param _formBuilder
+     * @param _router
      */
     constructor(
         private _juntadaService: JuntadaService,
         private _changeDetectorRef: ChangeDetectorRef,
         private _cdkSidebarService: CdkSidebarService,
         private _store: Store<fromStore.ProcessoViewAppState>,
-        private _formBuilder: FormBuilder
+        private _formBuilder: FormBuilder,
+        private _router: Router
     ) {
 
         this.form = this._formBuilder.group({
+            volume: [null],
             tipoDocumento: [null]
         });
 
@@ -102,12 +114,36 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
         this.pagination$.subscribe(
             pagination => this.pagination = pagination
         );
+
+        this._store
+            .pipe(
+                select(getRouterState)
+            ).subscribe(routerState => {
+            if (routerState) {
+                this.routerState = routerState.state;
+                this.volumePaginaton = new Pagination();
+                this.volumePaginaton.filter = {'processo.id': 'eq:' + this.routerState.params.processoHandle};
+            }
+        });
     }
 
     /**
      * On init
      */
     ngOnInit(): void {
+
+        this.form.get('volume').valueChanges.subscribe(value => {
+            if (typeof value === 'object' && value) {
+                this.listFilter = {
+                    ...this.listFilter,
+                    'volume.id': `eq:${value.id}`
+                };
+            } else {
+                if (this.listFilter.hasOwnProperty('volume.id')) {
+                    delete this.listFilter['volume.id'];
+                }
+            }
+        });
 
         this.form.get('tipoDocumento').valueChanges.subscribe(value => {
             if (typeof value === 'object' && value) {
@@ -148,6 +184,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
     }
 
     reload(params): void {
+
+        this._store.dispatch(new fromStore.UnloadJuntadas({reset: false}));
 
         const nparams = {
             ...this.pagination,

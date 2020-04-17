@@ -36,7 +36,7 @@ export class CdkHistoricoGridComponent implements AfterViewInit, OnInit, OnChang
     total = 0;
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'descricao', 'processo.NUP', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'descricao', 'processo', 'actions'];
 
     allColumns: any[] = [
         {
@@ -55,12 +55,12 @@ export class CdkHistoricoGridComponent implements AfterViewInit, OnInit, OnChang
             fixed: true
         },
         {
-            id: 'processo.NUP',
+            id: 'processo',
             label: 'NUP',
             fixed: false
         },
         {
-            id: 'processo.NUP',
+            id: 'processo',
             label: 'NUP',
             fixed: false
         },
