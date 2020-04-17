@@ -24,12 +24,16 @@ export class CdkPessoaFilterComponent implements OnInit {
     @Output()
     selected = new EventEmitter<any>();
 
+    @Input()
+    mode = 'list';
+
     form: FormGroup;
 
     filters: any = {};
 
     /**
      * @param _formBuilder
+     * @param _cdkSidebarService
      */
     constructor(
         private _formBuilder: FormBuilder,
