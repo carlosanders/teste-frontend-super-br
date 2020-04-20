@@ -280,7 +280,7 @@ export class CdkTarefaListComponent {
      * Toggle the sidebar
      */
     toggleSidebar(): void {
-        this._cdkSidebarService.getSidebar('cdk-tarefa-filter-sidebar').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-tarefa-filter').toggleOpen();
     }
 
     doLoadAssuntos(processoId): void {
