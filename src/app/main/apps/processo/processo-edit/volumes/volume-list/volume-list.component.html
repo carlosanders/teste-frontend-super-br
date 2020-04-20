@@ -1,0 +1,11 @@
+<cdk-volume-grid
+        [loading]="(loading$ | async)"
+        [volumes]="(volumes$ | async)"
+        [total]="(pagination$ | async)?.total"
+        [deletingIds]="(deletingIds$ | async)"
+        [deletedIds]="(deletedIds$ | async)"
+        [actions]="['edit']"
+        (reload)="reload($event)"
+        (edit)="edit($event)"
+        (delete)="delete($event)">
+</cdk-volume-grid>

@@ -83,7 +83,7 @@ export class UnloadJuntadas implements Action
 {
     readonly type = UNLOAD_JUNTADAS;
 
-    constructor()
+    constructor(public payload: any)
     {
     }
 }

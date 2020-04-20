@@ -152,7 +152,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
-        this._store.dispatch(new fromStore.UnloadJuntadas());
+        this._store.dispatch(new fromStore.UnloadJuntadas({reset: true}));
     }
 
     // -----------------------------------------------------------------------------------------------------

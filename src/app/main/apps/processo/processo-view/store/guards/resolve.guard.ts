@@ -57,7 +57,7 @@ export class ResolveGuard implements CanActivate {
             select(getJuntadasLoaded),
             tap((loaded: any) => {
                  if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
-                    this._store.dispatch(new fromStore.UnloadJuntadas());
+                    this._store.dispatch(new fromStore.UnloadJuntadas({reset: true}));
 
                     let processoFilter = null;
 

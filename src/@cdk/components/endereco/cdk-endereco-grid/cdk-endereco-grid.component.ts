@@ -89,7 +89,7 @@ export class CdkEnderecoGridComponent implements AfterViewInit, OnInit, OnChange
             fixed: false
         },
         {
-            id: 'origemDados.fonteDados',
+            id: 'origemDados',
             label: 'Origem de Dados',
             fixed: false
         },

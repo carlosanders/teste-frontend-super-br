@@ -1,15 +1,7 @@
-import { PaginatedResponse } from '@cdk/models/paginated.response';
-import { Observable, BehaviorSubject } from 'rxjs';
-import {AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output, ViewEncapsulation} from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {Tarefa} from '@cdk/models/tarefa.model';
-
-/*
-* ISSUE-100
-*/
-import { Assunto } from '@cdk/models/assunto.model';
- 
 
 @Component({
     selector: 'cdk-tarefa-list',
@@ -20,7 +12,7 @@ import { Assunto } from '@cdk/models/assunto.model';
     animations: cdkAnimations,
     exportAs: 'dragTarefaList'
 })
-export class CdkTarefaListComponent implements AfterViewInit, OnInit, OnChanges {
+export class CdkTarefaListComponent {
 
     @Input()
     loading: boolean;
@@ -112,30 +104,16 @@ export class CdkTarefaListComponent implements AfterViewInit, OnInit, OnChanges 
     @Output()
     editorBloco = new EventEmitter<any>();
 
-    /*
-    * ISSUE-107
-    */
-    @Input()
-    assuntos: Assunto[];
-
     @Output()
-    idProcesso = new EventEmitter<any>();
+    loadAssuntos = new EventEmitter<any>();
 
     @Input()
-    loadingAssunto: boolean;
-
-    @Input()
-    isOpenPanel: boolean;
-
-    @Input()
-    idTarefaToLoadAssuntos: number;
+    loadingAssuntosProcessosId: number[];
     
     listFilter: {} = {};
     listSort: {} = {};
 
     isIndeterminate = false;
-
-    
 
     /**
      * Constructor
@@ -148,15 +126,6 @@ export class CdkTarefaListComponent implements AfterViewInit, OnInit, OnChanges 
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
-
-    ngOnChanges(): void {
-    }
-
-    ngOnInit(): void {
-    }
-
-    ngAfterViewInit(): void {
-    }
 
     toggleFilter(): void {
         this.toggleSidebar();
@@ -314,7 +283,7 @@ export class CdkTarefaListComponent implements AfterViewInit, OnInit, OnChanges 
         this._cdkSidebarService.getSidebar('cdk-tarefa-filter-sidebar').toggleOpen();
     }
 
-    doLoadAssuntos(idProcesso): void {
-        this.idProcesso.emit(idProcesso);
+    doLoadAssuntos(processoId): void {
+        this.loadAssuntos.emit(processoId);
     }
 }

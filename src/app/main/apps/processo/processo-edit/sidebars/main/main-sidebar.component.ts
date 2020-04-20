@@ -61,6 +61,10 @@ export class ProcessoEditMainSidebarComponent implements OnInit, OnDestroy {
                 link: 'interessados'
             },
             {
+                nome: 'Volumes',
+                link: 'volumes'
+            },
+            {
                 nome: 'Juntadas',
                 link: 'juntadas'
             },

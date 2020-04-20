@@ -1,0 +1,43 @@
+import {NgModule} from '@angular/core';
+import {
+    MatButtonModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    MatCheckboxModule,
+    MatProgressSpinnerModule,
+    MatAutocompleteModule,
+    MatTooltipModule
+} from '@cdk/angular/material';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {ModalidadeMeioService} from '@cdk/services/modalidade-meio.service';
+import {CdkVolumeFormComponent} from './cdk-volume-form.component';
+import {CdkModalidadeMeioAutocompleteModule} from '@cdk/components/modalidade-meio/cdk-modalidade-meio-autocomplete/cdk-modalidade-meio-autocomplete.module';
+import {CdkModalidadeMeioGridsearchModule} from '@cdk/components/modalidade-meio/cdk-modalidade-meio-autocomplete/cdk-modalidade-meio-gridsearch/cdk-modalidade-meio-gridsearch.module';
+
+@NgModule({
+    declarations: [
+        CdkVolumeFormComponent,
+    ],
+    imports: [
+        MatAutocompleteModule,
+        MatButtonModule,
+        MatFormFieldModule,
+        MatIconModule,
+        MatCheckboxModule,
+        MatInputModule,
+        MatProgressSpinnerModule,
+        MatTooltipModule,
+        CdkModalidadeMeioAutocompleteModule,
+        CdkModalidadeMeioGridsearchModule,
+        CdkSharedModule,
+    ],
+    providers: [
+        ModalidadeMeioService,
+    ],
+    exports: [
+        CdkVolumeFormComponent
+    ]
+})
+export class CdkVolumeFormModule {
+}
