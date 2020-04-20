@@ -102,7 +102,7 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
             especieProcesso: [null],
             visibilidadeExterna: [null],
             titulo: [null],
-            descricao: [null, [Validators.maxLength(255)]],
+            descricao: [null, [Validators.required, Validators.maxLength(255)]],
             outroNumero: [null],
             valorEconomico: [null],
             semValorEconomico: [null],
@@ -120,8 +120,7 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
             generoSetor: [null, [Validators.required]],
             especieSetor: [null, [Validators.required]],
             estado: [null, [Validators.required]],
-            requerimento: [null, [Validators.required, Validators.maxLength(255)]],
-            resumo: [null, [Validators.required, Validators.maxLength(255)]],
+            requerimento: [null, [Validators.required, Validators.maxLength(255)]]
         });
     }
 
@@ -261,6 +260,7 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
         );
 
         processo.procedencia = this.pessoaProcedencia;
+        processo.titulo = this.formProcesso.get('especieSetor').value.name;
 
         this._store.dispatch(new fromStore.SaveProcesso(processo));
     }
