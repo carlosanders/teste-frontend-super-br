@@ -20,6 +20,9 @@ import {Documento} from '@cdk/models';
 export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
 
     @Input()
+    componenteChamador: String = null;
+
+    @Input()
     documentos: Documento[];
 
     @Output()
@@ -67,7 +70,6 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
     }
 
     ngOnChanges(): void {
-
     }
 
     deleteDocumento(documentoId): void {
@@ -76,16 +78,19 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
 
     toggleInSelected(documentoId): void {
         const selectedDocumentoIds = [...this.selectedIds];
-
         if (selectedDocumentoIds.find(id => id === documentoId) !== undefined) {
             this.selectedIds = selectedDocumentoIds.filter(id => id !== documentoId);
         } else {
             this.selectedIds = [...selectedDocumentoIds, documentoId];
         }
-
         this.hasSelected = this.selectedIds.length > 0;
         this.isIndeterminate = (this.selectedIds.length !== this.documentos.length && this.selectedIds.length > 0);
-        this.changedSelectedIds.emit(this.selectedIds);
+
+        if (this.componenteChamador === 'atividade-create-bloco') {
+            this.changedSelectedIds.emit([documentoId]);
+        } else {
+            this.changedSelectedIds.emit(this.selectedIds);
+        }
     }
 
     doDelete(documentoId): void {
@@ -140,8 +145,15 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
      * Deselect all documentos
      */
     deselectAll(): void {
-        this.selectedIds = [];
-        this.recompute();
+        if (this.componenteChamador === 'atividade-create-bloco') {
+            this.changedSelectedIds.emit(this.selectedIds);
+            // o esvaziamento do array contendo os ids é depois da emissão,
+            // para que o componente atividade-create-bloco posso retirá-los da lista que ele armazena
+            this.selectedIds = [];
+        } else {
+            this.selectedIds = [];
+            this.recompute();
+        }
     }
 
     recompute(): void {
