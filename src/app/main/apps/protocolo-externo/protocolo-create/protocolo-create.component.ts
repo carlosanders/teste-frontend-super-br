@@ -230,8 +230,8 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
             this.processo.procedencia = this.pessoaProcedencia;
         }
 
-        this.selectedIndex = this.routerState.params.processoHandle ? 1 : 0;
         this.getEstados();
+        this.unloadProcesso();
     }
 
     /**
@@ -279,5 +279,14 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
 
     getEstados(): void {
         this._store.dispatch(new fromStore.GetEstados({}));
+    }
+
+    unloadProcesso(): void {
+        this.selectedIndex = 0;
+
+        if (this.routerState.params.processoHandle) {
+            this.selectedIndex = 1;
+            this._store.dispatch(new fromStore.UnloadProcesso({reset: true}));
+        }
     }
 }
