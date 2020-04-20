@@ -85,7 +85,7 @@
                 </ng-container>
 
                 <!-- Processo Column -->
-                <ng-container matColumnDef="processo.NUP">
+                <ng-container matColumnDef="processo">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Processo
                     </th>
@@ -103,7 +103,7 @@
                 </ng-container>
 
                 <!-- ModalidadeMeio Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('modalidadeMeio.valor') > -1" matColumnDef="modalidadeMeio.valor">
+                <ng-container *ngIf="displayedColumns.indexOf('modalidadeMeio') > -1" matColumnDef="modalidadeMeio">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Modalidade Meio
                     </th>
@@ -123,7 +123,7 @@
                 </ng-container>
 
                 <!-- origemDados Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('fonteDados') > -1" matColumnDef="origemDados.fonteDados">
+                <ng-container *ngIf="displayedColumns.indexOf('origemDados') > -1" matColumnDef="origemDados">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Origem de Dados
                     </th>

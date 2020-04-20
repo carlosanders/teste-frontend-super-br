@@ -61,7 +61,7 @@ export class CdkRelacionamentoPessoalGridComponent implements AfterViewInit, OnI
             fixed: false
         },
         {
-            id: 'origemDados.fonteDados',
+            id: 'origemDados',
             label: 'Origem de Dados',
             fixed: false
         },

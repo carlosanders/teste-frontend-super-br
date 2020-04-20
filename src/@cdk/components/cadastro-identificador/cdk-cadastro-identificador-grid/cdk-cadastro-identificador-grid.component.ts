@@ -35,7 +35,7 @@ export class CdkCadastroIdentificadorGridComponent implements AfterViewInit, OnI
     total = 0;
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'numero', 'origemDados.fonteDados', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'numero', 'origemDados', 'actions'];
 
     allColumns: any[] = [
         {
@@ -54,7 +54,7 @@ export class CdkCadastroIdentificadorGridComponent implements AfterViewInit, OnI
             fixed: true
         },
         {
-            id: 'origemDados.fonteDados',
+            id: 'origemDados',
             label: 'Origem do Dado',
             fixed: false
         },

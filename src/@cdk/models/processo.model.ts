@@ -1,10 +1,9 @@
-
 import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
 import {Lembrete} from '@cdk/models';
 import {Usuario} from '@cdk/models';
-import { EspecieProcesso } from '@cdk/models';
-import { Setor } from '@cdk/models';
+import {EspecieProcesso} from '@cdk/models';
+import {Setor} from '@cdk/models';
 
 import {ModalidadeFase} from '@cdk/models';
 import {ModalidadeMeio} from '@cdk/models';
@@ -29,14 +28,14 @@ export class Processo {
     static readonly TP_INFORMADO = 2;
     static readonly TP_PENDENTE = 3;
 
-    @Exclude({ toPlainOnly: true })
+    @Exclude({toPlainOnly: true})
     id?: number;
 
     @Type(() => Processo)
-    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    @Transform(value => value ? value.id : null, {toPlainOnly: true})
     processoOrigem?: Processo;
 
-    @Exclude({ toPlainOnly: true })
+    @Exclude({toPlainOnly: true})
     uuid?: string;
 
     unidadeArquivistica?: number;
@@ -50,11 +49,11 @@ export class Processo {
     visibilidadeExterna?: boolean;
 
     acessoNegado?: boolean;
-    
+
     titulo?: string;
 
     descricao?: string;
-    
+
     outroNumero?: string;
 
     requerimento?: string;
@@ -64,47 +63,47 @@ export class Processo {
     @Exclude({ toPlainOnly: true })
     chaveAcesso?: string;
 
-    @Exclude({ toPlainOnly: true })
+    @Exclude({toPlainOnly: true})
     valorEconomico?: number;
 
     @Type(() => Classificacao)
-    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    @Transform(value => value ? value.id : null, {toPlainOnly: true})
     classificacao?: Classificacao;
 
-    @Exclude({ toPlainOnly: true })
+    @Exclude({toPlainOnly: true})
     @Type(() => OrigemDados)
-    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    @Transform(value => value ? value.id : null, {toPlainOnly: true})
     origemDados?: OrigemDados;
 
-    @Exclude({ toPlainOnly: true })
+    @Exclude({toPlainOnly: true})
     @Type(() => DocumentoAvulso)
-    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    @Transform(value => value ? value.id : null, {toPlainOnly: true})
     documentoAvulsoOrigem?: DocumentoAvulso;
 
     @Type(() => Pessoa)
-    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    @Transform(value => value ? value.id : null, {toPlainOnly: true})
     procedencia?: Pessoa;
 
     @Type(() => Localizador)
-    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    @Transform(value => value ? value.id : null, {toPlainOnly: true})
     localizador?: Localizador;
 
     @Type(() => Setor)
-    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    @Transform(value => value ? value.id : null, {toPlainOnly: true})
     setorAtual?: Setor;
 
-    @Exclude({ toPlainOnly: true })
+    @Exclude({toPlainOnly: true})
     @Type(() => Setor)
-    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    @Transform(value => value ? value.id : null, {toPlainOnly: true})
     setorInicial?: Setor;
-    
-    @Transform(value => value ? value.format() : null, { toPlainOnly: true })
-    @Transform(value => value ? moment(value) : null, { toClassOnly: true })
+
+    @Transform(value => value ? value.format() : null, {toPlainOnly: true})
+    @Transform(value => value ? moment(value) : null, {toClassOnly: true})
     dataHoraAbertura?: Date;
 
-    @Exclude({ toPlainOnly: true })
-    @Transform(value => value ? value.format() : null, { toPlainOnly: true })
-    @Transform(value => value ? moment(value) : null, { toClassOnly: true })
+    @Exclude({toPlainOnly: true})
+    @Transform(value => value ? value.format() : null, {toPlainOnly: true})
+    @Transform(value => value ? moment(value) : null, {toClassOnly: true})
     dataHoraProximaTransicao?: Date;
 
     @Transform(value => value ? value.format() : null, { toPlainOnly: true })
@@ -112,16 +111,16 @@ export class Processo {
     dataHoraPrazoResposta?: Date;
 
     @Type(() => ModalidadeFase)
-    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    @Transform(value => value ? value.id : null, {toPlainOnly: true})
     modalidadeFase?: ModalidadeFase;
 
     @Type(() => ModalidadeMeio)
-    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    @Transform(value => value ? value.id : null, {toPlainOnly: true})
     modalidadeMeio?: ModalidadeMeio;
 
 
     @Type(() => Lembrete)
-    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    @Transform(value => value ? value.id : null, {toPlainOnly: true})
     lembretes: Lembrete[];
 
 
@@ -131,45 +130,42 @@ export class Processo {
 
 
     @Type(() => EspecieProcesso)
-    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    @Transform(value => value ? value.id : null, {toPlainOnly: true})
     especieProcesso?: EspecieProcesso;
-    
-    @Exclude({ toPlainOnly: true })
+
+    @Exclude({toPlainOnly: true})
     @Type(() => Usuario)
-    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    @Transform(value => value ? value.id : null, {toPlainOnly: true})
     criadoPor?: Usuario;
 
-    @Exclude({ toPlainOnly: true })
-    @Transform(value => value ? value.format() : null, { toPlainOnly: true })
-    @Transform(value => value ? moment(value) : null, { toClassOnly: true })
+    @Exclude({toPlainOnly: true})
+    @Transform(value => value ? value.format() : null, {toPlainOnly: true})
+    @Transform(value => value ? moment(value) : null, {toClassOnly: true})
     criadoEm?: Date;
 
-    @Exclude({ toPlainOnly: true })
+    @Exclude({toPlainOnly: true})
     @Type(() => Usuario)
-    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    @Transform(value => value ? value.id : null, {toPlainOnly: true})
     atualizadoPor?: Usuario;
 
-    @Exclude({ toPlainOnly: true })
-    @Transform(value => value ? value.format() : null, { toPlainOnly: true })
-    @Transform(value => value ? moment(value) : null, { toClassOnly: true })
+    @Exclude({toPlainOnly: true})
+    @Transform(value => value ? value.format() : null, {toPlainOnly: true})
+    @Transform(value => value ? moment(value) : null, {toClassOnly: true})
     atualizadoEm?: Date;
 
-    @Exclude({ toPlainOnly: true })
+    @Exclude({toPlainOnly: true})
     @Type(() => Usuario)
-    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    @Transform(value => value ? value.id : null, {toPlainOnly: true})
     apagadoPor?: Usuario;
 
-    @Exclude({ toPlainOnly: true })
-    @Transform(value => value ? value.format() : null, { toPlainOnly: true })
-    @Transform(value => value ? moment(value) : null, { toClassOnly: true })
+    @Exclude({toPlainOnly: true})
+    @Transform(value => value ? value.format() : null, {toPlainOnly: true})
+    @Transform(value => value ? moment(value) : null, {toClassOnly: true})
     apagadoEm?: Date;
 
-    /*
-    * ISSUE-107
-    */
-   @Exclude({toPlainOnly: true})
-   @Type(() => Assunto)
-   assuntos: Assunto[];
+    @Exclude({toPlainOnly: true})
+    @Type(() => Assunto)
+    assuntos: Assunto[];
 
     @Exclude({toPlainOnly: true})
     @Type(() => Setor)
@@ -212,7 +208,7 @@ export class Processo {
         this.apagadoPor = null;
         this.apagadoEm = null;
         this.vinculacoesEtiquetas = null;
-        this.assuntos = null;
+        this.assuntos = [];
         this.unidadeProtocoloExterno = null;
         this.requerimento = null;
         this.resumo = null;

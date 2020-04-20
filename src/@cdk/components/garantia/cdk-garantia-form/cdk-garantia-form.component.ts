@@ -44,7 +44,7 @@ export class CdkGarantiaFormComponent implements OnChanges, OnDestroy {
 
     valorRegex = /(?=.*?\d)^\$?(([1-9]\d{0,2}(\d{3})*)|\d+)?(\,\d{1,2})?$/;
 
-     /**
+    /**
      * Constructor
      */
     constructor(
@@ -56,7 +56,7 @@ export class CdkGarantiaFormComponent implements OnChanges, OnDestroy {
             processo: [null, [Validators.required]],
             modalidadeGarantia: [null, [Validators.required]],
             descricao: [null, [Validators.maxLength(255)]],
-            valor: [null, [Validators.required, Validators.pattern(this.valorRegex),Validators.maxLength(10)]],
+            valor: [null, [Validators.required, Validators.pattern(this.valorRegex), Validators.maxLength(10)]],
             dataValor: [null, [Validators.required]],
             observacao: [null, [Validators.maxLength(255)]]
         });
@@ -74,8 +74,8 @@ export class CdkGarantiaFormComponent implements OnChanges, OnDestroy {
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
         if (changes['garantia'] && this.garantia && ((!this.garantia.id && !this.form.dirty) || (this.garantia.id !== this.form.get('id').value))) {
             this.form.patchValue({...this.garantia});
-            if (this.garantia.valor){
-                this.form.patchValue({'valor':this.garantia.valor.toString().replace('.',',')});
+            if (this.garantia.valor) {
+                this.form.patchValue({'valor': this.garantia.valor.toString().replace('.', ',')});
             }
         }
 
@@ -124,7 +124,7 @@ export class CdkGarantiaFormComponent implements OnChanges, OnDestroy {
             this.form.get('modalidadeGarantia').setValue(null);
         }
     }
-    
+
     selectModalidadeGarantia(modalidadeGarantia: ModalidadeGarantia): void {
         if (modalidadeGarantia) {
             this.form.get('modalidadeGarantia').setValue(modalidadeGarantia);

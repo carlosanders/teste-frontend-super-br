@@ -48,7 +48,6 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
     // Private
     private _unsubscribeAll: Subject<any>;
 
-
     /**
      *
      * @param _store

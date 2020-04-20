@@ -21,6 +21,7 @@ import {CdkVinculacaoEtiquetaChipsModule} from '@cdk/components/vinculacao-etiqu
 import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
 import {LoginService} from '../../auth/login/login.service';
 import {ProcessoDownloadModule} from './processo-download/processo-download.module';
+import {MatMenuModule} from '@angular/material/menu';
 
 const routes: Routes = [
     {
@@ -85,7 +86,8 @@ const routes: Routes = [
         CdkSidebarModule,
         MatTooltipModule,
         CdkVinculacaoEtiquetaChipsModule,
-        ProcessoDownloadModule
+        ProcessoDownloadModule,
+        MatMenuModule
     ],
     providers      : [
         ProcessoService,

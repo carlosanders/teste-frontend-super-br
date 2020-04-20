@@ -96,7 +96,7 @@ export class CdkSigiloGridComponent implements AfterViewInit, OnInit, OnChanges 
             fixed: false
         },
         {
-            id: 'processo.NUP',
+            id: 'processo',
             label: 'NUP',
             fixed: false
         },
@@ -106,7 +106,7 @@ export class CdkSigiloGridComponent implements AfterViewInit, OnInit, OnChanges 
             fixed: false
         },
         {
-            id: 'origemDados.fonteDados',
+            id: 'origemDados',
             label: 'Origem de Dados',
             fixed: false
         },

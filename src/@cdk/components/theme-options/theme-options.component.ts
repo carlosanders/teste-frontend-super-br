@@ -132,13 +132,13 @@ export class CdkThemeOptionsComponent implements OnInit, OnDestroy
         // Add customize nav item that opens the bar programmatically
         const customFunctionNavItem = {
             id      : 'custom-function',
-            title   : 'Custom Function',
+            title   : 'Customização',
             type    : 'group',
             icon    : 'settings',
             children: [
                 {
                     id      : 'customize',
-                    title   : 'Customize',
+                    title   : 'Aparência',
                     type    : 'item',
                     icon    : 'settings',
                     function: () => {
