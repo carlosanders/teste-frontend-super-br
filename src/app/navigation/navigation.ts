@@ -17,6 +17,42 @@ export const navigation: CdkNavigation[] = [
                 role: 'ROLE_USER'
             },
             {
+                id: 'admin',
+                title: 'Admin',
+                translate: 'NAV.ADMIN.TITLE',
+                type: 'item',
+                icon: 'build',
+                url: '/apps/admin',
+                role: 'ROLE_ADMIN'
+            },
+            {
+                id: 'super-admin',
+                title: 'SuperAdmin',
+                translate: 'NAV.SUPERADMIN.TITLE',
+                type: 'item',
+                icon: 'settings_applications',
+                url: '/apps/super-admin',
+                role: 'ROLE_ROOT'
+            },
+            {
+                id: 'arquivista',
+                title: 'Arquivista',
+                translate: 'NAV.ARQUIVISTA.TITLE',
+                type: 'item',
+                icon: 'archive',
+                url: '/apps/arquivista',
+                role: 'ROLE_ARQUIVISTA'
+            },
+            {
+                id: 'coordenador',
+                title: 'Coordenador',
+                translate: 'NAV.COORDENADOR.TITLE',
+                type: 'item',
+                icon: 'build',
+                url: '/apps/coordenador/default',
+                role: 'ROLE_COORDENADOR'
+            },
+            {
                 id: 'tarefas',
                 title: 'Tarefas',
                 translate: 'NAV.TAREFA.TITLE',
@@ -79,14 +115,75 @@ export const navigation: CdkNavigation[] = [
         type: 'group',
         children: [
             {
-                id: 'super-admin',
-                title: 'SuperAdmin',
-                translate: 'NAV.SUPERADMIN.TITLE',
+                id: 'admin',
+                title: 'Admin',
+                translate: 'NAV.ADMIN.TITLE',
                 type: 'item',
-                icon: 'settings_applications',
-                url: '/apps/super-admin',
-                role: 'ROLE_ROOT'
+                icon: 'build',
+                url: '/apps/admin',
+                role: 'ROLE_ADMIN'
             },
+            {
+                id: 'arquivista',
+                title: 'Arquivista',
+                translate: 'NAV.ARQUIVISTA.TITLE',
+                type: 'item',
+                icon: 'archive',
+                url: '/apps/arquivista',
+                role: 'ROLE_ARQUIVISTA'
+            },
+            {
+                id: 'coordenador',
+                title: 'Coordenador',
+                translate: 'NAV.COORDENADOR.TITLE',
+                type: 'item',
+                icon: 'build',
+                url: '/apps/coordenador/default',
+                role: 'ROLE_COORDENADOR'
+            }
+        ]
+    },
+    {
+        id: 'modulos',
+        title: 'Módulos',
+        translate: 'NAV.MODULES',
+        type: 'group',
+        children: [
+            {
+                id: 'admin',
+                title: 'Admin',
+                translate: 'NAV.ADMIN.TITLE',
+                type: 'item',
+                icon: 'build',
+                url: '/apps/admin',
+                role: 'ROLE_ADMIN'
+            },
+            {
+                id: 'arquivista',
+                title: 'Arquivista',
+                translate: 'NAV.ARQUIVISTA.TITLE',
+                type: 'item',
+                icon: 'archive',
+                url: '/apps/arquivista',
+                role: 'ROLE_ARQUIVISTA'
+            },
+            {
+                id: 'coordenador',
+                title: 'Coordenador',
+                translate: 'NAV.COORDENADOR.TITLE',
+                type: 'item',
+                icon: 'build',
+                url: '/apps/coordenador/default',
+                role: 'ROLE_COORDENADOR'
+            }
+        ]
+    },
+    {
+        id: 'modulos',
+        title: 'Módulos',
+        translate: 'NAV.MODULES',
+        type: 'group',
+        children: [
             {
                 id: 'admin',
                 title: 'Admin',
@@ -117,3 +214,5 @@ export const navigation: CdkNavigation[] = [
         ]
     }
 ];
+
+
