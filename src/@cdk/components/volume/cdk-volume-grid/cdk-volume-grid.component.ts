@@ -39,8 +39,8 @@ export class CdkVolumeGridComponent implements AfterViewInit, OnInit, OnChanges 
     mode = 'list';
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'numeracaoSequencial', 'modalidadeMeio.valor', 'encerrado',
-        'processo.NUP', 'origemDados.fonteDados', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'numeracaoSequencial', 'modalidadeMeio', 'encerrado',
+        'actions'];
 
     allColumns: any[] = [
         {
@@ -54,19 +54,19 @@ export class CdkVolumeGridComponent implements AfterViewInit, OnInit, OnChanges 
             fixed: true
         },
         {
-            id: 'processo.NUP',
+            id: 'processo',
             label: 'NUP',
-            fixed: true
+            fixed: false
         },
         {
             id: 'numeracaoSequencial',
             label: 'Numeração Sequencial',
-            fixed: false
+            fixed: true
         },
         {
-            id: 'modalidadeMeio.valor',
+            id: 'modalidadeMeio',
             label: 'Modalidade Meio',
-            fixed: false
+            fixed: true
         },
         {
             id: 'encerrado',
@@ -74,7 +74,7 @@ export class CdkVolumeGridComponent implements AfterViewInit, OnInit, OnChanges 
             fixed: false
         },
         {
-            id: 'origemDados.fonteDados',
+            id: 'origemDados',
             label: 'Origem de Dados',
             fixed: false
         },

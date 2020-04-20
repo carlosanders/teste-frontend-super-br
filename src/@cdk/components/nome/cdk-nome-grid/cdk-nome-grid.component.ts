@@ -39,7 +39,7 @@ export class CdkNomeGridComponent implements AfterViewInit, OnInit, OnChanges {
     mode = 'list';
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'valor', 'origemDados.fonteDados', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'valor', 'origemDados', 'actions'];
 
     allColumns: any[] = [
         {
@@ -58,7 +58,7 @@ export class CdkNomeGridComponent implements AfterViewInit, OnInit, OnChanges {
             fixed: true
         },
         {
-            id: 'origemDados.fonteDados',
+            id: 'origemDados',
             label: 'Origem de Dados',
             fixed: false
         },

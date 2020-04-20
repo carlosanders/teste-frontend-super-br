@@ -122,7 +122,7 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
             fixed: false
         },
         {
-            id: 'modalidadeMeio.valor',
+            id: 'modalidadeMeio',
             label: 'Modalidade Meio',
             fixed: false
         },
@@ -162,7 +162,7 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
             fixed: false
         },
         {
-            id: 'origemDados.fonteDados',
+            id: 'origemDados',
             label: 'Origem Dados',
             fixed: false
         },

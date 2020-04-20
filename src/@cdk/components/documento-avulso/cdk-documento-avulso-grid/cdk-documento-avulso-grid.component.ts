@@ -153,7 +153,7 @@ export class CdkDocumentoAvulsoGridComponent implements AfterViewInit, OnInit, O
             fixed: false
         },
         {
-            id: 'processo.NUP',
+            id: 'processo',
             label: 'NUP',
             fixed: false
         },

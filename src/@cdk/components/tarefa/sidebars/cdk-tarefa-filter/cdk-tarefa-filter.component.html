@@ -12,28 +12,6 @@
         <div class="padd" fxFlex="1 1 auto" fxLayout="column" cdkPerfectScrollbar>
 
             <mat-form-field fxFlex="100">
-                <mat-label>Post It</mat-label>
-                <input matInput #postIt
-                       name="postIt"
-                       formControlName="postIt">
-            </mat-form-field>
-
-            <mat-form-field fxFlex="100">
-                <mat-label>Observação</mat-label>
-                <input matInput #observacao
-                       name="observacao"
-                       formControlName="observacao">
-            </mat-form-field>
-
-            <mat-checkbox formControlName="urgente" class="mr-16 mb-16" fxFlex="0 1 auto">
-                Urgente
-            </mat-checkbox>
-
-            <mat-checkbox formControlName="redistribuida" class="mr-16 mb-16" fxFlex="0 1 auto">
-                Redistribuída
-            </mat-checkbox>
-
-            <mat-form-field fxFlex="100">
                 <div fxLayout="row" fxLayoutAlign="start center">
                     <input matInput placeholder="Processo"
                            formControlName="processo"
@@ -125,6 +103,21 @@
                 <mat-datetimepicker #dataHoraConclusaoPrazo type="datetime" openOnFocus="true" timeInterval="5">
                 </mat-datetimepicker>
             </mat-form-field>
+
+            <mat-form-field fxFlex="100">
+                <mat-label>Observação</mat-label>
+                <input matInput #observacao
+                       name="observacao"
+                       formControlName="observacao">
+            </mat-form-field>
+
+            <mat-checkbox formControlName="urgente" class="mr-16 mb-16" fxFlex="0 1 auto">
+                Urgente
+            </mat-checkbox>
+
+            <mat-checkbox formControlName="redistribuida" class="mr-16 mb-16" fxFlex="0 1 auto">
+                Redistribuída
+            </mat-checkbox>
 
             <mat-form-field class="mr-sm-12">
                 <mat-label>Criado Em</mat-label>

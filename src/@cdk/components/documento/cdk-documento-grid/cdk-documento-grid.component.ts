@@ -155,7 +155,7 @@ export class CdkDocumentoGridComponent implements AfterViewInit, OnInit, OnChang
             fixed: false
         },
         {
-            id: 'origemDados.fonteDados',
+            id: 'origemDados',
             label: 'Origem dos Dados',
             fixed: false
         },

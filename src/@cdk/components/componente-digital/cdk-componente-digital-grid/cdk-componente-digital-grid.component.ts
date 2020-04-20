@@ -165,7 +165,7 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
             fixed: false
         },
         {
-            id: 'origemDados.fonteDados',
+            id: 'origemDados',
             label: 'Origem dos Dados',
             fixed: false
         },

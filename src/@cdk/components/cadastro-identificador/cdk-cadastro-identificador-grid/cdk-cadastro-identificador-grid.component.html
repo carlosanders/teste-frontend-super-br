@@ -85,20 +85,17 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Número
                     </th>
-                    <td mat-cell *matCellDef="let cadastroIdentificador" class='has_label_on_mobile'
-                        data-label='Número: '
+                    <td mat-cell *matCellDef="let cadastroIdentificador" class='has_label_on_mobile' data-label='Número: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(cadastroIdentificador.id) > -1}"> {{cadastroIdentificador.numero }}
                     </td>
                 </ng-container>
 
                 <!-- OrigemDados Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('origemDados.fonteDados') > -1"
-                              matColumnDef="origemDados.fonteDados">
+                <ng-container *ngIf="displayedColumns.indexOf('origemDados') > -1" matColumnDef="origemDados">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Origem do Dado
                     </th>
-                    <td mat-cell *matCellDef="let cadastroIdentificador" class='has_label_on_mobile'
-                        data-label='Origem do Dado: '
+                    <td mat-cell *matCellDef="let cadastroIdentificador" class='has_label_on_mobile' data-label='Origem do Dado: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(cadastroIdentificador.id) > -1}"> {{cadastroIdentificador.origemDados?.fonteDados}} </td>
                 </ng-container>
 
@@ -107,8 +104,7 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Usuário
                     </th>
-                    <td mat-cell *matCellDef="let cadastroIdentificador" class='has_label_on_mobile'
-                        data-label='Usuário: '
+                    <td mat-cell *matCellDef="let cadastroIdentificador" class='has_label_on_mobile' data-label='Usuário: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(cadastroIdentificador.id) > -1}"> {{cadastroIdentificador.pessoa?.nome}} </td>
                 </ng-container>
 
@@ -117,8 +113,7 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Criado Por
                     </th>
-                    <td mat-cell *matCellDef="let cadastroIdentificador" class='has_label_on_mobile'
-                        data-label='Criado Por: '
+                    <td mat-cell *matCellDef="let cadastroIdentificador" class='has_label_on_mobile' data-label='Criado Por: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(cadastroIdentificador.id) > -1}"> {{cadastroIdentificador.criadoPor?.nome}} </td>
                 </ng-container>
 
@@ -127,19 +122,16 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Criado Em
                     </th>
-                    <td mat-cell *matCellDef="let cadastroIdentificador" class='has_label_on_mobile'
-                        data-label='Criado Em: '
+                    <td mat-cell *matCellDef="let cadastroIdentificador" class='has_label_on_mobile' data-label='Criado Em: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(cadastroIdentificador.id) > -1}"> {{cadastroIdentificador.criadoEm | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1"
-                              matColumnDef="atualizadoPor.nome">
+                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1" matColumnDef="atualizadoPor.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Atualizado Por
                     </th>
-                    <td mat-cell *matCellDef="let cadastroIdentificador" class='has_label_on_mobile'
-                        data-label='Atualizado Por: '
+                    <td mat-cell *matCellDef="let cadastroIdentificador" class='has_label_on_mobile' data-label='Atualizado Por: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(cadastroIdentificador.id) > -1}"> {{cadastroIdentificador.atualizadoPor?.nome}} </td>
                 </ng-container>
 
@@ -148,8 +140,7 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Atualizado Em
                     </th>
-                    <td mat-cell *matCellDef="let cadastroIdentificador" class='has_label_on_mobile'
-                        data-label='Atualizado Em: '
+                    <td mat-cell *matCellDef="let cadastroIdentificador" class='has_label_on_mobile' data-label='Atualizado Em: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(cadastroIdentificador.id) > -1}"> {{cadastroIdentificador.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
@@ -158,8 +149,7 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Apagado Por
                     </th>
-                    <td mat-cell *matCellDef="let cadastroIdentificador" class='has_label_on_mobile'
-                        data-label='Apagado Por: '
+                    <td mat-cell *matCellDef="let cadastroIdentificador" class='has_label_on_mobile' data-label='Apagado Por: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(cadastroIdentificador.id) > -1}"> {{cadastroIdentificador.apagadoPor?.nome}} </td>
                 </ng-container>
 
@@ -168,8 +158,7 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Apagado Em
                     </th>
-                    <td mat-cell *matCellDef="let cadastroIdentificador" class='has_label_on_mobile'
-                        data-label='Apagado Em: '
+                    <td mat-cell *matCellDef="let cadastroIdentificador" class='has_label_on_mobile' data-label='Apagado Em: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(cadastroIdentificador.id) > -1}"> {{cadastroIdentificador.apagadoEm | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 

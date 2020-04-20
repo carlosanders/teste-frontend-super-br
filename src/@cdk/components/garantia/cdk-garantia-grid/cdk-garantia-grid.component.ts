@@ -77,7 +77,7 @@ export class CdkGarantiaGridComponent implements AfterViewInit, OnInit, OnChange
             fixed: false
         },                        
         {
-            id: 'processo.NUP',
+            id: 'processo',
             label: 'NUP',
             fixed: false
         },

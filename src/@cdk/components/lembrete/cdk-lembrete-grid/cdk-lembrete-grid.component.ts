@@ -43,7 +43,7 @@ export class CdkLembreteGridComponent implements AfterViewInit, OnInit, OnChange
     mode = 'list';
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'processo.NUP', 'conteudo', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'processo', 'conteudo', 'actions'];
 
     allColumns: any[] = [
         {
@@ -57,7 +57,7 @@ export class CdkLembreteGridComponent implements AfterViewInit, OnInit, OnChange
             fixed: true
         },
         {
-            id: 'processo.NUP',
+            id: 'processo',
             label: 'Processo',
             fixed: true
         },

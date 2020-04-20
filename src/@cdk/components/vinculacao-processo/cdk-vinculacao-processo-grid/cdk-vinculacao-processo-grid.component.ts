@@ -39,7 +39,7 @@ export class CdkVinculacaoProcessoGridComponent implements AfterViewInit, OnInit
     mode = 'list';
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'processo.NUP', 'processoVinculado.NUP', 'modalidadeVinculacaoProcesso.valor',
+    displayedColumns: string[] = ['select', 'id', 'processo', 'processoVinculado.NUP', 'modalidadeVinculacaoProcesso.valor',
         'observacao', 'actions'];
 
     allColumns: any[] = [
@@ -54,7 +54,7 @@ export class CdkVinculacaoProcessoGridComponent implements AfterViewInit, OnInit
             fixed: true
         },
         {
-            id: 'processo.NUP',
+            id: 'processo',
             label: 'NUP',
             fixed: true
         },

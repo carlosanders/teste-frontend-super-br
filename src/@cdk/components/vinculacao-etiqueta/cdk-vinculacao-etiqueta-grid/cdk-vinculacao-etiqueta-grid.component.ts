@@ -40,7 +40,7 @@ export class CdkVinculacaoEtiquetaGridComponent implements AfterViewInit, OnInit
 
     @Input()
     displayedColumns: string[] = ['select', 'id', 'etiqueta.nome', 'tarefa.especieTarefa.nome', 'documento.tipoDocumento.nome',
-        'processo.NUP', 'actions'];
+        'processo', 'actions'];
 
     allColumns: any[] = [
         {
@@ -84,7 +84,7 @@ export class CdkVinculacaoEtiquetaGridComponent implements AfterViewInit, OnInit
             fixed: false
         },
         {
-            id: 'processo.NUP',
+            id: 'processo',
             label: 'NUP',
             fixed: false
         },

@@ -49,7 +49,7 @@ export class CdkRemessaGridComponent implements AfterViewInit, OnInit, OnChanges
             fixed: true
         },
         {
-            id: 'processo.NUP',
+            id: 'processo',
             label: 'NUP',
             fixed: true
         },

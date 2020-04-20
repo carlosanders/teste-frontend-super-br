@@ -57,7 +57,7 @@ export class CdkAssinaturaGridComponent implements AfterViewInit, OnInit, OnChan
             fixed: false
         },
         {
-            id: 'origemDados.fonteDados',
+            id: 'origemDados',
             label: 'Origem dos Dados',
             fixed: false
         },

@@ -53,7 +53,7 @@ export class CdkTransicaoGridComponent implements AfterViewInit, OnInit, OnChang
             fixed: true
         },
         {
-            id: 'processo.NUP',
+            id: 'processo',
             label: 'NUP',
             fixed: true
         },

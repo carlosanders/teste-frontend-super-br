@@ -99,7 +99,7 @@
                 </ng-container>
 
                 <!-- Processo Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('processo.NUP') > -1" matColumnDef="processo.NUP">
+                <ng-container *ngIf="displayedColumns.indexOf('processo') > -1" matColumnDef="processo">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         NUP
                     </th>
@@ -108,8 +108,7 @@
                 </ng-container>
 
                 <!-- OrigemDados Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('origemDados.fonteDados') > -1"
-                              matColumnDef="origemDados.fonteDados">
+                <ng-container *ngIf="displayedColumns.indexOf('origemDados') > -1" matColumnDef="origemDados">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Origem de Dados
                     </th>
@@ -136,8 +135,7 @@
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1"
-                              matColumnDef="atualizadoPor.nome">
+                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1" matColumnDef="atualizadoPor.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Atualizado Por
                     </th>

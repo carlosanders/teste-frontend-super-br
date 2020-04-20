@@ -57,7 +57,7 @@ export class CdkInteressadoGridComponent implements AfterViewInit, OnInit, OnCha
             fixed: true
         },
         {
-            id: 'processo.NUP',
+            id: 'processo',
             label: 'NUP',
             fixed: false
         },
@@ -67,7 +67,7 @@ export class CdkInteressadoGridComponent implements AfterViewInit, OnInit, OnCha
             fixed: false
         },
         {
-            id: 'origemDados.fonteDados',
+            id: 'origemDados',
             label: 'Origem de Dados',
             fixed: false
         },
