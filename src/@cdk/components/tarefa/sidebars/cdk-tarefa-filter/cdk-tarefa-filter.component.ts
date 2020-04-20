@@ -311,6 +311,7 @@ export class CdkTarefaFilterComponent implements OnInit {
 
     emite(): void {
         const request = {
+            ...this.filters,
             filters: this.filters
         };
         this.selected.emit(request);

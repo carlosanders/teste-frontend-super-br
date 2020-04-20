@@ -117,8 +117,8 @@
             </mat-menu>
 
             <div class="tarefa-list-control" fxLayout="row" fxLayoutAlign="start center">
-
-                <button class="toggle-filter" [ngClass]="{'warn': (listFilter | json) != '{}'}" mat-icon-button
+                <button class="toggle-filter" [ngClass]="{'warn': !(listFilter | json).includes('{}')}"
+                        mat-icon-button
                         (click)="toggleFilter()"
                         aria-label="filtrar"
                         matTooltip="Filtrar">
