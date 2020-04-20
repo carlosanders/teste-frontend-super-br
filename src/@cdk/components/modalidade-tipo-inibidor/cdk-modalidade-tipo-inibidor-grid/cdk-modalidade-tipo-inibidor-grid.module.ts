@@ -16,13 +16,11 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {ModalidadeTipoInibidorService} from '@cdk/services/modalidade-tipo-inibidor.service';
 import {CdkModalidadeTipoInibidorGridComponent} from './cdk-modalidade-tipo-inibidor-grid.component';
 import {CdkModalidadeTipoInibidorAutocompleteModule} from '@cdk/components/modalidade-tipo-inibidor/cdk-modalidade-tipo-inibidor-autocomplete/cdk-modalidade-tipo-inibidor-autocomplete.module';
-import {CdkModalidadeTipoInibidorGridFilterModule} from './cdk-modalidade-tipo-inibidor-grid-filter/cdk-modalidade-tipo-inibidor-grid-filter.module';
-import {CdkModalidadeTipoInibidorMainSidebarComponent} from './sidebars/main/main.component';
+import {CdkModalidadeTipoInibidorFilterModule} from '../sidebars/cdk-modalidade-tipo-inibidor-filter/cdk-modalidade-tipo-inibidor-filter.module';
 
 @NgModule({
     declarations: [
         CdkModalidadeTipoInibidorGridComponent,
-        CdkModalidadeTipoInibidorMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,
@@ -36,7 +34,7 @@ import {CdkModalidadeTipoInibidorMainSidebarComponent} from './sidebars/main/mai
         MatSortModule,
 
         CdkModalidadeTipoInibidorAutocompleteModule,
-        CdkModalidadeTipoInibidorGridFilterModule,
+        CdkModalidadeTipoInibidorFilterModule,
 
         CdkSharedModule,
         CdkSidebarModule,

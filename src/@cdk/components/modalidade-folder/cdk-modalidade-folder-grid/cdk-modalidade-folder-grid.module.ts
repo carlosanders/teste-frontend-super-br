@@ -16,13 +16,11 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {ModalidadeFolderService} from '@cdk/services/modalidade-folder.service';
 import {CdkModalidadeFolderGridComponent} from './cdk-modalidade-folder-grid.component';
 import {CdkModalidadeFolderAutocompleteModule} from '@cdk/components/modalidade-folder/cdk-modalidade-folder-autocomplete/cdk-modalidade-folder-autocomplete.module';
-import {CdkModalidadeFolderGridFilterModule} from './cdk-modalidade-folder-grid-filter/cdk-modalidade-folder-grid-filter.module';
-import {CdkModalidadeFolderMainSidebarComponent} from './sidebars/main/main.component';
+import {CdkModalidadeFolderFilterModule} from '../sidebars/cdk-modalidade-folder-filter/cdk-modalidade-folder-filter.module';
 
 @NgModule({
     declarations: [
         CdkModalidadeFolderGridComponent,
-        CdkModalidadeFolderMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,
@@ -36,7 +34,7 @@ import {CdkModalidadeFolderMainSidebarComponent} from './sidebars/main/main.comp
         MatSortModule,
 
         CdkModalidadeFolderAutocompleteModule,
-        CdkModalidadeFolderGridFilterModule,
+        CdkModalidadeFolderFilterModule,
 
         CdkSharedModule,
         CdkSidebarModule,

@@ -1,0 +1,185 @@
+<form class="altura" fxLayoutGap="16px" name="form" [formGroup]="form">
+
+    <div class="altura" fxLayout="column">
+        <div class="padd" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="center center">
+            <mat-icon [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+                search
+            </mat-icon>
+            <span [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}"
+                  *ngIf="this.mode === 'list'">Filtro</span>
+        </div>
+
+        <div class="padd" fxFlex="1 1 auto" fxLayout="column" cdkPerfectScrollbar>
+
+            <mat-form-field fxFlex="100">
+                <mat-label>Nome</mat-label>
+                <input matInput #nome
+                       name="nome"
+                       formControlName="nome">
+            </mat-form-field>
+
+            <mat-form-field fxFlex="100">
+                <mat-label>Número do Documento Principal</mat-label>
+                <input matInput #numeroDocumentoPrincipal
+                       name="numeroDocumentoPrincipal"
+                       formControlName="numeroDocumentoPrincipal">
+            </mat-form-field>
+
+            <mat-form-field fxFlex="100">
+                <mat-label>Contato</mat-label>
+                <input matInput #contato
+                       name="contato"
+                       formControlName="contato">
+            </mat-form-field>
+
+            <mat-form-field fxFlex="100">
+                <mat-label>Nome do Genitor</mat-label>
+                <input matInput #nomeGenitor
+                       name="nomeGenitor"
+                       formControlName="nomeGenitor">
+            </mat-form-field>
+
+            <mat-form-field fxFlex="100">
+                <mat-label>Nome da Genitora</mat-label>
+                <input matInput #nomeGenitora
+                       name="nomeGenitora"
+                       formControlName="nomeGenitora">
+            </mat-form-field>
+
+            <mat-form-field fxFlex="100">
+                <mat-label>Profissão</mat-label>
+                <input matInput #profissao
+                       name="profissao"
+                       formControlName="profissao">
+            </mat-form-field>
+
+            <mat-checkbox formControlName="pessoaValidada" class="mr-16 mb-16" fxFlex="0 1 auto">
+                Pessoa Validada
+            </mat-checkbox>
+
+            <mat-form-field fxFlex="100">
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Nacionalidade"
+                           formControlName="nacionalidade"
+                           [matAutocomplete]="pais.autocomplete">
+                </div>
+                <cdk-pais-autocomplete #pais="paisAutocomplete" [control]="form.get('nacionalidade')">
+                </cdk-pais-autocomplete>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="100">
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Modalidade do Genero da Pessoa"
+                           formControlName="modalidadeGeneroPessoa"
+                           [matAutocomplete]="modalidadeGeneroPessoa.autocomplete">
+                </div>
+                <cdk-modalidade-genero-pessoa-autocomplete #modalidadeGeneroPessoa="modalidadeGeneroPessoaAutocomplete"
+                                                           [control]="form.get('modalidadeGeneroPessoa')">
+                </cdk-modalidade-genero-pessoa-autocomplete>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="100">
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Naturalidade"
+                           formControlName="naturalidade"
+                           [matAutocomplete]="municipio.autocomplete">
+                </div>
+                <cdk-municipio-autocomplete #municipio="municipioAutocomplete" [control]="form.get('naturalidade')">
+                </cdk-municipio-autocomplete>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="100">
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Modalidade da Qualificação da Pessoa"
+                           formControlName="modalidadeQualificacaoPessoa"
+                           [matAutocomplete]="modalidadeQualificacaoPessoa.autocomplete">
+                </div>
+                <cdk-modalidade-qualificacao-pessoa-autocomplete
+                    #modalidadeQualificacaoPessoa="modalidadeQualificacaoPessoaAutocomplete"
+                    [control]="form.get('modalidadeQualificacaoPessoa')">
+                </cdk-modalidade-qualificacao-pessoa-autocomplete>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="100">
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Origem de Dados"
+                           formControlName="origemDados"
+                           [matAutocomplete]="origemDados.autocomplete">
+                </div>
+                <cdk-origem-dados-autocomplete #origemDados="origemDadosAutocomplete"
+                                               [control]="form.get('origemDados')">
+                </cdk-origem-dados-autocomplete>
+            </mat-form-field>
+
+            <mat-form-field class="mr-sm-12">
+                <mat-label>Data de Nascimento</mat-label>
+                <input matInput formControlName="dataNascimento" [matDatetimepicker]="dataNascimento">
+                <mat-datetimepicker-toggle matSuffix [for]="dataNascimento"></mat-datetimepicker-toggle>
+                <mat-datetimepicker #dataNascimento type="datetime" openOnFocus="true" timeInterval="5">
+                </mat-datetimepicker>
+            </mat-form-field>
+
+            <mat-form-field class="mr-sm-12">
+                <mat-label>Data de Óbito</mat-label>
+                <input matInput formControlName="dataObito" [matDatetimepicker]="dataObito">
+                <mat-datetimepicker-toggle matSuffix [for]="dataObito"></mat-datetimepicker-toggle>
+                <mat-datetimepicker #dataObito type="datetime" openOnFocus="true" timeInterval="5">
+                </mat-datetimepicker>
+            </mat-form-field>
+
+            <mat-form-field class="mr-sm-12">
+                <mat-label>Criado Em</mat-label>
+                <input matInput formControlName="criadoEm" [matDatetimepicker]="criadoEm">
+                <mat-datetimepicker-toggle matSuffix [for]="criadoEm"></mat-datetimepicker-toggle>
+                <mat-datetimepicker #criadoEm type="datetime" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="100">
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Atualizado Por"
+                           formControlName="atualizadoPor"
+                           [matAutocomplete]="usuario.autocomplete">
+                </div>
+                <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('atualizadoPor')">
+                </cdk-usuario-autocomplete>
+            </mat-form-field>
+
+            <mat-form-field class="mr-sm-12">
+                <mat-label>Atualizado Em</mat-label>
+                <input matInput formControlName="criadoEm" [matDatetimepicker]="atualizadoEm">
+                <mat-datetimepicker-toggle matSuffix [for]="atualizadoEm"></mat-datetimepicker-toggle>
+                <mat-datetimepicker #atualizadoEm type="datetime" openOnFocus="true" timeInterval="5">
+                </mat-datetimepicker>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="100">
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Apagado Por"
+                           formControlName="apagadoPor"
+                           [matAutocomplete]="usuario.autocomplete">
+                </div>
+                <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('apagadoPor')">
+                </cdk-usuario-autocomplete>
+            </mat-form-field>
+
+            <mat-form-field class="mr-sm-12">
+                <mat-label>Apagado Em</mat-label>
+                <input matInput formControlName="apagadoEm" [matDatetimepicker]="apagadoEm">
+                <mat-datetimepicker-toggle matSuffix [for]="apagadoEm"></mat-datetimepicker-toggle>
+                <mat-datetimepicker #apagadoEm type="datetime" openOnFocus="true" timeInterval="5">
+                </mat-datetimepicker>
+            </mat-form-field>
+
+        </div>
+
+        <div class="padd" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="center center">
+            <button mat-raised-button color="accent" class="mr-sm-12" (click)="buscar()">
+                Buscar
+            </button>
+
+            <button mat-raised-button color="warn" class="mr-sm-12" (click)="limpar()" *ngIf="this.mode === 'list'">
+                Limpar
+            </button>
+        </div>
+    </div>
+</form>

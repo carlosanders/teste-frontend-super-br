@@ -16,13 +16,11 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {NotificacaoService} from '@cdk/services/notificacao.service';
 import {CdkNotificacaoGridComponent} from './cdk-notificacao-grid.component';
 import {CdkNotificacaoAutocompleteModule} from '@cdk/components/notificacao/cdk-notificacao-autocomplete/cdk-notificacao-autocomplete.module';
-import {CdkNotificacaoGridFilterModule} from './cdk-notificacao-grid-filter/cdk-notificacao-grid-filter.module';
-import {CdkNotificacaoMainSidebarComponent} from './sidebars/main/main.component';
+import {CdkNotificacaoFilterModule} from '../sidebars/cdk-notificacao-filter/cdk-notificacao-filter.module';
 
 @NgModule({
     declarations: [
         CdkNotificacaoGridComponent,
-        CdkNotificacaoMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,
@@ -36,7 +34,7 @@ import {CdkNotificacaoMainSidebarComponent} from './sidebars/main/main.component
         MatSortModule,
 
         CdkNotificacaoAutocompleteModule,
-        CdkNotificacaoGridFilterModule,
+        CdkNotificacaoFilterModule,
 
         CdkSharedModule,
         CdkSidebarModule,

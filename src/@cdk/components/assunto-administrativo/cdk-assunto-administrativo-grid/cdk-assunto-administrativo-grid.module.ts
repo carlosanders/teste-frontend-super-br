@@ -16,14 +16,12 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {AssuntoAdministrativoService} from '@cdk/services/assunto-administrativo.service';
 import {CdkAssuntoAdministrativoGridComponent} from './cdk-assunto-administrativo-grid.component';
 import {CdkAssuntoAdministrativoAutocompleteModule} from '@cdk/components/assunto-administrativo/cdk-assunto-administrativo-autocomplete/cdk-assunto-administrativo-autocomplete.module';
-import {CdkAssuntoAdministrativoGridFilterModule} from './cdk-assunto-administrativo-grid-filter/cdk-assunto-administrativo-grid-filter.module';
-import {CdkAssuntoAdministrativoMainSidebarComponent} from './sidebars/main/main.component';
+import {CdkAssuntoAdministrativoFilterModule} from '../sidebars/cdk-assunto-administrativo-filter/cdk-assunto-administrativo-filter.module';
 import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
     declarations: [
         CdkAssuntoAdministrativoGridComponent,
-        CdkAssuntoAdministrativoMainSidebarComponent
     ],
     imports: [
         MatSelectModule,
@@ -37,7 +35,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
         MatSortModule,
 
         CdkAssuntoAdministrativoAutocompleteModule,
-        CdkAssuntoAdministrativoGridFilterModule,
+        CdkAssuntoAdministrativoFilterModule,
 
         CdkSharedModule,
         CdkSidebarModule,

@@ -17,13 +17,11 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {EspecieTarefaService} from '@cdk/services/especie-tarefa.service';
 import {CdkEspecieTarefaGridComponent} from './cdk-especie-tarefa-grid.component';
 import {CdkEspecieTarefaAutocompleteModule} from '@cdk/components/especie-tarefa/cdk-especie-tarefa-autocomplete/cdk-especie-tarefa-autocomplete.module';
-import {CdkEspecieTarefaGridFilterModule} from './cdk-especie-tarefa-grid-filter/cdk-especie-tarefa-grid-filter.module';
-import {CdkEspecieTarefaMainSidebarComponent} from './sidebars/main/main.component';
+import {CdkEspecieTarefaFilterModule} from '../sidebars/cdk-especie-tarefa-filter/cdk-especie-tarefa-filter.module';
 
 @NgModule({
     declarations: [
         CdkEspecieTarefaGridComponent,
-        CdkEspecieTarefaMainSidebarComponent,
     ],
     imports: [
         MatButtonModule,
@@ -38,7 +36,7 @@ import {CdkEspecieTarefaMainSidebarComponent} from './sidebars/main/main.compone
         MatSelectModule,
 
         CdkEspecieTarefaAutocompleteModule,
-        CdkEspecieTarefaGridFilterModule,
+        CdkEspecieTarefaFilterModule,
 
         CdkSharedModule,
         CdkSidebarModule,

@@ -35,6 +35,9 @@ export class CdkDocumentoIdentificadorGridComponent implements AfterViewInit, On
     total = 0;
 
     @Input()
+    mode = 'list';
+
+    @Input()
     displayedColumns: string[] = ['select', 'id', 'modalidadeDocumentoIdentificador.valor', 'codigoDocumento', 'emissorDocumento',
         'dataEmissao', 'origemDados', 'actions'];
 
@@ -222,16 +225,19 @@ export class CdkDocumentoIdentificadorGridComponent implements AfterViewInit, On
     }
 
     toggleFilter(): void {
-        this._cdkSidebarService.getSidebar('cdk-documento-identificador-main-sidebar').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-documento-identificador-filter').toggleOpen();
         this.showFilter = !this.showFilter;
     }
 
     loadPage(): void {
+        const filter = this.gridFilter.filters;
+        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : null;
         this.reload.emit({
-            gridFilter: this.gridFilter,
+            gridFilter: filter,
             limit: this.paginator.pageSize,
             offset: (this.paginator.pageSize * this.paginator.pageIndex),
-            sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {}
+            sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
+            context: contexto
         });
     }
 
@@ -299,7 +305,7 @@ export class CdkDocumentoIdentificadorGridComponent implements AfterViewInit, On
         this.isIndeterminate = (this.selectedIds.length !== this.documentoIdentificadors.length && this.selectedIds.length > 0);
     }
 
-    setGridFilter(gridFilter): void {
+    setFilter(gridFilter): void {
         this.gridFilter = gridFilter;
         this.paginator.pageIndex = 0;
         this.loadPage();

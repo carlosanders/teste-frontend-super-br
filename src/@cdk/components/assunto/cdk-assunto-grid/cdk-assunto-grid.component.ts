@@ -35,6 +35,9 @@ export class CdkAssuntoGridComponent implements AfterViewInit, OnInit, OnChanges
     total = 0;
 
     @Input()
+    mode = 'list';
+
+    @Input()
     displayedColumns: string[] = ['select', 'id', 'assuntoAdministrativo.nome', 'principal', 'actions'];
 
     allColumns: any[] = [
@@ -212,16 +215,19 @@ export class CdkAssuntoGridComponent implements AfterViewInit, OnInit, OnChanges
     }
 
     toggleFilter(): void {
-        this._cdkSidebarService.getSidebar('cdk-assunto-main-sidebar').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-assunto-filter').toggleOpen();
         this.showFilter = !this.showFilter;
     }
 
     loadPage(): void {
+        const filter = this.gridFilter.filters;
+        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : null;
         this.reload.emit({
-            gridFilter: this.gridFilter,
+            gridFilter: filter,
             limit: this.paginator.pageSize,
             offset: (this.paginator.pageSize * this.paginator.pageIndex),
-            sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {}
+            sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
+            context: contexto
         });
     }
 
@@ -291,7 +297,7 @@ export class CdkAssuntoGridComponent implements AfterViewInit, OnInit, OnChanges
         this.isIndeterminate = (this.selectedIds.length !== this.assuntos.length && this.selectedIds.length > 0);
     }
 
-    setGridFilter(gridFilter): void {
+    setFilter(gridFilter): void {
         this.gridFilter = gridFilter;
         this.paginator.pageIndex = 0;
         this.loadPage();

@@ -15,7 +15,7 @@ import {map, startWith} from 'rxjs/operators';
 import {Interessado, Pagination, Processo} from '../../../../../models';
 
 @Component({
-    selector   : 'cdk-processo-list-main-sidebar',
+    selector   : 'cdk-processo-list-filter',
     templateUrl: './main.component.html',
     styleUrls  : ['./main.component.scss'],
     animations   : cdkAnimations,
@@ -165,13 +165,13 @@ export class CdkProcessoListMainSidebarComponent implements OnInit
 
     pesquisar(): void {
         this.selected.emit(this.filters);
-        this._cdkSidebarService.getSidebar('cdk-processo-list-main-sidebar').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-processo-list-filter').toggleOpen();
     }
 
     limpar(): void {
         this.filters = {};
         this.selected.emit(this.filters);
-        this._cdkSidebarService.getSidebar('cdk-processo-list-main-sidebar').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-processo-list-filter').toggleOpen();
         this.form.reset();
     }
 }

@@ -14,7 +14,7 @@ import { MAT_LABEL_GLOBAL_OPTIONS } from '@angular/material/core';
 
 
 @Component({
-    selector   : 'cdk-documento-avulso-list-main-sidebar',
+    selector   : 'cdk-documento-avulso-list-filter',
     templateUrl: './main.component.html',
     styleUrls  : ['./main.component.scss'],
     animations   : cdkAnimations,
@@ -102,13 +102,13 @@ export class CdkDocumentoAvulsoListMainSidebarComponent implements OnInit
 
     pesquisar(): void {
         this.selected.emit(this.filters);
-        this._cdkSidebarService.getSidebar('cdk-documento-avulso-list-main-sidebar').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-documento-avulso-list-filter').toggleOpen();
     }
 
     limpar(): void {
         this.filters = {};
         this.selected.emit(this.filters);
-        this._cdkSidebarService.getSidebar('cdk-documento-avulso-list-main-sidebar').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-documento-avulso-list-filter').toggleOpen();
         this.form.reset();
     }
 }
