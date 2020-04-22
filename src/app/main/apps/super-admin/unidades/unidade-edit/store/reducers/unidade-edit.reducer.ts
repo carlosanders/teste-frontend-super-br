@@ -45,7 +45,7 @@ export function UnidadeEditReducer(
                 ...state,
                 setorId: null,
                 loaded: {
-                    id: 'setorHandle',
+                    id: 'unidadeHandle',
                     value: 'criar'
                 },
                 loading: false

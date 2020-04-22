@@ -79,6 +79,10 @@ export class UnidadesListComponent implements OnInit {
         }));
     }
 
+    create () : void {
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
+    }
+
     edit(unidadeId: number): void {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/') + unidadeId]);
     }

@@ -5,9 +5,10 @@
     [deletingIds]="(deletingIds$ | async)"
     [deletedIds]="(deletedIds$ | async)"
     [displayedColumns]="['select', 'id', 'nome', 'sigla', 'modalidadeOrgaoCentral.valor', 'ativo', 'actions']"
-    [actions]="['edit', 'setores', 'competencias']"
+    [actions]="['create', 'edit', 'setores', 'competencias']"
     (reload)="reload($event)"
     (edit)="edit($event)"
+    (create)="create()"
     (setoresEvent)="setores($event)"
     (competencias)="competencias($event)">
 </cdk-setor-grid>

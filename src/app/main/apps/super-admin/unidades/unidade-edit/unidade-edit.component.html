@@ -4,5 +4,6 @@
     [errors]="(errors$ | async)"
     [setorPagination]="setorPagination"
     [generoSetorPagination]="generoSetorPagination"
-    (save)="submit($event)">
+    (save)="submit($event)"
+    (abort)="doAbort()">
 </cdk-unidade-form>
