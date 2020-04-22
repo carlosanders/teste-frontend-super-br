@@ -219,7 +219,13 @@ export class CdkSetorGridComponent implements AfterViewInit, OnInit, OnChanges {
     lotacoes = new EventEmitter<number>();
 
     @Output()
+    setoresEvent = new EventEmitter<number>();
+
+    @Output()
     localizadores = new EventEmitter<number>();
+
+    @Output()
+    competencias = new EventEmitter<number>();
 
     @Output()
     numerosUnicosDocumentos = new EventEmitter<number>();
@@ -323,6 +329,14 @@ export class CdkSetorGridComponent implements AfterViewInit, OnInit, OnChanges {
 
     lotacoesSetor(setorId): void {
         this.lotacoes.emit(setorId);
+    }
+
+    setoresUnidade(unidadeId): void {
+        this.setoresEvent.emit(unidadeId);
+    }
+
+    competenciasUnidade(unidadeId): void {
+        this.competencias.emit(unidadeId);
     }
 
     localizadoresSetor(setorId): void {

@@ -21,7 +21,11 @@ const routes: Routes = [
             // {
             //     path       : 'atividades',
             //     loadChildren: () => import('./usuario/usuario.module').then(m => m.UsuarioModule)
-            // }
+            // },
+            {
+                path       : 'unidades',
+                loadChildren: () => import('./unidades/unidades.module').then(m => m.UnidadesModule)
+            },
         ],
         // canActivate: [fromGuards.ResolveGuard]
     },
@@ -47,4 +51,5 @@ const routes: Routes = [
         MatButtonModule
     ]
 })
-export class SuperAdminModule { }
+export class SuperAdminModule {
+}

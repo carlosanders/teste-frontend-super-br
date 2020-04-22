@@ -1,0 +1,8 @@
+<cdk-unidade-form
+    [unidade]="unidade"
+    [saving]="(isSaving$ | async)"
+    [errors]="(errors$ | async)"
+    [setorPagination]="setorPagination"
+    [generoSetorPagination]="generoSetorPagination"
+    (save)="submit($event)">
+</cdk-unidade-form>

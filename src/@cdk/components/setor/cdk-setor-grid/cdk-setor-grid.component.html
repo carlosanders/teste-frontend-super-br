@@ -373,12 +373,30 @@
                         </button>
 
                         <button mat-icon-button
+                                *ngIf="actions.indexOf('setores') > -1"
+                                [disabled]="deletedIds?.indexOf(setor.id) > -1"
+                                (click)="setoresUnidade(setor.id)"
+                                aria-label="setores"
+                                matTooltip="Setores">
+                            <mat-icon>location_city</mat-icon>
+                        </button>
+
+                        <button mat-icon-button
                                 *ngIf="actions.indexOf('localizadores') > -1"
                                 [disabled]="deletedIds?.indexOf(setor.id) > -1"
                                 (click)="localizadoresSetor(setor.id)"
                                 aria-label="localizadores"
                                 matTooltip="Localizadores">
                             <mat-icon>edit_location</mat-icon>
+                        </button>
+
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('competencias') > -1"
+                                [disabled]="deletedIds?.indexOf(setor.id) > -1"
+                                (click)="competenciasUnidade(setor.id)"
+                                aria-label="competências"
+                                matTooltip="Competências">
+                            <mat-icon>my_location</mat-icon>
                         </button>
 
                         <button mat-icon-button
