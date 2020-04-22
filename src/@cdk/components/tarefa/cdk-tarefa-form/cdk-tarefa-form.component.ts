@@ -62,6 +62,9 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     @Output()
     save = new EventEmitter<Tarefa>();
 
+    @Output()
+    abort = new EventEmitter<any>();
+
     @Input()
     especieTarefaPagination: Pagination;
 

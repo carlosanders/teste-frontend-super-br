@@ -38,6 +38,9 @@ export class CdkDocumentoIdentificadorFormComponent implements OnChanges, OnDest
     @Output()
     save = new EventEmitter<DocumentoIdentificador>();
 
+    @Output()
+    abort = new EventEmitter<any>();
+
     form: FormGroup;
 
     activeCard = 'form';
@@ -111,6 +114,10 @@ export class CdkDocumentoIdentificadorFormComponent implements OnChanges, OnDest
         if (this.form.valid) {
             this.save.emit(this.form.value);
         }
+    }
+
+    doAbort(): void {
+        this.abort.emit();
     }
 
     checkModalidadeDocumentoIdentificador(): void {

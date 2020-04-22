@@ -39,6 +39,9 @@ export class CdkTramitacaoFormComponent implements OnChanges, OnDestroy, OnInit 
     @Output()
     save = new EventEmitter<Tramitacao>();
 
+    @Output()
+    abort = new EventEmitter<any>();
+
     form: FormGroup;
 
     activeCard = 'form';
@@ -136,6 +139,10 @@ export class CdkTramitacaoFormComponent implements OnChanges, OnDestroy, OnInit 
         if (this.form.valid) {
             this.save.emit(this.form.value);
         }
+    }
+
+    doAbort(): void {
+        this.abort.emit();
     }
 
     checkProcesso(): void {

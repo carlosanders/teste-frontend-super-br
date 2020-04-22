@@ -40,6 +40,9 @@ export class CdkSetorFormComponent implements OnChanges, OnDestroy {
     @Output()
     save = new EventEmitter<Setor>();
 
+    @Output()
+    abort = new EventEmitter<any>();
+
     form: FormGroup;
 
     activeCard = 'form';
@@ -182,6 +185,10 @@ export class CdkSetorFormComponent implements OnChanges, OnDestroy {
         if (this.form.valid) {
             this.save.emit(this.form.value);
         }
+    }
+
+    doAbort(): void {
+        this.abort.emit();
     }
 
     cancel(): void {

@@ -63,6 +63,9 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
     @Output()
     save = new EventEmitter<DocumentoAvulso>();
 
+    @Output()
+    abort = new EventEmitter<any>();
+
     @Input()
     especieDocumentoAvulsoPagination: Pagination;
 

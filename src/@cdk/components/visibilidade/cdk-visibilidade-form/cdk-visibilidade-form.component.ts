@@ -50,6 +50,9 @@ export class CdkVisibilidadeFormComponent implements OnInit, OnChanges, OnDestro
     @Output()
     save = new EventEmitter<Visibilidade>();
 
+    @Output()
+    abort = new EventEmitter<any>();
+
     form: FormGroup;
 
     activeCard = 'form';

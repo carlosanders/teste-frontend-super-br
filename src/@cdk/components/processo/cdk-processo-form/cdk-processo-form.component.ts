@@ -86,6 +86,9 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     save = new EventEmitter<Processo>();
 
     @Output()
+    abort = new EventEmitter<any>();
+
+    @Output()
     put = new EventEmitter<Processo>();
 
     @Output()
@@ -285,6 +288,10 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
         if (this.form.valid) {
             this.save.emit(this.form.value);
         }
+    }
+
+    doAbort(): void {
+        this.abort.emit();
     }
 
     checkEspecieProcesso(): void {

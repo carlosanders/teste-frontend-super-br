@@ -64,6 +64,9 @@ export class CdkAtividadeFormComponent implements OnInit, OnChanges, OnDestroy {
     @Output()
     save = new EventEmitter<Atividade>();
 
+    @Output()
+    abort = new EventEmitter<any>();
+
     @Input()
     especieAtividadePagination: Pagination;
 
@@ -249,6 +252,10 @@ export class CdkAtividadeFormComponent implements OnInit, OnChanges, OnDestroy {
         if (this.form.valid) {
             this.save.emit(this.form.value);
         }
+    }
+
+    doAbort(): void {
+        this.abort.emit();
     }
 
     checkEspecieAtividade(): void {
