@@ -154,6 +154,9 @@ export class CdkEspecieAtividadeGridComponent implements AfterViewInit, OnInit, 
     @Output()
     selectedIds: number[] = [];
 
+    @Output()
+    create = new EventEmitter<any>();
+
     dataSource: EspecieAtividadeDataSource;
 
     @Input()
@@ -322,5 +325,8 @@ export class CdkEspecieAtividadeGridComponent implements AfterViewInit, OnInit, 
         this.cancel.emit();
     }
 
+    doCreate(): void {
+        this.create.emit();
+    }
 
 }

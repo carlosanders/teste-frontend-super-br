@@ -5,7 +5,8 @@
     [deletingIds]="(deletingIds$ | async)"
     [deletedIds]="(deletedIds$ | async)"
     [displayedColumns]="['select', 'id', 'nome', 'descricao', 'generoTarefa.nome', 'ativo', 'actions']"
-    [actions]="['edit']"
+    [actions]="['edit', 'create']"
     (reload)="reload($event)"
-    (edit)="edit($event)">
+    (edit)="edit($event)"
+    (create)="create()">
 </cdk-especie-tarefa-grid>

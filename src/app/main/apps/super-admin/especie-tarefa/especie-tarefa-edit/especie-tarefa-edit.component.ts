@@ -8,6 +8,7 @@ import * as fromStore from './store';
 import {Router} from '@angular/router';
 import {LoginService} from '../../../../auth/login/login.service';
 import {getRouterState} from '../../../../../store/reducers';
+import {Back} from '../../../../../store/actions';
 
 @Component({
     selector: 'app-especie-tarefa-edit',
@@ -76,5 +77,8 @@ export class EspecieTarefaEditComponent implements OnInit {
         this._store.dispatch(new fromStore.SaveEspecieTarefa(especieTarefa));
     }
 
+    doAbort(): void {
+        this._store.dispatch(new Back());
+    }
 
 }
