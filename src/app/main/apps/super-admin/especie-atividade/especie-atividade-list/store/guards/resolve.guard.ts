@@ -7,9 +7,9 @@ import {Observable, of} from 'rxjs';
 import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
 import * as fromStore from '../';
 import {getRouterState} from 'app/store/reducers';
-import {EspecieTarefaListAppState} from '../reducers';
+import {EspecieAtividadeListAppState} from '../reducers';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {getEspecieTarefaListLoaded} from '../';
+import {getEspecieAtividadeListLoaded} from '../';
 
 
 @Injectable()
@@ -23,7 +23,7 @@ export class ResolveGuard implements CanActivate {
      * @param _loginService
      */
     constructor(
-        private _store: Store<EspecieTarefaListAppState>,
+        private _store: Store<EspecieAtividadeListAppState>,
         private _loginService: LoginService
     ) {
         this._store
@@ -43,20 +43,20 @@ export class ResolveGuard implements CanActivate {
      * @returns {Observable<boolean>}
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-        return this.getEspecieTarefa().pipe(
+        return this.getEspecieAtividade().pipe(
             switchMap(() => of(true)),
             catchError(() => of(false))
         );
     }
 
     /**
-     * Get EspecieTarefa
+     * Get EspecieAtividade
      *
      * @returns {Observable<any>}
      */
-    getEspecieTarefa(): Observable<any> {
+    getEspecieAtividade(): Observable<any> {
         return this._store.pipe(
-            select(getEspecieTarefaListLoaded),
+            select(getEspecieAtividadeListLoaded),
             tap((loaded: any) => {
                 if (!loaded) {
                     const params = {
@@ -71,7 +71,7 @@ export class ResolveGuard implements CanActivate {
                         context: {isRoot: true}
                     };
 
-                    this._store.dispatch(new fromStore.GetEspecieTarefa(params));
+                    this._store.dispatch(new fromStore.GetEspecieAtividade(params));
                 }
             }),
             filter((loaded: any) => {
@@ -80,5 +80,4 @@ export class ResolveGuard implements CanActivate {
             take(1)
         );
     }
-
 }

@@ -1,8 +1,7 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import {EspecieAtividadeComponent} from './especie-atividade.component';
 import {RouterModule, Routes} from '@angular/router';
-
-import {EspecieTarefaComponent} from './especie-tarefa.component';
 import {
     MatAutocompleteModule,
     MatButtonModule,
@@ -23,27 +22,27 @@ import {LoginService} from '../../../auth/login/login.service';
 const routes: Routes = [
     {
         path: '',
-        component: EspecieTarefaComponent,
+        component: EspecieAtividadeComponent,
         children: [
             {
                 path       : 'listar',
-                loadChildren: () => import('./especie-tarefa-list/especie-tarefa-list.module').then(m => m.EspecieTarefaListModule),
+                loadChildren: () => import('./especie-atividade-list/especie-atividade-list.module').then(m => m.EspecieAtividadeListModule),
             },
             {
                 path       : 'editar',
-                loadChildren: () => import('./especie-tarefa-edit/especie-tarefa-edit.module').then(m => m.EspecieTarefaEditModule),
+                loadChildren: () => import('./especie-atividade-edit/especie-atividade-edit.module').then(m => m.EspecieAtividadeEditModule),
             },
             {
                 path: '**',
                 redirectTo: 'listar'
             }
-        ],
+        ]
     }
 ];
 
 
 @NgModule({
-    declarations: [EspecieTarefaComponent],
+    declarations: [EspecieAtividadeComponent],
     imports: [
         CommonModule,
         RouterModule.forChild(routes),
@@ -65,5 +64,5 @@ const routes: Routes = [
         LoginService
     ]
 })
-export class EspecieTarefaModule {
+export class EspecieAtividadeModule {
 }

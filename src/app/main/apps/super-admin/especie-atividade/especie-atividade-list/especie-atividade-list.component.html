@@ -1,0 +1,9 @@
+<cdk-especie-atividade-grid
+    [loading]="(loading$ | async)"
+    [especieAtividades]="(especieAtividades$ | async)"
+    [total]="(pagination$ | async)?.total"
+    [displayedColumns]="['id', 'nome', 'descricao', 'generoAtividade.nome', 'ativo', 'actions']"
+    [actions]="['edit']"
+    (reload)="reload($event)"
+    (edit)="edit($event)">
+</cdk-especie-atividade-grid>
