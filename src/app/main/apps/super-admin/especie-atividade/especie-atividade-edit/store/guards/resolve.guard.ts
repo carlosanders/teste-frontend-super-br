@@ -5,12 +5,11 @@ import {select, Store} from '@ngrx/store';
 
 import {Observable, of} from 'rxjs';
 import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
-import * as fromStore from '../';
-import {getRouterState} from 'app/store/reducers';
-import {EspecieTarefaListAppState} from '../reducers';
-import {LoginService} from 'app/main/auth/login/login.service';
-import {getEspecieTarefaListLoaded} from '../';
 
+import {EspecieAtividadeEditAppState} from '../reducers';
+import * as fromStore from '../';
+import {getHasLoaded} from '../selectors';
+import {getRouterState} from 'app/store/reducers';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
@@ -18,13 +17,12 @@ export class ResolveGuard implements CanActivate {
     routerState: any;
 
     /**
+     * Constructor
      *
-     * @param _store
-     * @param _loginService
+     * @param {Store<EspecieAtividadeEditAppState>} _store
      */
     constructor(
-        private _store: Store<EspecieTarefaListAppState>,
-        private _loginService: LoginService
+        private _store: Store<EspecieAtividadeEditAppState>
     ) {
         this._store
             .pipe(select(getRouterState))
@@ -43,42 +41,36 @@ export class ResolveGuard implements CanActivate {
      * @returns {Observable<boolean>}
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-        return this.getEspecieTarefa().pipe(
+        return this.getEspecieAtividade().pipe(
             switchMap(() => of(true)),
             catchError(() => of(false))
         );
     }
 
     /**
-     * Get EspecieTarefa
+     * Get EspecieAtividade
      *
      * @returns {Observable<any>}
      */
-    getEspecieTarefa(): Observable<any> {
+    getEspecieAtividade(): any {
         return this._store.pipe(
-            select(getEspecieTarefaListLoaded),
+            select(getHasLoaded),
             tap((loaded: any) => {
-                if (!loaded) {
-                    const params = {
-                        filter: {},
-                        gridFilter: {},
-                        limit: 5,
-                        offset: 0,
-                        sort: {criadoEm: 'ASC'},
-                        populate: [
-                            'populateAll'
-                        ],
-                        context: {isRoot: true}
-                    };
+                if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
+                    if (this.routerState.params['especieAtividadeHandle'] === 'criar') {
+                        this._store.dispatch(new fromStore.CreateEspecieAtividade());
+                    } else {
+                        this._store.dispatch(new fromStore.GetEspecieAtividade({
+                            id: 'eq:' + this.routerState.params['especieAtividadeHandle']
+                        }));
+                    }
 
-                    this._store.dispatch(new fromStore.GetEspecieTarefa(params));
                 }
             }),
             filter((loaded: any) => {
-                return !!loaded;
+                return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
             }),
             take(1)
         );
     }
-
 }
