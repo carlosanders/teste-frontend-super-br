@@ -1,0 +1,194 @@
+<div class="pr-16" fxFlex *ngIf="activeCard === 'form'" cdkPerfectScrollbar>
+    <form *ngIf="activeCard === 'form'" class="p-24"
+          fxLayout="column"
+          fxLayoutAlign="start" name="form" [formGroup]="form">
+
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Nome" formControlName="nome" required maxlength="255" upperCase>
+            </div>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Sigla" formControlName="sigla" required maxlength="20" upperCase>
+            </div>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Prefixo NUP" formControlName="prefixoNUP" required maxlength="255">
+            </div>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="NUP Inicial" formControlName="sequenciaInicialNUP" maxlength="11">
+            </div>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Endereço" formControlName="endereco" maxlength="255" upperCase>
+            </div>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput #email placeholder="Email" formControlName="email" maxlength="255" upperCase>
+                <mat-hint align="end">{{email.value.length}} / 255</mat-hint>
+            </div>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Órgão Central"
+                       formControlName="modalidadeOrgaoCentral"
+                       [matAutocomplete]="modalidadeOrgaoCentral.autocomplete"
+                       (blur)="checkModalidadeOrgaoCentral()" required>
+            </div>
+            <cdk-modalidade-orgao-central-autocomplete
+                #modalidadeOrgaoCentral="modalidadeOrgaoCentralAutocomplete"
+                [control]="form.get('modalidadeOrgaoCentral')"
+                [pagination]="modalidadeOrgaoCentralPagination">
+            </cdk-modalidade-orgao-central-autocomplete>
+            <button matSuffix mat-button mat-icon-button
+                    (click)="showModalidadeOrgaoCentralGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('modalidadeOrgaoCentral').hasError('formError')">
+                {{form.get('modalidadeOrgaoCentral').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Unidade Pai"
+                       formControlName="unidadePai"
+                       [matAutocomplete]="setor.autocomplete"
+                       (blur)="checkSetor()" required>
+            </div>
+            <cdk-setor-autocomplete
+                #setor="setorAutocomplete"
+                [control]="form.get('unidadePai')"
+                [pagination]="setorPagination">
+            </cdk-setor-autocomplete>
+            <button matSuffix mat-button mat-icon-button
+                    (click)="showSetorGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('unidadePai').hasError('formError')">
+                {{form.get('unidadePai').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Gênero"
+                       formControlName="generoSetor"
+                       [matAutocomplete]="generoSetor.autocomplete"
+                       (blur)="checkGeneroSetor()">
+            </div>
+            <cdk-genero-setor-autocomplete
+                #generoSetor="generoSetorAutocomplete"
+                [control]="form.get('generoSetor')"
+                [pagination]="generoSetorPagination">
+            </cdk-genero-setor-autocomplete>
+            <button matSuffix mat-button mat-icon-button
+                    (click)="showGeneroSetorGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('generoSetor').hasError('formError')">
+                {{form.get('generoSetor').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-checkbox formControlName="ativo"
+                      class="mr-16 mb-16" fxFlex="0 1 auto">
+            Ativo
+        </mat-checkbox>
+
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Município"
+                       formControlName="municipio"
+                       [matAutocomplete]="municipio.autocomplete"
+                       (blur)="checkMunicipio()" required>
+            </div>
+            <cdk-municipio-autocomplete
+                #municipio="municipioAutocomplete"
+                [control]="form.get('municipio')"
+                [pagination]="municipioPagination">
+            </cdk-municipio-autocomplete>
+            <button matSuffix mat-button mat-icon-button
+                    (click)="showMunicipioGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('municipio').hasError('formError')">
+                {{form.get('municipio').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
+        <div class="legendaGrupo">Configuração:</div>
+
+        <mat-checkbox formControlName="apenasProtocolo"
+                      matTooltip="Esta unidade recebe tramitações apenas pelo seu Protocolo."
+                      class="mr-16 mb-16" fxFlex="0 1 auto">
+            Protocolo
+        </mat-checkbox>
+
+        <mat-checkbox formControlName="numeracaoDocumentoUnidade"
+                      matTooltip="Numeração de documentos por unidade."
+                      class="mr-16 mb-16" fxFlex="0 1 auto">
+            Num Unidade
+        </mat-checkbox>
+
+        <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+
+        <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16">
+            <button mat-raised-button color="accent" class="mr-sm-12" (click)="submit()"
+                    [disabled]="form.invalid">
+                SALVAR
+            </button>
+            <button mat-raised-button color="warn" class="mr-sm-12" (click)="doAbort()">
+                CANCELAR
+            </button>
+        </div>
+
+        <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16"
+             fxLayoutAlign="center center">
+            <mat-spinner color="accent" diameter="24"></mat-spinner>
+        </div>
+    </form>
+</div>
+
+<cdk-modalidade-orgao-central-gridsearch
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'modalidade-orgao-central-gridsearch'"
+    [pagination]="modalidadeOrgaoCentralPagination"
+    (selected)="selectModalidadeOrgaoCentral($event)"
+    (cancel)="cancel()">
+</cdk-modalidade-orgao-central-gridsearch>
+
+<cdk-genero-setor-gridsearch
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'genero-setor-gridsearch'"
+    [pagination]="generoSetorPagination"
+    (selected)="selectGeneroSetor($event)"
+    (cancel)="cancel()">
+</cdk-genero-setor-gridsearch>
+
+<cdk-municipio-gridsearch
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'municipio-gridsearch'"
+    (selected)="selectMunicipio($event)"
+    (cancel)="cancel()">
+</cdk-municipio-gridsearch>
+
+<cdk-setor-gridsearch
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'setor-gridsearch'"
+    [pagination]="setorPagination"
+    (selected)="selectSetor($event)"
+    (cancel)="cancel()">
+</cdk-setor-gridsearch>
