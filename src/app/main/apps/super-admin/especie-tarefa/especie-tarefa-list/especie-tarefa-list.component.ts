@@ -67,8 +67,7 @@ export class EspecieTarefaListComponent implements OnInit {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/') + especieTarefaId]);
     }
 
-    // delete(especieTarefaId: number): void {
-    //     this._store.dispatch(new fromStore.DeleteUsuario(especieTarefaId));
-    // }
-
+    create(): void {
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
+    }
 }

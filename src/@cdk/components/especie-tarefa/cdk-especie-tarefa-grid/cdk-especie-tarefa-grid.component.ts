@@ -145,6 +145,9 @@ export class CdkEspecieTarefaGridComponent implements AfterViewInit, OnInit, OnC
     selected = new EventEmitter<EspecieTarefa>();
 
     @Output()
+    create = new EventEmitter<any>();
+
+    @Output()
     selectedIds: number[] = [];
 
     dataSource: EspecieTarefaDataSource;
@@ -304,5 +307,9 @@ export class CdkEspecieTarefaGridComponent implements AfterViewInit, OnInit, OnC
 
     doCancel(): void {
         this.cancel.emit();
+    }
+
+    doCreate(): void {
+        this.create.emit();
     }
 }
