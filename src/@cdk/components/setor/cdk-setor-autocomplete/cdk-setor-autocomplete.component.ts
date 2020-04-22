@@ -60,7 +60,7 @@ export class CdkSetorAutocompleteComponent implements OnInit {
                     value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
                         termFilter = {
                             ...termFilter,
-                            sigla: `like:%${bit}%`
+                            nome: `like:%${bit}%`
                         };
                     });
                     if (typeof value === 'string') {

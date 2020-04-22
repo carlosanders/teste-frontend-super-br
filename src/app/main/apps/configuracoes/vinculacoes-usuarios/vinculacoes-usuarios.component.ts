@@ -51,13 +51,13 @@ export class VinculacoesUsuariosComponent implements OnInit, OnDestroy {
             ).subscribe(routerState => {
             if (routerState) {
                 this.routerState = routerState.state;
-                if (this.routerState.url.indexOf('analistas/listar') > -1) {
+                if (this.routerState.url.indexOf('assessores/listar') > -1) {
                     this.action = 'listar';
                 }
-                if (this.routerState.url.indexOf('analistas/editar') > -1) {
+                if (this.routerState.url.indexOf('assessores/editar') > -1) {
                     this.action = 'editar';
                 }
-                if (this.routerState.url.indexOf('analistas/criar') > -1) {
+                if (this.routerState.url.indexOf('assessores/criar') > -1) {
                     this.action = 'criar';
                 }
                 this._changeDetectorRef.markForCheck();

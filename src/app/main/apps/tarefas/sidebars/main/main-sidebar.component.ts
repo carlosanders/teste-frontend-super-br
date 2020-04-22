@@ -34,7 +34,7 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
 
     setoresCoordenacao: Setor[] = [];
 
-    usuariosAnalista: Usuario[] = [];
+    usuariosAssessor: Usuario[] = [];
 
     /**
      *
@@ -80,10 +80,10 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
             }
         });
 
-        this.usuariosAnalista = [];
+        this.usuariosAssessor = [];
 
         this._loginService.getUserProfile().vinculacoesUsuariosPrincipais?.forEach((vinculacaoUsuario: VinculacaoUsuario) => {
-            this.usuariosAnalista.push(vinculacaoUsuario.usuario);
+            this.usuariosAssessor.push(vinculacaoUsuario.usuario);
         });
     }
 
