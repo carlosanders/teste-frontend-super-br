@@ -26,11 +26,19 @@ import {AtividadeService} from '@cdk/services/atividade.service';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {DocumentoService} from '@cdk/services/documento.service';
 import {CdkDocumentoCardListModule} from '@cdk/components/documento/cdk-documento-card-list/cdk-documento-card-list.module';
+import {MatCardModule} from '@angular/material/card';
+import {PipesModule} from '@cdk/pipes/pipes.module';
 
 const routes: Routes = [
     {
         path: '',
-        component: AtividadeCreateBlocoComponent
+        component: AtividadeCreateBlocoComponent,
+        children: [
+            {
+                path       : 'documento',
+                loadChildren: () => import('app/main/apps/documento/documento.module').then(m => m.DocumentoModule),
+            }
+        ],        
     }
 ];
 
@@ -56,6 +64,7 @@ const routes: Routes = [
         MatDatepickerModule,
         MatTooltipModule,
         MatListModule,
+        MatCardModule,
 
         CdkAtividadeFormModule,
 
@@ -66,6 +75,7 @@ const routes: Routes = [
         CdkSharedModule,
         CdkSidebarModule,
         CdkDocumentoCardListModule,
+        PipesModule
     ],
     providers: [
         AtividadeService,

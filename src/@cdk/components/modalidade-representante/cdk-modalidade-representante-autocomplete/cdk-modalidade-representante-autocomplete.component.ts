@@ -9,7 +9,7 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {ModalidadeRepresentante} from '@cdk/models';
 import {ModalidadeRepresentanteService} from '@cdk/services/modalidade-representante.service';
-import {FormControl} from '@angular/forms';
+import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
@@ -30,7 +30,7 @@ export class CdkModalidadeRepresentanteAutocompleteComponent implements OnInit {
     pagination: Pagination;
 
     @Input()
-    control: FormControl;
+    control: AbstractControl;
 
     modalidadeRepresentanteList: ModalidadeRepresentante[];
     modalidadeRepresentanteListIsLoading: boolean;

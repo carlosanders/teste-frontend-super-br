@@ -146,7 +146,7 @@ export class CdkModeloGridComponent implements AfterViewInit, OnInit, OnChanges 
     pageSize = 5;
 
     @Input()
-    actions: string[] = ['edit', 'editConteudo', 'especie', 'anexo', 'delete', 'select'];
+    actions: string[] = ['edit', 'editConteudo', 'especie', 'delete', 'select'];
 
     @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
@@ -162,9 +162,6 @@ export class CdkModeloGridComponent implements AfterViewInit, OnInit, OnChanges 
 
     @Output()
     edit = new EventEmitter<number>();
-
-    @Output()
-    anexo = new EventEmitter<number>();
 
     @Output()
     especie = new EventEmitter<number>();
@@ -250,25 +247,24 @@ export class CdkModeloGridComponent implements AfterViewInit, OnInit, OnChanges 
     }
 
     toggleFilter(): void {
-        this._cdkSidebarService.getSidebar('cdk-modelo-main-sidebar').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-modelo-filter').toggleOpen();
         this.showFilter = !this.showFilter;
     }
 
     loadPage(): void {
+        const filter = this.gridFilter.filters;
+        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : null;
         this.reload.emit({
-            gridFilter: this.gridFilter,
+            gridFilter: filter,
             limit: this.paginator.pageSize,
             offset: (this.paginator.pageSize * this.paginator.pageIndex),
-            sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {}
+            sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
+            context: contexto
         });
     }
 
     editModelo(modeloId): void {
         this.edit.emit(modeloId);
-    }
-
-    anexoModelo(modeloId): void {
-        this.anexo.emit(modeloId);
     }
 
     especieSetores(modeloId): void {
@@ -340,7 +336,7 @@ export class CdkModeloGridComponent implements AfterViewInit, OnInit, OnChanges 
         this.isIndeterminate = (this.selectedIds.length !== this.modelos.length && this.selectedIds.length > 0);
     }
 
-    setGridFilter(gridFilter): void {
+    setFilter(gridFilter): void {
         this.gridFilter = gridFilter;
         this.paginator.pageIndex = 0;
         this.loadPage();

@@ -33,10 +33,6 @@ const routes: Routes = [
                 loadChildren: () => import('./modelos-edit/modelos-edit.module').then(m => m.ModelosEditModule),
             },
             {
-                path       : 'anexos',
-                loadChildren: () => import('./modelos-anexo/modelos-anexo.module').then(m => m.ModelosAnexoModule),
-            },
-            {
                 path       : ':modeloHandle/especie-setor',
                 loadChildren: () => import('./modelos-especie-setor/modelos-especie-setor.module').then(m => m.ModelosEspecieSetorModule),
             },

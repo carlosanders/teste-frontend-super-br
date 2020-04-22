@@ -12,9 +12,9 @@ import { CdkSidebarModule } from '@cdk/components';
 import * as fromGuards from './store/guards';
 import { AdminComponent } from './admin.component';
 import { CommonModule } from '@angular/common';
-import {AdminMainSidebarComponent} from "./sidebars/main/main-sidebar.component";
-import {AdminStoreModule} from "./store/store.module";
-import {SetorService} from "@cdk/services/setor.service";
+import {AdminMainSidebarComponent} from './sidebars/main/main-sidebar.component';
+import {AdminStoreModule} from './store/store.module';
+import {SetorService} from '@cdk/services/setor.service';
 import {UsuarioService} from '@cdk/services/usuario.service';
 
 const routes: Routes = [

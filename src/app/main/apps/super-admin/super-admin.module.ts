@@ -49,6 +49,8 @@ const routes: Routes = [
         RouterModule,
         CdkSharedModule,
         MatButtonModule
+    ],
+    providers: [
     ]
 })
 export class SuperAdminModule {

@@ -1,14 +1,10 @@
 <div class="page-layout left-sidebar" fxFlex>
 
     <!-- SIDEBAR -->
-    <cdk-sidebar [lockedOpen]="(mode === 'search') ? 'gt-xs' : ''" class="sidebar" name="cdk-processo-main-sidebar"
+    <cdk-sidebar [lockedOpen]="(mode === 'search') ? 'gt-xs' : ''"
+                 name="cdk-processo-filter"
                  position="left">
-        <!-- SIDEBAR CONTENT -->
-        <div class="content" cdkPerfectScrollbar>
-            <cdk-processo-main-sidebar (selected)="setGridFilter($event)" [mode]="this.mode"
-                                       [@animate]="{value:'*'}"></cdk-processo-main-sidebar>
-        </div>
-        <!-- / SIDEBAR CONTENT -->
+        <cdk-processo-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-processo-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
@@ -46,7 +42,7 @@
                 <mat-icon>refresh</mat-icon>
             </button>
 
-            <button class="toggle-filter" [ngClass]="{'warn': (gridFilter | json) != '{}'}" mat-icon-button
+            <button class="toggle-filter" [ngClass]="{'warn': !(gridFilter | json).includes('{}')}" mat-icon-button
                     *ngIf="mode === 'list'"
                     (click)="toggleFilter()"
                     aria-label="filtrar"

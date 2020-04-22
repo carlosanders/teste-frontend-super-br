@@ -316,7 +316,7 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
     }
 
     toggleFilter(): void {
-        this._cdkSidebarService.getSidebar('cdk-processo-main-sidebar').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-processo-filter').toggleOpen();
         this.showFilter = !this.showFilter;
     }
 
@@ -412,7 +412,7 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
         this.isIndeterminate = (this.selectedIds.length !== this.processos.length && this.selectedIds.length > 0);
     }
 
-    setGridFilter(gridFilter): void {
+    setFilter(gridFilter): void {
         this.gridFilter = gridFilter;
         this.paginator.pageIndex = 0;
         this.loadPage();

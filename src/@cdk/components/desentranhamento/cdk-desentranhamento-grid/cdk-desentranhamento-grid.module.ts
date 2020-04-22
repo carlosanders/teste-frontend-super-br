@@ -16,13 +16,11 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {DesentranhamentoService} from '@cdk/services/desentranhamento.service';
 import {CdkDesentranhamentoGridComponent} from './cdk-desentranhamento-grid.component';
 import {CdkDesentranhamentoAutocompleteModule} from '@cdk/components/desentranhamento/cdk-desentranhamento-autocomplete/cdk-desentranhamento-autocomplete.module';
-import {CdkDesentranhamentoGridFilterModule} from './cdk-desentranhamento-grid-filter/cdk-desentranhamento-grid-filter.module';
-import {CdkDesentranhamentoMainSidebarComponent} from './sidebars/main/main.component';
+import {CdkDesentranhamentoFilterModule} from '../sidebars/cdk-desentranhamento-filter/cdk-desentranhamento-filter.module';
 
 @NgModule({
     declarations: [
         CdkDesentranhamentoGridComponent,
-        CdkDesentranhamentoMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,
@@ -36,7 +34,7 @@ import {CdkDesentranhamentoMainSidebarComponent} from './sidebars/main/main.comp
         MatSortModule,
 
         CdkDesentranhamentoAutocompleteModule,
-        CdkDesentranhamentoGridFilterModule,
+        CdkDesentranhamentoFilterModule,
 
         CdkSharedModule,
         CdkSidebarModule,

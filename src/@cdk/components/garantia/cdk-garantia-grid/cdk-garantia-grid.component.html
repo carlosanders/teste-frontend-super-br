@@ -1,12 +1,8 @@
 <div class="page-layout left-sidebar" fxFlex>
 
     <!-- SIDEBAR -->
-    <cdk-sidebar class="sidebar" name="cdk-garantia-main-sidebar" position="left">
-        <!-- SIDEBAR CONTENT -->
-        <div class="content" cdkPerfectScrollbar>
-            <cdk-garantia-main-sidebar (selected)="setGridFilter($event)" [@animate]="{value:'*'}"></cdk-garantia-main-sidebar>
-        </div>
-        <!-- / SIDEBAR CONTENT -->
+    <cdk-sidebar class="sidebar" name="cdk-garantia-filter" position="left">
+        <cdk-garantia-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-garantia-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
@@ -44,7 +40,7 @@
                 <mat-icon>refresh</mat-icon>
             </button>
 
-            <button class="toggle-filter" mat-icon-button [ngClass]="{'warn': (gridFilter | json) != '{}'}"
+            <button class="toggle-filter" mat-icon-button [ngClass]="{'warn': !(gridFilter | json).includes('{}')}"
                     (click)="toggleFilter()"
                     aria-label="filtrar"
                     matTooltip="Filtrar">
@@ -95,7 +91,8 @@
                 </ng-container>
 
                 <!-- Modalidade Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('modalidadeGarantia.valor') > -1" matColumnDef="modalidadeGarantia.valor">
+                <ng-container *ngIf="displayedColumns.indexOf('modalidadeGarantia.valor') > -1"
+                              matColumnDef="modalidadeGarantia.valor">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Modalidade
                     </th>
@@ -158,7 +155,8 @@
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1" matColumnDef="atualizadoPor.nome">
+                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1"
+                              matColumnDef="atualizadoPor.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Atualizado Por
                     </th>

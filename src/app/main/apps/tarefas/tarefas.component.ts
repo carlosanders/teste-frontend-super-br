@@ -229,6 +229,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     reload(params): void {
 
+        console.log(params);
+
         this._store.dispatch(new fromStore.UnloadTarefas({reset: false}));
 
         const nparams = {
@@ -236,6 +238,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             listFilter: params.listFilter,
             sort: params.listSort && Object.keys(params.listSort).length ? params.listSort : this.pagination.sort
         };
+
+        console.log(nparams);
 
         this._store.dispatch(new fromStore.GetTarefas(nparams));
     }

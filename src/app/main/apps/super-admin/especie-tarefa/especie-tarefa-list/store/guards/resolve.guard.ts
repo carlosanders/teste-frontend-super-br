@@ -67,7 +67,8 @@ export class ResolveGuard implements CanActivate {
                         sort: {criadoEm: 'ASC'},
                         populate: [
                             'populateAll'
-                        ]
+                        ],
+                        context: {isRoot: true}
                     };
 
                     this._store.dispatch(new fromStore.GetEspecieTarefa(params));

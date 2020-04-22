@@ -110,7 +110,7 @@ export class CdkTarefaListComponent {
     @Input()
     loadingAssuntosProcessosId: number[];
     
-    listFilter: {} = {};
+    listFilter: any;
     listSort: {} = {};
 
     isIndeterminate = false;
@@ -121,6 +121,7 @@ export class CdkTarefaListComponent {
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _cdkSidebarService: CdkSidebarService) {
+        this.listFilter = {};
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -133,7 +134,7 @@ export class CdkTarefaListComponent {
 
     loadPage(): void {
         this.reload.emit({
-            listFilter: this.listFilter,
+            listFilter: this.listFilter.filters,
             listSort: this.listSort
         });
     }
@@ -280,7 +281,7 @@ export class CdkTarefaListComponent {
      * Toggle the sidebar
      */
     toggleSidebar(): void {
-        this._cdkSidebarService.getSidebar('cdk-tarefa-filter-sidebar').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-tarefa-filter').toggleOpen();
     }
 
     doLoadAssuntos(processoId): void {

@@ -16,13 +16,11 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {VinculacaoRoleService} from '@cdk/services/vinculacao-role.service';
 import {CdkVinculacaoRoleGridComponent} from './cdk-vinculacao-role-grid.component';
 import {CdkVinculacaoRoleAutocompleteModule} from '@cdk/components/vinculacao-role/cdk-vinculacao-role-autocomplete/cdk-vinculacao-role-autocomplete.module';
-import {CdkVinculacaoRoleGridFilterModule} from './cdk-vinculacao-role-grid-filter/cdk-vinculacao-role-grid-filter.module';
-import {CdkVinculacaoRoleMainSidebarComponent} from './sidebars/main/main.component';
+import {CdkVinculacaoRoleFilterModule} from '../sidebars/cdk-vinculacao-role-filter/cdk-vinculacao-role-filter.module';
 
 @NgModule({
     declarations: [
         CdkVinculacaoRoleGridComponent,
-        CdkVinculacaoRoleMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,
@@ -36,7 +34,7 @@ import {CdkVinculacaoRoleMainSidebarComponent} from './sidebars/main/main.compon
         MatSortModule,
 
         CdkVinculacaoRoleAutocompleteModule,
-        CdkVinculacaoRoleGridFilterModule,
+        CdkVinculacaoRoleFilterModule,
 
         CdkSharedModule,
         CdkSidebarModule,
