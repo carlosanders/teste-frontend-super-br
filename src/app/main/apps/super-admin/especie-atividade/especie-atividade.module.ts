@@ -33,6 +33,10 @@ const routes: Routes = [
                 loadChildren: () => import('./especie-atividade-edit/especie-atividade-edit.module').then(m => m.EspecieAtividadeEditModule),
             },
             {
+                path       : 'tipo-documento-list',
+                loadChildren: () => import('./tipo-documento-list/tipo-documento.module').then(m => m.TipoDocumentoModule),
+            },
+            {
                 path: '**',
                 redirectTo: 'listar'
             }
