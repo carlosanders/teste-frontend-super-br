@@ -34,6 +34,9 @@ export class CdkRealizarTransicaoFormComponent
     @Output()
     save = new EventEmitter<Transicao>();
 
+    @Output()
+    abort = new EventEmitter<any>();
+
     form: FormGroup;
 
     activeCard = 'form';

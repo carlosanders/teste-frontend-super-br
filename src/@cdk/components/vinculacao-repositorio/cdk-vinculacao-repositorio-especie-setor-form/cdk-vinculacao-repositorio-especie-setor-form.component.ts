@@ -33,6 +33,9 @@ export class CdkVinculacaoRepositorioEspecieSetorFormComponent implements OnChan
     @Output()
     save = new EventEmitter<VinculacaoRepositorio>();
 
+    @Output()
+    abort = new EventEmitter<any>();
+
     form: FormGroup;
 
     activeCard = 'form';
@@ -111,6 +114,10 @@ export class CdkVinculacaoRepositorioEspecieSetorFormComponent implements OnChan
         if (this.form.valid) {
             this.save.emit(this.form.value);
         }
+    }
+
+    doAbort(): void {
+        this.abort.emit();
     }
 
     checkEspecieSetor(): void {

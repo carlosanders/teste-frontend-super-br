@@ -119,6 +119,10 @@ export class CdkAssuntoFormComponent implements OnChanges, OnDestroy {
         this.abort.emit();
     }
 
+    doAbort(): void {
+        this.abort.emit();
+    }
+
     checkAssuntoAdministrativo(): void {
         const value = this.form.get('assuntoAdministrativo').value;
         if (!value || typeof value !== 'object') {

@@ -62,6 +62,9 @@ export class CdkLembreteFormComponent implements OnInit, OnChanges {
     @Output()
     save = new EventEmitter<Lembrete>();
 
+    @Output()
+    abort = new EventEmitter<any>();
+
     loading: boolean;
 
     constructor(

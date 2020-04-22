@@ -35,6 +35,9 @@ export class CdkGarantiaFormComponent implements OnChanges, OnDestroy {
     @Output()
     save = new EventEmitter<Garantia>();
 
+    @Output()
+    abort = new EventEmitter<any>();
+
     @Input()
     modalidadeGarantiaPagination: Pagination;
 
@@ -116,6 +119,10 @@ export class CdkGarantiaFormComponent implements OnChanges, OnDestroy {
         if (this.form.valid) {
             this.save.emit(this.form.value);
         }
+    }
+
+    doAbort(): void {
+        this.abort.emit();
     }
 
     checkModalidadeGarantia(): void {

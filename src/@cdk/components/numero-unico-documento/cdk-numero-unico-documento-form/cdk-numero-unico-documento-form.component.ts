@@ -39,6 +39,9 @@ export class CdkNumeroUnicoDocumentoFormComponent implements OnChanges, OnDestro
     @Output()
     save = new EventEmitter<NumeroUnicoDocumento>();
 
+    @Output()
+    abort = new EventEmitter<any>();
+
     form: FormGroup;
 
     activeCard = 'form';
@@ -113,6 +116,10 @@ export class CdkNumeroUnicoDocumentoFormComponent implements OnChanges, OnDestro
         if (this.form.valid) {
             this.save.emit(this.form.value);
         }
+    }
+
+    doAbort(): void {
+        this.abort.emit();
     }
 
     checkTipoDocumento(): void {

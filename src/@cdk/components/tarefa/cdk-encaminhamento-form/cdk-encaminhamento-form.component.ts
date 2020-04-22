@@ -87,6 +87,10 @@ export class CdkEncaminhamentoFormComponent implements OnChanges, OnDestroy {
         }
     }
 
+    doAbort(): void {
+        this.abort.emit();
+    }
+
     abort(): void {
         this.cancel.emit();
     }

@@ -33,6 +33,9 @@ export class CdkUsuarioFormComponent implements OnChanges, OnDestroy {
     @Output()
     save = new EventEmitter<any>();
 
+    @Output()
+    abort = new EventEmitter<any>();
+
     @Input()
     form: FormGroup;
 

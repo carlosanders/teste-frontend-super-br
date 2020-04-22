@@ -35,6 +35,9 @@ export class CdkVinculacaoUsuarioFormComponent implements OnChanges, OnDestroy, 
     @Output()
     save = new EventEmitter<VinculacaoUsuario>();
 
+    @Output()
+    abort = new EventEmitter<any>();
+
     form: FormGroup;
 
     activeCard = 'form';
@@ -116,6 +119,10 @@ export class CdkVinculacaoUsuarioFormComponent implements OnChanges, OnDestroy, 
         if (this.form.valid) {
             this.save.emit(this.form.value);
         }
+    }
+
+    doAbort(): void {
+        this.abort.emit();
     }
 
     checkUsuarioVinculado(): void {
