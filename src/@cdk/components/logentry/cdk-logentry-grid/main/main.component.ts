@@ -3,7 +3,7 @@ import {cdkAnimations} from '@cdk/animations';
 import {CdkLogentryGridComponent} from '../cdk-logentry-grid.component';
 
 @Component({
-    selector: 'cdk-logentry-main-sidebar',
+    selector: 'cdk-logentry-filter',
     templateUrl: './main.component.html',
     styleUrls: ['./main.component.scss'],
     animations: cdkAnimations,
@@ -16,7 +16,7 @@ export class CdkLogentryMainSidebarComponent {
 
     gridFilter: any;
 
-    setGridFilter(gridFilter): void {
+    setFilter(gridFilter): void {
         this.gridFilter = gridFilter;
         this.selected.emit(this.gridFilter);
     }

@@ -3,5 +3,6 @@
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
         [assuntoAdministrativoPagination]="assuntoAdministrativoPagination"
-        (save)="submit($event)">
+        (save)="submit($event)"
+        (abort)="doAbort()">
 </cdk-assunto-form>

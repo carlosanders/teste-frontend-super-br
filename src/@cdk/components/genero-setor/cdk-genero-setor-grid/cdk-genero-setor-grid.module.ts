@@ -16,14 +16,12 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {GeneroSetorService} from '@cdk/services/genero-setor.service';
 import {CdkGeneroSetorGridComponent} from './cdk-genero-setor-grid.component';
 import {CdkGeneroSetorAutocompleteModule} from '@cdk/components/genero-setor/cdk-genero-setor-autocomplete/cdk-genero-setor-autocomplete.module';
-import {CdkGeneroSetorGridFilterModule} from './cdk-genero-setor-grid-filter/cdk-genero-setor-grid-filter.module';
-import {CdkGeneroSetorMainSidebarComponent} from './sidebars/main/main.component';
+import {CdkGeneroSetorFilterModule} from '../sidebars/cdk-genero-setor-filter/cdk-genero-setor-filter.module';
 import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
     declarations: [
         CdkGeneroSetorGridComponent,
-        CdkGeneroSetorMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,
@@ -37,7 +35,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
         MatSortModule,
 
         CdkGeneroSetorAutocompleteModule,
-        CdkGeneroSetorGridFilterModule,
+        CdkGeneroSetorFilterModule,
 
         CdkSharedModule,
         CdkSidebarModule,

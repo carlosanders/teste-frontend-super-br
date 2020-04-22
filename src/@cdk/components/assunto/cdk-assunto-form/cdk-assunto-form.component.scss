@@ -1,22 +1,24 @@
 cdk-assunto-form {
 
-  form {
-    width: 100%;
-  }
+    height: 100%;
 
-  .form-card {
-    border-radius: 8px;
-  }
-
-  .form-errors-model {
-    flex: 1;
-
-    code {
-      background: none !important;
+    form {
+        width: 100%;
     }
-  }
 
-  cdk-assunto-administrativo-gridsearch {
-    width: 100%;
-  }
+    .form-card {
+        border-radius: 8px;
+    }
+
+    .form-errors-model {
+        flex: 1;
+
+        code {
+            background: none !important;
+        }
+    }
+
+    cdk-assunto-administrativo-gridsearch {
+        width: 100%;
+    }
 }

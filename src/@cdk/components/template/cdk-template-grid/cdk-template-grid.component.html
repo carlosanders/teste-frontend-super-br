@@ -1,12 +1,8 @@
 <div class="page-layout left-sidebar" fxFlex>
 
     <!-- SIDEBAR -->
-    <cdk-sidebar class="sidebar" name="cdk-template-main-sidebar" position="left">
-        <!-- SIDEBAR CONTENT -->
-        <div class="content" cdkPerfectScrollbar>
-            <cdk-template-main-sidebar (selected)="setGridFilter($event)" [@animate]="{value:'*'}"></cdk-template-main-sidebar>
-        </div>
-        <!-- / SIDEBAR CONTENT -->
+    <cdk-sidebar class="sidebar" name="cdk-template-filter" position="left">
+        <cdk-template-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-template-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
@@ -44,7 +40,7 @@
                 <mat-icon>refresh</mat-icon>
             </button>
 
-            <button class="toggle-filter" mat-icon-button [ngClass]="{'warn': (gridFilter | json) != '{}'}"
+            <button class="toggle-filter" mat-icon-button [ngClass]="{'warn': !(gridFilter | json).includes('{}')}"
                     (click)="toggleFilter()"
                     aria-label="filtrar"
                     matTooltip="Filtrar">
@@ -103,16 +99,19 @@
                 </ng-container>
 
                 <!-- ModalidadeTemplate Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('modalidadeTemplate.valor') > -1" matColumnDef="modalidadeTemplate.valor">
+                <ng-container *ngIf="displayedColumns.indexOf('modalidadeTemplate.valor') > -1"
+                              matColumnDef="modalidadeTemplate.valor">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Modalidade do Template
                     </th>
-                    <td mat-cell *matCellDef="let template" class='has_label_on_mobile' data-label='Modalidade do Template: '
+                    <td mat-cell *matCellDef="let template" class='has_label_on_mobile'
+                        data-label='Modalidade do Template: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(template.id) > -1}"> {{template.modalidadeTemplate?.valor}} </td>
                 </ng-container>
 
                 <!-- Documento Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('documento.descricaoOutros') > -1" matColumnDef="documento.descricaoOutros">
+                <ng-container *ngIf="displayedColumns.indexOf('documento.descricaoOutros') > -1"
+                              matColumnDef="documento.descricaoOutros">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Documento
                     </th>

@@ -16,13 +16,11 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {TipoSigiloService} from '@cdk/services/tipo-sigilo.service';
 import {CdkTipoSigiloGridComponent} from './cdk-tipo-sigilo-grid.component';
 import {CdkTipoSigiloAutocompleteModule} from '@cdk/components/tipo-sigilo/cdk-tipo-sigilo-autocomplete/cdk-tipo-sigilo-autocomplete.module';
-import {CdkTipoSigiloGridFilterModule} from './cdk-tipo-sigilo-grid-filter/cdk-tipo-sigilo-grid-filter.module';
-import {CdkTipoSigiloMainSidebarComponent} from './sidebars/main/main.component';
+import {CdkTipoSigiloFilterModule} from '../sidebars/cdk-tipo-sigilo-filter/cdk-tipo-sigilo-filter.module';
 
 @NgModule({
     declarations: [
         CdkTipoSigiloGridComponent,
-        CdkTipoSigiloMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,
@@ -36,7 +34,7 @@ import {CdkTipoSigiloMainSidebarComponent} from './sidebars/main/main.component'
         MatSortModule,
 
         CdkTipoSigiloAutocompleteModule,
-        CdkTipoSigiloGridFilterModule,
+        CdkTipoSigiloFilterModule,
 
         CdkSharedModule,
         CdkSidebarModule,

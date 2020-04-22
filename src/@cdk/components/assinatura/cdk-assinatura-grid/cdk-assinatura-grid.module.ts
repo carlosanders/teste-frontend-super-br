@@ -15,14 +15,12 @@ import {
 import {CdkSidebarModule} from '@cdk/components/index';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkAssinaturaGridComponent} from './cdk-assinatura-grid.component';
-import {CdkAssinaturaGridFilterModule} from './cdk-assinatura-grid-filter/cdk-assinatura-grid-filter.module';
-import {CdkAssinaturaMainSidebarComponent} from './sidebars/main/main.component';
+import {CdkAssinaturaFilterModule} from '../sidebars/cdk-assinatura-filter/cdk-assinatura-filter.module';
 import {AssinaturaService} from '../../../services/assinatura.service';
 
 @NgModule({
     declarations: [
         CdkAssinaturaGridComponent,
-        CdkAssinaturaMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,
@@ -36,7 +34,7 @@ import {AssinaturaService} from '../../../services/assinatura.service';
         MatSortModule,
         MatTooltipModule,
 
-        CdkAssinaturaGridFilterModule,
+        CdkAssinaturaFilterModule,
 
         CdkSharedModule,
         CdkSidebarModule,

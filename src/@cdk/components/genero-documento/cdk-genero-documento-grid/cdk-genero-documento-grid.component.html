@@ -1,12 +1,8 @@
 <div class="page-layout left-sidebar" fxFlex>
 
     <!-- SIDEBAR -->
-    <cdk-sidebar class="sidebar" name="cdk-genero-documento-main-sidebar" position="left">
-        <!-- SIDEBAR CONTENT -->
-        <div class="content" cdkPerfectScrollbar>
-            <cdk-genero-documento-main-sidebar (selected)="setGridFilter($event)" [@animate]="{value:'*'}"></cdk-genero-documento-main-sidebar>
-        </div>
-        <!-- / SIDEBAR CONTENT -->
+    <cdk-sidebar class="sidebar" name="cdk-genero-documento-filter" position="left">
+        <cdk-genero-documento-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-genero-documento-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
@@ -44,7 +40,7 @@
                 <mat-icon>refresh</mat-icon>
             </button>
 
-            <button class="toggle-filter" mat-icon-button [ngClass]="{'warn': (gridFilter | json) != '{}'}"
+            <button class="toggle-filter" mat-icon-button [ngClass]="{'warn': !(gridFilter | json).includes('{}')}"
                     (click)="toggleFilter()"
                     aria-label="filtrar"
                     matTooltip="Filtrar">
@@ -132,11 +128,13 @@
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1" matColumnDef="atualizadoPor.nome">
+                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1"
+                              matColumnDef="atualizadoPor.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Atualizado Por
                     </th>
-                    <td mat-cell *matCellDef="let generoDocumento" class='has_label_on_mobile' data-label='Atualizado Por: '
+                    <td mat-cell *matCellDef="let generoDocumento" class='has_label_on_mobile'
+                        data-label='Atualizado Por: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(generoDocumento.id) > -1}"> {{generoDocumento.atualizadoPor?.nome}} </td>
                 </ng-container>
 
@@ -145,7 +143,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Atualizado Em
                     </th>
-                    <td mat-cell *matCellDef="let generoDocumento" class='has_label_on_mobile' data-label='Atualizado Em: '
+                    <td mat-cell *matCellDef="let generoDocumento" class='has_label_on_mobile'
+                        data-label='Atualizado Em: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(generoDocumento.id) > -1}"> {{generoDocumento.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
@@ -154,7 +153,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Apagado Por
                     </th>
-                    <td mat-cell *matCellDef="let generoDocumento" class='has_label_on_mobile' data-label='Apagado Por: '
+                    <td mat-cell *matCellDef="let generoDocumento" class='has_label_on_mobile'
+                        data-label='Apagado Por: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(generoDocumento.id) > -1}"> {{generoDocumento.apagadoPor?.nome}} </td>
                 </ng-container>
 

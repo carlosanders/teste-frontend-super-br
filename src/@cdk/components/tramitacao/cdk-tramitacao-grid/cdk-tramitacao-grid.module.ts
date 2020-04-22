@@ -15,13 +15,11 @@ import {CdkSidebarModule} from '@cdk/components/index';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {TramitacaoService} from '@cdk/services/tramitacao.service';
 import {CdkTramitacaoGridComponent} from './cdk-tramitacao-grid.component';
-import {CdkTramitacaoGridFilterModule} from './cdk-tramitacao-grid-filter/cdk-tramitacao-grid-filter.module';
-import {CdkTramitacaoMainSidebarComponent} from './sidebars/main/main.component';
+import {CdkTramitacaoFilterModule} from '../sidebars/cdk-tramitacao-filter/cdk-tramitacao-filter.module';
 
 @NgModule({
     declarations: [
         CdkTramitacaoGridComponent,
-        CdkTramitacaoMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,
@@ -34,7 +32,7 @@ import {CdkTramitacaoMainSidebarComponent} from './sidebars/main/main.component'
         MatPaginatorModule,
         MatSortModule,
 
-        CdkTramitacaoGridFilterModule,
+        CdkTramitacaoFilterModule,
 
         CdkSharedModule,
         CdkSidebarModule,

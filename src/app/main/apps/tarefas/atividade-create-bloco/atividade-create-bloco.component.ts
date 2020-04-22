@@ -8,11 +8,9 @@ import {
 
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
-
+import * as fromStore from './store';
 import {Atividade} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
-
-import * as fromStore from './store';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Tarefa} from '@cdk/models';
 import {getSelectedTarefas} from '../store/selectors';
@@ -35,8 +33,12 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
 
     private _unsubscribeAll: Subject<any> = new Subject();
 
+    selectedIds: number[] = [];
+    componenteChamador: String = 'atividade-create-bloco';
+
     tarefas$: Observable<Tarefa[]>;
     tarefas: Tarefa[];
+    tarefasSelecionadasListId: any[] = [];
 
     atividade: Atividade;
     isSaving$: Observable<boolean>;
@@ -51,10 +53,14 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
     documentos$: Observable<Documento[]>;
     minutas: Documento[] = [];
 
+    mapDocumentos = new Map();
+
+    selectedDocumentos$: Observable<Documento[]>;
     deletingDocumentosId$: Observable<number[]>;
     assinandoDocumentosId$: Observable<number[]>;
     assinandoDocumentosId: number[] = [];
-    selectedDocumentos$: Observable<Documento[]>;
+    convertendoDocumentosId$: Observable<number[]>;
+    convertendoDocumentosId: number[] = [];
 
     /**
      *
@@ -78,17 +84,43 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
         this.selectedDocumentos$ = this._store.pipe(select(fromStore.getSelectedDocumentos));
         this.deletingDocumentosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosId));
         this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
+        //this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoDocumentosId));
     }
 
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
     // -----------------------------------------------------------------------------------------------------
 
+    /**
+     * On init
+     */    
     ngOnInit(): void {
+        this.atividade = new Atividade();
+        this.atividade.encerraTarefa = true;
+        this.atividade.dataHoraConclusao = moment();
+        //this.atividade.usuario = this._profile.usuario;
+        this.atividade.usuario = this._profile;
+
         this.tarefas$.pipe(
             takeUntil(this._unsubscribeAll),
         ).subscribe((tarefas) => {
             this.tarefas = tarefas;
+            if (this.tarefas) {
+                // cria array temporário com os ids da tarefas selecionadas 
+                // para a movimentação em lote
+                let tarefasListId: any[] = [];
+                this.tarefas.forEach((tarefa) => {
+                    tarefasListId.push(tarefa.id);
+                });
+                // verifica se houve alteração nas tarefas selecionadas para movimentação em lote
+                if (tarefasListId.length > 0 && tarefasListId.sort().toString() !== this.tarefasSelecionadasListId.sort().toString() ) {
+                    // lê os documentos das nova lista de tarefas selecionadas
+                    this._store.dispatch(new fromStore.GetDocumentos(tarefasListId.toString()));
+                    // guarda a nova lista de ids das tarefas selecionadas
+                    this.tarefasSelecionadasListId = [...tarefasListId];
+                }
+            }
+
         });
 
         this._store
@@ -115,7 +147,7 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
             }
         });
 
-        this.atividade = new Atividade();
+       /* this.atividade = new Atividade();
         this.atividade.encerraTarefa = true;
         this.atividade.dataHoraConclusao = moment();
         this.atividade.usuario = this._profile;
@@ -128,7 +160,7 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
             });
 
             this._store.dispatch(new fromStore.GetDocumentos(tarefasListId.toString()));
-        }
+        }*/
 
         this.documentos$.pipe(
             filter(cd => !!cd),
@@ -137,10 +169,34 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
             documentos => {
                 this.minutas = documentos;
                 this._changeDetectorRef.markForCheck();
-            }
+                
+                    this.mapDocumentos.clear();
+                    this.minutas.forEach(
+                        doc => this.addToMapArray(
+                                this.mapDocumentos,
+                                `${doc.processoOrigem.NUP}-${doc.tarefaOrigem.id}`,
+                                //`Processo: ${doc.processoOrigem.NUP}-Tarefa: ${doc.tarefaOrigem.id}`,                                
+                                doc)
+                    ); 
+            },
         );
     }
 
+    desmembraKeyMapArray(key:string) {
+        return {
+            'nup' : key.split('-')[0],
+            'idTarefa': key.split('-')[1]
+        }
+    }
+
+    addToMapArray(map:any, chave:any, valor:any){
+        map.has(chave) ? map.get(chave).push(valor) : map.set(chave,[valor]);
+    }
+
+
+    /**
+     * On destroy
+     */
     ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
@@ -165,13 +221,48 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
             );
 
             atividade.tarefa = tarefa;
+            //atividade.documentos = this.minutas;
+            this.selectedDocumentos$.subscribe(
+                documentos => {
+                    // Como no redux estão todos os documentos selecionados independetemente à qual tarefa pertencem,
+                    // abaixo são inseridos na atividade apenas os documentos selecionados pertencentes a respectiva tarefa
+                    atividade.documentos = documentos.filter(doc => doc.tarefaOrigem.id === tarefa.id);
+                }
 
+            );
             this._store.dispatch(new fromStore.SaveAtividade(atividade));
         });
     }
 
+
+
     changedSelectedIds(selectedIds): void {
-        this._store.dispatch(new fromStore.ChangeSelectedDocumentos(selectedIds));
+        selectedIds.forEach(element => {
+            this._changedSelectedIds(element);
+        });
+        
+
+        /*const selectedDocumentoIds = [...this.selectedIds];
+
+        if (selectedDocumentoIds.find(id => id === documentoId) !== undefined) {
+            this.selectedIds = selectedDocumentoIds.filter(id => id !== documentoId);
+        } else {
+            this.selectedIds = [...selectedDocumentoIds, documentoId];
+        }*/
+
+        this._store.dispatch(new fromStore.ChangeSelectedDocumentos(this.selectedIds));
+
+        //this._store.dispatch(new fromStore.ChangeSelectedDocumentos(selectedIds));
+    }
+
+    _changedSelectedIds(documentoId): void {
+        const selectedDocumentoIds = [...this.selectedIds];
+
+        if (selectedDocumentoIds.find(id => id === documentoId) !== undefined) {
+            this.selectedIds = selectedDocumentoIds.filter(id => id !== documentoId);
+        } else {
+            this.selectedIds = [...selectedDocumentoIds, documentoId];
+        }
     }
 
     doDelete(documentoId): void {
@@ -184,5 +275,9 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
 
     onClicked(documento): void {
          this._store.dispatch(new fromStore.ClickedDocumento(documento));
+    }
+
+    doConverte(documentoId): void {
+        //this._store.dispatch(new fromStore.ConverteToPdf(documentoId));
     }
 }

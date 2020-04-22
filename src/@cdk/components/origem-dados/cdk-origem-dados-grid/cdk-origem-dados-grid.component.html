@@ -1,12 +1,8 @@
 <div class="page-layout left-sidebar" fxFlex>
 
     <!-- SIDEBAR -->
-    <cdk-sidebar class="sidebar" name="cdk-origem-dados-main-sidebar" position="left">
-        <!-- SIDEBAR CONTENT -->
-        <div class="content" cdkPerfectScrollbar>
-            <cdk-origem-dados-main-sidebar (selected)="setGridFilter($event)" [@animate]="{value:'*'}"></cdk-origem-dados-main-sidebar>
-        </div>
-        <!-- / SIDEBAR CONTENT -->
+    <cdk-sidebar class="sidebar" name="cdk-origem-dados-filter" position="left">
+        <cdk-origem-dados-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-origem-dados-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
@@ -44,7 +40,7 @@
                 <mat-icon>refresh</mat-icon>
             </button>
 
-            <button class="toggle-filter" mat-icon-button [ngClass]="{'warn': (gridFilter | json) != '{}'}"
+            <button class="toggle-filter" mat-icon-button [ngClass]="{'warn': !(gridFilter | json).includes('{}')}"
                     (click)="toggleFilter()"
                     aria-label="filtrar"
                     matTooltip="Filtrar">
@@ -112,11 +108,13 @@
                 </ng-container>
 
                 <!-- DataHoraUltimaConsulta Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('dataHoraUltimaConsulta') > -1" matColumnDef="dataHoraUltimaConsulta">
+                <ng-container *ngIf="displayedColumns.indexOf('dataHoraUltimaConsulta') > -1"
+                              matColumnDef="dataHoraUltimaConsulta">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Data da Última Consulta
                     </th>
-                    <td mat-cell *matCellDef="let origemDados" class='has_label_on_mobile' data-label='Data da Última Consulta: '
+                    <td mat-cell *matCellDef="let origemDados" class='has_label_on_mobile'
+                        data-label='Data da Última Consulta: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(origemDados.id) > -1}"> {{origemDados.dataHoraUltimaConsulta | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
@@ -139,7 +137,8 @@
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1" matColumnDef="atualizadoPor.nome">
+                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1"
+                              matColumnDef="atualizadoPor.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Atualizado Por
                     </th>

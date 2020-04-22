@@ -106,6 +106,11 @@ export class CdkDocumentoAvulsoListComponent implements AfterViewInit, OnInit, O
     @Output()
     editorBloco = new EventEmitter<any>();
 
+    @Input()
+    mode = 'list';
+
+    gridFilter: any;
+
     listFilter: {} = {};
     listSort: {} = {};
 
@@ -209,7 +214,7 @@ export class CdkDocumentoAvulsoListComponent implements AfterViewInit, OnInit, O
      * Toggle the sidebar
      */
     toggleSidebar(): void {
-        this._cdkSidebarService.getSidebar('cdk-documento-avulso-list-main-sidebar').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-documento-avulso-list-filter').toggleOpen();
     }
 
     doResponderComplementarBloco(): void {
@@ -222,5 +227,10 @@ export class CdkDocumentoAvulsoListComponent implements AfterViewInit, OnInit, O
 
     onScroll(): void {
         this.scrolled.emit();
+    }
+
+    setFilter(gridFilter): void {
+        this.gridFilter = gridFilter;
+        this.loadPage();
     }
 }

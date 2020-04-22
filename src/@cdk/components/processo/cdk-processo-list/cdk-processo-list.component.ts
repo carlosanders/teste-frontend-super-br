@@ -98,9 +98,13 @@ export class CdkProcessoListComponent implements AfterViewInit, OnInit, OnChange
     @Input()
     idProcessoToLoadAssuntos: number;
 
-
     @Input()
     interessados: Interessado[];
+
+    @Input()
+    mode = 'list';
+
+    gridFilter: any;
 
     @Input()
     loadingInteressados: boolean;
@@ -153,7 +157,6 @@ export class CdkProcessoListComponent implements AfterViewInit, OnInit, OnChange
     selectProcesso(processo: Processo): void {
         this.selected.emit(processo);
     }
-
 
     /**
      * Toggle select all
@@ -208,8 +211,6 @@ export class CdkProcessoListComponent implements AfterViewInit, OnInit, OnChange
         this.loadPage();
     }
 
-
-
     doClassificacaoBloco(): void {
         this.classificacaoBloco.emit();
     }
@@ -242,11 +243,16 @@ export class CdkProcessoListComponent implements AfterViewInit, OnInit, OnChange
         this.realizarTransicao.emit(params);
     }
 
+    setFilter(gridFilter): void {
+        this.gridFilter = gridFilter;
+        this.loadPage();
+    }
+
     /**
      * Toggle the sidebar
      */
     toggleSidebar(): void {
-        this._cdkSidebarService.getSidebar('cdk-processo-list-main-sidebar').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-processo-list-filter').toggleOpen();
     }
 
     doLoadAssuntos(idProcesso): void {

@@ -7,7 +7,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatTableModule} from '@angular/material/table';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatPaginatorModule} from '@angular/material/paginator';
-import {CdkLembreteGridFilterModule} from '../cdk-lembrete-grid/cdk-lembrete-grid-filter/cdk-lembrete-grid-filter.module';
+import {CdkLembreteFilterModule} from '../sidebars/cdk-lembrete-filter/cdk-lembrete-filter.module';
 import {CdkSharedModule} from '../../../shared.module';
 import {MatButtonModule} from '@angular/material/button';
 import {MatInputModule} from '@angular/material/input';
@@ -30,7 +30,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
-        CdkLembreteGridFilterModule,
+        CdkLembreteFilterModule,
         CdkSharedModule,
         MatTooltipModule,
     ]

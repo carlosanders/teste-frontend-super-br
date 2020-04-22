@@ -16,13 +16,11 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {LocalizadorService} from '@cdk/services/localizador.service';
 import {CdkLocalizadorGridComponent} from './cdk-localizador-grid.component';
 import {CdkLocalizadorAutocompleteModule} from '@cdk/components/localizador/cdk-localizador-autocomplete/cdk-localizador-autocomplete.module';
-import {CdkLocalizadorGridFilterModule} from './cdk-localizador-grid-filter/cdk-localizador-grid-filter.module';
-import {CdkLocalizadorMainSidebarComponent} from './sidebars/main/main.component';
+import {CdkLocalizadorFilterModule} from '../sidebars/cdk-localizador-filter/cdk-localizador-filter.module';
 
 @NgModule({
     declarations: [
         CdkLocalizadorGridComponent,
-        CdkLocalizadorMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,
@@ -36,7 +34,7 @@ import {CdkLocalizadorMainSidebarComponent} from './sidebars/main/main.component
         MatSortModule,
 
         CdkLocalizadorAutocompleteModule,
-        CdkLocalizadorGridFilterModule,
+        CdkLocalizadorFilterModule,
 
         CdkSharedModule,
         CdkSidebarModule,

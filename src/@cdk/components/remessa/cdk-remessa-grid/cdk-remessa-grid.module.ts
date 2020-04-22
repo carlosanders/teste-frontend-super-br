@@ -15,13 +15,11 @@ import {CdkSidebarModule} from '@cdk/components/index';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {TramitacaoService} from '@cdk/services/tramitacao.service';
 import {CdkRemessaGridComponent} from './cdk-remessa-grid.component';
-import {CdkRemessaGridFilterModule} from './cdk-remessa-grid-filter/cdk-remessa-grid-filter.module';
-import {CdkRemessaMainSidebarComponent} from './sidebars/main/main.component';
+import {CdkRemessaFilterModule} from '../sidebars/cdk-remessa-filter/cdk-remessa-filter.module';
 
 @NgModule({
     declarations: [
         CdkRemessaGridComponent,
-        CdkRemessaMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,
@@ -34,7 +32,7 @@ import {CdkRemessaMainSidebarComponent} from './sidebars/main/main.component';
         MatPaginatorModule,
         MatSortModule,
 
-        CdkRemessaGridFilterModule,
+        CdkRemessaFilterModule,
 
         CdkSharedModule,
         CdkSidebarModule,

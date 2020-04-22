@@ -21,19 +21,18 @@ import { CdkDocumentoAvulsoListItemComponent } from './cdk-documento-avulso-list
 import { TranslateModule } from '@ngx-translate/core';
 import { PipesModule } from '@cdk/pipes/pipes.module';
 import { CdkSidebarModule } from '@cdk/components/index';
-import { CdkDocumentoAvulsoListMainSidebarComponent } from './sidebars/main/main.component';
 import { ProcessoService } from '@cdk/services/processo.service';
 import { CdkProcessoAutocompleteModule } from '@cdk/components/processo/cdk-processo-autocomplete/cdk-processo-autocomplete.module';
 import { CdkSetorAutocompleteModule } from '@cdk/components/setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
 import { DndModule } from 'ngx-drag-drop';
 import { SetorService } from '../../../services/setor.service';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
+import {CdkDocumentoAvulsoFilterModule} from '../sidebars/cdk-documento-avulso-filter/cdk-documento-avulso-filter.module';
 
 @NgModule({
     declarations: [
         CdkDocumentoAvulsoListComponent,
         CdkDocumentoAvulsoListItemComponent,
-        CdkDocumentoAvulsoListMainSidebarComponent
     ],
     imports: [
         MatButtonModule,
@@ -62,7 +61,8 @@ import {InfiniteScrollModule} from 'ngx-infinite-scroll';
         MatNativeDatetimeModule,
         MatMomentDatetimeModule,
         MatRadioModule,
-        InfiniteScrollModule
+        InfiniteScrollModule,
+        CdkDocumentoAvulsoFilterModule
     ],
     providers: [
         ProcessoService,

@@ -1,13 +1,8 @@
 <div class="page-layout left-sidebar" fxFlex>
 
     <!-- SIDEBAR -->
-    <cdk-sidebar class="sidebar" name="cdk-notificacao-main-sidebar" position="left">
-        <!-- SIDEBAR CONTENT -->
-        <div class="content" cdkPerfectScrollbar>
-            <cdk-notificacao-main-sidebar (selected)="setGridFilter($event)"
-                                          [@animate]="{value:'*'}"></cdk-notificacao-main-sidebar>
-        </div>
-        <!-- / SIDEBAR CONTENT -->
+    <cdk-sidebar class="sidebar" name="cdk-notificacao-filter" position="left">
+        <cdk-notificacao-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-notificacao-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
@@ -45,7 +40,7 @@
                 <mat-icon>refresh</mat-icon>
             </button>
 
-            <button class="toggle-filter" mat-icon-button [ngClass]="{'warn': (gridFilter | json) != '{}'}"
+            <button class="toggle-filter" mat-icon-button [ngClass]="{'warn': !(gridFilter | json).includes('{}')}"
                     (click)="toggleFilter()"
                     aria-label="filtrar"
                     matTooltip="Filtrar">
