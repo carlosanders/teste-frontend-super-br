@@ -286,7 +286,7 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
 
         if (this.routerState.params.processoHandle) {
             this.selectedIndex = 1;
-            this._store.dispatch(new fromStore.UnloadProcesso({reset: true}));
+            this._store.dispatch(new fromStore.UnloadProcesso());
         }
     }
 }

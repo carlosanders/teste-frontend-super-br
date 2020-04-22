@@ -89,7 +89,7 @@ export class UnloadProcesso implements Action
 {
     readonly type = UNLOAD_PROCESSO;
 
-    constructor(public payload: any)
+    constructor()
     {
     }
 }
