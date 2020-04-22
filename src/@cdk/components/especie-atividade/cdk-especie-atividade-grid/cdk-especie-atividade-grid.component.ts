@@ -122,7 +122,7 @@ export class CdkEspecieAtividadeGridComponent implements AfterViewInit, OnInit, 
     pageSize = 5;
 
     @Input()
-    actions: string[] = ['edit', 'delete', 'select'];
+    actions: string[] = ['edit', 'delete', 'select', 'tipo-documento-list'];
 
     @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
@@ -138,6 +138,9 @@ export class CdkEspecieAtividadeGridComponent implements AfterViewInit, OnInit, 
 
     @Output()
     edit = new EventEmitter<number>();
+
+    @Output()
+    tipoDocumentoEdit = new EventEmitter<number>();
 
     @Output()
     delete = new EventEmitter<number>();
@@ -253,6 +256,10 @@ export class CdkEspecieAtividadeGridComponent implements AfterViewInit, OnInit, 
         especieAtividadesId.forEach(especieAtividadeId => this.deleteEspecieAtividade(especieAtividadeId));
     }
 
+    tipoDocumento(especieAtividadeId): void {
+        this.tipoDocumentoEdit.emit(especieAtividadeId);
+    }
+
     salvarFavorito(favorito): void {
        this.toggleFavorito.emit(favorito);
     }
@@ -314,4 +321,6 @@ export class CdkEspecieAtividadeGridComponent implements AfterViewInit, OnInit, 
     doCancel(): void {
         this.cancel.emit();
     }
+
+
 }
