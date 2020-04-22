@@ -70,9 +70,12 @@ export class ParentGenericService<T> {
         }
     }
 
+
     destroy(id: number, context: any = '{}'): Observable<T> {
         const params = {};
         params['context'] = context;
         return this.modelService.delete(this.path, id, new HttpParams({fromObject: params}));
     }
+
+
 }

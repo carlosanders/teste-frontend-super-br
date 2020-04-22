@@ -138,41 +138,5 @@ export class EspecieTarefaEditEffects {
                 })
             );
 
-    // /**
-    //  * Save Colaborador
-    //  * @type {Observable<any>}
-    //  */
-    // @Effect()
-    // saveColaborador: any =
-    //     this._actions
-    //         .pipe(
-    //             ofType<EspecieTarefaEditActions.SaveColaborador>(EspecieTarefaEditActions.SAVE_COLABORADOR),
-    //             switchMap((action) => {
-    //                 return this._colaboradorService.save(action.payload).pipe(
-    //                     mergeMap((response: Colaborador) => [
-    //                         new EspecieTarefaEditActions.SaveColaboradorSuccess(),
-    //                         new EspecieTarefaListActions.ReloadEspecieTarefa(),
-    //                         new AddData<Colaborador>({data: [response], schema: colaboradorSchema})
-    //                     ])
-    //                 );
-    //             }),
-    //             catchError((err, caught) => {
-    //                 console.log(err);
-    //                 this._store.dispatch(new EspecieTarefaEditActions.SaveColaboradorFailed(err));
-    //                 return caught;
-    //             })
-    //         );
-    //
-    // /**
-    //  * Save Colaborador Success
-    //  */
-    // @Effect({dispatch: false})
-    // saveColaboradorSuccess: any =
-    //     this._actions
-    //         .pipe(
-    //             ofType<EspecieTarefaEditActions.SaveColaboradorSuccess>(EspecieTarefaEditActions.SAVE_COLABORADOR_SUCCESS),
-    //             tap(() => {
-    //                 this._router.navigate([this.routerState.url.replace(('editar/' + this.routerState.params.usuarioHandle), 'listar')]).then();
-    //             })
-    //         );
+
 }
