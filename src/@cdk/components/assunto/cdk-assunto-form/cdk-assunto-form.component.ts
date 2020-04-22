@@ -35,6 +35,9 @@ export class CdkAssuntoFormComponent implements OnChanges, OnDestroy {
     @Output()
     save = new EventEmitter<Assunto>();
 
+    @Output()
+    abort = new EventEmitter<any>();
+
     @Input()
     assuntoAdministrativoPagination: Pagination;
 
@@ -110,6 +113,10 @@ export class CdkAssuntoFormComponent implements OnChanges, OnDestroy {
         if (this.form.valid) {
             this.save.emit(this.form.value);
         }
+    }
+
+    doAbort(): void {
+        this.abort.emit();
     }
 
     checkAssuntoAdministrativo(): void {

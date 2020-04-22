@@ -144,6 +144,9 @@ export class CdkAssuntoGridComponent implements AfterViewInit, OnInit, OnChanges
     cancel = new EventEmitter<any>();
 
     @Output()
+    create = new EventEmitter<any>();
+
+    @Output()
     selectedIds: number[] = [];
 
     dataSource: AssuntoDataSource;
@@ -305,5 +308,9 @@ export class CdkAssuntoGridComponent implements AfterViewInit, OnInit, OnChanges
 
     doCancel(): void {
         this.cancel.emit();
+    }
+
+    doCreate(): void {
+        this.create.emit();
     }
 }

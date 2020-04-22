@@ -79,6 +79,10 @@ export class AssuntoListComponent implements OnInit {
         }));
     }
 
+    create () : void {
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
+    }
+
     edit(assuntoId: number): void {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/') + assuntoId]);
     }
