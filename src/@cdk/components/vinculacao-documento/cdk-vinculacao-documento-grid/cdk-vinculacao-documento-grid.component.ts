@@ -57,7 +57,7 @@ export class CdkVinculacaoDocumentoGridComponent implements AfterViewInit, OnIni
         },
         {
             id: 'modalidadeVinculacaoDocumento.valor',
-            label: 'Modalidaded da Vinculação do Documento',
+            label: 'Modalidade da Vinculação do Documento',
             fixed: false
         },
         {

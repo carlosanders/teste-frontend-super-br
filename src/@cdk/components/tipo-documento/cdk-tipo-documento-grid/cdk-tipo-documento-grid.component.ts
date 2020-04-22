@@ -220,7 +220,7 @@ export class CdkTipoDocumentoGridComponent implements AfterViewInit, OnInit, OnC
     }
 
     toggleFilter(): void {
-        this._cdkSidebarService.getSidebar('cdk-tipo-documento-main-sidebar').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-tipo-documento-list-main-sidebar').toggleOpen();
         this.showFilter = !this.showFilter;
     }
 
