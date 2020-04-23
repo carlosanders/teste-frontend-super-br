@@ -32,6 +32,9 @@ export class CdkDownloadFormComponent implements OnInit, OnChanges, OnDestroy {
     @Output()
     save = new EventEmitter();
 
+    @Output()
+    abort = new EventEmitter<any>();
+
     form: FormGroup;
 
     activeCard = 'form';

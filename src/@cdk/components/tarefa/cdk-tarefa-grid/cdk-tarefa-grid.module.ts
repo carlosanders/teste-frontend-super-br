@@ -11,7 +11,7 @@ import {
     MatSelectModule,
 } from '@cdk/angular/material';
 import {MatTooltipModule} from '@angular/material/tooltip';
-import {CdkSidebarModule} from '@cdk/components/index';
+import {CdkSidebarModule} from '../..';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {EspecieTarefaService} from '@cdk/services/especie-tarefa.service';
 import {CdkEspecieTarefaAutocompleteModule} from '@cdk/components/especie-tarefa/cdk-especie-tarefa-autocomplete/cdk-especie-tarefa-autocomplete.module';

@@ -10,22 +10,23 @@
                 Ativo
             </mat-checkbox>
 
-        <mat-form-field fxFlex="100">
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Nome" formControlName="nome" required maxlength="255" upperCase>
-            </div>
+            <mat-form-field fxFlex="100">
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Nome" formControlName="nome" required maxlength="255" upperCase>
+                </div>
 
-            <mat-error *ngIf="form.get('nome').hasError('formError')">
-                {{form.get('nome').errors.formError}}
-            </mat-error>
-        </mat-form-field>
+                <mat-error *ngIf="form.get('nome').hasError('formError')">
+                    {{form.get('nome').errors.formError}}
+                </mat-error>
+            </mat-form-field>
 
-        <mat-form-field fxFlex="100">
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Descrição" formControlName="descricao" maxlength="255" required upperCase>
-            </div>
-        </mat-form-field>
-    </div>
+            <mat-form-field fxFlex="100">
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Descrição" formControlName="descricao" maxlength="255" required
+                           upperCase>
+                </div>
+            </mat-form-field>
+        </div>
 
         <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
@@ -40,8 +41,9 @@
             </button>
         </div>
 
-    <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-         fxLayoutAlign="center center">
-        <mat-spinner color="accent" diameter="24"></mat-spinner>
-    </div>
-</form>
+        <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+             fxLayoutAlign="center center">
+            <mat-spinner color="accent" diameter="24"></mat-spinner>
+        </div>
+    </form>
+</div>

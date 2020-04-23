@@ -38,6 +38,9 @@ export class CdkAssuntoAdministrativoGridComponent implements AfterViewInit, OnI
     @Input()
     mode = 'list';
 
+    @Output()
+    create = new EventEmitter<any>();
+
     @Input()
     displayedColumns: string[] = ['select', 'id', 'nome', 'glossario', 'actions'];
 

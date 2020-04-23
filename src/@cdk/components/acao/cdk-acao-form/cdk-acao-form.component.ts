@@ -137,6 +137,10 @@ export class CdkAcaoFormComponent implements OnInit, OnChanges, OnDestroy {
         }
     }
 
+    doAbort(): void {
+        this.abort.emit();
+    }
+
     checkModelo(): void {
         const value = this.form.get('modelo').value;
         if (!value || typeof value !== 'object') {

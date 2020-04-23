@@ -32,6 +32,9 @@ export class CdkEncaminhamentoFormComponent implements OnChanges, OnDestroy {
     @Output()
     cancel = new EventEmitter();
 
+    @Output()
+    abort = new EventEmitter<any>();
+
     form: FormGroup;
 
     /**
@@ -90,9 +93,4 @@ export class CdkEncaminhamentoFormComponent implements OnChanges, OnDestroy {
     doAbort(): void {
         this.abort.emit();
     }
-
-    abort(): void {
-        this.cancel.emit();
-    }
-
 }

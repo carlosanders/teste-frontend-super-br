@@ -37,6 +37,9 @@ export class CdkEnderecoGridComponent implements AfterViewInit, OnInit, OnChange
     @Input()
     mode = 'list';
 
+    @Output()
+    create = new EventEmitter<any>();
+
     @Input()
     displayedColumns: string[] = ['select', 'id', 'logradouro', 'municipio.nome', 'municipio.estado.uf', 'principal', 'actions'];
 
@@ -187,6 +190,7 @@ export class CdkEnderecoGridComponent implements AfterViewInit, OnInit, OnChange
 
     /**
      * @param _changeDetectorRef
+     * @param _cdkSidebarService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -332,5 +336,9 @@ export class CdkEnderecoGridComponent implements AfterViewInit, OnInit, OnChange
 
     doCancel(): void {
         this.cancel.emit();
+    }
+
+    doCreate(): void {
+        this.create.emit();
     }
 }

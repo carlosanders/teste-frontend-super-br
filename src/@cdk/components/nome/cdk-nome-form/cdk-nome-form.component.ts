@@ -6,12 +6,10 @@ import {
     Output, SimpleChange,
     ViewEncapsulation
 } from '@angular/core';
-
-import { cdkAnimations } from '@cdk/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { Nome } from '@cdk/models';
+import {Nome} from '@cdk/models';
 import {Pagination} from '@cdk/models';
-import {Pessoa} from '@cdk/models';
 
 @Component({
     selector: 'cdk-nome-form',
@@ -56,7 +54,7 @@ export class CdkNomeFormComponent implements OnChanges, OnDestroy {
         this.form = this._formBuilder.group({
             id: [null],
             pessoa: [null],
-            valor: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(255) ]]
+            valor: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(255)]]
         });
         this.pessoaPagination = new Pagination();
     }

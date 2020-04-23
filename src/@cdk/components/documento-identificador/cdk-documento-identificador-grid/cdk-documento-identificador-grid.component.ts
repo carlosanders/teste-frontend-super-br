@@ -37,6 +37,9 @@ export class CdkDocumentoIdentificadorGridComponent implements AfterViewInit, On
     @Input()
     mode = 'list';
 
+    @Output()
+    create = new EventEmitter<any>();
+
     @Input()
     displayedColumns: string[] = ['select', 'id', 'modalidadeDocumentoIdentificador.valor', 'codigoDocumento', 'emissorDocumento',
         'dataEmissao', 'origemDados', 'actions'];
@@ -168,6 +171,7 @@ export class CdkDocumentoIdentificadorGridComponent implements AfterViewInit, On
 
     /**
      * @param _changeDetectorRef
+     * @param _cdkSidebarService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -313,5 +317,9 @@ export class CdkDocumentoIdentificadorGridComponent implements AfterViewInit, On
 
     doCancel(): void {
         this.cancel.emit();
+    }
+
+    doCreate(): void {
+        this.create.emit();
     }
 }

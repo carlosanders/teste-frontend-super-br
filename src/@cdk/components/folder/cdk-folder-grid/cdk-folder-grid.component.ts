@@ -38,6 +38,9 @@ export class CdkFolderGridComponent implements AfterViewInit, OnInit, OnChanges 
     @Input()
     mode = 'list';
 
+    @Output()
+    create = new EventEmitter<any>();
+
     @Input()
     displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'modalidadeFolder.valor', 'actions'];
 
@@ -158,6 +161,7 @@ export class CdkFolderGridComponent implements AfterViewInit, OnInit, OnChanges 
 
     /**
      * @param _changeDetectorRef
+     * @param _cdkSidebarService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -304,5 +308,9 @@ export class CdkFolderGridComponent implements AfterViewInit, OnInit, OnChanges 
 
     doCancel(): void {
         this.cancel.emit();
+    }
+
+    doCreate(): void {
+        this.create.emit();
     }
 }

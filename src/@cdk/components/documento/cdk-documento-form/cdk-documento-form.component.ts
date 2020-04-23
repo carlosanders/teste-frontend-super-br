@@ -6,13 +6,11 @@ import {
     Output, SimpleChange,
     ViewEncapsulation
 } from '@angular/core';
-
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Documento} from '@cdk/models';
 import {TipoDocumento} from '@cdk/models';
 import {Pagination} from '@cdk/models';
-import {Processo} from '@cdk/models';
 import {Pessoa} from '@cdk/models';
 import {Setor} from '@cdk/models';
 

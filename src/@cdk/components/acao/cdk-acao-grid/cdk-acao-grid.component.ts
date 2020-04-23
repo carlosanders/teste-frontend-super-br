@@ -12,7 +12,6 @@ import {
     EventEmitter
 } from '@angular/core';
 import {merge, of} from 'rxjs';
-
 import {cdkAnimations} from '@cdk/animations';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
@@ -43,8 +42,14 @@ export class CdkAcaoGridComponent implements AfterViewInit, OnInit, OnChanges {
     @Input()
     mode = 'list';
 
+
+    @Output()
+    create = new EventEmitter<any>();
     @Input()
     displayedColumns: string[] = ['select', 'id', 'contexto', 'trigger', 'etiqueta.nome', 'actions'];
+
+    @Output()
+    create = new EventEmitter<any>();
 
     allColumns: any[] = [
         {
@@ -305,5 +310,9 @@ export class CdkAcaoGridComponent implements AfterViewInit, OnInit, OnChanges {
 
     doCancel(): void {
         this.cancel.emit();
+    }
+
+    doCreate(): void {
+        this.create.emit();
     }
 }
