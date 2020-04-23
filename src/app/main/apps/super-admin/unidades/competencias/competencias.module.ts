@@ -15,31 +15,26 @@ import {
 import {TranslateModule} from '@ngx-translate/core';
 
 import {CdkSharedModule} from '@cdk/shared.module';
+import {CompetenciasComponent} from './competencias.component';
 import {SetorService} from '@cdk/services/setor.service';
+import {VinculacaoSetorMunicipioService} from '@cdk/services/vinculacao-setor-municipio.service';
 import {RouterModule, Routes} from '@angular/router';
-import {MatTooltipModule} from '@angular/material/tooltip';
-import {UnidadesComponent} from './unidades.component';
+import * as fromGuards from './store/guards';
+import {CompetenciasStoreModule} from './store/store.module';
 
 const routes: Routes = [
     {
         path: '',
-        component: UnidadesComponent,
+        component: CompetenciasComponent,
+        canActivate: [fromGuards.ResolveGuard],
         children: [
             {
                 path       : 'listar',
-                loadChildren: () => import('./unidades-list/unidades-list.module').then(m => m.UnidadesListModule)
+                loadChildren: () => import('./competencias-list/competencias-list.module').then(m => m.CompetenciasListModule),
             },
             {
                 path       : 'editar',
-                loadChildren: () => import('./unidade-edit/unidade-edit.module').then(m => m.UnidadeEditModule),
-            },
-            {
-                path       : ':unidadeHandle/competencias',
-                loadChildren: () => import('./competencias/competencias.module').then(m => m.CompetenciasModule),
-            },
-            {
-                path       : ':unidadeHandle/setores',
-                loadChildren: () => import('./setor/setor.module').then(m => m.SetorModule),
+                loadChildren: () => import('./competencia-edit/competencia-edit.module').then(m => m.CompetenciaEditModule),
             },
             {
                 path: '**',
@@ -47,11 +42,12 @@ const routes: Routes = [
             }
         ]
     }
+
 ];
 
 @NgModule({
     declarations: [
-        UnidadesComponent
+        CompetenciasComponent
     ],
     imports: [
         RouterModule.forChild(routes),
@@ -68,15 +64,19 @@ const routes: Routes = [
         MatPaginatorModule,
         MatSortModule,
         TranslateModule,
+
+        CompetenciasStoreModule,
+
         CdkSharedModule,
-        MatTooltipModule,
     ],
     providers: [
-        SetorService
+        VinculacaoSetorMunicipioService,
+        SetorService,
+        fromGuards.ResolveGuard
     ],
     exports: [
-        UnidadesComponent
+        CompetenciasComponent
     ]
 })
-export class UnidadesModule {
+export class CompetenciasModule {
 }

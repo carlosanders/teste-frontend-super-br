@@ -1,0 +1,12 @@
+<cdk-vinculacao-setor-municipio-grid
+    [loading]="(loading$ | async)"
+    [vinculacoesSetoresMunicipios]="(vinculacoesSetoresMunicipios$ | async)"
+    [total]="(pagination$ | async)?.total"
+    [deletingIds]="(deletingIds$ | async)"
+    [deletedIds]="(deletedIds$ | async)"
+    [displayedColumns]="['select', 'id', 'setor.nome', 'municipio.nome', 'actions']"
+    [actions]="['create', 'delete']"
+    (reload)="reload($event)"
+    (create)="create()"
+    (delete)="delete($event)">
+</cdk-vinculacao-setor-municipio-grid>
