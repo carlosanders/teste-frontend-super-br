@@ -30,43 +30,11 @@ const routes: Routes = [
             {
                 path: 'processo',
                 loadChildren: () => import('app/main/apps/processo/processo.module').then(m => m.ProcessoModule)
+            },
+            {
+                path: 'complementar',
+                loadChildren: () => import('./complementar/complementar.module').then(m => m.ComplementarModule)
             }
-            /*{
-                path: 'editar',
-                loadChildren: () => import('./tarefa-edit/tarefa-edit.module').then(m => m.TarefaEditModule)
-            },
-            {
-                path: 'criar',
-                loadChildren: () => import('../tarefa-create/tarefa-create.module').then(m => m.TarefaCreateModule)
-            },
-            {
-                path: 'atividades',
-                loadChildren: () => import('./atividades/atividades.module').then(m => m.AtividadesModule)
-            },
-            {
-                path: 'compartilhamentos',
-                loadChildren: () => import('./compartilhamentos/compartilhamentos.module').then(m => m.CompartilhamentosModule)
-            },
-            {
-                path: 'processo',
-                loadChildren: () => import('app/main/apps/processo/processo.module').then(m => m.ProcessoModule)
-            },
-            {
-                path: 'modelo',
-                loadChildren: () => import('app/main/apps/modelo/modelo.module').then(m => m.ModeloModule),
-            },
-            {
-                path: 'oficio',
-                loadChildren: () => import('app/main/apps/documento-avulso/documento-avulso-create/documento-avulso-create.module').then(m => m.DocumentoAvulsoCreateModule),
-            },
-            {
-                path: 'encaminhamento',
-                loadChildren: () => import('./encaminhamento/encaminhamento.module').then(m => m.EncaminhamentoModule),
-            },
-            {
-                path: '**',
-                redirectTo: 'editar'
-            }*/
         ],
         canActivate: [fromGuards.ResolveGuard]
     }
@@ -79,21 +47,15 @@ const routes: Routes = [
     imports: [
         CommonModule,
         RouterModule.forChild(routes),
-
         MatIconModule,
         MatButtonModule,
         MatMenuModule,
         MatProgressSpinnerModule,
         MatTooltipModule,
-
         ProcessoDetailStoreModule,
-
         PipesModule,
-
         TranslateModule,
-
         CdkVinculacaoEtiquetaChipsModule,
-
         CdkSharedModule,
         CdkSidebarModule
     ],

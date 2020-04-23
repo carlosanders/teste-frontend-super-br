@@ -34,52 +34,10 @@
             </button>
 
             <button mat-icon-button aria-label="Movimentar" matTooltip="Movimentar"
-                    [routerLink]="'atividades/criar'"
+                    [routerLink]="['complementar', (processo$ | async)?.id]"
                     [routerLinkActive]="['active', 'accent']">
                 <mat-icon class="black-fg">send</mat-icon>
             </button>
-
-            <button mat-icon-button aria-label="Editar Processo" matTooltip="Editar Processo"
-                    [routerLink]="'editar'"
-                    [routerLinkActive]="['active', 'accent']">
-                <mat-icon class="black-fg">edit</mat-icon>
-            </button>
-
-            <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="Mais Ferramentas"
-                    (click)="$event.stopPropagation()"
-                    fxHide.xs>
-                <mat-icon class="secondary-text">more_vert</mat-icon>
-            </button>
-
-            <mat-menu #moreMenu="matMenu">
-
-                <button mat-menu-item aria-label="toggle done"
-                        (click)="doCreateProcesso()">
-                    <ng-container>
-                        <mat-icon>check_box</mat-icon>
-                        <span>Criar Processo</span>
-                    </ng-container>
-                </button>
-
-                <button mat-menu-item aria-label="Compartilhar"
-                        [routerLink]="'compartilhamentos/criar'">
-                    <ng-container>
-                        <mat-icon>share</mat-icon>
-                        <span>Compartilhar</span>
-                    </ng-container>
-                </button>
-
-                <button mat-menu-item aria-label="Dar ciência"
-                        (click)="doCiencia()">
-                    <ng-container>
-                        <mat-icon>check</mat-icon>
-                        <span>Dar Ciência</span>
-                    </ng-container>
-                </button>
-
-                <ng-template #dynamicComponent></ng-template>
-
-            </mat-menu>
         </div>
 
     </div>

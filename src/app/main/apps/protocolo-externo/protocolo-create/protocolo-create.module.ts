@@ -26,7 +26,7 @@ import {CdkVisibilidadePluginModule} from '@cdk/components/visibilidade/cdk-visi
 import {CdkProcessoFormModule} from '@cdk/components/processo/cdk-processo-form/cdk-processo-form.module';
 import {CdkComponenteDigitalDocumentoAvulsoCardListModule} from '@cdk/components/documento-avulso/cdk-componente-digital-documento-avulso-card-list/cdk-componente-digital-documento-avulso-card-list.module';
 import {CdkDocumentoCardListModule} from '@cdk/components/documento/cdk-documento-card-list/cdk-documento-card-list.module';
-import {EstadoService} from '../../../../../@cdk/services/estado.service';
+import {EstadoService} from '@cdk/services/estado.service';
 
 const routes: Routes = [
     {
