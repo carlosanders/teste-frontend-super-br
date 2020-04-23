@@ -37,6 +37,9 @@ export class CdkAtividadeGridComponent implements AfterViewInit, OnInit, OnChang
     @Input()
     mode = 'list';
 
+    @Output()
+    create = new EventEmitter<any>();
+
     @Input()
     displayedColumns: string[] = ['select', 'id', 'dataHoraConclusao', 'especieAtividade.nome', 'usuario.nome', 'encerraTarefa', 'actions'];
 
@@ -334,5 +337,9 @@ export class CdkAtividadeGridComponent implements AfterViewInit, OnInit, OnChang
 
     doCancel(): void {
         this.cancel.emit();
+    }
+
+    doCreate(): void {
+        this.create.emit();
     }
 }

@@ -38,6 +38,9 @@ export class CdkMunicipioGridComponent implements AfterViewInit, OnInit, OnChang
     @Input()
     mode = 'list';
 
+    @Output()
+    create = new EventEmitter<any>();
+
     @Input()
     displayedColumns: string[] = ['select', 'id', 'nome', 'sigla', 'actions'];
 
@@ -158,6 +161,7 @@ export class CdkMunicipioGridComponent implements AfterViewInit, OnInit, OnChang
 
     /**
      * @param _changeDetectorRef
+     * @param _cdkSidebarService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -304,5 +308,9 @@ export class CdkMunicipioGridComponent implements AfterViewInit, OnInit, OnChang
 
     doCancel(): void {
         this.cancel.emit();
+    }
+
+    doCreate(): void {
+        this.create.emit();
     }
 }

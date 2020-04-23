@@ -47,6 +47,9 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
     @Input()
     mode = 'list';
 
+    @Output()
+    create = new EventEmitter<any>();
+
     @Input()
     displayedColumns: string[] = ['select', 'id', 'NUP', 'setorAtual.nome', 'unidade', 'actions'];
 
@@ -420,5 +423,9 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
 
     doCancel(): void {
         this.cancel.emit();
+    }
+
+    doCreate(): void {
+        this.create.emit();
     }
 }

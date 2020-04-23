@@ -38,6 +38,9 @@ export class CdkPessoaGridComponent implements AfterViewInit, OnInit, OnChanges 
     @Input()
     mode = 'list';
 
+    @Output()
+    create = new EventEmitter<any>();
+
     @Input()
     displayedColumns: string[] = ['select', 'id', 'nome', 'numeroDocumentoPrincipal', 'actions'];
 
@@ -350,5 +353,9 @@ export class CdkPessoaGridComponent implements AfterViewInit, OnInit, OnChanges 
 
     doCancel(): void {
         this.cancel.emit();
+    }
+
+    doCreate(): void {
+        this.create.emit();
     }
 }

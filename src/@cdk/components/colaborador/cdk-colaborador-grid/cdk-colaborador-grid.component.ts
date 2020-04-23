@@ -37,6 +37,9 @@ export class CdkColaboradorGridComponent implements AfterViewInit, OnInit, OnCha
     @Input()
     mode = 'list';
 
+    @Output()
+    create = new EventEmitter<any>();
+
     @Input()
     displayedColumns: string[] = ['select', 'id', 'usuario.nome', 'cargo.nome', 'modalidadeColaborador.valor', 'actions'];
 
@@ -152,6 +155,7 @@ export class CdkColaboradorGridComponent implements AfterViewInit, OnInit, OnCha
 
     /**
      * @param _changeDetectorRef
+     * @param _cdkSidebarService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -297,5 +301,9 @@ export class CdkColaboradorGridComponent implements AfterViewInit, OnInit, OnCha
 
     doCancel(): void {
         this.cancel.emit();
+    }
+
+    doCreate(): void {
+        this.create.emit();
     }
 }

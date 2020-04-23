@@ -113,6 +113,10 @@ export class CdkLembreteFormComponent implements OnInit, OnChanges {
         this.form.get('conteudo').setValue('');
     }
 
+    doAbort(): void {
+        this.abort.emit();
+    }
+
     /**
      * On change
      */

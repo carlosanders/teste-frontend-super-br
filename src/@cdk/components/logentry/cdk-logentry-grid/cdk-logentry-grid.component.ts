@@ -6,11 +6,8 @@ import {
     ViewEncapsulation, Input, OnChanges, Output, EventEmitter
 } from '@angular/core';
 import {merge, of} from 'rxjs';
-
 import {cdkAnimations} from '@cdk/animations';
-
 import {MatPaginator, MatSort} from '@cdk/angular/material';
-
 import {LogEntry} from '@cdk/models';
 import {LogEntryDataSource} from '@cdk/data-sources/logentry-data-source';
 import {FormControl} from '@angular/forms';
@@ -38,6 +35,9 @@ export class CdkLogentryGridComponent implements AfterViewInit, OnInit, OnChange
 
     @Input()
     mode = 'list';
+
+    @Output()
+    create = new EventEmitter<any>();
 
     @Input()
     displayedColumns: string[] = ['id', 'loggedAt', 'username', 'valor'];
@@ -169,6 +169,7 @@ export class CdkLogentryGridComponent implements AfterViewInit, OnInit, OnChange
 
     /**
      * @param _changeDetectorRef
+     * @param _cdkSidebarService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -318,5 +319,9 @@ export class CdkLogentryGridComponent implements AfterViewInit, OnInit, OnChange
 
     doCancel(): void {
         this.cancel.emit();
+    }
+
+    doCreate(): void {
+        this.create.emit();
     }
 }

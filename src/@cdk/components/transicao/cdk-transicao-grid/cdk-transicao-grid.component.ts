@@ -38,6 +38,9 @@ export class CdkTransicaoGridComponent implements AfterViewInit, OnInit, OnChang
     @Input()
     mode = 'list';
 
+    @Output()
+    create = new EventEmitter<any>();
+
     @Input()
     displayedColumns: string[] = ['select', 'id', 'modalidadeTransicao.valor', 'observacao', 'metodo', 'edital', 'actions'];
 
@@ -163,6 +166,7 @@ export class CdkTransicaoGridComponent implements AfterViewInit, OnInit, OnChang
 
     /**
      * @param _changeDetectorRef
+     * @param _cdkSidebarService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -309,5 +313,9 @@ export class CdkTransicaoGridComponent implements AfterViewInit, OnInit, OnChang
 
     doCancel(): void {
         this.cancel.emit();
+    }
+
+    doCreate(): void {
+        this.create.emit();
     }
 }

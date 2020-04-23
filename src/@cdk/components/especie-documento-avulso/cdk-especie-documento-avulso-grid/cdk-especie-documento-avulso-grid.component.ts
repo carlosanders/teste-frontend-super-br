@@ -38,6 +38,9 @@ export class CdkEspecieDocumentoAvulsoGridComponent implements AfterViewInit, On
     @Input()
     mode = 'list';
 
+    @Output()
+    create = new EventEmitter<any>();
+
     @Input()
     displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'generoDocumentoAvulso.nome', 'actions'];
 
@@ -158,6 +161,7 @@ export class CdkEspecieDocumentoAvulsoGridComponent implements AfterViewInit, On
 
     /**
      * @param _changeDetectorRef
+     * @param _cdkSidebarService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -304,5 +308,9 @@ export class CdkEspecieDocumentoAvulsoGridComponent implements AfterViewInit, On
 
     doCancel(): void {
         this.cancel.emit();
+    }
+
+    doCreate(): void {
+        this.create.emit();
     }
 }

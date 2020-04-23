@@ -38,6 +38,9 @@ export class CdkLocalizadorGridComponent implements AfterViewInit, OnInit, OnCha
     @Input()
     mode = 'list';
 
+    @Output()
+    create = new EventEmitter<any>();
+
     @Input()
     displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'ativo', 'setor.nome', 'actions'];
 
@@ -309,5 +312,9 @@ export class CdkLocalizadorGridComponent implements AfterViewInit, OnInit, OnCha
 
     doCancel(): void {
         this.cancel.emit();
+    }
+
+    doCreate(): void {
+        this.create.emit();
     }
 }

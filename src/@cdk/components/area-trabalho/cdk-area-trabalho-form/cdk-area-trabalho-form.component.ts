@@ -112,6 +112,10 @@ export class CdkAreaTrabalhoFormComponent implements OnChanges, OnDestroy {
         }
     }
 
+    doAbort(): void {
+        this.abort.emit();
+    }
+
     checkUsuario(): void {
         const value = this.form.get('usuario').value;
         if (!value || typeof value !== 'object') {

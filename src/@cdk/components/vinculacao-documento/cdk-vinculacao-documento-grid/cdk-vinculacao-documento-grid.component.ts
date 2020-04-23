@@ -38,6 +38,9 @@ export class CdkVinculacaoDocumentoGridComponent implements AfterViewInit, OnIni
     @Input()
     mode = 'list';
 
+    @Output()
+    create = new EventEmitter<any>();
+
     @Input()
     displayedColumns: string[] = ['select', 'id', 'documento.tipoDocumento.nome', 'documentoVinculado.tipoDocumento.nome',
         'modalidadeVinculacaoDocumento.valor', 'actions'];
@@ -149,6 +152,7 @@ export class CdkVinculacaoDocumentoGridComponent implements AfterViewInit, OnIni
 
     /**
      * @param _changeDetectorRef
+     * @param _cdkSidebarService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -295,5 +299,9 @@ export class CdkVinculacaoDocumentoGridComponent implements AfterViewInit, OnIni
 
     doCancel(): void {
         this.cancel.emit();
+    }
+
+    doCreate(): void {
+        this.create.emit();
     }
 }
