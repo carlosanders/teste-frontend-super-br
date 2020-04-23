@@ -57,11 +57,11 @@ export class ModelosListComponent implements OnInit {
                 if (routerState) {
                     this.routerState = routerState.state;
                     if (this.routerState.params['generoHandle'] === 'local') {
-                        this.actions = ['edit', 'editConteudo', 'anexo', 'delete'];
+                        this.actions = ['edit', 'editConteudo', 'delete'];
                         this.colunas = ['select', 'id', 'nome', 'descricao', 'vinculacoesModelos.setor.nome', 'template.nome', 'ativo', 'actions'];
                     }
                     if (this.routerState.params['generoHandle'] === 'nacional') {
-                        this.actions = ['edit', 'editConteudo', 'especie', 'anexo', 'delete'];
+                        this.actions = ['edit', 'editConteudo', 'especie', 'delete'];
                         this.colunas = ['select', 'id', 'nome', 'descricao', 'vinculacoesModelos.orgaoCentral.valor', 'template.nome', 'ativo', 'actions'];
                     }
                 }
@@ -97,10 +97,6 @@ export class ModelosListComponent implements OnInit {
 
     editConteudo(documentoId: number): void {
         this._router.navigate([this.routerState.url + '/documento/' + documentoId + '/modelo']).then();
-    }
-
-    anexoModelo(modeloId: number): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'anexos/') + modeloId]);
     }
 
     especieSetores(modeloId: number): void {

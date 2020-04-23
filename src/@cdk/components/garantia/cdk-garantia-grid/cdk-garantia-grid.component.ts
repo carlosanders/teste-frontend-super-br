@@ -35,6 +35,9 @@ export class CdkGarantiaGridComponent implements AfterViewInit, OnInit, OnChange
     total = 0;
 
     @Input()
+    mode = 'list';
+
+    @Input()
     displayedColumns: string[] = ['select', 'id', 'modalidadeGarantia.valor', 'valor','dataValor','descricao', 'actions'];
 
     allColumns: any[] = [
@@ -74,7 +77,7 @@ export class CdkGarantiaGridComponent implements AfterViewInit, OnInit, OnChange
             fixed: false
         },                        
         {
-            id: 'processo.NUP',
+            id: 'processo',
             label: 'NUP',
             fixed: false
         },
@@ -223,7 +226,7 @@ export class CdkGarantiaGridComponent implements AfterViewInit, OnInit, OnChange
     }
 
     toggleFilter(): void {
-        this._cdkSidebarService.getSidebar('cdk-garantia-main-sidebar').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-garantia-filter').toggleOpen();
         this.showFilter = !this.showFilter;
     }
 
@@ -303,7 +306,7 @@ export class CdkGarantiaGridComponent implements AfterViewInit, OnInit, OnChange
         this.isIndeterminate = (this.selectedIds.length !== this.garantias.length && this.selectedIds.length > 0);
     }
 
-    setGridFilter(gridFilter): void {
+    setFilter(gridFilter): void {
         this.gridFilter = gridFilter;
         this.paginator.pageIndex = 0;
         this.loadPage();

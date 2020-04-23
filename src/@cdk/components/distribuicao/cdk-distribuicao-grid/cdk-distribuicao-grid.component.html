@@ -1,12 +1,8 @@
 <div class="page-layout left-sidebar" fxFlex>
 
     <!-- SIDEBAR -->
-    <cdk-sidebar class="sidebar" name="cdk-distribuicao-main-sidebar" position="left">
-        <!-- SIDEBAR CONTENT -->
-        <div class="content" cdkPerfectScrollbar>
-            <cdk-distribuicao-main-sidebar (selected)="setGridFilter($event)" [@animate]="{value:'*'}"></cdk-distribuicao-main-sidebar>
-        </div>
-        <!-- / SIDEBAR CONTENT -->
+    <cdk-sidebar class="sidebar" name="cdk-distribuicao-filter" position="left">
+        <cdk-distribuicao-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-distribuicao-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
@@ -44,7 +40,7 @@
                 <mat-icon>refresh</mat-icon>
             </button>
 
-            <button class="toggle-filter" mat-icon-button [ngClass]="{'warn': (gridFilter | json) != '{}'}"
+            <button class="toggle-filter" mat-icon-button [ngClass]="{'warn': !(gridFilter | json).includes('{}')}"
                     (click)="toggleFilter()"
                     aria-label="filtrar"
                     matTooltip="Filtrar">
@@ -94,7 +90,8 @@
                 </ng-container>
 
                 <!-- Tarefa Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('tarefa.especieTarefa.nome') > -1" matColumnDef="tarefa.especieTarefa.nome">
+                <ng-container *ngIf="displayedColumns.indexOf('tarefa.especieTarefa.nome') > -1"
+                              matColumnDef="tarefa.especieTarefa.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Tarefa
                     </th>
@@ -103,7 +100,8 @@
                 </ng-container>
 
                 <!-- Data Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('dataHoraFinalPrazo') > -1" matColumnDef="dataHoraFinalPrazo">
+                <ng-container *ngIf="displayedColumns.indexOf('dataHoraFinalPrazo') > -1"
+                              matColumnDef="dataHoraFinalPrazo">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Data Final
                     </th>
@@ -112,7 +110,8 @@
                 </ng-container>
 
                 <!-- Usuario Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('usuarioAnterior.nome') > -1" matColumnDef="usuarioAnterior.nome">
+                <ng-container *ngIf="displayedColumns.indexOf('usuarioAnterior.nome') > -1"
+                              matColumnDef="usuarioAnterior.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Usuário
                     </th>
@@ -121,7 +120,8 @@
                 </ng-container>
 
                 <!-- Usuario Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('usuarioPosterior.nome') > -1" matColumnDef="usuarioPosterior.nome">
+                <ng-container *ngIf="displayedColumns.indexOf('usuarioPosterior.nome') > -1"
+                              matColumnDef="usuarioPosterior.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Usuário
                     </th>
@@ -130,7 +130,8 @@
                 </ng-container>
 
                 <!-- Setor Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('setorAnterior.nome') > -1" matColumnDef="setorAnterior.nome">
+                <ng-container *ngIf="displayedColumns.indexOf('setorAnterior.nome') > -1"
+                              matColumnDef="setorAnterior.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Setor
                     </th>
@@ -139,34 +140,41 @@
                 </ng-container>
 
                 <!-- DistribuicaoAutomatica Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('distribuicaoAutomatica') > -1" matColumnDef="distribuicaoAutomatica">
+                <ng-container *ngIf="displayedColumns.indexOf('distribuicaoAutomatica') > -1"
+                              matColumnDef="distribuicaoAutomatica">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Distribuição Automática
                     </th>
-                    <td mat-cell *matCellDef="let distribuicao" class='has_label_on_mobile' data-label='Distribuição Automática: '
+                    <td mat-cell *matCellDef="let distribuicao" class='has_label_on_mobile'
+                        data-label='Distribuição Automática: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(distribuicao.id) > -1}"> {{distribuicao.distribuicaoAutomatica}} </td>
                 </ng-container>
 
                 <!-- LivreBalanceamento Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('livreBalanceamento') > -1" matColumnDef="livreBalanceamento">
+                <ng-container *ngIf="displayedColumns.indexOf('livreBalanceamento') > -1"
+                              matColumnDef="livreBalanceamento">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Livre Balanceamento
                     </th>
-                    <td mat-cell *matCellDef="let distribuicao" class='has_label_on_mobile' data-label='Livre Balanceamento: '
+                    <td mat-cell *matCellDef="let distribuicao" class='has_label_on_mobile'
+                        data-label='Livre Balanceamento: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(distribuicao.id) > -1}"> {{distribuicao.livreBalanceamento}} </td>
                 </ng-container>
 
                 <!-- AuditoriaDistribuicao Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('auditoriaDistribuicao') > -1" matColumnDef="auditoriaDistribuicao">
+                <ng-container *ngIf="displayedColumns.indexOf('auditoriaDistribuicao') > -1"
+                              matColumnDef="auditoriaDistribuicao">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Auditoria da Distribuicao
                     </th>
-                    <td mat-cell *matCellDef="let distribuicao" class='has_label_on_mobile' data-label='Auditoria da Distribuicao: '
+                    <td mat-cell *matCellDef="let distribuicao" class='has_label_on_mobile'
+                        data-label='Auditoria da Distribuicao: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(distribuicao.id) > -1}"> {{distribuicao.auditoriaDistribuicao}} </td>
                 </ng-container>
 
                 <!-- Setor Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('setorPosterior.nome') > -1" matColumnDef="setorPosterior.nome">
+                <ng-container *ngIf="displayedColumns.indexOf('setorPosterior.nome') > -1"
+                              matColumnDef="setorPosterior.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Setor
                     </th>
@@ -179,7 +187,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Tipo da Distribuição
                     </th>
-                    <td mat-cell *matCellDef="let distribuicao" class='has_label_on_mobile' data-label='Tipo da Distribuição: '
+                    <td mat-cell *matCellDef="let distribuicao" class='has_label_on_mobile'
+                        data-label='Tipo da Distribuição: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(distribuicao.id) > -1}"> {{distribuicao.tipoDistribuicao}} </td>
                 </ng-container>
 
@@ -202,11 +211,13 @@
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1" matColumnDef="atualizadoPor.nome">
+                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1"
+                              matColumnDef="atualizadoPor.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Atualizado Por
                     </th>
-                    <td mat-cell *matCellDef="let distribuicao" class='has_label_on_mobile' data-label='Atualizado Por: '
+                    <td mat-cell *matCellDef="let distribuicao" class='has_label_on_mobile'
+                        data-label='Atualizado Por: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(distribuicao.id) > -1}"> {{distribuicao.atualizadoPor?.nome}} </td>
                 </ng-container>
 

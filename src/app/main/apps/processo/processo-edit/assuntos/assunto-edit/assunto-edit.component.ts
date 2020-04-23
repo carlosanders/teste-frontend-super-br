@@ -16,6 +16,7 @@ import * as fromStore from './store';
 import {Processo} from '@cdk/models';
 import {getProcesso} from '../../../store/selectors';
 import {Pagination} from '@cdk/models';
+import {Back} from '../../../../../../store/actions';
 
 @Component({
     selector: 'assunto-edit',
@@ -72,6 +73,10 @@ export class AssuntoEditComponent implements OnInit, OnDestroy {
             this.assunto = new Assunto();
             this.assunto.processo = this.processo;
         }
+    }
+
+    doAbort(): void {
+        this._store.dispatch(new Back());
     }
 
     /**

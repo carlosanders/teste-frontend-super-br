@@ -1,12 +1,8 @@
 <div class="page-layout left-sidebar" fxFlex>
 
     <!-- SIDEBAR -->
-    <cdk-sidebar class="sidebar" name="cdk-compartilhamento-main-sidebar" position="left">
-        <!-- SIDEBAR CONTENT -->
-        <div class="content" cdkPerfectScrollbar>
-            <cdk-compartilhamento-main-sidebar (selected)="setGridFilter($event)" [@animate]="{value:'*'}"></cdk-compartilhamento-main-sidebar>
-        </div>
-        <!-- / SIDEBAR CONTENT -->
+    <cdk-sidebar class="sidebar" name="cdk-compartilhamento-filter" position="left">
+        <cdk-compartilhamento-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-compartilhamento-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
@@ -44,7 +40,7 @@
                 <mat-icon>refresh</mat-icon>
             </button>
 
-            <button class="toggle-filter" mat-icon-button [ngClass]="{'warn': (gridFilter | json) != '{}'}"
+            <button class="toggle-filter" mat-icon-button [ngClass]="{'warn': !(gridFilter | json).includes('{}')}"
                     (click)="toggleFilter()"
                     aria-label="filtrar"
                     matTooltip="Filtrar">
@@ -94,7 +90,8 @@
                 </ng-container>
 
                 <!-- Tarefa Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('tarefa.especieTarefa.nome') > -1" matColumnDef="tarefa.especieTarefa.nome">
+                <ng-container *ngIf="displayedColumns.indexOf('tarefa.especieTarefa.nome') > -1"
+                              matColumnDef="tarefa.especieTarefa.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Tarefa
                     </th>
@@ -103,7 +100,8 @@
                 </ng-container>
 
                 <!-- Processo Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('compartilhamento.NUP') > -1" matColumnDef="compartilhamento.NUP">
+                <ng-container *ngIf="displayedColumns.indexOf('compartilhamento.NUP') > -1"
+                              matColumnDef="compartilhamento.NUP">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Processo
                     </th>
@@ -116,7 +114,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Criado Por
                     </th>
-                    <td mat-cell *matCellDef="let compartilhamento" class='has_label_on_mobile' data-label='Criado Por: '
+                    <td mat-cell *matCellDef="let compartilhamento" class='has_label_on_mobile'
+                        data-label='Criado Por: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(compartilhamento.id) > -1}"> {{compartilhamento.criadoPor?.nome}} </td>
                 </ng-container>
 
@@ -130,11 +129,13 @@
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1" matColumnDef="atualizadoPor.nome">
+                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1"
+                              matColumnDef="atualizadoPor.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Atualizado Por
                     </th>
-                    <td mat-cell *matCellDef="let compartilhamento" class='has_label_on_mobile' data-label='Atualizado Por: '
+                    <td mat-cell *matCellDef="let compartilhamento" class='has_label_on_mobile'
+                        data-label='Atualizado Por: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(compartilhamento.id) > -1}"> {{compartilhamento.atualizadoPor?.nome}} </td>
                 </ng-container>
 
@@ -143,7 +144,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Atualizado Em
                     </th>
-                    <td mat-cell *matCellDef="let compartilhamento" class='has_label_on_mobile' data-label='Atualizado Em: '
+                    <td mat-cell *matCellDef="let compartilhamento" class='has_label_on_mobile'
+                        data-label='Atualizado Em: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(compartilhamento.id) > -1}"> {{compartilhamento.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
@@ -152,7 +154,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Apagado Por
                     </th>
-                    <td mat-cell *matCellDef="let compartilhamento" class='has_label_on_mobile' data-label='Apagado Por: '
+                    <td mat-cell *matCellDef="let compartilhamento" class='has_label_on_mobile'
+                        data-label='Apagado Por: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(compartilhamento.id) > -1}"> {{compartilhamento.apagadoPor?.nome}} </td>
                 </ng-container>
 
@@ -161,7 +164,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Apagado Em
                     </th>
-                    <td mat-cell *matCellDef="let compartilhamento" class='has_label_on_mobile' data-label='Apagado Em: '
+                    <td mat-cell *matCellDef="let compartilhamento" class='has_label_on_mobile'
+                        data-label='Apagado Em: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(compartilhamento.id) > -1}"> {{compartilhamento.apagadoEm | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 

@@ -50,8 +50,6 @@ export class AssuntoListComponent implements OnInit {
         this.deletingIds$ = this._store.pipe(select(fromStore.getDeletingIds));
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedIds));
 
-        console.log("[Contrutor assunto-list.component] " + this.pagination$);
-
         this._store
             .pipe(select(getRouterState))
             .subscribe(routerState => {
@@ -79,6 +77,10 @@ export class AssuntoListComponent implements OnInit {
             offset: params.offset,
             populate: this.pagination.populate
         }));
+    }
+
+    create () : void {
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
     }
 
     edit(assuntoId: number): void {

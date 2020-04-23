@@ -1,12 +1,8 @@
 <div class="page-layout left-sidebar" fxFlex>
 
     <!-- SIDEBAR -->
-    <cdk-sidebar class="sidebar" name="cdk-sigilo-main-sidebar" position="left">
-        <!-- SIDEBAR CONTENT -->
-        <div class="content" cdkPerfectScrollbar>
-            <cdk-sigilo-main-sidebar (selected)="setGridFilter($event)" [@animate]="{value:'*'}"></cdk-sigilo-main-sidebar>
-        </div>
-        <!-- / SIDEBAR CONTENT -->
+    <cdk-sidebar class="sidebar" name="cdk-sigilo-filter" position="left">
+        <cdk-sigilo-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-sigilo-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
@@ -44,7 +40,7 @@
                 <mat-icon>refresh</mat-icon>
             </button>
 
-            <button class="toggle-filter" mat-icon-button [ngClass]="{'warn': (gridFilter | json) != '{}'}"
+            <button class="toggle-filter" mat-icon-button [ngClass]="{'warn': !(gridFilter | json).includes('{}')}"
                     (click)="toggleFilter()"
                     aria-label="filtrar"
                     matTooltip="Filtrar">
@@ -184,7 +180,7 @@
                 </ng-container>
 
                 <!-- Processo Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('processo.NUP') > -1" matColumnDef="processo.NUP">
+                <ng-container *ngIf="displayedColumns.indexOf('processo') > -1" matColumnDef="processo">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         NUP
                     </th>
@@ -193,7 +189,7 @@
                 </ng-container>
 
                 <!-- OrigemDados Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('origemDados.fonteDados') > -1" matColumnDef="origemDados.fonteDados">
+                <ng-container *ngIf="displayedColumns.indexOf('origemDados') > -1" matColumnDef="origemDados">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Origem de Dados
                     </th>

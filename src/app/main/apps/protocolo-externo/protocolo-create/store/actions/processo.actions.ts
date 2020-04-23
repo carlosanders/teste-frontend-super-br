@@ -8,6 +8,8 @@ export const GET_VISIBILIDADES_PROCESSO_TAREFA = '[PROTOCOLO VISIBILIDADE] GET V
 export const GET_VISIBILIDADES_PROCESSO_TAREFA_SUCCESS = '[PROTOCOLO VISIBILIDADE] GET VISIBILIDADES SUCCESS';
 export const GET_VISIBILIDADES_PROCESSO_TAREFA_FAILED = '[PROTOCOLO VISIBILIDADE] GET VISIBILIDADES FAILED';
 
+export const UNLOAD_PROCESSO = '[PROTOCOLO CREATE] UNLOAD PROCESSO';
+
 /**
  * Get Processo
  */
@@ -80,10 +82,23 @@ export class GetVisibilidadesFailed implements Action
     }
 }
 
+/**
+ * Unload Processo
+ */
+export class UnloadProcesso implements Action
+{
+    readonly type = UNLOAD_PROCESSO;
+
+    constructor()
+    {
+    }
+}
+
 export type ProcessoActionsAll
     = GetProcesso
     | GetProcessoSuccess
     | GetProcessoFailed
     | GetVisibilidades
     | GetVisibilidadesSuccess
-    | GetVisibilidadesFailed;
+    | GetVisibilidadesFailed
+    | UnloadProcesso;

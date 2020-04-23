@@ -9,7 +9,7 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {VinculacaoRepositorio} from '@cdk/models';
 import {VinculacaoRepositorioService} from '@cdk/services/vinculacao-repositorio.service';
-import {FormControl} from '@angular/forms';
+import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
@@ -30,7 +30,7 @@ export class CdkVinculacaoRepositorioAutocompleteComponent implements OnInit {
     pagination: Pagination;
 
     @Input()
-    control: FormControl;
+    control: AbstractControl;
 
     vinculacaoRepositorioList: VinculacaoRepositorio[];
     vinculacaoRepositorioListIsLoading: boolean;

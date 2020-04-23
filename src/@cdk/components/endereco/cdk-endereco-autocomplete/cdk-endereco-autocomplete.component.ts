@@ -9,7 +9,7 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Endereco} from '@cdk/models';
 import {EnderecoService} from '@cdk/services/endereco.service';
-import {FormControl} from '@angular/forms';
+import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
@@ -30,7 +30,7 @@ export class CdkEnderecoAutocompleteComponent implements OnInit {
     pagination: Pagination;
 
     @Input()
-    control: FormControl;
+    control: AbstractControl;
 
     enderecoList: Endereco[];
     enderecoListIsLoading: boolean;

@@ -16,14 +16,12 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {ModalidadeDestinacaoService} from '@cdk/services/modalidade-destinacao.service';
 import {CdkModalidadeDestinacaoGridComponent} from './cdk-modalidade-destinacao-grid.component';
 import {CdkModalidadeDestinacaoAutocompleteModule} from '@cdk/components/modalidade-destinacao/cdk-modalidade-destinacao-autocomplete/cdk-modalidade-destinacao-autocomplete.module';
-import {CdkModalidadeDestinacaoGridFilterModule} from './cdk-modalidade-destinacao-grid-filter/cdk-modalidade-destinacao-grid-filter.module';
-import {CdkModalidadeDestinacaoMainSidebarComponent} from './sidebars/main/main.component';
+import {CdkModalidadeDestinacaoFilterModule} from '../sidebars/cdk-modalidade-destinacao-filter/cdk-modalidade-destinacao-filter.module';
 import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
     declarations: [
         CdkModalidadeDestinacaoGridComponent,
-        CdkModalidadeDestinacaoMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,
@@ -37,7 +35,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
         MatSortModule,
 
         CdkModalidadeDestinacaoAutocompleteModule,
-        CdkModalidadeDestinacaoGridFilterModule,
+        CdkModalidadeDestinacaoFilterModule,
 
         CdkSharedModule,
         CdkSidebarModule,

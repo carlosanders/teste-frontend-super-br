@@ -16,13 +16,11 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {RelevanciaService} from '@cdk/services/relevancia.service';
 import {CdkRelevanciaGridComponent} from './cdk-relevancia-grid.component';
 import {CdkRelevanciaAutocompleteModule} from '@cdk/components/relevancia/cdk-relevancia-autocomplete/cdk-relevancia-autocomplete.module';
-import {CdkRelevanciaGridFilterModule} from './cdk-relevancia-grid-filter/cdk-relevancia-grid-filter.module';
-import {CdkRelevanciaMainSidebarComponent} from './sidebars/main/main.component';
+import {CdkRelevanciaFilterModule} from '../sidebars/cdk-relevancia-filter/cdk-relevancia-filter.module';
 
 @NgModule({
     declarations: [
         CdkRelevanciaGridComponent,
-        CdkRelevanciaMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,
@@ -36,7 +34,7 @@ import {CdkRelevanciaMainSidebarComponent} from './sidebars/main/main.component'
         MatSortModule,
 
         CdkRelevanciaAutocompleteModule,
-        CdkRelevanciaGridFilterModule,
+        CdkRelevanciaFilterModule,
 
         CdkSharedModule,
         CdkSidebarModule,

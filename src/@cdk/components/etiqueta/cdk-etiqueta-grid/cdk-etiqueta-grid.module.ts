@@ -14,13 +14,11 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {CdkSidebarModule} from '@cdk/components/index';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkEtiquetaGridComponent} from './cdk-etiqueta-grid.component';
-import {CdkEtiquetaGridFilterModule} from './cdk-etiqueta-grid-filter/cdk-etiqueta-grid-filter.module';
-import {CdkEtiquetaMainSidebarComponent} from './sidebars/main/main.component';
+import {CdkEtiquetaFilterModule} from '../sidebars/cdk-etiqueta-filter/cdk-etiqueta-filter.module';
 
 @NgModule({
     declarations: [
         CdkEtiquetaGridComponent,
-        CdkEtiquetaMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,
@@ -33,7 +31,7 @@ import {CdkEtiquetaMainSidebarComponent} from './sidebars/main/main.component';
         MatPaginatorModule,
         MatSortModule,
 
-        CdkEtiquetaGridFilterModule,
+        CdkEtiquetaFilterModule,
 
         CdkSharedModule,
         CdkSidebarModule,

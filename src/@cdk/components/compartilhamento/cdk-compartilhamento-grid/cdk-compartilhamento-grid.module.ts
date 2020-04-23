@@ -16,13 +16,11 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {UsuarioService} from '@cdk/services/usuario.service';
 import {CdkUsuarioAutocompleteModule} from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 import {CdkCompartilhamentoGridComponent} from './cdk-compartilhamento-grid.component';
-import {CdkCompartilhamentoGridFilterModule} from './cdk-compartilhamento-grid-filter/cdk-compartilhamento-grid-filter.module';
-import {CdkCompartilhamentoMainSidebarComponent} from './sidebars/main/main.component';
+import {CdkCompartilhamentoFilterModule} from '../sidebars/cdk-compartilhamento-filter/cdk-compartilhamento-filter.module';
 
 @NgModule({
     declarations: [
         CdkCompartilhamentoGridComponent,
-        CdkCompartilhamentoMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,
@@ -36,7 +34,7 @@ import {CdkCompartilhamentoMainSidebarComponent} from './sidebars/main/main.comp
         MatSortModule,
 
         CdkUsuarioAutocompleteModule,
-        CdkCompartilhamentoGridFilterModule,
+        CdkCompartilhamentoFilterModule,
 
         CdkSharedModule,
         CdkSidebarModule,

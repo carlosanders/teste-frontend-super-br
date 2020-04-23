@@ -9,7 +9,7 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Etiqueta} from '@cdk/models';
 import {EtiquetaService} from '@cdk/services/etiqueta.service';
-import {FormControl} from '@angular/forms';
+import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
@@ -30,7 +30,7 @@ export class CdkEtiquetaAutocompleteComponent implements OnInit {
     pagination: Pagination;
 
     @Input()
-    control: FormControl;
+    control: AbstractControl;
 
     @Output()
     selected = new EventEmitter<any>();

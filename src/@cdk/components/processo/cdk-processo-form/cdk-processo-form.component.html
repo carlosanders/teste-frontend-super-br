@@ -5,6 +5,88 @@
 
     <div fxFlex="0 1 auto" fxLayout="column">
 
+        <mat-card class="mb-16" fxFlex="0 1 auto" fxLayout="column" *showIfRole="'ROLE_CONVENIADO'">
+            <mat-form-field fxFlex>
+                <mat-label>Estado</mat-label>
+                <mat-select
+                    matInput #estado
+                    name="estado"
+                    formControlName="estado"
+                    required>
+                    <mat-option *ngFor="let estado of estados" [value]="estado.id">
+                        {{estado.uf}}
+                    </mat-option>
+                </mat-select>
+                <mat-error>Campo obrigatório!</mat-error>
+            </mat-form-field>
+
+            <mat-form-field fxFlex>
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Ramo"
+                           formControlName="generoSetor"
+                           required
+                           [matAutocomplete]="generoSetor.autocomplete"
+                           (blur)="checkGeneroSetor()">
+                </div>
+                <cdk-genero-setor-autocomplete
+                    #generoSetor="generoSetorAutocomplete"
+                    [control]="form.get('generoSetor')"
+                    [pagination]="generoSetorPagination">
+                </cdk-genero-setor-autocomplete>
+                <button matSuffix mat-button mat-icon-button [disabled]="!form.get('estado').value"
+                        (click)="showGeneroSetorGrid()">
+                    <mat-icon matTooltip="Procurar">search</mat-icon>
+                </button>
+                <mat-error *ngIf="form.get('generoSetor').hasError('formError')">
+                    {{form.get('generoSetor').errors.formError}}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field fxFlex>
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Atividade"
+                           formControlName="especieSetor"
+                           required
+                           [matAutocomplete]="especieSetor.autocomplete"
+                           (blur)="checkEspecieSetor()">
+                </div>
+                <cdk-especie-setor-autocomplete
+                    #especieSetor="especieSetorAutocomplete"
+                    [control]="form.get('especieSetor')"
+                    [pagination]="especieSetorPagination">
+                </cdk-especie-setor-autocomplete>
+                <button matSuffix mat-button mat-icon-button [disabled]="!form.get('generoSetor').value"
+                        (click)="showEspecieSetorGrid()">
+                    <mat-icon matTooltip="Procurar">search</mat-icon>
+                </button>
+                <mat-error *ngIf="form.get('especieSetor').hasError('formError')">
+                    {{form.get('especieSetor').errors.formError}}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field fxFlex>
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Unidade"
+                           formControlName="unidadeProtocoloExterno"
+                           required
+                           [matAutocomplete]="unidadeProtocoloExterno.autocomplete"
+                           (blur)="checkUnidadeProtocoloExterno()">
+                </div>
+                <cdk-setor-autocomplete
+                    #unidadeProtocoloExterno="setorAutocomplete"
+                    [control]="form.get('unidadeProtocoloExterno')"
+                    [pagination]="unidadeProtocoloExternoPagination">
+                </cdk-setor-autocomplete>
+                <button matSuffix mat-button mat-icon-button [disabled]="!form.get('especieSetor').value"
+                        (click)="showUnidadeProtocoloExternoGrid()">
+                    <mat-icon matTooltip="Procurar">search</mat-icon>
+                </button>
+                <mat-error *ngIf="form.get('unidadeProtocoloExterno').hasError('formError')">
+                    {{form.get('unidadeProtocoloExterno').errors.formError}}
+                </mat-error>
+            </mat-form-field>
+        </mat-card>
+
         <mat-card class="mb-16" fxFlex="0 1 auto" fxLayout="column">
 
             <mat-card-subtitle>Unidade Arquivística</mat-card-subtitle>
@@ -122,25 +204,36 @@
             </mat-form-field>
 
             <mat-form-field fxFlex>
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Unidade"
-                           formControlName="unidadeProtocoloExterno"
-                           required
-                           [matAutocomplete]="unidadeProtocoloExterno.autocomplete"
-                           (blur)="checkUnidadeProtocoloExterno()">
-                </div>
-                <cdk-setor-autocomplete
-                    #unidadeProtocoloExterno="setorAutocomplete"
-                    [control]="form.get('unidadeProtocoloExterno')"
-                    [pagination]="unidadeProtocoloExternoPagination">
-                </cdk-setor-autocomplete>
-                <button matSuffix mat-button mat-icon-button
-                        (click)="showUnidadeProtocoloExternoGrid()">
-                    <mat-icon matTooltip="Procurar">search</mat-icon>
+                <mat-label>Requerimento</mat-label>
+                <input matInput #requerimento
+                       name="requerimento"
+                       formControlName="requerimento"
+                       maxlength="255"
+                       upperCase
+                       required>
+                <mat-hint align="end">{{requerimento.value.length}} / 255</mat-hint>
+                <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                        (click)="showLogEntryGrid('requerimento')">
+                    <mat-icon matTooltip="Histórico">history</mat-icon>
                 </button>
-                <mat-error *ngIf="form.get('unidadeProtocoloExterno').hasError('formError')">
-                    {{form.get('unidadeProtocoloExterno').errors.formError}}
-                </mat-error>
+                <mat-error>Campo obrigatório!</mat-error>
+            </mat-form-field>
+
+
+            <mat-form-field fxFlex>
+                <mat-label>Resumo</mat-label>
+                <input matInput #descricao
+                       name="descricao"
+                       formControlName="descricao"
+                       maxlength="255"
+                       upperCase
+                       required>
+                <mat-hint align="end">{{descricao.value.length}} / 255</mat-hint>
+                <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                        (click)="showLogEntryGrid('descricao')">
+                    <mat-icon matTooltip="Histórico">history</mat-icon>
+                </button>
+                <mat-error>Campo obrigatório!</mat-error>
             </mat-form-field>
         </mat-card>
 
@@ -297,7 +390,7 @@
             </button>
         </mat-form-field>
 
-        <mat-form-field fxFlex>
+        <mat-form-field fxFlex *showIfRole="'ROLE_COLABORADOR'">
             <mat-label>Descrição</mat-label>
             <input matInput #descricao
                    name="descricao"
@@ -444,4 +537,20 @@
         [pagination]="logEntryPagination"
         (cancel)="cancel()">
 </cdk-logentry-gridsearch>
+
+<cdk-genero-setor-gridsearch
+    fxFlex
+    *ngIf="activeCard === 'genero-setor-gridsearch'"
+    [pagination]="generoSetorPagination"
+    (selected)="selectGeneroSetor($event)"
+    (cancel)="cancel()">
+</cdk-genero-setor-gridsearch>
+
+<cdk-especie-setor-gridsearch
+    fxFlex
+    *ngIf="activeCard === 'especie-setor-gridsearch'"
+    [pagination]="especieSetorPagination"
+    (selected)="selectEspecieSetor($event)"
+    (cancel)="cancel()">
+</cdk-especie-setor-gridsearch>
 

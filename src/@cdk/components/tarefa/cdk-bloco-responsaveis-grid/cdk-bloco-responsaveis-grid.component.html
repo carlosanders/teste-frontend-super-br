@@ -1,13 +1,8 @@
 <div class="page-layout left-sidebar" fxFlex>
 
     <!-- SIDEBAR -->
-    <cdk-sidebar [lockedOpen]="(mode === 'search') ? 'gt-xs' : ''" class="sidebar" name="cdk-bloco-responsaveis-main-sidebar" position="left">
-        <!-- SIDEBAR CONTENT -->
-        <div class="content" cdkPerfectScrollbar>
-            <cdk-bloco-responsaveis-main-sidebar (selected)="setGridFilter($event)" [@animate]="{value:'*'}">
-            </cdk-bloco-responsaveis-main-sidebar>
-        </div>
-        <!-- / SIDEBAR CONTENT -->
+    <cdk-sidebar [lockedOpen]="(mode === 'search') ? 'gt-xs' : ''" class="sidebar" name="cdk-bloco-responsaveis-filter" position="left">
+        <cdk-bloco-responsaveis-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-bloco-responsaveis-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
@@ -34,7 +29,7 @@
                 <mat-icon>refresh</mat-icon>
             </button>
 
-            <button class="toggle-filter" [ngClass]="{'warn': (gridFilter | json) != '{}'}" mat-icon-button
+            <button class="toggle-filter" [ngClass]="{'warn': !(gridFilter | json).includes('{}')}" mat-icon-button
                     (click)="toggleFilter()" aria-label="filtrar" matTooltip="Filtrar">
                 <mat-icon>filter_list</mat-icon>
             </button>
@@ -56,7 +51,8 @@
                     </th>
                     <td mat-cell *matCellDef="let responsavel">
                         <mat-checkbox [checked]="selectedIds.indexOf(responsavel.setor.id) > -1"
-                                      (change)="toggleInSelected(responsavel.setor.id)" (click)="$event.stopPropagation();"
+                                      (change)="toggleInSelected(responsavel.setor.id)"
+                                      (click)="$event.stopPropagation();"
                                       [disabled]="deletedIds?.indexOf(responsavel.setor.id) > -1">
                         </mat-checkbox>
                     </td>

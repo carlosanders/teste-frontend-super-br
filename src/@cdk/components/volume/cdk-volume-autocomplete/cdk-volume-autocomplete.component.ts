@@ -9,7 +9,7 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Volume} from '@cdk/models';
 import {VolumeService} from '@cdk/services/volume.service';
-import {FormControl} from '@angular/forms';
+import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
@@ -30,7 +30,7 @@ export class CdkVolumeAutocompleteComponent implements OnInit {
     pagination: Pagination;
 
     @Input()
-    control: FormControl;
+    control: AbstractControl;
 
     volumeList: Volume[];
     volumeListIsLoading: boolean;
@@ -51,7 +51,7 @@ export class CdkVolumeAutocompleteComponent implements OnInit {
         this.control.valueChanges.pipe(
             debounceTime(300),
             distinctUntilChanged(),
-            filter(term => !!term && term.length >= 2),
+            filter(term => !!term && term.length >= 1),
             switchMap((value) => {
                     let termFilter = {};
                     value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
@@ -88,7 +88,7 @@ export class CdkVolumeAutocompleteComponent implements OnInit {
         });
     }
 
-    displayVolumeFn(volume): string {
-        return volume ? volume.numeracaoSequencial : null;
+    displayVolumeFn(volume: Volume): string {
+        return volume ? volume.numeracaoSequencial.toString() : null;
     }
 }

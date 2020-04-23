@@ -9,7 +9,7 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {VinculacaoProcesso} from '@cdk/models';
 import {VinculacaoProcessoService} from '@cdk/services/vinculacao-processo.service';
-import {FormControl} from '@angular/forms';
+import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
@@ -30,7 +30,7 @@ export class CdkVinculacaoProcessoAutocompleteComponent implements OnInit {
     pagination: Pagination;
 
     @Input()
-    control: FormControl;
+    control: AbstractControl;
 
     vinculacaoProcessoList: VinculacaoProcesso[];
     vinculacaoProcessoListIsLoading: boolean;
@@ -57,7 +57,7 @@ export class CdkVinculacaoProcessoAutocompleteComponent implements OnInit {
                     value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
                         termFilter = {
                             ...termFilter,
-                            'processo.NUP': `like:%${bit}%`
+                            'processo': `like:%${bit}%`
                         };
                     });
                     if (typeof value === 'string') {

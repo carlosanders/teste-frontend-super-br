@@ -9,7 +9,7 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {ModalidadeVinculacaoProcesso} from '@cdk/models';
 import {ModalidadeVinculacaoProcessoService} from '@cdk/services/modalidade-vinculacao-processo.service';
-import {FormControl} from '@angular/forms';
+import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
@@ -30,7 +30,7 @@ export class CdkModalidadeVinculacaoProcessoAutocompleteComponent implements OnI
     pagination: Pagination;
 
     @Input()
-    control: FormControl;
+    control: AbstractControl;
 
     modalidadeVinculacaoProcessoList: ModalidadeVinculacaoProcesso[];
     modalidadeVinculacaoProcessoListIsLoading: boolean;

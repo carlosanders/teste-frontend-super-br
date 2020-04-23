@@ -11,13 +11,12 @@ import * as fromStore from '../../store';
 import {getProcessosLoaded, getPessoaLoaded} from '../selectors';
 import {getRouterState} from 'app/store/reducers';
 import {LoginService} from '../../../../auth/login/login.service';
-import {Usuario, VinculacaoPessoaUsuario} from '@cdk/models';
+import {Usuario} from '@cdk/models';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
 
     private _profile: Usuario;
-    private pessoasConveniadas: VinculacaoPessoaUsuario[];
     private unidadeArquivistica = 2;
     routerState: any;
 

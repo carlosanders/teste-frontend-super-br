@@ -1,12 +1,8 @@
 <div class="page-layout left-sidebar" fxFlex>
 
     <!-- SIDEBAR -->
-    <cdk-sidebar class="sidebar" name="cdk-documento-identificador-main-sidebar" position="left">
-        <!-- SIDEBAR CONTENT -->
-        <div class="content" cdkPerfectScrollbar>
-            <cdk-documento-identificador-main-sidebar (selected)="setGridFilter($event)" [@animate]="{value:'*'}"></cdk-documento-identificador-main-sidebar>
-        </div>
-        <!-- / SIDEBAR CONTENT -->
+    <cdk-sidebar class="sidebar" name="cdk-documento-identificador-filter" position="left">
+        <cdk-documento-identificador-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-documento-identificador-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
@@ -44,7 +40,7 @@
                 <mat-icon>refresh</mat-icon>
             </button>
 
-            <button class="toggle-filter" mat-icon-button [ngClass]="{'warn': (gridFilter | json) != '{}'}"
+            <button class="toggle-filter" mat-icon-button [ngClass]="{'warn': !(gridFilter | json).includes('{}')}"
                     (click)="toggleFilter()"
                     aria-label="filtrar"
                     matTooltip="Filtrar">
@@ -125,7 +121,7 @@
                 </ng-container>
 
                 <!-- OrigemDados Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('origemDados.fonteDados') > -1" matColumnDef="origemDados.fonteDados">
+                <ng-container *ngIf="displayedColumns.indexOf('origemDados') > -1" matColumnDef="origemDados">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Origem Dados
                     </th>

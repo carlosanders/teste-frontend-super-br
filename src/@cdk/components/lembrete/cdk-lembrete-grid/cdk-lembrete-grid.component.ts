@@ -1,17 +1,21 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
+    OnInit,
+    ViewChild,
+    AfterViewInit,
+    ViewEncapsulation,
+    OnChanges,
+    EventEmitter,
     Component,
-    OnInit, ViewChild, AfterViewInit,
-    ViewEncapsulation, Input, OnChanges, Output, EventEmitter
+    Input,
+    Output
 } from '@angular/core';
 import {merge, of} from 'rxjs';
-
 import {cdkAnimations} from '@cdk/animations';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
-
 import {Lembrete} from '@cdk/models';
 import {LembreteDataSource} from '@cdk/data-sources/lembrete-data-source';
 import {FormControl} from '@angular/forms';
@@ -36,7 +40,10 @@ export class CdkLembreteGridComponent implements AfterViewInit, OnInit, OnChange
     total = 0;
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'processo.NUP', 'conteudo', 'actions'];
+    mode = 'list';
+
+    @Input()
+    displayedColumns: string[] = ['select', 'id', 'processo', 'conteudo', 'actions'];
 
     allColumns: any[] = [
         {
@@ -50,7 +57,7 @@ export class CdkLembreteGridComponent implements AfterViewInit, OnInit, OnChange
             fixed: true
         },
         {
-            id: 'processo.NUP',
+            id: 'processo',
             label: 'Processo',
             fixed: true
         },
@@ -203,16 +210,19 @@ export class CdkLembreteGridComponent implements AfterViewInit, OnInit, OnChange
     }
 
     toggleFilter(): void {
-        this._cdkSidebarService.getSidebar('cdk-lembrete-main-sidebar').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-lembrete-filter').toggleOpen();
         this.showFilter = !this.showFilter;
     }
 
     loadPage(): void {
+        const filter = this.gridFilter.filters;
+        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : null;
         this.reload.emit({
-            gridFilter: this.gridFilter,
+            gridFilter: filter,
             limit: this.paginator.pageSize,
             offset: (this.paginator.pageSize * this.paginator.pageIndex),
-            sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {}
+            sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
+            context: contexto
         });
     }
 
@@ -280,7 +290,7 @@ export class CdkLembreteGridComponent implements AfterViewInit, OnInit, OnChange
         this.isIndeterminate = (this.selectedIds.length !== this.lembretes.length && this.selectedIds.length > 0);
     }
 
-    setGridFilter(gridFilter): void {
+    setFilter(gridFilter): void {
         this.gridFilter = gridFilter;
         this.paginator.pageIndex = 0;
         this.loadPage();

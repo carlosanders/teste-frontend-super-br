@@ -1,14 +1,8 @@
 <div class="page-layout left-sidebar" fxFlex>
 
     <!-- SIDEBAR -->
-    <cdk-sidebar [lockedOpen]="(mode === 'search') ? 'gt-xs' : ''" class="sidebar" name="cdk-documento-main-sidebar"
-                 position="left">
-        <!-- SIDEBAR CONTENT -->
-        <div class="content" cdkPerfectScrollbar>
-            <cdk-documento-main-sidebar (selected)="setGridFilter($event)" [mode]="this.mode"
-                                        [@animate]="{value:'*'}"></cdk-documento-main-sidebar>
-        </div>
-        <!-- / SIDEBAR CONTENT -->
+    <cdk-sidebar [lockedOpen]="(mode === 'search') ? 'gt-xs' : ''" class="sidebar" name="cdk-documento-filter" position="left">
+        <cdk-documento-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-documento-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
@@ -47,7 +41,7 @@
             </button>
 
             <button *ngIf="mode === 'list'" class="toggle-filter" mat-icon-button
-                    [ngClass]="{'warn': (gridFilter | json) != '{}'}"
+                    [ngClass]="{'warn': !(gridFilter | json).includes('{}')}"
                     (click)="toggleFilter()"
                     aria-label="filtrar"
                     matTooltip="Filtrar">
@@ -280,8 +274,8 @@
                 </ng-container>
 
                 <!-- OrigemDados Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('origemDados.fonteDados') > -1"
-                              matColumnDef="origemDados.fonteDados">
+                <ng-container *ngIf="displayedColumns.indexOf('origemDados') > -1"
+                              matColumnDef="origemDados">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Origem dos Dados
                     </th>
@@ -291,8 +285,8 @@
 
                 <!-- DocumentoAvulsoRemessa Column -->
                 <ng-container
-                        *ngIf="displayedColumns.indexOf('documentoAvulsoRemessa.especieDocumentoAvulso.nome') > -1"
-                        matColumnDef="documentoAvulsoRemessa.especieDocumentoAvulso.nome">
+                    *ngIf="displayedColumns.indexOf('documentoAvulsoRemessa.especieDocumentoAvulso.nome') > -1"
+                    matColumnDef="documentoAvulsoRemessa.especieDocumentoAvulso.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Documento Avulso da Remessa
                     </th>

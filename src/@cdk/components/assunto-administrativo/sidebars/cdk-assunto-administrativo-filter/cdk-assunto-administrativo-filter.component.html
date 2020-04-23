@@ -1,0 +1,69 @@
+<form class="altura" fxLayoutGap="16px" name="form" [formGroup]="form">
+
+    <div class="altura" fxLayout="column">
+        <div class="padd" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="center center">
+            <mat-icon [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+                search
+            </mat-icon>
+            <span [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}"
+                  *ngIf="this.mode === 'list'">Filtro</span>
+        </div>
+
+        <div class="padd" fxFlex="1 1 auto" fxLayout="column" cdkPerfectScrollbar>
+
+            <mat-form-field fxFlex="100">
+                <mat-label>Nome</mat-label>
+                <input matInput #nome
+                       name="nome"
+                       formControlName="nome">
+            </mat-form-field>
+
+            <mat-form-field fxFlex="100">
+                <mat-label>Glossário</mat-label>
+                <input matInput #glossario
+                       name="glossario"
+                       formControlName="glossario">
+            </mat-form-field>
+
+            <mat-form-field fxFlex="100">
+                <mat-label>Dispositivo Legal</mat-label>
+                <input matInput #dispositivoLegal
+                       name="dispositivoLegal"
+                       formControlName="dispositivoLegal">
+            </mat-form-field>
+
+            <mat-form-field fxFlex="100">
+                <mat-label>Código do CNJ</mat-label>
+                <input matInput #codigoCNJ
+                       name="codigoCNJ"
+                       formControlName="codigoCNJ">
+            </mat-form-field>
+
+            <mat-checkbox formControlName="ativo" class="mr-16 mb-16" fxFlex="0 1 auto">
+                Ativo
+            </mat-checkbox>
+
+            <mat-form-field fxFlex="100">
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Assunto Administrativo"
+                           formControlName="parent"
+                           [matAutocomplete]="assuntoAdministrativo.autocomplete">
+                </div>
+                <cdk-assunto-administrativo-autocomplete #assuntoAdministrativo="assuntoAdministrativoAutocomplete"
+                                                         [control]="form.get('parent')">
+                </cdk-assunto-administrativo-autocomplete>
+            </mat-form-field>
+
+        </div>
+
+        <div class="padd" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="center center">
+            <button mat-raised-button color="accent" class="mr-sm-12" (click)="buscar()">
+                Buscar
+            </button>
+
+            <button mat-raised-button color="warn" class="mr-sm-12" (click)="limpar()" *ngIf="this.mode === 'list'">
+                Limpar
+            </button>
+        </div>
+    </div>
+</form>

@@ -38,6 +38,9 @@ export class CdkGeneroAtividadeGridComponent implements AfterViewInit, OnInit, O
     total = 0;
 
     @Input()
+    mode = 'list';
+
+    @Input()
     displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'actions'];
 
     allColumns: any[] = [
@@ -193,16 +196,19 @@ export class CdkGeneroAtividadeGridComponent implements AfterViewInit, OnInit, O
     }
 
     toggleFilter(): void {
-        this._cdkSidebarService.getSidebar('cdk-genero-atividade-main-sidebar').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-genero-atividade-filter').toggleOpen();
         this.showFilter = !this.showFilter;
     }
 
     loadPage(): void {
+        const filter = this.gridFilter.filters;
+        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : null;
         this.reload.emit({
-            gridFilter: this.gridFilter,
+            gridFilter: filter,
             limit: this.paginator.pageSize,
             offset: (this.paginator.pageSize * this.paginator.pageIndex),
-            sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {}
+            sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
+            context: contexto
         });
     }
 
@@ -270,7 +276,7 @@ export class CdkGeneroAtividadeGridComponent implements AfterViewInit, OnInit, O
         this.isIndeterminate = (this.selectedIds.length !== this.generoAtividades.length && this.selectedIds.length > 0);
     }
 
-    setGridFilter(gridFilter): void {
+    setFilter(gridFilter): void {
         this.gridFilter = gridFilter;
         this.paginator.pageIndex = 0;
         this.loadPage();

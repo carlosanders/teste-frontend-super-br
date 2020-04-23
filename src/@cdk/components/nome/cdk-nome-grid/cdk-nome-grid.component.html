@@ -1,12 +1,8 @@
 <div class="page-layout left-sidebar" fxFlex>
 
     <!-- SIDEBAR -->
-    <cdk-sidebar class="sidebar" name="cdk-nome-main-sidebar" position="left">
-        <!-- SIDEBAR CONTENT -->
-        <div class="content" cdkPerfectScrollbar>
-            <cdk-nome-main-sidebar (selected)="setGridFilter($event)" [@animate]="{value:'*'}"></cdk-nome-main-sidebar>
-        </div>
-        <!-- / SIDEBAR CONTENT -->
+    <cdk-sidebar class="sidebar" name="cdk-nome-filter" position="left">
+        <cdk-nome-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-nome-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
@@ -44,7 +40,7 @@
                 <mat-icon>refresh</mat-icon>
             </button>
 
-            <button class="toggle-filter" mat-icon-button [ngClass]="{'warn': (gridFilter | json) != '{}'}"
+            <button class="toggle-filter" mat-icon-button [ngClass]="{'warn': !(gridFilter | json).includes('{}')}"
                     (click)="toggleFilter()"
                     aria-label="filtrar"
                     matTooltip="Filtrar">
@@ -94,7 +90,7 @@
                 </ng-container>
 
                 <!-- Origem do Dado Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('origemDados.fonteDados') > -1" matColumnDef="forigemDados.fonteDados">
+                <ng-container *ngIf="displayedColumns.indexOf('origemDados') > -1" matColumnDef="forigemDados.fonteDados">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Fonte do Dados
                     </th>

@@ -9,8 +9,6 @@ import {TranslateModule} from '@ngx-translate/core';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkSidebarModule} from '@cdk/components';
 
-import * as fromGuards from 'app/main/apps/processo/store/guards/index';
-
 import {ProcessoEditMainSidebarComponent} from './sidebars/main/main-sidebar.component';
 import {ProcessoEditComponent} from './processo-edit.component';
 import {CommonModule} from '@angular/common';
@@ -37,6 +35,10 @@ const routes: Routes = [
             {
                 path: 'interessados',
                 loadChildren: () => import('./interessados/interessados.module').then(m => m.InteressadosModule)
+            },
+            {
+                path: 'volumes',
+                loadChildren: () => import('./volumes/volumes.module').then(m => m.VolumesModule)
             },
             {
                 path: 'juntadas',

@@ -16,13 +16,11 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
 import {CdkVinculacaoEtiquetaGridComponent} from './cdk-vinculacao-etiqueta-grid.component';
 import {CdkVinculacaoEtiquetaAutocompleteModule} from '@cdk/components/vinculacao-etiqueta/cdk-vinculacao-etiqueta-autocomplete/cdk-vinculacao-etiqueta-autocomplete.module';
-import {CdkVinculacaoEtiquetaGridFilterModule} from './cdk-vinculacao-etiqueta-grid-filter/cdk-vinculacao-etiqueta-grid-filter.module';
-import {CdkVinculacaoEtiquetaMainSidebarComponent} from './sidebars/main/main.component';
+import {CdkVinculacaoEtiquetaFilterModule} from '../sidebars/cdk-vinculacao-etiqueta-filter/cdk-vinculacao-etiqueta-filter.module';
 
 @NgModule({
     declarations: [
         CdkVinculacaoEtiquetaGridComponent,
-        CdkVinculacaoEtiquetaMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,
@@ -36,7 +34,7 @@ import {CdkVinculacaoEtiquetaMainSidebarComponent} from './sidebars/main/main.co
         MatSortModule,
 
         CdkVinculacaoEtiquetaAutocompleteModule,
-        CdkVinculacaoEtiquetaGridFilterModule,
+        CdkVinculacaoEtiquetaFilterModule,
 
         CdkSharedModule,
         CdkSidebarModule,
