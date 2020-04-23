@@ -105,3 +105,4 @@ export const vinculacaoUsuario = new schema.Entity('vinculacao-usuario');
 export const visibilidade = new schema.Entity('visibilidade');
 export const volume = new schema.Entity('volume');
 export const vinculacaoPessoaUsuario = new schema.Entity('vinculacao-pessoa-usuario');
+export const vinculacaoSetorMunicipio = new schema.Entity('vinculacao-setor-municipio');
