@@ -3,5 +3,6 @@
     [form]="formEspecieAtividade"
     [saving]="(isSaving$ | async)"
     [errors]="(errors$ | async)"
-    (save)="submitEspecieAtividade($event)">
+    (save)="submitEspecieAtividade($event)"
+    (abort)="doAbort()">
 </cdk-especie-atividade-form>

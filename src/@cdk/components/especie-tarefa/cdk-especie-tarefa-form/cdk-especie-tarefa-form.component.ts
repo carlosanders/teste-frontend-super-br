@@ -31,6 +31,9 @@ export class CdkEspecieTarefaFormComponent implements OnChanges, OnDestroy {
     @Output()
     save = new EventEmitter<any>();
 
+    @Output()
+    abort = new EventEmitter<any>();
+
     @Input()
     form: FormGroup;
 
@@ -108,6 +111,10 @@ export class CdkEspecieTarefaFormComponent implements OnChanges, OnDestroy {
 
     cancel(): void {
         this.activeCard = 'form';
+    }
+
+    doAbort(): void {
+        this.abort.emit();
     }
 
 }

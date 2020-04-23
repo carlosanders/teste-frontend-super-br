@@ -64,4 +64,11 @@ export class EspecieAtividadeListComponent implements OnInit {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/') + especieAtividadeId]);
     }
 
+    tipoDocumentoEdit(especieAtividadeId: number): void {
+        this._router.navigate([this.routerState.url.replace('listar', 'tipo-documento-list/') + especieAtividadeId]);
+    }
+
+    create(): void {
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
+    }
 }

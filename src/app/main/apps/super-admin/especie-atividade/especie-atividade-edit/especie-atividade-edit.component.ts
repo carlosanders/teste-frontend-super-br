@@ -8,6 +8,7 @@ import * as fromStore from './store';
 import {Router} from '@angular/router';
 import {LoginService} from '../../../../auth/login/login.service';
 import {getRouterState} from '../../../../../store/reducers';
+import {Back} from '../../../../../store/actions';
 
 @Component({
     selector: 'app-especie-atividade-edit',
@@ -74,6 +75,10 @@ export class EspecieAtividadeEditComponent implements OnInit {
             }
         );
         this._store.dispatch(new fromStore.SaveEspecieAtividade(especieAtividade));
+    }
+
+    doAbort(): void {
+        this._store.dispatch(new Back());
     }
 
 

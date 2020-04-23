@@ -30,6 +30,9 @@ export class CdkEspecieAtividadeFormComponent implements OnChanges, OnDestroy {
     @Output()
     save = new EventEmitter<any>();
 
+    @Output()
+    abort = new EventEmitter<any>();
+
     @Input()
     form: FormGroup;
 
@@ -109,4 +112,7 @@ export class CdkEspecieAtividadeFormComponent implements OnChanges, OnDestroy {
         this.activeCard = 'form';
     }
 
+    doAbort(): void {
+        this.abort.emit();
+    }
 }
