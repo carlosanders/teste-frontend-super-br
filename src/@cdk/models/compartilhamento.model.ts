@@ -25,7 +25,7 @@ export class Compartilhamento {
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     usuario?: Usuario;
 
-    analista?: boolean;
+    assessor?: boolean;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)
@@ -63,7 +63,7 @@ export class Compartilhamento {
         this.tarefa = null;
         this.processo = null;
         this.usuario = null;
-        this.analista = null;
+        this.assessor = null;
         this.criadoPor = null;
         this.criadoEm = null;
         this.atualizadoPor = null;
