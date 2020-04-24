@@ -40,6 +40,7 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
     pessoaProcedencia: Pessoa;
 
     unidadePagination: Pagination;
+    especieSetoPagination: Pagination;
 
     processo$: Observable<Processo>;
     processo: Processo;
@@ -115,7 +116,6 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
             modalidadeMeio: [null],
             modalidadeFase: [null],
             dataHoraAbertura: [null],
-            dataHoraPrazoResposta: [null, [Validators.required]],
             unidadeProtocoloExterno: [null, [Validators.required]],
             tipoProtocolo: [null, [Validators.required]],
             unidadeArquivistica: [null, [Validators.required]],
