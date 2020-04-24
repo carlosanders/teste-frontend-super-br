@@ -107,7 +107,7 @@ export class CdkSetorFilterComponent implements OnInit {
             if (value !== null) {
                 this.filters = {
                     ...this.filters,
-                    sigla: `like:${value}%`
+                    nome: `like:${value}%`
                 };
             }
         });
