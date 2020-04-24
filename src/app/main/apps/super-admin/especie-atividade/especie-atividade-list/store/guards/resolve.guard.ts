@@ -70,7 +70,6 @@ export class ResolveGuard implements CanActivate {
                         ],
                         context: {isAdmin: true}
                     };
-
                     this._store.dispatch(new fromStore.GetEspecieAtividade(params));
                 }
             }),
