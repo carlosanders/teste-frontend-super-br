@@ -45,9 +45,9 @@ export class ConfiguracoesMainSidebarComponent implements OnInit, OnDestroy {
                     link: 'lotacoes'
                 },
                 {
-                    nome: 'Analistas',
+                    nome: 'Assessores',
                     icon: 'group',
-                    link: 'analistas'
+                    link: 'assessores'
                 },
                 {
                     nome: 'Modelos',

@@ -63,10 +63,10 @@
             </a>
         </div>
 
-        <div *ngIf="usuariosAnalista.length > 0" class="nav-subheader">ANALISTA</div>
+        <div *ngIf="usuariosAssessor.length > 0" class="nav-subheader">ANALISTA</div>
 
-        <div class="nav-item" *ngFor="let usuario of usuariosAnalista">
-            <a class="nav-link" matRipple [routerLink]="'/apps/tarefas/' + generoHandle + '/analista/' + usuario.id"
+        <div class="nav-item" *ngFor="let usuario of usuariosAssessor">
+            <a class="nav-link" matRipple [routerLink]="'/apps/tarefas/' + generoHandle + '/assessor/' + usuario.id"
                [routerLinkActive]="['active', 'accent']">
                 <mat-icon class="nav-link-icon">{{ 'person' }}</mat-icon>
                 <span>{{usuario.nome | titlecase}}</span>

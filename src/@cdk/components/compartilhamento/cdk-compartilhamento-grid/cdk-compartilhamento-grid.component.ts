@@ -67,8 +67,8 @@ export class CdkCompartilhamentoGridComponent implements AfterViewInit, OnInit, 
             fixed: false
         },
         {
-            id: 'analista',
-            label: 'Analista',
+            id: 'assessor',
+            label: 'Assessor',
             fixed: false
         },
         {
