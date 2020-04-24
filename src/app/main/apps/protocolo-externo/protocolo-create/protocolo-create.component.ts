@@ -64,6 +64,8 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
     @ViewChild('ckdUpload', {static: false})
     cdkUpload;
 
+    titulo: string;
+
     /**
      *
      * @param _store
@@ -260,7 +262,7 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
         );
 
         processo.procedencia = this.pessoaProcedencia;
-        processo.titulo = this.formProcesso.get('especieSetor').value.name;
+        processo.titulo = this.formProcesso.get('especieSetor').value.nome;
 
         this._store.dispatch(new fromStore.SaveProcesso(processo));
     }
@@ -270,7 +272,7 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
     }
 
     onComplete(): void {
-        this._store.dispatch(new fromStore.GetDocumentos({processoOrigem: `eq:${this.processo.id}`}));
+        this._store.dispatch(new fromStore.GetDocumentos({'processoOrigem.id': `eq:${this.processo.id}`}));
     }
 
     onClicked(documento): void {

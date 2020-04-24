@@ -42,7 +42,7 @@ export class CdkCompartilhamentoFilterComponent implements OnInit {
             tarefa: [null],
             processo: [null],
             usuario: [null],
-            analista: [null],
+            assessor: [null],
             criadoPor: [null],
             criadoEm: [null],
             atualizadoPor: [null],
@@ -60,11 +60,11 @@ export class CdkCompartilhamentoFilterComponent implements OnInit {
      * On init
      */
     ngOnInit(): void {
-        this.form.get('analista').valueChanges.subscribe(value => {
+        this.form.get('assessor').valueChanges.subscribe(value => {
             if (value !== null) {
                 this.filters = {
                     ...this.filters,
-                    analista: `eq:${value}`
+                    assessor: `eq:${value}`
                 };
             }
         });

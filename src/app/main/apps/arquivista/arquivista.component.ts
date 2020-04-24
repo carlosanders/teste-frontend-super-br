@@ -51,7 +51,7 @@ export class ArquivistaComponent implements OnInit, OnDestroy {
     typeHandle = '';
     setoresCoordenacao: Setor[] = [];
 
-    usuariosAnalista: Usuario[] = [];
+    usuariosAssessor: Usuario[] = [];
 
     colaborador: Colaborador;
     unidades: Setor[] = [];
@@ -99,7 +99,7 @@ export class ArquivistaComponent implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
         this.setoresCoordenacao = [];
-        this.usuariosAnalista = [];
+        this.usuariosAssessor = [];
         this._router.navigate(['apps/arquivista/' + this.getUnidade() + '/pronto-transicao']).then();
     }
 

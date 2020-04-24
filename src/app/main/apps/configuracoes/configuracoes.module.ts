@@ -40,7 +40,7 @@ const routes: Routes = [
                 loadChildren: () => import('./notificacoes/notificacoes.module').then(m => m.NotificacoesModule)
             },
             {
-                path       : 'analistas',
+                path       : 'assessores',
                 loadChildren: () => import('./vinculacoes-usuarios/vinculacoes-usuarios.module').then(m => m.VinculacoesUsuariosModule)
             },
             {

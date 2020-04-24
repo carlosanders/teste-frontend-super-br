@@ -38,14 +38,8 @@ import {CdkComponenteDigitalDocumentoAvulsoCardListModule} from '@cdk/components
 
 const routes: Routes = [
     {
-        path: '',
+        path: ':processoHandle',
         component: ComplementarComponent,
-        /*children: [
-            {
-                path: 'documento',
-                loadChildren: () => import('app/main/apps/oficios/oficio-detail/componente-digital/componente-digital.module').then(m => m.ComponenteDigitalModule)
-            }
-        ],*/
         canActivate: [fromGuards.ResolveGuard]
     }
 ];

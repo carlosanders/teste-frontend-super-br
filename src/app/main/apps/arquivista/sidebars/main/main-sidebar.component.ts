@@ -33,7 +33,7 @@ export class ArquivistaMainSidebarComponent implements OnInit, OnDestroy {
 
     setoresCoordenacao: Setor[] = [];
 
-    usuariosAnalista: Usuario[] = [];
+    usuariosAssessor: Usuario[] = [];
 
     colaborador: Colaborador;
     unidades: Setor[] = [];
@@ -115,7 +115,7 @@ export class ArquivistaMainSidebarComponent implements OnInit, OnDestroy {
             }
         });
 
-        this.usuariosAnalista = [];
+        this.usuariosAssessor = [];
 
     }
 

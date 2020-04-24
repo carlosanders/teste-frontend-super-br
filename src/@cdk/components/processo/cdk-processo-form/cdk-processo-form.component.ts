@@ -255,6 +255,11 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
         this.form.get('estado').valueChanges.subscribe(value => {
             if (value) {
                 this.form.get('generoSetor').enable();
+                this.unidadeProtocoloExternoPagination.filter = {
+                    ...this.unidadeProtocoloExternoPagination.filter, ...{
+                        'municipio.estado.id': `eq:${value}`
+                    }
+                };
             } else {
                 this.form.get('generoSetor').setValue(null);
                 this.form.get('generoSetor').disable();
@@ -264,6 +269,11 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
         this.form.get('generoSetor').valueChanges.subscribe(value => {
             if (value) {
                 this.form.get('especieSetor').enable();
+                this.unidadeProtocoloExternoPagination.filter = {
+                    ...this.unidadeProtocoloExternoPagination.filter, ...{
+                        'generoSetor.id': `eq:${value.id}`
+                    }
+                };
             } else {
                 this.form.get('especieSetor').setValue(null);
                 this.form.get('especieSetor').disable();
@@ -275,9 +285,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
                 this.form.get('unidadeProtocoloExterno').enable();
                 this.unidadeProtocoloExternoPagination.filter = {
                     ...this.unidadeProtocoloExternoPagination.filter, ...{
-                        'municipio.estado.id': `eq:${this.form.get('estado').value}`,
-                        'generoSetor.id': `eq:${this.form.get('generoSetor').value.id}`,
-                        'especieSetor.id': `eq:${this.form.get('especieSetor').value.id}`
+                        'especieSetor.id': `eq:${value.id}`
                     }
                 };
             } else {
