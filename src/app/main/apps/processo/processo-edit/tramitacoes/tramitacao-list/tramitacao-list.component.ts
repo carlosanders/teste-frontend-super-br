@@ -77,6 +77,10 @@ export class TramitacaoListComponent implements OnInit {
         }));
     }
 
+    create () : void {
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
+    }
+
     edit(tramitacaoId: number): void {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/') + tramitacaoId]);
     }

@@ -17,6 +17,7 @@ import {Processo} from '@cdk/models';
 import {getProcesso} from '../../../store/selectors';
 import {Pagination} from '@cdk/models';
 import * as moment from 'moment';
+import {Back} from "../../../../../../store/actions";
 
 @Component({
     selector: 'documento-avulso-edit',
@@ -101,4 +102,7 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy {
 
     }
 
+    doAbort(): void {
+        this._store.dispatch(new Back());
+    }
 }

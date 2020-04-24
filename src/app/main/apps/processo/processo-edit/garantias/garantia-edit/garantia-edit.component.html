@@ -3,5 +3,6 @@
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
         [modalidadeGarantiaPagination]="modalidadeGarantiaPagination"
-        (save)="submit($event)">
+        (save)="submit($event)"
+        (abort)="doAbort()">
 </cdk-garantia-form>

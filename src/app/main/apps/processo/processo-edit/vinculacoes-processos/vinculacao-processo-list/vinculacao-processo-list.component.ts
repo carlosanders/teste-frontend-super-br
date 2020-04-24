@@ -77,6 +77,10 @@ export class VinculacaoProcessoListComponent implements OnInit {
         }));
     }
 
+    create () : void {
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
+    }
+
     edit(vinculacaoProcessoId: number): void {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/') + vinculacaoProcessoId]);
     }

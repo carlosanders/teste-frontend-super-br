@@ -15,7 +15,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {Processo} from '@cdk/models';
 import {getProcesso} from '../../../store/selectors';
-import {Pagination} from '@cdk/models';
+import {Back} from "../../../../../../store/actions";
 
 @Component({
     selector: 'sigilo-edit',
@@ -93,4 +93,7 @@ export class SigiloEditComponent implements OnInit, OnDestroy {
 
     }
 
+    doAbort(): void {
+        this._store.dispatch(new Back());
+    }
 }

@@ -3,5 +3,6 @@
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
         [modalidadeTransicaoPagination]="modalidadeTransicaoPagination"
-        (save)="submit($event)">
+        (save)="submit($event)"
+        (abort)="doAbort()">
 </cdk-transicao-form>

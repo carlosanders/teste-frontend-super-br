@@ -2,5 +2,6 @@
         [vinculacaoProcesso]="vinculacaoProcesso"
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
-        (save)="submit($event)">
+        (save)="submit($event)"
+        (abort)="doAbort()">
 </cdk-vinculacao-processo-form>
