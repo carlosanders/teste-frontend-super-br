@@ -3,17 +3,9 @@
     <div fxFlex="0 1 auto" fxLayout="column">
         <div class="m-8" fxLayoutAlign="center">{{this.getTitulo()}}</div>
         <div class="actions m-8" fxLayout="row" fxLayoutAlign="start center">
-            <button mat-raised-button
-                    class="mat-accent"
-                    [routerLink]="'editar/criar'"
-                    *ngIf="action === 'listar'"
-                    aria-label="novo"
-                    matTooltip="Nova Lotação">
-                Novo
-            </button>
             <button mat-icon-button
                     (click)="goBack()"
-                    *ngIf="action !== 'listar'"
+                    *ngIf="action === 'listar'"
                     aria-label="voltar"
                     matTooltip="Voltar">
                 <mat-icon>arrow_back</mat-icon>

@@ -84,11 +84,13 @@ export class SetorComponent implements OnInit, OnDestroy {
 
     getTitulo(): string {
         if (this.action === 'listar') {
-            return 'Setores';
+            return 'Setores - ';
         } else if (this.action === 'criar') {
-            return 'Novo Setor';
+            return 'Novo Setor - ';
         } else if (this.action === 'editar') {
-            return 'Alterar Setor';
+            return 'Alterar Setor - ';
+        } else if (this.action === 'lotacoes') {
+            return '';
         }
     }
 
