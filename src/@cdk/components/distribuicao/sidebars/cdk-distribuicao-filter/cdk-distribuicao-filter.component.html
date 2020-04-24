@@ -11,7 +11,7 @@
 
         <div class="padd" fxFlex="1 1 auto" fxLayout="column" cdkPerfectScrollbar>
 
-            <mat-form-field fxFlex="100">
+            <mat-form-field>
                 <div fxLayout="row" fxLayoutAlign="start center">
                     <input matInput placeholder="Tarefa"
                            formControlName="tarefa"
@@ -21,7 +21,7 @@
                 </cdk-tarefa-autocomplete>
             </mat-form-field>
 
-            <mat-form-field fxFlex="100">
+            <mat-form-field>
                 <div fxLayout="row" fxLayoutAlign="start center">
                     <input matInput placeholder="Documento Avulso"
                            formControlName="documentoAvulso"
@@ -31,7 +31,7 @@
                 </cdk-documento-autocomplete>
             </mat-form-field>
 
-            <mat-form-field fxFlex="100">
+            <mat-form-field>
                 <div fxLayout="row" fxLayoutAlign="start center">
                     <input matInput placeholder="Usuário Anterior"
                            formControlName="usuarioAnterior"
@@ -41,7 +41,7 @@
                 </cdk-usuario-autocomplete>
             </mat-form-field>
 
-            <mat-form-field fxFlex="100">
+            <mat-form-field>
                 <div fxLayout="row" fxLayoutAlign="start center">
                     <input matInput placeholder="Usuário Posterior"
                            formControlName="usuarioPosterior"
@@ -51,7 +51,7 @@
                 </cdk-usuario-autocomplete>
             </mat-form-field>
 
-            <mat-form-field fxFlex="100">
+            <mat-form-field>
                 <div fxLayout="row" fxLayoutAlign="start center">
                     <input matInput placeholder="Setor Anterior"
                            formControlName="setorAnterior"
@@ -61,7 +61,7 @@
                 </cdk-setor-autocomplete>
             </mat-form-field>
 
-            <mat-form-field fxFlex="100">
+            <mat-form-field>
                 <div fxLayout="row" fxLayoutAlign="start center">
                     <input matInput placeholder="Setor Posterior"
                            formControlName="setorPosterior"
@@ -71,7 +71,7 @@
                 </cdk-setor-autocomplete>
             </mat-form-field>
 
-            <mat-form-field fxFlex="100">
+            <mat-form-field>
                 <mat-label>Nome</mat-label>
                 <input matInput #nome
                        name="nome"
@@ -80,14 +80,14 @@
                 <mat-hint align="end">{{nome.value.length}} / 255</mat-hint>
             </mat-form-field>
 
-            <mat-form-field fxFlex="100">
+            <mat-form-field>
                 <mat-label>Auditoria da Distribuição</mat-label>
                 <input matInput #auditoriaDistribuicao
                        name="auditoriaDistribuicao"
                        formControlName="auditoriaDistribuicao">
             </mat-form-field>
 
-            <mat-form-field fxFlex="100">
+            <mat-form-field>
                 <mat-label>Tipo da Distribuição</mat-label>
                 <input matInput #tipoDistribuicao
                        name="tipoDistribuicao"
@@ -109,7 +109,7 @@
                 <mat-datetimepicker #criadoEm type="datetime" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
             </mat-form-field>
 
-            <mat-form-field fxFlex="100">
+            <mat-form-field>
                 <div fxLayout="row" fxLayoutAlign="start center">
                     <input matInput placeholder="Atualizado Por"
                            formControlName="atualizadoPor"
@@ -127,7 +127,7 @@
                 </mat-datetimepicker>
             </mat-form-field>
 
-            <mat-form-field fxFlex="100">
+            <mat-form-field>
                 <div fxLayout="row" fxLayoutAlign="start center">
                     <input matInput placeholder="Apagado Por"
                            formControlName="apagadoPor"

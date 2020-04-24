@@ -77,6 +77,10 @@ export class GarantiaListComponent implements OnInit {
         }));
     }
 
+    create () : void {
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
+    }
+
     edit(garantiaId: number): void {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/') + garantiaId]);
     }

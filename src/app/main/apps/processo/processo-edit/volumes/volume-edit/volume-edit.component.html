@@ -3,5 +3,6 @@
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
         [modalidadeMeioPagination]="modalidadeMeioPagination"
-        (save)="submit($event)">
+        (save)="submit($event)"
+        (abort)="doAbort()">
 </cdk-volume-form>
