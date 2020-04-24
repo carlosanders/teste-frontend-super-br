@@ -116,16 +116,13 @@ export class Processo {
     @Transform(value => value ? value.id : null, {toPlainOnly: true})
     modalidadeMeio?: ModalidadeMeio;
 
-
     @Type(() => Lembrete)
     @Transform(value => value ? value.id : null, {toPlainOnly: true})
     lembretes: Lembrete[];
 
-
     @Exclude({toPlainOnly: true})
     @Type(() => VinculacaoEtiqueta)
     vinculacoesEtiquetas?: VinculacaoEtiqueta[];
-
 
     @Type(() => EspecieProcesso)
     @Transform(value => value ? value.id : null, {toPlainOnly: true})
@@ -165,7 +162,6 @@ export class Processo {
     @Type(() => Assunto)
     assuntos: Assunto[];
 
-    @Exclude({toPlainOnly: true})
     @Type(() => Setor)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     unidadeProtocoloExterno?: Setor;

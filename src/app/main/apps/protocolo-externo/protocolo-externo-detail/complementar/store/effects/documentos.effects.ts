@@ -61,8 +61,8 @@ export class DocumentosEffects {
                     new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
                     new DocumentosActions.GetDocumentosSuccess({
                         loaded: {
-                            id: 'documentoAvulsoHandle',
-                            value: this.routerState.params.documentoAvulsoHandle
+                            id: 'processoHandle',
+                            value: this.routerState.params.processoHandle
                         },
                         entitiesId: response['entities'].map(documento => documento.id),
                     })
@@ -125,8 +125,8 @@ export class DocumentosEffects {
             .pipe(
                 ofType<DocumentosActions.ClickedDocumento>(DocumentosActions.CLICKED_DOCUMENTO),
                 tap((action) => {
-                    this._router.navigate([this.routerState.url.replace(`detalhe/${this.routerState.params.documentoAvulsoHandle}/complementar/${this.routerState.params.chaveAcessoHandle}`,'documento/')
-                    + action.payload.componentesDigitais[0].id + '/visualizar/' + this.routerState.params.chaveAcessoHandle]);
+                    this._router.navigate([this.routerState.url.replace(`detalhe/${this.routerState.params.processoHandle}/complementar/${this.routerState.params.processoHandle}`, 'documento/')
+                    + action.payload.componentesDigitais[0].id + '/visualizar']);
                 })
             );
 

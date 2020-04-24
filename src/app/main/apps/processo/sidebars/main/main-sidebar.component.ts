@@ -5,12 +5,11 @@ import {Observable, Subject} from 'rxjs';
 import {Processo} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from 'app/main/apps/processo/store';
-import {UnloadProcesso} from 'app/main/apps/processo/processo-edit/dados-basicos/store';
 import {CreateProcesso} from 'app/main/apps/processo/processo-edit/dados-basicos/store';
 import {takeUntil} from 'rxjs/operators';
 import {getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
-import {LoginService} from "../../../../auth/login/login.service";
+import {LoginService} from '../../../../auth/login/login.service';
 
 @Component({
     selector: 'processo-main-sidebar',
