@@ -87,7 +87,7 @@
             </mat-form-field>
         </mat-card>
 
-        <mat-card class="mb-16" fxFlex="0 1 auto" fxLayout="column">
+        <mat-card class="mb-16" fxFlex="0 1 auto" fxLayout="column" *showIfRole="'ROLE_COLABORADOR'">
 
             <mat-card-subtitle>Unidade Arquivística</mat-card-subtitle>
 
@@ -115,7 +115,7 @@
             </div>
         </mat-card>
 
-        <mat-card class="mb-16" fxFlex="0 1 auto" fxLayout="column">
+        <mat-card class="mb-16" fxFlex="0 1 auto" fxLayout="column" *showIfRole="'ROLE_COLABORADOR'">
             <mat-card-subtitle>Dados do Protocolo</mat-card-subtitle>
             <div fxLayout="row" class="start" fxFlex *ngIf="!form.value.id"
                  fxLayoutAlign="start center">
@@ -191,15 +191,31 @@
         </mat-card>
 
         <mat-card class="mb-16" fxFlex="0 1 auto" fxLayout="column" *showIfRole="'ROLE_CONVENIADO'">
+<!--            <mat-form-field fxFlex>-->
+<!--                <mat-label>Data de prazo de resposta</mat-label>-->
+<!--                <input matInput name="dataHoraPrazoResposta"-->
+<!--                       formControlName="dataHoraPrazoResposta"-->
+<!--                       [matDatetimepicker]="dataHoraPrazoResposta"-->
+<!--                       required>-->
+<!--                <mat-datetimepicker-toggle matSuffix [for]="dataHoraPrazoResposta"></mat-datetimepicker-toggle>-->
+<!--                <mat-datetimepicker #dataHoraPrazoResposta type="datetime" openOnFocus="true"-->
+<!--                                    timeInterval="5"></mat-datetimepicker>-->
+<!--                <mat-error>Campo obrigatório!</mat-error>-->
+<!--            </mat-form-field>-->
+
             <mat-form-field fxFlex>
-                <mat-label>Data de prazo de resposta</mat-label>
-                <input matInput name="dataHoraPrazoResposta"
-                       formControlName="dataHoraPrazoResposta"
-                       [matDatetimepicker]="dataHoraPrazoResposta"
+                <mat-label>Resumo</mat-label>
+                <input matInput #descricao
+                       name="descricao"
+                       formControlName="descricao"
+                       maxlength="255"
+                       upperCase
                        required>
-                <mat-datetimepicker-toggle matSuffix [for]="dataHoraPrazoResposta"></mat-datetimepicker-toggle>
-                <mat-datetimepicker #dataHoraPrazoResposta type="datetime" openOnFocus="true"
-                                    timeInterval="5"></mat-datetimepicker>
+                <mat-hint align="end">{{descricao.value.length}} / 255</mat-hint>
+                <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                        (click)="showLogEntryGrid('descricao')">
+                    <mat-icon matTooltip="Histórico">history</mat-icon>
+                </button>
                 <mat-error>Campo obrigatório!</mat-error>
             </mat-form-field>
 
@@ -214,23 +230,6 @@
                 <mat-hint align="end">{{requerimento.value.length}} / 255</mat-hint>
                 <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
                         (click)="showLogEntryGrid('requerimento')">
-                    <mat-icon matTooltip="Histórico">history</mat-icon>
-                </button>
-                <mat-error>Campo obrigatório!</mat-error>
-            </mat-form-field>
-
-
-            <mat-form-field fxFlex>
-                <mat-label>Resumo</mat-label>
-                <input matInput #descricao
-                       name="descricao"
-                       formControlName="descricao"
-                       maxlength="255"
-                       upperCase
-                       required>
-                <mat-hint align="end">{{descricao.value.length}} / 255</mat-hint>
-                <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-                        (click)="showLogEntryGrid('descricao')">
                     <mat-icon matTooltip="Histórico">history</mat-icon>
                 </button>
                 <mat-error>Campo obrigatório!</mat-error>
