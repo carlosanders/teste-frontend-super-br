@@ -86,6 +86,10 @@ export class LocalizadorListComponent implements OnInit {
         }));
     }
 
+    create() : void {
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
+    }
+
     edit(localizadorId: number): void {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/') + localizadorId]);
     }

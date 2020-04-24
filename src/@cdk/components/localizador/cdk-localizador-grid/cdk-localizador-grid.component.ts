@@ -136,6 +136,9 @@ export class CdkLocalizadorGridComponent implements AfterViewInit, OnInit, OnCha
     cancel = new EventEmitter<any>();
 
     @Output()
+    create = new EventEmitter<any>();
+
+    @Output()
     edit = new EventEmitter<number>();
 
     @Output()
@@ -305,6 +308,10 @@ export class CdkLocalizadorGridComponent implements AfterViewInit, OnInit, OnCha
         this.gridFilter = gridFilter;
         this.paginator.pageIndex = 0;
         this.loadPage();
+    }
+
+    doCreate(): void {
+        this.create.emit();
     }
 
     doCancel(): void {

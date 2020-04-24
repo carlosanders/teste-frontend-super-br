@@ -5,7 +5,8 @@
         [deletingIds]="(deletingIds$ | async)"
         [deletedIds]="(deletedIds$ | async)"
         [setorPagination]="setorPagination"
-        [actions]="['edit','delete']"
+        [actions]="['edit','create','delete']"
+        (create)="create()"
         (reload)="reload($event)"
         (edit)="edit($event)"
         (delete)="delete($event)">

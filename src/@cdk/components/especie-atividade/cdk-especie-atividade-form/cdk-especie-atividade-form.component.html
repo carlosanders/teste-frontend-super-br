@@ -1,0 +1,66 @@
+<div cdkPerfectScrollbar class="inner-scroll form" >
+    <form *ngIf="activeCard === 'form'" class="mr-24" fxLayoutGap="1px"
+          fxLayout="column"
+          fxLayoutAlign="start"
+          name="form" [formGroup]="form" (submit)="submit()">
+
+        <div  fxLayout="column" >
+
+            <mat-form-field fxFlex="100">
+                <mat-label>Nome</mat-label>
+                <input matInput #nome
+                       name="nome"
+                       formControlName="nome"
+                       maxlength="255" upperCase>
+                <mat-hint align="end">{{nome.value.length}} / 255</mat-hint>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="100">
+                <mat-label>Descrição</mat-label>
+                <textarea formControlName="descricao"
+                          matInput #descricao
+                          cdkTextareaAutosize
+                          #autosize="cdkTextareaAutosize"
+                          cdkAutosizeMinRows="4"
+                          cdkAutosizeMaxRows="10"></textarea>
+                <mat-hint align="end">{{descricao.value.length}} / 1000</mat-hint>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="100">
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Gênero"
+                           formControlName="generoAtividade"
+                           [matAutocomplete]="generoAtividade.autocomplete">
+                </div>
+                <cdk-genero-atividade-autocomplete
+                    #generoAtividade="generoAtividadeAutocomplete"
+                    [control]="form.get('generoAtividade')">
+                </cdk-genero-atividade-autocomplete>
+            </mat-form-field>
+
+            <mat-checkbox formControlName="ativo"
+                          class="mr-16 mb-16" fxFlex="0 1 auto">
+                Ativo
+            </mat-checkbox>
+        </div>
+
+        <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+
+        <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+             fxLayoutAlign="center center">
+            <button mat-raised-button color="accent" class="mr-sm-12"
+                    [disabled]="form.invalid">
+                SALVAR
+            </button>
+
+            <button mat-raised-button color="warn" class="mr-sm-12" (click)="doAbort()">
+                CANCELAR
+            </button>
+        </div>
+
+        <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+             fxLayoutAlign="center center">
+            <mat-spinner color="accent" diameter="24"></mat-spinner>
+        </div>
+    </form>
+</div>

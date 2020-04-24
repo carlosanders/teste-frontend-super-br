@@ -1,0 +1,38 @@
+<div class="page-layout carded left-sidebar inner-scroll">
+
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+
+    <!-- SIDEBAR -->
+    <cdk-sidebar class="sidebar" name="admin-main-sidebar" position="left" lockedOpen="gt-sm">
+        <super-admin-main-sidebar [@animate]="{value:'*'}"></super-admin-main-sidebar>
+    </cdk-sidebar>
+    <!-- / SIDEBAR -->
+
+    <!-- CENTER -->
+    <div class="center">
+
+        <!-- CONTENT HEADER -->
+        <div class="header" fxLayout="row" fxLayoutAlign="start center">
+            <div class="sidebar-toggle">
+                <button mat-icon-button
+                        (click)="toggleSidebar('admin-main-sidebar')" fxHide.gt-sm>
+                    <mat-icon>menu</mat-icon>
+                </button>
+            </div>
+        </div>
+        <!-- / CONTENT HEADER -->
+
+        <!-- CONTENT CARD -->
+        <div class="content-card">
+            <div class="content" cdkPerfectScrollbar>
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+        <!-- / CONTENT CARD -->
+
+    </div>
+    <!-- / CENTER -->
+
+</div>

@@ -14,10 +14,10 @@
             <mat-form-field fxFlex="100">
                 <div fxLayout="row" fxLayoutAlign="start center">
                     <input matInput placeholder="Modelo"
-                           formControlName="modelo"
+                           formControlName="repositorio"
                            [matAutocomplete]="repositorio.autocomplete">
                 </div>
-                <cdk-repositorio-autocomplete #repositorio="repositorioAutocomplete" [control]="form.get('modelo')">
+                <cdk-repositorio-autocomplete #repositorio="repositorioAutocomplete" [control]="form.get('repositorio')">
                 </cdk-repositorio-autocomplete>
             </mat-form-field>
 

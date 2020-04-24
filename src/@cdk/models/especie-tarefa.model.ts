@@ -12,16 +12,16 @@ export class EspecieTarefa {
     @Exclude({ toPlainOnly: true })
     uuid?: string;
 
-    @Exclude({ toPlainOnly: true })
+    // @Exclude({ toPlainOnly: true })
     nome?: string;
 
-    @Exclude({ toPlainOnly: true })
+    // @Exclude({ toPlainOnly: true })
     descricao?: string;
 
-    @Exclude({ toPlainOnly: true })
+    // @Exclude({ toPlainOnly: true })
     ativo?: boolean;
 
-    @Exclude({ toPlainOnly: true })
+    // @Exclude({ toPlainOnly: true })
     @Type(() => GeneroTarefa)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     generoTarefa?: GeneroTarefa;
