@@ -148,7 +148,7 @@ export class ResolveGuard implements CanActivate {
                             });
                         }
 
-                        if (this.routerState.params[typeParam] === 'analista') {
+                        if (this.routerState.params[typeParam] === 'assessor') {
                             tarefaFilter = {
                                 dataHoraConclusaoPrazo: 'isNull'
                             };

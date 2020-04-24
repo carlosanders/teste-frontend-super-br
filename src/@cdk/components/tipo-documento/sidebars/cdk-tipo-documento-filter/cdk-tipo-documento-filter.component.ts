@@ -74,7 +74,7 @@ export class CdkTipoDocumentoFilterComponent implements OnInit {
             if (value !== null) {
                 this.filters = {
                     ...this.filters,
-                    sigla: `like:${value}%`
+                    nome: `like:${value}%`
                 };
             }
         });
