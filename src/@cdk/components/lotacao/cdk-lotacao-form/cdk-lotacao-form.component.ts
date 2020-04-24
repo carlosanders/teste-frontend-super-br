@@ -40,6 +40,9 @@ export class CdkLotacaoFormComponent implements OnChanges, OnDestroy {
     @Output()
     save = new EventEmitter<Lotacao>();
 
+    @Output()
+    abort = new EventEmitter<any>();
+
     @Input()
     usuario: Usuario;
 
@@ -132,6 +135,10 @@ export class CdkLotacaoFormComponent implements OnChanges, OnDestroy {
         if (this.form.valid) {
             this.save.emit(this.form.value);
         }
+    }
+
+    doAbort(): void {
+        this.abort.emit();
     }
 
     checkColaborador(): void {
