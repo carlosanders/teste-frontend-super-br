@@ -170,53 +170,6 @@ export class ProcessoDetailEffect {
                 })
             );
 
-    // /**
-    //  * Dar Ciencia Processo
-    //  * @type {Observable<any>}
-    //  */
-    // @Effect()
-    // darCienciaProcesso: any =
-    //     this._actions
-    //         .pipe(
-    //             ofType<ProcessoDetailActions.DarCienciaProcesso>(ProcessoDetailActions.DAR_CIENCIA_PROCESSO),
-    //             switchMap((action) => {
-    //                 return this._processoService.ciencia(action.payload).pipe(
-    //                     mergeMap((response: Processo) => [
-    //                         new ProcessoDetailActions.DarCienciaProcessoSuccess(action.payload),
-    //                         new AddData<Processo>({
-    //                             data: [response],
-    //                             schema: processoSchema
-    //                         }), new OperacoesActions.Resultado({
-    //                             type: 'processo',
-    //                             content: `Processo id ${response.id} ciência com sucesso!`,
-    //                             dateTime: response.criadoEm
-    //                         })
-    //                     ]),
-    //                     catchError((err) => {
-    //                         console.log(err);
-    //                         return of(new ProcessoDetailActions.SaveProcessoFailed(err));
-    //                     })
-    //                 );
-    //             })
-    //         );
-
-    /**
-     * Dar Ciencia Processo Success
-     */
-    @Effect({dispatch: false})
-    darCienciaProcessoSuccess: any =
-        this._actions
-            .pipe(
-                ofType<ProcessoDetailActions.DarCienciaProcessoSuccess>(ProcessoDetailActions.DAR_CIENCIA_PROCESSO_SUCCESS),
-                tap((action) => {
-                    this._store.dispatch(new DeleteProcessoSuccess(action.payload.id));
-                    this._router.navigate(['apps/processos/' + this.routerState.params.generoHandle + '/' +
-                    + this.routerState.params.typeHandle + '/' +
-                    this.routerState.params.targetHandle + '/processo/' + this.routerState.params.processoHandle +
-                    '/encaminhamento']).then();
-                })
-            );
-
     /**
      * Create Vinculacao Etiqueta
      * @type {Observable<any>}
