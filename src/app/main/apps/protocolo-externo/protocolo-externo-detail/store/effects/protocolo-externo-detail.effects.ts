@@ -20,7 +20,6 @@ import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
 import {DocumentoService} from '@cdk/services/documento.service';
 import {Processo, Documento} from '@cdk/models';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-import {DeleteProcessoSuccess} from '../../../store/actions';
 
 @Injectable()
 export class ProcessoDetailEffect {

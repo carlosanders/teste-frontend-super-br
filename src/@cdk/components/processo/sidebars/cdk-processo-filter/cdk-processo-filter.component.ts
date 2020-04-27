@@ -162,14 +162,14 @@ export class CdkProcessoFilterComponent implements OnInit {
             }
         });
 
-        this.form.get('novo').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    novo: `eq:${value}`
-                };
-            }
-        });
+        // this.form.get('novo').valueChanges.subscribe(value => {
+        //     if (value !== null) {
+        //         this.filters = {
+        //             ...this.filters,
+        //             novo: `eq:${value}`
+        //         };
+        //     }
+        // });
 
         this.form.get('semValorEconomico').valueChanges.subscribe(value => {
             if (value !== null) {
