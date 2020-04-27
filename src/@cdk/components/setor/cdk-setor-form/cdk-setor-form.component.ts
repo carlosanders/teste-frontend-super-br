@@ -180,7 +180,6 @@ export class CdkSetorFormComponent implements OnChanges, OnDestroy {
         this.activeCard = 'setor-gridsearch';
     }
 
-
     submit(): void {
         if (this.form.valid) {
             this.save.emit(this.form.value);

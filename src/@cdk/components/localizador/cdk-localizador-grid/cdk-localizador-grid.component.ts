@@ -310,11 +310,11 @@ export class CdkLocalizadorGridComponent implements AfterViewInit, OnInit, OnCha
         this.loadPage();
     }
 
-    doCancel(): void {
-        this.cancel.emit();
-    }
-
     doCreate(): void {
         this.create.emit();
+    }
+
+    doCancel(): void {
+        this.cancel.emit();
     }
 }

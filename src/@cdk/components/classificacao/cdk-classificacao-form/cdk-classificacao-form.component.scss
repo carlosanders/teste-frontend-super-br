@@ -1,43 +1,44 @@
 cdk-classificacao-form {
+    height: 100%;
 
-  form {
-    width: 100%;
-  }
-
-  .div-form {
-    width: auto;
-  }
-
-  .form-card {
-    border-radius: 8px;
-  }
-
-  .form-errors-model {
-    flex: 1;
-
-    code {
-      background: none !important;
+    form {
+        width: 100%;
     }
-  }
 
-  .prazoGuarda {
-    display: flex;
-    align-content: center;
-    align-items: center;
-    height: auto;
-    padding: 5px;
-  }
+    .div-form {
+        width: auto;
+    }
 
-  .prazoGuardaCampo {
+    .form-card {
+        border-radius: 8px;
+    }
+
+    .form-errors-model {
+        flex: 1;
+
+        code {
+            background: none !important;
+        }
+    }
+
+    .prazoGuarda {
+        display: flex;
+        align-content: center;
+        align-items: center;
+        height: auto;
+        padding: 5px;
+    }
+
+    .prazoGuardaCampo {
 
 
-  }
+    }
 
-  cdk-modalidade-destinacao-gridsearch {
-    width: 100%;
-  }
+    cdk-modalidade-destinacao-gridsearch {
+        width: 100%;
+    }
 
-  cdk-classificacao-gridsearch {
-    width: 100%;
-  }
+    cdk-classificacao-gridsearch {
+        width: 100%;
+    }
 }

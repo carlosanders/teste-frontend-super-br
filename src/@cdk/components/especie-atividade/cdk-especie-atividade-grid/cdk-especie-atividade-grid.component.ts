@@ -28,7 +28,7 @@ import {FormControl} from '@angular/forms';
 export class CdkEspecieAtividadeGridComponent implements AfterViewInit, OnInit, OnChanges {
 
     @Input()
-    loading = false;
+    loading: boolean;
 
     @Input()
     especieAtividades: EspecieAtividade[];
@@ -125,7 +125,7 @@ export class CdkEspecieAtividadeGridComponent implements AfterViewInit, OnInit, 
     pageSize = 5;
 
     @Input()
-    actions: string[] = ['edit', 'delete', 'select'];
+    actions: string[] = ['edit', 'delete', 'select', 'tipo-documento-list'];
 
     @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
@@ -141,6 +141,9 @@ export class CdkEspecieAtividadeGridComponent implements AfterViewInit, OnInit, 
 
     @Output()
     edit = new EventEmitter<number>();
+
+    @Output()
+    tipoDocumentoEdit = new EventEmitter<number>();
 
     @Output()
     delete = new EventEmitter<number>();
@@ -255,6 +258,10 @@ export class CdkEspecieAtividadeGridComponent implements AfterViewInit, OnInit, 
 
     deleteEspecieAtividades(especieAtividadesId): void {
         especieAtividadesId.forEach(especieAtividadeId => this.deleteEspecieAtividade(especieAtividadeId));
+    }
+
+    tipoDocumento(especieAtividadeId): void {
+        this.tipoDocumentoEdit.emit(especieAtividadeId);
     }
 
     salvarFavorito(favorito): void {

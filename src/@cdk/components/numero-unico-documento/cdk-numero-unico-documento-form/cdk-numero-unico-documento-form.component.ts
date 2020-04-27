@@ -137,7 +137,7 @@ export class CdkNumeroUnicoDocumentoFormComponent implements OnChanges, OnDestro
     }
 
     showTipoDocumentoGrid(): void {
-        this.activeCard = 'tipo-documento-gridsearch';
+        this.activeCard = 'tipo-documento-list-gridsearch';
     }
 
     cancel(): void {

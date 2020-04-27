@@ -39,58 +39,6 @@
                 </cdk-documento-autocomplete>
             </mat-form-field>
 
-            <mat-form-field>
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Origem de Dados"
-                           formControlName="origemDados"
-                           [matAutocomplete]="origemDados.autocomplete">
-                </div>
-                <cdk-origem-dados-autocomplete #origemDados="origemDadosAutocomplete"
-                                               [control]="form.get('origemDados')">
-                </cdk-origem-dados-autocomplete>
-            </mat-form-field>
-
-            <mat-form-field>
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Volume"
-                           formControlName="volume"
-                           [matAutocomplete]="volume.autocomplete">
-                </div>
-                <cdk-volume-autocomplete #volume="volumeAutocomplete" [control]="form.get('volume')">
-                </cdk-volume-autocomplete>
-            </mat-form-field>
-
-            <mat-form-field>
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Documento Avulso"
-                           formControlName="documentoAvulso"
-                           [matAutocomplete]="documentoAvulso.autocomplete">
-                </div>
-                <cdk-documento-avulso-autocomplete #documentoAvulso="documentoAvulsoAutocomplete"
-                                                   [control]="form.get('documentoAvulso')">
-                </cdk-documento-avulso-autocomplete>
-            </mat-form-field>
-
-            <mat-form-field>
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Atividade"
-                           formControlName="atividade"
-                           [matAutocomplete]="atividade.autocomplete">
-                </div>
-                <cdk-atividade-autocomplete #atividade="atividadeAutocomplete" [control]="form.get('atividade')">
-                </cdk-atividade-autocomplete>
-            </mat-form-field>
-
-            <mat-form-field>
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Tarefa"
-                           formControlName="tarefa"
-                           [matAutocomplete]="tarefa.autocomplete">
-                </div>
-                <cdk-tarefa-autocomplete #tarefa="tarefaAutocomplete" [control]="form.get('tarefa')">
-                </cdk-tarefa-autocomplete>
-            </mat-form-field>
-
             <mat-form-field class="mr-sm-12">
                 <mat-label>Criado Em</mat-label>
                 <input matInput formControlName="criadoEm" [matDatetimepicker]="criadoEm">

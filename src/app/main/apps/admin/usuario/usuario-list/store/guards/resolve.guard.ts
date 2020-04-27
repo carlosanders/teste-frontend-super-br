@@ -9,7 +9,7 @@ import * as fromStore from '../';
 import {getRouterState} from 'app/store/reducers';
 import {UsuarioListAppState} from '../reducers';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {getUsuarioListLoaded} from "../";
+import {getUsuarioListLoaded} from '../';
 
 
 @Injectable()

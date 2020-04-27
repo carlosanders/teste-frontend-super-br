@@ -13,7 +13,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
-import {Pagination} from "../../../../../../@cdk/models/pagination";
+import {Pagination} from '@cdk/models/pagination';
 
 @Component({
     selector: 'lotacao-list',
@@ -84,6 +84,10 @@ export class AdminLotacaoListComponent implements OnInit {
         this.pagination$.subscribe(pagination => {
             this.pagination = pagination;
         });
+    }
+
+    create() : void {
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
     }
 
     reload(params): void {

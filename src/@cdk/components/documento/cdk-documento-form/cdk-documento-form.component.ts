@@ -150,7 +150,7 @@ export class CdkDocumentoFormComponent implements OnChanges, OnDestroy {
     }
 
     showTipoDocumentoGrid(): void {
-        this.activeCard = 'tipo-documento-gridsearch';
+        this.activeCard = 'tipo-documento-list-gridsearch';
     }
 
     checkTipoDocumento(): void {

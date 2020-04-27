@@ -35,6 +35,16 @@
                 Encerra Tarefa
             </mat-checkbox>
 
+            <mat-form-field fxFlex="100">
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Criado Por"
+                           formControlName="criadoPor"
+                           [matAutocomplete]="usuario.autocomplete">
+                </div>
+                <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('criadoPor')">
+                </cdk-usuario-autocomplete>
+            </mat-form-field>
+
             <mat-form-field class="mr-sm-12">
                 <mat-label>Criado Em</mat-label>
                 <input matInput formControlName="criadoEm" [matDatetimepicker]="criadoEm">
@@ -54,7 +64,7 @@
 
             <mat-form-field class="mr-sm-12">
                 <mat-label>Atualizado Em</mat-label>
-                <input matInput formControlName="criadoEm" [matDatetimepicker]="atualizadoEm">
+                <input matInput formControlName="atualizadoEm" [matDatetimepicker]="atualizadoEm">
                 <mat-datetimepicker-toggle matSuffix [for]="atualizadoEm"></mat-datetimepicker-toggle>
                 <mat-datetimepicker #atualizadoEm type="datetime" openOnFocus="true" timeInterval="5">
                 </mat-datetimepicker>

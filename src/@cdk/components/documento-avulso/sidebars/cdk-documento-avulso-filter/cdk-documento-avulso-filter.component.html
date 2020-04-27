@@ -84,16 +84,6 @@
 
             <mat-form-field>
                 <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Setor da Unidade Responsável"
-                           formControlName="unidadeResponsavel"
-                           [matAutocomplete]="setor.autocomplete">
-                </div>
-                <cdk-setor-autocomplete #setor="setorAutocomplete" [control]="form.get('unidadeResponsavel')">
-                </cdk-setor-autocomplete>
-            </mat-form-field>
-
-            <mat-form-field>
-                <div fxLayout="row" fxLayoutAlign="start center">
                     <input matInput placeholder="Pessoa de Destino"
                            formControlName="pessoaDestino"
                            [matAutocomplete]="pessoa.autocomplete">
