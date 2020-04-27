@@ -28,7 +28,7 @@ import {FormControl} from '@angular/forms';
 export class CdkEspecieAtividadeGridComponent implements AfterViewInit, OnInit, OnChanges {
 
     @Input()
-    loading = false;
+    loading: boolean;
 
     @Input()
     especieAtividades: EspecieAtividade[];
@@ -38,6 +38,9 @@ export class CdkEspecieAtividadeGridComponent implements AfterViewInit, OnInit, 
 
     @Input()
     mode = 'list';
+
+    @Output()
+    create = new EventEmitter<any>();
 
     @Input()
     displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'generoAtividade.nome', 'actions'];
@@ -122,7 +125,7 @@ export class CdkEspecieAtividadeGridComponent implements AfterViewInit, OnInit, 
     pageSize = 5;
 
     @Input()
-    actions: string[] = ['edit', 'delete', 'select'];
+    actions: string[] = ['edit', 'delete', 'select', 'tipo-documento-list'];
 
     @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
@@ -138,6 +141,9 @@ export class CdkEspecieAtividadeGridComponent implements AfterViewInit, OnInit, 
 
     @Output()
     edit = new EventEmitter<number>();
+
+    @Output()
+    tipoDocumentoEdit = new EventEmitter<number>();
 
     @Output()
     delete = new EventEmitter<number>();
@@ -163,6 +169,7 @@ export class CdkEspecieAtividadeGridComponent implements AfterViewInit, OnInit, 
 
     /**
      * @param _changeDetectorRef
+     * @param _cdkSidebarService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -253,6 +260,10 @@ export class CdkEspecieAtividadeGridComponent implements AfterViewInit, OnInit, 
         especieAtividadesId.forEach(especieAtividadeId => this.deleteEspecieAtividade(especieAtividadeId));
     }
 
+    tipoDocumento(especieAtividadeId): void {
+        this.tipoDocumentoEdit.emit(especieAtividadeId);
+    }
+
     salvarFavorito(favorito): void {
        this.toggleFavorito.emit(favorito);
     }
@@ -313,5 +324,9 @@ export class CdkEspecieAtividadeGridComponent implements AfterViewInit, OnInit, 
 
     doCancel(): void {
         this.cancel.emit();
+    }
+
+    doCreate(): void {
+        this.create.emit();
     }
 }

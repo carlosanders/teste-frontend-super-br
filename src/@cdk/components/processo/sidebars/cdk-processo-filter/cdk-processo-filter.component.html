@@ -10,7 +10,7 @@
         </div>
 
         <div class="padd" fxFlex="1 1 auto" fxLayout="column" cdkPerfectScrollbar>
-            <mat-form-field *showIfRole="'ROLE_USER'" fxFlex="100">
+            <mat-form-field *showIfRole="'ROLE_USER'">
                 <mat-label>Número do Processo</mat-label>
                 <input matInput #NUP
                        name="NUP"
@@ -18,7 +18,7 @@
                        maxlength="255">
                 <mat-hint align="end">{{NUP.value.length}} / 255</mat-hint>
             </mat-form-field>
-            <mat-form-field *showIfRole="'ROLE_CONVENIADO'" fxFlex="100">
+            <mat-form-field *showIfRole="'ROLE_CONVENIADO'">
                 <mat-label>Nome do Interessado</mat-label>
                 <input matInput #nome
                        name="nome"
@@ -26,7 +26,7 @@
                        maxlength="255">
                 <mat-hint align="end">{{nome.value.length}} / 255</mat-hint>
             </mat-form-field>
-            <mat-form-field *showIfRole="'ROLE_COLABORADOR'" fxFlex="100">
+            <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
                 <mat-label>Nome do Interessado</mat-label>
                 <input matInput #nome
                        name="nome"
@@ -34,7 +34,7 @@
                        maxlength="255">
                 <mat-hint align="end">{{nome.value.length}} / 255</mat-hint>
             </mat-form-field>
-            <mat-form-field *showIfRole="'ROLE_CONVENIADO'" fxFlex="100">
+            <mat-form-field *showIfRole="'ROLE_CONVENIADO'">
                 <mat-label>CPF/CNPJ do Interessado</mat-label>
                 <input matInput #cpfCnpj
                        name="cpfCnpj"
@@ -42,8 +42,8 @@
                        maxlength="255">
                 <mat-hint align="end">{{cpfCnpj.value.length}} / 19</mat-hint>
             </mat-form-field>
-            <mat-form-field *showIfRole="'ROLE_COLABORADOR'" fxFlex="100">
-                <mat-label>CPF/CNPJ d Interessado</mat-label>
+            <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
+                <mat-label>CPF/CNPJ do Interessado</mat-label>
                 <input matInput #cpfCnpj
                        name="cpfCnpj"
                        formControlName="cpfCnpj"
@@ -51,7 +51,7 @@
                 <mat-hint align="end">{{cpfCnpj.value.length}} / 19</mat-hint>
             </mat-form-field>
 
-            <mat-form-field *showIfRole="'ROLE_COLABORADOR'" fxFlex="100">
+            <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
                 <div fxLayout="row" fxLayoutAlign="start center">
                     <input matInput placeholder="Setor Responsável"
                            formControlName="setorAtual"
@@ -61,7 +61,7 @@
                 </cdk-setor-autocomplete>
             </mat-form-field>
 
-            <mat-form-field *showIfRole="'ROLE_COLABORADOR'" fxFlex="100">
+            <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
                 <mat-label>Título</mat-label>
                 <input matInput #titulo
                        name="titulo"
@@ -70,7 +70,7 @@
                 <mat-hint align="end">{{titulo.value.length}} / 255</mat-hint>
             </mat-form-field>
 
-            <mat-form-field *showIfRole="'ROLE_COLABORADOR'" fxFlex="100">
+            <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
                 <mat-label>Descrição</mat-label>
                 <input matInput #descricao
                        name="descricao"
@@ -79,7 +79,7 @@
                 <mat-hint align="end">{{descricao.value.length}} / 255</mat-hint>
             </mat-form-field>
 
-            <mat-form-field *showIfRole="'ROLE_COLABORADOR'" fxFlex="100">
+            <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
                 <mat-label>Outro Número</mat-label>
                 <input matInput #outroNumero
                        name="outroNumero"
@@ -88,14 +88,14 @@
                 <mat-hint align="end">{{outroNumero.value.length}} / 255</mat-hint>
             </mat-form-field>
 
-            <mat-form-field *showIfRole="'ROLE_COLABORADOR'" fxFlex="100">
+            <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
                 <mat-label>Valor Ecônomico</mat-label>
                 <input matInput #valorEconomico
                        name="valorEconomico"
                        formControlName="valorEconomico">
             </mat-form-field>
 
-            <mat-form-field *showIfRole="'ROLE_COLABORADOR'" fxFlex="100">
+            <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
                 <div fxLayout="row" fxLayoutAlign="start center">
                     <input matInput placeholder="Classificacao"
                            formControlName="classificacao"
@@ -106,7 +106,7 @@
                 </cdk-classificacao-autocomplete>
             </mat-form-field>
 
-            <mat-form-field *showIfRole="'ROLE_COLABORADOR'" fxFlex="100">
+            <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
                 <div fxLayout="row" fxLayoutAlign="start center">
                     <input matInput placeholder="Procedência"
                            formControlName="procedencia"
@@ -116,7 +116,7 @@
                 </cdk-pessoa-autocomplete>
             </mat-form-field>
 
-            <mat-form-field *showIfRole="'ROLE_COLABORADOR'" fxFlex="100">
+            <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
                 <div fxLayout="row" fxLayoutAlign="start center">
                     <input matInput placeholder="Localizador"
                            formControlName="localizador"
@@ -135,7 +135,7 @@
                 </mat-datetimepicker>
             </mat-form-field>
 
-            <mat-form-field *showIfRole="'ROLE_COLABORADOR'" fxFlex="100">
+            <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
                 <div fxLayout="row" fxLayoutAlign="start center">
                     <input matInput placeholder="Modalidade da Fase"
                            formControlName="modalidadeFase"
@@ -146,7 +146,7 @@
                 </cdk-modalidade-fase-autocomplete>
             </mat-form-field>
 
-            <mat-form-field *showIfRole="'ROLE_COLABORADOR'" fxFlex="100">
+            <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
                 <div fxLayout="row" fxLayoutAlign="start center">
                     <input matInput placeholder="Modalidade Meio"
                            formControlName="modalidadeMeio"
@@ -157,7 +157,7 @@
                 </cdk-modalidade-meio-autocomplete>
             </mat-form-field>
 
-            <mat-form-field *showIfRole="'ROLE_COLABORADOR'" fxFlex="100">
+            <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
                 <div fxLayout="row" fxLayoutAlign="start center">
                     <input matInput placeholder="Espécie Processo"
                            formControlName="especieProcesso"

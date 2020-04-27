@@ -38,6 +38,9 @@ export class CdkTramitacaoGridComponent implements AfterViewInit, OnInit, OnChan
     @Input()
     mode = 'list';
 
+    @Output()
+    create = new EventEmitter<any>();
+
     @Input()
     displayedColumns: string[] = ['select', 'id', 'observacao', 'urgente', 'setorOrigem.nome', 'setorDestino.nome',
         'dataHoraRecebimento', 'usuarioRecebimento.nome', 'actions'];
@@ -174,6 +177,7 @@ export class CdkTramitacaoGridComponent implements AfterViewInit, OnInit, OnChan
 
     /**
      * @param _changeDetectorRef
+     * @param _cdkSidebarService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -321,5 +325,9 @@ export class CdkTramitacaoGridComponent implements AfterViewInit, OnInit, OnChan
 
     doCancel(): void {
         this.cancel.emit();
+    }
+
+    doCreate(): void {
+        this.create.emit();
     }
 }

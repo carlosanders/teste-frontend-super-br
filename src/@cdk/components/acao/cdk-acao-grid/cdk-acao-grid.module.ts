@@ -19,6 +19,7 @@ import {CdkAcaoAutocompleteModule} from '@cdk/components/acao/cdk-acao-autocompl
 import {CdkAcaoFilterModule} from '../sidebars/cdk-acao-filter/cdk-acao-filter.module';
 import {CommonModule} from '@angular/common';
 import {CdkSidebarModule} from '@cdk/components/index';
+import {MatTableModule} from "@angular/material/table";
 
 @NgModule({
     declarations: [

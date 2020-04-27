@@ -33,6 +33,9 @@ export class CdkCadastroIdentificadorFormComponent implements OnChanges, OnDestr
     @Output()
     save = new EventEmitter<CadastroIdentificador>();
 
+    @Output()
+    abort = new EventEmitter<any>();
+
     form: FormGroup;
 
     activeCard = 'form';
@@ -94,6 +97,10 @@ export class CdkCadastroIdentificadorFormComponent implements OnChanges, OnDestr
         if (this.form.valid) {
             this.save.emit(this.form.value);
         }
+    }
+
+    doAbort(): void {
+        this.abort.emit();
     }
 
     cancel(): void {

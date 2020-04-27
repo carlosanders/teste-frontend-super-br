@@ -11,14 +11,14 @@
 
         <div class="padd" fxFlex="1 1 auto" fxLayout="column" cdkPerfectScrollbar>
 
-            <mat-form-field fxFlex="100">
+            <mat-form-field>
                 <mat-label>numeracaoSequencial</mat-label>
                 <input matInput #numeracaoSequencial
                        name="numeracaoSequencial"
                        formControlName="numeracaoSequencial">
             </mat-form-field>
 
-            <mat-form-field fxFlex="100">
+            <mat-form-field>
                 <mat-label>descricao</mat-label>
                 <input matInput #descricao
                        name="descricao"
@@ -29,7 +29,7 @@
                 Ativo
             </mat-checkbox>
 
-            <mat-form-field fxFlex="100">
+            <mat-form-field>
                 <div fxLayout="row" fxLayoutAlign="start center">
                     <input matInput placeholder="Documento"
                            formControlName="documento"
@@ -39,58 +39,6 @@
                 </cdk-documento-autocomplete>
             </mat-form-field>
 
-            <mat-form-field fxFlex="100">
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Origem de Dados"
-                           formControlName="origemDados"
-                           [matAutocomplete]="origemDados.autocomplete">
-                </div>
-                <cdk-origem-dados-autocomplete #origemDados="origemDadosAutocomplete"
-                                               [control]="form.get('origemDados')">
-                </cdk-origem-dados-autocomplete>
-            </mat-form-field>
-
-            <mat-form-field fxFlex="100">
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Volume"
-                           formControlName="volume"
-                           [matAutocomplete]="volume.autocomplete">
-                </div>
-                <cdk-volume-autocomplete #volume="volumeAutocomplete" [control]="form.get('volume')">
-                </cdk-volume-autocomplete>
-            </mat-form-field>
-
-            <mat-form-field fxFlex="100">
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Documento Avulso"
-                           formControlName="documentoAvulso"
-                           [matAutocomplete]="documentoAvulso.autocomplete">
-                </div>
-                <cdk-documento-avulso-autocomplete #documentoAvulso="documentoAvulsoAutocomplete"
-                                                   [control]="form.get('documentoAvulso')">
-                </cdk-documento-avulso-autocomplete>
-            </mat-form-field>
-
-            <mat-form-field fxFlex="100">
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Atividade"
-                           formControlName="atividade"
-                           [matAutocomplete]="atividade.autocomplete">
-                </div>
-                <cdk-atividade-autocomplete #atividade="atividadeAutocomplete" [control]="form.get('atividade')">
-                </cdk-atividade-autocomplete>
-            </mat-form-field>
-
-            <mat-form-field fxFlex="100">
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Tarefa"
-                           formControlName="tarefa"
-                           [matAutocomplete]="tarefa.autocomplete">
-                </div>
-                <cdk-tarefa-autocomplete #tarefa="tarefaAutocomplete" [control]="form.get('tarefa')">
-                </cdk-tarefa-autocomplete>
-            </mat-form-field>
-
             <mat-form-field class="mr-sm-12">
                 <mat-label>Criado Em</mat-label>
                 <input matInput formControlName="criadoEm" [matDatetimepicker]="criadoEm">
@@ -98,7 +46,7 @@
                 <mat-datetimepicker #criadoEm type="datetime" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
             </mat-form-field>
 
-            <mat-form-field fxFlex="100">
+            <mat-form-field>
                 <div fxLayout="row" fxLayoutAlign="start center">
                     <input matInput placeholder="Atualizado Por"
                            formControlName="atualizadoPor"
@@ -116,7 +64,7 @@
                 </mat-datetimepicker>
             </mat-form-field>
 
-            <mat-form-field fxFlex="100">
+            <mat-form-field>
                 <div fxLayout="row" fxLayoutAlign="start center">
                     <input matInput placeholder="Apagado Por"
                            formControlName="apagadoPor"

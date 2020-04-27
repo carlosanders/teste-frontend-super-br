@@ -6,5 +6,6 @@
         [setor]="(setor$ | async)"
         [setorPagination]="setorPagination"
         [colaboradorPagination]="colaboradorPagination"
-        (save)="submit($event)">
+        (save)="submit($event)"
+        (abort)="doAbort()">
 </cdk-lotacao-form>

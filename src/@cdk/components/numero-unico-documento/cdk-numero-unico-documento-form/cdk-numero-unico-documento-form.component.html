@@ -1,7 +1,7 @@
 <form *ngIf="activeCard === 'form'" class="p-24 mr-24" fxLayoutGap="16px"
       fxLayout="column"
       fxLayoutAlign="start"
-      name="form" [formGroup]="form" (submit)="submit()">
+      name="form" [formGroup]="form">
 
     <div fxFlex="1 0 auto" fxLayout="column">
 
@@ -42,9 +42,12 @@
 
     <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
          fxLayoutAlign="center center">
-        <button mat-raised-button color="accent" class="mr-sm-12"
+        <button mat-raised-button color="accent" class="mr-sm-12" (click)="submit()"
                 [disabled]="form.invalid">
             SALVAR
+        </button>
+        <button mat-raised-button color="warn" class="mr-sm-12" (click)="doAbort()">
+            CANCELAR
         </button>
     </div>
 
@@ -56,7 +59,7 @@
 
 <cdk-tipo-documento-gridsearch
         fxFlex="1 0 auto"
-        *ngIf="activeCard === 'tipo-documento-gridsearch'"
+        *ngIf="activeCard === 'tipo-documento-list-gridsearch'"
         (selected)="selectTipoDocumento($event)"
         (cancel)="cancel()">
 </cdk-tipo-documento-gridsearch>

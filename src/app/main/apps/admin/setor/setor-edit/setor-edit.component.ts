@@ -16,7 +16,8 @@ import * as fromStore from './store';
 import {Pagination} from '@cdk/models/pagination';
 import {Usuario} from '@cdk/models/usuario.model';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {getRouterState} from "../../../../../store/reducers";
+import {getRouterState} from '../../../../../store/reducers';
+import {Back} from '../../../../../store/actions';
 
 @Component({
     selector: 'setor-edit',
@@ -99,6 +100,10 @@ export class SetorEditComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
+
+    doAbort(): void {
+        this._store.dispatch(new Back());
+    }
 
     submit(values): void {
 

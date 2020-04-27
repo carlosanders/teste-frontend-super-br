@@ -38,6 +38,9 @@ export class CdkAreaTrabalhoFormComponent implements OnChanges, OnDestroy {
     @Output()
     save = new EventEmitter<AreaTrabalho>();
 
+    @Output()
+    abort = new EventEmitter<any>();
+
     form: FormGroup;
 
     activeCard = 'form';
@@ -107,6 +110,10 @@ export class CdkAreaTrabalhoFormComponent implements OnChanges, OnDestroy {
         if (this.form.valid) {
             this.save.emit(this.form.value);
         }
+    }
+
+    doAbort(): void {
+        this.abort.emit();
     }
 
     checkUsuario(): void {

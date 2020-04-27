@@ -38,6 +38,9 @@ export class CdkHistoricoGridComponent implements AfterViewInit, OnInit, OnChang
     @Input()
     mode = 'list';
 
+    @Output()
+    create = new EventEmitter<any>();
+
     @Input()
     displayedColumns: string[] = ['select', 'id', 'descricao', 'processo', 'actions'];
 
@@ -153,6 +156,7 @@ export class CdkHistoricoGridComponent implements AfterViewInit, OnInit, OnChang
 
     /**
      * @param _changeDetectorRef
+     * @param _cdkSidebarService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -299,5 +303,9 @@ export class CdkHistoricoGridComponent implements AfterViewInit, OnInit, OnChang
 
     doCancel(): void {
         this.cancel.emit();
+    }
+
+    doCreate(): void {
+        this.create.emit();
     }
 }

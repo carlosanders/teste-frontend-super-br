@@ -1,69 +1,71 @@
 @import "../../../scss/cdk";
 
 cdk-processo-form {
-
-  form {
-    width: 100%;
-  }
-
-  height: 100%;
-  width: 100%;
-
-  .form-card {
-    border-radius: 8px;
-  }
-
-  .owl-dt-popup-container{
-      width: 20%;
-      height: 20%;
-  }
-
-  .form-errors-model {
-    flex: 1;
-
-    code {
-      background: none !important;
-    }
-  }
-  mat-radio-group {
-
-    &.poderes-rg {
-//      padding: 16px;
-      margin: 0px 0px 8px 8px;
-      display: flex;
-      flex-direction: row;
-//    margin: top right bottom left      
-//      @include mat-elevation(1);
-    }
-  }
-
-  mat-radio-button {
-    margin-right: 100px;
-    margin-left: 3px;
-    margin-bottom: 15px;
-  }
-
-  cdk-especie-processo-grid {
     height: 100%;
-  }
 
-  cdk-especie-processo-gridsearch {
-    width: 100%;
-  }
+    form {
+        width: 100%;
+    }
 
-  cdk-modalidade-fase-gridsearch {
+    height: 100%;
     width: 100%;
-  }
 
-  cdk-modalidade-meio-gridsearch {
-    width: 100%;
-  }
+    .form-card {
+        border-radius: 8px;
+    }
 
-  cdk-classificacao-gridsearch {
-    width: 100%;
-  }
+    .owl-dt-popup-container {
+        width: 20%;
+        height: 20%;
+    }
 
-  cdk-setor-gridsearch {
-    width: 100%;
-  }
+    .form-errors-model {
+        flex: 1;
+
+        code {
+            background: none !important;
+        }
+    }
+
+    mat-radio-group {
+
+        &.poderes-rg {
+            //      padding: 16px;
+            margin: 0px 0px 8px 8px;
+            display: flex;
+            flex-direction: row;
+            //    margin: top right bottom left
+            //      @include mat-elevation(1);
+        }
+    }
+
+    mat-radio-button {
+        margin-right: 100px;
+        margin-left: 3px;
+        margin-bottom: 15px;
+    }
+
+    cdk-especie-processo-grid {
+        height: 100%;
+    }
+
+    cdk-especie-processo-gridsearch {
+        width: 100%;
+    }
+
+    cdk-modalidade-fase-gridsearch {
+        width: 100%;
+    }
+
+    cdk-modalidade-meio-gridsearch {
+        width: 100%;
+    }
+
+    cdk-classificacao-gridsearch {
+        width: 100%;
+    }
+
+    cdk-setor-gridsearch {
+        width: 100%;
+    }
 }

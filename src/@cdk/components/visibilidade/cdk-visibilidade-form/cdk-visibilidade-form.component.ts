@@ -6,7 +6,6 @@ import {
     Output, SimpleChange,
     ViewEncapsulation
 } from '@angular/core';
-
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Visibilidade} from '@cdk/models';
@@ -49,6 +48,9 @@ export class CdkVisibilidadeFormComponent implements OnInit, OnChanges, OnDestro
 
     @Output()
     save = new EventEmitter<Visibilidade>();
+
+    @Output()
+    abort = new EventEmitter<any>();
 
     form: FormGroup;
 
@@ -200,6 +202,10 @@ export class CdkVisibilidadeFormComponent implements OnInit, OnChanges, OnDestro
 
             this.save.emit(visibilidade);
         }
+    }
+
+    doAbort(): void {
+        this.abort.emit();
     }
 
     checkUsuario(): void {

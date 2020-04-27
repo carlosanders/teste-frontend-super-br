@@ -31,6 +31,9 @@ export class CdkSegurancaFormComponent implements OnChanges, OnDestroy {
     @Output()
     save = new EventEmitter<any>();
 
+    @Output()
+    abort = new EventEmitter<any>();
+
     form: FormGroup;
 
     activeCard = 'form';
@@ -104,6 +107,10 @@ export class CdkSegurancaFormComponent implements OnChanges, OnDestroy {
                 }
             );
         }
+    }
+
+    doAbort(): void {
+        this.abort.emit();
     }
 
     checkPasswords(group: FormGroup): any { // here we have the 'passwords' group

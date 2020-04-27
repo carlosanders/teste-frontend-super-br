@@ -6,7 +6,6 @@ import {
     ViewEncapsulation, Input, OnChanges, Output, EventEmitter
 } from '@angular/core';
 import {merge, of} from 'rxjs';
-
 import {cdkAnimations} from '@cdk/animations';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
@@ -36,6 +35,9 @@ export class CdkAreaTrabalhoGridComponent implements AfterViewInit, OnInit, OnCh
 
     @Input()
     mode = 'list';
+
+    @Output()
+    create = new EventEmitter<any>();
 
     @Input()
     displayedColumns: string[] = ['select', 'id', 'usuario.nome', 'dono', 'actions'];
@@ -298,5 +300,9 @@ export class CdkAreaTrabalhoGridComponent implements AfterViewInit, OnInit, OnCh
 
     doCancel(): void {
         this.cancel.emit();
+    }
+
+    doCreate(): void {
+        this.create.emit();
     }
 }

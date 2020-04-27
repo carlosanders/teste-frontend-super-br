@@ -38,6 +38,9 @@ export class CdkModalidadeRelacionamentoPessoalGridComponent implements AfterVie
     @Input()
     mode = 'list';
 
+    @Output()
+    create = new EventEmitter<any>();
+
     @Input()
     displayedColumns: string[] = ['select', 'id', 'valor', 'descricao', 'actions'];
 
@@ -153,6 +156,7 @@ export class CdkModalidadeRelacionamentoPessoalGridComponent implements AfterVie
 
     /**
      * @param _changeDetectorRef
+     * @param _cdkSidebarService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -299,5 +303,9 @@ export class CdkModalidadeRelacionamentoPessoalGridComponent implements AfterVie
 
     doCancel(): void {
         this.cancel.emit();
+    }
+
+    doCreate(): void {
+        this.create.emit();
     }
 }

@@ -38,6 +38,9 @@ export class CdkVinculacaoUsuarioGridComponent implements AfterViewInit, OnInit,
     @Input()
     mode = 'list';
 
+    @Output()
+    create = new EventEmitter<any>();
+
     @Input()
     displayedColumns: string[] = ['select', 'id', 'usuarioVinculado.nome', 'encerraTarefa', 'actions'];
 
@@ -153,6 +156,7 @@ export class CdkVinculacaoUsuarioGridComponent implements AfterViewInit, OnInit,
 
     /**
      * @param _changeDetectorRef
+     * @param _cdkSidebarService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -299,5 +303,9 @@ export class CdkVinculacaoUsuarioGridComponent implements AfterViewInit, OnInit,
 
     doCancel(): void {
         this.cancel.emit();
+    }
+
+    doCreate(): void {
+        this.create.emit();
     }
 }

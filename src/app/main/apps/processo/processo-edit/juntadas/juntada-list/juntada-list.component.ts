@@ -89,4 +89,7 @@ export class JuntadaListComponent implements OnInit {
         this._router.navigate([this.routerState.url + '/documento/' + documentoId + '/editar']).then();
     }
 
+    create () : void {
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
+    }
 }

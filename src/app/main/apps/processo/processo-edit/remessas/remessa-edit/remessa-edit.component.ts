@@ -16,9 +16,9 @@ import * as fromStore from './store';
 import {Processo} from '@cdk/models';
 import {getProcesso} from '../../../store/selectors';
 import {Pessoa} from '@cdk/models';
-import {LoginService} from '../../../../../auth/login/login.service';
 import {Router} from '@angular/router';
 import {getRouterState} from '../../../../../../store/reducers';
+import {Back} from "../../../../../../store/actions";
 
 @Component({
     selector: 'remessa-edit',
@@ -133,4 +133,7 @@ export class RemessaEditComponent implements OnInit, OnDestroy {
 
     }
 
+    doAbort(): void {
+        this._store.dispatch(new Back());
+    }
 }

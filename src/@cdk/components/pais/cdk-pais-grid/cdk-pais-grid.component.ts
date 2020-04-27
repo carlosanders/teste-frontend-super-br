@@ -38,6 +38,9 @@ export class CdkPaisGridComponent implements AfterViewInit, OnInit, OnChanges {
     @Input()
     mode = 'list';
 
+    @Output()
+    create = new EventEmitter<any>();
+
     @Input()
     displayedColumns: string[] = ['select', 'id', 'nome', 'actions'];
 
@@ -153,6 +156,7 @@ export class CdkPaisGridComponent implements AfterViewInit, OnInit, OnChanges {
 
     /**
      * @param _changeDetectorRef
+     * @param _cdkSidebarService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -300,5 +304,9 @@ export class CdkPaisGridComponent implements AfterViewInit, OnInit, OnChanges {
 
     doCancel(): void {
         this.cancel.emit();
+    }
+
+    doCreate(): void {
+        this.create.emit();
     }
 }

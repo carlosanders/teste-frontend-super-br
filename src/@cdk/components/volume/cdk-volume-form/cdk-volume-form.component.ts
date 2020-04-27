@@ -35,6 +35,9 @@ export class CdkVolumeFormComponent implements OnChanges, OnDestroy {
     @Output()
     save = new EventEmitter<Volume>();
 
+    @Output()
+    abort = new EventEmitter<any>();
+
     @Input()
     modalidadeMeioPagination: Pagination;
 
@@ -108,6 +111,10 @@ export class CdkVolumeFormComponent implements OnChanges, OnDestroy {
         if (this.form.valid) {
             this.save.emit(this.form.value);
         }
+    }
+
+    doAbort(): void {
+        this.abort.emit();
     }
 
     checkModalidadeMeio(): void {

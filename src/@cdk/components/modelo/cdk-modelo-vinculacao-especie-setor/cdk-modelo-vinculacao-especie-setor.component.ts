@@ -47,6 +47,9 @@ export class CdkModeloVinculacaoEspecieSetorComponent implements OnChanges, OnDe
     @Output()
     save = new EventEmitter<Modelo>();
 
+    @Output()
+    abort = new EventEmitter<any>();
+
     form: FormGroup;
 
     activeCard = 'form';

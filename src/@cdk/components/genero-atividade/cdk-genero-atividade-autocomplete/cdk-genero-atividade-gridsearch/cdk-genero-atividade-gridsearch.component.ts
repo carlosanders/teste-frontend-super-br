@@ -103,4 +103,8 @@ export class CdkGeneroAtividadeGridsearchComponent implements OnInit {
         this.cancel.emit();
     }
 
+    doCreate(): void {
+        this.create.emit();
+    }
+
 }

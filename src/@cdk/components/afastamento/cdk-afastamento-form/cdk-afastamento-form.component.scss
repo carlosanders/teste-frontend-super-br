@@ -1,23 +1,24 @@
 cdk-afastamento-form {
+    height: 100%;
 
-  form {
-    width: 100%;
-  }
-
-  .form-card {
-    border-radius: 8px;
-  }
-
-  .form-errors-model {
-    flex: 1;
-
-    code {
-      background: none !important;
+    form {
+        width: 100%;
     }
-  }
 
-  cdk-modalidade-afastamento-gridsearch {
-    width: 100%;
-  }
+    .form-card {
+        border-radius: 8px;
+    }
+
+    .form-errors-model {
+        flex: 1;
+
+        code {
+            background: none !important;
+        }
+    }
+
+    cdk-modalidade-afastamento-gridsearch {
+        width: 100%;
+    }
 
 }

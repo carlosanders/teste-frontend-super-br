@@ -38,6 +38,9 @@ export class CdkRepositorioGridComponent implements AfterViewInit, OnInit, OnCha
     @Input()
     mode = 'list';
 
+    @Output()
+    create = new EventEmitter<any>();
+
     @Input()
     displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'highlights', 'modalidadeRepositorio.valor', 'ativo', 'actions'];
 
@@ -196,6 +199,7 @@ export class CdkRepositorioGridComponent implements AfterViewInit, OnInit, OnCha
 
     /**
      * @param _changeDetectorRef
+     * @param _cdkSidebarService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -354,5 +358,9 @@ export class CdkRepositorioGridComponent implements AfterViewInit, OnInit, OnCha
 
     doCancel(): void {
         this.cancel.emit();
+    }
+
+    doCreate(): void {
+        this.create.emit();
     }
 }

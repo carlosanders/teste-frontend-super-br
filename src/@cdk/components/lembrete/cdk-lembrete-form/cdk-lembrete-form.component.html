@@ -3,7 +3,7 @@
     *ngIf="activeCard === 'form'" class="p-16" fxLayoutGap="0"
     fxLayout="column"
     fxLayoutAlign="start"
-    name="form" [formGroup]="form" (submit)="submit()">
+    name="form" [formGroup]="form">
 
     <div class="title-lembrete">
         <h2>CADASTRAR LEMBRETE</h2>
@@ -30,9 +30,12 @@
 
     <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
          fxLayoutAlign="center center">
-        <button mat-raised-button color="accent" class="mr-sm-12"
-                [disabled]="form.invalid">
+        <button mat-raised-button color="accent" class="mr-sm-12" (click)="submit()"
+                    [disabled]="form.invalid">
             CRIAR LEMBRETE
+        </button>
+        <button mat-raised-button color="warn" class="mr-sm-12" (click)="doAbort()">
+            CANCELAR
         </button>
     </div>
 

@@ -44,6 +44,9 @@ export class CdkBlocoResponsaveisComponent implements AfterViewInit, OnInit, OnC
     @Input()
     mode = 'list';
 
+    @Output()
+    create = new EventEmitter<any>();
+
     @Input()
     displayedColumns: string[] = ['select', 'id', 'responsavel', 'setor', 'sigla', 'actions'];
 
@@ -273,5 +276,9 @@ export class CdkBlocoResponsaveisComponent implements AfterViewInit, OnInit, OnC
 
     doCancel(): void {
         this.cancel.emit();
+    }
+
+    doCreate(): void {
+        this.create.emit();
     }
 }

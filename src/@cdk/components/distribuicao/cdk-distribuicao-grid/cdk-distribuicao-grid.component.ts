@@ -38,6 +38,9 @@ export class CdkDistribuicaoGridComponent implements AfterViewInit, OnInit, OnCh
     @Input()
     mode = 'list';
 
+    @Output()
+    create = new EventEmitter<any>();
+
     @Input()
     displayedColumns: string[] = ['select', 'id', 'tarefa.especieTarefa.nome', 'documentoAvulso.descricaoOutros', 'dataHoraFinalPrazo',
         'usuarioAnterior.nome', 'usuarioPosterior.nome', 'setorAnterior.nome', 'setorPosterior.nome', 'distribuicaoAutomatica',
@@ -195,6 +198,7 @@ export class CdkDistribuicaoGridComponent implements AfterViewInit, OnInit, OnCh
 
     /**
      * @param _changeDetectorRef
+     * @param _cdkSidebarService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -341,5 +345,9 @@ export class CdkDistribuicaoGridComponent implements AfterViewInit, OnInit, OnCh
 
     doCancel(): void {
         this.cancel.emit();
+    }
+
+    doCreate(): void {
+        this.create.emit();
     }
 }

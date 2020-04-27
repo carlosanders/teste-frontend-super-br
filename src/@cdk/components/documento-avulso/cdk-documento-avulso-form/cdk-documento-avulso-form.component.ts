@@ -6,12 +6,10 @@ import {
     Output, SimpleChange,
     ViewEncapsulation
 } from '@angular/core';
-
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {DocumentoAvulso} from '@cdk/models';
 import {EspecieDocumentoAvulso} from '@cdk/models';
-import {Usuario} from '@cdk/models';
 import {Processo} from '@cdk/models';
 import {MAT_DATETIME_FORMATS} from '@mat-datetimepicker/core';
 import {Setor} from '@cdk/models';
@@ -62,6 +60,9 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
 
     @Output()
     save = new EventEmitter<DocumentoAvulso>();
+
+    @Output()
+    abort = new EventEmitter<any>();
 
     @Input()
     especieDocumentoAvulsoPagination: Pagination;
@@ -243,6 +244,10 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
             }
             this.save.emit(this.form.value);
         }
+    }
+
+    doAbort(): void {
+        this.abort.emit();
     }
 
     deleteProcessos(processoId): void {

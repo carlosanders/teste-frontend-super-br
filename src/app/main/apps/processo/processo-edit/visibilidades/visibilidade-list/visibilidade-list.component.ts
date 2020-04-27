@@ -61,6 +61,10 @@ export class VisibilidadeListComponent implements OnInit {
         this._store.dispatch(new fromStore.GetVisibilidades(params));
     }
 
+    create(): void {
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
+    }
+
     delete(visibilidadeId: number): void {
         this._store.dispatch(new fromStore.DeleteVisibilidade({processoId: this.routerState.params.processoHandle, visibilidadeId: visibilidadeId}));
     }

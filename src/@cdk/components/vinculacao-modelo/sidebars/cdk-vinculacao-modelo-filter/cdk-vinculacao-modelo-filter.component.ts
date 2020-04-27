@@ -34,16 +34,13 @@ export class CdkVinculacaoModeloFilterComponent implements OnInit {
     orgaoCentralPagination: Pagination;
 
     @Input()
-    repositorioPagination: Pagination;
+    modeloPagination: Pagination;
 
     @Input()
     setorPagination: Pagination;
 
     @Input()
     usuarioPagination: Pagination;
-
-    @Input()
-    modeloPagination: Pagination;
 
     /**
      * Constructor
@@ -53,7 +50,7 @@ export class CdkVinculacaoModeloFilterComponent implements OnInit {
         private _cdkSidebarService: CdkSidebarService,
     ) {
         this.form = this._formBuilder.group({
-            repositorio: [null],
+            modelo: [null],
             especieSetor: [null],
             setor: [null],
             usuario: [null],
@@ -67,7 +64,7 @@ export class CdkVinculacaoModeloFilterComponent implements OnInit {
         });
 
         this.orgaoCentralPagination = new Pagination();
-        this.repositorioPagination = new Pagination();
+        this.modeloPagination = new Pagination();
         this.setorPagination = new Pagination();
         this.usuarioPagination = new Pagination();
     }
@@ -80,16 +77,16 @@ export class CdkVinculacaoModeloFilterComponent implements OnInit {
      * On init
      */
     ngOnInit(): void {
-        this.form.get('repositorio').valueChanges.subscribe(value => {
+        this.form.get('modelo').valueChanges.subscribe(value => {
             if (value !== null) {
                 if (typeof value === 'object' && value) {
                     this.filters = {
                         ...this.filters,
-                        'repositorio.id': `eq:${value.id}`
+                        'modelo.id': `eq:${value.id}`
                     };
                 } else {
-                    if (this.filters.hasOwnProperty('repositorio.id')) {
-                        delete this.filters['repositorio.id'];
+                    if (this.filters.hasOwnProperty('modelo.id')) {
+                        delete this.filters['modelo.id'];
                     }
                 }
             }
@@ -147,7 +144,6 @@ export class CdkVinculacaoModeloFilterComponent implements OnInit {
                         ...this.filters,
                         'orgaoCentral.id': `eq:${value.id}`
                     };
-                    this.selected.emit(this.filters);
                 } else {
                     if (this.filters.hasOwnProperty('orgaoCentral.id')) {
                         delete this.filters['orgaoCentral.id'];
@@ -155,21 +151,6 @@ export class CdkVinculacaoModeloFilterComponent implements OnInit {
                 }
                 if (!value) {
                     this.selected.emit(this.filters);
-                }
-            }
-        });
-
-        this.form.get('orgaoCentral').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'orgaoCentral.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('orgaoCentral.id')) {
-                        delete this.filters['orgaoCentral.id'];
-                    }
                 }
             }
         });
