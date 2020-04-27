@@ -6,12 +6,10 @@ import {
     ViewEncapsulation, Input, OnChanges, Output, EventEmitter
 } from '@angular/core';
 import {merge, of} from 'rxjs';
-
 import {cdkAnimations} from '@cdk/animations';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
-
 import {GeneroSetor} from '@cdk/models';
 import {GeneroSetorDataSource} from '@cdk/data-sources/genero-setor-data-source';
 import {FormControl} from '@angular/forms';
@@ -37,6 +35,9 @@ export class CdkGeneroSetorGridComponent implements AfterViewInit, OnInit, OnCha
 
     @Input()
     mode = 'list';
+
+    @Output()
+    create = new EventEmitter<any>();
 
     @Input()
     displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'actions'];
@@ -153,6 +154,7 @@ export class CdkGeneroSetorGridComponent implements AfterViewInit, OnInit, OnCha
 
     /**
      * @param _changeDetectorRef
+     * @param _cdkSidebarService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -299,5 +301,9 @@ export class CdkGeneroSetorGridComponent implements AfterViewInit, OnInit, OnCha
 
     doCancel(): void {
         this.cancel.emit();
+    }
+
+    doCreate(): void {
+        this.create.emit();
     }
 }

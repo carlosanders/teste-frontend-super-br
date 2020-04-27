@@ -48,6 +48,9 @@ export class CdkSigiloFormComponent implements OnChanges, OnDestroy, OnInit {
     @Output()
     save = new EventEmitter<Sigilo>();
 
+    @Output()
+    abort = new EventEmitter<any>();
+
     form: FormGroup;
 
     activeCard = 'form';
@@ -145,6 +148,10 @@ export class CdkSigiloFormComponent implements OnChanges, OnDestroy, OnInit {
         if (this.form.valid) {
             this.save.emit(this.form.value);
         }
+    }
+
+    doAbort(): void {
+        this.abort.emit();
     }
 
     checkModalidadeCategoriaSigilo(): void {

@@ -1,6 +1,7 @@
 @import "../../../scss/cdk";
 
 cdk-atividade-form {
+    height: 100%;
 
     form {
         width: 100%;
@@ -34,12 +35,15 @@ cdk-atividade-form {
     mat-radio-group {
         padding: 16px;
         display: flex;
+
         &.horizontal {
             flex-direction: row;
         }
+
         &.vertical {
             flex-direction: column;
         }
+
         margin: 15px 0;
         @include mat-elevation(1);
     }

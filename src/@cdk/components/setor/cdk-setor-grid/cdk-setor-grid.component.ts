@@ -38,6 +38,9 @@ export class CdkSetorGridComponent implements AfterViewInit, OnInit, OnChanges {
     @Input()
     mode = 'list';
 
+    @Output()
+    create = new EventEmitter<any>();
+
     @Input()
     displayedColumns: string[] = ['select', 'id', 'nome', 'sigla', 'actions'];
 
@@ -214,9 +217,6 @@ export class CdkSetorGridComponent implements AfterViewInit, OnInit, OnChanges {
 
     @Output()
     cancel = new EventEmitter<any>();
-
-    @Output()
-    create = new EventEmitter<any>();
 
     @Output()
     edit = new EventEmitter<number>();

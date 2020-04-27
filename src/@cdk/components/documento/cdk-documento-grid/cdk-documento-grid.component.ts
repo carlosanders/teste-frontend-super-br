@@ -39,6 +39,9 @@ export class CdkDocumentoGridComponent implements AfterViewInit, OnInit, OnChang
     @Input()
     mode = 'list';
 
+    @Output()
+    create = new EventEmitter<any>();
+
     @Input()
     displayedColumns: string[] = ['select', 'id', 'tipoDocumento.nome', 'tipoDocumento.especieDocumento.nome',
         'componentesDigitais.extensao', 'actions'];
@@ -262,6 +265,8 @@ export class CdkDocumentoGridComponent implements AfterViewInit, OnInit, OnChang
 
     /**
      * @param _changeDetectorRef
+     * @param _componenteDigitalService
+     * @param _cdkSidebarService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -409,6 +414,10 @@ export class CdkDocumentoGridComponent implements AfterViewInit, OnInit, OnChang
 
     doCancel(): void {
         this.cancel.emit();
+    }
+
+    doCreate(): void {
+        this.create.emit();
     }
 
     download(componenteDigital: ComponenteDigital): void {

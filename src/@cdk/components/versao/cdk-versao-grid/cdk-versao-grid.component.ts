@@ -74,6 +74,9 @@ export class CdkVersaoGridComponent implements AfterViewInit, OnInit, OnChanges 
     @Output()
     selectedIds: number[] = [];
 
+    @Output()
+    create = new EventEmitter<any>();
+
     dataSource: LogEntryDataSource;
 
     showFilter = false;
@@ -85,6 +88,7 @@ export class CdkVersaoGridComponent implements AfterViewInit, OnInit, OnChanges 
 
     /**
      * @param _changeDetectorRef
+     * @param _cdkSidebarService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -205,5 +209,9 @@ export class CdkVersaoGridComponent implements AfterViewInit, OnInit, OnChanges 
 
     doCancel(): void {
         this.cancel.emit();
+    }
+
+    doCreate(): void {
+        this.create.emit();
     }
 }

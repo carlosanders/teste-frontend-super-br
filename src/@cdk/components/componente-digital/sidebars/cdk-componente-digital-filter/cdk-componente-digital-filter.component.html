@@ -11,7 +11,7 @@
 
         <div class="padd" fxFlex="1 1 auto" fxLayout="column" cdkPerfectScrollbar>
 
-            <mat-form-field *showIfRole="'ROLE_COLABORADOR'" fxFlex="100">
+            <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
                 <mat-label>Conteúdo</mat-label>
                 <input matInput #conteudo
                        name="conteudo"
@@ -19,7 +19,7 @@
                        formControlName="conteudo">
             </mat-form-field>
 
-            <mat-form-field *showIfNotRole="'ROLE_COLABORADOR'" fxFlex="100">
+            <mat-form-field *showIfNotRole="'ROLE_COLABORADOR'">
                 <mat-label>Código da Assinatura Digital</mat-label>
                 <input matInput #codigo
                        required
@@ -27,14 +27,14 @@
                        formControlName="codigo">
             </mat-form-field>
 
-            <mat-form-field *showIfRole="'ROLE_COLABORADOR'" fxFlex="100">
+            <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
                 <mat-label>Extensão</mat-label>
                 <input matInput #extensao
                        name="extensao"
                        formControlName="extensao">
             </mat-form-field>
 
-            <mat-form-field *showIfRole="'ROLE_COLABORADOR'" fxFlex="100">
+            <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
                 <div fxLayout="row" fxLayoutAlign="start center">
                     <input matInput placeholder="Processo de Origem"
                            formControlName="processoOrigem"
@@ -51,7 +51,7 @@
                 <mat-datetimepicker #criadoEm type="datetime" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
             </mat-form-field>
 
-            <mat-form-field *showIfRole="'ROLE_COLABORADOR'" fxFlex="100">
+            <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
                 <div fxLayout="row" fxLayoutAlign="start center">
                     <input matInput placeholder="Criado Por"
                            formControlName="criadoPor"

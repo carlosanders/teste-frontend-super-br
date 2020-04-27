@@ -6,12 +6,10 @@ import {
     ViewEncapsulation, Input, OnChanges, Output, EventEmitter
 } from '@angular/core';
 import {merge, of} from 'rxjs';
-
 import {cdkAnimations} from '@cdk/animations';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
-
 import {RelacionamentoPessoal} from '@cdk/models';
 import {RelacionamentoPessoalDataSource} from '@cdk/data-sources/relacionamento-pessoal-data-source';
 import {FormControl} from '@angular/forms';
@@ -37,6 +35,9 @@ export class CdkRelacionamentoPessoalGridComponent implements AfterViewInit, OnI
 
     @Input()
     mode = 'list';
+
+    @Output()
+    create = new EventEmitter<any>();
 
     @Input()
     displayedColumns: string[] = ['select', 'id', 'pessoaRelacionada.nome', 'modalidadeRelacionamentoPessoal.valor',
@@ -154,6 +155,7 @@ export class CdkRelacionamentoPessoalGridComponent implements AfterViewInit, OnI
 
     /**
      * @param _changeDetectorRef
+     * @param _cdkSidebarService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -301,5 +303,9 @@ export class CdkRelacionamentoPessoalGridComponent implements AfterViewInit, OnI
 
     doCancel(): void {
         this.cancel.emit();
+    }
+
+    doCreate(): void {
+        this.create.emit();
     }
 }

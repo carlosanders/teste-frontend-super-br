@@ -38,6 +38,9 @@ export class CdkRelevanciaGridComponent implements AfterViewInit, OnInit, OnChan
     @Input()
     mode = 'list';
 
+    @Output()
+    create = new EventEmitter<any>();
+
     @Input()
     displayedColumns: string[] = ['select', 'id', 'processo', 'especieRelevancia.nome', 'observacao', 'actions'];
 
@@ -153,6 +156,7 @@ export class CdkRelevanciaGridComponent implements AfterViewInit, OnInit, OnChan
 
     /**
      * @param _changeDetectorRef
+     * @param _cdkSidebarService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -300,5 +304,9 @@ export class CdkRelevanciaGridComponent implements AfterViewInit, OnInit, OnChan
 
     doCancel(): void {
         this.cancel.emit();
+    }
+
+    doCreate(): void {
+        this.create.emit();
     }
 }

@@ -11,7 +11,7 @@ import {
     MatSelectModule,
 } from '@cdk/angular/material';
 import {MatTooltipModule} from '@angular/material/tooltip';
-import {CdkSidebarModule} from '@cdk/components/index';
+import {CdkSidebarModule} from '../..';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {VinculacaoRepositorioService} from '@cdk/services/vinculacao-repositorio.service';
 import {CdkVinculacaoRepositorioGridComponent} from './cdk-vinculacao-repositorio-grid.component';

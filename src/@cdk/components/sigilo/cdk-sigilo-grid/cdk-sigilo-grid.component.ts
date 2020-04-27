@@ -38,6 +38,9 @@ export class CdkSigiloGridComponent implements AfterViewInit, OnInit, OnChanges 
     @Input()
     mode = 'list';
 
+    @Output()
+    create = new EventEmitter<any>();
+
     @Input()
     displayedColumns: string[] = ['select', 'id', 'desclassificado', 'dataHoraValidadeSigilo', 'dataHoraExpiracao',
         'modalidadeCategoriaSigilo.valor', 'tipoSigilo.nome',  'actions'];
@@ -348,5 +351,9 @@ export class CdkSigiloGridComponent implements AfterViewInit, OnInit, OnChanges 
 
     doCancel(): void {
         this.cancel.emit();
+    }
+
+    doCreate(): void {
+        this.create.emit();
     }
 }

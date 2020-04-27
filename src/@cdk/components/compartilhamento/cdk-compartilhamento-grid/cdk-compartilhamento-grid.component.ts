@@ -37,6 +37,9 @@ export class CdkCompartilhamentoGridComponent implements AfterViewInit, OnInit, 
     @Input()
     mode = 'list';
 
+    @Output()
+    create = new EventEmitter<any>();
+
     @Input()
     displayedColumns: string[] = ['select', 'id', 'usuario.nome', 'actions'];
 
@@ -305,5 +308,9 @@ export class CdkCompartilhamentoGridComponent implements AfterViewInit, OnInit, 
 
     doCancel(): void {
         this.cancel.emit();
+    }
+
+    doCreate(): void {
+        this.create.emit();
     }
 }

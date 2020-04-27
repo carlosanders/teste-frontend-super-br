@@ -42,6 +42,9 @@ export class CdkRelacionamentoPessoalFormComponent implements OnChanges, OnDestr
     @Output()
     save = new EventEmitter<RelacionamentoPessoal>();
 
+    @Output()
+    abort = new EventEmitter<any>();
+
     form: FormGroup;
 
     activeCard = 'form';
@@ -113,6 +116,10 @@ export class CdkRelacionamentoPessoalFormComponent implements OnChanges, OnDestr
         if (this.form.valid) {
             this.save.emit(this.form.value);
         }
+    }
+
+    doAbort(): void {
+        this.abort.emit();
     }
 
     checkPessoaRelacionada(): void {

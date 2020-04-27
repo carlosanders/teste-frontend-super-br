@@ -39,6 +39,9 @@ export class CdkEspecieAtividadeGridComponent implements AfterViewInit, OnInit, 
     @Input()
     mode = 'list';
 
+    @Output()
+    create = new EventEmitter<any>();
+
     @Input()
     displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'generoAtividade.nome', 'actions'];
 
@@ -154,9 +157,6 @@ export class CdkEspecieAtividadeGridComponent implements AfterViewInit, OnInit, 
     @Output()
     selectedIds: number[] = [];
 
-    @Output()
-    create = new EventEmitter<any>();
-
     dataSource: EspecieAtividadeDataSource;
 
     @Input()
@@ -169,6 +169,7 @@ export class CdkEspecieAtividadeGridComponent implements AfterViewInit, OnInit, 
 
     /**
      * @param _changeDetectorRef
+     * @param _cdkSidebarService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -328,5 +329,4 @@ export class CdkEspecieAtividadeGridComponent implements AfterViewInit, OnInit, 
     doCreate(): void {
         this.create.emit();
     }
-
 }

@@ -6,13 +6,11 @@ import {
     Output, SimpleChange,
     ViewEncapsulation
 } from '@angular/core';
-
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Documento} from '@cdk/models';
 import {TipoDocumento} from '@cdk/models';
 import {Pagination} from '@cdk/models';
-import {Processo} from '@cdk/models';
 import {Pessoa} from '@cdk/models';
 import {Setor} from '@cdk/models';
 
@@ -49,6 +47,9 @@ export class CdkDocumentoFormComponent implements OnChanges, OnDestroy {
 
     @Output()
     save = new EventEmitter<Documento>();
+
+    @Output()
+    abort = new EventEmitter<any>();
 
     form: FormGroup;
 
@@ -131,6 +132,10 @@ export class CdkDocumentoFormComponent implements OnChanges, OnDestroy {
         if (this.form.valid) {
             this.save.emit(this.form.value);
         }
+    }
+
+    doAbort(): void {
+        this.abort.emit();
     }
 
     selectCopiaParam(valor: String): void {

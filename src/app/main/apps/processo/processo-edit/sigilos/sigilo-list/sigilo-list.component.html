@@ -4,8 +4,9 @@
         [total]="(pagination$ | async)?.total"
         [deletingIds]="(deletingIds$ | async)"
         [deletedIds]="(deletedIds$ | async)"
-        [actions]="['edit']"
+        [actions]="['create', 'edit']"
         (reload)="reload($event)"
+        (create)="create()"
         (edit)="edit($event)"
         (delete)="delete($event)">
 </cdk-sigilo-grid>

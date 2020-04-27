@@ -45,6 +45,9 @@ export class CdkEspecieProcessoGridComponent implements AfterViewInit, OnInit, O
     @Input()
     mode = 'list';
 
+    @Output()
+    create = new EventEmitter<any>();
+
     @Input()
     displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'generoProcesso.nome', 'actions'];
 
@@ -163,6 +166,7 @@ export class CdkEspecieProcessoGridComponent implements AfterViewInit, OnInit, O
 
     /**
      * @param _changeDetectorRef
+     * @param _cdkSidebarService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -311,5 +315,9 @@ export class CdkEspecieProcessoGridComponent implements AfterViewInit, OnInit, O
 
     doCancel(): void {
         this.cancel.emit();
+    }
+
+    doCreate(): void {
+        this.create.emit();
     }
 }

@@ -40,6 +40,9 @@ export class CdkCargoGridComponent implements AfterViewInit, OnInit, OnChanges {
     @Input()
     displayedColumns: string[] = ['select', 'id', 'ativo', 'nome', 'descricao', 'actions'];
 
+    @Output()
+    create = new EventEmitter<any>();
+
     allColumns: any[] = [
         {
             id: 'select',
@@ -152,6 +155,7 @@ export class CdkCargoGridComponent implements AfterViewInit, OnInit, OnChanges {
 
     /**
      * @param _changeDetectorRef
+     * @param _cdkSidebarService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -297,5 +301,9 @@ export class CdkCargoGridComponent implements AfterViewInit, OnInit, OnChanges {
 
     doCancel(): void {
         this.cancel.emit();
+    }
+
+    doCreate(): void {
+        this.create.emit();
     }
 }

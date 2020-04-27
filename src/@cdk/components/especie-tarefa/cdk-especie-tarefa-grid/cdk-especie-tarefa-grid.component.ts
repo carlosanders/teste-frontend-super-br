@@ -38,6 +38,9 @@ export class CdkEspecieTarefaGridComponent implements AfterViewInit, OnInit, OnC
     @Input()
     mode = 'list';
 
+    @Output()
+    create = new EventEmitter<any>();
+
     @Input()
     displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'generoTarefa.nome', 'actions'];
 
@@ -145,9 +148,6 @@ export class CdkEspecieTarefaGridComponent implements AfterViewInit, OnInit, OnC
     selected = new EventEmitter<EspecieTarefa>();
 
     @Output()
-    create = new EventEmitter<any>();
-
-    @Output()
     selectedIds: number[] = [];
 
     dataSource: EspecieTarefaDataSource;
@@ -161,6 +161,7 @@ export class CdkEspecieTarefaGridComponent implements AfterViewInit, OnInit, OnC
 
     /**
      * @param _changeDetectorRef
+     * @param _cdkSidebarService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,

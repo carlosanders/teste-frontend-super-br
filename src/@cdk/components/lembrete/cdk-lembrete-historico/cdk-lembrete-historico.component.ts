@@ -28,15 +28,22 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 export class CdkLembreteHistoricoComponent implements AfterViewInit, OnInit, OnChanges {
     @Input()
     loading = false;
+
     @Input()
     lembretes: Lembrete[];
+
     @Input()
     total = 0;
+
     @Input()
     mode = 'list';
 
+    @Output()
+    create = new EventEmitter<any>();
+
     @Input()
     displayedColumns: string[] = ['id', 'conteudo', 'criadoEm'];
+
     allColumns: any[] = [
         {
             id: 'id',

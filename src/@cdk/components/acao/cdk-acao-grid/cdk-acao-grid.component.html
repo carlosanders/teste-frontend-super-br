@@ -11,6 +11,13 @@
 
         <div class="actions" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="end center">
 
+            <button class="back accent" mat-icon-button *ngIf="actions.indexOf('create') > -1"
+                    (click)="doCreate()"
+                    aria-label="novo"
+                    matTooltip="Novo">
+                <mat-icon>add</mat-icon>
+            </button>
+
             <button class="back" mat-icon-button *ngIf="actions.indexOf('cancel') > -1"
                     (click)="doCancel()"
                     aria-label="cancelar"
@@ -40,7 +47,8 @@
                 <mat-icon>refresh</mat-icon>
             </button>
 
-            <button *ngIf="mode === 'list'" class="toggle-filter" [ngClass]="{'warn': !(gridFilter | json).includes('{}')}"
+            <button *ngIf="mode === 'list'" class="toggle-filter"
+                    [ngClass]="{'warn': !(gridFilter | json).includes('{}')}"
                     (click)="toggleFilter()"
                     aria-label="filtrar"
                     matTooltip="Filtrar">

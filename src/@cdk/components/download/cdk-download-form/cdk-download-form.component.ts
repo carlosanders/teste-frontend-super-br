@@ -32,6 +32,9 @@ export class CdkDownloadFormComponent implements OnInit, OnChanges, OnDestroy {
     @Output()
     save = new EventEmitter();
 
+    @Output()
+    abort = new EventEmitter<any>();
+
     form: FormGroup;
 
     activeCard = 'form';
@@ -92,10 +95,13 @@ export class CdkDownloadFormComponent implements OnInit, OnChanges, OnDestroy {
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
     submit(): void {
-
         if (this.form.valid) {
             this.save.emit(this.form.value);
         }
+    }
+
+    doAbort(): void {
+        this.abort.emit();
     }
 
     cancel(): void {

@@ -6,10 +6,9 @@ import {
     Output, SimpleChange,
     ViewEncapsulation
 } from '@angular/core';
-
-import { cdkAnimations } from '@cdk/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {ModalidadeModelo, ModalidadeRepositorio, Modelo, Setor} from '@cdk/models';
+import {Modelo} from '@cdk/models';
 import {Pagination} from '@cdk/models';
 import {Template} from '@cdk/models';
 
@@ -43,6 +42,9 @@ export class CdkModeloFormComponent implements OnChanges, OnDestroy {
 
     @Output()
     save = new EventEmitter<Modelo>();
+
+    @Output()
+    abort = new EventEmitter<any>();
 
     form: FormGroup;
 
@@ -128,6 +130,10 @@ export class CdkModeloFormComponent implements OnChanges, OnDestroy {
         if (this.form.valid) {
             this.save.emit(this.form.value);
         }
+    }
+
+    doAbort(): void {
+        this.abort.emit();
     }
 
     cancel(): void {

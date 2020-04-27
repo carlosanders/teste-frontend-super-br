@@ -38,6 +38,12 @@ export class CdkVinculacaoRoleGridComponent implements AfterViewInit, OnInit, On
     @Input()
     mode = 'list';
 
+    @Output()
+    create = new EventEmitter<any>();
+
+    @Output()
+    create = new EventEmitter<any>();
+
     @Input()
     displayedColumns: string[] = ['select', 'id', 'role', 'usuario.nome', 'actions'];
 
@@ -148,6 +154,7 @@ export class CdkVinculacaoRoleGridComponent implements AfterViewInit, OnInit, On
 
     /**
      * @param _changeDetectorRef
+     * @param _cdkSidebarService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -294,5 +301,9 @@ export class CdkVinculacaoRoleGridComponent implements AfterViewInit, OnInit, On
 
     doCancel(): void {
         this.cancel.emit();
+    }
+
+    doCreate(): void {
+        this.create.emit();
     }
 }
