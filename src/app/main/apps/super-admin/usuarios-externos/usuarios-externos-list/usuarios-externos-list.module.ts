@@ -1,7 +1,8 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {UsuariosExternosComponent} from './usuarios-externos.component';
+import {UsuariosExternosListComponent} from './usuarios-externos-list.component';
 import {RouterModule, Routes} from '@angular/router';
+import * as fromGuards from '../../especie-tarefa/especie-tarefa-list/store/guards';
 import {
     MatAutocompleteModule,
     MatButtonModule,
@@ -14,38 +15,29 @@ import {
     MatProgressSpinnerModule,
     MatSortModule,
     MatTableModule
-} from '../../../../../@cdk/angular/material';
+} from '../../../../../../@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
-import {CdkSharedModule} from '../../../../../@cdk/shared.module';
+import {CdkSharedModule} from '../../../../../../@cdk/shared.module';
+import {MatNativeDatetimeModule} from '@mat-datetimepicker/core';
+import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatDialogModule} from '@angular/material/dialog';
 
 const routes: Routes = [
     {
         path: '',
-        component: UsuariosExternosComponent,
-        children: [
-            {
-                path       : 'listar',
-                loadChildren: () => import('./usuarios-externos-list/usuarios-externos-list.module').then(m => m.UsuariosExternosListModule),
-            },
-            // {
-            //     path       : 'editar',
-            //     loadChildren: () => import('./especie-tarefa-edit/especie-tarefa-edit.module').then(m => m.EspecieTarefaEditModule),
-            // },
-            {
-                path: '**',
-                redirectTo: 'listar'
-            }
-        ],
+        component: UsuariosExternosListComponent,
+        // canActivate: [fromGuards.ResolveGuard]
     }
 ];
 
 
 @NgModule({
-  declarations: [UsuariosExternosComponent],
+    declarations: [UsuariosExternosListComponent],
     imports: [
         CommonModule,
-        RouterModule,
         RouterModule.forChild(routes),
+
 
         MatExpansionModule,
         MatAutocompleteModule,
@@ -60,6 +52,11 @@ const routes: Routes = [
         MatSortModule,
         TranslateModule,
         CdkSharedModule,
+        MatNativeDatetimeModule,
+        MatMomentDatetimeModule,
+        MatDatepickerModule,
+        MatDialogModule
     ]
 })
-export class UsuariosExternosModule { }
+export class UsuariosExternosListModule {
+}
