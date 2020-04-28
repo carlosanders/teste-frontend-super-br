@@ -1,8 +1,7 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import {UsuariosExternosComponent} from './usuarios-externos.component';
 import {RouterModule, Routes} from '@angular/router';
-
-import {EspecieTarefaComponent} from './especie-tarefa.component';
 import {
     MatAutocompleteModule,
     MatButtonModule,
@@ -19,21 +18,20 @@ import {
 import {TranslateModule} from '@ngx-translate/core';
 import {CdkSharedModule} from '../../../../../@cdk/shared.module';
 import {LoginService} from '../../../auth/login/login.service';
-import {EspecieTarefaEditStoreModule} from './especie-tarefa-edit/store/store.module';
 
 const routes: Routes = [
     {
         path: '',
-        component: EspecieTarefaComponent,
+        component: UsuariosExternosComponent,
         children: [
             {
-                path       : 'listar',
-                loadChildren: () => import('./especie-tarefa-list/especie-tarefa-list.module').then(m => m.EspecieTarefaListModule),
+                path: 'listar',
+                loadChildren: () => import('./usuarios-externos-list/usuarios-externos-list.module').then(m => m.UsuariosExternosListModule),
             },
-            {
-                path       : 'editar',
-                loadChildren: () => import('./especie-tarefa-edit/especie-tarefa-edit.module').then(m => m.EspecieTarefaEditModule),
-            },
+            // {
+            //     path       : 'editar',
+            //     loadChildren: () => import('./especie-tarefa-edit/especie-tarefa-edit.module').then(m => m.EspecieTarefaEditModule),
+            // },
             {
                 path: '**',
                 redirectTo: 'listar'
@@ -44,10 +42,12 @@ const routes: Routes = [
 
 
 @NgModule({
-    declarations: [EspecieTarefaComponent],
+    declarations: [UsuariosExternosComponent],
     imports: [
         CommonModule,
+        RouterModule,
         RouterModule.forChild(routes),
+
         MatExpansionModule,
         MatAutocompleteModule,
         MatButtonModule,
@@ -66,5 +66,5 @@ const routes: Routes = [
         LoginService
     ]
 })
-export class EspecieTarefaModule {
+export class UsuariosExternosModule {
 }
