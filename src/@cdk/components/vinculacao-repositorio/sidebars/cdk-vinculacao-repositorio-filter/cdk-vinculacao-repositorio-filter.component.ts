@@ -39,9 +39,6 @@ export class CdkVinculacaoRepositorioFilterComponent implements OnInit {
     setorPagination: Pagination;
 
     @Input()
-    repositorioPagination: Pagination;
-
-    @Input()
     usuarioPagination: Pagination;
 
     @Input()

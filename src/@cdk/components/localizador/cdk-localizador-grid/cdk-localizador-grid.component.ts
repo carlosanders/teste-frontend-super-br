@@ -318,7 +318,4 @@ export class CdkLocalizadorGridComponent implements AfterViewInit, OnInit, OnCha
         this.cancel.emit();
     }
 
-    doCreate(): void {
-        this.create.emit();
-    }
 }
