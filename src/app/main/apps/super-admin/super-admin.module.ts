@@ -27,6 +27,10 @@ const routes: Routes = [
                 loadChildren: () => import('./unidades/unidades.module').then(m => m.UnidadesModule)
             },
             {
+                path       : 'externos',
+                loadChildren: () => import('./usuarios-externos/usuarios-externos.module').then(m => m.UsuariosExternosModule)
+            },
+            {
                 path: '**',
                 redirectTo: 'tarefas'
             },

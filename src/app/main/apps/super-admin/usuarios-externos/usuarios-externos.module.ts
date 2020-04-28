@@ -1,8 +1,7 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import {UsuariosExternosComponent} from './usuarios-externos.component';
 import {RouterModule, Routes} from '@angular/router';
-
-import {EspecieTarefaComponent} from './especie-tarefa.component';
 import {
     MatAutocompleteModule,
     MatButtonModule,
@@ -18,36 +17,36 @@ import {
 } from '../../../../../@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 import {CdkSharedModule} from '../../../../../@cdk/shared.module';
-import {LoginService} from '../../../auth/login/login.service';
-import {EspecieTarefaEditStoreModule} from './especie-tarefa-edit/store/store.module';
 
 const routes: Routes = [
     {
         path: '',
-        component: EspecieTarefaComponent,
+        component: UsuariosExternosComponent,
         children: [
-            {
-                path       : 'listar',
-                loadChildren: () => import('./especie-tarefa-list/especie-tarefa-list.module').then(m => m.EspecieTarefaListModule),
-            },
-            {
-                path       : 'editar',
-                loadChildren: () => import('./especie-tarefa-edit/especie-tarefa-edit.module').then(m => m.EspecieTarefaEditModule),
-            },
-            {
-                path: '**',
-                redirectTo: 'listar'
-            }
+            // {
+            //     path       : 'listar',
+            //     loadChildren: () => import('./especie-tarefa-list/especie-tarefa-list.module').then(m => m.EspecieTarefaListModule),
+            // },
+            // {
+            //     path       : 'editar',
+            //     loadChildren: () => import('./especie-tarefa-edit/especie-tarefa-edit.module').then(m => m.EspecieTarefaEditModule),
+            // },
+            // {
+            //     path: '**',
+            //     redirectTo: 'listar'
+            // }
         ],
     }
 ];
 
 
 @NgModule({
-    declarations: [EspecieTarefaComponent],
+  declarations: [UsuariosExternosComponent],
     imports: [
         CommonModule,
+        RouterModule,
         RouterModule.forChild(routes),
+
         MatExpansionModule,
         MatAutocompleteModule,
         MatButtonModule,
@@ -61,10 +60,6 @@ const routes: Routes = [
         MatSortModule,
         TranslateModule,
         CdkSharedModule,
-    ],
-    providers: [
-        LoginService
     ]
 })
-export class EspecieTarefaModule {
-}
+export class UsuariosExternosModule { }
