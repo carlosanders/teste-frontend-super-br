@@ -1,0 +1,23 @@
+<mat-horizontal-stepper linear #stepper>
+    <mat-step [completed]="formUsuario.value.id">
+        <ng-template matStepLabel>Usuário</ng-template>
+        <cdk-usuario-form
+            [usuario]="(usuario$ | async)"
+            [form]="formUsuario"
+            [saving]="(isSaving$ | async)"
+            [errors]="(errors$ | async)"
+            (save)="submitUsuario($event)">
+        </cdk-usuario-form>
+    </mat-step>
+    <mat-step [stepControl]="formColaborador">
+        <ng-template matStepLabel>Colaborador</ng-template>
+        <cdk-colaborador-form
+            [colaborador]="colaborador"
+            [usuario]="(usuario$ | async)"
+            [form]="formColaborador"
+            [saving]="(isSaving$ | async)"
+            [errors]="(errors$ | async)"
+            (save)="submitColaborador($event)">
+        </cdk-colaborador-form>
+    </mat-step>
+</mat-horizontal-stepper>
