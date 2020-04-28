@@ -187,7 +187,7 @@ export class ProtocoloExternoComponent implements OnInit, OnDestroy, AfterViewIn
         this.routerState$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(routerState => {
-            this.currentPessoaConveniadaId = parseInt(routerState.state.params['pessoaHandle'], 0);
+            this.currentPessoaConveniadaId = parseInt(routerState.state.params['targetHandle'], 0);
         });
 
         this.processos$.pipe(
