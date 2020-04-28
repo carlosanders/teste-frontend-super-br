@@ -1,18 +1,22 @@
 import { Action } from '@ngrx/store';
 
-export const GET_USUARIOS_EXTERNOS = '[SUPERADMIN USUARIOS EXTERNOS LIST] GET USUARIOS_EXTERNOS';
-export const GET_USUARIOS_EXTERNOS_SUCCESS = '[SUPERADMIN USUARIOS EXTERNOS LIST] GET USUARIOS_EXTERNOS SUCCESS';
-export const GET_USUARIOS_EXTERNOS_FAILED = '[SUPERADMIN USUARIOS EXTERNOS LIST] GET USUARIOS_EXTERNOS FAILED';
+export const GET_USUARIOS_EXTERNOS_LIST = '[SUPERADMIN USUARIOS EXTERNOS_LIST LIST] GET USUARIOS_EXTERNOS_LIST';
+export const GET_USUARIOS_EXTERNOS_LIST_SUCCESS = '[SUPERADMIN USUARIOS EXTERNOS_LIST LIST] GET USUARIOS_EXTERNOS_LIST SUCCESS';
+export const GET_USUARIOS_EXTERNOS_LIST_FAILED = '[SUPERADMIN USUARIOS EXTERNOS_LIST LIST] GET USUARIOS_EXTERNOS_LIST FAILED';
 
-export const RELOAD_USUARIOS_EXTERNOS = '[SUPERADMIN USUARIOS EXTERNOS LIST] RELOAD USUARIOS_EXTERNOS';
+export const RELOAD_USUARIOS_EXTERNOS_LIST = '[SUPERADMIN USUARIOS EXTERNOS_LIST LIST] RELOAD USUARIOS_EXTERNOS_LIST';
+
+export const DELETE_USUARIO_EXTERNOS_LIST = '[ADMIN USUARIO EXTERNOS LIST] DELETE USUARIOS_EXTERNOS_LIST';
+export const DELETE_USUARIO_EXTERNOS_LIST_SUCCESS = '[ADMIN USUARIO EXTERNOS LIST] DELETE USUARIOS_EXTERNOS_LIST SUCCESS';
+export const DELETE_USUARIO_EXTERNOS_LIST_FAILED = '[ADMIN USUARIO EXTERNOS LIST] DELETE USUARIOS_EXTERNOS_LIST FAILED';
 
 
 /**
- * Get UsuariosExternos
+ * Get UsuariosExternosList
  */
-export class GetUsuariosExternos implements Action
+export class GetUsuariosExternosList implements Action
 {
-    readonly type = GET_USUARIOS_EXTERNOS;
+    readonly type = GET_USUARIOS_EXTERNOS_LIST;
 
     constructor(public payload: any)
     {
@@ -20,11 +24,11 @@ export class GetUsuariosExternos implements Action
 }
 
 /**
- * Get UsuariosExternos Success
+ * Get UsuariosExternosList Success
  */
-export class GetUsuariosExternosSuccess implements Action
+export class GetUsuariosExternosListSuccess implements Action
 {
-    readonly type = GET_USUARIOS_EXTERNOS_SUCCESS;
+    readonly type = GET_USUARIOS_EXTERNOS_LIST_SUCCESS;
 
     constructor(public payload: any)
     {
@@ -32,11 +36,11 @@ export class GetUsuariosExternosSuccess implements Action
 }
 
 /**
- * Get UsuariosExternos Failed
+ * Get UsuariosExternosList Failed
  */
-export class GetUsuariosExternosFailed implements Action
+export class GetUsuariosExternosListFailed implements Action
 {
-    readonly type = GET_USUARIOS_EXTERNOS_FAILED;
+    readonly type = GET_USUARIOS_EXTERNOS_LIST_FAILED;
 
     constructor(public payload: string)
     {
@@ -44,11 +48,11 @@ export class GetUsuariosExternosFailed implements Action
 }
 
 /**
- * Reload UsuariosExternos
+ * Reload UsuariosExternosList
  */
-export class ReloadUsuariosExternos implements Action
+export class ReloadUsuariosExternosList implements Action
 {
-    readonly type = RELOAD_USUARIOS_EXTERNOS;
+    readonly type = RELOAD_USUARIOS_EXTERNOS_LIST;
 
     constructor()
     {
@@ -56,9 +60,50 @@ export class ReloadUsuariosExternos implements Action
 }
 
 
+/**
+ * Delete UsuariosExternosList
+ */
+export class DeleteUsuariosExternosList implements Action
+{
+    readonly type = DELETE_USUARIO_EXTERNOS_LIST;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Delete UsuariosExternosList Success
+ */
+export class DeleteUsuariosExternosListSuccess implements Action
+{
+    readonly type = DELETE_USUARIO_EXTERNOS_LIST_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Delete UsuariosExternosList Failed
+ */
+export class DeleteUsuariosExternosListFailed implements Action
+{
+    readonly type = DELETE_USUARIO_EXTERNOS_LIST_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+
 export type UsuariosExternosListActionsAll
-    = GetUsuariosExternos
-    | GetUsuariosExternosSuccess
-    | GetUsuariosExternosFailed
-    | ReloadUsuariosExternos;
+    = GetUsuariosExternosList
+    | GetUsuariosExternosListSuccess
+    | GetUsuariosExternosListFailed
+    | ReloadUsuariosExternosList
+    | DeleteUsuariosExternosList
+    | DeleteUsuariosExternosListSuccess
+    | DeleteUsuariosExternosListFailed;
+
 

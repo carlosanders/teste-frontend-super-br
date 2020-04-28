@@ -4,12 +4,11 @@ import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from '@angular
 import {select, Store} from '@ngrx/store';
 
 import {Observable, of} from 'rxjs';
-import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
+import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 import * as fromStore from '../';
+import {getUsuariosExternosListLoaded} from '../';
 import {getRouterState} from 'app/store/reducers';
 import {UsuariosExternosListAppState} from '../reducers';
-import {LoginService} from 'app/main/auth/login/login.service';
-import {getUsuariosExternosListLoaded} from '../';
 
 
 @Injectable()
@@ -24,7 +23,6 @@ export class ResolveGuard implements CanActivate {
      */
     constructor(
         private _store: Store<UsuariosExternosListAppState>,
-        private _loginService: LoginService
     ) {
         this._store
             .pipe(select(getRouterState))
@@ -43,7 +41,7 @@ export class ResolveGuard implements CanActivate {
      * @returns {Observable<boolean>}
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-        return this.getUsuariosExternos().pipe(
+        return this.getUsuariosExternosList().pipe(
             switchMap(() => of(true)),
             catchError(() => of(false))
         );
@@ -54,13 +52,15 @@ export class ResolveGuard implements CanActivate {
      *
      * @returns {Observable<any>}
      */
-    getUsuariosExternos(): Observable<any> {
+    getUsuariosExternosList(): Observable<any> {
         return this._store.pipe(
             select(getUsuariosExternosListLoaded),
             tap((loaded: any) => {
                 if (!loaded) {
                     const params = {
-                        filter: {},
+                        filter: {
+                            'colaborador.id': 'isNull'
+                        },
                         gridFilter: {},
                         limit: 5,
                         offset: 0,
@@ -70,7 +70,7 @@ export class ResolveGuard implements CanActivate {
                         ]
                     };
 
-                    this._store.dispatch(new fromStore.GetUsuariosExternos(params));
+                    this._store.dispatch(new fromStore.GetUsuariosExternosList(params));
                 }
             }),
             filter((loaded: any) => {

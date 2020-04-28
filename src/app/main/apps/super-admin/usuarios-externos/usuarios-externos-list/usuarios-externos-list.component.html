@@ -1,1 +1,12 @@
-<p>usuarios-externos-list works!</p>
+<cdk-usuario-grid
+    [loading]="(loading$ | async)"
+    [usuarios]="(usuarios$ | async)"
+    [total]="(pagination$ | async)?.total"
+    [deletingIds]="(deletingIds$ | async)"
+    [deletedIds]="(deletedIds$ | async)"
+    [displayedColumns]="['id','nome','username','email','enabled','actions']"
+    [externo]="this.externo"
+    [actions]="['edit']"
+    (reload)="reload($event)"
+    (edit)="edit($event)">
+</cdk-usuario-grid>

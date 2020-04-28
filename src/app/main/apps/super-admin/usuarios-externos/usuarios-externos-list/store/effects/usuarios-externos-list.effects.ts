@@ -3,7 +3,7 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap} from 'rxjs/operators';
 
 import {getRouterState, State} from '../../../../../../../store/reducers';
 import * as UsuariosExternosListActions from '../actions';
@@ -13,6 +13,7 @@ import {AddData} from '../../../../../../../../@cdk/ngrx-normalizr';
 import {Usuario} from '../../../../../../../../@cdk/models';
 import {usuario as usuariosExternosSchema} from '../../../../../../../../@cdk/normalizr/usuario.schema';
 import {UsuarioService} from '../../../../../../../../@cdk/services/usuario.service';
+import {getUsuariosExternosListLoaded} from '../selectors';
 
 
 @Injectable()
@@ -40,10 +41,10 @@ export class UsuariosExternosListEffects {
      * @type {Observable<any>}
      */
     @Effect()
-    getUsuarioExternos: any =
+    getUsuariosExternosList: any =
         this._actions
             .pipe(
-                ofType<UsuariosExternosListActions.GetUsuariosExternos>(UsuariosExternosListActions.GET_USUARIOS_EXTERNOS),
+                ofType<UsuariosExternosListActions.GetUsuariosExternosList>(UsuariosExternosListActions.GET_USUARIOS_EXTERNOS_LIST),
                 switchMap((action) => {
                     return this._usuarioService.query(
                         JSON.stringify({
@@ -57,8 +58,8 @@ export class UsuariosExternosListEffects {
                         JSON.stringify(action.payload.context)).pipe(
                         mergeMap((response) => [
                             new AddData<Usuario>({data: response['entities'], schema: usuariosExternosSchema}),
-                            new UsuariosExternosListActions.GetUsuariosExternosSuccess({
-                                entitiesId: response['entities'].map(usuariosExternos => usuariosExternos.id),
+                            new UsuariosExternosListActions.GetUsuariosExternosListSuccess({
+                                entitiesId: response['entities'].map(usuario => usuario.id),
                                 loaded: {
                                     id: 'usuariosExternosHandle',
                                     value: this.routerState.params.usuariosExternosHandle
@@ -68,7 +69,7 @@ export class UsuariosExternosListEffects {
                         ]),
                         catchError((err) => {
                             console.log(err);
-                            return of(new UsuariosExternosListActions.GetUsuariosExternosFailed(err));
+                            return of(new UsuariosExternosListActions.GetUsuariosExternosListFailed(err));
                         })
                     );
                 })

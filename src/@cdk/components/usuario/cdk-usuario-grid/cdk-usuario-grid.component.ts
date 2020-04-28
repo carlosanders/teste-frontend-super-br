@@ -33,6 +33,9 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
     usuarios: Usuario[];
 
     @Input()
+    externo: boolean;
+
+    @Input()
     total = 0;
 
     @Input()
@@ -234,7 +237,9 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
         ).subscribe();
     }
 
+
     ngAfterViewInit(): void {
+
         // reset the paginator after sorting
         this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
 

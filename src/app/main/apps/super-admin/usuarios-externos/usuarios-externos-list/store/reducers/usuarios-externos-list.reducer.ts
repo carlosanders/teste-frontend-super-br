@@ -1,4 +1,5 @@
 import * as UsuariosExternosListActions from '../actions';
+import * as UsuarioListActions from '../../../../../admin/usuario/usuario-list/store/actions';
 
 export interface UsuariosExternosListState {
     entitiesId: number[];
@@ -14,6 +15,8 @@ export interface UsuariosExternosListState {
     };
     loading: boolean;
     loaded: any;
+    deletingIds: number[];
+    deletedIds: number[];
 }
 
 export const UsuariosExternosListInitialState: UsuariosExternosListState = {
@@ -30,6 +33,8 @@ export const UsuariosExternosListInitialState: UsuariosExternosListState = {
     },
     loading: false,
     loaded: false,
+    deletedIds: [],
+    deletingIds: []
 
 };
 
@@ -39,7 +44,7 @@ export function UsuariosExternosListReducer(
 ): UsuariosExternosListState {
     switch (action.type) {
 
-        case UsuariosExternosListActions.GET_USUARIOS_EXTERNOS: {
+        case UsuariosExternosListActions.GET_USUARIOS_EXTERNOS_LIST: {
             return {
                 ...state,
                 loading: true,
@@ -56,7 +61,7 @@ export function UsuariosExternosListReducer(
             };
         }
 
-        case UsuariosExternosListActions.GET_USUARIOS_EXTERNOS_SUCCESS: {
+        case UsuariosExternosListActions.GET_USUARIOS_EXTERNOS_LIST_SUCCESS: {
             const loaded = action.payload.loaded;
 
             return {
@@ -71,7 +76,7 @@ export function UsuariosExternosListReducer(
             };
         }
 
-        case UsuariosExternosListActions.GET_USUARIOS_EXTERNOS_FAILED: {
+        case UsuariosExternosListActions.GET_USUARIOS_EXTERNOS_LIST_FAILED: {
             return {
                 ...state,
                 loading: false,
@@ -79,11 +84,33 @@ export function UsuariosExternosListReducer(
             };
         }
 
-        case UsuariosExternosListActions.RELOAD_USUARIOS_EXTERNOS: {
+        case UsuariosExternosListActions.RELOAD_USUARIOS_EXTERNOS_LIST: {
             return {
                 ...state,
                 loading: false,
                 loaded: false
+            };
+        }
+
+        case UsuariosExternosListActions.DELETE_USUARIO_EXTERNOS_LIST: {
+            return {
+                ...state,
+                deletingIds: [...state.deletingIds, action.payload]
+            };
+        }
+
+        case UsuariosExternosListActions.DELETE_USUARIO_EXTERNOS_LIST_SUCCESS: {
+            return {
+                ...state,
+                deletingIds: state.deletingIds.filter(id => id !== action.payload),
+                deletedIds: [...state.deletedIds, action.payload]
+            };
+        }
+
+        case UsuariosExternosListActions.DELETE_USUARIO_EXTERNOS_LIST_FAILED: {
+            return {
+                ...state,
+                deletingIds: state.deletingIds.filter(id => id !== action.payload)
             };
         }
 

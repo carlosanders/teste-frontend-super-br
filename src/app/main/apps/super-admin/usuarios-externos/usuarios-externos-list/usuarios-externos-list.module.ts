@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {UsuariosExternosListComponent} from './usuarios-externos-list.component';
 import {RouterModule, Routes} from '@angular/router';
-import * as fromGuards from '../../especie-tarefa/especie-tarefa-list/store/guards';
+import * as fromGuards from './store/guards';
 import {
     MatAutocompleteModule,
     MatButtonModule,
@@ -22,11 +22,10 @@ import {MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatDialogModule} from '@angular/material/dialog';
-import {UsuariosExternosModule} from '../usuarios-externos.module';
-import {ResolveGuard} from './store/guards';
 import {UsuarioService} from '../../../../../../@cdk/services/usuario.service';
 import {UsuariosExternosStoreModule} from './store/store.module';
 import {LoginService} from '../../../../auth/login/login.service';
+import {CdkUsuarioGridModule} from '../../../../../../@cdk/components/usuario/cdk-usuario-grid/cdk-usuario-grid.module';
 
 const routes: Routes = [
     {
@@ -61,7 +60,8 @@ const routes: Routes = [
         MatNativeDatetimeModule,
         MatMomentDatetimeModule,
         MatDatepickerModule,
-        MatDialogModule
+        MatDialogModule,
+        CdkUsuarioGridModule
     ],
     providers: [
         LoginService,
