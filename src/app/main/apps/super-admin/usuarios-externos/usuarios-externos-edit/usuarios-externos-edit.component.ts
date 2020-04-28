@@ -1,10 +1,4 @@
-import {
-    ChangeDetectionStrategy, ChangeDetectorRef,
-    Component,
-    OnDestroy,
-    OnInit,
-    ViewEncapsulation
-} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
@@ -12,8 +6,7 @@ import {Observable} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
-import {Pagination} from '@cdk/models/pagination';
-import {Usuario, Colaborador} from '@cdk/models';
+import {Usuario} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Router} from '@angular/router';
 import {getRouterState} from '../../../../../store/reducers';
@@ -34,11 +27,7 @@ export class UsuariosExternosEditComponent implements OnInit, OnDestroy {
     errors$: Observable<any>;
     usuario: Usuario;
     usuario$: Observable<Usuario>;
-    colaborador: Colaborador;
-    cargoPagination: Pagination;
-    modalidadeColaboradorPagination: Pagination;
     formUsuario: FormGroup;
-    formColaborador: FormGroup;
 
     /**
      *
@@ -48,14 +37,14 @@ export class UsuariosExternosEditComponent implements OnInit, OnDestroy {
      * @param _formBuilder
      */
     constructor(
-        private _store: Store<fromStore.UsuarioEditAppState>,
+        private _store: Store<fromStore.UsuariosExternosEditAppState>,
         private _router: Router,
         private _loginService: LoginService,
         private _formBuilder: FormBuilder
     ) {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
-        this.usuario$ = this._store.pipe(select(fromStore.getUsuario));
+        this.usuario$ = this._store.pipe(select(fromStore.getUsuariosExternos));
 
         this._store
             .pipe(select(getRouterState))
@@ -64,11 +53,6 @@ export class UsuariosExternosEditComponent implements OnInit, OnDestroy {
                     this.routerState = routerState.state;
                 }
             });
-
-        this.cargoPagination = new Pagination();
-        this.cargoPagination.populate = ['populateAll'];
-        this.modalidadeColaboradorPagination = new Pagination();
-        this.modalidadeColaboradorPagination.populate = ['populateAll'];
 
         this.formUsuario = this._formBuilder.group({
             id: [null],
@@ -80,13 +64,6 @@ export class UsuariosExternosEditComponent implements OnInit, OnDestroy {
             reset: [false]
         });
 
-        this.formColaborador = this._formBuilder.group({
-            id: [null],
-            modalidadeColaborador: [null, [Validators.required]],
-            usuario: [null],
-            cargo: [null, [Validators.required]],
-            ativo: [null]
-        });
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -97,20 +74,8 @@ export class UsuariosExternosEditComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        this.usuario$.subscribe(
-            usuario => {
-                this.usuario = usuario;
-                if (usuario && usuario.colaborador) {
-                    this.colaborador = usuario.colaborador;
-                }
-            }
-        );
-
         if (!this.usuario) {
             this.usuario = new Usuario();
-        }
-        if (!this.colaborador) {
-            this.colaborador = new Colaborador();
         }
     }
 
@@ -123,7 +88,6 @@ export class UsuariosExternosEditComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
-
     submitUsuario(values): void {
         const usuario = new Usuario();
         Object.entries(values).forEach(
@@ -132,17 +96,6 @@ export class UsuariosExternosEditComponent implements OnInit, OnDestroy {
             }
         );
 
-        this._store.dispatch(new fromStore.SaveUsuario(usuario));
-    }
-
-    submitColaborador(values): void {
-        const colaborador = new Colaborador();
-        Object.entries(values).forEach(
-            ([key, value]) => {
-                colaborador[key] = value;
-            }
-        );
-
-        this._store.dispatch(new fromStore.SaveColaborador(colaborador));
+        this._store.dispatch(new fromStore.SaveUsuarioExternos(usuario));
     }
 }

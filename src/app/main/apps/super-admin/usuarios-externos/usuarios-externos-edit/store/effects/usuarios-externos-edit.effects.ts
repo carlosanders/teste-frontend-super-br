@@ -74,6 +74,31 @@ export class UsuariosExternosEditEffects {
             );
 
     /**
+     * Save Usuario
+     * @type {Observable<any>}
+     */
+    @Effect()
+    saveUsuariosExternos: any =
+        this._actions
+            .pipe(
+                ofType<UsuariosExternosEditActions.SaveUsuarioExternos>(UsuariosExternosEditActions.SAVE_USUARIOS_EXTERNOS),
+                switchMap((action) => {
+                    return this._usuarioService.save(action.payload).pipe(
+                        mergeMap((response: Usuario) => [
+                            new UsuariosExternosListActions.ReloadUsuariosExternosList(),
+                            new AddData<Usuario>({data: [response], schema: usuarioSchema}),
+                            new UsuariosExternosEditActions.SaveUsuarioExternosSuccess(response)
+                        ])
+                    );
+                }),
+                catchError((err, caught) => {
+                    console.log(err);
+                    this._store.dispatch(new UsuariosExternosEditActions.SaveUsuarioExternosFailed(err));
+                    return caught;
+                })
+            );
+
+    /**
      * Update Usuario
      * @type {Observable<any>}
      */
@@ -83,6 +108,7 @@ export class UsuariosExternosEditEffects {
             .pipe(
                 ofType<UsuariosExternosEditActions.UpdateUsuarioExternos>(UsuariosExternosEditActions.UPDATE_USUARIOS_EXTERNOS),
                 switchMap((action) => {
+                    debugger
                     return this._usuarioService.patch(action.payload.usuario, action.payload.changes).pipe(
                         mergeMap((response: Usuario) => [
                             new UsuariosExternosListActions.ReloadUsuariosExternosList(),

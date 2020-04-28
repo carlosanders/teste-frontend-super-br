@@ -28,10 +28,10 @@ const routes: Routes = [
                 path: 'listar',
                 loadChildren: () => import('./usuarios-externos-list/usuarios-externos-list.module').then(m => m.UsuariosExternosListModule),
             },
-            // {
-            //     path       : 'editar',
-            //     loadChildren: () => import('./especie-tarefa-edit/especie-tarefa-edit.module').then(m => m.EspecieTarefaEditModule),
-            // },
+            {
+                path       : 'editar',
+                loadChildren: () => import('./usuarios-externos-edit/usuarios-externos-edit.module').then(m => m.UsuariosExternosEditModule),
+            },
             {
                 path: '**',
                 redirectTo: 'listar'

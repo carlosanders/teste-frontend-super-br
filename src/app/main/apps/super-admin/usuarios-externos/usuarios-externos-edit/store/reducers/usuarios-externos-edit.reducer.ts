@@ -48,7 +48,7 @@ export function UsuariosExternosEditReducer(
         }
 
 
-        case UsuariosExternosEditActions.UPDATE_USUARIOS_EXTERNOS: {
+        case UsuariosExternosEditActions.SAVE_USUARIOS_EXTERNOS: {
             return {
                 ...state,
                 saving: true,
@@ -56,7 +56,7 @@ export function UsuariosExternosEditReducer(
             };
         }
 
-        case UsuariosExternosEditActions.UPDATE_USUARIOS_EXTERNOS_SUCCESS: {
+        case UsuariosExternosEditActions.SAVE_USUARIOS_EXTERNOS_SUCCESS: {
             return {
                 ...state,
                 entityId: action.payload.id,
@@ -69,7 +69,7 @@ export function UsuariosExternosEditReducer(
             };
         }
 
-        case UsuariosExternosEditActions.UPDATE_USUARIOS_EXTERNOS_FAILED: {
+        case UsuariosExternosEditActions.SAVE_USUARIOS_EXTERNOS_FAILED: {
             return {
                 ...state,
                 saving: false,
