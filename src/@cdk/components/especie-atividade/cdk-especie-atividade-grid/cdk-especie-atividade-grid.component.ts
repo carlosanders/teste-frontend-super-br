@@ -28,7 +28,7 @@ import {FormControl} from '@angular/forms';
 export class CdkEspecieAtividadeGridComponent implements AfterViewInit, OnInit, OnChanges {
 
     @Input()
-    loading: boolean;
+    loading = false;
 
     @Input()
     especieAtividades: EspecieAtividade[];
@@ -143,9 +143,6 @@ export class CdkEspecieAtividadeGridComponent implements AfterViewInit, OnInit, 
     edit = new EventEmitter<number>();
 
     @Output()
-    tipoDocumentoEdit = new EventEmitter<number>();
-
-    @Output()
     delete = new EventEmitter<number>();
 
     @Output()
@@ -258,10 +255,6 @@ export class CdkEspecieAtividadeGridComponent implements AfterViewInit, OnInit, 
 
     deleteEspecieAtividades(especieAtividadesId): void {
         especieAtividadesId.forEach(especieAtividadeId => this.deleteEspecieAtividade(especieAtividadeId));
-    }
-
-    tipoDocumento(especieAtividadeId): void {
-        this.tipoDocumentoEdit.emit(especieAtividadeId);
     }
 
     salvarFavorito(favorito): void {
