@@ -1,27 +1,28 @@
 cdk-endereco-form {
+    height: 100%;
 
-  form {
-    width: 100%;
-  }
-
-  .form-card {
-    border-radius: 8px;
-  }
-
-  .form-errors-model {
-    flex: 1;
-
-    code {
-      background: none !important;
+    form {
+        width: 100%;
     }
-  }
 
-  cdk-municipio-gridsearch {
-    width: 100%;
-  }
+    .form-card {
+        border-radius: 8px;
+    }
 
-  cdk-pais-gridsearch {
-    width: 100%;
-  }
+    .form-errors-model {
+        flex: 1;
+
+        code {
+            background: none !important;
+        }
+    }
+
+    cdk-municipio-gridsearch {
+        width: 100%;
+    }
+
+    cdk-pais-gridsearch {
+        width: 100%;
+    }
 
 }

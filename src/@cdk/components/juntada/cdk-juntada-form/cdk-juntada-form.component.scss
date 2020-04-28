@@ -1,42 +1,43 @@
 cdk-juntada-form {
+    height: 100%;
 
-  form {
-    width: 100%;
-  }
-
-  .form-card {
-    border-radius: 8px;
-  }
-
-  .form-errors-model {
-    flex: 1;
-
-    code {
-      background: none !important;
+    form {
+        width: 100%;
     }
-  }
 
-  cdk-documento-gridsearch {
-    width: 100%;
-  }
+    .form-card {
+        border-radius: 8px;
+    }
 
-  cdk-origem-dados-gridsearch {
-    width: 100%;
-  }
+    .form-errors-model {
+        flex: 1;
 
-  cdk-volume-gridsearch {
-    width: 100%;
-  }
+        code {
+            background: none !important;
+        }
+    }
 
-  cdk-documento-avulso-gridsearch {
-    width: 100%;
-  }
+    cdk-documento-gridsearch {
+        width: 100%;
+    }
 
-  cdk-atividade-gridsearch {
-    width: 100%;
-  }
+    cdk-origem-dados-gridsearch {
+        width: 100%;
+    }
 
-  cdk-tarefa-gridsearch {
-    width: 100%;
-  }
+    cdk-volume-gridsearch {
+        width: 100%;
+    }
+
+    cdk-documento-avulso-gridsearch {
+        width: 100%;
+    }
+
+    cdk-atividade-gridsearch {
+        width: 100%;
+    }
+
+    cdk-tarefa-gridsearch {
+        width: 100%;
+    }
 }

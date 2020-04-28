@@ -168,9 +168,6 @@ export class CdkLotacaoGridComponent implements AfterViewInit, OnInit, OnChanges
     cancel = new EventEmitter<any>();
 
     @Output()
-    create = new EventEmitter<any>();
-
-    @Output()
     edit = new EventEmitter<number>();
 
     @Output()

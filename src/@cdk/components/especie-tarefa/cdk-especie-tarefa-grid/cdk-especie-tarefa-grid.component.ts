@@ -148,9 +148,6 @@ export class CdkEspecieTarefaGridComponent implements AfterViewInit, OnInit, OnC
     selected = new EventEmitter<EspecieTarefa>();
 
     @Output()
-    create = new EventEmitter<any>();
-
-    @Output()
     selectedIds: number[] = [];
 
     dataSource: EspecieTarefaDataSource;

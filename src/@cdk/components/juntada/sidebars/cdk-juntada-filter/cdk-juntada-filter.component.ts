@@ -96,21 +96,6 @@ export class CdkJuntadaFilterComponent implements OnInit {
             }
         });
 
-        this.form.get('origemDados').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'origemDados.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('origemDados.id')) {
-                        delete this.filters['origemDados.id'];
-                    }
-                }
-            }
-        });
-
         this.form.get('documento').valueChanges.subscribe(value => {
             if (value !== null) {
                 if (typeof value === 'object' && value) {
@@ -121,66 +106,6 @@ export class CdkJuntadaFilterComponent implements OnInit {
                 } else {
                     if (this.filters.hasOwnProperty('documento.id')) {
                         delete this.filters['documento.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('volume').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'volume.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('volume.id')) {
-                        delete this.filters['volume.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('documentoAvulso').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'documentoAvulso.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('documentoAvulso.id')) {
-                        delete this.filters['documentoAvulso.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('atividade').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'atividade.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('atividade.id')) {
-                        delete this.filters['atividade.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('tarefa').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'tarefa.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('tarefa.id')) {
-                        delete this.filters['tarefa.id'];
                     }
                 }
             }

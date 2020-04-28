@@ -166,15 +166,6 @@ export class CdkDocumentoAvulsoFilterComponent implements OnInit {
             }
         });
 
-        this.form.get('boolean').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    boolean: `eq:${value}`
-                };
-            }
-        });
-
         this.form.get('dataHoraResposta').valueChanges.subscribe(value => {
             if (value !== null) {
                 this.filters = {
@@ -207,15 +198,6 @@ export class CdkDocumentoAvulsoFilterComponent implements OnInit {
                 this.filters = {
                     ...this.filters,
                     livreBalanceamento: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('boolean').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    boolean: `eq:${value}`
                 };
             }
         });
@@ -260,21 +242,6 @@ export class CdkDocumentoAvulsoFilterComponent implements OnInit {
                 } else {
                     if (this.filters.hasOwnProperty('modelo.id')) {
                         delete this.filters['modelo.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('unidadeResponsavel').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'unidadeResponsavel.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('unidadeResponsavel.id')) {
-                        delete this.filters['unidadeResponsavel.id'];
                     }
                 }
             }
