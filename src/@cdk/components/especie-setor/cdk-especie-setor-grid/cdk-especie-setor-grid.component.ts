@@ -40,6 +40,9 @@ export class CdkEspecieSetorGridComponent implements AfterViewInit, OnInit, OnCh
     @Input()
     mode = 'list';
 
+    @Output()
+    create = new EventEmitter<any>();
+
     @Input()
     displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'generoSetor.nome', 'actions'];
 
@@ -160,6 +163,7 @@ export class CdkEspecieSetorGridComponent implements AfterViewInit, OnInit, OnCh
 
     /**
      * @param _changeDetectorRef
+     * @param _cdkSidebarService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -289,5 +293,9 @@ export class CdkEspecieSetorGridComponent implements AfterViewInit, OnInit, OnCh
 
     doCancel(): void {
         this.cancel.emit();
+    }
+
+    doCreate(): void {
+        this.create.emit();
     }
 }

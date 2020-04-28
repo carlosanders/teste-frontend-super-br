@@ -38,6 +38,9 @@ export class CdkModalidadeDestinacaoGridComponent implements AfterViewInit, OnIn
     @Input()
     mode = 'list';
 
+    @Output()
+    create = new EventEmitter<any>();
+
     @Input()
     displayedColumns: string[] = ['select', 'id', 'valor', 'descricao', 'actions'];
 
@@ -153,6 +156,7 @@ export class CdkModalidadeDestinacaoGridComponent implements AfterViewInit, OnIn
 
     /**
      * @param _changeDetectorRef
+     * @param _cdkSidebarService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -300,5 +304,9 @@ export class CdkModalidadeDestinacaoGridComponent implements AfterViewInit, OnIn
 
     doCancel(): void {
         this.cancel.emit();
+    }
+
+    doCreate(): void {
+        this.create.emit();
     }
 }

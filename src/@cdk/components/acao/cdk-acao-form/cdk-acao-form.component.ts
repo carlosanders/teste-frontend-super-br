@@ -37,6 +37,9 @@ export class CdkAcaoFormComponent implements OnInit, OnChanges, OnDestroy {
     @Output()
     save = new EventEmitter<Acao>();
 
+    @Output()
+    abort = new EventEmitter<any>();
+
     form: FormGroup;
 
     @Input()
@@ -132,6 +135,10 @@ export class CdkAcaoFormComponent implements OnInit, OnChanges, OnDestroy {
         if (this.form.valid) {
             this.save.emit(this.form.value);
         }
+    }
+
+    doAbort(): void {
+        this.abort.emit();
     }
 
     checkModelo(): void {

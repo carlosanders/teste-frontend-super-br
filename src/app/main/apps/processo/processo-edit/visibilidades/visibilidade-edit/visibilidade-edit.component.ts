@@ -18,6 +18,7 @@ import {getProcesso} from '../../../store/selectors';
 import {Pagination} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Colaborador} from '@cdk/models';
+import {Back} from "../../../../../../store/actions";
 
 @Component({
     selector: 'visibilidade-edit',
@@ -105,4 +106,7 @@ export class VisibilidadeEditComponent implements OnInit, OnDestroy {
         this._store.dispatch(new fromStore.SaveVisibilidade({processoId: this.processo.id, visibilidade: visibilidade}));
     }
 
+    doAbort(): void {
+        this._store.dispatch(new Back());
+    }
 }

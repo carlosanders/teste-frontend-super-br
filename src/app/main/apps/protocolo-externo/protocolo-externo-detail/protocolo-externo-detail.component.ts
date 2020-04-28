@@ -83,7 +83,7 @@ export class ProtocoloExternoDetailComponent implements OnInit, OnDestroy, After
         public _loginService: LoginService,
         private _dynamicService: DynamicService
     ) {
-        this._profile = _loginService.getUserProfile();
+        this._profile = this._loginService.getUserProfile();
         this.processo$ = this._store.pipe(select(fromStore.getProcesso));
         this.documentos$ = this._store.pipe(select(fromStore.getDocumentos));
         this.maximizado$ = this._store.pipe(select(getMaximizado));
@@ -119,11 +119,13 @@ export class ProtocoloExternoDetailComponent implements OnInit, OnDestroy, After
                 this.routerState = routerState.state;
             }
         });
+
         this.processo$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(processo => {
             this.processo = processo;
         });
+
         this.documentos$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(

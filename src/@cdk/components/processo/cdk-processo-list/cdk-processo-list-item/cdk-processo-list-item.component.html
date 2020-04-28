@@ -68,7 +68,7 @@
 
         </div>
 
-        <div class="actions" fxLayout="row" fxLayoutAlign="start center">
+        <div class="actions" fxLayout="row" fxLayoutAlign="start center" *showIfNotRole="'ROLE_CONVENIADO'">
 
 
             <div class="spinner-container m-8" *ngIf="deleting">

@@ -37,6 +37,9 @@ export class CdkAssinaturaGridComponent implements AfterViewInit, OnInit, OnChan
     @Input()
     mode = 'list';
 
+    @Output()
+    create = new EventEmitter<any>();
+
     @Input()
     displayedColumns: string[] = ['select', 'id', 'criadoEm', 'criadoPor.nome', 'dataHoraAssinatura', 'actions'];
 
@@ -273,5 +276,9 @@ export class CdkAssinaturaGridComponent implements AfterViewInit, OnInit, OnChan
 
     doCancel(): void {
         this.cancel.emit();
+    }
+
+    doCreate(): void {
+        this.create.emit();
     }
 }

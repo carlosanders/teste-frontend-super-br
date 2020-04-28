@@ -38,6 +38,9 @@ export class CdkRelevanciaFormComponent implements OnChanges, OnDestroy {
     @Output()
     save = new EventEmitter<Relevancia>();
 
+    @Output()
+    abort = new EventEmitter<any>();
+
     @Input()
     especieRelevanciaPagination: Pagination;
 
@@ -111,6 +114,10 @@ export class CdkRelevanciaFormComponent implements OnChanges, OnDestroy {
         if (this.form.valid) {
             this.save.emit(this.form.value);
         }
+    }
+
+    doAbort(): void {
+        this.abort.emit();
     }
 
     checkEspecieRelevancia(): void {

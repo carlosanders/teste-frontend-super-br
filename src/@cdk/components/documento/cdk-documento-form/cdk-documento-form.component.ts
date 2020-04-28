@@ -6,13 +6,11 @@ import {
     Output, SimpleChange,
     ViewEncapsulation
 } from '@angular/core';
-
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Documento} from '@cdk/models';
 import {TipoDocumento} from '@cdk/models';
 import {Pagination} from '@cdk/models';
-import {Processo} from '@cdk/models';
 import {Pessoa} from '@cdk/models';
 import {Setor} from '@cdk/models';
 
@@ -49,6 +47,9 @@ export class CdkDocumentoFormComponent implements OnChanges, OnDestroy {
 
     @Output()
     save = new EventEmitter<Documento>();
+
+    @Output()
+    abort = new EventEmitter<any>();
 
     form: FormGroup;
 
@@ -133,6 +134,10 @@ export class CdkDocumentoFormComponent implements OnChanges, OnDestroy {
         }
     }
 
+    doAbort(): void {
+        this.abort.emit();
+    }
+
     selectCopiaParam(valor: String): void {
         this.form.get('copia').setValue(valor);
     }
@@ -145,7 +150,7 @@ export class CdkDocumentoFormComponent implements OnChanges, OnDestroy {
     }
 
     showTipoDocumentoGrid(): void {
-        this.activeCard = 'tipo-documento-gridsearch';
+        this.activeCard = 'tipo-documento-list-gridsearch';
     }
 
     checkTipoDocumento(): void {

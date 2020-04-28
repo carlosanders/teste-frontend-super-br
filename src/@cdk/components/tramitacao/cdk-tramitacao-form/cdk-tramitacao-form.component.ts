@@ -6,16 +6,12 @@ import {
     Output, SimpleChange,
     ViewEncapsulation
 } from '@angular/core';
-
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Tramitacao} from '@cdk/models';
 import {Pagination} from '@cdk/models';
 import {Processo} from '@cdk/models';
 import {Setor} from '@cdk/models';
-import {Pessoa} from '@cdk/models';
-import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
-import {of} from 'rxjs';
 
 @Component({
     selector: 'cdk-tramitacao-form',
@@ -38,6 +34,9 @@ export class CdkTramitacaoFormComponent implements OnChanges, OnDestroy, OnInit 
 
     @Output()
     save = new EventEmitter<Tramitacao>();
+
+    @Output()
+    abort = new EventEmitter<any>();
 
     form: FormGroup;
 
@@ -136,6 +135,10 @@ export class CdkTramitacaoFormComponent implements OnChanges, OnDestroy, OnInit 
         if (this.form.valid) {
             this.save.emit(this.form.value);
         }
+    }
+
+    doAbort(): void {
+        this.abort.emit();
     }
 
     checkProcesso(): void {

@@ -77,6 +77,10 @@ export class DocumentoAvulsoListComponent implements OnInit {
         }));
     }
 
+    create () : void {
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
+    }
+
     edit(documentoAvulsoId: number): void {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/') + documentoAvulsoId]);
     }

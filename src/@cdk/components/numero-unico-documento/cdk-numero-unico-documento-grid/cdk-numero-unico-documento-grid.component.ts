@@ -39,6 +39,9 @@ export class CdkNumeroUnicoDocumentoGridComponent implements AfterViewInit, OnIn
     @Input()
     mode = 'list';
 
+    @Output()
+    create = new EventEmitter<any>();
+
     @Input()
     displayedColumns: string[] = ['id', 'tipoDocumento.nome', 'setor.unidade.nome', 'setor.nome', 'sequencia', 'ano', 'actions'];
 
@@ -315,5 +318,9 @@ export class CdkNumeroUnicoDocumentoGridComponent implements AfterViewInit, OnIn
 
     doCancel(): void {
         this.cancel.emit();
+    }
+
+    doCreate(): void {
+        this.create.emit();
     }
 }

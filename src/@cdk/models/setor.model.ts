@@ -18,7 +18,6 @@ export class Setor {
 
     endereco?: string;
 
-    @Exclude({ toPlainOnly: true })
     email?: string;
 
     sigla?: string;
@@ -29,16 +28,13 @@ export class Setor {
 
     ativo?: boolean;
 
-    @Exclude()
     prefixoNUP?: string;
 
     // @Exclude({ toPlainOnly: true })
     sequenciaInicialNUP?: number;
 
-    @Exclude({ toPlainOnly: true })
     gerenciamento?: boolean;
 
-    @Exclude({ toPlainOnly: true })
     numeracaoDocumentoUnidade?: boolean;
 
     distribuicaoCentena?: boolean;
@@ -75,7 +71,6 @@ export class Setor {
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     especieSetor?: EspecieSetor;
 
-    @Exclude({ toPlainOnly: true })
     @Type(() => ModalidadeOrgaoCentral)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     modalidadeOrgaoCentral?: ModalidadeOrgaoCentral;

@@ -38,6 +38,9 @@ export class CdkTipoSigiloGridComponent implements AfterViewInit, OnInit, OnChan
     @Input()
     mode = 'list';
 
+    @Output()
+    create = new EventEmitter<any>();
+
     @Input()
     displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'nivelAcesso', 'prazoAnos', 'leiAcessoInformacao', 'actions'];
 
@@ -168,6 +171,7 @@ export class CdkTipoSigiloGridComponent implements AfterViewInit, OnInit, OnChan
 
     /**
      * @param _changeDetectorRef
+     * @param _cdkSidebarService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -315,5 +319,9 @@ export class CdkTipoSigiloGridComponent implements AfterViewInit, OnInit, OnChan
 
     doCancel(): void {
         this.cancel.emit();
+    }
+
+    doCreate(): void {
+        this.create.emit();
     }
 }

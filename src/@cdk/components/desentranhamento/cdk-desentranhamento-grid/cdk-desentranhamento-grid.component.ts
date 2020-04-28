@@ -6,12 +6,10 @@ import {
     ViewEncapsulation, Input, OnChanges, Output, EventEmitter
 } from '@angular/core';
 import {merge, of} from 'rxjs';
-
 import {cdkAnimations} from '@cdk/animations';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
-
 import {Desentranhamento} from '@cdk/models';
 import {DesentranhamentoDataSource} from '@cdk/data-sources/desentranhamento-data-source';
 import {FormControl} from '@angular/forms';
@@ -37,6 +35,9 @@ export class CdkDesentranhamentoGridComponent implements AfterViewInit, OnInit, 
 
     @Input()
     mode = 'list';
+
+    @Output()
+    create = new EventEmitter<any>();
 
     @Input()
     displayedColumns: string[] = ['select', 'id', 'juntada.descricao', 'processoDestino.NUP', 'observacao', 'actions'];
@@ -153,6 +154,7 @@ export class CdkDesentranhamentoGridComponent implements AfterViewInit, OnInit, 
 
     /**
      * @param _changeDetectorRef
+     * @param _cdkSidebarService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -299,5 +301,9 @@ export class CdkDesentranhamentoGridComponent implements AfterViewInit, OnInit, 
 
     doCancel(): void {
         this.cancel.emit();
+    }
+
+    doCreate(): void {
+        this.create.emit();
     }
 }

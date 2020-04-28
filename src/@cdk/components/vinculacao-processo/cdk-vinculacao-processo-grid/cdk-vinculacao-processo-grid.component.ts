@@ -38,6 +38,9 @@ export class CdkVinculacaoProcessoGridComponent implements AfterViewInit, OnInit
     @Input()
     mode = 'list';
 
+    @Output()
+    create = new EventEmitter<any>();
+
     @Input()
     displayedColumns: string[] = ['select', 'id', 'processo', 'processoVinculado.NUP', 'modalidadeVinculacaoProcesso.valor',
         'observacao', 'actions'];
@@ -159,6 +162,7 @@ export class CdkVinculacaoProcessoGridComponent implements AfterViewInit, OnInit
 
     /**
      * @param _changeDetectorRef
+     * @param _cdkSidebarService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -305,5 +309,9 @@ export class CdkVinculacaoProcessoGridComponent implements AfterViewInit, OnInit
 
     doCancel(): void {
         this.cancel.emit();
+    }
+
+    doCreate(): void {
+        this.create.emit();
     }
 }

@@ -16,6 +16,7 @@ import * as fromStore from './store';
 import {Processo} from '@cdk/models';
 import {getProcesso} from '../../../store/selectors';
 import {Pagination} from '@cdk/models';
+import {Back} from "../../../../../../store/actions";
 
 @Component({
     selector: 'transicao-edit',
@@ -97,4 +98,7 @@ export class TransicaoEditComponent implements OnInit, OnDestroy {
 
     }
 
+    doAbort(): void {
+        this._store.dispatch(new Back());
+    }
 }

@@ -42,6 +42,9 @@ export class CdkInteressadoFormComponent implements OnChanges, OnDestroy {
     @Output()
     save = new EventEmitter<Interessado>();
 
+    @Output()
+    abort = new EventEmitter<any>();
+
     form: FormGroup;
 
     activeCard = 'form';
@@ -127,6 +130,10 @@ export class CdkInteressadoFormComponent implements OnChanges, OnDestroy {
         if (this.form.valid) {
             this.save.emit(this.form.value);
         }
+    }
+
+    doAbort(): void {
+        this.abort.emit();
     }
 
     checkPessoa(): void {

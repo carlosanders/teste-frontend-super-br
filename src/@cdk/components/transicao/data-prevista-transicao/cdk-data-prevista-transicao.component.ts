@@ -22,6 +22,9 @@ export class CdkDataPrevistaTransicaoComponent implements OnInit {
     @Output()
     save = new EventEmitter<Processo>();
 
+    @Output()
+    abort = new EventEmitter<any>();
+
     form: FormGroup;
 
     activeCard = 'form';

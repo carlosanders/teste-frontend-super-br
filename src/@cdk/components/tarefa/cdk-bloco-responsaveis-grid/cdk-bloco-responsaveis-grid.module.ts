@@ -11,7 +11,7 @@ import {
     MatSelectModule,
 } from '@cdk/angular/material';
 import {MatTooltipModule} from '@angular/material/tooltip';
-import {CdkSidebarModule} from '@cdk/components/index';
+import {CdkSidebarModule} from '../..';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {UsuarioService} from '@cdk/services/usuario.service';
 import {CdkBlocoResponsaveisComponent} from './cdk-bloco-responsaveis-grid.component';
@@ -22,13 +22,11 @@ import {CdkSetorAutocompleteModule} from '../../setor/cdk-setor-autocomplete/cdk
 import {CdkSetorFilterModule} from '../../setor/sidebars/cdk-setor-filter/cdk-setor-filter.module';
 import {CdkUsuarioAutocompleteModule} from '../../usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 import {CdkUsuarioFilterModule} from '../../usuario/sidebars/cdk-usuario-filter/cdk-usuario-filter.module';
-import {CdkBlocoResponsaveisFilterModule} from '../cdk-bloco-responsaveis-grid/cdk-bloco-responsaveis-filter/cdk-bloco-responsaveis-filter.module';
-import {CdkBlocoResponsaveisMainSidebarComponent} from './sidebars/main.bloco-responsaveis.component';
+import {CdkBlocoResponsaveisFilterModule} from './cdk-bloco-responsaveis-filter/cdk-bloco-responsaveis-filter.module';
 
 @NgModule({
     declarations: [
         CdkBlocoResponsaveisComponent,
-        CdkBlocoResponsaveisMainSidebarComponent
     ],
     imports: [
         MatSelectModule,
@@ -59,7 +57,6 @@ import {CdkBlocoResponsaveisMainSidebarComponent} from './sidebars/main.bloco-re
     ],
     exports: [
         CdkBlocoResponsaveisComponent,
-        CdkBlocoResponsaveisMainSidebarComponent
     ]
 })
 export class CdkBlocoResponsaveisGridModule {

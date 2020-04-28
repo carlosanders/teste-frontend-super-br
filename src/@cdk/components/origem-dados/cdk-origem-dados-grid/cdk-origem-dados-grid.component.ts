@@ -38,6 +38,9 @@ export class CdkOrigemDadosGridComponent implements AfterViewInit, OnInit, OnCha
     @Input()
     mode = 'list';
 
+    @Output()
+    create = new EventEmitter<any>();
+
     @Input()
     displayedColumns: string[] = ['select', 'id', 'servico', 'fonteDados', 'status', 'dataHoraUltimaConsulta', 'actions'];
 
@@ -153,6 +156,7 @@ export class CdkOrigemDadosGridComponent implements AfterViewInit, OnInit, OnCha
 
     /**
      * @param _changeDetectorRef
+     * @param _cdkSidebarService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -299,5 +303,9 @@ export class CdkOrigemDadosGridComponent implements AfterViewInit, OnInit, OnCha
 
     doCancel(): void {
         this.cancel.emit();
+    }
+
+    doCreate(): void {
+        this.create.emit();
     }
 }

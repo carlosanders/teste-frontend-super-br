@@ -57,7 +57,7 @@ export class ProcessoMainSidebarComponent implements OnInit, OnDestroy {
                 icon: 'edit',
                 link: 'editar',
                 processo: true,
-                role: 'ROLE_COLABORADOR'
+                role: 'ROLE_USER'
             },
             {
                 nome: 'Download',

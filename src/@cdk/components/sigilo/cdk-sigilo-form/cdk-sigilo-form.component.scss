@@ -1,27 +1,28 @@
 cdk-sigilo-form {
+    height: 100%;
 
-  form {
-    width: 100%;
-  }
-
-  .form-card {
-    border-radius: 8px;
-  }
-
-  .form-errors-model {
-    flex: 1;
-
-    code {
-      background: none !important;
+    form {
+        width: 100%;
     }
-  }
 
-  cdk-modalidade-categoria-sigilo-gridsearch {
-    width: 100%;
-  }
+    .form-card {
+        border-radius: 8px;
+    }
 
-  cdk-tipo-sigilo-gridsearch {
-    width: 100%;
-  }
+    .form-errors-model {
+        flex: 1;
+
+        code {
+            background: none !important;
+        }
+    }
+
+    cdk-modalidade-categoria-sigilo-gridsearch {
+        width: 100%;
+    }
+
+    cdk-tipo-sigilo-gridsearch {
+        width: 100%;
+    }
 
 }

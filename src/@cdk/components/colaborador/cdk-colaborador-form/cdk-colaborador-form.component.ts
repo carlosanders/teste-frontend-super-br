@@ -46,6 +46,9 @@ export class CdkColaboradorFormComponent implements OnChanges, OnDestroy {
     @Output()
     save = new EventEmitter<Colaborador>();
 
+    @Output()
+    abort = new EventEmitter<any>();
+
     @Input()
     form: FormGroup;
 
@@ -120,6 +123,10 @@ export class CdkColaboradorFormComponent implements OnChanges, OnDestroy {
         if (this.form.valid) {
             this.save.emit(this.form.value);
         }
+    }
+
+    doAbort(): void {
+        this.abort.emit();
     }
 
     checkModalidadeColaborador(): void {

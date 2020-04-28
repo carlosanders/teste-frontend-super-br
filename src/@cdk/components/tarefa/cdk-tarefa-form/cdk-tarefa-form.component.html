@@ -2,7 +2,7 @@
     <form fxLayoutGap="36px"
           fxLayout="column"
           fxLayoutAlign="start"
-          name="form" [formGroup]="form" (submit)="submit()">
+          name="form" [formGroup]="form">
 
         <div fxFlex="1 0 auto" fxLayout="column">
 
@@ -251,9 +251,12 @@
 
         <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-8 mb-8" fxFlex
              fxLayoutAlign="center center">
-            <button type="submit" mat-raised-button color="accent" class="mr-sm-12"
+            <button type="submit" mat-raised-button color="accent" class="mr-sm-12" (click)="submit()"
                     [disabled]="form.invalid || !valid">
                 SALVAR
+            </button>
+            <button mat-raised-button color="warn" class="mr-sm-12" (click)="doAbort()">
+                CANCELAR
             </button>
         </div>
 

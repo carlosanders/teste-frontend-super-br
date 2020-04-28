@@ -37,6 +37,9 @@ export class CdkAfastamentoGridComponent implements AfterViewInit, OnInit, OnCha
     @Input()
     mode = 'list';
 
+    @Output()
+    create = new EventEmitter<any>();
+
     @Input()
     displayedColumns: string[] = ['select', 'id', 'colaborador.usuario.nome', 'dataInicio', 'dataInicioBloqueio', 'dataFim',
         'dataFimBloqueio', 'modalidadeAfastamento.valor', 'actions'];
@@ -316,5 +319,9 @@ export class CdkAfastamentoGridComponent implements AfterViewInit, OnInit, OnCha
 
     doCancel(): void {
         this.cancel.emit();
+    }
+
+    doCreate(): void {
+        this.create.emit();
     }
 }

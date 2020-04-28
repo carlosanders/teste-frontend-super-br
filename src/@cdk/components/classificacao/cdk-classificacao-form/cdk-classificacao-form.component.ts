@@ -42,6 +42,9 @@ export class CdkClassificacaoFormComponent implements OnChanges, OnDestroy {
     @Output()
     save = new EventEmitter<Classificacao>();
 
+    @Output()
+    abort = new EventEmitter<any>();
+
     form: FormGroup;
 
     activeCard = 'form';
@@ -125,6 +128,10 @@ export class CdkClassificacaoFormComponent implements OnChanges, OnDestroy {
         if (this.form.valid) {
             this.save.emit(this.form.value);
         }
+    }
+
+    doAbort(): void {
+        this.abort.emit();
     }
 
     checkModalidadeDestinacao(): void {

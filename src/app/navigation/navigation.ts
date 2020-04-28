@@ -88,6 +88,15 @@ export const navigation: CdkNavigation[] = [
         type: 'group',
         children: [
             {
+                id: 'super-admin',
+                title: 'SuperAdmin',
+                translate: 'NAV.SUPERADMIN.TITLE',
+                type: 'item',
+                icon: 'settings_applications',
+                url: '/apps/super-admin',
+                role: 'ROLE_ROOT'
+            },
+            {
                 id: 'admin',
                 title: 'Admin',
                 translate: 'NAV.ADMIN.TITLE',
@@ -117,3 +126,5 @@ export const navigation: CdkNavigation[] = [
         ]
     }
 ];
+
+

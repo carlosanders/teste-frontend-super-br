@@ -38,6 +38,9 @@ export class CdkVinculacaoModeloGridComponent implements AfterViewInit, OnInit, 
     @Input()
     mode = 'list';
 
+    @Output()
+    create = new EventEmitter<any>();
+
     @Input()
     displayedColumns: string[] = ['select', 'id', 'modelo.nome', 'especieSetor.nome', 'setor.nome', 'usuario.nome', 'actions'];
 
@@ -175,6 +178,7 @@ export class CdkVinculacaoModeloGridComponent implements AfterViewInit, OnInit, 
 
     /**
      * @param _changeDetectorRef
+     * @param _cdkSidebarService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -326,5 +330,9 @@ export class CdkVinculacaoModeloGridComponent implements AfterViewInit, OnInit, 
 
     doCancel(): void {
         this.cancel.emit();
+    }
+
+    doCreate(): void {
+        this.create.emit();
     }
 }
