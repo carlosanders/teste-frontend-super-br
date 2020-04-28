@@ -85,6 +85,28 @@
                     {{form.get('unidadeProtocoloExterno').errors.formError}}
                 </mat-error>
             </mat-form-field>
+
+            <mat-form-field fxFlex *ngIf="this._profile.vinculacoesPessoasUsuarios.length > 1">
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Procedência"
+                           formControlName="procedencia"
+                           required
+                           [matAutocomplete]="procedencia.autocomplete"
+                           (blur)="checkProcedencia()">
+                </div>
+                <cdk-pessoa-autocomplete
+                    #procedencia="pessoaAutocomplete"
+                    [control]="form.get('procedencia')"
+                    [pagination]="procedenciaPagination">
+                </cdk-pessoa-autocomplete>
+                <button matSuffix mat-button mat-icon-button
+                        (click)="showProcedenciaGrid()">
+                    <mat-icon matTooltip="Procurar">search</mat-icon>
+                </button>
+                <mat-error *ngIf="form.get('procedencia').hasError('formError')">
+                    {{form.get('procedencia').errors.formError}}
+                </mat-error>
+            </mat-form-field>
         </mat-card>
 
         <mat-card class="mb-16" fxFlex="0 1 auto" fxLayout="column" *showIfRole="'ROLE_COLABORADOR'">
@@ -191,18 +213,6 @@
         </mat-card>
 
         <mat-card class="mb-16" fxFlex="0 1 auto" fxLayout="column" *showIfRole="'ROLE_CONVENIADO'">
-<!--            <mat-form-field fxFlex>-->
-<!--                <mat-label>Data de prazo de resposta</mat-label>-->
-<!--                <input matInput name="dataHoraPrazoResposta"-->
-<!--                       formControlName="dataHoraPrazoResposta"-->
-<!--                       [matDatetimepicker]="dataHoraPrazoResposta"-->
-<!--                       required>-->
-<!--                <mat-datetimepicker-toggle matSuffix [for]="dataHoraPrazoResposta"></mat-datetimepicker-toggle>-->
-<!--                <mat-datetimepicker #dataHoraPrazoResposta type="datetime" openOnFocus="true"-->
-<!--                                    timeInterval="5"></mat-datetimepicker>-->
-<!--                <mat-error>Campo obrigatório!</mat-error>-->
-<!--            </mat-form-field>-->
-
             <mat-form-field fxFlex>
                 <mat-label>Resumo</mat-label>
                 <input matInput #descricao
@@ -555,4 +565,12 @@
     (selected)="selectEspecieSetor($event)"
     (cancel)="cancel()">
 </cdk-especie-setor-gridsearch>
+
+<cdk-pessoa-gridsearch
+    fxFlex
+    *ngIf="activeCard === 'procedencia-gridsearch'"
+    [pagination]="procedenciaPagination"
+    (selected)="selectProcedencia($event)"
+    (cancel)="cancel()">
+</cdk-pessoa-gridsearch>
 

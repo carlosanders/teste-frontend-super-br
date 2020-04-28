@@ -12,7 +12,8 @@ import {Observable, Subject} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
-import {Documento, Estado, Pagination, Pessoa, Processo} from '@cdk/models';
+import * as fromStoreProtocolo from '../store';
+import {Documento, Estado, Pagination, Pessoa, Processo, Usuario} from '@cdk/models';
 import {filter, takeUntil} from 'rxjs/operators';
 import {MatDialog} from '@cdk/angular/material';
 import {Router} from '@angular/router';
@@ -21,6 +22,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {getPessoa} from '../store/selectors';
 import {UpdateData} from '../../../../../@cdk/ngrx-normalizr';
 import {documento as documentoSchema } from '@cdk/normalizr/documento.schema';
+import {LoginService} from '../../../auth/login/login.service';
 
 @Component({
     selector: 'protocolo-create',
@@ -33,6 +35,7 @@ import {documento as documentoSchema } from '@cdk/normalizr/documento.schema';
 export class ProtocoloCreateComponent implements OnInit, OnDestroy {
 
     private _unsubscribeAll: Subject<any> = new Subject();
+    private _profile: Usuario;
 
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
@@ -40,7 +43,7 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
     pessoaProcedencia: Pessoa;
 
     unidadePagination: Pagination;
-    especieSetoPagination: Pagination;
+    procedenciaPagination: Pagination;
 
     processo$: Observable<Processo>;
     processo: Processo;
@@ -77,10 +80,12 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
      */
     constructor(
         private _store: Store<fromStore.ProtocoloCreateAppState>,
+        private _storeProtocolo: Store<fromStoreProtocolo.ProcessosState>,
         public dialog: MatDialog,
         private _router: Router,
         private _formBuilder: FormBuilder,
-        private _changeDetectorRef: ChangeDetectorRef
+        private _changeDetectorRef: ChangeDetectorRef,
+        private _loginService: LoginService
     ) {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
@@ -91,10 +96,14 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
         this.deletingDocumentosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosId));
         this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoDocumentosId));
         this.estados$ = this._store.pipe(select(fromStore.getEstados));
+        this._profile = this._loginService.getUserProfile();
 
         this.unidadePagination = new Pagination();
         this.unidadePagination.populate = ['unidade', 'parent'];
         this.unidadePagination.filter = {parent: 'isNull'};
+
+        this.procedenciaPagination = new Pagination();
+        this.procedenciaPagination.filter = {id: `in:${this._profile.vinculacoesPessoasUsuarios.map(pessoaConveniada => pessoaConveniada.pessoa.id).join(',')}`};
 
         this.formProcesso = this._formBuilder.group({
             id: [null],
@@ -228,7 +237,10 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
             this.processo = new Processo();
             this.processo.unidadeArquivistica = 2;
             this.processo.tipoProtocolo = 1;
-            this.processo.procedencia = this.pessoaProcedencia;
+
+            if (this._profile.vinculacoesPessoasUsuarios.length === 1) {
+                this.processo.procedencia = this.pessoaProcedencia;
+            }
         }
 
         this.getEstados();

@@ -49,7 +49,7 @@ export const navigation: CdkNavigation[] = [
                 translate: 'NAV.PROTOCOLO_EXTERNO.TITLE',
                 type: 'item',
                 icon: 'check_box',
-                url: '/apps/protocolo-externo',
+                url: '/apps/protocolo-externo/meus-processos/entrada',
                 role: 'ROLE_CONVENIADO'
             },
             {

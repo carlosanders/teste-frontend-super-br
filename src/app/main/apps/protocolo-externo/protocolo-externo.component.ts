@@ -15,7 +15,6 @@ import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {CdkTranslationLoaderService} from '@cdk/services/translation-loader.service';
 
 import {Processo, PaginatedResponse, Interessado} from '@cdk/models';
-import {ProcessoService} from '@cdk/services/processo.service';
 import * as fromStore from './store';
 
 import {getRouterState, getScreenState} from 'app/store/reducers';
@@ -31,7 +30,6 @@ import {ToggleMaximizado} from 'app/main/apps/protocolo-externo/store';
 import {Topico} from 'ajuda/topico';
 import {Etiqueta, Pagination, Usuario, Assunto} from '@cdk/models';
 
-import * as fromAssuntoStore from './store';
 import { AssuntoService } from '@cdk/services/assunto.service';
 
 @Component({
@@ -94,20 +92,12 @@ export class ProtocoloExternoComponent implements OnInit, OnDestroy, AfterViewIn
     assuntos$: Observable<Assunto[]>;
     idProcessoToLoadAssuntos$: Observable<number>;
     idProcessoToLoadAssuntos: number;
-    assuntoService: AssuntoService;
-    pagAssuntos: PaginatedResponse;
-    bsAssuntos: BehaviorSubject<Assunto[]> = new BehaviorSubject([]);
 
     assuntoLoading$: Observable<boolean>;
     assuntoPanelOpen$: Observable<boolean>;
 
-    processoToLoadAssuntos$: Observable<Processo>;
-    AjudaProcesso: Topico;
-    PesquisaProcesso: string;
-
     pessoasConveniadas: any;
     currentPessoaConveniadaId: any;
-
 
     interessados: Interessado[] = [];
     interessados$: Observable<Interessado[]>;
@@ -161,7 +151,6 @@ export class ProtocoloExternoComponent implements OnInit, OnDestroy, AfterViewIn
         this.assuntos$ = this._store.pipe(select(fromStore.getAssuntosProcessos));
         this.idProcessoToLoadAssuntos$ = this._store.pipe(select(fromStore.getIdProcessoToLoadAssuntos));
         this.pessoasConveniadas =  this._profile.vinculacoesPessoasUsuarios;
-
 
         this.interessados = [];
         this.interessadosLoading$ = this._store.pipe(select(fromStore.getIsInteressadoLoading));
@@ -386,7 +375,8 @@ export class ProtocoloExternoComponent implements OnInit, OnDestroy, AfterViewIn
     }
 
     doEtiquetarBloco(): void {
-        this._router.navigate(['apps/protocolo-externo/' + this.routerState.params.pessoaHandle + '/vinculacao-etiqueta-bloco']).then();
+        this._router.navigate(['apps/protocolo-externo/' + this.routerState.params.typeHandle
+        + this.routerState.params.targetHandle + '/vinculacao-etiqueta-bloco']).then();
     }
 
     /*

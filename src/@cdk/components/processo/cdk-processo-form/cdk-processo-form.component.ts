@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Estado, GeneroSetor, Processo} from '@cdk/models';
+import {Estado, GeneroSetor, Processo, Usuario} from '@cdk/models';
 import {EspecieProcesso} from '@cdk/models';
 import {MAT_DATETIME_FORMATS} from '@mat-datetimepicker/core';
 import {ModalidadeFase} from '@cdk/models';
@@ -17,6 +17,7 @@ import {Classificacao} from '@cdk/models';
 import {Setor} from '@cdk/models';
 import {Pagination} from '@cdk/models';
 import {Pessoa} from '@cdk/models';
+import {LoginService} from '../../../../app/main/auth/login/login.service';
 
 @Component({
     selector: 'cdk-processo-form',
@@ -51,6 +52,8 @@ import {Pessoa} from '@cdk/models';
     ]
 })
 export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
+
+    private _profile: Usuario;
 
     @Input()
     processo: Processo;
@@ -131,7 +134,8 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _formBuilder: FormBuilder
+        private _formBuilder: FormBuilder,
+        private _loginService: LoginService
     ) {
 
         this.form = this._formBuilder.group({
@@ -171,6 +175,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
         this.readonlyNUP = false;
         this.textBotao = '';
+        this._profile = this._loginService.getUserProfile();
 
     }
 
@@ -550,5 +555,16 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
     showEspecieSetorGrid(): void {
         this.activeCard = 'especie-setor-gridsearch';
+    }
+
+    selectProcedencia(pessoa: Pessoa): void {
+        if (pessoa) {
+            this.form.get('procedencia').setValue(pessoa);
+        }
+        this.activeCard = 'form';
+    }
+
+    showProcedenciaGrid(): void {
+        this.activeCard = 'procedencia-gridsearch';
     }
 }

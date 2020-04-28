@@ -73,8 +73,8 @@ export class ProcessosEffect {
                     new ProcessosActions.GetProcessosSuccess({
                         entitiesId: response['entities'].map(processo => processo.id),
                         loaded: {
-                            id: 'pessoaHandle_usuarioHandle',
-                            value: this.routerState.params.pessoaHandle + '_' + this._loginService.getUserProfile().id
+                            id: 'typeHandle_targetHandle',
+                            value: this.routerState.params.typeHandle + '_' + this.routerState.params.targetHandle
                         },
                         total: response['total']
                     })
@@ -97,8 +97,8 @@ export class ProcessosEffect {
                 ofType<ProcessosActions.SetCurrentProcesso>(ProcessosActions.SET_CURRENT_PROCESSO),
                 map((action) => {
                     this._router.navigate([
-                        'apps/protocolo-externo/' + this.routerState.params.pessoaHandle +
-                        '/detalhe/' + action.payload.processoId + '/processo/' + action.payload.processoId + '/visualizar']
+                        'apps/protocolo-externo/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle
+                        + '/detalhe/' + action.payload.processoId + '/processo/' + action.payload.processoId + '/visualizar']
                     ).then();
 
                     return new ProcessosActions.SetCurrentProcessoSuccess();
@@ -115,8 +115,8 @@ export class ProcessosEffect {
             .pipe(
                 ofType<ProcessosActions.CreateProcesso>(ProcessosActions.CREATE_PROCESSO),
                 map(() => {
-                    this._router.navigate(['apps/protocolo-externo/' + this.routerState.params.pessoaHandle +
-                    '/criar']).then();
+                    this._router.navigate(['apps/protocolo-externo/' + this.routerState.params.typeHandle
+                    + '/' + this.routerState.params.targetHandle + '/criar']).then();
                     return new ProcessosActions.CreateProcessoSuccess();
                 })
             );
@@ -214,8 +214,8 @@ export class ProcessosEffect {
                     new AddData<Pessoa>({data: response['entities'], schema: pessoaSchema}),
                     new ProcessosActions.GetPessoaSuccess({
                         loaded: {
-                            id: 'pessoaHandle',
-                            value: this.routerState.params.pessoaHandle
+                            id: 'typeHandle_targetHandle',
+                            value: this.routerState.params.typeHandle + '_' + this.routerState.params.targetHandle
                         },
                         pessoa: response['entities'][0]
                     })
