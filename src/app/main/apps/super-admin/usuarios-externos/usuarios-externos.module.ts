@@ -17,6 +17,7 @@ import {
 } from '../../../../../@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 import {CdkSharedModule} from '../../../../../@cdk/shared.module';
+import {LoginService} from '../../../auth/login/login.service';
 
 const routes: Routes = [
     {
@@ -24,7 +25,7 @@ const routes: Routes = [
         component: UsuariosExternosComponent,
         children: [
             {
-                path       : 'listar',
+                path: 'listar',
                 loadChildren: () => import('./usuarios-externos-list/usuarios-externos-list.module').then(m => m.UsuariosExternosListModule),
             },
             // {
@@ -41,7 +42,7 @@ const routes: Routes = [
 
 
 @NgModule({
-  declarations: [UsuariosExternosComponent],
+    declarations: [UsuariosExternosComponent],
     imports: [
         CommonModule,
         RouterModule,
@@ -60,6 +61,10 @@ const routes: Routes = [
         MatSortModule,
         TranslateModule,
         CdkSharedModule,
+    ],
+    providers: [
+        LoginService
     ]
 })
-export class UsuariosExternosModule { }
+export class UsuariosExternosModule {
+}

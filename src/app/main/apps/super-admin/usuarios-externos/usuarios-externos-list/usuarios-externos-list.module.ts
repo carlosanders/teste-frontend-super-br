@@ -22,12 +22,17 @@ import {MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatDialogModule} from '@angular/material/dialog';
+import {UsuariosExternosModule} from '../usuarios-externos.module';
+import {ResolveGuard} from './store/guards';
+import {UsuarioService} from '../../../../../../@cdk/services/usuario.service';
+import {UsuariosExternosStoreModule} from './store/store.module';
+import {LoginService} from '../../../../auth/login/login.service';
 
 const routes: Routes = [
     {
         path: '',
         component: UsuariosExternosListComponent,
-        // canActivate: [fromGuards.ResolveGuard]
+        canActivate: [fromGuards.ResolveGuard]
     }
 ];
 
@@ -37,6 +42,7 @@ const routes: Routes = [
     imports: [
         CommonModule,
         RouterModule.forChild(routes),
+        UsuariosExternosStoreModule,
 
 
         MatExpansionModule,
@@ -56,6 +62,11 @@ const routes: Routes = [
         MatMomentDatetimeModule,
         MatDatepickerModule,
         MatDialogModule
+    ],
+    providers: [
+        LoginService,
+        fromGuards.ResolveGuard,
+        UsuarioService
     ]
 })
 export class UsuariosExternosListModule {
