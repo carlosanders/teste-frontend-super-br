@@ -1,7 +1,8 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {UsuariosExternosComponent} from './usuarios-externos.component';
+import {VincularPessoaComponent} from './vincular-pessoa.component';
 import {RouterModule, Routes} from '@angular/router';
+import {UsuariosExternosComponent} from '../usuarios-externos.component';
 import {
     MatAutocompleteModule,
     MatButtonModule,
@@ -14,28 +15,25 @@ import {
     MatProgressSpinnerModule,
     MatSortModule,
     MatTableModule
-} from '../../../../../@cdk/angular/material';
+} from '../../../../../../@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
-import {CdkSharedModule} from '../../../../../@cdk/shared.module';
-import {LoginService} from '../../../auth/login/login.service';
+import {CdkSharedModule} from '../../../../../../@cdk/shared.module';
+
 
 const routes: Routes = [
     {
-        path: '',
-        component: UsuariosExternosComponent,
+        path: ':usuariosExternosHandler',
+        component: VincularPessoaComponent,
         children: [
             {
                 path: 'listar',
-                loadChildren: () => import('./usuarios-externos-list/usuarios-externos-list.module').then(m => m.UsuariosExternosListModule),
+                loadChildren: () => import('./vincular-pessoa-list/vincular-pessoa-list.module').then(m => m.VincularPessoaListModule),
             },
-            {
-                path       : 'editar',
-                loadChildren: () => import('./usuarios-externos-edit/usuarios-externos-edit.module').then(m => m.UsuariosExternosEditModule),
-            },
-            {
-                path       : 'vincular-pessoa',
-                loadChildren: () => import('./vincular-pessoa/vincular-pessoa.module').then(m => m.VincularPessoaModule),
-            },
+            // {
+            //     path       : 'editar',
+            //     loadChildren: () => import('./usuarios-externos-edit/usuarios-externos-edit.module').then(m => m.UsuariosExternosEditModule),
+            // },
+            //
             {
                 path: '**',
                 redirectTo: 'listar'
@@ -44,12 +42,11 @@ const routes: Routes = [
     }
 ];
 
-
 @NgModule({
-    declarations: [UsuariosExternosComponent],
+    declarations: [VincularPessoaComponent],
     imports: [
         CommonModule,
-        RouterModule,
+
         RouterModule.forChild(routes),
 
         MatExpansionModule,
@@ -65,10 +62,7 @@ const routes: Routes = [
         MatSortModule,
         TranslateModule,
         CdkSharedModule,
-    ],
-    providers: [
-        LoginService
     ]
 })
-export class UsuariosExternosModule {
+export class VincularPessoaModule {
 }

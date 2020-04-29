@@ -43,7 +43,6 @@ const routes: Routes = [
         RouterModule.forChild(routes),
         UsuariosExternosStoreModule,
 
-
         MatExpansionModule,
         MatAutocompleteModule,
         MatButtonModule,
