@@ -540,6 +540,7 @@
     fxFlex
     *ngIf="activeCard === 'setor-inicial-gridsearch'"
     [pagination]="setorInicialPagination"
+    [displayedColumns]="['select', 'id', 'unidade.nome', 'actions']"
     (selected)="selectSetorInicial($event)"
     (cancel)="cancel()">
 </cdk-setor-gridsearch>

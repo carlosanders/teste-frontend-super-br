@@ -101,8 +101,7 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
 
         this.unidadePagination = new Pagination();
         this.unidadePagination.populate = ['unidade', 'parent'];
-        /*this.unidadePagination.filter = {parent: 'isNull'};*/
-        this.unidadePagination.filter = {'especieSetor.nome': 'PROTOCOLO'};
+        this.unidadePagination.filter = {'especieSetor.nome': 'like:PROTOCOLO'};
 
         this.procedenciaPagination = new Pagination();
         this.procedenciaPagination.filter = {id: `in:${this._profile.vinculacoesPessoasUsuarios.map(pessoaConveniada => pessoaConveniada.pessoa.id).join(',')}`};

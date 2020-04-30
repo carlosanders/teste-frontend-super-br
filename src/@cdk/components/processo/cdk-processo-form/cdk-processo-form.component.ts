@@ -187,8 +187,6 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
 
     ngOnInit(): void {
-        console.log(this.paramHandle);
-
         if (!this.processo.id) {
 
             this.form.get('temProcessoOrigem').setValue(false);
@@ -290,11 +288,10 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
         this.form.get('especieSetor').valueChanges.subscribe(value => {
             if (value) {
-                console.log(value);
                 this.form.get('setorInicial').enable();
                 this.setorInicialPagination.filter = {
                     ... this.setorInicialPagination.filter,
-                    ...{'generoSetor.id': `eq:${this.form.get('generoSetor').value.id}`}
+                    ...{'unidade.generoSetor.id': `eq:${this.form.get('generoSetor').value.id}`}
                 };
             } else {
                 this.form.get('setorInicial').setValue(null);
