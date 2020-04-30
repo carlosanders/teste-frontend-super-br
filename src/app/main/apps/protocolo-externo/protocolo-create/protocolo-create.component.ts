@@ -101,7 +101,8 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
 
         this.unidadePagination = new Pagination();
         this.unidadePagination.populate = ['unidade', 'parent'];
-        this.unidadePagination.filter = {parent: 'isNull'};
+        /*this.unidadePagination.filter = {parent: 'isNull'};*/
+        this.unidadePagination.filter = {'especieSetor.nome': 'PROTOCOLO'};
 
         this.procedenciaPagination = new Pagination();
         this.procedenciaPagination.filter = {id: `in:${this._profile.vinculacoesPessoasUsuarios.map(pessoaConveniada => pessoaConveniada.pessoa.id).join(',')}`};
@@ -126,13 +127,14 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
             modalidadeMeio: [null],
             modalidadeFase: [null],
             dataHoraAbertura: [null],
-            unidadeProtocoloExterno: [null, [Validators.required]],
+            setorInicial: [null, [Validators.required]],
             tipoProtocolo: [null, [Validators.required]],
             unidadeArquivistica: [null, [Validators.required]],
             generoSetor: [null, [Validators.required]],
             especieSetor: [null, [Validators.required]],
             estado: [null, [Validators.required]],
-            requerimento: [null, [Validators.required, Validators.maxLength(255)]]
+            requerimento: [null, [Validators.required, Validators.maxLength(255)]],
+            protocoloExterno: [null]
         });
     }
 
@@ -238,6 +240,7 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
             this.processo = new Processo();
             this.processo.unidadeArquivistica = 2;
             this.processo.tipoProtocolo = 1;
+            this.processo.protocoloExterno = true;
 
             if (this._profile.vinculacoesPessoasUsuarios.length === 1) {
                 this.processo.procedencia = this.pessoaProcedencia;

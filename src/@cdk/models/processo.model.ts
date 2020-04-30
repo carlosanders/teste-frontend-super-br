@@ -58,6 +58,8 @@ export class Processo {
 
     requerimento?: string;
 
+    protocoloExterno?: boolean;
+
     @Exclude({ toPlainOnly: true })
     chaveAcesso?: string;
 
@@ -210,5 +212,6 @@ export class Processo {
         this.interessados = [];
         this.unidadeProtocoloExterno = null;
         this.requerimento = null;
+        this.protocoloExterno = null;
     }
 }

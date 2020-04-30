@@ -83,7 +83,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     setorAtualPagination: Pagination;
 
     @Input()
-    unidadeProtocoloExternoPagination: Pagination;
+    setorInicialPagination: Pagination;
 
     @Output()
     save = new EventEmitter<Processo>();
@@ -170,7 +170,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
         this.modalidadeMeioPagination = new Pagination();
         this.modalidadeFasePagination = new Pagination();
         this.setorAtualPagination = new Pagination();
-        this.unidadeProtocoloExternoPagination = new Pagination();
+        this.setorInicialPagination = new Pagination();
         this.processoPagination = new Pagination();
         this.processoPagination.populate = ['especieProcesso', 'modalidadeMeio', 'classificacao', 'setorAtual', 'setorAtual.unidade'];
         this.generoSetorPagination = new Pagination();
@@ -205,8 +205,8 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             this.form.get('especieSetor').setValue(null);
             this.form.get('especieSetor').disable();
 
-            this.form.get('unidadeProtocoloExterno').setValue(null);
-            this.form.get('unidadeProtocoloExterno').disable();
+            this.form.get('setorInicial').setValue(null);
+            this.form.get('setorInicial').disable();
 
             this.form.get('procedencia').setValue(null);
             this.form.get('procedencia').disable();
@@ -268,8 +268,8 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
         this.form.get('estado').valueChanges.subscribe(value => {
             if (value) {
                 this.form.get('generoSetor').enable();
-                this.unidadeProtocoloExternoPagination.filter = {
-                    ... this.unidadeProtocoloExternoPagination.filter,
+                this.setorInicialPagination.filter = {
+                    ... this.setorInicialPagination.filter,
                     ...{'municipio.estado.id': `eq:${value}`}
                 };
             } else {
@@ -291,14 +291,14 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
         this.form.get('especieSetor').valueChanges.subscribe(value => {
             if (value) {
                 console.log(value);
-                this.form.get('unidadeProtocoloExterno').enable();
-                this.unidadeProtocoloExternoPagination.filter = {
-                    ... this.unidadeProtocoloExternoPagination.filter,
+                this.form.get('setorInicial').enable();
+                this.setorInicialPagination.filter = {
+                    ... this.setorInicialPagination.filter,
                     ...{'generoSetor.id': `eq:${this.form.get('generoSetor').value.id}`}
                 };
             } else {
-                this.form.get('unidadeProtocoloExterno').setValue(null);
-                this.form.get('unidadeProtocoloExterno').disable();
+                this.form.get('setorInicial').setValue(null);
+                this.form.get('setorInicial').disable();
             }
         });
 
@@ -456,10 +456,10 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
         }
     }
 
-    checkUnidadeProtocoloExterno(): void {
-        const value = this.form.get('unidadeProtocoloExterno').value;
+    checkSetorInicial(): void {
+        const value = this.form.get('setorInicial').value;
         if (!value || typeof value !== 'object') {
-            this.form.get('unidadeProtocoloExterno').setValue(null);
+            this.form.get('setorInicial').setValue(null);
         }
     }
 
@@ -470,15 +470,15 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
         this.activeCard = 'form';
     }
 
-    selectUnidadeProtocoloExterno(unidade: Setor): void {
+    selectSetorInicial(unidade: Setor): void {
         if (unidade) {
-            this.form.get('unidadeProtocoloExterno').setValue(unidade);
+            this.form.get('setorInicial').setValue(unidade);
         }
         this.activeCard = 'form';
     }
 
-    showUnidadeProtocoloExternoGrid(): void {
-        this.activeCard = 'unidade-protocolo-externo-gridsearch';
+    showSetorInicialGrid(): void {
+        this.activeCard = 'setor-inicial-gridsearch';
     }
 
     showSetorGrid(): void {

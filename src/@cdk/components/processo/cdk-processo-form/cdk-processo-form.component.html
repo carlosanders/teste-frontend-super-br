@@ -67,22 +67,22 @@
             <mat-form-field fxFlex>
                 <div fxLayout="row" fxLayoutAlign="start center">
                     <input matInput placeholder="Unidade"
-                           formControlName="unidadeProtocoloExterno"
+                           formControlName="setorInicial"
                            required
-                           [matAutocomplete]="unidadeProtocoloExterno.autocomplete"
-                           (blur)="checkUnidadeProtocoloExterno()">
+                           [matAutocomplete]="setorInicial.autocomplete"
+                           (blur)="checkSetorInicial()">
                 </div>
                 <cdk-setor-autocomplete
-                    #unidadeProtocoloExterno="setorAutocomplete"
-                    [control]="form.get('unidadeProtocoloExterno')"
-                    [pagination]="unidadeProtocoloExternoPagination">
+                    #setorInicial="setorAutocomplete"
+                    [control]="form.get('setorInicial')"
+                    [pagination]="setorInicialPagination">
                 </cdk-setor-autocomplete>
                 <button matSuffix mat-button mat-icon-button [disabled]="!form.get('especieSetor').value"
-                        (click)="showUnidadeProtocoloExternoGrid()">
+                        (click)="showSetorInicialGrid()">
                     <mat-icon matTooltip="Procurar">search</mat-icon>
                 </button>
-                <mat-error *ngIf="form.get('unidadeProtocoloExterno').hasError('formError')">
-                    {{form.get('unidadeProtocoloExterno').errors.formError}}
+                <mat-error *ngIf="form.get('setorInicial').hasError('formError')">
+                    {{form.get('setorInicial').errors.formError}}
                 </mat-error>
             </mat-form-field>
 
@@ -538,9 +538,9 @@
 
 <cdk-setor-gridsearch
     fxFlex
-    *ngIf="activeCard === 'unidade-protocolo-externo-gridsearch'"
-    [pagination]="unidadeProtocoloExternoPagination"
-    (selected)="selectUnidadeProtocoloExterno($event)"
+    *ngIf="activeCard === 'setor-inicial-gridsearch'"
+    [pagination]="setorInicialPagination"
+    (selected)="selectSetorInicial($event)"
     (cancel)="cancel()">
 </cdk-setor-gridsearch>
 
