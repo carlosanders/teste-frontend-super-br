@@ -124,6 +124,9 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     @Input()
     form: FormGroup;
 
+    @Input()
+    paramHandle: string;
+
     activeCard = 'form';
 
     readonlyNUP: boolean;
@@ -184,6 +187,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
 
     ngOnInit(): void {
+        console.log(this.paramHandle);
 
         if (!this.processo.id) {
 

@@ -66,15 +66,10 @@
                                      (reload)="reload($event)"
                                      (selected)="setCurrentProcesso($event)"
                                      (etiquetarBloco)="doEtiquetarBloco()"
-                                     (idProcesso)="doLoadAssuntos($event)"
-                                     [loadingAssunto]="(assuntoLoading$ | async)"
-                                     [assuntos]="(assuntos$ | async)"
-                                     [isOpenPanel]="(assuntoPanelOpen$ | async ) || (interessadosPanelOpen$ | async )"
-                                     [idProcessoToLoadAssuntos]="idProcessoToLoadAssuntos"
-                                     (idProcessoInteresado)="doLoadInteressados($event)"
-                                     [loadingInteressados]="(interessadosLoading$ | async)"
-                                     [interessados]="(interessados$ | async)"
-                                     [idProcessoToLoadAssuntos]="idProcessoToLoadInteressados">
+                                     (loadAssuntos)="doLoadAssuntos($event)"
+                                     [loadingAssuntosProcessosId]="(loadingAssuntosProcessosId$ | async)"
+                                     (loadInteressados)="doLoadInteressados($event)"
+                                     [loadingInteressadosProcessosId]="(loadingInteressadosProcessosId$ | async)">
                     </cdk-processo-list>
                 </div>
                 

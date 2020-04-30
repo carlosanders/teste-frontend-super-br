@@ -81,36 +81,21 @@ export class CdkProcessoListComponent implements AfterViewInit, OnInit, OnChange
     salvarLembrete = new EventEmitter<any>();
 
     @Input()
-    assuntos: Assunto[];
-
-    @Output()
-    idProcesso = new EventEmitter<any>();
-
-    @Output()
-    idProcessoInteresado = new EventEmitter<any>();
-
-    @Input()
-    loadingAssunto: boolean;
-
-    @Input()
-    isOpenPanel: boolean;
-
-    @Input()
-    idProcessoToLoadAssuntos: number;
-
-    @Input()
-    interessados: Interessado[];
-
-    @Input()
     mode = 'list';
 
     gridFilter: any;
 
-    @Input()
-    loadingInteressados: boolean;
+    @Output()
+    loadAssuntos = new EventEmitter<any>();
 
     @Input()
-    idProcessoToLoadInteressados: number;
+    loadingAssuntosProcessosId: number[];
+
+    @Output()
+    loadInteressados = new EventEmitter<any>();
+
+    @Input()
+    loadingInteressadosProcessosId: number[];
 
     listFilter: {} = {};
     listSort: {} = {};
@@ -255,11 +240,11 @@ export class CdkProcessoListComponent implements AfterViewInit, OnInit, OnChange
         this._cdkSidebarService.getSidebar('cdk-processo-list-filter').toggleOpen();
     }
 
-    doLoadAssuntos(idProcesso): void {
-        this.idProcesso.emit(idProcesso);
+    doLoadAssuntos(processoId): void {
+        this.loadAssuntos.emit(processoId);
     }
 
-    doLoadInteressados(idProcessoInteressado): void {
-        this.idProcessoInteresado.emit(idProcessoInteressado);
+    doLoadInteressados(processoId): void {
+        this.loadInteressados.emit(processoId);
     }
 }

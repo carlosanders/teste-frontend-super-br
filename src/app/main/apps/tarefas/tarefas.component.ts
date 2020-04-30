@@ -229,8 +229,6 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     reload(params): void {
 
-        console.log(params);
-
         this._store.dispatch(new fromStore.UnloadTarefas({reset: false}));
 
         const nparams = {
@@ -414,7 +412,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         const processo = {
             'processo.id': 'eq:' + processoId,
             'principal': 'eq:true'
-        }
+        };
 
         const params = {
             filter: processo,
@@ -422,7 +420,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             limit: 1,
             offset: 0,
             populate: ['assuntoAdministrativo']
-        }
+        };
 
         this._store.dispatch(new fromStore.GetAssuntosProcessoTarefa({processoId: processoId, params: params}));
 

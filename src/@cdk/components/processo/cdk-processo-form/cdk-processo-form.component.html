@@ -86,7 +86,8 @@
                 </mat-error>
             </mat-form-field>
 
-            <mat-form-field fxFlex *ngIf="this._profile.vinculacoesPessoasUsuarios.length > 1">
+            <mat-form-field fxFlex *ngIf="this._profile.vinculacoesPessoasUsuarios.length > 1
+            && paramHandle === 'meus-processos'">
                 <div fxLayout="row" fxLayoutAlign="start center">
                     <input matInput placeholder="Procedência"
                            formControlName="procedencia"

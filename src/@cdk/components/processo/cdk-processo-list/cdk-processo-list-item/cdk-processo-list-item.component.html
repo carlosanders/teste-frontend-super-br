@@ -7,69 +7,79 @@
     <div fxLayout="row" fxLayoutAlign="start center" fxFlex>
 
         <div class="info" fxFlex>
-
-            <div class="body mt-4">
-                <div class="title">
-                    <span class="text-truncate">PROCESSO {{processo.NUP | formatNup}}</span>
-                </div>
-
-
-                <div class="subtitle">
-                    <span class="text-truncate">{{processo.especieProcesso?.nome}} / {{processo.modalidadeMeio?.valor}}
-                        / {{processo.modalidadeFase?.valor}}</span>
-                </div>
-
-                <div class="body mt-4">
-
-                    <div>
-                        Data Abertura:  {{processo.dataHoraAbertura | date: 'dd/MM/yyyy'}}
-                    </div>
-
-                    <div>
-                        Data Transição: {{processo.dataHoraProximaTransicao | date: 'dd/MM/yyyy'}}
-                    </div>
-
-
-                    <div *ngIf="processo.classificacao">
-                        Classificação: {{processo.classificacao?.nome}}
-                    </div>
-
-                    <div *ngIf="processo.classificacao">
-                        Destinaçao: {{processo.classificacao.modalidadeDestinacao?.valor}}
-                    </div>
-                </div>
-
-                <div class="etiquetas" fxLayout="row wrap" fxHide fxShow.gt-sm>
-                    <div class="etiqueta" *ngFor="let vinculacaoEtiqueta of processo.vinculacoesEtiquetas"
-                         fxLayout="row" fxLayoutAlign="start center">
-                        <div class="etiqueta-color"
-                             [ngStyle]="{'background-color': (vinculacaoEtiqueta.etiqueta?.corHexadecimal)}"></div>
-                        <div class="etiqueta-title">{{vinculacaoEtiqueta.etiqueta?.nome}}</div>
-                    </div>
-                </div>
-
-                <mat-expansion-panel *ngIf="processo.lembretes[0]" (opened)="this.panelOpenState = true"
-                                     (closed)="this.panelOpenState = false"
-                                     (click)="$event.stopPropagation();">
-                    <mat-expansion-panel-header>
-                        <mat-panel-title>
-                            Lembrete
-                        </mat-panel-title>
-                    </mat-expansion-panel-header>
-                    <p *ngIf="editantoLembrete == false" (click)="doEditarLembrete()">{{processo.lembretes[0].conteudo}}</p>
-                    <mat-form-field *ngIf="editantoLembrete == true"  fxFlex>
-
-                        <input #lembreteConteudo matInput placeholder="Lembrete" [value]="processo.lembretes[0].conteudo" (blur)="doSalvarLembrete(processo, lembreteConteudo.value)" />
-                    </mat-form-field>
-                </mat-expansion-panel>
-
+            <div class="title" fxLayout="row">
+                <span class="text-truncate">PROCESSO {{processo?.NUP | formatNup}}</span>
+                <mat-icon (click)="doTogglePanel(); $event.stopPropagation();" *ngIf="isOpen">keyboard_arrow_down</mat-icon>
+                <mat-icon (click)="doTogglePanel(); $event.stopPropagation();" *ngIf="!isOpen">keyboard_arrow_up</mat-icon>
             </div>
 
+            <div class="subtitle">
+                <span class="text-truncate">{{processo.especieProcesso?.nome}} / {{processo.modalidadeMeio?.valor}}
+                    / {{processo.modalidadeFase?.valor}}</span>
+            </div>
 
+            <div class="subtitle" fxLayout="row" *ngIf="isOpen">
+                <div *ngIf="loadingAssuntosProcessosId.indexOf(processo.id) !== -1">
+                    <mat-spinner diameter=16></mat-spinner>
+                </div>
+                <div *ngIf="processo?.assuntos?.length > 0">
+                    <span class="text-truncate">ASSUNTO: {{processo?.assuntos[0]?.assuntoAdministrativo?.nome}}</span>
+                </div>
+            </div>
+
+            <div class="subtitle" fxLayout="row" *ngIf="isOpen">
+                <div *ngIf="loadingInteressadosProcessosId.indexOf(processo.id) !== -1">
+                    <mat-spinner diameter=16></mat-spinner>
+                </div>
+                <div *ngIf="processo?.interessados?.length > 0">
+                    <span class="text-truncate">INTERESSADO: {{processo?.interessados[0]?.pessoa?.nome}}</span>
+                </div>
+            </div>
+
+            <div class="body mt-4">
+                <div>
+                    Data Abertura:  {{processo.dataHoraAbertura | date: 'dd/MM/yyyy'}}
+                </div>
+
+                <div>
+                    Data Transição: {{processo.dataHoraProximaTransicao | date: 'dd/MM/yyyy'}}
+                </div>
+
+                <div *ngIf="processo.classificacao">
+                    Classificação: {{processo.classificacao?.nome}}
+                </div>
+
+                <div *ngIf="processo.classificacao">
+                    Destinaçao: {{processo.classificacao.modalidadeDestinacao?.valor}}
+                </div>
+            </div>
+
+            <div class="etiquetas" fxLayout="row wrap" fxHide fxShow.gt-sm>
+                <div class="etiqueta" *ngFor="let vinculacaoEtiqueta of processo.vinculacoesEtiquetas"
+                     fxLayout="row" fxLayoutAlign="start center">
+                    <div class="etiqueta-color"
+                         [ngStyle]="{'background-color': (vinculacaoEtiqueta.etiqueta?.corHexadecimal)}"></div>
+                    <div class="etiqueta-title">{{vinculacaoEtiqueta.etiqueta?.nome}}</div>
+                </div>
+            </div>
+
+            <mat-expansion-panel *ngIf="processo.lembretes[0]" (opened)="this.panelOpenState = true"
+                                 (closed)="this.panelOpenState = false"
+                                 (click)="$event.stopPropagation();">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Lembrete
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <p *ngIf="editantoLembrete == false" (click)="doEditarLembrete()">{{processo.lembretes[0].conteudo}}</p>
+                <mat-form-field *ngIf="editantoLembrete == true"  fxFlex>
+
+                    <input #lembreteConteudo matInput placeholder="Lembrete" [value]="processo.lembretes[0].conteudo" (blur)="doSalvarLembrete(processo, lembreteConteudo.value)" />
+                </mat-form-field>
+            </mat-expansion-panel>
         </div>
 
         <div class="actions" fxLayout="row" fxLayoutAlign="start center" *showIfNotRole="'ROLE_CONVENIADO'">
-
 
             <div class="spinner-container m-8" *ngIf="deleting">
                 <mat-spinner diameter="24"></mat-spinner>
@@ -90,7 +100,6 @@
                     </ng-container>
                 </button>
 
-
                 <button mat-menu-item aria-label="criar lembrete"
                         (click)="doCriarLembrete(processo)">
                     <ng-container>
@@ -98,32 +107,9 @@
                         <span>Criar Lembrete</span>
                     </ng-container>
                 </button>
+
             </mat-menu>
         </div>
 
     </div>
 </div>
-<mat-expansion-panel
-    (click)="$event.stopPropagation();"
-    [expanded]="(processo.id === idProcessoToLoadAssuntos && isOpen)"
-    (afterExpand)="doOpenPanel();">
-    <mat-expansion-panel-header>
-        Detalhes do processo
-    </mat-expansion-panel-header>
-    <div class="spinner-container" *ngIf="loading" style="text-align: center; width: 100%;">
-        <mat-spinner diameter="32"></mat-spinner>
-    </div>
-    <div [hidden]="loadingAssuntos">
-        <span>Assuntos: </span>
-        <li *ngFor="let assunto of assuntos">
-            {{assunto.assuntoAdministrativo.nome}}
-        </li>
-    </div>
-    <div [hidden]="loadingInteressados">
-        <span>Interessados: </span>
-        <li *ngFor="let interessado of interessados">
-            {{interessado.pessoa.nome}}
-        </li>
-    </div>
-
-</mat-expansion-panel>

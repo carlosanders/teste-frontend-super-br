@@ -69,6 +69,7 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
     cdkUpload;
 
     titulo: string;
+    paramHandle: string;
 
     /**
      *
@@ -297,6 +298,7 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
 
     unloadProcesso(): void {
         this.selectedIndex = 0;
+        this.paramHandle = this.routerState.params.typeHandle;
 
         if (this.routerState.params.processoHandle) {
             this.selectedIndex = 1;
