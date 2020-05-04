@@ -62,7 +62,7 @@ export class Processo {
 
     requerimento?: string;
 
-    protocloEletronico?: boolean;
+    protocoloEletronico?: boolean;
 
     @Exclude({ toPlainOnly: true })
     chaveAcesso?: string;
@@ -212,6 +212,6 @@ export class Processo {
         this.assuntos = [];
         this.interessados = [];
         this.requerimento = null;
-        this.protocloEletronico = null;
+        this.protocoloEletronico = null;
     }
 }

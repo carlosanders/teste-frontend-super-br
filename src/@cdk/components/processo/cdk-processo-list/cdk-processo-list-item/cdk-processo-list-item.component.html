@@ -41,16 +41,18 @@
                     Data Abertura:  {{processo.dataHoraAbertura | date: 'dd/MM/yyyy'}}
                 </div>
 
-                <div>
-                    Data Transição: {{processo.dataHoraProximaTransicao | date: 'dd/MM/yyyy'}}
-                </div>
+                <div *showIfNotRole="'ROLE_CONVENIADO'">
+                    <div>
+                        Data Transição: {{processo.dataHoraProximaTransicao | date: 'dd/MM/yyyy'}}
+                    </div>
 
-                <div *ngIf="processo.classificacao">
-                    Classificação: {{processo.classificacao?.nome}}
-                </div>
+                    <div *ngIf="processo.classificacao">
+                        Classificação: {{processo.classificacao?.nome}}
+                    </div>
 
-                <div *ngIf="processo.classificacao">
-                    Destinaçao: {{processo.classificacao.modalidadeDestinacao?.valor}}
+                    <div *ngIf="processo.classificacao">
+                        Destinaçao: {{processo.classificacao.modalidadeDestinacao?.valor}}
+                    </div>
                 </div>
             </div>
 
