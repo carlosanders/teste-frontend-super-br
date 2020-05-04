@@ -49,7 +49,11 @@ export class Processo {
 
     visibilidadeExterna?: boolean;
 
+    @Exclude({toPlainOnly: true})
     acessoNegado?: boolean;
+
+    @Exclude({toPlainOnly: true})
+    acessoRestrito?: boolean;
 
     titulo?: string;
 
@@ -111,16 +115,13 @@ export class Processo {
     @Transform(value => value ? value.id : null, {toPlainOnly: true})
     modalidadeMeio?: ModalidadeMeio;
 
-
     @Type(() => Lembrete)
     @Transform(value => value ? value.id : null, {toPlainOnly: true})
     lembretes: Lembrete[];
 
-
     @Exclude({toPlainOnly: true})
     @Type(() => VinculacaoEtiqueta)
     vinculacoesEtiquetas?: VinculacaoEtiqueta[];
-
 
     @Type(() => EspecieProcesso)
     @Transform(value => value ? value.id : null, {toPlainOnly: true})
@@ -174,6 +175,7 @@ export class Processo {
         this.visibilidadeExterna = null;
         this.dataHoraAbertura = null;
         this.acessoNegado = null;
+        this.acessoRestrito = null;
         this.dataHoraProximaTransicao = null;
         this.titulo = null;
         this.outroNumero = null;

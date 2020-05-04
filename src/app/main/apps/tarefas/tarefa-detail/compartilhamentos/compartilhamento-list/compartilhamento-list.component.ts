@@ -12,6 +12,7 @@ import {Compartilhamento} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from 'app/main/apps/tarefas/tarefa-detail/compartilhamentos/compartilhamento-list/store';
+import {getRouterState} from "../../../../../../store/reducers";
 
 @Component({
     selector: 'compartilhamento-list',
@@ -23,10 +24,13 @@ import * as fromStore from 'app/main/apps/tarefas/tarefa-detail/compartilhamento
 })
 export class CompartilhamentoListComponent implements OnInit {
 
+    routerState: any;
     compartilhamentos$: Observable<Compartilhamento[]>;
     loading$: Observable<boolean>;
     pagination$: Observable<any>;
     pagination: any;
+    deletingIds$: Observable<any>;
+    deletedIds$: Observable<any>;
 
     /**
      * @param _changeDetectorRef
@@ -41,6 +45,16 @@ export class CompartilhamentoListComponent implements OnInit {
         this.compartilhamentos$ = this._store.pipe(select(fromStore.getCompartilhamentoList));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
+        this.deletingIds$ = this._store.pipe(select(fromStore.getDeletingIds));
+        this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedIds));
+
+        this._store
+            .pipe(select(getRouterState))
+            .subscribe(routerState => {
+                if (routerState) {
+                    this.routerState = routerState.state;
+                }
+            });
     }
 
     ngOnInit(): void {
@@ -63,4 +77,11 @@ export class CompartilhamentoListComponent implements OnInit {
         }));
     }
 
+    create () : void {
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
+    }
+
+    delete(compartilhamentoId: number): void {
+        this._store.dispatch(new fromStore.DeleteCompartilhamento(compartilhamentoId));
+    }
 }

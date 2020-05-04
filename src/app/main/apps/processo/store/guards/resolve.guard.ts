@@ -54,11 +54,6 @@ export class ResolveGuard implements CanActivate {
      */
     getProcesso(): any {
         return this._store.pipe(
-/*            tap((n) => {
-                console.log('entrou GET Guards Processo: '); 
-                console.log(n);
-            }),
-*/            
             select(getProcessoLoaded),
             tap((loaded: any) => {
                 if (loaded.acessoNegado) {
