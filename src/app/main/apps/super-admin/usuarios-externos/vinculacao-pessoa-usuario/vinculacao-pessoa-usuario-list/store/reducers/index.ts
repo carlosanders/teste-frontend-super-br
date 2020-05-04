@@ -7,7 +7,7 @@ export interface VinculacaoPessoaUsuarioListAppState
 }
 
 export const getVinculacaoPessoaUsuarioListAppState = createFeatureSelector<VinculacaoPessoaUsuarioListAppState>(
-    'vincular-pessoa-usuario-list'
+    'vinculacao-pessoa-usuario-list'
 );
 
 export const getAppState = createSelector(

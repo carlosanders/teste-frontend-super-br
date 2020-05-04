@@ -1,39 +1,40 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    OnInit, ViewChild, AfterViewInit,
-    ViewEncapsulation, Input, OnChanges, Output, EventEmitter
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnInit,
+    Output,
+    ViewChild,
+    ViewEncapsulation
 } from '@angular/core';
+import {cdkAnimations} from '../../../animations';
+import {VinculacaoPessoaUsuario, VinculacaoUsuario} from '../../../models';
+import {FormControl} from '@angular/forms';
+import {MatPaginator, MatSort} from '../../../angular/material';
+import {VinculacaoPessoaUsuarioDataSource} from '../../../data-sources/vinculacao-pessoa-usuario-data-source';
+import {CdkSidebarService} from '../../sidebar/sidebar.service';
 import {merge, of} from 'rxjs';
-
-import {cdkAnimations} from '@cdk/animations';
-import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
-import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
-import {Usuario} from '@cdk/models';
-import {UsuarioDataSource} from '@cdk/data-sources/usuario-data-source';
-import {FormControl} from '@angular/forms';
-
 @Component({
-    selector: 'cdk-usuario-grid',
-    templateUrl: './cdk-usuario-grid.component.html',
-    styleUrls: ['./cdk-usuario-grid.component.scss'],
+    selector: 'cdk-vinculacao-pessoa-usuario-grid',
+    templateUrl: './cdk-vinculacao-pessoa-usuario-grid.component.html',
+    styleUrls: ['./cdk-vinculacao-pessoa-usuario-grid.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges {
+export class CdkVinculacaoPessoaUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges {
 
     @Input()
     loading = false;
 
     @Input()
-    usuarios: Usuario[];
-
-    @Input()
-    externo: boolean;
+    pessoas: VinculacaoPessoaUsuario[];
 
     @Input()
     total = 0;
@@ -62,41 +63,6 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
             id: 'nome',
             label: 'Nome',
             fixed: true
-        },
-        {
-            id: 'assinaturaHTML',
-            label: 'Assinatura HTML',
-            fixed: false
-        },
-        {
-            id: 'email',
-            label: 'Email',
-            fixed: false
-        },
-        {
-            id: 'colaborador.cargo.nome',
-            label: 'Cargo',
-            fixed: false
-        },
-        {
-            id: 'colaborador.modalidadeColaborador.valor',
-            label: 'Modalidade Colaborador',
-            fixed: false
-        },
-        {
-            id: 'enabled',
-            label: 'Habilitado',
-            fixed: false
-        },
-        {
-            id: 'nivelAcesso',
-            label: 'Nível de Acesso',
-            fixed: false
-        },
-        {
-            id: 'username',
-            label: 'Username',
-            fixed: false
         },
         {
             id: 'criadoPor.nome',
@@ -147,7 +113,7 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
     pageSize = 5;
 
     @Input()
-    actions: string[] = ['edit', 'delete', 'select', 'lotacoes', 'afastamentos', 'vincularPessoa'];
+    actions: string[] = ['edit', 'delete', 'select'];
 
     @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
@@ -165,24 +131,15 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
     edit = new EventEmitter<number>();
 
     @Output()
-    lotacoes = new EventEmitter<number>();
-
-    @Output()
-    afastamentos = new EventEmitter<number>();
-
-    @Output()
     delete = new EventEmitter<number>();
 
     @Output()
-    vincular = new EventEmitter<number>();
-
-    @Output()
-    selected = new EventEmitter<Usuario>();
+    selected = new EventEmitter<VinculacaoUsuario>();
 
     @Output()
     selectedIds: number[] = [];
 
-    dataSource: UsuarioDataSource;
+    dataSource: VinculacaoPessoaUsuarioDataSource;
 
     showFilter = false;
 
@@ -191,21 +148,16 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
     hasSelected = false;
     isIndeterminate = false;
 
-    /**
-     *
-     * @param _changeDetectorRef
-     * @param _cdkSidebarService
-     */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _cdkSidebarService: CdkSidebarService
     ) {
         this.gridFilter = {};
-        this.usuarios = [];
+        this.pessoas = [];
     }
 
     ngOnChanges(): void {
-        this.dataSource = new UsuarioDataSource(of(this.usuarios));
+        this.dataSource = new VinculacaoPessoaUsuarioDataSource(of(this.pessoas));
         this.paginator.length = this.total;
     }
 
@@ -220,7 +172,7 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
 
         this.paginator.pageSize = this.pageSize;
 
-        this.dataSource = new UsuarioDataSource(of(this.usuarios));
+        this.dataSource = new VinculacaoPessoaUsuarioDataSource(of(this.pessoas));
 
         this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
 
@@ -240,10 +192,7 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
         ).subscribe();
     }
 
-
     ngAfterViewInit(): void {
-
-        // reset the paginator after sorting
         this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
 
         merge(
@@ -255,7 +204,7 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
     }
 
     toggleFilter(): void {
-        this._cdkSidebarService.getSidebar('cdk-usuario-filter').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-vinculacao-pessoa-usuario-filter').toggleOpen();
         this.showFilter = !this.showFilter;
     }
 
@@ -271,35 +220,17 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
         });
     }
 
-    editUsuario(usuarioId): void {
-        this.edit.emit(usuarioId);
+    selectVinculacaoPessoaUsuario(vinculacaoPessoaUsuario: VinculacaoPessoaUsuario): void {
+        this.selected.emit(vinculacaoPessoaUsuario);
     }
 
-    lotacoesUsuario(usuarioId): void {
-        this.lotacoes.emit(usuarioId);
+    deleteVinculacaoPessoaUsuario(vinculacaoPessoaUsuarioId): void {
+        this.delete.emit(vinculacaoPessoaUsuarioId);
     }
 
-    afastamentosUsuario(usuarioId): void {
-        this.afastamentos.emit(usuarioId);
+    deleteVinculacaoPessoaUsuarios(vinculacoesPessoasUsuariosId): void {
+        vinculacoesPessoasUsuariosId.forEach(vinculacaoPessoaUsuarioId => this.deleteVinculacaoPessoaUsuario(vinculacaoPessoaUsuarioId));
     }
-
-    vincularPessoa(usuarioId): void {
-        this.vincular.emit(usuarioId);
-    }
-
-    selectUsuario(usuario: Usuario): void {
-        this.selected.emit(usuario);
-    }
-
-    deleteUsuario(usuarioId): void {
-        this.delete.emit(usuarioId);
-    }
-
-    deleteUsuarios(usuariosId): void {
-        usuariosId.forEach(usuarioId => this.deleteUsuario(usuarioId));
-    }
-
-
 
     /**
      * Toggle select all
@@ -320,8 +251,8 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
      * Select all
      */
     selectAll(): void {
-        const arr = Object.keys(this.usuarios).map(k => this.usuarios[k]);
-        this.selectedIds = arr.map(usuario => usuario.id);
+        const arr = Object.keys(this.pessoas).map(k => this.pessoas[k]);
+        this.selectedIds = arr.map(vinculacaoPessoaUsuario => vinculacaoPessoaUsuario.id);
         this.recompute();
     }
 
@@ -333,20 +264,20 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
         this.recompute();
     }
 
-    toggleInSelected(usuarioId): void {
-        const selectedUsuarioIds = [...this.selectedIds];
+    toggleInSelected(vinculacaoPessoaUsuarioId): void {
+        const selectedVinculacaoPessoaUsuarioIds = [...this.selectedIds];
 
-        if (selectedUsuarioIds.find(id => id === usuarioId) !== undefined) {
-            this.selectedIds = selectedUsuarioIds.filter(id => id !== usuarioId);
+        if (selectedVinculacaoPessoaUsuarioIds.find(id => id === vinculacaoPessoaUsuarioId) !== undefined) {
+            this.selectedIds = selectedVinculacaoPessoaUsuarioIds.filter(id => id !== vinculacaoPessoaUsuarioId);
         } else {
-            this.selectedIds = [...selectedUsuarioIds, usuarioId];
+            this.selectedIds = [...selectedVinculacaoPessoaUsuarioIds, vinculacaoPessoaUsuarioId];
         }
         this.recompute();
     }
 
     recompute(): void {
         this.hasSelected = this.selectedIds.length > 0;
-        this.isIndeterminate = (this.selectedIds.length !== this.usuarios.length && this.selectedIds.length > 0);
+        this.isIndeterminate = (this.selectedIds.length !== this.pessoas.length && this.selectedIds.length > 0);
     }
 
     setFilter(gridFilter): void {
@@ -362,6 +293,4 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
     doCreate(): void {
         this.create.emit();
     }
-
-
 }

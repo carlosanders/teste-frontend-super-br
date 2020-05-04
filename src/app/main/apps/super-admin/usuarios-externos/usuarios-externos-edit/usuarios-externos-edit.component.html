@@ -3,5 +3,7 @@
     [form]="formUsuario"
     [saving]="(isSaving$ | async)"
     [errors]="(errors$ | async)"
-    (save)="submitUsuario($event)">
+    (save)="submitUsuario($event)"
+    (abort)="doAbort()"
+    class="form-user">
 </cdk-usuario-form>

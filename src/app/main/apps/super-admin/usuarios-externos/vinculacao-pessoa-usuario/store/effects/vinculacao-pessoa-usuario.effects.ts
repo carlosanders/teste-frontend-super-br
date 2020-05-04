@@ -1,29 +1,37 @@
 import {Injectable} from '@angular/core';
-import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap} from 'rxjs/operators';
 
-import {getRouterState, State} from '../../../../../../../../store/reducers';
-import * as VinculacaoPessoaUsuarioListActions from '../actions';
-import {LoginService} from '../../../../../../../auth/login/login.service';
+import * as VinculacaoPessoaUsuarioActions from '../actions/vinculacao-pessoa-usuario.actions';
+
 import {VinculacaoPessoaUsuarioService} from '@cdk/services/vinculacao-pessoa-usuario.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {VinculacaoPessoaUsuario} from '@cdk/models';
 import {vinculacaoPessoaUsuario as vinculacaoPessoaUsuarioSchema} from '@cdk/normalizr/vinculacao-pessoa-usuario.schema';
-
+import {VinculacaoPessoaUsuario} from '@cdk/models/vinculacao-pessoa-usuario.model';
+import {Router} from '@angular/router';
+import {select, Store} from '@ngrx/store';
+import {getRouterState, State} from 'app/store/reducers';
+import * as VinculacaoPessoaUsuarioListActions from '../../vinculacao-pessoa-usuario-list/store/actions';
 
 @Injectable()
-export class VinculacaoPessoaUsuarioListEffects {
-
+export class VinculacaoPessoaUsuarioEffects {
     routerState: any;
 
+    /**
+     *
+     * @param _actions
+     * @param _vinculacaoPessoaUsuarioService
+     * @param _usuarioService
+     * @param _store
+     * @param _router
+     */
     constructor(
         private _actions: Actions,
         private _vinculacaoPessoaUsuarioService: VinculacaoPessoaUsuarioService,
-        private _loginService: LoginService,
-        private _store: Store<State>
+        private _store: Store<State>,
+        private _router: Router
     ) {
         this._store
             .pipe(select(getRouterState))
@@ -42,7 +50,7 @@ export class VinculacaoPessoaUsuarioListEffects {
     getVinculacaoPessoaUsuario: any =
         this._actions
             .pipe(
-                ofType<VinculacaoPessoaUsuarioListActions.GetVinculacaoPessoaUsuario>(VinculacaoPessoaUsuarioListActions.DELETE_VINCULACAO_PESSOA_USUARIO),
+                ofType<VinculacaoPessoaUsuarioActions.GetVinculacaoPessoaUsuario>(VinculacaoPessoaUsuarioActions.GET_VINCULACAO_PESSOA_USUARIO),
                 switchMap((action) => {
                     return this._vinculacaoPessoaUsuarioService.query(
                         JSON.stringify({
@@ -68,28 +76,8 @@ export class VinculacaoPessoaUsuarioListEffects {
                         catchError((err) => {
                             console.log(err);
                             return of(new VinculacaoPessoaUsuarioListActions.GetVinculacaoPessoaUsuarioFailed(err));
-                        })
-                    );
-                })
+                        }));
+                }),
             );
 
-    /**
-     * Delete VinculacaoPessoaUsuario
-     * @type {Observable<any>}
-     */
-    @Effect()
-    deleteVinculacaoPessoaUsuario: any =
-        this._actions
-            .pipe(
-                ofType<VinculacaoPessoaUsuarioListActions.DeleteVinculacaoPessoaUsuario>(VinculacaoPessoaUsuarioListActions.DELETE_VINCULACAO_PESSOA_USUARIO),
-                mergeMap((action) => {
-                    return this._vinculacaoPessoaUsuarioService.destroy(action.payload).pipe(
-                        map((response) => new VinculacaoPessoaUsuarioListActions.DeleteVinculacaoPessoaUsuarioSuccess(response.id)),
-                        catchError((err) => {
-                            console.log(err);
-                            return of(new VinculacaoPessoaUsuarioListActions.DeleteVinculacaoPessoaUsuarioFailed(action.payload));
-                        })
-                    );
-                })
-            );
 }

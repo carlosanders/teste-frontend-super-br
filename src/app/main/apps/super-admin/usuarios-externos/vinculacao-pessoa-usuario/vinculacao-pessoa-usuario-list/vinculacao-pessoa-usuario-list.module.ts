@@ -1,9 +1,9 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {VincularPessoaListComponent} from './vincular-pessoa-list.component';
+import {VinculacaoPessoaUsuarioListComponent} from './vinculacao-pessoa-usuario-list.component';
 import {RouterModule, Routes} from '@angular/router';
 import {UsuariosExternosListComponent} from '../../usuarios-externos-list/usuarios-externos-list.component';
-import * as fromGuards from '../../usuarios-externos-list/store/guards';
+import * as fromGuards from './store/guards';
 import {
     MatAutocompleteModule,
     MatButtonModule,
@@ -19,20 +19,25 @@ import {
 } from '../../../../../../../@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 import {CdkSharedModule} from '../../../../../../../@cdk/shared.module';
+import {CdkPessoaGridModule} from '../../../../../../../@cdk/components/pessoa/cdk-pessoa-grid/cdk-pessoa-grid.module';
+import {CdkVinculacaoPessoaUsuarioGridModule} from '../../../../../../../@cdk/components/vinculacao-pessoa-usuario/cdk-vinculacao-pessoa-usuario-grid/cdk-vinculacao-pessoa-usuario-grid.module';
+import {VinculacaoPessoaUsuarioService} from '../../../../../../../@cdk/services/vinculacao-pessoa-usuario.service';
+import {VinculacaoPessoaUsuarioStoreModule} from './store/store.module';
 
 const routes: Routes = [
     {
         path: '',
-        component: VincularPessoaListComponent,
-        // canActivate: [fromGuards.ResolveGuard]
+        component: VinculacaoPessoaUsuarioListComponent,
+        canActivate: [fromGuards.ResolveGuard]
     }
 ];
 
 @NgModule({
-    declarations: [VincularPessoaListComponent],
+    declarations: [VinculacaoPessoaUsuarioListComponent],
     imports: [
         CommonModule,
         RouterModule.forChild(routes),
+        VinculacaoPessoaUsuarioStoreModule,
 
         MatExpansionModule,
         MatAutocompleteModule,
@@ -47,7 +52,13 @@ const routes: Routes = [
         MatSortModule,
         TranslateModule,
         CdkSharedModule,
+        CdkPessoaGridModule,
+        CdkVinculacaoPessoaUsuarioGridModule,
+    ],
+    providers: [
+        fromGuards.ResolveGuard,
+        VinculacaoPessoaUsuarioService
     ]
 })
-export class VincularPessoaListModule {
+export class VinculacaoPessoaUsuarioListModule {
 }

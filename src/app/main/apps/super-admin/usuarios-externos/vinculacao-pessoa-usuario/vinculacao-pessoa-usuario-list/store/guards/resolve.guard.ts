@@ -55,12 +55,15 @@ export class ResolveGuard implements CanActivate {
      * @returns {Observable<any>}
      */
     getVinculacaoPessoaUsuario(): Observable<any> {
+        debugger
         return this._store.pipe(
             select(getVinculacaoPessoaUsuarioListLoaded),
             tap((loaded: any) => {
-                if (!loaded) {
+                if (!loaded || this.routerState.params['usuariosExternosHandler'] !== loaded.value) {
                     const params = {
-                        filter: {},
+                        filter: {
+                            'usuarioVinculado.id': 'eq:'+ this.routerState.params.usuariosExternosHandler
+                        },
                         gridFilter: {},
                         limit: 5,
                         offset: 0,

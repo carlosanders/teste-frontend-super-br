@@ -2,7 +2,6 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {VincularPessoaComponent} from './vincular-pessoa.component';
 import {RouterModule, Routes} from '@angular/router';
-import {UsuariosExternosComponent} from '../usuarios-externos.component';
 import {
     MatAutocompleteModule,
     MatButtonModule,
@@ -18,16 +17,17 @@ import {
 } from '../../../../../../@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 import {CdkSharedModule} from '../../../../../../@cdk/shared.module';
+import {VinculacaoPessoaUsuarioService} from '../../../../../../@cdk/services/vinculacao-pessoa-usuario.service';
 
 
 const routes: Routes = [
     {
-        path: ':usuariosExternosHandler',
+        path: '',
         component: VincularPessoaComponent,
         children: [
             {
                 path: 'listar',
-                loadChildren: () => import('./vincular-pessoa-list/vincular-pessoa-list.module').then(m => m.VincularPessoaListModule),
+                loadChildren: () => import('./vinculacao-pessoa-usuario-list/vinculacao-pessoa-usuario-list.module').then(m => m.VinculacaoPessoaUsuarioListModule),
             },
             // {
             //     path       : 'editar',
@@ -62,6 +62,8 @@ const routes: Routes = [
         MatSortModule,
         TranslateModule,
         CdkSharedModule,
+    ],
+    providers: [
     ]
 })
 export class VincularPessoaModule {

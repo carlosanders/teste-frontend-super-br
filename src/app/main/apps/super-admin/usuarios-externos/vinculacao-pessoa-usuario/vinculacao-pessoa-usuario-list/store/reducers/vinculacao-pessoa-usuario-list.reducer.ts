@@ -70,7 +70,7 @@ export function VinculacaoPessoaUsuarioListReducer(
                     total: action.payload.total
                 },
                 loading: false,
-                loaded
+                loaded: action.payload.loaded,
             };
         }
 

@@ -5,6 +5,7 @@ import {Usuario} from '../../../../../../@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
+import * as fromStorePessoaUsuarioList from '../vinculacao-pessoa-usuario/vinculacao-pessoa-usuario-list/store';
 import {getRouterState} from '../../../../../store/reducers';
 
 @Component({
@@ -71,4 +72,8 @@ export class UsuariosExternosListComponent implements OnInit {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/') + usuarioId]);
     }
 
+    vincularPessoa(usuarioId: number): void {
+        this._router.navigate([this.routerState.url.replace('listar',
+            + usuarioId + '/vinculacao-pessoa-usuario/listar')]);
+    }
 }
