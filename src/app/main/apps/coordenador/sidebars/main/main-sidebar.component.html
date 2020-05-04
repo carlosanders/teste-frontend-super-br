@@ -16,7 +16,7 @@
     <div class="nav material2" *showIfRole="'ROLE_COORDENADOR_ORGAO_CENTRAL'">
         <div class="nav-subheader pl-8 mt-0">
             <mat-icon>language</mat-icon>
-            <span>NACIONAL</span>
+            <span>ÓRGÃO CENTRAL</span>
         </div>
         <div *ngFor="let orgao of orgaos">
             <div class="nav-subheader mt-0">
@@ -55,7 +55,7 @@
         <div *ngIf="this.setores?.length">
             <div class="nav-subheader pl-8 mt-0">
                 <mat-icon>language</mat-icon>
-                <span>LOCAL</span>
+                <span>SETOR</span>
             </div>
             <div *ngFor="let setor of setores">
                 <div class="nav-subheader mt-0">

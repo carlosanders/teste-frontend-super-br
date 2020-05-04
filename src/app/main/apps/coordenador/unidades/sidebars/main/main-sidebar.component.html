@@ -1,13 +1,16 @@
 <!-- SIDEBAR HEADER -->
 <div fxLayout="column" fxLayoutAlign="space-between start"
-     class="header2 accent p-24 pb-4">
-    <div class="logo" fxFlex fxLayout="row" fxLayoutAlign="start center">
-        <mat-icon class="logo-icon s-32" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
-            settings
+     class="header2 accent p-16 pb-4">
+    <div class="logo" fxFlex fxLayoutAlign="start center">
+        <mat-icon class="logo-icon s-26" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+            language
         </mat-icon>
         <span class="logo-text" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">{{(this.orgaoCentral$ | async)?.valor}}</span>
     </div>
     <div class="logo">
+        <mat-icon class="logo-icon s-18" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+            domain
+        </mat-icon>
         <span class="logo-text" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">{{(this.unidade$ | async)?.nome}}</span>
     </div>
 </div>
