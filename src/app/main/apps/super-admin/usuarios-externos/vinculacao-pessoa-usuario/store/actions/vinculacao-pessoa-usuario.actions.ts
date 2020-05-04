@@ -40,7 +40,6 @@ export class GetVinculacaoPessoaUsuarioFailed implements Action
     }
 }
 
-
 export type VinculacaoPessoaUsuarioActionsAll
     = GetVinculacaoPessoaUsuario
     | GetVinculacaoPessoaUsuarioSuccess

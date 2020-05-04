@@ -29,11 +29,6 @@ const routes: Routes = [
                 path: 'listar',
                 loadChildren: () => import('./vinculacao-pessoa-usuario-list/vinculacao-pessoa-usuario-list.module').then(m => m.VinculacaoPessoaUsuarioListModule),
             },
-            // {
-            //     path       : 'editar',
-            //     loadChildren: () => import('./usuarios-externos-edit/usuarios-externos-edit.module').then(m => m.UsuariosExternosEditModule),
-            // },
-            //
             {
                 path: '**',
                 redirectTo: 'listar'

@@ -2,7 +2,6 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {VinculacaoPessoaUsuarioListComponent} from './vinculacao-pessoa-usuario-list.component';
 import {RouterModule, Routes} from '@angular/router';
-import {UsuariosExternosListComponent} from '../../usuarios-externos-list/usuarios-externos-list.component';
 import * as fromGuards from './store/guards';
 import {
     MatAutocompleteModule,
