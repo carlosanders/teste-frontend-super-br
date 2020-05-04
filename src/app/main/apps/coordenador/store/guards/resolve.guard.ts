@@ -12,6 +12,7 @@ import {LoginService} from 'app/main/auth/login/login.service';
 import {Lotacao, ModalidadeOrgaoCentral, Setor, Usuario, VinculacaoOrgaoCentralUsuario} from '@cdk/models';
 import {getHasLoaded} from "../selectors";
 import * as fromStore from "../";
+import {Coordenador} from "../../../../../../@cdk/models/coordenador.model";
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
@@ -19,6 +20,7 @@ export class ResolveGuard implements CanActivate {
     routerState: any;
     setores: Setor[] = [];
     orgaos: ModalidadeOrgaoCentral[] = [];
+    unidades: Setor[] = [];
 
     usuario: Usuario;
 
@@ -43,20 +45,17 @@ export class ResolveGuard implements CanActivate {
 
         this.usuario = this._loginService.getUserProfile();
 
-        if (this._loginService.isGranted('ROLE_COORDENADOR_NACIONAL')) {
-            this.usuario.vinculacoesOrgaoCentralUsuarios.forEach((vinc: VinculacaoOrgaoCentralUsuario) => {
-                if (!this.orgaos.includes(vinc.modalidadeOrgaoCentral) && vinc.coordenadorNacional) {
-                    this.orgaos.push(vinc.modalidadeOrgaoCentral);
-                }
-            });
-        }
-        if (this._loginService.isGranted('ROLE_COORDENADOR')) {
-            this.usuario.colaborador.lotacoes.forEach((lotacao: Lotacao) => {
-                if (!this.setores.includes(lotacao.setor) && lotacao.coordenador) {
-                    this.setores.push(lotacao.setor);
-                }
-            });
-        }
+        this.usuario.coordenadores.forEach((coordenador: Coordenador) => {
+            if (coordenador.orgaoCentral && !this.orgaos.includes(coordenador.orgaoCentral)) {
+                this.orgaos.push(coordenador.orgaoCentral);
+            }
+            if (coordenador.unidade && !this.unidades.includes(coordenador.unidade)) {
+                this.unidades.push(coordenador.unidade);
+            }
+            if (coordenador.setor && !this.setores.includes(coordenador.setor)) {
+                this.setores.push(coordenador.setor);
+            }
+        });
     }
 
     /**
@@ -86,13 +85,17 @@ export class ResolveGuard implements CanActivate {
                 return throwError(new Error('Usuário sem permissão'));
             });
         }
-        if (this.routerState.params['generoHandle'] === 'nacional' && !this._loginService.isGranted('ROLE_COORDENADOR_NACIONAL')) {
+        if (this.routerState.params['generoHandle'] === 'nacional' && !this._loginService.isGranted('ROLE_COORDENADOR_ORGAO_CENTRAL')) {
             this._router.navigate(['/apps/painel']).then(() => {
                 return throwError(new Error('Usuário sem permissão'));
             });
         }
-        if (this.routerState.params['generoHandle'] === 'local' && this.setores.length === 0) {
-            console.log('Aqui');
+        if (this.routerState.params['generoHandle'] === 'unidade' && !this._loginService.isGranted('ROLE_COORDENADOR_UNIDADE')) {
+            this._router.navigate(['/apps/painel']).then(() => {
+                return throwError(new Error('Usuário sem permissão'));
+            });
+        }
+        if (this.routerState.params['generoHandle'] === 'local' && !this._loginService.isGranted('ROLE_COORDENADOR_SETOR')) {
             this._router.navigate(['/apps/painel']).then(() => {
                 return throwError(new Error('Usuário sem permissão'));
             });
@@ -117,6 +120,11 @@ export class ResolveGuard implements CanActivate {
                             id: 'eq:' + this.routerState.params['entidadeHandle']
                         }));
                     }
+                    if (this.routerState.params['generoHandle'] === 'unidade') {
+                        this._store.dispatch(new fromStore.GetSetor({
+                            id: 'eq:' + this.routerState.params['entidadeHandle']
+                        }));
+                    }
                     if (this.routerState.params['generoHandle'] === 'local') {
                         this._store.dispatch(new fromStore.GetSetor({
                             id: 'eq:' + this.routerState.params['entidadeHandle']
@@ -135,23 +143,11 @@ export class ResolveGuard implements CanActivate {
 
     getRouterDefault(): boolean {
         if (this.routerState.params['generoHandle'] === 'default') {
-            if (this._loginService.isGranted('ROLE_COORDENADOR_NACIONAL')) {
-                this.usuario.vinculacoesOrgaoCentralUsuarios.forEach((vinc: VinculacaoOrgaoCentralUsuario) => {
-                    if (!this.orgaos.includes(vinc.modalidadeOrgaoCentral) && vinc.coordenadorNacional) {
-                        this.orgaos.push(vinc.modalidadeOrgaoCentral);
-                    }
-                });
-            } else {
-                this.usuario.colaborador.lotacoes.forEach((lotacao: Lotacao) => {
-                    if (!this.setores.includes(lotacao.setor) && lotacao.coordenador) {
-                        this.setores.push(lotacao.setor);
-                    }
-                });
-            }
-
-            if (this.orgaos.length) {
+            if (this._loginService.isGranted('ROLE_COORDENADOR_ORGAO_CENTRAL') && this.orgaos.length) {
                 this._router.navigate(['apps/coordenador/nacional/' + this.orgaos[0].id + '/modelos']);
-            } else {
+            } else if (this._loginService.isGranted('ROLE_COORDENADOR_UNIDADE') && this.unidades.length) {
+                this._router.navigate(['apps/coordenador/unidade/' + this.unidades[0].id + '/modelos']);
+            } else if (this._loginService.isGranted('ROLE_COORDENADOR_SETOR') && this.orgaos.length) {
                 this._router.navigate(['apps/coordenador/local/' + this.setores[0].id + '/modelos']);
             }
 

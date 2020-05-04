@@ -14,6 +14,7 @@ export const classificacao = new schema.Entity('classificacao');
 export const colaborador = new schema.Entity('colaborador');
 export const compartilhamento = new schema.Entity('compartilhamento');
 export const componenteDigital = new schema.Entity('componente-digital');
+export const coordenador = new schema.Entity('coordenador');
 export const desentranhamento = new schema.Entity('desentranhamento');
 export const distribuicao = new schema.Entity('distribuicao');
 export const documentoAvulso = new schema.Entity('documento-avulso');

@@ -3,6 +3,7 @@ import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation
 import {cdkAnimations} from '@cdk/animations';
 import {LoginService} from '../../../../auth/login/login.service';
 import {Colaborador, Lotacao, ModalidadeOrgaoCentral, Setor, Usuario, VinculacaoOrgaoCentralUsuario} from '@cdk/models';
+import {Coordenador} from "../../../../../../@cdk/models/coordenador.model";
 
 @Component({
     selector: 'coordenador-main-sidebar',
@@ -14,12 +15,14 @@ import {Colaborador, Lotacao, ModalidadeOrgaoCentral, Setor, Usuario, Vinculacao
 })
 export class CoordenadorMainSidebarComponent implements OnInit, OnDestroy {
 
-    links: any;
-    colaborador: Colaborador;
+    linksNacional: any;
+    linksUnidade: any;
+    linksLocal: any;
     usuario: Usuario;
 
     setores: Setor[] = [];
-    orgaosCentrais: ModalidadeOrgaoCentral[] = [];
+    orgaos: ModalidadeOrgaoCentral[] = [];
+    unidades: Setor[] = [];
 
     /**
      *
@@ -30,33 +33,78 @@ export class CoordenadorMainSidebarComponent implements OnInit, OnDestroy {
     ) {
 
         this.usuario = this._loginService.getUserProfile();
-        this.colaborador = this.usuario.colaborador;
 
-        this.colaborador.lotacoes.forEach((lotacao: Lotacao) => {
-            if (!this.setores.includes(lotacao.setor) && lotacao.coordenador) {
-                this.setores.push(lotacao.setor);
+        this.usuario.coordenadores.forEach((coordenador: Coordenador) => {
+            if (coordenador.orgaoCentral && !this.orgaos.includes(coordenador.orgaoCentral)) {
+                this.orgaos.push(coordenador.orgaoCentral);
+            }
+            if (coordenador.unidade && !this.unidades.includes(coordenador.unidade)) {
+                this.unidades.push(coordenador.unidade);
+            }
+            if (coordenador.setor && !this.setores.includes(coordenador.setor)) {
+                this.setores.push(coordenador.setor);
             }
         });
 
-        this.usuario.vinculacoesOrgaoCentralUsuarios?.forEach((vinc: VinculacaoOrgaoCentralUsuario) => {
-            if (!this.orgaosCentrais.includes(vinc.modalidadeOrgaoCentral) && vinc.coordenadorNacional) {
-                this.orgaosCentrais.push(vinc.modalidadeOrgaoCentral);
-            }
-        });
-
-        this.links = [
+        this.linksNacional = [
             {
-                nome: 'Modelos',
+                nome: 'Modelos Nacionais',
                 icon: 'file_copy',
                 link: 'modelos'
             },
             {
-                nome: 'Repositórios',
+                nome: 'Repositórios Nacionais',
                 icon: 'add_comment',
                 link: 'repositorios'
             },
             {
-                nome: 'Usuários',
+                nome: 'Usuários Nacionais',
+                icon: 'person',
+                link: 'usuarios'
+            },
+            {
+                nome: 'Unidades',
+                icon: 'location_city',
+                link: 'unidades'
+            }
+        ];
+
+        this.linksUnidade = [
+            {
+                nome: 'Modelos da Unidade',
+                icon: 'file_copy',
+                link: 'modelos'
+            },
+            {
+                nome: 'Repositórios da Unidade',
+                icon: 'add_comment',
+                link: 'repositorios'
+            },
+            {
+                nome: 'Usuários da Unidade',
+                icon: 'person',
+                link: 'usuarios'
+            },
+            {
+                nome: 'Setores da Unidade',
+                icon: 'domain',
+                link: 'unidades'
+            }
+        ];
+
+        this.linksLocal = [
+            {
+                nome: 'Modelos do Setor',
+                icon: 'file_copy',
+                link: 'modelos'
+            },
+            {
+                nome: 'Repositórios do Setor',
+                icon: 'add_comment',
+                link: 'repositorios'
+            },
+            {
+                nome: 'Usuários do Setor',
                 icon: 'person',
                 link: 'usuarios'
             }

@@ -1,11 +1,9 @@
 import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
-import {VinculacaoUsuario} from '@cdk/models';
-import {Colaborador} from '@cdk/models';
-import {VinculacaoPessoaUsuario} from './vinculacao-pessoa-usuario.model';
-import {Coordenador} from "./coordenador.model";
 
-export class Usuario {
+import { Usuario, ModalidadeOrgaoCentral, Setor } from '@cdk/models';
+
+export class Coordenador {
 
     @Exclude({ toPlainOnly: true })
     id?: number;
@@ -13,17 +11,25 @@ export class Usuario {
     @Exclude({ toPlainOnly: true })
     uuid?: string;
 
-    username?: string;
+    @Exclude({ toPlainOnly: true })
+    @Type(() => Setor)
+    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    setor?: Setor;
 
-    assinaturaHTML?: string;
+    @Exclude({ toPlainOnly: true })
+    @Type(() => Setor)
+    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    unidade?: Setor;
 
-    email?: string;
+    @Exclude({ toPlainOnly: true })
+    @Type(() => ModalidadeOrgaoCentral)
+    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    orgaoCentral?: ModalidadeOrgaoCentral;
 
-    enabled?: boolean;
-
-    nivelAcesso?: number;
-
-    nome?: string;
+    @Exclude({ toPlainOnly: true })
+    @Type(() => Usuario)
+    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    usuario?: Usuario;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)
@@ -55,48 +61,18 @@ export class Usuario {
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
     apagadoEm?: Date;
 
-    @Exclude({toPlainOnly: true})
-    @Type(() => VinculacaoUsuario)
-    vinculacoesUsuariosPrincipais?: VinculacaoUsuario[];
-
-    @Exclude({toPlainOnly: true})
-    @Type(() => Colaborador)
-    colaborador?: Colaborador;
-
-    @Exclude({toPlainOnly: true})
-    roles?: string[];
-
-    @Exclude({toClassOnly: true})
-    reset: boolean;
-
-    @Exclude({toPlainOnly: true})
-    @Type(() => VinculacaoPessoaUsuario)
-    vinculacoesPessoasUsuarios: VinculacaoPessoaUsuario[];
-
-    @Exclude({toPlainOnly: true})
-    @Type(() => Coordenador)
-    coordenadores?: Coordenador[];
-
     constructor() {
         this.id = null;
         this.uuid = null;
-        this.username = null;
-        this.nome = null;
-        this.assinaturaHTML = null;
-        this.email = null;
-        this.enabled = null;
-        this.nivelAcesso = null;
-        this.colaborador = null;
-        this.roles = null;
-        this.vinculacoesUsuariosPrincipais = null;
+        this.setor = null;
+        this.unidade = null;
+        this.orgaoCentral = null;
+        this.usuario = null;
         this.criadoPor = null;
         this.criadoEm = null;
         this.atualizadoPor = null;
         this.atualizadoEm = null;
         this.apagadoPor = null;
         this.apagadoEm = null;
-        this.vinculacoesPessoasUsuarios = null;
-        this.coordenadores = null;
-        this.reset = false;
     }
 }

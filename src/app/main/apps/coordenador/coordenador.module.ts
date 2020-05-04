@@ -35,6 +35,10 @@ const routes: Routes = [
             {
                 path       : ':entidadeHandle/usuarios',
                 loadChildren: () => import('./usuarios/usuarios.module').then(m => m.UsuariosModule)
+            },
+            {
+                path       : ':entidadeHandle/unidades',
+                loadChildren: () => import('./unidades/unidades.module').then(m => m.UnidadesModule)
             }
         ],
         canActivate: [fromGuards.ResolveGuard]

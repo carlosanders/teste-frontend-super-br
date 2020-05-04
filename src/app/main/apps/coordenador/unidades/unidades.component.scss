@@ -1,0 +1,21 @@
+coordenador-unidades-orgao-central {
+    height: 100%;
+    width: 100%;
+
+    unidades-orgao-central-main-sidebar {
+        width: 200px !important;
+    }
+    .sidebar {
+        width: 230px;
+        min-width: 230px !important;
+        max-width: 230px !important;
+        &:not(.locked-open) {
+            background: white;
+        }
+    }
+
+    .unidades-content {
+        height: 100%;
+        width: 100%;
+    }
+}
