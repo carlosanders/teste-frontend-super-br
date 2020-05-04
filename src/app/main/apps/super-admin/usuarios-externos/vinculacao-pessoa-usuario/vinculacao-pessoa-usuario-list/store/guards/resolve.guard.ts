@@ -55,7 +55,6 @@ export class ResolveGuard implements CanActivate {
      * @returns {Observable<any>}
      */
     getVinculacaoPessoaUsuario(): Observable<any> {
-        debugger
         return this._store.pipe(
             select(getVinculacaoPessoaUsuarioListLoaded),
             tap((loaded: any) => {
