@@ -1,14 +1,14 @@
 <!-- SIDEBAR HEADER -->
 <div fxLayout="column" fxLayoutAlign="space-between start"
-     class="header accent p-24 pb-4">
+     class="header2 accent p-24 pb-4">
     <div class="logo" fxFlex fxLayout="row" fxLayoutAlign="start center">
-        <mat-icon class="logo-icon s-32">
+        <mat-icon class="logo-icon s-32" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
             settings
         </mat-icon>
-        <span class="logo-text">{{(this.orgaoCentral$ | async)?.valor}}</span>
+        <span class="logo-text" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">{{(this.orgaoCentral$ | async)?.valor}}</span>
     </div>
     <div class="logo">
-        <span class="logo-text">{{(this.unidade$ | async)?.nome}}</span>
+        <span class="logo-text" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">{{(this.unidade$ | async)?.nome}}</span>
     </div>
 </div>
 <!-- / SIDEBAR HEADER -->

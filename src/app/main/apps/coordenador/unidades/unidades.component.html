@@ -1,15 +1,21 @@
-<div class="left-sidebar" fxFlex fxLayout="row">
+<div class="unidades-content page-layout left-sidebar">
     <!-- SIDEBAR -->
-    <cdk-sidebar class="sidebar" name="unidades-orgao-central-main-sidebar" position="left"
+    <cdk-sidebar *ngIf="routerState.params.unidadeHandle && routerState.params.unidadeHandle !== 'default' && routerState.params.unidadeHandle !== 'criar'"
+                 class="sidebar" name="unidades-orgao-central-main-sidebar" position="left"
                  [lockedOpen]="routerState.params['unidadeHandle'] !== 'default' ? 'gt-sm' : ''">
-        <unidades-orgao-central-main-sidebar [@animate]="{value:'*'}"></unidades-orgao-central-main-sidebar>
+
+        <!-- SIDEBAR CONTENT -->
+        <div class="content">
+            <unidades-orgao-central-main-sidebar [@animate]="{value:'*'}"></unidades-orgao-central-main-sidebar>
+        </div>
     </cdk-sidebar>
+
+    <div class="unidades-content" fxFlex fxLayout="column">
+        <!-- CONTENT -->
+        <div class="p-16" fxFlex="1 1 auto" cdkPerfectScrollbar>
+            <router-outlet></router-outlet>
+        </div>
+        <!-- / CONTENT -->
+    </div>
 </div>
 
-<div class="unidades-content" fxFlex fxLayout="column">
-    <!-- CONTENT -->
-    <div class="p-16" fxFlex="1 1 auto" cdkPerfectScrollbar>
-        <router-outlet></router-outlet>
-    </div>
-    <!-- / CONTENT -->
-</div>
