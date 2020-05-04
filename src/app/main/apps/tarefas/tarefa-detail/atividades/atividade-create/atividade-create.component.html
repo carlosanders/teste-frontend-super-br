@@ -1,98 +1,98 @@
-<div id="atividade">
+<!-- CONTENT -->
+<div class="content pr-24 pl-24" fxLayout="column" fxFlex="100">
 
-    <!-- CONTENT -->
-    <div class="content pr-24 pl-24" fxLayout="column" fxFlex="100">
+    <div class="documentos mb-16" fxLayout="row">
 
-        <div class="documentos mb-16" fxLayout="row">
+        <mat-tab-group fxFlex="100">
+            <mat-tab>
+                <ng-template matTabLabel>
+                    <span [matBadge]="minutas.length.toString()" matBadgeOverlap="false"
+                          matBadgeColor="warn">Atividade</span>
+                </ng-template>
 
-            <mat-tab-group fxFlex="100">
-                <mat-tab>
-                    <ng-template matTabLabel>
-                        <span [matBadge]="minutas.length.toString()" matBadgeOverlap="false" matBadgeColor="warn">Atividade</span>
-                    </ng-template>
+                <div fxLayout="row">
+                    <button mat-mini-fab
+                            class="m-4 active accent"
+                            [matMenuTriggerFor]="moreMenu" aria-label="Criar Documento"
+                            (click)="$event.stopPropagation()">
+                        <mat-icon class="secondary-text">attach_file</mat-icon>
+                    </button>
 
-                    <div fxLayout="row">
-                        <button mat-mini-fab
-                                class="m-4 active accent"
-                                [matMenuTriggerFor]="moreMenu" aria-label="Criar Documento"
-                                (click)="$event.stopPropagation()">
-                            <mat-icon class="secondary-text">attach_file</mat-icon>
+                    <mat-menu #moreMenu="matMenu">
+                        <button mat-menu-item aria-label="upload"
+                                (click)="upload()">
+                            <ng-container>
+                                <mat-icon>picture_as_pdf</mat-icon>
+                                <span>Upload</span>
+                            </ng-container>
                         </button>
 
-                        <mat-menu #moreMenu="matMenu">
-                            <button mat-menu-item aria-label="upload"
-                                    (click)="upload()">
-                                <ng-container>
-                                    <mat-icon>picture_as_pdf</mat-icon>
-                                    <span>Upload</span>
-                                </ng-container>
-                            </button>
-
-                            <button mat-menu-item aria-label="editor de textos"
-                                    (click)="modelo()">
-                                <ng-container>
-                                    <mat-icon>create</mat-icon>
-                                    <span>Editor</span>
-                                </ng-container>
-                            </button>
-                        </mat-menu>
-
-                        <cdk-documento-card-list [documentos]="minutas"
-                                                 [deletingId]="(deletingDocumentosId$ | async)"
-                                                 [assinandoId]="(assinandoDocumentosId$ | async)"
-                                                 [convertendoId]="(convertendoDocumentosId$ | async)"
-                                                 (delete)="doDelete($event)"
-                                                 (assinatura)="doAssinatura($event)"
-                                                 (converte)="doConverte($event)"
-                                                 (clicked)="onClicked($event)"
-                                                 (changedSelectedIds)="changedSelectedIds($event)">
-                        </cdk-documento-card-list>
-                        <cdk-componente-digital-card-list #ckdUpload
-                                                          [tarefaOrigem]="tarefa"
-                                                          (complete)="onComplete()">
-                        </cdk-componente-digital-card-list>
-                    </div>
-
-                    <cdk-atividade-form
-                        [atividade]="atividade"
-                        [temMinutas]="!!minutas.length"
-                        [documentoAvulsoVinculado]="(tarefa$ | async)?.processo?.documentoAvulsoOrigem"
-                        [saving]="(isSaving$ | async)"
-                        [errors]="(errors$ | async)"
-                        (save)="submit($event)">
-                    </cdk-atividade-form>
-
-                </mat-tab>
-                <mat-tab fxLayout="row">
-                    <ng-template matTabLabel>
-                        <span [matBadge]="oficios.length.toString()" matBadgeOverlap="false" matBadgeColor="warn">Ofícios</span>
-                    </ng-template>
-
-                    <div fxLayout="row">
-                        <button mat-mini-fab aria-label="Criar Ofício"
-                                class="m-4 active accent"
-                                (click)="oficio()">
-                            <mat-icon class="secondary-text">mail</mat-icon>
+                        <button mat-menu-item aria-label="editor de textos"
+                                (click)="modelo()">
+                            <ng-container>
+                                <mat-icon>create</mat-icon>
+                                <span>Editor</span>
+                            </ng-container>
                         </button>
+                    </mat-menu>
 
-                        <cdk-documento-card-list [documentos]="oficios"
-                                                 [deletingId]="(deletingDocumentosId$ | async)"
-                                                 [assinandoId]="(assinandoDocumentosId$ | async)"
-                                                 [convertendoId]="(convertendoDocumentosId$ | async)"
-                                                 (delete)="doDelete($event)"
-                                                 (verResposta)="doVerResposta($event)"
-                                                 (assinatura)="doAssinatura($event)"
-                                                 (converte)="doConverte($event)"
-                                                 (clicked)="onClicked($event)"
-                                                 (changedSelectedIds)="changedSelectedIds($event)">
-                        </cdk-documento-card-list>
-                    </div>
-                </mat-tab>
-            </mat-tab-group>
+                    <cdk-documento-card-list [documentos]="minutas"
+                                             [deletingId]="(deletingDocumentosId$ | async)"
+                                             [assinandoId]="(assinandoDocumentosId$ | async)"
+                                             [convertendoId]="(convertendoDocumentosId$ | async)"
+                                             (delete)="doDelete($event)"
+                                             (assinatura)="doAssinatura($event)"
+                                             (converte)="doConverte($event)"
+                                             (clicked)="onClicked($event)"
+                                             (changedSelectedIds)="changedSelectedIds($event)">
+                    </cdk-documento-card-list>
+                    <cdk-componente-digital-card-list #ckdUpload
+                                                      [tarefaOrigem]="tarefa"
+                                                      (complete)="onComplete()">
+                    </cdk-componente-digital-card-list>
+                </div>
 
-        </div>
+                <cdk-atividade-form
+                    [atividade]="atividade"
+                    [temMinutas]="!!minutas.length"
+                    [documentoAvulsoVinculado]="(tarefa$ | async)?.processo?.documentoAvulsoOrigem"
+                    [saving]="(isSaving$ | async)"
+                    [errors]="(errors$ | async)"
+                    (save)="submit($event)"
+                    (abort)="doAbort()">
+                </cdk-atividade-form>
 
-        <router-outlet></router-outlet>
+            </mat-tab>
+            <mat-tab fxLayout="row">
+                <ng-template matTabLabel>
+                    <span [matBadge]="oficios.length.toString()" matBadgeOverlap="false"
+                          matBadgeColor="warn">Ofícios</span>
+                </ng-template>
+
+                <div fxLayout="row">
+                    <button mat-mini-fab aria-label="Criar Ofício"
+                            class="m-4 active accent"
+                            (click)="oficio()">
+                        <mat-icon class="secondary-text">mail</mat-icon>
+                    </button>
+
+                    <cdk-documento-card-list [documentos]="oficios"
+                                             [deletingId]="(deletingDocumentosId$ | async)"
+                                             [assinandoId]="(assinandoDocumentosId$ | async)"
+                                             [convertendoId]="(convertendoDocumentosId$ | async)"
+                                             (delete)="doDelete($event)"
+                                             (verResposta)="doVerResposta($event)"
+                                             (assinatura)="doAssinatura($event)"
+                                             (converte)="doConverte($event)"
+                                             (clicked)="onClicked($event)"
+                                             (changedSelectedIds)="changedSelectedIds($event)">
+                    </cdk-documento-card-list>
+                </div>
+            </mat-tab>
+        </mat-tab-group>
 
     </div>
+
+    <router-outlet></router-outlet>
+
 </div>

@@ -1,7 +1,30 @@
-<div class="visibilidades" fxLayout="column">
-    <div class="content p-24 altura">
+<div id="visibilidades" fxLayout="column" class="altura">
+
+    <!-- CONTENT HEADER -->
+    <div class="header" fxLayout="column">
+
+        <div class="actions m-16" fxLayout="row" fxLayoutAlign="start center">
+            <button mat-icon-button
+                    class="mat-accent"
+                    [routerLink]="'editar/criar'"
+                    *ngIf="action === 'listar'"
+                    aria-label="novo"
+                    matTooltip="Novo">
+                <mat-icon>add</mat-icon>
+            </button>
+            <button mat-icon-button
+                    (click)="goBack()"
+                    *ngIf="action !== 'listar'"
+                    aria-label="voltar"
+                    matTooltip="Voltar">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
+        </div>
+    </div>
+    <!-- / CONTENT HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content pl-16 pr-16 altura">
         <router-outlet></router-outlet>
     </div>
 </div>
-
-

@@ -20,6 +20,15 @@ export class VinculacaoEtiqueta {
 
     conteudo?: string;
 
+    @Exclude({ toPlainOnly: true })
+    label?: string;
+
+    @Exclude({ toPlainOnly: true })
+    objectClass?: string;
+
+    @Exclude({ toPlainOnly: true })
+    objectUuid?: string;
+
     privada?: boolean;
 
     @Transform(value => value ? value.format() : null, {toPlainOnly: true})
@@ -107,5 +116,8 @@ export class VinculacaoEtiqueta {
         this.apagadoEm = null;
         this.podeAlterarConteudo = null;
         this.podeExcluir = null;
+        this.label = null;
+        this.objectClass = null;
+        this.objectUuid = null;
     }
 }
