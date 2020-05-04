@@ -1,7 +1,7 @@
 <div fxLayout="row" class="unidades-content page-layout full-width left-sidebar inner-scroll">
     <!-- SIDEBAR -->
     <cdk-sidebar *ngIf="routerState.params.unidadeHandle && routerState.params.unidadeHandle !== 'default' && routerState.params.unidadeHandle !== 'criar'"
-                 class="sidebar" name="unidades-orgao-central-main-sidebar" position="left"
+                 class="sidebar full" name="unidades-orgao-central-main-sidebar" position="left"
                  [lockedOpen]="'gt-md'">
         <!-- SIDEBAR CONTENT -->
         <div class="content" cdkPerfectScrollbar>
@@ -25,7 +25,7 @@
         <!-- / CONTENT HEADER -->
 
         <!-- CONTENT CARD -->
-        <div class="content-card" cdkPerfectScrollbar fxFlex>
+        <div class="content-card p-16" cdkPerfectScrollbar fxFlex>
             <router-outlet></router-outlet>
         </div>
         <!-- / CONTENT CARD -->
