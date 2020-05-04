@@ -73,10 +73,6 @@ export class UnidadesComponent implements OnInit, OnDestroy {
                 this._changeDetectorRef.markForCheck();
             }
         });
-
-        if (this.routerState.params['unidadeHandle'] !== 'default') {
-            this._cdkSidebarService.getSidebar('unidades-orgao-central-main-sidebar')?.toggleOpen();
-        }
     }
 
     ngOnDestroy(): void {

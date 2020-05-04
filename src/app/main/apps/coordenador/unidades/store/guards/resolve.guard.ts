@@ -99,7 +99,6 @@ export class ResolveGuard implements CanActivate {
         return this._store.pipe(
             select(getHasLoaded),
             tap((loaded: any) => {
-                console.log(loaded);
                 if (this.routerState.params['entidadeHandle'] && (this.routerState.params['entidadeHandle'] !== loaded.value)) {
                     this._store.dispatch(new fromStore.GetOrgaoCentral({
                         id: 'eq:' + this.routerState.params['entidadeHandle']
@@ -107,7 +106,6 @@ export class ResolveGuard implements CanActivate {
                 }
             }),
             filter((loaded: any) => {
-                console.log(loaded);
                 return this.routerState.params['entidadeHandle'] &&
                     (this.routerState.params['entidadeHandle'] === loaded.value);
             }),
@@ -125,9 +123,6 @@ export class ResolveGuard implements CanActivate {
             return this._store.pipe(
                 select(getHasLoadedUnidade),
                 tap((loaded: any) => {
-                    console.log('Unidade: ');
-                    console.log(loaded);
-                    console.log(this.routerState.params['unidadeHandle']);
                     if (this.routerState.params['unidadeHandle'] && this.routerState.params['unidadeHandle'] !== 'default'
                         && (this.routerState.params['unidadeHandle'] !== loaded.value)) {
                         this._store.dispatch(new fromStore.GetSetor({
@@ -136,7 +131,6 @@ export class ResolveGuard implements CanActivate {
                     }
                 }),
                 filter((loaded: any) => {
-                    console.log(loaded);
                     return this.routerState.params['unidadeHandle'] &&
                         (this.routerState.params['unidadeHandle'] === loaded.value);
                 }),
