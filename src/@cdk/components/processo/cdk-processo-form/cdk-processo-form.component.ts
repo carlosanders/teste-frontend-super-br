@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Estado, GeneroSetor, Processo, Usuario} from '@cdk/models';
+import {EspecieSetor, Estado, GeneroSetor, Processo, Usuario} from '@cdk/models';
 import {EspecieProcesso} from '@cdk/models';
 import {MAT_DATETIME_FORMATS} from '@mat-datetimepicker/core';
 import {ModalidadeFase} from '@cdk/models';
@@ -453,18 +453,22 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
         }
     }
 
-    checkSetorInicial(): void {
-        const value = this.form.get('setorInicial').value;
-        if (!value || typeof value !== 'object') {
-            this.form.get('setorInicial').setValue(null);
-        }
-    }
-
     selectSetor(setor: Setor): void {
         if (setor) {
             this.form.get('setorAtual').setValue(setor);
         }
         this.activeCard = 'form';
+    }
+
+    showSetorGrid(): void {
+        this.activeCard = 'setor-gridsearch';
+    }
+
+    checkSetorInicial(): void {
+        const value = this.form.get('setorInicial').value;
+        if (!value || typeof value !== 'object') {
+            this.form.get('setorInicial').setValue(null);
+        }
     }
 
     selectSetorInicial(unidade: Setor): void {
@@ -476,10 +480,6 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
     showSetorInicialGrid(): void {
         this.activeCard = 'setor-inicial-gridsearch';
-    }
-
-    showSetorGrid(): void {
-        this.activeCard = 'setor-gridsearch';
     }
 
     cancel(): void {
@@ -547,9 +547,9 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
         }
     }
 
-    selectEspecieSetor(generoSetor: GeneroSetor): void {
-        if (generoSetor) {
-            this.form.get('especieSetor').setValue(generoSetor);
+    selectEspecieSetor(especieSetor: EspecieSetor): void {
+        if (especieSetor) {
+            this.form.get('especieSetor').setValue(especieSetor);
         }
         this.activeCard = 'form';
     }

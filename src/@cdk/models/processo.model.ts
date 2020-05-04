@@ -58,7 +58,7 @@ export class Processo {
 
     requerimento?: string;
 
-    protocoloExterno?: boolean;
+    protocloEletronico?: boolean;
 
     @Exclude({ toPlainOnly: true })
     chaveAcesso?: string;
@@ -92,7 +92,6 @@ export class Processo {
     @Transform(value => value ? value.id : null, {toPlainOnly: true})
     setorAtual?: Setor;
 
-    @Exclude({toPlainOnly: true})
     @Type(() => Setor)
     @Transform(value => value ? value.id : null, {toPlainOnly: true})
     setorInicial?: Setor;
@@ -168,9 +167,6 @@ export class Processo {
     @Type(() => Interessado)
     interessados: Interessado[];
 
-    @Type(() => Setor)
-    @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    unidadeProtocoloExterno?: Setor;
 
     constructor() {
         this.id = null;
@@ -210,8 +206,7 @@ export class Processo {
         this.vinculacoesEtiquetas = null;
         this.assuntos = [];
         this.interessados = [];
-        this.unidadeProtocoloExterno = null;
         this.requerimento = null;
-        this.protocoloExterno = null;
+        this.protocloEletronico = null;
     }
 }

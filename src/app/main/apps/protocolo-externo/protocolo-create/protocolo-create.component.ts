@@ -133,7 +133,7 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
             especieSetor: [null, [Validators.required]],
             estado: [null, [Validators.required]],
             requerimento: [null, [Validators.required, Validators.maxLength(255)]],
-            protocoloExterno: [null]
+            protocloEletronico: [null]
         });
     }
 
@@ -239,7 +239,7 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
             this.processo = new Processo();
             this.processo.unidadeArquivistica = 2;
             this.processo.tipoProtocolo = 1;
-            this.processo.protocoloExterno = true;
+            this.processo.protocloEletronico = true;
 
             if (this._profile.vinculacoesPessoasUsuarios.length === 1) {
                 this.processo.procedencia = this.pessoaProcedencia;
