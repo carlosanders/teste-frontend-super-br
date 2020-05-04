@@ -1,14 +1,9 @@
-<div id="compartilhamento">
-
-    <!-- CONTENT -->
-    <div class="content pr-24 pl-24" fxLayout="column" fxFlex="100">
-
+<div class="content p-16">
         <cdk-compartilhamento-form
                 [compartilhamento]="compartilhamento"
                 [saving]="(isSaving$ | async)"
                 [errors]="(errors$ | async)"
-                (save)="submit($event)">
+                (save)="submit($event)"
+                (abort)="doAbort()">
         </cdk-compartilhamento-form>
-
-    </div>
 </div>

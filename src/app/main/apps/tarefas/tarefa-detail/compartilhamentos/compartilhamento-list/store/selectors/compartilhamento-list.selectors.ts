@@ -41,3 +41,13 @@ export const getIsLoading = createSelector(
     getCompartilhamentoListState,
     (state: CompartilhamentoListState) => state.loading
 );
+
+export const getDeletingIds = createSelector(
+    getCompartilhamentoListState,
+    (state: CompartilhamentoListState) => state.deletingIds
+);
+
+export const getDeletedIds = createSelector(
+    getCompartilhamentoListState,
+    (state: CompartilhamentoListState) => state.deletedIds
+);

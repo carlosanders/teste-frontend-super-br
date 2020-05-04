@@ -35,14 +35,11 @@ export class CdkVisibilidadeFormComponent implements OnInit, OnChanges, OnDestro
     errors: any;
 
     @Input()
-    unidadeDefault: Setor;
-
-    @Input()
     usuarioPagination: Pagination;
 
     @Input()
     unidadePagination: Pagination;
-    
+
     @Input()
     setorPagination: Pagination;
 
@@ -63,7 +60,7 @@ export class CdkVisibilidadeFormComponent implements OnInit, OnChanges, OnDestro
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: FormBuilder
     ) {
-       this.form = this._formBuilder.group({
+        this.form = this._formBuilder.group({
             id: [null],
             usuario: [null, [Validators.required]],
             unidade: [null, [Validators.required]],
@@ -71,9 +68,9 @@ export class CdkVisibilidadeFormComponent implements OnInit, OnChanges, OnDestro
             tipo: [null],
             poderes: [null, [Validators.required]]
         });
-       this.usuarioPagination = new Pagination();
-       this.setorPagination = new Pagination();
-       this.unidadePagination = new Pagination();
+        this.usuarioPagination = new Pagination();
+        this.setorPagination = new Pagination();
+        this.unidadePagination = new Pagination();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -91,12 +88,17 @@ export class CdkVisibilidadeFormComponent implements OnInit, OnChanges, OnDestro
             debounceTime(300),
             distinctUntilChanged(),
             switchMap((value) => {
+                    this.form.get('usuario').reset();
+                    this.form.get('setor').reset();
+                    this.form.get('unidade').reset();
                     if (value === 'usuario') {
                         this.form.get('usuario').enable();
+                        this.form.get('unidade').disable();
                         this.form.get('setor').disable();
                     }
                     if (value === 'setor') {
-                        this.form.get('setor').enable();
+                        this.form.get('unidade').enable();
+                        this.form.get('setor').disable();
                         this.form.get('usuario').disable();
                     }
                     this._changeDetectorRef.markForCheck();
@@ -119,13 +121,9 @@ export class CdkVisibilidadeFormComponent implements OnInit, OnChanges, OnDestro
             )
         ).subscribe();
 
-        if (this.unidadeDefault) {
-            this.form.get('unidade').setValue(this.unidadeDefault);
-            this.form.get('setor').enable();
-        } else {
-            this.form.get('setor').disable();
-            this.form.get('usuario').disable();
-        }
+        this.form.get('usuario').enable();
+        this.form.get('setor').disable();
+        this.form.get('unidade').disable();
 
     }
 

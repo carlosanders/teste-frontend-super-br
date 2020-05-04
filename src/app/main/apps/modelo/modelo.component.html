@@ -1,9 +1,10 @@
-<cdk-modelo-grid
+<div class="content p-16">
+    <cdk-modelo-grid
         [loading]="(loading$ | async)"
         [modelos]="(modelos$ | async)"
         [total]="(pagination$ | async)?.total"
-        [mode]="'search'"
         [actions]="['select']"
         (selected)="doSelect($event)"
         (reload)="reload($event)">
-</cdk-modelo-grid>
+    </cdk-modelo-grid>
+</div>
