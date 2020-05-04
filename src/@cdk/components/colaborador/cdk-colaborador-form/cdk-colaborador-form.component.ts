@@ -43,6 +43,9 @@ export class CdkColaboradorFormComponent implements OnChanges, OnDestroy {
     @Input()
     cargoPagination: Pagination;
 
+    @Input()
+    logEntryPagination: Pagination;
+
     @Output()
     save = new EventEmitter<Colaborador>();
 
@@ -169,4 +172,11 @@ export class CdkColaboradorFormComponent implements OnChanges, OnDestroy {
         this.activeCard = 'form';
     }
 
+    showLogEntryGrid(target: string): void {
+
+        const campo = {target: target};
+        Object.assign(this.logEntryPagination.filter, campo);
+
+        this.activeCard = 'logentry-gridsearch';
+    }
 }

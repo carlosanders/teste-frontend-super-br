@@ -17,6 +17,7 @@ import {CdkModalidadeRepositorioGridsearchModule} from '../../modalidade-reposit
 import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
 import {CdkSetorAutocompleteModule} from '../../setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
 import {CdkSetorGridsearchModule} from '../../setor/cdk-setor-autocomplete/cdk-setor-gridsearch/cdk-setor-gridsearch.module';
+import {CdkLogentryGridsearchModule} from "../../logentry/cdk-logentry-grid/cdk-logentry-gridsearch/cdk-logentry-gridsearch.module";
 
 @NgModule({
     declarations: [
@@ -41,6 +42,7 @@ import {CdkSetorGridsearchModule} from '../../setor/cdk-setor-autocomplete/cdk-s
         CdkSharedModule,
         CdkSetorAutocompleteModule,
         CdkSetorGridsearchModule,
+        CdkLogentryGridsearchModule,
     ],
     providers: [],
     exports: [

@@ -10,6 +10,10 @@
                               class="mr-16 mb-16" fxFlex="0 1 auto">
                 Encerra Tarefa
             </mat-slide-toggle>
+            <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                    (click)="showLogEntryGrid('encerraTarefa')">
+                <mat-icon matTooltip="Histórico">history</mat-icon>
+            </button>
 
             <mat-form-field fxFlex="100">
                 <div fxLayout="row" fxLayoutAlign="start center">
@@ -61,3 +65,10 @@
     (selected)="selectUsuarioVinculado($event)"
     (cancel)="cancel()">
 </cdk-usuario-gridsearch>
+
+<cdk-logentry-gridsearch
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'logentry-gridsearch'"
+    [pagination]="logEntryPagination"
+    (cancel)="cancel()">
+</cdk-logentry-gridsearch>

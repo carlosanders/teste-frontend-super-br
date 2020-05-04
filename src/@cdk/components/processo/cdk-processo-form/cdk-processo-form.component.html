@@ -312,10 +312,9 @@
 
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
-    <div fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+    <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
          fxLayoutAlign="center center">
-        <button *ngIf="!saving"
-                class="mr-sm-12"
+        <button class="mr-sm-12"
                 mat-raised-button color="accent"
                 [disabled]="form.invalid" (click)="submit()">
             {{this.textBotao}}

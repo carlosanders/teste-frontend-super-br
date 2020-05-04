@@ -3,5 +3,6 @@
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
         (save)="submit($event)"
+        [logEntryPagination]="logEntryPagination"
         (abort)="doAbort()">
 </cdk-documento-avulso-form>

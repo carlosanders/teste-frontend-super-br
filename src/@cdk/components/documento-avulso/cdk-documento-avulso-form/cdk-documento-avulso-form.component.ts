@@ -58,6 +58,9 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
     @Input()
     valid = true;
 
+    @Input()
+    logEntryPagination: Pagination;
+
     @Output()
     save = new EventEmitter<DocumentoAvulso>();
 
@@ -354,4 +357,9 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
         this.activeCard = 'form';
     }
 
+    showLogEntryGrid(target: string): void {
+        const campo = {target: target};
+        Object.assign(this.logEntryPagination.filter, campo);
+        this.activeCard = 'logentry-gridsearch';
+    }
 }
