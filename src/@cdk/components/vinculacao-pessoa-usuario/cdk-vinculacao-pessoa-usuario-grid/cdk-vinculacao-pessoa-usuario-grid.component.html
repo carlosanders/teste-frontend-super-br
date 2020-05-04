@@ -2,7 +2,8 @@
 
     <!-- SIDEBAR -->
     <cdk-sidebar class="sidebar" name="cdk-vinculacao-pessoa-usuario-filter" position="left">
-        <cdk-vinculacao-pessoa-usuario-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-vinculacao-pessoa-usuario-filter>
+        <cdk-vinculacao-pessoa-usuario-filter (selected)="setFilter($event)"
+                                              [mode]="this.mode"></cdk-vinculacao-pessoa-usuario-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
@@ -20,8 +21,10 @@
 
             <button mat-icon-button *ngIf="selectedIds.length > 1 && actions.indexOf('delete') > -1"
                     aria-label="remover"
-                    matTooltip="Remover">
-<!--                (click)="deletePessoas(selectedIds)"-->
+                    matTooltip="Remover"
+                    (click)="deleteVinculacaoPessoaUsuarios(selectedIds)"
+            >
+
                 <mat-icon>delete</mat-icon>
             </button>
 
@@ -153,23 +156,6 @@
                         <th mat-header-cell *matHeaderCellDef></th>
                         <td mat-cell *matCellDef="let pessoa">
 
-<!--                            <button mat-icon-button-->
-<!--                                    *ngIf="actions.indexOf('select') > -1"-->
-<!--                                    (click)="selectPessoa(pessoa)"-->
-<!--                                    aria-label="selecionar"-->
-<!--                                    matTooltip="Selecionar">-->
-<!--                                <mat-icon>keyboard_return</mat-icon>-->
-<!--                            </button>-->
-
-<!--                            <button mat-icon-button-->
-<!--                                    *ngIf="actions.indexOf('edit') > -1"-->
-<!--                                    [disabled]="deletedIds?.indexOf(pessoa.id) > -1"-->
-<!--                                    (click)="editPessoa(pessoa.id)"-->
-<!--                                    aria-label="editar"-->
-<!--                                    matTooltip="Editar">-->
-<!--                                <mat-icon>edit</mat-icon>-->
-<!--                            </button>-->
-
                             <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(pessoa.id) > -1">
                                 <mat-spinner diameter="24"></mat-spinner>
                             </div>
@@ -177,10 +163,9 @@
                             <button mat-icon-button
                                     *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(pessoa.id) === -1"
                                     [disabled]="deletedIds?.indexOf(pessoa.id) > -1"
-
+                                    (click)="deleteVinculacaoPessoaUsuario(pessoa.id)"
                                     aria-label="remover"
                                     matTooltip="Remover">
-<!--                                (click)="deletePessoa(pessoa.id)"-->
                                 <mat-icon>delete</mat-icon>
                             </button>
                         </td>
