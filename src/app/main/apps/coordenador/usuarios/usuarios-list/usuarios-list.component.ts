@@ -29,6 +29,7 @@ export class UsuariosListComponent implements OnInit {
     loading$: Observable<boolean>;
     pagination$: Observable<any>;
     pagination: any;
+    actions: Array<string> = ['create', 'afastamentos'];
 
     /**
      * @param _changeDetectorRef
@@ -49,6 +50,11 @@ export class UsuariosListComponent implements OnInit {
             .subscribe(routerState => {
                 if (routerState) {
                     this.routerState = routerState.state;
+                    if (this.routerState.params['generoHandle'] === 'local') {
+                        this.actions = ['afastamentos'];
+                    } else {
+                        this.actions = ['create', 'afastamentos'];
+                    }
                 }
             });
     }
@@ -72,6 +78,10 @@ export class UsuariosListComponent implements OnInit {
             populate: this.pagination.populate,
             context: this.pagination.context
         }));
+    }
+
+    create() : void {
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
     }
 
     afastamentos(usuarioId: number): void {

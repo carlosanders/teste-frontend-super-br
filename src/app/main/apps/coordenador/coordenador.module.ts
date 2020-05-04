@@ -5,6 +5,7 @@ import {
     MatIconModule, MatProgressSpinnerModule
 } from '@cdk/angular/material';
 import { TranslateModule } from '@ngx-translate/core';
+import {MatRippleModule} from '@angular/material/core';
 
 import { CdkSharedModule } from '@cdk/shared.module';
 import { CdkSidebarModule } from '@cdk/components';
@@ -63,7 +64,8 @@ const routes: Routes = [
         TranslateModule,
         CoordenadorStoreModule,
         CdkSharedModule,
-        CdkSidebarModule
+        CdkSidebarModule,
+        MatRippleModule
     ],
     providers      : [
         ModeloService,

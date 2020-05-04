@@ -3,7 +3,8 @@
     [usuarios]="(usuarios$ | async)"
     [total]="(pagination$ | async)?.total"
     [displayedColumns]="['select', 'id', 'username', 'nome', 'email', 'colaborador.modalidadeColaborador.valor', 'colaborador.cargo.nome', 'enabled', 'actions']"
-    [actions]="['afastamentos']"
+    [actions]="actions"
     (reload)="reload($event)"
+    (create)="create()"
     (afastamentos)="afastamentos($event)">
 </cdk-usuario-grid>

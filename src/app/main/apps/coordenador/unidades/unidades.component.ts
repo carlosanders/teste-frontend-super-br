@@ -81,6 +81,12 @@ export class UnidadesComponent implements OnInit, OnDestroy {
         this._unsubscribeAll.complete();
     }
 
-    goBack(): void {
+    /**
+     * Toggle the sidebar
+     *
+     * @param name
+     */
+    toggleSidebar(name): void {
+        this._cdkSidebarService.getSidebar(name).toggleOpen();
     }
 }

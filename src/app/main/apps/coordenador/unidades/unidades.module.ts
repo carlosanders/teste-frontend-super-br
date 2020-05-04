@@ -3,14 +3,9 @@ import {
     MatButtonModule,
     MatFormFieldModule,
     MatIconModule,
-    MatInputModule,
-    MatCheckboxModule,
-    MatProgressSpinnerModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatSortModule,
     MatAutocompleteModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatRippleModule
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 
@@ -24,6 +19,7 @@ import {UnidadesComponent} from './unidades.component';
 import * as fromGuards from "./store/guards";
 import {CdkSidebarModule} from '@cdk/components';
 import {UnidadesOrgaoCentralMainSidebarComponent} from './sidebars/main/main-sidebar.component';
+import {CommonModule} from "@angular/common";
 
 const routes: Routes = [
     {
@@ -65,20 +61,18 @@ const routes: Routes = [
         UnidadesOrgaoCentralMainSidebarComponent,
     ],
     imports: [
+        CommonModule,
         RouterModule.forChild(routes),
+
+        MatRippleModule,
 
         MatExpansionModule,
         MatAutocompleteModule,
         MatButtonModule,
         MatFormFieldModule,
         MatIconModule,
-        MatCheckboxModule,
-        MatInputModule,
-        MatProgressSpinnerModule,
-        MatTableModule,
-        MatPaginatorModule,
-        MatSortModule,
         TranslateModule,
+
         CdkSharedModule,
         UnidadesOrgaoCentralStoreModule,
         CdkSidebarModule

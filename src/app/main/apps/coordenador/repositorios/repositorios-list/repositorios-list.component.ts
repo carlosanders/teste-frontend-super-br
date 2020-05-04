@@ -58,11 +58,11 @@ export class RepositoriosListComponent implements OnInit {
                     this.routerState = routerState.state;
 
                     if (this.routerState.params['generoHandle'] === 'local') {
-                        this.actions = ['edit', 'editConteudo', 'delete'];
+                        this.actions = ['edit', 'create', 'editConteudo', 'delete'];
                         this.colunas = ['select', 'id', 'nome', 'descricao', 'modalidadeRepositorio.valor', 'vinculacoesRepositorios.setor.nome', 'ativo', 'actions'];
                     }
                     if (this.routerState.params['generoHandle'] === 'nacional') {
-                        this.actions = ['edit', 'editConteudo', 'especie', 'delete'];
+                        this.actions = ['edit', 'create', 'editConteudo', 'especie', 'delete'];
                         this.colunas = ['select', 'id', 'nome', 'descricao', 'modalidadeRepositorio.valor', 'vinculacoesRepositorios.orgaoCentral.valor', 'ativo', 'actions'];
                     }
                 }
@@ -88,6 +88,10 @@ export class RepositoriosListComponent implements OnInit {
             populate: this.pagination.populate,
             context: this.pagination.context
         }));
+    }
+
+    create() : void {
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
     }
 
     edit(repositorioId: number): void {

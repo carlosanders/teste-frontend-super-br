@@ -17,8 +17,9 @@ import {Pagination} from '@cdk/models/pagination';
 import {Usuario} from '@cdk/models/usuario.model';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {getRouterState} from '../../../../../store/reducers';
-import {Lotacao, ModalidadeOrgaoCentral, Setor} from '@cdk/models';
+import {ModalidadeOrgaoCentral, Setor} from '@cdk/models';
 import {takeUntil} from "rxjs/operators";
+import {Back} from '../../../../../store/actions';
 
 @Component({
     selector: 'coordenador-modelos-edit',
@@ -144,6 +145,10 @@ export class ModelosEditComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
+
+    doAbort(): void {
+        this._store.dispatch(new Back());
+    }
 
     submit(values): void {
 

@@ -1,21 +1,36 @@
-<div class="unidades-content page-layout left-sidebar">
+<div fxLayout="row" class="unidades-content page-layout full-width left-sidebar inner-scroll">
     <!-- SIDEBAR -->
     <cdk-sidebar *ngIf="routerState.params.unidadeHandle && routerState.params.unidadeHandle !== 'default' && routerState.params.unidadeHandle !== 'criar'"
                  class="sidebar" name="unidades-orgao-central-main-sidebar" position="left"
-                 [lockedOpen]="routerState.params['unidadeHandle'] !== 'default' ? 'gt-sm' : ''">
-
+                 [lockedOpen]="'gt-md'">
         <!-- SIDEBAR CONTENT -->
-        <div class="content">
+        <div class="content" cdkPerfectScrollbar>
             <unidades-orgao-central-main-sidebar [@animate]="{value:'*'}"></unidades-orgao-central-main-sidebar>
         </div>
     </cdk-sidebar>
 
-    <div class="unidades-content" fxFlex fxLayout="column">
-        <!-- CONTENT -->
-        <div class="p-16" fxFlex="1 1 auto" cdkPerfectScrollbar>
+    <!-- CENTER -->
+    <div class="center" fxFlex>
+
+        <!-- CONTENT HEADER -->
+        <div class="header" fxLayout="row" fxLayoutAlign="start center">
+            <div class="sidebar-toggle">
+                <button mat-icon-button
+                        *ngIf="routerState.params.unidadeHandle && routerState.params.unidadeHandle !== 'default' && routerState.params.unidadeHandle !== 'criar'"
+                        (click)="toggleSidebar('unidades-orgao-central-main-sidebar')" fxHide.gt-md>
+                    <mat-icon>menu</mat-icon>
+                </button>
+            </div>
+        </div>
+        <!-- / CONTENT HEADER -->
+
+        <!-- CONTENT CARD -->
+        <div class="content-card" cdkPerfectScrollbar fxFlex>
             <router-outlet></router-outlet>
         </div>
-        <!-- / CONTENT -->
+        <!-- / CONTENT CARD -->
+
     </div>
+    <!-- / CENTER -->
 </div>
 

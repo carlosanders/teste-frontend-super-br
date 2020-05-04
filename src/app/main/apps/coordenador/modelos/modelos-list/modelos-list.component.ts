@@ -57,11 +57,11 @@ export class ModelosListComponent implements OnInit {
                 if (routerState) {
                     this.routerState = routerState.state;
                     if (this.routerState.params['generoHandle'] === 'local') {
-                        this.actions = ['edit', 'editConteudo', 'delete'];
+                        this.actions = ['edit', 'create', 'editConteudo', 'delete'];
                         this.colunas = ['select', 'id', 'nome', 'descricao', 'vinculacoesModelos.setor.nome', 'template.nome', 'ativo', 'actions'];
                     }
                     if (this.routerState.params['generoHandle'] === 'nacional') {
-                        this.actions = ['edit', 'editConteudo', 'especie', 'delete'];
+                        this.actions = ['edit', 'create', 'editConteudo', 'especie', 'delete'];
                         this.colunas = ['select', 'id', 'nome', 'descricao', 'vinculacoesModelos.orgaoCentral.valor', 'template.nome', 'ativo', 'actions'];
                     }
                 }
@@ -89,6 +89,10 @@ export class ModelosListComponent implements OnInit {
             populate: this.pagination.populate,
             context: this.pagination.context
         }));
+    }
+
+    create() : void {
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
     }
 
     edit(modeloId: number): void {
