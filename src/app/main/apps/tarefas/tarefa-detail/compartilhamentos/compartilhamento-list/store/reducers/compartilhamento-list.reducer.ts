@@ -12,6 +12,8 @@ export interface CompartilhamentoListState {
     };
     loading: boolean;
     loaded: any;
+    deletingIds: number[];
+    deletedIds: number[];
 }
 
 export const CompartilhamentoListInitialState: CompartilhamentoListState = {
@@ -26,6 +28,8 @@ export const CompartilhamentoListInitialState: CompartilhamentoListState = {
     },
     loading: false,
     loaded: false,
+    deletedIds: [],
+    deletingIds: []
 };
 
 export function CompartilhamentoListReducer(state = CompartilhamentoListInitialState, action: CompartilhamentoListActions.CompartilhamentoListActionsAll): CompartilhamentoListState {
@@ -67,6 +71,28 @@ export function CompartilhamentoListReducer(state = CompartilhamentoListInitialS
                 ...state,
                 loading: false,
                 loaded: false
+            };
+        }
+
+        case CompartilhamentoListActions.DELETE_COMPARTILHAMENTO: {
+            return {
+                ...state,
+                deletingIds: [...state.deletingIds, action.payload]
+            };
+        }
+
+        case CompartilhamentoListActions.DELETE_COMPARTILHAMENTO_SUCCESS: {
+            return {
+                ...state,
+                deletingIds: state.deletingIds.filter(id => id !== action.payload),
+                deletedIds: [...state.deletedIds, action.payload]
+            };
+        }
+
+        case CompartilhamentoListActions.DELETE_COMPARTILHAMENTO_FAILED: {
+            return {
+                ...state,
+                deletingIds: state.deletingIds.filter(id => id !== action.payload)
             };
         }
 

@@ -5,7 +5,6 @@ import {Observable, Subject} from 'rxjs';
 import {Processo} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from 'app/main/apps/processo/store';
-import {CreateProcesso} from 'app/main/apps/processo/processo-edit/dados-basicos/store';
 import {takeUntil} from 'rxjs/operators';
 import {getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
@@ -57,7 +56,7 @@ export class ProcessoMainSidebarComponent implements OnInit, OnDestroy {
                 icon: 'edit',
                 link: 'editar',
                 processo: true,
-                role: 'ROLE_USER'
+                role: 'ROLE_COLABORADOR'
             },
             {
                 nome: 'Download',
@@ -99,11 +98,4 @@ export class ProcessoMainSidebarComponent implements OnInit, OnDestroy {
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
     }
-
-    create(): void {
-           this._store.dispatch(new fromStore.CreateProcesso());
-           this._store.dispatch(new CreateProcesso());
-           window.location.assign(this.routerState.url.split('/processo/')[0] + '/processo/criar/editar');
-    }
-
 }

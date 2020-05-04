@@ -6,9 +6,8 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {Visibilidade} from '@cdk/models';
+import {Usuario, Visibilidade} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Colaborador} from '@cdk/models';
 
 @Component({
     selector: 'cdk-visibilidade-list-item',
@@ -31,10 +30,10 @@ export class CdkVisibilidadeListItemComponent implements OnInit {
     @Output()
     delete = new EventEmitter<number>();
 
-    colaborador: Colaborador;
+    usuario: Usuario;
 
     constructor(public _loginService: LoginService) {
-        this.colaborador = _loginService.getUserProfile().colaborador;
+        this.usuario = _loginService.getUserProfile();
         this.deleting = false;
     }
 

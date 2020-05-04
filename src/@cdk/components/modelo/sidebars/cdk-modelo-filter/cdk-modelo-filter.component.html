@@ -12,6 +12,13 @@
         <div class="padd" fxFlex="1 1 auto" fxLayout="column" cdkPerfectScrollbar>
 
             <mat-form-field>
+                <mat-label>Conteúdo</mat-label>
+                <input matInput #conteudo
+                       name="conteudo"
+                       formControlName="conteudo">
+            </mat-form-field>
+            
+            <mat-form-field>
                 <mat-label>Nome</mat-label>
                 <input matInput #nome
                        name="nome"
@@ -19,52 +26,30 @@
             </mat-form-field>
 
             <mat-form-field>
-                <mat-label>Highlights</mat-label>
-                <input matInput #highlights
-                       name="highlights"
-                       formControlName="highlights">
-            </mat-form-field>
-
-            <mat-form-field>
-                <mat-label>Descricao</mat-label>
+                <mat-label>Descrição</mat-label>
                 <input matInput #descricao
                        name="descricao"
                        formControlName="descricao">
             </mat-form-field>
 
-            <mat-checkbox formControlName="ativo" class="mr-16 mb-16" fxFlex="0 1 auto">
-                Ativo
-            </mat-checkbox>
-
             <mat-form-field>
                 <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Modalidade do Modelo"
-                           formControlName="modalidadeMeio"
-                           [matAutocomplete]="modalidadeMeio.autocomplete">
+                    <input matInput placeholder="Modalidade de Modelo"
+                           formControlName="modalidadeModelo"
+                           [matAutocomplete]="modalidadeModelo.autocomplete">
                 </div>
-                <cdk-modalidade-meio-autocomplete #modalidadeMeio="modalidadeMeioAutocomplete"
-                                                  [control]="form.get('modalidadeModelo')">
-                </cdk-modalidade-meio-autocomplete>
+                <cdk-modalidade-modelo-autocomplete #modalidadeModelo="modalidadeModeloAutocomplete" [control]="form.get('modalidadeModelo')">
+                </cdk-modalidade-modelo-autocomplete>
             </mat-form-field>
 
             <mat-form-field>
                 <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Template"
-                           formControlName="template"
-                           [matAutocomplete]="template.autocomplete">
+                    <input matInput placeholder="Tipo de Documento"
+                           formControlName="tipoDocumento"
+                           [matAutocomplete]="tipoDocumento.autocomplete">
                 </div>
-                <cdk-template-autocomplete #template="templateAutocomplete" [control]="form.get('template')">
-                </cdk-template-autocomplete>
-            </mat-form-field>
-
-            <mat-form-field>
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Documento"
-                           formControlName="documento"
-                           [matAutocomplete]="documento.autocomplete">
-                </div>
-                <cdk-documento-autocomplete #documento="documentoAutocomplete" [control]="form.get('documento')">
-                </cdk-documento-autocomplete>
+                <cdk-tipo-documento-autocomplete #tipoDocumento="tipoDocumentoAutocomplete" [control]="form.get('tipoDocumento')">
+                </cdk-tipo-documento-autocomplete>
             </mat-form-field>
 
             <mat-form-field class="mr-sm-12">
@@ -109,6 +94,11 @@
                 <mat-datetimepicker #apagadoEm type="datetime" openOnFocus="true" timeInterval="5">
                 </mat-datetimepicker>
             </mat-form-field>
+
+            <mat-checkbox formControlName="ativo" class="mr-16 mb-16" fxFlex="0 1 auto">
+                Ativo
+            </mat-checkbox>
+
 
         </div>
 
