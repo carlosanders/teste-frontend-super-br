@@ -2,8 +2,8 @@ import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
-import {catchError, exhaustMap, mergeMap} from 'rxjs/operators';
+import {Observable, of} from 'rxjs';
+import {catchError, exhaustMap, map, mergeMap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as CompartilhamentoListActions from 'app/main/apps/tarefas/tarefa-detail/compartilhamentos/compartilhamento-list/store/actions';
@@ -69,6 +69,26 @@ export class CompartilhamentoListEffect {
                     console.log(err);
                     this._store.dispatch(new CompartilhamentoListActions.GetCompartilhamentosFailed(err));
                     return caught;
+                })
+            );
+
+    /**
+     * Delete Compartilhamento
+     * @type {Observable<any>}
+     */
+    @Effect()
+    deleteCompartilhamento: any =
+        this._actions
+            .pipe(
+                ofType<CompartilhamentoListActions.DeleteCompartilhamento>(CompartilhamentoListActions.DELETE_COMPARTILHAMENTO),
+                mergeMap((action) => {
+                    return this._compartilhamentoService.destroy(action.payload).pipe(
+                        map((response) => new CompartilhamentoListActions.DeleteCompartilhamentoSuccess(response.id)),
+                        catchError((err) => {
+                            console.log (err);
+                            return of(new CompartilhamentoListActions.DeleteCompartilhamentoFailed(action.payload));
+                        })
+                    );
                 })
             );
 }

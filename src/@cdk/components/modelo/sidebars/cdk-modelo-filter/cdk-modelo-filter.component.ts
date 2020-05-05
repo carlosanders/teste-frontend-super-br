@@ -39,14 +39,12 @@ export class CdkModeloFilterComponent implements OnInit {
         private _cdkSidebarService: CdkSidebarService,
     ) {
         this.form = this._formBuilder.group({
+            conteudo: [null],
+            modalidadeModelo: [null],
             nome: [null],
-            highlights: [null],
             descricao: [null],
             ativo: [null],
-            modalidadeModelo: [null],
-            modalidadeMeio: [null],
-            template: [null],
-            documento: [null],
+            tipoDocumento: [null],
             criadoPor: [null],
             criadoEm: [null],
             atualizadoPor: [null],
@@ -74,11 +72,11 @@ export class CdkModeloFilterComponent implements OnInit {
             }
         });
 
-        this.form.get('highlights').valueChanges.subscribe(value => {
+        this.form.get('conteudo').valueChanges.subscribe(value => {
             if (value !== null) {
                 this.filters = {
                     ...this.filters,
-                    highlights: `like:${value}%`
+                    'documento.componentesDigitais.conteudo': value
                 };
             }
         });
@@ -116,31 +114,16 @@ export class CdkModeloFilterComponent implements OnInit {
             }
         });
 
-        this.form.get('template').valueChanges.subscribe(value => {
+        this.form.get('tipoDocumento').valueChanges.subscribe(value => {
             if (value !== null) {
                 if (typeof value === 'object' && value) {
                     this.filters = {
                         ...this.filters,
-                        'template.id': `eq:${value.id}`
+                        'documento.tipoDocumento.id': `eq:${value.id}`
                     };
                 } else {
-                    if (this.filters.hasOwnProperty('template.id')) {
-                        delete this.filters['template.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('documento').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'documento.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('documento.id')) {
-                        delete this.filters['documento.id'];
+                    if (this.filters.hasOwnProperty('documento.tipoDocumento.id')) {
+                        delete this.filters['documento.tipoDocumento.id'];
                     }
                 }
             }

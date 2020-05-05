@@ -322,21 +322,6 @@
         <button mat-raised-button color="warn" class="mr-sm-12" (click)="doAbort()">
             CANCELAR
         </button>
-
-        <!--            <button *ngIf="!saving && !form.value.id"
-                            class="mr-sm-12"
-                            mat-raised-button color="accent"
-                            [disabled]="form.invalid" (click)="doPost()">
-                            {{this.textBotao}}
-                    </button>
-
-                    <button *ngIf="!saving && form.value.id"
-                            class="mr-sm-12"
-                            mat-raised-button color="accent"
-                            [disabled]="form.invalid" (click)="doPut()">
-                            {{this.textBotao}}
-                    </button>
-        -->
     </div>
 
     <div *ngIf="saving" fxLayout="column" fxFlex

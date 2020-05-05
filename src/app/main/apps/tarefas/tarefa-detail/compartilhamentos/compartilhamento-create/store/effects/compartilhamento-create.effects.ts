@@ -72,7 +72,11 @@ export class CompartilhamentoCreateEffect {
             .pipe(
                 ofType<CompartilhamentoCreateActions.SaveCompartilhamentoSuccess>(CompartilhamentoCreateActions.SAVE_COMPARTILHAMENTO_SUCCESS),
                 tap(() => {
-                    this._router.navigate(['apps/tarefas/entrada']).then();
+                    this._router.navigate([
+                        'apps/tarefas/' + this.routerState.params.generoHandle + '/'
+                        + this.routerState.params.typeHandle + '/'
+                        + this.routerState.params.targetHandle
+                    ]).then();
                 })
             );
 

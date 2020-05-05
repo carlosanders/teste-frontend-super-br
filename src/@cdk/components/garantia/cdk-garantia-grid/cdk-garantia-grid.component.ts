@@ -185,8 +185,6 @@ export class CdkGarantiaGridComponent implements AfterViewInit, OnInit, OnChange
     }
 
     ngOnInit(): void {
-        console.log('this.garantias');
-        console.log(this.garantias);
         const ElementQueries = require('css-element-queries/src/ElementQueries');
         ElementQueries.listen();
         ElementQueries.init();
