@@ -1,0 +1,8 @@
+<cdk-vinculacao-pessoa-usuario-form
+    [usuarioExterno]="this.usuarioExterno"
+    [saving]="(isSaving$ | async)"
+    [errors]="(errors$ | async)"
+    [pessoaPagination]="pessoaPagination"
+    (save)="submit($event)"
+    (abort)="doAbort()">
+</cdk-vinculacao-pessoa-usuario-form>

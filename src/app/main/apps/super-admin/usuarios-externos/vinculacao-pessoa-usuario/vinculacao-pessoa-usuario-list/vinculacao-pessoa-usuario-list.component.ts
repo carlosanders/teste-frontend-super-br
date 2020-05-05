@@ -84,4 +84,8 @@ export class VinculacaoPessoaUsuarioListComponent implements OnInit {
         this.select.emit(pessoa);
     }
 
+    create() : void {
+        this._router.navigate([this.routerState.url.replace('listar', 'criar')]);
+    }
+
 }
