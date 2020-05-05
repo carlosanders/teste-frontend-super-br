@@ -4,6 +4,8 @@ export const GET_MODELOS = '[MODELOS] GET MODELOS';
 export const GET_MODELOS_SUCCESS = '[MODELOS] GET MODELOS SUCCESS';
 export const GET_MODELOS_FAILED = '[MODELOS] GET MODELOS FAILED';
 
+export const UNLOAD_MODELOS = '[MODELOS] UNLOAD MODELOS';
+
 /**
  * Get Modelos
  */
@@ -40,7 +42,20 @@ export class GetModelosFailed implements Action
     }
 }
 
+/**
+ * Unload Modelos
+ */
+export class UnloadModelos implements Action
+{
+    readonly type = UNLOAD_MODELOS;
+
+    constructor()
+    {
+    }
+}
+
 export type ModelosActionsAll
     = GetModelos
     | GetModelosSuccess
-    | GetModelosFailed;
+    | GetModelosFailed
+    | UnloadModelos;

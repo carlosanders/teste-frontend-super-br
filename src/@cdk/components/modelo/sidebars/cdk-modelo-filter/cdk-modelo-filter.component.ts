@@ -76,7 +76,7 @@ export class CdkModeloFilterComponent implements OnInit {
             if (value !== null) {
                 this.filters = {
                     ...this.filters,
-                    conteudo: value
+                    'documento.componentesDigitais.conteudo': value
                 };
             }
         });

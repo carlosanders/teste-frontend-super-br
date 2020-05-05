@@ -43,6 +43,8 @@ export class TarefaEditComponent implements OnInit, OnDestroy {
 
     especieTarefaPagination: Pagination;
 
+    logEntryPagination: Pagination;
+
     /**
      * @param _store
      * @param _loginService
@@ -58,6 +60,7 @@ export class TarefaEditComponent implements OnInit, OnDestroy {
         this._profile = _loginService.getUserProfile();
 
         this.especieTarefaPagination = new Pagination();
+        this.logEntryPagination = new Pagination();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -84,6 +87,7 @@ export class TarefaEditComponent implements OnInit, OnDestroy {
             this.tarefa.dataHoraFinalPrazo = moment().add(5, 'days').set({ hour : 20, minute : 0, second : 0 });
             this.tarefa.setorOrigem = this._profile.colaborador.lotacoes[0].setor;
         }
+        this.logEntryPagination.filter = {entity: 'SuppCore\\AdministrativoBackend\\Entity\\Tarefa', id: + this.tarefa.id};
     }
 
     /**

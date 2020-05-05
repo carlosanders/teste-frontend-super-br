@@ -19,6 +19,7 @@ import {CdkSetorGridsearchModule} from "../../setor/cdk-setor-autocomplete/cdk-s
 import {CdkSetorAutocompleteModule} from "../../setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module";
 import {CdkColaboradorAutocompleteModule} from "../../colaborador/cdk-colaborador-autocomplete/cdk-colaborador-autocomplete.module";
 import {CdkColaboradorGridsearchModule} from "../../colaborador/cdk-colaborador-autocomplete/cdk-colaborador-gridsearch/cdk-colaborador-gridsearch.module";
+import {CdkLogentryGridsearchModule} from "../../logentry/cdk-logentry-grid/cdk-logentry-gridsearch/cdk-logentry-gridsearch.module";
 
 @NgModule({
     declarations: [
@@ -44,6 +45,7 @@ import {CdkColaboradorGridsearchModule} from "../../colaborador/cdk-colaborador-
         CdkColaboradorGridsearchModule,
 
         CdkSharedModule,
+        CdkLogentryGridsearchModule,
     ],
     providers: [
         UsuarioService

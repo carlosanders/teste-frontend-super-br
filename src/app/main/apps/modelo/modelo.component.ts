@@ -1,7 +1,7 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component,
+    Component, OnDestroy,
     OnInit,
     ViewEncapsulation
 } from '@angular/core';
@@ -24,7 +24,7 @@ import {Tarefa} from '@cdk/models';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class ModeloComponent implements OnInit  {
+export class ModeloComponent implements OnInit, OnDestroy  {
 
     modelos$: Observable<Modelo[]>;
     loading$: Observable<boolean>;
@@ -77,6 +77,10 @@ export class ModeloComponent implements OnInit  {
         this.tarefa$.subscribe(tarefa => {
             this.tarefa = tarefa;
         });
+    }
+
+    ngOnDestroy(): void {
+        this._store.dispatch(new fromStore.UnloadModelos());
     }
 
     reload(params): void {

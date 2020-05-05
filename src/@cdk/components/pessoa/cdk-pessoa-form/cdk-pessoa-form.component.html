@@ -34,6 +34,10 @@
                        formControlName="nome"
                        required
                        maxlength="255">
+                <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                        (click)="showLogEntryGrid('nome')">
+                    <mat-icon matTooltip="Histórico">history</mat-icon>
+                </button>
                 <mat-hint align="end">{{nome.value.length}} / 255</mat-hint>
                 <mat-error>Campo obrigatório!</mat-error>
             </mat-form-field>
@@ -214,3 +218,10 @@
     (selected)="selectMunicipio($event)"
     (cancel)="cancel()">
 </cdk-municipio-gridsearch>
+
+<cdk-logentry-gridsearch
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'logentry-gridsearch'"
+    [pagination]="logEntryPagination"
+    (cancel)="cancel()">
+</cdk-logentry-gridsearch>

@@ -106,7 +106,7 @@ export class CdkComponenteDigitalFilterComponent implements OnInit {
                 if (typeof value === 'object' && value) {
                     this.filters = {
                         ...this.filters,
-                        'processoOrigem.id': `eq:${value.id}`
+                        'documento.juntadaAtual.volume.processo.id': `eq:${value.id}`
                     };
                 } else {
                     if (this.filters.hasOwnProperty('processoOrigem.id')) {
