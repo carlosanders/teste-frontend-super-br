@@ -14,10 +14,9 @@ import {
     MatProgressSpinnerModule,
     MatSortModule,
     MatTableModule
-} from '../../../../../../@cdk/angular/material';
+} from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
-import {CdkSharedModule} from '../../../../../../@cdk/shared.module';
-import {VinculacaoPessoaUsuarioService} from '../../../../../../@cdk/services/vinculacao-pessoa-usuario.service';
+import {CdkSharedModule} from '@cdk/shared.module';
 
 
 const routes: Routes = [
@@ -28,6 +27,10 @@ const routes: Routes = [
             {
                 path: 'listar',
                 loadChildren: () => import('./vinculacao-pessoa-usuario-list/vinculacao-pessoa-usuario-list.module').then(m => m.VinculacaoPessoaUsuarioListModule),
+            },
+            {
+                path: ':vinculacaoPessoaUsuarioHandle',
+                loadChildren: () => import('./vinculacao-pessoa-usuario-edit/vinculacao-pessoa-usuario-edit.module').then(m => m.VinculacaoPessoaUsuarioEditModule),
             },
             {
                 path: '**',

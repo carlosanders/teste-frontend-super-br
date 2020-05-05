@@ -38,7 +38,7 @@ export class VincularPessoaComponent implements OnInit {
                 if (this.routerState.url.indexOf('vinculacao-pessoa-usuario/listar') > -1) {
                     this.action = 'listar';
                 }
-                if (this.routerState.url.indexOf('vinculacao-pessoa-usuario/editar/criar') > -1) {
+                if (this.routerState.url.indexOf('vinculacao-pessoa-usuario/criar') > -1) {
                     this.action = 'criar';
                 }
                 this._changeDetectorRef.markForCheck();
