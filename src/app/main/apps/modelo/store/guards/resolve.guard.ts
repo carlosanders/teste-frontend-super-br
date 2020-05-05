@@ -8,6 +8,7 @@ import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
 import {ModelosAppState} from 'app/main/apps/modelo/store/reducers';
 import * as fromStore from 'app/main/apps/modelo/store';
 import {getRouterState} from 'app/store/reducers';
+import {LoginService} from "../../../../auth/login/login.service";
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
@@ -15,12 +16,12 @@ export class ResolveGuard implements CanActivate {
     routerState: any;
 
     /**
-     * Constructor
-     *
-     * @param {Store<ModelosAppState>} _store
+     * @param _store
+     * @param _loginService
      */
     constructor(
-        private _store: Store<ModelosAppState>
+        private _store: Store<ModelosAppState>,
+        private _loginService: LoginService
     ) {
         this._store
             .pipe(select(getRouterState))
@@ -57,7 +58,15 @@ export class ResolveGuard implements CanActivate {
                 if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
 
                     const params = {
-                        filter: {},
+                        filter: [
+                            {
+                                'modalidadeModelo.valor': 'eq:EM BRANCO'
+                            },
+                            {
+                                'modalidadeModelo.valor': 'eq:INDIVIDUAL',
+                                'vinculacoesModelos.usuario.id': 'eq:' + this._loginService.getUserProfile().id
+                            }
+                        ],
                         gridFilter: {},
                         limit: 10,
                         offset: 0,

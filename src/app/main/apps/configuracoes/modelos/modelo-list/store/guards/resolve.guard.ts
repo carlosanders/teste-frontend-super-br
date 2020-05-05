@@ -70,6 +70,7 @@ export class ResolveGuard implements CanActivate {
                         sort: {criadoEm: 'DESC'},
                         populate: [
                             'documento',
+                            'modalidadeModelo',
                             'documento.componentesDigitais'
                         ]
                     };
