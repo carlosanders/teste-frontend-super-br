@@ -59,6 +59,9 @@ export class CdkPessoaFormComponent implements OnChanges, OnDestroy {
     @Input()
     municipioPagination: Pagination;
 
+    @Input()
+    logEntryPagination: Pagination;
+
     @Output()
     save = new EventEmitter<Pessoa>();
 
@@ -287,4 +290,9 @@ export class CdkPessoaFormComponent implements OnChanges, OnDestroy {
         this.activeCard = 'form';
     }
 
+    showLogEntryGrid(target: string): void {
+        const campo = {target: target};
+        Object.assign(this.logEntryPagination.filter, campo);
+        this.activeCard = 'logentry-gridsearch';
+    }
 }

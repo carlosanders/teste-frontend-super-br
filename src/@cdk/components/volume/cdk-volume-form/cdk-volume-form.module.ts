@@ -14,6 +14,7 @@ import {ModalidadeMeioService} from '@cdk/services/modalidade-meio.service';
 import {CdkVolumeFormComponent} from './cdk-volume-form.component';
 import {CdkModalidadeMeioAutocompleteModule} from '@cdk/components/modalidade-meio/cdk-modalidade-meio-autocomplete/cdk-modalidade-meio-autocomplete.module';
 import {CdkModalidadeMeioGridsearchModule} from '@cdk/components/modalidade-meio/cdk-modalidade-meio-autocomplete/cdk-modalidade-meio-gridsearch/cdk-modalidade-meio-gridsearch.module';
+import {CdkLogentryGridsearchModule} from "../../logentry/cdk-logentry-grid/cdk-logentry-gridsearch/cdk-logentry-gridsearch.module";
 
 @NgModule({
     declarations: [
@@ -31,6 +32,7 @@ import {CdkModalidadeMeioGridsearchModule} from '@cdk/components/modalidade-meio
         CdkModalidadeMeioAutocompleteModule,
         CdkModalidadeMeioGridsearchModule,
         CdkSharedModule,
+        CdkLogentryGridsearchModule,
     ],
     providers: [
         ModalidadeMeioService,

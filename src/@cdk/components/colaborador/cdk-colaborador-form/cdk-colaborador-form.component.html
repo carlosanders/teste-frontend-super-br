@@ -19,6 +19,10 @@
                 [control]="form.get('modalidadeColaborador')"
                 [pagination]="modalidadeColaborador">
             </cdk-modalidade-colaborador-autocomplete>
+            <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                    (click)="showLogEntryGrid('modalidadeColaborador')">
+                <mat-icon matTooltip="Histórico">history</mat-icon>
+            </button>
             <button matSuffix mat-button mat-icon-button
                     (click)="showModalidadeColaboradorGrid()">
                 <mat-icon matTooltip="Procurar">search</mat-icon>
@@ -41,6 +45,10 @@
                 [control]="form.get('cargo')"
                 [pagination]="cargoPagination">
             </cdk-cargo-autocomplete>
+            <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                    (click)="showLogEntryGrid('cargo')">
+                <mat-icon matTooltip="Histórico">history</mat-icon>
+            </button>
             <button matSuffix mat-button mat-icon-button
                     (click)="showCargoGrid()">
                 <mat-icon matTooltip="Procurar">search</mat-icon>
@@ -54,6 +62,10 @@
                       class="mr-16 mb-16" fxFlex="0 1 auto">
             Ativo
         </mat-checkbox>
+        <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                (click)="showLogEntryGrid('ativo')">
+            <mat-icon matTooltip="Histórico">history</mat-icon>
+        </button>
     </div>
 
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
@@ -89,3 +101,10 @@
     (selected)="selectCargo($event)"
     (cancel)="cancel()">
 </cdk-cargo-gridsearch>
+
+<cdk-logentry-gridsearch
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'logentry-gridsearch'"
+    [pagination]="logEntryPagination"
+    (cancel)="cancel()">
+</cdk-logentry-gridsearch>

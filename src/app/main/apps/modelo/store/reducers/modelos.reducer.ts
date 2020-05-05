@@ -72,6 +72,10 @@ export function ModelosReducer(state = ModelosInitialState, action: ModelosActio
             };
         }
 
+        case ModelosActions.UNLOAD_MODELOS: {
+            return ModelosInitialState;
+        }
+
         default:
             return state;
     }

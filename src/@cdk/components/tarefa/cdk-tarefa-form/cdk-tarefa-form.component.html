@@ -90,7 +90,7 @@
                     [control]="form.get('unidadeResponsavel')"
                     [pagination]="unidadeResponsavelPagination">
                 </cdk-setor-autocomplete>
-                <button matSuffix mat-button mat-icon-button *ngIf="tarefa.id"
+                <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
                         (click)="showLogEntryGrid('unidadeResponsavel')">
                     <mat-icon matTooltip="Histórico">history</mat-icon>
                 </button>
@@ -127,7 +127,7 @@
                     [control]="form.get('setorResponsavel')"
                     [pagination]="setorResponsavelPagination">
                 </cdk-setor-autocomplete>
-                <button matSuffix mat-button mat-icon-button *ngIf="tarefa.id"
+                <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
                         (click)="showLogEntryGrid('setorResponsavel')">
                     <mat-icon matTooltip="Histórico">history</mat-icon>
                 </button>
@@ -318,6 +318,6 @@
 <cdk-logentry-gridsearch
     fxFlex="1 0 auto"
     *ngIf="activeCard === 'logentry-gridsearch'"
-    [pagination]="logEntryPaginationTarefa"
+    [pagination]="logEntryPagination"
     (cancel)="cancel()">
 </cdk-logentry-gridsearch>

@@ -61,19 +61,19 @@
                     </ng-container>
                 </button>
 
-                <button mat-menu-item aria-label="Compartilhar"
-                        [routerLink]="'compartilhamentos/criar'">
-                    <ng-container>
-                        <mat-icon>share</mat-icon>
-                        <span>Compartilhar</span>
-                    </ng-container>
-                </button>
-
                 <button mat-menu-item aria-label="Dar ciência"
                         (click)="doCiencia()">
                     <ng-container>
                         <mat-icon>check</mat-icon>
                         <span>Dar Ciência</span>
+                    </ng-container>
+                </button>
+
+                <button mat-menu-item aria-label="Compartilhamento"
+                        [routerLink]="'compartilhamentos/listar'">
+                    <ng-container>
+                        <mat-icon>share</mat-icon>
+                        <span>Compartilhamento</span>
                     </ng-container>
                 </button>
 

@@ -31,6 +31,7 @@ import {CdkModeloAutocompleteModule} from '../../modelo/cdk-modelo-autocomplete/
 import {CdkModeloGridsearchModule} from '../../modelo/cdk-modelo-autocomplete/cdk-modelo-gridsearch/cdk-modelo-gridsearch.module';
 import {CdkPessoaAutocompleteModule} from '../../pessoa/cdk-pessoa-autocomplete/cdk-pessoa-autocomplete.module';
 import {CdkProcessoGridModule} from '../../processo/cdk-processo-grid/cdk-processo-grid.module';
+import {CdkLogentryGridsearchModule} from "../../logentry/cdk-logentry-grid/cdk-logentry-gridsearch/cdk-logentry-gridsearch.module";
 
 @NgModule({
     declarations: [
@@ -67,6 +68,7 @@ import {CdkProcessoGridModule} from '../../processo/cdk-processo-grid/cdk-proces
         CdkProcessoGridModule,
 
         CdkSharedModule,
+        CdkLogentryGridsearchModule,
     ],
     providers: [
         EspecieDocumentoAvulsoService,

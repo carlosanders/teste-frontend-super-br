@@ -37,6 +37,7 @@ export class VolumeEditComponent implements OnInit, OnDestroy {
     processo: Processo;
 
     modalidadeMeioPagination: Pagination;
+    logEntryPagination: Pagination;
 
     /**
      * @param _store
@@ -50,6 +51,7 @@ export class VolumeEditComponent implements OnInit, OnDestroy {
         this.processo$ = this._store.pipe(select(getProcesso));
 
         this.modalidadeMeioPagination = new Pagination();
+        this.logEntryPagination = new Pagination();
         //this.modalidadeMeioPagination.populate = ['parent'];
     }
 
@@ -73,6 +75,8 @@ export class VolumeEditComponent implements OnInit, OnDestroy {
             this.volume = new Volume();
             this.volume.processo = this.processo;
         }
+
+        this.logEntryPagination.filter = {entity: 'SuppCore\\AdministrativoBackend\\Entity\\Volume', id: + this.volume.id};
     }
 
     /**

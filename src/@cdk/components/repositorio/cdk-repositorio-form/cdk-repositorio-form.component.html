@@ -14,6 +14,10 @@
             <mat-form-field fxFlex="100">
                 <div fxLayout="row" fxLayoutAlign="start center">
                     <input matInput placeholder="Nome" formControlName="nome" maxlength="255" required upperCase>
+                    <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                            (click)="showLogEntryGrid('nome')">
+                        <mat-icon matTooltip="Histórico">history</mat-icon>
+                    </button>
                 </div>
             </mat-form-field>
 
@@ -104,3 +108,10 @@
     (selected)="selectModalidadeRepositorio($event)"
     (cancel)="cancel()">
 </cdk-modalidade-repositorio-gridsearch>
+
+<cdk-logentry-gridsearch
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'logentry-gridsearch'"
+    [pagination]="logEntryPagination"
+    (cancel)="cancel()">
+</cdk-logentry-gridsearch>

@@ -18,7 +18,8 @@ import {Tarefa} from '@cdk/models';
 import {getTarefa} from '../../store/selectors';
 import {getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
-import {Colaborador} from "../../../../../../../@cdk/models/colaborador.model";
+import {Colaborador} from '@cdk/models/colaborador.model';
+import {Back} from '../../../../../../store/actions';
 
 @Component({
     selector: 'compartilhamento-create',
@@ -80,6 +81,10 @@ export class CompartilhamentoCreateComponent implements OnInit, OnDestroy {
         this.tarefa$.subscribe(tarefa => {
             this.compartilhamento.tarefa = tarefa;
         });
+    }
+
+    doAbort(): void {
+        this._store.dispatch(new Back());
     }
 
     /**

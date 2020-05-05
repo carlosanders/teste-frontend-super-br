@@ -145,6 +145,10 @@
                 <mat-label>Início do Prazo</mat-label>
                 <input matInput formControlName="dataHoraInicioPrazo" [matDatetimepicker]="dataHoraInicioPrazo"
                        required>
+                <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                        (click)="showLogEntryGrid('dataHoraInicioPrazo')">
+                    <mat-icon matTooltip="Histórico">history</mat-icon>
+                </button>
                 <mat-datetimepicker-toggle matSuffix [for]="dataHoraInicioPrazo"></mat-datetimepicker-toggle>
                 <mat-datetimepicker #dataHoraInicioPrazo type="datetime" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
             </mat-form-field>
@@ -153,6 +157,10 @@
                 <mat-label>Final do Prazo</mat-label>
                 <input matInput formControlName="dataHoraFinalPrazo" [matDatetimepicker]="dataHoraFinalPrazo"
                        required>
+                <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                        (click)="showLogEntryGrid('dataHoraFinalPrazo')">
+                    <mat-icon matTooltip="Histórico">history</mat-icon>
+                </button>
                 <mat-datetimepicker-toggle matSuffix [for]="dataHoraFinalPrazo"></mat-datetimepicker-toggle>
                 <mat-datetimepicker #dataHoraFinalPrazo type="datetime" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
             </mat-form-field>
@@ -218,3 +226,10 @@
     (selected)="selectSetorDestino($event)"
     (cancel)="cancel()">
 </cdk-setor-gridsearch>
+
+<cdk-logentry-gridsearch
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'logentry-gridsearch'"
+    [pagination]="logEntryPagination"
+    (cancel)="cancel()">
+</cdk-logentry-gridsearch>
