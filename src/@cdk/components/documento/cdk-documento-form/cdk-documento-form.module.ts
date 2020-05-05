@@ -24,6 +24,7 @@ import {CdkPessoaAutocompleteModule} from '../../pessoa/cdk-pessoa-autocomplete/
 import {CdkPessoaGridsearchModule} from '../../pessoa/cdk-pessoa-autocomplete/cdk-pessoa-gridsearch/cdk-pessoa-gridsearch.module';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
+import {CdkLogentryGridsearchModule} from "../../logentry/cdk-logentry-grid/cdk-logentry-gridsearch/cdk-logentry-gridsearch.module";
 
 @NgModule({
     declarations: [
@@ -56,6 +57,7 @@ import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
         CdkPessoaGridsearchModule,
 
         CdkSharedModule,
+        CdkLogentryGridsearchModule,
     ],
     providers: [
         TipoDocumentoService,

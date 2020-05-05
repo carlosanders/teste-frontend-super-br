@@ -45,6 +45,9 @@ export class CdkDocumentoFormComponent implements OnChanges, OnDestroy {
     @Input()
     procedenciaPagination: Pagination;
 
+    @Input()
+    logEntryPagination: Pagination;
+
     @Output()
     save = new EventEmitter<Documento>();
 
@@ -62,7 +65,6 @@ export class CdkDocumentoFormComponent implements OnChanges, OnDestroy {
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: FormBuilder 
     ) {
-
         this.form = this._formBuilder.group({
             id: [null],
             tipoDocumento: [null, [Validators.required]],
@@ -196,4 +198,9 @@ export class CdkDocumentoFormComponent implements OnChanges, OnDestroy {
         this.activeCard = 'form';
     }
 
+    showLogEntryGrid(target: string): void {
+        const campo = {target: target};
+        Object.assign(this.logEntryPagination.filter, campo);
+        this.activeCard = 'logentry-gridsearch';
+    }
 }
