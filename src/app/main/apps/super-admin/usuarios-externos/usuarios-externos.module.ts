@@ -33,6 +33,10 @@ const routes: Routes = [
                 loadChildren: () => import('./usuarios-externos-edit/usuarios-externos-edit.module').then(m => m.UsuariosExternosEditModule),
             },
             {
+                path       : ':usuariosExternosHandler/vinculacao-pessoa-usuario',
+                loadChildren: () => import('./vinculacao-pessoa-usuario/vincular-pessoa.module').then(m => m.VincularPessoaModule),
+            },
+            {
                 path: '**',
                 redirectTo: 'listar'
             }

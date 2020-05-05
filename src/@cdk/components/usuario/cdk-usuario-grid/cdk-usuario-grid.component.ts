@@ -147,7 +147,7 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
     pageSize = 5;
 
     @Input()
-    actions: string[] = ['edit', 'delete', 'select', 'lotacoes', 'afastamentos'];
+    actions: string[] = ['edit', 'delete', 'select', 'lotacoes', 'afastamentos', 'vincularPessoa'];
 
     @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
@@ -172,6 +172,9 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
 
     @Output()
     delete = new EventEmitter<number>();
+
+    @Output()
+    vincular = new EventEmitter<number>();
 
     @Output()
     selected = new EventEmitter<Usuario>();
@@ -280,6 +283,10 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
         this.afastamentos.emit(usuarioId);
     }
 
+    vincularPessoa(usuarioId): void {
+        this.vincular.emit(usuarioId);
+    }
+
     selectUsuario(usuario: Usuario): void {
         this.selected.emit(usuario);
     }
@@ -291,6 +298,8 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
     deleteUsuarios(usuariosId): void {
         usuariosId.forEach(usuarioId => this.deleteUsuario(usuarioId));
     }
+
+
 
     /**
      * Toggle select all
@@ -353,4 +362,6 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
     doCreate(): void {
         this.create.emit();
     }
+
+
 }

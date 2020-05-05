@@ -6,7 +6,8 @@
     [deletedIds]="(deletedIds$ | async)"
     [displayedColumns]="['id','nome','username','email','enabled','actions']"
     [externo]="this.externo"
-    [actions]="['edit']"
+    [actions]="['edit', 'vincularPessoa']"
     (reload)="reload($event)"
-    (edit)="edit($event)">
+    (edit)="edit($event)"
+    (vincular)="vincularPessoa($event)">
 </cdk-usuario-grid>

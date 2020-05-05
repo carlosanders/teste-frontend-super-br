@@ -11,6 +11,7 @@ import {LoginService} from 'app/main/auth/login/login.service';
 import {Router} from '@angular/router';
 import {getRouterState} from '../../../../../store/reducers';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Back} from '../../../../../store/actions';
 
 @Component({
     selector: 'usuarios-externos-edit',
@@ -97,5 +98,9 @@ export class UsuariosExternosEditComponent implements OnInit, OnDestroy {
         );
 
         this._store.dispatch(new fromStore.SaveUsuarioExternos(usuario));
+    }
+
+    doAbort(): void {
+        this._store.dispatch(new Back());
     }
 }
