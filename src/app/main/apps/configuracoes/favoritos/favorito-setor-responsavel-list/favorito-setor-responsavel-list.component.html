@@ -15,6 +15,5 @@
         [deletedIds]="(deletedIds$ | async)"
         [actions]="['create', 'favorito']"
         (reload)="reload($event)"
-        (create)="create()"
         (toggleFavorito)="doToggleFavorito($event)">
 </cdk-favorito-grid>
