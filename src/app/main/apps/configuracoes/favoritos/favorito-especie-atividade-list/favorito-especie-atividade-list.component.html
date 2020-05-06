@@ -13,7 +13,7 @@
         [total]="(pagination$ | async)?.total"
         [deletingIds]="(deletingIds$ | async)"
         [deletedIds]="(deletedIds$ | async)"
-        [actions]="['create', 'favorito']"
+        [actions]="['favorito']"
         (reload)="reload($event)"
         (toggleFavorito)="doToggleFavorito($event)">
 </cdk-favorito-grid>

@@ -1,14 +1,14 @@
 <div class="page-layout left-sidebar" fxFlex>
 
     <!-- SIDEBAR -->
-    <cdk-sidebar class="sidebar" name="cdk-juntada-filter" position="left">
+    <cdk-sidebar name="cdk-juntada-filter" position="left">
         <cdk-juntada-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-juntada-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
     <!-- CONTENT -->
     <div class="content responsive-grid" fxFlex fxLayout="column">
-{{actions.indexOf('create') > -1}}
+
         <button class="back accent" mat-icon-button *ngIf="actions.indexOf('create') > -1"
                 (click)="doCreate()"
                 aria-label="novo"
