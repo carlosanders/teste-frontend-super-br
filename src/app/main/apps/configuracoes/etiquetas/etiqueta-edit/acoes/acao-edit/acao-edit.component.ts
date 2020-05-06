@@ -5,20 +5,17 @@ import {
     OnInit,
     ViewEncapsulation
 } from '@angular/core';
-
 import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
-
 import {Acao} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
-
 import * as fromStore from './store';
 import {Etiqueta} from '@cdk/models';
 import {Pagination} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Colaborador} from '@cdk/models';
 import {getEtiqueta} from '../../store/selectors';
 import {Usuario} from "../../../../../../../../@cdk/models/usuario.model";
+import {Back} from "../../../../../../../store/actions";
 
 @Component({
     selector: 'acao-edit',
@@ -126,4 +123,7 @@ export class AcaoEditComponent implements OnInit, OnDestroy {
         this._store.dispatch(new fromStore.SaveAcao(acao));
     }
 
+    doAbort(): void {
+        this._store.dispatch(new Back());
+    }
 }

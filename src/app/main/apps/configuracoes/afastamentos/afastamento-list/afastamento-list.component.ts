@@ -79,6 +79,10 @@ export class AfastamentoListComponent implements OnInit {
         }));
     }
 
+    create () : void {
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
+    }
+
     edit(afastamentoId: number): void {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/') + afastamentoId]);
     }

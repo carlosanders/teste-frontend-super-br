@@ -79,6 +79,10 @@ export class RepositorioListComponent implements OnInit {
         }));
     }
 
+    create () : void {
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
+    }
+
     edit(repositorioId: number): void {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/') + repositorioId]);
     }
