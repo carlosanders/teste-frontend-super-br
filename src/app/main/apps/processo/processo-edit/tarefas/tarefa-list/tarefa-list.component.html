@@ -6,6 +6,7 @@
         [deletedIds]="(deletedIds$ | async)"
         [actions]="['create', 'edit', 'delete']"
         (reload)="reload($event)"
+        (excluded)="excluded($event)"
         (edit)="edit($event)"
         (create)="create()"
         (delete)="delete($event)">

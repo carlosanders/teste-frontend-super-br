@@ -40,6 +40,13 @@
                 </mat-select>
             </mat-form-field>
 
+            <button mat-icon-button [ngClass]="{'warn': hasExcluded}"
+                    (click)="loadExcluded()"
+                    aria-label="apagados"
+                    matTooltip="Apagados">
+                <mat-icon>delete_sweep</mat-icon>
+            </button>
+
             <button class="refresh" mat-icon-button
                     (click)="loadPage()"
                     aria-label="recarregar"
