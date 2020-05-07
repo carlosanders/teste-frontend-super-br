@@ -1,0 +1,8 @@
+<cdk-especie-relevancia-form
+    [especieRelevancia]="(especieRelevancia$ | async)"
+    [form]="formEspecieRelevancia"
+    [saving]="(isSaving$ | async)"
+    [errors]="(errors$ | async)"
+    (save)="submitEspecieRelevancia($event)"
+    (abort)="doAbort()">
+</cdk-especie-relevancia-form>
