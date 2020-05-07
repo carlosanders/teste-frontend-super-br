@@ -79,7 +79,7 @@ export class TarefaListComponent implements OnInit {
     }
 
     excluded(params): void {
-        console.log("OK");
+        console.log("OKs");
         this._store.dispatch(new fromStore.GetTarefas({
             ...this.pagination,
             filter: {
