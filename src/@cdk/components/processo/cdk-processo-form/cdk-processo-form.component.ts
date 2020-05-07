@@ -195,14 +195,16 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             this.form.get('NUP').setValue(null);
             this.form.get('NUP').disable();
 
-            this.form.get('generoSetor').setValue(null);
-            this.form.get('generoSetor').disable();
+            if (this._loginService.isGranted('ROLE_CONVENIADO')) {
+                this.form.get('generoSetor').setValue(null);
+                this.form.get('generoSetor').disable();
 
-            this.form.get('especieSetor').setValue(null);
-            this.form.get('especieSetor').disable();
+                this.form.get('especieSetor').setValue(null);
+                this.form.get('especieSetor').disable();
 
-            this.form.get('setorInicial').setValue(null);
-            this.form.get('setorInicial').disable();
+                this.form.get('setorInicial').setValue(null);
+                this.form.get('setorInicial').disable();
+            }
 
             this.form.get('procedencia').setValue(null);
             this.form.get('procedencia').disable();
@@ -260,41 +262,43 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             }
         });
 
-        this.form.get('estado').valueChanges.subscribe(value => {
-            if (value) {
-                this.form.get('generoSetor').enable();
-                this.setorInicialPagination.filter = {
-                    ... this.setorInicialPagination.filter,
-                    ...{'municipio.estado.id': `eq:${value}`}
-                };
-            } else {
-                this.form.get('generoSetor').setValue(null);
-                this.form.get('generoSetor').disable();
-            }
-        });
+        if (this._loginService.isGranted('ROLE_CONVENIADO')) {
+            this.form.get('estado').valueChanges.subscribe(value => {
+                if (value) {
+                    this.form.get('generoSetor').enable();
+                    this.setorInicialPagination.filter = {
+                        ...this.setorInicialPagination.filter,
+                        ...{'municipio.estado.id': `eq:${value}`}
+                    };
+                } else {
+                    this.form.get('generoSetor').setValue(null);
+                    this.form.get('generoSetor').disable();
+                }
+            });
 
-        this.form.get('generoSetor').valueChanges.subscribe(value => {
-            if (value) {
-                this.form.get('especieSetor').enable();
-                this.especieSetorPagination.filter = {'generoSetor.id': `eq:${value.id}`};
-            } else {
-                this.form.get('especieSetor').setValue(null);
-                this.form.get('especieSetor').disable();
-            }
-        });
+            this.form.get('generoSetor').valueChanges.subscribe(value => {
+                if (value) {
+                    this.form.get('especieSetor').enable();
+                    this.especieSetorPagination.filter = {'generoSetor.id': `eq:${value.id}`};
+                } else {
+                    this.form.get('especieSetor').setValue(null);
+                    this.form.get('especieSetor').disable();
+                }
+            });
 
-        this.form.get('especieSetor').valueChanges.subscribe(value => {
-            if (value) {
-                this.form.get('setorInicial').enable();
-                this.setorInicialPagination.filter = {
-                    ... this.setorInicialPagination.filter,
-                    ...{'unidade.generoSetor.id': `eq:${this.form.get('generoSetor').value.id}`}
-                };
-            } else {
-                this.form.get('setorInicial').setValue(null);
-                this.form.get('setorInicial').disable();
-            }
-        });
+            this.form.get('especieSetor').valueChanges.subscribe(value => {
+                if (value) {
+                    this.form.get('setorInicial').enable();
+                    this.setorInicialPagination.filter = {
+                        ...this.setorInicialPagination.filter,
+                        ...{'unidade.generoSetor.id': `eq:${this.form.get('generoSetor').value.id}`}
+                    };
+                } else {
+                    this.form.get('setorInicial').setValue(null);
+                    this.form.get('setorInicial').disable();
+                }
+            });
+        }
 
         this.form.get('modalidadeFase').disable();
     }

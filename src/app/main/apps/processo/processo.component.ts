@@ -144,7 +144,7 @@ export class ProcessoComponent implements OnInit, OnDestroy {
         this._cdkSidebarService.getSidebar(name).toggleOpen();
     }
 
-    doAutuar() : void {
+    doAutuar(): void {
         this._store.dispatch(new fromStore.AutuarProcesso(this.processo));
     }
 
