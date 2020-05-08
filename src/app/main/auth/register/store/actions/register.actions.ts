@@ -19,6 +19,7 @@ export class RegisterFailed implements Action {
     constructor(public payload: any) {}
 }
 
+
 export type RegisterActionsAll =
     | Register
     | RegisterSuccess

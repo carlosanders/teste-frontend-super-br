@@ -1,52 +1,55 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {select, Store} from '@ngrx/store';
+import {Observable, Subject} from 'rxjs';
+import {filter, takeUntil} from 'rxjs/operators';
+import {CdkConfigService} from '@cdk/services/config.service';
+import {cdkAnimations} from '@cdk/animations';
 
-import { CdkConfigService } from '@cdk/services/config.service';
-import { cdkAnimations } from '@cdk/animations';
-
-import * as fromStore from '../register/store';
-import { getRegisterAppState } from '../register/store';
+import * as fromStore from './store';
+import {getRegisterAppState} from './store';
 import {Usuario} from '@cdk/models';
 
 @Component({
-    selector     : 'register',
-    templateUrl  : './register.component.html',
-    styleUrls    : ['./register.component.scss'],
+    selector: 'register',
+    templateUrl: './register.component.html',
+    styleUrls: ['./register.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    animations   : cdkAnimations
+    animations: cdkAnimations
 })
-export class RegisterComponent implements OnInit
-{
+export class RegisterComponent implements OnInit {
+    private _unsubscribeAll: Subject<any> = new Subject();
+
     registerForm: FormGroup;
     getRegisterState: Observable<any>;
     errorMessage: string | null;
     loading: boolean;
+    isRegistred$: Observable<boolean>;
+    isRegistred: boolean;
 
     /**
      * Constructor
      *
      * @param cdkConfigService
      * @param formBuilder
-     * @param store
+     * @param _store
      */
     constructor(
         private cdkConfigService: CdkConfigService,
         private formBuilder: FormBuilder,
-        private store: Store<fromStore.RegisterState>
-    )
-    {
+        private _store: Store<fromStore.RegisterAppState>
+    ) {
+
         // Configure the layout
         this.cdkConfigService.config = {
             layout: {
-                navbar   : {
+                navbar: {
                     hidden: true
                 },
-                toolbar  : {
+                toolbar: {
                     hidden: true
                 },
-                footer   : {
+                footer: {
                     hidden: true
                 },
                 sidepanel: {
@@ -55,7 +58,8 @@ export class RegisterComponent implements OnInit
             }
         };
 
-        this.getRegisterState = this.store.pipe(select(getRegisterAppState));
+        this.getRegisterState = this._store.pipe(select(getRegisterAppState));
+        this.isRegistred$ = this._store.pipe(select(fromStore.getIsRegistred));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -65,8 +69,7 @@ export class RegisterComponent implements OnInit
     /**
      * On init
      */
-    ngOnInit(): void
-    {
+    ngOnInit(): void {
         this.loading = false;
 
         this.registerForm = this.formBuilder.group({
@@ -93,6 +96,6 @@ export class RegisterComponent implements OnInit
         usuario.password = this.registerForm.controls.password.value;
 
         this.loading = true;
-        this.store.dispatch(new fromStore.Register(usuario));
+        this._store.dispatch(new fromStore.Register(usuario));
     }
 }

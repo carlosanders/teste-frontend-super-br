@@ -1,5 +1,5 @@
 import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { RegisterReducers, RegisterState } from './register.reducer';
+import { RegisterReducer, RegisterState } from './register.reducer';
 
 export interface RegisterAppState
 {
@@ -16,7 +16,7 @@ export const getAppState = createSelector(
 );
 
 export const reducers: ActionReducerMap<RegisterAppState> = {
-    register: RegisterReducers
+    register: RegisterReducer
 };
 
 export * from './register.reducer';

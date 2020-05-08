@@ -32,10 +32,11 @@ export class RegisterEffects {
     }
 
     /**
-     *
+     * Registar Usuario
+     * @type {Observable<any>}
      */
     @Effect()
-    Register: any =
+    register: any =
         this._actions
             .pipe(
                 ofType<RegisterActions.Register>(RegisterActions.REGISTER),
@@ -51,16 +52,6 @@ export class RegisterEffects {
                     console.log(err);
                     this._store.dispatch(new RegisterActions.RegisterFailed(err));
                     return caught;
-                })
-            );
-
-    @Effect({ dispatch: false })
-    RegisterSuccess: any =
-        this._actions
-            .pipe(
-                ofType<RegisterActions.RegisterSuccess>(RegisterActions.REGISTER_SUCCESS),
-                tap((action) => {
-                    this._router.navigate([this.routerState.url + '/' + action.payload.id]).then();
                 })
             );
 }

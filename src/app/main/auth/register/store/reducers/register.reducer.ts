@@ -6,6 +6,7 @@ export interface RegisterState {
     errors: any;
     loading: boolean;
     loaded: any;
+    isRegistred: boolean;
 }
 
 export const RegisterInicialState: RegisterState = {
@@ -13,10 +14,11 @@ export const RegisterInicialState: RegisterState = {
     saving: false,
     errors: false,
     loading: false,
-    loaded: false
+    loaded: false,
+    isRegistred: false
 };
 
-export function RegisterReducers(
+export function RegisterReducer(
     state = RegisterInicialState,
     action: RegisterActions.RegisterActionsAll): RegisterState {
     switch (action.type) {
@@ -24,7 +26,8 @@ export function RegisterReducers(
             return {
                 ...state,
                 saving: true,
-                errors: false
+                errors: false,
+                isRegistred: false
             };
         }
 
@@ -37,7 +40,8 @@ export function RegisterReducers(
                     value: action.payload.id
                 },
                 saving: false,
-                errors: false
+                errors: false,
+                isRegistred: true
             };
         }
 
@@ -45,7 +49,8 @@ export function RegisterReducers(
             return {
                 ...state,
                 saving: false,
-                errors: action.payload
+                errors: action.payload,
+                isRegistred: false
             };
         }
 

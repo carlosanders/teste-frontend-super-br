@@ -27,6 +27,11 @@ export const getIsSaving = createSelector(
     (state: RegisterState) => state.saving
 );
 
+export const getIsRegistred = createSelector(
+    getRegisterState,
+    (state: RegisterState) => state.isRegistred
+);
+
 export const getHasLoaded = createSelector(
     getRegisterState,
     (state: RegisterState) => state.loaded
