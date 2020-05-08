@@ -1,20 +1,25 @@
 atividades {
 
-  width: 100%;
-
-  .atividades-wrapper {
     height: 100%;
+    width: 100%;
 
-    .atividades-header {
+    .atividades-wrapper {
 
-      padding: 8px;
+        height: 100%;
 
-      .actions {
-        min-width: 88px;
-        margin-left: auto;
-      }
+        .atividades-header {
+
+            padding: 8px;
+
+            .actions {
+                min-width: 88px;
+                margin-left: auto;
+            }
+        }
+
+        .content {
+            height: 100%;
+        }
     }
-  }
-
 
 }

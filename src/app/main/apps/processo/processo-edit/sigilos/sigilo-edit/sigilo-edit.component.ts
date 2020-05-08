@@ -9,7 +9,7 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
 
-import {Sigilo} from '@cdk/models';
+import {Pagination, Sigilo} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
@@ -35,6 +35,8 @@ export class SigiloEditComponent implements OnInit, OnDestroy {
     processo$: Observable<Processo>;
     processo: Processo;
 
+    logEntryPagination: Pagination;
+
     /**
      * @param _store
      */
@@ -45,6 +47,7 @@ export class SigiloEditComponent implements OnInit, OnDestroy {
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.sigilo$ = this._store.pipe(select(fromStore.getSigilo));
         this.processo$ = this._store.pipe(select(getProcesso));
+        this.logEntryPagination = new Pagination();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -63,10 +66,13 @@ export class SigiloEditComponent implements OnInit, OnDestroy {
             sigilo => this.sigilo = sigilo
         );
 
+
         if (!this.sigilo) {
             this.sigilo = new Sigilo();
             this.sigilo.processo = this.processo;
         }
+
+        this.logEntryPagination.filter = {entity: 'SuppCore\\AdministrativoBackend\\Entity\\Sigilo', id: this.sigilo.id};
     }
 
     /**

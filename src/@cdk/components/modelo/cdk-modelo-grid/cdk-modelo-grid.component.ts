@@ -42,7 +42,7 @@ export class CdkModeloGridComponent implements AfterViewInit, OnInit, OnChanges 
     create = new EventEmitter<any>();
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'highlights', 'ativo', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'nome', 'modalidadeModelo.valor', 'highlights', 'actions'];
 
     allColumns: any[] = [
         {

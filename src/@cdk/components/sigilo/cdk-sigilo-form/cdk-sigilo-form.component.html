@@ -6,9 +6,15 @@
 
         <div fxFlex="1 0 auto" fxLayout="column" *ngIf="!loading">
 
-            <mat-slide-toggle *ngIf="sigilo?.id" formControlName="desclassificado" class="mr-16 mb-16" fxFlex="0 1 auto">
-                Desclassificado
-            </mat-slide-toggle>
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <mat-slide-toggle *ngIf="sigilo?.id" formControlName="desclassificado">
+                    Desclassificado
+                </mat-slide-toggle>
+                <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                        (click)="showLogEntryGrid('desclassificado')">
+                    <mat-icon matTooltip="Histórico">history</mat-icon>
+                </button>
+            </div>
 
             <mat-form-field fxFlex="100">
                 <div fxLayout="row" fxLayoutAlign="start center">
@@ -31,7 +37,8 @@
                 </mat-error>
             </mat-form-field>
 
-            <mat-form-field fxFlex="100" *ngIf="form.get('tipoSigilo').value && form.get('tipoSigilo').value.leiAcessoInformacao === true">
+            <mat-form-field fxFlex="100"
+                            *ngIf="form.get('tipoSigilo').value && form.get('tipoSigilo').value.leiAcessoInformacao === true">
                 <div fxLayout="row" fxLayoutAlign="start center">
                     <input matInput placeholder="Categoria"
                            formControlName="modalidadeCategoriaSigilo"
@@ -69,6 +76,10 @@
                        formControlName="fundamentoLegal"
                        maxlength="255" upperCase required>
                 <mat-hint align="end">{{fundamentoLegal.value.length}} / 255</mat-hint>
+                <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                        (click)="showLogEntryGrid('fundamentoLegal')">
+                    <mat-icon matTooltip="Histórico">history</mat-icon>
+                </button>
             </mat-form-field>
 
             <mat-form-field fxFlex="100">
@@ -125,3 +136,10 @@
     (selected)="selectTipoSigilo($event)"
     (cancel)="cancel()">
 </cdk-tipo-sigilo-gridsearch>
+
+<cdk-logentry-gridsearch
+    fxFlex
+    *ngIf="activeCard === 'logentry-gridsearch'"
+    [pagination]="logEntryPagination"
+    (cancel)="cancel()">
+</cdk-logentry-gridsearch>

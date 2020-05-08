@@ -25,6 +25,7 @@ import {Router} from '@angular/router';
 import {Colaborador} from '@cdk/models';
 import {UpdateData} from '@cdk/ngrx-normalizr';
 import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
+import {Back} from "../../../../../../store/actions";
 
 
 @Component({
@@ -251,5 +252,9 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy {
     doConverte(documentoId): void {
         
         this._store.dispatch(new fromStore.ConverteToPdf(documentoId));
+    }
+
+    doAbort(): void {
+        this._store.dispatch(new Back());
     }
 }
