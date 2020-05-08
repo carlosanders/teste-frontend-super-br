@@ -1,0 +1,10 @@
+<cdk-setor-form
+        [setor]="setor"
+        [unidade]="(unidade$ | async)"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        [setorPagination]="setorPagination"
+        [especieSetorPagination]="especieSetorPagination"
+        (save)="submit($event)"
+        (abort)="doAbort()">
+</cdk-setor-form>

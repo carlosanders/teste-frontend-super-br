@@ -16,8 +16,8 @@ import {Pagination} from '@cdk/models/pagination';
 import {VinculacaoModelo, Modelo, ModalidadeOrgaoCentral} from '@cdk/models';
 import {Router} from '@angular/router';
 import {getRouterState} from 'app/store/reducers';
-import {takeUntil} from "rxjs/operators";
-import {Back} from '../../../../../../store/actions';
+import {takeUntil} from 'rxjs/operators';
+import {Back} from 'app/store/actions';
 
 @Component({
     selector: 'modelos-especie-setor-edit',

@@ -13,14 +13,14 @@ export const getUnidadesOrgaoCentralState = createSelector(
     (state: UnidadesOrgaoCentralAppState) => state.unidades
 );
 
-export const getSetorId = createSelector(
+export const getUnidadeId = createSelector(
     getUnidadesOrgaoCentralState,
-    (state: UnidadesOrgaoCentralState) => state.loadedUnidade ? state.loaded.value : null
+    (state: UnidadesOrgaoCentralState) => state.loadedUnidade ? state.loadedUnidade.value : null
 );
 
-export const getSetor = createSelector(
+export const getUnidade = createSelector(
     schemaSetorSelectors.getNormalizedEntities,
-    getSetorId,
+    getUnidadeId,
     schemaSetorSelectors.entityProjector
 );
 

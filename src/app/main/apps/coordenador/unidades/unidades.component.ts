@@ -81,6 +81,18 @@ export class UnidadesComponent implements OnInit, OnDestroy {
         this._unsubscribeAll.complete();
     }
 
+    showSidebar(): boolean {
+        console.log(this.routerState.params.setorHandle);
+        console.log(this.routerState.params.unidadeHandle);
+        return (!this.routerState.params.setorHandle || this.routerState.params.setorHandle === 'default' ||
+            (this.routerState.params.setorHandle &&
+                (this.routerState.url.indexOf('modelos') === -1 && this.routerState.url.indexOf('repositorios') === -1 &&
+                    this.routerState.url.indexOf('usuarios') === -1 && this.routerState.url.indexOf('numeros-unicos-documentos') === -1) &&
+                (this.routerState.url.indexOf('editar') > -1 || this.routerState.url.indexOf('lotacoes') > -1 ||
+                    this.routerState.url.indexOf('localizadores') > -1)))
+            && (this.routerState.params.unidadeHandle && this.routerState.params.unidadeHandle !== 'default' && this.routerState.params.unidadeHandle !== 'criar');
+    }
+
     /**
      * Toggle the sidebar
      *

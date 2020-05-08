@@ -40,6 +40,14 @@ const routes: Routes = [
             {
                 path       : ':entidadeHandle/unidades',
                 loadChildren: () => import('./unidades/unidades.module').then(m => m.UnidadesModule)
+            },
+            {
+                path       : ':entidadeHandle/numeros-unicos-documentos',
+                loadChildren: () => import('./numero-unico-documento/numero-unico-documento.module').then(m => m.NumeroUnicoDocumentoModule),
+            },
+            {
+                path       : ':entidadeHandle/setor',
+                loadChildren: () => import('./setor/setor.module').then(m => m.SetorModule)
             }
         ],
         canActivate: [fromGuards.ResolveGuard]

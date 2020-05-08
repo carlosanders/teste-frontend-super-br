@@ -9,7 +9,7 @@ import {switchMap, catchError, tap, filter, take} from 'rxjs/operators';
 import {CoordenadorAppState} from '../reducers';
 import {getRouterState} from 'app/store/reducers';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Lotacao, ModalidadeOrgaoCentral, Setor, Usuario, VinculacaoOrgaoCentralUsuario} from '@cdk/models';
+import {ModalidadeOrgaoCentral, Setor, Usuario} from '@cdk/models';
 import {getHasLoaded} from "../selectors";
 import * as fromStore from "../";
 import {Coordenador} from "../../../../../../@cdk/models/coordenador.model";
@@ -119,13 +119,11 @@ export class ResolveGuard implements CanActivate {
                         this._store.dispatch(new fromStore.GetOrgaoCentral({
                             id: 'eq:' + this.routerState.params['entidadeHandle']
                         }));
-                    }
-                    if (this.routerState.params['generoHandle'] === 'unidade') {
-                        this._store.dispatch(new fromStore.GetSetor({
+                    } else if  (this.routerState.params['generoHandle'] === 'unidade') {
+                        this._store.dispatch(new fromStore.GetUnidade({
                             id: 'eq:' + this.routerState.params['entidadeHandle']
                         }));
-                    }
-                    if (this.routerState.params['generoHandle'] === 'local') {
+                    } else if (this.routerState.params['generoHandle'] === 'local') {
                         this._store.dispatch(new fromStore.GetSetor({
                             id: 'eq:' + this.routerState.params['entidadeHandle']
                         }));

@@ -10,9 +10,9 @@ import {UnidadesOrgaoCentralAppState} from '../reducers';
 import {getRouterState} from 'app/store/reducers';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Usuario} from '@cdk/models';
-import {getHasLoaded} from "../selectors";
-import {getHasLoadedUnidade} from "../selectors";
-import * as fromStore from "../";
+import {getHasLoaded} from '../selectors';
+import {getHasLoadedUnidade} from '../selectors';
+import * as fromStore from '../';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {

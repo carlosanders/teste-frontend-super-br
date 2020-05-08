@@ -1,6 +1,5 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ModalidadeOrgaoCentral, Setor} from '@cdk/models';
-import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from '../../store';
 import {Observable} from 'rxjs';
@@ -32,7 +31,7 @@ export class UnidadesOrgaoCentralMainSidebarComponent implements OnInit {
     ) {
 
         this.orgaoCentral$ = this._store.pipe(select(fromStore.getOrgaoCentral));
-        this.unidade$ = this._store.pipe(select(fromStore.getSetor));
+        this.unidade$ = this._store.pipe(select(fromStore.getUnidade));
 
         this.orgaoCentral$.pipe(filter(orgaoCentral => !!orgaoCentral)).subscribe(
             orgaoCentral => {
@@ -59,7 +58,7 @@ export class UnidadesOrgaoCentralMainSidebarComponent implements OnInit {
             {
                 nome: 'Setores da Unidade',
                 icon: 'domain',
-                link: 'unidades'
+                link: 'setor'
             }
         ];
 

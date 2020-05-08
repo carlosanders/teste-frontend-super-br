@@ -2,8 +2,8 @@ import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation
 
 import {cdkAnimations} from '@cdk/animations';
 import {LoginService} from '../../../../auth/login/login.service';
-import {Colaborador, Lotacao, ModalidadeOrgaoCentral, Setor, Usuario, VinculacaoOrgaoCentralUsuario} from '@cdk/models';
-import {Coordenador} from "../../../../../../@cdk/models/coordenador.model";
+import {ModalidadeOrgaoCentral, Setor, Usuario} from '@cdk/models';
+import {Coordenador} from '@cdk/models/coordenador.model';
 
 @Component({
     selector: 'coordenador-main-sidebar',
@@ -88,7 +88,7 @@ export class CoordenadorMainSidebarComponent implements OnInit, OnDestroy {
             {
                 nome: 'Setores da Unidade',
                 icon: 'domain',
-                link: 'unidades'
+                link: 'setor'
             }
         ];
 

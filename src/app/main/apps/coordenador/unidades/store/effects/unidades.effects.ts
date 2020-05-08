@@ -70,7 +70,7 @@ export class UnidadesOrgaoCentralEffects {
                             id: 'unidadeHandle',
                             value: this.routerState.params.unidadeHandle
                         },
-                        setorId: response['entities'][0].id
+                        unidadeId: response['entities'][0].id
                     })
                 ]),
                 catchError((err, caught) => {

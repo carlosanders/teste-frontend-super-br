@@ -30,6 +30,15 @@
                         <span class="title">{{link.nome}}</span>
                     </a>
                 </div>
+                <div class="nav-item" *ngIf="((this.unidade$ | async)?.numeracaoDocumentoUnidade)">
+                    <a class="nav-link" matRipple
+                       [routerLink]="'/apps/coordenador/nacional/' + this.routerState.params.entidadeHandle + '/unidades/'
+                       + (this.unidade$ | async).id + '/' + 'numeros-unicos-documentos'"
+                       [routerLinkActive]="['active', 'accent']">
+                        <mat-icon class="nav-link-icon">filter_9_plus</mat-icon>
+                        <span>Números Únicos Documentos</span>
+                    </a>
+                </div>
 
             </div>
 

@@ -48,6 +48,14 @@
                         <span>{{link.nome}}</span>
                     </a>
                 </div>
+                <div class="nav-item" *ngIf="setor.numeracaoDocumentoUnidade">
+                    <a class="nav-link" matRipple
+                       [routerLink]="'/apps/coordenador/unidade/' + setor.id + '/' + 'numeros-unicos-documentos'"
+                       [routerLinkActive]="['active', 'accent']">
+                        <mat-icon class="nav-link-icon">filter_9_plus</mat-icon>
+                        <span>Números Únicos Documentos</span>
+                    </a>
+                </div>
             </div>
         </div>
     </div>

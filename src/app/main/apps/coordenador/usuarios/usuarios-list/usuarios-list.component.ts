@@ -29,7 +29,9 @@ export class UsuariosListComponent implements OnInit {
     loading$: Observable<boolean>;
     pagination$: Observable<any>;
     pagination: any;
-    actions: Array<string> = ['create', 'afastamentos'];
+    actions: Array<string> = [];
+    deletingIds$: Observable<any>;
+    deletedIds$: Observable<any>;
 
     /**
      * @param _changeDetectorRef
@@ -44,16 +46,20 @@ export class UsuariosListComponent implements OnInit {
         this.usuarios$ = this._store.pipe(select(fromStore.getUsuariosList));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
+        this.deletingIds$ = this._store.pipe(select(fromStore.getDeletingIds));
+        this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedIds));
 
         this._store
             .pipe(select(getRouterState))
             .subscribe(routerState => {
                 if (routerState) {
                     this.routerState = routerState.state;
-                    if (this.routerState.params['generoHandle'] === 'local') {
+                    if (this.routerState.params['generoHandle'] === 'nacional' ||
+                        (this.routerState.params['generoHandle'] === 'unidade' && !this.routerState.params['setorHandle'])) {
+                        this.actions = ['create', 'edit', 'lotacoes', 'afastamentos'];
+                    }
+                    if (this.routerState.params['generoHandle'] === 'local' || this.routerState.params['setorHandle']) {
                         this.actions = ['afastamentos'];
-                    } else {
-                        this.actions = ['create', 'afastamentos'];
                     }
                 }
             });
@@ -84,7 +90,19 @@ export class UsuariosListComponent implements OnInit {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
     }
 
+    edit(usuarioId: number): void {
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + usuarioId]);
+    }
+
+    lotacoes(usuarioId: number): void {
+        this._router.navigate([this.routerState.url.replace('listar', `${usuarioId}/lotacoes`)]);
+    }
+
     afastamentos(usuarioId: number): void {
         this._router.navigate([this.routerState.url.replace('listar', `${usuarioId}/afastamentos`)]);
+    }
+
+    delete(usuarioId: number): void {
+        this._store.dispatch(new fromStore.DeleteUsuario(usuarioId));
     }
 }

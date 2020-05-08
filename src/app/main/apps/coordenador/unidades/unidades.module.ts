@@ -16,10 +16,10 @@ import {SetorService} from '@cdk/services/setor.service';
 import {UsuarioService} from '@cdk/services/usuario.service';
 import {RouterModule, Routes} from '@angular/router';
 import {UnidadesComponent} from './unidades.component';
-import * as fromGuards from "./store/guards";
+import * as fromGuards from './store/guards';
 import {CdkSidebarModule} from '@cdk/components';
 import {UnidadesOrgaoCentralMainSidebarComponent} from './sidebars/main/main-sidebar.component';
-import {CommonModule} from "@angular/common";
+import {CommonModule} from '@angular/common';
 
 const routes: Routes = [
     {
@@ -42,6 +42,14 @@ const routes: Routes = [
             {
                 path       : 'usuarios',
                 loadChildren: () => import('../usuarios/usuarios.module').then(m => m.UsuariosModule)
+            },
+            {
+                path       : 'setor',
+                loadChildren: () => import('../setor/setor.module').then(m => m.SetorModule)
+            },
+            {
+                path       : 'numeros-unicos-documentos',
+                loadChildren: () => import('../numero-unico-documento/numero-unico-documento.module').then(m => m.NumeroUnicoDocumentoModule),
             },
             {
                 path: '**',

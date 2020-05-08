@@ -16,10 +16,10 @@ import * as fromStore from './store';
 import {Pagination} from '@cdk/models/pagination';
 import {Usuario} from '@cdk/models/usuario.model';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {getRouterState} from '../../../../../store/reducers';
+import {getRouterState} from 'app/store/reducers';
 import {ModalidadeOrgaoCentral, Setor} from '@cdk/models';
 import {takeUntil} from "rxjs/operators";
-import {Back} from '../../../../../store/actions';
+import {Back} from 'app/store/actions';
 
 @Component({
     selector: 'coordenador-modelos-edit',
@@ -37,9 +37,13 @@ export class ModelosEditComponent implements OnInit, OnDestroy {
     modelo$: Observable<Modelo>;
     modelo: Modelo;
     setor$: Observable<Setor>;
+    setorHandle$: Observable<Setor>;
     setor: Setor = null;
     orgaoCentral$: Observable<ModalidadeOrgaoCentral>;
     orgaoCentral: ModalidadeOrgaoCentral = null;
+    unidade$: Observable<Setor>;
+    unidadeHandle$: Observable<Setor>;
+    unidade: Setor = null;
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
     usuario: Usuario;
@@ -59,6 +63,7 @@ export class ModelosEditComponent implements OnInit, OnDestroy {
         this.modelo$ = this._store.pipe(select(fromStore.getModelo));
         this.usuario = this._loginService.getUserProfile();
         this.setor$ = this._store.pipe(select(fromStore.getSetor));
+        this.unidade$ = this._store.pipe(select(fromStore.getUnidade));
         this.orgaoCentral$ = this._store.pipe(select(fromStore.getOrgaoCentral));
 
         this._store
@@ -69,12 +74,37 @@ export class ModelosEditComponent implements OnInit, OnDestroy {
             .subscribe(routerState => {
                 if (routerState) {
                     this.routerState = routerState.state;
+                    if (this.routerState.params['unidadeHandle']) {
+                        this.unidadeHandle$ = this._store.pipe(select(fromStore.getUnidadeHandle));
+
+                        this.unidadeHandle$.pipe(
+                            takeUntil(this._unsubscribeAll)
+                        ).subscribe(
+                            setor => {
+                                if (setor) {
+                                    this.unidade = setor;
+                                }
+                            }
+                        );
+                    }
+                    if (this.routerState.params['setorHandle']) {
+                        this.setorHandle$ = this._store.pipe(select(fromStore.getSetorHandle));
+
+                        this.setorHandle$.pipe(
+                            takeUntil(this._unsubscribeAll)
+                        ).subscribe(
+                            setor => {
+                                if (setor) {
+                                    this.setor = setor;
+                                }
+                            }
+                        );
+                    }
                 }
             });
 
         this.templatePagination = new Pagination();
         this.templatePagination.populate = ['documento', 'documento.tipoDocumento'];
-
     }
 
     ngOnDestroy(): void {
@@ -101,6 +131,9 @@ export class ModelosEditComponent implements OnInit, OnDestroy {
                     if (this.modelo.vinculacoesModelos[0]?.setor) {
                         this.modelo.setor = this.modelo.vinculacoesModelos[0]?.setor;
                     }
+                    if (this.modelo.vinculacoesModelos[0]?.unidade) {
+                        this.modelo.unidade = this.modelo.vinculacoesModelos[0]?.unidade;
+                    }
                     if (this.modelo.vinculacoesModelos[0]?.usuario) {
                         this.modelo.usuario = this.modelo.vinculacoesModelos[0]?.usuario;
                     }
@@ -121,6 +154,16 @@ export class ModelosEditComponent implements OnInit, OnDestroy {
             }
         );
 
+        this.unidade$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(
+            setor => {
+                if (setor) {
+                    this.unidade = setor;
+                }
+            }
+        );
+
         this.orgaoCentral$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(
@@ -134,10 +177,12 @@ export class ModelosEditComponent implements OnInit, OnDestroy {
         if (!this.modelo) {
             this.modelo = new Modelo();
             this.modelo.ativo = true;
-            if (this.orgaoCentral) {
-                this.modelo.orgaoCentral = this.orgaoCentral;
-            } else {
+            if (this.setor) {
                 this.modelo.setor = this.setor;
+            } else if (this.unidade) {
+                this.modelo.unidade = this.unidade;
+            } else {
+                this.modelo.orgaoCentral = this.orgaoCentral;
             }
         }
     }
@@ -160,10 +205,12 @@ export class ModelosEditComponent implements OnInit, OnDestroy {
             }
         );
 
-        if (this.orgaoCentral) {
-           modelo.orgaoCentral = this.orgaoCentral;
+        if (this.setor) {
+            modelo.setor = this.setor;
+        } else if (this.unidade) {
+            modelo.unidade = this.unidade;
         } else {
-           modelo.setor = this.setor;
+            modelo.orgaoCentral = this.orgaoCentral;
         }
 
         this._store.dispatch(new fromStore.SaveModelo(modelo));

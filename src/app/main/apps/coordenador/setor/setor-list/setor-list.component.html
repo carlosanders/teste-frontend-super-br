@@ -1,0 +1,16 @@
+<cdk-setor-grid
+        [loading]="(loading$ | async)"
+        [setores]="(setores$ | async)"
+        [total]="(pagination$ | async)?.total"
+        [deletingIds]="(deletingIds$ | async)"
+        [deletedIds]="(deletedIds$ | async)"
+        [displayedColumns]="['select', 'id', 'nome', 'sigla', 'especieSetor.nome', 'parent.nome', 'apenasDistribuidor', 'ativo', 'actions']"
+        [actions]="['edit', 'create', 'lotacoes', 'localizadores', 'select']"
+        (reload)="reload($event)"
+        (create)="create()"
+        (edit)="edit($event)"
+        (selected)="select($event)"
+        (lotacoes)="lotacoes($event)"
+        (localizadores)="localizadores($event)"
+        (numerosUnicosDocumentos)="numerosUnicosDocumentos($event)">
+</cdk-setor-grid>

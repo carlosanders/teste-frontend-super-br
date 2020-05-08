@@ -87,6 +87,10 @@ export class RepositoriosEspecieSetorListComponent implements OnInit {
         }));
     }
 
+    create() : void {
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
+    }
+
     edit(vinculacaoRepositorioId: number): void {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/') + vinculacaoRepositorioId]);
     }

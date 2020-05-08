@@ -101,7 +101,6 @@ export const vinculacaoModelo = new schema.Entity('vinculacao-modelo');
 export const vinculacaoProcesso = new schema.Entity('vinculacao-processo');
 export const vinculacaoRepositorio = new schema.Entity('vinculacao-repositorio');
 export const vinculacaoRole = new schema.Entity('vinculacao-role');
-export const vinculacaoOrgaoCentralUsuario = new schema.Entity('vinculacao-orgao-central-usuario');
 export const vinculacaoUsuario = new schema.Entity('vinculacao-usuario');
 export const visibilidade = new schema.Entity('visibilidade');
 export const volume = new schema.Entity('volume');
