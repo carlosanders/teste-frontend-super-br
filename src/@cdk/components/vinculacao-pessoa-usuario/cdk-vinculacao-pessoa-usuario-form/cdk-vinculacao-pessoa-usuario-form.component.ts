@@ -1,4 +1,13 @@
-import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnInit,
+    Output,
+    SimpleChange
+} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Pagination, Pessoa, Usuario, VinculacaoPessoaUsuario} from '../../../models';
 
@@ -7,7 +16,7 @@ import {Pagination, Pessoa, Usuario, VinculacaoPessoaUsuario} from '../../../mod
     templateUrl: './cdk-vinculacao-pessoa-usuario-form.component.html',
     styleUrls: ['./cdk-vinculacao-pessoa-usuario-form.component.scss']
 })
-export class CdkVinculacaoPessoaUsuarioFormComponent implements OnInit {
+export class CdkVinculacaoPessoaUsuarioFormComponent implements OnInit, OnChanges {
 
     @Input()
     usuarioExterno: number;
@@ -83,5 +92,35 @@ export class CdkVinculacaoPessoaUsuarioFormComponent implements OnInit {
     cancel(): void {
         this.activeCard = 'form';
     }
+
+    /**
+     * On change
+     */
+    ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
+
+        if (this.errors && this.errors.status && this.errors.status === 422) {
+            try {
+                const data = JSON.parse(this.errors.error.message);
+                const fields = Object.keys(data || {});
+                fields.forEach((field) => {
+                    const control = this.form.get(field);
+                    control.setErrors({formError: data[field].join(' - ')});
+                });
+            } catch (e) {
+                this.form.setErrors({rulesError: this.errors.error.message});
+            }
+        }
+
+        if (!this.errors) {
+            Object.keys(this.form.controls).forEach(key => {
+                this.form.get(key).setErrors(null);
+            });
+
+            this.form.setErrors(null);
+        }
+
+        this._changeDetectorRef.markForCheck();
+    }
+
 
 }
