@@ -6,8 +6,10 @@
                 [form]="formProcesso"
                 [saving]="(isSaving$ | async)"
                 [errors]="(errors$ | async)"
-                [unidadeProtocoloExternoPagination]="unidadePagination"
+                [setorInicialPagination]="unidadePagination"
+                [procedenciaPagination]="procedenciaPagination"
                 [estados]="estados"
+                [paramHandle]="paramHandle"
                 (save)="submit($event)">
         </cdk-processo-form>
     </mat-step>

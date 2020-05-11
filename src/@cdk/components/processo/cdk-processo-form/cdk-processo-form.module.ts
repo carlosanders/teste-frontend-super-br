@@ -37,6 +37,7 @@ import {CdkGeneroSetorGridsearchModule} from '../../genero-setor/cdk-genero-seto
 import {CdkEspecieSetorAutocompleteModule} from '../../especie-setor/cdk-especie-setor-autocomplete/cdk-especie-setor-autocomplete.module';
 import {CdkEspecieSetorGridsearchModule} from '../../especie-setor/cdk-especie-setor-autocomplete/cdk-especie-setor-gridsearch/cdk-especie-setor-gridsearch.module';
 import {MatSelectModule} from '@angular/material/select';
+import {CdkPessoaGridsearchModule} from '../../pessoa/cdk-pessoa-autocomplete/cdk-pessoa-gridsearch/cdk-pessoa-gridsearch.module';
 
 @NgModule({
     declarations: [
@@ -79,6 +80,7 @@ import {MatSelectModule} from '@angular/material/select';
         CdkEspecieSetorAutocompleteModule,
         CdkEspecieSetorGridsearchModule,
         MatSelectModule,
+        CdkPessoaGridsearchModule,
     ],
     providers: [],
     exports: [

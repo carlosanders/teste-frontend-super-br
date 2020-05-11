@@ -1,4 +1,4 @@
-import {assunto, classificacao, lembrete} from './index.schema';
+import {assunto, classificacao, lembrete, interessado} from './index.schema';
 import {origemDados} from './index.schema';
 import {processo as processoOrigem} from './index.schema';
 import {documentoAvulso} from './index.schema';
@@ -29,7 +29,8 @@ processoSchema.define({
     apagadoPor: usuario,
     vinculacoesEtiquetas: [vinculacaoEtiqueta],
     lembretes: [lembrete],
-    assuntos: [assunto]
+    assuntos: [assunto],
+    interessados: [interessado]
 });
 
 export const processo = processoSchema;

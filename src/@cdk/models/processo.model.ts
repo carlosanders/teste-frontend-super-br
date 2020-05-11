@@ -1,6 +1,6 @@
 import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
-import {Lembrete} from '@cdk/models';
+import {Interessado, Lembrete} from '@cdk/models';
 import {Usuario} from '@cdk/models';
 import {EspecieProcesso} from '@cdk/models';
 import {Setor} from '@cdk/models';
@@ -62,6 +62,8 @@ export class Processo {
 
     requerimento?: string;
 
+    protocoloEletronico?: boolean;
+
     @Exclude({ toPlainOnly: true })
     chaveAcesso?: string;
 
@@ -94,7 +96,6 @@ export class Processo {
     @Transform(value => value ? value.id : null, {toPlainOnly: true})
     setorAtual?: Setor;
 
-    @Exclude({toPlainOnly: true})
     @Type(() => Setor)
     @Transform(value => value ? value.id : null, {toPlainOnly: true})
     setorInicial?: Setor;
@@ -166,9 +167,10 @@ export class Processo {
     @Type(() => Assunto)
     assuntos: Assunto[];
 
-    @Type(() => Setor)
-    @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    unidadeProtocoloExterno?: Setor;
+    @Exclude({toPlainOnly: true})
+    @Type(() => Interessado)
+    interessados: Interessado[];
+
 
     constructor() {
         this.id = null;
@@ -208,7 +210,8 @@ export class Processo {
         this.apagadoEm = null;
         this.vinculacoesEtiquetas = null;
         this.assuntos = [];
-        this.unidadeProtocoloExterno = null;
+        this.interessados = [];
         this.requerimento = null;
+        this.protocoloEletronico = null;
     }
 }

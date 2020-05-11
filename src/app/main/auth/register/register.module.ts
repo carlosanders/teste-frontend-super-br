@@ -10,24 +10,27 @@ import {
 } from '@cdk/angular/material';
 import { HttpClientModule } from '@angular/common/http';
 import { CdkSharedModule } from '@cdk/shared.module';
-import { LoginComponent } from 'app/main/auth/login/login.component';
-import { LoginStoreModule } from './store/store.module';
-
+import { RegisterComponent } from './register.component';
+import { RegisterStoreModule } from './store/store.module';
+import { UsuarioService } from '@cdk/services/usuario.service';
 const routes = [
     {
         path     : '',
-        component: LoginComponent
+        component: RegisterComponent
+    },
+    {
+        path     : 'usuarioHandle',
+        component: RegisterComponent
     }
 ];
 
 @NgModule({
     declarations: [
-        LoginComponent
+        RegisterComponent
     ],
     imports     : [
         RouterModule.forChild(routes),
         HttpClientModule,
-
         MatButtonModule,
         MatCheckboxModule,
         MatFormFieldModule,
@@ -35,9 +38,13 @@ const routes = [
         MatInputModule,
         MatProgressBarModule,
         CdkSharedModule,
-        LoginStoreModule
+        RegisterStoreModule
+    ],
+    providers: [
+        UsuarioService
     ]
 })
-export class LoginModule
+
+export class RegisterModule
 {
 }

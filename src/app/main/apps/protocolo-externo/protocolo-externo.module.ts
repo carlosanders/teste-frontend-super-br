@@ -41,7 +41,7 @@ import {DocumentoService} from '@cdk/services/documento.service';
 
 const routes: Routes = [
     {
-        path: ':pessoaHandle',
+        path: ':typeHandle/:targetHandle',
         component: ProtocoloExternoComponent,
         children: [
             {
@@ -69,7 +69,7 @@ const routes: Routes = [
     },
     {
         path: '**',
-        redirectTo: 'default'
+        redirectTo: 'entrada'
     }
 ];
 

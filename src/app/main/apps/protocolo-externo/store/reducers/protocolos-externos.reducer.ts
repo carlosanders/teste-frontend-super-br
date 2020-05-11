@@ -23,16 +23,8 @@ export interface ProcessosState {
     deletedProcessoIds: number[];
     selectedProcessoIds: number[];
     maximizado: boolean;
-
-    assuntoLoading: boolean;
-    assuntoPanelOpen: boolean;
-    assuntosId: number[];
-    idProcessoToLoadAssuntos: number;
-
-    interessadoLoading: boolean;
-    interessadoPanelOpen: boolean;
-    interessadosId: number[];
-    idProcessoToLoadInteressados: number;
+    loadingAssuntosProcessosId: number[];
+    loadingInteressadosProcessosId: number[];
 }
 
 export const ProcessosInitialState: ProcessosState = {
@@ -57,16 +49,8 @@ export const ProcessosInitialState: ProcessosState = {
     selectedProcessoIds: [],
     currentProcessoId: null,
     maximizado: false,
-
-    assuntoLoading: true,
-    assuntoPanelOpen: false,
-    assuntosId: [],
-    idProcessoToLoadAssuntos: 0,
-
-    interessadoLoading: true,
-    interessadoPanelOpen: false,
-    interessadosId: [],
-    idProcessoToLoadInteressados: 0
+    loadingAssuntosProcessosId: [],
+    loadingInteressadosProcessosId: []
 };
 
 export function ProtocolosExternosReducer(state = ProcessosInitialState, action: ProcessosActions.ProcessosActionsAll): ProcessosState {
@@ -208,70 +192,44 @@ export function ProtocolosExternosReducer(state = ProcessosInitialState, action:
         case ProcessosActions.GET_ASSUNTOS_PROCESSO: {
             return {
                 ...state,
-                assuntosId: [],
-                assuntoLoading: true,
-                assuntoPanelOpen: action.payload.processo === state.idProcessoToLoadAssuntos
+                loadingAssuntosProcessosId: (state.loadingAssuntosProcessosId.indexOf(action.payload.processoId) === -1
+                    ? [...state.loadingAssuntosProcessosId, action.payload.processoId] : [...state.loadingAssuntosProcessosId])
             };
         }
 
         case ProcessosActions.GET_ASSUNTOS_PROCESSO_SUCCESS: {
             return {
                 ...state,
-                assuntoLoading: false,
-                assuntoPanelOpen: true,
-                assuntosId: [...action.payload.assuntosId],
-                idProcessoToLoadAssuntos: action.payload.idProcessoToLoadAssuntos
+                loadingAssuntosProcessosId: state.loadingAssuntosProcessosId.filter(id => id !== action.payload)
             };
         }
 
         case ProcessosActions.GET_ASSUNTOS_PROCESSO_FAILED: {
             return {
                 ...state,
-
-                assuntoLoading: false,
-                assuntoPanelOpen: false
-            };
-        }
-
-        case ProcessosActions.SET_ASSUNTOS_LOADED: {
-            return {
-                ...state,
-                assuntoLoading: false
+                loadingAssuntosProcessosId: state.loadingAssuntosProcessosId.filter(id => id !== action.payload)
             };
         }
 
         case ProcessosActions.GET_INTERESSADOS_PROCESSO: {
             return {
                 ...state,
-                interessadosId: [],
-                interessadoLoading: true,
-                interessadoPanelOpen: action.payload.processo === state.idProcessoToLoadInteressados
+                loadingInteressadosProcessosId: (state.loadingInteressadosProcessosId.indexOf(action.payload.processoId) === -1
+                    ? [...state.loadingInteressadosProcessosId, action.payload.processoId] : [...state.loadingInteressadosProcessosId])
             };
         }
 
         case ProcessosActions.GET_INTERESSADOS_PROCESSO_SUCCESS: {
             return {
                 ...state,
-                interessadoLoading: false,
-                interessadoPanelOpen: true,
-                interessadosId: [...action.payload.interessadosId],
-                idProcessoToLoadInteressados: action.payload.idProcessoToLoadInteressados
+                loadingInteressadosProcessosId: state.loadingInteressadosProcessosId.filter(id => id !== action.payload)
             };
         }
 
         case ProcessosActions.GET_INTERESSADOS_PROCESSO_FAILED: {
             return {
                 ...state,
-
-                interessadoLoading: false,
-                interessadoPanelOpen: false
-            };
-        }
-
-        case ProcessosActions.SET_INTERESSADOS_LOADED: {
-            return {
-                ...state,
-                interessadoLoading: false
+                loadingInteressadosProcessosId: state.loadingInteressadosProcessosId.filter(id => id !== action.payload)
             };
         }
 

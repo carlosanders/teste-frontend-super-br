@@ -82,6 +82,7 @@ $typography: mat-typography-config(
 @import "src/app/layout/components/toolbar/toolbar.theme";
 
 @import "src/app/main/auth/login/login.theme";
+@import "src/app/main/auth/register/register.theme";
 @import "src/app/main/apps/painel/painel.theme";
 @import "src/app/main/apps/tarefas/tarefas.theme";
 @import "src/app/main/apps/processo/processo.theme";
@@ -103,6 +104,7 @@ $typography: mat-typography-config(
     @include toolbar-theme($theme);
 
     @include login-theme($theme);
+    @include register-theme($theme);
     @include tarefas-theme($theme);
     @include painel-theme($theme);
     @include processo-theme($theme);

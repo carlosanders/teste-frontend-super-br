@@ -67,22 +67,45 @@
             <mat-form-field fxFlex>
                 <div fxLayout="row" fxLayoutAlign="start center">
                     <input matInput placeholder="Unidade"
-                           formControlName="unidadeProtocoloExterno"
+                           formControlName="setorInicial"
                            required
-                           [matAutocomplete]="unidadeProtocoloExterno.autocomplete"
-                           (blur)="checkUnidadeProtocoloExterno()">
+                           [matAutocomplete]="setorInicial.autocomplete"
+                           (blur)="checkSetorInicial()">
                 </div>
                 <cdk-setor-autocomplete
-                    #unidadeProtocoloExterno="setorAutocomplete"
-                    [control]="form.get('unidadeProtocoloExterno')"
-                    [pagination]="unidadeProtocoloExternoPagination">
+                    #setorInicial="setorAutocomplete"
+                    [control]="form.get('setorInicial')"
+                    [pagination]="setorInicialPagination">
                 </cdk-setor-autocomplete>
                 <button matSuffix mat-button mat-icon-button [disabled]="!form.get('especieSetor').value"
-                        (click)="showUnidadeProtocoloExternoGrid()">
+                        (click)="showSetorInicialGrid()">
                     <mat-icon matTooltip="Procurar">search</mat-icon>
                 </button>
-                <mat-error *ngIf="form.get('unidadeProtocoloExterno').hasError('formError')">
-                    {{form.get('unidadeProtocoloExterno').errors.formError}}
+                <mat-error *ngIf="form.get('setorInicial').hasError('formError')">
+                    {{form.get('setorInicial').errors.formError}}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field fxFlex *ngIf="this._profile.vinculacoesPessoasUsuarios.length > 1
+            && paramHandle === 'meus-processos'">
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Procedência"
+                           formControlName="procedencia"
+                           required
+                           [matAutocomplete]="procedencia.autocomplete"
+                           (blur)="checkProcedencia()">
+                </div>
+                <cdk-pessoa-autocomplete
+                    #procedencia="pessoaAutocomplete"
+                    [control]="form.get('procedencia')"
+                    [pagination]="procedenciaPagination">
+                </cdk-pessoa-autocomplete>
+                <button matSuffix mat-button mat-icon-button
+                        (click)="showProcedenciaGrid()">
+                    <mat-icon matTooltip="Procurar">search</mat-icon>
+                </button>
+                <mat-error *ngIf="form.get('procedencia').hasError('formError')">
+                    {{form.get('procedencia').errors.formError}}
                 </mat-error>
             </mat-form-field>
         </mat-card>
@@ -191,18 +214,6 @@
         </mat-card>
 
         <mat-card class="mb-16" fxFlex="0 1 auto" fxLayout="column" *showIfRole="'ROLE_CONVENIADO'">
-<!--            <mat-form-field fxFlex>-->
-<!--                <mat-label>Data de prazo de resposta</mat-label>-->
-<!--                <input matInput name="dataHoraPrazoResposta"-->
-<!--                       formControlName="dataHoraPrazoResposta"-->
-<!--                       [matDatetimepicker]="dataHoraPrazoResposta"-->
-<!--                       required>-->
-<!--                <mat-datetimepicker-toggle matSuffix [for]="dataHoraPrazoResposta"></mat-datetimepicker-toggle>-->
-<!--                <mat-datetimepicker #dataHoraPrazoResposta type="datetime" openOnFocus="true"-->
-<!--                                    timeInterval="5"></mat-datetimepicker>-->
-<!--                <mat-error>Campo obrigatório!</mat-error>-->
-<!--            </mat-form-field>-->
-
             <mat-form-field fxFlex>
                 <mat-label>Resumo</mat-label>
                 <input matInput #descricao
@@ -511,9 +522,10 @@
 
 <cdk-setor-gridsearch
     fxFlex
-    *ngIf="activeCard === 'unidade-protocolo-externo-gridsearch'"
-    [pagination]="unidadeProtocoloExternoPagination"
-    (selected)="selectUnidadeProtocoloExterno($event)"
+    *ngIf="activeCard === 'setor-inicial-gridsearch'"
+    [pagination]="setorInicialPagination"
+    [displayedColumns]="['select', 'id', 'unidade.nome', 'actions']"
+    (selected)="selectSetorInicial($event)"
     (cancel)="cancel()">
 </cdk-setor-gridsearch>
 
@@ -539,4 +551,12 @@
     (selected)="selectEspecieSetor($event)"
     (cancel)="cancel()">
 </cdk-especie-setor-gridsearch>
+
+<cdk-pessoa-gridsearch
+    fxFlex
+    *ngIf="activeCard === 'procedencia-gridsearch'"
+    [pagination]="procedenciaPagination"
+    (selected)="selectProcedencia($event)"
+    (cancel)="cancel()">
+</cdk-pessoa-gridsearch>
 

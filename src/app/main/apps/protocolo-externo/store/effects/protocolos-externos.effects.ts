@@ -1,4 +1,4 @@
-import { AddData } from '@cdk/ngrx-normalizr';
+import {AddChildData, AddData} from '@cdk/ngrx-normalizr';
 
 import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
@@ -15,8 +15,8 @@ import {LoginService} from 'app/main/auth/login/login.service';
 import {Router} from '@angular/router';
 import {processo as processoSchema} from '@cdk/normalizr/processo.schema';
 import {assunto as assuntoSchema} from '@cdk/normalizr/assunto.schema';
-import {pessoa as pessoaSchema} from '@cdk/normalizr/pessoa.schema';
 import {interessado as interessadoSchema} from '@cdk/normalizr/interessado.schema';
+import {pessoa as pessoaSchema} from '@cdk/normalizr/pessoa.schema';
 import {ProcessoService} from '@cdk/services/processo.service';
 import {AssuntoService} from '@cdk/services/assunto.service';
 import {PessoaService} from '@cdk/services/pessoa.service';
@@ -73,8 +73,8 @@ export class ProcessosEffect {
                     new ProcessosActions.GetProcessosSuccess({
                         entitiesId: response['entities'].map(processo => processo.id),
                         loaded: {
-                            id: 'pessoaHandle_usuarioHandle',
-                            value: this.routerState.params.pessoaHandle + '_' + this._loginService.getUserProfile().id
+                            id: 'typeHandle_targetHandle',
+                            value: this.routerState.params.typeHandle + '_' + this.routerState.params.targetHandle
                         },
                         total: response['total']
                     })
@@ -97,8 +97,8 @@ export class ProcessosEffect {
                 ofType<ProcessosActions.SetCurrentProcesso>(ProcessosActions.SET_CURRENT_PROCESSO),
                 map((action) => {
                     this._router.navigate([
-                        'apps/protocolo-externo/' + this.routerState.params.pessoaHandle +
-                        '/detalhe/' + action.payload.processoId + '/processo/' + action.payload.processoId + '/visualizar']
+                        'apps/protocolo-externo/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle
+                        + '/detalhe/' + action.payload.processoId + '/processo/' + action.payload.processoId + '/visualizar']
                     ).then();
 
                     return new ProcessosActions.SetCurrentProcessoSuccess();
@@ -115,8 +115,8 @@ export class ProcessosEffect {
             .pipe(
                 ofType<ProcessosActions.CreateProcesso>(ProcessosActions.CREATE_PROCESSO),
                 map(() => {
-                    this._router.navigate(['apps/protocolo-externo/' + this.routerState.params.pessoaHandle +
-                    '/criar']).then();
+                    this._router.navigate(['apps/protocolo-externo/' + this.routerState.params.typeHandle
+                    + '/' + this.routerState.params.targetHandle + '/criar']).then();
                     return new ProcessosActions.CreateProcessoSuccess();
                 })
             );
@@ -140,54 +140,6 @@ export class ProcessosEffect {
                     );
                 })
             );
-
-    // /**
-    //  * Toggle Lida Processo
-    //  * @type {Observable<any>}
-    //  */
-    // @Effect()
-    // toggleLidaProcesso: any =
-    //     this._actions
-    //         .pipe(
-    //             ofType<ProcessosActions.ToggleLidaProcesso>(ProcessosActions.TOGGLE_LIDA_PROCESSO),
-    //             mergeMap((action) => {
-    //                 return this._processoService.toggleLida(action.payload).pipe(
-    //                     mergeMap((response) => [
-    //                         new ProcessosActions.ToggleLidaProcessoSuccess(response.id),
-    //                         new UpdateData<Processo>({id: response.id, schema: processoSchema, changes: {dataHoraLeitura: response.dataHoraLeitura}})
-    //                     ]),
-    //                     catchError((err) => {
-    //                         console.log(err);
-    //                         return of(new ProcessosActions.ToggleLidaProcessoFailed(action.payload));
-    //                     })
-    //                 );
-    //             })
-    //         );
-
-    // /**
-    //  * Toggle Urgente Processo
-    //  * @type {Observable<any>}
-    //  */
-    // @Effect()
-    // toggleUrgenteProcesso: any =
-    //     this._actions
-    //         .pipe(
-    //             ofType<ProcessosActions.ToggleUrgenteProcesso>(ProcessosActions.TOGGLE_URGENTE_PROCESSO),
-    //             mergeMap((action) => {
-    //                 return this._processoService.patch(action.payload, {
-    //                     urgente: !action.payload.urgente
-    //                 }).pipe(
-    //                     mergeMap((response) => [
-    //                         new ProcessosActions.ToggleUrgenteProcessoSuccess(response.id),
-    //                         new UpdateData<Processo>({id: response.id, schema: processoSchema, changes: {urgente: response.urgente}})
-    //                     ]),
-    //                     catchError((err) => {
-    //                         console.log(err);
-    //                         return of(new ProcessosActions.ToggleUrgenteProcessoFailed(action.payload));
-    //                     })
-    //                 );
-    //             })
-    //         );
 
     /**
      * Get Pessoa Conveniada
@@ -214,8 +166,8 @@ export class ProcessosEffect {
                     new AddData<Pessoa>({data: response['entities'], schema: pessoaSchema}),
                     new ProcessosActions.GetPessoaSuccess({
                         loaded: {
-                            id: 'pessoaHandle',
-                            value: this.routerState.params.pessoaHandle
+                            id: 'typeHandle_targetHandle',
+                            value: this.routerState.params.typeHandle + '_' + this.routerState.params.targetHandle
                         },
                         pessoa: response['entities'][0]
                     })
@@ -238,25 +190,28 @@ export class ProcessosEffect {
                 ofType<ProcessosActions.GetAssuntosProcesso>(ProcessosActions.GET_ASSUNTOS_PROCESSO),
                 switchMap((action) => {
                     return this._assuntoService.query(
-                        JSON.stringify(action.payload),
-                        10,
-                        0,
-                        JSON.stringify({principal : 'DESC', criadoEm : 'DESC'}),
-                        JSON.stringify(['assuntoAdministrativo', 'processo'])
+                        JSON.stringify({
+                            ...action.payload.params.filter
+                        }),
+                        action.payload.params.limit,
+                        action.payload.params.offset,
+                        JSON.stringify(action.payload.params.sort),
+                        JSON.stringify(action.payload.params.populate)).pipe(
+                        mergeMap((response) => [
+                            new ProcessosActions.GetAssuntosProcessoSuccess(action.payload.processoId),
+                            new AddChildData<Assunto>({
+                                data: response['entities'],
+                                childSchema: assuntoSchema,
+                                parentSchema: processoSchema,
+                                parentId: action.payload.processoId
+                            }),
+                        ]),
+                        catchError((err, caught) => {
+                            console.log(err);
+                            this._store.dispatch(new ProcessosActions.GetAssuntosProcessoFailed(action.payload.processoId));
+                            return caught;
+                        })
                     );
-                }),
-                mergeMap((response) => [
-                    new AddData<Assunto>({data: response['entities'], schema: assuntoSchema}),
-                    new ProcessosActions.GetAssuntosProcessoSuccess({
-                        assuntosId: response['entities'].map(assunto => assunto.id),
-                        idProcessoToLoadAssuntos: response['entities'][0]?.processo?.id,
-                        totalAssuntos: response['total']
-                    })
-                ]),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new ProcessosActions.GetAssuntosProcessoFailed(err));
-                    return caught;
                 })
             );
 
@@ -271,25 +226,28 @@ export class ProcessosEffect {
                 ofType<ProcessosActions.GetInteressadosProcesso>(ProcessosActions.GET_INTERESSADOS_PROCESSO),
                 switchMap((action) => {
                     return this._interessadoService.query(
-                    JSON.stringify(action.payload),
-                        10,
-                        0,
-                        JSON.stringify({principal : 'DESC', criadoEm : 'DESC'}),
-                        JSON.stringify(['processo', 'modalidadeInteressado', 'pessoa'])
+                        JSON.stringify({
+                            ...action.payload.params.filter
+                        }),
+                        action.payload.params.limit,
+                        action.payload.params.offset,
+                        JSON.stringify(action.payload.params.sort),
+                        JSON.stringify(action.payload.params.populate)).pipe(
+                        mergeMap((response) => [
+                            new ProcessosActions.GetInteressadosProcessoSuccess(action.payload.processoId),
+                            new AddChildData<Interessado>({
+                                data: response['entities'],
+                                childSchema: interessadoSchema,
+                                parentSchema: processoSchema,
+                                parentId: action.payload.processoId
+                            }),
+                        ]),
+                        catchError((err, caught) => {
+                            console.log(err);
+                            this._store.dispatch(new ProcessosActions.GetInteressadosProcessoFailed(action.payload.processoId));
+                            return caught;
+                        })
                     );
-                }),
-                mergeMap((response) => [
-                    new AddData<Interessado>({data: response['entities'], schema: interessadoSchema}),
-                    new ProcessosActions.GetInteressadosProcessoSuccess({
-                        interessadosId: response['entities'].map(interessado => interessado.id),
-                        idProcessoToLoadInteressados: response['entities'][0]?.processo?.id,
-                        totalInteressados: response['total']
-                    })
-                ]),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new ProcessosActions.GetInteressadosProcessoFailed(err));
-                    return caught;
                 })
             );
 }

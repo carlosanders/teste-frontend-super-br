@@ -9,13 +9,11 @@ import {
 } from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {select, Store} from '@ngrx/store';
-import { Observable, Subject, BehaviorSubject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {CdkTranslationLoaderService} from '@cdk/services/translation-loader.service';
 
-import {Processo, PaginatedResponse, Interessado} from '@cdk/models';
-import {ProcessoService} from '@cdk/services/processo.service';
 import * as fromStore from './store';
 
 import {getRouterState, getScreenState} from 'app/store/reducers';
@@ -28,11 +26,7 @@ import {Router} from '@angular/router';
 import {filter, takeUntil} from 'rxjs/operators';
 import {LoginService} from '../../auth/login/login.service';
 import {ToggleMaximizado} from 'app/main/apps/protocolo-externo/store';
-import {Topico} from 'ajuda/topico';
-import {Etiqueta, Pagination, Usuario, Assunto} from '@cdk/models';
-
-import * as fromAssuntoStore from './store';
-import { AssuntoService } from '@cdk/services/assunto.service';
+import {Processo, Etiqueta, Pagination, Usuario} from '@cdk/models';
 
 @Component({
     selector: 'protocolo-externo',
@@ -90,31 +84,12 @@ export class ProtocoloExternoComponent implements OnInit, OnDestroy, AfterViewIn
 
     mobileMode = false;
 
-    assuntos: Assunto[] = [];
-    assuntos$: Observable<Assunto[]>;
-    idProcessoToLoadAssuntos$: Observable<number>;
-    idProcessoToLoadAssuntos: number;
-    assuntoService: AssuntoService;
-    pagAssuntos: PaginatedResponse;
-    bsAssuntos: BehaviorSubject<Assunto[]> = new BehaviorSubject([]);
+    loadingAssuntosProcessosId$: Observable<number[]>;
 
-    assuntoLoading$: Observable<boolean>;
-    assuntoPanelOpen$: Observable<boolean>;
-
-    processoToLoadAssuntos$: Observable<Processo>;
-    AjudaProcesso: Topico;
-    PesquisaProcesso: string;
+    loadingInteressadosProcessosId$: Observable<number[]>;
 
     pessoasConveniadas: any;
     currentPessoaConveniadaId: any;
-
-
-    interessados: Interessado[] = [];
-    interessados$: Observable<Interessado[]>;
-    idProcessoToLoadInteressados$: Observable<number>;
-    idProcessoToLoadInteressados: number;
-    interessadosLoading$: Observable<boolean>;
-    interessadosPanelOpen$: Observable<boolean>;
 
     @ViewChild('processoListElement', {read: ElementRef, static: true}) processoListElement: ElementRef;
 
@@ -149,25 +124,13 @@ export class ProtocoloExternoComponent implements OnInit, OnDestroy, AfterViewIn
         this.deletingIds$ = this._store.pipe(select(fromStore.getDeletingProcessoIds));
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedProcessoIds));
         this.screen$ = this._store.pipe(select(getScreenState));
-
         this._profile = _loginService.getUserProfile();
-
+        this.pessoasConveniadas =  this._profile.vinculacoesPessoasUsuarios;
         this.vinculacaoEtiquetaPagination = new Pagination();
         this.vinculacaoEtiquetaPagination.filter = {'vinculacoesEtiquetas.usuario.id': `eq:${this._profile.id}`};
 
-        this.assuntos = [];
-        this.assuntoLoading$ = this._store.pipe(select(fromStore.getIsAssuntoLoading));
-        this.assuntoPanelOpen$ = this._store.pipe(select(fromStore.getIsAssuntoPanelIsOpen));
-        this.assuntos$ = this._store.pipe(select(fromStore.getAssuntosProcessos));
-        this.idProcessoToLoadAssuntos$ = this._store.pipe(select(fromStore.getIdProcessoToLoadAssuntos));
-        this.pessoasConveniadas =  this._profile.vinculacoesPessoasUsuarios;
-
-
-        this.interessados = [];
-        this.interessadosLoading$ = this._store.pipe(select(fromStore.getIsInteressadoLoading));
-        this.interessadosPanelOpen$ = this._store.pipe(select(fromStore.getIsInteressadoPanelIsOpen));
-        this.interessados$ = this._store.pipe(select(fromStore.getInteressadosProcessos));
-        this.idProcessoToLoadInteressados$ = this._store.pipe(select(fromStore.getIdProcessoToLoadInteressados));
+        this.loadingAssuntosProcessosId$ = this._store.pipe(select(fromStore.getIsAssuntoLoading));
+        this.loadingInteressadosProcessosId$ = this._store.pipe(select(fromStore.getIsInteressadoLoading));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -198,7 +161,7 @@ export class ProtocoloExternoComponent implements OnInit, OnDestroy, AfterViewIn
         this.routerState$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(routerState => {
-            this.currentPessoaConveniadaId = parseInt(routerState.state.params['pessoaHandle'], 0);
+            this.currentPessoaConveniadaId = parseInt(routerState.state.params['targetHandle'], 0);
         });
 
         this.processos$.pipe(
@@ -244,15 +207,6 @@ export class ProtocoloExternoComponent implements OnInit, OnDestroy, AfterViewIn
                 this.mobileMode = false;
             }
         });
-        
-        this.assuntos$.pipe().subscribe(assuntos => {
-            this.assuntos = assuntos;
-        });
-
-        this.idProcessoToLoadAssuntos$.subscribe(id => {
-            this.idProcessoToLoadAssuntos = id;
-        });
-
     }
 
     ngAfterViewInit(): void {
@@ -386,7 +340,8 @@ export class ProtocoloExternoComponent implements OnInit, OnDestroy, AfterViewIn
     }
 
     doEtiquetarBloco(): void {
-        this._router.navigate(['apps/protocolo-externo/' + this.routerState.params.pessoaHandle + '/vinculacao-etiqueta-bloco']).then();
+        this._router.navigate(['apps/protocolo-externo/' + this.routerState.params.typeHandle
+        + this.routerState.params.targetHandle + '/vinculacao-etiqueta-bloco']).then();
     }
 
     /*
@@ -395,9 +350,21 @@ export class ProtocoloExternoComponent implements OnInit, OnDestroy, AfterViewIn
     * Recebe a referencia do processo carregada no componente de lista de processos
     */
     doLoadAssuntos(processo): void {
-        this._store.dispatch(new fromStore.GetAssuntosProcesso({
-            'processo.id': `eq:${processo.id}`
-        }));
+
+        const processoFilter = {
+            'processo.id': `eq:${processo.id}`,
+            'principal': 'eq:true'
+        };
+
+        const params = {
+            filter: processoFilter,
+            sort: {},
+            limit: 1,
+            offset: 0,
+            populate: ['assuntoAdministrativo']
+        };
+
+        this._store.dispatch(new fromStore.GetAssuntosProcesso({processoId: processo.id, params: params}));
     }
 
     /*
@@ -406,8 +373,19 @@ export class ProtocoloExternoComponent implements OnInit, OnDestroy, AfterViewIn
     * Recebe a referencia do processo carregada no componente de lista de interessados
     */
     doLoadInteressados(processo): void {
-        this._store.dispatch(new fromStore.GetInteressadosProcesso({
+
+        const processoFilter = {
             'processo.id': `eq:${processo.id}`
-        }));
+        };
+
+        const params = {
+            filter: processoFilter,
+            sort: {},
+            limit: 1,
+            offset: 0,
+            populate: ['modalidadeInteressado', 'pessoa']
+        };
+
+        this._store.dispatch(new fromStore.GetInteressadosProcesso({processoId: processo.id, params: params}));
     }
 }

@@ -2,15 +2,11 @@ import { createSelector } from '@ngrx/store';
 import { getProtocoloExternoAppState, ProcessosAppState, ProcessosState } from '../reducers';
 
 import { createSchemaSelectors } from '@cdk/ngrx-normalizr';
-import { Processo, Assunto, Interessado } from '@cdk/models';
+import { Processo } from '@cdk/models';
 
 import { processo as processoSchema } from '@cdk/normalizr/processo.schema';
-import { assunto as assuntoSchema } from '@cdk/normalizr/assunto.schema';
-import { interessado as interessadoSchema } from '@cdk/normalizr/interessado.schema';
 
 const schemaSelectors = createSchemaSelectors<Processo>(processoSchema);
-const schemaAssuntoSelectors = createSchemaSelectors<Assunto>(assuntoSchema);
-const schemaInteressadoSelectors = createSchemaSelectors<Interessado>(interessadoSchema);
 
 export const getProcessosState = createSelector(
     getProtocoloExternoAppState,
@@ -71,54 +67,10 @@ export const getDeletedProcessoIds = createSelector(
 
 export const getIsAssuntoLoading = createSelector(
     getProcessosState,
-    (state: ProcessosState) => state.assuntoLoading
-);
-
-export const getIsAssuntoPanelIsOpen = createSelector(
-    getProcessosState,
-    (state: ProcessosState) => state.assuntoPanelOpen
-);
-
-export const getAssuntosProcessosIds = createSelector(
-    getProcessosState,
-    (state: ProcessosState) => state.assuntosId
-);
-
-export const getAssuntosProcessos = createSelector(
-    schemaAssuntoSelectors.getNormalizedEntities,
-    getAssuntosProcessosIds,
-    schemaAssuntoSelectors.entitiesProjector
-);
-
-export const getIdProcessoToLoadAssuntos = createSelector(
-    getProcessosState,
-    (state: ProcessosState) => state.idProcessoToLoadAssuntos
+    (state: ProcessosState) => state.loadingAssuntosProcessosId
 );
 
 export const getIsInteressadoLoading = createSelector(
     getProcessosState,
-    (state: ProcessosState) => state.interessadoLoading
+    (state: ProcessosState) => state.loadingInteressadosProcessosId
 );
-
-export const getIsInteressadoPanelIsOpen = createSelector(
-    getProcessosState,
-    (state: ProcessosState) => state.interessadoPanelOpen
-);
-
-export const getInteressadosProcessosIds = createSelector(
-    getProcessosState,
-    (state: ProcessosState) => state.interessadosId
-);
-
-export const getInteressadosProcessos = createSelector(
-    schemaInteressadoSelectors.getNormalizedEntities,
-    getInteressadosProcessosIds,
-    schemaInteressadoSelectors.entitiesProjector
-);
-
-export const getIdProcessoToLoadInteressados = createSelector(
-    getProcessosState,
-    (state: ProcessosState) => state.idProcessoToLoadInteressados
-);
-
-
