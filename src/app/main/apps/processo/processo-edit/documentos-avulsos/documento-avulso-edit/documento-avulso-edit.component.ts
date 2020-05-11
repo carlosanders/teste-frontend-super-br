@@ -17,6 +17,7 @@ import {Processo} from '@cdk/models';
 import {getProcesso} from '../../../store/selectors';
 import {Pagination} from '@cdk/models';
 import * as moment from 'moment';
+import {Back} from "../../../../../../store/actions";
 
 @Component({
     selector: 'documento-avulso-edit',
@@ -37,6 +38,7 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy {
     processo: Processo;
 
     documentoAvulsoAdministrativoPagination: Pagination;
+    logEntryPagination: Pagination;
 
     /**
      * @param _store
@@ -51,6 +53,7 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy {
 
         this.documentoAvulsoAdministrativoPagination = new Pagination();
         this.documentoAvulsoAdministrativoPagination.populate = ['parent'];
+        this.logEntryPagination = new Pagination();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -65,9 +68,10 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy {
             processo => this.processo = processo
         );
 
-        this.documentoAvulso$.subscribe(
-            documentoAvulso => this.documentoAvulso = documentoAvulso
-        );
+        this.documentoAvulso$.subscribe(documentoAvulso => {
+            this.documentoAvulso = documentoAvulso;
+
+        });
 
         if (!this.documentoAvulso) {
             this.documentoAvulso = new DocumentoAvulso();
@@ -75,6 +79,10 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy {
             this.documentoAvulso.dataHoraInicioPrazo = moment();
             this.documentoAvulso.dataHoraFinalPrazo = moment().add(5, 'days').set({hour: 20, minute: 0, second: 0});
         }
+        this.logEntryPagination.filter = {
+            entity: 'SuppCore\\AdministrativoBackend\\Entity\\DocumentoAvulso',
+            id: + this.documentoAvulso.id
+        };
     }
 
     /**
@@ -101,4 +109,7 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy {
 
     }
 
+    doAbort(): void {
+        this._store.dispatch(new Back());
+    }
 }

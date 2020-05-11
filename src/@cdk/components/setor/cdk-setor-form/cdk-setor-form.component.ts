@@ -6,8 +6,6 @@ import {
     Output, SimpleChange,
     ViewEncapsulation
 } from '@angular/core';
-
-
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Setor} from '@cdk/models/setor.model';
@@ -37,8 +35,14 @@ export class CdkSetorFormComponent implements OnChanges, OnDestroy {
     @Input()
     errors: any;
 
+    @Input()
+    logEntryPagination: Pagination;
+
     @Output()
     save = new EventEmitter<Setor>();
+
+    @Output()
+    abort = new EventEmitter<any>();
 
     form: FormGroup;
 
@@ -177,15 +181,23 @@ export class CdkSetorFormComponent implements OnChanges, OnDestroy {
         this.activeCard = 'setor-gridsearch';
     }
 
-
     submit(): void {
         if (this.form.valid) {
             this.save.emit(this.form.value);
         }
     }
 
+    doAbort(): void {
+        this.abort.emit();
+    }
+
     cancel(): void {
         this.activeCard = 'form';
     }
 
+    showLogEntryGrid(target: string): void {
+        const campo = {target: target};
+        Object.assign(this.logEntryPagination.filter, campo);
+        this.activeCard = 'logentry-gridsearch';
+    }
 }

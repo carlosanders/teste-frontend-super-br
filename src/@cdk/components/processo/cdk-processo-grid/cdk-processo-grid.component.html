@@ -1,14 +1,10 @@
 <div class="page-layout left-sidebar" fxFlex>
 
     <!-- SIDEBAR -->
-    <cdk-sidebar [lockedOpen]="(mode === 'search') ? 'gt-xs' : ''" class="sidebar" name="cdk-processo-main-sidebar"
+    <cdk-sidebar [lockedOpen]="(mode === 'search') ? 'gt-xs' : ''"
+                 name="cdk-processo-filter"
                  position="left">
-        <!-- SIDEBAR CONTENT -->
-        <div class="content" cdkPerfectScrollbar>
-            <cdk-processo-main-sidebar (selected)="setGridFilter($event)" [mode]="this.mode"
-                                       [@animate]="{value:'*'}"></cdk-processo-main-sidebar>
-        </div>
-        <!-- / SIDEBAR CONTENT -->
+        <cdk-processo-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-processo-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
@@ -16,6 +12,13 @@
     <div class="content responsive-grid" [ngClass]="{'search': (this.mode == 'search')}" fxFlex fxLayout="column">
 
         <div class="actions" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="end center">
+
+            <button class="back accent" mat-icon-button *ngIf="actions.indexOf('create') > -1"
+                    (click)="doCreate()"
+                    aria-label="novo"
+                    matTooltip="Novo">
+                <mat-icon>add</mat-icon>
+            </button>
 
             <button class="back" mat-icon-button *ngIf="actions.indexOf('cancel') > -1"
                     (click)="doCancel()"
@@ -46,7 +49,7 @@
                 <mat-icon>refresh</mat-icon>
             </button>
 
-            <button class="toggle-filter" [ngClass]="{'warn': (gridFilter | json) != '{}'}" mat-icon-button
+            <button class="toggle-filter" [ngClass]="{'warn': !(gridFilter | json).includes('{}')}" mat-icon-button
                     *ngIf="mode === 'list'"
                     (click)="toggleFilter()"
                     aria-label="filtrar"
@@ -226,8 +229,8 @@
                 </ng-container>
 
                 <!-- ModalidadeMeio Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('modalidadeMeio.valor') > -1"
-                              matColumnDef="modalidadeMeio.valor">
+                <ng-container *ngIf="displayedColumns.indexOf('modalidadeMeio') > -1"
+                              matColumnDef="modalidadeMeio">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Modalidade Meio
                     </th>
@@ -295,8 +298,8 @@
                 </ng-container>
 
                 <!-- OrigemDados Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('origemDados.fonteDados') > -1"
-                              matColumnDef="origemDados.fonteDados">
+                <ng-container *ngIf="displayedColumns.indexOf('origemDados') > -1"
+                              matColumnDef="origemDados">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Origem Dados
                     </th>

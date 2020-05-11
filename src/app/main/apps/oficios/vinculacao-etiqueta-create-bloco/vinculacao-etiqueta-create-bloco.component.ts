@@ -98,8 +98,6 @@ export class VinculacaoEtiquetaCreateBlocoComponent implements OnInit, OnDestroy
                 this.operacoes = [];
             }
         });
-
-        console.log(this.documentosAvulso);
     }
 
     ngOnDestroy(): void {

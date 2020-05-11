@@ -2,7 +2,8 @@ import {
     ChangeDetectionStrategy, ChangeDetectorRef,
     Component,
     OnDestroy,
-    OnInit, ViewChild,
+    OnInit, 
+    ViewChild,
     ViewEncapsulation
 } from '@angular/core';
 
@@ -24,6 +25,8 @@ import {Router} from '@angular/router';
 import {Colaborador} from '@cdk/models';
 import {UpdateData} from '@cdk/ngrx-normalizr';
 import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
+import {Back} from "../../../../../../store/actions";
+
 
 @Component({
     selector: 'atividade-create',
@@ -48,9 +51,6 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy {
 
     routerState: any;
 
-    @ViewChild('ckdUpload', {static: false})
-    cdkUpload;
-
     documentos$: Observable<Documento[]>;
     minutas: Documento[] = [];
     oficios: Documento[] = [];
@@ -62,6 +62,9 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy {
     assinandoDocumentosId: number[] = [];
     convertendoDocumentosId$: Observable<number[]>;
     javaWebStartOK = false;
+
+    @ViewChild('ckdUpload', {static: false})
+    cdkUpload;
 
     /**
      *
@@ -100,6 +103,14 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy {
         this.atividade.encerraTarefa = true;
         this.atividade.dataHoraConclusao = moment();
 
+        this.tarefa$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(tarefa => {
+            this.tarefa = tarefa;
+            this.atividade.usuario = tarefa.usuarioResponsavel;
+            this.atividade.setor = tarefa.setorResponsavel;
+        });
+
         this._store.pipe(
             select(getRouterState),
             takeUntil(this._unsubscribeAll)
@@ -135,15 +146,6 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy {
                     }
                 }
             });
-
-
-        this.tarefa$.pipe(
-            takeUntil(this._unsubscribeAll)
-        ).subscribe(tarefa => {
-            this.tarefa = tarefa;
-            this.atividade.usuario = tarefa.usuarioResponsavel;
-            this.atividade.setor = tarefa.setorResponsavel;
-        });
 
         this.selectedDocumentos$.pipe(
             filter(selectedDocumentos => !!selectedDocumentos),
@@ -250,5 +252,9 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy {
     doConverte(documentoId): void {
         
         this._store.dispatch(new fromStore.ConverteToPdf(documentoId));
+    }
+
+    doAbort(): void {
+        this._store.dispatch(new Back());
     }
 }

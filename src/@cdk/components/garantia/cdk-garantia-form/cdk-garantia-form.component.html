@@ -1,14 +1,10 @@
-<div fxLayout="column" fxLayoutAlign="space-between stretch">
-    <h1 *ngIf="garantia.id">Alteração de Garantia</h1>
-    <h1 *ngIf="!garantia.id">Nova Garantia</h1>
-    <br>
-</div>
-<div fxLayout="column" fxLayoutAlign="space-between stretch">
-    <div class="pr-16" fxFlex *ngIf="activeCard === 'form'" cdkPerfectScrollbar>
-        <form fxLayoutGap="16px"
-              fxLayout="column"
-              fxLayoutAlign="start"
-              name="form" [formGroup]="form" (submit)="submit()">
+<div class="pr-16" fxFlex *ngIf="activeCard === 'form'" cdkPerfectScrollbar>
+    <form fxLayoutGap="16px"
+          fxLayout="column"
+          fxLayoutAlign="start"
+          name="form" [formGroup]="form">
+
+        <div fxFlex="1 0 auto" fxLayout="column">
 
             <div fxFlex="1 0 auto" fxLayout="column">
 
@@ -36,7 +32,8 @@
 
                 <mat-form-field fxFlex="100">
                     <div fxLayout="row" fxLayoutAlign="start center">
-                        <input #descricao matInput placeholder="Descrição" formControlName="descricao" maxlength="255" required upperCase>
+                        <input #descricao matInput placeholder="Descrição" formControlName="descricao" maxlength="255"
+                               required upperCase>
                     </div>
                     <mat-hint align="end">{{descricao.value.length}} / 255</mat-hint>
                 </mat-form-field>
@@ -73,9 +70,12 @@
 
             <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
                  fxLayoutAlign="center center">
-                <button mat-raised-button color="accent" class="mr-sm-12"
+                <button mat-raised-button color="accent" class="mr-sm-12" (click)="submit()"
                         [disabled]="form.invalid">
                     SALVAR
+                </button>
+                <button mat-raised-button color="warn" type="button" class="mr-sm-12" (click)="doAbort()">
+                    CANCELAR
                 </button>
             </div>
 
@@ -83,13 +83,13 @@
                  fxLayoutAlign="center center">
                 <mat-spinner color="accent" diameter="24"></mat-spinner>
             </div>
-        </form>
-    </div>
-
-    <cdk-modalidade-garantia-gridsearch
-        fxFlex="1 0 auto"
-        *ngIf="activeCard === 'modalidade-garantia-gridsearch'"
-        (selected)="selectModalidadeGarantia($event)"
-        (cancel)="cancel()">
-    </cdk-modalidade-garantia-gridsearch>
+        </div>
+    </form>
 </div>
+
+<cdk-modalidade-garantia-gridsearch
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'modalidade-garantia-gridsearch'"
+    (selected)="selectModalidadeGarantia($event)"
+    (cancel)="cancel()">
+</cdk-modalidade-garantia-gridsearch>

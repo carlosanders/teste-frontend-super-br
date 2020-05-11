@@ -8,18 +8,17 @@ import {
     MatSortModule, MatMenuModule, MatAutocompleteModule, MatRippleModule,
 } from '@cdk/angular/material';
 
-import { CdkSharedModule } from '@cdk/shared.module';
-import { CdkProcessoListComponent } from '@cdk/components/processo/cdk-processo-list/cdk-processo-list.component';
-import { CdkProcessoListItemComponent } from '@cdk/components/processo/cdk-processo-list/cdk-processo-list-item/cdk-processo-list-item.component';
-import { TranslateModule } from '@ngx-translate/core';
-import { PipesModule } from '@cdk/pipes/pipes.module';
-import { CdkSidebarModule } from '@cdk/components';
-import { CdkProcessoListMainSidebarComponent } from './sidebars/main/main.component';
-import { CdkEspecieProcessoAutocompleteModule } from '@cdk/components/especie-processo/cdk-especie-processo-autocomplete/cdk-especie-processo-autocomplete.module';
-import { EspecieProcessoService } from '@cdk/services/especie-processo.service';
-import { ProcessoService } from '@cdk/services/processo.service';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {CdkProcessoListComponent} from '@cdk/components/processo/cdk-processo-list/cdk-processo-list.component';
+import {CdkProcessoListItemComponent} from '@cdk/components/processo/cdk-processo-list/cdk-processo-list-item/cdk-processo-list-item.component';
+import {TranslateModule} from '@ngx-translate/core';
+import {PipesModule} from '@cdk/pipes/pipes.module';
+import {CdkSidebarModule} from '@cdk/components';
+import {CdkEspecieProcessoAutocompleteModule} from '@cdk/components/especie-processo/cdk-especie-processo-autocomplete/cdk-especie-processo-autocomplete.module';
+import {EspecieProcessoService} from '@cdk/services/especie-processo.service';
+import {ProcessoService} from '@cdk/services/processo.service';
 import {CdkProcessoAutocompleteModule} from '@cdk/components/processo/cdk-processo-autocomplete/cdk-processo-autocomplete.module';
-import { DndModule } from 'ngx-drag-drop';
+import {DndModule} from 'ngx-drag-drop';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import {MatExpansionModule} from '@angular/material/expansion';
@@ -27,18 +26,18 @@ import {CdkUsuarioAutocompleteModule} from '../../usuario/cdk-usuario-autocomple
 import {CdkAssuntoAdministrativoAutocompleteModule} from '../../assunto-administrativo/cdk-assunto-administrativo-autocomplete/cdk-assunto-administrativo-autocomplete.module';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
-import {MatRadioModule} from '../../../angular/material';
+import {MatRadioModule} from '@angular/material/radio';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {CdkEtiquetaAutocompleteModule} from '../../etiqueta/cdk-etiqueta-autocomplete/cdk-etiqueta-autocomplete.module';
 import {CdkInteressadoAutocompleteModule} from '../../interessado/cdk-interessado-autocomplete/cdk-interessado-autocomplete.module';
 import {CdkInteressadoGridsearchModule} from '../../interessado/cdk-interessado-autocomplete/cdk-interessado-gridsearch/cdk-interessado-gridsearch.module';
+import {CdkProcessoFilterModule} from '../sidebars/cdk-processo-filter/cdk-processo-filter.module';
 
 @NgModule({
     declarations: [
         CdkProcessoListComponent,
         CdkProcessoListItemComponent,
-        CdkProcessoListMainSidebarComponent
     ],
     imports: [
 
@@ -77,6 +76,7 @@ import {CdkInteressadoGridsearchModule} from '../../interessado/cdk-interessado-
         CdkEtiquetaAutocompleteModule,
         CdkInteressadoAutocompleteModule,
         CdkInteressadoGridsearchModule,
+        CdkProcessoFilterModule,
     ],
     providers: [
         EspecieProcessoService,

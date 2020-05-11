@@ -1,12 +1,8 @@
 <div class="page-layout left-sidebar" fxFlex>
 
     <!-- SIDEBAR -->
-    <cdk-sidebar class="sidebar" name="cdk-atividade-main-sidebar" position="left">
-        <!-- SIDEBAR CONTENT -->
-        <div class="content" cdkPerfectScrollbar>
-            <cdk-atividade-main-sidebar (selected)="setGridFilter($event)" [@animate]="{value:'*'}"></cdk-atividade-main-sidebar>
-        </div>
-        <!-- / SIDEBAR CONTENT -->
+    <cdk-sidebar class="sidebar" name="cdk-atividade-filter" position="left">
+        <cdk-atividade-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-atividade-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
@@ -14,6 +10,13 @@
     <div class="content responsive-grid" fxFlex fxLayout="column">
 
         <div class="actions" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="end center">
+
+            <button class="back accent" mat-icon-button *ngIf="actions.indexOf('create') > -1"
+                    (click)="doCreate()"
+                    aria-label="novo"
+                    matTooltip="Novo">
+                <mat-icon>add</mat-icon>
+            </button>
 
             <button class="back" mat-icon-button *ngIf="actions.indexOf('cancel') > -1"
                     (click)="doCancel()"
@@ -44,7 +47,7 @@
                 <mat-icon>refresh</mat-icon>
             </button>
 
-            <button class="toggle-filter" mat-icon-button [ngClass]="{'warn': (gridFilter | json) != '{}'}"
+            <button class="toggle-filter" mat-icon-button [ngClass]="{'warn': !(gridFilter | json).includes('{}')}"
                     (click)="toggleFilter()"
                     aria-label="filtrar"
                     matTooltip="Filtrar">
@@ -89,17 +92,20 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Espécie Atividade
                     </th>
-                    <td mat-cell *matCellDef="let atividade" class='has_label_on_mobile' data-label='Espécie Atividade: '
+                    <td mat-cell *matCellDef="let atividade" class='has_label_on_mobile'
+                        data-label='Espécie Atividade: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(atividade.id) > -1}"> {{atividade.especieAtividade?.nome}}
                     </td>
                 </ng-container>
 
                 <!-- DataHoraConclusao Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('dataHoraConclusao') > -1" matColumnDef="dataHoraConclusao">
+                <ng-container *ngIf="displayedColumns.indexOf('dataHoraConclusao') > -1"
+                              matColumnDef="dataHoraConclusao">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Data da Conclusão
                     </th>
-                    <td mat-cell *matCellDef="let atividade" class='has_label_on_mobile' data-label='Data da Conclusão: '
+                    <td mat-cell *matCellDef="let atividade" class='has_label_on_mobile'
+                        data-label='Data da Conclusão: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(atividade.id) > -1}"> {{atividade.dataHoraConclusao}} </td>
                 </ng-container>
 
@@ -124,11 +130,13 @@
                 </ng-container>
 
                 <!-- DestinacaoMinutas Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('destinacaoMinutas') > -1" matColumnDef="destinacaoMinutas">
+                <ng-container *ngIf="displayedColumns.indexOf('destinacaoMinutas') > -1"
+                              matColumnDef="destinacaoMinutas">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Destinação das Minutas
                     </th>
-                    <td mat-cell *matCellDef="let atividade" class='has_label_on_mobile' data-label='Destinação das Minutas: '
+                    <td mat-cell *matCellDef="let atividade" class='has_label_on_mobile'
+                        data-label='Destinação das Minutas: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(atividade.id) > -1}"> {{atividade.destinacaoMinutas}} </td>
                 </ng-container>
 
@@ -142,11 +150,13 @@
                 </ng-container>
 
                 <!-- SetorAprovacao Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('setorAprovacao.nome') > -1" matColumnDef="setorAprovacao.nome">
+                <ng-container *ngIf="displayedColumns.indexOf('setorAprovacao.nome') > -1"
+                              matColumnDef="setorAprovacao.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Setor da Aprovação
                     </th>
-                    <td mat-cell *matCellDef="let atividade" class='has_label_on_mobile' data-label='Setor da Aprovação: '
+                    <td mat-cell *matCellDef="let atividade" class='has_label_on_mobile'
+                        data-label='Setor da Aprovação: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(atividade.id) > -1}"> {{atividade.setorAprovacao?.nome}} </td>
                 </ng-container>
 
@@ -160,16 +170,19 @@
                 </ng-container>
 
                 <!-- UsuarioAprovacao Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('usuarioAprovacao.nome') > -1" matColumnDef="usuarioAprovacao.nome">
+                <ng-container *ngIf="displayedColumns.indexOf('usuarioAprovacao.nome') > -1"
+                              matColumnDef="usuarioAprovacao.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Usuário Aprovação
                     </th>
-                    <td mat-cell *matCellDef="let atividade" class='has_label_on_mobile' data-label='Usuário Aprovação: '
+                    <td mat-cell *matCellDef="let atividade" class='has_label_on_mobile'
+                        data-label='Usuário Aprovação: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(atividade.id) > -1}"> {{atividade.usuarioAprovacao?.nome}} </td>
                 </ng-container>
 
                 <!-- Tarefa Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('tarefa.especieTarefa.nome') > -1" matColumnDef="tarefa.especieTarefa.nome">
+                <ng-container *ngIf="displayedColumns.indexOf('tarefa.especieTarefa.nome') > -1"
+                              matColumnDef="tarefa.especieTarefa.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Tarefa
                     </th>
@@ -196,7 +209,8 @@
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1" matColumnDef="atualizadoPor.nome">
+                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1"
+                              matColumnDef="atualizadoPor.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Atualizado Por
                     </th>

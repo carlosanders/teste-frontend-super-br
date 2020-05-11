@@ -36,6 +36,12 @@ export class CdkSetorGridComponent implements AfterViewInit, OnInit, OnChanges {
     total = 0;
 
     @Input()
+    mode = 'list';
+
+    @Output()
+    create = new EventEmitter<any>();
+
+    @Input()
     displayedColumns: string[] = ['select', 'id', 'nome', 'sigla', 'actions'];
 
     allColumns: any[] = [
@@ -219,7 +225,13 @@ export class CdkSetorGridComponent implements AfterViewInit, OnInit, OnChanges {
     lotacoes = new EventEmitter<number>();
 
     @Output()
+    setoresEvent = new EventEmitter<number>();
+
+    @Output()
     localizadores = new EventEmitter<number>();
+
+    @Output()
+    competencias = new EventEmitter<number>();
 
     @Output()
     numerosUnicosDocumentos = new EventEmitter<number>();
@@ -304,16 +316,19 @@ export class CdkSetorGridComponent implements AfterViewInit, OnInit, OnChanges {
     }
 
     toggleFilter(): void {
-        this._cdkSidebarService.getSidebar('cdk-setor-main-sidebar').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-setor-filter').toggleOpen();
         this.showFilter = !this.showFilter;
     }
 
     loadPage(): void {
+        const filter = this.gridFilter.filters;
+        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : null;
         this.reload.emit({
-            gridFilter: this.gridFilter,
+            gridFilter: filter,
             limit: this.paginator.pageSize,
             offset: (this.paginator.pageSize * this.paginator.pageIndex),
-            sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {}
+            sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
+            context: contexto
         });
     }
 
@@ -323,6 +338,14 @@ export class CdkSetorGridComponent implements AfterViewInit, OnInit, OnChanges {
 
     lotacoesSetor(setorId): void {
         this.lotacoes.emit(setorId);
+    }
+
+    setoresUnidade(unidadeId): void {
+        this.setoresEvent.emit(unidadeId);
+    }
+
+    competenciasUnidade(unidadeId): void {
+        this.competencias.emit(unidadeId);
     }
 
     localizadoresSetor(setorId): void {
@@ -393,10 +416,14 @@ export class CdkSetorGridComponent implements AfterViewInit, OnInit, OnChanges {
         this.isIndeterminate = (this.selectedIds.length !== this.setores.length && this.selectedIds.length > 0);
     }
 
-    setGridFilter(gridFilter): void {
+    setFilter(gridFilter): void {
         this.gridFilter = gridFilter;
         this.paginator.pageIndex = 0;
         this.loadPage();
+    }
+
+    doCreate(): void {
+        this.create.emit();
     }
 
     doCancel(): void {

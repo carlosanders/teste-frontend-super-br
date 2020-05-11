@@ -14,13 +14,11 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {CdkSidebarModule} from '@cdk/components/index';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkCadastroIdentificadorGridComponent} from './cdk-cadastro-identificador-grid.component';
-import {CdkCadastroIdentificadorGridFilterModule} from './cdk-cadastro-identificador-grid-filter/cdk-cadastro-identificador-grid-filter.module';
-import {CdkCadastroIdentificadorMainSidebarComponent} from './sidebars/main/main.component';
+import {CdkCadastroIdentificadorFilterModule} from '../sidebars/cdk-cadastro-identificador-filter/cdk-cadastro-identificador-filter.module';
 
 @NgModule({
     declarations: [
         CdkCadastroIdentificadorGridComponent,
-        CdkCadastroIdentificadorMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,
@@ -33,7 +31,7 @@ import {CdkCadastroIdentificadorMainSidebarComponent} from './sidebars/main/main
         MatPaginatorModule,
         MatSortModule,
 
-        CdkCadastroIdentificadorGridFilterModule,
+        CdkCadastroIdentificadorFilterModule,
 
         CdkSharedModule,
         CdkSidebarModule,

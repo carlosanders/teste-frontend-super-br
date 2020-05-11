@@ -1,20 +1,22 @@
-<div class="page-layout left-sidebar" fxFlex="100">
+<div class="page-layout left-sidebar" fxFlex>
 
     <!-- SIDEBAR -->
-    <cdk-sidebar class="sidebar" name="cdk-numero-unico-documento-main-sidebar" position="left">
-        <!-- SIDEBAR CONTENT -->
-        <div class="content" cdkPerfectScrollbar>
-            <cdk-numero-unico-documento-main-sidebar [pagination]="setorPagination" (selected)="setGridFilter($event)"
-                                                     [@animate]="{value:'*'}"></cdk-numero-unico-documento-main-sidebar>
-        </div>
-        <!-- / SIDEBAR CONTENT -->
+    <cdk-sidebar class="sidebar" name="cdk-numero-unico-documento-filter" position="left">
+        <cdk-numero-unico-documento-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-numero-unico-documento-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
     <!-- CONTENT -->
     <div class="content responsive-grid" fxFlex fxLayout="column">
 
-        <div class="actions" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="end">
+        <div class="actions" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="end center">
+
+            <button class="back accent" mat-icon-button *ngIf="actions.indexOf('create') > -1"
+                    (click)="doCreate()"
+                    aria-label="novo"
+                    matTooltip="Novo">
+                <mat-icon>add</mat-icon>
+            </button>
 
             <button class="back" mat-icon-button *ngIf="actions.indexOf('cancel') > -1"
                     (click)="doCancel()"
@@ -24,7 +26,7 @@
             </button>
 
             <button mat-icon-button *ngIf="selectedIds.length > 1 && actions.indexOf('delete') > -1"
-                    (click)="deleteLotacoes(selectedIds)"
+                    (click)="deleteNumerosUnicosDocumentos(selectedIds)"
                     aria-label="remover"
                     matTooltip="Remover">
                 <mat-icon>delete</mat-icon>
@@ -45,7 +47,8 @@
                 <mat-icon>refresh</mat-icon>
             </button>
 
-            <button class="toggle-filter" mat-icon-button mat-icon-button [ngClass]="{'warn': (gridFilter | json) != '{}'}"
+            <button class="toggle-filter" mat-icon-button
+                    [ngClass]="{'warn': !(gridFilter | json).includes('{}')}"
                     (click)="toggleFilter()"
                     aria-label="filtrar"
                     matTooltip="Filtrar">
@@ -53,7 +56,7 @@
             </button>
         </div>
 
-        <div class="spinner-container" *ngIf="loading">
+        <div fxFlex="1 1 auto" fxLayout="row" fxLayoutAlign="center center" *ngIf="loading">
             <mat-spinner diameter="32"></mat-spinner>
         </div>
 
@@ -90,7 +93,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Tipo de Documento
                     </th>
-                    <td mat-cell *matCellDef="let numeroUnicoDocumento" class='has_label_on_mobile' data-label='Tipo Documento: '
+                    <td mat-cell *matCellDef="let numeroUnicoDocumento" class='has_label_on_mobile'
+                        data-label='Tipo Documento: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(numeroUnicoDocumento.id) > -1}"> {{numeroUnicoDocumento.tipoDocumento?.nome}} </td>
                 </ng-container>
 
@@ -104,11 +108,13 @@
                 </ng-container>
 
                 <!-- Unidade Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('setor.unidade.nome') > -1" matColumnDef="setor.unidade.nome">
+                <ng-container *ngIf="displayedColumns.indexOf('setor.unidade.nome') > -1"
+                              matColumnDef="setor.unidade.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Unidade
                     </th>
-                    <td mat-cell *matCellDef="let numeroUnicoDocumento" class='has_label_on_mobile' data-label='Unidade: '
+                    <td mat-cell *matCellDef="let numeroUnicoDocumento" class='has_label_on_mobile'
+                        data-label='Unidade: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(numeroUnicoDocumento.id) > -1}"> {{numeroUnicoDocumento.setor?.unidade?.nome}} </td>
                 </ng-container>
 
@@ -117,7 +123,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Sequência
                     </th>
-                    <td mat-cell *matCellDef="let numeroUnicoDocumento" class='has_label_on_mobile' data-label='Sequência: '
+                    <td mat-cell *matCellDef="let numeroUnicoDocumento" class='has_label_on_mobile'
+                        data-label='Sequência: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(numeroUnicoDocumento.id) > -1}"> {{numeroUnicoDocumento.sequencia}} </td>
                 </ng-container>
 
@@ -135,7 +142,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Criado Por
                     </th>
-                    <td mat-cell *matCellDef="let numeroUnicoDocumento" class='has_label_on_mobile' data-label='Criado Por: '
+                    <td mat-cell *matCellDef="let numeroUnicoDocumento" class='has_label_on_mobile'
+                        data-label='Criado Por: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(numeroUnicoDocumento.id) > -1}"> {{numeroUnicoDocumento.criadoPor?.nome}} </td>
                 </ng-container>
 
@@ -144,16 +152,19 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Criado Em
                     </th>
-                    <td mat-cell *matCellDef="let numeroUnicoDocumento" class='has_label_on_mobile' data-label='Criado Em: '
+                    <td mat-cell *matCellDef="let numeroUnicoDocumento" class='has_label_on_mobile'
+                        data-label='Criado Em: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(numeroUnicoDocumento.id) > -1}"> {{numeroUnicoDocumento.criadoEm | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1" matColumnDef="atualizadoPor.nome">
+                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1"
+                              matColumnDef="atualizadoPor.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Atualizado Por
                     </th>
-                    <td mat-cell *matCellDef="let numeroUnicoDocumento" class='has_label_on_mobile' data-label='Atualizado Por: '
+                    <td mat-cell *matCellDef="let numeroUnicoDocumento" class='has_label_on_mobile'
+                        data-label='Atualizado Por: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(numeroUnicoDocumento.id) > -1}"> {{numeroUnicoDocumento.atualizadoPor?.nome}} </td>
                 </ng-container>
 
@@ -162,7 +173,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Atualizado Em
                     </th>
-                    <td mat-cell *matCellDef="let numeroUnicoDocumento" class='has_label_on_mobile' data-label='Atualizado Em: '
+                    <td mat-cell *matCellDef="let numeroUnicoDocumento" class='has_label_on_mobile'
+                        data-label='Atualizado Em: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(numeroUnicoDocumento.id) > -1}"> {{numeroUnicoDocumento.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
@@ -171,7 +183,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Apagado Por
                     </th>
-                    <td mat-cell *matCellDef="let numeroUnicoDocumento" class='has_label_on_mobile' data-label='Apagado Por: '
+                    <td mat-cell *matCellDef="let numeroUnicoDocumento" class='has_label_on_mobile'
+                        data-label='Apagado Por: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(numeroUnicoDocumento.id) > -1}"> {{numeroUnicoDocumento.apagadoPor?.nome}} </td>
                 </ng-container>
 
@@ -180,7 +193,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Apagado Em
                     </th>
-                    <td mat-cell *matCellDef="let numeroUnicoDocumento" class='has_label_on_mobile' data-label='Apagado Em: '
+                    <td mat-cell *matCellDef="let numeroUnicoDocumento" class='has_label_on_mobile'
+                        data-label='Apagado Em: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(numeroUnicoDocumento.id) > -1}"> {{numeroUnicoDocumento.apagadoEm | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
@@ -206,10 +220,6 @@
                             <mat-icon>edit</mat-icon>
                         </button>
 
-                        <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(numeroUnicoDocumento.id) > -1">
-                            <mat-spinner diameter="24"></mat-spinner>
-                        </div>
-
                         <button mat-icon-button
                                 *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(numeroUnicoDocumento.id) === -1"
                                 [disabled]="deletedIds?.indexOf(numeroUnicoDocumento.id) > -1"
@@ -218,17 +228,21 @@
                                 matTooltip="Remover">
                             <mat-icon>delete</mat-icon>
                         </button>
+
+                        <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(numeroUnicoDocumento.id) > -1">
+                            <mat-spinner diameter="24"></mat-spinner>
+                        </div>
+
                     </td>
                 </ng-container>
 
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
                 <tr mat-row *matRowDef="let numeroUnicoDocumento; columns: displayedColumns;">
                 </tr>
             </table>
         </div>
-
-        <div fxFlex fxLayout="row" fxLayoutAlign="center center">
-            <mat-paginator [pageSizeOptions]="[5, 10]"></mat-paginator>
+        <div class="actions" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="center center">
+            <mat-paginator [disabled]="loading" [pageSizeOptions]="[5, 10]"></mat-paginator>
         </div>
 
     </div>

@@ -17,9 +17,6 @@ import {Classificacao} from '@cdk/models';
 import {Setor} from '@cdk/models';
 import {Pagination} from '@cdk/models';
 import {Pessoa} from '@cdk/models';
-import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
-import {of} from 'rxjs';
-
 
 @Component({
     selector: 'cdk-processo-form',
@@ -31,27 +28,27 @@ import {of} from 'rxjs';
 
     providers: [
         {
-          provide: MAT_DATETIME_FORMATS,
-          useValue: {
-            parse: {
-              dateInput: 'L',
-              monthInput: 'MMMM',
-              timeInput: 'LT',
-              datetimeInput: 'L LT'
-            },
-            display: {
-              dateInput: 'L',
-              monthInput: 'MMMM',
-              datetimeInput: 'L LT',
-              timeInput: 'LT',
-              monthYearLabel: 'MMM YYYY',
-              dateA11yLabel: 'LL',
-              monthYearA11yLabel: 'MMMM YYYY',
-              popupHeaderDateLabel: 'ddd, DD MMM'
+            provide: MAT_DATETIME_FORMATS,
+            useValue: {
+                parse: {
+                    dateInput: 'L',
+                    monthInput: 'MMMM',
+                    timeInput: 'LT',
+                    datetimeInput: 'L LT'
+                },
+                display: {
+                    dateInput: 'L',
+                    monthInput: 'MMMM',
+                    datetimeInput: 'L LT',
+                    timeInput: 'LT',
+                    monthYearLabel: 'MMM YYYY',
+                    dateA11yLabel: 'LL',
+                    monthYearA11yLabel: 'MMMM YYYY',
+                    popupHeaderDateLabel: 'ddd, DD MMM'
+                }
             }
-          }
         }
-      ]
+    ]
 })
 export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
@@ -86,6 +83,9 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     save = new EventEmitter<Processo>();
 
     @Output()
+    abort = new EventEmitter<any>();
+
+    @Output()
     put = new EventEmitter<Processo>();
 
     @Output()
@@ -112,6 +112,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
     readonlyNUP: boolean;
     textBotao: string;
+
     /**
      * Constructor
      */
@@ -119,7 +120,6 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: FormBuilder
     ) {
- 
         this.form = this._formBuilder.group({
             id: [null],
             temProcessoOrigem: [null],
@@ -154,17 +154,14 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
         this.readonlyNUP = false;
         this.textBotao = '';
-
     }
 
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
     // -----------------------------------------------------------------------------------------------------
- 
     ngOnInit(): void {
 
         if (!this.processo.id) {
-
             this.form.get('temProcessoOrigem').setValue(false);
 
             this.form.get('dataHoraAbertura').setValue(null);
@@ -187,7 +184,6 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
                     this.form.get('procedencia').setValue(null);
                     this.form.get('procedencia').enable();
                 } else {
-
                     this.form.get('dataHoraAbertura').setValue(null);
                     this.form.get('dataHoraAbertura').disable();
 
@@ -214,10 +210,10 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             this.form.get('dataHoraAbertura').disable();
             this.readonlyNUP = true;
             this.textBotao = 'SALVAR';
-            
+
             if (this.processo.id) {
-                this.form.get('processoOrigem').setValue(null);            
-                this.form.get('processoOrigem').disable();            
+                this.form.get('processoOrigem').setValue(null);
+                this.form.get('processoOrigem').disable();
             }
         }
 
@@ -285,6 +281,10 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
         if (this.form.valid) {
             this.save.emit(this.form.value);
         }
+    }
+
+    doAbort(): void {
+        this.abort.emit();
     }
 
     checkEspecieProcesso(): void {
@@ -397,20 +397,18 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     showLogEntryGrid(target: string): void {
-
         const campo = {target: target};
         Object.assign(this.logEntryPagination.filter, campo);
-
         this.activeCard = 'logentry-gridsearch';
     }
- 
+
     checkProcesso(): void {
-        
+
         const value = this.form.get('processoOrigem').value;
 
         if (!value || typeof value !== 'object') {
             this.form.get('processoOrigem').setValue(null);
-        }else{
+        } else {
             this.form.get('especieProcesso').setValue(value.especieProcesso);
             this.form.get('modalidadeMeio').setValue(value.modalidadeMeio);
             this.form.get('classificacao').setValue(value.classificacao);

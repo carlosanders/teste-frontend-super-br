@@ -18,6 +18,7 @@ import {getProcesso} from '../../../store/selectors';
 import {Pessoa} from '@cdk/models';
 import {Router} from '@angular/router';
 import {getRouterState} from 'app/store/reducers';
+import {Back} from "../../../../../../store/actions";
 
 @Component({
     selector: 'interessado-edit',
@@ -132,4 +133,7 @@ export class InteressadoEditComponent implements OnInit, OnDestroy {
         this._router.navigate([this.routerState.url + '/pessoa/editar/' + pessoaId]).then();
     }
 
+    doAbort(): void {
+        this._store.dispatch(new Back());
+    }
 }

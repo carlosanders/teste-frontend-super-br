@@ -6,7 +6,6 @@ import {
     Output, SimpleChange,
     ViewEncapsulation
 } from '@angular/core';
-
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Sigilo} from '@cdk/models';
@@ -45,8 +44,14 @@ export class CdkSigiloFormComponent implements OnChanges, OnDestroy, OnInit {
     @Input()
     errors: any;
 
+    @Input()
+    logEntryPagination: Pagination;
+
     @Output()
     save = new EventEmitter<Sigilo>();
+
+    @Output()
+    abort = new EventEmitter<any>();
 
     form: FormGroup;
 
@@ -147,6 +152,10 @@ export class CdkSigiloFormComponent implements OnChanges, OnDestroy, OnInit {
         }
     }
 
+    doAbort(): void {
+        this.abort.emit();
+    }
+
     checkModalidadeCategoriaSigilo(): void {
         const value = this.form.get('modalidadeCategoriaSigilo').value;
         if (!value || typeof value !== 'object') {
@@ -185,5 +194,11 @@ export class CdkSigiloFormComponent implements OnChanges, OnDestroy, OnInit {
 
     cancel(): void {
         this.activeCard = 'form';
+    }
+
+    showLogEntryGrid(target: string): void {
+        const campo = {target: target};
+        Object.assign(this.logEntryPagination.filter, campo);
+        this.activeCard = 'logentry-gridsearch';
     }
 }

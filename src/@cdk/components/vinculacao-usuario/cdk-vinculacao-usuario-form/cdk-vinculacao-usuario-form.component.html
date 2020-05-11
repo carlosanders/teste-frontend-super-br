@@ -2,7 +2,7 @@
     <form class="p-16" fxLayoutGap="36px"
           fxLayout="column"
           fxLayoutAlign="start"
-          name="form" [formGroup]="form" (submit)="submit()">
+          name="form" [formGroup]="form">
 
         <div fxFlex="1 0 auto" fxLayout="column">
 
@@ -10,10 +10,14 @@
                               class="mr-16 mb-16" fxFlex="0 1 auto">
                 Encerra Tarefa
             </mat-slide-toggle>
+            <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                    (click)="showLogEntryGrid('encerraTarefa')">
+                <mat-icon matTooltip="Histórico">history</mat-icon>
+            </button>
 
             <mat-form-field fxFlex="100">
                 <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Analista"
+                    <input matInput placeholder="Assessor"
                            formControlName="usuarioVinculado"
                            [matAutocomplete]="usuarioVinculado.autocomplete" required
                            (blur)="checkUsuarioVinculado()">
@@ -38,9 +42,12 @@
 
         <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
              fxLayoutAlign="center center">
-            <button mat-raised-button color="accent" class="mr-sm-12"
+            <button mat-raised-button color="accent" class="mr-sm-12" (click)="submit()"
                     [disabled]="form.invalid">
                 SALVAR
+            </button>
+            <button mat-raised-button color="warn" type="button" class="mr-sm-12" (click)="doAbort()">
+                CANCELAR
             </button>
         </div>
 
@@ -58,3 +65,10 @@
     (selected)="selectUsuarioVinculado($event)"
     (cancel)="cancel()">
 </cdk-usuario-gridsearch>
+
+<cdk-logentry-gridsearch
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'logentry-gridsearch'"
+    [pagination]="logEntryPagination"
+    (cancel)="cancel()">
+</cdk-logentry-gridsearch>

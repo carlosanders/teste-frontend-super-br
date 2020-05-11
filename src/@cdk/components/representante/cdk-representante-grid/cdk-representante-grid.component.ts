@@ -36,6 +36,12 @@ export class CdkRepresentanteGridComponent implements AfterViewInit, OnInit, OnC
     total = 0;
 
     @Input()
+    mode = 'list';
+
+    @Output()
+    create = new EventEmitter<any>();
+
+    @Input()
     displayedColumns: string[] = ['select', 'id', 'nome', 'inscricao', 'modalidadeRepresentante.valor', 'interessado.pessoa.nome',
         'origemDados.servico', 'actions'];
 
@@ -161,6 +167,7 @@ export class CdkRepresentanteGridComponent implements AfterViewInit, OnInit, OnC
 
     /**
      * @param _changeDetectorRef
+     * @param _cdkSidebarService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -220,16 +227,19 @@ export class CdkRepresentanteGridComponent implements AfterViewInit, OnInit, OnC
     }
 
     toggleFilter(): void {
-        this._cdkSidebarService.getSidebar('cdk-representante-main-sidebar').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-representante-filter').toggleOpen();
         this.showFilter = !this.showFilter;
     }
 
     loadPage(): void {
+        const filter = this.gridFilter.filters;
+        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : null;
         this.reload.emit({
-            gridFilter: this.gridFilter,
+            gridFilter: filter,
             limit: this.paginator.pageSize,
             offset: (this.paginator.pageSize * this.paginator.pageIndex),
-            sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {}
+            sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
+            context: contexto
         });
     }
 
@@ -297,7 +307,7 @@ export class CdkRepresentanteGridComponent implements AfterViewInit, OnInit, OnC
         this.isIndeterminate = (this.selectedIds.length !== this.representantes.length && this.selectedIds.length > 0);
     }
 
-    setGridFilter(gridFilter): void {
+    setFilter(gridFilter): void {
         this.gridFilter = gridFilter;
         this.paginator.pageIndex = 0;
         this.loadPage();
@@ -305,5 +315,9 @@ export class CdkRepresentanteGridComponent implements AfterViewInit, OnInit, OnC
 
     doCancel(): void {
         this.cancel.emit();
+    }
+
+    doCreate(): void {
+        this.create.emit();
     }
 }

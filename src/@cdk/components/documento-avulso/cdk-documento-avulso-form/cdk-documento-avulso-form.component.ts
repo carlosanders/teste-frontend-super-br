@@ -6,12 +6,10 @@ import {
     Output, SimpleChange,
     ViewEncapsulation
 } from '@angular/core';
-
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {DocumentoAvulso} from '@cdk/models';
 import {EspecieDocumentoAvulso} from '@cdk/models';
-import {Usuario} from '@cdk/models';
 import {Processo} from '@cdk/models';
 import {MAT_DATETIME_FORMATS} from '@mat-datetimepicker/core';
 import {Setor} from '@cdk/models';
@@ -60,8 +58,14 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
     @Input()
     valid = true;
 
+    @Input()
+    logEntryPagination: Pagination;
+
     @Output()
     save = new EventEmitter<DocumentoAvulso>();
+
+    @Output()
+    abort = new EventEmitter<any>();
 
     @Input()
     especieDocumentoAvulsoPagination: Pagination;
@@ -245,6 +249,10 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
         }
     }
 
+    doAbort(): void {
+        this.abort.emit();
+    }
+
     deleteProcessos(processoId): void {
         this.processos = this.processos.filter(processo => processo.id !== processoId);
         this._changeDetectorRef.markForCheck();
@@ -349,4 +357,9 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
         this.activeCard = 'form';
     }
 
+    showLogEntryGrid(target: string): void {
+        const campo = {target: target};
+        Object.assign(this.logEntryPagination.filter, campo);
+        this.activeCard = 'logentry-gridsearch';
+    }
 }

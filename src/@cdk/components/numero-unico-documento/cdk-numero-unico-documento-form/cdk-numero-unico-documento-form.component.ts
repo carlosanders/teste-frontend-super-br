@@ -39,6 +39,9 @@ export class CdkNumeroUnicoDocumentoFormComponent implements OnChanges, OnDestro
     @Output()
     save = new EventEmitter<NumeroUnicoDocumento>();
 
+    @Output()
+    abort = new EventEmitter<any>();
+
     form: FormGroup;
 
     activeCard = 'form';
@@ -53,7 +56,6 @@ export class CdkNumeroUnicoDocumentoFormComponent implements OnChanges, OnDestro
        this.form = this._formBuilder.group({
             id: [null],
             tipoDocumento: [null, [Validators.required]],
-            setor: [null],
             sequencia: [null, [Validators.required]],
             ano: [null]
         });
@@ -70,10 +72,6 @@ export class CdkNumeroUnicoDocumentoFormComponent implements OnChanges, OnDestro
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
         if (changes['numeroUnicoDocumento'] && this.numeroUnicoDocumento && ((!this.numeroUnicoDocumento.id && !this.form.dirty) || (this.numeroUnicoDocumento.id !== this.form.get('id').value))) {
             this.form.patchValue({...this.numeroUnicoDocumento});
-        }
-
-        if (this.setor) {
-            this.form.get('setor').setValue(this.setor);
         }
 
         if (this.errors && this.errors.status && this.errors.status === 422) {
@@ -115,6 +113,10 @@ export class CdkNumeroUnicoDocumentoFormComponent implements OnChanges, OnDestro
         }
     }
 
+    doAbort(): void {
+        this.abort.emit();
+    }
+
     checkTipoDocumento(): void {
         const value = this.form.get('tipoDocumento').value;
         if (!value || typeof value !== 'object') {
@@ -130,7 +132,7 @@ export class CdkNumeroUnicoDocumentoFormComponent implements OnChanges, OnDestro
     }
 
     showTipoDocumentoGrid(): void {
-        this.activeCard = 'tipo-documento-gridsearch';
+        this.activeCard = 'tipo-documento-list-gridsearch';
     }
 
     cancel(): void {

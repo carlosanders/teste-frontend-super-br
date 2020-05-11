@@ -33,6 +33,9 @@ export class CdkUsuarioFormComponent implements OnChanges, OnDestroy {
     @Output()
     save = new EventEmitter<any>();
 
+    @Output()
+    abort = new EventEmitter<any>();
+
     @Input()
     form: FormGroup;
 
@@ -110,14 +113,16 @@ export class CdkUsuarioFormComponent implements OnChanges, OnDestroy {
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
     submit(): void {
-        console.log(this.form.value);
         if (this.form.valid) {
             this.save.emit(this.form.value);
         }
     }
 
+    doAbort(): void {
+        this.abort.emit();
+    }
+
     cancel(): void {
         this.activeCard = 'form';
     }
-
 }

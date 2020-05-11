@@ -37,8 +37,14 @@ export class CdkLotacaoFormComponent implements OnChanges, OnDestroy {
     @Input()
     setorPagination: Pagination;
 
+    @Input()
+    logEntryPagination: Pagination;
+
     @Output()
     save = new EventEmitter<Lotacao>();
+
+    @Output()
+    abort = new EventEmitter<any>();
 
     @Input()
     usuario: Usuario;
@@ -134,6 +140,10 @@ export class CdkLotacaoFormComponent implements OnChanges, OnDestroy {
         }
     }
 
+    doAbort(): void {
+        this.abort.emit();
+    }
+
     checkColaborador(): void {
         const value = this.form.get('colaborador').value;
         if (!value || typeof value !== 'object') {
@@ -176,4 +186,9 @@ export class CdkLotacaoFormComponent implements OnChanges, OnDestroy {
         this.activeCard = 'form';
     }
 
+    showLogEntryGrid(target: string): void {
+        const campo = {target: target};
+        Object.assign(this.logEntryPagination.filter, campo);
+        this.activeCard = 'logentry-gridsearch';
+    }
 }

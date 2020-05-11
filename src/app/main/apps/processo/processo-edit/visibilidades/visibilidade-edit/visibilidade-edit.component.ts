@@ -9,7 +9,7 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
 
-import {Visibilidade} from '@cdk/models';
+import {Usuario, Visibilidade} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
@@ -17,7 +17,6 @@ import {Processo} from '@cdk/models';
 import {getProcesso} from '../../../store/selectors';
 import {Pagination} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Colaborador} from '@cdk/models';
 
 @Component({
     selector: 'visibilidade-edit',
@@ -41,7 +40,7 @@ export class VisibilidadeEditComponent implements OnInit, OnDestroy {
     setorPagination: Pagination;
     usuarioPagination: Pagination;
 
-    _profile: Colaborador;
+    _profile: Usuario;
 
     /**
      * @param _store
@@ -56,7 +55,7 @@ export class VisibilidadeEditComponent implements OnInit, OnDestroy {
         this.visibilidade$ = this._store.pipe(select(fromStore.getVisibilidade));
         this.processo$ = this._store.pipe(select(getProcesso));
 
-        this._profile = _loginService.getUserProfile().colaborador;
+        this._profile = _loginService.getUserProfile();
 
         this.unidadePagination = new Pagination();
         this.unidadePagination.filter = {parent: 'isNull'};
@@ -66,7 +65,7 @@ export class VisibilidadeEditComponent implements OnInit, OnDestroy {
         this.setorPagination.filter = {parent: 'isNotNull'};
 
         this.usuarioPagination = new Pagination();
-        this.usuarioPagination.filter = {id: `neq:${this._profile.usuario.id}`};
+        this.usuarioPagination.filter = {id: `neq:${this._profile.id}`};
     }
 
     // -----------------------------------------------------------------------------------------------------

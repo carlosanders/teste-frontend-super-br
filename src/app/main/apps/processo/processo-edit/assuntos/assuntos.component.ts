@@ -38,7 +38,7 @@ export class AssuntosComponent implements OnInit, OnDestroy {
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router
     ) {
-            }
+    }
 
     /**
      * On init

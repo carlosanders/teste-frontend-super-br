@@ -9,7 +9,8 @@
         <div class="info" fxFlex [ngClass]="{'nao-lido': !tarefa.dataHoraLeitura}">
 
             <div class="title" fxLayout="row">
-                <mat-icon *ngIf="tarefa.processo?.acessoNegado" class="red-fg">block</mat-icon>
+                <mat-icon *ngIf="tarefa.processo?.acessoNegado" matTooltip="Acesso negado!" class="red-fg">block</mat-icon>
+                <mat-icon *ngIf="tarefa.processo?.acessoRestrito" matTooltip="Acesso restrito!" class="red-fg">lock</mat-icon>
                 <mat-icon *ngIf="tarefa.processo?.documentoAvulsoOrigem">mail</mat-icon>
                 <span class="text-truncate">PROCESSO {{tarefa.processo?.NUP | formatNup}}</span>
                 <mat-icon (click)="doTogglePanel(); $event.stopPropagation();" *ngIf="!tarefa.processo?.acessoNegado && !isOpen">keyboard_arrow_down</mat-icon>
@@ -40,7 +41,7 @@
                 </div>
             </div>
 
-            <div class="body mt-4">
+            <div [matTooltip]="'Tarefa Id ' + tarefa.id.toString()" class="body mt-4">
                 <div>
                     {{tarefa.especieTarefa?.nome}}
                 </div>
@@ -57,7 +58,7 @@
 
             <div class="etiquetas" fxLayout="row wrap" fxHide fxShow.gt-sm>
                 <div class="etiqueta" *ngFor="let vinculacaoEtiqueta of tarefa.vinculacoesEtiquetas"
-                     fxLayout="row" fxLayoutAlign="start center">
+                     fxLayout="row" fxLayoutAlign="start center"  [matTooltip]="vinculacaoEtiqueta.label">
                     <div class="etiqueta-color"
                          [ngStyle]="{'background-color': (vinculacaoEtiqueta.etiqueta?.corHexadecimal)}"></div>
                     <div class="etiqueta-title">{{vinculacaoEtiqueta.etiqueta?.nome}}</div>
@@ -128,7 +129,7 @@
                         (click)="doCompartilhar()">
                     <ng-container>
                         <mat-icon>share</mat-icon>
-                        <span>Compartilhar</span>
+                        <span>Compartilhamento</span>
                     </ng-container>
                 </button>
 

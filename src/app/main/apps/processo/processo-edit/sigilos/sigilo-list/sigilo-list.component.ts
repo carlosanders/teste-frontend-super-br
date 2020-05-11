@@ -77,6 +77,10 @@ export class SigiloListComponent implements OnInit {
         }));
     }
 
+    create () : void {
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
+    }
+
     edit(sigiloId: number): void {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/') + sigiloId]);
     }

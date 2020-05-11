@@ -1,12 +1,8 @@
 <div class="page-layout left-sidebar" fxFlex>
 
     <!-- SIDEBAR -->
-    <cdk-sidebar class="sidebar" name="cdk-vinculacao-usuario-main-sidebar" position="left">
-        <!-- SIDEBAR CONTENT -->
-        <div class="content" cdkPerfectScrollbar>
-            <cdk-vinculacao-usuario-main-sidebar (selected)="setGridFilter($event)" [@animate]="{value:'*'}"></cdk-vinculacao-usuario-main-sidebar>
-        </div>
-        <!-- / SIDEBAR CONTENT -->
+    <cdk-sidebar class="sidebar" name="cdk-vinculacao-usuario-filter" position="left">
+        <cdk-vinculacao-usuario-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-vinculacao-usuario-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
@@ -14,6 +10,13 @@
     <div class="content responsive-grid" fxFlex fxLayout="column">
 
         <div class="actions" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="end center">
+
+            <button class="back accent" mat-icon-button *ngIf="actions.indexOf('create') > -1"
+                    (click)="doCreate()"
+                    aria-label="novo"
+                    matTooltip="Novo">
+                <mat-icon>add</mat-icon>
+            </button>
 
             <button class="back" mat-icon-button *ngIf="actions.indexOf('cancel') > -1"
                     (click)="doCancel()"
@@ -44,7 +47,7 @@
                 <mat-icon>refresh</mat-icon>
             </button>
 
-            <button class="toggle-filter" mat-icon-button [ngClass]="{'warn': (gridFilter | json) != '{}'}"
+            <button class="toggle-filter" mat-icon-button [ngClass]="{'warn': !(gridFilter | json).includes('{}')}"
                     (click)="toggleFilter()"
                     aria-label="filtrar"
                     matTooltip="Filtrar">
@@ -89,16 +92,19 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Usuário Vinculado
                     </th>
-                    <td mat-cell *matCellDef="let vinculacaoUsuario" class='has_label_on_mobile' data-label='Usuário Vinculado: '
+                    <td mat-cell *matCellDef="let vinculacaoUsuario" class='has_label_on_mobile'
+                        data-label='Usuário Vinculado: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoUsuario.id) > -1}"> {{vinculacaoUsuario.usuarioVinculado?.nome}} </td>
                 </ng-container>
 
                 <!-- GeneroTarefa Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('generoTarefa.nome') > -1" matColumnDef="generoTarefa.nome">
+                <ng-container *ngIf="displayedColumns.indexOf('generoTarefa.nome') > -1"
+                              matColumnDef="generoTarefa.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Gênero Tarefa
                     </th>
-                    <td mat-cell *matCellDef="let vinculacaoUsuario" class='has_label_on_mobile' data-label='Gênero Tarefa: '
+                    <td mat-cell *matCellDef="let vinculacaoUsuario" class='has_label_on_mobile'
+                        data-label='Gênero Tarefa: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoUsuario.id) > -1}"> {{vinculacaoUsuario.generoTarefa?.nome}} </td>
                 </ng-container>
 
@@ -116,7 +122,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Encerra Tarefas
                     </th>
-                    <td mat-cell *matCellDef="let vinculacaoUsuario" class='has_label_on_mobile' data-label='Encerra Tarefas: '>
+                    <td mat-cell *matCellDef="let vinculacaoUsuario" class='has_label_on_mobile'
+                        data-label='Encerra Tarefas: '>
                         <mat-checkbox
                             [disabled]="true"
                             [checked]="vinculacaoUsuario.encerraTarefa"></mat-checkbox>
@@ -128,7 +135,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Criado Por
                     </th>
-                    <td mat-cell *matCellDef="let vinculacaoUsuario" class='has_label_on_mobile' data-label='Criado Por: '
+                    <td mat-cell *matCellDef="let vinculacaoUsuario" class='has_label_on_mobile'
+                        data-label='Criado Por: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoUsuario.id) > -1}"> {{vinculacaoUsuario.criadoPor?.nome}} </td>
                 </ng-container>
 
@@ -137,16 +145,19 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Criado Em
                     </th>
-                    <td mat-cell *matCellDef="let vinculacaoUsuario" class='has_label_on_mobile' data-label='Criado Em: '
+                    <td mat-cell *matCellDef="let vinculacaoUsuario" class='has_label_on_mobile'
+                        data-label='Criado Em: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoUsuario.id) > -1}"> {{vinculacaoUsuario.criadoEm | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1" matColumnDef="atualizadoPor.nome">
+                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1"
+                              matColumnDef="atualizadoPor.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Atualizado Por
                     </th>
-                    <td mat-cell *matCellDef="let vinculacaoUsuario" class='has_label_on_mobile' data-label='Atualizado Por: '
+                    <td mat-cell *matCellDef="let vinculacaoUsuario" class='has_label_on_mobile'
+                        data-label='Atualizado Por: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoUsuario.id) > -1}"> {{vinculacaoUsuario.atualizadoPor?.nome}} </td>
                 </ng-container>
 
@@ -155,7 +166,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Atualizado Em
                     </th>
-                    <td mat-cell *matCellDef="let vinculacaoUsuario" class='has_label_on_mobile' data-label='Atualizado Em: '
+                    <td mat-cell *matCellDef="let vinculacaoUsuario" class='has_label_on_mobile'
+                        data-label='Atualizado Em: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoUsuario.id) > -1}"> {{vinculacaoUsuario.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
@@ -164,7 +176,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Apagado Por
                     </th>
-                    <td mat-cell *matCellDef="let vinculacaoUsuario" class='has_label_on_mobile' data-label='Apagado Por: '
+                    <td mat-cell *matCellDef="let vinculacaoUsuario" class='has_label_on_mobile'
+                        data-label='Apagado Por: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoUsuario.id) > -1}"> {{vinculacaoUsuario.apagadoPor?.nome}} </td>
                 </ng-container>
 
@@ -173,7 +186,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Apagado Em
                     </th>
-                    <td mat-cell *matCellDef="let vinculacaoUsuario" class='has_label_on_mobile' data-label='Apagado Em: '
+                    <td mat-cell *matCellDef="let vinculacaoUsuario" class='has_label_on_mobile'
+                        data-label='Apagado Em: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoUsuario.id) > -1}"> {{vinculacaoUsuario.apagadoEm | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 

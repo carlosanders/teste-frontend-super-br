@@ -4,9 +4,9 @@ import * as fromStore from '../../../store';
 import {getRouterState} from 'app/store/reducers';
 import {Observable} from 'rxjs';
 import {Processo} from '@cdk/models';
-import {getProcesso} from '../../dados-basicos/store/selectors';
 
 import {modulesConfig} from 'modules/modules-config';
+import {getProcesso} from "../../../store";
 
 @Component({
     selector: 'processo-edit-main-sidebar',
@@ -59,6 +59,10 @@ export class ProcessoEditMainSidebarComponent implements OnInit, OnDestroy {
             {
                 nome: 'Interessados',
                 link: 'interessados'
+            },
+            {
+                nome: 'Volumes',
+                link: 'volumes'
             },
             {
                 nome: 'Juntadas',

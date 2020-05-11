@@ -16,14 +16,12 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {HistoricoService} from '@cdk/services/historico.service';
 import {CdkHistoricoGridComponent} from './cdk-historico-grid.component';
 import {CdkHistoricoAutocompleteModule} from '@cdk/components/historico/cdk-historico-autocomplete/cdk-historico-autocomplete.module';
-import {CdkHistoricoGridFilterModule} from './cdk-historico-grid-filter/cdk-historico-grid-filter.module';
-import {CdkHistoricoMainSidebarComponent} from './sidebars/main/main.component';
+import {CdkHistoricoFilterModule} from '../sidebars/cdk-historico-filter/cdk-historico-filter.module';
 import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
     declarations: [
         CdkHistoricoGridComponent,
-        CdkHistoricoMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,
@@ -37,7 +35,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
         MatSortModule,
 
         CdkHistoricoAutocompleteModule,
-        CdkHistoricoGridFilterModule,
+        CdkHistoricoFilterModule,
 
         CdkSharedModule,
         CdkSidebarModule,

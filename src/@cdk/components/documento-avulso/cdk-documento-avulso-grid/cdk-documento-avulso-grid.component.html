@@ -1,12 +1,8 @@
 <div class="page-layout left-sidebar" fxFlex>
 
     <!-- SIDEBAR -->
-    <cdk-sidebar class="sidebar" name="cdk-documento-avulso-main-sidebar" position="left">
-        <!-- SIDEBAR CONTENT -->
-        <div class="content" cdkPerfectScrollbar>
-            <cdk-documento-avulso-main-sidebar (selected)="setGridFilter($event)" [@animate]="{value:'*'}"></cdk-documento-avulso-main-sidebar>
-        </div>
-        <!-- / SIDEBAR CONTENT -->
+    <cdk-sidebar class="sidebar" name="cdk-documento-avulso-filter" position="left">
+        <cdk-documento-avulso-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-documento-avulso-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
@@ -14,6 +10,13 @@
     <div class="content responsive-grid" fxFlex fxLayout="column">
 
         <div class="actions" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="end center">
+
+            <button class="back accent" mat-icon-button *ngIf="actions.indexOf('create') > -1"
+                    (click)="doCreate()"
+                    aria-label="novo"
+                    matTooltip="Novo">
+                <mat-icon>add</mat-icon>
+            </button>
 
             <button class="back" mat-icon-button *ngIf="actions.indexOf('cancel') > -1"
                     (click)="doCancel()"
@@ -51,7 +54,7 @@
                 <mat-icon>refresh</mat-icon>
             </button>
 
-            <button class="toggle-filter" mat-icon-button [ngClass]="{'warn': (gridFilter | json) != '{}'}"
+            <button class="toggle-filter" mat-icon-button [ngClass]="{'warn': !(gridFilter | json).includes('{}')}"
                     (click)="toggleFilter()"
                     aria-label="filtrar"
                     matTooltip="Filtrar">
@@ -96,7 +99,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Espécie de Documento Avulso
                     </th>
-                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile' data-label='Espécie de Documento Avulso: '
+                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile'
+                        data-label='Espécie de Documento Avulso: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1}"> {{documentoAvulso.especieDocumentoAvulso?.nome}} </td>
                 </ng-container>
 
@@ -105,7 +109,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Setor de Origem
                     </th>
-                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile' data-label='Setor de Origem: '
+                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile'
+                        data-label='Setor de Origem: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1}"> {{documentoAvulso.setorOrigem?.nome}} </td>
                 </ng-container>
 
@@ -139,56 +144,68 @@
                 </ng-container>
 
                 <!-- DataHoraEncerramento Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('dataHoraEncerramento') > -1" matColumnDef="dataHoraEncerramento">
+                <ng-container *ngIf="displayedColumns.indexOf('dataHoraEncerramento') > -1"
+                              matColumnDef="dataHoraEncerramento">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Data Encerramento
                     </th>
-                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile' data-label='Data Encerramento: '
+                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile'
+                        data-label='Data Encerramento: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1}"> {{documentoAvulso.dataHoraEncerramento | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- DataHoraInicioPrazo Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('dataHoraInicioPrazo') > -1" matColumnDef="dataHoraInicioPrazo">
+                <ng-container *ngIf="displayedColumns.indexOf('dataHoraInicioPrazo') > -1"
+                              matColumnDef="dataHoraInicioPrazo">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Data do Início Prazo
                     </th>
-                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile' data-label='Data do Início Prazo: '
+                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile'
+                        data-label='Data do Início Prazo: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1}"> {{documentoAvulso.dataHoraInicioPrazo | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- DataHoraFinalPrazo Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('dataHoraFinalPrazo') > -1" matColumnDef="dataHoraFinalPrazo">
+                <ng-container *ngIf="displayedColumns.indexOf('dataHoraFinalPrazo') > -1"
+                              matColumnDef="dataHoraFinalPrazo">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Data do Final do Prazo
                     </th>
-                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile' data-label='Data do Final do Prazo: '
+                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile'
+                        data-label='Data do Final do Prazo: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1}"> {{documentoAvulso.dataHoraFinalPrazo | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- DataHoraConclusaoPrazo Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('dataHoraConclusaoPrazo') > -1" matColumnDef="dataHoraConclusaoPrazo">
+                <ng-container *ngIf="displayedColumns.indexOf('dataHoraConclusaoPrazo') > -1"
+                              matColumnDef="dataHoraConclusaoPrazo">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Data da Conclusão do Prazo
                     </th>
-                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile' data-label='Data da Conclusão do Prazo: '
+                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile'
+                        data-label='Data da Conclusão do Prazo: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1}"> {{documentoAvulso.dataHoraConclusaoPrazo | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- PessoaDestino Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('pessoaDestino.nome') > -1" matColumnDef="pessoaDestino.nome">
+                <ng-container *ngIf="displayedColumns.indexOf('pessoaDestino.nome') > -1"
+                              matColumnDef="pessoaDestino.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Pessoa de Destino
                     </th>
-                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile' data-label='Pessoa de Destino: '
+                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile'
+                        data-label='Pessoa de Destino: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1}"> {{documentoAvulso.pessoaDestino?.nome}} </td>
                 </ng-container>
 
                 <!-- SetorDestino.nome Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('setorDestino.nome') > -1" matColumnDef="setorDestino.nome">
+                <ng-container *ngIf="displayedColumns.indexOf('setorDestino.nome') > -1"
+                              matColumnDef="setorDestino.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Setor de Destino
                     </th>
-                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile' data-label='Setor de Destino: '
+                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile'
+                        data-label='Setor de Destino: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1}"> {{documentoAvulso.setorDestino?.nome}} </td>
                 </ng-container>
 
@@ -197,7 +214,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Data Remessa
                     </th>
-                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile' data-label='Data Remessa: '
+                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile'
+                        data-label='Data Remessa: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1}"> {{documentoAvulso.dataHoraRemessa | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
@@ -206,75 +224,90 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Data Resposta
                     </th>
-                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile' data-label='Data Resposta: '
+                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile'
+                        data-label='Data Resposta: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1}"> {{documentoAvulso.dataHoraResposta | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- DataHoraReiteracao Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('dataHoraReiteracao') > -1" matColumnDef="dataHoraReiteracao">
+                <ng-container *ngIf="displayedColumns.indexOf('dataHoraReiteracao') > -1"
+                              matColumnDef="dataHoraReiteracao">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Data Reiteracao
                     </th>
-                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile' data-label='Data Reiteracao: '
+                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile'
+                        data-label='Data Reiteracao: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1}"> {{documentoAvulso.dataHoraReiteracao | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- DocumentoResposta Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('documentoResposta.tipoDocumento.nome') > -1" matColumnDef="documentoResposta.tipoDocumento.nome">
+                <ng-container *ngIf="displayedColumns.indexOf('documentoResposta.tipoDocumento.nome') > -1"
+                              matColumnDef="documentoResposta.tipoDocumento.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Documento de Resposta
                     </th>
-                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile' data-label='Documento de Resposta: '
+                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile'
+                        data-label='Documento de Resposta: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1}"> {{documentoAvulso.documentoResposta?.tipoDocumento?.nome}} </td>
                 </ng-container>
 
                 <!-- DocumentoRemessa Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('documentoRemessa.tipoDocumento.nome') > -1" matColumnDef="documentoRemessa.tipoDocumento.nome">
+                <ng-container *ngIf="displayedColumns.indexOf('documentoRemessa.tipoDocumento.nome') > -1"
+                              matColumnDef="documentoRemessa.tipoDocumento.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Documento de Remessa
                     </th>
-                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile' data-label='Documento de Remessa: '
+                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile'
+                        data-label='Documento de Remessa: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1}"> {{documentoAvulso.documentoRemessa?.tipoDocumento?.nome}} </td>
                 </ng-container>
 
                 <!-- UsuarioResponsavel Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('usuarioResponsavel.nome') > -1" matColumnDef="usuarioResponsavel.nome">
+                <ng-container *ngIf="displayedColumns.indexOf('usuarioResponsavel.nome') > -1"
+                              matColumnDef="usuarioResponsavel.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Usuário Responsável
                     </th>
-                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile' data-label='Usuário Responsável: '
+                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile'
+                        data-label='Usuário Responsável: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1}"> {{documentoAvulso.usuarioResponsavel?.nome}} </td>
                 </ng-container>
 
                 <!-- UsuarioResposta Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('usuarioResposta.nome') > -1" matColumnDef="usuarioResposta.nome">
+                <ng-container *ngIf="displayedColumns.indexOf('usuarioResposta.nome') > -1"
+                              matColumnDef="usuarioResposta.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Usuário Resposta
                     </th>
-                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile' data-label='Usuário Resposta: '
+                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile'
+                        data-label='Usuário Resposta: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1}"> {{documentoAvulso.usuarioResposta?.nome}} </td>
                 </ng-container>
 
                 <!-- UsuarioRemessa Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('usuarioRemessa.nome') > -1" matColumnDef="usuarioRemessa.nome">
+                <ng-container *ngIf="displayedColumns.indexOf('usuarioRemessa.nome') > -1"
+                              matColumnDef="usuarioRemessa.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Usuário Remessa
                     </th>
-                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile' data-label='Usuário Remessa: '
+                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile'
+                        data-label='Usuário Remessa: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1}"> {{documentoAvulso.usuarioRemessa?.nome}} </td>
                 </ng-container>
 
                 <!-- SetorResponsavel Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('setorResponsavel.nome') > -1" matColumnDef="setorResponsavel.nome">
+                <ng-container *ngIf="displayedColumns.indexOf('setorResponsavel.nome') > -1"
+                              matColumnDef="setorResponsavel.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Setor de Responsável
                     </th>
-                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile' data-label='Setor de Responsável: '
+                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile'
+                        data-label='Setor de Responsável: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1}"> {{documentoAvulso.setorResponsavel?.nome}} </td>
                 </ng-container>
 
                 <!-- Processo Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('processo.NUP') > -1" matColumnDef="processo.NUP">
+                <ng-container *ngIf="displayedColumns.indexOf('processo') > -1" matColumnDef="processo">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         NUP
                     </th>
@@ -283,16 +316,19 @@
                 </ng-container>
 
                 <!-- DocumentoAvulsoOrigem Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('documentoAvulsoOrigem.especieDocumentoAvulso.nome') > -1" matColumnDef="documentoAvulsoOrigem.especieDocumentoAvulso.nome">
+                <ng-container *ngIf="displayedColumns.indexOf('documentoAvulsoOrigem.especieDocumentoAvulso.nome') > -1"
+                              matColumnDef="documentoAvulsoOrigem.especieDocumentoAvulso.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Documento Avulso de Origem
                     </th>
-                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile' data-label='Documento Avulso de Origem: '
+                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile'
+                        data-label='Documento Avulso de Origem: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1}"> {{documentoAvulso.documentoAvulsoOrigem?.especieDocumentoAvulso?.nome}} </td>
                 </ng-container>
 
                 <!-- Tarefa Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('tarefaOrigem.especieTarefa.nome') > -1" matColumnDef="tarefaOrigem.especieTarefa.nome">
+                <ng-container *ngIf="displayedColumns.indexOf('tarefaOrigem.especieTarefa.nome') > -1"
+                              matColumnDef="tarefaOrigem.especieTarefa.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Tarefa
                     </th>
@@ -310,33 +346,40 @@
                 </ng-container>
 
                 <!-- DistribuicaoAutomatica Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('distribuicaoAutomatica') > -1" matColumnDef="distribuicaoAutomatica">
+                <ng-container *ngIf="displayedColumns.indexOf('distribuicaoAutomatica') > -1"
+                              matColumnDef="distribuicaoAutomatica">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Distribuição Automática
                     </th>
-                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile' data-label='Distribuição Automática: '
+                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile'
+                        data-label='Distribuição Automática: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1}">
-                        <mat-checkbox [disabled]="true" [checked]="documentoAvulso.distribuicaoAutomatica"></mat-checkbox>
+                        <mat-checkbox [disabled]="true"
+                                      [checked]="documentoAvulso.distribuicaoAutomatica"></mat-checkbox>
                     </td>
                 </ng-container>
 
                 <!-- LivreBalanceamento Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('livreBalanceamento') > -1" matColumnDef="livreBalanceamento">
+                <ng-container *ngIf="displayedColumns.indexOf('livreBalanceamento') > -1"
+                              matColumnDef="livreBalanceamento">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Livre Balanceamento
                     </th>
-                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile' data-label='Livre Balanceamento: '
+                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile'
+                        data-label='Livre Balanceamento: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1}">
                         <mat-checkbox [disabled]="true" [checked]="documentoAvulso.livreBalanceamento"></mat-checkbox>
                     </td>
                 </ng-container>
 
                 <!-- AuditoriaDistribuicao Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('auditoriaDistribuicao') > -1" matColumnDef="auditoriaDistribuicao">
+                <ng-container *ngIf="displayedColumns.indexOf('auditoriaDistribuicao') > -1"
+                              matColumnDef="auditoriaDistribuicao">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Auditoria de Distribuição
                     </th>
-                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile' data-label='Auditoria de Distribuição: '
+                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile'
+                        data-label='Auditoria de Distribuição: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1}"> {{documentoAvulso.auditoriaDistribuicao}} </td>
                 </ng-container>
 
@@ -345,7 +388,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Tipo de Distribuição
                     </th>
-                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile' data-label='Tipo de Distribuição: '
+                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile'
+                        data-label='Tipo de Distribuição: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1}"> {{documentoAvulso.tipoDistribuicao}} </td>
                 </ng-container>
 
@@ -368,11 +412,13 @@
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1" matColumnDef="atualizadoPor.nome">
+                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1"
+                              matColumnDef="atualizadoPor.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Atualizado Por
                     </th>
-                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile' data-label='Atualizado Por: '
+                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile'
+                        data-label='Atualizado Por: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1}"> {{documentoAvulso.atualizadoPor?.nome}} </td>
                 </ng-container>
 
@@ -381,7 +427,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Atualizado Em
                     </th>
-                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile' data-label='Atualizado Em: '
+                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile'
+                        data-label='Atualizado Em: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1}"> {{documentoAvulso.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
@@ -390,7 +437,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Apagado Por
                     </th>
-                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile' data-label='Apagado Por: '
+                    <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile'
+                        data-label='Apagado Por: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1}"> {{documentoAvulso.apagadoPor?.nome}} </td>
                 </ng-container>
 

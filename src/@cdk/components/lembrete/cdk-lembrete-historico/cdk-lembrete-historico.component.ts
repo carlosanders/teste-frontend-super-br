@@ -28,12 +28,22 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 export class CdkLembreteHistoricoComponent implements AfterViewInit, OnInit, OnChanges {
     @Input()
     loading = false;
+
     @Input()
     lembretes: Lembrete[];
+
     @Input()
     total = 0;
+
+    @Input()
+    mode = 'list';
+
+    @Output()
+    create = new EventEmitter<any>();
+
     @Input()
     displayedColumns: string[] = ['id', 'conteudo', 'criadoEm'];
+
     allColumns: any[] = [
         {
             id: 'id',
@@ -136,14 +146,17 @@ export class CdkLembreteHistoricoComponent implements AfterViewInit, OnInit, OnC
         ).subscribe();
     }
     loadPage(): void {
+        const filter = this.gridFilter.filters;
+        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : null;
         this.reload.emit({
-            gridFilter: this.gridFilter,
+            gridFilter: filter,
             limit: this.paginator.pageSize,
             offset: (this.paginator.pageSize * this.paginator.pageIndex),
-            sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {}
+            sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
+            context: contexto
         });
     }
-    setGridFilter(gridFilter): void {
+    setFilter(gridFilter): void {
         this.gridFilter = gridFilter;
         this.paginator.pageIndex = 0;
         this.loadPage();

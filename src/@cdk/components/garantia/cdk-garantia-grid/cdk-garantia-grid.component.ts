@@ -35,6 +35,12 @@ export class CdkGarantiaGridComponent implements AfterViewInit, OnInit, OnChange
     total = 0;
 
     @Input()
+    mode = 'list';
+
+    @Output()
+    create = new EventEmitter<any>();
+
+    @Input()
     displayedColumns: string[] = ['select', 'id', 'modalidadeGarantia.valor', 'valor','dataValor','descricao', 'actions'];
 
     allColumns: any[] = [
@@ -74,7 +80,7 @@ export class CdkGarantiaGridComponent implements AfterViewInit, OnInit, OnChange
             fixed: false
         },                        
         {
-            id: 'processo.NUP',
+            id: 'processo',
             label: 'NUP',
             fixed: false
         },
@@ -164,6 +170,7 @@ export class CdkGarantiaGridComponent implements AfterViewInit, OnInit, OnChange
 
     /**
      * @param _changeDetectorRef
+     * @param _cdkSidebarService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -178,8 +185,6 @@ export class CdkGarantiaGridComponent implements AfterViewInit, OnInit, OnChange
     }
 
     ngOnInit(): void {
-        console.log('this.garantias');
-        console.log(this.garantias);
         const ElementQueries = require('css-element-queries/src/ElementQueries');
         ElementQueries.listen();
         ElementQueries.init();
@@ -223,7 +228,7 @@ export class CdkGarantiaGridComponent implements AfterViewInit, OnInit, OnChange
     }
 
     toggleFilter(): void {
-        this._cdkSidebarService.getSidebar('cdk-garantia-main-sidebar').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-garantia-filter').toggleOpen();
         this.showFilter = !this.showFilter;
     }
 
@@ -303,7 +308,7 @@ export class CdkGarantiaGridComponent implements AfterViewInit, OnInit, OnChange
         this.isIndeterminate = (this.selectedIds.length !== this.garantias.length && this.selectedIds.length > 0);
     }
 
-    setGridFilter(gridFilter): void {
+    setFilter(gridFilter): void {
         this.gridFilter = gridFilter;
         this.paginator.pageIndex = 0;
         this.loadPage();
@@ -311,5 +316,9 @@ export class CdkGarantiaGridComponent implements AfterViewInit, OnInit, OnChange
 
     doCancel(): void {
         this.cancel.emit();
+    }
+
+    doCreate(): void {
+        this.create.emit();
     }
 }

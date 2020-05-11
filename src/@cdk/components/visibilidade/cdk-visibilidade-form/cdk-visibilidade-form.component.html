@@ -2,7 +2,7 @@
     <form class="p-24 mr-24" fxLayoutGap="16px"
           fxLayout="column"
           fxLayoutAlign="start"
-          name="form" [formGroup]="form" (submit)="submit()">
+          name="form" [formGroup]="form">
 
         <div fxFlex="1 0 auto" fxLayout="column">
 
@@ -88,7 +88,7 @@
             <label id="poderes-rg">Selecione os poderes</label>
             <mat-radio-group class="poderes-rg" formControlName="poderes" aria-labelledby="poderes-rg" required>
                 <mat-radio-button [value]="'master'">
-                    Master
+                    Administrador
                 </mat-radio-button>
                 <mat-radio-button [value]="'ver'">
                     Apenas Ver
@@ -106,9 +106,12 @@
 
         <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
              fxLayoutAlign="center center">
-            <button mat-raised-button color="accent" class="mr-sm-12"
+            <button mat-raised-button color="accent" class="mr-sm-12" (click)="submit()"
                     [disabled]="form.invalid">
                 SALVAR
+            </button>
+            <button mat-raised-button color="warn" type="button" class="mr-sm-12" (click)="doAbort()">
+                CANCELAR
             </button>
         </div>
 

@@ -15,8 +15,9 @@ import * as fromStore from './store';
 import {Pagination} from '@cdk/models/pagination';
 import {Usuario, Setor, Lotacao} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Router} from "@angular/router";
-import {getRouterState} from "../../../../../store/reducers";
+import {Router} from '@angular/router';
+import {getRouterState} from '../../../../../store/reducers';
+import {Back} from '../../../../../store/actions';
 
 @Component({
     selector: 'admin-lotacao-edit',
@@ -103,6 +104,10 @@ export class AdminLotacaoEditComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
+
+    doAbort(): void {
+        this._store.dispatch(new Back());
+    }
 
     submit(values): void {
 

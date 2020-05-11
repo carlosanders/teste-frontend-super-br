@@ -36,8 +36,14 @@ export class CdkVolumeGridComponent implements AfterViewInit, OnInit, OnChanges 
     total = 0;
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'numeracaoSequencial', 'modalidadeMeio.valor', 'encerrado',
-        'processo.NUP', 'origemDados.fonteDados', 'actions'];
+    mode = 'list';
+
+    @Output()
+    create = new EventEmitter<any>();
+
+    @Input()
+    displayedColumns: string[] = ['select', 'id', 'numeracaoSequencial', 'modalidadeMeio', 'encerrado',
+        'actions'];
 
     allColumns: any[] = [
         {
@@ -51,19 +57,19 @@ export class CdkVolumeGridComponent implements AfterViewInit, OnInit, OnChanges 
             fixed: true
         },
         {
-            id: 'processo.NUP',
+            id: 'processo',
             label: 'NUP',
-            fixed: true
+            fixed: false
         },
         {
             id: 'numeracaoSequencial',
             label: 'Numeração Sequencial',
-            fixed: false
+            fixed: true
         },
         {
-            id: 'modalidadeMeio.valor',
+            id: 'modalidadeMeio',
             label: 'Modalidade Meio',
-            fixed: false
+            fixed: true
         },
         {
             id: 'encerrado',
@@ -71,7 +77,7 @@ export class CdkVolumeGridComponent implements AfterViewInit, OnInit, OnChanges 
             fixed: false
         },
         {
-            id: 'origemDados.fonteDados',
+            id: 'origemDados',
             label: 'Origem de Dados',
             fixed: false
         },
@@ -161,6 +167,7 @@ export class CdkVolumeGridComponent implements AfterViewInit, OnInit, OnChanges 
 
     /**
      * @param _changeDetectorRef
+     * @param _cdkSidebarService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -219,16 +226,19 @@ export class CdkVolumeGridComponent implements AfterViewInit, OnInit, OnChanges 
     }
 
     toggleFilter(): void {
-        this._cdkSidebarService.getSidebar('cdk-volume-main-sidebar').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-volume-filter').toggleOpen();
         this.showFilter = !this.showFilter;
     }
 
     loadPage(): void {
+        const filter = this.gridFilter.filters;
+        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : null;
         this.reload.emit({
-            gridFilter: this.gridFilter,
+            gridFilter: filter,
             limit: this.paginator.pageSize,
             offset: (this.paginator.pageSize * this.paginator.pageIndex),
-            sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {}
+            sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
+            context: contexto
         });
     }
 
@@ -296,7 +306,7 @@ export class CdkVolumeGridComponent implements AfterViewInit, OnInit, OnChanges 
         this.isIndeterminate = (this.selectedIds.length !== this.volumes.length && this.selectedIds.length > 0);
     }
 
-    setGridFilter(gridFilter): void {
+    setFilter(gridFilter): void {
         this.gridFilter = gridFilter;
         this.paginator.pageIndex = 0;
         this.loadPage();
@@ -304,5 +314,9 @@ export class CdkVolumeGridComponent implements AfterViewInit, OnInit, OnChanges 
 
     doCancel(): void {
         this.cancel.emit();
+    }
+
+    doCreate(): void {
+        this.create.emit();
     }
 }

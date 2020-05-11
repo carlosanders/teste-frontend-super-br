@@ -46,6 +46,10 @@
                        name="localizadorOriginal"
                        formControlName="localizadorOriginal"
                        maxlength="255">
+                <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                        (click)="showLogEntryGrid('ativo')">
+                    <mat-icon matTooltip="Histórico">history</mat-icon>
+                </button>
             </mat-form-field>
 
             <mat-form-field fxFlex="100">
@@ -139,9 +143,12 @@
 
         <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
              fxLayoutAlign="center center">
-            <button mat-raised-button color="accent" class="mr-sm-12"
+            <button mat-raised-button color="accent" class="mr-sm-12" (click)="submit()"
                     [disabled]="form.invalid">
                 SALVAR
+            </button>
+            <button mat-raised-button color="warn" type="button" class="mr-sm-12" (click)="doAbort()">
+                CANCELAR
             </button>
         </div>
 
@@ -154,7 +161,7 @@
 
 <cdk-tipo-documento-gridsearch
     fxFlex="1 0 auto"
-    *ngIf="activeCard === 'tipo-documento-gridsearch'"
+    *ngIf="activeCard === 'tipo-documento-list-gridsearch'"
     (selected)="selectTipoDocumento($event)"
     (cancel)="cancel()">
 </cdk-tipo-documento-gridsearch>
@@ -174,3 +181,10 @@
     (selected)="selectProcedencia($event)"
     (cancel)="cancel()">
 </cdk-pessoa-gridsearch>
+
+<cdk-logentry-gridsearch
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'logentry-gridsearch'"
+    [pagination]="logEntryPagination"
+    (cancel)="cancel()">
+</cdk-logentry-gridsearch>

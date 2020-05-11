@@ -1,8 +1,12 @@
-import { createSelector } from '@ngrx/store';
-import { getProcessoViewAppState, ProcessoViewAppState, ProcessoViewState } from 'app/main/apps/processo/processo-view/store/reducers';
+import {createSelector} from '@ngrx/store';
+import {
+    getProcessoViewAppState,
+    ProcessoViewAppState,
+    ProcessoViewState
+} from 'app/main/apps/processo/processo-view/store/reducers';
 
-import { createSchemaSelectors } from '@cdk/ngrx-normalizr';
-import { juntada as juntadaSchema } from '@cdk/normalizr/juntada.schema';
+import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
+import {juntada as juntadaSchema} from '@cdk/normalizr/juntada.schema';
 import {Juntada} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Juntada>(juntadaSchema);

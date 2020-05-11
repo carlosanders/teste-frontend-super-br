@@ -6,12 +6,10 @@ import {
     ViewEncapsulation, Input, OnChanges, Output, EventEmitter
 } from '@angular/core';
 import {merge, of} from 'rxjs';
-
 import {cdkAnimations} from '@cdk/animations';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
-
 import {GeneroSetor} from '@cdk/models';
 import {GeneroSetorDataSource} from '@cdk/data-sources/genero-setor-data-source';
 import {FormControl} from '@angular/forms';
@@ -34,6 +32,12 @@ export class CdkGeneroSetorGridComponent implements AfterViewInit, OnInit, OnCha
 
     @Input()
     total = 0;
+
+    @Input()
+    mode = 'list';
+
+    @Output()
+    create = new EventEmitter<any>();
 
     @Input()
     displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'actions'];
@@ -150,6 +154,7 @@ export class CdkGeneroSetorGridComponent implements AfterViewInit, OnInit, OnCha
 
     /**
      * @param _changeDetectorRef
+     * @param _cdkSidebarService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -208,16 +213,19 @@ export class CdkGeneroSetorGridComponent implements AfterViewInit, OnInit, OnCha
     }
 
     toggleFilter(): void {
-        this._cdkSidebarService.getSidebar('cdk-genero-setor-main-sidebar').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-genero-setor-filter').toggleOpen();
         this.showFilter = !this.showFilter;
     }
 
     loadPage(): void {
+        const filter = this.gridFilter.filters;
+        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : null;
         this.reload.emit({
-            gridFilter: this.gridFilter,
+            gridFilter: filter,
             limit: this.paginator.pageSize,
             offset: (this.paginator.pageSize * this.paginator.pageIndex),
-            sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {}
+            sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
+            context: contexto
         });
     }
 
@@ -285,7 +293,7 @@ export class CdkGeneroSetorGridComponent implements AfterViewInit, OnInit, OnCha
         this.isIndeterminate = (this.selectedIds.length !== this.generoSetors.length && this.selectedIds.length > 0);
     }
 
-    setGridFilter(gridFilter): void {
+    setFilter(gridFilter): void {
         this.gridFilter = gridFilter;
         this.paginator.pageIndex = 0;
         this.loadPage();
@@ -293,5 +301,9 @@ export class CdkGeneroSetorGridComponent implements AfterViewInit, OnInit, OnCha
 
     doCancel(): void {
         this.cancel.emit();
+    }
+
+    doCreate(): void {
+        this.create.emit();
     }
 }

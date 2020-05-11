@@ -43,8 +43,14 @@ export class CdkColaboradorFormComponent implements OnChanges, OnDestroy {
     @Input()
     cargoPagination: Pagination;
 
+    @Input()
+    logEntryPagination: Pagination;
+
     @Output()
     save = new EventEmitter<Colaborador>();
+
+    @Output()
+    abort = new EventEmitter<any>();
 
     @Input()
     form: FormGroup;
@@ -122,6 +128,10 @@ export class CdkColaboradorFormComponent implements OnChanges, OnDestroy {
         }
     }
 
+    doAbort(): void {
+        this.abort.emit();
+    }
+
     checkModalidadeColaborador(): void {
         const value = this.form.get('modalidadeColaborador').value;
         if (!value || typeof value !== 'object') {
@@ -162,4 +172,11 @@ export class CdkColaboradorFormComponent implements OnChanges, OnDestroy {
         this.activeCard = 'form';
     }
 
+    showLogEntryGrid(target: string): void {
+
+        const campo = {target: target};
+        Object.assign(this.logEntryPagination.filter, campo);
+
+        this.activeCard = 'logentry-gridsearch';
+    }
 }

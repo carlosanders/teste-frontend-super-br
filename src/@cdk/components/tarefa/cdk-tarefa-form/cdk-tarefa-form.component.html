@@ -2,7 +2,7 @@
     <form fxLayoutGap="36px"
           fxLayout="column"
           fxLayoutAlign="start"
-          name="form" [formGroup]="form" (submit)="submit()">
+          name="form" [formGroup]="form">
 
         <div fxFlex="1 0 auto" fxLayout="column">
 
@@ -90,7 +90,7 @@
                     [control]="form.get('unidadeResponsavel')"
                     [pagination]="unidadeResponsavelPagination">
                 </cdk-setor-autocomplete>
-                <button matSuffix mat-button mat-icon-button *ngIf="tarefa.id"
+                <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
                         (click)="showLogEntryGrid('unidadeResponsavel')">
                     <mat-icon matTooltip="Histórico">history</mat-icon>
                 </button>
@@ -127,7 +127,7 @@
                     [control]="form.get('setorResponsavel')"
                     [pagination]="setorResponsavelPagination">
                 </cdk-setor-autocomplete>
-                <button matSuffix mat-button mat-icon-button *ngIf="tarefa.id"
+                <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
                         (click)="showLogEntryGrid('setorResponsavel')">
                     <mat-icon matTooltip="Histórico">history</mat-icon>
                 </button>
@@ -251,9 +251,12 @@
 
         <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-8 mb-8" fxFlex
              fxLayoutAlign="center center">
-            <button type="submit" mat-raised-button color="accent" class="mr-sm-12"
+            <button type="submit" mat-raised-button color="accent" class="mr-sm-12" (click)="submit()"
                     [disabled]="form.invalid || !valid">
                 SALVAR
+            </button>
+            <button mat-raised-button color="warn" type="button" class="mr-sm-12" (click)="doAbort()">
+                CANCELAR
             </button>
         </div>
 
@@ -315,6 +318,6 @@
 <cdk-logentry-gridsearch
     fxFlex="1 0 auto"
     *ngIf="activeCard === 'logentry-gridsearch'"
-    [pagination]="logEntryPaginationTarefa"
+    [pagination]="logEntryPagination"
     (cancel)="cancel()">
 </cdk-logentry-gridsearch>

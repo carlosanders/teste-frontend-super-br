@@ -36,6 +36,12 @@ export class CdkVinculacaoDocumentoGridComponent implements AfterViewInit, OnIni
     total = 0;
 
     @Input()
+    mode = 'list';
+
+    @Output()
+    create = new EventEmitter<any>();
+
+    @Input()
     displayedColumns: string[] = ['select', 'id', 'documento.tipoDocumento.nome', 'documentoVinculado.tipoDocumento.nome',
         'modalidadeVinculacaoDocumento.valor', 'actions'];
 
@@ -57,7 +63,7 @@ export class CdkVinculacaoDocumentoGridComponent implements AfterViewInit, OnIni
         },
         {
             id: 'modalidadeVinculacaoDocumento.valor',
-            label: 'Modalidaded da Vinculação do Documento',
+            label: 'Modalidade da Vinculação do Documento',
             fixed: false
         },
         {
@@ -146,6 +152,7 @@ export class CdkVinculacaoDocumentoGridComponent implements AfterViewInit, OnIni
 
     /**
      * @param _changeDetectorRef
+     * @param _cdkSidebarService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -204,16 +211,19 @@ export class CdkVinculacaoDocumentoGridComponent implements AfterViewInit, OnIni
     }
 
     toggleFilter(): void {
-        this._cdkSidebarService.getSidebar('cdk-vinculacao-documento-main-sidebar').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-vinculacao-documento-filter').toggleOpen();
         this.showFilter = !this.showFilter;
     }
 
     loadPage(): void {
+        const filter = this.gridFilter.filters;
+        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : null;
         this.reload.emit({
-            gridFilter: this.gridFilter,
+            gridFilter: filter,
             limit: this.paginator.pageSize,
             offset: (this.paginator.pageSize * this.paginator.pageIndex),
-            sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {}
+            sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
+            context: contexto
         });
     }
 
@@ -281,7 +291,7 @@ export class CdkVinculacaoDocumentoGridComponent implements AfterViewInit, OnIni
         this.isIndeterminate = (this.selectedIds.length !== this.vinculacaoDocumentos.length && this.selectedIds.length > 0);
     }
 
-    setGridFilter(gridFilter): void {
+    setFilter(gridFilter): void {
         this.gridFilter = gridFilter;
         this.paginator.pageIndex = 0;
         this.loadPage();
@@ -289,5 +299,9 @@ export class CdkVinculacaoDocumentoGridComponent implements AfterViewInit, OnIni
 
     doCancel(): void {
         this.cancel.emit();
+    }
+
+    doCreate(): void {
+        this.create.emit();
     }
 }

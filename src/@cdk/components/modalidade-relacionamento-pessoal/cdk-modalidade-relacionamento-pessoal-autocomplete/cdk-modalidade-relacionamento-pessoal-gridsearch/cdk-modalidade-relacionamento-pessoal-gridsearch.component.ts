@@ -102,5 +102,4 @@ export class CdkModalidadeRelacionamentoPessoalGridsearchComponent implements On
     doCancel(): void {
         this.cancel.emit();
     }
-
 }

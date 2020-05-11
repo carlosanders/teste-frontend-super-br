@@ -13,6 +13,10 @@ const routes = [
         loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule)
     },
     {
+        path        : 'super-admin',
+        loadChildren: () => import('./super-admin/super-admin.module').then(m => m.SuperAdminModule)
+    },
+    {
         path        : 'arquivista',
         loadChildren: () => import('./arquivista/arquivista.module').then(m => m.ArquivistaModule)
     },

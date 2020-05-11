@@ -15,13 +15,11 @@ import {
 import {CdkSidebarModule} from '@cdk/components/index';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkCargoGridComponent} from './cdk-cargo-grid.component';
-import {CdkCargoGridFilterModule} from './cdk-cargo-grid-filter/cdk-cargo-grid-filter.module';
-import {CdkCargoMainSidebarComponent} from './sidebars/main/main.component';
+import {CdkCargoFilterModule} from '../sidebars/cdk-cargo-filter/cdk-cargo-filter.module';
 
 @NgModule({
     declarations: [
         CdkCargoGridComponent,
-        CdkCargoMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,
@@ -35,7 +33,7 @@ import {CdkCargoMainSidebarComponent} from './sidebars/main/main.component';
         MatSortModule,
         MatTooltipModule,
 
-        CdkCargoGridFilterModule,
+        CdkCargoFilterModule,
 
         CdkSharedModule,
         CdkSidebarModule,

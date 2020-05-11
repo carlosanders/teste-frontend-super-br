@@ -6,12 +6,10 @@ import {
     ViewEncapsulation, Input, OnChanges, Output, EventEmitter
 } from '@angular/core';
 import {merge, of} from 'rxjs';
-
 import {cdkAnimations} from '@cdk/animations';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
-
 import {RelacionamentoPessoal} from '@cdk/models';
 import {RelacionamentoPessoalDataSource} from '@cdk/data-sources/relacionamento-pessoal-data-source';
 import {FormControl} from '@angular/forms';
@@ -34,6 +32,12 @@ export class CdkRelacionamentoPessoalGridComponent implements AfterViewInit, OnI
 
     @Input()
     total = 0;
+
+    @Input()
+    mode = 'list';
+
+    @Output()
+    create = new EventEmitter<any>();
 
     @Input()
     displayedColumns: string[] = ['select', 'id', 'pessoaRelacionada.nome', 'modalidadeRelacionamentoPessoal.valor',
@@ -61,7 +65,7 @@ export class CdkRelacionamentoPessoalGridComponent implements AfterViewInit, OnI
             fixed: false
         },
         {
-            id: 'origemDados.fonteDados',
+            id: 'origemDados',
             label: 'Origem de Dados',
             fixed: false
         },
@@ -151,6 +155,7 @@ export class CdkRelacionamentoPessoalGridComponent implements AfterViewInit, OnI
 
     /**
      * @param _changeDetectorRef
+     * @param _cdkSidebarService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -210,16 +215,19 @@ export class CdkRelacionamentoPessoalGridComponent implements AfterViewInit, OnI
     }
 
     toggleFilter(): void {
-        this._cdkSidebarService.getSidebar('cdk-relacionamento-pessoal-main-sidebar').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-relacionamento-pessoal-filter').toggleOpen();
         this.showFilter = !this.showFilter;
     }
 
     loadPage(): void {
+        const filter = this.gridFilter.filters;
+        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : null;
         this.reload.emit({
-            gridFilter: this.gridFilter,
+            gridFilter: filter,
             limit: this.paginator.pageSize,
             offset: (this.paginator.pageSize * this.paginator.pageIndex),
-            sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {}
+            sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
+            context: contexto
         });
     }
 
@@ -287,7 +295,7 @@ export class CdkRelacionamentoPessoalGridComponent implements AfterViewInit, OnI
         this.isIndeterminate = (this.selectedIds.length !== this.relacionamentoPessoals.length && this.selectedIds.length > 0);
     }
 
-    setGridFilter(gridFilter): void {
+    setFilter(gridFilter): void {
         this.gridFilter = gridFilter;
         this.paginator.pageIndex = 0;
         this.loadPage();
@@ -295,5 +303,9 @@ export class CdkRelacionamentoPessoalGridComponent implements AfterViewInit, OnI
 
     doCancel(): void {
         this.cancel.emit();
+    }
+
+    doCreate(): void {
+        this.create.emit();
     }
 }

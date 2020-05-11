@@ -5,6 +5,7 @@ import {
     MatIconModule, MatProgressSpinnerModule
 } from '@cdk/angular/material';
 import { TranslateModule } from '@ngx-translate/core';
+import {MatRippleModule} from '@angular/material/core';
 
 import { CdkSharedModule } from '@cdk/shared.module';
 import { CdkSidebarModule } from '@cdk/components';
@@ -35,6 +36,18 @@ const routes: Routes = [
             {
                 path       : ':entidadeHandle/usuarios',
                 loadChildren: () => import('./usuarios/usuarios.module').then(m => m.UsuariosModule)
+            },
+            {
+                path       : ':entidadeHandle/unidades',
+                loadChildren: () => import('./unidades/unidades.module').then(m => m.UnidadesModule)
+            },
+            {
+                path       : ':entidadeHandle/numeros-unicos-documentos',
+                loadChildren: () => import('./numero-unico-documento/numero-unico-documento.module').then(m => m.NumeroUnicoDocumentoModule),
+            },
+            {
+                path       : ':entidadeHandle/setor',
+                loadChildren: () => import('./setor/setor.module').then(m => m.SetorModule)
             }
         ],
         canActivate: [fromGuards.ResolveGuard]
@@ -59,7 +72,8 @@ const routes: Routes = [
         TranslateModule,
         CoordenadorStoreModule,
         CdkSharedModule,
-        CdkSidebarModule
+        CdkSidebarModule,
+        MatRippleModule
     ],
     providers      : [
         ModeloService,

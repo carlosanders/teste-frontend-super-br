@@ -6,12 +6,10 @@ import {
     Output, SimpleChange,
     ViewEncapsulation
 } from '@angular/core';
-
-import {coerceNumberProperty} from '@angular/cdk/coercion';
-import { cdkAnimations } from '@cdk/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { Classificacao } from '@cdk/models';
-import { ModalidadeDestinacao } from '@cdk/models';
+import {Classificacao} from '@cdk/models';
+import {ModalidadeDestinacao} from '@cdk/models';
 import {Pagination} from '@cdk/models';
 
 @Component({
@@ -39,8 +37,14 @@ export class CdkClassificacaoFormComponent implements OnChanges, OnDestroy {
     @Input()
     classificacaoPagination: Pagination;
 
+    @Input()
+    logEntryPagination: Pagination;
+
     @Output()
     save = new EventEmitter<Classificacao>();
+
+    @Output()
+    abort = new EventEmitter<any>();
 
     form: FormGroup;
 
@@ -127,6 +131,10 @@ export class CdkClassificacaoFormComponent implements OnChanges, OnDestroy {
         }
     }
 
+    doAbort(): void {
+        this.abort.emit();
+    }
+
     checkModalidadeDestinacao(): void {
         const value = this.form.get('modalidadeDestinacao').value;
         if (!value || typeof value !== 'object') {
@@ -167,4 +175,9 @@ export class CdkClassificacaoFormComponent implements OnChanges, OnDestroy {
         this.activeCard = 'form';
     }
 
+    showLogEntryGrid(target: string): void {
+        const campo = {target: target};
+        Object.assign(this.logEntryPagination.filter, campo);
+        this.activeCard = 'logentry-gridsearch';
+    }
 }

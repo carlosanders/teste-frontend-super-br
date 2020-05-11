@@ -6,6 +6,9 @@ import {modalidadeOrgaoCentral as orgaoSchema} from '@cdk/normalizr/modalidade-o
 import {setor as setorSchema} from '@cdk/normalizr/setor.schema';
 import {ModalidadeOrgaoCentral, Repositorio, Setor} from '@cdk/models';
 import {CoordenadorAppState, CoordenadorState, getCoordenadorAppState} from '../../../../store/reducers';
+import {UnidadesOrgaoCentralAppState, getUnidadesOrgaoCentralAppState, UnidadesOrgaoCentralState} from '../../../../unidades/store/reducers';
+import {CoordenadorSetorAppState, getCoordenadorSetorAppState, CoordenadorSetorState} from '../../../../setor/store/reducers';
+
 
 const schemaRepositorioSelectors = createSchemaSelectors<Repositorio>(repositorioSchema);
 const schemaOrgaoSelectors = createSchemaSelectors<ModalidadeOrgaoCentral>(orgaoSchema);
@@ -19,6 +22,16 @@ export const getRepositorioEditState = createSelector(
 export const getCoordenadorState = createSelector(
     getCoordenadorAppState,
     (state: CoordenadorAppState) => state.coordenador
+);
+
+export const getCoordenadorSetorState = createSelector(
+    getCoordenadorSetorAppState,
+    (state: CoordenadorSetorAppState) => state.setor
+);
+
+export const getUnidadesOrgaoCentralState = createSelector(
+    getUnidadesOrgaoCentralAppState,
+    (state: UnidadesOrgaoCentralAppState) => state.unidades
 );
 
 export const getRepositorioId = createSelector(
@@ -36,6 +49,21 @@ export const getOrgaoCentralId = createSelector(
     (state: CoordenadorState) => state.loaded && state.orgaoId ? state.orgaoId : null
 );
 
+export const getUnidadeId = createSelector(
+    getCoordenadorState,
+    (state: CoordenadorState) => state.loaded && state.unidadeId ? state.unidadeId : null
+);
+
+export const getUnidadeHandleId = createSelector(
+    getUnidadesOrgaoCentralState,
+    (state: UnidadesOrgaoCentralState) => state.loadedUnidade ? state.loadedUnidade.value : null
+);
+
+export const getSetorHandleId = createSelector(
+    getCoordenadorSetorState,
+    (state: CoordenadorSetorState) => state.loaded ? state.loaded.value : null
+);
+
 export const getRepositorio = createSelector(
     schemaRepositorioSelectors.getNormalizedEntities,
     getRepositorioId,
@@ -51,6 +79,24 @@ export const getOrgaoCentral = createSelector(
 export const getSetor = createSelector(
     schemaSetorSelectors.getNormalizedEntities,
     getSetorId,
+    schemaSetorSelectors.entityProjector
+);
+
+export const getUnidade = createSelector(
+    schemaSetorSelectors.getNormalizedEntities,
+    getUnidadeId,
+    schemaSetorSelectors.entityProjector
+);
+
+export const getUnidadeHandle = createSelector(
+    schemaSetorSelectors.getNormalizedEntities,
+    getUnidadeHandleId,
+    schemaSetorSelectors.entityProjector
+);
+
+export const getSetorHandle = createSelector(
+    schemaSetorSelectors.getNormalizedEntities,
+    getSetorHandleId,
     schemaSetorSelectors.entityProjector
 );
 

@@ -35,6 +35,9 @@ export class CdkFolderFormComponent implements OnChanges, OnDestroy {
     @Output()
     save = new EventEmitter<Folder>();
 
+    @Output()
+    abort = new EventEmitter<any>();
+
     form: FormGroup;
 
     activeCard = 'form';
@@ -121,6 +124,10 @@ export class CdkFolderFormComponent implements OnChanges, OnDestroy {
         if (this.form.valid) {
             this.save.emit(this.form.value);
         }
+    }
+
+    doAbort(): void {
+        this.abort.emit();
     }
 
     cancel(): void {

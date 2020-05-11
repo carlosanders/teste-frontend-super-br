@@ -44,11 +44,11 @@ export class AtividadeCreateBlocoDocumentosEffect {
                 ofType<AtividadeBlocoCreateDocumentosActionsAll.GetDocumentos>(AtividadeBlocoCreateDocumentosActionsAll.GET_DOCUMENTOS_BLOCO),
                 switchMap((action) => {
 
-                    const tarefaId = `in:${action.payload}`;
+                    const tarefaIds = `in:${action.payload}`;
 
                     const params = {
                         filter: {
-                            'tarefaOrigem.id': tarefaId,
+                            'tarefaOrigem.id': tarefaIds,
                             'juntadaAtual': 'isNull'
                         },
                         limit: 10,
@@ -59,7 +59,21 @@ export class AtividadeCreateBlocoDocumentosEffect {
                         populate: [
                             'tipoDocumento',
                             'documentoAvulsoRemessa',
-                            'documentoAvulsoRemessa.documentoResposta'
+                            'documentoAvulsoRemessa.documentoResposta',
+                            'processoOrigem',
+                            'tarefaOrigem',
+                            'tarefaOrigem.processo',
+                            'tarefaOrigem.processo.especieProcesso',
+                            'tarefaOrigem.processo.modalidadeMeio',
+                            'tarefaOrigem.especieTarefa',
+                            'tarefaOrigem.especieTarefa.generoTarefa',                            
+                            'tarefaOrigem.setorOrigem',
+                            'tarefaOrigem.setorOrigem.unidade',
+                            'tarefaOrigem.setorResponsavel',
+                            'tarefaOrigem.setorResponsavel.unidade',
+                            'tarefaOrigem.usuarioResponsavel',
+                            'tarefaOrigem.vinculacoesEtiquetas',
+                            'tarefaOrigem.vinculacoesEtiquetas.etiqueta'
                         ]
                     };
 
@@ -75,10 +89,11 @@ export class AtividadeCreateBlocoDocumentosEffect {
                 mergeMap(response => [
                     new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
                     new AtividadeBlocoCreateDocumentosActionsAll.GetDocumentosSuccess({
-                        loaded: {
+                        loaded: true,
+                        /*loaded: {
                             id: 'tarefaHandle',
                             value: this.routerState.params.tarefaHandle
-                        },
+                        },       */                 
                         entitiesId: response['entities'].map(documento => documento.id),
                     })
                 ]),

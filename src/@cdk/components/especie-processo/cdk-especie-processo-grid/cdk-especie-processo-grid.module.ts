@@ -17,18 +17,16 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {EspecieProcessoService} from '@cdk/services/especie-processo.service';
 import {CdkEspecieProcessoGridComponent} from './cdk-especie-processo-grid.component';
 import {CdkEspecieProcessoAutocompleteModule} from '@cdk/components/especie-processo/cdk-especie-processo-autocomplete/cdk-especie-processo-autocomplete.module';
-import {CdkEspecieProcessoGridFilterModule} from './cdk-especie-processo-grid-filter/cdk-especie-processo-grid-filter.module';
+import {CdkEspecieProcessoFilterModule} from '../sidebars/cdk-especie-processo-filter/cdk-especie-processo-filter.module';
 import {CdkSidebarModule} from '@cdk/components/index';
 import {CdkGeneroProcessoAutocompleteModule} from '../../genero-processo/cdk-genero-processo-autocomplete/cdk-genero-processo-autocomplete.module';
 import {CdkUsuarioAutocompleteModule} from '../../usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
-import {CdkEspecieProcessoMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
         CdkEspecieProcessoGridComponent,
-        CdkEspecieProcessoMainSidebarComponent
     ],
     imports: [
         MatButtonModule,
@@ -52,7 +50,7 @@ import {CdkEspecieProcessoMainSidebarComponent} from './sidebars/main/main.compo
         CdkEspecieProcessoAutocompleteModule,
         CdkGeneroProcessoAutocompleteModule,
         CdkUsuarioAutocompleteModule,
-        CdkEspecieProcessoGridFilterModule,
+        CdkEspecieProcessoFilterModule,
         MatTooltipModule,
     ],
     providers: [

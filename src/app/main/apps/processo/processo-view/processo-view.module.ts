@@ -18,6 +18,7 @@ import {ProcessoViewStoreModule} from './store/store.module';
 import * as fromGuards from './store/guards';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import {CdkTipoDocumentoAutocompleteModule} from '@cdk/components/tipo-documento/cdk-tipo-documento-autocomplete/cdk-tipo-documento-autocomplete.module';
+import {CdkVolumeAutocompleteModule} from '../../../../../@cdk/components/volume/cdk-volume-autocomplete/cdk-volume-autocomplete.module';
 
 const routes: Routes = [
     {
@@ -53,7 +54,8 @@ const routes: Routes = [
 
         CdkSharedModule,
         CdkSidebarModule,
-        MatRippleModule
+        MatRippleModule,
+        CdkVolumeAutocompleteModule
     ],
     providers: [
         JuntadaService,

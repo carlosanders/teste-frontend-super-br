@@ -41,3 +41,13 @@ export const getIsLoading = createSelector(
     getUsuariosListState,
     (state: UsuariosListState) => state.loading
 );
+
+export const getDeletingIds = createSelector(
+    getUsuariosListState,
+    (state: UsuariosListState) => state.deletingIds
+);
+
+export const getDeletedIds = createSelector(
+    getUsuariosListState,
+    (state: UsuariosListState) => state.deletedIds
+);

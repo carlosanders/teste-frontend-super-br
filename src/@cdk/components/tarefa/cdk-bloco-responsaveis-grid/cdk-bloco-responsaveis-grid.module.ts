@@ -11,7 +11,7 @@ import {
     MatSelectModule,
 } from '@cdk/angular/material';
 import {MatTooltipModule} from '@angular/material/tooltip';
-import {CdkSidebarModule} from '@cdk/components/index';
+import {CdkSidebarModule} from '../..';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {UsuarioService} from '@cdk/services/usuario.service';
 import {CdkBlocoResponsaveisComponent} from './cdk-bloco-responsaveis-grid.component';
@@ -19,16 +19,14 @@ import {SetorService} from '../../../services/setor.service';
 import {CdkUsuarioGridModule} from '../../usuario/cdk-usuario-grid/cdk-usuario-grid.module';
 import {CdkSetorGridModule} from '../../setor/cdk-setor-grid/cdk-setor-grid.module';
 import {CdkSetorAutocompleteModule} from '../../setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
-import {CdkSetorGridFilterModule} from '../../setor/cdk-setor-grid/cdk-setor-grid-filter/cdk-setor-grid-filter.module';
+import {CdkSetorFilterModule} from '../../setor/sidebars/cdk-setor-filter/cdk-setor-filter.module';
 import {CdkUsuarioAutocompleteModule} from '../../usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
-import {CdkUsuarioGridFilterModule} from '../../usuario/cdk-usuario-grid/cdk-usuario-grid-filter/cdk-usuario-grid-filter.module';
-import {CdkBlocoResponsaveisGridFilterModule} from '../cdk-bloco-responsaveis-grid/cdk-bloco-responsaveis-grid-filter/cdk-bloco-responsaveis-grid-filter.module';
-import {CdkBlocoResponsaveisMainSidebarComponent} from './sidebars/main.bloco-responsaveis.component';
+import {CdkUsuarioFilterModule} from '../../usuario/sidebars/cdk-usuario-filter/cdk-usuario-filter.module';
+import {CdkBlocoResponsaveisFilterModule} from './cdk-bloco-responsaveis-filter/cdk-bloco-responsaveis-filter.module';
 
 @NgModule({
     declarations: [
         CdkBlocoResponsaveisComponent,
-        CdkBlocoResponsaveisMainSidebarComponent
     ],
     imports: [
         MatSelectModule,
@@ -47,10 +45,10 @@ import {CdkBlocoResponsaveisMainSidebarComponent} from './sidebars/main.bloco-re
         CdkUsuarioGridModule,
         CdkSetorGridModule,
         CdkSetorAutocompleteModule,
-        CdkSetorGridFilterModule,
+        CdkSetorFilterModule,
         CdkUsuarioAutocompleteModule,
-        CdkUsuarioGridFilterModule,
-        CdkBlocoResponsaveisGridFilterModule,
+        CdkUsuarioFilterModule,
+        CdkBlocoResponsaveisFilterModule,
         MatTooltipModule,
     ],
     providers: [
@@ -59,7 +57,6 @@ import {CdkBlocoResponsaveisMainSidebarComponent} from './sidebars/main.bloco-re
     ],
     exports: [
         CdkBlocoResponsaveisComponent,
-        CdkBlocoResponsaveisMainSidebarComponent
     ]
 })
 export class CdkBlocoResponsaveisGridModule {

@@ -1,12 +1,8 @@
 <div class="page-layout left-sidebar" fxFlex>
 
     <!-- SIDEBAR -->
-    <cdk-sidebar class="sidebar" name="cdk-especie-processo-main-sidebar" position="left">
-        <!-- SIDEBAR CONTENT -->
-        <div class="content" cdkPerfectScrollbar>
-            <cdk-especie-processo-main-sidebar (selected)="setGridFilter($event)" [@animate]="{value:'*'}"></cdk-especie-processo-main-sidebar>
-        </div>
-        <!-- / SIDEBAR CONTENT -->
+    <cdk-sidebar class="sidebar" name="cdk-especie-processo-filter" position="left">
+        <cdk-especie-processo-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-especie-processo-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
@@ -14,6 +10,13 @@
     <div class="content responsive-grid" fxFlex fxLayout="column">
 
         <div class="actions" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="end center">
+
+            <button class="back accent" mat-icon-button *ngIf="actions.indexOf('create') > -1"
+                    (click)="doCreate()"
+                    aria-label="novo"
+                    matTooltip="Novo">
+                <mat-icon>add</mat-icon>
+            </button>
 
             <button class="back" mat-icon-button *ngIf="actions.indexOf('cancel') > -1"
                     (click)="doCancel()"
@@ -44,7 +47,7 @@
                 <mat-icon>refresh</mat-icon>
             </button>
 
-            <button class="toggle-filter" [ngClass]="{'warn': (gridFilter | json) != '{}'}" mat-icon-button
+            <button class="toggle-filter" [ngClass]="{'warn': !(gridFilter | json).includes('{}')}" mat-icon-button
                     (click)="toggleFilter()"
                     aria-label="filtrar"
                     matTooltip="Filtrar">
@@ -115,11 +118,13 @@
                 </ng-container>
 
                 <!-- GeneroProcesso Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('generoProcesso.nome') > -1" matColumnDef="generoProcesso.nome">
+                <ng-container *ngIf="displayedColumns.indexOf('generoProcesso.nome') > -1"
+                              matColumnDef="generoProcesso.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Gênero Processo
                     </th>
-                    <td mat-cell *matCellDef="let especieProcesso" class='has_label_on_mobile' data-label='Gênero Processo: '
+                    <td mat-cell *matCellDef="let especieProcesso" class='has_label_on_mobile'
+                        data-label='Gênero Processo: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(especieProcesso.id) > -1}"> {{especieProcesso.generoProcesso?.nome}} </td>
                 </ng-container>
 
@@ -142,11 +147,13 @@
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1" matColumnDef="atualizadoPor.nome">
+                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1"
+                              matColumnDef="atualizadoPor.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Atualizado Por
                     </th>
-                    <td mat-cell *matCellDef="let especieProcesso" class='has_label_on_mobile' data-label='Atualizado Por: '
+                    <td mat-cell *matCellDef="let especieProcesso" class='has_label_on_mobile'
+                        data-label='Atualizado Por: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(especieProcesso.id) > -1}"> {{especieProcesso.atualizadoPor?.nome}} </td>
                 </ng-container>
 
@@ -155,7 +162,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Atualizado Em
                     </th>
-                    <td mat-cell *matCellDef="let especieProcesso" class='has_label_on_mobile' data-label='Atualizado Em: '
+                    <td mat-cell *matCellDef="let especieProcesso" class='has_label_on_mobile'
+                        data-label='Atualizado Em: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(especieProcesso.id) > -1}"> {{especieProcesso.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
@@ -164,7 +172,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Apagado Por
                     </th>
-                    <td mat-cell *matCellDef="let especieProcesso" class='has_label_on_mobile' data-label='Apagado Por: '
+                    <td mat-cell *matCellDef="let especieProcesso" class='has_label_on_mobile'
+                        data-label='Apagado Por: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(especieProcesso.id) > -1}"> {{especieProcesso.apagadoPor?.nome}} </td>
                 </ng-container>
 

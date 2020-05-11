@@ -6,12 +6,10 @@ import {
     Output, SimpleChange,
     ViewEncapsulation
 } from '@angular/core';
-
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Transicao} from '@cdk/models';
 import {Pagination} from '@cdk/models';
-import {Processo} from '@cdk/models';
 import {ModalidadeTransicao} from '@cdk/models';
 
 @Component({
@@ -35,6 +33,9 @@ export class CdkTransicaoFormComponent implements OnChanges, OnDestroy, OnInit {
 
     @Output()
     save = new EventEmitter<Transicao>();
+
+    @Output()
+    abort = new EventEmitter<any>();
 
     form: FormGroup;
 
@@ -122,6 +123,10 @@ export class CdkTransicaoFormComponent implements OnChanges, OnDestroy, OnInit {
         if (this.form.valid) {
             this.save.emit(this.form.value);
         }
+    }
+
+    doAbort(): void {
+        this.abort.emit();
     }
 
     checkModalidadeTransicao(): void {

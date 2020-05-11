@@ -312,29 +312,16 @@
 
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
-    <div fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+    <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
          fxLayoutAlign="center center">
-        <button *ngIf="!saving"
-                class="mr-sm-12"
+        <button class="mr-sm-12"
                 mat-raised-button color="accent"
                 [disabled]="form.invalid" (click)="submit()">
             {{this.textBotao}}
         </button>
-
-        <!--            <button *ngIf="!saving && !form.value.id"
-                            class="mr-sm-12"
-                            mat-raised-button color="accent"
-                            [disabled]="form.invalid" (click)="doPost()">
-                            {{this.textBotao}}
-                    </button>
-
-                    <button *ngIf="!saving && form.value.id"
-                            class="mr-sm-12"
-                            mat-raised-button color="accent"
-                            [disabled]="form.invalid" (click)="doPut()">
-                            {{this.textBotao}}
-                    </button>
-        -->
+        <button mat-raised-button color="warn" type="button" class="mr-sm-12" (click)="doAbort()">
+            CANCELAR
+        </button>
     </div>
 
     <div *ngIf="saving" fxLayout="column" fxFlex
@@ -345,56 +332,56 @@
 </form>
 
 <cdk-processo-gridsearch
-        fxFlex="1 0 auto"
-        *ngIf="activeCard === 'processo-gridsearch'"
-        [pagination]="processoPagination"
-        (selected)="selectProcesso($event)"
-        (cancel)="cancel()">
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'processo-gridsearch'"
+    [pagination]="processoPagination"
+    (selected)="selectProcesso($event)"
+    (cancel)="cancel()">
 </cdk-processo-gridsearch>
 
 <cdk-especie-processo-gridsearch
-        *ngIf="activeCard === 'especie-processo-gridsearch'"
-        [pagination]="especieProcessoPagination"
-        (selected)="selectEspecieProcesso($event)"
-        (cancel)="cancel()">
+    *ngIf="activeCard === 'especie-processo-gridsearch'"
+    [pagination]="especieProcessoPagination"
+    (selected)="selectEspecieProcesso($event)"
+    (cancel)="cancel()">
 </cdk-especie-processo-gridsearch>
 
 <cdk-modalidade-fase-gridsearch
-        fxFlex
-        *ngIf="activeCard === 'modalidade-fase-gridsearch'"
-        [pagination]="modalidadeFasePagination"
-        (selected)="selectModalidadeFase($event)"
-        (cancel)="cancel()">
+    fxFlex
+    *ngIf="activeCard === 'modalidade-fase-gridsearch'"
+    [pagination]="modalidadeFasePagination"
+    (selected)="selectModalidadeFase($event)"
+    (cancel)="cancel()">
 </cdk-modalidade-fase-gridsearch>
 
 <cdk-modalidade-meio-gridsearch
-        fxFlex
-        *ngIf="activeCard === 'modalidade-meio-gridsearch'"
-        [pagination]="modalidadeMeioPagination"
-        (selected)="selectModalidadeMeio($event)"
-        (cancel)="cancel()">
+    fxFlex
+    *ngIf="activeCard === 'modalidade-meio-gridsearch'"
+    [pagination]="modalidadeMeioPagination"
+    (selected)="selectModalidadeMeio($event)"
+    (cancel)="cancel()">
 </cdk-modalidade-meio-gridsearch>
 
 <cdk-classificacao-gridsearch
-        fxFlex
-        *ngIf="activeCard === 'classificacao-gridsearch'"
-        [pagination]="_classificacaoPagination"
-        (selected)="selectClassificacao($event)"
-        (cancel)="cancel()">
+    fxFlex
+    *ngIf="activeCard === 'classificacao-gridsearch'"
+    [pagination]="_classificacaoPagination"
+    (selected)="selectClassificacao($event)"
+    (cancel)="cancel()">
 </cdk-classificacao-gridsearch>
 
 <cdk-setor-gridsearch
-        fxFlex
-        *ngIf="activeCard === 'setor-gridsearch'"
-        [pagination]="setorAtualPagination"
-        (selected)="selectSetor($event)"
-        (cancel)="cancel()">
+    fxFlex
+    *ngIf="activeCard === 'setor-gridsearch'"
+    [pagination]="setorAtualPagination"
+    (selected)="selectSetor($event)"
+    (cancel)="cancel()">
 </cdk-setor-gridsearch>
 
 <cdk-logentry-gridsearch
-        fxFlex
-        *ngIf="activeCard === 'logentry-gridsearch'"
-        [pagination]="logEntryPagination"
-        (cancel)="cancel()">
+    fxFlex
+    *ngIf="activeCard === 'logentry-gridsearch'"
+    [pagination]="logEntryPagination"
+    (cancel)="cancel()">
 </cdk-logentry-gridsearch>
 

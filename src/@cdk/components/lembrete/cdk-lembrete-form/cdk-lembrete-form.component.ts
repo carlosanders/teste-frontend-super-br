@@ -62,6 +62,9 @@ export class CdkLembreteFormComponent implements OnInit, OnChanges {
     @Output()
     save = new EventEmitter<Lembrete>();
 
+    @Output()
+    abort = new EventEmitter<any>();
+
     loading: boolean;
 
     constructor(
@@ -108,6 +111,10 @@ export class CdkLembreteFormComponent implements OnInit, OnChanges {
             this.save.emit(this.form.value);
         }
         this.form.get('conteudo').setValue('');
+    }
+
+    doAbort(): void {
+        this.abort.emit();
     }
 
     /**

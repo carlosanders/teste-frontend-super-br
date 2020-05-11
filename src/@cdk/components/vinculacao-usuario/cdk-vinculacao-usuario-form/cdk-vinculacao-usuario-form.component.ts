@@ -32,8 +32,14 @@ export class CdkVinculacaoUsuarioFormComponent implements OnChanges, OnDestroy, 
     @Input()
     errors: any;
 
+    @Input()
+    logEntryPagination: Pagination;
+
     @Output()
     save = new EventEmitter<VinculacaoUsuario>();
+
+    @Output()
+    abort = new EventEmitter<any>();
 
     form: FormGroup;
 
@@ -49,7 +55,6 @@ export class CdkVinculacaoUsuarioFormComponent implements OnChanges, OnDestroy, 
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: FormBuilder
     ) {
-
         this.form = this._formBuilder.group({
             id: [null],
             usuario: [null],
@@ -118,6 +123,10 @@ export class CdkVinculacaoUsuarioFormComponent implements OnChanges, OnDestroy, 
         }
     }
 
+    doAbort(): void {
+        this.abort.emit();
+    }
+
     checkUsuarioVinculado(): void {
         const value = this.form.get('usuarioVinculado').value;
         if (!value || typeof value !== 'object') {
@@ -138,5 +147,11 @@ export class CdkVinculacaoUsuarioFormComponent implements OnChanges, OnDestroy, 
 
     cancel(): void {
         this.activeCard = 'form';
+    }
+
+    showLogEntryGrid(target: string): void {
+        const campo = {target: target};
+        Object.assign(this.logEntryPagination.filter, campo);
+        this.activeCard = 'logentry-gridsearch';
     }
 }

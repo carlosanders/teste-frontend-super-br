@@ -17,6 +17,7 @@ import {Afastamento, Usuario} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Router} from '@angular/router';
 import {getRouterState} from 'app/store/reducers';
+import {Back} from 'app/store/actions';
 
 @Component({
     selector: 'afastamento-edit',
@@ -94,6 +95,10 @@ export class AfastamentoEditComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
+
+    doAbort(): void {
+        this._store.dispatch(new Back());
+    }
 
     submit(values): void {
 

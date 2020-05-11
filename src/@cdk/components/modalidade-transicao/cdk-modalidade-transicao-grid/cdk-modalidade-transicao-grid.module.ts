@@ -16,13 +16,11 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {ModalidadeTransicaoService} from '@cdk/services/modalidade-transicao.service';
 import {CdkModalidadeTransicaoGridComponent} from './cdk-modalidade-transicao-grid.component';
 import {CdkModalidadeTransicaoAutocompleteModule} from '@cdk/components/modalidade-transicao/cdk-modalidade-transicao-autocomplete/cdk-modalidade-transicao-autocomplete.module';
-import {CdkModalidadeTransicaoGridFilterModule} from './cdk-modalidade-transicao-grid-filter/cdk-modalidade-transicao-grid-filter.module';
-import {CdkModalidadeTransicaoMainSidebarComponent} from './sidebars/main/main.component';
+import {CdkModalidadeTransicaoFilterModule} from '../sidebars/cdk-modalidade-transicao-filter/cdk-modalidade-transicao-filter.module';
 
 @NgModule({
     declarations: [
         CdkModalidadeTransicaoGridComponent,
-        CdkModalidadeTransicaoMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,
@@ -36,7 +34,7 @@ import {CdkModalidadeTransicaoMainSidebarComponent} from './sidebars/main/main.c
         MatSortModule,
 
         CdkModalidadeTransicaoAutocompleteModule,
-        CdkModalidadeTransicaoGridFilterModule,
+        CdkModalidadeTransicaoFilterModule,
 
         CdkSharedModule,
         CdkSidebarModule,

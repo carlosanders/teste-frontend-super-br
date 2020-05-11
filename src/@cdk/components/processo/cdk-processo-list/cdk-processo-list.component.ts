@@ -80,7 +80,10 @@ export class CdkProcessoListComponent implements AfterViewInit, OnInit, OnChange
     @Output()
     salvarLembrete = new EventEmitter<any>();
 
+    @Input()
+    mode = 'list';
 
+    gridFilter: any;
 
     listFilter: {} = {};
     listSort: {} = {};
@@ -216,13 +219,15 @@ export class CdkProcessoListComponent implements AfterViewInit, OnInit, OnChange
         this.realizarTransicao.emit(params);
     }
 
-
-
+    setFilter(gridFilter): void {
+        this.gridFilter = gridFilter;
+        this.loadPage();
+    }
 
     /**
      * Toggle the sidebar
      */
     toggleSidebar(): void {
-        this._cdkSidebarService.getSidebar('cdk-processo-list-main-sidebar').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-processo-list-filter').toggleOpen();
     }
 }

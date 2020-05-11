@@ -12,6 +12,7 @@ import {Router} from '@angular/router';
 import {Observable, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {Setor} from '@cdk/models';
+import {Back} from '../../../../store/actions';
 
 @Component({
     selector: 'admin-localizador',
@@ -86,11 +87,6 @@ export class LocalizadorComponent implements OnInit, OnDestroy {
     }
 
     goBack(): void {
-        if (this.action === 'editar') {
-            this._router.navigate([this.routerState.url.replace(('editar/' + this.routerState.params.localizadorHandle), 'listar')]).then();
-        }
-        if (this.action === 'criar') {
-            this._router.navigate([this.routerState.url.replace('editar/criar', 'listar')]).then();
-        }
+        this._store.dispatch(new Back());
     }
 }

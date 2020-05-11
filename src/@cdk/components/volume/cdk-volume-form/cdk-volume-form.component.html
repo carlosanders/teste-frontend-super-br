@@ -1,0 +1,84 @@
+<div class="pr-16" fxFlex *ngIf="activeCard === 'form'" cdkPerfectScrollbar>
+    <form fxLayoutGap="16px"
+          fxLayout="column"
+          fxLayoutAlign="start"
+          name="form" [formGroup]="form">
+
+        <div fxFlex="1 0 auto" fxLayout="column">
+
+            <mat-form-field fxFlex="100" *ngIf="form.get('id').value">
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input #numeracaoSequencial matInput placeholder="Númeração Sequencial"
+                           formControlName="numeracaoSequencial" readonly>
+                </div>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="100">
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Meio"
+                           formControlName="modalidadeMeio"
+                           [matAutocomplete]="modalidadeMeio.autocomplete"
+                           (blur)="checkModalidadeMeio()" required>
+                </div>
+                <cdk-modalidade-meio-autocomplete
+                    #modalidadeMeio="modalidadeMeioAutocomplete"
+                    [control]="form.get('modalidadeMeio')"
+                    [pagination]="modalidadeMeioPagination">
+                </cdk-modalidade-meio-autocomplete>
+                <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                        (click)="showLogEntryGrid('modalidadeMeio')">
+                    <mat-icon matTooltip="Histórico">history</mat-icon>
+                </button>
+                <button matSuffix mat-button mat-icon-button
+                        (click)="showModalidadeMeioGrid()">
+                    <mat-icon matTooltip="Procurar">search</mat-icon>
+                </button>
+                <mat-error *ngIf="form.get('modalidadeMeio').hasError('formError')">
+                    {{form.get('modalidadeMeio').errors.formError}}
+                </mat-error>
+            </mat-form-field>
+
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <mat-checkbox formControlName="encerrado" *ngIf="form.get('id').value" disabled="true">
+                    Encerrado
+                </mat-checkbox>
+                <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                        (click)="showLogEntryGrid('encerrado')">
+                    <mat-icon matTooltip="Histórico">history</mat-icon>
+                </button>
+            </div>
+        </div>
+
+        <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+
+        <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+             fxLayoutAlign="center center">
+            <button mat-raised-button color="accent" class="mr-sm-12" (click)="submit()"
+                    [disabled]="form.invalid">
+                SALVAR
+            </button>
+            <button mat-raised-button color="warn" type="button" class="mr-sm-12" (click)="doAbort()">
+                CANCELAR
+            </button>
+        </div>
+
+        <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+             fxLayoutAlign="center center">
+            <mat-spinner color="accent" diameter="24"></mat-spinner>
+        </div>
+    </form>
+</div>
+
+<cdk-modalidade-meio-gridsearch
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'modalidade-meio-gridsearch'"
+    (selected)="selectModalidadeMeio($event)"
+    (cancel)="cancel()">
+</cdk-modalidade-meio-gridsearch>
+
+<cdk-logentry-gridsearch
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'logentry-gridsearch'"
+    [pagination]="logEntryPagination"
+    (cancel)="cancel()">
+</cdk-logentry-gridsearch>

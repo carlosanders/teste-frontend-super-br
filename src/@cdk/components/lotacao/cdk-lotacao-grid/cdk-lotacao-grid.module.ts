@@ -15,13 +15,11 @@ import {CdkSidebarModule} from '@cdk/components/index';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {LotacaoService} from '@cdk/services/lotacao.service';
 import {CdkLotacaoGridComponent} from './cdk-lotacao-grid.component';
-import {CdkLotacaoGridFilterModule} from './cdk-lotacao-grid-filter/cdk-lotacao-grid-filter.module';
-import {CdkLotacaoMainSidebarComponent} from './sidebars/main/main.component';
+import {CdkLotacaoFilterModule} from '../sidebars/cdk-lotacao-filter/cdk-lotacao-filter.module';
 
 @NgModule({
     declarations: [
         CdkLotacaoGridComponent,
-        CdkLotacaoMainSidebarComponent,
     ],
     imports: [
         MatSelectModule,
@@ -34,7 +32,7 @@ import {CdkLotacaoMainSidebarComponent} from './sidebars/main/main.component';
         MatPaginatorModule,
         MatSortModule,
 
-        CdkLotacaoGridFilterModule,
+        CdkLotacaoFilterModule,
 
         CdkSharedModule,
         CdkSidebarModule,

@@ -16,6 +16,7 @@ import * as fromStore from './store';
 import {Pagination, Setor, Usuario} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {getRouterState} from "../../../../../store/reducers";
+import {Back} from '../../../../../store/actions';
 
 @Component({
     selector: 'localizador-edit',
@@ -96,6 +97,10 @@ export class LocalizadorEditComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
+
+    doAbort(): void {
+        this._store.dispatch(new Back());
+    }
 
     submit(values): void {
 

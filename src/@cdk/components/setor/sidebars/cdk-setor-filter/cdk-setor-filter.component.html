@@ -1,0 +1,225 @@
+<form class="altura" fxLayoutGap="16px" name="form" [formGroup]="form">
+
+    <div class="altura" fxLayout="column">
+        <div class="padd" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="center center">
+            <mat-icon [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+                search
+            </mat-icon>
+            <span [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}"
+                  *ngIf="this.mode === 'list'">Filtro</span>
+        </div>
+
+        <div class="padd" fxFlex="1 1 auto" fxLayout="column" cdkPerfectScrollbar>
+
+            <mat-form-field>
+                <mat-label>Nome</mat-label>
+                <input matInput #nome
+                       name="nome"
+                       formControlName="nome"
+                       maxlength="255">
+                <mat-hint align="end">{{nome.value.length}} / 255</mat-hint>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Endereço</mat-label>
+                <input matInput #endereco
+                       name="endereco"
+                       formControlName="endereco"
+                       maxlength="255">
+                <mat-hint align="end">{{endereco.value.length}} / 255</mat-hint>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Email</mat-label>
+                <input matInput #email
+                       name="email"
+                       formControlName="email"
+                       maxlength="255">
+                <mat-hint align="end">{{email.value.length}} / 255</mat-hint>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Sigla</mat-label>
+                <input matInput #sigla
+                       name="sigla"
+                       formControlName="sigla"
+                       maxlength="25">
+                <mat-hint align="end">{{sigla.value.length}} / 25</mat-hint>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Prefixo NUP</mat-label>
+                <input matInput #prefixoNUP
+                       name="prefixoNUP"
+                       formControlName="prefixoNUP"
+                       maxlength="255">
+                <mat-hint align="end">{{prefixoNUP.value.length}} / 255</mat-hint>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Sequencia Inicial do NUP</mat-label>
+                <input matInput #sequenciaInicialNUP
+                       name="sequenciaInicialNUP"
+                       formControlName="sequenciaInicialNUP">
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Prazo de Equalização</mat-label>
+                <input matInput #prazoEqualizacao
+                       name="prazoEqualizacao"
+                       formControlName="prazoEqualizacao">
+            </mat-form-field>
+
+            <mat-checkbox formControlName="apenasProtocolo" class="mr-16 mb-16" fxFlex="0 1 auto">
+                Apenas Protocolo
+            </mat-checkbox>
+
+            <mat-checkbox formControlName="apenasDistribuidor" class="mr-16 mb-16" fxFlex="0 1 auto">
+                Apenas Distribuidor
+            </mat-checkbox>
+
+            <mat-checkbox formControlName="ativo" class="mr-16 mb-16" fxFlex="0 1 auto">
+                Ativo
+            </mat-checkbox>
+
+            <mat-checkbox formControlName="gerenciamento" class="mr-16 mb-16" fxFlex="0 1 auto">
+                Gerenciamento
+            </mat-checkbox>
+
+            <mat-checkbox formControlName="numeracaoDocumentoUnidade" class="mr-16 mb-16" fxFlex="0 1 auto">
+                Numeração do Documento da Unidade
+            </mat-checkbox>
+
+            <mat-checkbox formControlName="distribuicaoCentena" class="mr-16 mb-16" fxFlex="0 1 auto">
+                Distribuição da Centena
+            </mat-checkbox>
+
+            <mat-form-field>
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Unidade"
+                           formControlName="unidade"
+                           [matAutocomplete]="setor.autocomplete">
+                </div>
+                <cdk-setor-autocomplete #setor="setorAutocomplete" [control]="form.get('unidade')">
+                </cdk-setor-autocomplete>
+            </mat-form-field>
+
+            <mat-form-field>
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Setor Pai"
+                           formControlName="parent"
+                           [matAutocomplete]="setor.autocomplete">
+                </div>
+                <cdk-setor-autocomplete #setor="setorAutocomplete" [control]="form.get('parent')">
+                </cdk-setor-autocomplete>
+            </mat-form-field>
+
+            <mat-form-field>
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Unidade Pai"
+                           formControlName="unidadePai"
+                           [matAutocomplete]="setor.autocomplete">
+                </div>
+                <cdk-setor-autocomplete #setor="setorAutocomplete" [control]="form.get('unidadePai')">
+                </cdk-setor-autocomplete>
+            </mat-form-field>
+
+            <mat-form-field>
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Município"
+                           formControlName="municipio"
+                           [matAutocomplete]="municipio.autocomplete">
+                </div>
+                <cdk-municipio-autocomplete #municipio="municipioAutocomplete" [control]="form.get('municipio')">
+                </cdk-municipio-autocomplete>
+            </mat-form-field>
+
+            <mat-form-field>
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Genero do Setor"
+                           formControlName="generoSetor"
+                           [matAutocomplete]="generoSetor.autocomplete">
+                </div>
+                <cdk-genero-setor-autocomplete #generoSetor="generoSetorAutocomplete"
+                                               [control]="form.get('generoSetor')">
+                </cdk-genero-setor-autocomplete>
+            </mat-form-field>
+
+            <mat-form-field>
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Espécie Setor"
+                           formControlName="especieSetor"
+                           [matAutocomplete]="especieSetor.autocomplete">
+                </div>
+                <cdk-especie-setor-autocomplete #especieSetor="especieSetorAutocomplete"
+                                                [control]="form.get('especieSetor')">
+                </cdk-especie-setor-autocomplete>
+            </mat-form-field>
+
+            <mat-form-field>
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Modalidade do Órgão Central"
+                           formControlName="modalidadeOrgaoCentral"
+                           [matAutocomplete]="modalidadeOrgaoCentral.autocomplete">
+                </div>
+                <cdk-modalidade-orgao-central-autocomplete #modalidadeOrgaoCentral="modalidadeOrgaoCentralAutocomplete"
+                                                           [control]="form.get('modalidadeOrgaoCentral')">
+                </cdk-modalidade-orgao-central-autocomplete>
+            </mat-form-field>
+
+            <mat-form-field class="mr-sm-12">
+                <mat-label>Criado Em</mat-label>
+                <input matInput formControlName="criadoEm" [matDatetimepicker]="criadoEm">
+                <mat-datetimepicker-toggle matSuffix [for]="criadoEm"></mat-datetimepicker-toggle>
+                <mat-datetimepicker #criadoEm type="datetime" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
+            </mat-form-field>
+
+            <mat-form-field>
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Atualizado Por"
+                           formControlName="atualizadoPor"
+                           [matAutocomplete]="usuario.autocomplete">
+                </div>
+                <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('atualizadoPor')">
+                </cdk-usuario-autocomplete>
+            </mat-form-field>
+
+            <mat-form-field class="mr-sm-12">
+                <mat-label>Atualizado Em</mat-label>
+                <input matInput formControlName="atualizadoEm" [matDatetimepicker]="atualizadoEm">
+                <mat-datetimepicker-toggle matSuffix [for]="atualizadoEm"></mat-datetimepicker-toggle>
+                <mat-datetimepicker #atualizadoEm type="datetime" openOnFocus="true" timeInterval="5">
+                </mat-datetimepicker>
+            </mat-form-field>
+
+            <mat-form-field>
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Apagado Por"
+                           formControlName="apagadoPor"
+                           [matAutocomplete]="usuario.autocomplete">
+                </div>
+                <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('apagadoPor')">
+                </cdk-usuario-autocomplete>
+            </mat-form-field>
+
+            <mat-form-field class="mr-sm-12">
+                <mat-label>Apagado Em</mat-label>
+                <input matInput formControlName="apagadoEm" [matDatetimepicker]="apagadoEm">
+                <mat-datetimepicker-toggle matSuffix [for]="apagadoEm"></mat-datetimepicker-toggle>
+                <mat-datetimepicker #apagadoEm type="datetime" openOnFocus="true" timeInterval="5">
+                </mat-datetimepicker>
+            </mat-form-field>
+
+        </div>
+
+        <div class="padd" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="center center">
+            <button mat-raised-button color="accent" class="mr-sm-12" (click)="buscar()">
+                Buscar
+            </button>
+
+            <button mat-raised-button color="warn" class="mr-sm-12" (click)="limpar()" *ngIf="this.mode === 'list'">
+                Limpar
+            </button>
+        </div>
+    </div>
+</form>

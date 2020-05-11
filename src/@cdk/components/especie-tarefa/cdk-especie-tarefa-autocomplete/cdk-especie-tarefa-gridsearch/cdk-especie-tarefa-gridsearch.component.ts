@@ -42,6 +42,12 @@ export class CdkEspecieTarefaGridsearchComponent implements OnInit {
     loading: boolean;
 
     @Input()
+    mode = 'list';
+
+    @Output()
+    create = new EventEmitter<any>();
+
+    @Input()
     displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'generoTarefa.nome', 'actions'];
 
     /**

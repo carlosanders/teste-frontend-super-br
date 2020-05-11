@@ -6,11 +6,8 @@ import {
     ViewEncapsulation, Input, OnChanges, Output, EventEmitter
 } from '@angular/core';
 import {merge, of} from 'rxjs';
-
 import {cdkAnimations} from '@cdk/animations';
-
 import {MatPaginator, MatSort} from '@cdk/angular/material';
-
 import {LogEntry} from '@cdk/models';
 import {LogEntryDataSource} from '@cdk/data-sources/logentry-data-source';
 import {FormControl} from '@angular/forms';
@@ -35,6 +32,12 @@ export class CdkLogentryGridComponent implements AfterViewInit, OnInit, OnChange
 
     @Input()
     total = 0;
+
+    @Input()
+    mode = 'list';
+
+    @Output()
+    create = new EventEmitter<any>();
 
     @Input()
     displayedColumns: string[] = ['id', 'loggedAt', 'username', 'valor'];
@@ -166,6 +169,7 @@ export class CdkLogentryGridComponent implements AfterViewInit, OnInit, OnChange
 
     /**
      * @param _changeDetectorRef
+     * @param _cdkSidebarService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -227,16 +231,19 @@ export class CdkLogentryGridComponent implements AfterViewInit, OnInit, OnChange
     }
 
     toggleFilter(): void {
-        this._cdkSidebarService.getSidebar('cdk-logentry-main-sidebar').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-logentry-filter').toggleOpen();
         this.showFilter = !this.showFilter;
     }
 
     loadPage(): void {
+        const filter = this.gridFilter.filters;
+        const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : null;
         this.reload.emit({
-            gridFilter: this.gridFilter,
+            gridFilter: filter,
             limit: this.paginator.pageSize,
             offset: (this.paginator.pageSize * this.paginator.pageIndex),
-            sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {}
+            sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
+            context: contexto
         });
     }
 
@@ -304,7 +311,7 @@ export class CdkLogentryGridComponent implements AfterViewInit, OnInit, OnChange
         this.isIndeterminate = (this.selectedIds.length !== this.logEntrys.length && this.selectedIds.length > 0);
     }
 
-    setGridFilter(gridFilter): void {
+    setFilter(gridFilter): void {
         this.gridFilter = gridFilter;
         this.paginator.pageIndex = 0;
         this.loadPage();
@@ -312,5 +319,9 @@ export class CdkLogentryGridComponent implements AfterViewInit, OnInit, OnChange
 
     doCancel(): void {
         this.cancel.emit();
+    }
+
+    doCreate(): void {
+        this.create.emit();
     }
 }

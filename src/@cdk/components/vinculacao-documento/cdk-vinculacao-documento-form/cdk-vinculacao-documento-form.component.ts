@@ -36,6 +36,9 @@ export class CdkVinculacaoDocumentoFormComponent implements OnChanges, OnDestroy
     @Output()
     save = new EventEmitter<VinculacaoDocumento>();
 
+    @Output()
+    abort = new EventEmitter<any>();
+
     form: FormGroup;
 
     activeCard = 'form';
@@ -125,6 +128,10 @@ export class CdkVinculacaoDocumentoFormComponent implements OnChanges, OnDestroy
         if (this.form.valid) {
             this.save.emit(this.form.value);
         }
+    }
+
+    doAbort(): void {
+        this.abort.emit();
     }
 
     checkDocumento(): void {
