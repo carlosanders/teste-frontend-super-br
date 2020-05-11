@@ -65,7 +65,6 @@ export class TarefaListComponent implements OnInit {
     }
 
     reload(params): void {
-        console.log(params);
         this._store.dispatch(new fromStore.GetTarefas({
             ...this.pagination,
             filter: {
@@ -80,7 +79,6 @@ export class TarefaListComponent implements OnInit {
     }
 
     excluded(params): void {
-        console.log(params);
         this._store.dispatch(new fromStore.GetTarefas({
             ...this.pagination,
             filter: {
@@ -106,5 +104,4 @@ export class TarefaListComponent implements OnInit {
     delete(tarefaId: number): void {
         this._store.dispatch(new fromStore.DeleteTarefa(tarefaId));
     }
-
 }
