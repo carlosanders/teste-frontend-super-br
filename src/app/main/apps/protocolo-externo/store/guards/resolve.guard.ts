@@ -49,12 +49,10 @@ export class ResolveGuard implements CanActivate {
      * @returns {Observable<boolean>}
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-        /*if (this.getRouterDefault()) {*/
-            return this.checkRole(this.checkStore()).pipe(
-                switchMap(() => of(true)),
-                catchError(() => of(false))
-            );
-        /*}*/
+        return this.checkRole(this.checkStore()).pipe(
+            switchMap(() => of(true)),
+            catchError(() => of(false))
+        );
     }
 
     /**
@@ -94,66 +92,66 @@ export class ResolveGuard implements CanActivate {
      * @returns {Observable<any>}
      */
     getProcessos(): any {
+        this._store.dispatch(new fromStore.UnloadProcessos({reset: true}));
+
         return this._store.pipe(
             select(getProcessosLoaded),
             tap((loaded: any) => {
-                if (this.routerState.params['typeHandle'] && this.routerState.params['targetHandle'] &&
-                    (this.routerState.params['typeHandle'] + '_' + this.routerState.params['targetHandle']) !== loaded.value) {
-                    this._store.dispatch(new fromStore.UnloadProcessos({reset: true}));
+                const params = {
+                    listFilter: {},
+                    etiquetaFilter: {},
+                    limit: 10,
+                    offset: 0,
+                    sort: {dataHoraProximaTransicao: 'ASC', dataHoraAbertura: 'ASC'},
+                    populate: [
+                        'especieProcesso',
+                        'modalidadeMeio',
+                        'modalidadeFase',
+                        'documentoAvulsoOrigem',
+                        'especieProcesso',
+                        'classificacao',
+                        'classificacao.modalidadeDestinacao',
+                        'setorInicial',
+                        'setorAtual',
+                        'lembretes',
+                        'vinculacoesEtiquetas',
+                        'vinculacoesEtiquetas.etiqueta',
+                        'assuntos'
+                    ]
+                };
 
-                    const params = {
-                        listFilter: {},
-                        etiquetaFilter: {},
-                        limit: 10,
-                        offset: 0,
-                        sort: {dataHoraProximaTransicao: 'ASC', dataHoraAbertura: 'ASC'},
-                        populate: [
-                            'especieProcesso',
-                            'modalidadeMeio',
-                            'modalidadeFase',
-                            'documentoAvulsoOrigem',
-                            'especieProcesso',
-                            'classificacao',
-                            'classificacao.modalidadeDestinacao',
-                            'setorInicial',
-                            'setorAtual',
-                            'lembretes',
-                            'vinculacoesEtiquetas',
-                            'vinculacoesEtiquetas.etiqueta',
-                            'assuntos'
-                        ]
-                    };
+                const routeTypeParam = of('typeHandle');
+                routeTypeParam.subscribe(typeParam => {
+                    let processoFilter = {};
+                    if (this.routerState.params[typeParam] === 'meus-processos') {
+                        processoFilter = {
+                            'criadoPor.id': `eq:${this._profile.id}`,
+                            'unidadeArquivistica': `eq:${this.unidadeArquivistica}`
+                        };
+                    }
 
-                    const routeTypeParam = of('typeHandle');
-                    routeTypeParam.subscribe(typeParam => {
-                        let processoFilter = {};
-                        if (this.routerState.params[typeParam] === 'meus-processos') {
+                    if (this.routerState.params[typeParam] === 'interessados') {
+                        const routeTargetParam = of('targetHandle');
+                        routeTargetParam.subscribe(targetParam => {
                             processoFilter = {
-                                'criadoPor.id': `eq:${this._profile.id}`,
+                                'procedencia.id': `eq:${this.routerState.params[targetParam]}`,
                                 'unidadeArquivistica': `eq:${this.unidadeArquivistica}`
                             };
-                        }
+                        });
+                    }
 
-                        if (this.routerState.params[typeParam] === 'interessados') {
-                            const routeTargetParam = of('targetHandle');
-                            routeTargetParam.subscribe(targetParam => {
-                                processoFilter = {
-                                    'procedencia.id': `eq:${this.routerState.params[targetParam]}`,
-                                    'unidadeArquivistica': `eq:${this.unidadeArquivistica}`
-                                };
-                            });
-                        }
+                    params['filter'] = processoFilter;
+                });
 
-                        params['filter'] = processoFilter;
-                    });
-
+                if (!this.routerState.params['typeHandle'] || !this.routerState.params['targetHandle'] ||
+                    (this.routerState.params['typeHandle'] + '_' + this.routerState.params['targetHandle'] + '_' + this._profile.id) !== loaded.value) {
                     this._store.dispatch(new fromStore.GetProcessos(params));
                     this._store.dispatch(new fromStore.ChangeSelectedProcessos([]));
                 }
             }),
             filter((loaded: any) => {
                 return this.routerState.params['typeHandle'] && this.routerState.params['targetHandle'] &&
-                    (this.routerState.params['typeHandle'] + '_' + this.routerState.params['targetHandle']) === loaded.value;
+                (this.routerState.params['typeHandle'] + '_' + this.routerState.params['targetHandle']  + '_' + this._profile.id) === loaded.value;
             }),
             take(1)
         );
@@ -192,13 +190,4 @@ export class ResolveGuard implements CanActivate {
             take(1)
         );
     }
-
-    /*getRouterDefault(): boolean {
-        if (this.routerState.params['pessoaHandle'] === 'default') {
-            this._router.navigate(['apps/protocolo-externo/' + this._profile.vinculacoesPessoasUsuarios[0].pessoa.id]);
-            return false;
-        }
-
-        return true;
-    }*/
 }
