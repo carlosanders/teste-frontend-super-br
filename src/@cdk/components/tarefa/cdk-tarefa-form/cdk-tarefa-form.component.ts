@@ -83,7 +83,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     setorOrigemPagination: Pagination;
 
     @Input()
-    logEntryPaginationTarefa: Pagination;
+    logEntryPagination: Pagination;
 
     especieTarefaList: EspecieTarefa[] = [];
 
@@ -131,7 +131,6 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         private _favoritoService: FavoritoService,
         public _loginService: LoginService
     ) {
-
         this.form = this._formBuilder.group({
             id: [null],
             blocoProcessos: [null],
@@ -307,8 +306,6 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                 }
             )
         ).subscribe();
-
-
     }
 
     /**
@@ -611,10 +608,8 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     showLogEntryGrid(target: string): void {
-
         const campo = {target: target};
-        Object.assign(this.logEntryPaginationTarefa.filter, campo);
-
+        Object.assign(this.logEntryPagination.filter, campo);
         this.activeCard = 'logentry-gridsearch';
     }
 

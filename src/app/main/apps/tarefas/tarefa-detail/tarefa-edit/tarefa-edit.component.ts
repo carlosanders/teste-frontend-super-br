@@ -40,7 +40,7 @@ export class TarefaEditComponent implements OnInit, OnDestroy {
 
     especieTarefaPagination: Pagination;
     setorOrigemPagination: Pagination;
-    logEntryPaginationTarefa: Pagination;
+    logEntryPagination: Pagination;
 
     /**
      * @param _store
@@ -56,6 +56,7 @@ export class TarefaEditComponent implements OnInit, OnDestroy {
 
         this._profile = _loginService.getUserProfile().colaborador;
 
+        this.logEntryPagination = new Pagination();
         this.especieTarefaPagination = new Pagination();
         this.especieTarefaPagination.populate = ['generoTarefa'];
         this.setorOrigemPagination = new Pagination();
@@ -77,9 +78,7 @@ export class TarefaEditComponent implements OnInit, OnDestroy {
         ).subscribe(tarefa => {
             this.tarefa = tarefa;
             this.tarefa.unidadeResponsavel = tarefa.setorResponsavel.unidade;
-
-            this.logEntryPaginationTarefa = new Pagination();
-            this.logEntryPaginationTarefa.filter = {entity: 'SuppCore\\AdministrativoBackend\\Entity\\Tarefa', id: + this.tarefa.id};
+            this.logEntryPagination.filter = {entity: 'SuppCore\\AdministrativoBackend\\Entity\\Tarefa', id: + this.tarefa.id};
         });
     }
 

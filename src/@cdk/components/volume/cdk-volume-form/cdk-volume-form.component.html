@@ -25,6 +25,10 @@
                     [control]="form.get('modalidadeMeio')"
                     [pagination]="modalidadeMeioPagination">
                 </cdk-modalidade-meio-autocomplete>
+                <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                        (click)="showLogEntryGrid('modalidadeMeio')">
+                    <mat-icon matTooltip="Histórico">history</mat-icon>
+                </button>
                 <button matSuffix mat-button mat-icon-button
                         (click)="showModalidadeMeioGrid()">
                     <mat-icon matTooltip="Procurar">search</mat-icon>
@@ -34,10 +38,15 @@
                 </mat-error>
             </mat-form-field>
 
-            <mat-checkbox formControlName="encerrado" *ngIf="form.get('id').value" disabled="true"
-                          class="mr-16 mb-16" fxFlex="0 1 auto">
-                Encerrado
-            </mat-checkbox>
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <mat-checkbox formControlName="encerrado" *ngIf="form.get('id').value" disabled="true">
+                    Encerrado
+                </mat-checkbox>
+                <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                        (click)="showLogEntryGrid('encerrado')">
+                    <mat-icon matTooltip="Histórico">history</mat-icon>
+                </button>
+            </div>
         </div>
 
         <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
@@ -61,8 +70,15 @@
 </div>
 
 <cdk-modalidade-meio-gridsearch
-        fxFlex="1 0 auto"
-        *ngIf="activeCard === 'modalidade-meio-gridsearch'"
-        (selected)="selectModalidadeMeio($event)"
-        (cancel)="cancel()">
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'modalidade-meio-gridsearch'"
+    (selected)="selectModalidadeMeio($event)"
+    (cancel)="cancel()">
 </cdk-modalidade-meio-gridsearch>
+
+<cdk-logentry-gridsearch
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'logentry-gridsearch'"
+    [pagination]="logEntryPagination"
+    (cancel)="cancel()">
+</cdk-logentry-gridsearch>

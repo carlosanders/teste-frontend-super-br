@@ -40,12 +40,11 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
     especieProcessoPagination: Pagination;
     setorAtualPagination: Pagination;
     classificacaoPagination: Pagination;
+    logEntryPagination: Pagination;
 
     routerState: any;
 
     procedencia: Pessoa;
-
-    logEntryPagination: Pagination;
 
     private _unsubscribeAll: Subject<any>;
 

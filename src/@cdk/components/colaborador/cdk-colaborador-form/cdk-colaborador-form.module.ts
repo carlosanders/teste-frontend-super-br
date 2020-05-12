@@ -22,6 +22,7 @@ import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepic
 import {ColaboradorService} from '@cdk/services/colaborador.service';
 import {CdkCargoAutocompleteModule} from '@cdk/components/cargo/cdk-cargo-autocomplete/cdk-cargo-autocomplete.module';
 import {CdkCargoGridsearchModule} from '@cdk/components/cargo/cdk-cargo-autocomplete/cdk-cargo-gridsearch/cdk-cargo-gridsearch.module';
+import {CdkLogentryGridsearchModule} from "../../logentry/cdk-logentry-grid/cdk-logentry-gridsearch/cdk-logentry-gridsearch.module";
 
 @NgModule({
     declarations: [
@@ -49,6 +50,7 @@ import {CdkCargoGridsearchModule} from '@cdk/components/cargo/cdk-cargo-autocomp
         CdkCargoGridsearchModule,
 
         CdkSharedModule,
+        CdkLogentryGridsearchModule,
     ],
     providers: [
         ModalidadeColaboradorService,

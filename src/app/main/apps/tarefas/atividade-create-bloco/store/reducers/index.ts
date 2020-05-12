@@ -5,7 +5,7 @@ import {AtividadeBlocoCreateDocumentosReducer, AtividadeBlocoCreateDocumentosSta
 export interface AtividadeCreateBlocoAppState
 {
     atividadeCreateBloco: AtividadeCreateBlocoState;
-    atividadeCreateDocumentos: AtividadeBlocoCreateDocumentosState;
+    atividadeCreateBlocoDocumentos: AtividadeBlocoCreateDocumentosState;
 }
 
 export const getAtividadeCreateBlocoAppState = createFeatureSelector<AtividadeCreateBlocoAppState>(
@@ -19,7 +19,7 @@ export const getAppState = createSelector(
 
 export const reducers: ActionReducerMap<AtividadeCreateBlocoAppState> = {
     atividadeCreateBloco: AtividadeCreateBlocoReducer,
-    atividadeCreateDocumentos: AtividadeBlocoCreateDocumentosReducer
+    atividadeCreateBlocoDocumentos: AtividadeBlocoCreateDocumentosReducer
 };
 
 export * from './atividade-create-bloco.reducer';

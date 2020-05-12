@@ -41,6 +41,9 @@ export class CdkRepositorioFormComponent implements OnChanges, OnDestroy {
     @Input()
     modalidadeRepositorioPagination: Pagination;
 
+    @Input()
+    logEntryPagination: Pagination;
+
     @Output()
     save = new EventEmitter<Repositorio>();
 
@@ -161,4 +164,9 @@ export class CdkRepositorioFormComponent implements OnChanges, OnDestroy {
         this.activeCard = 'form';
     }
 
+    showLogEntryGrid(target: string): void {
+        const campo = {target: target};
+        Object.assign(this.logEntryPagination.filter, campo);
+        this.activeCard = 'logentry-gridsearch';
+    }
 }
