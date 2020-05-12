@@ -28,7 +28,7 @@ export class ResolveGuard implements CanActivate {
     constructor(
         private _store: Store<ProcessosAppState>,
         private _router: Router,
-        public _loginService: LoginService
+        private _loginService: LoginService
     ) {
         this._store
             .pipe(select(getRouterState))
