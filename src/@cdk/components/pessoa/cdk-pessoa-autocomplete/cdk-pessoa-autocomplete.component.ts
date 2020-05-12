@@ -56,13 +56,14 @@ export class CdkPessoaAutocompleteComponent implements OnInit {
             switchMap((value) => {
                     let termFilter = {};
                     value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                        termFilter = {
-                            ...termFilter,
-                            orFilter: {
-                                nome: `like:%${bit}%`,
+                        termFilter = [
+                            {
+                                nome: `like:%${bit}%`
+                            },
+                            {
                                 numeroDocumentoPrincipal: `like:%${bit}%`
                             }
-                        };
+                        ];
                     });
                     if (typeof value === 'string') {
                         this.pessoaListIsLoading = true;
