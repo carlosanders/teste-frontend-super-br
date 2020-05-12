@@ -1,5 +1,5 @@
-<div cdkPerfectScrollbar class="inner-scroll form" >
-    <form *ngIf="activeCard === 'form'" class="mr-24" fxLayoutGap="1px"
+<div *ngIf="activeCard === 'form'" cdkPerfectScrollbar class="inner-scroll form" >
+    <form  class="mr-24" fxLayoutGap="1px"
           fxLayout="column"
           fxLayoutAlign="start"
           name="form" [formGroup]="form" (submit)="submit()">
@@ -36,6 +36,10 @@
                     #generoRelevancia="generoRelevanciaAutocomplete"
                     [control]="form.get('generoRelevancia')">
                 </cdk-genero-relevancia-autocomplete>
+                <button matSuffix mat-button mat-icon-button
+                        (click)="showGeneroRelevanciaGrid()">
+                    <mat-icon matTooltip="Procurar">search</mat-icon>
+                </button>
             </mat-form-field>
 
             <mat-checkbox formControlName="ativo"
@@ -64,3 +68,11 @@
         </div>
     </form>
 </div>
+
+<cdk-especie-relevancia-gridsearch
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'genero-relevancia-gridsearch'"
+    [pagination]="generoRelevanciaPagination"
+    (selected)="selectGeneroRelevancia($event)"
+    (cancel)="cancel()">
+</cdk-especie-relevancia-gridsearch>

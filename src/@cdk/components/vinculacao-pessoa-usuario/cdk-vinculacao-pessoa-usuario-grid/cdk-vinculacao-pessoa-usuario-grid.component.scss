@@ -3,6 +3,8 @@
 
 cdk-vinculacao-pessoa-usuario-autocomplete {
 
+
+
     height: 100%;
 
     .colunas {
@@ -125,5 +127,9 @@ cdk-vinculacao-pessoa-usuario-autocomplete {
 .add {
     position: absolute;
     left: 0;
+}
+
+.deleted{
+    text-decoration: line-through;
 }
 

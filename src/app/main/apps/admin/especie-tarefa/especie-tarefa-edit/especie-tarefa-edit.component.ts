@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {cdkAnimations} from '../../../../../../@cdk/animations';
 import {Observable} from 'rxjs';
-import {EspecieTarefa, Usuario} from '../../../../../../@cdk/models';
+import {EspecieTarefa, Pagination, Usuario} from '../../../../../../@cdk/models';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
@@ -26,6 +26,8 @@ export class EspecieTarefaEditComponent implements OnInit {
     especieTarefa: EspecieTarefa;
     especieTarefa$: Observable<EspecieTarefa>;
     formEspecieTarefa: FormGroup;
+    generoTarefaPagination: Pagination;
+
 
 
     constructor(
@@ -45,7 +47,7 @@ export class EspecieTarefaEditComponent implements OnInit {
                     this.routerState = routerState.state;
                 }
             });
-
+        this.generoTarefaPagination = new Pagination();
         this.loadForm();
     }
 

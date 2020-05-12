@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {cdkAnimations} from '../../../../../../@cdk/animations';
 import {Observable} from 'rxjs';
-import {EspecieAtividade} from '../../../../../../@cdk/models';
+import {EspecieAtividade, Pagination} from '../../../../../../@cdk/models';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
@@ -26,6 +26,7 @@ export class EspecieAtividadeEditComponent implements OnInit {
     especieAtividade: EspecieAtividade;
     especieAtividade$: Observable<EspecieAtividade>;
     formEspecieAtividade: FormGroup;
+    generoAtividadePagination: Pagination;
 
 
     constructor(
@@ -46,6 +47,7 @@ export class EspecieAtividadeEditComponent implements OnInit {
                 }
             });
 
+        this.generoAtividadePagination = new Pagination();
         this.loadForm();
     }
 

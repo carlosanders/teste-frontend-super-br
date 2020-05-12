@@ -8,7 +8,7 @@ import {
     Output,
     SimpleChange
 } from '@angular/core';
-import {EspecieRelevancia} from '../../../models';
+import {EspecieRelevancia, GeneroRelevancia, Pagination, Pessoa} from '../../../models';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
@@ -27,11 +27,16 @@ export class CdkEspecieRelevanciaFormComponent implements OnChanges, OnDestroy {
     @Input()
     errors: any;
 
+    @Input()
+    generoRelevanciaPagination: Pagination;
+
     @Output()
     save = new EventEmitter<any>();
 
     @Output()
     abort = new EventEmitter<any>();
+
+
 
     @Input()
     form: FormGroup;
@@ -115,5 +120,17 @@ export class CdkEspecieRelevanciaFormComponent implements OnChanges, OnDestroy {
 
     doAbort(): void {
         this.abort.emit();
+    }
+
+    showGeneroRelevanciaGrid(): void {
+        this.activeCard = 'genero-relevancia-gridsearch';
+    }
+
+
+    selectGeneroRelevancia(genero: GeneroRelevancia): void {
+        if (genero) {
+            this.form.get('generoRelevancia').setValue(genero);
+        }
+        this.activeCard = 'form';
     }
 }

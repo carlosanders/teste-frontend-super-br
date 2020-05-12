@@ -83,7 +83,8 @@
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> &nbsp;Id
                         </th>
                         <td mat-cell *matCellDef="let pessoa" class='has_label_on_mobile' data-label='Id: '
-                            [ngClass]="{'deleted':deletedIds?.indexOf(pessoa.id) > -1}"> &nbsp;{{pessoa.id}} </td>
+                            [ngClass]="{'deleted':deletedIds?.indexOf(pessoa.id) > -1}"> &nbsp;{{pessoa.id}}
+                        </td>
                     </ng-container>
 
                     <!-- Nome Column -->
