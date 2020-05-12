@@ -35,6 +35,10 @@ const routes: Routes = [
                 loadChildren: () => import('./especie-relevancia/especie-relevancia.module').then(m => m.EspecieRelevanciaModule)
             },
             {
+                path: 'tipos-documentos',
+                loadChildren: () => import('./tipo-documento/tipo-documento.module').then(m => m.TipoDocumentoModule)
+            },
+            {
                 path: '**',
                 redirectTo: 'tarefas'
             },
