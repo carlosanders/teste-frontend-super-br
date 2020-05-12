@@ -4,6 +4,8 @@ export const GET_DOCUMENTOS_BLOCO = '[BLOCO ATIVIDADE CREATE] GET DOCUMENTOS';
 export const GET_DOCUMENTOS_BLOCO_SUCCESS = '[BLOCO ATIVIDADE CREATE] GET DOCUMENTOS SUCCESS';
 export const GET_DOCUMENTOS_BLOCO_FAILED = '[BLOCO ATIVIDADE CREATE] GET DOCUMENTOS FAILED';
 
+export const UNLOAD_DOCUMENTOS_BLOCO = '[BLOCO ATIVIDADE CREATE] UNLOAD DOCUMENTOS';
+
 export const DELETE_DOCUMENTO_BLOCO = '[BLOCO ATIVIDADE CREATE] DELETE DOCUMENTO';
 export const DELETE_DOCUMENTO_BLOCO_SUCCESS = '[BLOCO ATIVIDADE CREATE] DELETE DOCUMENTO SUCCESS';
 export const DELETE_DOCUMENTO_BLOCO_FAILED = '[BLOCO ATIVIDADE CREATE] DELETE DOCUMENTO FAILED';
@@ -49,6 +51,18 @@ export class GetDocumentosFailed implements Action
     readonly type = GET_DOCUMENTOS_BLOCO_FAILED;
 
     constructor(public payload: string)
+    {
+    }
+}
+
+/**
+ * Unload Documentos
+ */
+export class UnloadDocumentos implements Action
+{
+    readonly type = UNLOAD_DOCUMENTOS_BLOCO;
+
+    constructor()
     {
     }
 }
@@ -163,6 +177,7 @@ export type AtividadeBlocoCreateDocumentosActionsAll
     = GetDocumentos
     | GetDocumentosSuccess
     | GetDocumentosFailed
+    | UnloadDocumentos
     | ClickedDocumento
     | CompleteDocumento
     | AssinaDocumento

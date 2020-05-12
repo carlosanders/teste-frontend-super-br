@@ -6,13 +6,13 @@ import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
 
 const schemaDocumentoSelectors = createSchemaSelectors<Documento>(documentoSchema);
 
-export const getAtividadeCreateDocumentosState = createSelector(
+export const getAtividadeCreateBlocoDocumentosState = createSelector(
     getAtividadeCreateBlocoAppState,
-    (state: AtividadeCreateBlocoAppState) => state ? state.atividadeCreateDocumentos : null
+    (state: AtividadeCreateBlocoAppState) => state ? state.atividadeCreateBlocoDocumentos : null
 );
 
 export const getDocumentosId = createSelector(
-    getAtividadeCreateDocumentosState,
+    getAtividadeCreateBlocoDocumentosState,
     (state: AtividadeBlocoCreateDocumentosState) => state.documentosId
 );
 
@@ -23,22 +23,22 @@ export const getDocumentos = createSelector(
 );
 
 export const getDocumentosHasLoaded = createSelector(
-    getAtividadeCreateDocumentosState,
+    getAtividadeCreateBlocoDocumentosState,
     (state: AtividadeBlocoCreateDocumentosState) => state.documentosLoaded
 );
 
 export const getDeletingDocumentosId = createSelector(
-    getAtividadeCreateDocumentosState,
+    getAtividadeCreateBlocoDocumentosState,
     (state: AtividadeBlocoCreateDocumentosState) => state.deletingDocumentoIds
 );
 
 export const getAssinandoDocumentosId = createSelector(
-    getAtividadeCreateDocumentosState,
+    getAtividadeCreateBlocoDocumentosState,
     (state: AtividadeBlocoCreateDocumentosState) => state.assinandoDocumentoIds
 );
 
 export const getSelectedDocumentoIds = createSelector(
-    getAtividadeCreateDocumentosState,
+    getAtividadeCreateBlocoDocumentosState,
     (state: AtividadeBlocoCreateDocumentosState) => state.selectedDocumentosId
 );
 
