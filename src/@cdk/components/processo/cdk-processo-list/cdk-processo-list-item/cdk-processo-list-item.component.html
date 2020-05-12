@@ -28,9 +28,9 @@
             </div>
 
             <div class="subtitle" fxLayout="row" *ngIf="isOpen">
-                <div *ngIf="loadingInteressadosProcessosId.indexOf(processo.id) !== -1">
+                <!--<div *ngIf="loadingInteressadosProcessosId.indexOf(processo.id) !== -1">
                     <mat-spinner diameter=16></mat-spinner>
-                </div>
+                </div>-->
                 <div *ngIf="processo?.interessados?.length > 0">
                     <span class="text-truncate">INTERESSADO: {{processo?.interessados[0]?.pessoa?.nome}}</span>
                 </div>

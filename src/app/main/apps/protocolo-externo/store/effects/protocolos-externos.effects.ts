@@ -10,7 +10,7 @@ import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import {getRouterState, State} from 'app/store/reducers';
 import * as ProcessosActions from '../actions/protocolos-externos.actions';
 
-import {Processo, Assunto, Pessoa, Interessado} from '@cdk/models';
+import {Processo, Assunto, Pessoa, Interessado, Usuario} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Router} from '@angular/router';
 import {processo as processoSchema} from '@cdk/normalizr/processo.schema';
@@ -24,6 +24,7 @@ import {InteressadoService} from '@cdk/services/interessado.service';
 
 @Injectable()
 export class ProcessosEffect {
+    private _profile: Usuario;
     routerState: any;
 
     constructor(
@@ -44,6 +45,8 @@ export class ProcessosEffect {
                 this.routerState = routerState.state;
             }
         });
+
+        this._profile = _loginService.getUserProfile();
     }
 
     /**
@@ -74,7 +77,7 @@ export class ProcessosEffect {
                         entitiesId: response['entities'].map(processo => processo.id),
                         loaded: {
                             id: 'typeHandle_targetHandle',
-                            value: this.routerState.params.typeHandle + '_' + this.routerState.params.targetHandle
+                            value: this.routerState.params.typeHandle + '_' + this.routerState.params.targetHandle + '_' + this._profile.id,
                         },
                         total: response['total']
                     })

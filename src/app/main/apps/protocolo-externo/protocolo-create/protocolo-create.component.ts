@@ -287,6 +287,7 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
     }
 
     onComplete(): void {
+        this._store.dispatch(new fromStore.UnloadDocumentos());
         this._store.dispatch(new fromStore.GetDocumentos({'processoOrigem.id': `eq:${this.processo.id}`}));
     }
 
