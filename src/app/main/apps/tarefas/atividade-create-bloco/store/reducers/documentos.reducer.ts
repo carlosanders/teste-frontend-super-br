@@ -22,6 +22,12 @@ export function AtividadeBlocoCreateDocumentosReducer(
 ): AtividadeBlocoCreateDocumentosState {
     switch (action.type) {
 
+        case AtividadeBlocoCreateDocumentosActionsAll.GET_DOCUMENTOS_BLOCO: {
+            return {
+                ...AtividadeBlocoCreateDocumentosInitialState
+            };
+        }
+
         case AtividadeBlocoCreateDocumentosActionsAll.GET_DOCUMENTOS_BLOCO_SUCCESS: {
             return {
                 ...state,
@@ -41,6 +47,12 @@ export function AtividadeBlocoCreateDocumentosReducer(
             return {
                 ...state,
                 deletingDocumentoIds: [...state.deletingDocumentoIds, action.payload]
+            };
+        }
+
+        case AtividadeBlocoCreateDocumentosActionsAll.UNLOAD_DOCUMENTOS_BLOCO: {
+            return {
+                ...AtividadeBlocoCreateDocumentosInitialState
             };
         }
 
