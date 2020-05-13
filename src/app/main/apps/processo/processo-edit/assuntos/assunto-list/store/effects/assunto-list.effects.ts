@@ -50,7 +50,9 @@ export class AssuntoListEffect {
                         action.payload.limit,
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
-                        JSON.stringify(action.payload.populate));
+                        JSON.stringify(action.payload.populate),
+                        JSON.stringify(action.payload.context)
+                    );
                 }),
                 mergeMap((response) => [
                     new AddData<Assunto>({data: response['entities'], schema: assuntoSchema}),
@@ -64,11 +66,10 @@ export class AssuntoListEffect {
                     })
                 ]),
                 catchError((err, caught) => {
-                    console.log (err);
+                    console.log(err);
                     this._store.dispatch(new AssuntoListActions.GetAssuntosFailed(err));
                     return caught;
                 })
-
             );
 
     /**
@@ -84,7 +85,7 @@ export class AssuntoListEffect {
                     return this._assuntoService.destroy(action.payload).pipe(
                         map((response) => new AssuntoListActions.DeleteAssuntoSuccess(response.id)),
                         catchError((err) => {
-                            console.log (err);
+                            console.log(err);
                             return of(new AssuntoListActions.DeleteAssuntoFailed(action.payload));
                         })
                     );

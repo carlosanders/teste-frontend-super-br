@@ -50,7 +50,8 @@ export class VinculacaoUsuarioListEffect {
                         action.payload.limit,
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
-                        JSON.stringify(action.payload.populate));
+                        JSON.stringify(action.payload.populate),
+                        JSON.stringify(action.payload.context));
                 }),
                 mergeMap((response) => [
                     new AddData<VinculacaoUsuario>({data: response['entities'], schema: vinculacaoUsuarioSchema}),

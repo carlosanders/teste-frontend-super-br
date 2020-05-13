@@ -5,6 +5,7 @@
         [deletedIds]="(deletedIds$ | async)"
         [actions]="['create', 'delete']"
         (reload)="reload($event)"
+        (excluded)="excluded($event)"
         (create)="create()"
         (delete)="delete($event)">
 </cdk-acao-list>
