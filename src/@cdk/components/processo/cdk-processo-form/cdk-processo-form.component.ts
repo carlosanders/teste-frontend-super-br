@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Processo} from '@cdk/models';
+import {EspecieSetor, Estado, GeneroSetor, Processo, Usuario} from '@cdk/models';
 import {EspecieProcesso} from '@cdk/models';
 import {MAT_DATETIME_FORMATS} from '@mat-datetimepicker/core';
 import {ModalidadeFase} from '@cdk/models';
@@ -17,6 +17,7 @@ import {Classificacao} from '@cdk/models';
 import {Setor} from '@cdk/models';
 import {Pagination} from '@cdk/models';
 import {Pessoa} from '@cdk/models';
+import {LoginService} from '../../../../app/main/auth/login/login.service';
 
 @Component({
     selector: 'cdk-processo-form',
@@ -52,6 +53,8 @@ import {Pessoa} from '@cdk/models';
 })
 export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
+    private _profile: Usuario;
+
     @Input()
     processo: Processo;
 
@@ -78,6 +81,9 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
     @Input()
     setorAtualPagination: Pagination;
+
+    @Input()
+    setorInicialPagination: Pagination;
 
     @Output()
     save = new EventEmitter<Processo>();
@@ -106,7 +112,20 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     @Input()
     processoPagination: Pagination;
 
+    @Input()
+    generoSetorPagination: Pagination;
+
+    @Input()
+    especieSetorPagination: Pagination;
+
+    @Input()
+    estados: Estado[];
+
+    @Input()
     form: FormGroup;
+
+    @Input()
+    paramHandle: string;
 
     activeCard = 'form';
 
@@ -118,7 +137,8 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _formBuilder: FormBuilder
+        private _formBuilder: FormBuilder,
+        private _loginService: LoginService
     ) {
         this.form = this._formBuilder.group({
             id: [null],
@@ -140,7 +160,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             setorAtual: [null, [Validators.required]],
             modalidadeMeio: [null, [Validators.required]],
             modalidadeFase: [null],
-            dataHoraAbertura: [null, [Validators.required]],
+            dataHoraAbertura: [null, [Validators.required]]
         });
 
         this.especieProcessoPagination = new Pagination();
@@ -149,11 +169,16 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
         this.modalidadeMeioPagination = new Pagination();
         this.modalidadeFasePagination = new Pagination();
         this.setorAtualPagination = new Pagination();
+        this.setorInicialPagination = new Pagination();
         this.processoPagination = new Pagination();
         this.processoPagination.populate = ['especieProcesso', 'modalidadeMeio', 'classificacao', 'setorAtual', 'setorAtual.unidade'];
+        this.generoSetorPagination = new Pagination();
+        this.especieSetorPagination = new Pagination();
 
         this.readonlyNUP = false;
         this.textBotao = '';
+        this._profile = this._loginService.getUserProfile();
+
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -169,6 +194,17 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
             this.form.get('NUP').setValue(null);
             this.form.get('NUP').disable();
+
+            if (this._loginService.isGranted('ROLE_CONVENIADO')) {
+                this.form.get('generoSetor').setValue(null);
+                this.form.get('generoSetor').disable();
+
+                this.form.get('especieSetor').setValue(null);
+                this.form.get('especieSetor').disable();
+
+                this.form.get('setorInicial').setValue(null);
+                this.form.get('setorInicial').disable();
+            }
 
             this.form.get('procedencia').setValue(null);
             this.form.get('procedencia').disable();
@@ -226,9 +262,46 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             }
         });
 
+        if (this._loginService.isGranted('ROLE_CONVENIADO')) {
+            this.form.get('estado').valueChanges.subscribe(value => {
+                if (value) {
+                    this.form.get('generoSetor').enable();
+                    this.setorInicialPagination.filter = {
+                        ...this.setorInicialPagination.filter,
+                        ...{'municipio.estado.id': `eq:${value}`}
+                    };
+                } else {
+                    this.form.get('generoSetor').setValue(null);
+                    this.form.get('generoSetor').disable();
+                }
+            });
+
+            this.form.get('generoSetor').valueChanges.subscribe(value => {
+                if (value) {
+                    this.form.get('especieSetor').enable();
+                    this.especieSetorPagination.filter = {'generoSetor.id': `eq:${value.id}`};
+                } else {
+                    this.form.get('especieSetor').setValue(null);
+                    this.form.get('especieSetor').disable();
+                }
+            });
+
+            this.form.get('especieSetor').valueChanges.subscribe(value => {
+                if (value) {
+                    this.form.get('setorInicial').enable();
+                    this.setorInicialPagination.filter = {
+                        ...this.setorInicialPagination.filter,
+                        ...{'unidade.generoSetor.id': `eq:${this.form.get('generoSetor').value.id}`}
+                    };
+                } else {
+                    this.form.get('setorInicial').setValue(null);
+                    this.form.get('setorInicial').disable();
+                }
+            });
+        }
+
         this.form.get('modalidadeFase').disable();
     }
-
 
     /**
      * On change
@@ -392,6 +465,24 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
         this.activeCard = 'setor-gridsearch';
     }
 
+    checkSetorInicial(): void {
+        const value = this.form.get('setorInicial').value;
+        if (!value || typeof value !== 'object') {
+            this.form.get('setorInicial').setValue(null);
+        }
+    }
+
+    selectSetorInicial(unidade: Setor): void {
+        if (unidade) {
+            this.form.get('setorInicial').setValue(unidade);
+        }
+        this.activeCard = 'form';
+    }
+
+    showSetorInicialGrid(): void {
+        this.activeCard = 'setor-inicial-gridsearch';
+    }
+
     cancel(): void {
         this.activeCard = 'form';
     }
@@ -430,4 +521,50 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
         this.activeCard = 'form';
     }
 
+    checkGeneroSetor(): void {
+        const value = this.form.get('generoSetor').value;
+        if (!value || typeof value !== 'object') {
+            this.form.get('generoSetor').setValue(null);
+        }
+    }
+
+    selectGeneroSetor(generoSetor: GeneroSetor): void {
+        if (generoSetor) {
+            this.form.get('generoSetor').setValue(generoSetor);
+        }
+        this.activeCard = 'form';
+    }
+
+    showGeneroSetorGrid(): void {
+        this.activeCard = 'genero-setor-gridsearch';
+    }
+
+    checkEspecieSetor(): void {
+        const value = this.form.get('especieSetor').value;
+        if (!value || typeof value !== 'object') {
+            this.form.get('especieSetor').setValue(null);
+        }
+    }
+
+    selectEspecieSetor(especieSetor: EspecieSetor): void {
+        if (especieSetor) {
+            this.form.get('especieSetor').setValue(especieSetor);
+        }
+        this.activeCard = 'form';
+    }
+
+    showEspecieSetorGrid(): void {
+        this.activeCard = 'especie-setor-gridsearch';
+    }
+
+    selectProcedencia(pessoa: Pessoa): void {
+        if (pessoa) {
+            this.form.get('procedencia').setValue(pessoa);
+        }
+        this.activeCard = 'form';
+    }
+
+    showProcedenciaGrid(): void {
+        this.activeCard = 'procedencia-gridsearch';
+    }
 }

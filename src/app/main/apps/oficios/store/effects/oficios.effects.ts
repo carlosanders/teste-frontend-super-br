@@ -20,6 +20,14 @@ import {Router} from '@angular/router';
 export class OficiosEffects {
     routerState: any;
 
+    /**
+     *
+     * @param _actions
+     * @param _documentoAvulsoService
+     * @param _loginService
+     * @param _store
+     * @param _router
+     */
     constructor(
         private _actions: Actions,
         private _documentoAvulsoService: DocumentoAvulsoService,

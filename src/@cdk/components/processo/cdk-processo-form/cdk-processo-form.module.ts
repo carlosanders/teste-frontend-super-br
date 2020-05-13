@@ -32,6 +32,12 @@ import {CdkProcessoAutocompleteModule} from '../cdk-processo-autocomplete/cdk-pr
 import {CdkProcessoGridsearchModule} from '../cdk-processo-autocomplete/cdk-processo-gridsearch/cdk-processo-gridsearch.module';
 import {MatCardModule} from '@angular/material/card';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {CdkGeneroSetorAutocompleteModule} from '../../genero-setor/cdk-genero-setor-autocomplete/cdk-genero-setor-autocomplete.module';
+import {CdkGeneroSetorGridsearchModule} from '../../genero-setor/cdk-genero-setor-autocomplete/cdk-genero-setor-gridsearch/cdk-genero-setor-gridsearch.module';
+import {CdkEspecieSetorAutocompleteModule} from '../../especie-setor/cdk-especie-setor-autocomplete/cdk-especie-setor-autocomplete.module';
+import {CdkEspecieSetorGridsearchModule} from '../../especie-setor/cdk-especie-setor-autocomplete/cdk-especie-setor-gridsearch/cdk-especie-setor-gridsearch.module';
+import {MatSelectModule} from '@angular/material/select';
+import {CdkPessoaGridsearchModule} from '../../pessoa/cdk-pessoa-autocomplete/cdk-pessoa-gridsearch/cdk-pessoa-gridsearch.module';
 
 @NgModule({
     declarations: [
@@ -69,6 +75,12 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
         CdkProcessoGridsearchModule,
         MatCardModule,
         MatSlideToggleModule,
+        CdkGeneroSetorAutocompleteModule,
+        CdkGeneroSetorGridsearchModule,
+        CdkEspecieSetorAutocompleteModule,
+        CdkEspecieSetorGridsearchModule,
+        MatSelectModule,
+        CdkPessoaGridsearchModule,
     ],
     providers: [],
     exports: [

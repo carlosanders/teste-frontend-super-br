@@ -20,7 +20,7 @@ import {Documento} from '@cdk/models';
 export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
 
     @Input()
-    componenteChamador: String = null;
+    componenteChamador: null;
 
     @Input()
     documentos: Documento[];

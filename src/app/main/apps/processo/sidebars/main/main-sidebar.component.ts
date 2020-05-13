@@ -8,7 +8,7 @@ import * as fromStore from 'app/main/apps/processo/store';
 import {takeUntil} from 'rxjs/operators';
 import {getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
-import {LoginService} from "../../../../auth/login/login.service";
+import {LoginService} from '../../../../auth/login/login.service';
 
 @Component({
     selector: 'processo-main-sidebar',

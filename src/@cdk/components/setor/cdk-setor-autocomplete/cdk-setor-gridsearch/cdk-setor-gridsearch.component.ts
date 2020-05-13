@@ -44,6 +44,9 @@ export class CdkSetorGridsearchComponent implements OnInit {
 
     loading: boolean;
 
+    @Input()
+    displayedColumns: string[] = ['select', 'id', 'nome', 'sigla', 'actions'];
+
     /**
      *
      * @param _changeDetectorRef
