@@ -16,6 +16,7 @@ import * as fromStore from './store';
 import {Pagination} from '@cdk/models';
 import {Usuario} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
+import {Back} from "../../../../../store/actions";
 
 @Component({
     selector: 'repositorio-edit',
@@ -35,6 +36,7 @@ export class RepositorioEditComponent implements OnInit, OnDestroy {
     usuario: Usuario;
 
     modalidadeRepositorioPagination: Pagination;
+    logEntryPagination: Pagination;
 
     /**
      *
@@ -51,6 +53,7 @@ export class RepositorioEditComponent implements OnInit, OnDestroy {
         this.usuario = this._loginService.getUserProfile();
 
         this.modalidadeRepositorioPagination = new Pagination();
+        this.logEntryPagination = new Pagination();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -70,6 +73,7 @@ export class RepositorioEditComponent implements OnInit, OnDestroy {
             this.repositorio = new Repositorio();
             this.repositorio.ativo = true;
         }
+        this.logEntryPagination.filter = {entity: 'SuppCore\\AdministrativoBackend\\Entity\\Repositorio', id: + this.repositorio.id};
     }
 
     /**
@@ -95,7 +99,9 @@ export class RepositorioEditComponent implements OnInit, OnDestroy {
         repositorio.usuario = this.usuario;
 
         this._store.dispatch(new fromStore.SaveRepositorio(repositorio));
-
     }
 
+    doAbort(): void {
+        this._store.dispatch(new Back());
+    }
 }

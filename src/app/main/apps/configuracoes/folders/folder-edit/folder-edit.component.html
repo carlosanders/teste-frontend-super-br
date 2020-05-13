@@ -3,5 +3,6 @@
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
         [modalidadeFolderPagination]="modalidadeFolderPagination"
-        (save)="submit($event)">
+        (save)="submit($event)"
+        (abort)="doAbort()">
 </cdk-folder-form>

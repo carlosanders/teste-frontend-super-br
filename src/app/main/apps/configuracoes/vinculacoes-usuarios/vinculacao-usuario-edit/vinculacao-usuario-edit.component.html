@@ -3,5 +3,7 @@
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
         [usuarioVinculadoPagination]="usuarioVinculadoPagination"
-        (save)="submit($event)">
+        (save)="submit($event)"
+        [logEntryPagination]="logEntryPagination"
+        (abort)="doAbort()">
 </cdk-vinculacao-usuario-form>

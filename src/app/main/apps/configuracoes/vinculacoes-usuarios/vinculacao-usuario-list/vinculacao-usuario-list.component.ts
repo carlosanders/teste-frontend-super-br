@@ -77,6 +77,9 @@ export class VinculacaoUsuarioListComponent implements OnInit {
         }));
     }
 
+    create () : void {
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
+    }
     edit(vinculacaoUsuarioId: number): void {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/') + vinculacaoUsuarioId]);
     }

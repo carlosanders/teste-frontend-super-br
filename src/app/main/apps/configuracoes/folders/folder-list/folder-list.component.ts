@@ -77,6 +77,10 @@ export class FolderListComponent implements OnInit {
         }));
     }
 
+    create () : void {
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
+    }
+
     edit(folderId: number): void {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/') + folderId]);
     }
