@@ -26,6 +26,10 @@ export class VinculacaoRepositorio {
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     setor?: Setor;
 
+    @Type(() => Setor)
+    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    unidade?: Setor;
+
     @Type(() => Usuario)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     usuario?: Usuario;
@@ -70,6 +74,7 @@ export class VinculacaoRepositorio {
         this.repositorio = null;
         this.especieSetor = null;
         this.setor = null;
+        this.unidade = null;
         this.usuario = null;
         this.orgaoCentral = null;
         this.criadoPor = null;

@@ -1,0 +1,176 @@
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    OnDestroy,
+    OnInit,
+    ViewChild,
+    ViewEncapsulation
+} from '@angular/core';
+
+import { cdkAnimations } from '@cdk/animations';
+import { Observable, Subject } from 'rxjs';
+import { select, Store } from '@ngrx/store';
+
+import * as fromStore from './store';
+import { LoginService } from 'app/main/auth/login/login.service';
+import { filter, takeUntil } from 'rxjs/operators';
+import { Documento } from '@cdk/models/documento.model';
+import { getRouterState } from 'app/store/reducers';
+import { Router } from '@angular/router';
+import { Processo, Usuario } from '@cdk/models';
+import { getProcesso } from '../store/selectors';
+
+@Component({
+    selector: 'complementar',
+    templateUrl: './complementar.component.html',
+    styleUrls: ['./complementar.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    animations: cdkAnimations
+})
+
+export class ComplementarComponent implements OnInit, OnDestroy {
+
+    private _unsubscribeAll: Subject<any> = new Subject();
+    private _profile: Usuario;
+
+    processo$: Observable<Processo>;
+    processo: Processo;
+
+    documentos$: Observable<Documento[]>;
+
+    selectedDocumentos$: Observable<Documento[]>;
+    oficios: Documento[] = [];
+    selectedDocumentos: Documento[] = [];
+
+    processoOrigem: number;
+
+    mode: string;
+    tipo = 'complementar';
+    chaveAcesso: any;
+
+    routerState: any;
+    routerState$: Observable<any>;
+
+    @ViewChild('ckdUpload', {static: false})
+    cdkUpload;
+
+    deletingDocumentosId$: Observable<number[]>;
+    assinandoDocumentosId$: Observable<number[]>;
+    convertendoDocumentosId$: Observable<number[]>;
+
+    /**
+     *
+     * @param _store
+     * @param _loginService
+     * @param _router
+     * @param _changeDetectorRef
+     */
+    constructor(
+        private _store: Store<fromStore.ComplementarAppState>,
+        public _loginService: LoginService,
+        private _router: Router,
+        private _changeDetectorRef: ChangeDetectorRef
+    ) {
+        this._profile = this._loginService.getUserProfile();
+        this.processo$ = this._store.pipe(select(getProcesso));
+        this.documentos$ = this._store.pipe(select(fromStore.getDocumentos));
+        this.routerState$ = this._store.pipe(select(getRouterState));
+
+        this.selectedDocumentos$ = this._store.pipe(select(fromStore.getSelectedDocumentos));
+        this.deletingDocumentosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosId));
+        this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
+        this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoDocumentosId));
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Lifecycle hooks
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * On init
+     */
+    ngOnInit(): void {
+        this._store.pipe(
+            select(getRouterState),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(routerState => {
+            if (routerState) {
+                this.routerState = routerState.state;
+            }
+        });
+
+        this.routerState$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(routerState => {
+            this.processoOrigem = routerState.state.params['processoHandle'];
+        });
+
+        this.processo$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(processo => {
+            this.processo = processo;
+        });
+
+        this.documentos$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(
+            documentos => {
+                this.oficios = documentos;
+                this._changeDetectorRef.markForCheck();
+            }
+        );
+
+        this.selectedDocumentos$.pipe(
+            filter(selectedDocumentos => !!selectedDocumentos),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(selectedDocumentos => {
+            this.selectedDocumentos =  selectedDocumentos;
+        });
+    }
+
+    /**
+     * On destroy
+     */
+    ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
+
+    complementarDocumento(): void {
+        this.cdkUpload.upload();
+    }
+
+    changedSelectedIds(selectedIds): void {
+        this._store.dispatch(new fromStore.ChangeSelectedDocumentos(selectedIds));
+    }
+
+    doDelete(documentoId): void {
+        this._store.dispatch(new fromStore.DeleteDocumento(documentoId));
+    }
+
+    doVerResposta(documento): void {
+        this._store.dispatch(new fromStore.ClickedDocumento(documento));
+    }
+
+    doAssinatura(documentoId): void {
+        this._store.dispatch(new fromStore.AssinaDocumento(documentoId));
+    }
+
+    onClicked(documento): void {
+        this._store.dispatch(new fromStore.ClickedDocumento(documento));
+    }
+
+    onComplete(): void {
+        this._store.dispatch(new fromStore.GetDocumentos({'processoOrigem.id': `eq:${this.processo.id}`}));
+    }
+
+    doConverte(documentoId): void {
+        this._store.dispatch(new fromStore.ConverteToPdf(documentoId));
+    }
+}

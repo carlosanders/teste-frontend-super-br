@@ -27,8 +27,8 @@
 
             <button mat-icon-button *ngIf="selectedIds.length > 1 && actions.indexOf('delete') > -1"
                     (click)="deleteTarefa(selectedIds)"
-                    aria-label="remover"
-                    matTooltip="Remover">
+                    aria-label="apagar"
+                    matTooltip="Apagar">
                 <mat-icon>delete</mat-icon>
             </button>
 
@@ -329,8 +329,8 @@
                                 *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(tarefa.id) === -1 && !hasExcluded"
                                 [disabled]="deletedIds?.indexOf(tarefa.id) > -1"
                                 (click)="deleteTarefa(tarefa.id)"
-                                aria-label="remover"
-                                matTooltip="Remover">
+                                aria-label="apagar"
+                                matTooltip="Apagar">
                             <mat-icon>delete</mat-icon>
                         </button>
                     </td>

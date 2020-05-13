@@ -1,0 +1,24 @@
+<div class="full-screen page-layout carded left-sidebar inner-scroll" fxLayout="column">
+
+    <div class="documento-header p-8" fxLayout="row" fxLayoutAlign="start center">
+
+        <div fxFlex="25"></div>
+
+        <div class="ml-32" fxFlex="75" fxLayout="row" fxLayoutAlign="start center">
+            <button [ngStyle]="{'margin-left': 'auto' }" class="mr-8" mat-icon-button
+                    (click)="back()"
+                    aria-label="fechar"
+                    matTooltip="Fechar">
+                <mat-icon>close</mat-icon>
+            </button>
+        </div>
+    </div>
+
+    <!-- CENTER -->
+    <div class="documento-content pr-24 pl-24" fxLayout="column" fxFlex="100">
+        <router-outlet></router-outlet>
+    </div>
+</div>
+
+
+

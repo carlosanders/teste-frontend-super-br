@@ -99,7 +99,6 @@ export * from './usuario.model';
 export * from './vinculacao-documento.model';
 export * from './vinculacao-etiqueta.model';
 export * from './vinculacao-modelo.model';
-export * from './vinculacao-orgao-central-usuario.model';
 export * from './vinculacao-pessoa-usuario.model';
 export * from './vinculacao-processo.model';
 export * from './vinculacao-repositorio.model';

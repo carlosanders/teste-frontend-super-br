@@ -185,6 +185,7 @@ export class CdkComponenteDigitalDocumentoAvulsoCardListComponent implements OnI
                 componenteDigital.tamanho = file.data.size;
                 componenteDigital.documentoOrigem = this.documentoOrigem;
                 componenteDigital.documentoAvulsoOrigem = this.documentoAvulsoOrigem;
+                componenteDigital.processoOrigem = this.processoOrigem;
 
                 this.componentesDigitais.push(componenteDigital);
                 this._changeDetectorRef.markForCheck();

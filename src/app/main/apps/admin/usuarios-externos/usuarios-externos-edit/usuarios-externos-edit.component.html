@@ -1,0 +1,9 @@
+<cdk-usuario-form
+    [usuario]="(usuario$ | async)"
+    [form]="formUsuario"
+    [saving]="(isSaving$ | async)"
+    [errors]="(errors$ | async)"
+    (save)="submitUsuario($event)"
+    (abort)="doAbort()"
+    class="form-user">
+</cdk-usuario-form>

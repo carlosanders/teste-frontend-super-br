@@ -19,11 +19,11 @@
                 (click)="doDeleteDocumentoBloco()">
             <ng-container>
                 <mat-icon>delete</mat-icon>
-                <span>Remover</span>
+                <span>Apagar Minutas</span>
             </ng-container>
         </button>
 
-        <button mat-menu-item aria-label="editar tarefa"
+        <button mat-menu-item aria-label="assinar"
                 (click)="doAssinaturaDocumentoBloco()">
             <ng-container>
                 <mat-icon>lock</mat-icon>
@@ -31,11 +31,19 @@
             </ng-container>
         </button>
 
+        <button mat-menu-item aria-label="remover assinatura"
+                (click)="doRemoveAssinaturaDocumentoBloco()">
+            <ng-container>
+                <mat-icon>lock_open</mat-icon>
+                <span>Remover Assinaturas</span>
+            </ng-container>
+        </button>
+
         <button mat-menu-item aria-label="editar tarefa" *showIfRole="'ROLE_COLABORADOR'"
                 (click)="doConverteDocumentoBloco()">
             <ng-container>
                 <mat-icon>picture_as_pdf</mat-icon>
-                <span>Converter</span>
+                <span>Converter em PDF</span>
             </ng-container>
         </button>
 
@@ -49,10 +57,12 @@
                            [selected]="selectedIds !== undefined && selectedIds.indexOf(documento.id) > -1"
                            [deleting]="deletingId !== undefined && deletingId.indexOf(documento.id) > -1"
                            [assinando]="assinandoId !== undefined && assinandoId.indexOf(documento.id) > -1"
+                           [removendoAssinatura]="removendoAssinaturaId !== undefined && removendoAssinaturaId.indexOf(documento.id) > -1"
                            [convertendo]="convertendoId != undefined && convertendoId.indexOf(documento.id) > -1"
                            (delete)="doDelete($event)"
                            (verResposta)="doVerResposta($event)"
                            (assinatura)="doAssinatura($event)"
+                           (removeAssinatura)="doRemoveAssinatura($event)"
                            (converte)="doConverte($event)"
                            (clicked)="onClick($event)"
                            (changedSelected)="toggleInSelected($event)">

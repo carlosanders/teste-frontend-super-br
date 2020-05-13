@@ -44,6 +44,15 @@ export const navigation: CdkNavigation[] = [
                 role: 'ROLE_CONVENIADO'
             },
             {
+                id: 'protocolo-externo',
+                title: 'Protocolo',
+                translate: 'NAV.PROTOCOLO_EXTERNO.TITLE',
+                type: 'item',
+                icon: 'check_box',
+                url: '/apps/protocolo-externo/meus-processos/entrada',
+                role: 'ROLE_CONVENIADO'
+            },
+            {
                 id: 'protocolo',
                 title: 'Protocolo',
                 translate: 'NAV.PROTOCOLO.TITLE',
@@ -78,15 +87,6 @@ export const navigation: CdkNavigation[] = [
         translate: 'NAV.MODULES',
         type: 'group',
         children: [
-            {
-                id: 'super-admin',
-                title: 'SuperAdmin',
-                translate: 'NAV.SUPERADMIN.TITLE',
-                type: 'item',
-                icon: 'settings_applications',
-                url: '/apps/super-admin',
-                role: 'ROLE_ROOT'
-            },
             {
                 id: 'admin',
                 title: 'Admin',

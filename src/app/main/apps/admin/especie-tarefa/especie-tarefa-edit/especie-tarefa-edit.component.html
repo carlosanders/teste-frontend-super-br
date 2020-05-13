@@ -1,0 +1,9 @@
+<cdk-especie-tarefa-form
+    [especieTarefa]="(especieTarefa$ | async)"
+    [form]="formEspecieTarefa"
+    [generoTarefaPagination]="generoTarefaPagination"
+    [saving]="(isSaving$ | async)"
+    [errors]="(errors$ | async)"
+    (save)="submitEspecieTarefa($event)"
+    (abort)="doAbort()">
+</cdk-especie-tarefa-form>

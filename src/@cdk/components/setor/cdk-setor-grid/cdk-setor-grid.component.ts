@@ -451,4 +451,5 @@ export class CdkSetorGridComponent implements AfterViewInit, OnInit, OnChanges {
     doCancel(): void {
         this.cancel.emit();
     }
+
 }

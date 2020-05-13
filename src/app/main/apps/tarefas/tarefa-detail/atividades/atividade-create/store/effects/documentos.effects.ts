@@ -7,16 +7,14 @@ import {catchError, mergeMap, map, tap, switchMap} from 'rxjs/operators';
 import * as AtividadeCreateDocumentosActions
     from 'app/main/apps/tarefas/tarefa-detail/atividades/atividade-create/store/actions/documentos.actions';
 
-import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
+import {AddData} from '@cdk/ngrx-normalizr';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {Documento} from '@cdk/models';
 import {DocumentoService} from '@cdk/services/documento.service';
 import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
-import {componenteDigital as componenteDigitalSchema} from '@cdk/normalizr/componente-digital.schema';
 import {Router} from '@angular/router';
 import {environment} from 'environments/environment';
-import {ComponenteDigital} from '@cdk/models';
 
 @Injectable()
 export class AtividadeCreateDocumentosEffect {
@@ -136,6 +134,27 @@ export class AtividadeCreateDocumentosEffect {
                                 catchError((err, caught) => {
                                     console.log(err);
                                     this._store.dispatch(new AtividadeCreateDocumentosActions.AssinaDocumentoFailed(err));
+                                    return caught;
+                                })
+                            );
+                    }
+                ));
+
+    @Effect()
+    removeAssinaturaDocumento: any =
+        this._actions
+            .pipe(
+                ofType<AtividadeCreateDocumentosActions.RemoveAssinaturaDocumento>(AtividadeCreateDocumentosActions.REMOVE_ASSINATURA_DOCUMENTO),
+                mergeMap((action) => {
+                        return this._documentoService.removeAssinatura(action.payload)
+                            .pipe(
+                                mergeMap((response) => [
+                                    new AtividadeCreateDocumentosActions.RemoveAssinaturaDocumentoSuccess(action.payload),
+                                    new AtividadeCreateDocumentosActions.GetDocumentos(),
+                                ]),
+                                catchError((err, caught) => {
+                                    console.log(err);
+                                    this._store.dispatch(new AtividadeCreateDocumentosActions.RemoveAssinaturaDocumentoFailed(action.payload));
                                     return caught;
                                 })
                             );

@@ -280,7 +280,7 @@ export class CdkNumeroUnicoDocumentoGridComponent implements AfterViewInit, OnIn
         this.delete.emit(numeroUnicoDocumentoId);
     }
 
-    deleteLotacoes(numerosUnicosDocumentoId): void {
+    deleteNumerosUnicosDocumentos(numerosUnicosDocumentoId): void {
         numerosUnicosDocumentoId.forEach(numeroUnicoDocumentoId => this.deleteNumeroUnicoDocumento(numeroUnicoDocumentoId));
     }
 

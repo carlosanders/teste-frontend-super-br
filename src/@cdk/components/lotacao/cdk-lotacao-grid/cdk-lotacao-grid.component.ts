@@ -368,11 +368,11 @@ export class CdkLotacaoGridComponent implements AfterViewInit, OnInit, OnChanges
         this.loadPage();
     }
 
-    doCreate(): void {
-        this.create.emit();
-    }
-
     doCancel(): void {
         this.cancel.emit();
+    }
+
+    doCreate(): void {
+        this.create.emit();
     }
 }

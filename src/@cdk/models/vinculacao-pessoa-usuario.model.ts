@@ -11,19 +11,13 @@ export class VinculacaoPessoaUsuario {
     @Exclude({ toPlainOnly: true })
     uuid?: string;
 
-    @Type(() => Usuario)
-    @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    usuario: Usuario;
-
     @Type(() => Pessoa)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     pessoa: Pessoa;
 
-    /*@Type(() => Usuario)
+    @Type(() => Usuario)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     usuarioVinculado: Usuario;
-
-    encerraTarefa?: boolean;*/
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)
@@ -58,10 +52,8 @@ export class VinculacaoPessoaUsuario {
     constructor() {
         this.id = null;
         this.uuid = null;
-        this.usuario = null;
         this.pessoa = null;
-        /*this.usuarioVinculado = null;
-        this.encerraTarefa = null;*/
+        this.usuarioVinculado = null;
         this.criadoPor = null;
         this.criadoEm = null;
         this.atualizadoPor = null;

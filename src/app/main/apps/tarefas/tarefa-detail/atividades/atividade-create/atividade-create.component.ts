@@ -60,6 +60,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy {
     deletingDocumentosId$: Observable<number[]>;
     assinandoDocumentosId$: Observable<number[]>;
     assinandoDocumentosId: number[] = [];
+    removendoAssinaturaDocumentosId$: Observable<number[]>;
     convertendoDocumentosId$: Observable<number[]>;
     javaWebStartOK = false;
 
@@ -67,7 +68,6 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy {
     cdkUpload;
 
     /**
-     *
      * @param _store
      * @param _loginService
      * @param _router
@@ -88,6 +88,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy {
         this.selectedDocumentos$ = this._store.pipe(select(fromStore.getSelectedDocumentos));
         this.deletingDocumentosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosId));
         this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
+        this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(fromStore.getRemovendoAssinaturaDocumentosId));
         this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoDocumentosId));
     }
 
@@ -239,6 +240,10 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy {
 
     doAssinatura(documentoId): void {
         this._store.dispatch(new fromStore.AssinaDocumento(documentoId));
+    }
+
+    doRemoveAssinatura(documentoId): void {
+        this._store.dispatch(new fromStore.RemoveAssinaturaDocumento(documentoId));
     }
 
     onClicked(documento): void {
