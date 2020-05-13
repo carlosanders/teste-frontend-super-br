@@ -36,6 +36,10 @@
                     #generoTarefa="generoTarefaAutocomplete"
                     [control]="form.get('generoTarefa')">
                 </cdk-genero-tarefa-autocomplete>
+                <button matSuffix mat-button mat-icon-button
+                        (click)="showGeneroTarefaGrid()">
+                    <mat-icon matTooltip="Procurar">search</mat-icon>
+                </button>
             </mat-form-field>
 
             <mat-checkbox formControlName="ativo"
@@ -64,3 +68,11 @@
         </div>
     </form>
 </div>
+
+<cdk-especie-tarefa-gridsearch
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'genero-tarefa-gridsearch'"
+    [pagination]="generoTarefaPagination"
+    (selected)="selectGeneroTarefa($event)"
+    (cancel)="cancel()">
+</cdk-especie-tarefa-gridsearch>

@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {RouterModule} from '@angular/router';
 
-import { CdkSharedModule } from '@cdk/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 
 const routes = [ 
     {
@@ -11,10 +11,6 @@ const routes = [
     {
         path        : 'admin',
         loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule)
-    },
-    {
-        path        : 'super-admin',
-        loadChildren: () => import('./super-admin/super-admin.module').then(m => m.SuperAdminModule)
     },
     {
         path        : 'arquivista',
