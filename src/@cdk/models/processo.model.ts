@@ -1,6 +1,6 @@
 import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
-import {Lembrete} from '@cdk/models';
+import {Interessado, Lembrete} from '@cdk/models';
 import {Usuario} from '@cdk/models';
 import {EspecieProcesso} from '@cdk/models';
 import {Setor} from '@cdk/models';
@@ -14,8 +14,7 @@ import {Pessoa} from '@cdk/models';
 import {Localizador} from '@cdk/models';
 import {OrigemDados} from '@cdk/models';
 import {VinculacaoEtiqueta} from './vinculacao-etiqueta.model';
-
-import {Assunto} from '@cdk/models/assunto.model';
+import { Assunto } from '@cdk/models/assunto.model';
 
 export class Processo {
 
@@ -61,7 +60,11 @@ export class Processo {
 
     outroNumero?: string;
 
-    @Exclude({toPlainOnly: true})
+    requerimento?: string;
+
+    protocoloEletronico?: boolean;
+
+    @Exclude({ toPlainOnly: true })
     chaveAcesso?: string;
 
     @Exclude({toPlainOnly: true})
@@ -93,7 +96,6 @@ export class Processo {
     @Transform(value => value ? value.id : null, {toPlainOnly: true})
     setorAtual?: Setor;
 
-    @Exclude({toPlainOnly: true})
     @Type(() => Setor)
     @Transform(value => value ? value.id : null, {toPlainOnly: true})
     setorInicial?: Setor;
@@ -106,6 +108,10 @@ export class Processo {
     @Transform(value => value ? value.format() : null, {toPlainOnly: true})
     @Transform(value => value ? moment(value) : null, {toClassOnly: true})
     dataHoraProximaTransicao?: Date;
+
+    @Transform(value => value ? value.format() : null, { toPlainOnly: true })
+    @Transform(value => value ? moment(value) : null, { toClassOnly: true })
+    dataHoraPrazoResposta?: Date;
 
     @Type(() => ModalidadeFase)
     @Transform(value => value ? value.id : null, {toPlainOnly: true})
@@ -161,6 +167,11 @@ export class Processo {
     @Type(() => Assunto)
     assuntos: Assunto[];
 
+    @Exclude({toPlainOnly: true})
+    @Type(() => Interessado)
+    interessados: Interessado[];
+
+
     constructor() {
         this.id = null;
         this.processoOrigem = null;
@@ -177,6 +188,7 @@ export class Processo {
         this.acessoNegado = null;
         this.acessoRestrito = null;
         this.dataHoraProximaTransicao = null;
+        this.dataHoraPrazoResposta = null;
         this.titulo = null;
         this.outroNumero = null;
         this.chaveAcesso = null;
@@ -198,5 +210,8 @@ export class Processo {
         this.apagadoEm = null;
         this.vinculacoesEtiquetas = null;
         this.assuntos = [];
+        this.interessados = [];
+        this.requerimento = null;
+        this.protocoloEletronico = null;
     }
 }

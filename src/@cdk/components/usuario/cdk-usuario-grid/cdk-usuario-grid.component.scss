@@ -10,19 +10,34 @@ cdk-usuario-grid {
         .mat-select-value {
             display: none !important;
         }
-
     }
 
-    .mat-column-select {
-        overflow: initial;
-    }
-
-    table {
+    .content {
         width: 100%;
 
-        td {
-            &.deleted {
-                text-decoration: line-through;
+        .actions {
+            width: 100%;
+
+            .back {
+                margin-right: auto;
+            }
+        }
+
+        .mat-column-select {
+            overflow: initial;
+        }
+
+        table {
+            width: 100%;
+
+            tr {
+                height: auto;
+            }
+
+            td {
+                &.deleted {
+                    text-decoration: line-through;
+                }
             }
         }
     }
@@ -102,18 +117,6 @@ cdk-usuario-grid {
 
         .mat-paginator {
             margin-top: 24px;
-        }
-    }
-
-    .content {
-        width: 100%;
-
-        .actions {
-            width: 100%;
-
-            .back {
-                margin-right: auto;
-            }
         }
     }
 }

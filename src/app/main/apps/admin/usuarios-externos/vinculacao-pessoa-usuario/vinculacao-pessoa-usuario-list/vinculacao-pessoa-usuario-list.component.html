@@ -1,0 +1,15 @@
+<cdk-vinculacao-pessoa-usuario-grid
+    [mode]="'search'"
+    [loading]="(loading$ | async)"
+    [pessoas]="(pessoas$ | async)"
+    [total]="(pagination$ | async)?.total"
+    [pageSize]="(pagination$ | async)?.limit"
+    [deletingIds]="(deletingIds$ | async)"
+    [deletedIds]="(deletedIds$ | async)"
+    [actions]="['delete', 'select', 'create']"
+    (reload)="reload($event)"
+    (selected)="doSelect($event)"
+    (delete)="delete($event)"
+    (create)="create()">
+</cdk-vinculacao-pessoa-usuario-grid>
+

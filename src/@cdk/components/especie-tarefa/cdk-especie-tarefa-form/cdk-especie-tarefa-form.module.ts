@@ -10,6 +10,9 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {CdkGeneroTarefaAutocompleteModule} from '../../genero-tarefa/cdk-genero-tarefa-autocomplete/cdk-genero-tarefa-autocomplete.module';
+import {CdkEspecieTarefaGridsearchModule} from '../cdk-especie-tarefa-autocomplete/cdk-especie-tarefa-gridsearch/cdk-especie-tarefa-gridsearch.module';
+import {MatIconModule} from '@angular/material/icon';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 
 
@@ -28,7 +31,10 @@ import {CdkGeneroTarefaAutocompleteModule} from '../../genero-tarefa/cdk-genero-
         MatButtonModule,
         MatProgressSpinnerModule,
         MatAutocompleteModule,
-        CdkGeneroTarefaAutocompleteModule
+        CdkGeneroTarefaAutocompleteModule,
+        CdkEspecieTarefaGridsearchModule,
+        MatIconModule,
+        MatTooltipModule
     ]
 })
 export class CdkEspecieTarefaFormModule { }

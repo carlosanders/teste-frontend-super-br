@@ -1,0 +1,9 @@
+<cdk-vinculacao-pessoa-usuario-grid
+        [loading]="loading"
+        [vinculacoesPessoasUsuarios]="vinculacoesPessoasUsuarios"
+        [total]="total"
+        [actions]="['select', 'cancel']"
+        (selected)="select($event)"
+        (cancel)="doCancel()"
+        (reload)="reload($event)">
+</cdk-vinculacao-pessoa-usuario-grid>

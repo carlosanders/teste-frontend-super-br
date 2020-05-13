@@ -122,12 +122,12 @@
                                 [prontoTransicao]="prontoTransicao"
                                 (realizarTransicao)="doRealizarTransicao($event)"
                                 (toggleInSelectedProcessos)="toggleInSelected($event)"
-
-
-                                [ngClass]="{'selected':processo.id === currentProcessoId}">
+                                [ngClass]="{'selected':processo.id === currentProcessoId}"
+                                (loadInteressados)="doLoadInteressados($event)"
+                                [loadingInteressadosProcessosId]="loadingInteressadosProcessosId"
+                                (loadAssuntos)="doLoadAssuntos($event)"
+                                [loadingAssuntosProcessosId]="loadingAssuntosProcessosId">
         </cdk-processo-list-item>
 
     </div>
-
-
 </div>

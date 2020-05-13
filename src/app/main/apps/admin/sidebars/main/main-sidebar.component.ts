@@ -1,10 +1,9 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {LoginService} from "../../../../auth/login/login.service";
-import {Colaborador} from "@cdk/models";
-import {Setor} from "@cdk/models";
-import {Lotacao} from "@cdk/models";
+import {Colaborador} from '@cdk/models';
+import {LoginService} from '../../../../auth/login/login.service';
+
 
 @Component({
     selector: 'admin-main-sidebar',
@@ -14,12 +13,10 @@ import {Lotacao} from "@cdk/models";
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class AdminMainSidebarComponent implements OnInit, OnDestroy {
+export class MainSidebarComponent implements OnInit, OnDestroy {
 
     links: any;
     colaborador: Colaborador;
-    unidades: Setor[] = [];
-
     /**
      * Constructor
      */
@@ -29,22 +26,31 @@ export class AdminMainSidebarComponent implements OnInit, OnDestroy {
 
         this.colaborador = this._loginService.getUserProfile().colaborador;
 
-        this.colaborador.lotacoes.forEach((lotacao: Lotacao) => {
-            if (!this.unidades.includes(lotacao.setor.unidade)) {
-                this.unidades.push(lotacao.setor.unidade);
-            }
-        });
-
         this.links = [
             {
-                nome: 'Setores',
-                icon: 'domain',
-                link: 'setor'
+                nome: 'Tarefas',
+                icon: 'check_box',
+                link: 'tarefas'
             },
             {
-                nome: 'Usuários',
+                nome: 'Atividades',
+                icon: 'local_activity',
+                link: 'atividades'
+            },
+            {
+                nome: 'Unidades',
+                icon: 'location_city',
+                link: 'unidades'
+            },
+            {
+                nome: 'Externos',
                 icon: 'person',
-                link: 'usuario'
+                link: 'externos'
+            },
+            {
+                nome: 'Relevâncias',
+                icon: 'new_releases',
+                link: 'relevancias'
             }
         ];
     }
