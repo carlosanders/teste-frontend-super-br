@@ -7,10 +7,9 @@
         [displayedColumns]="colunas"
         [actions]="actions"
         (reload)="reload($event)"
+        (create)="create()"
         (edit)="edit($event)"
         (especie)="especieSetores($event)"
         (editConteudo)="editConteudo($event)"
         (delete)="delete($event)">
 </cdk-repositorio-grid>
-
-<router-outlet></router-outlet>

@@ -91,6 +91,11 @@ export class CdkModeloGridComponent implements AfterViewInit, OnInit, OnChanges 
             fixed: false
         },
         {
+            id: 'vinculacoesModelos.unidade.nome',
+            label: 'Unidade',
+            fixed: false
+        },
+        {
             id: 'vinculacaoModelo.orgaoCentral.valor',
             label: 'Órgão Central',
             fixed: false

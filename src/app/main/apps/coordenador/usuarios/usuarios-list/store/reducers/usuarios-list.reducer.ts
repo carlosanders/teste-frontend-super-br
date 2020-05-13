@@ -82,6 +82,36 @@ export function UsuariosListReducer(
             };
         }
 
+        case UsuariosListActions.RELOAD_USUARIOS: {
+            return {
+                ...state,
+                loading: false,
+                loaded: false
+            };
+        }
+
+        case UsuariosListActions.DELETE_USUARIO: {
+            return {
+                ...state,
+                deletingIds: [...state.deletingIds, action.payload]
+            };
+        }
+
+        case UsuariosListActions.DELETE_USUARIO_SUCCESS: {
+            return {
+                ...state,
+                deletingIds: state.deletingIds.filter(id => id !== action.payload),
+                deletedIds: [...state.deletedIds, action.payload]
+            };
+        }
+
+        case UsuariosListActions.DELETE_USUARIO_FAILED: {
+            return {
+                ...state,
+                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+            };
+        }
+
         default:
             return state;
     }

@@ -91,6 +91,11 @@ export class CdkRepositorioGridComponent implements AfterViewInit, OnInit, OnCha
             fixed: false
         },
         {
+            id: 'vinculacoesRepositorios.unidade.nome',
+            label: 'Unidade',
+            fixed: false
+        },
+        {
             id: 'vinculacoesRepositorios.orgaoCentral.valor',
             label: 'Órgão Central',
             fixed: false

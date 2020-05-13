@@ -6,9 +6,10 @@
     [deletedIds]="(deletedIds$ | async)"
     [orgaoCentralPagination]="orgaoCentralPagination"
     [repositorioPagination]="repositorioPagination"
-    [actions]="['edit', 'delete']"
+    [actions]="['edit', 'create', 'delete']"
     [displayedColumns]="['id', 'repositorio.nome', 'especieSetor.nome', 'orgaoCentral.valor', 'actions']"
     (reload)="reload($event)"
+    (create)="create()"
     (edit)="edit($event)"
     (delete)="delete($event)">
 </cdk-vinculacao-repositorio-grid>

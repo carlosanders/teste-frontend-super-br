@@ -57,12 +57,17 @@ export class RepositoriosListComponent implements OnInit {
                 if (routerState) {
                     this.routerState = routerState.state;
 
-                    if (this.routerState.params['generoHandle'] === 'local') {
-                        this.actions = ['edit', 'editConteudo', 'delete'];
+                    if (this.routerState.params['generoHandle'] === 'local' || this.routerState.params['setorHandle']) {
+                        this.actions = ['edit', 'create', 'editConteudo', 'delete'];
                         this.colunas = ['select', 'id', 'nome', 'descricao', 'modalidadeRepositorio.valor', 'vinculacoesRepositorios.setor.nome', 'ativo', 'actions'];
                     }
-                    if (this.routerState.params['generoHandle'] === 'nacional') {
-                        this.actions = ['edit', 'editConteudo', 'especie', 'delete'];
+                    if (this.routerState.params['generoHandle'] === 'unidade' && !this.routerState.params['setorHandle'] ||
+                        (this.routerState.params['unidadeHandle'] && !this.routerState.params['setorHandle'])) {
+                        this.actions = ['edit', 'create', 'editConteudo', 'delete'];
+                        this.colunas = ['select', 'id', 'nome', 'descricao', 'modalidadeRepositorio.valor', 'vinculacoesRepositorios.unidade.nome', 'ativo', 'actions'];
+                    }
+                    if (this.routerState.params['generoHandle'] === 'nacional' && !this.routerState.params['unidadeHandle']) {
+                        this.actions = ['edit', 'create', 'editConteudo', 'especie', 'delete'];
                         this.colunas = ['select', 'id', 'nome', 'descricao', 'modalidadeRepositorio.valor', 'vinculacoesRepositorios.orgaoCentral.valor', 'ativo', 'actions'];
                     }
                 }
@@ -88,6 +93,10 @@ export class RepositoriosListComponent implements OnInit {
             populate: this.pagination.populate,
             context: this.pagination.context
         }));
+    }
+
+    create() : void {
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
     }
 
     edit(repositorioId: number): void {

@@ -16,7 +16,8 @@ import {Pagination} from '@cdk/models/pagination';
 import {VinculacaoModelo, Modelo, ModalidadeOrgaoCentral} from '@cdk/models';
 import {Router} from '@angular/router';
 import {getRouterState} from 'app/store/reducers';
-import {takeUntil} from "rxjs/operators";
+import {takeUntil} from 'rxjs/operators';
+import {Back} from 'app/store/actions';
 
 @Component({
     selector: 'modelos-especie-setor-edit',
@@ -129,6 +130,10 @@ export class ModelosEspecieSetorEditComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
+
+    doAbort(): void {
+        this._store.dispatch(new Back());
+    }
 
     submit(values): void {
 
