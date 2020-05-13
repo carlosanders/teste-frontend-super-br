@@ -30,7 +30,7 @@ export class LoginEffects {
                                 }),
                                 catchError((error) => {
                                     let msg = 'Sistema indisponível, tente mais tarde!';
-                                    if (error && error.status && error.status === 401) {
+                                    if (error && error.error && error.error.code && error.error.code === 401) {
                                         msg = 'Dados incorretos!';
                                     }
                                     return of(new LoginActions.LoginFailure({error: msg}));

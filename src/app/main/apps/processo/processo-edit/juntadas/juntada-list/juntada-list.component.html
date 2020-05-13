@@ -1,12 +1,25 @@
+<div fxLayout="row">
+    <button mat-mini-fab
+            class="m-4 active accent"
+            (click)="upload()">
+        <mat-icon class="secondary-text">attach_file</mat-icon>
+    </button>
+
+    <cdk-componente-digital-card-list #ckdUpload
+                                      [processoOrigem]="processo"
+                                      (complete)="onComplete()">
+    </cdk-componente-digital-card-list>
+</div>
+
 <cdk-juntada-grid
-        [loading]="(loading$ | async)"
-        [juntadas]="(juntadas$ | async)"
-        [total]="(pagination$ | async)?.total"
-        [actions]="['desentranhar', 'copiar','edit']"
-        (reload)="reload($event)"
-        (copiar)="copiar($event)"
-        (edit)="editar($event)"
-        (desentranhar)="desentranhar($event)">
+    [loading]="(loading$ | async)"
+    [juntadas]="(juntadas$ | async)"
+    [total]="(pagination$ | async)?.total"
+    [actions]="['desentranhar', 'copiar', 'edit']"
+    (reload)="reload($event)"
+    (copiar)="copiar($event)"
+    (edit)="editar($event)"
+    (desentranhar)="desentranhar($event)">
 </cdk-juntada-grid>
 
 <router-outlet></router-outlet>

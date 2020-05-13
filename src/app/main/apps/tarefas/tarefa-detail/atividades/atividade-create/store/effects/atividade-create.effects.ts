@@ -15,7 +15,6 @@ import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {DeleteTarefaSuccess} from '../../../../../store/actions';
-import * as fromStore from '../index';
 
 @Injectable()
 export class AtividadeCreateEffect {

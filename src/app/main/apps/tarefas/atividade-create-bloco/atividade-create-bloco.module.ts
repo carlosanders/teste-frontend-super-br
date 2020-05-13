@@ -28,6 +28,7 @@ import {DocumentoService} from '@cdk/services/documento.service';
 import {CdkDocumentoCardListModule} from '@cdk/components/documento/cdk-documento-card-list/cdk-documento-card-list.module';
 import {MatCardModule} from '@angular/material/card';
 import {PipesModule} from '@cdk/pipes/pipes.module';
+import * as fromGuards from './store/guards';
 
 const routes: Routes = [
     {
@@ -38,7 +39,8 @@ const routes: Routes = [
                 path       : 'documento',
                 loadChildren: () => import('app/main/apps/documento/documento.module').then(m => m.DocumentoModule),
             }
-        ],        
+        ],
+        canActivate: [fromGuards.ResolveGuard]
     }
 ];
 
@@ -81,6 +83,7 @@ const routes: Routes = [
         AtividadeService,
         DocumentoService,
         LoginService,
+        fromGuards.ResolveGuard
     ]
 })
 export class AtividadeCreateBlocoModule {
