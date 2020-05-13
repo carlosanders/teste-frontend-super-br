@@ -1,7 +1,7 @@
 <div class="page-layout left-sidebar" fxFlex>
 
     <!-- SIDEBAR -->
-    <cdk-sidebar class="sidebar" name="cdk-favorito-filter" position="left">
+    <cdk-sidebar name="cdk-favorito-filter" position="left">
         <cdk-favorito-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-favorito-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
@@ -252,7 +252,6 @@
                                 (click)="salvarFavorito(favorito)"
                                 aria-label="favorito"
                                 matTooltip="Favorito">
-
                             <mat-icon class="amber-fg">star</mat-icon>
                         </button>
                     </td>

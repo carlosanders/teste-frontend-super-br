@@ -33,6 +33,9 @@ export class CdkAcaoListComponent implements AfterViewInit, OnInit, OnChanges {
     @Output()
     delete = new EventEmitter<number>();
 
+    @Output()
+    create = new EventEmitter<any>();
+
     /**
      * Constructor
      */
@@ -59,5 +62,9 @@ export class CdkAcaoListComponent implements AfterViewInit, OnInit, OnChanges {
 
     doDeleteacao(acaoId): void {
         this.delete.emit(acaoId);
+    }
+
+    doCreate(): void {
+        this.create.emit();
     }
 }

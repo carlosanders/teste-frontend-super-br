@@ -138,4 +138,8 @@ export class FavoritoEspecieAtividadeListComponent implements OnInit, OnDestroy 
             valor: valor
         }));
     }
+
+    create () : void {
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
+    }
 }

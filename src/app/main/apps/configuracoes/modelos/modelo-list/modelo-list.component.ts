@@ -79,6 +79,10 @@ export class ModeloListComponent implements OnInit {
         }));
     }
 
+    create () : void {
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
+    }
+
     edit(modeloId: number): void {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/') + modeloId]);
     }

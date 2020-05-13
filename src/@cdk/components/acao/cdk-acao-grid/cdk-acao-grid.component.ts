@@ -42,9 +42,9 @@ export class CdkAcaoGridComponent implements AfterViewInit, OnInit, OnChanges {
     @Input()
     mode = 'list';
 
-
     @Output()
     create = new EventEmitter<any>();
+
     @Input()
     displayedColumns: string[] = ['select', 'id', 'contexto', 'trigger', 'etiqueta.nome', 'actions'];
 

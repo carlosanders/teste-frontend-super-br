@@ -14,10 +14,6 @@
             <mat-form-field fxFlex="100">
                 <div fxLayout="row" fxLayoutAlign="start center">
                     <input matInput placeholder="Nome" formControlName="nome" maxlength="255" required upperCase>
-                    <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-                            (click)="showLogEntryGrid('nome')">
-                        <mat-icon matTooltip="Histórico">history</mat-icon>
-                    </button>
                 </div>
             </mat-form-field>
 
