@@ -9,7 +9,7 @@ export class CdkUtils
      */
     public static filterArrayByString(mainArr, searchText): any
     {
-        if ( searchText === '' )
+        if ( !searchText )
         {
             return mainArr;
         }

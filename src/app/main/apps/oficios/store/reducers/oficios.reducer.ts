@@ -46,6 +46,25 @@ export const DocumentosAvulsoInitialState: DocumentosAvulsoState = {
 export function OficiosReducer(state = DocumentosAvulsoInitialState, action: DocumentosAvulsoActions.DocumentosAvulsoActionsAll): DocumentosAvulsoState {
     switch (action.type) {
 
+        case DocumentosAvulsoActions.UNLOAD_DOCUMENTOS_AVULSO: {
+            if (action.payload.reset) {
+                return {
+                    ...DocumentosAvulsoInitialState
+                };
+            } else {
+                return {
+                    ...state,
+                    entitiesId: [],
+                    pagination: {
+                        ...state.pagination,
+                        limit: 10,
+                        offset: 0,
+                        total: 0
+                    }
+                };
+            }
+        }
+
         case DocumentosAvulsoActions.GET_DOCUMENTOS_AVULSO: {
             return {
                 ...state,

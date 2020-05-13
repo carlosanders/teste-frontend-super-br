@@ -6,7 +6,7 @@ import {Documento} from '@cdk/models';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass} from 'class-transformer';
 import {environment} from 'environments/environment';
-import {Visibilidade} from '../models/visibilidade.model';
+import {Visibilidade} from '@cdk/models';
 import { ComponenteDigital } from '@cdk/models';
 
 import {ParentGenericService} from './parent-generic.service';
@@ -29,8 +29,14 @@ export class DocumentoService extends ParentGenericService<Documento> {
         return this.http.get(`${environment.api_url}${'documento'}` + '/prepara_assinatura' + environment.xdebug, {params});
     }
 
+    removeAssinatura(documentosId: number, context: any = '{}'): any {
+        const params: HttpParams = new HttpParams();
+        params['context'] = context;
+        return this.http.delete(`${environment.api_url}${'documento'}/${documentosId}/delete_assinatura` + environment.xdebug, {params});
+    }
+
     getVisibilidade(id: number, context: any = '{}'): Observable<any> {
-        const params: HttpParams = new HttpParams()
+        const params: HttpParams = new HttpParams();
         params['context'] = context;
         return this.http.get(`${environment.api_url}${'documento'}/${id}/visibilidade` + environment.xdebug, {params})
             .pipe(
@@ -39,7 +45,7 @@ export class DocumentoService extends ParentGenericService<Documento> {
     }
 
     createVisibilidade(documentosId: number, visibilidade: Visibilidade, context: any = '{}'): Observable<Visibilidade> {
-        const params: HttpParams = new HttpParams()
+        const params: HttpParams = new HttpParams();
         params['context'] = context;
         return this.http.put(
             `${environment.api_url}${'documento'}/${documentosId}/${'visibilidade'}` + environment.xdebug,
@@ -51,7 +57,7 @@ export class DocumentoService extends ParentGenericService<Documento> {
     }
 
     destroyVisibilidade(documentosId: number, visibilidadeId: number, context: any = '{}'): Observable<any> {
-        const params: HttpParams = new HttpParams()
+        const params: HttpParams = new HttpParams();
         params['context'] = context;
         return this.http.delete(
             `${environment.api_url}${'documento'}/${documentosId}/${'visibilidade'}/${visibilidadeId}` + environment.xdebug,
@@ -59,12 +65,14 @@ export class DocumentoService extends ParentGenericService<Documento> {
         );
     }
 
-    /**SERVICE DE COMPONENTE DIGITAL NO LUGAR ERRADO. VER SE CONSEGUE MUDAR. */
+    /**
+     * SERVICE DE COMPONENTE DIGITAL NO LUGAR ERRADO. VER SE CONSEGUE MUDAR.
+     */
     preparaConverter(documentoId: number, changes: any, context: any = '{}'): Observable<any> {
-        const params: HttpParams = new HttpParams()
+        const params: HttpParams = new HttpParams();
         params['context'] = context;
         return this.http.patch(
-            `${environment.api_url}${'componente_digital'}/${documentoId}/${'convertToPdf'}`+ environment.xdebug,
+            `${environment.api_url}${'componente_digital'}/${documentoId}/${'convertToPdf'}` + environment.xdebug,
             JSON.stringify(changes),
             {params}
         )

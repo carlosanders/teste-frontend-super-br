@@ -11,6 +11,17 @@ cdk-tarefa-form {
         @include mat-elevation(1);
     }
 
+    .dates {
+        @include mat-elevation(1);
+        margin-bottom: 16px;
+        .dias-input {
+            width: 100px;
+        }
+        .canto {
+            margin-left: auto;
+        }
+    }
+
     .form-card {
         border-radius: 8px;
     }
@@ -21,6 +32,14 @@ cdk-tarefa-form {
         code {
             background: none !important;
         }
+    }
+
+    .prazoDias {
+        display: flex;
+        align-content: center;
+        align-items: center;
+        height: auto;
+        padding: 5px;
     }
 
     .align-icon {

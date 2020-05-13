@@ -50,12 +50,30 @@ export class CdkProcessoListItemComponent implements OnInit {
     @Output()
     classificacao = new EventEmitter<any>();
 
-
-
     @Output()
     salvarLembrete = new EventEmitter<any>();
 
+    @Output()
+    codProcesso = new EventEmitter<any>();
 
+    @Output()
+    codProcessoInteressado = new EventEmitter<any>();
+
+    @Output()
+    loadAssuntos = new EventEmitter<any>();
+
+    @Input()
+    loadingAssuntosProcessosId: number[];
+
+    @Output()
+    loadInteressados = new EventEmitter<any>();
+
+    @Input()
+    loadingInteressadosProcessosId: number[];
+
+    isOpen: boolean;
+    loadedAssuntos: boolean;
+    loadedInteressados: boolean;
 
     draggable = {
         // note that data is handled with JSON.stringify/JSON.parse
@@ -68,6 +86,9 @@ export class CdkProcessoListItemComponent implements OnInit {
     panelOpenState: boolean;
 
     constructor() {
+        this.isOpen = false;
+        this.loadedAssuntos = false;
+        this.loadedInteressados = false;
         this.deleting = false;
         this.editantoLembrete = false;
     }
@@ -77,8 +98,17 @@ export class CdkProcessoListItemComponent implements OnInit {
      */
     ngOnInit(): void {
         this.draggable.data = this.processo;
-    }
 
+        if (this.processo?.assuntos?.length > 0){
+            this.isOpen = true;
+            this.loadedAssuntos = true;
+        }
+
+        if (this.processo?.interessados?.length > 0){
+            this.isOpen = true;
+            this.loadedInteressados = true;
+        }
+    }
 
     onSelectedChange(): void {
         this.toggleInSelectedProcessos.emit(this.processo.id);
@@ -102,12 +132,18 @@ export class CdkProcessoListItemComponent implements OnInit {
     }
 
     doSalvarLembrete(processo, conteudo): void {
-
         this.salvarLembrete.emit({processo: processo, conteudo: conteudo});
-
     }
 
-
+    doTogglePanel(): void {
+        if (!this.loadedAssuntos) {
+            this.loadAssuntos.emit(this.processo);
+        }
+        if (!this.loadedInteressados) {
+            this.loadInteressados.emit(this.processo);
+        }
+        this.isOpen = !this.isOpen;
+    }
 }
 
 

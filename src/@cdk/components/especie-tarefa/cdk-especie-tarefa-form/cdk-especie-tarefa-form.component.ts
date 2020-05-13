@@ -9,7 +9,7 @@ import {
     Output,
     SimpleChange
 } from '@angular/core';
-import {EspecieTarefa, Usuario} from '../../../models';
+import {EspecieTarefa, GeneroTarefa, Pagination, Usuario} from '../../../models';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
@@ -28,6 +28,9 @@ export class CdkEspecieTarefaFormComponent implements OnChanges, OnDestroy {
     @Input()
     errors: any;
 
+    @Input()
+    generoTarefaPagination: Pagination;
+
     @Output()
     save = new EventEmitter<any>();
 
@@ -36,6 +39,7 @@ export class CdkEspecieTarefaFormComponent implements OnChanges, OnDestroy {
 
     @Input()
     form: FormGroup;
+
 
     activeCard = 'form';
 
@@ -115,6 +119,17 @@ export class CdkEspecieTarefaFormComponent implements OnChanges, OnDestroy {
 
     doAbort(): void {
         this.abort.emit();
+    }
+
+    showGeneroTarefaGrid(): void {
+        this.activeCard = 'genero-tarefa-gridsearch';
+    }
+
+    selectGeneroTarefa(genero: GeneroTarefa): void {
+        if (genero) {
+            this.form.get('generoTarefa').setValue(genero);
+        }
+        this.activeCard = 'form';
     }
 
 }

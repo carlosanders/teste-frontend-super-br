@@ -25,6 +25,8 @@ export class Usuario {
 
     nome?: string;
 
+    password?: string;
+
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
@@ -98,5 +100,6 @@ export class Usuario {
         this.vinculacoesPessoasUsuarios = null;
         this.coordenadores = null;
         this.reset = false;
+        this.password = null;
     }
 }

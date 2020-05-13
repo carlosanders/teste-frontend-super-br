@@ -77,6 +77,10 @@ export class EtiquetaListComponent implements OnInit {
         }));
     }
 
+    create () : void {
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
+    }
+
     edit(etiquetaId: number): void {
         this._router.navigate(['apps/configuracoes/etiquetas/editar/' + etiquetaId + '/dados-basicos']);
     }

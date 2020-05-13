@@ -21,6 +21,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {JuntadaListStoreModule} from 'app/main/apps/processo/processo-edit/juntadas/juntada-list/store/store.module';
 import * as fromGuards from 'app/main/apps/processo/processo-edit/juntadas/juntada-list/store/guards';
 import {CdkJuntadaGridModule} from '@cdk/components/juntada/cdk-juntada-grid/cdk-juntada-grid.module';
+import {CdkComponenteDigitalCardListModule} from '@cdk/components/componente-digital/cdk-componente-digital-card-list/cdk-componente-digital-card-list.module';
 
 const routes: Routes = [
     {
@@ -62,6 +63,7 @@ const routes: Routes = [
         CdkJuntadaGridModule,
 
         JuntadaListStoreModule,
+        CdkComponenteDigitalCardListModule,
     ],
     providers: [
         JuntadaService,

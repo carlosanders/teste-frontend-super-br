@@ -33,6 +33,9 @@ export class CdkDocumentoCardComponent implements OnInit {
     assinando = false;
 
     @Input()
+    removendoAssinatura = false;
+
+    @Input()
     convertendo = false;
 
     @Output()
@@ -43,6 +46,9 @@ export class CdkDocumentoCardComponent implements OnInit {
 
     @Output()
     assinatura = new EventEmitter<number>();
+
+    @Output()
+    removeAssinatura = new EventEmitter<number>();
 
     @Output()
     converte = new EventEmitter<number>();
@@ -87,6 +93,10 @@ export class CdkDocumentoCardComponent implements OnInit {
 
     doAssinatura(documentoId): void {
         this.assinatura.emit(documentoId);
+    }
+
+    doRemoveAssinatura(documentoId): void {
+        this.removeAssinatura.emit(documentoId);
     }
 
     doConverte(documentoId): void {

@@ -16,6 +16,7 @@ import * as fromStore from './store';
 import {Pagination} from '@cdk/models';
 import {Usuario} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
+import {Back} from "../../../../../store/actions";
 
 @Component({
     selector: 'modelo-edit',
@@ -96,7 +97,9 @@ export class ModeloEditComponent implements OnInit, OnDestroy {
         modelo.usuario = this.usuario;
 
         this._store.dispatch(new fromStore.SaveModelo(modelo));
-
     }
 
+    doAbort(): void {
+        this._store.dispatch(new Back());
+    }
 }
