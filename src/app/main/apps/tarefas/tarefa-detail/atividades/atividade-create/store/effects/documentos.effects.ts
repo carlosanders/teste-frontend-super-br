@@ -140,6 +140,27 @@ export class AtividadeCreateDocumentosEffect {
                     }
                 ));
 
+    @Effect()
+    removeAssinaturaDocumento: any =
+        this._actions
+            .pipe(
+                ofType<AtividadeCreateDocumentosActions.RemoveAssinaturaDocumento>(AtividadeCreateDocumentosActions.REMOVE_ASSINATURA_DOCUMENTO),
+                mergeMap((action) => {
+                        return this._documentoService.removeAssinatura(action.payload)
+                            .pipe(
+                                mergeMap((response) => [
+                                    new AtividadeCreateDocumentosActions.RemoveAssinaturaDocumentoSuccess(action.payload),
+                                    new AtividadeCreateDocumentosActions.GetDocumentos(),
+                                ]),
+                                catchError((err, caught) => {
+                                    console.log(err);
+                                    this._store.dispatch(new AtividadeCreateDocumentosActions.RemoveAssinaturaDocumentoFailed(action.payload));
+                                    return caught;
+                                })
+                            );
+                    }
+                ));
+
     /**
      * Assina Documento Success
      * @type {Observable<any>}

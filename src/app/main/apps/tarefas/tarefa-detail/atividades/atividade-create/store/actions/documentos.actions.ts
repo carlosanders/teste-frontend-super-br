@@ -14,6 +14,10 @@ export const ASSINA_DOCUMENTO = '[ATIVIDADE CREATE] ASSINA DOCUMENTO';
 export const ASSINA_DOCUMENTO_SUCCESS = '[ATIVIDADE CREATE] ASSINA DOCUMENTO SUCCESS';
 export const ASSINA_DOCUMENTO_FAILED = '[ATIVIDADE CREATE] ASSINA DOCUMENTO FAILED';
 
+export const REMOVE_ASSINATURA_DOCUMENTO = '[ATIVIDADE CREATE] REMOVE ASSINATURA DOCUMENTO';
+export const REMOVE_ASSINATURA_DOCUMENTO_SUCCESS = '[ATIVIDADE CREATE] REMOVE ASSINATURA DOCUMENTO SUCCESS';
+export const REMOVE_ASSINATURA_DOCUMENTO_FAILED = '[ATIVIDADE CREATE] REMOVE ASSINATURA DOCUMENTO FAILED';
+
 export const CLICKED_DOCUMENTO = '[ATIVIDADE CREATE] CLICKED DOCUMENTO';
 export const COMPLETE_DOCUMENTO = '[ATIVIDADE CREATE] COMPLETE DOCUMENTO';
 
@@ -144,6 +148,42 @@ export class AssinaDocumentoFailed implements Action
 }
 
 /**
+ * Remove Assinatura Documento
+ */
+export class RemoveAssinaturaDocumento implements Action
+{
+    readonly type = REMOVE_ASSINATURA_DOCUMENTO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Remove Assinatura Documento Success
+ */
+export class RemoveAssinaturaDocumentoSuccess implements Action
+{
+    readonly type = REMOVE_ASSINATURA_DOCUMENTO_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Remove Assinatura Documento Failed
+ */
+export class RemoveAssinaturaDocumentoFailed implements Action
+{
+    readonly type = REMOVE_ASSINATURA_DOCUMENTO_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
  * Change Selected Documentos
  */
 export class ChangeSelectedDocumentos implements Action {
@@ -216,6 +256,9 @@ export type AtividadeCreateDocumentosActionsAll
     | AssinaDocumento
     | AssinaDocumentoSuccess
     | AssinaDocumentoFailed
+    | RemoveAssinaturaDocumento
+    | RemoveAssinaturaDocumentoSuccess
+    | RemoveAssinaturaDocumentoFailed
     | DeleteDocumento
     | DeleteDocumentoSuccess
     | DeleteDocumentoFailed
