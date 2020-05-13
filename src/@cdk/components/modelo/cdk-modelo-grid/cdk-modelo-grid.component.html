@@ -46,6 +46,13 @@
                     matTooltip="Filtrar">
                 <mat-icon>filter_list</mat-icon>
             </button>
+
+            <button mat-icon-button [ngClass]="{'warn': hasExcluded}" *ngIf="actions.indexOf('showDeleted') > -1"
+                    (click)="loadExcluded()"
+                    aria-label="mostrar apagados"
+                    matTooltip="Mostrar Apagados">
+                <mat-icon>delete_sweep</mat-icon>
+            </button>
         </div>
 
         <div fxFlex="1 1 auto" fxLayout="row" fxLayoutAlign="center center" *ngIf="loading">
@@ -60,6 +67,7 @@
                     <th mat-header-cell *matHeaderCellDef>
                         <mat-checkbox (click)="toggleSelectAll($event)"
                                       [checked]="hasSelected"
+                                      [disabled]="hasExcluded"
                                       [indeterminate]="isIndeterminate">
                         </mat-checkbox>
                     </th>
@@ -67,7 +75,7 @@
                         <mat-checkbox [checked]="selectedIds.indexOf(modelo.id) > -1"
                                       (change)="toggleInSelected(modelo.id)"
                                       (click)="$event.stopPropagation();"
-                                      [disabled]="deletedIds?.indexOf(modelo.id) > -1">
+                                      [disabled]="deletedIds?.indexOf(modelo.id) > -1 || hasExcluded">
                         </mat-checkbox>
                     </td>
                 </ng-container>
@@ -228,7 +236,7 @@
                     <td mat-cell *matCellDef="let modelo">
 
                         <button mat-icon-button
-                                *ngIf="actions.indexOf('select') > -1"
+                                *ngIf="actions.indexOf('select') > -1 && !hasExcluded"
                                 (click)="selectModelo(modelo)"
                                 aria-label="selecionar"
                                 matTooltip="Selecionar">
@@ -236,7 +244,7 @@
                         </button>
 
                         <button mat-icon-button
-                                *ngIf="actions.indexOf('edit') > -1"
+                                *ngIf="actions.indexOf('edit') > -1 && !hasExcluded"
                                 [disabled]="deletedIds?.indexOf(modelo.id) > -1"
                                 (click)="editModelo(modelo.id)"
                                 aria-label="editar"
@@ -245,7 +253,7 @@
                         </button>
 
                         <button mat-icon-button
-                                *ngIf="actions.indexOf('editConteudo') > -1"
+                                *ngIf="actions.indexOf('editConteudo') > -1 && !hasExcluded"
                                 [disabled]="deletedIds?.indexOf(modelo.id) > -1"
                                 (click)="editConteudoModelo(modelo.documento.componentesDigitais[0].id)"
                                 aria-label="editar conteúdo"
@@ -254,7 +262,7 @@
                         </button>
 
                         <button mat-icon-button
-                                *ngIf="actions.indexOf('especie') > -1"
+                                *ngIf="actions.indexOf('especie') > -1 && !hasExcluded"
                                 [disabled]="deletedIds?.indexOf(modelo.id) > -1"
                                 (click)="especieSetores(modelo.id)"
                                 aria-label="especieSetores"
@@ -263,7 +271,7 @@
                         </button>
 
                         <button mat-icon-button
-                                *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(modelo.id) === -1"
+                                *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(modelo.id) === -1 && !hasExcluded"
                                 [disabled]="deletedIds?.indexOf(modelo.id) > -1"
                                 (click)="deleteModelo(modelo.id)"
                                 aria-label="remover"

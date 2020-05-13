@@ -77,6 +77,21 @@ export class FolderListComponent implements OnInit {
         }));
     }
 
+    excluded(params): void {
+        this._store.dispatch(new fromStore.GetFolders({
+            ...this.pagination,
+            filter: {
+                ...this.pagination.filter,
+                ...params.gridFilter
+            },
+            sort: params.sort,
+            limit: params.limit,
+            offset: params.offset,
+            populate: this.pagination.populate,
+            context: params.context
+        }));
+    }
+
     create () : void {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
     }

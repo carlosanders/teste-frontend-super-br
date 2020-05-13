@@ -2,8 +2,9 @@
         [loading]="(loading$ | async)"
         [juntadas]="(juntadas$ | async)"
         [total]="(pagination$ | async)?.total"
-        [actions]="['desentranhar', 'copiar','edit']"
+        [actions]="['desentranhar', 'copiar','edit', 'showDeleted']"
         (reload)="reload($event)"
+        (excluded)="excluded($event)"
         (copiar)="copiar($event)"
         (edit)="editar($event)"
         (desentranhar)="desentranhar($event)">

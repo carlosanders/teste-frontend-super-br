@@ -70,10 +70,11 @@
             <table mat-table [dataSource]="dataSource" matSort [hidden]="loading">
 
                 <!-- Selection Column -->
-                <ng-container matColumnDef="select">
+                <ng-container matColumnDef="select" >
                     <th mat-header-cell *matHeaderCellDef>
                         <mat-checkbox (click)="toggleSelectAll($event)"
                                       [checked]="hasSelected"
+                                      [disabled]="hasExcluded"
                                       [indeterminate]="isIndeterminate">
                         </mat-checkbox>
                     </th>
@@ -81,7 +82,7 @@
                         <mat-checkbox [checked]="selectedIds.indexOf(tarefa.id) > -1"
                                       (change)="toggleInSelected(tarefa.id)"
                                       (click)="$event.stopPropagation();"
-                                      [disabled]="deletedIds?.indexOf(tarefa.id) > -1">
+                                      [disabled]="deletedIds?.indexOf(tarefa.id) > -1 || hasExcluded">
                         </mat-checkbox>
                     </td>
                 </ng-container>

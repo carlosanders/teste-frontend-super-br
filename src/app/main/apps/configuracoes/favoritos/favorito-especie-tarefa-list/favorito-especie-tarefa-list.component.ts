@@ -120,6 +120,21 @@ export class FavoritoEspecieTarefaListComponent implements OnInit, OnDestroy {
         }));
     }
 
+    excluded(params): void {
+        this._store.dispatch(new fromStore.GetFavoritos({
+            ...this.pagination,
+            filter: {
+                ...this.pagination.filter,
+                ...params.gridFilter
+            },
+            sort: params.sort,
+            limit: params.limit,
+            offset: params.offset,
+            populate: this.pagination.populate,
+            context: params.context
+        }));
+    }
+
     doToggleFavorito(favorito: Favorito): void {
         if (!favorito.prioritario) {
             favorito.prioritario = true;

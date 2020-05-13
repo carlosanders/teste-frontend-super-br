@@ -77,6 +77,21 @@ export class LotacaoListComponent implements OnInit {
         }));
     }
 
+    excluded(params): void {
+        this._store.dispatch(new fromStore.GetLotacoes({
+            ...this.pagination,
+            filter: {
+                ...this.pagination.filter,
+                ...params.gridFilter
+            },
+            sort: params.sort,
+            limit: params.limit,
+            offset: params.offset,
+            populate: this.pagination.populate,
+            context: params.context
+        }));
+    }
+
     edit(lotacaoId: number): void {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/') + lotacaoId]);
     }

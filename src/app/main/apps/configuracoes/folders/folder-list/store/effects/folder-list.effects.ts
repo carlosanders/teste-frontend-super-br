@@ -52,7 +52,8 @@ export class FolderListEffect {
                         action.payload.limit,
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
-                        JSON.stringify(action.payload.populate)).pipe(
+                        JSON.stringify(action.payload.populate),
+                        JSON.stringify(action.payload.context)).pipe(
                         mergeMap((response) => [
                             new AddData<Folder>({data: response['entities'], schema: folderSchema}),
                             new FolderListActions.GetFoldersSuccess({

@@ -52,7 +52,8 @@ export class JuntadaListEffect {
                         action.payload.limit,
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
-                        JSON.stringify(action.payload.populate));
+                        JSON.stringify(action.payload.populate),
+                        JSON.stringify(action.payload.context));
                 }),
                 mergeMap((response) => [
                     new AddData<Juntada>({data: response['entities'], schema: juntadaSchema}),

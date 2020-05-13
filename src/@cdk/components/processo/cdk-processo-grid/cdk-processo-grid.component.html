@@ -56,6 +56,13 @@
                     matTooltip="Filtrar">
                 <mat-icon>filter_list</mat-icon>
             </button>
+
+            <button mat-icon-button [ngClass]="{'warn': hasExcluded}" *ngIf="actions.indexOf('showDeleted') > -1"
+                    (click)="loadExcluded()"
+                    aria-label="mostrar apagados"
+                    matTooltip="Mostrar Apagados">
+                <mat-icon>delete_sweep</mat-icon>
+            </button>
         </div>
 
         <div fxFlex="1 1 auto" fxLayout="row" fxLayoutAlign="center center" *ngIf="loading">
@@ -70,6 +77,7 @@
                     <th mat-header-cell *matHeaderCellDef>
                         <mat-checkbox (click)="toggleSelectAll($event)"
                                       [checked]="hasSelected"
+                                      [disabled]="hasExcluded"
                                       [indeterminate]="isIndeterminate">
                         </mat-checkbox>
                     </th>
@@ -77,7 +85,7 @@
                         <mat-checkbox [checked]="selectedIds.indexOf(processo.id) > -1"
                                       (change)="toggleInSelected(processo.id)"
                                       (click)="$event.stopPropagation();"
-                                      [disabled]="deletedIds?.indexOf(processo.id) > -1">
+                                      [disabled]="deletedIds?.indexOf(processo.id) > -1 || hasExcluded">
                         </mat-checkbox>
                     </td>
                 </ng-container>
@@ -371,7 +379,7 @@
 
                         <span *showIfRole="'ROLE_USER'">
                             <button mat-icon-button
-                                    *ngIf="actions.indexOf('view') > -1"
+                                    *ngIf="actions.indexOf('view') > -1 && !hasExcluded"
                                     (click)="viewProcesso(processo)"
                                     aria-label="visualizar"
                                     matTooltip="Visualizar">
@@ -381,7 +389,7 @@
 
                         <span *showIfRole="'ROLE_COLABORADOR'">
                             <button mat-icon-button
-                                    *ngIf="!processo.acessoNegado && actions.indexOf('select') > -1"
+                                    *ngIf="!processo.acessoNegado && actions.indexOf('select') > -1 && !hasExcluded"
                                     (click)="selectProcesso(processo)"
                                     aria-label="selecionar"
                                     matTooltip="Selecionar">
@@ -391,7 +399,7 @@
 
                         <span *showIfRole="'ROLE_COLABORADOR'">
                             <button mat-icon-button
-                                    *ngIf="!processo.acessoNegado && actions.indexOf('edit') > -1"
+                                    *ngIf="!processo.acessoNegado && actions.indexOf('edit') > -1 && !hasExcluded"
                                     [disabled]="deletedIds?.indexOf(processo.id) > -1"
                                     (click)="editProcesso(processo.id)"
                                     aria-label="editar"
@@ -406,7 +414,7 @@
 
                         <ng-template *showIfRole="'ROLE_COLABORADOR'">
                             <button mat-icon-button
-                                    *ngIf="!processo.acessoNegado && actions.indexOf('delete') > -1 && deletingIds?.indexOf(processo.id) === -1"
+                                    *ngIf="!processo.acessoNegado && actions.indexOf('delete') > -1 && deletingIds?.indexOf(processo.id) === -1 && !hasExcluded"
                                     [disabled]="deletedIds?.indexOf(processo.id) > -1"
                                     (click)="deleteProcesso(processo.id)"
                                     aria-label="remover"

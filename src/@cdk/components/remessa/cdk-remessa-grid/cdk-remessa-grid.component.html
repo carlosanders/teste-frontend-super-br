@@ -53,6 +53,13 @@
                     matTooltip="Filtrar">
                 <mat-icon>filter_list</mat-icon>
             </button>
+
+            <button mat-icon-button [ngClass]="{'warn': hasExcluded}" *ngIf="actions.indexOf('showDeleted') > -1"
+                    (click)="loadExcluded()"
+                    aria-label="mostrar apagados"
+                    matTooltip="Mostrar Apagados">
+                <mat-icon>delete_sweep</mat-icon>
+            </button>
         </div>
 
         <div fxFlex="1 1 auto" fxLayout="row" fxLayoutAlign="center center" *ngIf="loading">
@@ -67,6 +74,7 @@
                     <th mat-header-cell *matHeaderCellDef>
                         <mat-checkbox (click)="toggleSelectAll($event)"
                                       [checked]="hasSelected"
+                                      [disabled]="hasExcluded"
                                       [indeterminate]="isIndeterminate">
                         </mat-checkbox>
                     </th>
@@ -74,7 +82,7 @@
                         <mat-checkbox [checked]="selectedIds.indexOf(remessa.id) > -1"
                                       (change)="toggleInSelected(remessa.id)"
                                       (click)="$event.stopPropagation();"
-                                      [disabled]="deletedIds?.indexOf(remessa.id) > -1">
+                                      [disabled]="deletedIds?.indexOf(remessa.id) > -1 || hasExcluded">
                         </mat-checkbox>
                     </td>
                 </ng-container>
@@ -84,7 +92,7 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Id
                     </th>
                     <td mat-cell *matCellDef="let remessa" class='has_label_on_mobile' data-label='Id: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(remessa.id) > -1}"> {{remessa.id}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(remessa.id) > -1 || remessa.apagadoEm}"> {{remessa.id}} </td>
                 </ng-container>
 
                 <!-- Processo Column -->
@@ -117,7 +125,7 @@
                         Setor de Origem
                     </th>
                     <td mat-cell *matCellDef="let remessa" class='has_label_on_mobile' data-label='Setor de Origem: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(remessa.id) > -1}"> {{remessa.setorOrigem?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(remessa.id) > -1 || remessa.apagadoEm}"> {{remessa.setorOrigem?.nome}} </td>
                 </ng-container>
 
                 <!-- SetorDestino Column -->
@@ -127,7 +135,7 @@
                         Setor de Destino
                     </th>
                     <td mat-cell *matCellDef="let remessa" class='has_label_on_mobile' data-label='Setor de Destino: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(remessa.id) > -1}"> {{remessa.setorDestino?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(remessa.id) > -1 || remessa.apagadoEm}"> {{remessa.setorDestino?.nome}} </td>
                 </ng-container>
 
                 <!-- DataHoraRecebimento Column -->
@@ -138,7 +146,7 @@
                     </th>
                     <td mat-cell *matCellDef="let remessa" class='has_label_on_mobile'
                         data-label='Data de Recebimento: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(remessa.id) > -1}"> {{remessa.dataHoraRecebimento | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(remessa.id) > -1 || remessa.apagadoEm}"> {{remessa.dataHoraRecebimento | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- UsuarioRecebimento Column -->
@@ -149,7 +157,7 @@
                     </th>
                     <td mat-cell *matCellDef="let remessa" class='has_label_on_mobile'
                         data-label='Usuário Recebimento: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(remessa.id) > -1}"> {{remessa.usuarioRecebimento?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(remessa.id) > -1 || remessa.apagadoEm}"> {{remessa.usuarioRecebimento?.nome}} </td>
                 </ng-container>
 
                 <!-- Observacao Column -->
@@ -158,7 +166,7 @@
                         Observação
                     </th>
                     <td mat-cell *matCellDef="let remessa" class='has_label_on_mobile' data-label='Observação: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(remessa.id) > -1}"> {{remessa.observacao}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(remessa.id) > -1 || remessa.apagadoEm}"> {{remessa.observacao}} </td>
                 </ng-container>
 
                 <!-- PessoaDestino Column -->
@@ -168,7 +176,7 @@
                         Pessoa Destino
                     </th>
                     <td mat-cell *matCellDef="let remessa" class='has_label_on_mobile' data-label='Pessoa Destino: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(remessa.id) > -1}"> {{remessa.pessoaDestino?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(remessa.id) > -1 || remessa.apagadoEm}"> {{remessa.pessoaDestino?.nome}} </td>
                 </ng-container>
 
                 <!-- CriadoPor Column -->
@@ -177,7 +185,7 @@
                         Criado Por
                     </th>
                     <td mat-cell *matCellDef="let remessa" class='has_label_on_mobile' data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(remessa.id) > -1}"> {{remessa.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(remessa.id) > -1 || remessa.apagadoEm}"> {{remessa.criadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -186,7 +194,7 @@
                         Criado Em
                     </th>
                     <td mat-cell *matCellDef="let remessa" class='has_label_on_mobile' data-label='Criado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(remessa.id) > -1}"> {{remessa.criadoEm | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(remessa.id) > -1 || remessa.apagadoEm}"> {{remessa.criadoEm | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
@@ -196,7 +204,7 @@
                         Atualizado Por
                     </th>
                     <td mat-cell *matCellDef="let remessa" class='has_label_on_mobile' data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(remessa.id) > -1}"> {{remessa.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(remessa.id) > -1 || remessa.apagadoEm}"> {{remessa.atualizadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -205,7 +213,7 @@
                         Atualizado Em
                     </th>
                     <td mat-cell *matCellDef="let remessa" class='has_label_on_mobile' data-label='Atualizado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(remessa.id) > -1}"> {{remessa.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(remessa.id) > -1 || remessa.apagadoEm}"> {{remessa.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- ApagadoPor Column -->
@@ -214,7 +222,7 @@
                         Apagado Por
                     </th>
                     <td mat-cell *matCellDef="let remessa" class='has_label_on_mobile' data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(remessa.id) > -1}"> {{remessa.apagadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(remessa.id) > -1 || remessa.apagadoEm}"> {{remessa.apagadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->
@@ -223,7 +231,7 @@
                         Apagado Em
                     </th>
                     <td mat-cell *matCellDef="let remessa" class='has_label_on_mobile' data-label='Apagado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(remessa.id) > -1}"> {{remessa.apagadoEm | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(remessa.id) > -1 || remessa.apagadoEm}"> {{remessa.apagadoEm | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- Actions Column -->
@@ -232,7 +240,7 @@
                     <td mat-cell *matCellDef="let remessa">
 
                         <button mat-icon-button
-                                *ngIf="actions.indexOf('select') > -1"
+                                *ngIf="actions.indexOf('select') > -1 && !hasExcluded"
                                 (click)="selectRemessa(remessa)"
                                 aria-label="selecionar"
                                 matTooltip="Selecionar">
@@ -240,7 +248,7 @@
                         </button>
 
                         <button mat-icon-button
-                                *ngIf="actions.indexOf('edit') > -1"
+                                *ngIf="actions.indexOf('edit') > -1 && !hasExcluded"
                                 [disabled]="deletedIds?.indexOf(remessa.id) > -1"
                                 (click)="editRemessa(remessa.id)"
                                 aria-label="editar"
@@ -254,7 +262,7 @@
                         </div>
 
                         <button mat-icon-button
-                                *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(remessa.id) === -1"
+                                *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(remessa.id) === -1 && !hasExcluded"
                                 [disabled]="deletedIds?.indexOf(remessa.id) > -1"
                                 (click)="deleteRemessa(remessa.id)"
                                 aria-label="remover"
