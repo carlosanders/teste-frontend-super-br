@@ -1,5 +1,5 @@
 # build
-FROM node:12.16.2-alpine
+FROM node:12.16.2-alpine AS build
 
 ENV NODE_OPTIONS=--max-old-space-size=8192
 
