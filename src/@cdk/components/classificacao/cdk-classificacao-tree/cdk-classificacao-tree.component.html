@@ -24,7 +24,7 @@
           name="form" [formGroup]="formClassificacao">
         <mat-label class="title-arvore">Arvore</mat-label>
         <div cdkPerfectScrollbar class="tree">
-            <div *ngIf="!this.dataSource._data._value.length" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+            <div *ngIf="!this.dataSource._data.getValue().length" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
                  fxLayoutAlign="center center">
                 <mat-spinner color="accent" diameter="24"></mat-spinner>
             </div>
