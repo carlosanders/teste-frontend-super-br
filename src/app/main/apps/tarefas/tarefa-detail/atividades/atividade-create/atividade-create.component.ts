@@ -10,7 +10,7 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {Atividade} from '@cdk/models';
+import {Atividade, Favorito} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as moment from 'moment';
 
@@ -66,6 +66,8 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy {
     @ViewChild('ckdUpload', {static: false})
     cdkUpload;
 
+    favoritos$: Observable<Favorito[]>;
+
     /**
      *
      * @param _store
@@ -89,6 +91,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy {
         this.deletingDocumentosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosId));
         this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
         this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoDocumentosId));
+        this.favoritos$ = this._store.pipe(select(fromStore.getFavoritoList));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -256,5 +259,18 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy {
 
     doAbort(): void {
         this._store.dispatch(new Back());
+    }
+
+    getFavoritos (value): void {
+
+        this._store.dispatch(new fromStore.GetFavoritos({
+            'filter':
+                {
+                    'usuario.id': `eq:${this._loginService.getUserProfile().id}`,
+                    'objectClass': `eq:SuppCore\\AdministrativoBackend\\Entity\\` + value
+                },
+            'limit': 5,
+            'sort': {prioritario:'DESC', qtdUso: 'DESC'}
+        }));
     }
 }

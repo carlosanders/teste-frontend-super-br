@@ -2,9 +2,6 @@ import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
 
 import { Usuario } from '@cdk/models';
-import {EspecieAtividade} from '@cdk/models';
-import {Setor} from '@cdk/models';
-import {EspecieTarefa} from '@cdk/models';
 
 export class Favorito {
 
@@ -14,21 +11,17 @@ export class Favorito {
     @Exclude({ toPlainOnly: true })
     uuid?: string;
 
-    @Type(() => EspecieAtividade)
-    @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    especieAtividade?: EspecieAtividade;
-
-    @Type(() => Setor)
-    @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    setorResponsavel?: Setor;
-
     @Type(() => Usuario)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     usuario?: Usuario;
 
-    @Type(() => EspecieTarefa)
-    @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    especieTarefa?: EspecieTarefa;
+    objectClass?: string;
+
+    objectId?: number;
+
+    label?: string;
+
+    objFavoritoClass?: any;
 
     qtdUso?: number;
 
@@ -69,10 +62,10 @@ export class Favorito {
         this.uuid = null;
         this.qtdUso = null;
         this.prioritario = null;
-        this.especieAtividade = null;
-        this.setorResponsavel = null;
+        this.objectClass = null;
+        this.objectId = null;
+        this.objFavoritoClass = null;
         this.usuario = null;
-        this.especieTarefa = null;
         this.criadoPor = null;
         this.criadoEm = null;
         this.atualizadoPor = null;

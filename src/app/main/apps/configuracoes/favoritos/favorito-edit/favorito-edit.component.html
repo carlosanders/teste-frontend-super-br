@@ -1,0 +1,7 @@
+<cdk-favorito-form
+        [favorito]="favorito"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        [templatePagination]="templatePagination"
+        (save)="submit($event)">
+</cdk-favorito-form>

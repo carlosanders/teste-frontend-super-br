@@ -64,6 +64,9 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     @Output()
     abort = new EventEmitter<any>();
 
+    @Output()
+    favorito = new EventEmitter<any>();
+
     @Input()
     especieTarefaPagination: Pagination;
 
@@ -93,6 +96,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
     setorResponsavelListIsLoading: boolean;
 
+    @Input()
     favoritosList: Favorito[] = [];
 
     _profile: any;
@@ -367,6 +371,34 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                 }
             )
         ).subscribe();
+
+        if(this.favoritosList)
+        {
+            let tipoFavorito = this.favoritosList[0] ? this.favoritosList[0].objectClass : '';
+
+            if (tipoFavorito === "SuppCore\\AdministrativoBackend\\Entity\\EspecieTarefa") {
+                this.especieTarefaList = [];
+                this.favoritosList.forEach((favorito) => {
+                    this.especieTarefaList.push(favorito.objFavoritoClass[0]);
+                });
+                this.especieTarefaListIsLoading = false;
+            }
+
+            if (tipoFavorito === "SuppCore\\AdministrativoBackend\\Entity\\Setor") {
+                this.setorResponsavelList = [];
+                this.favoritosList.forEach((favorito) => {
+                    this.setorResponsavelList.push(favorito.objFavoritoClass[0]);
+                });
+                this.setorResponsavelListIsLoading = false;
+            }
+
+            if (tipoFavorito === '') {
+                this.especieTarefaListIsLoading = false;
+                this.setorResponsavelListIsLoading = false;
+            }
+
+            this._changeDetectorRef.markForCheck();
+        }
     }
 
     /**
@@ -451,67 +483,13 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     showEspecieTarefaList(): void {
-
         this.especieTarefaListIsLoading = true;
-
-        this._favoritoService.query(
-            `{"usuario.id": "eq:${this._profile.id}", "especieTarefa": "isNotNull"}`,
-            5,
-            0,
-            '{"prioritario": "DESC"}',
-            '["populateAll"]')
-            .pipe(
-                catchError(() => {
-                        return of([]);
-                    }
-                )
-            ).subscribe(
-            value => {
-
-                this.especieTarefaList = [];
-                this.favoritosList = value['entities'];
-
-                this.favoritosList.forEach((favorito) => {
-                    const especieTarefa = favorito.especieTarefa;
-                    this.especieTarefaList.push(especieTarefa);
-                });
-
-                this.especieTarefaListIsLoading = false;
-                this._changeDetectorRef.markForCheck();
-            }
-        );
+        this.favorito.emit('EspecieTarefa');
     }
 
     showSetorResponsavelList(): void {
-
         this.setorResponsavelListIsLoading = true;
-
-        this._favoritoService.query(
-            `{"usuario.id": "eq:${this._profile.id}", "setorResponsavel": "isNotNull"}`,
-            5,
-            0,
-            '{"prioritario": "DESC"}',
-            '["setorResponsavel","setorResponsavel.unidade"]')
-            .pipe(
-                catchError(() => {
-                        return of([]);
-                    }
-                )
-            ).subscribe(
-            value => {
-
-                this.setorResponsavelList = [];
-                this.favoritosList = value['entities'];
-
-                this.favoritosList.forEach((favorito) => {
-                    const setorResponsavel = favorito.setorResponsavel;
-                    this.setorResponsavelList.push(setorResponsavel);
-                });
-
-                this.setorResponsavelListIsLoading = false;
-                this._changeDetectorRef.markForCheck();
-            }
-        );
+        this.favorito.emit('Setor');
     }
 
     showEspecieTarefaGrid(): void {

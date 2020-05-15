@@ -1,41 +1,29 @@
-<div fxLayout="row" class="page-layout full-width left-sidebar inner-scroll">
-
-    <!-- SIDEBAR -->
-    <cdk-sidebar class="sidebar" name="favorito-edit-main-sidebar" position="left" lockedOpen="gt-xs">
-
-        <!-- SIDEBAR CONTENT -->
-        <div class="content" cdkPerfectScrollbar>
-            <favorito-edit-main-sidebar [@animate]="{value:'*'}"></favorito-edit-main-sidebar>
+<div class="favoritos-content" fxFlex fxLayout="column">
+    <!-- CONTENT HEADER -->
+    <div fxFlex="0 1 auto" fxLayout="column">
+        <div class="actions m-16" fxLayout="row" fxLayoutAlign="start center">
+            <button mat-raised-button
+                    class="mat-accent"
+                    [routerLink]="'editar/criar'"
+                    *ngIf="action === 'listar'"
+                    aria-label="novo"
+                    matTooltip="Novo Favorito">
+                Novo
+            </button>
+            <button mat-icon-button
+                    (click)="goBack()"
+                    *ngIf="action !== 'listar'"
+                    aria-label="voltar"
+                    matTooltip="Voltar">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
         </div>
-        <!-- / SIDEBAR CONTENT -->
-
-    </cdk-sidebar>
-    <!-- / SIDEBAR -->
-
-    <!-- CENTER -->
-    <div class="center">
-
-        <!-- CONTENT HEADER -->
-        <div class="header" fxLayout="row" fxLayoutAlign="start center">
-            <div class="sidebar-toggle">
-                <button mat-icon-button
-                        (click)="toggleSidebar('favorito-edit-main-sidebar')" fxHide.gt-xs>
-                    <mat-icon>menu</mat-icon>
-                </button>
-            </div>
-
-        </div>
-        <!-- / CONTENT HEADER -->
-
-        <!-- CONTENT CARD -->
-        <div class="content-card" cdkPerfectScrollbar>
-
-            <router-outlet></router-outlet>
-
-        </div>
-        <!-- / CONTENT CARD -->
-
     </div>
-    <!-- / CENTER -->
+    <!-- / CONTENT HEADER -->
 
+    <!-- CONTENT -->
+    <div class="p-16" fxFlex="1 1 auto" cdkPerfectScrollbar>
+        <router-outlet></router-outlet>
+    </div>
+    <!-- / CONTENT -->
 </div>

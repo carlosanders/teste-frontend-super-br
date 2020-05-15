@@ -1,23 +1,8 @@
-.sidebar {
-
-    background: transparent !important;
-    box-shadow: none !important;
-
-    &:not(.locked-open) {
-        background: white;
-    }
-}
-
-.center {
-
+favoritos {
+  height: 100%;
+  width: 100%;
+  .favoritos-content {
+    height: 100%;
     width: 100%;
-
-    .header {
-
-        .actions {
-            margin-left: auto;
-            margin-right: 16px;
-        }
-
-    }
+  }
 }
