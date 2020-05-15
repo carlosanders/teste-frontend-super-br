@@ -36,6 +36,12 @@ export class CdkVersaoGridsearchComponent implements OnInit {
     reverter = new EventEmitter();
 
     @Output()
+    visualizar = new EventEmitter();
+
+    @Output()
+    comparar = new EventEmitter();
+
+    @Output()
     cancel = new EventEmitter();
 
     @Input()
@@ -98,9 +104,17 @@ export class CdkVersaoGridsearchComponent implements OnInit {
         this.load (params);
     }
 
-    revert(params): void {
+    doReverter(params): void {
         this.loading = true;
         this.reverter.emit(params);
+    }
+
+    doVisualizar(params): void {
+        this.visualizar.emit(params);
+    }
+
+    doComparar(params): void {
+        this.comparar.emit(params);
     }
 
     doCancel(): void {
