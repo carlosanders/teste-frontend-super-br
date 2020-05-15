@@ -20,7 +20,7 @@ import {Pagination} from '@cdk/models';
 import {Favorito} from '@cdk/models';
 import {FavoritoService} from '@cdk/services/favorito.service';
 import {LoginService} from '../../../../app/main/auth/login/login.service';
-import {Responsavel} from '../../../models/respensavel.model';
+import {Responsavel} from '@cdk/models';
 
 @Component({
     selector: 'cdk-tarefa-form',
@@ -106,6 +106,8 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
     inputProcesso: boolean;
 
+    feriados = ['01-01', '21-04', '01-05', '07-09', '12-10', '02-11', '15-11', '25-12'];
+
     @Input()
     blocoEdit = {
         blocoEditEspecie: false,
@@ -137,6 +139,8 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     ) {
         this.form = this._formBuilder.group({
             id: [null],
+            diasUteis: [null],
+            prazoDias: [null],
             blocoProcessos: [null],
             processos: [null],
             processo: [null, [Validators.required]],
@@ -274,10 +278,14 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
                         if (usuario) {
                             const findDuplicate = this.blocoResponsaveis.some(item => (item.setor.id === setor.id) && (item.usuario.id === usuario.id));
-                            if (!findDuplicate) this.blocoResponsaveis = [...this.blocoResponsaveis, {setor, usuario}];
+                            if (!findDuplicate) {
+                                this.blocoResponsaveis = [...this.blocoResponsaveis, {setor, usuario}];
+                            }
                         } else {
                             const findDuplicate = this.blocoResponsaveis.some(item => item.setor.id === setor.id);
-                            if (!findDuplicate) this.blocoResponsaveis = [...this.blocoResponsaveis, {setor, usuario}];
+                            if (!findDuplicate) {
+                                this.blocoResponsaveis = [...this.blocoResponsaveis, {setor, usuario}];
+                            }
                         }
 
                         this._changeDetectorRef.markForCheck();
@@ -298,10 +306,14 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
                         if (usuario) {
                             const findDuplicate = this.blocoResponsaveis.some(item => (item.setor.id === setor.id) && (item.usuario.id === usuario.id));
-                            if (!findDuplicate) this.blocoResponsaveis = [...this.blocoResponsaveis, {setor, usuario}];
+                            if (!findDuplicate) {
+                                this.blocoResponsaveis = [...this.blocoResponsaveis, {setor, usuario}];
+                            }
                         } else {
                             const findDuplicate = this.blocoResponsaveis.some(item => item.setor.id === setor.id);
-                            if (!findDuplicate) this.blocoResponsaveis = [...this.blocoResponsaveis, {setor, usuario}];
+                            if (!findDuplicate) {
+                                this.blocoResponsaveis = [...this.blocoResponsaveis, {setor, usuario}];
+                            }
                         }
 
                         this._changeDetectorRef.markForCheck();
@@ -310,6 +322,157 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                 }
             )
         ).subscribe();
+
+        this.form.get('dataHoraFinalPrazo').valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((value) => {
+                    this.alteraPrazoDias();
+                    this.validaPrazo();
+                    return of([]);
+                }
+            )
+        ).subscribe();
+
+        this.form.get('dataHoraInicioPrazo').valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((value) => {
+                    this.alteraPrazoDias();
+                    this.validaPrazo();
+                    return of([]);
+                }
+            )
+        ).subscribe();
+
+        this.form.get('prazoDias').valueChanges.pipe(
+            debounceTime(500),
+            distinctUntilChanged(),
+            switchMap((value) => {
+                    this.alteraPrazoFinal();
+                    return of([]);
+                }
+            )
+        ).subscribe();
+
+        this.form.get('diasUteis').valueChanges.pipe(
+            debounceTime(500),
+            distinctUntilChanged(),
+            switchMap((value) => {
+                    this.alteraDiasUteis();
+                    return of([]);
+                }
+            )
+        ).subscribe();
+
+        this.alteraPrazoDias();
+        this.validaPrazo();
+    }
+
+    alteraDiasUteis(): void {
+        this.alteraPrazoFinal();
+    }
+
+    alteraPrazoDias(): void {
+        const dataHoraInicioPrazo = this.form.get('dataHoraInicioPrazo').value;
+        const dataHoraFinalPrazo = this.form.get('dataHoraFinalPrazo').value;
+        let diffDays = dataHoraFinalPrazo.diff(dataHoraInicioPrazo, 'days');
+
+        if (this.form.get('diasUteis').value) {
+            const curDate = dataHoraInicioPrazo.clone();
+            const maxDate = dataHoraFinalPrazo.clone();
+            curDate.add(1, 'days');
+            while (curDate <= maxDate) {
+                const dayOfWeek = curDate.day();
+                if ((dayOfWeek === 6) || (dayOfWeek === 0) || (this.feriados.indexOf(curDate.format('DD-MM')) > -1)) {
+                    --diffDays;
+                    console.log ('descontando: ' + curDate.format('DD-MM') + ' - ' + diffDays);
+                }
+                curDate.add(1, 'days');
+            }
+        }
+
+        if (diffDays !== this.form.get('prazoDias').value) {
+            this.form.get('prazoDias').setValue(diffDays);
+        }
+    }
+
+    alteraPrazoFinal(): void {
+        const dataHoraFinalPrazo = this.form.get('dataHoraInicioPrazo').value;
+        const dias = this.form.get('prazoDias').value;
+        if (!dias) {
+            return;
+        }
+        const dataHoraFinalPrazoCalculado = dataHoraFinalPrazo.clone().add(dias, 'days');
+
+        if (this.form.get('diasUteis').value) {
+            const curDate = this.form.get('dataHoraInicioPrazo').value.clone();
+            const maxDate = dataHoraFinalPrazoCalculado.clone();
+            curDate.add(1, 'days');
+            while (curDate <= maxDate) {
+                const dayOfWeek = curDate.day();
+                if ((dayOfWeek === 6) || (dayOfWeek === 0) || (this.feriados.indexOf(curDate.format('DD-MM')) > -1)) {
+                    dataHoraFinalPrazoCalculado.add(1, 'days');
+                    maxDate.add(1, 'days');
+                }
+                curDate.add(1, 'days');
+            }
+        }
+
+        if (this.form.get('dataHoraFinalPrazo').value.format('YYYY-MM-DDTHH:mm:ss') !== dataHoraFinalPrazo.format('YYYY-MM-DDTHH:mm:ss')) {
+            this.form.get('dataHoraFinalPrazo').setValue(dataHoraFinalPrazoCalculado);
+        }
+    }
+
+    validaPrazo(): void {
+        const dataHoraInicioPrazo = this.form.get('dataHoraInicioPrazo').value;
+        const dataHoraFinalPrazo = this.form.get('dataHoraFinalPrazo').value;
+
+        if (!dataHoraInicioPrazo || !dataHoraFinalPrazo) {
+            return;
+        }
+
+        const diffDays = dataHoraFinalPrazo.diff(dataHoraInicioPrazo, 'days');
+
+        if (dataHoraFinalPrazo < dataHoraInicioPrazo) {
+            this.form.get('dataHoraFinalPrazo').setErrors({formError: 'A data final do prazo não pode ser anterior a do início!'});
+            this._changeDetectorRef.markForCheck();
+            return;
+        }
+
+        if (diffDays === 0) {
+            this.form.get('dataHoraFinalPrazo').setErrors({formError: 'O prazo deve ser no mínimo de 24 (vinte e quatro) horas!'});
+            this._changeDetectorRef.markForCheck();
+            return;
+        }
+
+        if (diffDays > 180) {
+            this.form.get('dataHoraFinalPrazo').setErrors({formError: 'O prazo deve ser de no máximo de 180 (cento e oitenta) dias!'});
+            this._changeDetectorRef.markForCheck();
+            return;
+        }
+
+        if (this.form.get('diasUteis').value) {
+            // sabado?
+            if (dataHoraFinalPrazo.day() === 6) {
+                this.form.get('dataHoraFinalPrazo').setErrors({formError: 'O prazo não pode terminar em um sábado!'});
+                this._changeDetectorRef.markForCheck();
+                return;
+            }
+
+            // domingo?
+            if (dataHoraFinalPrazo.day() === 0) {
+                this.form.get('dataHoraFinalPrazo').setErrors({formError: 'O prazo não pode terminar em um domingo!'});
+                this._changeDetectorRef.markForCheck();
+                return;
+            }
+
+            if (this.feriados.indexOf(dataHoraFinalPrazo.format('DD-MM')) > -1) {
+                this.form.get('dataHoraFinalPrazo').setErrors({formError: 'O prazo não pode terminar em um feriado nacional!'});
+                this._changeDetectorRef.markForCheck();
+                return;
+            }
+        }
     }
 
     /**

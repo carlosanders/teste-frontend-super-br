@@ -4,8 +4,9 @@
         [total]="(pagination$ | async)?.total"
         [deletingIds]="(deletingIds$ | async)"
         [deletedIds]="(deletedIds$ | async)"
-        [actions]="['setPrincipal']"
+        [actions]="['setPrincipal', 'showDeleted']"
         (reload)="reload($event)"
+        (excluded)="excluded($event)"
         (edit)="edit($event)"
         (setPrincipal)="setPrincipal($event)"
         (delete)="delete($event)">

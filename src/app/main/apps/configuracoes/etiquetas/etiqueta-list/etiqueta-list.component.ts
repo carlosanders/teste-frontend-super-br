@@ -77,6 +77,25 @@ export class EtiquetaListComponent implements OnInit {
         }));
     }
 
+    excluded(params): void {
+        this._store.dispatch(new fromStore.GetEtiquetas({
+            ...this.pagination,
+            filter: {
+                ...this.pagination.filter,
+                ...params.gridFilter
+            },
+            sort: params.sort,
+            limit: params.limit,
+            offset: params.offset,
+            populate: this.pagination.populate,
+            context: params.context
+        }));
+    }
+
+    create () : void {
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
+    }
+
     edit(etiquetaId: number): void {
         this._router.navigate(['apps/configuracoes/etiquetas/editar/' + etiquetaId + '/dados-basicos']);
     }

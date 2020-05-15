@@ -11,6 +11,9 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {CdkGeneroTarefaAutocompleteModule} from '../../genero-tarefa/cdk-genero-tarefa-autocomplete/cdk-genero-tarefa-autocomplete.module';
 import {CdkGeneroAtividadeAutocompleteModule} from '../../genero-atividade/cdk-genero-atividade-autocomplete/cdk-genero-atividade-autocomplete.module';
+import {MatIconModule} from '@angular/material/icon';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {CdkEspecieAtividadeGridsearchModule} from '../cdk-especie-atividade-autocomplete/cdk-especie-atividade-gridsearch/cdk-especie-atividade-gridsearch.module';
 
 
 
@@ -30,7 +33,10 @@ import {CdkGeneroAtividadeAutocompleteModule} from '../../genero-atividade/cdk-g
         MatProgressSpinnerModule,
         MatAutocompleteModule,
         CdkGeneroTarefaAutocompleteModule,
-        CdkGeneroAtividadeAutocompleteModule
+        CdkGeneroAtividadeAutocompleteModule,
+        MatIconModule,
+        MatTooltipModule,
+        CdkEspecieAtividadeGridsearchModule
     ]
 })
 export class CdkEspecieAtividadeFormModule { }

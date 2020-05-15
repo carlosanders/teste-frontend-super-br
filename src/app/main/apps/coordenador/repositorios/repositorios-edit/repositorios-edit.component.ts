@@ -16,9 +16,10 @@ import * as fromStore from './store';
 import {Pagination} from '@cdk/models/pagination';
 import {Usuario} from '@cdk/models/usuario.model';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {getRouterState} from '../../../../../store/reducers';
-import {Lotacao, ModalidadeOrgaoCentral, Setor} from "../../../../../../@cdk/models";
-import {takeUntil} from "rxjs/operators";
+import {getRouterState} from 'app/store/reducers';
+import {ModalidadeOrgaoCentral, Setor} from '@cdk/models';
+import {takeUntil} from 'rxjs/operators';
+import {Back} from 'app/store/actions';
 
 @Component({
     selector: 'coordenador-repositorios-edit',
@@ -38,9 +39,13 @@ export class RepositoriosEditComponent implements OnInit, OnDestroy {
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
     setor$: Observable<Setor>;
+    setorHandle$: Observable<Setor>;
     setor: Setor = null;
     orgaoCentral$: Observable<ModalidadeOrgaoCentral>;
     orgaoCentral: ModalidadeOrgaoCentral = null;
+    unidade$: Observable<Setor>;
+    unidadeHandle$: Observable<Setor>;
+    unidade: Setor = null;
     usuario: Usuario;
     setorPagination: Pagination;
     modalidadeRepositorioPagination: Pagination;
@@ -58,6 +63,7 @@ export class RepositoriosEditComponent implements OnInit, OnDestroy {
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.repositorio$ = this._store.pipe(select(fromStore.getRepositorio));
         this.setor$ = this._store.pipe(select(fromStore.getSetor));
+        this.unidade$ = this._store.pipe(select(fromStore.getUnidade));
         this.orgaoCentral$ = this._store.pipe(select(fromStore.getOrgaoCentral));
 
         this._store
@@ -65,6 +71,32 @@ export class RepositoriosEditComponent implements OnInit, OnDestroy {
             .subscribe(routerState => {
                 if (routerState) {
                     this.routerState = routerState.state;
+                    if (this.routerState.params['unidadeHandle']) {
+                        this.unidadeHandle$ = this._store.pipe(select(fromStore.getUnidadeHandle));
+
+                        this.unidadeHandle$.pipe(
+                            takeUntil(this._unsubscribeAll)
+                        ).subscribe(
+                            setor => {
+                                if (setor) {
+                                    this.unidade = setor;
+                                }
+                            }
+                        );
+                    }
+                    if (this.routerState.params['setorHandle']) {
+                        this.setorHandle$ = this._store.pipe(select(fromStore.getSetorHandle));
+
+                        this.setorHandle$.pipe(
+                            takeUntil(this._unsubscribeAll)
+                        ).subscribe(
+                            setor => {
+                                if (setor) {
+                                    this.setor = setor;
+                                }
+                            }
+                        );
+                    }
                 }
             });
 
@@ -94,6 +126,9 @@ export class RepositoriosEditComponent implements OnInit, OnDestroy {
                     if (this.repositorio.vinculacoesRepositorios[0]?.setor) {
                         this.repositorio.setor = this.repositorio.vinculacoesRepositorios[0]?.setor;
                     }
+                    if (this.repositorio.vinculacoesRepositorios[0]?.unidade) {
+                        this.repositorio.unidade = this.repositorio.vinculacoesRepositorios[0]?.unidade;
+                    }
                     if (this.repositorio.vinculacoesRepositorios[0]?.usuario) {
                         this.repositorio.usuario = this.repositorio.vinculacoesRepositorios[0]?.usuario;
                     }
@@ -114,6 +149,16 @@ export class RepositoriosEditComponent implements OnInit, OnDestroy {
             }
         );
 
+        this.unidade$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(
+            setor => {
+                if (setor) {
+                    this.unidade = setor;
+                }
+            }
+        );
+
         this.orgaoCentral$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(
@@ -127,10 +172,12 @@ export class RepositoriosEditComponent implements OnInit, OnDestroy {
         if (!this.repositorio) {
             this.repositorio = new Repositorio();
             this.repositorio.ativo = true;
-            if (this.orgaoCentral) {
-                this.repositorio.orgaoCentral = this.orgaoCentral;
-            } else {
+            if (this.setor) {
                 this.repositorio.setor = this.setor;
+            } else if (this.unidade) {
+                this.repositorio.unidade = this.unidade;
+            } else {
+                this.repositorio.orgaoCentral = this.orgaoCentral;
             }
         }
     }
@@ -148,6 +195,10 @@ export class RepositoriosEditComponent implements OnInit, OnDestroy {
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
+    doAbort(): void {
+        this._store.dispatch(new Back());
+    }
+
     submit(values): void {
 
         const repositorio = new Repositorio();
@@ -157,10 +208,12 @@ export class RepositoriosEditComponent implements OnInit, OnDestroy {
             }
         );
 
-        if (this.orgaoCentral) {
-            repositorio.orgaoCentral = this.orgaoCentral;
-        } else {
+        if (this.setor) {
             repositorio.setor = this.setor;
+        } else if (this.unidade) {
+            repositorio.unidade = this.unidade;
+        } else {
+            repositorio.orgaoCentral = this.orgaoCentral;
         }
 
         this._store.dispatch(new fromStore.SaveRepositorio(repositorio));

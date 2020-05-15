@@ -3,5 +3,6 @@
     [saving]="(isSaving$ | async)"
     [errors]="(errors$ | async)"
     [especieSetorPagination]="especieSetorPagination"
-    (save)="submit($event)">
+    (save)="submit($event)"
+    (abort)="doAbort()">
 </cdk-vinculacao-repositorio-especie-setor-form>

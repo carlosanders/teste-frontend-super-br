@@ -1,0 +1,13 @@
+<cdk-numero-unico-documento-grid
+        [loading]="(loading$ | async)"
+        [numerosUnicosDocumento]="(numerosUnicosDocumentos$ | async)"
+        [total]="(pagination$ | async)?.total"
+        [deletingIds]="(deletingIds$ | async)"
+        [deletedIds]="(deletedIds$ | async)"
+        [actions]="['edit','create','delete']"
+        (create)="create()"
+        [setorPagination]="this.setorPagination"
+        (reload)="reload($event)"
+        (edit)="edit($event)"
+        (delete)="delete($event)">
+</cdk-numero-unico-documento-grid>

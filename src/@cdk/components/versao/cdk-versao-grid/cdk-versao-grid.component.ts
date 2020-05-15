@@ -48,7 +48,7 @@ export class CdkVersaoGridComponent implements AfterViewInit, OnInit, OnChanges 
     pageSize = 5;
 
     @Input()
-    actions: string[] = ['reverter'];
+    actions: string[] = ['reverter', 'visualizar', 'comparar'];
 
     @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
@@ -64,6 +64,12 @@ export class CdkVersaoGridComponent implements AfterViewInit, OnInit, OnChanges 
 
     @Output()
     reverter = new EventEmitter<number>();
+
+    @Output()
+    visualizar = new EventEmitter<number>();
+
+    @Output()
+    comparar = new EventEmitter<number>();
 
     @Output()
     delete = new EventEmitter<number>();
@@ -145,8 +151,16 @@ export class CdkVersaoGridComponent implements AfterViewInit, OnInit, OnChanges 
         });
     }
 
-    reverterLogEntry(valor): void {
+    doReverter(valor): void {
         this.reverter.emit(valor);
+    }
+
+    doVisualizar(valor): void {
+        this.visualizar.emit(valor);
+    }
+
+    doComparar(valor): void {
+        this.comparar.emit(valor);
     }
 
     deleteLogEntry(logEntryId): void {

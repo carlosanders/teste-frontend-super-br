@@ -1,0 +1,11 @@
+<cdk-setor-grid
+    [loading]="(loading$ | async)"
+    [setores]="(unidades$ | async)"
+    [total]="(pagination$ | async)?.total"
+    [deletingIds]="(deletingIds$ | async)"
+    [deletedIds]="(deletedIds$ | async)"
+    [displayedColumns]="['id', 'nome', 'sigla', 'modalidadeOrgaoCentral.valor', 'ativo', 'actions']"
+    [actions]="['select']"
+    (selected)="select($event)"
+    (reload)="reload($event)">
+</cdk-setor-grid>

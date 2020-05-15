@@ -53,7 +53,7 @@ export class ModelosEspecieSetorEditEffects {
                         JSON.stringify({}),
                         JSON.stringify([
                             'populateAll',
-                            'especieSetor.generoSetor'
+                            'especieSetor.generoSetor',
                         ]));
                 }),
                 switchMap(response => [

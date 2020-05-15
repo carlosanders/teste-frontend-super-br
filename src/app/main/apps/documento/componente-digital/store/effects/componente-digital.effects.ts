@@ -86,6 +86,106 @@ export class ComponenteDigitalEffect {
      * @type {Observable<any>}
      */
     @Effect({ dispatch: false })
+    visualizarVersaoComponenteDigital: any =
+        this._actions
+            .pipe(
+                ofType<ComponenteDigitalActions.VisualizarVersaoComponenteDigital>(ComponenteDigitalActions.VISUALIZAR_VERSAO_COMPONENTE_DIGITAL),
+                switchMap((action) => {
+                    let handle = { id: '', value: '' };
+                    const routeParams = of('componenteDigitalHandle');
+                    routeParams.subscribe(param => {
+                        if (this.routerState.params[param]) {
+                            handle = {
+                                id: param,
+                                value: this.routerState.params[param]
+                            };
+                        }
+                    });
+                    const context = JSON.stringify({versao: action.payload});
+                    return this._componenteDigitalService.download(handle.value, context);
+                }),
+                tap((response: any) => {
+                    if (response && response.conteudo) {
+                        const byteCharacters = atob(response.conteudo.split(';base64,')[1]);
+                        const byteNumbers = new Array(byteCharacters.length);
+                        for (let i = 0; i < byteCharacters.length; i++) {
+                            byteNumbers[i] = byteCharacters.charCodeAt(i);
+                        }
+                        const byteArray = new Uint8Array(byteNumbers);
+                        const blob = new Blob([byteArray], {type: response.mimetype});
+                        const URL = window.URL;
+                        const data = URL.createObjectURL(blob);
+                        window.open(data, '_blank');
+
+                        setTimeout( () => {
+                            // For Firefox it is necessary to delay revoking the ObjectURL
+                            window.URL.revokeObjectURL(data);
+                        }, 100);
+
+                    }
+                }),
+                catchError((err, caught) => {
+                    console.log(err);
+                    this._store.dispatch(new ComponenteDigitalActions.VisualizarVersaoComponenteDigitalFailed(err));
+                    return caught;
+                })
+            );
+
+    /**
+     * Set Current Step
+     * @type {Observable<any>}
+     */
+    @Effect({ dispatch: false })
+    compararVersaoComponenteDigital: any =
+        this._actions
+            .pipe(
+                ofType<ComponenteDigitalActions.CompararVersaoComponenteDigital>(ComponenteDigitalActions.COMPARAR_VERSAO_COMPONENTE_DIGITAL),
+                switchMap((action) => {
+                    let handle = { id: '', value: '' };
+                    const routeParams = of('componenteDigitalHandle');
+                    routeParams.subscribe(param => {
+                        if (this.routerState.params[param]) {
+                            handle = {
+                                id: param,
+                                value: this.routerState.params[param]
+                            };
+                        }
+                    });
+                    const context = JSON.stringify({compararVersao: action.payload});
+                    return this._componenteDigitalService.download(handle.value, context);
+                }),
+                tap((response: any) => {
+                    if (response && response.conteudo) {
+                        const byteCharacters = atob(response.conteudo.split(';base64,')[1]);
+                        const byteNumbers = new Array(byteCharacters.length);
+                        for (let i = 0; i < byteCharacters.length; i++) {
+                            byteNumbers[i] = byteCharacters.charCodeAt(i);
+                        }
+                        const byteArray = new Uint8Array(byteNumbers);
+                        const blob = new Blob([byteArray], {type: response.mimetype});
+                        const URL = window.URL;
+                        const data = URL.createObjectURL(blob);
+                        window.open(data, '_blank');
+
+                        setTimeout( () => {
+                            // For Firefox it is necessary to delay revoking the ObjectURL
+                            window.URL.revokeObjectURL(data);
+                        }, 100);
+
+                    }
+                }),
+                catchError((err, caught) => {
+                    console.log(err);
+                    this._store.dispatch(new ComponenteDigitalActions.CompararVersaoComponenteDigitalFailed(err));
+                    return caught;
+                })
+            );
+
+    /**
+     * Set Current Step
+     * @type {Observable<any>}
+     */
+    @Effect({ dispatch: false })
     downloadAsPdfComponenteDigital: any =
         this._actions
             .pipe(
@@ -104,7 +204,7 @@ export class ComponenteDigitalEffect {
                             };
                         }
                     });
-                    return this._componenteDigitalService.downloadAsPdf(handle.value);
+                    return this._componenteDigitalService.download(handle.value, JSON.stringify({asPdf: true}));
                 }),
                 tap((response) => {
                     if (response && response.conteudo) {
@@ -114,12 +214,13 @@ export class ComponenteDigitalEffect {
                             byteNumbers[i] = byteCharacters.charCodeAt(i);
                         }
                         const byteArray = new Uint8Array(byteNumbers);
-                        const blob = new Blob([byteArray], {type: response.mimetype}),
-                            URL = window.URL;
+                        const blob = new Blob([byteArray], {type: response.mimetype});
+                        const URL = window.URL;
                         const data = URL.createObjectURL(blob);
 
                         const link = document.createElement('a');
                         link.href = data;
+                        link.target = '_blank';
                         link.download = response.fileName;
                         // this is necessary as link.click() does not work on the latest firefox
                         link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));

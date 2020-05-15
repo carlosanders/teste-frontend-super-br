@@ -39,6 +39,7 @@ import {CdkEspecieAtividadeFilterModule} from '@cdk/components/especie-atividade
 
         CdkSharedModule,
         CdkSidebarModule,
+        MatTableModule,
     ],
     providers: [
         EspecieAtividadeService,

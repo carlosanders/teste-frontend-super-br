@@ -87,6 +87,10 @@ export class ModelosEspecieSetorListComponent implements OnInit {
         }));
     }
 
+    create() : void {
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
+    }
+
     edit(vinculacaoModeloId: number): void {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/') + vinculacaoModeloId]);
     }

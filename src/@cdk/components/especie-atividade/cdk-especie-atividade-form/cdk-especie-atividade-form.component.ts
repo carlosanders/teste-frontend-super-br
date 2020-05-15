@@ -8,7 +8,7 @@ import {
     Output,
     SimpleChange
 } from '@angular/core';
-import {EspecieAtividade} from '../../../models';
+import {EspecieAtividade, GeneroAtividade, Pagination, Pessoa} from '../../../models';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
@@ -32,6 +32,9 @@ export class CdkEspecieAtividadeFormComponent implements OnChanges, OnDestroy {
 
     @Output()
     abort = new EventEmitter<any>();
+
+    @Input()
+    generoAtividadePagination: Pagination;
 
     @Input()
     form: FormGroup;
@@ -114,5 +117,16 @@ export class CdkEspecieAtividadeFormComponent implements OnChanges, OnDestroy {
 
     doAbort(): void {
         this.abort.emit();
+    }
+
+    showGeneroAtividadeGrid(): void {
+        this.activeCard = 'genero-atividade-gridsearch';
+    }
+
+    selectGeneroAtividade(genero: GeneroAtividade): void {
+        if (genero) {
+            this.form.get('generoAtividade').setValue(genero);
+        }
+        this.activeCard = 'form';
     }
 }

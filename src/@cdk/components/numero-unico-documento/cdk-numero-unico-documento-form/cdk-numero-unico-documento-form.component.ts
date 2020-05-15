@@ -56,7 +56,6 @@ export class CdkNumeroUnicoDocumentoFormComponent implements OnChanges, OnDestro
        this.form = this._formBuilder.group({
             id: [null],
             tipoDocumento: [null, [Validators.required]],
-            setor: [null],
             sequencia: [null, [Validators.required]],
             ano: [null]
         });
@@ -73,10 +72,6 @@ export class CdkNumeroUnicoDocumentoFormComponent implements OnChanges, OnDestro
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
         if (changes['numeroUnicoDocumento'] && this.numeroUnicoDocumento && ((!this.numeroUnicoDocumento.id && !this.form.dirty) || (this.numeroUnicoDocumento.id !== this.form.get('id').value))) {
             this.form.patchValue({...this.numeroUnicoDocumento});
-        }
-
-        if (this.setor) {
-            this.form.get('setor').setValue(this.setor);
         }
 
         if (this.errors && this.errors.status && this.errors.status === 422) {

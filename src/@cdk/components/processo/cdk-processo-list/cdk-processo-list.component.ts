@@ -1,6 +1,6 @@
 import {AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewEncapsulation} from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
-import {Processo} from '@cdk/models';
+import {Assunto, Interessado, Processo} from '@cdk/models';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 
 @Component({
@@ -85,6 +85,18 @@ export class CdkProcessoListComponent implements AfterViewInit, OnInit, OnChange
 
     gridFilter: any;
 
+    @Output()
+    loadAssuntos = new EventEmitter<any>();
+
+    @Input()
+    loadingAssuntosProcessosId: number[];
+
+    @Output()
+    loadInteressados = new EventEmitter<any>();
+
+    @Input()
+    loadingInteressadosProcessosId: number[];
+
     listFilter: {} = {};
     listSort: {} = {};
 
@@ -130,7 +142,6 @@ export class CdkProcessoListComponent implements AfterViewInit, OnInit, OnChange
     selectProcesso(processo: Processo): void {
         this.selected.emit(processo);
     }
-
 
     /**
      * Toggle select all
@@ -185,8 +196,6 @@ export class CdkProcessoListComponent implements AfterViewInit, OnInit, OnChange
         this.loadPage();
     }
 
-
-
     doClassificacaoBloco(): void {
         this.classificacaoBloco.emit();
     }
@@ -229,5 +238,13 @@ export class CdkProcessoListComponent implements AfterViewInit, OnInit, OnChange
      */
     toggleSidebar(): void {
         this._cdkSidebarService.getSidebar('cdk-processo-list-filter').toggleOpen();
+    }
+
+    doLoadAssuntos(processoId): void {
+        this.loadAssuntos.emit(processoId);
+    }
+
+    doLoadInteressados(processoId): void {
+        this.loadInteressados.emit(processoId);
     }
 }

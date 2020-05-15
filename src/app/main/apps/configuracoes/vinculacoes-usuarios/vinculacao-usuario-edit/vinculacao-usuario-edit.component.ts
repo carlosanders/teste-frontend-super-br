@@ -1,6 +1,6 @@
 import {
     ChangeDetectionStrategy,
-    Component,
+    Component, Input,
     OnDestroy,
     OnInit,
     ViewEncapsulation
@@ -16,6 +16,7 @@ import * as fromStore from './store';
 import {Usuario} from '@cdk/models';
 import {Pagination} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
+import {Back} from "../../../../../store/actions";
 
 @Component({
     selector: 'vinculacao-usuario-edit',
@@ -26,7 +27,6 @@ import {LoginService} from 'app/main/auth/login/login.service';
     animations: cdkAnimations
 })
 export class VinculacaoUsuarioEditComponent implements OnInit, OnDestroy {
-
     vinculacaoUsuario$: Observable<VinculacaoUsuario>;
     vinculacaoUsuario: VinculacaoUsuario;
     isSaving$: Observable<boolean>;
@@ -35,6 +35,7 @@ export class VinculacaoUsuarioEditComponent implements OnInit, OnDestroy {
     usuario: Usuario;
 
     usuarioVinculadoPagination: Pagination;
+    logEntryPagination: Pagination;
 
     /**
      *
@@ -51,6 +52,7 @@ export class VinculacaoUsuarioEditComponent implements OnInit, OnDestroy {
         this.usuario = this._loginService.getUserProfile();
 
         this.usuarioVinculadoPagination = new Pagination();
+        this.logEntryPagination = new Pagination();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -69,6 +71,8 @@ export class VinculacaoUsuarioEditComponent implements OnInit, OnDestroy {
             this.vinculacaoUsuario = new VinculacaoUsuario();
             this.vinculacaoUsuario.usuario = this.usuario;
         }
+
+        this.logEntryPagination.filter = {entity: 'SuppCore\\AdministrativoBackend\\Entity\\VinculacaoUsuario', id: + this.vinculacaoUsuario.id};
     }
 
     /**
@@ -92,7 +96,9 @@ export class VinculacaoUsuarioEditComponent implements OnInit, OnDestroy {
         );
 
         this._store.dispatch(new fromStore.SaveVinculacaoUsuario(vinculacaoUsuario));
-
     }
 
+    doAbort(): void {
+        this._store.dispatch(new Back());
+    }
 }

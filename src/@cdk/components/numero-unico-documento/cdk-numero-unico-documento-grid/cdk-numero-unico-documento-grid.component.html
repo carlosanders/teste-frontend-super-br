@@ -1,7 +1,7 @@
-<div class="page-layout left-sidebar" fxFlex="100">
+<div class="page-layout left-sidebar" fxFlex>
 
     <!-- SIDEBAR -->
-    <cdk-sidebar class="sidebar" name="cdk-numero-unico-documento-filter" position="left">
+    <cdk-sidebar name="cdk-numero-unico-documento-filter" position="left">
         <cdk-numero-unico-documento-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-numero-unico-documento-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
@@ -9,7 +9,7 @@
     <!-- CONTENT -->
     <div class="content responsive-grid" fxFlex fxLayout="column">
 
-        <div class="actions" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="end">
+        <div class="actions" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="end center">
 
             <button class="back accent" mat-icon-button *ngIf="actions.indexOf('create') > -1"
                     (click)="doCreate()"
@@ -26,7 +26,7 @@
             </button>
 
             <button mat-icon-button *ngIf="selectedIds.length > 1 && actions.indexOf('delete') > -1"
-                    (click)="deleteLotacoes(selectedIds)"
+                    (click)="deleteNumerosUnicosDocumentos(selectedIds)"
                     aria-label="remover"
                     matTooltip="Remover">
                 <mat-icon>delete</mat-icon>
@@ -47,16 +47,23 @@
                 <mat-icon>refresh</mat-icon>
             </button>
 
-            <button class="toggle-filter" mat-icon-button mat-icon-button
+            <button class="toggle-filter" mat-icon-button
                     [ngClass]="{'warn': !(gridFilter | json).includes('{}')}"
                     (click)="toggleFilter()"
                     aria-label="filtrar"
                     matTooltip="Filtrar">
                 <mat-icon>filter_list</mat-icon>
             </button>
+
+            <button mat-icon-button [ngClass]="{'warn': hasExcluded}" *ngIf="actions.indexOf('showDeleted') > -1"
+                    (click)="loadExcluded()"
+                    aria-label="mostrar apagados"
+                    matTooltip="Mostrar Apagados">
+                <mat-icon>delete_sweep</mat-icon>
+            </button>
         </div>
 
-        <div class="spinner-container" *ngIf="loading">
+        <div fxFlex="1 1 auto" fxLayout="row" fxLayoutAlign="center center" *ngIf="loading">
             <mat-spinner diameter="32"></mat-spinner>
         </div>
 
@@ -68,6 +75,7 @@
                     <th mat-header-cell *matHeaderCellDef>
                         <mat-checkbox (click)="toggleSelectAll($event)"
                                       [checked]="hasSelected"
+                                      [disabled]="hasExcluded"
                                       [indeterminate]="isIndeterminate">
                         </mat-checkbox>
                     </th>
@@ -75,7 +83,7 @@
                         <mat-checkbox [checked]="selectedIds.indexOf(numeroUnicoDocumento.id) > -1"
                                       (change)="toggleInSelected(numeroUnicoDocumento.id)"
                                       (click)="$event.stopPropagation();"
-                                      [disabled]="deletedIds?.indexOf(numeroUnicoDocumento.id) > -1">
+                                      [disabled]="deletedIds?.indexOf(numeroUnicoDocumento.id) > -1 || hasExcluded">
                         </mat-checkbox>
                     </td>
                 </ng-container>
@@ -204,7 +212,7 @@
                     <td mat-cell *matCellDef="let numeroUnicoDocumento">
 
                         <button mat-icon-button
-                                *ngIf="actions.indexOf('select') > -1"
+                                *ngIf="actions.indexOf('select') > -1 && !hasExcluded"
                                 (click)="selectNumeroUnicoDocumento(numeroUnicoDocumento)"
                                 aria-label="selecionar"
                                 matTooltip="Selecionar">
@@ -212,7 +220,7 @@
                         </button>
 
                         <button mat-icon-button
-                                *ngIf="actions.indexOf('edit') > -1"
+                                *ngIf="actions.indexOf('edit') > -1 && !hasExcluded"
                                 [disabled]="deletedIds?.indexOf(numeroUnicoDocumento.id) > -1"
                                 (click)="editNumeroUnicoDocumento(numeroUnicoDocumento.id)"
                                 aria-label="editar"
@@ -220,29 +228,29 @@
                             <mat-icon>edit</mat-icon>
                         </button>
 
-                        <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(numeroUnicoDocumento.id) > -1">
-                            <mat-spinner diameter="24"></mat-spinner>
-                        </div>
-
                         <button mat-icon-button
-                                *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(numeroUnicoDocumento.id) === -1"
+                                *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(numeroUnicoDocumento.id) === -1 && !hasExcluded"
                                 [disabled]="deletedIds?.indexOf(numeroUnicoDocumento.id) > -1"
                                 (click)="deleteNumeroUnicoDocumento(numeroUnicoDocumento.id)"
                                 aria-label="remover"
                                 matTooltip="Remover">
                             <mat-icon>delete</mat-icon>
                         </button>
+
+                        <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(numeroUnicoDocumento.id) > -1">
+                            <mat-spinner diameter="24"></mat-spinner>
+                        </div>
+
                     </td>
                 </ng-container>
 
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
                 <tr mat-row *matRowDef="let numeroUnicoDocumento; columns: displayedColumns;">
                 </tr>
             </table>
         </div>
-
-        <div fxFlex fxLayout="row" fxLayoutAlign="center center">
-            <mat-paginator [pageSizeOptions]="[5, 10]"></mat-paginator>
+        <div class="actions" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="center center">
+            <mat-paginator [disabled]="loading" [pageSizeOptions]="[5, 10]"></mat-paginator>
         </div>
 
     </div>
