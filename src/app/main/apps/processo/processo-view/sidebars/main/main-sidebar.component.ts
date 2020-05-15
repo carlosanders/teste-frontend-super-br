@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Juntada, Pagination} from '@cdk/models';
+import {Juntada, Pagination, Processo} from '@cdk/models';
 import {JuntadaService} from '@cdk/services/juntada.service';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {select, Store} from '@ngrx/store';
@@ -19,6 +19,7 @@ import {filter} from 'rxjs/operators';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {Router} from '@angular/router';
 import {getRouterState} from '../../../../../../store/reducers';
+import {getProcesso} from '../../../store/selectors';
 
 @Component({
     selector: 'processo-view-main-sidebar',
@@ -32,6 +33,9 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
 
     juntadas$: Observable<Juntada[]>;
     juntadas: Juntada[] = [];
+
+    processo$: Observable<Processo>;
+    processo: Processo;
 
     isLoading$: Observable<boolean>;
 
@@ -92,6 +96,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
         this.currentStep$ = this._store.pipe(select(fromStore.getCurrentStep));
         this.index$ = this._store.pipe(select(fromStore.getIndex));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
+        this.processo$ = this._store.pipe(select(getProcesso));
 
         this.juntadas$.pipe(filter(juntadas => !!juntadas)).subscribe(
             juntadas => {
@@ -113,6 +118,10 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
 
         this.pagination$.subscribe(
             pagination => this.pagination = pagination
+        );
+
+        this.processo$.subscribe(
+            processo => this.processo = processo
         );
 
         this._store

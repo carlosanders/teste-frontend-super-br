@@ -94,6 +94,26 @@
      (scrolled)="onScroll()">
 
     <div class="juntada" matRipple
+         (click)="gotoStep(0, 1)"
+         [ngClass]="{'current': currentStep.step === -1, 'completed': currentStep.step > -1, 'last': 0, 'first': -1}">
+        <div class="index">
+            <span>{{ 0 }}</span>
+        </div>
+        <div fxFlex fxLayout="column">
+            <div class="descricao">CAPA DO PROCESSO</div>
+            <div class="criado-em">{{processo?.dataHoraAbertura | date: 'dd/MM/yyyy'}}</div>
+            <div class="tipo-documento" fxLayout="row" fxLayoutAlign="start center">
+                <mat-icon class="s-14">picture_as_pdf</mat-icon>
+                <span class="ml-4"
+                      [ngClass]="{'current-tipo-documento': true}">{{processo?.especieProcesso.nome}}</span>
+                <mat-icon class="ml-4 s-24"
+                          *ngIf="index[currentStep.step][currentStep.subStep] === -1">arrow_left
+                </mat-icon>
+            </div>
+        </div>
+    </div>
+
+    <div class="juntada" matRipple
          *ngFor="let juntada of (juntadas); let i = index; let last = last; let first = first"
          (click)="gotoStep(i, juntada.ativo)"
          [ngClass]="{'current': currentStep.step === i, 'completed': currentStep.step > i, 'last': last, 'first': first}">
