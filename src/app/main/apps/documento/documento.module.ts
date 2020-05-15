@@ -36,6 +36,10 @@ const routes: Routes = [
                 loadChildren: () => import('./modelo-edit/documento-modelo-edit.module').then(m => m.DocumentoModeloEditModule),
             },
             {
+                path       : 'template',
+                loadChildren: () => import('./template-edit/documento-template-edit.module').then(m => m.DocumentoTemplateEditModule),
+            },
+            {
                 path       : 'repositorio',
                 loadChildren: () => import('./repositorio-edit/documento-repositorio-edit.module').then(m => m.DocumentoRepositorioEditModule),
             },
