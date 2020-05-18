@@ -16,7 +16,7 @@ import {takeUntil} from 'rxjs/operators';
 import {getMercureState, getRouterState} from '../../../../../store/reducers';
 import {getRepositorioComponenteDigital} from '../../store/selectors';
 import {SetQueryRepositorios, SetRepositorioComponenteDigital} from '../../store/actions';
-import {Pagination} from '../../../../../../@cdk/models/pagination';
+import {Pagination} from '@cdk/models/pagination';
 
 @Component({
     selector: 'componente-digital-ckeditor',
@@ -174,8 +174,22 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
     /**
      * @param data
      */
-    doRevertComponenteDigital(data: any): void {
+    doReverter(data: any): void {
         this._store.dispatch(new fromStore.RevertComponenteDigital({componenteDigital: this.componenteDigital, hash: data.toString() }));
+    }
+
+    /**
+     * @param data
+     */
+    doVisualizar(data: any): void {
+        this._store.dispatch(new fromStore.VisualizarVersaoComponenteDigital(data.toString()));
+    }
+
+    /**
+     * @param data
+     */
+    doComparar(data: any): void {
+        this._store.dispatch(new fromStore.CompararVersaoComponenteDigital(data.toString()));
     }
 
     doAssinar(): void {

@@ -71,6 +71,12 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
     @Output()
     reverter = new EventEmitter<any>();
 
+    @Output()
+    visualizar = new EventEmitter<any>();
+
+    @Output()
+    comparar = new EventEmitter<any>();
+
     @Input()
     config = {
         extraPlugins: 'printsemzoom,fastimage,paragrafo,paragrafonumerado,citacao,titulo,subtitulo,texttransform,zoom,footnotes,' +
@@ -101,12 +107,21 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
                 {name: 'salvar', items: ['saveButton', 'assinarButton', 'pdfButton', 'versaoButton', 'PrintSemZoom']},
                 {name: 'clipboard', items: ['Cut', 'Copy', 'Paste', 'PasteText', '-', 'Undo', 'Redo']},
                 {name: 'editing', items: ['Find', 'Replace', '-', 'SelectAll']},
-                {name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat']},
-                {name: 'paragraph', items: ['NumberedList', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']},
+                {
+                    name: 'basicstyles',
+                    items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat']
+                },
+                {
+                    name: 'paragraph',
+                    items: ['NumberedList', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']
+                },
                 {name: 'styles', items: ['paragrafo', 'paragrafonumerado', 'citacao', 'titulo', 'subtitulo']},
                 {name: 'colors', items: ['TextColor', 'BGColor']},
                 {name: 'insert', items: ['Table', 'SpecialChar', 'PageBreak', 'HorizontalRule', 'Footnotes']},
-                {name: 'texttransform', items: ['TransformTextToUppercase', 'TransformTextToLowercase', 'TransformTextCapitalize']},
+                {
+                    name: 'texttransform',
+                    items: ['TransformTextToUppercase', 'TransformTextToLowercase', 'TransformTextCapitalize']
+                },
                 {name: 'zoom', items: ['Zoom', 'Maximize']},
                 {name: 'modelo', items: ['campoButton', 'repositorioButton']}
 
@@ -189,15 +204,15 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
         }
 
         if (changes['componenteDigital']) {
-             if (changes['componenteDigital'].firstChange) {
-                 this.fetch();
-             }
+            if (changes['componenteDigital'].firstChange) {
+                this.fetch();
+            }
 
-             if (this.revertendo) {
-                 this.fetch();
-                 this.revertendo = false;
-                 this.dialog.closeAll();
-             }
+            if (this.revertendo) {
+                this.fetch();
+                this.revertendo = false;
+                this.dialog.closeAll();
+            }
 
             if (this.componenteDigital && this.componenteDigital.conteudo) {
                 this.hashAntigo = this.componenteDigital.hash;
@@ -282,7 +297,7 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
         }
 
         if (!this.btVersoes) {
-            const campoVersoes = <HTMLElement>document.getElementsByClassName('cke_button__versaoButton')[0].parentNode;
+            const campoVersoes = document.getElementsByClassName('cke_button__versaoButton')[0].parentNode as HTMLElement;
             campoVersoes.style.visibility = 'hidden';
         }
 
@@ -395,9 +410,17 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
             }
         });
 
-        dialogRef.componentInstance.reverter.subscribe((revert) => {
+        dialogRef.componentInstance.reverter.subscribe((value) => {
             this.revertendo = true;
-            this.reverter.emit(revert);
+            this.reverter.emit(value);
+        });
+
+        dialogRef.componentInstance.visualizar.subscribe((value) => {
+            this.visualizar.emit(value);
+        });
+
+        dialogRef.componentInstance.comparar.subscribe((value) => {
+            this.comparar.emit(value);
         });
 
         dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe(result => {
