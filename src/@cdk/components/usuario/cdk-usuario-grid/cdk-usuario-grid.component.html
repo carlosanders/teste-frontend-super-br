@@ -257,6 +257,24 @@
                             <mat-icon>event_busy</mat-icon>
                         </button>
 
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('resetaSenhaColaborador') > -1 && usuario.colaborador"
+                                [disabled]="deletedIds?.indexOf(usuario.id) > -1"
+                                (click)="redefineSenhaColaborador(usuario.id)"
+                                aria-label="reseta senha colaborador"
+                                matTooltip="Reseta Senha">
+                            <mat-icon>vpn_key</mat-icon>
+                        </button>
+
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('resetaSenha') > -1"
+                                [disabled]="deletedIds?.indexOf(usuario.id) > -1"
+                                (click)="redefineSenha(usuario.id)"
+                                aria-label="reseta senha"
+                                matTooltip="Reseta Senha">
+                            <mat-icon>vpn_key</mat-icon>
+                        </button>
+
                         <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(usuario.id) > -1">
                             <mat-spinner diameter="24"></mat-spinner>
                         </div>

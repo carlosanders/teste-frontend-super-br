@@ -95,6 +95,26 @@ export class UsuariosListEffects {
             );
 
     /**
+     * Reset Senha Usuario
+     * @type {Observable<any>}
+     */
+    @Effect()
+    resetSenha: any =
+        this._actions
+            .pipe(
+                ofType<UsuariosListActions.ResetSenha>(UsuariosListActions.RESET_SENHA),
+                mergeMap((action) => {
+                    return this._usuarioService.resetaSenha(action.payload).pipe(
+                        map((response) => new UsuariosListActions.ResetSenhaSuccess(response.id)),
+                        catchError((err) => {
+                            console.log(err);
+                            return of(new UsuariosListActions.ResetSenhaFailed(action.payload));
+                        })
+                    );
+                })
+            );
+
+    /**
      * Delete Usuario
      * @type {Observable<any>}
      */

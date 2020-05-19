@@ -10,7 +10,8 @@ import {
     MatPaginatorModule,
     MatSortModule,
     MatAutocompleteModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatDialogModule
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 
@@ -48,6 +49,7 @@ const routes: Routes = [
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
+        MatDialogModule,
         TranslateModule,
         CdkSharedModule,
         CdkUsuarioGridModule,

@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import {Component, Inject} from '@angular/core';
 import { MatDialogRef } from '@cdk/angular/material';
+import {MAT_DIALOG_DATA} from '@cdk/angular/material';
 
 @Component({
     selector   : 'cdk-confirm-dialog',
@@ -8,17 +9,15 @@ import { MatDialogRef } from '@cdk/angular/material';
 })
 export class CdkConfirmDialogComponent
 {
-    public confirmMessage: string;
 
     /**
-     * Constructor
      *
-     * @param {MatDialogRef<CdkConfirmDialogComponent>} dialogRef
+     * @param dialogRef
+     * @param data
      */
     constructor(
-        public dialogRef: MatDialogRef<CdkConfirmDialogComponent>
-    )
-    {
-    }
+        public dialogRef: MatDialogRef<CdkConfirmDialogComponent>,
+        @Inject(MAT_DIALOG_DATA) public data: any
+    ) {}
 
 }

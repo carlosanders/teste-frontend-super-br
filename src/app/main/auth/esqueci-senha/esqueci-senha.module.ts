@@ -5,20 +5,21 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { CdkSharedModule } from '@cdk/shared.module';
 
-import { LoginComponent } from 'app/main/auth/login/login.component';
+import { EsqueciSenhaComponent } from 'app/main/auth/esqueci-senha/esqueci-senha.component';
 
-import { LoginStoreModule } from './store/store.module';
+import { EsqueciSenhaStoreModule } from './store/store.module';
+import {EsqueciSenhaService} from "./esqueci-senha.service";
 
 const routes = [
     {
         path     : '',
-        component: LoginComponent
+        component: EsqueciSenhaComponent
     }
 ];
 
 @NgModule({
     declarations: [
-        LoginComponent
+        EsqueciSenhaComponent
     ],
     imports     : [
         RouterModule.forChild(routes),
@@ -33,9 +34,13 @@ const routes = [
 
         CdkSharedModule,
 
-        LoginStoreModule
+        EsqueciSenhaStoreModule
+    ],
+    providers   : [
+        EsqueciSenhaService
     ]
+
 })
-export class LoginModule
+export class EsqueciSenhaModule
 {
 }
