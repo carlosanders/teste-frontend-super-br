@@ -11,7 +11,7 @@ import {
     MatSelectModule,
 } from '@cdk/angular/material';
 
-import {CdkSidebarModule} from '@cdk/components/index';
+import {CdkSidebarModule} from '../..';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {AssuntoAdministrativoService} from '@cdk/services/assunto-administrativo.service';
 import {CdkAssuntoAdministrativoGridComponent} from './cdk-assunto-administrativo-grid.component';

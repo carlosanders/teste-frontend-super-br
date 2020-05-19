@@ -39,6 +39,10 @@ const routes: Routes = [
                 loadChildren: () => import('./tipo-documento/tipo-documento.module').then(m => m.TipoDocumentoModule)
             },
             {
+                path: 'assuntos',
+                loadChildren: () => import('./assunto-administrativo/assunto-administrativo.module').then(m => m.AssuntoAdministrativoModule)
+            },
+            {
                 path: '**',
                 redirectTo: 'tarefas'
             },
