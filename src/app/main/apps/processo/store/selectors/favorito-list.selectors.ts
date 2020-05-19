@@ -1,5 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {getTarefaCreateAppState, TarefaCreateAppState, FavoritoListState} from '../reducers';
+import {getProcessoAppState, ProcessoAppState, FavoritoListState} from '../reducers';
 import {Favorito} from '@cdk/models';
 import {favorito as favoritoSchema} from '@cdk/normalizr/favorito.schema';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
@@ -7,8 +7,8 @@ import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 const schemaFavoritoSelectors = createSchemaSelectors<Favorito>(favoritoSchema);
 
 export const getFavoritoState = createSelector(
-    getTarefaCreateAppState,
-    (state: TarefaCreateAppState) => state.favorito
+    getProcessoAppState,
+    (state: ProcessoAppState) => state.favorito
 );
 
 export const getFavoritoIds = createSelector(

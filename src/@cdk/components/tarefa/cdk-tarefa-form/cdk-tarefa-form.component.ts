@@ -235,12 +235,35 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             debounceTime(300),
             distinctUntilChanged(),
             switchMap((value) => {
+
+                    //criacao normal de tarefa sem distribuicao automatica
                     if (value && typeof value === 'object' && !this.form.get('distribuicaoAutomatica').value) {
                         this.form.get('usuarioResponsavel').enable();
                         this.form.get('usuarioResponsavel').reset();
                         this.usuarioResponsavelPagination.filter['colaborador.lotacoes.setor.id'] = `eq:${value.id}`;
                         this._changeDetectorRef.markForCheck();
                     }
+
+                    //bloco de processos
+                    if (this.form.get('blocoResponsaveis').value && this.form.get('distribuicaoAutomatica').value && typeof value === 'object' && value) {
+                        const setor = this.form.get('setorResponsavel').value;
+                        const usuario = this.form.get('usuarioResponsavel').value;
+
+                        if (usuario) {
+                            const findDuplicate = this.blocoResponsaveis.some(item => (item.setor.id === setor.id) && (item.usuario.id === usuario.id));
+                            if (!findDuplicate) {
+                                this.blocoResponsaveis = [...this.blocoResponsaveis, {setor, usuario}];
+                            }
+                        } else {
+                            const findDuplicate = this.blocoResponsaveis.some(item => item.setor.id === setor.id);
+                            if (!findDuplicate) {
+                                this.blocoResponsaveis = [...this.blocoResponsaveis, {setor, usuario}];
+                            }
+                        }
+
+                        this._changeDetectorRef.markForCheck();
+                    }
+
                     return of([]);
                 }
             )
@@ -268,39 +291,13 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             this.processo.emit(this.form.get('processo').value);
         }
 
-        this.form.get('setorResponsavel').valueChanges.pipe(
-            debounceTime(300),
-            distinctUntilChanged(),
-            switchMap((value) => {
-                    if (this.form.get('blocoResponsaveis').value && this.form.get('distribuicaoAutomatica').value && typeof value === 'object' && value) {
-                        const setor = this.form.get('setorResponsavel').value;
-                        const usuario = this.form.get('usuarioResponsavel').value;
-
-                        if (usuario) {
-                            const findDuplicate = this.blocoResponsaveis.some(item => (item.setor.id === setor.id) && (item.usuario.id === usuario.id));
-                            if (!findDuplicate) {
-                                this.blocoResponsaveis = [...this.blocoResponsaveis, {setor, usuario}];
-                            }
-                        } else {
-                            const findDuplicate = this.blocoResponsaveis.some(item => item.setor.id === setor.id);
-                            if (!findDuplicate) {
-                                this.blocoResponsaveis = [...this.blocoResponsaveis, {setor, usuario}];
-                            }
-                        }
-
-                        this._changeDetectorRef.markForCheck();
-                    }
-
-                    return of([]);
-                }
-            )
-        ).subscribe();
-
         this.form.get('usuarioResponsavel').valueChanges.pipe(
             debounceTime(300),
             distinctUntilChanged(),
             switchMap((value) => {
-                    if (typeof value === 'object' && value) {
+
+                    //bloco de processo
+                    if (this.form.get('blocoResponsaveis').value && typeof value === 'object' && value) {
                         const setor = this.form.get('setorResponsavel').value;
                         const usuario = this.form.get('usuarioResponsavel').value;
 
@@ -318,6 +315,15 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
                         this._changeDetectorRef.markForCheck();
                     }
+
+                    if (this.valid && this.blocoEdit.blocoEditDistribuicao) {
+                        this.form.get('processo').clearValidators();
+                        this.form.get('dataHoraInicioPrazo').clearValidators();
+                        this.form.get('dataHoraFinalPrazo').clearValidators();
+                        this.form.get('especieTarefa').clearValidators();
+                        this.form.get('setorOrigem').clearValidators();
+                    }
+
                     return of([]);
                 }
             )

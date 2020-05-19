@@ -1,0 +1,16 @@
+<div class="content p-16" fxLayout="column" fxFlex="100">
+
+    <h2>Redistribuição de tarefa</h2>
+
+    <cdk-tarefa-form
+            [tarefa]="(tarefa$ | async)"
+            [saving]="(isSaving$ | async)"
+            [errors]="(errors$ | async)"
+            [mode]="'bloco-edit'"
+            [blocoEdit]="{blocoEditDistribuicao: true}"
+            (save)="submit($event)"
+            (favorito)="getFavoritos($event)"
+            [favoritosList]="(favoritos$ | async)">
+    </cdk-tarefa-form>
+
+</div>

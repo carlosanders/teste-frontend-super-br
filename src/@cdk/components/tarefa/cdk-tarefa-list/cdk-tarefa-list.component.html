@@ -75,6 +75,14 @@
                     </ng-container>
                 </button>
 
+                <button mat-menu-item aria-label="redistribuir tarefa"
+                        (click)="doRedistribuirBloco()">
+                    <ng-container>
+                        <mat-icon>forward</mat-icon>
+                        <span>Redistribuir</span>
+                    </ng-container>
+                </button>
+
                 <button mat-menu-item aria-label="movimentar"
                         (click)="doMovimentarBloco()">
                     <ng-container>
@@ -180,6 +188,7 @@
                                   (createDocumentoAvulso)="doCreateDocumentoAvulso($event)"
                                   (createTarefa)="doCreateTarefa($event)"
                                   (editTarefa)="doEditTarefa($event)"
+                                  (redistribuirTarefa)="doRedistribuirTarefa($event)"
                                   (editProcesso)="doEditProcesso($event)"
                                   [ngClass]="{'selected':tarefa.id === currentTarefaId}"
                                   (loadAssuntos)="doLoadAssuntos($event)"

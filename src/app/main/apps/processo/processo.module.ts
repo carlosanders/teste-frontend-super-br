@@ -22,6 +22,7 @@ import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.servi
 import {LoginService} from '../../auth/login/login.service';
 import {ProcessoDownloadModule} from './processo-download/processo-download.module';
 import {MatMenuModule} from '@angular/material/menu';
+import {FavoritoService} from '@cdk/services/favorito.service';
 
 const routes: Routes = [
     {
@@ -93,7 +94,8 @@ const routes: Routes = [
         ProcessoService,
         VinculacaoEtiquetaService,
         LoginService,
-        fromGuards.ResolveGuard
+        fromGuards.ResolveGuard,
+        FavoritoService
     ]
 })
 export class ProcessoModule

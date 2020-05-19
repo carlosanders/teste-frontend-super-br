@@ -60,6 +60,10 @@ const routes: Routes = [
                 loadChildren: () => import('./encaminhamento/encaminhamento.module').then(m => m.EncaminhamentoModule),
             },
             {
+                path: 'redistribuicao',
+                loadChildren: () => import('./redistribuicao-edit/redistribuicao-edit.module').then(m => m.RedistribuicaoEditModule),
+            },
+            {
                 path: '**',
                 redirectTo: 'editar'
             }

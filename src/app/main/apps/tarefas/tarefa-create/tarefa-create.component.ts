@@ -23,6 +23,7 @@ import {MatDialog} from '@cdk/angular/material';
 import {CdkVisibilidadePluginComponent} from '@cdk/components/visibilidade/cdk-visibilidade-plugin/cdk-visibilidade-plugin.component';
 import {Router} from '@angular/router';
 import {getRouterState} from '../../../../store/reducers';
+import * as fromStoreFavoritos from 'app/main/apps/tarefas/store';
 
 @Component({
     selector: 'tarefa-create',
@@ -72,7 +73,7 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
         this.processo$ = this._store.pipe(select(fromStore.getProcesso));
         this._profile = _loginService.getUserProfile().colaborador;
         this.visibilidades$ = this._store.pipe(select(fromStore.getVisibilidadeProcesso));
-        this.favoritos$ = this._store.pipe(select(fromStore.getFavoritoList));
+        this.favoritos$ = this._store.pipe(select(fromStoreFavoritos.getFavoritoList));
 
         this.especieTarefaPagination = new Pagination();
         this.especieTarefaPagination.populate = ['generoTarefa'];
@@ -179,7 +180,7 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
 
     getFavoritos (value): void {
 
-        this._store.dispatch(new fromStore.GetFavoritos({
+        this._store.dispatch(new fromStoreFavoritos.GetFavoritos({
             'filter':
             {
                 'usuario.id': `eq:${this._loginService.getUserProfile().id}`,
