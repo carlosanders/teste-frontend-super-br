@@ -112,6 +112,27 @@ export function UsuariosListReducer(
             };
         }
 
+        case UsuariosListActions.RESET_SENHA: {
+            return {
+                ...state,
+                loading: true
+            };
+        }
+
+        case UsuariosListActions.RESET_SENHA_SUCCESS: {
+            return {
+                ...state,
+                loading: false
+            };
+        }
+
+        case UsuariosListActions.RESET_SENHA_FAILED: {
+            return {
+                ...state,
+                loading: false
+            };
+        }
+
         default:
             return state;
     }

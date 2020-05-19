@@ -174,6 +174,12 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
     afastamentos = new EventEmitter<number>();
 
     @Output()
+    resetaSenhaColaborador = new EventEmitter<number>();
+
+    @Output()
+    resetaSenha = new EventEmitter<number>();
+
+    @Output()
     delete = new EventEmitter<number>();
 
     @Output()
@@ -315,6 +321,14 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
 
     deleteUsuario(usuarioId): void {
         this.delete.emit(usuarioId);
+    }
+
+    redefineSenha(usuarioId): void {
+        this.resetaSenha.emit(usuarioId);
+    }
+
+    redefineSenhaColaborador(usuarioId): void {
+        this.resetaSenhaColaborador.emit(usuarioId);
     }
 
     deleteUsuarios(usuariosId): void {

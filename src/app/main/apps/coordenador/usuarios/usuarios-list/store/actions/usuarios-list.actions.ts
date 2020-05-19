@@ -10,6 +10,10 @@ export const DELETE_USUARIO = '[COORDENADOR USUARIO LIST] DELETE USUARIO';
 export const DELETE_USUARIO_SUCCESS = '[COORDENADOR USUARIO LIST] DELETE USUARIO SUCCESS';
 export const DELETE_USUARIO_FAILED = '[COORDENADOR USUARIO LIST] DELETE USUARIO FAILED';
 
+export const RESET_SENHA = '[COORDENADOR USUARIO LIST] RESET SENHA';
+export const RESET_SENHA_SUCCESS = '[COORDENADOR USUARIO LIST] RESET SENHA SUCCESS';
+export const RESET_SENHA_FAILED = '[COORDENADOR USUARIO LIST] RESET SENHA FAILED';
+
 /**
  * Get Usuarios
  */
@@ -94,6 +98,42 @@ export class DeleteUsuarioFailed implements Action
     }
 }
 
+/**
+ * Reset Senha Usuario
+ */
+export class ResetSenha implements Action
+{
+    readonly type = RESET_SENHA;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Reset Senha Usuario Success
+ */
+export class ResetSenhaSuccess implements Action
+{
+    readonly type = RESET_SENHA_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Reset Senha Usuario Failed
+ */
+export class ResetSenhaFailed implements Action
+{
+    readonly type = RESET_SENHA_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 export type UsuariosListActionsAll
     = GetUsuarios
     | GetUsuariosSuccess
@@ -101,4 +141,7 @@ export type UsuariosListActionsAll
     | ReloadUsuarios
     | DeleteUsuario
     | DeleteUsuarioSuccess
-    | DeleteUsuarioFailed;
+    | DeleteUsuarioFailed
+    | ResetSenha
+    | ResetSenhaSuccess
+    | ResetSenhaFailed;
