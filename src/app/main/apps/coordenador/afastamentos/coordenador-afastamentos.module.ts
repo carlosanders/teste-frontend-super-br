@@ -47,7 +47,7 @@ const routes: Routes = [
 
 @NgModule({
     declarations: [
-        CoordenadorAfastamentosComponent
+        CoordenadorAfastamentosComponent,
     ],
     imports: [
         RouterModule.forChild(routes),

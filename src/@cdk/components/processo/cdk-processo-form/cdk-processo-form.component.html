@@ -5,7 +5,112 @@
 
     <div fxFlex="0 1 auto" fxLayout="column">
 
-        <mat-card class="mb-16" fxFlex="0 1 auto" fxLayout="column">
+        <mat-card class="mb-16" fxFlex="0 1 auto" fxLayout="column" *showIfRole="'ROLE_CONVENIADO'">
+            <mat-form-field fxFlex>
+                <mat-label>Estado</mat-label>
+                <mat-select
+                    matInput #estado
+                    name="estado"
+                    formControlName="estado"
+                    required>
+                    <mat-option *ngFor="let estado of estados" [value]="estado.id">
+                        {{estado.uf}}
+                    </mat-option>
+                </mat-select>
+                <mat-error>Campo obrigatório!</mat-error>
+            </mat-form-field>
+
+            <mat-form-field fxFlex>
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Ramo"
+                           formControlName="generoSetor"
+                           required
+                           [matAutocomplete]="generoSetor.autocomplete"
+                           (blur)="checkGeneroSetor()">
+                </div>
+                <cdk-genero-setor-autocomplete
+                    #generoSetor="generoSetorAutocomplete"
+                    [control]="form.get('generoSetor')"
+                    [pagination]="generoSetorPagination">
+                </cdk-genero-setor-autocomplete>
+                <button matSuffix mat-button mat-icon-button [disabled]="!form.get('estado').value"
+                        (click)="showGeneroSetorGrid()">
+                    <mat-icon matTooltip="Procurar">search</mat-icon>
+                </button>
+                <mat-error *ngIf="form.get('generoSetor').hasError('formError')">
+                    {{form.get('generoSetor').errors.formError}}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field fxFlex>
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Atividade"
+                           formControlName="especieSetor"
+                           required
+                           [matAutocomplete]="especieSetor.autocomplete"
+                           (blur)="checkEspecieSetor()">
+                </div>
+                <cdk-especie-setor-autocomplete
+                    #especieSetor="especieSetorAutocomplete"
+                    [control]="form.get('especieSetor')"
+                    [pagination]="especieSetorPagination">
+                </cdk-especie-setor-autocomplete>
+                <button matSuffix mat-button mat-icon-button [disabled]="!form.get('generoSetor').value"
+                        (click)="showEspecieSetorGrid()">
+                    <mat-icon matTooltip="Procurar">search</mat-icon>
+                </button>
+                <mat-error *ngIf="form.get('especieSetor').hasError('formError')">
+                    {{form.get('especieSetor').errors.formError}}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field fxFlex>
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Unidade"
+                           formControlName="setorInicial"
+                           required
+                           [matAutocomplete]="setorInicial.autocomplete"
+                           (blur)="checkSetorInicial()">
+                </div>
+                <cdk-setor-autocomplete
+                    #setorInicial="setorAutocomplete"
+                    [control]="form.get('setorInicial')"
+                    [pagination]="setorInicialPagination">
+                </cdk-setor-autocomplete>
+                <button matSuffix mat-button mat-icon-button [disabled]="!form.get('especieSetor').value"
+                        (click)="showSetorInicialGrid()">
+                    <mat-icon matTooltip="Procurar">search</mat-icon>
+                </button>
+                <mat-error *ngIf="form.get('setorInicial').hasError('formError')">
+                    {{form.get('setorInicial').errors.formError}}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field fxFlex *ngIf="this._profile.vinculacoesPessoasUsuarios.length > 1
+            && paramHandle === 'meus-processos'">
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Procedência"
+                           formControlName="procedencia"
+                           required
+                           [matAutocomplete]="procedencia.autocomplete"
+                           (blur)="checkProcedencia()">
+                </div>
+                <cdk-pessoa-autocomplete
+                    #procedencia="pessoaAutocomplete"
+                    [control]="form.get('procedencia')"
+                    [pagination]="procedenciaPagination">
+                </cdk-pessoa-autocomplete>
+                <button matSuffix mat-button mat-icon-button
+                        (click)="showProcedenciaGrid()">
+                    <mat-icon matTooltip="Procurar">search</mat-icon>
+                </button>
+                <mat-error *ngIf="form.get('procedencia').hasError('formError')">
+                    {{form.get('procedencia').errors.formError}}
+                </mat-error>
+            </mat-form-field>
+        </mat-card>
+
+        <mat-card class="mb-16" fxFlex="0 1 auto" fxLayout="column" *showIfRole="'ROLE_COLABORADOR'">
 
             <mat-card-subtitle>Unidade Arquivística</mat-card-subtitle>
 
@@ -33,7 +138,7 @@
             </div>
         </mat-card>
 
-        <mat-card class="mb-16" fxFlex="0 1 auto" fxLayout="column">
+        <mat-card class="mb-16" fxFlex="0 1 auto" fxLayout="column" *showIfRole="'ROLE_COLABORADOR'">
             <mat-card-subtitle>Dados do Protocolo</mat-card-subtitle>
             <div fxLayout="row" class="start" fxFlex *ngIf="!form.value.id"
                  fxLayoutAlign="start center">
@@ -108,13 +213,47 @@
             </mat-form-field>
         </mat-card>
 
-        <mat-card class="mb-16" fxFlex="0 1 auto" fxLayout="column" *ngIf="!form.value.id">
+        <mat-card class="mb-16" fxFlex="0 1 auto" fxLayout="column" *showIfRole="'ROLE_CONVENIADO'">
+            <mat-form-field fxFlex>
+                <mat-label>Resumo</mat-label>
+                <input matInput #descricao
+                       name="descricao"
+                       formControlName="descricao"
+                       maxlength="255"
+                       upperCase
+                       required>
+                <mat-hint align="end">{{descricao.value.length}} / 255</mat-hint>
+                <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                        (click)="showLogEntryGrid('descricao')">
+                    <mat-icon matTooltip="Histórico">history</mat-icon>
+                </button>
+                <mat-error>Campo obrigatório!</mat-error>
+            </mat-form-field>
+
+            <mat-form-field fxFlex>
+                <mat-label>Requerimento</mat-label>
+                <input matInput #requerimento
+                       name="requerimento"
+                       formControlName="requerimento"
+                       maxlength="255"
+                       upperCase
+                       required>
+                <mat-hint align="end">{{requerimento.value.length}} / 255</mat-hint>
+                <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                        (click)="showLogEntryGrid('requerimento')">
+                    <mat-icon matTooltip="Histórico">history</mat-icon>
+                </button>
+                <mat-error>Campo obrigatório!</mat-error>
+            </mat-form-field>
+        </mat-card>
+
+        <mat-card class="mb-16" fxFlex="0 1 auto" fxLayout="column" *showIfRole="'ROLE_COLABORADOR'">
             <mat-slide-toggle *ngIf="!form.value.id" formControlName="temProcessoOrigem"
                               class="mt-16 mr-16 mb-16" fxFlex="0 1 auto">
                 Importar Dados de Processo Existente no Sistema
             </mat-slide-toggle>
 
-            <mat-form-field *ngIf="form.value.temProcessoOrigem === true">
+            <mat-form-field *ngIf="!form.value.id && form.value.temProcessoOrigem === true">
                 <div fxLayout="row" fxLayoutAlign="start center">
                     <input matInput placeholder="Processo Origem"
                            formControlName="processoOrigem"
@@ -139,33 +278,36 @@
             </mat-form-field>
         </mat-card>
 
-        <mat-form-field fxFlex *ngIf="form.value.id">
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Fase"
-                       formControlName="modalidadeFase"
-                       required
-                       [matAutocomplete]="modalidadeFase.autocomplete"
-                       (blur)="checkModalidadeFase()">
-            </div>
-            <cdk-modalidade-fase-autocomplete
-                #modalidadeFase="modalidadeFaseAutocomplete"
-                [control]="form.get('modalidadeFase')"
-                [pagination]="modalidadeFasePagination">
-            </cdk-modalidade-fase-autocomplete>
-            <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-                    (click)="showLogEntryGrid('modalidadeFase')">
-                <mat-icon matTooltip="Histórico">history</mat-icon>
-            </button>
-            <button matSuffix mat-button mat-icon-button
-                    (click)="showModalidadeFaseGrid()">
-                <mat-icon matTooltip="Procurar">search</mat-icon>
-            </button>
-            <mat-error *ngIf="form.get('modalidadeFase').hasError('formError')">
-                {{form.get('modalidadeFase').errors.formError}}
-            </mat-error>
-        </mat-form-field>
+        <ng-template *showIfRole="'ROLE_COLABORADOR'">
+            <mat-form-field fxFlex>
+                <div fxLayout="row" fxLayoutAlign="start center" *ngIf="form.value.id">
+                    <input matInput placeholder="Fase"
+                           formControlName="modalidadeFase"
+                           required
+                           [matAutocomplete]="modalidadeFase.autocomplete"
+                           (blur)="checkModalidadeFase()">
+                </div>
+                <cdk-modalidade-fase-autocomplete
+                    #modalidadeFase="modalidadeFaseAutocomplete"
+                    [control]="form.get('modalidadeFase')"
+                    [pagination]="modalidadeFasePagination">
+                </cdk-modalidade-fase-autocomplete>
+                <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                        (click)="showLogEntryGrid('modalidadeFase')">
+                    <mat-icon matTooltip="Histórico">history</mat-icon>
+                </button>
+                <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                        (click)="showModalidadeFaseGrid()">
+                    <mat-icon matTooltip="Procurar">search</mat-icon>
+                </button>
+                <mat-error *ngIf="form.get('modalidadeFase').hasError('formError')">
+                    {{form.get('modalidadeFase').errors.formError}}
+                </mat-error>
+            </mat-form-field>
+        </ng-template>
 
-        <mat-form-field fxFlex>
+
+        <mat-form-field fxFlex *showIfRole="'ROLE_COLABORADOR'">
             <div fxLayout="row" fxLayoutAlign="start center">
                 <input matInput placeholder="Processo de Trabalho"
                        formControlName="especieProcesso"
@@ -191,7 +333,7 @@
             </mat-error>
         </mat-form-field>
 
-        <mat-form-field fxFlex>
+        <mat-form-field fxFlex *showIfRole="'ROLE_COLABORADOR'">
             <div fxLayout="row" fxLayoutAlign="start center">
                 <input matInput placeholder="Meio"
                        formControlName="modalidadeMeio"
@@ -217,7 +359,7 @@
             </mat-error>
         </mat-form-field>
 
-        <mat-form-field fxFlex>
+        <mat-form-field fxFlex *showIfRole="'ROLE_COLABORADOR'">
             <div fxLayout="row" fxLayoutAlign="start center">
                 <input matInput placeholder="Classificação"
                        formControlName="classificacao"
@@ -243,7 +385,7 @@
             </mat-error>
         </mat-form-field>
 
-        <mat-form-field fxFlex>
+        <mat-form-field fxFlex *showIfRole="'ROLE_COLABORADOR'">
             <mat-label>Título</mat-label>
             <input matInput #titulo
                    name="titulo"
@@ -258,7 +400,7 @@
             </button>
         </mat-form-field>
 
-        <mat-form-field fxFlex>
+        <mat-form-field fxFlex *showIfRole="'ROLE_COLABORADOR'">
             <mat-label>Descrição</mat-label>
             <input matInput #descricao
                    name="descricao"
@@ -271,7 +413,7 @@
             </button>
         </mat-form-field>
 
-        <mat-form-field fxFlex>
+        <mat-form-field fxFlex *showIfRole="'ROLE_COLABORADOR'">
             <mat-label>Outro Número</mat-label>
             <input matInput #outroNumero
                    name="outroNumero"
@@ -283,7 +425,7 @@
             </button>
         </mat-form-field>
 
-        <mat-form-field fxFlex>
+        <mat-form-field fxFlex *showIfRole="'ROLE_COLABORADOR'">
             <div fxLayout="row" fxLayoutAlign="start center">
                 <input matInput placeholder="Setor Responsável"
                        formControlName="setorAtual"
@@ -319,7 +461,7 @@
                 [disabled]="form.invalid" (click)="submit()">
             {{this.textBotao}}
         </button>
-        <button mat-raised-button color="warn" class="mr-sm-12" (click)="doAbort()">
+        <button mat-raised-button color="warn" type="button" class="mr-sm-12" (click)="doAbort()">
             CANCELAR
         </button>
     </div>
@@ -378,10 +520,43 @@
     (cancel)="cancel()">
 </cdk-setor-gridsearch>
 
+<cdk-setor-gridsearch
+    fxFlex
+    *ngIf="activeCard === 'setor-inicial-gridsearch'"
+    [pagination]="setorInicialPagination"
+    [displayedColumns]="['select', 'id', 'unidade.nome', 'actions']"
+    (selected)="selectSetorInicial($event)"
+    (cancel)="cancel()">
+</cdk-setor-gridsearch>
+
 <cdk-logentry-gridsearch
     fxFlex
     *ngIf="activeCard === 'logentry-gridsearch'"
     [pagination]="logEntryPagination"
     (cancel)="cancel()">
 </cdk-logentry-gridsearch>
+
+<cdk-genero-setor-gridsearch
+    fxFlex
+    *ngIf="activeCard === 'genero-setor-gridsearch'"
+    [pagination]="generoSetorPagination"
+    (selected)="selectGeneroSetor($event)"
+    (cancel)="cancel()">
+</cdk-genero-setor-gridsearch>
+
+<cdk-especie-setor-gridsearch
+    fxFlex
+    *ngIf="activeCard === 'especie-setor-gridsearch'"
+    [pagination]="especieSetorPagination"
+    (selected)="selectEspecieSetor($event)"
+    (cancel)="cancel()">
+</cdk-especie-setor-gridsearch>
+
+<cdk-pessoa-gridsearch
+    fxFlex
+    *ngIf="activeCard === 'procedencia-gridsearch'"
+    [pagination]="procedenciaPagination"
+    (selected)="selectProcedencia($event)"
+    (cancel)="cancel()">
+</cdk-pessoa-gridsearch>
 

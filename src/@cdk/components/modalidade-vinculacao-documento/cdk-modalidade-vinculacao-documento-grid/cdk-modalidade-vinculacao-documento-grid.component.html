@@ -1,7 +1,7 @@
 <div class="page-layout left-sidebar" fxFlex>
 
     <!-- SIDEBAR -->
-    <cdk-sidebar class="sidebar" name="cdk-modalidade-vinculacao-documento-filter" position="left">
+    <cdk-sidebar name="cdk-modalidade-vinculacao-documento-filter" position="left">
         <cdk-modalidade-vinculacao-documento-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-modalidade-vinculacao-documento-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
@@ -53,6 +53,13 @@
                     matTooltip="Filtrar">
                 <mat-icon>filter_list</mat-icon>
             </button>
+
+            <button mat-icon-button [ngClass]="{'warn': hasExcluded}" *ngIf="actions.indexOf('showDeleted') > -1"
+                    (click)="loadExcluded()"
+                    aria-label="mostrar apagados"
+                    matTooltip="Mostrar Apagados">
+                <mat-icon>delete_sweep</mat-icon>
+            </button>
         </div>
 
         <div fxFlex="1 1 auto" fxLayout="row" fxLayoutAlign="center center" *ngIf="loading">
@@ -67,6 +74,7 @@
                     <th mat-header-cell *matHeaderCellDef>
                         <mat-checkbox (click)="toggleSelectAll($event)"
                                       [checked]="hasSelected"
+                                      [disabled]="hasExcluded"
                                       [indeterminate]="isIndeterminate">
                         </mat-checkbox>
                     </th>
@@ -74,7 +82,7 @@
                         <mat-checkbox [checked]="selectedIds.indexOf(modalidadevinculacaoDocumento.id) > -1"
                                       (change)="toggleInSelected(modalidadevinculacaoDocumento.id)"
                                       (click)="$event.stopPropagation();"
-                                      [disabled]="deletedIds?.indexOf(modalidadevinculacaoDocumento.id) > -1">
+                                      [disabled]="deletedIds?.indexOf(modalidadevinculacaoDocumento.id) > -1 || hasExcluded">
                         </mat-checkbox>
                     </td>
                 </ng-container>
@@ -188,7 +196,7 @@
                     <td mat-cell *matCellDef="let modalidadevinculacaoDocumento">
 
                         <button mat-icon-button
-                                *ngIf="actions.indexOf('select') > -1"
+                                *ngIf="actions.indexOf('select') > -1 && !hasExcluded"
                                 (click)="selectModalidadeVinculacaoDocumento(modalidadevinculacaoDocumento)"
                                 aria-label="selecionar"
                                 matTooltip="Selecionar">
@@ -196,7 +204,7 @@
                         </button>
 
                         <button mat-icon-button
-                                *ngIf="actions.indexOf('edit') > -1"
+                                *ngIf="actions.indexOf('edit') > -1 && !hasExcluded"
                                 [disabled]="deletedIds?.indexOf(modalidadevinculacaoDocumento.id) > -1"
                                 (click)="editModalidadeVinculacaoDocumento(modalidadevinculacaoDocumento.id)"
                                 aria-label="editar"
@@ -210,7 +218,7 @@
                         </div>
 
                         <button mat-icon-button
-                                *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(modalidadevinculacaoDocumento.id) === -1"
+                                *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(modalidadevinculacaoDocumento.id) === -1 && !hasExcluded"
                                 [disabled]="deletedIds?.indexOf(modalidadevinculacaoDocumento.id) > -1"
                                 (click)="deleteModalidadeVinculacaoDocumento(modalidadevinculacaoDocumento.id)"
                                 aria-label="remover"

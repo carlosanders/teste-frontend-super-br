@@ -11,7 +11,7 @@ import * as fromStore from '../';
 import {getRouterState} from 'app/store/reducers';
 import {getModelosListLoaded} from '../selectors';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Colaborador, Lotacao, Setor} from '@cdk/models';
+import {Colaborador} from '@cdk/models';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
@@ -19,8 +19,6 @@ export class ResolveGuard implements CanActivate {
     routerState: any;
 
     _profile: Colaborador;
-
-    setores: Setor[] = [];
 
     /**
      *
@@ -40,12 +38,6 @@ export class ResolveGuard implements CanActivate {
             });
 
         this._profile = this._loginService.getUserProfile().colaborador;
-
-        this._profile.lotacoes.forEach((lotacao: Lotacao) => {
-            if (!this.setores.includes(lotacao.setor) && lotacao.coordenador) {
-                this.setores.push(lotacao.setor);
-            }
-        });
     }
 
     /**
@@ -71,9 +63,19 @@ export class ResolveGuard implements CanActivate {
         return this._store.pipe(
             select(getModelosListLoaded),
             tap((loaded: any) => {
-                if (!this.routerState.params['generoHandle'] || !this.routerState.params['entidadeHandle']
-                    || (this.routerState.params['generoHandle'] + '_' + this.routerState.params['entidadeHandle'] !==
-                        loaded.value)) {
+                if (this.routerState.params['setorHandle'] && this.routerState.params['unidadeHandle'] &&
+                   (this.routerState.params['generoHandle'] + '_' + this.routerState.params['entidadeHandle'] + '_'
+                        + this.routerState.params['unidadeHandle'] + '_' + this.routerState.params['setorHandle'] !==
+                        loaded.value)
+                    || (this.routerState.params['setorHandle'] && !this.routerState.params['unidadeHandle'] &&
+                        (this.routerState.params['generoHandle'] + '_' + this.routerState.params['entidadeHandle'] + '_'
+                            + this.routerState.params['setorHandle'] !== loaded.value))
+                    || (!this.routerState.params['setorHandle'] && this.routerState.params['unidadeHandle'] &&
+                        (this.routerState.params['generoHandle'] + '_' + this.routerState.params['entidadeHandle'] + '_'
+                            + this.routerState.params['unidadeHandle'] !== loaded.value))
+                    || (!this.routerState.params['setorHandle'] && !this.routerState.params['unidadeHandle'] &&
+                        (this.routerState.params['generoHandle'] + '_' + this.routerState.params['entidadeHandle'] !==
+                            loaded.value))) {
 
                     let params: any = {
                         filter: {},
@@ -89,22 +91,35 @@ export class ResolveGuard implements CanActivate {
                             'vinculacoesModelos',
                             'vinculacoesModelos.setor',
                             'vinculacoesModelos.orgaoCentral',
+                            'vinculacoesModelos.unidade',
                         ],
                         context: {
-                            'isCoordenador': true
+                            'isAdmin': true
                         }
                     };
 
-                    if (this.routerState.params.generoHandle === 'nacional') {
+                    if (this.routerState.params.generoHandle === 'nacional' && !this.routerState.params.unidadeHandle) {
                         params.filter = {
                             ...params.filter,
-                            'vinculacoesModelos.orgaoCentral.id': 'in:' + this.routerState.params['entidadeHandle']
+                            'vinculacoesModelos.orgaoCentral.id': 'eq:' + this.routerState.params['entidadeHandle']
                         }
                     }
-                    if (this.routerState.params.generoHandle === 'local') {
+
+                    if ((this.routerState.params.generoHandle === 'unidade' && !this.routerState.params.setorHandle)
+                        || (this.routerState.params.unidadeHandle && !this.routerState.params.setorHandle)) {
+                        const valor = this.routerState.params.unidadeHandle ?
+                            this.routerState.params['unidadeHandle'] : this.routerState.params['entidadeHandle'];
                         params.filter = {
                             ...params.filter,
-                            'vinculacoesModelos.setor.id': 'eq:' + this.routerState.params['entidadeHandle']
+                            'vinculacoesModelos.unidade.id': 'eq:' + valor
+                        }
+                    }
+                    if (this.routerState.params.generoHandle === 'local' || this.routerState.params.setorHandle) {
+                        const valor = this.routerState.params.setorHandle ?
+                            this.routerState.params['setorHandle'] : this.routerState.params['entidadeHandle'];
+                        params.filter = {
+                            ...params.filter,
+                            'vinculacoesModelos.setor.id': 'eq:' + valor
                         }
                     }
 
@@ -112,9 +127,19 @@ export class ResolveGuard implements CanActivate {
                 }
             }),
             filter((loaded: any) => {
-                return this.routerState.params['generoHandle'] && this.routerState.params['entidadeHandle'] &&
-                    (this.routerState.params['generoHandle'] + '_' + this.routerState.params['entidadeHandle'] ===
-                        loaded.value);
+                return (this.routerState.params['setorHandle'] && this.routerState.params['unidadeHandle'] &&
+                       (this.routerState.params['generoHandle'] + '_' + this.routerState.params['entidadeHandle'] + '_'
+                        + this.routerState.params['unidadeHandle'] + '_' + this.routerState.params['setorHandle'] ===
+                        loaded.value)
+                    || (this.routerState.params['setorHandle'] && !this.routerState.params['unidadeHandle'] &&
+                        (this.routerState.params['generoHandle'] + '_' + this.routerState.params['entidadeHandle'] + '_'
+                            + this.routerState.params['setorHandle'] === loaded.value))
+                    || (!this.routerState.params['setorHandle'] && this.routerState.params['unidadeHandle'] &&
+                       (this.routerState.params['generoHandle'] + '_' + this.routerState.params['entidadeHandle'] + '_'
+                        + this.routerState.params['unidadeHandle'] === loaded.value))
+                    || (!this.routerState.params['setorHandle'] && !this.routerState.params['unidadeHandle'] &&
+                       (this.routerState.params['generoHandle'] + '_' + this.routerState.params['entidadeHandle'] ===
+                        loaded.value)));
             }),
             take(1)
         );

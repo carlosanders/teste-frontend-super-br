@@ -52,7 +52,8 @@ export class DocumentoAvulsoListEffect {
                         action.payload.limit,
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
-                        JSON.stringify(action.payload.populate));
+                        JSON.stringify(action.payload.populate),
+                        JSON.stringify(action.payload.context));
                 }),
                 mergeMap((response) => [
                     new AddData<DocumentoAvulso>({data: response['entities'], schema: documentoAvulsoSchema}),

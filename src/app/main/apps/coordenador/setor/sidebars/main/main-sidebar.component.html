@@ -1,0 +1,46 @@
+<div class="sidebar-content full">
+
+    <div class="card">
+
+        <!-- SIDEBAR HEADER -->
+        <div class="header p-24" fxLayout="row" fxLayoutAlign="start center">
+            <mat-icon class="mr-16">location_city</mat-icon>
+            <span class="h5">{{(this.unidade$ | async)?.nome}}</span>
+        </div>
+        <!-- / SIDEBAR HEADER -->
+
+        <!-- SIDEBAR CONTENT -->
+        <div class="content" cdkPerfectScrollbar
+             *ngIf="this.routerState.params.setorHandle !== 'default' && this.routerState.params.setorHandle !== 'criar'">
+            <div class="nav material2" *showIfRole="'ROLE_COORDENADOR'">
+                <div class="nav-subheader pl-16 mt-0">
+                    <span>COORDENAÇÃO DE SETOR</span>
+                </div>
+                <div class="nav-subheader pl-8 mt-0">
+                    <mat-icon>domain</mat-icon>
+                    <span>{{(this.setor$ | async)?.nome}}</span>
+                </div>
+
+                <div class="nav-item" *ngFor="let link of links">
+                    <a class="nav-link" matRipple
+                       [routerLink]="this.baseLink + '/' + link.link"
+                        [routerLinkActive]="['active', 'accent']">
+                        <mat-icon class="nav-link-icon">{{ link.icon }}</mat-icon>
+                        <span class="title">{{link.nome}}</span>
+                    </a>
+                </div>
+                <div class="nav-item" *ngIf="!((this.unidade$ | async)?.numeracaoDocumentoUnidade)">
+                    <a class="nav-link" matRipple
+                       [routerLink]="this.baseLink + '/' + 'numeros-unicos-documentos'"
+                       [routerLinkActive]="['active', 'accent']">
+                        <mat-icon class="nav-link-icon">filter_9_plus</mat-icon>
+                        <span>Números Únicos Documentos</span>
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+        <!-- / SIDEBAR CONTENT -->
+    </div>
+</div>

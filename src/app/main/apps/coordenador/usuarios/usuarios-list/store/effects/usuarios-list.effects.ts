@@ -19,6 +19,9 @@ export class UsuariosListEffects {
 
     routerState: any;
 
+    id: string;
+    value: string;
+
     /**
      *
      * @param _actions
@@ -37,6 +40,17 @@ export class UsuariosListEffects {
             .subscribe(routerState => {
                 if (routerState) {
                     this.routerState = routerState.state;
+                    this.id = 'generoHandle_entidadeHandle';
+                    this.value = this.routerState.params.generoHandle + '_' +
+                        this.routerState.params.entidadeHandle;
+                    if (this.routerState.params['unidadeHandle']) {
+                        this.id += '_unidadeHandle';
+                        this.value += '_' + this.routerState.params.unidadeHandle;
+                    }
+                    if (this.routerState.params['setorHandle']) {
+                        this.id += '_setorHandle';
+                        this.value += '_' + this.routerState.params.setorHandle;
+                    }
                 }
             });
     }
@@ -66,8 +80,8 @@ export class UsuariosListEffects {
                             new UsuariosListActions.GetUsuariosSuccess({
                                 entitiesId: response['entities'].map(usuario => usuario.id),
                                 loaded: {
-                                    id: 'generoHandle_entidadeHandle',
-                                    value: this.routerState.params.generoHandle + '_' + this.routerState.params.entidadeHandle
+                                    id: this.id,
+                                    value: this.value
                                 },
                                 total: response['total']
                             })
@@ -75,6 +89,26 @@ export class UsuariosListEffects {
                         catchError((err) => {
                             console.log(err);
                             return of(new UsuariosListActions.GetUsuariosFailed(err));
+                        })
+                    );
+                })
+            );
+
+    /**
+     * Delete Usuario
+     * @type {Observable<any>}
+     */
+    @Effect()
+    deleteUsuario: any =
+        this._actions
+            .pipe(
+                ofType<UsuariosListActions.DeleteUsuario>(UsuariosListActions.DELETE_USUARIO),
+                mergeMap((action) => {
+                    return this._usuarioService.destroy(action.payload).pipe(
+                        map((response) => new UsuariosListActions.DeleteUsuarioSuccess(response.id)),
+                        catchError((err) => {
+                            console.log(err);
+                            return of(new UsuariosListActions.DeleteUsuarioFailed(action.payload));
                         })
                     );
                 })

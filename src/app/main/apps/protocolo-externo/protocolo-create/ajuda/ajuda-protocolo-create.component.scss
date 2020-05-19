@@ -1,0 +1,41 @@
+ajuda-protocolo-create {
+	
+	/*Variáveis do Collapsible*/
+	$corAccordionClicked: #64bde0;
+
+    p {
+        text-align: left;
+    }
+    img {
+        max-width: 256px;
+	}
+
+	/*Coluna Dupla*/
+	.column {
+		float: left;
+		width: 50%;
+	}
+	
+	/* Clear floats after the columns */
+	.row:after {
+		content: "";
+		display: table;
+		clear: both;
+	}
+	.mat-expansion-panel {
+		background-color: $corAccordionClicked;
+	}
+	.mat-expanded {
+		background-color: $corAccordionClicked;
+	}
+	.mat-expansion-panel-header.mat-expanded,
+	.mat-expansion-panel-header.mat-expanded:hover,
+	.mat-expansion-panel-header.mat-expanded:focus{
+		background-color: $corAccordionClicked;
+	}
+	.mat-expansion-panel-header.mat-disabled,
+	.mat-expansion-panel-header.mat-disabled:hover,
+	.mat-expansion-panel-header.mat-disabled:focus{
+		background-color: $corAccordionClicked;
+	}
+}

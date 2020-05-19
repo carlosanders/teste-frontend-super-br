@@ -1,9 +1,20 @@
 coordenador {
+    width: 100%;
+
+    .sidebar {
+        background: transparent !important;
+        box-shadow: none !important;
+
+        &:not(.locked-open) {
+            background: white !important;
+        }
+    }
     .center {
-        .header {
-            height: 72px !important;
-            min-height: 72px !important;
-            max-height: 72px !important;
+
+        width: 100%;
+
+        .content-card {
+            flex: 1 0 100%;
         }
     }
 }

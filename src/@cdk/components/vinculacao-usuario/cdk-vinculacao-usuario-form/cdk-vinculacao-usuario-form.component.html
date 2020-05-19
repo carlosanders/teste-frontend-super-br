@@ -6,16 +6,17 @@
 
         <div fxFlex="1 0 auto" fxLayout="column">
 
-            <mat-slide-toggle formControlName="encerraTarefa"
-                              class="mr-16 mb-16" fxFlex="0 1 auto">
-                Encerra Tarefa
-            </mat-slide-toggle>
-            <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-                    (click)="showLogEntryGrid('encerraTarefa')">
-                <mat-icon matTooltip="Histórico">history</mat-icon>
-            </button>
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <mat-slide-toggle formControlName="encerraTarefa">
+                    Encerra Tarefa
+                </mat-slide-toggle>
+                <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                        (click)="showLogEntryGrid('encerraTarefa')">
+                    <mat-icon matTooltip="Histórico">history</mat-icon>
+                </button>
+            </div>
 
-            <mat-form-field fxFlex="100">
+            <mat-form-field>
                 <div fxLayout="row" fxLayoutAlign="start center">
                     <input matInput placeholder="Assessor"
                            formControlName="usuarioVinculado"
@@ -46,7 +47,7 @@
                     [disabled]="form.invalid">
                 SALVAR
             </button>
-            <button mat-raised-button color="warn" class="mr-sm-12" (click)="doAbort()">
+            <button mat-raised-button color="warn" type="button" class="mr-sm-12" (click)="doAbort()">
                 CANCELAR
             </button>
         </div>

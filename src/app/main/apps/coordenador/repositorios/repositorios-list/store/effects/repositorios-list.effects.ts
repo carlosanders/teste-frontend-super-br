@@ -20,6 +20,9 @@ export class RepositoriosListEffect {
 
     routerState: any;
 
+    id: string;
+    value: string;
+
     constructor(
         private _actions: Actions,
         private _repositorioService: RepositorioService,
@@ -31,6 +34,17 @@ export class RepositoriosListEffect {
             .subscribe(routerState => {
                 if (routerState) {
                     this.routerState = routerState.state;
+                    this.id = 'generoHandle_entidadeHandle';
+                    this.value = this.routerState.params.generoHandle + '_' +
+                        this.routerState.params.entidadeHandle;
+                    if (this.routerState.params['unidadeHandle']) {
+                        this.id += '_unidadeHandle';
+                        this.value += '_' + this.routerState.params.unidadeHandle;
+                    }
+                    if (this.routerState.params['setorHandle']) {
+                        this.id += '_setorHandle';
+                        this.value += '_' + this.routerState.params.setorHandle;
+                    }
                 }
             });
     }
@@ -60,8 +74,8 @@ export class RepositoriosListEffect {
                             new RepositorioListActions.GetRepositoriosSuccess({
                                 entitiesId: response['entities'].map(repositorio => repositorio.id),
                                 loaded: {
-                                    id: 'generoHandle_entidadeHandle',
-                                    value: this.routerState.params.generoHandle + '_' + this.routerState.params.entidadeHandle
+                                    id: this.id,
+                                    value: this.value
                                 },
                                 total: response['total']
                             })

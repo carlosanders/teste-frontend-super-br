@@ -1,54 +1,46 @@
 documento {
 
-  height: 100%;
-
-  .full-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
     height: 100%;
-    width: 100%;
-    z-index: 1001;
 
-    .sidebar {
+    .full-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        z-index: 1001;
 
-      &:not(.locked-open) {
-        background: white;
-      }
-    }
+        .sidebar {
 
-    .content {
-
-      height: 99%;
-
-      .documento-header {
-        height: 64px !important;
-        min-height: 64px !important;
-        max-height: 64px !important;
-
-        .componentes-digitais-navigation {
-          position: absolute;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          //bottom: 32px;
-          //max-width: 944px;
-          width: 100%;
-          //left: 50%;
-          //transform: translateX(-50%);
-
-          .previous {
-            margin-right: auto;
-          }
-
-          .next,
-          .done {
-            margin-right: 32%;
-            margin-left: auto;
-          }
+            &:not(.locked-open) {
+                background: white;
+            }
         }
-      }
+
+        .content {
+
+            .header {
+                height: 64px !important;
+                min-height: 64px !important;
+                max-height: 64px !important;
+
+                .componentes-digitais-navigation {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    width: 100%;
+
+                    .previous {
+                        margin-right: auto;
+                    }
+
+                    .next,
+                    .done {
+                        margin-left: auto;
+                    }
+                }
+            }
+        }
     }
-  }
 
 }

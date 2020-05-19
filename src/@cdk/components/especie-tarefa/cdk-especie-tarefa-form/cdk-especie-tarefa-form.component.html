@@ -1,4 +1,4 @@
-<div cdkPerfectScrollbar class="inner-scroll form" >
+<div cdkPerfectScrollbar class="inner-scroll form">
     <form *ngIf="activeCard === 'form'" class="mr-24" fxLayoutGap="1px"
           fxLayout="column"
           fxLayoutAlign="start"
@@ -57,7 +57,7 @@
                 SALVAR
             </button>
 
-            <button mat-raised-button color="warn" class="mr-sm-12" (click)="doAbort()">
+            <button mat-raised-button color="warn" type="button" class="mr-sm-12" (click)="doAbort()">
                 CANCELAR
             </button>
         </div>

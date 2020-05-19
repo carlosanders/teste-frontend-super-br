@@ -1,0 +1,49 @@
+<mat-horizontal-stepper linear #stepper class="content p-16 altura" [selectedIndex]="selectedIndex">
+    <mat-step [completed]="formProcesso.value.id">
+        <ng-template matStepLabel>Processo</ng-template>
+        <cdk-processo-form
+                [processo]="processo"
+                [form]="formProcesso"
+                [saving]="(isSaving$ | async)"
+                [errors]="(errors$ | async)"
+                [setorInicialPagination]="unidadePagination"
+                [procedenciaPagination]="procedenciaPagination"
+                [estados]="estados"
+                [paramHandle]="paramHandle"
+                (save)="submit($event)">
+        </cdk-processo-form>
+    </mat-step>
+    <mat-step>
+        <ng-template matStepLabel>Documentos</ng-template>
+        <div fxLayout="row" class="bt-upload">
+            <button mat-mini-fab
+                    class="m-4 active accent"
+                    [matMenuTriggerFor]="moreMenu" aria-label="Documento Avulso"
+                    (click)="$event.stopPropagation()">
+                <mat-icon class="secondary-text">attach_file</mat-icon>
+            </button>
+
+            <mat-menu #moreMenu="matMenu">
+                <button mat-menu-item aria-label="upload"
+                        (click)="upload()">
+                    <ng-container>
+                        <mat-icon>picture_as_pdf</mat-icon>
+                        <span>Enviar Documento</span>
+                    </ng-container>
+                </button>
+            </mat-menu>
+
+            <cdk-componente-digital-documento-avulso-card-list #ckdUpload
+                                                               [processoOrigem]="processo"
+                                                               (complete)="onComplete()">
+            </cdk-componente-digital-documento-avulso-card-list>
+
+            <cdk-documento-card-list [documentos]="documentos"
+                                     (clicked)="onClicked($event)"
+                                     [assinandoId]="(assinandoDocumentosId$ | async)"
+                                     [deletingId]="(deletingDocumentosId$ | async)"
+                                     [convertendoId]="(convertendoDocumentosId$ | async)">
+            </cdk-documento-card-list>
+        </div>
+    </mat-step>
+</mat-horizontal-stepper>

@@ -37,6 +37,11 @@ export const getAssinandoDocumentosId = createSelector(
     (state: AtividadeCreateDocumentosState) => state.assinandoDocumentoIds
 );
 
+export const getRemovendoAssinaturaDocumentosId = createSelector(
+    getAtividadeCreateDocumentosState,
+    (state: AtividadeCreateDocumentosState) => state.removendoAssinaturaDocumentoIds
+);
+
 export const getSelectedDocumentoIds = createSelector(
     getAtividadeCreateDocumentosState,
     (state: AtividadeCreateDocumentosState) => state.selectedDocumentosId

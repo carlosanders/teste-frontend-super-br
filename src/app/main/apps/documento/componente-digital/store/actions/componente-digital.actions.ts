@@ -10,6 +10,15 @@ export const DOWNLOAD_AS_PDF_COMPONENTE_DIGITAL = '[COMPONENTE DIGITAL] DOWNLOAD
 export const DOWNLOAD_AS_PDF_COMPONENTE_DIGITAL_SUCCESS = '[COMPONENTE DIGITAL] AS PDF DOWNLOAD COMPONENTE DIGITAL SUCCESS';
 export const DOWNLOAD_AS_PDF_COMPONENTE_DIGITAL_FAILED = '[COMPONENTE DIGITAL] AS PDF DOWNLOAD COMPONENTE DIGITAL FAILED';
 
+export const VISUALIZAR_VERSAO_COMPONENTE_DIGITAL = '[COMPONENTE DIGITAL] VISUALIZAR VERSAO COMPONENTE DIGITAL';
+export const VISUALIZAR_VERSAO_COMPONENTE_DIGITAL_SUCCESS = '[COMPONENTE DIGITAL] VISUALIZAR VERSAO COMPONENTE DIGITAL SUCCESS';
+export const VISUALIZAR_VERSAO_COMPONENTE_DIGITAL_FAILED = '[COMPONENTE DIGITAL] VISUALIZAR VERSAO COMPONENTE DIGITAL FAILED';
+
+export const COMPARAR_VERSAO_COMPONENTE_DIGITAL = '[COMPONENTE DIGITAL] COMPARAR VERSAO COMPONENTE DIGITAL';
+export const COMPARAR_VERSAO_COMPONENTE_DIGITAL_SUCCESS = '[COMPONENTE DIGITAL] COMPARAR VERSAO COMPONENTE DIGITAL SUCCESS';
+export const COMPARAR_VERSAO_COMPONENTE_DIGITAL_FAILED = '[COMPONENTE DIGITAL] COMPARAR VERSAO COMPONENTE DIGITAL FAILED';
+
+
 export const SAVE_COMPONENTE_DIGITAL = '[COMPONENTE DIGITAL] SAVE COMPONENTE DIGITAL';
 export const SAVE_COMPONENTE_DIGITAL_SUCCESS = '[COMPONENTE DIGITAL] SAVE COMPONENTE DIGITAL SUCCESS';
 export const SAVE_COMPONENTE_DIGITAL_FAILED = '[COMPONENTE DIGITAL] SAVE COMPONENTE DIGITAL FAILED';
@@ -53,6 +62,66 @@ export class DownloadComponenteDigitalSuccess implements Action {
  */
 export class DownloadComponenteDigitalFailed implements Action {
     readonly type = DOWNLOAD_COMPONENTE_DIGITAL_FAILED;
+
+    constructor(public payload: string) {
+    }
+}
+
+/**
+ * VisualizarVersao ComponenteDigital
+ */
+export class VisualizarVersaoComponenteDigital implements Action {
+    readonly type = VISUALIZAR_VERSAO_COMPONENTE_DIGITAL;
+
+    constructor(public payload: string) {
+    }
+}
+
+/**
+ * VisualizarVersao Success ComponenteDigital
+ */
+export class VisualizarVersaoComponenteDigitalSuccess implements Action {
+    readonly type = VISUALIZAR_VERSAO_COMPONENTE_DIGITAL_SUCCESS;
+
+    constructor(public payload: string) {
+    }
+}
+
+/**
+ * VisualizarVersao Failed ComponenteDigital
+ */
+export class VisualizarVersaoComponenteDigitalFailed implements Action {
+    readonly type = VISUALIZAR_VERSAO_COMPONENTE_DIGITAL_FAILED;
+
+    constructor(public payload: string) {
+    }
+}
+
+/**
+ * CompararVersao ComponenteDigital
+ */
+export class CompararVersaoComponenteDigital implements Action {
+    readonly type = COMPARAR_VERSAO_COMPONENTE_DIGITAL;
+
+    constructor(public payload: string) {
+    }
+}
+
+/**
+ * CompararVersao Success ComponenteDigital
+ */
+export class CompararVersaoComponenteDigitalSuccess implements Action {
+    readonly type = COMPARAR_VERSAO_COMPONENTE_DIGITAL_SUCCESS;
+
+    constructor(public payload: string) {
+    }
+}
+
+/**
+ * CompararVersao Failed ComponenteDigital
+ */
+export class CompararVersaoComponenteDigitalFailed implements Action {
+    readonly type = COMPARAR_VERSAO_COMPONENTE_DIGITAL_FAILED;
 
     constructor(public payload: string) {
     }
@@ -150,6 +219,12 @@ export class RevertComponenteDigitalFailed implements Action {
 
 export type ComponenteDigitalActionsAll
     = UnloadComponenteDigital
+    | VisualizarVersaoComponenteDigital
+    | VisualizarVersaoComponenteDigitalSuccess
+    | VisualizarVersaoComponenteDigitalFailed
+    | CompararVersaoComponenteDigital
+    | CompararVersaoComponenteDigitalSuccess
+    | CompararVersaoComponenteDigitalFailed
     | DownloadComponenteDigital
     | DownloadComponenteDigitalSuccess
     | DownloadComponenteDigitalFailed

@@ -29,6 +29,14 @@ const routes: Routes = [
                 loadChildren: () => import('./usuarios-list/usuarios-list.module').then(m => m.UsuariosListModule),
             },
             {
+                path       : 'editar',
+                loadChildren: () => import('./usuario-edit/usuario-edit.module').then(m => m.UsuarioEditModule),
+            },
+            {
+                path       : ':usuarioHandle/lotacoes',
+                loadChildren: () => import('../lotacoes/coordenador-lotacoes.module').then(m => m.CoordenadorLotacoesModule),
+            },
+            {
                 path       : ':usuarioHandle/afastamentos',
                 loadChildren: () => import('../afastamentos/coordenador-afastamentos.module').then(m => m.CoordenadorAfastamentosModule),
             },

@@ -6,6 +6,7 @@ export interface AtividadeCreateDocumentosState {
     selectedDocumentosId: number[];
     deletingDocumentoIds: number[];
     assinandoDocumentoIds: number[];
+    removendoAssinaturaDocumentoIds: number[];
     convertendoDocumentoIds: number[];
     loading: boolean;
     loaded: boolean;
@@ -18,6 +19,7 @@ export const AtividadeCreateDocumentosInitialState: AtividadeCreateDocumentosSta
     selectedDocumentosId: [],
     deletingDocumentoIds: [],
     assinandoDocumentoIds: [],
+    removendoAssinaturaDocumentoIds: [],
     convertendoDocumentoIds: [],
     loading: false,
     loaded: false,
@@ -84,6 +86,27 @@ export function AtividadeCreateDocumentosReducer(
             return {
                 ...state,
                 assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload)
+            };
+        }
+
+        case AtividadeCreateDocumentosActions.REMOVE_ASSINATURA_DOCUMENTO: {
+            return {
+                ...state,
+                removendoAssinaturaDocumentoIds: [...state.removendoAssinaturaDocumentoIds, action.payload]
+            };
+        }
+
+        case AtividadeCreateDocumentosActions.REMOVE_ASSINATURA_DOCUMENTO_SUCCESS: {
+            return {
+                ...state,
+                removendoAssinaturaDocumentoIds: state.removendoAssinaturaDocumentoIds.filter(id => id !== action.payload)
+            };
+        }
+
+        case AtividadeCreateDocumentosActions.REMOVE_ASSINATURA_DOCUMENTO_FAILED: {
+            return {
+                ...state,
+                removendoAssinaturaDocumentoIds: state.removendoAssinaturaDocumentoIds.filter(id => id !== action.payload)
             };
         }
 

@@ -24,7 +24,6 @@ export class ModelosComponent implements OnInit, OnDestroy {
 
     private _unsubscribeAll: Subject<any> = new Subject();
 
-    action = '';
     routerState: any;
 
     /**
@@ -50,21 +49,6 @@ export class ModelosComponent implements OnInit, OnDestroy {
             ).subscribe(routerState => {
             if (routerState) {
                 this.routerState = routerState.state;
-                if (this.routerState.url.indexOf('modelos/listar') > -1) {
-                    this.action = 'listar';
-                }
-                if (this.routerState.url.indexOf('modelos/editar') > -1) {
-                    this.action = 'editar';
-                }
-                if (this.routerState.url.indexOf('modelos/anexos') > -1) {
-                    this.action = 'anexos';
-                }
-                if (this.routerState.url.indexOf('modelos/' + this.routerState.params.modeloHandle + '/especie-setor') > -1) {
-                    this.action = 'especie-setor';
-                }
-                if (this.routerState.url.indexOf('modelos/editar/criar') > -1) {
-                    this.action = 'criar';
-                }
                 this._changeDetectorRef.markForCheck();
             }
         });
@@ -74,20 +58,5 @@ export class ModelosComponent implements OnInit, OnDestroy {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
-    }
-
-    goBack(): void {
-        if (this.action === 'editar') {
-            this._router.navigate([this.routerState.url.replace(('editar/' + this.routerState.params.modeloHandle), 'listar')]).then();
-        }
-        if (this.action === 'criar') {
-            this._router.navigate([this.routerState.url.replace('editar/criar', 'listar')]).then();
-        }
-        if (this.action === 'anexos') {
-            this._router.navigate([this.routerState.url.replace(('anexos/' + this.routerState.params.modeloHandle), 'listar')]).then();
-        }
-        if (this.action === 'especie-setor') {
-            this._router.navigate([`apps/coordenador/${this.routerState.params.generoHandle}/${this.routerState.params.entidadeHandle}/modelos/listar`]).then();
-        }
     }
 }
