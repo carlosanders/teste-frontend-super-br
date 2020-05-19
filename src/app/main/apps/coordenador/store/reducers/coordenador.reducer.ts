@@ -2,6 +2,7 @@ import * as CoordenadorActions from '../actions/coordenador.actions';
 
 export interface CoordenadorState {
     setorId: number;
+    unidadeId: number;
     orgaoId: number;
     errors: any;
     loading: boolean;
@@ -10,6 +11,7 @@ export interface CoordenadorState {
 
 export const CoordenadorInitialState: CoordenadorState = {
     setorId: null,
+    unidadeId: null,
     orgaoId: null,
     errors: false,
     loading: false,
@@ -26,6 +28,7 @@ export function CoordenadorReducer(
             return {
                 ...state,
                 setorId: null,
+                unidadeId: null,
                 orgaoId: null,
                 loading: true
             };
@@ -48,10 +51,38 @@ export function CoordenadorReducer(
             };
         }
 
+        case CoordenadorActions.GET_UNIDADE: {
+            return {
+                ...state,
+                setorId: null,
+                unidadeId: null,
+                orgaoId: null,
+                loading: true
+            };
+        }
+
+        case CoordenadorActions.GET_UNIDADE_SUCCESS: {
+
+            return {
+                ...state,
+                unidadeId: action.payload.unidadeId,
+                loaded: action.payload.loaded,
+                loading: false
+            };
+        }
+
+        case CoordenadorActions.GET_UNIDADE_FAILED: {
+            return {
+                ...state,
+                loading: false
+            };
+        }
+
         case CoordenadorActions.GET_ORGAO_CENTRAL: {
             return {
                 ...state,
                 setorId: null,
+                unidadeId: null,
                 orgaoId: null,
                 loading: true
             };

@@ -3,5 +3,7 @@
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
         [modalidadeRepositorioPagination]="modalidadeRepositorioPagination"
-        (save)="submit($event)">
+        [logEntryPagination]="logEntryPagination"
+        (save)="submit($event)"
+        (abort)="doAbort()">
 </cdk-repositorio-form>

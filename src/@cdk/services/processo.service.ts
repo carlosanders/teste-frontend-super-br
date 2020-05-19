@@ -21,12 +21,12 @@ export class ProcessoService extends ParentGenericService<Processo> {
 
     downloadAsPdf(id: number | string, sequencial: number | string, params: HttpParams = new HttpParams(), context: any = '{}'): Observable<any> {
         params['context'] = context;
-        return this.http.get(`${environment.api_url}processo/${id}/downloadAsPdf/${sequencial}` + environment.xdebug, {params});
+        return this.http.get(`${environment.api_url}processo/${id}/download_as_pdf/${sequencial}` + environment.xdebug, {params});
     }
 
     downloadAsZip(id: number | string, sequencial: number | string, params: HttpParams = new HttpParams(), context: any = '{}'): Observable<any> {
         params['context'] = context;
-        return this.http.get(`${environment.api_url}processo/${id}/downloadAsZip/${sequencial}` + environment.xdebug, {params});
+        return this.http.get(`${environment.api_url}processo/${id}/download_as_zip/${sequencial}` + environment.xdebug, {params});
     }
 
     getVisibilidade(id: number, context: any = '{}'): Observable<any> {

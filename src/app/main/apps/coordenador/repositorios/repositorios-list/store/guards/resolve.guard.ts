@@ -62,9 +62,19 @@ export class ResolveGuard implements CanActivate {
         return this._store.pipe(
             select(getRepositoriosListLoaded),
             tap((loaded: any) => {
-                if (!this.routerState.params['generoHandle'] || !this.routerState.params['entidadeHandle']
-                    || (this.routerState.params['generoHandle'] + '_' + this.routerState.params['entidadeHandle'] !==
-                        loaded.value)) {
+                if (this.routerState.params['setorHandle'] && this.routerState.params['unidadeHandle'] &&
+                    (this.routerState.params['generoHandle'] + '_' + this.routerState.params['entidadeHandle'] + '_'
+                        + this.routerState.params['unidadeHandle'] + '_' + this.routerState.params['setorHandle'] !==
+                        loaded.value)
+                    || (this.routerState.params['setorHandle'] && !this.routerState.params['unidadeHandle'] &&
+                        (this.routerState.params['generoHandle'] + '_' + this.routerState.params['entidadeHandle'] + '_'
+                            + this.routerState.params['setorHandle'] !== loaded.value))
+                    || (!this.routerState.params['setorHandle'] && this.routerState.params['unidadeHandle'] &&
+                        (this.routerState.params['generoHandle'] + '_' + this.routerState.params['entidadeHandle'] + '_'
+                            + this.routerState.params['unidadeHandle'] !== loaded.value))
+                    || (!this.routerState.params['setorHandle'] && !this.routerState.params['unidadeHandle'] &&
+                        (this.routerState.params['generoHandle'] + '_' + this.routerState.params['entidadeHandle'] !==
+                            loaded.value))) {
 
                     let params: any = {
                         filter: {},
@@ -79,24 +89,36 @@ export class ResolveGuard implements CanActivate {
                             'modalidadeRepositorio',
                             'vinculacoesRepositorios',
                             'vinculacoesRepositorios.setor',
-                            'vinculacoesRepositorios.orgaoCentral'
+                            'vinculacoesRepositorios.orgaoCentral',
+                            'vinculacoesRepositorios.unidade',
                         ],
                         context: {
-                            'isCoordenador': true
+                            'isAdmin': true
                         }
                     };
 
 
-                    if (this.routerState.params.generoHandle === 'nacional') {
+                    if (this.routerState.params.generoHandle === 'nacional' && !this.routerState.params.unidadeHandle) {
                         params.filter = {
                             ...params.filter,
                             'vinculacoesRepositorios.orgaoCentral.id': 'eq:' + this.routerState.params['entidadeHandle']
                         }
                     }
-                    if (this.routerState.params.generoHandle === 'local') {
+                    if ((this.routerState.params.generoHandle === 'unidade' && !this.routerState.params.setorHandle)
+                        || (this.routerState.params.unidadeHandle && !this.routerState.params.setorHandle)) {
+                        const valor = this.routerState.params.unidadeHandle ?
+                            this.routerState.params['unidadeHandle'] : this.routerState.params['entidadeHandle'];
                         params.filter = {
                             ...params.filter,
-                            'vinculacoesRepositorios.setor.id': 'eq:' + this.routerState.params['entidadeHandle']
+                            'vinculacoesRepositorios.unidade.id': 'eq:' + valor
+                        }
+                    }
+                    if (this.routerState.params.generoHandle === 'local' || this.routerState.params.setorHandle) {
+                        const valor = this.routerState.params.setorHandle ?
+                            this.routerState.params['setorHandle'] : this.routerState.params['entidadeHandle'];
+                        params.filter = {
+                            ...params.filter,
+                            'vinculacoesRepositorios.setor.id': 'eq:' + valor
                         }
                     }
 
@@ -104,9 +126,19 @@ export class ResolveGuard implements CanActivate {
                 }
             }),
             filter((loaded: any) => {
-                return this.routerState.params['generoHandle'] && this.routerState.params['entidadeHandle'] &&
-                    (this.routerState.params['generoHandle'] + '_' + this.routerState.params['entidadeHandle'] ===
-                        loaded.value);
+                return (this.routerState.params['setorHandle'] && this.routerState.params['unidadeHandle'] &&
+                    (this.routerState.params['generoHandle'] + '_' + this.routerState.params['entidadeHandle'] + '_'
+                        + this.routerState.params['unidadeHandle'] + '_' + this.routerState.params['setorHandle'] ===
+                        loaded.value)
+                    || (this.routerState.params['setorHandle'] && !this.routerState.params['unidadeHandle'] &&
+                        (this.routerState.params['generoHandle'] + '_' + this.routerState.params['entidadeHandle'] + '_'
+                            + this.routerState.params['setorHandle'] === loaded.value))
+                    || (!this.routerState.params['setorHandle'] && this.routerState.params['unidadeHandle'] &&
+                        (this.routerState.params['generoHandle'] + '_' + this.routerState.params['entidadeHandle'] + '_'
+                            + this.routerState.params['unidadeHandle'] === loaded.value))
+                    || (!this.routerState.params['setorHandle'] && !this.routerState.params['unidadeHandle'] &&
+                        (this.routerState.params['generoHandle'] + '_' + this.routerState.params['entidadeHandle'] ===
+                            loaded.value)));
             }),
             take(1)
         );

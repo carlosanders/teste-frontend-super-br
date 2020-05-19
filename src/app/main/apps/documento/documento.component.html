@@ -5,7 +5,8 @@
         <div fxFlex="25"></div>
 
         <div class="ml-32" fxFlex="75" fxLayout="row" fxLayoutAlign="start center">
-            <mat-tab-group class="mr-16" (selectedTabChange)="visualizarProcesso(this.modoProcesso)" *ngIf="this.documento.processoOrigem?.id">
+            <mat-tab-group class="mr-16" (selectedTabChange)="visualizarProcesso(this.modoProcesso)"
+                           *ngIf="this.documento.processoOrigem?.id">
                 <mat-tab label="Editar a Minuta">
                 </mat-tab>
                 <mat-tab label="Visualizar o Processo">
@@ -20,45 +21,43 @@
                 <mat-icon class="black-fg">open_in_new</mat-icon>
             </button>
 
-            <button [ngStyle]="{'margin-left': (!this.documento.processoOrigem || !this.documento.processoOrigem?.id)? 'auto' : '0px' }" class="mr-8" mat-icon-button
-                    (click)="back()"
-                    aria-label="fechar"
-                    matTooltip="Fechar">
+            <button
+                [ngStyle]="{'margin-left': (!this.documento.processoOrigem || !this.documento.processoOrigem?.id)? 'auto' : '0px' }"
+                class="mr-8" mat-icon-button
+                (click)="back()"
+                aria-label="fechar"
+                matTooltip="Fechar">
                 <mat-icon>close</mat-icon>
             </button>
         </div>
     </div>
 
-    <!-- CENTER -->
-    <div class="center">
+    <div class="content" fxLayout="column">
+        <div *ngIf="(documento$ | async)?.componentesDigitais.length > 1" class="header accent p-16" fxLayout="row"
+             fxLayoutAlign="start center">
 
-        <div class="content" fxLayout="column">
-            <div *ngIf="(documento$ | async)?.componentesDigitais.length > 1" class="header accent p-16" fxLayout="row"
-                 fxLayoutAlign="start center">
+            <div class="componentes-digitais-navigation">
 
-                <div class="componentes-digitais-navigation">
+                <button mat-mini-fab class="previous mat-accent cdk-white-fg"
+                        (click)="gotoPreviousStep()"
+                        [disabled]="(currentComponenteDigital$ | async)?.numeracaoSequencial <= 1">
+                    <mat-icon>chevron_left</mat-icon>
+                </button>
 
-                    <button mat-mini-fab class="previous mat-accent cdk-white-fg"
-                            (click)="gotoPreviousStep()"
-                            [disabled]="(currentComponenteDigital$ | async)?.numeracaoSequencial <= 1">
-                        <mat-icon>chevron_left</mat-icon>
-                    </button>
-
-                    <div>
-                        <h3>{{(currentComponenteDigital$ | async)?.fileName}}
-                            ({{(currentComponenteDigital$ | async)?.numeracaoSequencial}}
-                            /{{(documento$ | async).componentesDigitais.length}})</h3>
-                    </div>
-
-                    <button mat-mini-fab class="next mat-accent cdk-white-fg"
-                            (click)="gotoNextStep()"
-                            [disabled]="(currentComponenteDigital$ | async)?.numeracaoSequencial >= (documento$ | async).componentesDigitais.length">
-                        <mat-icon>chevron_right</mat-icon>
-                    </button>
+                <div>
+                    <h3>{{(currentComponenteDigital$ | async)?.fileName}}
+                        ({{(currentComponenteDigital$ | async)?.numeracaoSequencial}}
+                        /{{(documento$ | async).componentesDigitais.length}})</h3>
                 </div>
+
+                <button mat-mini-fab class="next mat-accent cdk-white-fg"
+                        (click)="gotoNextStep()"
+                        [disabled]="(currentComponenteDigital$ | async)?.numeracaoSequencial >= (documento$ | async).componentesDigitais.length">
+                    <mat-icon>chevron_right</mat-icon>
+                </button>
             </div>
-            <router-outlet></router-outlet>
         </div>
+        <router-outlet></router-outlet>
     </div>
 </div>
 

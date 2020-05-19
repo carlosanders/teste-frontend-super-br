@@ -78,7 +78,7 @@
             </button>
         </div>
 
-        <div class="documentos-vinculados mb-48" fxFlex fxLayout="column"
+        <div class="documentos-vinculados m-16" fxFlex fxLayout="column"
              *ngIf="!(documento$ | async)?.vinculacaoDocumentoPrincipal && activeCard === 'anexos'">
 
             <h3 style="font-weight: bold">Anexos</h3>
@@ -134,7 +134,7 @@
 
         </div>
 
-        <div class="mb-16 pr-16" fxFlex fxLayout="column" *ngIf="activeCard === 'atividade'">
+        <div class="m-16" fxFlex fxLayout="column" *ngIf="activeCard === 'atividade'">
 
             <cdk-atividade-form
                 [atividade]="atividade"
@@ -148,7 +148,7 @@
 
         </div>
 
-        <div class="mb-16" fxFlex fxLayout="column" *ngIf="activeCard === 'form'">
+        <div class="m-16" fxFlex fxLayout="column" *ngIf="activeCard === 'form'">
 
             <h3 *ngIf="!(documento$ | async)?.vinculacaoDocumentoPrincipal" style="font-weight: bold">Documento Principal</h3>
             <h3 *ngIf="(documento$ | async)?.vinculacaoDocumentoPrincipal" style="font-weight: bold">Anexo</h3>
@@ -161,7 +161,7 @@
 
         </div>
 
-        <div class="mb-16" fxFlex fxLayout="column" *ngIf="activeCard === 'inteligencia'">
+        <div class="m-16" fxFlex fxLayout="column" *ngIf="activeCard === 'inteligencia'">
             <cdk-repositorio-grid
                 [layout]="'vertical'"
                 [loading]="(loading$ | async)"
@@ -177,7 +177,7 @@
 
         </div>
 
-        <div class="mb-16" fxFlex fxLayout="column" *ngIf="activeCard === 'acesso-restrito'">
+        <div class="m-16" fxFlex fxLayout="column" *ngIf="activeCard === 'acesso-restrito'">
 
             <h3 style="font-weight: bold">Acesso Restrito</h3>
 
@@ -203,7 +203,6 @@
                 [visibilidade]="visibilidade"
                 [saving]="(visibilidadeIsSaving$ | async)"
                 [errors]="(errors$ | async)"
-                [unidadeDefault]="_profile.colaborador.lotacoes[0].setor.unidade"
                 [unidadePagination]="unidadePagination"
                 [setorPagination]="setorPagination"
                 [usuarioPagination]="usuarioPagination"
@@ -221,7 +220,7 @@
 
         </div>
 
-        <div class="mb-16" fxFlex fxLayout="column" *ngIf="activeCard === 'sigilos'">
+        <div class="m-16" fxFlex fxLayout="column" *ngIf="activeCard === 'sigilos'">
 
             <h3 style="font-weight: bold">Sigilos</h3>
 
@@ -268,7 +267,7 @@
 
         </div>
 
-        <div class="mb-16" fxFlex fxLayout="column" *ngIf="activeCard === 'assinaturas'">
+        <div class="m-16" fxFlex fxLayout="column" *ngIf="activeCard === 'assinaturas'">
 
             <h3 style="font-weight: bold">Assinaturas</h3>
 
@@ -289,7 +288,7 @@
         </div>
 
     </div>
-    <div fxLayout="column" fxFlex="73">
+    <div class="documento-edit-content" fxLayout="column">
         <router-outlet></router-outlet>
     </div>
 </div>

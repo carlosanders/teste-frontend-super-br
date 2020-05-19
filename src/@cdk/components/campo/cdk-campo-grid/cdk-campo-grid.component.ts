@@ -137,6 +137,9 @@ export class CdkCampoGridComponent implements AfterViewInit, OnInit, OnChanges {
     reload = new EventEmitter<any>();
 
     @Output()
+    excluded = new EventEmitter<any>();
+
+    @Output()
     cancel = new EventEmitter<any>();
 
     @Output()
@@ -159,6 +162,7 @@ export class CdkCampoGridComponent implements AfterViewInit, OnInit, OnChanges {
 
     hasSelected = false;
     isIndeterminate = false;
+    hasExcluded = false;
 
     /**
      * @param _changeDetectorRef
@@ -235,6 +239,7 @@ export class CdkCampoGridComponent implements AfterViewInit, OnInit, OnChanges {
             sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
             context: contexto
         });
+        this.hasExcluded = false;
     }
 
     editCampo(campoId): void {

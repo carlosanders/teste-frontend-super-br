@@ -66,47 +66,58 @@ export class ProcessoEditMainSidebarComponent implements OnInit, OnDestroy {
             },
             {
                 nome: 'Juntadas',
-                link: 'juntadas'
+                link: 'juntadas',
+                role: 'ROLE_COLABORADOR'
             },
             {
                 nome: 'Vinculações',
-                link: 'vinculacoes-processos'
+                link: 'vinculacoes-processos',
+                role: 'ROLE_COLABORADOR'
             },
             {
                 nome: 'Relevâncias',
-                link: 'relevancias'
+                link: 'relevancias',
+                role: 'ROLE_COLABORADOR'
             },
             {
                 nome: 'Tarefas',
-                link: 'tarefas'
+                link: 'tarefas',
+                role: 'ROLE_COLABORADOR'
             },
             {
                 nome: 'Ofícios',
-                link: 'oficios'
+                link: 'oficios',
+                role: 'ROLE_COLABORADOR'
             },
             {
                 nome: 'Garantias',
-                link: 'garantias'
+                link: 'garantias',
+                role: 'ROLE_COLABORADOR'
             },            
             {
                 nome: 'Tramitações',
-                link: 'tramitacoes'
+                link: 'tramitacoes',
+                role: 'ROLE_COLABORADOR'
             },
             {
                 nome: 'Remessas',
-                link: 'remessas'
+                link: 'remessas',
+                role: 'ROLE_COLABORADOR'
             },
             {
                 nome: 'Transições',
-                link: 'transicoes'
+                link: 'transicoes',
+                role: 'ROLE_COLABORADOR'
             },
             {
                 nome: 'Sigilos',
-                link: 'sigilos'
+                link: 'sigilos',
+                role: 'ROLE_COLABORADOR'
             },
             {
                 nome: 'Restrições de Acessos',
-                link: 'acessos'
+                link: 'acessos',
+                role: 'ROLE_COLABORADOR'
             }
         ];
 

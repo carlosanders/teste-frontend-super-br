@@ -12,45 +12,72 @@
 
 <!-- SIDEBAR CONTENT -->
 <div class="content mt-16" cdkPerfectScrollbar>
-
-    <div class="nav material2" *showIfRole="'ROLE_COORDENADOR_NACIONAL'">
+    <div class="nav material2" *showIfRole="'ROLE_COORDENADOR_ORGAO_CENTRAL'">
         <div class="nav-subheader pl-8 mt-0">
             <mat-icon>language</mat-icon>
-            <span>NACIONAL</span>
+            <span>ÓRGÃO CENTRAL</span>
         </div>
-        <div *ngFor="let orgao of orgaosCentrais">
+        <div *ngFor="let orgao of orgaos">
             <div class="nav-subheader mt-0">
                 <span>{{orgao.valor | uppercase}}</span>
             </div>
-            <div class="nav-item" *ngFor="let link of links">
+            <div class="nav-item" *ngFor="let link of linksNacional">
                 <a class="nav-link" matRipple [routerLink]="'/apps/coordenador/nacional/' + orgao.id + '/' + link.link"
                    [routerLinkActive]="['active', 'accent']">
                     <mat-icon class="nav-link-icon">{{ link.icon }}</mat-icon>
-                    <span>{{link.nome | titlecase}} Nacionais</span>
+                    <span>{{link.nome}}</span>
                 </a>
             </div>
         </div>
     </div>
-    <div class="nav material2" *showIfRole="'ROLE_COORDENADOR'">
-        <div *ngIf="this.setores?.length">
+    <div class="nav material2" *showIfRole="'ROLE_COORDENADOR_UNIDADE'">
+        <div *ngIf="this.unidades?.length">
             <div class="nav-subheader pl-8 mt-0">
                 <mat-icon>language</mat-icon>
-                <span>LOCAL</span>
+                <span>UNIDADE</span>
             </div>
-            <div *ngFor="let setor of setores">
+            <div *ngFor="let setor of unidades">
                 <div class="nav-subheader mt-0">
                     <span>{{setor.nome | uppercase}}</span>
                 </div>
-                <div class="nav-item" *ngFor="let link of links">
-                    <a class="nav-link" matRipple [routerLink]="'/apps/coordenador/local/' + setor.id + '/' + link.link"
+                <div class="nav-item" *ngFor="let link of linksUnidade">
+                    <a class="nav-link" matRipple
+                       [routerLink]="'/apps/coordenador/unidade/' + setor.id + '/' + link.link"
                        [routerLinkActive]="['active', 'accent']">
                         <mat-icon class="nav-link-icon">{{ link.icon }}</mat-icon>
-                        <span>{{link.nome | titlecase}}</span>
+                        <span>{{link.nome}}</span>
+                    </a>
+                </div>
+                <div class="nav-item" *ngIf="setor.numeracaoDocumentoUnidade">
+                    <a class="nav-link" matRipple
+                       [routerLink]="'/apps/coordenador/unidade/' + setor.id + '/' + 'numeros-unicos-documentos'"
+                       [routerLinkActive]="['active', 'accent']">
+                        <mat-icon class="nav-link-icon">filter_9_plus</mat-icon>
+                        <span>Números Únicos Documentos</span>
                     </a>
                 </div>
             </div>
         </div>
     </div>
-
+    <div class="nav material2" *showIfRole="'ROLE_COORDENADOR_SETOR'">
+        <div *ngIf="this.setores?.length">
+            <div class="nav-subheader pl-8 mt-0">
+                <mat-icon>language</mat-icon>
+                <span>SETOR</span>
+            </div>
+            <div *ngFor="let setor of setores">
+                <div class="nav-subheader mt-0">
+                    <span>{{setor.nome | uppercase}}</span>
+                </div>
+                <div class="nav-item" *ngFor="let link of linksLocal">
+                    <a class="nav-link" matRipple [routerLink]="'/apps/coordenador/local/' + setor.id + '/' + link.link"
+                       [routerLinkActive]="['active', 'accent']">
+                        <mat-icon class="nav-link-icon">{{ link.icon }}</mat-icon>
+                        <span>{{link.nome}}</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <!-- / SIDEBAR CONTENT -->

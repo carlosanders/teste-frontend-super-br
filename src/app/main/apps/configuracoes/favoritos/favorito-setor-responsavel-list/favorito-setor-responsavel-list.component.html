@@ -7,7 +7,7 @@
 </cdk-favorito-form>
 
 <cdk-favorito-grid
-        [displayedColumns]="['id', 'setorResponsavel.nome','setorResponsavel.unidade.nome','actions']"
+        [displayedColumns]="['id', 'setorResponsavel.nome', 'setorResponsavel.unidade.nome', 'actions']"
         [loading]="(loading$ | async)"
         [favoritos]="(favoritos$ | async)"
         [total]="(pagination$ | async)?.total"
@@ -15,5 +15,6 @@
         [deletedIds]="(deletedIds$ | async)"
         [actions]="['favorito']"
         (reload)="reload($event)"
+        (excluded)="excluded($event)"
         (toggleFavorito)="doToggleFavorito($event)">
 </cdk-favorito-grid>

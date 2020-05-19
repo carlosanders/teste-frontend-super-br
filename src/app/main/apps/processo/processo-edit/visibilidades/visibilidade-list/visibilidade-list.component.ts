@@ -61,6 +61,20 @@ export class VisibilidadeListComponent implements OnInit {
         this._store.dispatch(new fromStore.GetVisibilidades(params));
     }
 
+
+    excluded(params): void {
+        this._store.dispatch(new fromStore.GetVisibilidades({
+            filter: {
+
+                ...params.gridFilter
+            },
+            sort: params.sort,
+            limit: params.limit,
+            offset: params.offset,
+            context: params.context
+        }));
+    }
+
     delete(visibilidadeId: number): void {
         this._store.dispatch(new fromStore.DeleteVisibilidade({processoId: this.routerState.params.processoHandle, visibilidadeId: visibilidadeId}));
     }

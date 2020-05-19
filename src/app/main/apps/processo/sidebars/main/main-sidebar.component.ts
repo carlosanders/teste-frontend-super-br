@@ -8,7 +8,7 @@ import * as fromStore from 'app/main/apps/processo/store';
 import {takeUntil} from 'rxjs/operators';
 import {getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
-import {LoginService} from "../../../../auth/login/login.service";
+import {LoginService} from '../../../../auth/login/login.service';
 
 @Component({
     selector: 'processo-main-sidebar',
@@ -27,6 +27,8 @@ export class ProcessoMainSidebarComponent implements OnInit, OnDestroy {
 
     processo$: Observable<Processo>;
     processo: Processo;
+
+    label = 'Protocolo';
 
     /**
      * @param _router
@@ -78,7 +80,25 @@ export class ProcessoMainSidebarComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.processo$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(processo => this.processo = processo);
+        ).subscribe(processo => {
+            this.processo = processo;
+            switch (this.processo.unidadeArquivistica) {
+                case 1:
+                    this.label = 'Processo';
+                    break;
+                case 2:
+                    this.label = 'Documento Avulso';
+                    break;
+                case 3:
+                    this.label = 'Pasta';
+                    break;
+                default:
+                    this.label = 'Protocolo';
+            }
+            if (!this.processo.id) {
+                this.label = 'Protocolo';
+            }
+        });
 
         this._store
             .pipe(select(getRouterState))

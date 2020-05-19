@@ -4,7 +4,6 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {cdkAnimations} from '@cdk/animations';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
@@ -12,6 +11,8 @@ import {Router} from '@angular/router';
 import {Observable, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {Usuario} from '@cdk/models';
+import {cdkAnimations} from '@cdk/animations';
+import {Back} from 'app/store/actions';
 
 @Component({
     selector: 'coordenador-afastamentos',
@@ -34,6 +35,7 @@ export class CoordenadorAfastamentosComponent implements OnInit, OnDestroy {
      *
      * @param _store
      * @param _changeDetectorRef
+     * @param _cdkSidebarService
      * @param _router
      */
     constructor(
@@ -53,15 +55,6 @@ export class CoordenadorAfastamentosComponent implements OnInit, OnDestroy {
             ).subscribe(routerState => {
             if (routerState) {
                 this.routerState = routerState.state;
-                if (this.routerState.url.indexOf('afastamentos/listar') > -1) {
-                    this.action = 'listar';
-                }
-                if (this.routerState.url.indexOf('afastamentos/editar') > -1) {
-                    this.action = 'editar';
-                }
-                if (this.routerState.url.indexOf('afastamentos/editar/criar') > -1) {
-                    this.action = 'criar';
-                }
                 this._changeDetectorRef.markForCheck();
             }
         });
@@ -75,22 +68,7 @@ export class CoordenadorAfastamentosComponent implements OnInit, OnDestroy {
         this._unsubscribeAll.complete();
     }
 
-    getTitulo(): string {
-        if (this.action === 'listar') {
-            return 'Afastamentos';
-        } else if (this.action === 'criar') {
-            return 'Novo Afastamento';
-        } else if (this.action === 'editar') {
-            return 'Alterar Afastamento';
-        }
-    }
-
     goBack(): void {
-        if (this.action === 'editar') {
-            this._router.navigate([this.routerState.url.replace(('editar/' + this.routerState.params.afastamentoHandle), 'listar')]).then();
-        }
-        if (this.action === 'criar') {
-            this._router.navigate([this.routerState.url.replace('editar/criar', 'listar')]).then();
-        }
+        this._store.dispatch(new Back());
     }
 }

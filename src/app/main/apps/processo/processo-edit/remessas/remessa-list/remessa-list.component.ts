@@ -81,6 +81,21 @@ export class RemessaListComponent implements OnInit {
         }));
     }
 
+    excluded(params): void {
+        this._store.dispatch(new fromStore.GetTramitacoes({
+            ...this.pagination,
+            filter: {
+                ...this.pagination.filter,
+                ...params.gridFilter
+            },
+            sort: params.sort,
+            limit: params.limit,
+            offset: params.offset,
+            populate: this.pagination.populate,
+            context: params.context
+        }));
+    }
+
     edit(tramitacaoId: number): void {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/') + tramitacaoId]).then();
     }

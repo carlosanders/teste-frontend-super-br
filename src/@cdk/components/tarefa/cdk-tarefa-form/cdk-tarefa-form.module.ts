@@ -33,6 +33,7 @@ import {LoginService} from '../../../../app/main/auth/login/login.service';
 import {CdkLogentryGridModule} from '@cdk/components/logentry/cdk-logentry-grid/cdk-logentry-grid.module';
 import {CdkLogentryGridsearchModule} from '@cdk/components/logentry/cdk-logentry-grid/cdk-logentry-gridsearch/cdk-logentry-gridsearch.module';
 import {CdkBlocoResponsaveisGridModule} from '../cdk-bloco-responsaveis-grid/cdk-bloco-responsaveis-grid.module';
+import {MatSliderModule} from "@angular/material/slider";
 
 @NgModule({
     declarations: [
@@ -70,6 +71,7 @@ import {CdkBlocoResponsaveisGridModule} from '../cdk-bloco-responsaveis-grid/cdk
         CdkBlocoResponsaveisGridModule,
 
         CdkSharedModule,
+        MatSliderModule,
     ],
     providers: [
         EspecieTarefaService,

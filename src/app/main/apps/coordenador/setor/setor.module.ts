@@ -1,0 +1,114 @@
+import {NgModule} from '@angular/core';
+import {
+    MatButtonModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    MatCheckboxModule,
+    MatProgressSpinnerModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatAutocompleteModule,
+    MatExpansionModule
+} from '@cdk/angular/material';
+import {TranslateModule} from '@ngx-translate/core';
+
+import {CdkSharedModule} from '@cdk/shared.module';
+import {SetorComponent} from './setor.component';
+import {SetorService} from '@cdk/services/setor.service';
+import {RouterModule, Routes} from '@angular/router';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {CommonModule} from '@angular/common';
+import {CdkSidebarModule} from '@cdk/components';
+import * as fromGuards from './store/guards';
+import {SetorMainSidebarComponent} from './sidebars/main/main-sidebar.component';
+import {CoordenadorSetorStoreModule} from './store/store.module';
+
+const routes: Routes = [
+    {
+        path: ':setorHandle',
+        component: SetorComponent,
+        canActivate: [fromGuards.ResolveGuard],
+        children: [
+            {
+                path       : 'listar',
+                loadChildren: () => import('./setor-list/setor-list.module').then(m => m.SetorListModule),
+            },
+            {
+                path       : 'editar',
+                loadChildren: () => import('./setor-edit/setor-edit.module').then(m => m.SetorEditModule),
+            },
+            {
+                path       : 'modelos',
+                loadChildren: () => import('../modelos/modelos.module').then(m => m.ModelosModule)
+            },
+            {
+                path       : 'repositorios',
+                loadChildren: () => import('../repositorios/repositorios.module').then(m => m.RepositoriosModule)
+            },
+            {
+                path       : 'usuarios',
+                loadChildren: () => import('../usuarios/usuarios.module').then(m => m.UsuariosModule)
+            },
+            {
+                path       : 'lotacoes',
+                loadChildren: () => import('../lotacoes/coordenador-lotacoes.module').then(m => m.CoordenadorLotacoesModule),
+            },
+            {
+                path       : 'localizadores',
+                loadChildren: () => import('../localizador/localizador.module').then(m => m.LocalizadorModule),
+            },
+            {
+                path       : 'numeros-unicos-documentos',
+                loadChildren: () => import('../numero-unico-documento/numero-unico-documento.module').then(m => m.NumeroUnicoDocumentoModule),
+            },
+            {
+                path: '**',
+                redirectTo: 'listar'
+            }
+        ]
+    },
+    {
+        path: '**',
+        redirectTo: 'default'
+    }
+];
+
+@NgModule({
+    declarations: [
+        SetorComponent,
+        SetorMainSidebarComponent
+    ],
+    imports: [
+        CommonModule,
+        RouterModule.forChild(routes),
+
+        MatExpansionModule,
+        MatAutocompleteModule,
+        MatButtonModule,
+        MatFormFieldModule,
+        MatIconModule,
+        MatCheckboxModule,
+        MatInputModule,
+        MatProgressSpinnerModule,
+        MatTableModule,
+        MatPaginatorModule,
+        MatSortModule,
+        TranslateModule,
+        CdkSharedModule,
+        MatTooltipModule,
+
+        CdkSidebarModule,
+        CoordenadorSetorStoreModule,
+    ],
+    providers: [
+        SetorService,
+        fromGuards.ResolveGuard
+    ],
+    exports: [
+        SetorComponent
+    ]
+})
+export class SetorModule {
+}

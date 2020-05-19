@@ -1,7 +1,7 @@
 <div class="page-layout left-sidebar" fxFlex>
 
     <!-- SIDEBAR -->
-    <cdk-sidebar class="sidebar" name="cdk-etiqueta-filter" position="left">
+    <cdk-sidebar name="cdk-etiqueta-filter" position="left">
         <cdk-etiqueta-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-etiqueta-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
@@ -53,6 +53,13 @@
                     matTooltip="Filtrar">
                 <mat-icon>filter_list</mat-icon>
             </button>
+
+            <button mat-icon-button [ngClass]="{'warn': hasExcluded}" *ngIf="actions.indexOf('showDeleted') > -1"
+                    (click)="loadExcluded()"
+                    aria-label="mostrar apagados"
+                    matTooltip="Mostrar Apagados">
+                <mat-icon>delete_sweep</mat-icon>
+            </button>
         </div>
 
         <div fxFlex="1 1 auto" fxLayout="row" fxLayoutAlign="center center" *ngIf="loading">
@@ -67,6 +74,7 @@
                     <th mat-header-cell *matHeaderCellDef>
                         <mat-checkbox (click)="toggleSelectAll($event)"
                                       [checked]="hasSelected"
+                                      [disabled]="hasExcluded"
                                       [indeterminate]="isIndeterminate">
                         </mat-checkbox>
                     </th>
@@ -74,7 +82,7 @@
                         <mat-checkbox [checked]="selectedIds.indexOf(etiqueta.id) > -1"
                                       (change)="toggleInSelected(etiqueta.id)"
                                       (click)="$event.stopPropagation();"
-                                      [disabled]="deletedIds?.indexOf(etiqueta.id) > -1">
+                                      [disabled]="deletedIds?.indexOf(etiqueta.id) > -1 || hasExcluded">
                         </mat-checkbox>
                     </td>
                 </ng-container>
@@ -84,7 +92,7 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Id
                     </th>
                     <td mat-cell *matCellDef="let etiqueta" class='has_label_on_mobile' data-label='Id: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(etiqueta.id) > -1}"> {{etiqueta.id}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(etiqueta.id) > -1 || etiqueta.apagadoEm}"> {{etiqueta.id}} </td>
                 </ng-container>
 
                 <!-- Nome Column -->
@@ -93,7 +101,7 @@
                         Nome
                     </th>
                     <td mat-cell *matCellDef="let etiqueta" class='has_label_on_mobile' data-label='Nome: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(etiqueta.id) > -1}"> {{ etiqueta.nome }}
+                        [ngClass]="{'deleted':deletedIds?.indexOf(etiqueta.id) > -1 || etiqueta.apagadoEm}"> {{ etiqueta.nome }}
                     </td>
                 </ng-container>
 
@@ -113,7 +121,7 @@
                         Descrição
                     </th>
                     <td mat-cell *matCellDef="let etiqueta" class='has_label_on_mobile' data-label='Descrição: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(etiqueta.id) > -1}"> {{etiqueta.descricao}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(etiqueta.id) > -1 || etiqueta.apagadoEm}"> {{etiqueta.descricao}} </td>
                 </ng-container>
 
                 <!-- Ativo Column -->
@@ -135,7 +143,7 @@
                     </th>
                     <td mat-cell *matCellDef="let etiqueta" class='has_label_on_mobile'
                         data-label='Modalidade da Etiqueta: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(etiqueta.id) > -1}"> {{etiqueta.modalidadeEtiqueta?.valor}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(etiqueta.id) > -1 || etiqueta.apagadoEm}"> {{etiqueta.modalidadeEtiqueta?.valor}} </td>
                 </ng-container>
 
                 <!-- CriadoPor Column -->
@@ -144,7 +152,7 @@
                         Criado Por
                     </th>
                     <td mat-cell *matCellDef="let etiqueta" class='has_label_on_mobile' data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(etiqueta.id) > -1}"> {{etiqueta.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(etiqueta.id) > -1 || etiqueta.apagadoEm}"> {{etiqueta.criadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -153,7 +161,7 @@
                         Criado Em
                     </th>
                     <td mat-cell *matCellDef="let etiqueta" class='has_label_on_mobile' data-label='Criado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(etiqueta.id) > -1}"> {{etiqueta.criadoEm | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(etiqueta.id) > -1 || etiqueta.apagadoEm}"> {{etiqueta.criadoEm | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
@@ -163,7 +171,7 @@
                         Atualizado Por
                     </th>
                     <td mat-cell *matCellDef="let etiqueta" class='has_label_on_mobile' data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(etiqueta.id) > -1}"> {{etiqueta.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(etiqueta.id) > -1 || etiqueta.apagadoEm}"> {{etiqueta.atualizadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -172,7 +180,7 @@
                         Atualizado Em
                     </th>
                     <td mat-cell *matCellDef="let etiqueta" class='has_label_on_mobile' data-label='Atualizado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(etiqueta.id) > -1}"> {{etiqueta.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(etiqueta.id) > -1 || etiqueta.apagadoEm}"> {{etiqueta.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- ApagadoPor Column -->
@@ -181,7 +189,7 @@
                         Apagado Por
                     </th>
                     <td mat-cell *matCellDef="let etiqueta" class='has_label_on_mobile' data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(etiqueta.id) > -1}"> {{etiqueta.apagadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(etiqueta.id) > -1 || etiqueta.apagadoEm}"> {{etiqueta.apagadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->
@@ -190,7 +198,7 @@
                         Apagado Em
                     </th>
                     <td mat-cell *matCellDef="let etiqueta" class='has_label_on_mobile' data-label='Apagado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(etiqueta.id) > -1}"> {{etiqueta.apagadoEm | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(etiqueta.id) > -1 || etiqueta.apagadoEm}"> {{etiqueta.apagadoEm | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- Actions Column -->
@@ -199,7 +207,7 @@
                     <td mat-cell *matCellDef="let etiqueta">
 
                         <button mat-icon-button
-                                *ngIf="actions.indexOf('select') > -1"
+                                *ngIf="actions.indexOf('select') > -1 && !hasExcluded"
                                 (click)="selectEtiqueta(etiqueta)"
                                 aria-label="selecionar"
                                 matTooltip="Selecionar">
@@ -207,7 +215,7 @@
                         </button>
 
                         <button mat-icon-button
-                                *ngIf="actions.indexOf('edit') > -1"
+                                *ngIf="actions.indexOf('edit') > -1 && !hasExcluded"
                                 [disabled]="deletedIds?.indexOf(etiqueta.id) > -1"
                                 (click)="editEtiqueta(etiqueta.id)"
                                 aria-label="editar"
@@ -220,7 +228,7 @@
                         </div>
 
                         <button mat-icon-button
-                                *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(etiqueta.id) === -1"
+                                *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(etiqueta.id) === -1 && !hasExcluded"
                                 [disabled]="deletedIds?.indexOf(etiqueta.id) > -1"
                                 (click)="deleteEtiqueta(etiqueta.id)"
                                 aria-label="remover"

@@ -20,9 +20,6 @@ import {Documento} from '@cdk/models';
 export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
 
     @Input()
-    componenteChamador: String = null;
-
-    @Input()
     documentos: Documento[];
 
     @Output()
@@ -30,6 +27,9 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
 
     @Output()
     assinatura = new EventEmitter<number>();
+
+    @Output()
+    removeAssinatura = new EventEmitter<number>();
 
     @Output()
     converte = new EventEmitter<number>();
@@ -45,6 +45,9 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
 
     @Input()
     assinandoId: number[] = [];
+
+    @Input()
+    removendoAssinaturaId: number[] = [];
 
     @Input()
     convertendoId: number[] = [];
@@ -86,11 +89,7 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
         this.hasSelected = this.selectedIds.length > 0;
         this.isIndeterminate = (this.selectedIds.length !== this.documentos.length && this.selectedIds.length > 0);
 
-        if (this.componenteChamador === 'atividade-create-bloco') {
-            this.changedSelectedIds.emit([documentoId]);
-        } else {
-            this.changedSelectedIds.emit(this.selectedIds);
-        }
+        this.changedSelectedIds.emit(this.selectedIds);
     }
 
     doDelete(documentoId): void {
@@ -99,6 +98,10 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
 
     doAssinatura(documentoId): void {
         this.assinatura.emit(documentoId);
+    }
+
+    doRemoveAssinatura(documentoId): void {
+        this.removeAssinatura.emit(documentoId);
     }
 
     doVerResposta(documento): void {
@@ -115,6 +118,10 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
 
     doAssinaturaDocumentoBloco(): void {
         this.selectedIds.forEach(documentoId => this.doAssinatura(documentoId));
+    }
+
+    doRemoveAssinaturaDocumentoBloco(): void {
+        this.selectedIds.forEach(documentoId => this.doRemoveAssinatura(documentoId));
     }
 
     /**
@@ -145,15 +152,8 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
      * Deselect all documentos
      */
     deselectAll(): void {
-        if (this.componenteChamador === 'atividade-create-bloco') {
-            this.changedSelectedIds.emit(this.selectedIds);
-            // o esvaziamento do array contendo os ids é depois da emissão,
-            // para que o componente atividade-create-bloco posso retirá-los da lista que ele armazena
-            this.selectedIds = [];
-        } else {
-            this.selectedIds = [];
-            this.recompute();
-        }
+        this.selectedIds = [];
+        this.recompute();
     }
 
     recompute(): void {
@@ -168,7 +168,7 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
 
     doConverteDocumentoBloco(): void {
         this.selectedIds.forEach(documentoId => this.doConverte(documentoId));
-        this.deselectAll(); //É PARA MANTER SELECIONADO O PDF?
+        this.deselectAll();
     }
 
 }
