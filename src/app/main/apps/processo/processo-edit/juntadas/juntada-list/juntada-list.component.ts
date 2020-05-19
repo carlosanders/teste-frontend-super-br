@@ -2,17 +2,18 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    OnInit,
+    OnInit, ViewChild,
     ViewEncapsulation
 } from '@angular/core';
 import {Observable} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Juntada} from '@cdk/models';
+import {Juntada, Processo} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
+import {getProcesso} from "../../../store/selectors";
 
 @Component({
     selector: 'juntada-list',
@@ -31,6 +32,11 @@ export class JuntadaListComponent implements OnInit {
     pagination: any;
     desentranhandoIds$: Observable<any>;
     copiandoIds$: Observable<any>;
+    processo$: Observable<Processo>;
+    processo: Processo;
+
+    @ViewChild('ckdUpload', {static: false})
+    cdkUpload;
 
     /**
      * @param _changeDetectorRef
@@ -47,6 +53,7 @@ export class JuntadaListComponent implements OnInit {
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
         this.desentranhandoIds$ = this._store.pipe(select(fromStore.getDesentranhandoIds));
         this.copiandoIds$ = this._store.pipe(select(fromStore.getCopiandoIds));
+        this.processo$ = this._store.pipe(select(getProcesso));
 
         this._store
             .pipe(select(getRouterState))
@@ -60,6 +67,10 @@ export class JuntadaListComponent implements OnInit {
     ngOnInit(): void {
         this.pagination$.subscribe(pagination => {
             this.pagination = pagination;
+        });
+
+        this.processo$.subscribe(processo => {
+            this.processo = processo;
         });
     }
 
@@ -77,6 +88,29 @@ export class JuntadaListComponent implements OnInit {
         }));
     }
 
+    excluded(params): void {
+        this._store.dispatch(new fromStore.GetJuntadas({
+            ...this.pagination,
+            filter: {
+                ...this.pagination.filter,
+                ...params.gridFilter
+            },
+            sort: params.sort,
+            limit: params.limit,
+            offset: params.offset,
+            populate: this.pagination.populate,
+            context: params.context
+        }));
+    }
+
+    upload(): void {
+        this.cdkUpload.upload();
+    }
+
+    onComplete(): void {
+        this._store.dispatch(new fromStore.GetJuntadas(this.pagination));
+    }
+
     desentranhar(juntadaId: number[]): void {
         this._store.dispatch(new fromStore.DesentranharJuntada(juntadaId));
     }
@@ -85,7 +119,7 @@ export class JuntadaListComponent implements OnInit {
         this._store.dispatch(new fromStore.CopiarDocumentoJuntada(juntadaId));
     }
 
-    editar(documentoId: number[]): void {
+    editar(documentoId: number): void {
         this._router.navigate([this.routerState.url + '/documento/' + documentoId + '/editar']).then();
     }
 

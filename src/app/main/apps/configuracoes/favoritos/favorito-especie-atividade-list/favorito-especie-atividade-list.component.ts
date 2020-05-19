@@ -120,6 +120,21 @@ export class FavoritoEspecieAtividadeListComponent implements OnInit, OnDestroy 
         }));
     }
 
+    excluded(params): void {
+        this._store.dispatch(new fromStore.GetFavoritos({
+            ...this.pagination,
+            filter: {
+                ...this.pagination.filter,
+                ...params.gridFilter
+            },
+            sort: params.sort,
+            limit: params.limit,
+            offset: params.offset,
+            populate: this.pagination.populate,
+            context: params.context
+        }));
+    }
+
     doToggleFavorito(favorito: Favorito): void {
         if (!favorito.prioritario) {
             favorito.prioritario = true;
@@ -137,5 +152,9 @@ export class FavoritoEspecieAtividadeListComponent implements OnInit, OnDestroy 
             },
             valor: valor
         }));
+    }
+
+    create () : void {
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
     }
 }

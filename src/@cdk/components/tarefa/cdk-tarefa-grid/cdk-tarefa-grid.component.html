@@ -1,7 +1,7 @@
 <div class="page-layout left-sidebar" fxFlex>
 
     <!-- SIDEBAR -->
-    <cdk-sidebar class="sidebar" name="cdk-tarefa-filter" position="left">
+    <cdk-sidebar name="cdk-tarefa-filter" position="left">
         <cdk-tarefa-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-tarefa-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
@@ -27,8 +27,8 @@
 
             <button mat-icon-button *ngIf="selectedIds.length > 1 && actions.indexOf('delete') > -1"
                     (click)="deleteTarefa(selectedIds)"
-                    aria-label="remover"
-                    matTooltip="Remover">
+                    aria-label="apagar"
+                    matTooltip="Apagar">
                 <mat-icon>delete</mat-icon>
             </button>
 
@@ -53,6 +53,13 @@
                     matTooltip="Filtrar">
                 <mat-icon>filter_list</mat-icon>
             </button>
+
+            <button mat-icon-button [ngClass]="{'warn': hasExcluded}" *ngIf="actions.indexOf('showDeleted') > -1"
+                    (click)="loadExcluded()"
+                    aria-label="mostrar apagados"
+                    matTooltip="Mostrar Apagados">
+                <mat-icon>delete_sweep</mat-icon>
+            </button>
         </div>
 
         <div fxFlex="1 1 auto" fxLayout="row" fxLayoutAlign="center center" *ngIf="loading">
@@ -63,10 +70,11 @@
             <table mat-table [dataSource]="dataSource" matSort [hidden]="loading">
 
                 <!-- Selection Column -->
-                <ng-container matColumnDef="select">
+                <ng-container matColumnDef="select" >
                     <th mat-header-cell *matHeaderCellDef>
                         <mat-checkbox (click)="toggleSelectAll($event)"
                                       [checked]="hasSelected"
+                                      [disabled]="hasExcluded"
                                       [indeterminate]="isIndeterminate">
                         </mat-checkbox>
                     </th>
@@ -74,7 +82,7 @@
                         <mat-checkbox [checked]="selectedIds.indexOf(tarefa.id) > -1"
                                       (change)="toggleInSelected(tarefa.id)"
                                       (click)="$event.stopPropagation();"
-                                      [disabled]="deletedIds?.indexOf(tarefa.id) > -1">
+                                      [disabled]="deletedIds?.indexOf(tarefa.id) > -1 || hasExcluded">
                         </mat-checkbox>
                     </td>
                 </ng-container>
@@ -84,7 +92,7 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Id
                     </th>
                     <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label='Id: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1}"> {{tarefa.id}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1 || tarefa.apagadoEm}"> {{tarefa.id}} </td>
                 </ng-container>
 
                 <!--  Processo Column -->
@@ -93,7 +101,7 @@
                         Processo
                     </th>
                     <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label='Processo: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1}"> {{tarefa.processo?.NUP}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1 || tarefa.apagadoEm}"> {{tarefa.processo?.NUP}} </td>
                 </ng-container>
 
                 <!-- PostIt Column -->
@@ -102,7 +110,7 @@
                         Post It
                     </th>
                     <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label='Post It: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1}"> {{tarefa.postIt}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1 || tarefa.apagadoEm}"> {{tarefa.postIt}} </td>
                 </ng-container>
 
                 <!-- Urgente Column -->
@@ -111,7 +119,7 @@
                         Urgente
                     </th>
                     <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label='Urgente: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1}">
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1 || tarefa.apagadoEm}">
                         <mat-checkbox [disabled]="true" [checked]="tarefa.urgente"></mat-checkbox>
                     </td>
                 </ng-container>
@@ -122,7 +130,7 @@
                         Observação
                     </th>
                     <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label='Observação: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1}"> {{tarefa.observacao}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1 || tarefa.apagadoEm}"> {{tarefa.observacao}} </td>
                 </ng-container>
 
                 <!-- Redistribuida Column -->
@@ -131,7 +139,7 @@
                         Redistribuída
                     </th>
                     <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label='Redistribuída: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1}"> {{tarefa.redistribuida}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1 || tarefa.apagadoEm}"> {{tarefa.redistribuida}} </td>
                 </ng-container>
 
                 <!-- DataHoraLeitura Column -->
@@ -140,7 +148,7 @@
                         Data da Leitura
                     </th>
                     <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label='Data da Leitura: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1}"> {{tarefa.dataHoraLeitura | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1 || tarefa.apagadoEm}"> {{tarefa.dataHoraLeitura | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- DataHoraInicioPrazo Column -->
@@ -151,7 +159,7 @@
                     </th>
                     <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile'
                         data-label='Data do Início do Prazo: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1}"> {{tarefa.dataHoraInicioPrazo | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1 || tarefa.apagadoEm}"> {{tarefa.dataHoraInicioPrazo | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- DataHoraFinalPrazo Column -->
@@ -162,7 +170,7 @@
                     </th>
                     <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile'
                         data-label='Data do Final do Prazo: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1}"> {{tarefa.dataHoraFinalPrazo | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1 || tarefa.apagadoEm}"> {{tarefa.dataHoraFinalPrazo | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- DataHoraConclusaoPrazo Column -->
@@ -173,7 +181,7 @@
                     </th>
                     <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile'
                         data-label='Data da Conclusão do Prazo: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1}"> {{tarefa.dataHoraConclusaoPrazo | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1 || tarefa.apagadoEm}"> {{tarefa.dataHoraConclusaoPrazo | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- EspecieTarefa.nome Column -->
@@ -183,7 +191,7 @@
                         Espécie de Tarefa
                     </th>
                     <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label='Espécie de Tarefa: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1}"> {{tarefa.especieTarefa.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1 || tarefa.apagadoEm}"> {{tarefa.especieTarefa.nome}} </td>
                 </ng-container>
 
                 <!-- Usuario Column -->
@@ -193,7 +201,7 @@
                         Usuário Responsável
                     </th>
                     <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label='Usuário Responsável: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1}"> {{tarefa.usuarioResponsavel?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1 || tarefa.apagadoEm}"> {{tarefa.usuarioResponsavel?.nome}} </td>
                 </ng-container>
 
                 <!-- Setor Column -->
@@ -202,7 +210,7 @@
                         Setor de Origem
                     </th>
                     <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label='Setor de Origem: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1}"> {{tarefa.setorOrigem?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1 || tarefa.apagadoEm}"> {{tarefa.setorOrigem?.nome}} </td>
                 </ng-container>
 
                 <!-- UnidadeResponsavel Column -->
@@ -212,7 +220,7 @@
                         Unidade Responsável
                     </th>
                     <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label='Unidade Responsável: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1}"> {{tarefa.unidadeResponsavel?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1 || tarefa.apagadoEm}"> {{tarefa.unidadeResponsavel?.nome}} </td>
                 </ng-container>
 
                 <!-- SetorResponsavel Column -->
@@ -222,7 +230,7 @@
                         Setor Responsável
                     </th>
                     <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label='Setor Responsável: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1}"> {{tarefa.setorResponsavel?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1 || tarefa.apagadoEm}"> {{tarefa.setorResponsavel?.nome}} </td>
                 </ng-container>
 
                 <!-- UsuarioConclusaoPrazo Column -->
@@ -233,7 +241,7 @@
                     </th>
                     <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile'
                         data-label='Usuário da Conclusao do Prazo: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1}"> {{tarefa.usuarioConclusaoPrazo.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1 || tarefa.apagadoEm}"> {{tarefa.usuarioConclusaoPrazo.nome}} </td>
                 </ng-container>
 
                 <!-- CriadoPor Column -->
@@ -242,7 +250,7 @@
                         Criado Por
                     </th>
                     <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1}"> {{tarefa.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1 || tarefa.apagadoEm}"> {{tarefa.criadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -251,7 +259,7 @@
                         Criado Em
                     </th>
                     <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label='Criado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1}"> {{tarefa.criadoEm | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1 || tarefa.apagadoEm}"> {{tarefa.criadoEm | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
@@ -261,7 +269,7 @@
                         Atualizado Por
                     </th>
                     <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1}"> {{tarefa.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1 || tarefa.apagadoEm}"> {{tarefa.atualizadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -270,7 +278,7 @@
                         Atualizado Em
                     </th>
                     <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label='Atualizado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1}"> {{tarefa.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1 || tarefa.apagadoEm}"> {{tarefa.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- ApagadoPor Column -->
@@ -279,7 +287,7 @@
                         Apagado Por
                     </th>
                     <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1}"> {{tarefa.apagadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1 || tarefa.apagadoEm}"> {{tarefa.apagadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->
@@ -288,7 +296,7 @@
                         Apagado Em
                     </th>
                     <td mat-cell *matCellDef="let tarefa" class='has_label_on_mobile' data-label='Apagado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1}"> {{tarefa.apagadoEm | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tarefa.id) > -1 || tarefa.apagadoEm}"> {{tarefa.apagadoEm | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- Actions Column -->
@@ -297,7 +305,7 @@
                     <td mat-cell *matCellDef="let tarefa">
 
                         <button mat-icon-button
-                                *ngIf="actions.indexOf('select') > -1"
+                                *ngIf="actions.indexOf('select') > -1 && !hasExcluded"
                                 (click)="selectTarefa(tarefa)"
                                 aria-label="selecionar"
                                 matTooltip="Selecionar">
@@ -305,7 +313,7 @@
                         </button>
 
                         <button mat-icon-button
-                                *ngIf="actions.indexOf('edit') > -1"
+                                *ngIf="actions.indexOf('edit') > -1 && !hasExcluded"
                                 [disabled]="deletedIds?.indexOf(tarefa.id) > -1"
                                 (click)="editTarefa(tarefa.id)"
                                 aria-label="editar"
@@ -318,11 +326,11 @@
                         </div>
 
                         <button mat-icon-button
-                                *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(tarefa.id) === -1"
+                                *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(tarefa.id) === -1 && !hasExcluded"
                                 [disabled]="deletedIds?.indexOf(tarefa.id) > -1"
                                 (click)="deleteTarefa(tarefa.id)"
-                                aria-label="remover"
-                                matTooltip="Remover">
+                                aria-label="apagar"
+                                matTooltip="Apagar">
                             <mat-icon>delete</mat-icon>
                         </button>
                     </td>

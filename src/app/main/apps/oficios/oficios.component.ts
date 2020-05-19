@@ -222,6 +222,7 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
     // -----------------------------------------------------------------------------------------------------
 
     reload(params): void {
+        this._store.dispatch(new fromStore.UnloadDocumentosAvulso({reset: false}));
 
         const nparams = {
             ...this.pagination,

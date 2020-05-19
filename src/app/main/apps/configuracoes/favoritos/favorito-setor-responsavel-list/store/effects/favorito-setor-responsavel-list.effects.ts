@@ -55,7 +55,8 @@ export class FavoritoListSetorResponsavelEffect {
                         action.payload.limit,
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
-                        JSON.stringify(action.payload.populate)).pipe(
+                        JSON.stringify(action.payload.populate),
+                        JSON.stringify(action.payload.context)).pipe(
                         mergeMap((response) => [
                             new AddData<Favorito>({data: response['entities'], schema: favoritoSchema}),
                             new FavoritoListSetorResponsavelActions.GetFavoritosSuccess({

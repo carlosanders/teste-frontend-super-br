@@ -1,12 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import {MatButtonModule, MatCheckboxModule, MatFormFieldModule, MatIconModule, MatInputModule, MatProgressBarModule} from '@cdk/angular/material';
+import {
+    MatButtonModule,
+    MatCheckboxModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    MatProgressBarModule
+} from '@cdk/angular/material';
 import { HttpClientModule } from '@angular/common/http';
-
 import { CdkSharedModule } from '@cdk/shared.module';
-
 import { LoginComponent } from 'app/main/auth/login/login.component';
-
 import { LoginStoreModule } from './store/store.module';
 
 const routes = [
@@ -30,9 +34,7 @@ const routes = [
         MatIconModule,
         MatInputModule,
         MatProgressBarModule,
-
         CdkSharedModule,
-
         LoginStoreModule
     ]
 })

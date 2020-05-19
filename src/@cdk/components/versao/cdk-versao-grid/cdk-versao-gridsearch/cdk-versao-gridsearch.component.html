@@ -2,8 +2,10 @@
         [loading]="loading"
         [logEntrys]="logEntrys"
         [total]="total"
-        [actions]="['reverter']"
-        (reverter)="revert($event)"
+        [actions]="['reverter', 'visualizar', 'comparar']"
+        (reverter)="doReverter($event)"
+        (visualizar)="doVisualizar($event)"
+        (comparar)="doComparar($event)"
         (cancel)="doCancel()"
         (reload)="reload($event)">
 </cdk-versao-grid>

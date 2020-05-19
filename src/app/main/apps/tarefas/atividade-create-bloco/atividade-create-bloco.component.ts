@@ -3,23 +3,30 @@ import {
     Component,
     OnDestroy,
     OnInit,
+    ViewChild,
     ViewEncapsulation
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
-import * as fromStore from './store';
+
 import {Atividade} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
+import * as moment from 'moment';
+
+import * as fromStore from 'app/main/apps/tarefas/atividade-create-bloco/store';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Tarefa} from '@cdk/models';
-import {getSelectedTarefas} from '../store/selectors';
-import {getOperacoesState, getRouterState} from 'app/store/reducers';
-import {Router} from '@angular/router';
-import {filter, takeUntil, tap} from 'rxjs/operators';
-import * as moment from 'moment';
+import {filter, takeUntil} from 'rxjs/operators';
 import {Documento} from '@cdk/models';
-import {Usuario} from "../../../../../@cdk/models/usuario.model";
+import {getRouterState, getMercureState, getOperacoesState} from 'app/store/reducers';
+import {Router} from '@angular/router';
+import {Colaborador} from '@cdk/models';
+import {UpdateData} from '@cdk/ngrx-normalizr';
+import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
+import {Back} from '../../../../store/actions';
+import {getSelectedTarefas} from '../store/selectors';
+
 
 @Component({
     selector: 'atividade-create-bloco',
@@ -33,34 +40,33 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
 
     private _unsubscribeAll: Subject<any> = new Subject();
 
-    selectedIds: number[] = [];
-    componenteChamador: String = 'atividade-create-bloco';
-
     tarefas$: Observable<Tarefa[]>;
     tarefas: Tarefa[];
-    tarefasSelecionadasListId: any[] = [];
+
+    operacoes: any[] = [];
 
     atividade: Atividade;
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
 
-    operacoes: any[] = [];
-
-    private _profile: Usuario;
+    private _profile: Colaborador;
 
     routerState: any;
 
     documentos$: Observable<Documento[]>;
     minutas: Documento[] = [];
-
-    mapDocumentos = new Map();
-
+    oficios: Documento[] = [];
     selectedDocumentos$: Observable<Documento[]>;
+    selectedMinutas: Documento[] = [];
+    selectedOficios: Documento[] = [];
     deletingDocumentosId$: Observable<number[]>;
     assinandoDocumentosId$: Observable<number[]>;
     assinandoDocumentosId: number[] = [];
     convertendoDocumentosId$: Observable<number[]>;
-    convertendoDocumentosId: number[] = [];
+    javaWebStartOK = false;
+
+    @ViewChild('ckdUpload', {static: false})
+    cdkUpload;
 
     /**
      *
@@ -76,51 +82,11 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
         private _changeDetectorRef: ChangeDetectorRef
     ) {
         this.tarefas$ = this._store.pipe(select(getSelectedTarefas));
-        this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
-        this.errors$ = this._store.pipe(select(fromStore.getErrors));
-        this._profile = _loginService.getUserProfile();
-
-        this.documentos$ = this._store.pipe(select(fromStore.getDocumentos));
-        this.selectedDocumentos$ = this._store.pipe(select(fromStore.getSelectedDocumentos));
-        this.deletingDocumentosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosId));
-        this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
-        //this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoDocumentosId));
-    }
-
-    // -----------------------------------------------------------------------------------------------------
-    // @ Lifecycle hooks
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * On init
-     */    
-    ngOnInit(): void {
-        this.atividade = new Atividade();
-        this.atividade.encerraTarefa = true;
-        this.atividade.dataHoraConclusao = moment();
-        //this.atividade.usuario = this._profile.usuario;
-        this.atividade.usuario = this._profile;
 
         this.tarefas$.pipe(
             takeUntil(this._unsubscribeAll),
         ).subscribe((tarefas) => {
             this.tarefas = tarefas;
-            if (this.tarefas) {
-                // cria array temporário com os ids da tarefas selecionadas 
-                // para a movimentação em lote
-                let tarefasListId: any[] = [];
-                this.tarefas.forEach((tarefa) => {
-                    tarefasListId.push(tarefa.id);
-                });
-                // verifica se houve alteração nas tarefas selecionadas para movimentação em lote
-                if (tarefasListId.length > 0 && tarefasListId.sort().toString() !== this.tarefasSelecionadasListId.sort().toString() ) {
-                    // lê os documentos das nova lista de tarefas selecionadas
-                    this._store.dispatch(new fromStore.GetDocumentos(tarefasListId.toString()));
-                    // guarda a nova lista de ids das tarefas selecionadas
-                    this.tarefasSelecionadasListId = [...tarefasListId];
-                }
-            }
-
         });
 
         this._store
@@ -136,63 +102,106 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
                 }
             );
 
-        this._store
-            .pipe(
-                select(getRouterState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe(routerState => {
+        this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
+        this.errors$ = this._store.pipe(select(fromStore.getErrors));
+        this._profile = _loginService.getUserProfile().colaborador;
+
+        this.documentos$ = this._store.pipe(select(fromStore.getDocumentos));
+        this.selectedDocumentos$ = this._store.pipe(select(fromStore.getSelectedDocumentos));
+        this.deletingDocumentosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosId));
+        this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
+        //this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoDocumentosId));
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Lifecycle hooks
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * On init
+     */
+    ngOnInit(): void {
+        this.atividade = new Atividade();
+        this.atividade.encerraTarefa = true;
+        this.atividade.dataHoraConclusao = moment();
+
+        this.tarefas$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(tarefas => {
+            this.tarefas = tarefas;
+            this.atividade.usuario = tarefas[0].usuarioResponsavel;
+            this.atividade.setor = tarefas[0].setorResponsavel;
+        });
+
+        this._store.pipe(
+            select(getRouterState),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(routerState => {
             if (routerState) {
                 this.routerState = routerState.state;
-                this.operacoes = [];
             }
         });
 
-       /* this.atividade = new Atividade();
-        this.atividade.encerraTarefa = true;
-        this.atividade.dataHoraConclusao = moment();
-        this.atividade.usuario = this._profile;
+        this._store
+            .pipe(
+                select(getMercureState),
+                takeUntil(this._unsubscribeAll)
+            ).subscribe(message => {
+            if (message && message.type === 'assinatura') {
+                switch (message.content.action) {
+                    case 'assinatura_iniciada':
+                        this.javaWebStartOK = true;
+                        break;
+                    case 'assinatura_cancelada':
+                        this.javaWebStartOK = false;
+                        this._store.dispatch(new fromStore.AssinaDocumentoFailed(message.content.documentoId));
+                        break;
+                    case 'assinatura_erro':
+                        this.javaWebStartOK = false;
+                        this._store.dispatch(new fromStore.AssinaDocumentoFailed(message.content.documentoId));
+                        break;
+                    case 'assinatura_finalizada':
+                        this.javaWebStartOK = false;
+                        this._store.dispatch(new fromStore.AssinaDocumentoSuccess(message.content.documentoId));
+                        this._store.dispatch(new UpdateData<Documento>({id: message.content.documentoId, schema: documentoSchema, changes: {assinado: true}}));
+                        break;
+                }
+            }
+        });
 
-        if (this.tarefas) {
-
-            const tarefasListId: any[] = [];
-            this.tarefas.forEach((tarefa) => {
-                tarefasListId.push(tarefa.id);
-            });
-
-            this._store.dispatch(new fromStore.GetDocumentos(tarefasListId.toString()));
-        }*/
+        this.selectedDocumentos$.pipe(
+            filter(selectedDocumentos => !!selectedDocumentos),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(selectedDocumentos => {
+            this.selectedMinutas = selectedDocumentos.filter(documento => documento.minuta && !documento.documentoAvulsoRemessa);
+            this.selectedOficios = selectedDocumentos.filter(documento => documento.documentoAvulsoRemessa);
+        });
 
         this.documentos$.pipe(
             filter(cd => !!cd),
             takeUntil(this._unsubscribeAll)
         ).subscribe(
             documentos => {
-                this.minutas = documentos;
+                this.minutas = documentos.filter(documento => (!documento.documentoAvulsoRemessa && !documento.juntadaAtual));
+                this.oficios = documentos.filter(documento => documento.documentoAvulsoRemessa);
                 this._changeDetectorRef.markForCheck();
-                
-                    this.mapDocumentos.clear();
-                    this.minutas.forEach(
-                        doc => this.addToMapArray(
-                                this.mapDocumentos,
-                                `${doc.processoOrigem.NUP}-${doc.tarefaOrigem.id}`,
-                                //`Processo: ${doc.processoOrigem.NUP}-Tarefa: ${doc.tarefaOrigem.id}`,                                
-                                doc)
-                    ); 
-            },
+            }
         );
-    }
 
-    desmembraKeyMapArray(key:string) {
-        return {
-            'nup' : key.split('-')[0],
-            'idTarefa': key.split('-')[1]
-        }
+        this.assinandoDocumentosId$.subscribe(assinandoDocumentosId => {
+            if (assinandoDocumentosId.length > 0) {
+                setInterval(() => {
+                    // monitoramento do java
+                    if (!this.javaWebStartOK && (assinandoDocumentosId.length > 0)) {
+                        assinandoDocumentosId.forEach(
+                            documentoId => this._store.dispatch(new fromStore.AssinaDocumentoFailed(documentoId))
+                        );
+                    }
+                }, 30000);
+            }
+            this.assinandoDocumentosId = assinandoDocumentosId;
+        });
     }
-
-    addToMapArray(map:any, chave:any, valor:any){
-        map.has(chave) ? map.get(chave).push(valor) : map.set(chave,[valor]);
-    }
-
 
     /**
      * On destroy
@@ -201,6 +210,7 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
+        this._store.dispatch(new fromStore.UnloadDocumentos());
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -208,6 +218,8 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
 
     submit(values): void {
+
+        delete values.unidadeAprovacao;
 
         this.operacoes = [];
 
@@ -221,63 +233,51 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
             );
 
             atividade.tarefa = tarefa;
-            //atividade.documentos = this.minutas;
-            this.selectedDocumentos$.subscribe(
-                documentos => {
-                    // Como no redux estão todos os documentos selecionados independetemente à qual tarefa pertencem,
-                    // abaixo são inseridos na atividade apenas os documentos selecionados pertencentes a respectiva tarefa
-                    atividade.documentos = documentos.filter(doc => doc.tarefaOrigem.id === tarefa.id);
-                }
+            atividade.usuario = tarefa.usuarioResponsavel;
+            atividade.setor = tarefa.setorResponsavel;
+            atividade.documentos = this.minutas.filter((minuta) => minuta.tarefaOrigem.id === tarefa.id);
 
-            );
             this._store.dispatch(new fromStore.SaveAtividade(atividade));
         });
     }
 
-
-
-    changedSelectedIds(selectedIds): void {
-        selectedIds.forEach(element => {
-            this._changedSelectedIds(element);
-        });
-        
-
-        /*const selectedDocumentoIds = [...this.selectedIds];
-
-        if (selectedDocumentoIds.find(id => id === documentoId) !== undefined) {
-            this.selectedIds = selectedDocumentoIds.filter(id => id !== documentoId);
-        } else {
-            this.selectedIds = [...selectedDocumentoIds, documentoId];
-        }*/
-
-        this._store.dispatch(new fromStore.ChangeSelectedDocumentos(this.selectedIds));
-
-        //this._store.dispatch(new fromStore.ChangeSelectedDocumentos(selectedIds));
+    upload(): void {
+        this.cdkUpload.upload();
     }
 
-    _changedSelectedIds(documentoId): void {
-        const selectedDocumentoIds = [...this.selectedIds];
+    modelo(): void {
+        this._router.navigate([this.routerState.url.split('/atividades/criar')[0] + '/modelo']).then();
+    }
 
-        if (selectedDocumentoIds.find(id => id === documentoId) !== undefined) {
-            this.selectedIds = selectedDocumentoIds.filter(id => id !== documentoId);
-        } else {
-            this.selectedIds = [...selectedDocumentoIds, documentoId];
-        }
+    oficio(): void {
+        this._router.navigate([this.routerState.url.split('/atividades/criar')[0] + '/oficio']).then();
+    }
+
+    changedSelectedIds(selectedIds): void {
+        this._store.dispatch(new fromStore.ChangeSelectedDocumentos(selectedIds));
     }
 
     doDelete(documentoId): void {
         this._store.dispatch(new fromStore.DeleteDocumento(documentoId));
     }
 
+    doVerResposta(documento): void {
+        this._store.dispatch(new fromStore.ClickedDocumento(documento));
+    }
+
     doAssinatura(documentoId): void {
-         this._store.dispatch(new fromStore.AssinaDocumento(documentoId));
+        this._store.dispatch(new fromStore.AssinaDocumento(documentoId));
     }
 
     onClicked(documento): void {
-         this._store.dispatch(new fromStore.ClickedDocumento(documento));
+        this._store.dispatch(new fromStore.ClickedDocumento(documento));
     }
 
     doConverte(documentoId): void {
         //this._store.dispatch(new fromStore.ConverteToPdf(documentoId));
+    }
+
+    doAbort(): void {
+        this._store.dispatch(new Back());
     }
 }

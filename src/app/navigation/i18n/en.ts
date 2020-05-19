@@ -36,6 +36,9 @@ export const locale = {
             },
             OFICIO : {
                 TITLE: 'Ofício'
+            },
+            PROTOCOLO_EXTERNO : {
+                TITLE: 'Protocolo'
             }
         }
     }

@@ -3,7 +3,7 @@
         [visibilidades]="(visibilidades$ | async)"
         [deletingIds]="(deletingIds$ | async)"
         [deletedIds]="(deletedIds$ | async)"
-        [actions]="['delete']"
+        [actions]="['delete', 'showDeleted']"
         (reload)="reload($event)"
         (delete)="delete($event)">
 </cdk-visibilidade-list>

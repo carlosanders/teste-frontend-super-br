@@ -33,6 +33,9 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
     usuarios: Usuario[];
 
     @Input()
+    externo: boolean;
+
+    @Input()
     total = 0;
 
     @Input()
@@ -40,6 +43,9 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
 
     @Output()
     create = new EventEmitter<any>();
+
+    @Output()
+    excluded = new EventEmitter<any>();
 
     @Input()
     displayedColumns: string[] = ['select', 'id', 'nome', 'actions'];
@@ -144,7 +150,7 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
     pageSize = 5;
 
     @Input()
-    actions: string[] = ['edit', 'delete', 'select', 'lotacoes', 'afastamentos'];
+    actions: string[] = ['edit', 'delete', 'select', 'lotacoes', 'afastamentos', 'vincularPessoa'];
 
     @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
@@ -177,6 +183,9 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
     delete = new EventEmitter<number>();
 
     @Output()
+    vincular = new EventEmitter<number>();
+
+    @Output()
     selected = new EventEmitter<Usuario>();
 
     @Output()
@@ -190,6 +199,7 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
 
     hasSelected = false;
     isIndeterminate = false;
+    hasExcluded = false;
 
     /**
      *
@@ -240,7 +250,9 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
         ).subscribe();
     }
 
+
     ngAfterViewInit(): void {
+
         // reset the paginator after sorting
         this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
 
@@ -267,6 +279,24 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
             sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
             context: contexto
         });
+        this.hasExcluded = false;
+    }
+
+    loadExcluded(): void {
+        this.hasExcluded = !this.hasExcluded;
+        if(this.hasExcluded) {
+            const filter = this.gridFilter.filters;
+            this.excluded.emit({
+                gridFilter: filter,
+                limit: this.paginator.pageSize,
+                offset: (this.paginator.pageSize * this.paginator.pageIndex),
+                sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
+                context: {'mostrarApagadas': true}
+            });
+        }
+        else {
+            this.loadPage();
+        }
     }
 
     editUsuario(usuarioId): void {
@@ -279,6 +309,10 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
 
     afastamentosUsuario(usuarioId): void {
         this.afastamentos.emit(usuarioId);
+    }
+
+    vincularPessoa(usuarioId): void {
+        this.vincular.emit(usuarioId);
     }
 
     selectUsuario(usuario: Usuario): void {
@@ -300,6 +334,8 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
     deleteUsuarios(usuariosId): void {
         usuariosId.forEach(usuarioId => this.deleteUsuario(usuarioId));
     }
+
+
 
     /**
      * Toggle select all
@@ -362,4 +398,6 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
     doCreate(): void {
         this.create.emit();
     }
+
+
 }

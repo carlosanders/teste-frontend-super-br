@@ -5,7 +5,6 @@ import {
     OnInit,
     ViewEncapsulation
 } from '@angular/core';
-
 import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
 
@@ -17,6 +16,7 @@ import {Pagination} from '@cdk/models';
 import {Usuario} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Colaborador} from '@cdk/models';
+import {Back} from "../../../../../store/actions";
 
 @Component({
     selector: 'afastamento-edit',
@@ -101,4 +101,7 @@ export class AfastamentoEditComponent implements OnInit, OnDestroy {
 
     }
 
+    doAbort(): void {
+        this._store.dispatch(new Back());
+    }
 }

@@ -13,7 +13,7 @@ export class CdkModule
         }
     }
 
-    static forRoot(config): ModuleWithProviders
+    static forRoot(config): ModuleWithProviders<CdkModule>
     {
         return {
             ngModule : CdkModule,

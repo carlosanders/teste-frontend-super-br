@@ -165,6 +165,9 @@ export class CdkLotacaoGridComponent implements AfterViewInit, OnInit, OnChanges
     reload = new EventEmitter<any>();
 
     @Output()
+    excluded = new EventEmitter<any>();
+
+    @Output()
     cancel = new EventEmitter<any>();
 
     @Output()
@@ -193,6 +196,7 @@ export class CdkLotacaoGridComponent implements AfterViewInit, OnInit, OnChanges
 
     hasSelected = false;
     isIndeterminate = false;
+    hasExcluded = false;
 
     /**
      *
@@ -270,6 +274,24 @@ export class CdkLotacaoGridComponent implements AfterViewInit, OnInit, OnChanges
             sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
             context: contexto
         });
+        this.hasExcluded = false;
+    }
+
+    loadExcluded(): void {
+        this.hasExcluded = !this.hasExcluded;
+        if(this.hasExcluded) {
+            const filter = this.gridFilter.filters;
+            this.excluded.emit({
+                gridFilter: filter,
+                limit: this.paginator.pageSize,
+                offset: (this.paginator.pageSize * this.paginator.pageIndex),
+                sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
+                context: {'mostrarApagadas': true}
+            });
+        }
+        else {
+            this.loadPage();
+        }
     }
 
     editLotacao(lotacaoId): void {
@@ -346,11 +368,11 @@ export class CdkLotacaoGridComponent implements AfterViewInit, OnInit, OnChanges
         this.loadPage();
     }
 
-    doCreate(): void {
-        this.create.emit();
-    }
-
     doCancel(): void {
         this.cancel.emit();
+    }
+
+    doCreate(): void {
+        this.create.emit();
     }
 }

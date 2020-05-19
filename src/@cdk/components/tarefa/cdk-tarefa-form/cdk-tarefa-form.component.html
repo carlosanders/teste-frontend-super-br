@@ -177,43 +177,63 @@
                 </cdk-bloco-responsaveis-grid>
             </div>
 
-            <mat-slide-toggle formControlName="urgente"
-                              *ngIf="mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditUrgente"
-                              class="mr-16 mb-16" fxFlex="0 1 auto">
-                Urgente
-            </mat-slide-toggle>
-
-            <div class="dates" fxLayout="row"
+            <div class="dates p-8" fxLayout="column"
                  *ngIf="mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditInicioPrazo || blocoEdit.blocoEditFinalPrazo">
-                <mat-form-field class="mr-sm-12" fxFlex
-                                *ngIf="mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditInicioPrazo">
-                    <mat-label>Início do Prazo</mat-label>
-                    <input matInput formControlName="dataHoraInicioPrazo" [matDatetimepicker]="dataHoraInicioPrazo"
-                           required>
-                    <button matSuffix mat-button mat-icon-button *ngIf="tarefa.id"
-                            (click)="showLogEntryGrid('dataHoraInicioPrazo')">
-                        <mat-icon matTooltip="Histórico">history</mat-icon>
-                    </button>
-                    <mat-datetimepicker-toggle matSuffix [for]="dataHoraInicioPrazo"></mat-datetimepicker-toggle>
-                    <mat-datetimepicker #dataHoraInicioPrazo type="datetime" openOnFocus="true" timeInterval="5"
-                                        required></mat-datetimepicker>
-                </mat-form-field>
 
-                <mat-form-field class="mr-sm-12" fxFlex
-                                *ngIf="mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditFinalPrazo">
-                    <mat-label>Final do Prazo</mat-label>
-                    <input matInput formControlName="dataHoraFinalPrazo" [matDatetimepicker]="dataHoraFinalPrazo"
-                           required>
-                    <button matSuffix mat-button mat-icon-button *ngIf="tarefa.id"
-                            (click)="showLogEntryGrid('dataHoraFinalPrazo')">
-                        <mat-icon matTooltip="Histórico">history</mat-icon>
-                    </button>
-                    <mat-datetimepicker-toggle matSuffix [for]="dataHoraFinalPrazo"></mat-datetimepicker-toggle>
-                    <mat-datetimepicker #dataHoraFinalPrazo type="datetime" openOnFocus="true" timeInterval="5"
-                                        required></mat-datetimepicker>
-                </mat-form-field>
+                <div fxLayout="row">
+
+                    <mat-form-field class="dias-input">
+                        <input matInput type="number" class="prazoDias" min="1" max="180"
+                               formControlName="prazoDias" placeholder="Prazo em Dia(s)">
+                    </mat-form-field>
+
+                    <mat-slide-toggle formControlName="diasUteis"
+                                      class="canto" fxFlex="0 1 auto">
+                        Dias Úteis
+                    </mat-slide-toggle>
+                </div>
+
+                <div fxLayout="row">
+
+                    <mat-form-field class="mr-sm-12" fxFlex
+                                    *ngIf="mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditInicioPrazo">
+                        <mat-label>Início do Prazo</mat-label>
+                        <input matInput formControlName="dataHoraInicioPrazo" [matDatetimepicker]="dataHoraInicioPrazo"
+                               required>
+                        <button matSuffix mat-button mat-icon-button *ngIf="tarefa.id"
+                                (click)="showLogEntryGrid('dataHoraInicioPrazo')">
+                            <mat-icon matTooltip="Histórico">history</mat-icon>
+                        </button>
+                        <mat-datetimepicker-toggle matSuffix [for]="dataHoraInicioPrazo"></mat-datetimepicker-toggle>
+                        <mat-datetimepicker #dataHoraInicioPrazo type="datetime" openOnFocus="true" timeInterval="5"
+                                            required></mat-datetimepicker>
+                    </mat-form-field>
+
+                    <mat-form-field class="mr-sm-12" fxFlex
+                                    *ngIf="mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditFinalPrazo">
+                        <mat-label>Final do Prazo</mat-label>
+                        <input matInput formControlName="dataHoraFinalPrazo" [matDatetimepicker]="dataHoraFinalPrazo"
+                               required>
+                        <button matSuffix mat-button mat-icon-button *ngIf="tarefa.id"
+                                (click)="showLogEntryGrid('dataHoraFinalPrazo')">
+                            <mat-icon matTooltip="Histórico">history</mat-icon>
+                        </button>
+                        <mat-datetimepicker-toggle matSuffix [for]="dataHoraFinalPrazo"></mat-datetimepicker-toggle>
+                        <mat-datetimepicker #dataHoraFinalPrazo type="datetime" openOnFocus="true" timeInterval="5"
+                                            required></mat-datetimepicker>
+                    </mat-form-field>
+
+                </div>
 
             </div>
+
+            <mat-error *ngIf="form.get('dataHoraInicioPrazo').hasError('formError')">
+                {{form.get('dataHoraInicioPrazo').errors.formError}}
+            </mat-error>
+
+            <mat-error *ngIf="form.get('dataHoraFinalPrazo').hasError('formError')">
+                {{form.get('dataHoraFinalPrazo').errors.formError}}
+            </mat-error>
 
             <mat-form-field fxFlex="100" *ngIf="mode === 'regular' || mode === 'bloco-create' || mode === 'bloco'">
                 <div fxLayout="row" fxLayoutAlign="start center">
@@ -235,6 +255,12 @@
                     {{form.get('setorOrigem').errors.formError}}
                 </mat-error>
             </mat-form-field>
+
+            <mat-slide-toggle formControlName="urgente"
+                              *ngIf="mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditUrgente"
+                              class="mr-16 mb-16" fxFlex="0 1 auto">
+                Urgente
+            </mat-slide-toggle>
 
             <mat-form-field class="mr-16" fxFlex="1 0 auto"
                             *ngIf="mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditObservacao">

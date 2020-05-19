@@ -1,4 +1,4 @@
-<div fxLayout="row" class="page-layout full-width left-sidebar inner-scroll">
+<div fxLayout="row" class="page-layout full-width left-sidebar inner-scroll altura">
 
     <!-- SIDEBAR -->
     <cdk-sidebar *ngIf="routerState.params.etiquetaHandle && routerState.params.etiquetaHandle !== 'criar'" class="sidebar" name="etiqueta-edit-main-sidebar" position="left" [lockedOpen]="'gt-md'">
@@ -27,7 +27,7 @@
         <!-- / CONTENT HEADER -->
 
         <!-- CONTENT CARD -->
-        <div class="content-card" cdkPerfectScrollbar>
+        <div class="content-card altura" cdkPerfectScrollbar>
 
             <router-outlet></router-outlet>
 
