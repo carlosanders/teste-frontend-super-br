@@ -42,7 +42,7 @@ export class CdkTemplateGridComponent implements AfterViewInit, OnInit, OnChange
     create = new EventEmitter<any>();
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'modalidadeTemplate.valor', 'tipoDocumento', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'nome', 'descricao',  'modalidadeTemplate.valor', 'documento.tipoDocumento.nome', 'actions'];
 
     allColumns: any[] = [
         {
@@ -71,8 +71,8 @@ export class CdkTemplateGridComponent implements AfterViewInit, OnInit, OnChange
             fixed: false
         },
         {
-            id: 'documento.descricaoOutros',
-            label: 'Documento',
+            id: 'documento.TipoDocumento.nome',
+            label: 'Tipo Documento',
             fixed: false
         },
         {
@@ -193,6 +193,7 @@ export class CdkTemplateGridComponent implements AfterViewInit, OnInit, OnChange
         this.dataSource = new TemplateDataSource(of(this.templates));
 
         this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
+        debugger
 
         this.columns.valueChanges.pipe(
             debounceTime(300),

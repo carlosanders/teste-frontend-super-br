@@ -72,6 +72,7 @@ export class ResolveGuard implements CanActivate {
                             'documento',
                             'modalidadeTemplate',
                             'documento.componentesDigitais',
+                            'documento.tipoDocumento'
                         ]
                     };
 

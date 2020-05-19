@@ -117,13 +117,13 @@
                 </ng-container>
 
                 <!-- Documento Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('documento.descricaoOutros') > -1"
-                              matColumnDef="documento.descricaoOutros">
+                <ng-container *ngIf="displayedColumns.indexOf('documento.tipoDocumento.nome') > -1"
+                              matColumnDef="documento.tipoDocumento.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Documento
+                        Tipo Documento
                     </th>
-                    <td mat-cell *matCellDef="let template" class='has_label_on_mobile' data-label='Documento: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(template.id) > -1}"> {{template.documento?.descricaoOutros}} </td>
+                    <td mat-cell *matCellDef="let template" class='has_label_on_mobile' data-label='Tipo Documento: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(template.id) > -1}"> {{template.documento?.tipoDocumento?.nome}} </td>
                 </ng-container>
 
                 <!-- Actions Column -->
