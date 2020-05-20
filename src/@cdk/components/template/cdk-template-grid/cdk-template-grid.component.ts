@@ -45,7 +45,7 @@ export class CdkTemplateGridComponent implements AfterViewInit, OnInit, OnChange
     excluded = new EventEmitter<any>();
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'modalidadeTemplate.valor', 'documento.descricaoOutros', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'nome', 'descricao',  'modalidadeTemplate.valor', 'documento.tipoDocumento.nome', 'actions'];
 
     allColumns: any[] = [
         {
@@ -74,8 +74,8 @@ export class CdkTemplateGridComponent implements AfterViewInit, OnInit, OnChange
             fixed: false
         },
         {
-            id: 'documento.descricaoOutros',
-            label: 'Documento',
+            id: 'documento.TipoDocumento.nome',
+            label: 'Tipo Documento',
             fixed: false
         },
         {
@@ -127,7 +127,7 @@ export class CdkTemplateGridComponent implements AfterViewInit, OnInit, OnChange
     pageSize = 5;
 
     @Input()
-    actions: string[] = ['edit', 'delete', 'select'];
+    actions: string[] = ['edit', 'delete', 'select', 'editConteudo'];
 
     @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
@@ -143,6 +143,9 @@ export class CdkTemplateGridComponent implements AfterViewInit, OnInit, OnChange
 
     @Output()
     edit = new EventEmitter<number>();
+
+    @Output()
+    editConteudo = new EventEmitter<number>();
 
     @Output()
     delete = new EventEmitter<number>();
@@ -194,6 +197,7 @@ export class CdkTemplateGridComponent implements AfterViewInit, OnInit, OnChange
         this.dataSource = new TemplateDataSource(of(this.templates));
 
         this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
+        debugger
 
         this.columns.valueChanges.pipe(
             debounceTime(300),
@@ -335,5 +339,9 @@ export class CdkTemplateGridComponent implements AfterViewInit, OnInit, OnChange
 
     doCreate(): void {
         this.create.emit();
+    }
+
+    editConteudoModelo(documentoId): void {
+        this.editConteudo.emit(documentoId);
     }
 }

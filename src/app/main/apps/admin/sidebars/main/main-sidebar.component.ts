@@ -54,8 +54,13 @@ export class MainSidebarComponent implements OnInit, OnDestroy {
             },
             {
                 nome: 'Tipos de Documentos',
-                icon: 'new_releases',
+                icon: 'class',
                 link: 'tipos-documentos'
+            },
+            {
+                nome: 'Templates',
+                icon: 'view_array',
+                link: 'templates'
             }
         ];
     }
