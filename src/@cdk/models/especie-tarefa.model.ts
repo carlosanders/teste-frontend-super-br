@@ -22,6 +22,9 @@ export class EspecieTarefa {
     ativo?: boolean;
 
     // @Exclude({ toPlainOnly: true })
+    evento?: boolean;
+
+    // @Exclude({ toPlainOnly: true })
     @Type(() => GeneroTarefa)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     generoTarefa?: GeneroTarefa;
@@ -62,6 +65,7 @@ export class EspecieTarefa {
         this.nome = null;
         this.descricao = null;
         this.ativo = null;
+        this.evento = null;
         this.generoTarefa = null;
         this.criadoPor = null;
         this.criadoEm = null;
