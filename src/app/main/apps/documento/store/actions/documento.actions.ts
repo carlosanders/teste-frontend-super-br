@@ -26,6 +26,10 @@ export const ASSINA_DOCUMENTO = '[DOCUMENTO] ASSINA DOCUMENTO';
 export const ASSINA_DOCUMENTO_SUCCESS = '[DOCUMENTO] ASSINA DOCUMENTO SUCCESS';
 export const ASSINA_DOCUMENTO_FAILED = '[DOCUMENTO] ASSINA DOCUMENTO FAILED';
 
+export const ASSINA_DOCUMENTO_ELETRONICAMENTE = '[DOCUMENTO] ASSINA DOCUMENTO ELETRONICAMENTE';
+export const ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS = '[DOCUMENTO] ASSINA DOCUMENTO ELETRONICAMENTE SUCCESS';
+export const ASSINA_DOCUMENTO_ELETRONICAMENTE_FAILED = '[DOCUMENTO] ASSINA DOCUMENTO ELETRONICAMENTE FAILED';
+
 /**
  * Get Documento
  */
@@ -248,6 +252,42 @@ export class AssinaDocumentoFailed implements Action
     }
 }
 
+/**
+ * Assina Documento Eletronicamente
+ */
+export class AssinaDocumentoEletronicamente implements Action
+{
+    readonly type = ASSINA_DOCUMENTO_ELETRONICAMENTE;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Assina Documento Eletronicamente Success
+ */
+export class AssinaDocumentoEletronicamenteSuccess implements Action
+{
+    readonly type = ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Assina Documento Eletronicamente Failed
+ */
+export class AssinaDocumentoEletronicamenteFailed implements Action
+{
+    readonly type = ASSINA_DOCUMENTO_ELETRONICAMENTE_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 export type DocumentoActionsAll
     = GetDocumento
     | GetDocumentoSuccess
@@ -259,6 +299,9 @@ export type DocumentoActionsAll
     | AssinaDocumento
     | AssinaDocumentoSuccess
     | AssinaDocumentoFailed
+    | AssinaDocumentoEletronicamente
+    | AssinaDocumentoEletronicamenteSuccess
+    | AssinaDocumentoEletronicamenteFailed
     | SaveModelo
     | SaveModeloSuccess
     | SaveModeloFailed

@@ -13,7 +13,7 @@ import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
 import * as fromStoreProtocolo from '../store';
-import {Documento, Estado, Pagination, Pessoa, Processo, Usuario} from '@cdk/models';
+import {Assinatura, Documento, Estado, Pagination, Pessoa, Processo, Usuario} from '@cdk/models';
 import {filter, takeUntil} from 'rxjs/operators';
 import {MatDialog} from '@cdk/angular/material';
 import {Router} from '@angular/router';
@@ -72,12 +72,13 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
     paramHandle: string;
 
     /**
-     *
      * @param _store
+     * @param _storeProtocolo
      * @param dialog
      * @param _router
      * @param _formBuilder
      * @param _changeDetectorRef
+     * @param _loginService
      */
     constructor(
         private _store: Store<fromStore.ProtocoloCreateAppState>,
@@ -297,6 +298,23 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
 
     getEstados(): void {
         this._store.dispatch(new fromStore.GetEstados({}));
+    }
+
+    doAssinatura(result): void {
+        if (result.certificadoDigital) {
+            this._store.dispatch(new fromStore.AssinaDocumento(result.documento.id));
+        } else {
+            result.documento.componentesDigitais.forEach((componenteDigital) => {
+                const assinatura = new Assinatura();
+                assinatura.componenteDigital = componenteDigital;
+                assinatura.algoritmoHash = 'A1';
+                assinatura.cadeiaCertificadoPEM = 'A1';
+                assinatura.cadeiaCertificadoPkiPath = 'A1';
+                assinatura.assinatura = 'A1';
+
+                this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({assinatura: assinatura, password: result.password}));
+            });
+        }
     }
 
     unloadProcesso(): void {

@@ -11,7 +11,7 @@ import {Observable, Subject} from 'rxjs';
 import * as fromStore from '../store';
 import * as fromDocumentoStore from '../../store';
 import {select, Store} from '@ngrx/store';
-import {ComponenteDigital} from '@cdk/models';
+import {Assinatura, ComponenteDigital} from '@cdk/models';
 import {takeUntil} from 'rxjs/operators';
 import {getMercureState, getRouterState} from '../../../../../store/reducers';
 import {getRepositorioComponenteDigital} from '../../store/selectors';
@@ -192,8 +192,22 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
         this._store.dispatch(new fromStore.CompararVersaoComponenteDigital(data.toString()));
     }
 
-    doAssinar(): void {
+    doAssinarDigitalmente(): void {
         this._store.dispatch(new fromDocumentoStore.AssinaDocumento());
+    }
+
+    doAssinarEletronicamente(password): void {
+        const assinatura = new Assinatura();
+        assinatura.componenteDigital = this.componenteDigital;
+        assinatura.algoritmoHash = 'A1';
+        assinatura.cadeiaCertificadoPEM = 'A1';
+        assinatura.cadeiaCertificadoPkiPath = 'A1';
+        assinatura.assinatura = 'A1';
+
+        this._store.dispatch(new fromDocumentoStore.AssinaDocumentoEletronicamente({
+            assinatura: assinatura,
+            password: password
+        }));
     }
 
     doPdf(): void {
