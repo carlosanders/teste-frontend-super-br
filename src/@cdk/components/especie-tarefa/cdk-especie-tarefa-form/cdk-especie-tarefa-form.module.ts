@@ -13,6 +13,7 @@ import {CdkGeneroTarefaAutocompleteModule} from '../../genero-tarefa/cdk-genero-
 import {CdkEspecieTarefaGridsearchModule} from '../cdk-especie-tarefa-autocomplete/cdk-especie-tarefa-gridsearch/cdk-especie-tarefa-gridsearch.module';
 import {MatIconModule} from '@angular/material/icon';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {CdkGeneroTarefaGridsearchModule} from '../../genero-tarefa/cdk-genero-tarefa-autocomplete/cdk-genero-tarefa-gridsearch/cdk-genero-tarefa-gridsearch.module';
 
 
 
@@ -34,7 +35,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
         CdkGeneroTarefaAutocompleteModule,
         CdkEspecieTarefaGridsearchModule,
         MatIconModule,
-        MatTooltipModule
+        MatTooltipModule,
+        CdkGeneroTarefaGridsearchModule
     ]
 })
 export class CdkEspecieTarefaFormModule { }
