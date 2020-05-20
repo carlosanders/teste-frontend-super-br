@@ -28,7 +28,7 @@
 
             <mat-form-field fxFlex="100">
                 <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Gênero"
+                    <input matInput placeholder="Gênero Tarefa"
                            formControlName="generoTarefa"
                            [matAutocomplete]="generoTarefa.autocomplete">
                 </div>
@@ -69,10 +69,10 @@
     </form>
 </div>
 
-<cdk-especie-tarefa-gridsearch
+<cdk-genero-tarefa-gridsearch
     fxFlex="1 0 auto"
     *ngIf="activeCard === 'genero-tarefa-gridsearch'"
     [pagination]="generoTarefaPagination"
     (selected)="selectGeneroTarefa($event)"
     (cancel)="cancel()">
-</cdk-especie-tarefa-gridsearch>
+</cdk-genero-tarefa-gridsearch>

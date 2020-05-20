@@ -134,7 +134,7 @@ export class EspecieAtividadeEditEffects {
             .pipe(
                 ofType<EspecieAtividadeEditActions.SaveEspecieAtividadeSuccess>(EspecieAtividadeEditActions.SAVE_ESPECIE_ATIVIDADE_SUCCESS),
                 tap((action) => {
-                    this._router.navigate([this.routerState.url.replace(('criar'), action.payload.id)]).then();
+                    this._router.navigate([this.routerState.url.replace(('editar/criar'), 'listar')]).then();
                 })
             );
 
