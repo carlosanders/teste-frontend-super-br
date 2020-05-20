@@ -22,6 +22,7 @@ import {TransicaoListStoreModule} from 'app/main/apps/processo/processo-edit/tra
 import {ModalidadeTransicaoService} from '@cdk/services/modalidade-transicao.service';
 import * as fromGuards from 'app/main/apps/processo/processo-edit/transicoes/transicao-list/store/guards';
 import {CdkTransicaoGridModule} from '@cdk/components/transicao/cdk-transicao-grid/cdk-transicao-grid.module';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -30,6 +31,14 @@ const routes: Routes = [
         canActivate: [fromGuards.ResolveGuard]
     }
 ];
+
+const path = 'app/main/apps/processo/processo-edit/transicoes/transicao-list';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [

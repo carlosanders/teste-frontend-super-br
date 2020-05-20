@@ -25,6 +25,7 @@ import { CdkDocumentoCardListModule } from '@cdk/components/documento/cdk-docume
 import { CdkUploadModule } from '@cdk/components/upload/cdk-upload.module';
 import { CdkAtividadeFormModule } from '@cdk/components/atividade/cdk-atividade-form/cdk-atividade-form.module';
 import { MatBadgeModule } from '@angular/material/badge';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -47,6 +48,14 @@ const routes: Routes = [
         canActivate: [fromGuards.ResolveGuard]
     }
 ];
+
+const path = 'app/main/apps/oficios/oficio-detail';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [

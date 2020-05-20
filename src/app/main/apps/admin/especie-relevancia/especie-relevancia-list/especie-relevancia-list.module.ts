@@ -25,6 +25,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {EspecieRelevanciaStoreModule} from './store/store.module';
 import {CdkEspecieRelevanciaGridModule} from '../../../../../../@cdk/components/especie-relevancia/cdk-especie-relevancia-grid/cdk-especie-relevancia-grid.module';
 import {ResolveGuard} from './store/guards';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -34,6 +35,13 @@ const routes: Routes = [
     }
 ];
 
+const path = 'app/main/apps/admin/especie-relevancia/especie-relevancia-list';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [EspecieRelevanciaListComponent],

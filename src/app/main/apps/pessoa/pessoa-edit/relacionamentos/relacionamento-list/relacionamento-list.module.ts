@@ -21,6 +21,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {RelacionamentoListStoreModule} from 'app/main/apps/pessoa/pessoa-edit/relacionamentos/relacionamento-list/store/store.module';
 import * as fromGuards from 'app/main/apps/pessoa/pessoa-edit/relacionamentos/relacionamento-list/store/guards';
 import {CdkRelacionamentoPessoalGridModule} from '@cdk/components/relacionamento-pessoal/cdk-relacionamento-pessoal-grid/cdk-relacionamento-pessoal-grid.module';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -29,6 +30,14 @@ const routes: Routes = [
         canActivate: [fromGuards.ResolveGuard]
     }
 ];
+
+const path = 'app/main/apps/pessoa/pessoa-edit/relacionamentos/relacionamento-list';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [

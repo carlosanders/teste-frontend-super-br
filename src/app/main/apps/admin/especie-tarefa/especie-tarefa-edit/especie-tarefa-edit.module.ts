@@ -27,7 +27,7 @@ import {EspecieTarefaEditStoreModule} from './store/store.module';
 import {EspecieTarefaService} from '../../../../../../@cdk/services/especie-tarefa.service';
 import {ColaboradorService} from '../../../../../../@cdk/services/colaborador.service';
 import {CdkEspecieTarefaFormModule} from '../../../../../../@cdk/components/especie-tarefa/cdk-especie-tarefa-form/cdk-especie-tarefa-form.module';
-
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -37,6 +37,13 @@ const routes: Routes = [
     }
 ];
 
+const path = 'app/main/apps/admin/especie-tarefa/especie-tarefa-edit';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [EspecieTarefaEditComponent],

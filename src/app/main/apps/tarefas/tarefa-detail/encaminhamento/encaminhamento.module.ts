@@ -22,6 +22,7 @@ import {EncaminhamentoComponent} from './encaminhamento.component';
 import {RouterModule, Routes} from '@angular/router';
 import {EncaminhamentoStoreModule} from './store/store.module';
 import {CdkEncaminhamentoFormModule} from '@cdk/components/tarefa/cdk-encaminhamento-form/cdk-encaminhamento-form.module';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -29,6 +30,14 @@ const routes: Routes = [
         component: EncaminhamentoComponent
     }
 ];
+
+const path = 'app/main/apps/tarefas/tarefa-detail/encaminhamento';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [

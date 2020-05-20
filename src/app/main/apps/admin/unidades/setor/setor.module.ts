@@ -21,6 +21,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import * as fromGuards from './store/guards';
 import {RootSetorStoreModule} from './store/store.module';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -55,6 +56,14 @@ const routes: Routes = [
         redirectTo: 'listar'
     }
 ];
+
+const path = 'app/main/apps/admin/unidades/setor';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [

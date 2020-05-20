@@ -18,6 +18,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {NotificacoesComponent} from './notificacoes.component';
 import {NotificacaoService} from '@cdk/services/notificacao.service';
 import {RouterModule, Routes} from '@angular/router';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -34,8 +35,15 @@ const routes: Routes = [
             }
         ]
     }
-
 ];
+
+const path = 'app/main/apps/configuracoes/notificacoes';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [

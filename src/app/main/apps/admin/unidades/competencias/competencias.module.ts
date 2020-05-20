@@ -21,6 +21,7 @@ import {VinculacaoSetorMunicipioService} from '@cdk/services/vinculacao-setor-mu
 import {RouterModule, Routes} from '@angular/router';
 import * as fromGuards from './store/guards';
 import {CompetenciasStoreModule} from './store/store.module';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -42,8 +43,15 @@ const routes: Routes = [
             }
         ]
     }
-
 ];
+
+const path = 'app/main/apps/admin/unidades/competencias';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [

@@ -9,6 +9,7 @@ import {ComponenteDigitalStoreModule} from './store/store.module';
 import * as fromGuards from './store/guards';
 import {MatButtonModule, MatIconModule} from '@cdk/angular/material';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -23,6 +24,14 @@ const routes: Routes = [
         canActivate: [fromGuards.ResolveGuard]
     }
 ];
+
+const path = 'app/main/apps/oficios/componente-digital';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [

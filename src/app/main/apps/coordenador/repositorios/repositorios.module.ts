@@ -18,6 +18,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {RepositoriosComponent} from './repositorios.component';
 import {RepositorioService} from '@cdk/services/repositorio.service';
 import {RouterModule, Routes} from '@angular/router';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -47,6 +48,14 @@ const routes: Routes = [
         redirectTo: 'listar'
     }
 ];
+
+const path = 'app/main/apps/coordenador/repositorios';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [
