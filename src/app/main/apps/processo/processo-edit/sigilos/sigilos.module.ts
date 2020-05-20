@@ -20,6 +20,7 @@ import {SigiloService} from '@cdk/services/sigilo.service';
 import {RouterModule, Routes} from '@angular/router';
 import {TipoSigiloService} from '@cdk/services/tipo-sigilo.service';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -40,8 +41,15 @@ const routes: Routes = [
             }
         ]
     }
-
 ];
+
+const path = 'app/main/apps/processo/processo-edit/sigilos';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [

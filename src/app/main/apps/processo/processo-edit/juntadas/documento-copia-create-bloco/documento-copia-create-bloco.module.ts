@@ -23,6 +23,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {CdkDocumentoCopiaFormModule} from '@cdk/components/documento/cdk-documento-copia-form/cdk-documento-copia-form.module';
 import {DocumentoCopiaCreateBlocoStoreModule} from './store/store.module';
 import {DocumentoService} from '@cdk/services/documento.service';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -30,6 +31,14 @@ const routes: Routes = [
         component: DocumentoCopiaCreateBlocoComponent
     }
 ];
+
+const path = 'app/main/apps/processo/processo-edit/juntadas/documento-copia-create-bloco';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [

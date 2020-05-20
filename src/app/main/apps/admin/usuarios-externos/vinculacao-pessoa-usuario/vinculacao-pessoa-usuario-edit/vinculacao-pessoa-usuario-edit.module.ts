@@ -6,6 +6,7 @@ import {VinculacaoPessoaUsuarioEditStoreModule} from './store/store.module';
 import * as fromGuards from './store/guards';
 import {VinculacaoPessoaUsuarioService} from '@cdk/services/vinculacao-pessoa-usuario.service';
 import {CdkVinculacaoPessoaUsuarioFormModule} from '../../../../../../../@cdk/components/vinculacao-pessoa-usuario/cdk-vinculacao-pessoa-usuario-form/cdk-vinculacao-pessoa-usuario-form.module';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -15,6 +16,13 @@ const routes: Routes = [
     }
 ];
 
+const path = 'app/main/apps/admin/usuarios-externos/vinculacao-pessoa-usuario/vinculacao-pessoa-usuario-edit';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [VinculacaoPessoaUsuarioEditComponent],

@@ -23,6 +23,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {CdkDesentranhamentoFormModule} from '@cdk/components/desentranhamento/cdk-desentranhamento-form/cdk-desentranhamento-form.module';
 import {DesentranhamentoCreateBlocoStoreModule} from './store/store.module';
 import {DesentranhamentoService} from '@cdk/services/desentranhamento.service';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -30,6 +31,14 @@ const routes: Routes = [
         component: DesentranhamentoCreateBlocoComponent
     }
 ];
+
+const path = 'app/main/apps/processo/processo-edit/juntadas/desentranhamento-create-bloco';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [

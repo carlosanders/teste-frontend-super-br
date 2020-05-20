@@ -16,7 +16,7 @@ import {ResizableModule} from 'angular-resizable-element';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import {LoginService} from '../../../auth/login/login.service';
 import {LembreteService} from '@cdk/services/lembrete.service';
-
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -52,6 +52,13 @@ const routes: Routes = [
     }
 ];
 
+const path = 'app/main/apps/arquivista/arquivista-list';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [

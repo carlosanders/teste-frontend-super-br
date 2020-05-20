@@ -19,6 +19,7 @@ import {ModeloService} from '@cdk/services/modelo.service';
 import {UsuarioService} from '@cdk/services/usuario.service';
 import {SetorService} from '@cdk/services/setor.service';
 import {ModalidadeOrgaoCentralService} from "../../../../@cdk/services/modalidade-orgao-central.service";
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -57,6 +58,14 @@ const routes: Routes = [
         redirectTo: 'default'
     }
 ];
+
+const path = 'app/main/apps/coordenador';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations   : [
