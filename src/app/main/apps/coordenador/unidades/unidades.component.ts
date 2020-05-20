@@ -82,8 +82,6 @@ export class UnidadesComponent implements OnInit, OnDestroy {
     }
 
     showSidebar(): boolean {
-        console.log(this.routerState.params.setorHandle);
-        console.log(this.routerState.params.unidadeHandle);
         return (!this.routerState.params.setorHandle || this.routerState.params.setorHandle === 'default' ||
             (this.routerState.params.setorHandle &&
                 (this.routerState.url.indexOf('modelos') === -1 && this.routerState.url.indexOf('repositorios') === -1 &&
