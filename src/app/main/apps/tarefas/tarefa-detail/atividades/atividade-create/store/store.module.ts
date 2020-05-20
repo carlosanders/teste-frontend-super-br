@@ -4,13 +4,16 @@ import {EffectsModule} from '@ngrx/effects';
 
 import {reducers} from 'app/main/apps/tarefas/tarefa-detail/atividades/atividade-create/store/reducers';
 import {effects} from 'app/main/apps/tarefas/tarefa-detail/atividades/atividade-create/store/effects';
+import {AssinaturaService} from '@cdk/services/assinatura.service';
 
 @NgModule({
     imports: [
         StoreModule.forFeature('atividade-create-app', reducers),
         EffectsModule.forFeature(effects)
     ],
-    providers: []
+    providers: [
+        AssinaturaService
+    ]
 })
 export class AtividadeCreateStoreModule {
 }

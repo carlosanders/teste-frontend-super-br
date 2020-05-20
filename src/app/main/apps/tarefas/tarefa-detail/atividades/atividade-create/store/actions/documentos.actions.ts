@@ -14,6 +14,10 @@ export const ASSINA_DOCUMENTO = '[ATIVIDADE CREATE] ASSINA DOCUMENTO';
 export const ASSINA_DOCUMENTO_SUCCESS = '[ATIVIDADE CREATE] ASSINA DOCUMENTO SUCCESS';
 export const ASSINA_DOCUMENTO_FAILED = '[ATIVIDADE CREATE] ASSINA DOCUMENTO FAILED';
 
+export const ASSINA_DOCUMENTO_ELETRONICAMENTE = '[ATIVIDADE CREATE] ASSINA DOCUMENTO ELETRONICAMENTE';
+export const ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS = '[ATIVIDADE CREATE] ASSINA DOCUMENTO ELETRONICAMENTE SUCCESS';
+export const ASSINA_DOCUMENTO_ELETRONICAMENTE_FAILED = '[ATIVIDADE CREATE] ASSINA DOCUMENTO ELETRONICAMENTE FAILED';
+
 export const REMOVE_ASSINATURA_DOCUMENTO = '[ATIVIDADE CREATE] REMOVE ASSINATURA DOCUMENTO';
 export const REMOVE_ASSINATURA_DOCUMENTO_SUCCESS = '[ATIVIDADE CREATE] REMOVE ASSINATURA DOCUMENTO SUCCESS';
 export const REMOVE_ASSINATURA_DOCUMENTO_FAILED = '[ATIVIDADE CREATE] REMOVE ASSINATURA DOCUMENTO FAILED';
@@ -148,6 +152,42 @@ export class AssinaDocumentoFailed implements Action
 }
 
 /**
+ * Assina Documento Eletronicamente
+ */
+export class AssinaDocumentoEletronicamente implements Action
+{
+    readonly type = ASSINA_DOCUMENTO_ELETRONICAMENTE;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Assina Documento Eletronicamente Success
+ */
+export class AssinaDocumentoEletronicamenteSuccess implements Action
+{
+    readonly type = ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Assina Documento Eletronicamente Failed
+ */
+export class AssinaDocumentoEletronicamenteFailed implements Action
+{
+    readonly type = ASSINA_DOCUMENTO_ELETRONICAMENTE_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
  * Remove Assinatura Documento
  */
 export class RemoveAssinaturaDocumento implements Action
@@ -256,6 +296,9 @@ export type AtividadeCreateDocumentosActionsAll
     | AssinaDocumento
     | AssinaDocumentoSuccess
     | AssinaDocumentoFailed
+    | AssinaDocumentoEletronicamente
+    | AssinaDocumentoEletronicamenteSuccess
+    | AssinaDocumentoEletronicamenteFailed
     | RemoveAssinaturaDocumento
     | RemoveAssinaturaDocumentoSuccess
     | RemoveAssinaturaDocumentoFailed

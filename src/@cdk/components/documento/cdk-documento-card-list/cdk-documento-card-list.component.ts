@@ -96,8 +96,8 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
         this.delete.emit(documentoId);
     }
 
-    doAssinatura(documentoId): void {
-        this.assinatura.emit(documentoId);
+    doAssinatura(result): void {
+        this.assinatura.emit(result);
     }
 
     doRemoveAssinatura(documentoId): void {
@@ -117,7 +117,7 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
     }
 
     doAssinaturaDocumentoBloco(): void {
-        this.selectedIds.forEach(documentoId => this.doAssinatura(documentoId));
+        this.doAssinatura(this.selectedIds);
     }
 
     doRemoveAssinaturaDocumentoBloco(): void {

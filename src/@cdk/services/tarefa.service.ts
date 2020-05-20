@@ -19,7 +19,7 @@ export class TarefaService extends ParentGenericService<Tarefa> {
     }
 
     ciencia(tarefa: Tarefa, context: any = '{}'): Observable<Tarefa> {
-        const params: HttpParams = new HttpParams()
+        const params: HttpParams = new HttpParams();
         params['context'] = context;
         return this.http.patch(
             `${environment.api_url}${'tarefa'}/${tarefa.id}/${'ciencia'}` + environment.xdebug,
@@ -35,7 +35,7 @@ export class TarefaService extends ParentGenericService<Tarefa> {
     }
 
     toggleLida(tarefa: Tarefa, context: any = '{}'): Observable<Tarefa> {
-        const params: HttpParams = new HttpParams()
+        const params: HttpParams = new HttpParams();
         params['context'] = context;
         return this.http.patch(
             `${environment.api_url}${'tarefa'}/${tarefa.id}/${'toggle_lida'}` + environment.xdebug,
@@ -51,7 +51,7 @@ export class TarefaService extends ParentGenericService<Tarefa> {
     }
 
     patch(tarefa: Tarefa, changes: any, context: any = '{}'): Observable<Tarefa> {
-        const params: HttpParams = new HttpParams()
+        const params: HttpParams = new HttpParams();
         params['context'] = context;
         return this.http.patch(
             `${environment.api_url}${'tarefa'}/${tarefa.id}` + environment.xdebug,
