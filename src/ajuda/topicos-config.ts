@@ -20,7 +20,7 @@ import {topicosConfig as remessasTopicosConfig} from '../app/main/apps/processo/
 import {topicosConfig as transicoesTopicosConfig} from '../app/main/apps/processo/processo-edit/transicoes/ajuda/topicos-config';
 import {topicosConfig as sigilosTopicosConfig} from '../app/main/apps/processo/processo-edit/sigilos/ajuda/topicos-config';
 import {topicosConfig as visibilidadesTopicosConfig} from '../app/main/apps/processo/processo-edit/visibilidades/ajuda/topicos-config';
-
+import {topicosConfig as arquivistaTopicosConfig} from '../app/main/apps/arquivista/ajuda/topicos-config';
 
 
 
@@ -49,6 +49,7 @@ export let topicosConfig = [
     ...transicoesTopicosConfig,
     ...sigilosTopicosConfig,
     ...visibilidadesTopicosConfig,
+    ...arquivistaTopicosConfig,
 ];
 
 modulesConfig.forEach((modulo) => {
