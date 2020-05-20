@@ -26,6 +26,7 @@ import {VinculacaoSetorMunicipioService} from '@cdk/services/vinculacao-setor-mu
 import * as fromGuards from './store/guards';
 import {CdkVinculacaoSetorMunicipioFormModule} from '@cdk/components/vinculacao-setor-municipio/cdk-vinculacao-setor-municipio-form/cdk-vinculacao-setor-municipio-form.module';
 import {LoginService} from '../../../../../auth/login/login.service';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -34,6 +35,14 @@ const routes: Routes = [
         canActivate: [fromGuards.ResolveGuard]
     }
 ];
+
+const path = 'app/main/apps/admin/unidades/competencias/competencia-edit';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [

@@ -14,6 +14,7 @@ import {ProcessoEditComponent} from './processo-edit.component';
 import {CommonModule} from '@angular/common';
 
 import {modulesConfig} from 'modules/modules-config';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -87,6 +88,14 @@ const routes: Routes = [
         ]
     }
 ];
+
+const path = 'app/main/apps/processo/processo-edit';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 const path = 'app/main/apps/processo/processo-edit';
 

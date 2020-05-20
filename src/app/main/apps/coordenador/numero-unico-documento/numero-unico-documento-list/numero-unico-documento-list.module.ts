@@ -22,6 +22,7 @@ import * as fromGuards from './store/guards';
 import {LoginService} from '../../../../auth/login/login.service';
 import {CdkNumeroUnicoDocumentoGridModule} from '@cdk/components/numero-unico-documento/cdk-numero-unico-documento-grid/cdk-numero-unico-documento-grid.module';
 import {NumeroUnicoDocumentoService} from '@cdk/services/numero-unico-documento.service';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -30,6 +31,14 @@ const routes: Routes = [
         canActivate: [fromGuards.ResolveGuard]
     }
 ];
+
+const path = 'app/main/apps/coordenador/numero-unico-documento/numero-unico-documento-list';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [

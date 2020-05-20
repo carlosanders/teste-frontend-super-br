@@ -19,6 +19,7 @@ import {FoldersComponent} from './folders.component';
 import {FolderService} from '@cdk/services/folder.service';
 import {RouterModule, Routes} from '@angular/router';
 import {ModalidadeFolderService} from '@cdk/services/modalidade-folder.service';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -39,8 +40,15 @@ const routes: Routes = [
             }
         ]
     }
-
 ];
+
+const path = 'app/main/apps/configuracoes/folders';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [

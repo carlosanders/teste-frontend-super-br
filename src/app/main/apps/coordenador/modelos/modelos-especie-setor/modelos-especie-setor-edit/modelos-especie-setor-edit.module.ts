@@ -25,6 +25,7 @@ import {VinculacaoModeloService} from '@cdk/services/vinculacao-modelo.service';
 
 import * as fromGuards from './store/guards';
 import {CdkVinculacaoModeloEspecieSetorFormModule} from '@cdk/components/vinculacao-modelo/cdk-vinculacao-modelo-especie-setor-form/cdk-vinculacao-modelo-especie-setor-form.module';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -33,6 +34,14 @@ const routes: Routes = [
         canActivate: [fromGuards.ResolveGuard]
     }
 ];
+
+const path = 'app/main/apps/coordenador/modelos/modelos-especie-setor/modelos-especie-setor-edit';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [

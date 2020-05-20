@@ -25,6 +25,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {EspecieAtividadeStoreModule} from './store/store.module';
 import {CdkEspecieAtividadeGridModule} from '../../../../../../@cdk/components/especie-atividade/cdk-especie-atividade-grid/cdk-especie-atividade-grid.module';
 import {ResolveGuard} from './store/guards';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -34,6 +35,13 @@ const routes: Routes = [
     }
 ];
 
+const path = 'app/main/apps/admin/especie-atividade/especie-atividade-list';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [EspecieAtividadeListComponent],

@@ -29,6 +29,7 @@ import {CdkDocumentoCardListModule} from '@cdk/components/documento/cdk-document
 import {MatCardModule} from '@angular/material/card';
 import {PipesModule} from '@cdk/pipes/pipes.module';
 import * as fromGuards from './store/guards';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -43,6 +44,14 @@ const routes: Routes = [
         canActivate: [fromGuards.ResolveGuard]
     }
 ];
+
+const path = 'app/main/apps/tarefas/atividade-create-bloco';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [

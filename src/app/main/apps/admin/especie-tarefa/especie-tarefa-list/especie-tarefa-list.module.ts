@@ -26,6 +26,7 @@ import {MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatDatepickerModule} from '@angular/material/datepicker';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -35,6 +36,13 @@ const routes: Routes = [
     }
 ];
 
+const path = 'app/main/apps/admin/especie-tarefa/especie-tarefa-list';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [EspecieTarefaListComponent],

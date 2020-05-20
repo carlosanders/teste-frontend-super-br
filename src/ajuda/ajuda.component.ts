@@ -47,9 +47,9 @@ export class AjudaComponent implements OnInit {
         this._router.events.subscribe(
             (next) => {
                 this.context = next;
-                if(this.context.url){
-                    this.resultado = CdkUtils.filterArrayByString(this.topicos, this.context.url.split("/", 3)[2]);
-                }
+                // if(this.context.url){
+                //     this.resultado = CdkUtils.filterArrayByString(this.topicos, this.context.url.split("/", 3)[2]);
+                // }
             }
         );
     }
