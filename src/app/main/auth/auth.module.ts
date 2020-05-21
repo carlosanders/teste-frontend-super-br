@@ -1,10 +1,6 @@
 import {NgModule} from '@angular/core';
-
-import {LoginModule} from 'app/main/auth/login/login.module';
-import {LoginStoreModule} from './login/store/store.module';
 import {RouterModule} from '@angular/router';
-import {CdkSharedModule} from '../../../@cdk/shared.module';
-
+import {CdkSharedModule} from '@cdk/shared.module';
 
 const routes = [
     {
@@ -22,12 +18,6 @@ const routes = [
 ];
 
 @NgModule({
-    /*imports: [
-        // Authentication
-        LoginModule,
-        LoginStoreModule
-    ]*/
-
     imports     : [
         RouterModule.forChild(routes),
         CdkSharedModule,
