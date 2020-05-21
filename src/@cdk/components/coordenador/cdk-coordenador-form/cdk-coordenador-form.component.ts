@@ -81,9 +81,9 @@ export class CdkCoordenadorFormComponent implements OnChanges, OnInit, OnDestroy
         this.form = this._formBuilder.group({
             id: [null],
             tipo: [null],
-            orgaoCentral: [null],
-            unidade: [null],
-            setor: [null],
+            orgaoCentral: [null, [Validators.required]],
+            unidade: [null, [Validators.required]],
+            setor: [null, [Validators.required]],
         });
 
         this.orgaoCentralPagination = new Pagination();
@@ -156,21 +156,33 @@ export class CdkCoordenadorFormComponent implements OnChanges, OnInit, OnDestroy
     selectTipo(tipo: string): void {
         switch (tipo) {
             case 'M':
+                this.form.get('orgaoCentral').enable();
                 this.form.get('unidade').setValue(null);
+                this.form.get('unidade').disable();
                 this.form.get('setor').setValue(null);
+                this.form.get('setor').disable();
                 break;
             case 'U':
+                this.form.get('unidade').enable();
                 this.form.get('orgaoCentral').setValue(null);
+                this.form.get('orgaoCentral').disable();
                 this.form.get('setor').setValue(null);
+                this.form.get('setor').disable();
                 break;
             case 'S':
+                this.form.get('setor').enable();
                 this.form.get('orgaoCentral').setValue(null);
+                this.form.get('orgaoCentral').disable();
                 this.form.get('unidade').setValue(null);
+                this.form.get('unidade').disable();
                 break;
             default:
                 this.form.get('orgaoCentral').setValue(null);
+                this.form.get('orgaoCentral').disable();
                 this.form.get('unidade').setValue(null);
+                this.form.get('unidade').disable();
                 this.form.get('setor').setValue(null);
+                this.form.get('setor').disable();
                 break;
         }
     }

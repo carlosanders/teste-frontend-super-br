@@ -25,7 +25,7 @@
                 <div fxLayout="row" fxLayoutAlign="start center">
                     <input matInput placeholder="Modalidade de órgão central"
                            formControlName="orgaoCentral"
-                           [matAutocomplete]="orgaoCentral.autocomplete" required
+                           [matAutocomplete]="orgaoCentral.autocomplete"
                            (blur)="checkOrgaoCentral()">
                 </div>
                 <cdk-modalidade-orgao-central-autocomplete
@@ -46,7 +46,7 @@
                 <div fxLayout="row" fxLayoutAlign="start center">
                     <input matInput placeholder="Unidade"
                            formControlName="unidade"
-                           [matAutocomplete]="unidade.autocomplete" required
+                           [matAutocomplete]="unidade.autocomplete"
                            (blur)="checkUnidade()">
                 </div>
                 <cdk-setor-autocomplete
@@ -67,7 +67,7 @@
                 <div fxLayout="row" fxLayoutAlign="start center">
                     <input matInput placeholder="Setor"
                            formControlName="setor"
-                           [matAutocomplete]="setor.autocomplete" required
+                           [matAutocomplete]="setor.autocomplete"
                            (blur)="checkSetor()">
                 </div>
                 <cdk-setor-autocomplete
