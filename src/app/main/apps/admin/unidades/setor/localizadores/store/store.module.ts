@@ -7,7 +7,7 @@ import { effects } from './effects';
 
 @NgModule({
     imports  : [
-        StoreModule.forFeature('root-localizadores-app', reducers),
+        StoreModule.forFeature('admin-localizadores-app', reducers),
         EffectsModule.forFeature(effects)
     ],
     providers: []
