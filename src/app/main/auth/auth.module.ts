@@ -14,6 +14,10 @@ const routes = [
     {
         path: 'register',
         loadChildren: () => import('./register/register.module').then(m => m.RegisterModule)
+    },
+    {
+        path: 'esqueci-senha',
+        loadChildren: () => import('./esqueci-senha/esqueci-senha.module').then(m => m.EsqueciSenhaModule)
     }
 ];
 
