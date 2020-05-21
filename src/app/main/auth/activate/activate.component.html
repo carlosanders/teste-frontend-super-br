@@ -1,8 +1,8 @@
 <div id="activate" fxLayout="column">
 
-    <div id="activate-wrapper" fxLayout="column" fxLayoutAlign="center center">
+    <div id="activate-form-wrapper" fxLayout="column" fxLayoutAlign="center center">
 
-        <div id="activate-register" [@animate]="{value:'*',params:{duration:'300ms',y:'100px'}}">
+        <div id="activate-form" [@animate]="{value:'*',params:{duration:'300ms',y:'100px'}}">
 
             <div class="logo">
                 <img src="assets/images/logos/supp.png">
@@ -10,26 +10,30 @@
 
             <div class="title">ATIVAÇÃO NO SUPP</div>
 
-            <div class="registred-success" *ngIf="isActivated">
-                <p class="sub-title">
-                    <mat-icon matSuffix class="secondary-text">done</mat-icon> Registro ativado com sucesso!<br>
-                    O usuário foi ativado com sucesso, volte ao login para acessar o sistema.
-                </p>
-            </div>
+            <div class="card-activated" novalidate>
 
-            <div class="registred-success" *ngIf="!isActivated">
-                <p class="sub-title">
-                    <mat-icon matSuffix class="secondary-text">clear</mat-icon>Não foi possivel ativar o registro!<br>
-                    {{errorMessage}}
-                </p>
-            </div>
+                <div class="activated-success" *ngIf="(isActivated$ | async)">
+                    <p class="sub-title">
+                        <mat-icon matSuffix class="secondary-text">done</mat-icon>
+                        Registro ativado com sucesso!<br>
+                        O usuário foi ativado com sucesso, volte ao login para acessar o sistema.
+                    </p>
+                </div>
 
-            <div class="separator">
-                <span class="text">OU</span>
-            </div>
+                <div class="activated-failure" *ngIf="!(isActivated$ | async)">
+                    <p class="sub-title">
+                        <mat-icon matSuffix class="secondary-text">clear</mat-icon>
+                        Não foi possível ativar o registro!<br>
+                    </p>
+                </div>
 
-            <div class="login" fxLayout="column" fxLayoutAlign="center center">
-                <a class="link" [routerLink]="'/auth/login'">Voltar ao login</a>
+                <div class="separator">
+                    <span class="text">OU</span>
+                </div>
+
+                <div class="login" fxLayout="column" fxLayoutAlign="center center">
+                    <a class="link" [routerLink]="'/auth/login'">Voltar ao login</a>
+                </div>
             </div>
 
         </div>

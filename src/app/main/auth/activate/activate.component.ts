@@ -1,5 +1,4 @@
 import {Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
-import {FormBuilder} from '@angular/forms';
 import {select, Store} from '@ngrx/store';
 import {Observable, Subject} from 'rxjs';
 
@@ -40,7 +39,6 @@ export class ActivateComponent implements OnInit, OnDestroy {
         private _router: Router,
         private _store: Store<fromStore.ActivateAppState>
     ) {
-
         // Configure the layout
         this.cdkConfigService.config = {
             layout: {
@@ -76,12 +74,11 @@ export class ActivateComponent implements OnInit, OnDestroy {
 
         this.isActivated$.subscribe((isActivated) => {
             this.isActivated = isActivated;
-            this.loading = false;
+            this.loading = true;
         });
 
         this.getActivateState.subscribe((state) => {
             this.loading = false;
-            this.errorMessage = state.active.errorMessage;
         });
     }
 

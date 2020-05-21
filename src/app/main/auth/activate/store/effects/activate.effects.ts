@@ -43,14 +43,14 @@ export class ActivateEffects {
                 switchMap((action) => {
                     return this._usuarioService.active(action.payload.cpf.value, action.payload.token.value, action.payload.context);
                 }),
-                mergeMap((response: Usuario) => [
+                mergeMap(response => [
                     new AddData<Usuario>({data: [response], schema: usuarioSchema}),
                     new ActivateActions.ActivateSuccess({
                         loaded: {
                             id: 'cpfHandle_tokenHandle',
                             value: this.routerState.params.cpfHandle + '_' + this.routerState.params.tokenHandle,
                         },
-                        usuario: response['entities'][0]
+                        usuario: response
                     })
                 ]),
                 catchError((err, caught) => {

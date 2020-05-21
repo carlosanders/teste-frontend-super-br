@@ -225,4 +225,13 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
         this.toggleFilter();
         this.form.reset();
     }
+
+    /**
+     *
+     * @param step
+     * @param ativo
+     */
+    gotoCapaProcesso(): void {
+        this._store.dispatch(new fromStore.GetCapaProcesso());
+    }
 }

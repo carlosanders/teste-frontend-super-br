@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {ActivateAppState} from '../reducers';
-import {getIsActivated} from '../selectors';
+import {getHasLoaded} from '../selectors';
 import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 import {Observable, of} from 'rxjs';
 import {getRouterState} from '../../../../../store/reducers';
@@ -34,7 +34,7 @@ export class ResolveGuard implements CanActivate {
 
     activate(): any {
         return this._store.pipe(
-            select(getIsActivated),
+            select(getHasLoaded),
             tap((loaded: any) => {
                 const params = {};
 

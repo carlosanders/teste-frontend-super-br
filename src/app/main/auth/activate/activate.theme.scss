@@ -8,9 +8,9 @@
 
         #activate {
 
-            #activate-wrapper {
+            #activate-form-wrapper {
 
-                #activate-register {
+                #activate-form {
                     @if ($is-dark) {
                         background: mat-color($cdk-navy, 600);
                     } @else {

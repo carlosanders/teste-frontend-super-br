@@ -36,6 +36,12 @@ export class UsuarioService extends ParentGenericService<Usuario> {
 
     active(cpf: number | string, token: number | string, context: any = '{}'): Observable<any> {
         const params: HttpParams = new HttpParams().set('context', context);
-        return this.http.get(`${environment.api_url}${'usuario'}/${cpf}/${token}/valida_usuario` + environment.xdebug, {params});
+        return this.http.patch(`${environment.api_url}${'usuario'}/${cpf}/${token}/valida_usuario` + environment.xdebug, {params})
+            .pipe(map(response => {
+                response = plainToClass(Usuario, response);
+                Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                return Object.assign(new Usuario(), {...response});
+            })
+        );
     }
 }

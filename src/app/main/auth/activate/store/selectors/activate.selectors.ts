@@ -11,20 +11,14 @@ export const getActivateState = createSelector(
     (state: ActivateAppState) => state.activate
 );
 
-export const getUsuarioId = createSelector(
-    getActivateState,
-    (state: ActivateState) => state.usuarioId
-);
-
 export const getUsuario = createSelector(
     schemaUsuarioSelectors.getNormalizedEntities,
-    getUsuarioId,
     schemaUsuarioSelectors.entityProjector
 );
 
 export const getIsActivated = createSelector(
     getActivateState,
-    (state: ActivateState) => state.isActived
+    (state: ActivateState) => state.isActivated
 );
 
 export const getHasLoaded = createSelector(

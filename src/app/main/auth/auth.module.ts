@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 
 import {RouterModule} from '@angular/router';
-import {CdkSharedModule} from '../../../@cdk/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 
 
 const routes = [

@@ -1,19 +1,17 @@
 import * as ActivateActions from '../actions/activate.actions';
 
 export interface ActivateState {
-    usuarioId: number;
     errors: any;
     loading: boolean;
     loaded: any;
-    isActived: boolean;
+    isActivated: boolean;
 }
 
 export const ActivateInicialState: ActivateState = {
-    usuarioId: null,
     errors: false,
     loading: false,
     loaded: false,
-    isActived: false
+    isActivated: false
 };
 
 export function ActivateReducer(
@@ -24,20 +22,16 @@ export function ActivateReducer(
             return {
                 ...state,
                 errors: false,
-                isActived: false
+                isActivated: false
             };
         }
 
         case ActivateActions.ACTIVATE_SUCCESS: {
             return {
                 ...state,
-                usuarioId: action.payload.id,
-                loaded: {
-                    id: 'usuarioHandle',
-                    value: action.payload.id
-                },
+                loaded: action.payload.loaded,
                 errors: false,
-                isActived: true
+                isActivated: action.payload.usuario.enabled
             };
         }
 
@@ -45,7 +39,7 @@ export function ActivateReducer(
             return {
                 ...state,
                 errors: action.payload,
-                isActived: false
+                isActivated: false
             };
         }
 

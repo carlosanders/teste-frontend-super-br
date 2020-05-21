@@ -1,0 +1,273 @@
+<div class="full-screen page-layout carded left-sidebar inner-scroll" fxLayout="column">
+
+    <div class="processo-capa-header p-8" fxLayout="row" fxLayoutAlign="start center">
+
+        <div fxFlex="25"></div>
+
+        <div class="ml-32" fxFlex="75" fxLayout="row" fxLayoutAlign="start center">
+            <button [ngStyle]="{'margin-left': 'auto' }" class="mr-8" mat-icon-button
+                    (click)="back()"
+                    aria-label="fechar"
+                    matTooltip="Fechar">
+                <mat-icon>close</mat-icon>
+            </button>
+        </div>
+    </div>
+
+    <!-- CENTER -->
+    <div class="processo-capa-content pr-24 pl-24" fxLayout="column" fxFlex="100">
+        <div class="center" fxFlex fxLayout="row">
+
+            <div class="content" fxFlex fxLayout="column" fxLayoutAlign="left">
+                <div class="header" fxLayout="row" fxLayoutAlign="center center">
+                    <div class="logo">
+                        <img src="assets/images/logos/brasao-republica.png">
+                    </div>
+                </div>
+                <div class="title">ADMINISTRATIVO</div>
+
+                <div class="card capa-content">
+                    <div class="content-card">
+                        <div class="processo-container">
+                            <div class="card">
+                                <div class="content-card">
+                                    <div fxLayout="column">
+                                        <mat-grid-list cols="4" rowHeight="20px">
+                                            <mat-grid-tile
+                                                [colspan]="1"
+                                                [rowspan]="1">
+                                                <span class="subtitle">NUP:</span>
+                                            </mat-grid-tile>
+                                            <mat-grid-tile
+                                                [colspan]="3"
+                                                [rowspan]="1">
+                                                {{ processo.NUP }}
+                                            </mat-grid-tile>
+
+                                            <mat-grid-tile
+                                                [colspan]="1"
+                                                [rowspan]="1">
+                                                <span class="subtitle">Tipo:</span>
+                                            </mat-grid-tile>
+                                            <mat-grid-tile
+                                                [colspan]="3"
+                                                [rowspan]="1">
+                                                {{ processo.tipoProtocolo }}
+                                            </mat-grid-tile>
+
+                                            <mat-grid-tile
+                                                [colspan]="1"
+                                                [rowspan]="1">
+                                                <span class="subtitle">Abertura:</span>
+                                            </mat-grid-tile>
+                                            <mat-grid-tile
+                                                [colspan]="3"
+                                                [rowspan]="1">
+                                                {{ processo.dataHoraAbertura | date: 'dd/MM/yyyy' }}
+                                            </mat-grid-tile>
+
+                                            <mat-grid-tile
+                                                [colspan]="1"
+                                                [rowspan]="1">
+                                                <span class="subtitle">Fase Atual:</span>
+                                            </mat-grid-tile>
+                                            <mat-grid-tile
+                                                [colspan]="3"
+                                                [rowspan]="1">
+                                                {{ processo.modalidadeFase.valor }}
+                                            </mat-grid-tile>
+                                        </mat-grid-list>
+                                    </div>
+
+                                    <div fxLayout="column">
+                                        <mat-grid-list cols="4" rowHeight="20px">
+                                            <mat-grid-tile
+                                                [colspan]="1"
+                                                [rowspan]="2">
+                                                <span class="subtitle">Classificação:</span>
+                                            </mat-grid-tile>
+                                            <mat-grid-tile
+                                                [colspan]="3"
+                                                [rowspan]="2">
+                                                {{ processo.classificacao.nome }}
+                                            </mat-grid-tile>
+
+                                            <mat-grid-tile
+                                                [colspan]="1"
+                                                [rowspan]="1">
+                                                <span class="subtitle">Procedência:</span>
+                                            </mat-grid-tile>
+                                            <mat-grid-tile
+                                                [colspan]="3"
+                                                [rowspan]="1">
+                                                {{ processo.procedencia.nome }}
+                                            </mat-grid-tile>
+
+                                            <mat-grid-tile
+                                                [colspan]="1"
+                                                [rowspan]="2">
+                                                <span class="subtitle">Meio:</span>
+                                            </mat-grid-tile>
+                                            <mat-grid-tile
+                                                [colspan]="3"
+                                                [rowspan]="2">
+                                                {{ processo.modalidadeMeio.descricao }}
+                                            </mat-grid-tile>
+
+                                            <mat-grid-tile
+                                                [colspan]="1"
+                                                [rowspan]="1">
+                                                <span class="subtitle">Sem Valor:</span>
+                                            </mat-grid-tile>
+                                            <mat-grid-tile
+                                                [colspan]="3"
+                                                [rowspan]="1">
+                                                <input type="checkbox" [checked]="processo.semValorEconomico"> Sim
+                                            </mat-grid-tile>
+
+                                            <mat-grid-tile
+                                                [colspan]="1"
+                                                [rowspan]="1">
+                                                <span class="subtitle">Valor:</span>
+                                            </mat-grid-tile>
+                                            <mat-grid-tile
+                                                [colspan]="3"
+                                                [rowspan]="1">
+                                                {{ processo.valorEconomico | number: 'pt-BR' }}
+                                            </mat-grid-tile>
+                                        </mat-grid-list>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card capa-content">
+                    <div class="content-card">
+                        <div class="processo-container">
+                            <div class="card">
+                                <div class="content-card">
+                                    <div fxLayout="column">
+                                        <mat-grid-list cols="4" rowHeight="20px">
+                                            <mat-grid-tile
+                                                [colspan]="1"
+                                                [rowspan]="1">
+                                                <span class="subtitle">Título:</span>
+                                            </mat-grid-tile>
+                                            <mat-grid-tile
+                                                [colspan]="3"
+                                                [rowspan]="1">
+                                                {{ processo.titulo }}
+                                            </mat-grid-tile>
+
+                                            <mat-grid-tile
+                                                [colspan]="1"
+                                                [rowspan]="3">
+                                                <span class="subtitle">Descrição:</span>
+                                            </mat-grid-tile>
+                                            <mat-grid-tile
+                                                [colspan]="3"
+                                                [rowspan]="3">
+                                                {{ processo.descricao }}
+                                            </mat-grid-tile>
+
+                                            <mat-grid-tile
+                                                [colspan]="1"
+                                                [rowspan]="1">
+                                                <span class="subtitle">Outro Número:</span>
+                                            </mat-grid-tile>
+                                            <mat-grid-tile
+                                                [colspan]="3"
+                                                [rowspan]="1">
+                                                {{ processo.outroNumero }}
+                                            </mat-grid-tile>
+                                        </mat-grid-list>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card capa-content">
+                    <div class="content-card">
+                        <div class="processo-container">
+                            <div class="card">
+                                <div class="content-card">
+                                    <div fxLayout="column">
+                                        <mat-grid-list cols="4" rowHeight="20px">
+                                            <mat-grid-tile
+                                                [colspan]="1"
+                                                [rowspan]="1">
+                                                <span class="subtitle">Setor Atual:</span>
+                                            </mat-grid-tile>
+                                            <mat-grid-tile
+                                                [colspan]="3"
+                                                [rowspan]="1">
+                                                {{ processo.setorAtual.nome }}
+                                            </mat-grid-tile>
+
+                                            <mat-grid-tile
+                                                [colspan]="1"
+                                                [rowspan]="1">
+                                                <span class="subtitle">Localizador:</span>
+                                            </mat-grid-tile>
+                                            <mat-grid-tile
+                                                [colspan]="3"
+                                                [rowspan]="1">
+                                                {{ processo.localizador }}
+                                            </mat-grid-tile>
+                                        </mat-grid-list>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="content-card-grid">
+                        <div fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
+                            <fieldset>
+                                <legend>interessado(s)</legend>
+                                <cdk-interessado-grid
+                                    [interessados]="processo.interessados"
+                                    [displayedColumns]="['id', 'pessoa.nome', 'modalidadeInteressado.valor']"
+                                    [total]="processo.interessados.length"></cdk-interessado-grid>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="content-card">
+                        <div fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
+                            <fieldset>
+                                <legend>Assunto(s)</legend>
+                                <cdk-assunto-grid
+                                    [assuntos]="processo.assuntos"
+                                    [displayedColumns]="['id', 'assuntoAdministrativo.nome', 'principal']"
+                                    [total]="processo.assuntos.length"></cdk-assunto-grid>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="content-card grid-content">
+                        <div fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
+                            <fieldset>
+                                <legend>Documento(s)</legend>
+                                <cdk-documento-grid
+                                    [documentos]="[]"
+                                    [displayedColumns]="['id', 'dataHoraProducao', 'tipoDocumento.especieDocumento.nome']"
+                                    [total]="[].length"></cdk-documento-grid>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
