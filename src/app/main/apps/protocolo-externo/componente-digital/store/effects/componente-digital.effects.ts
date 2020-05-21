@@ -104,7 +104,7 @@ export class ComponenteDigitalEffect {
                             };
                         }
                     });
-                    return this._componenteDigitalService.downloadAsPdf(handle.value);
+                    return this._componenteDigitalService.download(handle.value, JSON.stringify({asPdf: true}));
                 }),
                 tap((response) => {
                     if (response && response.conteudo) {

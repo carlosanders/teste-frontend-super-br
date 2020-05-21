@@ -12,14 +12,15 @@
 </div>
 
 <cdk-juntada-grid
-    [loading]="(loading$ | async)"
-    [juntadas]="(juntadas$ | async)"
-    [total]="(pagination$ | async)?.total"
-    [actions]="['desentranhar', 'copiar', 'edit']"
-    (reload)="reload($event)"
-    (copiar)="copiar($event)"
-    (edit)="editar($event)"
-    (desentranhar)="desentranhar($event)">
+        [loading]="(loading$ | async)"
+        [juntadas]="(juntadas$ | async)"
+        [total]="(pagination$ | async)?.total"
+        [actions]="['desentranhar', 'copiar','edit', 'showDeleted']"
+        (reload)="reload($event)"
+        (excluded)="excluded($event)"
+        (copiar)="copiar($event)"
+        (edit)="editar($event)"
+        (desentranhar)="desentranhar($event)">
 </cdk-juntada-grid>
 
 <router-outlet></router-outlet>

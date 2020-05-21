@@ -53,7 +53,7 @@ import {LoginService} from '../../../../app/main/auth/login/login.service';
 })
 export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
-    private _profile: Usuario;
+    _profile: Usuario;
 
     @Input()
     processo: Processo;

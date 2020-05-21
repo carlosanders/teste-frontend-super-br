@@ -53,6 +53,13 @@
                     matTooltip="Filtrar">
                 <mat-icon>filter_list</mat-icon>
             </button>
+
+            <button mat-icon-button [ngClass]="{'warn': hasExcluded}" *ngIf="actions.indexOf('showDeleted') > -1"
+                    (click)="loadExcluded()"
+                    aria-label="mostrar apagados"
+                    matTooltip="Mostrar Apagados">
+                <mat-icon>delete_sweep</mat-icon>
+            </button>
         </div>
 
         <div fxFlex="1 1 auto" fxLayout="row" fxLayoutAlign="center center" *ngIf="loading">
@@ -67,6 +74,7 @@
                     <th mat-header-cell *matHeaderCellDef>
                         <mat-checkbox (click)="toggleSelectAll($event)"
                                       [checked]="hasSelected"
+                                      [disabled]="hasExcluded"
                                       [indeterminate]="isIndeterminate">
                         </mat-checkbox>
                     </th>
@@ -74,7 +82,7 @@
                         <mat-checkbox [checked]="selectedIds.indexOf(interessado.id) > -1"
                                       (change)="toggleInSelected(interessado.id)"
                                       (click)="$event.stopPropagation();"
-                                      [disabled]="deletedIds?.indexOf(interessado.id) > -1">
+                                      [disabled]="deletedIds?.indexOf(interessado.id) > -1 || hasExcluded">
                         </mat-checkbox>
                     </td>
                 </ng-container>
@@ -84,7 +92,7 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>&nbsp; Id
                     </th>
                     <td mat-cell *matCellDef="let interessado" class='has_label_on_mobile' data-label='Id: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(interessado.id) > -1}">&nbsp; {{interessado.id}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(interessado.id) > -1} || interessado.apagadoEm">&nbsp; {{interessado.id}} </td>
                 </ng-container>
 
                 <!-- Pessoa Column -->
@@ -93,7 +101,7 @@
                         Pessoa
                     </th>
                     <td mat-cell *matCellDef="let interessado" class='has_label_on_mobile' data-label='Pessoa: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(interessado.id) > -1}"> {{interessado.pessoa?.nome}}
+                        [ngClass]="{'deleted':deletedIds?.indexOf(interessado.id) > -1 || interessado.apagadoEm}"> {{interessado.pessoa?.nome}}
                     </td>
                 </ng-container>
 
@@ -103,7 +111,7 @@
                         Modalidade Interessado
                     </th>
                     <td mat-cell *matCellDef="let interessado" class='has_label_on_mobile' data-label='Modalidade Interessado: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(interessado.id) > -1}"> {{interessado.modalidadeInteressado?.valor}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(interessado.id) > -1 || interessado.apagadoEm}"> {{interessado.modalidadeInteressado?.valor}} </td>
                 </ng-container>
 
                 <!-- Processo Column -->
@@ -112,7 +120,7 @@
                         NUP
                     </th>
                     <td mat-cell *matCellDef="let interessado" class='has_label_on_mobile' data-label='NUP: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(interessado.id) > -1}"> {{interessado.processo.NUP}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(interessado.id) > -1 || interessado.apagadoEm}"> {{interessado.processo.NUP}} </td>
                 </ng-container>
 
                 <!-- OrigemDados Column -->
@@ -121,7 +129,7 @@
                         Origem de Dados
                     </th>
                     <td mat-cell *matCellDef="let interessado" class='has_label_on_mobile' data-label='Origem de Dados: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(interessado.id) > -1}"> {{interessado.origemDados?.fonteDados}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(interessado.id) > -1 || interessado.apagadoEm}"> {{interessado.origemDados?.fonteDados}} </td>
                 </ng-container>
 
                 <!-- CriadoPor Column -->
@@ -130,7 +138,7 @@
                         Criado Por
                     </th>
                     <td mat-cell *matCellDef="let interessado" class='has_label_on_mobile' data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(interessado.id) > -1}"> {{interessado.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(interessado.id) > -1 || interessado.apagadoEm}"> {{interessado.criadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -139,7 +147,7 @@
                         Criado Em
                     </th>
                     <td mat-cell *matCellDef="let interessado" class='has_label_on_mobile' data-label='Criado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(interessado.id) > -1}"> {{interessado.criadoEm | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(interessado.id) > -1 || interessado.apagadoEm}"> {{interessado.criadoEm | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
@@ -148,7 +156,7 @@
                         Atualizado Por
                     </th>
                     <td mat-cell *matCellDef="let interessado" class='has_label_on_mobile' data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(interessado.id) > -1}"> {{interessado.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(interessado.id) > -1 || interessado.apagadoEm}"> {{interessado.atualizadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -157,7 +165,7 @@
                         Atualizado Em
                     </th>
                     <td mat-cell *matCellDef="let interessado" class='has_label_on_mobile' data-label='Atualizado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(interessado.id) > -1}"> {{interessado.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(interessado.id) > -1 || interessado.apagadoEm}"> {{interessado.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- ApagadoPor Column -->
@@ -166,7 +174,7 @@
                         Apagado Por
                     </th>
                     <td mat-cell *matCellDef="let interessado" class='has_label_on_mobile' data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(interessado.id) > -1}"> {{interessado.apagadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(interessado.id) > -1 || interessado.apagadoEm}"> {{interessado.apagadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->
@@ -175,7 +183,7 @@
                         Apagado Em
                     </th>
                     <td mat-cell *matCellDef="let interessado" class='has_label_on_mobile' data-label='Apagado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(interessado.id) > -1}"> {{interessado.apagadoEm | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(interessado.id) > -1 || interessado.apagadoEm}"> {{interessado.apagadoEm | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- Actions Column -->
@@ -184,7 +192,7 @@
                     <td mat-cell *matCellDef="let interessado">
 
                         <button mat-icon-button
-                                *ngIf="actions.indexOf('select') > -1 && deletingIds?.indexOf(interessado.id) === -1"
+                                *ngIf="actions.indexOf('select') > -1 && deletingIds?.indexOf(interessado.id) === -1 && !hasExcluded"
                                 (click)="selectInteressado(interessado)"
                                 aria-label="selecionar"
                                 matTooltip="Selecionar">
@@ -192,7 +200,7 @@
                         </button>
 
                         <button mat-icon-button
-                                *ngIf="actions.indexOf('edit') > -1 && deletingIds?.indexOf(interessado.id) === -1"
+                                *ngIf="actions.indexOf('edit') > -1 && deletingIds?.indexOf(interessado.id) === -1 && !hasExcluded"
                                 [disabled]="deletedIds?.indexOf(interessado.id) > -1"
                                 (click)="editInteressado(interessado.id)"
                                 aria-label="editar"
@@ -205,7 +213,7 @@
                         </div>
 
                         <button mat-icon-button
-                                *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(interessado.id) === -1"
+                                *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(interessado.id) === -1 && !hasExcluded"
                                 [disabled]="deletedIds?.indexOf(interessado.id) > -1"
                                 (click)="deleteInteressado(interessado.id)"
                                 aria-label="remover"

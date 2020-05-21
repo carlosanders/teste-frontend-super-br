@@ -68,6 +68,18 @@ export class AcaoListComponent implements OnInit {
         this._store.dispatch(new fromStore.GetAcoes(params));
     }
 
+    excluded(params): void {
+        this._store.dispatch(new fromStore.GetAcoes({
+            filter: {
+                ...params.gridFilter
+            },
+            sort: params.sort,
+            limit: params.limit,
+            offset: params.offset,
+            context: params.context
+        }));
+    }
+
     delete(acaoId: number): void {
         this._store.dispatch(new fromStore.DeleteAcao(acaoId));
     }

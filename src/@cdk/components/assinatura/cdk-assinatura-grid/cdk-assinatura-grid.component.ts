@@ -105,6 +105,9 @@ export class CdkAssinaturaGridComponent implements AfterViewInit, OnInit, OnChan
     reload = new EventEmitter<any>();
 
     @Output()
+    excluded = new EventEmitter<any>();
+
+    @Output()
     edit = new EventEmitter<number>();
 
     @Output()
@@ -127,6 +130,7 @@ export class CdkAssinaturaGridComponent implements AfterViewInit, OnInit, OnChan
 
     hasSelected = false;
     isIndeterminate = false;
+    hasExcluded = false;
 
     /**
      * @param _changeDetectorRef
@@ -202,6 +206,24 @@ export class CdkAssinaturaGridComponent implements AfterViewInit, OnInit, OnChan
             sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
             context: contexto
         });
+        this.hasExcluded = false;
+    }
+
+    loadExcluded(): void {
+        this.hasExcluded = !this.hasExcluded;
+        if(this.hasExcluded) {
+            const filter = this.gridFilter.filters;
+            this.excluded.emit({
+                gridFilter: filter,
+                limit: this.paginator.pageSize,
+                offset: (this.paginator.pageSize * this.paginator.pageIndex),
+                sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
+                context: {'mostrarApagadas': true}
+            });
+        }
+        else {
+            this.loadPage();
+        }
     }
 
     editAssinatura(assinaturaId): void {

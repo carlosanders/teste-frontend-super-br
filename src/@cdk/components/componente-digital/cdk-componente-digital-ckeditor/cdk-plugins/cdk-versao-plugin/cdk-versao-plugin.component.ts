@@ -38,6 +38,12 @@ export class CdkVersaoPluginComponent implements OnInit {
     @Output()
     reverter = new EventEmitter();
 
+    @Output()
+    visualizar = new EventEmitter();
+
+    @Output()
+    comparar = new EventEmitter();
+
     total = 0;
 
     loading: boolean;
@@ -68,8 +74,16 @@ export class CdkVersaoPluginComponent implements OnInit {
         this.selected.emit(versao);
     }
 
-    revert(params): void {
+    doReverter(params): void {
         this.reverter.emit(params);
+    }
+
+    doVisualizar(params): void {
+        this.visualizar.emit(params);
+    }
+
+    doComparar(params): void {
+        this.comparar.emit(params);
     }
 
     doCancel(): void {

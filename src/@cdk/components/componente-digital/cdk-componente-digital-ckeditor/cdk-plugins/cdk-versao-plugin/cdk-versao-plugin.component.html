@@ -3,9 +3,11 @@
 <div mat-dialog-content>
     <cdk-versao-gridsearch
         [pagination]="data.logEntryPagination"
-        (reverter)="revert($event)"
+        (reverter)="doReverter($event)"
+        (visualizar)="doVisualizar($event)"
+        (comparar)="doComparar($event)"
     ></cdk-versao-gridsearch>
 </div>
 <div mat-dialog-actions>
-    <button mat-button mat-dialog-close>Cancelar</button>
+    <button mat-button class="warn" mat-dialog-close>Cancelar</button>
 </div>

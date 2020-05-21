@@ -7,13 +7,14 @@
 </cdk-favorito-form>
 
 <cdk-favorito-grid
-        [displayedColumns]="['id', 'especieAtividade.nome','actions']"
         [loading]="(loading$ | async)"
         [favoritos]="(favoritos$ | async)"
         [total]="(pagination$ | async)?.total"
         [deletingIds]="(deletingIds$ | async)"
+        [displayedColumns]="['id', 'especieAtividade.nome', 'actions']"
         [deletedIds]="(deletedIds$ | async)"
         [actions]="['favorito']"
         (reload)="reload($event)"
+        (excluded)="excluded($event)"
         (toggleFavorito)="doToggleFavorito($event)">
 </cdk-favorito-grid>

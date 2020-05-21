@@ -54,6 +54,13 @@
                     matTooltip="Filtrar">
                 <mat-icon>filter_list</mat-icon>
             </button>
+
+            <button mat-icon-button [ngClass]="{'warn': hasExcluded}" *ngIf="actions.indexOf('showDeleted') > -1"
+                    (click)="loadExcluded()"
+                    aria-label="mostrar apagados"
+                    matTooltip="Mostrar Apagados">
+                <mat-icon>delete_sweep</mat-icon>
+            </button>
         </div>
 
         <div fxFlex="1 1 auto" fxLayout="row" fxLayoutAlign="center center" *ngIf="loading">
@@ -68,6 +75,7 @@
                     <th mat-header-cell *matHeaderCellDef>
                         <mat-checkbox (click)="toggleSelectAll($event)"
                                       [checked]="hasSelected"
+                                      [disabled]="hasExcluded"
                                       [indeterminate]="isIndeterminate">
                         </mat-checkbox>
                     </th>
@@ -75,7 +83,7 @@
                         <mat-checkbox [checked]="selectedIds.indexOf(acao.id) > -1"
                                       (change)="toggleInSelected(acao.id)"
                                       (click)="$event.stopPropagation();"
-                                      [disabled]="deletedIds?.indexOf(acao.id) > -1">
+                                      [disabled]="deletedIds?.indexOf(acao.id) > -1 || hasExcluded">
                         </mat-checkbox>
                     </td>
                 </ng-container>
@@ -178,7 +186,7 @@
                         <mat-icon *ngIf="acao.acessoNegado" class="red-fg">block</mat-icon>
 
                         <button mat-icon-button
-                                *ngIf="!acao.acessoNegado && actions.indexOf('select') > -1"
+                                *ngIf="!acao.acessoNegado && actions.indexOf('select') > -1 && !hasExcluded"
                                 (click)="selectAcao(acao)"
                                 aria-label="selecionar"
                                 matTooltip="Selecionar">
@@ -186,7 +194,7 @@
                         </button>
 
                         <button mat-icon-button
-                                *ngIf="!acao.acessoNegado && actions.indexOf('edit') > -1"
+                                *ngIf="!acao.acessoNegado && actions.indexOf('edit') > -1 && !hasExcluded"
                                 [disabled]="deletedIds?.indexOf(acao.id) > -1"
                                 (click)="editAcao(acao.id)"
                                 aria-label="editar"
@@ -199,7 +207,7 @@
                         </div>
 
                         <button mat-icon-button
-                                *ngIf="!acao.acessoNegado && actions.indexOf('delete') > -1 && deletingIds?.indexOf(acao.id) === -1"
+                                *ngIf="!acao.acessoNegado && actions.indexOf('delete') > -1 && deletingIds?.indexOf(acao.id) === -1 && !hasExcluded"
                                 [disabled]="deletedIds?.indexOf(acao.id) > -1"
                                 (click)="deleteAcao(acao.id)"
                                 aria-label="remover"

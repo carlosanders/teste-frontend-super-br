@@ -13,6 +13,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
+import {logger} from "codelyzer/util/logger";
 
 @Component({
     selector: 'tarefa-list',
@@ -77,6 +78,21 @@ export class TarefaListComponent implements OnInit {
         }));
     }
 
+    excluded(params): void {
+        this._store.dispatch(new fromStore.GetTarefas({
+            ...this.pagination,
+            filter: {
+                ...this.pagination.filter,
+                ...params.gridFilter
+            },
+            sort: params.sort,
+            limit: params.limit,
+            offset: params.offset,
+            populate: this.pagination.populate,
+            context: params.context
+        }));
+    }
+
     create () : void {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
     }
@@ -88,5 +104,4 @@ export class TarefaListComponent implements OnInit {
     delete(tarefaId: number): void {
         this._store.dispatch(new fromStore.DeleteTarefa(tarefaId));
     }
-
 }

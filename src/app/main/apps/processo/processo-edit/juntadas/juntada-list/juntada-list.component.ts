@@ -88,6 +88,21 @@ export class JuntadaListComponent implements OnInit {
         }));
     }
 
+    excluded(params): void {
+        this._store.dispatch(new fromStore.GetJuntadas({
+            ...this.pagination,
+            filter: {
+                ...this.pagination.filter,
+                ...params.gridFilter
+            },
+            sort: params.sort,
+            limit: params.limit,
+            offset: params.offset,
+            populate: this.pagination.populate,
+            context: params.context
+        }));
+    }
+
     upload(): void {
         this.cdkUpload.upload();
     }
@@ -106,5 +121,9 @@ export class JuntadaListComponent implements OnInit {
 
     editar(documentoId: number): void {
         this._router.navigate([this.routerState.url + '/documento/' + documentoId + '/editar']).then();
+    }
+
+    create () : void {
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
     }
 }
