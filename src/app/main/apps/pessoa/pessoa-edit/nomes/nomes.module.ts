@@ -18,6 +18,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {NomesComponent} from './nomes.component';
 import {NomeService} from '@cdk/services/nome.service';
 import {RouterModule, Routes} from '@angular/router';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -38,8 +39,15 @@ const routes: Routes = [
             }
         ]
     }
-
 ];
+
+const path = 'app/main/apps/pessoa/pessoa-edit/nomes';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [

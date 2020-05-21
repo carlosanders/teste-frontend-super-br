@@ -1,0 +1,33 @@
+<h1 mat-dialog-title>Assinatura Eletrônica</h1>
+<form class="p-24 mr-24" fxLayoutGap="16px"
+      fxLayout="column"
+      fxLayoutAlign="start"
+      name="form" [formGroup]="form">
+    <div fxFlex="1 0 auto" fxLayout="column">
+        <mat-slide-toggle class="mb-16" formControlName="certificadoDigital">
+            Usar Certificado Digital
+        </mat-slide-toggle>
+        <mat-form-field fxFlex="100" *ngIf="!form.get('certificadoDigital').value">
+            <mat-label>Senha</mat-label>
+            <input tabindex="-1" type="password"
+                   matInput #password
+                   name="password"
+                   formControlName="password"
+                   minlength="8"
+                   maxlength="16">
+            <mat-error *ngIf="form.get('password').hasError('required')">Campo obrigatório!</mat-error>
+            <mat-error *ngIf="form.get('password').hasError('minlength')">Campo deve ter no mínimo 8 dígitos!
+            </mat-error>
+            <mat-error *ngIf="form.get('password').hasError('maxlength')">Campo deve ter no máximo 16 dígitos!
+            </mat-error>
+        </mat-form-field>
+    </div>
+    <div fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+         fxLayoutAlign="center center">
+        <button mat-raised-button color="accent" [disabled]="form.invalid" [mat-dialog-close]="{
+                certificadoDigital: this.form.get('certificadoDigital').value,
+                password: this.form.get('password').value
+            }">Assinar</button>
+        <button mat-raised-button class="warn ml-16" mat-dialog-close>Cancelar</button>
+    </div>
+</form>

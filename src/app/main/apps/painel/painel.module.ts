@@ -19,6 +19,7 @@ import {LoginService} from '../../auth/login/login.service';
 import {CdkHistoricoTimelineModule} from '@cdk/components/historico/cdk-historico-timeline/cdk-historico-timeline.module';
 import {HistoricoService} from '@cdk/services/historico.service';
 import {TramitacaoService} from '@cdk/services/tramitacao.service';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -26,6 +27,14 @@ const routes: Routes = [
         component: PainelComponent
     }
 ];
+
+const path = 'app/main/apps/painel';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [

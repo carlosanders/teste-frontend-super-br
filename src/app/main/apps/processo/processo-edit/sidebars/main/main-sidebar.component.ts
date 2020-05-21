@@ -6,7 +6,7 @@ import {Observable} from 'rxjs';
 import {Processo} from '@cdk/models';
 
 import {modulesConfig} from 'modules/modules-config';
-import {getProcesso} from "../../../store";
+import {getProcesso} from '../../../store';
 
 @Component({
     selector: 'processo-edit-main-sidebar',

@@ -46,7 +46,7 @@
                        formControlName="confirmPass"
                        [errorStateMatcher]="matcher"
                        required
-                       minlenth="8"
+                       minlength="8"
                        maxlength="16">
                 <mat-hint align="end">{{confirmPass.value.length}} / 16</mat-hint>
                 <mat-error *ngIf="form.get('confirmPass').hasError('required')">

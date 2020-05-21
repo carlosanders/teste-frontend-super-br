@@ -24,6 +24,7 @@ import { TarefaEditComponent } from './tarefa-edit.component';
 import { RouterModule, Routes } from '@angular/router';
 import { TarefasStoreModule } from '../../store/store.module';
 import { CdkTarefaFormModule } from '@cdk/components/tarefa/cdk-tarefa-form/cdk-tarefa-form.module';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -31,6 +32,14 @@ const routes: Routes = [
         component  : TarefaEditComponent
     }
 ];
+
+const path = 'app/main/apps/tarefas/tarefa-detail/tarefa-edit';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations   : [

@@ -18,7 +18,7 @@ import { filter, takeUntil } from 'rxjs/operators';
 import { Documento } from '@cdk/models/documento.model';
 import { getMercureState, getRouterState } from 'app/store/reducers';
 import { Router } from '@angular/router';
-import { DocumentoAvulso, Usuario } from '@cdk/models';
+import {Assinatura, DocumentoAvulso, Usuario} from '@cdk/models';
 import { getDocumentoAvulso } from '../store/selectors';
 import { UpdateData } from '@cdk/ngrx-normalizr';
 import { documento as documentoSchema } from '@cdk/normalizr/documento.schema';
@@ -223,8 +223,21 @@ export class ResponderComponent implements OnInit, OnDestroy {
         this._store.dispatch(new fromStore.ClickedDocumento(documento));
     }
 
-    doAssinatura(documentoId): void {
-        this._store.dispatch(new fromStore.AssinaDocumento(documentoId));
+    doAssinatura(result): void {
+        if (result.certificadoDigital) {
+            this._store.dispatch(new fromStore.AssinaDocumento(result.documento.id));
+        } else {
+            result.documento.componentesDigitais.forEach((componenteDigital) => {
+                const assinatura = new Assinatura();
+                assinatura.componenteDigital = componenteDigital;
+                assinatura.algoritmoHash = 'A1';
+                assinatura.cadeiaCertificadoPEM = 'A1';
+                assinatura.cadeiaCertificadoPkiPath = 'A1';
+                assinatura.assinatura = 'A1';
+
+                this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({assinatura: assinatura, password: result.password}));
+            });
+        }
     }
 
     onClicked(documento): void {

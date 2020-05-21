@@ -18,6 +18,7 @@ import {
 import {TranslateModule} from '@ngx-translate/core';
 import {CdkSharedModule} from '../../../../../@cdk/shared.module';
 import {LoginService} from '../../../auth/login/login.service';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -40,6 +41,13 @@ const routes: Routes = [
     }
 ];
 
+const path = 'app/main/apps/admin/especie-atividade';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [EspecieAtividadeComponent],

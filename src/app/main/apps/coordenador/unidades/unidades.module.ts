@@ -20,6 +20,7 @@ import * as fromGuards from './store/guards';
 import {CdkSidebarModule} from '@cdk/components';
 import {UnidadesOrgaoCentralMainSidebarComponent} from './sidebars/main/main-sidebar.component';
 import {CommonModule} from '@angular/common';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -62,6 +63,14 @@ const routes: Routes = [
         redirectTo: 'default'
     }
 ];
+
+const path = 'app/main/apps/coordenador/unidades';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [

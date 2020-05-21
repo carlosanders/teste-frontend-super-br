@@ -20,6 +20,7 @@ import {TransicaoService} from '@cdk/services/transicao.service';
 import {RouterModule, Routes} from '@angular/router';
 import {ModalidadeTransicaoService} from '@cdk/services/modalidade-transicao.service';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -42,6 +43,14 @@ const routes: Routes = [
     }
 
 ];
+
+const path = 'app/main/apps/processo/processo-edit/transicoes';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [
