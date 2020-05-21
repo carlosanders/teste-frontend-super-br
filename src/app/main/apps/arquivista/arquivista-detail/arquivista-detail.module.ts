@@ -24,7 +24,7 @@ import {CriarDataPrevistaTransicaoModule} from '../criar-data-prevista-transicao
 import {CriarDataPrevistaTransicaoComponent} from '../criar-data-prevista-transicao/criar-data-prevista-transicao.component';
 import {ArquivistaClassificacaoEditComponent} from '../arquivista-classificacao-edit/arquivista-classificacao-edit.component';
 import {ArquivistaClassificacaoEditModule} from '../arquivista-classificacao-edit/arquivista-classificacao-edit.module';
-import {TransicaoService} from '../../../../../@cdk/services/transicao.service';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -56,6 +56,13 @@ const routes: Routes = [
     }
 ];
 
+const path = 'app/main/apps/arquivista/arquivista-detail';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [

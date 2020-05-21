@@ -22,6 +22,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {SetorService} from '@cdk/services/setor.service';
 import {NumeroUnicoDocumentoService} from '@cdk/services/numero-unico-documento.service';
 import {NumeroUnicoDocumentoStoreModule} from "./store/store.module";
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -43,8 +44,15 @@ const routes: Routes = [
             }
         ]
     }
-
 ];
+
+const path = 'app/main/apps/coordenador/numero-unico-documento';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [

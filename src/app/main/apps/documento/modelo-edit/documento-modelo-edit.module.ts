@@ -12,6 +12,7 @@ import {CdkUploadModule} from '@cdk/components/upload/cdk-upload.module';
 import {CdkModeloFormModule} from '@cdk/components/modelo/cdk-modelo-form/cdk-modelo-form.module';
 import {ModeloEditComponent} from './modelo-edit.component';
 import {ModeloService} from '@cdk/services/modelo.service';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -25,6 +26,14 @@ const routes: Routes = [
         ]
     }
 ];
+
+const path = 'app/main/apps/documento/modelo-edit';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [

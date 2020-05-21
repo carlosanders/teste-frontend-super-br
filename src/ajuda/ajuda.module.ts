@@ -24,6 +24,7 @@ import { AjudaVisibilidadesModule } from 'app/main/apps/processo/processo-edit/v
 
 import {CdkSharedModule} from '../@cdk/shared.module';
 import {MatButtonModule, MatFormFieldModule, MatIconModule, MatInputModule, MatTooltipModule} from '@cdk/angular/material';
+import { AjudaArquivistaModule } from 'app/main/apps/arquivista/ajuda/ajuda-arquivista.module';
 
 @NgModule({
     declarations: [
@@ -57,6 +58,7 @@ import {MatButtonModule, MatFormFieldModule, MatIconModule, MatInputModule, MatT
         AjudaTransicoesModule,
         AjudaSigilosModule,
         AjudaVisibilidadesModule,
+        AjudaArquivistaModule,
     ],
     exports: [
         AjudaComponent

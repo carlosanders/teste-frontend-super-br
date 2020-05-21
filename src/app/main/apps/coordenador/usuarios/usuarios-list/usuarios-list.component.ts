@@ -13,6 +13,9 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 import {Usuario} from '@cdk/models';
+import {take, tap} from "rxjs/operators";
+import {MatDialog} from '@cdk/angular/material';
+import {CdkConfirmDialogComponent} from "../../../../../../@cdk/components/confirm-dialog/confirm-dialog.component";
 
 @Component({
     selector: 'usuarios-list',
@@ -34,14 +37,17 @@ export class UsuariosListComponent implements OnInit {
     deletedIds$: Observable<any>;
 
     /**
+     *
      * @param _changeDetectorRef
      * @param _router
      * @param _store
+     * @param dialog
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
         private _store: Store<fromStore.UsuariosListAppState>,
+        public dialog: MatDialog,
     ) {
         this.usuarios$ = this._store.pipe(select(fromStore.getUsuariosList));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
@@ -56,7 +62,7 @@ export class UsuariosListComponent implements OnInit {
                     this.routerState = routerState.state;
                     if (this.routerState.params['generoHandle'] === 'nacional' ||
                         (this.routerState.params['generoHandle'] === 'unidade' && !this.routerState.params['setorHandle'])) {
-                        this.actions = ['create', 'edit', 'lotacoes', 'afastamentos'];
+                        this.actions = ['create', 'edit', 'lotacoes', 'afastamentos', 'resetaSenhaColaborador'];
                     }
                     if (this.routerState.params['generoHandle'] === 'local' || this.routerState.params['setorHandle']) {
                         this.actions = ['afastamentos'];
@@ -100,6 +106,34 @@ export class UsuariosListComponent implements OnInit {
 
     afastamentos(usuarioId: number): void {
         this._router.navigate([this.routerState.url.replace('listar', `${usuarioId}/afastamentos`)]);
+    }
+
+    resetaSenha(usuarioId: number): void {
+        const dialogRef = this.dialog.open(CdkConfirmDialogComponent, {
+            data: {
+                title: 'Redefinição de senha',
+                confirmLabel: 'Sim',
+                cancelLabel: 'Não',
+                confirmMessage: 'Uma nova senha segura será gerada e enviada ao usuário por e-mail.'
+            },
+            hasBackdrop: false,
+            closeOnNavigation: true
+        });
+
+        dialogRef.afterClosed()
+            .pipe(
+                tap(
+                    (value) => {
+                        if (value) {
+                            const usuario = new Usuario();
+                            usuario.id = usuarioId;
+                            this._store.dispatch(new fromStore.ResetSenha(usuario));
+                        }
+                    }
+                ),
+                tap(() => dialogRef.close()),
+                take(1)
+            ).subscribe();
     }
 
     delete(usuarioId: number): void {

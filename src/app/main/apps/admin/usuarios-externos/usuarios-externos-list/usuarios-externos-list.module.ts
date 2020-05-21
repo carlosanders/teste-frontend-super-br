@@ -26,6 +26,7 @@ import {UsuarioService} from '../../../../../../@cdk/services/usuario.service';
 import {UsuariosExternosStoreModule} from './store/store.module';
 import {LoginService} from '../../../../auth/login/login.service';
 import {CdkUsuarioGridModule} from '../../../../../../@cdk/components/usuario/cdk-usuario-grid/cdk-usuario-grid.module';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -35,6 +36,13 @@ const routes: Routes = [
     }
 ];
 
+const path = 'app/main/apps/admin/usuarios-externos/usuarios-externos-list';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [UsuariosExternosListComponent],

@@ -25,6 +25,7 @@ import {RelevanciaEditStoreModule} from './store/store.module';
 import {RelevanciaService} from '@cdk/services/relevancia.service';
 
 import * as fromGuards from './store/guards';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -33,6 +34,14 @@ const routes: Routes = [
         canActivate: [fromGuards.ResolveGuard]
     }
 ];
+
+const path = 'app/main/apps/processo/processo-edit/relevancias/relevancia-edit';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [

@@ -9,11 +9,14 @@ import * as DocumentosVinculadosActions from '../actions/documentos-vinculados.a
 import {AddData} from '@cdk/ngrx-normalizr';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
-import {Documento} from '@cdk/models';
+import {Assinatura, Documento} from '@cdk/models';
 import {DocumentoService} from '@cdk/services/documento.service';
 import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
 import {Router} from '@angular/router';
 import {environment} from 'environments/environment';
+import {assinatura as assinaturaSchema} from '@cdk/normalizr/assinatura.schema';
+import * as OperacoesActions from '../../../../../store/actions/operacoes.actions';
+import {AssinaturaService} from '@cdk/services/assinatura.service';
 
 @Injectable()
 export class DocumentosVinculadosEffect {
@@ -22,6 +25,7 @@ export class DocumentosVinculadosEffect {
     constructor(
         private _actions: Actions,
         private _documentoService: DocumentoService,
+        private _assinaturaService: AssinaturaService,
         private _router: Router,
         private _store: Store<State>
     ) {
@@ -63,7 +67,8 @@ export class DocumentosVinculadosEffect {
                         populate: [
                             'tipoDocumento',
                             'vinculacaoDocumentoPrincipal',
-                            'vinculacaoDocumentoPrincipal.documento'
+                            'vinculacaoDocumentoPrincipal.documento',
+                            'componentesDigitais'
                         ]
                     };
 
@@ -159,6 +164,34 @@ export class DocumentosVinculadosEffect {
                     document.body.appendChild(ifrm);
                     setTimeout(() => document.body.removeChild(ifrm), 2000);
                 }));
+
+    /**
+     * Save Documento Assinatura Eletronica
+     * @type {Observable<any>}
+     */
+    @Effect()
+    assinaDocumentoVinculadoEletronicamente: any =
+        this._actions
+            .pipe(
+                ofType<DocumentosVinculadosActions.AssinaDocumentoVinculadoEletronicamente>(DocumentosVinculadosActions.ASSINA_DOCUMENTO_VINCULADO_ELETRONICAMENTE),
+                switchMap((action) => {
+                    return this._assinaturaService.save(action.payload.assinatura, JSON.stringify({password: action.payload.password})).pipe(
+                        mergeMap((response: Assinatura) => [
+                            new DocumentosVinculadosActions.AssinaDocumentoVinculadoEletronicamenteSuccess(response),
+                            new AddData<Assinatura>({data: [response], schema: assinaturaSchema}),
+                            new OperacoesActions.Resultado({
+                                type: 'assinatura',
+                                content: `Assinatura id ${response.id} criada com sucesso!`,
+                                dateTime: response.criadoEm
+                            })
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            return of(new DocumentosVinculadosActions.AssinaDocumentoVinculadoEletronicamenteFailed(err));
+                        })
+                    );
+                })
+            );
 
     /**
      * Clicked Documento Vinculado

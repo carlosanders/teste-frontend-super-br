@@ -15,7 +15,7 @@ import {cdkAnimations} from '@cdk/animations';
 import {Back} from 'app/store/actions';
 
 @Component({
-    selector: 'coordenador-afastamentos',
+    selector: 'admin-afastamentos',
     templateUrl: './admin-afastamentos.component.html',
     styleUrls: ['./admin-afastamentos.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,

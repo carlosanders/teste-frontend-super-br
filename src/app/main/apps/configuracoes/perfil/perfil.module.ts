@@ -24,7 +24,7 @@ import {CdkPerfilFormModule} from '@cdk/components/usuario/cdk-perfil-form/cdk-p
 import {ProfileStoreModule} from './store/store.module';
 import {LoginService} from '../../../auth/login/login.service';
 import {UsuarioService} from '@cdk/services/usuario.service';
-
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -32,6 +32,14 @@ const routes: Routes = [
         component: PerfilComponent,
     }
 ];
+
+const path = 'app/main/apps/configuracoes/perfil';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [

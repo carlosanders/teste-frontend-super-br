@@ -9,7 +9,7 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
 import * as fromStore from '../store';
-import {Documento} from '@cdk/models';
+import {Assinatura, Documento} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import {Location} from '@angular/common';
 import {getMercureState} from 'app/store/reducers';
@@ -139,8 +139,21 @@ export class ModeloEditComponent implements OnInit, OnDestroy {
         this._store.dispatch(new fromStore.DeleteDocumentoVinculado(documentoId));
     }
 
-    doAssinaturaDocumentoVinculado(documentoId): void {
-        this._store.dispatch(new fromStore.AssinaDocumentoVinculado(documentoId));
+    doAssinaturaDocumentoVinculado(result): void {
+        if (result.certificadoDigital) {
+            this._store.dispatch(new fromStore.AssinaDocumentoVinculado(result.documento.id));
+        } else {
+            result.documento.componentesDigitais.forEach((componenteDigital) => {
+                const assinatura = new Assinatura();
+                assinatura.componenteDigital = componenteDigital;
+                assinatura.algoritmoHash = 'A1';
+                assinatura.cadeiaCertificadoPEM = 'A1';
+                assinatura.cadeiaCertificadoPkiPath = 'A1';
+                assinatura.assinatura = 'A1';
+
+                this._store.dispatch(new fromStore.AssinaDocumentoVinculadoEletronicamente({assinatura: assinatura, password: result.password}));
+            });
+        }
     }
 
     onClickedDocumentoVinculado(documento): void {

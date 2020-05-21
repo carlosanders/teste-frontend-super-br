@@ -17,6 +17,7 @@ import {ModeloService} from '@cdk/services/modelo.service';
 import {RepositorioService} from '@cdk/services/repositorio.service';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {MatTabsModule} from '@angular/material/tabs';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -51,6 +52,14 @@ const routes: Routes = [
         canActivate: [fromGuards.ResolveGuard]
     }
 ];
+
+const path = 'app/main/apps/documento';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [

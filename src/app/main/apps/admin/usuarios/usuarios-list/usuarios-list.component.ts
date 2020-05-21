@@ -127,6 +127,10 @@ export class UsuariosListComponent implements OnInit {
             ).subscribe();
     }
 
+    coordenadores(usuarioId: number): void {
+        this._router.navigate([this.routerState.url.replace('listar', `${usuarioId}/coordenadores`)]);
+    }
+
     delete(usuarioId: number): void {
         this._store.dispatch(new fromStore.DeleteUsuario(usuarioId));
     }

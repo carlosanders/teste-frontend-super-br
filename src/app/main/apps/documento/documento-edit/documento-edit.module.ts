@@ -20,6 +20,7 @@ import {CdkSigiloFormModule} from '@cdk/components/sigilo/cdk-sigilo-form/cdk-si
 import {CdkSigiloGridModule} from '@cdk/components/sigilo/cdk-sigilo-grid/cdk-sigilo-grid.module';
 import {CdkAssinaturaGridModule} from '@cdk/components/assinatura/cdk-assinatura-grid/cdk-assinatura-grid.module';
 import {ResizableModule} from 'angular-resizable-element';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -41,6 +42,14 @@ const routes: Routes = [
         ]
     }
 ];
+
+const path = 'app/main/apps/documento/documento-edit';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [

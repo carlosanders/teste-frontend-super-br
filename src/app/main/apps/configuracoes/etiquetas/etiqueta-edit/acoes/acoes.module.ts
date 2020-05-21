@@ -18,6 +18,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {AcoesComponent} from './acoes.component';
 import {EtiquetaService} from '@cdk/services/etiqueta.service';
 import {RouterModule, Routes} from '@angular/router';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -40,6 +41,14 @@ const routes: Routes = [
     }
 
 ];
+
+const path = 'app/main/apps/configuracoes/etiquetas/etiqueta-edit/acoes';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [

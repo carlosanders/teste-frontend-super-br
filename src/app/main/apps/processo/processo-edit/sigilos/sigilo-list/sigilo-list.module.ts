@@ -22,6 +22,7 @@ import {SigiloListStoreModule} from 'app/main/apps/processo/processo-edit/sigilo
 import {TipoSigiloService} from '@cdk/services/tipo-sigilo.service';
 import * as fromGuards from 'app/main/apps/processo/processo-edit/sigilos/sigilo-list/store/guards';
 import {CdkSigiloGridModule} from '@cdk/components/sigilo/cdk-sigilo-grid/cdk-sigilo-grid.module';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -30,6 +31,14 @@ const routes: Routes = [
         canActivate: [fromGuards.ResolveGuard]
     }
 ];
+
+const path = 'app/main/apps/processo/processo-edit/sigilos/sigilo-list';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [

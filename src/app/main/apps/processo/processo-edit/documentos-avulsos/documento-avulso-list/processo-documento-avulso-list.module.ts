@@ -22,6 +22,7 @@ import {DocumentoAvulsoListStoreModule} from 'app/main/apps/processo/processo-ed
 import {EspecieDocumentoAvulsoService} from '@cdk/services/especie-documento-avulso.service';
 import * as fromGuards from 'app/main/apps/processo/processo-edit/documentos-avulsos/documento-avulso-list/store/guards';
 import {CdkDocumentoAvulsoGridModule} from '@cdk/components/documento-avulso/cdk-documento-avulso-grid/cdk-documento-avulso-grid.module';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -30,6 +31,14 @@ const routes: Routes = [
         canActivate: [fromGuards.ResolveGuard]
     }
 ];
+
+const path = 'app/main/apps/processo/processo-edit/documentos-avulsos/documento-avulso-list';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [
