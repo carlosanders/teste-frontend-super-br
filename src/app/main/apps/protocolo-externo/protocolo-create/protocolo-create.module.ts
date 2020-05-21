@@ -27,6 +27,7 @@ import {CdkProcessoFormModule} from '@cdk/components/processo/cdk-processo-form/
 import {CdkComponenteDigitalDocumentoAvulsoCardListModule} from '@cdk/components/documento-avulso/cdk-componente-digital-documento-avulso-card-list/cdk-componente-digital-documento-avulso-card-list.module';
 import {CdkDocumentoCardListModule} from '@cdk/components/documento/cdk-documento-card-list/cdk-documento-card-list.module';
 import {EstadoService} from '@cdk/services/estado.service';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -39,6 +40,14 @@ const routes: Routes = [
         canActivate: [fromGuards.ResolveGuard]
     }
 ];
+
+const path = 'app/main/apps/protocolo-externo/protocolo-create';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [

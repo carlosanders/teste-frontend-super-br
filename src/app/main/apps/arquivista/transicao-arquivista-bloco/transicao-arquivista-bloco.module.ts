@@ -9,7 +9,7 @@ import {TransicaoService} from '../../../../../@cdk/services/transicao.service';
 import {TransicaoArquivistaStoreModule} from './store/store.module';
 import {CdkRealizarTransicaoFormModule} from '../../../../../@cdk/components/transicao/cdk-realizar-transicao/cdk-realizar-transicao-form/cdk-realizar-transicao-form.module';
 import {MatListModule} from '@angular/material/list';
-
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -17,6 +17,14 @@ const routes: Routes = [
         component: TransicaoArquivistaBlocoComponent,
     }
 ];
+
+const path = 'app/main/apps/arquivista/transicao-arquivista-bloco';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [TransicaoArquivistaBlocoComponent],

@@ -14,6 +14,7 @@ import {CdkGeneroRelevanciaAutocompleteModule} from '../../genero-relevancia/cdk
 import {MatIconModule} from '@angular/material/icon';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {CdkEspecieRelevanciaGridsearchModule} from '../cdk-especie-relevancia-autocomplete/cdk-especie-relevancia-gridsearch/cdk-especie-relevancia-gridsearch.module';
+import {CdkGeneroRelevanciaGridsearchModule} from '../../genero-relevancia/cdk-genero-relevancia-autocomplete/cdk-genero-relevancia-gridsearch/cdk-genero-relevancia-gridsearch.module';
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import {CdkEspecieRelevanciaGridsearchModule} from '../cdk-especie-relevancia-au
         CdkGeneroRelevanciaAutocompleteModule,
         MatIconModule,
         MatTooltipModule,
-        CdkEspecieRelevanciaGridsearchModule
+        CdkEspecieRelevanciaGridsearchModule,
+        CdkGeneroRelevanciaGridsearchModule
     ]
 })
 export class CdkEspecieRelevanciaFormModule {

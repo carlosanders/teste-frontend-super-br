@@ -22,6 +22,8 @@ import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.servi
 import {LoginService} from '../../auth/login/login.service';
 import {ProcessoDownloadModule} from './processo-download/processo-download.module';
 import {MatMenuModule} from '@angular/material/menu';
+import {MatRippleModule} from "@angular/material/core";
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -70,6 +72,14 @@ const routes: Routes = [
     }
 ];
 
+const path = 'app/main/apps/processo';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
+
 @NgModule({
     declarations   : [
         ProcessoComponent,
@@ -92,7 +102,8 @@ const routes: Routes = [
         MatTooltipModule,
         CdkVinculacaoEtiquetaChipsModule,
         ProcessoDownloadModule,
-        MatMenuModule
+        MatMenuModule,
+        MatRippleModule
     ],
     providers      : [
         ProcessoService,

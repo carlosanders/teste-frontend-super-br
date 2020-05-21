@@ -20,6 +20,7 @@ import {filter} from 'rxjs/operators';
 import {CdkRepositorioPluginComponent} from './cdk-plugins/cdk-respositorio-plugin/cdk-repositorio-plugin.component';
 import {CdkVersaoPluginComponent} from './cdk-plugins/cdk-versao-plugin/cdk-versao-plugin.component';
 import {Pagination} from '@cdk/models';
+import {CdkAssinaturaEletronicaPluginComponent} from './cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
 
 @Component({
     selector: 'cdk-componente-digital-ckeditor',
@@ -144,12 +145,15 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
     save = new EventEmitter<any>();
 
     @Output()
-    assinar = new EventEmitter<any>();
+    assinarDigitalmente = new EventEmitter<any>();
+
+    @Output()
+    assinarEletronicamente = new EventEmitter<any>();
 
     @Output()
     pdf = new EventEmitter<any>();
 
-    assinando = false;
+    assinando: any = false;
 
     gerandoPdf = false;
 
@@ -221,7 +225,11 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
             }
 
             if (this.assinando) {
-                this.assinar.emit();
+                if (this.assinando.certificadoDigital) {
+                    this.assinarDigitalmente.emit();
+                } else {
+                    this.assinarEletronicamente.emit(this.assinando.password);
+                }
                 this.assinando = false;
             }
 
@@ -383,8 +391,14 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
     }
 
     doAssinar(): void {
-        this.assinando = true;
-        this.doSave();
+        const dialogRef = this.dialog.open(CdkAssinaturaEletronicaPluginComponent, {
+            width: '600px'
+        });
+
+        dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe(result => {
+            this.assinando = result;
+            this.doSave();
+        });
     }
 
     doPdf(): void {

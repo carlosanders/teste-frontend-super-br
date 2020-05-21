@@ -6,6 +6,7 @@ import {RouterStateSerializer, StoreRouterConnectingModule} from '@ngrx/router-s
 
 import {environment} from 'environments/environment';
 import {reducers, effects, CustomSerializer} from 'app/store';
+import {clearState} from 'app/store';
 
 @NgModule({
     imports: [
@@ -13,7 +14,8 @@ import {reducers, effects, CustomSerializer} from 'app/store';
             runtimeChecks: {
                 strictStateImmutability: true,
                 strictActionImmutability: true
-            }
+            },
+            metaReducers: [clearState]
         }),
         EffectsModule.forRoot(effects),
         !environment.production ? StoreDevtoolsModule.instrument() : [],

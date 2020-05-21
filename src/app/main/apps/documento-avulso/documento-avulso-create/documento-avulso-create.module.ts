@@ -25,6 +25,7 @@ import {DocumentoAvulsoCreateStoreModule} from './store/store.module';
 import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
 import * as fromGuards from './store/guards';
 import {DocumentoService} from '@cdk/services/documento.service';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -39,6 +40,14 @@ const routes: Routes = [
         canActivate: [fromGuards.ResolveGuard]
     }
 ];
+
+const path = 'app/main/apps/documento-avulso/documento-avulso-create';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [

@@ -9,6 +9,7 @@ import {MatListModule} from '@angular/material/list';
 import {LoginService} from '../../../auth/login/login.service';
 import {LembreteService} from '@cdk/services/lembrete.service';
 import {ProcessoService} from '@cdk/services/processo.service';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -17,6 +18,13 @@ const routes: Routes = [
     }
 ];
 
+const path = 'app/main/apps/arquivista/arquivista-lembrete-bloco';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [ArquivistaLembreteBlocoComponent],

@@ -25,6 +25,7 @@ import {NomeEditStoreModule} from './store/store.module';
 import {NomeService} from '@cdk/services/nome.service';
 
 import * as fromGuards from './store/guards';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -33,6 +34,14 @@ const routes: Routes = [
         canActivate: [fromGuards.ResolveGuard]
     }
 ];
+
+const path = 'app/main/apps/pessoa/pessoa-edit/nomes/nome-edit';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [

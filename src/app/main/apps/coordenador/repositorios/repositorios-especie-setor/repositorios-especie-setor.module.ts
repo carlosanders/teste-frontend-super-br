@@ -21,6 +21,7 @@ import {RepositorioService} from '@cdk/services/repositorio.service';
 import {RepositoriosEspecieSetorComponent} from './repositorios-especie-setor.component';
 import {RepositoriosEspecieSetorStoreModule} from './store/store.module';
 import {VinculacaoRepositorioService} from '@cdk/services/vinculacao-repositorio.service';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -43,6 +44,14 @@ const routes: Routes = [
         ]
     }
 ];
+
+const path = 'app/main/apps/coordenador/repositorios/repositorios-especie-setor';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [

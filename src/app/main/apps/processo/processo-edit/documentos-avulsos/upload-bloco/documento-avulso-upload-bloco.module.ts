@@ -23,6 +23,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {AtividadeService} from '@cdk/services/atividade.service';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {CdkComponenteDigitalCardListModule} from '@cdk/components/componente-digital/cdk-componente-digital-card-list/cdk-componente-digital-card-list.module';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -30,6 +31,14 @@ const routes: Routes = [
         component: UploadBlocoComponent
     }
 ];
+
+const path = 'app/main/apps/processo/processo-edit/documentos-avulsos/upload-bloco';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [

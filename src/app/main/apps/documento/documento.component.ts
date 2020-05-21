@@ -19,7 +19,7 @@ import {ComponenteDigital} from '@cdk/models';
 import {Router} from '@angular/router';
 import {getRouterState} from 'app/store/reducers';
 import {takeUntil} from 'rxjs/operators';
-import {Back} from "../../../store/actions";
+import {Back} from '../../../store/actions';
 
 @Component({
     selector: 'documento',

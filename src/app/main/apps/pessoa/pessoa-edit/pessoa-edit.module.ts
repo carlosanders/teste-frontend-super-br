@@ -14,7 +14,7 @@ import { PessoaEditComponent } from './pessoa-edit.component';
 import { CommonModule } from '@angular/common';
 import * as fromGuards from './dados-pessoa-edit/store/guards';
 import {PessoaService} from '@cdk/services/pessoa.service';
-
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -53,6 +53,14 @@ const routes: Routes = [
         ]
     }
 ];
+
+const path = 'app/main/apps/pessoa/pessoa-edit';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations   : [

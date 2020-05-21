@@ -4,17 +4,19 @@ import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, map, tap, switchMap} from 'rxjs/operators';
 
-import * as AtividadeCreateDocumentosActions
-    from 'app/main/apps/tarefas/tarefa-detail/atividades/atividade-create/store/actions/documentos.actions';
+import * as AtividadeCreateDocumentosActions from 'app/main/apps/tarefas/tarefa-detail/atividades/atividade-create/store/actions/documentos.actions';
 
 import {AddData} from '@cdk/ngrx-normalizr';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
-import {Documento} from '@cdk/models';
+import {Assinatura, Documento} from '@cdk/models';
 import {DocumentoService} from '@cdk/services/documento.service';
 import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
 import {Router} from '@angular/router';
 import {environment} from 'environments/environment';
+import {assinatura as assinaturaSchema} from '@cdk/normalizr/assinatura.schema';
+import * as OperacoesActions from '../../../../../../../../store/actions/operacoes.actions';
+import {AssinaturaService} from '@cdk/services/assinatura.service';
 
 @Injectable()
 export class AtividadeCreateDocumentosEffect {
@@ -23,6 +25,7 @@ export class AtividadeCreateDocumentosEffect {
     constructor(
         private _actions: Actions,
         private _documentoService: DocumentoService,
+        private _assinaturaService: AssinaturaService,
         private _router: Router,
         private _store: Store<State>
     ) {
@@ -66,6 +69,7 @@ export class AtividadeCreateDocumentosEffect {
                             'tipoDocumento',
                             'documentoAvulsoRemessa',
                             'documentoAvulsoRemessa.documentoResposta',
+                            'componentesDigitais',
                             'juntadaAtual'
                         ]
                     };
@@ -182,6 +186,35 @@ export class AtividadeCreateDocumentosEffect {
                     document.body.appendChild(ifrm);
                     setTimeout(() => document.body.removeChild(ifrm), 20000);
                 }));
+
+    /**
+     * Save Documento Assinatura Eletronica
+     * @type {Observable<any>}
+     */
+    @Effect()
+    assinaDocumentoEletronicamente: any =
+        this._actions
+            .pipe(
+                ofType<AtividadeCreateDocumentosActions.AssinaDocumentoEletronicamente>(AtividadeCreateDocumentosActions.ASSINA_DOCUMENTO_ELETRONICAMENTE),
+                switchMap((action) => {
+                    return this._assinaturaService.save(action.payload.assinatura, JSON.stringify({password: action.payload.password})).pipe(
+                        mergeMap((response: Assinatura) => [
+                            new AtividadeCreateDocumentosActions.AssinaDocumentoEletronicamenteSuccess(response),
+                            new AddData<Assinatura>({data: [response], schema: assinaturaSchema}),
+                            new AtividadeCreateDocumentosActions.GetDocumentos(),
+                            new OperacoesActions.Resultado({
+                                type: 'assinatura',
+                                content: `Assinatura id ${response.id} criada com sucesso!`,
+                                dateTime: response.criadoEm
+                            })
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            return of(new AtividadeCreateDocumentosActions.AssinaDocumentoEletronicamenteFailed(err));
+                        })
+                    );
+                })
+            );
 
     /**
      * Clicked Documento

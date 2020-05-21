@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
 import {tap, map, catchError} from 'rxjs/operators';
@@ -13,7 +13,8 @@ export class LoginEffects {
     constructor(
         private actions: Actions,
         private loginService: LoginService,
-        private router: Router
+        private router: Router,
+        private route: ActivatedRoute
     ) {
     }
 
@@ -97,7 +98,11 @@ export class LoginEffects {
         tap(() => {
             this.loginService.removeToken();
             this.loginService.removeUserProfile();
-            this.router.navigateByUrl('/auth/login').then();
+            this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+            this.router.onSameUrlNavigation = 'reload';
+            this.router.navigateByUrl('/auth/login?url=' + this.router.url).then(() => {
+                window.location.reload();
+            });
         })
     );
 
@@ -138,7 +143,8 @@ export class LoginEffects {
         ofType(LoginActions.LOGIN_PROFILE_SUCCESS),
         tap((action) => {
             this.loginService.setUserProfile(action.payload.profile);
-            this.router.navigateByUrl('/apps/painel').then();
+            const url = this.route.snapshot.queryParamMap.get('url');
+            this.router.navigateByUrl(url ? url : '/apps/painel').then();
         })
     );
 }

@@ -8,6 +8,7 @@ import {CdkSidebarModule} from '@cdk/components';
 import {ProcessoAcessoNegadoComponent} from './processo-acesso-negado.component';
 import {RouterModule, Routes} from '@angular/router';
 import {MatIconModule} from '@cdk/angular/material';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -15,6 +16,14 @@ const routes: Routes = [
         component: ProcessoAcessoNegadoComponent
     }
 ];
+
+const path = 'app/main/apps/processo/processo-acesso-negado';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [

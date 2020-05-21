@@ -14,6 +14,7 @@ import {CdkGeneroAtividadeAutocompleteModule} from '../../genero-atividade/cdk-g
 import {MatIconModule} from '@angular/material/icon';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {CdkEspecieAtividadeGridsearchModule} from '../cdk-especie-atividade-autocomplete/cdk-especie-atividade-gridsearch/cdk-especie-atividade-gridsearch.module';
+import {CdkGeneroAtividadeGridsearchModule} from '../../genero-atividade/cdk-genero-atividade-autocomplete/cdk-genero-atividade-gridsearch/cdk-genero-atividade-gridsearch.module';
 
 
 
@@ -36,7 +37,8 @@ import {CdkEspecieAtividadeGridsearchModule} from '../cdk-especie-atividade-auto
         CdkGeneroAtividadeAutocompleteModule,
         MatIconModule,
         MatTooltipModule,
-        CdkEspecieAtividadeGridsearchModule
+        CdkEspecieAtividadeGridsearchModule,
+        CdkGeneroAtividadeGridsearchModule
     ]
 })
 export class CdkEspecieAtividadeFormModule { }

@@ -26,6 +26,7 @@ import {AcaoEditStoreModule} from './store/store.module';
 import * as fromGuards from './store/guards';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {AcaoService} from '@cdk/services/acao.service';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -34,6 +35,14 @@ const routes: Routes = [
         canActivate: [fromGuards.ResolveGuard]
     }
 ];
+
+const path = 'app/main/apps/configuracoes/etiquetas/etiqueta-edit/acoes/acao-edit';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [

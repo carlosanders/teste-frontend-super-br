@@ -21,6 +21,7 @@ import {ModeloService} from '@cdk/services/modelo.service';
 import {ModelosEspecieSetorComponent} from './modelos-especie-setor.component';
 import {ModelosEspecieSetorStoreModule} from './store/store.module';
 import {VinculacaoModeloService} from '@cdk/services/vinculacao-modelo.service';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -43,6 +44,14 @@ const routes: Routes = [
         ]
     }
 ];
+
+const path = 'app/main/apps/coordenador/modelos/modelos-especie-setor';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [

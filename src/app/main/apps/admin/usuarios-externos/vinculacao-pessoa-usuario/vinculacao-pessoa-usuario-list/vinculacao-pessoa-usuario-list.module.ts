@@ -22,6 +22,7 @@ import {CdkPessoaGridModule} from '../../../../../../../@cdk/components/pessoa/c
 import {CdkVinculacaoPessoaUsuarioGridModule} from '../../../../../../../@cdk/components/vinculacao-pessoa-usuario/cdk-vinculacao-pessoa-usuario-grid/cdk-vinculacao-pessoa-usuario-grid.module';
 import {VinculacaoPessoaUsuarioService} from '../../../../../../../@cdk/services/vinculacao-pessoa-usuario.service';
 import {VinculacaoPessoaUsuarioStoreModule} from './store/store.module';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -30,6 +31,14 @@ const routes: Routes = [
         canActivate: [fromGuards.ResolveGuard]
     }
 ];
+
+const path = 'app/main/apps/admin/usuarios-externos/vinculacao-pessoa-usuario/vinculacao-pessoa-usuario-list';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [VinculacaoPessoaUsuarioListComponent],
