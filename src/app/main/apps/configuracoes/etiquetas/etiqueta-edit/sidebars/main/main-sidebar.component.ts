@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from 'app/store';
 import {getRouterState} from 'app/store/reducers';
+import {modulesConfig} from "../../../../../../../../modules/modules-config";
 
 @Component({
     selector: 'etiqueta-edit-main-sidebar',
@@ -18,9 +19,14 @@ export class EtiquetaEditMainSidebarComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
 
     constructor(private _store: Store<fromStore.State>) {
+        const path = 'app/main/apps/configuracoes/etiquetas/etiqueta-edit/sidebars/main';
 
+        modulesConfig.forEach((module) => {
+            if (module.sidebars.hasOwnProperty(path)) {
+                module.sidebars[path].forEach((s => this.links.push(s)));
+            }
+        });
     }
-
 
     /**
      * On init

@@ -128,6 +128,8 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy, AfterVie
      */
     @ViewChild('dynamicStatus', {static: false, read: ViewContainerRef}) containerStatus: ViewContainerRef;
 
+    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef}) container: ViewContainerRef;
+
     @ViewChild('ckdUpload', {static: false})
     cdkUpload;
 
@@ -143,9 +145,6 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy, AfterVie
         }).join(''));
     }
 
-    ngAfterViewInit(): void {
-        this.iniciaModulos();
-    }
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
     // -----------------------------------------------------------------------------------------------------
@@ -192,6 +191,18 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy, AfterVie
             if (componenteDigital && componenteDigital.conteudo) {
                 const html = DocumentoAvulsoEditComponent.b64DecodeUnicode(componenteDigital.conteudo.split(';base64,')[1]);
                 this._store.dispatch(new fromStore.SetRepositorioComponenteDigital(html));
+            }
+        });
+    }
+
+    ngAfterViewInit(): void {
+        const path = 'app/main/apps/documento/documento-avulso-edit';
+        modulesConfig.forEach((module) => {
+            if (module.components.hasOwnProperty(path)) {
+                module.components[path].forEach((c => {
+                    this._dynamicService.loadComponent(c)
+                        .then(componentFactory => this.container.createComponent(componentFactory));
+                }));
             }
         });
     }

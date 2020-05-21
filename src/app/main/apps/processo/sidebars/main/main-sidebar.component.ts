@@ -9,6 +9,7 @@ import {takeUntil} from 'rxjs/operators';
 import {getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {LoginService} from '../../../../auth/login/login.service';
+import {modulesConfig} from "../../../../../../modules/modules-config";
 
 @Component({
     selector: 'processo-main-sidebar',
@@ -68,6 +69,14 @@ export class ProcessoMainSidebarComponent implements OnInit, OnDestroy {
                 role: 'ROLE_USER'
             }
         ];
+
+        const path = 'app/main/apps/processo/sidebars/main';
+
+        modulesConfig.forEach((module) => {
+            if (module.sidebars.hasOwnProperty(path)) {
+                module.sidebars[path].forEach((s => this.links.push(s)));
+            }
+        });
     }
 
     // -----------------------------------------------------------------------------------------------------

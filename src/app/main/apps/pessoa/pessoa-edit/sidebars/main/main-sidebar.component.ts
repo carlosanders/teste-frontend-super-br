@@ -3,6 +3,7 @@ import {Observable, Subject} from 'rxjs';
 import {Pessoa} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from '../../dados-pessoa-edit/store';
+import {modulesConfig} from "../../../../../../../modules/modules-config";
 
 @Component({
     selector: 'pessoa-edit-main-sidebar',
@@ -27,6 +28,13 @@ export class PessoaEditMainSidebarComponent implements OnInit, OnDestroy {
         private _store: Store<fromStore.DadosPessoaEditAppState>,
     ) {
         this.pessoa$ = this._store.pipe(select(fromStore.getPessoa));
+        const path = 'app/main/apps/pessoa/pessoa-edit/sidebars/main';
+
+        modulesConfig.forEach((module) => {
+            if (module.sidebars.hasOwnProperty(path)) {
+                module.sidebars[path].forEach((s => this.links.push(s)));
+            }
+        });
     }
 
     // -----------------------------------------------------------------------------------------------------
