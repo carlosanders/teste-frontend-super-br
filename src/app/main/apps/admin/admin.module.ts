@@ -28,6 +28,10 @@ const routes: Routes = [
                 loadChildren: () => import('./unidades/unidades.module').then(m => m.UnidadesModule)
             },
             {
+                path: 'usuarios',
+                loadChildren: () => import('./usuarios/usuarios.module').then(m => m.UsuariosModule)
+            },
+            {
                 path: 'externos',
                 loadChildren: () => import('./usuarios-externos/usuarios-externos.module').then(m => m.UsuariosExternosModule)
             },

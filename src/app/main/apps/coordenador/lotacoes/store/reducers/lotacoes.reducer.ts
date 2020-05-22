@@ -63,7 +63,7 @@ export function LotacoesReducer(
 
             return {
                 ...state,
-                usuarioId: action.payload.setorId,
+                usuarioId: action.payload.usuarioId,
                 loaded: action.payload.loaded,
                 loading: false
             };

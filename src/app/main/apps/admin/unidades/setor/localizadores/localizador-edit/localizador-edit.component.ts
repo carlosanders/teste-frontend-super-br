@@ -19,7 +19,7 @@ import {Back} from '../../../../../../../store/actions';
 import {getRouterState} from '../../../../../../../store/reducers';
 
 @Component({
-    selector: 'root-localizador-edit',
+    selector: 'admin-localizador-edit',
     templateUrl: './localizador-edit.component.html',
     styleUrls: ['./localizador-edit.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
