@@ -12,7 +12,7 @@ import {Observable} from 'rxjs';
 import * as fromStore from '../store';
 import {select, Store} from '@ngrx/store';
 import {Location} from '@angular/common';
-import {DocumentoAvulso} from '@cdk/models';
+import {Assinatura, DocumentoAvulso} from '@cdk/models';
 import {Documento} from '@cdk/models';
 import {Router} from '@angular/router';
 import {getMercureState, getRouterState} from '../../../../store/reducers';
@@ -273,8 +273,21 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy, AfterVie
         this._store.dispatch(new fromStore.DeleteDocumentoVinculado(documentoId));
     }
 
-    doAssinaturaDocumentoVinculado(documentoId): void {
-        this._store.dispatch(new fromStore.AssinaDocumentoVinculado(documentoId));
+    doAssinaturaDocumentoVinculado(result): void {
+        if (result.certificadoDigital) {
+            this._store.dispatch(new fromStore.AssinaDocumentoVinculado(result.documento.id));
+        } else {
+            result.documento.componentesDigitais.forEach((componenteDigital) => {
+                const assinatura = new Assinatura();
+                assinatura.componenteDigital = componenteDigital;
+                assinatura.algoritmoHash = 'A1';
+                assinatura.cadeiaCertificadoPEM = 'A1';
+                assinatura.cadeiaCertificadoPkiPath = 'A1';
+                assinatura.assinatura = 'A1';
+
+                this._store.dispatch(new fromStore.AssinaDocumentoVinculadoEletronicamente({assinatura: assinatura, password: result.password}));
+            });
+        }
     }
 
     onClickedDocumentoVinculado(documento): void {

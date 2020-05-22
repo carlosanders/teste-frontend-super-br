@@ -12,6 +12,7 @@ import {CdkUploadModule} from '@cdk/components/upload/cdk-upload.module';
 import {CdkRepositorioFormModule} from '@cdk/components/repositorio/cdk-repositorio-form/cdk-repositorio-form.module';
 import {RepositorioEditComponent} from './repositorio-edit.component';
 import {RepositorioService} from '@cdk/services/repositorio.service';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -25,6 +26,14 @@ const routes: Routes = [
         ]
     }
 ];
+
+const path = 'app/main/apps/documento/repositorio-edit';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [

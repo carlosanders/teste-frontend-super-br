@@ -13,6 +13,7 @@ import {PesquisaComponent} from 'app/main/apps/pesquisa/pesquisa.component';
 import {PesquisaMainSidebarComponent} from './sidebars/main/main-sidebar.component';
 import {CommonModule} from '@angular/common';
 import {RouteGuard} from "./guard";
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -39,6 +40,14 @@ const routes: Routes = [
         ]
     }
 ];
+
+const path = 'app/main/apps/pesquisa';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [

@@ -24,6 +24,7 @@ import {CdkSidebarModule} from '@cdk/components';
 import * as fromGuards from './store/guards';
 import {SetorMainSidebarComponent} from './sidebars/main/main-sidebar.component';
 import {CoordenadorSetorStoreModule} from './store/store.module';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -74,6 +75,14 @@ const routes: Routes = [
         redirectTo: 'default'
     }
 ];
+
+const path = 'app/main/apps/coordenador/setor';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [

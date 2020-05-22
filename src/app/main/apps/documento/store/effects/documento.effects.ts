@@ -16,7 +16,8 @@ import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
 import {modelo as modeloSchema} from '@cdk/normalizr/modelo.schema';
 import {template as templateSchema} from '@cdk/normalizr/template.schema';
 import {repositorio as repositorioSchema} from '@cdk/normalizr/repositorio.schema';
-import {Documento, Template} from '@cdk/models';
+import {assinatura as assinaturaSchema} from '@cdk/normalizr/assinatura.schema';
+import {Assinatura, Documento, Template} from '@cdk/models';
 import {Router} from '@angular/router';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {Modelo} from '@cdk/models';
@@ -26,6 +27,7 @@ import {RepositorioService} from '@cdk/services/repositorio.service';
 import {environment} from 'environments/environment';
 import {UnloadDocumento} from '../actions';
 import * as AssinaturaActions from '../actions/assinaturas.actions';
+import {AssinaturaService} from '@cdk/services/assinatura.service';
 
 @Injectable()
 export class DocumentoEffect {
@@ -37,6 +39,7 @@ export class DocumentoEffect {
         private _documentoService: DocumentoService,
         private _modeloService: ModeloService,
         private _repositorioService: RepositorioService,
+        private _assinaturaService: AssinaturaService,
         public _loginService: LoginService,
         private _router: Router,
         private _store: Store<State>
@@ -351,6 +354,51 @@ export class DocumentoEffect {
         this._actions
             .pipe(
                 ofType<DocumentoActions.AssinaDocumentoSuccess>(DocumentoActions.ASSINA_DOCUMENTO_SUCCESS),
+                tap((action) => {
+                    this._store.dispatch(new UnloadDocumento());
+                    this._router.navigate([
+                            this.routerState.url.split('/documento/')[0]
+                        ]
+                    ).then();
+                }));
+
+    /**
+     * Save Documento Assinatura Eletronica
+     * @type {Observable<any>}
+     */
+    @Effect()
+    assinaDocumentoEletronicamente: any =
+        this._actions
+            .pipe(
+                ofType<DocumentoActions.AssinaDocumentoEletronicamente>(DocumentoActions.ASSINA_DOCUMENTO_ELETRONICAMENTE),
+                switchMap((action) => {
+                    return this._assinaturaService.save(action.payload.assinatura, JSON.stringify({password: action.payload.password})).pipe(
+                        mergeMap((response: Assinatura) => [
+                            new DocumentoActions.AssinaDocumentoEletronicamenteSuccess(response),
+                            new AddData<Assinatura>({data: [response], schema: assinaturaSchema}),
+                            new OperacoesActions.Resultado({
+                                type: 'assinatura',
+                                content: `Assinatura id ${response.id} criada com sucesso!`,
+                                dateTime: response.criadoEm
+                            })
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            return of(new DocumentoActions.AssinaDocumentoEletronicamenteFailed(err));
+                        })
+                    );
+                })
+            );
+
+    /**
+     * Assina Documento Eletronicamente Success
+     * @type {Observable<any>}
+     */
+    @Effect({dispatch: false})
+    assinaDocumentoEletronicamenteSuccess: any =
+        this._actions
+            .pipe(
+                ofType<DocumentoActions.AssinaDocumentoEletronicamenteSuccess>(DocumentoActions.ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS),
                 tap((action) => {
                     this._store.dispatch(new UnloadDocumento());
                     this._router.navigate([

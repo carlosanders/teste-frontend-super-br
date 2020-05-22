@@ -12,6 +12,10 @@ export const ASSINA_DOCUMENTO_VINCULADO = '[DOCUMENTO] ASSINA DOCUMENTO VINCULAD
 export const ASSINA_DOCUMENTO_VINCULADO_SUCCESS = '[DOCUMENTO] ASSINA DOCUMENTO VINCULADO SUCCESS';
 export const ASSINA_DOCUMENTO_VINCULADO_FAILED = '[DOCUMENTO] ASSINA DOCUMENTO VINCULADO FAILED';
 
+export const ASSINA_DOCUMENTO_VINCULADO_ELETRONICAMENTE = '[DOCUMENTO] ASSINA DOCUMENTO ELETRONICAMENTE';
+export const ASSINA_DOCUMENTO_VINCULADO_ELETRONICAMENTE_SUCCESS = '[DOCUMENTO] ASSINA DOCUMENTO VINCULADO  ELETRONICAMENTE SUCCESS';
+export const ASSINA_DOCUMENTO_VINCULADO_ELETRONICAMENTE_FAILED = '[DOCUMENTO] ASSINA DOCUMENTO VINCULADO ELETRONICAMENTE FAILED';
+
 export const CLICKED_DOCUMENTO_VINCULADO = '[DOCUMENTO] CLICKED DOCUMENTO VINCULADO';
 export const COMPLETE_DOCUMENTO_VINCULADO = '[DOCUMENTO] COMPLETE DOCUMENTO VINCULADO';
 
@@ -126,6 +130,42 @@ export class AssinaDocumentoVinculadoFailed implements Action
 }
 
 /**
+ * Assina Documento Vinculado Eletronicamente
+ */
+export class AssinaDocumentoVinculadoEletronicamente implements Action
+{
+    readonly type = ASSINA_DOCUMENTO_VINCULADO_ELETRONICAMENTE;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Assina Documento Vinculado Eletronicamente Success
+ */
+export class AssinaDocumentoVinculadoEletronicamenteSuccess implements Action
+{
+    readonly type = ASSINA_DOCUMENTO_VINCULADO_ELETRONICAMENTE_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Assina Documento Vinculado Eletronicamente Failed
+ */
+export class AssinaDocumentoVinculadoEletronicamenteFailed implements Action
+{
+    readonly type = ASSINA_DOCUMENTO_VINCULADO_ELETRONICAMENTE_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
  * Change Selected Documentos Vinculados
  */
 export class ChangeSelectedDocumentosVinculados implements Action {
@@ -168,6 +208,9 @@ export type DocumentosVinculadosActionsAll
     | AssinaDocumentoVinculado
     | AssinaDocumentoVinculadoSuccess
     | AssinaDocumentoVinculadoFailed
+    | AssinaDocumentoVinculadoEletronicamente
+    | AssinaDocumentoVinculadoEletronicamenteSuccess
+    | AssinaDocumentoVinculadoEletronicamenteFailed
     | DeleteDocumentoVinculado
     | DeleteDocumentoVinculadoSuccess
     | DeleteDocumentoVinculadoFailed

@@ -25,6 +25,7 @@ import {DadosBasicosStoreModule} from './store/store.module';
 import {EtiquetaService} from '@cdk/services/etiqueta.service';
 
 import {LoginService} from 'app/main/auth/login/login.service';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -32,6 +33,14 @@ const routes: Routes = [
         component: DadosBasicosComponent
     }
 ];
+
+const path = 'app/main/apps/configuracoes/etiquetas/etiqueta-edit/dados-basicos';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [

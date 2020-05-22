@@ -10,7 +10,7 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {Atividade} from '@cdk/models';
+import {Assinatura, Atividade} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as moment from 'moment';
 
@@ -25,7 +25,7 @@ import {Router} from '@angular/router';
 import {Colaborador} from '@cdk/models';
 import {UpdateData} from '@cdk/ngrx-normalizr';
 import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
-import {Back} from "../../../../../../store/actions";
+import {Back} from '../../../../../../store/actions';
 
 
 @Component({
@@ -238,8 +238,21 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy {
         this._store.dispatch(new fromStore.ClickedDocumento(documento));
     }
 
-    doAssinatura(documentoId): void {
-        this._store.dispatch(new fromStore.AssinaDocumento(documentoId));
+    doAssinatura(result): void {
+        if (result.certificadoDigital) {
+            this._store.dispatch(new fromStore.AssinaDocumento(result.documento.id));
+        } else {
+            result.documento.componentesDigitais.forEach((componenteDigital) => {
+                const assinatura = new Assinatura();
+                assinatura.componenteDigital = componenteDigital;
+                assinatura.algoritmoHash = 'A1';
+                assinatura.cadeiaCertificadoPEM = 'A1';
+                assinatura.cadeiaCertificadoPkiPath = 'A1';
+                assinatura.assinatura = 'A1';
+
+                this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({assinatura: assinatura, password: result.password}));
+            });
+        }
     }
 
     doRemoveAssinatura(documentoId): void {

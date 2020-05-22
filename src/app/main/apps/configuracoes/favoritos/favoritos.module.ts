@@ -13,7 +13,7 @@ import { FavoritoEditMainSidebarComponent } from './sidebars/main/main-sidebar.c
 import { FavoritosComponent } from './favoritos.component';
 import { CommonModule } from '@angular/common';
 import * as fromGuards from './store/guards';
-
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -39,6 +39,14 @@ const routes: Routes = [
         ]
     }
 ];
+
+const path = 'app/main/apps/configuracoes/favoritos';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations   : [
