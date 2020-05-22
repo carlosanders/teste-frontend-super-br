@@ -14,7 +14,7 @@
                        formControlName="password"
                        required
                        minlength="8"
-                       maxlength="16" upperCase>
+                       maxlength="16">
                 <mat-hint align="end">{{password.value.length}} / 16</mat-hint>
                 <mat-error *ngIf="form.get('password').hasError('formError')">{{form.get('password').errors.formError}}</mat-error>
                 <mat-error *ngIf="form.get('password').hasError('required')">Campo obrigatório!</mat-error>
@@ -30,8 +30,8 @@
                        formControlName="confirmPass"
                        [errorStateMatcher]="matcher"
                        required
-                       minlenth="8"
-                       maxlength="16" upperCase>
+                       minlength="8"
+                       maxlength="16">
                 <mat-hint align="end">{{confirmPass.value.length}} / 16</mat-hint>
                 <mat-error *ngIf="form.get('confirmPass').hasError('required')">
                     Campo obrigatório!

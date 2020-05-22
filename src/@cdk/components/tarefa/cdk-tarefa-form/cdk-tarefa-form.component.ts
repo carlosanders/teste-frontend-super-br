@@ -108,6 +108,8 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
     feriados = ['01-01', '21-04', '01-05', '07-09', '12-10', '02-11', '15-11', '25-12'];
 
+    evento = false;
+
     @Input()
     blocoEdit = {
         blocoEditEspecie: false,
@@ -370,6 +372,19 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             distinctUntilChanged(),
             switchMap((value) => {
                     this.alteraDiasUteis();
+                    return of([]);
+                }
+            )
+        ).subscribe();
+
+        this.form.get('especieTarefa').valueChanges.pipe(
+            debounceTime(500),
+            distinctUntilChanged(),
+            switchMap((value) => {
+                    if (value) {
+                        this.evento = value.evento;
+                        this._changeDetectorRef.markForCheck();
+                    }
                     return of([]);
                 }
             )

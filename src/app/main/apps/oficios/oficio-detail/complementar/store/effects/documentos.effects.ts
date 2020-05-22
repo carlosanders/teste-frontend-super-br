@@ -1,18 +1,21 @@
-import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { Actions, Effect, ofType } from '@ngrx/effects';
-import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';
+import {Injectable} from '@angular/core';
+import {Observable, of} from 'rxjs';
+import {Actions, Effect, ofType} from '@ngrx/effects';
+import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as DocumentosActions from '../actions';
 
-import { AddData } from '@cdk/ngrx-normalizr';
-import { select, Store } from '@ngrx/store';
-import { getRouterState, State } from 'app/store/reducers';
-import { Documento, DocumentoAvulso } from '@cdk/models';
-import { DocumentoService } from '@cdk/services/documento.service';
-import { documento as documentoSchema } from '@cdk/normalizr/documento.schema';
-import { Router } from '@angular/router';
-import { environment } from 'environments/environment';
+import {AddData} from '@cdk/ngrx-normalizr';
+import {select, Store} from '@ngrx/store';
+import {getRouterState, State} from 'app/store/reducers';
+import {Assinatura, Documento, DocumentoAvulso} from '@cdk/models';
+import {DocumentoService} from '@cdk/services/documento.service';
+import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
+import {Router} from '@angular/router';
+import {environment} from 'environments/environment';
+import {assinatura as assinaturaSchema} from '@cdk/normalizr/assinatura.schema';
+import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
+import {AssinaturaService} from '@cdk/services/assinatura.service';
 
 @Injectable()
 export class DocumentosEffects {
@@ -22,6 +25,7 @@ export class DocumentosEffects {
     constructor(
         private _actions: Actions,
         private _documentoService: DocumentoService,
+        private _assinaturaService: AssinaturaService,
         private _router: Router,
         private _store: Store<State>
     ) {
@@ -125,7 +129,7 @@ export class DocumentosEffects {
             .pipe(
                 ofType<DocumentosActions.ClickedDocumento>(DocumentosActions.CLICKED_DOCUMENTO),
                 tap((action) => {
-                    this._router.navigate([this.routerState.url.replace(`detalhe/${this.routerState.params.documentoAvulsoHandle}/complementar/${this.routerState.params.chaveAcessoHandle}`,'documento/')
+                    this._router.navigate([this.routerState.url.replace(`detalhe/${this.routerState.params.documentoAvulsoHandle}/complementar/${this.routerState.params.chaveAcessoHandle}`, 'documento/')
                     + action.payload.componentesDigitais[0].id + '/visualizar/' + this.routerState.params.chaveAcessoHandle]);
                 })
             );
@@ -197,6 +201,34 @@ export class DocumentosEffects {
                             );
                     }
                 ));
+
+    /**
+     * Save Documento Assinatura Eletronica
+     * @type {Observable<any>}
+     */
+    @Effect()
+    assinaDocumentoEletronicamente: any =
+        this._actions
+            .pipe(
+                ofType<DocumentosActions.AssinaDocumentoEletronicamente>(DocumentosActions.ASSINA_DOCUMENTO_ELETRONICAMENTE),
+                switchMap((action) => {
+                    return this._assinaturaService.save(action.payload.assinatura, JSON.stringify({password: action.payload.password})).pipe(
+                        mergeMap((response: Assinatura) => [
+                            new DocumentosActions.AssinaDocumentoEletronicamenteSuccess(response),
+                            new AddData<Assinatura>({data: [response], schema: assinaturaSchema}),
+                            new OperacoesActions.Resultado({
+                                type: 'assinatura',
+                                content: `Assinatura id ${response.id} criada com sucesso!`,
+                                dateTime: response.criadoEm
+                            })
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            return of(new DocumentosActions.AssinaDocumentoEletronicamenteFailed(err));
+                        })
+                    );
+                })
+            );
 
     /**
      * Assina Documento Success

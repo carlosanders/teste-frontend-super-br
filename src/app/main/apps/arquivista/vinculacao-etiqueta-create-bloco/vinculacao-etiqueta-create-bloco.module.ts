@@ -24,6 +24,7 @@ import {VinculacaoEtiquetaCreateBlocoStoreModule} from './store/store.module';
 import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {CdkEtiquetaChipsModule} from '@cdk/components/etiqueta/cdk-etiqueta-chips/cdk-etiqueta-chips.module';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -31,6 +32,14 @@ const routes: Routes = [
         component: VinculacaoEtiquetaCreateBlocoComponent
     }
 ];
+
+const path = 'app/main/apps/arquivista/vinculacao-etiqueta-create-bloco';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [

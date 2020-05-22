@@ -134,7 +134,7 @@ export class EspecieTarefaEditEffects {
             .pipe(
                 ofType<EspecieTarefaEditActions.SaveEspecieTarefaSuccess>(EspecieTarefaEditActions.SAVE_ESPECIE_TAREFA_SUCCESS),
                 tap((action) => {
-                    this._router.navigate([this.routerState.url.replace(('criar'), action.payload.id)]).then();
+                    this._router.navigate([this.routerState.url.replace(('editar/criar'), 'listar')]).then();
                 })
             );
 

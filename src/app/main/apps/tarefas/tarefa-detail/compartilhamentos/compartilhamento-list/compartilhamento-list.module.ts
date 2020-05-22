@@ -21,6 +21,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {CompartilhamentoListStoreModule} from 'app/main/apps/tarefas/tarefa-detail/compartilhamentos/compartilhamento-list/store/store.module';
 import {CdkCompartilhamentoGridModule} from '@cdk/components/compartilhamento/cdk-compartilhamento-grid/cdk-compartilhamento-grid.module';
 import * as fromGuards from './store/guards';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -29,6 +30,14 @@ const routes: Routes = [
         canActivate: [fromGuards.ResolveGuard]
     }
 ];
+
+const path = 'app/main/apps/tarefas/tarefa-detail/compartilhamentos/compartilhamento-list';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [

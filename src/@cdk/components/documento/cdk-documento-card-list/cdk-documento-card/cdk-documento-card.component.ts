@@ -7,8 +7,11 @@ import {
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Documento, Usuario} from '@cdk/models';
+import {Documento} from '@cdk/models';
 import {LoginService} from '../../../../../app/main/auth/login/login.service';
+import {CdkAssinaturaEletronicaPluginComponent} from '../../../componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
+import {filter} from 'rxjs/operators';
+import {MatDialog} from '@cdk/angular/material';
 
 @Component({
     selector: 'cdk-documento-card',
@@ -64,6 +67,7 @@ export class CdkDocumentoCardComponent implements OnInit {
      */
     constructor(
         public _loginService: LoginService,
+        public dialog: MatDialog,
         private _changeDetectorRef: ChangeDetectorRef
     ) {
     }
@@ -92,7 +96,14 @@ export class CdkDocumentoCardComponent implements OnInit {
     }
 
     doAssinatura(documentoId): void {
-        this.assinatura.emit(documentoId);
+        const dialogRef = this.dialog.open(CdkAssinaturaEletronicaPluginComponent, {
+            width: '600px'
+        });
+
+        dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe(result => {
+            result.documento = this.documento;
+            this.assinatura.emit(result);
+        });
     }
 
     doRemoveAssinatura(documentoId): void {

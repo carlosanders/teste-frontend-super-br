@@ -20,6 +20,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {CdkProcessoGridModule} from '@cdk/components/processo/cdk-processo-grid/cdk-processo-grid.module';
 import {ProcessosComponent} from './processos.component';
 import {ProcessosStoreModule} from './store/store.module';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -27,6 +28,14 @@ const routes: Routes = [
         component: ProcessosComponent
     }
 ];
+
+const path = 'app/main/apps/pesquisa/processos';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [

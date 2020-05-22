@@ -6,6 +6,11 @@
 
         <div  fxLayout="column" >
 
+            <mat-checkbox formControlName="evento"
+                          class="mr-16 mb-16" fxFlex="0 1 auto">
+                Evento
+            </mat-checkbox>
+
             <mat-form-field fxFlex="100">
                 <mat-label>Nome</mat-label>
                 <input matInput #nome
@@ -28,7 +33,7 @@
 
             <mat-form-field fxFlex="100">
                 <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Gênero"
+                    <input matInput placeholder="Gênero Tarefa"
                            formControlName="generoTarefa"
                            [matAutocomplete]="generoTarefa.autocomplete">
                 </div>
@@ -69,10 +74,10 @@
     </form>
 </div>
 
-<cdk-especie-tarefa-gridsearch
+<cdk-genero-tarefa-gridsearch
     fxFlex="1 0 auto"
     *ngIf="activeCard === 'genero-tarefa-gridsearch'"
     [pagination]="generoTarefaPagination"
     (selected)="selectGeneroTarefa($event)"
     (cancel)="cancel()">
-</cdk-especie-tarefa-gridsearch>
+</cdk-genero-tarefa-gridsearch>

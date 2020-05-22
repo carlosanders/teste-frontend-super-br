@@ -30,6 +30,7 @@ import {ComponenteDigitalService} from '@cdk/services/componente-digital.service
 import {DocumentoService} from '@cdk/services/documento.service';
 import * as fromGuards from './store/guards';
 import {CdkDocumentoCardListModule} from '@cdk/components/documento/cdk-documento-card-list/cdk-documento-card-list.module';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -45,6 +46,14 @@ const routes: Routes = [
 
     }
 ];
+
+const path = 'app/main/apps/tarefas/tarefa-detail/atividades/atividade-create';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [
