@@ -81,6 +81,7 @@ export class CdkCoordenadorFormComponent implements OnChanges, OnInit, OnDestroy
         this.form = this._formBuilder.group({
             id: [null],
             tipo: [null],
+            usuario: [null],
             orgaoCentral: [null, [Validators.required]],
             unidade: [null, [Validators.required]],
             setor: [null, [Validators.required]],
