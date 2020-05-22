@@ -231,7 +231,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
      * @param step
      * @param ativo
      */
-    gotoCapaProcesso(): void {
+    goToCapaProcesso(): void {
         this._store.dispatch(new fromStore.GetCapaProcesso());
     }
 }

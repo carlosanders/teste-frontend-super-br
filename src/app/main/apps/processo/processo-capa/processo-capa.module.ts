@@ -21,6 +21,7 @@ import {CdkAssuntoGridModule} from '@cdk/components/assunto/cdk-assunto-grid/cdk
 import {CdkDocumentoGridModule} from '@cdk/components/documento/cdk-documento-grid/cdk-documento-grid.module';
 import {CdkInteressadoGridModule} from '@cdk/components/interessado/cdk-interessado-grid/cdk-interessado-grid.module';
 import {MatGridListModule} from '@angular/material/grid-list';
+import {CdkJuntadaGridModule} from '../../../../../@cdk/components/juntada/cdk-juntada-grid/cdk-juntada-grid.module';
 
 const routes: Routes = [
     {
@@ -56,6 +57,7 @@ const routes: Routes = [
         CdkDocumentoGridModule,
         CdkInteressadoGridModule,
         MatGridListModule,
+        CdkJuntadaGridModule,
     ],
     providers: [
         ProcessoService,

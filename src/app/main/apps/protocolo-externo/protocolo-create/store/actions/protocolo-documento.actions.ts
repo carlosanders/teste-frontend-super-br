@@ -19,6 +19,14 @@ export const ASSINA_DOCUMENTO_ELETRONICAMENTE = '[PROTOCOLO-DOCUMENTO] ASSINA DO
 export const ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS = '[PROTOCOLO-DOCUMENTO] ASSINA DOCUMENTO ELETRONICAMENTE SUCCESS';
 export const ASSINA_DOCUMENTO_ELETRONICAMENTE_FAILED = '[PROTOCOLO-DOCUMENTO] ASSINA DOCUMENTO ELETRONICAMENTE FAILED';
 
+export const REMOVE_ASSINATURA_DOCUMENTO = '[PROTOCOLO-DOCUMENTO] REMOVE ASSINATURA DOCUMENTO';
+export const REMOVE_ASSINATURA_DOCUMENTO_SUCCESS = '[PROTOCOLO-DOCUMENTO] REMOVE ASSINATURA DOCUMENTO SUCCESS';
+export const REMOVE_ASSINATURA_DOCUMENTO_FAILED = '[PROTOCOLO-DOCUMENTO] REMOVE ASSINATURA DOCUMENTO FAILED';
+
+export const CONVERTE_DOCUMENTO_ATIVIDADE = '[PROTOCOLO-DOCUMENTO] CONVERTE DOCUMENTO ATIVIDADE';
+export const CONVERTE_DOCUMENTO_SUCESS = '[PROTOCOLO-DOCUMENTO] CONVERTE DOCUMENTO ATIVIDADE SUCCESS';
+export const CONVERTE_DOCUMENTO_FAILED = '[PROTOCOLO-DOCUMENTO] CONVERTE DOCUMENTO ATIVIDADE FAILED';
+
 /**
  * Unload Documentos
  */
@@ -98,8 +106,6 @@ export class GetDocumentosFailed implements Action
     constructor(public payload: string)
     {
     }
-
-
 }
 
 /**
@@ -174,6 +180,73 @@ export class AssinaDocumentoEletronicamenteFailed implements Action
     }
 }
 
+/**
+ * Remove Assinatura Documento
+ */
+export class RemoveAssinaturaDocumento implements Action
+{
+    readonly type = REMOVE_ASSINATURA_DOCUMENTO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Remove Assinatura Documento Success
+ */
+export class RemoveAssinaturaDocumentoSuccess implements Action
+{
+    readonly type = REMOVE_ASSINATURA_DOCUMENTO_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Remove Assinatura Documento Failed
+ */
+export class RemoveAssinaturaDocumentoFailed implements Action
+{
+    readonly type = REMOVE_ASSINATURA_DOCUMENTO_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+
+/**
+ * Converte Documento
+ */
+export class ConverteToPdf implements Action
+{
+    readonly type = CONVERTE_DOCUMENTO_ATIVIDADE;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class ConverteToPdfSucess implements Action
+{
+    readonly type = CONVERTE_DOCUMENTO_SUCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class ConverteToPdfFailed implements Action
+{
+    readonly type = CONVERTE_DOCUMENTO_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 export type ProtocoloDocumentoActionsAll
     = EnviarDocumento
     | EnviarDocumentoSuccess
@@ -187,4 +260,10 @@ export type ProtocoloDocumentoActionsAll
     | AssinaDocumentoFailed
     | AssinaDocumentoEletronicamente
     | AssinaDocumentoEletronicamenteSuccess
-    | AssinaDocumentoEletronicamenteFailed;
+    | AssinaDocumentoEletronicamenteFailed
+    | RemoveAssinaturaDocumento
+    | RemoveAssinaturaDocumentoSuccess
+    | RemoveAssinaturaDocumentoFailed
+    | ConverteToPdf
+    | ConverteToPdfSucess
+    | ConverteToPdfFailed;

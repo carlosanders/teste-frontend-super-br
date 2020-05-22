@@ -227,7 +227,7 @@
                 </div>
 
                 <div class="card">
-                    <div class="content-card-grid">
+                    <div class="content-card">
                         <div fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
                             <fieldset>
                                 <legend>interessado(s)</legend>
@@ -259,10 +259,10 @@
                         <div fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
                             <fieldset>
                                 <legend>Documento(s)</legend>
-                                <cdk-documento-grid
-                                    [documentos]="[]"
-                                    [displayedColumns]="['id', 'dataHoraProducao', 'tipoDocumento.especieDocumento.nome']"
-                                    [total]="[].length"></cdk-documento-grid>
+                                <cdk-juntada-grid
+                                    [juntadas]="juntadas"
+                                    [displayedColumns]="['numeracaoSequencial', 'descricao', 'documento.componentesDigitais.extensao']"
+                                    [total]="juntadas.length"></cdk-juntada-grid>
                             </fieldset>
                         </div>
                     </div>

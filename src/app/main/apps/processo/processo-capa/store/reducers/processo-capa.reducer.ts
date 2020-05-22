@@ -1,4 +1,4 @@
-import * as ProcessoCapaActions from '../actions';
+import * as ProcessoCapaActions from '../actions/processo-capa.actions';
 
 export interface ProcessoCapaState {
     processoId: number;

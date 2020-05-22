@@ -36,6 +36,9 @@ import {DocumentoAvulsoMainSidebarComponent} from './sidebars/main/main-sidebar.
 import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
 import {CdkChaveAcessoPluginModule} from '@cdk/components/chave-acesso/cdk-chave-acesso-plugins/cdk-chave-acesso-plugin.module';
 import {modulesConfig} from 'modules/modules-config';
+import {AssuntoService} from '../../../../@cdk/services/assunto.service';
+import {InteressadoService} from '../../../../@cdk/services/interessado.service';
+import {DocumentoService} from '../../../../@cdk/services/documento.service';
 
 const routes: Routes = [
     {
@@ -120,7 +123,9 @@ modulesConfig.forEach((module) => {
         FolderService,
         ProcessoService,
         DocumentoAvulsoService,
-
+        AssuntoService,
+        InteressadoService,
+        DocumentoService,
         SetorService,
         UsuarioService,
         LoginService,

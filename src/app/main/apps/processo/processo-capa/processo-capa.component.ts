@@ -1,10 +1,8 @@
 import {
     ChangeDetectorRef,
     Component,
-    EventEmitter,
     OnDestroy,
     OnInit,
-    Output,
     QueryList,
     ViewChildren,
     ViewEncapsulation
@@ -15,11 +13,11 @@ import {cdkAnimations} from '@cdk/animations';
 import {CdkPerfectScrollbarDirective} from '@cdk/directives/cdk-perfect-scrollbar/cdk-perfect-scrollbar.directive';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 
-import {Processo} from '@cdk/models';
+import {Documento, Juntada, Processo} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {DomSanitizer} from '@angular/platform-browser';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {getRouterState} from '../../../../store/reducers';
 import {Location} from '@angular/common';
 
@@ -48,6 +46,9 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
     processo$: Observable<Processo>;
     processo: Processo;
 
+    juntadas$: Observable<Juntada[]>;
+    juntadas: Juntada[] = [];
+
     chaveAcesso: string;
 
     /**
@@ -68,6 +69,7 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
     ) {
         this.routerState$ = this._store.pipe(select(getRouterState));
         this.processo$ = this._store.pipe(select(fromStore.getProcesso));
+        this.juntadas$ = this._store.pipe(select(fromStore.getJuntadas));
     }
 
     ngOnInit(): void {
@@ -92,8 +94,16 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
             this.processo = processo;
         });
 
+        this.juntadas$.pipe(
+            takeUntil(this._unsubscribeAll),
+            filter(juntadas => !!juntadas)
+        ).subscribe( juntadas => {
+            this.juntadas = juntadas;
+        });
+
         this.doLoadAssuntos(this.processo);
         this.doLoadInteressados(this.processo);
+        this.doLoadJuntadas(this.processo);
     }
 
     ngOnDestroy(): void {
@@ -138,6 +148,31 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
         };
 
         this._store.dispatch(new fromStore.GetInteressadosProcesso({processoId: processo.id, params: params}));
+    }
+
+    doLoadJuntadas(processo): void {
+        this._store.dispatch(new fromStore.UnloadJuntadas({reset: true}));
+
+        const params = {
+            filter: {
+                'volume.processo.id': `eq:${processo.id}`,
+                'vinculada': 'eq:0'
+            },
+            sort: {'volume.numeracaoSequencial': 'DESC', 'numeracaoSequencial': 'DESC'},
+            limit: 10,
+            offset: 0,
+            populate: [
+                'documento',
+                'documento.tipoDocumento',
+                'documento.componentesDigitais',
+                'documento.vinculacoesDocumentos',
+                'documento.vinculacoesDocumentos.documentoVinculado',
+                'documento.vinculacoesDocumentos.documentoVinculado.tipoDocumento',
+                'documento.vinculacoesDocumentos.documentoVinculado.componentesDigitais'
+            ]
+        };
+
+        this._store.dispatch(new fromStore.GetJuntadas(params));
     }
 
     back(): void {

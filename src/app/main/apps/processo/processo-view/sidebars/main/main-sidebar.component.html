@@ -93,22 +93,20 @@
      [infiniteScrollThrottle]="50"
      (scrolled)="onScroll()">
 
-    <div class="juntada" matRipple
-         (click)="gotoCapaProcesso()"
-         [ngClass]="{'current': currentStep.step === -1, 'completed': currentStep.step > -1, 'last': 0, 'first': -1}">
+    <div class="juntada" matRipple *ngIf="!(isLoading$ | async)"
+         (click)="goToCapaProcesso()"
+         [ngClass]="{'current': currentStep.step === -1, 'completed': currentStep.step > -1, 'last': juntadas.length, 'first': -1}">
         <div class="index">
-            <span>{{ 0 }}</span>
+            <span>
+                <mat-icon>insert_drive_file</mat-icon>
+            </span>
         </div>
         <div fxFlex fxLayout="column">
             <div class="descricao">CAPA DO PROCESSO</div>
             <div class="criado-em">{{processo?.dataHoraAbertura | date: 'dd/MM/yyyy'}}</div>
             <div class="tipo-documento" fxLayout="row" fxLayoutAlign="start center">
                 <mat-icon class="s-14">picture_as_pdf</mat-icon>
-                <span class="ml-4"
-                      [ngClass]="{'current-tipo-documento': true}">{{processo?.especieProcesso.nome}}</span>
-                <mat-icon class="ml-4 s-24"
-                          *ngIf="index[currentStep.step][currentStep.subStep] === -1">arrow_left
-                </mat-icon>
+                <span class="ml-4" [ngClass]="{'current-tipo-documento': true}">{{processo?.especieProcesso.nome}}</span>
             </div>
         </div>
     </div>

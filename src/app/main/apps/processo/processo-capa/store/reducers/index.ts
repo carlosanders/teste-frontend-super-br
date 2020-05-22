@@ -1,22 +1,21 @@
 import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
 import { ProcessoCapaReducer, ProcessoCapaState } from './processo-capa.reducer';
+import {JuntadaReducer, JuntadaState} from './juntada.reducer';
 
 export interface ProcessoCapaAppState
 {
     processo: ProcessoCapaState;
+    juntadas: JuntadaState;
 }
 
 export const getProcessoCapaAppState = createFeatureSelector<ProcessoCapaAppState>(
     'processo-capa-app'
 );
 
-export const getAppState = createSelector(
-    getProcessoCapaAppState,
-    (state: ProcessoCapaAppState) => state
-);
-
 export const reducers: ActionReducerMap<ProcessoCapaAppState> = {
-    processo: ProcessoCapaReducer
+    processo: ProcessoCapaReducer,
+    juntadas: JuntadaReducer
 };
 
 export * from './processo-capa.reducer';
+export * from './juntada.reducer';
