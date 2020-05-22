@@ -197,7 +197,6 @@ export class CdkTemplateGridComponent implements AfterViewInit, OnInit, OnChange
         this.dataSource = new TemplateDataSource(of(this.templates));
 
         this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
-        debugger
 
         this.columns.valueChanges.pipe(
             debounceTime(300),
