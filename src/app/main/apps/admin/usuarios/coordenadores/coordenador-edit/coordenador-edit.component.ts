@@ -55,7 +55,6 @@ export class CoordenadorEditComponent implements OnInit, OnDestroy {
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.coordenador$ = this._store.pipe(select(fromStore.getCoordenador));
         this.usuario$ = this._store.pipe(select(fromStore.getUsuario));
-        this.usuario = this._loginService.getUserProfile();
 
         this._store
             .pipe(select(getRouterState))
@@ -89,6 +88,10 @@ export class CoordenadorEditComponent implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
 
+        this.usuario$.subscribe(
+            usuario => this.usuario = usuario
+        )
+
         this.coordenador$.subscribe(
             coordenador => this.coordenador = coordenador
         );
@@ -113,6 +116,7 @@ export class CoordenadorEditComponent implements OnInit, OnDestroy {
     }
 
     submit(values): void {
+        delete values.tipo;
 
         const coordenador = new Coordenador();
         Object.entries(values).forEach(
@@ -120,6 +124,8 @@ export class CoordenadorEditComponent implements OnInit, OnDestroy {
                 coordenador[key] = value;
             }
         );
+
+        coordenador.usuario = this.usuario;
 
         this._store.dispatch(new fromStore.SaveCoordenador(coordenador));
 
