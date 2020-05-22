@@ -44,6 +44,10 @@ const routes: Routes = [
                 loadChildren: () => import('./templates/templates.module').then(m => m.TemplatesModule)
             },
             {
+                path: 'assuntos',
+                loadChildren: () => import('./assunto-administrativo/assunto-administrativo.module').then(m => m.AssuntoAdministrativoModule)
+            },
+            {
                 path: '**',
                 redirectTo: 'tarefas'
             },
