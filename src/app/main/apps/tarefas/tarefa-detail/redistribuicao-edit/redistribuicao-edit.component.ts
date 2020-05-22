@@ -138,7 +138,14 @@ export class RedistribuicaoEditComponent implements OnInit, OnDestroy {
         this._store.dispatch(new fromStoreTarefas.UnloadTarefas({reset: false}));
 
         const nparams = {
-            ...this.pagination
+            ...this.pagination,
+            filter: {
+                ...this.pagination.filter
+            },
+            sort: this.pagination.sort,
+            limit: this.pagination.limit,
+            offset: this.pagination.offset,
+            populate: this.pagination.populate
         };
 
         this._store.dispatch(new fromStoreTarefas.GetTarefas(nparams));

@@ -13,8 +13,6 @@ import {DocumentoAvulso} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
-import {Documento} from '@cdk/models';
-import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
 import {DocumentoService} from '@cdk/services/documento.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {GetDocumentos} from '../../../../tarefas/tarefa-detail/atividades/atividade-create/store/actions';
@@ -48,14 +46,23 @@ export class DocumentoAvulsoCreateEffect {
         this._actions
             .pipe(
                 ofType<DocumentoAvulsoCreateActions.SaveDocumentoAvulso>(DocumentoAvulsoCreateActions.SAVE_DOCUMENTO_AVULSO),
-                switchMap((action) => {
+                mergeMap((action) => {
                     return this._documentoAvulsoService.save(action.payload).pipe(
                         tap((response) => {
                             this._store.dispatch(new GetDocumentos());
+                            if (action.payload.blocoProcessos || action.payload.blocoDestinatarios)
+                            {
+                                this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/'
+                                + this.routerState.params.typeHandle + '/' +
+                                this.routerState.params.targetHandle + '/tarefa/' + this.routerState.params.tarefaHandle +
+                                '/atividades/criar']).then();
+                            }
+                            else {
+                                this._store.dispatch(new DocumentoAvulsoCreateActions.GetDocumento(response.id))
+                            }
                         }),
                         mergeMap((response: DocumentoAvulso) => [
                             new DocumentoAvulsoCreateActions.SaveDocumentoAvulsoSuccess(),
-                            new DocumentoAvulsoCreateActions.GetDocumento(response.id),
                             new AddData<DocumentoAvulso>({data: [response], schema: documentoAvulsoSchema}),
                             new OperacoesActions.Resultado({
                                 type: 'documentoAvulso',

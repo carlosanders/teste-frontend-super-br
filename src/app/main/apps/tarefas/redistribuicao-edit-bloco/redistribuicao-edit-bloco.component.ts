@@ -17,8 +17,9 @@ import {LoginService} from 'app/main/auth/login/login.service';
 import {getSelectedTarefas} from '../store/selectors';
 import {getOperacoesState, getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
-import {filter, takeUntil} from 'rxjs/operators';
+import {filter, map, skip, takeUntil} from 'rxjs/operators';
 import * as fromStoreFavoritos from 'app/main/apps/tarefas/store';
+import * as fromStoreTarefas from 'app/main/apps/tarefas/store';
 
 @Component({
     selector: 'redistribuicao-edit-bloco',
@@ -45,6 +46,9 @@ export class RedistribuicaoEditBlocoComponent implements OnInit, OnDestroy {
 
     routerState: any;
 
+    pagination$: Observable<any>;
+    pagination: any;
+
     blocoEditDistribuicao = true;
     favoritos$: Observable<Favorito[]>;
 
@@ -65,7 +69,7 @@ export class RedistribuicaoEditBlocoComponent implements OnInit, OnDestroy {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this._profile = _loginService.getUserProfile().colaborador;
-
+        this.pagination$ = this._store.pipe(select(fromStoreTarefas.getPagination));
         this.favoritos$ = this._store.pipe(select(fromStoreFavoritos.getFavoritoList));
     }
 
@@ -79,18 +83,36 @@ export class RedistribuicaoEditBlocoComponent implements OnInit, OnDestroy {
         ).subscribe(tarefas => this.tarefas = tarefas);
 
         this._store
+            .pipe(select(getRouterState))
+            .subscribe(routerState => {
+                if (routerState) {
+                    this.routerState = routerState.state;
+                }
+            });
+
+        this.pagination$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(pagination => {
+            this.pagination = pagination;
+        });
+
+        this._store
             .pipe(
                 select(getOperacoesState),
+                skip(1),
                 takeUntil(this._unsubscribeAll),
                 filter(op => !!op && !!op.content && op.type === 'tarefa')
             )
             .subscribe(
                 operacao => {
-                    this.operacoes.push(operacao);
-                    this._changeDetectorRef.markForCheck();
+
+                    this.reloadTarefas();
+
+                    this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' +
+                    this.routerState.params.typeHandle + '/' +
+                    '/' + this.routerState.params.targetHandle]).then();
                 }
             );
-
         this._store
             .pipe(
                 select(getRouterState),
@@ -116,6 +138,25 @@ export class RedistribuicaoEditBlocoComponent implements OnInit, OnDestroy {
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
+    reloadTarefas(): void {
+
+        this._store.dispatch(new fromStoreTarefas.UnloadTarefas({reset: false}));
+
+        const nparams = {
+            ...this.pagination,
+            filter: {
+                ...this.pagination.filter
+            },
+            sort: this.pagination.sort,
+            limit: this.pagination.limit,
+            offset: this.pagination.offset,
+            populate: this.pagination.populate
+        };
+
+        this._store.dispatch(new fromStoreTarefas.GetTarefas(nparams));
+        this._store.dispatch(new fromStoreTarefas.ChangeSelectedTarefas([]));
+    }
+
     submit(values): void {
 
         this.operacoes = [];
@@ -123,24 +164,23 @@ export class RedistribuicaoEditBlocoComponent implements OnInit, OnDestroy {
         this.tarefas.forEach(tarefaBloco => {
             const tarefa = new Tarefa();
 
-            Object.entries(values).forEach(
+            Object.entries(tarefaBloco).forEach(
                 ([key, value]) => {
                     tarefa[key] = value;
                 }
             );
 
             tarefa.id = tarefaBloco.id;
-console.log(tarefa);
-            let changes = {};
+            tarefa.setorResponsavel = values.setorResponsavel;
 
-            if (this.blocoEditDistribuicao) {
-                changes = {
-                    setorResponsavel: tarefa.setorResponsavel,
-                    usuarioResponsavel: tarefa.usuarioResponsavel
-                };
+            if (values.usuarioResponsavel) {
+                tarefa.usuarioResponsavel = values.usuarioResponsavel;
+            } else {
+                tarefa.distribuicaoAutomatica = values.distribuicaoAutomatica;
+                tarefa.usuarioResponsavel = null;
             }
 
-            this._store.dispatch(new fromStore.SaveTarefa({tarefa: tarefa, changes: changes}));
+            this._store.dispatch(new fromStore.SaveTarefa({tarefa: tarefa}));
         });
     }
 

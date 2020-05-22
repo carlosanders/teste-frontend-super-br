@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Tarefa} from '@cdk/models';
+import {Pessoa, Tarefa} from '@cdk/models';
 import {EspecieTarefa} from '@cdk/models';
 import {Usuario} from '@cdk/models';
 import {Processo} from '@cdk/models';
@@ -160,7 +160,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         });
 
         this.processoPagination = new Pagination();
-        this.processoPagination.populate = ['setorAtual'];
+        this.processoPagination.populate = ['setorAtual','setorAtual.unidade'];
         this.especieTarefaPagination = new Pagination();
         this.unidadeResponsavelPagination = new Pagination();
         this.unidadeResponsavelPagination.filter = {parent: 'isNull'};
@@ -206,6 +206,10 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                         this.form.get('usuarioResponsavel').disable();
                     } else {
                         this.form.get('usuarioResponsavel').enable();
+                    }
+                    if(this.blocoResponsaveis)
+                    {
+                        this.blocoResponsaveis = [];
                     }
                     this._changeDetectorRef.markForCheck();
                     return of([]);
@@ -380,26 +384,30 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     alteraPrazoDias(): void {
+
         const dataHoraInicioPrazo = this.form.get('dataHoraInicioPrazo').value;
         const dataHoraFinalPrazo = this.form.get('dataHoraFinalPrazo').value;
-        let diffDays = dataHoraFinalPrazo.diff(dataHoraInicioPrazo, 'days');
 
-        if (this.form.get('diasUteis').value) {
-            const curDate = dataHoraInicioPrazo.clone();
-            const maxDate = dataHoraFinalPrazo.clone();
-            curDate.add(1, 'days');
-            while (curDate <= maxDate) {
-                const dayOfWeek = curDate.day();
-                if ((dayOfWeek === 6) || (dayOfWeek === 0) || (this.feriados.indexOf(curDate.format('DD-MM')) > -1)) {
-                    --diffDays;
-                    console.log ('descontando: ' + curDate.format('DD-MM') + ' - ' + diffDays);
-                }
+        if (dataHoraInicioPrazo || dataHoraFinalPrazo) {
+            let diffDays = dataHoraFinalPrazo.diff(dataHoraInicioPrazo, 'days');
+
+            if (this.form.get('diasUteis').value) {
+                const curDate = dataHoraInicioPrazo.clone();
+                const maxDate = dataHoraFinalPrazo.clone();
                 curDate.add(1, 'days');
+                while (curDate <= maxDate) {
+                    const dayOfWeek = curDate.day();
+                    if ((dayOfWeek === 6) || (dayOfWeek === 0) || (this.feriados.indexOf(curDate.format('DD-MM')) > -1)) {
+                        --diffDays;
+                        console.log('descontando: ' + curDate.format('DD-MM') + ' - ' + diffDays);
+                    }
+                    curDate.add(1, 'days');
+                }
             }
-        }
 
-        if (diffDays !== this.form.get('prazoDias').value) {
-            this.form.get('prazoDias').setValue(diffDays);
+            if (diffDays !== this.form.get('prazoDias').value) {
+                this.form.get('prazoDias').setValue(diffDays);
+            }
         }
     }
 
@@ -581,49 +589,81 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
     submit(): void {
         if (this.form.valid) {
-            if (this.form.get('blocoProcessos').value) {
-                this.form.get('processos').setValue(this.processos);
+
+            // caso usuario selecione Bloco de Processos
+            if (this.form.get('blocoProcessos').value && this.processos) {
+
                 this.processos.forEach(processo => {
                     let tarefa;
-                    if (this.form.get('blocoResponsaveis').value) {
+
+                    // caso tenha bloco de responsaveis
+                    if (this.form.get('blocoResponsaveis').value && this.blocoResponsaveis) {
+
+                        //para cada processo criamos uma tarefa para cada responsavel
                         this.blocoResponsaveis.forEach(responsavel => {
-                            tarefa = {
-                                ...this.form.value,
-                                processo: processo,
-                                setorResponsavel: responsavel.setor,
-                                usuarioResponsavel: responsavel.usuario
-                            };
+
+                            //caso seja distribuicao automatica manda somente o setorResponsavel
+                            if (this.form.get('distribuicaoAutomatica').value){
+                                tarefa = {
+                                    ...this.form.value,
+                                    processo: processo,
+                                    setorResponsavel: responsavel.setor
+                                };
+                            } else {
+                                tarefa = {
+                                    ...this.form.value,
+                                    processo: processo,
+                                    setorResponsavel: responsavel.setor,
+                                    usuarioResponsavel: responsavel.usuario
+                                };
+                            }
+                            this.save.emit(tarefa);
                         });
+
+                    } else {
+
+                        //caso seja apenas bloco de processos e um responsavel
+                        tarefa = {
+                            ...this.form.value,
+                            processo: processo
+                        };
+                        this.save.emit(tarefa);
+                    }
+                });
+
+            }
+
+            //caso tenha Bloco de Responsaveis sem Bloco de Processos
+            if (this.form.get('blocoResponsaveis').value &&
+                !this.form.get('blocoProcessos').value &&
+                this.blocoResponsaveis) {
+                let tarefa;
+
+                this.blocoResponsaveis.forEach(responsavel => {
+
+                    //caso seja distribuicao automatica manda somente o setorResponsavel
+                    if (this.form.get('distribuicaoAutomatica').value){
+                        tarefa = {
+                            ...this.form.value,
+                            setorResponsavel: responsavel.setor
+                        };
                     } else {
                         tarefa = {
                             ...this.form.value,
-                            processo: processo,
-                            setorResponsavel: this.form.get('setorResponsavel').value,
-                            usuarioResponsavel: this.form.get('usuarioResponsavel').value
-                        };
-                    }
-                    this.save.emit(tarefa);
-                });
-            } else {
-                let tarefa;
-                if (this.form.get('blocoResponsaveis').value) {
-                    this.blocoResponsaveis.forEach(responsavel => {
-                        tarefa = {
-                            ...this.form.value,
-                            processo: this.form.get('processo').value,
                             setorResponsavel: responsavel.setor,
                             usuarioResponsavel: responsavel.usuario
                         };
-                    });
-                } else {
-                    tarefa = {
-                        ...this.form.value,
-                        processo: this.form.get('processo').value,
-                        setorResponsavel: this.form.get('setorResponsavel').value,
-                        usuarioResponsavel: this.form.get('usuarioResponsavel').value
-                    };
-                }
-                this.save.emit(tarefa);
+                    }
+
+                    this.save.emit(tarefa);
+                });
+            }
+
+            // Por fim, cadastro normal, sem Bloco de Processos e Bloco de Responsaveis
+            if (!this.form.get('blocoResponsaveis').value &&
+                !this.form.get('blocoProcessos').value) {
+
+                this.save.emit(this.form.value);
             }
         }
     }
