@@ -5,6 +5,7 @@ import * as fromStore from 'app/store';
 import {Router} from '@angular/router';
 import {getRouterState} from 'app/store';
 import {takeUntil} from 'rxjs/operators';
+import {CdkSidebarService} from '../../../../../@cdk/components/sidebar/sidebar.service';
 
 @Component({
     selector: 'assunto-administrativo',
@@ -17,16 +18,31 @@ export class AssuntoAdministrativoComponent implements OnInit {
 
     action = '';
     routerState: any;
+    navLinks: any[];
+    activeLinkIndex = -1;
 
 
     constructor(
         private _store: Store<fromStore.State>,
         private _changeDetectorRef: ChangeDetectorRef,
+        private _cdkSidebarService: CdkSidebarService,
         private _router: Router
     ) {
+        this.navLinks = [
+            {
+                label: 'Lista',
+                link: './listar',
+                index: 0
+            }, {
+                label: 'Árvore',
+                link: './arvore',
+                index: 1
+            }
+        ];
     }
 
     ngOnInit(): void {
+
         this._store
             .pipe(
                 select(getRouterState),
@@ -46,6 +62,11 @@ export class AssuntoAdministrativoComponent implements OnInit {
                 this._changeDetectorRef.markForCheck();
             }
         });
+
+
+        this._router.events.subscribe((res) => {
+            this.activeLinkIndex = this.navLinks.indexOf(this.navLinks.find(tab => tab.link === '.' + this._router.url));
+        });
     }
 
 
@@ -63,5 +84,21 @@ export class AssuntoAdministrativoComponent implements OnInit {
         }
     }
 
+    /**
+     * Toggle the sidebar
+     *
+     * @param name
+     */
+    toggleSidebar(name): void {
+        this._cdkSidebarService.getSidebar(name).toggleOpen();
+    }
 
+
+    routeLista(): void {
+        this._router.navigate(['/apps/admin/assuntos/listar']).then();
+    }
+
+    routeTree(): void {
+        this._router.navigate(['/apps/admin/assuntos/arvore']).then();
+    }
 }

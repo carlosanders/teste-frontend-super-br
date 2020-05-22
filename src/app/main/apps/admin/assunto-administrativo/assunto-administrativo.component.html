@@ -1,8 +1,67 @@
-<div class="assunto-administrativo-content" fxFlex fxLayout="column">
+<!--<div class="assunto-administrativo-content page-layout left-sidebar">-->
 
-    <!-- CONTENT -->
+<!--    &lt;!&ndash; SIDEBAR &ndash;&gt;-->
+<!--    <cdk-sidebar-->
+<!--        class="sidebar"-->
+<!--        position="left"-->
+<!--        name="assunto-administrativo-main-sidebar"-->
+<!--        [lockedOpen]="routerState.url.indexOf('apps/admin/assuntos') > -1 ? 'gt-md' : 'gt-xl'"-->
+<!--        >-->
+
+<!--        &lt;!&ndash; SIDEBAR CONTENT &ndash;&gt;-->
+<!--        <div class="content" cdkPerfectScrollbar>-->
+<!--            <assunto-administrativo-main-sidebar [@animate]="{value:'*'}"></assunto-administrativo-main-sidebar>-->
+<!--        </div>-->
+<!--        &lt;!&ndash; / SIDEBAR CONTENT &ndash;&gt;-->
+
+<!--    </cdk-sidebar>-->
+
+<!--    &lt;!&ndash; CENTER &ndash;&gt;-->
+<!--    <div class="center" fxFlex>-->
+
+<!--        &lt;!&ndash; CONTENT HEADER &ndash;&gt;-->
+<!--        <div class="header" fxLayout="row" fxLayoutAlign="start center">-->
+<!--            <div class="sidebar-toggle">-->
+<!--                <button mat-icon-button-->
+<!--                        *ngIf="routerState.url.indexOf('apps/processo') > -1 && routerState.params.processoHandle && routerState.params.processoHandle !== 'criar'"-->
+<!--                        (click)="toggleSidebar('assunto-administrativo-main-sidebar')" fxHide.gt-md>-->
+<!--                    <mat-icon>menu</mat-icon>-->
+<!--                </button>-->
+
+<!--                <button mat-icon-button-->
+<!--                        *ngIf="routerState.url.indexOf('apps/processo') === -1 && routerState.params.processoHandle && routerState.params.processoHandle !== 'criar'"-->
+<!--                        (click)="toggleSidebar('assunto-administrativo-main-sidebar')" fxHide.gt-xl>-->
+<!--                    <mat-icon>menu</mat-icon>-->
+<!--                </button>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        &lt;!&ndash; / CONTENT HEADER &ndash;&gt;-->
+
+<!--        &lt;!&ndash; CONTENT CARD &ndash;&gt;-->
+<!--        <div class="content-card" fxFlex>-->
+<!--            <div class="content p-16" fxFlex="1 1 auto" cdkPerfectScrollbar>-->
+<!--                <router-outlet></router-outlet>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        &lt;!&ndash; / CONTENT CARD &ndash;&gt;-->
+
+<!--    </div>-->
+<!--    &lt;!&ndash; / CENTER &ndash;&gt;-->
+
+<!--</div>-->
+<div class="assunto-administrativo-content" fxFlex fxLayout="column">
+    <nav mat-tab-nav-bar>
+        <a mat-tab-link
+           *ngFor="let link of navLinks"
+           [routerLink]="link.link"
+           routerLinkActive #rla="routerLinkActive"
+           [active]="rla.isActive">
+            {{link.label}}
+        </a>
+    </nav>
     <div class="p-16" fxFlex="1 1 auto" cdkPerfectScrollbar>
         <router-outlet></router-outlet>
     </div>
-    <!-- / CONTENT -->
+
 </div>
+

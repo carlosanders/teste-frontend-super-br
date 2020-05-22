@@ -59,7 +59,7 @@ export class MainSidebarComponent implements OnInit, OnDestroy {
             },
             {
                 nome: 'Assuntos',
-                icon: 'new_releases',
+                icon: 'subject',
                 link: 'assuntos'
             }
         ];

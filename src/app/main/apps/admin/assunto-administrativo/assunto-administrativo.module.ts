@@ -17,6 +17,10 @@ import {
 } from '../../../../../@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 import {CdkSharedModule} from '../../../../../@cdk/shared.module';
+import {AssuntoAdministrativoMainSidebarComponent} from './sidebars/main/main-sidebar.component';
+import {MatRippleModule} from '@angular/material/core';
+import {CdkSidebarModule} from '../../../../../@cdk/components';
+import {MatTabsModule} from '@angular/material/tabs';
 
 const routes: Routes = [
     {
@@ -32,6 +36,10 @@ const routes: Routes = [
                 loadChildren: () => import('./assunto-administrativo-edit/assunto-administrativo-edit.module').then(m => m.AssuntoAdministrativoEditModule),
             },
             {
+                path: 'arvore',
+                loadChildren: () => import('./assunto-administrativo-tree-list/assunto-administrativo-tree-list.module').then(m => m.AssuntoAdministrativoTreeListModule),
+            },
+            {
                 path: '**',
                 redirectTo: 'listar'
             }
@@ -41,7 +49,10 @@ const routes: Routes = [
 
 
 @NgModule({
-    declarations: [AssuntoAdministrativoComponent],
+    declarations: [
+        AssuntoAdministrativoComponent,
+        AssuntoAdministrativoMainSidebarComponent
+    ],
     imports: [
         CommonModule,
         RouterModule.forChild(routes),
@@ -58,6 +69,9 @@ const routes: Routes = [
         MatSortModule,
         TranslateModule,
         CdkSharedModule,
+        MatRippleModule,
+        CdkSidebarModule,
+        MatTabsModule,
     ]
 })
 export class AssuntoAdministrativoModule {

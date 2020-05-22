@@ -128,7 +128,6 @@ export class CdkAssuntoAdministrativoFormComponent implements OnChanges, OnDestr
     }
 
     selectAssuntoAdministrativo(parent: AssuntoAdministrativo): void {
-        debugger
         if (parent) {
             this.form.get('parent').setValue(parent);
         }
