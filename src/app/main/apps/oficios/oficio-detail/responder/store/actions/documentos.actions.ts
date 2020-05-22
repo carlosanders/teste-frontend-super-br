@@ -21,8 +21,11 @@ export const ASSINA_DOCUMENTO = '[RESPONDER DOCUMENTOS] ASSINA DOCUMENTO';
 export const ASSINA_DOCUMENTO_SUCCESS = '[RESPONDER DOCUMENTOS] ASSINA DOCUMENTO SUCCESS';
 export const ASSINA_DOCUMENTO_FAILED = '[RESPONDER DOCUMENTOS] ASSINA DOCUMENTO FAILED';
 
-export const CHANGE_SELECTED_DOCUMENTOS = '[RESPONDER DOCUMENTOS] CHANGE SELECTED DOCUMENTOS';
+export const ASSINA_DOCUMENTO_ELETRONICAMENTE = '[RESPONDER DOCUMENTOS] ASSINA DOCUMENTO ELETRONICAMENTE';
+export const ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS = '[RESPONDER DOCUMENTOS] ASSINA DOCUMENTO ELETRONICAMENTE SUCCESS';
+export const ASSINA_DOCUMENTO_ELETRONICAMENTE_FAILED = '[RESPONDER DOCUMENTOS] ASSINA DOCUMENTO ELETRONICAMENTE FAILED';
 
+export const CHANGE_SELECTED_DOCUMENTOS = '[RESPONDER DOCUMENTOS] CHANGE SELECTED DOCUMENTOS';
 
 /**
  * Get Documentos
@@ -187,6 +190,42 @@ export class AssinaDocumentoFailed implements Action
 }
 
 /**
+ * Assina Documento Eletronicamente
+ */
+export class AssinaDocumentoEletronicamente implements Action
+{
+    readonly type = ASSINA_DOCUMENTO_ELETRONICAMENTE;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Assina Documento Eletronicamente Success
+ */
+export class AssinaDocumentoEletronicamenteSuccess implements Action
+{
+    readonly type = ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Assina Documento Eletronicamente Failed
+ */
+export class AssinaDocumentoEletronicamenteFailed implements Action
+{
+    readonly type = ASSINA_DOCUMENTO_ELETRONICAMENTE_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
  * Change Selected Documentos
  */
 export class ChangeSelectedDocumentos implements Action {
@@ -221,6 +260,9 @@ export type DocumentosActionsAll
     | AssinaDocumento
     | AssinaDocumentoSuccess
     | AssinaDocumentoFailed
+    | AssinaDocumentoEletronicamente
+    | AssinaDocumentoEletronicamenteSuccess
+    | AssinaDocumentoEletronicamenteFailed
     | DeleteDocumento
     | DeleteDocumentoSuccess
     | DeleteDocumentoFailed

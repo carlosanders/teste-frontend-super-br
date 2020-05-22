@@ -10,6 +10,7 @@ import {LembretesComponent} from './lembretes.component';
 
 import {LoginService} from '../../../auth/login/login.service';
 import {ProcessoService} from '@cdk/services/processo.service';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -17,6 +18,15 @@ const routes: Routes = [
         component: LembretesComponent,
     }
 ];
+
+const path = 'app/main/apps/arquivista/lembretes';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
+
 @NgModule({
     declarations: [
         LembretesComponent

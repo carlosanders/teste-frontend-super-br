@@ -1,6 +1,11 @@
 @import "../../../scss/cdk";
 
 cdk-tarefa-form {
+
+    [hidden] {
+        display: none !important;
+    }
+    
     height: 100%;
 
     form {

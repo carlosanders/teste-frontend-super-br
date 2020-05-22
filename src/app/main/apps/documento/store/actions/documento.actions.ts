@@ -14,6 +14,10 @@ export const SAVE_MODELO = '[DOCUMENTO] SAVE MODELO';
 export const SAVE_MODELO_SUCCESS = '[DOCUMENTO] SAVE MODELO SUCCESS';
 export const SAVE_MODELO_FAILED = '[DOCUMENTO] SAVE MODELO FAILED';
 
+export const SAVE_TEMPLATE = '[DOCUMENTO] SAVE TEMPLATE';
+export const SAVE_TEMPLATE_SUCCESS = '[DOCUMENTO] SAVE TEMPLATE SUCCESS';
+export const SAVE_TEMPLATE_FAILED = '[DOCUMENTO] SAVE TEMPLATE FAILED';
+
 export const SAVE_REPOSITORIO = '[DOCUMENTO] SAVE REPOSITORIO';
 export const SAVE_REPOSITORIO_SUCCESS = '[DOCUMENTO] SAVE REPOSITORIO SUCCESS';
 export const SAVE_REPOSITORIO_FAILED = '[DOCUMENTO] SAVE REPOSITORIO FAILED';
@@ -25,6 +29,10 @@ export const SET_CURRENT_STEP_FAILED = '[DOCUMENTO] SET CURRENT STEP FAILED';
 export const ASSINA_DOCUMENTO = '[DOCUMENTO] ASSINA DOCUMENTO';
 export const ASSINA_DOCUMENTO_SUCCESS = '[DOCUMENTO] ASSINA DOCUMENTO SUCCESS';
 export const ASSINA_DOCUMENTO_FAILED = '[DOCUMENTO] ASSINA DOCUMENTO FAILED';
+
+export const ASSINA_DOCUMENTO_ELETRONICAMENTE = '[DOCUMENTO] ASSINA DOCUMENTO ELETRONICAMENTE';
+export const ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS = '[DOCUMENTO] ASSINA DOCUMENTO ELETRONICAMENTE SUCCESS';
+export const ASSINA_DOCUMENTO_ELETRONICAMENTE_FAILED = '[DOCUMENTO] ASSINA DOCUMENTO ELETRONICAMENTE FAILED';
 
 /**
  * Get Documento
@@ -147,6 +155,42 @@ export class SaveModeloFailed implements Action
 }
 
 /**
+ * Save Template
+ */
+export class SaveTemplate implements Action
+{
+    readonly type = SAVE_TEMPLATE;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Save Template Success
+ */
+export class SaveTemplateSuccess implements Action
+{
+    readonly type = SAVE_TEMPLATE_SUCCESS;
+
+    constructor()
+    {
+    }
+}
+
+/**
+ * Save Template Failed
+ */
+export class SaveTemplateFailed implements Action
+{
+    readonly type = SAVE_TEMPLATE_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
  * Save Repositorio
  */
 export class SaveRepositorio implements Action
@@ -248,6 +292,42 @@ export class AssinaDocumentoFailed implements Action
     }
 }
 
+/**
+ * Assina Documento Eletronicamente
+ */
+export class AssinaDocumentoEletronicamente implements Action
+{
+    readonly type = ASSINA_DOCUMENTO_ELETRONICAMENTE;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Assina Documento Eletronicamente Success
+ */
+export class AssinaDocumentoEletronicamenteSuccess implements Action
+{
+    readonly type = ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Assina Documento Eletronicamente Failed
+ */
+export class AssinaDocumentoEletronicamenteFailed implements Action
+{
+    readonly type = ASSINA_DOCUMENTO_ELETRONICAMENTE_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 export type DocumentoActionsAll
     = GetDocumento
     | GetDocumentoSuccess
@@ -259,9 +339,15 @@ export type DocumentoActionsAll
     | AssinaDocumento
     | AssinaDocumentoSuccess
     | AssinaDocumentoFailed
+    | AssinaDocumentoEletronicamente
+    | AssinaDocumentoEletronicamenteSuccess
+    | AssinaDocumentoEletronicamenteFailed
     | SaveModelo
     | SaveModeloSuccess
     | SaveModeloFailed
+    | SaveTemplate
+    | SaveTemplateSuccess
+    | SaveTemplateFailed
     | SaveRepositorio
     | SaveRepositorioSuccess
     | SaveRepositorioFailed

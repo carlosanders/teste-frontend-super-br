@@ -42,6 +42,10 @@
             </div>
 
             <div [matTooltip]="'Tarefa Id ' + tarefa.id.toString()" class="body mt-4">
+                <div *ngIf="tarefa.especieTarefa?.evento">
+                    EVENTO
+                </div>
+
                 <div>
                     {{tarefa.especieTarefa?.nome}}
                 </div>

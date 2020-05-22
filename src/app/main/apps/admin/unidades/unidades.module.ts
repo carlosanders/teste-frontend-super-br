@@ -19,6 +19,7 @@ import {SetorService} from '@cdk/services/setor.service';
 import {RouterModule, Routes} from '@angular/router';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {UnidadesComponent} from './unidades.component';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -48,6 +49,14 @@ const routes: Routes = [
         ]
     }
 ];
+
+const path = 'app/main/apps/admin/unidades';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [

@@ -29,6 +29,7 @@ import * as fromGuards from './store/guards';
 import {LoginService} from '../../../../auth/login/login.service';
 import {UsuarioEditStoreModule} from './store/store.module';
 import {MatStepperModule} from '@angular/material/stepper';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -38,7 +39,14 @@ const routes: Routes = [
     }
 ];
 
-@NgModule({
+
+const path = 'app/main/apps/coordenador/usuarios/usuario-edit';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});@NgModule({
     declarations: [
         UsuarioEditComponent
     ],

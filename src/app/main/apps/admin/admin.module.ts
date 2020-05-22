@@ -8,6 +8,7 @@ import {CdkSidebarModule} from '@cdk/components';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {AdminComponent} from './admin.component';
 import {MainSidebarComponent} from './sidebars/main/main-sidebar.component';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -39,6 +40,10 @@ const routes: Routes = [
                 loadChildren: () => import('./tipo-documento/tipo-documento.module').then(m => m.TipoDocumentoModule)
             },
             {
+                path: 'templates',
+                loadChildren: () => import('./templates/templates.module').then(m => m.TemplatesModule)
+            },
+            {
                 path: 'assuntos',
                 loadChildren: () => import('./assunto-administrativo/assunto-administrativo.module').then(m => m.AssuntoAdministrativoModule)
             },
@@ -54,6 +59,13 @@ const routes: Routes = [
     }
 ];
 
+const path = 'app/main/apps/admin';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [

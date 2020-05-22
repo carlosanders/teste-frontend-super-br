@@ -40,6 +40,9 @@ export class CdkGeneroAtividadeGridsearchComponent implements OnInit {
 
     generoAtividades: GeneroAtividade[];
 
+    @Output()
+    create = new EventEmitter<any>();
+
     total = 0;
 
     loading: boolean;

@@ -12,6 +12,7 @@ import {ArquivistaMainSidebarComponent} from './sidebars/main/main-sidebar.compo
 import {CdkEtiquetaChipsModule} from '@cdk/components/etiqueta/cdk-etiqueta-chips/cdk-etiqueta-chips.module';
 import * as fromGuards from './arquivista-list/store/guards';
 import {ProcessoService} from '@cdk/services/processo.service';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -26,6 +27,13 @@ const routes: Routes = [
     }
 ];
 
+const path = 'app/main/apps/arquivista';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations   : [

@@ -6,6 +6,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {AtividadesComponent} from './atividades.component';
 import {RouterModule, Routes} from '@angular/router';
 import {MatButtonModule, MatIconModule, MatStepperModule, MatTooltipModule} from '@cdk/angular/material';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -27,6 +28,14 @@ const routes: Routes = [
         redirectTo: 'criar'
     }
 ];
+
+const path = 'app/main/apps/tarefas/tarefa-detail/atividades';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [

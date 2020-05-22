@@ -22,6 +22,7 @@ import {JuntadaListStoreModule} from 'app/main/apps/processo/processo-edit/junta
 import * as fromGuards from 'app/main/apps/processo/processo-edit/juntadas/juntada-list/store/guards';
 import {CdkJuntadaGridModule} from '@cdk/components/juntada/cdk-juntada-grid/cdk-juntada-grid.module';
 import {CdkComponenteDigitalCardListModule} from '@cdk/components/componente-digital/cdk-componente-digital-card-list/cdk-componente-digital-card-list.module';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -36,6 +37,14 @@ const routes: Routes = [
         canActivate: [fromGuards.ResolveGuard]
     }
 ];
+
+const path = 'app/main/apps/processo/processo-edit/juntadas/juntada-list';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [

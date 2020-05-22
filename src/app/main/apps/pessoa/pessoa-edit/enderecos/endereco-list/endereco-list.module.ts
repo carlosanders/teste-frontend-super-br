@@ -21,6 +21,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {EnderecoListStoreModule} from 'app/main/apps/pessoa/pessoa-edit/enderecos/endereco-list/store/store.module';
 import * as fromGuards from 'app/main/apps/pessoa/pessoa-edit/enderecos/endereco-list/store/guards';
 import {CdkEnderecoGridModule} from '@cdk/components/endereco/cdk-endereco-grid/cdk-endereco-grid.module';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -29,6 +30,14 @@ const routes: Routes = [
         canActivate: [fromGuards.ResolveGuard]
     }
 ];
+
+const path = 'app/main/apps/pessoa/pessoa-edit/enderecos/endereco-list';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [

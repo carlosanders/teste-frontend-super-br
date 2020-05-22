@@ -27,7 +27,7 @@ import {EspecieRelevanciaEditStoreModule} from './store/store.module';
 import {EspecieRelevanciaService} from '@cdk/services/especie-relevancia.service';
 import {ColaboradorService} from '@cdk/services/colaborador.service';
 import {CdkEspecieRelevanciaFormModule} from '@cdk/components/especie-relevancia/cdk-especie-relevancia-form/cdk-especie-relevancia-form.module';
-
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -37,6 +37,13 @@ const routes: Routes = [
     }
 ];
 
+const path = 'app/main/apps/admin/especie-relevancia/especie-relevancia-edit';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [EspecieRelevanciaEditComponent],

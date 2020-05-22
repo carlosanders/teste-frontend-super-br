@@ -82,7 +82,8 @@ export class ProcessoMainSidebarComponent implements OnInit, OnDestroy {
             takeUntil(this._unsubscribeAll)
         ).subscribe(processo => {
             this.processo = processo;
-            switch (this.processo.unidadeArquivistica) {
+            this.label = 'Protocolo';
+            switch (this.processo?.unidadeArquivistica) {
                 case 1:
                     this.label = 'Processo';
                     break;
@@ -94,9 +95,6 @@ export class ProcessoMainSidebarComponent implements OnInit, OnDestroy {
                     break;
                 default:
                     this.label = 'Protocolo';
-            }
-            if (!this.processo.id) {
-                this.label = 'Protocolo';
             }
         });
 
