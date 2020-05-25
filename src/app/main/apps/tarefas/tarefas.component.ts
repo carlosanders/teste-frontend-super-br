@@ -206,7 +206,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             }
         });
 
-        this.PesquisaTarefa = 'tarefa';//IDEIA INICIAL AJUDA ABA TAREFAS
+        this.PesquisaTarefa = 'tarefa';
     }
 
     ngAfterViewInit(): void {
@@ -363,6 +363,10 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + tarefaId + '/editar']).then();
     }
 
+    doRedistribuirTarefa(tarefaId): void {
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + tarefaId + '/redistribuicao']).then();
+    }
+
     doCompartilhar(tarefaId): void {
         this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + tarefaId + '/compartilhamentos/listar']).then();
     }
@@ -381,6 +385,10 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     doEditTarefaBloco(): void {
         this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa-edit-bloco']).then();
+    }
+
+    doRedistribuiTarefaBloco(): void {
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/redistribuicao-edit-bloco']).then();
     }
 
     doCreateTarefaBloco(): void {

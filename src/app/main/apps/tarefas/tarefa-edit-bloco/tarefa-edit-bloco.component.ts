@@ -9,7 +9,7 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {Tarefa} from '@cdk/models';
+import {Favorito, Tarefa} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
@@ -19,6 +19,7 @@ import {getOperacoesState, getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {filter, takeUntil} from 'rxjs/operators';
 import * as moment from 'moment';
+import * as fromStoreFavoritos from 'app/main/apps/tarefas/store';
 
 @Component({
     selector: 'tarefa-edit-bloco',
@@ -52,6 +53,8 @@ export class TarefaEditBlocoComponent implements OnInit, OnDestroy {
     blocoEditDistribuicao = false;
     blocoEditObservacao = false;
 
+    favoritos$: Observable<Favorito[]>;
+
     /**
      *
      * @param _store
@@ -70,6 +73,7 @@ export class TarefaEditBlocoComponent implements OnInit, OnDestroy {
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this._profile = _loginService.getUserProfile().colaborador;
 
+        this.favoritos$ = this._store.pipe(select(fromStoreFavoritos.getFavoritoList));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -140,14 +144,14 @@ export class TarefaEditBlocoComponent implements OnInit, OnDestroy {
 
             if (this.blocoEditEspecie) {
                 changes = {
-                    especieTarefa: tarefa.especieTarefa
+                    especieTarefa: tarefa.especieTarefa.id
                 };
             }
 
             if (this.blocoEditDistribuicao) {
                 changes = {
-                    setorResponsavel: tarefa.setorResponsavel,
-                    usuarioResponsavel: tarefa.usuarioResponsavel
+                    setorResponsavel: tarefa.setorResponsavel.id,
+                    usuarioResponsavel: tarefa.usuarioResponsavel.id
                 };
             }
 
@@ -177,5 +181,18 @@ export class TarefaEditBlocoComponent implements OnInit, OnDestroy {
 
             this._store.dispatch(new fromStore.SaveTarefa({tarefa: tarefa, changes: changes}));
         });
+    }
+
+    getFavoritos (value): void {
+
+        this._store.dispatch(new fromStoreFavoritos.GetFavoritos({
+            'filter':
+                {
+                    'usuario.id': `eq:${this._loginService.getUserProfile().id}`,
+                    'objectClass': `eq:SuppCore\\AdministrativoBackend\\Entity\\` + value
+                },
+            'limit': 5,
+            'sort': {prioritario:'DESC', qtdUso: 'DESC'}
+        }));
     }
 }

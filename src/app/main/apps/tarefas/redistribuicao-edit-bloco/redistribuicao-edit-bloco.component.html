@@ -1,0 +1,30 @@
+<!-- CONTENT -->
+<div class="content p-16" fxLayout="column" fxFlex="100">
+
+    <h2>Redistribuição de tarefas em bloco</h2>
+
+    <h3>{{(tarefas$ | async)?.length}} tarefa(s) selecionada(s) </h3>
+
+    <cdk-tarefa-form
+            [tarefa]="tarefa"
+            [valid]="(tarefas$ | async)?.length > 0 && (blocoEditDistribuicao)"
+            [saving]="(isSaving$ | async)"
+            [mode]="'bloco-edit'"
+            [blocoEdit]="{blocoEditDistribuicao: blocoEditDistribuicao}"
+            (save)="submit($event)"
+            (favorito)="getFavoritos($event)"
+            [favoritosList]="(favoritos$ | async)">
+    </cdk-tarefa-form>
+
+    <mat-list *ngIf="operacoes.length > 0" fxFlex>
+        <h3 matSubheader>
+            <span>Resultado do Bloco</span>
+        </h3>
+
+        <mat-list-item *ngFor="let operacao of operacoes">
+            <p matLine class="mb-4 p-8 secondary-text"
+               [ngClass]="{'light-green-50': operacao.success, 'pink-50': !operacao.success}">{{operacao.content}}</p>
+        </mat-list-item>
+    </mat-list>
+
+</div>

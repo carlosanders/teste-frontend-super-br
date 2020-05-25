@@ -78,6 +78,9 @@ export class CdkTarefaListComponent {
     editTarefa = new EventEmitter<number>();
 
     @Output()
+    redistribuirTarefa = new EventEmitter<number>();
+
+    @Output()
     toggleUrgente = new EventEmitter<Tarefa>();
 
     @Output()
@@ -91,6 +94,9 @@ export class CdkTarefaListComponent {
 
     @Output()
     editTarefaBloco = new EventEmitter<any>();
+
+    @Output()
+    editRedistribuirBloco = new EventEmitter<any>();
 
     @Output()
     movimentarBloco = new EventEmitter<any>();
@@ -257,8 +263,16 @@ export class CdkTarefaListComponent {
         this.editTarefa.emit(tarefaId);
     }
 
+    doRedistribuirTarefa(tarefaId): void {
+        this.redistribuirTarefa.emit(tarefaId);
+    }
+
     doEditTarefaBloco(): void {
         this.editTarefaBloco.emit();
+    }
+
+    doRedistribuirBloco(): void {
+        this.editRedistribuirBloco.emit();
     }
 
     doEditProcesso(params): void {

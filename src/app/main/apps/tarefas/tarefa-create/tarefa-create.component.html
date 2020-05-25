@@ -8,6 +8,8 @@
             [setorResponsavelPagination]="setorResponsavelPagination"
             (save)="submit($event)"
             (processo)="verificaVisibilidadeProcesso($event)"
+            (favorito)="getFavoritos($event)"
+            [favoritosList]="(favoritos$ | async)"
             >
     </cdk-tarefa-form>
 </div>

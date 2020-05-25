@@ -9,7 +9,7 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {Tarefa, Colaborador} from '@cdk/models';
+import {Tarefa, Colaborador, Favorito} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
@@ -19,6 +19,7 @@ import {getOperacoesState, getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {filter, takeUntil} from 'rxjs/operators';
 import * as moment from 'moment';
+import * as fromStoreFavoritos from 'app/main/apps/tarefas/store';
 
 @Component({
     selector: 'tarefa-create',
@@ -45,6 +46,8 @@ export class TarefaCreateBlocoComponent implements OnInit, OnDestroy {
 
     routerState: any;
 
+    favoritos$: Observable<Favorito[]>;
+
     /**
      *
      * @param _store
@@ -62,7 +65,7 @@ export class TarefaCreateBlocoComponent implements OnInit, OnDestroy {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this._profile = _loginService.getUserProfile().colaborador;
-
+        this.favoritos$ = this._store.pipe(select(fromStoreFavoritos.getFavoritoList));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -132,5 +135,18 @@ export class TarefaCreateBlocoComponent implements OnInit, OnDestroy {
 
             this._store.dispatch(new fromStore.SaveTarefa(tarefa));
         });
+    }
+
+    getFavoritos (value): void {
+
+        this._store.dispatch(new fromStoreFavoritos.GetFavoritos({
+            'filter':
+                {
+                    'usuario.id': `eq:${this._loginService.getUserProfile().id}`,
+                    'objectClass': `eq:SuppCore\\AdministrativoBackend\\Entity\\` + value
+                },
+            'limit': 5,
+            'sort': {prioritario:'DESC', qtdUso: 'DESC'}
+        }));
     }
 }

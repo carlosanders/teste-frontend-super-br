@@ -2,15 +2,15 @@ import {
     ChangeDetectionStrategy, ChangeDetectorRef,
     Component,
     OnDestroy,
-    OnInit, 
-    ViewChild,
+    OnInit,
+    ViewChild, ViewContainerRef,
     ViewEncapsulation
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {Assinatura, Atividade} from '@cdk/models';
+import {Assinatura, Atividade, Favorito} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as moment from 'moment';
 
@@ -26,6 +26,8 @@ import {Colaborador} from '@cdk/models';
 import {UpdateData} from '@cdk/ngrx-normalizr';
 import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
 import {Back} from '../../../../../../store/actions';
+import {modulesConfig} from "../../../../../../../modules/modules-config";
+import {DynamicService} from "../../../../../../../modules/dynamic.service";
 
 
 @Component({
@@ -67,17 +69,24 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy {
     @ViewChild('ckdUpload', {static: false})
     cdkUpload;
 
+    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
+    container: ViewContainerRef;
+
+    favoritos$: Observable<Favorito[]>;
+
     /**
      * @param _store
      * @param _loginService
      * @param _router
      * @param _changeDetectorRef
+     * @param _dynamicService
      */
     constructor(
         private _store: Store<fromStore.AtividadeCreateAppState>,
         public _loginService: LoginService,
         private _router: Router,
-        private _changeDetectorRef: ChangeDetectorRef
+        private _changeDetectorRef: ChangeDetectorRef,
+        private _dynamicService: DynamicService
     ) {
         this.tarefa$ = this._store.pipe(select(getTarefa));
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
@@ -90,6 +99,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy {
         this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
         this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(fromStore.getRemovendoAssinaturaDocumentosId));
         this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoDocumentosId));
+        this.favoritos$ = this._store.pipe(select(fromStore.getFavoritoList));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -179,6 +189,18 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy {
                 }, 30000);
             }
             this.assinandoDocumentosId = assinandoDocumentosId;
+        });
+    }
+
+    ngAfterViewInit(): void {
+        const path = 'app/main/apps/tarefas/tarefa-detail/atividades/atividade-create';
+        modulesConfig.forEach((module) => {
+            if (module.components.hasOwnProperty(path)) {
+                module.components[path].forEach((c => {
+                    this._dynamicService.loadComponent(c)
+                        .then(componentFactory => this.container.createComponent(componentFactory));
+                }));
+            }
         });
     }
 
@@ -274,5 +296,18 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy {
 
     doAbort(): void {
         this._store.dispatch(new Back());
+    }
+
+    getFavoritos (value): void {
+
+        this._store.dispatch(new fromStore.GetFavoritos({
+            'filter':
+                {
+                    'usuario.id': `eq:${this._loginService.getUserProfile().id}`,
+                    'objectClass': `eq:SuppCore\\AdministrativoBackend\\Entity\\` + value
+                },
+            'limit': 5,
+            'sort': {prioritario:'DESC', qtdUso: 'DESC'}
+        }));
     }
 }

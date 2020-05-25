@@ -9,7 +9,7 @@ import {
 import {Tarefa} from '@cdk/models';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable, Subject, of} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {Etiqueta} from '@cdk/models';

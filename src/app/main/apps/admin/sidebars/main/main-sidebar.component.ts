@@ -3,6 +3,7 @@ import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation
 import {cdkAnimations} from '@cdk/animations';
 import {Colaborador} from '@cdk/models';
 import {LoginService} from '../../../../auth/login/login.service';
+import {modulesConfig} from "../../../../../../modules/modules-config";
 
 
 @Component({
@@ -23,7 +24,6 @@ export class MainSidebarComponent implements OnInit, OnDestroy {
     constructor(
         public _loginService: LoginService
     ) {
-
         this.colaborador = this._loginService.getUserProfile().colaborador;
 
         this.links = [
@@ -73,6 +73,14 @@ export class MainSidebarComponent implements OnInit, OnDestroy {
                 link: 'templates'
             }
         ];
+
+        const path = 'app/main/apps/admin/sidebars/main';
+
+        modulesConfig.forEach((module) => {
+            if (module.sidebars.hasOwnProperty(path)) {
+                module.sidebars[path].forEach((s => this.links.push(s)));
+            }
+        });
     }
 
     // -----------------------------------------------------------------------------------------------------
