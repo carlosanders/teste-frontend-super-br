@@ -28,8 +28,6 @@ export class TipoDocumentoEditComponent implements OnInit {
     formTipoDocumento: FormGroup;
     especieDocumentoPagination: Pagination;
 
-
-
     constructor(
         private _store: Store<fromStore.TipoDocumentoEditAppState>,
         private _router: Router,
