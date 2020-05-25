@@ -61,7 +61,8 @@ export class UnidadeEditEffects {
                         JSON.stringify({}),
                         JSON.stringify([
                             'populateAll'
-                        ]));
+                        ]),
+                        JSON.stringify({"isAdmin": true}));
                 }),
                 switchMap(response => [
                     new AddData<Setor>({data: response['entities'], schema: setorSchema}),

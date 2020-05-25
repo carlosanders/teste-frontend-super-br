@@ -61,7 +61,8 @@ export class CompetenciaEditEffects {
                         JSON.stringify({}),
                         JSON.stringify([
                             'populateAll'
-                        ]));
+                        ]),
+                        JSON.stringify({"isAdmin": true}));
                 }),
                 switchMap(response => [
                     new AddData<VinculacaoSetorMunicipio>({data: response['entities'], schema: vinculacaoSetorMunicipioSchema}),
