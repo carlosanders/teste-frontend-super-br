@@ -2,7 +2,7 @@ import {
     ChangeDetectionStrategy,
     Component,
     OnDestroy,
-    OnInit, ViewChild,
+    OnInit, ViewChild, ViewContainerRef,
     ViewEncapsulation
 } from '@angular/core';
 
@@ -29,6 +29,8 @@ import {LoginService} from '../../../auth/login/login.service';
 import {Sigilo} from '@cdk/models';
 import {Assinatura} from '@cdk/models';
 import {Usuario} from '@cdk/models';
+import {DynamicService} from "../../../../../modules/dynamic.service";
+import {modulesConfig} from "../../../../../modules/modules-config";
 
 @Component({
     selector: 'documento-edit',
@@ -75,6 +77,9 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
 
     @ViewChild('ckdUpload', {static: false})
     cdkUpload;
+
+    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
+    container: ViewContainerRef;
 
     routerState: any;
 
@@ -125,6 +130,7 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
      * @param _repositorioService
      * @param _sanitizer
      * @param _loginService
+     * @param _dynamicService
      */
     constructor(
         private _store: Store<fromStore.DocumentoAppState>,
@@ -132,7 +138,8 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
         private _router: Router,
         private _repositorioService: RepositorioService,
         private _sanitizer: DomSanitizer,
-        public _loginService: LoginService
+        public _loginService: LoginService,
+        private _dynamicService: DynamicService
     ) {
         this.documento$ = this._store.pipe(select(fromStore.getDocumento));
         this.componenteDigital$ = this._store.pipe(select(fromStore.getComponenteDigital));
@@ -321,6 +328,18 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
         if (!this._loginService.isGranted('ROLE_COLABORADOR')) {
             this.activeCard = 'anexos';
         }
+    }
+
+    ngAfterViewInit(): void {
+        const path = 'app/main/apps/documento/documento-edit';
+        modulesConfig.forEach((module) => {
+            if (module.components.hasOwnProperty(path)) {
+                module.components[path].forEach((c => {
+                    this._dynamicService.loadComponent(c)
+                        .then(componentFactory => this.container.createComponent(componentFactory));
+                }));
+            }
+        });
     }
 
     b64DecodeUnicode(str): any {

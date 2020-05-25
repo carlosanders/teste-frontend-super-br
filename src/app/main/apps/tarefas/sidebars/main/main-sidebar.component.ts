@@ -10,6 +10,7 @@ import {getRouterState} from 'app/store/reducers';
 import {takeUntil} from 'rxjs/operators';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Lotacao, Setor, Usuario, VinculacaoUsuario} from '@cdk/models';
+import {modulesConfig} from "../../../../../../modules/modules-config";
 
 @Component({
     selector: 'tarefas-main-sidebar',
@@ -26,6 +27,8 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
     folders$: Observable<Folder[]>;
 
     mode = 'Tarefas';
+
+    links: any;
 
     routerState: any;
 
@@ -48,6 +51,13 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
         public _loginService: LoginService
     ) {
         this.folders$ = this._store.pipe(select(fromStore.getFolders));
+        const path = 'app/main/apps/tarefas/sidebars/main';
+
+        modulesConfig.forEach((module) => {
+            if (module.sidebars.hasOwnProperty(path)) {
+                module.sidebars[path].forEach((s => this.links.push(s)));
+            }
+        });
     }
 
     /**

@@ -19,6 +19,7 @@ import {filter} from 'rxjs/operators';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {Router} from '@angular/router';
 import {getRouterState} from '../../../../../../store/reducers';
+import {modulesConfig} from "../../../../../../../modules/modules-config";
 
 @Component({
     selector: 'processo-view-main-sidebar',
@@ -61,6 +62,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
     volumePaginaton: Pagination;
 
     routerState: any;
+
+    links: any;
 
     /**
      * @param _juntadaService
@@ -123,6 +126,14 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
                 this.routerState = routerState.state;
                 this.volumePaginaton = new Pagination();
                 this.volumePaginaton.filter = {'processo.id': 'eq:' + this.routerState.params.processoHandle};
+            }
+        });
+
+        const path = 'app/main/apps/processo/processo-view/sidebars/main';
+
+        modulesConfig.forEach((module) => {
+            if (module.sidebars.hasOwnProperty(path)) {
+                module.sidebars[path].forEach((s => this.links.push(s)));
             }
         });
     }

@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Observable, Subject} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from '../../store';
+import {modulesConfig} from "../../../../../../../modules/modules-config";
 
 @Component({
     selector: 'favorito-edit-main-sidebar',
@@ -22,7 +23,13 @@ export class FavoritoEditMainSidebarComponent implements OnInit, OnDestroy {
     constructor(
         private _store: Store<fromStore.FavoritoEditAppState>,
     ) {
+        const path = 'app/main/apps/configuracoes/favoritos/sidebars/main';
 
+        modulesConfig.forEach((module) => {
+            if (module.sidebars.hasOwnProperty(path)) {
+                module.sidebars[path].forEach((s => this.links.push(s)));
+            }
+        });
     }
 
     // -----------------------------------------------------------------------------------------------------

@@ -2,7 +2,7 @@ import {
     ChangeDetectionStrategy,
     Component,
     OnDestroy,
-    OnInit, ViewChild,
+    OnInit, ViewChild, ViewContainerRef,
     ViewEncapsulation
 } from '@angular/core';
 
@@ -14,6 +14,8 @@ import {select, Store} from '@ngrx/store';
 import {Location} from '@angular/common';
 import {getMercureState} from 'app/store/reducers';
 import {Modelo} from '@cdk/models';
+import {DynamicService} from "../../../../../modules/dynamic.service";
+import {modulesConfig} from "../../../../../modules/modules-config";
 
 @Component({
     selector: 'modelo-edit',
@@ -43,13 +45,18 @@ export class ModeloEditComponent implements OnInit, OnDestroy {
     @ViewChild('ckdUpload', {static: false})
     cdkUpload;
 
+    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
+    container: ViewContainerRef;
+
     /**
      * @param _store
      * @param _location
+     * @param _dynamicService
      */
     constructor(
         private _store: Store<fromStore.DocumentoAppState>,
-        private _location: Location
+        private _location: Location,
+        private _dynamicService: DynamicService
     ) {
         this.documento$ = this._store.pipe(select(fromStore.getDocumento));
         this.documentosVinculados$ = this._store.pipe(select(fromStore.getDocumentosVinculados));
@@ -114,6 +121,18 @@ export class ModeloEditComponent implements OnInit, OnDestroy {
            } else {
                this.activeCard = 'anexos';
            }
+        });
+    }
+
+    ngAfterViewInit(): void {
+        const path = 'app/main/apps/documento/modelo-edit';
+        modulesConfig.forEach((module) => {
+            if (module.components.hasOwnProperty(path)) {
+                module.components[path].forEach((c => {
+                    this._dynamicService.loadComponent(c)
+                        .then(componentFactory => this.container.createComponent(componentFactory));
+                }));
+            }
         });
     }
 

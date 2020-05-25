@@ -74,7 +74,7 @@ export class ProcessoEditMainSidebarComponent implements OnInit, OnDestroy {
                 link: 'vinculacoes-processos',
                 role: 'ROLE_COLABORADOR'
             },
-            {
+            { 
                 nome: 'Relevâncias',
                 link: 'relevancias',
                 role: 'ROLE_COLABORADOR'

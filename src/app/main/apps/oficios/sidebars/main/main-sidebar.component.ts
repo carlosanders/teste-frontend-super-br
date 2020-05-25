@@ -6,14 +6,15 @@ import {
     ViewEncapsulation,
     Input
 } from '@angular/core';
-import { select, Store } from '@ngrx/store';
-import { Observable, Subject } from 'rxjs';
+import {select, Store} from '@ngrx/store';
+import {Subject} from 'rxjs';
 
-import { cdkAnimations } from '@cdk/animations';
+import {cdkAnimations} from '@cdk/animations';
 
 import * as fromStore from 'app/main/apps/oficios/store';
-import { getRouterState } from 'app/store/reducers';
-import { takeUntil } from 'rxjs/operators';
+import {getRouterState} from 'app/store/reducers';
+import {takeUntil} from 'rxjs/operators';
+import {modulesConfig} from "../../../../../../modules/modules-config";
 
 @Component({
     selector: 'documento-avulso-main-sidebar',
@@ -26,6 +27,8 @@ import { takeUntil } from 'rxjs/operators';
 export class DocumentoAvulsoMainSidebarComponent implements OnInit, OnDestroy {
 
     private _unsubscribeAll: Subject<any> = new Subject();
+
+    links: any;
 
     mode = 'entrada';
 
@@ -43,6 +46,13 @@ export class DocumentoAvulsoMainSidebarComponent implements OnInit, OnDestroy {
         private _store: Store<fromStore.DocumentoAvulsoAppState>,
         private _changeDetectorRef: ChangeDetectorRef,
     ) {
+        const path = 'app/main/apps/oficios/sidebars/main';
+
+        modulesConfig.forEach((module) => {
+            if (module.sidebars.hasOwnProperty(path)) {
+                module.sidebars[path].forEach((s => this.links.push(s)));
+            }
+        });
     }
 
     /**
