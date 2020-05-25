@@ -1,6 +1,7 @@
 import {ChangeDetectionStrategy, Component, ViewEncapsulation} from '@angular/core';
 
 import { cdkAnimations } from '@cdk/animations';
+import {modulesConfig} from "../../../../../../modules/modules-config";
 
 @Component({
     selector       : 'pesquisa-main-sidebar',
@@ -37,5 +38,14 @@ export class PesquisaMainSidebarComponent
                 role: 'ROLE_USER'
             }
         ];
+
+        const path = 'app/main/apps/pesquisa/sidebars/main';
+
+        modulesConfig.forEach((module) => {
+            if (module.sidebars.hasOwnProperty(path)) {
+                module.sidebars[path].forEach((s => this.links.push(s)));
+            }
+        });
     }
+
 }

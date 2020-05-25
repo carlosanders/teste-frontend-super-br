@@ -1,20 +1,16 @@
 import {
-    ChangeDetectionStrategy,
-    ChangeDetectorRef,
-    Component,
-    OnDestroy,
-    OnInit,
+    ChangeDetectionStrategy, ChangeDetectorRef,
+    Component, OnDestroy, OnInit,
     ViewEncapsulation
 } from '@angular/core';
 
-import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {cdkAnimations} from '@cdk/animations';
 import {select, Store} from '@ngrx/store';
-import * as fromStore from './store';
-import {Observable, Subject} from 'rxjs';
-import {getRouterState} from '../../../../store/reducers';
-import {takeUntil} from 'rxjs/operators';
+import * as fromStore from 'app/store';
+import {getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
+import {Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'favoritos',
@@ -28,37 +24,26 @@ export class FavoritosComponent implements OnInit, OnDestroy {
 
     private _unsubscribeAll: Subject<any> = new Subject();
 
-    isSaving$: Observable<boolean>;
-    errors$: Observable<any>;
-
     action = '';
     routerState: any;
 
     /**
-     * @param _changeDetectorRef
-     * @param _cdkSidebarService
+     *
      * @param _store
+     * @param _changeDetectorRef
      * @param _router
      */
     constructor(
-        private _store: Store<fromStore.FavoritoEditState>,
+        private _store: Store<fromStore.State>,
         private _changeDetectorRef: ChangeDetectorRef,
-        private _cdkSidebarService: CdkSidebarService,
         private _router: Router
     ) {
-        this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
-        this.errors$ = this._store.pipe(select(fromStore.getErrors));
-    }
-
-    // -----------------------------------------------------------------------------------------------------
-    // @ Lifecycle hooks
-    // -----------------------------------------------------------------------------------------------------
+            }
 
     /**
      * On init
      */
     ngOnInit(): void {
-
         this._store
             .pipe(
                 select(getRouterState),
@@ -66,45 +51,24 @@ export class FavoritosComponent implements OnInit, OnDestroy {
             ).subscribe(routerState => {
             if (routerState) {
                 this.routerState = routerState.state;
-                if (this.routerState.url.indexOf('favorito/listar') > -1) {
+                if (this.routerState.url.indexOf('favoritos/listar') > -1) {
                     this.action = 'listar';
                 }
-                if (this.routerState.url.indexOf('favorito/editar') > -1) {
+                if (this.routerState.url.indexOf('favoritos/editar') > -1) {
                     this.action = 'editar';
                 }
-                if (this.routerState.url.indexOf('favorito/criar') > -1) {
+                if (this.routerState.url.indexOf('favoritos/criar') > -1) {
                     this.action = 'criar';
                 }
                 this._changeDetectorRef.markForCheck();
             }
         });
-
     }
 
-    /**
-     * On destroy
-     */
     ngOnDestroy(): void {
-    }
-
-    // -----------------------------------------------------------------------------------------------------
-    // @ Public methods
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * Refresh
-     */
-    refresh(): void {
-        this._changeDetectorRef.markForCheck();
-    }
-
-    /**
-     * Toggle the sidebar
-     *
-     * @param name
-     */
-    toggleSidebar(name): void {
-        this._cdkSidebarService.getSidebar(name).toggleOpen();
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     goBack(): void {

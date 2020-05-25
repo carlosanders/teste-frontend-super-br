@@ -51,6 +51,9 @@ export class CdkTarefaListItemComponent implements OnInit {
     editTarefa = new EventEmitter<number>();
 
     @Output()
+    redistribuirTarefa = new EventEmitter<number>();
+
+    @Output()
     toggleUrgente = new EventEmitter<Tarefa>();
 
     @Output()
@@ -111,6 +114,10 @@ export class CdkTarefaListItemComponent implements OnInit {
 
     doEditTarefa(): void {
         this.editTarefa.emit(this.tarefa.id);
+    }
+
+    doRedistribuirTarefa(): void {
+        this.redistribuirTarefa.emit(this.tarefa.id);
     }
 
     onSelectedChange(): void {

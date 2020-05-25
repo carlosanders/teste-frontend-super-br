@@ -6,6 +6,7 @@ import {Observable} from 'rxjs';
 import {filter} from 'rxjs/operators';
 import {Router} from '@angular/router';
 import {getRouterState} from 'app/store/reducers';
+import {modulesConfig} from "../../../../../../../modules/modules-config";
 
 @Component({
     selector: 'unidades-orgao-central-main-sidebar',
@@ -68,6 +69,14 @@ export class UnidadesOrgaoCentralMainSidebarComponent implements OnInit {
             ).subscribe(routerState => {
             if (routerState) {
                 this.routerState = routerState.state;
+            }
+        });
+
+        const path = 'app/main/apps/coordenador/unidades/sidebars/main';
+
+        modulesConfig.forEach((module) => {
+            if (module.sidebars.hasOwnProperty(path)) {
+                module.sidebars[path].forEach((s => this.links.push(s)));
             }
         });
     }

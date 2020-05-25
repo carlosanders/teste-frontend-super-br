@@ -24,6 +24,7 @@ import {ProcessoDownloadModule} from './processo-download/processo-download.modu
 import {MatMenuModule} from '@angular/material/menu';
 import {MatRippleModule} from '@angular/material/core';
 import {modulesConfig} from 'modules/modules-config';
+import {FavoritoService} from '@cdk/services/favorito.service';
 
 const routes: Routes = [
     {
@@ -108,7 +109,8 @@ modulesConfig.forEach((module) => {
         ProcessoService,
         VinculacaoEtiquetaService,
         LoginService,
-        fromGuards.ResolveGuard
+        fromGuards.ResolveGuard,
+        FavoritoService
     ]
 })
 export class ProcessoModule

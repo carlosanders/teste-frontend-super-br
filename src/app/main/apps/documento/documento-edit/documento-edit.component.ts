@@ -2,14 +2,14 @@ import {
     ChangeDetectionStrategy,
     Component,
     OnDestroy,
-    OnInit, ViewChild,
+    OnInit, ViewChild, ViewContainerRef,
     ViewEncapsulation
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
 import * as fromStore from '../store';
-import {Documento} from '@cdk/models';
+import {Documento, Favorito} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import {Location} from '@angular/common';
 import {getMercureState, getRouterState} from 'app/store/reducers';
@@ -29,6 +29,9 @@ import {LoginService} from '../../../auth/login/login.service';
 import {Sigilo} from '@cdk/models';
 import {Assinatura} from '@cdk/models';
 import {Usuario} from '@cdk/models';
+import * as fromStoreFavoritos from 'app/main/apps/tarefas/store';
+import {DynamicService} from "../../../../../modules/dynamic.service";
+import {modulesConfig} from "../../../../../modules/modules-config";
 
 @Component({
     selector: 'documento-edit',
@@ -76,6 +79,9 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
     @ViewChild('ckdUpload', {static: false})
     cdkUpload;
 
+    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
+    container: ViewContainerRef;
+
     routerState: any;
 
     atividade: Atividade;
@@ -117,6 +123,7 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
     deletingAssinaturaIds$: Observable<any>;
     deletedAssinaturaIds$: Observable<any>;
     paginationAssinatura$: Observable<any>;
+    favoritos$: Observable<Favorito[]>;
 
     /**
      * @param _store
@@ -125,6 +132,7 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
      * @param _repositorioService
      * @param _sanitizer
      * @param _loginService
+     * @param _dynamicService
      */
     constructor(
         private _store: Store<fromStore.DocumentoAppState>,
@@ -132,7 +140,8 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
         private _router: Router,
         private _repositorioService: RepositorioService,
         private _sanitizer: DomSanitizer,
-        public _loginService: LoginService
+        public _loginService: LoginService,
+        private _dynamicService: DynamicService
     ) {
         this.documento$ = this._store.pipe(select(fromStore.getDocumento));
         this.componenteDigital$ = this._store.pipe(select(fromStore.getComponenteDigital));
@@ -191,6 +200,7 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
         this.deletingAssinaturaIds$ = this._store.pipe(select(fromStore.getDeletingAssinaturaIds));
         this.deletedAssinaturaIds$ = this._store.pipe(select(fromStore.getDeletedAssinaturaIds));
         this.assinaturaLoading$ = this._store.pipe(select(fromStore.getAssinaturasIsLoading));
+        this.favoritos$ = this._store.pipe(select(fromStoreFavoritos.getFavoritoList));
 
         this._store
             .pipe(
@@ -321,6 +331,18 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
         if (!this._loginService.isGranted('ROLE_COLABORADOR')) {
             this.activeCard = 'anexos';
         }
+    }
+
+    ngAfterViewInit(): void {
+        const path = 'app/main/apps/documento/documento-edit';
+        modulesConfig.forEach((module) => {
+            if (module.components.hasOwnProperty(path)) {
+                module.components[path].forEach((c => {
+                    this._dynamicService.loadComponent(c)
+                        .then(componentFactory => this.container.createComponent(componentFactory));
+                }));
+            }
+        });
     }
 
     b64DecodeUnicode(str): any {
@@ -568,6 +590,19 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
 
     deleteVisibilidade(visibilidadeId: number): void {
         this._store.dispatch(new fromStore.DeleteVisibilidade({documentoId: this.routerState.params.documentoHandle, visibilidadeId: visibilidadeId}));
+    }
+
+    getFavoritos (value): void {
+
+        this._store.dispatch(new fromStoreFavoritos.GetFavoritos({
+            'filter':
+                {
+                    'usuario.id': `eq:${this._loginService.getUserProfile().id}`,
+                    'objectClass': `eq:SuppCore\\AdministrativoBackend\\Entity\\` + value
+                },
+            'limit': 5,
+            'sort': {prioritario:'DESC', qtdUso: 'DESC'}
+        }));
     }
 
 }

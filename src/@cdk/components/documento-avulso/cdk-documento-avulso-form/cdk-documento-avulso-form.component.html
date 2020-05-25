@@ -85,6 +85,11 @@
                 </mat-error>
             </mat-form-field>
 
+            <mat-slide-toggle formControlName="blocoDestinatarios"
+                              class="mr-16 mb-16" fxFlex="0 1 auto">
+                Bloco de Destinatários
+            </mat-slide-toggle>
+
             <mat-slide-toggle formControlName="externa"
                               class="mr-16 mb-16" fxFlex="0 1 auto">
                 Destinário Externo
@@ -135,6 +140,14 @@
                     {{form.get('pessoaDestino').errors.formError}}
                 </mat-error>
             </mat-form-field>
+
+            <div *ngIf="form.get('blocoDestinatarios').value" class="bloco-processos">
+                <cdk-bloco-destinatario-grid
+                    [destinatarios]="destinatarios"
+                    [total]="destinatarios.length"
+                    (delete)="deleteDestinatarios($event)">
+                </cdk-bloco-destinatario-grid>
+            </div>
 
             <mat-slide-toggle formControlName="urgente"
                               class="mr-16 mb-16" fxFlex="0 1 auto">

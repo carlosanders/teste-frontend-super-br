@@ -1,0 +1,14 @@
+<cdk-favorito-grid
+        [loading]="(loading$ | async)"
+        [favoritos]="(favoritos$ | async)"
+        [total]="(pagination$ | async)?.total"
+        [deletingIds]="(deletingIds$ | async)"
+        [deletedIds]="(deletedIds$ | async)"
+        [actions]="['create', 'edit']"
+        (reload)="reload($event)"
+        (edit)="edit($event)"
+        (create)="create()"
+        (delete)="delete($event)">
+</cdk-favorito-grid>
+
+<router-outlet></router-outlet>

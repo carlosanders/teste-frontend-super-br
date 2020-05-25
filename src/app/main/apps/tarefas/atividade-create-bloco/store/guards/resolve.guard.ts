@@ -58,7 +58,6 @@ export class ResolveGuard implements CanActivate {
             select(getDocumentosHasLoaded),
             withLatestFrom(this._store.pipe(select(getSelectedTarefas))),
             tap(([loaded, tarefas]) => {
-                console.log (1);
                 if (!loaded && tarefas.length) {
                     this._store.dispatch(new fromStore.GetDocumentos(tarefas.map((tarefa) => tarefa.id)));
                 }

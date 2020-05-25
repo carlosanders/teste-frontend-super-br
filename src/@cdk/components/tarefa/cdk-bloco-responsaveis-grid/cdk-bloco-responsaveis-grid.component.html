@@ -1,7 +1,7 @@
 <div class="page-layout left-sidebar" fxFlex>
 
     <!-- SIDEBAR -->
-    <cdk-sidebar [lockedOpen]="(mode === 'search') ? 'gt-xs' : ''" class="sidebar" name="cdk-bloco-responsaveis-filter" position="left">
+    <cdk-sidebar  *ngIf="actions.indexOf('filter') > -1" [lockedOpen]="(mode === 'search') ? 'gt-xs' : ''" class="sidebar" name="cdk-bloco-responsaveis-filter" position="left">
         <cdk-bloco-responsaveis-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-bloco-responsaveis-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
@@ -23,7 +23,7 @@
                 <mat-icon>arrow_back</mat-icon>
             </button>
 
-            <mat-form-field class="colunas mr-8">
+            <mat-form-field class="colunas mr-8" *ngIf="actions.indexOf('edit') > -1">
                 <mat-select [formControl]="columns" multiple>
                     <div *ngFor="let column of allColumns">
                         <mat-option *ngIf="!column.fixed" [value]="column.id">{{ column.label }}</mat-option>
@@ -31,12 +31,12 @@
                 </mat-select>
             </mat-form-field>
 
-            <button class="refresh" mat-icon-button (click)="loadPage()" aria-label="recarregar"
+            <button class="refresh" mat-icon-button *ngIf="actions.indexOf('edit') > -1" (click)="loadPage()" aria-label="recarregar"
                     matTooltip="Recarregar">
                 <mat-icon>refresh</mat-icon>
             </button>
 
-            <button class="toggle-filter" [ngClass]="{'warn': !(gridFilter | json).includes('{}')}" mat-icon-button
+            <button class="toggle-filter" *ngIf="actions.indexOf('filter') > -1" [ngClass]="{'warn': !(gridFilter | json).includes('{}')}" mat-icon-button
                     (click)="toggleFilter()" aria-label="filtrar" matTooltip="Filtrar">
                 <mat-icon>filter_list</mat-icon>
             </button>
@@ -143,9 +143,10 @@
                 </tr>
             </table>
         </div>
-    </div>
 
-    <div class="content" fxFlex fxLayout="row" fxLayoutAlign="center center">
-        <mat-paginator [pageSizeOptions]="[5, 10]"></mat-paginator>
+        <div class="actions" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="center center">
+            <mat-paginator [disabled]="loading" [pageSizeOptions]="[5, 10]"></mat-paginator>
+        </div>
+
     </div>
 </div>

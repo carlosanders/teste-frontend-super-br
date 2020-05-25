@@ -30,6 +30,13 @@ export const navigation: CdkNavigation[] = [
                         type: 'item',
                         icon: 'person',
                         url: '/apps/tarefas/administrativo/minhas-tarefas/entrada'
+                    },
+                    {
+                        id: 'calendar',
+                        title: 'Calendário',
+                        type: 'item',
+                        icon: 'calendar_today',
+                        url: '/apps/calendario/minhas-tarefas/todas'
                     }
                 ],
                 role: 'ROLE_COLABORADOR'

@@ -144,7 +144,7 @@ export class LoginEffects {
         tap((action) => {
             this.loginService.setUserProfile(action.payload.profile);
             const url = this.route.snapshot.queryParamMap.get('url');
-            this.router.navigateByUrl(url ? url : '/apps/painel').then();
+            this.router.navigateByUrl((url && url.indexOf('/apps') > -1) ? url : '/apps/painel').then();
         })
     );
 }

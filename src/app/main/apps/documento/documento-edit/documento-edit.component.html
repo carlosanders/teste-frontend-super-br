@@ -63,6 +63,7 @@
                         </ng-container>
                     </button>
 
+                    <ng-template #dynamicComponent></ng-template>
                 </mat-menu>
 
             </div>
@@ -115,6 +116,7 @@
                     </ng-container>
                 </button>
 
+                <ng-template #dynamicComponent></ng-template>
             </mat-menu>
 
             <cdk-documento-card-list [documentos]="(documentosVinculados$ | async)"
@@ -143,7 +145,9 @@
                 [mode]="'vertical'"
                 [saving]="(atividadeIsSaving$ | async)"
                 [errors]="(atividadeErrors$ | async)"
-                (save)="submitAtividade($event)">
+                (save)="submitAtividade($event)"
+                (favorito)="getFavoritos($event)"
+                [favoritosList]="(favoritos$ | async)">
             </cdk-atividade-form>
 
         </div>

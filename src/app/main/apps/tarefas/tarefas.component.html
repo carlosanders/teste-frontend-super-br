@@ -73,6 +73,7 @@
                                      (createTarefa)="doCreateTarefa($event)"
                                      (movimentar)="doMovimentar($event)"
                                      (editTarefa)="doEditTarefa($event)"
+                                     (redistribuirTarefa)="doRedistribuirTarefa($event)"
                                      (toggleUrgente)="doToggleUrgente($event)"
                                      (compartilharBloco)="doCompartilharBloco()"
                                      (createDocumentoAvulsoBloco)="doCreateDocumentoAvulsoBloco()"
@@ -82,6 +83,7 @@
                                      (uploadBloco)="doUploadBloco()"
                                      (editorBloco)="doEditorBloco()"
                                      (editTarefaBloco)="doEditTarefaBloco()"
+                                     (editRedistribuirBloco)="doRedistribuiTarefaBloco()"
                                      (loadAssuntos)="doLoadAssuntos($event)"
                                      [loadingAssuntosProcessosId]="(loadingAssuntosProcessosId$ | async)">
                     </cdk-tarefa-list>

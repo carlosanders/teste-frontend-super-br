@@ -10,7 +10,7 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {Atividade} from '@cdk/models';
+import {Atividade, Favorito} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as moment from 'moment';
 
@@ -26,7 +26,7 @@ import {UpdateData} from '@cdk/ngrx-normalizr';
 import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
 import {Back} from '../../../../store/actions';
 import {getSelectedTarefas} from '../store/selectors';
-
+import * as fromStoreFavoritos from 'app/main/apps/tarefas/store';
 
 @Component({
     selector: 'atividade-create-bloco',
@@ -64,6 +64,7 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
     assinandoDocumentosId: number[] = [];
     convertendoDocumentosId$: Observable<number[]>;
     javaWebStartOK = false;
+    favoritos$: Observable<Favorito[]>;
 
     @ViewChild('ckdUpload', {static: false})
     cdkUpload;
@@ -111,6 +112,7 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
         this.deletingDocumentosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosId));
         this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
         //this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoDocumentosId));
+        this.favoritos$ = this._store.pipe(select(fromStoreFavoritos.getFavoritoList));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -279,5 +281,18 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
 
     doAbort(): void {
         this._store.dispatch(new Back());
+    }
+
+    getFavoritos (value): void {
+
+        this._store.dispatch(new fromStoreFavoritos.GetFavoritos({
+            'filter':
+                {
+                    'usuario.id': `eq:${this._loginService.getUserProfile().id}`,
+                    'objectClass': `eq:SuppCore\\AdministrativoBackend\\Entity\\` + value
+                },
+            'limit': 5,
+            'sort': {prioritario:'DESC', qtdUso: 'DESC'}
+        }));
     }
 }

@@ -166,9 +166,15 @@ export class ResolveGuard implements CanActivate {
                             let folderFilter = 'isNull';
                             const routeTargetParam = of('targetHandle');
                             routeTargetParam.subscribe(targetParam => {
-                                if (this.routerState.params[targetParam] !== 'entrada') {
+                                if (this.routerState.params[targetParam] !== 'entrada' && this.routerState.params[targetParam] !== 'eventos') {
                                     const folderName = this.routerState.params[targetParam];
                                     folderFilter = `eq:${folderName.toUpperCase()}`;
+                                }
+
+                                if (this.routerState.params[targetParam] === 'eventos') {
+                                    tarefaFilter['especieTarefa.evento'] = 'eq:true';
+                                } else {
+                                    tarefaFilter['especieTarefa.evento'] = 'eq:false';
                                 }
                             });
                             params['folderFilter'] = {
