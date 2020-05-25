@@ -20,7 +20,7 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {Router} from '@angular/router';
 import {getRouterState} from '../../../../../../store/reducers';
 import {getProcesso} from '../../../store/selectors';
-import {modulesConfig} from "../../../../../../../modules/modules-config";
+import {modulesConfig} from '../../../../../../../modules/modules-config';
 
 @Component({
     selector: 'processo-view-main-sidebar',
