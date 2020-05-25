@@ -56,7 +56,8 @@ export class EspecieAtividadeEditEffects {
                         JSON.stringify({}),
                         JSON.stringify([
                             'populateAll'
-                        ]));
+                        ]),
+                        JSON.stringify({"isAdmin": true}));
                 }),
                 switchMap(response => [
                     new AddData<EspecieAtividade>({data: response['entities'], schema: especieAtividadeSchema}),

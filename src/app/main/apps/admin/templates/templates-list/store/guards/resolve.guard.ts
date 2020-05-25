@@ -59,7 +59,6 @@ export class ResolveGuard implements CanActivate {
             select(getTemplatesListLoaded),
             tap((loaded: any) => {
                 if (!loaded) {
-
                     const params = {
                         filter: {
                         },
@@ -73,7 +72,8 @@ export class ResolveGuard implements CanActivate {
                             'modalidadeTemplate',
                             'documento.componentesDigitais',
                             'documento.tipoDocumento'
-                        ]
+                        ],
+                        context: {isAdmin: true}
                     };
 
                     this._store.dispatch(new fromStore.GetTemplates(params));

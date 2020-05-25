@@ -56,7 +56,8 @@ export class UsuariosExternosEditEffects {
                         JSON.stringify({}),
                         JSON.stringify([
                             'populateAll'
-                        ]));
+                        ]),
+                        JSON.stringify({"isAdmin": true}));
                 }),
                 switchMap(response => [
                     new AddData<Usuario>({data: response['entities'], schema: usuarioSchema}),
@@ -99,32 +100,6 @@ export class UsuariosExternosEditEffects {
                     return caught;
                 })
             );
-
-    // /**
-    //  * Update Usuario
-    //  * @type {Observable<any>}
-    //  */
-    // @Effect()
-    // updateUsuariosExternos: any =
-    //     this._actions
-    //         .pipe(
-    //             ofType<UsuariosExternosEditActions.UpdateUsuarioExternos>(UsuariosExternosEditActions.UPDATE_USUARIOS_EXTERNOS),
-    //             switchMap((action) => {
-    //                 debugger
-    //                 return this._usuarioService.patch(action.payload.usuario, action.payload.changes).pipe(
-    //                     mergeMap((response: Usuario) => [
-    //                         new UsuariosExternosListActions.ReloadUsuariosExternosList(),
-    //                         new AddData<Usuario>({data: [response], schema: usuarioSchema}),
-    //                         new UsuariosExternosEditActions.UpdateUsuarioExternosSuccess(response)
-    //                     ])
-    //                 );
-    //             }),
-    //             catchError((err, caught) => {
-    //                 console.log(err);
-    //                 this._store.dispatch(new UsuariosExternosEditActions.UpdateUsuarioExternosFailed(err));
-    //                 return caught;
-    //             })
-    //         );
 
 
     /**

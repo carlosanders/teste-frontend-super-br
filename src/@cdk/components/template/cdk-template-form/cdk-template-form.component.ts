@@ -77,8 +77,18 @@ export class CdkTemplateFormComponent implements OnChanges, OnDestroy {
      */
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
         if (changes['template'] && this.template && (!this.template.id || (this.template.id !== this.form.get('id').value))) {
-            this.form.patchValue({...this.template});
+            this.form.patchValue(
+                {
+                    id: this.template.id,
+                    nome: this.template.nome,
+                    descricao: this.template.descricao,
+                    modalidadeTemplate: this.template.modalidadeTemplate,
+                    tipoDocumento: this.template.documento.tipoDocumento,
+                    ativo: this.template.ativo,
+                }
+            );
         }
+        debugger
 
         if (this.errors && this.errors.status && this.errors.status === 422) {
             try {

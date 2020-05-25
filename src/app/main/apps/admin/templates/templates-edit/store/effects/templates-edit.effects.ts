@@ -52,8 +52,13 @@ export class TemplatesEditEffect {
                         0,
                         JSON.stringify({}),
                         JSON.stringify([
-                            'populateAll'
-                        ]));
+                            'populateAll',
+                            'documento',
+                            'modalidadeTemplate',
+                            'documento.componentesDigitais',
+                            'documento.tipoDocumento'
+                        ]),
+                        JSON.stringify({"isAdmin": true}));
                 }),
                 switchMap(response => [
                     new AddData<Template>({data: response['entities'], schema: templatesSchema}),
