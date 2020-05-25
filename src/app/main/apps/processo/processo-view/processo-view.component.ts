@@ -55,6 +55,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     routerState$: Observable<any>;
 
     chaveAcesso: string;
+    capaProcesso: boolean;
 
     @Output()
     select: EventEmitter<ComponenteDigital> = new EventEmitter();
@@ -125,7 +126,6 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         );
 
         this.src = this._sanitizer.bypassSecurityTrustResourceUrl('about:blank');
-
     }
 
     ngOnInit(): void {
@@ -144,7 +144,9 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
             this.chaveAcesso = routerState.state.params['chaveAcessoHandle'];
         });
 
-        // this._store.dispatch(new fromStore.SetCurrentStep({step: 0, subStep: 0}));
+        this.capaProcesso = this.routerState.url.split('/').indexOf('oficios') === -1;
+
+        this._store.dispatch(new fromStore.SetCurrentStep({step: 0, subStep: 0}));
     }
 
     ngOnDestroy(): void {

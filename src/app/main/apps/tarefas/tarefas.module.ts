@@ -40,6 +40,8 @@ import {LoginService} from '../../auth/login/login.service';
 import { AssuntoService } from '@cdk/services/assunto.service';
 import {AssuntoListStoreModule} from 'app/main/apps/processo/processo-edit/assuntos/assunto-list/store/store.module';
 import {modulesConfig} from 'modules/modules-config';
+import {InteressadoService} from '../../../../@cdk/services/interessado.service';
+import {DocumentoService} from '../../../../@cdk/services/documento.service';
 
 const routes: Routes = [
     {
@@ -169,7 +171,9 @@ modulesConfig.forEach((module) => {
         UsuarioService,
         LoginService,
         fromGuards.ResolveGuard,
-        AssuntoService
+        AssuntoService,
+        InteressadoService,
+        DocumentoService
     ]
 })
 export class TarefasModule {

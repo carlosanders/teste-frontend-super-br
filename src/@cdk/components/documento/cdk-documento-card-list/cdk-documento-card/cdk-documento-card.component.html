@@ -47,12 +47,12 @@
                 <mat-icon color="accent">lock_open</mat-icon>
                 <span>Remover Assinatura</span>
             </button>
-            <button fxLayout="row" fxLayoutAlign="start center" (click)="doConverte(documento.id)" mat-menu-item
-                    *showIfRole="'ROLE_COLABORADOR'">
+            <button fxLayout="row" fxLayoutAlign="start center" (click)="doConverte(documento.id)" mat-menu-item>
                 <mat-icon color="accent">picture_as_pdf</mat-icon>
                 <span>Converter em PDF</span>
             </button>
-            <button *ngIf="documento.documentoAvulsoRemessa && documento.documentoAvulsoRemessa.dataHoraResposta" fxLayout="row" fxLayoutAlign="start center" (click)="doVerResposta(documento.documentoAvulsoRemessa.documentoResposta)" mat-menu-item>
+            <button *ngIf="documento.documentoAvulsoRemessa && documento.documentoAvulsoRemessa.dataHoraResposta" f
+                    xLayout="row" fxLayoutAlign="start center" (click)="doVerResposta(documento.documentoAvulsoRemessa.documentoResposta)" mat-menu-item>
                 <mat-icon color="accent">picture_as_pdf</mat-icon>
                 <span>Ver Resposta</span>
             </button>

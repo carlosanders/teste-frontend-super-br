@@ -59,6 +59,7 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
     assinandoDocumentosId: number[] = [];
     deletingDocumentosId$: Observable<number[]>;
     convertendoDocumentosId$: Observable<number[]>;
+    removendoAssinaturaDocumentosId$: Observable<number[]>;
 
     routerState: any;
 
@@ -102,10 +103,13 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
         this.documentos$ = this._store.pipe(select(fromStore.getDocumentos));
         this.processo$ = this._store.pipe(select(fromStore.getProcesso));
         this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
+        this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(fromStore.getRemovendoAssinaturaDocumentosId));
         this.deletingDocumentosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosId));
         this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoDocumentosId));
         this.estados$ = this._store.pipe(select(fromStore.getEstados));
         this._profile = this._loginService.getUserProfile();
+
+
 
         this.unidadePagination = new Pagination();
         this.unidadePagination.populate = ['unidade', 'parent'];
@@ -164,10 +168,11 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
             }
         });
 
-        this._store.pipe(
-            select(getMercureState),
-            takeUntil(this._unsubscribeAll)
-        ).subscribe(message => {
+        this._store
+            .pipe(
+                select(getMercureState),
+                takeUntil(this._unsubscribeAll)
+            ).subscribe(message => {
             if (message && message.type === 'assinatura') {
                 switch (message.content.action) {
                     case 'assinatura_iniciada':
@@ -331,9 +336,21 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
                 assinatura.cadeiaCertificadoPkiPath = 'A1';
                 assinatura.assinatura = 'A1';
 
-                this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({assinatura: assinatura, password: result.password}));
+                this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
+                    assinatura: assinatura,
+                    password: result.password,
+                    processoId: this.processo.id
+                }));
             });
         }
+    }
+
+    doRemoveAssinatura(documentoId): void {
+        this._store.dispatch(new fromStore.RemoveAssinaturaDocumento(documentoId));
+    }
+
+    doConverte(documentoId): void {
+        this._store.dispatch(new fromStore.ConverteToPdf(documentoId));
     }
 
     unloadProcesso(): void {

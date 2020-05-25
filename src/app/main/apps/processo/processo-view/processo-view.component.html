@@ -2,7 +2,7 @@
 
     <!-- SIDEBAR -->
     <cdk-sidebar class="sidebar" name="juntadas-left-sidebar-1" position="left" lockedOpen="gt-md">
-        <processo-view-main-sidebar [@animate]="{value:'*'}" (scrolled)="onScroll()"></processo-view-main-sidebar>
+        <processo-view-main-sidebar [@animate]="{value:'*'}" [capaProcesso]="capaProcesso" (scrolled)="onScroll()"></processo-view-main-sidebar>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
