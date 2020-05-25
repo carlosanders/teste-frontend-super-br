@@ -62,7 +62,7 @@ export class UnidadeEditEffects {
                         JSON.stringify([
                             'populateAll'
                         ]),
-                        JSON.stringify({"isAdmin": true}));
+                        JSON.stringify({isAdmin: true}));
                 }),
                 switchMap(response => [
                     new AddData<Setor>({data: response['entities'], schema: setorSchema}),
@@ -91,7 +91,8 @@ export class UnidadeEditEffects {
             .pipe(
                 ofType<UnidadeEditActions.SaveUnidade>(UnidadeEditActions.SAVE_UNIDADE),
                 switchMap((action) => {
-                    return this._setorService.save(action.payload).pipe(
+                    const context = JSON.stringify({isAdmin: true});
+                    return this._setorService.save(action.payload, context).pipe(
                         mergeMap((response: Setor) => [
                             new UnidadeEditActions.SaveUnidadeSuccess(),
                             new UnidadesListActions.ReloadUnidades(),

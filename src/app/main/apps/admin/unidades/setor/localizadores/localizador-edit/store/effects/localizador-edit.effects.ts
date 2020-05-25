@@ -54,7 +54,7 @@ export class LocalizadorEditEffects {
                         JSON.stringify([
                             'populateAll'
                         ]),
-                        JSON.stringify({"isAdmin": true}));
+                        JSON.stringify({isAdmin: true}));
                 }),
                 switchMap(response => [
                     new AddData<Localizador>({data: response['entities'], schema: localizadorSchema}),
@@ -83,7 +83,8 @@ export class LocalizadorEditEffects {
             .pipe(
                 ofType<RootLocalizadorEditActions.SaveLocalizador>(RootLocalizadorEditActions.SAVE_LOCALIZADOR),
                 switchMap((action) => {
-                    return this._localizadorService.save(action.payload).pipe(
+                    const context = JSON.stringify({isAdmin: true});
+                    return this._localizadorService.save(action.payload, context).pipe(
                         mergeMap((response: Localizador) => [
                             new RootLocalizadorEditActions.SaveLocalizadorSuccess(),
                             new RootLocalizadoresListActions.ReloadLocalizadores(),

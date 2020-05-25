@@ -88,7 +88,6 @@ export class CdkTemplateFormComponent implements OnChanges, OnDestroy {
                 }
             );
         }
-        debugger
 
         if (this.errors && this.errors.status && this.errors.status === 422) {
             try {

@@ -55,7 +55,7 @@ export class TipoDocumentoEditEffects {
                         JSON.stringify([
                             'populateAll'
                         ]),
-                        JSON.stringify({"isAdmin": true}));
+                        JSON.stringify({isAdmin: true}));
                 }),
                 switchMap(response => [
                     new AddData<TipoDocumento>({data: response['entities'], schema: tipoDocumentoSchema}),
@@ -84,7 +84,8 @@ export class TipoDocumentoEditEffects {
             .pipe(
                 ofType<TipoDocumentoEditActions.SaveTipoDocumento>(TipoDocumentoEditActions.SAVE_TIPO_DOCUMENTO),
                 switchMap((action) => {
-                    return this._tipoDocumentoService.save(action.payload).pipe(
+                    const context = JSON.stringify({isAdmin: true});
+                    return this._tipoDocumentoService.save(action.payload, context).pipe(
                         mergeMap((response: TipoDocumento) => [
                             new TipoDocumentoListActions.ReloadTipoDocumento(),
                             new AddData<TipoDocumento>({data: [response], schema: tipoDocumentoSchema}),

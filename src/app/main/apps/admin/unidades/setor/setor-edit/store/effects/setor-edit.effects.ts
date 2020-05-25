@@ -54,7 +54,7 @@ export class SetorEditEffect {
                         JSON.stringify([
                             'populateAll'
                         ]),
-                        JSON.stringify({"isAdmin": true}));
+                        JSON.stringify({isAdmin: true}));
                 }),
                 switchMap(response => [
                     new AddData<Setor>({data: response['entities'], schema: setorSchema}),
@@ -83,7 +83,8 @@ export class SetorEditEffect {
             .pipe(
                 ofType<SetorEditActions.SaveSetor>(SetorEditActions.SAVE_SETOR),
                 switchMap((action) => {
-                    return this._setorService.save(action.payload).pipe(
+                    const context = JSON.stringify({isAdmin: true});
+                    return this._setorService.save(action.payload, context).pipe(
                         mergeMap((response: Setor) => [
                             new SetorEditActions.SaveSetorSuccess(),
                             new SetorListActions.ReloadSetores(),

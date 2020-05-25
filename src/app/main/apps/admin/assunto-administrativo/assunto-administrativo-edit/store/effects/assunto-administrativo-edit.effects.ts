@@ -56,7 +56,7 @@ export class AssuntoAdministrativoEditEffects {
                         JSON.stringify([
                             'populateAll'
                         ]),
-                        JSON.stringify({"isAdmin": true}));
+                        JSON.stringify({isAdmin: true}));
                 }),
                 switchMap(response => [
                     new AddData<AssuntoAdministrativo>({data: response['entities'], schema: assuntoAdministrativoSchema}),
@@ -85,7 +85,8 @@ export class AssuntoAdministrativoEditEffects {
             .pipe(
                 ofType<AssuntoAdministrativoEditActions.SaveAssuntoAdministrativo>(AssuntoAdministrativoEditActions.SAVE_ASSUNTO_ADMINISTRATIVO),
                 switchMap((action) => {
-                    return this._AssuntoAdministrativoService.save(action.payload).pipe(
+                    const context = JSON.stringify({isAdmin: true});
+                    return this._AssuntoAdministrativoService.save(action.payload, context).pipe(
                         mergeMap((response: AssuntoAdministrativo) => [
                             new AssuntoAdministrativoListActions.ReloadAssuntoAdministrativo(),
                             new AddData<AssuntoAdministrativo>({data: [response], schema: assuntoAdministrativoSchema}),

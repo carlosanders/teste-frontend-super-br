@@ -57,7 +57,7 @@ export class UsuariosExternosEditEffects {
                         JSON.stringify([
                             'populateAll'
                         ]),
-                        JSON.stringify({"isAdmin": true}));
+                        JSON.stringify({isAdmin: true}));
                 }),
                 switchMap(response => [
                     new AddData<Usuario>({data: response['entities'], schema: usuarioSchema}),
@@ -86,7 +86,8 @@ export class UsuariosExternosEditEffects {
             .pipe(
                 ofType<UsuariosExternosEditActions.SaveUsuarioExternos>(UsuariosExternosEditActions.SAVE_USUARIOS_EXTERNOS),
                 switchMap((action) => {
-                    return this._usuarioService.save(action.payload).pipe(
+                    const context = JSON.stringify({isAdmin: true});
+                    return this._usuarioService.save(action.payload, context).pipe(
                         mergeMap((response: Usuario) => [
                             new UsuariosExternosListActions.ReloadUsuariosExternosList(),
                             new AddData<Usuario>({data: [response], schema: usuarioSchema}),

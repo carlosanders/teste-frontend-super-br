@@ -57,7 +57,7 @@ export class EspecieRelevanciaEditEffects {
                         JSON.stringify([
                             'populateAll'
                         ]),
-                        JSON.stringify({"isAdmin": true}));
+                        JSON.stringify({isAdmin: true}));
                 }),
                 switchMap(response => [
                     new AddData<EspecieRelevancia>({data: response['entities'], schema: especieRelevanciaSchema}),
@@ -86,7 +86,8 @@ export class EspecieRelevanciaEditEffects {
             .pipe(
                 ofType<EspecieRelevanciaEditActions.SaveEspecieRelevancia>(EspecieRelevanciaEditActions.SAVE_ESPECIE_RELEVANCIA),
                 switchMap((action) => {
-                    return this._especieRelevanciaService.save(action.payload).pipe(
+                    const context = JSON.stringify({isAdmin: true});
+                    return this._especieRelevanciaService.save(action.payload, context).pipe(
                         mergeMap((response: any) => [
                             new EspecieRelevanciaListActions.ReloadEspecieRelevancia(),
                             new AddData<EspecieRelevancia>({data: [response], schema: especieRelevanciaSchema}),

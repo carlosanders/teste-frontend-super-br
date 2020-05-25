@@ -57,7 +57,7 @@ export class EspecieAtividadeEditEffects {
                         JSON.stringify([
                             'populateAll'
                         ]),
-                        JSON.stringify({"isAdmin": true}));
+                        JSON.stringify({isAdmin: true}));
                 }),
                 switchMap(response => [
                     new AddData<EspecieAtividade>({data: response['entities'], schema: especieAtividadeSchema}),
@@ -86,7 +86,8 @@ export class EspecieAtividadeEditEffects {
             .pipe(
                 ofType<EspecieAtividadeEditActions.SaveEspecieAtividade>(EspecieAtividadeEditActions.SAVE_ESPECIE_ATIVIDADE),
                 switchMap((action) => {
-                    return this._especieAtividadeService.save(action.payload).pipe(
+                    const context = JSON.stringify({isAdmin: true});
+                    return this._especieAtividadeService.save(action.payload, context).pipe(
                         mergeMap((response: EspecieAtividade) => [
                             new EspecieAtividadeListActions.ReloadEspecieAtividade(),
                             new AddData<EspecieAtividade>({data: [response], schema: especieAtividadeSchema}),

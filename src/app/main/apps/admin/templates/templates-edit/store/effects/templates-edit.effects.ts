@@ -58,7 +58,7 @@ export class TemplatesEditEffect {
                             'documento.componentesDigitais',
                             'documento.tipoDocumento'
                         ]),
-                        JSON.stringify({"isAdmin": true}));
+                        JSON.stringify({isAdmin: true}));
                 }),
                 switchMap(response => [
                     new AddData<Template>({data: response['entities'], schema: templatesSchema}),
@@ -87,7 +87,8 @@ export class TemplatesEditEffect {
             .pipe(
                 ofType<TemplatesEditActions.SaveTemplates>(TemplatesEditActions.SAVE_TEMPLATES),
                 switchMap((action) => {
-                    return this._templateService.save(action.payload).pipe(
+                    const context = JSON.stringify({isAdmin: true});
+                    return this._templateService.save(action.payload, context).pipe(
                         mergeMap((response: Template) => [
                             new TemplatesEditActions.SaveTemplatesSuccess(),
                             new TemplatesListActions.ReloadTemplates(),
