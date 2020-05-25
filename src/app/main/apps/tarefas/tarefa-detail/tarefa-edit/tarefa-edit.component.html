@@ -6,6 +6,8 @@
             [especieTarefaPagination]="especieTarefaPagination"
             [setorOrigemPagination]="setorOrigemPagination"
             [logEntryPagination]="logEntryPagination"
-            (save)="submit($event)">
+            (save)="submit($event)"
+            (favorito)="getFavoritos($event)"
+            [favoritosList]="(favoritos$ | async)">
     </cdk-tarefa-form>
 </div>

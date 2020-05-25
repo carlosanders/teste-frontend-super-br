@@ -94,6 +94,10 @@ const routes: Routes = [
             {
                 path: 'visibilidade',
                 loadChildren: () => import('./visibilidade/visibilidade.module').then(m => m.VisibilidadeModule),
+            },
+            {
+                path: 'redistribuicao-edit-bloco',
+                loadChildren: () => import('./redistribuicao-edit-bloco/redistribuicao-edit-bloco.module').then(m => m.RedistribuicaoEditBlocoModule),
             }
         ],
         canActivate: [fromGuards.ResolveGuard]

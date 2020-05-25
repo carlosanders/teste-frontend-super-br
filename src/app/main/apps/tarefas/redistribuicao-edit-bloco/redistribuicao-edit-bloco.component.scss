@@ -1,0 +1,7 @@
+@import "../../../../../@cdk/scss/cdk";
+
+redistribuicao-edit-bloco {
+  .bloco-edit {
+    @include mat-elevation(1);
+  }
+}

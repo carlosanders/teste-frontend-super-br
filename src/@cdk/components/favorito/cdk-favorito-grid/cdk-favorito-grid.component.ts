@@ -42,7 +42,7 @@ export class CdkFavoritoGridComponent implements AfterViewInit, OnInit, OnChange
     create = new EventEmitter<any>();
 
     @Input()
-    displayedColumns: string[] = ['id', 'especieAtividade.nome', 'setorResponsavel.nome', 'actions'];
+    displayedColumns: string[] = ['id', 'label', 'objFavoritoClass', 'prioritario', 'actions'];
 
     allColumns: any[] = [
         {
@@ -56,18 +56,13 @@ export class CdkFavoritoGridComponent implements AfterViewInit, OnInit, OnChange
             fixed: true
         },
         {
-            id: 'especieAtividade.nome',
-            label: 'Espécie de Atividade',
+            id: 'label',
+            label: 'Campo',
             fixed: true
         },
         {
-            id: 'setorResponsavel.nome',
-            label: 'Setor Responsável',
-            fixed: false
-        },
-        {
-            id: 'setorResponsavel.unidade.nome',
-            label: 'Unidade',
+            id: 'objFavoritoClass',
+            label: 'Descrição',
             fixed: false
         },
         {
@@ -76,8 +71,8 @@ export class CdkFavoritoGridComponent implements AfterViewInit, OnInit, OnChange
             fixed: false
         },
         {
-            id: 'especieTarefa.nome',
-            label: 'Espécie de Tarefa',
+            id: 'objectId',
+            label: 'Id',
             fixed: false
         },
         {
@@ -108,16 +103,6 @@ export class CdkFavoritoGridComponent implements AfterViewInit, OnInit, OnChange
         {
             id: 'atualizadoEm',
             label: 'Atualizado Em',
-            fixed: false
-        },
-        {
-            id: 'apagadoPor.nome',
-            label: 'Apagado Por',
-            fixed: false
-        },
-        {
-            id: 'apagadoEm',
-            label: 'Apagado Em',
             fixed: false
         },
         {

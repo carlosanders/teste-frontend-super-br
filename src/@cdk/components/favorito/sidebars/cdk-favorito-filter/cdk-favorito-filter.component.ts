@@ -39,18 +39,12 @@ export class CdkFavoritoFilterComponent implements OnInit {
         private _cdkSidebarService: CdkSidebarService,
     ) {
         this.form = this._formBuilder.group({
-            especieAtividade: [null],
-            setorResponsavel: [null],
-            usuario: [null],
-            especieTarefa: [null],
-            qtdUso: [null],
+            label: [null],
             prioritario: [null],
             criadoPor: [null],
             criadoEm: [null],
             atualizadoPor: [null],
-            atualizadoEm: [null],
-            apagadoPor: [null],
-            apagadoEm: [null],
+            atualizadoEm: [null]
         });
     }
 
@@ -62,11 +56,11 @@ export class CdkFavoritoFilterComponent implements OnInit {
      * On init
      */
     ngOnInit(): void {
-        this.form.get('qtdUso').valueChanges.subscribe(value => {
+        this.form.get('label').valueChanges.subscribe(value => {
             if (value !== null) {
                 this.filters = {
                     ...this.filters,
-                    qtdUso: `like:${value}%`
+                    label: `like:%${value}%`
                 };
             }
         });
@@ -77,66 +71,6 @@ export class CdkFavoritoFilterComponent implements OnInit {
                     ...this.filters,
                     prioritario: `eq:${value}`
                 };
-            }
-        });
-
-        this.form.get('especieAtividade').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'especieAtividade.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('especieAtividade.id')) {
-                        delete this.filters['especieAtividade.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('setorResponsavel').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'setorResponsavel.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('setorResponsavel.id')) {
-                        delete this.filters['setorResponsavel.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('usuario').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'usuario.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('usuario.id')) {
-                        delete this.filters['usuario.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('especieTarefa').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'especieTarefa.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('especieTarefa.id')) {
-                        delete this.filters['especieTarefa.id'];
-                    }
-                }
             }
         });
 
@@ -154,15 +88,6 @@ export class CdkFavoritoFilterComponent implements OnInit {
                 this.filters = {
                     ...this.filters,
                     atualizadoEm: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('apagadoEm').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    apagadoEm: `eq:${value}`
                 };
             }
         });
@@ -192,21 +117,6 @@ export class CdkFavoritoFilterComponent implements OnInit {
                 } else {
                     if (this.filters.hasOwnProperty('atualizadoPor.id')) {
                         delete this.filters['atualizadoPor.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('apagadoPor').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'apagadoPor.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('apagadoPor.id')) {
-                        delete this.filters['apagadoPor.id'];
                     }
                 }
             }

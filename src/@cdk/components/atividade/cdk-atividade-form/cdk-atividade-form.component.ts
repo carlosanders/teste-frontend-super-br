@@ -88,6 +88,9 @@ export class CdkAtividadeFormComponent implements OnInit, OnChanges, OnDestroy {
     @Input()
     documentoAvulsoVinculado: DocumentoAvulso;
 
+    @Output()
+    favorito = new EventEmitter<any>();
+
     form: FormGroup;
 
     activeCard = 'form';
@@ -96,6 +99,7 @@ export class CdkAtividadeFormComponent implements OnInit, OnChanges, OnDestroy {
 
     especieAtividadeListIsLoading: boolean;
 
+    @Input()
     favoritosList: Favorito[] = [];
 
     _profile: any;
@@ -236,6 +240,23 @@ export class CdkAtividadeFormComponent implements OnInit, OnChanges, OnDestroy {
             this.form.setErrors(null);
         }
 
+        if(this.favoritosList)
+        {
+            let tipoFavorito = this.favoritosList[0] ? this.favoritosList[0].objectClass : '';
+
+            if (tipoFavorito === "SuppCore\\AdministrativoBackend\\Entity\\EspecieAtividade") {
+                this.especieAtividadeList = [];
+                this.favoritosList.forEach((favorito) => {
+                    this.especieAtividadeList.push(favorito.objFavoritoClass[0]);
+                });
+                this.especieAtividadeListIsLoading = false;
+            }
+
+            if (tipoFavorito === '') {
+                this.especieAtividadeListIsLoading = false;
+            }
+        }
+
         this._changeDetectorRef.markForCheck();
     }
 
@@ -355,33 +376,7 @@ export class CdkAtividadeFormComponent implements OnInit, OnChanges, OnDestroy {
     showEspecieAtividadeList(): void {
 
         this.especieAtividadeListIsLoading = true;
-
-        this._favoritoService.query(
-            `{"usuario.id": "eq:${this._profile.id}", "especieAtividade": "isNotNull"}`,
-            5,
-            0,
-            '{}',
-            '["populateAll"]')
-            .pipe(
-                catchError(() => {
-                        return of([]);
-                    }
-                )
-            ).subscribe(
-            value => {
-
-                this.especieAtividadeList = [];
-                this.favoritosList = value['entities'];
-
-                this.favoritosList.forEach((favorito) => {
-                    const especieAtividade = favorito.especieAtividade;
-                    this.especieAtividadeList.push(especieAtividade);
-                });
-
-                this.especieAtividadeListIsLoading = false;
-                this._changeDetectorRef.markForCheck();
-            }
-        );
+        this.favorito.emit('EspecieAtividade');
     }
 
 }

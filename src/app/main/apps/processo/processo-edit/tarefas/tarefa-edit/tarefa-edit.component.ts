@@ -9,7 +9,7 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
 
-import {Tarefa} from '@cdk/models';
+import {Favorito, Tarefa} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
@@ -20,6 +20,7 @@ import * as moment from 'moment';
 import {LoginService} from '../../../../../auth/login/login.service';
 import {Usuario} from "../../../../../../../@cdk/models";
 import {Back} from "../../../../../../store/actions";
+import * as fromStoreFavoritos from 'app/main/apps/processo/store';
 
 @Component({
     selector: 'tarefa-edit',
@@ -45,6 +46,8 @@ export class TarefaEditComponent implements OnInit, OnDestroy {
 
     logEntryPagination: Pagination;
 
+    favoritos$: Observable<Favorito[]>;
+
     /**
      * @param _store
      * @param _loginService
@@ -58,6 +61,7 @@ export class TarefaEditComponent implements OnInit, OnDestroy {
         this.tarefa$ = this._store.pipe(select(fromStore.getTarefa));
         this.processo$ = this._store.pipe(select(getProcesso));
         this._profile = _loginService.getUserProfile();
+        this.favoritos$ = this._store.pipe(select(fromStoreFavoritos.getFavoritoList));
 
         this.especieTarefaPagination = new Pagination();
         this.logEntryPagination = new Pagination();
@@ -116,5 +120,18 @@ export class TarefaEditComponent implements OnInit, OnDestroy {
 
     doAbort(): void {
         this._store.dispatch(new Back());
+    }
+
+    getFavoritos (value): void {
+
+        this._store.dispatch(new fromStoreFavoritos.GetFavoritos({
+            'filter':
+                {
+                    'usuario.id': `eq:${this._loginService.getUserProfile().id}`,
+                    'objectClass': `eq:SuppCore\\AdministrativoBackend\\Entity\\` + value
+                },
+            'limit': 5,
+            'sort': {prioritario:'DESC', qtdUso: 'DESC'}
+        }));
     }
 }

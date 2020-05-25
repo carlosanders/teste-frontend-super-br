@@ -97,6 +97,8 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
 
     processos: Processo[] = [];
 
+    destinatarios = [];
+
     @Output()
     gerirPessoaDestino = new EventEmitter();
 
@@ -124,6 +126,8 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
             processos: [null],
             processo: [null],
             tarefaOrigem: [null],
+            blocoDestinatarios: [null],
+            destinatarios: [null],
             urgente: [null],
             especieDocumentoAvulso: [null, [Validators.required]],
             modelo: [null, [Validators.required]],
@@ -136,6 +140,7 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
         });
 
         this.processoPagination = new Pagination();
+        this.processoPagination.populate = ['setorAtual', 'setorAtual.unidade'];
         this.especieDocumentoAvulsoPagination = new Pagination();
         this.modeloPagination = new Pagination();
         this.pessoaDestinoPagination = new Pagination();
@@ -167,6 +172,7 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
                         this.form.get('pessoaDestino').disable();
                         this.form.get('setorDestino').enable();
                     }
+
                     return of([]);
                 }
             )
@@ -178,6 +184,32 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
             switchMap((value) => {
                     if (value && typeof value === 'object' && this.form.get('blocoProcessos').value) {
                         this.processos.push(value);
+                        this._changeDetectorRef.markForCheck();
+                    }
+                    return of([]);
+                }
+            )
+        ).subscribe();
+
+        this.form.get('setorDestino').valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((value) => {
+                    if (value && typeof value === 'object' && this.form.get('blocoDestinatarios').value) {
+                        this.destinatarios.push(value);
+                        this._changeDetectorRef.markForCheck();
+                    }
+                    return of([]);
+                }
+            )
+        ).subscribe();
+
+        this.form.get('pessoaDestino').valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((value) => {
+                    if (value && typeof value === 'object' && this.form.get('blocoDestinatarios').value) {
+                        this.destinatarios.push(value);
                         this._changeDetectorRef.markForCheck();
                     }
                     return of([]);
@@ -242,10 +274,86 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
     // -----------------------------------------------------------------------------------------------------
     submit(): void {
         if (this.form.valid) {
-            if (this.form.get('blocoProcessos').value) {
-                this.form.get('processos').setValue(this.processos);
+
+            if (this.form.get('blocoProcessos').value && this.processos) {
+
+                // percorrendo o bloco de processos
+                this.processos.forEach(processo => {
+                    let docAvulso;
+
+                    // caso tenha bloco de Destinatarios
+                    if (this.form.get('blocoDestinatarios').value) {
+
+                        //para cada processo criamos um oficio para cada Destinatario
+                        this.destinatarios.forEach(destinatario => {
+
+                            if (destinatario instanceof Setor){
+                                docAvulso = {
+                                    ...this.form.value,
+                                    processo: processo,
+                                    setorDestino: destinatario,
+                                    pessoaDestino: null
+                                };
+                            }
+
+                            if (destinatario instanceof Pessoa){
+                                docAvulso = {
+                                    ...this.form.value,
+                                    processo: processo,
+                                    pessoaDestino: destinatario,
+                                    setorDestino: null
+                                };
+                            }
+                            this.save.emit(docAvulso);
+                        });
+
+                    } else {
+
+                        //caso seja apenas bloco de processos e um destinatario
+                        docAvulso = {
+                            ...this.form.value,
+                            processo: processo
+                        };
+                        this.save.emit(docAvulso);
+                    }
+                });
+
             }
-            this.save.emit(this.form.value);
+
+            //caso tenha bloco de Destinatarios sem Bloco de Processos
+            if (this.form.get('blocoDestinatarios').value &&
+                !this.form.get('blocoProcessos').value &&
+                this.destinatarios) {
+                let docAvulso;
+
+                    this.destinatarios.forEach(destinatario => {
+
+                        if (destinatario instanceof Setor){
+                            docAvulso = {
+                                ...this.form.value,
+                                setorDestino: destinatario,
+                                pessoaDestino: null
+                            };
+                        }
+
+                        if (destinatario instanceof Pessoa){
+                            docAvulso = {
+                                ...this.form.value,
+                                pessoaDestino: destinatario,
+                                setorDestino: null
+                            };
+                        }
+
+                        this.save.emit(docAvulso);
+                    });
+            }
+
+            // Por fim, cadastro normal, sem BlocodeProcessos e BlocodeDestinatarios
+            if (!this.form.get('blocoDestinatarios').value &&
+                !this.form.get('blocoProcessos').value) {
+
+                this.save.emit(this.form.value);
+            }
         }
     }
 
@@ -255,6 +363,11 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
 
     deleteProcessos(processoId): void {
         this.processos = this.processos.filter(processo => processo.id !== processoId);
+        this._changeDetectorRef.markForCheck();
+    }
+
+    deleteDestinatarios(destinatarioId): void {
+        this.destinatarios = this.destinatarios.filter(destinatario => destinatario.id !== destinatarioId);
         this._changeDetectorRef.markForCheck();
     }
 

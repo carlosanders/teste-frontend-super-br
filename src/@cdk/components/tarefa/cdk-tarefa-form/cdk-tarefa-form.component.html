@@ -34,7 +34,7 @@
                 </mat-error>
             </mat-form-field>
 
-            <div *ngIf="form.get('blocoProcessos').value" class="bloco-processos">
+            <div fxFlex="1 0 auto" *ngIf="form.get('blocoProcessos').value" class="bloco-processos">
                 <cdk-processo-grid
                     [processos]="processos"
                     [total]="processos.length"
@@ -77,6 +77,15 @@
                 Distribuição Automática
             </mat-slide-toggle>
 
+            <div class="align-icon" fxLayout="row" fxFlex="100">
+                <div class="align-icon toggle-icon">
+                    <mat-slide-toggle class="align-icon toggle-icon" *ngIf="!tarefa.id && mode === 'regular'"
+                                      formControlName="blocoResponsaveis" class="mr-16 mb-16" fxFlex="0 1 auto">
+                        Bloco de Responsáveis
+                    </mat-slide-toggle>
+                </div>
+            </div>
+
             <mat-form-field fxFlex="100"
                             *ngIf="mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditDistribuicao">
                 <div fxLayout="row" fxLayoutAlign="start center">
@@ -90,7 +99,7 @@
                     [control]="form.get('unidadeResponsavel')"
                     [pagination]="unidadeResponsavelPagination">
                 </cdk-setor-autocomplete>
-                <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                <button matSuffix mat-button mat-icon-button *ngIf="form.value.id && !blocoEdit.blocoEditDistribuicao"
                         (click)="showLogEntryGrid('unidadeResponsavel')">
                     <mat-icon matTooltip="Histórico">history</mat-icon>
                 </button>
@@ -102,15 +111,6 @@
                     {{form.get('unidadeResponsavel').errors.formError}}
                 </mat-error>
             </mat-form-field>
-
-            <div class="align-icon" fxLayout="row" fxFlex="100">
-                <div class="align-icon toggle-icon">
-                    <mat-slide-toggle class="align-icon toggle-icon" *ngIf="!tarefa.id && mode === 'regular'"
-                                      formControlName="blocoResponsaveis" class="mr-16 mb-16" fxFlex="0 1 auto">
-                        Bloco de Responsáveis
-                    </mat-slide-toggle>
-                </div>
-            </div>
 
             <mat-form-field fxFlex="100"
                             *ngIf="!form.get('setorResponsavel').disabled && (mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditDistribuicao)">
@@ -127,7 +127,7 @@
                     [control]="form.get('setorResponsavel')"
                     [pagination]="setorResponsavelPagination">
                 </cdk-setor-autocomplete>
-                <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                <button matSuffix mat-button mat-icon-button *ngIf="form.value.id && !blocoEdit.blocoEditDistribuicao"
                         (click)="showLogEntryGrid('setorResponsavel')">
                     <mat-icon matTooltip="Histórico">history</mat-icon>
                 </button>
@@ -145,7 +145,7 @@
             </mat-form-field>
 
             <mat-form-field fxFlex="100"
-                            *ngIf="!form.get('usuarioResponsavel').disabled && (mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditDistribuicao)">
+                            *ngIf="!form.get('usuarioResponsavel').disabled && (mode === 'regular' || mode === 'bloco-create' || (form.value.unidadeResponsavel && blocoEdit.blocoEditDistribuicao))">
                 <div fxLayout="row" fxLayoutAlign="start center">
                     <input matInput placeholder="Usuário Responsável"
                            formControlName="usuarioResponsavel"
@@ -157,7 +157,7 @@
                     [control]="form.get('usuarioResponsavel')"
                     [pagination]="usuarioResponsavelPagination">
                 </cdk-usuario-autocomplete>
-                <button matSuffix mat-button mat-icon-button *ngIf="tarefa.id"
+                <button matSuffix mat-button mat-icon-button *ngIf="tarefa.id && !blocoEdit.blocoEditDistribuicao"
                         (click)="showLogEntryGrid('usuarioResponsavel')">
                     <mat-icon matTooltip="Histórico">history</mat-icon>
                 </button>
