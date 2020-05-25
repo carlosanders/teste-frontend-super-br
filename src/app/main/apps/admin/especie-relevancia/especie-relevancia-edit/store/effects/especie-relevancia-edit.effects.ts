@@ -134,7 +134,7 @@ export class EspecieRelevanciaEditEffects {
             .pipe(
                 ofType<EspecieRelevanciaEditActions.SaveEspecieRelevanciaSuccess>(EspecieRelevanciaEditActions.SAVE_ESPECIE_RELEVANCIA_SUCCESS),
                 tap((action) => {
-                    this._router.navigate([this.routerState.url.replace(('editar/criar'), 'listar')]).then();
+                    this._router.navigate(['apps/admin/especie-relevancias/listar']).then();
                 })
             );
 

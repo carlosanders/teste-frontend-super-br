@@ -122,7 +122,8 @@ export class CdkTipoDocumentoFormComponent implements OnChanges, OnDestroy {
     }
 
     showEspecieDocumentoGrid(): void {
-        this.activeCard = 'especie-atividade-gridsearch';
+        debugger
+        this.activeCard = 'especie-tipo-documento-gridsearch';
     }
 
     selectEspecieDocumento(especie: EspecieDocumento): void {

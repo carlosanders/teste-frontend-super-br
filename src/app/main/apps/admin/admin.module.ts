@@ -16,11 +16,11 @@ const routes: Routes = [
         component: AdminComponent,
         children: [
             {
-                path: 'tarefas',
+                path: 'especie-tarefas',
                 loadChildren: () => import('./especie-tarefa/especie-tarefa.module').then(m => m.EspecieTarefaModule)
             },
             {
-                path: 'atividades',
+                path: 'especie-atividades',
                 loadChildren: () => import('./especie-atividade/especie-atividade.module').then(m => m.EspecieAtividadeModule)
             },
             {
@@ -36,7 +36,7 @@ const routes: Routes = [
                 loadChildren: () => import('./usuarios-externos/usuarios-externos.module').then(m => m.UsuariosExternosModule)
             },
             {
-                path: 'relevancias',
+                path: 'especie-relevancias',
                 loadChildren: () => import('./especie-relevancia/especie-relevancia.module').then(m => m.EspecieRelevanciaModule)
             },
             {
@@ -53,7 +53,7 @@ const routes: Routes = [
             },
             {
                 path: '**',
-                redirectTo: 'tarefas'
+                redirectTo: 'especie-tarefas'
             },
         ],
     },
