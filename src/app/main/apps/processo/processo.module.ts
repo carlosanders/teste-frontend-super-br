@@ -62,7 +62,8 @@ const routes: Routes = [
             },
             {
                 path: 'processo-capa',
-                loadChildren: () => import('./processo-capa/processo-capa.module').then(m => m.ProcessoCapaModule)
+                loadChildren: () => import('./processo-capa/processo-capa.module').then(m => m.ProcessoCapaModule),
+                canActivate: [fromGuards.ResolveGuard]
             },
             {
                 path: '**',

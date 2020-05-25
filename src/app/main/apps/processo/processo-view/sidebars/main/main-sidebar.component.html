@@ -93,7 +93,7 @@
      [infiniteScrollThrottle]="50"
      (scrolled)="onScroll()">
 
-    <div class="juntada" matRipple *ngIf="!(isLoading$ | async)"
+    <div class="juntada" matRipple *ngIf="!(isLoading$ | async) && capaProcesso"
          (click)="goToCapaProcesso()"
          [ngClass]="{'current': currentStep.step === -1, 'completed': currentStep.step > -1, 'last': juntadas.length, 'first': -1}">
         <div class="index">

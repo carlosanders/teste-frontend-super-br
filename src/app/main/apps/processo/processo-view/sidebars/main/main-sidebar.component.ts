@@ -3,6 +3,7 @@ import {
     ChangeDetectorRef,
     Component,
     EventEmitter,
+    Input,
     OnInit,
     Output,
     ViewEncapsulation
@@ -60,6 +61,9 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
 
     form: FormGroup;
 
+    @Input()
+    capaProcesso: boolean;
+
     @Output()
     scrolled = new EventEmitter<any>();
 
@@ -85,7 +89,6 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
         private _formBuilder: FormBuilder,
         private _router: Router
     ) {
-
         this.form = this._formBuilder.group({
             volume: [null],
             tipoDocumento: [null]
