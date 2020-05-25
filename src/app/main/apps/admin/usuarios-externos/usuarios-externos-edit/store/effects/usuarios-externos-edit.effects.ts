@@ -16,6 +16,8 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {LoginService} from 'app/main/auth/login/login.service';
+import * as EspecieRelevanciaEditActions
+    from '../../../../especie-relevancia/especie-relevancia-edit/store/actions/especie-relevancia-edit.actions';
 
 @Injectable()
 export class UsuariosExternosEditEffects {
@@ -98,43 +100,45 @@ export class UsuariosExternosEditEffects {
                 })
             );
 
-    /**
-     * Update Usuario
-     * @type {Observable<any>}
-     */
-    @Effect()
-    updateUsuariosExternos: any =
-        this._actions
-            .pipe(
-                ofType<UsuariosExternosEditActions.UpdateUsuarioExternos>(UsuariosExternosEditActions.UPDATE_USUARIOS_EXTERNOS),
-                switchMap((action) => {
-                    debugger
-                    return this._usuarioService.patch(action.payload.usuario, action.payload.changes).pipe(
-                        mergeMap((response: Usuario) => [
-                            new UsuariosExternosListActions.ReloadUsuariosExternosList(),
-                            new AddData<Usuario>({data: [response], schema: usuarioSchema}),
-                            new UsuariosExternosEditActions.UpdateUsuarioExternosSuccess(response)
-                        ])
-                    );
-                }),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new UsuariosExternosEditActions.UpdateUsuarioExternosFailed(err));
-                    return caught;
-                })
-            );
+    // /**
+    //  * Update Usuario
+    //  * @type {Observable<any>}
+    //  */
+    // @Effect()
+    // updateUsuariosExternos: any =
+    //     this._actions
+    //         .pipe(
+    //             ofType<UsuariosExternosEditActions.UpdateUsuarioExternos>(UsuariosExternosEditActions.UPDATE_USUARIOS_EXTERNOS),
+    //             switchMap((action) => {
+    //                 debugger
+    //                 return this._usuarioService.patch(action.payload.usuario, action.payload.changes).pipe(
+    //                     mergeMap((response: Usuario) => [
+    //                         new UsuariosExternosListActions.ReloadUsuariosExternosList(),
+    //                         new AddData<Usuario>({data: [response], schema: usuarioSchema}),
+    //                         new UsuariosExternosEditActions.UpdateUsuarioExternosSuccess(response)
+    //                     ])
+    //                 );
+    //             }),
+    //             catchError((err, caught) => {
+    //                 console.log(err);
+    //                 this._store.dispatch(new UsuariosExternosEditActions.UpdateUsuarioExternosFailed(err));
+    //                 return caught;
+    //             })
+    //         );
+
 
     /**
      * Save Usuario Success
      */
     @Effect({dispatch: false})
-    updateUsuariosExternosSuccess: any =
+    saveUsuarioExternosSuccess: any =
         this._actions
             .pipe(
-                ofType<UsuariosExternosEditActions.UpdateUsuarioExternosSuccess>(UsuariosExternosEditActions.UPDATE_USUARIOS_EXTERNOS_SUCCESS),
+                ofType<UsuariosExternosEditActions.SaveUsuarioExternosSuccess>(UsuariosExternosEditActions.SAVE_USUARIOS_EXTERNOS_SUCCESS),
                 tap((action) => {
-                    this._router.navigate([this.routerState.url.replace(('criar'), action.payload.id)]).then();
+                    this._router.navigate(['apps/admin/externos/listar']).then();
                 })
             );
+
 
 }

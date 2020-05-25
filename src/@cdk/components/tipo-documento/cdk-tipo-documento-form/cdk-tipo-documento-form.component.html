@@ -82,8 +82,9 @@
 
 <cdk-especie-documento-gridsearch
     fxFlex="1 0 auto"
-    *ngIf="activeCard === 'especie-documento-gridsearch'"
+    *ngIf="activeCard === 'especie-tipo-documento-gridsearch'"
     [pagination]="especieDocumentoPagination"
     (selected)="selectEspecieDocumento($event)"
     (cancel)="cancel()">
+    {{activeCard}}
 </cdk-especie-documento-gridsearch>
