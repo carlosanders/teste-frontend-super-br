@@ -54,7 +54,8 @@ export class TipoDocumentoEditEffects {
                         JSON.stringify({}),
                         JSON.stringify([
                             'populateAll'
-                        ]));
+                        ]),
+                        JSON.stringify({"isAdmin": true}));
                 }),
                 switchMap(response => [
                     new AddData<TipoDocumento>({data: response['entities'], schema: tipoDocumentoSchema}),

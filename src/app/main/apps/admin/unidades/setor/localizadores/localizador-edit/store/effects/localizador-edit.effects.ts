@@ -53,7 +53,8 @@ export class LocalizadorEditEffects {
                         JSON.stringify({}),
                         JSON.stringify([
                             'populateAll'
-                        ]));
+                        ]),
+                        JSON.stringify({"isAdmin": true}));
                 }),
                 switchMap(response => [
                     new AddData<Localizador>({data: response['entities'], schema: localizadorSchema}),
