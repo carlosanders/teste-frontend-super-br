@@ -5,6 +5,7 @@
         [errors]="(errors$ | async)"
         [setorPagination]="setorPagination"
         [especieSetorPagination]="especieSetorPagination"
+        requiredParent="false"
         (save)="submit($event)"
         (abort)="doAbort()">
 </cdk-setor-form>

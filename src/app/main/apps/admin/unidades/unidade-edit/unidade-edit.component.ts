@@ -63,6 +63,9 @@ export class UnidadeEditComponent implements OnInit, OnDestroy {
 
         this.setorPagination = new Pagination();
         this.setorPagination.populate = ['populateAll'];
+        this.setorPagination.filter = {
+            'parent': 'isNull'
+        }
         this.generoSetorPagination = new Pagination();
         this.generoSetorPagination.populate = ['populateAll'];
     }

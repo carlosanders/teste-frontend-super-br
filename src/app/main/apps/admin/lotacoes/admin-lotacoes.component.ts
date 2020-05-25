@@ -26,6 +26,9 @@ export class AdminLotacoesComponent implements OnInit, OnDestroy {
 
     private _unsubscribeAll: Subject<any> = new Subject();
 
+    setor$: Observable<Setor>;
+    setor: Setor;
+
     action = '';
     routerState: any;
 
@@ -40,6 +43,7 @@ export class AdminLotacoesComponent implements OnInit, OnDestroy {
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router
     ) {
+        this.setor$ = this._store.pipe(select(fromStore.getSetor));
     }
 
     /**
@@ -53,15 +57,36 @@ export class AdminLotacoesComponent implements OnInit, OnDestroy {
             ).subscribe(routerState => {
             if (routerState) {
                 this.routerState = routerState.state;
+                if (this.routerState.url.indexOf('lotacoes/listar') > -1) {
+                    this.action = 'listar';
+                }
+                if (this.routerState.url.indexOf('lotacoes/editar') > -1) {
+                    this.action = 'editar';
+                }
+                if (this.routerState.url.indexOf('lotacoes/editar/criar') > -1) {
+                    this.action = 'criar';
+                }
                 this._changeDetectorRef.markForCheck();
             }
         });
+
+        this.setor$.pipe(takeUntil(this._unsubscribeAll)).subscribe(setor => this.setor = setor);
     }
 
     ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
+    }
+
+    getTitulo(): string {
+        if (this.action === 'listar') {
+            return 'Lotações - ' + this.setor.nome + ' - ' + this.setor.unidade.nome;
+        } else if (this.action === 'criar') {
+            return 'Nova Lotação - ' + this.setor.nome + ' - ' + this.setor.unidade.nome;
+        } else if (this.action === 'editar') {
+            return 'Alterar Lotação - ' + this.setor.nome + ' - ' + this.setor.unidade.nome;
+        }
     }
 
     goBack(): void {
