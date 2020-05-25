@@ -105,7 +105,7 @@ export class UsuariosListComponent implements OnInit {
                 title: 'Redefinição de senha',
                 confirmLabel: 'Sim',
                 cancelLabel: 'Não',
-                confirmMessage: 'Uma nova senha segura será gerada e enviada ao usuário por e-mail.'
+                message: 'Uma nova senha segura será gerada e enviada ao usuário por e-mail.'
             },
             hasBackdrop: false,
             closeOnNavigation: true

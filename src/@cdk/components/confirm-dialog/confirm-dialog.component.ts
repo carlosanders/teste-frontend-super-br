@@ -10,6 +10,8 @@ import {MAT_DIALOG_DATA} from '@cdk/angular/material';
 export class CdkConfirmDialogComponent
 {
 
+    public confirmMessage: string;
+
     /**
      *
      * @param dialogRef
