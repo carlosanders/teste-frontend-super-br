@@ -38,7 +38,6 @@ import {CdkEtiquetaChipsModule} from '@cdk/components/etiqueta/cdk-etiqueta-chip
 import {DndModule} from 'ngx-drag-drop';
 import {LoginService} from '../../auth/login/login.service';
 import { AssuntoService } from '@cdk/services/assunto.service';
-import * as fromAssuntosGuards from 'app/main/apps/processo/processo-edit/assuntos/assunto-list/store/guards/index';
 import {AssuntoListStoreModule} from 'app/main/apps/processo/processo-edit/assuntos/assunto-list/store/store.module';
 import {modulesConfig} from 'modules/modules-config';
 

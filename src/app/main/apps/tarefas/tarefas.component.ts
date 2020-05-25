@@ -206,7 +206,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             }
         });
 
-        this.PesquisaTarefa = 'tarefa';//IDEIA INICIAL AJUDA ABA TAREFAS
+        this.PesquisaTarefa = 'tarefa';
     }
 
     ngAfterViewInit(): void {

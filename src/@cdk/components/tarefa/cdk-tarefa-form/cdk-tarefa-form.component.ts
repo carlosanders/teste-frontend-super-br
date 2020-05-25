@@ -154,7 +154,8 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             usuarios: [null],
             setores: [null],
             setorOrigem: [null, [Validators.required]],
-            observacao: [null, [Validators.maxLength(255)]]
+            observacao: [null, [Validators.maxLength(255)]],
+            localEvento: [null, [Validators.maxLength(255)]]
         });
 
         this.processoPagination = new Pagination();
@@ -369,6 +370,9 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             switchMap((value) => {
                     if (value) {
                         this.evento = value.evento;
+                        if (!this.evento) {
+                            this.form.get('localEvento').reset();
+                        }
                         this._changeDetectorRef.markForCheck();
                     }
                     return of([]);
@@ -451,11 +455,11 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             return;
         }
 
-        if (diffDays === 0) {
-            this.form.get('dataHoraFinalPrazo').setErrors({formError: 'O prazo deve ser no mínimo de 24 (vinte e quatro) horas!'});
-            this._changeDetectorRef.markForCheck();
-            return;
-        }
+        //if (diffDays === 0) {
+        //    this.form.get('dataHoraFinalPrazo').setErrors({formError: 'O prazo deve ser no mínimo de 24 (vinte e quatro) horas!'});
+        //    this._changeDetectorRef.markForCheck();
+        //    return;
+        //}
 
         if (diffDays > 180) {
             this.form.get('dataHoraFinalPrazo').setErrors({formError: 'O prazo deve ser de no máximo de 180 (cento e oitenta) dias!'});
@@ -497,6 +501,10 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                 this.inputProcesso = true;
             } else {
                 this.inputProcesso = false;
+            }
+
+            if (this.tarefa.especieTarefa) {
+                this.evento = this.tarefa.especieTarefa.evento;
             }
 
             if (!this.tarefa.id && this.tarefa.unidadeResponsavel) {

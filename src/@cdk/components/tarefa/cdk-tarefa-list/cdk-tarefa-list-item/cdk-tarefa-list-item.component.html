@@ -8,6 +8,8 @@
 
         <div class="info" fxFlex [ngClass]="{'nao-lido': !tarefa.dataHoraLeitura}">
 
+            <mat-icon *ngIf="tarefa.especieTarefa?.evento">calendar_today</mat-icon>
+
             <div class="title" fxLayout="row">
                 <mat-icon *ngIf="tarefa.processo?.acessoNegado" matTooltip="Acesso negado!" class="red-fg">block</mat-icon>
                 <mat-icon *ngIf="tarefa.processo?.acessoRestrito" matTooltip="Acesso restrito!" class="red-fg">lock</mat-icon>
@@ -42,10 +44,6 @@
             </div>
 
             <div [matTooltip]="'Tarefa Id ' + tarefa.id.toString()" class="body mt-4">
-                <div *ngIf="tarefa.especieTarefa?.evento">
-                    EVENTO
-                </div>
-
                 <div>
                     {{tarefa.especieTarefa?.nome}}
                 </div>

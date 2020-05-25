@@ -55,6 +55,10 @@ const routes = [
     {
         path        : 'protocolo-externo',
         loadChildren: () => import('./protocolo-externo/protocolo-externo.module').then(m => m.ProtocoloExternoModule)
+    },
+    {
+        path        : 'calendario',
+        loadChildren: () => import('./calendario/calendar.module').then(m => m.CalendarModule)
     }
 ];
 
