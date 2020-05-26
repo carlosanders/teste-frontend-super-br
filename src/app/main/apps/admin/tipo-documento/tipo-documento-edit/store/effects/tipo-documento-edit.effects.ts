@@ -134,7 +134,7 @@ export class TipoDocumentoEditEffects {
             .pipe(
                 ofType<TipoDocumentoEditActions.SaveTipoDocumentoSuccess>(TipoDocumentoEditActions.SAVE_TIPO_DOCUMENTO_SUCCESS),
                 tap((action) => {
-                    this._router.navigate(['apps/admin/documentos/listar']).then();
+                    this._router.navigate(['apps/admin/tipos-documentos/listar']).then();
                 })
             );
 
