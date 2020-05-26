@@ -83,7 +83,7 @@ export class CdkTemplateFormComponent implements OnChanges, OnDestroy {
                     nome: this.template.nome,
                     descricao: this.template.descricao,
                     modalidadeTemplate: this.template.modalidadeTemplate,
-                    tipoDocumento: this.template.documento.tipoDocumento,
+                    tipoDocumento: this.template.documento?.tipoDocumento,
                     ativo: this.template.ativo,
                 }
             );
