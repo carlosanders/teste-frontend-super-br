@@ -36,13 +36,3 @@ export const getProcessoIsLoading = createSelector(
     getProcessoCapaState,
     (state: ProcessoCapaState) => state.loading
 );
-
-export const getIsAssuntoLoading = createSelector(
-    getProcessoCapaState,
-    (state: ProcessoCapaState) => state.loadingAssuntosProcessosId
-);
-
-export const getIsInteressadoLoading = createSelector(
-    getProcessoCapaState,
-    (state: ProcessoCapaState) => state.loadingInteressadosProcessosId
-);

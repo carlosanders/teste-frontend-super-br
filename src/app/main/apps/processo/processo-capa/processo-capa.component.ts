@@ -13,7 +13,7 @@ import {cdkAnimations} from '@cdk/animations';
 import {CdkPerfectScrollbarDirective} from '@cdk/directives/cdk-perfect-scrollbar/cdk-perfect-scrollbar.directive';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 
-import {Juntada, Processo} from '@cdk/models';
+import {Assunto, Juntada, Processo} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {DomSanitizer} from '@angular/platform-browser';
@@ -45,9 +45,24 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
 
     processo$: Observable<Processo>;
     processo: Processo;
-
     juntadas$: Observable<Juntada[]>;
     juntadas: Juntada[] = [];
+    assuntos$: Observable<Assunto[]>;
+    assuntos: Assunto[] = [];
+    interessados$: Observable<Assunto[]>;
+    interessados: Assunto[] = [];
+
+    paginationJuntadas$: Observable<any>;
+    paginationJuntadas: any;
+    paginationAssuntos$: Observable<any>;
+    paginationAssuntos: any;
+    paginationInteressados$: Observable<any>;
+    paginationInteressados: any;
+
+    loadingJuntas$: Observable<boolean>;
+    loadingInteressados$: Observable<boolean>;
+    loadingAssuntos$: Observable<boolean>;
+
 
     chaveAcesso: string;
 
@@ -70,6 +85,15 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
         this.routerState$ = this._store.pipe(select(getRouterState));
         this.processo$ = this._store.pipe(select(fromStore.getProcesso));
         this.juntadas$ = this._store.pipe(select(fromStore.getJuntadas));
+        this.assuntos$ = this._store.pipe(select(fromStore.getAssuntos));
+        this.interessados$ = this._store.pipe(select(fromStore.getInteressados));
+
+        this.loadingJuntas$ = this._store.pipe(select(fromStore.getIsJuntadasLoading));
+        this.loadingAssuntos$ = this._store.pipe(select(fromStore.getIsAssuntosLoading));
+        this.loadingInteressados$ = this._store.pipe(select(fromStore.getIsInteressadosLoading));
+        this.paginationJuntadas$ = this._store.pipe(select(fromStore.getPagination));
+        this.paginationAssuntos$ = this._store.pipe(select(fromStore.getPaginationAssuntos));
+        this.paginationInteressados$ = this._store.pipe(select(fromStore.getPaginationInteressados));
     }
 
     ngOnInit(): void {
@@ -101,9 +125,31 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
             this.juntadas = juntadas;
         });
 
-        this.doLoadAssuntos(this.processo);
-        this.doLoadInteressados(this.processo);
-        // this.doLoadJuntadas(this.processo);
+        this.assuntos$.pipe(
+            takeUntil(this._unsubscribeAll),
+            filter(assuntos => !!assuntos)
+        ).subscribe( assuntos => {
+            this.assuntos = assuntos;
+        });
+
+        this.interessados$.pipe(
+            takeUntil(this._unsubscribeAll),
+            filter(interessados => !!interessados)
+        ).subscribe( interessados => {
+            this.interessados = interessados;
+        });
+
+        this.paginationJuntadas$.subscribe(pagination => {
+            this.paginationJuntadas = pagination;
+        });
+
+        this.paginationAssuntos$.subscribe(pagination => {
+            this.paginationAssuntos = pagination;
+        });
+
+        this.paginationInteressados$.subscribe(pagination => {
+            this.paginationInteressados = pagination;
+        });
     }
 
     ngOnDestroy(): void {
@@ -126,28 +172,55 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
         this._cdkSidebarService.getSidebar(name).toggleOpen();
     }
 
-    doLoadAssuntos(processo): void {
-        const params = {
-            filter: {'processo.id': `eq:${processo.id}`, 'principal': 'eq:true'},
-            sort: {},
-            limit: 1,
-            offset: 0,
-            populate: ['assuntoAdministrativo']
-        };
+    reloadAssuntos(params): void {
+        this._store.dispatch(new fromStore.UnloadAssuntos({reset: false}));
 
-        this._store.dispatch(new fromStore.GetAssuntosProcesso({processoId: processo.id, params: params}));
+        this._store.dispatch(new fromStore.GetAssuntos({
+            processoId: this.processo.id,
+            ...this.paginationAssuntos,
+            filter: {
+                ...this.paginationAssuntos.filter,
+                ...params.gridFilter
+            },
+            sort: params.sort,
+            limit: params.limit,
+            offset: params.offset,
+            populate: this.paginationAssuntos.populate
+        }));
     }
 
-    doLoadInteressados(processo): void {
-        const params = {
-            filter: {'processo.id': `eq:${processo.id}`},
-            sort: {},
-            limit: 1,
-            offset: 0,
-            populate: ['modalidadeInteressado', 'pessoa']
-        };
+    reloadInteressados(params): void {
+        this._store.dispatch(new fromStore.UnloadInteressados({reset: false}));
 
-        this._store.dispatch(new fromStore.GetInteressadosProcesso({processoId: processo.id, params: params}));
+        this._store.dispatch(new fromStore.GetInteressados({
+            processoId: this.processo.id,
+            ...this.paginationInteressados,
+            filter: {
+                ...this.paginationInteressados.filter,
+                ...params.gridFilter
+            },
+            sort: params.sort,
+            limit: params.limit,
+            offset: params.offset,
+            populate: this.paginationInteressados.populate
+        }));
+    }
+
+    reloadJuntadas(params): void {
+        this._store.dispatch(new fromStore.UnloadJuntadas({reset: false}));
+
+        this._store.dispatch(new fromStore.GetJuntadas({
+            processoId: this.processo.id,
+            ...this.paginationJuntadas,
+            filter: {
+                ...this.paginationJuntadas.filter,
+                ...params.gridFilter
+            },
+            sort: params.sort,
+            limit: params.limit,
+            offset: params.offset,
+            populate: this.paginationJuntadas.populate
+        }));
     }
 
     back(): void {

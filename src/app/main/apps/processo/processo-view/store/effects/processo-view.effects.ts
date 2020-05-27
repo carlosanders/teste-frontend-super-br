@@ -162,7 +162,6 @@ export class ProcessoViewEffect {
             .pipe(
                 ofType<ProcessoViewActions.GetCapaProcesso>(ProcessoViewActions.GET_CAPA_PROCESSO),
                 map(() => {
-                    console.log(this.routerState.params.chaveAcessoHandle);
                     if (this.routerState.params.chaveAcessoHandle) {
                         this._router.navigate([this.routerState.url.replace(`visualizar/${this.routerState.params.chaveAcessoHandle}`, 'processo-capa')]).then();
                     }

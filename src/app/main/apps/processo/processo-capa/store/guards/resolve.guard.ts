@@ -10,6 +10,7 @@ import {ProcessoCapaAppState} from '../reducers';
 import * as fromStore from '../index';
 import {getProcessoLoaded, getJuntadasLoaded} from '../selectors';
 import {getRouterState} from 'app/store/reducers';
+import {getInteressadosLoaded} from '../index';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
@@ -53,9 +54,7 @@ export class ResolveGuard implements CanActivate {
      * @returns {Observable<any>}
      */
     checkStore(): Observable<any> {
-        return forkJoin(
-            this.getJuntadas()
-        ).pipe(
+        return forkJoin([this.getJuntadas(), this.getAssuntos(), this.getInteressados()]).pipe(
             filter(([juntadasLoaded]) => !!(juntadasLoaded)),
             take(1),
             switchMap(() =>
@@ -118,6 +117,66 @@ export class ResolveGuard implements CanActivate {
 
                 if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
                     this._store.dispatch(new fromStore.GetJuntadas(params));
+                }
+            }),
+            filter((loaded: any) => {
+                return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
+            }),
+            take(1)
+        );
+    }
+
+    /**
+     * Get folders
+     *
+     * @returns {Observable<any>}
+     */
+    getAssuntos(): any {
+        this._store.dispatch(new fromStore.UnloadAssuntos({reset: true}));
+
+        return this._store.pipe(
+            select(getJuntadasLoaded),
+            tap(loaded => {
+                const params = {
+                    filter: {'processo.id': `eq:${this.routerState.params['processoHandle']}`, 'principal': 'eq:true'},
+                    sort: {},
+                    limit: 10,
+                    offset: 0,
+                    populate: ['assuntoAdministrativo']
+                };
+
+                if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
+                    this._store.dispatch(new fromStore.GetAssuntos(params));
+                }
+            }),
+            filter((loaded: any) => {
+                return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
+            }),
+            take(1)
+        );
+    }
+
+    /**
+     * Get folders
+     *
+     * @returns {Observable<any>}
+     */
+    getInteressados(): any {
+        this._store.dispatch(new fromStore.UnloadInteressados({reset: true}));
+
+        return this._store.pipe(
+            select(getInteressadosLoaded),
+            tap(loaded => {
+                const params = {
+                    filter: {'processo.id': `eq:${this.routerState.params['processoHandle']}`},
+                    sort: {},
+                    limit: 10,
+                    offset: 0,
+                    populate: ['modalidadeInteressado', 'pessoa']
+                };
+
+                if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
+                    this._store.dispatch(new fromStore.GetInteressados(params));
                 }
             }),
             filter((loaded: any) => {

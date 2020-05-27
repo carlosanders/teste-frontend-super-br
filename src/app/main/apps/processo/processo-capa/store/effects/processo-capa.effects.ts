@@ -8,7 +8,7 @@ import {getRouterState, State} from 'app/store/reducers';
 import * as ProcessoCapaActions from '../actions';
 
 import {ProcessoService} from '@cdk/services/processo.service';
-import {AddChildData, AddData} from '@cdk/ngrx-normalizr';
+import {AddData} from '@cdk/ngrx-normalizr';
 import {Assunto, Interessado, Juntada, Processo} from '@cdk/models';
 import {processo as processoSchema} from '@cdk/normalizr/processo.schema';
 import {assunto as assuntoSchema} from '@cdk/normalizr/assunto.schema';
@@ -17,6 +17,7 @@ import {AssuntoService} from '@cdk/services/assunto.service';
 import {InteressadoService} from '@cdk/services/interessado.service';
 import {juntada as juntadaSchema} from '@cdk/normalizr/juntada.schema';
 import {JuntadaService} from '@cdk/services/juntada.service';
+import * as ProcessosActions from '../../../../protocolo-externo/store/actions/protocolos-externos.actions';
 
 @Injectable()
 export class ProcessoCapaEffect {
@@ -96,31 +97,33 @@ export class ProcessoCapaEffect {
     getAssuntosProcesso: Observable<any> =
         this._actions
             .pipe(
-                ofType<ProcessoCapaActions.GetAssuntosProcesso>(ProcessoCapaActions.GET_ASSUNTOS_PROCESSO),
+                ofType<ProcessoCapaActions.GetAssuntos>(ProcessoCapaActions.GET_ASSUNTOS),
                 switchMap((action) => {
                     return this._assuntoService.query(
                         JSON.stringify({
-                            ...action.payload.params.filter
+                            ...action.payload.filter,
+                            ...action.payload.listFilter
                         }),
-                        action.payload.params.limit,
-                        action.payload.params.offset,
-                        JSON.stringify(action.payload.params.sort),
-                        JSON.stringify(action.payload.params.populate)).pipe(
-                        mergeMap((response) => [
-                            new ProcessoCapaActions.GetAssuntosProcessoSuccess(action.payload.processoId),
-                            new AddChildData<Assunto>({
-                                data: response['entities'],
-                                childSchema: assuntoSchema,
-                                parentSchema: processoSchema,
-                                parentId: action.payload.processoId
-                            }),
-                        ]),
-                        catchError((err, caught) => {
-                            console.log(err);
-                            this._store.dispatch(new ProcessoCapaActions.GetAssuntosProcessoFailed(action.payload.processoId));
-                            return caught;
-                        })
-                    );
+                        action.payload.imit,
+                        action.payload.offset,
+                        JSON.stringify(action.payload.sort),
+                        JSON.stringify(action.payload.populate));
+                }),
+                mergeMap((response) => [
+                    new AddData<Assunto>({data: response['entities'], schema: assuntoSchema}),
+                    new ProcessoCapaActions.GetAssuntosSuccess({
+                        entitiesId: response['entities'].map(assunto => assunto.id),
+                        loaded: {
+                            id: 'processoHandle',
+                            value: this.routerState.params.processoHandle,
+                        },
+                        total: response['total']
+                    })
+                ]),
+                catchError((err, caught) => {
+                    console.log(err);
+                    this._store.dispatch(new ProcessoCapaActions.GetAssuntosFailed(err));
+                    return caught;
                 })
             );
 
@@ -132,31 +135,33 @@ export class ProcessoCapaEffect {
     getInteressadosProcesso: Observable<any> =
         this._actions
             .pipe(
-                ofType<ProcessoCapaActions.GetInteressadosProcesso>(ProcessoCapaActions.GET_INTERESSADOS_PROCESSO),
+                ofType<ProcessoCapaActions.GetInteressados>(ProcessoCapaActions.GET_INTERESSADOS),
                 switchMap((action) => {
                     return this._interessadoService.query(
                         JSON.stringify({
-                            ...action.payload.params.filter
+                            ...action.payload.filter,
+                            ...action.payload.listFilter
                         }),
-                        action.payload.params.limit,
-                        action.payload.params.offset,
-                        JSON.stringify(action.payload.params.sort),
-                        JSON.stringify(action.payload.params.populate)).pipe(
-                        mergeMap((response) => [
-                            new ProcessoCapaActions.GetInteressadosProcessoSuccess(action.payload.processoId),
-                            new AddChildData<Interessado>({
-                                data: response['entities'],
-                                childSchema: interessadoSchema,
-                                parentSchema: processoSchema,
-                                parentId: action.payload.processoId
-                            }),
-                        ]),
-                        catchError((err, caught) => {
-                            console.log(err);
-                            this._store.dispatch(new ProcessoCapaActions.GetInteressadosProcessoFailed(action.payload.processoId));
-                            return caught;
-                        })
-                    );
+                        action.payload.imit,
+                        action.payload.offset,
+                        JSON.stringify(action.payload.sort),
+                        JSON.stringify(action.payload.populate));
+                }),
+                mergeMap((response) => [
+                    new AddData<Interessado>({data: response['entities'], schema: interessadoSchema}),
+                    new ProcessoCapaActions.GetInteressadosSuccess({
+                        entitiesId: response['entities'].map(interessado => interessado.id),
+                        loaded: {
+                            id: 'processoHandle',
+                            value: this.routerState.params.processoHandle,
+                        },
+                        total: response['total']
+                    })
+                ]),
+                catchError((err, caught) => {
+                    console.log(err);
+                    this._store.dispatch(new ProcessoCapaActions.GetInteressadosFailed(err));
+                    return caught;
                 })
             );
 
@@ -173,9 +178,7 @@ export class ProcessoCapaEffect {
                     return this._juntadaService.query(
                         JSON.stringify({
                             ...action.payload.filter,
-                            ...action.payload.folderFilter,
-                            ...action.payload.listFilter,
-                            ...action.payload.etiquetaFilter
+                            ...action.payload.listFilter
                         }),
                         action.payload.limit,
                         action.payload.offset,
