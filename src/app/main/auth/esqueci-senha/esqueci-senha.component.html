@@ -1,0 +1,72 @@
+<div id="esqueci-senha" fxLayout="column">
+
+    <div id="esqueci-senha-form-wrapper" fxLayout="column" fxLayoutAlign="center center">
+        <div id="esqueci-senha-form" [@animate]="{value:'*',params:{duration:'300ms',y:'100px'}}">
+
+            <div class="logo">
+                <img src="assets/images/logos/supp.png">
+            </div>
+
+            <div class="title">RECUPERAR SENHA</div>
+
+            <form name="esqueciSenhaForm" [formGroup]="esqueciSenhaForm" novalidate
+                  *ngIf="!(this.getEsqueciSenhaState | async).esqueciSenha.success">
+
+                <mat-form-field appearance="outline">
+                    <mat-label>CPF</mat-label>
+                    <input matInput ui-mask="999.999.999-99" formControlName="username">
+                    <mat-icon matSuffix class="secondary-text">person</mat-icon>
+                    <mat-error *ngIf="esqueciSenhaForm.get('username').hasError('required')">
+                        CPF é obrigatório
+                    </mat-error>
+                    <mat-error
+                        *ngIf="!esqueciSenhaForm.get('username').hasError('required') &&
+                                esqueciSenhaForm.get('username').hasError('username')">
+                        Entre com um CPF válido
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>E-mail</mat-label>
+                    <input matInput type="text" formControlName="email">
+                    <mat-icon matSuffix class="secondary-text">email</mat-icon>
+                    <mat-error *ngIf="esqueciSenhaForm.get('email').hasError('required')">
+                        Email é obrigatório
+                    </mat-error>
+                    <mat-error *ngIf="esqueciSenhaForm.get('email').hasError('email')">
+                        Email invalido
+                    </mat-error>
+                </mat-form-field>
+
+                <div *ngIf="errorMessage" fxLayout="row" fxLayout.xs="column"
+                     fxLayoutAlign="center">
+                    <mat-error>
+                        {{errorMessage}}
+                    </mat-error>
+                </div>
+
+                <button (click)="onSubmit()" mat-raised-button color="accent" class="submit-button" aria-label="ENVIAR"
+                        [disabled]="esqueciSenhaForm.invalid">
+                    ENVIAR
+                </button>
+                <button (click)="onBack()" mat-raised-button color="warn" class="submit-button" type="button" aria-label="CANCELAR">
+                    CANCELAR
+                </button>
+
+                <div fxLayout="row" fxLayout.xs="column"
+                     fxLayoutAlign="center">
+                    <mat-progress-bar [mode]="'indeterminate'" *ngIf="loading"></mat-progress-bar>
+                </div>
+
+            </form>
+
+            <div *ngIf="(this.getEsqueciSenhaState | async).esqueciSenha.success" class="register">
+                <span class="text">Um e-mail com instruções para redefinição da sua senha foi enviado para o endereço vinculado à sua conta.</span>
+
+                <a (click)="onBack()" class="link">Clique aqui para retornar à tela de login.</a>
+            </div>
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,180 @@
+<div class="page-layout left-sidebar" fxFlex>
+
+    <!-- SIDEBAR -->
+    <cdk-sidebar name="cdk-coordenador-filter" position="left">
+        <cdk-coordenador-filter [setorPagination]="setorPagination"
+                                [unidadePagination]="unidadePagination"
+                                [orgaoCentralPagination]="orgaoCentralPagination"
+                                [usuarioPagination]="usuarioPagination"
+                                (selected)="setFilter($event)" [@animate]="{value:'*'}">
+        </cdk-coordenador-filter>
+    </cdk-sidebar>
+
+    <!-- CONTENT -->
+    <div class="content responsive-grid" fxFlex fxLayout="column">
+
+        <div class="actions" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="end center">
+
+            <button class="back accent" mat-icon-button *ngIf="actions.indexOf('create') > -1"
+                    (click)="doCreate()"
+                    aria-label="novo"
+                    matTooltip="Novo">
+                <mat-icon>add</mat-icon>
+            </button>
+
+            <button class="back" mat-icon-button *ngIf="actions.indexOf('cancel') > -1"
+                    (click)="doCancel()"
+                    aria-label="cancelar"
+                    matTooltip="Cancelar">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
+
+            <button mat-icon-button *ngIf="selectedIds.length > 1 && actions.indexOf('delete') > -1"
+                    (click)="deleteCoordenadores(selectedIds)"
+                    aria-label="remover"
+                    matTooltip="Remover">
+                <mat-icon>delete</mat-icon>
+            </button>
+
+            <mat-form-field class="colunas mr-8">
+                <mat-select [formControl]="columns" multiple>
+                    <div *ngFor="let column of allColumns">
+                        <mat-option *ngIf="!column.fixed" [value]="column.id">{{ column.label }}</mat-option>
+                    </div>
+                </mat-select>
+            </mat-form-field>
+
+            <button class="refresh" mat-icon-button
+                    (click)="loadPage()"
+                    aria-label="recarregar"
+                    matTooltip="Recarregar">
+                <mat-icon>refresh</mat-icon>
+            </button>
+
+            <button class="toggle-filter" mat-icon-button [ngClass]="{'warn': !(gridFilter | json).includes('{}')}"
+                    (click)="toggleFilter()"
+                    aria-label="filtrar"
+                    matTooltip="Filtrar">
+                <mat-icon>filter_list</mat-icon>
+            </button>
+        </div>
+
+        <div fxFlex="1 1 auto" fxLayout="row" fxLayoutAlign="center center" *ngIf="loading">
+            <mat-spinner diameter="32"></mat-spinner>
+        </div>
+
+        <div fxFlex="1 1 auto" fxLayout="column" cdkPerfectScrollbar>
+            <table mat-table [dataSource]="dataSource" matSort [hidden]="loading">
+
+                <!-- Selection Column -->
+                <ng-container matColumnDef="select">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <mat-checkbox (click)="toggleSelectAll($event)"
+                                      [checked]="hasSelected"
+                                      [disabled]="hasExcluded"
+                                      [indeterminate]="isIndeterminate">
+                        </mat-checkbox>
+                    </th>
+                    <td mat-cell *matCellDef="let coordenador">
+                        <mat-checkbox [checked]="selectedIds.indexOf(coordenador.id) > -1"
+                                      (change)="toggleInSelected(coordenador.id)"
+                                      (click)="$event.stopPropagation();"
+                                      [disabled]="deletedIds?.indexOf(coordenador.id) > -1 || hasExcluded">
+                        </mat-checkbox>
+                    </td>
+                </ng-container>
+
+                <!-- Id Column -->
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Id
+                    </th>
+                    <td mat-cell *matCellDef="let coordenador" class='has_label_on_mobile' data-label='Id: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(coordenador.id) > -1}"> {{coordenador.id}} </td>
+                </ng-container>
+
+                <!-- Usuario Column -->
+                <ng-container matColumnDef="usuario.nome">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Usuário
+                    </th>
+                    <td mat-cell *matCellDef="let coordenador" class='has_label_on_mobile' data-label='Usuário: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(coordenador.id) > -1}"> {{coordenador.usuario.nome}} </td>
+                </ng-container>
+
+                <!-- Órgão Central Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('orgaoCentral.valor') > -1" matColumnDef="orgaoCentral.valor">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Órgão Central
+                    </th>
+                    <td mat-cell *matCellDef="let coordenador" class='has_label_on_mobile' data-label='Órgão Central: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(coordenador.id) > -1}"> {{coordenador.orgaoCentral?.valor}} </td>
+                </ng-container>
+
+                <!-- Unidade Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('unidade.nome') > -1" matColumnDef="unidade.nome">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Unidade
+                    </th>
+                    <td mat-cell *matCellDef="let coordenador" class='has_label_on_mobile' data-label='Nome da Unidade: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(coordenador.id) > -1}"> {{coordenador.unidade?.nome}} </td>
+                </ng-container>
+
+                <!-- Setor Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('setor.nome') > -1" matColumnDef="setor.nome">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Setor
+                    </th>
+                    <td mat-cell *matCellDef="let coordenador" class='has_label_on_mobile' data-label='Setor: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(coordenador.id) > -1}"> {{coordenador.setor?.unidade?.sigla}} - {{coordenador.setor?.nome}} </td>
+                </ng-container>
+
+                <!-- Actions Column -->
+                <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let coordenador">
+
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('select') > -1 && !hasExcluded"
+                                (click)="selectCoordenador(coordenador)"
+                                aria-label="selecionar"
+                                matTooltip="Selecionar">
+                            <mat-icon>keyboard_return</mat-icon>
+                        </button>
+
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('edit') > -1 && !hasExcluded"
+                                [disabled]="deletedIds?.indexOf(coordenador.id) > -1"
+                                (click)="editCoordenador(coordenador.id)"
+                                aria-label="editar"
+                                matTooltip="Editar">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+
+                        <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(coordenador.id) > -1">
+                            <mat-spinner diameter="24"></mat-spinner>
+                        </div>
+
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(coordenador.id) === -1 && !hasExcluded"
+                                [disabled]="deletedIds?.indexOf(coordenador.id) > -1"
+                                (click)="deleteCoordenador(coordenador.id)"
+                                aria-label="remover"
+                                matTooltip="Remover">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
+                <tr mat-row *matRowDef="let coordenador; columns: displayedColumns;">
+                </tr>
+            </table>
+        </div>
+
+        <div class="actions" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="center center">
+            <mat-paginator [disabled]="loading" [pageSizeOptions]="[5, 10]"></mat-paginator>
+        </div>
+
+    </div>
+
+</div>

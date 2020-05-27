@@ -119,7 +119,8 @@ export const navigation: CdkNavigation[] = [
                 type: 'item',
                 icon: 'tune',
                 url: '/apps/coordenador/default',
-                role: 'ROLE_COORDENADOR'
+                role: 'ROLE_COORDENADOR',
+                is_coordenador: true
             }
         ]
     }

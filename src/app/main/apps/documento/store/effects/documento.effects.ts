@@ -14,9 +14,10 @@ import {LoginService} from 'app/main/auth/login/login.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
 import {modelo as modeloSchema} from '@cdk/normalizr/modelo.schema';
+import {template as templateSchema} from '@cdk/normalizr/template.schema';
 import {repositorio as repositorioSchema} from '@cdk/normalizr/repositorio.schema';
+import {Assinatura, Documento, Template} from '@cdk/models';
 import {assinatura as assinaturaSchema} from '@cdk/normalizr/assinatura.schema';
-import {Assinatura, Documento} from '@cdk/models';
 import {Router} from '@angular/router';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {Modelo} from '@cdk/models';
@@ -226,6 +227,34 @@ export class DocumentoEffect {
                         catchError((err) => {
                             console.log(err);
                             return of(new DocumentoActions.SaveModeloFailed(err));
+                        })
+                    );
+                })
+            );
+
+    /**
+     * Save Documento
+     * @type {Observable<any>}
+     */
+    @Effect()
+    saveTemplate: any =
+        this._actions
+            .pipe(
+                ofType<DocumentoActions.SaveTemplate>(DocumentoActions.SAVE_TEMPLATE),
+                switchMap((action) => {
+                    return this._modeloService.save(action.payload).pipe(
+                        mergeMap((response: Template) => [
+                            new DocumentoActions.SaveTemplateSuccess(),
+                            new AddData<Template>({data: [response], schema: templateSchema}),
+                            new OperacoesActions.Resultado({
+                                type: 'template',
+                                content: `Template id ${response.id} editado com sucesso!`,
+                                dateTime: response.criadoEm
+                            })
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            return of(new DocumentoActions.SaveTemplateFailed(err));
                         })
                     );
                 })

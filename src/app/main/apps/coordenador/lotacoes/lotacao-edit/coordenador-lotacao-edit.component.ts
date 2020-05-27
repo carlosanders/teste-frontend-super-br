@@ -72,9 +72,22 @@ export class CoordenadorLotacaoEditComponent implements OnInit, OnDestroy {
         this.setorPagination.populate = ['populateAll'];
         this.colaboradorPagination.populate = ['populateAll'];
         this.setorPagination.filter = {
-            'unidade.id': 'eq:' + this.routerState.params.unidadeHandle,
             'parent.id': 'isNotNull'
         };
+        if (this.routerState.params['unidadeHandle'] || this.routerState.params['generoHandle'] === 'unidade') {
+            const unidade = this.routerState.params['unidadeHandle'] ?
+                this.routerState.params['unidadeHandle'] :
+                this.routerState.params['entidadeHandle'];
+            this.setorPagination.filter = {
+                ...this.setorPagination.filter,
+                'unidade.id': 'eq:' + unidade
+            }
+        } else {
+            this.setorPagination.filter = {
+                ...this.setorPagination.filter,
+                'unidade.modalidadeOrgaoCentral.id': 'eq:' + this.routerState.params.entidadeHandle
+            }
+        }
     }
 
     // -----------------------------------------------------------------------------------------------------

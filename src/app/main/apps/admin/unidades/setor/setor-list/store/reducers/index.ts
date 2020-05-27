@@ -7,7 +7,7 @@ export interface SetorListAppState
 }
 
 export const getSetorListAppState = createFeatureSelector<SetorListAppState>(
-    'root-setor-list-app'
+    'admin-setor-list-app'
 );
 
 export const getAppState = createSelector(

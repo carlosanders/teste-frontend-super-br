@@ -43,7 +43,7 @@ export class CdkTemplateFilterComponent implements OnInit {
             descricao: [null],
             ativo: [null],
             modalidadeTemplate: [null],
-            documento: [null],
+            tipoDocumento: [null],
             criadoPor: [null],
             criadoEm: [null],
             atualizadoPor: [null],
@@ -103,16 +103,16 @@ export class CdkTemplateFilterComponent implements OnInit {
             }
         });
 
-        this.form.get('documento').valueChanges.subscribe(value => {
+        this.form.get('tipoDocumento').valueChanges.subscribe(value => {
             if (value !== null) {
                 if (typeof value === 'object' && value) {
                     this.filters = {
                         ...this.filters,
-                        'documento.id': `eq:${value.id}`
+                        'documento.tipoDocumento.id': `eq:${value.id}`
                     };
                 } else {
-                    if (this.filters.hasOwnProperty('documento.id')) {
-                        delete this.filters['documento.id'];
+                    if (this.filters.hasOwnProperty('documento.tipoDocumento.id')) {
+                        delete this.filters['documento.tipoDocumento.id'];
                     }
                 }
             }

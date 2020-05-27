@@ -121,6 +121,21 @@ export class LoginService {
         return hasAccess;
     }
 
+    isCoordenador(): boolean {
+        const profile = this.getUserProfile();
+        let hasAccess = false;
+
+        if (profile && profile.roles && profile.roles.length > 0) {
+            hasAccess = profile.roles.findIndex((papel: string) => {
+                return papel.includes('ROLE_COORDENADOR');
+            }) !== -1;
+        }
+        if (hasAccess) {
+            return profile.coordenadores.length > 0;
+        }
+        return hasAccess;
+    }
+
     private startCountdown(): void {
         // Renova o token quando faltar 3 minutos para expirar
         const timeExpToken = this.getExp() - this.getTimestamp();
