@@ -282,10 +282,10 @@ export class TarefasEffect {
         this._actions
             .pipe(
                 ofType<TarefasActions.DarCienciaTarefa>(TarefasActions.DAR_CIENCIA_TAREFA),
-                switchMap((action) => {
+                mergeMap((action) => {
                     return this._tarefaService.ciencia(action.payload).pipe(
                         mergeMap((response: Tarefa) => [
-                            new TarefasActions.DarCienciaTarefaSuccess(),
+                            new TarefasActions.DarCienciaTarefaSuccess(response.id),
                             new AddData<Tarefa>({
                                 data: [response],
                                 schema: tarefaSchema
@@ -302,5 +302,4 @@ export class TarefasEffect {
                     );
                 })
             );
-
 }

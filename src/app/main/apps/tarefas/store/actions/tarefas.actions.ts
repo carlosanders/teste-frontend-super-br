@@ -485,7 +485,7 @@ export class DarCienciaTarefaSuccess implements Action
 {
     readonly type = DAR_CIENCIA_TAREFA_SUCCESS;
 
-    constructor()
+    constructor(public payload: any)
     {
     }
 }

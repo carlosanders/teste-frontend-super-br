@@ -86,7 +86,8 @@
                                      (editTarefaBloco)="doEditTarefaBloco()"
                                      (editRedistribuirBloco)="doRedistribuiTarefaBloco()"
                                      (loadAssuntos)="doLoadAssuntos($event)"
-                                     [loadingAssuntosProcessosId]="(loadingAssuntosProcessosId$ | async)">
+                                     [loadingAssuntosProcessosId]="(loadingAssuntosProcessosId$ | async)"
+                                     [cienciaIds]="(cienciaIds$ | async)">
                     </cdk-tarefa-list>
                 </div>
                 

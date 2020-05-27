@@ -118,6 +118,9 @@ export class CdkTarefaListComponent {
 
     @Input()
     loadingAssuntosProcessosId: number[];
+
+    @Input()
+    cienciaIds: number[] = [];
     
     listFilter: any;
     listSort: {} = {};
@@ -270,8 +273,8 @@ export class CdkTarefaListComponent {
         this.redistribuirTarefa.emit(tarefaId);
     }
 
-    doCienciaTarefa(tarefa): void {
-        this.cienciaTarefa.emit(tarefa);
+    doCienciaTarefa(tarefaId): void {
+        this.cienciaTarefa.emit(tarefaId);
     }
 
     doEditTarefaBloco(): void {
@@ -280,6 +283,10 @@ export class CdkTarefaListComponent {
 
     doRedistribuirBloco(): void {
         this.editRedistribuirBloco.emit();
+    }
+
+    doCienciaBloco(): void {
+        this.selectedIds.forEach(tarefaId => this.doCienciaTarefa(tarefaId));
     }
 
     doEditProcesso(params): void {

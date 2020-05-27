@@ -65,6 +65,9 @@ export class CdkTarefaListItemComponent implements OnInit {
     @Input()
     loadingAssuntosProcessosId: number[];
 
+    @Input()
+    ciencia: boolean;
+
     isOpen: boolean;
     loadedAssuntos: boolean;
 
@@ -81,6 +84,7 @@ export class CdkTarefaListItemComponent implements OnInit {
         this.isOpen = false;
         this.loadedAssuntos = false;
         this.deleting = false;
+        this.ciencia = false;
         this.selected = false;
         this.draggable.data = this.tarefa;
     }
@@ -124,7 +128,7 @@ export class CdkTarefaListItemComponent implements OnInit {
     }
 
     doCienciaTarefa(): void {
-        this.cienciaTarefa.emit(this.tarefa);
+        this.cienciaTarefa.emit(this.tarefa.id);
     }
 
     onSelectedChange(): void {

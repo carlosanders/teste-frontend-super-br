@@ -93,6 +93,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     loadingAssuntosProcessosId$: Observable<number[]>;
 
+    cienciaIds$: Observable<number[]>;
+
     PesquisaTarefa: string;
 
     @ViewChild('tarefaListElement', {read: ElementRef, static: true}) tarefaListElement: ElementRef;
@@ -135,6 +137,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.vinculacaoEtiquetaPagination.filter = {'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.id};
 
         this.loadingAssuntosProcessosId$ = this._store.pipe(select(fromStore.getIsAssuntoLoading));
+        this.cienciaIds$ = this._store.pipe(select(fromStore.getCienciaTarefaIds));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -367,9 +370,10 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + tarefaId + '/redistribuicao']).then();
     }
 
-    doCienciaTarefa(tarefa): void {
+    doCienciaTarefa(tarefaId): void {
+        const tarefa = new Tarefa();
+        tarefa.id = tarefaId;
         this._store.dispatch(new fromStore.DarCienciaTarefa(tarefa));
-        this._router.navigate([this.routerState.url + '/tarefa/' + tarefa.id + '/encaminhamento']).then();
     }
 
     doCompartilhar(tarefaId): void {
@@ -393,6 +397,10 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     doRedistribuiTarefaBloco(): void {
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/redistribuicao-edit-bloco']).then();
+    }
+
+    doCienciaBloco(): void {
         this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/redistribuicao-edit-bloco']).then();
     }
 
