@@ -160,6 +160,7 @@
     *ngIf="activeCard === 'setor-gridsearch'"
     [pagination]="setorPagination"
     (selected)="selectSetor($event)"
+    [displayedColumns]="displayedColumnsGridSetor"
     (cancel)="cancel()">
 </cdk-setor-gridsearch>
 

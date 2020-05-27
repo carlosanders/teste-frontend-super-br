@@ -68,9 +68,6 @@ export class Usuario {
     @Exclude({toPlainOnly: true})
     roles?: string[];
 
-    @Exclude({toClassOnly: true})
-    reset: boolean;
-
     @Exclude({toPlainOnly: true})
     @Type(() => VinculacaoPessoaUsuario)
     vinculacoesPessoasUsuarios: VinculacaoPessoaUsuario[];
@@ -99,7 +96,6 @@ export class Usuario {
         this.apagadoEm = null;
         this.vinculacoesPessoasUsuarios = null;
         this.coordenadores = null;
-        this.reset = false;
         this.password = null;
     }
 }

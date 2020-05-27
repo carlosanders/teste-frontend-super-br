@@ -1,0 +1,10 @@
+<cdk-assunto-administrativo-grid
+    [loading]="(loading$ | async)"
+    [assuntosAdministrativos]="(assuntoAdministrativos$ | async)"
+    [total]="(pagination$ | async)?.total"
+    [displayedColumns]="['select', 'id', 'nome', 'dispositivoLegal', 'codigoCNJ', 'glossario', 'parent.nome', 'ativo', 'actions']"
+    [actions]="['edit', 'create']"
+    (reload)="reload($event)"
+    (edit)="edit($event)"
+    (create)="create()">
+</cdk-assunto-administrativo-grid>

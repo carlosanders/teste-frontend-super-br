@@ -10,7 +10,8 @@ import {
     MatPaginatorModule,
     MatSortModule,
     MatAutocompleteModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatDialogModule
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 
@@ -57,6 +58,7 @@ modulesConfig.forEach((module) => {
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
+        MatDialogModule,
         TranslateModule,
         CdkSharedModule,
         CdkUsuarioGridModule,

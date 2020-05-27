@@ -61,7 +61,7 @@ export class CdkUploadComponent implements OnInit {
 
     /** Allow you to add handler after its completion. Bubble up response text from remote. */
     @Output()
-    complete = new EventEmitter<number>();
+    completed = new EventEmitter<number>();
 
     @ViewChild(MatPaginator, {static: true})
     filesPaginator: MatPaginator;
@@ -192,7 +192,7 @@ export class CdkUploadComponent implements OnInit {
                             setTimeout(() => {
                                 this.removeFileFromArray(file);
                                 this._changeDetectorRef.markForCheck();
-                                this.complete.emit(this.files.length);
+                                this.completed.emit(this.files.length);
                             }, 1000);
                         }
                     }

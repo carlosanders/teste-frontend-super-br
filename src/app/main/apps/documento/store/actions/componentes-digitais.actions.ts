@@ -14,6 +14,100 @@ export const APPROVE_COMPONENTE_DIGITAL = '[DOCUMENTO REPOSITORIO] APPROVE COMPO
 export const APPROVE_COMPONENTE_DIGITAL_SUCCESS = '[DOCUMENTO REPOSITORIO] APPROVE COMPONENTE DIGITAL SUCCESS';
 export const APPROVE_COMPONENTE_DIGITAL_FAILED = '[DOCUMENTO REPOSITORIO] APPROVE COMPONENTE DIGITAL FAILED';
 
+export const GET_COMPONENTES_DIGITAIS = '[DOCUMENTO COMPONENTE DIGITAL] GET COMPONENTES DIGITAIS';
+export const GET_COMPONENTES_DIGITAIS_SUCCESS = '[DOCUMENTO COMPONENTE DIGITAL] GET COMPONENTES DIGITAIS SUCCESS';
+export const GET_COMPONENTES_DIGITAIS_FAILED = '[DOCUMENTO COMPONENTE DIGITAL] GET COMPONENTES DIGITAIS FAILED';
+
+export const RELOAD_COMPONENTES_DIGITAIS = '[DOCUMENTO COMPONENTE DIGITAL] RELOAD COMPONENTES DIGITAIS';
+
+export const DELETE_COMPONENTE_DIGITAL = '[DOCUMENTO COMPONENTE DIGITAL] DELETE COMPONENTE DIGITAL';
+export const DELETE_COMPONENTE_DIGITAL_SUCCESS = '[DOCUMENTO COMPONENTE DIGITAL] DELETE COMPONENTE DIGITAL SUCCESS';
+export const DELETE_COMPONENTE_DIGITAL_FAILED = '[DOCUMENTO COMPONENTE DIGITAL] DELETE COMPONENTE DIGITAL FAILED';
+
+/**
+ * Get ComponentesDigitais
+ */
+export class GetComponentesDigitais implements Action
+{
+    readonly type = GET_COMPONENTES_DIGITAIS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Get ComponentesDigitais Success
+ */
+export class GetComponentesDigitaisSuccess implements Action
+{
+    readonly type = GET_COMPONENTES_DIGITAIS_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Get ComponentesDigitais Failed
+ */
+export class GetComponentesDigitaisFailed implements Action
+{
+    readonly type = GET_COMPONENTES_DIGITAIS_FAILED;
+
+    constructor(public payload: string)
+    {
+    }
+}
+
+/**
+ * Reload ComponentesDigitais
+ */
+export class ReloadComponentesDigitais implements Action
+{
+    readonly type = RELOAD_COMPONENTES_DIGITAIS;
+
+    constructor()
+    {
+    }
+}
+
+/**
+ * Delete ComponenteDigital
+ */
+export class DeleteComponenteDigital implements Action
+{
+    readonly type = DELETE_COMPONENTE_DIGITAL;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Delete ComponenteDigital Success
+ */
+export class DeleteComponenteDigitalSuccess implements Action
+{
+    readonly type = DELETE_COMPONENTE_DIGITAL_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Delete ComponenteDigital Failed
+ */
+export class DeleteComponenteDigitalFailed implements Action
+{
+    readonly type = DELETE_COMPONENTE_DIGITAL_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 /**
  * Save Componente Digital
  */
@@ -138,4 +232,11 @@ export type ComponenteDigitalActionsAll
     | SetRepositorioComponenteDigital
     | ApproveComponenteDigital
     | ApproveComponenteDigitalSuccess
-    | ApproveComponenteDigitalFailed;
+    | ApproveComponenteDigitalFailed
+    | GetComponentesDigitais
+    | GetComponentesDigitaisFailed
+    | GetComponentesDigitaisSuccess
+    | ReloadComponentesDigitais
+    | DeleteComponenteDigital
+    | DeleteComponenteDigitalSuccess
+    | DeleteComponenteDigitalFailed;

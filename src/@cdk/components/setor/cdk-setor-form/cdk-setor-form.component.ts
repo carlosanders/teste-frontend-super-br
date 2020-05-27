@@ -56,6 +56,9 @@ export class CdkSetorFormComponent implements OnChanges, OnDestroy {
     @Input()
     setorPagination: Pagination;
 
+    @Input()
+    requiredParent: boolean;
+
     /**
      * Constructor
      */
@@ -72,7 +75,7 @@ export class CdkSetorFormComponent implements OnChanges, OnDestroy {
             endereco: [null],
             especieSetor: [null, [Validators.required]],
             municipio: [null, [Validators.required]],
-            parent: [null, [Validators.required]],
+            parent: [null],
             unidade: [this.unidade],
             distribuicaoCentena: [false],
             prazoEqualizacao: [7],
@@ -86,6 +89,7 @@ export class CdkSetorFormComponent implements OnChanges, OnDestroy {
         this.especieSetorPagination = new Pagination();
         this.municipioPagination = new Pagination();
         this.setorPagination = new Pagination();
+        this.requiredParent = true;
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -101,6 +105,13 @@ export class CdkSetorFormComponent implements OnChanges, OnDestroy {
         }
 
         this.form.get('unidade').setValue(this.unidade);
+
+        if (this.requiredParent) {
+            this.form.controls['parent'].setValidators(Validators.required);
+        } else {
+            this.form.controls['parent'].clearValidators();
+            this.form.controls['parent'].setErrors(null);
+        }
 
         if (this.errors && this.errors.status && this.errors.status === 422) {
             try {

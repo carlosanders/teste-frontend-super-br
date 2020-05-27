@@ -14,6 +14,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {Usuario} from '@cdk/models';
 import {LoginService} from '../../../auth/login/login.service';
+import {Back} from 'app/store/actions';
 
 @Component({
     selector: 'seguranca',
@@ -63,10 +64,20 @@ export class SegurancaComponent implements OnInit, OnDestroy {
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
+    doAbort(): void {
+        this._store.dispatch(new Back());
+    }
+
     submit(values): void {
         const usuario = new Usuario();
         usuario.id = this.usuario.id;
-        this._store.dispatch(new fromStore.SaveSeguranca({usuario: usuario, changes: values}));
+        const changes = {
+            password: values.password
+        };
+        const context = {
+            senha: values.senhaAtual
+        };
+        this._store.dispatch(new fromStore.SaveSeguranca({usuario: usuario, changes: changes, context: JSON.stringify(context)}));
 
     }
 

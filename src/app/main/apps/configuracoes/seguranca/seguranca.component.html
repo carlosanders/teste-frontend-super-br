@@ -4,7 +4,8 @@
         <cdk-seguranca-form
                 [saving]="(isSaving$ | async)"
                 [errors]="(errors$ | async)"
-                (save)="submit($event)">
+                (save)="submit($event)"
+                (abort)="doAbort()">
         </cdk-seguranca-form>
     </div>
     <!-- / CONTENT -->

@@ -31,13 +31,9 @@ modulesConfig.forEach((module) => {
     ],
     imports: [
         RouterModule.forChild(routes),
-
         CdkComponenteDigitalViewModule,
-
         ComponenteDigitalStoreModule,
-
         MatProgressSpinnerModule,
-
         TranslateModule,
         CdkSharedModule,
     ],

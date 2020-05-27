@@ -50,6 +50,9 @@ export class CdkComponenteDigitalCardListComponent implements OnInit {
     documentoOrigem: Documento;
 
     @Input()
+    documento: Documento;
+
+    @Input()
     deletingId: number[];
 
     @Output()
@@ -81,7 +84,7 @@ export class CdkComponenteDigitalCardListComponent implements OnInit {
 
     /** Allow you to add handler after its completion. Bubble up response text from remote. */
     @Output()
-    complete = new EventEmitter<ComponenteDigital>();
+    completed = new EventEmitter<ComponenteDigital>();
 
     private files: Array<FileUploadModel> = [];
 
@@ -197,6 +200,7 @@ export class CdkComponenteDigitalCardListComponent implements OnInit {
                 componenteDigital.documentoAvulsoOrigem = this.documentoAvulsoOrigem;
                 componenteDigital.documentoAvulsoOrigemBloco = this.documentoAvulsoOrigemBloco;
                 componenteDigital.documentoOrigem = this.documentoOrigem;
+                componenteDigital.documento = this.documento;
 
                 this.componentesDigitais.push(componenteDigital);
                 this._changeDetectorRef.markForCheck();
@@ -240,7 +244,7 @@ export class CdkComponenteDigitalCardListComponent implements OnInit {
                                 this.removeFileFromArray(file);
                                 this.componentesDigitais = this.componentesDigitais.filter(cd => cd !== componenteDigital);
                                 this._changeDetectorRef.markForCheck();
-                                this.complete.emit(componenteDigital);
+                                this.completed.emit(componenteDigital);
                             }, 1000);
                         }
                     }

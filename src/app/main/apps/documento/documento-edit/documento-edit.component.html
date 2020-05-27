@@ -54,6 +54,15 @@
                             </ng-container>
                     </button>
 
+                    <button mat-menu-item aria-label="componentes digitais"
+                            matTooltip="Componentes Digitais" (click)="showComponentesDigitais()"
+                            [ngClass]="{'active accent': activeCard === 'componentesDigitais'}">
+                        <ng-container>
+                            <mat-icon class="black-fg">picture_as_pdf</mat-icon>
+                            <span>Componentes Digitais</span>
+                        </ng-container>
+                    </button>
+
                     <button mat-menu-item aria-label="assinaturas"
                             matTooltip="Assinaturas" (click)="showAssinaturas()"
                             [ngClass]="{'active accent': activeCard === 'assinaturas'}">
@@ -84,7 +93,7 @@
 
             <h3 style="font-weight: bold">Anexos</h3>
 
-            <button mat-mini-fab
+            <button mat-mini-fab *ngIf="documento.minuta"
                     class="ml-8 mb-16 active accent add-file-button"
                     [matMenuTriggerFor]="moreMenu" aria-label="Criar Documento"
                     (click)="$event.stopPropagation()">
@@ -130,7 +139,7 @@
 
             <cdk-componente-digital-card-list #ckdUpload
                                               [documentoOrigem]="documento$ | async"
-                                              (complete)="onCompleteDocumentoVinculado()">
+                                              (completed)="onCompleteDocumentoVinculado()">
             </cdk-componente-digital-card-list>
 
 
@@ -228,24 +237,6 @@
 
             <h3 style="font-weight: bold">Sigilos</h3>
 
-            <div class="actions m-16" fxLayout="row" fxLayoutAlign="start center">
-                <button mat-raised-button
-                        class="mat-accent"
-                        aria-label="novo"
-                        (click)="showFormSigilos()"
-                        *ngIf="!formSigilos"
-                        matTooltip="Novo">
-                    Novo
-                </button>
-                <button mat-icon-button
-                        (click)="showFormSigilos()"
-                        *ngIf="formSigilos"
-                        aria-label="voltar"
-                        matTooltip="Voltar">
-                    <mat-icon>arrow_back</mat-icon>
-                </button>
-            </div>
-
             <cdk-sigilo-form class="mr-8" *ngIf="formSigilos"
                [sigilo]="sigilo"
                [loading]="(sigiloLoading$ | async)"
@@ -259,15 +250,48 @@
                 [loading]="(sigiloLoading$ | async)"
                 [sigilos]="(sigilos$ | async)"
                 [total]="(paginationSigilo$ | async)?.total"
-                [actions]="['edit','delete']"
+                [actions]="['create', 'edit','delete']"
                 [displayedColumns]="['id', 'tipoSigilo.nome','desclassificado',  'actions']"
                 [deletingIds]="(deletingSigiloIds$ | async)"
                 [deletedIds]="(deletedSigiloIds$ | async)"
+                (create)="showFormSigilos()"
                 (delete)="deleteSigilo($event)"
                 (reload)="reloadSigilos($event)"
                 (edit)="editSigilo($event)"
             >
             </cdk-sigilo-grid>
+
+        </div>
+
+        <div class="m-16" fxFlex fxLayout="column" *ngIf="activeCard === 'componentesDigitais'">
+
+            <h3 style="font-weight: bold">Componentes Digitais</h3>
+
+            <button mat-mini-fab *ngIf="documento.minuta"
+                    class="ml-8 mb-16 active accent add-file-button"
+                    matTooltip="Novo Componente Digital" aria-label="novo componente digital"
+                    (click)="uploadComponenteDigital()">
+                <mat-icon class="secondary-text">attach_file</mat-icon>
+            </button>
+
+            <cdk-componente-digital-card-list #ckdUploadComponenteDigital
+                                              [documento]="documento$ | async"
+                                              (completed)="onCompleteComponenteDigital()">
+            </cdk-componente-digital-card-list>
+
+            <cdk-componente-digital-grid
+                *ngIf="!formComponentesDigitais"
+                [loading]="(componenteDigitalLoading$ | async)"
+                [componentesDigitais]="(componentesDigitais$ | async)"
+                [total]="(paginationComponenteDigital$ | async)?.total"
+                [actions]="['edit', 'delete']"
+                [displayedColumns]="['id', 'fileName', 'numeracaoSequencial', 'tamanho', 'extensao', 'criadoPor.nome', 'actions']"
+                [deletingIds]="(deletingComponenteDigitalIds$ | async)"
+                [deletedIds]="(deletedComponenteDigitalIds$ | async)"
+                (delete)="deleteComponenteDigital($event)"
+                (reload)="reloadComponentesDigitais($event)"
+            >
+            </cdk-componente-digital-grid>
 
         </div>
 

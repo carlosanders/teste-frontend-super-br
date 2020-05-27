@@ -4,13 +4,13 @@
         <mat-form-field fxFlex="100">
             <div fxLayout="row" fxLayoutAlign="start center">
                 <input matInput placeholder="Chave acesso"
-                       formControlName="chave_acesso"
+                       formControlName="chaveAcesso"
                        required>
             </div>
         </mat-form-field>
     </div>
     <div mat-dialog-actions>
         <button mat-button mat-dialog-close>Cancelar</button>
-        <button mat-button [disabled]="form.invalid" [mat-dialog-close]="form.get('chave_acesso').value">Confirmar</button>
+        <button mat-button [disabled]="form.invalid" [mat-dialog-close]="form.get('chaveAcesso').value">Confirmar</button>
     </div>
 </form>
