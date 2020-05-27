@@ -69,7 +69,7 @@ export class CdkComponenteDigitalDocumentoAvulsoCardListComponent implements OnI
      * Bubble up response text from remote.
      */
     @Output()
-    complete = new EventEmitter<ComponenteDigital>();
+    completed = new EventEmitter<ComponenteDigital>();
 
 
     private files: Array<FileUploadModel> = [];
@@ -231,7 +231,7 @@ export class CdkComponenteDigitalDocumentoAvulsoCardListComponent implements OnI
                                 this.removeFileFromArray(file);
                                 this.componentesDigitais = this.componentesDigitais.filter(cd => cd !== componenteDigital);
                                 this._changeDetectorRef.markForCheck();
-                                this.complete.emit(componenteDigital);
+                                this.completed.emit(componenteDigital);
                             }, 1000);
                         }
                     }

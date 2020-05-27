@@ -16,7 +16,7 @@ import {getRouterState} from 'app/store/reducers';
 import {Pagination} from '@cdk/models';
 
 @Component({
-    selector: 'root-localizadores-list',
+    selector: 'admin-localizadores-list',
     templateUrl: './localizadores-list.component.html',
     styleUrls: ['./localizadores-list.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,

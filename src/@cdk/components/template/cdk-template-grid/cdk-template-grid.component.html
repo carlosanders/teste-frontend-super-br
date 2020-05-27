@@ -125,13 +125,13 @@
                 </ng-container>
 
                 <!-- Documento Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('documento.descricaoOutros') > -1"
-                              matColumnDef="documento.descricaoOutros">
+                <ng-container *ngIf="displayedColumns.indexOf('documento.tipoDocumento.nome') > -1"
+                              matColumnDef="documento.tipoDocumento.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Documento
+                        Tipo Documento
                     </th>
-                    <td mat-cell *matCellDef="let template" class='has_label_on_mobile' data-label='Documento: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(template.id) > -1}"> {{template.documento?.descricaoOutros}} </td>
+                    <td mat-cell *matCellDef="let template" class='has_label_on_mobile' data-label='Tipo Documento: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(template.id) > -1}"> {{template.documento?.tipoDocumento?.nome}} </td>
                 </ng-container>
 
                 <!-- Actions Column -->
@@ -154,6 +154,15 @@
                                 aria-label="editar"
                                 matTooltip="Editar">
                             <mat-icon>edit</mat-icon>
+                        </button>
+
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('editConteudo') > -1"
+                                [disabled]="deletedIds?.indexOf(template.id) > -1"
+                                (click)="editConteudoModelo(template.documento.componentesDigitais[0].id)"
+                                aria-label="editar conteúdo"
+                                matTooltip="Editar Conteúdo">
+                            <mat-icon>desktop_windows</mat-icon>
                         </button>
 
 

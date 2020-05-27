@@ -19,8 +19,8 @@ import {getMercureState, getRouterState} from '../../../../store/reducers';
 import {Repositorio} from '@cdk/models';
 import {RepositorioService} from '@cdk/services/repositorio.service';
 import {ComponenteDigital} from '@cdk/models';
-import {modulesConfig} from "../../../../../modules/modules-config";
-import {DynamicService} from "../../../../../modules/dynamic.service";
+import {modulesConfig} from '../../../../../modules/modules-config';
+import {DynamicService} from '../../../../../modules/dynamic.service';
 
 @Component({
     selector: 'documento-avulso-edit',
@@ -103,7 +103,7 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy, AfterVie
     pagination$: Observable<any>;
     pagination: any;
 
-    repositorioIdLoadind$: Observable<number>;
+    repositorioIdLoadind$: Observable<boolean>;
     repositorioIdLoaded$: Observable<number>;
 
     componenteDigital$: Observable<ComponenteDigital>;

@@ -39,7 +39,7 @@ const routes: Routes = [
             },
             {
                 path       : ':setorHandle/lotacoes',
-                loadChildren: () => import('./lotacoes/admin-lotacoes.module').then(m => m.AdminLotacoesModule),
+                loadChildren: () => import('../../lotacoes/admin-lotacoes.module').then(m => m.AdminLotacoesModule),
             },
             {
                 path       : ':setorHandle/localizadores',

@@ -56,7 +56,8 @@ export class EspecieTarefaEditEffects {
                         JSON.stringify({}),
                         JSON.stringify([
                             'populateAll'
-                        ]));
+                        ]),
+                        JSON.stringify({isAdmin: true}));
                 }),
                 switchMap(response => [
                     new AddData<EspecieTarefa>({data: response['entities'], schema: especieTarefaSchema}),
@@ -85,7 +86,8 @@ export class EspecieTarefaEditEffects {
             .pipe(
                 ofType<EspecieTarefaEditActions.SaveEspecieTarefa>(EspecieTarefaEditActions.SAVE_ESPECIE_TAREFA),
                 switchMap((action) => {
-                    return this._especieTarefaService.save(action.payload).pipe(
+                    const context = JSON.stringify({isAdmin: true});
+                    return this._especieTarefaService.save(action.payload, context).pipe(
                         mergeMap((response: EspecieTarefa) => [
                             new EspecieTarefaListActions.ReloadEspecieTarefa(),
                             new AddData<EspecieTarefa>({data: [response], schema: especieTarefaSchema}),
@@ -134,7 +136,7 @@ export class EspecieTarefaEditEffects {
             .pipe(
                 ofType<EspecieTarefaEditActions.SaveEspecieTarefaSuccess>(EspecieTarefaEditActions.SAVE_ESPECIE_TAREFA_SUCCESS),
                 tap((action) => {
-                    this._router.navigate([this.routerState.url.replace(('editar/criar'), 'listar')]).then();
+                    this._router.navigate(['apps/admin/especie-tarefas/listar']).then();
                 })
             );
 

@@ -14,6 +14,10 @@ export const SAVE_MODELO = '[DOCUMENTO] SAVE MODELO';
 export const SAVE_MODELO_SUCCESS = '[DOCUMENTO] SAVE MODELO SUCCESS';
 export const SAVE_MODELO_FAILED = '[DOCUMENTO] SAVE MODELO FAILED';
 
+export const SAVE_TEMPLATE = '[DOCUMENTO] SAVE TEMPLATE';
+export const SAVE_TEMPLATE_SUCCESS = '[DOCUMENTO] SAVE TEMPLATE SUCCESS';
+export const SAVE_TEMPLATE_FAILED = '[DOCUMENTO] SAVE TEMPLATE FAILED';
+
 export const SAVE_REPOSITORIO = '[DOCUMENTO] SAVE REPOSITORIO';
 export const SAVE_REPOSITORIO_SUCCESS = '[DOCUMENTO] SAVE REPOSITORIO SUCCESS';
 export const SAVE_REPOSITORIO_FAILED = '[DOCUMENTO] SAVE REPOSITORIO FAILED';
@@ -144,6 +148,42 @@ export class SaveModeloSuccess implements Action
 export class SaveModeloFailed implements Action
 {
     readonly type = SAVE_MODELO_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Save Template
+ */
+export class SaveTemplate implements Action
+{
+    readonly type = SAVE_TEMPLATE;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Save Template Success
+ */
+export class SaveTemplateSuccess implements Action
+{
+    readonly type = SAVE_TEMPLATE_SUCCESS;
+
+    constructor()
+    {
+    }
+}
+
+/**
+ * Save Template Failed
+ */
+export class SaveTemplateFailed implements Action
+{
+    readonly type = SAVE_TEMPLATE_FAILED;
 
     constructor(public payload: any)
     {
@@ -305,6 +345,9 @@ export type DocumentoActionsAll
     | SaveModelo
     | SaveModeloSuccess
     | SaveModeloFailed
+    | SaveTemplate
+    | SaveTemplateSuccess
+    | SaveTemplateFailed
     | SaveRepositorio
     | SaveRepositorioSuccess
     | SaveRepositorioFailed
