@@ -1,8 +1,6 @@
 import {NgModule} from '@angular/core';
-
 import {RouterModule} from '@angular/router';
 import {CdkSharedModule} from '@cdk/shared.module';
-
 
 const routes = [
     {
@@ -16,6 +14,10 @@ const routes = [
     {
         path: 'activate',
         loadChildren: () => import('./activate/activate.module').then(m => m.ActivateModule)
+    },
+    {
+        path: 'esqueci-senha',
+        loadChildren: () => import('./esqueci-senha/esqueci-senha.module').then(m => m.EsqueciSenhaModule)
     }
 ];
 

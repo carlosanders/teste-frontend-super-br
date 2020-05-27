@@ -13,20 +13,22 @@
 <!-- SIDEBAR CONTENT -->
 <div class="content mt-16" cdkPerfectScrollbar>
     <div class="nav material2" *showIfRole="'ROLE_COORDENADOR_ORGAO_CENTRAL'">
-        <div class="nav-subheader pl-8 mt-0">
-            <mat-icon>language</mat-icon>
-            <span>ÓRGÃO CENTRAL</span>
-        </div>
-        <div *ngFor="let orgao of orgaos">
-            <div class="nav-subheader mt-0">
-                <span>{{orgao.valor | uppercase}}</span>
+        <div *ngIf="this.orgaos?.length">
+            <div class="nav-subheader pl-8 mt-0">
+                <mat-icon>language</mat-icon>
+                <span>ÓRGÃO CENTRAL</span>
             </div>
-            <div class="nav-item" *ngFor="let link of linksNacional">
-                <a class="nav-link" matRipple [routerLink]="'/apps/coordenador/nacional/' + orgao.id + '/' + link.link"
-                   [routerLinkActive]="['active', 'accent']">
-                    <mat-icon class="nav-link-icon">{{ link.icon }}</mat-icon>
-                    <span>{{link.nome}}</span>
-                </a>
+            <div *ngFor="let orgao of orgaos">
+                <div class="nav-subheader mt-0">
+                    <span>{{orgao.valor | uppercase}}</span>
+                </div>
+                <div class="nav-item" *ngFor="let link of linksNacional">
+                    <a class="nav-link" matRipple [routerLink]="'/apps/coordenador/nacional/' + orgao.id + '/' + link.link"
+                       [routerLinkActive]="['active', 'accent']">
+                        <mat-icon class="nav-link-icon">{{ link.icon }}</mat-icon>
+                        <span>{{link.nome}}</span>
+                    </a>
+                </div>
             </div>
         </div>
     </div>

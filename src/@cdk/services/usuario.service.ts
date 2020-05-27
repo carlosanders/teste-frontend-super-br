@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams, HttpRequest} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {Usuario} from '@cdk/models';
@@ -19,8 +19,7 @@ export class UsuarioService extends ParentGenericService<Usuario> {
     }
 
     patch(usuario: Usuario, changes: any, context: any = '{}'): Observable<Usuario> {
-        const params: HttpParams = new HttpParams();
-        params['context'] = context;
+        const params: HttpParams = new HttpParams().set('context', context);
         return this.http.patch(
             `${environment.api_url}${'usuario'}/${usuario.id}` + environment.xdebug,
             JSON.stringify(changes),
@@ -41,6 +40,19 @@ export class UsuarioService extends ParentGenericService<Usuario> {
                 response = plainToClass(Usuario, response);
                 Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
                 return Object.assign(new Usuario(), {...response});
+            })
+        );
+    }
+
+    resetaSenha(usuario: Usuario): Observable<Usuario> {
+        return this.http.patch(
+            `${environment.api_url}${'usuario'}/${usuario.id}/reseta_senha` + environment.xdebug,
+            {}
+        ).pipe(
+            map(response => {
+                response = plainToClass(Usuario, response);
+                Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                return Object.assign(new Usuario(), {...usuario, ...response});
             })
         );
     }

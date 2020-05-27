@@ -368,7 +368,7 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
         });
 
         dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe(result => {
-            this.view.emit({id: processo.id, chave_acesso: result});
+            this.view.emit({id: processo.id, chaveAcesso: result});
             return;
         });
     }

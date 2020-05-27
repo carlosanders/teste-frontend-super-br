@@ -20,6 +20,7 @@ export interface CdkNavigationItem
     };
     children?: CdkNavigationItem[];
     role?: string;
+    is_coordenador?: boolean;
 }
 
 export interface CdkNavigation extends CdkNavigationItem

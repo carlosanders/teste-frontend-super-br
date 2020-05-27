@@ -26,7 +26,7 @@
             </button>
 
             <button mat-icon-button *ngIf="selectedIds.length > 1 && actions.indexOf('delete') > -1"
-                    (click)="deleteUsuario(selectedIds)"
+                    (click)="deleteUsuarios(selectedIds)"
                     aria-label="remover"
                     matTooltip="Remover">
                 <mat-icon>delete</mat-icon>
@@ -273,6 +273,33 @@
                                 aria-label="afastamentos"
                                 matTooltip="Afastamentos">
                             <mat-icon>event_busy</mat-icon>
+                        </button>
+
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('resetaSenhaColaborador') > -1 && usuario.colaborador"
+                                [disabled]="deletedIds?.indexOf(usuario.id) > -1"
+                                (click)="redefineSenhaColaborador(usuario.id)"
+                                aria-label="reseta senha colaborador"
+                                matTooltip="Reseta Senha">
+                            <mat-icon>vpn_key</mat-icon>
+                        </button>
+
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('resetaSenha') > -1"
+                                [disabled]="deletedIds?.indexOf(usuario.id) > -1"
+                                (click)="redefineSenha(usuario.id)"
+                                aria-label="reseta senha"
+                                matTooltip="Reseta Senha">
+                            <mat-icon>vpn_key</mat-icon>
+                        </button>
+
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('coordenadores') > -1"
+                                [disabled]="deletedIds?.indexOf(usuario.id) > -1"
+                                (click)="coordenacoesUsuario(usuario.id)"
+                                aria-label="coordenações"
+                                matTooltip="Coordenações">
+                            <mat-icon>tune</mat-icon>
                         </button>
 
                         <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(usuario.id) > -1">

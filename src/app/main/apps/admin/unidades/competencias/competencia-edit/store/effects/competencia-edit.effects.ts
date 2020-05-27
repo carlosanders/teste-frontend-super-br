@@ -61,7 +61,8 @@ export class CompetenciaEditEffects {
                         JSON.stringify({}),
                         JSON.stringify([
                             'populateAll'
-                        ]));
+                        ]),
+                        JSON.stringify({isAdmin: true}));
                 }),
                 switchMap(response => [
                     new AddData<VinculacaoSetorMunicipio>({data: response['entities'], schema: vinculacaoSetorMunicipioSchema}),
@@ -90,7 +91,8 @@ export class CompetenciaEditEffects {
             .pipe(
                 ofType<CompetenciaEditActions.SaveCompetencia>(CompetenciaEditActions.SAVE_COMPETENCIA),
                 switchMap((action) => {
-                    return this._vinculacaoSetorMunicipioService.save(action.payload).pipe(
+                    const context = JSON.stringify({isAdmin: true});
+                    return this._vinculacaoSetorMunicipioService.save(action.payload, context).pipe(
                         mergeMap((response: VinculacaoSetorMunicipio) => [
                             new CompetenciaEditActions.SaveCompetenciaSuccess(),
                             new CompetenciasListActions.ReloadCompetencias(),

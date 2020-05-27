@@ -5,28 +5,23 @@ import { Usuario, ModalidadeOrgaoCentral, Setor } from '@cdk/models';
 
 export class Coordenador {
 
-    @Exclude({ toPlainOnly: true })
     id?: number;
 
     @Exclude({ toPlainOnly: true })
     uuid?: string;
 
-    @Exclude({ toPlainOnly: true })
     @Type(() => Setor)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     setor?: Setor;
 
-    @Exclude({ toPlainOnly: true })
     @Type(() => Setor)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     unidade?: Setor;
 
-    @Exclude({ toPlainOnly: true })
     @Type(() => ModalidadeOrgaoCentral)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     orgaoCentral?: ModalidadeOrgaoCentral;
 
-    @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     usuario?: Usuario;
