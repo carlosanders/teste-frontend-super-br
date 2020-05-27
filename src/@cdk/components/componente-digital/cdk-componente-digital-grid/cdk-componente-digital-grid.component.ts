@@ -14,8 +14,7 @@ import {ComponenteDigitalDataSource} from '@cdk/data-sources/componente-digital-
 import {ComponenteDigital} from '@cdk/models';
 import {environment} from 'environments/environment';
 import {FormControl} from '@angular/forms';
-import { CdkChaveAcessoPluginComponent } from '@cdk/components/chave-acesso/cdk-chave-acesso-plugins/cdk-chave-acesso-plugin.component';
-import {LoginService} from 'app/main/auth/login/login.service';
+import {CdkChaveAcessoPluginComponent} from '@cdk/components/chave-acesso/cdk-chave-acesso-plugins/cdk-chave-acesso-plugin.component';
 
 @Component({
     selector: 'cdk-componente-digital-grid',
@@ -214,6 +213,9 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
     deletingIds: number[] = [];
 
     @Input()
+    isColaborador = false;
+
+    @Input()
     deletedIds: number[] = [];
 
     @Input()
@@ -231,19 +233,13 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
     sort: MatSort;
 
     @Output()
-    complete = new EventEmitter<string>();
-
-    @Output()
     reload = new EventEmitter<any>();
 
     @Output()
     excluded = new EventEmitter<any>();
 
     @Output()
-    view = new EventEmitter<any>();
-
-    @Output()
-    edit = new EventEmitter<ComponenteDigital>();
+    edit = new EventEmitter<any>();
 
     @Output()
     delete = new EventEmitter<number>();
@@ -271,13 +267,11 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
      * @param _changeDetectorRef
      * @param _cdkSidebarService
      * @param _dialog
-     * @param _loginService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _cdkSidebarService: CdkSidebarService,
-        private _dialog: MatDialog,
-        private _loginService: LoginService
+        private _dialog: MatDialog
     ) {
         this.gridFilter = {};
         this.componentesDigitais = [];
@@ -341,10 +335,10 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
     }
 
     loadPage(): void {
-        const filter = this.gridFilter.filters;
+        const newFilter = this.gridFilter.filters;
         const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : null;
         this.reload.emit({
-            gridFilter: filter,
+            gridFilter: newFilter,
             limit: this.paginator.pageSize,
             offset: (this.paginator.pageSize * this.paginator.pageIndex),
             sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
@@ -355,24 +349,23 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
 
     loadExcluded(): void {
         this.hasExcluded = !this.hasExcluded;
-        if(this.hasExcluded) {
-            const filter = this.gridFilter.filters;
+        if (this.hasExcluded) {
+            const newFilter = this.gridFilter.filters;
             this.excluded.emit({
-                gridFilter: filter,
+                gridFilter: newFilter,
                 limit: this.paginator.pageSize,
                 offset: (this.paginator.pageSize * this.paginator.pageIndex),
                 sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
-                context: {'mostrarApagadas': true}
+                context: {mostrarApagadas: true}
             });
-        }
-        else {
+        } else {
             this.loadPage();
         }
     }
 
-    viewComponenteDigital(componenteDigital: ComponenteDigital): void {
-        if (componenteDigital.documento.juntadaAtual.volume.processo.visibilidadeExterna || this._loginService.isGranted('ROLE_COLABORADOR')) {
-            this.view.emit({id: componenteDigital.id});
+    editComponenteDigital(componenteDigital: ComponenteDigital): void {
+        if (componenteDigital.documento.juntadaAtual.volume.processo.visibilidadeExterna || this.isColaborador) {
+            this.edit.emit({componenteDigital: componenteDigital});
             return;
         }
 
@@ -381,13 +374,12 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
         });
 
         dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe(result => {
-            this.view.emit({id: componenteDigital.id, chave_acesso: result});
+            this.edit.emit({
+                componenteDigital: componenteDigital,
+                chaveAcesso: result
+            });
             return;
         });
-    }
-
-    editComponenteDigital(componenteDigital: ComponenteDigital): void {
-        this.edit.emit(componenteDigital);
     }
 
     selectComponenteDigital(componenteDigital: ComponenteDigital): void {

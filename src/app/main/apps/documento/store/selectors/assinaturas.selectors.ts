@@ -28,30 +28,9 @@ export const getAssinaturaId = createSelector(
     (state: AssinaturasState) => state.loaded ? state.loaded.value : null
 );
 
-export const getAssinatura = createSelector(
-    schemaAssinaturaSelectors.getNormalizedEntities,
-    getAssinaturaId,
-    schemaAssinaturaSelectors.entityProjector
-);
-
-export const getAssinaturasLoaded = createSelector(
-    getAssinaturasState,
-    (state: AssinaturasState) => state.loaded
-);
-
 export const getAssinaturasIsLoading = createSelector(
     getAssinaturasState,
     (state: AssinaturasState) => state.loading
-);
-
-export const getIsSavingAssinaturas = createSelector(
-    getAssinaturasState,
-    (state: AssinaturasState) => state.saving
-);
-
-export const getErrorsAssinaturas = createSelector(
-    getAssinaturasState,
-    (state: AssinaturasState) => state.errors
 );
 
 export const getDeletingAssinaturaIds = createSelector(

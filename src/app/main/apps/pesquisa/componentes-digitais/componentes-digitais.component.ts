@@ -39,6 +39,7 @@ export class ComponentesDigitaisComponent implements OnInit {
      * @param _changeDetectorRef
      * @param _router
      * @param _store
+     * @param _loginService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -73,12 +74,15 @@ export class ComponentesDigitaisComponent implements OnInit {
         }));
     }
 
-    view(emissor: {id: number, chave_acesso: string}): void {
-        const chaveAcessoHandle = emissor.chave_acesso ? '/' + emissor.chave_acesso : '';
-        this._router.navigate(['apps/documento/componente-digital/' + emissor.id + '/visualizar' + chaveAcessoHandle]);
-    }
-
-    edit(componenteDigital: ComponenteDigital): void {
-        this._router.navigate(['apps/documento/' + componenteDigital.documento.id + '/editar']);
+    edit($event: {componenteDigital: ComponenteDigital, chaveAcesso: string}): void {
+        const chaveAcessoHandle = $event.chaveAcesso ? '/' + $event.chaveAcesso : '';
+        this._router.navigate(['apps/processo/' +
+        $event.componenteDigital.documento.juntadaAtual.volume.processo.id +
+        '/editar/juntadas/listar/documento/' +
+        $event.componenteDigital.documento.id +
+        '/componente-digital/' +
+        $event.componenteDigital.id +
+        '/visualizar' +
+        chaveAcessoHandle]);
     }
 }
