@@ -15,7 +15,6 @@ import {CdkRepositorioGridModule} from '@cdk/components/repositorio/cdk-reposito
 import {CdkAtividadeFormModule} from '@cdk/components/atividade/cdk-atividade-form/cdk-atividade-form.module';
 import {CdkVisibilidadeListModule} from '@cdk/components/visibilidade/cdk-visibilidade-list/cdk-visibilidade-list.module';
 import {CdkVisibilidadeFormModule} from '@cdk/components/visibilidade/cdk-visibilidade-form/cdk-visibilidade-form.module';
-import {FavoritoService} from '@cdk/services/favorito.service';
 import {CdkSigiloFormModule} from '@cdk/components/sigilo/cdk-sigilo-form/cdk-sigilo-form.module';
 import {CdkSigiloGridModule} from '@cdk/components/sigilo/cdk-sigilo-grid/cdk-sigilo-grid.module';
 import {CdkAssinaturaGridModule} from '@cdk/components/assinatura/cdk-assinatura-grid/cdk-assinatura-grid.module';
@@ -85,8 +84,7 @@ modulesConfig.forEach((module) => {
         CdkComponenteDigitalGridModule,
     ],
     providers: [
-        DocumentoService,
-        FavoritoService
+        DocumentoService
     ],
     exports: [
         DocumentoEditComponent

@@ -154,9 +154,7 @@
                 [mode]="'vertical'"
                 [saving]="(atividadeIsSaving$ | async)"
                 [errors]="(atividadeErrors$ | async)"
-                (save)="submitAtividade($event)"
-                (favorito)="getFavoritos($event)"
-                [favoritosList]="(favoritos$ | async)">
+                (save)="submitAtividade($event)">
             </cdk-atividade-form>
 
         </div>

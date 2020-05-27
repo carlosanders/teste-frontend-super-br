@@ -9,7 +9,7 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {Favorito, Tarefa} from '@cdk/models';
+import {Tarefa} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from 'app/main/apps/tarefas/tarefa-detail/store';
@@ -18,7 +18,6 @@ import {filter, takeUntil} from 'rxjs/operators';
 import {LoginService} from '../../../../auth/login/login.service';
 import {Colaborador} from '@cdk/models';
 import {Pagination} from '@cdk/models';
-import * as fromStoreFavoritos from 'app/main/apps/tarefas/store';
 
 @Component({
     selector: 'tarefa-edit',
@@ -43,8 +42,6 @@ export class TarefaEditComponent implements OnInit, OnDestroy {
     setorOrigemPagination: Pagination;
     logEntryPagination: Pagination;
 
-    favoritos$: Observable<Favorito[]>;
-
     /**
      * @param _store
      * @param _loginService
@@ -65,8 +62,6 @@ export class TarefaEditComponent implements OnInit, OnDestroy {
         this.setorOrigemPagination = new Pagination();
         this.setorOrigemPagination.populate = ['unidade', 'parent'];
         this.setorOrigemPagination.filter = {id: 'in:' + this._profile.lotacoes.map(lotacao => lotacao.setor.id).join(',')};
-
-        this.favoritos$ = this._store.pipe(select(fromStoreFavoritos.getFavoritoList));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -115,18 +110,4 @@ export class TarefaEditComponent implements OnInit, OnDestroy {
         this._store.dispatch(new SaveTarefa(tarefa));
 
     }
-
-    getFavoritos (value): void {
-
-        this._store.dispatch(new fromStoreFavoritos.GetFavoritos({
-            'filter':
-                {
-                    'usuario.id': `eq:${this._loginService.getUserProfile().id}`,
-                    'objectClass': `eq:SuppCore\\AdministrativoBackend\\Entity\\` + value
-                },
-            'limit': 5,
-            'sort': {prioritario:'DESC', qtdUso: 'DESC'}
-        }));
-    }
-
 }
