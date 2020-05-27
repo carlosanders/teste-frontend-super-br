@@ -17,8 +17,8 @@ import { SaveTarefa } from 'app/main/apps/tarefas/tarefa-detail/store';
 import {filter, skip, takeUntil} from 'rxjs/operators';
 import {LoginService} from '../../../../auth/login/login.service';
 import {Colaborador} from '@cdk/models';
-import {getOperacoesState, getRouterState} from "../../../../../store/reducers";
-import {Router} from "@angular/router";
+import {getOperacoesState, getRouterState} from '../../../../../store/reducers';
+import {Router} from '@angular/router';
 import * as fromStoreTarefas from 'app/main/apps/tarefas/store';
 import * as fromStoreFavoritos from 'app/main/apps/tarefas/store';
 
@@ -168,16 +168,16 @@ export class RedistribuicaoEditComponent implements OnInit, OnDestroy {
 
     }
 
-    getFavoritos (value): void {
+    getFavoritos(value): void {
 
         this._store.dispatch(new fromStoreFavoritos.GetFavoritos({
-            'filter':
+            filter:
                 {
                     'usuario.id': `eq:${this._loginService.getUserProfile().id}`,
                     'objectClass': `eq:SuppCore\\AdministrativoBackend\\Entity\\` + value
                 },
-            'limit': 5,
-            'sort': {prioritario:'DESC', qtdUso: 'DESC'}
+            limit: 5,
+            sort: {prioritario: 'DESC', qtdUso: 'DESC'}
         }));
     }
 

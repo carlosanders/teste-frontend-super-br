@@ -56,6 +56,10 @@ export const SET_ASSUNTOS_LOADED = '[TAREFA] SET ASSUNTOS LOADED';
 export const SET_ASSUNTOS_LOADED_SUCCESS = '[TAREFA] SET ASSUNTOS LOADED SUCCESS';
 export const SET_ASSUNTOS_LOADED_FAILED = '[TAREFA] SET ASSUNTOS LOADED FAILED';
 
+export const DAR_CIENCIA_TAREFA = '[TAREFA] DAR CIENCIA TAREFA';
+export const DAR_CIENCIA_TAREFA_SUCCESS = '[TAREFA] DAR CIENCIA TAREFA SUCCESS';
+export const DAR_CIENCIA_TAREFA_FAILED = '[TAREFA] DAR CIENCIA TAREFA FAILED';
+
 /**
  * Unload Tarefas
  */
@@ -462,6 +466,43 @@ export class SetAssuntosLoadedFailed implements Action {
 }
 
 
+/**
+ * Dar Ciencia Tarefa
+ */
+export class DarCienciaTarefa implements Action
+{
+    readonly type = DAR_CIENCIA_TAREFA;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Dar Ciencia Tarefa Success
+ */
+export class DarCienciaTarefaSuccess implements Action
+{
+    readonly type = DAR_CIENCIA_TAREFA_SUCCESS;
+
+    constructor()
+    {
+    }
+}
+
+/**
+ * Dar Ciencia Tarefa Failed
+ */
+export class DarCienciaTarefaFailed implements Action
+{
+    readonly type = DAR_CIENCIA_TAREFA_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+
 export type TarefasActionsAll
     = UnloadTarefas
     | GetTarefas
@@ -502,4 +543,7 @@ export type TarefasActionsAll
     | SetLoadingAssuntosFailed
     | SetAssuntosLoaded
     | SetAssuntosLoadedSuccess
-    | SetAssuntosLoadedFailed;
+    | SetAssuntosLoadedFailed
+    | DarCienciaTarefa
+    | DarCienciaTarefaSuccess
+    | DarCienciaTarefaFailed;

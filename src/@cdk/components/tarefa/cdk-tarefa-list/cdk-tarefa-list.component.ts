@@ -81,6 +81,9 @@ export class CdkTarefaListComponent {
     redistribuirTarefa = new EventEmitter<number>();
 
     @Output()
+    cienciaTarefa = new EventEmitter<any>();
+
+    @Output()
     toggleUrgente = new EventEmitter<Tarefa>();
 
     @Output()
@@ -265,6 +268,10 @@ export class CdkTarefaListComponent {
 
     doRedistribuirTarefa(tarefaId): void {
         this.redistribuirTarefa.emit(tarefaId);
+    }
+
+    doCienciaTarefa(tarefa): void {
+        this.cienciaTarefa.emit(tarefa);
     }
 
     doEditTarefaBloco(): void {

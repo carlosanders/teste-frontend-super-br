@@ -367,6 +367,11 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + tarefaId + '/redistribuicao']).then();
     }
 
+    doCienciaTarefa(tarefa): void {
+        this._store.dispatch(new fromStore.DarCienciaTarefa(tarefa));
+        this._router.navigate([this.routerState.url + '/tarefa/' + tarefa.id + '/encaminhamento']).then();
+    }
+
     doCompartilhar(tarefaId): void {
         this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + tarefaId + '/compartilhamentos/listar']).then();
     }
