@@ -145,6 +145,9 @@ export class CdkModalidadeDestinacaoGridComponent implements AfterViewInit, OnIn
     @Output()
     selectedIds: number[] = [];
 
+    @Output()
+    excluded = new EventEmitter<any>();
+
     dataSource: ModalidadeDestinacaoDataSource;
 
     showFilter = false;

@@ -79,8 +79,8 @@
                 </mat-error>
             </mat-form-field>
 
-            <div class="dates" fxFlexFill fxLayout="column" fxLayout.gt-xs="row">
-                <div>
+            <div class="dates checks" fxFlexFill fxLayout="column" fxLayout.gt-xs="row">
+                <div class="space-rigth">
                     <mat-checkbox formControlName="ativo">
                         Ativo
                     </mat-checkbox>
@@ -100,54 +100,53 @@
                 </div>
             </div>
 
-            <mat-expansion-panel [expanded]="true" hideToggle>
+                <mat-expansion-panel [expanded]="true" hideToggle>
 
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
-                        Prazo de Guarda Fase Corrente
-                    </mat-panel-title>
-                </mat-expansion-panel-header>
-                <section class="prazoGuarda">
-                    <mat-form-field>
-                        <input matInput type="number" class="prazoGuardaCampo"
-                               formControlName="prazoGuardaFaseCorrenteDia" placeholder="Dia(s)">
-                        <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-                                (click)="showLogEntryGrid('prazoGuardaFaseCorrenteDia')">
-                            <mat-icon matTooltip="Histórico">history</mat-icon>
-                        </button>
-                    </mat-form-field>
-                    <mat-form-field>
-                        <input matInput type="number" class="prazoGuardaCampo"
-                               formControlName="prazoGuardaFaseCorrenteMes" placeholder="Mês(es)">
-                        <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-                                (click)="showLogEntryGrid('prazoGuardaFaseCorrenteMes')">
-                            <mat-icon matTooltip="Histórico">history</mat-icon>
-                        </button>
-                    </mat-form-field>
-                    <mat-form-field>
-                        <input matInput type="number" class="prazoGuardaCampo"
-                               formControlName="prazoGuardaFaseCorrenteAno" placeholder="Ano(s)">
-                    </mat-form-field>
-
-                </section>
-                <p>
-                    <mat-form-field fxFlex="100">
-                        <div fxLayout="row" fxLayoutAlign="start center">
-                            <input matInput placeholder="Evento" formControlName="prazoGuardaFaseCorrenteEvento">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            Prazo de Guarda Fase Corrente
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <section class="prazoGuarda">
+                        <mat-form-field>
+                            <input matInput type="number" class="prazoGuardaCampo"
+                                   formControlName="prazoGuardaFaseCorrenteDia" placeholder="Dia(s)">
                             <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-                                    (click)="showLogEntryGrid('prazoGuardaFaseCorrenteEvento')">
+                                    (click)="showLogEntryGrid('prazoGuardaFaseCorrenteDia')">
                                 <mat-icon matTooltip="Histórico">history</mat-icon>
                             </button>
-                        </div>
-                    </mat-form-field>
-                </p>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <input matInput type="number" class="prazoGuardaCampo"
+                                   formControlName="prazoGuardaFaseCorrenteMes" placeholder="Mês(es)">
+                            <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                                    (click)="showLogEntryGrid('prazoGuardaFaseCorrenteMes')">
+                                <mat-icon matTooltip="Histórico">history</mat-icon>
+                            </button>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <input matInput type="number" class="prazoGuardaCampo"
+                                   formControlName="prazoGuardaFaseCorrenteAno" placeholder="Ano(s)">
+                        </mat-form-field>
 
-            </mat-expansion-panel>
+                    </section>
+                    <p>
+                        <mat-form-field fxFlex="100">
+                            <div fxLayout="row" fxLayoutAlign="start center">
+                                <input matInput placeholder="Evento" formControlName="prazoGuardaFaseCorrenteEvento">
+                                <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                                        (click)="showLogEntryGrid('prazoGuardaFaseCorrenteEvento')">
+                                    <mat-icon matTooltip="Histórico">history</mat-icon>
+                                </button>
+                            </div>
+                        </mat-form-field>
+                    </p>
+
+                </mat-expansion-panel>
 
             <br/>
 
             <mat-expansion-panel [expanded]="true" hideToggle>
-
                 <mat-expansion-panel-header>
                     <mat-panel-title>
                         Prazo de Guarda Fase Intermediária
