@@ -38,6 +38,10 @@ import {CdkEspecieSetorAutocompleteModule} from '../../especie-setor/cdk-especie
 import {CdkEspecieSetorGridsearchModule} from '../../especie-setor/cdk-especie-setor-autocomplete/cdk-especie-setor-gridsearch/cdk-especie-setor-gridsearch.module';
 import {MatSelectModule} from '@angular/material/select';
 import {CdkPessoaGridsearchModule} from '../../pessoa/cdk-pessoa-autocomplete/cdk-pessoa-gridsearch/cdk-pessoa-gridsearch.module';
+import {CdkClassificacaoGridTreeModule} from '../../classificacao/cdk-classificacao-grid-tree/cdk-classificacao-grid-tree.module';
+import {CdkClassificacaoGridTreeService} from '../../classificacao/cdk-classificacao-grid-tree/services/cdk-classificacao-grid-tree.service';
+import {CdkSetorTreeModule} from '../../setor/cdk-setor-tree/cdk-setor-tree.module';
+import {CdkSetorTreeService} from '../../setor/cdk-setor-tree/services/cdk-setor-tree.service';
 
 @NgModule({
     declarations: [
@@ -81,8 +85,13 @@ import {CdkPessoaGridsearchModule} from '../../pessoa/cdk-pessoa-autocomplete/cd
         CdkEspecieSetorGridsearchModule,
         MatSelectModule,
         CdkPessoaGridsearchModule,
+        CdkClassificacaoGridTreeModule,
+        CdkSetorTreeModule,
     ],
-    providers: [],
+    providers: [
+        CdkClassificacaoGridTreeService,
+        CdkSetorTreeService
+    ],
     exports: [
         CdkProcessoFormComponent
     ]

@@ -137,6 +137,10 @@ export class CdkAssuntoFormComponent implements OnChanges, OnDestroy {
         this.activeCard = 'assunto-administrativo-gridsearch';
     }
 
+    showAssuntoAdministrativoGridTree(): void {
+        this.activeCard = 'assunto-administrativo-grid-tree';
+    }
+
     cancel(): void {
         this.activeCard = 'form';
     }

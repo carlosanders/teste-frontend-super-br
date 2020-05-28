@@ -24,6 +24,10 @@
                     [pagination]="assuntoAdministrativoPagination">
                 </cdk-assunto-administrativo-autocomplete>
                 <button matSuffix mat-button mat-icon-button
+                        (click)="showAssuntoAdministrativoGridTree()">
+                    <mat-icon matTooltip="Árvore de Assuntos">view_headline</mat-icon>
+                </button>
+                <button matSuffix mat-button mat-icon-button
                         (click)="showAssuntoAdministrativoGrid()">
                     <mat-icon matTooltip="Procurar">search</mat-icon>
                 </button>
@@ -60,3 +64,10 @@
         (selected)="selectAssuntoAdministrativo($event)"
         (cancel)="cancel()">
 </cdk-assunto-administrativo-gridsearch>
+
+<cdk-assunto-administrativo-grid-tree
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'assunto-administrativo-grid-tree'"
+    (selected)="selectAssuntoAdministrativo($event)"
+    (cancel)="cancel()">
+</cdk-assunto-administrativo-grid-tree>

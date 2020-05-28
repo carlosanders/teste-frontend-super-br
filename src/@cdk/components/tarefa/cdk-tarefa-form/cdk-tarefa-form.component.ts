@@ -163,7 +163,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         });
 
         this.processoPagination = new Pagination();
-        this.processoPagination.populate = ['setorAtual','setorAtual.unidade'];
+        this.processoPagination.populate = ['setorAtual', 'setorAtual.unidade'];
         this.especieTarefaPagination = new Pagination();
         this.unidadeResponsavelPagination = new Pagination();
         this.unidadeResponsavelPagination.filter = {parent: 'isNull'};
@@ -210,7 +210,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                     } else {
                         this.form.get('usuarioResponsavel').enable();
                     }
-                    if(this.blocoResponsaveis)
+                    if (this.blocoResponsaveis)
                     {
                         this.blocoResponsaveis = [];
                     }
@@ -243,7 +243,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             distinctUntilChanged(),
             switchMap((value) => {
 
-                    //criacao normal de tarefa sem distribuicao automatica
+                    // criacao normal de tarefa sem distribuicao automatica
                     if (value && typeof value === 'object' && !this.form.get('distribuicaoAutomatica').value) {
                         this.form.get('usuarioResponsavel').enable();
                         this.form.get('usuarioResponsavel').reset();
@@ -251,7 +251,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                         this._changeDetectorRef.markForCheck();
                     }
 
-                    //bloco de processos
+                    // bloco de processos
                     if (this.form.get('blocoResponsaveis').value && this.form.get('distribuicaoAutomatica').value && typeof value === 'object' && value) {
                         const setor = this.form.get('setorResponsavel').value;
                         const usuario = this.form.get('usuarioResponsavel').value;
@@ -303,7 +303,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             distinctUntilChanged(),
             switchMap((value) => {
 
-                    //bloco de processo
+                    // bloco de processo
                     if (this.form.get('blocoResponsaveis').value && typeof value === 'object' && value) {
                         const setor = this.form.get('setorResponsavel').value;
                         const usuario = this.form.get('usuarioResponsavel').value;
@@ -473,11 +473,11 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             return;
         }
 
-        //if (diffDays === 0) {
+        // if (diffDays === 0) {
         //    this.form.get('dataHoraFinalPrazo').setErrors({formError: 'O prazo deve ser no mínimo de 24 (vinte e quatro) horas!'});
         //    this._changeDetectorRef.markForCheck();
         //    return;
-        //}
+        // }
 
         if (diffDays > 180) {
             this.form.get('dataHoraFinalPrazo').setErrors({formError: 'O prazo deve ser de no máximo de 180 (cento e oitenta) dias!'});
@@ -622,10 +622,10 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                     // caso tenha bloco de responsaveis
                     if (this.form.get('blocoResponsaveis').value && this.blocoResponsaveis) {
 
-                        //para cada processo criamos uma tarefa para cada responsavel
+                        // para cada processo criamos uma tarefa para cada responsavel
                         this.blocoResponsaveis.forEach(responsavel => {
 
-                            //caso seja distribuicao automatica manda somente o setorResponsavel
+                            // caso seja distribuicao automatica manda somente o setorResponsavel
                             if (this.form.get('distribuicaoAutomatica').value){
                                 tarefa = {
                                     ...this.form.value,
@@ -645,7 +645,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
                     } else {
 
-                        //caso seja apenas bloco de processos e um responsavel
+                        // caso seja apenas bloco de processos e um responsavel
                         tarefa = {
                             ...this.form.value,
                             processo: processo
@@ -656,7 +656,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
             }
 
-            //caso tenha Bloco de Responsaveis sem Bloco de Processos
+            // caso tenha Bloco de Responsaveis sem Bloco de Processos
             if (this.form.get('blocoResponsaveis').value &&
                 !this.form.get('blocoProcessos').value &&
                 this.blocoResponsaveis) {
@@ -664,7 +664,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
                 this.blocoResponsaveis.forEach(responsavel => {
 
-                    //caso seja distribuicao automatica manda somente o setorResponsavel
+                    // caso seja distribuicao automatica manda somente o setorResponsavel
                     if (this.form.get('distribuicaoAutomatica').value){
                         tarefa = {
                             ...this.form.value,
@@ -783,9 +783,17 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     selectSetorResponsavel(setor: Setor): void {
+
         if (setor) {
             this.form.get('setorResponsavel').setValue(setor);
         }
+
+        if (setor !== null && typeof setor === 'object') {
+            if (setor.unidade && setor.unidade !== this.form.get('unidadeResponsavel').value) {
+                this.form.get('unidadeResponsavel').setValue(setor.unidade, {emitEvent: false});
+            }
+        }
+
         this.activeCard = 'form';
     }
 
@@ -804,6 +812,14 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
     showSetorResponsavelGrid(): void {
         this.activeCard = 'setor-gridsearch';
+    }
+
+    showSetorTree(): void {
+        this.activeCard = 'setor-tree';
+    }
+
+    showSetorOrigemTree(): void {
+        this.activeCard = 'setor-origem-tree';
     }
 
     checkSetorOrigem(): void {
