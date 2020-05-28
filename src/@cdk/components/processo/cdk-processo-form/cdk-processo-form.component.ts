@@ -469,10 +469,6 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
         this.activeCard = 'setor-gridsearch';
     }
 
-    showSetorGridTree(): void {
-        this.activeCard = 'setor-tree';
-    }
-
     checkSetorInicial(): void {
         const value = this.form.get('setorInicial').value;
         if (!value || typeof value !== 'object') {

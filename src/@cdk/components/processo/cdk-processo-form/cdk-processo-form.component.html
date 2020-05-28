@@ -447,10 +447,6 @@
                 <mat-icon matTooltip="Histórico">history</mat-icon>
             </button>
             <button matSuffix mat-button mat-icon-button
-                    (click)="showSetorGridTree()">
-                <mat-icon matTooltip="Árvore de Setores">view_headline</mat-icon>
-            </button>
-            <button matSuffix mat-button mat-icon-button
                     (click)="showSetorGrid()">
                 <mat-icon matTooltip="Procurar">search</mat-icon>
             </button>
@@ -574,10 +570,3 @@
     (selected)="selectClassificacao($event)"
     (cancel)="cancel()">
 </cdk-classificacao-grid-tree>
-
-<cdk-setor-tree
-    fxFlex="1 0 auto"
-    *ngIf="activeCard === 'setor-tree'"
-    (selected)="selectSetorInicial($event)"
-    (cancel)="cancel()">
-</cdk-setor-tree>

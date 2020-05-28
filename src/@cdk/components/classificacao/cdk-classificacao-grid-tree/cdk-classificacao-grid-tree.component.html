@@ -23,7 +23,7 @@
                 <mat-tree *ngIf="dataSource._data | async" [dataSource]="dataSource" [treeControl]="treeControl">
                     <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>
                         <button mat-icon-button disabled></button>
-                        {{node.nome}}
+                        {{node.nome}} - {{node.codigo}}
                         <div class="bt-set-action">
                             <button class="bt-action-select" *ngIf="!node.isLoading" mat-icon-button
                                     (click)="setInputClassificacao(node)"

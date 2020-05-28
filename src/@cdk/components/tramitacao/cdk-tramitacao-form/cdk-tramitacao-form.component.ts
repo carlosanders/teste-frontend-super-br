@@ -49,6 +49,9 @@ export class CdkTramitacaoFormComponent implements OnChanges, OnDestroy, OnInit 
     setorOrigemPagination: Pagination;
 
     @Input()
+    setorOrigemPaginationTree: Pagination;
+
+    @Input()
     setorDestinoPagination: Pagination;
 
     setorOrigemListIsLoading: boolean;
@@ -67,7 +70,7 @@ export class CdkTramitacaoFormComponent implements OnChanges, OnDestroy, OnInit 
             id: [null],
             externa: [null],
             processo: [null, [Validators.required]],
-            urgente: [null, [Validators.required]],
+            urgente: [null],
             setorOrigem: [null, [Validators.required]],
             setorDestino: [null, [Validators.required]],
             observacao: [null, [Validators.maxLength(255)]]
@@ -76,6 +79,7 @@ export class CdkTramitacaoFormComponent implements OnChanges, OnDestroy, OnInit 
         this.processoPagination = new Pagination();
         this.setorOrigemPagination = new Pagination();
         this.setorDestinoPagination = new Pagination();
+        this.setorOrigemPaginationTree = new Pagination();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -174,6 +178,10 @@ export class CdkTramitacaoFormComponent implements OnChanges, OnDestroy, OnInit 
         this.activeCard = 'setor-origem-gridsearch';
     }
 
+    showSetorOrigemTree(): void {
+        this.activeCard = 'setor-origem-tree';
+    }
+
     selectSetorOrigem(setor: Setor): void {
         if (setor) {
             this.form.get('setorOrigem').setValue(setor);
@@ -190,6 +198,10 @@ export class CdkTramitacaoFormComponent implements OnChanges, OnDestroy, OnInit 
 
     showSetorDestinoGrid(): void {
         this.activeCard = 'setor-destino-gridsearch';
+    }
+
+    showSetorDestinoTree(): void {
+        this.activeCard = 'setor-destino-tree';
     }
 
     selectSetorDestino(setor: Setor): void {

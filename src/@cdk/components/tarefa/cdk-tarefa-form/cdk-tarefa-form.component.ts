@@ -76,6 +76,9 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     setorResponsavelPagination: Pagination;
 
     @Input()
+    setorOrigemPaginationTree: Pagination;
+
+    @Input()
     usuarioResponsavelPagination: Pagination;
 
     @Input()
@@ -164,7 +167,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         this.setorResponsavelPagination.filter = {parent: 'isNotNull'};
         this.usuarioResponsavelPagination = new Pagination();
         this.setorOrigemPagination = new Pagination();
-
+        this.setorOrigemPaginationTree = new Pagination();
         this._profile = _loginService.getUserProfile();
     }
 

@@ -40,8 +40,6 @@ import {MatSelectModule} from '@angular/material/select';
 import {CdkPessoaGridsearchModule} from '../../pessoa/cdk-pessoa-autocomplete/cdk-pessoa-gridsearch/cdk-pessoa-gridsearch.module';
 import {CdkClassificacaoGridTreeModule} from '../../classificacao/cdk-classificacao-grid-tree/cdk-classificacao-grid-tree.module';
 import {CdkClassificacaoGridTreeService} from '../../classificacao/cdk-classificacao-grid-tree/services/cdk-classificacao-grid-tree.service';
-import {CdkSetorTreeModule} from '../../setor/cdk-setor-tree/cdk-setor-tree.module';
-import {CdkSetorTreeService} from '../../setor/cdk-setor-tree/services/cdk-setor-tree.service';
 
 @NgModule({
     declarations: [
@@ -86,11 +84,9 @@ import {CdkSetorTreeService} from '../../setor/cdk-setor-tree/services/cdk-setor
         MatSelectModule,
         CdkPessoaGridsearchModule,
         CdkClassificacaoGridTreeModule,
-        CdkSetorTreeModule,
     ],
     providers: [
-        CdkClassificacaoGridTreeService,
-        CdkSetorTreeService
+        CdkClassificacaoGridTreeService
     ],
     exports: [
         CdkProcessoFormComponent

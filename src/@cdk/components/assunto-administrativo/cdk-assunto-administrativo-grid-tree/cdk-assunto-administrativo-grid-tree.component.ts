@@ -1,19 +1,36 @@
 import {FlatTreeControl} from '@angular/cdk/tree';
-import {Component, ElementRef, EventEmitter, Input, Output, ViewChildren} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChildren} from '@angular/core';
 import {MatTreeFlatDataSource, MatTreeFlattener, MatTreeNode} from '@angular/material/tree';
 import {AssuntoAdministrativoService} from '../../../services/assunto-administrativo.service';
 import {catchError, finalize} from 'rxjs/operators';
 import {Observable, of} from 'rxjs';
 import {CdkAssuntoAdministrativoGridTreeService} from './services/cdk-assunto-administrativo-grid-tree.service';
 import {FormBuilder} from '@angular/forms';
-import {AssuntoAdministrativo} from '../../../models';
+import {AssuntoAdministrativo, Pagination} from '../../../models';
 
 @Component({
     selector: 'cdk-assunto-administrativo-grid-tree',
     templateUrl: './cdk-assunto-administrativo-grid-tree.component.html',
     styleUrls: ['./cdk-assunto-administrativo-grid-tree.component.scss']
 })
-export class CdkAssuntoAdministrativoGridTreeComponent {
+export class CdkAssuntoAdministrativoGridTreeComponent implements OnInit {
+
+    @Input()
+    pagination: Pagination;
+
+    @ViewChildren(MatTreeNode, {read: ElementRef}) treeNodes: ElementRef[];
+
+    @Input()
+    saving: boolean;
+
+    @Output()
+    cancel = new EventEmitter<any>();
+
+    @Output()
+    loading: boolean;
+
+    @Output()
+    selected = new EventEmitter<AssuntoAdministrativo>();
 
     constructor(
         private _serviceTree: CdkAssuntoAdministrativoGridTreeService,
@@ -24,10 +41,6 @@ export class CdkAssuntoAdministrativoGridTreeComponent {
             this.isExpandable, this.getChildren);
         this.treeControl = new FlatTreeControl<AssuntoAdministrativo>(this.getLevel, this.isExpandable);
         this.dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
-        this.initTree();
-        _serviceTree.dataChange.subscribe(data => {
-            this.dataSource.data = data;
-        });
     }
 
     assuntoAdministrativoMap = new Map<AssuntoAdministrativo, AssuntoAdministrativo>();
@@ -35,23 +48,6 @@ export class CdkAssuntoAdministrativoGridTreeComponent {
     treeControl: FlatTreeControl<AssuntoAdministrativo>;
     treeFlattener: MatTreeFlattener<AssuntoAdministrativo, AssuntoAdministrativo>;
     dataSource: MatTreeFlatDataSource<AssuntoAdministrativo, AssuntoAdministrativo>;
-
-    @ViewChildren(MatTreeNode, {read: ElementRef}) treeNodes: ElementRef[];
-
-    @Input()
-    saving: boolean;
-
-    @Output()
-    cancel = new EventEmitter<any>();
-
-    /**
-     * Outputs
-     */
-    @Output()
-    loading: boolean;
-
-    @Output()
-    selected = new EventEmitter<AssuntoAdministrativo>();
 
     getLevel = (node: AssuntoAdministrativo) => node.level;
     isExpandable = (node: AssuntoAdministrativo) => node.expandable;
@@ -76,6 +72,12 @@ export class CdkAssuntoAdministrativoGridTreeComponent {
         this.assuntoAdministrativoMap.set(assuntoAdministrativo, node);
         this.nestedNodeMap.set(node, assuntoAdministrativo);
         return assuntoAdministrativo;
+    }
+    ngOnInit(): void {
+        this.initTree();
+        this._serviceTree.dataChange.subscribe(data => {
+            this.dataSource.data = data;
+        });
     }
 
     addNewItem(node: any): void {

@@ -1,19 +1,36 @@
 import {FlatTreeControl} from '@angular/cdk/tree';
-import {Component, ElementRef, EventEmitter, Input, Output, ViewChildren} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChildren} from '@angular/core';
 import {MatTreeFlatDataSource, MatTreeFlattener, MatTreeNode} from '@angular/material/tree';
 import {SetorService} from '../../../services/setor.service';
 import {catchError, finalize} from 'rxjs/operators';
 import {Observable, of} from 'rxjs';
 import {CdkSetorTreeService} from './services/cdk-setor-tree.service';
 import {FormBuilder} from '@angular/forms';
-import {Setor} from '../../../models';
+import {Pagination, Setor} from '../../../models';
 
 @Component({
     selector: 'cdk-setor-tree',
     templateUrl: './cdk-setor-tree.component.html',
     styleUrls: ['./cdk-setor-tree.component.scss']
 })
-export class CdkSetorTreeComponent {
+export class CdkSetorTreeComponent implements OnInit {
+
+    @Input()
+    pagination: Pagination;
+
+    @ViewChildren(MatTreeNode, {read: ElementRef}) treeNodes: ElementRef[];
+
+    @Input()
+    saving: boolean;
+
+    @Output()
+    cancel = new EventEmitter<any>();
+
+    @Output()
+    loading: boolean;
+
+    @Output()
+    selected = new EventEmitter<Setor>();
 
     constructor(
         private _serviceTree: CdkSetorTreeService,
@@ -24,10 +41,8 @@ export class CdkSetorTreeComponent {
             this.isExpandable, this.getChildren);
         this.treeControl = new FlatTreeControl<Setor>(this.getLevel, this.isExpandable);
         this.dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
-        this.initTree();
-        _serviceTree.dataChange.subscribe(data => {
-            this.dataSource.data = data;
-        });
+
+        this.pagination = new Pagination();
     }
 
     setorMap = new Map<Setor, Setor>();
@@ -35,23 +50,6 @@ export class CdkSetorTreeComponent {
     treeControl: FlatTreeControl<Setor>;
     treeFlattener: MatTreeFlattener<Setor, Setor>;
     dataSource: MatTreeFlatDataSource<Setor, Setor>;
-
-    @ViewChildren(MatTreeNode, {read: ElementRef}) treeNodes: ElementRef[];
-
-    @Input()
-    saving: boolean;
-
-    @Output()
-    cancel = new EventEmitter<any>();
-
-    /**
-     * Outputs
-     */
-    @Output()
-    loading: boolean;
-
-    @Output()
-    selected = new EventEmitter<Setor>();
 
     getLevel = (node: Setor) => node.level;
     isExpandable = (node: Setor) => node.expandable;
@@ -78,8 +76,16 @@ export class CdkSetorTreeComponent {
         return setor;
     }
 
+    ngOnInit(): void {
+        this.initTree();
+        this._serviceTree.dataChange.subscribe(data => {
+            this.dataSource.data = data;
+        });
+    }
+
     addNewItem(node: any): void {
         node.isLoading = true;
+        this.pagination.filter = '';
         const parentNode = this.setorMap.get(node);
         const setoresChild = this.getSetor('eq:' + node.id);
         setoresChild.subscribe((setores) => {
@@ -113,6 +119,7 @@ export class CdkSetorTreeComponent {
         this.loading = true;
         const params = {
             filter: {
+                ...this.pagination.filter,
                 parent: parent
             },
             sort: {

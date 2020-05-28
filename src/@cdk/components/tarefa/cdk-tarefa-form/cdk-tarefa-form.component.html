@@ -376,6 +376,7 @@
 <cdk-setor-tree
     fxFlex="1 0 auto"
     *ngIf="activeCard === 'setor-origem-tree'"
+    [pagination]="setorOrigemPaginationTree"
     (selected)="selectSetorOrigem($event)"
     (cancel)="cancel()">
 </cdk-setor-tree>
