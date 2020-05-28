@@ -49,10 +49,20 @@
                                                 [rowspan]="1">
                                                 <span class="subtitle">Tipo:</span>
                                             </mat-grid-tile>
-                                            <mat-grid-tile
+                                            <mat-grid-tile *ngIf="processo.tipoProtocolo === 1"
                                                 [colspan]="3"
                                                 [rowspan]="1">
-                                                {{ processo.tipoProtocolo }}
+                                                PROTOCOLO
+                                            </mat-grid-tile>
+                                            <mat-grid-tile *ngIf="processo.tipoProtocolo === 2"
+                                                           [colspan]="3"
+                                                           [rowspan]="1">
+                                                DOCUMENTO AVULSO
+                                            </mat-grid-tile>
+                                            <mat-grid-tile *ngIf="processo.tipoProtocolo === 3"
+                                                           [colspan]="3"
+                                                           [rowspan]="1">
+                                                UA DOSSIE
                                             </mat-grid-tile>
 
                                             <mat-grid-tile
@@ -121,8 +131,10 @@
                                             </mat-grid-tile>
                                             <mat-grid-tile
                                                 [colspan]="3"
-                                                [rowspan]="1">
-                                                <input type="checkbox" [checked]="processo.semValorEconomico"> Sim
+                                                [rowspan]="2">
+                                                <mat-checkbox class="mr-16 mb-16" fxFlex="0 1 auto">
+                                                    SIM
+                                                </mat-checkbox>
                                             </mat-grid-tile>
 
                                             <mat-grid-tile
@@ -232,9 +244,11 @@
                             <fieldset>
                                 <legend>interessado(s)</legend>
                                 <cdk-interessado-grid
-                                    [interessados]="processo.interessados"
+                                    [loading]="(loadingInteressados$ | async)"
+                                    (reload)="reloadInteressados($event)"
+                                    [interessados]="interessados"
                                     [displayedColumns]="['id', 'pessoa.nome', 'modalidadeInteressado.valor']"
-                                    [total]="processo.interessados.length"></cdk-interessado-grid>
+                                    [total]="interessados.length"></cdk-interessado-grid>
                             </fieldset>
                         </div>
                     </div>
@@ -246,9 +260,11 @@
                             <fieldset>
                                 <legend>Assunto(s)</legend>
                                 <cdk-assunto-grid
-                                    [assuntos]="processo.assuntos"
+                                    [loading]="(loadingAssuntos$ | async)"
+                                    (reload)="reloadAssuntos($event)"
+                                    [assuntos]="assuntos"
                                     [displayedColumns]="['id', 'assuntoAdministrativo.nome', 'principal']"
-                                    [total]="processo.assuntos.length"></cdk-assunto-grid>
+                                    [total]="assuntos.length"></cdk-assunto-grid>
                             </fieldset>
                         </div>
                     </div>
@@ -260,6 +276,8 @@
                             <fieldset>
                                 <legend>Documento(s)</legend>
                                 <cdk-juntada-grid
+                                    [loading]="(loadingJuntas$ | async)"
+                                    (reload)="reloadJuntadas($event)"
                                     [juntadas]="juntadas"
                                     [displayedColumns]="['numeracaoSequencial', 'descricao', 'documento.componentesDigitais.extensao']"
                                     [total]="juntadas.length"></cdk-juntada-grid>

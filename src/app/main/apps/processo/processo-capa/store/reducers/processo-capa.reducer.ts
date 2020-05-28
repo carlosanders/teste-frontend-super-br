@@ -3,19 +3,19 @@ import * as ProcessoCapaActions from '../actions/processo-capa.actions';
 export interface ProcessoCapaState {
     processoId: number;
     loading: boolean;
+    loadingAssuntos: boolean;
+    loadingInteressados: boolean;
     loaded: any;
     errors: any;
-    loadingAssuntosProcessosId: number[];
-    loadingInteressadosProcessosId: number[];
 }
 
 export const ProcessoInitialState: ProcessoCapaState = {
     processoId: null,
     loading: false,
+    loadingAssuntos: false,
+    loadingInteressados: false,
     loaded: false,
-    errors: false,
-    loadingAssuntosProcessosId: [],
-    loadingInteressadosProcessosId: []
+    errors: false
 };
 
 export function ProcessoCapaReducer(state = ProcessoInitialState, action: ProcessoCapaActions.ProcessoCapaActionsAll): ProcessoCapaState {
@@ -49,49 +49,55 @@ export function ProcessoCapaReducer(state = ProcessoInitialState, action: Proces
             };
         }
 
-        case ProcessoCapaActions.GET_ASSUNTOS_PROCESSO: {
-            return {
-                ...state,
-                loadingAssuntosProcessosId: (state.loadingAssuntosProcessosId.indexOf(action.payload.processoId) === -1
-                    ? [...state.loadingAssuntosProcessosId, action.payload.processoId] : [...state.loadingAssuntosProcessosId])
-            };
-        }
+        // case ProcessoCapaActions.GET_ASSUNTOS_PROCESSO: {
+        //     return {
+        //         ...state,
+        //         loadingAssuntos: true,
+        //         loadingAssuntosProcessosId: (state.loadingAssuntosProcessosId.indexOf(action.payload.processoId) === -1
+        //             ? [...state.loadingAssuntosProcessosId, action.payload.processoId] : [...state.loadingAssuntosProcessosId])
+        //     };
+        // }
+        //
+        // case ProcessoCapaActions.GET_ASSUNTOS_PROCESSO_SUCCESS: {
+        //     return {
+        //         ...state,
+        //         loadingAssuntos: false,
+        //         loadingAssuntosProcessosId: state.loadingAssuntosProcessosId.filter(id => id !== action.payload)
+        //     };
+        // }
+        //
+        // case ProcessoCapaActions.GET_ASSUNTOS_PROCESSO_FAILED: {
+        //     return {
+        //         ...state,
+        //         loadingAssuntos: false,
+        //         loadingAssuntosProcessosId: state.loadingAssuntosProcessosId.filter(id => id !== action.payload)
+        //     };
+        // }
 
-        case ProcessoCapaActions.GET_ASSUNTOS_PROCESSO_SUCCESS: {
-            return {
-                ...state,
-                loadingAssuntosProcessosId: state.loadingAssuntosProcessosId.filter(id => id !== action.payload)
-            };
-        }
-
-        case ProcessoCapaActions.GET_ASSUNTOS_PROCESSO_FAILED: {
-            return {
-                ...state,
-                loadingAssuntosProcessosId: state.loadingAssuntosProcessosId.filter(id => id !== action.payload)
-            };
-        }
-
-        case ProcessoCapaActions.GET_INTERESSADOS_PROCESSO: {
-            return {
-                ...state,
-                loadingInteressadosProcessosId: (state.loadingInteressadosProcessosId.indexOf(action.payload.processoId) === -1
-                    ? [...state.loadingInteressadosProcessosId, action.payload.processoId] : [...state.loadingInteressadosProcessosId])
-            };
-        }
-
-        case ProcessoCapaActions.GET_INTERESSADOS_PROCESSO_SUCCESS: {
-            return {
-                ...state,
-                loadingInteressadosProcessosId: state.loadingInteressadosProcessosId.filter(id => id !== action.payload)
-            };
-        }
-
-        case ProcessoCapaActions.GET_INTERESSADOS_PROCESSO_FAILED: {
-            return {
-                ...state,
-                loadingInteressadosProcessosId: state.loadingInteressadosProcessosId.filter(id => id !== action.payload)
-            };
-        }
+        // case ProcessoCapaActions.GET_INTERESSADOS_PROCESSO: {
+        //     return {
+        //         ...state,
+        //         loadingInteressados: true,
+        //         loadingInteressadosProcessosId: (state.loadingInteressadosProcessosId.indexOf(action.payload.processoId) === -1
+        //             ? [...state.loadingInteressadosProcessosId, action.payload.processoId] : [...state.loadingInteressadosProcessosId])
+        //     };
+        // }
+        //
+        // case ProcessoCapaActions.GET_INTERESSADOS_PROCESSO_SUCCESS: {
+        //     return {
+        //         ...state,
+        //         loadingInteressados: false,
+        //         loadingInteressadosProcessosId: state.loadingInteressadosProcessosId.filter(id => id !== action.payload)
+        //     };
+        // }
+        //
+        // case ProcessoCapaActions.GET_INTERESSADOS_PROCESSO_FAILED: {
+        //     return {
+        //         ...state,
+        //         loadingInteressados: false,
+        //         loadingInteressadosProcessosId: state.loadingInteressadosProcessosId.filter(id => id !== action.payload)
+        //     };
+        // }
 
         default:
             return state;

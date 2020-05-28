@@ -33,7 +33,7 @@ export const getJuntadasLoaded = createSelector(
     (state: JuntadaState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
+export const getIsJuntadasLoading = createSelector(
     getJuntadaState,
     (state: JuntadaState) => state.loading
 );
