@@ -71,6 +71,11 @@ export class MainSidebarComponent implements OnInit, OnDestroy {
                 nome: 'Templates',
                 icon: 'view_array',
                 link: 'templates'
+            },
+            {
+                nome: 'Classificações',
+                icon: 'low_priority',
+                link: 'classificacoes'
             }
         ];
 

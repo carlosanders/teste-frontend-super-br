@@ -1,0 +1,16 @@
+<div class="classificacao-content" fxFlex fxLayout="column">
+    <nav mat-tab-nav-bar>
+        <a mat-tab-link
+           *ngFor="let link of navLinks"
+           [routerLink]="link.link"
+           routerLinkActive #rla="routerLinkActive"
+           [active]="rla.isActive">
+            {{link.label}}
+        </a>
+    </nav>
+    <div class="p-16" fxFlex="1 1 auto" cdkPerfectScrollbar>
+        <router-outlet></router-outlet>
+    </div>
+
+</div>
+

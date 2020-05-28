@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Subject} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from 'app/store';
@@ -6,11 +6,15 @@ import {Router} from '@angular/router';
 import {getRouterState} from 'app/store';
 import {takeUntil} from 'rxjs/operators';
 import {CdkSidebarService} from '../../../../../@cdk/components/sidebar/sidebar.service';
+import {cdkAnimations} from '../../../../../@cdk/animations';
 
 @Component({
     selector: 'assunto-administrativo',
     templateUrl: './assunto-administrativo.component.html',
-    styleUrls: ['./assunto-administrativo.component.scss']
+    styleUrls: ['./assunto-administrativo.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    animations: cdkAnimations
 })
 export class AssuntoAdministrativoComponent implements OnInit {
 

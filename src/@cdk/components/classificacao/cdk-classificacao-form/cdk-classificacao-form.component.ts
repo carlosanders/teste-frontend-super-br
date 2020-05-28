@@ -46,6 +46,7 @@ export class CdkClassificacaoFormComponent implements OnChanges, OnDestroy {
     @Output()
     abort = new EventEmitter<any>();
 
+    @Input()
     form: FormGroup;
 
     activeCard = 'form';
@@ -60,8 +61,8 @@ export class CdkClassificacaoFormComponent implements OnChanges, OnDestroy {
 
         this.form = this._formBuilder.group({
             id: [null],
-            codigo: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(25), Validators.pattern('/[A-Z0-9]+/')]],
-            nome: [null, [Validators.required], Validators.maxLength(255)],
+            codigo: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(25)]],
+            nome: [null, [Validators.required, Validators.maxLength(255)]],
             modalidadeDestinacao: [null, [Validators.required]],
             parent: [null],
             ativo: [null],
