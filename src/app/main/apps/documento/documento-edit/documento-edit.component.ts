@@ -10,7 +10,7 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
 import * as fromStore from '../store';
-import {Documento, Favorito} from '@cdk/models';
+import {Documento} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import {Location} from '@angular/common';
 import {getMercureState, getRouterState} from 'app/store/reducers';
@@ -30,7 +30,6 @@ import {LoginService} from '../../../auth/login/login.service';
 import {Sigilo} from '@cdk/models';
 import {Assinatura} from '@cdk/models';
 import {Usuario} from '@cdk/models';
-import * as fromStoreFavoritos from 'app/main/apps/tarefas/store';
 import {DynamicService} from '../../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../../modules/modules-config';
 
@@ -135,7 +134,6 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
     deletingAssinaturaIds$: Observable<any>;
     deletedAssinaturaIds$: Observable<any>;
     paginationAssinatura$: Observable<any>;
-    favoritos$: Observable<Favorito[]>;
 
     /**
      * @param _store
@@ -218,8 +216,6 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
         this.deletingComponenteDigitalIds$ = this._store.pipe(select(fromStore.getDeletingComponenteDigitalIds));
         this.deletedComponenteDigitalIds$ = this._store.pipe(select(fromStore.getDeletedComponenteDigitalIds));
         this.componenteDigitalLoading$ = this._store.pipe(select(fromStore.getComponenteDigitalLoading));
-
-        this.favoritos$ = this._store.pipe(select(fromStoreFavoritos.getFavoritoList));
 
         this._store
             .pipe(
@@ -644,18 +640,5 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
     deleteVisibilidade(visibilidadeId: number): void {
         this._store.dispatch(new fromStore.DeleteVisibilidade({documentoId: this.routerState.params.documentoHandle, visibilidadeId: visibilidadeId}));
     }
-
-    getFavoritos(value): void {
-
-        this._store.dispatch(new fromStoreFavoritos.GetFavoritos({
-            filter: {
-                'usuario.id': `eq:${this._loginService.getUserProfile().id}`,
-                'objectClass': `eq:SuppCore\\AdministrativoBackend\\Entity\\` + value
-            },
-            limit: 5,
-            sort: {prioritario: 'DESC', qtdUso: 'DESC'}
-        }));
-    }
-
 }
 

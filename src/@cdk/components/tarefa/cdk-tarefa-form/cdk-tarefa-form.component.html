@@ -59,8 +59,8 @@
                     [pagination]="especieTarefaPagination">
                 </cdk-especie-tarefa-autocomplete>
                 <button matSuffix mat-button mat-icon-button
-                        (click)="showEspecieTarefaList()">
-                    <mat-icon matTooltip="Procurar">star</mat-icon>
+                        (click)="getFavoritosEspecieTarefa()">
+                    <mat-icon matTooltip="Favoritos">star</mat-icon>
                 </button>
                 <button matSuffix mat-button mat-icon-button
                         (click)="showEspecieTarefaGrid()">
@@ -132,7 +132,7 @@
                     <mat-icon matTooltip="Histórico">history</mat-icon>
                 </button>
                 <button matSuffix mat-button mat-icon-button
-                        (click)="showSetorResponsavelList()">
+                        (click)="getFavoritosSetorResponsavel()">
                     <mat-icon matTooltip="Favoritos">star</mat-icon>
                 </button>
                 <button matSuffix mat-button mat-icon-button

@@ -9,7 +9,7 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {Favorito, Tarefa} from '@cdk/models';
+import {Tarefa} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from 'app/main/apps/tarefas/tarefa-detail/store';
@@ -20,7 +20,6 @@ import {Colaborador} from '@cdk/models';
 import {getOperacoesState, getRouterState} from '../../../../../store/reducers';
 import {Router} from '@angular/router';
 import * as fromStoreTarefas from 'app/main/apps/tarefas/store';
-import * as fromStoreFavoritos from 'app/main/apps/tarefas/store';
 
 @Component({
     selector: 'redistribuicao-edit',
@@ -47,8 +46,6 @@ export class RedistribuicaoEditComponent implements OnInit, OnDestroy {
     operacoes: any[] = [];
     routerState: any;
 
-    favoritos$: Observable<Favorito[]>;
-
     /**
      * @param _store
      * @param _loginService
@@ -64,8 +61,6 @@ export class RedistribuicaoEditComponent implements OnInit, OnDestroy {
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this._profile = _loginService.getUserProfile().colaborador;
         this.pagination$ = this._store.pipe(select(fromStoreTarefas.getPagination));
-
-        this.favoritos$ = this._store.pipe(select(fromStoreFavoritos.getFavoritoList));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -167,18 +162,4 @@ export class RedistribuicaoEditComponent implements OnInit, OnDestroy {
         this._store.dispatch(new SaveTarefa(tarefa));
 
     }
-
-    getFavoritos(value): void {
-
-        this._store.dispatch(new fromStoreFavoritos.GetFavoritos({
-            filter:
-                {
-                    'usuario.id': `eq:${this._loginService.getUserProfile().id}`,
-                    'objectClass': `eq:SuppCore\\AdministrativoBackend\\Entity\\` + value
-                },
-            limit: 5,
-            sort: {prioritario: 'DESC', qtdUso: 'DESC'}
-        }));
-    }
-
 }
