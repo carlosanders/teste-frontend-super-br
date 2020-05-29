@@ -1,0 +1,8 @@
+<div class="content p-16 altura">
+    <cdk-relatorio-form
+            [relatorio]="relatorio"
+            [saving]="(isSaving$ | async)"
+            [errors]="(errors$ | async)"
+            (save)="submit($event)">
+    </cdk-relatorio-form>
+</div>

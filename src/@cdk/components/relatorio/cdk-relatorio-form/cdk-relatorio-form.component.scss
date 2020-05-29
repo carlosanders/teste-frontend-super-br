@@ -1,0 +1,52 @@
+@import "../../../scss/cdk";
+
+cdk-relatorio-form {
+
+  height: 100%;
+
+  form {
+    width: 100%;
+  }
+
+  .bloco-processos {
+    @include mat-elevation(1);
+  }
+
+  .form-card {
+    border-radius: 8px;
+  }
+
+  .form-errors-model {
+    flex: 1;
+
+    code {
+      background: none !important;
+    }
+  }
+
+  .align-icon {
+    .toggle-icon {
+      margin-top: 6px;
+      align-self: center;
+    }
+    .add-icon {
+      align-self: flex-start;
+    }
+  }
+}
+
+cdk-processo-gridsearch {
+  width: 100%;
+}
+
+cdk-especie-relatorio-gridsearch {
+  width: 100%;
+}
+
+cdk-setor-gridsearch {
+  width: 100%;
+}
+
+cdk-usuario-gridsearch {
+  width: 100%;
+}

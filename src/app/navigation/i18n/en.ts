@@ -34,6 +34,9 @@ export const locale = {
             PESQUISA        : {
                 TITLE: 'Pesquisa'
             },
+            RELATORIO        : {
+                TITLE: 'Relatórios'
+            },
             OFICIO : {
                 TITLE: 'Ofício'
             },

@@ -1,0 +1,62 @@
+<!-- CONTENT -->
+<div class="content p-16" fxLayout="column" fxFlex="100">
+
+    <h2>Edição de relatorios em bloco</h2>
+
+    <h3>{{(relatorios$ | async)?.length}} relatorio(s) selecionada(s) </h3>
+
+    <div class="bloco-edit p-16 mb-16" fxLayout="column" *ngIf="operacoes.length === 0">
+        <mat-slide-toggle [(ngModel)]="blocoEditEspecie"
+                          class="mr-16 mb-16" fxFlex="0 1 auto">
+            Espécie de Relatorio
+        </mat-slide-toggle>
+
+        <mat-slide-toggle [(ngModel)]="blocoEditDistribuicao"
+                          class="mr-16 mb-16" fxFlex="0 1 auto">
+            Distribuição
+        </mat-slide-toggle>
+
+        <mat-slide-toggle [(ngModel)]="blocoEditUrgente"
+                          class="mr-16 mb-16" fxFlex="0 1 auto">
+            Urgência
+        </mat-slide-toggle>
+
+        <mat-slide-toggle [(ngModel)]="blocoEditInicioPrazo"
+                          class="mr-16 mb-16" fxFlex="0 1 auto">
+            Início do Prazo
+        </mat-slide-toggle>
+
+        <mat-slide-toggle [(ngModel)]="blocoEditFinalPrazo"
+                          class="mr-16 mb-16" fxFlex="0 1 auto">
+            Final do Prazo
+        </mat-slide-toggle>
+
+        <mat-slide-toggle [(ngModel)]="blocoEditObservacao"
+                          class="mr-16 mb-16" fxFlex="0 1 auto">
+            Observação
+        </mat-slide-toggle>
+
+    </div>
+
+    <cdk-relatorio-form
+            *ngIf="operacoes.length === 0"
+            [relatorio]="relatorio"
+            [valid]="(relatorios$ | async)?.length > 0 && (blocoEditEspecie || blocoEditDistribuicao || blocoEditUrgente || blocoEditInicioPrazo || blocoEditFinalPrazo || blocoEditObservacao)"
+            [saving]="(isSaving$ | async)"
+            [mode]="'bloco-edit'"
+            [blocoEdit]="{blocoEditEspecie: blocoEditEspecie, blocoEditDistribuicao: blocoEditDistribuicao, blocoEditUrgente: blocoEditUrgente, blocoEditInicioPrazo: blocoEditInicioPrazo, blocoEditFinalPrazo: blocoEditFinalPrazo, blocoEditObservacao: blocoEditObservacao}"
+            (save)="submit($event)">
+    </cdk-relatorio-form>
+
+    <mat-list *ngIf="operacoes.length > 0" fxFlex>
+        <h3 matSubheader>
+            <span>Resultado do Bloco</span>
+        </h3>
+
+        <mat-list-item *ngFor="let operacao of operacoes">
+            <p matLine class="mb-4 p-8 secondary-text"
+               [ngClass]="{'light-green-50': operacao.success, 'pink-50': !operacao.success}">{{operacao.content}}</p>
+        </mat-list-item>
+    </mat-list>
+
+</div>

@@ -85,6 +85,15 @@ export const navigation: CdkNavigation[] = [
                 icon: 'search',
                 url: '/apps/pesquisa/processos',
                 role: 'ROLE_USER'
+            },
+            {
+                id: 'relatorio',
+                title: 'Relatórios',
+                translate: 'NAV.RELATORIO.TITLE',
+                type: 'item',
+                icon: 'assessment',
+                url: '/apps/relatorios/administrativo/meus-relatorios/entrada',
+                role: 'ROLE_COLABORADOR'
             }
         ]
     },

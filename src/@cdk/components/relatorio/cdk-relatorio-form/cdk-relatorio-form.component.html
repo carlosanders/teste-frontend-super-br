@@ -1,0 +1,156 @@
+<div class="pr-16" fxFlex *ngIf="activeCard === 'form'" cdkPerfectScrollbar>
+
+    <form fxLayoutGap="36px" fxLayout="column" fxLayoutAlign="start" name="form" [formGroup]="form" (submit)="submit()">
+
+        <div fxFlex="1 0 auto" fxLayout="column">
+
+            <mat-form-field fxFlex="100"
+                            *ngIf="mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditDistribuicao">
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Tipo Relatório"
+                           formControlName="tipoRelatorio"
+                           [matAutocomplete]="tipoRelatorio.autocomplete" required
+                           (blur)="checkTipoRelatorio()">
+                </div>
+
+                <cdk-tipo-relatorio-autocomplete
+                    #tipoRelatorio="tipoRelatorioAutocomplete"
+                    [control]="form.get('tipoRelatorio')"
+                    [pagination]="tipoRelatorioPagination">
+                </cdk-tipo-relatorio-autocomplete>
+
+                <button matSuffix mat-button mat-icon-button *ngIf="relatorio.id"
+                        (click)="showLogEntryGrid('unidadeResponsavel')">
+                    <mat-icon matTooltip="Histórico">history</mat-icon>
+                </button>
+                <button matSuffix mat-button mat-icon-button (click)="showTipoRelatorioGrid()">
+                    <mat-icon matTooltip="Procurar tipo relatório">search</mat-icon>
+                </button>
+
+                <mat-error *ngIf="form.get('tipoRelatorio').hasError('formError')">
+                    {{form.get('tipoRelatorio').errors.formError}}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="mr-16" fxFlex="1 0 auto">
+                <textarea formControlName="parametros" matInput placeholder="Parâmetros" maxlength="255"></textarea>
+
+                <mat-error *ngIf="form.get('parametros').hasError('formError')">
+                    {{form.get('parametros').errors.formError}}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="mr-16" fxFlex="1 0 auto"
+                            *ngIf="mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditObservacao">
+                <textarea formControlName="observacao" matInput placeholder="Observação" maxlength="255"></textarea>
+
+                <mat-error *ngIf="form.get('observacao').hasError('formError')">
+                    {{form.get('observacao').errors.formError}}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="mr-16" fxFlex="1 0 auto">
+                <textarea formControlName="formato" matInput placeholder="Formato" maxlength="255"></textarea>
+
+                <mat-error *ngIf="form.get('formato').hasError('formError')">
+                    {{form.get('formato').errors.formError}}
+                </mat-error>
+            </mat-form-field>
+
+<!--            <mat-form-field class="mr-sm-12" fxFle>-->
+<!--                <mat-label>Início do Prazo</mat-label>-->
+<!--                <input matInput formControlName="dataHoraInicio" [matDatetimepicker]="dataHoraInicio"-->
+<!--                       required>-->
+<!--                <button matSuffix mat-button mat-icon-button *ngIf="relatorio.id"-->
+<!--                        (click)="showLogEntryGrid('dataHoraInicio')">-->
+<!--                    <mat-icon matTooltip="Histórico">history</mat-icon>-->
+<!--                </button>-->
+<!--                <mat-datetimepicker-toggle matSuffix [for]="dataHoraInicio"></mat-datetimepicker-toggle>-->
+<!--                <mat-datetimepicker #dataHoraInicio type="datetime" openOnFocus="true" timeInterval="5" required></mat-datetimepicker>-->
+<!--            </mat-form-field>-->
+
+<!--            <mat-form-field class="mr-sm-12" fxFle>-->
+<!--                <mat-label>Fim do Prazo</mat-label>-->
+<!--                <input matInput formControlName="dataHoraFinal" [matDatetimepicker]="dataHoraFinal"-->
+<!--                       required>-->
+<!--                <button matSuffix mat-button mat-icon-button *ngIf="relatorio.id"-->
+<!--                        (click)="showLogEntryGrid('dataHoraFinal')">-->
+<!--                    <mat-icon matTooltip="Histórico">history</mat-icon>-->
+<!--                </button>-->
+<!--                <mat-datetimepicker-toggle matSuffix [for]="dataHoraFinal"></mat-datetimepicker-toggle>-->
+<!--                <mat-datetimepicker #dataHoraFinal type="datetime" openOnFocus="true" timeInterval="5" required></mat-datetimepicker>-->
+<!--            </mat-form-field>-->
+
+        </div>
+
+        <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+
+        <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-8 mb-8" fxFlex
+             fxLayoutAlign="center center">
+            <button type="submit" mat-raised-button color="accent" class="mr-sm-12"
+                    [disabled]="form.invalid || !valid">
+                SALVAR
+            </button>
+        </div>
+
+        <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+             fxLayoutAlign="center center">
+            <mat-spinner color="accent" diameter="24"></mat-spinner>
+        </div>
+    </form>
+</div>
+
+<!--<cdk-processo-gridsearch-->
+<!--    fxFlex="1 0 auto"-->
+<!--    *ngIf="activeCard === 'processo-gridsearch'"-->
+<!--    [pagination]="processoPagination"-->
+<!--    (selected)="selectProcesso($event)"-->
+<!--    (cancel)="cancel()">-->
+<!--</cdk-processo-gridsearch>-->
+
+<!--<cdk-especie-relatorio-gridsearch-->
+<!--    fxFlex="1 0 auto"-->
+<!--    *ngIf="activeCard === 'especie-relatorio-gridsearch'"-->
+<!--    [pagination]="especieRelatorioPagination"-->
+<!--    (selected)="selectEspecieRelatorio($event)"-->
+<!--    (cancel)="cancel()">-->
+<!--</cdk-especie-relatorio-gridsearch>-->
+
+<cdk-tipo-relatorio-gridsearch
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'tipo-relatorio-gridsearch'"
+    [pagination]="tipoRelatorioPagination"
+    (selected)="selectTipoRelatorio($event)"
+    (cancel)="cancel()">
+</cdk-tipo-relatorio-gridsearch>
+
+<!--<cdk-tipo-relatorio-gridsearch-->
+<!--    fxFlex="1 0 auto"-->
+<!--    *ngIf="activeCard === 'setor-gridsearch'"-->
+<!--    [pagination]="setorResponsavelPagination"-->
+<!--    (selected)="selectSetorResponsavel($event)"-->
+<!--    (cancel)="cancel()">-->
+<!--</cdk-tipo-relatorio-gridsearch>-->
+
+<!--<cdk-usuario-gridsearch-->
+<!--    fxFlex="1 0 auto"-->
+<!--    *ngIf="activeCard === 'usuario-gridsearch'"-->
+<!--    [pagination]="usuarioResponsavelPagination"-->
+<!--    (selected)="selectUsuario($event)"-->
+<!--    (cancel)="cancel()">-->
+<!--</cdk-usuario-gridsearch>-->
+
+<!--<cdk-tipo-relatorio-gridsearch-->
+<!--    fxFlex="1 0 auto"-->
+<!--    *ngIf="activeCard === 'setor-origem-gridsearch'"-->
+<!--    [pagination]="setorOrigemPagination"-->
+<!--    (selected)="selectSetorOrigem($event)"-->
+<!--    (cancel)="cancel()">-->
+<!--</cdk-tipo-relatorio-gridsearch>-->
+
+<!--<cdk-logentry-gridsearch-->
+<!--    fxFlex="1 0 auto"-->
+<!--    *ngIf="activeCard === 'logentry-gridsearch'"-->
+<!--    [pagination]="logEntryPaginationRelatorio"-->
+<!--    (cancel)="cancel()">-->
+<!--</cdk-logentry-gridsearch>-->
