@@ -26,6 +26,7 @@ import {RelatorioService} from '@cdk/services/relatorio.service';
 import * as fromGuards from './store/guards';
 import {CdkVisibilidadePluginModule} from '../../../../../@cdk/components/visibilidade/cdk-visibilidade-plugin/cdk-visibilidade-plugin.module';
 import {modulesConfig} from 'modules/modules-config';
+import {GeneroRelatorioService} from '../../../../../@cdk/services/genero-relatorio.service';
 
 const routes: Routes = [
     {
@@ -82,6 +83,7 @@ modulesConfig.forEach((module) => {
     ],
     providers: [
         RelatorioService,
+        GeneroRelatorioService,
         fromGuards.ResolveGuard
     ]
 })

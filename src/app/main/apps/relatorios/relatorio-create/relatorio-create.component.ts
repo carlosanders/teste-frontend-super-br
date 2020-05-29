@@ -13,14 +13,13 @@ import {Relatorio} from '@cdk/models/relatorio.model';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
-import {Pagination} from '@cdk/models';
-import * as moment from 'moment';
 import {Colaborador} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {take, takeUntil, tap} from 'rxjs/operators';
+import {takeUntil} from 'rxjs/operators';
 import {MatDialog} from '@cdk/angular/material';
 import {Router} from '@angular/router';
 import {getRouterState} from '../../../../store/reducers';
+import {GeneroRelatorio} from '../../../../../@cdk/models/genero-relatorio.model';
 
 @Component({
     selector: 'relatorio-create',
@@ -40,6 +39,8 @@ export class RelatorioCreateComponent implements OnInit, OnDestroy {
 
     _profile: Colaborador;
 
+    generoRelatorio$: Observable<GeneroRelatorio[]>;
+
     routerState: any;
 
     /**
@@ -57,6 +58,8 @@ export class RelatorioCreateComponent implements OnInit, OnDestroy {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this._profile = _loginService.getUserProfile().colaborador;
+
+        this.generoRelatorio$ = this._store.pipe(select(fromStore.getGeneroRelatorios));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -100,10 +103,29 @@ export class RelatorioCreateComponent implements OnInit, OnDestroy {
 
         Object.entries(values).forEach(
             ([key, value]) => {
-                relatorio[key] = value;
+                if (key === 'dataHoraInicio' || key === 'dataHoraFim')
+                {
+                    relatorio[key] = value.format('YYYY-MM-DDTHH:mm:ss');
+                }
+                if (key === 'usuario')
+                {
+                    relatorio[key] = value.id;
+                }
+                else {
+                    relatorio[key] = value;
+                }
             }
         );
 
+        const parametros = relatorio.tipoRelatorio.parametros.split(',');
+
+        if (parametros.length > 0) {
+            parametros.forEach((campo) => {
+                relatorio.parametros.push(relatorio[campo]);
+                relatorio[campo] = '';
+            });
+        }
+        console.log(relatorio);
         relatorio.vinculacoesEtiquetas = this.relatorio.vinculacoesEtiquetas;
 
         this._store.dispatch(new fromStore.SaveRelatorio(relatorio));

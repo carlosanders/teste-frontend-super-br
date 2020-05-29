@@ -20,7 +20,8 @@ export class Relatorio {
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     documento?: Documento;
 
-    parametros?: string;
+    @Exclude({toPlainOnly: true})
+    parametros?: any[];
 
     @Exclude({toPlainOnly: true})
     @Type(() => VinculacaoEtiqueta)
@@ -31,7 +32,7 @@ export class Relatorio {
         this.formato = null;
         this.observacao = null;
         this.tipoRelatorio = null;
-        this.parametros = null;
+        this.parametros = [];
         this.vinculacoesEtiquetas = [];
     }
 }

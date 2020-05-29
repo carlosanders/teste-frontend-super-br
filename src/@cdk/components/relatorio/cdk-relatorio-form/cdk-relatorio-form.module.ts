@@ -18,21 +18,22 @@ import {CdkEspecieRelatorioAutocompleteModule} from '@cdk/components/especie-rel
 import {CdkEspecieRelatorioGridsearchModule} from '@cdk/components/especie-relatorio/cdk-especie-relatorio-autocomplete/cdk-especie-relatorio-gridsearch/cdk-especie-relatorio-gridsearch.module';
 import {CdkUsuarioAutocompleteModule} from '../../usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 import {CdkUsuarioGridsearchModule} from '../../usuario/cdk-usuario-autocomplete/cdk-usuario-gridsearch/cdk-usuario-gridsearch.module';
-import {CdkProcessoAutocompleteModule} from '../../processo/cdk-processo-autocomplete/cdk-processo-autocomplete.module';
-import {CdkProcessoGridsearchModule} from '../../processo/cdk-processo-autocomplete/cdk-processo-gridsearch/cdk-processo-gridsearch.module';
 import {UsuarioService} from '@cdk/services/usuario.service';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
-import {ProcessoService} from '@cdk/services/processo.service';
 import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
 import {CdkProcessoGridModule} from '../../processo/cdk-processo-grid/cdk-processo-grid.module';
-import {FavoritoService} from '@cdk/services/favorito.service';
 import {LoginService} from '../../../../app/main/auth/login/login.service';
-import {CdkLogentryGridModule} from '@cdk/components/logentry/cdk-logentry-grid/cdk-logentry-grid.module';
-import {CdkLogentryGridsearchModule} from '@cdk/components/logentry/cdk-logentry-grid/cdk-logentry-gridsearch/cdk-logentry-gridsearch.module';
-import {MatRadioModule} from "@angular/material/radio";
-import {CdkTipoRelatorioAutocompleteModule} from "../cdk-tipo-relatorio-autocomplete/cdk-tipo-relatorio-autocomplete.module";
-import {CdkTipoRelatorioGridsearchModule} from "../cdk-tipo-relatorio-autocomplete/cdk-tipo-relatorio-gridsearch/cdk-tipo-relatorio-gridsearch.module";
+import {MatRadioModule} from '@angular/material/radio';
+import {CdkTipoRelatorioAutocompleteModule} from '../cdk-tipo-relatorio-autocomplete/cdk-tipo-relatorio-autocomplete.module';
+import {CdkTipoRelatorioGridsearchModule} from '../cdk-tipo-relatorio-autocomplete/cdk-tipo-relatorio-gridsearch/cdk-tipo-relatorio-gridsearch.module';
+import {MatSelectModule} from '@angular/material/select';
+import {CdkGeneroSetorAutocompleteModule} from '../../genero-setor/cdk-genero-setor-autocomplete/cdk-genero-setor-autocomplete.module';
+import {CdkGeneroRelatorioAutocompleteModule} from '../../genero-relatorio/cdk-genero-relatorio-autocomplete/cdk-genero-relatorio-autocomplete.module';
+import {CdkGeneroRelatorioGridsearchModule} from '../../genero-relatorio/cdk-genero-relatorio-autocomplete/cdk-genero-relatorio-gridsearch/cdk-genero-relatorio-gridsearch.module';
+import {MatCardModule} from '@angular/material/card';
+import {CdkSetorAutocompleteModule} from '../../setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
+import {CdkSetorGridsearchModule} from '../../setor/cdk-setor-autocomplete/cdk-setor-gridsearch/cdk-setor-gridsearch.module';
 
 @NgModule({
     declarations: [
@@ -59,23 +60,24 @@ import {CdkTipoRelatorioGridsearchModule} from "../cdk-tipo-relatorio-autocomple
         CdkEspecieRelatorioGridsearchModule,
         CdkUsuarioAutocompleteModule,
         CdkUsuarioGridsearchModule,
-        CdkProcessoAutocompleteModule,
-        CdkProcessoGridsearchModule,
         CdkTipoRelatorioAutocompleteModule,
         CdkTipoRelatorioGridsearchModule,
         CdkProcessoGridModule,
 
-        CdkLogentryGridModule,
-        CdkLogentryGridsearchModule,
-
         CdkSharedModule,
+        MatRadioModule,
+        MatSelectModule,
+        CdkGeneroSetorAutocompleteModule,
+        CdkGeneroRelatorioAutocompleteModule,
+        CdkGeneroRelatorioGridsearchModule,
+        MatCardModule,
+        CdkSetorAutocompleteModule,
+        CdkSetorGridsearchModule,
         MatRadioModule,
     ],
     providers: [
         EspecieRelatorioService,
         UsuarioService,
-        ProcessoService,
-        FavoritoService,
         LoginService
     ],
     exports: [

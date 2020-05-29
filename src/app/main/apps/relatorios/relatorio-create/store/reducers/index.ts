@@ -1,9 +1,11 @@
 import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
 import { RelatorioCreateReducer, RelatorioCreateState } from './relatorio-create.reducer';
+import {GeneroRelatorioReducer, GeneroRelatorioState} from './genero-relatorio.reducer';
 
 export interface RelatorioCreateAppState
 {
     relatorio: RelatorioCreateState;
+    generoRelatorios: GeneroRelatorioState;
 }
 
 export const getRelatorioCreateAppState = createFeatureSelector<RelatorioCreateAppState>(
@@ -16,7 +18,9 @@ export const getAppState = createSelector(
 );
 
 export const reducers: ActionReducerMap<RelatorioCreateAppState> = {
-    relatorio: RelatorioCreateReducer
+    relatorio: RelatorioCreateReducer,
+    generoRelatorios: GeneroRelatorioReducer
 };
 
 export * from './relatorio-create.reducer';
+export * from './genero-relatorio.reducer';

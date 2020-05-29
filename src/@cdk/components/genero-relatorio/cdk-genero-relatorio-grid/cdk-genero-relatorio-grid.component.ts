@@ -12,25 +12,25 @@ import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
-import {TipoRelatorio} from '@cdk/models/tipo-relatorio.model';
-import {TipoRelatorioDataSource} from '@cdk/data-sources/tipo-relatorio-data-source';
+import {GeneroRelatorio} from '@cdk/models/genero-relatorio.model';
+import {GeneroRelatorioDataSource} from '@cdk/data-sources/genero-relatorio-data-source';
 import {FormControl} from '@angular/forms';
 
 @Component({
-    selector: 'cdk-tipo-relatorio-grid',
-    templateUrl: './cdk-tipo-relatorio-grid.component.html',
-    styleUrls: ['./cdk-tipo-relatorio-grid.component.scss'],
+    selector: 'cdk-genero-relatorio-grid',
+    templateUrl: './cdk-genero-relatorio-grid.component.html',
+    styleUrls: ['./cdk-genero-relatorio-grid.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class CdkTipoRelatorioGridComponent implements AfterViewInit, OnInit, OnChanges {
+export class CdkGeneroRelatorioGridComponent implements AfterViewInit, OnInit, OnChanges {
 
     @Input()
     loading = false;
 
     @Input()
-    tiposRelatorios: TipoRelatorio[];
+    generoRelatorios: GeneroRelatorio[];
 
     @Input()
     total = 0;
@@ -42,7 +42,7 @@ export class CdkTipoRelatorioGridComponent implements AfterViewInit, OnInit, OnC
     create = new EventEmitter<any>();
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'nome', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'actions'];
 
     allColumns: any[] = [
         {
@@ -59,6 +59,46 @@ export class CdkTipoRelatorioGridComponent implements AfterViewInit, OnInit, OnC
             id: 'nome',
             label: 'Nome',
             fixed: true
+        },
+        {
+            id: 'descricao',
+            label: 'Descrição',
+            fixed: false
+        },
+        {
+            id: 'ativo',
+            label: 'Ativo',
+            fixed: false
+        },
+        {
+            id: 'criadoPor.nome',
+            label: 'Criado Por',
+            fixed: false
+        },
+        {
+            id: 'criadoEm',
+            label: 'Criado Em',
+            fixed: false
+        },
+        {
+            id: 'atualizadoPor.nome',
+            label: 'Atualizado Por',
+            fixed: false
+        },
+        {
+            id: 'atualizadoEm',
+            label: 'Atualizado Em',
+            fixed: false
+        },
+        {
+            id: 'apagadoPor.nome',
+            label: 'Apagado Por',
+            fixed: false
+        },
+        {
+            id: 'apagadoEm',
+            label: 'Apagado Em',
+            fixed: false
         },
         {
             id: 'actions',
@@ -91,24 +131,24 @@ export class CdkTipoRelatorioGridComponent implements AfterViewInit, OnInit, OnC
     reload = new EventEmitter<any>();
 
     @Output()
+    excluded = new EventEmitter<any>();
+
+    @Output()
     cancel = new EventEmitter<any>();
 
     @Output()
     edit = new EventEmitter<number>();
 
     @Output()
-    tiposRelatoriosEvent = new EventEmitter<number>();
-
-    @Output()
     delete = new EventEmitter<number>();
 
     @Output()
-    selected = new EventEmitter<TipoRelatorio>();
+    selected = new EventEmitter<GeneroRelatorio>();
 
     @Output()
     selectedIds: number[] = [];
 
-    dataSource: TipoRelatorioDataSource;
+    dataSource: GeneroRelatorioDataSource;
 
     showFilter = false;
 
@@ -116,9 +156,9 @@ export class CdkTipoRelatorioGridComponent implements AfterViewInit, OnInit, OnC
 
     hasSelected = false;
     isIndeterminate = false;
+    hasExcluded = false;
 
     /**
-     *
      * @param _changeDetectorRef
      * @param _cdkSidebarService
      */
@@ -127,11 +167,11 @@ export class CdkTipoRelatorioGridComponent implements AfterViewInit, OnInit, OnC
         private _cdkSidebarService: CdkSidebarService
     ) {
         this.gridFilter = {};
-        this.tiposRelatorios = [];
+        this.generoRelatorios = [];
     }
 
     ngOnChanges(): void {
-        this.dataSource = new TipoRelatorioDataSource(of(this.tiposRelatorios));
+        this.dataSource = new GeneroRelatorioDataSource(of(this.generoRelatorios));
         this.paginator.length = this.total;
     }
 
@@ -146,7 +186,7 @@ export class CdkTipoRelatorioGridComponent implements AfterViewInit, OnInit, OnC
 
         this.paginator.pageSize = this.pageSize;
 
-        this.dataSource = new TipoRelatorioDataSource(of(this.tiposRelatorios));
+        this.dataSource = new GeneroRelatorioDataSource(of(this.generoRelatorios));
 
         this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
 
@@ -179,7 +219,7 @@ export class CdkTipoRelatorioGridComponent implements AfterViewInit, OnInit, OnC
     }
 
     toggleFilter(): void {
-        this._cdkSidebarService.getSidebar('cdk-tipo-relatorio-filter').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-genero-relatorio-filter').toggleOpen();
         this.showFilter = !this.showFilter;
     }
 
@@ -193,22 +233,40 @@ export class CdkTipoRelatorioGridComponent implements AfterViewInit, OnInit, OnC
             sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
             context: contexto
         });
+        this.hasExcluded = false;
     }
 
-    editTipoRelatorio(tipoRelatorioId): void {
-        this.edit.emit(tipoRelatorioId);
+    loadExcluded(): void {
+        this.hasExcluded = !this.hasExcluded;
+        if(this.hasExcluded) {
+            const filter = this.gridFilter.filters;
+            this.excluded.emit({
+                gridFilter: filter,
+                limit: this.paginator.pageSize,
+                offset: (this.paginator.pageSize * this.paginator.pageIndex),
+                sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
+                context: {'mostrarApagadas': true}
+            });
+        }
+        else {
+            this.loadPage();
+        }
     }
 
-    tiposRelatoriosUnidade(unidadeId): void {
-        this.tiposRelatoriosEvent.emit(unidadeId);
+    editGeneroRelatorio(generoRelatorioId): void {
+        this.edit.emit(generoRelatorioId);
     }
 
-    selectTipoRelatorio(tipoRelatorio: TipoRelatorio): void {
-        this.selected.emit(tipoRelatorio);
+    selectGeneroRelatorio(generoRelatorio: GeneroRelatorio): void {
+        this.selected.emit(generoRelatorio);
     }
 
-    deleteTipoRelatorio(tipoRelatorioId): void {
-        this.delete.emit(tipoRelatorioId);
+    deleteGeneroRelatorio(generoRelatorioId): void {
+        this.delete.emit(generoRelatorioId);
+    }
+
+    deleteGeneroRelatorios(generoRelatoriosId): void {
+        generoRelatoriosId.forEach(generoRelatorioId => this.deleteGeneroRelatorio(generoRelatorioId));
     }
 
     /**
@@ -230,33 +288,33 @@ export class CdkTipoRelatorioGridComponent implements AfterViewInit, OnInit, OnC
      * Select all
      */
     selectAll(): void {
-        const arr = Object.keys(this.tiposRelatorios).map(k => this.tiposRelatorios[k]);
-        this.selectedIds = arr.map(tipoRelatorio => tipoRelatorio.id);
+        const arr = Object.keys(this.generoRelatorios).map(k => this.generoRelatorios[k]);
+        this.selectedIds = arr.map(generoRelatorio => generoRelatorio.id);
         this.recompute();
     }
 
     /**
-     * Deselect all relatorios
+     * Deselect all tarefas
      */
     deselectAll(): void {
         this.selectedIds = [];
         this.recompute();
     }
 
-    toggleInSelected(tipoRelatorioId): void {
-        const selectedTipoRelatorioIds = [...this.selectedIds];
+    toggleInSelected(generoRelatorioId): void {
+        const selectedGeneroRelatorioIds = [...this.selectedIds];
 
-        if (selectedTipoRelatorioIds.find(id => id === tipoRelatorioId) !== undefined) {
-            this.selectedIds = selectedTipoRelatorioIds.filter(id => id !== tipoRelatorioId);
+        if (selectedGeneroRelatorioIds.find(id => id === generoRelatorioId) !== undefined) {
+            this.selectedIds = selectedGeneroRelatorioIds.filter(id => id !== generoRelatorioId);
         } else {
-            this.selectedIds = [...selectedTipoRelatorioIds, tipoRelatorioId];
+            this.selectedIds = [...selectedGeneroRelatorioIds, generoRelatorioId];
         }
         this.recompute();
     }
 
     recompute(): void {
         this.hasSelected = this.selectedIds.length > 0;
-        this.isIndeterminate = (this.selectedIds.length !== this.tiposRelatorios.length && this.selectedIds.length > 0);
+        this.isIndeterminate = (this.selectedIds.length !== this.generoRelatorios.length && this.selectedIds.length > 0);
     }
 
     setFilter(gridFilter): void {
@@ -265,11 +323,11 @@ export class CdkTipoRelatorioGridComponent implements AfterViewInit, OnInit, OnC
         this.loadPage();
     }
 
-    doCreate(): void {
-        this.create.emit();
-    }
-
     doCancel(): void {
         this.cancel.emit();
+    }
+
+    doCreate(): void {
+        this.create.emit();
     }
 }

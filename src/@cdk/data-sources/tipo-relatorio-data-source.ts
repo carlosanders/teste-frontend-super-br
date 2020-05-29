@@ -1,6 +1,6 @@
 import { CollectionViewer, DataSource } from '@angular/cdk/collections';
 import { Observable } from 'rxjs';
-import { TipoRelatorio } from '@cdk/models';
+import { TipoRelatorio } from '@cdk/models/tipo-relatorio.model';
 
 export class TipoRelatorioDataSource extends DataSource<TipoRelatorio> {
 

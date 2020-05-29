@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {ParentGenericService} from './parent-generic.service';
 import {ModelService} from '@cdk/services/model.service';
-import {GeneroRelatorio} from '@cdk/models';
+import {GeneroRelatorio} from '@cdk/models/genero-relatorio.model';
 
 @Injectable()
 export class GeneroRelatorioService extends ParentGenericService<GeneroRelatorio> {

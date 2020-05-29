@@ -33,6 +33,24 @@ cdk-relatorio-form {
       align-self: flex-start;
     }
   }
+
+    mat-radio-group {
+
+        &.poderes-rg {
+            //      padding: 16px;
+            margin: 0px 0px 8px 8px;
+            display: flex;
+            flex-direction: row;
+            //    margin: top right bottom left
+            //      @include mat-elevation(1);
+        }
+    }
+
+    mat-radio-button {
+        margin-right: 100px;
+        margin-left: 3px;
+        margin-bottom: 15px;
+    }
 }
 
 cdk-processo-gridsearch {
