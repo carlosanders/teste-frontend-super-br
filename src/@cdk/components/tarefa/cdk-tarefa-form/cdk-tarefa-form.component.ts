@@ -76,6 +76,9 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     setorResponsavelPagination: Pagination;
 
     @Input()
+    setorOrigemPaginationTree: Pagination;
+
+    @Input()
     usuarioResponsavelPagination: Pagination;
 
     @Input()
@@ -156,7 +159,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         });
 
         this.processoPagination = new Pagination();
-        this.processoPagination.populate = ['setorAtual','setorAtual.unidade'];
+        this.processoPagination.populate = ['setorAtual', 'setorAtual.unidade'];
         this.especieTarefaPagination = new Pagination();
         this.unidadeResponsavelPagination = new Pagination();
         this.unidadeResponsavelPagination.filter = {parent: 'isNull'};
@@ -164,7 +167,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         this.setorResponsavelPagination.filter = {parent: 'isNotNull'};
         this.usuarioResponsavelPagination = new Pagination();
         this.setorOrigemPagination = new Pagination();
-
+        this.setorOrigemPaginationTree = new Pagination();
         this._profile = _loginService.getUserProfile();
     }
 
@@ -203,7 +206,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                     } else {
                         this.form.get('usuarioResponsavel').enable();
                     }
-                    if(this.blocoResponsaveis)
+                    if (this.blocoResponsaveis)
                     {
                         this.blocoResponsaveis = [];
                     }
@@ -732,9 +735,17 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     selectSetorResponsavel(setor: Setor): void {
+
         if (setor) {
             this.form.get('setorResponsavel').setValue(setor);
         }
+
+        if (setor !== null && typeof setor === 'object') {
+            if (setor.unidade && setor.unidade !== this.form.get('unidadeResponsavel').value) {
+                this.form.get('unidadeResponsavel').setValue(setor.unidade, {emitEvent: false});
+            }
+        }
+
         this.activeCard = 'form';
     }
 
@@ -753,6 +764,14 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
     showSetorResponsavelGrid(): void {
         this.activeCard = 'setor-gridsearch';
+    }
+
+    showSetorTree(): void {
+        this.activeCard = 'setor-tree';
+    }
+
+    showSetorOrigemTree(): void {
+        this.activeCard = 'setor-origem-tree';
     }
 
     checkSetorOrigem(): void {

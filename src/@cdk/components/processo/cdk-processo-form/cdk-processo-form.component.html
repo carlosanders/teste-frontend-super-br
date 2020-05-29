@@ -377,6 +377,10 @@
                 <mat-icon matTooltip="Histórico">history</mat-icon>
             </button>
             <button matSuffix mat-button mat-icon-button
+                    (click)="showClassificacaoTree()">
+                <mat-icon matTooltip="Árvore de Classificações">view_headline</mat-icon>
+            </button>
+            <button matSuffix mat-button mat-icon-button
                     (click)="showClassificacaoGrid()">
                 <mat-icon matTooltip="Procurar">search</mat-icon>
             </button>
@@ -560,3 +564,9 @@
     (cancel)="cancel()">
 </cdk-pessoa-gridsearch>
 
+<cdk-classificacao-grid-tree
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'classificacao-grid-tree'"
+    (selected)="selectClassificacao($event)"
+    (cancel)="cancel()">
+</cdk-classificacao-grid-tree>

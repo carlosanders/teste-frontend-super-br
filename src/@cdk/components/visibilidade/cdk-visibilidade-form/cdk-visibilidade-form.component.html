@@ -75,6 +75,10 @@
                         [pagination]="setorPagination">
                     </cdk-setor-autocomplete>
                     <button matSuffix mat-button mat-icon-button
+                            (click)="showSetorTree()">
+                        <mat-icon matTooltip="Árvore de Setores">view_headline</mat-icon>
+                    </button>
+                    <button matSuffix mat-button mat-icon-button
                             (click)="showSetorGrid()">
                         <mat-icon matTooltip="Procurar">search</mat-icon>
                     </button>
@@ -147,3 +151,10 @@
     (selected)="selectSetor($event)"
     (cancel)="cancel()">
 </cdk-setor-gridsearch>
+
+<cdk-setor-tree
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'setor-tree'"
+    (selected)="selectSetor($event)"
+    (cancel)="cancel()">
+</cdk-setor-tree>
