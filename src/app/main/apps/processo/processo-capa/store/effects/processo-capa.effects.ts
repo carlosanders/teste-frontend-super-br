@@ -9,15 +9,12 @@ import * as ProcessoCapaActions from '../actions';
 
 import {ProcessoService} from '@cdk/services/processo.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {Assunto, Interessado, Juntada, Processo} from '@cdk/models';
+import {Assunto, Interessado, Processo} from '@cdk/models';
 import {processo as processoSchema} from '@cdk/normalizr/processo.schema';
 import {assunto as assuntoSchema} from '@cdk/normalizr/assunto.schema';
 import {interessado as interessadoSchema} from '@cdk/normalizr/interessado.schema';
 import {AssuntoService} from '@cdk/services/assunto.service';
 import {InteressadoService} from '@cdk/services/interessado.service';
-import {juntada as juntadaSchema} from '@cdk/normalizr/juntada.schema';
-import {JuntadaService} from '@cdk/services/juntada.service';
-import * as ProcessosActions from '../../../../protocolo-externo/store/actions/protocolos-externos.actions';
 
 @Injectable()
 export class ProcessoCapaEffect {
@@ -28,7 +25,6 @@ export class ProcessoCapaEffect {
         private _processoService: ProcessoService,
         private _assuntoService: AssuntoService,
         private _interessadoService: InteressadoService,
-        private _juntadaService: JuntadaService,
         private _store: Store<State>
     ) {
         this._store
@@ -165,64 +161,4 @@ export class ProcessoCapaEffect {
                 })
             );
 
-    /**
-     * Get Juntadas with router parameters
-     * @type {Observable<any>}
-     */
-    @Effect()
-    getJuntadas: Observable<any> =
-        this._actions
-            .pipe(
-                ofType<ProcessoCapaActions.GetJuntadas>(ProcessoCapaActions.GET_JUNTADAS),
-                switchMap((action) => {
-                    return this._juntadaService.query(
-                        JSON.stringify({
-                            ...action.payload.filter,
-                            ...action.payload.listFilter
-                        }),
-                        action.payload.limit,
-                        action.payload.offset,
-                        JSON.stringify(action.payload.sort),
-                        JSON.stringify(action.payload.populate));
-                }),
-                mergeMap((response) => [
-                    new AddData<Juntada>({data: response['entities'], schema: juntadaSchema}),
-                    new ProcessoCapaActions.GetJuntadasSuccess({
-                        index: response['entities'].map(
-                            juntada => {
-                                if (!juntada.ativo) {
-                                    return [];
-                                }
-                                let componentesDigitaisIds = [];
-                                if (juntada.documento.componentesDigitais) {
-                                    componentesDigitaisIds = juntada.documento.componentesDigitais.map(
-                                        cd => cd.id
-                                    );
-                                }
-                                if (juntada.documento.vinculacoesDocumentos) {
-                                    juntada.documento.vinculacoesDocumentos.map(
-                                        vinculacaoDocumento => {
-                                            vinculacaoDocumento.documentoVinculado.componentesDigitais.map(
-                                                cd => componentesDigitaisIds.push(cd.id)
-                                            );
-                                        }
-                                    );
-                                }
-                                return componentesDigitaisIds;
-                            }
-                        ),
-                        entitiesId: response['entities'].map(juntada => juntada.id),
-                        loaded: {
-                            id: 'processoHandle',
-                            value: this.routerState.params.processoHandle
-                        },
-                        total: response['total']
-                    })
-                ]),
-                catchError((err, caught) => {
-                    console.log (err);
-                    this._store.dispatch(new ProcessoCapaActions.GetJuntadasFailed(err));
-                    return caught;
-                })
-            );
 }

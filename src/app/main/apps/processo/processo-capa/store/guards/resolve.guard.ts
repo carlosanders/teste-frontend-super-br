@@ -8,9 +8,9 @@ import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
 
 import {ProcessoCapaAppState} from '../reducers';
 import * as fromStore from '../index';
-import {getProcessoLoaded, getJuntadasLoaded} from '../selectors';
+import {getProcessoLoaded} from '../selectors';
 import {getRouterState} from 'app/store/reducers';
-import {getInteressadosLoaded} from '../index';
+import {getAssuntosLoaded, getInteressadosLoaded} from '../index';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
@@ -54,8 +54,8 @@ export class ResolveGuard implements CanActivate {
      * @returns {Observable<any>}
      */
     checkStore(): Observable<any> {
-        return forkJoin([this.getJuntadas(), this.getAssuntos(), this.getInteressados()]).pipe(
-            filter(([juntadasLoaded]) => !!(juntadasLoaded)),
+        return forkJoin([this.getAssuntos(), this.getInteressados()]).pipe(
+            filter(([loaded]) => !!(loaded)),
             take(1),
             switchMap(() =>
                 this.getProcesso()
@@ -90,52 +90,11 @@ export class ResolveGuard implements CanActivate {
      *
      * @returns {Observable<any>}
      */
-    getJuntadas(): any {
-        this._store.dispatch(new fromStore.UnloadJuntadas({reset: true}));
-
-        return this._store.pipe(
-            select(getJuntadasLoaded),
-            tap(loaded => {
-                const params = {
-                    filter: {
-                        'volume.processo.id': `eq:${this.routerState.params['processoHandle']}`,
-                        'vinculada': 'eq:0'
-                    },
-                    sort: {'volume.numeracaoSequencial': 'DESC', 'numeracaoSequencial': 'DESC'},
-                    limit: 10,
-                    offset: 0,
-                    populate: [
-                        'documento',
-                        'documento.tipoDocumento',
-                        'documento.componentesDigitais',
-                        'documento.vinculacoesDocumentos',
-                        'documento.vinculacoesDocumentos.documentoVinculado',
-                        'documento.vinculacoesDocumentos.documentoVinculado.tipoDocumento',
-                        'documento.vinculacoesDocumentos.documentoVinculado.componentesDigitais'
-                    ]
-                };
-
-                if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
-                    this._store.dispatch(new fromStore.GetJuntadas(params));
-                }
-            }),
-            filter((loaded: any) => {
-                return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
-            }),
-            take(1)
-        );
-    }
-
-    /**
-     * Get folders
-     *
-     * @returns {Observable<any>}
-     */
     getAssuntos(): any {
         this._store.dispatch(new fromStore.UnloadAssuntos({reset: true}));
 
         return this._store.pipe(
-            select(getJuntadasLoaded),
+            select(getAssuntosLoaded),
             tap(loaded => {
                 const params = {
                     filter: {'processo.id': `eq:${this.routerState.params['processoHandle']}`, 'principal': 'eq:true'},
