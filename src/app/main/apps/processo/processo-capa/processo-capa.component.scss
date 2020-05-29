@@ -1,0 +1,92 @@
+@import "~@cdk/scss/cdk";
+
+processo-capa {
+
+    width: 100%;
+    height: 98%;
+
+    .processo-capa-content {
+        position: relative;
+        height: 75vh;
+        width: 100%;
+    }
+
+    .center {
+
+        position: relative;
+
+        .header {
+            height: auto;
+            margin: 20px 0 20px 0;
+
+            .logo {
+                width: 80px;
+                height: 80px;
+                align-content: center;
+            }
+        }
+
+        .title {
+            font-weight: bold;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .subtitle {
+            font-weight: bold;
+            text-align: left !important;
+        }
+
+        .content {
+            position: relative;
+
+            .content-card {
+                padding: 10px 0 10px 20px;
+            }
+
+            .processo-container {
+                margin-top: 5px;
+                border: solid 1px #7D818C;
+                border-radius: 10px;
+            }
+
+            .processo-capa {
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                padding: 16px;
+                overflow: auto;
+                -webkit-overflow-scrolling: touch;
+
+                &.ng-animating {
+                    overflow: hidden;
+                }
+
+                @media (max-width: 720px) {
+                    padding: 0 0 120px 0;
+                }
+
+                .capa-content {
+                    padding: 16px;
+                    margin: 0 auto;
+                    width: 90%;
+                    height: 90%;
+                    border-radius: 8px;
+                    @include mat-elevation(1);
+                }
+            }
+
+            fieldset {
+                width: 100%;
+                margin: 2px;
+            }
+
+            .mat-grid-tile .mat-figure {
+                justify-content: left !important;
+            }
+        }
+    }
+}
+
