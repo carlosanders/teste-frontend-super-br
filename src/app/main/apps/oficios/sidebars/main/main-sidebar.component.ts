@@ -79,7 +79,7 @@ export class DocumentoAvulsoMainSidebarComponent implements OnInit, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
-        this._changeDetectorRef.detach();
+        // this._changeDetectorRef.detach();
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();

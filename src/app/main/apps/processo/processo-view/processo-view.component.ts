@@ -148,7 +148,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this._changeDetectorRef.detach();
+        // this._changeDetectorRef.detach();
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
