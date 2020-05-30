@@ -20,6 +20,7 @@ import {MatDialog} from '@cdk/angular/material';
 import {Router} from '@angular/router';
 import {getRouterState} from '../../../../store/reducers';
 import {GeneroRelatorio} from '../../../../../@cdk/models/genero-relatorio.model';
+import {getClassName} from 'codelyzer/util/utils';
 
 @Component({
     selector: 'relatorio-create',
@@ -103,31 +104,45 @@ export class RelatorioCreateComponent implements OnInit, OnDestroy {
 
         Object.entries(values).forEach(
             ([key, value]) => {
-                if (key === 'dataHoraInicio' || key === 'dataHoraFim')
-                {
-                    relatorio[key] = value.format('YYYY-MM-DDTHH:mm:ss');
-                }
-                if (key === 'usuario')
-                {
-                    relatorio[key] = value.id;
-                }
-                else {
-                    relatorio[key] = value;
-                }
+                relatorio[key] = value;
             }
         );
 
         const parametros = relatorio.tipoRelatorio.parametros.split(',');
+        const arrayParams = { };
 
         if (parametros.length > 0) {
             parametros.forEach((campo) => {
-                relatorio.parametros.push(relatorio[campo]);
-                relatorio[campo] = '';
+                if (values[campo]) {
+
+                    if (campo === 'dataHoraInicio' || campo === 'dataHoraFim'){
+                        arrayParams[campo] = {
+                            name: campo,
+                            value: relatorio[campo].format('YYYY-MM-DDTHH:mm:ss'),
+                            type: 'dateTime'
+                        };
+                    } else {
+
+                        const nClass = 'SuppCore\\AdministrativoBackend\\Entity\\' +
+                            relatorio[campo].constructor.name;
+
+                        arrayParams[campo] = {
+                            name: campo,
+                            value: relatorio[campo].id,
+                            type: 'entity',
+                            class: nClass,
+                            getter: 'getId'
+                        };
+                    }
+
+                    relatorio[campo] = null;
+                }
             });
         }
-        console.log(relatorio);
-        relatorio.vinculacoesEtiquetas = this.relatorio.vinculacoesEtiquetas;
 
+        relatorio.parametros = JSON.stringify(arrayParams);
+
+        relatorio.vinculacoesEtiquetas = this.relatorio.vinculacoesEtiquetas;
         this._store.dispatch(new fromStore.SaveRelatorio(relatorio));
 
     }

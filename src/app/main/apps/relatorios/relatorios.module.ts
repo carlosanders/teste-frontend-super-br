@@ -57,6 +57,11 @@ const routes: Routes = [
                 canActivate: [fromGuards.ResolveGuard]
             },
             {
+                path: 'visualizar',
+                loadChildren: () => import('./relatorio-view/relatorio-view.module').then(m => m.RelatorioViewModule),
+                canActivate: [fromGuards.ResolveGuard]
+            },
+            {
                 path: 'vinculacao-etiqueta-bloco',
                 loadChildren: () => import('./vinculacao-etiqueta-create-bloco/vinculacao-etiqueta-create-bloco.module').then(m => m.VinculacaoEtiquetaCreateBlocoModule),
             },

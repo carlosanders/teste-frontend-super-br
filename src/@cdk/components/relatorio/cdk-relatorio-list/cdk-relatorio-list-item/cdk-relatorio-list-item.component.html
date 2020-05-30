@@ -6,41 +6,23 @@
 
     <div fxLayout="row" fxLayoutAlign="start center" fxFlex>
 
-        <div class="info" fxFlex [ngClass]="{'nao-lido': !relatorio.dataHoraLeitura}">
-
-            <mat-icon *ngIf="relatorio.especieRelatorio?.evento">calendar_today</mat-icon>
+        <div class="info" fxFlex>
 
             <div class="title" fxLayout="row">
-                <span class="text-truncate">RELATÓRIO {{relatorio.id}}</span>
+                <span class="text-truncate">{{relatorio.tipoRelatorio?.descricao}}</span>
             </div>
 
-            <div class="subtitle" *ngIf="!relatorio.processo?.acessoNegado">
-                <span class="text-truncate">{{relatorio.processo?.modalidadeMeio?.valor }} {{relatorio.processo?.especieProcesso?.nome }}</span>
-            </div>
-
-            <div class="subtitle" *ngIf="relatorio.processo?.acessoNegado">
-                <span class="text-truncate">Usuário com acesso negado ao processo</span>
-            </div>
-
-            <div class="subtitle" *ngIf="relatorio.processo?.documentoAvulsoOrigem">
-                    <span *ngIf="!relatorio.processo?.documentoAvulsoOrigem?.dataHoraResposta"
-                          class="text-truncate">Ofício vinculado pendente de resposta</span>
-                <span *ngIf="relatorio.processo?.documentoAvulsoOrigem?.dataHoraResposta"
-                      class="text-truncate">Ofício vinculado respondido em {{relatorio.processo?.documentoAvulsoOrigem?.dataHoraResposta | date: 'dd/MM/yyyy H:mm'}}</span>
+            <div class="subtitle">
+                    <span class="text-truncate">ID: {{relatorio.id}}</span>
             </div>
 
             <div [matTooltip]="'Relatorio Id ' + relatorio.id.toString()" class="body mt-4">
                 <div>
-                    {{relatorio.especieRelatorio?.nome}}
+                    {{relatorio.observacao}}
                 </div>
 
                 <div>
-                    {{relatorio.setorResponsavel?.nome}} ({{relatorio.setorResponsavel?.unidade?.sigla}})
-                </div>
-
-                <div>
-                    {{relatorio.dataHoraInicioPrazo | date: 'dd/MM/yyyy'}}
-                    ATÉ {{relatorio.dataHoraFinalPrazo | date: 'dd/MM/yyyy'}}
+                    Criado em: {{relatorio.criadoEm | date: 'dd/MM/yyyy'}}
                 </div>
             </div>
 
@@ -55,12 +37,6 @@
         </div>
 
         <div class="actions" fxLayout="row" fxLayoutAlign="start center">
-
-            <button mat-icon-button (click)="doToggleUrgente(); $event.stopPropagation();"
-                    aria-label="Toggle important" fxHide.xs>
-                <mat-icon class="red-fg" *ngIf="relatorio.urgente">error</mat-icon>
-                <mat-icon class="secondary-text" *ngIf="!relatorio.urgente">error_outline</mat-icon>
-            </button>
 
             <div class="spinner-container m-8" *ngIf="deleting">
                 <mat-spinner diameter="24"></mat-spinner>
@@ -81,14 +57,6 @@
                     </ng-container>
                 </button>
 
-                <button mat-menu-item aria-label="movimentar"
-                        (click)="doMovimentar()">
-                    <ng-container>
-                        <mat-icon>send</mat-icon>
-                        <span>Movimentar</span>
-                    </ng-container>
-                </button>
-
                 <button mat-menu-item aria-label="editar relatorio"
                         (click)="doEditRelatorio()">
                     <ng-container>
@@ -97,35 +65,11 @@
                     </ng-container>
                 </button>
 
-                <button mat-menu-item aria-label="redistribuir relatorio"
-                        (click)="doRedistribuirRelatorio()">
-                    <ng-container>
-                        <mat-icon>forward</mat-icon>
-                        <span>Redistribuir Relatorio</span>
-                    </ng-container>
-                </button>
-
                 <button mat-menu-item aria-label="criar relatorio"
                         (click)="doCreateRelatorio()">
                     <ng-container>
                         <mat-icon>check_box</mat-icon>
                         <span>Criar Relatorio</span>
-                    </ng-container>
-                </button>
-
-                <button mat-menu-item aria-label="enviar ofício"
-                        (click)="doCreateDocumentoAvulso()">
-                    <ng-container>
-                        <mat-icon>mail</mat-icon>
-                        <span>Criar Ofício</span>
-                    </ng-container>
-                </button>
-
-                <button mat-menu-item aria-label="compartilhar"
-                        (click)="doCompartilhar()">
-                    <ng-container>
-                        <mat-icon>share</mat-icon>
-                        <span>Compartilhamento</span>
                     </ng-container>
                 </button>
 

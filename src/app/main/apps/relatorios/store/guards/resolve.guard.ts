@@ -106,60 +106,15 @@ export class ResolveGuard implements CanActivate {
                     this._store.dispatch(new fromStore.UnloadRelatorios({reset: true}));
 
                     const params = {
-                        listFilter: {},
+                        filter: {
+                            'criadoPor.id': 'eq:' + this._profile.id
+                        },
                         etiquetaFilter: {},
                         limit: 10,
                         offset: 0,
-                        sort: {dataHoraFinalPrazo: 'ASC'},
-                        populate: [
-                            'populateAll'
-                        ]
+                        sort: {criadoEm: 'DESC'},
+                        populate: ['documento', 'tipoRelatorio']
                     };
-
-                    // const routeTypeParam = of('typeHandle');
-                    // routeTypeParam.subscribe(typeParam => {
-                    //     let relatorioFilter = {};
-                    //     if (this.routerState.params[typeParam] === 'compartilhadas') {
-                    //         relatorioFilter = {
-                    //             'compartilhamentos.usuario.id': 'eq:' + this._profile.id,
-                    //             'dataHoraConclusaoPrazo': 'isNull'
-                    //         };
-                    //     }
-                    //
-                    //     if (this.routerState.params[typeParam] === 'minhas-relatorios') {
-                    //         relatorioFilter = {
-                    //             'usuarioResponsavel.id': 'eq:' + this._profile.id,
-                    //             'dataHoraConclusaoPrazo': 'isNull'
-                    //         };
-                    //         let folderFilter = 'isNull';
-                    //         const routeTargetParam = of('targetHandle');
-                    //         routeTargetParam.subscribe(targetParam => {
-                    //             if (this.routerState.params[targetParam] !== 'entrada' && this.routerState.params[targetParam] !== 'eventos') {
-                    //                 const folderName = this.routerState.params[targetParam];
-                    //                 folderFilter = `eq:${folderName.toUpperCase()}`;
-                    //             }
-                    //
-                    //             if (this.routerState.params[targetParam] === 'eventos') {
-                    //                 relatorioFilter['especieRelatorio.evento'] = 'eq:true';
-                    //             } else {
-                    //                 relatorioFilter['especieRelatorio.evento'] = 'eq:false';
-                    //             }
-                    //         });
-                    //         params['folderFilter'] = {
-                    //             'folder.nome': folderFilter
-                    //         };
-                    //     }
-                    //
-                    //     params['filter'] = relatorioFilter;
-                    // });
-                    //
-                    // const routeGeneroParams = of('generoHandle');
-                    // routeGeneroParams.subscribe(param => {
-                    //     params['filter'] = {
-                    //         ...params['filter'],
-                    //         'especieRelatorio.generoRelatorio.nome': `eq:${this.routerState.params[param].toUpperCase()}`
-                    //     };
-                    // });
 
                     this._store.dispatch(new fromStore.GetRelatorios(params));
                     this._store.dispatch(new fromStore.ChangeSelectedRelatorios([]));

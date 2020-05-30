@@ -89,21 +89,12 @@ export class RelatoriosEffect {
             .pipe(
                 ofType<RelatoriosActions.SetCurrentRelatorio>(RelatoriosActions.SET_CURRENT_RELATORIO),
                 map((action) => {
-                    if (action.payload.acessoNegado) {
-                        this._router.navigate([
-                            'apps/relatorios/' + this.routerState.params.generoHandle + '/'
-                            + this.routerState.params.typeHandle + '/'
-                            + this.routerState.params.targetHandle + '/relatorio/' + action.payload.relatorioId +
-                            '/processo/' + action.payload.processoId + '/acesso-negado']
-                        ).then();
-                    } else {
-                        this._router.navigate([
-                            'apps/relatorios/' + this.routerState.params.generoHandle + '/' +
-                            this.routerState.params.typeHandle + '/' +
-                            this.routerState.params.targetHandle + '/relatorio/' + action.payload.relatorioId +
-                            '/processo/' + action.payload.processoId + '/visualizar']
-                        ).then();
-                    }
+
+                    this._router.navigate([
+                        'apps/relatorios/' + this.routerState.params.generoHandle + '/' +
+                        this.routerState.params.typeHandle + '/' +
+                        this.routerState.params.targetHandle + '/visualizar/' + action.payload.relatorioId]
+                    ).then();
 
                     return new RelatoriosActions.SetCurrentRelatorioSuccess();
                 })

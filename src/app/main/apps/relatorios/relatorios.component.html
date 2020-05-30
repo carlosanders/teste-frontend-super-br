@@ -65,6 +65,7 @@
                                      [selectedIds]="(selectedIds$ | async)"
                                      (changeSelectedIds)="changeSelectedIds($event)"
                                      (reload)="reload($event)"
+                                     (selected)="setCurrentRelatorio($event)"
                                      (folder)="setFolderOnSelectedRelatorios($event)"
                                      (delete)="deleteRelatorio($event)"
                                      (createRelatorio)="doCreateRelatorio($event)"

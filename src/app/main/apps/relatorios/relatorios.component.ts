@@ -22,7 +22,7 @@ import {getRouterState, getScreenState} from 'app/store/reducers';
 
 import {locale as english} from 'app/main/apps/relatorios/i18n/en';
 
-import {Folder} from '@cdk/models';
+import {Folder, Tarefa} from '@cdk/models';
 
 import {ResizeEvent} from 'angular-resizable-element';
 import {cdkAnimations} from '@cdk/animations';
@@ -233,6 +233,12 @@ export class RelatoriosComponent implements OnInit, OnDestroy, AfterViewInit {
         };
 
         this._store.dispatch(new fromStore.GetRelatorios(nparams));
+    }
+
+    setCurrentRelatorio(relatorio: Relatorio): void {
+        this._store.dispatch(new fromStore.SetCurrentRelatorio({
+            relatorioId: relatorio.id
+        }));
     }
 
     addEtiqueta(etiqueta: Etiqueta): void {

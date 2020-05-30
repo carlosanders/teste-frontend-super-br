@@ -43,7 +43,7 @@ export class RelatorioCreateEffect {
         this._actions
             .pipe(
                 ofType<RelatorioCreateActions.SaveRelatorio>(RelatorioCreateActions.SAVE_RELATORIO),
-                mergeMap((action) => {
+                switchMap((action) => {
                     return this._relatorioService.save(action.payload).pipe(
                         mergeMap((response: Relatorio) => [
                             new RelatorioCreateActions.SaveRelatorioSuccess(),
