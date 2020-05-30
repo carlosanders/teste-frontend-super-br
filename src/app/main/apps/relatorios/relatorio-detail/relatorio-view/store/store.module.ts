@@ -2,8 +2,8 @@ import { StoreModule } from '@ngrx/store';
 import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 
-import { reducers } from 'app/main/apps/relatorios/relatorio-view/store/reducers';
-import { effects } from 'app/main/apps/relatorios/relatorio-view/store/effects';
+import { reducers } from 'app/main/apps/relatorios/relatorio-detail/relatorio-view/store/reducers';
+import { effects } from 'app/main/apps/relatorios/relatorio-detail/relatorio-view/store/effects';
 
 @NgModule({
     imports  : [

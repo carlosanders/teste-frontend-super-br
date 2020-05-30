@@ -93,7 +93,7 @@ export class RelatoriosEffect {
                     this._router.navigate([
                         'apps/relatorios/' + this.routerState.params.generoHandle + '/' +
                         this.routerState.params.typeHandle + '/' +
-                        this.routerState.params.targetHandle + '/visualizar/' + action.payload.relatorioId]
+                        this.routerState.params.targetHandle + '/relatorio/' + action.payload.relatorioId + '/visualizar']
                     ).then();
 
                     return new RelatoriosActions.SetCurrentRelatorioSuccess();

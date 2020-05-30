@@ -13,12 +13,11 @@ import {CdkSidebarModule} from '@cdk/components';
 import {RelatorioViewComponent} from './relatorio-view.component';
 import {RelatorioService} from '@cdk/services/relatorio.service';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
-import {RelatorioViewMainSidebarComponent} from './sidebars/main/main-sidebar.component';
 import {RelatorioViewStoreModule} from './store/store.module';
 import * as fromGuards from './store/guards';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import {CdkTipoDocumentoAutocompleteModule} from '@cdk/components/tipo-documento/cdk-tipo-documento-autocomplete/cdk-tipo-documento-autocomplete.module';
-import {CdkVolumeAutocompleteModule} from '../../../../../@cdk/components/volume/cdk-volume-autocomplete/cdk-volume-autocomplete.module';
+import {CdkVolumeAutocompleteModule} from '../../../../../../@cdk/components/volume/cdk-volume-autocomplete/cdk-volume-autocomplete.module';
 import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
@@ -39,8 +38,7 @@ modulesConfig.forEach((module) => {
 
 @NgModule({
     declarations: [
-        RelatorioViewComponent,
-        RelatorioViewMainSidebarComponent
+        RelatorioViewComponent
     ],
     imports: [
         RouterModule.forChild(routes),

@@ -13,7 +13,13 @@
             </div>
 
             <div class="subtitle">
-                    <span class="text-truncate">ID: {{relatorio.id}}</span>
+                <span class="text-truncate">ID: {{relatorio.id}}</span>
+                <span class="text-truncate" *ngIf="relatorio.tipoRelatorio?.somenteExcel">
+                        Excel
+                </span>
+                <span class="text-truncate" *ngIf="!relatorio.tipoRelatorio?.somenteExcel">
+                        HTML
+                </span>
             </div>
 
             <div [matTooltip]="'Relatorio Id ' + relatorio.id.toString()" class="body mt-4">

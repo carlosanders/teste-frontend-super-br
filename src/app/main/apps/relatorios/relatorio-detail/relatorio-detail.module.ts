@@ -37,6 +37,11 @@ const routes: Routes = [
                 loadChildren: () => import('../relatorio-create/relatorio-create.module').then(m => m.RelatorioCreateModule)
             },
             {
+                path: 'visualizar',
+                loadChildren: () => import('./relatorio-view/relatorio-view.module').then(m => m.RelatorioViewModule),
+                canActivate: [fromGuards.ResolveGuard]
+            },
+            {
                 path: '**',
                 redirectTo: 'editar'
             }

@@ -3,7 +3,6 @@ import {Observable, Subject} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
 import {CdkPerfectScrollbarDirective} from '@cdk/directives/cdk-perfect-scrollbar/cdk-perfect-scrollbar.directive';
-import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 
 import {RelatorioService} from '@cdk/services/relatorio.service';
 import {Relatorio} from '@cdk/models/relatorio.model';
@@ -13,7 +12,7 @@ import {ComponenteDigitalService} from '@cdk/services/componente-digital.service
 import {DomSanitizer} from '@angular/platform-browser';
 import {filter, takeUntil} from 'rxjs/operators';
 import {ComponenteDigital} from '@cdk/models';
-import {getRouterState} from '../../../../store/reducers';
+import {getRouterState} from '../../../../../store/reducers';
 
 @Component({
     selector: 'relatorio-view',
@@ -29,11 +28,6 @@ export class RelatorioViewComponent implements OnInit, OnDestroy {
 
     relatorios$: Observable<Relatorio[]>;
     relatorios: Relatorio[] = [];
-
-    index$: Observable<any>;
-    index: {};
-
-    animationDirection: 'left' | 'right' | 'none';
 
     @ViewChildren(CdkPerfectScrollbarDirective)
     cdkScrollbarDirectives: QueryList<CdkPerfectScrollbarDirective>;
@@ -58,7 +52,6 @@ export class RelatorioViewComponent implements OnInit, OnDestroy {
      *
      * @param _relatorioService
      * @param _changeDetectorRef
-     * @param _cdkSidebarService
      * @param _componenteDigitalService
      * @param _sanitizer
      * @param _store
@@ -66,28 +59,19 @@ export class RelatorioViewComponent implements OnInit, OnDestroy {
     constructor(
         private _relatorioService: RelatorioService,
         private _changeDetectorRef: ChangeDetectorRef,
-        private _cdkSidebarService: CdkSidebarService,
         private _componenteDigitalService: ComponenteDigitalService,
         private _sanitizer: DomSanitizer,
         private _store: Store<fromStore.RelatorioViewAppState>
     ) {
-        console.log('aqui');
-
         this.binary$ = this._store.pipe(select(fromStore.getBinary));
 
         this.relatorios$ = this._store.pipe(select(fromStore.getRelatorios));
-        this.index$ = this._store.pipe(select(fromStore.getIndex));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
         this.routerState$ = this._store.pipe(select(getRouterState));
         this.relatorios$.pipe(filter(relatorios => !!relatorios)).subscribe(
             relatorios => {
                 this.relatorios = relatorios;
-                this.totalSteps = relatorios.length;
             }
-        );
-
-        this.index$.subscribe(
-            index => this.index = index
         );
 
         this.binary$.subscribe(
@@ -130,13 +114,6 @@ export class RelatorioViewComponent implements OnInit, OnDestroy {
             }
         });
 
-        this.routerState$.pipe(
-            takeUntil(this._unsubscribeAll)
-        ).subscribe(routerState => {
-            this.chaveAcesso = routerState.state.params['chaveAcessoHandle'];
-        });
-
-        // this._store.dispatch(new fromStore.SetCurrentStep({step: 0, subStep: 0}));
     }
 
     ngOnDestroy(): void {
@@ -151,26 +128,4 @@ export class RelatorioViewComponent implements OnInit, OnDestroy {
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
-    /**
-     * Toggle the sidebar
-     *
-     * @param name
-     */
-    toggleSidebar(name): void {
-        this._cdkSidebarService.getSidebar(name).toggleOpen();
-    }
-
-    onScroll(): void {
-
-        if (this.relatorios.length >= this.pagination.total) {
-            return;
-        }
-
-        const nparams = {
-            ...this.pagination,
-            offset: this.pagination.offset + this.pagination.limit
-        };
-
-        this._store.dispatch(new fromStore.GetRelatorios(nparams));
-    }
 }

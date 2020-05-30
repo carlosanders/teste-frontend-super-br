@@ -1,21 +1,10 @@
 <div class="left-sidebar" fxFlex fxLayout="row">
 
-    <!-- SIDEBAR -->
-    <cdk-sidebar class="sidebar" name="relatorios-left-sidebar-1" position="left" lockedOpen="gt-md">
-        <relatorio-view-main-sidebar [@animate]="{value:'*'}" (scrolled)="onScroll()"></relatorio-view-main-sidebar>
-    </cdk-sidebar>
-    <!-- / SIDEBAR -->
-
     <!-- CENTER -->
     <div class="center" fxFlex fxLayout="column">
 
         <!-- HEADER -->
         <div class="header accent p-16" fxLayout="row" fxLayoutAlign="start center">
-
-            <button mat-icon-button class="sidebar-toggle mr-16 cdk-black-fg" fxHide.gt-md
-                    (click)="toggleSidebar('relatorios-left-sidebar-1')">
-                <mat-icon>menu</mat-icon>
-            </button>
 
             <div class="relatorio-navigation">
 

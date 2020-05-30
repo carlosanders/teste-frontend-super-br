@@ -3,11 +3,11 @@ import {
     getRelatorioViewAppState,
     RelatorioViewAppState,
     RelatorioViewState
-} from 'app/main/apps/relatorios/relatorio-view/store/reducers';
+} from 'app/main/apps/relatorios/relatorio-detail/relatorio-view/store/reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {relatorio as relatorioSchema} from '@cdk/normalizr/relatorio.schema';
-import {Relatorio} from '@cdk/models';
+import {Relatorio} from '@cdk/models/relatorio.model';
 
 const schemaSelectors = createSchemaSelectors<Relatorio>(relatorioSchema);
 

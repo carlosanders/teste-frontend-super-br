@@ -6,10 +6,10 @@ import {Observable, of, throwError} from 'rxjs';
 import {catchError, map, exhaustMap, mergeMap, withLatestFrom, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
-import * as RelatorioViewActions from 'app/main/apps/relatorios/relatorio-view/store/actions/relatorio-view.actions';
+import * as RelatorioViewActions from 'app/main/apps/relatorios/relatorio-detail/relatorio-view/store/actions/relatorio-view.actions';
 
 import {AddData} from '@cdk/ngrx-normalizr';
-import {Relatorio} from '@cdk/models';
+import {Relatorio} from '@cdk/models/relatorio.model';
 import {relatorio as relatorioSchema} from '@cdk/normalizr/relatorio.schema';
 import {RelatorioService} from '@cdk/services/relatorio.service';
 import {getCurrentStep, getIndex, getPagination} from '../selectors';

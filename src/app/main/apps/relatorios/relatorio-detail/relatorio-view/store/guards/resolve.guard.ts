@@ -6,9 +6,9 @@ import {select, Store} from '@ngrx/store';
 import {Observable, of} from 'rxjs';
 import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
 
-import {RelatorioViewAppState} from 'app/main/apps/relatorios/relatorio-view/store/reducers';
-import * as fromStore from 'app/main/apps/relatorios/relatorio-view/store';
-import {getRelatoriosLoaded} from 'app/main/apps/relatorios/relatorio-view/store/selectors';
+import {RelatorioViewAppState} from 'app/main/apps/relatorios/relatorio-detail/relatorio-view/store/reducers';
+import * as fromStore from 'app/main/apps/relatorios/relatorio-detail/relatorio-view/store/index';
+import {getRelatoriosLoaded} from 'app/main/apps/relatorios/relatorio-detail/relatorio-view/store/selectors';
 import {getRouterState} from 'app/store/reducers';
 
 @Injectable()
@@ -67,7 +67,7 @@ export class ResolveGuard implements CanActivate {
 
                     const params = {
                         filter: {
-                            id: 'eq:' + relatorioHandle
+                            id: relatorioFilter
                         },
                         listFilter: {},
                         limit: 10,
