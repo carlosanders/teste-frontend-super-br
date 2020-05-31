@@ -1,4 +1,4 @@
-<div>
+<div *ngIf="titulo === 'arquivista'">
     <h3><strong>ARQUIVISTA</strong></h3>
     <p style="text-align: justify;text-indent: 20px">
         O SUPP é um SIGAD que possui avançados recursos de apoio à produção de conteúdo jurídico e de controle de fluxos administrativos, focado na integração com os sistemas informatizados do Poder Judiciário e do Poder Executivo.
@@ -57,7 +57,7 @@
     </mat-expansion-panel>
     <p style="text-align: justify;text-indent: 20px">
         A passagem dos documentos de uma idade para outra é definida por meio do processo de avaliação (<strong>transição</strong>), que leva em conta a frequência de uso dos documentos por seus produtores e a identificação de seus valores primário e secundário. 
-        <!-- LINK PARA TRANSIÇÃO??? -->
+        <a href="javascript:void(0)" (click)="carregar('transicoes')">Transições</a>
     </p>
     <mat-expansion-panel style="text-align: center;margin-left: 20px">
         <mat-expansion-panel-header>
@@ -394,4 +394,9 @@
             <li>Aplicar a classificação ao documento.</li>   
        </p>
     </mat-expansion-panel>       
+</div>
+
+<div *ngIf="titulo === 'transicoes'">
+  <ajuda-transicoes></ajuda-transicoes>
+  <a href="javascript:void(0)" (click)="carregar('processo')">Voltar ao <strong>Criando Processos</strong></a>
 </div>
