@@ -37,6 +37,7 @@ import {CdkEtiquetaChipsModule} from '@cdk/components/etiqueta/cdk-etiqueta-chip
 import {DndModule} from 'ngx-drag-drop';
 import {LoginService} from '../../auth/login/login.service';
 import {modulesConfig} from 'modules/modules-config';
+import {CdkTipoRelatorioListModule} from '../../../../@cdk/components/tipo-relatorio/cdk-tipo-relatorio-list/cdk-tipo-relatorio-list.module';
 
 const routes: Routes = [
     {
@@ -55,6 +56,10 @@ const routes: Routes = [
                 path: 'relatorio',
                 loadChildren: () => import('./relatorio-detail/relatorio-detail.module').then(m => m.RelatorioDetailModule),
                 canActivate: [fromGuards.ResolveGuard]
+            },
+            {
+                path: 'criar-tipo-relatorio',
+                loadChildren: () => import('./tipo-relatorio-create/tipo-relatorio-create.module').then(m => m.TipoRelatorioCreateModule)
             },
             {
                 path: 'vinculacao-etiqueta-bloco',
@@ -117,7 +122,8 @@ modulesConfig.forEach((module) => {
         CdkSharedModule,
         CdkSidebarModule,
 
-        RelatoriosStoreModule
+        RelatoriosStoreModule,
+        CdkTipoRelatorioListModule
     ],
     providers: [
         RelatorioService,

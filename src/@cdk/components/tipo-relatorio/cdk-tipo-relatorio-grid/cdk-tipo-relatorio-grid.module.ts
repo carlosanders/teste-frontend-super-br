@@ -11,7 +11,7 @@ import {
     MatSelectModule,
 } from '@cdk/angular/material';
 import {MatTooltipModule} from '@angular/material/tooltip';
-import {CdkSidebarModule} from '../..';
+import {CdkSidebarModule} from '../../index';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkTipoRelatorioGridComponent} from './cdk-tipo-relatorio-grid.component';
 import {CdkSetorAutocompleteModule} from '@cdk/components/setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';

@@ -54,7 +54,8 @@
                         'current-relatorio': currentRelatorioId,
                         'no-current-relatorio': !currentRelatorioId
                      }">
-                    <cdk-relatorio-list (scrolled)="onScroll()"
+                    <cdk-relatorio-list *ngIf="routerState.params.typeHandle === 'meus-relatorios'"
+                                     (scrolled)="onScroll()"
                                      [loading]="(loading$ | async)"
                                      [relatorios]="relatorios"
                                      [deletingIds]="(deletingIds$ | async)"
@@ -68,11 +69,24 @@
                                      (selected)="setCurrentRelatorio($event)"
                                      (folder)="setFolderOnSelectedRelatorios($event)"
                                      (delete)="deleteRelatorio($event)"
-                                     (createRelatorio)="doCreateRelatorio($event)"
-                                     (editRelatorio)="doEditRelatorio($event)"
-                                     (etiquetarBloco)="doEtiquetarBloco()"
-                                     (editRelatorioBloco)="doEditRelatorioBloco()">
+                                     (etiquetarBloco)="doEtiquetarBloco()">
                     </cdk-relatorio-list>
+
+                    <cdk-tipo-relatorio-list (scrolled)="onScroll()"
+                                             *ngIf="routerState.params.typeHandle === 'tipo-relatorio' &&
+                                             _loginService.isGranted('ROLE_ADMIN')"
+                                             [loading]="(loading$ | async)"
+                                             [tipoRelatorios]="tipoRelatorios"
+                                             [deletingIds]="(deletingIds$ | async)"
+                                             [deletedIds]="(deletedIds$ | async)"
+                                             [pagination]="pagination"
+                                             [selectedIds]="(selectedIds$ | async)"
+                                             (changeSelectedIds)="changeSelectedIds($event)"
+                                             (reload)="reload($event)"
+                                             (delete)="deleteTipoRelatorio($event)"
+                                             (selected)="editTipoRelatorio($event)">
+                    </cdk-tipo-relatorio-list>
+
                 </div>
                 
                 <div class="relatorio-detail" mwlResizable [enableGhostResize]="true"

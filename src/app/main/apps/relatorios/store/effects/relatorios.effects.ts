@@ -101,7 +101,7 @@ export class RelatoriosEffect {
             );
 
     /**
-     * Update Relatorio
+     * Create Relatorio
      * @type {Observable<any>}
      */
     @Effect()

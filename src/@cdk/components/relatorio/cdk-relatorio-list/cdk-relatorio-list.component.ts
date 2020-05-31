@@ -2,6 +2,7 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Inp
 import {cdkAnimations} from '@cdk/animations';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {Relatorio} from '@cdk/models/relatorio.model';
+import {TipoRelatorio} from '../../../models/tipo-relatorio.model';
 
 @Component({
     selector: 'cdk-relatorio-list',
@@ -69,6 +70,10 @@ export class CdkRelatorioListComponent {
     listSort: {} = {};
 
     isIndeterminate = false;
+
+    // Variaveis para TipoRelatorios
+    @Input()
+    tipoRelatorios: TipoRelatorio[] = [];
 
     /**
      * Constructor

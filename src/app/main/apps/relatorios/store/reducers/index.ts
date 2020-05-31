@@ -1,11 +1,13 @@
 import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
 import { RelatoriosReducer, RelatoriosState } from './relatorios.reducer';
 import { FoldersReducer, FoldersState } from './folders.reducer';
+import { TipoRelatoriosReducer, TipoRelatoriosState } from './tipo-relatorio.reducer';
 
 export interface RelatoriosAppState
 {
     relatorios: RelatoriosState;
     folders: FoldersState;
+    tipoRelatorios: TipoRelatoriosState;
 }
 
 export const getRelatoriosAppState = createFeatureSelector<RelatoriosAppState>(
@@ -19,8 +21,10 @@ export const getAppState = createSelector(
 
 export const reducers: ActionReducerMap<RelatoriosAppState> = {
     relatorios: RelatoriosReducer,
-    folders: FoldersReducer
+    folders: FoldersReducer,
+    tipoRelatorios: TipoRelatoriosReducer
 };
 
 export * from './relatorios.reducer';
 export * from './folders.reducer';
+export * from './tipo-relatorio.reducer';

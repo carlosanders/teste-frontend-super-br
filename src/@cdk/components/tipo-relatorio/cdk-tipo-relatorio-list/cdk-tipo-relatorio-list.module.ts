@@ -9,20 +9,17 @@ import {
     MatExpansionModule
 } from '@cdk/angular/material';
 
-import { CdkSharedModule } from '@cdk/shared.module';
-import { CdkTipoRelatorioListComponent } from './cdk-tipo-relatorio-list.component';
-import { CdkTipoRelatorioListItemComponent } from './cdk-tipo-relatorio-list-item/cdk-tipo-relatorio-list-item.component';
-import { TranslateModule } from '@ngx-translate/core';
-import { PipesModule } from '@cdk/pipes/pipes.module';
-import { CdkSidebarModule } from '@cdk/components/index';
-import { CdkEspecieRelatorioAutocompleteModule } from '@cdk/components/especie-relatorio/cdk-especie-relatorio-autocomplete/cdk-especie-relatorio-autocomplete.module';
-import { EspecieRelatorioService } from '@cdk/services/especie-relatorio.service';
-import { ProcessoService } from '@cdk/services/processo.service';
-import {CdkProcessoAutocompleteModule} from '@cdk/components/processo/cdk-processo-autocomplete/cdk-processo-autocomplete.module';
-import { DndModule } from 'ngx-drag-drop';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {CdkTipoRelatorioListComponent} from './cdk-tipo-relatorio-list.component';
+import {CdkTipoRelatorioListItemComponent} from './cdk-tipo-relatorio-list-item/cdk-tipo-relatorio-list-item.component';
+import {TranslateModule} from '@ngx-translate/core';
+import {PipesModule} from '@cdk/pipes/pipes.module';
+import {CdkSidebarModule} from '../..';
+import {CdkEspecieRelatorioAutocompleteModule} from '@cdk/components/especie-relatorio/cdk-especie-relatorio-autocomplete/cdk-especie-relatorio-autocomplete.module';
+import {EspecieRelatorioService} from '@cdk/services/especie-relatorio.service';
+import {DndModule} from 'ngx-drag-drop';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
-import { AssuntoService } from '@cdk/services/assunto.service';
 import {CdkTipoRelatorioFilterModule} from '../sidebars/cdk-tipo-relatorio-filter/cdk-tipo-relatorio-filter.module';
 
 @NgModule({
@@ -44,7 +41,6 @@ import {CdkTipoRelatorioFilterModule} from '../sidebars/cdk-tipo-relatorio-filte
         DndModule,
 
         CdkEspecieRelatorioAutocompleteModule,
-        CdkProcessoAutocompleteModule,
 
         TranslateModule,
 
@@ -60,9 +56,7 @@ import {CdkTipoRelatorioFilterModule} from '../sidebars/cdk-tipo-relatorio-filte
         CdkTipoRelatorioFilterModule
     ],
     providers: [
-        EspecieRelatorioService,
-        ProcessoService,
-        AssuntoService
+        EspecieRelatorioService
     ],
     exports: [
         CdkTipoRelatorioListComponent

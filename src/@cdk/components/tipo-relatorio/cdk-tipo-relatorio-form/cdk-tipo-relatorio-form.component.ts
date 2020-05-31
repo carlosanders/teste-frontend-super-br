@@ -10,12 +10,11 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
-import {TipoRelatorio} from "@cdk/models/tipo-relatorio.model";
+import {TipoRelatorio} from '@cdk/models/tipo-relatorio.model';
 import {EspecieRelatorio} from '@cdk/models/especie-relatorio.model';
 import {Usuario} from '@cdk/models';
 import {Processo} from '@cdk/models';
 import {Pagination} from '@cdk/models';
-import {Favorito} from '@cdk/models';
 import {Setor} from '@cdk/models';
 
 import {FavoritoService} from '@cdk/services/favorito.service';
@@ -23,9 +22,6 @@ import {Responsavel} from '@cdk/models/respensavel.model';
 import {LoginService} from '../../../../app/main/auth/login/login.service';
 
 import {MAT_DATETIME_FORMATS} from '@mat-datetimepicker/core';
-import {catchError, debounceTime, distinctUntilChanged, switchMap, distinct} from 'rxjs/operators';
-import {of} from 'rxjs';
-
 
 @Component({
     selector: 'cdk-tipo-relatorio-form',
@@ -82,16 +78,6 @@ export class CdkTipoRelatorioFormComponent implements OnInit, OnChanges, OnDestr
     mode = 'regular';
 
     inputProcesso: boolean;
-
-    @Input()
-    blocoEdit = {
-        blocoEditEspecie: false,
-        blocoEditDistribuicao: false,
-        blocoEditInicioPrazo: false,
-        blocoEditFinalPrazo: false,
-        blocoEditUrgente: false,
-        blocoEditObservacao: false
-    };
 
     form: FormGroup;
 
@@ -191,11 +177,7 @@ export class CdkTipoRelatorioFormComponent implements OnInit, OnChanges, OnDestr
     // -----------------------------------------------------------------------------------------------------
     submit(): void {
         if (this.form.valid) {
-            console.log(this.form.value)
-            let tipoRelatorio = {
-                ...this.form.value
-            }
-            this.save.emit(tipoRelatorio);
+            this.save.emit(this.form.value);
         }
     }
 

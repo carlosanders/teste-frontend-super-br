@@ -39,7 +39,6 @@ export class CdkRelatorioFilterComponent implements OnInit {
             dataHoraConclusaoPrazo: [null],
             postIt: [null],
             dataHoraLeitura: [null],
-            processo: [null],
             especieRelatorio: [null],
             usuarioResponsavel: [null],
             unidadeResponsavel: [null],
@@ -137,21 +136,6 @@ export class CdkRelatorioFilterComponent implements OnInit {
                     ...this.filters,
                     dataHoraConclusaoPrazo: `eq:${value}`
                 };
-            }
-        });
-
-        this.form.get('processo').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'processo.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('processo.id')) {
-                        delete this.filters['processo.id'];
-                    }
-                }
             }
         });
 

@@ -1,0 +1,56 @@
+<div fxLayout="row" [dndDraggable]="draggable.data" fxLayoutAlign="start center">
+
+    <mat-checkbox class="mr-8" [checked]="selected" (change)="onSelectedChange()"
+                  (click)="$event.stopPropagation();">
+    </mat-checkbox>
+
+    <div fxLayout="row" fxLayoutAlign="start center" fxFlex>
+
+        <div class="info" fxFlex>
+
+            <div class="title" fxLayout="row">
+                <span class="text-truncate">{{tipoRelatorio.nome}}</span>
+            </div>
+
+            <div class="subtitle">
+                <span class="text-truncate">{{tipoRelatorio.especieRelatorio?.descricao}}</span>
+            </div>
+
+            <div [matTooltip]="'Tipo Relatorio Id ' + tipoRelatorio.id.toString()" class="body mt-4">
+                <div>
+                    {{tipoRelatorio.especieRelatorio?.generoRelatorio?.descricao}}
+                </div>
+
+                <div>
+                    Criado em: {{tipoRelatorio.criadoEm | date: 'dd/MM/yyyy'}}
+                </div>
+            </div>
+
+        </div>
+
+        <div class="actions" fxLayout="row" fxLayoutAlign="start center">
+
+            <div class="spinner-container m-8" *ngIf="deleting">
+                <mat-spinner diameter="24"></mat-spinner>
+            </div>
+
+            <button *ngIf="!deleting" mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="Ferramentas"
+                    (click)="$event.stopPropagation()">
+                <mat-icon class="secondary-text">more_vert</mat-icon>
+            </button>
+
+            <mat-menu #moreMenu="matMenu">
+
+                <button mat-menu-item aria-label="apagar"
+                        (click)="doDelete()">
+                    <ng-container>
+                        <mat-icon>delete</mat-icon>
+                        <span>Apagar</span>
+                    </ng-container>
+                </button>
+
+            </mat-menu>
+        </div>
+
+    </div>
+</div>

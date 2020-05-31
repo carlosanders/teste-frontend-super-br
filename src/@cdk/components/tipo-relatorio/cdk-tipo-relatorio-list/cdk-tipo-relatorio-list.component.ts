@@ -1,8 +1,7 @@
-import {AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output, ViewEncapsulation} from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {TipoRelatorio} from '@cdk/models/tipo-relatorio.model';
- 
 
 @Component({
     selector: 'cdk-tipo-relatorio-list',
@@ -13,16 +12,16 @@ import {TipoRelatorio} from '@cdk/models/tipo-relatorio.model';
     animations: cdkAnimations,
     exportAs: 'dragRelatorioList'
 })
-export class CdkTipoRelatorioListComponent implements AfterViewInit, OnInit, OnChanges {
+export class CdkTipoRelatorioListComponent {
 
     @Input()
     loading: boolean;
 
     @Input()
-    tiposRelatorios: TipoRelatorio[] = [];
+    tipoRelatorios: TipoRelatorio[] = [];
 
     @Input()
-    currentTipoRelatorioId: number;
+    currentRelatorioId: number;
 
     @Input()
     deletingIds: number[] = [];
@@ -55,27 +54,18 @@ export class CdkTipoRelatorioListComponent implements AfterViewInit, OnInit, OnC
     delete = new EventEmitter<number>();
 
     @Output()
+    folder = new EventEmitter<any>();
+
+    @Output()
     selected = new EventEmitter<TipoRelatorio>();
 
     @Output()
-    createTipoRelatorio = new EventEmitter<any>();
+    editRelatorioBloco = new EventEmitter<any>();
 
     @Output()
-    editProcesso = new EventEmitter<any>();
+    etiquetarBloco = new EventEmitter<any>();
 
-    @Output()
-    editTipoRelatorio = new EventEmitter<number>();
-
-    @Output()
-    toggleUrgente = new EventEmitter<TipoRelatorio>();
-
-    @Input()
-    isOpenPanel: boolean;
-
-    @Input()
-    idRelatorioToLoadAssuntos: number;
-    
-    listFilter: {} = {};
+    listFilter: any;
     listSort: {} = {};
 
     isIndeterminate = false;
@@ -86,20 +76,12 @@ export class CdkTipoRelatorioListComponent implements AfterViewInit, OnInit, OnC
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _cdkSidebarService: CdkSidebarService) {
+        this.listFilter = {};
     }
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
-
-    ngOnChanges(): void {
-    }
-
-    ngOnInit(): void {
-    }
-
-    ngAfterViewInit(): void {
-    }
 
     toggleFilter(): void {
         this.toggleSidebar();
@@ -107,7 +89,7 @@ export class CdkTipoRelatorioListComponent implements AfterViewInit, OnInit, OnC
 
     loadPage(): void {
         this.reload.emit({
-            listFilter: this.listFilter,
+            listFilter: this.listFilter.filters,
             listSort: this.listSort
         });
     }
@@ -117,12 +99,8 @@ export class CdkTipoRelatorioListComponent implements AfterViewInit, OnInit, OnC
         this.loadPage();
     }
 
-    selectRelatorio(relatorio: TipoRelatorio): void {
-        this.selected.emit(relatorio);
-    }
-
-    doToggleUrgente(relatorio: TipoRelatorio): void {
-        this.toggleUrgente.emit(relatorio);
+    selectRelatorio(tipoRelatorio: TipoRelatorio): void {
+        this.selected.emit(tipoRelatorio);
     }
 
     doDeleteRelatorio(relatorioId): void {
@@ -131,6 +109,10 @@ export class CdkTipoRelatorioListComponent implements AfterViewInit, OnInit, OnC
 
     doDeleteRelatorioBloco(): void {
         this.selectedIds.forEach(relatorioId => this.doDeleteRelatorio(relatorioId));
+    }
+
+    setFolder(folder): void {
+        this.folder.emit(folder);
     }
 
     onScroll(): void {
@@ -156,13 +138,13 @@ export class CdkTipoRelatorioListComponent implements AfterViewInit, OnInit, OnC
      * Select all
      */
     selectAll(): void {
-        const arr = Object.keys(this.tiposRelatorios).map(k => this.tiposRelatorios[k]);
+        const arr = Object.keys(this.tipoRelatorios).map(k => this.tipoRelatorios[k]);
         this.selectedIds = arr.map(relatorio => relatorio.id);
         this.recompute();
     }
 
     /**
-     * Deselect all tiposRelatorios
+     * Deselect all relatorios
      */
     deselectAll(): void {
         this.selectedIds = [];
@@ -181,7 +163,7 @@ export class CdkTipoRelatorioListComponent implements AfterViewInit, OnInit, OnC
     }
 
     recompute(): void {
-        this.isIndeterminate = (this.selectedIds.length !== this.tiposRelatorios.length && this.selectedIds.length > 0);
+        this.isIndeterminate = (this.selectedIds.length !== this.tipoRelatorios.length && this.selectedIds.length > 0);
         this.changeSelectedIds.emit(this.selectedIds);
     }
 
@@ -190,15 +172,15 @@ export class CdkTipoRelatorioListComponent implements AfterViewInit, OnInit, OnC
         this.loadPage();
     }
 
-
-    doEditRelatorio(relatorioId): void {
-        this.editTipoRelatorio.emit(relatorioId);
+    doEtiquetarBloco(): void {
+        this.etiquetarBloco.emit();
     }
 
     /**
      * Toggle the sidebar
      */
     toggleSidebar(): void {
-        this._cdkSidebarService.getSidebar('cdk-tipo-relatorio-filter-sidebar').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-tipo-relatorio-filter').toggleOpen();
     }
+
 }

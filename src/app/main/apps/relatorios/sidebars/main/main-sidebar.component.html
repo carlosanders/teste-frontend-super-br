@@ -43,9 +43,9 @@
             </a>
         </div>
 
-        <div class="nav-subheader">ADMINISTRAÇÃO</div>
+        <div class="nav-subheader" *showIfRole="'ROLE_ADMIN'">ADMINISTRAÇÃO</div>
 
-        <div class="nav-item">
+        <div class="nav-item" *showIfRole="'ROLE_ADMIN'">
             <a class="nav-link" matRipple [routerLink]="'/apps/relatorios/' + generoHandle + '/tipo-relatorio/entrada'"
                [routerLinkActive]="['active', 'accent']">
                 <mat-icon class="nav-link-icon">build</mat-icon>

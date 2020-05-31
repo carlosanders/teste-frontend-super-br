@@ -14,8 +14,6 @@ import {
 import {CdkSharedModule} from '@cdk/shared.module';
 import {EspecieRelatorioService} from '@cdk/services/especie-relatorio.service';
 import {CdkTipoRelatorioFormComponent} from './cdk-tipo-relatorio-form.component';
-
-
 import {CdkEspecieRelatorioGridsearchModule} from '@cdk/components/especie-relatorio/cdk-especie-relatorio-autocomplete/cdk-especie-relatorio-gridsearch/cdk-especie-relatorio-gridsearch.module';
 import {CdkUsuarioAutocompleteModule} from '../../usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 import {CdkUsuarioGridsearchModule} from '../../usuario/cdk-usuario-autocomplete/cdk-usuario-gridsearch/cdk-usuario-gridsearch.module';
@@ -33,9 +31,9 @@ import {FavoritoService} from '@cdk/services/favorito.service';
 import {LoginService} from '../../../../app/main/auth/login/login.service';
 import {CdkLogentryGridModule} from '@cdk/components/logentry/cdk-logentry-grid/cdk-logentry-grid.module';
 import {CdkLogentryGridsearchModule} from '@cdk/components/logentry/cdk-logentry-grid/cdk-logentry-gridsearch/cdk-logentry-gridsearch.module';
-import {MatRadioModule} from "@angular/material/radio";
-import {CdkEspecieRelatorioAutocompleteModule} from "../../especie-relatorio/cdk-especie-relatorio-autocomplete/cdk-especie-relatorio-autocomplete.module";
-import {CdkEspecieRelatorioGridsearchModule} from "../../especie-relatorio/cdk-especie-relatorio-autocomplete/cdk-especie-relatorio-gridsearch/cdk-especie-relatorio-gridsearch.module";
+import {MatRadioModule} from '@angular/material/radio';
+import {CdkEspecieRelatorioAutocompleteModule} from '../../especie-relatorio/cdk-especie-relatorio-autocomplete/cdk-especie-relatorio-autocomplete.module';
+import {MatCardModule} from '@angular/material/card';
 
 @NgModule({
     declarations: [
@@ -74,6 +72,7 @@ import {CdkEspecieRelatorioGridsearchModule} from "../../especie-relatorio/cdk-e
         CdkSharedModule,
         MatRadioModule,
         CdkEspecieRelatorioGridsearchModule,
+        MatCardModule,
     ],
     providers: [
         EspecieRelatorioService,

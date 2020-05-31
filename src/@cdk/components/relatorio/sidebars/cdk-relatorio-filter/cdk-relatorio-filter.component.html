@@ -13,16 +13,6 @@
 
             <mat-form-field>
                 <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Processo"
-                           formControlName="processo"
-                           [matAutocomplete]="processo.autocomplete">
-                </div>
-                <cdk-processo-autocomplete #processo="processoAutocomplete" [control]="form.get('processo')">
-                </cdk-processo-autocomplete>
-            </mat-form-field>
-
-            <mat-form-field>
-                <div fxLayout="row" fxLayoutAlign="start center">
                     <input matInput placeholder="Espécie de Relatorio"
                            formControlName="especieRelatorio"
                            [matAutocomplete]="especieRelatorio.autocomplete">
