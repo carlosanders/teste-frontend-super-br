@@ -259,6 +259,7 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
 
             this.tarefa$.subscribe(tarefa => {
                 this.tarefa = tarefa;
+                this.atividade.tarefa = tarefa;
                 this.atividade.usuario = tarefa.usuarioResponsavel;
                 this.atividade.setor = tarefa.setorResponsavel;
             });
@@ -631,7 +632,6 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
             }
         );
 
-        atividade.tarefa = this.tarefa;
         atividade.documentos = [this.documento];
 
         this._store.dispatch(new fromStore.SaveAtividade(atividade));

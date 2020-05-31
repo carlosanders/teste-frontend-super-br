@@ -25,7 +25,13 @@ const routes: Routes = [
     {
         path: '',
         component: ProcessoViewComponent,
-        canActivate: [fromGuards.ResolveGuard]
+        canActivate: [fromGuards.ResolveGuard],
+        children: [
+            {
+                path       : 'capa',
+                loadChildren: () => import('../processo-capa/processo-capa.module').then(m => m.ProcessoCapaModule)
+            }
+        ]
     }
 ];
 

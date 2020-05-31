@@ -40,6 +40,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {CdkPessoaGridsearchModule} from '../../pessoa/cdk-pessoa-autocomplete/cdk-pessoa-gridsearch/cdk-pessoa-gridsearch.module';
 import {CdkClassificacaoGridTreeModule} from '../../classificacao/cdk-classificacao-grid-tree/cdk-classificacao-grid-tree.module';
 import {CdkClassificacaoGridTreeService} from '../../classificacao/cdk-classificacao-grid-tree/services/cdk-classificacao-grid-tree.service';
+import {FavoritoService} from '../../../services/favorito.service';
 
 @NgModule({
     declarations: [
@@ -86,7 +87,8 @@ import {CdkClassificacaoGridTreeService} from '../../classificacao/cdk-classific
         CdkClassificacaoGridTreeModule,
     ],
     providers: [
-        CdkClassificacaoGridTreeService
+        CdkClassificacaoGridTreeService,
+        FavoritoService
     ],
     exports: [
         CdkProcessoFormComponent

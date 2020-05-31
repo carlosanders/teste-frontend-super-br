@@ -93,15 +93,15 @@
      [infiniteScrollThrottle]="50"
      (scrolled)="onScroll()">
 
-    <div class="juntada" matRipple *ngIf="!(isLoading$ | async) && capaProcesso"
+    <div class="juntada capa" matRipple *ngIf="!(isLoading$ | async) && capaProcesso"
          (click)="goToCapaProcesso()"
-         [ngClass]="{'current': currentStep.step === -1, 'completed': currentStep.step > -1, 'last': juntadas.length, 'first': -1}">
+         [ngClass]="{'current': capa}">
         <div class="index">
             <span>
                 <mat-icon>insert_drive_file</mat-icon>
             </span>
         </div>
-        <div fxFlex fxLayout="column">
+        <div [ngClass]="{'current-tipo-documento': capa}" fxFlex fxLayout="column">
             <div class="descricao">CAPA</div>
             <div class="criado-em">{{processo?.dataHoraAbertura | date: 'dd/MM/yyyy'}}</div>
             <div class="tipo-documento" fxLayout="row" fxLayoutAlign="start center">
@@ -114,7 +114,7 @@
     <div class="juntada" matRipple
          *ngFor="let juntada of (juntadas); let i = index; let last = last; let first = first"
          (click)="gotoStep(i, juntada.ativo)"
-         [ngClass]="{'current': currentStep.step === i, 'completed': currentStep.step > i, 'last': last, 'first': first}">
+         [ngClass]="{'current': !capa && (currentStep.step === i), 'completed': currentStep.step > i, 'last': last, 'first': first}">
         <div class="index">
             <span>{{juntada.numeracaoSequencial}}</span>
         </div>
@@ -143,7 +143,7 @@
                         <mat-icon class="ml-16 s-14">attach_file</mat-icon>
                         <mat-icon class="ml-4 s-14">picture_as_pdf</mat-icon>
                         <span class="ml-4"
-                              [ngClass]="{'current-tipo-documento': index[currentStep.step][currentStep.subStep] === componenteDigital.id}">{{vinculacaoDocumento.documentoVinculado.tipoDocumento.nome}}</span>
+                              [ngClass]="{'current-tipo-documento': !capa && index[currentStep.step][currentStep.subStep] === componenteDigital.id}">{{vinculacaoDocumento.documentoVinculado.tipoDocumento.nome}}</span>
                         <div *ngIf="z>0">{{z + 1}}</div>
                         <mat-icon class="ml-4 s-24"
                                   *ngIf="index[currentStep.step][currentStep.subStep] === componenteDigital.id">

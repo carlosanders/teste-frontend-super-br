@@ -18,7 +18,6 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {filter, takeUntil} from 'rxjs/operators';
 import {getRouterState} from '../../../../store/reducers';
-import {Location} from '@angular/common';
 
 @Component({
     selector: 'processo-capa',
@@ -54,7 +53,6 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
     paginationInteressados$: Observable<any>;
     paginationInteressados: any;
 
-    loadingJuntas$: Observable<boolean>;
     loadingInteressados$: Observable<boolean>;
     loadingAssuntos$: Observable<boolean>;
 
@@ -66,13 +64,11 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
      * @param _changeDetectorRef
      * @param _cdkSidebarService
      * @param _store
-     * @param _location
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _cdkSidebarService: CdkSidebarService,
-        private _store: Store<fromStore.ProcessoCapaAppState>,
-        private _location: Location
+        private _store: Store<fromStore.ProcessoCapaAppState>
     ) {
         this.routerState$ = this._store.pipe(select(getRouterState));
         this.processo$ = this._store.pipe(select(fromStore.getProcesso));
@@ -141,14 +137,6 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
-    /**
-     * Toggle the sidebar
-     *
-     * @param name
-     */
-    toggleSidebar(name): void {
-        this._cdkSidebarService.getSidebar(name).toggleOpen();
-    }
 
     reloadAssuntos(params): void {
         this._store.dispatch(new fromStore.UnloadAssuntos({reset: false}));
@@ -182,9 +170,5 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
             offset: params.offset,
             populate: this.paginationInteressados.populate
         }));
-    }
-
-    back(): void {
-        this._location.back();
     }
 }

@@ -18,7 +18,7 @@ import {catchError, debounceTime, distinctUntilChanged, finalize, switchMap} fro
 import {of} from 'rxjs';
 import {Pagination} from '@cdk/models';
 import {FavoritoService} from '@cdk/services/favorito.service';
-import {LoginService} from '../../../../app/main/auth/login/login.service';
+import {LoginService} from 'app/main/auth/login/login.service';
 import {Responsavel} from '@cdk/models';
 
 @Component({
@@ -91,9 +91,17 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
     especieTarefaListIsLoading: boolean;
 
+    usuarioResponsavelList: Usuario[] = [];
+
+    usuarioResponsavelListIsLoading: boolean;
+
     setorResponsavelList: Setor[] = [];
 
     setorResponsavelListIsLoading: boolean;
+
+    unidadeResponsavelList: Setor[] = [];
+
+    unidadeResponsavelListIsLoading: boolean;
 
     _profile: any;
 
@@ -159,7 +167,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         });
 
         this.processoPagination = new Pagination();
-        this.processoPagination.populate = ['setorAtual', 'setorAtual.unidade'];
+        this.processoPagination.populate = ['especieProcesso', 'setorAtual', 'setorAtual.unidade'];
         this.especieTarefaPagination = new Pagination();
         this.unidadeResponsavelPagination = new Pagination();
         this.unidadeResponsavelPagination.filter = {parent: 'isNull'};
@@ -806,7 +814,8 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         this.especieTarefaListIsLoading = true;
         this._favoritoService.query(
             JSON.stringify({
-                objectClass: 'eq:SuppCore\\AdministrativoBackend\\Entity\\EspecieTarefa'
+                objectClass: 'eq:SuppCore\\AdministrativoBackend\\Entity\\EspecieTarefa',
+                context: 'eq:tarefa_' + this.form.get('processo').value.especieProcesso.id + '_especie_tarefa'
             }),
             5,
             0,
@@ -825,11 +834,37 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         );
     }
 
+    getFavoritosUnidadeResponsavel(): void {
+        this.unidadeResponsavelListIsLoading = true;
+        this._favoritoService.query(
+            JSON.stringify({
+                objectClass: 'eq:SuppCore\\AdministrativoBackend\\Entity\\Setor',
+                context: 'eq:tarefa_' + this.form.get('processo').value.especieProcesso.id + '_unidade_responsavel'
+            }),
+            5,
+            0,
+            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'})
+        ).pipe(
+            finalize(() => this.unidadeResponsavelListIsLoading = false),
+            catchError(() => of([]))
+        ).subscribe(
+            response => {
+                this.unidadeResponsavelList = [];
+                response['entities'].forEach((favorito) => {
+                    this.unidadeResponsavelList.push(favorito.objFavoritoClass[0]);
+                });
+                this._changeDetectorRef.markForCheck();
+            }
+        );
+    }
+
     getFavoritosSetorResponsavel(): void {
         this.setorResponsavelListIsLoading = true;
         this._favoritoService.query(
             JSON.stringify({
-                objectClass: 'eq:SuppCore\\AdministrativoBackend\\Entity\\Setor'
+                objectClass: 'eq:SuppCore\\AdministrativoBackend\\Entity\\Setor',
+                context: 'eq:tarefa_' + this.form.get('processo').value.especieProcesso.id +
+                    '_setor_responsavel_unidade_' + this.form.get('unidadeResponsavel').value.id
             }),
             5,
             0,
@@ -842,6 +877,31 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                 this.setorResponsavelList = [];
                 response['entities'].forEach((favorito) => {
                     this.setorResponsavelList.push(favorito.objFavoritoClass[0]);
+                });
+                this._changeDetectorRef.markForCheck();
+            }
+        );
+    }
+
+    getFavoritosUsuarioResponsavel(): void {
+        this.usuarioResponsavelListIsLoading = true;
+        this._favoritoService.query(
+            JSON.stringify({
+                objectClass: 'eq:SuppCore\\AdministrativoBackend\\Entity\\Usuario',
+                context: 'eq:tarefa_' + this.form.get('processo').value.especieProcesso.id +
+                    '_usuario_responsavel_setor_' + this.form.get('setorResponsavel').value.id
+            }),
+            5,
+            0,
+            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'})
+        ).pipe(
+            finalize(() => this.usuarioResponsavelListIsLoading = false),
+            catchError(() => of([]))
+        ).subscribe(
+            response => {
+                this.usuarioResponsavelList = [];
+                response['entities'].forEach((favorito) => {
+                    this.usuarioResponsavelList.push(favorito.objFavoritoClass[0]);
                 });
                 this._changeDetectorRef.markForCheck();
             }

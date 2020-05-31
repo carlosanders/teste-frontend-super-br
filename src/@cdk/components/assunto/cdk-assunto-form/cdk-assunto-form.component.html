@@ -21,8 +21,14 @@
                 <cdk-assunto-administrativo-autocomplete
                     #assuntoAdministrativo="assuntoAdministrativoAutocomplete"
                     [control]="form.get('assuntoAdministrativo')"
+                    [assuntoAdministrativoList]="assuntoAdministrativoList"
+                    [assuntoAdministrativoListIsLoading]="assuntoAdministrativoListIsLoading"
                     [pagination]="assuntoAdministrativoPagination">
                 </cdk-assunto-administrativo-autocomplete>
+                <button matSuffix mat-button mat-icon-button
+                        (click)="getFavoritosAssuntoAdministrativo()">
+                    <mat-icon matTooltip="Favoritos">star</mat-icon>
+                </button>
                 <button matSuffix mat-button mat-icon-button
                         (click)="showAssuntoAdministrativoGridTree()">
                     <mat-icon matTooltip="Árvore de Assuntos">subdirectory_arrow_right</mat-icon>

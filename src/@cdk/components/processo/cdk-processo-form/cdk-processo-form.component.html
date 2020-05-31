@@ -191,8 +191,14 @@
                 <cdk-pessoa-autocomplete
                     #procedencia="pessoaAutocomplete"
                     [control]="form.get('procedencia')"
+                    [pessoaList]="procedenciaList"
+                    [pessoaListIsLoading]="procedenciaListIsLoading"
                     [pagination]="procedenciaPagination">
                 </cdk-pessoa-autocomplete>
+                <button matSuffix mat-button mat-icon-button
+                        (click)="getFavoritosProcedencia()">
+                    <mat-icon matTooltip="Favoritos">star</mat-icon>
+                </button>
                 <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
                         (click)="showLogEntryGrid('procedencia')">
                     <mat-icon matTooltip="Histórico">history</mat-icon>
@@ -318,8 +324,14 @@
             <cdk-especie-processo-autocomplete
                 #especieProcesso="especieProcessoAutocomplete"
                 [control]="form.get('especieProcesso')"
+                [especieProcessoList]="especieProcessoList"
+                [especieProcessoListIsLoading]="especieProcessoListIsLoading"
                 [pagination]="especieProcessoPagination">
             </cdk-especie-processo-autocomplete>
+            <button matSuffix mat-button mat-icon-button
+                    (click)="getFavoritosEspecieProcesso()">
+                <mat-icon matTooltip="Favoritos">star</mat-icon>
+            </button>
             <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
                     (click)="showLogEntryGrid('especieProcesso')">
                 <mat-icon matTooltip="Histórico">history</mat-icon>
@@ -344,8 +356,14 @@
             <cdk-modalidade-meio-autocomplete
                 #modalidadeMeio="modalidadeMeioAutocomplete"
                 [control]="form.get('modalidadeMeio')"
+                [modalidadeMeioList]="modalidadeMeioList"
+                [modalidadeMeioListIsLoading]="modalidadeMeioListIsLoading"
                 [pagination]="modalidadeMeioPagination">
             </cdk-modalidade-meio-autocomplete>
+            <button [disabled]="!form.get('especieProcesso').value" matSuffix mat-button mat-icon-button
+                    (click)="getFavoritosModalidadeMeio()">
+                <mat-icon matTooltip="Favoritos">star</mat-icon>
+            </button>
             <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
                     (click)="showLogEntryGrid('modalidadeMeio')">
                 <mat-icon matTooltip="Histórico">history</mat-icon>
@@ -370,8 +388,14 @@
             <cdk-classificacao-autocomplete
                 #classificacao="classificacaoAutocomplete"
                 [control]="form.get('classificacao')"
+                [classificacaoList]="classificacaoList"
+                [classificacaoListIsLoading]="classificacaoListIsLoading"
                 [pagination]="_classificacaoPagination">
             </cdk-classificacao-autocomplete>
+            <button [disabled]="!form.get('especieProcesso').value" matSuffix mat-button mat-icon-button
+                    (click)="getFavoritosClassificacao()">
+                <mat-icon matTooltip="Favoritos">star</mat-icon>
+            </button>
             <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
                     (click)="showLogEntryGrid('classificacao')">
                 <mat-icon matTooltip="Histórico">history</mat-icon>
@@ -440,8 +464,14 @@
             <cdk-setor-autocomplete
                 #setor="setorAutocomplete"
                 [control]="form.get('setorAtual')"
+                [setorList]="setorAtualList"
+                [setorListIsLoading]="setorAtualListIsLoading"
                 [pagination]="setorAtualPagination">
             </cdk-setor-autocomplete>
+            <button [disabled]="!form.get('especieProcesso').value" matSuffix mat-button mat-icon-button
+                    (click)="getFavoritosSetorAtual()">
+                <mat-icon matTooltip="Favoritos">star</mat-icon>
+            </button>
             <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
                     (click)="showLogEntryGrid('setorAtual')">
                 <mat-icon matTooltip="Histórico">history</mat-icon>

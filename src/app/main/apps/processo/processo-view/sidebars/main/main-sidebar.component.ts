@@ -64,6 +64,9 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
     @Input()
     capaProcesso: boolean;
 
+    @Input()
+    capa: boolean;
+
     @Output()
     scrolled = new EventEmitter<any>();
 

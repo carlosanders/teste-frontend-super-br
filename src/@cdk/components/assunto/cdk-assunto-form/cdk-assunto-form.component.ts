@@ -9,9 +9,11 @@ import {
 
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Assunto} from '@cdk/models';
-import {AssuntoAdministrativo} from '@cdk/models';
+import {Assunto, AssuntoAdministrativo} from '@cdk/models';
 import {Pagination} from '@cdk/models';
+import {FavoritoService} from '../../../services/favorito.service';
+import {catchError, finalize} from 'rxjs/operators';
+import {of} from 'rxjs';
 
 @Component({
     selector: 'cdk-assunto-form',
@@ -45,12 +47,17 @@ export class CdkAssuntoFormComponent implements OnChanges, OnDestroy {
 
     activeCard = 'form';
 
+    assuntoAdministrativoList: AssuntoAdministrativo[] = [];
+
+    assuntoAdministrativoListIsLoading: boolean;
+
     /**
      * Constructor
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _formBuilder: FormBuilder
+        private _formBuilder: FormBuilder,
+        private _favoritoService: FavoritoService
     ) {
 
         this.form = this._formBuilder.group({
@@ -145,4 +152,27 @@ export class CdkAssuntoFormComponent implements OnChanges, OnDestroy {
         this.activeCard = 'form';
     }
 
+    getFavoritosAssuntoAdministrativo(): void {
+        this.assuntoAdministrativoListIsLoading = true;
+        this._favoritoService.query(
+            JSON.stringify({
+                objectClass: 'eq:SuppCore\\AdministrativoBackend\\Entity\\AssuntoAdministrativo',
+                context: 'eq:assunto_' + this.assunto.processo.especieProcesso.id + '_assunto_administrativo'
+            }),
+            5,
+            0,
+            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'})
+        ).pipe(
+            finalize(() => this.assuntoAdministrativoListIsLoading = false),
+            catchError(() => of([]))
+        ).subscribe(
+            response => {
+                this.assuntoAdministrativoList = [];
+                response['entities'].forEach((favorito) => {
+                    this.assuntoAdministrativoList.push(favorito.objFavoritoClass[0]);
+                });
+                this._changeDetectorRef.markForCheck();
+            }
+        );
+    }
 }

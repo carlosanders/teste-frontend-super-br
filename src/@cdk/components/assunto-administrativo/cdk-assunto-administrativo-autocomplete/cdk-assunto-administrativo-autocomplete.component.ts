@@ -32,7 +32,10 @@ export class CdkAssuntoAdministrativoAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
+    @Input()
     assuntoAdministrativoList: AssuntoAdministrativo[];
+
+    @Input()
     assuntoAdministrativoListIsLoading: boolean;
 
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;

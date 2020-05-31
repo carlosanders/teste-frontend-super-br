@@ -70,6 +70,7 @@ export class CdkFavoritoFormComponent implements OnChanges, OnDestroy, OnInit {
             label: [null, [Validators.required]],
             prioritario: [null],
             campo: [null, [Validators.required]],
+            context: [null],
             especieAtividade: [null],
             especieTarefa: [null],
             unidadeResponsavel: [null],
@@ -143,8 +144,7 @@ export class CdkFavoritoFormComponent implements OnChanges, OnDestroy, OnInit {
             ).subscribe();
         }
 
-        if(this.form.get('campo') && !this.favorito.id)
-        {
+        if (this.form.get('campo') && !this.favorito.id) {
             this.form.get('campo').valueChanges.pipe(
                 debounceTime(300),
                 distinctUntilChanged(),

@@ -113,6 +113,7 @@ export class ProcessoViewEffect {
                 ofType<ProcessoViewActions.SetCurrentStep>(ProcessoViewActions.SET_CURRENT_STEP),
                 withLatestFrom(this._store.pipe(select(getIndex)), this._store.pipe(select(getCurrentStep))),
                 switchMap(([action, index, currentStep]) => {
+                    this._router.navigate([this.routerState.url.replace('/capa', '')]).then();
                     if (typeof index[currentStep.step] === 'undefined' || typeof index[currentStep.step][currentStep.subStep] === 'undefined') {
                         return throwError(new Error('não há documentos'));
                     }
@@ -163,10 +164,10 @@ export class ProcessoViewEffect {
                 ofType<ProcessoViewActions.GetCapaProcesso>(ProcessoViewActions.GET_CAPA_PROCESSO),
                 map(() => {
                     if (this.routerState.params.chaveAcessoHandle) {
-                        this._router.navigate([this.routerState.url.replace(`visualizar/${this.routerState.params.chaveAcessoHandle}`, 'processo-capa')]).then();
+                        // this._router.navigate([this.routerState.url.replace(`visualizar/${this.routerState.params.chaveAcessoHandle}`, 'processo-capa')]).then();
                     }
 
-                    this._router.navigate([this.routerState.url.replace(`visualizar`, 'processo-capa')]).then();
+                    this._router.navigate([this.routerState.url + '/capa']).then();
                 })
             );
 }

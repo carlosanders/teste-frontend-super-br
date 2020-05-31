@@ -57,6 +57,8 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     chaveAcesso: string;
     capaProcesso: boolean;
 
+    capa = false;
+
     @Output()
     select: EventEmitter<ComponenteDigital> = new EventEmitter();
 
@@ -135,6 +137,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
             ).subscribe(routerState => {
             if (routerState) {
                 this.routerState = routerState.state;
+                this.capa = routerState.state.url.indexOf('/capa') > -1;
             }
         });
 

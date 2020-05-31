@@ -16,6 +16,7 @@ import {CdkAssuntoAdministrativoAutocompleteModule} from '@cdk/components/assunt
 import {CdkAssuntoAdministrativoGridsearchModule} from '@cdk/components/assunto-administrativo/cdk-assunto-administrativo-autocomplete/cdk-assunto-administrativo-gridsearch/cdk-assunto-administrativo-gridsearch.module';
 import {CdkAssuntoAdministrativoGridTreeModule} from '../../assunto-administrativo/cdk-assunto-administrativo-grid-tree/cdk-assunto-administrativo-grid-tree.module';
 import {CdkAssuntoAdministrativoGridTreeService} from '../../assunto-administrativo/cdk-assunto-administrativo-grid-tree/services/cdk-assunto-administrativo-grid-tree.service';
+import {FavoritoService} from '../../../services/favorito.service';
 
 @NgModule({
     declarations: [
@@ -39,6 +40,7 @@ import {CdkAssuntoAdministrativoGridTreeService} from '../../assunto-administrat
     ],
     providers: [
         AssuntoAdministrativoService,
+        FavoritoService,
         CdkAssuntoAdministrativoGridTreeService
     ],
     exports: [
