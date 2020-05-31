@@ -151,6 +151,14 @@
                         </mat-icon>
                     </div>
                 </div>
+                <div class="etiquetas" fxLayout="row wrap" fxHide fxShow.gt-sm>
+                    <div class="etiqueta" *ngFor="let vinculacaoEtiqueta of juntada.documento.vinculacoesEtiquetas"
+                         fxLayout="row" fxLayoutAlign="start center"  [matTooltip]="vinculacaoEtiqueta.label">
+                        <div class="etiqueta-color"
+                             [ngStyle]="{'background-color': (vinculacaoEtiqueta.etiqueta?.corHexadecimal)}"></div>
+                        <div class="etiqueta-title">{{vinculacaoEtiqueta.etiqueta?.nome}}</div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

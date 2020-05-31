@@ -15,7 +15,7 @@ import {
     Modelo,
     Repositorio,
     Juntada,
-    Sigilo
+    Sigilo, VinculacaoEtiqueta
 } from '@cdk/models';
 
 export class Documento {
@@ -151,6 +151,10 @@ export class Documento {
     @Type(() => Sigilo)
     sigilos?: Sigilo[];
 
+    @Exclude({toPlainOnly: true})
+    @Type(() => VinculacaoEtiqueta)
+    vinculacoesEtiquetas?: VinculacaoEtiqueta[];
+
     constructor() {
         this.id = null;
         this.uuid = null;
@@ -188,6 +192,7 @@ export class Documento {
         this.vinculacoesDocumentos = null;
         this.documentoAvulsoRemessa = null;
         this.vinculacaoDocumentoPrincipal = null;
+        this.vinculacoesEtiquetas = [];
         this.sigilos = null;
     }
 }

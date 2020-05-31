@@ -37,6 +37,26 @@ processo-view-main-sidebar {
             padding: 16px;
             cursor: pointer;
 
+            .etiquetas {
+                margin-top: 8px;
+
+                .etiqueta {
+                    font-size: 11px;
+                    border-radius: 4px;
+                    margin-top: 4px;
+                    margin-right: 4px;
+                    padding: 3px 8px;
+                    background-color: rgba(0, 0, 0, 0.08);
+
+                    .etiqueta-color {
+                        width: 8px;
+                        height: 8px;
+                        margin-right: 8px;
+                        border-radius: 50%;
+                    }
+                }
+            }
+
             .current-tipo-documento {
                 font-weight: bold;
             }

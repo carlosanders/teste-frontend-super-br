@@ -37,7 +37,7 @@
                     [vinculacoesEtiquetas]="(processo$ | async)?.vinculacoesEtiquetas"
                     (create)="onEtiquetaCreate($event)"
                     (edit)="onEtiquetaEdit($event)"
-                    [savingVincEtiquetaId]="(savingVincEtiquetaId$ | async)"
+                    [savingVinculacaoEtiquetaId]="(savingVinculacaoEtiquetaId$ | async)"
                     [errors]="(errors$ | async)"
                     [pagination]="vinculacaoEtiquetaPagination"
                     (delete)="onEtiquetaDelete($event)"></cdk-vinculacao-etiqueta-chips>

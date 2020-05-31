@@ -1,4 +1,5 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
@@ -25,8 +26,8 @@ import {LoginService} from '../../auth/login/login.service';
 import {Router} from '@angular/router';
 import {Usuario} from '@cdk/models';
 import {takeUntil} from 'rxjs/operators';
-import {modulesConfig} from "../../../../modules/modules-config";
-import {DynamicService} from "../../../../modules/dynamic.service";
+import {modulesConfig} from '../../../../modules/modules-config';
+import {DynamicService} from '../../../../modules/dynamic.service';
 
 @Component({
     selector: 'processo',
@@ -36,7 +37,7 @@ import {DynamicService} from "../../../../modules/dynamic.service";
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class ProcessoComponent implements OnInit, OnDestroy {
+export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
 
     private _unsubscribeAll: Subject<any> = new Subject();
 
@@ -49,7 +50,7 @@ export class ProcessoComponent implements OnInit, OnDestroy {
     routerState$: Observable<any>;
 
     vinculacaoEtiquetaPagination: Pagination;
-    savingVincEtiquetaId$: Observable<any>;
+    savingVinculacaoEtiquetaId$: Observable<any>;
     errors$: Observable<any>;
 
     chaveAcesso: string;
@@ -89,7 +90,7 @@ export class ProcessoComponent implements OnInit, OnDestroy {
             'modalidadeEtiqueta.valor': 'eq:PROCESSO'
         };
         this.routerState$ = this._store.pipe(select(getRouterState));
-        this.savingVincEtiquetaId$ = this._store.pipe(select(fromStore.getSavingVincEtiquetaId));
+        this.savingVinculacaoEtiquetaId$ = this._store.pipe(select(fromStore.getSavingVinculacaoEtiquetaId));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
     }
 
