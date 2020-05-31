@@ -25,54 +25,6 @@
 
         </div>
 
-        <div class="actions" fxLayout="row" fxLayoutAlign="start center">
-
-            <button mat-icon-button aria-label="Processo" matTooltip="Processo"
-                    [routerLink]="['processo', (relatorio$ | async)?.processo?.id]"
-                    [routerLinkActive]="['active', 'accent']">
-                <mat-icon class="black-fg">book</mat-icon>
-            </button>
-
-            <button mat-icon-button aria-label="Movimentar" matTooltip="Movimentar"
-                    [routerLink]="'atividades/criar'"
-                    [routerLinkActive]="['active', 'accent']">
-                <mat-icon class="black-fg">send</mat-icon>
-            </button>
-
-            <button mat-icon-button aria-label="Editar Relatorio" matTooltip="Editar Relatorio"
-                    [routerLink]="'editar'"
-                    [routerLinkActive]="['active', 'accent']">
-                <mat-icon class="black-fg">edit</mat-icon>
-            </button>
-
-            <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="Mais Ferramentas"
-                    (click)="$event.stopPropagation()"
-                    fxHide.xs>
-                <mat-icon class="secondary-text">more_vert</mat-icon>
-            </button>
-
-            <mat-menu #moreMenu="matMenu">
-
-                <button mat-menu-item aria-label="toggle done"
-                        (click)="doCreateRelatorio()">
-                    <ng-container>
-                        <mat-icon>check_box</mat-icon>
-                        <span>Criar Relatorio</span>
-                    </ng-container>
-                </button>
-
-                <button mat-menu-item aria-label="Compartilhamento"
-                        [routerLink]="'compartilhamentos/listar'">
-                    <ng-container>
-                        <mat-icon>share</mat-icon>
-                        <span>Compartilhamento</span>
-                    </ng-container>
-                </button>
-
-                <ng-template #dynamicComponent></ng-template>
-            </mat-menu>
-        </div>
-
     </div>
 
     <div fxFlex="1 1 auto" class="relatorio-content">

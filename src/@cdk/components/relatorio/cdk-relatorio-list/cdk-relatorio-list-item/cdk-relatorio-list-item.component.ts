@@ -32,12 +32,6 @@ export class CdkRelatorioListItemComponent implements OnInit {
     @Output()
     delete = new EventEmitter<number>();
 
-    @Output()
-    createRelatorio = new EventEmitter<any>();
-
-    @Output()
-    editRelatorio = new EventEmitter<number>();
-
     isOpen: boolean;
 
     draggable = {
@@ -64,14 +58,6 @@ export class CdkRelatorioListItemComponent implements OnInit {
 
     doDelete(): void {
         this.delete.emit(this.relatorio.id);
-    }
-
-    doCreateRelatorio(): void {
-       // this.createRelatorio.emit({relatorioId: this.relatorio.id, processoId: this.relatorio.processo.id});
-    }
-
-    doEditRelatorio(): void {
-        this.editRelatorio.emit(this.relatorio.id);
     }
 
     onSelectedChange(): void {

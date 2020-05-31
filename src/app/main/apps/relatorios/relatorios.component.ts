@@ -346,11 +346,4 @@ export class RelatoriosComponent implements OnInit, OnDestroy, AfterViewInit {
         this._router.navigate(['apps/relatorios/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/vinculacao-etiqueta-bloco']).then();
     }
 
-    doEditRelatorioBloco(): void {
-        this._router.navigate(['apps/relatorios/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/relatorio-edit-bloco']).then();
-    }
-
-    doCreateDocumentoAvulsoBloco(): void {
-        this._router.navigate(['apps/relatorios/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/documento-avulso-bloco']).then();
-    }
 }

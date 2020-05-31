@@ -51,14 +51,6 @@
                     </ng-container>
                 </button>
 
-                <button mat-menu-item aria-label="editar relatorio"
-                        (click)="doEditRelatorioBloco()">
-                    <ng-container>
-                        <mat-icon>edit</mat-icon>
-                        <span>Editar</span>
-                    </ng-container>
-                </button>
-
                 <button mat-menu-item aria-label="etiquetar"
                         (click)="doEtiquetarBloco()">
                     <ng-container>
@@ -89,9 +81,7 @@
                     <mat-icon>sort</mat-icon>
                 </button>
                 <mat-menu fxHide #selectMenu="matMenu">
-                    <button mat-menu-item (click)="doSort({'criadoEm': 'DESC'})">Final do
-                        Prazo
-                    </button>
+                    <button mat-menu-item (click)="doSort({'criadoEm': 'ASC'})">Mais antigas</button>
                     <button mat-menu-item (click)="doSort({'id': 'DESC'})">Mais Recente</button>
                 </mat-menu>
 
@@ -127,8 +117,6 @@
                                   [deleting]="deletingIds.length > 0 && deletingIds.indexOf(relatorio.id) > -1"
                                   (toggleInSelectedRelatorios)="toggleInSelected($event)"
                                   (delete)="doDeleteRelatorio($event)"
-                                  (createRelatorio)="doCreateRelatorio($event)"
-                                  (editRelatorio)="doEditRelatorio($event)"
                                   [ngClass]="{'selected':relatorio.id === currentRelatorioId}">
             </cdk-relatorio-list-item>
 

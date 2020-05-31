@@ -59,10 +59,6 @@ const routes: Routes = [
             {
                 path: 'vinculacao-etiqueta-bloco',
                 loadChildren: () => import('./vinculacao-etiqueta-create-bloco/vinculacao-etiqueta-create-bloco.module').then(m => m.VinculacaoEtiquetaCreateBlocoModule),
-            },
-            {
-                path: 'relatorio-edit-bloco',
-                loadChildren: () => import('./relatorio-edit-bloco/relatorio-edit-bloco.module').then(m => m.RelatorioEditBlocoModule),
             }
         ],
         canActivate: [fromGuards.ResolveGuard]

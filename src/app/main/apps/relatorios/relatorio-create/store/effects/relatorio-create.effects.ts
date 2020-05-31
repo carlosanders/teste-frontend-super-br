@@ -14,16 +14,21 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
+import * as fromStoreRelatorio from '../../../store';
+import {Usuario} from '../../../../../../../@cdk/models';
+import {LoginService} from '../../../../../auth/login/login.service';
 
 @Injectable()
 export class RelatorioCreateEffect {
     routerState: any;
+    private _profile: Usuario;
 
     constructor(
         private _actions: Actions,
         private _relatorioService: RelatorioService,
         private _store: Store<State>,
-        private _router: Router
+        private _router: Router,
+        public _loginService: LoginService,
     ) {
         this._store
             .pipe(select(getRouterState))
@@ -32,6 +37,8 @@ export class RelatorioCreateEffect {
                     this.routerState = routerState.state;
                 }
             });
+
+        this._profile = _loginService.getUserProfile();
     }
 
     /**
@@ -44,9 +51,21 @@ export class RelatorioCreateEffect {
             .pipe(
                 ofType<RelatorioCreateActions.SaveRelatorio>(RelatorioCreateActions.SAVE_RELATORIO),
                 switchMap((action) => {
-                    return this._relatorioService.save(action.payload).pipe(
+                    const context = JSON.stringify({formato: action.payload.formato});
+                    return this._relatorioService.save(action.payload, context).pipe(
                         mergeMap((response: Relatorio) => [
                             new RelatorioCreateActions.SaveRelatorioSuccess(),
+                            new fromStoreRelatorio.UnloadRelatorios({reset: true}),
+                            new fromStoreRelatorio.GetRelatorios({
+                                filter: {
+                                    'criadoPor.id': 'eq:' + this._profile.id
+                                },
+                                etiquetaFilter: {},
+                                limit: 10,
+                                offset: 0,
+                                sort: {criadoEm: 'DESC'},
+                                populate: ['documento', 'tipoRelatorio']
+                            }),
                             new AddData<Relatorio>({data: [response], schema: relatorioSchema}),
                             new OperacoesActions.Resultado({
                                 type: 'relatorio',

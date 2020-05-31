@@ -14,12 +14,6 @@
 
             <div class="subtitle">
                 <span class="text-truncate">ID: {{relatorio.id}}</span>
-                <span class="text-truncate" *ngIf="relatorio.tipoRelatorio?.somenteExcel">
-                        Excel
-                </span>
-                <span class="text-truncate" *ngIf="!relatorio.tipoRelatorio?.somenteExcel">
-                        HTML
-                </span>
             </div>
 
             <div [matTooltip]="'Relatorio Id ' + relatorio.id.toString()" class="body mt-4">
@@ -60,22 +54,6 @@
                     <ng-container>
                         <mat-icon>delete</mat-icon>
                         <span>Apagar</span>
-                    </ng-container>
-                </button>
-
-                <button mat-menu-item aria-label="editar relatorio"
-                        (click)="doEditRelatorio()">
-                    <ng-container>
-                        <mat-icon>edit</mat-icon>
-                        <span>Editar Relatorio</span>
-                    </ng-container>
-                </button>
-
-                <button mat-menu-item aria-label="criar relatorio"
-                        (click)="doCreateRelatorio()">
-                    <ng-container>
-                        <mat-icon>check_box</mat-icon>
-                        <span>Criar Relatorio</span>
                     </ng-container>
                 </button>
 

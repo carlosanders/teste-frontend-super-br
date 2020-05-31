@@ -60,12 +60,6 @@ export class CdkRelatorioListComponent {
     selected = new EventEmitter<Relatorio>();
 
     @Output()
-    createRelatorio = new EventEmitter<any>();
-
-    @Output()
-    editRelatorio = new EventEmitter<number>();
-
-    @Output()
     editRelatorioBloco = new EventEmitter<any>();
 
     @Output()
@@ -176,18 +170,6 @@ export class CdkRelatorioListComponent {
     setListFilter(listFilter): void {
         this.listFilter = listFilter;
         this.loadPage();
-    }
-
-    doCreateRelatorio(params): void {
-        this.createRelatorio.emit(params);
-    }
-
-    doEditRelatorio(relatorioId): void {
-        this.editRelatorio.emit(relatorioId);
-    }
-
-    doEditRelatorioBloco(): void {
-        this.editRelatorioBloco.emit();
     }
 
     doEtiquetarBloco(): void {
