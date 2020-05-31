@@ -52,6 +52,10 @@ export class VinculacaoEtiqueta {
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     processo?: Processo;
 
+    @Type(() => Relatorio)
+    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    relatorio?: Relatorio;
+
     @Type(() => DocumentoAvulso)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     documentoAvulso?: DocumentoAvulso;
@@ -60,11 +64,6 @@ export class VinculacaoEtiqueta {
     @Type(() => Usuario)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     usuario?: Usuario;
-
-    @Exclude({ toPlainOnly: true })
-    @Type(() => Relatorio)
-    @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    relatorio?: Relatorio;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)

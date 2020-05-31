@@ -1,4 +1,4 @@
-import {usuario} from './index.schema';
+import {usuario, vinculacaoEtiqueta} from './index.schema';
 import {documento} from './index.schema';
 import {tipoRelatorio} from './index.schema';
 import {relatorio as relatorioSchema} from './index.schema';
@@ -8,7 +8,8 @@ relatorioSchema.define({
     documento: documento,
     criadoPor: usuario,
     atualizadoPor: usuario,
-    apagadoPor: usuario
+    apagadoPor: usuario,
+    vinculacoesEtiquetas: [vinculacaoEtiqueta]
 });
 
 export const relatorio = relatorioSchema;

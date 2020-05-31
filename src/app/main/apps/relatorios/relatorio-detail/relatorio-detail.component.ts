@@ -189,21 +189,9 @@ export class RelatorioDetailComponent implements OnInit, OnDestroy, AfterViewIni
     complete(pending: number): void {
         if (pending === 0) {
             this._store.dispatch(new fromStore.GetDocumentos({
-                'relatorioOrigem.id': 'eq:' + this.relatorio.id
+                'relatorio.id': 'eq:' + this.relatorio.id
             }));
         }
-    }
-
-    doCiencia(): void {
-        // this._store.dispatch(new fromStore.DarCienciaRelatorio(this.relatorio));
-    }
-
-    doCreateRelatorio(): void {
-       // this._router.navigate([this.routerState.url.split('/relatorio/')[0] + '/criar/' + this.relatorio.processo.id]).then();
-    }
-
-    onUploadClick(): void {
-        this.cdkUpload.onClick();
     }
 
     doToggleMaximizado(): void {

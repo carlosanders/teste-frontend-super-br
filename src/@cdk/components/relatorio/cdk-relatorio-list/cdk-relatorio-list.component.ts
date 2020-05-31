@@ -71,10 +71,6 @@ export class CdkRelatorioListComponent {
 
     isIndeterminate = false;
 
-    // Variaveis para TipoRelatorios
-    @Input()
-    tipoRelatorios: TipoRelatorio[] = [];
-
     /**
      * Constructor
      */

@@ -123,7 +123,12 @@ export class ResolveGuard implements CanActivate {
                         limit: 10,
                         offset: 0,
                         sort: {criadoEm: 'DESC'},
-                        populate: ['documento', 'tipoRelatorio']
+                        populate: [
+                            'documento',
+                            'tipoRelatorio',
+                            'vinculacoesEtiquetas',
+                            'vinculacoesEtiquetas.etiqueta'
+                        ]
                     };
 
                     this._store.dispatch(new fromStore.GetRelatorios(params));

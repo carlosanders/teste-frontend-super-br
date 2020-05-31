@@ -81,8 +81,8 @@
                                              [deletedIds]="(deletedIds$ | async)"
                                              [pagination]="pagination"
                                              [selectedIds]="(selectedIds$ | async)"
-                                             (changeSelectedIds)="changeSelectedIds($event)"
-                                             (reload)="reload($event)"
+                                             (changeSelectedIds)="changeSelectedIdsTipoRelatorio($event)"
+                                             (reload)="reloadTipoRelatorio($event)"
                                              (delete)="deleteTipoRelatorio($event)"
                                              (selected)="editTipoRelatorio($event)">
                     </cdk-tipo-relatorio-list>

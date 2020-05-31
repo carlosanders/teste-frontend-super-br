@@ -17,17 +17,12 @@ import {CdkTipoRelatorioFormComponent} from './cdk-tipo-relatorio-form.component
 import {CdkEspecieRelatorioGridsearchModule} from '@cdk/components/especie-relatorio/cdk-especie-relatorio-autocomplete/cdk-especie-relatorio-gridsearch/cdk-especie-relatorio-gridsearch.module';
 import {CdkUsuarioAutocompleteModule} from '../../usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 import {CdkUsuarioGridsearchModule} from '../../usuario/cdk-usuario-autocomplete/cdk-usuario-gridsearch/cdk-usuario-gridsearch.module';
-import {CdkProcessoAutocompleteModule} from '../../processo/cdk-processo-autocomplete/cdk-processo-autocomplete.module';
-import {CdkProcessoGridsearchModule} from '../../processo/cdk-processo-autocomplete/cdk-processo-gridsearch/cdk-processo-gridsearch.module';
 import {UsuarioService} from '@cdk/services/usuario.service';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
-import {ProcessoService} from '@cdk/services/processo.service';
 import {CdkSetorAutocompleteModule} from '../../setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
 import {CdkSetorGridsearchModule} from '../../setor/cdk-setor-autocomplete/cdk-setor-gridsearch/cdk-setor-gridsearch.module';
 import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
-import {CdkProcessoGridModule} from '../../processo/cdk-processo-grid/cdk-processo-grid.module';
-import {FavoritoService} from '@cdk/services/favorito.service';
 import {LoginService} from '../../../../app/main/auth/login/login.service';
 import {CdkLogentryGridModule} from '@cdk/components/logentry/cdk-logentry-grid/cdk-logentry-grid.module';
 import {CdkLogentryGridsearchModule} from '@cdk/components/logentry/cdk-logentry-grid/cdk-logentry-gridsearch/cdk-logentry-gridsearch.module';
@@ -60,11 +55,8 @@ import {MatCardModule} from '@angular/material/card';
         CdkEspecieRelatorioGridsearchModule,
         CdkUsuarioAutocompleteModule,
         CdkUsuarioGridsearchModule,
-        CdkProcessoAutocompleteModule,
-        CdkProcessoGridsearchModule,
         CdkSetorAutocompleteModule,
         CdkSetorGridsearchModule,
-        CdkProcessoGridModule,
 
         CdkLogentryGridModule,
         CdkLogentryGridsearchModule,
@@ -77,8 +69,6 @@ import {MatCardModule} from '@angular/material/card';
     providers: [
         EspecieRelatorioService,
         UsuarioService,
-        ProcessoService,
-        FavoritoService,
         LoginService
     ],
     exports: [

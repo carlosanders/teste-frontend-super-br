@@ -64,7 +64,12 @@ export class RelatorioCreateEffect {
                                 limit: 10,
                                 offset: 0,
                                 sort: {criadoEm: 'DESC'},
-                                populate: ['documento', 'tipoRelatorio']
+                                populate: [
+                                    'documento',
+                                    'tipoRelatorio',
+                                    'vinculacoesEtiquetas',
+                                    'vinculacoesEtiquetas.etiqueta'
+                                ]
                             }),
                             new AddData<Relatorio>({data: [response], schema: relatorioSchema}),
                             new OperacoesActions.Resultado({

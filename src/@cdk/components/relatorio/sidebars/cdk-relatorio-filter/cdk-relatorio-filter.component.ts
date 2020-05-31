@@ -31,25 +31,10 @@ export class CdkRelatorioFilterComponent implements OnInit {
         private _cdkSidebarService: CdkSidebarService,
     ) {
         this.form = this._formBuilder.group({
-            urgente: [null],
-            observacao: [null],
-            redistribuida: [null],
-            dataHoraInicioPrazo: [null],
-            dataHoraFinalPrazo: [null],
-            dataHoraConclusaoPrazo: [null],
-            postIt: [null],
-            dataHoraLeitura: [null],
             especieRelatorio: [null],
-            usuarioResponsavel: [null],
-            unidadeResponsavel: [null],
-            setorOrigem: [null],
-            setorResponsavel: [null],
-            usuarioConclusaoPrazo: [null],
-            distribuicaoAutomatica: [null],
-            livreBalanceamento: [null],
-            auditoriaDistribuicao: [null],
-            tipoDistribuicao: [null],
-            folder: [null],
+            generoRelatorio: [null],
+            tipoRelatorio: [null],
+            observacao: [null],
             criadoPor: [null],
             criadoEm: [null],
             atualizadoPor: [null],
@@ -67,12 +52,49 @@ export class CdkRelatorioFilterComponent implements OnInit {
      * On init
      */
     ngOnInit(): void {
-        this.form.get('postIt').valueChanges.subscribe(value => {
+
+        this.form.get('generoRelatorio').valueChanges.subscribe(value => {
             if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    postIt: `like:${value}%`
-                };
+                if (typeof value === 'object' && value) {
+                    this.filters = {
+                        ...this.filters,
+                        'tipoRelatorio.especieRelatorio.generoRelatorio.id': `eq:${value.id}`
+                    };
+                } else {
+                    if (this.filters.hasOwnProperty('tipoRelatorio.especieRelatorio.generoRelatorio.id')) {
+                        delete this.filters['tipoRelatorio.especieRelatorio.generoRelatorio.id'];
+                    }
+                }
+            }
+        });
+
+        this.form.get('especieRelatorio').valueChanges.subscribe(value => {
+            if (value !== null) {
+                if (typeof value === 'object' && value) {
+                    this.filters = {
+                        ...this.filters,
+                        'tipoRelatorio.especieRelatorio.id': `eq:${value.id}`
+                    };
+                } else {
+                    if (this.filters.hasOwnProperty('tipoRelatorio.especieRelatorio.id')) {
+                        delete this.filters['tipoRelatorio.especieRelatorio.id'];
+                    }
+                }
+            }
+        });
+
+        this.form.get('tipoRelatorio').valueChanges.subscribe(value => {
+            if (value !== null) {
+                if (typeof value === 'object' && value) {
+                    this.filters = {
+                        ...this.filters,
+                        'tipoRelatorio.id': `eq:${value.id}`
+                    };
+                } else {
+                    if (this.filters.hasOwnProperty('tipoRelatorio.id')) {
+                        delete this.filters['tipoRelatorio.id'];
+                    }
+                }
             }
         });
 
@@ -82,150 +104,6 @@ export class CdkRelatorioFilterComponent implements OnInit {
                     ...this.filters,
                     observacao: `like:${value}%`
                 };
-            }
-        });
-
-        this.form.get('urgente').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    urgente: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('redistribuida').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    redistribuida: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('dataHoraLeitura').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    dataHoraLeitura: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('dataHoraInicioPrazo').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    dataHoraInicioPrazo: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('dataHoraFinalPrazo').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    dataHoraFinalPrazo: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('dataHoraConclusaoPrazo').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    dataHoraConclusaoPrazo: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('especieRelatorio').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'especieRelatorio.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('especieRelatorio.id')) {
-                        delete this.filters['especieRelatorio.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('usuarioResponsavel').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'usuarioResponsavel.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('usuarioResponsavel.id')) {
-                        delete this.filters['usuarioResponsavel.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('setorOrigem').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'setorOrigem.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('setorOrigem.id')) {
-                        delete this.filters['setorOrigem.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('unidadeResponsavel').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'unidadeResponsavel.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('unidadeResponsavel.id')) {
-                        delete this.filters['unidadeResponsavel.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('setorResponsavel').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'setorResponsavel.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('setorResponsavel.id')) {
-                        delete this.filters['setorResponsavel.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('usuarioConclusaoPrazo').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'usuarioConclusaoPrazo.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('usuarioConclusaoPrazo.id')) {
-                        delete this.filters['usuarioConclusaoPrazo.id'];
-                    }
-                }
             }
         });
 

@@ -15,7 +15,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Relatorio} from '@cdk/models/relatorio.model';
-import {getSelectedRelatorios} from '../store/selectors';
+import * as fromStoreRelatorio from '../store';
 import {getOperacoesState, getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {filter, takeUntil} from 'rxjs/operators';
@@ -61,7 +61,7 @@ export class VinculacaoEtiquetaCreateBlocoComponent implements OnInit, OnDestroy
         private _router: Router,
         private _changeDetectorRef: ChangeDetectorRef
     ) {
-        this.relatorios$ = this._store.pipe(select(getSelectedRelatorios));
+        this.relatorios$ = this._store.pipe(select(fromStoreRelatorio.getSelectedRelatorios));
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this._profile = _loginService.getUserProfile();

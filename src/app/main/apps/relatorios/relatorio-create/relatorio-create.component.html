@@ -4,6 +4,7 @@
             [saving]="(isSaving$ | async)"
             [generoRelatorios]="(generoRelatorio$ | async)"
             [errors]="(errors$ | async)"
-            (save)="submit($event)">
+            (save)="submit($event)"
+            (abort)="doAbort()">
     </cdk-relatorio-form>
 </div>

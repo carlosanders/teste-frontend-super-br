@@ -74,6 +74,9 @@ export class CdkRelatorioFormComponent implements OnInit, OnChanges, OnDestroy {
     @Input()
     usuarioPagination: Pagination;
 
+    @Output()
+    abort = new EventEmitter<any>();
+
     _profile: any;
 
     @Input()
@@ -376,5 +379,9 @@ export class CdkRelatorioFormComponent implements OnInit, OnChanges, OnDestroy {
     
     cancel(): void {
         this.activeCard = 'form';
+    }
+
+    doAbort(): void {
+        this.abort.emit();
     }
 }

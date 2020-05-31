@@ -58,7 +58,12 @@ export class RelatorioDetailEffect {
                         1,
                         0,
                         JSON.stringify({}),
-                        JSON.stringify(['populateAll']));
+                        JSON.stringify([
+                            'documento',
+                            'tipoRelatorio',
+                            'vinculacoesEtiquetas',
+                            'vinculacoesEtiquetas.etiqueta'
+                        ]));
                 }),
                 mergeMap(response => [
                     new AddData<Relatorio>({data: response['entities'], schema: relatorioSchema}),

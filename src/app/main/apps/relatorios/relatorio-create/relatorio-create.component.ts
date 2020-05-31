@@ -21,6 +21,7 @@ import {Router} from '@angular/router';
 import {getRouterState} from '../../../../store/reducers';
 import {GeneroRelatorio} from '../../../../../@cdk/models/genero-relatorio.model';
 import {getClassName} from 'codelyzer/util/utils';
+import {Back} from '../../../../store/actions';
 
 @Component({
     selector: 'relatorio-create',
@@ -145,6 +146,10 @@ export class RelatorioCreateComponent implements OnInit, OnDestroy {
         relatorio.vinculacoesEtiquetas = this.relatorio.vinculacoesEtiquetas;
         this._store.dispatch(new fromStore.SaveRelatorio(relatorio));
 
+    }
+
+    doAbort(): void {
+        this._store.dispatch(new Back());
     }
 
 }

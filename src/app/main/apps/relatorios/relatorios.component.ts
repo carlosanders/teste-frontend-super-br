@@ -250,7 +250,6 @@ export class RelatoriosComponent implements OnInit, OnDestroy, AfterViewInit {
 
     reload(params): void {
 
-        if (!this._loginService.isGranted('ROLE_ADMIN') && this.routerState.params.typeHandle === 'tipo-relatorio') {
             this._store.dispatch(new fromStore.UnloadRelatorios({reset: false}));
 
             const nparams = {
@@ -260,18 +259,20 @@ export class RelatoriosComponent implements OnInit, OnDestroy, AfterViewInit {
             };
 
             this._store.dispatch(new fromStore.GetRelatorios(nparams));
-        } else {
-            this._store.dispatch(new fromStore.UnloadTipoRelatorios({reset: false}));
+    }
 
-            const nparams = {
-                ...this.pagination,
-                listFilter: params.listFilter,
-                sort: params.listSort && Object.keys(params.listSort).length ? params.listSort : this.pagination.sort
-            };
+    reloadTipoRelatorio(params): void {
+        if (this._loginService.isGranted('ROLE_ADMIN')) {
+                this._store.dispatch(new fromStore.UnloadTipoRelatorios({reset: false}));
 
-            this._store.dispatch(new fromStore.GetTipoRelatorios(nparams));
-        }
+                const nparams = {
+                    ...this.pagination,
+                    listFilter: params.listFilter,
+                    sort: params.listSort && Object.keys(params.listSort).length ? params.listSort : this.pagination.sort
+                };
 
+                this._store.dispatch(new fromStore.GetTipoRelatorios(nparams));
+            }
     }
 
     setCurrentRelatorio(relatorio: Relatorio): void {
@@ -356,11 +357,11 @@ export class RelatoriosComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     changeSelectedIds(ids: number[]): void {
-        if (!this._loginService.isGranted('ROLE_ADMIN') && this.routerState.params.typeHandle === 'tipo-relatorio') {
            this._store.dispatch(new fromStore.ChangeSelectedRelatorios(ids));
-        } else {
-            this._store.dispatch(new fromStore.ChangeSelectedTipoRelatorios(ids));
-        }
+    }
+
+    changeSelectedIdsTipoRelatorio(ids: number[]): void {
+        this._store.dispatch(new fromStore.ChangeSelectedTipoRelatorios(ids));
     }
 
     setFolderOnSelectedRelatorios(folder): void {

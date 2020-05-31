@@ -18,6 +18,8 @@ import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 import {CdkUsuarioAutocompleteModule} from '../../../usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 import {CdkEspecieRelatorioAutocompleteModule} from '../../../especie-relatorio/cdk-especie-relatorio-autocomplete/cdk-especie-relatorio-autocomplete.module';
 import {CdkSetorAutocompleteModule} from '../../../setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
+import {CdkGeneroRelatorioAutocompleteModule} from '../../../genero-relatorio/cdk-genero-relatorio-autocomplete/cdk-genero-relatorio-autocomplete.module';
+import {CdkTipoRelatorioAutocompleteModule} from '../../../tipo-relatorio/cdk-tipo-relatorio-autocomplete/cdk-tipo-relatorio-autocomplete.module';
 
 @NgModule({
     declarations: [
@@ -41,6 +43,8 @@ import {CdkSetorAutocompleteModule} from '../../../setor/cdk-setor-autocomplete/
         CdkProcessoAutocompleteModule,
         CdkEspecieRelatorioAutocompleteModule,
         CdkSetorAutocompleteModule,
+        CdkGeneroRelatorioAutocompleteModule,
+        CdkTipoRelatorioAutocompleteModule,
     ],
     providers: [
         EspecieRelatorioService,

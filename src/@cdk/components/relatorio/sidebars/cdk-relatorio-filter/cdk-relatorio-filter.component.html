@@ -10,6 +10,17 @@
         </div>
 
         <div class="padd" fxFlex="1 1 auto" fxLayout="column" cdkPerfectScrollbar>
+            <mat-form-field>
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Gênero"
+                           formControlName="generoRelatorio"
+                           [matAutocomplete]="generoRelatorio.autocomplete">
+                </div>
+                <cdk-genero-relatorio-autocomplete
+                    #generoRelatorio="generoRelatorioAutocomplete"
+                    [control]="form.get('generoRelatorio')">
+                </cdk-genero-relatorio-autocomplete>
+            </mat-form-field>
 
             <mat-form-field>
                 <div fxLayout="row" fxLayoutAlign="start center">
@@ -24,74 +35,15 @@
 
             <mat-form-field>
                 <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Usuário Responsável"
-                           formControlName="usuarioResponsavel"
-                           [matAutocomplete]="usuario.autocomplete">
+                    <input matInput placeholder="Tipo Relatório"
+                           formControlName="tipoRelatorio"
+                           [matAutocomplete]="tipoRelatorio.autocomplete">
                 </div>
-                <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('usuarioResponsavel')">
-                </cdk-usuario-autocomplete>
-            </mat-form-field>
 
-            <mat-form-field>
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Usuário da Conclusão do Prazo"
-                           formControlName="usuarioConclusaoPrazo"
-                           [matAutocomplete]="usuario.autocomplete">
-                </div>
-                <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('usuarioResponsavel')">
-                </cdk-usuario-autocomplete>
-            </mat-form-field>
-
-            <mat-form-field>
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Setor de Origem"
-                           formControlName="setorOrigem"
-                           [matAutocomplete]="setor.autocomplete">
-                </div>
-                <cdk-setor-autocomplete #setor="setorAutocomplete" [control]="form.get('setorOrigem')">
-                </cdk-setor-autocomplete>
-            </mat-form-field>
-
-            <mat-form-field>
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Unidade Responsável"
-                           formControlName="unidadeResponsavel"
-                           [matAutocomplete]="setor.autocomplete">
-                </div>
-                <cdk-setor-autocomplete #setor="setorAutocomplete" [control]="form.get('unidadeResponsavel')">
-                </cdk-setor-autocomplete>
-            </mat-form-field>
-
-            <mat-form-field class="mr-sm-12">
-                <mat-label>Data da Leitura</mat-label>
-                <input matInput formControlName="dataHoraLeitura" [matDatetimepicker]="dataHoraLeitura">
-                <mat-datetimepicker-toggle matSuffix [for]="dataHoraLeitura"></mat-datetimepicker-toggle>
-                <mat-datetimepicker #dataHoraLeitura type="datetime" openOnFocus="true" timeInterval="5">
-                </mat-datetimepicker>
-            </mat-form-field>
-
-            <mat-form-field class="mr-sm-12">
-                <mat-label>Data do Início do Prazo</mat-label>
-                <input matInput formControlName="dataHoraInicioPrazo" [matDatetimepicker]="dataHoraInicioPrazo">
-                <mat-datetimepicker-toggle matSuffix [for]="dataHoraInicioPrazo"></mat-datetimepicker-toggle>
-                <mat-datetimepicker #dataHoraInicioPrazo type="datetime" openOnFocus="true" timeInterval="5">
-                </mat-datetimepicker>
-            </mat-form-field>
-
-            <mat-form-field class="mr-sm-12">
-                <mat-label>Data do Final do Prazo</mat-label>
-                <input matInput formControlName="dataHoraFinalPrazo" [matDatetimepicker]="dataHoraFinalPrazo">
-                <mat-datetimepicker-toggle matSuffix [for]="dataHoraFinalPrazo"></mat-datetimepicker-toggle>
-                <mat-datetimepicker #dataHoraFinalPrazo type="datetime" openOnFocus="true" timeInterval="5">
-                </mat-datetimepicker>
-            </mat-form-field>
-
-            <mat-form-field class="mr-sm-12">
-                <mat-label>Data da Conclusão do Prazo</mat-label>
-                <input matInput formControlName="dataHoraConclusaoPrazo" [matDatetimepicker]="dataHoraConclusaoPrazo">
-                <mat-datetimepicker-toggle matSuffix [for]="dataHoraConclusaoPrazo"></mat-datetimepicker-toggle>
-                <mat-datetimepicker #dataHoraConclusaoPrazo type="datetime" openOnFocus="true" timeInterval="5">
-                </mat-datetimepicker>
+                <cdk-tipo-relatorio-autocomplete
+                    #tipoRelatorio="tipoRelatorioAutocomplete"
+                    [control]="form.get('tipoRelatorio')">
+                </cdk-tipo-relatorio-autocomplete>
             </mat-form-field>
 
             <mat-form-field>
@@ -100,14 +52,6 @@
                        name="observacao"
                        formControlName="observacao">
             </mat-form-field>
-
-            <mat-checkbox formControlName="urgente" class="mr-16 mb-16" fxFlex="0 1 auto">
-                Urgente
-            </mat-checkbox>
-
-            <mat-checkbox formControlName="redistribuida" class="mr-16 mb-16" fxFlex="0 1 auto">
-                Redistribuída
-            </mat-checkbox>
 
             <mat-form-field class="mr-sm-12">
                 <mat-label>Criado Em</mat-label>
