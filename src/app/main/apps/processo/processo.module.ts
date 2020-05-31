@@ -60,6 +60,11 @@ const routes: Routes = [
                 canActivate: [fromGuards.ResolveGuard]
             },
             {
+                path: 'processo-capa',
+                loadChildren: () => import('./processo-capa/processo-capa.module').then(m => m.ProcessoCapaModule),
+                canActivate: [fromGuards.ResolveGuard]
+            },
+            {
                 path: '**',
                 redirectTo: 'visualizar'
             }

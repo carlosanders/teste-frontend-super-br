@@ -116,6 +116,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
             takeUntil(this._unsubscribeAll)
         ).subscribe(tarefa => {
             this.tarefa = tarefa;
+            this.atividade.tarefa = tarefa;
             this.atividade.usuario = tarefa.usuarioResponsavel;
             this.atividade.setor = tarefa.setorResponsavel;
         });
@@ -228,7 +229,6 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
             }
         );
 
-        atividade.tarefa = this.tarefa;
         atividade.documentos = this.minutas;
 
         this._store.dispatch(new fromStore.SaveAtividade(atividade));

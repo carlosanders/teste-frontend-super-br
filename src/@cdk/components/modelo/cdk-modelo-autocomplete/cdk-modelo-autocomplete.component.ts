@@ -32,7 +32,10 @@ export class CdkModeloAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
+    @Input()
     modeloList: Modelo[];
+
+    @Input()
     modeloListIsLoading: boolean;
 
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;

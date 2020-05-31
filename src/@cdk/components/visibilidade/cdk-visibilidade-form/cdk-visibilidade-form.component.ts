@@ -253,6 +253,13 @@ export class CdkVisibilidadeFormComponent implements OnInit, OnChanges, OnDestro
         if (setor) {
             this.form.get('setor').setValue(setor);
         }
+
+        if (setor !== null && typeof setor === 'object') {
+            if (setor.unidade && setor.unidade !== this.form.get('unidade').value) {
+                this.form.get('unidade').setValue(setor.unidade, {emitEvent: false});
+            }
+        }
+
         this.activeCard = 'form';
     }
 
@@ -260,6 +267,9 @@ export class CdkVisibilidadeFormComponent implements OnInit, OnChanges, OnDestro
         this.activeCard = 'setor-gridsearch';
     }
 
+    showSetorTree(): void {
+        this.activeCard = 'setor-tree';
+    }
 
     cancel(): void {
         this.activeCard = 'form';

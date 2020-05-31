@@ -40,7 +40,7 @@ export class ProtocoloExternoDetailComponent implements OnInit, OnDestroy, After
 
     private _unsubscribeAll: Subject<any> = new Subject();
 
-    savingVincEtiquetaId$: Observable<any>;
+    savingVinculacaoEtiquetaId$: Observable<any>;
     errors$: Observable<any>; 
 
     processo$: Observable<Processo>;
@@ -94,7 +94,7 @@ export class ProtocoloExternoDetailComponent implements OnInit, OnDestroy, After
             'modalidadeEtiqueta.valor': 'eq:PROCESSO'
         };
         
-        this.savingVincEtiquetaId$ = this._store.pipe(select(fromStore.getSavingVincEtiquetaId));
+        this.savingVinculacaoEtiquetaId$ = this._store.pipe(select(fromStore.getSavingVinculacaoEtiquetaId));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
     }
 

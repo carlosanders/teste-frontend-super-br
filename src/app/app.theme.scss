@@ -84,6 +84,7 @@ $typography: mat-typography-config(
 
 @import "src/app/main/auth/login/login.theme";
 @import "src/app/main/auth/register/register.theme";
+@import "src/app/main/auth/activate/activate.theme";
 @import "src/app/main/auth/esqueci-senha/esqueci-senha.theme";
 @import "src/app/main/apps/painel/painel.theme";
 @import "src/app/main/apps/tarefas/tarefas.theme";
@@ -108,6 +109,7 @@ $typography: mat-typography-config(
 
     @include login-theme($theme);
     @include register-theme($theme);
+    @include activate-theme($theme);
     @include esqueci-senha-theme($theme);
     @include tarefas-theme($theme);
     @include painel-theme($theme);

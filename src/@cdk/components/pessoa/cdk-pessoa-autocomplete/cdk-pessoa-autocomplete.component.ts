@@ -32,7 +32,10 @@ export class CdkPessoaAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
+    @Input()
     pessoaList: Pessoa[];
+
+    @Input()
     pessoaListIsLoading: boolean;
 
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;

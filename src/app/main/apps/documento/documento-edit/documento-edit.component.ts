@@ -10,7 +10,7 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
 import * as fromStore from '../store';
-import {Documento} from '@cdk/models';
+import {Documento, Etiqueta, VinculacaoEtiqueta} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import {Location} from '@angular/common';
 import {getMercureState, getRouterState} from 'app/store/reducers';
@@ -135,6 +135,10 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
     deletedAssinaturaIds$: Observable<any>;
     paginationAssinatura$: Observable<any>;
 
+    vinculacaoEtiquetaPagination: Pagination;
+    savingVinculacaoEtiquetaId$: Observable<any>;
+    vinculacaoEtiquetaErrors$: Observable<any>;
+
     /**
      * @param _store
      * @param _location
@@ -217,6 +221,14 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
         this.deletedComponenteDigitalIds$ = this._store.pipe(select(fromStore.getDeletedComponenteDigitalIds));
         this.componenteDigitalLoading$ = this._store.pipe(select(fromStore.getComponenteDigitalLoading));
 
+        this.vinculacaoEtiquetaPagination = new Pagination();
+        this.vinculacaoEtiquetaPagination.filter = {
+            'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.id,
+            'modalidadeEtiqueta.valor': 'eq:DOCUMENTO'
+        };
+        this.savingVinculacaoEtiquetaId$ = this._store.pipe(select(fromStore.getSavingVinculacaoEtiquetaId));
+        this.vinculacaoEtiquetaErrors$ = this._store.pipe(select(fromStore.getVinculacaoEtiquetaErrors));
+
         this._store
             .pipe(
                 select(getMercureState),
@@ -259,6 +271,7 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
 
             this.tarefa$.subscribe(tarefa => {
                 this.tarefa = tarefa;
+                this.atividade.tarefa = tarefa;
                 this.atividade.usuario = tarefa.usuarioResponsavel;
                 this.atividade.setor = tarefa.setorResponsavel;
             });
@@ -631,7 +644,6 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
             }
         );
 
-        atividade.tarefa = this.tarefa;
         atividade.documentos = [this.documento];
 
         this._store.dispatch(new fromStore.SaveAtividade(atividade));
@@ -639,6 +651,26 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
 
     deleteVisibilidade(visibilidadeId: number): void {
         this._store.dispatch(new fromStore.DeleteVisibilidade({documentoId: this.routerState.params.documentoHandle, visibilidadeId: visibilidadeId}));
+    }
+
+    onEtiquetaCreate(etiqueta: Etiqueta): void {
+        this._store.dispatch(new fromStore.CreateVinculacaoEtiqueta({documento: this.documento, etiqueta: etiqueta}));
+    }
+
+    onEtiquetaEdit(values): void {
+        const vinculacaoEtiqueta = new VinculacaoEtiqueta();
+        vinculacaoEtiqueta.id = values.id;
+        this._store.dispatch(new fromStore.SaveConteudoVinculacaoEtiqueta({
+            vinculacaoEtiqueta: vinculacaoEtiqueta,
+            changes: {conteudo: values.conteudo}
+        }));
+    }
+
+    onEtiquetaDelete(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
+        this._store.dispatch(new fromStore.DeleteVinculacaoEtiqueta({
+            documentoId: this.documento.id,
+            vinculacaoEtiquetaId: vinculacaoEtiqueta.id
+        }));
     }
 }
 

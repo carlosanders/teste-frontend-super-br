@@ -35,7 +35,7 @@ export class OficioDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
     private _unsubscribeAll: Subject<any> = new Subject();
 
-    savingVincEtiquetaId$: Observable<any>;
+    savingVinculacaoEtiquetaId$: Observable<any>;
     errors$: Observable<any>;
 
     documentoAvulso$: Observable<DocumentoAvulso>;

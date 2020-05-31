@@ -33,8 +33,14 @@
                         <cdk-setor-autocomplete
                             #unidadeAprovacao="setorAutocomplete"
                             [control]="form.get('unidadeAprovacao')"
+                            [setorList]="unidadeAprovacaoList"
+                            [setorListIsLoading]="unidadeAprovacaoListIsLoading"
                             [pagination]="unidadeAprovacaoPagination">
                         </cdk-setor-autocomplete>
+                        <button matSuffix mat-button mat-icon-button
+                                (click)="getFavoritosUnidadeAprovacao()">
+                            <mat-icon matTooltip="Favoritos">star</mat-icon>
+                        </button>
                         <button matSuffix mat-button mat-icon-button
                                 (click)="showUnidadeAprovacaoGrid()">
                             <mat-icon matTooltip="Procurar">search</mat-icon>
@@ -54,8 +60,14 @@
                         <cdk-setor-autocomplete
                             #setorAprovacao="setorAutocomplete"
                             [control]="form.get('setorAprovacao')"
+                            [setorList]="setorAprovacaoList"
+                            [setorListIsLoading]="setorAprovacaoListIsLoading"
                             [pagination]="setorAprovacaoPagination">
                         </cdk-setor-autocomplete>
+                        <button [disabled]="!form.get('unidadeAprovacao').value" matSuffix mat-button mat-icon-button
+                                (click)="getFavoritosSetorAprovacao()">
+                            <mat-icon matTooltip="Favoritos">star</mat-icon>
+                        </button>
                         <button matSuffix mat-button mat-icon-button
                                 (click)="showSetorAprovacaoGrid()">
                             <mat-icon matTooltip="Procurar">search</mat-icon>
@@ -75,8 +87,14 @@
                         <cdk-usuario-autocomplete
                             #usuarioAprovacao="usuarioAutocomplete"
                             [control]="form.get('usuarioAprovacao')"
+                            [usuarioList]="usuarioAprovacaoList"
+                            [usuarioListIsLoading]="usuarioAprovacaoListIsLoading"
                             [pagination]="usuarioAprovacaoPagination">
                         </cdk-usuario-autocomplete>
+                        <button [disabled]="!form.get('setorAprovacao').value" matSuffix mat-button mat-icon-button
+                                (click)="getFavoritosUsuarioAprovacao()">
+                            <mat-icon matTooltip="Favoritos">star</mat-icon>
+                        </button>
                         <button matSuffix mat-button mat-icon-button
                                 (click)="showUsuarioAprovacaoGrid()">
                             <mat-icon matTooltip="Procurar">search</mat-icon>

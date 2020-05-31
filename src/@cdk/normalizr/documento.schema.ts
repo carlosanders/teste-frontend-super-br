@@ -1,4 +1,4 @@
-import {documentoAvulso, usuario} from './index.schema';
+import {documentoAvulso, usuario, vinculacaoEtiqueta} from './index.schema';
 import {processo} from './index.schema';
 import {pessoa} from './index.schema';
 import {setor} from './index.schema';
@@ -22,6 +22,7 @@ documentoSchema.define({
     juntadaAtual: juntada,
     atualizadoPor: usuario,
     apagadoPor: usuario,
+    vinculacoesEtiquetas: [vinculacaoEtiqueta],
     componentesDigitais: [componenteDigital],
     vinculacoesDocumentos: [vinculacaoDocumento],
     vinculacaoDocumento: vinculacaoDocumento

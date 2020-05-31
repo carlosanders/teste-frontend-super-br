@@ -82,7 +82,7 @@ export class CalendarioMainSidebarComponent implements OnInit, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
-        this._changeDetectorRef.detach();
+        // this._changeDetectorRef.detach();
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
     }

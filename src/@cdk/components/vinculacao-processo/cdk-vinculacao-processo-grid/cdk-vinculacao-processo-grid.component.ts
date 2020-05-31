@@ -10,11 +10,14 @@ import {merge, of} from 'rxjs';
 import {cdkAnimations} from '@cdk/animations';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
-import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, filter, switchMap, tap} from 'rxjs/operators';
 
-import {VinculacaoProcesso} from '@cdk/models';
+import {Processo, VinculacaoProcesso} from '@cdk/models';
 import {VinculacaoProcessoDataSource} from '@cdk/data-sources/vinculacao-processo-data-source';
 import {FormControl} from '@angular/forms';
+import {CdkChaveAcessoPluginComponent} from '../../chave-acesso/cdk-chave-acesso-plugins/cdk-chave-acesso-plugin.component';
+import {MatDialog} from '@angular/material/dialog';
+import {LoginService} from '../../../../app/main/auth/login/login.service';
 
 @Component({
     selector: 'cdk-vinculacao-processo-grid',
@@ -33,6 +36,9 @@ export class CdkVinculacaoProcessoGridComponent implements AfterViewInit, OnInit
     vinculacoesProcessos: VinculacaoProcesso[];
 
     @Input()
+    processoRef: Processo;
+
+    @Input()
     total = 0;
 
     @Input()
@@ -40,6 +46,9 @@ export class CdkVinculacaoProcessoGridComponent implements AfterViewInit, OnInit
 
     @Output()
     create = new EventEmitter<any>();
+
+    @Output()
+    view = new EventEmitter<any>();
 
     @Input()
     displayedColumns: string[] = ['select', 'id', 'processo', 'processoVinculado.NUP', 'modalidadeVinculacaoProcesso.valor',
@@ -125,7 +134,7 @@ export class CdkVinculacaoProcessoGridComponent implements AfterViewInit, OnInit
     pageSize = 5;
 
     @Input()
-    actions: string[] = ['edit', 'delete', 'select'];
+    actions: string[] = ['edit', 'delete', 'select', 'view'];
 
     @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
@@ -167,10 +176,14 @@ export class CdkVinculacaoProcessoGridComponent implements AfterViewInit, OnInit
     /**
      * @param _changeDetectorRef
      * @param _cdkSidebarService
+     * @param _dialog
+     * @param _loginService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _cdkSidebarService: CdkSidebarService
+        private _cdkSidebarService: CdkSidebarService,
+        private _dialog: MatDialog,
+        private _loginService: LoginService
     ) {
         this.gridFilter = {};
         this.vinculacoesProcessos = [];
@@ -244,14 +257,14 @@ export class CdkVinculacaoProcessoGridComponent implements AfterViewInit, OnInit
 
     loadExcluded(): void {
         this.hasExcluded = !this.hasExcluded;
-        if(this.hasExcluded) {
+        if (this.hasExcluded) {
             const filter = this.gridFilter.filters;
             this.excluded.emit({
                 gridFilter: filter,
                 limit: this.paginator.pageSize,
                 offset: (this.paginator.pageSize * this.paginator.pageIndex),
                 sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
-                context: {'mostrarApagadas': true}
+                context: {mostrarApagadas: true}
             });
         }
         else {
@@ -335,5 +348,28 @@ export class CdkVinculacaoProcessoGridComponent implements AfterViewInit, OnInit
 
     doCreate(): void {
         this.create.emit();
+    }
+
+    viewProcesso(vinculacaoProcesso: VinculacaoProcesso): void {
+
+        let processo = vinculacaoProcesso.processoVinculado;
+
+        if (this.processoRef && this.processoRef.id === vinculacaoProcesso.processoVinculado.id) {
+            processo = vinculacaoProcesso.processo;
+        }
+
+        if (processo.visibilidadeExterna || this._loginService.isGranted('ROLE_COLABORADOR')) {
+            this.view.emit({id: processo.id});
+            return;
+        }
+
+        const dialogRef = this._dialog.open(CdkChaveAcessoPluginComponent, {
+            width: '600px'
+        });
+
+        dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe(result => {
+            this.view.emit({id: processo.id, chaveAcesso: result});
+            return;
+        });
     }
 }
