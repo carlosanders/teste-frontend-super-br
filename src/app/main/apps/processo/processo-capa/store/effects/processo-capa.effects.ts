@@ -13,8 +13,10 @@ import {Assunto, Interessado, Processo} from '@cdk/models';
 import {processo as processoSchema} from '@cdk/normalizr/processo.schema';
 import {assunto as assuntoSchema} from '@cdk/normalizr/assunto.schema';
 import {interessado as interessadoSchema} from '@cdk/normalizr/interessado.schema';
+import {vinculacaoProcesso as vinculacaoProcessoSchema} from '@cdk/normalizr/vinculacao-processo.schema';
 import {AssuntoService} from '@cdk/services/assunto.service';
 import {InteressadoService} from '@cdk/services/interessado.service';
+import {VinculacaoProcessoService} from '@cdk/services/vinculacao-processo.service';
 
 @Injectable()
 export class ProcessoCapaEffect {
@@ -25,6 +27,7 @@ export class ProcessoCapaEffect {
         private _processoService: ProcessoService,
         private _assuntoService: AssuntoService,
         private _interessadoService: InteressadoService,
+        private _vinculacaoProcessoService: VinculacaoProcessoService,
         private _store: Store<State>
     ) {
         this._store
@@ -157,6 +160,44 @@ export class ProcessoCapaEffect {
                 catchError((err, caught) => {
                     console.log(err);
                     this._store.dispatch(new ProcessoCapaActions.GetInteressadosFailed(err));
+                    return caught;
+                })
+            );
+
+    /**
+     * GetVinculacoesProcessos Processo
+     * @type {Observable<any>}
+     */
+    @Effect()
+    getVinculacoesProcessosProcesso: Observable<any> =
+        this._actions
+            .pipe(
+                ofType<ProcessoCapaActions.GetVinculacoesProcessos>(ProcessoCapaActions.GET_VINCULACOES_PROCESSOS),
+                switchMap((action) => {
+                    return this._vinculacaoProcessoService.query(
+                        JSON.stringify({
+                            ...action.payload.filter,
+                            ...action.payload.listFilter
+                        }),
+                        action.payload.imit,
+                        action.payload.offset,
+                        JSON.stringify(action.payload.sort),
+                        JSON.stringify(action.payload.populate));
+                }),
+                mergeMap((response) => [
+                    new AddData<Interessado>({data: response['entities'], schema: vinculacaoProcessoSchema}),
+                    new ProcessoCapaActions.GetVinculacoesProcessosSuccess({
+                        entitiesId: response['entities'].map(vinculacaoProcesso => vinculacaoProcesso.id),
+                        loaded: {
+                            id: 'processoHandle',
+                            value: this.routerState.params.processoHandle,
+                        },
+                        total: response['total']
+                    })
+                ]),
+                catchError((err, caught) => {
+                    console.log(err);
+                    this._store.dispatch(new ProcessoCapaActions.GetVinculacoesProcessosFailed(err));
                     return caught;
                 })
             );

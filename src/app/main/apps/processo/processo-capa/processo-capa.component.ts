@@ -18,6 +18,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {filter, takeUntil} from 'rxjs/operators';
 import {getRouterState} from '../../../../store/reducers';
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'processo-capa',
@@ -43,19 +44,24 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
 
     processo$: Observable<Processo>;
     processo: Processo;
+
     assuntos$: Observable<Assunto[]>;
     assuntos: Assunto[] = [];
-    interessados$: Observable<Assunto[]>;
-    interessados: Assunto[] = [];
-
     paginationAssuntos$: Observable<any>;
     paginationAssuntos: any;
-    paginationInteressados$: Observable<any>;
-    paginationInteressados: any;
-
-    loadingInteressados$: Observable<boolean>;
     loadingAssuntos$: Observable<boolean>;
 
+    interessados$: Observable<Assunto[]>;
+    interessados: Assunto[] = [];
+    paginationInteressados$: Observable<any>;
+    paginationInteressados: any;
+    loadingInteressados$: Observable<boolean>;
+
+    vinculacoesProcessos$: Observable<Assunto[]>;
+    vinculacoesProcessos: Assunto[] = [];
+    paginationVinculacoesProcessos$: Observable<any>;
+    paginationVinculacoesProcessos: any;
+    loadingVinculacoesProcessos$: Observable<boolean>;
 
     chaveAcesso: string;
 
@@ -63,22 +69,27 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
      *
      * @param _changeDetectorRef
      * @param _cdkSidebarService
+     * @param _router
      * @param _store
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _cdkSidebarService: CdkSidebarService,
+        private _router: Router,
         private _store: Store<fromStore.ProcessoCapaAppState>
     ) {
         this.routerState$ = this._store.pipe(select(getRouterState));
         this.processo$ = this._store.pipe(select(fromStore.getProcesso));
         this.assuntos$ = this._store.pipe(select(fromStore.getAssuntos));
         this.interessados$ = this._store.pipe(select(fromStore.getInteressados));
+        this.vinculacoesProcessos$ = this._store.pipe(select(fromStore.getVinculacoesProcessos));
 
         this.loadingAssuntos$ = this._store.pipe(select(fromStore.getIsAssuntosLoading));
         this.loadingInteressados$ = this._store.pipe(select(fromStore.getIsInteressadosLoading));
+        this.loadingVinculacoesProcessos$ = this._store.pipe(select(fromStore.getIsVinculacoesProcessosLoading));
         this.paginationAssuntos$ = this._store.pipe(select(fromStore.getPaginationAssuntos));
         this.paginationInteressados$ = this._store.pipe(select(fromStore.getPaginationInteressados));
+        this.paginationVinculacoesProcessos$ = this._store.pipe(select(fromStore.getPaginationVinculacoesProcessos));
     }
 
     ngOnInit(): void {
@@ -117,12 +128,23 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
             this.interessados = interessados;
         });
 
+        this.vinculacoesProcessos$.pipe(
+            takeUntil(this._unsubscribeAll),
+            filter(vinculacoesProcessos => !!vinculacoesProcessos)
+        ).subscribe( vinculacoesProcessos => {
+            this.vinculacoesProcessos = vinculacoesProcessos;
+        });
+
         this.paginationAssuntos$.subscribe(pagination => {
             this.paginationAssuntos = pagination;
         });
 
         this.paginationInteressados$.subscribe(pagination => {
             this.paginationInteressados = pagination;
+        });
+
+        this.paginationVinculacoesProcessos$.subscribe(pagination => {
+            this.paginationVinculacoesProcessos = pagination;
         });
     }
 
@@ -170,5 +192,27 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
             offset: params.offset,
             populate: this.paginationInteressados.populate
         }));
+    }
+
+    reloadVinculacoesProcessos(params): void {
+        this._store.dispatch(new fromStore.UnloadVinculacoesProcessos({reset: false}));
+
+        this._store.dispatch(new fromStore.GetVinculacoesProcessos({
+            processoId: this.processo.id,
+            ...this.paginationVinculacoesProcessos,
+            filter: {
+                ...this.paginationVinculacoesProcessos.filter,
+                ...params.gridFilter
+            },
+            sort: params.sort,
+            limit: params.limit,
+            offset: params.offset,
+            populate: this.paginationVinculacoesProcessos.populate
+        }));
+    }
+
+    view(emissao: {id: number, chaveAcesso?: string}): void {
+        const chaveAcesso = emissao.chaveAcesso ? '/' + emissao.chaveAcesso : '';
+        this._router.navigate(['apps/processo/' + emissao.id + '/visualizar' + chaveAcesso]);
     }
 }

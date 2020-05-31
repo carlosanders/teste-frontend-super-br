@@ -213,6 +213,28 @@
                 <div class="content-card">
                     <div class="processo-container">
                         <div class="card">
+                            <div class="content-card">r
+                                <span class="subtitle">Processos Vinculados</span>
+                                <cdk-vinculacao-processo-grid
+                                    [loading]="(loadingVinculacoesProcessos$ | async)"
+                                    (reload)="reloadVinculacoesProcessos($event)"
+                                    [actions]="['view']"
+                                    [processoRef]="processo"
+                                    [vinculacoesProcessos]="vinculacoesProcessos"
+                                    [displayedColumns]="['id', 'processo', 'processoVinculado.NUP', 'modalidadeVinculacaoProcesso.valor', 'actions']"
+                                    (view)="view($event)"
+                                    [total]="(paginationVinculacoesProcessos$ | async)?.total">
+                                </cdk-vinculacao-processo-grid>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card capa-content">
+                <div class="content-card">
+                    <div class="processo-container">
+                        <div class="card">
                             <div class="content-card">
                                 <span class="subtitle">Interessados</span>
                                 <cdk-interessado-grid
@@ -220,7 +242,8 @@
                                     (reload)="reloadInteressados($event)"
                                     [interessados]="interessados"
                                     [displayedColumns]="['id', 'pessoa.nome', 'modalidadeInteressado.valor']"
-                                    [total]="interessados.length"></cdk-interessado-grid>
+                                    [total]="(paginationInteressados$ | async)?.total">
+                                </cdk-interessado-grid>
                             </div>
                         </div>
                     </div>
@@ -238,7 +261,8 @@
                                     (reload)="reloadAssuntos($event)"
                                     [assuntos]="assuntos"
                                     [displayedColumns]="['id', 'assuntoAdministrativo.nome', 'principal']"
-                                    [total]="assuntos.length"></cdk-assunto-grid>
+                                    [total]="(paginationAssuntos$ | async)?.total">
+                                </cdk-assunto-grid>
                             </div>
                         </div>
                     </div>

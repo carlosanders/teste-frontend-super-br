@@ -2,7 +2,8 @@
 
     <!-- SIDEBAR -->
     <cdk-sidebar name="cdk-vinculacao-processo-filter" position="left">
-        <cdk-vinculacao-processo-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-vinculacao-processo-filter>
+        <cdk-vinculacao-processo-filter (selected)="setFilter($event)"
+                                        [mode]="this.mode"></cdk-vinculacao-processo-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
@@ -209,6 +210,14 @@
                                 aria-label="selecionar"
                                 matTooltip="Selecionar">
                             <mat-icon>keyboard_return</mat-icon>
+                        </button>
+
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('view') > -1 && !hasExcluded"
+                                (click)="viewProcesso(vinculacaoProcesso)"
+                                aria-label="visualizar"
+                                matTooltip="Visualizar">
+                            <mat-icon>pageview</mat-icon>
                         </button>
 
                         <button mat-icon-button

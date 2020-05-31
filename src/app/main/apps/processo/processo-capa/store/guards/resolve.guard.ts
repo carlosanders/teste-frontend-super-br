@@ -10,7 +10,7 @@ import {ProcessoCapaAppState} from '../reducers';
 import * as fromStore from '../index';
 import {getProcessoLoaded} from '../selectors';
 import {getRouterState} from 'app/store/reducers';
-import {getAssuntosLoaded, getInteressadosLoaded} from '../index';
+import {getAssuntosLoaded, getInteressadosLoaded, getVinculacoesProcessosLoaded} from '../index';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
@@ -54,7 +54,7 @@ export class ResolveGuard implements CanActivate {
      * @returns {Observable<any>}
      */
     checkStore(): Observable<any> {
-        return forkJoin([this.getAssuntos(), this.getInteressados()]).pipe(
+        return forkJoin([this.getAssuntos(), this.getInteressados(), this.getVinculacoesProcessos()]).pipe(
             filter(([loaded]) => !!(loaded)),
             take(1),
             switchMap(() =>
@@ -86,7 +86,7 @@ export class ResolveGuard implements CanActivate {
     }
 
     /**
-     * Get folders
+     * Get assuntos
      *
      * @returns {Observable<any>}
      */
@@ -116,7 +116,7 @@ export class ResolveGuard implements CanActivate {
     }
 
     /**
-     * Get folders
+     * Get interessados
      *
      * @returns {Observable<any>}
      */
@@ -136,6 +136,43 @@ export class ResolveGuard implements CanActivate {
 
                 if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
                     this._store.dispatch(new fromStore.GetInteressados(params));
+                }
+            }),
+            filter((loaded: any) => {
+                return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
+            }),
+            take(1)
+        );
+    }
+
+    /**
+     * Get vinculacoesProcessos
+     *
+     * @returns {Observable<any>}
+     */
+    getVinculacoesProcessos(): any {
+        this._store.dispatch(new fromStore.UnloadVinculacoesProcessos({reset: true}));
+
+        return this._store.pipe(
+            select(getVinculacoesProcessosLoaded),
+            tap(loaded => {
+                const params = {
+                    filter: [
+                        {
+                            'processo.id': `eq:${this.routerState.params['processoHandle']}`,
+                        },
+                        {
+                            'processoVinculado.id': `eq:${this.routerState.params['processoHandle']}`
+                        }
+                    ],
+                    sort: {},
+                    limit: 10,
+                    offset: 0,
+                    populate: ['modalidadeVinculacaoProcesso', 'processo', 'processoVinculado']
+                };
+
+                if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
+                    this._store.dispatch(new fromStore.GetVinculacoesProcessos(params));
                 }
             }),
             filter((loaded: any) => {
