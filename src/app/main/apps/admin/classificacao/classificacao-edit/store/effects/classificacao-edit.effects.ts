@@ -109,7 +109,6 @@ export class ClassificacaoEditEffects {
             .pipe(
                 ofType<ClassificacaoEditActions.UpdateClassificacao>(ClassificacaoEditActions.UPDATE_CLASSIFICACAO),
                 switchMap((action) => {
-                    debugger
                     return this._ClassificacaoService.patch(action.payload.Classificacao, action.payload.changes).pipe(
                         mergeMap((response: Classificacao) => [
                             new ClassificacaoListActions.ReloadClassificacao(),

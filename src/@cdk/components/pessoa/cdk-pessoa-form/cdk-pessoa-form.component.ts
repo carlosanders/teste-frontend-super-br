@@ -68,6 +68,7 @@ export class CdkPessoaFormComponent implements OnChanges, OnDestroy {
     @Output()
     abort = new EventEmitter<any>();
 
+    @Input()
     form: FormGroup;
 
     activeCard = 'form';
