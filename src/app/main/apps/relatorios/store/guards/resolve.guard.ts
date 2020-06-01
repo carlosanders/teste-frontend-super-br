@@ -49,7 +49,7 @@ export class ResolveGuard implements CanActivate {
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
 
-            if (!this._loginService.isGranted('ROLE_ADMIN') && this.routerState.params.typeHandle !== 'tipo-relatorio') {
+            if (this.routerState.params.typeHandle !== 'tipo-relatorio') {
                 return this.checkStore().pipe(
                 switchMap(() => of(true)),
                 catchError(() => of(false)));

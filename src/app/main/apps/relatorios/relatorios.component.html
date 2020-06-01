@@ -57,7 +57,7 @@
                     <cdk-relatorio-list *ngIf="routerState.params.typeHandle === 'meus-relatorios'"
                                      (scrolled)="onScroll()"
                                      [loading]="(loading$ | async)"
-                                     [relatorios]="relatorios"
+                                     [relatorios]="(relatorios$ | async)"
                                      [deletingIds]="(deletingIds$ | async)"
                                      [deletedIds]="(deletedIds$ | async)"
                                      [folders]="(folders$ | async)"
