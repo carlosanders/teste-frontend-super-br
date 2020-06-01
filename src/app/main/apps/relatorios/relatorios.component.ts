@@ -96,7 +96,6 @@ export class RelatoriosComponent implements OnInit, OnDestroy, AfterViewInit {
     /**
      * Variaveis TipoRelatorio
      */
-    tipoRelatorios: TipoRelatorio[] = [];
     tipoRelatorios$: Observable<TipoRelatorio[]>;
 
     @ViewChild('relatorioListElement', {read: ElementRef, static: true}) relatorioListElement: ElementRef;
@@ -219,15 +218,6 @@ export class RelatoriosComponent implements OnInit, OnDestroy, AfterViewInit {
         });
 
         this.PesquisaRelatorio = 'relatorio';
-
-        if (this._loginService.isGranted('ROLE_ADMIN') && this.routerState.params.typeHandle === 'tipo-relatorio') {
-            this.tipoRelatorios$.pipe(
-                takeUntil(this._unsubscribeAll),
-                filter(tipoRelatorios => !!tipoRelatorios)
-            ).subscribe(tipoRelatorios => {
-                this.tipoRelatorios = tipoRelatorios;
-            });
-        }
     }
 
     ngAfterViewInit(): void {
