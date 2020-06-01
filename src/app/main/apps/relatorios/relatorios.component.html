@@ -76,7 +76,7 @@
                                              *ngIf="routerState.params.typeHandle === 'tipo-relatorio' &&
                                              _loginService.isGranted('ROLE_ADMIN')"
                                              [loading]="(loading$ | async)"
-                                             [tipoRelatorios]="tipoRelatorios"
+                                             [tipoRelatorios]="(tipoRelatorios$ | async)"
                                              [deletingIds]="(deletingIds$ | async)"
                                              [deletedIds]="(deletedIds$ | async)"
                                              [pagination]="pagination"

@@ -76,6 +76,7 @@ export class CdkTipoRelatorioFormComponent implements OnInit, OnChanges, OnDestr
 
     activeCard = 'form';
 
+    // tslint:disable-next-line:no-output-native
     @Output()
     abort = new EventEmitter<any>();
 
@@ -113,15 +114,17 @@ export class CdkTipoRelatorioFormComponent implements OnInit, OnChanges, OnDestr
      * On init
      */
     ngOnInit(): void {
-        
     }
 
     /**
      * On change
      */
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
+        if (changes['tipoRelatorio'] && this.tipoRelatorio && ((!this.tipoRelatorio.id && !this.form.dirty) || (this.tipoRelatorio.id !== this.form.get('id').value))) {
+            this.form.patchValue({...this.tipoRelatorio});
+        }
 
-        if (this.errors && this.errors.status && (this.errors.status === 400 || this.errors.status === 422)) {
+        if (this.errors && this.errors.status && this.errors.status === 422) {
             try {
                 const data = JSON.parse(this.errors.error.message);
                 const fields = Object.keys(data || {});
